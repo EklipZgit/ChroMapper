@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8bed67aecb0df44e94f1913900677f0, type: 3}
+  m_Name: EnvironmentLibrary
+  m_EditorClassIdentifier: 
+  ignoreNames:
+  - DecoratorContext
+  - SceneSetup
+  - BakedBloom
+  - Feet
+  - Mirror
+  - RectangleFakeGlow
+  - SaberBurnMarksParticles
+  - SaberBurnMarkSparklePS
+  - SaberBurnMarksArea
+  - Collider
+  - TrackMirror
+  - SetDepthOnly
+  - Ring(Clone)
+  - DustPS
+  - FakeMirrorSettings
+  - BakedReflectionProbe
+  - BigSmokePS
+  - FakeMirrorObjectsInstaller
+  - FakeMirrorObjectsInstaller
+  - LightWithIdManager
+  - LightmapLightWithIds
+  - GameHUD
+  library:
+  - Name: LeftNearBuilding
+    Replacement: {fileID: 7311844946781822562, guid: a40c9bab8cff5554d909387841ba5916,
+      type: 3}
+  - Name: RightNearBuilding
+    Replacement: {fileID: 1689124623918546590, guid: 56dfdbb8c3ee0b541aa1f84826017114,
+      type: 3}
+  - Name: PlayersPlace
+    Replacement: {fileID: 8045570035527640846, guid: 7327a35608c457d4aaf992d4452cfdbe,
+      type: 3}
+  - Name: ParametricBox
+    Replacement: {fileID: 8383900753603763173, guid: d3f23e77004b5644fa3cf7f4de4d7bc6,
+      type: 3}
+  - Name: Ring
+    Replacement: {fileID: 7013742476984820828, guid: 51c40f4f03ac5f14e83e17f84c3081a3,
+      type: 3}
+  fallbackPrefab: {fileID: 2927685545579233791, guid: 9d262d62360e69247bc42d35220aebd6,
+    type: 3}
