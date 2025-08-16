@@ -1,0 +1,55 @@
+using System.Collections.Generic;
+using UnityEngine;
+
+[CreateAssetMenu(fileName = "EnvironmentLibrary", menuName = "Environment/Environment Library")]
+public class EnvironmentLibrary : ScriptableObject
+{
+    [SerializeField]
+    private List<string> ignoreNames = new();
+
+    [SerializeField]
+    private List<LibraryEntry> library = new();
+
+    private Dictionary<string, Object> replacementMap = new();
+
+    [SerializeField]
+    private GameObject fallbackPrefab;
+
+    private void OnValidate() => Initialize();
+
+    private void OnEnable() => Initialize();
+
+    public void Initialize()
+    {
+        replacementMap.Clear();
+
+        foreach (var entry in library)
+        {
+            replacementMap.Add(entry.Name, entry.Replacement);
+        }
+    }
+
+    public bool IsIgnored(string name) => ignoreNames.Exists(it => name.Contains(it));
+
+    public bool HasReplacement(string name) => replacementMap.ContainsKey(name);
+
+    // Retrieves a shared instance of any environment object (Material, Mesh, etc.)
+    public Object RetrieveEnvironmentObject(string name)
+        => replacementMap.TryGetValue(name, out var prefab)
+            ? prefab
+            : fallbackPrefab;
+
+    // Instantiates a new instance of an environment object (Prefabs, mostly)
+    public Object InstantiateEnvironmentObject(string name)
+        => replacementMap.TryGetValue(name, out var prefab)
+            ? Instantiate(prefab)
+            : Instantiate(fallbackPrefab);
+
+    // Unity cannot serialize a Dictionary, so we use a List of entries instead
+    [System.Serializable]
+    public class LibraryEntry
+    {
+        public string Name;
+        public Object Replacement;
+    }
+}
