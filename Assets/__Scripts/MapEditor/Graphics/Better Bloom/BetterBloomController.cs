@@ -5,7 +5,7 @@ using System.Reflection.Emit;
 using HarmonyLib;
 using UnityEngine;
 using UnityEngine.Rendering;
-using UnityEngine.Rendering.Universal.Internal;
+using UnityEngine.Rendering.Universal;
 
 /*
  * Woah, woah, woah. Harmony in ChroMapper? What is this shit!?
@@ -30,13 +30,13 @@ public class BetterBloomController : MonoBehaviour
 
         if (Settings.Instance.HighQualityBloom)
         {
-            var ppPass = typeof(PostProcessPass);
-            MethodBase setupBloom = ppPass.GetMethod("SetupBloom",
-                BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public,
-                Type.DefaultBinder,
-                new[] { typeof(CommandBuffer), typeof(RenderTargetIdentifier), typeof(Material) }, new ParameterModifier[] { });
-            var transpiler = new HarmonyMethod(typeof(BetterBloomController), nameof(PatchSetupBloom));
-            betterBloomHarmony.Patch(setupBloom, transpiler: transpiler);
+            // var ppPass = typeof(PostProcessPass); // This is now internal :(
+            // MethodBase setupBloom = ppPass.GetMethod("SetupBloom",
+            //     BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public,
+            //     Type.DefaultBinder,
+            //     new[] { typeof(CommandBuffer), typeof(RenderTargetIdentifier), typeof(Material) }, new ParameterModifier[] { });
+            // var transpiler = new HarmonyMethod(typeof(BetterBloomController), nameof(PatchSetupBloom));
+            // betterBloomHarmony.Patch(setupBloom, transpiler: transpiler);
         }
     }
 
