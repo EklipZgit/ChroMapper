@@ -67,7 +67,7 @@ namespace Tests
                 SelectionController.Select(baseEventB, true);
                 // eventC is not selected
 
-                var strobeGenerator = Object.FindObjectOfType<StrobeGenerator>();
+                var strobeGenerator = Object.FindAnyObjectByType<StrobeGenerator>();
                 strobeGenerator.GenerateStrobe(new List<StrobeGeneratorPass>
                 {
                     new StrobeStepGradientPass((int)LightValue.BlueOn, false, 2, Easing.Linear)
@@ -141,7 +141,7 @@ namespace Tests
                 SelectionController.Select(baseEventD, true);
                 SelectionController.Select(baseEventE, true);
 
-                var strobeGenerator = Object.FindObjectOfType<StrobeGenerator>();
+                var strobeGenerator = Object.FindAnyObjectByType<StrobeGenerator>();
                 strobeGenerator.GenerateStrobe(new List<StrobeGeneratorPass>
                 {
                     new StrobeStepGradientPass((int)LightValue.BlueOn, false, 2, Easing.Linear)

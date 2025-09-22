@@ -152,7 +152,7 @@ namespace Tests
         [Test]
         public void InvertChain()
         {
-            var actionContainer = Object.FindObjectOfType<BeatmapActionContainer>();
+            var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var containerCollection = BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Chain);
             if (containerCollection is ChainGridContainer chainsContainer)
             {
@@ -193,7 +193,7 @@ namespace Tests
         [Test]
         public void UpdateChainMultiplier()
         {
-            var actionContainer = Object.FindObjectOfType<BeatmapActionContainer>();
+            var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var containerCollection = BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Chain);
             if (containerCollection is ChainGridContainer chainsContainer)
             {

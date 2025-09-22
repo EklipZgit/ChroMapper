@@ -49,8 +49,8 @@ namespace Tests
             eventsContainer.SpawnObject(rotationEventB);
             eventsContainer.SpawnObject(rotationEventC);
 
-            var rotationController = Object.FindObjectOfType<RotationCallbackController>();
-            var atsc = Object.FindObjectOfType<AudioTimeSyncController>();
+            var rotationController = Object.FindAnyObjectByType<RotationCallbackController>();
+            var atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
 
             // Rotations should add up
             atsc.MoveToJsonTime(0);
@@ -83,8 +83,8 @@ namespace Tests
             eventsContainer.SpawnObject(rotationEventA);
             eventsContainer.SpawnObject(rotationEventB);
 
-            var rotationController = Object.FindObjectOfType<RotationCallbackController>();
-            var atsc = Object.FindObjectOfType<AudioTimeSyncController>();
+            var rotationController = Object.FindAnyObjectByType<RotationCallbackController>();
+            var atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
 
             // Should ignore events on same time
             atsc.MoveToJsonTime(timeA);

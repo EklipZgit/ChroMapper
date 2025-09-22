@@ -26,9 +26,9 @@ namespace Tests
         public void EnableCountersPlus()
         {
             Settings.Instance.CountersPlus["enabled"] = true;
-            countersPlusController = Object.FindObjectOfType<CountersPlusController>();
+            countersPlusController = Object.FindAnyObjectByType<CountersPlusController>();
             njsEventGridContainer = BeatmapObjectContainerCollection.GetCollectionForType<NJSEventGridContainer>(ObjectType.NJSEvent);
-            atsc = Object.FindObjectOfType<AudioTimeSyncController>();
+            atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
         }
 
         [OneTimeTearDown]

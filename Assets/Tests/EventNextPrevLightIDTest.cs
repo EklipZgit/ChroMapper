@@ -66,7 +66,7 @@ namespace Tests
         [Test]
         public void Placement()
         {
-            var actionsContainer = Object.FindObjectOfType<BeatmapActionContainer>();
+            var actionsContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var eventsContainer = BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
 
             var root = eventsContainer.transform.root;
@@ -116,8 +116,8 @@ namespace Tests
         [Test]
         public void DeletingSelection()
         {
-            var selectionController = Object.FindObjectOfType<SelectionController>();
-            var actionsContainer = Object.FindObjectOfType<BeatmapActionContainer>();
+            var selectionController = Object.FindAnyObjectByType<SelectionController>();
+            var actionsContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var eventsContainer = BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
 
             var root = eventsContainer.transform.root;
@@ -160,10 +160,10 @@ namespace Tests
         [Test]
         public void CopyPasteSelection()
         {
-            var selectionController = Object.FindObjectOfType<SelectionController>();
-            var actionsContainer = Object.FindObjectOfType<BeatmapActionContainer>();
+            var selectionController = Object.FindAnyObjectByType<SelectionController>();
+            var actionsContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var eventsContainer = BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
-            var atsc = Object.FindObjectOfType<AudioTimeSyncController>();
+            var atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
 
             var root = eventsContainer.transform.root;
             var eventPlacement = root.GetComponentInChildren<EventPlacement>();
@@ -218,8 +218,8 @@ namespace Tests
         [Test]
         public void ShiftingSelection()
         {
-            var selectionController = Object.FindObjectOfType<SelectionController>();
-            var actionsContainer = Object.FindObjectOfType<BeatmapActionContainer>();
+            var selectionController = Object.FindAnyObjectByType<SelectionController>();
+            var actionsContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var eventsContainer = BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
 
             var root = eventsContainer.transform.root;
@@ -270,8 +270,8 @@ namespace Tests
         [Test]
         public void MovingSelection()
         {
-            var selectionController = Object.FindObjectOfType<SelectionController>();
-            var actionsContainer = Object.FindObjectOfType<BeatmapActionContainer>();
+            var selectionController = Object.FindAnyObjectByType<SelectionController>();
+            var actionsContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var eventsContainer = BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
 
             var root = eventsContainer.transform.root;

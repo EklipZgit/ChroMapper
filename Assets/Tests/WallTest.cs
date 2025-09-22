@@ -113,7 +113,7 @@ namespace Tests
         [Test]
         public void HyperWall()
         {
-            var actionContainer = Object.FindObjectOfType<BeatmapActionContainer>();
+            var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var obstaclesCollection = BeatmapObjectContainerCollection.GetCollectionForType<ObstacleGridContainer>(ObjectType.Obstacle);
             
             var root = obstaclesCollection.transform.root;
@@ -155,7 +155,7 @@ namespace Tests
         {
             Settings.Instance.MapVersion = 2;
             
-            var actionContainer = Object.FindObjectOfType<BeatmapActionContainer>();
+            var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var obstaclesCollection = BeatmapObjectContainerCollection.GetCollectionForType<ObstacleGridContainer>(ObjectType.Obstacle);
 
             var root = obstaclesCollection.transform.root;

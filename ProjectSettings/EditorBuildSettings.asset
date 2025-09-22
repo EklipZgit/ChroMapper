@@ -33,3 +33,4 @@ EditorBuildSettings:
       type: 2}
     com.unity.localization.settings: {fileID: 11400000, guid: 0e5693053c3917947960c8fc446b0372,
       type: 2}
+  m_UseUCBPForAssetBundles: 0

@@ -43,7 +43,7 @@ namespace Tests.Util
 
         public static void CleanupBookmarks()
         {
-            var bookmarkManager = Object.FindObjectOfType<BookmarkManager>();
+            var bookmarkManager = Object.FindAnyObjectByType<BookmarkManager>();
             foreach (var bookmark in bookmarkManager.bookmarkContainers.ToArray()) bookmark.HandleDeleteBookmark(0);
         }
 

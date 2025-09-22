@@ -45,7 +45,7 @@ namespace Tests
         public void JsonMerge()
         {
             var eventContainer = BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Event);
-            var nodeEditor = Object.FindObjectOfType<NodeEditorController>();
+            var nodeEditor = Object.FindAnyObjectByType<NodeEditorController>();
             var inputField = nodeEditor.GetComponentInChildren<TMP_InputField>();
 
             BaseEvent baseEventA = new BaseEvent { JsonTime = 2, Type = (int)EventTypeValue.BackLasers, Value = (int)LightValue.Off, FloatValue = 1, CustomData = 
@@ -79,7 +79,7 @@ namespace Tests
         public void JsonApply()
         {
             var eventContainer = BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Event);
-            var nodeEditor = Object.FindObjectOfType<NodeEditorController>();
+            var nodeEditor = Object.FindAnyObjectByType<NodeEditorController>();
             var inputField = nodeEditor.GetComponentInChildren<TMP_InputField>();
 
             BaseEvent baseEventA = new BaseEvent { JsonTime = 2, Type = (int)EventTypeValue.BackLasers, Value = (int)LightValue.Off, FloatValue = 1f, CustomData = 
