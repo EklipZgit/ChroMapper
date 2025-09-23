@@ -13,30 +13,8 @@ MonoBehaviour:
   m_Name: Localization-String-Tables-English (en)
   m_EditorClassIdentifier: 
   m_GroupName: Localization-String-Tables-English (en)
-  m_Data:
-    m_SerializedData: []
   m_GUID: dfdd8cf6065816f47a903a55c76ec326
-  m_SerializeEntries:
-  - m_GUID: 5b795ca38bfbbdd428d68e063bfd443e
-    m_Address: PersistentUI_en
-    m_ReadOnly: 1
-    m_SerializedLabels:
-    - Locale-en
-  - m_GUID: 1411c398524482f409501269230bab2b
-    m_Address: Contributors_en
-    m_ReadOnly: 1
-    m_SerializedLabels:
-    - Locale-en
-  - m_GUID: 470ffe3707b612a44b1b7340c0ce79e7
-    m_Address: SongEditMenu_en
-    m_ReadOnly: 1
-    m_SerializedLabels:
-    - Locale-en
-  - m_GUID: 7d243bcc9348bd34ab47236f8648b568
-    m_Address: Mapper_en
-    m_ReadOnly: 1
-    m_SerializedLabels:
-    - Locale-en
+  m_SerializeEntries: []
   m_ReadOnly: 1
   m_Settings: {fileID: 11400000, guid: be3f562163bab164eadc484f377f1007, type: 2}
   m_SchemaSet:

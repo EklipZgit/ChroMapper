@@ -8,7 +8,11 @@
     "Unity.TextMeshPro",
     "Unity.InputSystem",
     "LiteNetLib",
-    "TestsEditMode"
+    "TestsEditMode",
+    "FileBrowser",
+    "Input",
+    "Intersections",
+    "Nobi.UiRoundedCorners"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],

@@ -13,50 +13,64 @@ MonoBehaviour:
   m_Name: Localization-String-Tables-Korean (ko)
   m_EditorClassIdentifier: 
   m_GroupName: Localization-String-Tables-Korean (ko)
-  m_Data:
-    m_SerializedData: []
   m_GUID: 79f81d397223b854fa2564cb23430fb6
   m_SerializeEntries:
-  - m_GUID: 57ad331c76f9ab641a2b26d0c926c156
-    m_Address: Contributors_ko
-    m_ReadOnly: 1
-    m_SerializedLabels:
-    - Locale-ko
-  - m_GUID: dfcda9dc98e7fbf4f967847a41c678c6
-    m_Address: FirstBoot_ko
-    m_ReadOnly: 1
-    m_SerializedLabels:
-    - Locale-ko
-  - m_GUID: 9b2b91fb535201c43a1cd1fb31fded0d
-    m_Address: Mapper_ko
-    m_ReadOnly: 1
-    m_SerializedLabels:
-    - Locale-ko
-  - m_GUID: f07e61e24e23e0f4ca6f9073891eab7b
-    m_Address: Options_ko
-    m_ReadOnly: 1
-    m_SerializedLabels:
-    - Locale-ko
-  - m_GUID: 848a01881aa019c479302d3784dd3dca
-    m_Address: PersistentUI_ko
-    m_ReadOnly: 1
-    m_SerializedLabels:
-    - Locale-ko
-  - m_GUID: 703489824eb169540b963038cc80549c
-    m_Address: SongEditMenu_ko
-    m_ReadOnly: 1
-    m_SerializedLabels:
-    - Locale-ko
   - m_GUID: 36c7c9c7f7a72504c8203bea520c3dd7
     m_Address: SongSelectMenu_ko
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-ko
+    - Preload
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 57ad331c76f9ab641a2b26d0c926c156
+    m_Address: Contributors_ko
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ko
+    - Preload
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 703489824eb169540b963038cc80549c
+    m_Address: SongEditMenu_ko
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ko
+    - Preload
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 71eb52f195faf0641a10418075ea1ec2
     m_Address: MultiMapping_ko
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-ko
+    - Preload
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 848a01881aa019c479302d3784dd3dca
+    m_Address: PersistentUI_ko
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ko
+    - Preload
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9b2b91fb535201c43a1cd1fb31fded0d
+    m_Address: Mapper_ko
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ko
+    - Preload
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dfcda9dc98e7fbf4f967847a41c678c6
+    m_Address: FirstBoot_ko
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ko
+    - Preload
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f07e61e24e23e0f4ca6f9073891eab7b
+    m_Address: Options_ko
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ko
+    - Preload
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 1
   m_Settings: {fileID: 11400000, guid: be3f562163bab164eadc484f377f1007, type: 2}
   m_SchemaSet:

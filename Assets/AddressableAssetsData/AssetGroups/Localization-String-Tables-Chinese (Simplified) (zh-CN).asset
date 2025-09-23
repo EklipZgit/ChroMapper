@@ -13,50 +13,64 @@ MonoBehaviour:
   m_Name: Localization-String-Tables-Chinese (Simplified) (zh-CN)
   m_EditorClassIdentifier: 
   m_GroupName: Localization-String-Tables-Chinese (Simplified) (zh-CN)
-  m_Data:
-    m_SerializedData: []
   m_GUID: 07be4aa11b567b54294a414f97084066
   m_SerializeEntries:
-  - m_GUID: d2bc9a0bce4cc054db8b15d244aa97a0
-    m_Address: Contributors_zh-CN
-    m_ReadOnly: 1
-    m_SerializedLabels:
-    - Locale-zh-CN
-  - m_GUID: c776d20ed6b65e14fbc3252781e3ae17
-    m_Address: FirstBoot_zh-CN
-    m_ReadOnly: 1
-    m_SerializedLabels:
-    - Locale-zh-CN
-  - m_GUID: bf029b9bc0fa72d46b28cc2d30656153
-    m_Address: Mapper_zh-CN
-    m_ReadOnly: 1
-    m_SerializedLabels:
-    - Locale-zh-CN
   - m_GUID: a7194ddefd6707d49b498942f3564daf
     m_Address: Options_zh-CN
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-zh-CN
-  - m_GUID: e4fc4ce3d5f7f704c9f639aa56dfe5aa
-    m_Address: PersistentUI_zh-CN
-    m_ReadOnly: 1
-    m_SerializedLabels:
-    - Locale-zh-CN
-  - m_GUID: faffb37d790206f44b4a6543cc08ed46
-    m_Address: SongEditMenu_zh-CN
-    m_ReadOnly: 1
-    m_SerializedLabels:
-    - Locale-zh-CN
+    - Preload
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b0d5da8bfc6a8c04e89a1318d525acf3
     m_Address: SongSelectMenu_zh-CN
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-zh-CN
+    - Preload
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bf029b9bc0fa72d46b28cc2d30656153
+    m_Address: Mapper_zh-CN
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-zh-CN
+    - Preload
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c6cae85a8f2967440a80c58b576ed0de
     m_Address: MultiMapping_zh-CN
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-zh-CN
+    - Preload
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c776d20ed6b65e14fbc3252781e3ae17
+    m_Address: FirstBoot_zh-CN
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-zh-CN
+    - Preload
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d2bc9a0bce4cc054db8b15d244aa97a0
+    m_Address: Contributors_zh-CN
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-zh-CN
+    - Preload
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e4fc4ce3d5f7f704c9f639aa56dfe5aa
+    m_Address: PersistentUI_zh-CN
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-zh-CN
+    - Preload
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: faffb37d790206f44b4a6543cc08ed46
+    m_Address: SongEditMenu_zh-CN
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-zh-CN
+    - Preload
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 1
   m_Settings: {fileID: 11400000, guid: be3f562163bab164eadc484f377f1007, type: 2}
   m_SchemaSet:
