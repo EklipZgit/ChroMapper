@@ -1,4 +1,4 @@
-Shader "Unlit/Spectrogram"
+Shader "ChroMapper/Editor/Spectrogram"
 {
     Properties
     {
@@ -11,7 +11,10 @@ Shader "Unlit/Spectrogram"
     }
     SubShader
     {
-        Tags { "RenderType"="Opaque" }
+        Tags
+        {
+            "RenderType"="Opaque"
+        }
         LOD 100
 
         Pass
@@ -21,7 +24,7 @@ Shader "Unlit/Spectrogram"
                 Ref [_Stencil]
                 Comp Equal
             }
-            
+
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
@@ -49,7 +52,7 @@ Shader "Unlit/Spectrogram"
             // Global variables
             uniform float _Spectrogram_Shift = 1;
             uniform float _Spectrogram_BilinearFiltering = 0;
-            
+
             uniform float _SongTimeSeconds = 0;
             uniform float _ViewStart = 0;
             uniform float _ViewEnd = 1;
@@ -63,12 +66,12 @@ Shader "Unlit/Spectrogram"
             uniform uint FFTCount = 0;
             uniform uint FFTQuality = 1;
             uniform uint GradientLength = 4;
-            
+
             uniform StructuredBuffer<float> FFTResults;
             uniform StructuredBuffer<float> GradientKeys;
             uniform StructuredBuffer<float4> GradientColors;
 
-            v2f vert (appdata v)
+            v2f vert(appdata v)
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
@@ -85,11 +88,11 @@ Shader "Unlit/Spectrogram"
             {
                 // Fix spectrogram offset by subtracting by our FFT Size multiplied by quality setting
                 uint idx = resultIdx - (FFTSize * FFTQuality);
-                
+
                 // Grab our FFT sample if its within bounds
                 return idx < FFTCount
-                    ? FFTResults[idx]
-                    : 0;
+                           ? FFTResults[idx]
+                           : 0;
             }
 
             float calculateSpectrogramValue(float currentSeconds, float2 uv)
@@ -121,7 +124,7 @@ Shader "Unlit/Spectrogram"
                     float y = lerp(0, FFTSize, uv.y * pow(_Spectrogram_Shift, uv.y - 1));
 
                     // Map Y position to ignore lowest and highest band
-                    y = 1.0 + y * ((FFTSize - 2.0) / FFTSize); 
+                    y = 1.0 + y * ((FFTSize - 2.0) / FFTSize);
 
                     // Calculate bilinear sampling X/Y points
                     float x1 = floor(x);
@@ -138,16 +141,16 @@ Shader "Unlit/Spectrogram"
                     // Perform bilinear sampling using weighted mean
                     // (Matrix math is likely more efficient but looks worse IMO)
                     float4 samples = float4(sampleSpectrogram((uint)x1 * FFTSize + (uint)y1),
-                        sampleSpectrogram((uint)x1 * FFTSize + (uint)y2),
-                        sampleSpectrogram((uint)x2 * FFTSize + (uint)y1),
-                        sampleSpectrogram((uint)x2 * FFTSize + (uint)y2));
-                    
+                                            sampleSpectrogram((uint)x1 * FFTSize + (uint)y2),
+                                            sampleSpectrogram((uint)x2 * FFTSize + (uint)y1),
+                                            sampleSpectrogram((uint)x2 * FFTSize + (uint)y2));
+
                     // Calculate strengths of our sampling points
                     float4 strength = float4((x2 - x) * (y2 - y),
-                        (x2 - x) * (y - y1),
-                        (x - x1) * (y2 - y),
-                        (x - x1) * (y - y1));
-                    
+                                     (x2 - x) * (y - y1),
+                                     (x - x1) * (y2 - y),
+                                     (x - x1) * (y - y1));
+
                     float4 weightedMean = strength * samples;
                     weightedMean /= (x2 - x1) * (y2 - y1);
 
@@ -159,11 +162,11 @@ Shader "Unlit/Spectrogram"
             float inverseLerp(float a, float b, float value)
             {
                 return a != b
-                    ? saturate((value - a) / (b - a))
-                    : 0.0f;
+                            ? saturate((value - a) / (b - a))
+                            : 0.0f;
             }
 
-            float4 frag (v2f i) : SV_Target
+            float4 frag(v2f i) : SV_Target
             {
                 // Short circuit shader if spectrogram isnt initialized
                 //   *SHOULD* fix Apple Silicon issues?
@@ -171,21 +174,21 @@ Shader "Unlit/Spectrogram"
                 {
                     return float4(0, 0, 0, 0);
                 }
-                
+
                 float2 uv = float2(_FlipX > 0.5 ? 1 - i.uv.x : i.uv.x, _FlipY > 0.5 ? 1 - i.uv.y : i.uv.y);
-                
+
                 // Calculate our X position within the view in seconds
                 float currentSeconds = lerp(_ViewStart, _ViewEnd, uv.x);
 
                 // fix shimmering pixels by saturating our spectrogram value between [0,1]
                 //   I guess when interpolating between pixels, the above math can produce values slightly out of intended range.
                 float value = currentSeconds > 0
-                    ? saturate(calculateSpectrogramValue(currentSeconds, uv))
-                    : 0.0;
+                 ? saturate(calculateSpectrogramValue(currentSeconds, uv))
+                 : 0.0;
 
                 // Value clipping
                 clip(value - _ValueCutoff);
-                
+
                 // Calculate gradient max
                 uint upperGradientIdx = 0;
                 for (; upperGradientIdx < GradientLength; upperGradientIdx++)
@@ -193,19 +196,19 @@ Shader "Unlit/Spectrogram"
                     if (value < GradientKeys[upperGradientIdx])
                         break;
                 }
-    
+
                 // Edge case 1: Value is above maximum gradient key
                 if (upperGradientIdx == GradientLength)
                 {
                     return GradientColors[GradientLength - 1];
                 }
-    
+
                 // Edge case 2: Value is below minimum threshold
                 if (upperGradientIdx == 0)
                 {
                     return GradientColors[0];
                 }
-    
+
                 // Calculate gradient min
                 upperGradientIdx = clamp(upperGradientIdx, 0, GradientLength - 1);
                 uint lowerGradientIdx = clamp(upperGradientIdx - 1, 0, GradientLength - 1);
@@ -213,17 +216,18 @@ Shader "Unlit/Spectrogram"
                 // Gradient interpolation
                 float4 color = lerp(GradientColors[lowerGradientIdx],
                     GradientColors[upperGradientIdx],
-                    Remap(value, GradientKeys[lowerGradientIdx], GradientKeys[upperGradientIdx], 0, 1));
+                    Remap(value, GradientKeys[lowerGradientIdx],
+                        GradientKeys[upperGradientIdx], 0, 1));
 
                 // Add 0.2 to each component if we are within outline
                 if (abs(currentSeconds - _SongTimeSeconds) < _OutlineWidth / _EditorScale / (_SongBPM / 120))
                 {
                     color += float4(0.5, 0.5, 0.5, 0.5);
                 }
-                
+
                 // Convert linear to gamma space
                 color = pow(color, 2.2);
-                
+
                 return color;
             }
             ENDCG
