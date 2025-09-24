@@ -21,7 +21,7 @@ Shader "ChroMapper/Object/Note"
     {
         Tags
         {
-            "RenderType" = "Opaque" "RenderPipeline" = "UniversalPipeline"
+            "RenderType" = "Opaque"
         }
 
         HLSLINCLUDE
@@ -53,7 +53,7 @@ Shader "ChroMapper/Object/Note"
             Name "Example"
             Tags
             {
-                "LightMode" = "UniversalForward"
+                "LightMode" = "ForwardBase"
             }
 
             HLSLPROGRAM

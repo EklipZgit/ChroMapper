@@ -25,7 +25,7 @@ Shader "ChroMapper/Object/Basic Gradient"
             #pragma multi_compile_instancing
 
             #include "UnityCG.cginc"
-            #include "Shared/Easings.cginc"
+            #include "../CGIncludes/Easings.cginc"
 
             // Define instanced properties
             UNITY_INSTANCING_BUFFER_START(Props)
