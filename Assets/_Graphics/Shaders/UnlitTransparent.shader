@@ -4,9 +4,7 @@
     {
         _Color ("Color", Color) = (1, 1, 1, 1)
         _MainTex ("Texture", 2D) = "white" {}
-
-        [Toggle(EMISSIVE)] _Emissive ("Emissive", float) = 0.0
-        _Glow ("Glow", Range(0, 10)) = 0.0
+        _Glow ("Glow", Range(0, 5)) = 0.0
     }
     SubShader
     {
@@ -70,15 +68,8 @@
                 fixed glow = UNITY_ACCESS_INSTANCED_PROP(Props, _Glow);
 
                 fixed4 albedo = color * tex2D(_MainTex, TRANSFORM_TEX(i.uv, _MainTex));
-
-                #if EMISSIVE
-                fixed mag = length(albedo.rgb);
-                albedo.a = log2(albedo.a + 1.0);
-                albedo.rgb = float3(1.0, 1.0, 1.0) * mag * albedo.a
-                    + albedo.rgb * GammaToLinearSpace(2.4169) * glow * albedo.a;
-                #else
                 albedo.rgb *= glow;
-                #endif
+                albedo.a = log2(albedo.a + 1.0);
 
                 return albedo;
             }

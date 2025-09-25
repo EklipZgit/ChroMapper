@@ -228,6 +228,7 @@ Shader "ChroMapper/Editor/Spectrogram"
                 // Convert linear to gamma space
                 color = pow(color, 2.2);
 
+                color.a = 0;
                 return color;
             }
             ENDCG

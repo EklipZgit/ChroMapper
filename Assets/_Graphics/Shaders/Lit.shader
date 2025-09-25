@@ -8,7 +8,7 @@
         [Space(10)]
         _Color ("Color", Color) = (1,1,1,1)
         _MainTex ("Texture", 2D) = "white" {}
-        _Glow ("Glow", Range(0, 10)) = 0.0
+        _Glow ("Glow", Range(0, 5)) = 0.0
 
         [Space(10)]
         _Glossiness ("Smoothness", Range(0, 1)) = 0.5
@@ -105,16 +105,7 @@
                 col += diffuse * lightColor * albedo.rgb;
                 col += specular * lightColor;
 
-                #if EMISSIVE
-                fixed mag = length(albedo.rgb);
-                col.a = log2(albedo.a + 1.0);
-                albedo.rgb = fixed3(1.0, 1.0, 1.0) * mag * albedo.a
-                    + albedo.rgb * GammaToLinearSpace(2.4169) * glow * albedo.a;
-                #else
-                albedo.a = glow;
-                #endif
-
-                return fixed4(col.rgb, albedo.a);
+                return fixed4(col.rgb, log2(glow + 1.0));
             }
             ENDCG
         }

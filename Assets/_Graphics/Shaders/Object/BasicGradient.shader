@@ -15,7 +15,7 @@ Shader "ChroMapper/Object/Basic Gradient"
         LOD 100
         ZWrite Off
         Cull Off
-        Blend SrcAlpha OneMinusSrcAlpha
+        Blend SrcColor OneMinusSrcColor
 
         Pass
         {
@@ -176,7 +176,8 @@ Shader "ChroMapper/Object/Basic Gradient"
                 color.g *= mult;
                 color.b *= mult;
 
-                color.a = clamp(color.a, 0, 1);
+                color.rgb *= clamp(color.a, 0, 1);
+                color.a = 0;
 
                 return color;
             }

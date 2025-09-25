@@ -16,10 +16,11 @@ Shader "ChroMapper/Post Process/Bloom"
     float4 FragPrefilter(VaryingsDefault i) : SV_Target
     {
         float4 color = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.texcoord);
-        // color *= sqrt(color.a);
-        color *= color.a;
-        color = SafeHDR(color);
-        return color;
+        // color.a = log2(color.a + 1.0);
+        // float alpha = log2(color.a + 1.0);
+        float alpha = color.a;
+        color *= alpha * _Intensity;
+        return SafeHDR(color);
     }
 
     float4 FragDownsample13(VaryingsDefault i) : SV_Target
@@ -64,9 +65,10 @@ Shader "ChroMapper/Post Process/Bloom"
     float4 FragComposite(VaryingsDefault i) : SV_Target
     {
         float4 color = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.texcoord);
-        float4 bloom = SAMPLE_TEXTURE2D(_BloomTex, sampler_BloomTex, i.texcoord);
 
-        return color + bloom * _Intensity;
+        float mag = length(color.rgb);
+        color.rgb += float3(1, 1, 1) * mag * color.a;
+        return Combine(color, i.texcoordStereo);
     }
 
     float4 Frag(VaryingsDefault i) : SV_Target

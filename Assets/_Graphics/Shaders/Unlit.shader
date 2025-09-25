@@ -8,8 +8,7 @@
         [Space(10)]
         _Color ("Color", Color) = (1, 1, 1, 1)
         _MainTex ("Texture", 2D) = "white" {}
-        [Toggle(EMISSIVE)] _Emissive ("Emissive", Float) = 0.0
-        _Glow ("Glow", Range(0, 10)) = 0.0
+        _Glow ("Glow", Range(0, 5)) = 0.0
     }
     SubShader
     {
@@ -26,7 +25,6 @@
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile _MODE_OPAQUE _MODE_CUTOUT
-            #pragma shader_feature EMISSIVE
             #pragma shader_feature SOLID_COLOR
 
             #include "UnityCG.cginc"
@@ -77,14 +75,8 @@
                 if (albedo.a == 0) discard;
                 #endif
 
-                #if EMISSIVE
-                fixed mag = length(albedo.rgb);
-                albedo.a = log2(albedo.a + 1.0);
-                albedo.rgb = fixed3(1.0, 1.0, 1.0) * mag * albedo.a
-                    + albedo.rgb * GammaToLinearSpace(2.4169) * glow * albedo.a;
-                #else
-                albedo.a = glow;
-                #endif
+                albedo.rgb *= color.a;
+                albedo.a = log2(glow * color.a + 1.0);
 
                 return albedo;
             }

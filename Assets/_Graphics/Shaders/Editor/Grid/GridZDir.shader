@@ -22,7 +22,6 @@ Shader "ChroMapper/Editor/Grid/Grid ZDir"
         Pass
         {
             ZWrite Off
-            Blend SrcAlpha OneMinusSrcAlpha
             Cull Off
 
             CGPROGRAM
@@ -154,16 +153,19 @@ Shader "ChroMapper/Editor/Grid/Grid ZDir"
                 if (_DisplayHJDLine && _CurrentHJD - hjdRange < timeOffsetToCursor && timeOffsetToCursor < _CurrentHJD +
                     hjdRange)
                 {
-                    return float4(0.5, 0, 0, 1);
+                    return float4(0.5, 0, 0, 0);
                 }
 
                 if ((abs(time * editorScaleMult) % gridSpacing) / gridSpacing <= gridThickness / 2
                     || (abs(time * editorScaleMult) % gridSpacing) / gridSpacing >= 1 - (gridThickness / 2))
                 {
+                    gridColour.a = 0;
                     return gridColour;
                 }
                 else
                 {
+                    if (baseColour.a == 0) discard;
+                    baseColour.a = 0;
                     return baseColour;
                 }
             }

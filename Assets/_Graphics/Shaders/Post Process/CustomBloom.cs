@@ -8,7 +8,7 @@ using FloatParameter = UnityEngine.Rendering.PostProcessing.FloatParameter;
 [PostProcess(typeof(CustomBloomRenderer), PostProcessEvent.BeforeStack, "ChroMapper/Bloom")]
 public sealed class CustomBloom : PostProcessEffectSettings
 {
-   [Range(0f, 5f),
+   [Range(0f, 10f),
     Tooltip(
        "Strength of the bloom filter. Values higher than 1 will make bloom contribute more energy to the final render.")]
    public FloatParameter intensity = new() { value = 0f };
@@ -182,6 +182,8 @@ public sealed class CustomBloomRenderer : PostProcessEffectRenderer<CustomBloom>
       cmd.BlitFullscreenTriangle(context.source, context.destination, sheet, (int)Pass.Composite);
 
       // Debug
+      // cmd.BlitFullscreenTriangle(_pyramid[0].Down, context.destination, sheet, 6);
+      // cmd.BlitFullscreenTriangle(context.source, context.destination, sheet, 6);
       // cmd.BlitFullscreenTriangle(_pyramid[0].Up, context.destination, sheet, 6);
 
       // Cleanup
