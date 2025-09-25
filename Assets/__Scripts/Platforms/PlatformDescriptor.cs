@@ -107,8 +107,6 @@ public class PlatformDescriptor : MonoBehaviour
 
         atsc.TimeChanged += UpdateTime;
         RefreshLightingManagers();
-
-        if (Settings.Instance.HideDisablableObjectsOnLoad) ToggleDisablableObjects();
     }
 
     public void RefreshLightingManagers() => StartCoroutine(PlatformLoadFromHell());
@@ -192,6 +190,8 @@ public class PlatformDescriptor : MonoBehaviour
 
         PopulateLightshow();
         foreach (var manager in sortedPriorityManagers) manager.UpdateTime(atsc.CurrentSongBpmTime);
+        
+        if (Settings.Instance.HideDisablableObjectsOnLoad) ToggleDisablableObjects();
     }
 
     private void MapEventManager(BasicEventManager manager, int type)
