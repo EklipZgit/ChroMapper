@@ -106,7 +106,7 @@ public class TrackLaneRingsManager : TrackLaneRingsManagerBase
     public override void HandleRotationEvent(RingRotationState state, BaseEvent evt, int index)
     {
         if (RotationEffect == null) return;
-        
+
         RotationEffect.AddRingRotationEvent(
             state.RotationInitial, // TODO: this cause it to snap in unusual way
             Random.Range(0, RotationStep),
@@ -116,6 +116,7 @@ public class TrackLaneRingsManager : TrackLaneRingsManagerBase
             evt);
     }
 
+    public override float GetInitialRotation() => RotationEffect?.StartupRotationAngle ?? 0f;
     public override float GetRotationStep() => RotationEffect?.RotationStep ?? 0f;
     public override bool GetDirection() => Random.value < 0.5f;
 

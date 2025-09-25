@@ -10,7 +10,7 @@ public abstract class TrackLaneRingsManagerBase : BasicEventManager<RingRotation
 
     public abstract void HandlePositionEvent(RingRotationState state, BaseEvent evt, int index);
     public abstract void HandleRotationEvent(RingRotationState state, BaseEvent evt, int index);
-    public virtual float GetInitialRotation() => -45f;
+    public virtual float GetInitialRotation() => 0f;
     public virtual float GetRotationStep() => 0f;
     public virtual bool GetDirection() => false;
 
@@ -70,7 +70,7 @@ public abstract class TrackLaneRingsManagerBase : BasicEventManager<RingRotation
     }
 
     protected override RingRotationState CreateState(BaseEvent evt) =>
-        new(evt) { RotationInitial = GetInitialRotation(), RotationChange = GetRotationStep() };
+        new(evt) { RotationInitial = GetInitialRotation() };
 
     public override void BuildFromEvents(IEnumerable<BaseEvent> events)
     {

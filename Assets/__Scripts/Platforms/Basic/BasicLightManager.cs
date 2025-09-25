@@ -531,7 +531,7 @@ public class BasicLightManager : BasicEventManager<BasicLightState>
 
 public class BasicLightState : BasicEventState
 {
-    public float StartTimeColor; // this is supposedly the same as start time, special case for chroma gradient
+    public float StartTimeColor = float.MinValue; // this is supposedly the same as start time, special case for chroma gradient
     public LightColor StartColor;
     public Color? StartChromaColor;
     public float StartAlpha;
