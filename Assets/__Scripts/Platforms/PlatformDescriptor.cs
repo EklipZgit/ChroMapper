@@ -49,6 +49,7 @@ public class PlatformDescriptor : MonoBehaviour
 
     private RotationCallbackController rotationCallback;
     private LightshowMode lightshowMode;
+    public Action<LightshowMode> OnLightshowModeChanged;
 
     private static readonly int baseMap = Shader.PropertyToID("_BaseMap");
 
@@ -63,7 +64,8 @@ public class PlatformDescriptor : MonoBehaviour
         BeatmapActionContainer.ActionRedoEvent += HandleActionEventRedo;
         BeatmapActionContainer.ActionUndoEvent += HandleActionEventUndo;
         LoadedDifficultySelectController.LoadedDifficultyChangedEvent += HandleLevelLoaded;
-        if (SceneManager.GetActiveScene().name != "999_PrefabBuilding") LoadInitialMap.LevelLoadedEvent += HandleLevelLoaded;
+        if (SceneManager.GetActiveScene().name != "999_PrefabBuilding")
+            LoadInitialMap.LevelLoadedEvent += HandleLevelLoaded;
     }
 
     private void Start() => UpdateShinyMaterialSettings();
@@ -75,7 +77,8 @@ public class PlatformDescriptor : MonoBehaviour
         BeatmapActionContainer.ActionUndoEvent -= HandleActionEventUndo;
         LoadedDifficultySelectController.LoadedDifficultyChangedEvent -= HandleLevelLoaded;
         if (atsc != null) atsc.TimeChanged -= UpdateTime;
-        if (SceneManager.GetActiveScene().name != "999_PrefabBuilding") LoadInitialMap.LevelLoadedEvent -= HandleLevelLoaded;
+        if (SceneManager.GetActiveScene().name != "999_PrefabBuilding")
+            LoadInitialMap.LevelLoadedEvent -= HandleLevelLoaded;
 
         foreach (var manager in LightingManagers.Where(manager => manager != null))
             colorBoostManager.OnStateChange -= manager.ToggleBoost;
@@ -190,8 +193,9 @@ public class PlatformDescriptor : MonoBehaviour
 
         PopulateLightshow();
         foreach (var manager in sortedPriorityManagers) manager.UpdateTime(atsc.CurrentSongBpmTime);
-        
+
         if (Settings.Instance.HideDisablableObjectsOnLoad) ToggleDisablableObjects();
+        OnLightshowModeChanged.Invoke(lightshowMode);
     }
 
     private void MapEventManager(BasicEventManager manager, int type)
@@ -236,10 +240,10 @@ public class PlatformDescriptor : MonoBehaviour
                 })
                 .ToList()
             : BeatSaberSongContainer.Instance.Map.Events;
-        
+
         foreach (var (type, managers) in eventTypeManagerMap)
             managers.ForEach(manager => manager.BuildFromEvents(events.Where(e => e.Type == type)));
-        
+
         foreach (var manager in sortedPriorityManagers) manager.Reset();
     }
 
@@ -247,7 +251,7 @@ public class PlatformDescriptor : MonoBehaviour
     {
         // in the future, it should be possible to toggle during playback
         // but as of now, it causes race condition
-        if (atsc.IsPlaying) return;
+        if (atsc.IsPlaying || mode == lightshowMode) return;
         var previousMode = lightshowMode;
         lightshowMode = mode;
 
@@ -271,6 +275,8 @@ public class PlatformDescriptor : MonoBehaviour
             default:
                 throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
         }
+
+        OnLightshowModeChanged.Invoke(lightshowMode);
     }
 
     private bool AddEvents(IEnumerable<BaseEvent> events)
