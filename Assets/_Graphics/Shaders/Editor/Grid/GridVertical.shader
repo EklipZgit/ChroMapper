@@ -18,7 +18,6 @@
         LOD 100
         ZWrite Off
         Cull Off
-        Blend SrcAlpha OneMinusSrcAlpha
 
         Pass
         {
@@ -118,6 +117,8 @@
                     }
                 }
 
+                if (baseColour.a == 0) discard;
+                baseColour.a = 0;
                 return baseColour;
             }
             ENDCG

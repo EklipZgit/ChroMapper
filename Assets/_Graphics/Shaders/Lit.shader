@@ -29,8 +29,6 @@
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile _MODE_OPAQUE _MODE_CUTOUT
-            #pragma shader_feature ENABLE_CUTOUT
-            #pragma shader_feature EMISSIVE
 
             #include "UnityPBSLighting.cginc"
 

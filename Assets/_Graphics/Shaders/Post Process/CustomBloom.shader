@@ -16,10 +16,7 @@ Shader "ChroMapper/Post Process/Bloom"
     float4 FragPrefilter(VaryingsDefault i) : SV_Target
     {
         float4 color = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.texcoord);
-        // color.a = log2(color.a + 1.0);
-        // float alpha = log2(color.a + 1.0);
-        float alpha = color.a;
-        color *= alpha * _Intensity;
+        color.rgb *= color.a * _Intensity;
         return SafeHDR(color);
     }
 

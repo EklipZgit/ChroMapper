@@ -1,4 +1,4 @@
-﻿Shader "ChroMapper/Unlit Transparent"
+﻿Shader "ChroMapper/Unlit Transparent Alpha"
 {
     Properties
     {
@@ -22,7 +22,6 @@
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-            #pragma shader_feature EMISSIVE
 
             #include "UnityCG.cginc"
 
@@ -69,7 +68,11 @@
 
                 fixed4 albedo = color * tex2D(_MainTex, TRANSFORM_TEX(i.uv, _MainTex));
                 albedo.rgb *= glow;
-                albedo.a = log2(albedo.a + 1.0);
+
+                // due to how alpha blending work, we need to ensure alpha is clamped
+                // but also transfer the excess alpha to rgb
+                if (albedo.a > 1.0) albedo.rgb *= albedo.a;
+                albedo.a = clamp(albedo.a, 0.0, 1.0);
 
                 return albedo;
             }
