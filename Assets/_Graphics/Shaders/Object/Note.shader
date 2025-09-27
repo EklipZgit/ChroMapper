@@ -25,27 +25,22 @@ Shader "ChroMapper/Object/Note"
         }
 
         HLSLINCLUDE
-        #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
-        #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Packing.hlsl"
-        #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/NormalSurfaceGradient.hlsl"
-        #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
-        #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/UnityInstancing.hlsl"
-        #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/EntityLighting.hlsl"
+        #include "UnityPBSLighting.cginc"
         #pragma multi_compile_instancing
 
-        UNITY_INSTANCING_BUFFER_START (Props)
-        UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
-        UNITY_DEFINE_INSTANCED_PROP(float4, _OverNoteInterfaceColor)
-        UNITY_DEFINE_INSTANCED_PROP(float, _ColorMult)
-        UNITY_DEFINE_INSTANCED_PROP(float, _OutlineWidth)
-        UNITY_DEFINE_INSTANCED_PROP(float, _TranslucentAlpha)
-        UNITY_DEFINE_INSTANCED_PROP(float, _OpaqueAlpha)
-        UNITY_DEFINE_INSTANCED_PROP(float, _Rotation)
-        UNITY_DEFINE_INSTANCED_PROP(float, _Lit)
-        UNITY_DEFINE_INSTANCED_PROP(float, _AlwaysTranslucent)
-        UNITY_DEFINE_INSTANCED_PROP(float, _AnimationSpawned)
-        UNITY_DEFINE_INSTANCED_PROP(float, _ObjectTime)
-        UNITY_INSTANCING_BUFFER_END (Props)
+        UNITY_INSTANCING_BUFFER_START(Props)
+            UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
+            UNITY_DEFINE_INSTANCED_PROP(float4, _OverNoteInterfaceColor)
+            UNITY_DEFINE_INSTANCED_PROP(float, _ColorMult)
+            UNITY_DEFINE_INSTANCED_PROP(float, _OutlineWidth)
+            UNITY_DEFINE_INSTANCED_PROP(float, _TranslucentAlpha)
+            UNITY_DEFINE_INSTANCED_PROP(float, _OpaqueAlpha)
+            UNITY_DEFINE_INSTANCED_PROP(float, _Rotation)
+            UNITY_DEFINE_INSTANCED_PROP(float, _Lit)
+            UNITY_DEFINE_INSTANCED_PROP(float, _AlwaysTranslucent)
+            UNITY_DEFINE_INSTANCED_PROP(float, _AnimationSpawned)
+            UNITY_DEFINE_INSTANCED_PROP(float, _ObjectTime)
+        UNITY_INSTANCING_BUFFER_END(Props)
         ENDHLSL
 
         Pass
@@ -85,32 +80,26 @@ Shader "ChroMapper/Object/Note"
             #pragma multi_compile _ LIGHTMAP_ON
             #pragma multi_compile_fog
 
-            // Includes
-            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
-            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/SurfaceInput.hlsl"
-
             // Hello! We're global shader variables.
             uniform float _EnableNoteSurfaceGridLine = 1;
             uniform float _SongTime;
 
-            struct Attributes
+            struct appdata
             {
-                float4 positionOS : POSITION;
+                float4 vertex : POSITION;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
-                float3 normalOS : NORMAL;
-                float4 tangentOS : TANGENT;
+                float3 normal : NORMAL;
+                float4 tangent : TANGENT;
             };
 
-            struct Varyings
+            struct v2f
             {
-                float4 positionCS : SV_POSITION;
-                float4 ScreenPosition : POSITION1;
+                float4 vertex : SV_POSITION;
+                float4 screenPos : POSITION1;
                 float4 rotatedPos : POSITION2;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
-                DECLARE_LIGHTMAP_OR_SH(lightmapUV, vertexSH, 1);
-                float3 positionWS : TEXCOORD2;
-                float3 normalWS : TEXCOORD3;
-                float3 viewDirWS : TEXCOORD4;
+                float3 worldPos : TEXCOORD2;
+                float3 worldNormal : TEXCOORD3;
             };
 
             // Automatically defined with SurfaceInput.hlsl
@@ -127,12 +116,9 @@ Shader "ChroMapper/Object/Note"
                     // Perspective
                     return _WorldSpaceCameraPos - positionWS;
                 }
-                else
-                {
-                    // Orthographic
-                    float4x4 viewMat = GetWorldToViewMatrix();
-                    return viewMat[2].xyz;
-                }
+                // Orthographic
+                float4x4 viewMat = UNITY_MATRIX_V;
+                return viewMat[2].xyz;
             }
             #endif
 
@@ -146,21 +132,18 @@ Shader "ChroMapper/Object/Note"
                               position.z * cosTheta + position.x * sinTheta);
             }
 
-            Varyings vert(Attributes IN)
+            v2f vert(appdata i)
             {
-                Varyings OUT;
+                v2f o;
 
-                UNITY_SETUP_INSTANCE_ID(IN);
-                UNITY_TRANSFER_INSTANCE_ID(IN, OUT);
+                UNITY_SETUP_INSTANCE_ID(i);
+                UNITY_TRANSFER_INSTANCE_ID(i, o);
                 // necessary only if you want to access instanced properties in the fragment Shader.
 
-                VertexPositionInputs positionInputs = GetVertexPositionInputs(IN.positionOS.xyz);
-                OUT.positionCS = positionInputs.positionCS;
+                o.vertex = UnityObjectToClipPos(i.vertex);
 
-                float4 ScreenPosition = ComputeScreenPos(OUT.positionCS);
-                OUT.ScreenPosition = ScreenPosition;
-
-                OUT.positionWS = positionInputs.positionWS;
+                o.screenPos = ComputeScreenPos(o.vertex);
+                o.worldPos = mul(unity_ObjectToWorld, i.vertex).xyz;
 
                 //Global platform offset
                 const float4 offset = float4(0, -0.5, -1.5, 0);
@@ -170,72 +153,14 @@ Shader "ChroMapper/Object/Note"
 
                 float objectTime = UNITY_ACCESS_INSTANCED_PROP(Props, _ObjectTime);
 
-                OUT.rotatedPos = float4(
-                    ComputeRotatedPosition(OUT.positionWS - offset, rotationInRadians) + offset,
+                o.rotatedPos = float4(
+                    ComputeRotatedPosition(o.worldPos - offset, rotationInRadians) + offset,
                     objectTime + 0.001 - _SongTime
                 );
 
-                OUT.viewDirWS = GetWorldSpaceViewDir(positionInputs.positionWS);
+                o.worldNormal = UnityObjectToWorldNormal(i.normal);
 
-                VertexNormalInputs normalInputs = GetVertexNormalInputs(IN.normalOS, IN.tangentOS);
-                OUT.normalWS = normalInputs.normalWS;
-
-                OUTPUT_SH(OUT.normalWS.xyz, OUT.vertexSH);
-
-                return OUT;
-            }
-
-            InputData InitializeInputData(Varyings IN, half3 normalTS)
-            {
-                UNITY_SETUP_INSTANCE_ID(IN);
-                // necessary only if any instanced properties are going to be accessed in the fragment Shader.
-
-                InputData inputData = (InputData)0;
-
-                inputData.positionWS = IN.positionWS;
-
-                half3 viewDirWS = SafeNormalize(IN.viewDirWS);
-                inputData.normalWS = IN.normalWS;
-
-                inputData.normalWS = NormalizeNormalPerPixel(inputData.normalWS);
-                inputData.viewDirectionWS = viewDirWS;
-
-                inputData.bakedGI = SAMPLE_GI(IN.lightmapUV, IN.vertexSH, inputData.normalWS);
-                return inputData;
-            }
-
-            SurfaceData InitializeSurfaceData(Varyings IN)
-            {
-                UNITY_SETUP_INSTANCE_ID(IN);
-                // necessary only if any instanced properties are going to be accessed in the fragment Shader.
-
-                SurfaceData surfaceData = (SurfaceData)0;
-                // Note, we can just use SurfaceData surfaceData; here and not set it.
-                // However we then need to ensure all values in the struct are set before returning.
-                // By casting 0 to SurfaceData, we automatically set all the contents to 0.
-                // DON'T BE CONFUSED THE COLOR IS ACTUALLY SET HERE
-                surfaceData.alpha = 1;
-
-                float isTranslucent = UNITY_ACCESS_INSTANCED_PROP(Props, _AlwaysTranslucent);
-                float4 interfaceColor = UNITY_ACCESS_INSTANCED_PROP(Props, _OverNoteInterfaceColor);
-                float4 noteColor = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
-                float outlineWidth = UNITY_ACCESS_INSTANCED_PROP(Props, _OutlineWidth);
-                float rotatedZ = abs(IN.rotatedPos.z);
-
-                surfaceData.albedo = (_EnableNoteSurfaceGridLine > 0 && rotatedZ < outlineWidth && isTranslucent < 1)
-                                         ? interfaceColor
-                                         : noteColor.rgb;
-
-                // For the sake of simplicity I'm not supporting the metallic/specular map or occlusion map
-                // for an example of that see : https://github.com/Unity-Technologies/Graphics/blob/master/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl
-
-                float lit = UNITY_ACCESS_INSTANCED_PROP(Props, _Lit);
-
-                surfaceData.metallic = lit == 1 ? 0.5 : 0;
-                surfaceData.smoothness = lit == 1 ? 0.7 : 0;
-                surfaceData.occlusion = 1;
-
-                return surfaceData;
+                return o;
             }
 
             float isDithered(float2 pos, float alpha)
@@ -257,40 +182,50 @@ Shader "ChroMapper/Object/Note"
                 return alpha - DITHER_THRESHOLDS[index];
             }
 
-            half4 frag(Varyings IN) : SV_Target
+            half4 frag(v2f i) : SV_Target
             {
-                UNITY_SETUP_INSTANCE_ID(IN);
-                // necessary only if any instanced properties are going to be accessed in the fragment Shader.
+                UNITY_SETUP_INSTANCE_ID(i);
 
-                SurfaceData surfaceData = InitializeSurfaceData(IN);
-                InputData inputData = InitializeInputData(IN, surfaceData.normalTS);
-
-                // In URP v10+ versions we could use this :
-                // half4 color = UniversalFragmentPBR(inputData, surfaceData);
-
-                // But for other versions, we need to use this instead.
-                // We could also avoid using the SurfaceData struct completely, but it helps to organise things.
-                half4 color = UniversalFragmentPBR(inputData, surfaceData.albedo, surfaceData.metallic,
-                                               surfaceData.specular,
-                                               surfaceData.smoothness,
-                                               surfaceData.occlusion,
-                                               surfaceData.emission, surfaceData.alpha);
+                float3 worldNormal = normalize(i.worldNormal);
 
                 float isTranslucent = UNITY_ACCESS_INSTANCED_PROP(Props, _AlwaysTranslucent);
+                float4 interfaceColor = UNITY_ACCESS_INSTANCED_PROP(Props, _OverNoteInterfaceColor);
+                float4 noteColor = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
+                float outlineWidth = UNITY_ACCESS_INSTANCED_PROP(Props, _OutlineWidth);
+                float lit = UNITY_ACCESS_INSTANCED_PROP(Props, _Lit);
                 float animation = UNITY_ACCESS_INSTANCED_PROP(Props, _AnimationSpawned);
-
                 float translucentAlpha = UNITY_ACCESS_INSTANCED_PROP(Props, _TranslucentAlpha);
                 float opaqueAlpha = UNITY_ACCESS_INSTANCED_PROP(Props, _OpaqueAlpha);
-
-                float alpha = (animation < 1 && (isTranslucent >= 1 || IN.rotatedPos.w <= 0))
-                        ? translucentAlpha
-                        : opaqueAlpha;
-
-                clip(isDithered(IN.ScreenPosition.xy / IN.ScreenPosition.w, alpha));
-
                 float colorMult = UNITY_ACCESS_INSTANCED_PROP(Props, _ColorMult);
-                color.a = 0;
-                return color * colorMult; // float4(inputData.bakedGI,1);
+                
+                float rotatedZ = abs(i.rotatedPos.z);
+
+                float3 albedo = _EnableNoteSurfaceGridLine > 0 && rotatedZ < outlineWidth && isTranslucent < 1
+                                    ? interfaceColor
+                                    : noteColor.rgb;
+
+                // For the sake of simplicity I'm not supporting the metallic/specular map or occlusion map
+                // for an example of that see : https://github.com/Unity-Technologies/Graphics/blob/master/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl
+
+                float metallic = lit == 1 ? 0.5 : 0;
+                float smoothness = lit == 1 ? 0.7 : 0;
+                float occlusion = 1;
+
+                float alpha = animation < 1 && (isTranslucent >= 1 || i.rotatedPos.w <= 0)
+                                  ? translucentAlpha
+                                  : opaqueAlpha;
+
+                clip(isDithered(i.screenPos.xy / i.screenPos.w, alpha));
+
+
+                fixed3 lightDirection = normalize(_WorldSpaceLightPos0.xyz);
+                fixed3 lightColor = _LightColor0.rgb;
+                float diffuse = saturate(dot(worldNormal, lightDirection));
+
+                fixed3 color = albedo.rgb * UNITY_LIGHTMODEL_AMBIENT.rgb;
+                color += diffuse * lightColor * albedo.rgb;
+
+                return float4(color * colorMult, 0);
             }
             ENDHLSL
         }

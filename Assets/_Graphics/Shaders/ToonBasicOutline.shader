@@ -23,7 +23,7 @@ Shader "ChroMapper/Toon Outline Basic"
             Name "OUTLINE"
 
             HLSLPROGRAM
-            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            #include "UnityCG.cginc"
 
             #pragma vertex vert
             #pragma fragment frag
@@ -35,40 +35,37 @@ Shader "ChroMapper/Toon Outline Basic"
                 float4 _OutlineColor;
             CBUFFER_END
 
-            struct Attributes
+            struct appdata
             {
-                float4 positionOS : POSITION;
-                float3 normalOS : NORMAL;
+                float4 vertex : POSITION;
+                float3 normal : NORMAL;
             };
 
-            struct Varyings
+            struct v2f
             {
-                float4 positionCS : SV_POSITION;
+                float4 vertex : SV_POSITION;
                 half fogCoord : TEXCOORD0;
                 half4 color : COLOR;
             };
 
-            Varyings vert(Attributes input)
+            v2f vert(appdata i)
             {
-                Varyings output = (Varyings)0;
+                v2f o = (v2f)0;
 
                 if (_Outline > 0.01)
                 {
-                    input.positionOS.xyz += input.positionOS * _Outline;
-
-                    VertexPositionInputs vertexInput = GetVertexPositionInputs(input.positionOS.xyz);
-                    output.positionCS = vertexInput.positionCS;
-
-                    output.color = _OutlineColor;
-                    output.fogCoord = ComputeFogFactor(output.positionCS.z);
+                    i.vertex.xyz += i.vertex * _Outline;
+                    o.vertex = UnityObjectToClipPos(i.vertex);
+                    o.color = _OutlineColor;
+                    // output.fogCoord = ComputeFogFactor(output.positionCS.z);
                 }
-                return output;
+                return o;
             }
 
-            half4 frag(Varyings i) : SV_Target
+            half4 frag(v2f i) : SV_Target
             {
                 if (_Outline <= 0.01) clip(-1);
-                i.color.rgb = MixFog(i.color.rgb, i.fogCoord);
+                // i.color.rgb = MixFog(i.color.rgb, i.fogCoord);
                 return i.color;
             }
             ENDHLSL

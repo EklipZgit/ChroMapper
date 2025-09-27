@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using Beatmap.Animations;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Rendering.Universal;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 using static UnityEngine.InputSystem.InputAction;
@@ -24,7 +23,6 @@ public class CameraController : MonoBehaviour, CMInput.ICameraActions
     [FormerlySerializedAs("_rotationCallbackController")] public RotationCallbackController RotationCallbackController;
 
     [FormerlySerializedAs("camera")] public Camera Camera;
-    [SerializeField] private UniversalRenderPipelineAsset urpAsset;
 
     [Header("Debug")][SerializeField] private float x;
 
@@ -50,8 +48,6 @@ public class CameraController : MonoBehaviour, CMInput.ICameraActions
     };
 
     private Vector2 savedMousePos = Vector2.zero;
-
-    private UniversalAdditionalCameraData cameraExtraData;
 
     private bool canMoveCamera;
 
@@ -97,7 +93,6 @@ public class CameraController : MonoBehaviour, CMInput.ICameraActions
     private void Start()
     {
         Camera.fieldOfView = playerCamera ? Settings.Instance.PlayerCameraFOV : Settings.Instance.CameraFOV;
-        cameraExtraData = Camera.GetUniversalAdditionalCameraData();
         UpdateAA(Settings.Instance.CameraAA);
         UpdateRenderScale(Settings.Instance.RenderScale);
         UpdatePlayerCameraOffsetZ(Settings.Instance.PlayerCameraOffsetZ);
@@ -199,29 +194,25 @@ public class CameraController : MonoBehaviour, CMInput.ICameraActions
         switch ((int)aaValue)
         {
             case 0:
-                cameraExtraData.antialiasing = AntialiasingMode.None;
+                QualitySettings.antiAliasing = 0;
                 break;
             case 1:
-                cameraExtraData.antialiasing = AntialiasingMode.FastApproximateAntialiasing;
+                QualitySettings.antiAliasing = 1;
                 break;
             case 2:
-                cameraExtraData.antialiasing = AntialiasingMode.SubpixelMorphologicalAntiAliasing;
-                cameraExtraData.antialiasingQuality = AntialiasingQuality.Low;
+                QualitySettings.antiAliasing = 2;
                 break;
             case 3:
-                cameraExtraData.antialiasing = AntialiasingMode.SubpixelMorphologicalAntiAliasing;
-                cameraExtraData.antialiasingQuality = AntialiasingQuality.Medium;
-                break;
             case 4:
-                cameraExtraData.antialiasing = AntialiasingMode.SubpixelMorphologicalAntiAliasing;
-                cameraExtraData.antialiasingQuality = AntialiasingQuality.High;
+                QualitySettings.antiAliasing = 3;
                 break;
         }
     }
 
     private void UpdateRenderScale(object renderScale)
     {
-        urpAsset.renderScale = Mathf.Sqrt((int)renderScale / 100f); // Sqrt to get scale per dimension
+        var scale = (int)renderScale / 100f;
+        ScalableBufferManager.ResizeBuffers(scale, scale);
     }
 
     private void UpdatePlayerCameraOffsetZ(object posZ)

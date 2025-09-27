@@ -1,13 +1,12 @@
 ﻿using System;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Rendering;
-using UnityEngine.Rendering.Universal;
+using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.UI;
 
 public class PostProcessingController : MonoBehaviour
 {
-    public Volume PostProcess;
+    [SerializeField] private PostProcessVolume volume;
     [SerializeField] private Slider intensitySlider;
     [SerializeField] private TextMeshProUGUI intensityLabel;
     [SerializeField] private Toggle chromaticAberration;
@@ -26,21 +25,21 @@ public class PostProcessingController : MonoBehaviour
     public void UpdatePostProcessIntensity(object o)
     {
         var v = Convert.ToSingle(o);
-        PostProcess.profile.TryGet(out Bloom bloom);
-        bloom.intensity.value = v;
+        volume.profile.TryGetSettings(out CustomBloom bloom);
+        bloom.intensity.value = v * 60f; // TODO: ok, default definitely needed to be change
     }
 
     public void UpdateChromaticAberration(object o)
     {
         var enabled = Convert.ToBoolean(o);
-        PostProcess.profile.TryGet(out ChromaticAberration ca);
+        volume.profile.TryGetSettings(out ChromaticAberration ca);
         ca.active = enabled;
     }
 
     public void UpdateHighQualityBloom(object obj)
     {
         var enabled = Convert.ToBoolean(obj);
-        PostProcess.profile.TryGet(out Bloom bloom);
-        bloom.highQualityFiltering.value = enabled;
+        volume.profile.TryGetSettings(out CustomBloom bloom);
+        bloom.fastMode.value = !enabled;
     }
 }
