@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using UnityEditor;
 using UnityEditor.AddressableAssets.Settings;
+using UnityEditor.Build;
 
 [SuppressMessage("CodeQuality", "IDE0051:Remove unused private members",
     Justification = "These methods are used by Jenkins to automatically build ChroMapper.")]
@@ -46,10 +47,7 @@ public static class SimpleEditorUtils
         AddressableAssetSettings.BuildPlayerContent();
         SetBuildNumber();
 
-        // Needs to be wrapped in pre-processors since this code only compiles on macOS
-#if UNITY_EDITOR && UNITY_STANDALONE_OSX
-        UnityEditor.OSXStandalone.UserBuildSettings.architecture = OSArchitecture.x64ARM64;
-#endif
+        PlayerSettings.SetArchitecture(NamedBuildTarget.Standalone, 1); // ARM64
         BuildPipeline.BuildPlayer(GetEnabledScenes(), "/root/project/checkout/build/MacOS/ChroMapper", BuildTarget.StandaloneOSX, buildOptions);
     }
 
