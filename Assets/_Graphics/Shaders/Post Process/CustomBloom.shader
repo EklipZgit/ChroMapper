@@ -1,0 +1,140 @@
+// Modified Unity's Post Processing bloom shader to match Beat Saber bloom behaviour
+Shader "ChroMapper/Post Process/Bloom"
+{
+    HLSLINCLUDE
+    #include "Packages/com.unity.postprocessing/PostProcessing/Shaders/StdLib.hlsl"
+    #include "Packages/com.unity.postprocessing/PostProcessing/Shaders/Colors.hlsl"
+    #include "Packages/com.unity.postprocessing/PostProcessing/Shaders/Sampling.hlsl"
+
+    TEXTURE2D_SAMPLER2D(_MainTex, sampler_MainTex);
+    TEXTURE2D_SAMPLER2D(_BloomTex, sampler_BloomTex);
+
+    float4 _MainTex_TexelSize;
+    float _SampleScale;
+    float _Intensity;
+
+    float4 FragPrefilter(VaryingsDefault i) : SV_Target
+    {
+        float4 color = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.texcoord);
+        // color *= sqrt(color.a);
+        color *= color.a;
+        color = SafeHDR(color);
+        return color;
+    }
+
+    float4 FragDownsample13(VaryingsDefault i) : SV_Target
+    {
+        float4 color = DownsampleBox13Tap(
+            TEXTURE2D_PARAM(_MainTex, sampler_MainTex), i.texcoord,
+            UnityStereoAdjustedTexelSize(_MainTex_TexelSize).xy);
+        return color;
+    }
+
+    float4 FragDownsample4(VaryingsDefault i) : SV_Target
+    {
+        float4 color = DownsampleBox4Tap(
+            TEXTURE2D_PARAM(_MainTex, sampler_MainTex), i.texcoord,
+            UnityStereoAdjustedTexelSize(_MainTex_TexelSize).xy);
+        return color;
+    }
+
+
+    float4 Combine(float4 bloom, float2 uv)
+    {
+        float4 color = SAMPLE_TEXTURE2D(_BloomTex, sampler_BloomTex, uv);
+        return bloom + color;
+    }
+
+    float4 FragUpsampleTent(VaryingsDefault i) : SV_Target
+    {
+        float4 bloom = UpsampleTent(
+            TEXTURE2D_PARAM(_MainTex, sampler_MainTex), i.texcoord, UnityStereoAdjustedTexelSize(_MainTex_TexelSize).xy,
+            _SampleScale);
+        return Combine(bloom, i.texcoordStereo);
+    }
+
+    float4 FragUpsampleBox(VaryingsDefault i) : SV_Target
+    {
+        float4 bloom = UpsampleBox(
+            TEXTURE2D_PARAM(_MainTex, sampler_MainTex), i.texcoord, UnityStereoAdjustedTexelSize(_MainTex_TexelSize).xy,
+            _SampleScale);
+        return Combine(bloom, i.texcoordStereo);
+    }
+
+    float4 FragComposite(VaryingsDefault i) : SV_Target
+    {
+        float4 color = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.texcoord);
+        float4 bloom = SAMPLE_TEXTURE2D(_BloomTex, sampler_BloomTex, i.texcoord);
+
+        return color + bloom * _Intensity;
+    }
+
+    float4 Frag(VaryingsDefault i) : SV_Target
+    {
+        float4 color = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.texcoord);
+        return color;
+    }
+    ENDHLSL
+
+    SubShader
+    {
+        Cull Off ZWrite Off ZTest Always
+
+        // 0
+        Pass
+        {
+            HLSLPROGRAM
+            #pragma vertex VertDefault
+            #pragma fragment FragPrefilter
+            ENDHLSL
+        }
+        // 1
+        Pass
+        {
+            HLSLPROGRAM
+            #pragma vertex VertDefault
+            #pragma fragment FragDownsample13
+            ENDHLSL
+        }
+        // 2
+        Pass
+        {
+            HLSLPROGRAM
+            #pragma vertex VertDefault
+            #pragma fragment FragDownsample4
+            ENDHLSL
+        }
+        // 3
+        Pass
+        {
+            HLSLPROGRAM
+            #pragma vertex VertDefault
+            #pragma fragment FragUpsampleTent
+            ENDHLSL
+        }
+        // 4
+        Pass
+        {
+            HLSLPROGRAM
+            #pragma vertex VertDefault
+            #pragma fragment FragUpsampleBox
+            ENDHLSL
+        }
+        // 5
+        Pass
+        {
+            HLSLPROGRAM
+            #pragma vertex VertDefault
+            #pragma fragment FragComposite
+            ENDHLSL
+        }
+        // 6 debug
+        Pass
+        {
+            HLSLPROGRAM
+            #pragma vertex VertDefault
+            #pragma fragment Frag
+            ENDHLSL
+        }
+    }
+}

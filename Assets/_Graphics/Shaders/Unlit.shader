@@ -8,7 +8,8 @@
         [Space(10)]
         _Color ("Color", Color) = (1, 1, 1, 1)
         _MainTex ("Texture", 2D) = "white" {}
-        _Glow ("Glow", Range(0, 1)) = 0.0
+        [Toggle(EMISSIVE)] _Emissive ("Emissive", Float) = 0.0
+        _Glow ("Glow", Range(0, 10)) = 0.0
     }
     SubShader
     {
@@ -25,6 +26,7 @@
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile _MODE_OPAQUE _MODE_CUTOUT
+            #pragma shader_feature EMISSIVE
             #pragma shader_feature SOLID_COLOR
 
             #include "UnityCG.cginc"
@@ -46,6 +48,7 @@
                 float4 vertex : SV_POSITION;
                 float2 uv : TEXCOORD0;
                 UNITY_VERTEX_OUTPUT_STEREO
+                UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
             sampler2D _MainTex;
@@ -63,13 +66,26 @@
                 return o;
             }
 
-            float4 frag(v2f i) : SV_Target
+            fixed4 frag(v2f i) : SV_Target
             {
-                float4 albedo = _Color * tex2D(_MainTex, TRANSFORM_TEX(i.uv, _MainTex));
+                UNITY_SETUP_INSTANCE_ID(i);
+                fixed4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
+                fixed glow = UNITY_ACCESS_INSTANCED_PROP(Props, _Glow);
+
+                fixed4 albedo = color * tex2D(_MainTex, TRANSFORM_TEX(i.uv, _MainTex));
                 #if _MODE_CUTOUT
                 if (albedo.a == 0) discard;
                 #endif
-                albedo.a = _Glow;
+
+                #if EMISSIVE
+                fixed mag = length(albedo.rgb);
+                albedo.a = log2(albedo.a + 1.0);
+                albedo.rgb = fixed3(1.0, 1.0, 1.0) * mag * albedo.a
+                    + albedo.rgb * GammaToLinearSpace(2.4169) * glow * albedo.a;
+                #else
+                albedo.a = glow;
+                #endif
+
                 return albedo;
             }
             ENDCG

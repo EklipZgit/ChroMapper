@@ -70,7 +70,7 @@ public abstract class TrackLaneRingsManagerBase : BasicEventManager<RingRotation
     }
 
     protected override RingRotationState CreateState(BaseEvent evt) =>
-        new(evt) { RotationInitial = GetInitialRotation() };
+        new(evt) { RotationInitial = GetInitialRotation(), RotationChange = 0f };
 
     public override void BuildFromEvents(IEnumerable<BaseEvent> events)
     {

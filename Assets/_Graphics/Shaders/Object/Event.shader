@@ -85,14 +85,17 @@ Shader "ChroMapper/Object/Event"
                 {
                     fixed4 transitionColor = lerp(colorTint, colorBase, t);
 
+                    transitionColor.a = 0;
                     return transitionColor;
                 }
                 else if (distance > circleRadius + fadeSize)
                 {
+                    colorBase.a = 0;
                     return colorBase;
                 }
                 else
                 {
+                    colorTint.a = 0;
                     return colorTint;
                 }
             }

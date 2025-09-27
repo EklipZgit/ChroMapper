@@ -84,9 +84,9 @@ public class LightingObject : MonoBehaviour
         }
     }
 
-    private void UpdateLighting(Color color, float alpha)
+    private void UpdateLighting(Color color)
     {
-        lightPropertyBlock.SetColor(baseColor, color * alpha);
+        lightPropertyBlock.SetColor(baseColor, color);
         lightRenderer.SetPropertyBlock(lightPropertyBlock);
     }
 
@@ -97,9 +97,10 @@ public class LightingObject : MonoBehaviour
         var color = useHSV
             ? LerpHSV(startColor, endColor, easing(nTimeColor))
             : Color.Lerp(startColor, endColor, easing(nTimeColor));
-        var alpha = Mathf.Lerp(startAlpha, endAlpha, easing(nTimeAlpha)) * color.a;
+        var alpha = Mathf.Lerp(startAlpha, endAlpha, easing(nTimeAlpha));
 
-        UpdateLighting(color, alpha);
+        color.a *= alpha;
+        UpdateLighting(color);
     }
 
     private static Color LerpHSV(Color start, Color end, float t)

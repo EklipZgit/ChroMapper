@@ -470,10 +470,16 @@ public class BasicLightManager : BasicEventManager<BasicLightState>
         evt.IsBlue ? LightColor.Blue : evt.IsRed ? LightColor.Red : LightColor.White;
 
     public static Color GetStartColorFromState(LightingObject lightingObject, BasicLightState state) =>
-        state.StartChromaColor ?? GetColorFromScheme(state.StartColor, lightingObject.UseInvertedPlatformColors);
+        (state.StartChromaColor
+            ?? GetColorFromScheme(
+                state.StartColor,
+                lightingObject.UseInvertedPlatformColors)); // .Multiply(HDRIntensity);
 
     public static Color GetEndColorFromState(LightingObject lightingObject, BasicLightState state) =>
-        state.EndChromaColor ?? GetColorFromScheme(state.EndColor, lightingObject.UseInvertedPlatformColors);
+        (state.EndChromaColor
+            ?? GetColorFromScheme(
+                state.EndColor,
+                lightingObject.UseInvertedPlatformColors)); // .Multiply(HDRIntensity);
 
     private static Color GetColorFromScheme(LightColor value, bool useInvertedPlatformColors)
     {
