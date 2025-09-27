@@ -254,7 +254,16 @@ public class Settings
     private static Settings Load()
     {
 #if UNITY_EDITOR
-        if (TestMode) return TestRunnerSettings;
+        if (TestMode)
+        {
+            // Test in Unity 6 for some reason triggers the language dropdown in the first boot screen
+            var languageFieldInfo = typeof(Settings)
+                .GetMember("Language", BindingFlags.Public | BindingFlags.Instance)
+                .First();
+            AllFieldInfos.Add("Language", (FieldInfo)languageFieldInfo);
+
+            return TestRunnerSettings;
+        }
 #endif
 
         //Fixes weird shit regarding how people write numbers (20,35 VS 20.35), causing issues in JSON
