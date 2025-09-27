@@ -6,20 +6,24 @@ using UnityEngine.UI;
 [CreateAssetMenu(fileName = "DarkThemeSO", menuName = "Map/Dark Theme SO")]
 public class DarkThemeSO : ScriptableObject
 {
-    [FormerlySerializedAs("BeonReplacement")] [SerializeField] private TMP_FontAsset beonReplacement;
-    public TMP_FontAsset TekoReplacement;
-    [FormerlySerializedAs("BeonUnityReplacement")] [SerializeField] private Font beonUnityReplacement;
-    [FormerlySerializedAs("TekoUnityReplacement")] [SerializeField] private Font tekoUnityReplacement;
+    [SerializeField] private Material beonMaterialReplacement;
+    [SerializeField] public Material TekoMaterialReplacement;
+
+    [SerializeField] private Font beonUnityReplacement;
+    [SerializeField] private Font tekoUnityReplacement;
 
     public void DarkThemeifyUI()
     {
         if (!Settings.Instance.DarkTheme) return;
         foreach (var jankCodeMate in Resources.FindObjectsOfTypeAll<TextMeshProUGUI>())
         {
-            if (jankCodeMate == null || jankCodeMate.font == null) continue;
+            if (jankCodeMate == null
+                || jankCodeMate.font == null
+                || (jankCodeMate.fontSharedMaterial != null && jankCodeMate.fontSharedMaterial.name.Contains("3D")))
+                continue;
 
-            if (jankCodeMate.font.name.Contains("Beon")) jankCodeMate.font = beonReplacement;
-            if (jankCodeMate.font.name.Contains("Teko")) jankCodeMate.font = TekoReplacement;
+            if (jankCodeMate.font.name.Contains("Beon")) jankCodeMate.fontSharedMaterial = beonMaterialReplacement;
+            if (jankCodeMate.font.name.Contains("Teko")) jankCodeMate.fontSharedMaterial = TekoMaterialReplacement;
         }
 
         foreach (var jankCodeMate in Resources.FindObjectsOfTypeAll<Text>())

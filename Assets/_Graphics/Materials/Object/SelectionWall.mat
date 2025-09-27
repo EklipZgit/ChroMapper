@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: SelectionWall
-  m_Shader: {fileID: 4800000, guid: efaf81b9ea3d6c94fb2f56e67786306d, type: 3}
+  m_Shader: {fileID: 4800000, guid: d9fe6e2416664eb38e91285a049ce81e, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []

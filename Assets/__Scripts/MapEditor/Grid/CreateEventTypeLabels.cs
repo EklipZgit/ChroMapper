@@ -16,14 +16,15 @@ public class CreateEventTypeLabels : MonoBehaviour
     {
         5, 2, 4, 3, 6, 13, 7, 8, 9, 10, 16, 17, 11, 12, 0, 1, 14, 15
     };
-    
+
     private static readonly int[] eventToModifiedArrayGaga =
     {
         9, 10, 5, 6, 2, 11, 4, 7, 18, 19, 3, 8, 14, 15, 0, 1, 13, 16, 12, 17
     };
-    public TMP_FontAsset AvailableAsset;
-    public TMP_FontAsset UtilityAsset;
-    public TMP_FontAsset RedAsset;
+
+    public Material AvailableMaterial;
+    public Material UtilityMaterial;
+    public Material RedMaterial;
     public GameObject LayerInstantiate;
     public Transform[] EventGrid;
     [SerializeField] private DarkThemeSO darkTheme;
@@ -48,16 +49,15 @@ public class CreateEventTypeLabels : MonoBehaviour
     {
         foreach (Transform children in LayerInstantiate.transform.parent.transform)
         {
-            if (children.gameObject.activeSelf)
-                Destroy(children.gameObject);
+            if (children.gameObject.activeSelf) Destroy(children.gameObject);
         }
 
         laneObjs.Clear();
 
         for (var i = 0; i < lanes; i++)
         {
-            var modified = (propMode == EventGridContainer.PropMode.Off ? EventTypeToModifiedType(i) : i) +
-                           NoRotationLaneOffset;
+            var modified = (propMode == EventGridContainer.PropMode.Off ? EventTypeToModifiedType(i) : i)
+                + NoRotationLaneOffset;
             if (modified < 0 && propMode == EventGridContainer.PropMode.Off) continue;
 
             var laneInfo = new LaneInfo(i, propMode != EventGridContainer.PropMode.Off ? i : modified);
@@ -73,19 +73,19 @@ public class CreateEventTypeLabels : MonoBehaviour
                 var textMesh = instantiate.GetComponentInChildren<TextMeshProUGUI>();
                 if (propMode != EventGridContainer.PropMode.Off)
                 {
-                    textMesh.font = UtilityAsset;
+                    textMesh.fontSharedMaterial = UtilityMaterial;
                     if (i == 0)
                     {
                         textMesh.text = "All Lights";
-                        textMesh.font = RedAsset;
+                        textMesh.fontSharedMaterial = RedMaterial;
                     }
                     else
                     {
                         textMesh.text = $"{lightingManagers[eventType].name} ID {EditorToLightID(eventType, i - 1)}";
                         if (i % 2 == 0)
-                            textMesh.font = UtilityAsset;
+                            textMesh.fontSharedMaterial = UtilityMaterial;
                         else
-                            textMesh.font = AvailableAsset;
+                            textMesh.fontSharedMaterial = AvailableMaterial;
                     }
                 }
                 else
@@ -96,64 +96,64 @@ public class CreateEventTypeLabels : MonoBehaviour
                     switch (i)
                     {
                         case (int)EventTypeValue.RingRotation:
-                            textMesh.font = UtilityAsset;
+                            textMesh.fontSharedMaterial = UtilityMaterial;
                             textMesh.text = "Ring Rotation";
                             break;
                         case (int)EventTypeValue.RingZoom:
-                            textMesh.font = UtilityAsset;
+                            textMesh.fontSharedMaterial = UtilityMaterial;
                             textMesh.text = "Ring Zoom";
                             break;
                         case (int)EventTypeValue.LeftLaserRotation:
                             textMesh.text = !isGaga ? "Left Laser Speed" : "Tower 3 Height";
-                            textMesh.font = UtilityAsset;
+                            textMesh.fontSharedMaterial = UtilityMaterial;
                             break;
                         case (int)EventTypeValue.RightLaserRotation:
                             textMesh.text = !isGaga ? "Right Laser Speed" : "Tower 4 Height";
-                            textMesh.font = UtilityAsset;
+                            textMesh.fontSharedMaterial = UtilityMaterial;
                             break;
                         case (int)EventTypeValue.EarlyLaneRotation:
                             textMesh.text = "Rotation (Include)";
-                            textMesh.font = UtilityAsset;
+                            textMesh.fontSharedMaterial = UtilityMaterial;
                             break;
                         case (int)EventTypeValue.LateLaneRotation:
                             textMesh.text = "Rotation (Exclude)";
-                            textMesh.font = UtilityAsset;
+                            textMesh.fontSharedMaterial = UtilityMaterial;
                             break;
                         case (int)EventTypeValue.ColorBoost:
                             textMesh.text = "Boost Lights";
-                            textMesh.font = UtilityAsset;
+                            textMesh.fontSharedMaterial = UtilityMaterial;
                             break;
                         case (int)EventTypeValue.UtilityEvent0:
                             textMesh.text = !isGaga ? "Utility Event 0" : "Tower 2 Height";
-                            textMesh.font = UtilityAsset;
+                            textMesh.fontSharedMaterial = UtilityMaterial;
                             break;
                         case (int)EventTypeValue.UtilityEvent1:
                             textMesh.text = !isGaga ? "Utility Event 1" : "Tower 5 Height";
-                            textMesh.font = UtilityAsset;
+                            textMesh.fontSharedMaterial = UtilityMaterial;
                             break;
                         case (int)EventTypeValue.UtilityEvent2:
                             textMesh.text = !isGaga ? "Utility Event 2" : "Tower 1 Height";
-                            textMesh.font = UtilityAsset;
+                            textMesh.fontSharedMaterial = UtilityMaterial;
                             break;
                         case (int)EventTypeValue.UtilityEvent3:
                             textMesh.text = !isGaga ? "Utility Event 3" : "Tower 6 Height";
-                            textMesh.font = UtilityAsset;
+                            textMesh.fontSharedMaterial = UtilityMaterial;
                             break;
                         case (int)EventTypeValue.SpecialEvent0:
                             textMesh.text = "Special Event 0";
-                            textMesh.font = UtilityAsset;
+                            textMesh.fontSharedMaterial = UtilityMaterial;
                             break;
                         case (int)EventTypeValue.SpecialEvent1:
                             textMesh.text = "Special Event 1";
-                            textMesh.font = UtilityAsset;
+                            textMesh.fontSharedMaterial = UtilityMaterial;
                             break;
                         case (int)EventTypeValue.SpecialEvent2:
                             textMesh.text = "Special Event 2";
-                            textMesh.font = UtilityAsset;
+                            textMesh.fontSharedMaterial = UtilityMaterial;
                             break;
                         case (int)EventTypeValue.SpecialEvent3:
                             textMesh.text = "Special Event 3";
-                            textMesh.font = UtilityAsset;
+                            textMesh.fontSharedMaterial = UtilityMaterial;
                             break;
                         default:
                             if (lightingManagers.Length > i)
@@ -162,7 +162,7 @@ public class CreateEventTypeLabels : MonoBehaviour
                                 if (customLight != null)
                                 {
                                     textMesh.text = customLight.name;
-                                    textMesh.font = AvailableAsset;
+                                    textMesh.fontSharedMaterial = AvailableMaterial;
                                 }
                             }
                             else
@@ -173,7 +173,8 @@ public class CreateEventTypeLabels : MonoBehaviour
 
                             break;
                     }
-                    if (Settings.Instance.DarkTheme) textMesh.font = darkTheme.TekoReplacement;
+
+                    if (Settings.Instance.DarkTheme) textMesh.fontSharedMaterial = darkTheme.TekoMaterialReplacement;
                 }
 
                 laneInfo.Name = textMesh.text;
@@ -201,11 +202,14 @@ public class CreateEventTypeLabels : MonoBehaviour
 
     public int[] PropIdToLightIds(int type, int propID)
     {
-        if (type >= lightingManagers.Length)
-            return new int[0];
+        if (type >= lightingManagers.Length) return new int[0];
 
-        return lightingManagers[type].ControllingLights.Where(x => x.PropGroup == propID).Select(x => x.LightID)
-            .OrderBy(x => x).Distinct().ToArray();
+        return lightingManagers[type]
+            .ControllingLights.Where(x => x.PropGroup == propID)
+            .Select(x => x.LightID)
+            .OrderBy(x => x)
+            .Distinct()
+            .ToArray();
     }
 
     public JSONArray PropIdToLightIdsJ(int type, int propID)
