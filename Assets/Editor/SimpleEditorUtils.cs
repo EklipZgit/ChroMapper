@@ -48,7 +48,7 @@ public static class SimpleEditorUtils
 
         // Needs to be wrapped in pre-processors since this code only compiles on macOS
 #if UNITY_EDITOR && UNITY_STANDALONE_OSX
-        UnityEditor.OSXStandalone.UserBuildSettings.architecture = UnityEditor.OSXStandalone.MacOSArchitecture.x64ARM64;
+        UnityEditor.OSXStandalone.UserBuildSettings.architecture = OSArchitecture.x64ARM64;
 #endif
         BuildPipeline.BuildPlayer(GetEnabledScenes(), "/root/project/checkout/build/MacOS/ChroMapper", BuildTarget.StandaloneOSX, buildOptions);
     }
