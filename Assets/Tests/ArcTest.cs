@@ -151,7 +151,7 @@ namespace Tests
         [Test]
         public void InvertArc()
         {
-            var actionContainer = Object.FindObjectOfType<BeatmapActionContainer>();
+            var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var containerCollection = BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Arc);
             if (containerCollection is ArcGridContainer arcsContainer)
             {
@@ -195,7 +195,7 @@ namespace Tests
         [Test]
         public void UpdateArcMultiplier()
         {
-            var actionContainer = Object.FindObjectOfType<BeatmapActionContainer>();
+            var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var containerCollection = BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Arc);
             if (containerCollection is ArcGridContainer arcsContainer)
             {

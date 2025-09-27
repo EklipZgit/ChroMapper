@@ -33,7 +33,7 @@ namespace Tests
         {
             chainsCollection = BeatmapObjectContainerCollection.GetCollectionForType<ChainGridContainer>(ObjectType.Chain);
 
-            var actionContainer = Object.FindObjectOfType<BeatmapActionContainer>();
+            var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
 
             var root = chainsCollection.transform.root;
             var chainPlacement = root.GetComponentInChildren<ChainPlacement>();

@@ -108,7 +108,7 @@ public class BoxSelectionPlacementController : PlacementController<BaseEvent, Ev
             TestForType<ChainPlacement>(hit, ObjectType.Chain);
             TestForType<NJSEventPlacement>(hit, ObjectType.NJSEvent);
 
-            instantiatedContainer.transform.localScale = Vector3.right + Vector3.up;
+            instantiatedContainer.transform.localScale = Vector3.right + Vector3.up + (Vector3.forward * 0.001f); // temporary fix to nuclear bloom
             var localScale = instantiatedContainer.transform.localScale;
             instantiatedContainer.transform.localPosition -= new Vector3(localScale.x / 2, 0, 0);
         }

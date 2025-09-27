@@ -25,8 +25,8 @@ namespace Tests
         {
             yield return TestUtils.LoadMap(3);
 
-            _actionContainer = Object.FindObjectOfType<BeatmapActionContainer>();
-            _mirror = Object.FindObjectOfType<MirrorSelection>();
+            _actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
+            _mirror = Object.FindAnyObjectByType<MirrorSelection>();
             _notesContainer = BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
             _arcsContainer = BeatmapObjectContainerCollection.GetCollectionForType<ArcGridContainer>(ObjectType.Arc);
             _root = _notesContainer.transform.root;

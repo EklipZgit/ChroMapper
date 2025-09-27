@@ -37,7 +37,7 @@ namespace Tests
         [Test]
         public void Invert()
         {
-            var actionContainer = Object.FindObjectOfType<BeatmapActionContainer>();
+            var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var eventsContainer = BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
             
             var root = eventsContainer.transform.root;
@@ -88,7 +88,7 @@ namespace Tests
         [Test]
         public void TweakValue()
         {
-            var actionContainer = Object.FindObjectOfType<BeatmapActionContainer>();
+            var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var containerCollection = BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Event);
             if (containerCollection is EventGridContainer eventsContainer)
             {
@@ -116,7 +116,7 @@ namespace Tests
         [Test]
         public void TweakValueBoost()
         {
-            var actionContainer = Object.FindObjectOfType<BeatmapActionContainer>();
+            var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var containerCollection = BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Event);
             if (containerCollection is EventGridContainer eventsContainer)
             {
@@ -153,7 +153,7 @@ namespace Tests
         [Test]
         public void PlacementPersistsCustomProperty()
         {
-            var actionContainer = Object.FindObjectOfType<BeatmapActionContainer>();
+            var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var containerCollection = BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Event);
             if (containerCollection is EventGridContainer eventsContainer)
             {

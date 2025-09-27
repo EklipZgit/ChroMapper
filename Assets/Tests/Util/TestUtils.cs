@@ -25,7 +25,7 @@ namespace Tests.Util
             // On pipeline this may be run fresh
             if (Settings.TestMode)
             {
-                var firstBootMenu = Object.FindObjectOfType<FirstBootMenu>();
+                var firstBootMenu = Object.FindAnyObjectByType<FirstBootMenu>();
                 firstBootMenu.HandleGenerateMissingFolders(0);
             }
 

@@ -22,8 +22,8 @@ namespace Tests
         {
             yield return TestUtils.LoadMap(3);
 
-            _actionContainer = Object.FindObjectOfType<BeatmapActionContainer>();
-            _mirror = Object.FindObjectOfType<MirrorSelection>();
+            _actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
+            _mirror = Object.FindAnyObjectByType<MirrorSelection>();
         }
 
         [OneTimeTearDown]
@@ -348,7 +348,7 @@ namespace Tests
         [Test]
         public void MirrorRotationEvent()
         {
-            var rotationCb = Object.FindObjectOfType<RotationCallbackController>();
+            var rotationCb = Object.FindAnyObjectByType<RotationCallbackController>();
             rotationCb.Start();
 
             var eventsContainer = BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);

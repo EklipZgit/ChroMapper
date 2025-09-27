@@ -29,8 +29,8 @@ namespace Tests
         [Test]
         public void CheckOrder()
         {
-            var bookmarkManager = Object.FindObjectOfType<BookmarkManager>();
-            var atsc = Object.FindObjectOfType<AudioTimeSyncController>();
+            var bookmarkManager = Object.FindAnyObjectByType<BookmarkManager>();
+            var atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
 
             atsc.MoveToSongBpmTime(1);
             bookmarkManager.CreateNewBookmark("1");

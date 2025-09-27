@@ -89,7 +89,7 @@ namespace Tests
         [Test]
         public void ModifyEvent()
         {
-            var actionContainer = Object.FindObjectOfType<BeatmapActionContainer>();
+            var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var bpmCollection = BeatmapObjectContainerCollection.GetCollectionForType<BPMChangeGridContainer>(ObjectType.BpmChange);
             
             BaseBpmEvent baseBpmEvent = new BaseBpmEvent(20, 20);
@@ -132,7 +132,7 @@ namespace Tests
 
             Assert.AreEqual(2, bpmCollection.MapObjects.Count);
 
-            var atsc = Object.FindObjectOfType<AudioTimeSyncController>();
+            var atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
 
             atsc.GoToBeat("0");
             Assert.AreEqual(0, atsc.CurrentJsonTime, 0.001f);
@@ -158,7 +158,7 @@ namespace Tests
         [Test]
         public void UndoActionCollection()
         {
-            var actionContainer = Object.FindObjectOfType<BeatmapActionContainer>();
+            var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var bpmCollection = BeatmapObjectContainerCollection.GetCollectionForType<BPMChangeGridContainer>(ObjectType.BpmChange);
 
             var songBpm = BeatSaberSongContainer.Instance.Info.BeatsPerMinute;

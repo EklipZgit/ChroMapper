@@ -32,7 +32,7 @@ namespace Tests
         {
             obstaclesCollection = BeatmapObjectContainerCollection.GetCollectionForType<ObstacleGridContainer>(ObjectType.Obstacle);
 
-            var actionContainer = Object.FindObjectOfType<BeatmapActionContainer>();
+            var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
 
             var root = obstaclesCollection.transform.root;
             var obstaclePlacement = root.GetComponentInChildren<ObstaclePlacement>();

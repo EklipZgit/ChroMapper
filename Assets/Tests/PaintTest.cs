@@ -44,9 +44,9 @@ namespace Tests
         {
             Settings.Instance.MapVersion = 2;
 
-            var actionContainer = Object.FindObjectOfType<BeatmapActionContainer>();
-            var colorPicker = Object.FindObjectOfType<ColorPicker>();
-            var painter = Object.FindObjectOfType<PaintSelectedObjects>();
+            var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
+            var colorPicker = Object.FindAnyObjectByType<ColorPicker>();
+            var painter = Object.FindAnyObjectByType<PaintSelectedObjects>();
 
             var eventsContainer = BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
             var root = eventsContainer.transform.root;
@@ -91,9 +91,9 @@ namespace Tests
         [Test]
         public void PaintUndo()
         {
-            var actionContainer = Object.FindObjectOfType<BeatmapActionContainer>();
-            var colorPicker = Object.FindObjectOfType<ColorPicker>();
-            var painter = Object.FindObjectOfType<PaintSelectedObjects>();
+            var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
+            var colorPicker = Object.FindAnyObjectByType<ColorPicker>();
+            var painter = Object.FindAnyObjectByType<PaintSelectedObjects>();
 
             var eventsContainer = BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
             var root = eventsContainer.transform.root;
@@ -140,8 +140,8 @@ namespace Tests
         [Test]
         public void IgnoresOff()
         {
-            var colorPicker = Object.FindObjectOfType<ColorPicker>();
-            var painter = Object.FindObjectOfType<PaintSelectedObjects>();
+            var colorPicker = Object.FindAnyObjectByType<ColorPicker>();
+            var painter = Object.FindAnyObjectByType<PaintSelectedObjects>();
 
             var eventsContainer = BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
             var root = eventsContainer.transform.root;

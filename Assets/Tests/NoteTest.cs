@@ -38,7 +38,7 @@ namespace Tests
         [Test]
         public void InvertNote()
         {
-            var actionContainer = Object.FindObjectOfType<BeatmapActionContainer>();
+            var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var containerCollection = BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Note);
             if (containerCollection is NoteGridContainer notesContainer)
             {
@@ -70,7 +70,7 @@ namespace Tests
         [Test]
         public void InvertNoteAffectsSlider()
         {
-            var actionContainer = Object.FindObjectOfType<BeatmapActionContainer>();
+            var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var notesContainer = BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
             var arcsContainer = BeatmapObjectContainerCollection.GetCollectionForType<ArcGridContainer>(ObjectType.Arc);
             var chainsContainer = BeatmapObjectContainerCollection.GetCollectionForType<ChainGridContainer>(ObjectType.Chain);
@@ -141,7 +141,7 @@ namespace Tests
         [Test]
         public void UpdateNoteDirection()
         {
-            var actionContainer = Object.FindObjectOfType<BeatmapActionContainer>();
+            var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var containerCollection = BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Note);
             if (containerCollection is NoteGridContainer notesContainer)
             {
@@ -173,7 +173,7 @@ namespace Tests
         [Test]
         public void UpdateNoteDirectionMergeAction()
         {
-            var actionContainer = Object.FindObjectOfType<BeatmapActionContainer>();
+            var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var notesContainer = BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
             
             var root = notesContainer.transform.root;
@@ -215,7 +215,7 @@ namespace Tests
         [Test]
         public void UpdateNoteDirectionAffectsSlider()
         {
-            var actionContainer = Object.FindObjectOfType<BeatmapActionContainer>();
+            var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var notesContainer = BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
             var arcsContainer = BeatmapObjectContainerCollection.GetCollectionForType<ArcGridContainer>(ObjectType.Arc);
             var chainsContainer = BeatmapObjectContainerCollection.GetCollectionForType<ChainGridContainer>(ObjectType.Chain);
@@ -286,7 +286,7 @@ namespace Tests
         [Test]
         public void PlacementPersistsCustomProperty()
         {
-            var actionContainer = Object.FindObjectOfType<BeatmapActionContainer>();
+            var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var containerCollection = BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Note);
             if (containerCollection is NoteGridContainer notesContainer)
             {

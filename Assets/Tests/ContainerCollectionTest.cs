@@ -178,8 +178,8 @@ namespace Tests
         [Test]
         public void Mirror_MapObjectsAreSorted([Values]bool mirrorA, [Values]bool mirrorB, [Values]bool mirrorC)
         {
-            var actionContainer = Object.FindObjectOfType<BeatmapActionContainer>();
-            var mirrorSelection = Object.FindObjectOfType<MirrorSelection>();
+            var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
+            var mirrorSelection = Object.FindAnyObjectByType<MirrorSelection>();
             var notesContainer =
                 BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
 
@@ -206,8 +206,8 @@ namespace Tests
         [Test]
         public void MirrorInTime_MapObjectsAreSorted([Values]bool mirrorA, [Values]bool mirrorB, [Values]bool mirrorC)
         {
-            var actionContainer = Object.FindObjectOfType<BeatmapActionContainer>();
-            var mirrorSelection = Object.FindObjectOfType<MirrorSelection>();
+            var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
+            var mirrorSelection = Object.FindAnyObjectByType<MirrorSelection>();
             var notesContainer =
                 BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
 
@@ -234,8 +234,8 @@ namespace Tests
         [Test]
         public void ShiftSelection_MapObjectsAreSorted([Values]bool selectA, [Values]bool selectB, [Values]bool selectC)
         {
-            var actionContainer = Object.FindObjectOfType<BeatmapActionContainer>();
-            var selectionController = Object.FindObjectOfType<SelectionController>();
+            var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
+            var selectionController = Object.FindAnyObjectByType<SelectionController>();
             var notesContainer =
                 BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
 
@@ -262,8 +262,8 @@ namespace Tests
         [Test]
         public void MoveSelection_MapObjectsAreSorted([Values]bool selectA, [Values]bool selectB, [Values]bool selectC)
         {
-            var actionContainer = Object.FindObjectOfType<BeatmapActionContainer>();
-            var selectionController = Object.FindObjectOfType<SelectionController>();
+            var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
+            var selectionController = Object.FindAnyObjectByType<SelectionController>();
             var notesContainer =
                 BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
 
@@ -290,7 +290,7 @@ namespace Tests
         [Test]
         public void MoveSelection_NoteIntegrity()
         {
-            var actionContainer = Object.FindObjectOfType<BeatmapActionContainer>();
+            var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             
             var notesContainer = BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
             var root = notesContainer.transform.root;

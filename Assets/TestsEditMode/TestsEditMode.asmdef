@@ -2,7 +2,12 @@
   "name": "TestsEditMode",
   "references": [
     "Main",
-    "Plugins"
+    "Plugins",
+    "FileBrowser",
+    "Input",
+    "Intersections",
+    "LiteNetLib",
+    "Nobi.UiRoundedCorners"
   ],
   "optionalUnityReferences": ["TestAssemblies"],
   "includePlatforms": ["Editor"]

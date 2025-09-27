@@ -26,7 +26,7 @@ namespace Tests
         [SetUp]
         public void PlaceObjects()
         {
-            var actionContainer = Object.FindObjectOfType<BeatmapActionContainer>();
+            var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var notesContainer = BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
             var eventsContainer = BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
             var bpmEventsContainer = BeatmapObjectContainerCollection.GetCollectionForType<BPMChangeGridContainer>(ObjectType.BpmChange);
@@ -173,7 +173,7 @@ namespace Tests
         [Test]
         public void ShiftSelectionOutsideVanillaGrid([Values]bool isVanillaOnlyShiftSettingEnabled)
         {
-            var selectionController = Object.FindObjectOfType<SelectionController>();
+            var selectionController = Object.FindAnyObjectByType<SelectionController>();
             var noteGridContainer = BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
             var note = noteGridContainer.MapObjects[0];
             
