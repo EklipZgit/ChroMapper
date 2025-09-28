@@ -9,6 +9,7 @@ public class BookmarkRenderingController : MonoBehaviour
 {
     [SerializeField] private BookmarkManager manager;
     [SerializeField] private Transform gridBookmarksParent;
+    [SerializeField] private Material fontMaterial;
 
     private List<CachedBookmark> renderedBookmarks = new List<CachedBookmark>();
 
@@ -45,7 +46,7 @@ public class BookmarkRenderingController : MonoBehaviour
             renderedBookmarks.Remove(bookmark);
         }
     }
-    
+
     private void DisplayRenderedBookmarks(object _) => UpdateRenderedBookmarks();
 
     private void UpdateRenderedBookmarks()
@@ -120,7 +121,8 @@ public class BookmarkRenderingController : MonoBehaviour
         text.fontSize = 0.4f;
         text.enableWordWrapping = false;
         text.raycastTarget = false;
-        text.fontMaterial.renderQueue = 3150; // Above grid and measure numbers - Below grid interface
+        text.fontMaterial = fontMaterial;
+        text.geometrySortingOrder = VertexSortingOrder.Reverse;
         SetGridBookmarkNameColor(text, bookmark.Color, bookmark.Name);
 
         return text;
@@ -143,23 +145,24 @@ public class BookmarkRenderingController : MonoBehaviour
         //Here making so bookmarks with short name have still long colored rectangle on the right to the grid
         if (text.textBounds.size.x < 2) //2 is distance between notes and lighting grid
         {
-            SetText((int)((2 - text.textBounds.size.x) / 0.0642f)); //Divided by 'space' character width for chosen fontSize
+            SetText(
+                (int)((2 - text.textBounds.size.x) / 0.0642f)); //Divided by 'space' character width for chosen fontSize
         }
 
         void SetText(int spaceNumber = 0)
         {
             string spaces = spaceNumber <= 0 ? null : new string(' ', spaceNumber);
-            //<voffset> to align the bumped up text to grid, <s> to draw a line across the grid, in the end putting transparent dot, so trailing spaces don't get trimmed, 
-            text.text = (Settings.Instance.GridBookmarksHasLine)
+            text.text = Settings.Instance.GridBookmarksHasLine
                 ? $"<mark={hex}50><voffset=0.06><s> <indent=3.92> </s></voffset> {name}{spaces}<color=#00000000>.</color>"
                 : $"<mark={hex}50><voffset=0.06> <indent=3.92> </voffset> {name}{spaces}<color=#00000000>.</color>";
         }
     }
 
     /// <summary> Returned string starts with # </summary>
-    private string HEXFromColor(Color color, bool inclAlpha = true) => inclAlpha
-        ? $"#{ColorUtility.ToHtmlStringRGBA(color)}"
-        : $"#{ColorUtility.ToHtmlStringRGB(color)}";
+    private string HEXFromColor(Color color, bool inclAlpha = true) =>
+        inclAlpha
+            ? $"#{ColorUtility.ToHtmlStringRGBA(color)}"
+            : $"#{ColorUtility.ToHtmlStringRGB(color)}";
 
     public void RefreshVisibility(float currentSongBpm, float songBpmBeatsAhead, float songBpmBeatsBehind)
     {
