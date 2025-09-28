@@ -62,7 +62,7 @@ Shader "ChroMapper/TextMeshPro/Distance Field"
 
         Tags
         {
-            "Queue"="Transparent"
+            "Queue"="Transparent-200"
             "IgnoreProjector"="True"
             "RenderType"="Transparent"
         }

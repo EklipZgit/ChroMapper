@@ -13,7 +13,7 @@
     {
         Tags
         {
-            "Queue"="Transparent-91" "RenderType"="Transparent"
+            "Queue"="Transparent-100" "RenderType"="Transparent"
         }
         LOD 100
         ZWrite Off

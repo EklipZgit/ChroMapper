@@ -13,7 +13,7 @@
     {
         Tags
         {
-            "Queue"="Transparent" "RenderType"="Transparent"
+            "Queue"="Transparent-100" "RenderType"="Transparent"
         }
         LOD 100
 

@@ -16,7 +16,7 @@ Shader "ChroMapper/Editor/Grid/Grid ZDir"
     {
         Tags
         {
-            "Queue" = "Transparent-90" "RenderType" = "Transparent"
+            "Queue" = "Transparent-100" "RenderType" = "Transparent"
         }
 
         Pass

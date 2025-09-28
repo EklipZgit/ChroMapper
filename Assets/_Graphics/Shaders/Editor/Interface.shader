@@ -17,7 +17,7 @@ Shader "ChroMapper/Editor/Interface"
     {
         Tags
         {
-            "Queue" = "Transparent"
+            "Queue" = "Transparent-100"
         }
 
         Pass

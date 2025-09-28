@@ -11,7 +11,7 @@
     {
         Tags
         {
-            "Queue"="Transparent" "RenderType"="Transparent"
+            "Queue"="Transparent-200" "RenderType"="Transparent"
         }
         LOD 100
         Blend SrcAlpha OneMinusSrcAlpha, One OneMinusSrcAlpha

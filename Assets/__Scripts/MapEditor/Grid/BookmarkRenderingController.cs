@@ -119,7 +119,7 @@ public class BookmarkRenderingController : MonoBehaviour
         text.font = PersistentUI.Instance.ButtonPrefab.Text.font;
         text.alignment = TextAlignmentOptions.Left;
         text.fontSize = 0.4f;
-        text.enableWordWrapping = false;
+        text.textWrappingMode = TextWrappingModes.NoWrap;
         text.raycastTarget = false;
         text.fontMaterial = fontMaterial;
         text.geometrySortingOrder = VertexSortingOrder.Reverse;

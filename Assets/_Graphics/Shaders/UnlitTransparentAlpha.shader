@@ -10,7 +10,8 @@
     {
         Tags
         {
-            "Queue"="Transparent-100" "RenderType"="Transparent"
+            "Queue"="Transparent"
+            "RenderType"="Transparent"
         }
 
         ZWrite Off
