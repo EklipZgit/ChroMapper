@@ -7,28 +7,37 @@ public class RefreshMapController : MonoBehaviour, CMInput.IRefreshMapActions
     [SerializeField] private MapLoader loader;
     [SerializeField] private TracksManager tracksManager;
     [SerializeField] private AudioTimeSyncController atsc;
-    [SerializeField] private TMP_FontAsset cancelFontAsset;
-    [SerializeField] private TMP_FontAsset moreOptionsFontAsset;
-    [SerializeField] private TMP_FontAsset thingYouCanRefreshFontAsset;
+    [SerializeField] private Material cancelFontMaterial;
+    [SerializeField] private Material moreOptionsFontMaterial;
+    [SerializeField] private Material thingYouCanRefreshFontMaterial;
 
     public void OnRefreshMap(InputAction.CallbackContext context)
     {
-        if (context.performed)
-            InitiateRefreshConversation();
+        if (context.performed) InitiateRefreshConversation();
     }
 
     public void InitiateRefreshConversation() =>
-        PersistentUI.Instance.ShowDialogBox("Mapper", "refreshmap",
+        PersistentUI.Instance.ShowDialogBox(
+            "Mapper",
+            "refreshmap",
             HandleFirstLayerConversation,
             new[]
             {
-                "refreshmap.notes", "refreshmap.walls", "refreshmap.events", "refreshmap.other", "refreshmap.full",
+                "refreshmap.notes",
+                "refreshmap.walls",
+                "refreshmap.events",
+                "refreshmap.other",
+                "refreshmap.full",
                 "refreshmap.cancel"
             },
             new[]
             {
-                thingYouCanRefreshFontAsset, thingYouCanRefreshFontAsset, thingYouCanRefreshFontAsset,
-                thingYouCanRefreshFontAsset, thingYouCanRefreshFontAsset, cancelFontAsset
+                thingYouCanRefreshFontMaterial,
+                thingYouCanRefreshFontMaterial,
+                thingYouCanRefreshFontMaterial,
+                thingYouCanRefreshFontMaterial,
+                thingYouCanRefreshFontMaterial,
+                cancelFontMaterial
             });
 
     private void HandleFirstLayerConversation(int res)
@@ -59,7 +68,7 @@ public class RefreshMapController : MonoBehaviour, CMInput.IRefreshMapActions
         var info = BeatSaberSongContainer.Instance.Info;
         var map = BeatSaberSongUtils.GetMapFromInfoFiles(info, infoDifficulty);
         loader.UpdateMapData(map);
-        
+
         var currentSongBpmTime = atsc.CurrentSongBpmTime;
         atsc.MoveToSongBpmTime(0);
 
@@ -101,7 +110,7 @@ public class RefreshMapController : MonoBehaviour, CMInput.IRefreshMapActions
             BeatSaberSongContainer.Instance.Map.CustomEvents = map.CustomEvents;
             loader.LoadObjects(map.CustomEvents);
         }
-        
+
         tracksManager.RefreshTracks();
         atsc.MoveToSongBpmTime(currentSongBpmTime);
     }
