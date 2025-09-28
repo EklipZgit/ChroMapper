@@ -100,7 +100,6 @@ GameObject:
   - component: {fileID: 81795784889974296}
   - component: {fileID: 114959380485549354}
   - component: {fileID: 82084598728851362}
-  - component: {fileID: -6373078572602248858}
   - component: {fileID: 6818142282442232602}
   m_Layer: 0
   m_Name: MapEditor Camera
@@ -171,7 +170,7 @@ Camera:
   m_TargetEye: 3
   m_HDR: 1
   m_AllowMSAA: 1
-  m_AllowDynamicResolution: 0
+  m_AllowDynamicResolution: 1
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
@@ -217,7 +216,7 @@ MonoBehaviour:
   customStandaloneInputModule: {fileID: 0}
   RotationCallbackController: {fileID: 0}
   Camera: {fileID: 20081004887261610}
-  urpAsset: {fileID: 0}
+  PostProcessLayer: {fileID: 6818142282442232602}
   x: 0
   y: 0
   z: 0
@@ -323,50 +322,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
---- !u!114 &-6373078572602248858
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1563302747920514}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_RenderShadows: 1
-  m_RequiresDepthTextureOption: 2
-  m_RequiresOpaqueTextureOption: 2
-  m_CameraType: 0
-  m_Cameras: []
-  m_RendererIndex: -1
-  m_VolumeLayerMask:
-    serializedVersion: 2
-    m_Bits: 1
-  m_VolumeTrigger: {fileID: 0}
-  m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
-  m_Antialiasing: 0
-  m_AntialiasingQuality: 2
-  m_StopNaN: 0
-  m_Dithering: 0
-  m_ClearDepth: 1
-  m_AllowXRRendering: 1
-  m_AllowHDROutput: 1
-  m_UseScreenCoordOverride: 0
-  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
-  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
-  m_RequiresDepthTexture: 0
-  m_RequiresColorTexture: 0
-  m_Version: 2
-  m_TaaSettings:
-    m_Quality: 3
-    m_FrameInfluence: 0.1
-    m_JitterScale: 1
-    m_MipBias: 0
-    m_VarianceClampScale: 0.9
-    m_ContrastAdaptiveSharpening: 0
 --- !u!114 &6818142282442232602
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -383,7 +338,7 @@ MonoBehaviour:
   volumeLayer:
     serializedVersion: 2
     m_Bits: 2147483648
-  stopNaNPropagation: 1
+  stopNaNPropagation: 0
   finalBlitToCameraTarget: 0
   antialiasingMode: 0
   temporalAntialiasing:
@@ -426,8 +381,7 @@ MonoBehaviour:
   breakBeforeColorGrading: 0
   m_BeforeTransparentBundles: []
   m_BeforeStackBundles:
-  - assemblyQualifiedName: CustomBloom, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+  - assemblyQualifiedName: CustomBloom, Main, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   m_AfterStackBundles:
-  - assemblyQualifiedName: CustomTonemapping, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+  - assemblyQualifiedName: CustomTonemapping, Main, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
