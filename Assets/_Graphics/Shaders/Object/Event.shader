@@ -5,7 +5,7 @@ Shader "ChroMapper/Object/Event"
     Properties
     {
         _ColorTint("Color Tint", Color) = (1, 0, 0, 0)
-        _ColorBase("Base Color", Color) = (0, 0, 0, 0)
+        _Color("Base Color", Color) = (0, 0, 0, 0)
         _Position("Point Position", Vector) = (0, 0, 0, 0)
         _CircleRadius("Spotlight Size", Float) = 0.2
         _FadeSize("Fade Size", Float) = 0.5
@@ -31,7 +31,7 @@ Shader "ChroMapper/Object/Event"
 
             UNITY_INSTANCING_BUFFER_START(Props)
                UNITY_DEFINE_INSTANCED_PROP(fixed4, _ColorTint)
-               UNITY_DEFINE_INSTANCED_PROP(fixed4, _ColorBase)
+               UNITY_DEFINE_INSTANCED_PROP(fixed4, _Color)
                UNITY_DEFINE_INSTANCED_PROP(fixed4, _Position)
                UNITY_DEFINE_INSTANCED_PROP(fixed, _CircleRadius)
                UNITY_DEFINE_INSTANCED_PROP(fixed, _FadeSize)
@@ -72,7 +72,7 @@ Shader "ChroMapper/Object/Event"
 
                 fixed4 position = UNITY_ACCESS_INSTANCED_PROP(Props, _Position);
                 fixed4 colorTint = UNITY_ACCESS_INSTANCED_PROP(Props, _ColorTint);
-                fixed4 colorBase = UNITY_ACCESS_INSTANCED_PROP(Props, _ColorBase);
+                fixed4 colorBase = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
                 fixed circleRadius = UNITY_ACCESS_INSTANCED_PROP(Props, _CircleRadius);
                 fixed fadeSize = UNITY_ACCESS_INSTANCED_PROP(Props, _FadeSize);
                 fixed mainAlpha = UNITY_ACCESS_INSTANCED_PROP(Props, _MainAlpha);

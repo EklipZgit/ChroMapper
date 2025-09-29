@@ -16,8 +16,8 @@ namespace Beatmap.Containers
         /// </summary>
         public static int ModifyTypeMode = 0;
 
-        private static readonly int colorBase = Shader.PropertyToID("_ColorBase");
-        private static readonly int colorTint = Shader.PropertyToID("_ColorTint");
+        private static readonly int shaderIdColor = Shader.PropertyToID("_Color");
+        private static readonly int shaderIdColorTint = Shader.PropertyToID("_ColorTint");
         private static readonly int position = Shader.PropertyToID("_Position");
         private static readonly int mainAlpha = Shader.PropertyToID("_MainAlpha");
         private static readonly int fadeSize = Shader.PropertyToID("_FadeSize");
@@ -121,13 +121,13 @@ namespace Beatmap.Containers
 
         public void ChangeColor(Color c, bool updateMaterials = true)
         {
-            MaterialPropertyBlock.SetColor(colorTint, c);
+            MaterialPropertyBlock.SetColor(shaderIdColorTint, c);
             if (updateMaterials) UpdateMaterials();
         }
 
         public void ChangeBaseColor(Color c, bool updateMaterials = true)
         {
-            MaterialPropertyBlock.SetColor(colorBase, c);
+            MaterialPropertyBlock.SetColor(shaderIdColor, c);
             if (updateMaterials) UpdateMaterials();
         }
 

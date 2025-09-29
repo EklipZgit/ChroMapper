@@ -5,17 +5,30 @@ Shader "ChroMapper/Object/Note"
 {
     Properties
     {
-        _OutlineWidth("OutlineWidth", Float) = 0.05
-        _TranslucentAlpha("TranslucentAlpha", Float) = 0.5
-        _OpaqueAlpha("OpaqueAlpha", Float) = 1
-        _Color("NoteColor", Color) = (0, 0, 0, 0)
-        _ColorMult("NoteColorMult", Float) = 1
-        _OverNoteInterfaceColor("OverNoteInterfaceColor", Color) = (1, 1, 1, 0)
+        _Color("Color", Color) = (0, 0, 0, 0)
+        _MainTex("Texture", 2D) = "white" {}
+        _Glow("Glow", Range(0, 1)) = 0.0
+
+        [Space(10)]
+        _OutlineWidth("Outline Width", Float) = 0.05
+        _OverNoteInterfaceColor("Over Note Interface Color", Color) = (1, 1, 1, 0)
         _Rotation("Rotation", Float) = 0
         _ObjectTime("Object Time", Float) = 0
         [Toggle] _Lit("Lit", Float) = 0
-        [Toggle] _AlwaysTranslucent("AlwaysTranslucent", Float) = 0
-        _AnimationSpawned("AnimationSpawned", Float) = 0
+        _AnimationSpawned("Animation Spawned", Float) = 0
+
+        [Header(Beat Saber)]
+        [Space(10)]
+        _Cutout("Cutout", Range(0, 1)) = 0.0
+        _CutoutEdgeWidth("Cutout Edge Width", Range(0, 0.2)) = 0.05
+        _CutoutEdgeGlow("Cutout Edge Glow", Range(0, 1)) = 0.5
+        _CutoutTexOffset("Cutout Tex Offset", Vector) = (0, 0, 0, 0)
+        _CutPlane("Cut Plane", Vector) = (0, 0, 0, 0)
+
+        [Header(Editor)]
+        [Space(10)]
+        [Toggle] _AlwaysTranslucent("Always Translucent", Float) = 0.0
+        _TranslucentAlpha("Translucent Alpha", Float) = 0.5
     }
     SubShader
     {
@@ -26,21 +39,26 @@ Shader "ChroMapper/Object/Note"
 
         HLSLINCLUDE
         #include "UnityPBSLighting.cginc"
+        #include "../CGIncludes/Noise.cginc"
         #pragma multi_compile_instancing
 
         UNITY_INSTANCING_BUFFER_START(Props)
             UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
             UNITY_DEFINE_INSTANCED_PROP(float4, _OverNoteInterfaceColor)
-            UNITY_DEFINE_INSTANCED_PROP(float, _ColorMult)
             UNITY_DEFINE_INSTANCED_PROP(float, _OutlineWidth)
             UNITY_DEFINE_INSTANCED_PROP(float, _TranslucentAlpha)
-            UNITY_DEFINE_INSTANCED_PROP(float, _OpaqueAlpha)
+            UNITY_DEFINE_INSTANCED_PROP(float, _Cutout)
+            UNITY_DEFINE_INSTANCED_PROP(float4, _CutoutTexOffset)
             UNITY_DEFINE_INSTANCED_PROP(float, _Rotation)
             UNITY_DEFINE_INSTANCED_PROP(float, _Lit)
             UNITY_DEFINE_INSTANCED_PROP(float, _AlwaysTranslucent)
             UNITY_DEFINE_INSTANCED_PROP(float, _AnimationSpawned)
             UNITY_DEFINE_INSTANCED_PROP(float, _ObjectTime)
         UNITY_INSTANCING_BUFFER_END(Props)
+        
+        float _Glow;
+        float _CutoutEdgeGlow;
+        float _CutoutEdgeWidth;
         ENDHLSL
 
         Pass
@@ -50,6 +68,7 @@ Shader "ChroMapper/Object/Note"
             {
                 "LightMode" = "ForwardBase"
             }
+            Cull Off
 
             HLSLPROGRAM
             // Required to compile gles 2.0 with standard SRP library
@@ -98,6 +117,7 @@ Shader "ChroMapper/Object/Note"
                 float4 screenPos : POSITION1;
                 float4 rotatedPos : POSITION2;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
+                float4 localPos : TEXCOORD0;
                 float3 worldPos : TEXCOORD2;
                 float3 worldNormal : TEXCOORD3;
             };
@@ -141,6 +161,7 @@ Shader "ChroMapper/Object/Note"
                 // necessary only if you want to access instanced properties in the fragment Shader.
 
                 o.vertex = UnityObjectToClipPos(i.vertex);
+                o.localPos = i.vertex;
 
                 o.screenPos = ComputeScreenPos(o.vertex);
                 o.worldPos = mul(unity_ObjectToWorld, i.vertex).xyz;
@@ -186,8 +207,6 @@ Shader "ChroMapper/Object/Note"
             {
                 UNITY_SETUP_INSTANCE_ID(i);
 
-                float3 worldNormal = normalize(i.worldNormal);
-
                 float isTranslucent = UNITY_ACCESS_INSTANCED_PROP(Props, _AlwaysTranslucent);
                 float4 interfaceColor = UNITY_ACCESS_INSTANCED_PROP(Props, _OverNoteInterfaceColor);
                 float4 noteColor = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
@@ -195,8 +214,9 @@ Shader "ChroMapper/Object/Note"
                 float lit = UNITY_ACCESS_INSTANCED_PROP(Props, _Lit);
                 float animation = UNITY_ACCESS_INSTANCED_PROP(Props, _AnimationSpawned);
                 float translucentAlpha = UNITY_ACCESS_INSTANCED_PROP(Props, _TranslucentAlpha);
-                float opaqueAlpha = UNITY_ACCESS_INSTANCED_PROP(Props, _OpaqueAlpha);
-                float colorMult = UNITY_ACCESS_INSTANCED_PROP(Props, _ColorMult);
+                float cutout = UNITY_ACCESS_INSTANCED_PROP(Props, _Cutout);
+                float4 cutoutTexOffset = UNITY_ACCESS_INSTANCED_PROP(Props, _CutoutTexOffset);
+                float cutoutEdgeWidth = _CutoutEdgeWidth;
                 
                 float rotatedZ = abs(i.rotatedPos.z);
 
@@ -213,10 +233,19 @@ Shader "ChroMapper/Object/Note"
 
                 float alpha = animation < 1 && (isTranslucent >= 1 || i.rotatedPos.w <= 0)
                                   ? translucentAlpha
-                                  : opaqueAlpha;
+                                  : 1;
 
                 clip(isDithered(i.screenPos.xy / i.screenPos.w, alpha));
-
+ 
+                float c = 0;
+                float noise = simplex((i.localPos + cutoutTexOffset.xyz) * 2);
+                c = noise - cutout;
+                clip(c);
+                if (c < cutoutEdgeWidth) {
+                    return float4(length(albedo.rgb) / 2 + albedo.rgb, _CutoutEdgeGlow);
+                }
+                
+                float3 worldNormal = normalize(i.worldNormal);
 
                 fixed3 lightDirection = normalize(_WorldSpaceLightPos0.xyz);
                 fixed3 lightColor = _LightColor0.rgb;
@@ -225,7 +254,7 @@ Shader "ChroMapper/Object/Note"
                 fixed3 color = albedo.rgb * UNITY_LIGHTMODEL_AMBIENT.rgb;
                 color += diffuse * lightColor * albedo.rgb;
 
-                return float4(color * colorMult, 0);
+                return float4(color, noteColor.a * _Glow);
             }
             ENDHLSL
         }

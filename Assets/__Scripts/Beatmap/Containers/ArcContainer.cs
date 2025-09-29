@@ -7,11 +7,13 @@ namespace Beatmap.Containers
 {
     public class ArcContainer : ObjectContainer
     {
-        private const float splineControlPointScaleFactor = 2.5f / 0.6f; // 2.5 multiplier used by game, divide by 0.6 to scale to cm units
+        private const float
+            splineControlPointScaleFactor =
+                2.5f / 0.6f; // 2.5 multiplier used by game, divide by 0.6 to scale to cm units
+
         internal const float arcEmissionIntensity = 6;
         private const int numSamples = 30;
 
-        private static readonly int emissionColor = Shader.PropertyToID("_ColorTint");
         private static readonly int lit = Shader.PropertyToID("_Lit");
         private static readonly int translucentAlpha = Shader.PropertyToID("_TranslucentAlpha");
 
@@ -30,6 +32,7 @@ namespace Beatmap.Containers
             var position = ArcData.GetPosition();
             return new Vector3(position.x, position.y + offsetY, 0f);
         }
+
         public Vector3 p1()
         {
             var headPosition = ArcData.GetPosition();
@@ -40,7 +43,8 @@ namespace Beatmap.Containers
 
             var zRads = Mathf.Deg2Rad * NoteContainer.Directionalize(ArcData.CutDirection).z;
             var headDirection = new Vector2(Mathf.Sin(zRads), -Mathf.Cos(zRads));
-            var nodePosition = headPosition + headDirection * ArcData.HeadControlPointLengthMultiplier * splineControlPointScaleFactor;
+            var nodePosition = headPosition
+                + headDirection * ArcData.HeadControlPointLengthMultiplier * splineControlPointScaleFactor;
             return new Vector3(nodePosition.x, nodePosition.y + offsetY, 0f);
         }
 
@@ -49,26 +53,39 @@ namespace Beatmap.Containers
             var tailPosition = ArcData.GetTailPosition();
             if (ArcData.TailCutDirection == (int)NoteCutDirection.Any)
             {
-                return new Vector3(tailPosition.x, tailPosition.y + offsetY, (ArcData.TailSongBpmTime - ArcData.SongBpmTime) * EditorScaleController.EditorScale);
+                return new Vector3(
+                    tailPosition.x,
+                    tailPosition.y + offsetY,
+                    (ArcData.TailSongBpmTime - ArcData.SongBpmTime) * EditorScaleController.EditorScale);
             }
 
             var zRads = Mathf.Deg2Rad * NoteContainer.Directionalize(ArcData.TailCutDirection).z;
             var tailDirection = new Vector2(Mathf.Sin(zRads), -Mathf.Cos(zRads));
-            var tailNodePosition = tailPosition - tailDirection * ArcData.TailControlPointLengthMultiplier * splineControlPointScaleFactor;
-            return new Vector3(tailNodePosition.x, tailNodePosition.y + offsetY, (ArcData.TailSongBpmTime - ArcData.SongBpmTime) * EditorScaleController.EditorScale);
+            var tailNodePosition = tailPosition
+                - tailDirection * ArcData.TailControlPointLengthMultiplier * splineControlPointScaleFactor;
+            return new Vector3(
+                tailNodePosition.x,
+                tailNodePosition.y + offsetY,
+                (ArcData.TailSongBpmTime - ArcData.SongBpmTime) * EditorScaleController.EditorScale);
         }
 
         public Vector3 p3()
         {
             var tailPosition = ArcData.GetTailPosition();
-            return new Vector3(tailPosition.x, tailPosition.y + offsetY, (ArcData.TailSongBpmTime - ArcData.SongBpmTime) * EditorScaleController.EditorScale);
+            return new Vector3(
+                tailPosition.x,
+                tailPosition.y + offsetY,
+                (ArcData.TailSongBpmTime - ArcData.SongBpmTime) * EditorScaleController.EditorScale);
         }
 
         // B(t) = (1-t)^3 p0 + 3(1-t)^2 t p1 + 3(1-t)t^2 p2 + t^3 p3
         Vector3 SampleCubicBezierPoint(Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3, float t)
         {
             var tDiff = 1 - t;
-            return (Mathf.Pow(tDiff, 3) * p0) + (3 * Mathf.Pow(tDiff, 2) * t * p1) + (3 * tDiff * Mathf.Pow(t, 2) * p2) + (Mathf.Pow(t, 3) * p3);
+            return (Mathf.Pow(tDiff, 3) * p0)
+                + (3 * Mathf.Pow(tDiff, 2) * t * p1)
+                + (3 * tDiff * Mathf.Pow(t, 2) * p2)
+                + (Mathf.Pow(t, 3) * p3);
         }
 
         public override BaseObject ObjectData
@@ -126,21 +143,30 @@ namespace Beatmap.Containers
             var p3 = this.p3();
 
             var useMidAnchorMode = ArcData.MidAnchorMode != (int)SliderMidAnchorMode.Straight
-                                   && ArcData.CutDirection != (int)NoteCutDirection.Any
-                                   && ArcData.PosX == ArcData.TailPosX
-                                   && (ArcData.CutDirection == ArcData.TailCutDirection
-                                       || Mathf.Approximately(180f,
-                                           Mathf.Abs(NoteContainer.Directionalize(ArcData.CutDirection).z -
-                                                     NoteContainer.Directionalize(ArcData.TailCutDirection).z)));
+                && ArcData.CutDirection != (int)NoteCutDirection.Any
+                && ArcData.PosX == ArcData.TailPosX
+                && (ArcData.CutDirection == ArcData.TailCutDirection
+                    || Mathf.Approximately(
+                        180f,
+                        Mathf.Abs(
+                            NoteContainer.Directionalize(ArcData.CutDirection).z
+                            - NoteContainer.Directionalize(ArcData.TailCutDirection).z)));
             if (useMidAnchorMode)
             {
                 var (headToMidControl, midPoint, midToTailControl) = GetMidAnchorPoints(p0, p1, p2, p3);
 
                 for (int i = 0; i <= numSamples; i++)
                 {
-                    splineRenderer.SetPosition(i, i <= numSamples / 2
-                        ? SampleCubicBezierPoint(p0, p1, headToMidControl, midPoint, (float)i / numSamples * 2)
-                        : SampleCubicBezierPoint(midPoint, midToTailControl, p2, p3, ((float)i / numSamples * 2) - 1));
+                    splineRenderer.SetPosition(
+                        i,
+                        i <= numSamples / 2
+                            ? SampleCubicBezierPoint(p0, p1, headToMidControl, midPoint, (float)i / numSamples * 2)
+                            : SampleCubicBezierPoint(
+                                midPoint,
+                                midToTailControl,
+                                p2,
+                                p3,
+                                ((float)i / numSamples * 2) - 1));
                 }
             }
             else
@@ -156,7 +182,10 @@ namespace Beatmap.Containers
         }
 
         private (Vector3 headToMidControl, Vector3 midPoint, Vector3 midToTailControl) GetMidAnchorPoints(
-            Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3)
+            Vector3 p0,
+            Vector3 p1,
+            Vector3 p2,
+            Vector3 p3)
         {
             // Yoinked from ArcViewer :smil:
             const float midPointRotationDeg = 90f;
@@ -174,13 +203,20 @@ namespace Beatmap.Containers
 
             // Directionless arcs shouldn't offset the midpoint at all
             var headAngle = NoteContainer.Directionalize(ArcData.CutDirection).z;
-            var headCutDirection = new Vector2(Mathf.Sin((headAngle + midPointRotation) * Mathf.Deg2Rad),
+            var headCutDirection = new Vector2(
+                Mathf.Sin((headAngle + midPointRotation) * Mathf.Deg2Rad),
                 -Mathf.Cos((headAngle + midPointRotation) * Mathf.Deg2Rad));
             midPoint += (Vector3)headCutDirection * midPointOffset;
 
             // Calculate the control points to use for the midPoint
-            var p1Dist = new Vector3(Mathf.Abs(midPoint.x - p1.x), Mathf.Abs(midPoint.y - p1.y), Mathf.Abs(midPoint.z - p1.z));
-            var p2Dist = new Vector3(Mathf.Abs(midPoint.x - p2.x), Mathf.Abs(midPoint.y - p2.y), Mathf.Abs(midPoint.z - p2.z));
+            var p1Dist = new Vector3(
+                Mathf.Abs(midPoint.x - p1.x),
+                Mathf.Abs(midPoint.y - p1.y),
+                Mathf.Abs(midPoint.z - p1.z));
+            var p2Dist = new Vector3(
+                Mathf.Abs(midPoint.x - p2.x),
+                Mathf.Abs(midPoint.y - p2.y),
+                Mathf.Abs(midPoint.z - p2.z));
 
             var isEqualXOffset = Mathf.Approximately(p1.x, p2.x);
             var isEqualYOffset = Mathf.Approximately(p1.y, p2.y);
@@ -210,7 +246,6 @@ namespace Beatmap.Containers
         public void SetColor(Color c)
         {
             MaterialPropertyBlock.SetColor(color, c);
-            MaterialPropertyBlock.SetColor(emissionColor, c * arcEmissionIntensity);
             UpdateMaterials();
         }
 

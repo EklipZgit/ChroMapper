@@ -2,10 +2,10 @@
 {
     Properties
     {
-        _ColorTint("Base Color", Color) = (0.5, 0, 0, 0)
-        _FadeSize("Fade Size", Float) = 1
-        _MainAlpha("Main Alpha", Float) = 1
-        _Rotation("Rotation", Float) = 0
+        _Color("Base Color", Color) = (0.5, 0, 0, 0)
+        _FadeSize("Fade Size", Range(0, 10)) = 5
+        _MainAlpha("Main Alpha", Range(0, 1)) = 1.0
+        [HideInInspector] _Rotation("Rotation", Float) = 0
     }
     SubShader
     {
@@ -39,7 +39,7 @@
                 UNITY_DEFINE_INSTANCED_PROP(float, _MainAlpha)
                 UNITY_DEFINE_INSTANCED_PROP(float, _Rotation)
                 UNITY_DEFINE_INSTANCED_PROP(float, _FadeSize)
-                UNITY_DEFINE_INSTANCED_PROP(float4, _ColorTint)
+                UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
             UNITY_INSTANCING_BUFFER_END(Props)
 
             struct appdata
@@ -95,7 +95,7 @@
 
                 /// Coloring ///
                 float mainAlpha = UNITY_ACCESS_INSTANCED_PROP(Props, _MainAlpha);
-                float4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _ColorTint);
+                float4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
 
                 float mag = length(color);
 

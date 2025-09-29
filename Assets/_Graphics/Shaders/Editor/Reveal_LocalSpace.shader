@@ -4,7 +4,7 @@
     {
         _MainTex ("SelfIllum Color (RGB) Alpha (A)", 2D) = "white" {}
         _ColorTint ("Color Tint", Color) = (1, 0, 0, 0)
-        _ColorBase ("Base Color", Color) = (0, 0, 0, 0)
+        _Color ("Base Color", Color) = (0, 0, 0, 0)
         _Position("Point Position", vector) = (0, 0, 0, 0)
         _CircleRadius("Spotlight Size", Range(0, 20)) = 0.2
         _FadeSize("Fade Size", Range(0, 5)) = 0.5
@@ -51,7 +51,7 @@
             float _FadeSize;
             float _MainAlpha;
             float4 _ColorTint;
-            float4 _ColorBase;
+            float4 _Color;
 
             v2f vert(appdata v)
             {
@@ -76,9 +76,9 @@
                 if (i.dist > _CircleRadius && i.dist < _CircleRadius + _FadeSize)
                 {
                     float blendStrength = i.dist - _CircleRadius;
-                    col = lerp(_ColorTint, _ColorBase, blendStrength / _FadeSize);
+                    col = lerp(_ColorTint, _Color, blendStrength / _FadeSize);
                 }
-                else if (i.dist > _CircleRadius + _FadeSize) col = _ColorBase;
+                else if (i.dist > _CircleRadius + _FadeSize) col = _Color;
 
                 return col;
             }

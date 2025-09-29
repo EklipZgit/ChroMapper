@@ -61,6 +61,9 @@ Material:
     - _ColorMult: 1
     - _Cull: 2
     - _Cutoff: 0.5
+    - _Cutout: 0
+    - _CutoutEdgeGlow: 0.5
+    - _CutoutEdgeWidth: 0.02
     - _DstBlend: 0
     - _Editor_IsPlaying: 0
     - _EnableAlphaTest: 0
@@ -69,6 +72,7 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
+    - _Glow: 0
     - _Lit: 0
     - _Metallic: 0
     - _ObjectTime: 0
@@ -88,6 +92,8 @@ Material:
     m_Colors:
     - _BaseColor: {r: 0.15294118, g: 0.15294118, b: 0.15294118, a: 1}
     - _Color: {r: 0.15294118, g: 0.15294118, b: 0.15294118, a: 1}
+    - _CutPlane: {r: 0, g: 0, b: 0, a: 0}
+    - _CutoutTexOffset: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _NoteColor: {r: 0, g: 0, b: 0, a: 0}
     - _OverNoteInterfaceColor: {r: 1, g: 1, b: 1, a: 0}
