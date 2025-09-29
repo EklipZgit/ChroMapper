@@ -66,13 +66,7 @@ namespace Beatmap.Appearances
                 _ => regularMaterial,
             };
 
-            var colorKeyword = shader switch
-            {
-                ShaderType.OpaqueLight => "_EmissionColor",
-                ShaderType.TransparentLight => "_EmissionColor",
-                ShaderType.Obstacle => "_ColorTint",
-                _ => "_Color",
-            };
+            var colorKeyword = Shader.PropertyToID("_Color");
 
             if (basemat.Color is Color color)
             {
@@ -82,7 +76,7 @@ namespace Beatmap.Appearances
             // For animating material color
             if (basemat.Track is string track)
             {
-                container.MaterialAnimator.AttachToMaterial(container, track, colorKeyword);
+                container.MaterialAnimator.AttachToMaterial(container, track);
             }
 
             meshRenderer.sharedMaterial = material;

@@ -46,14 +46,13 @@ namespace Beatmap.Animations
         };
 
         public TargetTypes TargetType;
-
-        public string ColorKeyword = "_Color";
-
+        
         private List<TrackAnimator> tracks = new List<TrackAnimator>();
 
         public Dictionary<string, IAnimateProperty> AnimatedProperties = new Dictionary<string, IAnimateProperty>();
         private IAnimateProperty[] properties = new IAnimateProperty[0];
 
+        private static readonly int colorKeyword = Shader.PropertyToID("_Color");
         private static readonly int opaqueAlpha = Shader.PropertyToID("_OpaqueAlpha");
         private static readonly int animationSpawned = Shader.PropertyToID("_AnimationSpawned");
         private static readonly int alwaysOpaque = Shader.PropertyToID("_AlwaysOpaque");
@@ -85,7 +84,7 @@ namespace Beatmap.Animations
             WorldPosition = new Aggregator<Vector3>(Vector3.zero, (a, b) => a + b);
             Scale = new Aggregator<Vector3>(Vector3.one, (a, b) => Vector3.Scale(a, b));
             Colors = new Aggregator<Color>(
-                container?.MaterialPropertyBlock?.GetColor(ColorKeyword) ?? Color.white,
+                container?.MaterialPropertyBlock?.GetColor(colorKeyword) ?? Color.white,
                 (a, b) => a * b);
             Opacity = new Aggregator<float>(1.0f, (a, b) => a * b);
             OpacityArrow = new Aggregator<float>(1.0f, (a, b) => a * b);
@@ -135,9 +134,6 @@ namespace Beatmap.Animations
             ResetData();
 
             TargetType = TargetTypes.GameplayObject;
-            ColorKeyword = (container is ObstacleContainer)
-                ? "_ColorTint"
-                : "_Color";
 
             enabled = (UIMode.AnimationMode && TracksManager != null);
             if (!enabled) return;
@@ -309,13 +305,12 @@ namespace Beatmap.Animations
             Atsc.TimeChanged += OnTimeChanged;
         }
 
-        public void AttachToMaterial(GeometryContainer con, string track, string colorKeyword)
+        public void AttachToMaterial(GeometryContainer con, string track)
         {
             ResetData();
 
             TargetType = TargetTypes.Material;
             container = con;
-            ColorKeyword = colorKeyword;
 
             enabled = true;
             AddParent(track);
@@ -388,7 +383,7 @@ namespace Beatmap.Animations
                 if (Colors.Count > 0)
                 {
                     var color = Colors.Get();
-                    container.MaterialPropertyBlock.SetColor(ColorKeyword, color);
+                    container.MaterialPropertyBlock.SetColor(colorKeyword, color);
                     container.UpdateMaterials();
                 }
                 return;
@@ -426,7 +421,7 @@ namespace Beatmap.Animations
                 {
                     var color = Colors.Get();
                     container.MaterialPropertyBlock
-                        .SetColor(ColorKeyword, color);
+                        .SetColor(colorKeyword, color);
                 }
 
                 if (container is NoteContainer nc)

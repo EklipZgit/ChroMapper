@@ -5,7 +5,7 @@ namespace Beatmap.Containers
 {
     public class ObstacleContainer : ObjectContainer
     {
-        private static readonly int colorTint = Shader.PropertyToID("_ColorTint");
+        private static readonly int colorKeyword = Shader.PropertyToID("_Color");
         private static readonly int shaderScale = Shader.PropertyToID("_WorldScale");
         private static readonly int handleScale = Shader.PropertyToID("_HandleScale");
 
@@ -32,7 +32,7 @@ namespace Beatmap.Containers
 
         public void SetColor(Color c)
         {
-            MaterialPropertyBlock.SetColor(colorTint, c);
+            MaterialPropertyBlock.SetColor(colorKeyword, c);
             UpdateMaterials();
         }
 

@@ -2,7 +2,7 @@
 {
     Properties
     {
-        _ColorTint("Base Color", Color) = (0.5, 0, 0, 0)
+        _Color("Base Color", Color) = (0.5, 0, 0, 0)
         _FadeSize("Fade Size", Float) = 1
         _OpaqueAlpha("OpaqueAlpha", Float) = 1
         _Rotation("Rotation", Float) = 0
@@ -41,7 +41,7 @@
                 UNITY_DEFINE_INSTANCED_PROP(float, _OpaqueAlpha)
                 UNITY_DEFINE_INSTANCED_PROP(float, _Rotation)
                 UNITY_DEFINE_INSTANCED_PROP(float, _FadeSize)
-                UNITY_DEFINE_INSTANCED_PROP(float4, _ColorTint)
+                UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
                 UNITY_DEFINE_INSTANCED_PROP(float4, _WorldScale)
                 UNITY_DEFINE_INSTANCED_PROP(float, _AnimationSpawned)
             UNITY_INSTANCING_BUFFER_END(Props)
@@ -101,10 +101,9 @@
                 UNITY_SETUP_INSTANCE_ID(i);
 
                 float mainAlpha = _MainAlpha;
-                mainAlpha *= UNITY_ACCESS_INSTANCED_PROP(Props, _OpaqueAlpha);
 
                 /// Coloring ///
-                float4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _ColorTint);
+                float4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
 
                 float mag = length(color);
 
@@ -150,7 +149,7 @@
                 UNITY_DEFINE_INSTANCED_PROP(float, _OpaqueAlpha)
                 UNITY_DEFINE_INSTANCED_PROP(float, _Rotation)
                 UNITY_DEFINE_INSTANCED_PROP(float, _FadeSize)
-                UNITY_DEFINE_INSTANCED_PROP(float4, _ColorTint)
+                UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
                 UNITY_DEFINE_INSTANCED_PROP(float4, _WorldScale)
                 UNITY_DEFINE_INSTANCED_PROP(float, _AnimationSpawned)
             UNITY_INSTANCING_BUFFER_END(Props)
@@ -237,7 +236,7 @@
                 }
 
                 float opaqueAlpha = UNITY_ACCESS_INSTANCED_PROP(Props, _OpaqueAlpha);
-                float4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _ColorTint);
+                float4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
 
                 return float4(color.rgb, 0.05);
             }
