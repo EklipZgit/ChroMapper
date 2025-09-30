@@ -307,6 +307,19 @@ public class PlatformDescriptor : MonoBehaviour
         return mark;
     }
 
+    private bool RemoveEvents(IEnumerable<(BaseEvent reference, BaseEvent original)> events)
+    {
+        var mark = false;
+        foreach (var (reference, original) in events)
+        {
+            if (!eventTypeManagerMap.TryGetValue(original.Type, out var managers)) continue;
+            managers.ForEach(manager => manager.RemoveEvent(reference));
+            mark = true;
+        }
+
+        return mark;
+    }
+
     private bool RemoveEvents(IEnumerable<BaseEvent> events)
     {
         var mark = false;
@@ -414,9 +427,9 @@ public class PlatformDescriptor : MonoBehaviour
     private bool HandleModifiedActionRedo(BeatmapObjectModifiedAction action)
     {
         var b = RemoveEvents(
-            new List<BaseObject> { action.OriginalObject }
-                .Where(d => d is BaseEvent)
-                .Cast<BaseEvent>());
+            new List<(BaseObject, BaseObject)> { (action.OriginalObject, action.OriginalData) }
+                .Where(d => d is { Item1: BaseEvent, Item2: BaseEvent })
+                .Select(d => (d.Item1 as BaseEvent, d.Item2 as BaseEvent)));
         return AddEvents(
                 new List<BaseObject> { action.EditedObject }
                     .Where(d => d is BaseEvent)
@@ -553,9 +566,9 @@ public class PlatformDescriptor : MonoBehaviour
     private bool HandleModifiedActionUndo(BeatmapObjectModifiedAction action)
     {
         var b = RemoveEvents(
-            new List<BaseObject> { action.EditedObject }
-                .Where(d => d is BaseEvent)
-                .Cast<BaseEvent>());
+            new List<(BaseObject, BaseObject)> { (action.EditedObject, action.EditedData) }
+                .Where(d => d is { Item1: BaseEvent, Item2: BaseEvent })
+                .Select(d => (d.Item1 as BaseEvent, d.Item2 as BaseEvent)));
         return AddEvents(
                 new List<BaseObject> { action.OriginalObject }
                     .Where(d => d is BaseEvent)
