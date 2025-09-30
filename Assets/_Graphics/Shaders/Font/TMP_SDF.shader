@@ -59,14 +59,6 @@ Shader "ChroMapper/TextMeshPro/Distance Field"
 
     SubShader
     {
-
-        Tags
-        {
-            "Queue"="Transparent-200"
-            "IgnoreProjector"="True"
-            "RenderType"="Transparent"
-        }
-
         Stencil
         {
             Ref [_Stencil]
@@ -77,13 +69,11 @@ Shader "ChroMapper/TextMeshPro/Distance Field"
         }
 
         Cull [_CullMode]
-        ZWrite Off
         Lighting Off
         Fog
         {
             Mode Off
         }
-        ZTest [unity_GUIZTestMode]
         ColorMask [_ColorMask]
 
         Pass
