@@ -5,6 +5,9 @@ Shader "ChroMapper/Post Process/Bloom"
     #include "Packages/com.unity.postprocessing/PostProcessing/Shaders/StdLib.hlsl"
     #include "Packages/com.unity.postprocessing/PostProcessing/Shaders/Colors.hlsl"
     #include "Packages/com.unity.postprocessing/PostProcessing/Shaders/Sampling.hlsl"
+    #include "../CGIncludes/CustomTonemapping.cginc"
+    #pragma multi_compile REINHARD_TONE_MAPPING
+    #pragma multi_compile BLOOM_TOWARDS_WHITE
 
     TEXTURE2D_SAMPLER2D(_MainTex, sampler_MainTex);
     TEXTURE2D_SAMPLER2D(_BloomTex, sampler_BloomTex);
@@ -16,8 +19,8 @@ Shader "ChroMapper/Post Process/Bloom"
     float4 FragPrefilter(VaryingsDefault i) : SV_Target
     {
         float4 color = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.texcoord);
-        color.rgb *= color.a * _Intensity;
-        return SafeHDR(color);
+        color.rgb *= color.a;
+        return color;
     }
 
     float4 FragDownsample13(VaryingsDefault i) : SV_Target
@@ -35,11 +38,10 @@ Shader "ChroMapper/Post Process/Bloom"
             UnityStereoAdjustedTexelSize(_MainTex_TexelSize).xy);
         return color;
     }
-
-
-    float4 Combine(float4 bloom, float2 uv)
+    
+    float4 Combine(float4 bloom, float2 uv, float intensity = 1)
     {
-        float4 color = SAMPLE_TEXTURE2D(_BloomTex, sampler_BloomTex, uv);
+        float4 color = SAMPLE_TEXTURE2D(_BloomTex, sampler_BloomTex, uv) * intensity;
         return bloom + color;
     }
 
@@ -63,9 +65,17 @@ Shader "ChroMapper/Post Process/Bloom"
     {
         float4 color = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.texcoord);
 
+        #if BLOOM_TOWARDS_WHITE
+        // give whiteness to glowing material
         float mag = length(color.rgb);
-        color.rgb += float3(1, 1, 1) * mag * color.a;
-        return Combine(color, i.texcoordStereo);
+        color.rgb += float3(1.0, 1.0, 1.0) * mag * color.a;
+        #endif
+        
+        color = Combine(color, i.texcoordStereo, _Intensity);
+        
+        REINHARD_TONE_MAPPING_APPLY(color);
+        
+        return float4(color.rgb, 1.0);
     }
 
     float4 Frag(VaryingsDefault i) : SV_Target

@@ -3,8 +3,9 @@ Shader "ChroMapper/Post Process/Tonemapping"
     HLSLINCLUDE
     #include "Packages/com.unity.postprocessing/PostProcessing/Shaders/StdLib.hlsl"
     #include "../CGIncludes/CustomTonemapping.cginc"
-    TEXTURE2D_SAMPLER2D(_MainTex, sampler_MainTex);
     #pragma multi_compile ACES_TONE_MAPPING
+    
+    TEXTURE2D_SAMPLER2D(_MainTex, sampler_MainTex);
 
     float4 Frag(VaryingsDefault i) :
     SV_Target
