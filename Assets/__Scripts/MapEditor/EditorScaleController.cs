@@ -116,10 +116,10 @@ public class EditorScaleController : MonoBehaviour, CMInput.IEditorScaleActions
                 b.UpdateGridPosition();
         }
 
-        atsc.MoveToSongBpmTime(atsc.CurrentSongBpmTime);
         EditorScaleChangedEvent?.Invoke(EditorScale);
         previousEditorScale = EditorScale;
         foreach (var offset in scalingOffsets)
             offset.localScale = new Vector3(offset.localScale.x, offset.localScale.y, Settings.Instance.TrackLength * EditorScale);
+        atsc.MoveToSongBpmTime(atsc.CurrentSongBpmTime);
     }
 }

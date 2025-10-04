@@ -7,10 +7,13 @@ using UnityEngine;
 
 public class BookmarkRenderingController : MonoBehaviour
 {
+    [SerializeField] private AudioTimeSyncController atsc;
+    [SerializeField] private Transform frontNoteGridScaling;
     [SerializeField] private BookmarkManager manager;
     [SerializeField] private Transform gridBookmarksParent;
 
-    private List<CachedBookmark> renderedBookmarks = new List<CachedBookmark>();
+    private readonly List<CachedBookmark> renderedBookmarks = new();
+    private readonly HashSet<CachedBookmark> activeBookmarks = new();
 
     private class CachedBookmark
     {
@@ -30,14 +33,33 @@ public class BookmarkRenderingController : MonoBehaviour
 
     private void Start()
     {
+        atsc.TimeChanged += UpdateTime;
         manager.BookmarksUpdated += UpdateRenderedBookmarks;
-        EditorScaleController.EditorScaleChangedEvent += OnEditorScaleChange;
+        EditorScaleController.EditorScaleChangedEvent += HandleEditorScaleChanged;
+        BPMChangeGridContainer.OnBPMChangeRefreshed += HandleBPMChangeRefreshed;
         Settings.NotifyBySettingName(nameof(Settings.DisplayGridBookmarks), DisplayRenderedBookmarks);
         Settings.NotifyBySettingName(nameof(Settings.GridBookmarksHasLine), RefreshBookmarkGridLine);
     }
 
+    private void OnDestroy()
+    {
+        atsc.TimeChanged -= UpdateTime;
+        manager.BookmarksUpdated -= UpdateRenderedBookmarks;
+        EditorScaleController.EditorScaleChangedEvent -= HandleEditorScaleChanged;
+        BPMChangeGridContainer.OnBPMChangeRefreshed -= HandleBPMChangeRefreshed;
+        Settings.ClearSettingNotifications(nameof(Settings.DisplayGridBookmarks));
+        Settings.ClearSettingNotifications(nameof(Settings.GridBookmarksHasLine));
+    }
+
+    private void UpdateTime()
+    {
+        if (UIMode.PreviewMode) return;
+        RefreshVisibility();
+    }
+
     public void ClearCachedBookmarks()
     {
+        activeBookmarks.Clear();
         for (var i = renderedBookmarks.Count - 1; i >= 0; i--)
         {
             var bookmark = renderedBookmarks[i];
@@ -45,7 +67,7 @@ public class BookmarkRenderingController : MonoBehaviour
             renderedBookmarks.Remove(bookmark);
         }
     }
-    
+
     private void DisplayRenderedBookmarks(object _) => UpdateRenderedBookmarks();
 
     private void UpdateRenderedBookmarks()
@@ -53,34 +75,35 @@ public class BookmarkRenderingController : MonoBehaviour
         var currentBookmarks = BeatSaberSongContainer.Instance.Map.Bookmarks;
         if (currentBookmarks.Count < renderedBookmarks.Count) // Removed bookmark
         {
-            for (int i = renderedBookmarks.Count - 1; i >= 0; i--)
+            for (var i = renderedBookmarks.Count - 1; i >= 0; i--)
             {
-                CachedBookmark bookmark = renderedBookmarks[i];
+                var bookmark = renderedBookmarks[i];
                 if (!currentBookmarks.Contains(bookmark.MapBookmark))
                 {
                     Destroy(bookmark.Text.gameObject);
                     renderedBookmarks.Remove(bookmark);
+                    activeBookmarks.Remove(bookmark);
                     return;
                 }
             }
         }
         else if (currentBookmarks.Count > renderedBookmarks.Count) // Added bookmark
         {
-            foreach (BaseBookmark bookmark in currentBookmarks)
+            foreach (var bookmark in currentBookmarks)
             {
                 if (renderedBookmarks.All(x => x.MapBookmark != bookmark))
                 {
-                    TextMeshProUGUI text = CreateGridBookmark(bookmark);
+                    var text = CreateGridBookmark(bookmark);
                     renderedBookmarks.Add(new CachedBookmark(bookmark, text));
                 }
             }
         }
         else // Edited bookmark
         {
-            foreach (CachedBookmark cachedBookmark in renderedBookmarks)
+            foreach (var cachedBookmark in renderedBookmarks)
             {
-                string mapBookmarkName = cachedBookmark.MapBookmark.Name;
-                Color mapBookmarkColor = cachedBookmark.MapBookmark.Color;
+                var mapBookmarkName = cachedBookmark.MapBookmark.Name;
+                var mapBookmarkColor = cachedBookmark.MapBookmark.Color;
 
                 if (cachedBookmark.Name != mapBookmarkName || cachedBookmark.Color != mapBookmarkColor)
                 {
@@ -91,12 +114,22 @@ public class BookmarkRenderingController : MonoBehaviour
                 }
             }
         }
+
+        renderedBookmarks.Sort((a, b) => a.MapBookmark.SongBpmTime.CompareTo(b.MapBookmark.SongBpmTime));
+
+        RefreshVisibility();
     }
 
-    private void OnEditorScaleChange(float newScale)
+    private void HandleEditorScaleChanged(float _)
     {
-        foreach (CachedBookmark bookmarkDisplay in renderedBookmarks)
+        foreach (var bookmarkDisplay in renderedBookmarks)
             SetBookmarkPos(bookmarkDisplay.Text.rectTransform, bookmarkDisplay.MapBookmark.SongBpmTime);
+    }
+
+    private void HandleBPMChangeRefreshed()
+    {
+        HandleEditorScaleChanged(0f);
+        RefreshVisibility();
     }
 
     private void SetBookmarkPos(RectTransform rect, float songBpmTime)
@@ -107,14 +140,15 @@ public class BookmarkRenderingController : MonoBehaviour
 
     private TextMeshProUGUI CreateGridBookmark(BaseBookmark bookmark)
     {
-        GameObject obj = new GameObject("GridBookmark", typeof(TextMeshProUGUI));
-        RectTransform rect = (RectTransform)obj.transform;
+        var obj = new GameObject("GridBookmark", typeof(TextMeshProUGUI));
+        obj.SetActive(false);
+        var rect = (RectTransform)obj.transform;
         rect.SetParent(gridBookmarksParent);
         SetBookmarkPos(rect, bookmark.SongBpmTime);
         rect.sizeDelta = Vector2.one;
         rect.localRotation = Quaternion.identity;
 
-        TextMeshProUGUI text = obj.GetComponent<TextMeshProUGUI>();
+        var text = obj.GetComponent<TextMeshProUGUI>();
         text.font = PersistentUI.Instance.ButtonPrefab.Text.font;
         text.alignment = TextAlignmentOptions.Left;
         text.fontSize = 0.4f;
@@ -128,14 +162,14 @@ public class BookmarkRenderingController : MonoBehaviour
 
     private void RefreshBookmarkGridLine(object _)
     {
-        foreach (CachedBookmark cachedBookmark in renderedBookmarks)
+        foreach (var cachedBookmark in renderedBookmarks)
             SetGridBookmarkNameColor(cachedBookmark.Text, cachedBookmark.Color, cachedBookmark.Name);
     }
 
 
     private void SetGridBookmarkNameColor(TextMeshProUGUI text, Color color, string name)
     {
-        string hex = HEXFromColor(color, false);
+        var hex = HEXFromColor(color, false);
 
         SetText();
         text.ForceMeshUpdate();
@@ -143,12 +177,13 @@ public class BookmarkRenderingController : MonoBehaviour
         //Here making so bookmarks with short name have still long colored rectangle on the right to the grid
         if (text.textBounds.size.x < 2) //2 is distance between notes and lighting grid
         {
-            SetText((int)((2 - text.textBounds.size.x) / 0.0642f)); //Divided by 'space' character width for chosen fontSize
+            SetText(
+                (int)((2 - text.textBounds.size.x) / 0.0642f)); //Divided by 'space' character width for chosen fontSize
         }
 
         void SetText(int spaceNumber = 0)
         {
-            string spaces = spaceNumber <= 0 ? null : new string(' ', spaceNumber);
+            var spaces = spaceNumber <= 0 ? null : new string(' ', spaceNumber);
             //<voffset> to align the bumped up text to grid, <s> to draw a line across the grid, in the end putting transparent dot, so trailing spaces don't get trimmed, 
             text.text = (Settings.Instance.GridBookmarksHasLine)
                 ? $"<mark={hex}50><voffset=0.06><s> <indent=3.92> </s></voffset> {name}{spaces}<color=#00000000>.</color>"
@@ -157,27 +192,37 @@ public class BookmarkRenderingController : MonoBehaviour
     }
 
     /// <summary> Returned string starts with # </summary>
-    private string HEXFromColor(Color color, bool inclAlpha = true) => inclAlpha
-        ? $"#{ColorUtility.ToHtmlStringRGBA(color)}"
-        : $"#{ColorUtility.ToHtmlStringRGB(color)}";
+    private string HEXFromColor(Color color, bool inclAlpha = true) =>
+        inclAlpha
+            ? $"#{ColorUtility.ToHtmlStringRGBA(color)}"
+            : $"#{ColorUtility.ToHtmlStringRGB(color)}";
 
-    public void RefreshVisibility(float currentSongBpm, float songBpmBeatsAhead, float songBpmBeatsBehind)
+    public void RefreshVisibility()
     {
+        var currentSongBpmBeat = atsc.CurrentSongBpmTime;
+        var songBpmBeatsAhead = frontNoteGridScaling.localScale.z / EditorScaleController.EditorScale;
+        var songBpmBeatsBehind = songBpmBeatsAhead / 4f;
+
+        foreach (var bookmarkDisplay in activeBookmarks.ToArray())
+        {
+            var time = bookmarkDisplay.MapBookmark.SongBpmTime;
+            if (time >= currentSongBpmBeat - songBpmBeatsBehind && time <= currentSongBpmBeat + songBpmBeatsAhead)
+                continue;
+
+            bookmarkDisplay.Text.gameObject.SetActive(false);
+            activeBookmarks.Remove(bookmarkDisplay);
+        }
+
+        // if only i can skip
         foreach (var bookmarkDisplay in renderedBookmarks)
         {
             var time = bookmarkDisplay.MapBookmark.SongBpmTime;
-            var text = bookmarkDisplay.Text;
-            var enabled = time >= currentSongBpm - songBpmBeatsBehind && time <= currentSongBpm + songBpmBeatsAhead;
-            text.gameObject.SetActive(enabled);
-            SetBookmarkPos((RectTransform)text.transform, time);
-        }
-    }
+            if (time < currentSongBpmBeat - songBpmBeatsBehind) continue;
+            if (time > currentSongBpmBeat + songBpmBeatsAhead) break;
+            if (activeBookmarks.Contains(bookmarkDisplay)) continue;
 
-    private void OnDestroy()
-    {
-        manager.BookmarksUpdated -= UpdateRenderedBookmarks;
-        EditorScaleController.EditorScaleChangedEvent -= OnEditorScaleChange;
-        Settings.ClearSettingNotifications(nameof(Settings.DisplayGridBookmarks));
-        Settings.ClearSettingNotifications(nameof(Settings.GridBookmarksHasLine));
+            bookmarkDisplay.Text.gameObject.SetActive(true);
+            activeBookmarks.Add(bookmarkDisplay);
+        }
     }
 }

@@ -29,12 +29,15 @@ public class SongTimelineController : MonoBehaviour, IPointerEnterHandler, IPoin
         yield return new WaitUntil(() => mainAudioSource.clip != null);
         songLength = mainAudioSource.clip.length;
         slider.value = 0;
+        atsc.TimeChanged += UpdateTime;
     }
 
-    // Update is called once per frame
-    private void Update()
+    private void OnDestroy() => atsc.TimeChanged -= UpdateTime;
+
+    private void UpdateTime()
     {
-        if (atsc.CurrentSeconds == lastSongTime) return;
+        // TODO: maybe check for UI alpha because and prevent update when fully transparent instead
+        if (UIMode.SelectedMode != UIModeType.Normal && atsc.IsPlaying) return;
         if (!IsClicked)
         {
             lastSongTime = atsc.CurrentSeconds;

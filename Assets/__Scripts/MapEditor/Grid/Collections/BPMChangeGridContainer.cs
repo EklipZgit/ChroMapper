@@ -33,9 +33,10 @@ public class BPMChangeGridContainer : BeatmapObjectContainerCollection<BaseBpmEv
 
     [SerializeField] private Transform gridRendererParent;
     [SerializeField] private GameObject bpmPrefab;
-    [SerializeField] private MeasureLinesController measureLinesController;
     [SerializeField] private CountersPlusController countersPlus;
 
+    public static Action OnBPMChangeRefreshed;
+    
     public override ObjectType ContainerType => ObjectType.BpmChange;
 
     private void Start()
@@ -102,8 +103,7 @@ public class BPMChangeGridContainer : BeatmapObjectContainerCollection<BaseBpmEv
         }
 
         RefreshGridProperties();
-
-        measureLinesController.RefreshMeasureLines();
+        OnBPMChangeRefreshed.Invoke();
     }
 
     public void RefreshGridProperties()
