@@ -48,8 +48,7 @@ public class PlatformDescriptor : MonoBehaviour
     private readonly List<BasicEventManager> sortedPriorityManagers = new();
 
     private RotationCallbackController rotationCallback;
-    private LightshowMode lightshowMode;
-    public Action<LightshowMode> OnLightshowModeChanged;
+    private LightshowMode localMode;
 
     private static readonly int baseMap = Shader.PropertyToID("_BaseMap");
 
@@ -64,6 +63,8 @@ public class PlatformDescriptor : MonoBehaviour
         BeatmapActionContainer.ActionRedoEvent += HandleActionEventRedo;
         BeatmapActionContainer.ActionUndoEvent += HandleActionEventUndo;
         LoadedDifficultySelectController.LoadedDifficultyChangedEvent += HandleLevelLoaded;
+        PlatformToggleLightshowMode.OnLightshowModeChanged += HandleLightshowModeChanged;
+        localMode = PlatformToggleLightshowMode.Mode;
         if (SceneManager.GetActiveScene().name != "999_PrefabBuilding")
             LoadInitialMap.LevelLoadedEvent += HandleLevelLoaded;
     }
@@ -76,6 +77,7 @@ public class PlatformDescriptor : MonoBehaviour
         BeatmapActionContainer.ActionRedoEvent -= HandleActionEventRedo;
         BeatmapActionContainer.ActionUndoEvent -= HandleActionEventUndo;
         LoadedDifficultySelectController.LoadedDifficultyChangedEvent -= HandleLevelLoaded;
+        PlatformToggleLightshowMode.OnLightshowModeChanged -= HandleLightshowModeChanged;
         if (atsc != null) atsc.TimeChanged -= UpdateTime;
         if (SceneManager.GetActiveScene().name != "999_PrefabBuilding")
             LoadInitialMap.LevelLoadedEvent -= HandleLevelLoaded;
@@ -192,10 +194,9 @@ public class PlatformDescriptor : MonoBehaviour
         }
 
         PopulateLightshow();
-        foreach (var manager in sortedPriorityManagers) manager.UpdateTime(atsc.CurrentSongBpmTime);
+        UpdateTimeByMode();
 
         if (Settings.Instance.HideDisablableObjectsOnLoad) ToggleDisablableObjects();
-        OnLightshowModeChanged.Invoke(lightshowMode);
     }
 
     private void MapEventManager(BasicEventManager manager, int type)
@@ -206,7 +207,7 @@ public class PlatformDescriptor : MonoBehaviour
 
     private void UpdateTime()
     {
-        if (lightshowMode != LightshowMode.Full) return;
+        if (localMode != LightshowMode.Full) return;
         foreach (var manager in sortedPriorityManagers) manager.UpdateTime(atsc.CurrentSongBpmTime);
     }
 
@@ -230,7 +231,7 @@ public class PlatformDescriptor : MonoBehaviour
     {
         foreach (var manager in sortedPriorityManagers) manager.Initialize();
 
-        var events = lightshowMode == LightshowMode.Static
+        var events = localMode == LightshowMode.Static
             ? eventTypeManagerMap
                 .Keys.Select(type =>
                 {
@@ -239,7 +240,9 @@ public class PlatformDescriptor : MonoBehaviour
                     return evt;
                 })
                 .ToList()
-            : BeatSaberSongContainer.Instance.Map.Events;
+            : Settings.Instance.Load_Events
+                ? BeatSaberSongContainer.Instance.Map.Events
+                : new();
 
         foreach (var (type, managers) in eventTypeManagerMap)
             managers.ForEach(manager => manager.BuildFromEvents(events.Where(e => e.Type == type)));
@@ -247,36 +250,48 @@ public class PlatformDescriptor : MonoBehaviour
         foreach (var manager in sortedPriorityManagers) manager.Reset();
     }
 
-    public void SetLightshowMode(LightshowMode mode)
+    private void UpdateTimeByMode()
+    {
+        switch (localMode)
+        {
+            case LightshowMode.Full:
+                UpdateTime();
+                break;
+            case LightshowMode.Static:
+                UpdateTime(0f);
+                break;
+            case LightshowMode.None:
+                UpdateTime(-1f);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+    }
+
+    public void HandleLightshowModeChanged(LightshowMode mode)
     {
         // in the future, it should be possible to toggle during playback
         // but as of now, it causes race condition
-        if (atsc.IsPlaying || mode == lightshowMode) return;
-        var previousMode = lightshowMode;
-        lightshowMode = mode;
+        if (atsc.IsPlaying || mode == localMode) return;
+        var previousMode = localMode;
+        localMode = mode;
 
         switch (mode)
         {
             case LightshowMode.Full:
                 if (previousMode == LightshowMode.Static) PopulateLightshow();
-
-                UpdateTime();
                 break;
             case LightshowMode.Static:
                 if (previousMode != LightshowMode.Static) PopulateLightshow();
-
-                UpdateTime(0f);
                 break;
             case LightshowMode.None:
                 if (previousMode == LightshowMode.Static) PopulateLightshow();
-
-                UpdateTime(-1f);
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
         }
-
-        OnLightshowModeChanged.Invoke(lightshowMode);
+        
+        UpdateTimeByMode();
     }
 
     private bool AddEvents(IEnumerable<BaseEvent> events)
@@ -286,6 +301,19 @@ public class PlatformDescriptor : MonoBehaviour
         {
             if (!eventTypeManagerMap.TryGetValue(baseEvent.Type, out var managers)) continue;
             managers.ForEach(manager => manager.InsertEvent(baseEvent));
+            mark = true;
+        }
+
+        return mark;
+    }
+
+    private bool RemoveEvents(IEnumerable<(BaseEvent reference, BaseEvent original)> events)
+    {
+        var mark = false;
+        foreach (var (reference, original) in events)
+        {
+            if (!eventTypeManagerMap.TryGetValue(original.Type, out var managers)) continue;
+            managers.ForEach(manager => manager.RemoveEvent(reference));
             mark = true;
         }
 
@@ -307,7 +335,7 @@ public class PlatformDescriptor : MonoBehaviour
 
     private void HandleActionEventRedo(BeatmapAction action)
     {
-        if (lightshowMode == LightshowMode.Static) return;
+        if (localMode == LightshowMode.Static || !Settings.Instance.Load_Events) return;
         if (!HandleActionEventRedoNoNotify(action) || atsc.IsPlaying) return;
         // foreach (var manager in sortedPriorityManagers) manager.Reset();
         UpdateTime();
@@ -399,9 +427,9 @@ public class PlatformDescriptor : MonoBehaviour
     private bool HandleModifiedActionRedo(BeatmapObjectModifiedAction action)
     {
         var b = RemoveEvents(
-            new List<BaseObject> { action.OriginalObject }
-                .Where(d => d is BaseEvent)
-                .Cast<BaseEvent>());
+            new List<(BaseObject, BaseObject)> { (action.OriginalObject, action.OriginalData) }
+                .Where(d => d is { Item1: BaseEvent, Item2: BaseEvent })
+                .Select(d => (d.Item1 as BaseEvent, d.Item2 as BaseEvent)));
         return AddEvents(
                 new List<BaseObject> { action.EditedObject }
                     .Where(d => d is BaseEvent)
@@ -445,7 +473,7 @@ public class PlatformDescriptor : MonoBehaviour
 
     private void HandleActionEventUndo(BeatmapAction action)
     {
-        if (lightshowMode == LightshowMode.Static) return;
+        if (localMode == LightshowMode.Static || !Settings.Instance.Load_Events) return;
         if (!HandleActionEventUndoNoNotify(action) || atsc.IsPlaying) return;
         // foreach (var manager in sortedPriorityManagers) manager.Reset();
         UpdateTime();
@@ -538,9 +566,9 @@ public class PlatformDescriptor : MonoBehaviour
     private bool HandleModifiedActionUndo(BeatmapObjectModifiedAction action)
     {
         var b = RemoveEvents(
-            new List<BaseObject> { action.EditedObject }
-                .Where(d => d is BaseEvent)
-                .Cast<BaseEvent>());
+            new List<(BaseObject, BaseObject)> { (action.EditedObject, action.EditedData) }
+                .Where(d => d is { Item1: BaseEvent, Item2: BaseEvent })
+                .Select(d => (d.Item1 as BaseEvent, d.Item2 as BaseEvent)));
         return AddEvents(
                 new List<BaseObject> { action.OriginalObject }
                     .Where(d => d is BaseEvent)
@@ -581,11 +609,4 @@ public class PlatformDescriptor : MonoBehaviour
                     .Cast<BaseEvent>())
             || b;
     }
-}
-
-public enum LightshowMode
-{
-    Full,
-    Static,
-    None,
 }

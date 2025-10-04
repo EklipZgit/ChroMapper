@@ -8,51 +8,35 @@ public class PlatformToggleLightshowMode : MonoBehaviour
     [SerializeField] private AudioTimeSyncController atsc;
     [SerializeField] private Toggle[] toggles;
     [SerializeField] private EnumPicker enumPicker;
+    public static Action<LightshowMode> OnLightshowModeChanged;
+    public static LightshowMode Mode;
 
     private void Start()
     {
         enumPicker.Initialize(typeof(LightshowMode));
         enumPicker.OnClick += UpdateMode;
-        LoadInitialMap.PlatformLoadedEvent += PlatformLoaded;
+        enumPicker.Select(Mode);
         atsc.PlayToggle += SetUninteractible;
     }
 
-    private void UpdateMode(Enum enumMode)
-    {
-        var mode = (LightshowMode)enumMode;
-        switch (mode)
-        {
-            case LightshowMode.Full:
-                descriptor?.SetLightshowMode(LightshowMode.Full);
-                break;
-            case LightshowMode.Static:
-                descriptor?.SetLightshowMode(LightshowMode.Static);
-                break;
-            case LightshowMode.None:
-                descriptor?.SetLightshowMode(LightshowMode.None);
-                break;
-            default:
-                throw new ArgumentOutOfRangeException();
-        }
-    }
+    private static void UpdateMode(Enum enumMode) => OnLightshowModeChanged.Invoke(Mode = (LightshowMode)enumMode);
 
     private void OnDestroy()
     {
-        LoadInitialMap.PlatformLoadedEvent -= PlatformLoaded;
+        enumPicker.OnClick -= UpdateMode;
         atsc.PlayToggle -= SetUninteractible;
     }
-
-    private void PlatformLoaded(PlatformDescriptor obj)
-    {
-        descriptor = obj;
-        descriptor.OnLightshowModeChanged += UpdateState;
-    }
-
-    private void UpdateState(LightshowMode mode) => enumPicker.Select(mode);
 
     private void SetUninteractible(bool b)
     {
         enumPicker.Locked = b;
         foreach (var toggle in toggles) toggle.interactable = !b;
     }
+}
+
+public enum LightshowMode
+{
+    Full,
+    Static,
+    None,
 }
