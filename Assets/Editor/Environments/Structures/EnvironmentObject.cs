@@ -1,6 +1,9 @@
 using Newtonsoft.Json;
 
 #nullable enable
+/// <summary>
+/// A single object in an environment, with its properties and components.
+/// </summary>
 public class EnvironmentObject
 {
     [JsonProperty("name")]

@@ -1,17 +1,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Library class for on-the-fly asset instantiation/replacement when creating environments from data.
+/// If an object name matches one in the library, it will be replaced with the corresponding asset.
+/// This handles entire prefabs, as well as shared instances like materials and meshes.
+/// </summary>
 [CreateAssetMenu(fileName = "EnvironmentLibrary", menuName = "Environment/Environment Library")]
 public class EnvironmentLibrary : ScriptableObject
 {
+    // Objects in this list will be ignored entirely when creating an environment
+    // (This is typically Beat Saber specific objects that ChroMapper will never use, or have different implementations for)
     [SerializeField]
     private List<string> ignoreNames = new();
 
+    // Main list of replacements
     [SerializeField]
     private List<LibraryEntry> library = new();
 
+    // Internal map for quick lookup (because Unity cannot serialize Dictionaries)
     private Dictionary<string, Object> replacementMap = new();
 
+    // The fallback prefab to use when no replacement is found
     [SerializeField]
     private GameObject fallbackPrefab;
 

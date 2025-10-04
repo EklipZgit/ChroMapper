@@ -3,9 +3,12 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 
+/// <summary>
+/// Editor utility to create a new Unity scene from an EnvironmentInfo JSON file.
+/// </summary>
 public class EnvironmentSceneCreator
 {
-    [MenuItem("Assets/Create/Environment/Create from Data", false, 1000)]
+    [MenuItem("Environment/Create from Data", false, 1000)]
     private static void CreateEnvironmentFromData()
     {
         // Check if exactly one object is selected and it's a TextAsset
@@ -28,6 +31,7 @@ public class EnvironmentSceneCreator
         var environmentLibrary = AssetDatabase.LoadAssetAtPath<EnvironmentLibrary>("Assets/Editor/Environments/EnvironmentLibrary.asset");
         var environmentInfo = JsonConvert.DeserializeObject<EnvironmentInfo>(textAsset.text, new Vector3ArrayConverter());
 
+        // Create the environment in the new scene
         CreateEnvironment(environmentInfo, environmentLibrary);
 
         // Save the scene to disk
@@ -45,9 +49,10 @@ public class EnvironmentSceneCreator
     }
 
     // Validate menu: only show if a single TextAsset is selected
-    [MenuItem("Assets/Create/Environment/Create from Data", true)]
+    [MenuItem("Environment/Create from Data", true)]
     private static bool ValidateCreateEnvironmentFromData() => Selection.objects.Length == 1 && Selection.activeObject is TextAsset;
 
+    // Main method which constructs the environment from parsed data
     private static void CreateEnvironment(EnvironmentInfo info, EnvironmentLibrary library)
     {
         if (library == null) throw new System.ArgumentNullException(nameof(library));
@@ -85,6 +90,9 @@ public class EnvironmentSceneCreator
             // Copy properties from EnvironmentInfo to the instantiated object
             var components = envObject.Components;
             components.Transform?.CopyTo(prefab.transform);
+
+            // TODO: Add other components (like lights, sprites, and event managers) as needed
+            // TODO: Considering the Chroma ID is already given here, we should also store it for future Environemnt Enhancement support
 
             // Set the last parent to the current object
             lastParent = prefab.transform;
