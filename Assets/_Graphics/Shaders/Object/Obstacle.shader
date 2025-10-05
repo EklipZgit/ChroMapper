@@ -235,10 +235,9 @@
                     discard;
                 }
 
-                float opaqueAlpha = UNITY_ACCESS_INSTANCED_PROP(Props, _OpaqueAlpha);
                 float4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
 
-                return float4(color.rgb, 0.05);
+                return float4(color.rgb, color.a * length(color.rgb) * 0.25);
             }
             ENDCG
         }

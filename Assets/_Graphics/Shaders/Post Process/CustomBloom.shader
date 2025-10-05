@@ -39,9 +39,9 @@ Shader "ChroMapper/Post Process/Bloom"
         return color;
     }
     
-    float4 Combine(float4 bloom, float2 uv, float intensity = 1)
+    float4 Combine(float4 bloom, float2 uv)
     {
-        float4 color = SAMPLE_TEXTURE2D(_BloomTex, sampler_BloomTex, uv) * intensity;
+        float4 color = SAMPLE_TEXTURE2D(_BloomTex, sampler_BloomTex, uv);
         return bloom + color;
     }
 
@@ -66,14 +66,15 @@ Shader "ChroMapper/Post Process/Bloom"
         float4 color = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.texcoord);
 
         #if BLOOM_TOWARDS_WHITE
-        // give whiteness to glowing material
-        float mag = length(color.rgb);
-        color.rgb += float3(1.0, 1.0, 1.0) * mag * color.a;
+        // Give whiteness to glowing material
+        float alpha = saturate(color.a);
+        color.rgb += alpha;
         #endif
-        
-        color = Combine(color, i.texcoordStereo, _Intensity);
-        
-        REINHARD_TONE_MAPPING_APPLY(color);
+
+        float4 bloom = SAMPLE_TEXTURE2D(_BloomTex, sampler_BloomTex, i.texcoord) * _Intensity;
+        // Either this effect is subtle or this doesn't do as I expect it to do
+        REINHARD_TONE_MAPPING_APPLY(bloom);
+        color = bloom + color;
         
         return float4(color.rgb, 1.0);
     }
