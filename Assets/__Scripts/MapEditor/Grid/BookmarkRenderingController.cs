@@ -136,7 +136,7 @@ public class BookmarkRenderingController : MonoBehaviour
     private void SetBookmarkPos(RectTransform rect, float songBpmTime)
     {
         //Need anchoredPosition3D, so Z gets precisely set, otherwise text might get under lighting grid
-        rect.anchoredPosition3D = new Vector3(-4.5f, songBpmTime * EditorScaleController.EditorScale, 0);
+        rect.anchoredPosition3D = new Vector3(-4.5f, songBpmTime * EditorScaleController.EditorScale, -0.01f);
     }
 
     private TextMeshProUGUI CreateGridBookmark(BaseBookmark bookmark)
@@ -188,8 +188,8 @@ public class BookmarkRenderingController : MonoBehaviour
             var spaces = spaceNumber <= 0 ? null : new string(' ', spaceNumber);
             //<voffset> to align the bumped up text to grid, <s> to draw a line across the grid, in the end putting transparent dot, so trailing spaces don't get trimmed, 
             text.text = (Settings.Instance.GridBookmarksHasLine)
-                ? $"<mark={hex}50><voffset=0.06><s> <indent=3.92> </s></voffset> {name}{spaces}<color=#00000000>.</color>"
-                : $"<mark={hex}50><voffset=0.06> <indent=3.92> </voffset> {name}{spaces}<color=#00000000>.</color>";
+                ? $"<mark={hex}69><voffset=0.06><s> <indent=3.92> </s></voffset> {name}{spaces}<color=#00000000>.</color>"
+                : $"<mark={hex}69><voffset=0.06> <indent=3.92> </voffset> {name}{spaces}<color=#00000000>.</color>";
         }
     }
 
