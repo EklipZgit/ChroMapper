@@ -10,12 +10,13 @@ public class SongTimelineHandleController : MonoBehaviour, IPointerUpHandler, IP
     {
         tipc.PointerDown();
         timeline.IsClicked = true;
-        timeline.TriggerUpdate();
+        timeline.UpdateSongTimelineSlider(timeline.ClickedSliderValue);
     }
 
     public void OnPointerUp(PointerEventData fucku)
     {
-        timeline.TriggerUpdate();
+        // wait, why are we updating this on release?
+        // timeline.UpdateSongTimelineSlider();
         timeline.IsClicked = false;
         tipc.PointerUp();
     }

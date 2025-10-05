@@ -11,8 +11,9 @@ public class SongTimelineController : MonoBehaviour, IPointerEnterHandler, IPoin
     [SerializeField] private TextMeshProUGUI timeMesh;
     [SerializeField] private TextMeshProUGUI currentBeatMesh;
     [SerializeField] private AudioSource mainAudioSource;
+
     public bool IsClicked;
-    private float lastSongTime;
+    public float ClickedSliderValue;
 
     private float songLength;
 
@@ -28,7 +29,7 @@ public class SongTimelineController : MonoBehaviour, IPointerEnterHandler, IPoin
     {
         yield return new WaitUntil(() => mainAudioSource.clip != null);
         songLength = mainAudioSource.clip.length;
-        slider.value = 0;
+        slider.SetValueWithoutNotify(0f);
         atsc.TimeChanged += UpdateTime;
     }
 
@@ -38,18 +39,17 @@ public class SongTimelineController : MonoBehaviour, IPointerEnterHandler, IPoin
     {
         // TODO: maybe check for UI alpha because and prevent update when fully transparent instead
         if (UIMode.SelectedMode != UIModeType.Normal && atsc.IsPlaying) return;
-        if (!IsClicked)
-        {
-            lastSongTime = atsc.CurrentSeconds;
-            slider.value = lastSongTime / songLength;
-        }
+        slider.SetValueWithoutNotify(atsc.CurrentSeconds / songLength);
 
         var seconds = Mathf.Abs(Mathf.FloorToInt(atsc.CurrentSeconds % 60));
         var rawMins = atsc.CurrentSeconds / 60;
         var minutes = Mathf.Abs(atsc.CurrentSeconds > 0 ? Mathf.FloorToInt(rawMins) : Mathf.CeilToInt(rawMins));
         var milliseconds = Mathf.FloorToInt((atsc.CurrentSeconds - Mathf.FloorToInt(atsc.CurrentSeconds)) * 1000);
-        timeMesh.text = string.Format(timeFormat,
-            minutes, seconds, milliseconds,
+        timeMesh.text = string.Format(
+            timeFormat,
+            minutes,
+            seconds,
+            milliseconds,
             atsc.CurrentSeconds < 0 ? "-" : "");
 
         var beatIntegerPart = (int)atsc.CurrentJsonTime;
@@ -61,16 +61,15 @@ public class SongTimelineController : MonoBehaviour, IPointerEnterHandler, IPoin
 
     public void OnPointerExit(PointerEventData eventData) => IsHovering = false;
 
-    public void TriggerUpdate() => UpdateSongTimelineSlider(slider.value);
-
     public void UpdateSongTimelineSlider(float sliderValue)
     {
+        if (!IsClicked) ClickedSliderValue = sliderValue;
         if (atsc.IsPlaying || Input.GetAxis("Mouse ScrollWheel") != 0 || !IsClicked)
             return; //Don't modify ATSC if some other things are happening.
 
         if (NodeEditorController.IsActive)
         {
-            slider.value = lastSongTime / songLength;
+            slider.SetValueWithoutNotify(atsc.CurrentSeconds / songLength);
             return;
         }
 
