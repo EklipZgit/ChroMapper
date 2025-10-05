@@ -14,16 +14,10 @@ Shader "ChroMapper/Editor/Grid/Grid ZDir"
 
     SubShader
     {
-        Tags
-        {
-            "Queue" = "Transparent-100" "RenderType" = "Transparent"
-        }
-
+        Cull Off
+        
         Pass
         {
-            ZWrite Off
-            Cull Off
-
             CGPROGRAM
             // Define the vertex and fragment shader functions
             #pragma vertex vert
@@ -162,12 +156,10 @@ Shader "ChroMapper/Editor/Grid/Grid ZDir"
                     gridColour.a = 0;
                     return gridColour;
                 }
-                else
-                {
-                    if (baseColour.a == 0) discard;
-                    baseColour.a = 0;
-                    return baseColour;
-                }
+                
+                if (baseColour.a == 0) discard;
+                baseColour.a = 0;
+                return baseColour;
             }
             ENDCG
         }
