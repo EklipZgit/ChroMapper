@@ -45,22 +45,22 @@ namespace Tests
         public void JsonMerge()
         {
             var eventContainer = BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Event);
+            var root = eventContainer.transform.root;
+            var eventPlacement = root.GetComponentInChildren<EventPlacement>();
             var nodeEditor = Object.FindAnyObjectByType<NodeEditorController>();
             var inputField = nodeEditor.GetComponentInChildren<TMP_InputField>();
 
             BaseEvent baseEventA = new BaseEvent { JsonTime = 2, Type = (int)EventTypeValue.BackLasers, Value = (int)LightValue.Off, FloatValue = 1, CustomData = 
                 JSON.Parse(
                     @"{""matches"":{""i"":1,""s"":""s"",""b"":true,""a"":[1,2]},""differs"":{""i"":1,""s"":""s"",""b"":true,""a"":[1,2]},""typeDiffer"":{""i"":1,""s"":""s"",""o"":{},""a"":[1,2]},""lenDiffer"":[1]}") };
-            eventContainer.SpawnObject(baseEventA);
-
             BaseEvent baseEventB = new BaseEvent { JsonTime = 2, Type = (int)EventTypeValue.LeftLasers, Value = (int)LightValue.Off, FloatValue = 1, CustomData = 
                 JSON.Parse(
                     @"{""matches"":{""i"":1,""s"":""s"",""b"":true,""a"":[1,2]},""differs"":{""i"":2,""s"":""t"",""b"":false,""a"":[2,2]},""typeDiffer"":{""i"":{},""s"":[],""o"":true,""a"":1},""lenDiffer"":[1,2]}") };
-            eventContainer.SpawnObject(baseEventB);
-
             BaseEvent baseEventC = new BaseEvent { JsonTime = 2, Type = (int)EventTypeValue.RightLasers, Value = (int)LightValue.Off };
-            eventContainer.SpawnObject(baseEventC);
-
+            PlaceUtils.PlaceEvent(eventPlacement, baseEventA);
+            PlaceUtils.PlaceEvent(eventPlacement, baseEventB);
+            PlaceUtils.PlaceEvent(eventPlacement, baseEventC);
+            
             SelectionController.Select(baseEventC);
             Assert.AreEqual("{\n  \"b\" : 2,\n  \"et\" : 3,\n  \"i\" : 0,\n  \"f\" : 1\n}", inputField.text);
 
@@ -79,19 +79,20 @@ namespace Tests
         public void JsonApply()
         {
             var eventContainer = BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Event);
+            var root = eventContainer.transform.root;
+            var eventPlacement = root.GetComponentInChildren<EventPlacement>();
             var nodeEditor = Object.FindAnyObjectByType<NodeEditorController>();
             var inputField = nodeEditor.GetComponentInChildren<TMP_InputField>();
 
             BaseEvent baseEventA = new BaseEvent { JsonTime = 2, Type = (int)EventTypeValue.BackLasers, Value = (int)LightValue.Off, FloatValue = 1f, CustomData = 
                 JSON.Parse(
                     @"{""matches"":{""i"":1,""s"":""s"",""b"":true,""a"":[1,2]},""differs"":{""i"":1,""s"":""s"",""b"":true,""a"":[1,2]},""typeDiffer"":{""i"":1,""s"":""s"",""o"":{},""a"":[1,2]},""lenDiffer"":[1],""updatedLenDiffer"":[1],""updated"":{""i"":1,""s"":""s"",""b"":true,""a"":[1,2]},""updatedDiffer"":{""i"":1,""s"":""s"",""b"":true,""a"":[1,2]},""updatedTypeDiffer"":{""i"":1,""s"":""s"",""o"":{},""a"":[1,2]}}") };
-            eventContainer.SpawnObject(baseEventA);
-
             BaseEvent baseEventB = new BaseEvent { JsonTime = 2, Type = (int)EventTypeValue.LeftLasers, Value = (int)LightValue.Off, FloatValue = 0.5f, CustomData = 
                 JSON.Parse(
                     @"{""matches"":{""i"":1,""s"":""s"",""b"":true,""a"":[1,2]},""differs"":{""i"":2,""s"":""t"",""b"":false,""a"":[2,2]},""typeDiffer"":{""i"":{},""s"":[],""o"":true,""a"":1},""lenDiffer"":[1,2],""updatedLenDiffer"":[1,2],""updated"":{""i"":1,""s"":""s"",""b"":true,""a"":[1,2]},""updatedDiffer"":{""i"":2,""s"":""t"",""b"":false,""a"":[2,2]},""updatedTypeDiffer"":{""i"":{},""s"":[],""o"":true,""a"":1}}") };
-            eventContainer.SpawnObject(baseEventB);
-
+            PlaceUtils.PlaceEvent(eventPlacement, baseEventA);
+            PlaceUtils.PlaceEvent(eventPlacement, baseEventB);
+            
             SelectionController.Select(baseEventA);
             SelectionController.Select(baseEventB, true);
 
