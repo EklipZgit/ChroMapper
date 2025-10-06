@@ -47,14 +47,15 @@
             sampler2D _MainTex;
             float4 _MainTex_ST;
 
-            v2f vert(appdata v)
+            v2f vert(appdata i)
             {
-                UNITY_SETUP_INSTANCE_ID(v);
                 UNITY_INITIALIZE_OUTPUT(v2f, v2f o);
+                UNITY_SETUP_INSTANCE_ID(i);
+                UNITY_TRANSFER_INSTANCE_ID(i, o);
                 UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
-                o.vertex = UnityObjectToClipPos(v.vertex);
-                o.uv = v.uv;
+                o.vertex = UnityObjectToClipPos(i.vertex);
+                o.uv = i.uv;
 
                 return o;
             }
