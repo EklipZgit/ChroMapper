@@ -76,7 +76,7 @@ Shader "ChroMapper/Post Process/Bloom"
         REINHARD_TONE_MAPPING_APPLY(bloom);
         color = bloom + color;
         
-        return float4(color.rgb, 1.0);
+        return color;
     }
 
     float4 Frag(VaryingsDefault i) : SV_Target

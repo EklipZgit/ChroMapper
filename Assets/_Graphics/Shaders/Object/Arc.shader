@@ -14,7 +14,7 @@
             "Queue"="Transparent-200" "RenderType"="Transparent"
         }
         LOD 100
-        Blend SrcAlpha OneMinusSrcAlpha, One OneMinusSrcAlpha
+        Blend SrcColor OneMinusSrcColor, One OneMinusSrcColor
         Cull Off
         ZTest LEqual
         ZWrite Off
@@ -60,12 +60,13 @@
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
-            v2f vert (appdata v)
+            v2f vert(appdata v)
             {
                 v2f o;
-                
+
                 UNITY_SETUP_INSTANCE_ID(v);
-                UNITY_TRANSFER_INSTANCE_ID(v, o); // necessary only if you want to access instanced properties in the fragment Shader.
+                UNITY_TRANSFER_INSTANCE_ID(v, o);
+                // necessary only if you want to access instanced properties in the fragment Shader.
 
                 o.pos = UnityObjectToClipPos(v.vertex);
                 o.uv = v.uv;
@@ -81,15 +82,17 @@
                 float rotationInRadians = UNITY_ACCESS_INSTANCED_PROP(Props, _Rotation) * (3.141592653 / 180);
 
                 //Transform X and Z around global platform offset (2D rotation PogU)
-                float newX = (o.worldPos.x - offset.x) * cos(rotationInRadians) - (o.worldPos.z - offset.z) * sin(rotationInRadians);
-                float newZ = (o.worldPos.z - offset.z) * cos(rotationInRadians) + (o.worldPos.x - offset.x) * sin(rotationInRadians);
+                float newX = (o.worldPos.x - offset.x) * cos(rotationInRadians) - (o.worldPos.z - offset.z) * sin(
+                    rotationInRadians);
+                float newZ = (o.worldPos.z - offset.z) * cos(rotationInRadians) + (o.worldPos.x - offset.x) * sin(
+                    rotationInRadians);
 
                 o.rotatedPos = float4(newX + offset.x, o.worldPos.y, newZ + offset.z, o.worldPos.w);
 
                 return o;
             }
 
-            float4 frag (v2f i) : SV_Target
+            float4 frag(v2f i) : SV_Target
             {
                 UNITY_SETUP_INSTANCE_ID(i);
 
@@ -113,17 +116,17 @@
 
                 if (_OutsideAlpha > 0)
                 {
-                    return float4(color.rgb, mainAlpha);
+                    return float4(color.rgb, 0);
                 }
                 else
                 {
                     float fadeFromGrid = clamp(i.rotatedPos.z / fadeSize, 0, 1);
                     if (fadeFromGrid < 1)
                     {
-                        return float4(color.rgb, lerp(mainAlpha, _OutsideAlpha, 1-fadeFromGrid));
+                        return float4(color.rgb * lerp(mainAlpha, _OutsideAlpha, 1 - fadeFromGrid), 0);
                     }
 
-                    return float4(color.rgb, lerp(mainAlpha, _OutsideAlpha, t));
+                    return float4(color.rgb * lerp(mainAlpha, _OutsideAlpha, t), 0);
                 }
             }
             ENDCG

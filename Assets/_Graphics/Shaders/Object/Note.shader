@@ -216,7 +216,6 @@ Shader "ChroMapper/Object/Note"
                 float translucentAlpha = UNITY_ACCESS_INSTANCED_PROP(Props, _TranslucentAlpha);
                 float cutout = UNITY_ACCESS_INSTANCED_PROP(Props, _Cutout);
                 float4 cutoutTexOffset = UNITY_ACCESS_INSTANCED_PROP(Props, _CutoutTexOffset);
-                float cutoutEdgeWidth = _CutoutEdgeWidth;
                 
                 float rotatedZ = abs(i.rotatedPos.z);
 
@@ -237,11 +236,10 @@ Shader "ChroMapper/Object/Note"
 
                 clip(isDithered(i.screenPos.xy / i.screenPos.w, alpha));
  
-                float c = 0;
                 float noise = simplex((i.localPos + cutoutTexOffset.xyz) * 2);
-                c = noise - cutout;
+                float c = noise - cutout;
                 clip(c);
-                if (c < cutoutEdgeWidth) {
+                if (c < _CutoutEdgeWidth) {
                     return float4(length(albedo.rgb) / 2 + albedo.rgb, _CutoutEdgeGlow);
                 }
                 
@@ -254,7 +252,7 @@ Shader "ChroMapper/Object/Note"
                 fixed3 color = albedo.rgb * UNITY_LIGHTMODEL_AMBIENT.rgb;
                 color += diffuse * lightColor * albedo.rgb;
 
-                return float4(color, noteColor.a * _Glow);
+                return float4(color, saturate(noteColor.a * _Glow));
             }
             ENDHLSL
         }

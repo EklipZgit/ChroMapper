@@ -8,7 +8,7 @@
         [Space(10)]
         _Color ("Color", Color) = (1,1,1,1)
         _MainTex ("Texture", 2D) = "white" {}
-        _Glow ("Glow", Range(0, 5)) = 0.0
+        _Glow ("Glow", Range(0, 1)) = 0.0
 
         [Space(10)]
         _Glossiness ("Smoothness", Range(0, 1)) = 0.5
@@ -103,7 +103,9 @@
                 col += diffuse * lightColor * albedo.rgb;
                 col += specular * lightColor;
 
-                return fixed4(col.rgb, log2(glow + 1.0));
+                float alpha = log2(glow + 1.0);
+                
+                return fixed4(col.rgb, saturate(alpha));
             }
             ENDCG
         }

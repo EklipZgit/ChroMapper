@@ -8,7 +8,7 @@
         [Space(10)]
         _Color ("Color", Color) = (1, 1, 1, 1)
         _MainTex ("Texture", 2D) = "white" {}
-        _Glow ("Glow", Range(0, 5)) = 0.0
+        _Glow ("Glow", Range(0, 1)) = 0.0
     }
     SubShader
     {
@@ -75,7 +75,7 @@
                 #endif
 
                 albedo.rgb *= color.a;
-                albedo.a = log2(glow * color.a + 1.0);
+                albedo.a = saturate(log2(glow * color.a + 1.0));
 
                 return albedo;
             }

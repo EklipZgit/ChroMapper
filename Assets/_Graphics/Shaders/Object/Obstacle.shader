@@ -8,6 +8,13 @@
         _Rotation("Rotation", Float) = 0
         _WorldScale("World Scale", Vector) = (1, 3.5, 1, 1)
         _AnimationSpawned("Animation is Spawned", Float) = 0
+
+        [Header(Beat Saber)]
+        [Space(10)]
+        _Cutout("Cutout", Range(0, 1)) = 0.0
+        _CutoutEdgeWidth("Cutout Edge Width", Range(0, 0.2)) = 0.05
+        _CutoutEdgeGlow("Cutout Edge Glow", Range(0, 1)) = 0.25
+        _CutoutTexOffset("Cutout Tex Offset", Vector) = (0, 0, 0, 0)
     }
     SubShader
     {
@@ -17,34 +24,44 @@
         }
         LOD 100
 
+        HLSLINCLUDE
+        #include "UnityCG.cginc"
+        #include "../CGIncludes/Noise.cginc"
+
+        // These are global properties and should not be instanced
+        uniform float _MainAlpha = 0.5;
+        uniform float _OutsideAlpha = 1;
+        uniform float _ObstacleFadeRadius = 8;
+
+        // Define instanced properties
+        UNITY_INSTANCING_BUFFER_START(Props)
+            UNITY_DEFINE_INSTANCED_PROP(float, _OpaqueAlpha)
+            UNITY_DEFINE_INSTANCED_PROP(float, _Rotation)
+            UNITY_DEFINE_INSTANCED_PROP(float, _FadeSize)
+            UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
+            UNITY_DEFINE_INSTANCED_PROP(float4, _WorldScale)
+            UNITY_DEFINE_INSTANCED_PROP(float, _AnimationSpawned)
+            UNITY_DEFINE_INSTANCED_PROP(float, _Cutout)
+            UNITY_DEFINE_INSTANCED_PROP(float4, _CutoutTexOffset)
+        UNITY_INSTANCING_BUFFER_END(Props)
+
+        float _Glow;
+        float _CutoutEdgeGlow;
+        float _CutoutEdgeWidth;
+        ENDHLSL
+
         Pass
         {
             Blend SrcColor OneMinusSrcColor
             ZTest LEqual
             ZWrite Off
-            CGPROGRAM
+
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
             // make fog work
             #pragma target 3.0
             #pragma multi_compile_instancing
-
-            #include "UnityCG.cginc"
-
-            // These are global properties and should not be instanced
-            uniform float _MainAlpha = 0.25;
-            uniform float _OutsideAlpha = 1;
-            uniform float _ObstacleFadeRadius = 8;
-
-            // Define instanced properties
-            UNITY_INSTANCING_BUFFER_START(Props)
-                UNITY_DEFINE_INSTANCED_PROP(float, _OpaqueAlpha)
-                UNITY_DEFINE_INSTANCED_PROP(float, _Rotation)
-                UNITY_DEFINE_INSTANCED_PROP(float, _FadeSize)
-                UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
-                UNITY_DEFINE_INSTANCED_PROP(float4, _WorldScale)
-                UNITY_DEFINE_INSTANCED_PROP(float, _AnimationSpawned)
-            UNITY_INSTANCING_BUFFER_END(Props)
 
             struct appdata
             {
@@ -61,6 +78,7 @@
                 float3 normal : NORMAL;
                 float4 worldPos : TEXCOORD1;
                 float4 rotatedPos : TEXCOORD2;
+                float3 localPos : TEXCOORD3;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
@@ -73,6 +91,7 @@
                 // necessary only if you want to access instanced properties in the fragment Shader.
 
                 o.pos = UnityObjectToClipPos(v.vertex);
+                o.localPos = v.vertex;
                 o.uv = v.uv;
                 o.normal = v.normal;
 
@@ -100,59 +119,49 @@
             {
                 UNITY_SETUP_INSTANCE_ID(i);
 
-                float mainAlpha = _MainAlpha;
-
                 /// Coloring ///
                 float4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
+                float mainAlpha = _MainAlpha;
 
-                float mag = length(color);
-
+                float mag = length(color.rgb);
                 if (mag > 1)
                 {
-                    color = normalize(color) * min(sqrt(mag), 16) * mainAlpha;
+                    color.rgb = normalize(color.rgb) * min(sqrt(mag), 16) * mainAlpha;
+                    color.rgb = saturate(color.rgb);
                 }
+
+                float cutout = UNITY_ACCESS_INSTANCED_PROP(Props, _Cutout);
+                float4 cutoutTexOffset = UNITY_ACCESS_INSTANCED_PROP(Props, _CutoutTexOffset);
+                float4 worldScale = abs(UNITY_ACCESS_INSTANCED_PROP(Props, _WorldScale));
+                float noise = simplex((i.localPos + cutoutTexOffset.xyz) * worldScale * 0.6);
+                float c = noise - cutout;
+                clip(c);
 
                 float animationSpawned = UNITY_ACCESS_INSTANCED_PROP(Props, _AnimationSpawned);
                 if (animationSpawned > 0)
                 {
-                    return float4(color.rgb / mainAlpha, 0);
+                    return float4(color.rgb, 0);
                 }
                 if (animationSpawned < 0)
                 {
                     return float4(color.rgb, 0);
                 }
 
-                return float4(color.rgb / mainAlpha, 0);
+                return float4(color.rgb, 0);
             }
-            ENDCG
+            ENDHLSL
         }
 
         Pass
         {
             Cull Off
-            CGPROGRAM
+
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
             // make fog work
             #pragma target 3.0
             #pragma multi_compile_instancing
-
-            #include "UnityCG.cginc"
-
-            // These are global properties and should not be instanced
-            uniform float _MainAlpha = 0.25;
-            uniform float _OutsideAlpha = 1;
-            uniform float _ObstacleFadeRadius = 8;
-
-            // Define instanced properties
-            UNITY_INSTANCING_BUFFER_START(Props)
-                UNITY_DEFINE_INSTANCED_PROP(float, _OpaqueAlpha)
-                UNITY_DEFINE_INSTANCED_PROP(float, _Rotation)
-                UNITY_DEFINE_INSTANCED_PROP(float, _FadeSize)
-                UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
-                UNITY_DEFINE_INSTANCED_PROP(float4, _WorldScale)
-                UNITY_DEFINE_INSTANCED_PROP(float, _AnimationSpawned)
-            UNITY_INSTANCING_BUFFER_END(Props)
 
             struct appdata
             {
@@ -169,6 +178,7 @@
                 float3 normal : NORMAL;
                 float4 worldPos : TEXCOORD1;
                 float4 rotatedPos : TEXCOORD2;
+                float4 localPos : TEXCOORD3;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
@@ -181,6 +191,7 @@
                 // necessary only if you want to access instanced properties in the fragment Shader.
 
                 o.pos = UnityObjectToClipPos(v.vertex);
+                o.localPos = v.vertex;
                 o.uv = v.uv;
                 o.normal = v.normal;
 
@@ -230,16 +241,25 @@
                 }
 
                 float2 halfUv = 0.5 - abs(0.5 - i.uv);
-                if (halfUv.x * uvXScalar >= 0.075 && halfUv.y * uvYScalar >= 0.075)
+                if (halfUv.x * uvXScalar >= 0.05 && halfUv.y * uvYScalar >= 0.05)
                 {
                     discard;
                 }
 
                 float4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
 
-                return float4(color.rgb, color.a * length(color.rgb) * 0.25);
+                float cutout = UNITY_ACCESS_INSTANCED_PROP(Props, _Cutout);
+                float4 cutoutTexOffset = UNITY_ACCESS_INSTANCED_PROP(Props, _CutoutTexOffset);
+                // TexOffset is apparently different
+                float noise = simplex((i.localPos + cutoutTexOffset.xyz) * worldScale * 0.5);
+                float c = noise - cutout;
+                clip(c);
+
+                // alpha should be as color alpha itself but current bloom makes it very overblown
+                float alpha = saturate(color.a * 0.05);
+                return float4(log2(color.rgb + 1.0), alpha);
             }
-            ENDCG
+            ENDHLSL
         }
     }
 }

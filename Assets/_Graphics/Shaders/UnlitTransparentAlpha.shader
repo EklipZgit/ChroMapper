@@ -4,7 +4,7 @@
     {
         _Color ("Color", Color) = (1, 1, 1, 1)
         _MainTex ("Texture", 2D) = "white" {}
-        _Glow ("Glow", Range(0, 5)) = 0.0
+        _Glow ("Glow", Range(0, 1)) = 0.0
     }
     SubShader
     {
@@ -73,7 +73,7 @@
                 // due to how alpha blending work, we need to ensure alpha is clamped
                 // but also transfer the excess alpha to rgb
                 if (albedo.a > 1.0) albedo.rgb *= albedo.a;
-                albedo.a = clamp(albedo.a, 0.0, 1.0);
+                albedo.a = saturate(albedo.a);
 
                 return albedo;
             }
