@@ -35,9 +35,6 @@
 
             UNITY_INSTANCING_BUFFER_START(Props)
                 UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
-                UNITY_DEFINE_INSTANCED_PROP(float, _Glow)
-                UNITY_DEFINE_INSTANCED_PROP(float, _Glossiness)
-                UNITY_DEFINE_INSTANCED_PROP(float, _Metallic)
             UNITY_INSTANCING_BUFFER_END(Props)
 
             struct appdata
@@ -54,19 +51,21 @@
                 float2 uv : TEXCOORD0;
                 float3 worldNormal : TEXCOORD1;
                 float3 worldPos : TEXCOORD2;
-                UNITY_VERTEX_OUTPUT_STEREO
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
             sampler2D _MainTex;
             float4 _MainTex_ST;
+            float _Glow;
+            float _Glossiness;
+            float _Metallic;
 
             v2f vert(appdata i)
             {
-                UNITY_INITIALIZE_OUTPUT(v2f, v2f o);
+                v2f o;
+                
                 UNITY_SETUP_INSTANCE_ID(i);
                 UNITY_TRANSFER_INSTANCE_ID(i, o);
-                UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
                 o.vertex = UnityObjectToClipPos(i.vertex);
                 o.uv = i.uv;
@@ -80,9 +79,9 @@
             {
                 UNITY_SETUP_INSTANCE_ID(i);
                 fixed4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
-                fixed glow = UNITY_ACCESS_INSTANCED_PROP(Props, _Glow);
-                fixed glossiness = UNITY_ACCESS_INSTANCED_PROP(Props, _Glossiness);
-                fixed metallic = UNITY_ACCESS_INSTANCED_PROP(Props, _Metallic);
+                fixed glow = _Glow;
+                fixed glossiness = _Glossiness;
+                fixed metallic = _Metallic;
 
                 fixed4 albedo = color * tex2D(_MainTex, TRANSFORM_TEX(i.uv, _MainTex));
 

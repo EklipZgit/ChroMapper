@@ -25,6 +25,7 @@ public class LightingObject : MonoBehaviour
     private float endAlpha;
     private bool useHSV;
     private Func<float, float> easing = Easing.ByName["easeLinear"];
+    private bool canBeDisabled;
 
     private MaterialPropertyBlock lightPropertyBlock;
     private Renderer lightRenderer;
@@ -40,6 +41,7 @@ public class LightingObject : MonoBehaviour
         lightPropertyBlock = new MaterialPropertyBlock();
         lightRenderer = GetComponentInChildren<Renderer>();
         boostSprite = GetComponent<BoostSprite>();
+        canBeDisabled = lightRenderer.sharedMaterial.name.Contains("Transparent");
 
         if (lightRenderer is SpriteRenderer spriteRenderer)
         {
@@ -100,7 +102,8 @@ public class LightingObject : MonoBehaviour
         var alpha = Mathf.Lerp(startAlpha, endAlpha, easing(nTimeAlpha));
 
         color.a *= alpha;
-        UpdateLighting(color);
+        if (canBeDisabled) lightRenderer.enabled = color.a > 0;
+        if (lightRenderer.enabled) UpdateLighting(color);
     }
 
     private static Color LerpHSV(Color start, Color end, float t)

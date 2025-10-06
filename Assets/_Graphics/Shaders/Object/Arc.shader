@@ -116,17 +116,17 @@
 
                 if (_OutsideAlpha > 0)
                 {
-                    return float4(color.rgb, 0);
+                    return float4(color.rgb * 2, 0.1);
                 }
                 else
                 {
                     float fadeFromGrid = clamp(i.rotatedPos.z / fadeSize, 0, 1);
                     if (fadeFromGrid < 1)
                     {
-                        return float4(color.rgb * lerp(mainAlpha, _OutsideAlpha, 1 - fadeFromGrid), 0);
+                        return float4(color.rgb * lerp(mainAlpha, _OutsideAlpha, 1 - fadeFromGrid) * 2, lerp(mainAlpha, _OutsideAlpha, 1 - fadeFromGrid) * 0.1);
                     }
 
-                    return float4(color.rgb * lerp(mainAlpha, _OutsideAlpha, t), 0);
+                    return float4(color.rgb * lerp(mainAlpha, _OutsideAlpha, t) * 2, lerp(mainAlpha, _OutsideAlpha, t) * 0.1);
                 }
             }
             ENDCG
