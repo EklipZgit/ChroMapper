@@ -147,21 +147,37 @@ public class BasicLightManager : BasicEventManager<BasicLightState>
         BasicLightState previousState)
     {
         base.OnInsertUpdateToPreviousState(newState, previousState);
-        if (!previousState.BaseEvent.IsFade && !previousState.BaseEvent.IsFlash)
-            previousState.EndTimeAlpha = newState.StartTime;
-        if (newState.BaseEvent.IsTransition
-            && (previousState.BaseEvent.IsOff
-                || previousState.BaseEvent.IsOn
-                || previousState.BaseEvent.IsTransition))
+
+        if (newState.BaseEvent.IsTransition && IsValidEventToTransition(previousState.BaseEvent))
         {
             if (previousState.BaseEvent.IsOff) previousState.StartColor = newState.StartColor;
+            previousState.EndTimeAlpha = newState.StartTime;
             previousState.EndTimeColor = newState.StartTime;
             previousState.EndColor = newState.StartColor;
             previousState.EndChromaColor = newState.StartChromaColor;
             previousState.EndAlpha = newState.StartAlpha;
             previousState.Easing = Easing.Named(newState.BaseEvent.CustomEasing ?? "easeLinear");
             previousState.UseHSV = newState.BaseEvent.CustomLerpType == "HSV";
+            return;
         }
+
+        previousState.EndColor = previousState.StartColor;
+        // previousState.EndTimeColor = newState.StartTimeColor;
+        // previousState.EndChromaColor = previousState.StartChromaColor;
+
+        if (!previousState.BaseEvent.IsFade && !previousState.BaseEvent.IsFlash)
+        {
+            previousState.EndTimeAlpha = newState.StartTime;
+            previousState.EndAlpha = previousState.StartAlpha;
+        }
+
+        if (previousState.BaseEvent.IsOff && !previousState.CanBeTurnedOff)
+        {
+            previousState.StartAlpha =
+                previousState.EndAlpha = GetNoTurnOffAlpha(previousState.BaseEvent.FloatValue);
+        }
+
+        if (newState.BaseEvent.IsOff && !newState.CanBeTurnedOff) newState.StartColor = previousState.EndColor;
     }
 
     protected override void OnInsertUpdateFromPreviousStateAndNextState(
@@ -178,20 +194,20 @@ public class BasicLightManager : BasicEventManager<BasicLightState>
         BasicLightState nextState)
     {
         base.OnInsertUpdateFromNextState(newState, nextState);
-        if (!newState.BaseEvent.IsFade && !newState.BaseEvent.IsFlash) newState.EndTimeAlpha = nextState.StartTime;
-        if (nextState.BaseEvent.IsTransition
-            && (newState.BaseEvent.IsOff
-                || newState.BaseEvent.IsOn
-                || newState.BaseEvent.IsTransition))
+        if (nextState.BaseEvent.IsTransition && IsValidEventToTransition(newState.BaseEvent))
         {
             if (newState.BaseEvent.IsOff) newState.StartColor = nextState.StartColor;
+            newState.EndTimeAlpha = nextState.StartTime;
             newState.EndTimeColor = nextState.StartTime;
             newState.EndColor = nextState.StartColor;
             newState.EndChromaColor = nextState.StartChromaColor;
             newState.EndAlpha = nextState.StartAlpha;
             newState.Easing = Easing.Named(nextState.BaseEvent.CustomEasing ?? "easeLinear");
             newState.UseHSV = nextState.BaseEvent.CustomLerpType == "HSV";
+            return;
         }
+
+        if (!newState.BaseEvent.IsFade && !newState.BaseEvent.IsFlash) newState.EndTimeAlpha = nextState.StartTime;
     }
 
     protected override void OnInsertUpdateToNextState(
@@ -373,7 +389,17 @@ public class BasicLightManager : BasicEventManager<BasicLightState>
             }
 
             InsertWithChromaGradient(newState);
-            HandleInsertState(stateChunksContainerMap[lightingObject], newState);
+
+            var container = stateChunksContainerMap[lightingObject];
+
+            // let's assume this will be previous state if this is inserted within the range
+            var previousState = container.CurrentState;
+            var previousValid = previousState.IsWithinRange(evt.SongBpmTime);
+            HandleInsertState(container, newState);
+
+            if (!previousValid) continue;
+            container.SetStateAt(Atsc.CurrentSongBpmTime);
+            UpdateObject(lightingObject, container.CurrentState);
         }
     }
 
@@ -409,9 +435,12 @@ public class BasicLightManager : BasicEventManager<BasicLightState>
         foreach (var lightingObject in affectedLights)
         {
             var container = stateChunksContainerMap[lightingObject];
-            var state = HandleRemoveState(container, evt);
-            if (container.CurrentState != state) continue;
-            container.SetStateAt(evt.SongBpmTime);
+            HandleRemoveState(container, evt);
+
+            // unfortunately, we cannot do the same as insertion so we need to search
+            var (_, _, previousState) = container.GetStateAt(Atsc.CurrentSongBpmTime);
+            if (!previousState.IsWithinRange(evt.SongBpmTime)) continue;
+            container.SetStateAt(Atsc.CurrentSongBpmTime);
             UpdateObject(lightingObject, container.CurrentState);
         }
     }
@@ -424,11 +453,9 @@ public class BasicLightManager : BasicEventManager<BasicLightState>
             BasicLightState nextState)
     {
         base.OnRemoveUpdatePreviousAndNextState(currentState, previousState, nextState);
-        if (nextState.BaseEvent.IsTransition
-            && (previousState.BaseEvent.IsOff
-                || previousState.BaseEvent.IsOn
-                || previousState.BaseEvent.IsTransition))
+        if (nextState.BaseEvent.IsTransition && IsValidEventToTransition(previousState.BaseEvent))
         {
+            if (previousState.BaseEvent.IsOff) previousState.StartColor = nextState.StartColor;
             previousState.EndTimeAlpha = nextState.StartTime;
             previousState.EndTimeColor = nextState.StartTimeColor;
             previousState.EndColor = nextState.StartColor;
@@ -436,27 +463,26 @@ public class BasicLightManager : BasicEventManager<BasicLightState>
             previousState.EndAlpha = nextState.StartAlpha;
             previousState.Easing = Easing.Named(nextState.BaseEvent.CustomEasing ?? "easeLinear");
             previousState.UseHSV = nextState.BaseEvent.CustomLerpType == "HSV";
+            return;
         }
-        else
+
+        previousState.EndTimeColor = nextState.StartTimeColor;
+        previousState.EndColor = previousState.StartColor;
+        previousState.EndChromaColor = previousState.StartChromaColor;
+
+        if (!previousState.BaseEvent.IsFade && !previousState.BaseEvent.IsFlash)
         {
-            previousState.EndTimeColor = nextState.StartTimeColor;
-            previousState.EndColor = previousState.StartColor;
-            previousState.EndChromaColor = previousState.StartChromaColor;
-
-            if (!previousState.BaseEvent.IsFade && !previousState.BaseEvent.IsFlash)
-            {
-                previousState.EndTimeAlpha = nextState.StartTime;
-                previousState.EndAlpha = previousState.StartAlpha;
-            }
-
-            if (previousState.BaseEvent.IsOff && !previousState.CanBeTurnedOff)
-            {
-                previousState.StartAlpha =
-                    previousState.EndAlpha = GetNoTurnOffAlpha(previousState.BaseEvent.FloatValue);
-            }
-
-            if (nextState.BaseEvent.IsOff && !nextState.CanBeTurnedOff) nextState.StartColor = previousState.EndColor;
+            previousState.EndTimeAlpha = nextState.StartTime;
+            previousState.EndAlpha = previousState.StartAlpha;
         }
+
+        if (previousState.BaseEvent.IsOff && !previousState.CanBeTurnedOff)
+        {
+            previousState.StartAlpha =
+                previousState.EndAlpha = GetNoTurnOffAlpha(previousState.BaseEvent.FloatValue);
+        }
+
+        if (nextState.BaseEvent.IsOff && !nextState.CanBeTurnedOff) nextState.StartColor = previousState.EndColor;
     }
 
 
@@ -493,6 +519,8 @@ public class BasicLightManager : BasicEventManager<BasicLightState>
             _ => Color.white
         };
     }
+
+    private static bool IsValidEventToTransition(BaseEvent evt) => evt.IsOn || evt.IsOff || evt.IsTransition;
 
     public struct ChromaLiteData : IEquatable<ChromaLiteData>
     {
@@ -531,7 +559,9 @@ public class BasicLightManager : BasicEventManager<BasicLightState>
 
 public class BasicLightState : BasicEventState
 {
-    public float StartTimeColor = float.MinValue; // this is supposedly the same as start time, special case for chroma gradient
+    public float
+        StartTimeColor = float.MinValue; // this is supposedly the same as start time, special case for chroma gradient
+
     public LightColor StartColor;
     public Color? StartChromaColor;
     public float StartAlpha;

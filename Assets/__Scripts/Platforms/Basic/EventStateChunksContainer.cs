@@ -35,7 +35,7 @@ public class EventStateChunksContainer<T> : IEnumerable<T> where T : BasicEventS
             UseCurrentOrFindState(time);
     }
 
-    private (int chunkIndex, int localIndex, T state) GetStateAt(float time)
+    public (int chunkIndex, int localIndex, T state) GetStateAt(float time)
     {
         var (chunkIdx, chunk) = GetChunk(time);
         var idx = BinarySearch(chunk, time);
@@ -127,7 +127,7 @@ public class EventStateChunksContainer<T> : IEnumerable<T> where T : BasicEventS
             while (currentLocalIndex < chunk.Count)
             {
                 CurrentState = chunk[currentLocalIndex];
-                if (CurrentState.StartTime <= time && time < CurrentState.EndTime) return;
+                if (CurrentState.IsWithinRange(time)) return;
                 currentLocalIndex++;
             }
 
@@ -138,7 +138,7 @@ public class EventStateChunksContainer<T> : IEnumerable<T> where T : BasicEventS
 
     private void UseCurrentOrFindState(float time)
     {
-        if (CurrentState.StartTime <= time && time < CurrentState.EndTime) return;
+        if (CurrentState.IsWithinRange(time)) return;
         SetStateAt(time);
     }
 
@@ -160,7 +160,6 @@ public class EventStateChunksContainer<T> : IEnumerable<T> where T : BasicEventS
         return idx;
     }
 
-
     private static int BinarySearch(List<T> chunk, float time)
     {
         var right = chunk.Count - 1;
@@ -169,7 +168,7 @@ public class EventStateChunksContainer<T> : IEnumerable<T> where T : BasicEventS
         while (left <= right)
         {
             var mid = (left + right) / 2;
-            if (chunk[mid].StartTime <= time && time < chunk[mid].EndTime) return mid;
+            if (chunk[mid].IsWithinRange(time)) return mid;
             if (chunk[mid].StartTime <= time)
                 left = mid + 1;
             else
