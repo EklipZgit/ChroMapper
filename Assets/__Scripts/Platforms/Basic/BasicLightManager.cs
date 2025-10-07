@@ -50,12 +50,14 @@ public class BasicLightManager : BasicEventManager<BasicLightState>
         {
             foreach (var e in GetComponentsInChildren<LightingObject>())
                 // No, stop that. Enforcing Light ID breaks Glass Desert
-                if (!e.OverrideLightGroup)
-                    ControllingLights.Add(e);
+            {
+                if (!e.OverrideLightGroup) ControllingLights.Add(e);
+            }
 
             foreach (var e in GetComponentsInChildren<RotatingLightsManagerBase>())
-                if (!e.IsOverrideLightGroup())
-                    RotatingLights.Add(e);
+            {
+                if (!e.IsOverrideLightGroup()) RotatingLights.Add(e);
+            }
 
             var lightIdOrder = ControllingLights
                 .OrderBy(x => x.LightID)
@@ -239,25 +241,59 @@ public class BasicLightManager : BasicEventManager<BasicLightState>
         }
     }
 
-    private void UpdateExistingWithChromaGradient(float time)
+    // i would like if chroma gradient just stopped working entirely so i dont have to deal with this shit again
+    private void UpdateExistingWithChromaGradient(float startTime, float endTime)
     {
-        return; // TODO: properly handle this
-        var fromIndex = chromaGradientDatas.FindLastIndex(cl => cl.StartTime <= time && time <= cl.EndTime);
-        var from = fromIndex != -1 && fromIndex < chromaGradientDatas.Count
-            ? chromaGradientDatas[fromIndex]
-            : new ChromaGradientData { BaseEvent = new BaseEvent { songBpmTime = float.MinValue } };
-
-        var untilIndex = chromaGradientDatas.FindIndex(cl => cl.StartTime > time);
-        var until = untilIndex != -1 ? chromaGradientDatas[untilIndex].StartTime : float.MaxValue;
-
-        foreach (var enumerator in stateChunksContainerMap.Values.Select(container =>
-            container.EnumerateFrom(from.StartTime)))
+        foreach (var (container, enumerator) in stateChunksContainerMap.Values.Select(container =>
+            (container, container.EnumerateFrom(startTime))))
         {
             while (enumerator.MoveNext())
             {
                 var state = enumerator.Current;
-                if (state!.StartTime > from.EndTime || state!.StartTime >= until) break;
-                UpdateStateWithChromaGradient(state, from);
+                if (state!.StartTime >= endTime) break;
+
+                var fromIndex = chromaGradientDatas.FindLastIndex(cl =>
+                    cl.StartTime <= state.StartTime && state.StartTime <= cl.EndTime);
+                if (fromIndex == -1)
+                {
+                    state.StartTimeColor = state.StartTime;
+                    state.EndTimeColor = state.EndTime;
+
+                    if (state.BaseEvent.IsFlash)
+                        state.Easing = Easing.Cubic.Out;
+                    else if (state.BaseEvent.IsFade)
+                        state.Easing = Easing.Exponential.Out;
+                    else
+                        state.Easing = Easing.Linear;
+
+                    state.StartChromaColor = state.EndChromaColor = null;
+                    if ((state.BaseEvent.CustomColor != null)
+                        && Settings.Instance.EmulateChromaLite
+                        && !state.BaseEvent.IsWhite)
+                        state.StartChromaColor = state.EndChromaColor = (Color)state.BaseEvent.CustomColor;
+
+                    if (chromaLiteDatas.Count > 0)
+                    {
+                        var chromaLiteIndex =
+                            chromaLiteDatas.FindLastIndex(data =>
+                                data.BaseEvent.SongBpmTime <= state.BaseEvent.SongBpmTime);
+                        if (chromaLiteIndex != -1 && Settings.Instance.EmulateChromaLite)
+                            state.StartChromaColor = state.EndChromaColor = chromaLiteDatas[chromaLiteIndex].Color;
+                    }
+                }
+                else
+                {
+                    var from = chromaGradientDatas[fromIndex];
+                    UpdateStateWithChromaGradient(state, from);
+                }
+
+                var (_, _, prevState) = container.GetPreviousStateFrom(state);
+                var (_, _, nextState) = container.GetNextStateFrom(state);
+
+                OnInsertUpdateToPreviousState(state, prevState);
+                OnInsertUpdateFromPreviousStateAndNextState(state, prevState, nextState);
+                OnInsertUpdateFromNextState(state, nextState);
+                OnInsertUpdateToNextState(state, nextState);
             }
         }
     }
@@ -328,7 +364,7 @@ public class BasicLightManager : BasicEventManager<BasicLightState>
                     Easing = Easing.Named(evt.CustomLightGradient.EasingType)
                 });
             chromaGradientDatas = chromaGradientDatas.OrderBy(cl => cl.StartTime).ToList();
-            UpdateExistingWithChromaGradient(evt.SongBpmTime);
+            UpdateExistingWithChromaGradient(evt.SongBpmTime, evt.SongBpmTime + evt.CustomLightGradient.Duration);
         }
 
         //Check to see if we're soloing any particular event
@@ -417,6 +453,13 @@ public class BasicLightManager : BasicEventManager<BasicLightState>
                 }
         }
 
+        if (evt.CustomLightGradient != null && Settings.Instance.EmulateChromaLite)
+        {
+            var data = chromaGradientDatas.Find(data => data.BaseEvent == evt);
+            chromaGradientDatas.Remove(data);
+            UpdateExistingWithChromaGradient(evt.SongBpmTime, evt.SongBpmTime + evt.CustomLightGradient.Duration);
+        }
+
         IEnumerable<LightingObject> affectedLights = ControllingLights;
 
         if (evt.CustomLightID != null && LightIDMap != null && Settings.Instance.EmulateChromaAdvanced)
@@ -445,7 +488,6 @@ public class BasicLightManager : BasicEventManager<BasicLightState>
         }
     }
 
-    // TODO: need to properly recalculate when (affected) chroma lite changed or removed
     protected override void
         OnRemoveUpdatePreviousAndNextState(
             BasicLightState currentState,
@@ -463,26 +505,30 @@ public class BasicLightManager : BasicEventManager<BasicLightState>
             previousState.EndAlpha = nextState.StartAlpha;
             previousState.Easing = Easing.Named(nextState.BaseEvent.CustomEasing ?? "easeLinear");
             previousState.UseHSV = nextState.BaseEvent.CustomLerpType == "HSV";
-            return;
         }
-
-        previousState.EndTimeColor = nextState.StartTimeColor;
-        previousState.EndColor = previousState.StartColor;
-        previousState.EndChromaColor = previousState.StartChromaColor;
-
-        if (!previousState.BaseEvent.IsFade && !previousState.BaseEvent.IsFlash)
+        else
         {
-            previousState.EndTimeAlpha = nextState.StartTime;
-            previousState.EndAlpha = previousState.StartAlpha;
+            previousState.EndTimeColor = nextState.StartTimeColor;
+            previousState.EndColor = previousState.StartColor;
+            previousState.EndChromaColor = previousState.StartChromaColor;
+
+            if (!previousState.BaseEvent.IsFade && !previousState.BaseEvent.IsFlash)
+            {
+                previousState.EndTimeAlpha = nextState.StartTime;
+                previousState.EndAlpha = previousState.StartAlpha;
+            }
+
+            if (previousState.BaseEvent.IsOff && !previousState.CanBeTurnedOff)
+            {
+                previousState.StartAlpha =
+                    previousState.EndAlpha = GetNoTurnOffAlpha(previousState.BaseEvent.FloatValue);
+            }
+
+            if (nextState.BaseEvent.IsOff && !nextState.CanBeTurnedOff) nextState.StartColor = previousState.EndColor;
         }
 
-        if (previousState.BaseEvent.IsOff && !previousState.CanBeTurnedOff)
-        {
-            previousState.StartAlpha =
-                previousState.EndAlpha = GetNoTurnOffAlpha(previousState.BaseEvent.FloatValue);
-        }
-
-        if (nextState.BaseEvent.IsOff && !nextState.CanBeTurnedOff) nextState.StartColor = previousState.EndColor;
+        InsertWithChromaGradient(previousState);
+        InsertWithChromaGradient(nextState);
     }
 
 
