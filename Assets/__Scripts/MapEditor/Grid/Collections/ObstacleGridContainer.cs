@@ -36,6 +36,7 @@ public class ObstacleGridContainer : BeatmapObjectContainerCollection<BaseObstac
         AudioTimeSyncController.PlayToggle += OnPlayToggle;
         AudioTimeSyncController.TimeChanged += OnTimeChanged;
         UIMode.PreviewModeSwitched += OnUIPreviewModeSwitch;
+        UpdateObstacleDistortion();
 
         Settings.NotifyBySettingName(nameof(Settings.ObstacleOpacity), ObstacleOpacityChanged);
         ObstacleOpacityChanged(Settings.Instance.ObstacleOpacity);
@@ -51,6 +52,20 @@ public class ObstacleGridContainer : BeatmapObjectContainerCollection<BaseObstac
     }
 
     private void ObstacleOpacityChanged(object obj) => Shader.SetGlobalFloat(mainAlpha, (float)obj);
+
+    private void UpdateObstacleDistortion()
+    {
+        if (UIMode.PreviewMode)
+        {
+            Shader.SetGlobalFloat(obstacleDistortionStrength, 0.1f);
+            Shader.SetGlobalFloat(obstacleGlow, 1f);
+        }
+        else
+        {
+            Shader.SetGlobalFloat(obstacleDistortionStrength, 0f);
+            Shader.SetGlobalFloat(obstacleGlow, 0f);
+        }
+    }
 
     private void OnPlayToggle(bool playing) => Shader.SetGlobalFloat(outsideAlpha, playing ? 0 : 0.25f);
 
@@ -74,16 +89,7 @@ public class ObstacleGridContainer : BeatmapObjectContainerCollection<BaseObstac
 
     private void OnUIPreviewModeSwitch()
     {
-        if (UIMode.PreviewMode)
-        {
-            Shader.SetGlobalFloat(obstacleDistortionStrength, 0.1f);
-            Shader.SetGlobalFloat(obstacleGlow, 1f);
-        }
-        else
-        {
-            Shader.SetGlobalFloat(obstacleDistortionStrength, 0f);
-            Shader.SetGlobalFloat(obstacleGlow, 0f);
-        }
+        UpdateObstacleDistortion();
 
         RefreshPool(true);
     }

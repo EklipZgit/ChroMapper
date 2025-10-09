@@ -8,8 +8,6 @@
         [Header(Beat Saber)]
         [Space(10)]
         _Cutout("Cutout", Range(0, 1)) = 0.0
-        _CutoutEdgeWidth("Cutout Edge Width", Range(0, 0.2)) = 0.05
-        _CutoutEdgeGlow("Cutout Edge Glow", Range(0, 1)) = 0.25
         _CutoutTexOffset("Cutout Tex Offset", Vector) = (0, 0, 0, 0)
     }
     SubShader
@@ -31,9 +29,6 @@
             UNITY_DEFINE_INSTANCED_PROP(float, _Cutout)
             UNITY_DEFINE_INSTANCED_PROP(float4, _CutoutTexOffset)
         UNITY_INSTANCING_BUFFER_END(Props)
-
-        float _CutoutEdgeGlow;
-        float _CutoutEdgeWidth;
         ENDHLSL
 
         Pass

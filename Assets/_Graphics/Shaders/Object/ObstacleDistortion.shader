@@ -16,17 +16,15 @@
         {
             "Queue"="Transparent" "RenderType"="Transparent"
         }
-        // it should be cull off so it still distorts inside
+        // it should be cull off so it still distorts when inside
         // but this causes visual problem
         // whatever beat saber is doing is black magic
         Cull Back
         ZWrite Off
         LOD 100
 
-        GrabPass
-        {
-            "_GrabTexture"
-        }
+        // do not pass texture, this breaks (stacked) visual
+        GrabPass {}
 
         HLSLINCLUDE
         #include "UnityCG.cginc"
@@ -64,7 +62,7 @@
 
             struct v2f
             {
-                float4 vertex : SV_POSITION;
+                float4 pos : SV_POSITION;
                 float3 normal : NORMAL;
                 float2 uv : TEXCOORD0;
                 float3 localPos : TEXCOORD1;
@@ -80,11 +78,11 @@
                 UNITY_TRANSFER_INSTANCE_ID(v, o);
                 // necessary only if you want to access instanced properties in the fragment Shader.
 
-                o.vertex = UnityObjectToClipPos(v.vertex);
+                o.pos = UnityObjectToClipPos(v.vertex);
                 o.localPos = v.vertex;
                 o.uv = v.uv;
                 o.normal = v.normal;
-                o.screenPos = ComputeGrabScreenPos(o.vertex);
+                o.screenPos = ComputeGrabScreenPos(o.pos);
 
                 return o;
             }
@@ -105,7 +103,7 @@
                 float mag = length(color.rgb);
                 if (mag > 1)
                 {
-                    color.rgb = normalize(color.rgb) * min(sqrt(mag), 16);
+                    color.rgb = normalize(color.rgb) * min(sqrt(mag), 16) * color.a;
                     color.rgb = saturate(color.rgb);
                 }
                 color *= 0.1;
@@ -125,11 +123,15 @@
                     uvScalar.xyz = worldScale.xyz;
                 }
 
-                float2 halfUv = 0.5 - abs(0.5 - i.uv);
+                // float2 halfUv = 0.5 - abs(0.5 - i.uv);
                 float2 screenUV = i.screenPos.xy / i.screenPos.w;
                 // obstacle distortion need to be stable, cannot be based on screen space position
-                // horribad, only does diagonal
-                screenUV += (simplex((halfUv * uvScalar + cutoutTexOffset) / 4) - 0.5) * _ObstacleDistortionStrength;
+                // horribad
+                screenUV.x += (simplex((i.uv * uvScalar + cutoutTexOffset * 2) / 4) - 0.5) *
+                    _ObstacleDistortionStrength;
+                screenUV.y += (simplex((i.uv.yx * uvScalar.yx + cutoutTexOffset * 2) / 4) - 0.5) *
+                    _ObstacleDistortionStrength;
+
                 fixed4 col = color + tex2D(_GrabTexture, screenUV);
                 return col;
             }
