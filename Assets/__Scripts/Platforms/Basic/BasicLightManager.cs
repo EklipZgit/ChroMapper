@@ -50,12 +50,14 @@ public class BasicLightManager : BasicEventManager<BasicLightState>
         {
             foreach (var e in GetComponentsInChildren<LightingObject>())
                 // No, stop that. Enforcing Light ID breaks Glass Desert
-                if (!e.OverrideLightGroup)
-                    ControllingLights.Add(e);
+            {
+                if (!e.OverrideLightGroup) ControllingLights.Add(e);
+            }
 
             foreach (var e in GetComponentsInChildren<RotatingLightsManagerBase>())
-                if (!e.IsOverrideLightGroup())
-                    RotatingLights.Add(e);
+            {
+                if (!e.IsOverrideLightGroup()) RotatingLights.Add(e);
+            }
 
             var lightIdOrder = ControllingLights
                 .OrderBy(x => x.LightID)
@@ -147,21 +149,37 @@ public class BasicLightManager : BasicEventManager<BasicLightState>
         BasicLightState previousState)
     {
         base.OnInsertUpdateToPreviousState(newState, previousState);
-        if (!previousState.BaseEvent.IsFade && !previousState.BaseEvent.IsFlash)
-            previousState.EndTimeAlpha = newState.StartTime;
-        if (newState.BaseEvent.IsTransition
-            && (previousState.BaseEvent.IsOff
-                || previousState.BaseEvent.IsOn
-                || previousState.BaseEvent.IsTransition))
+
+        if (newState.BaseEvent.IsTransition && IsValidEventToTransition(previousState.BaseEvent))
         {
             if (previousState.BaseEvent.IsOff) previousState.StartColor = newState.StartColor;
+            previousState.EndTimeAlpha = newState.StartTime;
             previousState.EndTimeColor = newState.StartTime;
             previousState.EndColor = newState.StartColor;
             previousState.EndChromaColor = newState.StartChromaColor;
             previousState.EndAlpha = newState.StartAlpha;
             previousState.Easing = Easing.Named(newState.BaseEvent.CustomEasing ?? "easeLinear");
             previousState.UseHSV = newState.BaseEvent.CustomLerpType == "HSV";
+            return;
         }
+
+        previousState.EndColor = previousState.StartColor;
+        // previousState.EndTimeColor = newState.StartTimeColor;
+        // previousState.EndChromaColor = previousState.StartChromaColor;
+
+        if (!previousState.BaseEvent.IsFade && !previousState.BaseEvent.IsFlash)
+        {
+            previousState.EndTimeAlpha = newState.StartTime;
+            previousState.EndAlpha = previousState.StartAlpha;
+        }
+
+        if (previousState.BaseEvent.IsOff && !previousState.CanBeTurnedOff)
+        {
+            previousState.StartAlpha =
+                previousState.EndAlpha = GetNoTurnOffAlpha(previousState.BaseEvent.FloatValue);
+        }
+
+        if (newState.BaseEvent.IsOff && !newState.CanBeTurnedOff) newState.StartColor = previousState.EndColor;
     }
 
     protected override void OnInsertUpdateFromPreviousStateAndNextState(
@@ -178,20 +196,20 @@ public class BasicLightManager : BasicEventManager<BasicLightState>
         BasicLightState nextState)
     {
         base.OnInsertUpdateFromNextState(newState, nextState);
-        if (!newState.BaseEvent.IsFade && !newState.BaseEvent.IsFlash) newState.EndTimeAlpha = nextState.StartTime;
-        if (nextState.BaseEvent.IsTransition
-            && (newState.BaseEvent.IsOff
-                || newState.BaseEvent.IsOn
-                || newState.BaseEvent.IsTransition))
+        if (nextState.BaseEvent.IsTransition && IsValidEventToTransition(newState.BaseEvent))
         {
             if (newState.BaseEvent.IsOff) newState.StartColor = nextState.StartColor;
+            newState.EndTimeAlpha = nextState.StartTime;
             newState.EndTimeColor = nextState.StartTime;
             newState.EndColor = nextState.StartColor;
             newState.EndChromaColor = nextState.StartChromaColor;
             newState.EndAlpha = nextState.StartAlpha;
             newState.Easing = Easing.Named(nextState.BaseEvent.CustomEasing ?? "easeLinear");
             newState.UseHSV = nextState.BaseEvent.CustomLerpType == "HSV";
+            return;
         }
+
+        if (!newState.BaseEvent.IsFade && !newState.BaseEvent.IsFlash) newState.EndTimeAlpha = nextState.StartTime;
     }
 
     protected override void OnInsertUpdateToNextState(
@@ -223,25 +241,59 @@ public class BasicLightManager : BasicEventManager<BasicLightState>
         }
     }
 
-    private void UpdateExistingWithChromaGradient(float time)
+    // i would like if chroma gradient just stopped working entirely so i dont have to deal with this shit again
+    private void UpdateExistingWithChromaGradient(float startTime, float endTime)
     {
-        return; // TODO: properly handle this
-        var fromIndex = chromaGradientDatas.FindLastIndex(cl => cl.StartTime <= time && time <= cl.EndTime);
-        var from = fromIndex != -1 && fromIndex < chromaGradientDatas.Count
-            ? chromaGradientDatas[fromIndex]
-            : new ChromaGradientData { BaseEvent = new BaseEvent { songBpmTime = float.MinValue } };
-
-        var untilIndex = chromaGradientDatas.FindIndex(cl => cl.StartTime > time);
-        var until = untilIndex != -1 ? chromaGradientDatas[untilIndex].StartTime : float.MaxValue;
-
-        foreach (var enumerator in stateChunksContainerMap.Values.Select(container =>
-            container.EnumerateFrom(from.StartTime)))
+        foreach (var (container, enumerator) in stateChunksContainerMap.Values.Select(container =>
+            (container, container.EnumerateFrom(startTime))))
         {
             while (enumerator.MoveNext())
             {
                 var state = enumerator.Current;
-                if (state!.StartTime > from.EndTime || state!.StartTime >= until) break;
-                UpdateStateWithChromaGradient(state, from);
+                if (state!.StartTime >= endTime) break;
+
+                var fromIndex = chromaGradientDatas.FindLastIndex(cl =>
+                    cl.StartTime <= state.StartTime && state.StartTime <= cl.EndTime);
+                if (fromIndex == -1)
+                {
+                    state.StartTimeColor = state.StartTime;
+                    state.EndTimeColor = state.EndTime;
+
+                    if (state.BaseEvent.IsFlash)
+                        state.Easing = Easing.Cubic.Out;
+                    else if (state.BaseEvent.IsFade)
+                        state.Easing = Easing.Exponential.Out;
+                    else
+                        state.Easing = Easing.Linear;
+
+                    state.StartChromaColor = state.EndChromaColor = null;
+                    if ((state.BaseEvent.CustomColor != null)
+                        && Settings.Instance.EmulateChromaLite
+                        && !state.BaseEvent.IsWhite)
+                        state.StartChromaColor = state.EndChromaColor = (Color)state.BaseEvent.CustomColor;
+
+                    if (chromaLiteDatas.Count > 0)
+                    {
+                        var chromaLiteIndex =
+                            chromaLiteDatas.FindLastIndex(data =>
+                                data.BaseEvent.SongBpmTime <= state.BaseEvent.SongBpmTime);
+                        if (chromaLiteIndex != -1 && Settings.Instance.EmulateChromaLite)
+                            state.StartChromaColor = state.EndChromaColor = chromaLiteDatas[chromaLiteIndex].Color;
+                    }
+                }
+                else
+                {
+                    var from = chromaGradientDatas[fromIndex];
+                    UpdateStateWithChromaGradient(state, from);
+                }
+
+                var (_, _, prevState) = container.GetPreviousStateFrom(state);
+                var (_, _, nextState) = container.GetNextStateFrom(state);
+
+                OnInsertUpdateToPreviousState(state, prevState);
+                OnInsertUpdateFromPreviousStateAndNextState(state, prevState, nextState);
+                OnInsertUpdateFromNextState(state, nextState);
+                OnInsertUpdateToNextState(state, nextState);
             }
         }
     }
@@ -312,7 +364,7 @@ public class BasicLightManager : BasicEventManager<BasicLightState>
                     Easing = Easing.Named(evt.CustomLightGradient.EasingType)
                 });
             chromaGradientDatas = chromaGradientDatas.OrderBy(cl => cl.StartTime).ToList();
-            UpdateExistingWithChromaGradient(evt.SongBpmTime);
+            UpdateExistingWithChromaGradient(evt.SongBpmTime, evt.SongBpmTime + evt.CustomLightGradient.Duration);
         }
 
         //Check to see if we're soloing any particular event
@@ -373,7 +425,17 @@ public class BasicLightManager : BasicEventManager<BasicLightState>
             }
 
             InsertWithChromaGradient(newState);
-            HandleInsertState(stateChunksContainerMap[lightingObject], newState);
+
+            var container = stateChunksContainerMap[lightingObject];
+
+            // let's assume this will be previous state if this is inserted within the range
+            var previousState = container.CurrentState;
+            var previousValid = previousState.IsWithinRange(evt.SongBpmTime);
+            HandleInsertState(container, newState);
+
+            if (!previousValid) continue;
+            container.SetStateAt(Atsc.CurrentSongBpmTime);
+            UpdateObject(lightingObject, container.CurrentState);
         }
     }
 
@@ -389,6 +451,13 @@ public class BasicLightManager : BasicEventManager<BasicLightState>
                     UpdateExistingWithChromaLite(evt.SongBpmTime);
                     return;
                 }
+        }
+
+        if (evt.CustomLightGradient != null && Settings.Instance.EmulateChromaLite)
+        {
+            var data = chromaGradientDatas.Find(data => data.BaseEvent == evt);
+            chromaGradientDatas.Remove(data);
+            UpdateExistingWithChromaGradient(evt.SongBpmTime, evt.SongBpmTime + evt.CustomLightGradient.Duration);
         }
 
         IEnumerable<LightingObject> affectedLights = ControllingLights;
@@ -409,14 +478,16 @@ public class BasicLightManager : BasicEventManager<BasicLightState>
         foreach (var lightingObject in affectedLights)
         {
             var container = stateChunksContainerMap[lightingObject];
-            var state = HandleRemoveState(container, evt);
-            if (container.CurrentState != state) continue;
-            container.SetStateAt(evt.SongBpmTime);
+            HandleRemoveState(container, evt);
+
+            // unfortunately, we cannot do the same as insertion so we need to search
+            var (_, _, previousState) = container.GetStateAt(Atsc.CurrentSongBpmTime);
+            if (!previousState.IsWithinRange(evt.SongBpmTime)) continue;
+            container.SetStateAt(Atsc.CurrentSongBpmTime);
             UpdateObject(lightingObject, container.CurrentState);
         }
     }
 
-    // TODO: need to properly recalculate when (affected) chroma lite changed or removed
     protected override void
         OnRemoveUpdatePreviousAndNextState(
             BasicLightState currentState,
@@ -424,11 +495,9 @@ public class BasicLightManager : BasicEventManager<BasicLightState>
             BasicLightState nextState)
     {
         base.OnRemoveUpdatePreviousAndNextState(currentState, previousState, nextState);
-        if (nextState.BaseEvent.IsTransition
-            && (previousState.BaseEvent.IsOff
-                || previousState.BaseEvent.IsOn
-                || previousState.BaseEvent.IsTransition))
+        if (nextState.BaseEvent.IsTransition && IsValidEventToTransition(previousState.BaseEvent))
         {
+            if (previousState.BaseEvent.IsOff) previousState.StartColor = nextState.StartColor;
             previousState.EndTimeAlpha = nextState.StartTime;
             previousState.EndTimeColor = nextState.StartTimeColor;
             previousState.EndColor = nextState.StartColor;
@@ -457,6 +526,9 @@ public class BasicLightManager : BasicEventManager<BasicLightState>
 
             if (nextState.BaseEvent.IsOff && !nextState.CanBeTurnedOff) nextState.StartColor = previousState.EndColor;
         }
+
+        InsertWithChromaGradient(previousState);
+        InsertWithChromaGradient(nextState);
     }
 
 
@@ -493,6 +565,8 @@ public class BasicLightManager : BasicEventManager<BasicLightState>
             _ => Color.white
         };
     }
+
+    private static bool IsValidEventToTransition(BaseEvent evt) => evt.IsOn || evt.IsOff || evt.IsTransition;
 
     public struct ChromaLiteData : IEquatable<ChromaLiteData>
     {
@@ -531,7 +605,9 @@ public class BasicLightManager : BasicEventManager<BasicLightState>
 
 public class BasicLightState : BasicEventState
 {
-    public float StartTimeColor = float.MinValue; // this is supposedly the same as start time, special case for chroma gradient
+    public float
+        StartTimeColor = float.MinValue; // this is supposedly the same as start time, special case for chroma gradient
+
     public LightColor StartColor;
     public Color? StartChromaColor;
     public float StartAlpha;

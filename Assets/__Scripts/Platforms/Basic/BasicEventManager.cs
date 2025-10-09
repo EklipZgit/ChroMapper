@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Beatmap.Base;
 using UnityEngine;
 
@@ -133,4 +134,5 @@ public abstract class BasicEventState : IEquatable<BasicEventState>
     public float EndTime = float.MaxValue;
 
     public bool Equals(BasicEventState other) => id == other!.id;
+    public bool IsWithinRange(float value) => StartTime <= value && value < EndTime;
 }
