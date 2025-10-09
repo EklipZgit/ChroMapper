@@ -10,7 +10,10 @@ using UnityEngine.Serialization;
 public class ObstacleGridContainer : BeatmapObjectContainerCollection<BaseObstacle>
 {
     [SerializeField] private GameObject obstaclePrefab;
-    [FormerlySerializedAs("obstacleAppearanceSO")] [SerializeField] private ObstacleAppearanceSO obstacleAppearanceSo;
+
+    [FormerlySerializedAs("obstacleAppearanceSO")] [SerializeField]
+    private ObstacleAppearanceSO obstacleAppearanceSo;
+
     [SerializeField] private TracksManager tracksManager;
     [SerializeField] private CountersPlusController countersPlus;
 
@@ -24,6 +27,8 @@ public class ObstacleGridContainer : BeatmapObjectContainerCollection<BaseObstac
 
     private static readonly int outsideAlpha = Shader.PropertyToID("_OutsideAlpha");
     private static readonly int mainAlpha = Shader.PropertyToID("_MainAlpha");
+    private static readonly int obstacleDistortionStrength = Shader.PropertyToID("_ObstacleDistortionStrength");
+    private static readonly int obstacleGlow = Shader.PropertyToID("_ObstacleGlow");
 
     internal override void SubscribeToCallbacks()
     {
@@ -67,15 +72,29 @@ public class ObstacleGridContainer : BeatmapObjectContainerCollection<BaseObstac
         }
     }
 
-    private void OnUIPreviewModeSwitch() => RefreshPool(true);
+    private void OnUIPreviewModeSwitch()
+    {
+        if (UIMode.PreviewMode)
+        {
+            Shader.SetGlobalFloat(obstacleDistortionStrength, 0.1f);
+            Shader.SetGlobalFloat(obstacleGlow, 1f);
+        }
+        else
+        {
+            Shader.SetGlobalFloat(obstacleDistortionStrength, 0f);
+            Shader.SetGlobalFloat(obstacleGlow, 0f);
+        }
+
+        RefreshPool(true);
+    }
 
     public void UpdateColor(Color obstacle) => obstacleAppearanceSo.DefaultObstacleColor = obstacle;
 
     private bool updateFrame = false;
+
     internal override void LateUpdate()
     {
-        if (!UIMode.AnimationMode)
-            base.LateUpdate();
+        if (!UIMode.AnimationMode) base.LateUpdate();
     }
 
     private void OnTimeChanged()
@@ -85,14 +104,16 @@ public class ObstacleGridContainer : BeatmapObjectContainerCollection<BaseObstac
         var time = AudioTimeSyncController.CurrentSongBpmTime;
         if (AudioTimeSyncController.IsPlaying)
         {
-            while (spawnIndex < SpawnSortedObjects.Length && time + Track.JUMP_TIME >= SpawnSortedObjects[spawnIndex].SpawnSongBpmTime)
+            while (spawnIndex < SpawnSortedObjects.Length
+                && time + Track.JUMP_TIME >= SpawnSortedObjects[spawnIndex].SpawnSongBpmTime)
             {
                 if (SpawnSortedObjects[spawnIndex].HasMatchingTrack(TrackFilterID))
                     CreateContainerFromPool(SpawnSortedObjects[spawnIndex]);
                 ++spawnIndex;
             }
 
-            while (despawnIndex < DespawnSortedObjects.Length && time >= DespawnSortedObjects[despawnIndex].DespawnSongBpmTime)
+            while (despawnIndex < DespawnSortedObjects.Length
+                && time >= DespawnSortedObjects[despawnIndex].DespawnSongBpmTime)
             {
                 var objectData = DespawnSortedObjects[despawnIndex];
                 if (LoadedContainers.ContainsKey(objectData))
@@ -102,6 +123,7 @@ public class ObstacleGridContainer : BeatmapObjectContainerCollection<BaseObstac
                     else
                         LoadedContainers[objectData].Animator.ShouldRecycle = true;
                 }
+
                 ++despawnIndex;
             }
         }
@@ -118,6 +140,7 @@ public class ObstacleGridContainer : BeatmapObjectContainerCollection<BaseObstac
         {
             RecycleContainer(obj.ObjectData);
         }
+
         GetIndexes(
             time,
             (i) => SpawnSortedObjects[i].SpawnSongBpmTime,
@@ -135,8 +158,7 @@ public class ObstacleGridContainer : BeatmapObjectContainerCollection<BaseObstac
         var toSpawn = SpawnSortedObjects.Where(o => (o.SpawnSongBpmTime <= time && time < o.DespawnSongBpmTime));
         foreach (var obj in toSpawn)
         {
-            if (obj.HasMatchingTrack(TrackFilterID))
-                CreateContainerFromPool(obj);
+            if (obj.HasMatchingTrack(TrackFilterID)) CreateContainerFromPool(obj);
         }
     }
 

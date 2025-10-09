@@ -22,8 +22,7 @@
 
         // These are global properties and should not be instanced
         uniform float _MainAlpha = 0.5;
-        uniform float _OutsideAlpha = 1;
-        uniform float _ObstacleFadeRadius = 8;
+        uniform float _ObstacleGlow = 0;
 
         // Define instanced properties
         UNITY_INSTANCING_BUFFER_START(Props)
@@ -49,16 +48,16 @@
             struct appdata
             {
                 float4 vertex : POSITION;
-                float2 uv : TEXCOORD0;
                 float3 normal : NORMAL;
+                float2 uv : TEXCOORD0;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
             struct v2f
             {
                 float4 pos : SV_POSITION;
-                float2 uv : TEXCOORD0;
                 float3 normal : NORMAL;
+                float2 uv : TEXCOORD0;
                 float4 localPos : TEXCOORD1;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
@@ -83,32 +82,26 @@
                 UNITY_SETUP_INSTANCE_ID(i);
 
                 float4 worldScale = abs(UNITY_ACCESS_INSTANCED_PROP(Props, _WorldScale));
-                float uvXScalar = 0;
-                float uvYScalar = 0;
-
+                float2 uvScalar = 0;
                 if (i.normal.x != 0)
                 {
-                    uvXScalar = worldScale.z;
-                    uvYScalar = worldScale.y;
+                    uvScalar.xy = worldScale.zy;
                 }
                 else if (i.normal.y != 0)
                 {
-                    uvYScalar = worldScale.z;
-                    uvXScalar = worldScale.x;
+                    uvScalar.xy = worldScale.xz;
                 }
                 else
                 {
-                    uvXScalar = worldScale.x;
-                    uvYScalar = worldScale.y;
+                    uvScalar.xy = worldScale.xy;
                 }
 
                 float2 halfUv = 0.5 - abs(0.5 - i.uv);
-                if (halfUv.x * uvXScalar >= 0.05 && halfUv.y * uvYScalar >= 0.05)
+                if (halfUv.x * uvScalar.x >= 0.05 && halfUv.y * uvScalar.y >= 0.05)
                 {
                     discard;
                 }
 
-                float4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
                 float cutout = UNITY_ACCESS_INSTANCED_PROP(Props, _Cutout);
                 float4 cutoutTexOffset = UNITY_ACCESS_INSTANCED_PROP(Props, _CutoutTexOffset);
                 // TexOffset is apparently different
@@ -116,7 +109,12 @@
                 float c = noise - cutout;
                 clip(c);
 
-                float alpha = saturate(color.a * 0.05);
+                float4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
+                float alpha = 0.05;
+                if (_ObstacleGlow > 0)
+                {
+                    alpha = saturate(color.a * 0.5);
+                }
                 return float4(log2(color.rgb + 1.0), alpha);
             }
             ENDHLSL
