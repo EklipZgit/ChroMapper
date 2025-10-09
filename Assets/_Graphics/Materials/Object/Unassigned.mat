@@ -96,6 +96,8 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _Editor_IsPlaying: 0
+    - _FogEnd: 500
+    - _FogStart: 0
     - _GlossMapScale: 0
     - _Glossiness: 0.7
     - _GlossyReflections: 1

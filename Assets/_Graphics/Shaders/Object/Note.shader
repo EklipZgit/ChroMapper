@@ -24,6 +24,8 @@ Shader "ChroMapper/Object/Note"
         _CutoutEdgeGlow("Cutout Edge Glow", Range(0, 1)) = 0.5
         _CutoutTexOffset("Cutout Tex Offset", Vector) = (0, 0, 0, 0)
         _CutPlane("Cut Plane", Vector) = (0, 0, 0, 0)
+        _FogStart("Fog Start", Range(0,100)) = 0
+        _FogEnd("Fog End", Range(0,1000)) = 500
 
         [Header(Editor)]
         [Space(10)]
@@ -36,6 +38,7 @@ Shader "ChroMapper/Object/Note"
         {
             "RenderType" = "Opaque"
         }
+        Cull Off
 
         HLSLINCLUDE
         #include "UnityPBSLighting.cginc"
@@ -59,17 +62,12 @@ Shader "ChroMapper/Object/Note"
         float _Glow;
         float _CutoutEdgeGlow;
         float _CutoutEdgeWidth;
+        float _FogStart;
+        float _FogEnd;
         ENDHLSL
 
         Pass
         {
-            Name "Example"
-            Tags
-            {
-                "LightMode" = "ForwardBase"
-            }
-            Cull Off
-
             HLSLPROGRAM
             // Required to compile gles 2.0 with standard SRP library
             // All shaders must be compiled with HLSLcc and currently only gles is not using HLSLcc by default
@@ -85,14 +83,6 @@ Shader "ChroMapper/Object/Note"
             #pragma shader_feature _ALPHATEST_ON
             #pragma shader_feature _ALPHAPREMULTIPLY_ON
             #pragma shader_feature _RECEIVE_SHADOWS_OFF
-
-            // URP Keywords
-            #pragma multi_compile _ _MAIN_LIGHT_SHADOWS
-            #pragma multi_compile _ _MAIN_LIGHT_SHADOWS_CASCADE
-            #pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
-            #pragma multi_compile _ _ADDITIONAL_LIGHT_SHADOWS
-            #pragma multi_compile _ _SHADOWS_SOFT
-            #pragma multi_compile _ _MIXED_LIGHTING_SUBTRACTIVE
 
             // Unity defined keywords
             #pragma multi_compile _ DIRLIGHTMAP_COMBINED
@@ -121,26 +111,6 @@ Shader "ChroMapper/Object/Note"
                 float3 worldPos : TEXCOORD2;
                 float3 worldNormal : TEXCOORD3;
             };
-
-            // Automatically defined with SurfaceInput.hlsl
-            //TEXTURE2D(_BaseMap);
-            //SAMPLER(sampler_BaseMap);
-
-            #if SHADER_LIBRARY_VERSION_MAJOR < 9
-            // This function was added in URP v9.x.x versions, if we want to support URP versions before, we need to handle it instead.
-            // Computes the world space view direction (pointing towards the viewer).
-            float3 GetWorldSpaceViewDir(float3 positionWS)
-            {
-                if (unity_OrthoParams.w == 0)
-                {
-                    // Perspective
-                    return _WorldSpaceCameraPos - positionWS;
-                }
-                // Orthographic
-                float4x4 viewMat = UNITY_MATRIX_V;
-                return viewMat[2].xyz;
-            }
-            #endif
 
             float3 ComputeRotatedPosition(float3 position, float theta)
             {
@@ -249,10 +219,14 @@ Shader "ChroMapper/Object/Note"
                 fixed3 lightColor = _LightColor0.rgb;
                 float diffuse = saturate(dot(worldNormal, lightDirection));
 
+                float distance = length(i.worldPos.xyz - _WorldSpaceCameraPos);
+                float factor = 1 - saturate((distance - _FogStart) / (_FogEnd - _FogStart));
+                // return fixed4(factor.xxx, 0);
+                
                 fixed3 color = albedo.rgb * UNITY_LIGHTMODEL_AMBIENT.rgb;
                 color += diffuse * lightColor * albedo.rgb;
 
-                return float4(color, saturate(noteColor.a * _Glow));
+                return fixed4(color, saturate(noteColor.a * _Glow)) * factor;
             }
             ENDHLSL
         }

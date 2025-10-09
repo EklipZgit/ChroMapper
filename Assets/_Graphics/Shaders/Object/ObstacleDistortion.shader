@@ -9,22 +9,27 @@
         [Space(10)]
         _Cutout("Cutout", Range(0, 1)) = 0.0
         _CutoutTexOffset("Cutout Tex Offset", Vector) = (0, 0, 0, 0)
+        _FogStart("Fog Start", Range(0,100)) = 0
+        _FogEnd("Fog End", Range(0,1000)) = 500
     }
     SubShader
     {
         Tags
         {
-            "Queue"="Transparent" "RenderType"="Transparent"
+            "Queue"="Geometry+100"
+            "IgnoreProjector"="True"
         }
-        // it should be cull off so it still distorts when inside
-        // but this causes visual problem
-        // whatever beat saber is doing is black magic
-        Cull Back
-        ZWrite Off
+        Cull Off
         LOD 100
 
-        // do not pass texture, this breaks (stacked) visual
-        GrabPass {}
+        GrabPass
+        {
+            "_GrabTexture"
+            Tags
+            {
+                "Queue"="Transparent"
+            }
+        }
 
         HLSLINCLUDE
         #include "UnityCG.cginc"
@@ -42,6 +47,8 @@
             UNITY_DEFINE_INSTANCED_PROP(float4, _CutoutTexOffset)
         UNITY_INSTANCING_BUFFER_END(Props)
 
+        float _FogStart;
+        float _FogEnd;
         sampler2D _GrabTexture;
         ENDHLSL
 
@@ -66,7 +73,8 @@
                 float3 normal : NORMAL;
                 float2 uv : TEXCOORD0;
                 float3 localPos : TEXCOORD1;
-                float4 screenPos : TEXCOORD2;
+                float3 worldPos : TEXCOORD2;
+                float4 screenPos : TEXCOORD3;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
@@ -80,6 +88,7 @@
 
                 o.pos = UnityObjectToClipPos(v.vertex);
                 o.localPos = v.vertex;
+                o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
                 o.uv = v.uv;
                 o.normal = v.normal;
                 o.screenPos = ComputeGrabScreenPos(o.pos);
@@ -106,7 +115,8 @@
                     color.rgb = normalize(color.rgb) * min(sqrt(mag), 16) * color.a;
                     color.rgb = saturate(color.rgb);
                 }
-                color *= 0.1;
+                if (_ObstacleDistortionStrength) color *= 0.1;
+                else color *= 0.5;
                 color.a = 0;
 
                 float3 uvScalar = 0;
@@ -123,6 +133,10 @@
                     uvScalar.xyz = worldScale.xyz;
                 }
 
+                float distance = length(i.worldPos.xyz - _WorldSpaceCameraPos);
+                float factor = 1 - saturate((distance - _FogStart) / (_FogEnd - _FogStart));
+                // return float4(factor.xxx, 0);
+
                 // float2 halfUv = 0.5 - abs(0.5 - i.uv);
                 float2 screenUV = i.screenPos.xy / i.screenPos.w;
                 // obstacle distortion need to be stable, cannot be based on screen space position
@@ -133,7 +147,7 @@
                     _ObstacleDistortionStrength;
 
                 fixed4 col = color + tex2D(_GrabTexture, screenUV);
-                return col;
+                return col * factor;
             }
             ENDHLSL
         }

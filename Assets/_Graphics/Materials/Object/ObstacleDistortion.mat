@@ -73,6 +73,8 @@ Material:
     - _DistortionStrength: 0.1
     - _DstBlend: 0
     - _FadeSize: 5
+    - _FogEnd: 500
+    - _FogStart: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1

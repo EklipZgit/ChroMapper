@@ -9,6 +9,8 @@
         [Space(10)]
         _Cutout("Cutout", Range(0, 1)) = 0.0
         _CutoutTexOffset("Cutout Tex Offset", Vector) = (0, 0, 0, 0)
+        _FogStart("Fog Start", Range(0,100)) = 0
+        _FogEnd("Fog End", Range(0,1000)) = 500
     }
     SubShader
     {
@@ -29,6 +31,9 @@
             UNITY_DEFINE_INSTANCED_PROP(float, _Cutout)
             UNITY_DEFINE_INSTANCED_PROP(float4, _CutoutTexOffset)
         UNITY_INSTANCING_BUFFER_END(Props)
+
+        float _FogStart;
+        float _FogEnd;
         ENDHLSL
 
         Pass
@@ -54,6 +59,7 @@
                 float3 normal : NORMAL;
                 float2 uv : TEXCOORD0;
                 float4 localPos : TEXCOORD1;
+                float3 worldPos : TEXCOORD2;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
@@ -68,9 +74,11 @@
                 o.localPos = v.vertex;
                 o.uv = v.uv;
                 o.normal = v.normal;
+                o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
 
                 return o;
             }
+
 
             float4 frag(v2f i) : SV_Target
             {
@@ -104,13 +112,17 @@
                 float c = noise - cutout;
                 clip(c);
 
+                float distance = length(i.worldPos.xyz - _WorldSpaceCameraPos);
+                float factor = 1 - saturate((distance - _FogStart) / (_FogEnd - _FogStart));
+                // return float4(factor.xxx, 0);
+
                 float4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
                 float alpha = 0.05;
                 if (_ObstacleGlow > 0)
                 {
                     alpha = saturate(color.a * 0.5);
                 }
-                return float4(log2(color.rgb + 1.0), alpha);
+                return float4(log2(color.rgb + 1.0), alpha) * factor;
             }
             ENDHLSL
         }
