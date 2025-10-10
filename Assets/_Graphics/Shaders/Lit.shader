@@ -18,7 +18,9 @@
     {
         Tags
         {
-            "RenderType"="Opaque" "LightMode" = "ForwardBase"
+            "RenderType"="Opaque"
+            "LightMode"="ForwardBase"
+            "PassFlags"="OnlyDirectional"
         }
 
         Pass
@@ -31,7 +33,8 @@
             #pragma multi_compile _MODE_OPAQUE _MODE_CUTOUT
             #pragma multi_compile_instancing
 
-            #include "UnityPBSLighting.cginc"
+            #include "UnityCG.cginc"
+            #include "Lighting.cginc"
 
             UNITY_INSTANCING_BUFFER_START(Props)
                 UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
@@ -63,7 +66,7 @@
             v2f vert(appdata i)
             {
                 v2f o;
-                
+
                 UNITY_SETUP_INSTANCE_ID(i);
                 UNITY_TRANSFER_INSTANCE_ID(i, o);
 
@@ -105,7 +108,7 @@
                 col += specular * lightColor;
 
                 float alpha = log2(glow + 1.0);
-                
+
                 return fixed4(col.rgb, saturate(alpha));
             }
             ENDCG

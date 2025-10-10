@@ -36,12 +36,15 @@ Shader "ChroMapper/Object/Note"
     {
         Tags
         {
-            "RenderType" = "Opaque"
+            "RenderType"="Opaque"
+            "LightMode"="ForwardBase"
+            "PassFlags"="OnlyDirectional"
         }
         Cull Off
 
         HLSLINCLUDE
-        #include "UnityPBSLighting.cginc"
+        #include "UnityCG.cginc"
+        #include "Lighting.cginc"
         #include "../CGIncludes/Noise.cginc"
         #pragma multi_compile_instancing
 
@@ -58,7 +61,7 @@ Shader "ChroMapper/Object/Note"
             UNITY_DEFINE_INSTANCED_PROP(float, _AnimationSpawned)
             UNITY_DEFINE_INSTANCED_PROP(float, _ObjectTime)
         UNITY_INSTANCING_BUFFER_END(Props)
-        
+
         float _Glow;
         float _CutoutEdgeGlow;
         float _CutoutEdgeWidth;
@@ -186,7 +189,7 @@ Shader "ChroMapper/Object/Note"
                 float translucentAlpha = UNITY_ACCESS_INSTANCED_PROP(Props, _TranslucentAlpha);
                 float cutout = UNITY_ACCESS_INSTANCED_PROP(Props, _Cutout);
                 float4 cutoutTexOffset = UNITY_ACCESS_INSTANCED_PROP(Props, _CutoutTexOffset);
-                
+
                 float rotatedZ = abs(i.rotatedPos.z);
 
                 float3 albedo = _EnableNoteSurfaceGridLine > 0 && rotatedZ < outlineWidth && isTranslucent < 1
@@ -205,14 +208,15 @@ Shader "ChroMapper/Object/Note"
                                   : 1;
 
                 clip(isDithered(i.screenPos.xy / i.screenPos.w, alpha));
- 
+
                 float noise = simplex((i.localPos + cutoutTexOffset.xyz) * 2);
                 float c = noise - cutout;
                 clip(c);
-                if (c < _CutoutEdgeWidth) {
+                if (c < _CutoutEdgeWidth)
+                {
                     return float4(length(albedo.rgb) / 2 + albedo.rgb, _CutoutEdgeGlow);
                 }
-                
+
                 float3 worldNormal = normalize(i.worldNormal);
 
                 fixed3 lightDirection = normalize(_WorldSpaceLightPos0.xyz);
@@ -222,7 +226,7 @@ Shader "ChroMapper/Object/Note"
                 float distance = length(i.worldPos.xyz - _WorldSpaceCameraPos);
                 float factor = 1 - saturate((distance - _FogStart) / (_FogEnd - _FogStart));
                 // return fixed4(factor.xxx, 0);
-                
+
                 fixed3 color = albedo.rgb * UNITY_LIGHTMODEL_AMBIENT.rgb;
                 color += diffuse * lightColor * albedo.rgb;
 
