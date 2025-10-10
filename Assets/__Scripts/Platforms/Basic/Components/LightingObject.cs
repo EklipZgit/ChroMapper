@@ -14,7 +14,6 @@ public class LightingObject : MonoBehaviour
     [FormerlySerializedAs("lightID")] public int LightID;
     [FormerlySerializedAs("propGroup")] public int PropGroup;
 
-    private float colorTime;
 
     private float startTimeAlpha;
     private float startTimeColor;
@@ -26,23 +25,23 @@ public class LightingObject : MonoBehaviour
     private float endAlpha;
     private bool useHSV;
     private Func<float, float> easing = Easing.ByName["easeLinear"];
+    private bool canBeDisabled;
 
     private MaterialPropertyBlock lightPropertyBlock;
     private Renderer lightRenderer;
 
     private BoostSprite boostSprite;
 
-    private bool isLightEnabled = true;
 
     private static readonly int mainTex = Shader.PropertyToID("_MainTex");
-    private static readonly int emissionColor = Shader.PropertyToID("_EmissionColor");
-    private static readonly int baseColor = Shader.PropertyToID("_BaseColor");
+    private static readonly int baseColor = Shader.PropertyToID("_Color");
 
     private void Start()
     {
         lightPropertyBlock = new MaterialPropertyBlock();
         lightRenderer = GetComponentInChildren<Renderer>();
         boostSprite = GetComponent<BoostSprite>();
+        canBeDisabled = lightRenderer.sharedMaterial.name.Contains("Transparent");
 
         if (lightRenderer is SpriteRenderer spriteRenderer)
         {
@@ -87,11 +86,9 @@ public class LightingObject : MonoBehaviour
         }
     }
 
-    private void UpdateLighting(Color color, float alpha)
+    private void UpdateLighting(Color color)
     {
-        if (!isLightEnabled) return;
-        lightPropertyBlock.SetColor(emissionColor, color);
-        lightPropertyBlock.SetColor(baseColor, Color.white * alpha);
+        lightPropertyBlock.SetColor(baseColor, color);
         lightRenderer.SetPropertyBlock(lightPropertyBlock);
     }
 
@@ -102,10 +99,11 @@ public class LightingObject : MonoBehaviour
         var color = useHSV
             ? LerpHSV(startColor, endColor, easing(nTimeColor))
             : Color.Lerp(startColor, endColor, easing(nTimeColor));
-        var alpha = Mathf.Lerp(startAlpha, endAlpha, easing(nTimeAlpha)) * color.a;
+        var alpha = Mathf.Lerp(startAlpha, endAlpha, easing(nTimeAlpha));
 
-        SetEmission(alpha > 0);
-        UpdateLighting(color, alpha);
+        color.a *= alpha;
+        if (canBeDisabled) lightRenderer.enabled = color.a > 0;
+        if (lightRenderer.enabled) UpdateLighting(color);
     }
 
     private static Color LerpHSV(Color start, Color end, float t)
@@ -146,10 +144,5 @@ public class LightingObject : MonoBehaviour
     public void UpdateBoostState(bool boost)
     {
         if (boostSprite != null) lightPropertyBlock.SetTexture(mainTex, boostSprite.GetSprite(boost).texture);
-    }
-
-    private void SetEmission(bool b)
-    {
-        if (isLightEnabled != b) lightRenderer.enabled = isLightEnabled = b;
     }
 }

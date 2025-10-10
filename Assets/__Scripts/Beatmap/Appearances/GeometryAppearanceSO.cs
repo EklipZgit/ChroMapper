@@ -13,7 +13,8 @@ namespace Beatmap.Appearances
     [CreateAssetMenu(menuName = "Beatmap/Appearance/Geometry Appearance SO", fileName = "GeometryAppearanceSO")]
     public class GeometryAppearanceSO : ScriptableObject
     {
-        [SerializeField] private Material lightMaterial;
+        [SerializeField] private Material lightOpaqueMaterial;
+        [SerializeField] private Material lightTransparentMaterial;
         [SerializeField] private Material shinyMaterial;
         [SerializeField] private Material obstacleMaterial;
         [SerializeField] private Material regularMaterial;
@@ -56,8 +57,8 @@ namespace Beatmap.Appearances
 
             var material = shader switch
             {
-                ShaderType.OpaqueLight  => lightMaterial,
-                ShaderType.TransparentLight => lightMaterial,
+                ShaderType.OpaqueLight  => lightOpaqueMaterial,
+                ShaderType.TransparentLight => lightTransparentMaterial,
                 ShaderType.BaseWater => shinyMaterial,
                 ShaderType.BillieWater => shinyMaterial,
                 ShaderType.WaterfallMirror => shinyMaterial,
@@ -65,13 +66,7 @@ namespace Beatmap.Appearances
                 _ => regularMaterial,
             };
 
-            var colorKeyword = shader switch
-            {
-                ShaderType.OpaqueLight => "_EmissionColor",
-                ShaderType.TransparentLight => "_EmissionColor",
-                ShaderType.Obstacle => "_ColorTint",
-                _ => "_Color",
-            };
+            var colorKeyword = Shader.PropertyToID("_Color");
 
             if (basemat.Color is Color color)
             {
@@ -81,7 +76,7 @@ namespace Beatmap.Appearances
             // For animating material color
             if (basemat.Track is string track)
             {
-                container.MaterialAnimator.AttachToMaterial(container, track, colorKeyword);
+                container.MaterialAnimator.AttachToMaterial(container, track);
             }
 
             meshRenderer.sharedMaterial = material;

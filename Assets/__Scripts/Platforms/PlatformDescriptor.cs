@@ -38,9 +38,6 @@ public class PlatformDescriptor : MonoBehaviour
     [Tooltip("Objects to disable through the L keybind, like lights and static objects in 360 environments.")]
     public GameObject[] DisablableObjects;
 
-    [Tooltip("Change scale of normal map for shiny objects.")]
-    public float NormalMapScale = 2f;
-
     private AudioTimeSyncController atsc;
     private ColorBoostManager colorBoostManager;
 
@@ -69,8 +66,6 @@ public class PlatformDescriptor : MonoBehaviour
             LoadInitialMap.LevelLoadedEvent += HandleLevelLoaded;
     }
 
-    private void Start() => UpdateShinyMaterialSettings();
-
     private void OnDestroy()
     {
         BeatmapActionContainer.ActionCreatedEvent -= HandleActionEventRedo;
@@ -84,20 +79,6 @@ public class PlatformDescriptor : MonoBehaviour
 
         foreach (var manager in LightingManagers.Where(manager => manager != null))
             colorBoostManager.OnStateChange -= manager.ToggleBoost;
-    }
-
-    public void UpdateShinyMaterialSettings()
-    {
-        foreach (var renderer in GetComponentsInChildren<Renderer>())
-        {
-            if (renderer.sharedMaterial.name.Contains("Shiny Ass Black"))
-            {
-                var scale = renderer.gameObject.transform.lossyScale;
-                var normalScale = new Vector2(scale.x, scale.z) / NormalMapScale;
-                renderer.material.SetTextureScale(baseMap, normalScale);
-                renderer.material.SetTextureOffset(baseMap, Vector2.zero);
-            }
-        }
     }
 
     private void HandleLevelLoaded()

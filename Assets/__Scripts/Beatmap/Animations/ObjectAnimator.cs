@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-
 using Beatmap.Base;
 using Beatmap.Base.Customs;
 using Beatmap.Containers;
@@ -10,6 +9,7 @@ using Beatmap.Enums;
 using Beatmap.V2;
 using Beatmap.V2.Customs;
 using SimpleJSON;
+using Random = UnityEngine.Random;
 
 namespace Beatmap.Animations
 {
@@ -38,7 +38,8 @@ namespace Beatmap.Animations
         public bool AnimatedLife { get; private set; } = false;
         public bool ShouldRecycle;
 
-        public enum TargetTypes {
+        public enum TargetTypes
+        {
             None,
             GameplayObject,
             Transform,
@@ -47,16 +48,15 @@ namespace Beatmap.Animations
 
         public TargetTypes TargetType;
 
-        public string ColorKeyword = "_Color";
-
         private List<TrackAnimator> tracks = new List<TrackAnimator>();
 
         public Dictionary<string, IAnimateProperty> AnimatedProperties = new Dictionary<string, IAnimateProperty>();
         private IAnimateProperty[] properties = new IAnimateProperty[0];
 
-        private static readonly int opaqueAlpha = Shader.PropertyToID("_OpaqueAlpha");
-        private static readonly int animationSpawned = Shader.PropertyToID("_AnimationSpawned");
-        private static readonly int alwaysOpaque = Shader.PropertyToID("_AlwaysOpaque");
+        private static readonly int shaderIdColor = Shader.PropertyToID("_Color");
+        private static readonly int shaderIdCutout = Shader.PropertyToID("_Cutout");
+        private static readonly int shaderIdCutoutTexOffset = Shader.PropertyToID("_CutoutTexOffset");
+        private static readonly int shaderIdAnimSpawned = Shader.PropertyToID("_AnimationSpawned");
 
         public void ResetData()
         {
@@ -74,6 +74,7 @@ namespace Beatmap.Animations
                     var track = TracksManager.GetTrackAtTime(container.ObjectData?.SongBpmTime ?? 0);
                     track.AttachContainer(container);
                 }
+
                 GameObject.Destroy(AnimationTrack.gameObject);
                 AnimationTrack = null;
                 AnimatedTrack = false;
@@ -85,7 +86,7 @@ namespace Beatmap.Animations
             WorldPosition = new Aggregator<Vector3>(Vector3.zero, (a, b) => a + b);
             Scale = new Aggregator<Vector3>(Vector3.one, (a, b) => Vector3.Scale(a, b));
             Colors = new Aggregator<Color>(
-                container?.MaterialPropertyBlock?.GetColor(ColorKeyword) ?? Color.white,
+                container?.MaterialPropertyBlock?.GetColor(shaderIdColor) ?? Color.white,
                 (a, b) => a * b);
             Opacity = new Aggregator<float>(1.0f, (a, b) => a * b);
             OpacityArrow = new Aggregator<float>(1.0f, (a, b) => a * b);
@@ -104,14 +105,17 @@ namespace Beatmap.Animations
             if (container != null && !(container is GeometryContainer))
             {
                 container.UpdateGridPosition();
-                container.MaterialPropertyBlock.SetFloat(opaqueAlpha, 1);
-                container.MaterialPropertyBlock.SetFloat(animationSpawned, 0);
-                container.MaterialPropertyBlock.SetFloat(alwaysOpaque, 0);
+                container.MaterialPropertyBlock.SetFloat(shaderIdCutout, 0);
+                container.MaterialPropertyBlock.SetVector(
+                    shaderIdCutoutTexOffset,
+                    new(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0, 0));
+                container.MaterialPropertyBlock.SetFloat(shaderIdAnimSpawned, 0);
                 if (container is NoteContainer nc)
                 {
-                    nc.ArrowMaterialPropertyBlock.SetFloat(opaqueAlpha, 1);
+                    nc.ArrowMaterialPropertyBlock.SetFloat(shaderIdCutout, 0);
                     nc.DirectionTarget.localPosition = Vector3.zero;
                 }
+
                 container.UpdateMaterials();
             }
         }
@@ -127,6 +131,7 @@ namespace Beatmap.Animations
             {
                 track.RemoveChild(this);
             }
+
             tracks.Clear();
         }
 
@@ -135,9 +140,6 @@ namespace Beatmap.Animations
             ResetData();
 
             TargetType = TargetTypes.GameplayObject;
-            ColorKeyword = (container is ObstacleContainer)
-                ? "_ColorTint"
-                : "_Color";
 
             enabled = (UIMode.AnimationMode && TracksManager != null);
             if (!enabled) return;
@@ -155,12 +157,9 @@ namespace Beatmap.Animations
                 Scale.Preload(new Vector3(WallClamp(wallSize.x), WallClamp(wallSize.y), WallClamp(wallSize.z)));
             }
 
-            if (obj.CustomLocalRotation is JSONNode rot)
-                LocalRotation.Preload(Quaternion.Euler(rot.ReadVector3()));
-            if (obj.CustomWorldRotation is JSONArray wrot)
-                WorldRotation.Preload(Quaternion.Euler(wrot.ReadVector3()));
-            if (obj.CustomWorldRotation is JSONNumber yrot)
-                WorldRotation.Preload(Quaternion.Euler(0, yrot, 0));
+            if (obj.CustomLocalRotation is JSONNode rot) LocalRotation.Preload(Quaternion.Euler(rot.ReadVector3()));
+            if (obj.CustomWorldRotation is JSONArray wrot) WorldRotation.Preload(Quaternion.Euler(wrot.ReadVector3()));
+            if (obj.CustomWorldRotation is JSONNumber yrot) WorldRotation.Preload(Quaternion.Euler(0, yrot, 0));
 
             time_begin = obj.SpawnSongBpmTime;
             // Can't use DespawnSongBpmTime because obstacles jump out early
@@ -173,7 +172,8 @@ namespace Beatmap.Animations
 
             if (obj.CustomTrack != null)
             {
-                List<string> tracks = obj.CustomTrack switch {
+                List<string> tracks = obj.CustomTrack switch
+                {
                     JSONString s => new List<string> { s },
                     JSONArray arr => new List<string>(arr.Children.Select(c => (string)c)),
                     _ => new List<string>()
@@ -192,6 +192,7 @@ namespace Beatmap.Animations
                     {
                         continue;
                     }
+
                     var map = BeatSaberSongContainer.Instance.Map;
                     foreach (var ce in events.Where(ev => ev.Type == "AssignPathAnimation"))
                     {
@@ -209,9 +210,12 @@ namespace Beatmap.Animations
                                 TimeBegin = time_begin,
                                 TimeEnd = time_end,
                             };
-                            if (p.Transition != 0) {
-                                p.Transition = (float)map.JsonTimeToSongBpmTime(ce.JsonTime + p.Transition) - ce.SongBpmTime;
+                            if (p.Transition != 0)
+                            {
+                                p.Transition = (float)map.JsonTimeToSongBpmTime(ce.JsonTime + p.Transition)
+                                    - ce.SongBpmTime;
                             }
+
                             AddPointDef(p, jprop.Key, ce);
                         }
                     }
@@ -241,7 +245,9 @@ namespace Beatmap.Animations
             }
 
             // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-            if (bug && (obj.CustomData["_disableNoteGravity"]?.AsBool ?? obj.CustomData["disableNoteGravity"]?.AsBool ?? false))
+            if (bug
+                && (obj.CustomData["_disableNoteGravity"]?.AsBool
+                    ?? obj.CustomData["disableNoteGravity"]?.AsBool ?? false))
             {
                 Debug.LogError("disableNoteGravity is bugged when combined with definitePosition, please remove it!");
                 var position = AnimationTrack.ObjectParentTransform.localPosition;
@@ -275,16 +281,11 @@ namespace Beatmap.Animations
 
             WorldRotation = LocalRotation;
 
-            if (eh.Scale is Vector3 scale)
-                Scale._default = scale;
-            if (eh.Position is Vector3 p)
-                OffsetPosition._default = (v2 ? 1 : 1.667f) * p;
-            if (eh.LocalPosition is Vector3 lp)
-                OffsetPosition._default = (v2 ? 1 : 1.667f) * lp;
-            if (eh.Rotation is Vector3 r)
-                LocalRotation._default = (Quaternion.Euler(r.x, r.y, r.z));
-            if (eh.LocalRotation is Vector3 lr)
-                LocalRotation._default = (Quaternion.Euler(lr.x, lr.y, lr.z));
+            if (eh.Scale is Vector3 scale) Scale._default = scale;
+            if (eh.Position is Vector3 p) OffsetPosition._default = (v2 ? 1 : 1.667f) * p;
+            if (eh.LocalPosition is Vector3 lp) OffsetPosition._default = (v2 ? 1 : 1.667f) * lp;
+            if (eh.Rotation is Vector3 r) LocalRotation._default = (Quaternion.Euler(r.x, r.y, r.z));
+            if (eh.LocalRotation is Vector3 lr) LocalRotation._default = (Quaternion.Euler(lr.x, lr.y, lr.z));
 
             if (eh.Track != null)
             {
@@ -309,13 +310,12 @@ namespace Beatmap.Animations
             Atsc.TimeChanged += OnTimeChanged;
         }
 
-        public void AttachToMaterial(GeometryContainer con, string track, string colorKeyword)
+        public void AttachToMaterial(GeometryContainer con, string track)
         {
             ResetData();
 
             TargetType = TargetTypes.Material;
             container = con;
-            ColorKeyword = colorKeyword;
 
             enabled = true;
             AddParent(track);
@@ -341,14 +341,15 @@ namespace Beatmap.Animations
                 var NoodleAnimationLifetime = (time > time_end) ? -1 : 1;
                 if (!(container is ChainContainer))
                 {
-                    container?.MaterialPropertyBlock.SetFloat(animationSpawned, NoodleAnimationLifetime);
+                    container?.MaterialPropertyBlock.SetFloat(shaderIdAnimSpawned, NoodleAnimationLifetime);
                     if (container is NoteContainer nc)
                     {
-                        nc.ArrowMaterialPropertyBlock.SetFloat(animationSpawned, NoodleAnimationLifetime);
+                        nc.ArrowMaterialPropertyBlock.SetFloat(shaderIdAnimSpawned, NoodleAnimationLifetime);
                     }
                 }
+
                 AnimatedLife =
-                       (_time != null && _time < obj.SongBpmTime)
+                    (_time != null && _time < obj.SongBpmTime)
                     || (WorldPosition.Count > 0)
                     || (obj.CustomFake && time < time_end);
                 if (ShouldRecycle)
@@ -358,7 +359,9 @@ namespace Beatmap.Animations
                         : time_end;
                     if (time > despawn_time)
                     {
-                        BeatmapObjectContainerCollection.GetCollectionForType(container.ObjectData.ObjectType).RecycleContainer(container.ObjectData);
+                        BeatmapObjectContainerCollection
+                            .GetCollectionForType(container.ObjectData.ObjectType)
+                            .RecycleContainer(container.ObjectData);
                         AnimatedLife = false;
                         return;
                     }
@@ -388,20 +391,18 @@ namespace Beatmap.Animations
                 if (Colors.Count > 0)
                 {
                     var color = Colors.Get();
-                    container.MaterialPropertyBlock.SetColor(ColorKeyword, color);
+                    container.MaterialPropertyBlock.SetColor(shaderIdColor, color);
                     container.UpdateMaterials();
                 }
+
                 return;
             }
 
-            if (LocalRotation.Count > 0)
-                LocalTarget.localRotation = LocalRotation.Get();
+            if (LocalRotation.Count > 0) LocalTarget.localRotation = LocalRotation.Get();
 
-            if (OffsetPosition.Count > 0)
-                LocalTarget.localPosition = OffsetPosition.Get();
+            if (OffsetPosition.Count > 0) LocalTarget.localPosition = OffsetPosition.Get();
 
-            if (Scale.Count > 0)
-                LocalTarget.localScale = Scale.Get();
+            if (Scale.Count > 0) LocalTarget.localScale = Scale.Get();
 
             if (WorldTarget is Transform && WorldRotation.Count > 0)
             {
@@ -410,31 +411,30 @@ namespace Beatmap.Animations
                     WorldTarget.localRotation = WorldRotation.Get();
                 }
             }
+
             var time = _time ?? Atsc?.CurrentSongBpmTime ?? 0;
             if (WorldPosition.Count > 0)
             {
-                if (time_begin < time && time < time_end)
-                    AnimationTrack.UpdatePosition(0);
+                if (time_begin < time && time < time_end) AnimationTrack.UpdatePosition(0);
                 if (container is not null and not GeometryContainer)
                     container.transform.localPosition = WorldPosition.Get();
                 else
                     WorldTarget.localPosition = WorldPosition.Get();
             }
+
             if (container is ObjectContainer && (Colors.Count > 0 || OpacityArrow.Count > 0 || Opacity.Count > 0))
             {
                 if (Colors.Count > 0)
                 {
                     var color = Colors.Get();
                     container.MaterialPropertyBlock
-                        .SetColor(ColorKeyword, color);
+                        .SetColor(shaderIdColor, color);
                 }
 
                 if (container is NoteContainer nc)
-                {
-                    nc.ArrowMaterialPropertyBlock.SetFloat(opaqueAlpha, OpacityArrow.Get());
-                }
+                    nc.ArrowMaterialPropertyBlock.SetFloat(shaderIdCutout, 1f - OpacityArrow.Get());
 
-                container.MaterialPropertyBlock.SetFloat(opaqueAlpha, Opacity.Get());
+                container.MaterialPropertyBlock.SetFloat(shaderIdCutout, 1f - Opacity.Get());
                 container.UpdateMaterials();
             }
         }
@@ -471,7 +471,10 @@ namespace Beatmap.Animations
             {
                 AnimationTrack = TracksManager.CreateIndividualTrack(container.ObjectData as BaseGrid);
                 AnimationTrack.AttachContainer(container);
-                AnimationTrack.ObjectParentTransform.localPosition = new Vector3(container.transform.localPosition.x, container.transform.localPosition.y, 0);
+                AnimationTrack.ObjectParentTransform.localPosition = new Vector3(
+                    container.transform.localPosition.x,
+                    container.transform.localPosition.y,
+                    0);
                 AnimationTrack.transform.localPosition = Vector3.zero;
                 container.transform.localPosition = Vector3.zero;
                 AnimatedTrack = true;
@@ -483,42 +486,72 @@ namespace Beatmap.Animations
         {
             switch (key)
             {
-            case "_dissolve":
-            case "dissolve":
-                AddPointDef<float>(source, (float f) => Opacity.Add(f), PointDataParsers.ParseFloat, p, 1);
-                break;
-            case "_dissolveArrow":
-            case "dissolveArrow":
-                AddPointDef<float>(source, (float f) => OpacityArrow.Add(f), PointDataParsers.ParseFloat, p, 1);
-                break;
-            case "_localRotation":
-            case "localRotation":
-                AddPointDef<Quaternion>(source, (Quaternion q) => LocalRotation.Add(q), PointDataParsers.ParseQuaternion, p, Quaternion.identity);
-                break;
-            case "_rotation":
-            case "offsetWorldRotation":
-                AddPointDef<Quaternion>(source, (Quaternion v) => WorldRotation.Add(v), PointDataParsers.ParseQuaternion, p, Quaternion.identity);
-                break;
-            case "_position":
-            case "offsetPosition":
-                AddPointDef<Vector3>(source, (Vector3 v) => OffsetPosition.Add(v), PointDataParsers.ParseVector3, p, Vector3.zero);
-                break;
-            case "_definitePosition":
-            case "definitePosition":
-                AddPointDef<Vector3>(source, (Vector3 v) => WorldPosition.Add(v), PointDataParsers.ParseVector3, p, Vector3.zero);
-                break;
-            case "_scale":
-            case "scale":
-                AddPointDef<Vector3>(source, (Vector3 v) => Scale.Add(v), PointDataParsers.ParseVector3, p, Vector3.one);
-                break;
-            case "_color":
-            case "color":
-                AddPointDef<Color>(source, (Color c) => Colors.Add(c), PointDataParsers.ParseColor, p, Color.white);
-                break;
+                case "_dissolve":
+                case "dissolve":
+                    AddPointDef<float>(source, (float f) => Opacity.Add(f), PointDataParsers.ParseFloat, p, 0);
+                    break;
+                case "_dissolveArrow":
+                case "dissolveArrow":
+                    AddPointDef<float>(source, (float f) => OpacityArrow.Add(f), PointDataParsers.ParseFloat, p, 0);
+                    break;
+                case "_localRotation":
+                case "localRotation":
+                    AddPointDef<Quaternion>(
+                        source,
+                        (Quaternion q) => LocalRotation.Add(q),
+                        PointDataParsers.ParseQuaternion,
+                        p,
+                        Quaternion.identity);
+                    break;
+                case "_rotation":
+                case "offsetWorldRotation":
+                    AddPointDef<Quaternion>(
+                        source,
+                        (Quaternion v) => WorldRotation.Add(v),
+                        PointDataParsers.ParseQuaternion,
+                        p,
+                        Quaternion.identity);
+                    break;
+                case "_position":
+                case "offsetPosition":
+                    AddPointDef<Vector3>(
+                        source,
+                        (Vector3 v) => OffsetPosition.Add(v),
+                        PointDataParsers.ParseVector3,
+                        p,
+                        Vector3.zero);
+                    break;
+                case "_definitePosition":
+                case "definitePosition":
+                    AddPointDef<Vector3>(
+                        source,
+                        (Vector3 v) => WorldPosition.Add(v),
+                        PointDataParsers.ParseVector3,
+                        p,
+                        Vector3.zero);
+                    break;
+                case "_scale":
+                case "scale":
+                    AddPointDef<Vector3>(
+                        source,
+                        (Vector3 v) => Scale.Add(v),
+                        PointDataParsers.ParseVector3,
+                        p,
+                        Vector3.one);
+                    break;
+                case "_color":
+                case "color":
+                    AddPointDef<Color>(source, (Color c) => Colors.Add(c), PointDataParsers.ParseColor, p, Color.white);
+                    break;
             }
         }
 
-        private void AddPointDef<T>(BaseCustomEvent source, Action<T> setter, PointDefinition<T>.Parser parser, IPointDefinition.UntypedParams p, T _default) where T : struct
+        private void AddPointDef<T>(
+            BaseCustomEvent source,
+            Action<T> setter,
+            PointDefinition<T>.Parser parser,
+            IPointDefinition.UntypedParams p,
+            T _default) where T : struct
         {
             try
             {
@@ -530,6 +563,7 @@ namespace Beatmap.Animations
                         _default
                     );
                 }
+
                 GetAnimateProperty<T>(p.Key, setter, _default).AddPointDef(parser, p, source);
             }
             catch (Exception e)
@@ -540,13 +574,15 @@ namespace Beatmap.Animations
 
         private AnimateProperty<T> GetAnimateProperty<T>(string key, Action<T> setter, T _default) where T : struct
         {
-            if (!AnimatedProperties.ContainsKey(key)) {
+            if (!AnimatedProperties.ContainsKey(key))
+            {
                 AnimatedProperties[key] = new AnimateProperty<T>(
                     new List<PointDefinition<T>>(),
                     setter,
                     _default
                 );
             }
+
             return AnimatedProperties[key] as AnimateProperty<T>;
         }
 
@@ -558,6 +594,7 @@ namespace Beatmap.Animations
             {
                 return minWall;
             }
+
             return a;
         }
 
@@ -599,6 +636,7 @@ namespace Beatmap.Animations
                 {
                     value = func(value, items[i]);
                 }
+
                 Count = Keep;
                 return value;
             }

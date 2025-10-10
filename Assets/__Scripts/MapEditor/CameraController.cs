@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Beatmap.Animations;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Rendering.Universal;
+using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 using static UnityEngine.InputSystem.InputAction;
@@ -18,15 +18,19 @@ public class CameraController : MonoBehaviour, CMInput.ICameraActions
     [SerializeField] private float movementSpeed;
     [SerializeField] private float mouseSensitivity;
     [SerializeField] private Transform noteGridTransform;
-    [FormerlySerializedAs("_uiMode")][SerializeField] private UIMode uiMode;
+
+    [FormerlySerializedAs("_uiMode")] [SerializeField]
+    private UIMode uiMode;
+
     [SerializeField] private CustomStandaloneInputModule customStandaloneInputModule;
 
-    [FormerlySerializedAs("_rotationCallbackController")] public RotationCallbackController RotationCallbackController;
+    [FormerlySerializedAs("_rotationCallbackController")]
+    public RotationCallbackController RotationCallbackController;
 
     [FormerlySerializedAs("camera")] public Camera Camera;
-    [SerializeField] private UniversalRenderPipelineAsset urpAsset;
+    public PostProcessLayer PostProcessLayer;
 
-    [Header("Debug")][SerializeField] private float x;
+    [Header("Debug")] [SerializeField] private float x;
 
     [SerializeField] private float y;
     [SerializeField] private float z;
@@ -40,18 +44,25 @@ public class CameraController : MonoBehaviour, CMInput.ICameraActions
 
     private readonly Type[] actionMapsDisabledWhileMoving =
     {
-        typeof(CMInput.IPlacementControllersActions), typeof(CMInput.INotePlacementActions),
-        typeof(CMInput.IEventPlacementActions), typeof(CMInput.ISavingActions), typeof(CMInput.ITimelineActions),
-        typeof(CMInput.IPlatformSoloLightGroupActions), typeof(CMInput.IPlaybackActions),
-        typeof(CMInput.IBeatmapObjectsActions), typeof(CMInput.INoteObjectsActions),
-        typeof(CMInput.IEventObjectsActions), typeof(CMInput.IObstacleObjectsActions),
-        typeof(CMInput.ICustomEventsContainerActions), typeof(CMInput.IBPMTapperActions),
-        typeof(CMInput.IEventUIActions), typeof(CMInput.IUIModeActions), typeof(CMInput.IBoxSelectActions)
+        typeof(CMInput.IPlacementControllersActions),
+        typeof(CMInput.INotePlacementActions),
+        typeof(CMInput.IEventPlacementActions),
+        typeof(CMInput.ISavingActions),
+        typeof(CMInput.ITimelineActions),
+        typeof(CMInput.IPlatformSoloLightGroupActions),
+        typeof(CMInput.IPlaybackActions),
+        typeof(CMInput.IBeatmapObjectsActions),
+        typeof(CMInput.INoteObjectsActions),
+        typeof(CMInput.IEventObjectsActions),
+        typeof(CMInput.IObstacleObjectsActions),
+        typeof(CMInput.ICustomEventsContainerActions),
+        typeof(CMInput.IBPMTapperActions),
+        typeof(CMInput.IEventUIActions),
+        typeof(CMInput.IUIModeActions),
+        typeof(CMInput.IBoxSelectActions)
     };
 
     private Vector2 savedMousePos = Vector2.zero;
-
-    private UniversalAdditionalCameraData cameraExtraData;
 
     private bool canMoveCamera;
 
@@ -97,7 +108,6 @@ public class CameraController : MonoBehaviour, CMInput.ICameraActions
     private void Start()
     {
         Camera.fieldOfView = playerCamera ? Settings.Instance.PlayerCameraFOV : Settings.Instance.CameraFOV;
-        cameraExtraData = Camera.GetUniversalAdditionalCameraData();
         UpdateAA(Settings.Instance.CameraAA);
         UpdateRenderScale(Settings.Instance.RenderScale);
         UpdatePlayerCameraOffsetZ(Settings.Instance.PlayerCameraOffsetZ);
@@ -163,7 +173,7 @@ public class CameraController : MonoBehaviour, CMInput.ICameraActions
                 x = y = z = mouseY = mouseX = 0;
                 return;
             }
-            
+
             HandleCameraHeldMovementKeys();
 
             SetLockState(true);
@@ -199,38 +209,44 @@ public class CameraController : MonoBehaviour, CMInput.ICameraActions
         switch ((int)aaValue)
         {
             case 0:
-                cameraExtraData.antialiasing = AntialiasingMode.None;
+                PostProcessLayer.antialiasingMode = PostProcessLayer.Antialiasing.None;
                 break;
             case 1:
-                cameraExtraData.antialiasing = AntialiasingMode.FastApproximateAntialiasing;
+                PostProcessLayer.antialiasingMode = PostProcessLayer.Antialiasing.FastApproximateAntialiasing;
                 break;
             case 2:
-                cameraExtraData.antialiasing = AntialiasingMode.SubpixelMorphologicalAntiAliasing;
-                cameraExtraData.antialiasingQuality = AntialiasingQuality.Low;
+                PostProcessLayer.antialiasingMode = PostProcessLayer.Antialiasing.SubpixelMorphologicalAntialiasing;
+                PostProcessLayer.subpixelMorphologicalAntialiasing.quality =
+                    SubpixelMorphologicalAntialiasing.Quality.Low;
                 break;
             case 3:
-                cameraExtraData.antialiasing = AntialiasingMode.SubpixelMorphologicalAntiAliasing;
-                cameraExtraData.antialiasingQuality = AntialiasingQuality.Medium;
+                PostProcessLayer.antialiasingMode = PostProcessLayer.Antialiasing.SubpixelMorphologicalAntialiasing;
+                PostProcessLayer.subpixelMorphologicalAntialiasing.quality =
+                    SubpixelMorphologicalAntialiasing.Quality.Medium;
                 break;
             case 4:
-                cameraExtraData.antialiasing = AntialiasingMode.SubpixelMorphologicalAntiAliasing;
-                cameraExtraData.antialiasingQuality = AntialiasingQuality.High;
+                PostProcessLayer.antialiasingMode = PostProcessLayer.Antialiasing.SubpixelMorphologicalAntialiasing;
+                PostProcessLayer.subpixelMorphologicalAntialiasing.quality =
+                    SubpixelMorphologicalAntialiasing.Quality.High;
                 break;
         }
     }
 
     private void UpdateRenderScale(object renderScale)
     {
-        urpAsset.renderScale = Mathf.Sqrt((int)renderScale / 100f); // Sqrt to get scale per dimension
+        // TODO: find way to make it scale above 100%
+        var scale = Mathf.Min((int)renderScale / 100f, 1f);
+        ScalableBufferManager.ResizeBuffers(scale, scale);
+        // QualitySettings.resolutionScalingFixedDPIFactor = scale;
     }
 
     private void UpdatePlayerCameraOffsetZ(object posZ)
     {
         if (playerCamera)
         {
-            var newLocalPosition = this.transform.localPosition;
+            var newLocalPosition = transform.localPosition;
             newLocalPosition.z = (float)posZ / -0.6f; // Convert metres to CM scaled units
-            this.transform.localPosition = newLocalPosition;
+            transform.localPosition = newLocalPosition;
         }
     }
 
@@ -240,7 +256,7 @@ public class CameraController : MonoBehaviour, CMInput.ICameraActions
         if (lockMouse && !mouseLocked)
         {
             instance.savedMousePos = Mouse.current.position.ReadValue();
-            
+
             mouseX = 0;
             mouseY = 0;
             // Locked state automatically hides the cursor, so no need to set visibility
@@ -266,16 +282,16 @@ public class CameraController : MonoBehaviour, CMInput.ICameraActions
         x = 0f;
         if (leftHeld) x -= 1f;
         if (rightHeld) x += 1f;
-        
+
         y = 0f;
         if (elevateHeld) y += 1f;
         if (lowerHeld) y -= 1f;
-        
+
         z = 0f;
         if (forwardHeld) z += 1f;
         if (backwardHeld) z -= 1f;
     }
-    
+
     //Oh boy new Unity Input System POGCHAMP
     public void OnMoveCamera(CallbackContext context)
     {
@@ -298,11 +314,11 @@ public class CameraController : MonoBehaviour, CMInput.ICameraActions
     public void OnRotateCamera(CallbackContext context)
     {
         if (!canMoveCamera) return;
-        
+
         if (ignoreInitialMouseMovement)
         {
             framesAfterRightClick++;
-            
+
             // Ignore the first 3 frames
             if (framesAfterRightClick <= 3)
             {
@@ -310,7 +326,7 @@ public class CameraController : MonoBehaviour, CMInput.ICameraActions
                 mouseY = 0;
                 return;
             }
-            
+
             // After 8 frames, return to normal mouse handling
             if (framesAfterRightClick > 8)
             {
@@ -322,13 +338,13 @@ public class CameraController : MonoBehaviour, CMInput.ICameraActions
                 var delta = context.ReadValue<Vector2>();
                 delta.x = Mathf.Clamp(delta.x, -0.1f, 0.1f);
                 delta.y = Mathf.Clamp(delta.y, -0.1f, 0.1f);
-                
+
                 mouseX = delta.x * mouseSensitivity / 10f;
                 mouseY = delta.y * mouseSensitivity / 10f;
                 return;
             }
         }
-        
+
         var deltaMouseMovement = context.ReadValue<Vector2>();
         mouseX = deltaMouseMovement.x * mouseSensitivity / 10f;
         mouseY = deltaMouseMovement.y * mouseSensitivity / 10f;
@@ -337,7 +353,7 @@ public class CameraController : MonoBehaviour, CMInput.ICameraActions
     public void OnHoldtoMoveCamera(CallbackContext context)
     {
         if (customStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)) return;
-        
+
         if (context.performed && !canMoveCamera)
         {
             mouseX = 0;
@@ -345,7 +361,7 @@ public class CameraController : MonoBehaviour, CMInput.ICameraActions
             ignoreInitialMouseMovement = true;
             framesAfterRightClick = 0;
         }
-        
+
         canMoveCamera = context.performed;
         if (canMoveCamera)
             CMInputCallbackInstaller.DisableActionMaps(typeof(CameraController), actionMapsDisabledWhileMoving);
@@ -355,7 +371,10 @@ public class CameraController : MonoBehaviour, CMInput.ICameraActions
 
     public void OnAttachtoNoteGrid(CallbackContext context)
     {
-        if (RotationCallbackController.IsActive && context.performed && noteGridTransform.gameObject.activeInHierarchy && !playerCamera)
+        if (RotationCallbackController.IsActive
+            && context.performed
+            && noteGridTransform.gameObject.activeInHierarchy
+            && !playerCamera)
             LockedOntoNoteGrid = !LockedOntoNoteGrid;
     }
 
@@ -402,7 +421,9 @@ public class CameraController : MonoBehaviour, CMInput.ICameraActions
         }
         else if (Settings.Instance.SavedPositions[id] != null)
         {
-            transform.SetPositionAndRotation(Settings.Instance.SavedPositions[id].Position, Settings.Instance.SavedPositions[id].Rotation);
+            transform.SetPositionAndRotation(
+                Settings.Instance.SavedPositions[id].Position,
+                Settings.Instance.SavedPositions[id].Rotation);
         }
     }
 

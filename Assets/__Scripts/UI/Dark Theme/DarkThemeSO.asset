@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87921d576e5124740b7ca4226ce3c1c6, type: 3}
   m_Name: DarkThemeSO
   m_EditorClassIdentifier: 
-  BeonReplacement: {fileID: 11400000, guid: e2c49819344b7da44b253046a14bc754, type: 2}
-  TekoReplacement: {fileID: 11400000, guid: 17003b886c2e57b4a9ce9d0d655a397d, type: 2}
-  BeonUnityReplacement: {fileID: 12800000, guid: e6a947b5e09a7634bacf1cc6cf93a4af,
+  beonMaterialReplacement: {fileID: 2100000, guid: 0831b6b7ba18f5656bbb59062df88fa7,
+    type: 2}
+  TekoMaterialReplacement: {fileID: 2100000, guid: 0b9525ea6266a7ff6a5523cb447a05fc,
+    type: 2}
+  beonUnityReplacement: {fileID: 12800000, guid: e6a947b5e09a7634bacf1cc6cf93a4af,
     type: 3}
-  TekoUnityReplacement: {fileID: 12800000, guid: f2be00e696aba7942abcc131ccc4eff6,
+  tekoUnityReplacement: {fileID: 12800000, guid: ba505f35acadb564f872fa8ee89c84bc,
     type: 3}
