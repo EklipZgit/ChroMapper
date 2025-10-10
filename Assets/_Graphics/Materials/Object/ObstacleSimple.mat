@@ -7,16 +7,17 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: ObjectSelected
-  m_Shader: {fileID: 4800000, guid: 8414d13cc031cf848a6e31e3f9834bdb, type: 3}
+  m_Name: ObstacleSimple
+  m_Shader: {fileID: 4800000, guid: af1f2ffca5164e798ee8f2f6047e70d1, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
-  m_InvalidKeywords: []
+  m_InvalidKeywords:
+  - ETC1_EXTERNAL_ALPHA
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3100
+  m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
   m_LockedProperties: 
@@ -61,30 +62,42 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Angle: 82
+    - _AnimationSpawned: 0
     - _BumpScale: 1
+    - _CircleRadius: 7.5
     - _Cutoff: 0.5
+    - _Cutout: 0
+    - _CutoutEdgeGlow: 0.25
+    - _CutoutEdgeWidth: 0.05
     - _DetailNormalMapScale: 1
+    - _DistortionStrength: 0.1
     - _DstBlend: 0
-    - _FirstOutlineWidth: 0.1
+    - _FadeSize: 5
+    - _FogEnd: 500
+    - _FogStart: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _HandleScale: 0
+    - _MainAlpha: 0.25
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
-    - _Outline: 0.05
+    - _OpaqueAlpha: 1
+    - _OutsideAlpha: 0.25
     - _Parallax: 0.02
+    - _Rotation: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 0}
+    - _Color: {r: 1, g: 0, b: 0, a: 1}
+    - _ColorTint: {r: 1, g: 0, b: 0, a: 0}
+    - _CutoutTexOffset: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FirstOutlineColor: {r: 0, g: 1, b: 1, a: 0.122}
-    - _OutlineColor: {r: 0.061320692, g: 0.95673054, b: 1, a: 1}
+    - _Position: {r: 0, g: 1.5, b: 0, a: 0}
+    - _RotationAxis: {r: 0, g: 1, b: 0, a: 0}
+    - _WorldScale: {r: 1, g: 3.5, b: 1, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

@@ -10,6 +10,8 @@ namespace Beatmap.Containers
         private static readonly int handleScale = Shader.PropertyToID("_HandleScale");
 
         [SerializeField] private TracksManager manager;
+        [SerializeField] private Renderer simpleObstacle;
+        [SerializeField] private Renderer distortObstacle;
 
         [SerializeField] public BaseObstacle ObstacleData;
 
@@ -21,13 +23,22 @@ namespace Beatmap.Containers
 
         public bool IsRotatedByNoodleExtensions => ObstacleData.CustomWorldRotation != null;
 
-        public static ObstacleContainer SpawnObstacle(BaseObstacle data, TracksManager manager,
+        public static ObstacleContainer SpawnObstacle(
+            BaseObstacle data,
+            TracksManager manager,
             ref GameObject prefab)
         {
             var container = Instantiate(prefab).GetComponent<ObstacleContainer>();
             container.ObstacleData = data;
             container.manager = manager;
             return container;
+        }
+
+        internal override void UpdateMaterials()
+        {
+            simpleObstacle.enabled = !UIMode.PreviewMode;
+            distortObstacle.enabled = UIMode.PreviewMode;
+            base.UpdateMaterials();
         }
 
         public void SetColor(Color c)
@@ -52,7 +63,9 @@ namespace Beatmap.Containers
 
         public float GetLength()
         {
-            if (ObstacleData.CustomSize != null && ObstacleData.CustomSize.IsArray && ObstacleData.CustomSize[2].IsNumber)
+            if (ObstacleData.CustomSize != null
+                && ObstacleData.CustomSize.IsArray
+                && ObstacleData.CustomSize[2].IsNumber)
                 return ObstacleData.CustomSize[2];
 
             var length = ObstacleData.DurationSongBpm;
@@ -107,7 +120,10 @@ namespace Beatmap.Containers
             }
 
             // Enforce positive scale, offset our obstacles to match.
-            transform.localPosition = new Vector3(0, 0.1f, (ObstacleData.SongBpmTime * EditorScaleController.EditorScale) + (length < 0 ? length : 0));
+            transform.localPosition = new Vector3(
+                0,
+                0.1f,
+                (ObstacleData.SongBpmTime * EditorScaleController.EditorScale) + (length < 0 ? length : 0));
             Animator.LocalTarget.localPosition = position;
 
             SetScale(size);

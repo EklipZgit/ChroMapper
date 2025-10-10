@@ -27,7 +27,6 @@ public class ObstacleGridContainer : BeatmapObjectContainerCollection<BaseObstac
 
     private static readonly int outsideAlpha = Shader.PropertyToID("_OutsideAlpha");
     private static readonly int mainAlpha = Shader.PropertyToID("_MainAlpha");
-    private static readonly int obstacleDistortionStrength = Shader.PropertyToID("_ObstacleDistortionStrength");
     private static readonly int obstacleGlow = Shader.PropertyToID("_ObstacleGlow");
 
     internal override void SubscribeToCallbacks()
@@ -56,15 +55,9 @@ public class ObstacleGridContainer : BeatmapObjectContainerCollection<BaseObstac
     private void UpdateObstacleDistortion()
     {
         if (UIMode.PreviewMode)
-        {
-            Shader.SetGlobalFloat(obstacleDistortionStrength, 0.1f);
             Shader.SetGlobalFloat(obstacleGlow, 1f);
-        }
         else
-        {
-            Shader.SetGlobalFloat(obstacleDistortionStrength, 0f);
             Shader.SetGlobalFloat(obstacleGlow, 0f);
-        }
     }
 
     private void OnPlayToggle(bool playing) => Shader.SetGlobalFloat(outsideAlpha, playing ? 0 : 0.25f);
@@ -90,7 +83,6 @@ public class ObstacleGridContainer : BeatmapObjectContainerCollection<BaseObstac
     private void OnUIPreviewModeSwitch()
     {
         UpdateObstacleDistortion();
-
         RefreshPool(true);
     }
 
