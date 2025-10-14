@@ -86,7 +86,7 @@ public class TrackLaneRingsManager : TrackLaneRingsManagerBase
 
     protected virtual bool IsAffectedByZoom() => !Mathf.Approximately(MAXPositionStep, MINPositionStep);
 
-    public override void HandlePositionEvent(RingRotationState state, BaseEvent evt, int index)
+    public override void HandlePositionEvent(RingRotationStateData stateData, BaseEvent evt, int index)
     {
         zoomed = index % 2 == 0;
         var step = zoomed ? MAXPositionStep : MINPositionStep;
@@ -103,16 +103,16 @@ public class TrackLaneRingsManager : TrackLaneRingsManagerBase
         }
     }
 
-    public override void HandleRotationEvent(RingRotationState state, BaseEvent evt, int index)
+    public override void HandleRotationEvent(RingRotationStateData stateData, BaseEvent evt, int index)
     {
         if (RotationEffect == null) return;
 
         RotationEffect.AddRingRotationEvent(
-            state.RotationInitial, // TODO: this cause it to snap in unusual way
+            stateData.RotationInitial, // TODO: this cause it to snap in unusual way
             Random.Range(0, RotationStep),
             PropagationSpeed,
             FlexySpeed,
-            state.Direction,
+            stateData.Direction,
             evt);
     }
 

@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using Beatmap.Base;
 using UnityEngine;
 
-public class EventStateChunksContainer<T> : IEnumerable<T> where T : BasicEventState
+public class StateChunksContainer<TData, TBase> : IEnumerable<TData>
+    where TData : StateData<TBase> where TBase : BaseObject
 {
-    public T CurrentState;
-    public readonly List<List<T>> Chunks = new();
+    public TData CurrentState;
+    public readonly List<List<TData>> Chunks = new();
 
     private int currentChunkIndex;
     private int currentLocalIndex;
@@ -18,24 +19,19 @@ public class EventStateChunksContainer<T> : IEnumerable<T> where T : BasicEventS
         for (var secondTime = 0f;
             secondTime < atsc.SongAudioSource.clip.length;
             secondTime += atsc.GetSecondsFromBeat(chunkByBeatTime))
-            Chunks.Add(new List<T>());
+            Chunks.Add(new List<TData>());
     }
 
-    public (int index, List<T> chunk) GetChunk(float beatTime)
+    public (int index, List<TData> chunk) GetChunk(float beatTime)
     {
         var index = Mathf.Clamp(Mathf.FloorToInt(beatTime / chunkByBeatTime), 0, Chunks.Count - 1);
         return (index, Chunks[index]);
     }
 
-    public void SetCurrentState(float time, bool playing)
-    {
-        if (playing)
-            UseCurrentOrNextState(time);
-        else
-            UseCurrentOrFindState(time);
-    }
+    public bool IsCurrentOrFindState(float time, bool playing) =>
+        playing ? UseCurrentOrNextState(time) : UseCurrentOrFindState(time);
 
-    public (int chunkIndex, int localIndex, T state) GetStateAt(float time)
+    public (int chunkIndex, int localIndex, TData state) GetStateAt(float time)
     {
         var (chunkIdx, chunk) = GetChunk(time);
         var idx = BinarySearch(chunk, time);
@@ -56,7 +52,7 @@ public class EventStateChunksContainer<T> : IEnumerable<T> where T : BasicEventS
         return (chunkIdx, idx, chunk[idx]);
     }
 
-    public (List<T> chunk, int index, T state) GetPreviousStateFrom(T state)
+    public (List<TData> chunk, int index, TData state) GetPreviousStateFrom(TData state)
     {
         var (chunkIdx, chunk) = GetChunk(state.StartTime);
         var idx = BinarySearch(chunk, state.StartTime) - 1;
@@ -75,7 +71,7 @@ public class EventStateChunksContainer<T> : IEnumerable<T> where T : BasicEventS
         return (chunk, idx, chunk[idx]);
     }
 
-    public (List<T> chunk, int index, T state) GetOverlappingStateFrom(T state)
+    public (List<TData> chunk, int index, TData state) GetOverlappingStateFrom(TData state)
     {
         var (chunkIdx, chunk) = GetChunk(state.StartTime);
         var idx = BinarySearch(chunk, state.StartTime);
@@ -94,7 +90,7 @@ public class EventStateChunksContainer<T> : IEnumerable<T> where T : BasicEventS
         return (chunk, idx, chunk[idx]);
     }
 
-    public (List<T> chunk, int index, T state) GetNextStateFrom(T state)
+    public (List<TData> chunk, int index, TData state) GetNextStateFrom(TData state)
     {
         var (chunkIdx, chunk) = GetChunk(state.StartTime);
         var idx = BinarySearch(chunk, state.StartTime) + 1;
@@ -113,10 +109,11 @@ public class EventStateChunksContainer<T> : IEnumerable<T> where T : BasicEventS
         return (chunk, idx, chunk[idx]);
     }
 
-    private void UseCurrentOrNextState(float time)
+    private bool UseCurrentOrNextState(float time)
     {
-        if (time < CurrentState.EndTime) return;
+        if (time < CurrentState.EndTime) return true;
         SetNextState(time);
+        return false;
     }
 
     private void SetNextState(float time)
@@ -136,10 +133,11 @@ public class EventStateChunksContainer<T> : IEnumerable<T> where T : BasicEventS
         }
     }
 
-    private void UseCurrentOrFindState(float time)
+    private bool UseCurrentOrFindState(float time)
     {
-        if (CurrentState.IsWithinRange(time)) return;
+        if (CurrentState.IsWithinRange(time)) return true;
         SetStateAt(time);
+        return false;
     }
 
     public void SetStateAt(float time)
@@ -150,9 +148,9 @@ public class EventStateChunksContainer<T> : IEnumerable<T> where T : BasicEventS
         CurrentState = state;
     }
 
-    public (int chunkIndex, int localIndex, T state) GetStateFrom(BaseEvent evt) => GetStateAt(evt.SongBpmTime);
+    public (int chunkIndex, int localIndex, TData state) GetStateFrom(BaseObject evt) => GetStateAt(evt.SongBpmTime);
 
-    public int GetStateIndex(T state)
+    public int GetStateIndex(TData state)
     {
         var (chunkIdx, chunk) = GetChunk(state.StartTime);
         var idx = chunk.IndexOf(state);
@@ -160,7 +158,7 @@ public class EventStateChunksContainer<T> : IEnumerable<T> where T : BasicEventS
         return idx;
     }
 
-    private static int BinarySearch(List<T> chunk, float time)
+    private static int BinarySearch(List<TData> chunk, float time)
     {
         var right = chunk.Count - 1;
         var left = 0;
@@ -178,7 +176,7 @@ public class EventStateChunksContainer<T> : IEnumerable<T> where T : BasicEventS
         return -1;
     }
 
-    public IEnumerator<T> GetEnumerator()
+    public IEnumerator<TData> GetEnumerator()
     {
         var chunkIdx = 0;
         while (chunkIdx < Chunks.Count)
@@ -197,7 +195,7 @@ public class EventStateChunksContainer<T> : IEnumerable<T> where T : BasicEventS
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-    public IEnumerator<T> EnumerateFrom(T state)
+    public IEnumerator<TData> EnumerateFrom(TData state)
     {
         var (chunkIdx, chunk) = GetChunk(state.StartTime);
         var localIdx = chunk.IndexOf(state) + 1;
@@ -215,7 +213,7 @@ public class EventStateChunksContainer<T> : IEnumerable<T> where T : BasicEventS
         }
     }
 
-    public IEnumerator<T> EnumerateFrom(float time)
+    public IEnumerator<TData> EnumerateFrom(float time)
     {
         var (chunkIdx, localIdx, _) = GetStateAt(time);
 

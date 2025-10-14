@@ -8,10 +8,10 @@ internal class InterscopeRingLaserManager : TrackLaneRingsManagerBase
     
     public override Object[] GetToDestroy() => new Object[] { this };
 
-    public override void HandlePositionEvent(RingRotationState state, BaseEvent evt, int index) =>
+    public override void HandlePositionEvent(RingRotationStateData stateData, BaseEvent evt, int index) =>
         isLasers.ForEach(it => it.SwitchStyle(index % 2 == 0));
 
-    public override void HandleRotationEvent(RingRotationState state, BaseEvent evt, int index)
+    public override void HandleRotationEvent(RingRotationStateData stateData, BaseEvent evt, int index)
     {
     }
 }

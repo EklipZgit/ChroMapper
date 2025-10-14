@@ -3,57 +3,54 @@ using System.Linq;
 using Beatmap.Base;
 using UnityEngine;
 
-public abstract class PlatformEventManager : BasicEventManager<PlatformEventState>
+public abstract class PlatformEventManager : BasicEventManager<PlatformEventStateData>
 {
     public abstract int[] ListeningEventTypes { get; }
 
     public abstract void OnEventTrigger(int type, BaseEvent evt);
 
-    private readonly Dictionary<int, EventStateChunksContainer<PlatformEventState>> stateChunksContainerMap = new();
+    private readonly Dictionary<int, BasicEventStateChunksContainer<PlatformEventStateData>> stateChunksContainerMap =
+        new();
 
     public override void Initialize() => stateChunksContainerMap.Clear();
 
     public override void UpdateTime(float currentTime)
     {
-        foreach (var container in stateChunksContainerMap.Values)
-        {
-            var previousState = container.CurrentState;
-            container.SetCurrentState(currentTime, Atsc.IsPlaying);
-            if (container.CurrentState == previousState) continue;
+        foreach (var container in stateChunksContainerMap.Values.Where(container =>
+            !container.IsCurrentOrFindState(currentTime, Atsc.IsPlaying)))
             UpdateObject(container.CurrentState);
-        }
     }
 
-    private void UpdateObject(PlatformEventState state)
+    private void UpdateObject(PlatformEventStateData stateData)
     {
-        var evt = state.BaseEvent;
+        var evt = stateData.Base;
         OnEventTrigger(evt.Type, evt);
     }
 
-    protected override PlatformEventState CreateState(BaseEvent evt) => new(evt);
+    protected override PlatformEventStateData CreateState(BaseEvent data) => new(data);
 
-    public override void BuildFromEvents(IEnumerable<BaseEvent> events)
+    public override void BuildFromData(IEnumerable<BaseEvent> events)
     {
         var baseEvents = events.ToList();
         var type = baseEvents.First().Type;
         if (!stateChunksContainerMap.ContainsKey(type))
         {
-            stateChunksContainerMap[type] = InitializeStates(new EventStateChunksContainer<PlatformEventState>());
+            stateChunksContainerMap[type] = InitializeStates(new());
             foreach (var state in stateChunksContainerMap[type].Chunks.SelectMany(state => state))
-                state.BaseEvent.Type = type;
+                state.Base.Type = type;
         }
 
-        foreach (var evt in baseEvents) InsertEvent(evt);
+        foreach (var evt in baseEvents) InsertData(evt);
     }
 
-    public override void InsertEvent(BaseEvent evt)
+    public override void InsertData(BaseEvent evt)
     {
         var state = CreateState(evt);
         state.StartTime = evt.SongBpmTime;
         HandleInsertState(stateChunksContainerMap[evt.Type], state);
     }
 
-    public override void RemoveEvent(BaseEvent evt)
+    public override void RemoveData(BaseEvent evt)
     {
         var container = stateChunksContainerMap[evt.Type];
         var state = HandleRemoveState(container, evt);
@@ -68,9 +65,9 @@ public abstract class PlatformEventManager : BasicEventManager<PlatformEventStat
     }
 }
 
-public class PlatformEventState : BasicEventState
+public class PlatformEventStateData : BasicEventStateData
 {
-    public PlatformEventState(BaseEvent evt) : base(evt)
+    public PlatformEventStateData(BaseEvent evt) : base(evt)
     {
     }
 }

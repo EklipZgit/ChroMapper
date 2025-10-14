@@ -2,40 +2,36 @@ using System;
 using System.Collections.Generic;
 using Beatmap.Base;
 
-public class ColorBoostManager : BasicEventManager<ColorBoostState>
+public class ColorBoostManager : BasicEventManager<ColorBoostStateData>
 {
-    private readonly EventStateChunksContainer<ColorBoostState> stateChunksContainer = new();
+    private readonly BasicEventStateChunksContainer<ColorBoostStateData> stateChunksContainer = new();
     public bool Boost;
 
     public event Action<bool> OnStateChange;
-
-    public void Awake() => Priority = EventPriority.ColorBoost;
 
     public override void Initialize() => InitializeStates(stateChunksContainer);
 
     public override void UpdateTime(float currentTime)
     {
-        var previousState = stateChunksContainer.CurrentState;
-        stateChunksContainer.SetCurrentState(currentTime, Atsc.IsPlaying);
-        if (stateChunksContainer.CurrentState == previousState) return;
+        if (stateChunksContainer.IsCurrentOrFindState(currentTime, Atsc.IsPlaying)) return;
         UpdateObject(stateChunksContainer.CurrentState);
     }
 
-    private void UpdateObject(ColorBoostState state)
+    private void UpdateObject(ColorBoostStateData stateData)
     {
-        if (state.Boost == Boost) return;
-        Boost = state.Boost;
+        if (stateData.Boost == Boost) return;
+        Boost = stateData.Boost;
         OnStateChange(Boost);
     }
 
-    protected override ColorBoostState CreateState(BaseEvent evt) => new(evt);
+    protected override ColorBoostStateData CreateState(BaseEvent data) => new(data);
 
-    public override void BuildFromEvents(IEnumerable<BaseEvent> events)
+    public override void BuildFromData(IEnumerable<BaseEvent> events)
     {
-        foreach (var evt in events) InsertEvent(evt);
+        foreach (var evt in events) InsertData(evt);
     }
 
-    public override void InsertEvent(BaseEvent evt)
+    public override void InsertData(BaseEvent evt)
     {
         var state = CreateState(evt);
         state.StartTime = evt.SongBpmTime;
@@ -44,7 +40,7 @@ public class ColorBoostManager : BasicEventManager<ColorBoostState>
         HandleInsertState(stateChunksContainer, state);
     }
 
-    public override void RemoveEvent(BaseEvent evt)
+    public override void RemoveData(BaseEvent evt)
     {
         var state = HandleRemoveState(stateChunksContainer, evt);
         if (stateChunksContainer.CurrentState != state) return;
@@ -55,11 +51,11 @@ public class ColorBoostManager : BasicEventManager<ColorBoostState>
     public override void Reset() => UpdateObject(stateChunksContainer.CurrentState);
 }
 
-public class ColorBoostState : BasicEventState
+public class ColorBoostStateData : BasicEventStateData
 {
     public bool Boost;
 
-    public ColorBoostState(BaseEvent evt) : base(evt)
+    public ColorBoostStateData(BaseEvent evt) : base(evt)
     {
     }
 }

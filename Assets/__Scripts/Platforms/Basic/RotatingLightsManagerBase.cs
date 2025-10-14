@@ -3,42 +3,38 @@ using Beatmap.Base;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public abstract class RotatingLightsManagerBase : BasicEventManager<RotatingLightState>
+public abstract class RotatingLightsManagerBase : BasicEventManager<RotatingLightStateData>
 {
     public abstract void UpdateOffset(bool isLeftEvent, BaseEvent evt);
 
     public abstract bool IsOverrideLightGroup();
-    private readonly EventStateChunksContainer<RotatingLightState> stateChunksContainer = new();
-
-    public void Awake() => Priority = EventPriority.ColorBoost;
+    private readonly BasicEventStateChunksContainer<RotatingLightStateData> stateChunksContainer = new();
 
     public override void Initialize() => InitializeStates(stateChunksContainer);
 
     public override void UpdateTime(float currentTime)
     {
-        var previousState = stateChunksContainer.CurrentState;
-        stateChunksContainer.SetCurrentState(currentTime, Atsc.IsPlaying);
-        if (stateChunksContainer.CurrentState == previousState) return;
+        if (stateChunksContainer.IsCurrentOrFindState(currentTime, Atsc.IsPlaying)) return;
         UpdateObject(stateChunksContainer.CurrentState);
     }
 
-    private void UpdateObject(RotatingLightState state) => UpdateOffset(true, state.BaseEvent);
+    private void UpdateObject(RotatingLightStateData stateData) => UpdateOffset(true, stateData.Base);
 
-    protected override RotatingLightState CreateState(BaseEvent evt) => new(evt);
+    protected override RotatingLightStateData CreateState(BaseEvent data) => new(data);
 
-    public override void BuildFromEvents(IEnumerable<BaseEvent> events)
+    public override void BuildFromData(IEnumerable<BaseEvent> events)
     {
-        foreach (var evt in events) InsertEvent(evt);
+        foreach (var evt in events) InsertData(evt);
     }
 
-    public override void InsertEvent(BaseEvent evt)
+    public override void InsertData(BaseEvent evt)
     {
         var state = CreateState(evt);
         state.StartTime = evt.SongBpmTime;
         HandleInsertState(stateChunksContainer, state);
     }
 
-    public override void RemoveEvent(BaseEvent evt)
+    public override void RemoveData(BaseEvent evt)
     {
         var state = HandleRemoveState(stateChunksContainer, evt);
         if (stateChunksContainer.CurrentState != state) return;
@@ -49,9 +45,9 @@ public abstract class RotatingLightsManagerBase : BasicEventManager<RotatingLigh
     public override void Reset() => UpdateObject(stateChunksContainer.CurrentState);
 }
 
-public class RotatingLightState : BasicEventState
+public class RotatingLightStateData : BasicEventStateData
 {
-    public RotatingLightState(BaseEvent evt) : base(evt)
+    public RotatingLightStateData(BaseEvent evt) : base(evt)
     {
     }
 }

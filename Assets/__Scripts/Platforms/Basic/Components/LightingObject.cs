@@ -94,8 +94,8 @@ public class LightingObject : MonoBehaviour
 
     public void UpdateTime(float time)
     {
-        var nTimeAlpha = Mathf.Clamp01((time - startTimeAlpha) / (endTimeAlpha - startTimeAlpha));
-        var nTimeColor = Mathf.Clamp01((time - startTimeColor) / (endTimeColor - startTimeColor));
+        var nTimeAlpha = (time - startTimeAlpha) / (endTimeAlpha - startTimeAlpha);
+        var nTimeColor = (time - startTimeColor) / (endTimeColor - startTimeColor);
         var color = useHSV
             ? LerpHSV(startColor, endColor, easing(nTimeColor))
             : Color.Lerp(startColor, endColor, easing(nTimeColor));
@@ -119,20 +119,20 @@ public class LightingObject : MonoBehaviour
             .WithAlpha(Mathf.Lerp(start.a, end.a, t));
     }
 
-    public void UpdateFromState(BasicLightState state)
+    public void UpdateFromState(BasicLightStateData stateData)
     {
-        startTimeAlpha = state.StartTime;
-        startTimeColor = state.StartTimeColor;
-        startAlpha = state.StartAlpha;
-        startColor = BasicLightManager.GetStartColorFromState(this, state);
+        startTimeAlpha = stateData.StartTime;
+        startTimeColor = stateData.StartTimeColor;
+        startAlpha = stateData.StartAlpha;
+        startColor = BasicLightManager.GetStartColorFromState(this, stateData);
 
-        endTimeAlpha = state.EndTimeAlpha;
-        endTimeColor = state.EndTimeColor;
-        endAlpha = state.EndAlpha;
-        endColor = BasicLightManager.GetEndColorFromState(this, state);
+        endTimeAlpha = stateData.EndTimeAlpha;
+        endTimeColor = stateData.EndTimeColor;
+        endAlpha = stateData.EndAlpha;
+        endColor = BasicLightManager.GetEndColorFromState(this, stateData);
 
-        useHSV = state.UseHSV;
-        easing = state.Easing;
+        useHSV = stateData.UseHSV;
+        easing = stateData.Easing;
     }
 
     public void UpdateStartAndEndColor(Color start, Color end)

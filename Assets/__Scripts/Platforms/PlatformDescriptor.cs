@@ -41,8 +41,8 @@ public class PlatformDescriptor : MonoBehaviour
     private AudioTimeSyncController atsc;
     private ColorBoostManager colorBoostManager;
 
-    private readonly Dictionary<int, List<BasicEventManager>> eventTypeManagerMap = new();
-    private readonly List<BasicEventManager> sortedPriorityManagers = new();
+    private readonly Dictionary<int, List<StateManager<BaseEvent>>> eventTypeManagerMap = new();
+    private readonly List<StateManager<BaseEvent>> sortedPriorityManagers = new();
 
     private RotationCallbackController rotationCallback;
     private LightshowMode localMode;
@@ -167,8 +167,9 @@ public class PlatformDescriptor : MonoBehaviour
             MapEventManager(l, 13);
 
         foreach (var manager in eventTypeManagerMap
-            .Values.SelectMany(manager => manager)
-            .OrderBy(manager => manager.Priority))
+                .Values.SelectMany(manager => manager)
+            // .OrderBy(manager => manager.Priority)
+        )
         {
             manager.Atsc = atsc;
             sortedPriorityManagers.Add(manager);
@@ -180,7 +181,7 @@ public class PlatformDescriptor : MonoBehaviour
         if (Settings.Instance.HideDisablableObjectsOnLoad) ToggleDisablableObjects();
     }
 
-    private void MapEventManager(BasicEventManager manager, int type)
+    private void MapEventManager(StateManager<BaseEvent> manager, int type)
     {
         if (!eventTypeManagerMap.ContainsKey(type)) eventTypeManagerMap.Add(type, new());
         eventTypeManagerMap[type].Add(manager);
@@ -226,7 +227,7 @@ public class PlatformDescriptor : MonoBehaviour
                 : new();
 
         foreach (var (type, managers) in eventTypeManagerMap)
-            managers.ForEach(manager => manager.BuildFromEvents(events.Where(e => e.Type == type)));
+            managers.ForEach(manager => manager.BuildFromData(events.Where(e => e.Type == type)));
 
         foreach (var manager in sortedPriorityManagers) manager.Reset();
     }
@@ -271,7 +272,7 @@ public class PlatformDescriptor : MonoBehaviour
             default:
                 throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
         }
-        
+
         UpdateTimeByMode();
     }
 
@@ -281,7 +282,7 @@ public class PlatformDescriptor : MonoBehaviour
         foreach (var baseEvent in events)
         {
             if (!eventTypeManagerMap.TryGetValue(baseEvent.Type, out var managers)) continue;
-            managers.ForEach(manager => manager.InsertEvent(baseEvent));
+            managers.ForEach(manager => manager.InsertData(baseEvent));
             mark = true;
         }
 
@@ -294,7 +295,7 @@ public class PlatformDescriptor : MonoBehaviour
         foreach (var (reference, original) in events)
         {
             if (!eventTypeManagerMap.TryGetValue(original.Type, out var managers)) continue;
-            managers.ForEach(manager => manager.RemoveEvent(reference));
+            managers.ForEach(manager => manager.RemoveData(reference));
             mark = true;
         }
 
@@ -307,7 +308,7 @@ public class PlatformDescriptor : MonoBehaviour
         foreach (var baseEvent in events)
         {
             if (!eventTypeManagerMap.TryGetValue(baseEvent.Type, out var managers)) continue;
-            managers.ForEach(manager => manager.RemoveEvent(baseEvent));
+            managers.ForEach(manager => manager.RemoveData(baseEvent));
             mark = true;
         }
 

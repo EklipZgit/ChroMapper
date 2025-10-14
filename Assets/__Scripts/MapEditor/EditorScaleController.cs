@@ -62,15 +62,15 @@ public class EditorScaleController : MonoBehaviour, CMInput.IEditorScaleActions
         else
             EditorScale = setting;
 
-        if (previousEditorScale != EditorScale) Apply();
+        if (!Mathf.Approximately(previousEditorScale, EditorScale)) Apply();
     }
 
     private void RecalcEditorScale(object obj) => UpdateEditorScale(Settings.Instance.EditorScale);
 
     private void SetAccurateEditorScale(object obj)
     {
-        var enabled = (bool)obj;
-        if (enabled)
+        var accurateNjs = (bool)obj;
+        if (accurateNjs)
         {
             var bps = 60f / currentBpm;
             var songNoteJumpSpeed = BeatSaberSongContainer.Instance.MapDifficultyInfo.NoteJumpSpeed;
@@ -91,17 +91,11 @@ public class EditorScaleController : MonoBehaviour, CMInput.IEditorScaleActions
         switch (mode)
         {
             case UIModeType.Normal:
-                SetAccurateEditorScale(Settings.Instance.NoteJumpSpeedForEditorScale);
-                break;
             case UIModeType.HideUI:
-                SetAccurateEditorScale(Settings.Instance.NoteJumpSpeedForEditorScale);
-                break;
             case UIModeType.HideGrids:
                 SetAccurateEditorScale(Settings.Instance.NoteJumpSpeedForEditorScale);
                 break;
             case UIModeType.Preview:
-                SetAccurateEditorScale(true);
-                break;
             case UIModeType.Playing:
                 SetAccurateEditorScale(true);
                 break;
@@ -112,14 +106,19 @@ public class EditorScaleController : MonoBehaviour, CMInput.IEditorScaleActions
     {
         foreach (var collection in collections)
         {
-            foreach (var b in collection.LoadedContainers.Values)
-                b.UpdateGridPosition();
+            foreach (var b in collection.LoadedContainers.Values) b.UpdateGridPosition();
         }
 
         EditorScaleChangedEvent?.Invoke(EditorScale);
         previousEditorScale = EditorScale;
         foreach (var offset in scalingOffsets)
-            offset.localScale = new Vector3(offset.localScale.x, offset.localScale.y, Settings.Instance.TrackLength * EditorScale);
+        {
+            offset.localScale = new Vector3(
+                offset.localScale.x,
+                offset.localScale.y,
+                Settings.Instance.TrackLength * EditorScale);
+        }
+
         atsc.MoveToSongBpmTime(atsc.CurrentSongBpmTime);
     }
 }
