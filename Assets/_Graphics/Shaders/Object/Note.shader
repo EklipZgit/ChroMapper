@@ -24,8 +24,6 @@ Shader "ChroMapper/Object/Note"
         _CutoutEdgeGlow("Cutout Edge Glow", Range(0, 1)) = 0.5
         _CutoutTexOffset("Cutout Tex Offset", Vector) = (0, 0, 0, 0)
         _CutPlane("Cut Plane", Vector) = (0, 0, 0, 0)
-        _FogStart("Fog Start", Range(0,100)) = 0
-        _FogEnd("Fog End", Range(0,1000)) = 500
 
         [Header(Editor)]
         [Space(10)]
@@ -65,8 +63,6 @@ Shader "ChroMapper/Object/Note"
         float _Glow;
         float _CutoutEdgeGlow;
         float _CutoutEdgeWidth;
-        float _FogStart;
-        float _FogEnd;
         ENDHLSL
 
         Pass
@@ -223,8 +219,12 @@ Shader "ChroMapper/Object/Note"
                 fixed3 lightColor = _LightColor0.rgb;
                 float diffuse = saturate(dot(worldNormal, lightDirection));
 
-                float distance = length(i.worldPos.xyz - _WorldSpaceCameraPos);
-                float factor = 1 - saturate((distance - _FogStart) / (_FogEnd - _FogStart));
+                float _FogScale = 5;
+                float _FogAttenuation = 0.00002;
+                float distance = length(i.worldPos - _WorldSpaceCameraPos);
+                float factor = max(dot(distance, distance), 0);
+                factor = max(factor * _FogScale, 0);
+                factor = 1 / (factor * _FogAttenuation + 1);
                 // return fixed4(factor.xxx, 0);
 
                 fixed3 color = albedo.rgb * UNITY_LIGHTMODEL_AMBIENT.rgb;

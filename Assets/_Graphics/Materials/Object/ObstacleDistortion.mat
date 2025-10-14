@@ -81,6 +81,7 @@ Material:
     - _MainAlpha: 0.25
     - _Metallic: 0
     - _Mode: 0
+    - _ObstacleDistortionStrength: 0.05
     - _OcclusionStrength: 1
     - _OpaqueAlpha: 1
     - _OutsideAlpha: 0.25

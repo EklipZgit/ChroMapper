@@ -66,7 +66,6 @@
 
                 UNITY_SETUP_INSTANCE_ID(v);
                 UNITY_TRANSFER_INSTANCE_ID(v, o);
-                // necessary only if you want to access instanced properties in the fragment Shader.
 
                 o.pos = UnityObjectToClipPos(v.vertex);
                 o.localPos = v.vertex;
@@ -86,17 +85,17 @@
                 float c = noise - cutout;
                 clip(c);
 
-                float4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
-                float mag = length(color.rgb);
+                fixed4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
+                fixed mag = length(color.rgb);
                 if (mag > 1)
                 {
                     color.rgb = normalize(color.rgb) * min(sqrt(mag), 16) * color.a;
                     color.rgb = saturate(color.rgb);
                 }
-                color *= 0.5;
+                color *= 0.75;
                 color.a = 0;
                 
-                return color;
+                return saturate(color);
             }
             ENDHLSL
         }

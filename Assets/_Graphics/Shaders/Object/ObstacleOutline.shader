@@ -3,14 +3,12 @@
     Properties
     {
         _Color("Base Color", Color) = (0.5, 0, 0, 0)
-        _WorldScale("World Scale", Vector) = (1, 3.5, 1, 1)
+        _WorldScale("World Scale", Vector) = (1, 1, 1, 1)
 
         [Header(Beat Saber)]
         [Space(10)]
         _Cutout("Cutout", Range(0, 1)) = 0.0
         _CutoutTexOffset("Cutout Tex Offset", Vector) = (0, 0, 0, 0)
-        _FogStart("Fog Start", Range(0,100)) = 0
-        _FogEnd("Fog End", Range(0,1000)) = 500
     }
     SubShader
     {
@@ -31,9 +29,6 @@
             UNITY_DEFINE_INSTANCED_PROP(float, _Cutout)
             UNITY_DEFINE_INSTANCED_PROP(float4, _CutoutTexOffset)
         UNITY_INSTANCING_BUFFER_END(Props)
-
-        float _FogStart;
-        float _FogEnd;
         ENDHLSL
 
         Pass
@@ -112,17 +107,23 @@
                 float c = noise - cutout;
                 clip(c);
 
-                float distance = length(i.worldPos.xyz - _WorldSpaceCameraPos);
-                float factor = 1 - saturate((distance - _FogStart) / (_FogEnd - _FogStart));
+                float _FogScale = 5;
+                float _FogAttenuation = 0.00002;
+                float distance = length(i.worldPos - _WorldSpaceCameraPos);
+                float factor = max(dot(distance, distance), 0);
+                factor = max(factor * _FogScale, 0);
+                factor = 1 / (factor * _FogAttenuation + 1);
+                // factor = -factor + 1;
+
                 // return float4(factor.xxx, 0);
 
-                float4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
-                float alpha = 0.05;
+                fixed4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
+                fixed alpha = 0.05;
                 if (_ObstacleGlow > 0)
                 {
                     alpha = saturate(color.a * 0.5);
                 }
-                return float4(log2(color.rgb + 1.0), alpha) * factor;
+                return fixed4(log2(color.rgb + 1.0), alpha) * factor;
             }
             ENDHLSL
         }
