@@ -7,11 +7,14 @@ namespace Beatmap.Containers
     {
         private static readonly int colorKeyword = Shader.PropertyToID("_Color");
         private static readonly int shaderScale = Shader.PropertyToID("_WorldScale");
-        private static readonly int handleScale = Shader.PropertyToID("_HandleScale");
 
         [SerializeField] private TracksManager manager;
-        [SerializeField] private Renderer simpleObstacle;
-        [SerializeField] private Renderer distortObstacle;
+
+        [SerializeField] private Renderer obstacleCore;
+        [SerializeField] private Renderer obstacleOutline;
+
+        [SerializeField] private Material simpleObstacle;
+        [SerializeField] private Material distortObstacle;
 
         [SerializeField] public BaseObstacle ObstacleData;
 
@@ -36,8 +39,7 @@ namespace Beatmap.Containers
 
         internal override void UpdateMaterials()
         {
-            simpleObstacle.enabled = !UIMode.PreviewMode;
-            distortObstacle.enabled = UIMode.PreviewMode;
+            obstacleCore.sharedMaterial = UIMode.PreviewMode ? distortObstacle : simpleObstacle;
             base.UpdateMaterials();
         }
 
@@ -49,17 +51,27 @@ namespace Beatmap.Containers
 
         public void SetScale(Vector3 scale)
         {
-            Animator.LocalTarget.localScale = scale;
+            scale.x *= 0.98f;
+            var cubeOffset = scale / 2f;
+            cubeOffset.x = 0f;
+
+            obstacleCore.transform.localScale = scale - (Vector3.one * 0.01f);
+            obstacleCore.transform.localPosition = cubeOffset;
+
+            obstacleOutline.transform.localScale = scale;
+            obstacleOutline.transform.localPosition = cubeOffset;
+
+            foreach (var selectionRenderer in SelectionRenderers)
+            {
+                selectionRenderer.transform.localScale = scale;
+                selectionRenderer.transform.localPosition = cubeOffset;
+            }
 
             MaterialPropertyBlock.SetVector(shaderScale, scale);
-            MaterialPropertyBlock.SetFloat(handleScale, 1);
             UpdateMaterials();
         }
 
-        public Vector3 GetScale()
-        {
-            return Animator.LocalTarget.localScale;
-        }
+        public Vector3 GetScale() => obstacleOutline.transform.localScale;
 
         public float GetLength()
         {

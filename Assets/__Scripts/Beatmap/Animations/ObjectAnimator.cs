@@ -154,7 +154,7 @@ namespace Beatmap.Animations
                 (var wallSize, var wallPosition) = obs.ReadSizePosition();
                 wallPosition -= new Vector3(0, 0, 0.4f);
                 OffsetPosition.Preload(wallPosition);
-                Scale.Preload(new Vector3(WallClamp(wallSize.x), WallClamp(wallSize.y), WallClamp(wallSize.z)));
+                Scale.Preload(Vector3.one);
             }
 
             if (obj.CustomLocalRotation is JSONNode rot) LocalRotation.Preload(Quaternion.Euler(rot.ReadVector3()));
