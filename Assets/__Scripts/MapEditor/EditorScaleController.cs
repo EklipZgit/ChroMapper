@@ -13,6 +13,8 @@ public class EditorScaleController : MonoBehaviour, CMInput.IEditorScaleActions
     [SerializeField] private Transform moveableGridTransform;
     [SerializeField] private Transform[] scalingOffsets;
     [SerializeField] private AudioTimeSyncController atsc;
+    [SerializeField] private VariableNJSProvider vnjsProvider;
+    
     private BeatmapObjectContainerCollection[] collections;
     private float currentBpm = baseBpm;
 
@@ -73,7 +75,7 @@ public class EditorScaleController : MonoBehaviour, CMInput.IEditorScaleActions
         if (accurateNjs)
         {
             var bps = 60f / currentBpm;
-            var songNoteJumpSpeed = BeatSaberSongContainer.Instance.MapDifficultyInfo.NoteJumpSpeed;
+            var songNoteJumpSpeed = vnjsProvider.CurrentNjs;
 
             // When doing the math, it turns out that this all cancels out into what you see
             // We don't know where the hell 5/3 comes from, yay for magic numbers

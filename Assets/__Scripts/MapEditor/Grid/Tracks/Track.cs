@@ -1,5 +1,4 @@
-﻿using System;
-using Beatmap.Base;
+﻿using Beatmap.Base;
 using Beatmap.V2;
 using Beatmap.Containers;
 using UnityEngine;
@@ -10,7 +9,6 @@ public class Track : MonoBehaviour
 
     public Vector3 RotationValue = Vector3.zero;
 
-    public Action TimeChanged;
     private readonly Vector3 rotationPoint = LoadInitialMap.PlatformOffset;
 
     public BaseGrid Object;
@@ -37,7 +35,6 @@ public class Track : MonoBehaviour
     {
         ObjectParentTransform.localPosition = new Vector3(ObjectParentTransform.localPosition.x,
             ObjectParentTransform.localPosition.y, position);
-        TimeChanged?.Invoke();
     }
 
     public void UpdateTime(float time)

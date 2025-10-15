@@ -7,7 +7,10 @@ using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-public class AudioTimeSyncController : MonoBehaviour, CMInput.IPlaybackActions, CMInput.ITimelineActions, CMInput.ITimelineNavigationActions
+public class AudioTimeSyncController : MonoBehaviour,
+                                       CMInput.IPlaybackActions,
+                                       CMInput.ITimelineActions,
+                                       CMInput.ITimelineNavigationActions
 {
     public static readonly string PrecisionSnapName = "PrecisionSnap";
 
@@ -15,23 +18,31 @@ public class AudioTimeSyncController : MonoBehaviour, CMInput.IPlaybackActions, 
     private static readonly int songTimeSeconds = Shader.PropertyToID("_SongTimeSeconds");
     private static readonly int viewStart = Shader.PropertyToID("_ViewStart");
     private static readonly int viewEnd = Shader.PropertyToID("_ViewEnd");
-    
+
     private const float cancelPlayInputDuration = 0.3f;
 
-    [FormerlySerializedAs("songAudioSource")] public AudioSource SongAudioSource;
+    [FormerlySerializedAs("songAudioSource")]
+    public AudioSource SongAudioSource;
+
     [SerializeField] private AudioSource waveformSource;
 
     [SerializeField] private GameObject moveables;
     [SerializeField] private TracksManager tracksManager;
     [SerializeField] private Track[] otherTracks;
-    [FormerlySerializedAs("bpmChangesContainer")][SerializeField] private BPMChangeGridContainer bpmChangeGridContainer;
+
+    [FormerlySerializedAs("bpmChangesContainer")] [SerializeField]
+    private BPMChangeGridContainer bpmChangeGridContainer;
+
     [SerializeField] private GridRenderingController gridRenderingController;
     [SerializeField] private CustomStandaloneInputModule customStandaloneInputModule;
 
     public BaseInfo MapInfo;
 
     [SerializeField] private float currentSeconds;
-    [FormerlySerializedAs("stopScheduled")] public bool StopScheduled;
+
+    [FormerlySerializedAs("stopScheduled")]
+    public bool StopScheduled;
+
     [FormerlySerializedAs("initialized")] public bool Initialized;
     private int gridMeasureSnapping = 1;
     private float audioLatencyCompensationSeconds;
@@ -43,6 +54,7 @@ public class AudioTimeSyncController : MonoBehaviour, CMInput.IPlaybackActions, 
     private bool levelLoaded;
     public Action<bool> PlayToggle;
 
+    public Action TimeChangedEarly;
     public Action TimeChanged;
     private float playStartTime;
     private bool preciselyControlSnap;
@@ -62,6 +74,7 @@ public class AudioTimeSyncController : MonoBehaviour, CMInput.IPlaybackActions, 
     }
 
     [SerializeField] private float currentJsonTime;
+
     public float CurrentJsonTime
     {
         get => currentJsonTime;
@@ -75,10 +88,13 @@ public class AudioTimeSyncController : MonoBehaviour, CMInput.IPlaybackActions, 
         }
     }
 
-    [Obsolete("This is for existing dev plugin compatibility. Use CurrentSongBpmTime, CurrentJsonTime, or CurrentSeconds.", true)]
+    [Obsolete(
+        "This is for existing dev plugin compatibility. Use CurrentSongBpmTime, CurrentJsonTime, or CurrentSeconds.",
+        true)]
     public float CurrentBeat { get => CurrentSongBpmTime; }
 
     [SerializeField] private float currentSongBpmTime;
+
     public float CurrentSongBpmTime
     {
         get => currentSongBpmTime;
@@ -105,7 +121,8 @@ public class AudioTimeSyncController : MonoBehaviour, CMInput.IPlaybackActions, 
         }
     }
 
-    public float CurrentAudioSeconds => SongAudioSource.clip is null ? 0f : SongAudioSource.timeSamples / (float)SongAudioSource.clip.frequency;
+    public float CurrentAudioSeconds =>
+        SongAudioSource.clip is null ? 0f : SongAudioSource.timeSamples / (float)SongAudioSource.clip.frequency;
 
     public float CurrentAudioBeats => GetBeatFromSeconds(CurrentAudioSeconds);
 
@@ -116,7 +133,10 @@ public class AudioTimeSyncController : MonoBehaviour, CMInput.IPlaybackActions, 
         get
         {
             if (IsPlaying) return false;
-            return Mathf.Approximately(currentJsonTime, (float)Math.Round(currentJsonTime * gridMeasureSnapping, MidpointRounding.AwayFromZero) / gridMeasureSnapping);
+            return Mathf.Approximately(
+                currentJsonTime,
+                (float)Math.Round(currentJsonTime * gridMeasureSnapping, MidpointRounding.AwayFromZero)
+                / gridMeasureSnapping);
         }
     }
 
@@ -183,8 +203,10 @@ public class AudioTimeSyncController : MonoBehaviour, CMInput.IPlaybackActions, 
                 }
 
                 // Add frame time to current time
-                CurrentSeconds = time + (correction * (Time.deltaTime * (songSpeed / 10f))) -
-                                 (audioLatencyCompensationSeconds * (songSpeed / 10f));
+                CurrentSeconds =
+                    time
+                    + (correction * (Time.deltaTime * (songSpeed / 10f)))
+                    - (audioLatencyCompensationSeconds * (songSpeed / 10f));
             }
         }
         catch (Exception e)
@@ -202,19 +224,20 @@ public class AudioTimeSyncController : MonoBehaviour, CMInput.IPlaybackActions, 
     }
 
     private bool toggledPlayingPreviousFrame;
+
     private IEnumerator TrackToggledPlayingPreviousFrame()
     {
         toggledPlayingPreviousFrame = true;
         yield return null;
         toggledPlayingPreviousFrame = false;
     }
-    
+
     public void OnTogglePlaying(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
             TogglePlaying();
-            
+
             // On maps with dense lighting, it can take longer than the cancelPlayInputDuration to start playing.
             // When this happens it becomes impossible to play without holding so track if this was performed on the
             // previous frame to determine if we want to ignore the cancelPlaying behaviour
@@ -237,8 +260,8 @@ public class AudioTimeSyncController : MonoBehaviour, CMInput.IPlaybackActions, 
 
     public void OnChangeTimeandPrecision(InputAction.CallbackContext context)
     {
-        if (!KeybindsController.IsMouseInWindow ||
-            customStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true))
+        if (!KeybindsController.IsMouseInWindow
+            || customStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true))
         {
             return;
         }
@@ -249,8 +272,10 @@ public class AudioTimeSyncController : MonoBehaviour, CMInput.IPlaybackActions, 
             if (controlSnap)
             {
                 float scrollDirection;
-                if (Settings.Instance.InvertPrecisionScroll) scrollDirection = value > 0 ? 0.5f : 2;
-                else scrollDirection = value > 0 ? 2 : 0.5f;
+                if (Settings.Instance.InvertPrecisionScroll)
+                    scrollDirection = value > 0 ? 0.5f : 2;
+                else
+                    scrollDirection = value > 0 ? 2 : 0.5f;
                 if (!preciselyControlSnap)
                 {
                     GridMeasureSnapping = Mathf.Clamp(Mathf.RoundToInt(GridMeasureSnapping * scrollDirection), 1, 64);
@@ -268,7 +293,7 @@ public class AudioTimeSyncController : MonoBehaviour, CMInput.IPlaybackActions, 
                 var beatShiftRaw = 1f / GridMeasureSnapping * (value > 0 ? 1f : -1f);
                 var snapped = IsSnapped;
 
-                MoveToJsonTime(Mathf.Max(0, CurrentJsonTime + beatShiftRaw));
+                MoveToJsonTime(Mathf.Max(0, CurrentJsonTime + beatShiftRaw), false);
                 if (snapped) SnapToGrid(true);
             }
         }
@@ -281,8 +306,8 @@ public class AudioTimeSyncController : MonoBehaviour, CMInput.IPlaybackActions, 
     /// <param name="context"></param>
     public void OnPreciselyChangeTimeandPrecision(InputAction.CallbackContext context)
     {
-        if (!KeybindsController.IsMouseInWindow ||
-            customStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true))
+        if (!KeybindsController.IsMouseInWindow
+            || customStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true))
         {
             return;
         }
@@ -291,8 +316,10 @@ public class AudioTimeSyncController : MonoBehaviour, CMInput.IPlaybackActions, 
         if (context.performed)
         {
             float scrollDirection;
-            if (Settings.Instance.InvertPrecisionScroll) scrollDirection = value > 0 ? 0.5f : 2;
-            else scrollDirection = value > 0 ? 2 : 0.5f;
+            if (Settings.Instance.InvertPrecisionScroll)
+                scrollDirection = value > 0 ? 0.5f : 2;
+            else
+                scrollDirection = value > 0 ? 2 : 0.5f;
 
             var addition = scrollDirection > 1 ? 1 : -1;
             GridMeasureSnapping = Mathf.Clamp(GridMeasureSnapping + addition, 1, 64);
@@ -358,18 +385,21 @@ public class AudioTimeSyncController : MonoBehaviour, CMInput.IPlaybackActions, 
     {
         Shader.SetGlobalFloat(songTime, currentSongBpmTime);
         Shader.SetGlobalFloat(songTimeSeconds, currentSeconds);
-        
+
         // set view range based on track length
         Shader.SetGlobalFloat(viewStart, GetSecondsFromBeat(currentSongBpmTime - (Settings.Instance.TrackLength / 4f)));
         Shader.SetGlobalFloat(viewEnd, GetSecondsFromBeat(currentSongBpmTime + Settings.Instance.TrackLength));
-        
+
         var position = currentSongBpmTime * EditorScaleController.EditorScale;
 
         gridRenderingController.UpdateOffset(position);
+        
+        Debug.Log(position);
 
-        tracksManager.UpdatePosition(position * -1);
-        foreach (var track in otherTracks) track.UpdatePosition(position * -1);
+        tracksManager.UpdatePosition(-position);
+        foreach (var track in otherTracks) track.UpdatePosition(-position);
 
+        TimeChangedEarly?.Invoke();
         TimeChanged?.Invoke();
     }
 
@@ -435,7 +465,8 @@ public class AudioTimeSyncController : MonoBehaviour, CMInput.IPlaybackActions, 
 
     public void SnapToGrid(bool positionValidated = false)
     {
-        var jsonTime = (float)Math.Round(CurrentJsonTime * GridMeasureSnapping, MidpointRounding.AwayFromZero) / GridMeasureSnapping;
+        var jsonTime = (float)Math.Round(CurrentJsonTime * GridMeasureSnapping, MidpointRounding.AwayFromZero)
+            / GridMeasureSnapping;
 
         currentJsonTime = jsonTime;
         currentSongBpmTime = (float)BeatSaberSongContainer.Instance.Map.JsonTimeToSongBpmTime(jsonTime);
@@ -456,6 +487,7 @@ public class AudioTimeSyncController : MonoBehaviour, CMInput.IPlaybackActions, 
 
     [Obsolete("This is for existing dev plugin compatibility. Use MoveToSongBpmTime or MoveToJsonTime.", true)]
     public void MoveToTimeInBeats(float beats) => MoveToSongBpmTime(beats);
+
     public void MoveToSongBpmTime(float songBpmTime)
     {
         if (IsPlaying) return;
@@ -463,11 +495,18 @@ public class AudioTimeSyncController : MonoBehaviour, CMInput.IPlaybackActions, 
         SongAudioSource.time = CurrentSeconds;
     }
 
-    public void MoveToJsonTime(float jsonTime)
+    public void MoveToJsonTime(float jsonTime, bool notify = true)
     {
         if (IsPlaying) return;
-        CurrentJsonTime = jsonTime;
-        SongAudioSource.time = CurrentSeconds;
+        if (notify)
+        {
+            CurrentJsonTime = jsonTime;
+            SongAudioSource.time = CurrentSeconds;
+        }
+        else
+        {
+            currentJsonTime = jsonTime;
+        }
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

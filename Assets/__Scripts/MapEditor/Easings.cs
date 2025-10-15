@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/* 
+/*
  * Copied from Arti
- * 
+ *
  * Copied from https://gist.github.com/Fonserbc/3d31a25e87fdaa541ddf
  * Functions taken from Tween.js - Licensed under the MIT license
  * at https://github.com/sole/tween.js
@@ -15,80 +15,120 @@ public class Easing
     ///     Maps the names found at https://easings.net/en to the matching easing functions.
     ///     Maps "easeLinear" to linear easing (x => x).
     /// </summary>
-    public static Dictionary<string, Func<float, float>> ByName = new Dictionary<string, Func<float, float>>
+    public static Dictionary<string, Func<float, float>> ByName = new()
     {
-        {"easeLinear", Linear},
-        {"easeInQuad", Quadratic.In},
-        {"easeOutQuad", Quadratic.Out},
-        {"easeInOutQuad", Quadratic.InOut},
-        {"easeInCubic", Cubic.In},
-        {"easeOutCubic", Cubic.Out},
-        {"easeInOutCubic", Cubic.InOut},
-        {"easeInQuart", Quartic.In},
-        {"easeOutQuart", Quartic.Out},
-        {"easeInOutQuart", Quartic.InOut},
-        {"easeInQuint", Quintic.In},
-        {"easeOutQuint", Quintic.Out},
-        {"easeInOutQuint", Quintic.InOut},
-        {"easeInSine", Sinusoidal.In},
-        {"easeOutSine", Sinusoidal.Out},
-        {"easeInOutSine", Sinusoidal.InOut},
-        {"easeInExpo", Exponential.In},
-        {"easeOutExpo", Exponential.Out},
-        {"easeInOutExpo", Exponential.InOut},
-        {"easeInCirc", Circular.In},
-        {"easeOutCirc", Circular.Out},
-        {"easeInOutCirc", Circular.InOut},
-        {"easeInBack", Back.In},
-        {"easeOutBack", Back.Out},
-        {"easeInOutBack", Back.InOut},
-        {"easeInElastic", Elastic.In},
-        {"easeOutElastic", Elastic.Out},
-        {"easeInOutElastic", Elastic.InOut},
-        {"easeInBounce", Bounce.In},
-        {"easeOutBounce", Bounce.Out},
-        {"easeInOutBounce", Bounce.InOut},
-        {"easeStep", Step}
+        { "easeLinear", Linear },
+        { "easeInQuad", Quadratic.In },
+        { "easeOutQuad", Quadratic.Out },
+        { "easeInOutQuad", Quadratic.InOut },
+        { "easeInCubic", Cubic.In },
+        { "easeOutCubic", Cubic.Out },
+        { "easeInOutCubic", Cubic.InOut },
+        { "easeInQuart", Quartic.In },
+        { "easeOutQuart", Quartic.Out },
+        { "easeInOutQuart", Quartic.InOut },
+        { "easeInQuint", Quintic.In },
+        { "easeOutQuint", Quintic.Out },
+        { "easeInOutQuint", Quintic.InOut },
+        { "easeInSine", Sinusoidal.In },
+        { "easeOutSine", Sinusoidal.Out },
+        { "easeInOutSine", Sinusoidal.InOut },
+        { "easeInExpo", Exponential.In },
+        { "easeOutExpo", Exponential.Out },
+        { "easeInOutExpo", Exponential.InOut },
+        { "easeInCirc", Circular.In },
+        { "easeOutCirc", Circular.Out },
+        { "easeInOutCirc", Circular.InOut },
+        { "easeInBack", Back.In },
+        { "easeOutBack", Back.Out },
+        { "easeInOutBack", Back.InOut },
+        { "easeInElastic", Elastic.In },
+        { "easeOutElastic", Elastic.Out },
+        { "easeInOutElastic", Elastic.InOut },
+        { "easeInBounce", Bounce.In },
+        { "easeOutBounce", Bounce.Out },
+        { "easeInOutBounce", Bounce.InOut },
+        { "easeStep", Step }
     };
 
     /// <summary>
     ///     Maps UI-friendly display names to the names found at https://easings.net/en.
     ///     Used in conjunction with <seealso cref="ByName" /> to obtain the Easing function from a display name.
     /// </summary>
-    public static Dictionary<string, string> DisplayNameToInternalName = new Dictionary<string, string>
+    public static Dictionary<string, string> DisplayNameToInternalName = new()
     {
-        {"Linear", "easeLinear"},
-        {"Quadratic In", "easeInQuad"},
-        {"Quadratic Out", "easeOutQuad"},
-        {"Quadratic In/Out", "easeInOutQuad"},
-        {"Cubic In", "easeInCubic"},
-        {"Cubic Out", "easeOutCubic"},
-        {"Cubic In/Out", "easeInOutCubic"},
-        {"Quartic In", "easeInQuart"},
-        {"Quartic Out", "easeOutQuart"},
-        {"Quartic In/Out", "easeInOutQuart"},
-        {"Quintic In", "easeInQuint"},
-        {"Quintic Out", "easeOutQuint"},
-        {"Quintic In/Out", "easeInOutQuint"},
-        {"Sine In", "easeInSine"},
-        {"Sine Out", "easeOutSine"},
-        {"Sine In/Out", "easeInOutSine"},
-        {"Exponential In", "easeInExpo"},
-        {"Exponential Out", "easeOutExpo"},
-        {"Exponential In/Out", "easeInOutExpo"},
-        {"Circular In", "easeInCirc"},
-        {"Circular Out", "easeOutCirc"},
-        {"Circular In/Out", "easeInOutCirc"},
-        {"Back In", "easeInBack"},
-        {"Back Out", "easeOutBack"},
-        {"Back In/Out", "easeInOutBack"},
-        {"Elastic In", "easeInElastic"},
-        {"Elastic Out", "easeOutElastic"},
-        {"Elastic In/Out", "easeInOutElastic"},
-        {"Bounce In", "easeInBounce"},
-        {"Bounce Out", "easeOutBounce"},
-        {"Bounce In/Out", "easeInOutBounce"},
-        {"Step", "easeStep"}
+        { "Linear", "easeLinear" },
+        { "Quadratic In", "easeInQuad" },
+        { "Quadratic Out", "easeOutQuad" },
+        { "Quadratic In/Out", "easeInOutQuad" },
+        { "Cubic In", "easeInCubic" },
+        { "Cubic Out", "easeOutCubic" },
+        { "Cubic In/Out", "easeInOutCubic" },
+        { "Quartic In", "easeInQuart" },
+        { "Quartic Out", "easeOutQuart" },
+        { "Quartic In/Out", "easeInOutQuart" },
+        { "Quintic In", "easeInQuint" },
+        { "Quintic Out", "easeOutQuint" },
+        { "Quintic In/Out", "easeInOutQuint" },
+        { "Sine In", "easeInSine" },
+        { "Sine Out", "easeOutSine" },
+        { "Sine In/Out", "easeInOutSine" },
+        { "Exponential In", "easeInExpo" },
+        { "Exponential Out", "easeOutExpo" },
+        { "Exponential In/Out", "easeInOutExpo" },
+        { "Circular In", "easeInCirc" },
+        { "Circular Out", "easeOutCirc" },
+        { "Circular In/Out", "easeInOutCirc" },
+        { "Back In", "easeInBack" },
+        { "Back Out", "easeOutBack" },
+        { "Back In/Out", "easeInOutBack" },
+        { "Elastic In", "easeInElastic" },
+        { "Elastic Out", "easeOutElastic" },
+        { "Elastic In/Out", "easeInOutElastic" },
+        { "Bounce In", "easeInBounce" },
+        { "Bounce Out", "easeOutBounce" },
+        { "Bounce In/Out", "easeInOutBounce" },
+        { "Step", "easeStep" }
+    };
+
+    /// <summary>
+    ///     Maps the ID to easing found at https://easings.net/en to the matching easing functions.
+    ///     Maps 0 to linear easing (x => x).
+    /// </summary>
+    public static readonly Dictionary<int, Func<float, float>> ByID = new()
+    {
+        { -1, Step },
+        { 0, Linear },
+        { 1, Quadratic.In },
+        { 2, Quadratic.Out },
+        { 3, Quadratic.InOut },
+        { 4, Sinusoidal.In },
+        { 5, Sinusoidal.Out },
+        { 6, Sinusoidal.InOut },
+        { 7, Cubic.In },
+        { 8, Cubic.Out },
+        { 9, Cubic.InOut },
+        { 10, Quartic.In },
+        { 11, Quartic.Out },
+        { 12, Quartic.InOut },
+        { 13, Quintic.In },
+        { 14, Quintic.Out },
+        { 15, Quintic.InOut },
+        { 16, Exponential.In },
+        { 17, Exponential.Out },
+        { 18, Exponential.InOut },
+        { 19, Circular.In },
+        { 20, Circular.Out },
+        { 21, Circular.InOut },
+        { 22, Back.In },
+        { 23, Back.Out },
+        { 24, Back.InOut },
+        { 25, Elastic.In },
+        { 26, Elastic.Out },
+        { 27, Elastic.InOut },
+        { 28, Bounce.In },
+        { 29, Bounce.Out },
+        { 30, Bounce.InOut }
     };
 
     /// <summary>
@@ -98,11 +138,16 @@ public class Easing
     /// </summary>
     /// <param name="name">The name of the desired easing.</param>
     /// <returns>The desired easing, or <see cref="Linear(float)" /> if that easing doesn't exist.</returns>
-    public static Func<float, float> Named(string name)
-    {
-        if (ByName.TryGetValue(name, out var easing)) return easing;
-        return Linear;
-    }
+    public static Func<float, float> Named(string name) => ByName.TryGetValue(name, out var easing) ? easing : Linear;
+
+    /// <summary>
+    ///     If an easing ID <paramref name="id" /> exists, returns it.
+    ///     Otherwise, returns <see cref="Linear(float)" />.
+    ///     <seealso cref="ByName" />
+    /// </summary>
+    /// <param name="id">The ID of the desired easing.</param>
+    /// <returns>The desired easing, or <see cref="Linear(float)" /> if that easing doesn't exist.</returns>
+    public static Func<float, float> FromID(int id) => ByID.TryGetValue(id, out var easing) ? easing : Linear;
 
     /// <summary>
     /// Returns the shader ID for a given easing.
@@ -117,6 +162,7 @@ public class Easing
             if (easing == easingId) return i;
             i++;
         }
+
         return 0;
     }
 
@@ -264,12 +310,9 @@ public class Easing
 
         public static float Out(float k)
         {
-            if (k < 1f / 2.75f)
-                return 7.5625f * k * k;
-            if (k < 2f / 2.75f)
-                return (7.5625f * (k -= 1.5f / 2.75f) * k) + 0.75f;
-            if (k < 2.5f / 2.75f)
-                return (7.5625f * (k -= 2.25f / 2.75f) * k) + 0.9375f;
+            if (k < 1f / 2.75f) return 7.5625f * k * k;
+            if (k < 2f / 2.75f) return (7.5625f * (k -= 1.5f / 2.75f) * k) + 0.75f;
+            if (k < 2.5f / 2.75f) return (7.5625f * (k -= 2.25f / 2.75f) * k) + 0.9375f;
             return (7.5625f * (k -= 2.625f / 2.75f) * k) + 0.984375f;
         }
 
@@ -278,56 +321,5 @@ public class Easing
             if (k < 0.5f) return In(k * 2f) * 0.5f;
             return (Out((k * 2f) - 1f) * 0.5f) + 0.5f;
         }
-    }
-
-    // Maps Beat Saber's easing value to corresponding easing
-    public class BeatSaber
-    {
-        // VNJS doesn't support all easings
-        public static float EaseVNJS(int? easingType, float k) => easingType switch
-        {
-            >= 4 and <= 18 => 0,
-            _ => Ease(easingType, k)
-        };
-        
-        public static float Ease(int? easingType, float k) => easingType switch
-        {
-            -1 => 0,
-            0 => Linear(k),
-            1 => Quadratic.In(k),
-            2 => Quadratic.Out(k),
-            3 => Quadratic.InOut(k),
-            4 => Sinusoidal.In(k),
-            5 => Sinusoidal.Out(k),
-            6 => Sinusoidal.InOut(k),
-            7 => Cubic.In(k),
-            8 => Cubic.Out(k),
-            9 => Cubic.InOut(k),
-            10 => Quartic.In(k),
-            11 => Quartic.Out(k),
-            12 => Quartic.InOut(k),
-            13 => Quintic.In(k),
-            14 => Quintic.Out(k),
-            15 => Quintic.InOut(k),
-            16 => Exponential.In(k),
-            17 => Exponential.Out(k),
-            18 => Exponential.InOut(k),
-            19 => Circular.In(k),
-            20 => Circular.Out(k),
-            21 => Circular.InOut(k),
-            22 => Back.In(k),
-            23 => Back.Out(k),
-            24 => Back.InOut(k),
-            25 => Elastic.In(k),
-            26 => Elastic.Out(k),
-            27 => Elastic.InOut(k),
-            28 => Bounce.In(k),
-            29 => Bounce.Out(k),
-            30 => Bounce.InOut(k),
-            // These are BeatSaber custom easings. We don't have the formula for this - so default to none for now 
-            100 or 101 or 102 => 0,
-            _ => 0
-        };
-
     }
 }
