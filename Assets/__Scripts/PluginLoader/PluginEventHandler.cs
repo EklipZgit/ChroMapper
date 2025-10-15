@@ -8,21 +8,21 @@ internal class PluginEventHandler : MonoBehaviour
 
     private void Awake()
     {
-        interfaceCallback.EventPassedThreshold += EventPassedThreshold;
-        interfaceCallback.NotePassedThreshold += NotePassedThreshold;
+        interfaceCallback.OnEventPassedThreshold += OnEventPassedThreshold;
+        interfaceCallback.OnNotePassedThreshold += OnNotePassedThreshold;
     }
 
     private void OnDestroy()
     {
-        interfaceCallback.EventPassedThreshold -= EventPassedThreshold;
-        interfaceCallback.NotePassedThreshold -= NotePassedThreshold;
+        interfaceCallback.OnEventPassedThreshold -= OnEventPassedThreshold;
+        interfaceCallback.OnNotePassedThreshold -= OnNotePassedThreshold;
     }
 
     [SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Discarding multiple variables")]
-    private void EventPassedThreshold(bool _, int __, BaseObject newlyAdded) =>
+    private void OnEventPassedThreshold(bool _, int __, BaseObject newlyAdded) =>
         PluginLoader.BroadcastEvent<EventPassedThresholdAttribute, BaseObject>(newlyAdded);
 
     [SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Discarding multiple variables")]
-    private void NotePassedThreshold(bool _, int __, BaseObject newlyAdded) =>
+    private void OnNotePassedThreshold(bool _, int __, BaseObject newlyAdded) =>
         PluginLoader.BroadcastEvent<NotePassedThresholdAttribute, BaseObject>(newlyAdded);
 }

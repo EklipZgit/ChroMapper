@@ -124,7 +124,7 @@ namespace Beatmap.Animations
         {
             if (Atsc != null)
             {
-                Atsc.TimeChanged -= OnTimeChanged;
+                Atsc.OnTimeChanged -= OnTimeChanged;
             }
 
             foreach (var track in tracks)
@@ -265,7 +265,7 @@ namespace Beatmap.Animations
 
             Update();
 
-            Atsc.TimeChanged += OnTimeChanged;
+            Atsc.OnTimeChanged += OnTimeChanged;
         }
 
         public void AttachToGeometry(BaseEnvironmentEnhancement eh)
@@ -293,7 +293,7 @@ namespace Beatmap.Animations
                 container.transform.SetParent(this.tracks[0].Track.ObjectParentTransform, false);
             }
 
-            Atsc.TimeChanged += OnTimeChanged;
+            Atsc.OnTimeChanged += OnTimeChanged;
 
             OnTimeChanged();
         }
@@ -307,7 +307,7 @@ namespace Beatmap.Animations
             LocalTarget = track.ObjectParentTransform;
             WorldTarget = track.transform;
 
-            Atsc.TimeChanged += OnTimeChanged;
+            Atsc.OnTimeChanged += OnTimeChanged;
         }
 
         public void AttachToMaterial(GeometryContainer con, string track)

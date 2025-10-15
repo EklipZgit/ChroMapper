@@ -86,7 +86,7 @@ public class SongInfoEditUI : MenuBase
     [SerializeField] private CharacteristicCustomPropertyController characteristicCustomPropertyController;
 
     private Coroutine reloadSongDataCoroutine;
-    public Action TempSongLoadedEvent;
+    public event Action OnTempSongLoaded;
 
     private BaseInfo Info => BeatSaberSongContainer.Instance.Info;
     
@@ -346,7 +346,7 @@ public class SongInfoEditUI : MenuBase
                 BeatSaberSongContainer.Instance.LoadedSongFrequency = clip.frequency;
                 BeatSaberSongContainer.Instance.LoadedSongLength = clip.length;
 
-                if (useTemp) TempSongLoadedEvent?.Invoke();
+                if (useTemp) OnTempSongLoaded?.Invoke();
             }, float.Parse(offset.text), useTemp ? audioPath.text : null);
         }
         else

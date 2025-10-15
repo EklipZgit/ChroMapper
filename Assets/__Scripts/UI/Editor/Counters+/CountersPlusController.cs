@@ -1,0 +1,307 @@
+using System;
+using System.Linq;
+using Beatmap.Base;
+using Beatmap.Enums;
+using UnityEngine;
+using UnityEngine.Localization.Components;
+using UnityEngine.Serialization;
+
+public class CountersPlusController : MonoBehaviour
+{
+    [FormerlySerializedAs("notes")][SerializeField] private NoteGridContainer noteGrid;
+    [FormerlySerializedAs("obstacles")][SerializeField] private ObstacleGridContainer obstacleGrid;
+    [FormerlySerializedAs("events")][SerializeField] private EventGridContainer eventGrid;
+    [SerializeField] private ArcGridContainer arcGrid;
+    [SerializeField] private ChainGridContainer chainGrid;
+    [SerializeField] private BPMChangeGridContainer bpm;
+    [SerializeField] private NJSEventGridContainer njsEventGrid;
+    [SerializeField] private AudioSource cameraAudioSource;
+    [SerializeField] private AudioTimeSyncController atsc;
+
+    [Header("Localized Strings")]
+    [SerializeField]
+    private LocalizeStringEvent notesMesh;
+
+    [SerializeField] private LocalizeStringEvent notesPSMesh;
+    [SerializeField] private LocalizeStringEvent[] extraNoteStrings;
+    [SerializeField] private LocalizeStringEvent obstacleString;
+    [SerializeField] private LocalizeStringEvent eventString;
+    [SerializeField] private LocalizeStringEvent arcString;
+    [SerializeField] private LocalizeStringEvent chainString;
+    [SerializeField] private LocalizeStringEvent bpmString;
+    [FormerlySerializedAs("currentBPMString")][SerializeField] private LocalizeStringEvent currentBpmString;
+    [SerializeField] private LocalizeStringEvent selectionString;
+    [SerializeField] private LocalizeStringEvent timeMappingString;
+    [SerializeField] private LocalizeStringEvent[] njsEventStrings;
+
+    // Cached values so we can avoid calculating and refreshing strings when values won't be changed
+    private float lastBpm;
+    private float lastNJS;
+
+    private SwingsPerSecond swingsPerSecond;
+
+#pragma warning disable IDE1006 // Naming Styles
+    ///// Localization /////
+
+    // Unfortunately the way localization is set up, we need this to be public AND with the current naming
+    // We *COULD* rename every localization entry to use PascalCase versions but it's more effort to do that.
+    [FormerlySerializedAs("hours")][HideInInspector] public int hours;
+    [FormerlySerializedAs("minutes")][HideInInspector] public int minutes;
+    [FormerlySerializedAs("seconds")][HideInInspector] public int seconds;
+
+
+    public int NotesCount => noteGrid.MapObjects.CountNoAlloc(note => note.Type != (int)NoteType.Bomb);
+
+
+    public float NPSCount => NotesCount / cameraAudioSource.clip.length;
+
+    public int NotesSelected
+        => SelectionController.SelectedObjects.Count(x => x is BaseNote note && note.Type != (int)NoteType.Bomb);
+
+    public float NPSselected
+    {
+        get
+        {
+            var sel = SelectionController.SelectedObjects.OrderBy(it => it.JsonTime).ToList();
+            var beatTimeDiff = sel.Last().SongBpmTime - sel.First().SongBpmTime;
+            var secDiff = atsc.GetSecondsFromBeat(beatTimeDiff);
+
+            return NotesSelected / secDiff;
+        }
+    }
+
+    public int BombCount
+        => noteGrid.MapObjects.CountNoAlloc(note => note.Type == (int)NoteType.Bomb);
+
+    public int ArcCount => arcGrid.MapObjects.Count;
+    
+    public int ChainCount => chainGrid.MapObjects.Count;
+
+    public int ObstacleCount => obstacleGrid.MapObjects.Count;
+
+    public int EventCount => eventGrid.MapObjects.Count;
+
+    public int BPMCount => bpm.MapObjects.Count;
+    
+    // public int NJSEventCount => njsEventGrid.MapObjects.Count;
+
+    public int SelectedCount => SelectionController.SelectedObjects.Count;
+
+    public float OverallSPS => swingsPerSecond.Total.Overall;
+
+    public float CurrentBPM => (float)BeatSaberSongContainer.Instance.Map.BpmAtJsonTime(atsc.CurrentJsonTime);
+
+    public float CurrentNJS => njsEventGrid.CurrentNJS;
+
+    public float CurrentHJD { get; private set; }
+
+    public float CurrentJD { get; private set; }
+
+    public float CurrentRT { get; private set; }
+
+    public float NJSEventCount => njsEventGrid.MapObjects.Count;
+
+    public float RedBlueRatio
+    {
+        get
+        {
+            var redCount = noteGrid.MapObjects.CountNoAlloc(note => note.Type == (int)NoteType.Red);
+            var blueCount = noteGrid.MapObjects.CountNoAlloc(note => note.Type == (int)NoteType.Blue);
+            return blueCount == 0 ? 0f : redCount / (float)blueCount;
+        }
+    }
+#pragma warning restore IDE1006 // Naming Styles
+
+    // I'm going to be doing some bit shift gaming, don't mind me
+    private CountersPlusStatistic stringRefreshQueue = CountersPlusStatistic.Invalid;
+
+    private void Start()
+    {
+        Settings.NotifyBySettingName("CountersPlus", UpdateCountersVisibility);
+        UpdateCountersVisibility(Settings.Instance.CountersPlus);
+
+        swingsPerSecond = new SwingsPerSecond(noteGrid, obstacleGrid);
+
+        LoadInitialMap.OnLevelLoaded += OnLevelLoaded;
+        SelectionController.OnSelectionChanged += OnSelectionChanged;
+        LoadedDifficultySelectController.OnLoadedDifficultyChanged += OnLoadedDifficultyChanged;
+    }
+
+    private void Update() // i do want to update this every single frame
+    {
+        if (Application.isFocused)
+        {
+            var timeMapping = BeatSaberSongContainer.Instance.Map.Time;
+            var newSeconds = Mathf.FloorToInt(timeMapping * 60 % 60);
+
+            if (newSeconds != seconds)
+            {
+                seconds = newSeconds;
+                minutes = Mathf.FloorToInt(timeMapping % 60);
+                hours = Mathf.FloorToInt(timeMapping / 60);
+
+                timeMappingString.StringReference.RefreshString();
+            }
+        }
+
+        var currentBpm = CurrentBPM;
+        if (lastBpm != currentBpm)
+        {
+            currentBpmString.StringReference.RefreshString();
+            lastBpm = currentBpm;
+        }
+
+        // Might be a bit unreadable but I'm essentially checking if a bit is set corresponding to a specific statistic.
+        // If the bit is set (non-zero), it would update that particular statistic.
+        // This essentially ensures that each statistic can only be refreshed once per frame.
+        if (stringRefreshQueue > 0)
+        {
+            if ((stringRefreshQueue & CountersPlusStatistic.Notes) != 0)
+                UpdateNoteStats();
+
+            if ((stringRefreshQueue & CountersPlusStatistic.Obstacles) != 0)
+                obstacleString.StringReference.RefreshString();
+
+            if ((stringRefreshQueue & CountersPlusStatistic.Events) != 0)
+                eventString.StringReference.RefreshString();
+
+            if ((stringRefreshQueue & CountersPlusStatistic.BpmEvents) != 0)
+                bpmString.StringReference.RefreshString();
+
+            if ((stringRefreshQueue & CountersPlusStatistic.Selection) != 0)
+                UpdateSelectionStats();
+
+            if ((stringRefreshQueue & CountersPlusStatistic.Arcs) != 0)
+                arcString.StringReference.RefreshString();
+
+            if ((stringRefreshQueue & CountersPlusStatistic.Chains) != 0)
+                chainString.StringReference.RefreshString();
+            
+            if ((stringRefreshQueue & CountersPlusStatistic.NJSEvents) != 0)
+                UpdateNJSEventsStats();
+
+            stringRefreshQueue = 0;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        Settings.ClearSettingNotifications("CountersPlus");
+        SelectionController.OnSelectionChanged -= OnSelectionChanged;
+        LoadInitialMap.OnLevelLoaded -= OnLevelLoaded;
+        LoadedDifficultySelectController.OnLoadedDifficultyChanged -= OnLoadedDifficultyChanged;
+    }
+
+    public void UpdateStatistic(CountersPlusStatistic stat)
+    {
+        if (!Settings.Instance.CountersPlus["enabled"])
+            return;
+
+        // Bit shift stat into queue
+        stringRefreshQueue |= stat;
+    }
+
+    private void UpdateNJSEventsStats()
+    {
+        if (lastNJS == CurrentNJS) return;
+        
+        lastNJS = CurrentNJS;
+        
+        var baseNJS = BeatSaberSongContainer.Instance.MapDifficultyInfo.NoteJumpSpeed;
+        var baseBpm = BeatSaberSongContainer.Instance.Info.BeatsPerMinute;
+        var noteStartBeatOffset = BeatSaberSongContainer.Instance.MapDifficultyInfo.NoteStartBeatOffset;
+        var baseHalfJumpDuration = SpawnParameterHelper.CalculateHalfJumpDuration(baseNJS, noteStartBeatOffset, baseBpm);
+        var baseJumpDistance = SpawnParameterHelper.CalculateJumpDistance(baseNJS, noteStartBeatOffset, baseBpm);
+        var msPerBeat = 60000 / baseBpm;
+        var baseReactionTime = msPerBeat * baseHalfJumpDuration;
+        
+        if (CurrentNJS > baseNJS)
+        {
+            // Keep reaction time the same
+            CurrentRT = baseReactionTime;
+            CurrentHJD = baseHalfJumpDuration;
+            
+            var factor = CurrentNJS / baseNJS;
+            CurrentJD = baseJumpDistance * factor;
+        }
+        else
+        {
+            // Keep jump distance the same
+            CurrentJD = baseJumpDistance;
+            
+            var factor = baseNJS / CurrentNJS;
+            CurrentHJD = baseHalfJumpDuration * factor;
+            CurrentRT = baseReactionTime * factor;
+        }
+        
+        foreach (var str in njsEventStrings) str.StringReference.RefreshString();
+    }
+    
+    private void OnLevelLoaded()
+    {
+        // Bit archaic but this allows us to refresh everything once on startup
+        foreach (var enumValue in Enum.GetValues(typeof(CountersPlusStatistic)))
+            UpdateStatistic((CountersPlusStatistic)enumValue);
+    }
+
+    private void OnLoadedDifficultyChanged()
+    {
+        foreach (var enumValue in Enum.GetValues(typeof(CountersPlusStatistic)))
+            UpdateStatistic((CountersPlusStatistic)enumValue);
+    }
+
+    private void OnSelectionChanged() => UpdateStatistic(CountersPlusStatistic.Selection);
+
+    private void UpdateNoteStats()
+    {
+        if (SelectionController.HasSelectedObjects() && NotesSelected > 0)
+        {
+            notesMesh.StringReference.TableEntryReference = "countersplus.notes.selected";
+            notesPSMesh.StringReference.TableEntryReference = "countersplus.nps.selected";
+        }
+        else
+        {
+            notesMesh.StringReference.TableEntryReference = "countersplus.notes";
+            notesPSMesh.StringReference.TableEntryReference = "countersplus.nps";
+        }
+
+        notesMesh.StringReference.RefreshString();
+        notesPSMesh.StringReference.RefreshString();
+
+        swingsPerSecond.Update();
+
+        foreach (var str in extraNoteStrings) str.StringReference.RefreshString();
+    }
+
+    private void UpdateSelectionStats()
+    {
+        selectionString.gameObject.SetActive(SelectionController.HasSelectedObjects());
+
+        if (SelectionController.HasSelectedObjects() && NotesSelected > 0)
+        {
+            notesMesh.StringReference.TableEntryReference = "countersplus.notes.selected";
+            notesPSMesh.StringReference.TableEntryReference = "countersplus.nps.selected";
+        }
+        else
+        {
+            notesMesh.StringReference.TableEntryReference = "countersplus.notes";
+            notesPSMesh.StringReference.TableEntryReference = "countersplus.nps";
+        }
+
+        notesMesh.StringReference.RefreshString();
+        notesPSMesh.StringReference.RefreshString();
+        selectionString.StringReference.RefreshString();
+    }
+
+    public void UpdateCountersVisibility(object obj)
+    {
+        var settings = (CountersPlusSettings)obj;
+        var strings = GetComponentsInChildren<LocalizeStringEvent>(true);
+        foreach (var s in strings)
+        {
+            var key = s.ToString().Replace(" (UnityEngine.Localization.Components.LocalizeStringEvent)", ""); // yep
+            var settingExists = settings.TryGetValue(key, out var counterEnabled);
+            if (settingExists) s.gameObject.SetActive(settings["enabled"] && counterEnabled);
+        }
+    }
+}

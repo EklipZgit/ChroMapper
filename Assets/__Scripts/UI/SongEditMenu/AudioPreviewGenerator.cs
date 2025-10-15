@@ -19,9 +19,9 @@ public class AudioPreviewGenerator : MonoBehaviour
     private float previewDuration;
     private float previewTime;
 
-    private void Start() => songInfoEditUI.TempSongLoadedEvent += TempSongLoaded;
+    private void Start() => songInfoEditUI.OnTempSongLoaded += TempSongLoaded;
 
-    private void OnDestroy() => songInfoEditUI.TempSongLoadedEvent -= TempSongLoaded;
+    private void OnDestroy() => songInfoEditUI.OnTempSongLoaded -= TempSongLoaded;
 
     private void TempSongLoaded()
     {

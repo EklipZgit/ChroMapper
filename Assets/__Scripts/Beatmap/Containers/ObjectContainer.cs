@@ -3,15 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using Beatmap.Base;
 using UnityEngine;
-
 using Beatmap.Animations;
 
 namespace Beatmap.Containers
 {
     public abstract class ObjectContainer : MonoBehaviour
     {
-        public static Action<ObjectContainer, bool, string> FlaggedForDeletionEvent;
-
         internal static readonly int color = Shader.PropertyToID("_Color");
         internal static readonly int rotation = Shader.PropertyToID("_Rotation");
         internal static readonly int outline = Shader.PropertyToID("_Outline");
@@ -23,13 +20,11 @@ namespace Beatmap.Containers
         public bool Dragging;
 
         [SerializeField] protected List<IntersectionCollider> Colliders;
-        [SerializeField] protected List<Renderer> SelectionRenderers = new List<Renderer>();
-        [SerializeField] protected BoxCollider BoxCollider;
+        [SerializeField] protected List<Renderer> SelectionRenderers = new();
         [SerializeField] public ObjectAnimator Animator;
 
-        protected readonly List<Renderer> modelRenderers = new List<Renderer>();
+        protected readonly List<Renderer> modelRenderers = new();
         public MaterialPropertyBlock MaterialPropertyBlock;
-        internal bool selectionStateChanged;
 
         public bool OutlineVisible
         {
@@ -62,12 +57,6 @@ namespace Beatmap.Containers
         internal virtual void SafeSetActive(bool active)
         {
             if (active != gameObject.activeSelf) gameObject.SetActive(active);
-        }
-
-        internal void SafeSetBoxCollider(bool con)
-        {
-            if (BoxCollider == null) return;
-            if (con != BoxCollider.isTrigger) BoxCollider.isTrigger = con;
         }
 
         internal virtual void UpdateMaterials()

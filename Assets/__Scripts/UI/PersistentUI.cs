@@ -524,7 +524,7 @@ public class PersistentUI : MonoBehaviour
             if (i < ba.Length && ba[i].shaderKeywords.Contains("GLOW_ON"))
             {
                 var color = ba[i].GetColor("_GlowColor");
-                button.WithBackgroundColor(color.Multiply(color.a).WithAlpha(1).WithSatuation(0.5f));
+                button.WithBackgroundColor(color.Multiply(color.a).WithAlpha(1).WithSaturation(0.5f));
             }
         }
 

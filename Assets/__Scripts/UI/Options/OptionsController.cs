@@ -13,7 +13,7 @@ public class OptionsController : MenuBase
 {
     //[SerializeField] private Button iCareForModders; I CARE TOO!!! But like, this just wont work atm.
 
-    public static Action OptionsLoadedEvent;
+    public static event Action OnOptionsLoaded;
     [SerializeField] private CanvasGroup optionsCanvasGroup;
     [SerializeField] private AnimationCurve fadeOutCurve;
     [SerializeField] private AudioUtil audioUtil;
@@ -31,7 +31,7 @@ public class OptionsController : MenuBase
         SceneManager.LoadScene("04_Options", LoadSceneMode.Additive);
         CMInputCallbackInstaller.DisableActionMaps(typeof(OptionsController),
             typeof(CMInput).GetNestedTypes().Where(x => x.IsInterface));
-        OptionsLoadedEvent?.Invoke();
+        OnOptionsLoaded?.Invoke();
         IsActive = true;
     }
 
