@@ -2,6 +2,7 @@
 using Beatmap.Base;
 using Beatmap.Enums;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class VisualFeedback : MonoBehaviour
 {
@@ -17,7 +18,7 @@ public class VisualFeedback : MonoBehaviour
     [SerializeField] private Color red;
     [SerializeField] private Color blue;
 
-    [SerializeField] private Renderer[] planeRends;
+    [SerializeField] private Renderer targetRenderer;
     private Color color;
 
     private float lastTime = -1;
@@ -27,7 +28,7 @@ public class VisualFeedback : MonoBehaviour
 
     private void Start()
     {
-        startScale = transform.localScale;
+        startScale = targetRenderer.transform.localScale;
         atsc.OnPlayToggled += OnPlayToggle;
     }
 
@@ -41,15 +42,15 @@ public class VisualFeedback : MonoBehaviour
 
     private void HandleCallback(bool initial, int index, BaseObject objectData)
     {
-        if (objectData.JsonTime == lastTime ||
-            !DingOnNotePassingGrid.NoteTypeToDing[(objectData as BaseNote).Type])
+        if (objectData.JsonTime == lastTime || !DingOnNotePassingGrid.NoteTypeToDing[(objectData as BaseNote).Type])
         {
             return;
         }
+
         /*
-* As for why we are not using "initial", it is so notes that are not supposed to ding do not prevent notes at
-* the same time that are supposed to ding from triggering the sound effects.
-*/
+         * As for why we are not using "initial", it is so notes that are not supposed to ding do not prevent notes at
+         * the same time that are supposed to ding from triggering the sound effects.
+         */
         var noteData = (BaseNote)objectData;
         if (useColours)
         {
@@ -62,7 +63,8 @@ public class VisualFeedback : MonoBehaviour
                 case (int)NoteType.Blue:
                     c = blue;
                     break;
-                default: return;
+                default:
+                    return;
             }
 
             color = lastTime == objectData.JsonTime ? Color.Lerp(color, c, 0.5f) : c;
@@ -97,12 +99,7 @@ public class VisualFeedback : MonoBehaviour
 
     private void UpdateAppearance(float a)
     {
-        transform.localScale = startScale * (1 + (0.1f * a * scaleFactor));
-        if (useColours)
-        {
-            foreach (var rend in planeRends)
-                //rend.material.SetColor("_GridColour", Color.Lerp(baseColor, color, a));
-                rend.material.color = Color.Lerp(baseColor, color, a);
-        }
+        targetRenderer.transform.localScale = startScale * (1 + (0.1f * a * scaleFactor));
+        if (useColours) targetRenderer.material.color = Color.Lerp(baseColor, color, a);
     }
 }

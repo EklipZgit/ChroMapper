@@ -8,7 +8,7 @@ using UnityEngine;
 public class BookmarkRenderingController : MonoBehaviour
 {
     [SerializeField] private AudioTimeSyncController atsc;
-    [SerializeField] private Transform frontNoteGridScaling;
+    [SerializeField] private GridLane gridLane;
     [SerializeField] private BookmarkManager manager;
     [SerializeField] private Transform gridBookmarksParent;
     [SerializeField] private Material fontMaterial;
@@ -202,7 +202,7 @@ public class BookmarkRenderingController : MonoBehaviour
     public void RefreshVisibility()
     {
         var currentSongBpmBeat = atsc.CurrentSongBpmTime;
-        var songBpmBeatsAhead = frontNoteGridScaling.localScale.z / EditorScaleController.EditorScale;
+        float songBpmBeatsAhead = Settings.Instance.TrackLength;
         var songBpmBeatsBehind = songBpmBeatsAhead / 4f;
 
         foreach (var bookmarkDisplay in activeBookmarks.ToArray())

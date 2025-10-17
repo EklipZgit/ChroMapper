@@ -15,7 +15,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 
 public class NotePlacement : PlacementController<BaseNote, NoteContainer, NoteGridContainer>,
-    CMInput.INotePlacementActions
+                             CMInput.INotePlacementActions
 {
     private const int upKey = 0;
     private const int leftKey = 1;
@@ -34,7 +34,7 @@ public class NotePlacement : PlacementController<BaseNote, NoteContainer, NoteGr
 
     // TODO: Perhaps move this into Settings as a user-configurable option
     private readonly float
-        diagonalStickMAXTime = 0.3f; // This controls the maximum time that a note will stay a diagonal
+        diagonalStickMaxTime = 0.3f; // This controls the maximum time that a note will stay a diagonal
 
     // REVIEW: Perhaps partner with Obama to turn this list of bools
     // into some binary shifting goodness
@@ -86,26 +86,22 @@ public class NotePlacement : PlacementController<BaseNote, NoteContainer, NoteGr
 
     public void OnUpLeftNote(InputAction.CallbackContext context)
     {
-        if (context.performed && !laserSpeedController.Activated)
-            UpdateCut((int)NoteCutDirection.UpLeft);
+        if (context.performed && !laserSpeedController.Activated) UpdateCut((int)NoteCutDirection.UpLeft);
     }
 
     public void OnUpRightNote(InputAction.CallbackContext context)
     {
-        if (context.performed && !laserSpeedController.Activated)
-            UpdateCut((int)NoteCutDirection.UpRight);
+        if (context.performed && !laserSpeedController.Activated) UpdateCut((int)NoteCutDirection.UpRight);
     }
 
     public void OnDownRightNote(InputAction.CallbackContext context)
     {
-        if (context.performed && !laserSpeedController.Activated)
-            UpdateCut((int)NoteCutDirection.DownRight);
+        if (context.performed && !laserSpeedController.Activated) UpdateCut((int)NoteCutDirection.DownRight);
     }
 
     public void OnDownLeftNote(InputAction.CallbackContext context)
     {
-        if (context.performed && !laserSpeedController.Activated)
-            UpdateCut((int)NoteCutDirection.DownLeft);
+        if (context.performed && !laserSpeedController.Activated) UpdateCut((int)NoteCutDirection.DownLeft);
     }
 
     // Toggle Chroma Color Function
@@ -114,10 +110,8 @@ public class NotePlacement : PlacementController<BaseNote, NoteContainer, NoteGr
     public override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> container) =>
         new BeatmapObjectPlacementAction(spawned, container, "Placed a note.");
 
-    public override BaseNote GenerateOriginalData() => new BaseNote
-    {
-        Color = (int)NoteColor.Red, CutDirection = (int)NoteCutDirection.Down
-    };
+    public override BaseNote GenerateOriginalData() =>
+        new BaseNote { Color = (int)NoteColor.Red, CutDirection = (int)NoteCutDirection.Down };
 
     public override void OnPhysicsRaycast(Intersections.IntersectionHit hit, Vector3 roundedHit)
     {
@@ -143,7 +137,7 @@ public class NotePlacement : PlacementController<BaseNote, NoteContainer, NoteGr
             rawHit.z = SongBpmTime * EditorScaleController.EditorScale;
 
             var precision = Settings.Instance.PrecisionPlacementGridPrecision;
-            roundedHit = ((Vector2)Vector2Int.RoundToInt((precisionOffset + (Vector2)rawHit) * precision)) / precision;
+            roundedHit = ((Vector2)Vector2Int.RoundToInt((PrecisionOffset + (Vector2)rawHit) * precision)) / precision;
             instantiatedContainer.transform.localPosition = roundedHit;
 
             queuedData.CustomCoordinate = (Vector2)roundedHit;
@@ -156,7 +150,7 @@ public class NotePlacement : PlacementController<BaseNote, NoteContainer, NoteGr
             precisionPlacement.TogglePrecisionPlacement(false);
 
             queuedData.CustomCoordinate = !vanillaBounds
-                ? (Vector2)roundedHit - vanillaOffset + precisionOffset
+                ? (Vector2)roundedHit - VanillaOffset + PrecisionOffset
                 : null;
         }
 
@@ -185,14 +179,28 @@ public class NotePlacement : PlacementController<BaseNote, NoteContainer, NoteGr
                 ToggleDiagonalAngleOffset(noteData, value);
                 noteData.CutDirection = value;
 
-                var actions = new List<BeatmapAction>{
-                    new BeatmapObjectModifiedAction(noteData, noteData, originalData, "Quick edit", true, mergeType: ActionMergeType.NoteDirectionChange)
+                var actions = new List<BeatmapAction>
+                {
+                    new BeatmapObjectModifiedAction(
+                        noteData,
+                        noteData,
+                        originalData,
+                        "Quick edit",
+                        true,
+                        mergeType: ActionMergeType.NoteDirectionChange)
                 };
                 CommonNotePlacement.UpdateAttachedSlidersDirection(noteData, actions);
 
                 if (actions.Count > 1)
                 {
-                    BeatmapActionContainer.AddAction(new ActionCollectionAction(actions, true, false, "Quick edit", mergeType: ActionMergeType.NoteDirectionChange), true);
+                    BeatmapActionContainer.AddAction(
+                        new ActionCollectionAction(
+                            actions,
+                            true,
+                            false,
+                            "Quick edit",
+                            mergeType: ActionMergeType.NoteDirectionChange),
+                        true);
                     SelectionController.OnSelectionChanged?.Invoke();
                 }
                 else
@@ -207,7 +215,8 @@ public class NotePlacement : PlacementController<BaseNote, NoteContainer, NoteGr
 
     private void ToggleDiagonalAngleOffset(BaseNote note, int newCutDirection)
     {
-        if (note.CutDirection == (int)NoteCutDirection.Any && newCutDirection == (int)NoteCutDirection.Any
+        if (note.CutDirection == (int)NoteCutDirection.Any
+            && newCutDirection == (int)NoteCutDirection.Any
             && note.AngleOffset != 45)
         {
             note.AngleOffset = 45;
@@ -216,7 +225,6 @@ public class NotePlacement : PlacementController<BaseNote, NoteContainer, NoteGr
         {
             note.AngleOffset = 0;
         }
-        
     }
 
     public void UpdateType(int type)
@@ -247,6 +255,7 @@ public class NotePlacement : PlacementController<BaseNote, NoteContainer, NoteGr
             DraggedObjectContainer.DirectionTarget.localEulerAngles = NoteContainer.Directionalize(dragged);
             DraggedObjectContainer.DirectionTargetEuler = NoteContainer.Directionalize(dragged);
         }
+
         noteAppearanceSo.SetNoteAppearance(DraggedObjectContainer);
 
         TransferQueuedToAttachedDraggedSliders(queued);
@@ -329,25 +338,33 @@ public class NotePlacement : PlacementController<BaseNote, NoteContainer, NoteGr
 
         if (handleUpDownNotes && !handleLeftRightNotes) // We handle simple up/down notes
         {
-            if (upNote) UpdateCut((int)NoteCutDirection.Up);
-            else UpdateCut((int)NoteCutDirection.Down);
+            if (upNote)
+                UpdateCut((int)NoteCutDirection.Up);
+            else
+                UpdateCut((int)NoteCutDirection.Down);
         }
         else if (!handleUpDownNotes && handleLeftRightNotes) // We handle simple left/right notes
         {
-            if (leftNote) UpdateCut((int)NoteCutDirection.Left);
-            else UpdateCut((int)NoteCutDirection.Right);
+            if (leftNote)
+                UpdateCut((int)NoteCutDirection.Left);
+            else
+                UpdateCut((int)NoteCutDirection.Right);
         }
         else if (diagonal) //We need to do a diagonal
         {
             if (leftNote)
             {
-                if (upNote) UpdateCut((int)NoteCutDirection.UpLeft);
-                else UpdateCut((int)NoteCutDirection.DownLeft);
+                if (upNote)
+                    UpdateCut((int)NoteCutDirection.UpLeft);
+                else
+                    UpdateCut((int)NoteCutDirection.DownLeft);
             }
             else
             {
-                if (upNote) UpdateCut((int)NoteCutDirection.UpRight);
-                else UpdateCut((int)NoteCutDirection.DownRight);
+                if (upNote)
+                    UpdateCut((int)NoteCutDirection.UpRight);
+                else
+                    UpdateCut((int)NoteCutDirection.DownRight);
             }
         }
     }
@@ -355,7 +372,7 @@ public class NotePlacement : PlacementController<BaseNote, NoteContainer, NoteGr
     private IEnumerator CheckForDiagonalUpdate()
     {
         var previousHeldKeys = new List<bool>(heldKeys);
-        yield return new WaitForSeconds(diagonalStickMAXTime);
+        yield return new WaitForSeconds(diagonalStickMaxTime);
         // Weird way of saying "Are the keys being held right now the same as before"
         if (!previousHeldKeys.Except(heldKeys).Any()) flagDirectionsUpdate = true;
     }

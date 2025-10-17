@@ -27,7 +27,7 @@ public class HideGridOnUnloadedObjects : MonoBehaviour
 
         Refresh();
     }
-
+ 
     private void OnDestroy()
     {
         foreach (var (name, _) in visibilityFlags) Settings.ClearSettingNotifications(name);
@@ -44,6 +44,6 @@ public class HideGridOnUnloadedObjects : MonoBehaviour
     private void Refresh(object _ = null)
     {
         gameObject.SetActive(!visibilityFlags.TrueForAll(x => !x.func()));
-        GridOrderController.MarkDirty();
+        GridViewController.NotifyChanged();
     }
 }

@@ -44,7 +44,7 @@ public class ChainIndicatorPlacement : PlacementController<BaseChain, ChainIndic
             rawHit.z = SongBpmTime * EditorScaleController.EditorScale;
 
             var precision = Settings.Instance.PrecisionPlacementGridPrecision;
-            roundedHit = ((Vector2)Vector2Int.RoundToInt((precisionOffset + (Vector2)rawHit) * precision)) / precision;
+            roundedHit = ((Vector2)Vector2Int.RoundToInt((PrecisionOffset + (Vector2)rawHit) * precision)) / precision;
             instantiatedContainer.transform.localPosition = roundedHit;
 
             if (IsDraggingObject || IsDraggingObjectAtTime)
@@ -72,14 +72,14 @@ public class ChainIndicatorPlacement : PlacementController<BaseChain, ChainIndic
                 if (DraggedObjectContainer.IndicatorType == IndicatorType.Head)
                 {
                     queuedData.CustomCoordinate = !vanillaBounds
-                        ? (Vector2)roundedHit - vanillaOffset + precisionOffset
+                        ? (Vector2)roundedHit - VanillaOffset + PrecisionOffset
                         : null;
                 }
 
                 if (DraggedObjectContainer.IndicatorType == IndicatorType.Tail)
                 {
                     queuedData.CustomTailCoordinate = !vanillaBounds
-                        ? (Vector2)roundedHit - vanillaOffset + precisionOffset
+                        ? (Vector2)roundedHit - VanillaOffset + PrecisionOffset
                         : null;
                 }
             }

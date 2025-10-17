@@ -78,7 +78,7 @@ public class Track : MonoBehaviour
             // Magic 1.1 number comes from ObjectContainer.offsetY which is currently protected
             // TODO: Pre-compute starting position so notes can stack and flip can be supported
             //   (Notes need to be aware of other notes)
-            position.y = Mathf.Lerp(1.1f, note.GetPosition().y + 1.1f, jumpT);
+            position.y = Mathf.Lerp(0.5f, note.GetPosition().y + 0.5f, jumpT);
 
             // Multiply euler rotation by spawn lifetime if we are in the first half (spawning) portion of our object lifetime
             if (normalizedLifetime >= 0.5f)

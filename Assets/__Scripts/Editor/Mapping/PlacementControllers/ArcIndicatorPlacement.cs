@@ -11,7 +11,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class ArcIndicatorPlacement : PlacementController<BaseArc, ArcIndicatorContainer, ArcGridContainer>,
-    CMInput.INotePlacementActions
+                                     CMInput.INotePlacementActions
 {
     private static HashSet<BaseObject> SelectedObjects => SelectionController.SelectedObjects;
 
@@ -45,7 +45,7 @@ public class ArcIndicatorPlacement : PlacementController<BaseArc, ArcIndicatorCo
             rawHit.z = SongBpmTime * EditorScaleController.EditorScale;
 
             var precision = Settings.Instance.PrecisionPlacementGridPrecision;
-            roundedHit = ((Vector2)Vector2Int.RoundToInt((precisionOffset + (Vector2)rawHit) * precision)) / precision;
+            roundedHit = ((Vector2)Vector2Int.RoundToInt((PrecisionOffset + (Vector2)rawHit) * precision)) / precision;
             instantiatedContainer.transform.localPosition = roundedHit;
 
             if (IsDraggingObject || IsDraggingObjectAtTime)
@@ -73,14 +73,14 @@ public class ArcIndicatorPlacement : PlacementController<BaseArc, ArcIndicatorCo
                 if (DraggedObjectContainer.IndicatorType == IndicatorType.Head)
                 {
                     queuedData.CustomCoordinate = !vanillaBounds
-                        ? (JSONNode)((Vector2)roundedHit - vanillaOffset + precisionOffset)
+                        ? (JSONNode)((Vector2)roundedHit - VanillaOffset + PrecisionOffset)
                         : null;
                 }
 
                 if (DraggedObjectContainer.IndicatorType == IndicatorType.Tail)
                 {
                     queuedData.CustomTailCoordinate = !vanillaBounds
-                        ? (JSONNode)((Vector2)roundedHit - vanillaOffset + precisionOffset)
+                        ? (JSONNode)((Vector2)roundedHit - VanillaOffset + PrecisionOffset)
                         : null;
                 }
             }
@@ -121,11 +121,14 @@ public class ArcIndicatorPlacement : PlacementController<BaseArc, ArcIndicatorCo
         {
             if (indicator.IndicatorType == IndicatorType.Head)
             {
-                return (indicator.ParentArc.ArcData.SongBpmTime - Atsc.CurrentSongBpmTime) * EditorScaleController.EditorScale;
+                return (indicator.ParentArc.ArcData.SongBpmTime - Atsc.CurrentSongBpmTime)
+                    * EditorScaleController.EditorScale;
             }
+
             if (indicator.IndicatorType == IndicatorType.Tail)
             {
-                return (indicator.ParentArc.ArcData.TailSongBpmTime - Atsc.CurrentSongBpmTime) * EditorScaleController.EditorScale;
+                return (indicator.ParentArc.ArcData.TailSongBpmTime - Atsc.CurrentSongBpmTime)
+                    * EditorScaleController.EditorScale;
             }
         }
 
@@ -153,6 +156,7 @@ public class ArcIndicatorPlacement : PlacementController<BaseArc, ArcIndicatorCo
                 queuedData.CutDirection = value;
                 DraggedObjectContainer.ParentArc.ArcData.CutDirection = value;
             }
+
             if (DraggedObjectContainer.IndicatorType == IndicatorType.Tail)
             {
                 queuedData.TailCutDirection = value;
@@ -162,7 +166,7 @@ public class ArcIndicatorPlacement : PlacementController<BaseArc, ArcIndicatorCo
     }
 
     // Below is copied from NotePlacement. Would be nice to have some kind of shared placement.
-    private readonly float diagonalStickMAXTime = 0.3f;
+    private readonly float diagonalStickMaxTime = 0.3f;
     private readonly List<bool> heldKeys = new List<bool> { false, false, false, false };
     private const int upKey = 0;
     private const int leftKey = 1;
@@ -190,26 +194,22 @@ public class ArcIndicatorPlacement : PlacementController<BaseArc, ArcIndicatorCo
 
     public void OnUpLeftNote(InputAction.CallbackContext context)
     {
-        if (context.performed && !laserSpeedController.Activated)
-            UpdateCut((int)NoteCutDirection.UpLeft);
+        if (context.performed && !laserSpeedController.Activated) UpdateCut((int)NoteCutDirection.UpLeft);
     }
 
     public void OnUpRightNote(InputAction.CallbackContext context)
     {
-        if (context.performed && !laserSpeedController.Activated)
-            UpdateCut((int)NoteCutDirection.UpRight);
+        if (context.performed && !laserSpeedController.Activated) UpdateCut((int)NoteCutDirection.UpRight);
     }
 
     public void OnDownRightNote(InputAction.CallbackContext context)
     {
-        if (context.performed && !laserSpeedController.Activated)
-            UpdateCut((int)NoteCutDirection.DownRight);
+        if (context.performed && !laserSpeedController.Activated) UpdateCut((int)NoteCutDirection.DownRight);
     }
 
     public void OnDownLeftNote(InputAction.CallbackContext context)
     {
-        if (context.performed && !laserSpeedController.Activated)
-            UpdateCut((int)NoteCutDirection.DownLeft);
+        if (context.performed && !laserSpeedController.Activated) UpdateCut((int)NoteCutDirection.DownLeft);
     }
 
     private void HandleKeyUpdate(InputAction.CallbackContext context, int id)
@@ -241,25 +241,33 @@ public class ArcIndicatorPlacement : PlacementController<BaseArc, ArcIndicatorCo
 
         if (handleUpDownNotes && !handleLeftRightNotes) // We handle simple up/down notes
         {
-            if (upNote) UpdateCut((int)NoteCutDirection.Up);
-            else UpdateCut((int)NoteCutDirection.Down);
+            if (upNote)
+                UpdateCut((int)NoteCutDirection.Up);
+            else
+                UpdateCut((int)NoteCutDirection.Down);
         }
         else if (!handleUpDownNotes && handleLeftRightNotes) // We handle simple left/right notes
         {
-            if (leftNote) UpdateCut((int)NoteCutDirection.Left);
-            else UpdateCut((int)NoteCutDirection.Right);
+            if (leftNote)
+                UpdateCut((int)NoteCutDirection.Left);
+            else
+                UpdateCut((int)NoteCutDirection.Right);
         }
         else if (diagonal) //We need to do a diagonal
         {
             if (leftNote)
             {
-                if (upNote) UpdateCut((int)NoteCutDirection.UpLeft);
-                else UpdateCut((int)NoteCutDirection.DownLeft);
+                if (upNote)
+                    UpdateCut((int)NoteCutDirection.UpLeft);
+                else
+                    UpdateCut((int)NoteCutDirection.DownLeft);
             }
             else
             {
-                if (upNote) UpdateCut((int)NoteCutDirection.UpRight);
-                else UpdateCut((int)NoteCutDirection.DownRight);
+                if (upNote)
+                    UpdateCut((int)NoteCutDirection.UpRight);
+                else
+                    UpdateCut((int)NoteCutDirection.DownRight);
             }
         }
     }
@@ -267,7 +275,7 @@ public class ArcIndicatorPlacement : PlacementController<BaseArc, ArcIndicatorCo
     private IEnumerator CheckForDiagonalUpdate()
     {
         var previousHeldKeys = new List<bool>(heldKeys);
-        yield return new WaitForSeconds(diagonalStickMAXTime);
+        yield return new WaitForSeconds(diagonalStickMaxTime);
         // Weird way of saying "Are the keys being held right now the same as before"
         if (!previousHeldKeys.Except(heldKeys).Any()) flagDirectionsUpdate = true;
     }

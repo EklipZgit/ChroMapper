@@ -25,9 +25,7 @@ public class CreateEventTypeLabels : MonoBehaviour
     public Material AvailableMaterial;
     public Material UtilityMaterial;
     public Material RedMaterial;
-    public GameObject LayerInstantiate;
-    public Transform[] EventGrid;
-    [SerializeField] private DarkThemeSO darkTheme;
+    public GameObject LabelPrefab;
     public RotationCallbackController RotationCallback;
 
     private readonly List<LaneInfo> laneObjs = new List<LaneInfo>();
@@ -47,7 +45,7 @@ public class CreateEventTypeLabels : MonoBehaviour
 
     public void UpdateLabels(EventGridContainer.PropMode propMode, int eventType, int lanes = 16)
     {
-        foreach (Transform children in LayerInstantiate.transform.parent.transform)
+        foreach (Transform children in transform)
         {
             if (children.gameObject.activeSelf) Destroy(children.gameObject);
         }
@@ -62,7 +60,7 @@ public class CreateEventTypeLabels : MonoBehaviour
 
             var laneInfo = new LaneInfo(i, propMode != EventGridContainer.PropMode.Off ? i : modified);
 
-            var instantiate = Instantiate(LayerInstantiate, LayerInstantiate.transform.parent);
+            var instantiate = Instantiate(LabelPrefab, transform);
             instantiate.SetActive(true);
             instantiate.transform.localPosition =
                 new Vector3(propMode != EventGridContainer.PropMode.Off ? i : modified, 0, 0);
@@ -173,8 +171,6 @@ public class CreateEventTypeLabels : MonoBehaviour
 
                             break;
                     }
-
-                    if (Settings.Instance.DarkTheme) textMesh.fontSharedMaterial = darkTheme.TekoMaterialReplacement;
                 }
 
                 laneInfo.Name = textMesh.text;

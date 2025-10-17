@@ -62,7 +62,7 @@ public class BombPlacement : PlacementController<BaseNote, NoteContainer, NoteGr
             rawHit.z = SongBpmTime * EditorScaleController.EditorScale;
 
             var precision = Settings.Instance.PrecisionPlacementGridPrecision;
-            roundedHit = ((Vector2)Vector2Int.RoundToInt((precisionOffset + (Vector2)rawHit) * precision)) / precision;
+            roundedHit = ((Vector2)Vector2Int.RoundToInt((PrecisionOffset + (Vector2)rawHit) * precision)) / precision;
             instantiatedContainer.transform.localPosition = roundedHit;
 
             queuedData.CustomCoordinate = (Vector2)roundedHit;
@@ -75,7 +75,7 @@ public class BombPlacement : PlacementController<BaseNote, NoteContainer, NoteGr
             precisionPlacement.TogglePrecisionPlacement(false);
 
             queuedData.CustomCoordinate = !vanillaBounds
-                ? (Vector2)roundedHit - vanillaOffset + precisionOffset
+                ? (Vector2)roundedHit - VanillaOffset + PrecisionOffset
                 : null;
         }
 

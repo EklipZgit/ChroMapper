@@ -7,16 +7,16 @@ using UnityEngine.Serialization;
 
 public class DingOnNotePassingGrid : MonoBehaviour
 {
-    public static Dictionary<int, bool> NoteTypeToDing = new Dictionary<int, bool>
+    public static Dictionary<int, bool> NoteTypeToDing = new()
     {
-        {(int)NoteType.Red, true}, {(int)NoteType.Blue, true}, {(int)NoteType.Bomb, false}
+        { (int)NoteType.Red, true }, { (int)NoteType.Blue, true }, { (int)NoteType.Bomb, false }
     };
 
     [SerializeField] private AudioTimeSyncController atsc;
     [SerializeField] private AudioSource source;
     [SerializeField] private SoundList[] soundLists;
-    [FormerlySerializedAs("DensityCheckOffset")][SerializeField] private int densityCheckOffset = 2;
-    [FormerlySerializedAs("ThresholdInNoteTime")][SerializeField] private float thresholdInNoteTime = 0.25f;
+    [SerializeField] private int densityCheckOffset = 2;
+    [SerializeField] private float thresholdInNoteTime = 0.25f;
     [SerializeField] private AudioUtil audioUtil;
     [SerializeField] private NoteGridContainer container;
     [SerializeField] private BeatmapObjectCallbackController defaultCallbackController;
@@ -84,16 +84,17 @@ public class DingOnNotePassingGrid : MonoBehaviour
     {
         lastCheckedTime = -1;
         audioUtil.StopOneShot();
-        
+
         if (!playing) return;
-        
+
         // Since we schedule hit sounds ahead of time using the note callback, there will be a small period ahead of the
         // playback cursor when start play is toggled where hit sounds are not scheduled play on play so we do that here
         var map = BeatSaberSongContainer.Instance.Map;
         var currentJsonTime = (float)map.SongBpmTimeToJsonTime(atsc.CurrentAudioBeats);
-        var endJsonTime = (float)map.SongBpmTimeToJsonTime(atsc.CurrentAudioBeats + beatSaberCutCallbackController.Offset);
+        var endJsonTime =
+            (float)map.SongBpmTimeToJsonTime(atsc.CurrentAudioBeats + beatSaberCutCallbackController.Offset);
         var notes = container.GetBetween(currentJsonTime, endJsonTime);
-        
+
         foreach (var n in notes) PlaySound(false, 0, n);
     }
 

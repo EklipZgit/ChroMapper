@@ -15,9 +15,11 @@ using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class EventPlacement : PlacementController<BaseEvent, EventContainer, EventGridContainer>,
-    CMInput.IEventPlacementActions
+                              CMInput.IEventPlacementActions
 {
-    [FormerlySerializedAs("eventAppearanceSO")][SerializeField] private EventAppearanceSO eventAppearanceSo;
+    [FormerlySerializedAs("eventAppearanceSO")] [SerializeField]
+    private EventAppearanceSO eventAppearanceSo;
+
     [SerializeField] private ColorPicker colorPicker;
     [SerializeField] private TMP_InputField laserSpeedInputField;
     [SerializeField] private Toggle chromaToggle;
@@ -33,12 +35,12 @@ public class EventPlacement : PlacementController<BaseEvent, EventContainer, Eve
     private bool isHalfFloatValuePressed;
     private bool isZeroFloatValuePressed;
 
-    protected override Vector2 vanillaOffset { get; } = new Vector2(-0.5f, -1.1f);
+    protected override Vector2 VanillaOffset { get; } = new(-0.5f, -0.5f);
 
     internal int queuedValue = (int)LightValue.RedOn;
     internal float queuedFloatValue = 1.0f;
     internal float queuedRotation = 30f;
-    
+
     public static bool CanPlaceChromaEvents => Settings.Instance.PlaceChromaColor;
 
     public void OnRotation15Degrees(InputAction.CallbackContext context)
@@ -67,7 +69,7 @@ public class EventPlacement : PlacementController<BaseEvent, EventContainer, Eve
     public void OnHalfFloatValueModifier(InputAction.CallbackContext context) =>
         isHalfFloatValuePressed = context.performed;
 
-    public void OnZeroFloatValueModifier(InputAction.CallbackContext context) => 
+    public void OnZeroFloatValueModifier(InputAction.CallbackContext context) =>
         isZeroFloatValuePressed = context.performed;
 
     public void OnRotateInPlaceLeft(InputAction.CallbackContext context)
@@ -83,36 +85,17 @@ public class EventPlacement : PlacementController<BaseEvent, EventContainer, Eve
     public void OnRotateInPlaceModifier(InputAction.CallbackContext context) =>
         earlyRotationPlaceNow = context.performed;
 
-    public void SetGridSize(int gridSize = 16)
-    {
-        foreach (Transform eachChild in transform)
-        {
-            switch (eachChild.name)
-            {
-                case "Event Grid Front Scaling Offset":
-                    var newFrontScale = eachChild.transform.localScale;
-                    newFrontScale.x = gridSize / 10f;
-                    eachChild.transform.localScale = newFrontScale;
-                    break;
-                case "Event Interface Scaling Offset":
-                    var newInterfaceScale = eachChild.transform.localScale;
-                    newInterfaceScale.x = gridSize / 10f;
-                    eachChild.transform.localScale = newInterfaceScale;
-                    break;
-            }
-        }
-
-        GridChild.Size = gridSize;
-    }
+    public void SetGridSize(int gridSize = 16) => GridLane.Size = gridSize;
 
     public override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> container) =>
         new BeatmapObjectPlacementAction(spawned, container, "Placed an Event.");
 
-    public override BaseEvent GenerateOriginalData() => new BaseEvent();
+    public override BaseEvent GenerateOriginalData() => new();
 
     public override void OnPhysicsRaycast(Intersections.IntersectionHit _, Vector3 __)
     {
-        instantiatedContainer.transform.localPosition = new Vector3(instantiatedContainer.transform.localPosition.x + 0.5f,
+        instantiatedContainer.transform.localPosition = new Vector3(
+            instantiatedContainer.transform.localPosition.x + 0.5f,
             0.5f,
             instantiatedContainer.transform.localPosition.z);
         if (objectContainerCollection.PropagationEditing == EventGridContainer.PropMode.Off)
@@ -139,7 +122,10 @@ public class EventPlacement : PlacementController<BaseEvent, EventContainer, Eve
             }
         }
 
-        if (CanPlaceChromaEvents && dropdown.Visible && queuedData.IsLightEvent(EnvironmentInfoHelper.GetName()) && queuedData.Value != (int)LightValue.Off)
+        if (CanPlaceChromaEvents
+            && dropdown.Visible
+            && queuedData.IsLightEvent(EnvironmentInfoHelper.GetName())
+            && queuedData.Value != (int)LightValue.Off)
             queuedData.CustomColor = colorPicker.CurrentColor;
         else
             queuedData.CustomColor = null;
@@ -161,8 +147,7 @@ public class EventPlacement : PlacementController<BaseEvent, EventContainer, Eve
             queuedData.Value = laserSpeed;
         }
 
-        if (queuedData.IsColorBoostEvent())
-            queuedData.Value = queuedData.Value > 0 ? 1 : 0;
+        if (queuedData.IsColorBoostEvent()) queuedData.Value = queuedData.Value > 0 ? 1 : 0;
     }
 
     public void UpdateValue(int value)
@@ -203,8 +188,7 @@ public class EventPlacement : PlacementController<BaseEvent, EventContainer, Eve
 
     private void UpdateQueuedRotation(float rotation)
     {
-        if (!queuedData.IsLaneRotationEvent())
-            return;
+        if (!queuedData.IsLaneRotationEvent()) return;
 
         queuedData.Rotation = rotation;
     }
@@ -220,14 +204,16 @@ public class EventPlacement : PlacementController<BaseEvent, EventContainer, Eve
     {
         if (!queuedData.IsLightEvent()) return;
         if (queuedValue >= ColourManager.RgbintOffset || queuedValue == (int)LightValue.Off) return;
-        if ((red && queuedValue >= (int)LightValue.RedOn) ||
-            (!red && queuedValue >= (int)LightValue.BlueOn && queuedValue < (int)LightValue.RedOn))
+        if ((red && queuedValue >= (int)LightValue.RedOn)
+            || (!red && queuedValue >= (int)LightValue.BlueOn && queuedValue < (int)LightValue.RedOn))
         {
             return;
         }
 
-        if (queuedValue > 0 && queuedValue <= 4) queuedValue += 4; // blue to red
-        else if (queuedValue > 4 && queuedValue <= 8) queuedValue += 4; // red to white
+        if (queuedValue > 0 && queuedValue <= 4)
+            queuedValue += 4; // blue to red
+        else if (queuedValue > 4 && queuedValue <= 8)
+            queuedValue += 4; // red to white
         else if (queuedValue > 8 && queuedValue <= 12) queuedValue -= 8; // white to blue
     }
 
@@ -254,7 +240,7 @@ public class EventPlacement : PlacementController<BaseEvent, EventContainer, Eve
         }
 
         base.ApplyToMap();
-        
+
         if (evt.IsLaneRotationEvent()) TracksManager.RefreshTracks();
 
         queuedData = new BaseEvent(evt); // need to convert back to regular event
@@ -268,7 +254,8 @@ public class EventPlacement : PlacementController<BaseEvent, EventContainer, Eve
         // Instead of copying the whole custom data, only copy prop ID
         if (dragged.CustomData != null && queued.CustomData != null)
         {
-            if (queued.CustomData?[queued.CustomKeyPropID] != null) dragged.GetOrCreateCustom()[dragged.CustomKeyPropID] = queued.CustomData[queued.CustomKeyPropID];
+            if (queued.CustomData?[queued.CustomKeyPropID] != null)
+                dragged.GetOrCreateCustom()[dragged.CustomKeyPropID] = queued.CustomData[queued.CustomKeyPropID];
 
             if (queued.CustomLightID != null) dragged.CustomLightID = queued.CustomLightID;
         }
@@ -276,22 +263,24 @@ public class EventPlacement : PlacementController<BaseEvent, EventContainer, Eve
 
     internal void PlaceRotationNow(bool right, bool early)
     {
-        if (!GridRotation.IsActive)
-            return;
+        if (!GridRotation.IsActive) return;
 
         var rotationType = early ? (int)EventTypeValue.EarlyLaneRotation : (int)EventTypeValue.LateLaneRotation;
         var epsilon = 1f / Mathf.Pow(10, Settings.Instance.TimeValueDecimalPrecision);
         var evt = objectContainerCollection.AllRotationEvents.Find(x =>
-            x.JsonTime - epsilon < Atsc.CurrentJsonTime && x.JsonTime + epsilon > Atsc.CurrentJsonTime && x.Type == rotationType);
+            x.JsonTime - epsilon < Atsc.CurrentJsonTime
+            && x.JsonTime + epsilon > Atsc.CurrentJsonTime
+            && x.Type == rotationType);
 
         //todo add support for custom rotation angles
 
         var startingValue = right ? 4 : 3;
         if (evt != null) startingValue = evt.Value;
 
-        if (evt != null &&
-            ((startingValue == 4 && !right) ||
-             (startingValue == 3 && right))) //This is for when we're going from a rotation event to no rotation event
+        if (evt != null
+            && ((startingValue == 4 && !right)
+                || (startingValue == 3
+                    && right))) //This is for when we're going from a rotation event to no rotation event
         {
             startingValue = evt.Value;
             objectContainerCollection.DeleteObject(evt, false);
@@ -300,7 +289,10 @@ public class EventPlacement : PlacementController<BaseEvent, EventContainer, Eve
         else if ((startingValue < 7 && right) || (startingValue > 0 && !right))
         {
             if (evt != null) startingValue += right ? 1 : -1;
-            var objectData = new BaseEvent { JsonTime = Atsc.CurrentJsonTime, Type = rotationType, Value = startingValue };
+            var objectData = new BaseEvent
+            {
+                JsonTime = Atsc.CurrentJsonTime, Type = rotationType, Value = startingValue
+            };
 
             objectContainerCollection.SpawnObject(objectData, out var conflicting);
             BeatmapActionContainer.AddAction(GenerateAction(objectData, conflicting));

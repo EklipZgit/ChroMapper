@@ -8,38 +8,56 @@ public class GridRenderingController : MonoBehaviour
     private static readonly int gridSpacing = Shader.PropertyToID("_GridSpacing");
     private static readonly int mainColor = Shader.PropertyToID("_Color");
     private static readonly int gridThickness = Shader.PropertyToID("_GridThickness");
-    private static readonly Color mainColorDefault = new Color(0.33f, 0.33f, 0.33f, 1f);
-    private static readonly Color mainColorHighContrast = new Color(0f, 0f, 0f, 1f);
+    private static readonly Color mainColorDefault = new(0.33f, 0.33f, 0.33f, 1f);
+    private static readonly Color mainColorHighContrast = new(0f, 0f, 0f, 1f);
 
-    private static MaterialPropertyBlock oneBeatPropertyBlock;
-    private static MaterialPropertyBlock smallBeatPropertyBlock;
-    private static MaterialPropertyBlock detailedBeatPropertyBlock;
-    private static MaterialPropertyBlock preciseBeatPropertyBlock;
-    private static MaterialPropertyBlock beatColorPropertyBlock;
     [SerializeField] private AudioTimeSyncController atsc;
-    [SerializeField] private Renderer[] oneBeat;
-    [SerializeField] private Renderer[] smallBeatSegment;
-    [SerializeField] private Renderer[] detailedBeatSegment;
-    [SerializeField] private Renderer[] preciseBeatSegment;
-    [SerializeField] private Renderer[] opaqueGrids;
-    [SerializeField] private Renderer[] transparentGrids;
-    [SerializeField] private Transform[] gridFrontTransforms;
+    [SerializeField] private GameObject gridParent;
 
-    private readonly List<Renderer> allRenderers = new List<Renderer>();
+    private readonly List<GridLane> gridLanes = new();
+    private readonly List<Renderer> opaqueGrids = new();
+    private readonly List<Renderer> transparentGrids = new();
+
+    private readonly List<Renderer> oneBeat = new();
+    private readonly List<Renderer> smallBeatSegment = new();
+    private readonly List<Renderer> detailedBeatSegment = new();
+    private readonly List<Renderer> preciseBeatSegment = new();
+
+    private readonly List<Renderer> allRenderers = new();
+
+    private MaterialPropertyBlock oneBeatPropertyBlock;
+    private MaterialPropertyBlock smallBeatPropertyBlock;
+    private MaterialPropertyBlock detailedBeatPropertyBlock;
+    private MaterialPropertyBlock preciseBeatPropertyBlock;
+    private MaterialPropertyBlock beatColorPropertyBlock;
 
     private void Awake()
     {
-        oneBeatPropertyBlock = new MaterialPropertyBlock();
-        smallBeatPropertyBlock = new MaterialPropertyBlock();
-        detailedBeatPropertyBlock = new MaterialPropertyBlock();
-        preciseBeatPropertyBlock = new MaterialPropertyBlock();
-        beatColorPropertyBlock = new MaterialPropertyBlock();
+        atsc.OnGridMeasureSnappingChanged += HandleGridMeasureSnappingChanged;
 
-        atsc.OnGridMeasureSnappingChanged += GridMeasureSnappingChanged;
+        oneBeatPropertyBlock = new();
+        smallBeatPropertyBlock = new();
+        detailedBeatPropertyBlock = new();
+        preciseBeatPropertyBlock = new();
+        beatColorPropertyBlock = new();
+
+        foreach (var gridLane in gridParent.GetComponentsInChildren<GridLane>())
+        {
+            gridLanes.Add(gridLane);
+            opaqueGrids.Add(gridLane.XZ.InterfaceOpaque);
+            transparentGrids.Add(gridLane.XZ.InterfaceTransparent);
+
+            oneBeat.Add(gridLane.XZ.OneBeat);
+            smallBeatSegment.Add(gridLane.XZ.SmallBeatSegment);
+            detailedBeatSegment.Add(gridLane.XZ.DetailedBeatSegment);
+            preciseBeatSegment.Add(gridLane.XZ.PreciseBeatSegment);
+        }
+
         allRenderers.AddRange(oneBeat);
         allRenderers.AddRange(smallBeatSegment);
         allRenderers.AddRange(detailedBeatSegment);
         allRenderers.AddRange(preciseBeatSegment);
+
         Settings.NotifyBySettingName(nameof(Settings.HighContrastGrids), UpdateGridColors);
         Settings.NotifyBySettingName(nameof(Settings.GridTransparency), UpdateGridColors);
         Settings.NotifyBySettingName(nameof(Settings.TrackLength), UpdateTrackLength);
@@ -50,7 +68,7 @@ public class GridRenderingController : MonoBehaviour
 
     private void OnDestroy()
     {
-        atsc.OnGridMeasureSnappingChanged -= GridMeasureSnappingChanged;
+        atsc.OnGridMeasureSnappingChanged -= HandleGridMeasureSnappingChanged;
         Settings.ClearSettingNotifications(nameof(Settings.HighContrastGrids));
         Settings.ClearSettingNotifications(nameof(Settings.GridTransparency));
         Settings.ClearSettingNotifications(nameof(Settings.TrackLength));
@@ -60,10 +78,10 @@ public class GridRenderingController : MonoBehaviour
     public void UpdateOffset(float offset)
     {
         Shader.SetGlobalFloat(GridRenderingController.offset, offset);
-        if (!atsc.IsPlaying) GridMeasureSnappingChanged(atsc.GridMeasureSnapping);
+        if (!atsc.IsPlaying) HandleGridMeasureSnappingChanged(atsc.GridMeasureSnapping);
     }
 
-    private void GridMeasureSnappingChanged(int snapping)
+    private void HandleGridMeasureSnappingChanged(int snapping)
     {
         float gridSeparation = GetLowestDenominator(snapping);
         if (gridSeparation < 3) gridSeparation = 4;
@@ -104,22 +122,20 @@ public class GridRenderingController : MonoBehaviour
         foreach (var g in transparentGrids)
         {
             g.SetPropertyBlock(beatColorPropertyBlock);
-            g.enabled = !(newColor.a == 1f);
+            g.enabled = !Mathf.Approximately(newColor.a, 1f);
         }
 
         foreach (var g in opaqueGrids)
         {
             g.SetPropertyBlock(beatColorPropertyBlock);
-            g.enabled = newColor.a == 1f;
+            g.enabled = Mathf.Approximately(newColor.a, 1f);
         }
     }
 
-    private void UpdateTrackLength(object _) {
-        foreach (var trans in gridFrontTransforms)
-        {
-            var scale = trans.localScale;
-            trans.localScale = new Vector3(scale.x, scale.y, Settings.Instance.TrackLength * EditorScaleController.EditorScale);
-        }
+    private void UpdateTrackLength(object _)
+    {
+        foreach (var gridLane in gridLanes)
+            gridLane.SetLength(Settings.Instance.TrackLength * EditorScaleController.EditorScale);
     }
 
     private void UpdateOneBeat(object value)

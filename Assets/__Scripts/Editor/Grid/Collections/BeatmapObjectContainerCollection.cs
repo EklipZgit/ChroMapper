@@ -26,8 +26,7 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
             ? bookmarkManager
             : FindAnyObjectByType<BookmarkManager>();
 
-    private static readonly Dictionary<ObjectType, BeatmapObjectContainerCollection> loadedCollections =
-        new Dictionary<ObjectType, BeatmapObjectContainerCollection>();
+    private static readonly Dictionary<ObjectType, BeatmapObjectContainerCollection> loadedCollections = new();
 
     public event Action<BaseObject> OnContainerSpawned;
     public event Action<BaseObject> OnContainerDespawned;
@@ -43,13 +42,11 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
     public BeatmapObjectCallbackController SpawnCallbackController;
     public BeatmapObjectCallbackController DespawnCallbackController;
 
-    public Transform GridTransform;
-    public Transform PoolTransform;
     public bool UseChunkLoadingWhenPlaying;
     public int ChunksLoadedWhilePlaying = 2;
     public bool IgnoreTrackFilter;
 
-    private readonly Queue<ObjectContainer> pooledContainers = new Queue<ObjectContainer>();
+    private readonly Queue<ObjectContainer> pooledContainers = new();
 
     /// <summary>
     ///     A dictionary of all active BeatmapObjectContainers by the data they are attached to.
@@ -57,10 +54,9 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
     // TODO(Caeden): Maybe rewrite this out? Have BaseObject -> ObjectContainer references in the BaseObject class.
     //   Reasoning: Half of CM's use here is iteration, which is slow with Dictionaries.
     //   The other half is to access containers by a BaseObject, which would be satisfied by storing that relation in the BaseObject class
-    public Dictionary<BaseObject, ObjectContainer> LoadedContainers =
-        new Dictionary<BaseObject, ObjectContainer>();
+    public Dictionary<BaseObject, ObjectContainer> LoadedContainers = new();
 
-    public List<BaseObject> ObjectsWithContainers = new List<BaseObject>();
+    public List<BaseObject> ObjectsWithContainers = new();
 
     private float previousAtscBeat = -1;
     private int previousChunk = -1;
@@ -253,7 +249,6 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
         var container = LoadedContainers[obj];
         container.ObjectData = null;
         container.SafeSetActive(false);
-        //container.transform.SetParent(PoolTransform);
         LoadedContainers.Remove(obj);
         ObjectsWithContainers.Remove(obj);
         pooledContainers.Enqueue(container);
@@ -267,8 +262,7 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
         var baseContainer = CreateContainer();
         baseContainer.gameObject.SetActive(false);
         baseContainer.Setup();
-        //baseContainer.transform.SetParent(PoolTransform);
-        baseContainer.transform.SetParent(GridTransform);
+        baseContainer.transform.SetParent(transform);
         pooledContainers.Enqueue(baseContainer);
     }
 
@@ -818,7 +812,7 @@ public abstract class BeatmapObjectContainerCollection<T> : BeatmapObjectContain
         var insertIdx = search >= 0 ? search : ~search;
         MapObjects.Insert(insertIdx, obj);
 
-        base.HandleObjectSpawned(obj, inCollectionOfSpawns);
+        HandleObjectSpawned(obj, inCollectionOfSpawns);
         OnObjectSpawned?.Invoke(obj);
 
         //Debug.Log($"Total object count: {LoadedObjects.Count}");

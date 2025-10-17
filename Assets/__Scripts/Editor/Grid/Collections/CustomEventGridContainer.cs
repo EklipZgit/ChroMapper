@@ -2,7 +2,6 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using Beatmap.Animations;
-using Beatmap.Appearances;
 using Beatmap.Base;
 using Beatmap.Base.Customs;
 using Beatmap.Containers;
@@ -13,15 +12,16 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class CustomEventGridContainer : BeatmapObjectContainerCollection<BaseCustomEvent>, CMInput.ICustomEventsContainerActions
+public class CustomEventGridContainer : BeatmapObjectContainerCollection<BaseCustomEvent>,
+                                        CMInput.ICustomEventsContainerActions
 {
     [SerializeField] private GameObject customEventPrefab;
     [SerializeField] private TextMeshProUGUI customEventLabelPrefab;
     [SerializeField] private Transform customEventLabelTransform;
-    [SerializeField] private Transform[] customEventScalingOffsets;
+    [SerializeField] private GridChild gridChild;
     [SerializeField] private TracksManager tracksManager;
     [SerializeField] private CameraController playerCamera;
-    private List<string> customEventTypes = new List<string>();
+    private List<string> customEventTypes = new();
     public override ObjectType ContainerType => ObjectType.CustomEvent;
 
     public ReadOnlyCollection<string> CustomEventTypes => customEventTypes.AsReadOnly();
@@ -34,8 +34,7 @@ public class CustomEventGridContainer : BeatmapObjectContainerCollection<BaseCus
         if (!Settings.Instance.AdvancedShit)
         {
             Debug.LogWarning("Disabling some objects since an Advanced setting is not enabled...");
-            foreach (var t in customEventScalingOffsets)
-                t.gameObject.SetActive(false);
+            gridChild.gameObject.SetActive(false);
         }
     }
 
@@ -55,8 +54,9 @@ public class CustomEventGridContainer : BeatmapObjectContainerCollection<BaseCus
     {
         if (Settings.Instance.AdvancedShit && context.performed && !PersistentUI.Instance.InputBoxIsEnabled)
         {
-            PersistentUI.Instance.ShowInputBox("Assign the selected objects to a track ID.\n\n" +
-                                               "If you dont know what you're doing, turn back now.", HandleTrackAssign);
+            PersistentUI.Instance.ShowInputBox(
+                "Assign the selected objects to a track ID.\n\n" + "If you dont know what you're doing, turn back now.",
+                HandleTrackAssign);
         }
     }
 
@@ -103,8 +103,7 @@ public class CustomEventGridContainer : BeatmapObjectContainerCollection<BaseCus
                 EventsByTrack.Remove(track);
             }
 
-            if (ev.Type == "AnimateTrack")
-                tracksManager.GetAnimationTrack(track).RemoveEvent(ev);
+            if (ev.Type == "AnimateTrack") tracksManager.GetAnimationTrack(track).RemoveEvent(ev);
         }
     }
 
@@ -123,10 +122,10 @@ public class CustomEventGridContainer : BeatmapObjectContainerCollection<BaseCus
             {
                 EventsByTrack[track] = new List<BaseCustomEvent>();
             }
+
             EventsByTrack[track].Add(ev);
 
-            if (ev.Type == "AnimateTrack")
-                tracksManager.GetAnimationTrack(track).AddEvent(ev);
+            if (ev.Type == "AnimateTrack") tracksManager.GetAnimationTrack(track).AddEvent(ev);
         }
 
         switch (ev.Type)
@@ -143,7 +142,9 @@ public class CustomEventGridContainer : BeatmapObjectContainerCollection<BaseCus
                 foreach (var tr in children)
                 {
                     var at = tracksManager.GetAnimationTrack(tr.Value);
-                    at.Track.transform.SetParent(parent.Track.ObjectParentTransform, ev.DataWorldPositionStays ?? false);
+                    at.Track.transform.SetParent(
+                        parent.Track.ObjectParentTransform,
+                        ev.DataWorldPositionStays ?? false);
                     if (at.Animator == null)
                     {
                         at.Animator = at.gameObject.AddComponent<ObjectAnimator>();
@@ -158,6 +159,7 @@ public class CustomEventGridContainer : BeatmapObjectContainerCollection<BaseCus
                         at.OnChildrenChanged();
                     }
                 }
+
                 break;
             case "AssignPlayerToTrack":
                 if (ev.CustomTrack == null) return;
@@ -187,18 +189,14 @@ public class CustomEventGridContainer : BeatmapObjectContainerCollection<BaseCus
 
     private void RefreshTrack()
     {
-        foreach (var t in customEventScalingOffsets)
+        if (customEventTypes.Count == 0)
         {
-            var localScale = t.localScale;
-            if (customEventTypes.Count == 0)
-            {
-                t.gameObject.SetActive(false);
-            }
-            else
-            {
-                t.gameObject.SetActive(true);
-                t.localScale = new Vector3((customEventTypes.Count / 10f) + 0.01f, localScale.y, localScale.z);
-            }
+            gridChild.gameObject.SetActive(false);
+        }
+        else
+        {
+            gridChild.gameObject.SetActive(true);
+            gridChild.Size = customEventTypes.Count;
         }
 
         for (var i = 0; i < customEventLabelTransform.childCount; i++)
@@ -245,11 +243,13 @@ public class CustomEventGridContainer : BeatmapObjectContainerCollection<BaseCus
     private void CreateNewType()
     {
         if (PersistentUI.Instance.InputBoxIsEnabled) return;
-        PersistentUI.Instance.ShowInputBox("A new custom event type, I see?\n\n" +
-                                           "Custom event types are for the advanced of advanced users. Node Editor and JSON knowledge are required for these babies.\n\n" +
-                                           "If you dont know what these do, or don't have the documentation for them, turn back now.\n\n" +
-                                           "But if you do, what would you like to name this new event type?",
-            HandleNewTypeCreation, "NewCustomEventType");
+        PersistentUI.Instance.ShowInputBox(
+            "A new custom event type, I see?\n\n"
+            + "Custom event types are for the advanced of advanced users. Node Editor and JSON knowledge are required for these babies.\n\n"
+            + "If you dont know what these do, or don't have the documentation for them, turn back now.\n\n"
+            + "But if you do, what would you like to name this new event type?",
+            HandleNewTypeCreation,
+            "NewCustomEventType");
     }
 
     private void HandleNewTypeCreation(string res)
@@ -275,8 +275,12 @@ public class CustomEventGridContainer : BeatmapObjectContainerCollection<BaseCus
             mod.CustomTrack = value;
             mod.WriteCustom();
         }
+
         BeatmapActionContainer.AddAction(
-            new BeatmapObjectModifiedCollectionAction(modified, SelectionController.SelectedObjects.ToList(), $"Assigned track to ({SelectionController.SelectedObjects.Count}) objects."),
+            new BeatmapObjectModifiedCollectionAction(
+                modified,
+                SelectionController.SelectedObjects.ToList(),
+                $"Assigned track to ({SelectionController.SelectedObjects.Count}) objects."),
             true);
     }
 

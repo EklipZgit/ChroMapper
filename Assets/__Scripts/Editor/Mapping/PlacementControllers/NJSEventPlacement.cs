@@ -17,16 +17,16 @@ public class NJSEventPlacement : PlacementController<BaseNJSEvent, NJSEventConta
 
     public override void TransferQueuedToDraggedObject(ref BaseNJSEvent dragged, BaseNJSEvent queued) =>
         dragged.JsonTime = queued.JsonTime;
-    
+
     internal override void ApplyToMap() => CreateAndOpenNJSDialogue(isInitialPlacement: true);
-    
+
     internal override void Start()
     {
         // v2 info cannot switch to v4 version => cannot place and save NJS events
-        gameObject.SetActive(BeatSaberSongContainer.Instance.Info.MajorVersion != 2);
+        transform.parent.gameObject.SetActive(BeatSaberSongContainer.Instance.Info.MajorVersion != 2);
         base.Start();
     }
-    
+
     private void AttemptPlaceNJSChange(string njsInput, int easingDropdownValue, bool extend)
     {
         if (string.IsNullOrEmpty(njsInput) || string.IsNullOrWhiteSpace(njsInput)) return;
@@ -37,9 +37,9 @@ public class NJSEventPlacement : PlacementController<BaseNJSEvent, NJSEventConta
                 CreateAndOpenNJSDialogue(isInitialPlacement: false);
                 return;
             }
-            
+
             var relativeNJS = absoluteNJS - BeatSaberSongContainer.Instance.MapDifficultyInfo.NoteJumpSpeed;
-            
+
             queuedData.Easing = MapTMPDropdownValueToEasing(easingDropdownValue);
             queuedData.RelativeNJS = relativeNJS;
             queuedData.UsePrevious = extend ? 1 : 0;
@@ -57,7 +57,8 @@ public class NJSEventPlacement : PlacementController<BaseNJSEvent, NJSEventConta
         //    1) The footer buttons can trigger off the same click that opens this dialogue which causes an instant close
         //    2) Immediately reopening the dialogue box after closing it doesn't work
 
-        var createNJSEventDialogueBox = PersistentUI.Instance
+        var createNJSEventDialogueBox = PersistentUI
+            .Instance
             .CreateNewDialogBox()
             .WithTitle("Mapper", "njs.dialog");
 
@@ -71,7 +72,7 @@ public class NJSEventPlacement : PlacementController<BaseNJSEvent, NJSEventConta
         var diffNJS = BeatSaberSongContainer.Instance.MapDifficultyInfo.NoteJumpSpeed;
         var njsTextInput = createNJSEventDialogueBox
             .AddComponent<TextBoxComponent>()
-            .WithLabel("Mapper","njs")
+            .WithLabel("Mapper", "njs")
             .WithInitialValue(diffNJS.ToString(CultureInfo.InvariantCulture));
 
         var easingDropdown = createNJSEventDialogueBox
@@ -79,24 +80,30 @@ public class NJSEventPlacement : PlacementController<BaseNJSEvent, NJSEventConta
             .WithLabel("Mapper", "easing")
             .WithOptions(beatSaberMapFormatEasings)
             .WithInitialValue(1);
-            // This doesn't seem to change the initial option even though the value has changed
-            // so we'll change it anyway on opening the dialogue
-        
+        // This doesn't seem to change the initial option even though the value has changed
+        // so we'll change it anyway on opening the dialogue
+
         var extendToggle = createNJSEventDialogueBox
             .AddComponent<ToggleComponent>()
             .WithLabel("Mapper", "njs.dialogue.useprevious")
             .WithInitialValue(false);
 
-        createNJSEventDialogueBox.OnQuickSubmit(() => AttemptPlaceNJSChange(njsTextInput.Value, easingDropdown.Value, extendToggle.Value));
+        createNJSEventDialogueBox.OnQuickSubmit(() => AttemptPlaceNJSChange(
+            njsTextInput.Value,
+            easingDropdown.Value,
+            extendToggle.Value));
 
         createNJSEventDialogueBox.AddFooterButton(null, "PersistentUI", "cancel");
-        createNJSEventDialogueBox.AddFooterButton(() => AttemptPlaceNJSChange(njsTextInput.Value, easingDropdown.Value, extendToggle.Value), "PersistentUI", "ok");
+        createNJSEventDialogueBox.AddFooterButton(
+            () => AttemptPlaceNJSChange(njsTextInput.Value, easingDropdown.Value, extendToggle.Value),
+            "PersistentUI",
+            "ok");
 
         createNJSEventDialogueBox.Open();
-        
+
         easingDropdown.Value = 1;
     }
-    
+
     // Probably move to easings class at some point
     private List<string> beatSaberMapFormatEasings = new()
     {
@@ -138,7 +145,7 @@ public class NJSEventPlacement : PlacementController<BaseNJSEvent, NJSEventConta
         "BeatSaberInOutElastic", // 101
         "BeatSaberInOutBounce" // 102
     };
-    
+
     private static int MapTMPDropdownValueToEasing(int dropdownEasing)
     {
         var mapFormatValue = dropdownEasing switch
@@ -147,7 +154,7 @@ public class NJSEventPlacement : PlacementController<BaseNJSEvent, NJSEventConta
             >= 5 => dropdownEasing + (19 - 5),
             _ => dropdownEasing - 1
         };
-        
+
         return mapFormatValue;
     }
 }

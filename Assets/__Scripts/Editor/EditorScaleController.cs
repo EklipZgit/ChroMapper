@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,10 +12,12 @@ public class EditorScaleController : MonoBehaviour, CMInput.IEditorScaleActions
     public static event Action<float> OnEditorScaleChanged;
 
     [SerializeField] private Transform moveableGridTransform;
-    [SerializeField] private Transform[] scalingOffsets;
     [SerializeField] private AudioTimeSyncController atsc;
     [SerializeField] private VariableNJSProvider vnjsProvider;
-    
+
+    [SerializeField] private GameObject gridParent;
+    private readonly List<GridLane> gridChildLanes = new();
+
     private BeatmapObjectContainerCollection[] collections;
     private float currentBpm = baseBpm;
 
@@ -23,6 +26,9 @@ public class EditorScaleController : MonoBehaviour, CMInput.IEditorScaleActions
     // Use this for initialization
     private void Start()
     {
+        foreach (var gridChildLane in gridParent.GetComponentsInChildren<GridLane>())
+            gridChildLanes.Add(gridChildLane);
+
         collections = moveableGridTransform.GetComponents<BeatmapObjectContainerCollection>();
         currentBpm = BeatSaberSongContainer.Instance.Info.BeatsPerMinute;
         SetAccurateEditorScale(Settings.Instance.NoteJumpSpeedForEditorScale); // seems weird but it does what we need
@@ -75,7 +81,7 @@ public class EditorScaleController : MonoBehaviour, CMInput.IEditorScaleActions
         if (accurateNjs)
         {
             var bps = 60f / currentBpm;
-            var songNoteJumpSpeed = vnjsProvider.CurrentNjs;
+            var songNoteJumpSpeed = BeatSaberSongContainer.Instance.MapDifficultyInfo.NoteJumpSpeed;
 
             // When doing the math, it turns out that this all cancels out into what you see
             // We don't know where the hell 5/3 comes from, yay for magic numbers
@@ -113,13 +119,8 @@ public class EditorScaleController : MonoBehaviour, CMInput.IEditorScaleActions
 
         OnEditorScaleChanged?.Invoke(EditorScale);
         previousEditorScale = EditorScale;
-        foreach (var offset in scalingOffsets)
-        {
-            offset.localScale = new Vector3(
-                offset.localScale.x,
-                offset.localScale.y,
-                Settings.Instance.TrackLength * EditorScale);
-        }
+        foreach (var gridChildLane in gridChildLanes)
+            gridChildLane.SetLength(Settings.Instance.TrackLength * EditorScale);
 
         atsc.MoveToSongBpmTime(atsc.CurrentSongBpmTime);
     }

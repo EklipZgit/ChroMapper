@@ -18,7 +18,6 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
 
     [SerializeField] private GameObject eventPrefab;
     [SerializeField] private EventAppearanceSO eventAppearanceSo;
-    [SerializeField] private GameObject eventGridLabels;
     [SerializeField] private TracksManager tracksManager;
     [SerializeField] private EventPlacement eventPlacement;
     [SerializeField] private CreateEventTypeLabels labels;

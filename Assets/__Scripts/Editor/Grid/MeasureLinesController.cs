@@ -1,24 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Beatmap.Base;
-using Beatmap.Base.Customs;
-using Beatmap.Helper;
-using Beatmap.V2.Customs;
-using Beatmap.V3.Customs;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class MeasureLinesController : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI measureLinePrefab;
     [SerializeField] private AudioTimeSyncController atsc;
     [SerializeField] private RectTransform parent;
-    [SerializeField] private Transform noteGrid;
-    [SerializeField] private Transform frontNoteGridScaling;
     [SerializeField] private Transform measureLineGrid;
     [SerializeField] private BPMChangeGridContainer bpmChangeGridContainer;
-    [SerializeField] private GridChild measureLinesGridChild;
+    [SerializeField] private GridChild gridChild;
     [SerializeField] private BookmarkRenderingController bookmarkRenderingController;
 
     private readonly List<(float time, TextMeshProUGUI tmp)> measureTextsByBeat = new();
@@ -82,7 +74,7 @@ public class MeasureLinesController : MonoBehaviour
         }
 
         // Set proper spacing between Notes grid, Measure lines, and Events grid
-        measureLinesGridChild.Size = jsonBeat > 1000 ? 1 : 0;
+        gridChild.Size = jsonBeat > 1000 ? 1 : 0;
         foreach (var leftovers in existing) Destroy(leftovers.gameObject);
         init = true;
         RefreshVisibility();
@@ -92,7 +84,7 @@ public class MeasureLinesController : MonoBehaviour
     private void RefreshVisibility()
     {
         var currentSongBpmBeat = atsc.CurrentSongBpmTime;
-        var songBpmBeatsAhead = frontNoteGridScaling.localScale.z / EditorScaleController.EditorScale;
+        var songBpmBeatsAhead = Settings.Instance.TrackLength;
         var songBpmBeatsBehind = songBpmBeatsAhead / 4f;
 
         foreach (var (time, tmp) in activeMeasureTexts.ToArray())
@@ -118,6 +110,7 @@ public class MeasureLinesController : MonoBehaviour
 
     private void RefreshPositions()
     {
+        Debug.Log("Refreshing positions...");
         foreach (var kvp in measureTextsByBeat)
             kvp.tmp.transform.localPosition = new Vector3(0, kvp.time * EditorScaleController.EditorScale, 0);
     }

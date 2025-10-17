@@ -5,12 +5,9 @@ using UnityEngine;
 public class PrecisionPlacementGridController : MonoBehaviour
 {
     [SerializeField] private GameObject expandedGridParent;
-
     [SerializeField] private IntersectionCollider expandedGridBoxCollider;
-
-    //I would like the grid itself to remain visible, but its box collider disabled. So we going BoxCollider boyes
     [SerializeField] private IntersectionCollider regularGridBoxCollider;
-    private List<Material> allMaterialsInExpandedGrid = new List<Material>();
+    private List<Material> allMaterialsInExpandedGrid = new();
 
     private bool isEnabled = true;
     private Vector3 mousePosition;
