@@ -22,21 +22,25 @@ public static partial class Intersections
         var success = false;
         distance = 0;
 
-        var localToWorldMatrix = collider.transform.localToWorldMatrix;
+        var worldToLocalMatrix = collider.transform.worldToLocalMatrix;
 
         // The triangles/vertices arrays are cached as to not allocate garbage every frame.
         var meshTriangles = collider.MeshTriangles;
         var meshVertices = collider.MeshVertices;
 
+        // Transform rayDirection and rayOrigin into local space of the collider
+        var localRayDirection = worldToLocalMatrix.FastMultiplyDirection(in rayDirection);
+        var localRayOrigin = worldToLocalMatrix.FastMultiplyPoint3x4(in rayOrigin);
+
         for (var i = 0; i < meshTriangles.Length; i += 3)
         {
             // Calculate world-space positions of triangle vertices
-            var vert1 = localToWorldMatrix.FastMultiplyPoint3x4(in meshVertices[meshTriangles[i]]);
-            var vert2 = localToWorldMatrix.FastMultiplyPoint3x4(in meshVertices[meshTriangles[i + 1]]);
-            var vert3 = localToWorldMatrix.FastMultiplyPoint3x4(in meshVertices[meshTriangles[i + 2]]);
+            ref var vert1 = ref meshVertices[meshTriangles[i]];
+            ref var vert2 = ref meshVertices[meshTriangles[i + 1]];
+            ref var vert3 = ref meshVertices[meshTriangles[i + 2]];
 
             // If our ray intersects this triangle, the entire collider intersects, no more work to be done.
-            if (RayTriangleIntersect(in vert1, in vert2, in vert3, in rayDirection, in rayOrigin,
+            if (RayTriangleIntersect(in vert1, in vert2, in vert3, in localRayDirection, in localRayOrigin,
                 out var localDistance) && (!success || localDistance < distance))
             {
                 success = true;
