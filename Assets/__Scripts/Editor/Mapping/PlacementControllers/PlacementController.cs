@@ -101,6 +101,7 @@ public abstract class PlacementController<TBo, TBoc, TBocc> : MonoBehaviour,
         !Input.GetMouseButton(1)
         && !SongTimelineController.IsHovering
         && IsActive
+        && !BoxSelectionPlacementController.KeybindPressed
         && !BoxSelectionPlacementController.IsSelecting
         && applicationFocus
         && !SceneTransitionManager.IsLoading
@@ -116,6 +117,13 @@ public abstract class PlacementController<TBo, TBoc, TBocc> : MonoBehaviour,
     {
         queuedData = GenerateOriginalData();
         IsActive = startingActiveState;
+    }
+
+    private bool TraverseDownAndSearch(Transform parent, int depth = 2)
+    {
+        if (depth == 0) return false;
+        return parent.Cast<Transform>().Any(child => child.GetComponent(GetType()) != null)
+            || TraverseDownAndSearch(parent.parent, depth - 1);
     }
 
     protected virtual void Update()
@@ -142,8 +150,7 @@ public abstract class PlacementController<TBo, TBoc, TBocc> : MonoBehaviour,
 
         foreach (var objectHit in gridsHit)
         {
-            if (IsOnPlacement || objectHit.GameObject.transform.parent.GetComponentInChildren(GetType()) == null)
-                continue;
+            if (!TraverseDownAndSearch(objectHit.GameObject.transform.parent)) continue;
             IsOnPlacement = true;
             break;
         }
@@ -167,9 +174,8 @@ public abstract class PlacementController<TBo, TBoc, TBocc> : MonoBehaviour,
             var hit = gridsHit.OrderBy(i => i.Distance).First();
 
             var hitTransform =
-                hit.GameObject.transform
-                    .parent; //Make a reference to the transform instead of calling hit.transform a lot
-            if (!transform.IsChildOf(hitTransform) || PersistentUI.Instance.DialogBoxIsEnabled)
+                hit.GameObject.transform; //Make a reference to the transform instead of calling hit.transform a lot
+            if (!hitTransform.IsChildOf(transform.parent) || PersistentUI.Instance.DialogBoxIsEnabled)
             {
                 ColliderExit();
                 return;
@@ -242,9 +248,7 @@ public abstract class PlacementController<TBo, TBoc, TBocc> : MonoBehaviour,
             && queuedData?.JsonTime >= 0
             && !applicationFocusChanged
             && instantiatedContainer.gameObject.activeSelf)
-        {
             ApplyToMap();
-        }
     }
 
     public void OnInitiateClickandDrag(InputAction.CallbackContext context)
@@ -326,34 +330,33 @@ public abstract class PlacementController<TBo, TBoc, TBocc> : MonoBehaviour,
     protected virtual bool TestForType<T>(Intersections.IntersectionHit hit, ObjectType type)
         where T : MonoBehaviour
     {
-        var placementObj = hit.GameObject.GetComponentInParent<T>();
-        if (placementObj != null)
-        {
-            var boundLocal = placementObj
-                .GetComponentsInChildren<Renderer>()
-                .FirstOrDefault(it => it.name == "Grid X")
-                .bounds;
+        var placementController = hit.GameObject.transform.parent.GetComponentInChildren<T>();
+        if (placementController == null) return false;
 
-            // Transform the bounds into the pseudo-world space we use for selection
-            var localTransform = placementObj.transform;
-            var localScale = localTransform.localScale;
-            var boundsNew = localTransform.InverseTransformBounds(boundLocal);
-            boundsNew.center += localTransform.localPosition;
-            boundsNew.extents = new Vector3(
-                boundsNew.extents.x * localScale.x,
-                boundsNew.extents.y * localScale.y,
-                boundsNew.extents.z * localScale.z
-            );
+        // This really ugly bad, but I can't type cast T to grab GridLane properly
+        var boundLocal = hit
+            .GameObject.transform.parent.Find("Grid XY")
+            .Find("Grid")
+            .GetComponent<Renderer>()
+            .bounds;
 
-            if (Bounds == default)
-                Bounds = boundsNew;
-            else
-                // Probably a bad idea but why not drag between lanes
-                Bounds.Encapsulate(boundsNew);
-            return true;
-        }
+        // Transform the bounds into the pseudo-world space we use for selection
+        var localTransform = placementController.transform.parent;
+        var localScale = localTransform.localScale;
+        var boundsNew = localTransform.InverseTransformBounds(boundLocal);
+        boundsNew.center += localTransform.localPosition;
+        boundsNew.extents = new Vector3(
+            boundsNew.extents.x * localScale.x,
+            boundsNew.extents.y * localScale.y,
+            boundsNew.extents.z * localScale.z
+        );
 
-        return false;
+        if (Bounds == default)
+            Bounds = boundsNew;
+        else
+            // Probably a bad idea but why not drag between lanes
+            Bounds.Encapsulate(boundsNew);
+        return true;
     }
 
     protected virtual float GetDraggedObjectJsonTime()
