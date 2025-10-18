@@ -196,7 +196,7 @@ public class CustomEventGridContainer : BeatmapObjectContainerCollection<BaseCus
         else
         {
             gridChild.gameObject.SetActive(true);
-            gridChild.Size = customEventTypes.Count;
+            gridChild.Lane = customEventTypes.Count;
         }
 
         for (var i = 0; i < customEventLabelTransform.childCount; i++)

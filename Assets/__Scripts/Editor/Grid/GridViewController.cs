@@ -54,9 +54,9 @@ public class GridViewController : MonoBehaviour
         if (activeChildren.Any(x => x.Key < 0))
         {
             if (activeChildren.TryGetValue(0, out var centerGridChildren))
-                childX -= centerGridChildren.Max(x => x.Size) / 2f;
+                childX -= centerGridChildren.Max(x => x.Lane) / 2f;
             foreach (var (_, child) in activeChildren.Where(x => x.Key < 0))
-                childX -= Mathf.Ceil(child.Max(x => x.Size)) + 1;
+                childX -= Mathf.Ceil(child.Max(x => x.Lane)) + 1;
         }
 
         foreach (var (order, children) in activeChildren)
@@ -76,7 +76,7 @@ public class GridViewController : MonoBehaviour
                 child.transform.localPosition = total;
             }
 
-            childX += Mathf.Ceil(children.Any() ? children.Max(x => x.Size) + 1 : 0);
+            childX += Mathf.Ceil(children.Any() ? children.Max(x => x.Lane) + 1 : 0);
         }
     }
 
@@ -84,7 +84,7 @@ public class GridViewController : MonoBehaviour
     {
         return allChildren.TryGetValue(order, out var children)
             ? Mathf.CeilToInt(
-                children.Any() ? children.Where(x => x.ViewableMode.HasFlag(EditingMode)).Max(x => x.Size) : 0)
+                children.Any() ? children.Where(x => x.ViewableMode.HasFlag(EditingMode)).Max(x => x.Lane) : 0)
             : 0;
     }
 

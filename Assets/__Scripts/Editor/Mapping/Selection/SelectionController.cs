@@ -24,7 +24,6 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
     [SerializeField] private AudioTimeSyncController atsc;
     [SerializeField] private BPMChangeGridContainer bpmChangesContainer;
     [SerializeField] private Material selectionMaterial;
-    [SerializeField] private Transform moveableGridTransform;
     [SerializeField] private Color selectedColor;
     [SerializeField] private Color copiedColor;
     [SerializeField] private TracksManager tracksManager;

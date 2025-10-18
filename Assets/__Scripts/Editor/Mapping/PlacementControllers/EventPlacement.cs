@@ -85,7 +85,7 @@ public class EventPlacement : PlacementController<BaseEvent, EventContainer, Eve
     public void OnRotateInPlaceModifier(InputAction.CallbackContext context) =>
         earlyRotationPlaceNow = context.performed;
 
-    public void SetGridSize(int gridSize = 16) => GridLane.Size = gridSize;
+    public void SetGridSize(int gridSize = 16) => GridLane.Lane = gridSize;
 
     public override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> container) =>
         new BeatmapObjectPlacementAction(spawned, container, "Placed an Event.");

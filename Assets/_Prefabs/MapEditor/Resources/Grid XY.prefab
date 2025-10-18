@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 1390837358166974090}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0.001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -65,7 +65,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b613fff8df6c8204d85025fc239cc4bf, type: 2}
+  - {fileID: 2100000, guid: 761b833d373c13b439ac8e5bc49373a4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -132,8 +132,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 8203954452034142962}
   - {fileID: 7931940765138417938}
+  - {fileID: 8203954452034142962}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &919796092928978304
@@ -148,8 +148,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76dff992d6a944af98bc943186b4f0cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Interface: {fileID: 1042025239826905601}
   Grid: {fileID: 208360489342016741}
+  Interface: {fileID: 1042025239826905601}
 --- !u!114 &4465953081972859820
 MonoBehaviour:
   m_ObjectHideFlags: 0

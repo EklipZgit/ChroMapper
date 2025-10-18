@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 [ExecuteAlways]
 public class GridChild : MonoBehaviour
@@ -54,15 +55,15 @@ public class GridChild : MonoBehaviour
 
     [SerializeField] private Vector3 localOffset = Vector3.zero;
 
-    public virtual int Size
+    public virtual int Lane
     {
-        get => size;
+        get => (int)Size.x;
         set
         {
-            size = value;
+            Size.x = value;
             GridViewController.NotifyChanged();
         }
     }
 
-    [SerializeField] private int size;
+    [SerializeField] protected Vector3 Size = Vector3.one;
 }

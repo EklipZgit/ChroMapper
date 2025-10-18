@@ -20,6 +20,6 @@ public class NoteLanesController : MonoBehaviour
         var noteLanesText = value.ToString();
         if (!int.TryParse(noteLanesText, out var noteLanes)) return;
         if (noteLanes < 1) return;
-        gridLane.Size = noteLanes;
+        gridLane.Lane = noteLanes;
     }
 }

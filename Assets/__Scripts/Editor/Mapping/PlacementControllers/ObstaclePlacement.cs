@@ -102,7 +102,7 @@ public class ObstaclePlacement : PlacementController<BaseObstacle, ObstacleConta
                     0);
                 wallTransform.localPosition = localPosition;
                 instantiatedContainer.transform.localPosition =
-                    new Vector3(0, 0.1f, startSongBpmTime * EditorScaleController.EditorScale);
+                    new Vector3(0, -0.5f, startSongBpmTime * EditorScaleController.EditorScale);
 
                 instantiatedContainer.SetScale(newLocalScale);
 

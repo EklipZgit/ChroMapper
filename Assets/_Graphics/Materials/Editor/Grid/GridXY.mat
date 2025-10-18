@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: OneSixteenth
-  m_Shader: {fileID: 4800000, guid: a18a5c6c0534c2645820d8620b98c53a, type: 3}
+  m_Name: GridXY
+  m_Shader: {fileID: 4800000, guid: a78dcbe025bd481bbd6e603204f2ac66, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -24,18 +24,6 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BumpMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailAlbedoMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailMask:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailNormalMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -55,49 +43,47 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _ParallaxMap:
+    - _SpecGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - Boolean_143D5661: 0
-    - Boolean_C04F85B7: 0
-    - Boolean_C9EC35F5: 0
-    - Vector1_16CCD126: 0.25
-    - Vector1_22318A84: 0
-    - Vector1_52935E3C: 0.0125
     - Vector1_694F4424: 0
-    - Vector1_826CE04C: 0
-    - Vector1_92D1193A: 0.4
-    - _BeatsPerBar: 16
+    - Vector1_92D1193A: 0.5294118
+    - _AlphaClip: 0
+    - _BaseAlpha: 0
+    - _Blend: 0
     - _BumpScale: 1
+    - _Cull: 2
     - _Cutoff: 0.5
-    - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _EditorScale: 4
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _GridSpacing: 0.0625
-    - _GridThickness: 0.0125
+    - _GridAlpha: 0.5
+    - _GridSpacing: 1
+    - _GridThickness: 0.05
     - _Metallic: 0
-    - _Mode: 0
     - _OcclusionStrength: 1
     - _Offset: 0
-    - _Parallax: 0.02
+    - _ReceiveShadows: 1
     - _Rotation: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _UVSec: 0
+    - _Surface: 0
+    - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - Color_E0409E2F: {r: 1, g: 1, b: 1, a: 0.2117647}
     - Vector3_69F23983: {r: 0, g: 1, b: 0, a: 0}
-    - _BaseColour: {r: 1, g: 1, b: 1, a: 0}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _BaseColour: {r: 1, g: 1, b: 1, a: 0.20784314}
+    - _Color: {r: 1, g: 1, b: 1, a: 0}
+    - _Direction: {r: 0, g: 1, b: 0, a: 0}
+    - _Directions: {r: 1, g: 1, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _GridColour: {r: 1, g: 1, b: 1, a: 0.4117647}
+    - _GridSpacing: {r: 1, g: 0, b: 0, a: 0}
+    - _GridThickness: {r: 0.05, g: 0.05, b: 0.025, a: 0.0125}
+    - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

@@ -408,26 +408,16 @@ public abstract class PlacementController<TBo, TBoc, TBocc> : MonoBehaviour,
     private void Update360Tracks()
     {
         if (!AssignTo360Tracks) return;
-        var manager = objectContainerCollection.GetComponent<TracksManager>();
-        if (manager == null)
-        {
-            Debug.LogWarning("Could not find an attached TracksManager.");
-        }
-        else
-        {
-            var track = manager.GetTrackAtTime(SongBpmTime);
-            if (track != null)
-            {
-                var localPos = instantiatedContainer.transform.localPosition;
-                ParentTrack = track.ObjectParentTransform;
-                instantiatedContainer.transform.SetParent(track.ObjectParentTransform, false);
-                instantiatedContainer.transform.localPosition = localPos;
-                instantiatedContainer.transform.localEulerAngles = new Vector3(
-                    instantiatedContainer.transform.localEulerAngles.x,
-                    0,
-                    instantiatedContainer.transform.localEulerAngles.z);
-            }
-        }
+        var track = TracksManager.GetTrackAtTime(SongBpmTime);
+        if (track == null) return;
+        var localPos = instantiatedContainer.transform.localPosition;
+        ParentTrack = track.ObjectParentTransform;
+        instantiatedContainer.transform.SetParent(track.ObjectParentTransform, false);
+        instantiatedContainer.transform.localPosition = localPos;
+        instantiatedContainer.transform.localEulerAngles = new Vector3(
+            instantiatedContainer.transform.localEulerAngles.x,
+            0,
+            instantiatedContainer.transform.localEulerAngles.z);
     }
 
     internal virtual void ApplyToMap()

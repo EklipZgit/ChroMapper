@@ -51,7 +51,7 @@ MonoBehaviour:
   viewableMode: 255
   order: 0
   localOffset: {x: 0, y: 0, z: 0}
-  size: 1
+  Size: {x: 1, y: 1, z: 40}
   XY: {fileID: 4951918977610797032}
   XZ: {fileID: 1589281612457100464}
 --- !u!114 &3057806332129711030
@@ -116,7 +116,7 @@ PrefabInstance:
     - target: {fileID: 4458080844105341141, guid: aa3ec65cab530c6d1b21687a7da0fca9,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 40
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 4458080844105341141, guid: aa3ec65cab530c6d1b21687a7da0fca9,
         type: 3}
@@ -131,7 +131,7 @@ PrefabInstance:
     - target: {fileID: 4458080844105341141, guid: aa3ec65cab530c6d1b21687a7da0fca9,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 10
+      value: 15.000001
       objectReference: {fileID: 0}
     - target: {fileID: 4458080844105341141, guid: aa3ec65cab530c6d1b21687a7da0fca9,
         type: 3}
@@ -167,6 +167,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7866611375767682797, guid: aa3ec65cab530c6d1b21687a7da0fca9,
+        type: 3}
+      propertyPath: Size.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7866611375767682797, guid: aa3ec65cab530c6d1b21687a7da0fca9,
+        type: 3}
+      propertyPath: Size.y
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9067851069030570042, guid: aa3ec65cab530c6d1b21687a7da0fca9,
         type: 3}
@@ -212,6 +222,11 @@ PrefabInstance:
     - target: {fileID: 8724267839649397645, guid: 458f4f6c95ef27eeb95e262f6e222d2d,
         type: 3}
       propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8724267839649397645, guid: 458f4f6c95ef27eeb95e262f6e222d2d,
+        type: 3}
+      propertyPath: m_LocalScale.y
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8724267839649397645, guid: 458f4f6c95ef27eeb95e262f6e222d2d,
