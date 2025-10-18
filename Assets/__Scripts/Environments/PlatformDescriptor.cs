@@ -437,9 +437,9 @@ public class PlatformDescriptor : MonoBehaviour
     private bool HandleModifiedWithConflictingActionRedo(BeatmapObjectModifiedWithConflictingAction action)
     {
         var b = RemoveEvents(
-            new List<BaseObject> { action.OriginalObject }
-                .Where(d => d is BaseEvent)
-                .Cast<BaseEvent>());
+            new List<(BaseObject, BaseObject)> { (action.OriginalObject, action.OriginalData) }
+                .Where(d => d is { Item1: BaseEvent, Item2: BaseEvent })
+                .Select(d => (d.Item1 as BaseEvent, d.Item2 as BaseEvent)));
         b = RemoveEvents(
                 action
                     .ConflictingObjects
@@ -457,7 +457,6 @@ public class PlatformDescriptor : MonoBehaviour
     {
         if (localMode == LightshowMode.Static || !Settings.Instance.Load_Events) return;
         if (!HandleActionEventUndoNoNotify(action) || atsc.IsPlaying) return;
-        // foreach (var manager in sortedPriorityManagers) manager.Reset();
         UpdateTime();
     }
 
@@ -576,9 +575,9 @@ public class PlatformDescriptor : MonoBehaviour
     private bool HandleModifiedWithConflictingActionUndo(BeatmapObjectModifiedWithConflictingAction action)
     {
         var b = RemoveEvents(
-            new List<BaseObject> { action.EditedObject }
-                .Where(d => d is BaseEvent)
-                .Cast<BaseEvent>());
+            new List<(BaseObject, BaseObject)> { (action.EditedObject, action.EditedData) }
+                .Where(d => d is { Item1: BaseEvent, Item2: BaseEvent })
+                .Select(d => (d.Item1 as BaseEvent, d.Item2 as BaseEvent)));
         b = AddEvents(
                 new List<BaseObject> { action.OriginalObject }
                     .Where(d => d is BaseEvent)
