@@ -83,16 +83,13 @@ namespace Beatmap.Containers
             var length = ObstacleData.DurationSongBpm;
 
             //Take half jump duration into account if the setting is enabled.
-            if (ObstacleData.Duration < 0 && Settings.Instance.ShowMoreAccurateFastWalls && !UIMode.AnimationMode)
-            {
-                length -= length * Mathf.Abs(length / ObstacleData.Hjd);
-            }
+            if (ObstacleData.Duration < 0 && Settings.Instance.ShowMoreAccurateFastWalls && !UIMode.AnimationMode) length -= length * Mathf.Abs(length / ObstacleData.Hjd);
 
-            length *= (UIMode.AnimationMode)
+            length *= UIMode.AnimationMode
                 ? ObstacleData.EditorScale
                 : EditorScaleController.EditorScale;
 
-            return length;
+            return float.IsFinite(length) ? length : float.Epsilon;
         }
 
         public (Vector3 size, Vector3 position) ReadSizePosition()
