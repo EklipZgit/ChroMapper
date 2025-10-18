@@ -3052,7 +3052,11 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 257207219}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1230560793967759496, guid: 141955eb542177ea69e10ad9a2b131e2,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 514341530}
   m_SourcePrefab: {fileID: 100100000, guid: 141955eb542177ea69e10ad9a2b131e2, type: 3}
 --- !u!4 &74799969 stripped
 Transform:
@@ -5145,90 +5149,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 142302081}
   m_CullTransparentMesh: 0
---- !u!21 &151837540
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Inherited From Round Corners
-  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _BumpMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _EmissionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MetallicGlossMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _OcclusionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _SpecGlossMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _AlphaClip: 0
-    - _Blend: 0
-    - _BumpScale: 1
-    - _ColorMask: 15
-    - _Cull: 2
-    - _Cutoff: 0.5
-    - _DstBlend: 0
-    - _GlossMapScale: 1
-    - _Glossiness: 0.5
-    - _GlossyReflections: 1
-    - _Metallic: 0
-    - _OcclusionStrength: 1
-    - _ReceiveShadows: 1
-    - _SmoothnessTextureChannel: 0
-    - _SpecularHighlights: 1
-    - _SrcBlend: 1
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _Surface: 0
-    - _UseUIAlphaClip: 0
-    - _WorkflowMode: 1
-    - _ZWrite: 1
-    m_Colors:
-    - _Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _WidthHeightRadius: {r: 21, g: 14, b: 2, a: 0}
-    - _halfSize: {r: 150, g: 45, b: 0, a: 0}
-    - _r: {r: 2, g: 2, b: 2, a: 2}
-    - _rect2props: {r: 0.000015258789, g: -0.000015258789, b: 136.47162, a: 136.47162}
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!114 &157530501 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3267473903393556593, guid: 29b0e711db3f65542a213179a4cab985,
@@ -7261,24 +7181,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6df709586a87844982038b83ece619d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectContainerPrefab: {fileID: 1119461675923126, guid: 8947f7fdd1ff6954a9a3f01c39db6fa5,
+  ObjectContainerPrefab: {fileID: 1119461675923126, guid: 8947f7fdd1ff6954a9a3f01c39db6fa5,
     type: 3}
-  BpmChangeGridContainer: {fileID: 1890332741}
-  objectContainerCollection: {fileID: 1645535437}
+  GridLane: {fileID: 514341529}
   ParentTrack: {fileID: 1645535436}
   AssignTo360Tracks: 0
-  objectDataType: 5
-  startingActiveState: 1
-  Atsc: {fileID: 570484802}
-  customStandaloneInputModule: {fileID: 806554}
+  CustomStandaloneInputModule: {fileID: 806554}
   TracksManager: {fileID: 902407107}
   GridRotation: {fileID: 226696885}
-  GridLane: {fileID: 514341529}
+  Atsc: {fileID: 570484802}
   Bounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
   IsActive: 0
   CameraManager: {fileID: 1206999167}
+  objectContainerCollection: {fileID: 1645535437}
+  objectDataType: 5
+  startingActiveState: 1
 --- !u!1 &261931955
 GameObject:
   m_ObjectHideFlags: 0
@@ -8626,6 +8545,90 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 281631600}
   m_CullTransparentMesh: 1
+--- !u!21 &283359714
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Inherited From Round Corners
+  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AlphaClip: 0
+    - _Blend: 0
+    - _BumpScale: 1
+    - _ColorMask: 15
+    - _Cull: 2
+    - _Cutoff: 0.5
+    - _DstBlend: 0
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _Metallic: 0
+    - _OcclusionStrength: 1
+    - _ReceiveShadows: 1
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _Surface: 0
+    - _UseUIAlphaClip: 0
+    - _WorkflowMode: 1
+    - _ZWrite: 1
+    m_Colors:
+    - _Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _WidthHeightRadius: {r: 39.4, g: 16.4, b: 4, a: 0}
+    - _halfSize: {r: 150, g: 45, b: 0, a: 0}
+    - _r: {r: 2, g: 2, b: 2, a: 2}
+    - _rect2props: {r: 0.000015258789, g: -0.000015258789, b: 136.47162, a: 136.47162}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1 &284962460
 GameObject:
   m_ObjectHideFlags: 0
@@ -16183,6 +16186,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77ae624386d9fd44e9983dcd61e5f185, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &514341530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 74799970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52dc864d35b0468fb666ad5f534ef84a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlacementControllers:
+  - {fileID: 257207222}
+  - {fileID: 859643186}
 --- !u!1 &516196864
 GameObject:
   m_ObjectHideFlags: 0
@@ -17490,6 +17508,90 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ObjectParentTransform: {fileID: 565602430}
   RotationValue: {x: 0, y: 0, z: 0}
+--- !u!21 &566348439
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Inherited From Round Corners
+  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AlphaClip: 0
+    - _Blend: 0
+    - _BumpScale: 1
+    - _ColorMask: 15
+    - _Cull: 2
+    - _Cutoff: 0.5
+    - _DstBlend: 0
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _Metallic: 0
+    - _OcclusionStrength: 1
+    - _ReceiveShadows: 1
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _Surface: 0
+    - _UseUIAlphaClip: 0
+    - _WorkflowMode: 1
+    - _ZWrite: 1
+    m_Colors:
+    - _Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _WidthHeightRadius: {r: 21, g: 14, b: 2, a: 0}
+    - _halfSize: {r: 150, g: 45, b: 0, a: 0}
+    - _r: {r: 2, g: 2, b: 2, a: 2}
+    - _rect2props: {r: 0.000015258789, g: -0.000015258789, b: 136.47162, a: 136.47162}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1 &567902551
 GameObject:
   m_ObjectHideFlags: 0
@@ -21041,24 +21143,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fc6f5a9669f42c4f999690585739826, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectContainerPrefab: {fileID: 1173282366639492, guid: b0842dec23eed584289a320147c706c5,
+  ObjectContainerPrefab: {fileID: 1173282366639492, guid: b0842dec23eed584289a320147c706c5,
     type: 3}
-  BpmChangeGridContainer: {fileID: 1890332741}
-  objectContainerCollection: {fileID: 455916737}
+  GridLane: {fileID: 1277691437}
   ParentTrack: {fileID: 455916736}
   AssignTo360Tracks: 0
-  objectDataType: 1
-  startingActiveState: 1
-  Atsc: {fileID: 570484802}
-  customStandaloneInputModule: {fileID: 806554}
+  CustomStandaloneInputModule: {fileID: 806554}
   TracksManager: {fileID: 902407107}
   GridRotation: {fileID: 226696885}
-  GridLane: {fileID: 1277691437}
+  Atsc: {fileID: 570484802}
   Bounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
   IsActive: 0
   CameraManager: {fileID: 1206999167}
+  objectContainerCollection: {fileID: 455916737}
+  objectDataType: 1
+  startingActiveState: 1
   eventAppearanceSo: {fileID: 11400000, guid: 00bab3c0ab2051441b924304da9d0e12, type: 2}
   colorPicker: {fileID: 1225848101}
   laserSpeedInputField: {fileID: 1475303726}
@@ -23778,24 +23879,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c813d038aef362a4f877242110c182ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectContainerPrefab: {fileID: 1119461675923126, guid: e8851ff5377acfa49976aeb131fcace1,
+  ObjectContainerPrefab: {fileID: 1119461675923126, guid: e8851ff5377acfa49976aeb131fcace1,
     type: 3}
-  BpmChangeGridContainer: {fileID: 1890332741}
-  objectContainerCollection: {fileID: 1890332741}
+  GridLane: {fileID: 2145234405}
   ParentTrack: {fileID: 1890332740}
   AssignTo360Tracks: 0
-  objectDataType: 5
-  startingActiveState: 1
-  Atsc: {fileID: 570484802}
-  customStandaloneInputModule: {fileID: 806554}
+  CustomStandaloneInputModule: {fileID: 806554}
   TracksManager: {fileID: 902407107}
   GridRotation: {fileID: 226696885}
-  GridLane: {fileID: 2145234405}
+  Atsc: {fileID: 570484802}
   Bounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
   IsActive: 0
   CameraManager: {fileID: 1206999167}
+  objectContainerCollection: {fileID: 1890332741}
+  objectDataType: 5
+  startingActiveState: 1
 --- !u!1 &742404433
 GameObject:
   m_ObjectHideFlags: 0
@@ -27191,24 +27291,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae1aa4b8a615b1b4aaea0de2489e5f18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectContainerPrefab: {fileID: 1056647016207082, guid: cae5f76e2962f1f4085c6007e787e438,
+  ObjectContainerPrefab: {fileID: 1056647016207082, guid: cae5f76e2962f1f4085c6007e787e438,
     type: 3}
-  BpmChangeGridContainer: {fileID: 1890332741}
-  objectContainerCollection: {fileID: 455916737}
+  GridLane: {fileID: 0}
   ParentTrack: {fileID: 1006741503}
   AssignTo360Tracks: 0
-  objectDataType: 0
-  startingActiveState: 1
-  Atsc: {fileID: 570484802}
-  customStandaloneInputModule: {fileID: 806554}
+  CustomStandaloneInputModule: {fileID: 806554}
   TracksManager: {fileID: 0}
   GridRotation: {fileID: 0}
-  GridLane: {fileID: 0}
+  Atsc: {fileID: 570484802}
   Bounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
   IsActive: 0
   CameraManager: {fileID: 1206999167}
+  objectContainerCollection: {fileID: 455916737}
+  objectDataType: 0
+  startingActiveState: 1
   CustomCollection: {fileID: 1645535437}
   EventGridContainer: {fileID: 455916737}
   Labels: {fileID: 322207091}
@@ -28054,24 +28153,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2356b11125054504e87a3a46c12d70c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectContainerPrefab: {fileID: 2800143464783224911, guid: 3a289a2479446ea40b41b092b296e8e7,
+  ObjectContainerPrefab: {fileID: 2800143464783224911, guid: 3a289a2479446ea40b41b092b296e8e7,
     type: 3}
-  BpmChangeGridContainer: {fileID: 1890332741}
-  objectContainerCollection: {fileID: 25550680}
+  GridLane: {fileID: 1629008654}
   ParentTrack: {fileID: 908866645}
   AssignTo360Tracks: 1
-  objectDataType: 6
-  startingActiveState: 0
-  Atsc: {fileID: 570484802}
-  customStandaloneInputModule: {fileID: 806554}
+  CustomStandaloneInputModule: {fileID: 806554}
   TracksManager: {fileID: 902407107}
   GridRotation: {fileID: 226696885}
-  GridLane: {fileID: 1629008654}
+  Atsc: {fileID: 570484802}
   Bounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
   IsActive: 0
   CameraManager: {fileID: 1206999167}
+  objectContainerCollection: {fileID: 25550680}
+  objectDataType: 6
+  startingActiveState: 0
 --- !u!114 &890360919
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28084,24 +28182,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d7fa281ebad87e49bf9058e713a6879, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectContainerPrefab: {fileID: 4018984692264246640, guid: 7d1a52fa04a8d724e965716649bc47e5,
+  ObjectContainerPrefab: {fileID: 4018984692264246640, guid: 7d1a52fa04a8d724e965716649bc47e5,
     type: 3}
-  BpmChangeGridContainer: {fileID: 1890332741}
-  objectContainerCollection: {fileID: 25550680}
+  GridLane: {fileID: 1629008654}
   ParentTrack: {fileID: 908866645}
   AssignTo360Tracks: 1
-  objectDataType: 6
-  startingActiveState: 1
-  Atsc: {fileID: 570484802}
-  customStandaloneInputModule: {fileID: 806554}
+  CustomStandaloneInputModule: {fileID: 806554}
   TracksManager: {fileID: 902407107}
   GridRotation: {fileID: 226696885}
-  GridLane: {fileID: 1629008654}
+  Atsc: {fileID: 570484802}
   Bounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
   IsActive: 0
   CameraManager: {fileID: 1206999167}
+  objectContainerCollection: {fileID: 25550680}
+  objectDataType: 6
+  startingActiveState: 1
   deleteToolController: {fileID: 1243231049}
   precisionPlacement: {fileID: 1629008649}
   laserSpeedController: {fileID: 160161773}
@@ -30225,7 +30322,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 13585791}
   m_HandleRect: {fileID: 13585789}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -31724,7 +31821,11 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1132655337}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1230560793967759496, guid: 141955eb542177ea69e10ad9a2b131e2,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1790247830}
   m_SourcePrefab: {fileID: 100100000, guid: 141955eb542177ea69e10ad9a2b131e2, type: 3}
 --- !u!4 &979466320 stripped
 Transform:
@@ -37390,24 +37491,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8018bd2767e549d0bcff6e4d93c80bf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectContainerPrefab: {fileID: 1119461675923126, guid: c79fb2762ceb3c140afa8096b5f9b3b7,
+  ObjectContainerPrefab: {fileID: 1119461675923126, guid: c79fb2762ceb3c140afa8096b5f9b3b7,
     type: 3}
-  BpmChangeGridContainer: {fileID: 1890332741}
-  objectContainerCollection: {fileID: 1105924656}
+  GridLane: {fileID: 1790247829}
   ParentTrack: {fileID: 1105924655}
   AssignTo360Tracks: 0
-  objectDataType: 10
-  startingActiveState: 1
-  Atsc: {fileID: 570484802}
-  customStandaloneInputModule: {fileID: 806554}
+  CustomStandaloneInputModule: {fileID: 806554}
   TracksManager: {fileID: 902407107}
   GridRotation: {fileID: 226696885}
-  GridLane: {fileID: 1790247829}
+  Atsc: {fileID: 570484802}
   Bounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
   IsActive: 0
   CameraManager: {fileID: 1206999167}
+  objectContainerCollection: {fileID: 1105924656}
+  objectDataType: 10
+  startingActiveState: 1
 --- !u!1 &1135371154
 GameObject:
   m_ObjectHideFlags: 0
@@ -42133,6 +42233,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77ae624386d9fd44e9983dcd61e5f185, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1277691438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1277691434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52dc864d35b0468fb666ad5f534ef84a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlacementControllers:
+  - {fileID: 648123637}
+  - {fileID: 859643186}
 --- !u!1 &1284389734
 GameObject:
   m_ObjectHideFlags: 0
@@ -52463,6 +52578,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1629008659}
+    - targetCorrespondingSourceObject: {fileID: 1230560793967759496, guid: 141955eb542177ea69e10ad9a2b131e2,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1629008660}
   m_SourcePrefab: {fileID: 100100000, guid: 141955eb542177ea69e10ad9a2b131e2, type: 3}
 --- !u!4 &1629008646 stripped
 Transform:
@@ -52719,6 +52838,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridLane: {fileID: 1629008654}
+--- !u!114 &1629008660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1629008648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52dc864d35b0468fb666ad5f534ef84a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlacementControllers:
+  - {fileID: 2013932235}
+  - {fileID: 1704474491}
+  - {fileID: 2087881065}
+  - {fileID: 890360918}
+  - {fileID: 1656747551}
+  - {fileID: 859643186}
 --- !u!1 &1631900343
 GameObject:
   m_ObjectHideFlags: 0
@@ -53730,24 +53868,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f77e270469e1ee4bae62b16d260637a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectContainerPrefab: {fileID: 1094719878252698, guid: a14acb27bffab494cb5735e7fba61dbf,
+  ObjectContainerPrefab: {fileID: 1094719878252698, guid: a14acb27bffab494cb5735e7fba61dbf,
     type: 3}
-  BpmChangeGridContainer: {fileID: 1890332741}
-  objectContainerCollection: {fileID: 25550681}
+  GridLane: {fileID: 1629008654}
   ParentTrack: {fileID: 908866645}
   AssignTo360Tracks: 1
-  objectDataType: 7
-  startingActiveState: 0
-  Atsc: {fileID: 570484802}
-  customStandaloneInputModule: {fileID: 806554}
+  CustomStandaloneInputModule: {fileID: 806554}
   TracksManager: {fileID: 902407107}
   GridRotation: {fileID: 226696885}
-  GridLane: {fileID: 1629008654}
+  Atsc: {fileID: 570484802}
   Bounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
   IsActive: 0
   CameraManager: {fileID: 1206999167}
+  objectContainerCollection: {fileID: 25550681}
+  objectDataType: 7
+  startingActiveState: 0
   selectionController: {fileID: 0}
   noteGridContainer: {fileID: 25550673}
 --- !u!114 &1656747552
@@ -53762,24 +53899,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e46419792068d0f43abe683586f87b42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectContainerPrefab: {fileID: 2321280598335502602, guid: d9fd2a7a5a9ebe14893ae4f1e7d42efc,
+  ObjectContainerPrefab: {fileID: 2321280598335502602, guid: d9fd2a7a5a9ebe14893ae4f1e7d42efc,
     type: 3}
-  BpmChangeGridContainer: {fileID: 1890332741}
-  objectContainerCollection: {fileID: 25550681}
+  GridLane: {fileID: 1629008654}
   ParentTrack: {fileID: 908866645}
   AssignTo360Tracks: 1
-  objectDataType: 7
-  startingActiveState: 1
-  Atsc: {fileID: 570484802}
-  customStandaloneInputModule: {fileID: 806554}
+  CustomStandaloneInputModule: {fileID: 806554}
   TracksManager: {fileID: 902407107}
   GridRotation: {fileID: 226696885}
-  GridLane: {fileID: 1629008654}
+  Atsc: {fileID: 570484802}
   Bounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
   IsActive: 0
   CameraManager: {fileID: 1206999167}
+  objectContainerCollection: {fileID: 25550681}
+  objectDataType: 7
+  startingActiveState: 1
   deleteToolController: {fileID: 1243231049}
   precisionPlacement: {fileID: 1629008649}
   laserSpeedController: {fileID: 160161773}
@@ -55399,24 +55535,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bed648136f71424098d5fdab3b23207, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectContainerPrefab: {fileID: 1141840594674112, guid: 755d36d1fe178c64dbdb2cc4a9c07af6,
+  ObjectContainerPrefab: {fileID: 1141840594674112, guid: 755d36d1fe178c64dbdb2cc4a9c07af6,
     type: 3}
-  BpmChangeGridContainer: {fileID: 1890332741}
-  objectContainerCollection: {fileID: 25550673}
+  GridLane: {fileID: 1629008654}
   ParentTrack: {fileID: 908866645}
   AssignTo360Tracks: 1
-  objectDataType: 0
-  startingActiveState: 0
-  Atsc: {fileID: 570484802}
-  customStandaloneInputModule: {fileID: 806554}
+  CustomStandaloneInputModule: {fileID: 806554}
   TracksManager: {fileID: 902407107}
   GridRotation: {fileID: 226696885}
-  GridLane: {fileID: 1629008654}
+  Atsc: {fileID: 570484802}
   Bounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
   IsActive: 0
   CameraManager: {fileID: 1206999167}
+  objectContainerCollection: {fileID: 25550673}
+  objectDataType: 0
+  startingActiveState: 0
   precisionPlacement: {fileID: 1629008649}
   colorPicker: {fileID: 1225848101}
   dropdown: {fileID: 81479822}
@@ -55573,7 +55708,11 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 735273551}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1230560793967759496, guid: 141955eb542177ea69e10ad9a2b131e2,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2145234406}
   m_SourcePrefab: {fileID: 100100000, guid: 141955eb542177ea69e10ad9a2b131e2, type: 3}
 --- !u!4 &1704967674 stripped
 Transform:
@@ -56590,90 +56729,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1718408680}
   m_CullTransparentMesh: 0
---- !u!21 &1719308229
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Inherited From Round Corners
-  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _BumpMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _EmissionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MetallicGlossMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _OcclusionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _SpecGlossMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _AlphaClip: 0
-    - _Blend: 0
-    - _BumpScale: 1
-    - _ColorMask: 15
-    - _Cull: 2
-    - _Cutoff: 0.5
-    - _DstBlend: 0
-    - _GlossMapScale: 1
-    - _Glossiness: 0.5
-    - _GlossyReflections: 1
-    - _Metallic: 0
-    - _OcclusionStrength: 1
-    - _ReceiveShadows: 1
-    - _SmoothnessTextureChannel: 0
-    - _SpecularHighlights: 1
-    - _SrcBlend: 1
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _Surface: 0
-    - _UseUIAlphaClip: 0
-    - _WorkflowMode: 1
-    - _ZWrite: 1
-    m_Colors:
-    - _Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _WidthHeightRadius: {r: 34.4, g: 16.4, b: 4, a: 0}
-    - _halfSize: {r: 150, g: 45, b: 0, a: 0}
-    - _r: {r: 2, g: 2, b: 2, a: 2}
-    - _rect2props: {r: 0.000015258789, g: -0.000015258789, b: 136.47162, a: 136.47162}
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!1 &1726639074
 GameObject:
   m_ObjectHideFlags: 0
@@ -58087,6 +58142,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77ae624386d9fd44e9983dcd61e5f185, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1790247830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 979466321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52dc864d35b0468fb666ad5f534ef84a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlacementControllers:
+  - {fileID: 1132655338}
+  - {fileID: 859643186}
 --- !u!1 &1793671120
 GameObject:
   m_ObjectHideFlags: 0
@@ -65014,24 +65084,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa05b2f9dc339254fa119be6ddacf329, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectContainerPrefab: {fileID: 1094719878252698, guid: 15ce91a6ccb07a24c9d338a4f60fe275,
+  ObjectContainerPrefab: {fileID: 1094719878252698, guid: 15ce91a6ccb07a24c9d338a4f60fe275,
     type: 3}
-  BpmChangeGridContainer: {fileID: 1890332741}
-  objectContainerCollection: {fileID: 25550673}
+  GridLane: {fileID: 1629008654}
   ParentTrack: {fileID: 908866645}
   AssignTo360Tracks: 1
-  objectDataType: 0
-  startingActiveState: 1
-  Atsc: {fileID: 570484802}
-  customStandaloneInputModule: {fileID: 806554}
+  CustomStandaloneInputModule: {fileID: 806554}
   TracksManager: {fileID: 902407107}
   GridRotation: {fileID: 226696885}
-  GridLane: {fileID: 1629008654}
+  Atsc: {fileID: 570484802}
   Bounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
   IsActive: 0
   CameraManager: {fileID: 1206999167}
+  objectContainerCollection: {fileID: 25550673}
+  objectDataType: 0
+  startingActiveState: 1
   noteAppearanceSo: {fileID: 11400000, guid: 0c2d133c05afa744d999a0758a8977a1, type: 2}
   deleteToolController: {fileID: 1243231049}
   precisionPlacement: {fileID: 1629008649}
@@ -67076,24 +67145,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf77e948be578a6418e3dcef9050e908, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectContainerPrefab: {fileID: 1446077081186018, guid: 1c30485abc64e3443867a590a7d90186,
+  ObjectContainerPrefab: {fileID: 1446077081186018, guid: 1c30485abc64e3443867a590a7d90186,
     type: 3}
-  BpmChangeGridContainer: {fileID: 1890332741}
-  objectContainerCollection: {fileID: 25550678}
+  GridLane: {fileID: 1629008654}
   ParentTrack: {fileID: 908866645}
   AssignTo360Tracks: 1
-  objectDataType: 2
-  startingActiveState: 0
-  Atsc: {fileID: 570484802}
-  customStandaloneInputModule: {fileID: 806554}
+  CustomStandaloneInputModule: {fileID: 806554}
   TracksManager: {fileID: 902407107}
   GridRotation: {fileID: 226696885}
-  GridLane: {fileID: 1629008654}
+  Atsc: {fileID: 570484802}
   Bounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
   IsActive: 0
   CameraManager: {fileID: 1206999167}
+  objectContainerCollection: {fileID: 25550678}
+  objectDataType: 2
+  startingActiveState: 0
   obstacleAppearanceSo: {fileID: 11400000, guid: 7a50c9a2cc4ae50499232fe511d6437e,
     type: 2}
   precisionPlacement: {fileID: 1629008649}
@@ -68832,6 +68900,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77ae624386d9fd44e9983dcd61e5f185, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2145234406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1704967675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52dc864d35b0468fb666ad5f534ef84a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlacementControllers:
+  - {fileID: 735273553}
+  - {fileID: 257207222}
 --- !u!1001 &1203876396013731021
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -69275,7 +69358,11 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 648123636}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1230560793967759496, guid: 141955eb542177ea69e10ad9a2b131e2,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1277691438}
   m_SourcePrefab: {fileID: 100100000, guid: 141955eb542177ea69e10ad9a2b131e2, type: 3}
 --- !u!4 &2507495660706288176
 Transform:

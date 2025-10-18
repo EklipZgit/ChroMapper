@@ -11,71 +11,31 @@ using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-public abstract class PlacementController<TBo, TBoc, TBocc> : MonoBehaviour,
-                                                              CMInput.IPlacementControllersActions,
-                                                              CMInput.ICancelPlacementActions
-    where TBo : BaseObject
-    where TBoc : ObjectContainer
-    where TBocc : BeatmapObjectContainerCollection
+public abstract class PlacementController : MonoBehaviour
 {
-    [SerializeField] private GameObject objectContainerPrefab;
-    [SerializeField] private TBo objectData;
-
-    [SerializeField] protected BPMChangeGridContainer
-        BpmChangeGridContainer; // This is stinky. Maybe separate song/json time to another class?
-
-    [SerializeField] internal TBocc objectContainerCollection;
+    [SerializeField] protected GameObject ObjectContainerPrefab;
+    [SerializeField] public GridLane GridLane;
     [SerializeField] protected Transform ParentTrack;
-
     [SerializeField] protected bool AssignTo360Tracks;
-    [SerializeField] private ObjectType objectDataType;
-    [SerializeField] private bool startingActiveState;
-
-    [FormerlySerializedAs("atsc")] [SerializeField]
-    protected AudioTimeSyncController Atsc;
-
-    [SerializeField] private CustomStandaloneInputModule customStandaloneInputModule;
-
-    [FormerlySerializedAs("tracksManager")] [SerializeField]
-    protected TracksManager TracksManager;
-
-    [FormerlySerializedAs("gridRotation")] [SerializeField]
-    protected RotationCallbackController GridRotation;
-
-    [SerializeField] protected GridLane GridLane;
-
-    [FormerlySerializedAs("bounds")] public Bounds Bounds;
-    public bool IsActive;
-
-    private bool applicationFocus;
-    private bool applicationFocusChanged;
-
-    protected TBoc DraggedObjectContainer;
-    protected TBo draggedObjectData;
-    internal TBoc instantiatedContainer;
-
-    [SerializeField] protected CameraManager CameraManager;
+    [SerializeField] protected CustomStandaloneInputModule CustomStandaloneInputModule;
+    [SerializeField] protected TracksManager TracksManager;
+    [SerializeField] protected RotationCallbackController GridRotation;
+    [SerializeField] protected AudioTimeSyncController Atsc;
 
     protected bool IsDraggingObject;
     protected bool IsDraggingObjectAtTime;
     protected bool IsOnPlacement;
     protected Vector2 MousePosition;
-    private TBo originalDraggedObjectData;
-    private TBo originalQueued;
 
-    protected List<ObjectContainer> DraggedAttachedSliderContainers = new();
+    public Bounds Bounds;
+    public bool IsActive;
 
-    protected Dictionary<IndicatorType, List<BaseSlider>> DraggedAttachedSliderDatas = new()
-    {
-        { IndicatorType.Head, new List<BaseSlider>() }, { IndicatorType.Tail, new List<BaseSlider>() }
-    };
+    protected bool ApplicationFocus;
+    protected bool ApplicationFocusChanged;
 
-    private Dictionary<IndicatorType, List<BaseSlider>> originalDraggedAttachedSliderDatas = new()
-    {
-        { IndicatorType.Head, new List<BaseSlider>() }, { IndicatorType.Tail, new List<BaseSlider>() }
-    };
+    [SerializeField] protected CameraManager CameraManager;
 
-    internal TBo queuedData; //Data that is not yet applied to the ObjectContainer.
+    protected readonly List<ObjectContainer> DraggedAttachedSliderContainers = new();
     protected bool UsePrecisionPlacement;
 
     protected virtual Vector2 PrecisionOffset { get; } = new(-0.5f, -0.5f);
@@ -103,27 +63,51 @@ public abstract class PlacementController<TBo, TBoc, TBocc> : MonoBehaviour,
         && IsActive
         && !BoxSelectionPlacementController.KeybindPressed
         && !BoxSelectionPlacementController.IsSelecting
-        && applicationFocus
+        && ApplicationFocus
         && !SceneTransitionManager.IsLoading
         && KeybindsController.IsMouseInWindow
         && !DeleteToolController.IsActive
         && !NodeEditorController.IsActive;
 
     public virtual int PlacementXMin => 0;
+    public virtual int PlacementXMax => GridLane.Lane;
 
-    public virtual int PlacementXMax => GridViewController.GetSizeForOrder(GridLane.Order);
+    protected readonly Dictionary<IndicatorType, List<BaseSlider>> DraggedAttachedSliderDatas = new()
+    {
+        { IndicatorType.Head, new List<BaseSlider>() }, { IndicatorType.Tail, new List<BaseSlider>() }
+    };
+
+    protected readonly Dictionary<IndicatorType, List<BaseSlider>> OriginalDraggedAttachedSliderDatas = new()
+    {
+        { IndicatorType.Head, new List<BaseSlider>() }, { IndicatorType.Tail, new List<BaseSlider>() }
+    };
+}
+
+public abstract class PlacementController<TBo, TBoc, TBocc> : PlacementController,
+                                                              CMInput.IPlacementControllersActions,
+                                                              CMInput.ICancelPlacementActions
+    where TBo : BaseObject
+    where TBoc : ObjectContainer
+    where TBocc : BeatmapObjectContainerCollection
+{
+    [SerializeField] private TBo objectData;
+    [SerializeField] internal TBocc objectContainerCollection;
+    [SerializeField] private ObjectType objectDataType;
+    [SerializeField] private bool startingActiveState;
+
+    protected TBoc DraggedObjectContainer;
+    protected TBo draggedObjectData;
+    internal TBoc instantiatedContainer;
+
+    private TBo originalDraggedObjectData;
+    private TBo originalQueued;
+
+    internal TBo queuedData; //Data that is not yet applied to the ObjectContainer.
 
     internal virtual void Start()
     {
         queuedData = GenerateOriginalData();
         IsActive = startingActiveState;
-    }
-
-    private bool TraverseDownAndSearch(Transform parent, int depth = 2)
-    {
-        if (depth == 0) return false;
-        return parent.Cast<Transform>().Any(child => child.GetComponent(GetType()) != null)
-            || TraverseDownAndSearch(parent.parent, depth - 1);
     }
 
     protected virtual void Update()
@@ -135,22 +119,26 @@ public abstract class PlacementController<TBo, TBoc, TBocc> : MonoBehaviour,
             FinishDrag();
         }
 
-        if (Application.isFocused != applicationFocus)
+        if (Application.isFocused != ApplicationFocus)
         {
-            applicationFocus = Application.isFocused;
-            applicationFocusChanged = true;
+            ApplicationFocus = Application.isFocused;
+            ApplicationFocusChanged = true;
             return;
         }
 
-        if (applicationFocusChanged) applicationFocusChanged = false;
+        if (ApplicationFocusChanged) ApplicationFocusChanged = false;
 
         var ray = CameraManager.SelectedCameraController.Camera.ScreenPointToRay(MousePosition);
         var gridsHit = Intersections.RaycastAll(ray, 11);
         IsOnPlacement = false;
 
+        var type = GetType();
         foreach (var objectHit in gridsHit)
         {
-            if (!TraverseDownAndSearch(objectHit.GameObject.transform.parent)) continue;
+            if (objectHit
+                .GameObject.transform.parent.GetComponent<PlacementControllerProvider>()
+                .PlacementControllers.All(x => x.GetType() != type))
+                continue;
             IsOnPlacement = true;
             break;
         }
@@ -181,7 +169,7 @@ public abstract class PlacementController<TBo, TBoc, TBocc> : MonoBehaviour,
                 return;
             }
 
-            if (customStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)) return;
+            if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)) return;
             if (BeatmapObjectContainerCollection.TrackFilterID != null && !objectContainerCollection.IgnoreTrackFilter)
                 queuedData.CustomTrack = BeatmapObjectContainerCollection.TrackFilterID;
             else
@@ -232,7 +220,7 @@ public abstract class PlacementController<TBo, TBoc, TBocc> : MonoBehaviour,
 
     public virtual void OnPlaceObject(InputAction.CallbackContext context)
     {
-        if (customStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)
+        if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)
             || !KeybindsController.IsMouseInWindow
             || !context.performed)
         {
@@ -246,7 +234,7 @@ public abstract class PlacementController<TBo, TBoc, TBocc> : MonoBehaviour,
             && IsValid
             && !PersistentUI.Instance.DialogBoxIsEnabled
             && queuedData?.JsonTime >= 0
-            && !applicationFocusChanged
+            && !ApplicationFocusChanged
             && instantiatedContainer.gameObject.activeSelf)
             ApplyToMap();
     }
@@ -328,17 +316,15 @@ public abstract class PlacementController<TBo, TBoc, TBocc> : MonoBehaviour,
     }
 
     protected virtual bool TestForType<T>(Intersections.IntersectionHit hit, ObjectType type)
-        where T : MonoBehaviour
+        where T : PlacementController
     {
-        var placementController = hit.GameObject.transform.parent.GetComponentInChildren<T>();
+        var placementController =
+            hit
+                .GameObject.transform.parent.GetComponent<PlacementControllerProvider>()
+                .PlacementControllers.FirstOrDefault(x => x.GetType() == typeof(T));
         if (placementController == null) return false;
 
-        // This really ugly bad, but I can't type cast T to grab GridLane properly
-        var boundLocal = hit
-            .GameObject.transform.parent.Find("Grid XY")
-            .Find("Grid")
-            .GetComponent<Renderer>()
-            .bounds;
+        var boundLocal = placementController.GridLane.XY.Grid.bounds;
 
         // Transform the bounds into the pseudo-world space we use for selection
         var localTransform = placementController.transform.parent;
@@ -395,7 +381,7 @@ public abstract class PlacementController<TBo, TBoc, TBocc> : MonoBehaviour,
     internal virtual void RefreshVisuals()
     {
         instantiatedContainer = Instantiate(
-                objectContainerPrefab,
+                ObjectContainerPrefab,
                 ParentTrack)
             .GetComponent(typeof(TBoc)) as TBoc;
         instantiatedContainer.Setup();
@@ -528,7 +514,7 @@ public abstract class PlacementController<TBo, TBoc, TBocc> : MonoBehaviour,
 
     protected TBoc ObjectUnderCursor()
     {
-        if (customStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)) return null;
+        if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)) return null;
 
         var ray = CameraManager.SelectedCameraController.Camera.ScreenPointToRay(MousePosition);
         return !Intersections.Raycast(ray, 9, out var hit) ? null : hit.GameObject.GetComponentInParent<TBoc>();
@@ -551,14 +537,14 @@ public abstract class PlacementController<TBo, TBoc, TBocc> : MonoBehaviour,
                 && arcData.GetTailPosition() == noteData.GetPosition();
             if (isConnectedToHead)
             {
-                originalDraggedAttachedSliderDatas[IndicatorType.Head].Add(BeatmapFactory.Clone(arcData));
+                OriginalDraggedAttachedSliderDatas[IndicatorType.Head].Add(BeatmapFactory.Clone(arcData));
                 DraggedAttachedSliderDatas[IndicatorType.Head].Add(arcData);
                 DraggedAttachedSliderContainers.Add(arcContainer.Value);
                 arcCollection.SilentRemoveObject(arcData);
             }
             else if (isConnectedToTail)
             {
-                originalDraggedAttachedSliderDatas[IndicatorType.Tail].Add(BeatmapFactory.Clone(arcData));
+                OriginalDraggedAttachedSliderDatas[IndicatorType.Tail].Add(BeatmapFactory.Clone(arcData));
                 DraggedAttachedSliderDatas[IndicatorType.Tail].Add(arcData);
                 DraggedAttachedSliderContainers.Add(arcContainer.Value);
                 arcCollection.SilentRemoveObject(arcData);
@@ -576,14 +562,14 @@ public abstract class PlacementController<TBo, TBoc, TBocc> : MonoBehaviour,
                 && chainData.GetTailPosition() == noteData.GetPosition();
             if (isConnectedToHead)
             {
-                originalDraggedAttachedSliderDatas[IndicatorType.Head].Add(BeatmapFactory.Clone(chainData));
+                OriginalDraggedAttachedSliderDatas[IndicatorType.Head].Add(BeatmapFactory.Clone(chainData));
                 DraggedAttachedSliderDatas[IndicatorType.Head].Add(chainData);
                 DraggedAttachedSliderContainers.Add(chainContainer.Value);
                 chainCollection.SilentRemoveObject(chainData);
             }
             else if (isConnectedToTail)
             {
-                originalDraggedAttachedSliderDatas[IndicatorType.Tail].Add(BeatmapFactory.Clone(chainData));
+                OriginalDraggedAttachedSliderDatas[IndicatorType.Tail].Add(BeatmapFactory.Clone(chainData));
                 DraggedAttachedSliderDatas[IndicatorType.Tail].Add(chainData);
                 DraggedAttachedSliderContainers.Add(chainContainer.Value);
                 chainCollection.SilentRemoveObject(chainData);
@@ -600,7 +586,7 @@ public abstract class PlacementController<TBo, TBoc, TBocc> : MonoBehaviour,
         for (int i = 0; i < DraggedAttachedSliderDatas[IndicatorType.Head].Count; i++)
         {
             var draggedSlider = DraggedAttachedSliderDatas[IndicatorType.Head][i];
-            var originalDraggedSlider = originalDraggedAttachedSliderDatas[IndicatorType.Head][i];
+            var originalDraggedSlider = OriginalDraggedAttachedSliderDatas[IndicatorType.Head][i];
 
             if (draggedSlider is BaseArc draggedArc)
             {
@@ -615,7 +601,7 @@ public abstract class PlacementController<TBo, TBoc, TBocc> : MonoBehaviour,
         for (int i = 0; i < DraggedAttachedSliderDatas[IndicatorType.Tail].Count; i++)
         {
             var draggedSlider = DraggedAttachedSliderDatas[IndicatorType.Tail][i];
-            var originalDraggedSlider = originalDraggedAttachedSliderDatas[IndicatorType.Tail][i];
+            var originalDraggedSlider = OriginalDraggedAttachedSliderDatas[IndicatorType.Tail][i];
 
             if (draggedSlider is BaseArc draggedArc)
             {
@@ -666,8 +652,8 @@ public abstract class PlacementController<TBo, TBoc, TBocc> : MonoBehaviour,
         DraggedAttachedSliderContainers.Clear();
         DraggedAttachedSliderDatas[IndicatorType.Head].Clear();
         DraggedAttachedSliderDatas[IndicatorType.Tail].Clear();
-        originalDraggedAttachedSliderDatas[IndicatorType.Head].Clear();
-        originalDraggedAttachedSliderDatas[IndicatorType.Tail].Clear();
+        OriginalDraggedAttachedSliderDatas[IndicatorType.Head].Clear();
+        OriginalDraggedAttachedSliderDatas[IndicatorType.Tail].Clear();
     }
 
     # endregion

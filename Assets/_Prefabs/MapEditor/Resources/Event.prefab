@@ -57,7 +57,6 @@ MonoBehaviour:
   - {fileID: 2654713343862594198}
   - {fileID: 3938364105697110404}
   - {fileID: 8668402241456848079}
-  BoxCollider: {fileID: 0}
   Animator: {fileID: 0}
   EventGridContainer: {fileID: 0}
   eventAppearance: {fileID: 0}
@@ -487,7 +486,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0.5}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 4, y: 4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &8156831486244448870
 MeshRenderer:
@@ -603,7 +602,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 0
-  m_ActiveFontFeatures: 00000000
+  m_ActiveFontFeatures: 
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1

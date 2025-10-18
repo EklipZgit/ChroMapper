@@ -5,8 +5,8 @@ namespace Beatmap.Containers
 {
     public class ObstacleContainer : ObjectContainer
     {
-        private static readonly int colorKeyword = Shader.PropertyToID("_Color");
-        private static readonly int shaderScale = Shader.PropertyToID("_WorldScale");
+        private static readonly int colorID = Shader.PropertyToID("_Color");
+        private static readonly int worldScaleID = Shader.PropertyToID("_WorldScale");
 
         [SerializeField] private TracksManager manager;
 
@@ -45,7 +45,7 @@ namespace Beatmap.Containers
 
         public void SetColor(Color c)
         {
-            MaterialPropertyBlock.SetColor(colorKeyword, c);
+            MaterialPropertyBlock.SetColor(colorID, c);
             UpdateMaterials();
         }
 
@@ -67,7 +67,7 @@ namespace Beatmap.Containers
                 selectionRenderer.transform.localPosition = cubeOffset;
             }
 
-            MaterialPropertyBlock.SetVector(shaderScale, scale);
+            MaterialPropertyBlock.SetVector(worldScaleID, obstacleCore.transform.localScale);
             UpdateMaterials();
         }
 
@@ -83,7 +83,8 @@ namespace Beatmap.Containers
             var length = ObstacleData.DurationSongBpm;
 
             //Take half jump duration into account if the setting is enabled.
-            if (ObstacleData.Duration < 0 && Settings.Instance.ShowMoreAccurateFastWalls && !UIMode.AnimationMode) length -= length * Mathf.Abs(length / ObstacleData.Hjd);
+            if (ObstacleData.Duration < 0 && Settings.Instance.ShowMoreAccurateFastWalls && !UIMode.AnimationMode)
+                length -= length * Mathf.Abs(length / ObstacleData.Hjd);
 
             length *= UIMode.AnimationMode
                 ? ObstacleData.EditorScale
