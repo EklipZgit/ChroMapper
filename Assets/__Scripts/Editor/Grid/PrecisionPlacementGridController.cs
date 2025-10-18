@@ -18,23 +18,18 @@ public class PrecisionPlacementGridController : MonoBehaviour
         if (isEnabled == isVisible) return;
         isEnabled = isVisible;
 
-        // Only way to refresh collision
-        intersectionCollider.enabled = false;
-
         if (isVisible && Settings.Instance.PrecisionPlacementMode != PrecisionPlacementMode.Off)
         {
             expandedMesh.gameObject.SetActive(true);
-            intersectionCollider.BoundsRenderer = expandedMesh;
             intersectionCollider.Size = expandedMesh.transform.localScale;
         }
         else
         {
             expandedMesh.gameObject.SetActive(false);
-            intersectionCollider.BoundsRenderer = regularMesh;
             intersectionCollider.Size = regularMesh.transform.localScale;
         }
 
-        intersectionCollider.enabled = true;
+        intersectionCollider.HardRefresh();
     }
 
     public void UpdateMousePosition(Vector3 mousePosition) =>

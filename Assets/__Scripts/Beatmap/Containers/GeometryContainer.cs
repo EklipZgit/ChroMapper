@@ -71,7 +71,6 @@ namespace Beatmap.Containers
             var intersection = container.Shape.AddComponent<IntersectionCollider>();
             var renderer = container.Shape.GetComponent<MeshRenderer>();
             intersection.Mesh = mesh;
-            intersection.BoundsRenderer = renderer;
 
             if (container.MaterialPropertyBlock == null)
             {

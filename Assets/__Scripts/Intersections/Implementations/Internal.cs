@@ -16,21 +16,17 @@ public static partial class Intersections
     // Once we've determined that the ray intersects the bounding box of the collider,
     // we loop through all triangles until we find one that intersects the ray.
     // Doing things this way loses a little bit of speed, but increases accuracy on non-cube meshes.
-    private static bool RaycastIndividual_Internal(IntersectionCollider collider, in Vector3 rayDirection,
-        in Vector3 rayOrigin, out float distance)
+    private static bool RaycastIndividual_Internal(IntersectionCollider collider, in Vector3 localRayDirection,
+        in Vector3 localRayOrigin, out float distance)
     {
         var success = false;
         distance = 0;
-
-        var worldToLocalMatrix = collider.transform.worldToLocalMatrix;
 
         // The triangles/vertices arrays are cached as to not allocate garbage every frame.
         var meshTriangles = collider.MeshTriangles;
         var meshVertices = collider.MeshVertices;
 
         // Transform rayDirection and rayOrigin into local space of the collider
-        var localRayDirection = worldToLocalMatrix.FastMultiplyDirection(in rayDirection);
-        var localRayOrigin = worldToLocalMatrix.FastMultiplyPoint3x4(in rayOrigin);
 
         for (var i = 0; i < meshTriangles.Length; i += 3)
         {

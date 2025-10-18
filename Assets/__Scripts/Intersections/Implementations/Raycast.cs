@@ -95,13 +95,19 @@ public static partial class Intersections
 
                         if (layer == -1 || collider.CollisionLayer == layer)
                         {
-                            var bounds = collider.BoundsRenderer.bounds;
+                            var worldToLocalMatrix = collider.transform.worldToLocalMatrix;
+                            var localRayOrigin = worldToLocalMatrix.MultiplyPoint3x4(rayOrigin);
+                            var localRayDirection = worldToLocalMatrix.MultiplyVector(rayDirection);
+
+                            var localRay = new Ray(localRayOrigin, localRayDirection);
+
+                            var bounds = collider.CollisionBounds;
 
                             // The first pass checks if the ray even intersects the bounds of the collider.
                             // If not, the collider is considered unnecessary, and no further work is done on it.
                             // See the RaycastIndividual_Internal method for more information on the second pass.
-                            if (bounds.IntersectRay(ray)
-                                && RaycastIndividual_Internal(collider, in rayDirection, in rayOrigin, out var dist))
+                            if (bounds.IntersectRay(localRay)
+                                && RaycastIndividual_Internal(collider, in localRayDirection, in localRayOrigin, out var dist))
                             {
                                 hits.Add(new IntersectionHit(collider.gameObject, bounds, ray, dist));
                             }

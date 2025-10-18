@@ -130,8 +130,8 @@ namespace Beatmap.Containers
 
             // does this cause performance hit if it reassigned?
             var ic = DirectionTarget.GetComponent<IntersectionCollider>();
-            ic.BoundsRenderer = simpleBlock.GetComponent<MeshRenderer>();
             ic.Mesh = ic.transform.GetChild(ic.transform.childCount - 1).GetComponent<MeshFilter>().mesh; // ew
+            ic.HardRefresh();
         }
 
         public void SetNoteModel()
@@ -164,8 +164,8 @@ namespace Beatmap.Containers
             
             // unfortunately the size collision has also changed
             var ic = DirectionTarget.GetComponent<IntersectionCollider>();
-            ic.BoundsRenderer = simpleChainHead.GetComponent<MeshRenderer>();
             ic.Mesh = ic.transform.GetChild(ic.transform.childCount - 2).GetComponent<MeshFilter>().mesh; // ew
+            ic.HardRefresh();
 
             simpleBlock.SetActive(false);
             complexBlock.SetActive(false);
