@@ -23,7 +23,11 @@ public class GeometryGridContainer : BeatmapObjectContainerCollection<BaseEnviro
         {
             try
             {
-                var container = GeometryContainer.SpawnGeometry(eh, ref geometryPrefab);
+                var container = GeometryContainer.SpawnGeometry(
+                    eh,
+                    ref geometryPrefab,
+                    AudioTimeSyncController,
+                    tracksManager);
                 if (container == null) return;
                 container.Setup();
                 LoadedContainers.Add(eh, container);
@@ -82,6 +86,5 @@ public class GeometryGridContainer : BeatmapObjectContainerCollection<BaseEnviro
     {
     }
 
-    public override ObjectContainer CreateContainer() =>
-        null;
+    public override ObjectContainer CreateContainer() => null;
 };
