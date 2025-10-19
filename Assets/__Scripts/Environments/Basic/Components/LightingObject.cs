@@ -38,6 +38,9 @@ public class LightingObject : MonoBehaviour
 
     private void Start()
     {
+        // TODO: Remove this with new environment system (assign layers directly in editor)
+        gameObject.layer = LayerMask.NameToLayer("Lighting Events");
+
         lightPropertyBlock = new MaterialPropertyBlock();
         lightRenderer = GetComponentInChildren<Renderer>();
         boostSprite = GetComponent<BoostSprite>();
