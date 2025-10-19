@@ -27,14 +27,17 @@ public class BloomfogRenderingController : MonoBehaviour
     {
         blurMaterial = new Material(blurShader);
 
-        RegenerateRenderTexture(Settings.Instance.HighQualityBloom ? 1 : 2);
+        Settings.NotifyBySettingName(nameof(Settings.HighQualityBloom), (_) => RegenerateRenderTexture());
+        Settings.NotifyBySettingName(nameof(Settings.CameraFOV), (fov) => bloomfogCamera.fieldOfView = (float)fov);
+
+        RegenerateRenderTexture();
     }
 
     private void Update()
     {
         if (cachedScreenWidth != Screen.width || cachedScreenHeight != Screen.height)
         {
-            RegenerateRenderTexture(Settings.Instance.HighQualityBloom ? 1 : 2);
+            RegenerateRenderTexture();
         }
     }
 
@@ -57,7 +60,12 @@ public class BloomfogRenderingController : MonoBehaviour
         }
     }
 
-    private void OnDestroy() => ClearRenderTextures();
+    private void OnDestroy()
+    {
+        ClearRenderTextures();
+        Settings.ClearSettingNotifications(nameof(Settings.HighQualityBloom));
+        Settings.ClearSettingNotifications(nameof(Settings.CameraFOV));
+    }
 
     private void ClearRenderTextures()
     {
@@ -67,7 +75,10 @@ public class BloomfogRenderingController : MonoBehaviour
         }
     }
 
-    private void RegenerateRenderTexture(int quality = 1)
+    private void RegenerateRenderTexture()
+        => RegenerateRenderTexture(Settings.Instance.HighQualityBloom ? 1 : 2);
+
+    private void RegenerateRenderTexture(int quality)
     {
         ClearRenderTextures();
 
