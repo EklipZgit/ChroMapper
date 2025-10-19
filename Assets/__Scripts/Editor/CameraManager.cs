@@ -5,6 +5,7 @@ public class CameraManager : MonoBehaviour
 {
     [SerializeField] private CameraController editingCameraController;
     [SerializeField] private CameraController playingCameraController;
+    [SerializeField] private BloomfogRenderingController bloomfogRenderingController;
 
     public CameraController SelectedCameraController;
 
@@ -13,6 +14,7 @@ public class CameraManager : MonoBehaviour
     private void Start()
     {
         SelectedCameraController = editingCameraController;
+        bloomfogRenderingController.AssignToCamera(SelectedCameraController);
         CameraControllers[0] = editingCameraController;
         CameraControllers[1] = playingCameraController;
     }
@@ -22,6 +24,7 @@ public class CameraManager : MonoBehaviour
         SelectedCameraController.Camera.enabled = false;
         SelectedCameraController = cameraType == CameraType.Editing ? editingCameraController : playingCameraController;
         SelectedCameraController.Camera.enabled = true;
+        bloomfogRenderingController.AssignToCamera(SelectedCameraController);
     }
 }
 

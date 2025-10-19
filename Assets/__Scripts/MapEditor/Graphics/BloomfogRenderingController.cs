@@ -5,25 +5,26 @@ public class BloomfogRenderingController : MonoBehaviour
     private const int maxBloomfogPasses = 7;
 
     [SerializeField] private Camera bloomfogCamera;
-    [SerializeField] private Camera editorCamera;
     [SerializeField] private Shader blurShader;
 
+    private Camera editorCamera;
     private Material blurMaterial;
-
     private RenderTexture[] bloomfogPassRTs = new RenderTexture[maxBloomfogPasses];
 
     private int realBloomfogPasses = maxBloomfogPasses;
     private int cachedScreenWidth = 0;
     private int cachedScreenHeight = 0;
 
+    public void AssignToCamera(CameraController activeCamera)
+    {
+        editorCamera = activeCamera.Camera;
+        transform.SetParent(activeCamera.transform, false);
+        transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+        bloomfogCamera.fieldOfView = editorCamera.fieldOfView;
+    }
+
     private void Start()
     {
-        if (bloomfogCamera == null)
-        {
-            Debug.LogError("Bloomfog Camera is not assigned.");
-            return;
-        }
-
         blurMaterial = new Material(blurShader);
 
         RegenerateRenderTexture(Settings.Instance.HighQualityBloom ? 1 : 2);
@@ -35,9 +36,6 @@ public class BloomfogRenderingController : MonoBehaviour
         {
             RegenerateRenderTexture(Settings.Instance.HighQualityBloom ? 1 : 2);
         }
-
-        // lazy
-        bloomfogCamera.fieldOfView = editorCamera.fieldOfView;
     }
 
     private void OnPostRender()
