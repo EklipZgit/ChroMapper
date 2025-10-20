@@ -38,7 +38,7 @@ public class DingOnNotePassingGrid : MonoBehaviour
         NoteTypeToDing[(int)NoteType.Blue] = Settings.Instance.Ding_Blue_Notes;
         NoteTypeToDing[(int)NoteType.Bomb] = Settings.Instance.Ding_Bombs;
 
-        beatSaberCutCallbackController.Offset = container.AudioTimeSyncController.GetBeatFromSeconds(0.5f);
+        beatSaberCutCallbackController.Offset = atsc.GetBeatFromSeconds(0.5f);
         beatSaberCutCallbackController.UseAudioTime = true;
 
         UpdateHitSoundType(Settings.Instance.NoteHitSound);
@@ -119,7 +119,7 @@ public class DingOnNotePassingGrid : MonoBehaviour
     {
         // Filter notes that are too far behind the current beat
         // (Commonly occurs when Unity freezes for some unrelated fucking reason)
-        if (objectData.SongBpmTime - container.AudioTimeSyncController.CurrentSongBpmTime <= -0.5f) return;
+        if (objectData.SongBpmTime - atsc.CurrentSongBpmTime <= -0.5f) return;
 
         var soundListId = Settings.Instance.NoteHitSound;
         if (soundListId == (int)HitSounds.Discord) Instantiate(discordPingPrefab, gameObject.transform, true);
@@ -132,7 +132,7 @@ public class DingOnNotePassingGrid : MonoBehaviour
     {
         // Filter notes that are too far behind the current beat
         // (Commonly occurs when Unity freezes for some unrelated fucking reason)
-        if (objectData.SongBpmTime - container.AudioTimeSyncController.CurrentSongBpmTime <= -0.5f) return;
+        if (objectData.SongBpmTime - atsc.CurrentSongBpmTime <= -0.5f) return;
 
         if (objectData is BaseChain)
         {

@@ -3,24 +3,22 @@ using System.Linq;
 using Beatmap.Base;
 using Beatmap.Containers;
 using Beatmap.Enums;
-using Beatmap.V3;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 
-public class ChainPlacement : PlacementController<BaseChain, ChainContainer, ChainGridContainer>, CMInput.IChainPlacementActions
+public class ChainPlacement : BasePlacement<BaseChain, ChainContainer, ChainGridContainer>,
+                              CMInput.IChainPlacementActions
 {
-    private static HashSet<BaseObject> SelectedObjects => SelectionController.SelectedObjects;
     [SerializeField] private SelectionController selectionController;
-    [FormerlySerializedAs("notesContainer")][SerializeField] private NoteGridContainer noteGridContainer;
 
-    public override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicting) =>
-        new BeatmapObjectPlacementAction(spawned, conflicting, "Placed a chain.");
-    public override BaseChain GenerateOriginalData() => new BaseChain();
-    public override void OnPhysicsRaycast(Intersections.IntersectionHit hit, Vector3 transformedPoint) => throw new System.NotImplementedException();
+    [FormerlySerializedAs("notesContainer")] [SerializeField]
+    private NoteGridContainer noteGridContainer;
+
+    private static HashSet<BaseObject> SelectedObjects => SelectionController.SelectedObjects;
 
     /// <summary>
-    /// Perform all check for spawning a chain. Maybe should swap `n1` and `n2` when `n2` is actually pointing to `n1`
+    ///     Perform all check for spawning a chain. Maybe should swap `n1` and `n2` when `n2` is actually pointing to `n1`
     /// </summary>
     /// <param name="context"></param>
     public void OnSpawnChain(InputAction.CallbackContext context)
@@ -30,6 +28,11 @@ public class ChainPlacement : PlacementController<BaseChain, ChainContainer, Cha
         SpawnChainFromSelection();
     }
 
+    protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicting) =>
+        new BeatmapObjectPlacementAction(spawned, conflicting, "Placed a chain.");
+
+    protected override BaseChain GenerateOriginalData() => new();
+
     public int SpawnChainFromSelection()
     {
         var notes = SelectedObjects.Where(IsColorNote).Cast<BaseNote>().ToList();
@@ -37,8 +40,10 @@ public class ChainPlacement : PlacementController<BaseChain, ChainContainer, Cha
 
         if (Settings.Instance.MapVersion == 2 && notes.Count > 1)
         {
-            PersistentUI.Instance.ShowDialogBox("Chain placement is not supported in v2 format.\nConvert map to v3 to place chains.",
-                null, PersistentUI.DialogBoxPresetType.Ok);
+            PersistentUI.Instance.ShowDialogBox(
+                "Chain placement is not supported in v2 format.\nConvert map to v3 to place chains.",
+                null,
+                PersistentUI.DialogBoxPresetType.Ok);
             return 0;
         }
 
@@ -57,7 +62,7 @@ public class ChainPlacement : PlacementController<BaseChain, ChainContainer, Cha
                 generatedObjects.Add(chain);
             }
         }
-        
+
         for (var i = 1; i < blueNotes.Count; i++)
         {
             if (TryCreateChainData(blueNotes[i - 1], blueNotes[i], out var chain, out var tailNote))
@@ -73,18 +78,18 @@ public class ChainPlacement : PlacementController<BaseChain, ChainContainer, Cha
             SelectionController.SelectedObjects = new HashSet<BaseObject>(removedTailNotes);
             selectionController.Delete(false);
 
-            foreach (var chainData in generatedObjects)
-            {
-                objectContainerCollection.SpawnObject(chainData, false);
-            }
+            foreach (var chainData in generatedObjects) ObjectContainerCollection.SpawnObject(chainData, false);
 
             SelectionController.SelectedObjects = new HashSet<BaseObject>(generatedObjects);
             SelectionController.OnSelectionChanged?.Invoke();
             SelectionController.RefreshSelectionMaterial(false);
             BeatmapActionContainer.AddAction(
-                new BeatmapObjectPlacementAction(generatedObjects.ToArray(), removedTailNotes, $"Placed {generatedObjects.Count} chains"));
+                new BeatmapObjectPlacementAction(
+                    generatedObjects.ToArray(),
+                    removedTailNotes,
+                    $"Placed {generatedObjects.Count} chains"));
         }
-        
+
         return generatedObjects.Count;
     }
 
@@ -92,10 +97,7 @@ public class ChainPlacement : PlacementController<BaseChain, ChainContainer, Cha
 
     public bool TryCreateChainData(BaseNote head, BaseNote tail, out BaseChain chain, out BaseNote tailNote)
     {
-        if (head.JsonTime > tail.JsonTime)
-        {
-            (head, tail) = (tail, head);
-        }
+        if (head.JsonTime > tail.JsonTime) (head, tail) = (tail, head);
 
         tailNote = tail;
 
@@ -104,12 +106,10 @@ public class ChainPlacement : PlacementController<BaseChain, ChainContainer, Cha
             chain = null;
             return false;
         }
-        else
-        {
-            chain = new BaseChain(head, tail);
-            return true;
-        }
+
+        chain = new BaseChain(head, tail);
+        return true;
     }
 
-    public override void TransferQueuedToDraggedObject(ref BaseChain dragged, BaseChain queued) { }
+    protected override void TransferQueuedToDraggedObject(ref BaseChain dragged, BaseChain queued) { }
 }

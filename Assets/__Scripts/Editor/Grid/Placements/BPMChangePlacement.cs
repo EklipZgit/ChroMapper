@@ -1,35 +1,31 @@
 ﻿using System.Collections.Generic;
 using Beatmap.Base;
-using Beatmap.Base.Customs;
 using Beatmap.Containers;
-using Beatmap.Helper;
-using Beatmap.V2.Customs;
-using Beatmap.V3.Customs;
 using UnityEngine;
 
-public class BPMChangePlacement : PlacementController<BaseBpmEvent, BpmEventContainer, BPMChangeGridContainer>
+public class BPMChangePlacement : BasePlacement<BaseBpmEvent, BpmEventContainer, BPMChangeGridContainer>
 {
-    public override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicting) =>
+    protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicting) =>
         new BeatmapObjectPlacementAction(spawned, conflicting, $"Placed a BPM Event at time {spawned.JsonTime}");
 
-    public override BaseBpmEvent GenerateOriginalData() => new(0, 100);
+    protected override BaseBpmEvent GenerateOriginalData() => new(0, 100);
 
-    public override void OnPhysicsRaycast(Intersections.IntersectionHit _, Vector3 __) =>
-        instantiatedContainer.transform.localPosition =
-            new Vector3(0.5f, 0.5f, instantiatedContainer.transform.localPosition.z);
+    protected override void UpdatePlacement(
+        Vector3 _,
+        Vector3 roundedHit,
+        PlacementState state) =>
+        PlacementVisualContainer.transform.localPosition =
+            new Vector3(0.5f, 0.5f, PlacementVisualContainer.transform.localPosition.z);
 
-    public override void TransferQueuedToDraggedObject(ref BaseBpmEvent dragged, BaseBpmEvent queued)
+    protected override void TransferQueuedToDraggedObject(ref BaseBpmEvent dragged, BaseBpmEvent queued)
     {
         dragged.JsonTime = queued.JsonTime;
-        objectContainerCollection.RefreshModifiedBeat();
+        ObjectContainerCollection.RefreshModifiedBeat();
     }
 
-    public override void ClickAndDragFinished() => objectContainerCollection.RefreshModifiedBeat();
+    protected override void HandleDragged() => ObjectContainerCollection.RefreshModifiedBeat();
 
-    internal override void ApplyToMap()
-    {
-        CreateAndOpenBpmDialogue(isInitialPlacement: true);
-    }
+    public override void HandleApply() => CreateAndOpenBpmDialogue(true);
 
     private void AttemptPlaceBpmChange(string obj, bool willResetGrid)
     {
@@ -39,43 +35,46 @@ public class BPMChangePlacement : PlacementController<BaseBpmEvent, BpmEventCont
             // Prevent users from shooting themselves in the foot 
             if (bpm <= 0)
             {
-                CreateAndOpenBpmDialogue(isInitialPlacement: false);
+                CreateAndOpenBpmDialogue(false);
                 return;
             }
-            
-            if (willResetGrid && (Mathf.Abs(queuedData.JsonTime - Mathf.Round(queuedData.JsonTime)) > BeatmapObjectContainerCollection.Epsilon))
+
+            if (willResetGrid
+                && (Mathf.Abs(QueuedData.JsonTime - Mathf.Round(QueuedData.JsonTime))
+                    > BeatmapObjectContainerCollection.Epsilon))
             {
                 // e.g. Placing a bpm event at beat 3.5 will create a bpm event at beat 3 and 4.
                 //      The bpm on beat 3 will be such that the bpm event on beat 4 lines with where the cursor is.
                 var prevBpm = (float)BeatSaberSongContainer.Instance.Map.BpmAtSongBpmTime(SongBpmTime);
 
-                var prevBeat = Mathf.Floor(queuedData.JsonTime);
-                var nextBeat = Mathf.Ceil(queuedData.JsonTime);
-                
+                var prevBeat = Mathf.Floor(QueuedData.JsonTime);
+                var nextBeat = Mathf.Ceil(QueuedData.JsonTime);
+
                 // Place an offset bpm event on the previous beat to scale the grid so it "resets"
-                var offsetBpm = prevBpm / (queuedData.JsonTime - prevBeat);
+                var offsetBpm = prevBpm / (QueuedData.JsonTime - prevBeat);
                 var offsetEvent = new BaseBpmEvent(prevBeat, offsetBpm);
-                objectContainerCollection.SpawnObject(offsetEvent, out var offsetConflicting);
+                ObjectContainerCollection.SpawnObject(offsetEvent, out var offsetConflicting);
 
                 // Place the bpm event on the next beat
                 var queuedEvent = new BaseBpmEvent(nextBeat, bpm);
-                objectContainerCollection.SpawnObject(queuedEvent, out var queuedConflicting);
+                ObjectContainerCollection.SpawnObject(queuedEvent, out var queuedConflicting);
 
-                BeatmapActionContainer.AddAction(new ActionCollectionAction(new List<BeatmapAction>{
-                    GenerateAction(offsetEvent, offsetConflicting),
-                    GenerateAction(queuedEvent, queuedConflicting)
-                }));
+                BeatmapActionContainer.AddAction(
+                    new ActionCollectionAction(
+                        new List<BeatmapAction>
+                        {
+                            GenerateAction(offsetEvent, offsetConflicting),
+                            GenerateAction(queuedEvent, queuedConflicting)
+                        }));
             }
             else
             {
-                queuedData.Bpm = bpm;
-                base.ApplyToMap();
+                QueuedData.Bpm = bpm;
+                base.HandleApply();
             }
         }
         else
-        {
-            CreateAndOpenBpmDialogue(isInitialPlacement: false);
-        }
+            CreateAndOpenBpmDialogue(false);
     }
 
     private void CreateAndOpenBpmDialogue(bool isInitialPlacement)
@@ -84,7 +83,8 @@ public class BPMChangePlacement : PlacementController<BaseBpmEvent, BpmEventCont
         //    1) The footer buttons can trigger off the same click that opens this dialogue which causes an instant close
         //    2) Immediately reopening the dialogue box after closing it doesn't work
 
-        var createBpmEventDialogueBox = PersistentUI.Instance
+        var createBpmEventDialogueBox = PersistentUI
+            .Instance
             .CreateNewDialogBox()
             .WithTitle("Mapper", "bpm.dialog");
 
@@ -110,7 +110,10 @@ public class BPMChangePlacement : PlacementController<BaseBpmEvent, BpmEventCont
         createBpmEventDialogueBox.OnQuickSubmit(() => AttemptPlaceBpmChange(bpmTextInput.Value, resetBeatToggle.Value));
 
         createBpmEventDialogueBox.AddFooterButton(null, "PersistentUI", "cancel");
-        createBpmEventDialogueBox.AddFooterButton(() => AttemptPlaceBpmChange(bpmTextInput.Value, resetBeatToggle.Value), "PersistentUI", "ok");
+        createBpmEventDialogueBox.AddFooterButton(
+            () => AttemptPlaceBpmChange(bpmTextInput.Value, resetBeatToggle.Value),
+            "PersistentUI",
+            "ok");
 
         createBpmEventDialogueBox.Open();
     }

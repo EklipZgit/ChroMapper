@@ -1,179 +1,38 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Beatmap.Base;
 using Beatmap.Containers;
 using Beatmap.Enums;
-using Beatmap.V3;
-using SimpleJSON;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class ArcIndicatorPlacement : PlacementController<BaseArc, ArcIndicatorContainer, ArcGridContainer>,
+public class ArcIndicatorPlacement : BasePlacement<BaseArc, ArcIndicatorContainer, ArcGridContainer>,
                                      CMInput.INotePlacementActions
 {
-    private static HashSet<BaseObject> SelectedObjects => SelectionController.SelectedObjects;
-
-    [SerializeField] private DeleteToolController deleteToolController;
-    [SerializeField] private PrecisionPlacementGridController precisionPlacement;
-    [SerializeField] private LaserSpeedController laserSpeedController;
-
-    public override int PlacementXMin => PlacementXMax * -1;
-
-    public override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicting) =>
-        new BeatmapObjectPlacementAction(spawned, conflicting, "Edited an arc.");
-
-    public override BaseArc GenerateOriginalData() => new BaseArc();
-
-    public override void OnPhysicsRaycast(Intersections.IntersectionHit hit, Vector3 roundedHit)
-    {
-        var posX = (int)roundedHit.x;
-        var posY = (int)roundedHit.y;
-
-        var vanillaX = Mathf.Clamp(posX, 0, 3);
-        var vanillaY = Mathf.Clamp(posY, 0, 2);
-
-        var vanillaBounds = vanillaX == posX && vanillaY == posY;
-
-        queuedData.PosX = vanillaX;
-        queuedData.PosY = vanillaY;
-
-        if (UsePrecisionPlacement)
-        {
-            var rawHit = ParentTrack.InverseTransformPoint(hit.Point);
-            rawHit.z = SongBpmTime * EditorScaleController.EditorScale;
-
-            var precision = Settings.Instance.PrecisionPlacementGridPrecision;
-            roundedHit = ((Vector2)Vector2Int.RoundToInt((PrecisionOffset + (Vector2)rawHit) * precision)) / precision;
-            instantiatedContainer.transform.localPosition = roundedHit;
-
-            if (IsDraggingObject || IsDraggingObjectAtTime)
-            {
-                if (DraggedObjectContainer.IndicatorType == IndicatorType.Head)
-                {
-                    queuedData.CustomCoordinate = (Vector2)roundedHit;
-                }
-
-                if (DraggedObjectContainer.IndicatorType == IndicatorType.Tail)
-                {
-                    queuedData.CustomTailCoordinate = (Vector2)roundedHit;
-                }
-            }
-
-            precisionPlacement.TogglePrecisionPlacement(true);
-            precisionPlacement.UpdateMousePosition(hit.Point);
-        }
-        else
-        {
-            precisionPlacement.TogglePrecisionPlacement(false);
-
-            if (IsDraggingObject || IsDraggingObjectAtTime)
-            {
-                if (DraggedObjectContainer.IndicatorType == IndicatorType.Head)
-                {
-                    queuedData.CustomCoordinate = !vanillaBounds
-                        ? (JSONNode)((Vector2)roundedHit - VanillaOffset + PrecisionOffset)
-                        : null;
-                }
-
-                if (DraggedObjectContainer.IndicatorType == IndicatorType.Tail)
-                {
-                    queuedData.CustomTailCoordinate = !vanillaBounds
-                        ? (JSONNode)((Vector2)roundedHit - VanillaOffset + PrecisionOffset)
-                        : null;
-                }
-            }
-        }
-    }
-
-    public override void TransferQueuedToDraggedObject(ref BaseArc dragged, BaseArc queued)
-    {
-        if (DraggedObjectContainer.IndicatorType == IndicatorType.Head)
-        {
-            dragged.JsonTime = queued.JsonTime;
-            dragged.PosX = queued.PosX;
-            dragged.PosY = queued.PosY;
-            dragged.CutDirection = queued.CutDirection;
-            dragged.CustomCoordinate = queued.CustomCoordinate;
-        }
-
-        if (DraggedObjectContainer.IndicatorType == IndicatorType.Tail)
-        {
-            dragged.TailJsonTime = queued.JsonTime;
-            dragged.TailPosX = queued.PosX;
-            dragged.TailPosY = queued.PosY;
-            dragged.TailCutDirection = queued.TailCutDirection;
-            dragged.CustomTailCoordinate = queued.CustomTailCoordinate;
-        }
-
-        DraggedObjectContainer.ParentArc.NotifySplineChanged(dragged);
-    }
-
-    public override void OnPlaceObject(InputAction.CallbackContext context)
-    {
-        // This placement controller is only used for dragging the arc indicator
-    }
-
-    protected override float GetContainerPosZ(ObjectContainer con)
-    {
-        if (con is ArcIndicatorContainer indicator)
-        {
-            if (indicator.IndicatorType == IndicatorType.Head)
-            {
-                return (indicator.ParentArc.ArcData.SongBpmTime - Atsc.CurrentSongBpmTime)
-                    * EditorScaleController.EditorScale;
-            }
-
-            if (indicator.IndicatorType == IndicatorType.Tail)
-            {
-                return (indicator.ParentArc.ArcData.TailSongBpmTime - Atsc.CurrentSongBpmTime)
-                    * EditorScaleController.EditorScale;
-            }
-        }
-
-        return base.GetContainerPosZ(con);
-    }
-
-    protected override float GetDraggedObjectJsonTime()
-    {
-        if (DraggedObjectContainer.IndicatorType == IndicatorType.Tail)
-        {
-            return draggedObjectData.TailJsonTime;
-        }
-        else
-        {
-            return draggedObjectData.JsonTime;
-        }
-    }
-
-    public void UpdateCut(int value)
-    {
-        if (DraggedObjectContainer != null && DraggedObjectContainer.ParentArc != null)
-        {
-            if (DraggedObjectContainer.IndicatorType == IndicatorType.Head)
-            {
-                queuedData.CutDirection = value;
-                DraggedObjectContainer.ParentArc.ArcData.CutDirection = value;
-            }
-
-            if (DraggedObjectContainer.IndicatorType == IndicatorType.Tail)
-            {
-                queuedData.TailCutDirection = value;
-                DraggedObjectContainer.ParentArc.ArcData.TailCutDirection = value;
-            }
-        }
-    }
-
-    // Below is copied from NotePlacement. Would be nice to have some kind of shared placement.
-    private readonly float diagonalStickMaxTime = 0.3f;
-    private readonly List<bool> heldKeys = new List<bool> { false, false, false, false };
     private const int upKey = 0;
     private const int leftKey = 1;
     private const int downKey = 2;
     private const int rightKey = 3;
+
+    [SerializeField] private DeleteToolController deleteToolController;
+    [SerializeField] private LaserSpeedController laserSpeedController;
+
+    // Below is copied from NotePlacement. Would be nice to have some kind of shared placement.
+    private readonly float diagonalStickMaxTime = 0.3f;
+    private readonly List<bool> heldKeys = new() { false, false, false, false };
     private bool diagonal;
     private bool flagDirectionsUpdate;
+    private static HashSet<BaseObject> SelectedObjects => SelectionController.SelectedObjects;
+
+    private void LateUpdate()
+    {
+        if (flagDirectionsUpdate)
+        {
+            HandleDirectionValues();
+            flagDirectionsUpdate = false;
+        }
+    }
 
 
     //TODO perhaps make a helper function to deal with the context.performed and context.canceled checks
@@ -212,6 +71,136 @@ public class ArcIndicatorPlacement : PlacementController<BaseArc, ArcIndicatorCo
         if (context.performed && !laserSpeedController.Activated) UpdateCut((int)NoteCutDirection.DownLeft);
     }
 
+    protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicting) =>
+        new BeatmapObjectPlacementAction(spawned, conflicting, "Edited an arc.");
+
+    protected override BaseArc GenerateOriginalData() => new();
+
+    protected override void UpdatePlacement(
+        Vector3 rawHit,
+        Vector3 roundedHit,
+        PlacementState state)
+    {
+        var posX = (int)roundedHit.x;
+        var posY = (int)roundedHit.y;
+
+        var vanillaX = Mathf.Clamp(posX, 0, 3);
+        var vanillaY = Mathf.Clamp(posY, 0, 2);
+
+        var vanillaBounds = vanillaX == posX && vanillaY == posY;
+
+        QueuedData.PosX = vanillaX;
+        QueuedData.PosY = vanillaY;
+
+        if (PrecisionPlacementController.IsEnabled)
+        {
+            rawHit.z = SongBpmTime * EditorScaleController.EditorScale;
+
+            var precision = Settings.Instance.PrecisionPlacementGridPrecision;
+            roundedHit = (Vector2)Vector2Int.RoundToInt((PrecisionOffset + (Vector2)rawHit) * precision) / precision;
+            PlacementVisualContainer.transform.localPosition = roundedHit;
+
+            if (state != PlacementState.Hover)
+            {
+                if (DraggedObjectContainer.IndicatorType == IndicatorType.Head)
+                    QueuedData.CustomCoordinate = (Vector2)roundedHit;
+
+                if (DraggedObjectContainer.IndicatorType == IndicatorType.Tail)
+                    QueuedData.CustomTailCoordinate = (Vector2)roundedHit;
+            }
+        }
+        else
+        {
+            if (state != PlacementState.Hover)
+            {
+                if (DraggedObjectContainer.IndicatorType == IndicatorType.Head)
+                {
+                    QueuedData.CustomCoordinate = !vanillaBounds
+                        ? (Vector2)roundedHit - VanillaOffset + PrecisionOffset
+                        : null;
+                }
+
+                if (DraggedObjectContainer.IndicatorType == IndicatorType.Tail)
+                {
+                    QueuedData.CustomTailCoordinate = !vanillaBounds
+                        ? (Vector2)roundedHit - VanillaOffset + PrecisionOffset
+                        : null;
+                }
+            }
+        }
+    }
+
+    protected override void TransferQueuedToDraggedObject(ref BaseArc dragged, BaseArc queued)
+    {
+        if (DraggedObjectContainer.IndicatorType == IndicatorType.Head)
+        {
+            dragged.JsonTime = queued.JsonTime;
+            dragged.PosX = queued.PosX;
+            dragged.PosY = queued.PosY;
+            dragged.CutDirection = queued.CutDirection;
+            dragged.CustomCoordinate = queued.CustomCoordinate;
+        }
+
+        if (DraggedObjectContainer.IndicatorType == IndicatorType.Tail)
+        {
+            dragged.TailJsonTime = queued.JsonTime;
+            dragged.TailPosX = queued.PosX;
+            dragged.TailPosY = queued.PosY;
+            dragged.TailCutDirection = queued.TailCutDirection;
+            dragged.CustomTailCoordinate = queued.CustomTailCoordinate;
+        }
+
+        DraggedObjectContainer.ParentArc.NotifySplineChanged(dragged);
+    }
+
+    public void OnPlaceObject(InputAction.CallbackContext context)
+    {
+        // This placement controller is only used for dragging the arc indicator
+    }
+
+    public override float GetContainerPosZ(ObjectContainer con)
+    {
+        if (con is ArcIndicatorContainer indicator)
+        {
+            if (indicator.IndicatorType == IndicatorType.Head)
+            {
+                return (indicator.ParentArc.ArcData.SongBpmTime - Atsc.CurrentSongBpmTime)
+                    * EditorScaleController.EditorScale;
+            }
+
+            if (indicator.IndicatorType == IndicatorType.Tail)
+            {
+                return (indicator.ParentArc.ArcData.TailSongBpmTime - Atsc.CurrentSongBpmTime)
+                    * EditorScaleController.EditorScale;
+            }
+        }
+
+        return base.GetContainerPosZ(con);
+    }
+
+    protected override float GetDraggedObjectJsonTime() =>
+        DraggedObjectContainer.IndicatorType == IndicatorType.Tail
+            ? DraggedObjectData.TailJsonTime
+            : DraggedObjectData.JsonTime;
+
+    public void UpdateCut(int value)
+    {
+        if (DraggedObjectContainer != null && DraggedObjectContainer.ParentArc != null)
+        {
+            if (DraggedObjectContainer.IndicatorType == IndicatorType.Head)
+            {
+                QueuedData.CutDirection = value;
+                DraggedObjectContainer.ParentArc.ArcData.CutDirection = value;
+            }
+
+            if (DraggedObjectContainer.IndicatorType == IndicatorType.Tail)
+            {
+                QueuedData.TailCutDirection = value;
+                DraggedObjectContainer.ParentArc.ArcData.TailCutDirection = value;
+            }
+        }
+    }
+
     private void HandleKeyUpdate(InputAction.CallbackContext context, int id)
     {
         if (context.performed ^ heldKeys[id]) flagDirectionsUpdate = true;
@@ -233,7 +222,7 @@ public class ArcIndicatorPlacement : PlacementController<BaseArc, ArcIndicatorCo
 
         diagonal = handleUpDownNotes && handleLeftRightNotes;
 
-        if (previousDiagonalState && diagonal == false)
+        if (previousDiagonalState && !diagonal)
         {
             StartCoroutine(CheckForDiagonalUpdate());
             return;
@@ -278,14 +267,5 @@ public class ArcIndicatorPlacement : PlacementController<BaseArc, ArcIndicatorCo
         yield return new WaitForSeconds(diagonalStickMaxTime);
         // Weird way of saying "Are the keys being held right now the same as before"
         if (!previousHeldKeys.Except(heldKeys).Any()) flagDirectionsUpdate = true;
-    }
-
-    private void LateUpdate()
-    {
-        if (flagDirectionsUpdate)
-        {
-            HandleDirectionValues();
-            flagDirectionsUpdate = false;
-        }
     }
 }

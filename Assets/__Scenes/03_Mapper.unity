@@ -1755,6 +1755,9 @@ GameObject:
   - component: {fileID: 25550678}
   - component: {fileID: 25550680}
   - component: {fileID: 25550681}
+  - component: {fileID: 25550684}
+  - component: {fileID: 25550683}
+  - component: {fileID: 25550682}
   m_Layer: 0
   m_Name: Gameplay Object Container
   m_TagString: Untagged
@@ -1870,6 +1873,153 @@ MonoBehaviour:
   tracksManager: {fileID: 902407107}
   chainAppearanceSO: {fileID: 11400000, guid: 7eafe2e8b1acf5b49903b99310732bf6, type: 2}
   countersPlus: {fileID: 471772270}
+--- !u!114 &25550682
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 25550671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a3ce2d891aafab40a3a4c63bf142945, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lastHitsoundVolume: 0
+  lastMetronomeVolume: 0
+--- !u!114 &25550683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 25550671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd3c04e980772ce4eabb5ca5a7e7a588, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  atsc: {fileID: 570484802}
+  source: {fileID: 25550684}
+  soundLists:
+  - {fileID: 11400000, guid: 06f3efe94bd434b43b009838f538511b, type: 2}
+  - {fileID: 11400000, guid: a460b0256c905e54d9a1bc1ee3c2e479, type: 2}
+  - {fileID: 11400000, guid: 8f7927e2ac69a784aa19a6619abdf0eb, type: 2}
+  - {fileID: 11400000, guid: d776368315e5d664683496db4091e724, type: 2}
+  - {fileID: 11400000, guid: 46e0b1f838869bb40ba94600618c94ea, type: 2}
+  - {fileID: 11400000, guid: eb78528d695b5fc469de00b248eb9b42, type: 2}
+  - {fileID: 11400000, guid: 36a009c36d9c4804abeba14429dedc35, type: 2}
+  - {fileID: 11400000, guid: 7b42258245f55d945b6ac1099cf3c7fa, type: 2}
+  - {fileID: 11400000, guid: 7534e54b30a14d340a3aa06aca867bc1, type: 2}
+  - {fileID: 11400000, guid: fcd7b9047b1b3ce47b278c9249202ae8, type: 2}
+  - {fileID: 11400000, guid: 06f3efe94bd434b43b009838f538511b, type: 2}
+  densityCheckOffset: 2
+  thresholdInNoteTime: 0.5
+  audioUtil: {fileID: 119653248}
+  container: {fileID: 25550673}
+  defaultCallbackController: {fileID: 973455628}
+  beatSaberCutCallbackController: {fileID: 121404296}
+  bongocat: {fileID: 271049556}
+  discordPingPrefab: {fileID: 864815978157794227, guid: fe656383f3a0a59418e891377e8cd4ad,
+    type: 3}
+  difference: 0
+--- !u!82 &25550684
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 25550671}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: 072e15fac92298c489c3879cfc06c494, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 100
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &26466118
 GameObject:
   m_ObjectHideFlags: 0
@@ -4329,7 +4479,7 @@ PrefabInstance:
         type: 3}
       propertyPath: noteGridTransform
       value: 
-      objectReference: {fileID: 617466177}
+      objectReference: {fileID: 1573245297}
     - target: {fileID: 114959380485549354, guid: 20e633c6c4c50f744a0f7f171d45ad00,
         type: 3}
       propertyPath: sprintMultPerSecond
@@ -7148,7 +7298,7 @@ GameObject:
   - component: {fileID: 257207219}
   - component: {fileID: 257207222}
   m_Layer: 11
-  m_Name: Custom Event Placement Controller
+  m_Name: Custom Event Placement
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7181,23 +7331,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6df709586a87844982038b83ece619d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ObjectDataType: 4
   ObjectContainerPrefab: {fileID: 1119461675923126, guid: 8947f7fdd1ff6954a9a3f01c39db6fa5,
     type: 3}
-  GridLane: {fileID: 514341529}
   ParentTrack: {fileID: 1645535436}
-  AssignTo360Tracks: 0
   CustomStandaloneInputModule: {fileID: 806554}
+  Atsc: {fileID: 570484802}
+  AssignTo360Tracks: 0
   TracksManager: {fileID: 902407107}
   GridRotation: {fileID: 226696885}
-  Atsc: {fileID: 570484802}
+  IsActive: 1
+  IsDragging: 0
+  JsonTimeRounded: 0
   Bounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
-  IsActive: 0
-  CameraManager: {fileID: 1206999167}
-  objectContainerCollection: {fileID: 1645535437}
-  objectDataType: 5
-  startingActiveState: 1
+  ObjectContainerCollection: {fileID: 1645535437}
+  PlacementVisualContainer: {fileID: 0}
+  DraggedObjectContainer: {fileID: 0}
+  ForceHeaderPlsIgnore: 0
 --- !u!1 &261931955
 GameObject:
   m_ObjectHideFlags: 0
@@ -8545,90 +8697,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 281631600}
   m_CullTransparentMesh: 1
---- !u!21 &283359714
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Inherited From Round Corners
-  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _BumpMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _EmissionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MetallicGlossMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _OcclusionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _SpecGlossMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _AlphaClip: 0
-    - _Blend: 0
-    - _BumpScale: 1
-    - _ColorMask: 15
-    - _Cull: 2
-    - _Cutoff: 0.5
-    - _DstBlend: 0
-    - _GlossMapScale: 1
-    - _Glossiness: 0.5
-    - _GlossyReflections: 1
-    - _Metallic: 0
-    - _OcclusionStrength: 1
-    - _ReceiveShadows: 1
-    - _SmoothnessTextureChannel: 0
-    - _SpecularHighlights: 1
-    - _SrcBlend: 1
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _Surface: 0
-    - _UseUIAlphaClip: 0
-    - _WorkflowMode: 1
-    - _ZWrite: 1
-    m_Colors:
-    - _Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _WidthHeightRadius: {r: 39.4, g: 16.4, b: 4, a: 0}
-    - _halfSize: {r: 150, g: 45, b: 0, a: 0}
-    - _r: {r: 2, g: 2, b: 2, a: 2}
-    - _rect2props: {r: 0.000015258789, g: -0.000015258789, b: 136.47162, a: 136.47162}
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!1 &284962460
 GameObject:
   m_ObjectHideFlags: 0
@@ -12092,7 +12160,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &392282691
 Transform:
   m_ObjectHideFlags: 0
@@ -13437,7 +13505,7 @@ MonoBehaviour:
     type: 3}
   eventAppearanceSo: {fileID: 11400000, guid: 00bab3c0ab2051441b924304da9d0e12, type: 2}
   tracksManager: {fileID: 902407107}
-  eventPlacement: {fileID: 648123637}
+  gridLane: {fileID: 2150539133117952438}
   labels: {fileID: 322207091}
   boxSelectionPlacementController: {fileID: 859643186}
   laserSpeedController: {fileID: 160161773}
@@ -16198,9 +16266,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52dc864d35b0468fb666ad5f534ef84a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlacementControllers:
+  Placements:
   - {fileID: 257207222}
   - {fileID: 859643186}
+  Lane: {fileID: 514341529}
 --- !u!1 &516196864
 GameObject:
   m_ObjectHideFlags: 0
@@ -17508,90 +17577,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ObjectParentTransform: {fileID: 565602430}
   RotationValue: {x: 0, y: 0, z: 0}
---- !u!21 &566348439
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Inherited From Round Corners
-  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _BumpMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _EmissionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MetallicGlossMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _OcclusionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _SpecGlossMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _AlphaClip: 0
-    - _Blend: 0
-    - _BumpScale: 1
-    - _ColorMask: 15
-    - _Cull: 2
-    - _Cutoff: 0.5
-    - _DstBlend: 0
-    - _GlossMapScale: 1
-    - _Glossiness: 0.5
-    - _GlossyReflections: 1
-    - _Metallic: 0
-    - _OcclusionStrength: 1
-    - _ReceiveShadows: 1
-    - _SmoothnessTextureChannel: 0
-    - _SpecularHighlights: 1
-    - _SrcBlend: 1
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _Surface: 0
-    - _UseUIAlphaClip: 0
-    - _WorkflowMode: 1
-    - _ZWrite: 1
-    m_Colors:
-    - _Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _WidthHeightRadius: {r: 21, g: 14, b: 2, a: 0}
-    - _halfSize: {r: 150, g: 45, b: 0, a: 0}
-    - _r: {r: 2, g: 2, b: 2, a: 2}
-    - _rect2props: {r: 0.000015258789, g: -0.000015258789, b: 136.47162, a: 136.47162}
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!1 &567902551
 GameObject:
   m_ObjectHideFlags: 0
@@ -19315,6 +19300,90 @@ MonoBehaviour:
   references:
     version: 2
     RefIds: []
+--- !u!21 &603531751
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Inherited From Round Corners
+  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AlphaClip: 0
+    - _Blend: 0
+    - _BumpScale: 1
+    - _ColorMask: 15
+    - _Cull: 2
+    - _Cutoff: 0.5
+    - _DstBlend: 0
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _Metallic: 0
+    - _OcclusionStrength: 1
+    - _ReceiveShadows: 1
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _Surface: 0
+    - _UseUIAlphaClip: 0
+    - _WorkflowMode: 1
+    - _ZWrite: 1
+    m_Colors:
+    - _Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _WidthHeightRadius: {r: 21, g: 14, b: 2, a: 0}
+    - _halfSize: {r: 150, g: 45, b: 0, a: 0}
+    - _r: {r: 2, g: 2, b: 2, a: 2}
+    - _rect2props: {r: 0.000015258789, g: -0.000015258789, b: 136.47162, a: 136.47162}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1 &608991999
 GameObject:
   m_ObjectHideFlags: 0
@@ -19516,6 +19585,54 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 609108331}
   m_CullTransparentMesh: 0
+--- !u!1 &612042091
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 612042092}
+  - component: {fileID: 612042093}
+  m_Layer: 0
+  m_Name: Placement Input System
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &612042092
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 612042091}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 617466177}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &612042093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 612042091}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6552431c2fd5492daf289de3b5b4fe54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  customStandaloneInputModule: {fileID: 806554}
+  atsc: {fileID: 570484802}
+  cameraManager: {fileID: 1206999167}
+  precisionPlacementController: {fileID: 1629008649}
 --- !u!1 &613248573
 GameObject:
   m_ObjectHideFlags: 0
@@ -19944,6 +20061,7 @@ Transform:
   - {fileID: 979466320}
   - {fileID: 74799969}
   - {fileID: 859643185}
+  - {fileID: 612042092}
   m_Father: {fileID: 1573245297}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &617466178
@@ -21110,7 +21228,7 @@ GameObject:
   - component: {fileID: 648123636}
   - component: {fileID: 648123637}
   m_Layer: 0
-  m_Name: Basic Event Placement Controller
+  m_Name: Basic Event Placement
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21143,23 +21261,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fc6f5a9669f42c4f999690585739826, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ObjectDataType: 1
   ObjectContainerPrefab: {fileID: 1173282366639492, guid: b0842dec23eed584289a320147c706c5,
     type: 3}
-  GridLane: {fileID: 1277691437}
   ParentTrack: {fileID: 455916736}
-  AssignTo360Tracks: 0
   CustomStandaloneInputModule: {fileID: 806554}
+  Atsc: {fileID: 570484802}
+  AssignTo360Tracks: 0
   TracksManager: {fileID: 902407107}
   GridRotation: {fileID: 226696885}
-  Atsc: {fileID: 570484802}
+  IsActive: 1
+  IsDragging: 0
+  JsonTimeRounded: 0
   Bounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
-  IsActive: 0
-  CameraManager: {fileID: 1206999167}
-  objectContainerCollection: {fileID: 455916737}
-  objectDataType: 1
-  startingActiveState: 1
+  ObjectContainerCollection: {fileID: 455916737}
+  PlacementVisualContainer: {fileID: 0}
+  DraggedObjectContainer: {fileID: 0}
+  ForceHeaderPlsIgnore: 0
   eventAppearanceSo: {fileID: 11400000, guid: 00bab3c0ab2051441b924304da9d0e12, type: 2}
   colorPicker: {fileID: 1225848101}
   laserSpeedInputField: {fileID: 1475303726}
@@ -23846,7 +23966,7 @@ GameObject:
   - component: {fileID: 735273551}
   - component: {fileID: 735273553}
   m_Layer: 11
-  m_Name: BPM Event Placement Controller
+  m_Name: BPM Event Placement
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23879,23 +23999,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c813d038aef362a4f877242110c182ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ObjectDataType: 5
   ObjectContainerPrefab: {fileID: 1119461675923126, guid: e8851ff5377acfa49976aeb131fcace1,
     type: 3}
-  GridLane: {fileID: 2145234405}
   ParentTrack: {fileID: 1890332740}
-  AssignTo360Tracks: 0
   CustomStandaloneInputModule: {fileID: 806554}
+  Atsc: {fileID: 570484802}
+  AssignTo360Tracks: 0
   TracksManager: {fileID: 902407107}
   GridRotation: {fileID: 226696885}
-  Atsc: {fileID: 570484802}
+  IsActive: 1
+  IsDragging: 0
+  JsonTimeRounded: 0
   Bounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
-  IsActive: 0
-  CameraManager: {fileID: 1206999167}
-  objectContainerCollection: {fileID: 1890332741}
-  objectDataType: 5
-  startingActiveState: 1
+  ObjectContainerCollection: {fileID: 1890332741}
+  PlacementVisualContainer: {fileID: 0}
+  DraggedObjectContainer: {fileID: 0}
+  ForceHeaderPlsIgnore: 0
 --- !u!1 &742404433
 GameObject:
   m_ObjectHideFlags: 0
@@ -27291,23 +27413,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae1aa4b8a615b1b4aaea0de2489e5f18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ObjectDataType: 0
   ObjectContainerPrefab: {fileID: 1056647016207082, guid: cae5f76e2962f1f4085c6007e787e438,
     type: 3}
-  GridLane: {fileID: 0}
   ParentTrack: {fileID: 1006741503}
-  AssignTo360Tracks: 0
   CustomStandaloneInputModule: {fileID: 806554}
+  Atsc: {fileID: 570484802}
+  AssignTo360Tracks: 0
   TracksManager: {fileID: 0}
   GridRotation: {fileID: 0}
-  Atsc: {fileID: 570484802}
+  IsActive: 1
+  IsDragging: 0
+  JsonTimeRounded: 0
   Bounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
-  IsActive: 0
-  CameraManager: {fileID: 1206999167}
-  objectContainerCollection: {fileID: 455916737}
-  objectDataType: 0
-  startingActiveState: 1
+  ObjectContainerCollection: {fileID: 0}
+  PlacementVisualContainer: {fileID: 0}
+  DraggedObjectContainer: {fileID: 0}
+  ForceHeaderPlsIgnore: 0
   CustomCollection: {fileID: 1645535437}
   EventGridContainer: {fileID: 455916737}
   Labels: {fileID: 322207091}
@@ -28120,7 +28244,7 @@ GameObject:
   - component: {fileID: 890360918}
   - component: {fileID: 890360919}
   m_Layer: 11
-  m_Name: Arc Placement Controller
+  m_Name: Arc Placement
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28153,23 +28277,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2356b11125054504e87a3a46c12d70c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ObjectDataType: 6
   ObjectContainerPrefab: {fileID: 2800143464783224911, guid: 3a289a2479446ea40b41b092b296e8e7,
     type: 3}
-  GridLane: {fileID: 1629008654}
   ParentTrack: {fileID: 908866645}
-  AssignTo360Tracks: 1
   CustomStandaloneInputModule: {fileID: 806554}
+  Atsc: {fileID: 570484802}
+  AssignTo360Tracks: 1
   TracksManager: {fileID: 902407107}
   GridRotation: {fileID: 226696885}
-  Atsc: {fileID: 570484802}
+  IsActive: 0
+  IsDragging: 0
+  JsonTimeRounded: 0
   Bounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
-  IsActive: 0
-  CameraManager: {fileID: 1206999167}
-  objectContainerCollection: {fileID: 25550680}
-  objectDataType: 6
-  startingActiveState: 0
+  ObjectContainerCollection: {fileID: 25550680}
+  PlacementVisualContainer: {fileID: 0}
+  DraggedObjectContainer: {fileID: 0}
+  ForceHeaderPlsIgnore: 0
 --- !u!114 &890360919
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28182,25 +28308,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d7fa281ebad87e49bf9058e713a6879, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ObjectDataType: 6
   ObjectContainerPrefab: {fileID: 4018984692264246640, guid: 7d1a52fa04a8d724e965716649bc47e5,
     type: 3}
-  GridLane: {fileID: 1629008654}
   ParentTrack: {fileID: 908866645}
-  AssignTo360Tracks: 1
   CustomStandaloneInputModule: {fileID: 806554}
+  Atsc: {fileID: 570484802}
+  AssignTo360Tracks: 1
   TracksManager: {fileID: 902407107}
   GridRotation: {fileID: 226696885}
-  Atsc: {fileID: 570484802}
+  IsActive: 0
+  IsDragging: 0
+  JsonTimeRounded: 0
   Bounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
-  IsActive: 0
-  CameraManager: {fileID: 1206999167}
-  objectContainerCollection: {fileID: 25550680}
-  objectDataType: 6
-  startingActiveState: 1
+  ObjectContainerCollection: {fileID: 0}
+  PlacementVisualContainer: {fileID: 0}
+  DraggedObjectContainer: {fileID: 0}
+  ForceHeaderPlsIgnore: 0
   deleteToolController: {fileID: 1243231049}
-  precisionPlacement: {fileID: 1629008649}
   laserSpeedController: {fileID: 160161773}
 --- !u!1 &902407105
 GameObject:
@@ -30322,7 +30449,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 13585791}
   m_HandleRect: {fileID: 13585789}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -31839,6 +31966,18 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 979466319}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &979466322 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7469514657502614055, guid: 141955eb542177ea69e10ad9a2b131e2,
+    type: 3}
+  m_PrefabInstance: {fileID: 979466319}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 979466321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77ae624386d9fd44e9983dcd61e5f185, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &988290866
 GameObject:
   m_ObjectHideFlags: 0
@@ -37458,7 +37597,7 @@ GameObject:
   - component: {fileID: 1132655337}
   - component: {fileID: 1132655338}
   m_Layer: 11
-  m_Name: NJS Event Placement Controller
+  m_Name: NJS Event Placement
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37491,23 +37630,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8018bd2767e549d0bcff6e4d93c80bf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ObjectDataType: 10
   ObjectContainerPrefab: {fileID: 1119461675923126, guid: c79fb2762ceb3c140afa8096b5f9b3b7,
     type: 3}
-  GridLane: {fileID: 1790247829}
   ParentTrack: {fileID: 1105924655}
-  AssignTo360Tracks: 0
   CustomStandaloneInputModule: {fileID: 806554}
+  Atsc: {fileID: 570484802}
+  AssignTo360Tracks: 0
   TracksManager: {fileID: 902407107}
   GridRotation: {fileID: 226696885}
-  Atsc: {fileID: 570484802}
+  IsActive: 1
+  IsDragging: 0
+  JsonTimeRounded: 0
   Bounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
-  IsActive: 0
-  CameraManager: {fileID: 1206999167}
-  objectContainerCollection: {fileID: 1105924656}
-  objectDataType: 10
-  startingActiveState: 1
+  ObjectContainerCollection: {fileID: 1105924656}
+  PlacementVisualContainer: {fileID: 0}
+  DraggedObjectContainer: {fileID: 0}
+  ForceHeaderPlsIgnore: 0
 --- !u!1 &1135371154
 GameObject:
   m_ObjectHideFlags: 0
@@ -42221,18 +42362,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2150539133117952437}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1277691437 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7469514657502614055, guid: 141955eb542177ea69e10ad9a2b131e2,
-    type: 3}
-  m_PrefabInstance: {fileID: 2150539133117952437}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1277691434}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77ae624386d9fd44e9983dcd61e5f185, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1277691438
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42245,9 +42374,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52dc864d35b0468fb666ad5f534ef84a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlacementControllers:
+  Placements:
   - {fileID: 648123637}
   - {fileID: 859643186}
+  Lane: {fileID: 2150539133117952438}
 --- !u!1 &1284389734
 GameObject:
   m_ObjectHideFlags: 0
@@ -52561,18 +52691,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1230560793967759496, guid: 141955eb542177ea69e10ad9a2b131e2,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1629008657}
-    - targetCorrespondingSourceObject: {fileID: 1230560793967759496, guid: 141955eb542177ea69e10ad9a2b131e2,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1629008656}
-    - targetCorrespondingSourceObject: {fileID: 1230560793967759496, guid: 141955eb542177ea69e10ad9a2b131e2,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1629008655}
-    - targetCorrespondingSourceObject: {fileID: 1230560793967759496, guid: 141955eb542177ea69e10ad9a2b131e2,
-        type: 3}
-      insertIndex: -1
       addedObject: {fileID: 1629008658}
     - targetCorrespondingSourceObject: {fileID: 1230560793967759496, guid: 141955eb542177ea69e10ad9a2b131e2,
         type: 3}
@@ -52634,153 +52752,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77ae624386d9fd44e9983dcd61e5f185, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1629008655
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1629008648}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a3ce2d891aafab40a3a4c63bf142945, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lastHitsoundVolume: 0
-  lastMetronomeVolume: 0
---- !u!82 &1629008656
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1629008648}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 8300000, guid: 072e15fac92298c489c3879cfc06c494, type: 3}
-  m_PlayOnAwake: 0
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 100
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
---- !u!114 &1629008657
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1629008648}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd3c04e980772ce4eabb5ca5a7e7a588, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  atsc: {fileID: 570484802}
-  source: {fileID: 1629008656}
-  soundLists:
-  - {fileID: 11400000, guid: 06f3efe94bd434b43b009838f538511b, type: 2}
-  - {fileID: 11400000, guid: a460b0256c905e54d9a1bc1ee3c2e479, type: 2}
-  - {fileID: 11400000, guid: 8f7927e2ac69a784aa19a6619abdf0eb, type: 2}
-  - {fileID: 11400000, guid: d776368315e5d664683496db4091e724, type: 2}
-  - {fileID: 11400000, guid: 46e0b1f838869bb40ba94600618c94ea, type: 2}
-  - {fileID: 11400000, guid: eb78528d695b5fc469de00b248eb9b42, type: 2}
-  - {fileID: 11400000, guid: 36a009c36d9c4804abeba14429dedc35, type: 2}
-  - {fileID: 11400000, guid: 7b42258245f55d945b6ac1099cf3c7fa, type: 2}
-  - {fileID: 11400000, guid: 7534e54b30a14d340a3aa06aca867bc1, type: 2}
-  - {fileID: 11400000, guid: fcd7b9047b1b3ce47b278c9249202ae8, type: 2}
-  - {fileID: 11400000, guid: 06f3efe94bd434b43b009838f538511b, type: 2}
-  densityCheckOffset: 2
-  thresholdInNoteTime: 0.5
-  audioUtil: {fileID: 119653248}
-  container: {fileID: 25550673}
-  defaultCallbackController: {fileID: 973455628}
-  beatSaberCutCallbackController: {fileID: 121404296}
-  bongocat: {fileID: 271049556}
-  discordPingPrefab: {fileID: 864815978157794227, guid: fe656383f3a0a59418e891377e8cd4ad,
-    type: 3}
-  difference: 0
 --- !u!114 &1629008658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52850,13 +52821,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52dc864d35b0468fb666ad5f534ef84a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlacementControllers:
+  Placements:
   - {fileID: 2013932235}
   - {fileID: 1704474491}
   - {fileID: 2087881065}
   - {fileID: 890360918}
   - {fileID: 1656747551}
   - {fileID: 859643186}
+  Lane: {fileID: 1629008654}
 --- !u!1 &1631900343
 GameObject:
   m_ObjectHideFlags: 0
@@ -53835,7 +53807,7 @@ GameObject:
   - component: {fileID: 1656747551}
   - component: {fileID: 1656747552}
   m_Layer: 11
-  m_Name: Chain Placement Controller
+  m_Name: Chain Placement
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -53868,24 +53840,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f77e270469e1ee4bae62b16d260637a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ObjectDataType: 7
   ObjectContainerPrefab: {fileID: 1094719878252698, guid: a14acb27bffab494cb5735e7fba61dbf,
     type: 3}
-  GridLane: {fileID: 1629008654}
   ParentTrack: {fileID: 908866645}
-  AssignTo360Tracks: 1
   CustomStandaloneInputModule: {fileID: 806554}
+  Atsc: {fileID: 570484802}
+  AssignTo360Tracks: 1
   TracksManager: {fileID: 902407107}
   GridRotation: {fileID: 226696885}
-  Atsc: {fileID: 570484802}
+  IsActive: 0
+  IsDragging: 0
+  JsonTimeRounded: 0
   Bounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
-  IsActive: 0
-  CameraManager: {fileID: 1206999167}
-  objectContainerCollection: {fileID: 25550681}
-  objectDataType: 7
-  startingActiveState: 0
-  selectionController: {fileID: 0}
+  ObjectContainerCollection: {fileID: 25550681}
+  PlacementVisualContainer: {fileID: 0}
+  DraggedObjectContainer: {fileID: 0}
+  ForceHeaderPlsIgnore: 0
+  selectionController: {fileID: 1573245298}
   noteGridContainer: {fileID: 25550673}
 --- !u!114 &1656747552
 MonoBehaviour:
@@ -53899,25 +53873,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e46419792068d0f43abe683586f87b42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ObjectDataType: 7
   ObjectContainerPrefab: {fileID: 2321280598335502602, guid: d9fd2a7a5a9ebe14893ae4f1e7d42efc,
     type: 3}
-  GridLane: {fileID: 1629008654}
   ParentTrack: {fileID: 908866645}
-  AssignTo360Tracks: 1
   CustomStandaloneInputModule: {fileID: 806554}
+  Atsc: {fileID: 570484802}
+  AssignTo360Tracks: 1
   TracksManager: {fileID: 902407107}
   GridRotation: {fileID: 226696885}
-  Atsc: {fileID: 570484802}
+  IsActive: 0
+  IsDragging: 0
+  JsonTimeRounded: 0
   Bounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
-  IsActive: 0
-  CameraManager: {fileID: 1206999167}
-  objectContainerCollection: {fileID: 25550681}
-  objectDataType: 7
-  startingActiveState: 1
+  ObjectContainerCollection: {fileID: 0}
+  PlacementVisualContainer: {fileID: 0}
+  DraggedObjectContainer: {fileID: 0}
+  ForceHeaderPlsIgnore: 0
   deleteToolController: {fileID: 1243231049}
-  precisionPlacement: {fileID: 1629008649}
   laserSpeedController: {fileID: 160161773}
 --- !u!1 &1660322782
 GameObject:
@@ -55502,7 +55477,7 @@ GameObject:
   - component: {fileID: 1704474490}
   - component: {fileID: 1704474491}
   m_Layer: 11
-  m_Name: Bomb Placement Controller
+  m_Name: Bomb Placement
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -55535,24 +55510,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bed648136f71424098d5fdab3b23207, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ObjectDataType: 0
   ObjectContainerPrefab: {fileID: 1141840594674112, guid: 755d36d1fe178c64dbdb2cc4a9c07af6,
     type: 3}
-  GridLane: {fileID: 1629008654}
   ParentTrack: {fileID: 908866645}
-  AssignTo360Tracks: 1
   CustomStandaloneInputModule: {fileID: 806554}
+  Atsc: {fileID: 570484802}
+  AssignTo360Tracks: 1
   TracksManager: {fileID: 902407107}
   GridRotation: {fileID: 226696885}
-  Atsc: {fileID: 570484802}
+  IsActive: 0
+  IsDragging: 0
+  JsonTimeRounded: 0
   Bounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
-  IsActive: 0
-  CameraManager: {fileID: 1206999167}
-  objectContainerCollection: {fileID: 25550673}
-  objectDataType: 0
-  startingActiveState: 0
-  precisionPlacement: {fileID: 1629008649}
+  ObjectContainerCollection: {fileID: 25550673}
+  PlacementVisualContainer: {fileID: 0}
+  DraggedObjectContainer: {fileID: 0}
+  ForceHeaderPlsIgnore: 0
   colorPicker: {fileID: 1225848101}
   dropdown: {fileID: 81479822}
 --- !u!1001 &1704967673
@@ -55726,6 +55702,18 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1704967673}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1704967676 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7469514657502614055, guid: 141955eb542177ea69e10ad9a2b131e2,
+    type: 3}
+  m_PrefabInstance: {fileID: 1704967673}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1704967675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77ae624386d9fd44e9983dcd61e5f185, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1708222041
 GameObject:
   m_ObjectHideFlags: 0
@@ -58130,18 +58118,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1779903790}
   m_CullTransparentMesh: 0
---- !u!114 &1790247829 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7469514657502614055, guid: 141955eb542177ea69e10ad9a2b131e2,
-    type: 3}
-  m_PrefabInstance: {fileID: 979466319}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 979466321}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77ae624386d9fd44e9983dcd61e5f185, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1790247830
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58154,9 +58130,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52dc864d35b0468fb666ad5f534ef84a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlacementControllers:
+  Placements:
   - {fileID: 1132655338}
   - {fileID: 859643186}
+  Lane: {fileID: 979466322}
 --- !u!1 &1793671120
 GameObject:
   m_ObjectHideFlags: 0
@@ -59843,6 +59820,90 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: -20}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!21 &1862325065
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Inherited From Round Corners
+  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AlphaClip: 0
+    - _Blend: 0
+    - _BumpScale: 1
+    - _ColorMask: 15
+    - _Cull: 2
+    - _Cutoff: 0.5
+    - _DstBlend: 0
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _Metallic: 0
+    - _OcclusionStrength: 1
+    - _ReceiveShadows: 1
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _Surface: 0
+    - _UseUIAlphaClip: 0
+    - _WorkflowMode: 1
+    - _ZWrite: 1
+    m_Colors:
+    - _Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _WidthHeightRadius: {r: 34.4, g: 16.4, b: 4, a: 0}
+    - _halfSize: {r: 150, g: 45, b: 0, a: 0}
+    - _r: {r: 2, g: 2, b: 2, a: 2}
+    - _rect2props: {r: 0.000015258789, g: -0.000015258789, b: 136.47162, a: 136.47162}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1 &1866422812
 GameObject:
   m_ObjectHideFlags: 0
@@ -65051,7 +65112,7 @@ GameObject:
   - component: {fileID: 2013932234}
   - component: {fileID: 2013932235}
   m_Layer: 11
-  m_Name: Note Placement Controller
+  m_Name: Note Placement
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -65084,30 +65145,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa05b2f9dc339254fa119be6ddacf329, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ObjectDataType: 0
   ObjectContainerPrefab: {fileID: 1094719878252698, guid: 15ce91a6ccb07a24c9d338a4f60fe275,
     type: 3}
-  GridLane: {fileID: 1629008654}
   ParentTrack: {fileID: 908866645}
-  AssignTo360Tracks: 1
   CustomStandaloneInputModule: {fileID: 806554}
+  Atsc: {fileID: 570484802}
+  AssignTo360Tracks: 1
   TracksManager: {fileID: 902407107}
   GridRotation: {fileID: 226696885}
-  Atsc: {fileID: 570484802}
+  IsActive: 0
+  IsDragging: 0
+  JsonTimeRounded: 0
   Bounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
-  IsActive: 0
-  CameraManager: {fileID: 1206999167}
-  objectContainerCollection: {fileID: 25550673}
-  objectDataType: 0
-  startingActiveState: 1
+  ObjectContainerCollection: {fileID: 25550673}
+  PlacementVisualContainer: {fileID: 0}
+  DraggedObjectContainer: {fileID: 0}
+  ForceHeaderPlsIgnore: 0
   noteAppearanceSo: {fileID: 11400000, guid: 0c2d133c05afa744d999a0758a8977a1, type: 2}
   deleteToolController: {fileID: 1243231049}
-  precisionPlacement: {fileID: 1629008649}
   laserSpeedController: {fileID: 160161773}
   beatmapNoteInputController: {fileID: 1546839084}
   colorPicker: {fileID: 1225848101}
   dropdown: {fileID: 81479822}
+  cameraManager: {fileID: 1206999167}
 --- !u!1 &2013964949
 GameObject:
   m_ObjectHideFlags: 0
@@ -67112,7 +67175,7 @@ GameObject:
   - component: {fileID: 2087881064}
   - component: {fileID: 2087881065}
   m_Layer: 11
-  m_Name: Obstacle Placement Controller
+  m_Name: Obstacle Placement
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -67145,26 +67208,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf77e948be578a6418e3dcef9050e908, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ObjectDataType: 2
   ObjectContainerPrefab: {fileID: 1446077081186018, guid: 1c30485abc64e3443867a590a7d90186,
     type: 3}
-  GridLane: {fileID: 1629008654}
   ParentTrack: {fileID: 908866645}
-  AssignTo360Tracks: 1
   CustomStandaloneInputModule: {fileID: 806554}
+  Atsc: {fileID: 570484802}
+  AssignTo360Tracks: 1
   TracksManager: {fileID: 902407107}
   GridRotation: {fileID: 226696885}
-  Atsc: {fileID: 570484802}
+  IsActive: 0
+  IsDragging: 0
+  JsonTimeRounded: 0
   Bounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
-  IsActive: 0
-  CameraManager: {fileID: 1206999167}
-  objectContainerCollection: {fileID: 25550678}
-  objectDataType: 2
-  startingActiveState: 0
+  ObjectContainerCollection: {fileID: 25550678}
+  PlacementVisualContainer: {fileID: 0}
+  DraggedObjectContainer: {fileID: 0}
+  ForceHeaderPlsIgnore: 0
   obstacleAppearanceSo: {fileID: 11400000, guid: 7a50c9a2cc4ae50499232fe511d6437e,
     type: 2}
-  precisionPlacement: {fileID: 1629008649}
   colorPicker: {fileID: 1225848101}
   dropdown: {fileID: 81479822}
 --- !u!1 &2089025414
@@ -68888,18 +68952,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2138654284}
   m_CullTransparentMesh: 0
---- !u!114 &2145234405 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7469514657502614055, guid: 141955eb542177ea69e10ad9a2b131e2,
-    type: 3}
-  m_PrefabInstance: {fileID: 1704967673}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1704967675}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77ae624386d9fd44e9983dcd61e5f185, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &2145234406
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68912,9 +68964,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52dc864d35b0468fb666ad5f534ef84a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlacementControllers:
+  Placements:
   - {fileID: 735273553}
   - {fileID: 257207222}
+  Lane: {fileID: 1704967676}
 --- !u!1001 &1203876396013731021
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -69364,6 +69417,18 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1277691438}
   m_SourcePrefab: {fileID: 100100000, guid: 141955eb542177ea69e10ad9a2b131e2, type: 3}
+--- !u!114 &2150539133117952438 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7469514657502614055, guid: 141955eb542177ea69e10ad9a2b131e2,
+    type: 3}
+  m_PrefabInstance: {fileID: 2150539133117952437}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1277691434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77ae624386d9fd44e9983dcd61e5f185, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &2507495660706288176
 Transform:
   m_ObjectHideFlags: 0

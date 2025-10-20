@@ -88,6 +88,17 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
         if (context.performed) DeselectAll();
     }
 
+    private void RefreshMovedEventsAppearance(IEnumerable<BaseEvent> events)
+    {
+        if (!events.Any()) return;
+
+        var eventContainer =
+            BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
+        eventContainer.MarkEventsToBeRelinked(events);
+        eventContainer.LinkAllLightEvents();
+        eventContainer.RefreshEventsAppearance(events);
+    }
+
     #region Utils
 
     /// <summary>
@@ -178,25 +189,13 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
                 });
         }
 
-        if (hasNoteOrObstacle && !hasEvent)
-        {
-            clearTypes.Add(ObjectType.Event); //for rotation events
-        }
+        if (hasNoteOrObstacle && !hasEvent) clearTypes.Add(ObjectType.Event); //for rotation events
 
-        if (hasEvent)
-        {
-            clearTypes.AddRange(new[] { ObjectType.Event, ObjectType.CustomEvent });
-        }
+        if (hasEvent) clearTypes.AddRange(new[] { ObjectType.Event, ObjectType.CustomEvent });
 
-        if (hasBpmChange)
-        {
-            clearTypes.Add(ObjectType.BpmChange);
-        }
+        if (hasBpmChange) clearTypes.Add(ObjectType.BpmChange);
 
-        if (hasNjsEvent)
-        {
-            clearTypes.Add(ObjectType.NJSEvent);
-        }
+        if (hasNjsEvent) clearTypes.Add(ObjectType.NJSEvent);
 
         var epsilon = BeatmapObjectContainerCollection.Epsilon;
         foreach (var type in clearTypes)
@@ -228,9 +227,7 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
                     && toCheck is BaseEvent mapEvent
                     && !mapEvent.IsLaneRotationEvent()
                     && !(hasBpmChange && mapEvent.IsBpmEvent()))
-                {
                     continue;
-                }
 
                 callback?.Invoke(collection, toCheck);
             }
@@ -320,9 +317,7 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
                 .GetCollectionForType(obj.ObjectType)
                 .LoadedContainers.TryGetValue(obj, out var container)
             && container != null)
-        {
             container.OutlineVisible = false;
-        }
 
         if (removeActionEvent) OnSelectionChanged?.Invoke();
     }
@@ -385,10 +380,7 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
             var copy = BeatmapFactory.Clone(data);
 
             copy.JsonTime -= firstJsonTime;
-            if (copy is BaseSlider slider)
-            {
-                slider.TailJsonTime -= firstJsonTime;
-            }
+            if (copy is BaseSlider slider) slider.TailJsonTime -= firstJsonTime;
 
             CopiedObjects.Add(copy);
         }
@@ -417,10 +409,7 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
 
             var newData = BeatmapFactory.Clone(data);
             newData.JsonTime = newJsonTime;
-            if (newData is BaseSlider slider)
-            {
-                slider.TailJsonTime = currentJsonTime + slider.TailJsonTime;
-            }
+            if (newData is BaseSlider slider) slider.TailJsonTime = currentJsonTime + slider.TailJsonTime;
 
             if (!collections.TryGetValue(newData.ObjectType, out var collection))
             {
@@ -500,10 +489,10 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
         OnSelectionPasted?.Invoke(pasted);
         OnSelectionChanged?.Invoke();
 
-        if (eventPlacement.objectContainerCollection.PropagationEditing != EventGridContainer.PropMode.Off)
+        if (eventPlacement.ObjectContainerCollection.PropagationEditing != EventGridContainer.PropMode.Off)
         {
-            eventPlacement.objectContainerCollection.PropagationEditing =
-                eventPlacement.objectContainerCollection.PropagationEditing;
+            eventPlacement.ObjectContainerCollection.PropagationEditing =
+                eventPlacement.ObjectContainerCollection.PropagationEditing;
         }
 
         Debug.Log("Pasted!");
@@ -520,15 +509,19 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
 
             edited.JsonTime += beats;
             if (snapObjects)
+            {
                 edited.JsonTime = Mathf.Round(beats / (1f / atsc.GridMeasureSnapping))
                     * (1f / atsc.GridMeasureSnapping);
+            }
 
             if (edited is BaseSlider slider)
             {
                 slider.TailJsonTime += beats;
                 if (snapObjects)
+                {
                     slider.TailJsonTime = Mathf.Round(beats / (1f / atsc.GridMeasureSnapping))
                         * (1f / atsc.GridMeasureSnapping);
+                }
             }
 
             editedObjects.Add(edited);
@@ -541,7 +534,7 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
                 editedObjects,
                 originalObjects,
                 "Shifted a selection of objects."),
-            perform: true);
+            true);
     }
 
     public void ShiftSelection(int leftRight, int upDown)
@@ -554,9 +547,7 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
                 if (edited is BaseNote note)
                 {
                     if (note.CustomCoordinate != null && note.CustomCoordinate.IsArray)
-                    {
                         ShiftCustomCoordinates(note, leftRight, upDown);
-                    }
                     else
                     {
                         var outsideVanillaBounds = false;
@@ -593,9 +584,7 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
                 else if (edited is BaseObstacle obstacle)
                 {
                     if (obstacle.CustomCoordinate != null && obstacle.CustomCoordinate.IsArray)
-                    {
                         ShiftCustomCoordinates(obstacle, leftRight, upDown);
-                    }
                     else
                     {
                         if (obstacle.PosX >= 1000)
@@ -609,15 +598,13 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
                             if (obstacle.PosX > -1000) obstacle.PosX = -1000;
                         }
                         else
-                        {
                             obstacle.PosX += leftRight;
-                        }
                     }
                 }
                 else if (edited is BaseEvent e)
                 {
-                    var events = eventPlacement.objectContainerCollection;
-                    if (eventPlacement.objectContainerCollection.PropagationEditing
+                    var events = eventPlacement.ObjectContainerCollection;
+                    if (eventPlacement.ObjectContainerCollection.PropagationEditing
                         == EventGridContainer.PropMode.Light)
                     {
                         var max = events.platformDescriptor.LightingManagers[events.EventTypeToPropagate]
@@ -625,7 +612,7 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
                                 .Count
                             - 1;
 
-                        var curLane = (e.CustomLightID != null)
+                        var curLane = e.CustomLightID != null
                             ? labels.LightIDToEditor(e.Type, e.CustomLightID[0])
                             : -1;
                         var newLane = Math.Min(curLane + leftRight, max);
@@ -637,7 +624,7 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
                             e.CustomLightID = new[] { newId };
                         }
                     }
-                    else if (eventPlacement.objectContainerCollection.PropagationEditing
+                    else if (eventPlacement.ObjectContainerCollection.PropagationEditing
                         == EventGridContainer.PropMode.Prop)
                     {
                         var oldId = (e.CustomLightID != null
@@ -650,13 +637,9 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
                         var newId = Math.Min(oldId + leftRight, max - 1);
 
                         if (newId < 0)
-                        {
                             e.CustomLightID = null;
-                        }
                         else
-                        {
                             e.CustomLightID = labels.PropIdToLightIds(events.EventTypeToPropagate, newId);
-                        }
                     }
                     else
                     {
@@ -680,10 +663,7 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
                             e.CustomLightID = new[] { labels.EditorToLightID(e.Type, editorID) };
                         }
 
-                        if (e.CustomLightID is { Length: 0 })
-                        {
-                            e.CustomLightID = null;
-                        }
+                        if (e.CustomLightID is { Length: 0 }) e.CustomLightID = null;
                     }
 
                     if (original.CustomData?.Count <= 0) original.CustomData = null;
@@ -692,9 +672,7 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
                 {
                     var headOutsideVanillaBounds = false;
                     if (slider.CustomCoordinate != null && slider.CustomCoordinate.IsArray)
-                    {
                         ShiftCustomCoordinates(slider, leftRight, upDown);
-                    }
                     else
                     {
                         if (slider.PosX >= 1000)
@@ -729,9 +707,7 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
 
                     var tailOutsideVanillaBounds = false;
                     if (slider.CustomTailCoordinate != null && slider.CustomTailCoordinate.IsArray)
-                    {
                         ShiftCustomTailCoordinates(slider, leftRight, upDown);
-                    }
                     else
                     {
                         if (slider.TailPosX >= 1000)
@@ -788,8 +764,8 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
         if (gridObject.CustomCoordinate[1].IsNumber) position.y = gridObject.CustomCoordinate[1];
 
         gridObject.CustomCoordinate = new Vector2(
-            position.x + 1f / atsc.GridMeasureSnapping * leftRight,
-            position.y + 1f / atsc.GridMeasureSnapping * upDown);
+            position.x + (1f / atsc.GridMeasureSnapping * leftRight),
+            position.y + (1f / atsc.GridMeasureSnapping * upDown));
     }
 
     private void ShiftCustomTailCoordinates(BaseSlider slider, int leftRight, int upDown)
@@ -799,23 +775,9 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
         if (slider.CustomTailCoordinate[1].IsNumber) tailPosition.y = slider.CustomTailCoordinate[1];
 
         slider.CustomTailCoordinate = new Vector2(
-            tailPosition.x + 1f / atsc.GridMeasureSnapping * leftRight,
-            tailPosition.y + 1f / atsc.GridMeasureSnapping * upDown);
+            tailPosition.x + (1f / atsc.GridMeasureSnapping * leftRight),
+            tailPosition.y + (1f / atsc.GridMeasureSnapping * upDown));
     }
 
     #endregion
-
-    private void RefreshMovedEventsAppearance(IEnumerable<BaseEvent> events)
-    {
-        if (!events.Any())
-        {
-            return;
-        }
-
-        var eventContainer =
-            BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
-        eventContainer.MarkEventsToBeRelinked(events);
-        eventContainer.LinkAllLightEvents();
-        eventContainer.RefreshEventsAppearance(events);
-    }
 }

@@ -14,6 +14,7 @@ public class GridLane : GridChild
         SetLaneNoNotify(Lane);
         SetHeightNoNotify(Height);
         SetLengthNoNotify(Length);
+        MoveXYGridByZ(0f);
     }
 
     public override int Lane
@@ -90,5 +91,12 @@ public class GridLane : GridChild
             XZ.transform.localPosition.x,
             XZ.transform.localPosition.y,
             calc * 0.3f);
+    }
+
+    public void MoveXYGridByZ(float z)
+    {
+        var pos = XY.transform.localPosition;
+        pos.z = z;
+        XY.transform.localPosition = pos;
     }
 }

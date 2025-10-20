@@ -19,7 +19,7 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
     [SerializeField] private GameObject eventPrefab;
     [SerializeField] private EventAppearanceSO eventAppearanceSo;
     [SerializeField] private TracksManager tracksManager;
-    [SerializeField] private EventPlacement eventPlacement;
+    [SerializeField] private GridLane gridLane;
     [SerializeField] private CreateEventTypeLabels labels;
     [SerializeField] private BoxSelectionPlacementController boxSelectionPlacementController;
     [SerializeField] private LaserSpeedController laserSpeedController;
@@ -74,7 +74,7 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
         set
         {
             propagationEditing = value;
-            boxSelectionPlacementController.CancelPlacement();
+            boxSelectionPlacementController.Cancel();
 
             var lightingManager = platformDescriptor.LightingManagers[EventTypeToPropagate];
 
@@ -91,10 +91,10 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
                 value,
                 EventTypeToPropagate,
                 value == PropMode.Off ? 16 + extraLanes : propagationLength + 1);
-            eventPlacement.SetGridSize(
+            gridLane.Lane =
                 value != PropMode.Off
                     ? propagationLength + 1
-                    : SpecialEventTypeCount + platformDescriptor.LightingManagers.Count(s => s != null));
+                    : SpecialEventTypeCount + platformDescriptor.LightingManagers.Count(s => s != null);
             EventTypePropagationSize = propagationLength;
             UpdatePropagationMode();
         }

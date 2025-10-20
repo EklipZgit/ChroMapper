@@ -4,28 +4,73 @@ using Beatmap.Base;
 using Beatmap.Containers;
 using UnityEngine;
 
-public class NJSEventPlacement : PlacementController<BaseNJSEvent, NJSEventContainer, NJSEventGridContainer>
+public class NJSEventPlacement : BasePlacement<BaseNJSEvent, NJSEventContainer, NJSEventGridContainer>
 {
-    public override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicting) =>
-        new BeatmapObjectPlacementAction(spawned, conflicting, $"Placed a NJS Event at time {spawned.JsonTime}");
+    // Probably move to easings class at some point
+    private readonly List<string> beatSaberMapFormatEasings = new()
+    {
+        // Not using an enum because Enum.GetNames has unexpected order for negatives
+        "None", // -1
+        "Linear", // 0
+        "InQuad",
+        "OutQuad",
+        "InOutQuad", // 3
+        // This easings don't actually work in game and function as "None"
+        // "InSine",
+        // "OutSine",
+        // "InOutSine",
+        // "InCubic",
+        // "OutCubic",
+        // "InOutCubic",
+        // "InQuart",
+        // "OutQuart",
+        // "InOutQuart",
+        // "InQuint",
+        // "OutQuint",
+        // "InOutQuint",
+        // "InExpo",
+        // "OutExpo",
+        // "InOutExpo",
+        "InCirc", // 19
+        "OutCirc",
+        "InOutCirc",
+        "InBack",
+        "OutBack",
+        "InOutBack",
+        "InElastic",
+        "OutElastic",
+        "InOutElastic",
+        "InBounce",
+        "OutBounce",
+        "InOutBounce", // 30
+        "BeatSaberInOutBack", // 100
+        "BeatSaberInOutElastic", // 101
+        "BeatSaberInOutBounce" // 102
+    };
 
-    public override BaseNJSEvent GenerateOriginalData() => new();
-
-    public override void OnPhysicsRaycast(Intersections.IntersectionHit _, Vector3 __) =>
-        instantiatedContainer.transform.localPosition =
-            new Vector3(0.5f, 0.5f, instantiatedContainer.transform.localPosition.z);
-
-    public override void TransferQueuedToDraggedObject(ref BaseNJSEvent dragged, BaseNJSEvent queued) =>
-        dragged.JsonTime = queued.JsonTime;
-
-    internal override void ApplyToMap() => CreateAndOpenNJSDialogue(isInitialPlacement: true);
-
-    internal override void Start()
+    public override void Start()
     {
         // v2 info cannot switch to v4 version => cannot place and save NJS events
         transform.parent.gameObject.SetActive(BeatSaberSongContainer.Instance.Info.MajorVersion != 2);
         base.Start();
     }
+
+    protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicting) =>
+        new BeatmapObjectPlacementAction(spawned, conflicting, $"Placed a NJS Event at time {spawned.JsonTime}");
+
+    protected override BaseNJSEvent GenerateOriginalData() => new();
+
+    protected override void UpdatePlacement(
+        Vector3 _,
+        Vector3 roundedHit,
+        PlacementState state) =>
+        PlacementVisualContainer.transform.localPosition =
+            new Vector3(0.5f, 0.5f, PlacementVisualContainer.transform.localPosition.z);
+
+    protected override void TransferQueuedToDraggedObject(ref BaseNJSEvent dragged, BaseNJSEvent queued) =>
+        dragged.JsonTime = queued.JsonTime;
+
+    public override void HandleApply() => CreateAndOpenNJSDialogue(true);
 
     private void AttemptPlaceNJSChange(string njsInput, int easingDropdownValue, bool extend)
     {
@@ -34,21 +79,19 @@ public class NJSEventPlacement : PlacementController<BaseNJSEvent, NJSEventConta
         {
             if (absoluteNJS <= 0)
             {
-                CreateAndOpenNJSDialogue(isInitialPlacement: false);
+                CreateAndOpenNJSDialogue(false);
                 return;
             }
 
             var relativeNJS = absoluteNJS - BeatSaberSongContainer.Instance.MapDifficultyInfo.NoteJumpSpeed;
 
-            queuedData.Easing = MapTMPDropdownValueToEasing(easingDropdownValue);
-            queuedData.RelativeNJS = relativeNJS;
-            queuedData.UsePrevious = extend ? 1 : 0;
-            base.ApplyToMap();
+            QueuedData.Easing = MapTMPDropdownValueToEasing(easingDropdownValue);
+            QueuedData.RelativeNJS = relativeNJS;
+            QueuedData.UsePrevious = extend ? 1 : 0;
+            base.HandleApply();
         }
         else
-        {
-            CreateAndOpenNJSDialogue(isInitialPlacement: false);
-        }
+            CreateAndOpenNJSDialogue(false);
     }
 
     private void CreateAndOpenNJSDialogue(bool isInitialPlacement)
@@ -103,48 +146,6 @@ public class NJSEventPlacement : PlacementController<BaseNJSEvent, NJSEventConta
 
         easingDropdown.Value = 1;
     }
-
-    // Probably move to easings class at some point
-    private List<string> beatSaberMapFormatEasings = new()
-    {
-        // Not using an enum because Enum.GetNames has unexpected order for negatives
-        "None", // -1
-        "Linear", // 0
-        "InQuad",
-        "OutQuad",
-        "InOutQuad", // 3
-        // This easings don't actually work in game and function as "None"
-        // "InSine",
-        // "OutSine",
-        // "InOutSine",
-        // "InCubic",
-        // "OutCubic",
-        // "InOutCubic",
-        // "InQuart",
-        // "OutQuart",
-        // "InOutQuart",
-        // "InQuint",
-        // "OutQuint",
-        // "InOutQuint",
-        // "InExpo",
-        // "OutExpo",
-        // "InOutExpo",
-        "InCirc", // 19
-        "OutCirc",
-        "InOutCirc",
-        "InBack",
-        "OutBack",
-        "InOutBack",
-        "InElastic",
-        "OutElastic",
-        "InOutElastic",
-        "InBounce",
-        "OutBounce",
-        "InOutBounce", // 30
-        "BeatSaberInOutBack", // 100
-        "BeatSaberInOutElastic", // 101
-        "BeatSaberInOutBounce" // 102
-    };
 
     private static int MapTMPDropdownValueToEasing(int dropdownEasing)
     {

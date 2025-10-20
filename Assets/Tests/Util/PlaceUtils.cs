@@ -9,20 +9,20 @@ namespace Tests.Util
         public static void PlaceNote(
             NotePlacement notePlacement, BaseNote note)
         {
-            notePlacement.queuedData = note;
-            notePlacement.RoundedJsonTime = notePlacement.queuedData.JsonTime;
-            notePlacement.ApplyToMap();
+            notePlacement.QueuedData = note;
+            notePlacement.RoundedJsonTime = notePlacement.QueuedData.JsonTime;
+            notePlacement.HandleApply();
         }
 
         public static void PlaceWall(
             ObstaclePlacement obstaclePlacement, BaseObstacle obstacle)
         {
-            obstaclePlacement.queuedData = obstacle;
-            obstaclePlacement.RoundedJsonTime = obstaclePlacement.queuedData.JsonTime;
-            obstaclePlacement.instantiatedContainer.SetScale(new Vector3(0, 0,
-                obstaclePlacement.queuedData.Duration * EditorScaleController.EditorScale));
-            obstaclePlacement.ApplyToMap(); // Starts placement
-            obstaclePlacement.ApplyToMap(); // Completes placement
+            obstaclePlacement.QueuedData = obstacle;
+            obstaclePlacement.RoundedJsonTime = obstaclePlacement.QueuedData.JsonTime;
+            obstaclePlacement.PlacementVisualContainer.SetScale(new Vector3(0, 0,
+                obstaclePlacement.QueuedData.Duration * EditorScaleController.EditorScale));
+            obstaclePlacement.HandleApply(); // Starts placement
+            obstaclePlacement.HandleApply(); // Completes placement
         }
 
         public static void PlaceEvents(EventPlacement eventPlacement, IEnumerable<BaseEvent> events, bool precRotation = false)
@@ -36,38 +36,38 @@ namespace Tests.Util
         public static void PlaceEvent(
             EventPlacement eventPlacement, BaseEvent evt, bool precRotation = false)
         {
-            eventPlacement.queuedData = evt;
-            eventPlacement.queuedValue = eventPlacement.queuedData.Value;
-            eventPlacement.queuedFloatValue = eventPlacement.queuedData.FloatValue;
-            eventPlacement.queuedRotation = eventPlacement.queuedData.Rotation;
-            eventPlacement.RoundedJsonTime = eventPlacement.queuedData.JsonTime;
+            eventPlacement.QueuedData = evt;
+            eventPlacement.queuedValue = eventPlacement.QueuedData.Value;
+            eventPlacement.queuedFloatValue = eventPlacement.QueuedData.FloatValue;
+            eventPlacement.queuedRotation = eventPlacement.QueuedData.Rotation;
+            eventPlacement.RoundedJsonTime = eventPlacement.QueuedData.JsonTime;
 
             if (precRotation)
             {
                 eventPlacement.PlacePrecisionRotation = true;
-                eventPlacement.ApplyToMap();
+                eventPlacement.HandleApply();
                 eventPlacement.PlacePrecisionRotation = false;
             }
             else
             {
-                eventPlacement.ApplyToMap();
+                eventPlacement.HandleApply();
             }
         }
 
         public static void PlaceArc(
             ArcPlacement arcPlacement, BaseArc arc)
         {
-            arcPlacement.queuedData = arc;
-            arcPlacement.RoundedJsonTime = arcPlacement.queuedData.JsonTime;
-            arcPlacement.ApplyToMap();
+            arcPlacement.QueuedData = arc;
+            arcPlacement.RoundedJsonTime = arcPlacement.QueuedData.JsonTime;
+            arcPlacement.HandleApply();
         }
 
         public static void PlaceChain(
             ChainPlacement chainPlacement, BaseChain chain)
         {
-            chainPlacement.queuedData = chain;
-            chainPlacement.RoundedJsonTime = chainPlacement.queuedData.JsonTime;
-            chainPlacement.ApplyToMap();
+            chainPlacement.QueuedData = chain;
+            chainPlacement.RoundedJsonTime = chainPlacement.QueuedData.JsonTime;
+            chainPlacement.HandleApply();
         }
     }
 }

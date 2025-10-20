@@ -1,20 +1,16 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Beatmap.Appearances;
 using Beatmap.Base;
 using Beatmap.Containers;
 using Beatmap.Enums;
 using Beatmap.Helper;
-using Beatmap.V2;
-using Beatmap.V3;
-using SimpleJSON;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-public class EventPlacement : PlacementController<BaseEvent, EventContainer, EventGridContainer>,
+public class EventPlacement : BasePlacement<BaseEvent, EventContainer, EventGridContainer>,
                               CMInput.IEventPlacementActions
 {
     [FormerlySerializedAs("eventAppearanceSO")] [SerializeField]
@@ -31,36 +27,34 @@ public class EventPlacement : PlacementController<BaseEvent, EventContainer, Eve
     public int PrecisionRotationValue;
 
     private bool earlyRotationPlaceNow;
-    private bool negativeRotations;
     private bool isHalfFloatValuePressed;
     private bool isZeroFloatValuePressed;
-
-    protected override Vector2 VanillaOffset { get; } = new(-0.5f, -0.5f);
-
-    internal int queuedValue = (int)LightValue.RedOn;
+    private bool negativeRotations;
     internal float queuedFloatValue = 1.0f;
     internal float queuedRotation = 30f;
+
+    internal int queuedValue = (int)LightValue.RedOn;
 
     public static bool CanPlaceChromaEvents => Settings.Instance.PlaceChromaColor;
 
     public void OnRotation15Degrees(InputAction.CallbackContext context)
     {
-        if (queuedData.IsLaneRotationEvent() && context.performed) UpdateRotation(negativeRotations ? -15f : 15f);
+        if (QueuedData.IsLaneRotationEvent() && context.performed) UpdateRotation(negativeRotations ? -15f : 15f);
     }
 
     public void OnRotation30Degrees(InputAction.CallbackContext context)
     {
-        if (queuedData.IsLaneRotationEvent() && context.performed) UpdateRotation(negativeRotations ? -30f : 30f);
+        if (QueuedData.IsLaneRotationEvent() && context.performed) UpdateRotation(negativeRotations ? -30f : 30f);
     }
 
     public void OnRotation45Degrees(InputAction.CallbackContext context)
     {
-        if (queuedData.IsLaneRotationEvent() && context.performed) UpdateRotation(negativeRotations ? -45f : 45f);
+        if (QueuedData.IsLaneRotationEvent() && context.performed) UpdateRotation(negativeRotations ? -45f : 45f);
     }
 
     public void OnRotation60Degrees(InputAction.CallbackContext context)
     {
-        if (queuedData.IsLaneRotationEvent() && context.performed) UpdateRotation(negativeRotations ? -60f : 60f);
+        if (QueuedData.IsLaneRotationEvent() && context.performed) UpdateRotation(negativeRotations ? -60f : 60f);
     }
 
     public void OnNegativeRotationModifier(InputAction.CallbackContext context) =>
@@ -85,50 +79,49 @@ public class EventPlacement : PlacementController<BaseEvent, EventContainer, Eve
     public void OnRotateInPlaceModifier(InputAction.CallbackContext context) =>
         earlyRotationPlaceNow = context.performed;
 
-    public void SetGridSize(int gridSize = 16) => GridLane.Lane = gridSize;
-
-    public override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> container) =>
+    protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> container) =>
         new BeatmapObjectPlacementAction(spawned, container, "Placed an Event.");
 
-    public override BaseEvent GenerateOriginalData() => new();
+    protected override BaseEvent GenerateOriginalData() => new();
 
-    public override void OnPhysicsRaycast(Intersections.IntersectionHit _, Vector3 __)
+    protected override void UpdatePlacement(
+        Vector3 _,
+        Vector3 roundedHit,
+        PlacementState state)
     {
-        instantiatedContainer.transform.localPosition = new Vector3(
-            instantiatedContainer.transform.localPosition.x + 0.5f,
+        PlacementVisualContainer.transform.localPosition = new Vector3(
+            PlacementVisualContainer.transform.localPosition.x + 0.5f,
             0.5f,
-            instantiatedContainer.transform.localPosition.z);
-        if (objectContainerCollection.PropagationEditing == EventGridContainer.PropMode.Off)
+            PlacementVisualContainer.transform.localPosition.z);
+        if (ObjectContainerCollection.PropagationEditing == EventGridContainer.PropMode.Off)
         {
-            queuedData.Type =
-                labels.LaneIdToEventType(Mathf.FloorToInt(instantiatedContainer.transform.localPosition.x));
-            queuedData.CustomLightID = null;
+            QueuedData.Type =
+                labels.LaneIdToEventType(Mathf.FloorToInt(PlacementVisualContainer.transform.localPosition.x));
+            QueuedData.CustomLightID = null;
         }
         else
         {
-            var propID = Mathf.FloorToInt(instantiatedContainer.transform.localPosition.x - 1);
-            queuedData.Type = objectContainerCollection.EventTypeToPropagate;
+            var propID = Mathf.FloorToInt(PlacementVisualContainer.transform.localPosition.x - 1);
+            QueuedData.Type = ObjectContainerCollection.EventTypeToPropagate;
 
             if (propID >= 0)
             {
-                var lightIdToApply = objectContainerCollection.PropagationEditing == EventGridContainer.PropMode.Prop
-                    ? labels.PropIdToLightIds(objectContainerCollection.EventTypeToPropagate, propID)
-                    : new[] { labels.EditorToLightID(objectContainerCollection.EventTypeToPropagate, propID) };
-                queuedData.CustomLightID = lightIdToApply;
+                var lightIdToApply = ObjectContainerCollection.PropagationEditing == EventGridContainer.PropMode.Prop
+                    ? labels.PropIdToLightIds(ObjectContainerCollection.EventTypeToPropagate, propID)
+                    : new[] { labels.EditorToLightID(ObjectContainerCollection.EventTypeToPropagate, propID) };
+                QueuedData.CustomLightID = lightIdToApply;
             }
             else
-            {
-                queuedData.CustomLightID = null;
-            }
+                QueuedData.CustomLightID = null;
         }
 
         if (CanPlaceChromaEvents
             && dropdown.Visible
-            && queuedData.IsLightEvent(EnvironmentInfoHelper.GetName())
-            && queuedData.Value != (int)LightValue.Off)
-            queuedData.CustomColor = colorPicker.CurrentColor;
+            && QueuedData.IsLightEvent(EnvironmentInfoHelper.GetName())
+            && QueuedData.Value != (int)LightValue.Off)
+            QueuedData.CustomColor = colorPicker.CurrentColor;
         else
-            queuedData.CustomColor = null;
+            QueuedData.CustomColor = null;
 
         UpdateQueuedValue(queuedValue);
         UpdateQueuedFloatValue(queuedFloatValue);
@@ -139,15 +132,13 @@ public class EventPlacement : PlacementController<BaseEvent, EventContainer, Eve
 
     public void UpdateQueuedValue(int value)
     {
-        queuedData.Value = value;
+        QueuedData.Value = value;
 
-        if ((queuedData.IsLaserRotationEvent() || queuedData.IsUtilityEvent())
+        if ((QueuedData.IsLaserRotationEvent() || QueuedData.IsUtilityEvent())
             && int.TryParse(laserSpeedInputField.text, out var laserSpeed))
-        {
-            queuedData.Value = laserSpeed;
-        }
+            QueuedData.Value = laserSpeed;
 
-        if (queuedData.IsColorBoostEvent()) queuedData.Value = queuedData.Value > 0 ? 1 : 0;
+        if (QueuedData.IsColorBoostEvent()) QueuedData.Value = QueuedData.Value > 0 ? 1 : 0;
     }
 
     public void UpdateValue(int value)
@@ -159,24 +150,18 @@ public class EventPlacement : PlacementController<BaseEvent, EventContainer, Eve
 
     public void UpdateQueuedFloatValue(float value)
     {
-        if (!queuedData.IsLightEvent())
+        if (!QueuedData.IsLightEvent())
         {
-            queuedData.FloatValue = 1f;
+            QueuedData.FloatValue = 1f;
             return;
         }
 
         if (isZeroFloatValuePressed)
-        {
-            queuedData.FloatValue = 0f;
-        }
+            QueuedData.FloatValue = 0f;
         else if (isHalfFloatValuePressed)
-        {
-            queuedData.FloatValue = value * 0.5f;
-        }
+            QueuedData.FloatValue = value * 0.5f;
         else
-        {
-            queuedData.FloatValue = value;
-        }
+            QueuedData.FloatValue = value;
     }
 
     public void UpdateFloatValue(float value)
@@ -188,9 +173,9 @@ public class EventPlacement : PlacementController<BaseEvent, EventContainer, Eve
 
     private void UpdateQueuedRotation(float rotation)
     {
-        if (!queuedData.IsLaneRotationEvent()) return;
+        if (!QueuedData.IsLaneRotationEvent()) return;
 
-        queuedData.Rotation = rotation;
+        QueuedData.Rotation = rotation;
     }
 
     public void UpdateRotation(float rotation)
@@ -202,13 +187,11 @@ public class EventPlacement : PlacementController<BaseEvent, EventContainer, Eve
 
     public void SwapColors(bool red)
     {
-        if (!queuedData.IsLightEvent()) return;
+        if (!QueuedData.IsLightEvent()) return;
         if (queuedValue >= ColourManager.RgbintOffset || queuedValue == (int)LightValue.Off) return;
         if ((red && queuedValue >= (int)LightValue.RedOn)
             || (!red && queuedValue >= (int)LightValue.BlueOn && queuedValue < (int)LightValue.RedOn))
-        {
             return;
-        }
 
         if (queuedValue > 0 && queuedValue <= 4)
             queuedValue += 4; // blue to red
@@ -219,16 +202,16 @@ public class EventPlacement : PlacementController<BaseEvent, EventContainer, Eve
 
     private void UpdateAppearance()
     {
-        if (instantiatedContainer is null) RefreshVisuals();
-        instantiatedContainer.EventData = queuedData;
-        eventAppearanceSo.SetEventAppearance(instantiatedContainer, false);
+        if (PlacementVisualContainer is null) RefreshVisuals();
+        PlacementVisualContainer.EventData = QueuedData;
+        eventAppearanceSo.SetEventAppearance(PlacementVisualContainer, false);
     }
 
     public void PlaceChroma(bool v) => Settings.Instance.PlaceChromaColor = v;
 
-    internal override void ApplyToMap()
+    public override void HandleApply()
     {
-        var evt = queuedData;
+        var evt = QueuedData;
 
         if (evt.IsLaneRotationEvent())
         {
@@ -239,15 +222,15 @@ public class EventPlacement : PlacementController<BaseEvent, EventContainer, Eve
             }
         }
 
-        base.ApplyToMap();
+        base.HandleApply();
 
         if (evt.IsLaneRotationEvent()) TracksManager.RefreshTracks();
 
-        queuedData = new BaseEvent(evt); // need to convert back to regular event
-        queuedData.CustomData = null;
+        QueuedData = new BaseEvent(evt); // need to convert back to regular event
+        QueuedData.CustomData = null;
     }
 
-    public override void TransferQueuedToDraggedObject(ref BaseEvent dragged, BaseEvent queued)
+    protected override void TransferQueuedToDraggedObject(ref BaseEvent dragged, BaseEvent queued)
     {
         dragged.JsonTime = queued.JsonTime;
         dragged.Type = queued.Type;
@@ -267,7 +250,7 @@ public class EventPlacement : PlacementController<BaseEvent, EventContainer, Eve
 
         var rotationType = early ? (int)EventTypeValue.EarlyLaneRotation : (int)EventTypeValue.LateLaneRotation;
         var epsilon = 1f / Mathf.Pow(10, Settings.Instance.TimeValueDecimalPrecision);
-        var evt = objectContainerCollection.AllRotationEvents.Find(x =>
+        var evt = ObjectContainerCollection.AllRotationEvents.Find(x =>
             x.JsonTime - epsilon < Atsc.CurrentJsonTime
             && x.JsonTime + epsilon > Atsc.CurrentJsonTime
             && x.Type == rotationType);
@@ -283,7 +266,7 @@ public class EventPlacement : PlacementController<BaseEvent, EventContainer, Eve
                     && right))) //This is for when we're going from a rotation event to no rotation event
         {
             startingValue = evt.Value;
-            objectContainerCollection.DeleteObject(evt, false);
+            ObjectContainerCollection.DeleteObject(evt, false);
             BeatmapActionContainer.AddAction(new BeatmapObjectDeletionAction(evt, "Deleted by PlaceRotationNow."));
         }
         else if ((startingValue < 7 && right) || (startingValue > 0 && !right))
@@ -294,13 +277,13 @@ public class EventPlacement : PlacementController<BaseEvent, EventContainer, Eve
                 JsonTime = Atsc.CurrentJsonTime, Type = rotationType, Value = startingValue
             };
 
-            objectContainerCollection.SpawnObject(objectData, out var conflicting);
+            ObjectContainerCollection.SpawnObject(objectData, out var conflicting);
             BeatmapActionContainer.AddAction(GenerateAction(objectData, conflicting));
         }
 
-        queuedData = BeatmapFactory.Clone(queuedData);
+        QueuedData = BeatmapFactory.Clone(QueuedData);
         TracksManager.RefreshTracks();
     }
 
-    public override void ClickAndDragFinished() => TracksManager.RefreshTracks();
+    protected override void HandleDragged() => TracksManager.RefreshTracks();
 }

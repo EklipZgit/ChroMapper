@@ -3,12 +3,10 @@ using System.Linq;
 using Beatmap.Base;
 using Beatmap.Containers;
 using Beatmap.Enums;
-using Beatmap.V3;
-using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class ArcPlacement : PlacementController<BaseArc, ArcContainer, ArcGridContainer>,
-    CMInput.IArcPlacementActions
+public class ArcPlacement : BasePlacement<BaseArc, ArcContainer, ArcGridContainer>,
+                            CMInput.IArcPlacementActions
 {
     private static HashSet<BaseObject> SelectedObjects => SelectionController.SelectedObjects;
 
@@ -26,8 +24,10 @@ public class ArcPlacement : PlacementController<BaseArc, ArcContainer, ArcGridCo
 
         if (Settings.Instance.MapVersion == 2 && notes.Count > 1)
         {
-            PersistentUI.Instance.ShowDialogBox("Arc placement is not supported in v2 format.\nConvert map to v3 to place arcs.",
-                null, PersistentUI.DialogBoxPresetType.Ok);
+            PersistentUI.Instance.ShowDialogBox(
+                "Arc placement is not supported in v2 format.\nConvert map to v3 to place arcs.",
+                null,
+                PersistentUI.DialogBoxPresetType.Ok);
             return 0;
         }
 
@@ -36,28 +36,23 @@ public class ArcPlacement : PlacementController<BaseArc, ArcContainer, ArcGridCo
         var red = notes.Where(n => n.Color == (int)NoteColor.Red).ToList();
         var blue = notes.Where(n => n.Color == (int)NoteColor.Blue).ToList();
 
-        for (var i = 1; i < red.Count; i++)
-        {
-            generatedObjects.Add(CreateArcData(red[i - 1], red[i]));
-        }
-        for (var i = 1; i < blue.Count; i++)
-        {
-            generatedObjects.Add(CreateArcData(blue[i - 1], blue[i]));
-        }
+        for (var i = 1; i < red.Count; i++) generatedObjects.Add(CreateArcData(red[i - 1], red[i]));
+
+        for (var i = 1; i < blue.Count; i++) generatedObjects.Add(CreateArcData(blue[i - 1], blue[i]));
 
         if (generatedObjects.Count > 0)
         {
-            foreach (var arcData in generatedObjects)
-            {
-                objectContainerCollection.SpawnObject(arcData, false);
-            }
+            foreach (var arcData in generatedObjects) ObjectContainerCollection.SpawnObject(arcData, false);
 
             SelectionController.DeselectAll();
             SelectionController.SelectedObjects = new HashSet<BaseObject>(generatedObjects);
             SelectionController.OnSelectionChanged?.Invoke();
             SelectionController.RefreshSelectionMaterial(false);
             BeatmapActionContainer.AddAction(
-                new BeatmapObjectPlacementAction(generatedObjects.ToArray(), new List<BaseObject>(), $"Placed {generatedObjects.Count} arcs"));
+                new BeatmapObjectPlacementAction(
+                    generatedObjects.ToArray(),
+                    new List<BaseObject>(),
+                    $"Placed {generatedObjects.Count} arcs"));
         }
 
         return generatedObjects.Count;
@@ -65,23 +60,15 @@ public class ArcPlacement : PlacementController<BaseArc, ArcContainer, ArcGridCo
 
     public static bool IsColorNote(BaseObject o) => o is BaseNote note && note.Type != (int)NoteType.Bomb;
 
-    public override BaseArc GenerateOriginalData() => new BaseArc();
-    public override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicting)
-        => new BeatmapObjectPlacementAction(spawned, conflicting, "Placed an arc.");
+    protected override BaseArc GenerateOriginalData() => new();
+
+    protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicting) =>
+        new BeatmapObjectPlacementAction(spawned, conflicting, "Placed an arc.");
 
     public BaseArc CreateArcData(BaseNote head, BaseNote tail)
     {
-        if (head.JsonTime > tail.JsonTime)
-        {
-            (head, tail) = (tail, head);
-        }
+        if (head.JsonTime > tail.JsonTime) (head, tail) = (tail, head);
 
         return new BaseArc(head, tail);
     }
-
-    public override void OnPhysicsRaycast(Intersections.IntersectionHit hit, Vector3 transformedPoint)
-    {
-        return;
-    }
-    public override void TransferQueuedToDraggedObject(ref BaseArc dragged, BaseArc queued) { }
 }

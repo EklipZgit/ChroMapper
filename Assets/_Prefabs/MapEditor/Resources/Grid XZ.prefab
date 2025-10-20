@@ -97,7 +97,6 @@ GameObject:
   - component: {fileID: 4458080844105341141}
   - component: {fileID: 993844983492811571}
   - component: {fileID: 7866611375767682797}
-  - component: {fileID: 2991135365729336308}
   m_Layer: 11
   m_Name: Grid XZ
   m_TagString: Untagged
@@ -149,29 +148,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
-  BoundsRenderer: {fileID: 3603298067490066933}
   Center: {x: 0, y: 0, z: 0}
   Size: {x: 1, y: 1, z: 1}
-  MeshTriangles: 000000000100000002000000000000000200000003000000
-  MeshVertices:
-  - {x: -5, y: 0, z: 5}
-  - {x: 5, y: 0, z: 5}
-  - {x: 5, y: 0, z: -5}
-  - {x: -5, y: 0, z: -5}
-  CollisionLayer: 11
-  CollisionGroups: 
---- !u!114 &2991135365729336308
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4082798088078660146}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e79ddf1edf97b244b72502dc12491d8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &5076070443065430489
 GameObject:
   m_ObjectHideFlags: 0

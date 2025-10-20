@@ -1,24 +1,21 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class PrecisionPlacementGridController : MonoBehaviour
+public class PrecisionPlacementController : MonoBehaviour
 {
+    public static bool IsEnabled;
+    private static readonly int position = Shader.PropertyToID("_MousePosition");
     [SerializeField] private IntersectionCollider intersectionCollider;
     [SerializeField] private Renderer regularMesh;
     [SerializeField] private Renderer expandedMesh;
 
-    private bool isEnabled = true;
-    private static readonly int position = Shader.PropertyToID("_MousePosition");
-
     private void Start() => TogglePrecisionPlacement(false);
 
-    public void TogglePrecisionPlacement(bool isVisible)
+    public void TogglePrecisionPlacement(bool toggle)
     {
-        if (isEnabled == isVisible) return;
-        isEnabled = isVisible;
+        if (toggle == IsEnabled) return;
+        IsEnabled = toggle;
 
-        if (isVisible && Settings.Instance.PrecisionPlacementMode != PrecisionPlacementMode.Off)
+        if (toggle && Settings.Instance.PrecisionPlacementMode != PrecisionPlacementMode.Off)
         {
             expandedMesh.gameObject.SetActive(true);
             intersectionCollider.Size = expandedMesh.transform.localScale;
