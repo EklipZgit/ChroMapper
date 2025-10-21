@@ -41,7 +41,7 @@ namespace Tests
             
             var root = obstaclesContainer.transform.root;
             var wallPlacement = root.GetComponentInChildren<ObstaclePlacement>();
-            wallPlacement.RefreshVisuals();
+            wallPlacement.CreateVisual();
 
             var wallA = new BaseObstacle
             {
@@ -119,7 +119,7 @@ namespace Tests
             var root = obstaclesCollection.transform.root;
             var wallPlacement = root.GetComponentInChildren<ObstaclePlacement>();
             var inputController = root.GetComponentInChildren<BeatmapObstacleInputController>();
-            wallPlacement.RefreshVisuals();
+            wallPlacement.CreateVisual();
 
             BaseObstacle wallA = new BaseObstacle
             {
@@ -160,7 +160,7 @@ namespace Tests
 
             var root = obstaclesCollection.transform.root;
             var wallPlacement = root.GetComponentInChildren<ObstaclePlacement>();
-            wallPlacement.RefreshVisuals();
+            wallPlacement.CreateVisual();
 
             var customCoord = new JSONArray() { [0] = 0, [1] = 1 };
             var customSize = new JSONArray() { [0] = 0, [1] = null, [2] = 420 };

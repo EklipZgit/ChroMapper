@@ -23,13 +23,8 @@ public class CustomEventPlacement : BasePlacement<BaseCustomEvent, CustomEventCo
 
     protected override BaseCustomEvent GenerateOriginalData() => new();
 
-    protected override void UpdatePlacement(
-        Vector3 _,
-        Vector3 roundedHit,
-        PlacementState state)
+    protected override void UpdateData(PlacementState state)
     {
-        var localPosition = PlacementVisualContainer.transform.localPosition;
-        PlacementVisualContainer.transform.localPosition = new Vector3(localPosition.x + 0.5f, 0.5f, localPosition.z);
         var customEventTypeId = Mathf.FloorToInt(PlacementVisualContainer.transform.localPosition.x);
         if (customEventTypeId < ObjectContainerCollection.CustomEventTypes.Count && customEventTypeId >= 0)
             QueuedData.Type = ObjectContainerCollection.CustomEventTypes[customEventTypeId];

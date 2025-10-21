@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Beatmap.Base;
 using Beatmap.Enums;
@@ -32,8 +33,9 @@ public class DingOnNotePassingGrid : MonoBehaviour
     private float offset;
     private float songSpeed = 1;
 
-    private void Start()
+    private IEnumerator Start()
     {
+        yield return new WaitUntil(() => atsc.Initialized);
         NoteTypeToDing[(int)NoteType.Red] = Settings.Instance.Ding_Red_Notes;
         NoteTypeToDing[(int)NoteType.Blue] = Settings.Instance.Ding_Blue_Notes;
         NoteTypeToDing[(int)NoteType.Bomb] = Settings.Instance.Ding_Bombs;

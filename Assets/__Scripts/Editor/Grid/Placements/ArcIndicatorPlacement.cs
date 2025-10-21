@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -76,78 +77,76 @@ public class ArcIndicatorPlacement : BasePlacement<BaseArc, ArcIndicatorContaine
 
     protected override BaseArc GenerateOriginalData() => new();
 
-    protected override void UpdatePlacement(
-        Vector3 rawHit,
-        Vector3 roundedHit,
-        PlacementState state)
+    protected override void UpdateData(PlacementState state)
     {
-        var posX = (int)roundedHit.x;
-        var posY = (int)roundedHit.y;
+        var pos = (Vector2)PlacementVisualContainer.transform.localPosition - GridOffset;
+        pos.x += 2f;
 
-        var vanillaX = Mathf.Clamp(posX, 0, 3);
-        var vanillaY = Mathf.Clamp(posY, 0, 2);
-
-        var vanillaBounds = vanillaX == posX && vanillaY == posY;
+        var vanillaX = Mathf.FloorToInt(Mathf.Clamp(pos.x, 0f, 3f));
+        var vanillaY = Mathf.FloorToInt(Mathf.Clamp(pos.y, 0f, 2f));
 
         QueuedData.PosX = vanillaX;
         QueuedData.PosY = vanillaY;
 
+        var roundedHit = new Vector2(pos.x - 2f, pos.y);
         if (PrecisionPlacementController.IsEnabled)
         {
-            rawHit.z = SongBpmTime * EditorScaleController.EditorScale;
-
-            var precision = Settings.Instance.PrecisionPlacementGridPrecision;
-            roundedHit = (Vector2)Vector2Int.RoundToInt((PrecisionOffset + (Vector2)rawHit) * precision) / precision;
-            PlacementVisualContainer.transform.localPosition = roundedHit;
-
-            if (state != PlacementState.Hover)
+            if (state == PlacementState.Hover) return;
+            switch (DraggedObjectContainer.IndicatorType)
             {
-                if (DraggedObjectContainer.IndicatorType == IndicatorType.Head)
-                    QueuedData.CustomCoordinate = (Vector2)roundedHit;
-
-                if (DraggedObjectContainer.IndicatorType == IndicatorType.Tail)
-                    QueuedData.CustomTailCoordinate = (Vector2)roundedHit;
+                case IndicatorType.Head:
+                    QueuedData.CustomCoordinate = roundedHit;
+                    break;
+                case IndicatorType.Tail:
+                    QueuedData.CustomTailCoordinate = roundedHit;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
         else
         {
-            if (state != PlacementState.Hover)
+            if (state == PlacementState.Hover) return;
+            switch (DraggedObjectContainer.IndicatorType)
             {
-                if (DraggedObjectContainer.IndicatorType == IndicatorType.Head)
-                {
-                    QueuedData.CustomCoordinate = !vanillaBounds
-                        ? (Vector2)roundedHit - VanillaOffset + PrecisionOffset
+                case IndicatorType.Head:
+                    QueuedData.CustomCoordinate = !(Mathf.Approximately(vanillaX, pos.x)
+                        && Mathf.Approximately(vanillaY, pos.y))
+                        ? roundedHit
                         : null;
-                }
-
-                if (DraggedObjectContainer.IndicatorType == IndicatorType.Tail)
-                {
-                    QueuedData.CustomTailCoordinate = !vanillaBounds
-                        ? (Vector2)roundedHit - VanillaOffset + PrecisionOffset
+                    break;
+                case IndicatorType.Tail:
+                    QueuedData.CustomTailCoordinate = !(Mathf.Approximately(vanillaX, pos.x)
+                        && Mathf.Approximately(vanillaY, pos.y))
+                        ? roundedHit
                         : null;
-                }
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
     }
 
     protected override void TransferQueuedToDraggedObject(ref BaseArc dragged, BaseArc queued)
     {
-        if (DraggedObjectContainer.IndicatorType == IndicatorType.Head)
+        switch (DraggedObjectContainer.IndicatorType)
         {
-            dragged.JsonTime = queued.JsonTime;
-            dragged.PosX = queued.PosX;
-            dragged.PosY = queued.PosY;
-            dragged.CutDirection = queued.CutDirection;
-            dragged.CustomCoordinate = queued.CustomCoordinate;
-        }
-
-        if (DraggedObjectContainer.IndicatorType == IndicatorType.Tail)
-        {
-            dragged.TailJsonTime = queued.JsonTime;
-            dragged.TailPosX = queued.PosX;
-            dragged.TailPosY = queued.PosY;
-            dragged.TailCutDirection = queued.TailCutDirection;
-            dragged.CustomTailCoordinate = queued.CustomTailCoordinate;
+            case IndicatorType.Head:
+                dragged.JsonTime = queued.JsonTime;
+                dragged.PosX = queued.PosX;
+                dragged.PosY = queued.PosY;
+                dragged.CutDirection = queued.CutDirection;
+                dragged.CustomCoordinate = queued.CustomCoordinate;
+                break;
+            case IndicatorType.Tail:
+                dragged.TailJsonTime = queued.JsonTime;
+                dragged.TailPosX = queued.PosX;
+                dragged.TailPosY = queued.PosY;
+                dragged.TailCutDirection = queued.TailCutDirection;
+                dragged.CustomTailCoordinate = queued.CustomTailCoordinate;
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
         }
 
         DraggedObjectContainer.ParentArc.NotifySplineChanged(dragged);
@@ -185,19 +184,19 @@ public class ArcIndicatorPlacement : BasePlacement<BaseArc, ArcIndicatorContaine
 
     public void UpdateCut(int value)
     {
-        if (DraggedObjectContainer != null && DraggedObjectContainer.ParentArc != null)
+        if (DraggedObjectContainer == null || DraggedObjectContainer.ParentArc == null) return;
+        switch (DraggedObjectContainer.IndicatorType)
         {
-            if (DraggedObjectContainer.IndicatorType == IndicatorType.Head)
-            {
+            case IndicatorType.Head:
                 QueuedData.CutDirection = value;
                 DraggedObjectContainer.ParentArc.ArcData.CutDirection = value;
-            }
-
-            if (DraggedObjectContainer.IndicatorType == IndicatorType.Tail)
-            {
+                break;
+            case IndicatorType.Tail:
                 QueuedData.TailCutDirection = value;
                 DraggedObjectContainer.ParentArc.ArcData.TailCutDirection = value;
-            }
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
         }
     }
 

@@ -60,13 +60,6 @@ public class NJSEventPlacement : BasePlacement<BaseNJSEvent, NJSEventContainer, 
 
     protected override BaseNJSEvent GenerateOriginalData() => new();
 
-    protected override void UpdatePlacement(
-        Vector3 _,
-        Vector3 roundedHit,
-        PlacementState state) =>
-        PlacementVisualContainer.transform.localPosition =
-            new Vector3(0.5f, 0.5f, PlacementVisualContainer.transform.localPosition.z);
-
     protected override void TransferQueuedToDraggedObject(ref BaseNJSEvent dragged, BaseNJSEvent queued) =>
         dragged.JsonTime = queued.JsonTime;
 

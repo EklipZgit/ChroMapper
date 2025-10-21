@@ -7,14 +7,12 @@ using Beatmap.Helper;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class EventPlacement : BasePlacement<BaseEvent, EventContainer, EventGridContainer>,
                               CMInput.IEventPlacementActions
 {
-    [FormerlySerializedAs("eventAppearanceSO")] [SerializeField]
-    private EventAppearanceSO eventAppearanceSo;
+    [SerializeField] private EventAppearanceSO eventAppearanceSo;
 
     [SerializeField] private ColorPicker colorPicker;
     [SerializeField] private TMP_InputField laserSpeedInputField;
@@ -84,15 +82,8 @@ public class EventPlacement : BasePlacement<BaseEvent, EventContainer, EventGrid
 
     protected override BaseEvent GenerateOriginalData() => new();
 
-    protected override void UpdatePlacement(
-        Vector3 _,
-        Vector3 roundedHit,
-        PlacementState state)
+    protected override void UpdateData(PlacementState state)
     {
-        PlacementVisualContainer.transform.localPosition = new Vector3(
-            PlacementVisualContainer.transform.localPosition.x + 0.5f,
-            0.5f,
-            PlacementVisualContainer.transform.localPosition.z);
         if (ObjectContainerCollection.PropagationEditing == EventGridContainer.PropMode.Off)
         {
             QueuedData.Type =
@@ -126,7 +117,6 @@ public class EventPlacement : BasePlacement<BaseEvent, EventContainer, EventGrid
         UpdateQueuedValue(queuedValue);
         UpdateQueuedFloatValue(queuedFloatValue);
         UpdateQueuedRotation(queuedRotation);
-
         UpdateAppearance();
     }
 
@@ -202,7 +192,7 @@ public class EventPlacement : BasePlacement<BaseEvent, EventContainer, EventGrid
 
     private void UpdateAppearance()
     {
-        if (PlacementVisualContainer is null) RefreshVisuals();
+        if (PlacementVisualContainer is null) CreateVisual();
         PlacementVisualContainer.EventData = QueuedData;
         eventAppearanceSo.SetEventAppearance(PlacementVisualContainer, false);
     }

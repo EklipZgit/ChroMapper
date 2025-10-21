@@ -37,7 +37,7 @@ namespace Tests
             var root = obstaclesCollection.transform.root;
             var obstaclePlacement = root.GetComponentInChildren<ObstaclePlacement>();
             var inputController = root.GetComponentInChildren<BeatmapObstacleInputController>();
-            obstaclePlacement.RefreshVisuals();
+            obstaclePlacement.CreateVisual();
 
             placedObstacle = new BaseObstacle
             {

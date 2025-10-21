@@ -14,23 +14,34 @@ public class PlacementInputSystem : MonoBehaviour,
     [SerializeField] private CameraManager cameraManager;
     [SerializeField] private PrecisionPlacementController precisionPlacementController;
 
-    private bool applicationFocus;
-    private bool applicationFocusChanged;
+    private PlacementState state;
     private PlacementProvider currentProvider;
     private Vector2 mousePosition;
+    private bool applicationFocus;
+    private bool applicationFocusChanged;
 
-    private PlacementState state;
-    private bool usePrecisionPlacement;
+    private bool CanInteract
+    {
+        get
+        {
+            return !Input.GetMouseButton((int)MouseButton.Right)
+                && KeybindsController.IsMouseInWindow
+                && !SongTimelineController.IsHovering
+                && !SceneTransitionManager.IsLoading
+                && !DeleteToolController.IsActive
+                && !NodeEditorController.IsActive
+                && applicationFocus
+                && !UIMode.PreviewMode;
+        }
+    }
 
-    private bool CanInteract =>
-        !Input.GetMouseButton((int)MouseButton.Right)
-        && KeybindsController.IsMouseInWindow
-        && !SongTimelineController.IsHovering
-        && !SceneTransitionManager.IsLoading
-        && !DeleteToolController.IsActive
-        && !NodeEditorController.IsActive
-        && applicationFocus
-        && !UIMode.PreviewMode;
+    private void Awake() => GridViewController.OnGridViewUpdated += RefreshBound;
+
+    private void OnDestroy()
+    {
+        GridViewController.OnGridViewUpdated -= RefreshBound;
+        Intersections.Clear();
+    }
 
     private void Update()
     {
@@ -58,35 +69,21 @@ public class PlacementInputSystem : MonoBehaviour,
             .Select(intersectionHit => (hit: intersectionHit,
                 provider: intersectionHit.GameObject.transform.parent.GetComponent<PlacementProvider>()))
             .Where(grid => grid.provider != null)
-            .OrderBy(grid => grid.hit.Distance);
+            .OrderBy(grid => grid.hit.Distance)
+            .ToArray();
 
         if (HandleExitWhen(
             (!CanInteract && state == PlacementState.Hover)
-            || !gridHit.Any()))
+            || gridHit.Length == 0))
             return;
 
-        var (hit, provider) = gridHit.First();
+        var (hit, provider) = gridHit[0];
         if (currentProvider != provider && BoxSelectionPlacementController.State != SelectionState.Selecting)
         {
             currentProvider = provider;
 
-            var boundLocal = provider.Lane.XY.Grid.bounds;
-            // Transform the bounds into the pseudo-world space we use for selection
-            var localTransform = provider.transform;
-            var localScale = localTransform.localScale;
-            var boundsNew = localTransform.InverseTransformBounds(boundLocal);
-            boundsNew.center += localTransform.localPosition;
-            boundsNew.extents = new Vector3(
-                boundsNew.extents.x * localScale.x,
-                boundsNew.extents.y * localScale.y,
-                boundsNew.extents.z * localScale.z
-            );
-
-            foreach (var placement in currentProvider.Placements)
-            {
-                placement.Initialize(provider);
-                placement.Bounds = boundsNew;
-            }
+            RefreshBound();
+            foreach (var placement in currentProvider.Placements) placement.Initialize(currentProvider);
         }
 
         if (HandleExitWhen(PersistentUI.Instance.DialogBoxIsEnabled)
@@ -97,7 +94,24 @@ public class PlacementInputSystem : MonoBehaviour,
         foreach (var placement in currentProvider.Placements) placement.UpdateState(hit, state);
     }
 
-    private void OnDestroy() => Intersections.Clear();
+    private void RefreshBound()
+    {
+        if (currentProvider == null) return;
+
+        var boundLocal = currentProvider.Lane.XY.Grid.bounds;
+        // Transform the bounds into the pseudo-world space we use for selection
+        var localTransform = currentProvider.transform;
+        var localScale = localTransform.localScale;
+        var boundsNew = localTransform.InverseTransformBounds(boundLocal);
+        boundsNew.center += localTransform.localPosition;
+        boundsNew.extents = new Vector3(
+            boundsNew.extents.x * localScale.x,
+            boundsNew.extents.y * localScale.y,
+            boundsNew.extents.z * localScale.z
+        );
+
+        foreach (var placement in currentProvider.Placements) placement.Bounds = boundsNew;
+    }
 
     public void OnCancelPlacement(InputAction.CallbackContext context)
     {
@@ -169,8 +183,10 @@ public class PlacementInputSystem : MonoBehaviour,
         }
     }
 
-    public void OnMousePositionUpdate(InputAction.CallbackContext context) =>
+    public void OnMousePositionUpdate(InputAction.CallbackContext context)
+    {
         mousePosition = Mouse.current.position.ReadValue();
+    }
 
     public void OnPrecisionPlacementToggle(InputAction.CallbackContext context)
     {

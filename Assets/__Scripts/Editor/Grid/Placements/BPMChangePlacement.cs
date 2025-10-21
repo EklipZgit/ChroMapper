@@ -10,13 +10,6 @@ public class BPMChangePlacement : BasePlacement<BaseBpmEvent, BpmEventContainer,
 
     protected override BaseBpmEvent GenerateOriginalData() => new(0, 100);
 
-    protected override void UpdatePlacement(
-        Vector3 _,
-        Vector3 roundedHit,
-        PlacementState state) =>
-        PlacementVisualContainer.transform.localPosition =
-            new Vector3(0.5f, 0.5f, PlacementVisualContainer.transform.localPosition.z);
-
     protected override void TransferQueuedToDraggedObject(ref BaseBpmEvent dragged, BaseBpmEvent queued)
     {
         dragged.JsonTime = queued.JsonTime;

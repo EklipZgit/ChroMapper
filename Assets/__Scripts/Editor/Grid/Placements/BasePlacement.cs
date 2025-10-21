@@ -12,7 +12,10 @@ public abstract class BasePlacement : MonoBehaviour
 {
     [SerializeField] public ObjectType ObjectDataType;
     [SerializeField] public GameObject ObjectContainerPrefab;
-    [SerializeField] public Transform ParentTrack;
+
+    [Tooltip("This is required to be on game object with track as it is used to track and compare time")]
+    [SerializeField]
+    public Transform PlacementTrack;
 
     [Header("Dependencies")] [SerializeField]
     public CustomStandaloneInputModule CustomStandaloneInputModule;
@@ -40,9 +43,6 @@ public abstract class BasePlacement : MonoBehaviour
         { IndicatorType.Head, new List<BaseSlider>() }, { IndicatorType.Tail, new List<BaseSlider>() }
     };
 
-    protected readonly Vector2 PrecisionOffset = new(-0.5f, -0.5f);
-    protected readonly Vector2 VanillaOffset = new(-0.5f, -0.5f);
-
     public virtual bool CanClickAndDrag => true;
     public virtual bool CanPlace => BoxSelectionPlacementController.State == SelectionState.Idle;
 
@@ -60,6 +60,11 @@ public abstract class BasePlacement : MonoBehaviour
 
     public abstract void Initialize(PlacementProvider provider);
     public abstract void UpdateState(Intersections.IntersectionHit hit, PlacementState state);
+    public abstract void ShowVisual();
+    public abstract void HideVisual();
+
+    protected abstract void UpdatePlacement(Intersections.IntersectionHit hit, Vector3 localPoint);
+    protected virtual void UpdateData(PlacementState state) { }
 
     public abstract void Exit();
     public abstract void Apply();
@@ -69,8 +74,7 @@ public abstract class BasePlacement : MonoBehaviour
     public abstract void FinishDrag();
     protected virtual void HandleDragged() { }
 
-    public abstract void ShowVisual();
-    public abstract void HideVisual();
+    public virtual Vector2 GridOffset => Vector2.one * 0.5f;
 
     public virtual float GetContainerPosZ(ObjectContainer con) =>
         (con.ObjectData.SongBpmTime - Atsc.CurrentSongBpmTime) * EditorScaleController.EditorScale;
@@ -96,12 +100,16 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
 
     [Header("Implementation")] public bool ForceHeaderPlsIgnore;
 
+    protected abstract TObject GenerateOriginalData();
+    protected abstract BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicting);
+
     public virtual void Start() => QueuedData = GenerateOriginalData();
 
     public override void Initialize(PlacementProvider provider)
     {
-        if (PlacementVisualContainer == null) RefreshVisuals();
+        if (PlacementVisualContainer == null) CreateVisual();
         HideVisual();
+        ObjectData = QueuedData;
     }
 
     public override void UpdateState(
@@ -116,39 +124,50 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
 
         if (!PlacementVisualContainer.gameObject.activeSelf) ShowVisual();
 
-        ObjectData = QueuedData;
-
         if (BeatmapObjectContainerCollection.TrackFilterID != null && !ObjectContainerCollection.IgnoreTrackFilter)
             QueuedData.CustomTrack = BeatmapObjectContainerCollection.TrackFilterID;
         else
             QueuedData.CustomTrack = null;
 
-        CalculateTimes(hit, state, out var rawHit, out var jsonTime);
-        rawHit += (Vector3)VanillaOffset;
+        var (localPoint, jsonTime) = GetPositionAndTime(hit, state);
         RoundedJsonTime = jsonTime;
-        var placementZ = SongBpmTime * EditorScaleController.EditorScale;
-        Update360Tracks();
-
-        var roundedHit = new Vector3(Mathf.Round(rawHit.x), Mathf.Round(rawHit.y), placementZ);
-
-        var localMax = ParentTrack.InverseTransformPoint(hit.Bounds.max);
-        var localMin = ParentTrack.InverseTransformPoint(hit.Bounds.min);
-        var farTopPoint = localMax.y;
-        var farBottomPoint = localMin.y;
-
-        var x = roundedHit.x; //Clamp values to prevent exceptions
-        var y = roundedHit.y;
-        PlacementVisualContainer.transform.localPosition = new Vector3(
-            x,
-            Mathf.Round(Mathf.Clamp(y, farBottomPoint, farTopPoint - 1)),
-            roundedHit.z);
-
         QueuedData.JsonTime = jsonTime;
-        UpdatePlacement(rawHit, roundedHit, state);
+
+        Update360Tracks();
+        UpdatePlacement(hit, localPoint);
+        UpdateData(state);
 
         if (state == PlacementState.Hover || QueuedData == null || !IsDragging) return;
         TransferQueuedToDraggedObject(ref DraggedObjectData, QueuedData);
         if (DraggedObjectContainer != null) DraggedObjectContainer.UpdateGridPosition();
+    }
+
+    protected override void UpdatePlacement(Intersections.IntersectionHit hit, Vector3 localPoint)
+    {
+        var placementZ = SongBpmTime * EditorScaleController.EditorScale;
+        var roundedPoint = new Vector3(Mathf.FloorToInt(localPoint.x), Mathf.FloorToInt(localPoint.y), placementZ);
+
+        if (PrecisionPlacementController.IsEnabled)
+        {
+            var precision = Settings.Instance.PrecisionPlacementGridPrecision;
+            roundedPoint = (Vector2)Vector2Int.FloorToInt((Vector2)localPoint * precision) / precision;
+            roundedPoint.z = placementZ;
+            PlacementVisualContainer.transform.localPosition = roundedPoint + (Vector3)GridOffset;
+        }
+        else
+        {
+            var minX = Bounds.min.x;
+            var maxX = Bounds.max.x;
+
+            var minY = Bounds.min.y;
+            var maxY = Bounds.max.y;
+
+            PlacementVisualContainer.transform.localPosition = new Vector3(
+                    Mathf.Clamp(roundedPoint.x, 0, maxX - minX - 1),
+                    Mathf.Clamp(roundedPoint.y, 0, maxY - minY - 1),
+                    roundedPoint.z)
+                + (Vector3)GridOffset;
+        }
     }
 
     public override void ShowVisual()
@@ -163,38 +182,37 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
 
     protected virtual float GetDraggedObjectJsonTime() => DraggedObjectData.JsonTime;
 
-    private void CalculateTimes(
+    private (Vector3 localPoint, float jsonTime) GetPositionAndTime(
         Intersections.IntersectionHit hit,
-        PlacementState state,
-        out Vector3 rawHit,
-        out float jsonTime)
+        PlacementState state)
     {
         var currentJsonTime = state == PlacementState.DragAtTime ? GetDraggedObjectJsonTime() : Atsc.CurrentJsonTime;
         var snap = 1f / Atsc.GridMeasureSnapping;
         var offsetJsonTime = currentJsonTime
             - ((float)Math.Round(currentJsonTime / snap, MidpointRounding.AwayFromZero) * snap);
 
-        rawHit = ParentTrack.InverseTransformPoint(hit.Point);
-        var realTime = rawHit.z / EditorScaleController.EditorScale;
+        var localPoint = PlacementTrack.InverseTransformPoint(hit.Point);
 
+        var realTime = localPoint.z / EditorScaleController.EditorScale;
         if (hit.GameObject.transform.parent.name.Contains("Interface"))
         {
-            realTime = ParentTrack.InverseTransformPoint(hit.GameObject.transform.parent.position).z
+            realTime = PlacementTrack.InverseTransformPoint(hit.GameObject.transform.parent.position).z
                 / EditorScaleController.EditorScale;
         }
 
         var hitPointJsonTime = (float)BeatSaberSongContainer.Instance.Map.SongBpmTimeToJsonTime(realTime);
-        jsonTime = (float)Math.Round((hitPointJsonTime - offsetJsonTime) / snap, MidpointRounding.AwayFromZero)
+        var jsonTime = (float)Math.Round((hitPointJsonTime - offsetJsonTime) / snap, MidpointRounding.AwayFromZero)
             * snap;
-
         if (!Atsc.IsPlaying) jsonTime += offsetJsonTime;
+
+        return (localPoint, jsonTime);
     }
 
-    public virtual void RefreshVisuals()
+    public virtual void CreateVisual()
     {
         PlacementVisualContainer = Instantiate(
                 ObjectContainerPrefab,
-                ParentTrack)
+                PlacementTrack)
             .GetComponent(typeof(TContainer)) as TContainer;
         PlacementVisualContainer.Setup();
         PlacementVisualContainer.OutlineVisible = false;
@@ -214,7 +232,7 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
         if (track == null) return;
 
         var localPos = PlacementVisualContainer.transform.localPosition;
-        ParentTrack = track.ObjectParentTransform;
+        PlacementTrack = track.ObjectParentTransform;
         PlacementVisualContainer.transform.SetParent(track.ObjectParentTransform, false);
         PlacementVisualContainer.transform.localPosition = localPos;
         PlacementVisualContainer.transform.localEulerAngles = new Vector3(
@@ -239,16 +257,6 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
         BeatmapActionContainer.AddAction(GenerateAction(ObjectData, conflicting));
         QueuedData = BeatmapFactory.Clone(QueuedData);
         QueuedData.CustomData = null;
-    }
-
-    protected abstract TObject GenerateOriginalData();
-    protected abstract BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicting);
-
-    protected virtual void UpdatePlacement(
-        Vector3 rawHit,
-        Vector3 roundedHit,
-        PlacementState state)
-    {
     }
 
     public override void Exit() => HideVisual();

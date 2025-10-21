@@ -76,43 +76,31 @@ public class ChainIndicatorPlacement : BasePlacement<BaseChain, ChainIndicatorCo
 
     protected override BaseChain GenerateOriginalData() => new();
 
-    protected override void UpdatePlacement(
-        Vector3 rawHit,
-        Vector3 roundedHit,
-        PlacementState state)
+    protected override void UpdateData(PlacementState state)
     {
-        var posX = (int)roundedHit.x;
-        var posY = (int)roundedHit.y;
+        var pos = (Vector2)PlacementVisualContainer.transform.localPosition - GridOffset;
+        pos.x += 2f;
 
-        var vanillaX = Mathf.Clamp(posX, 0, 3);
-        var vanillaY = Mathf.Clamp(posY, 0, 2);
-
-        var vanillaBounds = vanillaX == posX && vanillaY == posY;
+        var vanillaX = Mathf.FloorToInt(Mathf.Clamp(pos.x, 0f, 3f));
+        var vanillaY = Mathf.FloorToInt(Mathf.Clamp(pos.y, 0f, 2f));
 
         QueuedData.PosX = vanillaX;
         QueuedData.PosY = vanillaY;
 
+        var roundedHit = new Vector2(pos.x - 2f, pos.y);
         if (PrecisionPlacementController.IsEnabled)
         {
-            rawHit.z = SongBpmTime * EditorScaleController.EditorScale;
-
-            var precision = Settings.Instance.PrecisionPlacementGridPrecision;
-            roundedHit = (Vector2)Vector2Int.RoundToInt((PrecisionOffset + (Vector2)rawHit) * precision) / precision;
-            PlacementVisualContainer.transform.localPosition = roundedHit;
-
-            if (state != PlacementState.Hover)
+            if (state == PlacementState.Hover) return;
+            switch (DraggedObjectContainer.IndicatorType)
             {
-                switch (DraggedObjectContainer.IndicatorType)
-                {
-                    case IndicatorType.Head:
-                        QueuedData.CustomCoordinate = (Vector2)roundedHit;
-                        break;
-                    case IndicatorType.Tail:
-                        QueuedData.CustomTailCoordinate = (Vector2)roundedHit;
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
+                case IndicatorType.Head:
+                    QueuedData.CustomCoordinate = roundedHit;
+                    break;
+                case IndicatorType.Tail:
+                    QueuedData.CustomTailCoordinate = roundedHit;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
         else
@@ -121,13 +109,15 @@ public class ChainIndicatorPlacement : BasePlacement<BaseChain, ChainIndicatorCo
             switch (DraggedObjectContainer.IndicatorType)
             {
                 case IndicatorType.Head:
-                    QueuedData.CustomCoordinate = !vanillaBounds
-                        ? (Vector2)roundedHit - VanillaOffset + PrecisionOffset
+                    QueuedData.CustomCoordinate = !(Mathf.Approximately(vanillaX, pos.x)
+                        && Mathf.Approximately(vanillaY, pos.y))
+                        ? roundedHit
                         : null;
                     break;
                 case IndicatorType.Tail:
-                    QueuedData.CustomTailCoordinate = !vanillaBounds
-                        ? (Vector2)roundedHit - VanillaOffset + PrecisionOffset
+                    QueuedData.CustomTailCoordinate = !(Mathf.Approximately(vanillaX, pos.x)
+                        && Mathf.Approximately(vanillaY, pos.y))
+                        ? roundedHit
                         : null;
                     break;
                 default:

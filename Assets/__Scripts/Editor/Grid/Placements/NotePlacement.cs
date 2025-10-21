@@ -108,45 +108,66 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
     protected override BaseNote GenerateOriginalData() =>
         new() { Color = (int)NoteColor.Red, CutDirection = (int)NoteCutDirection.Down };
 
-    protected override void UpdatePlacement(
-        Vector3 rawHit,
-        Vector3 roundedHit,
-        PlacementState state)
+    public override void Initialize(PlacementProvider provider)
+    {
+        base.Initialize(provider);
+        UpdateAppearance();
+    }
+
+    protected override void UpdatePlacement(Intersections.IntersectionHit hit, Vector3 localPoint)
+    {
+        var placementZ = SongBpmTime * EditorScaleController.EditorScale;
+        var roundedPoint = new Vector3(Mathf.FloorToInt(localPoint.x), Mathf.FloorToInt(localPoint.y), placementZ);
+
+        if (PrecisionPlacementController.IsEnabled)
+        {
+            var precision = Settings.Instance.PrecisionPlacementGridPrecision;
+            roundedPoint = (Vector2)Vector2Int.RoundToInt((Vector2)localPoint * precision) / precision;
+            roundedPoint.z = placementZ;
+            PlacementVisualContainer.transform.localPosition = roundedPoint;
+        }
+        else
+        {
+            var minX = Bounds.min.x;
+            var maxX = Bounds.max.x;
+
+            var minY = Bounds.min.y;
+            var maxY = Bounds.max.y;
+
+            PlacementVisualContainer.transform.localPosition = new Vector3(
+                    Mathf.Clamp(roundedPoint.x, minX, maxX - 1),
+                    Mathf.Clamp(roundedPoint.y, minY, maxY - 1),
+                    roundedPoint.z)
+                + (Vector3)GridOffset;
+        }
+    }
+
+    protected override void UpdateData(PlacementState state)
     {
         // Check if Chroma Color notes button is active and apply _color
         QueuedData.CustomColor = CanPlaceChromaObjects && dropdown.Visible
             ? colorPicker.CurrentColor
             : null;
 
-        var posX = (int)roundedHit.x;
-        var posY = (int)roundedHit.y;
+        var pos = (Vector2)PlacementVisualContainer.transform.localPosition - GridOffset;
+        pos.x += 2f;
 
-        var vanillaX = Mathf.Clamp(posX + 2, 0, 3);
-        var vanillaY = Mathf.Clamp(posY, 0, 2);
-
-        var vanillaBounds = (vanillaX == posX + 2) && vanillaY == posY;
+        var vanillaX = Mathf.FloorToInt(Mathf.Clamp(pos.x, 0f, 3f));
+        var vanillaY = Mathf.FloorToInt(Mathf.Clamp(pos.y, 0f, 2f));
 
         QueuedData.PosX = vanillaX;
         QueuedData.PosY = vanillaY;
 
         if (PrecisionPlacementController.IsEnabled)
-        {
-            rawHit.z = SongBpmTime * EditorScaleController.EditorScale;
-
-            var precision = Settings.Instance.PrecisionPlacementGridPrecision;
-            roundedHit = (Vector2)Vector2Int.RoundToInt((Vector2)rawHit * precision) / precision;
-            PlacementVisualContainer.transform.localPosition = roundedHit;
-
-            QueuedData.CustomCoordinate = (Vector2)roundedHit;
-        }
+            QueuedData.CustomCoordinate = new Vector2(pos.x - 2f, pos.y);
         else
         {
-            QueuedData.CustomCoordinate = !vanillaBounds
-                ? (Vector2)roundedHit - VanillaOffset + PrecisionOffset
-                : null;
+            QueuedData.CustomCoordinate =
+                !(Mathf.Approximately(vanillaX, pos.x)
+                    && Mathf.Approximately(vanillaY, pos.y))
+                    ? new Vector2(pos.x - 2f, pos.y)
+                    : null;
         }
-
-        UpdateAppearance();
     }
 
     public NoteContainer ObjectUnderCursor()
@@ -297,9 +318,9 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
         updateAttachedSliderDirection = false;
     }
 
-    public override void RefreshVisuals()
+    public override void CreateVisual()
     {
-        base.RefreshVisuals();
+        base.CreateVisual();
         PlacementVisualContainer.SetArcVisible(false);
     }
 
