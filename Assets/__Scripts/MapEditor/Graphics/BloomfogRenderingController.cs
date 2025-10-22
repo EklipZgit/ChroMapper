@@ -121,6 +121,8 @@ public class BloomfogRenderingController : MonoBehaviour
 
         bloomfogCamera.targetTexture = bloomfogPassRTs[0];
 
-        Shader.SetGlobalTexture("_BloomfogTex", bloomfogPassRTs[0]);
+        // TODO(Caeden): Calculate screen ratio properly once texture is 512x512
+        Shader.SetGlobalVector("_CustomFogTextureToSceenRatio", new Vector4(1, 1, 0, 0));
+        Shader.SetGlobalTexture("_BloomPrePassTexture", bloomfogPassRTs[0]);
     }
 }
