@@ -66,7 +66,7 @@ public class BombPlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
         }
     }
 
-    protected override void UpdateData(PlacementState state)
+    protected override void UpdateData(PlacementInputState inputState)
     {
         // Check if Chroma Color notes button is active and apply _color
         QueuedData.CustomColor = CanPlaceChromaObjects && dropdown.Visible

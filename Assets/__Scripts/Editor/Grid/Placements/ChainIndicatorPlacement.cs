@@ -76,7 +76,7 @@ public class ChainIndicatorPlacement : BasePlacement<BaseChain, ChainIndicatorCo
 
     protected override BaseChain GenerateOriginalData() => new();
 
-    protected override void UpdateData(PlacementState state)
+    protected override void UpdateData(PlacementInputState inputState)
     {
         var pos = (Vector2)PlacementVisualContainer.transform.localPosition - GridOffset;
         pos.x += 2f;
@@ -90,7 +90,7 @@ public class ChainIndicatorPlacement : BasePlacement<BaseChain, ChainIndicatorCo
         var roundedHit = new Vector2(pos.x - 2f, pos.y);
         if (PrecisionPlacementController.IsEnabled)
         {
-            if (state == PlacementState.Hover) return;
+            if (inputState == PlacementInputState.Hover) return;
             switch (DraggedObjectContainer.IndicatorType)
             {
                 case IndicatorType.Head:
@@ -105,7 +105,7 @@ public class ChainIndicatorPlacement : BasePlacement<BaseChain, ChainIndicatorCo
         }
         else
         {
-            if (state == PlacementState.Hover) return;
+            if (inputState == PlacementInputState.Hover) return;
             switch (DraggedObjectContainer.IndicatorType)
             {
                 case IndicatorType.Head:

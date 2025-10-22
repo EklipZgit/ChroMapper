@@ -2,7 +2,6 @@
 using System.Globalization;
 using Beatmap.Base;
 using Beatmap.Containers;
-using UnityEngine;
 
 public class NJSEventPlacement : BasePlacement<BaseNJSEvent, NJSEventContainer, NJSEventGridContainer>
 {

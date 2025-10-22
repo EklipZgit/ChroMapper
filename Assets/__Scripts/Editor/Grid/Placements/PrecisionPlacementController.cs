@@ -1,10 +1,9 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PrecisionPlacementController : MonoBehaviour
 {
     public static bool IsEnabled;
-    
+
     private static readonly int position = Shader.PropertyToID("_MousePosition");
     [SerializeField] private IntersectionCollider intersectionCollider;
     [SerializeField] private Renderer regularMesh;

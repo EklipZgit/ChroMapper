@@ -82,7 +82,13 @@ public class EventPlacement : BasePlacement<BaseEvent, EventContainer, EventGrid
 
     protected override BaseEvent GenerateOriginalData() => new();
 
-    protected override void UpdateData(PlacementState state)
+    public override void Initialize(PlacementProvider provider)
+    {
+        base.Initialize(provider);
+        PlacementVisualContainer.EventData = QueuedData;
+    }
+
+    protected override void UpdateData(PlacementInputState inputState)
     {
         if (ObjectContainerCollection.PropagationEditing == EventGridContainer.PropMode.Off)
         {
@@ -183,17 +189,28 @@ public class EventPlacement : BasePlacement<BaseEvent, EventContainer, EventGrid
             || (!red && queuedValue >= (int)LightValue.BlueOn && queuedValue < (int)LightValue.RedOn))
             return;
 
-        if (queuedValue > 0 && queuedValue <= 4)
-            queuedValue += 4; // blue to red
-        else if (queuedValue > 4 && queuedValue <= 8)
-            queuedValue += 4; // red to white
-        else if (queuedValue > 8 && queuedValue <= 12) queuedValue -= 8; // white to blue
+        switch (queuedValue)
+        {
+            case > 0 and <= 4:
+            // red to white
+            case > 4 and <= 8:
+                queuedValue += 4; // blue to red
+                break;
+            case > 8 and <= 12:
+                queuedValue -= 8; // white to blue
+                break;
+        }
     }
 
     private void UpdateAppearance()
     {
-        if (PlacementVisualContainer is null) CreateVisual();
-        PlacementVisualContainer.EventData = QueuedData;
+        if (PlacementVisualContainer is null)
+        {
+            CreateVisual();
+            if (State == PlacementState.Idle) HideVisual();
+            PlacementVisualContainer.EventData = QueuedData;
+        }
+
         eventAppearanceSo.SetEventAppearance(PlacementVisualContainer, false);
     }
 

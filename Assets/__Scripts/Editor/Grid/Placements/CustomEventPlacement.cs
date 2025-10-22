@@ -23,7 +23,7 @@ public class CustomEventPlacement : BasePlacement<BaseCustomEvent, CustomEventCo
 
     protected override BaseCustomEvent GenerateOriginalData() => new();
 
-    protected override void UpdateData(PlacementState state)
+    protected override void UpdateData(PlacementInputState inputState)
     {
         var customEventTypeId = Mathf.FloorToInt(PlacementVisualContainer.transform.localPosition.x);
         if (customEventTypeId < ObjectContainerCollection.CustomEventTypes.Count && customEventTypeId >= 0)

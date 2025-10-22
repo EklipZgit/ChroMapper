@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Beatmap.Animations;
 using Beatmap.Base;
 using Beatmap.Containers;
@@ -26,7 +25,11 @@ public abstract class BasePlacement : MonoBehaviour
     [SerializeField] public TracksManager TracksManager;
     [SerializeField] public RotationCallbackController GridRotation;
 
-    [Header("State")] public bool IsActive = true;
+    [Header("State")]
+    [Tooltip("If you have multiple placement in a single grid, consider making control flow and toggle this condition")]
+    public bool AllowPlacement = true;
+
+    public PlacementState State;
     public bool IsDragging;
     public float JsonTimeRounded;
     public Bounds Bounds;
@@ -44,7 +47,7 @@ public abstract class BasePlacement : MonoBehaviour
     };
 
     public virtual bool CanClickAndDrag => true;
-    public virtual bool CanPlace => BoxSelectionPlacementController.State == SelectionState.Idle;
+    public virtual bool CanPlace => BoxSelectionPlacementController.State == PlacementState.Idle;
 
     public float RoundedJsonTime
     {
@@ -58,13 +61,15 @@ public abstract class BasePlacement : MonoBehaviour
 
     protected float SongBpmTime { get; private set; } // No point rounding this
 
+    protected static Vector2 GridOffset => Vector2.one * 0.5f;
+
     public abstract void Initialize(PlacementProvider provider);
-    public abstract void UpdateState(Intersections.IntersectionHit hit, PlacementState state);
+    public abstract void UpdateState(Intersections.IntersectionHit hit, PlacementInputState inputState);
     public abstract void ShowVisual();
     public abstract void HideVisual();
 
     protected abstract void UpdatePlacement(Intersections.IntersectionHit hit, Vector3 localPoint);
-    protected virtual void UpdateData(PlacementState state) { }
+    protected virtual void UpdateData(PlacementInputState inputState) { }
 
     public abstract void Exit();
     public abstract void Apply();
@@ -73,8 +78,6 @@ public abstract class BasePlacement : MonoBehaviour
     public abstract ObjectContainer StartDrag(GameObject draggedObject);
     public abstract void FinishDrag();
     protected virtual void HandleDragged() { }
-
-    public virtual Vector2 GridOffset => Vector2.one * 0.5f;
 
     public virtual float GetContainerPosZ(ObjectContainer con) =>
         (con.ObjectData.SongBpmTime - Atsc.CurrentSongBpmTime) * EditorScaleController.EditorScale;
@@ -114,30 +117,34 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
 
     public override void UpdateState(
         Intersections.IntersectionHit hit,
-        PlacementState state)
+        PlacementInputState inputState)
     {
-        if (!IsActive || !CanPlace)
+        if (!AllowPlacement || !CanPlace)
         {
+            if (State != PlacementState.Active) return;
             HideVisual();
+            State = PlacementState.Idle;
             return;
         }
 
-        if (!PlacementVisualContainer.gameObject.activeSelf) ShowVisual();
+        if (State == PlacementState.Idle) State = PlacementState.Active;
+
+        if (inputState == PlacementInputState.Hover && !PlacementVisualContainer.gameObject.activeSelf) ShowVisual();
 
         if (BeatmapObjectContainerCollection.TrackFilterID != null && !ObjectContainerCollection.IgnoreTrackFilter)
             QueuedData.CustomTrack = BeatmapObjectContainerCollection.TrackFilterID;
         else
             QueuedData.CustomTrack = null;
 
-        var (localPoint, jsonTime) = GetPositionAndTime(hit, state);
+        var (localPoint, jsonTime) = GetPositionAndTime(hit, inputState);
         RoundedJsonTime = jsonTime;
         QueuedData.JsonTime = jsonTime;
 
         Update360Tracks();
         UpdatePlacement(hit, localPoint);
-        UpdateData(state);
+        UpdateData(inputState);
 
-        if (state == PlacementState.Hover || QueuedData == null || !IsDragging) return;
+        if (inputState == PlacementInputState.Hover || !IsDragging) return;
         TransferQueuedToDraggedObject(ref DraggedObjectData, QueuedData);
         if (DraggedObjectContainer != null) DraggedObjectContainer.UpdateGridPosition();
     }
@@ -184,9 +191,11 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
 
     private (Vector3 localPoint, float jsonTime) GetPositionAndTime(
         Intersections.IntersectionHit hit,
-        PlacementState state)
+        PlacementInputState inputState)
     {
-        var currentJsonTime = state == PlacementState.DragAtTime ? GetDraggedObjectJsonTime() : Atsc.CurrentJsonTime;
+        var currentJsonTime = inputState == PlacementInputState.DragAtTime
+            ? GetDraggedObjectJsonTime()
+            : Atsc.CurrentJsonTime;
         var snap = 1f / Atsc.GridMeasureSnapping;
         var offsetJsonTime = currentJsonTime
             - ((float)Math.Round(currentJsonTime / snap, MidpointRounding.AwayFromZero) * snap);
@@ -267,7 +276,11 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
     public override ObjectContainer StartDrag(GameObject draggedObject)
     {
         var con = draggedObject.GetComponentInParent<TContainer>();
-        if (con == null || con.ObjectData.ObjectType != ObjectDataType) return null;
+        // this does not need the last check
+        if (!AllowPlacement
+            || con == null
+            || con.ObjectData.ObjectType != ObjectDataType)
+            return null;
 
         ObjectContainerCollection.SilentRemoveObject(con.ObjectData);
 
@@ -303,7 +316,7 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
         // Don't queue an action if we didn't actually change anything
         if (DraggedObjectData.ToString() != OriginalDraggedObjectData.ToString())
         {
-            if (conflicting.Any())
+            if (conflicting.Count > 0)
             {
                 actions.Add(
                     new BeatmapObjectModifiedWithConflictingAction(
@@ -445,7 +458,7 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
         // Don't queue an action if we didn't actually change anything
         if (draggedSlider.ToString() != originalSlider.ToString())
         {
-            if (conflictingArcs.Any())
+            if (conflictingArcs.Count > 0)
             {
                 actions.Add(
                     new BeatmapObjectModifiedWithConflictingAction(

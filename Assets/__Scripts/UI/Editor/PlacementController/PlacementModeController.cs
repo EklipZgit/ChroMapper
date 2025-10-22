@@ -75,9 +75,9 @@ public class PlacementModeController : MonoBehaviour
             modePicker.Select(mode);
         }
             
-        notePlacement.IsActive = mode == PlacementMode.Note;
-        bombPlacement.IsActive = mode == PlacementMode.Bomb;
-        obstaclePlacement.IsActive = mode == PlacementMode.Wall;
+        notePlacement.AllowPlacement = mode == PlacementMode.Note;
+        bombPlacement.AllowPlacement = mode == PlacementMode.Bomb;
+        obstaclePlacement.AllowPlacement = mode == PlacementMode.Wall;
         deleteToolController.UpdateDeletion(mode == PlacementMode.Delete);
     }
 

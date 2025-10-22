@@ -142,7 +142,7 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
         }
     }
 
-    protected override void UpdateData(PlacementState state)
+    protected override void UpdateData(PlacementInputState inputState)
     {
         // Check if Chroma Color notes button is active and apply _color
         QueuedData.CustomColor = CanPlaceChromaObjects && dropdown.Visible
@@ -193,7 +193,9 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
         }
         // TODO: This IsActive is a workaround to prevent ghost notes. This happens because bomb placement could be
         //       dragging a note and quick editing results in issues
-        else if (IsActive && beatmapNoteInputController.QuickModificationActive && Settings.Instance.QuickNoteEditing)
+        else if (AllowPlacement
+            && beatmapNoteInputController.QuickModificationActive
+            && Settings.Instance.QuickNoteEditing)
         {
             var note = ObjectUnderCursor();
             if (note != null && note.ObjectData is BaseNote noteData)
@@ -389,6 +391,9 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
         var previousHeldKeys = new List<bool>(heldKeys);
         yield return new WaitForSeconds(diagonalStickMaxTime);
         // Weird way of saying "Are the keys being held right now the same as before"
-        if (!previousHeldKeys.Except(heldKeys).Any()) flagDirectionsUpdate = true;
+        if (!previousHeldKeys
+            .Except(heldKeys)
+            .Any())
+            flagDirectionsUpdate = true;
     }
 }

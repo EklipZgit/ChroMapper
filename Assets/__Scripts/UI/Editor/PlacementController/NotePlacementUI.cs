@@ -53,18 +53,18 @@ public class NotePlacementUI : MonoBehaviour
     public void Bomb(bool active)
     {
         if (!active) return;
-        notePlacement.IsActive = false;
-        bombPlacement.IsActive = true;
-        obstaclePlacement.IsActive = false;
+        notePlacement.AllowPlacement = false;
+        bombPlacement.AllowPlacement = true;
+        obstaclePlacement.AllowPlacement = false;
         deleteToolController.UpdateDeletion(false);
     }
 
     public void Wall(bool active)
     {
         if (!active) return;
-        notePlacement.IsActive = false;
-        bombPlacement.IsActive = false;
-        obstaclePlacement.IsActive = true;
+        notePlacement.AllowPlacement = false;
+        bombPlacement.AllowPlacement = false;
+        obstaclePlacement.AllowPlacement = true;
         deleteToolController.UpdateDeletion(false);
     }
 
@@ -92,9 +92,9 @@ public class NotePlacementUI : MonoBehaviour
     {
         //if (notePlacement.atsc.IsPlaying) return;
         //if (!customStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)) return; // not sure what these do?
-        notePlacement.IsActive = true;
-        bombPlacement.IsActive = false;
-        obstaclePlacement.IsActive = false;
+        notePlacement.AllowPlacement = true;
+        bombPlacement.AllowPlacement = false;
+        obstaclePlacement.AllowPlacement = false;
         notePlacement.UpdateType(v);
         deleteToolController.UpdateDeletion(false);
     }

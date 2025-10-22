@@ -13,40 +13,29 @@ public class PlacementInputSystem : MonoBehaviour,
     [SerializeField] private AudioTimeSyncController atsc;
     [SerializeField] private CameraManager cameraManager;
     [SerializeField] private PrecisionPlacementController precisionPlacementController;
-
-    private PlacementState state;
-    private PlacementProvider currentProvider;
-    private Vector2 mousePosition;
     private bool applicationFocus;
     private bool applicationFocusChanged;
+    private PlacementProvider currentProvider;
 
-    private bool CanInteract
-    {
-        get
-        {
-            return !Input.GetMouseButton((int)MouseButton.Right)
-                && KeybindsController.IsMouseInWindow
-                && !SongTimelineController.IsHovering
-                && !SceneTransitionManager.IsLoading
-                && !DeleteToolController.IsActive
-                && !NodeEditorController.IsActive
-                && applicationFocus
-                && !UIMode.PreviewMode;
-        }
-    }
+    private PlacementInputState inputState;
+    private Vector2 mousePosition;
+
+    private bool CanInteract =>
+        !Input.GetMouseButton((int)MouseButton.Right)
+        && KeybindsController.IsMouseInWindow
+        && !SongTimelineController.IsHovering
+        && !SceneTransitionManager.IsLoading
+        && !DeleteToolController.IsActive
+        && !NodeEditorController.IsActive
+        && applicationFocus
+        && !UIMode.PreviewMode;
 
     private void Awake() => GridViewController.OnGridViewUpdated += RefreshBound;
 
-    private void OnDestroy()
-    {
-        GridViewController.OnGridViewUpdated -= RefreshBound;
-        Intersections.Clear();
-    }
-
     private void Update()
     {
-        if (((state == PlacementState.Drag && !Input.GetMouseButton((int)MouseButton.Left))
-                || (state == PlacementState.DragAtTime && !Input.GetMouseButton((int)MouseButton.Right)))
+        if (((inputState == PlacementInputState.Drag && !Input.GetMouseButton((int)MouseButton.Left))
+                || (inputState == PlacementInputState.DragAtTime && !Input.GetMouseButton((int)MouseButton.Right)))
             && currentProvider != null)
         {
             currentProvider.Lane.MoveXYGridByZ(0f);
@@ -70,15 +59,15 @@ public class PlacementInputSystem : MonoBehaviour,
                 provider: intersectionHit.GameObject.transform.parent.GetComponent<PlacementProvider>()))
             .Where(grid => grid.provider != null)
             .OrderBy(grid => grid.hit.Distance)
-            .ToArray();
+            .FirstOrDefault();
 
         if (HandleExitWhen(
-            (!CanInteract && state == PlacementState.Hover)
-            || gridHit.Length == 0))
+            (!CanInteract && inputState == PlacementInputState.Hover)
+            || gridHit.provider == null))
             return;
 
-        var (hit, provider) = gridHit[0];
-        if (currentProvider != provider && BoxSelectionPlacementController.State != SelectionState.Selecting)
+        var (hit, provider) = gridHit;
+        if (currentProvider != provider && BoxSelectionPlacementController.State != PlacementState.Placing)
         {
             currentProvider = provider;
 
@@ -91,7 +80,106 @@ public class PlacementInputSystem : MonoBehaviour,
             return;
 
         precisionPlacementController.UpdateMousePosition(hit.Point);
-        foreach (var placement in currentProvider.Placements) placement.UpdateState(hit, state);
+        foreach (var placement in currentProvider.Placements) placement.UpdateState(hit, inputState);
+    }
+
+    private void OnDestroy()
+    {
+        GridViewController.OnGridViewUpdated -= RefreshBound;
+        Intersections.Clear();
+    }
+
+    public void OnCancelPlacement(InputAction.CallbackContext context)
+    {
+        if (!context.performed || currentProvider == null) return;
+        foreach (var placement in currentProvider.Placements) placement.Cancel();
+    }
+
+    public void OnPlaceObject(InputAction.CallbackContext context)
+    {
+        if (currentProvider == null
+            || customStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)
+            || !KeybindsController.IsMouseInWindow
+            || !context.performed
+            || inputState != PlacementInputState.Hover
+            || !CanInteract
+            || PersistentUI.Instance.DialogBoxIsEnabled
+            || applicationFocusChanged)
+            return;
+        foreach (var placement in currentProvider
+            .Placements
+            .Where(p => p.AllowPlacement && p.CanPlace))
+            placement.Apply();
+    }
+
+    public void OnInitiateClickandDrag(InputAction.CallbackContext context)
+    {
+        if (currentProvider == null) return;
+        if (context.performed)
+        {
+            foreach (var p in currentProvider.Placements) p.HideVisual();
+
+            var dragRay = cameraManager.SelectedCameraController.Camera.ScreenPointToRay(mousePosition);
+            if (!Intersections.Raycast(dragRay, 9, out var dragHit)) return;
+
+            var container = currentProvider
+                .Placements
+                .Where(p => p.CanClickAndDrag)
+                .Select(p => p.StartDrag(dragHit.GameObject))
+                .FirstOrDefault(con => con != null);
+            if (container == null) return;
+
+            inputState = PlacementInputState.Drag;
+        }
+        else if (context.canceled && inputState == PlacementInputState.Drag) HandleDragFinished();
+    }
+
+    public void OnInitiateClickandDragatTime(InputAction.CallbackContext context)
+    {
+        if (currentProvider == null) return;
+        if (context.performed)
+        {
+            var dragRay = cameraManager.SelectedCameraController.Camera.ScreenPointToRay(mousePosition);
+            if (!Intersections.Raycast(dragRay, 9, out var dragHit)) return;
+
+            var (placement, container) = currentProvider
+                .Placements
+                .Where(p => p.CanClickAndDrag)
+                .Select(p => (p, container: p.StartDrag(dragHit.GameObject)))
+                .FirstOrDefault(pair => pair.container != null);
+            if (container == null) return;
+
+            inputState = PlacementInputState.DragAtTime;
+            var newZ = placement.GetContainerPosZ(container);
+            currentProvider.Lane.MoveXYGridByZ(newZ);
+        }
+        else if (context.canceled && inputState == PlacementInputState.DragAtTime)
+        {
+            currentProvider.Lane.MoveXYGridByZ(0);
+            HandleDragFinished();
+        }
+    }
+
+    public void OnMousePositionUpdate(InputAction.CallbackContext context) =>
+        mousePosition = Mouse.current.position.ReadValue();
+
+    public void OnPrecisionPlacementToggle(InputAction.CallbackContext context)
+    {
+        switch (Settings.Instance.PrecisionPlacementMode)
+        {
+            case PrecisionPlacementMode.Off:
+                precisionPlacementController.TogglePrecisionPlacement(false);
+                break;
+            case PrecisionPlacementMode.Hold:
+                precisionPlacementController.TogglePrecisionPlacement(context.performed);
+                break;
+            case PrecisionPlacementMode.Toggle:
+                if (context is { started: true, performed: false })
+                    precisionPlacementController.TogglePrecisionPlacement(!PrecisionPlacementController.IsEnabled);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
     }
 
     private void RefreshBound()
@@ -113,105 +201,11 @@ public class PlacementInputSystem : MonoBehaviour,
         foreach (var placement in currentProvider.Placements) placement.Bounds = boundsNew;
     }
 
-    public void OnCancelPlacement(InputAction.CallbackContext context)
-    {
-        if (!context.performed || currentProvider == null) return;
-        foreach (var placement in currentProvider.Placements) placement.Cancel();
-    }
-
-    public void OnPlaceObject(InputAction.CallbackContext context)
-    {
-        if (currentProvider == null
-            || customStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)
-            || !KeybindsController.IsMouseInWindow
-            || !context.performed
-            || state != PlacementState.Hover
-            || !CanInteract
-            || PersistentUI.Instance.DialogBoxIsEnabled
-            || applicationFocusChanged)
-            return;
-        foreach (var placement in currentProvider.Placements.Where(p => p.IsActive && p.CanPlace)) placement.Apply();
-    }
-
-    public void OnInitiateClickandDrag(InputAction.CallbackContext context)
-    {
-        if (currentProvider == null) return;
-        if (context.performed)
-        {
-            foreach (var placement in currentProvider.Placements) placement.HideVisual();
-
-            var dragRay = cameraManager.SelectedCameraController.Camera.ScreenPointToRay(mousePosition);
-            if (!Intersections.Raycast(dragRay, 9, out var dragHit)) return;
-
-            var placements = currentProvider
-                .Placements
-                .Where(p => p.CanClickAndDrag)
-                .Select(p => (p, container: p.StartDrag(dragHit.GameObject)))
-                .Where(p => p.container != null);
-            if (!placements.Any()) return;
-
-            state = PlacementState.Drag;
-        }
-        else if (context.canceled && state == PlacementState.Drag) HandleDragFinished();
-    }
-
-    public void OnInitiateClickandDragatTime(InputAction.CallbackContext context)
-    {
-        if (currentProvider == null) return;
-        if (context.performed)
-        {
-            var dragRay = cameraManager.SelectedCameraController.Camera.ScreenPointToRay(mousePosition);
-            if (!Intersections.Raycast(dragRay, 9, out var dragHit)) return;
-
-            var placements = currentProvider
-                .Placements
-                .Where(p => p.CanClickAndDrag && p.IsActive)
-                .Select(p => (p, container: p.StartDrag(dragHit.GameObject)))
-                .Where(p => p.container != null)
-                .ToArray();
-            if (!placements.Any()) return;
-
-            var (placement, con) = placements.First();
-            state = PlacementState.DragAtTime;
-            var newZ = placement.GetContainerPosZ(con);
-            currentProvider.Lane.MoveXYGridByZ(newZ);
-        }
-        else if (context.canceled && state == PlacementState.DragAtTime)
-        {
-            currentProvider.Lane.MoveXYGridByZ(0);
-            HandleDragFinished();
-        }
-    }
-
-    public void OnMousePositionUpdate(InputAction.CallbackContext context)
-    {
-        mousePosition = Mouse.current.position.ReadValue();
-    }
-
-    public void OnPrecisionPlacementToggle(InputAction.CallbackContext context)
-    {
-        switch (Settings.Instance.PrecisionPlacementMode)
-        {
-            case PrecisionPlacementMode.Off:
-                precisionPlacementController.TogglePrecisionPlacement(false);
-                break;
-            case PrecisionPlacementMode.Hold:
-                precisionPlacementController.TogglePrecisionPlacement(context.performed);
-                break;
-            case PrecisionPlacementMode.Toggle:
-                if (context is { started: true, performed: false })
-                    precisionPlacementController.TogglePrecisionPlacement(!PrecisionPlacementController.IsEnabled);
-                break;
-            default:
-                throw new ArgumentOutOfRangeException();
-        }
-    }
-
     private void HandleDragFinished()
     {
-        if (state == PlacementState.Hover) return;
+        if (inputState == PlacementInputState.Hover) return;
         foreach (var placement in currentProvider.Placements.Where(p => p.IsDragging)) placement.FinishDrag();
-        state = PlacementState.Hover;
+        inputState = PlacementInputState.Hover;
     }
 
     private bool HandleExitWhen(bool shouldExit)
