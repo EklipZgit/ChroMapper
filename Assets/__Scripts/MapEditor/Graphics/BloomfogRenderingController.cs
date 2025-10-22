@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class BloomfogRenderingController : MonoBehaviour
 {
-    private const int maxBloomfogPasses = 7;
+    private const int maxBloomfogPasses = 5;
 
     [SerializeField] private Camera bloomfogCamera;
     [SerializeField] private Shader blurShader;
@@ -87,6 +87,20 @@ public class BloomfogRenderingController : MonoBehaviour
 
         var width = cachedScreenWidth / quality;
         var height = cachedScreenHeight / quality;
+
+        // Enforce maximum resolution of 512 while keeping aspect ratio
+        // TODO: Beat Saber/ArcViewer uses square 512x512 and uses shader to sample correctly
+        var aspect = (float)width / height;
+        if (aspect >= 1)
+        {
+            width = Mathf.Clamp(width, 2, 512);
+            height = Mathf.Clamp(Mathf.RoundToInt(width / aspect), 2, 512);
+        }
+        else
+        {
+            height = Mathf.Clamp(height, 2, 512);
+            width = Mathf.Clamp(Mathf.RoundToInt(height * aspect), 2, 512);
+        }
 
         realBloomfogPasses = 0;
 
