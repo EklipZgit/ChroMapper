@@ -48,73 +48,58 @@ public class ObstaclePlacement : BasePlacement<BaseObstacle, ObstacleContainer, 
         PlacementVisualContainer.ObstacleData = QueuedData;
     }
 
-    // this wouldve taken easily from select box but no it decided it wants to be special
+    // Wall transform anchor on bottom middle
     protected override void UpdatePlacement(Intersections.IntersectionHit hit, Vector3 localPoint)
     {
-        var songBpmDuration = (float)BeatSaberSongContainer.Instance.Map.JsonTimeToSongBpmTime(RoundedJsonTime)
-            - startSongBpmTime;
-
-        var roundedPoint = new Vector3(Mathf.Floor(localPoint.x), Mathf.Floor(localPoint.y), localPoint.z);
+        var roundedPoint = localPoint;
+        var size = 1.0f;
         if (PrecisionPlacementController.IsEnabled)
         {
-            var precision = 1.0f / Settings.Instance.PrecisionPlacementGridPrecision;
-            // localPoint.x
+            var precision = Settings.Instance.PrecisionPlacementGridPrecision;
+            size = 1.0f / precision;
+            roundedPoint.x = (Mathf.Floor(roundedPoint.x * precision) / precision) + (size / 2f);
+            roundedPoint.y = Mathf.Floor(roundedPoint.y * precision) / precision;
         }
         else
         {
-            roundedPoint.x = Mathf.Clamp(roundedPoint.x, Bounds.min.x, Bounds.max.x - 1);
-            roundedPoint.y = Mathf.Clamp(roundedPoint.y, Bounds.min.y, Bounds.max.y - 1);
+            roundedPoint.x =
+                Mathf.Clamp(Mathf.Floor(roundedPoint.x), Bounds.min.x, Bounds.max.x - 1f) + (size / 2f);
+            roundedPoint.y =
+                IsPlacing
+                    ? Mathf.Clamp(Mathf.Floor(roundedPoint.y + .5f), Bounds.min.y, Bounds.max.y + 1f) - .5f
+                    : Mathf.Clamp(Mathf.Floor(roundedPoint.y + .5f), Bounds.min.y, Bounds.max.y - 1f) - .5f;
         }
-
-        Debug.Log($"{localPoint} {roundedPoint} {PlacementVisualContainer.transform.localPosition}");
 
         if (!IsPlacing)
         {
-            if (PrecisionPlacementController.IsEnabled)
-            {
-            }
-            else
-            {
-                var vanillaType = localPoint.y < 1.5 ? (int)ObstacleType.Full : (int)ObstacleType.Crouch;
-                var posY = vanillaType == (int)ObstacleType.Full ? 0 : 2;
-                var height = vanillaType == (int)ObstacleType.Full ? 5 : 3;
-
-                PlacementVisualContainer.transform.localPosition = new Vector3(
-                    roundedPoint.x + .5f,
-                    posY - .5f,
-                    roundedPoint.z);
-                PlacementVisualContainer.SetScale(
-                    new Vector3(1f, height, Mathf.Epsilon));
-            }
+            PlacementVisualContainer.transform.localPosition = roundedPoint;
+            PlacementVisualContainer.SetScale(new Vector3(size, size, Mathf.Epsilon));
         }
         else
         {
             var originShove = originPos;
-            float sizeX = 1;
-            float sizeY = 1;
+            var sizeX = size;
+            var sizeY = size;
 
             // there's probably elegant way to do this,
             // i just cant think now
-            if (localPoint.x < originPos.x)
+            if (roundedPoint.x < originPos.x)
             {
-                var difference = Mathf.Abs(localPoint.x - originPos.x);
+                var difference = Mathf.Abs(roundedPoint.x - originPos.x);
                 sizeX += difference;
                 originShove.x -= difference;
             }
 
-            if (localPoint.y < originPos.y)
+            if (roundedPoint.y < originPos.y)
             {
-                var difference = Mathf.Abs(localPoint.y - originPos.y);
+                var difference = Mathf.Abs(roundedPoint.y - originPos.y);
                 sizeY += difference;
                 originShove.y -= difference;
             }
 
-            PlacementVisualContainer.transform.localPosition = originShove;
-            var newLocalScale = localPoint + new Vector3(sizeX, sizeY, 0.5f) - originShove;
-            // PlacementVisualContainer.transform.localPosition = new Vector3(
-            //     roundedPoint.x + .5f,
-            //     posY - .5f,
-            //     roundedPoint.z);
+            var newLocalScale = roundedPoint + new Vector3(sizeX, sizeY, 0f) - originShove;
+            PlacementVisualContainer.transform.localPosition =
+                originShove + new Vector3((newLocalScale.x - size) / 2f, 0f, 0f);
             PlacementVisualContainer.SetScale(newLocalScale);
         }
     }
@@ -126,42 +111,12 @@ public class ObstaclePlacement : BasePlacement<BaseObstacle, ObstacleContainer, 
             startJsonTime = RoundedJsonTime;
             PlacementVisualContainer.ObstacleData.Duration = SmallestRankableWallDuration;
 
-
-            if (PrecisionPlacementController.IsEnabled)
-            {
-                // if (newLocalScale.x <= 0)
-                // {
-                //     position.x = originPosition.x + newLocalScale.x - precisionR;
-                //     QueuedData.CustomCoordinate[0] = position.x;
-                // }
-                //
-                // if (newLocalScale.y <= 0)
-                // {
-                //     position.y = originPosition.y + newLocalScale.y - precisionR;
-                //     QueuedData.CustomCoordinate[1] = position.y;
-                // }
-
-                if (QueuedData.CustomSize == null) QueuedData.CustomSize = new JSONArray();
-            }
-            else
-            {
-                QueuedData.CustomCoordinate = null;
-                QueuedData.CustomSize = null;
-
-                // QueuedData.Width = Mathf.CeilToInt(localPoint.x + 2.5f) - originIndex;
-                if (QueuedData.Width <= 0)
-                {
-                    QueuedData.PosX = originIndex + QueuedData.Width - 1;
-                    QueuedData.Width = 2 - QueuedData.Width;
-                }
-                else
-                    QueuedData.PosX = originIndex;
-            }
-
             return;
         }
 
-        PlacementVisualContainer.ObstacleData.Duration = RoundedJsonTime - startJsonTime;
+        QueuedData.Duration = RoundedJsonTime - startJsonTime;
+        if (Mathf.Abs(RoundedJsonTime - startJsonTime) < SmallestRankableWallDuration)
+            QueuedData.Duration = SmallestRankableWallDuration;
         // obstacleAppearanceSo.SetObstacleAppearance(PlacementVisualContainer);
 
         // Check if Chroma Color notes button is active and apply _color
@@ -169,24 +124,22 @@ public class ObstaclePlacement : BasePlacement<BaseObstacle, ObstacleContainer, 
             ? colorPicker.CurrentColor
             : null;
 
-        if (PrecisionPlacementController.IsEnabled)
-        {
-            QueuedData.PosX = QueuedData.Type = 0;
-            if (QueuedData.CustomData == null) QueuedData.CustomData = new JSONObject();
-            // QueuedData.CustomCoordinate = (Vector2)localPoint;
-        }
-        else
-        {
-            QueuedData.CustomCoordinate = null;
-            QueuedData.CustomSize = null;
+        var pos = (Vector2)PlacementVisualContainer.transform.localPosition;
+        var scale = (Vector2)PlacementVisualContainer.ObstacleScale;
 
-            // var vanillaType = localPoint.y + 1 <= 2 ? (int)ObstacleType.Full : (int)ObstacleType.Crouch;
+        // let's not talk about this
+        QueuedData.Type = pos.y <= 2 ? (int)ObstacleType.Full : (int)ObstacleType.Crouch;
 
-            // QueuedData.PosX = Mathf.RoundToInt(roundedPoint.x) + 2;
-            // QueuedData.PosY = vanillaType == (int)ObstacleType.Full ? 0 : 2;
-            // QueuedData.Height = vanillaType == (int)ObstacleType.Full ? 5 : 3;
-            // QueuedData.Type = vanillaType;
-        }
+        var vanillaPos = new Vector2(Mathf.FloorToInt(pos.x - (scale.x / 2f)), Mathf.FloorToInt(pos.y));
+        var coordinates = pos - new Vector2(scale.x / 2f, .5f);
+        QueuedData.CustomCoordinate = vanillaPos != coordinates ? coordinates + Vector2.up : null;
+        QueuedData.PosX = (int)vanillaPos.x + 2;
+        QueuedData.PosY = (int)vanillaPos.y + 1;
+
+        var vanillaSize = new Vector2(Mathf.CeilToInt(scale.x), Mathf.CeilToInt(scale.y));
+        QueuedData.CustomSize = vanillaSize != scale ? scale : null;
+        QueuedData.Width = (int)vanillaSize.x;
+        QueuedData.Height = (int)vanillaSize.y;
     }
 
     public override void HandleApply()
@@ -196,7 +149,7 @@ public class ObstaclePlacement : BasePlacement<BaseObstacle, ObstacleContainer, 
             QueuedData.JsonTime = startJsonTime;
 
             var endSongBpmTime =
-                startSongBpmTime + (PlacementVisualContainer.GetScale().z / EditorScaleController.EditorScale);
+                startSongBpmTime + (PlacementVisualContainer.ObstacleScale.z / EditorScaleController.EditorScale);
 
             if (endSongBpmTime - startSongBpmTime < SmallestRankableWallDuration)
             {
@@ -235,7 +188,7 @@ public class ObstaclePlacement : BasePlacement<BaseObstacle, ObstacleContainer, 
             IsPlacing = false;
             QueuedData = GenerateOriginalData();
             PlacementVisualContainer.ObstacleData = QueuedData;
-            obstacleAppearanceSo.SetObstacleAppearance(PlacementVisualContainer);
+            // obstacleAppearanceSo.SetObstacleAppearance(PlacementVisualContainer);
             PlacementVisualContainer.SetScale(
                 new Vector3(
                     1,

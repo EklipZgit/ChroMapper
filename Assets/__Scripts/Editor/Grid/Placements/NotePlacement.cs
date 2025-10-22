@@ -122,8 +122,8 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
         if (PrecisionPlacementController.IsEnabled)
         {
             var precision = Settings.Instance.PrecisionPlacementGridPrecision;
-            roundedPoint = (Vector2)Vector2Int.RoundToInt((Vector2)localPoint * precision) / precision;
-            roundedPoint.z = placementZ;
+            roundedPoint.x = Mathf.Round(localPoint.x * precision) / precision;
+            roundedPoint.y = Mathf.Round(localPoint.y * precision) / precision;
             PlacementVisualContainer.transform.localPosition = roundedPoint;
         }
         else

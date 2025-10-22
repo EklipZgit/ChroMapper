@@ -12,6 +12,7 @@ public class GridRenderingController : MonoBehaviour
     [SerializeField] private GameObject gridParent;
 
     private readonly List<GridLane> gridLanes = new();
+    private Renderer precisionGrid;
 
     private static readonly int colorID = Shader.PropertyToID("_Color");
     private static readonly int offsetID = Shader.PropertyToID("_Offset");
@@ -21,23 +22,32 @@ public class GridRenderingController : MonoBehaviour
     [SerializeField] private Vector4 subBeat = new(1f, 1f / 4f, 1f / 8f, 1f / 16f);
     [SerializeField] private Vector4 subBeatThickness = new(0.1f, 0.05f, 0.025f, 0.0125f);
 
+    [SerializeField] private Vector4 precisionSnap = new(1f, 0f, 0f, 0f);
+
     private MaterialPropertyBlock gridMaterialPropertyBlock;
     private MaterialPropertyBlock interfaceMaterialPropertyBlock;
+    private MaterialPropertyBlock precisionMaterialPropertyBlock;
 
     private void Awake()
     {
-        atsc.OnGridMeasureSnappingChanged += HandleGridMeasureSnappingChanged;
-
         foreach (var gridLane in gridParent.GetComponentsInChildren<GridLane>()) gridLanes.Add(gridLane);
+        precisionGrid = gridLanes
+            .First(g => g.gameObject.name.Contains("Gameplay"))
+            .XY.transform.Find("Expanded")
+            .GetComponent<Renderer>();
 
         gridMaterialPropertyBlock = new MaterialPropertyBlock();
         interfaceMaterialPropertyBlock = new MaterialPropertyBlock();
+        precisionMaterialPropertyBlock = new MaterialPropertyBlock();
 
+        atsc.OnGridMeasureSnappingChanged += HandleGridMeasureSnappingChanged;
         Settings.NotifyBySettingName(nameof(Settings.HighContrastGrids), UpdateGridColors);
         Settings.NotifyBySettingName(nameof(Settings.GridTransparency), UpdateGridColors);
         Settings.NotifyBySettingName(nameof(Settings.TrackLength), UpdateTrackLength);
         Settings.NotifyBySettingName(nameof(Settings.OneBeatWidth), UpdateOneBeat);
+        Settings.NotifyBySettingName(nameof(Settings.PrecisionPlacementGridPrecision), UpdatePrecisionGrid);
 
+        UpdatePrecisionGrid(Settings.Instance.PrecisionPlacementGridPrecision);
         UpdateOneBeat(Settings.Instance.OneBeatWidth);
     }
 
@@ -48,6 +58,7 @@ public class GridRenderingController : MonoBehaviour
         Settings.ClearSettingNotifications(nameof(Settings.GridTransparency));
         Settings.ClearSettingNotifications(nameof(Settings.TrackLength));
         Settings.ClearSettingNotifications(nameof(Settings.OneBeatWidth));
+        Settings.ClearSettingNotifications(nameof(Settings.PrecisionPlacementGridPrecision));
     }
 
     public void UpdateOffset(float offset)
@@ -97,6 +108,29 @@ public class GridRenderingController : MonoBehaviour
         subBeatThickness[0] = (float)value;
         gridMaterialPropertyBlock.SetVector(gridThicknessID, subBeatThickness);
         foreach (var g in gridLanes.Select(g => g.XZ.Grid)) g.SetPropertyBlock(gridMaterialPropertyBlock);
+    }
+
+    private void UpdatePrecisionGrid(object value)
+    {
+        var snapping = (int)value;
+        float gridSeparation = GetLowestDenominator(snapping);
+        if (gridSeparation < 1) gridSeparation = 1;
+        
+        precisionSnap[0] = 1f;
+        
+        var useSegments = gridSeparation <= snapping;
+        precisionSnap[1] = useSegments ? 1f / gridSeparation : 0f;
+
+        var useDetailedSegments = gridSeparation < snapping;
+        gridSeparation *= GetLowestDenominator(Mathf.FloorToInt(snapping / gridSeparation));
+        precisionSnap[2] = useDetailedSegments ? 1f / gridSeparation : 0f;
+
+        var usePreciseSegments = gridSeparation < snapping;
+        gridSeparation *= GetLowestDenominator(Mathf.FloorToInt(snapping / gridSeparation));
+        precisionSnap[3] = usePreciseSegments ? 1f / gridSeparation : 0f;
+        
+        precisionMaterialPropertyBlock.SetVector(gridSpacingID, precisionSnap);
+        precisionGrid.SetPropertyBlock(precisionMaterialPropertyBlock);
     }
 
     private int GetLowestDenominator(int a)

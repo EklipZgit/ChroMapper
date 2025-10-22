@@ -17,6 +17,7 @@ namespace Beatmap.Containers
         [SerializeField] private Material distortObstacle;
 
         [SerializeField] public BaseObstacle ObstacleData;
+        public Vector3 ObstacleScale;
 
         public override BaseObject ObjectData
         {
@@ -51,6 +52,8 @@ namespace Beatmap.Containers
 
         public void SetScale(Vector3 scale)
         {
+            ObstacleScale = scale;
+            
             scale.x *= 0.98f;
             var cubeOffset = scale / 2f;
             cubeOffset.x = 0f;
@@ -70,8 +73,6 @@ namespace Beatmap.Containers
             MaterialPropertyBlock.SetVector(worldScaleID, obstacleCore.transform.localScale);
             UpdateMaterials();
         }
-
-        public Vector3 GetScale() => obstacleOutline.transform.localScale;
 
         public float GetLength()
         {

@@ -33,9 +33,9 @@
             float _FadeRadius;
 
             UNITY_INSTANCING_BUFFER_START(Props)
+                UNITY_DEFINE_INSTANCED_PROP(fixed4, _Color)
                 UNITY_DEFINE_INSTANCED_PROP(float4, _GridSpacing)
                 UNITY_DEFINE_INSTANCED_PROP(float4, _GridThickness)
-                UNITY_DEFINE_INSTANCED_PROP(fixed4, _Color)
                 UNITY_DEFINE_INSTANCED_PROP(float3, _MousePosition)
             UNITY_INSTANCING_BUFFER_END(Props)
 
@@ -104,7 +104,7 @@
                         abs(yPos) % gridSpacing[idx] / gridSpacing[idx] <= gridThickness[idx] / 2 ||
                         abs(yPos) % gridSpacing[idx] / gridSpacing[idx] >= 1 - gridThickness[idx] / 2)
                     {
-                        return color * sqrt(1 - dist);
+                        return color * (1 - sqrt(dist));
                     }
                 }
 

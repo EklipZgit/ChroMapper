@@ -73,7 +73,7 @@ Material:
     - _Cull: 2
     - _Cutoff: 0.5
     - _DstBlend: 0
-    - _FadeRadius: 2.5
+    - _FadeRadius: 3
     - _FadeSize: 2
     - _GlossMapScale: 1
     - _Glossiness: 0.5
@@ -104,7 +104,7 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _GridSpacing: {r: 1, g: 0, b: 0, a: 0}
     - _GridThickness: {r: 0.05, g: 0.05, b: 0.025, a: 0.0125}
-    - _MousePosition: {r: -1.887625, g: 2.690433, b: 0, a: 0}
+    - _MousePosition: {r: -1.2137207, g: 0.5155289, b: 0, a: 0}
     - _Position: {r: 0, g: 0, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
