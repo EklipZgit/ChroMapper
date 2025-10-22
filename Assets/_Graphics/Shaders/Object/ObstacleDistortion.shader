@@ -40,6 +40,7 @@
         HLSLINCLUDE
         #include "UnityCG.cginc"
         #include "../CGIncludes/Noise.cginc"
+        #include "../CGIncludes/BloomFog.cginc"
 
         // These are global properties and should not be instanced
         uniform float _MainAlpha = 0.5;
@@ -63,6 +64,7 @@
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_instancing
+            #pragma multi_compile _ ENABLE_BLOOM_FOG
 
             struct appdata
             {
@@ -80,6 +82,7 @@
                 float3 localPos : TEXCOORD1;
                 float3 worldPos : TEXCOORD2;
                 float4 screenPos : TEXCOORD3;
+                float4 customScreenPos : TEXCOORD4;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
@@ -96,6 +99,7 @@
                 o.uv = v.uv;
                 o.normal = v.normal;
                 o.screenPos = ComputeGrabScreenPos(o.pos);
+                o.customScreenPos = ComputeScreenPosCustom(o.pos);
 
                 return o;
             }
@@ -155,7 +159,9 @@
                     _DistortionStrength;
 
                 fixed4 col = color + tex2D(_GrabTexture, screenUV);
-                return col * factor;
+                col = col * factor;
+                BLOOM_FOG_APPLY(col, i.customScreenPos, i.worldPos, 0, 5);
+                return col;
             }
             ENDHLSL
         }
