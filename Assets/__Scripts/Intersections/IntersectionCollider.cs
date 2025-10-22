@@ -86,13 +86,15 @@ public class IntersectionCollider : MonoBehaviour
         CollisionLayer = gameObject.layer;
         MeshTriangles = Mesh.triangles;
         MeshVertices = Mesh.vertices;
-        CollisionBounds = Mesh.bounds;
+        CollisionBounds = new();
 
         for (var i = 0; i < MeshVertices.Length; i++)
         {
             MeshVertices[i].x = (MeshVertices[i].x + Center.x) * Size.x;
             MeshVertices[i].y = (MeshVertices[i].y + Center.y) * Size.y;
             MeshVertices[i].z = (MeshVertices[i].z + Center.z) * Size.z;
+
+            CollisionBounds.Encapsulate(MeshVertices[i]);
         }
 
         if (CollisionGroups == null || CollisionGroups.Count == 0) CollisionGroups = new List<int> { 0 };
