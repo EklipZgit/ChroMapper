@@ -21,9 +21,21 @@ public class BoxSelectionPlacementController : BasePlacement<BaseEvent, EventCon
     private HashSet<BaseObject> alreadySelected = new();
     private Vector3 originPos;
 
-    public override bool CanClickAndDrag => false;
+    public override bool CanClickAndDrag
+    {
+        get
+        {
+            return false;
+        }
+    }
 
-    public override bool CanPlace => Settings.Instance.BoxSelect && State != PlacementState.Idle;
+    public override bool CanPlace
+    {
+        get
+        {
+            return Settings.Instance.BoxSelect && State != PlacementState.Idle;
+        }
+    }
 
     private void OnDrawGizmos()
     {
@@ -47,10 +59,16 @@ public class BoxSelectionPlacementController : BasePlacement<BaseEvent, EventCon
         if (State != PlacementState.Placing) State = context.performed ? PlacementState.Active : PlacementState.Idle;
     }
 
-    protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicting) => null;
+    protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicting)
+    {
+        return null;
+    }
 
     // TODO: v3 check?
-    protected override BaseEvent GenerateOriginalData() => new();
+    protected override BaseEvent GenerateOriginalData()
+    {
+        return new BaseEvent();
+    }
 
     public override void Initialize(PlacementProvider provider)
     {
@@ -61,6 +79,19 @@ public class BoxSelectionPlacementController : BasePlacement<BaseEvent, EventCon
             .Where(p => p.GetType() != GetType())
             .Select(p => p.ObjectDataType))
             selectedTypes.Add(objectType);
+    }
+
+    public override void UpdateState(Intersections.IntersectionHit hit, PlacementInputState inputState)
+    {
+        if (!CanPlace)
+        {
+            if (base.State != PlacementState.Active) return;
+            HideVisual();
+            base.State = PlacementState.Idle;
+            return;
+        }
+
+        base.UpdateState(hit, inputState);
     }
 
     protected override void UpdatePlacement(Intersections.IntersectionHit hit, Vector3 localPoint)
@@ -175,7 +206,8 @@ public class BoxSelectionPlacementController : BasePlacement<BaseEvent, EventCon
 
         foreach (var combinedObj in SelectionController
             .SelectedObjects
-            .Where(combinedObj => !selected.Contains(combinedObj) && !alreadySelected.Contains(combinedObj)))
+            .Where(combinedObj => !selected.Contains(combinedObj) && !alreadySelected.Contains(combinedObj))
+            .ToArray())
             SelectionController.Deselect(combinedObj, false);
 
         selected.Clear();

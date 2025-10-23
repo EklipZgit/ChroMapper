@@ -28,6 +28,7 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
     [SerializeField] private Color copiedColor;
     [SerializeField] private TracksManager tracksManager;
     [SerializeField] private EventPlacement eventPlacement;
+    [SerializeField] private EventGridContainer eventGridContainer;
 
     [SerializeField] private CreateEventTypeLabels labels;
     private bool shiftInPlace;
@@ -393,6 +394,7 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
     /// </summary>
     public void Paste(bool triggersAction = true, bool overwriteSection = false)
     {
+        var copiedObjects = TryGetModifiedEventOnLanePaste(CopiedObjects);
         DeselectAll();
 
         // Set up stuff that we need
@@ -400,7 +402,7 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
         var collections = new Dictionary<ObjectType, BeatmapObjectContainerCollection>();
 
         // This first loop creates copy of the data to be pasted.
-        foreach (var data in CopiedObjects)
+        foreach (var data in copiedObjects)
         {
             if (data == null) continue;
 
@@ -484,7 +486,7 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
             if (collection is BPMChangeGridContainer con) con.RefreshModifiedBeat();
         }
 
-        if (CopiedObjects.Any(x => x is BaseEvent e && e.IsLaneRotationEvent())) tracksManager.RefreshTracks();
+        if (copiedObjects.Any(x => x is BaseEvent e && e.IsLaneRotationEvent())) tracksManager.RefreshTracks();
         if (triggersAction) BeatmapActionContainer.AddAction(new SelectionPastedAction(pasted, totalRemoved));
         OnSelectionPasted?.Invoke(pasted);
         OnSelectionChanged?.Invoke();
@@ -496,6 +498,100 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
         }
 
         Debug.Log("Pasted!");
+    }
+
+    // not so elegant but this will do for now
+    private HashSet<BaseObject> TryGetModifiedEventOnLanePaste(HashSet<BaseObject> copiedObjects)
+    {
+        GetObjectTypes(
+            copiedObjects.AsEnumerable(),
+            out _,
+            out var hasEvent,
+            out _,
+            out _);
+        if (!hasEvent || eventPlacement.QueuedData == null) return copiedObjects;
+
+        var copiedEvents = new HashSet<BaseObject>();
+
+        var expectedType = -1;
+        var first = true;
+        var isSingleIds = true;
+        int[] lightIds = null;
+        var minId = int.MaxValue;
+        var hasNullId = false;
+
+        var offsetTime = eventPlacement.QueuedData.JsonTime - atsc.CurrentJsonTime;
+        foreach (var obj in CopiedObjects)
+        {
+            if (obj is not BaseEvent) return copiedObjects;
+            var ev = (BaseEvent)BeatmapFactory.Clone(obj);
+            if (expectedType == -1) expectedType = ev.Type;
+            if (ev.Type != expectedType) return copiedObjects;
+
+            ev.Type = eventPlacement.QueuedData.Type;
+            ev.JsonTime += offsetTime;
+
+            if (first) lightIds = ev.CustomLightID;
+
+            if (ev.CustomLightID != null)
+            {
+                minId = Math.Min(ev.CustomLightID.Min(), minId);
+
+                if (!first && (lightIds == null || ev.CustomLightID.Length != lightIds.Length)) isSingleIds = false;
+
+                if (!first
+                    && lightIds != null
+                    && ev.CustomLightID.Length == lightIds.Length
+                    && !lightIds.OrderBy(s => s).SequenceEqual(ev.CustomLightID.OrderBy(s => s)))
+                    isSingleIds = false;
+            }
+            else
+                hasNullId = true;
+
+            first = false;
+            copiedEvents.Add(ev);
+        }
+
+        switch (eventGridContainer.PropagationEditing)
+        {
+            case EventGridContainer.PropMode.Prop when isSingleIds:
+            case EventGridContainer.PropMode.Light when hasNullId && isSingleIds:
+                {
+                    foreach (var ev in copiedEvents.Cast<BaseEvent>())
+                    {
+                        ev.Type = eventGridContainer.EventTypeToPropagate;
+                        ev.CustomLightID = eventPlacement.QueuedData.CustomLightID;
+                    }
+
+                    break;
+                }
+            case EventGridContainer.PropMode.Light when !hasNullId:
+                {
+                    foreach (var ev in copiedEvents.Cast<BaseEvent>())
+                    {
+                        ev.Type = eventGridContainer.EventTypeToPropagate;
+                        if (eventPlacement.QueuedData.CustomLightID == null)
+                        {
+                            ev.CustomLightID = null;
+                            continue;
+                        }
+
+                        for (var i = 0; i < ev.CustomLightID.Length; i++)
+                        {
+                            ev.CustomLightID[i] =
+                                ev.CustomLightID[i] - minId + eventPlacement.QueuedData.CustomLightID[0];
+                        }
+                    }
+
+                    break;
+                }
+            case EventGridContainer.PropMode.Off:
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+
+        return copiedEvents;
     }
 
     public void MoveSelection(float beats, bool snapObjects = false)

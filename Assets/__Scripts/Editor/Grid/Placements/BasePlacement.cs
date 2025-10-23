@@ -121,7 +121,7 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
         Intersections.IntersectionHit hit,
         PlacementInputState inputState)
     {
-        if (!AllowPlacement || !CanPlace)
+        if (!AllowPlacement)
         {
             if (State != PlacementState.Active) return;
             HideVisual();
