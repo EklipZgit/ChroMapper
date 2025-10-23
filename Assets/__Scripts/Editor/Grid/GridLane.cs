@@ -8,6 +8,9 @@ public class GridLane : GridChild
     [SerializeField] public GridXY XY;
     [SerializeField] public Vector2 XYOffset = Vector2.zero;
 
+    private MaterialPropertyBlock materialPropertyBlock;
+    private static readonly int gridOffsetID = Shader.PropertyToID("_GridOffset");
+
     public override void OnValidate()
     {
         base.OnValidate();
@@ -17,9 +20,17 @@ public class GridLane : GridChild
         MoveXYGridByZ(0f);
     }
 
+    public void Start()
+    {
+        materialPropertyBlock = new MaterialPropertyBlock();
+    }
+
     public override int Lane
     {
-        get => base.Lane;
+        get
+        {
+            return base.Lane;
+        }
         set
         {
             SetLaneNoNotify(value);
@@ -29,7 +40,10 @@ public class GridLane : GridChild
 
     public int Height
     {
-        get => (int)Size.y;
+        get
+        {
+            return (int)Size.y;
+        }
         set
         {
             SetHeightNoNotify(value);
@@ -40,7 +54,10 @@ public class GridLane : GridChild
 
     public float Length
     {
-        get => Size.z;
+        get
+        {
+            return Size.z;
+        }
         set
         {
             SetLengthNoNotify(value);
@@ -49,7 +66,10 @@ public class GridLane : GridChild
         }
     }
 
-    public void SetLane(int lane) => Lane = lane;
+    public void SetLane(int lane)
+    {
+        Lane = lane;
+    }
 
     private void SetLaneNoNotify(int lane)
     {
@@ -66,7 +86,10 @@ public class GridLane : GridChild
             XZ.transform.localPosition.z);
     }
 
-    public void SetHeight(int height) => Height = height;
+    public void SetHeight(int height)
+    {
+        Height = height;
+    }
 
     private void SetHeightNoNotify(int height)
     {
@@ -78,7 +101,10 @@ public class GridLane : GridChild
     }
 
     // This applies to both front and back side by 4:1
-    public void SetLength(float length) => Length = length;
+    public void SetLength(float length)
+    {
+        Length = length;
+    }
 
     private void SetLengthNoNotify(float length)
     {
@@ -98,5 +124,19 @@ public class GridLane : GridChild
         var pos = XY.transform.localPosition;
         pos.z = z;
         XY.transform.localPosition = pos;
+    }
+
+    public void RefreshPosition()
+    {
+        SetLaneNoNotify(Lane);
+        SetHeightNoNotify(Height);
+        SetLengthNoNotify(Length);
+        RefreshVisual();
+    }
+
+    public void RefreshVisual()
+    {
+        materialPropertyBlock.SetVector(gridOffsetID, (Vector3)XYOffset + LocalOffset);
+        XY.Grid.SetPropertyBlock(materialPropertyBlock);
     }
 }

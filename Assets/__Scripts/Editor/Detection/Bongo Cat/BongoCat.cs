@@ -6,7 +6,7 @@ using UnityEngine.Serialization;
 public class BongoCat : MonoBehaviour
 {
     [SerializeField] private BongoCatPreset[] bongoCats;
-    [SerializeField] private Transform noteGridHeight;
+    [SerializeField] private GridLane lane;
 
     [FormerlySerializedAs("Larm")] [SerializeField]
     private bool larm;
@@ -23,12 +23,16 @@ public class BongoCat : MonoBehaviour
     private void Start()
     {
         selectedBongoCat = bongoCats[0];
-
         comp = GetComponent<SpriteRenderer>();
-
         Settings.NotifyBySettingName(nameof(BongoCat), UpdateBongoCatState);
-
+        GridViewController.OnGridViewUpdated += UpdatePosition;
         UpdateBongoCatState(Settings.Instance.BongoCat);
+    }
+
+    private void OnDestroy()
+    {
+        Settings.ClearSettingNotifications(nameof(Settings.BongoCat));
+        GridViewController.OnGridViewUpdated -= UpdatePosition;
     }
 
     private void Update()
@@ -60,9 +64,14 @@ public class BongoCat : MonoBehaviour
                 break;
         }
 
+        UpdatePosition();
+    }
+
+    private void UpdatePosition()
+    {
         transform.localPosition = new Vector3(
             transform.localPosition.x,
-            (noteGridHeight.localPosition.y * 2) + selectedBongoCat.YOffset,
+            lane.Height + lane.XYOffset.y + selectedBongoCat.YOffset,
             -0.001f);
 
         transform.localScale = selectedBongoCat.Scale;
@@ -100,10 +109,5 @@ public class BongoCat : MonoBehaviour
                 rarmTimeout = timer;
                 break;
         }
-    }
-
-    private void OnDestroy()
-    {
-        Settings.ClearSettingNotifications(nameof(Settings.BongoCat));
     }
 }

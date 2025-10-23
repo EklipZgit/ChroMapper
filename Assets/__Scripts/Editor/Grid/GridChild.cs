@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.Serialization;
 
 [ExecuteAlways]
 public class GridChild : MonoBehaviour
@@ -43,7 +42,7 @@ public class GridChild : MonoBehaviour
 
     [SerializeField] private int order;
 
-    public Vector3 LocalOffset
+    public virtual Vector3 LocalOffset
     {
         get => localOffset;
         set

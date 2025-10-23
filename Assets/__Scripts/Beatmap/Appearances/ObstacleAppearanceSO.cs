@@ -11,7 +11,10 @@ namespace Beatmap.Appearances
         [SerializeField] private Color negativeWidthColor = Color.green;
         [SerializeField] private Color negativeDurationColor = Color.yellow;
 
-        public void SetObstacleAppearance(ObstacleContainer obj, PlatformDescriptor platform = null)
+        public void SetObstacleAppearance(
+            ObstacleContainer obj,
+            PlatformDescriptor platform = null,
+            bool canyounot = false)
         {
             if (platform != null) DefaultObstacleColor = platform.ColorScheme.ObstacleColor;
 
@@ -37,8 +40,7 @@ namespace Beatmap.Appearances
                     else
                         obj.SetColor(DefaultObstacleColor);
 
-                    if (obj.ObstacleData.CustomColor != null)
-                        obj.SetColor((Color)obj.ObstacleData.CustomColor);
+                    if (obj.ObstacleData.CustomColor != null) obj.SetColor((Color)obj.ObstacleData.CustomColor);
                 }
                 else if (obj.ObstacleData.Width < 0 && Settings.Instance.ColorFakeWalls)
                 {
@@ -49,7 +51,8 @@ namespace Beatmap.Appearances
                     obj.SetColor(DefaultObstacleColor);
                 }
             }
-            obj.Animator.AttachToObject(obj.ObstacleData);
+
+            if (!canyounot) obj.Animator.AttachToObject(obj.ObstacleData);
         }
     }
 }

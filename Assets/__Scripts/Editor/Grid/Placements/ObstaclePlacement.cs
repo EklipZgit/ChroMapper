@@ -13,9 +13,12 @@ public class ObstaclePlacement : BasePlacement<BaseObstacle, ObstacleContainer, 
     [SerializeField] private ObstacleAppearanceSO obstacleAppearanceSo;
     [SerializeField] private ColorPicker colorPicker;
     [SerializeField] private ToggleColourDropdown dropdown;
+    [SerializeField] private GridLane lane;
 
     private int originIndex;
     private Vector3 originPos;
+    private bool hasOffset;
+    private bool hasExpanded;
 
     private float startJsonTime;
     private float startSongBpmTime;
@@ -45,11 +48,63 @@ public class ObstaclePlacement : BasePlacement<BaseObstacle, ObstacleContainer, 
     {
         base.Initialize(provider);
         PlacementVisualContainer.ObstacleData = QueuedData;
+        obstacleAppearanceSo.SetObstacleAppearance(PlacementVisualContainer, null, true);
     }
 
     public override void UpdateState(Intersections.IntersectionHit hit, PlacementInputState inputState)
     {
         if (IsPlacing && !AllowPlacement) Cancel();
+
+        switch (AllowPlacement)
+        {
+            case true when State != PlacementState.Idle:
+                {
+                    if (!hasOffset)
+                    {
+                        // Offset Y by whole grid or XY grid only
+                        var offset = lane.XYOffset;
+                        offset.y = -0.5f;
+                        // lane.LocalOffset = offset;
+                        lane.XYOffset = offset;
+                        lane.RefreshPosition();
+                        
+                        lane.Lane *= 2;
+                        
+                        hasOffset = true;
+                    }
+
+                    switch (IsPlacing)
+                    {
+                        case true when !hasExpanded:
+                            lane.Height = 5;
+                            hasExpanded = true;
+                            break;
+                        case false when hasExpanded:
+                            lane.Height = 3;
+                            hasExpanded = false;
+                            break;
+                    }
+
+                    break;
+                }
+            case false when hasOffset || hasExpanded:
+                {
+                    var offset = lane.XYOffset;
+                    offset.y = 0;
+                    // lane.LocalOffset = offset;
+                    lane.XYOffset = offset;
+                    lane.RefreshPosition();
+                    
+                    lane.Height = 3;
+                    lane.Lane = Settings.NonPersistentSettings.TryGetValue("NoteLanes", out var val)
+                        ? (int)val
+                        : 4;
+
+                    hasOffset = hasExpanded = false;
+                    break;
+                }
+        }
+
         base.UpdateState(hit, inputState);
     }
 
@@ -74,8 +129,8 @@ public class ObstaclePlacement : BasePlacement<BaseObstacle, ObstacleContainer, 
                 Mathf.Clamp(Mathf.Floor(roundedPoint.x), Bounds.min.x, Bounds.max.x - 1f) + (size / 2f);
             roundedPoint.y =
                 IsPlacing
-                    ? Mathf.Clamp(Mathf.Floor(roundedPoint.y + .5f), Bounds.min.y, Bounds.max.y + 1f) - .5f
-                    : Mathf.Clamp(Mathf.Floor(roundedPoint.y + .5f), Bounds.min.y, Bounds.max.y - 1f) - .5f;
+                    ? Mathf.Clamp(Mathf.Floor(roundedPoint.y + .5f), Bounds.min.y + .5f, Bounds.max.y + 1.5f) - .5f
+                    : Mathf.Clamp(Mathf.Floor(roundedPoint.y + .5f), Bounds.min.y + .5f, Bounds.max.y - .5f) - .5f;
         }
 
         if (!IsPlacing)
@@ -187,6 +242,7 @@ public class ObstaclePlacement : BasePlacement<BaseObstacle, ObstacleContainer, 
     {
         dragged.JsonTime = queued.JsonTime;
         dragged.PosX = queued.PosX;
+        dragged.PosY = queued.PosY;
         dragged.CustomCoordinate = queued.CustomCoordinate;
     }
 
