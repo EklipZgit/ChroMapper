@@ -503,13 +503,15 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
     // not so elegant but this will do for now
     private HashSet<BaseObject> TryGetModifiedEventOnLanePaste(HashSet<BaseObject> copiedObjects)
     {
+        if (eventPlacement.State == PlacementState.Idle || eventPlacement.QueuedData == null) return copiedObjects;
+
         GetObjectTypes(
             copiedObjects.AsEnumerable(),
             out _,
             out var hasEvent,
             out _,
             out _);
-        if (!hasEvent || eventPlacement.QueuedData == null) return copiedObjects;
+        if (!hasEvent) return copiedObjects;
 
         var copiedEvents = new HashSet<BaseObject>();
 

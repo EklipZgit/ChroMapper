@@ -270,7 +270,11 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
         QueuedData.CustomData = null;
     }
 
-    public override void Exit() => HideVisual();
+    public override void Exit()
+    {
+        HideVisual();
+        State = PlacementState.Idle;
+    }
 
     // TODO(Bullet): Clean up implementations.
     protected virtual void TransferQueuedToDraggedObject(ref TObject dragged, TObject queued) { }
