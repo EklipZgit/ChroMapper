@@ -205,6 +205,15 @@ public class GagaDiskManager : BasicEventManager<GagaDiskStateData>
         HandleInsertState(stateChunksContainerMap[evt.Type], state);
     }
 
+    public override void RemoveData(BaseEvent evt, BaseEvent original)
+    {
+        var container = stateChunksContainerMap[original.Type];
+        var state = HandleRemoveState(container, evt);
+        if (container.CurrentState != state) return;
+        container.SetStateAt(evt.SongBpmTime);
+        UpdateObject(container.CurrentState.Base);
+    }
+
     public override void RemoveData(BaseEvent evt)
     {
         var container = stateChunksContainerMap[evt.Type];

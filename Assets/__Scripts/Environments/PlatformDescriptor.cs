@@ -295,7 +295,7 @@ public class PlatformDescriptor : MonoBehaviour
         foreach (var (reference, original) in events)
         {
             if (!eventTypeManagerMap.TryGetValue(original.Type, out var managers)) continue;
-            managers.ForEach(manager => manager.RemoveData(reference));
+            managers.ForEach(manager => manager.RemoveData(reference, original));
             mark = true;
         }
 

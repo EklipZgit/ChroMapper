@@ -103,6 +103,18 @@ public abstract class TrackLaneRingsManagerBase : BasicEventManager<RingRotation
         RingRotationStateData nextStateData) =>
         nextStateData.RotationInitial += currStateData.RotationChange;
 
+    public override void RemoveData(BaseEvent evt, BaseEvent original)
+    {
+        var container = stateChunksContainerMap[original.Type];
+        var (_, _, state) = container.GetStateFrom(evt);
+        HandleRemoveUpdateConsequentStateFrom(container, state);
+        HandleRemoveState(container, state);
+
+        if (container.CurrentState != state) return;
+        container.SetStateAt(evt.SongBpmTime);
+        UpdateObject(container.CurrentState);
+    }
+
     public override void RemoveData(BaseEvent evt)
     {
         var container = stateChunksContainerMap[evt.Type];

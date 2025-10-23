@@ -100,7 +100,8 @@ public class BasicLightManager : BasicEventManager<BasicLightStateData>
     {
         foreach (var (lightingObject, container) in stateChunksContainerMap)
         {
-            if (!container.IsCurrentOrFindState(currentTime, Atsc.IsPlaying)) UpdateObject(lightingObject, container.CurrentState);
+            if (!container.IsCurrentOrFindState(currentTime, Atsc.IsPlaying))
+                UpdateObject(lightingObject, container.CurrentState);
             lightingObject.UpdateTime(currentTime);
         }
     }
@@ -438,6 +439,57 @@ public class BasicLightManager : BasicEventManager<BasicLightStateData>
         }
     }
 
+    public override void RemoveData(BaseEvent evt, BaseEvent original)
+    {
+        switch (original.Value)
+        {
+            case >= ColourManager.RgbintOffset when Settings.Instance.EmulateChromaLite:
+            case ColourManager.RGBReset when Settings.Instance.EmulateChromaLite:
+                {
+                    var data = chromaLiteDatas.Find(data => data.Base == evt);
+                    chromaLiteDatas.Remove(data);
+                    UpdateExistingWithChromaLite(original.SongBpmTime);
+                    return;
+                }
+        }
+
+        if (original.CustomLightGradient != null && Settings.Instance.EmulateChromaLite)
+        {
+            var data = chromaGradientDatas.Find(data => data.Base == evt);
+            chromaGradientDatas.Remove(data);
+            UpdateExistingWithChromaGradient(
+                original.SongBpmTime,
+                original.SongBpmTime + original.CustomLightGradient.Duration);
+        }
+
+        IEnumerable<LightingObject> affectedLights = ControllingLights;
+
+        if (original.CustomLightID != null && LightIDMap != null && Settings.Instance.EmulateChromaAdvanced)
+        {
+            var lightIDArr = original.CustomLightID;
+            var filteredLights = new List<LightingObject>(lightIDArr.Length);
+            foreach (var lightID in lightIDArr)
+            {
+                if (!LightIDMap.TryGetValue(lightID, out var lightingObject)) continue;
+                filteredLights.Add(lightingObject);
+            }
+
+            affectedLights = filteredLights;
+        }
+
+        foreach (var lightingObject in affectedLights)
+        {
+            var container = stateChunksContainerMap[lightingObject];
+            HandleRemoveState(container, evt);
+
+            // unfortunately, we cannot do the same as insertion so we need to search
+            var (_, _, previousState) = container.GetStateAt(Atsc.CurrentSongBpmTime);
+            if (!previousState.IsWithinRange(evt.SongBpmTime)) continue;
+            container.SetStateAt(Atsc.CurrentSongBpmTime);
+            UpdateObject(lightingObject, container.CurrentState);
+        }
+    }
+
     public override void RemoveData(BaseEvent evt)
     {
         switch (evt.Value)
@@ -594,8 +646,7 @@ public class BasicLightManager : BasicEventManager<BasicLightStateData>
         public bool Equals(ChromaGradientData other) => Equals(Base, other.Base);
         public override bool Equals(object obj) => obj is ChromaGradientData other && Equals(other);
 
-        public override int GetHashCode() =>
-            HashCode.Combine(Base, StartTime, EndTime, StartColor, EndColor, Easing);
+        public override int GetHashCode() => HashCode.Combine(Base, StartTime, EndTime, StartColor, EndColor, Easing);
     }
 
     private static float GetNoTurnOffAlpha(float value) => value * 2f / 3f;

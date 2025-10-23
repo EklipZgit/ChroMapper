@@ -11,6 +11,9 @@ public abstract class StateManager<T> : MonoBehaviour where T : BaseObject
     public abstract void BuildFromData(IEnumerable<T> data);
     public abstract void InsertData(T data);
     public abstract void RemoveData(T data);
+
+    // TODO: ugly hack, object gets modified by reference and manager having more than one type/id
+    public virtual void RemoveData(T data, T original) => RemoveData(data);
     public abstract void Reset();
 }
 

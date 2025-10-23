@@ -208,9 +208,9 @@ public class EventPlacement : BasePlacement<BaseEvent, EventContainer, EventGrid
         {
             CreateVisual();
             if (State == PlacementState.Idle) HideVisual();
-            PlacementVisualContainer.EventData = QueuedData;
         }
 
+        PlacementVisualContainer!.EventData = QueuedData;
         eventAppearanceSo.SetEventAppearance(PlacementVisualContainer, false);
     }
 
@@ -235,6 +235,7 @@ public class EventPlacement : BasePlacement<BaseEvent, EventContainer, EventGrid
 
         QueuedData = new BaseEvent(evt); // need to convert back to regular event
         QueuedData.CustomData = null;
+        PlacementVisualContainer.EventData = QueuedData;
     }
 
     protected override void TransferQueuedToDraggedObject(ref BaseEvent dragged, BaseEvent queued)
