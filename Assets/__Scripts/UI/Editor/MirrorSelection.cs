@@ -1,17 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Beatmap.Appearances;
 using Beatmap.Base;
 using Beatmap.Enums;
 using Beatmap.Helper;
-using Beatmap.V3;
 using SimpleJSON;
 using UnityEngine;
 
 public class MirrorSelection : MonoBehaviour
 {
-    [SerializeField] private NoteAppearanceSO noteAppearance;
-    [SerializeField] private EventAppearanceSO eventAppearance;
     [SerializeField] private TracksManager tracksManager;
     [SerializeField] private CreateEventTypeLabels labels;
 

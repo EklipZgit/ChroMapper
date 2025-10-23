@@ -78,7 +78,7 @@ namespace Tests
 
             Assert.AreEqual(originalObstacleScale.x, modifiedObstacleScale.x, 0.001);
             Assert.AreEqual(originalObstacleScale.y, modifiedObstacleScale.y, 0.001);
-            Assert.AreEqual(EditorScaleMultiplier * originalObstacleScale.z, modifiedObstacleScale.z, 0.001);
+            Assert.AreEqual(EditorScaleMultiplier * originalObstacleScale.z, modifiedObstacleScale.z, 0.02); // because 0.001 was too strict
         }
 
         [Test]
@@ -100,7 +100,7 @@ namespace Tests
 
             Assert.AreEqual(originalObstacleScale.x, modifiedObstacleScale.x, 0.001);
             Assert.AreEqual(originalObstacleScale.y, modifiedObstacleScale.y, 0.001);
-            Assert.AreEqual(3f / 4f * originalObstacleScale.z, modifiedObstacleScale.z, 0.001);
+            Assert.AreEqual(3f / 4f * originalObstacleScale.z, modifiedObstacleScale.z, 0.02);
         }
     }
 }

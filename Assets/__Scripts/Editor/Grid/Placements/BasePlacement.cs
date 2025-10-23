@@ -48,12 +48,28 @@ public abstract class BasePlacement : MonoBehaviour
         { IndicatorType.Head, new List<BaseSlider>() }, { IndicatorType.Tail, new List<BaseSlider>() }
     };
 
-    public virtual bool CanClickAndDrag => true;
-    public virtual bool CanPlace => BoxSelectionPlacementController.State == PlacementState.Idle;
+    public virtual bool CanClickAndDrag
+    {
+        get
+        {
+            return true;
+        }
+    }
+
+    public virtual bool CanPlace
+    {
+        get
+        {
+            return BoxSelectionPlacementController.State == PlacementState.Idle;
+        }
+    }
 
     public float RoundedJsonTime
     {
-        get => JsonTimeRounded;
+        get
+        {
+            return JsonTimeRounded;
+        }
         set
         {
             SongBpmTime = (float)BeatSaberSongContainer.Instance.Map.JsonTimeToSongBpmTime(value);
@@ -63,7 +79,13 @@ public abstract class BasePlacement : MonoBehaviour
 
     protected float SongBpmTime { get; private set; } // No point rounding this
 
-    protected static Vector2 GridOffset => Vector2.one * 0.5f;
+    protected static Vector2 GridOffset
+    {
+        get
+        {
+            return Vector2.one * 0.5f;
+        }
+    }
 
     public abstract void Initialize(PlacementProvider provider);
     public abstract void UpdateState(Intersections.IntersectionHit hit, PlacementInputState inputState);
@@ -81,8 +103,10 @@ public abstract class BasePlacement : MonoBehaviour
     public abstract void FinishDrag();
     protected virtual void HandleDragged() { }
 
-    public virtual float GetContainerPosZ(ObjectContainer con) =>
-        (con.ObjectData.SongBpmTime - Atsc.CurrentSongBpmTime) * EditorScaleController.EditorScale;
+    public virtual float GetContainerPosZ(ObjectContainer con)
+    {
+        return (con.ObjectData.SongBpmTime - Atsc.CurrentSongBpmTime) * EditorScaleController.EditorScale;
+    }
 }
 
 public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlacement
@@ -108,11 +132,15 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
     protected abstract TObject GenerateOriginalData();
     protected abstract BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicting);
 
-    public virtual void Start() => QueuedData = GenerateOriginalData();
+    public virtual void Start()
+    {
+        CreateVisual();
+        HideVisual();
+        QueuedData = GenerateOriginalData();
+    }
 
     public override void Initialize(PlacementProvider provider)
     {
-        if (PlacementVisualContainer == null) CreateVisual();
         HideVisual();
         ObjectData = QueuedData;
     }
@@ -189,7 +217,10 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
         if (PlacementVisualContainer != null) PlacementVisualContainer.SafeSetActive(false);
     }
 
-    protected virtual float GetDraggedObjectJsonTime() => DraggedObjectData.JsonTime;
+    protected virtual float GetDraggedObjectJsonTime()
+    {
+        return DraggedObjectData.JsonTime;
+    }
 
     private (Vector3 localPoint, float jsonTime) GetPositionAndTime(
         Intersections.IntersectionHit hit,
@@ -312,8 +343,6 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
 
     public override void FinishDrag()
     {
-        if (PlacementVisualContainer == null) return;
-
         // Spawn our dragged object and delete anything that's overlapping.
         ObjectContainerCollection.SpawnObject(DraggedObjectData, out var conflicting);
 
