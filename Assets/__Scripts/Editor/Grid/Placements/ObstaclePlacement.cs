@@ -67,9 +67,9 @@ public class ObstaclePlacement : BasePlacement<BaseObstacle, ObstacleContainer, 
                         // lane.LocalOffset = offset;
                         lane.XYOffset = offset;
                         lane.RefreshPosition();
-                        
-                        lane.Lane *= 2;
-                        
+
+                        lane.Lane += lane.Lane + Mathf.CeilToInt(lane.Lane % 2 / 2f);
+
                         hasOffset = true;
                     }
 
@@ -94,11 +94,9 @@ public class ObstaclePlacement : BasePlacement<BaseObstacle, ObstacleContainer, 
                     // lane.LocalOffset = offset;
                     lane.XYOffset = offset;
                     lane.RefreshPosition();
-                    
+
                     lane.Height = 3;
-                    lane.Lane = Settings.NonPersistentSettings.TryGetValue("NoteLanes", out var val)
-                        ? (int)val
-                        : 4;
+                    lane.Lane = NoteLanesController.LaneCount;
 
                     hasOffset = hasExpanded = false;
                     break;

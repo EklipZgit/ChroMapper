@@ -5,11 +5,12 @@ using UnityEngine.Serialization;
 public class NoteLanesController : MonoBehaviour
 {
     [SerializeField] private GridLane gridLane;
+    public static int LaneCount = 4;
 
     private void Start()
     {
         Settings.NotifyBySettingName("NoteLanes", UpdateNoteLanes);
-        UpdateNoteLanes(4);
+        UpdateNoteLanes(LaneCount);
         if (Settings.NonPersistentSettings.ContainsKey("NoteLanes")) Settings.NonPersistentSettings["NoteLanes"] = 4;
     }
 
@@ -20,6 +21,6 @@ public class NoteLanesController : MonoBehaviour
         var noteLanesText = value.ToString();
         if (!int.TryParse(noteLanesText, out var noteLanes)) return;
         if (noteLanes < 1) return;
-        gridLane.Lane = noteLanes;
+        LaneCount = gridLane.Lane = noteLanes;
     }
 }

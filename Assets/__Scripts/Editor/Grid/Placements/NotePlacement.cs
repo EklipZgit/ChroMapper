@@ -117,7 +117,11 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
     protected override void UpdatePlacement(Intersections.IntersectionHit hit, Vector3 localPoint)
     {
         var placementZ = SongBpmTime * EditorScaleController.EditorScale;
-        var roundedPoint = new Vector3(Mathf.FloorToInt(localPoint.x), Mathf.FloorToInt(localPoint.y), placementZ);
+        var offset = new Vector3(hit.GameObject.transform.localScale.x % 2 / 2f, 0f, 0f);
+        var roundedPoint = new Vector3(
+            Mathf.FloorToInt(localPoint.x + offset.x),
+            Mathf.FloorToInt(localPoint.y),
+            placementZ);
 
         if (PrecisionPlacementController.IsEnabled)
         {
@@ -135,7 +139,7 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
             var maxY = Bounds.max.y;
 
             PlacementVisualContainer.transform.localPosition = new Vector3(
-                    Mathf.Clamp(roundedPoint.x, minX, maxX - 1),
+                    Mathf.Clamp(roundedPoint.x - offset.x, minX, maxX - 1),
                     Mathf.Clamp(roundedPoint.y, minY, maxY - 1),
                     roundedPoint.z)
                 + (Vector3)GridOffset;
