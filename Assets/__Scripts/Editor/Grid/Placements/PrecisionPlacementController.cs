@@ -4,12 +4,18 @@ public class PrecisionPlacementController : MonoBehaviour
 {
     public static bool IsEnabled;
 
-    private static readonly int position = Shader.PropertyToID("_MousePosition");
     [SerializeField] private IntersectionCollider intersectionCollider;
     [SerializeField] private Renderer regularMesh;
     [SerializeField] private Renderer expandedMesh;
 
-    private void Start() => TogglePrecisionPlacement(false);
+    private static readonly int position = Shader.PropertyToID("_MousePosition");
+    private MaterialPropertyBlock materialPropertyBlock;
+
+    private void Start()
+    {
+        TogglePrecisionPlacement(false);
+        materialPropertyBlock = new MaterialPropertyBlock();
+    }
 
     public void TogglePrecisionPlacement(bool toggle)
     {
@@ -30,6 +36,9 @@ public class PrecisionPlacementController : MonoBehaviour
         intersectionCollider.HardRefresh();
     }
 
-    public void UpdateMousePosition(Vector3 mousePosition) =>
-        expandedMesh.sharedMaterial.SetVector(position, mousePosition);
+    public void UpdateMousePosition(Vector3 mousePosition)
+    {
+        materialPropertyBlock.SetVector(position, mousePosition);
+        expandedMesh.SetPropertyBlock(materialPropertyBlock);
+    }
 }

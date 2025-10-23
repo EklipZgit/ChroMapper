@@ -16,6 +16,8 @@ public abstract class BasePlacement : MonoBehaviour
     [SerializeField]
     public Transform PlacementTrack;
 
+    public bool CanPrecisionPlacement;
+
     [Header("Dependencies")] [SerializeField]
     public CustomStandaloneInputModule CustomStandaloneInputModule;
 
@@ -154,7 +156,7 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
         var placementZ = SongBpmTime * EditorScaleController.EditorScale;
         var roundedPoint = new Vector3(Mathf.FloorToInt(localPoint.x), Mathf.FloorToInt(localPoint.y), placementZ);
 
-        if (PrecisionPlacementController.IsEnabled)
+        if (PrecisionPlacementController.IsEnabled && CanPrecisionPlacement)
         {
             var precision = Settings.Instance.PrecisionPlacementGridPrecision;
             roundedPoint = (Vector2)Vector2Int.FloorToInt((Vector2)localPoint * precision) / precision;

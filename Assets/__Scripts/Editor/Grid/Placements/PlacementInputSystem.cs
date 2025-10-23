@@ -13,12 +13,13 @@ public class PlacementInputSystem : MonoBehaviour,
     [SerializeField] private AudioTimeSyncController atsc;
     [SerializeField] private CameraManager cameraManager;
     [SerializeField] private PrecisionPlacementController precisionPlacementController;
-    private bool applicationFocus;
-    private bool applicationFocusChanged;
-    private PlacementProvider currentProvider;
 
+    private PlacementProvider currentProvider;
     private PlacementInputState inputState;
     private Vector2 mousePosition;
+    private bool isOnGrid;
+    private bool applicationFocus;
+    private bool applicationFocusChanged;
 
     private bool CanInteract =>
         !Input.GetMouseButton((int)MouseButton.Right)
@@ -69,6 +70,7 @@ public class PlacementInputSystem : MonoBehaviour,
         var (hit, provider) = gridHit;
         if (currentProvider != provider && BoxSelectionPlacementController.State != PlacementState.Placing)
         {
+            if (currentProvider != null) Exit(currentProvider);
             currentProvider = provider;
 
             RefreshBound();
@@ -76,9 +78,11 @@ public class PlacementInputSystem : MonoBehaviour,
         }
 
         if (HandleExitWhen(PersistentUI.Instance.DialogBoxIsEnabled)
+            || currentProvider == null
             || customStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true))
             return;
 
+        isOnGrid = true;
         precisionPlacementController.UpdateMousePosition(hit.Point);
         foreach (var placement in currentProvider.Placements) placement.UpdateState(hit, inputState);
     }
@@ -212,7 +216,14 @@ public class PlacementInputSystem : MonoBehaviour,
     {
         if (!shouldExit) return false;
         if (currentProvider == null) return true;
-        foreach (var placement in currentProvider.Placements) placement.Exit();
+        Exit(currentProvider);
+        isOnGrid = false;
         return true;
+    }
+
+    private void Exit(PlacementProvider provider)
+    {
+        if (!isOnGrid) return;
+        foreach (var placement in provider.Placements) placement.Exit();
     }
 }
