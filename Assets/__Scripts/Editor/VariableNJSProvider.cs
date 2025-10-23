@@ -14,19 +14,19 @@ public class VariableNJSProvider : StateManager<VariableNJSStateData, BaseNJSEve
 
     private void Awake()
     {
-        BeatmapActionContainer.OnActionCreated += HandleOnOnActionRedo;
-        BeatmapActionContainer.OnActionRedo += HandleOnOnActionRedo;
-        BeatmapActionContainer.OnActionUndo += HandleOnActionUndo;
-        LoadInitialMap.OnLevelLoaded += HandleOnLevelLoaded;
+        // BeatmapActionContainer.OnActionCreated += HandleOnOnActionRedo;
+        // BeatmapActionContainer.OnActionRedo += HandleOnOnActionRedo;
+        // BeatmapActionContainer.OnActionUndo += HandleOnActionUndo;
+        // LoadInitialMap.OnLevelLoaded += HandleOnLevelLoaded;
     }
 
     public void OnDestroy()
     {
-        BeatmapActionContainer.OnActionCreated -= HandleOnOnActionRedo;
-        BeatmapActionContainer.OnActionRedo -= HandleOnOnActionRedo;
-        BeatmapActionContainer.OnActionUndo -= HandleOnActionUndo;
-        LoadInitialMap.OnLevelLoaded -= HandleOnLevelLoaded;
-        Atsc.OnTimeChangedEarly -= HandleTimeChangedEarly;
+        // BeatmapActionContainer.OnActionCreated -= HandleOnOnActionRedo;
+        // BeatmapActionContainer.OnActionRedo -= HandleOnOnActionRedo;
+        // BeatmapActionContainer.OnActionUndo -= HandleOnActionUndo;
+        // LoadInitialMap.OnLevelLoaded -= HandleOnLevelLoaded;
+        // Atsc.OnTimeChangedEarly -= HandleTimeChangedEarly;
     }
 
     private void HandleOnLevelLoaded()
