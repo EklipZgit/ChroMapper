@@ -130,7 +130,7 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
         Intersections.IntersectionHit hit,
         PlacementInputState inputState)
     {
-        if (!AllowPlacement)
+        if (!AllowPlacement && !IsDragging)
         {
             if (!IsActive) return;
             HideVisual();
@@ -284,10 +284,7 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
     {
         var con = draggedObject.GetComponentInParent<TContainer>();
         // this does not need the last check
-        if (!AllowPlacement
-            || con == null
-            || con.ObjectData.ObjectType != ObjectDataType)
-            return null;
+        if (con == null || con.ObjectData.ObjectType != ObjectDataType) return null;
 
         ObjectContainerCollection.SilentRemoveObject(con.ObjectData);
 

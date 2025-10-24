@@ -110,6 +110,4 @@ public class ChainPlacement : BasePlacement<BaseChain, ChainContainer, ChainGrid
         chain = new BaseChain(head, tail);
         return true;
     }
-
-    protected override void TransferQueuedToDraggedObject(ref BaseChain dragged, BaseChain queued) { }
 }

@@ -20,19 +20,9 @@ public class ChainIndicatorPlacement : BasePlacement<BaseChain, ChainIndicatorCo
     [SerializeField] private LaserSpeedController laserSpeedController;
 
     // Below is copied from NotePlacement. Would be nice to have some kind of shared placement.
-    private readonly float diagonalStickMAXTime = 0.3f;
+    private readonly float diagonalStickMaxTime = 0.3f;
     private readonly List<bool> heldKeys = new() { false, false, false, false };
     private bool diagonal;
-    private bool flagDirectionsUpdate;
-
-    private void LateUpdate()
-    {
-        if (flagDirectionsUpdate)
-        {
-            HandleDirectionValues();
-            flagDirectionsUpdate = false;
-        }
-    }
 
 
     //TODO perhaps make a helper function to deal with the context.performed and context.canceled checks
@@ -76,6 +66,38 @@ public class ChainIndicatorPlacement : BasePlacement<BaseChain, ChainIndicatorCo
 
     protected override BaseChain GenerateOriginalData() => new();
 
+    protected override void UpdatePlacement(Intersections.IntersectionHit hit, Vector3 localPoint)
+    {
+        var placementZ = SongBpmTime * EditorScaleController.EditorScale;
+        var offset = new Vector3(hit.GameObject.transform.localScale.x % 2 / 2f, 0f, 0f);
+        var roundedPoint = new Vector3(
+            Mathf.FloorToInt(localPoint.x + offset.x),
+            Mathf.FloorToInt(localPoint.y),
+            placementZ);
+
+        if (PrecisionPlacementController.IsEnabled)
+        {
+            var precision = Settings.Instance.PrecisionPlacementGridPrecision;
+            roundedPoint.x = Mathf.Round(localPoint.x * precision) / precision;
+            roundedPoint.y = Mathf.Round(localPoint.y * precision) / precision;
+            PlacementVisualContainer.transform.localPosition = roundedPoint;
+        }
+        else
+        {
+            var minX = Bounds.min.x;
+            var maxX = Bounds.max.x;
+
+            var minY = Bounds.min.y;
+            var maxY = Bounds.max.y;
+
+            PlacementVisualContainer.transform.localPosition = new Vector3(
+                    Mathf.Clamp(roundedPoint.x - offset.x, minX, maxX - 1),
+                    Mathf.Clamp(roundedPoint.y, minY, maxY - 1),
+                    roundedPoint.z)
+                + (Vector3)GridOffset;
+        }
+    }
+
     protected override void UpdateData(PlacementInputState inputState)
     {
         var pos = (Vector2)PlacementVisualContainer.transform.localPosition - GridOffset;
@@ -87,17 +109,17 @@ public class ChainIndicatorPlacement : BasePlacement<BaseChain, ChainIndicatorCo
         QueuedData.PosX = vanillaX;
         QueuedData.PosY = vanillaY;
 
-        var roundedHit = new Vector2(pos.x - 2f, pos.y);
+        var coordinate = new Vector2(pos.x - 2f, pos.y);
         if (PrecisionPlacementController.IsEnabled)
         {
             if (inputState == PlacementInputState.Hover) return;
             switch (DraggedObjectContainer.IndicatorType)
             {
                 case IndicatorType.Head:
-                    QueuedData.CustomCoordinate = roundedHit;
+                    QueuedData.CustomCoordinate = coordinate;
                     break;
                 case IndicatorType.Tail:
-                    QueuedData.CustomTailCoordinate = roundedHit;
+                    QueuedData.CustomTailCoordinate = coordinate;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -111,13 +133,13 @@ public class ChainIndicatorPlacement : BasePlacement<BaseChain, ChainIndicatorCo
                 case IndicatorType.Head:
                     QueuedData.CustomCoordinate = !(Mathf.Approximately(vanillaX, pos.x)
                         && Mathf.Approximately(vanillaY, pos.y))
-                        ? roundedHit
+                        ? coordinate
                         : null;
                     break;
                 case IndicatorType.Tail:
                     QueuedData.CustomTailCoordinate = !(Mathf.Approximately(vanillaX, pos.x)
                         && Mathf.Approximately(vanillaY, pos.y))
-                        ? roundedHit
+                        ? coordinate
                         : null;
                     break;
                 default:
@@ -197,7 +219,7 @@ public class ChainIndicatorPlacement : BasePlacement<BaseChain, ChainIndicatorCo
 
     private void HandleKeyUpdate(InputAction.CallbackContext context, int id)
     {
-        if (context.performed ^ heldKeys[id]) flagDirectionsUpdate = true;
+        if (context.performed ^ heldKeys[id]) HandleDirectionValues();
         heldKeys[id] = context.performed;
     }
 
@@ -258,8 +280,8 @@ public class ChainIndicatorPlacement : BasePlacement<BaseChain, ChainIndicatorCo
     private IEnumerator CheckForDiagonalUpdate()
     {
         var previousHeldKeys = new List<bool>(heldKeys);
-        yield return new WaitForSeconds(diagonalStickMAXTime);
+        yield return new WaitForSeconds(diagonalStickMaxTime);
         // Weird way of saying "Are the keys being held right now the same as before"
-        if (!previousHeldKeys.Except(heldKeys).Any()) flagDirectionsUpdate = true;
+        if (!previousHeldKeys.Except(heldKeys).Any()) HandleDirectionValues();
     }
 }
