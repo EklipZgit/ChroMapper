@@ -11,6 +11,9 @@ public class GridRenderingController : MonoBehaviour
     [SerializeField] private AudioTimeSyncController atsc;
     [SerializeField] private GameObject gridParent;
 
+    [SerializeField] private Material opaqueInterface;
+    [SerializeField] private Material transparentInterface;
+
     private readonly List<GridLane> gridLanes = new();
 
     private static readonly int colorID = Shader.PropertyToID("_Color");
@@ -23,7 +26,6 @@ public class GridRenderingController : MonoBehaviour
 
     private MaterialPropertyBlock gridMaterialPropertyBlock;
     private MaterialPropertyBlock interfaceMaterialPropertyBlock;
-    private MaterialPropertyBlock precisionMaterialPropertyBlock;
 
     private void Awake()
     {
@@ -83,7 +85,11 @@ public class GridRenderingController : MonoBehaviour
         var newColor = Settings.Instance.HighContrastGrids ? colorHighContrast : colorDefault;
         newColor.a = Mathf.Clamp01(1f - gridAlpha);
         interfaceMaterialPropertyBlock.SetColor(colorID, newColor);
-        foreach (var g in gridLanes.Select(g => g.XZ.Interface)) g.SetPropertyBlock(interfaceMaterialPropertyBlock);
+        foreach (var g in gridLanes.Select(g => g.XZ.Interface))
+        {
+            g.sharedMaterial = Mathf.Approximately(newColor.a, 1f) ? opaqueInterface : transparentInterface;
+            g.SetPropertyBlock(interfaceMaterialPropertyBlock);
+        }
     }
 
     private void UpdateTrackLength(object _)

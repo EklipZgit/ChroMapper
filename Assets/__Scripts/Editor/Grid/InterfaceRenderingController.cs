@@ -17,7 +17,7 @@ public class InterfaceRenderingController : MonoBehaviour
 
     private void UpdateSettings(object _)
     {
-        materialPropertyBlock.SetColor("_Color", Color.white.Multiply(0.75f).WithAlpha(Settings.Instance.InterfaceOpacity));
+        materialPropertyBlock.SetColor("_Color", Color.white.WithAlpha(Settings.Instance.InterfaceOpacity));
 
         interfaceRenderer.SetPropertyBlock(materialPropertyBlock);
     }
