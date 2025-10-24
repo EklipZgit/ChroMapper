@@ -16,5 +16,5 @@ MonoBehaviour:
   LeftDownRightUp: {fileID: 21300000, guid: d250f7f5d71ed4141a3d7cbeb12876f5, type: 3}
   LeftUpRightDown: {fileID: 21300000, guid: 17559ab05e4711749baa20af9ed74567, type: 3}
   LeftUpRightUp: {fileID: 21300000, guid: 0d1c45962f1bba14ba9361ac4ac58ae5, type: 3}
-  YOffset: 0.28
+  YOffset: 0.33
   Scale: {x: 0.5, y: 0.5}

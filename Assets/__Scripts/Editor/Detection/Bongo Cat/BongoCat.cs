@@ -72,7 +72,7 @@ public class BongoCat : MonoBehaviour
         transform.localPosition = new Vector3(
             transform.localPosition.x,
             lane.Height + lane.XYOffset.y + selectedBongoCat.YOffset,
-            -0.001f);
+            -0.002f);
 
         transform.localScale = selectedBongoCat.Scale;
     }
