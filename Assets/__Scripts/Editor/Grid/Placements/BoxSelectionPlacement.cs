@@ -64,7 +64,7 @@ public class BoxSelectionPlacement : BasePlacement<BaseEvent, EventContainer, Ev
 
     public override void UpdateState(Intersections.IntersectionHit hit, PlacementInputState inputState)
     {
-        if (!CanPlace)
+        if (!CanPlace && !IsPlacing)
         {
             if (!PlacementVisualContainer.gameObject.activeSelf) return;
             HideVisual();
@@ -208,6 +208,12 @@ public class BoxSelectionPlacement : BasePlacement<BaseEvent, EventContainer, Ev
             originPos = PlacementVisualContainer.transform.localPosition;
             alreadySelected = new HashSet<BaseObject>(SelectionController.SelectedObjects);
         }
+    }
+
+    public override void Exit()
+    {
+        if (IsPlacing) return;
+        base.Exit();
     }
 
     public override void Cancel()
