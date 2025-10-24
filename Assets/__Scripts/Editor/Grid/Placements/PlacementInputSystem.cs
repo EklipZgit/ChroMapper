@@ -13,13 +13,14 @@ public class PlacementInputSystem : MonoBehaviour,
     [SerializeField] private AudioTimeSyncController atsc;
     [SerializeField] private CameraManager cameraManager;
     [SerializeField] private PrecisionPlacementController precisionPlacementController;
+    [SerializeField] private BoxSelectionPlacement boxSelectionPlacement;
+    private bool applicationFocus;
+    private bool applicationFocusChanged;
 
     private PlacementProvider currentProvider;
     private PlacementInputState inputState;
-    private Vector2 mousePosition;
     private bool isOnGrid;
-    private bool applicationFocus;
-    private bool applicationFocusChanged;
+    private Vector2 mousePosition;
 
     private bool CanInteract =>
         !Input.GetMouseButton((int)MouseButton.Right)
@@ -68,7 +69,7 @@ public class PlacementInputSystem : MonoBehaviour,
             return;
 
         var (hit, provider) = gridHit;
-        if (currentProvider != provider && BoxSelectionPlacementController.State != PlacementState.Placing)
+        if (currentProvider != provider && !boxSelectionPlacement.IsPlacing)
         {
             if (currentProvider != null) Exit(currentProvider);
             currentProvider = provider;

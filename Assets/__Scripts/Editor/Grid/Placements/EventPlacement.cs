@@ -207,7 +207,7 @@ public class EventPlacement : BasePlacement<BaseEvent, EventContainer, EventGrid
         if (PlacementVisualContainer is null)
         {
             CreateVisual();
-            if (State == PlacementState.Idle) HideVisual();
+            if (IsIdle) HideVisual();
         }
 
         PlacementVisualContainer!.EventData = QueuedData;

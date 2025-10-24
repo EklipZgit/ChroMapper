@@ -13,11 +13,11 @@ public class GlobalIntersectionCache
 
 public class BeatmapInputController<T> : MonoBehaviour, CMInput.IBeatmapObjectsActions where T : ObjectContainer
 {
-    [FormerlySerializedAs("customStandaloneInputModule")] [SerializeField]
-    protected CustomStandaloneInputModule CustomStandaloneInputModule;
+    [SerializeField] protected CustomStandaloneInputModule CustomStandaloneInputModule;
 
     protected bool IsSelecting;
 
+    [SerializeField] private ObstaclePlacement obstaclePlacement;
     [SerializeField] private CameraManager cameraManager;
     private bool massSelect;
     protected Vector2 MousePosition;
@@ -28,7 +28,7 @@ public class BeatmapInputController<T> : MonoBehaviour, CMInput.IBeatmapObjectsA
     {
         if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)) return;
         GlobalIntersectionCache.firstHit = null;
-        if (ObstaclePlacement.IsPlacing)
+        if (obstaclePlacement.IsPlacing)
         {
             timeWhenFirstSelecting = Time.time;
             return;
@@ -67,7 +67,7 @@ public class BeatmapInputController<T> : MonoBehaviour, CMInput.IBeatmapObjectsA
     public void OnSelectObjects(InputAction.CallbackContext context)
     {
         if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)
-            || ObstaclePlacement.IsPlacing)
+            || obstaclePlacement.IsPlacing)
         {
             return;
         }

@@ -8,10 +8,9 @@ using Beatmap.Enums;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class BoxSelectionPlacementController : BasePlacement<BaseEvent, EventContainer, EventGridContainer>,
-                                               CMInput.IBoxSelectActions
+public class BoxSelectionPlacement : BasePlacement<BaseEvent, EventContainer, EventGridContainer>,
+                                     CMInput.IBoxSelectActions
 {
-    public static PlacementState State;
     [SerializeField] public CustomEventGridContainer CustomCollection;
     [SerializeField] public EventGridContainer EventGridContainer;
     [SerializeField] public CreateEventTypeLabels Labels;
@@ -21,21 +20,9 @@ public class BoxSelectionPlacementController : BasePlacement<BaseEvent, EventCon
     private HashSet<BaseObject> alreadySelected = new();
     private Vector3 originPos;
 
-    public override bool CanClickAndDrag
-    {
-        get
-        {
-            return false;
-        }
-    }
+    public override bool CanClickAndDrag => false;
 
-    public override bool CanPlace
-    {
-        get
-        {
-            return Settings.Instance.BoxSelect && State != PlacementState.Idle;
-        }
-    }
+    public override bool CanPlace => Settings.Instance.BoxSelect && State != PlacementState.Idle;
 
     private void OnDrawGizmos()
     {
@@ -56,19 +43,13 @@ public class BoxSelectionPlacementController : BasePlacement<BaseEvent, EventCon
 
     public void OnActivateBoxSelect(InputAction.CallbackContext context)
     {
-        if (State != PlacementState.Placing) State = context.performed ? PlacementState.Active : PlacementState.Idle;
+        if (!IsPlacing) State = context.performed ? PlacementState.Active : PlacementState.Idle;
     }
 
-    protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicting)
-    {
-        return null;
-    }
+    protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicting) => null;
 
     // TODO: v3 check?
-    protected override BaseEvent GenerateOriginalData()
-    {
-        return new BaseEvent();
-    }
+    protected override BaseEvent GenerateOriginalData() => new();
 
     public override void Initialize(PlacementProvider provider)
     {
@@ -85,9 +66,9 @@ public class BoxSelectionPlacementController : BasePlacement<BaseEvent, EventCon
     {
         if (!CanPlace)
         {
-            if (base.State != PlacementState.Active) return;
+            if (!PlacementVisualContainer.gameObject.activeSelf) return;
             HideVisual();
-            base.State = PlacementState.Idle;
+            State = PlacementState.Idle;
             return;
         }
 
@@ -99,7 +80,7 @@ public class BoxSelectionPlacementController : BasePlacement<BaseEvent, EventCon
         localPoint.x = Mathf.Clamp(Mathf.Floor(localPoint.x), Bounds.min.x, Bounds.max.x - 1);
         localPoint.y = Mathf.Clamp(Mathf.Floor(localPoint.y), Bounds.min.y, Bounds.max.y - 1);
 
-        if (State != PlacementState.Placing)
+        if (!IsPlacing)
         {
             PlacementVisualContainer.transform.localPosition = localPoint;
             PlacementVisualContainer.transform.localScale =
@@ -135,7 +116,7 @@ public class BoxSelectionPlacementController : BasePlacement<BaseEvent, EventCon
 
     protected override void UpdateData(PlacementInputState inputState)
     {
-        if (State != PlacementState.Placing) return;
+        if (!IsPlacing) return;
 
         var startSongBpmBeat =
             PlacementVisualContainer.transform.localPosition.z / EditorScaleController.EditorScale;
@@ -215,7 +196,7 @@ public class BoxSelectionPlacementController : BasePlacement<BaseEvent, EventCon
 
     public override void HandleApply()
     {
-        if (State == PlacementState.Placing)
+        if (IsPlacing)
         {
             State = PlacementState.Idle;
             selected.Clear(); // oh shit turned out i didnt need to rewrite the whole thing, just move it over here
@@ -231,7 +212,7 @@ public class BoxSelectionPlacementController : BasePlacement<BaseEvent, EventCon
 
     public override void Cancel()
     {
-        if (State != PlacementState.Placing) return;
+        if (!IsPlacing) return;
         State = PlacementState.Idle;
         foreach (var selectedObject in selected) SelectionController.Deselect(selectedObject, false);
         SelectionController.OnSelectionChanged?.Invoke();

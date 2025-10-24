@@ -14,11 +14,11 @@ public class ObstaclePlacement : BasePlacement<BaseObstacle, ObstacleContainer, 
     [SerializeField] private ColorPicker colorPicker;
     [SerializeField] private ToggleColourDropdown dropdown;
     [SerializeField] private GridLane lane;
+    private bool hasExpanded;
+    private bool hasOffset;
 
     private int originIndex;
     private Vector3 originPos;
-    private bool hasOffset;
-    private bool hasExpanded;
 
     private float startJsonTime;
     private float startSongBpmTime;
@@ -33,9 +33,6 @@ public class ObstaclePlacement : BasePlacement<BaseObstacle, ObstacleContainer, 
             return false;
         }
     }
-
-    // bro wtf u mean u're a static
-    public static bool IsPlacing { get; private set; }
 
     private float SmallestRankableWallDuration => Atsc.GetBeatFromSeconds(0.016f);
 
@@ -57,7 +54,7 @@ public class ObstaclePlacement : BasePlacement<BaseObstacle, ObstacleContainer, 
 
         switch (AllowPlacement)
         {
-            case true when State != PlacementState.Idle:
+            case true when !IsIdle:
                 {
                     if (!hasOffset)
                     {
@@ -225,14 +222,14 @@ public class ObstaclePlacement : BasePlacement<BaseObstacle, ObstacleContainer, 
             QueuedData = BeatmapFactory.Clone(QueuedData);
             PlacementVisualContainer.ObstacleData = QueuedData;
             // obstacleAppearanceSo.SetObstacleAppearance(PlacementVisualContainer);
-            IsPlacing = false;
+            State = PlacementState.Idle;
         }
         else
         {
             originPos = PlacementVisualContainer.transform.localPosition;
             startJsonTime = RoundedJsonTime;
             startSongBpmTime = SongBpmTime;
-            IsPlacing = true;
+            State = PlacementState.Placing;
         }
     }
 
@@ -247,7 +244,7 @@ public class ObstaclePlacement : BasePlacement<BaseObstacle, ObstacleContainer, 
     public override void Cancel()
     {
         if (!IsPlacing) return;
-        IsPlacing = false;
+        State = PlacementState.Idle;
         // obstacleAppearanceSo.SetObstacleAppearance(PlacementVisualContainer);
         PlacementVisualContainer.SetScale(
             new Vector3(

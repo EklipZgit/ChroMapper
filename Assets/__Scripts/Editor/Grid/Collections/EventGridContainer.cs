@@ -21,7 +21,7 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
     [SerializeField] private TracksManager tracksManager;
     [SerializeField] private GridLane gridLane;
     [SerializeField] private CreateEventTypeLabels labels;
-    [SerializeField] private BoxSelectionPlacementController boxSelectionPlacementController;
+    [SerializeField] private BoxSelectionPlacement boxSelectionPlacement;
     [SerializeField] private LaserSpeedController laserSpeedController;
     [SerializeField] private CountersPlusController countersPlus;
 
@@ -74,7 +74,7 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
         set
         {
             propagationEditing = value;
-            boxSelectionPlacementController.Cancel();
+            boxSelectionPlacement.Cancel();
 
             var lightingManager = platformDescriptor.LightingManagers[EventTypeToPropagate];
 

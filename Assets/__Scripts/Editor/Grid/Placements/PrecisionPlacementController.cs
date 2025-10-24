@@ -3,6 +3,9 @@
 public class PrecisionPlacementController : MonoBehaviour
 {
     public static bool IsEnabled;
+    private static readonly int positionID = Shader.PropertyToID("_MousePosition");
+    private static readonly int gridSpacingID = Shader.PropertyToID("_GridSpacing");
+    private static readonly int gridOffsetID = Shader.PropertyToID("_GridOffset");
 
     [SerializeField] private IntersectionCollider intersectionCollider;
     [SerializeField] private Renderer regularMesh;
@@ -12,9 +15,6 @@ public class PrecisionPlacementController : MonoBehaviour
     [SerializeField] private Vector4 precisionSnap = new(1f, 0f, 0f, 0f);
 
     private MaterialPropertyBlock materialPropertyBlock;
-    private static readonly int positionID = Shader.PropertyToID("_MousePosition");
-    private static readonly int gridSpacingID = Shader.PropertyToID("_GridSpacing");
-    private static readonly int gridOffsetID = Shader.PropertyToID("_GridOffset");
 
     private void Start()
     {

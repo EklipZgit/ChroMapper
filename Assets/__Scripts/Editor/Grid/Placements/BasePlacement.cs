@@ -22,6 +22,7 @@ public abstract class BasePlacement : MonoBehaviour
     public CustomStandaloneInputModule CustomStandaloneInputModule;
 
     [SerializeField] public AudioTimeSyncController Atsc;
+    [SerializeField] public BoxSelectionPlacement boxSelectionPlacement;
 
     [Header("360/90")] [SerializeField] public bool AssignTo360Tracks;
     [SerializeField] public TracksManager TracksManager;
@@ -36,6 +37,27 @@ public abstract class BasePlacement : MonoBehaviour
     public float JsonTimeRounded;
     public Bounds Bounds;
 
+    public virtual bool CanClickAndDrag => true;
+    public virtual bool CanPlace => boxSelectionPlacement.State == PlacementState.Idle;
+
+    public bool IsIdle => State == PlacementState.Idle;
+    public bool IsActive => State == PlacementState.Active;
+    public bool IsPlacing => State == PlacementState.Placing;
+
+    public float RoundedJsonTime
+    {
+        get => JsonTimeRounded;
+        set
+        {
+            SongBpmTime = (float)BeatSaberSongContainer.Instance.Map.JsonTimeToSongBpmTime(value);
+            JsonTimeRounded = value;
+        }
+    }
+
+    protected float SongBpmTime { get; private set; } // No point rounding this
+
+    protected static Vector2 GridOffset => Vector2.one * 0.5f;
+
     protected readonly List<ObjectContainer> DraggedAttachedSliderContainers = new();
 
     protected readonly Dictionary<IndicatorType, List<BaseSlider>> DraggedAttachedSliderDatas = new()
@@ -47,45 +69,6 @@ public abstract class BasePlacement : MonoBehaviour
     {
         { IndicatorType.Head, new List<BaseSlider>() }, { IndicatorType.Tail, new List<BaseSlider>() }
     };
-
-    public virtual bool CanClickAndDrag
-    {
-        get
-        {
-            return true;
-        }
-    }
-
-    public virtual bool CanPlace
-    {
-        get
-        {
-            return BoxSelectionPlacementController.State == PlacementState.Idle;
-        }
-    }
-
-    public float RoundedJsonTime
-    {
-        get
-        {
-            return JsonTimeRounded;
-        }
-        set
-        {
-            SongBpmTime = (float)BeatSaberSongContainer.Instance.Map.JsonTimeToSongBpmTime(value);
-            JsonTimeRounded = value;
-        }
-    }
-
-    protected float SongBpmTime { get; private set; } // No point rounding this
-
-    protected static Vector2 GridOffset
-    {
-        get
-        {
-            return Vector2.one * 0.5f;
-        }
-    }
 
     public abstract void Initialize(PlacementProvider provider);
     public abstract void UpdateState(Intersections.IntersectionHit hit, PlacementInputState inputState);
@@ -103,10 +86,8 @@ public abstract class BasePlacement : MonoBehaviour
     public abstract void FinishDrag();
     protected virtual void HandleDragged() { }
 
-    public virtual float GetContainerPosZ(ObjectContainer con)
-    {
-        return (con.ObjectData.SongBpmTime - Atsc.CurrentSongBpmTime) * EditorScaleController.EditorScale;
-    }
+    public virtual float GetContainerPosZ(ObjectContainer con) =>
+        (con.ObjectData.SongBpmTime - Atsc.CurrentSongBpmTime) * EditorScaleController.EditorScale;
 }
 
 public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlacement
@@ -129,15 +110,15 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
 
     [Header("Implementation")] public bool ForceHeaderPlsIgnore;
 
-    protected abstract TObject GenerateOriginalData();
-    protected abstract BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicting);
-
     public virtual void Start()
     {
         CreateVisual();
         HideVisual();
         QueuedData = GenerateOriginalData();
     }
+
+    protected abstract TObject GenerateOriginalData();
+    protected abstract BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicting);
 
     public override void Initialize(PlacementProvider provider)
     {
@@ -151,13 +132,13 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
     {
         if (!AllowPlacement)
         {
-            if (State != PlacementState.Active) return;
+            if (!IsActive) return;
             HideVisual();
             State = PlacementState.Idle;
             return;
         }
 
-        if (State == PlacementState.Idle) State = PlacementState.Active;
+        if (IsIdle) State = PlacementState.Active;
 
         if (inputState == PlacementInputState.Hover && !PlacementVisualContainer.gameObject.activeSelf) ShowVisual();
 
@@ -207,20 +188,11 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
         }
     }
 
-    public override void ShowVisual()
-    {
-        if (PlacementVisualContainer != null) PlacementVisualContainer.SafeSetActive(true);
-    }
+    public override void ShowVisual() => PlacementVisualContainer.SafeSetActive(true);
 
-    public override void HideVisual()
-    {
-        if (PlacementVisualContainer != null) PlacementVisualContainer.SafeSetActive(false);
-    }
+    public override void HideVisual() => PlacementVisualContainer.SafeSetActive(false);
 
-    protected virtual float GetDraggedObjectJsonTime()
-    {
-        return DraggedObjectData.JsonTime;
-    }
+    protected virtual float GetDraggedObjectJsonTime() => DraggedObjectData.JsonTime;
 
     private (Vector3 localPoint, float jsonTime) GetPositionAndTime(
         Intersections.IntersectionHit hit,
@@ -285,9 +257,7 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
 
     public override void Apply()
     {
-        if (
-            PlacementVisualContainer != null
-            && QueuedData?.JsonTime >= 0
+        if (QueuedData?.JsonTime >= 0
             && PlacementVisualContainer.gameObject.activeSelf)
             HandleApply();
     }
