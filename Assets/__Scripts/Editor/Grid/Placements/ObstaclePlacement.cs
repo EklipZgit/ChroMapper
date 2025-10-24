@@ -17,6 +17,8 @@ public class ObstaclePlacement : BasePlacement<BaseObstacle, ObstacleContainer, 
     private bool hasExpanded;
     private bool hasOffset;
 
+    private bool v2Mode;
+
     private int originIndex;
     private Vector3 originPos;
 
@@ -41,6 +43,12 @@ public class ObstaclePlacement : BasePlacement<BaseObstacle, ObstacleContainer, 
 
     protected override BaseObstacle GenerateOriginalData() => new();
 
+    public override void Start()
+    {
+        v2Mode = BeatSaberSongContainer.Instance.Map.MajorVersion == 2;
+        base.Start();
+    }
+
     public override void Initialize(PlacementProvider provider)
     {
         base.Initialize(provider);
@@ -52,52 +60,55 @@ public class ObstaclePlacement : BasePlacement<BaseObstacle, ObstacleContainer, 
     {
         if (IsPlacing && !AllowPlacement) Cancel();
 
-        switch (AllowPlacement)
+        if (!v2Mode)
         {
-            case true when !IsIdle:
-                {
-                    if (!hasOffset)
+            switch (AllowPlacement)
+            {
+                case true when !IsIdle:
                     {
-                        // Offset Y by whole grid or XY grid only
+                        if (!hasOffset)
+                        {
+                            // Offset Y by whole grid or XY grid only
+                            var offset = lane.XYOffset;
+                            offset.y = -0.5f;
+                            // lane.LocalOffset = offset;
+                            lane.XYOffset = offset;
+                            lane.RefreshPosition();
+
+                            lane.Lane += lane.Lane + Mathf.CeilToInt(lane.Lane % 2 / 2f);
+
+                            hasOffset = true;
+                        }
+
+                        switch (IsPlacing)
+                        {
+                            case true when !hasExpanded:
+                                lane.Height = 5;
+                                hasExpanded = true;
+                                break;
+                            case false when hasExpanded:
+                                lane.Height = 3;
+                                hasExpanded = false;
+                                break;
+                        }
+
+                        break;
+                    }
+                case false when hasOffset || hasExpanded:
+                    {
                         var offset = lane.XYOffset;
-                        offset.y = -0.5f;
+                        offset.y = 0;
                         // lane.LocalOffset = offset;
                         lane.XYOffset = offset;
                         lane.RefreshPosition();
 
-                        lane.Lane += lane.Lane + Mathf.CeilToInt(lane.Lane % 2 / 2f);
+                        lane.Height = 3;
+                        lane.Lane = NoteLanesController.LaneCount;
 
-                        hasOffset = true;
+                        hasOffset = hasExpanded = false;
+                        break;
                     }
-
-                    switch (IsPlacing)
-                    {
-                        case true when !hasExpanded:
-                            lane.Height = 5;
-                            hasExpanded = true;
-                            break;
-                        case false when hasExpanded:
-                            lane.Height = 3;
-                            hasExpanded = false;
-                            break;
-                    }
-
-                    break;
-                }
-            case false when hasOffset || hasExpanded:
-                {
-                    var offset = lane.XYOffset;
-                    offset.y = 0;
-                    // lane.LocalOffset = offset;
-                    lane.XYOffset = offset;
-                    lane.RefreshPosition();
-
-                    lane.Height = 3;
-                    lane.Lane = NoteLanesController.LaneCount;
-
-                    hasOffset = hasExpanded = false;
-                    break;
-                }
+            }
         }
 
         base.UpdateState(hit, inputState);
@@ -132,6 +143,24 @@ public class ObstaclePlacement : BasePlacement<BaseObstacle, ObstacleContainer, 
         {
             PlacementVisualContainer.transform.localPosition = roundedPoint;
             var newScale = new Vector3(size, size, Mathf.Epsilon);
+            if (v2Mode && !PrecisionPlacementController.IsEnabled)
+            {
+                if (PlacementVisualContainer.transform.localPosition.y < 1.5f)
+                {
+                    var pos = PlacementVisualContainer.transform.localPosition;
+                    pos.y = -0.5f;
+                    PlacementVisualContainer.transform.localPosition = pos;
+                    newScale.y = 5f;
+                }
+                else
+                {
+                    var pos = PlacementVisualContainer.transform.localPosition;
+                    pos.y = 1.5f;
+                    PlacementVisualContainer.transform.localPosition = pos;
+                    newScale.y = 3f;
+                }
+            }
+
             if (newScale != PlacementVisualContainer.ObstacleScale) PlacementVisualContainer.SetScale(newScale);
         }
         else
@@ -159,6 +188,24 @@ public class ObstaclePlacement : BasePlacement<BaseObstacle, ObstacleContainer, 
             var newScale = roundedPoint + new Vector3(sizeX, sizeY, 0f) - originShove;
             PlacementVisualContainer.transform.localPosition =
                 originShove + new Vector3((newScale.x - size) / 2f, 0f, 0f);
+            if (v2Mode && !PrecisionPlacementController.IsEnabled)
+            {
+                if (PlacementVisualContainer.transform.localPosition.y < 1.5f)
+                {
+                    var pos = PlacementVisualContainer.transform.localPosition;
+                    pos.y = -0.5f;
+                    PlacementVisualContainer.transform.localPosition = pos;
+                    newScale.y = 5f;
+                }
+                else
+                {
+                    var pos = PlacementVisualContainer.transform.localPosition;
+                    pos.y = 1.5f;
+                    PlacementVisualContainer.transform.localPosition = pos;
+                    newScale.y = 3f;
+                }
+            }
+
             if (newScale != PlacementVisualContainer.ObstacleScale) PlacementVisualContainer.SetScale(newScale);
         }
     }
