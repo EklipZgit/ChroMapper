@@ -294,7 +294,7 @@ public class AudioTimeSyncController : MonoBehaviour,
                 var beatShiftRaw = 1f / GridMeasureSnapping * (value > 0 ? 1f : -1f);
                 var snapped = IsSnapped;
 
-                MoveToJsonTime(Mathf.Max(0, CurrentJsonTime + beatShiftRaw), false);
+                MoveToJsonTime(Mathf.Max(0, CurrentJsonTime + beatShiftRaw));
                 if (snapped) SnapToGrid(true);
             }
         }
@@ -494,18 +494,10 @@ public class AudioTimeSyncController : MonoBehaviour,
         SongAudioSource.time = CurrentSeconds;
     }
 
-    public void MoveToJsonTime(float jsonTime, bool notify = true)
+    public void MoveToJsonTime(float jsonTime)
     {
         if (IsPlaying) return;
-        if (notify)
-        {
-            CurrentJsonTime = jsonTime;
-            SongAudioSource.time = CurrentSeconds;
-        }
-        else
-        {
-            currentJsonTime = jsonTime;
-        }
+        CurrentJsonTime = jsonTime;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
