@@ -10,13 +10,15 @@
     {
         Tags
         {
-            "Queue"="Transparent-100" "RenderType"="Opaque"
+            "Queue"="Transparent"
+            "IgnoreProjector"="True"
+            "RenderType"="Opaque"
         }
         LOD 100
         ZWrite Off
         ZTest LEqual
         ColorMask RGB
-        Blend SrcAlpha OneMinusSrcAlpha
+        Blend SrcColor OneMinusSrcColor
 
         Pass
         {

@@ -106,9 +106,7 @@ namespace Beatmap.Animations
             {
                 container.UpdateGridPosition();
                 container.MaterialPropertyBlock.SetFloat(shaderIdCutout, 0);
-                container.MaterialPropertyBlock.SetVector(
-                    shaderIdCutoutTexOffset,
-                    new(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0, 0));
+                container.MaterialPropertyBlock.SetVector(shaderIdCutoutTexOffset, Random.insideUnitCircle * 10f);
                 container.MaterialPropertyBlock.SetFloat(shaderIdAnimSpawned, 0);
                 if (container is NoteContainer nc)
                 {

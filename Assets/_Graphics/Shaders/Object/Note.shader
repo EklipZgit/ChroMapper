@@ -208,14 +208,14 @@ Shader "ChroMapper/Object/Note"
                 float noise = simplex((i.localPos + cutoutTexOffset.xyz) * 2);
                 float c = noise - cutout;
                 clip(c);
-                if (c < _CutoutEdgeWidth)
+                if (c < _CutoutEdgeWidth * sqrt(cutout))
                 {
-                    return float4(length(albedo.rgb) / 2 + albedo.rgb, _CutoutEdgeGlow);
+                    return fixed4(length(albedo.rgb) / 2 + albedo.rgb, _CutoutEdgeGlow);
                 }
 
                 float3 worldNormal = normalize(i.worldNormal);
 
-                fixed3 lightDirection = normalize(_WorldSpaceLightPos0.xyz);
+                float3 lightDirection = normalize(_WorldSpaceLightPos0.xyz);
                 fixed3 lightColor = _LightColor0.rgb;
                 float diffuse = saturate(dot(worldNormal, lightDirection));
 

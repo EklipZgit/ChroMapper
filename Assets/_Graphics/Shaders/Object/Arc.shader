@@ -11,7 +11,7 @@
     {
         Tags
         {
-            "Queue"="Transparent-200" "RenderType"="Transparent"
+            "Queue"="Transparent+50" "RenderType"="Transparent"
         }
         LOD 100
         Blend SrcColor OneMinusSrcColor, One OneMinusSrcColor

@@ -4,7 +4,8 @@
     {
         _Color("Base Color", Color) = (0.5, 0, 0, 0)
         _WorldScale("World Scale", Vector) = (1, 3.5, 1, 1)
-        _ObstacleDistortionStrength("Obstacle Distortion Strength", Range(0,0.5)) = 0.05
+        _DistortionStrength("Distortion Strength", Range(0,0.5)) = 0.05
+        _DistortionScale("Distortion Scale", Range(0.1, 4)) = 1.0
 
         [Header(Beat Saber)]
         [Space(10)]
@@ -51,7 +52,8 @@
             UNITY_DEFINE_INSTANCED_PROP(float4, _CutoutTexOffset)
         UNITY_INSTANCING_BUFFER_END(Props)
 
-        float _ObstacleDistortionStrength;
+        float _DistortionStrength;
+        float _DistortionScale;
         sampler2D _GrabTexture;
         ENDHLSL
 
@@ -145,10 +147,12 @@
                 float2 screenUV = i.screenPos.xy / i.screenPos.w;
                 // obstacle distortion need to be stable, cannot be based on screen space position
                 // horribad
-                screenUV.x += (simplex((i.uv * uvScalar + cutoutTexOffset * 2) / 2) - 0.5) *
-                    _ObstacleDistortionStrength;
-                screenUV.y += (simplex((i.uv.yx * uvScalar.yx + cutoutTexOffset * 2) / 2) - 0.5) *
-                    _ObstacleDistortionStrength;
+                screenUV.x +=
+                    (simplex((i.uv * uvScalar + cutoutTexOffset * _DistortionScale) / _DistortionScale) - 0.5) *
+                    _DistortionStrength;
+                screenUV.y +=
+                    (simplex((i.uv.yx * uvScalar.yx + cutoutTexOffset * _DistortionScale) / _DistortionScale) - 0.5) *
+                    _DistortionStrength;
 
                 fixed4 col = color + tex2D(_GrabTexture, screenUV);
                 return col * factor;
