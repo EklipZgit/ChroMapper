@@ -21,12 +21,12 @@ public class ColorTypeController : MonoBehaviour
         leftSelected.enabled = true;
         rightSelected.enabled = false;
         LoadInitialMap.OnPlatformLoaded += SetupColors;
-        customColors.CustomColorsUpdatedEvent += UpdateColors;
+        customColors.OnCustomColorsUpdated += UpdateColors;
     }
 
     private void OnDestroy()
     {
-        customColors.CustomColorsUpdatedEvent -= UpdateColors;
+        customColors.OnCustomColorsUpdated -= UpdateColors;
         LoadInitialMap.OnPlatformLoaded -= SetupColors;
     }
 

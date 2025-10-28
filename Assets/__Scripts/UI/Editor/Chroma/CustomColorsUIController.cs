@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class CustomColorsUIController : MonoBehaviour
 {
-    public event Action CustomColorsUpdatedEvent;
+    public event Action OnCustomColorsUpdated;
 
     [SerializeField] private ColorPicker picker;
 
@@ -99,7 +99,7 @@ public class CustomColorsUIController : MonoBehaviour
         whiteBoost.image.color = platform.ColorScheme.WhiteBoostColor;
         obstacle.image.color = obstacleAppearance.DefaultObstacleColor;
         
-        CustomColorsUpdatedEvent?.Invoke();
+        OnCustomColorsUpdated?.Invoke();
     }
 
     private void LoadedOnPlatform(PlatformDescriptor obj)
@@ -238,7 +238,7 @@ public class CustomColorsUIController : MonoBehaviour
         BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Arc).RefreshPool(true);
         BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Chain).RefreshPool(true);
 
-        CustomColorsUpdatedEvent?.Invoke();
+        OnCustomColorsUpdated?.Invoke();
     }
 
     private void ResetRedLight()
@@ -289,7 +289,7 @@ public class CustomColorsUIController : MonoBehaviour
     private void RefreshLights()
     {
         BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Event).RefreshPool(true);
-        CustomColorsUpdatedEvent?.Invoke();
+        OnCustomColorsUpdated?.Invoke();
     }
 
     public void ResetObstacles()
@@ -302,7 +302,7 @@ public class CustomColorsUIController : MonoBehaviour
     private void RefreshObstacles()
     {
         BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Obstacle).RefreshPool(true);
-        CustomColorsUpdatedEvent?.Invoke();
+        OnCustomColorsUpdated?.Invoke();
     }
 
     private void SubscribeCustomColorButtons()

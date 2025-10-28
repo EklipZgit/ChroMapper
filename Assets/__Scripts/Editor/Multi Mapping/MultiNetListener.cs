@@ -316,7 +316,7 @@ public class MultiNetListener : INetEventListener, IDisposable
 
         // double sigh
         customColors = UnityEngine.Object.FindObjectOfType<CustomColorsUIController>();
-        customColors.CustomColorsUpdatedEvent += CustomColors_CustomColorsUpdatedEvent;
+        customColors.OnCustomColorsUpdated += CustomColors_CustomColorsUpdatedEvent;
         RegisterPacketHandler(PacketId.MapColorUpdated, new MapColorUpdatePacketHandler(customColors));
 
         Settings.NotifyBySettingName("SongSpeed", UpdateLocalSongSpeed);
@@ -342,7 +342,7 @@ public class MultiNetListener : INetEventListener, IDisposable
         bookmarkManager.OnBookmarkAdded -= MultiNetListener_ObjectSpawnedEvent;
         bookmarkManager.OnBookmarkDeleted -= MultiNetListener_ObjectDeletedEvent;
 
-        customColors.CustomColorsUpdatedEvent -= CustomColors_CustomColorsUpdatedEvent;
+        customColors.OnCustomColorsUpdated -= CustomColors_CustomColorsUpdatedEvent;
 
         Settings.ClearSettingNotifications("SongSpeed");
 

@@ -33,7 +33,7 @@ public class LinkinParkRotatingLightsManager : RotatingLightsManagerBase
 
         transform.localRotation = startRotation * Quaternion.Euler(RotationVector * startRotationAngle);
 
-        RotatingLightsRandom.OnSwitchStyle += SwitchStyle;
+        RotatingLightsRandom.OnStyleSwitched += HandleStyleSwitched;
         Settings.NotifyBySettingName("SongSpeed", UpdateSongSpeed);
     }
 
@@ -53,7 +53,7 @@ public class LinkinParkRotatingLightsManager : RotatingLightsManagerBase
         songSpeed = speedValue / 10;
     }
 
-    public void SwitchStyle()
+    public void HandleStyleSwitched()
     {
         rotationAngle = RotatingLightsRandom.randomStartRotation;
         rotationSpeed = Mathf.Abs(RotatingLightsRandom.rotationSpeed);

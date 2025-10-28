@@ -11,11 +11,11 @@ public class ChangeSortTooltipOnSortChange : MonoBehaviour
     [SerializeField] private LocalizedString sortByArtistString;
     [SerializeField] private LocalizedString sortByModifiedString;
 
-    private void Start() => songList.SortTypeChanged += SongList_OnSortTypeChanged;
+    private void Start() => songList.OnSortTypeChanged += HandleSortTypeChanged;
 
-    private void OnDestroy() => songList.SortTypeChanged -= SongList_OnSortTypeChanged;
+    private void OnDestroy() => songList.OnSortTypeChanged -= HandleSortTypeChanged;
 
-    private void SongList_OnSortTypeChanged(SongList.SongSortType sortType)
+    private void HandleSortTypeChanged(SongList.SongSortType sortType)
     {
         switch (sortType)
         {

@@ -27,7 +27,7 @@ public class InterscopeMovingLightsManager : RotatingLightsManagerBase
         vector3.x *= Left ? 1f : -1f;
         transform.localPosition = startPosition + vector3;
 
-        MovingLightsRandom.OnSwitchStyle += SwitchStyle;
+        MovingLightsRandom.OnStyleSwitched += HandleStyleSwitched;
         Settings.NotifyBySettingName("SongSpeed", UpdateSongSpeed);
     }
 
@@ -50,7 +50,7 @@ public class InterscopeMovingLightsManager : RotatingLightsManagerBase
         songSpeed = speedValue / 10;
     }
 
-    public void SwitchStyle()
+    public void HandleStyleSwitched()
     {
         movementValue = MovingLightsRandom.randomStartOffset;
         movementSpeed = Mathf.Abs(MovingLightsRandom.movementSpeed);

@@ -17,13 +17,13 @@ public class RotatingLightsRandom : MonoBehaviour
     protected bool UseZPositionForAngleOffset = false;
     protected float ZPositionAngleOffsetScale = 1f;
 
-    public event Action OnSwitchStyle;
+    public event Action OnStyleSwitched;
 
     public void SwitchStyle(bool b)
     {
         OverrideRandomValues = b;
         RandomUpdate(false);
-        OnSwitchStyle?.Invoke();
+        OnStyleSwitched?.Invoke();
     }
 
     public void RandomUpdate(bool leftEvent)
