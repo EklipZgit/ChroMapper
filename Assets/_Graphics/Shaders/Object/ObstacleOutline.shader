@@ -17,6 +17,7 @@
         HLSLINCLUDE
         #include "UnityCG.cginc"
         #include "../CGIncludes/Noise.cginc"
+        #include "../CGIncludes/BloomFog.cginc"
 
         // These are global properties and should not be instanced
         uniform float _MainAlpha = 0.5;
@@ -36,7 +37,6 @@
             Cull Off
 
             HLSLPROGRAM
-            #include "../CGIncludes/BloomFog.cginc"
             #pragma multi_compile _ ENABLE_BLOOM_FOG
             #pragma vertex vert
             #pragma fragment frag

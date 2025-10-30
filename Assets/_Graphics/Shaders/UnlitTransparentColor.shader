@@ -23,8 +23,10 @@
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_instancing
+            #pragma multi_compile _ ENABLE_BLOOM_FOG
 
             #include "UnityCG.cginc"
+            #include "CGIncludes/BloomFog.cginc"
 
             UNITY_INSTANCING_BUFFER_START(Props)
                 UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
@@ -41,6 +43,8 @@
             {
                 float4 vertex : SV_POSITION;
                 float2 uv : TEXCOORD0;
+                float3 worldPos : TEXCOORD1;
+                float4 customScreenPos : TEXCOORD2;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
@@ -56,6 +60,8 @@
 
                 o.vertex = UnityObjectToClipPos(i.vertex);
                 o.uv = i.uv;
+                o.worldPos = mul(unity_ObjectToWorld, i.vertex).xyz;
+                o.customScreenPos = ComputeScreenPosCustom(o.vertex);
 
                 return o;
             }
@@ -68,7 +74,7 @@
                 fixed4 albedo = color * tex2D(_MainTex, TRANSFORM_TEX(i.uv, _MainTex));
                 albedo.rgb *= albedo.a;
                 albedo.a = 0;
-
+                BLOOM_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, 0, 5);
                 return albedo;
             }
             ENDCG

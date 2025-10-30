@@ -32,9 +32,11 @@
             #pragma fragment frag
             #pragma multi_compile _MODE_OPAQUE _MODE_CUTOUT
             #pragma multi_compile_instancing
+            #pragma multi_compile _ ENABLE_BLOOM_FOG
 
             #include "UnityCG.cginc"
             #include "Lighting.cginc"
+            #include "CGIncludes/BloomFog.cginc"
 
             UNITY_INSTANCING_BUFFER_START(Props)
                 UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
@@ -54,6 +56,7 @@
                 float2 uv : TEXCOORD0;
                 float3 worldNormal : TEXCOORD1;
                 float3 worldPos : TEXCOORD2;
+                float4 customScreenPos : TEXCOORD3;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
@@ -74,6 +77,7 @@
                 o.uv = i.uv;
                 o.worldNormal = UnityObjectToWorldNormal(i.normal);
                 o.worldPos = mul(unity_ObjectToWorld, i.vertex).xyz;
+                o.customScreenPos = ComputeScreenPosCustom(o.vertex);
 
                 return o;
             }
@@ -109,7 +113,9 @@
 
                 float alpha = log2(glow + 1.0);
 
-                return fixed4(col.rgb, saturate(alpha));
+                fixed4 bloomfog_color = fixed4(col.rgb, saturate(alpha));
+                BLOOM_FOG_APPLY(bloomfog_color, i.customScreenPos, i.worldPos, 0, 5);
+                return bloomfog_color;
             }
             ENDCG
         }
