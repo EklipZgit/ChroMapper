@@ -15,8 +15,10 @@ namespace Beatmap.Containers
             set => CustomEventData = (BaseCustomEvent)value;
         }
 
-        public static CustomEventContainer SpawnCustomEvent(BaseCustomEvent data,
-            CustomEventGridContainer collection, ref GameObject prefab)
+        public static CustomEventContainer SpawnCustomEvent(
+            BaseCustomEvent data,
+            CustomEventGridContainer collection,
+            ref GameObject prefab)
         {
             var container = Instantiate(prefab).GetComponent<CustomEventContainer>();
             container.CustomEventData = data;
@@ -27,7 +29,8 @@ namespace Beatmap.Containers
         public override void UpdateGridPosition()
         {
             transform.localPosition = new Vector3(
-                collection.CustomEventTypes.IndexOf(CustomEventData.Type), 0.5f,
+                collection.CustomEventTypes.IndexOf(CustomEventData.Type) + 0.5f,
+                0.5f,
                 CustomEventData.SongBpmTime * EditorScaleController.EditorScale);
             UpdateCollisionGroups();
         }

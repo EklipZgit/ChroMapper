@@ -67,7 +67,7 @@ public class SongList : MonoBehaviour
         currentSort = (SongSortType)Settings.Instance.LastSongSortType;
         ApplySort(currentSort);
 
-        SortTypeChanged?.Invoke(currentSort);
+        OnSortTypeChanged?.Invoke(currentSort);
         SetSongLocation(selectedFolder);
     }
 
@@ -137,7 +137,7 @@ public class SongList : MonoBehaviour
         }
     }
 
-    public event Action<SongSortType> SortTypeChanged;
+    public event Action<SongSortType> OnSortTypeChanged;
 
     private void SwitchSort(IComparer<BaseInfo> newSort, Sprite sprite)
     {
@@ -158,7 +158,7 @@ public class SongList : MonoBehaviour
 
         Settings.Instance.LastSongSortType = (int)currentSort;
 
-        SortTypeChanged?.Invoke(currentSort);
+        OnSortTypeChanged?.Invoke(currentSort);
     }
 
     public void ApplySort(SongSortType sortType)

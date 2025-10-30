@@ -5,15 +5,19 @@ namespace Beatmap.Containers
 {
     public class ObstacleContainer : ObjectContainer
     {
-        private static readonly int colorKeyword = Shader.PropertyToID("_Color");
-        private static readonly int shaderScale = Shader.PropertyToID("_WorldScale");
-        private static readonly int handleScale = Shader.PropertyToID("_HandleScale");
+        private static readonly int colorID = Shader.PropertyToID("_Color");
+        private static readonly int worldScaleID = Shader.PropertyToID("_WorldScale");
 
         [SerializeField] private TracksManager manager;
-        [SerializeField] private Renderer simpleObstacle;
-        [SerializeField] private Renderer distortObstacle;
+
+        [SerializeField] private Renderer obstacleCore;
+        [SerializeField] private Renderer obstacleOutline;
+
+        [SerializeField] private Material simpleObstacle;
+        [SerializeField] private Material distortObstacle;
 
         [SerializeField] public BaseObstacle ObstacleData;
+        public Vector3 ObstacleScale;
 
         public override BaseObject ObjectData
         {
@@ -36,29 +40,38 @@ namespace Beatmap.Containers
 
         internal override void UpdateMaterials()
         {
-            simpleObstacle.enabled = !UIMode.PreviewMode;
-            distortObstacle.enabled = UIMode.PreviewMode;
+            obstacleCore.sharedMaterial = UIMode.PreviewMode ? distortObstacle : simpleObstacle;
             base.UpdateMaterials();
         }
 
         public void SetColor(Color c)
         {
-            MaterialPropertyBlock.SetColor(colorKeyword, c);
+            MaterialPropertyBlock.SetColor(colorID, c);
             UpdateMaterials();
         }
 
         public void SetScale(Vector3 scale)
         {
-            Animator.LocalTarget.localScale = scale;
+            ObstacleScale = scale;
+            
+            scale.x *= 0.98f;
+            var cubeOffset = scale / 2f;
+            cubeOffset.x = 0f;
 
-            MaterialPropertyBlock.SetVector(shaderScale, scale);
-            MaterialPropertyBlock.SetFloat(handleScale, 1);
+            obstacleCore.transform.localScale = scale - (Vector3.one * 0.01f);
+            obstacleCore.transform.localPosition = cubeOffset;
+
+            obstacleOutline.transform.localScale = scale;
+            obstacleOutline.transform.localPosition = cubeOffset;
+
+            foreach (var selectionRenderer in SelectionRenderers)
+            {
+                selectionRenderer.transform.localScale = scale;
+                selectionRenderer.transform.localPosition = cubeOffset;
+            }
+
+            MaterialPropertyBlock.SetVector(worldScaleID, obstacleCore.transform.localScale);
             UpdateMaterials();
-        }
-
-        public Vector3 GetScale()
-        {
-            return Animator.LocalTarget.localScale;
         }
 
         public float GetLength()
@@ -72,15 +85,13 @@ namespace Beatmap.Containers
 
             //Take half jump duration into account if the setting is enabled.
             if (ObstacleData.Duration < 0 && Settings.Instance.ShowMoreAccurateFastWalls && !UIMode.AnimationMode)
-            {
                 length -= length * Mathf.Abs(length / ObstacleData.Hjd);
-            }
 
-            length *= (UIMode.AnimationMode)
+            length *= UIMode.AnimationMode
                 ? ObstacleData.EditorScale
                 : EditorScaleController.EditorScale;
 
-            return length;
+            return float.IsFinite(length) ? length : float.Epsilon;
         }
 
         public (Vector3 size, Vector3 position) ReadSizePosition()
@@ -122,7 +133,7 @@ namespace Beatmap.Containers
             // Enforce positive scale, offset our obstacles to match.
             transform.localPosition = new Vector3(
                 0,
-                0.1f,
+                -0.5f,
                 (ObstacleData.SongBpmTime * EditorScaleController.EditorScale) + (length < 0 ? length : 0));
             Animator.LocalTarget.localPosition = position;
 

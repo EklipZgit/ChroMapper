@@ -51,6 +51,9 @@ namespace Beatmap.Info
                 colorScheme.OverrideLights = colorSchemeNode["useOverride"].AsBool;
                 
                 colorScheme.ColorSchemeName = colorSchemeNode["colorScheme"]["colorSchemeId"].Value;
+                // Ideally, this should read no alpha key as 0,
+                // but due to previous bug where alpha was not written,
+                // a price has to be paid
                 colorScheme.SaberAColor = colorSchemeNode["colorScheme"]["saberAColor"].ReadColor();
                 colorScheme.SaberBColor = colorSchemeNode["colorScheme"]["saberBColor"].ReadColor();
                 colorScheme.ObstaclesColor = colorSchemeNode["colorScheme"]["obstaclesColor"].ReadColor();
@@ -175,13 +178,15 @@ namespace Beatmap.Info
                 var node = new JSONObject();
                 node["useOverride"] = colorScheme.UseOverride;
                 node["colorScheme"]["colorSchemeId"] = colorScheme.ColorSchemeName;
-                node["colorScheme"]["saberAColor"] = colorScheme.SaberAColor;
-                node["colorScheme"]["saberBColor"] = colorScheme.SaberBColor;
-                node["colorScheme"]["obstaclesColor"] = colorScheme.ObstaclesColor;
-                node["colorScheme"]["environmentColor0"] = colorScheme.EnvironmentColor0;
-                node["colorScheme"]["environmentColor1"] = colorScheme.EnvironmentColor1;
-                node["colorScheme"]["environmentColor0Boost"] = colorScheme.EnvironmentColor0Boost;
-                node["colorScheme"]["environmentColor1Boost"] = colorScheme.EnvironmentColor1Boost;
+                node["colorScheme"]["saberAColor"] = new JSONObject().WriteColor(colorScheme.SaberAColor);
+                node["colorScheme"]["saberBColor"] = new JSONObject().WriteColor(colorScheme.SaberBColor);
+                node["colorScheme"]["obstaclesColor"] = new JSONObject().WriteColor(colorScheme.ObstaclesColor);
+                node["colorScheme"]["environmentColor0"] = new JSONObject().WriteColor(colorScheme.EnvironmentColor0);
+                node["colorScheme"]["environmentColor1"] = new JSONObject().WriteColor(colorScheme.EnvironmentColor1);
+                node["colorScheme"]["environmentColor0Boost"] =
+                    new JSONObject().WriteColor(colorScheme.EnvironmentColor0Boost);
+                node["colorScheme"]["environmentColor1Boost"] =
+                    new JSONObject().WriteColor(colorScheme.EnvironmentColor1Boost);
                 
                 colorSchemes.Add(node);
             }

@@ -210,7 +210,7 @@ namespace TestsEditMode
     }
 }
 ";
-        
+
         private const string v4FileInfo = @"
 {
     ""version"": ""4.0.1"",
@@ -416,10 +416,13 @@ namespace TestsEditMode
             var info = V2Info.GetFromJson(JSONNode.Parse(v2FileInfo));
             var output = V2Info.GetOutputJson(info);
             var reparsed = V2Info.GetFromJson(output);
-            
+
             AssertV2Info(reparsed); // This should have the same stuff
+
+            // Check for implicit as JSON is parsed differently compared to game
+            V2_EnsureCriticalOptionalProps(output);
         }
-        
+
         [Test]
         public void V4_GetFromJson()
         {
@@ -433,23 +436,23 @@ namespace TestsEditMode
             var info = V4Info.GetFromJson(JSONNode.Parse(v4FileInfo));
             var output = V4Info.GetOutputJson(info);
             var reparsed = V4Info.GetFromJson(output);
-            
+
             AssertV4Info(reparsed); // This should have the same stuff
         }
 
         private void AssertV2Info(BaseInfo info)
         {
             Assert.AreEqual("2.1.0", info.Version);
-            
+
             AssertCommonInfo(info);
-            
+
             Assert.AreEqual("Freeek", info.LevelAuthorName);
 
             Assert.AreEqual("Magic.wav", info.SongFilename);
 
             Assert.AreEqual("WeaveEnvironment", info.EnvironmentName);
             Assert.AreEqual("GlassDesertEnvironment", info.AllDirectionsEnvironmentName);
-            
+
             // All supported customData properties are removed on load
             // Only v2 has a direct characteristic set customData
             Assert.AreEqual(1, info.DifficultySets[0].CustomData.Count);
@@ -460,9 +463,9 @@ namespace TestsEditMode
         private void AssertV4Info(BaseInfo info)
         {
             Assert.AreEqual("4.0.1", info.Version);
-            
+
             AssertCommonInfo(info);
-            
+
             Assert.AreEqual("BPMInfo.dat", info.AudioDataFilename);
             Assert.AreEqual(0, info.Lufs);
 
@@ -472,8 +475,8 @@ namespace TestsEditMode
             foreach (var difficulty in info.DifficultySets.SelectMany(x => x.Difficulties))
             {
                 Assert.AreEqual(1, difficulty.Mappers.Count);
-                Assert.AreEqual("Freeek", difficulty.Mappers[0]); 
-                
+                Assert.AreEqual("Freeek", difficulty.Mappers[0]);
+
                 Assert.AreEqual(1, difficulty.Lighters.Count);
                 Assert.AreEqual("Freeek", difficulty.Lighters[0]);
 
@@ -502,7 +505,7 @@ namespace TestsEditMode
             Assert.AreEqual(2, info.EnvironmentNames.Count);
             Assert.AreEqual("WeaveEnvironment", info.EnvironmentNames[0]);
             Assert.AreEqual("GlassDesertEnvironment", info.EnvironmentNames[1]);
-            
+
             Assert.AreEqual(1, info.ColorSchemes.Count);
 
             var colorScheme = info.ColorSchemes[0];
@@ -517,13 +520,13 @@ namespace TestsEditMode
             AssertColorsAreEqual(new Color(1.0000000f, 0.18823530f, 0.18823530f), colorScheme.ObstaclesColor);
             AssertColorsAreEqual(new Color(0.8218409f, 0.08627451f, 0.85098040f), colorScheme.EnvironmentColor0Boost);
             AssertColorsAreEqual(new Color(0.5320754f, 0.53207540f, 0.53207540f), colorScheme.EnvironmentColor1Boost);
-            
+
             Assert.AreEqual(1, info.DifficultySets.Count);
 
             var difficultySet = info.DifficultySets[0];
             Assert.AreEqual("Standard", difficultySet.Characteristic);
             Assert.AreEqual(5, difficultySet.Difficulties.Count);
-            
+
             // Custom properties for Set
             Assert.AreEqual("A Custom Characteristic", difficultySet.CustomCharacteristicLabel);
             Assert.AreEqual("customCharacteristic.png", difficultySet.CustomCharacteristicIconImageFileName);
@@ -536,12 +539,12 @@ namespace TestsEditMode
             Assert.AreEqual(0, easyDifficulty.NoteStartBeatOffset);
             Assert.AreEqual(0, easyDifficulty.ColorSchemeIndex);
             Assert.AreEqual(0, easyDifficulty.EnvironmentNameIndex);
-            
+
             // Custom properties for Easy
             Assert.IsTrue(easyDifficulty.CustomOneSaberFlag);
             Assert.IsTrue(easyDifficulty.CustomShowRotationNoteSpawnLinesFlag);
             Assert.AreEqual("ACustomLabel", easyDifficulty.CustomLabel);
-            
+
             Assert.AreEqual(1, easyDifficulty.CustomInformation.Count);
             Assert.AreEqual("Info", easyDifficulty.CustomInformation[0]);
             Assert.AreEqual(2, easyDifficulty.CustomWarnings.Count);
@@ -551,22 +554,22 @@ namespace TestsEditMode
             Assert.AreEqual("Chroma", easyDifficulty.CustomSuggestions[0]);
             Assert.AreEqual(1, easyDifficulty.CustomRequirements.Count);
             Assert.AreEqual("Noodle Extensions", easyDifficulty.CustomRequirements[0]);
-            
+
             // All supported customData properties are removed on load
             Assert.AreEqual(1, easyDifficulty.CustomData.Count);
             Assert.AreEqual(true, easyDifficulty.CustomData.HasKey("foo"));
             Assert.AreEqual("bar", easyDifficulty.CustomData["foo"].Value);
-            
-            AssertColorsAreEqual(new Color(0.111f, 0.111f, 0.111f),easyDifficulty.CustomColorLeft!.Value);
-            AssertColorsAreEqual(new Color(0.222f, 0.222f, 0.222f),easyDifficulty.CustomColorRight!.Value);
-            AssertColorsAreEqual(new Color(0.333f, 0.333f, 0.333f),easyDifficulty.CustomColorObstacle!.Value);
-            AssertColorsAreEqual(new Color(0.444f, 0.444f, 0.444f),easyDifficulty.CustomEnvColorLeft!.Value);
-            AssertColorsAreEqual(new Color(0.555f, 0.555f, 0.555f),easyDifficulty.CustomEnvColorRight!.Value);
-            AssertColorsAreEqual(new Color(0.666f, 0.666f, 0.666f),easyDifficulty.CustomEnvColorWhite!.Value);
-            AssertColorsAreEqual(new Color(0.777f, 0.777f, 0.777f),easyDifficulty.CustomEnvColorBoostLeft!.Value);
-            AssertColorsAreEqual(new Color(0.888f, 0.888f, 0.888f),easyDifficulty.CustomEnvColorBoostRight!.Value);
-            AssertColorsAreEqual(new Color(0.999f, 0.999f, 0.999f),easyDifficulty.CustomEnvColorBoostWhite!.Value);
-            
+
+            AssertColorsAreEqual(new Color(0.111f, 0.111f, 0.111f), easyDifficulty.CustomColorLeft!.Value);
+            AssertColorsAreEqual(new Color(0.222f, 0.222f, 0.222f), easyDifficulty.CustomColorRight!.Value);
+            AssertColorsAreEqual(new Color(0.333f, 0.333f, 0.333f), easyDifficulty.CustomColorObstacle!.Value);
+            AssertColorsAreEqual(new Color(0.444f, 0.444f, 0.444f), easyDifficulty.CustomEnvColorLeft!.Value);
+            AssertColorsAreEqual(new Color(0.555f, 0.555f, 0.555f), easyDifficulty.CustomEnvColorRight!.Value);
+            AssertColorsAreEqual(new Color(0.666f, 0.666f, 0.666f), easyDifficulty.CustomEnvColorWhite!.Value);
+            AssertColorsAreEqual(new Color(0.777f, 0.777f, 0.777f), easyDifficulty.CustomEnvColorBoostLeft!.Value);
+            AssertColorsAreEqual(new Color(0.888f, 0.888f, 0.888f), easyDifficulty.CustomEnvColorBoostRight!.Value);
+            AssertColorsAreEqual(new Color(0.999f, 0.999f, 0.999f), easyDifficulty.CustomEnvColorBoostWhite!.Value);
+
             var normalDifficulty = difficultySet.Difficulties[1];
             Assert.AreEqual("Normal", normalDifficulty.Difficulty);
             Assert.AreEqual(3, normalDifficulty.DifficultyRank);
@@ -575,17 +578,17 @@ namespace TestsEditMode
             Assert.AreEqual(0, normalDifficulty.NoteStartBeatOffset);
             Assert.AreEqual(0, normalDifficulty.ColorSchemeIndex);
             Assert.AreEqual(0, normalDifficulty.EnvironmentNameIndex);
-            
+
             // Non-existent custom properties for normal
             Assert.IsNull(normalDifficulty.CustomOneSaberFlag);
             Assert.IsNull(normalDifficulty.CustomShowRotationNoteSpawnLinesFlag);
             Assert.IsTrue(string.IsNullOrWhiteSpace(normalDifficulty.CustomLabel));
-            
+
             Assert.AreEqual(0, normalDifficulty.CustomInformation.Count);
             Assert.AreEqual(0, normalDifficulty.CustomWarnings.Count);
             Assert.AreEqual(0, normalDifficulty.CustomSuggestions.Count);
             Assert.AreEqual(0, normalDifficulty.CustomRequirements.Count);
-            
+
             Assert.IsNull(normalDifficulty.CustomColorLeft);
             Assert.IsNull(normalDifficulty.CustomColorRight);
             Assert.IsNull(normalDifficulty.CustomColorObstacle);
@@ -604,7 +607,7 @@ namespace TestsEditMode
             Assert.AreEqual(0, hardDifficulty.NoteStartBeatOffset);
             Assert.AreEqual(0, hardDifficulty.ColorSchemeIndex);
             Assert.AreEqual(0, hardDifficulty.EnvironmentNameIndex);
-            
+
             var expertDifficulty = difficultySet.Difficulties[3];
             Assert.AreEqual("Expert", expertDifficulty.Difficulty);
             Assert.AreEqual(7, expertDifficulty.DifficultyRank);
@@ -613,7 +616,7 @@ namespace TestsEditMode
             Assert.AreEqual(1, expertDifficulty.NoteStartBeatOffset);
             Assert.AreEqual(0, expertDifficulty.ColorSchemeIndex);
             Assert.AreEqual(0, expertDifficulty.EnvironmentNameIndex);
-            
+
             var expertPlusDifficulty = difficultySet.Difficulties[4];
             Assert.AreEqual("ExpertPlus", expertPlusDifficulty.Difficulty);
             Assert.AreEqual(9, expertPlusDifficulty.DifficultyRank);
@@ -622,7 +625,7 @@ namespace TestsEditMode
             Assert.AreEqual(0.5f, expertPlusDifficulty.NoteStartBeatOffset);
             Assert.AreEqual(0, expertPlusDifficulty.ColorSchemeIndex);
             Assert.AreEqual(0, expertPlusDifficulty.EnvironmentNameIndex);
-            
+
             // CustomData properties
             Assert.AreEqual(1, info.CustomContributors.Count);
 
@@ -632,7 +635,7 @@ namespace TestsEditMode
             Assert.AreEqual("Bullet.png", contributor.LocalImageLocation);
 
             Assert.AreEqual("Big Mirror V2", info.CustomEnvironmentMetadata.Name);
-            
+
             // All supported customData properties are removed on load
             Assert.AreEqual(1, easyDifficulty.CustomData.Count);
             Assert.AreEqual(true, easyDifficulty.CustomData.HasKey("foo"));
@@ -643,12 +646,39 @@ namespace TestsEditMode
         {
             // Because v4 saves color schemes as a Html string, we can expect an error of ±0.5 / 255;
             var delta = 0.5f / 255;
-            
+
             Assert.AreEqual(expected.r, actual.r, delta, "red component");
             Assert.AreEqual(expected.g, actual.g, delta, "green component");
             Assert.AreEqual(expected.b, actual.b, delta, "blue component");
             Assert.AreEqual(expected.a, actual.a, delta, "alpha component");
         }
-        
+
+        private void V2_EnsureCriticalOptionalProps(JSONNode json)
+        {
+            if (json["_colorSchemes"] != null && json["_colorSchemes"].Count > 0)
+            {
+                const string missingParse =
+                    "Alpha key is required to be present, otherwise it will parse as 0 in vanilla";
+                Assert.True(json["_colorSchemes"][0]["colorScheme"]["saberAColor"].HasKey("a"), missingParse);
+                Assert.True(json["_colorSchemes"][0]["colorScheme"]["saberBColor"].HasKey("a"), missingParse);
+                Assert.True(json["_colorSchemes"][0]["colorScheme"]["obstaclesColor"].HasKey("a"), missingParse);
+                Assert.True(json["_colorSchemes"][0]["colorScheme"]["environmentColor0"].HasKey("a"), missingParse);
+                Assert.True(json["_colorSchemes"][0]["colorScheme"]["environmentColor1"].HasKey("a"), missingParse);
+                Assert.True(
+                    json["_colorSchemes"][0]["colorScheme"]["environmentColor0Boost"].HasKey("a"),
+                    missingParse);
+                Assert.True(
+                    json["_colorSchemes"][0]["colorScheme"]["environmentColor1Boost"].HasKey("a"),
+                    missingParse);
+
+                Assert.AreEqual(json["_colorSchemes"][0]["colorScheme"]["saberAColor"]["a"], 1f);
+                Assert.AreEqual(json["_colorSchemes"][0]["colorScheme"]["saberBColor"]["a"], 1f);
+                Assert.AreEqual(json["_colorSchemes"][0]["colorScheme"]["obstaclesColor"]["a"], 1f);
+                Assert.AreEqual(json["_colorSchemes"][0]["colorScheme"]["environmentColor0"]["a"], 1f);
+                Assert.AreEqual(json["_colorSchemes"][0]["colorScheme"]["environmentColor1"]["a"], 1f);
+                Assert.AreEqual(json["_colorSchemes"][0]["colorScheme"]["environmentColor0Boost"]["a"], 1f);
+                Assert.AreEqual(json["_colorSchemes"][0]["colorScheme"]["environmentColor1Boost"]["a"], 1f);
+            }
+        }
     }
 }

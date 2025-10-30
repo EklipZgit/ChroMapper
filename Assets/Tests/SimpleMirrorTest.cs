@@ -283,7 +283,7 @@ namespace Tests
         
             var root = wallsContainer.transform.root;
             var wallPlacement = root.GetComponentInChildren<ObstaclePlacement>();
-            wallPlacement.RefreshVisuals();
+            wallPlacement.CreateVisual();
 
             // What the actual fuck - example from mirroring in MMA2
             //{"_time":1.5,"_lineIndex":1446,"_type":595141,"_duration":0.051851850003004074,"_width":2596}
@@ -316,7 +316,7 @@ namespace Tests
 
             var root = wallsContainer.transform.root;
             var wallPlacement = root.GetComponentInChildren<ObstaclePlacement>();
-            wallPlacement.RefreshVisuals();
+            wallPlacement.CreateVisual();
 
             BaseObstacle wallA = new BaseObstacle
             {

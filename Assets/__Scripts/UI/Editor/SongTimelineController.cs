@@ -1,0 +1,78 @@
+﻿using System.Collections;
+using TMPro;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
+
+public class SongTimelineController : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+{
+    [SerializeField] private AudioTimeSyncController atsc;
+    [SerializeField] private Slider slider;
+    [SerializeField] private TextMeshProUGUI timeMesh;
+    [SerializeField] private TextMeshProUGUI currentBeatMesh;
+    [SerializeField] private AudioSource mainAudioSource;
+
+    public bool IsClicked;
+    public float ClickedSliderValue;
+
+    private float songLength;
+
+    private const string beatFormat = "<mspace=0.4em>{0:0}</mspace><size=20>.<mspace=0.4em>{1:000}</mspace></size>";
+
+    private const string timeFormat =
+        "<mspace=0.4em>{3}{0:0}</mspace>:<mspace=0.4em>{1:00}</mspace><size=20>.<mspace=0.4em>{2:000}</mspace></size>";
+
+    public static bool IsHovering { get; private set; }
+
+    // Use this for initialization
+    private IEnumerator Start()
+    {
+        yield return new WaitUntil(() => mainAudioSource.clip != null);
+        songLength = mainAudioSource.clip.length;
+        slider.SetValueWithoutNotify(0f);
+        atsc.OnTimeChanged += UpdateTime;
+    }
+
+    private void OnDestroy() => atsc.OnTimeChanged -= UpdateTime;
+
+    private void UpdateTime()
+    {
+        // TODO: maybe check for UI alpha because and prevent update when fully transparent instead
+        if (UIMode.SelectedMode != UIModeType.Normal && atsc.IsPlaying) return;
+        slider.SetValueWithoutNotify(atsc.CurrentSeconds / songLength);
+
+        var seconds = Mathf.Abs(Mathf.FloorToInt(atsc.CurrentSeconds % 60));
+        var rawMins = atsc.CurrentSeconds / 60;
+        var minutes = Mathf.Abs(atsc.CurrentSeconds > 0 ? Mathf.FloorToInt(rawMins) : Mathf.CeilToInt(rawMins));
+        var milliseconds = Mathf.FloorToInt((atsc.CurrentSeconds - Mathf.FloorToInt(atsc.CurrentSeconds)) * 1000);
+        timeMesh.text = string.Format(
+            timeFormat,
+            minutes,
+            seconds,
+            milliseconds,
+            atsc.CurrentSeconds < 0 ? "-" : "");
+
+        var beatIntegerPart = (int)atsc.CurrentJsonTime;
+        var beatDecimalPart = Mathf.FloorToInt((atsc.CurrentJsonTime - Mathf.FloorToInt(atsc.CurrentJsonTime)) * 1000);
+        currentBeatMesh.text = string.Format(beatFormat, beatIntegerPart, beatDecimalPart);
+    }
+
+    public void OnPointerEnter(PointerEventData eventData) => IsHovering = true;
+
+    public void OnPointerExit(PointerEventData eventData) => IsHovering = false;
+
+    public void UpdateSongTimelineSlider(float sliderValue)
+    {
+        if (!IsClicked) ClickedSliderValue = sliderValue;
+        if (atsc.IsPlaying || Input.GetAxis("Mouse ScrollWheel") != 0 || !IsClicked)
+            return; //Don't modify ATSC if some other things are happening.
+
+        if (NodeEditorController.IsActive)
+        {
+            slider.SetValueWithoutNotify(atsc.CurrentSeconds / songLength);
+            return;
+        }
+
+        atsc.SnapToGrid(sliderValue * songLength);
+    }
+}

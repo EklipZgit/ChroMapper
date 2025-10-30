@@ -94,7 +94,7 @@ namespace Beatmap.Containers
             if (gridPos == null)
             {
                 transform.localPosition = new Vector3(
-                    -0.5f,
+                    0.5f,
                     0.5f,
                     EventData.SongBpmTime * EditorScaleController.EditorScale
                 );

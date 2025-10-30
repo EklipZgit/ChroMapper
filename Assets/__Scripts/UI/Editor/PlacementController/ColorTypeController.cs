@@ -1,0 +1,77 @@
+﻿using Beatmap.Enums;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class ColorTypeController : MonoBehaviour
+{
+    [SerializeField] private NotePlacement notePlacement;
+    [SerializeField] private LightingModeController lightMode;
+    [SerializeField] private CustomColorsUIController customColors;
+    [SerializeField] private Image leftSelected;
+    [SerializeField] private Image rightSelected;
+    [SerializeField] private Image leftNote;
+    [SerializeField] private Image leftLight;
+    [SerializeField] private Image rightNote;
+    [SerializeField] private Image rightLight;
+
+    private PlatformDescriptor platform;
+
+    private void Start()
+    {
+        leftSelected.enabled = true;
+        rightSelected.enabled = false;
+        LoadInitialMap.OnPlatformLoaded += SetupColors;
+        customColors.OnCustomColorsUpdated += UpdateColors;
+    }
+
+    private void OnDestroy()
+    {
+        customColors.OnCustomColorsUpdated -= UpdateColors;
+        LoadInitialMap.OnPlatformLoaded -= SetupColors;
+    }
+
+    private void SetupColors(PlatformDescriptor descriptor)
+    {
+        platform = descriptor;
+        UpdateColors();
+    }
+
+    private void UpdateColors()
+    {
+        leftNote.color = platform.ColorScheme.RedNoteColor;
+        leftLight.color = platform.ColorScheme.RedColor;
+        rightNote.color = platform.ColorScheme.BlueNoteColor;
+        rightLight.color = platform.ColorScheme.BlueColor;
+    }
+
+    public void RedNote(bool active)
+    {
+        if (active) UpdateValue((int)NoteType.Red);
+    }
+
+    public void BlueNote(bool active)
+    {
+        if (active) UpdateValue((int)NoteType.Blue);
+    }
+
+    public void BombNote(bool active)
+    {
+        if (active) UpdateValue((int)NoteType.Bomb);
+    }
+
+    public void UpdateValue(int type)
+    {
+        notePlacement.UpdateType(type);
+        lightMode.UpdateValue();
+        UpdateUI();
+    }
+
+    public void UpdateUI()
+    {
+        leftSelected.enabled = notePlacement.QueuedData.Type == (int)NoteType.Red;
+        rightSelected.enabled = notePlacement.QueuedData.Type == (int)NoteType.Blue;
+    }
+
+    public bool LeftSelectedEnabled() => leftSelected.enabled;
+    public bool RightSelectEnalbed() => rightSelected.enabled;
+}

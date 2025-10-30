@@ -10,14 +10,15 @@
     {
         Tags
         {
-            "Queue"="Transparent-100" "RenderType"="Opaque"
+            "Queue"="Transparent"
+            "IgnoreProjector"="True"
+            "RenderType"="Opaque"
         }
         LOD 100
         Cull Front
-        ZWrite Off
-        ZTest LEqual
+        Lighting Off
         ColorMask RGB
-        Blend SrcAlpha OneMinusSrcAlpha
+        Blend SrcColor OneMinusSrcColor
 
         Pass
         {

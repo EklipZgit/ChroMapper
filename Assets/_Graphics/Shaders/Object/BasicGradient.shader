@@ -10,7 +10,7 @@ Shader "ChroMapper/Object/Basic Gradient"
     {
         Tags
         {
-            "Queue" = "Transparent-200" "RenderType" = "Transparent"
+            "Queue" = "Transparent" "RenderType" = "Transparent"
         }
         LOD 100
         ZWrite Off

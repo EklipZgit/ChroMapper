@@ -54,7 +54,7 @@ public class SongListItem : RecyclingListViewItem, IPointerEnterHandler, IPointe
         rightPanel.SetActive(false);
         bg = GetComponent<Image>();
         // I have sinned
-        songList = FindObjectOfType<SongList>();
+        songList = FindAnyObjectByType<SongList>();
 
         InitCache();
     }

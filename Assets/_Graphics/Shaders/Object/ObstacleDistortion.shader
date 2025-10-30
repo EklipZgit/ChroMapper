@@ -4,14 +4,13 @@
     {
         _Color("Base Color", Color) = (0.5, 0, 0, 0)
         _WorldScale("World Scale", Vector) = (1, 3.5, 1, 1)
-        _ObstacleDistortionStrength("Obstacle Distortion Strength", Range(0,0.5)) = 0.1
+        _DistortionStrength("Distortion Strength", Range(0,0.5)) = 0.05
+        _DistortionScale("Distortion Scale", Range(0.1, 4)) = 1.0
 
         [Header(Beat Saber)]
         [Space(10)]
         _Cutout("Cutout", Range(0, 1)) = 0.0
         _CutoutTexOffset("Cutout Tex Offset", Vector) = (0, 0, 0, 0)
-        _FogStart("Fog Start", Range(0,100)) = 0
-        _FogEnd("Fog End", Range(0,1000)) = 500
     }
     SubShader
     {
@@ -53,9 +52,8 @@
             UNITY_DEFINE_INSTANCED_PROP(float4, _CutoutTexOffset)
         UNITY_INSTANCING_BUFFER_END(Props)
 
-        float _ObstacleDistortionStrength;
-        float _FogStart;
-        float _FogEnd;
+        float _DistortionStrength;
+        float _DistortionScale;
         sampler2D _GrabTexture;
         ENDHLSL
 
@@ -91,7 +89,6 @@
 
                 UNITY_SETUP_INSTANCE_ID(v);
                 UNITY_TRANSFER_INSTANCE_ID(v, o);
-                // necessary only if you want to access instanced properties in the fragment Shader.
 
                 o.pos = UnityObjectToClipPos(v.vertex);
                 o.localPos = v.vertex;
@@ -128,28 +125,34 @@
                 float c = noise - cutout;
                 clip(c);
 
-                float4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
-                float mag = length(color.rgb);
+                fixed4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
+                fixed mag = length(color.rgb);
                 if (mag > 1)
                 {
                     color.rgb = normalize(color.rgb) * min(sqrt(mag), 16) * color.a;
                     color.rgb = saturate(color.rgb);
                 }
-                color *= 0.1;
+                color *= 0.2;
                 color.a = 0;
 
-                float distance = length(i.worldPos.xyz - _WorldSpaceCameraPos);
-                float factor = 1 - saturate((distance - _FogStart) / (_FogEnd - _FogStart));
+                float _FogScale = 5;
+                float _FogAttenuation = 0.00002;
+                float distance = length(i.worldPos - _WorldSpaceCameraPos);
+                float factor = max(dot(distance, distance), 0);
+                factor = max(factor * _FogScale, 0);
+                factor = 1 / (factor * _FogAttenuation + 1);
                 // return float4(factor.xxx, 0);
 
                 // float2 halfUv = 0.5 - abs(0.5 - i.uv);
                 float2 screenUV = i.screenPos.xy / i.screenPos.w;
                 // obstacle distortion need to be stable, cannot be based on screen space position
                 // horribad
-                screenUV.x += (simplex((i.uv * uvScalar + cutoutTexOffset * 2) / 4) - 0.5) *
-                    _ObstacleDistortionStrength;
-                screenUV.y += (simplex((i.uv.yx * uvScalar.yx + cutoutTexOffset * 2) / 4) - 0.5) *
-                    _ObstacleDistortionStrength;
+                screenUV.x +=
+                    (simplex((i.uv * uvScalar + cutoutTexOffset * _DistortionScale) / _DistortionScale) - 0.5) *
+                    _DistortionStrength;
+                screenUV.y +=
+                    (simplex((i.uv.yx * uvScalar.yx + cutoutTexOffset * _DistortionScale) / _DistortionScale) - 0.5) *
+                    _DistortionStrength;
 
                 fixed4 col = color + tex2D(_GrabTexture, screenUV);
                 return col * factor;

@@ -2,7 +2,6 @@ using System.Globalization;
 using Beatmap.Base;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Beatmap.Containers
 {

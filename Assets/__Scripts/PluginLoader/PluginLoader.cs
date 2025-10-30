@@ -17,22 +17,20 @@ internal class PluginLoader : MonoBehaviour
     ///     This does NOT include plugins added by external mod loaders (BepinEx, IPA, BSIPA, etc.)
     /// </summary>
     public static IReadOnlyList<Plugin> LoadedPlugins => plugins.AsReadOnly();
-    
-    public static Action<Plugin[]> PluginsLoadedEvent;
+
+    public static event Action<Plugin[]> OnPluginsLoaded;
 
     private void Start()
     {
         DontDestroyOnLoad(gameObject);
-        if (!Application.isEditor || loadPluginsInEditor)
-            LoadAssemblies();
+        if (!Application.isEditor || loadPluginsInEditor) LoadAssemblies();
     }
 
     private void OnDestroy() => BroadcastEvent<ExitAttribute>();
 
     private void LoadAssemblies()
     {
-        if (!Directory.Exists(pluginDir))
-            Directory.CreateDirectory(pluginDir);
+        if (!Directory.Exists(pluginDir)) Directory.CreateDirectory(pluginDir);
         foreach (var file in Directory.GetFiles(pluginDir, "*.dll", SearchOption.AllDirectories))
         {
             var assembly = Assembly.LoadFile(Path.GetFullPath(file));
@@ -45,35 +43,33 @@ internal class PluginLoader : MonoBehaviour
                 }
                 catch (Exception) { }
 
-                ;
-
                 if (pluginAttribute == null) continue;
-                try {
+                try
+                {
                     var plugin = new Plugin(pluginAttribute.Name, assembly.GetName(), Activator.CreateInstance(type));
                     plugins.Add(plugin);
                 }
-                catch (Exception e) {
-                    Debug.LogError($"Incompatible plugin {pluginAttribute.Name}, please check for an update or remove it!");
+                catch (Exception e)
+                {
+                    Debug.LogError(
+                        $"Incompatible plugin {pluginAttribute.Name}, please check for an update or remove it!");
                     Debug.LogException(e);
                 }
             }
         }
-        
-        foreach (var plugin in plugins)
-            plugin.Init();
-        
-        PluginsLoadedEvent.Invoke(plugins.ToArray());
+
+        foreach (var plugin in plugins) plugin.Init();
+
+        OnPluginsLoaded?.Invoke(plugins.ToArray());
     }
 
     public static void BroadcastEvent<T>() where T : Attribute
     {
-        foreach (var plugin in plugins)
-            plugin.CallMethod<T>();
+        foreach (var plugin in plugins) plugin.CallMethod<T>();
     }
 
     public static void BroadcastEvent<T, TS>(TS obj) where T : Attribute
     {
-        foreach (var plugin in plugins)
-            plugin.CallMethod<T, TS>(obj);
+        foreach (var plugin in plugins) plugin.CallMethod<T, TS>(obj);
     }
 }

@@ -36,8 +36,8 @@ public class DiscordController : MonoBehaviour
                 ActivityManager = Discord.GetActivityManager();
                 ActivityManager.ClearActivity(res => { });
                 SceneManager.activeSceneChanged += SceneUpdated;
-                LoadInitialMap.PlatformLoadedEvent += LoadPlatform;
-                LoadedDifficultySelectController.LoadedDifficultyChangedEvent += LoadedDifficultyChanged;
+                LoadInitialMap.OnPlatformLoaded += LoadOnPlatform;
+                LoadedDifficultySelectController.OnLoadedDifficultyChanged += OnLoadedDifficultyChanged;
             }
             else
             {
@@ -70,13 +70,13 @@ public class DiscordController : MonoBehaviour
     private void OnDestroy()
     {
         SceneManager.activeSceneChanged -= SceneUpdated;
-        LoadInitialMap.PlatformLoadedEvent -= LoadPlatform;
-        LoadedDifficultySelectController.LoadedDifficultyChangedEvent -= LoadedDifficultyChanged;
+        LoadInitialMap.OnPlatformLoaded -= LoadOnPlatform;
+        LoadedDifficultySelectController.OnLoadedDifficultyChanged -= OnLoadedDifficultyChanged;
     }
 
     private void OnApplicationQuit() => Discord?.Dispose();
 
-    private void LoadPlatform(PlatformDescriptor platform)
+    private void LoadOnPlatform(PlatformDescriptor platform)
     {
         var platformDiscordID = platform.gameObject.name
             .Replace("(Clone)", "")
@@ -95,7 +95,7 @@ public class DiscordController : MonoBehaviour
         UpdatePresence();
     }
 
-    private void LoadedDifficultyChanged()
+    private void OnLoadedDifficultyChanged()
     {
         var diff = BeatSaberSongContainer.Instance.MapDifficultyInfo;
         activity.State = $"{diff.Characteristic} {diff.Difficulty}";

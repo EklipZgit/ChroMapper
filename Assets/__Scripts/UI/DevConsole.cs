@@ -69,14 +69,14 @@ public class DevConsole : MonoBehaviour, ILogHandler, CMInput.IDebugActions
 
         SceneManager.sceneLoaded += SceneLoaded;
 
-        PluginLoader.PluginsLoadedEvent += UpdateLoadedPluginAssemblies;
+        PluginLoader.OnPluginsLoaded += UpdateLoadedPluginAssemblies;
     }
 
     public void OnDisable()
     {
         Application.logMessageReceived -= LogCallback;
         SceneManager.sceneLoaded -= SceneLoaded;
-        PluginLoader.PluginsLoadedEvent -= UpdateLoadedPluginAssemblies;
+        PluginLoader.OnPluginsLoaded -= UpdateLoadedPluginAssemblies;
     }
 
     private void UpdateLoadedPluginAssemblies(Plugin[] plugins)

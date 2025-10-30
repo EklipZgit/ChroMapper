@@ -3,7 +3,7 @@
 //Copyright (c) 2015, Felix Kate All rights reserved.
 // Usage of this code is governed by a BSD-style license that can be found in the LICENSE file.
 
-Shader "ChroMapper/Editor/ColorSquare"
+Shader "ChroMapper/Editor/Hue Shift"
 {
     Properties
     {

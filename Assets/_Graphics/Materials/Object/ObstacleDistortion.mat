@@ -70,7 +70,8 @@ Material:
     - _CutoutEdgeGlow: 0.25
     - _CutoutEdgeWidth: 0.05
     - _DetailNormalMapScale: 1
-    - _DistortionStrength: 0.1
+    - _DistortionScale: 2
+    - _DistortionStrength: 0.05
     - _DstBlend: 0
     - _FadeSize: 5
     - _FogEnd: 500
@@ -81,6 +82,7 @@ Material:
     - _MainAlpha: 0.25
     - _Metallic: 0
     - _Mode: 0
+    - _ObstacleDistortionStrength: 0.05
     - _OcclusionStrength: 1
     - _OpaqueAlpha: 1
     - _OutsideAlpha: 0.25
@@ -98,6 +100,6 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Position: {r: 0, g: 1.5, b: 0, a: 0}
     - _RotationAxis: {r: 0, g: 1, b: 0, a: 0}
-    - _WorldScale: {r: 1, g: 3.5, b: 1, a: 1}
+    - _WorldScale: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

@@ -106,9 +106,7 @@ namespace Beatmap.Animations
             {
                 container.UpdateGridPosition();
                 container.MaterialPropertyBlock.SetFloat(shaderIdCutout, 0);
-                container.MaterialPropertyBlock.SetVector(
-                    shaderIdCutoutTexOffset,
-                    new(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0, 0));
+                container.MaterialPropertyBlock.SetVector(shaderIdCutoutTexOffset, Random.insideUnitCircle * 10f);
                 container.MaterialPropertyBlock.SetFloat(shaderIdAnimSpawned, 0);
                 if (container is NoteContainer nc)
                 {
@@ -124,7 +122,7 @@ namespace Beatmap.Animations
         {
             if (Atsc != null)
             {
-                Atsc.TimeChanged -= OnTimeChanged;
+                Atsc.OnTimeChanged -= OnTimeChanged;
             }
 
             foreach (var track in tracks)
@@ -154,7 +152,7 @@ namespace Beatmap.Animations
                 (var wallSize, var wallPosition) = obs.ReadSizePosition();
                 wallPosition -= new Vector3(0, 0, 0.4f);
                 OffsetPosition.Preload(wallPosition);
-                Scale.Preload(new Vector3(WallClamp(wallSize.x), WallClamp(wallSize.y), WallClamp(wallSize.z)));
+                Scale.Preload(Vector3.one);
             }
 
             if (obj.CustomLocalRotation is JSONNode rot) LocalRotation.Preload(Quaternion.Euler(rot.ReadVector3()));
@@ -265,7 +263,7 @@ namespace Beatmap.Animations
 
             Update();
 
-            Atsc.TimeChanged += OnTimeChanged;
+            Atsc.OnTimeChanged += OnTimeChanged;
         }
 
         public void AttachToGeometry(BaseEnvironmentEnhancement eh)
@@ -293,7 +291,7 @@ namespace Beatmap.Animations
                 container.transform.SetParent(this.tracks[0].Track.ObjectParentTransform, false);
             }
 
-            Atsc.TimeChanged += OnTimeChanged;
+            Atsc.OnTimeChanged += OnTimeChanged;
 
             OnTimeChanged();
         }
@@ -307,7 +305,7 @@ namespace Beatmap.Animations
             LocalTarget = track.ObjectParentTransform;
             WorldTarget = track.transform;
 
-            Atsc.TimeChanged += OnTimeChanged;
+            Atsc.OnTimeChanged += OnTimeChanged;
         }
 
         public void AttachToMaterial(GeometryContainer con, string track)

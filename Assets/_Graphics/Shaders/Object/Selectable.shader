@@ -40,10 +40,12 @@ Shader "ChroMapper/Object/Selectable"
         {
             Tags
             {
-                "Queue" = "Transparent" "IgnoreProjector" = "True" "RenderType" = "Transparent"
+                "Queue"="Transparent"
+                "IgnoreProjector"="True"
+                "RenderType"="Transparent"
             }
             ZWrite On
-            Blend SrcAlpha OneMinusSrcAlpha
+            Blend SrcColor OneMinusSrcColor
             Cull Back
             CGPROGRAM
             #pragma vertex vert
