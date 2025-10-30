@@ -36,6 +36,8 @@
             Cull Off
 
             HLSLPROGRAM
+            #include "../CGIncludes/BloomFog.cginc"
+            #pragma multi_compile _ ENABLE_BLOOM_FOG
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_instancing
@@ -55,6 +57,7 @@
                 float2 uv : TEXCOORD0;
                 float4 localPos : TEXCOORD1;
                 float3 worldPos : TEXCOORD2;
+                float4 customScreenPos : TEXCOORD3;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
@@ -70,6 +73,7 @@
                 o.uv = v.uv;
                 o.normal = v.normal;
                 o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
+                o.customScreenPos = ComputeScreenPosCustom(o.pos);
 
                 return o;
             }
@@ -123,7 +127,9 @@
                 {
                     alpha = saturate(color.a * 0.5);
                 }
-                return fixed4(log2(color.rgb + 1.0), alpha) * factor;
+                color = float4(log2(color.rgb + 1.0), alpha) * factor;
+                BLOOM_FOG_APPLY(color, i.customScreenPos, i.worldPos, 0, 5);
+                return color;
             }
             ENDHLSL
         }

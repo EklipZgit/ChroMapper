@@ -1,5 +1,21 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8330528898288163877
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a1b46a7229d4720b3842acb836bbe8e, type: 3}
+  m_Name: CustomTonemapping
+  m_EditorClassIdentifier: 
+  active: 1
+  enabled:
+    overrideState: 1
+    value: 1
 --- !u!114 &-4587487092714315680
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -44,22 +60,6 @@ MonoBehaviour:
   enabled:
     overrideState: 1
     value: 1
---- !u!114 &-1923285460040423865
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a1b46a7229d4720b3842acb836bbe8e, type: 3}
-  m_Name: CustomTonemapping
-  m_EditorClassIdentifier: 
-  active: 1
-  enabled:
-    overrideState: 1
-    value: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -76,7 +76,8 @@ MonoBehaviour:
   - {fileID: 561169754327164700}
   - {fileID: 8850535315676649831}
   - {fileID: 5843264232844884216}
-  - {fileID: -1923285460040423865}
+  - {fileID: 4120036518674016648}
+  - {fileID: -8330528898288163877}
 --- !u!114 &561169754327164700
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -103,6 +104,22 @@ MonoBehaviour:
   fastMode:
     overrideState: 1
     value: 0
+--- !u!114 &4120036518674016648
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c674df95b2c46a41b510647a639f507, type: 3}
+  m_Name: ApplyBloomfog
+  m_EditorClassIdentifier: 
+  active: 1
+  enabled:
+    overrideState: 1
+    value: 1
 --- !u!114 &5843264232844884216
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -121,10 +138,10 @@ MonoBehaviour:
     value: 1
   intensity:
     overrideState: 1
-    value: 6
+    value: 5
   diffusion:
     overrideState: 1
-    value: 9
+    value: 5
   fastMode:
     overrideState: 1
     value: 0

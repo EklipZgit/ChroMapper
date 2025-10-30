@@ -38,7 +38,7 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - Lighting Events
   - Post Processing
   m_SortingLayers:
   - name: Foreground

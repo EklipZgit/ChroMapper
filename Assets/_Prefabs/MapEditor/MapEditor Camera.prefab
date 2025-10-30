@@ -385,3 +385,5 @@ MonoBehaviour:
   m_AfterStackBundles:
   - assemblyQualifiedName: CustomTonemapping, Main, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
+  - assemblyQualifiedName: ApplyBloomfog, Main, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null

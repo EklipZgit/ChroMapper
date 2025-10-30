@@ -44,6 +44,7 @@ Shader "ChroMapper/Object/Note"
         #include "UnityCG.cginc"
         #include "Lighting.cginc"
         #include "../CGIncludes/Noise.cginc"
+        #include "../CGIncludes/BloomFog.cginc"
         #pragma multi_compile_instancing
 
         UNITY_INSTANCING_BUFFER_START(Props)
@@ -86,6 +87,7 @@ Shader "ChroMapper/Object/Note"
             // Unity defined keywords
             #pragma multi_compile _ DIRLIGHTMAP_COMBINED
             #pragma multi_compile _ LIGHTMAP_ON
+            #pragma multi_compile _ ENABLE_BLOOM_FOG
             #pragma multi_compile_fog
 
             // Hello! We're global shader variables.
@@ -103,7 +105,7 @@ Shader "ChroMapper/Object/Note"
             struct v2f
             {
                 float4 vertex : SV_POSITION;
-                float4 screenPos : POSITION1;
+                float4 customScreenPos : POSITION1;
                 float4 rotatedPos : POSITION2;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
                 float4 localPos : TEXCOORD0;
@@ -132,8 +134,8 @@ Shader "ChroMapper/Object/Note"
                 o.vertex = UnityObjectToClipPos(i.vertex);
                 o.localPos = i.vertex;
 
-                o.screenPos = ComputeScreenPos(o.vertex);
                 o.worldPos = mul(unity_ObjectToWorld, i.vertex).xyz;
+                o.customScreenPos = ComputeScreenPosCustom(o.vertex);
 
                 //Global platform offset
                 const float4 offset = float4(0, -0.5, -1.5, 0);
@@ -203,7 +205,7 @@ Shader "ChroMapper/Object/Note"
                                   ? translucentAlpha
                                   : 1;
 
-                clip(isDithered(i.screenPos.xy / i.screenPos.w, alpha));
+                clip(isDithered(i.customScreenPos.xy / i.customScreenPos.w, alpha));
 
                 float noise = simplex((i.localPos + cutoutTexOffset.xyz) * 2);
                 float c = noise - cutout;
@@ -230,6 +232,7 @@ Shader "ChroMapper/Object/Note"
                 fixed3 color = albedo.rgb * UNITY_LIGHTMODEL_AMBIENT.rgb;
                 color += diffuse * lightColor * albedo.rgb;
 
+                BLOOM_FOG_APPLY(color, i.customScreenPos, i.worldPos, 0, 5);
                 return fixed4(color, saturate(noteColor.a * _Glow)) * factor;
             }
             ENDHLSL
