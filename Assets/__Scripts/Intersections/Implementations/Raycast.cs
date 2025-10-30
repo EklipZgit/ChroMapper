@@ -58,6 +58,8 @@ public static partial class Intersections
 
         var rayDirection = ray.direction;
         var rayOrigin = ray.origin;
+        var localRayOrigin = rayOrigin;
+        var localRayDirection = rayDirection;
 
         var layerMin = layer == -1 ? 0 : layer;
         var layerMax = layer == -1 ? 32 : layer + 1;
@@ -96,8 +98,8 @@ public static partial class Intersections
                         if (layer == -1 || collider.CollisionLayer == layer)
                         {
                             var worldToLocalMatrix = collider.transform.worldToLocalMatrix;
-                            var localRayOrigin = worldToLocalMatrix.MultiplyPoint3x4(rayOrigin);
-                            var localRayDirection = worldToLocalMatrix.MultiplyVector(rayDirection);
+                            worldToLocalMatrix.FastMultiplyPoint3x4(in rayOrigin, ref localRayOrigin);
+                            worldToLocalMatrix.FastMultiplyDirection(in rayDirection, ref localRayDirection);
 
                             var localRay = new Ray(localRayOrigin, localRayDirection);
 
