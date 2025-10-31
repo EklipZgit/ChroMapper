@@ -17,7 +17,7 @@ public class SpectrogramShellTextureController : MonoBehaviour
             var progress = (float)i / slices;
                 
             var spectrogramSlice = Instantiate(_spectrogram.gameObject, parent);
-            spectrogramSlice.transform.localPosition = origin + (progress * Settings.Instance.SpectrogramHeight * Vector3.up);
+            spectrogramSlice.transform.localPosition = origin + (progress * Settings.Instance.SpectrogramHeight * Vector3.back);
 
             var propertyBlock = new MaterialPropertyBlock();
             propertyBlock.SetFloat(valueCutoff, progress);
