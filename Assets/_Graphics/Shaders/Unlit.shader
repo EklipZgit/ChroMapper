@@ -9,6 +9,16 @@
         _Color ("Color", Color) = (1, 1, 1, 1)
         _MainTex ("Texture", 2D) = "white" {}
         _Glow ("Glow", Range(0, 1)) = 0.0
+
+        [Header(Fog Settings)]
+        [Space]
+        _FogStartOffset ("Fog Start Offset", Float) = 0
+        _FogScale ("Fog Scale", Float) = 1
+        [Space]
+        [Toggle]
+        ENABLE_HEIGHT_FOG ("Enable Height Fog", Float) = 0
+        _FogHeightOffset ("Fog Height Offset", Float) = 0
+        _FogHeightScale ("Fog Height Scale", Float) = 1
     }
     SubShader
     {
@@ -27,6 +37,7 @@
             #pragma multi_compile _MODE_OPAQUE _MODE_CUTOUT
             #pragma multi_compile_instancing
             #pragma multi_compile _ ENABLE_BLOOM_FOG
+            #pragma shader_feature ENABLE_HEIGHT_FOG
 
             #include "UnityCG.cginc"
             #include "CGIncludes/BloomFog.cginc"
@@ -55,6 +66,11 @@
             float4 _MainTex_ST;
             float _Glow;
 
+            float _FogStartOffset;
+            float _FogScale;
+            float _FogHeightOffset;
+            float _FogHeightScale;
+
             v2f vert(appdata i)
             {
                 v2f o;
@@ -82,7 +98,13 @@
 
                 albedo.rgb *= color.a;
                 albedo.a = saturate(log2(_Glow * color.a + 1.0));
-                BLOOM_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, 0, 5);
+
+                #ifndef ENABLE_HEIGHT_FOG
+                    BLOOM_FOG_HEIGHT_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset, _FogHeightScale);
+                #else
+                    BLOOM_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
+                #endif
+
                 return albedo;
             }
             ENDCG

@@ -99,7 +99,12 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _DstBlendAlpha: 0
+    - _EnableHeightFog: 0
     - _EnvironmentReflections: 1
+    - _FogHeightOffset: 0
+    - _FogHeightScale: 1
+    - _FogScale: 1
+    - _FogStartOffset: 0
     - _GlossMapScale: 1
     - _Glossiness: 1
     - _GlossyReflections: 1

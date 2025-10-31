@@ -121,10 +121,10 @@ MonoBehaviour:
     value: 1
   intensity:
     overrideState: 1
-    value: 5
+    value: 2
   diffusion:
     overrideState: 1
-    value: 5
+    value: 4
   fastMode:
     overrideState: 1
     value: 0

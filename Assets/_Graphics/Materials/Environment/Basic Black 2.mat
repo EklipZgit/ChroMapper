@@ -83,6 +83,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - ENABLE_HEIGHT_FOG: 0
     - _AddPrecomputedVelocity: 0
     - _AlphaClip: 0
     - _AlphaToMask: 0
@@ -98,7 +99,12 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _DstBlendAlpha: 0
+    - _EnableHeightFog: 0
     - _EnvironmentReflections: 1
+    - _FogHeightOffset: 0
+    - _FogHeightScale: 1
+    - _FogScale: 1
+    - _FogStartOffset: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.709
     - _GlossyReflections: 1

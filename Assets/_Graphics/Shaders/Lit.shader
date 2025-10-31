@@ -13,6 +13,16 @@
         [Space(10)]
         _Glossiness ("Smoothness", Range(0, 1)) = 0.5
         _Metallic ("Metallic", Range(0, 1)) = 0.0
+
+        [Header(Fog Settings)]
+        [Space]
+        _FogStartOffset ("Fog Start Offset", Float) = 0
+        _FogScale ("Fog Scale", Float) = 1
+        [Space]
+        [Toggle]
+        ENABLE_HEIGHT_FOG ("Enable Height Fog", Float) = 0
+        _FogHeightOffset ("Fog Height Offset", Float) = 0
+        _FogHeightScale ("Fog Height Scale", Float) = 1
     }
     SubShader
     {
@@ -33,6 +43,7 @@
             #pragma multi_compile _MODE_OPAQUE _MODE_CUTOUT
             #pragma multi_compile_instancing
             #pragma multi_compile _ ENABLE_BLOOM_FOG
+            #pragma shader_feature ENABLE_HEIGHT_FOG
 
             #include "UnityCG.cginc"
             #include "Lighting.cginc"
@@ -65,6 +76,11 @@
             float _Glow;
             float _Glossiness;
             float _Metallic;
+
+            float _FogStartOffset;
+            float _FogScale;
+            float _FogHeightOffset;
+            float _FogHeightScale;
 
             v2f vert(appdata i)
             {
@@ -114,7 +130,13 @@
                 float alpha = log2(glow + 1.0);
 
                 fixed4 bloomfog_color = fixed4(col.rgb, saturate(alpha));
-                BLOOM_FOG_APPLY(bloomfog_color, i.customScreenPos, i.worldPos, 0, 5);
+
+                #ifndef ENABLE_HEIGHT_FOG
+                    BLOOM_FOG_HEIGHT_FOG_APPLY(bloomfog_color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset, _FogHeightScale);
+                #else
+                    BLOOM_FOG_APPLY(bloomfog_color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
+                #endif
+
                 return bloomfog_color;
             }
             ENDCG

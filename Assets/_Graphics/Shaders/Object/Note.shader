@@ -25,6 +25,16 @@ Shader "ChroMapper/Object/Note"
         _CutoutTexOffset("Cutout Tex Offset", Vector) = (0, 0, 0, 0)
         _CutPlane("Cut Plane", Vector) = (0, 0, 0, 0)
 
+        [Header(Fog Settings)]
+        [Space]
+        _FogStartOffset ("Fog Start Offset", Float) = 0
+        _FogScale ("Fog Scale", Float) = 1
+        [Space]
+        [Toggle]
+        ENABLE_HEIGHT_FOG ("Enable Height Fog", Float) = 0
+        _FogHeightOffset ("Fog Height Offset", Float) = 0
+        _FogHeightScale ("Fog Height Scale", Float) = 1
+
         [Header(Editor)]
         [Space(10)]
         [Toggle] _AlwaysTranslucent("Always Translucent", Float) = 0.0
@@ -64,6 +74,10 @@ Shader "ChroMapper/Object/Note"
         float _Glow;
         float _CutoutEdgeGlow;
         float _CutoutEdgeWidth;
+        float _FogStartOffset;
+        float _FogScale;
+        float _FogHeightOffset;
+        float _FogHeightScale;
         ENDHLSL
 
         Pass
@@ -83,6 +97,7 @@ Shader "ChroMapper/Object/Note"
             #pragma shader_feature _ALPHATEST_ON
             #pragma shader_feature _ALPHAPREMULTIPLY_ON
             #pragma shader_feature _RECEIVE_SHADOWS_OFF
+            #pragma shader_feature ENABLE_HEIGHT_FOG
 
             // Unity defined keywords
             #pragma multi_compile _ DIRLIGHTMAP_COMBINED
@@ -232,8 +247,15 @@ Shader "ChroMapper/Object/Note"
                 fixed3 color = albedo.rgb * UNITY_LIGHTMODEL_AMBIENT.rgb;
                 color += diffuse * lightColor * albedo.rgb;
 
-                BLOOM_FOG_APPLY(color, i.customScreenPos, i.worldPos, 0, 5);
-                return fixed4(color, saturate(noteColor.a * _Glow)) * factor;
+                fixed4 bloomfog_color = fixed4(color, saturate(noteColor.a * _Glow)) * factor;
+                
+                #ifndef ENABLE_HEIGHT_FOG
+                    BLOOM_FOG_HEIGHT_FOG_APPLY(bloomfog_color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset, _FogHeightScale);
+                #else
+                    BLOOM_FOG_APPLY(bloomfog_color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
+                #endif
+
+                return bloomfog_color;
             }
             ENDHLSL
         }

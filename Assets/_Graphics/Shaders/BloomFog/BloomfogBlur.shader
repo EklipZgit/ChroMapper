@@ -39,6 +39,7 @@ Shader "Hidden/BloomfogBlurring"
             }
 
             float _BloomfogAlpha;
+            float _Bloomfog_Brightness;
             sampler2D _BloomfogPrevTex;
             float4 _BloomfogPrevTex_TexelSize;
             float4 _BloomfogPrevTex_ST;

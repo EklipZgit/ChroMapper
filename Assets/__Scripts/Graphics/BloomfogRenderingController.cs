@@ -30,10 +30,11 @@ public class BloomfogRenderingController : MonoBehaviour
         Settings.NotifyBySettingName(nameof(Settings.HighQualityBloom), (_) => RegenerateRenderTexture());
         Settings.NotifyBySettingName(nameof(Settings.CameraFOV), (fov) => bloomfogCamera.fieldOfView = (float)fov);
 
-        Shader.SetGlobalFloat("_CustomFogHeightFogStartY", 0);
-        Shader.SetGlobalFloat("_CustomFogHeightFogHeight", 2.5f);
-        Shader.SetGlobalFloat("_CustomFogOffset", 100);
-        Shader.SetGlobalFloat("_CustomFogAttenuation", 0.5f);
+        Shader.SetGlobalFloat("_CustomFogHeightFogStartY", -50);
+        Shader.SetGlobalFloat("_CustomFogHeightFogHeight", 25);
+        Shader.SetGlobalFloat("_CustomFogOffset", 0);
+        Shader.SetGlobalFloat("_CustomFogAttenuation", 0);
+        Shader.SetGlobalFloat("_Bloomfog_Brightness", 0.1f);
         Shader.EnableKeyword("ENABLE_BLOOM_FOG");
 
         RegenerateRenderTexture();

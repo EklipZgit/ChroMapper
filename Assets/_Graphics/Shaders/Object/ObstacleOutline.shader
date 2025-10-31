@@ -9,6 +9,16 @@
         [Space(10)]
         _Cutout("Cutout", Range(0, 1)) = 0.0
         _CutoutTexOffset("Cutout Tex Offset", Vector) = (0, 0, 0, 0)
+
+        [Header(Fog Settings)]
+        [Space]
+        _FogStartOffset ("Fog Start Offset", Float) = 0
+        _FogScale ("Fog Scale", Float) = 1
+        [Space]
+        [Toggle]
+        ENABLE_HEIGHT_FOG ("Enable Height Fog", Float) = 0
+        _FogHeightOffset ("Fog Height Offset", Float) = 0
+        _FogHeightScale ("Fog Height Scale", Float) = 1
     }
     SubShader
     {
@@ -30,6 +40,11 @@
             UNITY_DEFINE_INSTANCED_PROP(float, _Cutout)
             UNITY_DEFINE_INSTANCED_PROP(float4, _CutoutTexOffset)
         UNITY_INSTANCING_BUFFER_END(Props)
+
+        float _FogStartOffset;
+        float _FogScale;
+        float _FogHeightOffset;
+        float _FogHeightScale;
         ENDHLSL
 
         Pass
@@ -38,6 +53,7 @@
 
             HLSLPROGRAM
             #pragma multi_compile _ ENABLE_BLOOM_FOG
+            #pragma shader_feature ENABLE_HEIGHT_FOG
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_instancing
@@ -128,7 +144,13 @@
                     alpha = saturate(color.a * 0.5);
                 }
                 color = float4(log2(color.rgb + 1.0), alpha) * factor;
-                BLOOM_FOG_APPLY(color, i.customScreenPos, i.worldPos, 0, 5);
+
+                #ifndef ENABLE_HEIGHT_FOG
+                    BLOOM_FOG_HEIGHT_FOG_APPLY(color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset, _FogHeightScale);
+                #else
+                    BLOOM_FOG_APPLY(color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
+                #endif
+
                 return color;
             }
             ENDHLSL

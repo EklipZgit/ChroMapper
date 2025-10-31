@@ -11,6 +11,16 @@
         [Space(10)]
         _Cutout("Cutout", Range(0, 1)) = 0.0
         _CutoutTexOffset("Cutout Tex Offset", Vector) = (0, 0, 0, 0)
+
+        [Header(Fog Settings)]
+        [Space]
+        _FogStartOffset ("Fog Start Offset", Float) = 0
+        _FogScale ("Fog Scale", Float) = 1
+        [Space]
+        [Toggle]
+        ENABLE_HEIGHT_FOG ("Enable Height Fog", Float) = 0
+        _FogHeightOffset ("Fog Height Offset", Float) = 0
+        _FogHeightScale ("Fog Height Scale", Float) = 1
     }
     SubShader
     {
@@ -56,6 +66,11 @@
         float _DistortionStrength;
         float _DistortionScale;
         sampler2D _GrabTexture;
+
+        float _FogStartOffset;
+        float _FogScale;
+        float _FogHeightOffset;
+        float _FogHeightScale;
         ENDHLSL
 
         Pass
@@ -65,6 +80,7 @@
             #pragma fragment frag
             #pragma multi_compile_instancing
             #pragma multi_compile _ ENABLE_BLOOM_FOG
+            #pragma shader_feature ENABLE_HEIGHT_FOG
 
             struct appdata
             {
@@ -160,7 +176,13 @@
 
                 fixed4 col = color + tex2D(_GrabTexture, screenUV);
                 col = col * factor;
-                BLOOM_FOG_APPLY(col, i.customScreenPos, i.worldPos, 0, 5);
+
+                #ifndef ENABLE_HEIGHT_FOG
+                    BLOOM_FOG_HEIGHT_FOG_APPLY(col, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset, _FogHeightScale);
+                #else
+                    BLOOM_FOG_APPLY(col, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
+                #endif
+
                 return col;
             }
             ENDHLSL
