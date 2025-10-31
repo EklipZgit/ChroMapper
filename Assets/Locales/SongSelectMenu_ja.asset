@@ -17,7 +17,7 @@ MonoBehaviour:
   m_SharedData: {fileID: 11400000, guid: 95d340fdffc264d469407a049a1fb729, type: 2}
   m_Metadata:
     m_Items:
-    - rid: 7923550464931004502
+    - rid: 2707327089558421519
   m_TableData:
   - m_Id: 1
     m_Localized: "\u65B0\u898F\u8B5C\u9762"
@@ -67,7 +67,7 @@ MonoBehaviour:
     m_Localized: "\u30DA\u30FC\u30B8\uFF1A{CurrentPage}/{MaxPage}"
     m_Metadata:
       m_Items:
-      - rid: 7923550464931004502
+      - rid: 2707327089558421519
   - m_Id: 13
     m_Localized: "\u691C\u7D22..."
     m_Metadata:
@@ -138,25 +138,27 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 210236920806895616
-    m_Localized: Folder Name
+    m_Localized: "\u30D5\u30A9\u30EB\u30C0\u30FC\u540D"
     m_Metadata:
       m_Items: []
   - m_Id: 210236923126345728
-    m_Localized: v4 (VNJS + Official editor compatible)
+    m_Localized: "v4\uFF08VNJS + \u516C\u5F0F\u30A8\u30C7\u30A3\u30BF\u30FC\u4E92\u63DB\uFF09"
     m_Metadata:
       m_Items: []
   - m_Id: 210236925030559744
-    m_Localized: v2/v3 (Heck mods compatible)
+    m_Localized: "v2/v3\uFF08Heck mod\u4E92\u63DB\uFF09"
     m_Metadata:
       m_Items: []
   - m_Id: 210237660006838272
-    m_Localized: Map Format Version
+    m_Localized: "\u30DE\u30C3\u30D7\u30D5\u30A9\u30FC\u30DE\u30C3\u30C8\u306E\u30D0\u30FC\u30B8\u30E7\u30F3"
     m_Metadata:
       m_Items: []
   references:
     version: 2
     RefIds:
-    - rid: 7923550464931004502
+    - rid: 2707327089558421519
       type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
       data:
-        m_Entries: 0c00000000000000
+        m_Entries: 
+        m_SharedEntries:
+        - id: 12

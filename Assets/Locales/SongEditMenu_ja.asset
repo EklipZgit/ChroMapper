@@ -17,7 +17,7 @@ MonoBehaviour:
   m_SharedData: {fileID: 11400000, guid: b86ac019838731d46842f98842efbe60, type: 2}
   m_Metadata:
     m_Items:
-    - rid: 7923550464931004544
+    - rid: 2707327089558421561
   m_TableData:
   - m_Id: 1
     m_Localized: "\u66F2\u306E\u8A73\u7D30"
@@ -325,7 +325,7 @@ MonoBehaviour:
     m_Localized: "{0}%\u5B8C\u4E86"
     m_Metadata:
       m_Items:
-      - rid: 7923550464931004544
+      - rid: 2707327089558421561
   - m_Id: 44795657592176640
     m_Localized: "\u53CD\u5FDC\u6642\u9593"
     m_Metadata:
@@ -383,27 +383,27 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 390235661746958336
-    m_Localized: Standard
+    m_Localized: "\u30B9\u30BF\u30F3\u30C0\u30FC\u30C9"
     m_Metadata:
       m_Items: []
   - m_Id: 390235795247460352
-    m_Localized: One Saber
+    m_Localized: "\u30BB\u30A4\u30D0\u30FC1\u672C"
     m_Metadata:
       m_Items: []
   - m_Id: 390235843557453824
-    m_Localized: No Arrows
+    m_Localized: "\u30CE\u30FC\u30A2\u30ED\u30FC"
     m_Metadata:
       m_Items: []
   - m_Id: 390235906199384064
-    m_Localized: 360 Degrees
+    m_Localized: "360\u5EA6"
     m_Metadata:
       m_Items: []
   - m_Id: 390235989112385536
-    m_Localized: 90 Degrees
+    m_Localized: "90\u5EA6"
     m_Metadata:
       m_Items: []
   - m_Id: 390236071702425600
-    m_Localized: Legacy
+    m_Localized: "\u30EC\u30AC\u30B7\u30FC"
     m_Metadata:
       m_Items: []
   - m_Id: 390236133086064640
@@ -415,86 +415,75 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 390239759607132160
-    m_Localized: Custom Characteristics
+    m_Localized: "\u30AB\u30B9\u30BF\u30E0\u30E2\u30FC\u30C9"
     m_Metadata:
       m_Items: []
   - m_Id: 396267615118290944
-    m_Localized: Mapper names
+    m_Localized: "\u30DE\u30C3\u30D1\u30FC\u62C5\u5F53"
     m_Metadata:
       m_Items: []
   - m_Id: 396267995176759296
-    m_Localized: Mappers
+    m_Localized: "\u30DE\u30C3\u30D1\u30FC"
     m_Metadata:
       m_Items: []
   - m_Id: 396268125703499776
-    m_Localized: Who created the mapping?
+    m_Localized: "\u30DE\u30C3\u30D4\u30F3\u30B0\u3092\u3057\u305F\u3072\u3068\u306F\uFF1F"
     m_Metadata:
       m_Items: []
   - m_Id: 396268829063114752
-    m_Localized: Lighters
+    m_Localized: "\u30E9\u30A4\u30BF\u30FC"
     m_Metadata:
       m_Items: []
   - m_Id: 396268841406951424
-    m_Localized: Lighter names
+    m_Localized: "\u30E9\u30A4\u30BF\u30FC\u62C5\u5F53"
     m_Metadata:
       m_Items: []
   - m_Id: 396268859580870656
-    m_Localized: Who created the lightshow?
+    m_Localized: "\u30E9\u30A4\u30C8\u30B7\u30E7\u30FC\u3092\u3064\u304F\u3063\u305F\u3072\u3068\u306F\uFF1F"
     m_Metadata:
       m_Items: []
   - m_Id: 396269682226491392
-    m_Localized: Lightshow File
+    m_Localized: "\u30E9\u30A4\u30C8\u30B7\u30E7\u30FC\u30D5\u30A1\u30A4\u30EB"
     m_Metadata:
       m_Items: []
   - m_Id: 396269752590135296
-    m_Localized: Name of shared lightshow file
+    m_Localized: "\u5171\u6709\u30E9\u30A4\u30C8\u30B7\u30E7\u30FC\u30D5\u30A1\u30A4\u30EB\u540D"
     m_Metadata:
       m_Items: []
   - m_Id: 396270278006403072
-    m_Localized: Custom Properties
+    m_Localized: "\u30AB\u30B9\u30BF\u30E0\u30D7\u30ED\u30D1\u30C6\u30A3"
     m_Metadata:
       m_Items: []
   - m_Id: 396270297077903360
-    m_Localized: 'Additional properties provided by mods
-
-      (Such as SongCore
-      and Chroma)'
+    m_Localized: "Mod\u3067\u8FFD\u52A0\u3055\u308C\u305F\u30D7\u30ED\u30D1\u30C6\u30A3\n\uFF08SongCore\u3084Chroma\u306A\u3069\uFF09"
     m_Metadata:
       m_Items: []
   - m_Id: 396272057888665600
-    m_Localized: Not supported in current format
+    m_Localized: "\u73FE\u5728\u306E\u30D5\u30A9\u30FC\u30DE\u30C3\u30C8\u3067\u306F\u30B5\u30DD\u30FC\u30C8\u3055\u308C\u3066\u3044\u307E\u305B\u3093"
     m_Metadata:
       m_Items: []
   - m_Id: 469552834243588096
-    m_Localized: Gameplay Options
+    m_Localized: "\u30B2\u30FC\u30E0\u30D7\u30EC\u30A4\u30AA\u30D7\u30B7\u30E7\u30F3"
     m_Metadata:
       m_Items: []
   - m_Id: 469553272154091520
-    m_Localized: Warnings
+    m_Localized: "\u8B66\u544A"
     m_Metadata:
       m_Items: []
   - m_Id: 469553502958252032
-    m_Localized: Information
+    m_Localized: "\u30A4\u30F3\u30D5\u30A9\u30E1\u30FC\u30B7\u30E7\u30F3"
     m_Metadata:
       m_Items: []
   - m_Id: 469559603908964352
-    m_Localized: 'True will always make the level One Saber.
-
-
-      False will always
-      make the level have both sabers.'
+    m_Localized: "True\u306B\u3059\u308B\u3068\u30BB\u30A4\u30D0\u30FC1\u672C\u306E\u96E3\u6613\u5EA6\u306B\u306A\u308A\u307E\u3059\u3002\n\nFalse\u306B\u3059\u308B\u3068\u4E21\u624B\u30BB\u30A4\u30D0\u30FC\u306E\u96E3\u6613\u5EA6\u306B\u306A\u308A\u307E\u3059\u3002"
     m_Metadata:
       m_Items: []
   - m_Id: 469559790123479040
-    m_Localized: 'True will only show the spawn lines if the map has rotational events.
-
-
-      False
-      will hide these spawn lines.'
+    m_Localized: "True\u306B\u3059\u308B\u3068\u30DE\u30C3\u30D7\u306B\u30ED\u30FC\u30C6\u30FC\u30B7\u30E7\u30F3\u30A4\u30D9\u30F3\u30C8\u304C\u3042\u308B\u3068\u304D\u306B\u306E\u307F\u3001\u51FA\u73FE\u30E9\u30A4\u30F3\u304C\u8868\u793A\u3055\u308C\u307E\u3059\u3002\n\nFalse\u306B\u3059\u308B\u3068\u51FA\u73FE\u30E9\u30A4\u30F3\u306F\u975E\u8868\u793A\u306B\u306A\u308A\u307E\u3059\u3002"
     m_Metadata:
       m_Items: []
   - m_Id: 469575148062502912
-    m_Localized: You have unsaved characteristic changes, do you want to save them?
+    m_Localized: "\u4FDD\u5B58\u3055\u308C\u3066\u3044\u306A\u3044\u5909\u66F4\u304C\u3042\u308A\u307E\u3059\u3002\u4FDD\u5B58\u3057\u3066\u3082\u3088\u308D\u3057\u3044\u3067\u3059\u304B\uFF1F"
     m_Metadata:
       m_Items: []
   - m_Id: 472331903532134400
@@ -504,7 +493,9 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 7923550464931004544
+    - rid: 2707327089558421561
       type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
       data:
-        m_Entries: 0010d21a57e67101
+        m_Entries: 
+        m_SharedEntries:
+        - id: 104117528192749568
