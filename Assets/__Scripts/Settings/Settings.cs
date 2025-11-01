@@ -131,7 +131,6 @@ public class Settings
     public bool Reflections = true;
     public bool HighQualityBloom = true;
     public bool ChromaticAberration = true;
-    public float PostProcessingIntensity = 0.1f;
     public float CameraFOV = 60f;
     public float PlayerCameraFOV = 60f;
     public float PlayerCameraOffsetZ = 3.6f; // 3.6m => 6 Z

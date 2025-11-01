@@ -13,20 +13,11 @@ public class PostProcessingController : MonoBehaviour
 
     private void Start()
     {
-        Settings.NotifyBySettingName(nameof(Settings.PostProcessingIntensity), UpdatePostProcessIntensity);
         Settings.NotifyBySettingName(nameof(Settings.ChromaticAberration), UpdateChromaticAberration);
         Settings.NotifyBySettingName(nameof(Settings.HighQualityBloom), UpdateHighQualityBloom);
 
-        UpdatePostProcessIntensity(Settings.Instance.PostProcessingIntensity);
         UpdateChromaticAberration(Settings.Instance.ChromaticAberration);
         UpdateHighQualityBloom(Settings.Instance.HighQualityBloom);
-    }
-
-    public void UpdatePostProcessIntensity(object o)
-    {
-        var v = Convert.ToSingle(o);
-        volume.profile.TryGetSettings(out CustomBloom bloom);
-        bloom.intensity.value = v * 60f; // TODO: ok, default definitely needed to be change
     }
 
     public void UpdateChromaticAberration(object o)
