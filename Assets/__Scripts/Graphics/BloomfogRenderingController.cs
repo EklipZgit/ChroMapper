@@ -25,6 +25,9 @@ public class BloomfogRenderingController : MonoBehaviour
 
     private void Start()
     {
+        bloomfogCamera.enabled = false;
+        Camera.onPreRender += OnCameraPreRender;
+
         blurMaterial = new Material(blurShader);
 
         Settings.NotifyBySettingName(nameof(Settings.HighQualityBloom), (_) => RegenerateRenderTexture());
@@ -48,8 +51,15 @@ public class BloomfogRenderingController : MonoBehaviour
         }
     }
 
-    private void OnPostRender()
+    // Render bloomfog and perform blur passes before the active editor camera renders
+    // This ensures the main render has up-to-date bloomfog texture
+    private void OnCameraPreRender(Camera renderingCamera)
     {
+        if (renderingCamera != editorCamera) return;
+
+        // Render bloomfog to first RT
+        bloomfogCamera.Render();
+
         // Downscale
         blurMaterial.SetFloat("_BloomfogAlpha", 1);
         for (var i = 0; i < realBloomfogPasses - 1; i++)
@@ -69,6 +79,7 @@ public class BloomfogRenderingController : MonoBehaviour
 
     private void OnDestroy()
     {
+        Camera.onPreRender -= OnCameraPreRender;
         ClearRenderTextures();
         Settings.ClearSettingNotifications(nameof(Settings.HighQualityBloom));
         Settings.ClearSettingNotifications(nameof(Settings.CameraFOV));
