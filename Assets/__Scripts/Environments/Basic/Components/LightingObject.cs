@@ -38,13 +38,17 @@ public class LightingObject : MonoBehaviour
 
     private void Start()
     {
-        // TODO: Remove this with new environment system (assign layers directly in editor)
-        gameObject.layer = LayerMask.NameToLayer("Lighting Events");
-
         lightPropertyBlock = new MaterialPropertyBlock();
         lightRenderer = GetComponentInChildren<Renderer>();
         boostSprite = GetComponent<BoostSprite>();
         canBeDisabled = lightRenderer.sharedMaterial.name.Contains("Transparent");
+
+        // TODO: Remove this with new environment system (assign layers directly in editor)
+        gameObject.layer = LayerMask.NameToLayer("Lighting Events");
+        if (lightRenderer != null && lightRenderer.gameObject != gameObject)
+        {
+            lightRenderer.gameObject.layer = LayerMask.NameToLayer("Lighting Events");
+        }
 
         if (lightRenderer is SpriteRenderer spriteRenderer)
         {
