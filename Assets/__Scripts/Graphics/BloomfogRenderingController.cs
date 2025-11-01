@@ -33,7 +33,7 @@ public class BloomfogRenderingController : MonoBehaviour
         Shader.SetGlobalFloat("_CustomFogHeightFogStartY", -50);
         Shader.SetGlobalFloat("_CustomFogHeightFogHeight", 25);
         Shader.SetGlobalFloat("_CustomFogOffset", 0);
-        Shader.SetGlobalFloat("_CustomFogAttenuation", 0);
+        Shader.SetGlobalFloat("_CustomFogAttenuation", 0.00025f);
         Shader.SetGlobalFloat("_Bloomfog_Brightness", 0.1f);
         Shader.EnableKeyword("ENABLE_BLOOM_FOG");
 
@@ -129,7 +129,7 @@ public class BloomfogRenderingController : MonoBehaviour
         bloomfogCamera.targetTexture = bloomfogPassRTs[0];
 
         // TODO(Caeden): Calculate screen ratio properly once texture is 512x512
-        Shader.SetGlobalVector("_CustomFogTextureToSceenRatio", new Vector4(1, 1, 0, 0));
+        Shader.SetGlobalVector("_CustomFogTextureToScreenRatio", new Vector4(1, 1, 0, 0));
         Shader.SetGlobalTexture("_BloomPrePassTexture", bloomfogPassRTs[0]);
     }
 }

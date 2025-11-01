@@ -28,7 +28,7 @@ Shader "ChroMapper/BloomfogSkybox"
             };
 
             uniform sampler2D _BloomPrePassTexture;
-            uniform float2 _CustomFogTextureToSceenRatio;
+            uniform float2 _CustomFogTextureToScreenRatio;
 
             v2f vert (appdata v)
             {
@@ -44,7 +44,7 @@ Shader "ChroMapper/BloomfogSkybox"
                 float2 screenUV = i.screenPos.xy / i.screenPos.w;
                 
                 // Apply custom ratio to screen space UVs
-                float2 modifiedUV = screenUV * _CustomFogTextureToSceenRatio;
+                float2 modifiedUV = (screenUV - 0.5) * _CustomFogTextureToScreenRatio + 0.5;
                 
                 // Sample the bloom prepass texture
                 fixed4 col = tex2D(_BloomPrePassTexture, modifiedUV);
