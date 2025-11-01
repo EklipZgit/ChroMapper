@@ -145,7 +145,7 @@
                 }
                 color = float4(log2(color.rgb + 1.0), alpha) * factor;
 
-                #ifndef ENABLE_HEIGHT_FOG
+                #ifdef ENABLE_HEIGHT_FOG
                     BLOOM_FOG_HEIGHT_FOG_APPLY(color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset, _FogHeightScale);
                 #else
                     BLOOM_FOG_APPLY(color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);

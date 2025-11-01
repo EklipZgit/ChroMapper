@@ -15,6 +15,7 @@ Material:
   - _MODE_OPAQUE
   m_InvalidKeywords:
   - ALPHA_AFFECT_RGB
+  - ENABLE_HEIGHT_FOG_ON
   - _EMISSION
   - _RECEIVE_SHADOWS_OFF
   - _SPECULAR_COLOR
@@ -106,7 +107,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - ENABLE_HEIGHT_FOG: 0
+    - ENABLE_HEIGHT_FOG: 1
     - _AddPrecomputedVelocity: 0
     - _AlphaClip: 0
     - _AlphaToMask: 0
@@ -128,8 +129,8 @@ Material:
     - _FirstOutlineWidth: 1.405
     - _FogHeightOffset: 10
     - _FogHeightScale: 0.9
-    - _FogScale: 0.9
-    - _FogStartOffset: 10
+    - _FogScale: 1
+    - _FogStartOffset: 0
     - _GlossMapScale: 1
     - _Glossiness: 1
     - _GlossinessSource: 1

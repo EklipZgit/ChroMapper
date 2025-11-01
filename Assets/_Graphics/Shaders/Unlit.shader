@@ -99,7 +99,7 @@
                 albedo.rgb *= color.a;
                 albedo.a = saturate(log2(_Glow * color.a + 1.0));
 
-                #ifndef ENABLE_HEIGHT_FOG
+                #ifdef ENABLE_HEIGHT_FOG
                     BLOOM_FOG_HEIGHT_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset, _FogHeightScale);
                 #else
                     BLOOM_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);

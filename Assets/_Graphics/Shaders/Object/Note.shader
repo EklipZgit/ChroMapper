@@ -249,7 +249,7 @@ Shader "ChroMapper/Object/Note"
 
                 fixed4 bloomfog_color = fixed4(color, saturate(noteColor.a * _Glow)) * factor;
                 
-                #ifndef ENABLE_HEIGHT_FOG
+                #ifdef ENABLE_HEIGHT_FOG
                     BLOOM_FOG_HEIGHT_FOG_APPLY(bloomfog_color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset, _FogHeightScale);
                 #else
                     BLOOM_FOG_APPLY(bloomfog_color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
