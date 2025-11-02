@@ -13,7 +13,6 @@ public class ObstaclePlacement : BasePlacement<BaseObstacle, ObstacleContainer, 
     [SerializeField] private ObstacleAppearanceSO obstacleAppearanceSo;
     [SerializeField] private ColorPicker colorPicker;
     [SerializeField] private ToggleColourDropdown dropdown;
-    [SerializeField] private GridLane lane;
     private bool hasExpanded;
     private bool hasOffset;
 
@@ -43,11 +42,9 @@ public class ObstaclePlacement : BasePlacement<BaseObstacle, ObstacleContainer, 
 
     protected override BaseObstacle GenerateOriginalData() => new();
 
-    public override void Start()
-    {
-        v2Mode = BeatSaberSongContainer.Instance.Map.MajorVersion == 2;
-        base.Start();
-    }
+    public void Awake() => LoadInitialMap.OnLevelLoaded += HandleLevelLoaded;
+    public void OnDestroy() => LoadInitialMap.OnLevelLoaded -= HandleLevelLoaded;
+    private void HandleLevelLoaded() => v2Mode = BeatSaberSongContainer.Instance.Map.MajorVersion == 2;
 
     public override void Initialize(PlacementProvider provider)
     {
@@ -59,58 +56,6 @@ public class ObstaclePlacement : BasePlacement<BaseObstacle, ObstacleContainer, 
     public override void UpdateState(Intersections.IntersectionHit hit, PlacementInputState inputState)
     {
         if (IsPlacing && !AllowPlacement) Cancel();
-
-        if (!v2Mode)
-        {
-            switch (AllowPlacement)
-            {
-                case true when !IsIdle:
-                    {
-                        if (!hasOffset)
-                        {
-                            // Offset Y by whole grid or XY grid only
-                            var offset = lane.XYOffset;
-                            offset.y = -0.5f;
-                            // lane.LocalOffset = offset;
-                            lane.XYOffset = offset;
-                            lane.RefreshPosition();
-
-                            lane.Lane += lane.Lane + Mathf.CeilToInt(lane.Lane % 2 / 2f);
-
-                            hasOffset = true;
-                        }
-
-                        switch (IsPlacing)
-                        {
-                            case true when !hasExpanded:
-                                lane.Height = 5;
-                                hasExpanded = true;
-                                break;
-                            case false when hasExpanded:
-                                lane.Height = 3;
-                                hasExpanded = false;
-                                break;
-                        }
-
-                        break;
-                    }
-                case false when hasOffset || hasExpanded:
-                    {
-                        var offset = lane.XYOffset;
-                        offset.y = 0;
-                        // lane.LocalOffset = offset;
-                        lane.XYOffset = offset;
-                        lane.RefreshPosition();
-
-                        lane.Height = 3;
-                        lane.Lane = NoteLanesController.LaneCount;
-
-                        hasOffset = hasExpanded = false;
-                        break;
-                    }
-            }
-        }
-
         base.UpdateState(hit, inputState);
     }
 
