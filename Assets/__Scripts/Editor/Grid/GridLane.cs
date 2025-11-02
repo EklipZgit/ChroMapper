@@ -2,35 +2,20 @@
 
 public class GridLane : GridChild
 {
-    [Header("Grid Visual")] [SerializeField]
-    public GridXZ XZ;
-
-    [SerializeField] public GridXY XY;
+    [Header("Plane")] [SerializeField] public GridPlane XZ;
+    [SerializeField] public GridPlane XY;
     [SerializeField] public Vector2 XYOffset = Vector2.zero;
+    [SerializeField] public Vector2 XYExpand = Vector2.zero;
 
-    private MaterialPropertyBlock materialPropertyBlock;
-    private static readonly int gridOffsetID = Shader.PropertyToID("_GridOffset");
+    [Header("Visual")] [SerializeField] private Color gridColor;
+    [SerializeField] private Color xyInterfaceColor;
+    [SerializeField] private Color xzInterfaceColor;
 
-    public override void OnValidate()
-    {
-        base.OnValidate();
-        SetLaneNoNotify(Lane);
-        SetHeightNoNotify(Height);
-        SetLengthNoNotify(Length);
-        MoveXYGridByZ(0f);
-    }
-
-    public void Start()
-    {
-        materialPropertyBlock = new MaterialPropertyBlock();
-    }
+    private bool oddLaneOffset;
 
     public override int Lane
     {
-        get
-        {
-            return base.Lane;
-        }
+        get => base.Lane;
         set
         {
             SetLaneNoNotify(value);
@@ -40,10 +25,7 @@ public class GridLane : GridChild
 
     public int Height
     {
-        get
-        {
-            return (int)Size.y;
-        }
+        get => (int)Size.y;
         set
         {
             SetHeightNoNotify(value);
@@ -54,10 +36,7 @@ public class GridLane : GridChild
 
     public float Length
     {
-        get
-        {
-            return Size.z;
-        }
+        get => Size.z;
         set
         {
             SetLengthNoNotify(value);
@@ -66,14 +45,33 @@ public class GridLane : GridChild
         }
     }
 
-    public void SetLane(int lane)
+    public bool OddLaneOffset
     {
-        Lane = lane;
+        get => oddLaneOffset;
+        set
+        {
+            var prev = oddLaneOffset;
+            oddLaneOffset = value;
+            if (prev != oddLaneOffset) RefreshVisual();
+        }
+    }
+
+    public override void OnValidate()
+    {
+        RefreshPosition();
+
+        SetGridColor(gridColor);
+        SetXYInterfaceColor(xyInterfaceColor);
+        SetXZInterfaceColor(xzInterfaceColor);
+
+        RefreshVisual();
+
+        base.OnValidate();
     }
 
     private void SetLaneNoNotify(int lane)
     {
-        XY.transform.localScale = new Vector3(lane, XY.transform.localScale.y, XY.transform.localScale.z);
+        XY.transform.localScale = new Vector3(lane + XYExpand.x, XY.transform.localScale.y, XY.transform.localScale.z);
         XZ.transform.localScale = new Vector3(lane, XZ.transform.localScale.y, XZ.transform.localScale.z);
 
         XY.transform.localPosition = new Vector3(
@@ -86,26 +84,19 @@ public class GridLane : GridChild
             XZ.transform.localPosition.z);
     }
 
-    public void SetHeight(int height)
-    {
-        Height = height;
-    }
-
     private void SetHeightNoNotify(int height)
     {
-        XY.transform.localScale = new Vector3(XY.transform.localScale.x, height, XY.transform.localScale.z);
+        XY.transform.localScale = new Vector3(
+            XY.transform.localScale.x,
+            height + XYExpand.y,
+            XY.transform.localScale.z);
         XY.transform.localPosition = new Vector3(
             XY.transform.localPosition.x,
-            (height / 2f) + XYOffset.y,
+            (height / 2f) + XYOffset.y + (XYExpand.y / 2f),
             XY.transform.localPosition.z);
     }
 
     // This applies to both front and back side by 4:1
-    public void SetLength(float length)
-    {
-        Length = length;
-    }
-
     private void SetLengthNoNotify(float length)
     {
         var calc = length + (length / 4f);
@@ -131,12 +122,50 @@ public class GridLane : GridChild
         SetLaneNoNotify(Lane);
         SetHeightNoNotify(Height);
         SetLengthNoNotify(Length);
+    }
+
+    public void SetBeatSpacing(Vector4 beatSpacing)
+    {
+        XZ.SetSpacing(beatSpacing);
+        RefreshVisual();
+    }
+
+    public void SetBeatThickness(Vector4 beatThickness)
+    {
+        XZ.SetThickness(beatThickness);
+        RefreshVisual();
+    }
+
+    public void SetGridColor(Color color)
+    {
+        gridColor = color;
+        XY.SetGridColor(gridColor);
+        XZ.SetGridColor(gridColor);
+        RefreshVisual();
+    }
+
+    public void SetXYInterfaceColor(Color color)
+    {
+        xyInterfaceColor = color;
+        XY.SetInterfaceColor(xyInterfaceColor);
+        RefreshVisual();
+    }
+
+    public void SetXZInterfaceColor(Color color)
+    {
+        xzInterfaceColor = color;
+        XZ.SetInterfaceColor(xzInterfaceColor);
         RefreshVisual();
     }
 
     public void RefreshVisual()
     {
-        materialPropertyBlock.SetVector(gridOffsetID, (Vector3)XYOffset + LocalOffset);
-        XY.Grid.SetPropertyBlock(materialPropertyBlock);
+        var xOffset = OddLaneOffset ? 0.5f : 0f;
+
+        XY.SetOffset((-(Vector3)XYOffset - LocalOffset + new Vector3(xOffset - (XYExpand.x / 2f), 0f, 0f)).Repeat(1f));
+        XZ.SetOffset((-LocalOffset + new Vector3(xOffset, 0f, 0f)).Repeat(1f));
+
+        XY.RefreshVisual();
+        XZ.RefreshVisual();
     }
 }

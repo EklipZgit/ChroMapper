@@ -133,8 +133,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea580390805c4599b6820f03b47b2a2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Plane: 1
   Grid: {fileID: 3603298067490066933}
   Interface: {fileID: 77480742590576465}
+  gridColor: {r: 1, g: 1, b: 1, a: 1}
+  interfaceColor: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
+  opaqueInterface: {fileID: 2100000, guid: 06df152e309d6ed43b13c9d0f7cc1c8f, type: 2}
+  transparentInterface: {fileID: 2100000, guid: 761b833d373c13b439ac8e5bc49373a4,
+    type: 2}
+  spacing: {x: 1, y: 0.25, z: 0.125, w: 0.0625}
+  thickness: {x: 1, y: 0.05, z: 0.025, w: 0.0125}
+  offset: {x: 0, y: 0, z: 0}
 --- !u!114 &7866611375767682797
 MonoBehaviour:
   m_ObjectHideFlags: 0
