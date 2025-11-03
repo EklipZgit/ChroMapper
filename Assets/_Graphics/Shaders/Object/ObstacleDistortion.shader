@@ -80,6 +80,7 @@
             #pragma fragment frag
             #pragma multi_compile_instancing
             #pragma multi_compile _ ENABLE_BLOOM_FOG
+            #pragma multi_compile _ CM_PREVIEW_MODE
             #pragma shader_feature ENABLE_HEIGHT_FOG
 
             struct appdata
@@ -177,10 +178,12 @@
                 fixed4 col = color + tex2D(_GrabTexture, screenUV);
                 col = col * factor;
 
-                #ifdef ENABLE_HEIGHT_FOG
-                    BLOOM_FOG_HEIGHT_FOG_APPLY(col, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset, _FogHeightScale);
-                #else
-                    BLOOM_FOG_APPLY(col, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
+                #ifdef CM_PREVIEW_MODE
+                    #ifdef ENABLE_HEIGHT_FOG
+                        BLOOM_FOG_HEIGHT_FOG_APPLY(col, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset, _FogHeightScale);
+                    #else
+                        BLOOM_FOG_APPLY(col, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
+                    #endif
                 #endif
 
                 return col;

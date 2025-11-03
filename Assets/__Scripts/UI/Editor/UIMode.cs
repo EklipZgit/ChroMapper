@@ -64,6 +64,7 @@ public class UIMode : MonoBehaviour, CMInput.IUIModeActions
 
         atsc.OnPlayToggled += OnPlayToggle;
         Shader.SetGlobalFloat(enableNoteSurfaceGridLine, 1f);
+        Shader.DisableKeyword("CM_PREVIEW_MODE");
     }
 
     public void OnToggleUIMode(InputAction.CallbackContext context)
@@ -272,7 +273,16 @@ public class UIMode : MonoBehaviour, CMInput.IUIModeActions
         {
             c.LockedOntoNoteGrid = true;
         }
-        
+
+        if (PreviewMode)
+        {
+            Shader.EnableKeyword("CM_PREVIEW_MODE");
+        }
+        else
+        {
+            Shader.DisableKeyword("CM_PREVIEW_MODE");
+        }
+
         //foreach (Renderer r in _verticalGridRenderers) r.enabled = showMainGrid;
         atsc.RefreshGridSnapping();
     }

@@ -53,6 +53,7 @@
 
             HLSLPROGRAM
             #pragma multi_compile _ ENABLE_BLOOM_FOG
+            #pragma multi_compile _ CM_PREVIEW_MODE
             #pragma shader_feature ENABLE_HEIGHT_FOG
             #pragma vertex vert
             #pragma fragment frag
@@ -145,10 +146,12 @@
                 }
                 color = float4(log2(color.rgb + 1.0), alpha) * factor;
 
-                #ifdef ENABLE_HEIGHT_FOG
-                    BLOOM_FOG_HEIGHT_FOG_APPLY(color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset, _FogHeightScale);
-                #else
-                    BLOOM_FOG_APPLY(color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
+                #ifdef CM_PREVIEW_MODE
+                    #ifdef ENABLE_HEIGHT_FOG
+                        BLOOM_FOG_HEIGHT_FOG_APPLY(color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset, _FogHeightScale);
+                    #else
+                        BLOOM_FOG_APPLY(color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
+                    #endif
                 #endif
 
                 return color;
