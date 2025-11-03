@@ -27,6 +27,8 @@ public class PlacementModeController : MonoBehaviour
     [SerializeField] private DeleteToolController deleteToolController;
 
     [SerializeField] private EnumPicker modePicker;
+    
+    public event Action<PlacementMode> OnModeChanged;
 
     private void Start()
     {
@@ -79,6 +81,8 @@ public class PlacementModeController : MonoBehaviour
         bombPlacement.AllowPlacement = mode == PlacementMode.Bomb;
         obstaclePlacement.AllowPlacement = mode == PlacementMode.Wall;
         deleteToolController.UpdateDeletion(mode == PlacementMode.Delete);
+        
+        OnModeChanged?.Invoke(mode);
     }
 
     // This should probably be moved to somewhere else

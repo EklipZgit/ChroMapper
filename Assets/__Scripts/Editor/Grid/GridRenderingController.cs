@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
-[ExecuteAlways]
 public class GridRenderingController : MonoBehaviour
 {
     private static readonly Color colorDefault = new(0.33f, 0.33f, 0.33f, 1f);
@@ -11,32 +9,20 @@ public class GridRenderingController : MonoBehaviour
     [SerializeField] private AudioTimeSyncController atsc;
     [SerializeField] private GameObject gridParent;
 
-    [SerializeField] private Material opaqueInterface;
-    [SerializeField] private Material transparentInterface;
+    [SerializeField] private Vector4 zLineSpacing = new(1f, 1f / 4f, 1f / 8f, 1f / 16f);
+    [SerializeField] private Vector4 zLineThickness = new(0.1f, 0.05f, 0.025f, 0.0125f);
 
     private readonly List<GridLane> gridLanes = new();
-
-    private static readonly int colorID = Shader.PropertyToID("_Color");
     private static readonly int offsetID = Shader.PropertyToID("_Offset");
-    private static readonly int gridSpacingID = Shader.PropertyToID("_GridSpacing");
-    private static readonly int gridThicknessID = Shader.PropertyToID("_GridThickness");
-
-    [SerializeField] private Vector4 subBeat = new(1f, 1f / 4f, 1f / 8f, 1f / 16f);
-    [SerializeField] private Vector4 subBeatThickness = new(0.1f, 0.05f, 0.025f, 0.0125f);
-
-    private MaterialPropertyBlock gridMaterialPropertyBlock;
-    private MaterialPropertyBlock interfaceMaterialPropertyBlock;
 
     private void Awake()
     {
         foreach (var gridLane in gridParent.GetComponentsInChildren<GridLane>()) gridLanes.Add(gridLane);
 
-        gridMaterialPropertyBlock = new MaterialPropertyBlock();
-        interfaceMaterialPropertyBlock = new MaterialPropertyBlock();
-
         atsc.OnGridMeasureSnappingChanged += HandleGridMeasureSnappingChanged;
-        Settings.NotifyBySettingName(nameof(Settings.HighContrastGrids), UpdateGridColors);
-        Settings.NotifyBySettingName(nameof(Settings.GridTransparency), UpdateGridColors);
+        Settings.NotifyBySettingName(nameof(Settings.HighContrastGrids), UpdateInterfaceXZ);
+        Settings.NotifyBySettingName(nameof(Settings.GridTransparency), UpdateInterfaceXZ);
+        Settings.NotifyBySettingName(nameof(Settings.InterfaceOpacity), UpdateInterfaceXY);
         Settings.NotifyBySettingName(nameof(Settings.TrackLength), UpdateTrackLength);
         Settings.NotifyBySettingName(nameof(Settings.OneBeatWidth), UpdateOneBeat);
 
@@ -48,6 +34,7 @@ public class GridRenderingController : MonoBehaviour
         atsc.OnGridMeasureSnappingChanged -= HandleGridMeasureSnappingChanged;
         Settings.ClearSettingNotifications(nameof(Settings.HighContrastGrids));
         Settings.ClearSettingNotifications(nameof(Settings.GridTransparency));
+        Settings.ClearSettingNotifications(nameof(Settings.InterfaceOpacity));
         Settings.ClearSettingNotifications(nameof(Settings.TrackLength));
         Settings.ClearSettingNotifications(nameof(Settings.OneBeatWidth));
     }
@@ -63,45 +50,44 @@ public class GridRenderingController : MonoBehaviour
         float gridSeparation = CMMath.GetLowestDenominator(snapping);
         if (gridSeparation < 3) gridSeparation = 4;
 
-        subBeat[0] = EditorScaleController.EditorScale / 4f;
-        subBeat[1] = EditorScaleController.EditorScale / 4f / gridSeparation;
+        zLineSpacing[0] = EditorScaleController.EditorScale / 4f;
+        zLineSpacing[1] = EditorScaleController.EditorScale / 4f / gridSeparation;
 
         var useDetailedSegments = gridSeparation < snapping;
         gridSeparation *= CMMath.GetLowestDenominator(Mathf.FloorToInt(snapping / gridSeparation));
-        subBeat[2] = useDetailedSegments ? EditorScaleController.EditorScale / 4f / gridSeparation : 0f;
+        zLineSpacing[2] = useDetailedSegments ? EditorScaleController.EditorScale / 4f / gridSeparation : 0f;
 
         var usePreciseSegments = gridSeparation < snapping;
         gridSeparation *= CMMath.GetLowestDenominator(Mathf.FloorToInt(snapping / gridSeparation));
-        subBeat[3] = usePreciseSegments ? EditorScaleController.EditorScale / 4f / gridSeparation : 0f;
+        zLineSpacing[3] = usePreciseSegments ? EditorScaleController.EditorScale / 4f / gridSeparation : 0f;
 
-        gridMaterialPropertyBlock.SetVector(gridSpacingID, subBeat);
-        foreach (var g in gridLanes.Select(g => g.XZ.Grid)) g.SetPropertyBlock(gridMaterialPropertyBlock);
-        UpdateGridColors();
+        foreach (var g in gridLanes) g.SetBeatSpacing(zLineSpacing);
+        UpdateInterfaceXZ();
     }
 
-    private void UpdateGridColors(object _ = null)
+    private void UpdateInterfaceXY(object _ = null)
+    {
+        var newColor = Color.white.WithAlpha(Settings.Instance.InterfaceOpacity);
+        foreach (var g in gridLanes) g.SetXYInterfaceColor(newColor);
+    }
+
+    private void UpdateInterfaceXZ(object _ = null)
     {
         var gridAlpha = Settings.Instance.GridTransparency;
         var newColor = Settings.Instance.HighContrastGrids ? colorHighContrast : colorDefault;
         newColor.a = Mathf.Clamp01(1f - gridAlpha);
-        interfaceMaterialPropertyBlock.SetColor(colorID, newColor);
-        foreach (var g in gridLanes.Select(g => g.XZ.Interface))
-        {
-            g.sharedMaterial = Mathf.Approximately(newColor.a, 1f) ? opaqueInterface : transparentInterface;
-            g.SetPropertyBlock(interfaceMaterialPropertyBlock);
-        }
+        foreach (var g in gridLanes) g.SetXZInterfaceColor(newColor);
     }
 
-    private void UpdateTrackLength(object _)
+    private void UpdateTrackLength(object _ = null)
     {
         foreach (var gridLane in gridLanes)
-            gridLane.SetLength(Settings.Instance.TrackLength * EditorScaleController.EditorScale);
+            gridLane.Length = Settings.Instance.TrackLength * EditorScaleController.EditorScale;
     }
 
     private void UpdateOneBeat(object value)
     {
-        subBeatThickness[0] = (float)value;
-        gridMaterialPropertyBlock.SetVector(gridThicknessID, subBeatThickness);
-        foreach (var g in gridLanes.Select(g => g.XZ.Grid)) g.SetPropertyBlock(gridMaterialPropertyBlock);
+        zLineThickness[0] = (float)value;
+        foreach (var g in gridLanes) g.SetBeatThickness(zLineThickness);
     }
 }

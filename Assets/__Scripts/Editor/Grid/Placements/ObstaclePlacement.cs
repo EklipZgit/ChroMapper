@@ -13,7 +13,6 @@ public class ObstaclePlacement : BasePlacement<BaseObstacle, ObstacleContainer, 
     [SerializeField] private ObstacleAppearanceSO obstacleAppearanceSo;
     [SerializeField] private ColorPicker colorPicker;
     [SerializeField] private ToggleColourDropdown dropdown;
-    [SerializeField] private GridLane lane;
     private bool hasExpanded;
     private bool hasOffset;
 
@@ -43,11 +42,9 @@ public class ObstaclePlacement : BasePlacement<BaseObstacle, ObstacleContainer, 
 
     protected override BaseObstacle GenerateOriginalData() => new();
 
-    public override void Start()
-    {
-        v2Mode = BeatSaberSongContainer.Instance.Map.MajorVersion == 2;
-        base.Start();
-    }
+    public void Awake() => LoadInitialMap.OnLevelLoaded += HandleLevelLoaded;
+    public void OnDestroy() => LoadInitialMap.OnLevelLoaded -= HandleLevelLoaded;
+    private void HandleLevelLoaded() => v2Mode = BeatSaberSongContainer.Instance.Map.MajorVersion == 2;
 
     public override void Initialize(PlacementProvider provider)
     {
@@ -59,58 +56,6 @@ public class ObstaclePlacement : BasePlacement<BaseObstacle, ObstacleContainer, 
     public override void UpdateState(Intersections.IntersectionHit hit, PlacementInputState inputState)
     {
         if (IsPlacing && !AllowPlacement) Cancel();
-
-        if (!v2Mode)
-        {
-            switch (AllowPlacement)
-            {
-                case true when !IsIdle:
-                    {
-                        if (!hasOffset)
-                        {
-                            // Offset Y by whole grid or XY grid only
-                            var offset = lane.XYOffset;
-                            offset.y = -0.5f;
-                            // lane.LocalOffset = offset;
-                            lane.XYOffset = offset;
-                            lane.RefreshPosition();
-
-                            lane.Lane += lane.Lane + Mathf.CeilToInt(lane.Lane % 2 / 2f);
-
-                            hasOffset = true;
-                        }
-
-                        switch (IsPlacing)
-                        {
-                            case true when !hasExpanded:
-                                lane.Height = 5;
-                                hasExpanded = true;
-                                break;
-                            case false when hasExpanded:
-                                lane.Height = 3;
-                                hasExpanded = false;
-                                break;
-                        }
-
-                        break;
-                    }
-                case false when hasOffset || hasExpanded:
-                    {
-                        var offset = lane.XYOffset;
-                        offset.y = 0;
-                        // lane.LocalOffset = offset;
-                        lane.XYOffset = offset;
-                        lane.RefreshPosition();
-
-                        lane.Height = 3;
-                        lane.Lane = NoteLanesController.LaneCount;
-
-                        hasOffset = hasExpanded = false;
-                        break;
-                    }
-            }
-        }
-
         base.UpdateState(hit, inputState);
     }
 
@@ -118,6 +63,7 @@ public class ObstaclePlacement : BasePlacement<BaseObstacle, ObstacleContainer, 
     protected override void UpdatePlacement(Intersections.IntersectionHit hit, Vector3 localPoint)
     {
         var placementZ = SongBpmTime * EditorScaleController.EditorScale;
+        var offset = new Vector3(hit.GameObject.transform.localScale.x % 2 / 2f, 0f, 0f);
         localPoint.z = placementZ;
 
         var roundedPoint = localPoint;
@@ -132,7 +78,8 @@ public class ObstaclePlacement : BasePlacement<BaseObstacle, ObstacleContainer, 
         else
         {
             roundedPoint.x =
-                Mathf.Clamp(Mathf.Floor(roundedPoint.x), Bounds.min.x, Bounds.max.x - 1f) + (size / 2f);
+                Mathf.Clamp(Mathf.Floor(roundedPoint.x + offset.x) - offset.x, Bounds.min.x, Bounds.max.x - 1f)
+                + (size / 2f);
             roundedPoint.y =
                 IsPlacing
                     ? Mathf.Clamp(Mathf.Floor(roundedPoint.y + .5f), Bounds.min.y + .5f, Bounds.max.y + 1.5f) - .5f

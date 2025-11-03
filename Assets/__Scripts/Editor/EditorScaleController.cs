@@ -26,8 +26,7 @@ public class EditorScaleController : MonoBehaviour, CMInput.IEditorScaleActions
     // Use this for initialization
     private void Start()
     {
-        foreach (var gridChildLane in gridParent.GetComponentsInChildren<GridLane>())
-            gridChildLanes.Add(gridChildLane);
+        foreach (var gridChildLane in gridParent.GetComponentsInChildren<GridLane>()) gridChildLanes.Add(gridChildLane);
 
         collections = moveableGridTransform.GetComponents<BeatmapObjectContainerCollection>();
         currentBpm = BeatSaberSongContainer.Instance.Info.BeatsPerMinute;
@@ -120,7 +119,7 @@ public class EditorScaleController : MonoBehaviour, CMInput.IEditorScaleActions
         OnEditorScaleChanged?.Invoke(EditorScale);
         previousEditorScale = EditorScale;
         foreach (var gridChildLane in gridChildLanes)
-            gridChildLane.SetLength(Settings.Instance.TrackLength * EditorScale);
+            gridChildLane.Length = Settings.Instance.TrackLength * EditorScale;
 
         atsc.MoveToSongBpmTime(atsc.CurrentSongBpmTime);
     }

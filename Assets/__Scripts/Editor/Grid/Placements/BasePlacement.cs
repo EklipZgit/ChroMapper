@@ -110,6 +110,8 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
 
     [Header("Implementation")] public bool ForceHeaderPlsIgnore;
 
+    public event Action OnApplied; // this is an odd name
+    
     public virtual void Start()
     {
         CreateVisual();
@@ -259,7 +261,10 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
     {
         if (QueuedData?.JsonTime >= 0
             && PlacementVisualContainer.gameObject.activeSelf)
+        {
             HandleApply();
+            OnApplied?.Invoke();
+        }
     }
 
     public virtual void HandleApply()

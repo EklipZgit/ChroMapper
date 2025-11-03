@@ -10,7 +10,7 @@ public class GridViewController : MonoBehaviour
     [SerializeField] private GridRotationController gridRotationController;
 
     [SerializeField] private int centerOffset;
-    
+
     private static EditingMode editingMode = EditingMode.Gameplay;
 
     public static EditingMode EditingMode
@@ -27,7 +27,11 @@ public class GridViewController : MonoBehaviour
 
     private void Awake() => gridRotationController.OnObjectRotationChanged += NotifyChanged;
     private void OnEnable() => NotifyChanged();
-    private void OnDestroy() => gridRotationController.OnObjectRotationChanged -= NotifyChanged;
+    private void OnDestroy()
+    {
+        gridRotationController.OnObjectRotationChanged -= NotifyChanged;
+        allChildren.Clear();
+    }
 
     private static void UpdateGrid()
     {
@@ -59,11 +63,17 @@ public class GridViewController : MonoBehaviour
                 childX -= Mathf.Ceil(child.Max(x => x.Lane)) + 1;
         }
 
+        var isOdd = false;
+        if (activeChildren.TryGetValue(0, out var centerGrid)) isOdd = centerGrid.Max(x => x.Lane) % 2 != 0;
+
         foreach (var (order, children) in activeChildren)
         {
             children.RemoveAll(x => x == null);
             foreach (var child in children)
             {
+                if (child is GridLane lane)
+                    lane.OddLaneOffset = isOdd;
+
                 child.transform.eulerAngles = new Vector3(
                     child.transform.eulerAngles.x,
                     child.transform.parent.eulerAngles.y,
