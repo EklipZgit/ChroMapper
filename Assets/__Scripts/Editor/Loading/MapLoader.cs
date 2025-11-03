@@ -7,7 +7,6 @@ using UnityEngine;
 public class MapLoader : MonoBehaviour
 {
     [SerializeField] private TracksManager manager;
-    [SerializeField] private NoteLanesController noteLanesController;
 
     [Space][SerializeField] private Transform containerCollectionsContainer;
 

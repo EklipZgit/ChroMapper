@@ -1,6 +1,7 @@
+using System;
 using UnityEngine;
 
-public class ObstacleGridController : MonoBehaviour
+public class PlacementLaneController : MonoBehaviour
 {
     [SerializeField] private PlacementModeController placemenModeController;
     [SerializeField] private ObstaclePlacement obstaclePlacement;
@@ -8,24 +9,39 @@ public class ObstacleGridController : MonoBehaviour
     private bool hasExpanded;
     private bool hasOffset;
 
+    public int LaneCount = 4;
     private bool v2Mode;
+
+    private void OnValidate() => UpdateLane();
 
     public void Awake()
     {
+        Settings.NotifyBySettingName("NoteLanes", HandleNoteLanesChanged);
         LoadInitialMap.OnLevelLoaded += HandleLevelLoaded;
         placemenModeController.OnModeChanged += HandleModeChanged;
         obstaclePlacement.OnApplied += UpdateGrid;
+        if (Settings.NonPersistentSettings.ContainsKey("NoteLanes")) Settings.NonPersistentSettings["NoteLanes"] = 4;
     }
 
     public void OnDestroy()
     {
+        Settings.ClearSettingNotifications("NoteLanes");
         LoadInitialMap.OnLevelLoaded -= HandleLevelLoaded;
         placemenModeController.OnModeChanged -= HandleModeChanged;
-        obstaclePlacement.OnApplied += UpdateGrid;
+        obstaclePlacement.OnApplied -= UpdateGrid;
     }
 
     private void HandleLevelLoaded() => v2Mode = BeatSaberSongContainer.Instance.Map.MajorVersion == 2;
     private void HandleModeChanged(PlacementModeController.PlacementMode _) => UpdateGrid();
+
+    private void HandleNoteLanesChanged(object value)
+    {
+        var noteLanesText = value.ToString();
+        if (!int.TryParse(noteLanesText, out var noteLanes)) return;
+        if (noteLanes < 1) return;
+        LaneCount = noteLanes;
+        UpdateLane();
+    }
 
     private void UpdateGrid()
     {
@@ -44,7 +60,7 @@ public class ObstacleGridController : MonoBehaviour
                         lane.RefreshPosition();
                         lane.RefreshVisual();
 
-                        lane.Lane += lane.Lane + Mathf.CeilToInt(lane.Lane % 2 / 2f);
+                        UpdateLane();
 
                         hasOffset = true;
                     }
@@ -73,11 +89,19 @@ public class ObstacleGridController : MonoBehaviour
                     lane.RefreshVisual();
 
                     lane.Height = 3;
-                    lane.Lane = NoteLanesController.LaneCount;
+                    UpdateLane();
 
                     hasOffset = hasExpanded = false;
                     break;
                 }
         }
+    }
+
+    private void UpdateLane()
+    {
+        if (obstaclePlacement.AllowPlacement && !v2Mode)
+            lane.Lane = (LaneCount * 2) + Mathf.CeilToInt(LaneCount % 2 / 2f);
+        else
+            lane.Lane = LaneCount;
     }
 }
