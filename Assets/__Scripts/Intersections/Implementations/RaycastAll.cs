@@ -14,7 +14,15 @@ public static partial class Intersections
     /// <remarks>The returned list is not sorted in any way.</remarks>
     /// <param name="ray">The ray to cast against all colliders.</param>
     /// <returns>Returns a list of information on all intersecting colliders, if any.</returns>
-    public static IEnumerable<IntersectionHit> RaycastAll(Ray ray) => RaycastAll(ray, -1);
+    public static List<IntersectionHit> RaycastAll(Ray ray) => RaycastAll(ray, -1);
+
+    /// <summary>
+    ///     Cast a ray against all custom colliders, modifying a pre-allocated list of intersecting colliders.
+    /// </summary>
+    /// <remarks>The returned list is not sorted in any way.</remarks>
+    /// <param name="ray">The ray to cast against all colliders.</param>
+    /// <param name="hits">A pre-allocated list to store the results in.</param>
+    public static void RaycastAllNoAlloc(Ray ray, ref List<IntersectionHit> hits) => RaycastAllNoAlloc(ray, -1, ref hits);
 
     /// <summary>
     ///     Cast a ray against all custom colliders on a given layer, and returns a list of all intersecting colliders.
@@ -23,9 +31,23 @@ public static partial class Intersections
     /// <param name="ray">The ray to cast against all colliders.</param>
     /// <param name="layer">GameObject layer to raycast against. An input of <c>-1</c> will cast against all layers.</param>
     /// <returns>Returns a list of information on all intersecting colliders, if any.</returns>
-    public static IEnumerable<IntersectionHit> RaycastAll(Ray ray, int layer)
+    public static List<IntersectionHit> RaycastAll(Ray ray, int layer)
     {
-        var hits = new List<IntersectionHit>();
+        var list = new List<IntersectionHit>();
+        RaycastAllNoAlloc(ray, layer, ref list);
+        return list;
+    }
+
+    /// <summary>
+    ///     Cast a ray against all custom colliders on a given layer, modifying a pre-allocated list of intersecting colliders.
+    /// </summary>
+    /// <remarks>The returned list is not sorted in any way.</remarks>
+    /// <param name="ray">The ray to cast against all colliders.</param>
+    /// <param name="layer">GameObject layer to raycast against. An input of <c>-1</c> will cast against all layers.</param>
+    /// <param name="hits">A pre-allocated list to store the results in.</param>
+    public static void RaycastAllNoAlloc(Ray ray, int layer, ref List<IntersectionHit> hits)
+    {
+        hits.Clear();
 
         var rayDirection = ray.direction;
         var rayOrigin = ray.origin;
@@ -90,7 +112,5 @@ public static partial class Intersections
                 groupID = NextGroupSearchFunction(groupID);
             }
         }
-
-        return hits;
     }
 }
