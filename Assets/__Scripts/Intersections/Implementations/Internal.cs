@@ -20,7 +20,7 @@ public static partial class Intersections
         in Vector3 localRayOrigin, out float distance)
     {
         var success = false;
-        distance = 0;
+        distance = float.PositiveInfinity;
 
         // The triangles/vertices arrays are cached as to not allocate garbage every frame.
         var meshTriangles = collider.MeshTriangles;
@@ -37,7 +37,7 @@ public static partial class Intersections
 
             // If our ray intersects this triangle, the entire collider intersects, no more work to be done.
             if (RayTriangleIntersect(in vert1, in vert2, in vert3, in localRayDirection, in localRayOrigin,
-                out var localDistance) && (!success || localDistance < distance))
+                out var localDistance) && localDistance < distance)
             {
                 success = true;
                 distance = localDistance;
@@ -66,7 +66,7 @@ public static partial class Intersections
         var det = VectorUtils.FastDot(in e1, in p);
 
         //if determinant is near zero, ray lies in plane of triangle otherwise not
-        if (det > -intersectionEpsilon && det < intersectionEpsilon) return false;
+        if (det is > (-intersectionEpsilon) and < intersectionEpsilon) return false;
 
         var invDet = 1.0f / det;
 
@@ -77,7 +77,7 @@ public static partial class Intersections
         var u = VectorUtils.FastDot(in t, in p) * invDet;
 
         //Check for ray hit
-        if (u < 0 || u > 1) return false;
+        if (u is < 0 or > 1) return false;
 
         //Prepare to test v parameter
         VectorUtils.FastCross(ref q, in t, in e1);
