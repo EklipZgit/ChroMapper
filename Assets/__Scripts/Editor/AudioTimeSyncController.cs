@@ -164,9 +164,6 @@ public class AudioTimeSyncController : MonoBehaviour,
             Settings.NotifyBySettingName("SongVolume", UpdateSongVolume);
             Settings.NotifyBySettingName(nameof(Settings.TrackLength), UpdateTrackLength);
 
-            Shader.DisableKeyword("CM_PLAYBACK");
-            Shader.EnableKeyword("CM_EDITING");
-
             Initialized = true;
         }
         catch (Exception e)
@@ -426,9 +423,6 @@ public class AudioTimeSyncController : MonoBehaviour,
         IsPlaying = !IsPlaying;
         if (IsPlaying)
         {
-            Shader.EnableKeyword("CM_PLAYBACK");
-            Shader.DisableKeyword("CM_EDITING");
-
             if (CurrentSeconds >= SongAudioSource.clip.length - 0.1f)
             {
                 ResetTime();
@@ -443,8 +437,6 @@ public class AudioTimeSyncController : MonoBehaviour,
         }
         else
         {
-            Shader.DisableKeyword("CM_PLAYBACK");
-            Shader.EnableKeyword("CM_EDITING");
             SongAudioSource.Stop();
             SnapToGrid();
         }

@@ -33,7 +33,7 @@ public class UIMode : MonoBehaviour, CMInput.IUIModeActions
     private CanvasGroup canvasGroup;
 
     private static readonly List<Action<object>> actions = new List<Action<object>>();
-    private static string[] enumNames = Enum.GetNames(typeof(UIModeType));
+
 
     private MapEditorUI mapEditorUi;
     private Coroutine showUI;
@@ -64,7 +64,6 @@ public class UIMode : MonoBehaviour, CMInput.IUIModeActions
 
         atsc.OnPlayToggled += OnPlayToggle;
         Shader.SetGlobalFloat(enableNoteSurfaceGridLine, 1f);
-        ToggleShaderKeywords();
     }
 
     public void OnToggleUIMode(InputAction.CallbackContext context)
@@ -215,8 +214,6 @@ public class UIMode : MonoBehaviour, CMInput.IUIModeActions
                 break;
         }
 
-        ToggleShaderKeywords();
-
         foreach (var boy in actions) boy?.Invoke(SelectedMode);
     }
 
@@ -278,22 +275,6 @@ public class UIMode : MonoBehaviour, CMInput.IUIModeActions
         
         //foreach (Renderer r in _verticalGridRenderers) r.enabled = showMainGrid;
         atsc.RefreshGridSnapping();
-    }
-
-    private static void ToggleShaderKeywords()
-    {
-        for (var i = 0; i < enumNames.Length; i++)
-        {
-            var keyword = $"CM_UIMODE_{enumNames[i].ToUpper()}";
-            if (i == (int)SelectedMode)
-            {
-                Shader.EnableKeyword(keyword);
-            }
-            else
-            {
-                Shader.DisableKeyword(keyword);
-            }
-        }
     }
 
     private IEnumerator ShowUI()
