@@ -103,6 +103,8 @@ Shader "ChroMapper/Object/Note"
             #pragma multi_compile _ DIRLIGHTMAP_COMBINED
             #pragma multi_compile _ LIGHTMAP_ON
             #pragma multi_compile _ ENABLE_BLOOM_FOG
+            #pragma multi_compile _ CM_UIMODE_PREVIEW
+            #pragma multi_compile _ CM_UIMODE_PLAYING
             #pragma multi_compile_fog
 
             // Hello! We're global shader variables.
@@ -249,10 +251,12 @@ Shader "ChroMapper/Object/Note"
 
                 fixed4 bloomfog_color = fixed4(color, saturate(noteColor.a * _Glow)) * factor;
                 
-                #ifdef ENABLE_HEIGHT_FOG
-                    BLOOM_FOG_HEIGHT_FOG_APPLY(bloomfog_color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset, _FogHeightScale);
-                #else
-                    BLOOM_FOG_APPLY(bloomfog_color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
+                #if defined(CM_UIMODE_PLAYING) || defined(CM_UIMODE_PREVIEW)
+                    #ifdef ENABLE_HEIGHT_FOG
+                        BLOOM_FOG_HEIGHT_FOG_APPLY(bloomfog_color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset, _FogHeightScale);
+                    #else
+                        BLOOM_FOG_APPLY(bloomfog_color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
+                    #endif
                 #endif
 
                 return bloomfog_color;
