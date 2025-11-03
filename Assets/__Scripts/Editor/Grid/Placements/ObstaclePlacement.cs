@@ -63,6 +63,7 @@ public class ObstaclePlacement : BasePlacement<BaseObstacle, ObstacleContainer, 
     protected override void UpdatePlacement(Intersections.IntersectionHit hit, Vector3 localPoint)
     {
         var placementZ = SongBpmTime * EditorScaleController.EditorScale;
+        var offset = new Vector3(hit.GameObject.transform.localScale.x % 2 / 2f, 0f, 0f);
         localPoint.z = placementZ;
 
         var roundedPoint = localPoint;
@@ -77,7 +78,8 @@ public class ObstaclePlacement : BasePlacement<BaseObstacle, ObstacleContainer, 
         else
         {
             roundedPoint.x =
-                Mathf.Clamp(Mathf.Floor(roundedPoint.x), Bounds.min.x, Bounds.max.x - 1f) + (size / 2f);
+                Mathf.Clamp(Mathf.Floor(roundedPoint.x + offset.x) - offset.x, Bounds.min.x, Bounds.max.x - 1f)
+                + (size / 2f);
             roundedPoint.y =
                 IsPlacing
                     ? Mathf.Clamp(Mathf.Floor(roundedPoint.y + .5f), Bounds.min.y + .5f, Bounds.max.y + 1.5f) - .5f
