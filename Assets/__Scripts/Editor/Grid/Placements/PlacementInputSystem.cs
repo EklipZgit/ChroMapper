@@ -55,20 +55,15 @@ public class PlacementInputSystem : MonoBehaviour,
         if (PauseManager.IsPaused) return;
 
         var ray = cameraManager.SelectedCameraController.Camera.ScreenPointToRay(mousePosition);
-        var gridHit = Intersections
-            .RaycastAll(ray, 11)
-            .Select(intersectionHit => (hit: intersectionHit,
-                provider: intersectionHit.GameObject.transform.parent.GetComponent<PlacementProvider>()))
-            .Where(grid => grid.provider != null)
-            .OrderBy(grid => grid.hit.Distance)
-            .FirstOrDefault();
+        var hasHit = Intersections.Raycast(ray, 11, out var hit);
+        var provider = hasHit ? hit.GameObject.transform.parent.GetComponent<PlacementProvider>() : null;
 
         if (HandleExitWhen(
             (!CanInteract && inputState == PlacementInputState.Hover)
-            || gridHit.provider == null))
+            || !hasHit
+            || provider == null))
             return;
 
-        var (hit, provider) = gridHit;
         if (currentProvider != provider && !boxSelectionPlacement.IsPlacing)
         {
             if (currentProvider != null) Exit(currentProvider);
