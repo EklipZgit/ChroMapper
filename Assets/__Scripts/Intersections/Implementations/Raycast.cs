@@ -52,9 +52,9 @@ public static partial class Intersections
     /// <returns>Returns <c>true</c> if the ray successfully intersected a collider, and <c>false</c> if not.</returns>
     public static bool Raycast(Ray ray, int layer, out IntersectionHit hit, out float distance)
     {
-        var hits = new List<IntersectionHit>();
         hit = new IntersectionHit();
         distance = float.PositiveInfinity;
+        var foundAny = false;
 
         var rayDirection = ray.direction;
         var rayOrigin = ray.origin;
@@ -66,7 +66,6 @@ public static partial class Intersections
 
         for (var currentLayer = layerMin; currentLayer < layerMax; currentLayer++)
         {
-            hits.Clear();
             var groupedCollidersInLayer = groupedColliders[currentLayer];
 
             if (groupedCollidersInLayer.Count <= 0) continue;
@@ -111,7 +110,15 @@ public static partial class Intersections
                             if (bounds.IntersectRay(localRay)
                                 && RaycastIndividual_Internal(collider, in localRayDirection, in localRayOrigin, out var dist))
                             {
-                                hits.Add(new IntersectionHit(collider.gameObject, bounds, ray, dist));
+                                foundAny = true;
+
+                                // If we reach this point, the ray has successfully intersected the collider.
+                                // We then check if it's the closest one so far.
+                                if (dist < distance)
+                                {
+                                    distance = dist;
+                                    hit = new IntersectionHit(collider.gameObject, bounds, ray, dist);
+                                }
                             }
                         }
                     }
@@ -119,26 +126,8 @@ public static partial class Intersections
 
                 groupID = NextGroupSearchFunction(groupID);
             }
-
-            if (hits.Count > 0)
-            {
-                var hitsCount = hits.Count;
-
-                for (var i = 0; i < hitsCount; i++)
-                {
-                    var newHit = hits[i];
-
-                    if (newHit.Distance < distance)
-                    {
-                        hit = newHit;
-                        distance = newHit.Distance;
-                    }
-                }
-
-                return true;
-            }
         }
 
-        return false;
+        return foundAny;
     }
 }
