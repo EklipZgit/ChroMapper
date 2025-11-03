@@ -37,7 +37,7 @@ public class BloomfogRenderingController : MonoBehaviour
         Shader.SetGlobalFloat("_CustomFogHeightFogHeight", 25);
         Shader.SetGlobalFloat("_CustomFogOffset", 0);
         Shader.SetGlobalFloat("_CustomFogAttenuation", 0.00025f);
-        Shader.SetGlobalFloat("_Bloomfog_Brightness", 0.1f);
+        Shader.SetGlobalFloat("_BloomfogBrightness", 0.1f);
         Shader.EnableKeyword("ENABLE_BLOOM_FOG");
 
         RegenerateRenderTexture();
@@ -62,6 +62,7 @@ public class BloomfogRenderingController : MonoBehaviour
 
         // Downscale
         blurMaterial.SetFloat("_BloomfogAlpha", 1);
+        blurMaterial.SetFloat("_BloomfogBlurRadius", 0);
         for (var i = 0; i < realBloomfogPasses - 1; i++)
         {
             blurMaterial.SetTexture("_BloomfogPrevTex", bloomfogPassRTs[i]);
@@ -69,11 +70,15 @@ public class BloomfogRenderingController : MonoBehaviour
         }
 
         // Upscale
+        var passes = 0;
         for (var i = realBloomfogPasses - 1; i > 0; i--)
         {
-            blurMaterial.SetFloat("_BloomfogAlpha", Mathf.Pow(0.5f, (float)i / realBloomfogPasses));
+            //blurMaterial.SetFloat("_BloomfogAlpha", Mathf.Pow(0.5f, (float)i / realBloomfogPasses));
+            blurMaterial.SetFloat("_BloomfogAlpha", Mathf.Lerp(1.2f, 0.25f, (float)passes / realBloomfogPasses));
+            blurMaterial.SetFloat("_BloomfogBlurRadius", passes);
             blurMaterial.SetTexture("_BloomfogPrevTex", bloomfogPassRTs[i]);
             Graphics.Blit(bloomfogPassRTs[i], bloomfogPassRTs[i - 1], blurMaterial);
+            passes++;
         }
     }
 
@@ -128,7 +133,10 @@ public class BloomfogRenderingController : MonoBehaviour
             // Stop if the texture is too small
             if (width < 2 || height < 2) break;
 
-            var rt = new RenderTexture(width, height, 0, RenderTextureFormat.ARGBFloat);
+            var rt = new RenderTexture(width, height, 0, RenderTextureFormat.ARGBFloat)
+            {
+                filterMode = FilterMode.Bilinear
+            };
             rt.Create();
             bloomfogPassRTs[i] = rt;
 

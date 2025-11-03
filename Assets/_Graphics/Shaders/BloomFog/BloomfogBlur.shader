@@ -39,54 +39,29 @@ Shader "Hidden/BloomfogBlurring"
             }
 
             float _BloomfogAlpha;
-            float _Bloomfog_Brightness;
+            float _BloomfogBrightness;
+            float _BloomfogBlurRadius;
             sampler2D _BloomfogPrevTex;
             float4 _BloomfogPrevTex_TexelSize;
             float4 _BloomfogPrevTex_ST;
 
             float4 frag (v2f i) : SV_Target
             {
-                float4 res = float4(_BloomfogPrevTex_TexelSize.xy, 0, 0);
+                float2 texelSize = _BloomfogPrevTex_TexelSize.xy;
+                float radius = _BloomfogBlurRadius + 0.5;
                 
-                // Sample at current mip level
-                float4 mipBaseUV = float4(i.uv, 0, 0);
+                // Kawase blur - 4 diagonal samples
                 float4 mipColor = float4(0,0,0,0);
-                    
-                // Box blur sampling
-                mipColor.rgb += saturate(tex2Dlod(_BloomfogPrevTex, mipBaseUV + float4(-2, -2, 0, 0) * res).rgb);
-                mipColor.rgb += saturate(tex2Dlod(_BloomfogPrevTex, mipBaseUV + float4(-1, -2, 0, 0) * res).rgb);
-                mipColor.rgb += saturate(tex2Dlod(_BloomfogPrevTex, mipBaseUV + float4(0, -2, 0, 0) * res).rgb);
-                mipColor.rgb += saturate(tex2Dlod(_BloomfogPrevTex, mipBaseUV + float4(1, -2, 0, 0) * res).rgb);
-                mipColor.rgb += saturate(tex2Dlod(_BloomfogPrevTex, mipBaseUV + float4(2, -2, 0, 0) * res).rgb);
+                
+                mipColor.rgb += saturate(tex2D(_BloomfogPrevTex, i.uv + float2(radius, radius) * texelSize).rgb);
+                mipColor.rgb += saturate(tex2D(_BloomfogPrevTex, i.uv + float2(-radius, radius) * texelSize).rgb);
+                mipColor.rgb += saturate(tex2D(_BloomfogPrevTex, i.uv + float2(radius, -radius) * texelSize).rgb);
+                mipColor.rgb += saturate(tex2D(_BloomfogPrevTex, i.uv + float2(-radius, -radius) * texelSize).rgb);
+                
+                mipColor.rgb /= 4.0; // Average the 4 samples
+                //mipColor.rgb += _BloomfogBrightness;
 
-                mipColor.rgb += saturate(tex2Dlod(_BloomfogPrevTex, mipBaseUV + float4(-2, -1, 0, 0) * res).rgb);
-                mipColor.rgb += saturate(tex2Dlod(_BloomfogPrevTex, mipBaseUV + float4(-1, -1, 0, 0) * res).rgb);
-                mipColor.rgb += saturate(tex2Dlod(_BloomfogPrevTex, mipBaseUV + float4(0, -1, 0, 0) * res).rgb);
-                mipColor.rgb += saturate(tex2Dlod(_BloomfogPrevTex, mipBaseUV + float4(1, -1, 0, 0) * res).rgb);
-                mipColor.rgb += saturate(tex2Dlod(_BloomfogPrevTex, mipBaseUV + float4(2, -1, 0, 0) * res).rgb);
-
-                mipColor.rgb += saturate(tex2Dlod(_BloomfogPrevTex, mipBaseUV + float4(-2, 0, 0, 0) * res).rgb);
-                mipColor.rgb += saturate(tex2Dlod(_BloomfogPrevTex, mipBaseUV + float4(-1, 0, 0, 0) * res).rgb);
-                mipColor.rgb += saturate(tex2Dlod(_BloomfogPrevTex, mipBaseUV + float4(0, 0, 0, 0) * res).rgb);
-                mipColor.rgb += saturate(tex2Dlod(_BloomfogPrevTex, mipBaseUV + float4(1, 0, 0, 0) * res).rgb);
-                mipColor.rgb += saturate(tex2Dlod(_BloomfogPrevTex, mipBaseUV + float4(2, 0, 0, 0) * res).rgb);
-
-                mipColor.rgb += saturate(tex2Dlod(_BloomfogPrevTex, mipBaseUV + float4(-2, 1, 0, 0) * res).rgb);
-                mipColor.rgb += saturate(tex2Dlod(_BloomfogPrevTex, mipBaseUV + float4(-1, 1, 0, 0) * res).rgb);
-                mipColor.rgb += saturate(tex2Dlod(_BloomfogPrevTex, mipBaseUV + float4(0, 1, 0, 0) * res).rgb);
-                mipColor.rgb += saturate(tex2Dlod(_BloomfogPrevTex, mipBaseUV + float4(1, 1, 0, 0) * res).rgb);
-                mipColor.rgb += saturate(tex2Dlod(_BloomfogPrevTex, mipBaseUV + float4(2, 1, 0, 0) * res).rgb);
-
-                mipColor.rgb += saturate(tex2Dlod(_BloomfogPrevTex, mipBaseUV + float4(-2, 2, 0, 0) * res).rgb);
-                mipColor.rgb += saturate(tex2Dlod(_BloomfogPrevTex, mipBaseUV + float4(-1, 2, 0, 0) * res).rgb);
-                mipColor.rgb += saturate(tex2Dlod(_BloomfogPrevTex, mipBaseUV + float4(0, 2, 0, 0) * res).rgb);
-                mipColor.rgb += saturate(tex2Dlod(_BloomfogPrevTex, mipBaseUV + float4(1, 2, 0, 0) * res).rgb);
-                mipColor.rgb += saturate(tex2Dlod(_BloomfogPrevTex, mipBaseUV + float4(2, 2, 0, 0) * res).rgb);
-                mipColor.rgb /= 25.0;
-
-                // Contribution factor based on mip level (taken from ArcViewer)
-                //float contribution = pow(0.5, (float)i / (float)_BloomfogPass);
-                mipColor.a = _BloomfogAlpha;
+                mipColor.a = _BloomfogAlpha + _BloomfogBrightness;
                 
                 return mipColor;
             }
