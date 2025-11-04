@@ -10,11 +10,13 @@ using SFB;
 using SimpleJSON;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.Localization.Components;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
+using UnityEngine.UIElements;
 using static UnityEngine.InputSystem.InputAction;
 using Debug = UnityEngine.Debug;
+using Image = UnityEngine.UI.Image;
 
 public class SongInfoEditUI : MenuBase
 {
@@ -69,6 +71,8 @@ public class SongInfoEditUI : MenuBase
     [SerializeField] private TMP_InputField songAuthorField;
     [SerializeField] private TMP_InputField authorField;
     [SerializeField] private TMP_InputField coverImageField;
+    
+    [SerializeField] private PreviewSong previewSong;
 
     [SerializeField] private TMP_InputField bpmField;
     [SerializeField] private TMP_InputField prevStartField;
@@ -113,6 +117,39 @@ public class SongInfoEditUI : MenuBase
         ContributorWrapper.SetActive(true);
 
         LoadFromSong();
+    }
+    
+    public void OnAudioPreviewClicked(float clickPercentage, PointerEventData.InputButton buttonType)
+    {
+        if (previewAudio.clip == null) return;
+        
+        var clickedTime = previewAudio.clip.length * clickPercentage;
+
+        switch (buttonType)
+        {
+            case PointerEventData.InputButton.Left:
+                prevStartField.text = clickedTime.ToString(CultureInfo.InvariantCulture);
+
+                previewSong.PlayFromStart();
+                break;
+
+            case PointerEventData.InputButton.Right:
+                if (!float.TryParse(prevStartField.text, out var originalPreviewStartTime)) return;
+
+                if (clickedTime > originalPreviewStartTime)
+                {
+                    prevDurField.text = Mathf.Abs(originalPreviewStartTime - clickedTime)
+                        .ToString(CultureInfo.InvariantCulture);
+                }
+                else
+                {
+                    // It's feels weird to preview ending if it wasn't set
+                    return;
+                }
+
+                previewSong.PlayFromEnd();
+                break;
+        }
     }
 
     public static int GetEnvironmentIDFromString(string environment) =>

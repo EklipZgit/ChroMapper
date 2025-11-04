@@ -15,7 +15,12 @@ public class PreviewSong : MonoBehaviour
     [SerializeField] private Image image;
     [SerializeField] private Sprite startSprite;
     [SerializeField] private Sprite stopSprite;
-    private readonly float lengthOffset = 1.4f;
+
+    /// <summary>
+    /// Beat Saber seems to run the audio preview shorter than specified preview length
+    /// </summary>
+    private const float previewLengthOffset = -1.4f;
+
     private float length = 10f;
     private bool playing = true;
     private double startTime;
@@ -64,8 +69,7 @@ public class PreviewSong : MonoBehaviour
 
         if (float.TryParse(previewDuration.text, out length))
         {
-            // Beat Saber seems to run the audio shorter than specified preview length
-            length -= lengthOffset;
+            length += previewLengthOffset;
 
             if (float.TryParse(previewStartTime.text, out var start))
             {
@@ -77,12 +81,59 @@ public class PreviewSong : MonoBehaviour
                 }
 
                 if (length + start > audioSource.clip.length) length = audioSource.clip.length - start;
-                playing = true;
-                startTime = AudioSettings.dspTime;
-                audioSource.time = start;
-                audioSource.Play();
-                image.sprite = stopSprite;
+                StartAudioPlayback(start);
             }
         }
+    }
+
+    public void PlayFromStart()
+    {
+        if (!float.TryParse(previewDuration.text, out length)) return;
+        if (!float.TryParse(previewStartTime.text, out var start)) return;
+        
+        length += previewLengthOffset;
+        
+        if (audioSource.clip == null)
+        {
+            PersistentUI.Instance.ShowDialogBox("SongEditMenu", "preview.valid", null,
+                PersistentUI.DialogBoxPresetType.Ok);
+            return;
+        }
+
+        if (length + start > audioSource.clip.length) length = audioSource.clip.length - start;
+        
+        StartAudioPlayback(start);
+    }
+
+    public void PlayFromEnd()
+    {
+        if (!float.TryParse(previewDuration.text, out var previewLength)) return;
+        if (!float.TryParse(previewStartTime.text, out var start)) return;
+        
+        const float endPreviewDuration = 3f;
+        length = endPreviewDuration + previewLengthOffset;
+
+        if (audioSource.clip == null)
+        {
+            PersistentUI.Instance.ShowDialogBox("SongEditMenu", "preview.valid", null,
+                PersistentUI.DialogBoxPresetType.Ok);
+            return;
+        }
+
+        if (length + start > audioSource.clip.length) length = audioSource.clip.length - start;
+                
+        var startTimeOffsetFromEnd = System.Math.Max(start, start + previewLength - endPreviewDuration);
+        StartAudioPlayback(startTimeOffsetFromEnd);
+    }
+
+    private void StartAudioPlayback(float playbackTime)
+    {
+        playing = true;
+        startTime = AudioSettings.dspTime;
+
+        audioSource.time = playbackTime;
+        if (!audioSource.isPlaying)
+            audioSource.Play();
+        image.sprite = stopSprite;
     }
 }
