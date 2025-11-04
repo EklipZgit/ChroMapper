@@ -69,7 +69,12 @@ public class RotatingLightsManager : RotatingLightsManagerBase
                 else if (evt.CustomSpeed.HasValue) this.speed = evt.CustomSpeed.Value;
             }
 
-            if (evt.CustomDirection.HasValue) rotateForwards = evt.CustomDirection.Value.Equals(0) ^ isLeftEvent;
+            if (evt.CustomDirection.HasValue)
+            {
+                rotateForwards = mirror
+                    ? evt.CustomDirection.Value.Equals(0) ^ !isLeftEvent
+                    : evt.CustomDirection.Value.Equals(0) ^ isLeftEvent;
+            }
         }
 
         if (!lockRotation) //If we are not locking rotation, reset it to its default.

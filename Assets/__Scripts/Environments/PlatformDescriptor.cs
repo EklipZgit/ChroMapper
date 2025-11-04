@@ -164,10 +164,7 @@ public class PlatformDescriptor : MonoBehaviour
         foreach (var l in rightEventTypes
             .Where(t => t <= LightingManagers.Length)
             .SelectMany(eventType => LightingManagers[eventType].RotatingLights))
-        {
-            l.Mirror = true;
             MapEventManager(l, 13);
-        }
 
         foreach (var manager in eventTypeManagerMap
                 .Values.SelectMany(manager => manager)
