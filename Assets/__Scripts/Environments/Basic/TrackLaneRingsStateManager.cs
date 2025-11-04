@@ -3,7 +3,7 @@ using Beatmap.Base;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class TrackLaneRingsManager : TrackLaneRingsManagerBase
+public class TrackLaneRingsStateManager : TrackLaneRingsStateManagerBase
 {
     [FormerlySerializedAs("ringCount")] public int RingCount = 10;
     [FormerlySerializedAs("prefab")] public TrackLaneRing Prefab;

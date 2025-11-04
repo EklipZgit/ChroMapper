@@ -2,7 +2,7 @@
 using Beatmap.Base;
 using UnityEngine;
 
-public class InterscopeMovingLightsManager : RotatingLightsManagerBase
+public class InterscopeMovingLightsStateManager : RotatingLightsStateManagerBase
 {
     public bool Left;
     [SerializeField] protected MovingLightsRandom MovingLightsRandom;

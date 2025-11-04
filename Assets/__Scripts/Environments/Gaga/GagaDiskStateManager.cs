@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Beatmap.Base;
 
-public class GagaDiskManager : BasicEventManager<GagaDiskStateData>
+public class GagaDiskStateManager : BasicEventStateManager<GagaDiskStateData>
 {
     private const int minEventValue = 0;
     private const int maxEventValue = 8;

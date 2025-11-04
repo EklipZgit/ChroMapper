@@ -6,7 +6,7 @@ using Beatmap.Enums;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class BasicLightManager : BasicEventManager<BasicLightStateData>
+public class BasicLightStateManager : BasicEventStateManager<BasicLightStateData>
 {
     public static PlatformColorScheme ColorScheme;
     private static bool useBoost;
@@ -26,7 +26,7 @@ public class BasicLightManager : BasicEventManager<BasicLightStateData>
     public List<LightingObject> ControllingLights = new();
     public LightGroup[] LightsGroupedByZ = { };
 
-    public List<RotatingLightsManagerBase> RotatingLights = new();
+    public List<RotatingLightsStateManagerBase> RotatingLights = new();
 
     public Dictionary<int, int> LightIDPlacementMap;
     public Dictionary<int, int> LightIDPlacementMapReverse;
@@ -51,7 +51,7 @@ public class BasicLightManager : BasicEventManager<BasicLightStateData>
                 if (!e.OverrideLightGroup) ControllingLights.Add(e);
             }
 
-            foreach (var (index, e) in GetComponentsInChildren<RotatingLightsManagerBase>().Select((e, i) => (i, e)))
+            foreach (var (index, e) in GetComponentsInChildren<RotatingLightsStateManagerBase>().Select((e, i) => (i, e)))
             {
                 e.Index = index;
                 if (!e.IsOverrideLightGroup()) RotatingLights.Add(e);
@@ -110,7 +110,7 @@ public class BasicLightManager : BasicEventManager<BasicLightStateData>
     private static void UpdateObject(LightingObject lightingObject, BasicLightStateData stateData) =>
         lightingObject.UpdateFromState(stateData);
 
-    public void ToggleBoost(bool boost)
+    public void ToggleBoostState(bool boost)
     {
         useBoost = boost;
         foreach (var lightingObject in ControllingLights)

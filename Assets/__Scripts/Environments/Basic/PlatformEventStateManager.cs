@@ -3,7 +3,7 @@ using System.Linq;
 using Beatmap.Base;
 using UnityEngine;
 
-public abstract class PlatformEventManager : BasicEventManager<PlatformEventStateData>
+public abstract class PlatformEventStateManager : BasicEventStateManager<PlatformEventStateData>
 {
     public abstract int[] ListeningEventTypes { get; }
 

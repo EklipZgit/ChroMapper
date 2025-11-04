@@ -3,7 +3,7 @@ using Beatmap.Base;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public abstract class InterscopeCarEventManager : PlatformEventManager
+public abstract class InterscopeCarEventStateManager : PlatformEventStateManager
 {
     [FormerlySerializedAs("carRigidbody")] [SerializeField]
     protected Rigidbody CarRigidbody;

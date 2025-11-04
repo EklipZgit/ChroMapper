@@ -2,7 +2,7 @@
 using Beatmap.Base;
 using UnityEngine;
 
-internal class LinkinParkRingLaserManager : TrackLaneRingsManagerBase
+internal class LinkinParkRingStateLaserManager : TrackLaneRingsStateManagerBase
 {
     [SerializeField] private List<RotatingLightsRandom> lpLasers;
     [SerializeField] private bool SwitchOnZoom;

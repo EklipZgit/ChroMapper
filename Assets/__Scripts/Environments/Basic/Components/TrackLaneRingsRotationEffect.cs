@@ -6,8 +6,8 @@ using UnityEngine.Serialization;
 
 public class TrackLaneRingsRotationEffect : MonoBehaviour
 {
-    [FormerlySerializedAs("manager")] public TrackLaneRingsManager Manager;
-    [FormerlySerializedAs("mirrorManager")] public TrackLaneRingsManager MirrorManager;
+    [FormerlySerializedAs("Manager")] [FormerlySerializedAs("manager")] public TrackLaneRingsStateManager StateManager;
+    [FormerlySerializedAs("MirrorManager")] [FormerlySerializedAs("mirrorManager")] public TrackLaneRingsStateManager MirrorStateManager;
     [FormerlySerializedAs("startupRotationAngle")] public float StartupRotationAngle = 45;
     [FormerlySerializedAs("startupRotationStep")] public float StartupRotationStep = 5;
     [FormerlySerializedAs("startupRotationPropagationSpeed")] public float StartupRotationPropagationSpeed = 1;
@@ -33,11 +33,11 @@ public class TrackLaneRingsRotationEffect : MonoBehaviour
             activeEffects.RemoveAt(i);
         }
 
-        foreach (var trackLaneRing in Manager.Rings) trackLaneRing.Reset();
+        foreach (var trackLaneRing in StateManager.Rings) trackLaneRing.Reset();
 
-        if (MirrorManager == null) return;
+        if (MirrorStateManager == null) return;
 
-        foreach (var mirrorManagerRing in MirrorManager.Rings) mirrorManagerRing.Reset();
+        foreach (var mirrorManagerRing in MirrorStateManager.Rings) mirrorManagerRing.Reset();
     }
 
     private void Start() => AddRingRotationEvent(StartupRotationAngle, StartupRotationStep,
@@ -45,7 +45,7 @@ public class TrackLaneRingsRotationEffect : MonoBehaviour
 
     private void FixedUpdate()
     {
-        var rings = Manager.Rings;
+        var rings = StateManager.Rings;
         for (var i = activeEffects.Count - 1; i >= 0; i--)
         {
             var effect = activeEffects[i];
@@ -55,8 +55,8 @@ public class TrackLaneRingsRotationEffect : MonoBehaviour
                 var destZ = effect.RotationAngle + (progress * effect.RotationStep);
                 rings[progress].SetRotation(destZ, effect.RotationFlexySpeed);
 
-                if (MirrorManager != null)
-                    MirrorManager.Rings[progress].SetRotation(destZ, effect.RotationFlexySpeed);
+                if (MirrorStateManager != null)
+                    MirrorStateManager.Rings[progress].SetRotation(destZ, effect.RotationFlexySpeed);
 
                 progress++;
             }
