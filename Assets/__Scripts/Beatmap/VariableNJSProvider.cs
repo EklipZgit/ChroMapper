@@ -1,23 +1,43 @@
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using Beatmap.Base;
 using UnityEngine;
 
 public class VariableNJSProvider : StateManager<VariableNJSStateData, BaseNJSEvent>
 {
-    public float BaseNjs;
-    public float CurrentNjs = 10f;
+    [Header("State")] public float NoteJumpSpeed;
 
-    private bool init;
+    public float JumpDuration;
+    public float JumpDistance;
+
+    public float HalfJumpDurationInBeats;
+    public float HalfJumpDuration;
+    public float HalfJumpDistance;
+
+    [Header("Cached Value")] public float BaseNoteJumpSpeed;
+    public float BaseHalfJumpDurationInBeats;
+    public float OneBeatDuration;
+
+    public event Action OnChanged;
 
     private readonly VariableNJSStateChunksContainer stateChunksContainer = new();
 
     public override void Initialize()
     {
+        var bpm = BeatSaberSongContainer.Instance.Info.BeatsPerMinute;
+        BaseNoteJumpSpeed = BeatSaberSongContainer.Instance.MapDifficultyInfo.NoteJumpSpeed;
+
+        OneBeatDuration = 60f / bpm;
+        BaseHalfJumpDurationInBeats = SpawnParameterHelper.CalculateHalfJumpDuration(
+            BaseNoteJumpSpeed,
+            BeatSaberSongContainer.Instance.MapDifficultyInfo.NoteStartBeatOffset,
+            bpm);
+
         InitializeStates(
             stateChunksContainer,
             CreateState(new BaseNJSEvent { UsePrevious = 1 }),
             CreateState(new BaseNJSEvent { UsePrevious = 1 }));
+        InsertData(new BaseNJSEvent());
     }
 
     public override void UpdateTime(float time)
@@ -26,13 +46,30 @@ public class VariableNJSProvider : StateManager<VariableNJSStateData, BaseNJSEve
 
         var currentState = stateChunksContainer.CurrentState;
         var normalizedTime = (time - currentState.StartTime) / (currentState.EndTime - currentState.StartTime);
-        CurrentNjs = Mathf.Max(
-            BaseNjs
+        var njs = Mathf.Max(
+            BaseNoteJumpSpeed
             + Mathf.Lerp(
                 currentState.RelativeNjs,
                 currentState.NextRelativeNjs,
                 currentState.Easing(normalizedTime)),
             0.01f);
+
+        if (Mathf.Approximately(njs, NoteJumpSpeed)) return;
+        NoteJumpSpeed = njs;
+        UpdateState();
+    }
+
+    public void UpdateState()
+    {
+        var factor = Mathf.Min(NoteJumpSpeed / BaseNoteJumpSpeed, 1f);
+        HalfJumpDuration = OneBeatDuration * BaseHalfJumpDurationInBeats / factor;
+        HalfJumpDurationInBeats = Atsc.GetBeatFromSeconds(HalfJumpDuration);
+        JumpDuration = HalfJumpDuration * 2f;
+
+        JumpDistance = NoteJumpSpeed * JumpDuration;
+        HalfJumpDistance = JumpDistance * 0.5f;
+
+        OnChanged?.Invoke();
     }
 
     public override void BuildFromData(IEnumerable<BaseNJSEvent> data)
@@ -52,9 +89,13 @@ public class VariableNJSProvider : StateManager<VariableNJSStateData, BaseNJSEve
         prevState.Easing = Easing.FromID(easingId);
     }
 
-    protected override void OnInsertUpdateFromNextState(VariableNJSStateData newState, VariableNJSStateData nextState)
+    protected override void OnInsertUpdateFromPreviousStateAndNextState(
+        VariableNJSStateData newState,
+        VariableNJSStateData prevState,
+        VariableNJSStateData nextState)
     {
-        base.OnInsertUpdateFromNextState(newState, nextState);
+        base.OnInsertUpdateFromPreviousStateAndNextState(newState, prevState, nextState);
+        newState.RelativeNjs = newState.Base.UsePrevious == 1 ? prevState.RelativeNjs : newState.RelativeNjs;
         newState.NextRelativeNjs = nextState.Base.UsePrevious == 1 ? newState.RelativeNjs : nextState.RelativeNjs;
         var easingId = nextState.Base.Easing switch
         {
@@ -94,7 +135,7 @@ public class VariableNJSProvider : StateManager<VariableNJSStateData, BaseNJSEve
         if (state == stateChunksContainer.CurrentState) stateChunksContainer.SetStateAt(data.SongBpmTime);
     }
 
-    public override void Reset() { }
+    public override void Reset() => UpdateState();
 
     protected override VariableNJSStateData CreateState(BaseNJSEvent data) => new(data);
 }

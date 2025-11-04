@@ -27,8 +27,6 @@ public class VariableNJSManager : BeatmapObjectManager<BaseNJSEvent>
     private void Refresh()
     {
         provider.Initialize();
-        provider.BaseNjs = BeatSaberSongContainer.Instance.MapDifficultyInfo.NoteJumpSpeed;
-        provider.CurrentNjs = provider.BaseNjs;
         provider.BuildFromData(BeatSaberSongContainer.Instance.Map.NJSEvents);
 
         Atsc.OnTimeChangedEarly += UpdateTime;

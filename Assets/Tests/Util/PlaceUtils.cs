@@ -54,6 +54,13 @@ namespace Tests.Util
             }
         }
 
+        public static void PlaceNJSEvent(
+            NJSEventPlacement njsEventPlacement, BaseNJSEvent evt)
+        {
+            njsEventPlacement.QueuedData = evt;
+            njsEventPlacement.HandleApplyNoDialogue();
+        }
+
         public static void PlaceArc(
             ArcPlacement arcPlacement, BaseArc arc)
         {

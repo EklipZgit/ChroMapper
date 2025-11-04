@@ -14,6 +14,7 @@ namespace Tests
 
         private CountersPlusController countersPlusController;
         private NJSEventGridContainer njsEventGridContainer;
+        private NJSEventPlacement vNjsPlacement;
         private AudioTimeSyncController atsc;
         
         [UnityOneTimeSetUp]
@@ -27,7 +28,11 @@ namespace Tests
         {
             Settings.Instance.CountersPlus["enabled"] = true;
             countersPlusController = Object.FindAnyObjectByType<CountersPlusController>();
+
             njsEventGridContainer = BeatmapObjectContainerCollection.GetCollectionForType<NJSEventGridContainer>(ObjectType.NJSEvent);
+            var root = njsEventGridContainer.transform.root;
+            vNjsPlacement = root.GetComponentInChildren<NJSEventPlacement>();
+            
             atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
         }
 
@@ -60,7 +65,7 @@ namespace Tests
         {
             atsc.MoveToJsonTime(7.5f);
             
-            njsEventGridContainer.SpawnObject(new BaseNJSEvent
+            PlaceUtils.PlaceNJSEvent(vNjsPlacement, new BaseNJSEvent
             {
                 JsonTime = 10,
                 RelativeNJS = 10 // 20 NJS
@@ -73,8 +78,12 @@ namespace Tests
             Assert.AreEqual(1200f, countersPlusController.CurrentRT, delta);
             Assert.AreEqual(42f, countersPlusController.CurrentJD, delta);
             
-            njsEventGridContainer.MapObjects[0].Easing = 1; // Edit easing to Quad in
-            njsEventGridContainer.UpdateHJDLine(); // Trigger manually since we're just editing the data without an action
+            PlaceUtils.PlaceNJSEvent(vNjsPlacement, new BaseNJSEvent
+            {
+                JsonTime = 10,
+                RelativeNJS = 10, // 20 NJS
+                Easing = 1
+            });
             yield return null;
             
             // 75% of the way after easing is 56.25%
@@ -83,9 +92,11 @@ namespace Tests
             Assert.AreEqual(1200f, countersPlusController.CurrentRT, delta);
             Assert.AreEqual(37.5f, countersPlusController.CurrentJD, delta);
             
-            njsEventGridContainer.MapObjects[0].Easing = 0; // Back to linear
-            njsEventGridContainer.MapObjects[0].RelativeNJS = -8; // 2 NJS
-            njsEventGridContainer.UpdateHJDLine();
+            PlaceUtils.PlaceNJSEvent(vNjsPlacement, new BaseNJSEvent
+            {
+                JsonTime = 10,
+                RelativeNJS = -8, // 2 NJS
+            });
             yield return null;
             
             // 70% of the way form 10 to 2 -> NJS decreases while HJD and RT increases
@@ -100,9 +111,8 @@ namespace Tests
         {
             atsc.MoveToJsonTime(7.5f);
             
-            njsEventGridContainer.SpawnObject(new BaseNJSEvent
+            PlaceUtils.PlaceNJSEvent(vNjsPlacement, new BaseNJSEvent
             {
-                JsonTime = 0,
                 RelativeNJS = 10 // 20 NJS
             });
             yield return null;
@@ -113,8 +123,10 @@ namespace Tests
             Assert.AreEqual(1200f, countersPlusController.CurrentRT, delta);
             Assert.AreEqual(48f, countersPlusController.CurrentJD, delta);
             
-            njsEventGridContainer.MapObjects[0].RelativeNJS = -5; // 5 NJS
-            njsEventGridContainer.UpdateHJDLine(); // Trigger manually since we're just editing the data without an action
+            PlaceUtils.PlaceNJSEvent(vNjsPlacement, new BaseNJSEvent
+            {
+                RelativeNJS = -5 // 5 NJS
+            });
             yield return null;
             
             // Halved NJS and Doubled HJD and RT
@@ -127,12 +139,12 @@ namespace Tests
         [UnityTest]
         public IEnumerator NJSEventsStats_CursorBetweenNJSEvents()
         {
-            njsEventGridContainer.SpawnObject(new BaseNJSEvent
+            PlaceUtils.PlaceNJSEvent(vNjsPlacement, new BaseNJSEvent
             {
                 JsonTime = 0,
                 RelativeNJS = -5 // 5 NJS
             });
-            njsEventGridContainer.SpawnObject(new BaseNJSEvent
+            PlaceUtils.PlaceNJSEvent(vNjsPlacement, new BaseNJSEvent
             {
                 JsonTime = 10,
                 RelativeNJS = 5 // 15 NJS
@@ -140,6 +152,8 @@ namespace Tests
             
             atsc.MoveToJsonTime(2.5f);
             yield return null;
+            
+            Debug.Log($"{countersPlusController.CurrentNJS} {countersPlusController.CurrentHJD} {countersPlusController.CurrentRT} {countersPlusController.CurrentJD}");
             
             // Halved between first njs event and base njs 
             Assert.AreEqual(7.5f, countersPlusController.CurrentNJS, delta);
@@ -160,18 +174,18 @@ namespace Tests
         [UnityTest]
         public IEnumerator NJSEventsStats_CursorBetweenExtendNJSEvents()
         {
-            njsEventGridContainer.SpawnObject(new BaseNJSEvent
+            PlaceUtils.PlaceNJSEvent(vNjsPlacement, new BaseNJSEvent
             {
                 JsonTime = 0,
                 RelativeNJS = -5 // 5 NJS
             });
-            njsEventGridContainer.SpawnObject(new BaseNJSEvent
+            PlaceUtils.PlaceNJSEvent(vNjsPlacement, new BaseNJSEvent
             {
                 JsonTime = 5,
                 RelativeNJS = 999, // Ignored
                 UsePrevious = 1
             });
-            njsEventGridContainer.SpawnObject(new BaseNJSEvent
+            PlaceUtils.PlaceNJSEvent(vNjsPlacement, new BaseNJSEvent
             {
                 JsonTime = 10,
                 RelativeNJS = 5 // 15 NJS
