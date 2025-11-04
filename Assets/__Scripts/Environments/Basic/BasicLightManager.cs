@@ -51,8 +51,9 @@ public class BasicLightManager : BasicEventManager<BasicLightStateData>
                 if (!e.OverrideLightGroup) ControllingLights.Add(e);
             }
 
-            foreach (var e in GetComponentsInChildren<RotatingLightsManagerBase>())
+            foreach (var (index, e) in GetComponentsInChildren<RotatingLightsManagerBase>().Select((e, i) => (i, e)))
             {
+                e.Index = index;
                 if (!e.IsOverrideLightGroup()) RotatingLights.Add(e);
             }
 

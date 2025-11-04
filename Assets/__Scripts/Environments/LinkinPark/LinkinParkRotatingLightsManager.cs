@@ -67,7 +67,7 @@ public class LinkinParkRotatingLightsManager : RotatingLightsManagerBase
         rotationAngle += startRotationAngle;
     }
 
-    public override void UpdateOffset(bool isLeftEvent, BaseEvent evt)
+    public override void UpdateOffset(BaseEvent evt, bool mirror, bool isLeftEvent)
     {
         RotatingLightsRandom.RandomUpdate(Left);
         if (Left)

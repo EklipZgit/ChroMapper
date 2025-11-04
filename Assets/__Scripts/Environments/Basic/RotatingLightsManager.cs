@@ -44,10 +44,15 @@ public class RotatingLightsManager : RotatingLightsManagerBase
     }
 
     // If you have any complaints about CM's inaccurate lasers, please look through this and tell me what the hell is wrong.
-    public override void UpdateOffset(bool isLeftEvent, BaseEvent evt)
+    public override void UpdateOffset(BaseEvent evt, bool mirror, bool isLeftEvent)
     {
         var rotation = UnityEngine.Random.Range(0f, 180f);
         var rotateForwards = UnityEngine.Random.Range(0, 1) == 1;
+        if (mirror)
+        {
+            rotation = -rotation;
+            rotateForwards = !rotateForwards;
+        }
 
         this.speed = evt.Value;
         var lockRotation = false;
