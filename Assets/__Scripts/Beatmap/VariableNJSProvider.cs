@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Beatmap.Base;
 using UnityEngine;
 
@@ -23,8 +24,8 @@ public class VariableNJSProvider : StateManager<VariableNJSStateData, BaseNJSEve
     public float BaseHalfJumpDurationInBeats;
     public float OneBeatDuration;
 
-    public float MinOffset;
-    public float MaxOffset;
+    private readonly Dictionary<int, int> hjds = new();
+    public float MaxHalfJumpDurationInBeats;
 
     public event Action OnChanged;
 
@@ -35,9 +36,10 @@ public class VariableNJSProvider : StateManager<VariableNJSStateData, BaseNJSEve
         BaseBeatPerMinute = BeatSaberSongContainer.Instance.Info.BeatsPerMinute;
         BaseNoteJumpSpeed = BeatSaberSongContainer.Instance.MapDifficultyInfo.NoteJumpSpeed;
         var offset = BeatSaberSongContainer.Instance.MapDifficultyInfo.NoteStartBeatOffset;
+        hjds.Clear();
 
         OneBeatDuration = 60f / BaseBeatPerMinute;
-        MinOffset = MaxOffset = BaseHalfJumpDurationInBeats = SpawnParameterHelper.CalculateHalfJumpDuration(
+        MaxHalfJumpDurationInBeats = BaseHalfJumpDurationInBeats = SpawnParameterHelper.CalculateHalfJumpDuration(
             BaseNoteJumpSpeed,
             offset,
             BaseBeatPerMinute);
@@ -122,7 +124,14 @@ public class VariableNJSProvider : StateManager<VariableNJSStateData, BaseNJSEve
     {
         var state = CreateState(data);
         state.StartTime = data.SongBpmTime;
-        state.RelativeNjs = data.RelativeNJS;
+        state.RelativeNjs = data.UsePrevious == 1 ? 0 : data.RelativeNJS;
+
+        var factor = Mathf.Min((BaseNoteJumpSpeed + state.RelativeNjs) / BaseNoteJumpSpeed, 1f);
+        var hjd = OneBeatDuration * BaseHalfJumpDurationInBeats / factor;
+        var hjdInBeat = Mathf.CeilToInt(Atsc.GetBeatFromSeconds(hjd));
+
+        if (hjds.TryAdd(hjdInBeat, 0)) MaxHalfJumpDurationInBeats = hjds.Keys.Max();
+        hjds[hjdInBeat]++;
 
         HandleInsertState(stateChunksContainer, state);
     }
@@ -146,6 +155,17 @@ public class VariableNJSProvider : StateManager<VariableNJSStateData, BaseNJSEve
     {
         var state = HandleRemoveState(stateChunksContainer, data);
         if (state == stateChunksContainer.CurrentState) stateChunksContainer.SetStateAt(data.SongBpmTime);
+
+        var factor = Mathf.Min((BaseNoteJumpSpeed + state.RelativeNjs) / BaseNoteJumpSpeed, 1f);
+        var hjd = OneBeatDuration * BaseHalfJumpDurationInBeats / factor;
+        var hjdInBeat = Mathf.CeilToInt(Atsc.GetBeatFromSeconds(hjd));
+
+        if (!hjds.ContainsKey(hjdInBeat)) return;
+        hjds[hjdInBeat]--;
+
+        if (hjds[hjdInBeat] != 0) return;
+        hjds.Remove(hjdInBeat);
+        MaxHalfJumpDurationInBeats = hjds.Keys.Max();
     }
 
     public override void Reset() => UpdateState();
