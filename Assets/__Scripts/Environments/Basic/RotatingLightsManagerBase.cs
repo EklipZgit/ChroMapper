@@ -1,11 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Beatmap.Base;
-using UnityEngine;
-using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 public abstract class RotatingLightsManagerBase : BasicEventManager<RotatingLightStateData>
 {
-    public abstract void UpdateOffset(bool isLeftEvent, BaseEvent evt);
+    public int Index; // because there are no grouping, we need to assign index for random
+    public bool Mirror;
+    
+    public abstract void UpdateOffset(BaseEvent evt, bool mirror, bool isLeftEvent);
 
     public abstract bool IsOverrideLightGroup();
     private readonly BasicEventStateChunksContainer<RotatingLightStateData> stateChunksContainer = new();
@@ -18,7 +21,13 @@ public abstract class RotatingLightsManagerBase : BasicEventManager<RotatingLigh
         UpdateObject(stateChunksContainer.CurrentState);
     }
 
-    private void UpdateObject(RotatingLightStateData stateData) => UpdateOffset(true, stateData.Base);
+    private void UpdateObject(RotatingLightStateData stateData)
+    {
+        var data = stateData.Base;
+        var hash = HashCode.Combine(data.SongBpmTime, Index);
+        Random.InitState(hash);
+        UpdateOffset(data, Mirror, true);
+    }
 
     protected override RotatingLightStateData CreateState(BaseEvent data) => new(data);
 

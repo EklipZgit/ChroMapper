@@ -58,7 +58,7 @@ public class InterscopeMovingLightsManager : RotatingLightsManagerBase
         movementValue += MovingLightsRandom.StartOffset;
     }
 
-    public override void UpdateOffset(bool isLeft, BaseEvent evt)
+    public override void UpdateOffset(BaseEvent evt, bool mirror, bool isLeft)
     {
         MovingLightsRandom.RandomUpdate(Left);
         UpdateRotationData(evt.Value, MovingLightsRandom.randomStartOffset);

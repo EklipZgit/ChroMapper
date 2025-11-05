@@ -745,7 +745,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Priority: 0
   Atsc: {fileID: 0}
   DisableCustomInitialization: 0
   GroupingMultiplier: 1
@@ -1620,8 +1619,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cbf5cbdab642374db723810e54551ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Priority: 0
   Atsc: {fileID: 0}
+  Index: 0
+  Mirror: 0
   Multiplier: 20
   rotationSpeed: 0
   zPositionModifier: 1
@@ -1674,7 +1674,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7285cbde1ee0d6b478bef7ca99e5fc9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Priority: 0
   Atsc: {fileID: 0}
   RingFilter: 0
   RingCount: 32
@@ -1804,8 +1803,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cbf5cbdab642374db723810e54551ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Priority: 0
   Atsc: {fileID: 0}
+  Index: 0
+  Mirror: 1
   Multiplier: 20
   rotationSpeed: 0
   zPositionModifier: 1
@@ -1963,8 +1963,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cbf5cbdab642374db723810e54551ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Priority: 0
   Atsc: {fileID: 0}
+  Index: 0
+  Mirror: 1
   Multiplier: 20
   rotationSpeed: 0
   zPositionModifier: 1
@@ -2346,8 +2347,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cbf5cbdab642374db723810e54551ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Priority: 0
   Atsc: {fileID: 0}
+  Index: 0
+  Mirror: 0
   Multiplier: 20
   rotationSpeed: 0
   zPositionModifier: 1
@@ -2471,7 +2473,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Priority: 0
   Atsc: {fileID: 0}
   DisableCustomInitialization: 0
   GroupingMultiplier: 1
@@ -2610,8 +2611,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cbf5cbdab642374db723810e54551ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Priority: 0
   Atsc: {fileID: 0}
+  Index: 0
+  Mirror: 0
   Multiplier: 20
   rotationSpeed: 0
   zPositionModifier: 1
@@ -3041,7 +3043,6 @@ MonoBehaviour:
   DisablableObjects:
   - {fileID: 2552003690859479661}
   - {fileID: 1534315871994891671}
-  NormalMapScale: 2
 --- !u!1 &3102222218934345648
 GameObject:
   m_ObjectHideFlags: 0
@@ -4590,8 +4591,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cbf5cbdab642374db723810e54551ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Priority: 0
   Atsc: {fileID: 0}
+  Index: 0
+  Mirror: 1
   Multiplier: 20
   rotationSpeed: 0
   zPositionModifier: 1
@@ -4643,8 +4645,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cbf5cbdab642374db723810e54551ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Priority: 0
   Atsc: {fileID: 0}
+  Index: 0
+  Mirror: 0
   Multiplier: 20
   rotationSpeed: 0
   zPositionModifier: 1
@@ -5609,8 +5612,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cbf5cbdab642374db723810e54551ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Priority: 0
   Atsc: {fileID: 0}
+  Index: 0
+  Mirror: 1
   Multiplier: 20
   rotationSpeed: 0
   zPositionModifier: 1
@@ -6701,7 +6705,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Priority: 0
   Atsc: {fileID: 0}
   DisableCustomInitialization: 0
   GroupingMultiplier: 1
@@ -7527,7 +7530,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7285cbde1ee0d6b478bef7ca99e5fc9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Priority: 0
   Atsc: {fileID: 0}
   RingFilter: 0
   RingCount: 15
@@ -7572,7 +7574,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Priority: 0
   Atsc: {fileID: 0}
   DisableCustomInitialization: 0
   GroupingMultiplier: 1
@@ -7926,7 +7927,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Priority: 0
   Atsc: {fileID: 0}
   DisableCustomInitialization: 0
   GroupingMultiplier: 1

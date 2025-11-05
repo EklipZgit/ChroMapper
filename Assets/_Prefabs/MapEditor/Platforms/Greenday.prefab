@@ -307,7 +307,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Priority: 0
   Atsc: {fileID: 0}
   DisableCustomInitialization: 0
   GroupingMultiplier: 1
@@ -327,7 +326,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7285cbde1ee0d6b478bef7ca99e5fc9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Priority: 0
   Atsc: {fileID: 0}
   RingFilter: 0
   RingCount: 30
@@ -581,6 +579,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 752722363464338548, guid: 5141c7cd438ea7940917150e9fa6fdfd,
+        type: 3}
+      propertyPath: Mirror
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1281712254466890923, guid: 5141c7cd438ea7940917150e9fa6fdfd,
+        type: 3}
+      propertyPath: Mirror
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2010943317262422775, guid: 5141c7cd438ea7940917150e9fa6fdfd,
         type: 3}
       propertyPath: BigRingManager
@@ -601,6 +609,11 @@ PrefabInstance:
       propertyPath: 'DisablableObjects.Array.data[3]'
       value: 
       objectReference: {fileID: 2868668295028880199}
+    - target: {fileID: 2856393478847149688, guid: 5141c7cd438ea7940917150e9fa6fdfd,
+        type: 3}
+      propertyPath: Mirror
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3433253807037243112, guid: 5141c7cd438ea7940917150e9fa6fdfd,
         type: 3}
       propertyPath: EditorToGamePropIDMap.Array.size
@@ -620,6 +633,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4354845028162586425, guid: 5141c7cd438ea7940917150e9fa6fdfd,
+        type: 3}
+      propertyPath: Mirror
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4834971801458023724, guid: 5141c7cd438ea7940917150e9fa6fdfd,
+        type: 3}
+      propertyPath: Mirror
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6660000313464807454, guid: 5141c7cd438ea7940917150e9fa6fdfd,
         type: 3}
@@ -680,6 +703,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6819068555234072033, guid: 5141c7cd438ea7940917150e9fa6fdfd,
+        type: 3}
+      propertyPath: Mirror
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7713323950118512505, guid: 5141c7cd438ea7940917150e9fa6fdfd,
         type: 3}
