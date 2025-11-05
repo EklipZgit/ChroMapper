@@ -6,15 +6,17 @@ using UnityEngine;
 public class Track : MonoBehaviour
 {
     public Transform ObjectParentTransform;
+    public VariableNJSProvider vNjsProvider;
 
     public Vector3 RotationValue = Vector3.zero;
 
     private readonly Vector3 rotationPoint = LoadInitialMap.PlatformOffset;
 
     public BaseGrid Object;
+    private float spawnTime;
     private float spawnPosition;
-    private float despawnPosition;
     private float despawnTime;
+    private float despawnPosition;
 
     // this number pulled from my ass, but it looks fine
     // oh, it's actually correct
@@ -22,6 +24,12 @@ public class Track : MonoBehaviour
 
     // this number also pulled from my ass, song bpm time
     public const float JUMP_TIME = 2f;
+
+    // gonna need to find better way to attach this
+    public void Awake() => vNjsProvider = FindAnyObjectByType<VariableNJSProvider>();
+
+    public void OnEnable() => vNjsProvider.OnChanged += UpdateState;
+    public void OnDisable() => vNjsProvider.OnChanged -= UpdateState;
 
     public void AssignRotationValue(Vector3 rotation)
     {
@@ -33,8 +41,10 @@ public class Track : MonoBehaviour
 
     public void UpdatePosition(float position)
     {
-        ObjectParentTransform.localPosition = new Vector3(ObjectParentTransform.localPosition.x,
-            ObjectParentTransform.localPosition.y, position);
+        ObjectParentTransform.localPosition = new Vector3(
+            ObjectParentTransform.localPosition.x,
+            ObjectParentTransform.localPosition.y,
+            position);
     }
 
     public void UpdateTime(float time)
@@ -44,19 +54,17 @@ public class Track : MonoBehaviour
         var position = ObjectParentTransform.localPosition;
 
         // Jump in
-        if (time < Object.SpawnSongBpmTime)
+        if (time < spawnTime)
         {
-            z = ((Object.CustomSpawnEffect ?? !v2) ^ v2) ? Mathf.Lerp(spawnPosition, JUMP_FAR, (Object.SpawnSongBpmTime - time) / JUMP_TIME) : JUMP_FAR;
+            z = (Object.CustomSpawnEffect ?? !v2) ^ v2
+                ? Mathf.Lerp(spawnPosition, JUMP_FAR, (spawnTime - time) / JUMP_TIME)
+                : JUMP_FAR;
         }
         else if (time < despawnTime)
-        {
-            z = Mathf.Lerp(spawnPosition, despawnPosition, (time - Object.SpawnSongBpmTime) / (despawnTime - Object.SpawnSongBpmTime));
-        }
+            z = Mathf.Lerp(spawnPosition, despawnPosition, (time - spawnTime) / (despawnTime - spawnTime));
         // Jump out
         else
-        {
             z = Mathf.Lerp(despawnPosition, -JUMP_FAR, (time - despawnTime) / JUMP_TIME);
-        }
 
         position.z = z;
 
@@ -64,8 +72,8 @@ public class Track : MonoBehaviour
         if (Object is BaseNote note)
         {
             // Normalized [0-1] between despawn time and spawn time
-            var normalizedLifetime = Mathf.Clamp01(Mathf.InverseLerp(Object.DespawnSongBpmTime, Object.SpawnSongBpmTime, time));
-            
+            var normalizedLifetime = Mathf.Clamp01(Mathf.InverseLerp(Object.DespawnSongBpmTime, spawnTime, time));
+
             // [0-1] between spawn time and note time
             // 0.3 magic number taken from ArcViewer (thanks polandball)
             var spawnLifetime = Mathf.Clamp01(1 - ((normalizedLifetime - 0.5f) * 2));
@@ -75,7 +83,6 @@ public class Track : MonoBehaviour
             var jumpT = Easing.Quadratic.Out(spawnLifetime);
             var rotationT = Easing.Quadratic.Out(rotationLifetime);
 
-            // Magic 1.1 number comes from ObjectContainer.offsetY which is currently protected
             // TODO: Pre-compute starting position so notes can stack and flip can be supported
             //   (Notes need to be aware of other notes)
             position.y = Mathf.Lerp(0.5f, note.GetPosition().y + 0.5f, jumpT);
@@ -85,18 +92,38 @@ public class Track : MonoBehaviour
             {
                 // OK this is hacky i sincerely apologize
                 var containerCollection = BeatmapObjectContainerCollection.GetCollectionForType(note.ObjectType);
-                
-                if (containerCollection.LoadedContainers.TryGetValue(Object, out var container) && container is NoteContainer noteContainer)
+
+                if (containerCollection.LoadedContainers.TryGetValue(Object, out var container)
+                    && container is NoteContainer noteContainer)
                 {
                     var quaternion = Quaternion.Euler(noteContainer.DirectionTargetEuler);
 
-                    noteContainer.DirectionTarget.localRotation = Quaternion.Lerp(Quaternion.identity, quaternion, rotationT);
+                    noteContainer.DirectionTarget.localRotation = Quaternion.Lerp(
+                        Quaternion.identity,
+                        quaternion,
+                        rotationT);
                 }
             }
-
         }
 
         ObjectParentTransform.localPosition = position;
+    }
+
+    public void UpdateState()
+    {
+        if (Object == null) return;
+        spawnTime = Object.SongBpmTime - vNjsProvider.HalfJumpDurationInBeats;
+        spawnPosition = vNjsProvider.JumpDistance;
+        if (Object is BaseObstacle obs)
+        {
+            despawnPosition = -vNjsProvider.HalfJumpDistance - (obs.DurationSongBpm * obs.EditorScale);
+            despawnTime = obs.SongBpmTime + obs.DurationSongBpm + (vNjsProvider.HalfJumpDurationInBeats * 0.5f);
+        }
+        else
+        {
+            despawnPosition = -vNjsProvider.JumpDistance;
+            despawnTime = Object.SongBpmTime + vNjsProvider.HalfJumpDurationInBeats;
+        }
     }
 
     public void AttachContainer(ObjectContainer obj)
@@ -105,20 +132,10 @@ public class Track : MonoBehaviour
         if (obj.transform.parent == ObjectParentTransform) return;
         obj.transform.SetParent(ObjectParentTransform, false);
         obj.AssignTrack(this);
-        if (obj.ObjectData is BaseGrid g) {
-            Object = g;
-            spawnPosition = Object.Jd;
-            if (Object is BaseObstacle obs)
-            {
-                despawnPosition = -(Object.Jd * 0.5f) - (obs.DurationSongBpm * obs.EditorScale);
-                despawnTime = obs.SongBpmTime + obs.DurationSongBpm + (obs.Hjd * 0.5f);
-            }
-            else
-            {
-                despawnPosition = -Object.Jd;
-                despawnTime = Object.DespawnSongBpmTime;
-            }
-        }
+
+        if (obj.ObjectData is not BaseGrid g) return;
+        Object = g;
+        UpdateState();
     }
 
     public void UpdateMaterialRotation(ObjectContainer obj)
