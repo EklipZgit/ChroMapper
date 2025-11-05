@@ -108,15 +108,15 @@ public class Track : MonoBehaviour
         if (!UIMode.PreviewMode) return;
         if (gridObject == null) return;
         spawnTime = gridObject.SongBpmTime - vNjsProvider.HalfJumpDurationInBeats;
-        spawnPosition = vNjsProvider.JumpDistance;
+        spawnPosition = vNjsProvider.JumpDistanceScaled;
         if (gridObject is BaseObstacle obs)
         {
-            despawnPosition = -vNjsProvider.HalfJumpDistance - (obs.DurationSongBpm * vNjsProvider.EditorScale);
+            despawnPosition = -vNjsProvider.HalfJumpDistanceScaled - (obs.DurationSongBpm * vNjsProvider.EditorScale);
             despawnTime = obs.SongBpmTime + obs.DurationSongBpm + (vNjsProvider.HalfJumpDurationInBeats * 0.5f);
         }
         else
         {
-            despawnPosition = -vNjsProvider.JumpDistance;
+            despawnPosition = -vNjsProvider.JumpDistanceScaled;
             despawnTime = gridObject.SongBpmTime + vNjsProvider.HalfJumpDurationInBeats;
         }
 

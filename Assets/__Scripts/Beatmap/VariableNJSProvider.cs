@@ -9,16 +9,22 @@ public class VariableNJSProvider : StateManager<VariableNJSStateData, BaseNJSEve
 
     public float JumpDuration;
     public float JumpDistance;
+    public float JumpDistanceScaled; // due to different scaling, use this to position object
 
     public float HalfJumpDurationInBeats;
     public float HalfJumpDuration;
     public float HalfJumpDistance;
+    public float HalfJumpDistanceScaled;
 
     public float EditorScale;
 
-    [Header("Cached Value")] public float BaseNoteJumpSpeed;
+    [Header("Cached")] public float BaseBeatPerMinute;
+    public float BaseNoteJumpSpeed;
     public float BaseHalfJumpDurationInBeats;
     public float OneBeatDuration;
+
+    public float MinOffset;
+    public float MaxOffset;
 
     public event Action OnChanged;
 
@@ -26,14 +32,15 @@ public class VariableNJSProvider : StateManager<VariableNJSStateData, BaseNJSEve
 
     public override void Initialize()
     {
-        var bpm = BeatSaberSongContainer.Instance.Info.BeatsPerMinute;
+        BaseBeatPerMinute = BeatSaberSongContainer.Instance.Info.BeatsPerMinute;
         BaseNoteJumpSpeed = BeatSaberSongContainer.Instance.MapDifficultyInfo.NoteJumpSpeed;
+        var offset = BeatSaberSongContainer.Instance.MapDifficultyInfo.NoteStartBeatOffset;
 
-        OneBeatDuration = 60f / bpm;
-        BaseHalfJumpDurationInBeats = SpawnParameterHelper.CalculateHalfJumpDuration(
+        OneBeatDuration = 60f / BaseBeatPerMinute;
+        MinOffset = MaxOffset = BaseHalfJumpDurationInBeats = SpawnParameterHelper.CalculateHalfJumpDuration(
             BaseNoteJumpSpeed,
-            BeatSaberSongContainer.Instance.MapDifficultyInfo.NoteStartBeatOffset,
-            bpm);
+            offset,
+            BaseBeatPerMinute);
 
         InitializeStates(
             stateChunksContainer,
@@ -63,15 +70,17 @@ public class VariableNJSProvider : StateManager<VariableNJSStateData, BaseNJSEve
 
     public void UpdateState()
     {
+        EditorScale = 100f * NoteJumpSpeed / BaseBeatPerMinute;
+
         var factor = Mathf.Min(NoteJumpSpeed / BaseNoteJumpSpeed, 1f);
         HalfJumpDuration = OneBeatDuration * BaseHalfJumpDurationInBeats / factor;
         HalfJumpDurationInBeats = Atsc.GetBeatFromSeconds(HalfJumpDuration);
         JumpDuration = HalfJumpDuration * 2f;
 
         JumpDistance = NoteJumpSpeed * JumpDuration;
+        JumpDistanceScaled = HalfJumpDurationInBeats * EditorScale;
         HalfJumpDistance = JumpDistance * 0.5f;
-
-        EditorScale = 2f * NoteJumpSpeed * OneBeatDuration;
+        HalfJumpDistanceScaled = JumpDistanceScaled * 0.5f;
 
         OnChanged?.Invoke();
     }
