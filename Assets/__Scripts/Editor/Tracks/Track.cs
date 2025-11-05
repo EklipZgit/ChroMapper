@@ -12,7 +12,8 @@ public class Track : MonoBehaviour
 
     private readonly Vector3 rotationPoint = LoadInitialMap.PlatformOffset;
 
-    public BaseGrid Object;
+    private BaseGrid gridObject;
+    private ObjectContainer gridContainer;
     private float spawnTime;
     private float spawnPosition;
     private float despawnTime;
@@ -50,13 +51,13 @@ public class Track : MonoBehaviour
     public void UpdateTime(float time)
     {
         var z = 0f;
-        var v2 = Object is V2Object;
+        var v2 = gridObject is V2Object;
         var position = ObjectParentTransform.localPosition;
 
         // Jump in
         if (time < spawnTime)
         {
-            z = (Object.CustomSpawnEffect ?? !v2) ^ v2
+            z = (gridObject.CustomSpawnEffect ?? !v2) ^ v2
                 ? Mathf.Lerp(spawnPosition, JUMP_FAR, (spawnTime - time) / JUMP_TIME)
                 : JUMP_FAR;
         }
@@ -69,10 +70,10 @@ public class Track : MonoBehaviour
         position.z = z;
 
         // oh yeah you know its good when things start with a check like this
-        if (Object is BaseNote note)
+        if (gridObject is BaseNote note)
         {
             // Normalized [0-1] between despawn time and spawn time
-            var normalizedLifetime = Mathf.Clamp01(Mathf.InverseLerp(Object.DespawnSongBpmTime, spawnTime, time));
+            var normalizedLifetime = Mathf.Clamp01(Mathf.InverseLerp(gridObject.DespawnSongBpmTime, spawnTime, time));
 
             // [0-1] between spawn time and note time
             // 0.3 magic number taken from ArcViewer (thanks polandball)
@@ -88,21 +89,14 @@ public class Track : MonoBehaviour
             position.y = Mathf.Lerp(0.5f, note.GetPosition().y + 0.5f, jumpT);
 
             // Multiply euler rotation by spawn lifetime if we are in the first half (spawning) portion of our object lifetime
-            if (normalizedLifetime >= 0.5f)
+            if (normalizedLifetime >= 0.5f && gridContainer is NoteContainer noteContainer)
             {
-                // OK this is hacky i sincerely apologize
-                var containerCollection = BeatmapObjectContainerCollection.GetCollectionForType(note.ObjectType);
+                var quaternion = Quaternion.Euler(noteContainer.DirectionTargetEuler);
 
-                if (containerCollection.LoadedContainers.TryGetValue(Object, out var container)
-                    && container is NoteContainer noteContainer)
-                {
-                    var quaternion = Quaternion.Euler(noteContainer.DirectionTargetEuler);
-
-                    noteContainer.DirectionTarget.localRotation = Quaternion.Lerp(
-                        Quaternion.identity,
-                        quaternion,
-                        rotationT);
-                }
+                noteContainer.DirectionTarget.localRotation = Quaternion.Lerp(
+                    Quaternion.identity,
+                    quaternion,
+                    rotationT);
             }
         }
 
@@ -111,19 +105,23 @@ public class Track : MonoBehaviour
 
     public void UpdateState()
     {
-        if (Object == null) return;
-        spawnTime = Object.SongBpmTime - vNjsProvider.HalfJumpDurationInBeats;
+        if (!UIMode.PreviewMode) return;
+        if (gridObject == null) return;
+        spawnTime = gridObject.SongBpmTime - vNjsProvider.HalfJumpDurationInBeats;
         spawnPosition = vNjsProvider.JumpDistance;
-        if (Object is BaseObstacle obs)
+        if (gridObject is BaseObstacle obs)
         {
-            despawnPosition = -vNjsProvider.HalfJumpDistance - (obs.DurationSongBpm * obs.EditorScale);
+            despawnPosition = -vNjsProvider.HalfJumpDistance - (obs.DurationSongBpm * vNjsProvider.EditorScale);
             despawnTime = obs.SongBpmTime + obs.DurationSongBpm + (vNjsProvider.HalfJumpDurationInBeats * 0.5f);
         }
         else
         {
             despawnPosition = -vNjsProvider.JumpDistance;
-            despawnTime = Object.SongBpmTime + vNjsProvider.HalfJumpDurationInBeats;
+            despawnTime = gridObject.SongBpmTime + vNjsProvider.HalfJumpDurationInBeats;
         }
+
+        // ok but why do i have to check twice
+        if (gridContainer.ObjectData != null) gridContainer.UpdateScalable(vNjsProvider.EditorScale);
     }
 
     public void AttachContainer(ObjectContainer obj)
@@ -134,7 +132,8 @@ public class Track : MonoBehaviour
         obj.AssignTrack(this);
 
         if (obj.ObjectData is not BaseGrid g) return;
-        Object = g;
+        gridContainer = obj;
+        gridObject = g;
         UpdateState();
     }
 

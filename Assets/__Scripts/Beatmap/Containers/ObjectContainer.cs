@@ -58,6 +58,8 @@ namespace Beatmap.Containers
         {
             if (active != gameObject.activeSelf) gameObject.SetActive(active);
         }
+        
+        public virtual void UpdateScalable(float scale) {}
 
         internal virtual void UpdateMaterials()
         {

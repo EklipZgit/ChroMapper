@@ -53,7 +53,7 @@ namespace Beatmap.Containers
         public void SetScale(Vector3 scale)
         {
             ObstacleScale = scale;
-            
+
             scale.x *= 0.98f;
             var cubeOffset = scale / 2f;
             cubeOffset.x = 0f;
@@ -74,7 +74,7 @@ namespace Beatmap.Containers
             UpdateMaterials();
         }
 
-        public float GetLength()
+        public float GetLength(float scale)
         {
             if (ObstacleData.CustomSize != null
                 && ObstacleData.CustomSize.IsArray
@@ -87,38 +87,56 @@ namespace Beatmap.Containers
             if (ObstacleData.Duration < 0 && Settings.Instance.ShowMoreAccurateFastWalls && !UIMode.AnimationMode)
                 length -= length * Mathf.Abs(length / ObstacleData.Hjd);
 
-            length *= UIMode.AnimationMode
-                ? ObstacleData.EditorScale
-                : EditorScaleController.EditorScale;
+            length *= scale;
 
             return float.IsFinite(length) ? length : float.Epsilon;
         }
 
-        public (Vector3 size, Vector3 position) ReadSizePosition()
+        public Vector3 ReadSize()
         {
-            var length = Mathf.Abs(GetLength());
-
             var bounds = ObstacleData.GetShape();
 
-            return (
-                new Vector3(
-                    Mathf.Abs(bounds.Width),
-                    Mathf.Abs(bounds.Height),
-                    length
-                ),
-                new Vector3(
-                    bounds.Position + (bounds.Width / 2.0f),
-                    bounds.StartHeight + (bounds.Height < 0 ? bounds.Height : 0),
-                    0
-                )
+            return new Vector3(
+                Mathf.Abs(bounds.Width),
+                Mathf.Abs(bounds.Height),
+                0f
             );
+        }
+
+        public Vector3 ReadPosition()
+        {
+            var bounds = ObstacleData.GetShape();
+
+            return new Vector3(
+                bounds.Position + (bounds.Width / 2.0f),
+                bounds.StartHeight + (bounds.Height < 0f ? bounds.Height : 0f),
+                0f
+            );
+        }
+
+        public void UpdateScaleWithLength(float length)
+        {
+            var size = ReadSize();
+            size.z = length;
+            SetScale(size);
+        }
+
+        public override void UpdateScalable(float scale)
+        {
+            var length = Mathf.Abs(GetLength(scale));
+            var size = ReadSize();
+            size.z = length;
+            SetScale(size);
         }
 
         public override void UpdateGridPosition()
         {
             var localRotation = Vector3.zero;
-            var length = GetLength();
-            var (size, position) = ReadSizePosition();
+            var length = GetLength(
+                UIMode.AnimationMode
+                    ? ObstacleData.EditorScale
+                    : EditorScaleController.EditorScale);
+            var position = ReadPosition();
 
             if (ObstacleData.CustomLocalRotation != null)
                 localRotation = ObstacleData.CustomLocalRotation.ReadVector3();
@@ -132,12 +150,12 @@ namespace Beatmap.Containers
 
             // Enforce positive scale, offset our obstacles to match.
             transform.localPosition = new Vector3(
-                0,
+                0f,
                 -0.5f,
-                (ObstacleData.SongBpmTime * EditorScaleController.EditorScale) + (length < 0 ? length : 0));
+                (ObstacleData.SongBpmTime * EditorScaleController.EditorScale) + (length < 0f ? length : 0f));
             Animator.LocalTarget.localPosition = position;
 
-            SetScale(size);
+            UpdateScaleWithLength(length);
 
             if (localRotation != Vector3.zero)
             {

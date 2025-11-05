@@ -14,6 +14,8 @@ public class VariableNJSProvider : StateManager<VariableNJSStateData, BaseNJSEve
     public float HalfJumpDuration;
     public float HalfJumpDistance;
 
+    public float EditorScale;
+
     [Header("Cached Value")] public float BaseNoteJumpSpeed;
     public float BaseHalfJumpDurationInBeats;
     public float OneBeatDuration;
@@ -68,6 +70,8 @@ public class VariableNJSProvider : StateManager<VariableNJSStateData, BaseNJSEve
 
         JumpDistance = NoteJumpSpeed * JumpDuration;
         HalfJumpDistance = JumpDistance * 0.5f;
+
+        EditorScale = 2f * NoteJumpSpeed * OneBeatDuration;
 
         OnChanged?.Invoke();
     }
