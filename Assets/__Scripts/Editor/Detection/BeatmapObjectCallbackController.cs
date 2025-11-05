@@ -9,16 +9,19 @@ public class BeatmapObjectCallbackController : MonoBehaviour
     private static readonly int eventsToLookAhead = 75;
     private static readonly int notesToLookAhead = 25;
 
-    [FormerlySerializedAs("notesContainer")][SerializeField] private NoteGridContainer noteGridContainer;
-    [FormerlySerializedAs("eventsContainer")][SerializeField] private EventGridContainer eventGridContainer;
+    [FormerlySerializedAs("notesContainer")] [SerializeField]
+    private NoteGridContainer noteGridContainer;
+
+    [FormerlySerializedAs("eventsContainer")] [SerializeField]
+    private EventGridContainer eventGridContainer;
 
     [SerializeField] private AudioTimeSyncController timeSyncController;
+    [SerializeField] private VariableNJSProvider vNjsProvider;
     [SerializeField] private UIMode uiMode;
 
     [SerializeField] private bool useOffsetFromConfig = true;
 
-    [Tooltip("Whether or not to use the Despawn or Spawn offset from settings.")]
-    [SerializeField]
+    [Tooltip("Whether or not to use the Despawn or Spawn offset from settings.")] [SerializeField]
     private bool useDespawnOffset;
 
     [FormerlySerializedAs("offset")] public float Offset;
@@ -39,7 +42,8 @@ public class BeatmapObjectCallbackController : MonoBehaviour
     public event Action<bool, int> OnRecursiveChainCheckFinished;
 
     /// v3 version fields
-    [FormerlySerializedAs("chainsContainer")][SerializeField] private ChainGridContainer chainGridContainer;
+    [FormerlySerializedAs("chainsContainer")] [SerializeField]
+    private ChainGridContainer chainGridContainer;
 
     private static readonly int obstacleFadeRadius = Shader.PropertyToID("_ObstacleFadeRadius");
 
@@ -52,7 +56,7 @@ public class BeatmapObjectCallbackController : MonoBehaviour
         chainGridContainer.OnObjectSpawned += ChainGridContainerOnObjectSpawned;
         chainGridContainer.OnObjectDeleted += ChainGridContainerOnObjectDeleted;
     }
-    
+
     private void OnDestroy()
     {
         noteGridContainer.OnObjectSpawned -= NoteGridContainerOnObjectSpawned;
@@ -62,7 +66,7 @@ public class BeatmapObjectCallbackController : MonoBehaviour
         chainGridContainer.OnObjectSpawned -= ChainGridContainerOnObjectSpawned;
         chainGridContainer.OnObjectDeleted -= ChainGridContainerOnObjectDeleted;
     }
-    
+
     private void LateUpdate()
     {
         if (useOffsetFromConfig)
@@ -70,16 +74,9 @@ public class BeatmapObjectCallbackController : MonoBehaviour
             if (UIMode.SelectedMode is UIModeType.Playing or UIModeType.Preview)
             {
                 if (useDespawnOffset)
-                {
                     Offset = 0;
-                }
                 else
-                {
-                    var songNoteJumpSpeed = BeatSaberSongContainer.Instance.MapDifficultyInfo.NoteJumpSpeed;
-                    var songStartBeatOffset = BeatSaberSongContainer.Instance.MapDifficultyInfo.NoteStartBeatOffset;
-                    var bpm = BeatSaberSongContainer.Instance.Info.BeatsPerMinute;
-                    Offset = SpawnParameterHelper.CalculateHalfJumpDuration(songNoteJumpSpeed, songStartBeatOffset, bpm);
-                }
+                    Offset = vNjsProvider.HalfJumpDurationInBeats;
             }
             else
             {
@@ -88,7 +85,8 @@ public class BeatmapObjectCallbackController : MonoBehaviour
                     : Settings.Instance.Offset_Spawning;
             }
 
-            if (!useDespawnOffset) Shader.SetGlobalFloat(obstacleFadeRadius, Offset * EditorScaleController.EditorScale);
+            if (!useDespawnOffset)
+                Shader.SetGlobalFloat(obstacleFadeRadius, Offset * EditorScaleController.EditorScale);
         }
 
         if (timeSyncController.IsPlaying)
@@ -156,7 +154,7 @@ public class BeatmapObjectCallbackController : MonoBehaviour
         while (nextNoteIndex < objects.Count)
         {
             var obj = objects[nextNoteIndex];
-            var offset = useAnimationsOffset ? obj.Hjd + Track.JUMP_TIME : Offset;
+            var offset = useAnimationsOffset ? vNjsProvider.HalfJumpDurationInBeats + Track.JUMP_TIME : Offset;
 
             if (obj.SongBpmTime > curTime + offset) return;
 
@@ -188,7 +186,7 @@ public class BeatmapObjectCallbackController : MonoBehaviour
         while (nextChainIndex < objects.Count)
         {
             var obj = objects[nextChainIndex];
-            var offset = useAnimationsOffset ? obj.Hjd + Track.JUMP_TIME : Offset;
+            var offset = useAnimationsOffset ? vNjsProvider.HalfJumpDurationInBeats + Track.JUMP_TIME : Offset;
 
             if (obj.TailSongBpmTime > curTime + offset) return;
 
