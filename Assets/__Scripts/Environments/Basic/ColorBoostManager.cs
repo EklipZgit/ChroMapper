@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Beatmap.Base;
 
-public class ColorBoostStateManager : BasicEventStateManager<ColorBoostStateData>
+public class ColorBoostManager : BasicEventStateManager<ColorBoostStateData>
 {
     private readonly BasicEventStateChunksContainer<ColorBoostStateData> stateChunksContainer = new();
     public bool Boost;

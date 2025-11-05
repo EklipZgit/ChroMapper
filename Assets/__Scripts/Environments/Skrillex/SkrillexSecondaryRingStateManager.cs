@@ -1,9 +1,9 @@
 ﻿using Beatmap.Base;
 using UnityEngine;
 
-public class SkrillexSecondaryRingStateManager : TrackLaneRingsStateManager
+public class SkrillexSecondaryRingManager : TrackLaneRingsManager
 {
-    [SerializeField] private InterscopeRingLaserStateManager[] laserManagers;
+    [SerializeField] private InterscopeRingLaserManager[] laserManagers;
 
     protected override bool IsAffectedByZoom() => true;
 

@@ -3,7 +3,7 @@ using Beatmap.Base;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class RotatingLightsStateManager : RotatingLightsStateManagerBase
+public class RotatingLightsManager : RotatingLightsManagerBase
 {
     [FormerlySerializedAs("multiplier")] public float Multiplier = 20;
     [SerializeField] private float rotationSpeed;

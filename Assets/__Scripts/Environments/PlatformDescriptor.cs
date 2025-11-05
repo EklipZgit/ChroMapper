@@ -11,16 +11,16 @@ using UnityEngine.Serialization;
 public class PlatformDescriptor : MonoBehaviour
 {
     [Header("Rings")] [Tooltip("Leave null if you do not want small rings.")]
-    public TrackLaneRingsStateManager SmallRingStateManager;
+    public TrackLaneRingsManager SmallRingManager;
 
     [Tooltip("Leave null if you do not want big rings.")]
-    public TrackLaneRingsStateManagerBase BigRingStateManager;
+    public TrackLaneRingsManagerBase BigRingManager;
 
-    [FormerlySerializedAs("DiskManager")] [Tooltip("Leave null if you do not want gaga environment disks.")]
-    public GagaDiskStateManager DiskStateManager;
+    [Tooltip("Leave null if you do not want gaga environment disks.")]
+    public GagaDiskManager DiskManager;
 
     [Header("Lighting Groups")] [Tooltip("Manually map an Event ID (Index) to a group of lights (LightingManagers)")]
-    public BasicLightStateManager[] LightingManagers = { };
+    public BasicLightManager[] LightingManagers = { };
 
     [Tooltip("If you want a thing to rotate around a 360 level with the track, place it here.")]
     public GridRotationController RotationController;
@@ -39,7 +39,7 @@ public class PlatformDescriptor : MonoBehaviour
     public GameObject[] DisablableObjects;
 
     private AudioTimeSyncController atsc;
-    private ColorBoostStateManager colorBoostStateManager;
+    private ColorBoostManager colorBoostManager;
 
     public readonly Dictionary<int, List<StateManager<BaseEvent>>> EventTypeManagerMap = new();
     public readonly List<StateManager<BaseEvent>> SortedPriorityManagers = new();
@@ -52,7 +52,7 @@ public class PlatformDescriptor : MonoBehaviour
     // loading happens too fast now
     private void Awake()
     {
-        colorBoostStateManager = gameObject.AddComponent<ColorBoostStateManager>();
+        colorBoostManager = gameObject.AddComponent<ColorBoostManager>();
 
         if (SceneManager.GetActiveScene().name != "999_PrefabBuilding")
         {
@@ -70,7 +70,7 @@ public class PlatformDescriptor : MonoBehaviour
         }
 
         foreach (var manager in LightingManagers.Where(manager => manager != null))
-            colorBoostStateManager.OnStateChanged -= manager.ToggleBoostState;
+            colorBoostManager.OnStateChanged -= manager.ToggleBoost;
     }
 
     private void HandleLevelLoaded()
@@ -93,9 +93,9 @@ public class PlatformDescriptor : MonoBehaviour
     {
         yield return new WaitForEndOfFrame(); // Actually wait for platform to fully load from Awake and Start
 
-        BasicLightStateManager.FlashTimeBeat = atsc.GetBeatFromSeconds(BasicLightStateManager.FlashTimeSecond);
-        BasicLightStateManager.FadeTimeBeat = atsc.GetBeatFromSeconds(BasicLightStateManager.FadeTimeSecond);
-        BasicLightStateManager.ColorScheme = ColorScheme;
+        BasicLightManager.FlashTimeBeat = atsc.GetBeatFromSeconds(BasicLightManager.FlashTimeSecond);
+        BasicLightManager.FadeTimeBeat = atsc.GetBeatFromSeconds(BasicLightManager.FadeTimeSecond);
+        BasicLightManager.ColorScheme = ColorScheme;
 
         SortedPriorityManagers.Clear();
         EventTypeManagerMap.Clear();
@@ -104,37 +104,37 @@ public class PlatformDescriptor : MonoBehaviour
         {
             var manager = LightingManagers[type];
             if (manager is null) continue;
-            colorBoostStateManager.OnStateChanged += manager.ToggleBoostState;
+            colorBoostManager.OnStateChanged += manager.ToggleBoost;
             MapEventManager(manager, type);
         }
 
-        MapEventManager(colorBoostStateManager, 5);
+        MapEventManager(colorBoostManager, 5);
 
-        if (BigRingStateManager != null)
+        if (BigRingManager != null)
         {
-            BigRingStateManager.RingFilter = RingFilter.Big;
-            MapEventManager(BigRingStateManager, 8);
-            MapEventManager(BigRingStateManager, 9);
+            BigRingManager.RingFilter = RingFilter.Big;
+            MapEventManager(BigRingManager, 8);
+            MapEventManager(BigRingManager, 9);
         }
 
-        if (SmallRingStateManager != null)
+        if (SmallRingManager != null)
         {
-            SmallRingStateManager.RingFilter = RingFilter.Small;
-            MapEventManager(SmallRingStateManager, 8);
-            MapEventManager(SmallRingStateManager, 9);
+            SmallRingManager.RingFilter = RingFilter.Small;
+            MapEventManager(SmallRingManager, 8);
+            MapEventManager(SmallRingManager, 9);
         }
 
-        if (DiskStateManager != null)
+        if (DiskManager != null)
         {
-            MapEventManager(DiskStateManager, 12);
-            MapEventManager(DiskStateManager, 13);
-            MapEventManager(DiskStateManager, 16);
-            MapEventManager(DiskStateManager, 17);
-            MapEventManager(DiskStateManager, 18);
-            MapEventManager(DiskStateManager, 19);
+            MapEventManager(DiskManager, 12);
+            MapEventManager(DiskManager, 13);
+            MapEventManager(DiskManager, 16);
+            MapEventManager(DiskManager, 17);
+            MapEventManager(DiskManager, 18);
+            MapEventManager(DiskManager, 19);
         }
 
-        foreach (var handler in GetComponentsInChildren<PlatformEventStateManager>())
+        foreach (var handler in GetComponentsInChildren<PlatformEventManager>())
         foreach (var type in handler.ListeningEventTypes)
             MapEventManager(handler, type);
 

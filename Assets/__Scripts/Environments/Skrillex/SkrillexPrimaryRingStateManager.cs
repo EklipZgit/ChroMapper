@@ -1,6 +1,6 @@
 ﻿using Beatmap.Base;
 
-public class SkrillexPrimaryRingStateManager : TrackLaneRingsStateManager
+public class SkrillexPrimaryRingManager : TrackLaneRingsManager
 {
     protected override bool IsAffectedByZoom() => true;
 

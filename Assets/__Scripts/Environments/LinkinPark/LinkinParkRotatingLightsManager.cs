@@ -3,7 +3,7 @@ using Beatmap.Base;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class LinkinParkRotatingLightsStateManager : RotatingLightsStateManagerBase
+public class LinkinParkRotatingLightsManager : RotatingLightsManagerBase
 {
     [FormerlySerializedAs("_rotationVector")][SerializeField] protected Vector3 RotationVector = Vector3.up;
 

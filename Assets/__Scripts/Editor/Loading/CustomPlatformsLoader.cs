@@ -277,7 +277,7 @@ public class CustomPlatformsLoader : MonoBehaviour
             var tubeLightsManager = platformDescriptor.LightingManagers[eventId];
             if (tubeLightsManager == null)
             {
-                tubeLightsManager = tubeLight.transform.parent.gameObject.AddComponent<BasicLightStateManager>();
+                tubeLightsManager = tubeLight.transform.parent.gameObject.AddComponent<BasicLightManager>();
                 tubeLightsManager.DisableCustomInitialization = true;
                 platformDescriptor.LightingManagers[eventId] = tubeLightsManager;
             }
@@ -337,7 +337,7 @@ public class CustomPlatformsLoader : MonoBehaviour
             var tubeLightsManager = platformDescriptor.LightingManagers[eventId];
             if (tubeLightsManager == null)
             {
-                tubeLightsManager = eventHandler.transform.parent.gameObject.AddComponent<BasicLightStateManager>();
+                tubeLightsManager = eventHandler.transform.parent.gameObject.AddComponent<BasicLightManager>();
                 tubeLightsManager.DisableCustomInitialization = true;
                 platformDescriptor.LightingManagers[eventId] = tubeLightsManager;
             }
@@ -371,7 +371,7 @@ public class CustomPlatformsLoader : MonoBehaviour
                     tempMaterial.SetColor(baseColor, Color.white);
                     tempMaterial.EnableKeyword("_EMISSION");
                     tempMaterial.SetColor(emissionColor,
-                        DefaultColors.Right * BasicLightStateManager.HDRIntensity);
+                        DefaultColors.Right * BasicLightManager.HDRIntensity);
                 }
 
                 if (tempMaterial.name.ToUpper().Contains("GLOW_RED"))
@@ -380,7 +380,7 @@ public class CustomPlatformsLoader : MonoBehaviour
                     tempMaterial.SetColor(baseColor, Color.white);
                     tempMaterial.EnableKeyword("_EMISSION");
                     tempMaterial.SetColor(emissionColor,
-                        DefaultColors.Left * BasicLightStateManager.HDRIntensity);
+                        DefaultColors.Left * BasicLightManager.HDRIntensity);
                 }
 
                 materials[i] = tempMaterial;
@@ -390,7 +390,7 @@ public class CustomPlatformsLoader : MonoBehaviour
         renderer.sharedMaterials = materials;
     }
 
-    private void SetRendererMaterials(Renderer renderer, BasicLightStateManager basicLightStateManager = null, float width = 1f)
+    private void SetRendererMaterials(Renderer renderer, BasicLightManager basicLightManager = null, float width = 1f)
     {
         var materials = renderer.sharedMaterials;
 
@@ -424,10 +424,10 @@ public class CustomPlatformsLoader : MonoBehaviour
 
         renderer.sharedMaterials = materials;
 
-        if (basicLightStateManager != null)
+        if (basicLightManager != null)
         {
             var le = renderer.gameObject.AddComponent<LightingObject>();
-            basicLightStateManager.ControllingLights.Add(le);
+            basicLightManager.ControllingLights.Add(le);
         }
     }
 
@@ -612,42 +612,42 @@ public class CustomPlatformsLoader : MonoBehaviour
 
     private void SetRings(GameObject gameObject, TrackRings trackRings, int ringCount)
     {
-        TrackLaneRingsStateManager ringStateManager;
+        TrackLaneRingsManager ringManager;
         //BigRing
         if (gameObject.name.ToLower().Contains("big") || gameObject.name.ToLower().Contains("outer") ||
             gameObject.name.ToLower().Equals("rings"))
         {
-            if (platformDescriptor.BigRingStateManager != null)
+            if (platformDescriptor.BigRingManager != null)
             {
-                foreach (var obj in platformDescriptor.BigRingStateManager.GetToDestroy())
+                foreach (var obj in platformDescriptor.BigRingManager.GetToDestroy())
                     Destroy(obj);
             }
 
-            platformDescriptor.BigRingStateManager = gameObject.AddComponent<TrackLaneRingsStateManager>();
+            platformDescriptor.BigRingManager = gameObject.AddComponent<TrackLaneRingsManager>();
             if (platformDescriptor.RotationController == null)
                 platformDescriptor.RotationController = gameObject.AddComponent<GridRotationController>();
-            if (platformDescriptor.BigRingStateManager is TrackLaneRingsStateManager tlrm)
-                ringStateManager = tlrm;
+            if (platformDescriptor.BigRingManager is TrackLaneRingsManager tlrm)
+                ringManager = tlrm;
             else
-                ringStateManager = null;
+                ringManager = null;
         }
         else
         {
-            if (platformDescriptor.SmallRingStateManager != null)
+            if (platformDescriptor.SmallRingManager != null)
             {
-                Destroy(platformDescriptor.SmallRingStateManager.RotationEffect);
-                Destroy(platformDescriptor.SmallRingStateManager);
+                Destroy(platformDescriptor.SmallRingManager.RotationEffect);
+                Destroy(platformDescriptor.SmallRingManager);
             }
 
-            platformDescriptor.SmallRingStateManager = gameObject.AddComponent<TrackLaneRingsStateManager>();
+            platformDescriptor.SmallRingManager = gameObject.AddComponent<TrackLaneRingsManager>();
 
 
             if (platformDescriptor.RotationController == null)
                 platformDescriptor.RotationController = gameObject.AddComponent<GridRotationController>();
-            ringStateManager = platformDescriptor.SmallRingStateManager;
+            ringManager = platformDescriptor.SmallRingManager;
         }
 
-        if (ringStateManager == null)
+        if (ringManager == null)
             return;
 
         //Also overwrite LightsManager if applicable
@@ -695,7 +695,7 @@ public class CustomPlatformsLoader : MonoBehaviour
             if (eventId > 0)
             {
                 var currentLightsManager = platformDescriptor.LightingManagers[eventId];
-                var newLightsManager = gameObject.AddComponent<BasicLightStateManager>();
+                var newLightsManager = gameObject.AddComponent<BasicLightManager>();
 
                 newLightsManager.ControllingLights = currentLightsManager.ControllingLights;
                 newLightsManager.RotatingLights = currentLightsManager.RotatingLights;
@@ -716,7 +716,7 @@ public class CustomPlatformsLoader : MonoBehaviour
 
             foreach (var renderer in meshRenderers) SetRendererMaterials(renderer, tubeLightsManager);
 
-            var newLightsManager = gameObject.AddComponent<BasicLightStateManager>();
+            var newLightsManager = gameObject.AddComponent<BasicLightManager>();
 
             newLightsManager.ControllingLights = tubeLightsManager.ControllingLights;
             newLightsManager.RotatingLights = tubeLightsManager.RotatingLights;
@@ -731,30 +731,30 @@ public class CustomPlatformsLoader : MonoBehaviour
         SetLightingEventsForTubeLights(trackRings.trackLaneRingPrefab);
 
         var tlr = trackRings.trackLaneRingPrefab.AddComponent<TrackLaneRing>();
-        ringStateManager.Prefab = tlr;
+        ringManager.Prefab = tlr;
 
-        ringStateManager.RingCount = trackRings.ringCount;
+        ringManager.RingCount = trackRings.ringCount;
         if (trackRings.useStepEffect)
         {
-            ringStateManager.MINPositionStep = trackRings.minPositionStep;
-            ringStateManager.MAXPositionStep = trackRings.maxPositionStep;
+            ringManager.MINPositionStep = trackRings.minPositionStep;
+            ringManager.MAXPositionStep = trackRings.maxPositionStep;
         }
         else
         {
-            ringStateManager.MINPositionStep = ringStateManager.MAXPositionStep = trackRings.ringPositionStep;
+            ringManager.MINPositionStep = ringManager.MAXPositionStep = trackRings.ringPositionStep;
         }
 
-        ringStateManager.MoveSpeed = trackRings.moveSpeed;
-        ringStateManager.RotationStep = trackRings.rotationStep;
-        ringStateManager.PropagationSpeed = Mathf.RoundToInt(trackRings.rotationPropagationSpeed);
-        ringStateManager.FlexySpeed = trackRings.rotationFlexySpeed;
+        ringManager.MoveSpeed = trackRings.moveSpeed;
+        ringManager.RotationStep = trackRings.rotationStep;
+        ringManager.PropagationSpeed = Mathf.RoundToInt(trackRings.rotationPropagationSpeed);
+        ringManager.FlexySpeed = trackRings.rotationFlexySpeed;
 
         if (trackRings.useRotationEffect)
         {
             var rotationEffect = gameObject.AddComponent<TrackLaneRingsRotationEffect>();
-            ringStateManager.RotationEffect = rotationEffect;
+            ringManager.RotationEffect = rotationEffect;
 
-            rotationEffect.StateManager = ringStateManager;
+            rotationEffect.Manager = ringManager;
             rotationEffect.StartupRotationAngle = trackRings.startupRotationAngle;
             rotationEffect.StartupRotationStep = trackRings.startupRotationStep;
             rotationEffect.StartupRotationPropagationSpeed =

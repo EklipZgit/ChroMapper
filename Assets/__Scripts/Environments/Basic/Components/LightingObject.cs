@@ -131,12 +131,12 @@ public class LightingObject : MonoBehaviour
         startTimeAlpha = stateData.StartTime;
         startTimeColor = stateData.StartTimeColor;
         startAlpha = stateData.StartAlpha;
-        startColor = BasicLightStateManager.GetStartColorFromState(this, stateData);
+        startColor = BasicLightManager.GetStartColorFromState(this, stateData);
 
         endTimeAlpha = stateData.EndTimeAlpha;
         endTimeColor = stateData.EndTimeColor;
         endAlpha = stateData.EndAlpha;
-        endColor = BasicLightStateManager.GetEndColorFromState(this, stateData);
+        endColor = BasicLightManager.GetEndColorFromState(this, stateData);
 
         useHSV = stateData.UseHSV;
         easing = stateData.Easing;
