@@ -5,25 +5,21 @@ using UnityEngine.Serialization;
 
 public class BongoCat : MonoBehaviour
 {
+    [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private BongoCatPreset[] bongoCats;
     [SerializeField] private GridLane lane;
 
-    [FormerlySerializedAs("Larm")] [SerializeField]
-    private bool larm;
+    [SerializeField] private bool armL;
+    [SerializeField] private bool armR;
 
-    [FormerlySerializedAs("Rarm")] [SerializeField]
-    private bool rarm;
-
-    private SpriteRenderer comp;
     private BongoCatPreset selectedBongoCat;
 
-    private float larmTimeout;
-    private float rarmTimeout;
+    private float armLTimeout;
+    private float armRTimeout;
 
     private void Start()
     {
         selectedBongoCat = bongoCats[0];
-        comp = GetComponent<SpriteRenderer>();
         Settings.NotifyBySettingName(nameof(BongoCat), UpdateBongoCatState);
         GridViewController.OnGridViewUpdated += UpdatePosition;
         UpdateBongoCatState(Settings.Instance.BongoCat);
@@ -37,16 +33,16 @@ public class BongoCat : MonoBehaviour
 
     private void Update()
     {
-        larmTimeout -= Time.deltaTime;
-        rarmTimeout -= Time.deltaTime;
-        if (larmTimeout < 0) larm = false;
-        if (rarmTimeout < 0) rarm = false;
+        armLTimeout -= Time.deltaTime;
+        armRTimeout -= Time.deltaTime;
+        if (armLTimeout < 0) armL = false;
+        if (armRTimeout < 0) armR = false;
 
-        comp.sprite = larm
-            ? rarm
+        spriteRenderer.sprite = armL
+            ? armR
                 ? selectedBongoCat.LeftDownRightDown
                 : selectedBongoCat.LeftDownRightUp
-            : rarm
+            : armR
                 ? selectedBongoCat.LeftUpRightDown
                 : selectedBongoCat.LeftUpRightUp;
     }
@@ -56,11 +52,13 @@ public class BongoCat : MonoBehaviour
         switch (Settings.Instance.BongoCat)
         {
             case -1:
-                comp.enabled = enabled = false;
+                spriteRenderer.enabled = enabled = false;
+                spriteRenderer.gameObject.SetActive(false);
                 break;
             default:
                 selectedBongoCat = bongoCats[Settings.Instance.BongoCat];
-                comp.enabled = enabled = true;
+                spriteRenderer.enabled = enabled = true;
+                spriteRenderer.gameObject.SetActive(true);
                 break;
         }
 
@@ -101,12 +99,12 @@ public class BongoCat : MonoBehaviour
         switch (note.Type)
         {
             case (int)NoteType.Red:
-                larm = true;
-                larmTimeout = timer;
+                armL = true;
+                armLTimeout = timer;
                 break;
             case (int)NoteType.Blue:
-                rarm = true;
-                rarmTimeout = timer;
+                armR = true;
+                armRTimeout = timer;
                 break;
         }
     }

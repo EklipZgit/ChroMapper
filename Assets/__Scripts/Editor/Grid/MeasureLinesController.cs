@@ -110,7 +110,6 @@ public class MeasureLinesController : MonoBehaviour
 
     private void RefreshPositions()
     {
-        Debug.Log("Refreshing positions...");
         foreach (var kvp in measureTextsByBeat)
             kvp.tmp.transform.localPosition = new Vector3(0, kvp.time * EditorScaleController.EditorScale, 0);
     }

@@ -24,15 +24,15 @@ public class UIMode : MonoBehaviour, CMInput.IUIModeActions
     [SerializeField] private CameraManager cameraManager;
     [SerializeField] private GameObject[] gameObjectsWithRenderersToToggle;
     [SerializeField] private Transform[] thingsThatRequireAMoveForPreview;
-    [FormerlySerializedAs("_rotationCallbackController")] [SerializeField] private RotationCallbackController rotationCallbackController;
+    [SerializeField] private RotationCallbackController rotationCallbackController;
     [SerializeField] private AudioTimeSyncController atsc;
 
-    private readonly List<TextMeshProUGUI> modes = new List<TextMeshProUGUI>();
-    private readonly List<Renderer> renderers = new List<Renderer>();
-    private readonly List<Canvas> canvases = new List<Canvas>();
+    private readonly List<TextMeshProUGUI> modes = new();
+    private readonly List<Renderer> renderers = new();
+    private readonly List<Canvas> canvases = new();
     private CanvasGroup canvasGroup;
 
-    private static readonly List<Action<object>> actions = new List<Action<object>>();
+    private static readonly List<Action<object>> actions = new();
 
 
     private MapEditorUI mapEditorUi;
@@ -57,9 +57,8 @@ public class UIMode : MonoBehaviour, CMInput.IUIModeActions
     {
         foreach (var go in gameObjectsWithRenderersToToggle)
         {
-            var r = go.GetComponentsInChildren<Renderer>();
-            if (r.Length != 0) renderers.AddRange(r);
-            else canvases.AddRange(go.GetComponentsInChildren<Canvas>());
+            renderers.AddRange(go.GetComponentsInChildren<Renderer>());
+            canvases.AddRange(go.GetComponentsInChildren<Canvas>());
         }
 
         atsc.OnPlayToggled += OnPlayToggle;
@@ -69,18 +68,12 @@ public class UIMode : MonoBehaviour, CMInput.IUIModeActions
 
     public void OnToggleUIMode(InputAction.CallbackContext context)
     {
-        if (context.performed)
-        {
-            ToggleUIMode(true);
-        }
+        if (context.performed) ToggleUIMode(true);
     }
 
     public void OnToggleUIModeReverse(InputAction.CallbackContext context)
     {
-        if (context.performed)
-        {
-            ToggleUIMode(false);
-        }
+        if (context.performed) ToggleUIMode(false);
     }
 
     void CMInput.IUIModeActions.OnToggleUIModeNormal(InputAction.CallbackContext context)
@@ -91,6 +84,7 @@ public class UIMode : MonoBehaviour, CMInput.IUIModeActions
             SetUIMode(UIModeType.Normal, true);
         }
     }
+
     void CMInput.IUIModeActions.OnToggleUIModeHideUI(InputAction.CallbackContext context)
     {
         if (context.performed && SelectedMode != UIModeType.HideUI)
@@ -99,6 +93,7 @@ public class UIMode : MonoBehaviour, CMInput.IUIModeActions
             SetUIMode(UIModeType.HideUI, true);
         }
     }
+
     void CMInput.IUIModeActions.OnToggleUIModeHideGrids(InputAction.CallbackContext context)
     {
         if (context.performed && SelectedMode != UIModeType.HideGrids)
@@ -107,6 +102,7 @@ public class UIMode : MonoBehaviour, CMInput.IUIModeActions
             SetUIMode(UIModeType.HideGrids, true);
         }
     }
+
     void CMInput.IUIModeActions.OnToggleUIModePreview(InputAction.CallbackContext context)
     {
         if (context.performed && SelectedMode != UIModeType.Preview)
@@ -115,6 +111,7 @@ public class UIMode : MonoBehaviour, CMInput.IUIModeActions
             SetUIMode(UIModeType.Preview, true);
         }
     }
+
     void CMInput.IUIModeActions.OnToggleUIModePlaying(InputAction.CallbackContext context)
     {
         if (context.performed && SelectedMode != UIModeType.Playing)
@@ -129,10 +126,7 @@ public class UIMode : MonoBehaviour, CMInput.IUIModeActions
         var currentOption = selected.parent.GetSiblingIndex();
         var nextOption = currentOption + (forward ? 1 : -1);
 
-        if (nextOption < 0)
-        {
-            nextOption = modes.Count - 1;
-        }
+        if (nextOption < 0) nextOption = modes.Count - 1;
 
         if (nextOption >= modes.Count) nextOption = 0;
 
@@ -149,7 +143,8 @@ public class UIMode : MonoBehaviour, CMInput.IUIModeActions
         {
             // restore cam position/rotation
             cameraManager.SelectCamera(CameraType.Editing);
-            cameraManager.SelectedCameraController.transform.SetPositionAndRotation(savedCamPosition,
+            cameraManager.SelectedCameraController.transform.SetPositionAndRotation(
+                savedCamPosition,
                 savedCamRotation);
         }
         else if (mode == UIModeType.Playing)
@@ -167,12 +162,8 @@ public class UIMode : MonoBehaviour, CMInput.IUIModeActions
         if (PreviewMode)
         {
             foreach (var group in mapEditorUi.MainUIGroup)
-            {
                 if (group.name == "Song Timeline")
-                {
                     mapEditorUi.ToggleUIVisible(!playing, group);
-                }
-            }
         }
 
         if (SelectedMode == UIModeType.Playing) cameraManager.SelectedCameraController.SetLockState(playing);
@@ -183,17 +174,15 @@ public class UIMode : MonoBehaviour, CMInput.IUIModeActions
     public void SetUIMode(int modeID, bool showUIChange = true)
     {
         var previousPreviewMode = PreviewMode;
-        
+
         SelectedMode = (UIModeType)modeID;
         PreviewMode = SelectedMode is UIModeType.Playing or UIModeType.Preview;
         AnimationMode = PreviewMode && Settings.Instance.Animations;
 
-        if (previousPreviewMode != PreviewMode)
-        {
-            OnPreviewModeSwitched?.Invoke();
-        }
+        if (previousPreviewMode != PreviewMode) OnPreviewModeSwitched?.Invoke();
+
         OnUIModeSwitched?.Invoke(SelectedMode);
-        
+
         selected.SetParent(modes[modeID].transform, true);
         slideSelectionCoroutine = StartCoroutine(SlideSelection());
         if (showUIChange) showUI = StartCoroutine(ShowUI());
@@ -226,10 +215,7 @@ public class UIMode : MonoBehaviour, CMInput.IUIModeActions
 
         // If this is not used, then there is a chance the moved items may break.
         var lockedCameraControllers = cameraManager.CameraControllers.Where(x => x.LockedOntoNoteGrid).ToList();
-        foreach (var cameraController in lockedCameraControllers)
-        {
-            cameraController.LockedOntoNoteGrid = false;
-        }
+        foreach (var cameraController in lockedCameraControllers) cameraController.LockedOntoNoteGrid = false;
 
         if (showPlacement)
         {
@@ -269,19 +255,12 @@ public class UIMode : MonoBehaviour, CMInput.IUIModeActions
             }
         }
 
-        foreach (var c in lockedCameraControllers)
-        {
-            c.LockedOntoNoteGrid = true;
-        }
+        foreach (var c in lockedCameraControllers) c.LockedOntoNoteGrid = true;
 
         if (PreviewMode)
-        {
             Shader.EnableKeyword("CM_PREVIEW_MODE");
-        }
         else
-        {
             Shader.DisableKeyword("CM_PREVIEW_MODE");
-        }
 
         //foreach (Renderer r in _verticalGridRenderers) r.enabled = showMainGrid;
         atsc.RefreshGridSnapping();
@@ -337,21 +316,14 @@ public class UIMode : MonoBehaviour, CMInput.IUIModeActions
     /// </summary>
     public static void NotifyOnUIModeChange(Action<object> callback)
     {
-        if (callback != null)
-        {
-            actions.Add(callback);
-        }
+        if (callback != null) actions.Add(callback);
     }
 
     /// <summary>
     /// Clear all <see cref="Action"/>s associated with a UI mode change
     /// </summary>
     public static void ClearUIModeNotifications() => actions.Clear();
-
 }
-
-
-
 
 
 /// <inheritdoc />
