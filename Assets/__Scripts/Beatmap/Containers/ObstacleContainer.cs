@@ -83,7 +83,7 @@ namespace Beatmap.Containers
                 && ObstacleData.CustomSize[2].IsNumber)
                 return ObstacleData.CustomSize[2];
 
-            var length = ObstacleData.DurationSongBpm;
+            var length = ObstacleData.DurationSongBpmTime;
 
             //Take half jump duration into account if the setting is enabled.
             if (ObstacleData.Duration < 0 && Settings.Instance.ShowMoreAccurateFastWalls && !UIMode.AnimationMode)

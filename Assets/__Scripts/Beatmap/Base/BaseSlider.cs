@@ -10,7 +10,8 @@ namespace Beatmap.Base
     {
         public override void Serialize(NetDataWriter writer)
         {
-            writer.Put(Color); ;
+            writer.Put(Color);
+            ;
             writer.Put(CutDirection);
             writer.Put(AngleOffset);
             writer.Put(TailJsonTime);
@@ -37,8 +38,17 @@ namespace Beatmap.Base
             TailJsonTime = 0; // needed to set tailSongBpmTime
         }
 
-        protected BaseSlider(float time, int posX, int posY, int color, int cutDirection, int angleOffset,
-            float tailTime, int tailPosX, int tailPosY, JSONNode customData = null) : base(time, posX, posY, customData)
+        protected BaseSlider(
+            float time,
+            int posX,
+            int posY,
+            int color,
+            int cutDirection,
+            int angleOffset,
+            float tailTime,
+            int tailPosX,
+            int tailPosY,
+            JSONNode customData = null) : base(time, posX, posY, customData)
         {
             Color = color;
             CutDirection = cutDirection;
@@ -48,8 +58,19 @@ namespace Beatmap.Base
             TailPosY = tailPosY;
         }
 
-        protected BaseSlider(float jsonTime, float songBpmTime, int posX, int posY, int color, int cutDirection, int angleOffset,
-            float tailJsonTime, float tailSongBpmTime, int tailPosX, int tailPosY, JSONNode customData = null)
+        protected BaseSlider(
+            float jsonTime,
+            float songBpmTime,
+            int posX,
+            int posY,
+            int color,
+            int cutDirection,
+            int angleOffset,
+            float tailJsonTime,
+            float tailSongBpmTime,
+            int tailPosX,
+            int tailPosY,
+            JSONNode customData = null)
             : base(jsonTime, songBpmTime, posX, posY, customData)
         {
             Color = color;
@@ -67,6 +88,7 @@ namespace Beatmap.Base
         public int AngleOffset { get; set; }
 
         private float tailJsonTime;
+
         public float TailJsonTime
         {
             get => tailJsonTime;
@@ -76,8 +98,12 @@ namespace Beatmap.Base
                 RecomputeTailSongBpmTime();
             }
         }
+
         private float? tailSongBpmTime;
         public float TailSongBpmTime => (float)tailSongBpmTime;
+
+        public float DurationSongBpmTime => TailSongBpmTime - SongBpmTime;
+        public override float DespawnSongBpmTime => TailSongBpmTime + Hjd;
 
         public int TailPosX { get; set; }
         public int TailPosY { get; set; }
@@ -149,8 +175,7 @@ namespace Beatmap.Base
 
             if (TailPosX >= 1000)
                 position = (TailPosX / 1000f) - 2.5f;
-            else if (TailPosX <= -1000)
-                position = (TailPosX / 1000f) - 0.5f;
+            else if (TailPosX <= -1000) position = (TailPosX / 1000f) - 0.5f;
 
             if (TailPosY >= 1000 || TailPosY <= -1000) layer = (TailPosY / 1000f) - 1f;
 
@@ -161,7 +186,9 @@ namespace Beatmap.Base
         {
             base.ParseCustom();
 
-            CustomTailCoordinate = (CustomData?.HasKey(CustomKeyTailCoordinate) ?? false) ? CustomData?[CustomKeyTailCoordinate] : null;
+            CustomTailCoordinate = (CustomData?.HasKey(CustomKeyTailCoordinate) ?? false)
+                ? CustomData?[CustomKeyTailCoordinate]
+                : null;
         }
 
         protected JSONNode SaveCustomFromNotes(BaseNote head, BaseNote tail)
@@ -180,12 +207,15 @@ namespace Beatmap.Base
         protected internal override JSONNode SaveCustom()
         {
             var node = base.SaveCustom();
-            if (CustomTailCoordinate != null) node[CustomKeyTailCoordinate] = CustomTailCoordinate; else node.Remove(CustomKeyTailCoordinate);
-            
+            if (CustomTailCoordinate != null)
+                node[CustomKeyTailCoordinate] = CustomTailCoordinate;
+            else
+                node.Remove(CustomKeyTailCoordinate);
+
             SetCustomData(node);
             return node;
         }
-        
+
         public override int CompareTo(BaseObject other)
         {
             var comparison = base.CompareTo(other);
@@ -198,16 +228,16 @@ namespace Beatmap.Base
 
             // Compare by Y pos if X pos match
             if (comparison == 0) comparison = PosY.CompareTo(slider.PosY);
-            
+
             // Compare by cut direction if Y pos match
             if (comparison == 0) comparison = CutDirection.CompareTo(slider.CutDirection);
-            
+
             // Compare by cut direction if Y pos match
             if (comparison == 0) comparison = AngleOffset.CompareTo(slider.AngleOffset);
-            
+
             // Start comparing tails of head is identical
             if (comparison == 0) comparison = TailJsonTime.CompareTo(slider.TailJsonTime);
-            
+
             // Compare by X pos if times match
             if (comparison == 0) comparison = TailPosX.CompareTo(slider.TailPosX);
 

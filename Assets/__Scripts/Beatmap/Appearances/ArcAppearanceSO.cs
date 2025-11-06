@@ -30,6 +30,8 @@ namespace Beatmap.Appearances
 
             if (arc.ArcData.CustomColor != null)
                 arc.SetColor((Color)arc.ArcData.CustomColor);
+            
+            arc.Animator.AttachToObject(arc.ArcData);
         }
     }
 }

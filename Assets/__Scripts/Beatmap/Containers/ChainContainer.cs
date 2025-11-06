@@ -1,10 +1,8 @@
-using System;
 using System.Collections.Generic;
 using Beatmap.Base;
 using Beatmap.Enums;
 using Beatmap.Shared;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Beatmap.Containers
 {
@@ -15,13 +13,14 @@ namespace Beatmap.Containers
         private static readonly int lit = Shader.PropertyToID("_Lit");
         private static readonly int translucentAlpha = Shader.PropertyToID("_TranslucentAlpha");
 
-        [SerializeField] private GameObject mainObject;
+        [SerializeField] public GameObject MainObject;
+
         [SerializeField] private GameObject simpleLink;
         [SerializeField] private GameObject simpleLinkSolid;
         [SerializeField] private GameObject complexLink;
         [SerializeField] private GameObject complexLinkSolid;
         public NoteContainer AttachedHead;
-        private readonly List<GameObject> nodes = new List<GameObject>();
+        public readonly List<GameObject> Nodes = new();
         [SerializeField] public BaseChain ChainData;
         [SerializeField] private List<GameObject> indicators;
         [SerializeField] private GameObject tailLinkIndicator;
@@ -30,8 +29,6 @@ namespace Beatmap.Containers
         private bool headPointsToTail;
         private Vector3 interPoint;
         private MaterialPropertyBlock arrowMaterialPropertyBlock;
-
-        public static readonly float PosOffsetFactor = 0.5f / 0.6f * (1 - BaseChain.ChainHeadScale.y) / 2f;
 
         public override BaseObject ObjectData
         {
@@ -105,7 +102,7 @@ namespace Beatmap.Containers
             var chainTail = (Vector3)ChainData.GetTailPosition() + new Vector3(1.5f, 0, 0);
             var headTrans = chainHead;
             var headRot = Quaternion.Euler(NoteContainer.Directionalize(ChainData.CutDirection));
-            mainObject.transform.localPosition = chainTail
+            MainObject.transform.localPosition = chainTail
                 + new Vector3(
                     0,
                     0,
@@ -123,20 +120,20 @@ namespace Beatmap.Containers
             var i = 0;
             for (; i < ChainData.SliceCount - 2; ++i)
             {
-                if (i >= nodes.Count) break;
-                nodes[i].SetActive(true);
-                Interpolate(ChainData.SliceCount - 1, i + 1, headTrans, headRot, mainObject, nodes[i]);
-                Colliders.Add(nodes[i].GetComponent<IntersectionCollider>());
-                nodes[i].GetComponent<ChainComponentsFetcher>().SelectionRenderer.ForEach(SelectionRenderers.Add);
+                if (i >= Nodes.Count) break;
+                Nodes[i].SetActive(true);
+                Interpolate(ChainData.SliceCount - 1, i + 1, headTrans, headRot, MainObject, Nodes[i]);
+                Colliders.Add(Nodes[i].GetComponent<IntersectionCollider>());
+                Nodes[i].GetComponent<ChainComponentsFetcher>().SelectionRenderer.ForEach(SelectionRenderers.Add);
             }
 
-            for (; i < nodes.Count; ++i) nodes[i].SetActive(false);
+            for (; i < Nodes.Count; ++i) Nodes[i].SetActive(false);
             for (; i < ChainData.SliceCount - 2; ++i)
             {
-                var newNode = Instantiate(mainObject, Animator.AnimationThis.transform);
+                var newNode = Instantiate(MainObject, Animator.AnimationThis.transform);
                 newNode.SetActive(true);
 
-                var cpfMain = mainObject.GetComponent<ChainComponentsFetcher>();
+                var cpfMain = MainObject.GetComponent<ChainComponentsFetcher>();
                 var cpfNode = newNode.GetComponent<ChainComponentsFetcher>();
 
                 for (var i1 = 0; i1 < cpfMain.NoteRenderer.Count; i1++)
@@ -144,32 +141,32 @@ namespace Beatmap.Containers
                     cpfMain.NoteRenderer[i1].sharedMaterial = cpfNode.NoteRenderer[i1].sharedMaterial;
                 }
 
-                Interpolate(ChainData.SliceCount - 1, i + 1, headTrans, headRot, mainObject, newNode);
-                nodes.Add(newNode);
-                Colliders.Add(nodes[i].GetComponent<IntersectionCollider>());
-                nodes[i].GetComponent<ChainComponentsFetcher>().SelectionRenderer.ForEach(SelectionRenderers.Add);
+                Interpolate(ChainData.SliceCount - 1, i + 1, headTrans, headRot, MainObject, newNode);
+                Nodes.Add(newNode);
+                Colliders.Add(Nodes[i].GetComponent<IntersectionCollider>());
+                Nodes[i].GetComponent<ChainComponentsFetcher>().SelectionRenderer.ForEach(SelectionRenderers.Add);
             }
 
             if (ChainData.SliceCount == 1)
-                mainObject.SetActive(false);
+                MainObject.SetActive(false);
             else
             {
-                mainObject.SetActive(true);
+                MainObject.SetActive(true);
                 Interpolate(
                     ChainData.SliceCount - 1,
                     ChainData.SliceCount - 1,
                     headTrans,
                     headRot,
-                    mainObject,
-                    mainObject);
-                Colliders.Add(mainObject.GetComponent<IntersectionCollider>());
-                mainObject.GetComponent<ChainComponentsFetcher>().SelectionRenderer.ForEach(SelectionRenderers.Add);
+                    MainObject,
+                    MainObject);
+                Colliders.Add(MainObject.GetComponent<IntersectionCollider>());
+                MainObject.GetComponent<ChainComponentsFetcher>().SelectionRenderer.ForEach(SelectionRenderers.Add);
             }
 
             var scale = Vector3.one;
             if (!Settings.Instance.AccurateNoteSize) scale *= 0.9f;
-            foreach (var node in nodes) node.transform.localScale = scale;
-            mainObject.transform.localScale = scale;
+            foreach (var node in Nodes) node.transform.localScale = scale;
+            MainObject.transform.localScale = scale;
             tailLinkIndicator.transform.localScale = scale;
 
             UpdateMaterials();
@@ -353,6 +350,6 @@ namespace Beatmap.Containers
             }
         }
 
-        public Quaternion GetTailNodeRotation() => mainObject.transform.rotation;
+        public Quaternion GetTailNodeRotation() => MainObject.transform.rotation;
     }
 }
