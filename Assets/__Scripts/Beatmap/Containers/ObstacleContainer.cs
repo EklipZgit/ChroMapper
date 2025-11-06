@@ -10,8 +10,10 @@ namespace Beatmap.Containers
 
         [SerializeField] private TracksManager manager;
 
-        [SerializeField] private Renderer obstacleCore;
-        [SerializeField] private Renderer obstacleOutline;
+        [SerializeField] private Transform coreTransform;
+        [SerializeField] private Renderer coreRenderer;
+        [SerializeField] private Transform outlineTransform;
+        [SerializeField] private Renderer outlineRenderer;
 
         [SerializeField] private Material simpleObstacle;
         [SerializeField] private Material distortObstacle;
@@ -38,10 +40,10 @@ namespace Beatmap.Containers
             return container;
         }
 
-        internal override void UpdateMaterials()
+        public void SwitchMaterial()
         {
-            obstacleCore.sharedMaterial = UIMode.PreviewMode ? distortObstacle : simpleObstacle;
-            base.UpdateMaterials();
+            coreRenderer.sharedMaterial = UIMode.PreviewMode ? distortObstacle : simpleObstacle;
+            UpdateMaterials();
         }
 
         public void SetColor(Color c)
@@ -58,11 +60,11 @@ namespace Beatmap.Containers
             var cubeOffset = scale / 2f;
             cubeOffset.x = 0f;
 
-            obstacleCore.transform.localScale = scale - (Vector3.one * 0.01f);
-            obstacleCore.transform.localPosition = cubeOffset;
+            coreTransform.localScale = scale - (Vector3.one * 0.01f);
+            coreTransform.localPosition = cubeOffset;
 
-            obstacleOutline.transform.localScale = scale;
-            obstacleOutline.transform.localPosition = cubeOffset;
+            outlineTransform.localScale = scale;
+            outlineTransform.localPosition = cubeOffset;
 
             foreach (var selectionRenderer in SelectionRenderers)
             {
@@ -70,7 +72,7 @@ namespace Beatmap.Containers
                 selectionRenderer.transform.localPosition = cubeOffset;
             }
 
-            MaterialPropertyBlock.SetVector(worldScaleID, obstacleCore.transform.localScale);
+            MaterialPropertyBlock.SetVector(worldScaleID, coreTransform.localScale);
             UpdateMaterials();
         }
 
@@ -124,7 +126,7 @@ namespace Beatmap.Containers
         public override void UpdateScalable(float scale)
         {
             var length = Mathf.Abs(GetLength(scale));
-            var size = ReadSize();
+            var size = ObstacleScale;
             size.z = length;
             SetScale(size);
         }

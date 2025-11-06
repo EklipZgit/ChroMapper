@@ -14,6 +14,7 @@ public class Track : MonoBehaviour
 
     private BaseGrid gridObject;
     private ObjectContainer gridContainer;
+    private bool useCustom;
     private float spawnTime;
     private float spawnPosition;
     private float despawnTime;
@@ -25,9 +26,6 @@ public class Track : MonoBehaviour
 
     // this number also pulled from my ass, song bpm time
     public const float JUMP_TIME = 2f;
-
-    // gonna need to find better way to attach this
-    public void Awake() => vNjsProvider = FindAnyObjectByType<VariableNJSProvider>();
 
     public void OnEnable() => vNjsProvider.OnChanged += UpdateState;
     public void OnDisable() => vNjsProvider.OnChanged -= UpdateState;
@@ -73,7 +71,7 @@ public class Track : MonoBehaviour
         if (gridObject is BaseNote note)
         {
             // Normalized [0-1] between despawn time and spawn time
-            var normalizedLifetime = Mathf.Clamp01(Mathf.InverseLerp(gridObject.DespawnSongBpmTime, spawnTime, time));
+            var normalizedLifetime = Mathf.Clamp01(Mathf.InverseLerp(despawnTime, spawnTime, time));
 
             // [0-1] between spawn time and note time
             // 0.3 magic number taken from ArcViewer (thanks polandball)
@@ -103,25 +101,50 @@ public class Track : MonoBehaviour
         ObjectParentTransform.localPosition = position;
     }
 
+    public void InitState()
+    {
+        useCustom = (gridObject.CustomNoteJumpMovementSpeed?.IsNumber ?? false)
+            || (gridObject.CustomNoteJumpStartBeatOffset?.IsNumber ?? false);
+        if (!useCustom)
+        {
+            gridObject.SetSpawnParameters(
+                vNjsProvider.HalfJumpDurationInBeats,
+                vNjsProvider.JumpDistanceScaled,
+                vNjsProvider.EditorScale);
+        }
+
+        UpdateSpawning();
+    }
+
     public void UpdateState()
     {
         if (!UIMode.PreviewMode) return;
-        if (gridObject == null) return;
-        spawnTime = gridObject.SongBpmTime - vNjsProvider.HalfJumpDurationInBeats;
-        spawnPosition = vNjsProvider.JumpDistanceScaled;
+        if (useCustom || gridObject == null || gridContainer.ObjectData == null) return;
+
+        gridObject.SetSpawnParameters(
+            vNjsProvider.HalfJumpDurationInBeats,
+            vNjsProvider.JumpDistanceScaled,
+            vNjsProvider.EditorScale);
+        UpdateSpawning();
+    }
+
+    public void UpdateSpawning()
+    {
+        spawnTime = gridObject.SongBpmTime - gridObject.Hjd;
+        spawnPosition = gridObject.Jd;
         if (gridObject is BaseObstacle obs)
         {
-            despawnPosition = -vNjsProvider.HalfJumpDistanceScaled - (obs.DurationSongBpm * vNjsProvider.EditorScale);
-            despawnTime = obs.SongBpmTime + obs.DurationSongBpm + (vNjsProvider.HalfJumpDurationInBeats * 0.5f);
+            despawnPosition = (-obs.Jd * 0.5f) - (obs.DurationSongBpm * obs.EditorScale);
+            despawnTime = obs.SongBpmTime + obs.DurationSongBpm + (obs.Hjd * 0.5f);
         }
         else
         {
-            despawnPosition = -vNjsProvider.JumpDistanceScaled;
-            despawnTime = gridObject.SongBpmTime + vNjsProvider.HalfJumpDurationInBeats;
+            despawnPosition = -gridObject.Jd;
+            despawnTime = gridObject.SongBpmTime + gridObject.Hjd;
         }
 
-        // ok but why do i have to check twice
-        if (gridContainer.ObjectData != null) gridContainer.UpdateScalable(vNjsProvider.EditorScale);
+        // why the hell do i need to check twice?
+        gridContainer.UpdateScalable(gridObject.EditorScale);
     }
 
     public void AttachContainer(ObjectContainer obj)
@@ -134,7 +157,7 @@ public class Track : MonoBehaviour
         if (obj.ObjectData is not BaseGrid g) return;
         gridContainer = obj;
         gridObject = g;
-        UpdateState();
+        InitState();
     }
 
     public void UpdateMaterialRotation(ObjectContainer obj)

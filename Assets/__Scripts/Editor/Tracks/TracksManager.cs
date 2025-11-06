@@ -23,6 +23,7 @@ public class TracksManager : MonoBehaviour
     private EventGridContainer eventGrid;
 
     [SerializeField] private AudioTimeSyncController atsc;
+    [SerializeField] private VariableNJSProvider vNjsProvider;
 
     private readonly Dictionary<Vector3, Track> loadedTracks = new Dictionary<Vector3, Track>();
     private readonly Dictionary<string, TrackAnimator> animationTracks = new Dictionary<string, TrackAnimator>();
@@ -56,6 +57,8 @@ public class TracksManager : MonoBehaviour
         if (loadedTracks.TryGetValue(rotation, out var track)) return track;
 
         track = Instantiate(trackPrefab, tracksParent).GetComponent<Track>();
+        track.vNjsProvider = vNjsProvider;
+        track.enabled = true;
         track.gameObject.name = $"Track [{rotation.x}, {rotation.y}, {rotation.z}]";
         track.AssignRotationValue(rotation);
         track.UpdatePosition(position);
@@ -85,6 +88,8 @@ public class TracksManager : MonoBehaviour
         animator.enabled = false;
         animator.Atsc = atsc;
         animator.Track = obj.GetComponent<Track>();
+        animator.Track.vNjsProvider = vNjsProvider;
+        animator.Track.enabled = true;
         animationTracks.Add(name, animator);
         return animator;
     }
@@ -95,6 +100,8 @@ public class TracksManager : MonoBehaviour
         // TODO: This is the same math used for 90/360 tacks, but does it actually handle BPM changes?
         var potition = -1 * obj.JsonTime * EditorScaleController.EditorScale;
         var track = Instantiate(trackPrefab, tracksParent).GetComponent<Track>();
+        track.vNjsProvider = vNjsProvider;
+        track.enabled = true;
         track.UpdatePosition(potition);
 
         float rotation = GetRotationAtTime(obj.SongBpmTime);

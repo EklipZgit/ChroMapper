@@ -193,7 +193,7 @@ public class CountersPlusController : MonoBehaviour
 
             if ((stringRefreshQueue & CountersPlusStatistic.Chains) != 0) chainString.StringReference.RefreshString();
 
-            if ((stringRefreshQueue & CountersPlusStatistic.NJSEvents) != 0) UpdateNJSEventsStats();
+            if ((stringRefreshQueue & CountersPlusStatistic.NJSEvents) != 0) foreach (var str in njsEventStrings) str.StringReference.RefreshString();
 
             stringRefreshQueue = 0;
         }
@@ -207,10 +207,7 @@ public class CountersPlusController : MonoBehaviour
         stringRefreshQueue |= stat;
     }
 
-    private void UpdateNJSEventsStats()
-    {
-        foreach (var str in njsEventStrings) str.StringReference.RefreshString();
-    }
+    private void UpdateNJSEventsStats() => UpdateStatistic(CountersPlusStatistic.NJSEvents);
 
     private void OnLevelLoaded()
     {
