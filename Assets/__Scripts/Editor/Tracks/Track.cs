@@ -255,7 +255,6 @@ public class Track : MonoBehaviour
                 .ToArray();
         }
 
-        // why the hell do i need to check twice?
         gridContainer.UpdateScalable(gridObject.EditorScale);
     }
 

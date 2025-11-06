@@ -23,7 +23,8 @@ namespace Beatmap.Containers
         [SerializeField] protected List<Renderer> SelectionRenderers = new();
         [SerializeField] public ObjectAnimator Animator;
 
-        protected readonly List<Renderer> modelRenderers = new();
+        protected readonly List<Renderer> ModelRenderers = new();
+        protected int RendererCount;
         public MaterialPropertyBlock MaterialPropertyBlock;
 
         public bool OutlineVisible
@@ -50,7 +51,8 @@ namespace Beatmap.Containers
             if (MaterialPropertyBlock == null)
             {
                 MaterialPropertyBlock = new MaterialPropertyBlock();
-                modelRenderers.AddRange(GetComponentsInChildren<Renderer>(true).Where(x => !(x is SpriteRenderer)));
+                ModelRenderers.AddRange(GetComponentsInChildren<Renderer>(true).Where(x => !(x is SpriteRenderer)));
+                RendererCount = ModelRenderers.Count;
             }
         }
 
@@ -58,12 +60,16 @@ namespace Beatmap.Containers
         {
             if (active != gameObject.activeSelf) gameObject.SetActive(active);
         }
-        
-        public virtual void UpdateScalable(float scale) {}
+
+        public virtual void UpdateScalable(float scale) { }
 
         internal virtual void UpdateMaterials()
         {
-            foreach (var r in modelRenderers) r.SetPropertyBlock(MaterialPropertyBlock);
+            for (var index = 0; index < RendererCount; index++)
+            {
+                var r = ModelRenderers[index];
+                r.SetPropertyBlock(MaterialPropertyBlock);
+            }
         }
 
         public void SetRotation(float rot)

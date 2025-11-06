@@ -151,6 +151,10 @@ public class CountersPlusController : MonoBehaviour
 
     private void Update() // i do want to update this every single frame
     {
+        // let's not update counterplus when ui is already hidden
+        // until we can figure out how to optimise localized string
+        if (UIMode.SelectedMode != UIModeType.Normal) return;
+        
         if (Application.isFocused)
         {
             var timeMapping = BeatSaberSongContainer.Instance.Map.Time;

@@ -82,7 +82,8 @@ namespace Beatmap.Containers
             if (MaterialPropertyBlock == null)
             {
                 MaterialPropertyBlock = new MaterialPropertyBlock();
-                modelRenderers.AddRange(eventRenderer);
+                ModelRenderers.AddRange(eventRenderer);
+                RendererCount = ModelRenderers.Count;
             }
         }
 

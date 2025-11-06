@@ -14,6 +14,7 @@ namespace Beatmap.Containers
         [SerializeField] private Renderer coreRenderer;
         [SerializeField] private Transform outlineTransform;
         [SerializeField] private Renderer outlineRenderer;
+        [SerializeField] private Transform selectionTransform;
 
         [SerializeField] private Material simpleObstacle;
         [SerializeField] private Material distortObstacle;
@@ -66,11 +67,8 @@ namespace Beatmap.Containers
             outlineTransform.localScale = scale;
             outlineTransform.localPosition = cubeOffset;
 
-            foreach (var selectionRenderer in SelectionRenderers)
-            {
-                selectionRenderer.transform.localScale = scale;
-                selectionRenderer.transform.localPosition = cubeOffset;
-            }
+            selectionTransform.localScale = scale;
+            selectionTransform.localPosition = cubeOffset;
 
             MaterialPropertyBlock.SetVector(worldScaleID, coreTransform.localScale);
             UpdateMaterials();
