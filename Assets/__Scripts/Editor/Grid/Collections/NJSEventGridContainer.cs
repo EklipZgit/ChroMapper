@@ -6,23 +6,24 @@ using UnityEngine;
 public class NJSEventGridContainer : BeatmapObjectContainerCollection<BaseNJSEvent>
 {
     [SerializeField] private GameObject njsEventPrefab;
-    // [SerializeField] private NJSEventAppearanceSO njsEventAppearanceSo;
-
-    [SerializeField] private CountersPlusController countersPlus;
 
     public override ObjectType ContainerType => ObjectType.NJSEvent;
 
     internal override void SubscribeToCallbacks()
     {
+        EditorScaleController.OnEditorScaleChanged += HandleEditorScaleChanged;
         AudioTimeSyncController.OnPlayToggled += OnPlayToggle;
         UIMode.OnPreviewModeSwitched += OnUIPreviewModeSwitch;
     }
 
     internal override void UnsubscribeToCallbacks()
     {
+        EditorScaleController.OnEditorScaleChanged -= HandleEditorScaleChanged;
         AudioTimeSyncController.OnPlayToggled -= OnPlayToggle;
         UIMode.OnPreviewModeSwitched -= OnUIPreviewModeSwitch;
     }
+
+    private void HandleEditorScaleChanged(float obj) => RefreshPool(true);
 
     private void OnPlayToggle(bool isPlaying)
     {

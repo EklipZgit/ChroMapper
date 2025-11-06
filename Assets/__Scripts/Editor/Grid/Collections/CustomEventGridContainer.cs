@@ -214,8 +214,16 @@ public class CustomEventGridContainer : BeatmapObjectContainerCollection<BaseCus
 
     internal override void SubscribeToCallbacks()
     {
+        EditorScaleController.OnEditorScaleChanged += HandleEditorScaleChanged;
         LoadInitialMap.OnLevelLoaded += SetInitialTracks;
         UIMode.OnPreviewModeSwitched += OnUIPreviewModeSwitch;
+    }
+
+    internal override void UnsubscribeToCallbacks()
+    {
+        EditorScaleController.OnEditorScaleChanged -= HandleEditorScaleChanged;
+        LoadInitialMap.OnLevelLoaded -= SetInitialTracks;
+        UIMode.OnPreviewModeSwitched -= OnUIPreviewModeSwitch;
     }
 
     private void SetInitialTracks()
@@ -234,11 +242,7 @@ public class CustomEventGridContainer : BeatmapObjectContainerCollection<BaseCus
         }
     }
 
-    internal override void UnsubscribeToCallbacks()
-    {
-        LoadInitialMap.OnLevelLoaded -= SetInitialTracks;
-        UIMode.OnPreviewModeSwitched -= OnUIPreviewModeSwitch;
-    }
+    private void HandleEditorScaleChanged(float obj) => RefreshPool(true);
 
     private void CreateNewType()
     {
