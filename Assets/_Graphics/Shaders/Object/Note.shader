@@ -7,6 +7,7 @@ Shader "ChroMapper/Object/Note"
     {
         _Color("Color", Color) = (0, 0, 0, 0)
         _MainTex("Texture", 2D) = "white" {}
+        _NoiseTexture("Noise Texture", 3D) = "white" {}
         _Glow("Glow", Range(0, 1)) = 0.0
 
         [Space(10)]
@@ -109,6 +110,8 @@ Shader "ChroMapper/Object/Note"
             // Hello! We're global shader variables.
             uniform float _EnableNoteSurfaceGridLine = 1;
             uniform float _SongTime;
+            sampler3D _NoiseTexture;
+
 
             struct appdata
             {
@@ -206,6 +209,8 @@ Shader "ChroMapper/Object/Note"
 
                 float rotatedZ = abs(i.rotatedPos.z);
 
+                float3 cutoutPos = mul(unity_ObjectToWorld, i.localPos.xyz);
+
                 float3 albedo = _EnableNoteSurfaceGridLine > 0 && rotatedZ < outlineWidth && isTranslucent < 1
                                     ? interfaceColor
                                     : noteColor.rgb;
@@ -223,7 +228,8 @@ Shader "ChroMapper/Object/Note"
 
                 clip(isDithered(i.customScreenPos.xy / i.customScreenPos.w, alpha));
 
-                float noise = simplex((i.localPos + cutoutTexOffset.xyz) * 2);
+               // float noise = simplex((i.localPos + cutoutTexOffset.xyz) * 2);
+                float noise = tex3D(_NoiseTexture, (cutoutPos + cutoutTexOffset.xyz) * 0.5);
                 float c = noise - cutout;
                 clip(c);
                 if (c < _CutoutEdgeWidth * sqrt(cutout))

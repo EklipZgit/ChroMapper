@@ -59,6 +59,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _NoiseTexture:
+        m_Texture: {fileID: 11700000, guid: 6799aaf380abeb140be01fe60e6f95cd, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _NormalTex:
         m_Texture: {fileID: 2800000, guid: 021ef09728e2c6c4fa25679cd58dc8d1, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -81,6 +85,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - ENABLE_HEIGHT_FOG: 0
     - _AlphaClip: 0
     - _AlwaysTranslucent: 0
     - _Ambient: 1
@@ -90,14 +95,18 @@ Material:
     - _ColorMult: 1
     - _Cull: 2
     - _Cutoff: 0.5
-    - _Cutout: 0
+    - _Cutout: 0.172
     - _CutoutEdgeGlow: 0.25
     - _CutoutEdgeWidth: 0.05
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _Editor_IsPlaying: 0
     - _FogEnd: 500
+    - _FogHeightOffset: 0
+    - _FogHeightScale: 1
+    - _FogScale: 1
     - _FogStart: 0
+    - _FogStartOffset: 0
     - _GlossMapScale: 0
     - _Glossiness: 0.7
     - _GlossyReflections: 1
@@ -127,7 +136,7 @@ Material:
     m_Colors:
     - _Color: {r: 0.1544118, g: 0.1544118, b: 0.1544118, a: 1}
     - _CutPlane: {r: 0, g: 0, b: 0, a: 0}
-    - _CutoutTexOffset: {r: 0, g: 0, b: 0, a: 0}
+    - _CutoutTexOffset: {r: 2.48, g: -8.228988, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _LightDir: {r: 0, g: -1, b: 1, a: 1}
     - _OverNoteInterfaceColor: {r: 1, g: 1, b: 1, a: 0}
