@@ -60,7 +60,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NoiseTexture:
-        m_Texture: {fileID: 11700000, guid: 6799aaf380abeb140be01fe60e6f95cd, type: 3}
+        m_Texture: {fileID: 11700000, guid: 5ffb5352dcc75da42aa93d9b0bd417d6, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalTex:
@@ -95,7 +95,7 @@ Material:
     - _ColorMult: 1
     - _Cull: 2
     - _Cutoff: 0.5
-    - _Cutout: 0.172
+    - _Cutout: 0
     - _CutoutEdgeGlow: 0.25
     - _CutoutEdgeWidth: 0.05
     - _DetailNormalMapScale: 1

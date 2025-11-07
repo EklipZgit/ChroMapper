@@ -228,8 +228,8 @@ Shader "ChroMapper/Object/Note"
 
                 clip(isDithered(i.customScreenPos.xy / i.customScreenPos.w, alpha));
 
-               // float noise = simplex((i.localPos + cutoutTexOffset.xyz) * 2);
-                float noise = tex3D(_NoiseTexture, (cutoutPos + cutoutTexOffset.xyz) * 0.5);
+                //float noise = simplex((i.localPos + cutoutTexOffset.xyz) * 2);
+                float noise = tex3D(_NoiseTexture, (cutoutPos + cutoutTexOffset.xyz) * 0.25);
                 float c = noise - cutout;
                 clip(c);
                 if (c < _CutoutEdgeWidth * sqrt(cutout))
