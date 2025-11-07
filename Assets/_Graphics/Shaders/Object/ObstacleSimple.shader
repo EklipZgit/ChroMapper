@@ -28,6 +28,7 @@
 
         // These are global properties and should not be instanced
         uniform float _MainAlpha = 0.5;
+        uniform sampler3D _CutoutTex;
 
         // Define instanced properties
         UNITY_INSTANCING_BUFFER_START(Props)
@@ -78,10 +79,10 @@
             {
                 UNITY_SETUP_INSTANCE_ID(i);
 
-                float4 worldScale = abs(UNITY_ACCESS_INSTANCED_PROP(Props, _WorldScale));
                 float cutout = UNITY_ACCESS_INSTANCED_PROP(Props, _Cutout);
                 float4 cutoutTexOffset = UNITY_ACCESS_INSTANCED_PROP(Props, _CutoutTexOffset);
-                float noise = simplex((i.localPos + cutoutTexOffset.xyz) * worldScale * 0.6);
+                float3 cutoutPos = mul(unity_ObjectToWorld, i.localPos.xyz);
+                float noise = tex3D(_CutoutTex, (cutoutPos + cutoutTexOffset.xyz) * 0.3);
                 float c = noise - cutout;
                 clip(c);
 

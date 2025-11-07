@@ -45,6 +45,7 @@
         float _FogScale;
         float _FogHeightOffset;
         float _FogHeightScale;
+        sampler3D _CutoutTex;
         ENDHLSL
 
         Pass
@@ -123,8 +124,9 @@
 
                 float cutout = UNITY_ACCESS_INSTANCED_PROP(Props, _Cutout);
                 float4 cutoutTexOffset = UNITY_ACCESS_INSTANCED_PROP(Props, _CutoutTexOffset);
+                float3 cutoutPos = mul(unity_ObjectToWorld, i.localPos.xyz);
                 // TexOffset is apparently different
-                float noise = simplex((i.localPos + cutoutTexOffset.xyz * 2) * worldScale);
+                float noise = tex3D(_CutoutTex, (cutoutPos + cutoutTexOffset.xyz) * 0.25);
                 float c = noise - cutout;
                 clip(c);
 

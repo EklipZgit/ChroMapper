@@ -84,6 +84,7 @@ Material:
     - _Cutout: 0
     - _CutoutEdgeGlow: 0.5
     - _CutoutEdgeWidth: 0.05
+    - _CutoutSize: 4
     - _DstBlend: 0
     - _FogHeightOffset: 0
     - _FogHeightScale: 1

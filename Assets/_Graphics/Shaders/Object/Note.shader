@@ -7,7 +7,6 @@ Shader "ChroMapper/Object/Note"
     {
         _Color("Color", Color) = (0, 0, 0, 0)
         _MainTex("Texture", 2D) = "white" {}
-        _NoiseTexture("Noise Texture", 3D) = "white" {}
         _Glow("Glow", Range(0, 1)) = 0.0
 
         [Space(10)]
@@ -21,6 +20,7 @@ Shader "ChroMapper/Object/Note"
         [Header(Beat Saber)]
         [Space(10)]
         _Cutout("Cutout", Range(0, 1)) = 0.0
+        _CutoutSize("CutoutSize", Range(0.2,10)) = 1.0
         _CutoutEdgeWidth("Cutout Edge Width", Range(0, 0.2)) = 0.05
         _CutoutEdgeGlow("Cutout Edge Glow", Range(0, 1)) = 0.5
         _CutoutTexOffset("Cutout Tex Offset", Vector) = (0, 0, 0, 0)
@@ -75,6 +75,7 @@ Shader "ChroMapper/Object/Note"
         float _Glow;
         float _CutoutEdgeGlow;
         float _CutoutEdgeWidth;
+        float _CutoutSize;
         float _FogStartOffset;
         float _FogScale;
         float _FogHeightOffset;
@@ -110,7 +111,7 @@ Shader "ChroMapper/Object/Note"
             // Hello! We're global shader variables.
             uniform float _EnableNoteSurfaceGridLine = 1;
             uniform float _SongTime;
-            sampler3D _NoiseTexture;
+            sampler3D _CutoutTex;
 
 
             struct appdata
@@ -228,8 +229,7 @@ Shader "ChroMapper/Object/Note"
 
                 clip(isDithered(i.customScreenPos.xy / i.customScreenPos.w, alpha));
 
-                //float noise = simplex((i.localPos + cutoutTexOffset.xyz) * 2);
-                float noise = tex3D(_NoiseTexture, (cutoutPos + cutoutTexOffset.xyz) * 0.25);
+                float noise = tex3D(_CutoutTex, (cutoutPos + cutoutTexOffset.xyz) * 0.25 * _CutoutSize);
                 float c = noise - cutout;
                 clip(c);
                 if (c < _CutoutEdgeWidth * sqrt(cutout))

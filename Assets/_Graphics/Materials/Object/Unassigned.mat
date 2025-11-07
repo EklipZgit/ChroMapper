@@ -98,6 +98,7 @@ Material:
     - _Cutout: 0
     - _CutoutEdgeGlow: 0.25
     - _CutoutEdgeWidth: 0.05
+    - _CutoutSize: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _Editor_IsPlaying: 0

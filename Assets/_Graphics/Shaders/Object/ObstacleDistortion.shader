@@ -66,6 +66,7 @@
         float _DistortionStrength;
         float _DistortionScale;
         sampler2D _GrabTexture;
+        sampler3D _CutoutTex;
 
         float _FogStartOffset;
         float _FogScale;
@@ -140,9 +141,11 @@
                     uvScalar.xyz = worldScale.xyz;
                 }
 
+                // Cutout
                 float cutout = UNITY_ACCESS_INSTANCED_PROP(Props, _Cutout);
                 float4 cutoutTexOffset = UNITY_ACCESS_INSTANCED_PROP(Props, _CutoutTexOffset);
-                float noise = simplex((i.localPos + cutoutTexOffset.xyz) * worldScale * 0.6);
+                float3 cutoutPos = mul(unity_ObjectToWorld, i.localPos.xyz);
+                float noise = tex3D(_CutoutTex, (cutoutPos + cutoutTexOffset.xyz) * 0.3);
                 float c = noise - cutout;
                 clip(c);
 
