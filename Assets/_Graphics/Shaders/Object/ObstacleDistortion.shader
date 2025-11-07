@@ -175,7 +175,7 @@
                     (simplex((i.uv.yx * uvScalar.yx + cutoutTexOffset * _DistortionScale) / _DistortionScale) - 0.5) *
                     _DistortionStrength;
 
-                fixed4 col = color + tex2D(_GrabTexture, screenUV);
+                fixed4 col = (color * 0.5) + tex2D(_GrabTexture, screenUV);
                 col = col * factor;
 
                 #ifdef CM_PREVIEW_MODE

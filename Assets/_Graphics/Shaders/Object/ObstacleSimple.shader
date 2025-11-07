@@ -92,7 +92,7 @@
                     color.rgb = normalize(color.rgb) * min(sqrt(mag), 16) * color.a;
                     color.rgb = saturate(color.rgb);
                 }
-                color *= 0.75;
+                color *= 0.5;
                 color.a = 0;
                 
                 return saturate(color);

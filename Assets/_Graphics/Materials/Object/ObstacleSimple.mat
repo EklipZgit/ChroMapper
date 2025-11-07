@@ -66,7 +66,7 @@ Material:
     - _BumpScale: 1
     - _CircleRadius: 7.5
     - _Cutoff: 0.5
-    - _Cutout: 0
+    - _Cutout: 0.008
     - _CutoutEdgeGlow: 0.25
     - _CutoutEdgeWidth: 0.05
     - _DetailNormalMapScale: 1
@@ -92,7 +92,7 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 1, g: 0, b: 0, a: 1}
+    - _Color: {r: 1, g: 0.18823528, b: 0.18823528, a: 0.98039216}
     - _ColorTint: {r: 1, g: 0, b: 0, a: 0}
     - _CutoutTexOffset: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}

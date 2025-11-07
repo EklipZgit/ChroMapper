@@ -62,16 +62,21 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - ENABLE_HEIGHT_FOG: 0
     - _AnimationSpawned: 0
     - _BumpScale: 1
     - _CircleRadius: 7.5
     - _Cutoff: 0.5
-    - _Cutout: 0
+    - _Cutout: 0.041
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _FadeSize: 5
     - _FogEnd: 500
+    - _FogHeightOffset: 0
+    - _FogHeightScale: 1
+    - _FogScale: 1
     - _FogStart: 0
+    - _FogStartOffset: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
