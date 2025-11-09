@@ -10,9 +10,7 @@ public class CutoutNoiseTextureHelper : MonoBehaviour
     [SerializeField]
     private string propertyName;
 
-    // setting to awake for testing purposes.
-    // please change to Start() later on.
-    private void Awake()
+    private void Start()
     {
         Shader.SetGlobalTexture(propertyName, noiseTexture);
     }
