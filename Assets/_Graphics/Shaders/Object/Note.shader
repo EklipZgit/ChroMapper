@@ -54,7 +54,6 @@ Shader "ChroMapper/Object/Note"
         HLSLINCLUDE
         #include "UnityCG.cginc"
         #include "Lighting.cginc"
-        #include "../CGIncludes/Noise.cginc"
         #include "../CGIncludes/BloomFog.cginc"
         #pragma multi_compile_instancing
 
@@ -131,6 +130,7 @@ Shader "ChroMapper/Object/Note"
                 float4 localPos : TEXCOORD0;
                 float3 worldPos : TEXCOORD2;
                 float3 worldNormal : TEXCOORD3;
+                float3 cutoutPos : TEXCOORD4;
             };
 
             float3 ComputeRotatedPosition(float3 position, float theta)
@@ -171,7 +171,7 @@ Shader "ChroMapper/Object/Note"
                 );
 
                 o.worldNormal = UnityObjectToWorldNormal(i.normal);
-
+                o.cutoutPos = mul(unity_ObjectToWorld, i.vertex.xyz);
                 return o;
             }
 
@@ -210,8 +210,6 @@ Shader "ChroMapper/Object/Note"
 
                 float rotatedZ = abs(i.rotatedPos.z);
 
-                float3 cutoutPos = mul(unity_ObjectToWorld, i.localPos.xyz);
-
                 float3 albedo = _EnableNoteSurfaceGridLine > 0 && rotatedZ < outlineWidth && isTranslucent < 1
                                     ? interfaceColor
                                     : noteColor.rgb;
@@ -229,7 +227,7 @@ Shader "ChroMapper/Object/Note"
 
                 clip(isDithered(i.customScreenPos.xy / i.customScreenPos.w, alpha));
 
-                float noise = tex3D(_CutoutTex, (cutoutPos + cutoutTexOffset.xyz) * 0.25 * _CutoutSize);
+                float noise = tex3D(_CutoutTex, (i.cutoutPos + cutoutTexOffset.xyz) * 0.25 * _CutoutSize);
                 float c = noise - cutout;
                 clip(c);
                 if (c < _CutoutEdgeWidth * sqrt(cutout))

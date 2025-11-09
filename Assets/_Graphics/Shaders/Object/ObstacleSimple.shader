@@ -24,7 +24,6 @@
 
         HLSLINCLUDE
         #include "UnityCG.cginc"
-        #include "../CGIncludes/Noise.cginc"
 
         // These are global properties and should not be instanced
         uniform float _MainAlpha = 0.5;
@@ -58,6 +57,7 @@
                 float4 pos : SV_POSITION;
                 float2 uv : TEXCOORD0;
                 float3 localPos : TEXCOORD1;
+                float4 cutoutPos : TEXCOORD2;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
@@ -71,7 +71,7 @@
                 o.pos = UnityObjectToClipPos(v.vertex);
                 o.localPos = v.vertex;
                 o.uv = v.uv;
-
+                o.cutoutPos = mul(unity_ObjectToWorld, v.vertex.xyz);
                 return o;
             }
 
@@ -81,8 +81,7 @@
 
                 float cutout = UNITY_ACCESS_INSTANCED_PROP(Props, _Cutout);
                 float4 cutoutTexOffset = UNITY_ACCESS_INSTANCED_PROP(Props, _CutoutTexOffset);
-                float3 cutoutPos = mul(unity_ObjectToWorld, i.localPos.xyz);
-                float noise = tex3D(_CutoutTex, (cutoutPos + cutoutTexOffset.xyz) * 0.3);
+                float noise = tex3D(_CutoutTex, (i.cutoutPos + cutoutTexOffset.xyz) * 0.3);
                 float c = noise - cutout;
                 clip(c);
 
