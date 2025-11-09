@@ -96,7 +96,7 @@ Material:
     - _ColorMult: 1
     - _Cull: 2
     - _Cutoff: 0.5
-    - _Cutout: 0.934
+    - _Cutout: 1
     - _CutoutEdgeGlow: 0.25
     - _CutoutEdgeWidth: 0.05
     - _CutoutSize: 1
