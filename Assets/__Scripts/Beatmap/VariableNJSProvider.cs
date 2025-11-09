@@ -1,0 +1,174 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Beatmap.Base;
+using UnityEngine;
+
+public class VariableNJSProvider : StateManager<VariableNJSStateData, BaseNJSEvent>
+{
+    [Header("State")] public float NoteJumpSpeed;
+
+    public float JumpDuration;
+    public float JumpDistance;
+    public float JumpDistanceScaled; // due to different scaling, use this to position object
+
+    public float HalfJumpDurationInBeats;
+    public float HalfJumpDuration;
+    public float HalfJumpDistance;
+    public float HalfJumpDistanceScaled;
+
+    public float EditorScale;
+
+    [Header("Cached")] public float BaseBeatPerMinute;
+    public float BaseNoteJumpSpeed;
+    public float BaseHalfJumpDurationInBeats;
+    public float OneBeatDuration;
+
+    private readonly Dictionary<int, int> hjds = new();
+    public float MaxHalfJumpDurationInBeats;
+
+    public event Action OnChanged;
+
+    private readonly VariableNJSStateChunksContainer stateChunksContainer = new();
+
+    public override void Initialize()
+    {
+        BaseBeatPerMinute = BeatSaberSongContainer.Instance.Info.BeatsPerMinute;
+        BaseNoteJumpSpeed = BeatSaberSongContainer.Instance.MapDifficultyInfo.NoteJumpSpeed;
+        var offset = BeatSaberSongContainer.Instance.MapDifficultyInfo.NoteStartBeatOffset;
+        hjds.Clear();
+
+        OneBeatDuration = 60f / BaseBeatPerMinute;
+        MaxHalfJumpDurationInBeats = BaseHalfJumpDurationInBeats = SpawnParameterHelper.CalculateHalfJumpDuration(
+            BaseNoteJumpSpeed,
+            offset,
+            BaseBeatPerMinute);
+
+        InitializeStates(
+            stateChunksContainer,
+            CreateState(new BaseNJSEvent { UsePrevious = 1 }),
+            CreateState(new BaseNJSEvent { UsePrevious = 1 }));
+        InsertData(new BaseNJSEvent());
+    }
+
+    public override void UpdateTime(float time)
+    {
+        stateChunksContainer.IsCurrentOrFindState(time, Atsc.IsPlaying);
+
+        var currentState = stateChunksContainer.CurrentState;
+        var normalizedTime = (time - currentState.StartTime) / (currentState.EndTime - currentState.StartTime);
+        var njs = Mathf.Max(
+            BaseNoteJumpSpeed
+            + Mathf.Lerp(
+                currentState.RelativeNjs,
+                currentState.NextRelativeNjs,
+                currentState.Easing(normalizedTime)),
+            0.01f);
+
+        if (Mathf.Approximately(njs, NoteJumpSpeed)) return;
+        NoteJumpSpeed = njs;
+        UpdateState();
+    }
+
+    public void UpdateState()
+    {
+        EditorScale = 100f * NoteJumpSpeed / BaseBeatPerMinute;
+
+        var factor = Mathf.Min(NoteJumpSpeed / BaseNoteJumpSpeed, 1f);
+        HalfJumpDuration = OneBeatDuration * BaseHalfJumpDurationInBeats / factor;
+        HalfJumpDurationInBeats = Atsc.GetBeatFromSeconds(HalfJumpDuration);
+        JumpDuration = HalfJumpDuration * 2f;
+
+        JumpDistance = NoteJumpSpeed * JumpDuration;
+        JumpDistanceScaled = HalfJumpDurationInBeats * EditorScale;
+        HalfJumpDistance = JumpDistance * 0.5f;
+        HalfJumpDistanceScaled = JumpDistanceScaled * 0.5f;
+
+        OnChanged?.Invoke();
+    }
+
+    public override void BuildFromData(IEnumerable<BaseNJSEvent> data)
+    {
+        foreach (var evt in data) InsertData(evt);
+    }
+
+    protected override void OnInsertUpdateToPreviousState(VariableNJSStateData newState, VariableNJSStateData prevState)
+    {
+        base.OnInsertUpdateToPreviousState(newState, prevState);
+        prevState.NextRelativeNjs = newState.Base.UsePrevious == 1 ? prevState.RelativeNjs : newState.RelativeNjs;
+        var easingId = newState.Base.Easing switch
+        {
+            >= 4 and <= 18 => 0,
+            _ => newState.Base.Easing
+        };
+        prevState.Easing = Easing.FromID(easingId);
+    }
+
+    protected override void OnInsertUpdateFromPreviousStateAndNextState(
+        VariableNJSStateData newState,
+        VariableNJSStateData prevState,
+        VariableNJSStateData nextState)
+    {
+        base.OnInsertUpdateFromPreviousStateAndNextState(newState, prevState, nextState);
+        newState.RelativeNjs = newState.Base.UsePrevious == 1 ? prevState.RelativeNjs : newState.RelativeNjs;
+        newState.NextRelativeNjs = nextState.Base.UsePrevious == 1 ? newState.RelativeNjs : nextState.RelativeNjs;
+        var easingId = nextState.Base.Easing switch
+        {
+            >= 4 and <= 18 => 0,
+            _ => nextState.Base.Easing
+        };
+        newState.Easing = Easing.FromID(easingId);
+    }
+
+    public override void InsertData(BaseNJSEvent data)
+    {
+        var state = CreateState(data);
+        state.StartTime = data.SongBpmTime;
+        state.RelativeNjs = data.UsePrevious == 1 ? 0 : data.RelativeNJS;
+
+        var factor = Mathf.Min((BaseNoteJumpSpeed + state.RelativeNjs) / BaseNoteJumpSpeed, 1f);
+        var hjd = OneBeatDuration * BaseHalfJumpDurationInBeats / factor;
+        var hjdInBeat = Mathf.CeilToInt(Atsc.GetBeatFromSeconds(hjd));
+
+        if (hjds.TryAdd(hjdInBeat, 0)) MaxHalfJumpDurationInBeats = hjds.Keys.Max();
+        hjds[hjdInBeat]++;
+
+        HandleInsertState(stateChunksContainer, state);
+    }
+
+    protected override void OnRemoveUpdatePreviousAndNextState(
+        VariableNJSStateData currState,
+        VariableNJSStateData prevState,
+        VariableNJSStateData nextState)
+    {
+        base.OnRemoveUpdatePreviousAndNextState(currState, prevState, nextState);
+        prevState.NextRelativeNjs = nextState.Base.UsePrevious == 1 ? prevState.RelativeNjs : nextState.RelativeNjs;
+        var easingId = nextState.Base.Easing switch
+        {
+            >= 4 and <= 18 => 0,
+            _ => nextState.Base.Easing
+        };
+        prevState.Easing = Easing.FromID(easingId);
+    }
+
+    public override void RemoveData(BaseNJSEvent data)
+    {
+        var state = HandleRemoveState(stateChunksContainer, data);
+        if (state == stateChunksContainer.CurrentState) stateChunksContainer.SetStateAt(data.SongBpmTime);
+
+        var factor = Mathf.Min((BaseNoteJumpSpeed + state.RelativeNjs) / BaseNoteJumpSpeed, 1f);
+        var hjd = OneBeatDuration * BaseHalfJumpDurationInBeats / factor;
+        var hjdInBeat = Mathf.CeilToInt(Atsc.GetBeatFromSeconds(hjd));
+
+        if (!hjds.ContainsKey(hjdInBeat)) return;
+        hjds[hjdInBeat]--;
+
+        if (hjds[hjdInBeat] != 0) return;
+        hjds.Remove(hjdInBeat);
+        MaxHalfJumpDurationInBeats = hjds.Keys.Max();
+    }
+
+    public override void Reset() => UpdateState();
+
+    protected override VariableNJSStateData CreateState(BaseNJSEvent data) => new(data);
+}

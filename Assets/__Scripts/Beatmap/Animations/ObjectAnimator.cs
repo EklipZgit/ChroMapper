@@ -148,8 +148,8 @@ namespace Beatmap.Animations
 
             if (container is ObstacleContainer obs)
             {
-                duration = obs.ObstacleData.DurationSongBpm;
-                (var wallSize, var wallPosition) = obs.ReadSizePosition();
+                duration = obs.ObstacleData.DurationSongBpmTime;
+                var wallPosition = obs.ReadPosition();
                 wallPosition -= new Vector3(0, 0, 0.4f);
                 OffsetPosition.Preload(wallPosition);
                 Scale.Preload(Vector3.one);

@@ -1,8 +1,6 @@
-using System.Collections.Generic;
 using Beatmap.Base;
-using UnityEngine;
 
-public abstract class BasicEventManager<TData> : StateManager<TData, BaseEvent>
+public abstract class BasicEventStateManager<TData> : StateManager<TData, BaseEvent>
     where TData : BasicEventStateData
 {
     protected BasicEventStateChunksContainer<TData> InitializeStates(

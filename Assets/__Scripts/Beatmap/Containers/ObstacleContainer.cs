@@ -10,8 +10,11 @@ namespace Beatmap.Containers
 
         [SerializeField] private TracksManager manager;
 
-        [SerializeField] private Renderer obstacleCore;
-        [SerializeField] private Renderer obstacleOutline;
+        [SerializeField] private Transform coreTransform;
+        [SerializeField] private Renderer coreRenderer;
+        [SerializeField] private Transform outlineTransform;
+        [SerializeField] private Renderer outlineRenderer;
+        [SerializeField] private Transform selectionTransform;
 
         [SerializeField] private Material simpleObstacle;
         [SerializeField] private Material distortObstacle;
@@ -38,10 +41,10 @@ namespace Beatmap.Containers
             return container;
         }
 
-        internal override void UpdateMaterials()
+        public void SwitchMaterial()
         {
-            obstacleCore.sharedMaterial = UIMode.PreviewMode ? distortObstacle : simpleObstacle;
-            base.UpdateMaterials();
+            coreRenderer.sharedMaterial = UIMode.PreviewMode ? distortObstacle : simpleObstacle;
+            UpdateMaterials();
         }
 
         public void SetColor(Color c)
@@ -53,72 +56,87 @@ namespace Beatmap.Containers
         public void SetScale(Vector3 scale)
         {
             ObstacleScale = scale;
-            
+
             scale.x *= 0.98f;
             var cubeOffset = scale / 2f;
             cubeOffset.x = 0f;
 
-            obstacleCore.transform.localScale = scale - (Vector3.one * 0.01f);
-            obstacleCore.transform.localPosition = cubeOffset;
+            coreTransform.localScale = scale - (Vector3.one * 0.01f);
+            coreTransform.localPosition = cubeOffset;
 
-            obstacleOutline.transform.localScale = scale;
-            obstacleOutline.transform.localPosition = cubeOffset;
+            outlineTransform.localScale = scale;
+            outlineTransform.localPosition = cubeOffset;
 
-            foreach (var selectionRenderer in SelectionRenderers)
-            {
-                selectionRenderer.transform.localScale = scale;
-                selectionRenderer.transform.localPosition = cubeOffset;
-            }
+            selectionTransform.localScale = scale;
+            selectionTransform.localPosition = cubeOffset;
 
-            MaterialPropertyBlock.SetVector(worldScaleID, obstacleCore.transform.localScale);
+            MaterialPropertyBlock.SetVector(worldScaleID, coreTransform.localScale);
             UpdateMaterials();
         }
 
-        public float GetLength()
+        public float GetLength(float scale)
         {
             if (ObstacleData.CustomSize != null
                 && ObstacleData.CustomSize.IsArray
                 && ObstacleData.CustomSize[2].IsNumber)
                 return ObstacleData.CustomSize[2];
 
-            var length = ObstacleData.DurationSongBpm;
+            var length = ObstacleData.DurationSongBpmTime;
 
             //Take half jump duration into account if the setting is enabled.
             if (ObstacleData.Duration < 0 && Settings.Instance.ShowMoreAccurateFastWalls && !UIMode.AnimationMode)
                 length -= length * Mathf.Abs(length / ObstacleData.Hjd);
 
-            length *= UIMode.AnimationMode
-                ? ObstacleData.EditorScale
-                : EditorScaleController.EditorScale;
+            length *= scale;
 
             return float.IsFinite(length) ? length : float.Epsilon;
         }
 
-        public (Vector3 size, Vector3 position) ReadSizePosition()
+        public Vector3 ReadSize()
         {
-            var length = Mathf.Abs(GetLength());
-
             var bounds = ObstacleData.GetShape();
 
-            return (
-                new Vector3(
-                    Mathf.Abs(bounds.Width),
-                    Mathf.Abs(bounds.Height),
-                    length
-                ),
-                new Vector3(
-                    bounds.Position + (bounds.Width / 2.0f),
-                    bounds.StartHeight + (bounds.Height < 0 ? bounds.Height : 0),
-                    0
-                )
+            return new Vector3(
+                Mathf.Abs(bounds.Width),
+                Mathf.Abs(bounds.Height),
+                0f
             );
+        }
+
+        public Vector3 ReadPosition()
+        {
+            var bounds = ObstacleData.GetShape();
+
+            return new Vector3(
+                bounds.Position + (bounds.Width / 2.0f),
+                bounds.StartHeight + (bounds.Height < 0f ? bounds.Height : 0f),
+                0f
+            );
+        }
+
+        public void UpdateScaleWithLength(float length)
+        {
+            var size = ReadSize();
+            size.z = length;
+            SetScale(size);
+        }
+
+        public override void UpdateScalable(float scale)
+        {
+            var length = Mathf.Abs(GetLength(scale));
+            var size = ObstacleScale;
+            size.z = length;
+            SetScale(size);
         }
 
         public override void UpdateGridPosition()
         {
             var localRotation = Vector3.zero;
-            var length = GetLength();
-            var (size, position) = ReadSizePosition();
+            var length = GetLength(
+                UIMode.AnimationMode
+                    ? ObstacleData.EditorScale
+                    : EditorScaleController.EditorScale);
+            var position = ReadPosition();
 
             if (ObstacleData.CustomLocalRotation != null)
                 localRotation = ObstacleData.CustomLocalRotation.ReadVector3();
@@ -132,12 +150,12 @@ namespace Beatmap.Containers
 
             // Enforce positive scale, offset our obstacles to match.
             transform.localPosition = new Vector3(
-                0,
+                0f,
                 -0.5f,
-                (ObstacleData.SongBpmTime * EditorScaleController.EditorScale) + (length < 0 ? length : 0));
+                (ObstacleData.SongBpmTime * EditorScaleController.EditorScale) + (length < 0f ? length : 0f));
             Animator.LocalTarget.localPosition = position;
 
-            SetScale(size);
+            UpdateScaleWithLength(length);
 
             if (localRotation != Vector3.zero)
             {

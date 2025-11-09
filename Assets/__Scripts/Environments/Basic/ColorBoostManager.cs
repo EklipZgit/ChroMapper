@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using Beatmap.Base;
 
-public class ColorBoostManager : BasicEventManager<ColorBoostStateData>
+public class ColorBoostManager : BasicEventStateManager<ColorBoostStateData>
 {
     private readonly BasicEventStateChunksContainer<ColorBoostStateData> stateChunksContainer = new();
     public bool Boost;
 
-    public event Action<bool> OnStateChange;
+    public event Action<bool> OnStateChanged;
 
     public override void Initialize() => InitializeStates(stateChunksContainer);
 
@@ -21,7 +21,7 @@ public class ColorBoostManager : BasicEventManager<ColorBoostStateData>
     {
         if (stateData.Boost == Boost) return;
         Boost = stateData.Boost;
-        OnStateChange(Boost);
+        OnStateChanged?.Invoke(Boost);
     }
 
     protected override ColorBoostStateData CreateState(BaseEvent data) => new(data);

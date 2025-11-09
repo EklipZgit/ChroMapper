@@ -51,13 +51,16 @@ MonoBehaviour:
   - {fileID: 6504882839176335681}
   SelectionRenderers:
   - {fileID: 5839049024245972941}
-  BoxCollider: {fileID: 0}
   Animator: {fileID: 5700965668527580914}
   manager: {fileID: 0}
-  obstacleCore: {fileID: 3766371904334519554}
-  obstacleOutline: {fileID: 23076231249640560}
+  coreTransform: {fileID: 4126585013397996507}
+  coreRenderer: {fileID: 3766371904334519554}
+  outlineTransform: {fileID: 4605649909771998}
+  outlineRenderer: {fileID: 23076231249640560}
+  selectionTransform: {fileID: 3429643729211858223}
   simpleObstacle: {fileID: 2100000, guid: 1145b3171efb541469ebd809c779e924, type: 2}
   distortObstacle: {fileID: 2100000, guid: c33b80c70e257e07aad443f4ed6b716f, type: 2}
+  ObstacleScale: {x: 0, y: 0, z: 0}
 --- !u!114 &5700965668527580914
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179,37 +182,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
-  BoundsRenderer: {fileID: 23076231249640560}
   Center: {x: 0, y: 0, z: 0}
   Size: {x: 1, y: 1, z: 1}
-  MeshTriangles: 0000000002000000030000000000000003000000010000000800000004000000050000000800000005000000090000000a00000006000000070000000a000000070000000b0000000c0000000d0000000e0000000c0000000e0000000f000000100000001100000012000000100000001200000013000000140000001500000016000000140000001600000017000000
-  MeshVertices:
-  - {x: 1, y: -1, z: 1}
-  - {x: -1, y: -1, z: 1}
-  - {x: 1, y: 1, z: 1}
-  - {x: -1, y: 1, z: 1}
-  - {x: 1, y: 1, z: -1}
-  - {x: -1, y: 1, z: -1}
-  - {x: 1, y: -1, z: -1}
-  - {x: -1, y: -1, z: -1}
-  - {x: 1, y: 1, z: 1}
-  - {x: -1, y: 1, z: 1}
-  - {x: 1, y: 1, z: -1}
-  - {x: -1, y: 1, z: -1}
-  - {x: 1, y: -1, z: -1}
-  - {x: 1, y: -1, z: 1}
-  - {x: -1, y: -1, z: 1}
-  - {x: -1, y: -1, z: -1}
-  - {x: -1, y: -1, z: 1}
-  - {x: -1, y: 1, z: 1}
-  - {x: -1, y: 1, z: -1}
-  - {x: -1, y: -1, z: -1}
-  - {x: 1, y: -1, z: -1}
-  - {x: 1, y: 1, z: -1}
-  - {x: 1, y: 1, z: 1}
-  - {x: 1, y: -1, z: 1}
-  CollisionLayer: 9
-  CollisionGroups: 
 --- !u!1 &3042518192985693497
 GameObject:
   m_ObjectHideFlags: 0

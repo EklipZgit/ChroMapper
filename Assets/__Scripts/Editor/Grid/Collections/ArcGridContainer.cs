@@ -1,12 +1,9 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using Beatmap.Appearances;
 using Beatmap.Base;
 using Beatmap.Containers;
 using Beatmap.Enums;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 /// <summary>
 /// Note that <see cref="ArcGridContainer"></see> uses `UseChunkLoadingWhenPlaying`. Therefore arc doesn't fade after passing through.
@@ -14,18 +11,24 @@ using UnityEngine.Serialization;
 public class ArcGridContainer : BeatmapObjectContainerCollection<BaseArc>
 {
     [SerializeField] private GameObject arcPrefab;
-    [FormerlySerializedAs("arcAppearanceSO")][SerializeField] private ArcAppearanceSO arcAppearanceSO;
+    [SerializeField] private ArcAppearanceSO arcAppearanceSO;
+
+    public const float ViewEpsilon = 0.1f; // original view is too small ?? sometimes cause error.
+
     [SerializeField] private TracksManager tracksManager;
     [SerializeField] private CountersPlusController countersPlus;
     private bool isPlaying;
 
-    private Queue<ArcContainer> queuedUpdatingArcs = new Queue<ArcContainer>();
+    private Queue<ArcContainer> queuedUpdatingArcs = new();
     private const int maxRecomputePerFrame = 2;
     public override ObjectType ContainerType => ObjectType.Arc;
 
     public override ObjectContainer CreateContainer()
     {
-        return ArcContainer.SpawnArc(null, ref arcPrefab);
+        var con = ArcContainer.SpawnArc(null, ref arcPrefab);
+        con.Animator.Atsc = AudioTimeSyncController;
+        con.Animator.TracksManager = tracksManager;
+        return con;
     }
 
     protected override void HandleObjectSpawned(BaseObject _, bool __ = false) =>
@@ -33,15 +36,23 @@ public class ArcGridContainer : BeatmapObjectContainerCollection<BaseArc>
 
     protected override void HandleObjectDelete(BaseObject _, bool __ = false) =>
         countersPlus.UpdateStatistic(CountersPlusStatistic.Arcs);
-    
+
     internal override void SubscribeToCallbacks()
     {
+        var notesContainer = GetCollectionForType(ObjectType.Note) as NoteGridContainer;
+        if (notesContainer != null) notesContainer.OnContainerSpawned += CheckUpdatedNote;
+
         AudioTimeSyncController.OnPlayToggled += OnPlayToggle;
+        UIMode.OnPreviewModeSwitched += OnUIPreviewModeSwitch;
     }
 
     internal override void UnsubscribeToCallbacks()
     {
+        var notesContainer = GetCollectionForType(ObjectType.Note) as NoteGridContainer;
+        if (notesContainer != null) notesContainer.OnContainerSpawned -= CheckUpdatedNote;
+
         AudioTimeSyncController.OnPlayToggled -= OnPlayToggle;
+        UIMode.OnPreviewModeSwitched -= OnUIPreviewModeSwitch;
     }
 
     internal override void LateUpdate()
@@ -54,11 +65,32 @@ public class ArcGridContainer : BeatmapObjectContainerCollection<BaseArc>
     {
         if (!LoadedContainers.ContainsKey(objectData)) CreateContainerFromPool(objectData);
     }
-    private void RecursiveCheckFinished(bool natural, int lastPassedIndex) => RefreshPool();
+
     private void DespawnCallback(bool initial, int index, BaseObject objectData)
     {
         if (LoadedContainers.ContainsKey(objectData)) RecycleContainer(objectData);
     }
+
+    private void CheckUpdatedNote(BaseObject obj)
+    {
+        var note = obj as BaseNote;
+        if (note.Type == (int)NoteType.Bomb) return;
+        var arcs = GetBetween(note.JsonTime - ViewEpsilon, note.JsonTime + ViewEpsilon);
+        foreach (BaseArc arc in arcs)
+        {
+            LoadedContainers.TryGetValue(arc, out var con);
+            var container = con as ArcContainer;
+            if (container == null) continue;
+            container.DetectConnectedNote();
+
+            break;
+        }
+    }
+
+    private void OnUIPreviewModeSwitch() => RefreshPool(true);
+
+    protected override void HandleContainerSpawn(ObjectContainer container, BaseObject obj) =>
+        (container as ArcContainer).DetectConnectedNote();
 
     /// <summary>
     /// When playing, disable all indicator blocks
@@ -84,8 +116,12 @@ public class ArcGridContainer : BeatmapObjectContainerCollection<BaseArc>
         arcAppearanceSO.SetArcAppearance(arc);
         arc.Setup();
         arc.SetIndicatorBlocksActive(false);
-        var track = tracksManager.GetTrackAtTime(arcData.SongBpmTime);
-        track.AttachContainer(con);
+
+        if (!arc.Animator.AnimatedTrack)
+        {
+            var track = tracksManager.GetTrackAtTime(arcData.SongBpmTime);
+            track.AttachContainer(con);
+        }
     }
 
     /// <summary>

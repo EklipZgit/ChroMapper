@@ -64,6 +64,8 @@ public class NJSEventPlacement : BasePlacement<BaseNJSEvent, NJSEventContainer, 
 
     public override void HandleApply() => CreateAndOpenNJSDialogue(true);
 
+    public void HandleApplyNoDialogue() => base.HandleApply();
+
     private void AttemptPlaceNJSChange(string njsInput, int easingDropdownValue, bool extend)
     {
         if (string.IsNullOrEmpty(njsInput) || string.IsNullOrWhiteSpace(njsInput)) return;

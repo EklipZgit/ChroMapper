@@ -110,10 +110,10 @@ namespace Beatmap.Base
             }
         }
         private float? durationSongBpm;
-        public float DurationSongBpm => (float)durationSongBpm;
+        public float DurationSongBpmTime => (float)durationSongBpm;
         public int Width { get; set; }
 
-        public override float DespawnSongBpmTime => SongBpmTime + DurationSongBpm + Hjd;
+        public override float DespawnSongBpmTime => SongBpmTime + DurationSongBpmTime + Hjd;
 
         public virtual JSONNode CustomSize { get; set; }
 

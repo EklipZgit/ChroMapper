@@ -6,7 +6,7 @@ using Beatmap.Enums;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class BasicLightManager : BasicEventManager<BasicLightStateData>
+public class BasicLightManager : BasicEventStateManager<BasicLightStateData>
 {
     public static PlatformColorScheme ColorScheme;
     private static bool useBoost;

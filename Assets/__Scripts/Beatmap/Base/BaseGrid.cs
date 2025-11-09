@@ -42,7 +42,7 @@ namespace Beatmap.Base
 
         public int PosX { get; set; }
         public virtual int PosY { get; set; }
-        
+
         public int Rotation { get; set; }
 
         // Half Jump Duration (SongBpmTime)
@@ -105,10 +105,19 @@ namespace Beatmap.Base
             var offset = CustomNoteJumpStartBeatOffset?.AsFloat
                 ?? BeatSaberSongContainer.Instance?.MapDifficultyInfo?.NoteStartBeatOffset ?? 0f;
             var bpm = BeatSaberSongContainer.Instance?.Info?.BeatsPerMinute ?? 0f;
-            Hjd = SpawnParameterHelper.CalculateHalfJumpDuration(njs, offset, bpm);
+
+            var hjd = SpawnParameterHelper.CalculateHalfJumpDuration(njs, offset, bpm);
             // (5 / 3) * njs * (60 / bpm) = 100
-            EditorScale = 100f * njs / bpm;
-            Jd = Hjd * EditorScale;
+            var editorScale = 100f * njs / bpm;
+            var jd = hjd * editorScale;
+            SetSpawnParameters(hjd, jd, editorScale);
+        }
+
+        public void SetSpawnParameters(float hjd, float jd, float editorScale)
+        {
+            Hjd = hjd;
+            Jd = jd;
+            EditorScale = editorScale;
         }
 
         private Vector2 DerivePositionFromData()
@@ -125,8 +134,7 @@ namespace Beatmap.Base
 
             if (PosX >= 1000)
                 position = (PosX / 1000f) - 2.5f;
-            else if (PosX <= -1000)
-                position = (PosX / 1000f) - 0.5f;
+            else if (PosX <= -1000) position = (PosX / 1000f) - 0.5f;
 
             if (PosY >= 1000 || PosY <= -1000) layer = (PosY / 1000f) - 1f;
 
@@ -137,13 +145,27 @@ namespace Beatmap.Base
         {
             base.ParseCustom();
 
-            CustomAnimation = (CustomData?.HasKey(CustomKeyAnimation) ?? false) ? CustomData?[CustomKeyAnimation] : null;
-            CustomCoordinate = (CustomData?.HasKey(CustomKeyCoordinate) ?? false) ? CustomData?[CustomKeyCoordinate] : null;
-            CustomWorldRotation = (CustomData?.HasKey(CustomKeyWorldRotation) ?? false) ? CustomData?[CustomKeyWorldRotation] : null;
-            CustomLocalRotation = (CustomData?.HasKey(CustomKeyLocalRotation) ?? false) ? CustomData?[CustomKeyLocalRotation] : null;
-            CustomSpawnEffect = (CustomData?.HasKey(CustomKeySpawnEffect) ?? false) ? CustomData[CustomKeySpawnEffect] : null;
-            CustomNoteJumpMovementSpeed = (CustomData?.HasKey(CustomKeyNoteJumpMovementSpeed) ?? false) ? CustomData?[CustomKeyNoteJumpMovementSpeed] : null;
-            CustomNoteJumpStartBeatOffset = (CustomData?.HasKey(CustomKeyNoteJumpStartBeatOffset) ?? false) ? CustomData?[CustomKeyNoteJumpStartBeatOffset] : null;
+            CustomAnimation = (CustomData?.HasKey(CustomKeyAnimation) ?? false)
+                ? CustomData?[CustomKeyAnimation]
+                : null;
+            CustomCoordinate = (CustomData?.HasKey(CustomKeyCoordinate) ?? false)
+                ? CustomData?[CustomKeyCoordinate]
+                : null;
+            CustomWorldRotation = (CustomData?.HasKey(CustomKeyWorldRotation) ?? false)
+                ? CustomData?[CustomKeyWorldRotation]
+                : null;
+            CustomLocalRotation = (CustomData?.HasKey(CustomKeyLocalRotation) ?? false)
+                ? CustomData?[CustomKeyLocalRotation]
+                : null;
+            CustomSpawnEffect = (CustomData?.HasKey(CustomKeySpawnEffect) ?? false)
+                ? CustomData[CustomKeySpawnEffect]
+                : null;
+            CustomNoteJumpMovementSpeed = (CustomData?.HasKey(CustomKeyNoteJumpMovementSpeed) ?? false)
+                ? CustomData?[CustomKeyNoteJumpMovementSpeed]
+                : null;
+            CustomNoteJumpStartBeatOffset = (CustomData?.HasKey(CustomKeyNoteJumpStartBeatOffset) ?? false)
+                ? CustomData?[CustomKeyNoteJumpStartBeatOffset]
+                : null;
 
             RecomputeSpawnParameters();
         }
@@ -151,14 +173,35 @@ namespace Beatmap.Base
         protected internal override JSONNode SaveCustom()
         {
             var node = base.SaveCustom();
-            if (CustomAnimation != null) node[CustomKeyAnimation] = CustomAnimation; else node.Remove(CustomKeyAnimation);
-            if (CustomCoordinate != null) node[CustomKeyCoordinate] = CustomCoordinate; else node.Remove(CustomKeyCoordinate);
-            if (CustomWorldRotation != null) node[CustomKeyWorldRotation] = CustomWorldRotation; else node.Remove(CustomKeyWorldRotation);
-            if (CustomLocalRotation != null) node[CustomKeyLocalRotation] = CustomLocalRotation; else node.Remove(CustomKeyLocalRotation);
-            if (CustomSpawnEffect != null) node[CustomKeySpawnEffect] = CustomSpawnEffect; else node.Remove(CustomKeySpawnEffect);
-            if (CustomNoteJumpMovementSpeed != null) node[CustomKeyNoteJumpMovementSpeed] = CustomNoteJumpMovementSpeed; else node.Remove(CustomKeyNoteJumpMovementSpeed);
-            if (CustomNoteJumpStartBeatOffset != null) node[CustomKeyNoteJumpStartBeatOffset] = CustomNoteJumpStartBeatOffset; else node.Remove(CustomKeyNoteJumpStartBeatOffset); 
-            
+            if (CustomAnimation != null)
+                node[CustomKeyAnimation] = CustomAnimation;
+            else
+                node.Remove(CustomKeyAnimation);
+            if (CustomCoordinate != null)
+                node[CustomKeyCoordinate] = CustomCoordinate;
+            else
+                node.Remove(CustomKeyCoordinate);
+            if (CustomWorldRotation != null)
+                node[CustomKeyWorldRotation] = CustomWorldRotation;
+            else
+                node.Remove(CustomKeyWorldRotation);
+            if (CustomLocalRotation != null)
+                node[CustomKeyLocalRotation] = CustomLocalRotation;
+            else
+                node.Remove(CustomKeyLocalRotation);
+            if (CustomSpawnEffect != null)
+                node[CustomKeySpawnEffect] = CustomSpawnEffect;
+            else
+                node.Remove(CustomKeySpawnEffect);
+            if (CustomNoteJumpMovementSpeed != null)
+                node[CustomKeyNoteJumpMovementSpeed] = CustomNoteJumpMovementSpeed;
+            else
+                node.Remove(CustomKeyNoteJumpMovementSpeed);
+            if (CustomNoteJumpStartBeatOffset != null)
+                node[CustomKeyNoteJumpStartBeatOffset] = CustomNoteJumpStartBeatOffset;
+            else
+                node.Remove(CustomKeyNoteJumpStartBeatOffset);
+
             SetCustomData(node);
             return node;
         }

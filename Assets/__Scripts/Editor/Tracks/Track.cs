@@ -1,4 +1,5 @@
-﻿using Beatmap.Base;
+﻿using System.Linq;
+using Beatmap.Base;
 using Beatmap.V2;
 using Beatmap.Containers;
 using UnityEngine;
@@ -6,15 +7,21 @@ using UnityEngine;
 public class Track : MonoBehaviour
 {
     public Transform ObjectParentTransform;
+    public VariableNJSProvider vNjsProvider;
 
     public Vector3 RotationValue = Vector3.zero;
 
     private readonly Vector3 rotationPoint = LoadInitialMap.PlatformOffset;
 
-    public BaseGrid Object;
+    private BaseGrid gridObject;
+    private ObjectContainer gridContainer;
+    private (Transform, Vector3, Quaternion)[] nodesTarget;
+    private readonly Vector3[] newSplinePosition = new Vector3[ArcContainer.NumSamples + 1];
+    private bool useCustom;
+    private float spawnTime;
     private float spawnPosition;
-    private float despawnPosition;
     private float despawnTime;
+    private float despawnPosition;
 
     // this number pulled from my ass, but it looks fine
     // oh, it's actually correct
@@ -22,6 +29,9 @@ public class Track : MonoBehaviour
 
     // this number also pulled from my ass, song bpm time
     public const float JUMP_TIME = 2f;
+
+    public void OnEnable() => vNjsProvider.OnChanged += UpdateState;
+    public void OnDisable() => vNjsProvider.OnChanged -= UpdateState;
 
     public void AssignRotationValue(Vector3 rotation)
     {
@@ -33,70 +43,219 @@ public class Track : MonoBehaviour
 
     public void UpdatePosition(float position)
     {
-        ObjectParentTransform.localPosition = new Vector3(ObjectParentTransform.localPosition.x,
-            ObjectParentTransform.localPosition.y, position);
+        ObjectParentTransform.localPosition = new Vector3(
+            ObjectParentTransform.localPosition.x,
+            ObjectParentTransform.localPosition.y,
+            position);
     }
 
     public void UpdateTime(float time)
     {
         var z = 0f;
-        var v2 = Object is V2Object;
+        var v2 = gridObject is V2Object;
         var position = ObjectParentTransform.localPosition;
 
         // Jump in
-        if (time < Object.SpawnSongBpmTime)
+        if (time < spawnTime)
         {
-            z = ((Object.CustomSpawnEffect ?? !v2) ^ v2) ? Mathf.Lerp(spawnPosition, JUMP_FAR, (Object.SpawnSongBpmTime - time) / JUMP_TIME) : JUMP_FAR;
+            z = (gridObject.CustomSpawnEffect ?? !v2) ^ v2
+                ? Mathf.Lerp(spawnPosition, JUMP_FAR, (spawnTime - time) / JUMP_TIME)
+                : JUMP_FAR;
         }
         else if (time < despawnTime)
-        {
-            z = Mathf.Lerp(spawnPosition, despawnPosition, (time - Object.SpawnSongBpmTime) / (despawnTime - Object.SpawnSongBpmTime));
-        }
+            z = Mathf.Lerp(spawnPosition, despawnPosition, (time - spawnTime) / (despawnTime - spawnTime));
         // Jump out
         else
-        {
             z = Mathf.Lerp(despawnPosition, -JUMP_FAR, (time - despawnTime) / JUMP_TIME);
-        }
 
         position.z = z;
 
         // oh yeah you know its good when things start with a check like this
-        if (Object is BaseNote note)
+        switch (gridObject)
         {
-            // Normalized [0-1] between despawn time and spawn time
-            var normalizedLifetime = Mathf.Clamp01(Mathf.InverseLerp(Object.DespawnSongBpmTime, Object.SpawnSongBpmTime, time));
-            
-            // [0-1] between spawn time and note time
-            // 0.3 magic number taken from ArcViewer (thanks polandball)
-            var spawnLifetime = Mathf.Clamp01(1 - ((normalizedLifetime - 0.5f) * 2));
-            var rotationLifetime = Mathf.Clamp01(spawnLifetime / 0.3f);
-
-            // Beat Saber uses a parabolic arc so we use Quadratic Out easing because im lazy
-            var jumpT = Easing.Quadratic.Out(spawnLifetime);
-            var rotationT = Easing.Quadratic.Out(rotationLifetime);
-
-            // Magic 1.1 number comes from ObjectContainer.offsetY which is currently protected
-            // TODO: Pre-compute starting position so notes can stack and flip can be supported
-            //   (Notes need to be aware of other notes)
-            position.y = Mathf.Lerp(0.5f, note.GetPosition().y + 0.5f, jumpT);
-
-            // Multiply euler rotation by spawn lifetime if we are in the first half (spawning) portion of our object lifetime
-            if (normalizedLifetime >= 0.5f)
-            {
-                // OK this is hacky i sincerely apologize
-                var containerCollection = BeatmapObjectContainerCollection.GetCollectionForType(note.ObjectType);
-                
-                if (containerCollection.LoadedContainers.TryGetValue(Object, out var container) && container is NoteContainer noteContainer)
+            case BaseNote note:
                 {
-                    var quaternion = Quaternion.Euler(noteContainer.DirectionTargetEuler);
+                    // Normalized [0-1] between despawn time and spawn time
+                    var normalizedLifetime = Mathf.Clamp01(Mathf.InverseLerp(despawnTime, spawnTime, time));
 
-                    noteContainer.DirectionTarget.localRotation = Quaternion.Lerp(Quaternion.identity, quaternion, rotationT);
+                    // [0-1] between spawn time and note time
+                    // 0.3 magic number taken from ArcViewer (thanks polandball)
+                    var spawnLifetime = Mathf.Clamp01(1 - ((normalizedLifetime - 0.5f) * 2));
+                    var rotationLifetime = Mathf.Clamp01(spawnLifetime / 0.3f);
+
+                    // Beat Saber uses a parabolic arc so we use Quadratic Out easing because im lazy
+                    var jumpT = Easing.Quadratic.Out(spawnLifetime);
+                    var rotationT = Easing.Quadratic.Out(rotationLifetime);
+
+                    // TODO: Pre-compute starting position so notes can stack and flip can be supported
+                    //   (Notes need to be aware of other notes)
+                    position.y = Mathf.Lerp(0.5f, note.GetPosition().y + 0.5f, jumpT);
+
+                    // Multiply euler rotation by spawn lifetime if we are in the first half (spawning) portion of our object lifetime
+                    if (normalizedLifetime >= 0.5f && gridContainer is NoteContainer noteContainer)
+                    {
+                        var quaternion = Quaternion.Euler(noteContainer.DirectionTargetEuler);
+
+                        noteContainer.DirectionTarget.localRotation = Quaternion.Lerp(
+                            Quaternion.identity,
+                            quaternion,
+                            rotationT);
+                    }
+
+                    break;
                 }
-            }
+            case BaseChain chain:
+                {
+                    for (var i = 0; i < nodesTarget.Length; i++)
+                    {
+                        var (nodeTransform, targetPosition, targetRotation) = nodesTarget[i];
+                        var localPosition = nodeTransform.localPosition;
+                        var offset = Mathf.Lerp(
+                            0f,
+                            chain.TailSongBpmTime - chain.SongBpmTime,
+                            (i + 1f) / (chain.SliceCount - 1f));
 
+                        // it's just copypasted above
+                        var normalizedLifetime = Mathf.Clamp01(
+                            Mathf.InverseLerp(
+                                despawnTime + offset,
+                                spawnTime + offset,
+                                time));
+                        var spawnLifetime = Mathf.Clamp01(1 - ((normalizedLifetime - 0.5f) * 2));
+                        var rotationLifetime = Mathf.Clamp01(spawnLifetime / 0.3f);
+                        var jumpT = Easing.Quadratic.Out(spawnLifetime);
+                        var rotationT = Easing.Quadratic.Out(rotationLifetime);
+                        localPosition.y = Mathf.Lerp(0, targetPosition.y, jumpT);
+                        nodeTransform.localPosition = localPosition;
+                        nodeTransform.localRotation = Quaternion.Lerp(Quaternion.identity, targetRotation, rotationT);
+                    }
+
+                    break;
+                }
+            case BaseArc arc:
+                {
+                    var arcContainer = gridContainer as ArcContainer;
+
+                    var normalizedLifetime = Mathf.Clamp01(
+                        Mathf.InverseLerp(
+                            arc.SongBpmTime + arc.Hjd,
+                            arc.SpawnSongBpmTime,
+                            time));
+                    var spawnLifetime = Mathf.Clamp01(1 - ((normalizedLifetime - 0.5f) * 2));
+                    var jumpT = arcContainer.HasHeadNote ? Easing.Quadratic.Out(spawnLifetime) : 1f;
+                    var headPosY = arc.GetPosition().y;
+                    var headY = Mathf.Lerp(0, headPosY, jumpT) - headPosY;
+
+                    var tailOffset = arc.DurationSongBpmTime;
+                    var tailNormalizedLifetime = Mathf.Clamp01(
+                        Mathf.InverseLerp(
+                            arc.SongBpmTime + arc.Hjd + tailOffset,
+                            arc.SpawnSongBpmTime + tailOffset,
+                            time));
+                    var tailSpawnLifetime = Mathf.Clamp01(1 - ((tailNormalizedLifetime - 0.5f) * 2));
+                    var tailJumpT = arcContainer.HasTailNote ? Easing.Quadratic.Out(tailSpawnLifetime) : 1f;
+                    var tailPosY = arc.GetTailPosition().y;
+                    var tailY = Mathf.Lerp(0, tailPosY, tailJumpT) - tailPosY;
+
+                    // yoink from polandball
+                    // https://github.com/AllPoland/ArcViewer/blob/main/Assets/__Scripts/Previewer/MapControl/Objects/ArcManager.cs#L362
+                    var basePositions = arcContainer.BaseSplinePoints;
+                    var arcLength = basePositions[^1].z;
+                    for (var i = 0; i < basePositions.Length; i++)
+                    {
+                        var point = basePositions[i];
+
+                        //Get the preferred offset based on distance from the head
+                        var headDist = point.z / arc.Jd;
+                        var headT = 1 - Easing.Quadratic.Out(Mathf.Clamp01(headDist));
+                        var headPreferredOffset = headY * headT;
+
+                        //Get the preferred offset based on distance from the tail
+                        var tailDist = (arcLength - point.z) / arc.Jd;
+                        var tailT = 1 - Easing.Quadratic.Out(Mathf.Clamp01(tailDist));
+                        var tailPreferredOffset = tailY * tailT;
+
+                        //Weight the adjustment based on which end of the arc the point is closer to
+                        var relativePosition = point.z / arcLength;
+                        point.y += Mathf.Lerp(headPreferredOffset, tailPreferredOffset, relativePosition);
+
+                        //Squish the arc if needed
+                        point.z *= arc.DurationSongBpmTime * arc.EditorScale;
+
+                        newSplinePosition[i] = point;
+                    }
+
+                    var splineRenderer = arcContainer.SplineRenderer;
+                    splineRenderer.SetPositions(newSplinePosition);
+                    break;
+                }
         }
 
         ObjectParentTransform.localPosition = position;
+    }
+
+    public void InitState()
+    {
+        useCustom = (gridObject.CustomNoteJumpMovementSpeed?.IsNumber ?? false)
+            || (gridObject.CustomNoteJumpStartBeatOffset?.IsNumber ?? false);
+        if (!useCustom)
+        {
+            gridObject.SetSpawnParameters(
+                vNjsProvider.HalfJumpDurationInBeats,
+                vNjsProvider.JumpDistanceScaled,
+                vNjsProvider.EditorScale);
+        }
+
+        UpdateSpawning();
+    }
+
+    public void UpdateState()
+    {
+        if (!UIMode.PreviewMode || useCustom || gridObject == null || gridContainer.ObjectData == null) return;
+
+        gridObject.SetSpawnParameters(
+            vNjsProvider.HalfJumpDurationInBeats,
+            vNjsProvider.JumpDistanceScaled,
+            vNjsProvider.EditorScale);
+        UpdateSpawning();
+    }
+
+    public void UpdateSpawning()
+    {
+        spawnTime = gridObject.SongBpmTime - gridObject.Hjd;
+        spawnPosition = gridObject.Jd;
+        switch (gridObject)
+        {
+            case BaseObstacle obs:
+                despawnPosition = -(obs.Jd * 0.5f) - (obs.DurationSongBpmTime * obs.EditorScale);
+                despawnTime = obs.SongBpmTime + obs.DurationSongBpmTime + (obs.Hjd * 0.5f);
+                break;
+            case BaseArc arc:
+                despawnPosition = -arc.Jd - (arc.DurationSongBpmTime * arc.EditorScale);
+                despawnTime = arc.DespawnSongBpmTime;
+                break;
+            case BaseChain chain:
+                despawnPosition = -chain.Jd - (chain.DurationSongBpmTime * chain.EditorScale);
+                despawnTime = chain.DespawnSongBpmTime;
+                break;
+            default:
+                despawnPosition = -gridObject.Jd;
+                despawnTime = gridObject.DespawnSongBpmTime;
+                break;
+        }
+
+        if (gridContainer is ChainContainer chainContainer)
+        {
+            nodesTarget = chainContainer
+                .Nodes.Select(n => (n.transform, n.transform.localPosition, n.transform.localRotation))
+                .Append(
+                    (chainContainer.MainObject.transform,
+                        chainContainer.MainObject.transform.localPosition,
+                        chainContainer.MainObject.transform.rotation))
+                .ToArray();
+        }
+
+        gridContainer.UpdateScalable(gridObject.EditorScale);
     }
 
     public void AttachContainer(ObjectContainer obj)
@@ -105,20 +264,11 @@ public class Track : MonoBehaviour
         if (obj.transform.parent == ObjectParentTransform) return;
         obj.transform.SetParent(ObjectParentTransform, false);
         obj.AssignTrack(this);
-        if (obj.ObjectData is BaseGrid g) {
-            Object = g;
-            spawnPosition = Object.Jd;
-            if (Object is BaseObstacle obs)
-            {
-                despawnPosition = -(Object.Jd * 0.5f) - (obs.DurationSongBpm * obs.EditorScale);
-                despawnTime = obs.SongBpmTime + obs.DurationSongBpm + (obs.Hjd * 0.5f);
-            }
-            else
-            {
-                despawnPosition = -Object.Jd;
-                despawnTime = Object.DespawnSongBpmTime;
-            }
-        }
+
+        if (obj.ObjectData is not BaseGrid g) return;
+        gridContainer = obj;
+        gridObject = g;
+        InitState();
     }
 
     public void UpdateMaterialRotation(ObjectContainer obj)

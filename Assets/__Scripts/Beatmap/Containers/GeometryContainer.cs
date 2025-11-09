@@ -82,7 +82,8 @@ namespace Beatmap.Containers
             if (container.MaterialPropertyBlock == null)
             {
                 container.MaterialPropertyBlock = new MaterialPropertyBlock();
-                container.modelRenderers.Add(renderer);
+                container.ModelRenderers.Add(renderer);
+                container.RendererCount = container.ModelRenderers.Count;
             }
 
             container.Colliders.Add(intersection);

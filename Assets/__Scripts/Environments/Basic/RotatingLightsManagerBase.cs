@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Beatmap.Base;
 using Random = UnityEngine.Random;
 
-public abstract class RotatingLightsManagerBase : BasicEventManager<RotatingLightStateData>
+public abstract class RotatingLightsManagerBase : BasicEventStateManager<RotatingLightStateData>
 {
     public int Index; // because there are no grouping, we need to assign index for random
     public bool Mirror;

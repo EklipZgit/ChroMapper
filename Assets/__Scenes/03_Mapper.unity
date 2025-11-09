@@ -1827,6 +1827,7 @@ MonoBehaviour:
     type: 2}
   tracksManager: {fileID: 902407107}
   countersPlus: {fileID: 471772270}
+  vNjsProvider: {fileID: 597767624}
 --- !u!114 &25550680
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4730,6 +4731,7 @@ MonoBehaviour:
   noteGridContainer: {fileID: 25550673}
   eventGridContainer: {fileID: 455916737}
   timeSyncController: {fileID: 570484802}
+  vNjsProvider: {fileID: 597767624}
   uiMode: {fileID: 1799035893}
   useOffsetFromConfig: 0
   useDespawnOffset: 0
@@ -13238,6 +13240,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectParentTransform: {fileID: 443861352}
+  vNjsProvider: {fileID: 597767624}
   RotationValue: {x: 0, y: 0, z: 0}
 --- !u!114 &443861357
 MonoBehaviour:
@@ -13638,6 +13641,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectParentTransform: {fileID: 455916736}
+  vNjsProvider: {fileID: 597767624}
   RotationValue: {x: 0, y: 0, z: 0}
 --- !u!1 &456339902
 GameObject:
@@ -14400,6 +14404,7 @@ MonoBehaviour:
   chainGrid: {fileID: 25550681}
   bpm: {fileID: 1890332741}
   njsEventGrid: {fileID: 1105924656}
+  vNjsProvider: {fileID: 597767624}
   cameraAudioSource: {fileID: 119653247}
   atsc: {fileID: 570484802}
   notesMesh: {fileID: 687914315}
@@ -17728,6 +17733,90 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!21 &562457469
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Inherited From Round Corners
+  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AlphaClip: 0
+    - _Blend: 0
+    - _BumpScale: 1
+    - _ColorMask: 15
+    - _Cull: 2
+    - _Cutoff: 0.5
+    - _DstBlend: 0
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _Metallic: 0
+    - _OcclusionStrength: 1
+    - _ReceiveShadows: 1
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _Surface: 0
+    - _UseUIAlphaClip: 0
+    - _WorkflowMode: 1
+    - _ZWrite: 1
+    m_Colors:
+    - _Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _WidthHeightRadius: {r: 34.4, g: 16.4, b: 4, a: 0}
+    - _halfSize: {r: 150, g: 45, b: 0, a: 0}
+    - _r: {r: 2, g: 2, b: 2, a: 2}
+    - _rect2props: {r: 0.000015258789, g: -0.000015258789, b: 136.47162, a: 136.47162}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1 &565602429
 GameObject:
   m_ObjectHideFlags: 0
@@ -17773,6 +17862,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectParentTransform: {fileID: 565602430}
+  vNjsProvider: {fileID: 597767624}
   RotationValue: {x: 0, y: 0, z: 0}
 --- !u!1 &567902551
 GameObject:
@@ -18957,6 +19047,80 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 593504379}
   m_CullTransparentMesh: 0
+--- !u!1 &597767622
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 597767623}
+  - component: {fileID: 597767625}
+  - component: {fileID: 597767624}
+  m_Layer: 0
+  m_Name: VNJS Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &597767623
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 597767622}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1524038328}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &597767624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 597767622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76963631a5c144e4a2293b51a0f345ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Atsc: {fileID: 570484802}
+  NoteJumpSpeed: 0
+  JumpDuration: 0
+  JumpDistance: 0
+  JumpDistanceScaled: 0
+  HalfJumpDurationInBeats: 0
+  HalfJumpDuration: 0
+  HalfJumpDistance: 0
+  HalfJumpDistanceScaled: 0
+  EditorScale: 0
+  BaseBeatPerMinute: 0
+  BaseNoteJumpSpeed: 0
+  BaseHalfJumpDurationInBeats: 0
+  OneBeatDuration: 0
+  MaxHalfJumpDurationInBeats: 0
+--- !u!114 &597767625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 597767622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7ffb0cd4923493cb0ee8ef298e1ea73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Atsc: {fileID: 570484802}
+  provider: {fileID: 597767624}
 --- !u!1001 &599698642
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19165,6 +19329,11 @@ PrefabInstance:
       propertyPath: customStandaloneInputModule
       value: 
       objectReference: {fileID: 806554}
+    - target: {fileID: 6818142282442232602, guid: 20e633c6c4c50f744a0f7f171d45ad00,
+        type: 3}
+      propertyPath: m_AfterStackBundles.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -20220,6 +20389,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   atsc: {fileID: 570484802}
+  vNjsProvider: {fileID: 597767624}
   gridParent: {fileID: 617466176}
   zLineSpacing: {x: 1, y: 0.25, z: 0, w: 0}
   zLineThickness: {x: 0.1, y: 0.05, z: 0.025, w: 0.0125}
@@ -28470,6 +28640,7 @@ MonoBehaviour:
   tracksParent: {fileID: 25550672}
   eventGrid: {fileID: 455916737}
   atsc: {fileID: 570484802}
+  vNjsProvider: {fileID: 597767624}
 --- !u!1 &908866644
 GameObject:
   m_ObjectHideFlags: 0
@@ -28515,6 +28686,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectParentTransform: {fileID: 908866645}
+  vNjsProvider: {fileID: 597767624}
   RotationValue: {x: 0, y: 0, z: 0}
 --- !u!1 &912303265
 GameObject:
@@ -31617,6 +31789,7 @@ MonoBehaviour:
   noteGridContainer: {fileID: 25550673}
   eventGridContainer: {fileID: 455916737}
   timeSyncController: {fileID: 570484802}
+  vNjsProvider: {fileID: 597767624}
   uiMode: {fileID: 1799035893}
   useOffsetFromConfig: 0
   useDespawnOffset: 0
@@ -32998,6 +33171,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectParentTransform: {fileID: 1006741503}
+  vNjsProvider: {fileID: 597767624}
   RotationValue: {x: 0, y: 0, z: 0}
 --- !u!1 &1007058445
 GameObject:
@@ -36372,7 +36546,6 @@ MonoBehaviour:
   IgnoreTrackFilter: 0
   njsEventPrefab: {fileID: 1119461675923126, guid: c79fb2762ceb3c140afa8096b5f9b3b7,
     type: 3}
-  countersPlus: {fileID: 471772270}
 --- !u!114 &1105924657
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36386,6 +36559,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectParentTransform: {fileID: 1105924655}
+  vNjsProvider: {fileID: 597767624}
   RotationValue: {x: 0, y: 0, z: 0}
 --- !u!1 &1106532172
 GameObject:
@@ -42938,6 +43112,7 @@ MonoBehaviour:
   noteGridContainer: {fileID: 25550673}
   eventGridContainer: {fileID: 455916737}
   timeSyncController: {fileID: 570484802}
+  vNjsProvider: {fileID: 597767624}
   uiMode: {fileID: 1799035893}
   useOffsetFromConfig: 1
   useDespawnOffset: 1
@@ -47797,7 +47972,6 @@ GameObject:
   - component: {fileID: 1524038339}
   - component: {fileID: 1524038337}
   - component: {fileID: 1524038340}
-  - component: {fileID: 1524038342}
   m_Layer: 0
   m_Name: Editor
   m_TagString: Untagged
@@ -47825,6 +47999,8 @@ Transform:
   - {fileID: 1829215966}
   - {fileID: 1088471450}
   - {fileID: 334139935}
+  - {fileID: 1725971880}
+  - {fileID: 597767623}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1524038331
@@ -47868,7 +48044,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveableGridTransform: {fileID: 25550672}
   atsc: {fileID: 570484802}
-  vnjsProvider: {fileID: 1524038342}
   gridParent: {fileID: 617466176}
 --- !u!114 &1524038336
 MonoBehaviour:
@@ -47926,20 +48101,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33fbbd85ca5b5a14f93993c8c671f280, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1524038342
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1524038327}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76963631a5c144e4a2293b51a0f345ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Atsc: {fileID: 570484802}
-  CurrentNjs: 0
 --- !u!21 &1527122330
 Material:
   serializedVersion: 8
@@ -53616,6 +53777,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectParentTransform: {fileID: 1645535436}
+  vNjsProvider: {fileID: 597767624}
   RotationValue: {x: 0, y: 0, z: 0}
 --- !u!1 &1649845919
 GameObject:
@@ -56924,6 +57086,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1718408680}
   m_CullTransparentMesh: 0
+--- !u!1 &1725971879
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1725971880}
+  - component: {fileID: 1725971881}
+  m_Layer: 0
+  m_Name: Basic Event Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1725971880
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1725971879}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1524038328}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1725971881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1725971879}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68a283d04fab4587a5c2ccd644be98fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Atsc: {fileID: 570484802}
 --- !u!1 &1726639074
 GameObject:
   m_ObjectHideFlags: 0
@@ -57779,6 +57986,7 @@ MonoBehaviour:
   noteGridContainer: {fileID: 25550673}
   eventGridContainer: {fileID: 455916737}
   timeSyncController: {fileID: 570484802}
+  vNjsProvider: {fileID: 597767624}
   uiMode: {fileID: 1799035893}
   useOffsetFromConfig: 1
   useDespawnOffset: 0
@@ -62036,6 +62244,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectParentTransform: {fileID: 1890332740}
+  vNjsProvider: {fileID: 597767624}
   RotationValue: {x: 0, y: 0, z: 0}
 --- !u!1 &1891178068
 GameObject:
@@ -68517,6 +68726,90 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2109111737}
   m_CullTransparentMesh: 0
+--- !u!21 &2110443930
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Inherited From Round Corners
+  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AlphaClip: 0
+    - _Blend: 0
+    - _BumpScale: 1
+    - _ColorMask: 15
+    - _Cull: 2
+    - _Cutoff: 0.5
+    - _DstBlend: 0
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _Metallic: 0
+    - _OcclusionStrength: 1
+    - _ReceiveShadows: 1
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _Surface: 0
+    - _UseUIAlphaClip: 0
+    - _WorkflowMode: 1
+    - _ZWrite: 1
+    m_Colors:
+    - _Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _WidthHeightRadius: {r: 21, g: 14, b: 2, a: 0}
+    - _halfSize: {r: 150, g: 45, b: 0, a: 0}
+    - _r: {r: 2, g: 2, b: 2, a: 2}
+    - _rect2props: {r: 0.000015258789, g: -0.000015258789, b: 136.47162, a: 136.47162}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1 &2115249786
 GameObject:
   m_ObjectHideFlags: 0

@@ -13,7 +13,6 @@ public class EditorScaleController : MonoBehaviour, CMInput.IEditorScaleActions
 
     [SerializeField] private Transform moveableGridTransform;
     [SerializeField] private AudioTimeSyncController atsc;
-    [SerializeField] private VariableNJSProvider vnjsProvider;
 
     [SerializeField] private GameObject gridParent;
     private readonly List<GridLane> gridChildLanes = new();

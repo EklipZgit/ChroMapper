@@ -37,7 +37,13 @@ public class BPMChangeGridContainer : BeatmapObjectContainerCollection<BaseBpmEv
 
     public static event Action OnBPMChangeRefreshed;
     
-    public override ObjectType ContainerType => ObjectType.BpmChange;
+    public override ObjectType ContainerType
+    {
+        get
+        {
+            return ObjectType.BpmChange;
+        }
+    }
 
     private void Start()
     {
@@ -46,30 +52,39 @@ public class BPMChangeGridContainer : BeatmapObjectContainerCollection<BaseBpmEv
 
     internal override void SubscribeToCallbacks()
     {
-        EditorScaleController.OnEditorScaleChanged += EditorScaleChanged;
+        EditorScaleController.OnEditorScaleChanged += HandleEditorScaleChanged;
         LoadInitialMap.OnLevelLoaded += RefreshModifiedBeat;
-        AudioTimeSyncController.OnTimeChanged += OnTimeChanged;
+        AudioTimeSyncController.OnTimeChanged += HandleTimeChanged;
     }
 
-    private void EditorScaleChanged(float obj) =>
-        Shader.SetGlobalFloat(editorScale, EditorScaleController.EditorScale);
+    internal override void UnsubscribeToCallbacks()
+    {
+        EditorScaleController.OnEditorScaleChanged -= HandleEditorScaleChanged;
+        LoadInitialMap.OnLevelLoaded -= RefreshModifiedBeat;
+        AudioTimeSyncController.OnTimeChanged -= HandleTimeChanged;
+    }
 
-    private void OnTimeChanged()
+    private void HandleEditorScaleChanged(float obj)
+    {
+        RefreshPool(true);
+        Shader.SetGlobalFloat(editorScale, EditorScaleController.EditorScale);
+    }
+
+    private void HandleTimeChanged()
     {
         if (AudioTimeSyncController.IsPlaying) return;
         RefreshGridProperties();
     }
 
-    internal override void UnsubscribeToCallbacks()
+    protected override void HandleObjectDelete(BaseObject obj, bool _ = false)
     {
-        EditorScaleController.OnEditorScaleChanged -= EditorScaleChanged;
-        LoadInitialMap.OnLevelLoaded -= RefreshModifiedBeat;
-        AudioTimeSyncController.OnTimeChanged -= OnTimeChanged;
+        OnObjectDeleteOrSpawn(obj);
     }
 
-    protected override void HandleObjectDelete(BaseObject obj, bool _ = false) => OnObjectDeleteOrSpawn(obj);
-
-    protected override void HandleObjectSpawned(BaseObject obj, bool _ = false) => OnObjectDeleteOrSpawn(obj);
+    protected override void HandleObjectSpawned(BaseObject obj, bool _ = false)
+    {
+        OnObjectDeleteOrSpawn(obj);
+    }
 
     private void OnObjectDeleteOrSpawn(BaseObject obj)
     {
@@ -78,7 +93,7 @@ public class BPMChangeGridContainer : BeatmapObjectContainerCollection<BaseBpmEv
         // This is needed so bpm events that are part of a group action are in the right position
         obj.RecomputeSongBpmTime();
 
-        BeatmapObjectContainerCollection.RefreshFutureObjectsPosition(obj.JsonTime);
+        RefreshFutureObjectsPosition(obj.JsonTime);
         RefreshModifiedBeat();
     }
 
@@ -159,13 +174,19 @@ public class BPMChangeGridContainer : BeatmapObjectContainerCollection<BaseBpmEv
     }
 
     protected override void HandleContainerSpawn(ObjectContainer container, BaseObject obj)
-        => RefreshGridProperties();
+    {
+        RefreshGridProperties();
+    }
 
     protected override void HandleContainerDespawn(ObjectContainer container, BaseObject obj)
-        => RefreshGridProperties();
+    {
+        RefreshGridProperties();
+    }
 
-    public override ObjectContainer CreateContainer() =>
-        BpmEventContainer.SpawnBpmChange(null, ref bpmPrefab);
+    public override ObjectContainer CreateContainer()
+    {
+        return BpmEventContainer.SpawnBpmChange(null, ref bpmPrefab);
+    }
 
     protected override void UpdateContainerData(ObjectContainer con, BaseObject obj)
     {

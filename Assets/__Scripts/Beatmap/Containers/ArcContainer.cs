@@ -1,7 +1,9 @@
 using System.Collections.Generic;
+using System.Linq;
 using Beatmap.Base;
 using Beatmap.Enums;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Beatmap.Containers
 {
@@ -12,12 +14,12 @@ namespace Beatmap.Containers
                 2.5f / 0.6f; // 2.5 multiplier used by game, divide by 0.6 to scale to cm units
 
         internal const float arcEmissionIntensity = 6;
-        private const int numSamples = 30;
+        public const int NumSamples = 30;
 
+        private static readonly int emissionColor = Shader.PropertyToID("_ColorTint");
         private static readonly int lit = Shader.PropertyToID("_Lit");
         private static readonly int translucentAlpha = Shader.PropertyToID("_TranslucentAlpha");
 
-        [SerializeField] private TracksManager manager;
         [SerializeField] private GameObject indicatorMu;
         [SerializeField] private GameObject indicatorTmu;
         [SerializeField] private List<GameObject> indicators;
@@ -25,7 +27,14 @@ namespace Beatmap.Containers
 
         private MaterialPropertyBlock indicatorMaterialPropertyBlock;
 
-        [SerializeField] private LineRenderer splineRenderer;
+        [FormerlySerializedAs("splineRenderer")] [SerializeField]
+        public LineRenderer SplineRenderer;
+
+        public readonly Vector3[] BaseSplinePoints = new Vector3[NumSamples + 1];
+
+        // for now we just use bool instead of ref object
+        public bool HasHeadNote;
+        public bool HasTailNote;
 
         public Vector3 p0()
         {
@@ -37,14 +46,12 @@ namespace Beatmap.Containers
         {
             var headPosition = ArcData.GetPosition();
             if (ArcData.CutDirection == (int)NoteCutDirection.Any)
-            {
                 return new Vector3(headPosition.x, headPosition.y + offsetY, 0f);
-            }
 
             var zRads = Mathf.Deg2Rad * NoteContainer.Directionalize(ArcData.CutDirection).z;
             var headDirection = new Vector2(Mathf.Sin(zRads), -Mathf.Cos(zRads));
             var nodePosition = headPosition
-                + headDirection * ArcData.HeadControlPointLengthMultiplier * splineControlPointScaleFactor;
+                + (headDirection * ArcData.HeadControlPointLengthMultiplier * splineControlPointScaleFactor);
             return new Vector3(nodePosition.x, nodePosition.y + offsetY, 0f);
         }
 
@@ -56,17 +63,17 @@ namespace Beatmap.Containers
                 return new Vector3(
                     tailPosition.x,
                     tailPosition.y + offsetY,
-                    (ArcData.TailSongBpmTime - ArcData.SongBpmTime) * EditorScaleController.EditorScale);
+                    1f);
             }
 
             var zRads = Mathf.Deg2Rad * NoteContainer.Directionalize(ArcData.TailCutDirection).z;
             var tailDirection = new Vector2(Mathf.Sin(zRads), -Mathf.Cos(zRads));
             var tailNodePosition = tailPosition
-                - tailDirection * ArcData.TailControlPointLengthMultiplier * splineControlPointScaleFactor;
+                - (tailDirection * ArcData.TailControlPointLengthMultiplier * splineControlPointScaleFactor);
             return new Vector3(
                 tailNodePosition.x,
                 tailNodePosition.y + offsetY,
-                (ArcData.TailSongBpmTime - ArcData.SongBpmTime) * EditorScaleController.EditorScale);
+                1f);
         }
 
         public Vector3 p3()
@@ -75,7 +82,7 @@ namespace Beatmap.Containers
             return new Vector3(
                 tailPosition.x,
                 tailPosition.y + offsetY,
-                (ArcData.TailSongBpmTime - ArcData.SongBpmTime) * EditorScaleController.EditorScale);
+                1f);
         }
 
         // B(t) = (1-t)^3 p0 + 3(1-t)^2 t p1 + 3(1-t)t^2 p2 + t^3 p3
@@ -104,6 +111,10 @@ namespace Beatmap.Containers
         public override void Setup()
         {
             base.Setup();
+
+            HasHeadNote = false;
+            HasTailNote = false;
+
             MaterialPropertyBlock.SetFloat(lit, 1);
             MaterialPropertyBlock.SetFloat(translucentAlpha, 1f);
             foreach (var gameObj in indicators) gameObj.GetComponent<ArcIndicatorContainer>().Setup();
@@ -113,6 +124,7 @@ namespace Beatmap.Containers
 
         public override void UpdateGridPosition()
         {
+            DetectConnectedNote();
             RecomputePosition();
             foreach (var gameObj in indicators) gameObj.GetComponent<ArcIndicatorContainer>().UpdateGridPosition();
             UpdateCollisionGroups();
@@ -134,8 +146,10 @@ namespace Beatmap.Containers
         public void RecomputePosition()
         {
             if (ArcData == null) return; // in case that this container has already been recycled when about to compute
-            transform.localPosition = new Vector3(0, 0, ArcData.SongBpmTime * EditorScaleController.EditorScale);
-            splineRenderer.positionCount = numSamples + 1;
+            if (!(Animator != null && Animator.AnimatedTrack))
+                transform.localPosition = new Vector3(0, 0, ArcData.SongBpmTime * EditorScaleController.EditorScale);
+
+            SplineRenderer.positionCount = NumSamples + 1;
 
             var p0 = this.p0();
             var p1 = this.p1();
@@ -155,29 +169,36 @@ namespace Beatmap.Containers
             {
                 var (headToMidControl, midPoint, midToTailControl) = GetMidAnchorPoints(p0, p1, p2, p3);
 
-                for (int i = 0; i <= numSamples; i++)
+                for (var i = 0; i <= NumSamples; i++)
                 {
-                    splineRenderer.SetPosition(
+                    SplineRenderer.SetPosition(
                         i,
-                        i <= numSamples / 2
-                            ? SampleCubicBezierPoint(p0, p1, headToMidControl, midPoint, (float)i / numSamples * 2)
+                        i <= NumSamples / 2
+                            ? SampleCubicBezierPoint(p0, p1, headToMidControl, midPoint, (float)i / NumSamples * 2)
                             : SampleCubicBezierPoint(
                                 midPoint,
                                 midToTailControl,
                                 p2,
                                 p3,
-                                ((float)i / numSamples * 2) - 1));
+                                ((float)i / NumSamples * 2) - 1));
                 }
             }
             else
             {
-                for (int i = 0; i <= numSamples; i++)
-                {
-                    splineRenderer.SetPosition(i, SampleCubicBezierPoint(p0, p1, p2, p3, (float)i / numSamples));
-                }
+                for (var i = 0; i <= NumSamples; i++)
+                    SplineRenderer.SetPosition(i, SampleCubicBezierPoint(p0, p1, p2, p3, (float)i / NumSamples));
             }
 
-            splineRenderer.enabled = true;
+            SplineRenderer.enabled = true;
+            SplineRenderer.GetPositions(BaseSplinePoints);
+            SplineRenderer.SetPositions(
+                BaseSplinePoints
+                    .Select(x =>
+                    {
+                        x.z *= ArcData.DurationSongBpmTime * EditorScaleController.EditorScale;
+                        return x;
+                    })
+                    .ToArray());
             ResetIndicatorsPosition();
         }
 
@@ -243,9 +264,47 @@ namespace Beatmap.Containers
             foreach (var gameObj in indicators) gameObj.GetComponent<ArcIndicatorContainer>().UpdateGridPosition();
         }
 
+        public void DetectConnectedNote()
+        {
+            if (ArcData == null) return;
+            var collection =
+                BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
+
+            HasHeadNote = false;
+            HasTailNote = false;
+
+            var notes = collection.GetBetween(
+                ArcData.JsonTime - ArcGridContainer.ViewEpsilon,
+                ArcData.JsonTime + ArcGridContainer.ViewEpsilon);
+            foreach (var note in notes)
+            {
+                if (ArcData.Color != note.Color
+                    || !(Mathf.Abs(note.SongBpmTime - ArcData.SongBpmTime) < BeatmapObjectContainerCollection.Epsilon)
+                    || !(Vector2.Distance(ArcData.GetPosition(), note.GetPosition()) < 0.1f))
+                    continue;
+                HasHeadNote = true;
+                break;
+            }
+
+            notes = collection.GetBetween(
+                ArcData.TailJsonTime - ArcGridContainer.ViewEpsilon,
+                ArcData.TailJsonTime + ArcGridContainer.ViewEpsilon);
+            foreach (var note in notes)
+            {
+                if (ArcData.Color != note.Color
+                    || !(Mathf.Abs(note.SongBpmTime - ArcData.TailSongBpmTime)
+                        < BeatmapObjectContainerCollection.Epsilon)
+                    || !(Vector2.Distance(ArcData.GetTailPosition(), note.GetPosition()) < 0.1f))
+                    continue;
+                HasTailNote = true;
+                break;
+            }
+        }
+
         public void SetColor(Color c)
         {
             MaterialPropertyBlock.SetColor(color, c);
+            MaterialPropertyBlock.SetColor(emissionColor, c * arcEmissionIntensity);
             UpdateMaterials();
         }
 
@@ -255,7 +314,7 @@ namespace Beatmap.Containers
                 gameObj.GetComponent<ArcIndicatorContainer>().UpdateMaterials(MaterialPropertyBlock);
             foreach (var gameObj in indicators)
                 gameObj.GetComponent<ArcIndicatorContainer>().OutlineVisible = OutlineVisible;
-            splineRenderer.SetPropertyBlock(MaterialPropertyBlock);
+            SplineRenderer.SetPropertyBlock(MaterialPropertyBlock);
             foreach (var r in SelectionRenderers) r.SetPropertyBlock(MaterialPropertyBlock);
         }
 

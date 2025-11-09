@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using Beatmap.Base;
-using UnityEngine;
 
 public class BasicEventStateChunksContainer<T> : StateChunksContainer<T, BaseEvent> where T : BasicEventStateData
 {

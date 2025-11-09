@@ -7,6 +7,7 @@ public class GridRenderingController : MonoBehaviour
     private static readonly Color colorHighContrast = new(0f, 0f, 0f, 1f);
 
     [SerializeField] private AudioTimeSyncController atsc;
+    [SerializeField] private VariableNJSProvider vNjsProvider;
     [SerializeField] private GameObject gridParent;
 
     [SerializeField] private Vector4 zLineSpacing = new(1f, 1f / 4f, 1f / 8f, 1f / 16f);
@@ -14,18 +15,23 @@ public class GridRenderingController : MonoBehaviour
 
     private readonly List<GridLane> gridLanes = new();
     private static readonly int offsetID = Shader.PropertyToID("_Offset");
+    private static readonly int currentHjdShaderID = Shader.PropertyToID("_CurrentHJD");
+    private static readonly int displayHjdLineID = Shader.PropertyToID("_DisplayHJDLine");
 
     private void Awake()
     {
         foreach (var gridLane in gridParent.GetComponentsInChildren<GridLane>()) gridLanes.Add(gridLane);
 
         atsc.OnGridMeasureSnappingChanged += HandleGridMeasureSnappingChanged;
+        vNjsProvider.OnChanged += UpdateHJDLine;
         Settings.NotifyBySettingName(nameof(Settings.HighContrastGrids), UpdateInterfaceXZ);
         Settings.NotifyBySettingName(nameof(Settings.GridTransparency), UpdateInterfaceXZ);
         Settings.NotifyBySettingName(nameof(Settings.InterfaceOpacity), UpdateInterfaceXY);
         Settings.NotifyBySettingName(nameof(Settings.TrackLength), UpdateTrackLength);
         Settings.NotifyBySettingName(nameof(Settings.OneBeatWidth), UpdateOneBeat);
+        Settings.NotifyBySettingName(nameof(Settings.DisplayHJDLine), UpdateDisplayHJDLine);
 
+        UpdateDisplayHJDLine(Settings.Instance.DisplayHJDLine);
         UpdateOneBeat(Settings.Instance.OneBeatWidth);
     }
 
@@ -37,6 +43,7 @@ public class GridRenderingController : MonoBehaviour
         Settings.ClearSettingNotifications(nameof(Settings.InterfaceOpacity));
         Settings.ClearSettingNotifications(nameof(Settings.TrackLength));
         Settings.ClearSettingNotifications(nameof(Settings.OneBeatWidth));
+        Settings.ClearSettingNotifications(nameof(Settings.DisplayHJDLine));
     }
 
     public void UpdateOffset(float offset)
@@ -90,4 +97,7 @@ public class GridRenderingController : MonoBehaviour
         zLineThickness[0] = (float)value;
         foreach (var g in gridLanes) g.SetBeatThickness(zLineThickness);
     }
+
+    private void UpdateHJDLine() => Shader.SetGlobalFloat(currentHjdShaderID, vNjsProvider.HalfJumpDurationInBeats);
+    private void UpdateDisplayHJDLine(object value) => Shader.SetGlobalInt(displayHjdLineID, (bool)value ? 1 : 0);
 }
