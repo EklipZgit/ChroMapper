@@ -1,3 +1,4 @@
+using Editor.Environments.Structures.Components;
 using Newtonsoft.Json;
 
 #nullable enable
@@ -15,13 +16,38 @@ public class EnvironmentObject
     [JsonProperty("meshName")]
     public string? MeshName;
 
+    [JsonProperty("layer")] 
+    public string? Layer;
+
     [JsonProperty("components")]
     public EnvironmentComponents Components = new();
 
     // We can leave this to standard Newtonsoft.Json serialization.
     public class EnvironmentComponents
     {
-        public EnvironmentTransformComponent? Transform;
+        // Basic Components
+        public TransformComponent? Transform;
+        
+        // Lighting Components
+        public ChromaLightComponent? ChromaLight;
+        public TubeBloomPrePassLightWithIdComponent? TubeBloomPrePassLightWithId;
+        public SpriteLightWithIdComponent? SpriteLightWithId;
+        
+        
+        public FloatFxGroupComponent? FloatFxGroup;
+        public FloatFxGroupEffectComponent? FloatFxGroupEffect;
+        public FloatFxGroupEffectManagerComponent? FloatFxGroupEffectManager;
+        
+        public LightColorGroupComponent? LightColorGroup;
+        public LightColorGroupEffectComponent? LightColorGroupEffect;
+        public LightColorGroupEffectManagerComponent? LightColorGroupEffectManager;
+        
+        public LightRotationGroupComponent? LightRotationGroup;
+        public LightRotationGroupEffectComponent? LightRotationGroupEffect;
+        public LightRotationGroupEffectManagerComponent? LightRotationGroupEffectManager;
+        
+        public LightTranslationGroupComponent? LightTranslationGroup;
+        public LightTranslationGroupEffectManagerComponent? LightTranslationGroupEffectManager;
     }
 }
 #nullable restore
