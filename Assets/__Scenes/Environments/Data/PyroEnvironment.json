@@ -1,0 +1,5424 @@
+{
+  "environmentData": {
+    "environmentTitle": "Fall Out Boy",
+    "environmentId": "PyroEnvironment",
+    "colorScheme": {
+      "colorLeft": [
+        0.5764706,
+        0.0,
+        0.0392156877
+      ],
+      "colorRight": [
+        1.0,
+        0.670588255,
+        0.0
+      ],
+      "envColorLeft": [
+        1.0,
+        0.109803922,
+        0.203921571
+      ],
+      "envColorRight": [
+        0.8862745,
+        0.7372549,
+        0.2627451
+      ],
+      "obstacleColor": [
+        0.8490566,
+        0.70376426,
+        0.4285333
+      ],
+      "envColorLeftBoost": [
+        1.0,
+        0.0,
+        0.1764706
+      ],
+      "envColorRightBoost": [
+        0.7647059,
+        0.7647059,
+        0.7647059
+      ]
+    },
+    "fogParams": {
+      "offset": 0.0,
+      "height": 4.0,
+      "startY": -6.0,
+      "attenuation": 0.002
+    },
+    "lightTracks": {
+      "eventTracks": [
+        {
+          "trackName": "Left Projectors",
+          "eventType": "Event2",
+          "toolbarType": "Lights",
+          "page": "Page1"
+        },
+        {
+          "trackName": "Right Projectors",
+          "eventType": "Event3",
+          "toolbarType": "Lights",
+          "page": "Page1"
+        },
+        {
+          "trackName": "Platform",
+          "eventType": "Event4",
+          "toolbarType": "Lights",
+          "page": "Page1"
+        },
+        {
+          "trackName": "Logo",
+          "eventType": "Event1",
+          "toolbarType": "Lights",
+          "page": "Page1"
+        },
+        {
+          "trackName": "Video Alpha",
+          "eventType": "Event0",
+          "toolbarType": "Lights",
+          "page": "Page1"
+        },
+        {
+          "trackName": "Boost Colors",
+          "eventType": "Event5",
+          "toolbarType": "Toggle",
+          "page": "Page1"
+        },
+        {
+          "trackName": "Video Projection",
+          "eventType": "Special0",
+          "toolbarType": "IntValue",
+          "page": "Page1"
+        },
+        {
+          "trackName": "Ambient",
+          "eventType": "Event6",
+          "toolbarType": "Lights",
+          "page": "Page1"
+        }
+      ],
+      "groupPages": {
+        "Stage": [
+          {
+            "groupName": "Left Platform",
+            "colorTrack": true,
+            "floatFxTrack": false,
+            "duplicate": true,
+            "rotationTracks": [
+              "X",
+              "Y",
+              "Z"
+            ],
+            "overrideDefaultRotationAxis": "NoOverride",
+            "translationTracks": [],
+            "overrideDefaultTranslationAxis": "NoOverride"
+          },
+          {
+            "groupName": "Right Platform",
+            "colorTrack": true,
+            "floatFxTrack": false,
+            "duplicate": true,
+            "rotationTracks": [
+              "X",
+              "Y",
+              "Z"
+            ],
+            "overrideDefaultRotationAxis": "NoOverride",
+            "translationTracks": [],
+            "overrideDefaultTranslationAxis": "NoOverride"
+          },
+          {
+            "groupName": "Left Platform",
+            "colorTrack": true,
+            "floatFxTrack": false,
+            "duplicate": true,
+            "rotationTracks": [
+              "X",
+              "Y",
+              "Z"
+            ],
+            "overrideDefaultRotationAxis": "NoOverride",
+            "translationTracks": [],
+            "overrideDefaultTranslationAxis": "NoOverride"
+          },
+          {
+            "groupName": "Right Platform",
+            "colorTrack": true,
+            "floatFxTrack": false,
+            "duplicate": true,
+            "rotationTracks": [
+              "X",
+              "Y",
+              "Z"
+            ],
+            "overrideDefaultRotationAxis": "NoOverride",
+            "translationTracks": [],
+            "overrideDefaultTranslationAxis": "NoOverride"
+          }
+        ],
+        "Top Stage": [
+          {
+            "groupName": "Left Top",
+            "colorTrack": true,
+            "floatFxTrack": false,
+            "duplicate": true,
+            "rotationTracks": [
+              "X",
+              "Y",
+              "Z"
+            ],
+            "overrideDefaultRotationAxis": "NoOverride",
+            "translationTracks": [],
+            "overrideDefaultTranslationAxis": "NoOverride"
+          },
+          {
+            "groupName": "Right Top",
+            "colorTrack": true,
+            "floatFxTrack": false,
+            "duplicate": true,
+            "rotationTracks": [
+              "X",
+              "Y",
+              "Z"
+            ],
+            "overrideDefaultRotationAxis": "NoOverride",
+            "translationTracks": [],
+            "overrideDefaultTranslationAxis": "NoOverride"
+          },
+          {
+            "groupName": "?? Top",
+            "colorTrack": true,
+            "floatFxTrack": false,
+            "duplicate": true,
+            "rotationTracks": [
+              "X",
+              "Y",
+              "Z"
+            ],
+            "overrideDefaultRotationAxis": "NoOverride",
+            "translationTracks": [],
+            "overrideDefaultTranslationAxis": "NoOverride"
+          },
+          {
+            "groupName": "Top",
+            "colorTrack": true,
+            "floatFxTrack": false,
+            "duplicate": true,
+            "rotationTracks": [
+              "X",
+              "Y",
+              "Z"
+            ],
+            "overrideDefaultRotationAxis": "NoOverride",
+            "translationTracks": [],
+            "overrideDefaultTranslationAxis": "NoOverride"
+          }
+        ],
+        "Side Panels": [
+          {
+            "groupName": "Left Panels",
+            "colorTrack": true,
+            "floatFxTrack": false,
+            "duplicate": true,
+            "rotationTracks": [
+              "X",
+              "Y",
+              "Z"
+            ],
+            "overrideDefaultRotationAxis": "NoOverride",
+            "translationTracks": [],
+            "overrideDefaultTranslationAxis": "NoOverride"
+          },
+          {
+            "groupName": "Right Panels",
+            "colorTrack": true,
+            "floatFxTrack": false,
+            "duplicate": true,
+            "rotationTracks": [
+              "X",
+              "Y",
+              "Z"
+            ],
+            "overrideDefaultRotationAxis": "NoOverride",
+            "translationTracks": [],
+            "overrideDefaultTranslationAxis": "NoOverride"
+          },
+          {
+            "groupName": "??",
+            "colorTrack": true,
+            "floatFxTrack": false,
+            "duplicate": true,
+            "rotationTracks": [
+              "X",
+              "Y",
+              "Z"
+            ],
+            "overrideDefaultRotationAxis": "NoOverride",
+            "translationTracks": [],
+            "overrideDefaultTranslationAxis": "NoOverride"
+          },
+          {
+            "groupName": "??",
+            "colorTrack": true,
+            "floatFxTrack": false,
+            "duplicate": true,
+            "rotationTracks": [
+              "X",
+              "Y",
+              "Z"
+            ],
+            "overrideDefaultRotationAxis": "NoOverride",
+            "translationTracks": [],
+            "overrideDefaultTranslationAxis": "NoOverride"
+          }
+        ],
+        "Fire": [
+          {
+            "groupName": "Left Fire",
+            "colorTrack": true,
+            "floatFxTrack": false,
+            "duplicate": true,
+            "rotationTracks": [
+              "X",
+              "Y",
+              "Z"
+            ],
+            "overrideDefaultRotationAxis": "NoOverride",
+            "translationTracks": [],
+            "overrideDefaultTranslationAxis": "NoOverride"
+          },
+          {
+            "groupName": "Right Fire",
+            "colorTrack": true,
+            "floatFxTrack": false,
+            "duplicate": true,
+            "rotationTracks": [
+              "X",
+              "Y",
+              "Z"
+            ],
+            "overrideDefaultRotationAxis": "NoOverride",
+            "translationTracks": [],
+            "overrideDefaultTranslationAxis": "NoOverride"
+          }
+        ]
+      }
+    },
+    "uniqueMaterials": [
+      {
+        "name": "TrackMirror",
+        "keywords": [
+          "ENABLE_MIRROR",
+          "ETC1_EXTERNAL_ALPHA",
+          "_EMISSION"
+        ]
+      },
+      {
+        "name": "SetDepthOnly",
+        "keywords": [
+          "ENABLE_DIFFUSE",
+          "ENABLE_DIRT",
+          "ENABLE_DIRT_DETAIL",
+          "ENABLE_FOG",
+          "ENABLE_SPECULAR",
+          "FOG",
+          "LIGHTMAP",
+          "REFLECTION_PROBE",
+          "_EMISSION",
+          "_ENABLE_FOG_TINT",
+          "_RIMLIGHT_NONE"
+        ]
+      },
+      {
+        "name": "FlipbookRunway",
+        "keywords": [
+          "DISTORTION_TARGET_MAIN",
+          "HEIGHT_FOG",
+          "MASK2",
+          "PIXELATE",
+          "SQUARE_ALPHA",
+          "TEXTURE_FLIPBOOK",
+          "_FOGTYPE_ALPHA",
+          "_MASK2BLEND_MULTIPLY",
+          "_MASKBLEND_ADD",
+          "_VERTEXCHANNELS_RGBA",
+          "_WHITEBOOSTTYPE_ALWAYS",
+          "DISTORTION_NONE",
+          "_ALPHACHANNEL_ALPHA",
+          "_BILLBOARD_NONE",
+          "_CURVE_VERTICES_NONE",
+          "_DISSOLVEAXIS_LOCALX",
+          "_ROTATE_UV_NONE",
+          "_SPECTROGRAM_NONE",
+          "_ZWRITE_ON"
+        ]
+      },
+      {
+        "name": "PyroLightBillboardSpriteGlow",
+        "keywords": [
+          "ALPHA_WIDTH_SCALE",
+          "ENABLE_FOG",
+          "ENABLE_HEIGHT_FOG",
+          "ENABLE_Y_AXIS_BILLBOARD",
+          "SQUARE_ALPHA",
+          "USE_FOG_FOR_LIGHTS",
+          "_WHITEBOOSTTYPE_ALWAYS",
+          "ETC1_EXTERNAL_ALPHA",
+          "_ENABLE_Y_AXIS_BILLBOARD"
+        ]
+      },
+      {
+        "name": "EnvLight",
+        "keywords": [
+          "ENABLE_HEIGHT_FOG",
+          "MULTIPLY_COLOR_WITH_ALPHA",
+          "_ENABLE_MAIN_EFFECT_WHITE_BOOST"
+        ]
+      },
+      {
+        "name": "GreyPixelateBackground",
+        "keywords": [
+          "FOG",
+          "HEIGHT_FOG",
+          "NOISE_DITHERING",
+          "OCCLUSION",
+          "REFLECTION_PROBE",
+          "REFLECTION_PROBE_BOX_PROJECTION",
+          "_ACES_APPROACH_AFTER_EMISSIVE",
+          "_DIFFUSE_TEXTURE_SOURCE_TEXTURE",
+          "_DISSOLVEALPHA_CLIP",
+          "_EMISSIONCOLORTYPE_FLAT",
+          "_EMISSION_ALPHA_SOURCE_EMISSION_G",
+          "_EMISSION_TEXTURE_SOURCE_TEXTURE",
+          "_METALLIC_TEXTURE_NONE",
+          "_OCCLUSION_SOURCE_TEXTURE",
+          "_PARALLAX_MASKING_NONE",
+          "_PARALLAX_NONE",
+          "_PARALLAX_PROJECTION_PLANAR",
+          "_PROBE_CALCULATION_FAST",
+          "_SMOOTHNESS_TEXTURE_NONE",
+          "DIRT",
+          "_CURVE_VERTICES_NONE",
+          "_CUSTOM_TIME_STANDARD",
+          "_DECALBLEND_ALPHABLEND",
+          "_DISSOLVEAXIS_LOCALX",
+          "_EMISSIONTEXTURE_NONE",
+          "_HOLOGRAM_NONE",
+          "_RIMLIGHT_NONE",
+          "_RIM_WHITEBOOSTTYPE_NONE",
+          "_ROTATE_UV_NONE",
+          "_SPECTROGRAM_NONE",
+          "_VERTEXMODE_NONE",
+          "_VERTEX_WHITEBOOSTTYPE_NONE",
+          "_WHITEBOOSTTYPE_NONE",
+          "_ZWRITE_ON"
+        ]
+      },
+      {
+        "name": "RunwayFrontDark",
+        "keywords": [
+          "DISTORTION_TARGET_MAIN",
+          "HEIGHT_FOG",
+          "SECONDARY_COLOR",
+          "SQUARE_ALPHA",
+          "_ALPHACHANNEL_RED",
+          "_FOGTYPE_ALPHA",
+          "_MASK2BLEND_MULTIPLY",
+          "_MASKBLEND_ADD",
+          "_VERTEXCHANNELS_RGBA",
+          "DISTORTION_NONE",
+          "_BILLBOARD_NONE",
+          "_CURVE_VERTICES_NONE",
+          "_DISSOLVEAXIS_LOCALX",
+          "_ROTATE_UV_NONE",
+          "_SPECTROGRAM_NONE",
+          "_WHITEBOOSTTYPE_NONE",
+          "_ZWRITE_ON"
+        ]
+      },
+      {
+        "name": "ScaffoldCircular",
+        "keywords": [
+          "DIFFUSE",
+          "DISTANCE_DARKENING",
+          "FOG",
+          "HEIGHT_FOG",
+          "NOISE_DITHERING",
+          "REFLECTION_PROBE",
+          "REFLECTION_PROBE_BOX_PROJECTION",
+          "SPECULAR_ANTIFLICKER",
+          "_ACES_APPROACH_AFTER_EMISSIVE",
+          "_DIFFUSE_TEXTURE_SOURCE_TEXTURE",
+          "_DISSOLVEALPHA_CLIP",
+          "_EMISSIONCOLORTYPE_FLAT",
+          "_EMISSION_ALPHA_SOURCE_EMISSION_G",
+          "_EMISSION_TEXTURE_SOURCE_TEXTURE",
+          "_METALLIC_TEXTURE_NONE",
+          "_OCCLUSION_SOURCE_TEXTURE",
+          "_PROBE_CALCULATION_FAST",
+          "_SMOOTHNESS_TEXTURE_NONE",
+          "_CURVE_VERTICES_NONE",
+          "_CUSTOM_TIME_STANDARD",
+          "_DECALBLEND_ALPHABLEND",
+          "_DISSOLVEAXIS_WORLDY",
+          "_EMISSIONTEXTURE_NONE",
+          "_HOLOGRAM_NONE",
+          "_RIMLIGHT_NONE",
+          "_RIM_WHITEBOOSTTYPE_NONE",
+          "_ROTATE_UV_NONE",
+          "_SPECTROGRAM_NONE",
+          "_VERTEXMODE_NONE",
+          "_VERTEX_WHITEBOOSTTYPE_NONE",
+          "_WHITEBOOSTTYPE_NONE",
+          "_ZWRITE_ON"
+        ]
+      },
+      {
+        "name": "StageLights",
+        "keywords": [
+          "DIFFUSE",
+          "FOG",
+          "HEIGHT_FOG",
+          "NOISE_DITHERING",
+          "REFLECTION_PROBE",
+          "REFLECTION_PROBE_BOX_PROJECTION",
+          "SPECULAR_ANTIFLICKER",
+          "_ACES_APPROACH_AFTER_EMISSIVE",
+          "_DIFFUSE_TEXTURE_SOURCE_TEXTURE",
+          "_DISSOLVEALPHA_CLIP",
+          "_EMISSIONCOLORTYPE_FLAT",
+          "_EMISSION_ALPHA_SOURCE_EMISSION_G",
+          "_EMISSION_TEXTURE_SOURCE_TEXTURE",
+          "_METALLIC_TEXTURE_NONE",
+          "_OCCLUSION_SOURCE_TEXTURE",
+          "_PROBE_CALCULATION_FAST",
+          "_SMOOTHNESS_TEXTURE_NONE",
+          "_CURVE_VERTICES_NONE",
+          "_CUSTOM_TIME_STANDARD",
+          "_DECALBLEND_ALPHABLEND",
+          "_DISSOLVEAXIS_WORLDY",
+          "_EMISSIONTEXTURE_NONE",
+          "_HOLOGRAM_NONE",
+          "_RIMLIGHT_NONE",
+          "_RIM_WHITEBOOSTTYPE_NONE",
+          "_ROTATE_UV_NONE",
+          "_SPECTROGRAM_NONE",
+          "_VERTEXMODE_NONE",
+          "_VERTEX_WHITEBOOSTTYPE_NONE",
+          "_WHITEBOOSTTYPE_NONE",
+          "_ZWRITE_ON"
+        ]
+      },
+      {
+        "name": "LightBloom",
+        "keywords": [
+          "DISTORTION_TARGET_MAIN",
+          "MIPMAP_BIAS",
+          "NOISE_DITHERING",
+          "SQUARE_ALPHA",
+          "_ALPHACHANNEL_RED",
+          "_MASK2BLEND_MULTIPLY",
+          "_MASKBLEND_MULTIPLY",
+          "_VERTEXCHANNELS_RGBA",
+          "_WHITEBOOSTTYPE_ALWAYS",
+          "DISTORTION_NONE",
+          "REFLECTION_PROBE_BOX_PROJECTION",
+          "_BILLBOARD_NONE",
+          "_CURVE_VERTICES_NONE",
+          "_CUTOUT_NONE",
+          "_DECALBLEND_ALPHABLEND",
+          "_DISSOLVEAXIS_LOCALX",
+          "_EMISSIONCOLORTYPE_FLAT",
+          "_EMISSIONTEXTURE_SIMPLE",
+          "_ENABLE_COLOR_INSTANCING",
+          "_FOGTYPE_NONE",
+          "_RIMLIGHT_NONE",
+          "_ROTATE_UV_NONE",
+          "_SPECTROGRAM_NONE",
+          "_VERTEXMODE_NONE",
+          "_ZWRITE_ON"
+        ]
+      },
+      {
+        "name": "LightBloomBlack",
+        "keywords": [
+          "DISTORTION_TARGET_MAIN",
+          "MIPMAP_BIAS",
+          "NOISE_DITHERING",
+          "_ALPHACHANNEL_RED",
+          "_FOGTYPE_ALPHA",
+          "_MASK2BLEND_MULTIPLY",
+          "_MASKBLEND_MULTIPLY",
+          "_VERTEXCHANNELS_RGBA",
+          "_WHITEBOOSTTYPE_ALWAYS",
+          "DISTORTION_NONE",
+          "REFLECTION_PROBE_BOX_PROJECTION",
+          "_BILLBOARD_NONE",
+          "_CURVE_VERTICES_NONE",
+          "_CUTOUT_NONE",
+          "_DECALBLEND_ALPHABLEND",
+          "_DISSOLVEAXIS_LOCALX",
+          "_EMISSIONCOLORTYPE_FLAT",
+          "_EMISSIONTEXTURE_SIMPLE",
+          "_ENABLE_COLOR_INSTANCING",
+          "_RIMLIGHT_NONE",
+          "_ROTATE_UV_NONE",
+          "_SPECTROGRAM_NONE",
+          "_VERTEXMODE_NONE",
+          "_ZWRITE_ON"
+        ]
+      },
+      {
+        "name": "EnvLightBillboardSpriteGlow",
+        "keywords": [
+          "ALPHA_WIDTH_SCALE",
+          "ENABLE_FOG",
+          "ENABLE_HEIGHT_FOG",
+          "ENABLE_NOISE_DITHERING",
+          "ENABLE_Y_AXIS_BILLBOARD",
+          "USE_FOG_FOR_LIGHTS",
+          "ETC1_EXTERNAL_ALPHA",
+          "_ENABLE_Y_AXIS_BILLBOARD",
+          "_WHITEBOOSTTYPE_NONE"
+        ]
+      },
+      {
+        "name": "StageLightsHandle",
+        "keywords": [
+          "DIFFUSE",
+          "DISTANCE_DARKENING",
+          "FOG",
+          "HEIGHT_FOG",
+          "NOISE_DITHERING",
+          "REFLECTION_PROBE",
+          "REFLECTION_PROBE_BOX_PROJECTION",
+          "SPECULAR_ANTIFLICKER",
+          "_ACES_APPROACH_AFTER_EMISSIVE",
+          "_DIFFUSE_TEXTURE_SOURCE_TEXTURE",
+          "_DISSOLVEALPHA_CLIP",
+          "_EMISSIONCOLORTYPE_FLAT",
+          "_EMISSION_ALPHA_SOURCE_EMISSION_G",
+          "_EMISSION_TEXTURE_SOURCE_TEXTURE",
+          "_METALLIC_TEXTURE_NONE",
+          "_OCCLUSION_SOURCE_TEXTURE",
+          "_PROBE_CALCULATION_FAST",
+          "_SMOOTHNESS_TEXTURE_NONE",
+          "_CURVE_VERTICES_NONE",
+          "_CUSTOM_TIME_STANDARD",
+          "_DECALBLEND_ALPHABLEND",
+          "_DISSOLVEAXIS_WORLDY",
+          "_EMISSIONTEXTURE_NONE",
+          "_HOLOGRAM_NONE",
+          "_RIMLIGHT_NONE",
+          "_RIM_WHITEBOOSTTYPE_NONE",
+          "_ROTATE_UV_NONE",
+          "_SPECTROGRAM_NONE",
+          "_VERTEXMODE_NONE",
+          "_VERTEX_WHITEBOOSTTYPE_NONE",
+          "_WHITEBOOSTTYPE_NONE",
+          "_ZWRITE_ON"
+        ]
+      },
+      {
+        "name": "Scaffold",
+        "keywords": [
+          "DIFFUSE",
+          "DISTANCE_DARKENING",
+          "FOG",
+          "HEIGHT_FOG",
+          "NOISE_DITHERING",
+          "REFLECTION_PROBE",
+          "REFLECTION_PROBE_BOX_PROJECTION",
+          "SPECULAR_ANTIFLICKER",
+          "_ACES_APPROACH_AFTER_EMISSIVE",
+          "_DIFFUSE_TEXTURE_SOURCE_TEXTURE",
+          "_DISSOLVEALPHA_CLIP",
+          "_EMISSIONCOLORTYPE_FLAT",
+          "_EMISSION_ALPHA_SOURCE_EMISSION_G",
+          "_EMISSION_TEXTURE_SOURCE_TEXTURE",
+          "_METALLIC_TEXTURE_NONE",
+          "_OCCLUSION_SOURCE_TEXTURE",
+          "_PROBE_CALCULATION_FAST",
+          "_SMOOTHNESS_TEXTURE_NONE",
+          "_CURVE_VERTICES_NONE",
+          "_CUSTOM_TIME_STANDARD",
+          "_DECALBLEND_ALPHABLEND",
+          "_DISSOLVEAXIS_WORLDY",
+          "_EMISSIONTEXTURE_NONE",
+          "_HOLOGRAM_NONE",
+          "_RIMLIGHT_NONE",
+          "_RIM_WHITEBOOSTTYPE_NONE",
+          "_ROTATE_UV_NONE",
+          "_SPECTROGRAM_NONE",
+          "_VERTEXMODE_NONE",
+          "_VERTEX_WHITEBOOSTTYPE_NONE",
+          "_WHITEBOOSTTYPE_NONE",
+          "_ZWRITE_ON"
+        ]
+      },
+      {
+        "name": "VideoBG",
+        "keywords": [
+          "FOG",
+          "HEIGHT_FOG",
+          "NOISE_DITHERING",
+          "REFLECTION_PROBE",
+          "REFLECTION_PROBE_BOX_PROJECTION",
+          "_ACES_APPROACH_AFTER_EMISSIVE",
+          "_EMISSIONCOLORTYPE_FLAT",
+          "_CURVE_VERTICES_NONE",
+          "_DECALBLEND_ALPHABLEND",
+          "_DISSOLVEAXIS_LOCALX",
+          "_EMISSIONTEXTURE_NONE",
+          "_RIMLIGHT_NONE",
+          "_ROTATE_UV_NONE",
+          "_SPECTROGRAM_NONE",
+          "_VERTEXMODE_NONE",
+          "_WHITEBOOSTTYPE_NONE",
+          "_ZWRITE_ON"
+        ]
+      },
+      {
+        "name": "Scaffold4SlotBox",
+        "keywords": [
+          "DIFFUSE",
+          "DISTANCE_DARKENING",
+          "FOG",
+          "HEIGHT_FOG",
+          "NOISE_DITHERING",
+          "REFLECTION_PROBE",
+          "REFLECTION_PROBE_BOX_PROJECTION",
+          "SPECULAR_ANTIFLICKER",
+          "_ACES_APPROACH_AFTER_EMISSIVE",
+          "_DIFFUSE_TEXTURE_SOURCE_TEXTURE",
+          "_DISSOLVEALPHA_CLIP",
+          "_EMISSIONCOLORTYPE_FLAT",
+          "_EMISSION_ALPHA_SOURCE_EMISSION_G",
+          "_EMISSION_TEXTURE_SOURCE_TEXTURE",
+          "_METALLIC_TEXTURE_NONE",
+          "_OCCLUSION_SOURCE_TEXTURE",
+          "_PROBE_CALCULATION_FAST",
+          "_SMOOTHNESS_TEXTURE_NONE",
+          "_CURVE_VERTICES_NONE",
+          "_CUSTOM_TIME_STANDARD",
+          "_DECALBLEND_ALPHABLEND",
+          "_DISSOLVEAXIS_WORLDY",
+          "_EMISSIONTEXTURE_NONE",
+          "_HOLOGRAM_NONE",
+          "_RIMLIGHT_NONE",
+          "_RIM_WHITEBOOSTTYPE_NONE",
+          "_ROTATE_UV_NONE",
+          "_SPECTROGRAM_NONE",
+          "_VERTEXMODE_NONE",
+          "_VERTEX_WHITEBOOSTTYPE_NONE",
+          "_WHITEBOOSTTYPE_NONE",
+          "_ZWRITE_ON"
+        ]
+      },
+      {
+        "name": "4SlotLights",
+        "keywords": [
+          "DISTORTION_TARGET_MAIN",
+          "SQUARE_ALPHA",
+          "_MASK2BLEND_MULTIPLY",
+          "_MASKBLEND_MULTIPLY",
+          "_VERTEXCHANNELS_RGBA",
+          "_WHITEBOOSTTYPE_ALWAYS",
+          "DISTORTION_NONE",
+          "REFLECTION_PROBE_BOX_PROJECTION",
+          "_ALPHACHANNEL_ALPHA",
+          "_BILLBOARD_NONE",
+          "_CURVE_VERTICES_NONE",
+          "_CUTOUT_NONE",
+          "_DECALBLEND_ALPHABLEND",
+          "_DISSOLVEAXIS_LOCALX",
+          "_EMISSIONCOLORTYPE_FLAT",
+          "_EMISSIONTEXTURE_SIMPLE",
+          "_ENABLE_COLOR_INSTANCING",
+          "_FOGTYPE_NONE",
+          "_RIMLIGHT_NONE",
+          "_ROTATE_UV_NONE",
+          "_SPECTROGRAM_NONE",
+          "_VERTEXMODE_NONE",
+          "_ZWRITE_ON"
+        ]
+      },
+      {}
+    ],
+    "uniqueMeshes": [
+      "TrackMirror_Pyro",
+      "Quad",
+      "ParametricBox",
+      "ScafoldCirclular",
+      "Projector",
+      "Dynamic3SliceSprite",
+      "Handle",
+      "ScafoldTriangular",
+      "4Slotbox",
+      "LightBloom"
+    ]
+  },
+  "objects": [
+    {
+      "name": "Environment",
+      "id": "PyroEnvironment.[0]Environment",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "DecoratorContext",
+      "id": "PyroEnvironment.[0]Environment.[0]DecoratorContext",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "SceneSetup",
+      "id": "PyroEnvironment.[0]Environment.[1]SceneSetup",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "EnvironmentBrandingManager": {
+          "brandingObjects": []
+        }
+      }
+    },
+    {
+      "name": "Runway",
+      "id": "PyroEnvironment.[0]Environment.[11]Runway",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            7.825
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            7.825
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "TrackMirror",
+      "id": "PyroEnvironment.[0]Environment.[11]Runway.[0]TrackMirror",
+      "meshName": "TrackMirror_Pyro",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            -2.25,
+            0.0,
+            7.825
+          ],
+          "localPosition": [
+            -2.25,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            2.25,
+            0.0,
+            150.0
+          ],
+          "boundsSize": [
+            4.5,
+            0.0,
+            300.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "TrackMirror"
+          ]
+        }
+      }
+    },
+    {
+      "name": "TrackMirrorSetDepth",
+      "id": "PyroEnvironment.[0]Environment.[11]Runway.[0]TrackMirror.[0]TrackMirrorSetDepth",
+      "meshName": "TrackMirror_Pyro",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            -2.25,
+            0.0,
+            7.825
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            2.25,
+            0.0,
+            150.0
+          ],
+          "boundsSize": [
+            4.5,
+            0.0,
+            300.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "SetDepthOnly"
+          ]
+        }
+      }
+    },
+    {
+      "name": "PixelatedImage",
+      "id": "PyroEnvironment.[0]Environment.[11]Runway.[1]PixelatedImage",
+      "meshName": "Quad",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            -1.341,
+            7.863
+          ],
+          "localPosition": [
+            0.0,
+            -1.341,
+            0.038
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            4.5,
+            2.67462373,
+            2.3592093
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            1.0,
+            1.0,
+            6.1232336E-17
+          ]
+        },
+        "InstancedMaterialLightWithId": {
+          "materialLightId": 5,
+          "materialLightIntensity": 1.0
+        },
+        "MeshRenderer": {
+          "materials": [
+            "FlipbookRunway"
+          ]
+        }
+      }
+    },
+    {
+      "name": "RunwayLaserFront",
+      "id": "PyroEnvironment.[0]Environment.[11]Runway.[2]RunwayLaserFront",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -2.257,
+            0.019,
+            7.825
+          ],
+          "localPosition": [
+            -2.257,
+            0.019,
+            0.0
+          ],
+          "rotation": [
+            90.0,
+            90.00002,
+            0.0
+          ],
+          "localRotation": [
+            90.0,
+            90.00002,
+            0.0
+          ],
+          "scale": [
+            1.00000024,
+            1.00000024,
+            1.00000024
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 2.0,
+              "bloomFogIntensityMultiplier": 0.64,
+              "tubeLength": 4.5,
+              "tubeWidth": 0.05,
+              "center": 0.0,
+              "height": 4.5,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "PyroEnvironment.[0]Environment.[11]Runway.[2]RunwayLaserFront.[1]BoxLight"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "PyroEnvironment.[0]Environment.[11]Runway.[2]RunwayLaserFront.[0]BakedBloom",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -2.257,
+            0.019,
+            7.825
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            180.000015,
+            90.0
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            1.0000006,
+            1.00000048,
+            1.000001
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "PyroLightBillboardSpriteGlow"
+          ]
+        }
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "PyroEnvironment.[0]Environment.[11]Runway.[2]RunwayLaserFront.[1]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -0.006999731,
+            0.018999761,
+            7.824999
+          ],
+          "localPosition": [
+            0.0,
+            2.25,
+            0.0
+          ],
+          "rotation": [
+            90.0,
+            90.00002,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.0250000078,
+            2.25000048,
+            0.0250000078
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            2.0,
+            2.0,
+            2.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLight"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "RunwayLaserLeftBottom",
+      "id": "PyroEnvironment.[0]Environment.[11]Runway.[3]RunwayLaserLeftBottom",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -2.272,
+            0.044,
+            7.825
+          ],
+          "localPosition": [
+            -2.272,
+            0.044,
+            0.0
+          ],
+          "rotation": [
+            9.116007E-05,
+            270.000031,
+            180.0
+          ],
+          "localRotation": [
+            9.116007E-05,
+            270.000031,
+            180.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 2.0,
+              "bloomFogIntensityMultiplier": 0.6,
+              "tubeLength": 3.09,
+              "tubeWidth": 0.05,
+              "center": 0.0,
+              "height": 3.09,
+              "startAlpha": 1.0,
+              "endAlpha": 0.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "PyroEnvironment.[0]Environment.[11]Runway.[3]RunwayLaserLeftBottom.[1]BoxLight"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "PyroEnvironment.[0]Environment.[11]Runway.[3]RunwayLaserLeftBottom.[0]BakedBloom",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -2.272,
+            0.044,
+            7.825
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            -3.72307318E-06,
+            180.000015,
+            179.999908
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            1.00000012,
+            1.00000048,
+            1.0000006
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "PyroLightBillboardSpriteGlow"
+          ]
+        }
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "PyroEnvironment.[0]Environment.[11]Runway.[3]RunwayLaserLeftBottom.[1]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -2.27199769,
+            -1.50099993,
+            7.825
+          ],
+          "localPosition": [
+            0.0,
+            1.545,
+            0.0
+          ],
+          "rotation": [
+            9.116007E-05,
+            270.000031,
+            180.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.025,
+            1.545,
+            0.025
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            2.0,
+            2.0,
+            2.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLight"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "RunwayLaserRightBottom ",
+      "id": "PyroEnvironment.[0]Environment.[11]Runway.[4]RunwayLaserRightBottom ",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            2.271,
+            0.044,
+            7.825
+          ],
+          "localPosition": [
+            2.271,
+            0.044,
+            0.0
+          ],
+          "rotation": [
+            9.116007E-05,
+            270.000031,
+            180.0
+          ],
+          "localRotation": [
+            9.116007E-05,
+            270.000031,
+            180.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 2.0,
+              "bloomFogIntensityMultiplier": 0.6,
+              "tubeLength": 3.09,
+              "tubeWidth": 0.05,
+              "center": 0.0,
+              "height": 3.09,
+              "startAlpha": 1.0,
+              "endAlpha": 0.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "PyroEnvironment.[0]Environment.[11]Runway.[4]RunwayLaserRightBottom .[1]BoxLight"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "PyroEnvironment.[0]Environment.[11]Runway.[4]RunwayLaserRightBottom .[0]BakedBloom",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            2.271,
+            0.044,
+            7.825
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            -3.72307318E-06,
+            180.000015,
+            179.999908
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            1.00000012,
+            1.00000048,
+            1.0000006
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "PyroLightBillboardSpriteGlow"
+          ]
+        }
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "PyroEnvironment.[0]Environment.[11]Runway.[4]RunwayLaserRightBottom .[1]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            2.27100229,
+            -1.50099993,
+            7.825
+          ],
+          "localPosition": [
+            0.0,
+            1.545,
+            0.0
+          ],
+          "rotation": [
+            9.116007E-05,
+            270.000031,
+            180.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.025,
+            1.545,
+            0.025
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            2.0,
+            2.0,
+            2.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLight"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "RunwayLaserRightTop",
+      "id": "PyroEnvironment.[0]Environment.[11]Runway.[5]RunwayLaserRightTop",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            2.271,
+            0.017,
+            7.849
+          ],
+          "localPosition": [
+            2.271,
+            0.017,
+            0.0240001678
+          ],
+          "rotation": [
+            9.05000052E-05,
+            270.000031,
+            269.999939
+          ],
+          "localRotation": [
+            9.05000052E-05,
+            270.000031,
+            269.999939
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 2.0,
+              "bloomFogIntensityMultiplier": 0.5,
+              "tubeLength": 1000.0,
+              "tubeWidth": 0.05,
+              "center": 0.0,
+              "height": 1000.0,
+              "startAlpha": 1.0,
+              "endAlpha": 0.6,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "PyroEnvironment.[0]Environment.[11]Runway.[5]RunwayLaserRightTop.[1]BoxLight"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "PyroEnvironment.[0]Environment.[11]Runway.[5]RunwayLaserRightTop.[0]BakedBloom",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            2.271,
+            0.017,
+            7.849
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            90.0,
+            0.000115912218,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            1.00000012,
+            1.00000012,
+            1.00000024
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "PyroLightBillboardSpriteGlow"
+          ]
+        }
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "PyroEnvironment.[0]Environment.[11]Runway.[5]RunwayLaserRightTop.[1]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            2.2711935,
+            0.01651172,
+            507.849
+          ],
+          "localPosition": [
+            0.0,
+            500.0,
+            0.0
+          ],
+          "rotation": [
+            9.05000052E-05,
+            270.000031,
+            269.999939
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.025,
+            500.0,
+            0.025
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            2.0,
+            2.0,
+            2.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLight"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "RunwayLaserLefttTop",
+      "id": "PyroEnvironment.[0]Environment.[11]Runway.[6]RunwayLaserLefttTop",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -2.271,
+            0.017,
+            7.849
+          ],
+          "localPosition": [
+            -2.271,
+            0.017,
+            0.0240001678
+          ],
+          "rotation": [
+            9.05000052E-05,
+            270.000031,
+            269.999939
+          ],
+          "localRotation": [
+            9.05000052E-05,
+            270.000031,
+            269.999939
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 2.0,
+              "bloomFogIntensityMultiplier": 0.5,
+              "tubeLength": 1000.0,
+              "tubeWidth": 0.05,
+              "center": 0.0,
+              "height": 1000.0,
+              "startAlpha": 1.0,
+              "endAlpha": 0.6,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "PyroEnvironment.[0]Environment.[11]Runway.[6]RunwayLaserLefttTop.[1]BoxLight"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "PyroEnvironment.[0]Environment.[11]Runway.[6]RunwayLaserLefttTop.[0]BakedBloom",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -2.271,
+            0.017,
+            7.849
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            90.0,
+            0.000115912218,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            1.00000012,
+            1.00000012,
+            1.00000024
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "PyroLightBillboardSpriteGlow"
+          ]
+        }
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "PyroEnvironment.[0]Environment.[11]Runway.[6]RunwayLaserLefttTop.[1]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -2.27080631,
+            0.01651172,
+            507.849
+          ],
+          "localPosition": [
+            0.0,
+            500.0,
+            0.0
+          ],
+          "rotation": [
+            9.05000052E-05,
+            270.000031,
+            269.999939
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.025,
+            500.0,
+            0.025
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            2.0,
+            2.0,
+            2.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLight"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "PixelatedImageBG",
+      "id": "PyroEnvironment.[0]Environment.[11]Runway.[7]PixelatedImageBG",
+      "meshName": "Quad",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            -1.341,
+            7.864
+          ],
+          "localPosition": [
+            0.0,
+            -1.341,
+            0.039
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            4.5,
+            2.67462373,
+            2.3592093
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            1.0,
+            1.0,
+            6.1232336E-17
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "GreyPixelateBackground"
+          ]
+        }
+      }
+    },
+    {
+      "name": "PixelatedImageDark",
+      "id": "PyroEnvironment.[0]Environment.[11]Runway.[8]PixelatedImageDark",
+      "meshName": "Quad",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            -1.341,
+            7.863
+          ],
+          "localPosition": [
+            0.0,
+            -1.341,
+            0.038
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            4.5,
+            2.67462373,
+            2.3592093
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            1.0,
+            1.0,
+            6.1232336E-17
+          ]
+        },
+        "InstancedMaterialLightWithId": {
+          "materialLightId": 5,
+          "materialLightIntensity": 1.0
+        },
+        "MeshRenderer": {
+          "materials": [
+            "RunwayFrontDark"
+          ]
+        }
+      }
+    },
+    {
+      "name": "StarSkyPS",
+      "id": "PyroEnvironment.[0]Environment.[12]StarSkyPS",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            50.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            50.0,
+            0.0
+          ],
+          "rotation": [
+            270.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            270.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.00000024,
+            1.00000024
+          ]
+        }
+      }
+    },
+    {
+      "name": "StageRing",
+      "id": "PyroEnvironment.[0]Environment.[13]StageRing",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            35.52,
+            70.42
+          ],
+          "localPosition": [
+            0.0,
+            35.52,
+            70.42
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            3.0,
+            3.0,
+            3.0
+          ]
+        },
+        "LightColorGroup": {
+          "lightGroup": {
+            "groupName": "MainProjectorsTop",
+            "numberOfElements": 3,
+            "startLightId": 80,
+            "groupId": 4,
+            "sameIdElements": 1
+          }
+        },
+        "LightRotationGroup": {
+          "lightGroup": {
+            "groupName": "MainProjectorsTop",
+            "numberOfElements": 3,
+            "startLightId": 80,
+            "groupId": 4,
+            "sameIdElements": 1
+          }
+        }
+      }
+    },
+    {
+      "name": "ScafoldCirclular",
+      "id": "PyroEnvironment.[0]Environment.[13]StageRing.[0]ScafoldCirclular",
+      "meshName": "ScafoldCirclular",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            33.45,
+            70.42
+          ],
+          "localPosition": [
+            0.0,
+            -0.69,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            3.0,
+            3.0,
+            3.0
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            1.22189522E-06,
+            -3.07862377
+          ],
+          "boundsSize": [
+            12.3150778,
+            0.760019541,
+            6.15782928
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "ScaffoldCircular"
+          ]
+        }
+      }
+    },
+    {
+      "name": "ProjectorC (3)",
+      "id": "PyroEnvironment.[0]Environment.[13]StageRing.[1]ProjectorC (3)",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            -6.14999962,
+            31.008,
+            53.329
+          ],
+          "localPosition": [
+            -2.05,
+            -1.50400043,
+            -5.697
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            3.0,
+            3.0,
+            3.0
+          ]
+        },
+        "InstancedMaterialLightWithId": {
+          "materialLightId": 80,
+          "materialLightIntensity": 1.3
+        }
+      }
+    },
+    {
+      "name": "Projector",
+      "id": "PyroEnvironment.[0]Environment.[13]StageRing.[1]ProjectorC (3).[0]Projector",
+      "meshName": "Projector",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            -6.14999962,
+            31.008,
+            53.329
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            3.0,
+            3.0,
+            3.0
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            0.390791327,
+            0.3833267,
+            0.6588587
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "StageLights"
+          ]
+        }
+      }
+    },
+    {
+      "name": "LightBloom",
+      "id": "PyroEnvironment.[0]Environment.[13]StageRing.[1]ProjectorC (3).[0]Projector.[0]LightBloom",
+      "meshName": "Quad",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -6.13739967,
+            30.9411,
+            52.8726959
+          ],
+          "localPosition": [
+            0.00419998169,
+            -0.0223,
+            -0.1521
+          ],
+          "rotation": [
+            2.04905682E-05,
+            180.0,
+            0.0
+          ],
+          "localRotation": [
+            2.04905682E-05,
+            180.0,
+            0.0
+          ],
+          "scale": [
+            1.62905312,
+            1.62905312,
+            1.62905312
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            1.0,
+            1.0,
+            6.1232336E-17
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "LightBloom"
+          ]
+        }
+      }
+    },
+    {
+      "name": "LightBloomDark",
+      "id": "PyroEnvironment.[0]Environment.[13]StageRing.[1]ProjectorC (3).[0]Projector.[1]LightBloomDark",
+      "meshName": "Quad",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            -6.13739967,
+            30.942,
+            52.864
+          ],
+          "localPosition": [
+            0.00419998169,
+            -0.022,
+            -0.155
+          ],
+          "rotation": [
+            2.04905682E-05,
+            180.0,
+            0.0
+          ],
+          "localRotation": [
+            2.04905682E-05,
+            180.0,
+            0.0
+          ],
+          "scale": [
+            0.8657806,
+            0.8657806,
+            0.8657806
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            1.0,
+            1.0,
+            6.1232336E-17
+          ]
+        },
+        "InstancedMaterialLightWithId": {
+          "materialLightId": 80,
+          "materialLightIntensity": 1.0
+        },
+        "MeshRenderer": {
+          "materials": [
+            "LightBloomBlack"
+          ]
+        }
+      }
+    },
+    {
+      "name": "BloomLaser",
+      "id": "PyroEnvironment.[0]Environment.[13]StageRing.[1]ProjectorC (3).[0]Projector.[2]BloomLaser",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -6.14999962,
+            31.008,
+            52.7199974
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            -0.203
+          ],
+          "rotation": [
+            90.0,
+            270.0,
+            0.0
+          ],
+          "localRotation": [
+            90.0,
+            270.0,
+            0.0
+          ],
+          "scale": [
+            3.0,
+            3.0,
+            3.0
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 1.0,
+              "bloomFogIntensityMultiplier": 2.0,
+              "tubeLength": 0.01,
+              "tubeWidth": 0.1,
+              "center": 0.5,
+              "height": 0.01,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "PyroEnvironment.[0]Environment.[13]StageRing.[1]ProjectorC (3).[0]Projector.[2]BloomLaser.[1]BoxLight"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "PyroEnvironment.[0]Environment.[13]StageRing.[1]ProjectorC (3).[0]Projector.[2]BloomLaser.[0]BakedBloom",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -6.14999962,
+            31.008,
+            52.7199974
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            -4.829673E-06,
+            90.0
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            3.000001,
+            3.00000048,
+            3.00000048
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightBillboardSpriteGlow"
+          ]
+        }
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "PyroEnvironment.[0]Environment.[13]StageRing.[1]ProjectorC (3).[0]Projector.[2]BloomLaser.[1]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -6.14999962,
+            31.008,
+            52.7199974
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            90.0,
+            270.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.15,
+            0.015,
+            0.15
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            2.0,
+            2.0,
+            2.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLight"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "Laser",
+      "id": "PyroEnvironment.[0]Environment.[13]StageRing.[1]ProjectorC (3).[0]Projector.[3]Laser",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -6.14999962,
+            31.008,
+            52.876
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            -0.151
+          ],
+          "rotation": [
+            44.99997,
+            90.00001,
+            270.0
+          ],
+          "localRotation": [
+            44.99997,
+            90.00001,
+            270.0
+          ],
+          "scale": [
+            3.00000048,
+            3.0,
+            3.00000024
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 1.7,
+              "bloomFogIntensityMultiplier": 3.0,
+              "tubeLength": 20.0,
+              "tubeWidth": 0.18,
+              "center": 0.0,
+              "height": 20.0,
+              "startAlpha": 1.0,
+              "endAlpha": 0.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "PyroEnvironment.[0]Environment.[13]StageRing.[1]ProjectorC (3).[0]Projector.[3]Laser.[1]BoxLight"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "PyroEnvironment.[0]Environment.[13]StageRing.[1]ProjectorC (3).[0]Projector.[3]Laser.[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -6.14999962,
+            30.9655724,
+            52.935997
+          ],
+          "localPosition": [
+            0.01,
+            -0.02,
+            0.01
+          ],
+          "rotation": [
+            45.000042,
+            270.0,
+            89.99999
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            3.000001,
+            3.00000048,
+            3.000001
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            10.0,
+            5000.0,
+            0.1
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "PyroLightBillboardSpriteGlow"
+          ]
+        }
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "PyroEnvironment.[0]Environment.[13]StageRing.[1]ProjectorC (3).[0]Projector.[3]Laser.[1]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -6.15000343,
+            31.008,
+            22.876
+          ],
+          "localPosition": [
+            0.0,
+            10.0,
+            0.0
+          ],
+          "rotation": [
+            44.99997,
+            90.00001,
+            270.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.270000041,
+            30.0,
+            0.270000041
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            2.0,
+            2.0,
+            2.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLight"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "ProjectorHandle",
+      "id": "PyroEnvironment.[0]Environment.[13]StageRing.[1]ProjectorC (3).[1]ProjectorHandle",
+      "meshName": "Handle",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            -6.14999962,
+            31.008,
+            53.329
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            3.0,
+            3.0,
+            3.0
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            -0.0031901598,
+            0.227163434,
+            -2.42143869E-08
+          ],
+          "boundsSize": [
+            0.3445238,
+            0.462872922,
+            0.0786699951
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "StageLightsHandle"
+          ]
+        }
+      }
+    },
+    {
+      "name": "ProjectorC (2)",
+      "id": "PyroEnvironment.[0]Environment.[13]StageRing.[2]ProjectorC (2)",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            31.008,
+            52.1169968
+          ],
+          "localPosition": [
+            0.0,
+            -1.504,
+            -6.101
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            3.0,
+            3.0,
+            3.0
+          ]
+        },
+        "InstancedMaterialLightWithId": {
+          "materialLightId": 81,
+          "materialLightIntensity": 1.3
+        }
+      }
+    },
+    {
+      "name": "Projector",
+      "id": "PyroEnvironment.[0]Environment.[13]StageRing.[2]ProjectorC (2).[0]Projector",
+      "meshName": "Projector",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            31.008,
+            52.1169968
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            3.0,
+            3.0,
+            3.0
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            0.390791327,
+            0.3833267,
+            0.6588587
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "StageLights"
+          ]
+        }
+      }
+    },
+    {
+      "name": "LightBloom",
+      "id": "PyroEnvironment.[0]Environment.[13]StageRing.[2]ProjectorC (2).[0]Projector.[0]LightBloom",
+      "meshName": "Quad",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0125999451,
+            30.9411011,
+            51.6606979
+          ],
+          "localPosition": [
+            0.00419998169,
+            -0.0223,
+            -0.1521
+          ],
+          "rotation": [
+            2.04905682E-05,
+            180.0,
+            0.0
+          ],
+          "localRotation": [
+            2.04905682E-05,
+            180.0,
+            0.0
+          ],
+          "scale": [
+            1.62905312,
+            1.62905312,
+            1.62905312
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            1.0,
+            1.0,
+            6.1232336E-17
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "LightBloom"
+          ]
+        }
+      }
+    },
+    {
+      "name": "LightBloomDark",
+      "id": "PyroEnvironment.[0]Environment.[13]StageRing.[2]ProjectorC (2).[0]Projector.[1]LightBloomDark",
+      "meshName": "Quad",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0125999451,
+            30.9420013,
+            51.652
+          ],
+          "localPosition": [
+            0.00419998169,
+            -0.022,
+            -0.155
+          ],
+          "rotation": [
+            2.04905682E-05,
+            180.0,
+            0.0
+          ],
+          "localRotation": [
+            2.04905682E-05,
+            180.0,
+            0.0
+          ],
+          "scale": [
+            0.8657806,
+            0.8657806,
+            0.8657806
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            1.0,
+            1.0,
+            6.1232336E-17
+          ]
+        },
+        "InstancedMaterialLightWithId": {
+          "materialLightId": 81,
+          "materialLightIntensity": 1.0
+        },
+        "MeshRenderer": {
+          "materials": [
+            "LightBloomBlack"
+          ]
+        }
+      }
+    },
+    {
+      "name": "BloomLaser",
+      "id": "PyroEnvironment.[0]Environment.[13]StageRing.[2]ProjectorC (2).[0]Projector.[2]BloomLaser",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            31.008,
+            51.508
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            -0.203
+          ],
+          "rotation": [
+            90.0,
+            270.0,
+            0.0
+          ],
+          "localRotation": [
+            90.0,
+            270.0,
+            0.0
+          ],
+          "scale": [
+            3.0,
+            3.0,
+            3.0
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 1.0,
+              "bloomFogIntensityMultiplier": 2.0,
+              "tubeLength": 0.01,
+              "tubeWidth": 0.1,
+              "center": 0.5,
+              "height": 0.01,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "PyroEnvironment.[0]Environment.[13]StageRing.[2]ProjectorC (2).[0]Projector.[2]BloomLaser.[1]BoxLight"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "PyroEnvironment.[0]Environment.[13]StageRing.[2]ProjectorC (2).[0]Projector.[2]BloomLaser.[0]BakedBloom",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            31.008,
+            51.508
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            -4.829673E-06,
+            90.0
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            3.000001,
+            3.00000048,
+            3.00000048
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightBillboardSpriteGlow"
+          ]
+        }
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "PyroEnvironment.[0]Environment.[13]StageRing.[2]ProjectorC (2).[0]Projector.[2]BloomLaser.[1]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            31.008,
+            51.508
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            90.0,
+            270.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.15,
+            0.015,
+            0.15
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            2.0,
+            2.0,
+            2.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLight"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "Laser",
+      "id": "PyroEnvironment.[0]Environment.[13]StageRing.[2]ProjectorC (2).[0]Projector.[3]Laser",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            31.008,
+            51.6639977
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            -0.151
+          ],
+          "rotation": [
+            44.99997,
+            90.00001,
+            270.0
+          ],
+          "localRotation": [
+            44.99997,
+            90.00001,
+            270.0
+          ],
+          "scale": [
+            3.00000048,
+            3.0,
+            3.00000024
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 1.7,
+              "bloomFogIntensityMultiplier": 3.0,
+              "tubeLength": 20.0,
+              "tubeWidth": 0.18,
+              "center": 0.0,
+              "height": 20.0,
+              "startAlpha": 1.0,
+              "endAlpha": 0.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "PyroEnvironment.[0]Environment.[13]StageRing.[2]ProjectorC (2).[0]Projector.[3]Laser.[1]BoxLight"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "PyroEnvironment.[0]Environment.[13]StageRing.[2]ProjectorC (2).[0]Projector.[3]Laser.[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            2.79396772E-08,
+            30.9655743,
+            51.724
+          ],
+          "localPosition": [
+            0.01,
+            -0.02,
+            0.01
+          ],
+          "rotation": [
+            45.000042,
+            270.0,
+            89.99999
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            3.000001,
+            3.00000048,
+            3.000001
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            10.0,
+            5000.0,
+            0.1
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "PyroLightBillboardSpriteGlow"
+          ]
+        }
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "PyroEnvironment.[0]Environment.[13]StageRing.[2]ProjectorC (2).[0]Projector.[3]Laser.[1]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -3.57627869E-06,
+            31.008,
+            21.6640015
+          ],
+          "localPosition": [
+            0.0,
+            10.0,
+            0.0
+          ],
+          "rotation": [
+            44.99997,
+            90.00001,
+            270.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.270000041,
+            30.0,
+            0.270000041
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            2.0,
+            2.0,
+            2.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLight"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "ProjectorHandle",
+      "id": "PyroEnvironment.[0]Environment.[13]StageRing.[2]ProjectorC (2).[1]ProjectorHandle",
+      "meshName": "Handle",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            31.008,
+            52.1169968
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            3.0,
+            3.0,
+            3.0
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            -0.0031901598,
+            0.227163434,
+            -2.42143869E-08
+          ],
+          "boundsSize": [
+            0.3445238,
+            0.462872922,
+            0.0786699951
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "StageLightsHandle"
+          ]
+        }
+      }
+    },
+    {
+      "name": "ProjectorC (4)",
+      "id": "PyroEnvironment.[0]Environment.[13]StageRing.[3]ProjectorC (4)",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            6.14999962,
+            31.008,
+            53.329
+          ],
+          "localPosition": [
+            2.05,
+            -1.50400043,
+            -5.697
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            3.0,
+            3.0,
+            3.0
+          ]
+        },
+        "InstancedMaterialLightWithId": {
+          "materialLightId": 82,
+          "materialLightIntensity": 1.3
+        }
+      }
+    },
+    {
+      "name": "Projector",
+      "id": "PyroEnvironment.[0]Environment.[13]StageRing.[3]ProjectorC (4).[0]Projector",
+      "meshName": "Projector",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            6.14999962,
+            31.008,
+            53.329
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            3.0,
+            3.0,
+            3.0
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            0.390791327,
+            0.3833267,
+            0.6588587
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "StageLights"
+          ]
+        }
+      }
+    },
+    {
+      "name": "LightBloom",
+      "id": "PyroEnvironment.[0]Environment.[13]StageRing.[3]ProjectorC (4).[0]Projector.[0]LightBloom",
+      "meshName": "Quad",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            6.16259956,
+            30.9411,
+            52.8726959
+          ],
+          "localPosition": [
+            0.00419998169,
+            -0.0223,
+            -0.1521
+          ],
+          "rotation": [
+            2.04905682E-05,
+            180.0,
+            0.0
+          ],
+          "localRotation": [
+            2.04905682E-05,
+            180.0,
+            0.0
+          ],
+          "scale": [
+            1.62905312,
+            1.62905312,
+            1.62905312
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            1.0,
+            1.0,
+            6.1232336E-17
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "LightBloom"
+          ]
+        }
+      }
+    },
+    {
+      "name": "LightBloomDark",
+      "id": "PyroEnvironment.[0]Environment.[13]StageRing.[3]ProjectorC (4).[0]Projector.[1]LightBloomDark",
+      "meshName": "Quad",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            6.16259956,
+            30.942,
+            52.864
+          ],
+          "localPosition": [
+            0.00419998169,
+            -0.022,
+            -0.155
+          ],
+          "rotation": [
+            2.04905682E-05,
+            180.0,
+            0.0
+          ],
+          "localRotation": [
+            2.04905682E-05,
+            180.0,
+            0.0
+          ],
+          "scale": [
+            0.8657806,
+            0.8657806,
+            0.8657806
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            1.0,
+            1.0,
+            6.1232336E-17
+          ]
+        },
+        "InstancedMaterialLightWithId": {
+          "materialLightId": 82,
+          "materialLightIntensity": 1.0
+        },
+        "MeshRenderer": {
+          "materials": [
+            "LightBloomBlack"
+          ]
+        }
+      }
+    },
+    {
+      "name": "BloomLaser",
+      "id": "PyroEnvironment.[0]Environment.[13]StageRing.[3]ProjectorC (4).[0]Projector.[2]BloomLaser",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            6.14999962,
+            31.008,
+            52.7199974
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            -0.203
+          ],
+          "rotation": [
+            90.0,
+            270.0,
+            0.0
+          ],
+          "localRotation": [
+            90.0,
+            270.0,
+            0.0
+          ],
+          "scale": [
+            3.0,
+            3.0,
+            3.0
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 1.0,
+              "bloomFogIntensityMultiplier": 2.0,
+              "tubeLength": 0.01,
+              "tubeWidth": 0.1,
+              "center": 0.5,
+              "height": 0.01,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "PyroEnvironment.[0]Environment.[13]StageRing.[3]ProjectorC (4).[0]Projector.[2]BloomLaser.[1]BoxLight"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "PyroEnvironment.[0]Environment.[13]StageRing.[3]ProjectorC (4).[0]Projector.[2]BloomLaser.[0]BakedBloom",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            6.14999962,
+            31.008,
+            52.7199974
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            -4.829673E-06,
+            90.0
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            3.000001,
+            3.00000048,
+            3.00000048
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightBillboardSpriteGlow"
+          ]
+        }
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "PyroEnvironment.[0]Environment.[13]StageRing.[3]ProjectorC (4).[0]Projector.[2]BloomLaser.[1]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            6.14999962,
+            31.008,
+            52.7199974
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            90.0,
+            270.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.15,
+            0.015,
+            0.15
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            2.0,
+            2.0,
+            2.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLight"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "Laser",
+      "id": "PyroEnvironment.[0]Environment.[13]StageRing.[3]ProjectorC (4).[0]Projector.[3]Laser",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            6.14999962,
+            31.008,
+            52.876
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            -0.151
+          ],
+          "rotation": [
+            44.99997,
+            90.00001,
+            270.0
+          ],
+          "localRotation": [
+            44.99997,
+            90.00001,
+            270.0
+          ],
+          "scale": [
+            3.00000048,
+            3.0,
+            3.00000024
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 1.7,
+              "bloomFogIntensityMultiplier": 3.0,
+              "tubeLength": 20.0,
+              "tubeWidth": 0.18,
+              "center": 0.0,
+              "height": 20.0,
+              "startAlpha": 1.0,
+              "endAlpha": 0.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "PyroEnvironment.[0]Environment.[13]StageRing.[3]ProjectorC (4).[0]Projector.[3]Laser.[1]BoxLight"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "PyroEnvironment.[0]Environment.[13]StageRing.[3]ProjectorC (4).[0]Projector.[3]Laser.[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            6.14999962,
+            30.9655724,
+            52.935997
+          ],
+          "localPosition": [
+            0.01,
+            -0.02,
+            0.01
+          ],
+          "rotation": [
+            45.000042,
+            270.0,
+            89.99999
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            3.000001,
+            3.00000048,
+            3.000001
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            10.0,
+            5000.0,
+            0.1
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "PyroLightBillboardSpriteGlow"
+          ]
+        }
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "PyroEnvironment.[0]Environment.[13]StageRing.[3]ProjectorC (4).[0]Projector.[3]Laser.[1]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            6.14999628,
+            31.008,
+            22.876
+          ],
+          "localPosition": [
+            0.0,
+            10.0,
+            0.0
+          ],
+          "rotation": [
+            44.99997,
+            90.00001,
+            270.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.270000041,
+            30.0,
+            0.270000041
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            2.0,
+            2.0,
+            2.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLight"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "ProjectorHandle",
+      "id": "PyroEnvironment.[0]Environment.[13]StageRing.[3]ProjectorC (4).[1]ProjectorHandle",
+      "meshName": "Handle",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            6.14999962,
+            31.008,
+            53.329
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            3.0,
+            3.0,
+            3.0
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            -0.0031901598,
+            0.227163434,
+            -2.42143869E-08
+          ],
+          "boundsSize": [
+            0.3445238,
+            0.462872922,
+            0.0786699951
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "StageLightsHandle"
+          ]
+        }
+      }
+    },
+    {
+      "name": "FrontScaffolding",
+      "id": "PyroEnvironment.[0]Environment.[14]FrontScaffolding",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            -2.13,
+            50.2
+          ],
+          "localPosition": [
+            0.0,
+            -2.13,
+            50.2
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "ScaffoldSquares (17)",
+      "id": "PyroEnvironment.[0]Environment.[14]FrontScaffolding.[0]ScaffoldSquares (17)",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            7.99399948,
+            -1.13000011,
+            50.095
+          ],
+          "localPosition": [
+            7.99399948,
+            1.0,
+            -0.104999542
+          ],
+          "rotation": [
+            0.0,
+            180.0,
+            270.0
+          ],
+          "localRotation": [
+            0.0,
+            180.0,
+            270.0
+          ],
+          "scale": [
+            2.60579324,
+            2.89413619,
+            2.89413714
+          ]
+        }
+      }
+    },
+    {
+      "name": "scafoldSquares",
+      "id": "PyroEnvironment.[0]Environment.[14]FrontScaffolding.[0]ScaffoldSquares (17).[0]scafoldSquares",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            7.99399948,
+            -1.13000011,
+            50.095
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            180.0,
+            270.0
+          ],
+          "localRotation": [
+            6.83018925E-06,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            2.60579324,
+            2.89413619,
+            2.89413714
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "Scaffold"
+          ]
+        }
+      }
+    },
+    {
+      "name": "ScaffoldSquares (18)",
+      "id": "PyroEnvironment.[0]Environment.[14]FrontScaffolding.[1]ScaffoldSquares (18)",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            12.944,
+            -1.13000011,
+            50.095
+          ],
+          "localPosition": [
+            12.944,
+            1.0,
+            -0.104999542
+          ],
+          "rotation": [
+            0.0,
+            180.0,
+            270.0
+          ],
+          "localRotation": [
+            0.0,
+            180.0,
+            270.0
+          ],
+          "scale": [
+            2.60579324,
+            2.89413619,
+            2.89413714
+          ]
+        }
+      }
+    },
+    {
+      "name": "scafoldSquares",
+      "id": "PyroEnvironment.[0]Environment.[14]FrontScaffolding.[1]ScaffoldSquares (18).[0]scafoldSquares",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            12.944,
+            -1.13000011,
+            50.095
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            180.0,
+            270.0
+          ],
+          "localRotation": [
+            6.83018925E-06,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            2.60579324,
+            2.89413619,
+            2.89413714
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "Scaffold"
+          ]
+        }
+      }
+    },
+    {
+      "name": "ScaffoldSquares (19)",
+      "id": "PyroEnvironment.[0]Environment.[14]FrontScaffolding.[2]ScaffoldSquares (19)",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            18.0439987,
+            -1.13000011,
+            50.095
+          ],
+          "localPosition": [
+            18.0439987,
+            1.0,
+            -0.104999542
+          ],
+          "rotation": [
+            0.0,
+            180.0,
+            270.0
+          ],
+          "localRotation": [
+            0.0,
+            180.0,
+            270.0
+          ],
+          "scale": [
+            2.60579324,
+            2.89413619,
+            2.89413714
+          ]
+        }
+      }
+    },
+    {
+      "name": "scafoldSquares",
+      "id": "PyroEnvironment.[0]Environment.[14]FrontScaffolding.[2]ScaffoldSquares (19).[0]scafoldSquares",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            18.0439987,
+            -1.13000011,
+            50.095
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            180.0,
+            270.0
+          ],
+          "localRotation": [
+            6.83018925E-06,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            2.60579324,
+            2.89413619,
+            2.89413714
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "Scaffold"
+          ]
+        }
+      }
+    },
+    {
+      "name": "ScaffoldSquares (20)",
+      "id": "PyroEnvironment.[0]Environment.[14]FrontScaffolding.[3]ScaffoldSquares (20)",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            -12.201,
+            -1.13000011,
+            50.095
+          ],
+          "localPosition": [
+            -12.201,
+            1.0,
+            -0.104999542
+          ],
+          "rotation": [
+            0.0,
+            180.0,
+            270.0
+          ],
+          "localRotation": [
+            0.0,
+            180.0,
+            270.0
+          ],
+          "scale": [
+            2.60579324,
+            2.89413619,
+            2.89413714
+          ]
+        }
+      }
+    },
+    {
+      "name": "scafoldSquares",
+      "id": "PyroEnvironment.[0]Environment.[14]FrontScaffolding.[3]ScaffoldSquares (20).[0]scafoldSquares",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            -12.201,
+            -1.13000011,
+            50.095
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            180.0,
+            270.0
+          ],
+          "localRotation": [
+            6.83018925E-06,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            2.60579324,
+            2.89413619,
+            2.89413714
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "Scaffold"
+          ]
+        }
+      }
+    },
+    {
+      "name": "ScaffoldSquares (21)",
+      "id": "PyroEnvironment.[0]Environment.[14]FrontScaffolding.[4]ScaffoldSquares (21)",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            -7.2509985,
+            -1.13000011,
+            50.095
+          ],
+          "localPosition": [
+            -7.2509985,
+            1.0,
+            -0.104999542
+          ],
+          "rotation": [
+            0.0,
+            180.0,
+            270.0
+          ],
+          "localRotation": [
+            0.0,
+            180.0,
+            270.0
+          ],
+          "scale": [
+            2.60579324,
+            2.89413619,
+            2.89413714
+          ]
+        }
+      }
+    },
+    {
+      "name": "scafoldSquares",
+      "id": "PyroEnvironment.[0]Environment.[14]FrontScaffolding.[4]ScaffoldSquares (21).[0]scafoldSquares",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            -7.2509985,
+            -1.13000011,
+            50.095
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            180.0,
+            270.0
+          ],
+          "localRotation": [
+            6.83018925E-06,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            2.60579324,
+            2.89413619,
+            2.89413714
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "Scaffold"
+          ]
+        }
+      }
+    },
+    {
+      "name": "ScaffoldSquares (22)",
+      "id": "PyroEnvironment.[0]Environment.[14]FrontScaffolding.[5]ScaffoldSquares (22)",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            -2.151,
+            -1.13000011,
+            50.095
+          ],
+          "localPosition": [
+            -2.151,
+            1.0,
+            -0.104999542
+          ],
+          "rotation": [
+            0.0,
+            180.0,
+            270.0
+          ],
+          "localRotation": [
+            0.0,
+            180.0,
+            270.0
+          ],
+          "scale": [
+            2.60579324,
+            2.89413619,
+            2.89413714
+          ]
+        }
+      }
+    },
+    {
+      "name": "scafoldSquares",
+      "id": "PyroEnvironment.[0]Environment.[14]FrontScaffolding.[5]ScaffoldSquares (22).[0]scafoldSquares",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            -2.151,
+            -1.13000011,
+            50.095
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            180.0,
+            270.0
+          ],
+          "localRotation": [
+            6.83018925E-06,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            2.60579324,
+            2.89413619,
+            2.89413714
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "Scaffold"
+          ]
+        }
+      }
+    },
+    {
+      "name": "ScreenSetupRight",
+      "id": "PyroEnvironment.[0]Environment.[15]ScreenSetupRight",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            12.16,
+            -0.78,
+            32.25
+          ],
+          "localPosition": [
+            12.16,
+            -0.78,
+            32.25
+          ],
+          "rotation": [
+            0.0,
+            14.9999952,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            14.9999952,
+            0.0
+          ],
+          "scale": [
+            2.791597,
+            2.79159665,
+            2.791597
+          ]
+        }
+      }
+    },
+    {
+      "name": "ScafoldTriangular",
+      "id": "PyroEnvironment.[0]Environment.[15]ScreenSetupRight.[0]ScafoldTriangular",
+      "meshName": "ScafoldTriangular",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            16.5525589,
+            -1.31040335,
+            31.0730171
+          ],
+          "localPosition": [
+            1.62899983,
+            -0.19,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            194.999985,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            180.0,
+            0.0
+          ],
+          "scale": [
+            1.74645078,
+            1.74590933,
+            1.74645078
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            -0.0006043315,
+            1.49999917,
+            0.0216795653
+          ],
+          "boundsSize": [
+            0.7765877,
+            3.00000215,
+            0.7090037
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "Scaffold"
+          ]
+        }
+      }
+    },
+    {
+      "name": "ScafoldTriangular",
+      "id": "PyroEnvironment.[0]Environment.[15]ScreenSetupRight.[1]ScafoldTriangular",
+      "meshName": "ScafoldTriangular",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            16.5525589,
+            3.92942357,
+            31.0730171
+          ],
+          "localPosition": [
+            1.629,
+            1.68699992,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            194.999985,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            180.0,
+            0.0
+          ],
+          "scale": [
+            1.74645078,
+            1.74645078,
+            1.74645078
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            -0.0006043315,
+            1.49999917,
+            0.0216795653
+          ],
+          "boundsSize": [
+            0.7765877,
+            3.00000215,
+            0.7090037
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "Scaffold"
+          ]
+        }
+      }
+    },
+    {
+      "name": "ScafoldTriangular",
+      "id": "PyroEnvironment.[0]Environment.[15]ScreenSetupRight.[2]ScafoldTriangular",
+      "meshName": "ScafoldTriangular",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            17.2077332,
+            8.490892,
+            30.8974648
+          ],
+          "localPosition": [
+            1.871975,
+            3.32099986,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            194.999985,
+            270.0
+          ],
+          "localRotation": [
+            0.0,
+            180.0,
+            270.0
+          ],
+          "scale": [
+            1.74645114,
+            1.74647939,
+            1.7464515
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            -0.0006043315,
+            1.49999917,
+            0.0216795653
+          ],
+          "boundsSize": [
+            0.7765877,
+            3.00000215,
+            0.7090037
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "Scaffold"
+          ]
+        }
+      }
+    },
+    {
+      "name": "ScafoldTriangular",
+      "id": "PyroEnvironment.[0]Environment.[15]ScreenSetupRight.[3]ScafoldTriangular",
+      "meshName": "ScafoldTriangular",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            12.146451,
+            8.490892,
+            32.25363
+          ],
+          "localPosition": [
+            -0.005024587,
+            3.32099986,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            194.999985,
+            270.0
+          ],
+          "localRotation": [
+            0.0,
+            180.0,
+            270.0
+          ],
+          "scale": [
+            1.74645114,
+            1.74647939,
+            1.7464515
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            -0.0006043315,
+            1.49999917,
+            0.0216795653
+          ],
+          "boundsSize": [
+            0.7765877,
+            3.00000215,
+            0.7090037
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "Scaffold"
+          ]
+        }
+      }
+    },
+    {
+      "name": "ScafoldTriangular",
+      "id": "PyroEnvironment.[0]Environment.[15]ScreenSetupRight.[4]ScafoldTriangular",
+      "meshName": "ScafoldTriangular",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            7.743175,
+            3.92942357,
+            33.4334831
+          ],
+          "localPosition": [
+            -1.6379993,
+            1.68699992,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            194.999985,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            180.0,
+            0.0
+          ],
+          "scale": [
+            1.74645078,
+            1.74645078,
+            1.74645078
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            -0.0006043315,
+            1.49999917,
+            0.0216795653
+          ],
+          "boundsSize": [
+            0.7765877,
+            3.00000215,
+            0.7090037
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "Scaffold"
+          ]
+        }
+      }
+    },
+    {
+      "name": "ScafoldTriangular",
+      "id": "PyroEnvironment.[0]Environment.[15]ScreenSetupRight.[5]ScafoldTriangular",
+      "meshName": "ScafoldTriangular",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            7.743175,
+            -1.31040335,
+            33.4334831
+          ],
+          "localPosition": [
+            -1.6379993,
+            -0.19,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            194.999985,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            180.0,
+            0.0
+          ],
+          "scale": [
+            1.74645078,
+            1.74645078,
+            1.74645078
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            -0.0006043315,
+            1.49999917,
+            0.0216795653
+          ],
+          "boundsSize": [
+            0.7765877,
+            3.00000215,
+            0.7090037
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "Scaffold"
+          ]
+        }
+      }
+    },
+    {
+      "name": "VideoBackground",
+      "id": "PyroEnvironment.[0]Environment.[15]ScreenSetupRight.[6]VideoBackground",
+      "meshName": "Quad",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            12.0451193,
+            3.9712975,
+            31.82126
+          ],
+          "localPosition": [
+            0.0,
+            1.702,
+            -0.159
+          ],
+          "rotation": [
+            0.0,
+            14.9999952,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            7.546245,
+            7.546244,
+            7.546245
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            1.0,
+            1.0,
+            6.1232336E-17
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "VideoBG"
+          ]
+        }
+      }
+    },
+    {
+      "name": "ScreenSetupLeft",
+      "id": "PyroEnvironment.[0]Environment.[16]ScreenSetupLeft",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            -12.16,
+            -0.779999733,
+            32.25
+          ],
+          "localPosition": [
+            -12.16,
+            -0.779999733,
+            32.25
+          ],
+          "rotation": [
+            0.0,
+            345.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            345.0,
+            0.0
+          ],
+          "scale": [
+            2.79159665,
+            2.79159665,
+            2.79159665
+          ]
+        }
+      }
+    },
+    {
+      "name": "ScafoldTriangular",
+      "id": "PyroEnvironment.[0]Environment.[16]ScreenSetupLeft.[0]ScafoldTriangular",
+      "meshName": "ScafoldTriangular",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            -7.767442,
+            -1.31040311,
+            33.4269829
+          ],
+          "localPosition": [
+            1.62899983,
+            -0.19,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            165.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            180.0,
+            0.0
+          ],
+          "scale": [
+            1.74645066,
+            1.74590933,
+            1.74645066
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            -0.0006043315,
+            1.49999917,
+            0.0216795653
+          ],
+          "boundsSize": [
+            0.7765877,
+            3.00000215,
+            0.7090037
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "Scaffold"
+          ]
+        }
+      }
+    },
+    {
+      "name": "ScafoldTriangular",
+      "id": "PyroEnvironment.[0]Environment.[16]ScreenSetupLeft.[1]ScafoldTriangular",
+      "meshName": "ScafoldTriangular",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            -7.767442,
+            3.92942381,
+            33.4269829
+          ],
+          "localPosition": [
+            1.629,
+            1.68699992,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            165.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            180.0,
+            0.0
+          ],
+          "scale": [
+            1.74645066,
+            1.74645078,
+            1.74645066
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            -0.0006043315,
+            1.49999917,
+            0.0216795653
+          ],
+          "boundsSize": [
+            0.7765877,
+            3.00000215,
+            0.7090037
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "Scaffold"
+          ]
+        }
+      }
+    },
+    {
+      "name": "ScafoldTriangular",
+      "id": "PyroEnvironment.[0]Environment.[16]ScreenSetupLeft.[2]ScafoldTriangular",
+      "meshName": "ScafoldTriangular",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            -7.11226559,
+            8.490892,
+            33.6025352
+          ],
+          "localPosition": [
+            1.871975,
+            3.32099986,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            165.0,
+            270.0
+          ],
+          "localRotation": [
+            0.0,
+            180.0,
+            270.0
+          ],
+          "scale": [
+            1.74645114,
+            1.74647927,
+            1.74645162
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            -0.0006043315,
+            1.49999917,
+            0.0216795653
+          ],
+          "boundsSize": [
+            0.7765877,
+            3.00000215,
+            0.7090037
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "Scaffold"
+          ]
+        }
+      }
+    },
+    {
+      "name": "ScafoldTriangular",
+      "id": "PyroEnvironment.[0]Environment.[16]ScreenSetupLeft.[3]ScafoldTriangular",
+      "meshName": "ScafoldTriangular",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            -12.1735487,
+            8.490892,
+            32.24637
+          ],
+          "localPosition": [
+            -0.005024587,
+            3.32099986,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            165.0,
+            270.0
+          ],
+          "localRotation": [
+            0.0,
+            180.0,
+            270.0
+          ],
+          "scale": [
+            1.74645114,
+            1.74647927,
+            1.74645162
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            -0.0006043315,
+            1.49999917,
+            0.0216795653
+          ],
+          "boundsSize": [
+            0.7765877,
+            3.00000215,
+            0.7090037
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "Scaffold"
+          ]
+        }
+      }
+    },
+    {
+      "name": "ScafoldTriangular",
+      "id": "PyroEnvironment.[0]Environment.[16]ScreenSetupLeft.[4]ScafoldTriangular",
+      "meshName": "ScafoldTriangular",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            -16.5768242,
+            3.92942381,
+            31.066515
+          ],
+          "localPosition": [
+            -1.6379993,
+            1.68699992,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            165.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            180.0,
+            0.0
+          ],
+          "scale": [
+            1.74645066,
+            1.74645078,
+            1.74645066
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            -0.0006043315,
+            1.49999917,
+            0.0216795653
+          ],
+          "boundsSize": [
+            0.7765877,
+            3.00000215,
+            0.7090037
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "Scaffold"
+          ]
+        }
+      }
+    },
+    {
+      "name": "ScafoldTriangular",
+      "id": "PyroEnvironment.[0]Environment.[16]ScreenSetupLeft.[5]ScafoldTriangular",
+      "meshName": "ScafoldTriangular",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            -16.5768242,
+            -1.31040311,
+            31.066515
+          ],
+          "localPosition": [
+            -1.6379993,
+            -0.19,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            165.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            180.0,
+            0.0
+          ],
+          "scale": [
+            1.74645066,
+            1.74645078,
+            1.74645066
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            -0.0006043315,
+            1.49999917,
+            0.0216795653
+          ],
+          "boundsSize": [
+            0.7765877,
+            3.00000215,
+            0.7090037
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "Scaffold"
+          ]
+        }
+      }
+    },
+    {
+      "name": "VideoBackground",
+      "id": "PyroEnvironment.[0]Environment.[16]ScreenSetupLeft.[6]VideoBackground",
+      "meshName": "Quad",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            -12.0451193,
+            3.97129774,
+            31.82126
+          ],
+          "localPosition": [
+            0.0,
+            1.702,
+            -0.159
+          ],
+          "rotation": [
+            0.0,
+            345.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            7.54624462,
+            7.546244,
+            7.54624462
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            1.0,
+            1.0,
+            6.1232336E-17
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "VideoBG"
+          ]
+        }
+      }
+    },
+    {
+      "name": "LightBoxesScaffoldingLeft",
+      "id": "PyroEnvironment.[0]Environment.[17]LightBoxesScaffoldingLeft",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            -41.65,
+            -2.92,
+            50.54
+          ],
+          "localPosition": [
+            -41.65,
+            -2.92,
+            50.54
+          ],
+          "rotation": [
+            0.0,
+            135.785,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            135.785,
+            0.0
+          ],
+          "scale": [
+            1.00000012,
+            1.0,
+            1.00000012
+          ]
+        },
+        "LightColorGroup": {
+          "lightGroup": {
+            "groupName": "LeftTower",
+            "numberOfElements": 48,
+            "startLightId": 100,
+            "groupId": 6,
+            "sameIdElements": 1
+          }
+        }
+      }
+    },
+    {
+      "name": "ScaffoldTriangular (25)",
+      "id": "PyroEnvironment.[0]Environment.[17]LightBoxesScaffoldingLeft.[0]ScaffoldTriangular (25)",
+      "meshName": "ScafoldTriangular",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            -39.3680878,
+            -2.33,
+            54.5042648
+          ],
+          "localPosition": [
+            -4.4,
+            0.590000153,
+            -1.25
+          ],
+          "rotation": [
+            0.0,
+            135.785,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            5.000001,
+            3.44052887,
+            5.000001
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            -0.0006043315,
+            1.49999917,
+            0.0216795653
+          ],
+          "boundsSize": [
+            0.7765877,
+            3.00000215,
+            0.7090037
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "Scaffold"
+          ]
+        }
+      }
+    },
+    {
+      "name": "ScaffoldTriangular (24)",
+      "id": "PyroEnvironment.[0]Environment.[17]LightBoxesScaffoldingLeft.[1]ScaffoldTriangular (24)",
+      "meshName": "ScafoldTriangular",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            -39.3680878,
+            7.704999,
+            54.5042648
+          ],
+          "localPosition": [
+            -4.4,
+            10.624999,
+            -1.25
+          ],
+          "rotation": [
+            0.0,
+            135.785,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            5.000001,
+            3.44052887,
+            5.000001
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            -0.0006043315,
+            1.49999917,
+            0.0216795653
+          ],
+          "boundsSize": [
+            0.7765877,
+            3.00000215,
+            0.7090037
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "Scaffold"
+          ]
+        }
+      }
+    },
+    {
+      "name": "4SlotBox (5)",
+      "id": "PyroEnvironment.[0]Environment.[17]LightBoxesScaffoldingLeft.[10]4SlotBox (5)",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            -41.65,
+            10.08,
+            50.54
+          ],
+          "localPosition": [
+            0.0,
+            13.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            135.785,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            7.000001,
+            7.0,
+            7.000001
+          ]
+        }
+      }
+    },
+    {
+      "name": "4Slotbox",
+      "id": "PyroEnvironment.[0]Environment.[17]LightBoxesScaffoldingLeft.[10]4SlotBox (5).[0]4Slotbox",
+      "meshName": "4Slotbox",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            -41.65,
+            10.08,
+            50.54
+          ],
+          "localPosition": [
+            -7.21216153E-08,
+            0.0,
+            6.67572E-08
+          ],
+          "rotation": [
+            0.0,
+            135.785,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            9.178528,
+            9.178526,
+            9.178528
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            5.96046448E-08,
+            -1.86264515E-08,
+            0.08766539
+          ],
+          "boundsSize": [
+            0.5415979,
+            0.131121755,
+            0.175330892
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "Scaffold4SlotBox"
+          ]
+        }
+      }
+    },
+    {
+      "name": "4SlotLights",
+      "id": "PyroEnvironment.[0]Environment.[17]LightBoxesScaffoldingLeft.[10]4SlotBox (5).[1]4SlotLights",
+      "meshName": "LightBloom",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            -40.4984627,
+            10.08,
+            49.35647
+          ],
+          "localPosition": [
+            6.267271E-10,
+            0.0,
+            0.2359
+          ],
+          "rotation": [
+            0.0,
+            135.785,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            7.000001,
+            7.0,
+            7.000001
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            -0.0006751567,
+            1.04308128E-07,
+            0.0250000264
+          ],
+          "boundsSize": [
+            0.792264342,
+            0.399613738,
+            0.0500002019
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "4SlotLights"
+          ]
+        }
+      }
+    },
+    {
+      "name": "New Sprite",
+      "id": "PyroEnvironment.[0]Environment.[17]LightBoxesScaffoldingLeft.[10]4SlotBox (5).[2]New Sprite",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            -40.5077362,
+            10.08,
+            49.366
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.234
+          ],
+          "rotation": [
+            0.0,
+            135.785,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            7.000001,
+            7.0,
+            7.000001
+          ]
+        }
+      }
+    }
+  ]
+}
