@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEngine;
 
 [CustomEditor(typeof(OptionsTabButton))]
-public class ButtonManager : Editor
+public class ButtonManager : UnityEditor.Editor
 {
     private OptionsTabButton tabButton;
     private bool showHiddenSettings;

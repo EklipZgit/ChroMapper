@@ -4,7 +4,7 @@ using UnityEngine;
 
 [CustomEditor(typeof(BetterSlider))]
 [CanEditMultipleObjects]
-public class SliderBuilder : Editor
+public class SliderBuilder : UnityEditor.Editor
 {
     private BetterSlider slider;
     private bool showHiddenSettings;

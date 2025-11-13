@@ -5,7 +5,7 @@ using UnityEngine;
 
 [CustomEditor(typeof(SettingsBinder), true)]
 [CanEditMultipleObjects]
-public class SettingsBinderBuilder : Editor
+public class SettingsBinderBuilder : UnityEditor.Editor
 {
     private SettingsBinder settingsBinder;
 

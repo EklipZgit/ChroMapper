@@ -1,9 +1,13 @@
 namespace Editor.Environments.Structures.Components
 {
-    public class TubeBloomPrePassLightWithIdComponent
+    public class TubeBloomPrePassLightWithIdComponent : EnvironmentComponent<LightingObject>
     {
         public TubeBloomPrePassLightComponent TubeBloomPrePassLight;
         public ChromaLightComponent ChromaLight;
+
+        public override void CopyTo(LightingObject target)
+        {
+        }
     }
 
     public class TubeBloomPrePassLightComponent

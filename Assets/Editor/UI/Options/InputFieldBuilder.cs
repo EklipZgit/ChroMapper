@@ -4,7 +4,7 @@ using UnityEngine;
 
 [CustomEditor(typeof(BetterInputField))]
 [CanEditMultipleObjects]
-public class InputFieldBuilder : Editor
+public class InputFieldBuilder : UnityEditor.Editor
 {
     private BetterInputField inputField;
     private bool showHiddenSettings;
