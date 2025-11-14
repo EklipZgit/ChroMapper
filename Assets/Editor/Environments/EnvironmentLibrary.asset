@@ -35,6 +35,16 @@ MonoBehaviour:
   - LightWithIdManager
   - LightmapLightWithIds
   - GameHUD
+  - ShaderWarmup
+  - GradientBackground
+  - BackgroundGradient
+  - BSBakedLightingLightWithIds
+  - BSRealtimeLightmapping
+  - BTSEnvironmentCharacterSpawner
+  - EnvironmentBrandingManager
+  - FloorLightTilesGridEffect
+  - TowersNonLightGroupRenderer
+  - SceneContext
   library:
   - Name: LeftNearBuilding
     Replacement: {fileID: 7311844946781822562, guid: a40c9bab8cff5554d909387841ba5916,
