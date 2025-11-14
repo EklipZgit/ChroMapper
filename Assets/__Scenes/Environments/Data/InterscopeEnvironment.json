@@ -444,28 +444,170 @@
         ]
       },
       {
-        "name": "EnvLight",
+        "name": "CarWheels",
         "keywords": [
-          "ENABLE_HEIGHT_FOG",
+          "FOG",
+          "INVERT_RIM_DIM",
+          "MULTIPLY_REFLECTIONS",
+          "REFLECTION_PROBE",
+          "REFLECTION_PROBE_BOX_PROJECTION",
+          "REFLECTION_PROBE_BOX_PROJECTION_OFFSET",
+          "SPECULAR_ANTIFLICKER",
+          "_ACES_APPROACH_AFTER_EMISSIVE",
+          "_DIFFUSE_TEXTURE_SOURCE_TEXTURE",
+          "_DISSOLVEALPHA_CLIP",
+          "_DISSOLVE_GRID_NONE",
+          "_DISTORTION_TARGET_MPM",
+          "_EMISSIONCOLORTYPE_WHITEBOOST",
+          "_EMISSION_ALPHA_SOURCE_EMISSION_G",
+          "_EMISSION_TEXTURE_SOURCE_TEXTURE",
+          "_MASKBLEND_MULTIPLY",
+          "_METALLIC_TEXTURE_NONE",
+          "_OCCLUSION_SOURCE_TEXTURE",
+          "_PARALLAX_MASKING_NONE",
+          "_PARALLAX_NONE",
+          "_PARALLAX_PROJECTION_PLANAR",
+          "_PROBE_CALCULATION_FAST",
+          "_SECONDARY_MASK_BLEND_MULTIPLY",
+          "_SECONDARY_UVS_NONE",
+          "_SMOOTHNESS_TEXTURE_NONE",
+          "_VERTEXMODE_METALSMOOTHNESS",
+          "ENABLE_DIFFUSE",
+          "ENABLE_DIRT",
+          "ENABLE_DIRT_DETAIL",
+          "ENABLE_FOG",
+          "ENABLE_GROUND_FADE",
+          "ENABLE_SPECULAR",
+          "ENABLE_VERTEX_COLOR",
+          "_CUSTOM_TIME_STANDARD",
+          "_DECALBLEND_ALPHABLEND",
+          "_DISSOLVEAXIS_LOCALX",
+          "_DISSOLVE_SPACE_LOCAL",
+          "_EMISSION",
+          "_EMISSIONTEXTURE_NONE",
+          "_EMISSION_STEP_NONE",
+          "_ENABLE_FOG_TINT",
+          "_RIMLIGHT_NONE",
+          "_RIM_WHITEBOOSTTYPE_NONE",
+          "_SPECTROGRAM_NONE",
+          "_VERTEX_WHITEBOOSTTYPE_NONE",
+          "_WHITEBOOSTTYPE_NONE",
+          "_ZWRITE_ON"
+        ]
+      },
+      {
+        "name": "Car",
+        "keywords": [
+          "FOG",
+          "INVERT_RIM_DIM",
+          "REFLECTION_PROBE",
+          "REFLECTION_PROBE_BOX_PROJECTION",
+          "REFLECTION_PROBE_BOX_PROJECTION_OFFSET",
+          "SPECULAR_ANTIFLICKER",
+          "_ACES_APPROACH_AFTER_EMISSIVE",
+          "_DIFFUSE_TEXTURE_SOURCE_TEXTURE",
+          "_DISSOLVEALPHA_CLIP",
+          "_EMISSIONCOLORTYPE_WHITEBOOST",
+          "_EMISSION_ALPHA_SOURCE_EMISSION_G",
+          "_EMISSION_TEXTURE_SOURCE_TEXTURE",
+          "_METALLIC_TEXTURE_NONE",
+          "_OCCLUSION_SOURCE_TEXTURE",
+          "_PROBE_CALCULATION_FAST",
+          "_SMOOTHNESS_TEXTURE_NONE",
+          "_VERTEXMODE_METALSMOOTHNESS",
+          "ENABLE_DIFFUSE",
+          "ENABLE_DIRT",
+          "ENABLE_DIRT_DETAIL",
+          "ENABLE_FOG",
+          "ENABLE_GROUND_FADE",
+          "ENABLE_SPECULAR",
+          "ENABLE_VERTEX_COLOR",
+          "_CURVE_VERTICES_NONE",
+          "_CUSTOM_TIME_STANDARD",
+          "_DECALBLEND_ALPHABLEND",
+          "_DISSOLVEAXIS_LOCALX",
+          "_EMISSION",
+          "_EMISSIONTEXTURE_NONE",
+          "_ENABLE_FOG_TINT",
+          "_HOLOGRAM_NONE",
+          "_RIMLIGHT_NONE",
+          "_RIM_WHITEBOOSTTYPE_NONE",
+          "_ROTATE_UV_NONE",
+          "_SPECTROGRAM_NONE",
+          "_VERTEX_WHITEBOOSTTYPE_NONE",
+          "_WHITEBOOSTTYPE_NONE",
+          "_ZWRITE_ON"
+        ]
+      },
+      {
+        "name": "FarCar",
+        "keywords": [
+          "FOG",
+          "GROUND_FADE",
+          "INVERT_RIM_DIM",
+          "REFLECTION_PROBE",
+          "REFLECTION_PROBE_BOX_PROJECTION",
+          "REFLECTION_PROBE_BOX_PROJECTION_OFFSET",
+          "SPECULAR_ANTIFLICKER",
+          "_ACES_APPROACH_AFTER_EMISSIVE",
+          "_DIFFUSE_TEXTURE_SOURCE_TEXTURE",
+          "_DISSOLVEALPHA_CLIP",
+          "_EMISSIONCOLORTYPE_FLAT",
+          "_EMISSION_ALPHA_SOURCE_EMISSION_G",
+          "_EMISSION_TEXTURE_SOURCE_TEXTURE",
+          "_METALLIC_TEXTURE_NONE",
+          "_OCCLUSION_SOURCE_TEXTURE",
+          "_PROBE_CALCULATION_FAST",
+          "_SMOOTHNESS_TEXTURE_NONE",
+          "_VERTEXMODE_METALSMOOTHNESS",
+          "ENABLE_DIFFUSE",
+          "ENABLE_DIRT",
+          "ENABLE_DIRT_DETAIL",
+          "ENABLE_FOG",
+          "ENABLE_GROUND_FADE",
+          "ENABLE_SPECULAR",
+          "ENABLE_VERTEX_COLOR",
+          "_CURVE_VERTICES_NONE",
+          "_CUSTOM_TIME_STANDARD",
+          "_DECALBLEND_ALPHABLEND",
+          "_DISSOLVEAXIS_LOCALX",
+          "_EMISSION",
+          "_EMISSIONTEXTURE_NONE",
+          "_ENABLE_FOG_TINT",
+          "_HOLOGRAM_NONE",
+          "_RIMLIGHT_NONE",
+          "_RIM_WHITEBOOSTTYPE_NONE",
+          "_ROTATE_UV_NONE",
+          "_SPECTROGRAM_NONE",
+          "_VERTEX_WHITEBOOSTTYPE_NONE",
+          "_WHITEBOOSTTYPE_NONE",
+          "_ZWRITE_ON"
+        ]
+      },
+      {
+        "name": "EnvLightWorldNoise",
+        "keywords": [
+          "ENABLE_WORLD_NOISE",
+          "ENABLE_WORLD_SPACE_FADE",
           "MULTIPLY_COLOR_WITH_ALPHA",
           "_ENABLE_MAIN_EFFECT_WHITE_BOOST"
         ]
       },
       {
-        "name": "EnvLightBillboardSpriteGlow",
+        "name": "EnvLightBillboardSpriteGlowWorldNoise",
         "keywords": [
-          "ALPHA_WIDTH_SCALE",
           "ENABLE_FOG",
           "ENABLE_HEIGHT_FOG",
           "ENABLE_NOISE_DITHERING",
+          "ENABLE_WORLD_NOISE",
+          "ENABLE_WORLD_SPACE_FADE",
           "ENABLE_Y_AXIS_BILLBOARD",
           "USE_FOG_FOR_LIGHTS",
           "ETC1_EXTERNAL_ALPHA",
           "_ENABLE_Y_AXIS_BILLBOARD",
           "_WHITEBOOSTTYPE_NONE"
         ]
-      },
-      {}
+      }
     ],
     "uniqueMeshes": [
       "pb_Mesh-2461528",
@@ -484,7 +626,12 @@
       "FloorBackFar",
       "RearPillar_B",
       "RearPillar_C",
-      "TunnelSpectrogram"
+      "TunnelSpectrogram",
+      "WheelsFront",
+      "Body",
+      "RearWheels",
+      "FrontWheels",
+      "Dynamic3SliceSprite"
     ]
   },
   "objects": [
@@ -4344,14 +4491,14 @@
             0.0
           ],
           "rotation": [
-            90.0,
-            0.0,
-            0.0
+            89.62622,
+            179.8125,
+            180.0
           ],
           "localRotation": [
-            90.0,
-            0.0,
-            0.0
+            89.62622,
+            179.8125,
+            180.0
           ],
           "scale": [
             1.0,
@@ -4360,551 +4507,6 @@
           ]
         }
       }
-    },
-    {
-      "name": "NarrowGameHUD",
-      "id": "InterscopeEnvironment.[0]Environment.[37]NarrowGameHUD",
-      "layer": "UI",
-      "components": {
-        "Transform": {
-          "position": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        }
-      }
-    },
-    {
-      "name": "EnergyPanel",
-      "id": "InterscopeEnvironment.[0]Environment.[37]NarrowGameHUD.[0]EnergyPanel",
-      "layer": "UI",
-      "components": {
-        "Animator": {
-          "animatorParameters": [],
-          "animatorLayerNames": []
-        }
-      }
-    },
-    {
-      "name": "BG",
-      "id": "InterscopeEnvironment.[0]Environment.[37]NarrowGameHUD.[0]EnergyPanel.[0]BG",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "BarBG",
-      "id": "InterscopeEnvironment.[0]Environment.[37]NarrowGameHUD.[0]EnergyPanel.[1]BarBG",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "EnergyIconEmpty",
-      "id": "InterscopeEnvironment.[0]Environment.[37]NarrowGameHUD.[0]EnergyPanel.[2]EnergyIconEmpty",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "EnergyIconFull",
-      "id": "InterscopeEnvironment.[0]Environment.[37]NarrowGameHUD.[0]EnergyPanel.[3]EnergyIconFull",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "EnergyBarWrapper",
-      "id": "InterscopeEnvironment.[0]Environment.[37]NarrowGameHUD.[0]EnergyPanel.[4]EnergyBarWrapper",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "EnergyBar",
-      "id": "InterscopeEnvironment.[0]Environment.[37]NarrowGameHUD.[0]EnergyPanel.[4]EnergyBarWrapper.[0]EnergyBar",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "Laser",
-      "id": "InterscopeEnvironment.[0]Environment.[37]NarrowGameHUD.[0]EnergyPanel.[5]Laser",
-      "layer": "NeonLight",
-      "components": {
-        "Transform": {
-          "position": [
-            0.0,
-            0.1,
-            5.2
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            -40.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            90.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            90.0
-          ],
-          "scale": [
-            0.0200000033,
-            0.0200000033,
-            0.02
-          ]
-        }
-      }
-    },
-    {
-      "name": "BoxLight",
-      "id": "InterscopeEnvironment.[0]Environment.[37]NarrowGameHUD.[0]EnergyPanel.[5]Laser.[0]BoxLight",
-      "meshName": "ParametricBox",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            0.0,
-            0.1,
-            5.2
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            90.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            0.0,
-            5.000001,
-            0.0
-          ]
-        },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
-        },
-        "MeshRenderer": {
-          "materials": [
-            "EnvLight"
-          ]
-        },
-        "ParametricBoxController": {}
-      }
-    },
-    {
-      "name": "BakedBloom",
-      "id": "InterscopeEnvironment.[0]Environment.[37]NarrowGameHUD.[0]EnergyPanel.[5]Laser.[1]BakedBloom",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            0.0,
-            0.1,
-            5.2
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            90.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            0.0200000033,
-            0.0200000033,
-            0.02
-          ]
-        },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
-        "MeshRenderer": {
-          "materials": [
-            "EnvLightBillboardSpriteGlow"
-          ]
-        }
-      }
-    },
-    {
-      "name": "FailIcon",
-      "id": "InterscopeEnvironment.[0]Environment.[37]NarrowGameHUD.[0]EnergyPanel.[6]FailIcon",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "LeftPanel",
-      "id": "InterscopeEnvironment.[0]Environment.[37]NarrowGameHUD.[1]LeftPanel",
-      "layer": "UI",
-      "components": {
-        "Transform": {
-          "position": [
-            -2.0,
-            0.4,
-            7.0
-          ],
-          "localPosition": [
-            -2.0,
-            0.4,
-            7.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        }
-      }
-    },
-    {
-      "name": "ComboPanel",
-      "id": "InterscopeEnvironment.[0]Environment.[37]NarrowGameHUD.[1]LeftPanel.[0]ComboPanel",
-      "layer": "UI",
-      "components": {
-        "Animator": {
-          "animatorParameters": [
-            "ComboLost"
-          ],
-          "animatorLayerNames": [
-            "Base Layer"
-          ]
-        }
-      }
-    },
-    {
-      "name": "ComboText",
-      "id": "InterscopeEnvironment.[0]Environment.[37]NarrowGameHUD.[1]LeftPanel.[0]ComboPanel.[0]ComboText",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "ComboCanvas",
-      "id": "InterscopeEnvironment.[0]Environment.[37]NarrowGameHUD.[1]LeftPanel.[0]ComboPanel.[1]ComboCanvas",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "NumText",
-      "id": "InterscopeEnvironment.[0]Environment.[37]NarrowGameHUD.[1]LeftPanel.[0]ComboPanel.[1]ComboCanvas.[0]NumText",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "Line0",
-      "id": "InterscopeEnvironment.[0]Environment.[37]NarrowGameHUD.[1]LeftPanel.[0]ComboPanel.[2]Line0",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "Line1",
-      "id": "InterscopeEnvironment.[0]Environment.[37]NarrowGameHUD.[1]LeftPanel.[0]ComboPanel.[3]Line1",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "ScoreCanvas",
-      "id": "InterscopeEnvironment.[0]Environment.[37]NarrowGameHUD.[1]LeftPanel.[1]ScoreCanvas",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "ScoreText",
-      "id": "InterscopeEnvironment.[0]Environment.[37]NarrowGameHUD.[1]LeftPanel.[1]ScoreCanvas.[0]ScoreText",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "ImmediateRankText",
-      "id": "InterscopeEnvironment.[0]Environment.[37]NarrowGameHUD.[1]LeftPanel.[1]ScoreCanvas.[1]ImmediateRankText",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "RelativeScoreText",
-      "id": "InterscopeEnvironment.[0]Environment.[37]NarrowGameHUD.[1]LeftPanel.[1]ScoreCanvas.[2]RelativeScoreText",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "RightPanel",
-      "id": "InterscopeEnvironment.[0]Environment.[37]NarrowGameHUD.[2]RightPanel",
-      "layer": "UI",
-      "components": {
-        "Transform": {
-          "position": [
-            2.0,
-            0.4,
-            7.0
-          ],
-          "localPosition": [
-            2.0,
-            0.4,
-            7.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        }
-      }
-    },
-    {
-      "name": "MultiplierCanvas",
-      "id": "InterscopeEnvironment.[0]Environment.[37]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas",
-      "layer": "UI",
-      "components": {
-        "Animator": {
-          "animatorParameters": [
-            "MultiplierIncreased"
-          ],
-          "animatorLayerNames": [
-            "Base Layer"
-          ]
-        }
-      }
-    },
-    {
-      "name": "BGCircle",
-      "id": "InterscopeEnvironment.[0]Environment.[37]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[0]BGCircle",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "FGCircle",
-      "id": "InterscopeEnvironment.[0]Environment.[37]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[1]FGCircle",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "AnimationCircle",
-      "id": "InterscopeEnvironment.[0]Environment.[37]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[2]AnimationCircle",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "TextOverlayPanelOutline1",
-      "id": "InterscopeEnvironment.[0]Environment.[37]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[3]TextOverlayPanelOutline1",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "XText",
-      "id": "InterscopeEnvironment.[0]Environment.[37]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[3]TextOverlayPanelOutline1.[0]XText",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "NumText",
-      "id": "InterscopeEnvironment.[0]Environment.[37]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[3]TextOverlayPanelOutline1.[1]NumText",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "TextOverlayPanelOutline0",
-      "id": "InterscopeEnvironment.[0]Environment.[37]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[4]TextOverlayPanelOutline0",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "XText",
-      "id": "InterscopeEnvironment.[0]Environment.[37]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[4]TextOverlayPanelOutline0.[0]XText",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "NumText",
-      "id": "InterscopeEnvironment.[0]Environment.[37]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[4]TextOverlayPanelOutline0.[1]NumText",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "TextPanel",
-      "id": "InterscopeEnvironment.[0]Environment.[37]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[5]TextPanel",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "XText",
-      "id": "InterscopeEnvironment.[0]Environment.[37]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[5]TextPanel.[0]XText",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "NumText",
-      "id": "InterscopeEnvironment.[0]Environment.[37]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[5]TextPanel.[1]NumText",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "SongProgressCanvas",
-      "id": "InterscopeEnvironment.[0]Environment.[37]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "Progress",
-      "id": "InterscopeEnvironment.[0]Environment.[37]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[0]Progress",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "Slider",
-      "id": "InterscopeEnvironment.[0]Environment.[37]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[1]Slider",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "Background",
-      "id": "InterscopeEnvironment.[0]Environment.[37]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[1]Slider.[0]Background",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "Handle Slide Area",
-      "id": "InterscopeEnvironment.[0]Environment.[37]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[1]Slider.[1]Handle Slide Area",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "Handle",
-      "id": "InterscopeEnvironment.[0]Environment.[37]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[1]Slider.[1]Handle Slide Area.[0]Handle",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "ProgressText",
-      "id": "InterscopeEnvironment.[0]Environment.[37]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "Progress",
-      "id": "InterscopeEnvironment.[0]Environment.[37]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.[0]Progress",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "ProgressMinutes",
-      "id": "InterscopeEnvironment.[0]Environment.[37]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.[0]Progress.[0]ProgressMinutes",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "ProgressColon",
-      "id": "InterscopeEnvironment.[0]Environment.[37]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.[0]Progress.[1]ProgressColon",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "ProgressSeconds",
-      "id": "InterscopeEnvironment.[0]Environment.[37]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.[0]Progress.[2]ProgressSeconds",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "Separator",
-      "id": "InterscopeEnvironment.[0]Environment.[37]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.[1]Separator",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "Duration",
-      "id": "InterscopeEnvironment.[0]Environment.[37]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.[2]Duration",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "DurationMinutes",
-      "id": "InterscopeEnvironment.[0]Environment.[37]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.[2]Duration.[0]DurationMinutes",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "DurationColon",
-      "id": "InterscopeEnvironment.[0]Environment.[37]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.[2]Duration.[1]DurationColon",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "DurationSeconds",
-      "id": "InterscopeEnvironment.[0]Environment.[37]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.[2]Duration.[2]DurationSeconds",
-      "layer": "UI",
-      "components": {}
     },
     {
       "name": "Car1",
@@ -5004,6 +4606,5962 @@
             1.00000012,
             1.0,
             1.00000012
+          ]
+        }
+      }
+    },
+    {
+      "name": "RearWheels",
+      "id": "InterscopeEnvironment.[0]Environment.[38]Car1.[1]RearWheels.[0]RearWheels",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            5.65059042,
+            0.339999944,
+            21.63334
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            249.999985,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.00000012,
+            1.0,
+            1.00000012
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": []
+        }
+      }
+    },
+    {
+      "name": "FrontWheels",
+      "id": "InterscopeEnvironment.[0]Environment.[38]Car1.[2]FrontWheels",
+      "layer": "EnvironmentPhysics",
+      "components": {
+        "Transform": {
+          "position": [
+            3.07958984,
+            0.339999944,
+            20.6975727
+          ],
+          "localPosition": [
+            4.47034836E-07,
+            0.349999934,
+            1.46900189
+          ],
+          "rotation": [
+            0.0,
+            249.999985,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.00000012,
+            1.0,
+            1.00000012
+          ]
+        }
+      }
+    },
+    {
+      "name": "FrontWheels",
+      "id": "InterscopeEnvironment.[0]Environment.[38]Car1.[2]FrontWheels.[0]FrontWheels",
+      "meshName": "WheelsFront",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            4.46469641,
+            0.01399993,
+            21.20171
+          ],
+          "localPosition": [
+            0.0,
+            -0.326,
+            -1.474
+          ],
+          "rotation": [
+            0.0,
+            249.999985,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.00000012,
+            1.0,
+            1.00000012
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.330777973,
+            1.43884635
+          ],
+          "boundsSize": [
+            1.74130034,
+            0.6722973,
+            0.672297239
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "CarWheels"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Body",
+      "id": "InterscopeEnvironment.[0]Environment.[38]Car1.[3]Body",
+      "layer": "EnvironmentPhysics",
+      "components": {
+        "Transform": {
+          "position": [
+            4.46,
+            0.592675447,
+            21.2
+          ],
+          "localPosition": [
+            0.0,
+            0.602675438,
+            0.0
+          ],
+          "rotation": [
+            0.103327796,
+            250.0,
+            -1.00051762E-08
+          ],
+          "localRotation": [
+            0.103327796,
+            -9.021717E-12,
+            -1.00051718E-08
+          ],
+          "scale": [
+            1.00000012,
+            1.0,
+            1.00000012
+          ]
+        }
+      }
+    },
+    {
+      "name": "Body",
+      "id": "InterscopeEnvironment.[0]Environment.[38]Car1.[3]Body.[0]Body",
+      "meshName": "Body",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            4.46092033,
+            0.04967635,
+            21.2003365
+          ],
+          "localPosition": [
+            0.0,
+            -0.543,
+            0.0
+          ],
+          "rotation": [
+            0.103327796,
+            250.0,
+            -1.00051762E-08
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.00000012,
+            1.0,
+            1.00000012
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.6832491,
+            0.0337505341
+          ],
+          "boundsSize": [
+            1.95582318,
+            1.12972569,
+            4.68202353
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "Car"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Car2",
+      "id": "InterscopeEnvironment.[0]Environment.[39]Car2",
+      "layer": "EnvironmentPhysics",
+      "components": {
+        "Transform": {
+          "position": [
+            4.46,
+            -0.01,
+            11.2000017
+          ],
+          "localPosition": [
+            4.46,
+            -0.01,
+            11.2000017
+          ],
+          "rotation": [
+            0.0,
+            249.999985,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            249.999985,
+            0.0
+          ],
+          "scale": [
+            1.00000012,
+            1.0,
+            1.00000012
+          ]
+        }
+      }
+    },
+    {
+      "name": "FloorCollider",
+      "id": "InterscopeEnvironment.[0]Environment.[39]Car2.[0]FloorCollider",
+      "layer": "EnvironmentPhysics",
+      "components": {
+        "Transform": {
+          "position": [
+            4.46,
+            -0.26,
+            11.2000017
+          ],
+          "localPosition": [
+            0.0,
+            -0.25,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            249.999985,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.00000012,
+            1.0,
+            1.00000012
+          ]
+        }
+      }
+    },
+    {
+      "name": "RearWheels",
+      "id": "InterscopeEnvironment.[0]Environment.[39]Car2.[1]RearWheels",
+      "layer": "EnvironmentPhysics",
+      "components": {
+        "Transform": {
+          "position": [
+            5.65059042,
+            0.339999944,
+            11.6333418
+          ],
+          "localPosition": [
+            2.98023224E-07,
+            0.349999934,
+            -1.26700008
+          ],
+          "rotation": [
+            0.0,
+            249.999985,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.00000012,
+            1.0,
+            1.00000012
+          ]
+        }
+      }
+    },
+    {
+      "name": "RearWheels",
+      "id": "InterscopeEnvironment.[0]Environment.[39]Car2.[1]RearWheels.[0]RearWheels",
+      "meshName": "RearWheels",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            5.77369,
+            0.339999944,
+            11.6781464
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            -0.131
+          ],
+          "rotation": [
+            0.0,
+            249.999985,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.00000012,
+            1.0,
+            1.00000012
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0404101759,
+            -7.4505806E-08
+          ],
+          "boundsSize": [
+            1.70851183,
+            0.796922445,
+            0.716102
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "Car"
+          ]
+        }
+      }
+    },
+    {
+      "name": "FrontWheels",
+      "id": "InterscopeEnvironment.[0]Environment.[39]Car2.[2]FrontWheels",
+      "layer": "EnvironmentPhysics",
+      "components": {
+        "Transform": {
+          "position": [
+            3.053278,
+            0.339999944,
+            10.6879969
+          ],
+          "localPosition": [
+            4.47034836E-07,
+            0.349999934,
+            1.49700236
+          ],
+          "rotation": [
+            0.0,
+            249.999985,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.00000012,
+            1.0,
+            1.00000012
+          ]
+        }
+      }
+    },
+    {
+      "name": "FrontWheels",
+      "id": "InterscopeEnvironment.[0]Environment.[39]Car2.[2]FrontWheels.[0]FrontWheels",
+      "meshName": "WheelsFront",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            4.45999765,
+            0.009999922,
+            11.2000017
+          ],
+          "localPosition": [
+            0.0,
+            -0.33,
+            -1.497
+          ],
+          "rotation": [
+            0.0,
+            249.999985,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.00000012,
+            1.0,
+            1.00000012
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.360730767,
+            1.53670144
+          ],
+          "boundsSize": [
+            1.73067451,
+            0.7134882,
+            0.71348846
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "CarWheels"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Body",
+      "id": "InterscopeEnvironment.[0]Environment.[39]Car2.[3]Body",
+      "layer": "EnvironmentPhysics",
+      "components": {
+        "Transform": {
+          "position": [
+            4.46,
+            0.609794557,
+            11.2000017
+          ],
+          "localPosition": [
+            0.0,
+            0.619794548,
+            0.0
+          ],
+          "rotation": [
+            359.815033,
+            249.999969,
+            1.00052105E-07
+          ],
+          "localRotation": [
+            359.815033,
+            -1.36605613E-05,
+            1.02091889E-07
+          ],
+          "scale": [
+            1.00000024,
+            1.0,
+            1.00000036
+          ]
+        }
+      }
+    },
+    {
+      "name": "Body",
+      "id": "InterscopeEnvironment.[0]Environment.[39]Car2.[3]Body.[0]Body",
+      "meshName": "Body",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            4.45802832,
+            -0.04020203,
+            11.1992836
+          ],
+          "localPosition": [
+            0.0,
+            -0.65,
+            0.0
+          ],
+          "rotation": [
+            359.815033,
+            249.999969,
+            1.00052105E-07
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.00000024,
+            1.0,
+            1.00000036
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.744305849,
+            0.0830436945
+          ],
+          "boundsSize": [
+            2.110961,
+            1.184192,
+            4.89688969
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "Car"
+          ]
+        }
+      }
+    },
+    {
+      "name": "CoreLighting",
+      "id": "InterscopeEnvironment.[0]Environment.[4]CoreLighting",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "LightManager",
+      "id": "InterscopeEnvironment.[0]Environment.[4]CoreLighting.[0]LightManager",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "LightManager": {
+          "directionalLightDirections": [
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "directionalLightPositions": [
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "name": "Car3",
+      "id": "InterscopeEnvironment.[0]Environment.[40]Car3",
+      "layer": "EnvironmentPhysics",
+      "components": {
+        "Transform": {
+          "position": [
+            -4.46,
+            -0.01,
+            21.2
+          ],
+          "localPosition": [
+            -4.46,
+            -0.01,
+            21.2
+          ],
+          "rotation": [
+            0.0,
+            110.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            110.0,
+            0.0
+          ],
+          "scale": [
+            1.00000012,
+            1.0,
+            1.00000012
+          ]
+        }
+      }
+    },
+    {
+      "name": "FloorCollider",
+      "id": "InterscopeEnvironment.[0]Environment.[40]Car3.[0]FloorCollider",
+      "layer": "EnvironmentPhysics",
+      "components": {
+        "Transform": {
+          "position": [
+            -4.46,
+            -0.26,
+            21.2
+          ],
+          "localPosition": [
+            0.0,
+            -0.25,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            110.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.00000012,
+            1.0,
+            1.00000012
+          ]
+        }
+      }
+    },
+    {
+      "name": "RearWheels",
+      "id": "InterscopeEnvironment.[0]Environment.[40]Car3.[1]RearWheels",
+      "layer": "EnvironmentPhysics",
+      "components": {
+        "Transform": {
+          "position": [
+            -5.650591,
+            0.339999944,
+            21.63334
+          ],
+          "localPosition": [
+            -4.47034836E-07,
+            0.349999934,
+            -1.26700068
+          ],
+          "rotation": [
+            0.0,
+            110.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.00000012,
+            1.0,
+            1.00000012
+          ]
+        }
+      }
+    },
+    {
+      "name": "FrontWheels",
+      "id": "InterscopeEnvironment.[0]Environment.[40]Car3.[2]FrontWheels",
+      "layer": "EnvironmentPhysics",
+      "components": {
+        "Transform": {
+          "position": [
+            -3.05327868,
+            0.339999944,
+            20.6879959
+          ],
+          "localPosition": [
+            1.78813934E-07,
+            0.349999934,
+            1.49700165
+          ],
+          "rotation": [
+            0.0,
+            110.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.00000012,
+            1.0,
+            1.00000012
+          ]
+        }
+      }
+    },
+    {
+      "name": "FrontWheels",
+      "id": "InterscopeEnvironment.[0]Environment.[40]Car3.[2]FrontWheels.[0]FrontWheels",
+      "meshName": "WheelsFront",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            -4.437446,
+            0.03499993,
+            21.1917915
+          ],
+          "localPosition": [
+            0.0,
+            -0.305,
+            -1.473
+          ],
+          "rotation": [
+            0.0,
+            110.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.00000012,
+            1.0,
+            1.00000012
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.3298381,
+            1.4528631
+          ],
+          "boundsSize": [
+            2.08132935,
+            0.7124293,
+            0.7124293
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "CarWheels"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Body",
+      "id": "InterscopeEnvironment.[0]Environment.[40]Car3.[3]Body",
+      "layer": "EnvironmentPhysics",
+      "components": {
+        "Transform": {
+          "position": [
+            -4.46,
+            0.6183377,
+            21.2
+          ],
+          "localPosition": [
+            0.0,
+            0.6283377,
+            0.0
+          ],
+          "rotation": [
+            359.738068,
+            110.000008,
+            -2.53466681E-07
+          ],
+          "localRotation": [
+            359.738068,
+            1.02459126E-05,
+            -2.63543484E-07
+          ],
+          "scale": [
+            1.00000012,
+            1.0,
+            1.00000024
+          ]
+        }
+      }
+    },
+    {
+      "name": "Body",
+      "id": "InterscopeEnvironment.[0]Environment.[40]Car3.[3]Body.[0]Body",
+      "meshName": "Body",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            -4.44322872,
+            -0.00458724238,
+            21.1938972
+          ],
+          "localPosition": [
+            0.0,
+            -0.623,
+            0.015
+          ],
+          "rotation": [
+            359.738068,
+            110.000008,
+            -2.53466681E-07
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.00000012,
+            1.0,
+            1.00000024
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.691474,
+            -0.00428080559
+          ],
+          "boundsSize": [
+            2.102526,
+            1.28135121,
+            4.914524
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "Car"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Car4",
+      "id": "InterscopeEnvironment.[0]Environment.[41]Car4",
+      "layer": "EnvironmentPhysics",
+      "components": {
+        "Transform": {
+          "position": [
+            -4.46,
+            -0.01,
+            11.2000017
+          ],
+          "localPosition": [
+            -4.46,
+            -0.01,
+            11.2000017
+          ],
+          "rotation": [
+            0.0,
+            110.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            110.0,
+            0.0
+          ],
+          "scale": [
+            1.00000012,
+            1.0,
+            1.00000012
+          ]
+        }
+      }
+    },
+    {
+      "name": "FloorCollider",
+      "id": "InterscopeEnvironment.[0]Environment.[41]Car4.[0]FloorCollider",
+      "layer": "EnvironmentPhysics",
+      "components": {
+        "Transform": {
+          "position": [
+            -4.46,
+            -0.26,
+            11.2000017
+          ],
+          "localPosition": [
+            0.0,
+            -0.25,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            110.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.00000012,
+            1.0,
+            1.00000012
+          ]
+        }
+      }
+    },
+    {
+      "name": "RearWheels",
+      "id": "InterscopeEnvironment.[0]Environment.[41]Car4.[1]RearWheels",
+      "layer": "EnvironmentPhysics",
+      "components": {
+        "Transform": {
+          "position": [
+            -5.650591,
+            0.339999884,
+            11.6333408
+          ],
+          "localPosition": [
+            4.76837158E-07,
+            0.349999875,
+            -1.2670002
+          ],
+          "rotation": [
+            0.0,
+            110.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.00000012,
+            1.0,
+            1.00000012
+          ]
+        }
+      }
+    },
+    {
+      "name": "RearWheels",
+      "id": "InterscopeEnvironment.[0]Environment.[41]Car4.[1]RearWheels.[0]RearWheels",
+      "meshName": "RearWheels",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            -5.651093,
+            0.340777844,
+            11.6335239
+          ],
+          "localPosition": [
+            0.0,
+            0.0007779598,
+            -0.000534296036
+          ],
+          "rotation": [
+            0.0,
+            110.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.00000012,
+            1.0,
+            1.00000012
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0404101759,
+            -7.4505806E-08
+          ],
+          "boundsSize": [
+            1.70851183,
+            0.796922445,
+            0.716102
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "Car"
+          ]
+        }
+      }
+    },
+    {
+      "name": "FrontWheels",
+      "id": "InterscopeEnvironment.[0]Environment.[41]Car4.[2]FrontWheels",
+      "layer": "EnvironmentPhysics",
+      "components": {
+        "Transform": {
+          "position": [
+            -3.05327988,
+            0.339999944,
+            10.6879978
+          ],
+          "localPosition": [
+            -3.57627869E-07,
+            0.349999934,
+            1.49700022
+          ],
+          "rotation": [
+            0.0,
+            110.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.00000012,
+            1.0,
+            1.00000012
+          ]
+        }
+      }
+    },
+    {
+      "name": "FrontWheels",
+      "id": "InterscopeEnvironment.[0]Environment.[41]Car4.[2]FrontWheels.[0]FrontWheels",
+      "meshName": "FrontWheels",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            -4.433688,
+            0.00699993037,
+            11.1904259
+          ],
+          "localPosition": [
+            0.0,
+            -0.333,
+            -1.469
+          ],
+          "rotation": [
+            0.0,
+            110.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.00000012,
+            1.0,
+            1.00000012
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.329697222,
+            1.63059878
+          ],
+          "boundsSize": [
+            1.77779961,
+            0.6604598,
+            0.6604625
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "CarWheels"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Body",
+      "id": "InterscopeEnvironment.[0]Environment.[41]Car4.[3]Body",
+      "layer": "EnvironmentPhysics",
+      "components": {
+        "Transform": {
+          "position": [
+            -4.46,
+            0.609232962,
+            11.2000017
+          ],
+          "localPosition": [
+            0.0,
+            0.619232953,
+            0.0
+          ],
+          "rotation": [
+            359.83197,
+            110.000015,
+            -1.06722162E-07
+          ],
+          "localRotation": [
+            359.83197,
+            1.7075663E-05,
+            -1.18420552E-07
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "Body",
+      "id": "InterscopeEnvironment.[0]Environment.[41]Car4.[3]Body.[0]Body",
+      "meshName": "Body",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            -4.458705,
+            0.139234975,
+            11.1995306
+          ],
+          "localPosition": [
+            0.0,
+            -0.47,
+            0.0
+          ],
+          "rotation": [
+            359.83197,
+            110.000015,
+            -1.06722162E-07
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.507365167,
+            -0.08319545
+          ],
+          "boundsSize": [
+            1.83460128,
+            0.832053661,
+            5.219793
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "Car"
+          ]
+        }
+      }
+    },
+    {
+      "name": "FarCar1",
+      "id": "InterscopeEnvironment.[0]Environment.[42]FarCar1",
+      "layer": "EnvironmentPhysics",
+      "components": {
+        "Transform": {
+          "position": [
+            -5.0,
+            -0.01,
+            31.2
+          ],
+          "localPosition": [
+            -5.0,
+            -0.01,
+            31.2
+          ],
+          "rotation": [
+            0.0,
+            110.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            110.0,
+            0.0
+          ],
+          "scale": [
+            1.00000012,
+            1.0,
+            1.00000012
+          ]
+        }
+      }
+    },
+    {
+      "name": "FloorCollider",
+      "id": "InterscopeEnvironment.[0]Environment.[42]FarCar1.[0]FloorCollider",
+      "layer": "EnvironmentPhysics",
+      "components": {
+        "Transform": {
+          "position": [
+            -5.0,
+            -0.26,
+            31.2
+          ],
+          "localPosition": [
+            0.0,
+            -0.25,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            110.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.00000012,
+            1.0,
+            1.00000012
+          ]
+        }
+      }
+    },
+    {
+      "name": "RearWheels",
+      "id": "InterscopeEnvironment.[0]Environment.[42]FarCar1.[1]RearWheels",
+      "layer": "EnvironmentPhysics",
+      "components": {
+        "Transform": {
+          "position": [
+            -6.190591,
+            0.3399999,
+            31.63334
+          ],
+          "localPosition": [
+            -4.47034836E-07,
+            0.3499999,
+            -1.26700068
+          ],
+          "rotation": [
+            0.0,
+            110.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.00000012,
+            1.0,
+            1.00000012
+          ]
+        }
+      }
+    },
+    {
+      "name": "FrontWheels",
+      "id": "InterscopeEnvironment.[0]Environment.[42]FarCar1.[2]FrontWheels",
+      "layer": "EnvironmentPhysics",
+      "components": {
+        "Transform": {
+          "position": [
+            -3.59327865,
+            0.339999855,
+            30.6879959
+          ],
+          "localPosition": [
+            1.78813934E-07,
+            0.349999845,
+            1.49700165
+          ],
+          "rotation": [
+            0.0,
+            110.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.00000012,
+            1.0,
+            1.00000012
+          ]
+        }
+      }
+    },
+    {
+      "name": "FrontWheels",
+      "id": "InterscopeEnvironment.[0]Environment.[42]FarCar1.[2]FrontWheels.[0]FrontWheels",
+      "meshName": "RearWheels",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            -3.47487736,
+            0.340999842,
+            30.6449013
+          ],
+          "localPosition": [
+            0.0,
+            0.001,
+            0.126
+          ],
+          "rotation": [
+            0.0,
+            110.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.00000012,
+            1.0,
+            1.00000012
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0404101759,
+            -7.4505806E-08
+          ],
+          "boundsSize": [
+            1.70851183,
+            0.796922445,
+            0.716102
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "FarCar"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Body",
+      "id": "InterscopeEnvironment.[0]Environment.[42]FarCar1.[3]Body",
+      "layer": "EnvironmentPhysics",
+      "components": {
+        "Transform": {
+          "position": [
+            -5.0,
+            0.5942287,
+            31.2
+          ],
+          "localPosition": [
+            0.0,
+            0.6042287,
+            0.0
+          ],
+          "rotation": [
+            359.7715,
+            110.000015,
+            -1.66753978E-07
+          ],
+          "localRotation": [
+            359.7715,
+            6.830523E-06,
+            -1.60362163E-07
+          ],
+          "scale": [
+            1.00000024,
+            1.0,
+            1.00000012
+          ]
+        }
+      }
+    },
+    {
+      "name": "Body",
+      "id": "InterscopeEnvironment.[0]Environment.[42]FarCar1.[3]Body.[0]Body",
+      "meshName": "Body",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            -4.9659934,
+            0.0453686044,
+            31.187624
+          ],
+          "localPosition": [
+            0.0,
+            -0.549,
+            0.034
+          ],
+          "rotation": [
+            359.7715,
+            110.000015,
+            -1.66753978E-07
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.00000024,
+            1.0,
+            1.00000012
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.723676,
+            0.141651034
+          ],
+          "boundsSize": [
+            1.681637,
+            0.9279264,
+            4.45322037
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "FarCar"
+          ]
+        }
+      }
+    },
+    {
+      "name": "FarCar2",
+      "id": "InterscopeEnvironment.[0]Environment.[43]FarCar2",
+      "layer": "EnvironmentPhysics",
+      "components": {
+        "Transform": {
+          "position": [
+            5.0,
+            -0.01,
+            31.2
+          ],
+          "localPosition": [
+            5.0,
+            -0.01,
+            31.2
+          ],
+          "rotation": [
+            0.0,
+            249.999985,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            249.999985,
+            0.0
+          ],
+          "scale": [
+            1.00000012,
+            1.0,
+            1.00000012
+          ]
+        }
+      }
+    },
+    {
+      "name": "FloorCollider",
+      "id": "InterscopeEnvironment.[0]Environment.[43]FarCar2.[0]FloorCollider",
+      "layer": "EnvironmentPhysics",
+      "components": {
+        "Transform": {
+          "position": [
+            5.0,
+            -0.26,
+            31.2
+          ],
+          "localPosition": [
+            0.0,
+            -0.25,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            249.999985,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.00000012,
+            1.0,
+            1.00000012
+          ]
+        }
+      }
+    },
+    {
+      "name": "RearWheels",
+      "id": "InterscopeEnvironment.[0]Environment.[43]FarCar2.[1]RearWheels",
+      "layer": "EnvironmentPhysics",
+      "components": {
+        "Transform": {
+          "position": [
+            6.19059038,
+            0.339999944,
+            31.63334
+          ],
+          "localPosition": [
+            2.98023224E-07,
+            0.349999934,
+            -1.26700008
+          ],
+          "rotation": [
+            0.0,
+            249.999985,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.00000012,
+            1.0,
+            1.00000012
+          ]
+        }
+      }
+    },
+    {
+      "name": "FrontWheels",
+      "id": "InterscopeEnvironment.[0]Environment.[43]FarCar2.[2]FrontWheels",
+      "layer": "EnvironmentPhysics",
+      "components": {
+        "Transform": {
+          "position": [
+            3.593278,
+            0.339999944,
+            30.6879959
+          ],
+          "localPosition": [
+            4.47034836E-07,
+            0.349999934,
+            1.49700236
+          ],
+          "rotation": [
+            0.0,
+            249.999985,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.00000012,
+            1.0,
+            1.00000012
+          ]
+        }
+      }
+    },
+    {
+      "name": "FrontWheels",
+      "id": "InterscopeEnvironment.[0]Environment.[43]FarCar2.[2]FrontWheels.[0]FrontWheels",
+      "meshName": "RearWheels",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            3.4748764,
+            0.340999931,
+            30.6449013
+          ],
+          "localPosition": [
+            0.0,
+            0.001,
+            0.126
+          ],
+          "rotation": [
+            0.0,
+            249.999985,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.00000012,
+            1.0,
+            1.00000012
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0404101759,
+            -7.4505806E-08
+          ],
+          "boundsSize": [
+            1.70851183,
+            0.796922445,
+            0.716102
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "FarCar"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Body",
+      "id": "InterscopeEnvironment.[0]Environment.[43]FarCar2.[3]Body",
+      "layer": "EnvironmentPhysics",
+      "components": {
+        "Transform": {
+          "position": [
+            5.0,
+            0.61536026,
+            31.2
+          ],
+          "localPosition": [
+            0.0,
+            0.62536025,
+            0.0
+          ],
+          "rotation": [
+            359.854279,
+            249.999969,
+            1.3340256E-08
+          ],
+          "localRotation": [
+            359.854279,
+            -1.36603931E-05,
+            4.031466E-09
+          ],
+          "scale": [
+            1.00000012,
+            1.0,
+            1.00000024
+          ]
+        }
+      }
+    },
+    {
+      "name": "Body",
+      "id": "InterscopeEnvironment.[0]Environment.[43]FarCar2.[3]Body.[0]Body",
+      "meshName": "Body",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            4.966738,
+            0.0664485,
+            31.1878948
+          ],
+          "localPosition": [
+            0.0,
+            -0.549,
+            0.034
+          ],
+          "rotation": [
+            359.854279,
+            249.999969,
+            1.3340256E-08
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.00000012,
+            1.0,
+            1.00000024
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.723676,
+            0.141651034
+          ],
+          "boundsSize": [
+            1.681637,
+            0.9279264,
+            4.45322037
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "FarCar"
+          ]
+        }
+      }
+    },
+    {
+      "name": "FarCar3",
+      "id": "InterscopeEnvironment.[0]Environment.[44]FarCar3",
+      "layer": "EnvironmentPhysics",
+      "components": {
+        "Transform": {
+          "position": [
+            -5.0,
+            -0.01,
+            41.2
+          ],
+          "localPosition": [
+            -5.0,
+            -0.01,
+            41.2
+          ],
+          "rotation": [
+            0.0,
+            110.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            110.0,
+            0.0
+          ],
+          "scale": [
+            1.00000012,
+            1.0,
+            1.00000012
+          ]
+        }
+      }
+    },
+    {
+      "name": "FloorCollider",
+      "id": "InterscopeEnvironment.[0]Environment.[44]FarCar3.[0]FloorCollider",
+      "layer": "EnvironmentPhysics",
+      "components": {
+        "Transform": {
+          "position": [
+            -5.0,
+            -0.26,
+            41.2
+          ],
+          "localPosition": [
+            0.0,
+            -0.25,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            110.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.00000012,
+            1.0,
+            1.00000012
+          ]
+        }
+      }
+    },
+    {
+      "name": "RearWheels",
+      "id": "InterscopeEnvironment.[0]Environment.[44]FarCar3.[1]RearWheels",
+      "layer": "EnvironmentPhysics",
+      "components": {
+        "Transform": {
+          "position": [
+            -6.190591,
+            0.339999944,
+            41.63334
+          ],
+          "localPosition": [
+            1.37090683E-06,
+            0.349999934,
+            -1.267
+          ],
+          "rotation": [
+            0.0,
+            110.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.00000012,
+            1.0,
+            1.00000012
+          ]
+        }
+      }
+    },
+    {
+      "name": "FrontWheels",
+      "id": "InterscopeEnvironment.[0]Environment.[44]FarCar3.[2]FrontWheels",
+      "layer": "EnvironmentPhysics",
+      "components": {
+        "Transform": {
+          "position": [
+            -3.59327865,
+            0.339999944,
+            40.6879959
+          ],
+          "localPosition": [
+            1.78813934E-07,
+            0.349999934,
+            1.49700165
+          ],
+          "rotation": [
+            0.0,
+            110.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.00000012,
+            1.0,
+            1.00000012
+          ]
+        }
+      }
+    },
+    {
+      "name": "FrontWheels",
+      "id": "InterscopeEnvironment.[0]Environment.[44]FarCar3.[2]FrontWheels.[0]FrontWheels",
+      "meshName": "RearWheels",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            -3.47487736,
+            0.340999931,
+            40.6449
+          ],
+          "localPosition": [
+            0.0,
+            0.001,
+            0.126
+          ],
+          "rotation": [
+            0.0,
+            110.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.00000012,
+            1.0,
+            1.00000012
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0404101759,
+            -7.4505806E-08
+          ],
+          "boundsSize": [
+            1.70851183,
+            0.796922445,
+            0.716102
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "FarCar"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Body",
+      "id": "InterscopeEnvironment.[0]Environment.[44]FarCar3.[3]Body",
+      "layer": "EnvironmentPhysics",
+      "components": {
+        "Transform": {
+          "position": [
+            -5.0,
+            0.61536026,
+            41.2
+          ],
+          "localPosition": [
+            0.0,
+            0.62536025,
+            0.0
+          ],
+          "rotation": [
+            359.854279,
+            110.000015,
+            6.670128E-09
+          ],
+          "localRotation": [
+            359.854279,
+            1.36603785E-05,
+            9.308747E-09
+          ],
+          "scale": [
+            1.00000012,
+            1.0,
+            1.00000024
+          ]
+        }
+      }
+    },
+    {
+      "name": "Body",
+      "id": "InterscopeEnvironment.[0]Environment.[44]FarCar3.[3]Body.[0]Body",
+      "meshName": "Body",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            -4.966738,
+            0.0664485,
+            41.1878929
+          ],
+          "localPosition": [
+            0.0,
+            -0.549,
+            0.034
+          ],
+          "rotation": [
+            359.854279,
+            110.000015,
+            6.670128E-09
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.00000012,
+            1.0,
+            1.00000024
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.723676,
+            0.141651034
+          ],
+          "boundsSize": [
+            1.681637,
+            0.9279264,
+            4.45322037
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "FarCar"
+          ]
+        }
+      }
+    },
+    {
+      "name": "FarCar4",
+      "id": "InterscopeEnvironment.[0]Environment.[45]FarCar4",
+      "layer": "EnvironmentPhysics",
+      "components": {
+        "Transform": {
+          "position": [
+            5.0,
+            -0.01,
+            41.2
+          ],
+          "localPosition": [
+            5.0,
+            -0.01,
+            41.2
+          ],
+          "rotation": [
+            0.0,
+            249.999985,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            249.999985,
+            0.0
+          ],
+          "scale": [
+            1.00000012,
+            1.0,
+            1.00000012
+          ]
+        }
+      }
+    },
+    {
+      "name": "FloorCollider",
+      "id": "InterscopeEnvironment.[0]Environment.[45]FarCar4.[0]FloorCollider",
+      "layer": "EnvironmentPhysics",
+      "components": {
+        "Transform": {
+          "position": [
+            5.0,
+            -0.26,
+            41.2
+          ],
+          "localPosition": [
+            0.0,
+            -0.25,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            249.999985,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.00000012,
+            1.0,
+            1.00000012
+          ]
+        }
+      }
+    },
+    {
+      "name": "RearWheels",
+      "id": "InterscopeEnvironment.[0]Environment.[45]FarCar4.[1]RearWheels",
+      "layer": "EnvironmentPhysics",
+      "components": {
+        "Transform": {
+          "position": [
+            6.19059038,
+            0.339999944,
+            41.63334
+          ],
+          "localPosition": [
+            -1.49011612E-06,
+            0.349999934,
+            -1.26699948
+          ],
+          "rotation": [
+            0.0,
+            249.999985,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.00000012,
+            1.0,
+            1.00000012
+          ]
+        }
+      }
+    },
+    {
+      "name": "FrontWheels",
+      "id": "InterscopeEnvironment.[0]Environment.[45]FarCar4.[2]FrontWheels",
+      "layer": "EnvironmentPhysics",
+      "components": {
+        "Transform": {
+          "position": [
+            3.593278,
+            0.339999855,
+            40.6879959
+          ],
+          "localPosition": [
+            4.47034836E-07,
+            0.349999845,
+            1.49700236
+          ],
+          "rotation": [
+            0.0,
+            249.999985,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.00000012,
+            1.0,
+            1.00000012
+          ]
+        }
+      }
+    },
+    {
+      "name": "FrontWheels",
+      "id": "InterscopeEnvironment.[0]Environment.[45]FarCar4.[2]FrontWheels.[0]FrontWheels",
+      "meshName": "RearWheels",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            3.4748764,
+            0.340999842,
+            40.6449
+          ],
+          "localPosition": [
+            0.0,
+            0.001,
+            0.126
+          ],
+          "rotation": [
+            0.0,
+            249.999985,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.00000012,
+            1.0,
+            1.00000012
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0404101759,
+            -7.4505806E-08
+          ],
+          "boundsSize": [
+            1.70851183,
+            0.796922445,
+            0.716102
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "FarCar"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Body",
+      "id": "InterscopeEnvironment.[0]Environment.[45]FarCar4.[3]Body",
+      "layer": "EnvironmentPhysics",
+      "components": {
+        "Transform": {
+          "position": [
+            5.0,
+            0.6092331,
+            41.2
+          ],
+          "localPosition": [
+            0.0,
+            0.6192331,
+            0.0
+          ],
+          "rotation": [
+            359.83197,
+            249.999969,
+            -1.334027E-08
+          ],
+          "localRotation": [
+            359.83197,
+            -1.36603721E-05,
+            -1.33198022E-08
+          ],
+          "scale": [
+            1.00000012,
+            1.0,
+            1.00000012
+          ]
+        }
+      }
+    },
+    {
+      "name": "Body",
+      "id": "InterscopeEnvironment.[0]Environment.[45]FarCar4.[3]Body.[0]Body",
+      "meshName": "Body",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            4.96653748,
+            0.0603350922,
+            41.18782
+          ],
+          "localPosition": [
+            0.0,
+            -0.549,
+            0.034
+          ],
+          "rotation": [
+            359.83197,
+            249.999969,
+            -1.334027E-08
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.00000012,
+            1.0,
+            1.00000012
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.723676,
+            0.141651034
+          ],
+          "boundsSize": [
+            1.681637,
+            0.9279264,
+            4.45322037
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "FarCar"
+          ]
+        }
+      }
+    },
+    {
+      "name": "NeonTop",
+      "id": "InterscopeEnvironment.[0]Environment.[46]NeonTop",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            4.2,
+            7.90000153
+          ],
+          "localPosition": [
+            0.0,
+            4.2,
+            7.90000153
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            90.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            90.0
+          ],
+          "scale": [
+            1.00000024,
+            1.00000024,
+            1.0
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 1.5,
+              "bloomFogIntensityMultiplier": 1.5,
+              "tubeLength": 6.0,
+              "tubeWidth": 0.5,
+              "center": 0.5,
+              "height": 6.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "InterscopeEnvironment.[0]Environment.[46]NeonTop.[0]BoxLight"
+            },
+            "chromaLight": {
+              "type": 2,
+              "lightId": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "InterscopeEnvironment.[0]Environment.[46]NeonTop.[0]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            4.2,
+            7.90000153
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            90.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.25000006,
+            3.000001,
+            0.25
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            2.0,
+            2.0,
+            2.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightGlass"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "InterscopeEnvironment.[0]Environment.[46]NeonTop.[1]BakedBloom",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            2.98023224E-08,
+            3.99999976,
+            7.40000153
+          ],
+          "localPosition": [
+            -0.2,
+            0.0,
+            -0.5
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            90.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.00000024,
+            1.00000024,
+            1.0
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightSpriteGlowHalfWhiteBoost"
+          ]
+        }
+      }
+    },
+    {
+      "name": "NeonTop (1)",
+      "id": "InterscopeEnvironment.[0]Environment.[47]NeonTop (1)",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            4.2,
+            17.9000015
+          ],
+          "localPosition": [
+            0.0,
+            4.2,
+            17.9000015
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            90.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            90.0
+          ],
+          "scale": [
+            1.00000024,
+            1.00000024,
+            1.0
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 1.5,
+              "bloomFogIntensityMultiplier": 1.5,
+              "tubeLength": 6.0,
+              "tubeWidth": 0.5,
+              "center": 0.5,
+              "height": 6.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "InterscopeEnvironment.[0]Environment.[47]NeonTop (1).[0]BoxLight"
+            },
+            "chromaLight": {
+              "type": 2,
+              "lightId": 3
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "InterscopeEnvironment.[0]Environment.[47]NeonTop (1).[0]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            4.2,
+            17.9000015
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            90.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.25000006,
+            3.000001,
+            0.25
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            2.0,
+            2.0,
+            2.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightGlass"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "InterscopeEnvironment.[0]Environment.[47]NeonTop (1).[1]BakedBloom",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            2.98023224E-08,
+            3.99999976,
+            17.4000015
+          ],
+          "localPosition": [
+            -0.2,
+            0.0,
+            -0.5
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            90.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.00000024,
+            1.00000024,
+            1.0
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightSpriteGlowHalfWhiteBoost"
+          ]
+        }
+      }
+    },
+    {
+      "name": "NeonTop (2)",
+      "id": "InterscopeEnvironment.[0]Environment.[48]NeonTop (2)",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            4.2,
+            27.9000015
+          ],
+          "localPosition": [
+            0.0,
+            4.2,
+            27.9000015
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            90.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            90.0
+          ],
+          "scale": [
+            1.00000024,
+            1.00000024,
+            1.0
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 1.5,
+              "bloomFogIntensityMultiplier": 1.5,
+              "tubeLength": 6.0,
+              "tubeWidth": 0.5,
+              "center": 0.5,
+              "height": 6.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "InterscopeEnvironment.[0]Environment.[48]NeonTop (2).[0]BoxLight"
+            },
+            "chromaLight": {
+              "type": 2,
+              "lightId": 2
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "InterscopeEnvironment.[0]Environment.[48]NeonTop (2).[0]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            4.2,
+            27.9000015
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            90.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.25000006,
+            3.000001,
+            0.25
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            2.0,
+            2.0,
+            2.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightGlass"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "InterscopeEnvironment.[0]Environment.[48]NeonTop (2).[1]BakedBloom",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            2.98023224E-08,
+            3.99999976,
+            27.4000015
+          ],
+          "localPosition": [
+            -0.2,
+            0.0,
+            -0.5
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            90.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.00000024,
+            1.00000024,
+            1.0
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightSpriteGlowHalfWhiteBoost"
+          ]
+        }
+      }
+    },
+    {
+      "name": "NeonTop (3)",
+      "id": "InterscopeEnvironment.[0]Environment.[49]NeonTop (3)",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            4.2,
+            37.9
+          ],
+          "localPosition": [
+            0.0,
+            4.2,
+            37.9
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            90.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            90.0
+          ],
+          "scale": [
+            1.00000024,
+            1.00000024,
+            1.0
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 1.5,
+              "bloomFogIntensityMultiplier": 1.5,
+              "tubeLength": 6.0,
+              "tubeWidth": 0.5,
+              "center": 0.5,
+              "height": 6.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "InterscopeEnvironment.[0]Environment.[49]NeonTop (3).[0]BoxLight"
+            },
+            "chromaLight": {
+              "type": 3,
+              "lightId": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "InterscopeEnvironment.[0]Environment.[49]NeonTop (3).[0]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            4.2,
+            37.9
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            90.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.25000006,
+            3.000001,
+            0.25
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            2.0,
+            2.0,
+            2.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightGlass"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "InterscopeEnvironment.[0]Environment.[49]NeonTop (3).[1]BakedBloom",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            2.98023224E-08,
+            3.99999976,
+            37.4
+          ],
+          "localPosition": [
+            -0.2,
+            0.0,
+            -0.5
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            90.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.00000024,
+            1.00000024,
+            1.0
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightSpriteGlowHalfWhiteBoost"
+          ]
+        }
+      }
+    },
+    {
+      "name": "LightEffects",
+      "id": "InterscopeEnvironment.[0]Environment.[5]LightEffects",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "NeonTop (4)",
+      "id": "InterscopeEnvironment.[0]Environment.[50]NeonTop (4)",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            4.2,
+            47.9
+          ],
+          "localPosition": [
+            0.0,
+            4.2,
+            47.9
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            90.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            90.0
+          ],
+          "scale": [
+            1.00000024,
+            1.00000024,
+            1.0
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 1.5,
+              "bloomFogIntensityMultiplier": 1.5,
+              "tubeLength": 6.0,
+              "tubeWidth": 0.5,
+              "center": 0.5,
+              "height": 6.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "InterscopeEnvironment.[0]Environment.[50]NeonTop (4).[0]BoxLight"
+            },
+            "chromaLight": {
+              "type": 2,
+              "lightId": 4
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "InterscopeEnvironment.[0]Environment.[50]NeonTop (4).[0]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            4.2,
+            47.9
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            90.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.25000006,
+            3.000001,
+            0.25
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            2.0,
+            2.0,
+            2.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightGlass"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "InterscopeEnvironment.[0]Environment.[50]NeonTop (4).[1]BakedBloom",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            2.98023224E-08,
+            3.99999976,
+            47.4
+          ],
+          "localPosition": [
+            -0.2,
+            0.0,
+            -0.5
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            90.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.00000024,
+            1.00000024,
+            1.0
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightSpriteGlowHalfWhiteBoost"
+          ]
+        }
+      }
+    },
+    {
+      "name": "SinMoveLasersPair",
+      "id": "InterscopeEnvironment.[0]Environment.[51]SinMoveLasersPair",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            1.1,
+            147.9
+          ],
+          "localPosition": [
+            0.0,
+            1.1,
+            147.9
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "LaserL",
+      "id": "InterscopeEnvironment.[0]Environment.[51]SinMoveLasersPair.[0]LaserL",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -1.6,
+            1.1,
+            147.9
+          ],
+          "localPosition": [
+            -1.6,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            270.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            270.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.00000024,
+            1.00000024
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 0.9,
+              "bloomFogIntensityMultiplier": 0.01,
+              "tubeLength": 500.0,
+              "tubeWidth": 0.02,
+              "center": 0.0,
+              "height": 500.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "InterscopeEnvironment.[0]Environment.[51]SinMoveLasersPair.[0]LaserL.[0]BoxLight"
+            },
+            "chromaLight": {
+              "type": 7,
+              "lightId": 5
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "InterscopeEnvironment.[0]Environment.[51]SinMoveLasersPair.[0]LaserL.[0]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -1.6,
+            1.09996951,
+            -102.100037
+          ],
+          "localPosition": [
+            0.0,
+            250.0,
+            0.0
+          ],
+          "rotation": [
+            270.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.01,
+            250.000061,
+            0.0100000016
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            2.0,
+            2.0,
+            2.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightWorldNoise"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "InterscopeEnvironment.[0]Environment.[51]SinMoveLasersPair.[0]LaserL.[1]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -1.6,
+            1.1,
+            147.9
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            270.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.00000024,
+            1.00000024
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            10.0,
+            5000.0,
+            0.1
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightBillboardSpriteGlowWorldNoise"
+          ]
+        }
+      }
+    },
+    {
+      "name": "LaserR",
+      "id": "InterscopeEnvironment.[0]Environment.[51]SinMoveLasersPair.[1]LaserR",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            1.6,
+            1.1,
+            147.9
+          ],
+          "localPosition": [
+            1.6,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            270.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            270.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.00000024,
+            1.00000024
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 0.9,
+              "bloomFogIntensityMultiplier": 0.01,
+              "tubeLength": 500.0,
+              "tubeWidth": 0.02,
+              "center": 0.0,
+              "height": 500.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "InterscopeEnvironment.[0]Environment.[51]SinMoveLasersPair.[1]LaserR.[0]BoxLight"
+            },
+            "chromaLight": {
+              "type": 7,
+              "lightId": 6
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "InterscopeEnvironment.[0]Environment.[51]SinMoveLasersPair.[1]LaserR.[0]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            1.6,
+            1.09996951,
+            -102.100037
+          ],
+          "localPosition": [
+            0.0,
+            250.0,
+            0.0
+          ],
+          "rotation": [
+            270.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.01,
+            250.000061,
+            0.0100000016
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            2.0,
+            2.0,
+            2.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightWorldNoise"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "InterscopeEnvironment.[0]Environment.[51]SinMoveLasersPair.[1]LaserR.[1]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            1.6,
+            1.1,
+            147.9
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            270.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.00000024,
+            1.00000024
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            10.0,
+            5000.0,
+            0.1
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightBillboardSpriteGlowWorldNoise"
+          ]
+        }
+      }
+    },
+    {
+      "name": "SinMoveLasersPair (1)",
+      "id": "InterscopeEnvironment.[0]Environment.[52]SinMoveLasersPair (1)",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            1.1,
+            147.9
+          ],
+          "localPosition": [
+            0.0,
+            1.1,
+            147.9
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "LaserL",
+      "id": "InterscopeEnvironment.[0]Environment.[52]SinMoveLasersPair (1).[0]LaserL",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -1.6,
+            1.19983339,
+            147.9
+          ],
+          "localPosition": [
+            -1.6,
+            0.09983337,
+            0.0
+          ],
+          "rotation": [
+            270.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            270.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.00000024,
+            1.00000024
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 0.9,
+              "bloomFogIntensityMultiplier": 0.01,
+              "tubeLength": 500.0,
+              "tubeWidth": 0.02,
+              "center": 0.0,
+              "height": 500.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "InterscopeEnvironment.[0]Environment.[52]SinMoveLasersPair (1).[0]LaserL.[0]BoxLight"
+            },
+            "chromaLight": {
+              "type": 1,
+              "lightId": 5
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "InterscopeEnvironment.[0]Environment.[52]SinMoveLasersPair (1).[0]LaserL.[0]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -1.6,
+            1.19980288,
+            -102.100037
+          ],
+          "localPosition": [
+            0.0,
+            250.0,
+            0.0
+          ],
+          "rotation": [
+            270.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.01,
+            250.000061,
+            0.0100000016
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            2.0,
+            2.0,
+            2.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightWorldNoise"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "InterscopeEnvironment.[0]Environment.[52]SinMoveLasersPair (1).[0]LaserL.[1]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -1.6,
+            1.19983339,
+            147.9
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            270.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.00000024,
+            1.00000024
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            10.0,
+            5000.0,
+            0.1
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightBillboardSpriteGlowWorldNoise"
+          ]
+        }
+      }
+    },
+    {
+      "name": "LaserR",
+      "id": "InterscopeEnvironment.[0]Environment.[52]SinMoveLasersPair (1).[1]LaserR",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            1.6,
+            1.19983339,
+            147.9
+          ],
+          "localPosition": [
+            1.6,
+            0.09983337,
+            0.0
+          ],
+          "rotation": [
+            270.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            270.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.00000024,
+            1.00000024
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 0.9,
+              "bloomFogIntensityMultiplier": 0.01,
+              "tubeLength": 500.0,
+              "tubeWidth": 0.02,
+              "center": 0.0,
+              "height": 500.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "InterscopeEnvironment.[0]Environment.[52]SinMoveLasersPair (1).[1]LaserR.[0]BoxLight"
+            },
+            "chromaLight": {
+              "type": 4,
+              "lightId": 6
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "InterscopeEnvironment.[0]Environment.[52]SinMoveLasersPair (1).[1]LaserR.[0]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            1.6,
+            1.19980288,
+            -102.100037
+          ],
+          "localPosition": [
+            0.0,
+            250.0,
+            0.0
+          ],
+          "rotation": [
+            270.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.01,
+            250.000061,
+            0.0100000016
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            2.0,
+            2.0,
+            2.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightWorldNoise"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "InterscopeEnvironment.[0]Environment.[52]SinMoveLasersPair (1).[1]LaserR.[1]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            1.6,
+            1.19983339,
+            147.9
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            270.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.00000024,
+            1.00000024
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            10.0,
+            5000.0,
+            0.1
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightBillboardSpriteGlowWorldNoise"
+          ]
+        }
+      }
+    },
+    {
+      "name": "SinMoveLasersPair (2)",
+      "id": "InterscopeEnvironment.[0]Environment.[53]SinMoveLasersPair (2)",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            1.1,
+            147.9
+          ],
+          "localPosition": [
+            0.0,
+            1.1,
+            147.9
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "LaserL",
+      "id": "InterscopeEnvironment.[0]Environment.[53]SinMoveLasersPair (2).[0]LaserL",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -1.6,
+            1.29866934,
+            147.9
+          ],
+          "localPosition": [
+            -1.6,
+            0.198669314,
+            0.0
+          ],
+          "rotation": [
+            270.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            270.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.00000024,
+            1.00000024
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 0.9,
+              "bloomFogIntensityMultiplier": 0.01,
+              "tubeLength": 500.0,
+              "tubeWidth": 0.02,
+              "center": 0.0,
+              "height": 500.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "InterscopeEnvironment.[0]Environment.[53]SinMoveLasersPair (2).[0]LaserL.[0]BoxLight"
+            },
+            "chromaLight": {
+              "type": 6,
+              "lightId": 5
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "InterscopeEnvironment.[0]Environment.[53]SinMoveLasersPair (2).[0]LaserL.[0]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -1.6,
+            1.29863882,
+            -102.100037
+          ],
+          "localPosition": [
+            0.0,
+            250.0,
+            0.0
+          ],
+          "rotation": [
+            270.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.01,
+            250.000061,
+            0.0100000016
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            2.0,
+            2.0,
+            2.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightWorldNoise"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "InterscopeEnvironment.[0]Environment.[53]SinMoveLasersPair (2).[0]LaserL.[1]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -1.6,
+            1.29866934,
+            147.9
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            270.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.00000024,
+            1.00000024
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            10.0,
+            5000.0,
+            0.1
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightBillboardSpriteGlowWorldNoise"
+          ]
+        }
+      }
+    },
+    {
+      "name": "LaserR",
+      "id": "InterscopeEnvironment.[0]Environment.[53]SinMoveLasersPair (2).[1]LaserR",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            1.6,
+            1.29866934,
+            147.9
+          ],
+          "localPosition": [
+            1.6,
+            0.198669314,
+            0.0
+          ],
+          "rotation": [
+            270.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            270.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.00000024,
+            1.00000024
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 0.9,
+              "bloomFogIntensityMultiplier": 0.01,
+              "tubeLength": 500.0,
+              "tubeWidth": 0.02,
+              "center": 0.0,
+              "height": 500.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "InterscopeEnvironment.[0]Environment.[53]SinMoveLasersPair (2).[1]LaserR.[0]BoxLight"
+            },
+            "chromaLight": {
+              "type": 5,
+              "lightId": 6
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "InterscopeEnvironment.[0]Environment.[53]SinMoveLasersPair (2).[1]LaserR.[0]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            1.6,
+            1.29863882,
+            -102.100037
+          ],
+          "localPosition": [
+            0.0,
+            250.0,
+            0.0
+          ],
+          "rotation": [
+            270.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.01,
+            250.000061,
+            0.0100000016
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            2.0,
+            2.0,
+            2.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightWorldNoise"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "InterscopeEnvironment.[0]Environment.[53]SinMoveLasersPair (2).[1]LaserR.[1]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            1.6,
+            1.29866934,
+            147.9
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            270.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.00000024,
+            1.00000024
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            10.0,
+            5000.0,
+            0.1
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightBillboardSpriteGlowWorldNoise"
+          ]
+        }
+      }
+    },
+    {
+      "name": "SinMoveLasersPair (3)",
+      "id": "InterscopeEnvironment.[0]Environment.[54]SinMoveLasersPair (3)",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            1.1,
+            147.9
+          ],
+          "localPosition": [
+            0.0,
+            1.1,
+            147.9
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "LaserL",
+      "id": "InterscopeEnvironment.[0]Environment.[54]SinMoveLasersPair (3).[0]LaserL",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -1.6,
+            1.39552021,
+            147.9
+          ],
+          "localPosition": [
+            -1.6,
+            0.2955202,
+            0.0
+          ],
+          "rotation": [
+            270.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            270.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.00000024,
+            1.00000024
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 0.9,
+              "bloomFogIntensityMultiplier": 0.01,
+              "tubeLength": 500.0,
+              "tubeWidth": 0.02,
+              "center": 0.0,
+              "height": 500.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "InterscopeEnvironment.[0]Environment.[54]SinMoveLasersPair (3).[0]LaserL.[0]BoxLight"
+            },
+            "chromaLight": {
+              "type": 2,
+              "lightId": 5
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "InterscopeEnvironment.[0]Environment.[54]SinMoveLasersPair (3).[0]LaserL.[0]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -1.6,
+            1.39548969,
+            -102.100037
+          ],
+          "localPosition": [
+            0.0,
+            250.0,
+            0.0
+          ],
+          "rotation": [
+            270.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.01,
+            250.000061,
+            0.0100000016
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            2.0,
+            2.0,
+            2.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightWorldNoise"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "InterscopeEnvironment.[0]Environment.[54]SinMoveLasersPair (3).[0]LaserL.[1]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -1.6,
+            1.39552021,
+            147.9
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            270.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.00000024,
+            1.00000024
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            10.0,
+            5000.0,
+            0.1
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightBillboardSpriteGlowWorldNoise"
+          ]
+        }
+      }
+    },
+    {
+      "name": "LaserR",
+      "id": "InterscopeEnvironment.[0]Environment.[54]SinMoveLasersPair (3).[1]LaserR",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            1.6,
+            1.39552021,
+            147.9
+          ],
+          "localPosition": [
+            1.6,
+            0.2955202,
+            0.0
+          ],
+          "rotation": [
+            270.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            270.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.00000024,
+            1.00000024
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 0.9,
+              "bloomFogIntensityMultiplier": 0.01,
+              "tubeLength": 500.0,
+              "tubeWidth": 0.02,
+              "center": 0.0,
+              "height": 500.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "InterscopeEnvironment.[0]Environment.[54]SinMoveLasersPair (3).[1]LaserR.[0]BoxLight"
+            },
+            "chromaLight": {
+              "type": 3,
+              "lightId": 6
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "InterscopeEnvironment.[0]Environment.[54]SinMoveLasersPair (3).[1]LaserR.[0]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            1.6,
+            1.39548969,
+            -102.100037
+          ],
+          "localPosition": [
+            0.0,
+            250.0,
+            0.0
+          ],
+          "rotation": [
+            270.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.01,
+            250.000061,
+            0.0100000016
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            2.0,
+            2.0,
+            2.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightWorldNoise"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "InterscopeEnvironment.[0]Environment.[54]SinMoveLasersPair (3).[1]LaserR.[1]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            1.6,
+            1.39552021,
+            147.9
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            270.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.00000024,
+            1.00000024
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            10.0,
+            5000.0,
+            0.1
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightBillboardSpriteGlowWorldNoise"
+          ]
+        }
+      }
+    },
+    {
+      "name": "SinMoveLasersPair (4)",
+      "id": "InterscopeEnvironment.[0]Environment.[55]SinMoveLasersPair (4)",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            1.1,
+            147.9
+          ],
+          "localPosition": [
+            0.0,
+            1.1,
+            147.9
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "LaserL",
+      "id": "InterscopeEnvironment.[0]Environment.[55]SinMoveLasersPair (4).[0]LaserL",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -1.6,
+            1.48941839,
+            147.9
+          ],
+          "localPosition": [
+            -1.6,
+            0.389418364,
+            0.0
+          ],
+          "rotation": [
+            270.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            270.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.00000024,
+            1.00000024
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 0.9,
+              "bloomFogIntensityMultiplier": 0.01,
+              "tubeLength": 500.0,
+              "tubeWidth": 0.02,
+              "center": 0.0,
+              "height": 500.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "InterscopeEnvironment.[0]Environment.[55]SinMoveLasersPair (4).[0]LaserL.[0]BoxLight"
+            },
+            "chromaLight": {
+              "type": 3,
+              "lightId": 5
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "InterscopeEnvironment.[0]Environment.[55]SinMoveLasersPair (4).[0]LaserL.[0]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -1.6,
+            1.48938787,
+            -102.100037
+          ],
+          "localPosition": [
+            0.0,
+            250.0,
+            0.0
+          ],
+          "rotation": [
+            270.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.01,
+            250.000061,
+            0.0100000016
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            2.0,
+            2.0,
+            2.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightWorldNoise"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "InterscopeEnvironment.[0]Environment.[55]SinMoveLasersPair (4).[0]LaserL.[1]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -1.6,
+            1.48941839,
+            147.9
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            270.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.00000024,
+            1.00000024
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            10.0,
+            5000.0,
+            0.1
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightBillboardSpriteGlowWorldNoise"
+          ]
+        }
+      }
+    },
+    {
+      "name": "LaserR",
+      "id": "InterscopeEnvironment.[0]Environment.[55]SinMoveLasersPair (4).[1]LaserR",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            1.6,
+            1.48941839,
+            147.9
+          ],
+          "localPosition": [
+            1.6,
+            0.389418364,
+            0.0
+          ],
+          "rotation": [
+            270.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            270.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.00000024,
+            1.00000024
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 0.9,
+              "bloomFogIntensityMultiplier": 0.01,
+              "tubeLength": 500.0,
+              "tubeWidth": 0.02,
+              "center": 0.0,
+              "height": 500.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "InterscopeEnvironment.[0]Environment.[55]SinMoveLasersPair (4).[1]LaserR.[0]BoxLight"
+            },
+            "chromaLight": {
+              "type": 1,
+              "lightId": 6
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "InterscopeEnvironment.[0]Environment.[55]SinMoveLasersPair (4).[1]LaserR.[0]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            1.6,
+            1.48938787,
+            -102.100037
+          ],
+          "localPosition": [
+            0.0,
+            250.0,
+            0.0
+          ],
+          "rotation": [
+            270.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.01,
+            250.000061,
+            0.0100000016
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            2.0,
+            2.0,
+            2.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightWorldNoise"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "InterscopeEnvironment.[0]Environment.[55]SinMoveLasersPair (4).[1]LaserR.[1]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            1.6,
+            1.48941839,
+            147.9
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            270.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.00000024,
+            1.00000024
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            10.0,
+            5000.0,
+            0.1
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightBillboardSpriteGlowWorldNoise"
+          ]
+        }
+      }
+    },
+    {
+      "name": "SinMoveLasersPair (5)",
+      "id": "InterscopeEnvironment.[0]Environment.[56]SinMoveLasersPair (5)",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            1.1,
+            147.9
+          ],
+          "localPosition": [
+            0.0,
+            1.1,
+            147.9
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "LaserL",
+      "id": "InterscopeEnvironment.[0]Environment.[56]SinMoveLasersPair (5).[0]LaserL",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -1.6,
+            1.57942557,
+            147.9
+          ],
+          "localPosition": [
+            -1.6,
+            0.47942555,
+            0.0
+          ],
+          "rotation": [
+            270.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            270.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.00000024,
+            1.00000024
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 0.9,
+              "bloomFogIntensityMultiplier": 0.01,
+              "tubeLength": 500.0,
+              "tubeWidth": 0.02,
+              "center": 0.0,
+              "height": 500.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "InterscopeEnvironment.[0]Environment.[56]SinMoveLasersPair (5).[0]LaserL.[0]BoxLight"
+            },
+            "chromaLight": {
+              "type": 4,
+              "lightId": 5
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "InterscopeEnvironment.[0]Environment.[56]SinMoveLasersPair (5).[0]LaserL.[0]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -1.6,
+            1.579395,
+            -102.100037
+          ],
+          "localPosition": [
+            0.0,
+            250.0,
+            0.0
+          ],
+          "rotation": [
+            270.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.01,
+            250.000061,
+            0.0100000016
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            2.0,
+            2.0,
+            2.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightWorldNoise"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "InterscopeEnvironment.[0]Environment.[56]SinMoveLasersPair (5).[0]LaserL.[1]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -1.6,
+            1.57942557,
+            147.9
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            270.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.00000024,
+            1.00000024
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            10.0,
+            5000.0,
+            0.1
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightBillboardSpriteGlowWorldNoise"
+          ]
+        }
+      }
+    },
+    {
+      "name": "LaserR",
+      "id": "InterscopeEnvironment.[0]Environment.[56]SinMoveLasersPair (5).[1]LaserR",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            1.6,
+            1.57942557,
+            147.9
+          ],
+          "localPosition": [
+            1.6,
+            0.47942555,
+            0.0
+          ],
+          "rotation": [
+            270.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            270.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.00000024,
+            1.00000024
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 0.9,
+              "bloomFogIntensityMultiplier": 0.01,
+              "tubeLength": 500.0,
+              "tubeWidth": 0.02,
+              "center": 0.0,
+              "height": 500.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "InterscopeEnvironment.[0]Environment.[56]SinMoveLasersPair (5).[1]LaserR.[0]BoxLight"
+            },
+            "chromaLight": {
+              "type": 2,
+              "lightId": 6
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "InterscopeEnvironment.[0]Environment.[56]SinMoveLasersPair (5).[1]LaserR.[0]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            1.6,
+            1.579395,
+            -102.100037
+          ],
+          "localPosition": [
+            0.0,
+            250.0,
+            0.0
+          ],
+          "rotation": [
+            270.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.01,
+            250.000061,
+            0.0100000016
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            2.0,
+            2.0,
+            2.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightWorldNoise"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "InterscopeEnvironment.[0]Environment.[56]SinMoveLasersPair (5).[1]LaserR.[1]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            1.6,
+            1.57942557,
+            147.9
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            270.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.00000024,
+            1.00000024
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            10.0,
+            5000.0,
+            0.1
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightBillboardSpriteGlowWorldNoise"
+          ]
+        }
+      }
+    },
+    {
+      "name": "SinMoveLasersPair (6)",
+      "id": "InterscopeEnvironment.[0]Environment.[57]SinMoveLasersPair (6)",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            1.1,
+            147.9
+          ],
+          "localPosition": [
+            0.0,
+            1.1,
+            147.9
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "LaserL",
+      "id": "InterscopeEnvironment.[0]Environment.[57]SinMoveLasersPair (6).[0]LaserL",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -1.6,
+            1.66464245,
+            147.9
+          ],
+          "localPosition": [
+            -1.6,
+            0.5646424,
+            0.0
+          ],
+          "rotation": [
+            270.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            270.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.00000024,
+            1.00000024
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 0.9,
+              "bloomFogIntensityMultiplier": 0.01,
+              "tubeLength": 500.0,
+              "tubeWidth": 0.02,
+              "center": 0.0,
+              "height": 500.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "InterscopeEnvironment.[0]Environment.[57]SinMoveLasersPair (6).[0]LaserL.[0]BoxLight"
+            },
+            "chromaLight": {
+              "type": 5,
+              "lightId": 5
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "InterscopeEnvironment.[0]Environment.[57]SinMoveLasersPair (6).[0]LaserL.[0]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -1.6,
+            1.66461194,
+            -102.100037
+          ],
+          "localPosition": [
+            0.0,
+            250.0,
+            0.0
+          ],
+          "rotation": [
+            270.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.01,
+            250.000061,
+            0.0100000016
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            2.0,
+            2.0,
+            2.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightWorldNoise"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "InterscopeEnvironment.[0]Environment.[57]SinMoveLasersPair (6).[0]LaserL.[1]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -1.6,
+            1.66464245,
+            147.9
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            270.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.00000024,
+            1.00000024
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            10.0,
+            5000.0,
+            0.1
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightBillboardSpriteGlowWorldNoise"
+          ]
+        }
+      }
+    },
+    {
+      "name": "LaserR",
+      "id": "InterscopeEnvironment.[0]Environment.[57]SinMoveLasersPair (6).[1]LaserR",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            1.6,
+            1.66464245,
+            147.9
+          ],
+          "localPosition": [
+            1.6,
+            0.5646424,
+            0.0
+          ],
+          "rotation": [
+            270.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            270.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.00000024,
+            1.00000024
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 0.9,
+              "bloomFogIntensityMultiplier": 0.01,
+              "tubeLength": 500.0,
+              "tubeWidth": 0.02,
+              "center": 0.0,
+              "height": 500.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "InterscopeEnvironment.[0]Environment.[57]SinMoveLasersPair (6).[1]LaserR.[0]BoxLight"
+            },
+            "chromaLight": {
+              "type": 6,
+              "lightId": 6
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "InterscopeEnvironment.[0]Environment.[57]SinMoveLasersPair (6).[1]LaserR.[0]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            1.6,
+            1.66461194,
+            -102.100037
+          ],
+          "localPosition": [
+            0.0,
+            250.0,
+            0.0
+          ],
+          "rotation": [
+            270.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.01,
+            250.000061,
+            0.0100000016
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            2.0,
+            2.0,
+            2.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightWorldNoise"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "InterscopeEnvironment.[0]Environment.[57]SinMoveLasersPair (6).[1]LaserR.[1]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            1.6,
+            1.66464245,
+            147.9
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            270.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.00000024,
+            1.00000024
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            10.0,
+            5000.0,
+            0.1
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightBillboardSpriteGlowWorldNoise"
+          ]
+        }
+      }
+    },
+    {
+      "name": "LightWithIdManager",
+      "id": "InterscopeEnvironment.[0]Environment.[6]LightWithIdManager",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "BSRealtimeLightmapping",
+      "id": "InterscopeEnvironment.[0]Environment.[7]BSRealtimeLightmapping",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "LightmapLightsWithIds",
+      "id": "InterscopeEnvironment.[0]Environment.[9]LightmapLightsWithIds",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "A",
+      "id": "InterscopeEnvironment.[0]Environment.[9]LightmapLightsWithIds.[0]A",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "B",
+      "id": "InterscopeEnvironment.[0]Environment.[9]LightmapLightsWithIds.[1]B",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "C",
+      "id": "InterscopeEnvironment.[0]Environment.[9]LightmapLightsWithIds.[2]C",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "D",
+      "id": "InterscopeEnvironment.[0]Environment.[9]LightmapLightsWithIds.[3]D",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "E",
+      "id": "InterscopeEnvironment.[0]Environment.[9]LightmapLightsWithIds.[4]E",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
           ]
         }
       }

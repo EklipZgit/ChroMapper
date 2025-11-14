@@ -257,28 +257,6 @@
         ]
       },
       {
-        "name": "EnvLight",
-        "keywords": [
-          "ENABLE_HEIGHT_FOG",
-          "MULTIPLY_COLOR_WITH_ALPHA",
-          "_ENABLE_MAIN_EFFECT_WHITE_BOOST"
-        ]
-      },
-      {
-        "name": "EnvLightBillboardSpriteGlow",
-        "keywords": [
-          "ALPHA_WIDTH_SCALE",
-          "ENABLE_FOG",
-          "ENABLE_HEIGHT_FOG",
-          "ENABLE_NOISE_DITHERING",
-          "ENABLE_Y_AXIS_BILLBOARD",
-          "USE_FOG_FOR_LIGHTS",
-          "ETC1_EXTERNAL_ALPHA",
-          "_ENABLE_Y_AXIS_BILLBOARD",
-          "_WHITEBOOSTTYPE_NONE"
-        ]
-      },
-      {
         "name": "Crow",
         "keywords": [
           "FOG",
@@ -371,6 +349,28 @@
       {
         "name": "EnvLightNoHeightFog",
         "keywords": [
+          "MULTIPLY_COLOR_WITH_ALPHA",
+          "_ENABLE_MAIN_EFFECT_WHITE_BOOST"
+        ]
+      },
+      {
+        "name": "EnvLightBillboardSpriteGlow",
+        "keywords": [
+          "ALPHA_WIDTH_SCALE",
+          "ENABLE_FOG",
+          "ENABLE_HEIGHT_FOG",
+          "ENABLE_NOISE_DITHERING",
+          "ENABLE_Y_AXIS_BILLBOARD",
+          "USE_FOG_FOR_LIGHTS",
+          "ETC1_EXTERNAL_ALPHA",
+          "_ENABLE_Y_AXIS_BILLBOARD",
+          "_WHITEBOOSTTYPE_NONE"
+        ]
+      },
+      {
+        "name": "EnvLight",
+        "keywords": [
+          "ENABLE_HEIGHT_FOG",
           "MULTIPLY_COLOR_WITH_ALPHA",
           "_ENABLE_MAIN_EFFECT_WHITE_BOOST"
         ]
@@ -481,9 +481,9 @@
       "Castle",
       "Tree1",
       "Tree2",
-      "ParametricBox",
       "CrowSitting",
       "ZombieHand",
+      "ParametricBox",
       "Tree3",
       "Dynamic3SliceSprite",
       "Plane",
@@ -3440,551 +3440,6 @@
       }
     },
     {
-      "name": "NarrowGameHUD",
-      "id": "HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD",
-      "layer": "UI",
-      "components": {
-        "Transform": {
-          "position": [
-            0.0,
-            0.1,
-            0.0
-          ],
-          "localPosition": [
-            0.0,
-            0.1,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        }
-      }
-    },
-    {
-      "name": "EnergyPanel",
-      "id": "HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[0]EnergyPanel",
-      "layer": "UI",
-      "components": {
-        "Animator": {
-          "animatorParameters": [],
-          "animatorLayerNames": []
-        }
-      }
-    },
-    {
-      "name": "BG",
-      "id": "HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[0]EnergyPanel.[0]BG",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "BarBG",
-      "id": "HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[0]EnergyPanel.[1]BarBG",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "EnergyIconEmpty",
-      "id": "HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[0]EnergyPanel.[2]EnergyIconEmpty",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "EnergyIconFull",
-      "id": "HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[0]EnergyPanel.[3]EnergyIconFull",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "EnergyBarWrapper",
-      "id": "HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[0]EnergyPanel.[4]EnergyBarWrapper",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "EnergyBar",
-      "id": "HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[0]EnergyPanel.[4]EnergyBarWrapper.[0]EnergyBar",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "Laser",
-      "id": "HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[0]EnergyPanel.[5]Laser",
-      "layer": "NeonLight",
-      "components": {
-        "Transform": {
-          "position": [
-            0.0,
-            0.1,
-            5.7
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            -40.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            90.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            90.0
-          ],
-          "scale": [
-            0.0200000033,
-            0.0200000033,
-            0.02
-          ]
-        }
-      }
-    },
-    {
-      "name": "BoxLight",
-      "id": "HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[0]EnergyPanel.[5]Laser.[0]BoxLight",
-      "meshName": "ParametricBox",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            0.0,
-            0.1,
-            5.7
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            90.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            0.0,
-            5.000001,
-            0.0
-          ]
-        },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
-        },
-        "MeshRenderer": {
-          "materials": [
-            "EnvLight"
-          ]
-        },
-        "ParametricBoxController": {}
-      }
-    },
-    {
-      "name": "BakedBloom",
-      "id": "HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[0]EnergyPanel.[5]Laser.[1]BakedBloom",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            0.0,
-            0.1,
-            5.7
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            90.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            0.0200000033,
-            0.0200000033,
-            0.02
-          ]
-        },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
-        "MeshRenderer": {
-          "materials": [
-            "EnvLightBillboardSpriteGlow"
-          ]
-        }
-      }
-    },
-    {
-      "name": "FailIcon",
-      "id": "HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[0]EnergyPanel.[6]FailIcon",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "LeftPanel",
-      "id": "HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[1]LeftPanel",
-      "layer": "UI",
-      "components": {
-        "Transform": {
-          "position": [
-            -2.0,
-            0.5,
-            7.0
-          ],
-          "localPosition": [
-            -2.0,
-            0.4,
-            7.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        }
-      }
-    },
-    {
-      "name": "ComboPanel",
-      "id": "HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[1]LeftPanel.[0]ComboPanel",
-      "layer": "UI",
-      "components": {
-        "Animator": {
-          "animatorParameters": [
-            "ComboLost"
-          ],
-          "animatorLayerNames": [
-            "Base Layer"
-          ]
-        }
-      }
-    },
-    {
-      "name": "ComboText",
-      "id": "HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[1]LeftPanel.[0]ComboPanel.[0]ComboText",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "ComboCanvas",
-      "id": "HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[1]LeftPanel.[0]ComboPanel.[1]ComboCanvas",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "NumText",
-      "id": "HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[1]LeftPanel.[0]ComboPanel.[1]ComboCanvas.[0]NumText",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "Line0",
-      "id": "HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[1]LeftPanel.[0]ComboPanel.[2]Line0",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "Line1",
-      "id": "HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[1]LeftPanel.[0]ComboPanel.[3]Line1",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "ScoreCanvas",
-      "id": "HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[1]LeftPanel.[1]ScoreCanvas",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "ScoreText",
-      "id": "HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[1]LeftPanel.[1]ScoreCanvas.[0]ScoreText",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "ImmediateRankText",
-      "id": "HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[1]LeftPanel.[1]ScoreCanvas.[1]ImmediateRankText",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "RelativeScoreText",
-      "id": "HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[1]LeftPanel.[1]ScoreCanvas.[2]RelativeScoreText",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "RightPanel",
-      "id": "HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[2]RightPanel",
-      "layer": "UI",
-      "components": {
-        "Transform": {
-          "position": [
-            2.0,
-            0.5,
-            7.0
-          ],
-          "localPosition": [
-            2.0,
-            0.4,
-            7.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        }
-      }
-    },
-    {
-      "name": "MultiplierCanvas",
-      "id": "HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas",
-      "layer": "UI",
-      "components": {
-        "Animator": {
-          "animatorParameters": [
-            "MultiplierIncreased"
-          ],
-          "animatorLayerNames": [
-            "Base Layer"
-          ]
-        }
-      }
-    },
-    {
-      "name": "BGCircle",
-      "id": "HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[0]BGCircle",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "FGCircle",
-      "id": "HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[1]FGCircle",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "AnimationCircle",
-      "id": "HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[2]AnimationCircle",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "TextOverlayPanelOutline1",
-      "id": "HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[3]TextOverlayPanelOutline1",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "XText",
-      "id": "HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[3]TextOverlayPanelOutline1.[0]XText",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "NumText",
-      "id": "HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[3]TextOverlayPanelOutline1.[1]NumText",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "TextOverlayPanelOutline0",
-      "id": "HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[4]TextOverlayPanelOutline0",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "XText",
-      "id": "HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[4]TextOverlayPanelOutline0.[0]XText",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "NumText",
-      "id": "HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[4]TextOverlayPanelOutline0.[1]NumText",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "TextPanel",
-      "id": "HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[5]TextPanel",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "XText",
-      "id": "HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[5]TextPanel.[0]XText",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "NumText",
-      "id": "HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[5]TextPanel.[1]NumText",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "SongProgressCanvas",
-      "id": "HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "Progress",
-      "id": "HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[0]Progress",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "Slider",
-      "id": "HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[1]Slider",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "Background",
-      "id": "HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[1]Slider.[0]Background",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "Handle Slide Area",
-      "id": "HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[1]Slider.[1]Handle Slide Area",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "Handle",
-      "id": "HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[1]Slider.[1]Handle Slide Area.[0]Handle",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "ProgressText",
-      "id": "HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "Progress",
-      "id": "HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.[0]Progress",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "ProgressMinutes",
-      "id": "HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.[0]Progress.[0]ProgressMinutes",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "ProgressColon",
-      "id": "HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.[0]Progress.[1]ProgressColon",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "ProgressSeconds",
-      "id": "HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.[0]Progress.[2]ProgressSeconds",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "Separator",
-      "id": "HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.[1]Separator",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "Duration",
-      "id": "HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.[2]Duration",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "DurationMinutes",
-      "id": "HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.[2]Duration.[0]DurationMinutes",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "DurationColon",
-      "id": "HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.[2]Duration.[1]DurationColon",
-      "layer": "UI",
-      "components": {}
-    },
-    {
-      "name": "DurationSeconds",
-      "id": "HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.[2]Duration.[2]DurationSeconds",
-      "layer": "UI",
-      "components": {}
-    },
-    {
       "name": "BigSmokePS",
       "id": "HalloweenEnvironment.[0]Environment.[151]BigSmokePS",
       "layer": "NonReflectedParticles",
@@ -4075,18 +3530,18 @@
           ],
           "rotation": [
             0.0,
-            81.04898,
+            81.0829,
             0.0
           ],
           "localRotation": [
             0.0,
-            356.298981,
+            356.332916,
             0.0
           ],
           "scale": [
-            1.0,
-            0.9598391,
-            1.0
+            0.9999999,
+            0.959692061,
+            0.9999999
           ]
         },
         "MeshFilter": {
@@ -4165,17 +3620,17 @@
           ],
           "rotation": [
             0.0,
-            323.055847,
+            323.091461,
             0.0
           ],
           "localRotation": [
             0.0,
-            350.355835,
+            350.391479,
             0.0
           ],
           "scale": [
             1.0,
-            0.9885446,
+            0.988389254,
             1.0
           ]
         },
@@ -4255,17 +3710,17 @@
           ],
           "rotation": [
             0.0,
-            37.09189,
+            37.0932579,
             0.0
           ],
           "localRotation": [
             0.0,
-            4.99189949,
+            4.993271,
             0.0
           ],
           "scale": [
             1.0,
-            0.986770868,
+            0.9869072,
             1.0
           ]
         },
@@ -4345,18 +3800,18 @@
           ],
           "rotation": [
             0.0,
-            299.725433,
+            299.759216,
             0.0
           ],
           "localRotation": [
             0.0,
-            347.575439,
+            347.609222,
             0.0
           ],
           "scale": [
-            1.00000024,
-            0.998086154,
-            1.00000024
+            1.00000012,
+            0.9980103,
+            1.00000012
           ]
         },
         "MeshFilter": {
@@ -4434,19 +3889,19 @@
             0.0
           ],
           "rotation": [
-            357.1967,
-            180.436676,
-            0.2022191
+            357.1623,
+            180.505447,
+            0.225143015
           ],
           "localRotation": [
-            357.1967,
-            355.606659,
-            0.2022191
+            357.1623,
+            355.6754,
+            0.225143045
           ],
           "scale": [
-            1.00000048,
-            0.99999994,
-            1.00000048
+            1.00000072,
+            1.0,
+            1.00000072
           ]
         },
         "MeshFilter": {
@@ -4524,14 +3979,14 @@
             0.0
           ],
           "rotation": [
-            358.103516,
-            358.103516,
-            1.89647675
+            358.093964,
+            358.093964,
+            1.906049
           ],
           "localRotation": [
-            358.103516,
-            358.103516,
-            1.89647675
+            358.093964,
+            358.093964,
+            1.906049
           ],
           "scale": [
             1.0,
@@ -4616,16 +4071,16 @@
           "rotation": [
             355.0,
             286.89,
-            4.637361
+            4.629777
           ],
           "localRotation": [
             355.0,
             355.0,
-            4.637361
+            4.629777
           ],
           "scale": [
             1.00000012,
-            1.0,
+            0.99999994,
             1.00000012
           ]
         },
@@ -4705,17 +4160,17 @@
           ],
           "rotation": [
             355.0,
-            42.7199936,
-            3.77548242
+            42.7199974,
+            3.76297569
           ],
           "localRotation": [
             355.0,
             355.0,
-            3.775482
+            3.76297569
           ],
           "scale": [
             1.0,
-            0.99999994,
+            1.0,
             1.0
           ]
         },
@@ -4846,19 +4301,19 @@
             0.0
           ],
           "rotation": [
-            1.44536984,
-            144.97197,
-            355.602356
+            1.47253013,
+            144.931213,
+            355.5971
           ],
           "localRotation": [
-            1.44536984,
-            345.33194,
-            355.602356
+            1.47253025,
+            345.2912,
+            355.5971
           ],
           "scale": [
             1.00000024,
-            0.99999994,
-            1.00000024
+            1.00000012,
+            1.00000012
           ]
         },
         "MeshFilter": {
@@ -4936,18 +4391,18 @@
             0.0
           ],
           "rotation": [
-            358.970032,
-            300.999969,
-            359.02
+            358.9362,
+            301.067657,
+            359.042542
           ],
           "localRotation": [
-            358.970032,
-            352.059967,
-            359.02
+            358.9362,
+            352.127625,
+            359.042542
           ],
           "scale": [
+            0.99999994,
             1.0,
-            1.00000012,
             1.0
           ]
         },
@@ -5026,18 +4481,18 @@
             0.0
           ],
           "rotation": [
-            357.533234,
-            303.233582,
-            359.977844
+            357.4988,
+            303.302429,
+            0.0008000009
           ],
           "localRotation": [
-            357.533234,
-            354.933563,
-            359.977844
+            357.4988,
+            355.0024,
+            0.0008000477
           ],
           "scale": [
-            1.0,
-            1.0,
+            1.00000012,
+            0.99999994,
             1.0
           ]
         },
