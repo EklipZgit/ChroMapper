@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Editor.Environments.Structures.Components;
 using Newtonsoft.Json;
 
@@ -26,28 +27,34 @@ public class EnvironmentObject
     public class EnvironmentComponents
     {
         // Basic Components
+        [JsonProperty("transform")]
         public TransformComponent? Transform;
         
         // Lighting Components
-        public ChromaLightComponent? ChromaLight;
-        public TubeBloomPrePassLightWithIdComponent? TubeBloomPrePassLightWithId;
+        [JsonProperty("tubeBloomPrePassLightWithId")]
+        public List<TubeBloomPrePassLightWithIdComponent>? TubeBloomPrePassLightWithId;
+        [JsonProperty("spriteLightWithId")]
         public SpriteLightWithIdComponent? SpriteLightWithId;
-        
-        
+
+        [JsonProperty("trackLaneRingsManager")]
+        public TrackLaneRingsManagerComponent? TrackLaneRingsManager;
+
+        /*
         public FloatFxGroupComponent? FloatFxGroup;
         public FloatFxGroupEffectComponent? FloatFxGroupEffect;
         public FloatFxGroupEffectManagerComponent? FloatFxGroupEffectManager;
-        
+
         public LightColorGroupComponent? LightColorGroup;
         public LightColorGroupEffectComponent? LightColorGroupEffect;
         public LightColorGroupEffectManagerComponent? LightColorGroupEffectManager;
-        
+
         public LightRotationGroupComponent? LightRotationGroup;
         public LightRotationGroupEffectComponent? LightRotationGroupEffect;
         public LightRotationGroupEffectManagerComponent? LightRotationGroupEffectManager;
-        
+
         public LightTranslationGroupComponent? LightTranslationGroup;
         public LightTranslationGroupEffectManagerComponent? LightTranslationGroupEffectManager;
+        */
     }
 }
 #nullable restore
