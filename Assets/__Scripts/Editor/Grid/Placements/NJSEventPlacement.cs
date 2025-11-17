@@ -1,50 +1,23 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using Beatmap.Base;
 using Beatmap.Containers;
+using Beatmap.Enums;
 
 public class NJSEventPlacement : BasePlacement<BaseNJSEvent, NJSEventContainer, NJSEventGridContainer>
 {
     // Probably move to easings class at some point
-    private readonly List<string> beatSaberMapFormatEasings = new()
+    private readonly List<(int id, string name)> supportedEasings = new()
     {
-        // Not using an enum because Enum.GetNames has unexpected order for negatives
-        "None", // -1
-        "Linear", // 0
-        "InQuad",
-        "OutQuad",
-        "InOutQuad", // 3
-        // This easings don't actually work in game and function as "None"
-        // "InSine",
-        // "OutSine",
-        // "InOutSine",
-        // "InCubic",
-        // "OutCubic",
-        // "InOutCubic",
-        // "InQuart",
-        // "OutQuart",
-        // "InOutQuart",
-        // "InQuint",
-        // "OutQuint",
-        // "InOutQuint",
-        // "InExpo",
-        // "OutExpo",
-        // "InOutExpo",
-        "InCirc", // 19
-        "OutCirc",
-        "InOutCirc",
-        "InBack",
-        "OutBack",
-        "InOutBack",
-        "InElastic",
-        "OutElastic",
-        "InOutElastic",
-        "InBounce",
-        "OutBounce",
-        "InOutBounce", // 30
-        "BeatSaberInOutBack", // 100
-        "BeatSaberInOutElastic", // 101
-        "BeatSaberInOutBounce" // 102
+        ((int)EaseType.None, "None"),
+        ((int)EaseType.Linear, "Linear"),
+        ((int)EaseType.InQuadratic, "Quadratic In"), // im debating whether EaseIn or InEase is better convention
+        ((int)EaseType.OutQuadratic, "Quadratic Out"),
+        ((int)EaseType.InOutQuadratic, "Quadratic In Out"),
+        ((int)EaseType.InCircular, "Circular In"),
+        ((int)EaseType.OutCircular, "Circular Out"),
+        ((int)EaseType.InOutCircular, "Circular In Out")
     };
 
     public override void Start()
@@ -79,7 +52,7 @@ public class NJSEventPlacement : BasePlacement<BaseNJSEvent, NJSEventContainer, 
 
             var relativeNJS = absoluteNJS - BeatSaberSongContainer.Instance.MapDifficultyInfo.NoteJumpSpeed;
 
-            QueuedData.Easing = MapTMPDropdownValueToEasing(easingDropdownValue);
+            QueuedData.Easing = supportedEasings[easingDropdownValue].id;
             QueuedData.RelativeNJS = relativeNJS;
             QueuedData.UsePrevious = extend ? 1 : 0;
             base.HandleApply();
@@ -115,7 +88,7 @@ public class NJSEventPlacement : BasePlacement<BaseNJSEvent, NJSEventContainer, 
         var easingDropdown = createNJSEventDialogueBox
             .AddComponent<DropdownComponent>()
             .WithLabel("Mapper", "easing")
-            .WithOptions(beatSaberMapFormatEasings)
+            .WithOptions(supportedEasings.Select(x => x.name))
             .WithInitialValue(1);
         // This doesn't seem to change the initial option even though the value has changed
         // so we'll change it anyway on opening the dialogue
@@ -139,17 +112,5 @@ public class NJSEventPlacement : BasePlacement<BaseNJSEvent, NJSEventContainer, 
         createNJSEventDialogueBox.Open();
 
         easingDropdown.Value = 1;
-    }
-
-    private static int MapTMPDropdownValueToEasing(int dropdownEasing)
-    {
-        var mapFormatValue = dropdownEasing switch
-        {
-            >= 17 => dropdownEasing + (100 - 17),
-            >= 5 => dropdownEasing + (19 - 5),
-            _ => dropdownEasing - 1
-        };
-
-        return mapFormatValue;
     }
 }
