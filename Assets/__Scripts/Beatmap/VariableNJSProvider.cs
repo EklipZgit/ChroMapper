@@ -104,6 +104,12 @@ public class VariableNJSProvider : StateManager<VariableNJSStateData, BaseNJSEve
         prevState.Easing = Easing.FromID(easingId);
     }
 
+    protected override void OnInsertUpdateToNextState(VariableNJSStateData newState, VariableNJSStateData nextState)
+    {
+        base.OnInsertUpdateToNextState(newState, nextState);
+        nextState.RelativeNjs = nextState.Base.UsePrevious == 1 ? newState.RelativeNjs : nextState.RelativeNjs;
+    }
+
     protected override void OnInsertUpdateFromPreviousStateAndNextState(
         VariableNJSStateData newState,
         VariableNJSStateData prevState,
