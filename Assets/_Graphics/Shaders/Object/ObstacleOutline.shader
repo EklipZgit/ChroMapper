@@ -31,7 +31,6 @@
 
         // These are global properties and should not be instanced
         uniform float _MainAlpha = 0.5;
-        uniform float _ObstacleGlow = 0;
 
         // Define instanced properties
         UNITY_INSTANCING_BUFFER_START(Props)
@@ -139,11 +138,12 @@
                 // return float4(factor.xxx, 0);
 
                 fixed4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
+                #ifdef CM_PREVIEW_MODE
+                fixed alpha = saturate(color.a);
+                #else
                 fixed alpha = 0.05;
-                if (_ObstacleGlow > 0)
-                {
-                    alpha = saturate(color.a * 0.5);
-                }
+                #endif
+                
                 color = float4(log2(color.rgb + 1.0), alpha) * factor;
 
                 #ifdef CM_PREVIEW_MODE
