@@ -86,15 +86,15 @@ public class TrackLaneRingsManager : TrackLaneRingsManagerBase
 
     protected virtual bool IsAffectedByZoom() => !Mathf.Approximately(MAXPositionStep, MINPositionStep);
 
-    public override void HandlePositionEvent(RingRotationStateData stateData, BaseEvent evt, int index)
+    public override void HandlePositionEvent(RingRotationStateData stateData, BaseEvent data, int index)
     {
         zoomed = index % 2 == 0;
         var step = zoomed ? MAXPositionStep : MINPositionStep;
 
-        if (IsAffectedByZoom() && (evt.CustomStep != null)) step = evt.CustomStep.Value;
+        if (IsAffectedByZoom() && (data.CustomStep != null)) step = data.CustomStep.Value;
 
         // Multiplying MoveSpeed by 5 since I don't want to edit 20+ environment prefabs
-        var speed = evt.CustomSpeed ?? (MoveSpeed * 5);
+        var speed = data.CustomSpeed ?? (MoveSpeed * 5);
 
         for (var i = 0; i < Rings.Length; i++)
         {
@@ -103,7 +103,7 @@ public class TrackLaneRingsManager : TrackLaneRingsManagerBase
         }
     }
 
-    public override void HandleRotationEvent(RingRotationStateData stateData, BaseEvent evt, int index)
+    public override void HandleRotationEvent(RingRotationStateData stateData, BaseEvent data, int index)
     {
         if (RotationEffect == null) return;
 
@@ -113,7 +113,7 @@ public class TrackLaneRingsManager : TrackLaneRingsManagerBase
             PropagationSpeed,
             FlexySpeed,
             stateData.Direction,
-            evt);
+            data);
     }
 
     public override float GetInitialRotation() => RotationEffect?.StartupRotationAngle ?? 0f;

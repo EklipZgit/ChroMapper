@@ -153,7 +153,7 @@ public class BasicEventManager : BeatmapObjectManager<BaseEvent>
         foreach (var d in data)
         {
             if (!descriptor.EventTypeManagerMap.TryGetValue(d.Type, out var managers)) continue;
-            managers.ForEach(manager => manager.RemoveData(d));
+            managers.ForEach(manager => manager.RemoveData(d, d));
             mark = true;
         }
 

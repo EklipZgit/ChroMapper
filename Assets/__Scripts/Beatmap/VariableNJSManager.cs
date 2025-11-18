@@ -47,9 +47,9 @@ public class VariableNJSManager : BeatmapObjectManager<BaseNJSEvent>
     protected override bool RemoveData(IEnumerable<(BaseNJSEvent reference, BaseNJSEvent original)> data)
     {
         var mark = false;
-        foreach (var (reference, _) in data)
+        foreach (var (reference, original) in data)
         {
-            provider.RemoveData(reference);
+            provider.RemoveData(reference, original);
             mark = true;
         }
 
@@ -61,7 +61,7 @@ public class VariableNJSManager : BeatmapObjectManager<BaseNJSEvent>
         var mark = false;
         foreach (var d in data)
         {
-            provider.RemoveData(d);
+            provider.RemoveData(d, d);
             mark = true;
         }
 

@@ -7,14 +7,14 @@ public class SkrillexSecondaryRingManager : TrackLaneRingsManager
 
     protected override bool IsAffectedByZoom() => true;
 
-    public override void HandlePositionEvent(RingRotationStateData stateData, BaseEvent evt, int index)
+    public override void HandlePositionEvent(RingRotationStateData stateData, BaseEvent data, int index)
     {
-        base.HandlePositionEvent(stateData, evt, index);
-        base.HandleRotationEvent(stateData, evt, index);
-        foreach (var isRingLaserManager in laserManagers) isRingLaserManager.HandlePositionEvent(stateData, evt, index);
+        base.HandlePositionEvent(stateData, data, index);
+        base.HandleRotationEvent(stateData, data, index);
+        foreach (var isRingLaserManager in laserManagers) isRingLaserManager.HandlePositionEvent(stateData, data, index);
     }
 
-    public override void HandleRotationEvent(RingRotationStateData stateData, BaseEvent evt, int index)
+    public override void HandleRotationEvent(RingRotationStateData stateData, BaseEvent data, int index)
     {
         // Do nothing
     }

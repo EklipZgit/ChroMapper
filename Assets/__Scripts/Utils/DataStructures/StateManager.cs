@@ -8,24 +8,22 @@ public abstract class StateManager<T> : MonoBehaviour where T : BaseObject
 
     public abstract void Initialize();
     public abstract void UpdateTime(float time);
-    public abstract void BuildFromData(IEnumerable<T> data);
+    public abstract void BuildFromData(IEnumerable<T> dataList);
     public abstract void InsertData(T data);
-    public abstract void RemoveData(T data);
-
     // TODO: ugly hack, object gets modified by reference and manager having more than one type/id
-    public virtual void RemoveData(T data, T original) => RemoveData(data);
+    public abstract void RemoveData(T data, T original);
     public abstract void Reset();
 }
 
-public abstract class StateManager<TData, TBase> : StateManager<TBase>
-    where TData : StateData<TBase> where TBase : BaseObject
+public abstract class StateManager<TState, TData> : StateManager<TData>
+    where TState : StateData<TData> where TData : BaseObject
 {
-    protected abstract TData CreateState(TBase data);
+    protected abstract TState CreateState(TData data);
 
-    protected StateChunksContainer<TData, TBase> InitializeStates(
-        StateChunksContainer<TData, TBase> container,
-        TData start,
-        TData end)
+    protected StateChunksContainer<TState, TData> InitializeStates(
+        StateChunksContainer<TState, TData> container,
+        TState start,
+        TState end)
     {
         container.GenerateChunk(Atsc);
 
@@ -37,7 +35,7 @@ public abstract class StateManager<TData, TBase> : StateManager<TBase>
         return container;
     }
 
-    protected void HandleInsertState(StateChunksContainer<TData, TBase> container, TData newState)
+    protected void HandleInsertState(StateChunksContainer<TState, TData> container, TState newState)
     {
         var (prevChunk, prevIndex, prevState) = container.GetOverlappingStateFrom(newState);
         var (nextChunk, _, nextState) = container.GetNextStateFrom(newState);
@@ -56,21 +54,21 @@ public abstract class StateManager<TData, TBase> : StateManager<TBase>
             chunk.Insert(prevIndex + 1, newState);
     }
 
-    protected virtual void OnInsertUpdateToPreviousState(TData newState, TData prevState) =>
+    protected virtual void OnInsertUpdateToPreviousState(TState newState, TState prevState) =>
         prevState.EndTime = newState.StartTime;
 
-    protected virtual void OnInsertUpdateFromNextState(TData newState, TData nextState) =>
+    protected virtual void OnInsertUpdateFromNextState(TState newState, TState nextState) =>
         newState.EndTime = nextState.StartTime;
 
-    protected virtual void OnInsertUpdateToNextState(TData newState, TData nextState) { }
+    protected virtual void OnInsertUpdateToNextState(TState newState, TState nextState) { }
 
-    protected virtual void OnInsertUpdateFromPreviousStateAndNextState(TData newState, TData prevState, TData nextState)
+    protected virtual void OnInsertUpdateFromPreviousStateAndNextState(TState newState, TState prevState, TState nextState)
     {
     }
 
-    protected virtual void OnInsertConsequentUpdateToNextState(TData newState, TData nextState) { }
+    protected virtual void OnInsertConsequentUpdateToNextState(TState newState, TState nextState) { }
 
-    protected void HandleInsertUpdateConsequentStateFrom(StateChunksContainer<TData, TBase> container, TData currState)
+    protected void HandleInsertUpdateConsequentStateFrom(StateChunksContainer<TState, TData> container, TState currState)
     {
         var enumerator = container.EnumerateFrom(currState);
         enumerator.MoveNext(); // skip current state
@@ -81,7 +79,7 @@ public abstract class StateManager<TData, TBase> : StateManager<TBase>
         }
     }
 
-    protected TData HandleRemoveState(StateChunksContainer<TData, TBase> container, TData stateToRemove)
+    protected TState HandleRemoveState(StateChunksContainer<TState, TData> container, TState stateToRemove)
     {
         var (_, currChunk) = container.GetChunk(stateToRemove.StartTime);
         var (_, _, prevState) = container.GetPreviousStateFrom(stateToRemove);
@@ -93,15 +91,15 @@ public abstract class StateManager<TData, TBase> : StateManager<TBase>
         return stateToRemove;
     }
 
-    protected TData HandleRemoveState(StateChunksContainer<TData, TBase> container, TBase evt)
+    protected TState HandleRemoveState(StateChunksContainer<TState, TData> container, TData reference, TData original)
     {
-        var (_, _, state) = container.GetStateFrom(evt);
+        var (_, _, state) = container.GetStateFrom(reference, original);
         return HandleRemoveState(container, state);
     }
 
-    protected virtual void OnRemoveUpdateToNextState(TData currState, TData nextState) { }
+    protected virtual void OnRemoveUpdateToNextState(TState currState, TState nextState) { }
 
-    protected void HandleRemoveUpdateConsequentStateFrom(StateChunksContainer<TData, TBase> container, TData currState)
+    protected void HandleRemoveUpdateConsequentStateFrom(StateChunksContainer<TState, TData> container, TState currState)
     {
         var enumerator = container.EnumerateFrom(currState);
         enumerator.MoveNext(); // skip current state
@@ -113,6 +111,6 @@ public abstract class StateManager<TData, TBase> : StateManager<TBase>
     }
 
     protected virtual void
-        OnRemoveUpdatePreviousAndNextState(TData currState, TData prevState, TData nextState) =>
+        OnRemoveUpdatePreviousAndNextState(TState currState, TState prevState, TState nextState) =>
         prevState.EndTime = nextState.StartTime;
 }

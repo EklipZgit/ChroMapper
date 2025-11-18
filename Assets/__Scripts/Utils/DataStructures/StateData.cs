@@ -6,7 +6,7 @@ public abstract class StateData<T> : IEquatable<StateData<T>> where T : BaseObje
     private static int ID;
     private readonly int id = ID++; // maybe reference equality is better, idk
 
-    protected StateData(T @base) => Base = @base;
+    protected StateData(T data) => Base = data;
 
     public readonly T Base;
     public float StartTime = float.MinValue;
