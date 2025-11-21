@@ -66,6 +66,7 @@
         float _DistortionStrength;
         float _DistortionScale;
         sampler2D _GrabTexture;
+        sampler3D _CutoutTex;
 
         float _FogStartOffset;
         float _FogScale;
@@ -100,6 +101,7 @@
                 float3 worldPos : TEXCOORD2;
                 float4 screenPos : TEXCOORD3;
                 float4 customScreenPos : TEXCOORD4;
+                float3 cutoutPos : TEXCOORD5;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
@@ -117,7 +119,7 @@
                 o.normal = v.normal;
                 o.screenPos = ComputeGrabScreenPos(o.pos);
                 o.customScreenPos = ComputeScreenPosCustom(o.pos);
-
+                o.cutoutPos = mul(unity_ObjectToWorld, v.vertex.xyz);
                 return o;
             }
 
@@ -140,9 +142,10 @@
                     uvScalar.xyz = worldScale.xyz;
                 }
 
+                // Cutout
                 float cutout = UNITY_ACCESS_INSTANCED_PROP(Props, _Cutout);
                 float4 cutoutTexOffset = UNITY_ACCESS_INSTANCED_PROP(Props, _CutoutTexOffset);
-                float noise = simplex((i.localPos + cutoutTexOffset.xyz) * worldScale * 0.6);
+                float noise = tex3D(_CutoutTex, (i.cutoutPos + cutoutTexOffset.xyz) * 0.3);
                 float c = noise - cutout;
                 clip(c);
 
@@ -175,7 +178,7 @@
                     (simplex((i.uv.yx * uvScalar.yx + cutoutTexOffset * _DistortionScale) / _DistortionScale) - 0.5) *
                     _DistortionStrength;
 
-                fixed4 col = color + tex2D(_GrabTexture, screenUV);
+                fixed4 col = (color * 0.5) + tex2D(_GrabTexture, screenUV);
                 col = col * factor;
 
                 #ifdef CM_PREVIEW_MODE

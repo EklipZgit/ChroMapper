@@ -62,16 +62,21 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - ENABLE_HEIGHT_FOG: 0
     - _AnimationSpawned: 0
     - _BumpScale: 1
     - _CircleRadius: 7.5
     - _Cutoff: 0.5
-    - _Cutout: 0
+    - _Cutout: 0.041
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _FadeSize: 5
     - _FogEnd: 500
+    - _FogHeightOffset: 0
+    - _FogHeightScale: 1
+    - _FogScale: 1
     - _FogStart: 0
+    - _FogStartOffset: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
@@ -89,9 +94,9 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 1, g: 0, b: 0, a: 1}
+    - _Color: {r: 0.213, g: 0, b: 0, a: 10}
     - _ColorTint: {r: 1, g: 0, b: 0, a: 0}
-    - _CutoutTexOffset: {r: 0, g: 0, b: 0, a: 0}
+    - _CutoutTexOffset: {r: -5.05, g: 1.4764105, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Position: {r: 0, g: 1.5, b: 0, a: 0}
     - _RotationAxis: {r: 0, g: 1, b: 0, a: 0}

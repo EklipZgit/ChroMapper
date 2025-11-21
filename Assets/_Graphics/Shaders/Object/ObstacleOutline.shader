@@ -26,7 +26,6 @@
 
         HLSLINCLUDE
         #include "UnityCG.cginc"
-        #include "../CGIncludes/Noise.cginc"
         #include "../CGIncludes/BloomFog.cginc"
 
         // These are global properties and should not be instanced
@@ -45,6 +44,7 @@
         float _FogScale;
         float _FogHeightOffset;
         float _FogHeightScale;
+        sampler3D _CutoutTex;
         ENDHLSL
 
         Pass
@@ -75,6 +75,7 @@
                 float4 localPos : TEXCOORD1;
                 float3 worldPos : TEXCOORD2;
                 float4 customScreenPos : TEXCOORD3;
+                float3 cutoutPos : TEXCOORD4;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
@@ -91,7 +92,8 @@
                 o.normal = v.normal;
                 o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
                 o.customScreenPos = ComputeScreenPosCustom(o.pos);
-
+                o.cutoutPos = mul(unity_ObjectToWorld, v.vertex.xyz);
+                
                 return o;
             }
 
@@ -124,7 +126,7 @@
                 float cutout = UNITY_ACCESS_INSTANCED_PROP(Props, _Cutout);
                 float4 cutoutTexOffset = UNITY_ACCESS_INSTANCED_PROP(Props, _CutoutTexOffset);
                 // TexOffset is apparently different
-                float noise = simplex((i.localPos + cutoutTexOffset.xyz * 2) * worldScale);
+                float noise = tex3D(_CutoutTex, (i.cutoutPos + cutoutTexOffset.xyz) * 0.25);
                 float c = noise - cutout;
                 clip(c);
 

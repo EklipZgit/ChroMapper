@@ -111,6 +111,7 @@ namespace Beatmap.Animations
                 if (container is NoteContainer nc)
                 {
                     nc.ArrowMaterialPropertyBlock.SetFloat(shaderIdCutout, 0);
+                    nc.ArrowMaterialPropertyBlock.SetVector(shaderIdCutoutTexOffset, Random.insideUnitCircle * 10f);
                     nc.DirectionTarget.localPosition = Vector3.zero;
                 }
 

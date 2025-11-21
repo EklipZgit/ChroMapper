@@ -24,10 +24,10 @@
 
         HLSLINCLUDE
         #include "UnityCG.cginc"
-        #include "../CGIncludes/Noise.cginc"
 
         // These are global properties and should not be instanced
         uniform float _MainAlpha = 0.5;
+        uniform sampler3D _CutoutTex;
 
         // Define instanced properties
         UNITY_INSTANCING_BUFFER_START(Props)
@@ -57,6 +57,7 @@
                 float4 pos : SV_POSITION;
                 float2 uv : TEXCOORD0;
                 float3 localPos : TEXCOORD1;
+                float4 cutoutPos : TEXCOORD2;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
@@ -70,7 +71,7 @@
                 o.pos = UnityObjectToClipPos(v.vertex);
                 o.localPos = v.vertex;
                 o.uv = v.uv;
-
+                o.cutoutPos = mul(unity_ObjectToWorld, v.vertex.xyz);
                 return o;
             }
 
@@ -78,10 +79,9 @@
             {
                 UNITY_SETUP_INSTANCE_ID(i);
 
-                float4 worldScale = abs(UNITY_ACCESS_INSTANCED_PROP(Props, _WorldScale));
                 float cutout = UNITY_ACCESS_INSTANCED_PROP(Props, _Cutout);
                 float4 cutoutTexOffset = UNITY_ACCESS_INSTANCED_PROP(Props, _CutoutTexOffset);
-                float noise = simplex((i.localPos + cutoutTexOffset.xyz) * worldScale * 0.6);
+                float noise = tex3D(_CutoutTex, (i.cutoutPos + cutoutTexOffset.xyz) * 0.3);
                 float c = noise - cutout;
                 clip(c);
 
@@ -92,7 +92,7 @@
                     color.rgb = normalize(color.rgb) * min(sqrt(mag), 16) * color.a;
                     color.rgb = saturate(color.rgb);
                 }
-                color *= 0.75;
+                color *= 0.5;
                 color.a = 0;
                 
                 return saturate(color);
