@@ -147,6 +147,14 @@ public class BeatmapNoteInputController : BeatmapInputController<NoteContainer>,
         BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note)
             .RefreshSpecialAngles(note.ObjectData, false, false);
 
+        if(note.NoteData.CutDirection == (int)NoteCutDirection.Any && Settings.MapVersion >= 3) // janky!
+        {
+            note.NoteData.AngleOffset += (shiftForward ^ Settings.Instance.InvertScrollNoteAngle)
+                ? 45
+                : -45;
+            note.NoteData.AngleOffset %= 360;
+        }
+
         var actions = new List<BeatmapAction> { new BeatmapObjectModifiedAction(note.ObjectData, note.ObjectData, original, "Update Note Direction", mergeType: ActionMergeType.NoteDirectionChange) };
         CommonNotePlacement.UpdateAttachedSlidersDirection(note.NoteData, actions);
 
