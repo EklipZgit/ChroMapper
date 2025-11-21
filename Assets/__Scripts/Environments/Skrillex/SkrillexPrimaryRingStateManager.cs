@@ -4,14 +4,14 @@ public class SkrillexPrimaryRingManager : TrackLaneRingsManager
 {
     protected override bool IsAffectedByZoom() => true;
 
-    public override void HandlePositionEvent(RingRotationStateData stateData, BaseEvent evt, int index)
+    public override void HandlePositionEvent(RingRotationStateData stateData, BaseEvent data, int index)
     {
         // Do nothing
     }
 
-    public override void HandleRotationEvent(RingRotationStateData stateData, BaseEvent evt, int index)
+    public override void HandleRotationEvent(RingRotationStateData stateData, BaseEvent data, int index)
     {
-        base.HandleRotationEvent(stateData, evt, index);
-        base.HandlePositionEvent(stateData, evt, index);
+        base.HandleRotationEvent(stateData, data, index);
+        base.HandlePositionEvent(stateData, data, index);
     }
 }

@@ -18,13 +18,13 @@ public abstract class InterscopeCarEventManager : PlatformEventManager
 
     protected virtual void Start() => eventValuesHash = new HashSet<int>(CarFlags);
 
-    public override void OnEventTrigger(int type, BaseEvent @event)
+    public override void OnEventTrigger(int type, BaseEvent data)
     {
         // Values 0 and 1 affect all cars, but after that, the events affect different cars depending on their flags.
-        if (@event.Value == 0
-            || @event.Value == 1
-            || eventValuesHash.Contains(@event.Value))
-            OnCarGroupTriggered(@event);
+        if (data.Value == 0
+            || data.Value == 1
+            || eventValuesHash.Contains(data.Value))
+            OnCarGroupTriggered(data);
     }
 
     protected abstract void OnCarGroupTriggered(BaseEvent @event);

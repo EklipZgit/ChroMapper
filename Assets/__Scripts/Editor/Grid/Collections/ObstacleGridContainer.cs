@@ -26,17 +26,12 @@ public class ObstacleGridContainer : BeatmapObjectContainerCollection<BaseObstac
     public BaseObstacle[] DespawnSortedObjects;
     private int despawnIndex;
 
-    private static readonly int outsideAlpha = Shader.PropertyToID("_OutsideAlpha");
     private static readonly int mainAlpha = Shader.PropertyToID("_MainAlpha");
-    private static readonly int obstacleGlow = Shader.PropertyToID("_ObstacleGlow");
 
     internal override void SubscribeToCallbacks()
     {
-        Shader.SetGlobalFloat(outsideAlpha, 0.25f);
-        AudioTimeSyncController.OnPlayToggled += OnPlayToggle;
         AudioTimeSyncController.OnTimeChanged += OnTimeChanged;
         UIMode.OnPreviewModeSwitched += OnUIPreviewModeSwitch;
-        UpdateObstacleDistortion();
 
         Settings.NotifyBySettingName(nameof(Settings.ObstacleOpacity), ObstacleOpacityChanged);
         ObstacleOpacityChanged(Settings.Instance.ObstacleOpacity);
@@ -44,7 +39,6 @@ public class ObstacleGridContainer : BeatmapObjectContainerCollection<BaseObstac
 
     internal override void UnsubscribeToCallbacks()
     {
-        AudioTimeSyncController.OnPlayToggled -= OnPlayToggle;
         AudioTimeSyncController.OnTimeChanged -= OnTimeChanged;
         UIMode.OnPreviewModeSwitched -= OnUIPreviewModeSwitch;
 
@@ -52,16 +46,6 @@ public class ObstacleGridContainer : BeatmapObjectContainerCollection<BaseObstac
     }
 
     private void ObstacleOpacityChanged(object obj) => Shader.SetGlobalFloat(mainAlpha, (float)obj);
-
-    private void UpdateObstacleDistortion()
-    {
-        if (UIMode.PreviewMode)
-            Shader.SetGlobalFloat(obstacleGlow, 1f);
-        else
-            Shader.SetGlobalFloat(obstacleGlow, 0f);
-    }
-
-    private void OnPlayToggle(bool playing) => Shader.SetGlobalFloat(outsideAlpha, playing ? 0 : 0.25f);
 
     public override void RefreshPool(bool force)
     {
@@ -82,11 +66,7 @@ public class ObstacleGridContainer : BeatmapObjectContainerCollection<BaseObstac
         }
     }
 
-    private void OnUIPreviewModeSwitch()
-    {
-        UpdateObstacleDistortion();
-        RefreshPool(true);
-    }
+    private void OnUIPreviewModeSwitch() => RefreshPool(true);
 
     public void UpdateColor(Color obstacle) => obstacleAppearanceSo.DefaultObstacleColor = obstacle;
 

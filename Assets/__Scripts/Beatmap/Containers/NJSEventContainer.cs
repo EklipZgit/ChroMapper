@@ -25,8 +25,11 @@ namespace Beatmap.Containers
 
         public void UpdateNJSText()
         {
-            var absoluteNJS = BeatSaberSongContainer.Instance.MapDifficultyInfo.NoteJumpSpeed + NJSData.RelativeNJS;
-            njsText.text = absoluteNJS.ToString(CultureInfo.InvariantCulture);
+            var absoluteNjs = (BeatSaberSongContainer.Instance.MapDifficultyInfo.NoteJumpSpeed + NJSData.RelativeNJS)
+                .ToString(CultureInfo.InvariantCulture);
+            njsText.text = Easing.IDToShortName.TryGetValue(NJSData.Easing, out var ease)
+                ? $"{absoluteNjs}\n{ease}"
+                : absoluteNjs;
             njsText.enabled = NJSData.UsePrevious != 1;
         }
 

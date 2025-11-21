@@ -44,7 +44,7 @@ public class RotatingLightsManager : RotatingLightsManagerBase
     }
 
     // If you have any complaints about CM's inaccurate lasers, please look through this and tell me what the hell is wrong.
-    public override void UpdateOffset(BaseEvent evt, bool mirror, bool isLeftEvent)
+    public override void UpdateOffset(BaseEvent data, bool mirror, bool isLeftEvent)
     {
         var rotation = UnityEngine.Random.Range(0f, 180f);
         var rotateForwards = UnityEngine.Random.Range(0, 1) == 1;
@@ -54,26 +54,26 @@ public class RotatingLightsManager : RotatingLightsManagerBase
             rotateForwards = !rotateForwards;
         }
 
-        this.speed = evt.Value;
+        this.speed = data.Value;
         var lockRotation = false;
-        if (evt.CustomData != null) //We have custom data in this event
+        if (data.CustomData != null) //We have custom data in this event
         {
             //Apply some chroma precision values
 
-            if (evt.CustomLockRotation.HasValue) lockRotation = evt.CustomLockRotation.Value;
+            if (data.CustomLockRotation.HasValue) lockRotation = data.CustomLockRotation.Value;
 
             if (speed > 0)
             {
-                if (evt.CustomPreciseSpeed.HasValue)
-                    this.speed = evt.CustomPreciseSpeed.Value;
-                else if (evt.CustomSpeed.HasValue) this.speed = evt.CustomSpeed.Value;
+                if (data.CustomPreciseSpeed.HasValue)
+                    this.speed = data.CustomPreciseSpeed.Value;
+                else if (data.CustomSpeed.HasValue) this.speed = data.CustomSpeed.Value;
             }
 
-            if (evt.CustomDirection.HasValue)
+            if (data.CustomDirection.HasValue)
             {
                 rotateForwards = mirror
-                    ? evt.CustomDirection.Value.Equals(0) ^ !isLeftEvent
-                    : evt.CustomDirection.Value.Equals(0) ^ isLeftEvent;
+                    ? data.CustomDirection.Value.Equals(0) ^ !isLeftEvent
+                    : data.CustomDirection.Value.Equals(0) ^ isLeftEvent;
             }
         }
 
@@ -87,7 +87,7 @@ public class RotatingLightsManager : RotatingLightsManagerBase
 
         //Rotate by Rotation variable
         //In most cases, it is randomized, except in certain environments (see above)
-        if (!lockRotation && (this.speed > 0 || (evt.CustomPreciseSpeed.HasValue) && evt.CustomPreciseSpeed.Value >= 0))
+        if (!lockRotation && (this.speed > 0 || (data.CustomPreciseSpeed.HasValue) && data.CustomPreciseSpeed.Value >= 0))
         {
             transform.Rotate(rotationVector, rotation, Space.Self);
         }

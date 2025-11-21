@@ -87,27 +87,27 @@ public class TrackLaneRingsRotationEffect : MonoBehaviour
     }
 
     public void AddRingRotationEvent(float angle, float step, float propagationSpeed, float flexySpeed, bool clockwise,
-        BaseEvent evt)
+        BaseEvent data)
     {
         var rotationStepLocal = RotationStep;
         var counterSpinEvent = false;
 
-        if (evt.CustomData != null)
+        if (data.CustomData != null)
         {
             // Chroma still applies multipliers to individual values so they should be set first
-            if (evt.CustomStep != null) step = evt.CustomStep.Value;
-            if (evt.CustomProp != null) propagationSpeed = evt.CustomProp.Value;
-            if (evt.CustomSpeed != null) flexySpeed = evt.CustomSpeed.Value;
-            if (evt.CustomRingRotation != null) rotationStepLocal = evt.CustomRingRotation.Value;
+            if (data.CustomStep != null) step = data.CustomStep.Value;
+            if (data.CustomProp != null) propagationSpeed = data.CustomProp.Value;
+            if (data.CustomSpeed != null) flexySpeed = data.CustomSpeed.Value;
+            if (data.CustomRingRotation != null) rotationStepLocal = data.CustomRingRotation.Value;
 
-            if (evt.CustomStepMult != null) step *= evt.CustomStepMult.Value;
-            if (evt.CustomPropMult != null) propagationSpeed *= evt.CustomPropMult.Value;
-            if (evt.CustomSpeedMult != null) flexySpeed *= evt.CustomSpeedMult.Value;
+            if (data.CustomStepMult != null) step *= data.CustomStepMult.Value;
+            if (data.CustomPropMult != null) propagationSpeed *= data.CustomPropMult.Value;
+            if (data.CustomSpeedMult != null) flexySpeed *= data.CustomSpeedMult.Value;
 
-            counterSpinEvent = evt.CustomData.HasKey("_counterSpin") && evt.CustomData["_counterSpin"].AsBool;
+            counterSpinEvent = data.CustomData.HasKey("_counterSpin") && data.CustomData["_counterSpin"].AsBool;
         }
 
-        if (evt.CustomData != null && evt.CustomData.HasKey("_reset") && evt.CustomData["_reset"] == true)
+        if (data.CustomData != null && data.CustomData.HasKey("_reset") && data.CustomData["_reset"] == true)
         {
             AddRingRotationEvent(angle, 0, 50, 50, 90, counterSpinEvent, false);
             return;

@@ -87,9 +87,9 @@ public class VariableNJSProvider : StateManager<VariableNJSStateData, BaseNJSEve
         OnChanged?.Invoke();
     }
 
-    public override void BuildFromData(IEnumerable<BaseNJSEvent> data)
+    public override void BuildFromData(IEnumerable<BaseNJSEvent> dataList)
     {
-        foreach (var evt in data) InsertData(evt);
+        foreach (var evt in dataList) InsertData(evt);
     }
 
     protected override void OnInsertUpdateToPreviousState(VariableNJSStateData newState, VariableNJSStateData prevState)
@@ -102,6 +102,12 @@ public class VariableNJSProvider : StateManager<VariableNJSStateData, BaseNJSEve
             _ => newState.Base.Easing
         };
         prevState.Easing = Easing.FromID(easingId);
+    }
+
+    protected override void OnInsertUpdateToNextState(VariableNJSStateData newState, VariableNJSStateData nextState)
+    {
+        base.OnInsertUpdateToNextState(newState, nextState);
+        nextState.RelativeNjs = nextState.Base.UsePrevious == 1 ? newState.RelativeNjs : nextState.RelativeNjs;
     }
 
     protected override void OnInsertUpdateFromPreviousStateAndNextState(
@@ -151,9 +157,9 @@ public class VariableNJSProvider : StateManager<VariableNJSStateData, BaseNJSEve
         prevState.Easing = Easing.FromID(easingId);
     }
 
-    public override void RemoveData(BaseNJSEvent data)
+    public override void RemoveData(BaseNJSEvent data, BaseNJSEvent original)
     {
-        var state = HandleRemoveState(stateChunksContainer, data);
+        var state = HandleRemoveState(stateChunksContainer, data, original);
         if (state == stateChunksContainer.CurrentState) stateChunksContainer.SetStateAt(data.SongBpmTime);
 
         var factor = Mathf.Min((BaseNoteJumpSpeed + state.RelativeNjs) / BaseNoteJumpSpeed, 1f);

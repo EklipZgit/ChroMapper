@@ -4,7 +4,6 @@
     {
         _Color("Base Color", Color) = (0.5, 0, 0, 0)
         _FadeSize("Fade Size", Range(0, 10)) = 5
-        _MainAlpha("Main Alpha", Range(0, 1)) = 1.0
         [HideInInspector] _Rotation("Rotation", Float) = 0
     }
     SubShader
@@ -27,20 +26,18 @@
             // make fog work
             #pragma target 3.0
             #pragma multi_compile_instancing
+            #pragma multi_compile _ CM_PREVIEW_MODE
 
             #include "UnityCG.cginc"
 
-            // These are global properties and should not be instanced
-            uniform float _OutsideAlpha = 1;
-            uniform float _ObstacleFadeRadius = 8;
-
             // Define instanced properties
             UNITY_INSTANCING_BUFFER_START(Props)
-                UNITY_DEFINE_INSTANCED_PROP(float, _MainAlpha)
                 UNITY_DEFINE_INSTANCED_PROP(float, _Rotation)
                 UNITY_DEFINE_INSTANCED_PROP(float, _FadeSize)
                 UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
             UNITY_INSTANCING_BUFFER_END(Props)
+
+            uniform float _EditorDistance;
 
             struct appdata
             {
@@ -97,7 +94,6 @@
                 UNITY_SETUP_INSTANCE_ID(i);
 
                 /// Coloring ///
-                float mainAlpha = UNITY_ACCESS_INSTANCED_PROP(Props, _MainAlpha);
                 float4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
 
                 float mag = length(color);
@@ -107,27 +103,21 @@
                     color = normalize(color) * sqrt(mag);
                 }
 
+                #ifdef CM_PREVIEW_MODE
                 float fadeSize = UNITY_ACCESS_INSTANCED_PROP(Props, _FadeSize);
-                float circleRadius = _ObstacleFadeRadius - fadeSize;
 
-                float distance = abs(i.rotatedPos.z);
+                float distance = i.rotatedPos.z;
+                float startDistance = fadeSize;
+                float endDistance = _EditorDistance - fadeSize;
 
-                float t = clamp((distance - circleRadius) / fadeSize, 0, 1);
+                float fade = 1.0;
+                if (distance <= startDistance) fade = clamp(distance / startDistance, 0.0, 1.0);
+                else if (distance >= endDistance) fade = 1.0 - clamp((distance - endDistance) / fadeSize, 0.0, 1.0);
 
-                if (_OutsideAlpha > 0)
-                {
-                    return float4(color.rgb * 2, 0.1);
-                }
-                else
-                {
-                    float fadeFromGrid = clamp(i.rotatedPos.z / fadeSize, 0, 1);
-                    if (fadeFromGrid < 1)
-                    {
-                        return float4(color.rgb * lerp(mainAlpha, _OutsideAlpha, 1 - fadeFromGrid) * 2, lerp(mainAlpha, _OutsideAlpha, 1 - fadeFromGrid) * 0.1);
-                    }
-
-                    return float4(color.rgb * lerp(mainAlpha, _OutsideAlpha, t) * 2, lerp(mainAlpha, _OutsideAlpha, t) * 0.1);
-                }
+                return fixed4(color.rgb * fade * 2, fade * 0.1);
+                #else
+                return fixed4(color.rgb * 2, 0.1);
+                #endif
             }
             ENDCG
         }

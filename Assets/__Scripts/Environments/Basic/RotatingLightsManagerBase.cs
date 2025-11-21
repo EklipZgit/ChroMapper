@@ -8,7 +8,7 @@ public abstract class RotatingLightsManagerBase : BasicEventStateManager<Rotatin
     public int Index; // because there are no grouping, we need to assign index for random
     public bool Mirror;
     
-    public abstract void UpdateOffset(BaseEvent evt, bool mirror, bool isLeftEvent);
+    public abstract void UpdateOffset(BaseEvent data, bool mirror, bool isLeftEvent);
 
     public abstract bool IsOverrideLightGroup();
     private readonly BasicEventStateChunksContainer<RotatingLightStateData> stateChunksContainer = new();
@@ -31,23 +31,23 @@ public abstract class RotatingLightsManagerBase : BasicEventStateManager<Rotatin
 
     protected override RotatingLightStateData CreateState(BaseEvent data) => new(data);
 
-    public override void BuildFromData(IEnumerable<BaseEvent> events)
+    public override void BuildFromData(IEnumerable<BaseEvent> dataList)
     {
-        foreach (var evt in events) InsertData(evt);
+        foreach (var data in dataList) InsertData(data);
     }
 
-    public override void InsertData(BaseEvent evt)
+    public override void InsertData(BaseEvent data)
     {
-        var state = CreateState(evt);
-        state.StartTime = evt.SongBpmTime;
+        var state = CreateState(data);
+        state.StartTime = data.SongBpmTime;
         HandleInsertState(stateChunksContainer, state);
     }
 
-    public override void RemoveData(BaseEvent evt)
+    public override void RemoveData(BaseEvent data, BaseEvent original)
     {
-        var state = HandleRemoveState(stateChunksContainer, evt);
+        var state = HandleRemoveState(stateChunksContainer, data, original);
         if (stateChunksContainer.CurrentState != state) return;
-        stateChunksContainer.SetStateAt(evt.SongBpmTime);
+        stateChunksContainer.SetStateAt(data.SongBpmTime);
         UpdateObject(stateChunksContainer.CurrentState);
     }
 
@@ -56,7 +56,7 @@ public abstract class RotatingLightsManagerBase : BasicEventStateManager<Rotatin
 
 public class RotatingLightStateData : BasicEventStateData
 {
-    public RotatingLightStateData(BaseEvent evt) : base(evt)
+    public RotatingLightStateData(BaseEvent data) : base(data)
     {
     }
 }

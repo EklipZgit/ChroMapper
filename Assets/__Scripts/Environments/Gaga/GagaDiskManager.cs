@@ -193,9 +193,9 @@ public class GagaDiskManager : BasicEventStateManager<GagaDiskStateData>
 
     protected override GagaDiskStateData CreateState(BaseEvent data) => new(data);
 
-    public override void BuildFromData(IEnumerable<BaseEvent> events)
+    public override void BuildFromData(IEnumerable<BaseEvent> dataList)
     {
-        foreach (var evt in events) InsertData(evt);
+        foreach (var evt in dataList) InsertData(evt);
     }
 
     public override void InsertData(BaseEvent evt)
@@ -208,16 +208,7 @@ public class GagaDiskManager : BasicEventStateManager<GagaDiskStateData>
     public override void RemoveData(BaseEvent evt, BaseEvent original)
     {
         var container = stateChunksContainerMap[original.Type];
-        var state = HandleRemoveState(container, evt);
-        if (container.CurrentState != state) return;
-        container.SetStateAt(evt.SongBpmTime);
-        UpdateObject(container.CurrentState.Base);
-    }
-
-    public override void RemoveData(BaseEvent evt)
-    {
-        var container = stateChunksContainerMap[evt.Type];
-        var state = HandleRemoveState(container, evt);
+        var state = HandleRemoveState(container, evt, original);
         if (container.CurrentState != state) return;
         container.SetStateAt(evt.SongBpmTime);
         UpdateObject(container.CurrentState.Base);

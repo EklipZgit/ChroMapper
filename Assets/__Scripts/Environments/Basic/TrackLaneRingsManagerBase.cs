@@ -10,8 +10,8 @@ public abstract class TrackLaneRingsManagerBase : BasicEventStateManager<RingRot
     private readonly Dictionary<int, BasicEventStateChunksContainer<RingRotationStateData>> stateChunksContainerMap =
         new();
 
-    public abstract void HandlePositionEvent(RingRotationStateData stateData, BaseEvent evt, int index);
-    public abstract void HandleRotationEvent(RingRotationStateData stateData, BaseEvent evt, int index);
+    public abstract void HandlePositionEvent(RingRotationStateData stateData, BaseEvent data, int index);
+    public abstract void HandleRotationEvent(RingRotationStateData stateData, BaseEvent data, int index);
     public virtual float GetInitialRotation() => 0f;
     public virtual float GetRotationStep() => 0f;
     public virtual bool GetDirection() => false;
@@ -39,31 +39,31 @@ public abstract class TrackLaneRingsManagerBase : BasicEventStateManager<RingRot
 
     private void UpdateObject(RingRotationStateData stateData)
     {
-        var evt = stateData.Base;
+        var data = stateData.Base;
         var index = stateChunksContainerMap[stateData.Base.Type].GetStateIndex(stateData);
-        switch (evt.Type)
+        switch (data.Type)
         {
             case 8:
-                if (evt.CustomNameFilter != null)
+                if (data.CustomNameFilter != null)
                 {
-                    var filter = evt.CustomNameFilter;
+                    var filter = data.CustomNameFilter;
                     if (filter.Contains("Big") || filter.Contains("Large"))
                     {
-                        if (RingFilter == RingFilter.Big) HandleRotationEvent(stateData, evt, index);
+                        if (RingFilter == RingFilter.Big) HandleRotationEvent(stateData, data, index);
                     }
                     else if (filter.Contains("Small") || filter.Contains("Panels") || filter.Contains("Triangle"))
                     {
-                        if (RingFilter == RingFilter.Small) HandleRotationEvent(stateData, evt, index);
+                        if (RingFilter == RingFilter.Small) HandleRotationEvent(stateData, data, index);
                     }
                     else
-                        HandleRotationEvent(stateData, evt, index);
+                        HandleRotationEvent(stateData, data, index);
                 }
                 else
-                    HandleRotationEvent(stateData, evt, index);
+                    HandleRotationEvent(stateData, data, index);
 
                 break;
             case 9:
-                HandlePositionEvent(stateData, evt, index);
+                HandlePositionEvent(stateData, data, index);
                 break;
         }
     }
@@ -71,9 +71,9 @@ public abstract class TrackLaneRingsManagerBase : BasicEventStateManager<RingRot
     protected override RingRotationStateData CreateState(BaseEvent data) =>
         new(data) { RotationInitial = GetInitialRotation(), RotationChange = 0f };
 
-    public override void BuildFromData(IEnumerable<BaseEvent> events)
+    public override void BuildFromData(IEnumerable<BaseEvent> dataList)
     {
-        foreach (var evt in events) InsertData(evt);
+        foreach (var data in dataList) InsertData(data);
     }
 
     protected override void OnInsertUpdateToPreviousState(
@@ -84,16 +84,16 @@ public abstract class TrackLaneRingsManagerBase : BasicEventStateManager<RingRot
         newStateData.RotationInitial = previousStateData.RotationInitial + previousStateData.RotationChange;
     }
 
-    public override void InsertData(BaseEvent evt)
+    public override void InsertData(BaseEvent data)
     {
-        var state = CreateState(evt);
-        state.StartTime = evt.SongBpmTime;
-        state.RotationChange = evt.CustomRingRotation ?? GetRotationStep();
+        var state = CreateState(data);
+        state.StartTime = data.SongBpmTime;
+        state.RotationChange = data.CustomRingRotation ?? GetRotationStep();
         state.Direction = GetDirection();
-        if (evt.CustomData != null) state.Direction = evt.CustomDirection == 0;
+        if (data.CustomData != null) state.Direction = data.CustomDirection == 0;
         state.RotationChange = state.Direction ? state.RotationChange : -state.RotationChange;
 
-        var container = stateChunksContainerMap[evt.Type];
+        var container = stateChunksContainerMap[data.Type];
         HandleInsertState(container, state);
         HandleInsertUpdateConsequentStateFrom(container, state);
     }
@@ -103,27 +103,15 @@ public abstract class TrackLaneRingsManagerBase : BasicEventStateManager<RingRot
         RingRotationStateData nextStateData) =>
         nextStateData.RotationInitial += currStateData.RotationChange;
 
-    public override void RemoveData(BaseEvent evt, BaseEvent original)
+    public override void RemoveData(BaseEvent data, BaseEvent original)
     {
         var container = stateChunksContainerMap[original.Type];
-        var (_, _, state) = container.GetStateFrom(evt);
+        var (_, _, state) = container.GetStateFrom(data, original);
         HandleRemoveUpdateConsequentStateFrom(container, state);
         HandleRemoveState(container, state);
 
         if (container.CurrentState != state) return;
-        container.SetStateAt(evt.SongBpmTime);
-        UpdateObject(container.CurrentState);
-    }
-
-    public override void RemoveData(BaseEvent evt)
-    {
-        var container = stateChunksContainerMap[evt.Type];
-        var (_, _, state) = container.GetStateFrom(evt);
-        HandleRemoveUpdateConsequentStateFrom(container, state);
-        HandleRemoveState(container, state);
-
-        if (container.CurrentState != state) return;
-        container.SetStateAt(evt.SongBpmTime);
+        container.SetStateAt(data.SongBpmTime);
         UpdateObject(container.CurrentState);
     }
 
@@ -148,7 +136,7 @@ public class RingRotationStateData : BasicEventStateData
     public float RotationChange;
     public bool Direction;
 
-    public RingRotationStateData(BaseEvent evt) : base(evt)
+    public RingRotationStateData(BaseEvent data) : base(data)
     {
     }
 }
