@@ -29,7 +29,7 @@ public class EnvironmentSceneCreator
 
         // Oh dear I'm loading stuff at runtime
         var environmentLibrary = AssetDatabase.LoadAssetAtPath<EnvironmentLibrary>("Assets/Editor/Environments/EnvironmentLibrary.asset");
-        var environmentInfo = JsonConvert.DeserializeObject<EnvironmentInfo>(textAsset.text, new Vector3ArrayConverter());
+        var environmentInfo = JsonConvert.DeserializeObject<EnvironmentData>(textAsset.text, new Vector3ArrayConverter());
 
         // Create the environment in the new scene
         CreateEnvironment(environmentInfo, environmentLibrary);
@@ -53,14 +53,14 @@ public class EnvironmentSceneCreator
     private static bool ValidateCreateEnvironmentFromData() => Selection.objects.Length == 1 && Selection.activeObject is TextAsset;
 
     // Main method which constructs the environment from parsed data
-    private static void CreateEnvironment(EnvironmentInfo info, EnvironmentLibrary library)
+    private static void CreateEnvironment(EnvironmentData data, EnvironmentLibrary library)
     {
         if (library == null) throw new System.ArgumentNullException(nameof(library));
-        if (info == null) throw new System.ArgumentNullException(nameof(info));
+        if (data == null) throw new System.ArgumentNullException(nameof(data));
 
         Transform lastParent = null;
         string lastParentChromaID = null;
-        foreach (var envObject in info.Objects)
+        foreach (var envObject in data.Objects)
         {
             // Skip ignored objects
             if (library.IsIgnored(envObject.ChromaID))

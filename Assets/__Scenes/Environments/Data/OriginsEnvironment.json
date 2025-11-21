@@ -1,0 +1,5689 @@
+{
+  "environmentData": {
+    "environmentTitle": "Origins",
+    "environmentId": "OriginsEnvironment",
+    "colorScheme": {
+      "colorLeft": [
+        0.6792453,
+        0.5712628,
+        0.0
+      ],
+      "colorRight": [
+        0.7075472,
+        0.0,
+        0.536441147
+      ],
+      "envColorLeft": [
+        0.491099477,
+        0.682591558,
+        0.7
+      ],
+      "envColorRight": [
+        0.03844783,
+        0.6862745,
+        0.9056604
+      ],
+      "obstacleColor": [
+        0.0616767555,
+        0.2869513,
+        0.3962264
+      ],
+      "envColorLeftBoost": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "envColorRightBoost": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "fogParams": {
+      "offset": 0.0,
+      "height": 25.0,
+      "startY": -50.0,
+      "attenuation": 0.002
+    },
+    "lightTracks": {
+      "eventTracks": [
+        {
+          "trackName": "Under Track X",
+          "eventType": "Event0",
+          "toolbarType": "Lights",
+          "page": "Page1"
+        },
+        {
+          "trackName": "Ring Lights",
+          "eventType": "Event1",
+          "toolbarType": "Lights",
+          "page": "Page1"
+        },
+        {
+          "trackName": "Left Lasers and Left Lane Light",
+          "eventType": "Event2",
+          "toolbarType": "Lights",
+          "page": "Page1"
+        },
+        {
+          "trackName": "Right Lasers and Right Lane Light",
+          "eventType": "Event3",
+          "toolbarType": "Lights",
+          "page": "Page1"
+        },
+        {
+          "trackName": "Chevron",
+          "eventType": "Event4",
+          "toolbarType": "Lights",
+          "page": "Page1"
+        },
+        {
+          "trackName": "Boost Colors",
+          "eventType": "Event5",
+          "toolbarType": "Toggle",
+          "page": "Page1"
+        },
+        {
+          "trackName": "Ring Rotate",
+          "eventType": "Event8",
+          "toolbarType": "None",
+          "page": "Page1"
+        },
+        {
+          "trackName": "Left Laser Speed",
+          "eventType": "Event12",
+          "toolbarType": "IntValue",
+          "page": "Page1"
+        },
+        {
+          "trackName": "Right Laser Speed",
+          "eventType": "Event13",
+          "toolbarType": "IntValue",
+          "page": "Page1"
+        }
+      ],
+      "groupPages": {}
+    },
+    "uniqueMaterials": [
+      {
+        "name": "TrackMirror",
+        "keywords": [
+          "ENABLE_MIRROR",
+          "ETC1_EXTERNAL_ALPHA",
+          "_EMISSION"
+        ]
+      },
+      {
+        "name": "SetDepthOnly",
+        "keywords": [
+          "ENABLE_DIFFUSE",
+          "ENABLE_DIRT",
+          "ENABLE_DIRT_DETAIL",
+          "ENABLE_FOG",
+          "ENABLE_SPECULAR",
+          "FOG",
+          "LIGHTMAP",
+          "REFLECTION_PROBE",
+          "_EMISSION",
+          "_ENABLE_FOG_TINT",
+          "_RIMLIGHT_NONE"
+        ]
+      },
+      {
+        "name": "Spectrogram",
+        "keywords": [
+          "DIFFUSE",
+          "LIGHT_FALLOFF",
+          "SPECULAR",
+          "ENABLE_DIFFUSE",
+          "ENABLE_SPECULAR",
+          "_ZWRITE_ON"
+        ]
+      },
+      {
+        "name": "EnvLightBillboardSpriteGlow",
+        "keywords": [
+          "ALPHA_WIDTH_SCALE",
+          "ENABLE_FOG",
+          "ENABLE_HEIGHT_FOG",
+          "ENABLE_NOISE_DITHERING",
+          "ENABLE_Y_AXIS_BILLBOARD",
+          "USE_FOG_FOR_LIGHTS",
+          "ETC1_EXTERNAL_ALPHA",
+          "_ENABLE_Y_AXIS_BILLBOARD",
+          "_WHITEBOOSTTYPE_NONE"
+        ]
+      },
+      {
+        "name": "EnvLightOpaque",
+        "keywords": [
+          "ENABLE_HEIGHT_FOG",
+          "DIFFUSE",
+          "ENABLE_BLUE_NOISE",
+          "ENABLE_DIFFUSE",
+          "ENABLE_LIGHTNING",
+          "USE_COLOR_FOG"
+        ]
+      },
+      {
+        "name": "EnvLight",
+        "keywords": [
+          "ENABLE_HEIGHT_FOG",
+          "MULTIPLY_COLOR_WITH_ALPHA",
+          "_ENABLE_MAIN_EFFECT_WHITE_BOOST"
+        ]
+      },
+      {
+        "name": "Construction",
+        "keywords": [
+          "FOG",
+          "GROUND_FADE",
+          "HEIGHT_FOG",
+          "LIGHT_FALLOFF",
+          "REFLECTION_PROBE",
+          "REFLECTION_PROBE_BOX_PROJECTION",
+          "_ACES_APPROACH_AFTER_EMISSIVE",
+          "_DIFFUSE_TEXTURE_SOURCE_TEXTURE",
+          "_DISSOLVEALPHA_CLIP",
+          "_EMISSIONCOLORTYPE_FLAT",
+          "_EMISSION_ALPHA_SOURCE_EMISSION_G",
+          "_EMISSION_TEXTURE_SOURCE_TEXTURE",
+          "_METALLIC_TEXTURE_NONE",
+          "_OCCLUSION_SOURCE_TEXTURE",
+          "_PROBE_CALCULATION_FAST",
+          "_SMOOTHNESS_TEXTURE_NONE",
+          "ENABLE_DIFFUSE",
+          "ENABLE_FOG",
+          "ENABLE_SPECULAR",
+          "_CURVE_VERTICES_NONE",
+          "_CUSTOM_TIME_STANDARD",
+          "_DECALBLEND_ALPHABLEND",
+          "_DISSOLVEAXIS_LOCALX",
+          "_EMISSION",
+          "_EMISSIONTEXTURE_NONE",
+          "_ENABLE_FOG_TINT",
+          "_HOLOGRAM_NONE",
+          "_RIMLIGHT_NONE",
+          "_RIM_WHITEBOOSTTYPE_NONE",
+          "_ROTATE_UV_NONE",
+          "_SPECTROGRAM_NONE",
+          "_VERTEXMODE_NONE",
+          "_VERTEX_WHITEBOOSTTYPE_NONE",
+          "_WHITEBOOSTTYPE_NONE",
+          "_ZWRITE_ON"
+        ]
+      },
+      {
+        "name": "CombinedMesh",
+        "keywords": [
+          "DIFFUSE",
+          "FOG",
+          "LIGHT_FALLOFF",
+          "REFLECTION_PROBE_BOX_PROJECTION",
+          "_ACES_APPROACH_AFTER_EMISSIVE",
+          "_DIFFUSE_TEXTURE_SOURCE_TEXTURE",
+          "_DISSOLVEALPHA_CLIP",
+          "_EMISSIONCOLORTYPE_FLAT",
+          "_EMISSION_ALPHA_SOURCE_EMISSION_G",
+          "_EMISSION_TEXTURE_SOURCE_TEXTURE",
+          "_METALLIC_TEXTURE_NONE",
+          "_OCCLUSION_SOURCE_TEXTURE",
+          "_PROBE_CALCULATION_FAST",
+          "_SMOOTHNESS_TEXTURE_NONE",
+          "ENABLE_DIFFUSE",
+          "ENABLE_FOG",
+          "ENABLE_SPECULAR",
+          "_CURVE_VERTICES_NONE",
+          "_CUSTOM_TIME_STANDARD",
+          "_DECALBLEND_ALPHABLEND",
+          "_DISSOLVEAXIS_LOCALX",
+          "_EMISSION",
+          "_EMISSIONTEXTURE_NONE",
+          "_ENABLE_FOG_TINT",
+          "_HOLOGRAM_NONE",
+          "_RIMLIGHT_NONE",
+          "_RIM_WHITEBOOSTTYPE_NONE",
+          "_ROTATE_UV_NONE",
+          "_SPECTROGRAM_NONE",
+          "_VERTEXMODE_NONE",
+          "_VERTEX_WHITEBOOSTTYPE_NONE",
+          "_WHITEBOOSTTYPE_NONE",
+          "_ZWRITE_ON"
+        ]
+      },
+      {
+        "name": "PlayersPlaceMirror",
+        "keywords": [
+          "ENABLE_DIRT",
+          "ENABLE_MIRROR",
+          "ETC1_EXTERNAL_ALPHA",
+          "_EMISSION"
+        ]
+      },
+      {
+        "name": "DarkEnvironmentSimple",
+        "keywords": [
+          "DIFFUSE",
+          "FOG",
+          "HEIGHT_FOG",
+          "LIGHT_FALLOFF",
+          "REFLECTION_PROBE_BOX_PROJECTION",
+          "SPECULAR",
+          "_ACES_APPROACH_AFTER_EMISSIVE",
+          "_DIFFUSE_TEXTURE_SOURCE_TEXTURE",
+          "_DISSOLVEALPHA_CLIP",
+          "_EMISSIONCOLORTYPE_FLAT",
+          "_EMISSION_ALPHA_SOURCE_EMISSION_G",
+          "_EMISSION_TEXTURE_SOURCE_TEXTURE",
+          "_METALLIC_TEXTURE_NONE",
+          "_OCCLUSION_SOURCE_TEXTURE",
+          "_PROBE_CALCULATION_FAST",
+          "_SMOOTHNESS_TEXTURE_NONE",
+          "ENABLE_DIFFUSE",
+          "ENABLE_FOG",
+          "ENABLE_SPECULAR",
+          "_CURVE_VERTICES_NONE",
+          "_CUSTOM_TIME_STANDARD",
+          "_DECALBLEND_ALPHABLEND",
+          "_DISSOLVEAXIS_LOCALX",
+          "_EMISSION",
+          "_EMISSIONTEXTURE_NONE",
+          "_ENABLE_FOG_TINT",
+          "_HOLOGRAM_NONE",
+          "_RIMLIGHT_NONE",
+          "_RIM_WHITEBOOSTTYPE_NONE",
+          "_ROTATE_UV_NONE",
+          "_SPECTROGRAM_NONE",
+          "_VERTEXMODE_NONE",
+          "_VERTEX_WHITEBOOSTTYPE_NONE",
+          "_WHITEBOOSTTYPE_NONE",
+          "_ZWRITE_ON"
+        ]
+      },
+      {
+        "name": "ParametricFakeGlow",
+        "keywords": [
+          "ENABLE_MAIN_EFFECT_WHITE_BOOST",
+          "_WHITEBOOSTTYPE_ALWAYS"
+        ]
+      },
+      {
+        "name": "SaberBurnMarks",
+        "keywords": [
+          "DISTORTION_TARGET_MAIN",
+          "TEXTURE_COLOR",
+          "_FOGTYPE_ALPHA",
+          "_MASK2BLEND_MULTIPLY",
+          "_MASKBLEND_MULTIPLY",
+          "_VERTEXCHANNELS_RGBA",
+          "DISTORTION_NONE",
+          "ENABLE_FOG",
+          "ENABLE_TEXTURE_COLOR",
+          "_ALPHACHANNEL_ALPHA",
+          "_BILLBOARD_NONE",
+          "_CURVE_VERTICES_NONE",
+          "_DISSOLVEAXIS_LOCALX",
+          "_ENABLE_FOG",
+          "_ROTATE_UV_NONE",
+          "_SPECTROGRAM_NONE",
+          "_WHITEBOOSTTYPE_NONE"
+        ]
+      }
+    ],
+    "uniqueMeshes": [
+      "TrackMirror_Origins",
+      "Spectrogram0",
+      "Spectrogram1",
+      "ParametricBox",
+      "Construction_Origins",
+      "CombinedMesh",
+      "pb_Mesh-10248452",
+      "pb_Mesh-10248472",
+      "RectangleFakeGlow",
+      "PlayersPlaceCore"
+    ]
+  },
+  "objects": [
+    {
+      "name": "Environment",
+      "id": "OriginsEnvironment.[0]Environment",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "DecoratorContext",
+      "id": "OriginsEnvironment.[0]Environment.[0]DecoratorContext",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "SceneSetup",
+      "id": "OriginsEnvironment.[0]Environment.[1]SceneSetup",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "TrackMirror",
+      "id": "OriginsEnvironment.[0]Environment.[10]TrackMirror",
+      "meshName": "TrackMirror_Origins",
+      "layer": "Water",
+      "components": {
+        "Transform": {
+          "position": [
+            0.3,
+            0.0,
+            7.8
+          ],
+          "localPosition": [
+            0.3,
+            0.0,
+            7.8
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            -0.299999952,
+            0.0,
+            123.575
+          ],
+          "boundsSize": [
+            6.5,
+            0.0,
+            247.25
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "TrackMirror"
+          ]
+        }
+      }
+    },
+    {
+      "name": "SetDepthOnly",
+      "id": "OriginsEnvironment.[0]Environment.[10]TrackMirror.[0]SetDepthOnly",
+      "meshName": "TrackMirror_Origins",
+      "layer": "Water",
+      "components": {
+        "Transform": {
+          "position": [
+            0.3,
+            0.0,
+            7.8
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            -0.299999952,
+            0.0,
+            123.575
+          ],
+          "boundsSize": [
+            6.5,
+            0.0,
+            247.25
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "SetDepthOnly"
+          ]
+        }
+      }
+    },
+    {
+      "name": "BigSmokePS",
+      "id": "OriginsEnvironment.[0]Environment.[13]BigSmokePS",
+      "layer": "NonReflectedParticles",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "Spectrograms",
+      "id": "OriginsEnvironment.[0]Environment.[14]Spectrograms",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "Spectrogram",
+      "id": "OriginsEnvironment.[0]Environment.[14]Spectrograms.[0]Spectrogram",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            -4.0,
+            6.0,
+            50.0
+          ],
+          "localPosition": [
+            -4.0,
+            6.0,
+            50.0
+          ],
+          "rotation": [
+            0.0,
+            10.0000048,
+            315.0
+          ],
+          "localRotation": [
+            0.0,
+            10.0000048,
+            315.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "Spectrogram0",
+      "id": "OriginsEnvironment.[0]Environment.[14]Spectrograms.[0]Spectrogram.[0]Spectrogram0",
+      "meshName": "Spectrogram0",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            -4.39070845,
+            6.0,
+            47.7841835
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            -2.25
+          ],
+          "rotation": [
+            315.0,
+            100.000015,
+            270.0
+          ],
+          "localRotation": [
+            270.019775,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            0.99999994,
+            0.9999999
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            1.49011612E-08,
+            70.87501,
+            -30.0
+          ],
+          "boundsSize": [
+            0.9,
+            142.650009,
+            60.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "Spectrogram"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Spectrogram1",
+      "id": "OriginsEnvironment.[0]Environment.[14]Spectrograms.[0]Spectrogram.[1]Spectrogram1",
+      "meshName": "Spectrogram1",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            -4.0,
+            6.0,
+            50.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            315.0,
+            100.000015,
+            270.0
+          ],
+          "localRotation": [
+            270.019775,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            0.99999994,
+            0.9999999
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            1.49011612E-08,
+            -70.87501,
+            -30.0
+          ],
+          "boundsSize": [
+            0.9,
+            142.650009,
+            60.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "Spectrogram"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Spectrogram",
+      "id": "OriginsEnvironment.[0]Environment.[14]Spectrograms.[1]Spectrogram",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            4.0,
+            6.0,
+            50.0
+          ],
+          "localPosition": [
+            4.0,
+            6.0,
+            50.0
+          ],
+          "rotation": [
+            0.0,
+            350.0,
+            45.0
+          ],
+          "localRotation": [
+            0.0,
+            350.0,
+            45.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "Spectrogram0",
+      "id": "OriginsEnvironment.[0]Environment.[14]Spectrograms.[1]Spectrogram.[0]Spectrogram0",
+      "meshName": "Spectrogram0",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            4.39070845,
+            6.0,
+            47.7841835
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            -2.25
+          ],
+          "rotation": [
+            315.0,
+            260.0,
+            90.0
+          ],
+          "localRotation": [
+            270.019775,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            0.99999994,
+            0.9999999
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            1.49011612E-08,
+            70.87501,
+            -30.0
+          ],
+          "boundsSize": [
+            0.9,
+            142.650009,
+            60.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "Spectrogram"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Spectrogram1",
+      "id": "OriginsEnvironment.[0]Environment.[14]Spectrograms.[1]Spectrogram.[1]Spectrogram1",
+      "meshName": "Spectrogram1",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            4.0,
+            6.0,
+            50.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            315.0,
+            260.0,
+            90.0
+          ],
+          "localRotation": [
+            270.019775,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            0.99999994,
+            0.9999999
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            1.49011612E-08,
+            -70.87501,
+            -30.0
+          ],
+          "boundsSize": [
+            0.9,
+            142.650009,
+            60.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "Spectrogram"
+          ]
+        }
+      }
+    },
+    {
+      "name": "DustPS",
+      "id": "OriginsEnvironment.[0]Environment.[15]DustPS",
+      "layer": "DontShowInExternalMRCamera",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            1.7,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            1.7,
+            0.0
+          ],
+          "rotation": [
+            90.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            90.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.00000024,
+            1.00000024
+          ]
+        }
+      }
+    },
+    {
+      "name": "BigLightsTrackLaneRings",
+      "id": "OriginsEnvironment.[0]Environment.[17]BigLightsTrackLaneRings",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            5.0,
+            7.0
+          ],
+          "localPosition": [
+            0.0,
+            5.0,
+            7.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "TrackLaneRingsManager": {
+          "ringCount": 15,
+          "ringPositionZStep": 8.0
+        }
+      }
+    },
+    {
+      "name": "SidePSR",
+      "id": "OriginsEnvironment.[0]Environment.[18]SidePSR",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            8.0,
+            -7.0,
+            40.0
+          ],
+          "localPosition": [
+            8.0,
+            -7.0,
+            40.0
+          ],
+          "rotation": [
+            90.0,
+            350.0,
+            0.0
+          ],
+          "localRotation": [
+            90.0,
+            350.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.00000012,
+            1.0
+          ]
+        },
+        "ParticleSystemLightWithId": {
+          "particleLightId": 4,
+          "particleLightIntensity": 1.0,
+          "chromaLight": {
+            "type": -1,
+            "lightId": 3
+          }
+        }
+      }
+    },
+    {
+      "name": "SidePSL",
+      "id": "OriginsEnvironment.[0]Environment.[19]SidePSL",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            -8.0,
+            -7.0,
+            40.0
+          ],
+          "localPosition": [
+            -8.0,
+            -7.0,
+            40.0
+          ],
+          "rotation": [
+            90.0,
+            10.0000048,
+            0.0
+          ],
+          "localRotation": [
+            90.0,
+            10.0000048,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.00000012,
+            1.0
+          ]
+        },
+        "ParticleSystemLightWithId": {
+          "particleLightId": 3,
+          "particleLightIntensity": 1.0,
+          "chromaLight": {
+            "type": -1,
+            "lightId": 2
+          }
+        }
+      }
+    },
+    {
+      "name": "BSBakedLightingLightWithIds",
+      "id": "OriginsEnvironment.[0]Environment.[2]BSBakedLightingLightWithIds",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "LightWithIdManager",
+      "id": "OriginsEnvironment.[0]Environment.[20]LightWithIdManager",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "CoreLighting",
+      "id": "OriginsEnvironment.[0]Environment.[21]CoreLighting",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "LightManager",
+      "id": "OriginsEnvironment.[0]Environment.[21]CoreLighting.[0]LightManager",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "LightManager": {
+          "directionalLightDirections": [
+            [
+              0.0,
+              1.00000012,
+              1.1920929E-07,
+              0.0
+            ],
+            [
+              0.0,
+              -0.4539908,
+              0.8910067,
+              0.0
+            ],
+            [
+              0.0,
+              0.121869475,
+              0.9925461,
+              0.0
+            ],
+            [
+              -0.253725529,
+              -0.390731156,
+              0.884846151,
+              0.0
+            ],
+            [
+              0.253725529,
+              -0.390731156,
+              0.884846151,
+              0.0
+            ]
+          ],
+          "directionalLightPositions": [
+            [
+              0.0,
+              18.6,
+              30.0,
+              0.0
+            ],
+            [
+              0.0,
+              -2.0,
+              30.0,
+              0.0
+            ],
+            [
+              0.0,
+              2.0,
+              20.0,
+              0.0
+            ],
+            [
+              -6.0,
+              5.0,
+              43.08,
+              0.0
+            ],
+            [
+              6.0,
+              5.0,
+              43.08,
+              0.0
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "name": "LightWrapper0",
+      "id": "OriginsEnvironment.[0]Environment.[21]CoreLighting.[1]LightWrapper0",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            6.0,
+            5.0,
+            43.08
+          ],
+          "localPosition": [
+            6.0,
+            5.0,
+            43.08
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "DirectionalLight",
+      "id": "OriginsEnvironment.[0]Environment.[21]CoreLighting.[1]LightWrapper0.[0]DirectionalLight",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            6.0,
+            5.0,
+            43.08
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            337.0,
+            196.0,
+            2.31876456E-07
+          ],
+          "localRotation": [
+            337.0,
+            196.0,
+            2.31876456E-07
+          ],
+          "scale": [
+            1.00000012,
+            0.99999994,
+            1.0
+          ]
+        },
+        "DirectionalLight": {
+          "lightIntensity": 1.5,
+          "lightRadius": 80.0,
+          "lightRotation": [
+            337.0,
+            196.0,
+            2.31876456E-07
+          ]
+        }
+      }
+    },
+    {
+      "name": "LightWrapper1",
+      "id": "OriginsEnvironment.[0]Environment.[21]CoreLighting.[2]LightWrapper1",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            -6.0,
+            5.0,
+            43.08
+          ],
+          "localPosition": [
+            -6.0,
+            5.0,
+            43.08
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "DirectionalLight",
+      "id": "OriginsEnvironment.[0]Environment.[21]CoreLighting.[2]LightWrapper1.[0]DirectionalLight",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            -6.0,
+            5.0,
+            43.08
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            337.0,
+            164.0,
+            -2.31876456E-07
+          ],
+          "localRotation": [
+            337.0,
+            164.0,
+            -2.31876456E-07
+          ],
+          "scale": [
+            1.00000012,
+            0.99999994,
+            1.0
+          ]
+        },
+        "DirectionalLight": {
+          "lightIntensity": 1.5,
+          "lightRadius": 80.0,
+          "lightRotation": [
+            337.0,
+            164.0,
+            -2.31876456E-07
+          ]
+        }
+      }
+    },
+    {
+      "name": "DirectionalLight",
+      "id": "OriginsEnvironment.[0]Environment.[21]CoreLighting.[3]DirectionalLight",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            2.0,
+            20.0
+          ],
+          "localPosition": [
+            0.0,
+            2.0,
+            20.0
+          ],
+          "rotation": [
+            7.00000763,
+            180.0,
+            180.0
+          ],
+          "localRotation": [
+            7.00000763,
+            180.0,
+            180.0
+          ],
+          "scale": [
+            1.0,
+            0.9999999,
+            0.9999999
+          ]
+        },
+        "DirectionalLight": {
+          "lightIntensity": 1.5,
+          "lightRadius": 80.0,
+          "lightRotation": [
+            7.00000763,
+            180.0,
+            180.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "DirectionalLight",
+      "id": "OriginsEnvironment.[0]Environment.[21]CoreLighting.[4]DirectionalLight",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            -2.0,
+            30.0
+          ],
+          "localPosition": [
+            0.0,
+            -2.0,
+            30.0
+          ],
+          "rotation": [
+            332.999969,
+            180.0,
+            180.0
+          ],
+          "localRotation": [
+            332.999969,
+            180.0,
+            180.0
+          ],
+          "scale": [
+            1.0,
+            1.0000006,
+            1.0000006
+          ]
+        },
+        "DirectionalLight": {
+          "lightIntensity": 1.5,
+          "lightRadius": 50.0,
+          "lightRotation": [
+            332.999969,
+            180.0,
+            180.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "DirectionalLight",
+      "id": "OriginsEnvironment.[0]Environment.[21]CoreLighting.[5]DirectionalLight",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            18.6,
+            30.0
+          ],
+          "localPosition": [
+            0.0,
+            18.6,
+            30.0
+          ],
+          "rotation": [
+            90.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            90.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.00000024,
+            1.00000024
+          ]
+        },
+        "DirectionalLight": {
+          "lightIntensity": 1.2,
+          "lightRadius": 100.0,
+          "lightRotation": [
+            90.0,
+            0.0,
+            0.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "LightEffects",
+      "id": "OriginsEnvironment.[0]Environment.[22]LightEffects",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "FrontLights",
+      "id": "OriginsEnvironment.[0]Environment.[23]FrontLights",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            1.0,
+            15.0
+          ],
+          "localPosition": [
+            0.0,
+            1.0,
+            15.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "NeonTube",
+      "id": "OriginsEnvironment.[0]Environment.[23]FrontLights.[0]NeonTube",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -0.05,
+            4.65,
+            65.0
+          ],
+          "localPosition": [
+            -0.05,
+            3.65,
+            50.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            55.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            55.0
+          ],
+          "scale": [
+            1.00000036,
+            1.00000036,
+            1.0
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 4.0,
+              "bloomFogIntensityMultiplier": 16.0,
+              "tubeLength": 2.5,
+              "tubeWidth": 0.2,
+              "center": 1.0,
+              "height": 2.5,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "OriginsEnvironment.[0]Environment.[23]FrontLights.[0]NeonTube.[1]BoxLight"
+            },
+            "chromaLight": {
+              "type": 1,
+              "lightId": 4
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "OriginsEnvironment.[0]Environment.[23]FrontLights.[0]NeonTube.[0]BakedBloom",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -0.05,
+            4.65,
+            65.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            305.0,
+            90.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            1.00000036,
+            1.00000036,
+            1.00000072
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightBillboardSpriteGlow"
+          ]
+        }
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "OriginsEnvironment.[0]Environment.[23]FrontLights.[0]NeonTube.[1]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.9739403,
+            3.93302941,
+            65.0
+          ],
+          "localPosition": [
+            0.0,
+            -1.25,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            55.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.100000039,
+            1.25000036,
+            0.1
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            2.0,
+            2.0,
+            2.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightOpaque"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "NeonTube (1)",
+      "id": "OriginsEnvironment.[0]Environment.[23]FrontLights.[1]NeonTube (1)",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.05,
+            4.65,
+            65.0
+          ],
+          "localPosition": [
+            0.05,
+            3.65,
+            50.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            305.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            305.0
+          ],
+          "scale": [
+            1.00000036,
+            1.00000036,
+            1.0
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 4.0,
+              "bloomFogIntensityMultiplier": 16.0,
+              "tubeLength": 2.5,
+              "tubeWidth": 0.2,
+              "center": 1.0,
+              "height": 2.5,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "OriginsEnvironment.[0]Environment.[23]FrontLights.[1]NeonTube (1).[1]BoxLight"
+            },
+            "chromaLight": {
+              "type": 2,
+              "lightId": 4
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "OriginsEnvironment.[0]Environment.[23]FrontLights.[1]NeonTube (1).[0]BakedBloom",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.05,
+            4.65,
+            65.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            55.0000038,
+            90.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            1.00000036,
+            1.00000036,
+            1.00000072
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightBillboardSpriteGlow"
+          ]
+        }
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "OriginsEnvironment.[0]Environment.[23]FrontLights.[1]NeonTube (1).[1]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -0.9739403,
+            3.93302941,
+            65.0
+          ],
+          "localPosition": [
+            0.0,
+            -1.25,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            305.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.100000039,
+            1.25000036,
+            0.1
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            2.0,
+            2.0,
+            2.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightOpaque"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "LightAreaL",
+      "id": "OriginsEnvironment.[0]Environment.[24]LightAreaL",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -16.83,
+            -6.0,
+            -16.05
+          ],
+          "localPosition": [
+            -16.83,
+            -6.0,
+            -16.05
+          ],
+          "rotation": [
+            90.0,
+            10.0000048,
+            0.0
+          ],
+          "localRotation": [
+            90.0,
+            10.0000048,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.00000012,
+            1.0
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 1.0,
+              "bloomFogIntensityMultiplier": 0.2,
+              "tubeLength": 500.0,
+              "tubeWidth": 0.3,
+              "center": 0.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "lightWidthMultiplier": 4.0,
+              "useCollision": false,
+              "parametricBoxId": "null"
+            },
+            "chromaLight": {
+              "type": -1,
+              "lightId": 2
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "LightAreaR",
+      "id": "OriginsEnvironment.[0]Environment.[25]LightAreaR",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            16.83,
+            -6.0,
+            -16.05
+          ],
+          "localPosition": [
+            16.83,
+            -6.0,
+            -16.05
+          ],
+          "rotation": [
+            90.0,
+            350.0,
+            0.0
+          ],
+          "localRotation": [
+            90.0,
+            350.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.00000012,
+            1.0
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 1.0,
+              "bloomFogIntensityMultiplier": 0.2,
+              "tubeLength": 500.0,
+              "tubeWidth": 0.3,
+              "center": 0.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "lightWidthMultiplier": 4.0,
+              "useCollision": false,
+              "parametricBoxId": "null"
+            },
+            "chromaLight": {
+              "type": -1,
+              "lightId": 3
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "GradientBackground",
+      "id": "OriginsEnvironment.[0]Environment.[26]GradientBackground",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "NeonTube",
+      "id": "OriginsEnvironment.[0]Environment.[27]NeonTube",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -2.0,
+            0.1,
+            8.0
+          ],
+          "localPosition": [
+            -2.0,
+            0.1,
+            8.0
+          ],
+          "rotation": [
+            90.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            90.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.00000024,
+            1.00000024
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 2.0,
+              "bloomFogIntensityMultiplier": 1.0,
+              "tubeLength": 500.0,
+              "tubeWidth": 0.04,
+              "center": 0.0,
+              "height": 500.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "OriginsEnvironment.[0]Environment.[27]NeonTube.[1]BoxLight"
+            },
+            "chromaLight": {
+              "type": 6,
+              "lightId": 2
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "OriginsEnvironment.[0]Environment.[27]NeonTube.[0]BakedBloom",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -2.0,
+            0.1,
+            8.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            90.0,
+            90.0
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            1.00000048,
+            1.00000036,
+            1.00000036
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightBillboardSpriteGlow"
+          ]
+        }
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "OriginsEnvironment.[0]Environment.[27]NeonTube.[1]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -2.0,
+            0.0999694839,
+            258.000031
+          ],
+          "localPosition": [
+            0.0,
+            250.0,
+            0.0
+          ],
+          "rotation": [
+            90.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.02,
+            250.000061,
+            0.0200000033
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            2.0,
+            2.0,
+            2.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightOpaque"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "NeonTube (1)",
+      "id": "OriginsEnvironment.[0]Environment.[28]NeonTube (1)",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            2.0,
+            0.1,
+            8.0
+          ],
+          "localPosition": [
+            2.0,
+            0.1,
+            8.0
+          ],
+          "rotation": [
+            90.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            90.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.00000024,
+            1.00000024
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 2.0,
+              "bloomFogIntensityMultiplier": 1.0,
+              "tubeLength": 500.0,
+              "tubeWidth": 0.04,
+              "center": 0.0,
+              "height": 500.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "OriginsEnvironment.[0]Environment.[28]NeonTube (1).[1]BoxLight"
+            },
+            "chromaLight": {
+              "type": 6,
+              "lightId": 3
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "OriginsEnvironment.[0]Environment.[28]NeonTube (1).[0]BakedBloom",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            2.0,
+            0.1,
+            8.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            90.0,
+            90.0
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            1.00000048,
+            1.00000036,
+            1.00000036
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightBillboardSpriteGlow"
+          ]
+        }
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "OriginsEnvironment.[0]Environment.[28]NeonTube (1).[1]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            2.0,
+            0.0999694839,
+            258.000031
+          ],
+          "localPosition": [
+            0.0,
+            250.0,
+            0.0
+          ],
+          "rotation": [
+            90.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.02,
+            250.000061,
+            0.0200000033
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            2.0,
+            2.0,
+            2.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightOpaque"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "RotatingLasersPair",
+      "id": "OriginsEnvironment.[0]Environment.[29]RotatingLasersPair",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            -10.0,
+            40.0
+          ],
+          "localPosition": [
+            0.0,
+            -10.0,
+            40.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "BaseL",
+      "id": "OriginsEnvironment.[0]Environment.[29]RotatingLasersPair.[0]BaseL",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -22.0,
+            -10.0,
+            40.0
+          ],
+          "localPosition": [
+            -22.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "Laser",
+      "id": "OriginsEnvironment.[0]Environment.[29]RotatingLasersPair.[0]BaseL.[0]Laser",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -22.0,
+            -10.0,
+            40.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            305.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            305.0
+          ],
+          "scale": [
+            1.00000012,
+            1.00000012,
+            1.0
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 2.0,
+              "bloomFogIntensityMultiplier": 0.5,
+              "tubeLength": 500.0,
+              "tubeWidth": 0.1,
+              "center": 0.0,
+              "height": 500.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "OriginsEnvironment.[0]Environment.[29]RotatingLasersPair.[0]BaseL.[0]Laser.[1]BoxLight"
+            },
+            "chromaLight": {
+              "type": 1,
+              "lightId": 2
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "OriginsEnvironment.[0]Environment.[29]RotatingLasersPair.[0]BaseL.[0]Laser.[0]BakedBloom",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -22.0,
+            -10.0,
+            40.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            55.0000038,
+            90.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            1.00000036,
+            1.00000024,
+            1.00000048
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightBillboardSpriteGlow"
+          ]
+        }
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "OriginsEnvironment.[0]Environment.[29]RotatingLasersPair.[0]BaseL.[0]Laser.[1]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            182.788025,
+            133.3941,
+            40.0
+          ],
+          "localPosition": [
+            0.0,
+            250.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            305.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.0500000119,
+            250.000031,
+            0.05
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            2.0,
+            2.0,
+            2.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLight"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "BaseR",
+      "id": "OriginsEnvironment.[0]Environment.[29]RotatingLasersPair.[1]BaseR",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            22.0,
+            -10.0,
+            40.0
+          ],
+          "localPosition": [
+            22.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "Laser",
+      "id": "OriginsEnvironment.[0]Environment.[29]RotatingLasersPair.[1]BaseR.[0]Laser",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            22.0,
+            -10.0,
+            40.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            55.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            55.0
+          ],
+          "scale": [
+            1.00000012,
+            1.00000012,
+            1.0
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 2.0,
+              "bloomFogIntensityMultiplier": 0.5,
+              "tubeLength": 500.0,
+              "tubeWidth": 0.1,
+              "center": 0.0,
+              "height": 500.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "OriginsEnvironment.[0]Environment.[29]RotatingLasersPair.[1]BaseR.[0]Laser.[1]BoxLight"
+            },
+            "chromaLight": {
+              "type": 1,
+              "lightId": 3
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "OriginsEnvironment.[0]Environment.[29]RotatingLasersPair.[1]BaseR.[0]Laser.[0]BakedBloom",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            22.0,
+            -10.0,
+            40.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            305.0,
+            90.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            1.00000036,
+            1.00000024,
+            1.00000048
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightBillboardSpriteGlow"
+          ]
+        }
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "OriginsEnvironment.[0]Environment.[29]RotatingLasersPair.[1]BaseR.[0]Laser.[1]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -182.788025,
+            133.3941,
+            40.0
+          ],
+          "localPosition": [
+            0.0,
+            250.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            55.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.0500000119,
+            250.000031,
+            0.05
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            2.0,
+            2.0,
+            2.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLight"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "BakedReflectionProbe",
+      "id": "OriginsEnvironment.[0]Environment.[3]BakedReflectionProbe",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            1.5,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            1.5,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "BakedReflectionProbe": {
+          "probeSize": [
+            200.0,
+            200.0,
+            200.0
+          ],
+          "probePosition": [
+            0.0,
+            1.5,
+            0.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "RotatingLasersPair (1)",
+      "id": "OriginsEnvironment.[0]Environment.[30]RotatingLasersPair (1)",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            -10.0,
+            42.0
+          ],
+          "localPosition": [
+            0.0,
+            -10.0,
+            42.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "BaseL",
+      "id": "OriginsEnvironment.[0]Environment.[30]RotatingLasersPair (1).[0]BaseL",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -22.0,
+            -10.0,
+            42.0
+          ],
+          "localPosition": [
+            -22.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "Laser",
+      "id": "OriginsEnvironment.[0]Environment.[30]RotatingLasersPair (1).[0]BaseL.[0]Laser",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -22.0,
+            -10.0,
+            42.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            305.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            305.0
+          ],
+          "scale": [
+            1.00000012,
+            1.00000012,
+            1.0
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 2.0,
+              "bloomFogIntensityMultiplier": 0.5,
+              "tubeLength": 500.0,
+              "tubeWidth": 0.1,
+              "center": 0.0,
+              "height": 500.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "OriginsEnvironment.[0]Environment.[30]RotatingLasersPair (1).[0]BaseL.[0]Laser.[1]BoxLight"
+            },
+            "chromaLight": {
+              "type": 2,
+              "lightId": 2
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "OriginsEnvironment.[0]Environment.[30]RotatingLasersPair (1).[0]BaseL.[0]Laser.[0]BakedBloom",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -22.0,
+            -10.0,
+            42.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            55.0000038,
+            90.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            1.00000036,
+            1.00000024,
+            1.00000048
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightBillboardSpriteGlow"
+          ]
+        }
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "OriginsEnvironment.[0]Environment.[30]RotatingLasersPair (1).[0]BaseL.[0]Laser.[1]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            182.788025,
+            133.3941,
+            42.0
+          ],
+          "localPosition": [
+            0.0,
+            250.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            305.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.0500000119,
+            250.000031,
+            0.05
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            2.0,
+            2.0,
+            2.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLight"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "BaseR",
+      "id": "OriginsEnvironment.[0]Environment.[30]RotatingLasersPair (1).[1]BaseR",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            22.0,
+            -10.0,
+            42.0
+          ],
+          "localPosition": [
+            22.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "Laser",
+      "id": "OriginsEnvironment.[0]Environment.[30]RotatingLasersPair (1).[1]BaseR.[0]Laser",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            22.0,
+            -10.0,
+            42.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            55.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            55.0
+          ],
+          "scale": [
+            1.00000012,
+            1.00000012,
+            1.0
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 2.0,
+              "bloomFogIntensityMultiplier": 0.5,
+              "tubeLength": 500.0,
+              "tubeWidth": 0.1,
+              "center": 0.0,
+              "height": 500.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "OriginsEnvironment.[0]Environment.[30]RotatingLasersPair (1).[1]BaseR.[0]Laser.[1]BoxLight"
+            },
+            "chromaLight": {
+              "type": 2,
+              "lightId": 3
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "OriginsEnvironment.[0]Environment.[30]RotatingLasersPair (1).[1]BaseR.[0]Laser.[0]BakedBloom",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            22.0,
+            -10.0,
+            42.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            305.0,
+            90.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            1.00000036,
+            1.00000024,
+            1.00000048
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightBillboardSpriteGlow"
+          ]
+        }
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "OriginsEnvironment.[0]Environment.[30]RotatingLasersPair (1).[1]BaseR.[0]Laser.[1]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -182.788025,
+            133.3941,
+            42.0
+          ],
+          "localPosition": [
+            0.0,
+            250.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            55.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.0500000119,
+            250.000031,
+            0.05
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            2.0,
+            2.0,
+            2.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLight"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "RotatingLasersPair (2)",
+      "id": "OriginsEnvironment.[0]Environment.[31]RotatingLasersPair (2)",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            -10.0,
+            44.0
+          ],
+          "localPosition": [
+            0.0,
+            -10.0,
+            44.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "BaseL",
+      "id": "OriginsEnvironment.[0]Environment.[31]RotatingLasersPair (2).[0]BaseL",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -22.0,
+            -10.0,
+            44.0
+          ],
+          "localPosition": [
+            -22.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "Laser",
+      "id": "OriginsEnvironment.[0]Environment.[31]RotatingLasersPair (2).[0]BaseL.[0]Laser",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -22.0,
+            -10.0,
+            44.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            305.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            305.0
+          ],
+          "scale": [
+            1.00000012,
+            1.00000012,
+            1.0
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 2.0,
+              "bloomFogIntensityMultiplier": 0.5,
+              "tubeLength": 500.0,
+              "tubeWidth": 0.1,
+              "center": 0.0,
+              "height": 500.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "OriginsEnvironment.[0]Environment.[31]RotatingLasersPair (2).[0]BaseL.[0]Laser.[1]BoxLight"
+            },
+            "chromaLight": {
+              "type": 3,
+              "lightId": 2
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "OriginsEnvironment.[0]Environment.[31]RotatingLasersPair (2).[0]BaseL.[0]Laser.[0]BakedBloom",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -22.0,
+            -10.0,
+            44.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            55.0000038,
+            90.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            1.00000036,
+            1.00000024,
+            1.00000048
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightBillboardSpriteGlow"
+          ]
+        }
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "OriginsEnvironment.[0]Environment.[31]RotatingLasersPair (2).[0]BaseL.[0]Laser.[1]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            182.788025,
+            133.3941,
+            44.0
+          ],
+          "localPosition": [
+            0.0,
+            250.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            305.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.0500000119,
+            250.000031,
+            0.05
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            2.0,
+            2.0,
+            2.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLight"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "BaseR",
+      "id": "OriginsEnvironment.[0]Environment.[31]RotatingLasersPair (2).[1]BaseR",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            22.0,
+            -10.0,
+            44.0
+          ],
+          "localPosition": [
+            22.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "Laser",
+      "id": "OriginsEnvironment.[0]Environment.[31]RotatingLasersPair (2).[1]BaseR.[0]Laser",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            22.0,
+            -10.0,
+            44.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            55.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            55.0
+          ],
+          "scale": [
+            1.00000012,
+            1.00000012,
+            1.0
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 2.0,
+              "bloomFogIntensityMultiplier": 0.5,
+              "tubeLength": 500.0,
+              "tubeWidth": 0.1,
+              "center": 0.0,
+              "height": 500.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "OriginsEnvironment.[0]Environment.[31]RotatingLasersPair (2).[1]BaseR.[0]Laser.[1]BoxLight"
+            },
+            "chromaLight": {
+              "type": 3,
+              "lightId": 3
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "OriginsEnvironment.[0]Environment.[31]RotatingLasersPair (2).[1]BaseR.[0]Laser.[0]BakedBloom",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            22.0,
+            -10.0,
+            44.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            305.0,
+            90.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            1.00000036,
+            1.00000024,
+            1.00000048
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightBillboardSpriteGlow"
+          ]
+        }
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "OriginsEnvironment.[0]Environment.[31]RotatingLasersPair (2).[1]BaseR.[0]Laser.[1]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -182.788025,
+            133.3941,
+            44.0
+          ],
+          "localPosition": [
+            0.0,
+            250.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            55.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.0500000119,
+            250.000031,
+            0.05
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            2.0,
+            2.0,
+            2.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLight"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "RotatingLasersPair (3)",
+      "id": "OriginsEnvironment.[0]Environment.[32]RotatingLasersPair (3)",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            -10.0,
+            46.0
+          ],
+          "localPosition": [
+            0.0,
+            -10.0,
+            46.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "BaseL",
+      "id": "OriginsEnvironment.[0]Environment.[32]RotatingLasersPair (3).[0]BaseL",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -22.0,
+            -10.0,
+            46.0
+          ],
+          "localPosition": [
+            -22.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "Laser",
+      "id": "OriginsEnvironment.[0]Environment.[32]RotatingLasersPair (3).[0]BaseL.[0]Laser",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -22.0,
+            -10.0,
+            46.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            305.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            305.0
+          ],
+          "scale": [
+            1.00000012,
+            1.00000012,
+            1.0
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 2.0,
+              "bloomFogIntensityMultiplier": 0.5,
+              "tubeLength": 500.0,
+              "tubeWidth": 0.1,
+              "center": 0.0,
+              "height": 500.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "OriginsEnvironment.[0]Environment.[32]RotatingLasersPair (3).[0]BaseL.[0]Laser.[1]BoxLight"
+            },
+            "chromaLight": {
+              "type": 4,
+              "lightId": 2
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "OriginsEnvironment.[0]Environment.[32]RotatingLasersPair (3).[0]BaseL.[0]Laser.[0]BakedBloom",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -22.0,
+            -10.0,
+            46.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            55.0000038,
+            90.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            1.00000036,
+            1.00000024,
+            1.00000048
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightBillboardSpriteGlow"
+          ]
+        }
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "OriginsEnvironment.[0]Environment.[32]RotatingLasersPair (3).[0]BaseL.[0]Laser.[1]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            182.788025,
+            133.3941,
+            46.0
+          ],
+          "localPosition": [
+            0.0,
+            250.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            305.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.0500000119,
+            250.000031,
+            0.05
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            2.0,
+            2.0,
+            2.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLight"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "BaseR",
+      "id": "OriginsEnvironment.[0]Environment.[32]RotatingLasersPair (3).[1]BaseR",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            22.0,
+            -10.0,
+            46.0
+          ],
+          "localPosition": [
+            22.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "Laser",
+      "id": "OriginsEnvironment.[0]Environment.[32]RotatingLasersPair (3).[1]BaseR.[0]Laser",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            22.0,
+            -10.0,
+            46.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            55.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            55.0
+          ],
+          "scale": [
+            1.00000012,
+            1.00000012,
+            1.0
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 2.0,
+              "bloomFogIntensityMultiplier": 0.5,
+              "tubeLength": 500.0,
+              "tubeWidth": 0.1,
+              "center": 0.0,
+              "height": 500.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "OriginsEnvironment.[0]Environment.[32]RotatingLasersPair (3).[1]BaseR.[0]Laser.[1]BoxLight"
+            },
+            "chromaLight": {
+              "type": 4,
+              "lightId": 3
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "OriginsEnvironment.[0]Environment.[32]RotatingLasersPair (3).[1]BaseR.[0]Laser.[0]BakedBloom",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            22.0,
+            -10.0,
+            46.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            305.0,
+            90.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            1.00000036,
+            1.00000024,
+            1.00000048
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightBillboardSpriteGlow"
+          ]
+        }
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "OriginsEnvironment.[0]Environment.[32]RotatingLasersPair (3).[1]BaseR.[0]Laser.[1]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -182.788025,
+            133.3941,
+            46.0
+          ],
+          "localPosition": [
+            0.0,
+            250.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            55.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.0500000119,
+            250.000031,
+            0.05
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            2.0,
+            2.0,
+            2.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLight"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "RotatingLasersPair (4)",
+      "id": "OriginsEnvironment.[0]Environment.[33]RotatingLasersPair (4)",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            -10.0,
+            48.0
+          ],
+          "localPosition": [
+            0.0,
+            -10.0,
+            48.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "BaseL",
+      "id": "OriginsEnvironment.[0]Environment.[33]RotatingLasersPair (4).[0]BaseL",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -22.0,
+            -10.0,
+            48.0
+          ],
+          "localPosition": [
+            -22.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "Laser",
+      "id": "OriginsEnvironment.[0]Environment.[33]RotatingLasersPair (4).[0]BaseL.[0]Laser",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -22.0,
+            -10.0,
+            48.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            305.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            305.0
+          ],
+          "scale": [
+            1.00000012,
+            1.00000012,
+            1.0
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 2.0,
+              "bloomFogIntensityMultiplier": 0.5,
+              "tubeLength": 500.0,
+              "tubeWidth": 0.1,
+              "center": 0.0,
+              "height": 500.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "OriginsEnvironment.[0]Environment.[33]RotatingLasersPair (4).[0]BaseL.[0]Laser.[1]BoxLight"
+            },
+            "chromaLight": {
+              "type": 5,
+              "lightId": 2
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "OriginsEnvironment.[0]Environment.[33]RotatingLasersPair (4).[0]BaseL.[0]Laser.[0]BakedBloom",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -22.0,
+            -10.0,
+            48.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            55.0000038,
+            90.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            1.00000036,
+            1.00000024,
+            1.00000048
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightBillboardSpriteGlow"
+          ]
+        }
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "OriginsEnvironment.[0]Environment.[33]RotatingLasersPair (4).[0]BaseL.[0]Laser.[1]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            182.788025,
+            133.3941,
+            48.0
+          ],
+          "localPosition": [
+            0.0,
+            250.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            305.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.0500000119,
+            250.000031,
+            0.05
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            2.0,
+            2.0,
+            2.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLight"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "BaseR",
+      "id": "OriginsEnvironment.[0]Environment.[33]RotatingLasersPair (4).[1]BaseR",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            22.0,
+            -10.0,
+            48.0
+          ],
+          "localPosition": [
+            22.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "Laser",
+      "id": "OriginsEnvironment.[0]Environment.[33]RotatingLasersPair (4).[1]BaseR.[0]Laser",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            22.0,
+            -10.0,
+            48.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            55.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            55.0
+          ],
+          "scale": [
+            1.00000012,
+            1.00000012,
+            1.0
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 2.0,
+              "bloomFogIntensityMultiplier": 0.5,
+              "tubeLength": 500.0,
+              "tubeWidth": 0.1,
+              "center": 0.0,
+              "height": 500.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "OriginsEnvironment.[0]Environment.[33]RotatingLasersPair (4).[1]BaseR.[0]Laser.[1]BoxLight"
+            },
+            "chromaLight": {
+              "type": 5,
+              "lightId": 3
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "OriginsEnvironment.[0]Environment.[33]RotatingLasersPair (4).[1]BaseR.[0]Laser.[0]BakedBloom",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            22.0,
+            -10.0,
+            48.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            305.0,
+            90.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            1.00000036,
+            1.00000024,
+            1.00000048
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightBillboardSpriteGlow"
+          ]
+        }
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "OriginsEnvironment.[0]Environment.[33]RotatingLasersPair (4).[1]BaseR.[0]Laser.[1]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -182.788025,
+            133.3941,
+            48.0
+          ],
+          "localPosition": [
+            0.0,
+            250.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            55.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.0500000119,
+            250.000031,
+            0.05
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            2.0,
+            2.0,
+            2.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLight"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "Laser",
+      "id": "OriginsEnvironment.[0]Environment.[34]Laser",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            -3.53,
+            25.0
+          ],
+          "localPosition": [
+            0.0,
+            -3.53,
+            25.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            14.9999952
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            14.9999952
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 1.5,
+              "bloomFogIntensityMultiplier": 0.75,
+              "tubeLength": 1000.0,
+              "tubeWidth": 0.04,
+              "center": 0.9965,
+              "height": 1000.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "OriginsEnvironment.[0]Environment.[34]Laser.[1]BoxLight"
+            },
+            "chromaLight": {
+              "type": 4,
+              "lightId": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "OriginsEnvironment.[0]Environment.[34]Laser.[0]BakedBloom",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            -3.53,
+            25.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            345.0,
+            90.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            1.00000024,
+            1.0,
+            1.00000024
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightBillboardSpriteGlow"
+          ]
+        }
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "OriginsEnvironment.[0]Environment.[34]Laser.[1]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            128.503632,
+            -483.112183,
+            25.0
+          ],
+          "localPosition": [
+            0.0,
+            -496.5,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            14.9999952
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.02,
+            500.0,
+            0.02
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            2.0,
+            2.0,
+            2.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLight"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "Laser (1)",
+      "id": "OriginsEnvironment.[0]Environment.[35]Laser (1)",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            -3.53,
+            25.0
+          ],
+          "localPosition": [
+            0.0,
+            -3.53,
+            25.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            345.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            345.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 1.5,
+              "bloomFogIntensityMultiplier": 0.75,
+              "tubeLength": 1000.0,
+              "tubeWidth": 0.04,
+              "center": 0.9965,
+              "height": 1000.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "OriginsEnvironment.[0]Environment.[35]Laser (1).[1]BoxLight"
+            },
+            "chromaLight": {
+              "type": 3,
+              "lightId": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "OriginsEnvironment.[0]Environment.[35]Laser (1).[0]BakedBloom",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            -3.53,
+            25.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            15.00001,
+            90.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            1.00000024,
+            1.0,
+            1.00000024
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightBillboardSpriteGlow"
+          ]
+        }
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "OriginsEnvironment.[0]Environment.[35]Laser (1).[1]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -128.503708,
+            -483.112152,
+            25.0
+          ],
+          "localPosition": [
+            0.0,
+            -496.5,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            345.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.02,
+            500.000031,
+            0.02
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            2.0,
+            2.0,
+            2.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLight"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "Laser (2)",
+      "id": "OriginsEnvironment.[0]Environment.[36]Laser (2)",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            -3.53,
+            20.0
+          ],
+          "localPosition": [
+            0.0,
+            -3.53,
+            20.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            14.9999952
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            14.9999952
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 1.5,
+              "bloomFogIntensityMultiplier": 0.75,
+              "tubeLength": 1000.0,
+              "tubeWidth": 0.04,
+              "center": 0.9965,
+              "height": 1000.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "OriginsEnvironment.[0]Environment.[36]Laser (2).[1]BoxLight"
+            },
+            "chromaLight": {
+              "type": 2,
+              "lightId": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "OriginsEnvironment.[0]Environment.[36]Laser (2).[0]BakedBloom",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            -3.53,
+            20.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            345.0,
+            90.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            1.00000024,
+            1.0,
+            1.00000024
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightBillboardSpriteGlow"
+          ]
+        }
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "OriginsEnvironment.[0]Environment.[36]Laser (2).[1]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            128.503632,
+            -483.112183,
+            20.0
+          ],
+          "localPosition": [
+            0.0,
+            -496.5,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            14.9999952
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.02,
+            500.0,
+            0.02
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            2.0,
+            2.0,
+            2.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLight"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "Laser (3)",
+      "id": "OriginsEnvironment.[0]Environment.[37]Laser (3)",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            -3.53,
+            20.0
+          ],
+          "localPosition": [
+            0.0,
+            -3.53,
+            20.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            345.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            345.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 1.5,
+              "bloomFogIntensityMultiplier": 0.75,
+              "tubeLength": 1000.0,
+              "tubeWidth": 0.04,
+              "center": 0.9965,
+              "height": 1000.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "OriginsEnvironment.[0]Environment.[37]Laser (3).[1]BoxLight"
+            },
+            "chromaLight": {
+              "type": 1,
+              "lightId": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "OriginsEnvironment.[0]Environment.[37]Laser (3).[0]BakedBloom",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            -3.53,
+            20.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            15.00001,
+            90.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            1.00000024,
+            1.0,
+            1.00000024
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLightBillboardSpriteGlow"
+          ]
+        }
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "OriginsEnvironment.[0]Environment.[37]Laser (3).[1]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -128.503708,
+            -483.112152,
+            20.0
+          ],
+          "localPosition": [
+            0.0,
+            -496.5,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            345.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.02,
+            500.000031,
+            0.02
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            2.0,
+            2.0,
+            2.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "EnvLight"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "BakedReflectionProbeInstaller",
+      "id": "OriginsEnvironment.[0]Environment.[4]BakedReflectionProbeInstaller",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "FakeMirrorSettings",
+      "id": "OriginsEnvironment.[0]Environment.[5]FakeMirrorSettings",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "Construction",
+      "id": "OriginsEnvironment.[0]Environment.[7]Construction",
+      "meshName": "Construction_Origins",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            -49.9499969,
+            8.75
+          ],
+          "boundsSize": [
+            200.0,
+            100.3,
+            2.5
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "Construction"
+          ]
+        }
+      }
+    },
+    {
+      "name": "TrackConstruction",
+      "id": "OriginsEnvironment.[0]Environment.[8]TrackConstruction",
+      "meshName": "CombinedMesh",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            -0.051,
+            107.78
+          ],
+          "boundsSize": [
+            6.5,
+            0.099999994,
+            200.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "CombinedMesh"
+          ]
+        }
+      }
+    },
+    {
+      "name": "PlayersPlace",
+      "id": "OriginsEnvironment.[0]Environment.[9]PlayersPlace",
+      "layer": "PlayersPlace",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "Mirror",
+      "id": "OriginsEnvironment.[0]Environment.[9]PlayersPlace.[0]Mirror",
+      "meshName": "pb_Mesh-10248452",
+      "layer": "Water",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.005,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.005,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            -0.0001,
+            0.0
+          ],
+          "boundsSize": [
+            3.0,
+            2.38418579E-07,
+            2.00000024
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "PlayersPlaceMirror"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Construction",
+      "id": "OriginsEnvironment.[0]Environment.[9]PlayersPlace.[2]Construction",
+      "meshName": "pb_Mesh-10248472",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            -56.3724976,
+            0.0
+          ],
+          "boundsSize": [
+            3.0,
+            112.755005,
+            2.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "DarkEnvironmentSimple"
+          ]
+        }
+      }
+    },
+    {
+      "name": "RectangleFakeGlow",
+      "id": "OriginsEnvironment.[0]Environment.[9]PlayersPlace.[3]RectangleFakeGlow",
+      "meshName": "RectangleFakeGlow",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.008,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.008,
+            0.0
+          ],
+          "rotation": [
+            90.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            90.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.495,
+            0.995000243,
+            1.00000024
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            3.0,
+            3.0,
+            0.0
+          ]
+        },
+        "RectangleFakeGlow": {
+          "rectangleSize": [
+            2.99,
+            1.99
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "ParametricFakeGlow"
+          ]
+        }
+      }
+    },
+    {
+      "name": "SaberBurnMarksParticles",
+      "id": "OriginsEnvironment.[0]Environment.[9]PlayersPlace.[4]SaberBurnMarksParticles",
+      "layer": "NonReflectedParticles",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.005,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.005,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "SaberBurnMarkSparklePS",
+      "id": "OriginsEnvironment.[0]Environment.[9]PlayersPlace.[4]SaberBurnMarksParticles.[0]SaberBurnMarkSparklePS",
+      "layer": "NonReflectedParticles",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.005,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "SaberBurnMarksArea",
+      "id": "OriginsEnvironment.[0]Environment.[9]PlayersPlace.[5]SaberBurnMarksArea",
+      "meshName": "PlayersPlaceCore",
+      "layer": "NonReflectedParticles",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.01,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.01,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            -0.0001,
+            0.0
+          ],
+          "boundsSize": [
+            3.0,
+            2.38418579E-07,
+            2.00000024
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "SaberBurnMarks"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Collider",
+      "id": "OriginsEnvironment.[0]Environment.[9]PlayersPlace.[6]Collider",
+      "layer": "PlayersPlace",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            -0.09,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            -0.09,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    }
+  ]
+}

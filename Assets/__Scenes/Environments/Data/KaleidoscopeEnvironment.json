@@ -1,0 +1,1640 @@
+{
+  "environmentData": {
+    "environmentTitle": "Kaleidoscope",
+    "environmentId": "KaleidoscopeEnvironment",
+    "colorScheme": {
+      "colorLeft": [
+        0.65882355,
+        0.1254902,
+        0.1254902
+      ],
+      "colorRight": [
+        0.282352954,
+        0.282352954,
+        0.282352954
+      ],
+      "envColorLeft": [
+        0.65882355,
+        0.1254902,
+        0.1254902
+      ],
+      "envColorRight": [
+        0.470588237,
+        0.470588237,
+        0.470588237
+      ],
+      "obstacleColor": [
+        0.2509804,
+        0.2509804,
+        0.2509804
+      ],
+      "envColorLeftBoost": [
+        0.5019608,
+        0.0,
+        0.0
+      ],
+      "envColorRightBoost": [
+        0.492445171,
+        0.0,
+        0.5372549
+      ]
+    },
+    "fogParams": {
+      "offset": 0.0,
+      "height": 10.0,
+      "startY": -20.0,
+      "attenuation": 0.001
+    },
+    "lightTracks": {
+      "eventTracks": [
+        {
+          "trackName": "Spike Tip Lights",
+          "eventType": "Event0",
+          "toolbarType": "Lights",
+          "page": "Page1"
+        },
+        {
+          "trackName": "Spike Mid Lights",
+          "eventType": "Event1",
+          "toolbarType": "Lights",
+          "page": "Page1"
+        },
+        {
+          "trackName": "Spike Left Lights",
+          "eventType": "Event2",
+          "toolbarType": "Lights",
+          "page": "Page1"
+        },
+        {
+          "trackName": "Spike Right Lights",
+          "eventType": "Event3",
+          "toolbarType": "Lights",
+          "page": "Page1"
+        },
+        {
+          "trackName": "Distant Lasers and Spike Top Lights",
+          "eventType": "Event4",
+          "toolbarType": "Lights",
+          "page": "Page1"
+        },
+        {
+          "trackName": "Boost Colors",
+          "eventType": "Event5",
+          "toolbarType": "Toggle",
+          "page": "Page1"
+        },
+        {
+          "trackName": "Ring Rotate",
+          "eventType": "Event8",
+          "toolbarType": "Lights",
+          "page": "Page1"
+        },
+        {
+          "trackName": "Ring Zoom",
+          "eventType": "Event9",
+          "toolbarType": "Lights",
+          "page": "Page1"
+        }
+      ],
+      "groupPages": {}
+    },
+    "uniqueMaterials": [
+      {
+        "name": "TrackMirror",
+        "keywords": [
+          "ENABLE_MIRROR",
+          "ETC1_EXTERNAL_ALPHA",
+          "_EMISSION"
+        ]
+      },
+      {
+        "name": "SetDepthOnly",
+        "keywords": [
+          "ENABLE_DIFFUSE",
+          "ENABLE_DIRT",
+          "ENABLE_DIRT_DETAIL",
+          "ENABLE_FOG",
+          "ENABLE_SPECULAR",
+          "FOG",
+          "LIGHTMAP",
+          "REFLECTION_PROBE",
+          "_EMISSION",
+          "_ENABLE_FOG_TINT",
+          "_RIMLIGHT_NONE"
+        ]
+      },
+      {
+        "name": "Construction",
+        "keywords": [
+          "DIFFUSE",
+          "FOG",
+          "NOISE_DITHERING",
+          "REFLECTION_PROBE_BOX_PROJECTION",
+          "SPECULAR",
+          "_ACES_APPROACH_AFTER_EMISSIVE",
+          "_DIFFUSE_TEXTURE_SOURCE_TEXTURE",
+          "_DISSOLVEALPHA_CLIP",
+          "_EMISSIONCOLORTYPE_FLAT",
+          "_EMISSION_ALPHA_SOURCE_EMISSION_G",
+          "_EMISSION_TEXTURE_SOURCE_TEXTURE",
+          "_METALLIC_TEXTURE_NONE",
+          "_OCCLUSION_SOURCE_TEXTURE",
+          "_PROBE_CALCULATION_FAST",
+          "_SMOOTHNESS_TEXTURE_NONE",
+          "ENABLE_DIFFUSE",
+          "ENABLE_FOG",
+          "ENABLE_SPECULAR",
+          "_CURVE_VERTICES_NONE",
+          "_CUSTOM_TIME_STANDARD",
+          "_DECALBLEND_ALPHABLEND",
+          "_DISSOLVEAXIS_LOCALX",
+          "_EMISSION",
+          "_EMISSIONTEXTURE_NONE",
+          "_ENABLE_FOG_TINT",
+          "_HOLOGRAM_NONE",
+          "_RIMLIGHT_NONE",
+          "_RIM_WHITEBOOSTTYPE_NONE",
+          "_ROTATE_UV_NONE",
+          "_SPECTROGRAM_NONE",
+          "_VERTEXMODE_NONE",
+          "_VERTEX_WHITEBOOSTTYPE_NONE",
+          "_WHITEBOOSTTYPE_NONE",
+          "_ZWRITE_ON"
+        ]
+      },
+      {
+        "name": "PlayersPlaceMirror",
+        "keywords": [
+          "ENABLE_DIRT",
+          "ENABLE_MIRROR",
+          "ETC1_EXTERNAL_ALPHA",
+          "_EMISSION"
+        ]
+      },
+      {
+        "name": "DarkEnvironmentSimple",
+        "keywords": [
+          "DIFFUSE",
+          "FOG",
+          "HEIGHT_FOG",
+          "LIGHT_FALLOFF",
+          "REFLECTION_PROBE_BOX_PROJECTION",
+          "SPECULAR",
+          "_ACES_APPROACH_AFTER_EMISSIVE",
+          "_DIFFUSE_TEXTURE_SOURCE_TEXTURE",
+          "_DISSOLVEALPHA_CLIP",
+          "_EMISSIONCOLORTYPE_FLAT",
+          "_EMISSION_ALPHA_SOURCE_EMISSION_G",
+          "_EMISSION_TEXTURE_SOURCE_TEXTURE",
+          "_METALLIC_TEXTURE_NONE",
+          "_OCCLUSION_SOURCE_TEXTURE",
+          "_PROBE_CALCULATION_FAST",
+          "_SMOOTHNESS_TEXTURE_NONE",
+          "ENABLE_DIFFUSE",
+          "ENABLE_FOG",
+          "ENABLE_SPECULAR",
+          "_CURVE_VERTICES_NONE",
+          "_CUSTOM_TIME_STANDARD",
+          "_DECALBLEND_ALPHABLEND",
+          "_DISSOLVEAXIS_LOCALX",
+          "_EMISSION",
+          "_EMISSIONTEXTURE_NONE",
+          "_ENABLE_FOG_TINT",
+          "_HOLOGRAM_NONE",
+          "_RIMLIGHT_NONE",
+          "_RIM_WHITEBOOSTTYPE_NONE",
+          "_ROTATE_UV_NONE",
+          "_SPECTROGRAM_NONE",
+          "_VERTEXMODE_NONE",
+          "_VERTEX_WHITEBOOSTTYPE_NONE",
+          "_WHITEBOOSTTYPE_NONE",
+          "_ZWRITE_ON"
+        ]
+      },
+      {
+        "name": "ParametricFakeGlow",
+        "keywords": [
+          "ENABLE_MAIN_EFFECT_WHITE_BOOST",
+          "_WHITEBOOSTTYPE_ALWAYS"
+        ]
+      },
+      {
+        "name": "SaberBurnMarks",
+        "keywords": [
+          "DISTORTION_TARGET_MAIN",
+          "TEXTURE_COLOR",
+          "_FOGTYPE_ALPHA",
+          "_MASK2BLEND_MULTIPLY",
+          "_MASKBLEND_MULTIPLY",
+          "_VERTEXCHANNELS_RGBA",
+          "DISTORTION_NONE",
+          "ENABLE_FOG",
+          "ENABLE_TEXTURE_COLOR",
+          "_ALPHACHANNEL_ALPHA",
+          "_BILLBOARD_NONE",
+          "_CURVE_VERTICES_NONE",
+          "_DISSOLVEAXIS_LOCALX",
+          "_ENABLE_FOG",
+          "_ROTATE_UV_NONE",
+          "_SPECTROGRAM_NONE",
+          "_WHITEBOOSTTYPE_NONE"
+        ]
+      }
+    ],
+    "uniqueMeshes": [
+      "TrackMirror_Kaleidoscope",
+      "Construction_Kaleidoscope",
+      "pb_Mesh-2466928",
+      "pb_Mesh-2466948",
+      "RectangleFakeGlow",
+      "PlayersPlaceCore"
+    ]
+  },
+  "objects": [
+    {
+      "name": "Environment",
+      "id": "KaleidoscopeEnvironment.[0]Environment",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "DecoratorContext",
+      "id": "KaleidoscopeEnvironment.[0]Environment.[0]DecoratorContext",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "SceneSetup",
+      "id": "KaleidoscopeEnvironment.[0]Environment.[1]SceneSetup",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "LightEffects",
+      "id": "KaleidoscopeEnvironment.[0]Environment.[10]LightEffects",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "LightWithIdManager",
+      "id": "KaleidoscopeEnvironment.[0]Environment.[11]LightWithIdManager",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "CoreLighting",
+      "id": "KaleidoscopeEnvironment.[0]Environment.[12]CoreLighting",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "LightManager",
+      "id": "KaleidoscopeEnvironment.[0]Environment.[12]CoreLighting.[0]LightManager",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "LightManager": {
+          "directionalLightDirections": [
+            [
+              -0.5565387,
+              0.241921961,
+              0.7948199,
+              0.0
+            ],
+            [
+              0.5703255,
+              0.241921976,
+              0.78498584,
+              0.0
+            ],
+            [
+              0.0,
+              0.707106769,
+              -0.7071068,
+              0.0
+            ],
+            [
+              0.0,
+              0.026176922,
+              0.9996574,
+              0.0
+            ],
+            [
+              0.0,
+              0.8660254,
+              -0.5,
+              0.0
+            ]
+          ],
+          "directionalLightPositions": [
+            [
+              -6.0,
+              5.0,
+              20.0,
+              0.0
+            ],
+            [
+              6.0,
+              5.0,
+              20.0,
+              0.0
+            ],
+            [
+              0.0,
+              2.0,
+              20.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              5.0,
+              0.0,
+              0.0
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "name": "LightWrapper0",
+      "id": "KaleidoscopeEnvironment.[0]Environment.[12]CoreLighting.[1]LightWrapper0",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            6.0,
+            5.0,
+            20.0
+          ],
+          "localPosition": [
+            6.0,
+            5.0,
+            20.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "DirectionalLight",
+      "id": "KaleidoscopeEnvironment.[0]Environment.[12]CoreLighting.[1]LightWrapper0.[0]DirectionalLight",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            6.0,
+            5.0,
+            20.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            14.0000048,
+            216.0,
+            180.0
+          ],
+          "localRotation": [
+            14.0000048,
+            216.0,
+            180.0
+          ],
+          "scale": [
+            1.0,
+            1.00000012,
+            1.0
+          ]
+        },
+        "DirectionalLight": {
+          "lightIntensity": 1.5,
+          "lightRadius": 80.0,
+          "lightRotation": [
+            14.0000048,
+            216.0,
+            180.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "LightWrapper1",
+      "id": "KaleidoscopeEnvironment.[0]Environment.[12]CoreLighting.[2]LightWrapper1",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            -6.0,
+            5.0,
+            20.0
+          ],
+          "localPosition": [
+            -6.0,
+            5.0,
+            20.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "DirectionalLight",
+      "id": "KaleidoscopeEnvironment.[0]Environment.[12]CoreLighting.[2]LightWrapper1.[0]DirectionalLight",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            -6.0,
+            5.0,
+            20.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            14.0000038,
+            145.000015,
+            180.0
+          ],
+          "localRotation": [
+            14.0000038,
+            145.000015,
+            180.0
+          ],
+          "scale": [
+            1.0,
+            1.00000012,
+            1.00000036
+          ]
+        },
+        "DirectionalLight": {
+          "lightIntensity": 1.5,
+          "lightRadius": 80.0,
+          "lightRotation": [
+            14.0000038,
+            145.000015,
+            180.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "DirectionalLight",
+      "id": "KaleidoscopeEnvironment.[0]Environment.[12]CoreLighting.[3]DirectionalLight",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            2.0,
+            20.0
+          ],
+          "localPosition": [
+            0.0,
+            2.0,
+            20.0
+          ],
+          "rotation": [
+            45.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            45.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "DirectionalLight": {
+          "lightIntensity": 1.0,
+          "lightRadius": 50.0,
+          "lightRotation": [
+            45.0,
+            0.0,
+            0.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "DirectionalLight",
+      "id": "KaleidoscopeEnvironment.[0]Environment.[12]CoreLighting.[4]DirectionalLight",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            1.49999845,
+            180.0,
+            180.0
+          ],
+          "localRotation": [
+            1.49999845,
+            180.0,
+            180.0
+          ],
+          "scale": [
+            1.0,
+            1.00000012,
+            1.00000012
+          ]
+        },
+        "DirectionalLight": {
+          "lightIntensity": 1.5,
+          "lightRadius": 200.0,
+          "lightRotation": [
+            1.49999845,
+            180.0,
+            180.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "DirectionalLight",
+      "id": "KaleidoscopeEnvironment.[0]Environment.[12]CoreLighting.[5]DirectionalLight",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            5.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            5.0,
+            0.0
+          ],
+          "rotation": [
+            60.0000038,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            60.0000038,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "DirectionalLight": {
+          "lightIntensity": 1.0,
+          "lightRadius": 200.0,
+          "lightRotation": [
+            60.0000038,
+            0.0,
+            0.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "GradientBackground",
+      "id": "KaleidoscopeEnvironment.[0]Environment.[13]GradientBackground",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "TrackMirror",
+      "id": "KaleidoscopeEnvironment.[0]Environment.[14]TrackMirror",
+      "meshName": "TrackMirror_Kaleidoscope",
+      "layer": "Water",
+      "components": {
+        "Transform": {
+          "position": [
+            0.3,
+            0.0,
+            3.80000019
+          ],
+          "localPosition": [
+            0.3,
+            0.0,
+            3.80000019
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            -0.299999982,
+            0.0,
+            125.45
+          ],
+          "boundsSize": [
+            2.3,
+            0.0,
+            251.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "TrackMirror"
+          ]
+        }
+      }
+    },
+    {
+      "name": "TrackMirrorSetDepth",
+      "id": "KaleidoscopeEnvironment.[0]Environment.[14]TrackMirror.[0]TrackMirrorSetDepth",
+      "meshName": "TrackMirror_Kaleidoscope",
+      "layer": "Water",
+      "components": {
+        "Transform": {
+          "position": [
+            0.3,
+            0.0,
+            3.80000019
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            -0.299999982,
+            0.0,
+            125.45
+          ],
+          "boundsSize": [
+            2.3,
+            0.0,
+            251.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "SetDepthOnly"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Construction",
+      "id": "KaleidoscopeEnvironment.[0]Environment.[15]Construction",
+      "meshName": "Construction_Kaleidoscope",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            -4.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            -4.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            -5.96046448E-08,
+            -0.04897422,
+            109.250465
+          ],
+          "boundsSize": [
+            2.30000019,
+            0.104051568,
+            202.999069
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "Construction"
+          ]
+        }
+      }
+    },
+    {
+      "name": "BakedReflectionProbe",
+      "id": "KaleidoscopeEnvironment.[0]Environment.[16]BakedReflectionProbe",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            1.5,
+            5.0
+          ],
+          "localPosition": [
+            0.0,
+            1.5,
+            5.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "BakedReflectionProbe": {
+          "probeSize": [
+            1000.0,
+            1000.0,
+            1000.0
+          ],
+          "probePosition": [
+            0.0,
+            1.5,
+            5.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "BSBakedLightingLightWithIds",
+      "id": "KaleidoscopeEnvironment.[0]Environment.[17]BSBakedLightingLightWithIds",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "FakeMirrorSettings",
+      "id": "KaleidoscopeEnvironment.[0]Environment.[18]FakeMirrorSettings",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "BakedReflectionProbeInstaller",
+      "id": "KaleidoscopeEnvironment.[0]Environment.[19]BakedReflectionProbeInstaller",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "PlayersPlace",
+      "id": "KaleidoscopeEnvironment.[0]Environment.[4]PlayersPlace",
+      "layer": "PlayersPlace",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "Mirror",
+      "id": "KaleidoscopeEnvironment.[0]Environment.[4]PlayersPlace.[0]Mirror",
+      "meshName": "pb_Mesh-2466928",
+      "layer": "Water",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.005,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.005,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            -0.0001,
+            0.0
+          ],
+          "boundsSize": [
+            3.0,
+            2.38418579E-07,
+            2.00000024
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "PlayersPlaceMirror"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Construction",
+      "id": "KaleidoscopeEnvironment.[0]Environment.[4]PlayersPlace.[2]Construction",
+      "meshName": "pb_Mesh-2466948",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            -56.3724976,
+            0.0
+          ],
+          "boundsSize": [
+            3.0,
+            112.755005,
+            2.0
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "DarkEnvironmentSimple"
+          ]
+        }
+      }
+    },
+    {
+      "name": "RectangleFakeGlow",
+      "id": "KaleidoscopeEnvironment.[0]Environment.[4]PlayersPlace.[3]RectangleFakeGlow",
+      "meshName": "RectangleFakeGlow",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.008,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.008,
+            0.0
+          ],
+          "rotation": [
+            90.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            90.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.495,
+            0.995000243,
+            1.00000024
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "boundsSize": [
+            3.0,
+            3.0,
+            0.0
+          ]
+        },
+        "RectangleFakeGlow": {
+          "rectangleSize": [
+            2.99,
+            1.99
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "ParametricFakeGlow"
+          ]
+        }
+      }
+    },
+    {
+      "name": "SaberBurnMarksParticles",
+      "id": "KaleidoscopeEnvironment.[0]Environment.[4]PlayersPlace.[4]SaberBurnMarksParticles",
+      "layer": "NonReflectedParticles",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.005,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.005,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "SaberBurnMarkSparklePS",
+      "id": "KaleidoscopeEnvironment.[0]Environment.[4]PlayersPlace.[4]SaberBurnMarksParticles.[0]SaberBurnMarkSparklePS",
+      "layer": "NonReflectedParticles",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.005,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "SaberBurnMarksArea",
+      "id": "KaleidoscopeEnvironment.[0]Environment.[4]PlayersPlace.[5]SaberBurnMarksArea",
+      "meshName": "PlayersPlaceCore",
+      "layer": "NonReflectedParticles",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.01,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.01,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "MeshFilter": {
+          "boundsCenter": [
+            0.0,
+            -0.0001,
+            0.0
+          ],
+          "boundsSize": [
+            3.0,
+            2.38418579E-07,
+            2.00000024
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "SaberBurnMarks"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Collider",
+      "id": "KaleidoscopeEnvironment.[0]Environment.[4]PlayersPlace.[6]Collider",
+      "layer": "PlayersPlace",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            -0.09,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            -0.09,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "SmallTrackLaneRings",
+      "id": "KaleidoscopeEnvironment.[0]Environment.[5]SmallTrackLaneRings",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            1.4,
+            14.0
+          ],
+          "localPosition": [
+            0.0,
+            1.4,
+            14.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "TrackLaneRingsManager": {
+          "ringCount": 20,
+          "ringPositionZStep": 3.0
+        }
+      }
+    },
+    {
+      "name": "DistantRings",
+      "id": "KaleidoscopeEnvironment.[0]Environment.[6]DistantRings",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            220.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            220.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "TrackLaneRingsManager": {
+          "ringCount": 20,
+          "ringPositionZStep": 0.0
+        }
+      }
+    },
+    {
+      "name": "DustPS",
+      "id": "KaleidoscopeEnvironment.[0]Environment.[7]DustPS",
+      "layer": "DontShowInExternalMRCamera",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            1.7,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            1.7,
+            0.0
+          ],
+          "rotation": [
+            90.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            90.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.00000024,
+            1.00000024
+          ]
+        }
+      }
+    }
+  ]
+}

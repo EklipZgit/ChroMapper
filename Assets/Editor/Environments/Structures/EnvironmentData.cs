@@ -1,17 +1,16 @@
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 /// <summary>
-/// Metadata about the environment, including its name, internal ID, and color scheme.
+/// Main class for EnvData information. This class, and all its children, is structured according to the JSON schema used by EnvironmentData:
+/// https://ugecko.github.io/chroodleWeb/data/envdata/#__tabbed_1_5
 /// </summary>
+
 public class EnvironmentData
 {
-    [JsonProperty("environmentTitle")]
-    public string Title;
+    [JsonProperty("environmentData")]
+    public EnvironmentInfo Data;
 
-    [JsonProperty("environmentID")]
-    public string ID;
-
-    //[JsonProperty("colorScheme")]
-    [JsonIgnore]
-    public PlatformColorScheme ColorScheme;
+    [JsonProperty("objects")]
+    public List<EnvironmentObject> Objects = new ();
 }
