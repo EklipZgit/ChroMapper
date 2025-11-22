@@ -147,7 +147,7 @@ public class BeatmapNoteInputController : BeatmapInputController<NoteContainer>,
         BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note)
             .RefreshSpecialAngles(note.ObjectData, false, false);
 
-        if(note.NoteData.CutDirection == (int)NoteCutDirection.Any && Settings.MapVersion >= 3) // janky!
+        if(note.NoteData.CutDirection == (int)NoteCutDirection.Any && Settings.Instance.MapVersion >= 3) // janky!
         {
             note.NoteData.AngleOffset += (shiftForward ^ Settings.Instance.InvertScrollNoteAngle)
                 ? 45
