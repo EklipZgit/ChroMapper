@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 /// <summary>
@@ -57,8 +58,8 @@ public class EnvironmentLibrary : ScriptableObject
     // Instantiates a new instance of an environment object (Prefabs, mostly)
     public Object InstantiateEnvironmentObject(string name)
         => replacementMap.TryGetValue(name, out var prefab)
-            ? Instantiate(prefab)
-            : Instantiate(fallbackPrefab);
+            ? PrefabUtility.InstantiatePrefab(prefab)
+            : PrefabUtility.InstantiatePrefab(fallbackPrefab);
 
     // Unity cannot serialize a Dictionary, so we use a List of entries instead
     [System.Serializable]
