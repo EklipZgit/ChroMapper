@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   materials:
   - Name: NearBuilding
-    Value: {fileID: 0}
+    Value: {fileID: 2100000, guid: 83678a6b610602440a1b0f7ecc0ae928, type: 2}
     Unused: 0
   - Name: EnvLightSpriteGlow
     Value: {fileID: 0}
     Unused: 0
   - Name: EnvLightOpaque
-    Value: {fileID: 0}
+    Value: {fileID: 2100000, guid: 1ac6fecbe52c84159b0e2a1a03671cbb, type: 2}
     Unused: 0
   - Name: EnvLightBillboardSpriteGlow
     Value: {fileID: 0}
@@ -32,13 +32,13 @@ MonoBehaviour:
     Value: {fileID: 0}
     Unused: 0
   - Name: EnvLight
-    Value: {fileID: 0}
+    Value: {fileID: 2100000, guid: fb188bc24cdab074398580328234a46e, type: 2}
     Unused: 0
   - Name: PlayersPlaceReflectionProbeBlurry
     Value: {fileID: 0}
     Unused: 0
   - Name: DarkEnvironmentSimple
-    Value: {fileID: 0}
+    Value: {fileID: 2100000, guid: 83678a6b610602440a1b0f7ecc0ae928, type: 2}
     Unused: 0
   - Name: ParametricFakeGlow
     Value: {fileID: 0}
@@ -53,17 +53,17 @@ MonoBehaviour:
     Value: {fileID: 0}
     Unused: 0
   - Name: TrackConstruction
-    Value: {fileID: 0}
+    Value: {fileID: 2100000, guid: 83678a6b610602440a1b0f7ecc0ae928, type: 2}
     Unused: 0
   meshes:
   - Name: LeftNearBuilding
-    Value: {fileID: 7311844946781822562, guid: a40c9bab8cff5554d909387841ba5916, type: 3}
+    Value: {fileID: 4300000, guid: a28773e0a2664413890a1a1445cc38ed, type: 2}
     Unused: 0
   - Name: ParametricBox
-    Value: {fileID: 8383900753603763173, guid: d3f23e77004b5644fa3cf7f4de4d7bc6, type: 3}
+    Value: {fileID: 4300000, guid: e8f0e23cb3d14a178d6807f1b86111cb, type: 2}
     Unused: 0
   - Name: RightNearBuilding
-    Value: {fileID: 1689124623918546590, guid: 56dfdbb8c3ee0b541aa1f84826017114, type: 3}
+    Value: {fileID: 4300000, guid: eae3ef56f21c47f5876be6f7d4b81733, type: 2}
     Unused: 0
   - Name: GameBackColumns
     Value: {fileID: 0}
@@ -78,17 +78,17 @@ MonoBehaviour:
     Value: {fileID: 0}
     Unused: 0
   - Name: pb_Mesh-2639198
-    Value: {fileID: 0}
+    Value: {fileID: 4300000, guid: 0bee37a13b98c4a4eba21bb1f3f99224, type: 2}
     Unused: 0
   - Name: RectangleFakeGlow
     Value: {fileID: 0}
     Unused: 0
   - Name: PlayersPlaceCore
-    Value: {fileID: 8045570035527640846, guid: 7327a35608c457d4aaf992d4452cfdbe, type: 3}
+    Value: {fileID: 4300000, guid: 5f0cf210d5ad4ec8a700950a6237fea0, type: 2}
     Unused: 0
   - Name: TrackMirror_Default
     Value: {fileID: 0}
     Unused: 0
   - Name: TrackConstruction_Default
-    Value: {fileID: 0}
+    Value: {fileID: 4300000, guid: badffffb520e0ea448d3e574c8ea940d, type: 2}
     Unused: 0

@@ -30,6 +30,9 @@ public class EnvironmentObject
         [JsonProperty("transform")]
         public TransformComponent? Transform;
         
+        [JsonProperty("meshRenderer")]
+        public MeshRendererComponent? MeshRenderer;
+        
         // Lighting Components
         [JsonProperty("tubeBloomPrePassLightWithId")]
         public List<TubeBloomPrePassLightWithIdComponent>? TubeBloomPrePassLightWithId;

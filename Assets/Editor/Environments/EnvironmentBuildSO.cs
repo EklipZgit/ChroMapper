@@ -7,9 +7,10 @@ using Object = UnityEngine.Object;
 public class EnvironmentBuildSO : ScriptableObject
 {
     public List<EnvironmentEntry<Material>> materials = new();
-    public List<EnvironmentEntry<GameObject>> meshes = new();
+    public List<EnvironmentEntry<Mesh>> meshes = new();
 
-    public Dictionary<string, GameObject> prefabLookup = new();
+    public Dictionary<string, Mesh> meshLookup = new();
+    public Dictionary<string, Material> materialLookup = new();
 
     public void OnValidate()
     {
@@ -26,8 +27,11 @@ public class EnvironmentBuildSO : ScriptableObject
 
     public void Initialize()
     {
-        prefabLookup.Clear();
-        foreach (var entry in meshes) prefabLookup[entry.Name] = entry.Value;
+        meshLookup.Clear();
+        foreach (var entry in meshes) meshLookup[entry.Name] = entry.Value;
+
+        materialLookup.Clear();
+        foreach (var entry in materials) materialLookup[entry.Name] = entry.Value;
     }
 
     private void CheckUnused<T>(List<EnvironmentEntry<T>> list, string tag) where T : Object

@@ -1,4 +1,5 @@
 using System.IO;
+using System.Linq;
 using Newtonsoft.Json;
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -19,13 +20,24 @@ public class EnvironmentSceneCreator
         // Check if exactly one object is selected and it's a TextAsset
         // We re-do the check here for safety and to grab a reference to the TextAsset
         if (Selection.objects.Length != 1 || Selection.activeObject is not TextAsset textAsset) return;
+        var assetName = textAsset.name;
 
-        var newScene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
-        SceneManager.SetActiveScene(newScene);
+        var targetPath = Path.Combine(environmentPath, $"{assetName}.unity");
+        var exist = AssetDatabase.AssetPathExists(targetPath);
+
+        var scene = exist
+            ? EditorSceneManager.OpenScene(targetPath, OpenSceneMode.Single)
+            : EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+        SceneManager.SetActiveScene(scene);
+
+        // Remove everything from scene
+        foreach (var go in scene.GetRootGameObjects())
+        {
+            Object.DestroyImmediate(go);
+        }
 
         // Save the scene with the new name (in memory, not on disk yet)
-        var assetName = textAsset.name;
-        newScene.name = assetName;
+        if (!exist) scene.name = assetName;
 
         // Oh dear I'm loading stuff at runtime
         var environmentLibrary =
@@ -48,12 +60,11 @@ public class EnvironmentSceneCreator
         CreateEnvironment(environmentData, environmentLibrary, environmentBuild);
 
         // Save the scene to disk
-        var scenePath = AssetDatabase.GenerateUniqueAssetPath(Path.Combine(environmentPath, $"{assetName}.unity"));
-        if (EditorSceneManager.SaveScene(newScene, scenePath))
+        if ((exist && EditorSceneManager.SaveScene(scene)) || EditorSceneManager.SaveScene(scene, targetPath))
         {
             // Select the newly created scene in the Project window
-            EditorGUIUtility.PingObject(AssetDatabase.LoadAssetAtPath<SceneAsset>(scenePath));
-            Selection.activeObject = AssetDatabase.LoadAssetAtPath<SceneAsset>(scenePath);
+            EditorGUIUtility.PingObject(AssetDatabase.LoadAssetAtPath<SceneAsset>(targetPath));
+            Selection.activeObject = AssetDatabase.LoadAssetAtPath<SceneAsset>(targetPath);
         }
         else
             Debug.LogError("Failed to save the new environment scene.");
@@ -72,7 +83,7 @@ public class EnvironmentSceneCreator
         foreach (var envObject in data.Objects)
         {
             // Skip ignored objects
-            // if (library.IsIgnored(envObject.ChromaID)) continue; // i pretend to not see
+            if (library.IsIgnored(envObject.ChromaID)) continue;
 
             // If our parents name is not present in the Chroma ID, assume we're a level up
             while (!IsParentByChromaID(lastParentChromaID, envObject.ChromaID))
@@ -88,11 +99,31 @@ public class EnvironmentSceneCreator
                 prefab = new GameObject();
             else
             {
-                if (envBuild.prefabLookup.TryGetValue(envObject.MeshName, out var pf) && pf != null)
-                    prefab = PrefabUtility.InstantiatePrefab(pf) as GameObject;
+                if (envBuild.meshLookup.TryGetValue(envObject.MeshName, out var mesh) && mesh != null)
+                {
+                    prefab = new GameObject();
+                    var mf = prefab.AddComponent<MeshFilter>();
+                    mf.sharedMesh = mesh;
+
+                    var renderer = prefab.AddComponent<MeshRenderer>();
+                    if (envObject.Components.MeshRenderer != null
+                        && envObject.Components.MeshRenderer.Materials.Any())
+                    {
+                        if (envBuild.materialLookup.TryGetValue(
+                                envObject.Components.MeshRenderer.Materials[0],
+                                out var mat)
+                            && mat != null)
+                            renderer.sharedMaterial = mat;
+                        else
+                        {
+                            Debug.LogWarning(
+                                $"{envObject.ChromaID}: Material not found for {envObject.Components.MeshRenderer.Materials[0]}");
+                        }
+                    }
+                }
                 else
                 {
-                    Debug.LogError($"{envObject.GameObjectName} does not mesh prefab for {envObject.MeshName}");
+                    Debug.LogWarning($"{envObject.ChromaID}: Mesh not found for {envObject.MeshName}");
                     prefab = PrefabUtility.InstantiatePrefab(library.fallbackPrefab) as GameObject;
                 }
             }
