@@ -1,0 +1,208 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92191ba36b614efcaf921f1d7cf09d90, type: 3}
+  m_Name: PyroEnvironmentBuildSO
+  m_EditorClassIdentifier: 
+  materials:
+  - Name: TrackMirror
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: SetDepthOnly
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: FlipbookRunway
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: PyroLightBillboardSpriteGlow
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: EnvLight
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: GreyPixelateBackground
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: RunwayFrontDark
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: ScaffoldCircular
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: StageLights
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: LightBloom
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: LightBloomBlack
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: EnvLightBillboardSpriteGlow
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: StageLightsHandle
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Scaffold
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: VideoBG
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Scaffold4SlotBox
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: 4SlotLights
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: PlayersPlaceReflectionProbeBlurry
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: DarkEnvironmentSimple
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: ParametricFakeGlow
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: SaberBurnMarks
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Grey
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: StageLightsProjector
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: StageSpeakers
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: SpeakersInside
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: ScaffoldPipeEnd
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: FlipbookFirePC
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: FlipbookFireProbe
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: FirePipeLoopable
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: FireBloom
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: FlipbookFireBurstPC
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: FlipbookFireBurstProbe
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: FirePipeLoopableCage
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: SpeakersPyro
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: FoBLogoFlaming
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: CrowdFlipbook
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: PyroVideo
+    Value: {fileID: 0}
+    Unused: 0
+  meshes:
+  - Name: TrackMirror_Pyro
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Quad
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: ParametricBox
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: ScafoldCirclular
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Projector
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Dynamic3SliceSprite
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Handle
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: ScafoldTriangular
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: 4Slotbox
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: LightBloom
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: pb_Mesh-6458546
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: pb_Mesh-6458542
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: RectangleFakeGlow
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: PlayersPlaceCore
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Stairs1
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Cube
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: SpeakerFBX
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: VerticalPipe
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: LoopableFlipbook
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Connector
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: BurstFlipbook
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Cage
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: SpeakerHigh
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: LogoFlipbook
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: CombinedMesh
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: RotationBase
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Light
+    Value: {fileID: 0}
+    Unused: 0

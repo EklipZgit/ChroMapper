@@ -1,0 +1,109 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92191ba36b614efcaf921f1d7cf09d90, type: 3}
+  m_Name: HalloweenEnvironmentBuildSO
+  m_EditorClassIdentifier: 
+  materials:
+  - Name: Dark
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: GroundStone
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Background
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Tree
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Crow
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: ZombieHand
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: EnvLightBillboardSpriteGlowNoHeightFog
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: EnvLightNoHeightFog
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: EnvLightBillboardSpriteGlow
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: EnvLight
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: GroundFog
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: SaberBurnMarks
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Ground
+    Value: {fileID: 0}
+    Unused: 0
+  meshes:
+  - Name: Box008
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Box010
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Box004
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Box007
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Castle
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Tree1
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Tree2
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: CrowSitting
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: ZombieHand
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: ParametricBox
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Tree3
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Dynamic3SliceSprite
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Plane
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Tree1Depth
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Tombstone
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: PlayersPlaceCore
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Box001
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Box009
+    Value: {fileID: 0}
+    Unused: 0

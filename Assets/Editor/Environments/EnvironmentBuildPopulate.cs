@@ -22,7 +22,7 @@ public class EnvironmentBuildPopulate
                 envDataAsset.text,
                 new Vector3ArrayConverter());
 
-            var targetPath = Path.Combine(environmentPath, "Build", $"{envDataAsset.name}BuildSO.asset");
+            var targetPath = Path.Combine(environmentPath, "Data", $"{envDataAsset.name}BuildSO.asset");
             Debug.Log($"Populating data from {envDataPath} to {targetPath}");
 
             var exist = AssetDatabase.AssetPathExists(targetPath);

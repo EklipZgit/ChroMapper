@@ -1,0 +1,121 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92191ba36b614efcaf921f1d7cf09d90, type: 3}
+  m_Name: QueenEnvironmentBuildSO
+  m_EditorClassIdentifier: 
+  materials:
+  - Name: PlayersPlaceMirror
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: DarkEnvironmentSimple
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: ParametricFakeGlow
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: SaberBurnMarks
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: SilhouetteMercury
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: SilhouetteMay
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: SilhouetteTaylor
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: SilhouetteDeacon
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: SilhouetteChevron
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: TunnelBrick
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: TunnelBrickGlow
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Vinyls
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: PlatformBase
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: TrackMirror
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: SetDepthOnly
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: PlatformBricks
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: LightGlow
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: EnvLightBillboardSpriteGlowWorldNoise
+    Value: {fileID: 0}
+    Unused: 0
+  meshes:
+  - Name: pb_Mesh-2103062
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: pb_Mesh-2103058
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: RectangleFakeGlow
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: PlayersPlaceCore
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Silhouette_Mercury
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Silhouette_May
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Silhouette_Taylor
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Silhouette_Deacon
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Silhouette_Chevron
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: TunnelPiece
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: TunnelPieceMeshGlow
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Vinyl
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: PlatformBase
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: PlatformMirror
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: PlatformBrick
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: LightGlow
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Dynamic3SliceSprite
+    Value: {fileID: 0}
+    Unused: 0

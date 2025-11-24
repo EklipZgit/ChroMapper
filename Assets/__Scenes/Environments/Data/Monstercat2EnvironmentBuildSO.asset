@@ -1,0 +1,130 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92191ba36b614efcaf921f1d7cf09d90, type: 3}
+  m_Name: Monstercat2EnvironmentBuildSO
+  m_EditorClassIdentifier: 
+  materials:
+  - Name: PlayersPlaceReflectionProbeBlurry
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: DarkEnvironmentSimple
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: ParametricFakeGlow
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: SaberBurnMarks
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: TrackMirror
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: SetDepthOnly
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: LightGlow
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: EnvLightBillboardSpriteGlowWorldNoise
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: LasersDot
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: LightPanelNew
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: RunwayRing
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Tooth
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: ToothReflectionProxy
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: RunwaySides
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: ScreenSimpleLit
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: ScreenSmall
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: LightGlowTopSpotlight
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: EnvLightBillboardSpriteGlowWeakFog
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: EnvLight
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Head
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Screen
+    Value: {fileID: 0}
+    Unused: 0
+  meshes:
+  - Name: Mirror
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: PlayersPlaceConstruction
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: RectangleFakeGlow
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: PlayersPlaceCore
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: RunwayMirror
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: LightGlow
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Dynamic3SliceSprite
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Quad
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: LightPanelMesh
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: RunwayRing
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: ToothMeshRound
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: RunwaySides
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: ScreenMesh
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: ScreenSquareMesh
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: ParametricBox
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: HeadMesh
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: CatScreenMesh
+    Value: {fileID: 0}
+    Unused: 0

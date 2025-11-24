@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92191ba36b614efcaf921f1d7cf09d90, type: 3}
+  m_Name: SkrillexEnvironmentBuildSO
+  m_EditorClassIdentifier: 
+  materials:
+  - Name: EnvLight
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: EnvLightBillboardSpriteGlow
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: EnvLightSpriteGlow
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: EnvLightOpaque
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Track
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: EnvLightGlass
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: PlayersPlaceMirror
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: DarkEnvironmentSimple
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: ParametricFakeGlow
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: SaberBurnMarks
+    Value: {fileID: 0}
+    Unused: 0
+  meshes:
+  - Name: ParametricBox
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: SkrillexTrackPlaneC
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Core
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: pb_Mesh-1048688
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: pb_Mesh-1048686
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: RectangleFakeGlow
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: PlayersPlaceCore
+    Value: {fileID: 0}
+    Unused: 0

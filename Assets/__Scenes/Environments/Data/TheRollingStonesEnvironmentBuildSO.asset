@@ -1,0 +1,151 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92191ba36b614efcaf921f1d7cf09d90, type: 3}
+  m_Name: TheRollingStonesEnvironmentBuildSO
+  m_EditorClassIdentifier: 
+  materials:
+  - Name: PlayersPlaceReflectionProbeBlurry
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: DarkEnvironmentSimple
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: ParametricFakeGlow
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: SaberBurnMarks
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: CubeHalf1
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: EnvLightBillboardSpriteGlow
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: EnvLight
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: CubeHalf2
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: EnvLightWorldNoise
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: LipsTexture
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Lips
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Chevron
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Columns
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: ColumnsOuter
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: BakedBloom
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: BoxLightNonOverlapping
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Floor
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: FloorSides
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: FloorBlocksL
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: FloorBlocksR
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: LightGlowBillboard
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Sphere
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Splinters
+    Value: {fileID: 0}
+    Unused: 0
+  meshes:
+  - Name: pb_Mesh-5043150
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: pb_Mesh-5043186
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: RectangleFakeGlow
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: PlayersPlaceCore
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Cube
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: ParametricBox
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Cube2
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Heart
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: TRSLipsPlane
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: TRSLips
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Chevron
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: ColumnInner
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Column
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Dynamic3SliceSprite
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Base
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: BaseBelow
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Side
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: BlocksL
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: BlocksR
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Quad
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Sphere
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Splinters
+    Value: {fileID: 0}
+    Unused: 0

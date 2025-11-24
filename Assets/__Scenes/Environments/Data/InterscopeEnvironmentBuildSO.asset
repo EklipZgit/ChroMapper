@@ -1,0 +1,133 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92191ba36b614efcaf921f1d7cf09d90, type: 3}
+  m_Name: InterscopeEnvironmentBuildSO
+  m_EditorClassIdentifier: 
+  materials:
+  - Name: PlayersPlaceReflectionProbeSharp
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: DarkEnvironmentSimple
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: ParametricFakeGlow
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: SaberBurnMarks
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: FloorMirror
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: SetDepthOnly
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Pillar
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: EnvLightGlass
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: EnvLightSpriteGlowHalfWhiteBoost
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Concrete1
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Concrete2
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Spectrogram
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: CarWheels
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Car
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: FarCar
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: EnvLightWorldNoise
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: EnvLightBillboardSpriteGlowWorldNoise
+    Value: {fileID: 0}
+    Unused: 0
+  meshes:
+  - Name: pb_Mesh-2461528
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: pb_Mesh-2461548
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: RectangleFakeGlow
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: PlayersPlaceCore
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: TrackMirror_Interscope
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: RearPillar_A
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Pillar
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: ParametricBox
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: RampFar
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: FloorFar
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: CeilingNear
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: CeilingFar
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: FloorBack
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: FloorBackFar
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: RearPillar_B
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: RearPillar_C
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: TunnelSpectrogram
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: WheelsFront
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Body
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: RearWheels
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: FrontWheels
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Dynamic3SliceSprite
+    Value: {fileID: 0}
+    Unused: 0

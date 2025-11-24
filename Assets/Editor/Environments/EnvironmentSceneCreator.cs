@@ -34,7 +34,7 @@ public class EnvironmentSceneCreator
             JsonConvert.DeserializeObject<EnvironmentData>(textAsset.text, new Vector3ArrayConverter());
         var environmentBuild =
             AssetDatabase.LoadAssetAtPath<EnvironmentBuildSO>(
-                Path.Combine(environmentPath, "Build", $"{assetName}BuildSO.asset"));
+                Path.Combine(environmentPath, "Data", $"{assetName}BuildSO.asset"));
 
         // Move null checks up here so it doesnt ruin the rest of the process
         if (environmentLibrary == null) throw new System.ArgumentNullException(nameof(environmentLibrary));

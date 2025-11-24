@@ -1,0 +1,160 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92191ba36b614efcaf921f1d7cf09d90, type: 3}
+  m_Name: HipHopEnvironmentBuildSO
+  m_EditorClassIdentifier: 
+  materials:
+  - Name: GridMirror
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: SetDepthOnly
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: PlayersPlaceMirror
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: DarkEnvironmentSimple
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: ParametricFakeGlow
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: SaberBurnMarks
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Spectrograms
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Boombox
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: EHoudiniLogo
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: GraffitiDecalAtlas
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: GraffitiStripMP1
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Basketball
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: BasketballHoopPiece
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: TrainWindowGraffiti
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: GraffitiDecalAtlasCarriage
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: RunwayRing
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: RunwayFakeGlow
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: RunwayLasers
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Walls
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Platforms
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: CeilingLamps
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: EnvLightSpriteGlow
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: EnvLight
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Pillar
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: EnvLightBillboardSpriteGlowWorldNoise
+    Value: {fileID: 0}
+    Unused: 0
+  meshes:
+  - Name: Track2
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: pb_Mesh-1454000
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: pb_Mesh-1454020
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: RectangleFakeGlow
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: PlayersPlaceCore
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: groupdelete1
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Quad
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: GraffitiDecals
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: GraffitiRibbonsUVId
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Basketball
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: HoopPiece
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: TrainWindow
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: GraffitiRibbons
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Runway2
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: DiskFakeGlow
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: TrackLightL
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Roof
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Walls
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Platforms
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: CeilingLight
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: ParametricBox
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: PillarMesh
+    Value: {fileID: 0}
+    Unused: 0
+  - Name: Dynamic3SliceSprite
+    Value: {fileID: 0}
+    Unused: 0
