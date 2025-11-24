@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
@@ -5,6 +6,7 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Object = UnityEngine.Object;
 
 /// <summary>
 /// Editor utility to create a new Unity scene from an EnvironmentInfo JSON file.
@@ -82,8 +84,8 @@ public class EnvironmentSceneCreator
         string lastParentChromaID = null;
         foreach (var envObject in data.Objects)
         {
-            // Skip ignored objects
-            if (library.IsIgnored(envObject.ChromaID)) continue;
+            // Skip ignored objects (Exclude Environment node of ID)
+            if (library.IsIgnored(envObject.ChromaID.Substring(envObject.ChromaID.IndexOf("]",StringComparison.Ordinal) + 1))) continue;
 
             // If our parents name is not present in the Chroma ID, assume we're a level up
             while (!IsParentByChromaID(lastParentChromaID, envObject.ChromaID))
