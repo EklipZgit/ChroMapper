@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8bed67aecb0df44e94f1913900677f0, type: 3}
   m_Name: EnvironmentLibrary
   m_EditorClassIdentifier: 
+  <SkyboxMaterial>k__BackingField: {fileID: 2100000, guid: e08c9a8c6d50c52499b383fff6fa82dd,
+    type: 2}
   ignoreNames:
   - DecoratorContext
   - SceneSetup

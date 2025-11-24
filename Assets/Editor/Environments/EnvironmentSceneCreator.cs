@@ -2,6 +2,8 @@ using Newtonsoft.Json;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using static UnityEngine.Analytics.IAnalytic;
 
 /// <summary>
 /// Editor utility to create a new Unity scene from an EnvironmentInfo JSON file.
@@ -18,6 +20,7 @@ public class EnvironmentSceneCreator
 
         // Create a new scene
         var newScene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+        SceneManager.SetActiveScene(newScene);
 
         // Determine scene name (remove "EnvInfo_" prefix if present)
         var assetName = textAsset.name;
@@ -30,6 +33,16 @@ public class EnvironmentSceneCreator
         // Oh dear I'm loading stuff at runtime
         var environmentLibrary = AssetDatabase.LoadAssetAtPath<EnvironmentLibrary>("Assets/Editor/Environments/EnvironmentLibrary.asset");
         var environmentInfo = JsonConvert.DeserializeObject<EnvironmentData>(textAsset.text, new Vector3ArrayConverter());
+
+        // Move null checks up here so it doesnt ruin the rest of the process
+        if (environmentLibrary == null) throw new System.ArgumentNullException(nameof(environmentLibrary));
+        if (environmentInfo == null) throw new System.ArgumentNullException(nameof(environmentInfo));
+
+        // Set the skybox material if specified in the library
+        if (environmentLibrary.SkyboxMaterial != null)
+        {
+            RenderSettings.skybox = environmentLibrary.SkyboxMaterial;
+        }
 
         // Create the environment in the new scene
         CreateEnvironment(environmentInfo, environmentLibrary);
@@ -55,8 +68,6 @@ public class EnvironmentSceneCreator
     // Main method which constructs the environment from parsed data
     private static void CreateEnvironment(EnvironmentData data, EnvironmentLibrary library)
     {
-        if (library == null) throw new System.ArgumentNullException(nameof(library));
-        if (data == null) throw new System.ArgumentNullException(nameof(data));
 
         Transform lastParent = null;
         string lastParentChromaID = null;

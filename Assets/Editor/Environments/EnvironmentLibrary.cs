@@ -9,6 +9,11 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "EnvironmentLibrary", menuName = "Environment/Environment Library")]
 public class EnvironmentLibrary : ScriptableObject
 {
+    // Special material to use for the skybox
+    // Ideally this should be the bloomfog skybox material.
+    [field: SerializeField]
+    public Material SkyboxMaterial { get; private set; }
+
     // Objects in this list will be ignored entirely when creating an environment
     // (This is typically Beat Saber specific objects that ChroMapper will never use, or have different implementations for)
     [SerializeField]
