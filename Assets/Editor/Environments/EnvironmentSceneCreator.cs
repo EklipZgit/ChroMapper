@@ -19,9 +19,18 @@ public class EnvironmentSceneCreator
     [MenuItem("Environment/Create from Data", false, 1000)]
     private static void CreateEnvironmentFromData()
     {
-        // Check if exactly one object is selected and it's a TextAsset
+        // Check if exactly one object is selected and it's a TextAsset or EnvironmentBuildSO
         // We re-do the check here for safety and to grab a reference to the TextAsset
-        if (Selection.objects.Length != 1 || Selection.activeObject is not TextAsset textAsset) return;
+        if (Selection.objects.Length != 1) return;
+        var textAsset = Selection.activeObject switch
+        {
+            TextAsset tempTextAsset => tempTextAsset,
+            EnvironmentBuildSO envBuild => AssetDatabase.LoadAssetAtPath<TextAsset>(
+                AssetDatabase.GetAssetPath(envBuild).Replace("BuildSO.asset", ".json")),
+            _ => null
+        };
+        if (textAsset == null) return;
+
         var assetName = textAsset.name;
 
         var targetPath = Path.Combine(environmentPath, $"{assetName}.unity");
@@ -43,7 +52,7 @@ public class EnvironmentSceneCreator
 
         // Oh dear I'm loading stuff at runtime
         var environmentLibrary =
-            AssetDatabase.LoadAssetAtPath<EnvironmentLibrary>(Path.Combine(assetPath, "EnvironmentLibrary.asset"));
+            AssetDatabase.LoadAssetAtPath<EnvironmentLibrarySO>(Path.Combine(assetPath, "EnvironmentLibrarySO.asset"));
         var environmentData =
             JsonConvert.DeserializeObject<EnvironmentData>(textAsset.text, new Vector3ArrayConverter());
         var environmentBuild =
@@ -51,9 +60,9 @@ public class EnvironmentSceneCreator
                 Path.Combine(environmentPath, "Data", $"{assetName}BuildSO.asset"));
 
         // Move null checks up here so it doesnt ruin the rest of the process
-        if (environmentLibrary == null) throw new System.ArgumentNullException(nameof(environmentLibrary));
-        if (environmentData == null) throw new System.ArgumentNullException(nameof(environmentData));
-        if (environmentBuild == null) throw new System.ArgumentNullException(nameof(environmentBuild));
+        if (environmentLibrary == null) throw new ArgumentNullException(nameof(environmentLibrary));
+        if (environmentData == null) throw new ArgumentNullException(nameof(environmentData));
+        if (environmentBuild == null) throw new ArgumentNullException(nameof(environmentBuild));
 
         // Set the skybox material if specified in the library
         if (environmentLibrary.SkyboxMaterial != null) RenderSettings.skybox = environmentLibrary.SkyboxMaterial;
@@ -75,17 +84,23 @@ public class EnvironmentSceneCreator
     // Validate menu: only show if a single TextAsset is selected
     [MenuItem("Environment/Create from Data", true)]
     private static bool ValidateCreateEnvironmentFromData() =>
-        Selection.objects.Length == 1 && Selection.activeObject is TextAsset;
+        Selection.objects.Length == 1
+        && (Selection.activeObject is TextAsset || Selection.activeObject is EnvironmentBuildSO);
 
     // Main method which constructs the environment from parsed data
-    private static void CreateEnvironment(EnvironmentData data, EnvironmentLibrary library, EnvironmentBuildSO envBuild)
+    private static void CreateEnvironment(
+        EnvironmentData data,
+        EnvironmentLibrarySO library,
+        EnvironmentBuildSO envBuild)
     {
         Transform lastParent = null;
         string lastParentChromaID = null;
         foreach (var envObject in data.Objects)
         {
             // Skip ignored objects (Exclude Environment node of ID)
-            if (library.IsIgnored(envObject.ChromaID.Substring(envObject.ChromaID.IndexOf("]",StringComparison.Ordinal) + 1))) continue;
+            if (library.IsIgnored(
+                envObject.ChromaID.Substring(envObject.ChromaID.IndexOf("]", StringComparison.Ordinal) + 1)))
+                continue;
 
             // If our parents name is not present in the Chroma ID, assume we're a level up
             while (!IsParentByChromaID(lastParentChromaID, envObject.ChromaID))
@@ -131,6 +146,7 @@ public class EnvironmentSceneCreator
             }
 
             prefab.name = envObject.GameObjectName;
+            prefab.layer = library.layerMaskLookup[envObject.Layer].value;
 
             // Set the parent of the instantiated object
             if (lastParent != null) prefab.transform.SetParent(lastParent.transform, false);

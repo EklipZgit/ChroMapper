@@ -1,5 +1,5 @@
+using System;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 /// <summary>
@@ -8,20 +8,37 @@ using UnityEngine;
 /// This handles entire prefabs, as well as shared instances like materials and meshes.
 /// </summary>
 [CreateAssetMenu(fileName = "EnvironmentLibrary", menuName = "Environment/Environment Library")]
-public class EnvironmentLibrary : ScriptableObject
+public class EnvironmentLibrarySO : ScriptableObject
 {
     // Special material to use for the skybox
     // Ideally this should be the bloomfog skybox material.
-    [field: SerializeField]
-    public Material SkyboxMaterial { get; private set; }
+    [field: SerializeField] public Material SkyboxMaterial { get; private set; }
+
+    [SerializeField] public List<LayerMaskEntry> layerMaskRemap = new();
+    public Dictionary<string, LayerMask> layerMaskLookup = new();
 
     // Objects in this list will be ignored entirely when creating an environment
     // (This is typically Beat Saber specific objects that ChroMapper will never use, or have different implementations for)
-    [SerializeField]
-    private List<string> ignoreNames = new();
+    [SerializeField] private List<string> ignoreNames = new();
 
     // The fallback prefab to use when no replacement is found
     [SerializeField] public GameObject fallbackPrefab;
 
+    public void OnValidate() => Initialize();
+    public void OnEnable() => Initialize();
+
+    private void Initialize()
+    {
+        layerMaskLookup.Clear();
+        foreach (var entry in layerMaskRemap) layerMaskLookup.Add(entry.name, entry.layerMask);
+    }
+
     public bool IsIgnored(string name) => ignoreNames.Exists(it => name.Contains(it));
+}
+
+[Serializable]
+public struct LayerMaskEntry
+{
+    public string name;
+    public LayerMask layerMask;
 }

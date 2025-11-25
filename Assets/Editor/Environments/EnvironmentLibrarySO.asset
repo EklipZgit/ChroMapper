@@ -14,17 +14,52 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <SkyboxMaterial>k__BackingField: {fileID: 2100000, guid: e08c9a8c6d50c52499b383fff6fa82dd,
     type: 2}
+  layerMaskRemap:
+  - name: Environment
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 1
+  - name: Default
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 1
+  - name: DontShowInExternalMRCamera
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 1
+  - name: NeonLight
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 1073741824
+  - name: PlayersPlace
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 1
+  - name: Water
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 1
+  - name: NonReflectedParticles
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 1
+  - name: UI
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 32
+  - name: EnvironmentPhysics
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 1
   ignoreNames:
   - DecoratorContext
   - SceneSetup
   - BakedBloom
   - Feet
-  - Mirror
   - RectangleFakeGlow
   - SaberBurnMarksParticles
   - SaberBurnMarkSparklePS
   - Collider
-  - TrackMirror
   - SetDepthOnly
   - Ring(Clone)
   - DustPS

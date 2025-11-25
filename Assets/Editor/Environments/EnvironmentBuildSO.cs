@@ -36,7 +36,7 @@ public class EnvironmentBuildSO : ScriptableObject
 
     private void CheckUnused<T>(List<EnvironmentEntry<T>> list, string tag) where T : Object
     {
-        var unused = list.Where(x => x.Unused).ToList();
+        var unused = list.Where(x => !x.Ignored && x.Unused).ToList();
         if (unused.Any())
         {
             Debug.LogWarning(
@@ -46,7 +46,7 @@ public class EnvironmentBuildSO : ScriptableObject
 
     private void CheckEmpty<T>(List<EnvironmentEntry<T>> list, string tag) where T : Object
     {
-        var empties = list.Where(x => x.Value == null).ToList();
+        var empties = list.Where(x => !x.Ignored && x.Value == null).ToList();
         if (empties.Any())
         {
             Debug.LogWarning(
@@ -82,6 +82,12 @@ public class EnvironmentBuildSO : ScriptableObject
 
         if (list.All(x => x.Name != name)) list.Add(new EnvironmentEntry<T> { Name = name });
     }
+
+    public void Sort()
+    {
+        meshes.Sort((x, y) => string.Compare(x.Name, y.Name, StringComparison.Ordinal));
+        materials.Sort((x, y) => string.Compare(x.Name, y.Name, StringComparison.Ordinal));
+    }
 }
 
 [Serializable]
@@ -89,5 +95,9 @@ public class EnvironmentEntry<TValue> where TValue : Object
 {
     public string Name;
     public TValue Value;
+
+    [Header("Flag")]
     public bool Unused; // when recreate, this mark object that were changed or not used due to game update or oopsies
+
+    public bool Ignored;
 }
