@@ -6,8 +6,8 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Plane (6)[662]
-  serializedVersion: 10
+  m_Name: 'Plane (6)[662]'
+  serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
     firstByte: 0
@@ -17,8 +17,8 @@ Mesh:
     firstVertex: 0
     vertexCount: 4
     localAABB:
-      m_Center: {x: 0.3934998, y: 0, z: 1.0050968}
-      m_Extent: {x: 2.1760197, y: 0, z: 0.732903}
+      m_Center: {x: 39.349983, y: 0, z: 100.509674}
+      m_Extent: {x: 217.60199, y: 0, z: 73.2903}
   m_Shapes:
     vertices: []
     shapes: []
@@ -97,7 +97,7 @@ Mesh:
       format: 0
       dimension: 0
     m_DataSize: 224
-    _typelessdata: 02732440000000000fe08b3e000000000000803f000000000000803f0000000000000000000080bfda798043188eda410bd7a33c0bd7a33c9d29e4bf00000000fb5c8b3e000000000000803f000000000000803f0000000000000000000080bf834032c348c1d9411a467b3f0bd7a33c2fb21d3e00000000c776de3f000000000000803f000000000000803f0000000000000000000080bf6a667641cccc2d4360b90d3fd900b03ecaa1253f00000000c776de3f000000000000803f000000000000803f0000000000000000000080bf66668142cccc2d43f6ade33e91fdaf3e
+    _typelessdata: da79804300000000178eda41000000000000803f000000000000803f00000000127c92b1000080bfda798043188eda410bd7a33c0bd7a33c834032c30000000048c1d941000000000000803f000000000000803f0000000029b595b1000080bf834032c348c1d9411a467b3f0bd7a33c6966764100000000cbcc2d43000000000000803f000000000000803f00000000561c91b1000080bf6a667641cccc2d4360b90d3fd900b03e6666814200000000cbcc2d43000000000000803f000000000000803f0000000000000000000080bf66668142cccc2d43f6ade33e91fdaf3e
   m_CompressedMesh:
     m_Vertices:
       m_NumItems: 0
@@ -151,15 +151,17 @@ Mesh:
       m_BitSize: 0
     m_UVInfo: 0
   m_LocalAABB:
-    m_Center: {x: 0.3934998, y: 0, z: 1.0050968}
-    m_Extent: {x: 2.1760197, y: 0, z: 0.732903}
+    m_Center: {x: 39.349983, y: 0, z: 100.509674}
+    m_Extent: {x: 217.60199, y: 0, z: 73.2903}
   m_MeshUsageFlags: 0
+  m_CookingOptions: 30
   m_BakedConvexCollisionMesh: 
   m_BakedTriangleCollisionMesh: 
-  m_MeshMetrics[0]: 1
-  m_MeshMetrics[1]: 20.485775
+  'm_MeshMetrics[0]': 1
+  'm_MeshMetrics[1]': 20.485775
   m_MeshOptimizationFlags: -1
   m_StreamData:
+    serializedVersion: 2
     offset: 0
     size: 0
     path: 

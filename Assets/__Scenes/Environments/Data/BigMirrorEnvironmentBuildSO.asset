@@ -13,82 +13,108 @@ MonoBehaviour:
   m_Name: BigMirrorEnvironmentBuildSO
   m_EditorClassIdentifier: 
   materials:
-  - Name: Spectrogram
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: EnvLightBillboardSpriteGlow
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: EnvLightOpaque
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: EnvLight
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: GridMirror
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: SetDepthOnly
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: EnvLightSpriteGlow
-    Value: {fileID: 0}
-    Unused: 0
   - Name: BackColumns
-    Value: {fileID: 0}
+    Value: {fileID: 2100000, guid: 66032328947df06c7a673faec594da59, type: 2}
     Unused: 0
+    Ignored: 0
   - Name: Construction
-    Value: {fileID: 0}
+    Value: {fileID: 2100000, guid: b3cfd2556c5af6bc9affc8343d566e8d, type: 2}
     Unused: 0
-  - Name: PlayersPlaceMirror
-    Value: {fileID: 0}
-    Unused: 0
+    Ignored: 0
   - Name: DarkEnvironmentSimple
-    Value: {fileID: 0}
+    Value: {fileID: 2100000, guid: bd4b2f57e2345cfc0b7c3dd3f700abef, type: 2}
     Unused: 0
-  - Name: ParametricFakeGlow
-    Value: {fileID: 0}
+    Ignored: 0
+  - Name: EnvLight
+    Value: {fileID: 2100000, guid: 39d683c3bf80da2d88527b0aa1108cd4, type: 2}
     Unused: 0
-  - Name: SaberBurnMarks
-    Value: {fileID: 0}
+    Ignored: 0
+  - Name: EnvLightBillboardSpriteGlow
+    Value: {fileID: 2100000, guid: 8209e02aa3e46e569bf21ae5f1711383, type: 2}
     Unused: 0
+    Ignored: 0
+  - Name: EnvLightOpaque
+    Value: {fileID: 2100000, guid: 09bd15e319498b9e8b68f56c063ab547, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: EnvLightSpriteGlow
+    Value: {fileID: 2100000, guid: cd20c452d4376523d991c25d50a756bd, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: GridMirror
+    Value: {fileID: 2100000, guid: a8d950c0b357bdc59b5e543ab1b0b239, type: 2}
+    Unused: 0
+    Ignored: 0
   - Name: NearBuilding
-    Value: {fileID: 0}
+    Value: {fileID: 2100000, guid: 078b98bfc013130c4aa3c1c37472e364, type: 2}
     Unused: 0
+    Ignored: 0
+  - Name: ParametricFakeGlow
+    Value: {fileID: 2100000, guid: 42aba6c72a0b6011ea2defa033e53de8, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: PlayersPlaceMirror
+    Value: {fileID: 2100000, guid: 9767cd18692cd07cbbcd0b33a725cd1a, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: SaberBurnMarks
+    Value: {fileID: 2100000, guid: 43da984a2814c2f64bbe0e51a8609dac, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: SetDepthOnly
+    Value: {fileID: 2100000, guid: 3b88e3fb6cbeb6204863081d435fb5b3, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: Spectrogram
+    Value: {fileID: 2100000, guid: 4c50dfafa98e2e006bedc6647b38fc47, type: 2}
+    Unused: 0
+    Ignored: 0
   meshes:
-  - Name: Spectrogram0
-    Value: {fileID: 0}
+  - Name: BigMirrorConstruction
+    Value: {fileID: 4300000, guid: 187d06887a3843b40a1b19ba4ba8f429, type: 3}
     Unused: 0
-  - Name: Spectrogram1
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: ParametricBox
-    Value: {fileID: 0}
-    Unused: 0
+    Ignored: 0
   - Name: BigMirrorFloor
     Value: {fileID: 0}
     Unused: 0
+    Ignored: 0
   - Name: GameBackColumns
-    Value: {fileID: 0}
+    Value: {fileID: 4300000, guid: e28cddbb47b967e418ff18268c17d636, type: 3}
     Unused: 0
-  - Name: BigMirrorConstruction
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: pb_Mesh-2381336
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: pb_Mesh-2381356
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: RectangleFakeGlow
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: PlayersPlaceCore
-    Value: {fileID: 0}
-    Unused: 0
+    Ignored: 0
   - Name: LeftNearBuilding
-    Value: {fileID: 0}
+    Value: {fileID: 4300000, guid: a28773e0a2664413890a1a1445cc38ed, type: 2}
     Unused: 0
+    Ignored: 0
+  - Name: ParametricBox
+    Value: {fileID: 4300000, guid: e8f0e23cb3d14a178d6807f1b86111cb, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: PlayersPlaceCore
+    Value: {fileID: 4300000, guid: 5f0cf210d5ad4ec8a700950a6237fea0, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: RectangleFakeGlow
+    Value: {fileID: 4300000, guid: 4f34ecd22d88423bb252acc88d5b47f7, type: 2}
+    Unused: 0
+    Ignored: 0
   - Name: RightNearBuilding
+    Value: {fileID: 4300000, guid: eae3ef56f21c47f5876be6f7d4b81733, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: Spectrogram0
     Value: {fileID: 0}
     Unused: 0
+    Ignored: 0
+  - Name: Spectrogram1
+    Value: {fileID: 0}
+    Unused: 0
+    Ignored: 0
+  - Name: pb_Mesh-2381336
+    Value: {fileID: 4300000, guid: 5f0cf210d5ad4ec8a700950a6237fea0, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: pb_Mesh-2381356
+    Value: {fileID: 4300000, guid: 0bee37a13b98c4a4eba21bb1f3f99224, type: 2}
+    Unused: 0
+    Ignored: 0

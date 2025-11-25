@@ -13,91 +13,120 @@ MonoBehaviour:
   m_Name: TheWeekndEnvironmentBuildSO
   m_EditorClassIdentifier: 
   materials:
-  - Name: PlayersPlaceMirror
-    Value: {fileID: 0}
+  - Name: BuildingBG
+    Value: {fileID: 2100000, guid: 798facc8c257cc49f9ad81d7c388d74b, type: 2}
     Unused: 0
-  - Name: DarkEnvironmentSimple
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: ParametricFakeGlow
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: SaberBurnMarks
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: GridMirror
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: SetDepthOnly
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: EnvLightBillboardSpriteGlow
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: EnvLight
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: EnvLightSpriteGlowZOffset
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: CenterpieceRing
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: LightGlowRainbowLaser
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: EnvLightBillboardSpriteGlowWorldNoise
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: LampPost
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: LampRing
-    Value: {fileID: 0}
-    Unused: 0
+    Ignored: 0
   - Name: BuildingBaseConcrete
-    Value: {fileID: 0}
+    Value: {fileID: 2100000, guid: d05a04575b3fd6d9f83cf71ceddd34fa, type: 2}
     Unused: 0
+    Ignored: 0
+  - Name: CenterpieceRing
+    Value: {fileID: 2100000, guid: 8d3262f7169598384817b9f6a24db323, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: DarkEnvironmentSimple
+    Value: {fileID: 2100000, guid: bd4b2f57e2345cfc0b7c3dd3f700abef, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: EnvLight
+    Value: {fileID: 2100000, guid: 39d683c3bf80da2d88527b0aa1108cd4, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: EnvLightBillboardSpriteGlow
+    Value: {fileID: 2100000, guid: 8209e02aa3e46e569bf21ae5f1711383, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: EnvLightBillboardSpriteGlowWorldNoise
+    Value: {fileID: 2100000, guid: bd9be70e8803a18348014a8a5852fca8, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: EnvLightSpriteGlowZOffset
+    Value: {fileID: 2100000, guid: 59825e913f8b1499d82f2f7e9c17e962, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: GridMirror
+    Value: {fileID: 2100000, guid: a8d950c0b357bdc59b5e543ab1b0b239, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: LampPost
+    Value: {fileID: 2100000, guid: 8f3d0ddf0fdb8a361a407372422bf7cd, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: LampRing
+    Value: {fileID: 2100000, guid: 034cc108d377550fa8175ec098b6a7c9, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: LightGlowRainbowLaser
+    Value: {fileID: 2100000, guid: a74a994b660c991e7b5a60f99b20aa4c, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: ParametricFakeGlow
+    Value: {fileID: 2100000, guid: 42aba6c72a0b6011ea2defa033e53de8, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: PlayersPlaceMirror
+    Value: {fileID: 2100000, guid: 9767cd18692cd07cbbcd0b33a725cd1a, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: SaberBurnMarks
+    Value: {fileID: 2100000, guid: 43da984a2814c2f64bbe0e51a8609dac, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: SetDepthOnly
+    Value: {fileID: 2100000, guid: 3b88e3fb6cbeb6204863081d435fb5b3, type: 2}
+    Unused: 0
+    Ignored: 0
+  meshes:
   - Name: BuildingBG
     Value: {fileID: 0}
     Unused: 0
-  meshes:
-  - Name: pb_Mesh-7566636
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: pb_Mesh-7566632
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: RectangleFakeGlow
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: PlayersPlaceCore
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: TrackMirror_Weeknd
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: ParametricBox
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: LampRing1
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: LightGlow
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: Dynamic3SliceSprite
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: LampPost
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: LampRing
-    Value: {fileID: 0}
-    Unused: 0
+    Ignored: 0
   - Name: Cube
     Value: {fileID: 0}
     Unused: 0
-  - Name: BuildingBG
+    Ignored: 0
+  - Name: Dynamic3SliceSprite
     Value: {fileID: 0}
     Unused: 0
+    Ignored: 0
+  - Name: LampPost
+    Value: {fileID: 0}
+    Unused: 0
+    Ignored: 0
+  - Name: LampRing
+    Value: {fileID: 0}
+    Unused: 0
+    Ignored: 0
+  - Name: LampRing1
+    Value: {fileID: 0}
+    Unused: 0
+    Ignored: 0
+  - Name: LightGlow
+    Value: {fileID: 0}
+    Unused: 0
+    Ignored: 0
+  - Name: ParametricBox
+    Value: {fileID: 4300000, guid: e8f0e23cb3d14a178d6807f1b86111cb, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: PlayersPlaceCore
+    Value: {fileID: 4300000, guid: 5f0cf210d5ad4ec8a700950a6237fea0, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: RectangleFakeGlow
+    Value: {fileID: 4300000, guid: 4f34ecd22d88423bb252acc88d5b47f7, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: TrackMirror_Weeknd
+    Value: {fileID: 0}
+    Unused: 0
+    Ignored: 0
+  - Name: pb_Mesh-7566632
+    Value: {fileID: 0}
+    Unused: 0
+    Ignored: 0
+  - Name: pb_Mesh-7566636
+    Value: {fileID: 0}
+    Unused: 0
+    Ignored: 0

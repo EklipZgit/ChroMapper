@@ -13,127 +13,168 @@ MonoBehaviour:
   m_Name: GagaEnvironmentBuildSO
   m_EditorClassIdentifier: 
   materials:
-  - Name: PlayersPlaceReflectionProbeBlurry
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: DarkEnvironmentSimple
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: ParametricFakeGlow
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: SaberBurnMarks
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: RunwayConstruction
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: Tube
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: EnvLightSpriteGlow
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: EnvLightOpaque
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: TeslaTower
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: Logo
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: DiskGlow
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: TeslaDiskFakeGlow
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: TeslaDisk
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: SimpleLightning
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: SimpleLightningThin
-    Value: {fileID: 0}
-    Unused: 0
   - Name: Aurora1
-    Value: {fileID: 0}
+    Value: {fileID: 2100000, guid: a84b291bd7b013d468101e5b4a275857, type: 2}
     Unused: 0
+    Ignored: 0
   - Name: Aurora2
-    Value: {fileID: 0}
+    Value: {fileID: 2100000, guid: 52cd03f2e398d2b4d9759d7010c9ba87, type: 2}
     Unused: 0
-  - Name: FrontLaserGlow
-    Value: {fileID: 0}
+    Ignored: 0
+  - Name: DarkEnvironmentSimple
+    Value: {fileID: 2100000, guid: bd4b2f57e2345cfc0b7c3dd3f700abef, type: 2}
     Unused: 0
+    Ignored: 0
+  - Name: DiskGlow
+    Value: {fileID: 2100000, guid: 24a61d082f101cacc8bd97e9611fe5e1, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: EnvLightOpaque
+    Value: {fileID: 2100000, guid: 09bd15e319498b9e8b68f56c063ab547, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: EnvLightSpriteGlow
+    Value: {fileID: 2100000, guid: cd20c452d4376523d991c25d50a756bd, type: 2}
+    Unused: 0
+    Ignored: 0
   - Name: FrontLaser
-    Value: {fileID: 0}
+    Value: {fileID: 2100000, guid: 4a9e93bc7b5e7798ba284826da55f7ef, type: 2}
     Unused: 0
-  - Name: RailingMirror
-    Value: {fileID: 0}
+    Ignored: 0
+  - Name: FrontLaserGlow
+    Value: {fileID: 2100000, guid: ad8076037ff989bf4b7b5eee87cdf18c, type: 2}
     Unused: 0
-  - Name: SetDepthOnly
-    Value: {fileID: 0}
+    Ignored: 0
+  - Name: Logo
+    Value: {fileID: 2100000, guid: 2d5d685023b5de9e8956ae6950ff76ca, type: 2}
     Unused: 0
+    Ignored: 0
+  - Name: ParametricFakeGlow
+    Value: {fileID: 2100000, guid: 42aba6c72a0b6011ea2defa033e53de8, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: PlayersPlaceReflectionProbeBlurry
+    Value: {fileID: 2100000, guid: 60c9583fc65a8ed128aa05e5d11dc3a1, type: 2}
+    Unused: 0
+    Ignored: 0
   - Name: RailingConstruction
-    Value: {fileID: 0}
+    Value: {fileID: 2100000, guid: 5382553a96e5748429174c82bc090022, type: 2}
     Unused: 0
+    Ignored: 0
+  - Name: RailingMirror
+    Value: {fileID: 2100000, guid: 19a130cd28e8f2ff2bb6c5339ae297a6, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: RunwayConstruction
+    Value: {fileID: 2100000, guid: 097e27c1340d8b9debda4245bc829b49, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: SaberBurnMarks
+    Value: {fileID: 2100000, guid: 43da984a2814c2f64bbe0e51a8609dac, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: SetDepthOnly
+    Value: {fileID: 2100000, guid: 3b88e3fb6cbeb6204863081d435fb5b3, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: SimpleLightning
+    Value: {fileID: 2100000, guid: c060376edd4ac6a9fb225d7cc8dd94d8, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: SimpleLightningThin
+    Value: {fileID: 2100000, guid: 801b834489bf9e026b360633f370670b, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: TeslaDisk
+    Value: {fileID: 2100000, guid: d60385ccb037f87a99444185a778d17e, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: TeslaDiskFakeGlow
+    Value: {fileID: 2100000, guid: cede6ba6343d5aa66bba4d9b7c45edc1, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: TeslaTower
+    Value: {fileID: 2100000, guid: fb0ba551db57b6cf9a55c5160eca02c7, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: Tube
+    Value: {fileID: 2100000, guid: ced16d5c320447f82ab40fade7888d12, type: 2}
+    Unused: 0
+    Ignored: 0
   meshes:
-  - Name: pb_Mesh-136590
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: pb_Mesh-669476
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: RectangleFakeGlow
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: PlayersPlaceCore
-    Value: {fileID: 0}
-    Unused: 0
   - Name: BackCube
     Value: {fileID: 0}
     Unused: 0
-  - Name: TubeElement
-    Value: {fileID: 0}
+    Ignored: 0
+  - Name: Construction
+    Value: {fileID: 4300000, guid: 047fa64d8ee6ca54ba74052959dad7de, type: 2}
     Unused: 0
-  - Name: ParametricBox
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: RunwayPier
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: TeslaTowerMesh
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: Logo.001
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: Disk
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: Glow
-    Value: {fileID: 0}
-    Unused: 0
+    Ignored: 0
   - Name: CylinderGlow
     Value: {fileID: 0}
     Unused: 0
-  - Name: Strip
-    Value: {fileID: 0}
+    Ignored: 0
+  - Name: Disk
+    Value: {fileID: 4300000, guid: 62791dbc7d9a3af41a1debd494975cd1, type: 2}
     Unused: 0
-  - Name: transform1
-    Value: {fileID: 0}
-    Unused: 0
+    Ignored: 0
   - Name: Dynamic3SliceSprite
     Value: {fileID: 0}
     Unused: 0
+    Ignored: 0
+  - Name: Glow
+    Value: {fileID: 4300000, guid: 83182270f78ae434b812821df631a299, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: Logo.001
+    Value: {fileID: 4300000, guid: 40b023ad61bf9074195e58c511a06b17, type: 2}
+    Unused: 0
+    Ignored: 0
   - Name: MainBeamDisk
-    Value: {fileID: 0}
+    Value: {fileID: 4300000, guid: 2a99955b5417857439dd03693c0dcaf6, type: 2}
     Unused: 0
+    Ignored: 0
   - Name: Mirror
+    Value: {fileID: 4300000, guid: 4185c5e8e8aa2294391bfddd00f6c8a4, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: ParametricBox
+    Value: {fileID: 4300000, guid: e8f0e23cb3d14a178d6807f1b86111cb, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: PlayersPlaceCore
+    Value: {fileID: 4300000, guid: 5f0cf210d5ad4ec8a700950a6237fea0, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: RectangleFakeGlow
+    Value: {fileID: 4300000, guid: 4f34ecd22d88423bb252acc88d5b47f7, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: RunwayPier
+    Value: {fileID: 4300000, guid: ebbc884e16df0ff47acf4d1c51f110af, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: Strip
     Value: {fileID: 0}
     Unused: 0
-  - Name: Construction
+    Ignored: 0
+  - Name: TeslaTowerMesh
+    Value: {fileID: 4300000, guid: f6bc4f429f02c4342936c6bb13f7ed41, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: TubeElement
+    Value: {fileID: 4300000, guid: 6d00ea273b3afc949b8ecdfaca3490a3, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: pb_Mesh-136590
     Value: {fileID: 0}
     Unused: 0
+    Ignored: 0
+  - Name: pb_Mesh-669476
+    Value: {fileID: 0}
+    Unused: 0
+    Ignored: 0
+  - Name: transform1
+    Value: {fileID: 4300000, guid: ec9d67daa3db8854eb1c69a5b39e5823, type: 2}
+    Unused: 0
+    Ignored: 0

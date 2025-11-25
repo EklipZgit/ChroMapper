@@ -13,109 +13,144 @@ MonoBehaviour:
   m_Name: QueenEnvironmentBuildSO
   m_EditorClassIdentifier: 
   materials:
-  - Name: PlayersPlaceMirror
-    Value: {fileID: 0}
-    Unused: 0
   - Name: DarkEnvironmentSimple
-    Value: {fileID: 0}
+    Value: {fileID: 2100000, guid: bd4b2f57e2345cfc0b7c3dd3f700abef, type: 2}
     Unused: 0
-  - Name: ParametricFakeGlow
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: SaberBurnMarks
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: SilhouetteMercury
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: SilhouetteMay
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: SilhouetteTaylor
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: SilhouetteDeacon
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: SilhouetteChevron
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: TunnelBrick
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: TunnelBrickGlow
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: Vinyls
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: PlatformBase
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: TrackMirror
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: SetDepthOnly
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: PlatformBricks
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: LightGlow
-    Value: {fileID: 0}
-    Unused: 0
+    Ignored: 0
   - Name: EnvLightBillboardSpriteGlowWorldNoise
-    Value: {fileID: 0}
+    Value: {fileID: 2100000, guid: bd9be70e8803a18348014a8a5852fca8, type: 2}
     Unused: 0
-  meshes:
-  - Name: pb_Mesh-2103062
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: pb_Mesh-2103058
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: RectangleFakeGlow
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: PlayersPlaceCore
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: Silhouette_Mercury
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: Silhouette_May
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: Silhouette_Taylor
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: Silhouette_Deacon
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: Silhouette_Chevron
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: TunnelPiece
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: TunnelPieceMeshGlow
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: Vinyl
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: PlatformBase
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: PlatformMirror
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: PlatformBrick
-    Value: {fileID: 0}
-    Unused: 0
+    Ignored: 0
   - Name: LightGlow
-    Value: {fileID: 0}
+    Value: {fileID: 2100000, guid: 656893dd00b90b87d87c26d4801cf362, type: 2}
     Unused: 0
+    Ignored: 0
+  - Name: ParametricFakeGlow
+    Value: {fileID: 2100000, guid: 42aba6c72a0b6011ea2defa033e53de8, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: PlatformBase
+    Value: {fileID: 2100000, guid: f13b5504ceb5d450e9821c35f8656a98, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: PlatformBricks
+    Value: {fileID: 2100000, guid: 09308fcecfac54d2587f439306ea57a9, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: PlayersPlaceMirror
+    Value: {fileID: 2100000, guid: 9767cd18692cd07cbbcd0b33a725cd1a, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: SaberBurnMarks
+    Value: {fileID: 2100000, guid: 43da984a2814c2f64bbe0e51a8609dac, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: SetDepthOnly
+    Value: {fileID: 2100000, guid: 3b88e3fb6cbeb6204863081d435fb5b3, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: SilhouetteChevron
+    Value: {fileID: 2100000, guid: bca08a789e25f596685f27307e4ba974, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: SilhouetteDeacon
+    Value: {fileID: 2100000, guid: d88eeb849bd347008a4a8ca6453d7d05, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: SilhouetteMay
+    Value: {fileID: 2100000, guid: 04556f87d889bea3f8936c39c3d6f20f, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: SilhouetteMercury
+    Value: {fileID: 2100000, guid: 5201ebd55eed77326befe711efe299c4, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: SilhouetteTaylor
+    Value: {fileID: 2100000, guid: 31076a3f41188ae87a4b81ef84267569, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: TrackMirror
+    Value: {fileID: 2100000, guid: c659184f614349ae3bd7f83aefe7a582, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: TunnelBrick
+    Value: {fileID: 2100000, guid: 5134df46755653e298fc0e8014dfe338, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: TunnelBrickGlow
+    Value: {fileID: 2100000, guid: c87e5ea8d52b3fcddb8309451b398366, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: Vinyls
+    Value: {fileID: 2100000, guid: f531dc99bdf666489a0f934cae24ab6c, type: 2}
+    Unused: 0
+    Ignored: 0
+  meshes:
   - Name: Dynamic3SliceSprite
     Value: {fileID: 0}
     Unused: 0
+    Ignored: 0
+  - Name: LightGlow
+    Value: {fileID: 0}
+    Unused: 0
+    Ignored: 0
+  - Name: PlatformBase
+    Value: {fileID: 0}
+    Unused: 0
+    Ignored: 0
+  - Name: PlatformBrick
+    Value: {fileID: 0}
+    Unused: 0
+    Ignored: 0
+  - Name: PlatformMirror
+    Value: {fileID: 0}
+    Unused: 0
+    Ignored: 0
+  - Name: PlayersPlaceCore
+    Value: {fileID: 4300000, guid: 5f0cf210d5ad4ec8a700950a6237fea0, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: RectangleFakeGlow
+    Value: {fileID: 4300000, guid: 4f34ecd22d88423bb252acc88d5b47f7, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: Silhouette_Chevron
+    Value: {fileID: 0}
+    Unused: 0
+    Ignored: 0
+  - Name: Silhouette_Deacon
+    Value: {fileID: 0}
+    Unused: 0
+    Ignored: 0
+  - Name: Silhouette_May
+    Value: {fileID: 0}
+    Unused: 0
+    Ignored: 0
+  - Name: Silhouette_Mercury
+    Value: {fileID: 0}
+    Unused: 0
+    Ignored: 0
+  - Name: Silhouette_Taylor
+    Value: {fileID: 0}
+    Unused: 0
+    Ignored: 0
+  - Name: TunnelPiece
+    Value: {fileID: 0}
+    Unused: 0
+    Ignored: 0
+  - Name: TunnelPieceMeshGlow
+    Value: {fileID: 0}
+    Unused: 0
+    Ignored: 0
+  - Name: Vinyl
+    Value: {fileID: 0}
+    Unused: 0
+    Ignored: 0
+  - Name: pb_Mesh-2103058
+    Value: {fileID: 0}
+    Unused: 0
+    Ignored: 0
+  - Name: pb_Mesh-2103062
+    Value: {fileID: 0}
+    Unused: 0
+    Ignored: 0

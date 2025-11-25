@@ -6,8 +6,8 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Plane (5)[499]
-  serializedVersion: 10
+  m_Name: 'Plane (5)[499]'
+  serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
     firstByte: 0
@@ -17,8 +17,8 @@ Mesh:
     firstVertex: 0
     vertexCount: 4
     localAABB:
-      m_Center: {x: 0.39999998, y: 0, z: 1.6390967}
-      m_Extent: {x: 0.24751998, y: 0, z: 0.098903}
+      m_Center: {x: 39.999992, y: 0, z: 163.90967}
+      m_Extent: {x: 24.751997, y: 0, z: 9.890297}
   m_Shapes:
     vertices: []
     shapes: []
@@ -97,7 +97,7 @@ Mesh:
       format: 0
       dimension: 0
     m_DataSize: 224
-    _typelessdata: dec3253f000000001225c53f000000000000803f000000000000803f0000000000000000000080bf06818142f6041a430bd7a33c0bd7a33cb6231c3e000000001225c53f000000000000803f000000000000803f0000000000000000000080bfccf77341f6041a431a467b3f0bd7a33c90c2b53e00000000c776de3f000000000000803f000000000000803f0000000000000000000080bf01000e42cccc2d439d92163f4ef4ce3e0ad7e33e00000000c776de3f000000000000803f000000000000803f0000000000000000000080bf00003242cccc2d4368a4d33e4ef4ce3e
+    _typelessdata: 0581814200000000f6041a43000000000000803f000000000000803f0000000000000000000080bf06818142f6041a430bd7a33c0bd7a33cccf7734100000000f6041a43000000000000803f000000000000803f0000000000000000000080bfccf77341f6041a431a467b3f0bd7a33c00000e4200000000cbcc2d43000000000000803f000000000000803f0000000000000000000080bf01000e42cccc2d439d92163f4ef4ce3e0000324200000000cbcc2d43000000000000803f000000000000803f0000000000000000000080bf00003242cccc2d4368a4d33e4ef4ce3e
   m_CompressedMesh:
     m_Vertices:
       m_NumItems: 0
@@ -151,15 +151,17 @@ Mesh:
       m_BitSize: 0
     m_UVInfo: 0
   m_LocalAABB:
-    m_Center: {x: 0.39999998, y: 0, z: 1.6390967}
-    m_Extent: {x: 0.24751998, y: 0, z: 0.098903}
+    m_Center: {x: 39.999992, y: 0, z: 163.90967}
+    m_Extent: {x: 24.751997, y: 0, z: 9.890297}
   m_MeshUsageFlags: 0
+  m_CookingOptions: 30
   m_BakedConvexCollisionMesh: 
   m_BakedTriangleCollisionMesh: 
-  m_MeshMetrics[0]: 1
-  m_MeshMetrics[1]: 0.26506177
+  'm_MeshMetrics[0]': 1
+  'm_MeshMetrics[1]': 0.26506177
   m_MeshOptimizationFlags: -1
   m_StreamData:
+    serializedVersion: 2
     offset: 0
     size: 0
     path: 

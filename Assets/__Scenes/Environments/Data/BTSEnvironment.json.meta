@@ -1,11 +1,5 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Assets/__Scripts/HSVPicker/README.txt.meta
 guid: 78aa9aa1471451045b0f2f552ad0c361
-|||||||| constructed fake ancestor:Assets/AddressableAssetsData/link.xml.meta
-guid: 41b0e771b4b6c8098bd1c0643237f6c1
-========
-guid: 142f507e0d716b54fa7b0d8a9336dfc4
->>>>>>>> Update EnvInfo Files:Assets/__Scenes/Environments/Data/BTSEnvironment.json.meta
 TextScriptImporter:
   externalObjects: {}
   userData: 

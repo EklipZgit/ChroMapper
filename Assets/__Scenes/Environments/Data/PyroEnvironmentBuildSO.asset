@@ -13,196 +13,260 @@ MonoBehaviour:
   m_Name: PyroEnvironmentBuildSO
   m_EditorClassIdentifier: 
   materials:
-  - Name: TrackMirror
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: SetDepthOnly
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: FlipbookRunway
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: PyroLightBillboardSpriteGlow
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: EnvLight
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: GreyPixelateBackground
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: RunwayFrontDark
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: ScaffoldCircular
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: StageLights
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: LightBloom
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: LightBloomBlack
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: EnvLightBillboardSpriteGlow
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: StageLightsHandle
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: Scaffold
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: VideoBG
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: Scaffold4SlotBox
-    Value: {fileID: 0}
-    Unused: 0
   - Name: 4SlotLights
-    Value: {fileID: 0}
+    Value: {fileID: 2100000, guid: 2015a6c182f30d645a9d28873c3b54f7, type: 2}
     Unused: 0
-  - Name: PlayersPlaceReflectionProbeBlurry
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: DarkEnvironmentSimple
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: ParametricFakeGlow
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: SaberBurnMarks
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: Grey
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: StageLightsProjector
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: StageSpeakers
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: SpeakersInside
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: ScaffoldPipeEnd
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: FlipbookFirePC
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: FlipbookFireProbe
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: FirePipeLoopable
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: FireBloom
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: FlipbookFireBurstPC
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: FlipbookFireBurstProbe
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: FirePipeLoopableCage
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: SpeakersPyro
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: FoBLogoFlaming
-    Value: {fileID: 0}
-    Unused: 0
+    Ignored: 0
   - Name: CrowdFlipbook
-    Value: {fileID: 0}
+    Value: {fileID: 2100000, guid: aed0b82ba6f6b489eb6a33d48efcf46b, type: 2}
     Unused: 0
+    Ignored: 0
+  - Name: DarkEnvironmentSimple
+    Value: {fileID: 2100000, guid: bd4b2f57e2345cfc0b7c3dd3f700abef, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: EnvLight
+    Value: {fileID: 2100000, guid: 39d683c3bf80da2d88527b0aa1108cd4, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: EnvLightBillboardSpriteGlow
+    Value: {fileID: 2100000, guid: 8209e02aa3e46e569bf21ae5f1711383, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: FireBloom
+    Value: {fileID: 2100000, guid: 6db341976cd9e6973991583df618b76b, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: FirePipeLoopable
+    Value: {fileID: 2100000, guid: af366d47fb461f4909178b5c8044b6e5, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: FirePipeLoopableCage
+    Value: {fileID: 2100000, guid: 0d213913e25148af0a139f8eab68785d, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: FlipbookFireBurstPC
+    Value: {fileID: 2100000, guid: 698014a9641d60484b00178bef584f41, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: FlipbookFireBurstProbe
+    Value: {fileID: 2100000, guid: 9d0ef371d9bd79c249602632be5ac4f0, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: FlipbookFirePC
+    Value: {fileID: 2100000, guid: 57f8fb7029fc65f8e87b7166717a5386, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: FlipbookFireProbe
+    Value: {fileID: 2100000, guid: 860fefead5ad7a77996053a8e4cebf8a, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: FlipbookRunway
+    Value: {fileID: 2100000, guid: a67380566aea6f370b10440b8f680517, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: FoBLogoFlaming
+    Value: {fileID: 2100000, guid: a5bb9b664aa7364fb9265fb486125a2c, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: Grey
+    Value: {fileID: 2100000, guid: 0bae0cb0859a6ad17807ac842bee1aea, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: GreyPixelateBackground
+    Value: {fileID: 2100000, guid: ff45d0f2d088f0b59917b5038ed47b03, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: LightBloom
+    Value: {fileID: 2100000, guid: e5758df66474b5038b391750a317b21e, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: LightBloomBlack
+    Value: {fileID: 2100000, guid: e656acfb993bc2770abe58b9aa8f7653, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: ParametricFakeGlow
+    Value: {fileID: 2100000, guid: 42aba6c72a0b6011ea2defa033e53de8, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: PlayersPlaceReflectionProbeBlurry
+    Value: {fileID: 2100000, guid: 60c9583fc65a8ed128aa05e5d11dc3a1, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: PyroLightBillboardSpriteGlow
+    Value: {fileID: 2100000, guid: f3777e148cff60ff1925ca37095a3f1e, type: 2}
+    Unused: 0
+    Ignored: 0
   - Name: PyroVideo
-    Value: {fileID: 0}
+    Value: {fileID: 2100000, guid: 7c8c4ecfb189cec659b52fc2880e90d9, type: 2}
     Unused: 0
+    Ignored: 0
+  - Name: RunwayFrontDark
+    Value: {fileID: 2100000, guid: b1af826438e5d63d8be97a0bb7456920, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: SaberBurnMarks
+    Value: {fileID: 2100000, guid: 43da984a2814c2f64bbe0e51a8609dac, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: Scaffold
+    Value: {fileID: 2100000, guid: 4d08ed51357c107a1a0ca0ca6a8b541d, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: Scaffold4SlotBox
+    Value: {fileID: 2100000, guid: dc2986c411ad4eb228923958c75d05ca, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: ScaffoldCircular
+    Value: {fileID: 2100000, guid: 49f4dd36bf438889fa55fb6f0917f196, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: ScaffoldPipeEnd
+    Value: {fileID: 2100000, guid: aa0a18b92e240a9588d3a442d49cacbf, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: SetDepthOnly
+    Value: {fileID: 2100000, guid: 3b88e3fb6cbeb6204863081d435fb5b3, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: SpeakersInside
+    Value: {fileID: 2100000, guid: 5349d88ba6f82d8ca8fb501ba10cd79c, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: SpeakersPyro
+    Value: {fileID: 2100000, guid: 0ba495e057f81f64394a34193a1764b0, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: StageLights
+    Value: {fileID: 2100000, guid: db72109c3bd8511a6a62a2371375e4a9, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: StageLightsHandle
+    Value: {fileID: 2100000, guid: 6e12e1cf65b2ad39f81e10975a2375f4, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: StageLightsProjector
+    Value: {fileID: 2100000, guid: e40285a4d056c3442ab279464f0112dc, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: StageSpeakers
+    Value: {fileID: 2100000, guid: e513f116540cb8a5aace4f38788485fd, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: TrackMirror
+    Value: {fileID: 2100000, guid: c659184f614349ae3bd7f83aefe7a582, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: VideoBG
+    Value: {fileID: 2100000, guid: 0ec4c94a648f42198bc6a71040998dec, type: 2}
+    Unused: 0
+    Ignored: 0
   meshes:
-  - Name: TrackMirror_Pyro
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: Quad
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: ParametricBox
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: ScafoldCirclular
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: Projector
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: Dynamic3SliceSprite
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: Handle
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: ScafoldTriangular
-    Value: {fileID: 0}
-    Unused: 0
   - Name: 4Slotbox
     Value: {fileID: 0}
     Unused: 0
-  - Name: LightBloom
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: pb_Mesh-6458546
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: pb_Mesh-6458542
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: RectangleFakeGlow
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: PlayersPlaceCore
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: Stairs1
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: Cube
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: SpeakerFBX
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: VerticalPipe
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: LoopableFlipbook
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: Connector
-    Value: {fileID: 0}
-    Unused: 0
+    Ignored: 0
   - Name: BurstFlipbook
     Value: {fileID: 0}
     Unused: 0
+    Ignored: 0
   - Name: Cage
     Value: {fileID: 0}
     Unused: 0
-  - Name: SpeakerHigh
-    Value: {fileID: 0}
-    Unused: 0
-  - Name: LogoFlipbook
-    Value: {fileID: 0}
-    Unused: 0
+    Ignored: 0
   - Name: CombinedMesh
+    Value: {fileID: 4300000, guid: 7562bc3ca1cf4168bf41cd8cdcdd2830, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: Connector
     Value: {fileID: 0}
     Unused: 0
-  - Name: RotationBase
+    Ignored: 0
+  - Name: Cube
     Value: {fileID: 0}
     Unused: 0
+    Ignored: 0
+  - Name: Dynamic3SliceSprite
+    Value: {fileID: 0}
+    Unused: 0
+    Ignored: 0
+  - Name: Handle
+    Value: {fileID: 0}
+    Unused: 0
+    Ignored: 0
   - Name: Light
     Value: {fileID: 0}
     Unused: 0
+    Ignored: 0
+  - Name: LightBloom
+    Value: {fileID: 0}
+    Unused: 0
+    Ignored: 0
+  - Name: LogoFlipbook
+    Value: {fileID: 0}
+    Unused: 0
+    Ignored: 0
+  - Name: LoopableFlipbook
+    Value: {fileID: 0}
+    Unused: 0
+    Ignored: 0
+  - Name: ParametricBox
+    Value: {fileID: 4300000, guid: e8f0e23cb3d14a178d6807f1b86111cb, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: PlayersPlaceCore
+    Value: {fileID: 4300000, guid: 5f0cf210d5ad4ec8a700950a6237fea0, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: Projector
+    Value: {fileID: 0}
+    Unused: 0
+    Ignored: 0
+  - Name: Quad
+    Value: {fileID: 0}
+    Unused: 0
+    Ignored: 0
+  - Name: RectangleFakeGlow
+    Value: {fileID: 4300000, guid: 4f34ecd22d88423bb252acc88d5b47f7, type: 2}
+    Unused: 0
+    Ignored: 0
+  - Name: RotationBase
+    Value: {fileID: 0}
+    Unused: 0
+    Ignored: 0
+  - Name: ScafoldCirclular
+    Value: {fileID: 0}
+    Unused: 0
+    Ignored: 0
+  - Name: ScafoldTriangular
+    Value: {fileID: 0}
+    Unused: 0
+    Ignored: 0
+  - Name: SpeakerFBX
+    Value: {fileID: 0}
+    Unused: 0
+    Ignored: 0
+  - Name: SpeakerHigh
+    Value: {fileID: 0}
+    Unused: 0
+    Ignored: 0
+  - Name: Stairs1
+    Value: {fileID: 0}
+    Unused: 0
+    Ignored: 0
+  - Name: TrackMirror_Pyro
+    Value: {fileID: 0}
+    Unused: 0
+    Ignored: 0
+  - Name: VerticalPipe
+    Value: {fileID: 0}
+    Unused: 0
+    Ignored: 0
+  - Name: pb_Mesh-6458542
+    Value: {fileID: 0}
+    Unused: 0
+    Ignored: 0
+  - Name: pb_Mesh-6458546
+    Value: {fileID: 0}
+    Unused: 0
+    Ignored: 0

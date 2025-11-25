@@ -12,46 +12,16 @@ public class EnvironmentBuildSO : ScriptableObject
     public Dictionary<string, Mesh> meshLookup = new();
     public Dictionary<string, Material> materialLookup = new();
 
-    public void OnValidate()
-    {
-        Initialize();
-
-        CheckUnused(materials, "Materials");
-        CheckUnused(meshes, "Meshes");
-
-        CheckEmpty(materials, "Materials");
-        CheckEmpty(meshes, "Meshes");
-    }
-
+    public void OnValidate() => Initialize();
     public void OnEnable() => Initialize();
 
-    public void Initialize()
+    private void Initialize()
     {
         meshLookup.Clear();
         foreach (var entry in meshes) meshLookup[entry.Name] = entry.Value;
 
         materialLookup.Clear();
         foreach (var entry in materials) materialLookup[entry.Name] = entry.Value;
-    }
-
-    private void CheckUnused<T>(List<EnvironmentEntry<T>> list, string tag) where T : Object
-    {
-        var unused = list.Where(x => !x.Ignored && x.Unused).ToList();
-        if (unused.Any())
-        {
-            Debug.LogWarning(
-                $"{name} -- Unused {tag}: {string.Join(", ", unused.Select(x => x.Name))}");
-        }
-    }
-
-    private void CheckEmpty<T>(List<EnvironmentEntry<T>> list, string tag) where T : Object
-    {
-        var empties = list.Where(x => !x.Ignored && x.Value == null).ToList();
-        if (empties.Any())
-        {
-            Debug.LogWarning(
-                $"{name} -- Empty {tag}: {string.Join(", ", empties.Select(x => x.Name))}");
-        }
     }
 
     public void MarkForChange()
@@ -96,8 +66,8 @@ public class EnvironmentEntry<TValue> where TValue : Object
     public string Name;
     public TValue Value;
 
-    [Header("Flag")]
+    [HideInInspector]
     public bool Unused; // when recreate, this mark object that were changed or not used due to game update or oopsies
 
-    public bool Ignored;
+    [HideInInspector] public bool Ignored;
 }
