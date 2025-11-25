@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class LightGroup
 {
     string GroupName { get; set; }

@@ -74,8 +74,8 @@ public class EnvironmentSceneCreator
         if ((exist && EditorSceneManager.SaveScene(scene)) || EditorSceneManager.SaveScene(scene, targetPath))
         {
             // Select the newly created scene in the Project window
-            EditorGUIUtility.PingObject(AssetDatabase.LoadAssetAtPath<SceneAsset>(targetPath));
-            Selection.activeObject = AssetDatabase.LoadAssetAtPath<SceneAsset>(targetPath);
+            // EditorGUIUtility.PingObject(AssetDatabase.LoadAssetAtPath<SceneAsset>(targetPath));
+            // Selection.activeObject = AssetDatabase.LoadAssetAtPath<SceneAsset>(targetPath);
         }
         else
             Debug.LogError("Failed to save the new environment scene.");
@@ -134,19 +134,19 @@ public class EnvironmentSceneCreator
                         else
                         {
                             Debug.LogWarning(
-                                $"{envObject.ChromaID}: Material not found for {envObject.Components.MeshRenderer.Materials[0]}");
+                                $"{envObject.ChromaID} material not found for:\n{envObject.Components.MeshRenderer.Materials[0]}");
                         }
                     }
                 }
                 else
                 {
-                    Debug.LogWarning($"{envObject.ChromaID}: Mesh not found for {envObject.MeshName}");
+                    Debug.LogWarning($"{envObject.ChromaID} mesh not found for:\n{envObject.MeshName}");
                     prefab = PrefabUtility.InstantiatePrefab(library.fallbackPrefab) as GameObject;
                 }
             }
 
             prefab.name = envObject.GameObjectName;
-            prefab.layer = library.layerMaskLookup[envObject.Layer].value;
+            prefab.layer = library.layerMaskLookup[envObject.Layer].value.Get1BitPositions()[0];
 
             // Set the parent of the instantiated object
             if (lastParent != null) prefab.transform.SetParent(lastParent.transform, false);

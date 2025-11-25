@@ -1,5 +1,4 @@
 using Newtonsoft.Json;
-using UnityEngine;
 
 /// <summary>
 /// Stores Chroma light data from a lightable object.

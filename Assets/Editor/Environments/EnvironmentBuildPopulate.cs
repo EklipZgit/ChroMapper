@@ -21,9 +21,28 @@ public class EnvironmentBuildPopulate
         var library =
             AssetDatabase.LoadAssetAtPath<EnvironmentLibrarySO>(Path.Combine(editorPath, "EnvironmentLibrarySO.asset"));
         var materialsToAdd = new Dictionary<string, List<string>>();
+        var meshesToUse = new Dictionary<string, Mesh>();
 
-        var pairs = GetOrCreateSOs(envDataPaths);
-        foreach (var (data, build) in pairs)
+        Debug.Log("Creating build SO from data folder");
+        var dataBuildList = new List<(EnvironmentData data, EnvironmentBuildSO build)>();
+        foreach (var dataPath in envDataPaths)
+        {
+            var dataAsset = AssetDatabase.LoadAssetAtPath<TextAsset>(dataPath);
+            var data = JsonConvert.DeserializeObject<EnvironmentData>(
+                dataAsset.text,
+                new Vector3ArrayConverter());
+            var targetPath = Path.Combine(environmentPath, "Data", $"{dataAsset.name}BuildSO.asset");
+
+            var exist = AssetDatabase.AssetPathExists(targetPath);
+            var build = exist
+                ? AssetDatabase.LoadAssetAtPath<EnvironmentBuildSO>(targetPath)
+                : ScriptableObject.CreateInstance<EnvironmentBuildSO>();
+
+            if (!exist) AssetDatabase.CreateAsset(build, targetPath);
+            dataBuildList.Add((data, build));
+        }
+
+        foreach (var (data, build) in dataBuildList)
         {
             Debug.Log($"Populating data for {data.Data.ID}");
 
@@ -31,17 +50,21 @@ public class EnvironmentBuildPopulate
             foreach (var m in data.Data.UniqueMaterials) build.AddMaterialEntry(m.Name);
             build.Sort();
 
-            foreach (var se in build
+            foreach (var entry in build.meshes
+                .Where(x => x.Value != null))
+                meshesToUse.TryAdd(entry.Name, entry.Value);
+
+            foreach (var matName in build
                 .materials
                 .Where(x => x.Value == null)
                 .Select(x => x.Name))
             {
-                materialsToAdd.TryAdd(se, new());
-                materialsToAdd[se].Add(data.Data.ID.Replace("Environment", ""));
+                materialsToAdd.TryAdd(matName, new());
+                materialsToAdd[matName].Add(data.Data.ID.Replace("Environment", ""));
             }
 
-            foreach (var se in data.Objects.Select(x => x.Layer))
-                library.layerMaskLookup.TryAdd(se, LayerMask.GetMask("Default"));
+            foreach (var layerName in data.Objects.Select(x => x.Layer))
+                library.layerMaskLookup.TryAdd(layerName, LayerMask.GetMask("Default"));
         }
 
         library.layerMaskRemap =
@@ -51,7 +74,7 @@ public class EnvironmentBuildPopulate
                 .OrderBy(x => x.name)
                 .ToList();
 
-        // Create missing materials
+        Debug.Log($"Creating {materialsToAdd.Count} missing materials");
         var materialNameToAsset = new Dictionary<string, Material>();
         foreach (var (materialName, paths) in materialsToAdd)
         {
@@ -74,39 +97,26 @@ public class EnvironmentBuildPopulate
             }
         }
 
-        // Apply missing materials to build
-        foreach (var (_, build) in pairs)
+        Debug.Log("Applying missing objects to build");
+        foreach (var (_, build) in dataBuildList)
         {
-            foreach (var entry in build.materials)
+            foreach (var entry in build.meshes
+                .Where(x => x.Value == null))
+            {
+                if (meshesToUse.TryGetValue(entry.Name, out var value)) entry.Value = value;
+            }
+
+            foreach (var entry in build.materials
+                .Where(x => x.Value == null))
             {
                 if (materialNameToAsset.TryGetValue(entry.Name, out var value)) entry.Value = value;
             }
         }
 
-        AssetDatabase.SaveAssets();
-    }
-
-    private static List<(EnvironmentData data, EnvironmentBuildSO build)> GetOrCreateSOs(IEnumerable<string> dataPaths)
-    {
-        Debug.Log("Creating build SO from data folder");
-        var list = new List<(EnvironmentData data, EnvironmentBuildSO build)>();
-        foreach (var dataPath in dataPaths)
-        {
-            var dataAsset = AssetDatabase.LoadAssetAtPath<TextAsset>(dataPath);
-            var data = JsonConvert.DeserializeObject<EnvironmentData>(
-                dataAsset.text,
-                new Vector3ArrayConverter());
-            var targetPath = Path.Combine(environmentPath, "Data", $"{dataAsset.name}BuildSO.asset");
-
-            var exist = AssetDatabase.AssetPathExists(targetPath);
-            var build = exist
-                ? AssetDatabase.LoadAssetAtPath<EnvironmentBuildSO>(targetPath)
-                : ScriptableObject.CreateInstance<EnvironmentBuildSO>();
-
-            if (!exist) AssetDatabase.CreateAsset(build, targetPath);
-            list.Add((data, build));
-        }
-
-        return list;
+        AssetDatabase.ForceReserializeAssets(
+            AssetDatabase
+                .GetAllAssetPaths()
+                .Where(x => x.StartsWith(Path.Combine(environmentPath, "Data")) && x.EndsWith(".asset")),
+            ForceReserializeAssetsOptions.ReserializeAssets);
     }
 }

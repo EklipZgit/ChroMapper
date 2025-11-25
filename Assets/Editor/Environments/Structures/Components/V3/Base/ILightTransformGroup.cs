@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public interface ILightTransformGroup
 {
     bool MirrorX { get; set; }

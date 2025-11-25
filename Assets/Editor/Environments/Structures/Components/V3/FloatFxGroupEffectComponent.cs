@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class FloatFxGroupEffectComponent
 {
     public int GroupId = -1;

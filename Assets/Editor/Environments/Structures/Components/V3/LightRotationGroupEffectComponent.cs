@@ -1,5 +1,4 @@
 using Beatmap.Enums;
-using UnityEngine;
 
 public class LightRotationGroupEffectComponent
 {

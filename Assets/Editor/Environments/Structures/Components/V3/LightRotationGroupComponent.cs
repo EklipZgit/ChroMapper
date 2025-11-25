@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class LightRotationGroupComponent : ILightTransformGroup
 {
     public bool MirrorX { get; set; }

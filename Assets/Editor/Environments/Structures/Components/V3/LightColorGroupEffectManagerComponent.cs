@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class LightColorGroupEffectManagerComponent
 {
     public LightGroup[] LightGroups;
