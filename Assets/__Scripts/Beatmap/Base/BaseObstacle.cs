@@ -195,7 +195,7 @@ namespace Beatmap.Base
 
         public override bool IsMappingExtensions() =>
             PosX <= -1000 || PosX >= 1000 ||
-            PosY < 0 || PosY > 2 ||
+            PosY < 0 || PosY > 4 ||
             Width <= -1000 || Width >= 1000 ||
             Height <= -1000 || Height > 5 || 
             (Settings.Instance.MapVersion == 2 && (PosX < 0 || PosX > 3));
@@ -232,7 +232,7 @@ namespace Beatmap.Base
         public ObstacleBounds GetShape()
         {
             var position = PosX - 2f; //Line index
-            var clampedY = Mathf.Clamp(PosY, 0, 2);
+            var clampedY = Mathf.Clamp(PosY, 0, 4);
             float startHeight = clampedY;
             float height = Mathf.Min(Height, 5 - clampedY);
             float width = Width;

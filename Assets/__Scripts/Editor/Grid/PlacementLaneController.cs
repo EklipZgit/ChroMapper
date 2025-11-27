@@ -6,7 +6,6 @@ public class PlacementLaneController : MonoBehaviour
     [SerializeField] private PlacementModeController placemenModeController;
     [SerializeField] private ObstaclePlacement obstaclePlacement;
     [SerializeField] private GridLane lane;
-    private bool hasExpanded;
     private bool hasOffset;
 
     public int LaneCount = 4;
@@ -65,21 +64,9 @@ public class PlacementLaneController : MonoBehaviour
                         hasOffset = true;
                     }
 
-                    switch (obstaclePlacement.IsPlacing)
-                    {
-                        case true when !hasExpanded:
-                            lane.Height = 5;
-                            hasExpanded = true;
-                            break;
-                        case false when hasExpanded:
-                            lane.Height = 3;
-                            hasExpanded = false;
-                            break;
-                    }
-
                     break;
                 }
-            case false when hasOffset || hasExpanded:
+            case false when hasOffset:
                 {
                     var offset = lane.XYOffset;
                     offset.y = 0;
@@ -88,10 +75,9 @@ public class PlacementLaneController : MonoBehaviour
                     lane.RefreshPosition();
                     lane.RefreshVisual();
 
-                    lane.Height = 3;
                     UpdateLane();
 
-                    hasOffset = hasExpanded = false;
+                    hasOffset = false;
                     break;
                 }
         }
@@ -100,8 +86,14 @@ public class PlacementLaneController : MonoBehaviour
     private void UpdateLane()
     {
         if (obstaclePlacement.AllowPlacement && !v2Mode)
+        {
             lane.Lane = (LaneCount * 2) + Mathf.CeilToInt(LaneCount % 2 / 2f);
+            lane.Height = 5;
+        }
         else
+        {
             lane.Lane = LaneCount;
+            lane.Height = 3;
+        }
     }
 }
