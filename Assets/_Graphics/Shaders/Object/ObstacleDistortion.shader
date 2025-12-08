@@ -156,7 +156,7 @@
                     color.rgb = normalize(color.rgb) * min(sqrt(mag), 16) * color.a;
                     color.rgb = saturate(color.rgb);
                 }
-                color *= 0.2;
+                color *= 0.075;
                 color.a = 0;
 
                 float _FogScale = 5;
@@ -178,15 +178,17 @@
                     (simplex((i.uv.yx * uvScalar.yx + cutoutTexOffset * _DistortionScale) / _DistortionScale) - 0.5) *
                     _DistortionStrength;
 
-                fixed4 col = (color * 0.5) + tex2D(_GrabTexture, screenUV);
+                fixed4 col = color + tex2D(_GrabTexture, screenUV);
+                col.a *= 0.25;
                 col = col * factor;
 
                 #ifdef CM_PREVIEW_MODE
-                    #ifdef ENABLE_HEIGHT_FOG
-                        BLOOM_FOG_HEIGHT_FOG_APPLY(col, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset, _FogHeightScale);
-                    #else
-                        BLOOM_FOG_APPLY(col, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
-                    #endif
+                #ifdef ENABLE_HEIGHT_FOG
+                BLOOM_FOG_HEIGHT_FOG_APPLY(col, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,
+                                        _FogHeightOffset, _FogHeightScale);
+                #else
+                BLOOM_FOG_APPLY(col, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
+                #endif
                 #endif
 
                 return col;

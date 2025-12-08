@@ -193,12 +193,19 @@ namespace Beatmap.Base
               (CustomData[CustomKeyWorldRotation].IsArray || CustomData[CustomKeyWorldRotation].IsNumber)) ||
              (CustomData.HasKey(CustomKeySize) && CustomData[CustomKeySize].IsArray));
 
-        public override bool IsMappingExtensions() =>
-            PosX <= -1000 || PosX >= 1000 ||
-            PosY < 0 || PosY > 2 ||
-            Width <= -1000 || Width >= 1000 ||
-            Height <= -1000 || Height > 5 || 
-            (Settings.Instance.MapVersion == 2 && (PosX < 0 || PosX > 3));
+        public override bool IsMappingExtensions()
+        {
+            var vanillaYLimit = BeatSaberSongContainer.Instance.Map.MajorVersion == 4 ? 4 : 2;
+            return PosX <= -1000
+                || PosX >= 1000
+                || PosY < 0
+                || PosY > vanillaYLimit
+                || Width <= -1000
+                || Width >= 1000
+                || Height <= -1000
+                || Height > 5
+                || (Settings.Instance.MapVersion == 2 && (PosX < 0 || PosX > 3));
+        }
 
         protected override bool IsConflictingWithObjectAtSameTime(BaseObject other, bool deletion = false)
         {
@@ -232,7 +239,8 @@ namespace Beatmap.Base
         public ObstacleBounds GetShape()
         {
             var position = PosX - 2f; //Line index
-            var clampedY = Mathf.Clamp(PosY, 0, 2);
+            var vanillaYLimit = BeatSaberSongContainer.Instance.Map.MajorVersion == 4 ? 4 : 2;
+            var clampedY = Mathf.Clamp(PosY, 0, vanillaYLimit);
             float startHeight = clampedY;
             float height = Mathf.Min(Height, 5 - clampedY);
             float width = Width;

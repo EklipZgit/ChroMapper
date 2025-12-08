@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using Beatmap.Base;
+using Beatmap.Helper;
 using SimpleJSON;
 using TMPro;
 using UnityEngine;
@@ -21,8 +22,11 @@ public class NodeEditorController : MonoBehaviour, CMInput.INodeEditorActions
 
     private readonly Type[] actionMapsEnabledWhenNodeEditing =
     {
-        typeof(CMInput.ICameraActions), typeof(CMInput.IBeatmapObjectsActions), typeof(CMInput.INodeEditorActions),
-        typeof(CMInput.ISavingActions), typeof(CMInput.ITimelineActions)
+        typeof(CMInput.ICameraActions),
+        typeof(CMInput.IBeatmapObjectsActions),
+        typeof(CMInput.INodeEditorActions),
+        typeof(CMInput.ISavingActions),
+        typeof(CMInput.ITimelineActions)
     };
 
     private JSONNode editingNode;
@@ -35,8 +39,11 @@ public class NodeEditorController : MonoBehaviour, CMInput.INodeEditorActions
     private bool queuedUpdate;
 
     // I can just apply this to the places that need them but im feeling lazy lmao
-    private Type[] ActionMapsDisabled => typeof(CMInput).GetNestedTypes()
-        .Where(x => x.IsInterface && !actionMapsEnabledWhenNodeEditing.Contains(x)).ToArray();
+    private Type[] ActionMapsDisabled =>
+        typeof(CMInput)
+            .GetNestedTypes()
+            .Where(x => x.IsInterface && !actionMapsEnabledWhenNodeEditing.Contains(x))
+            .ToArray();
 
     // Use this for initialization
     private void Start() => SelectionController.OnSelectionChanged += ObjectWasSelected;
@@ -67,12 +74,13 @@ public class NodeEditorController : MonoBehaviour, CMInput.INodeEditorActions
             StopAllCoroutines();
             if (IsActive)
             {
-                CMInputCallbackInstaller.ClearDisabledActionMaps(typeof(NodeEditorController),
+                CMInputCallbackInstaller.ClearDisabledActionMaps(
+                    typeof(NodeEditorController),
                     new[] { typeof(CMInput.INodeEditorActions) });
                 CMInputCallbackInstaller.ClearDisabledActionMaps(typeof(NodeEditorController), ActionMapsDisabled);
-#pragma warning disable CS0618 // 'NodeEditorTextChangedAction' is obsolete: 'Undo/Redo is disabled when node editor is open anyway'
+            #pragma warning disable CS0618 // 'NodeEditorTextChangedAction' is obsolete: 'Undo/Redo is disabled when node editor is open anyway'
                 BeatmapActionContainer.RemoveAllActionsOfType<NodeEditorTextChangedAction>();
-#pragma warning restore CS0618 // 'NodeEditorTextChangedAction' is obsolete: 'Undo/Redo is disabled when node editor is open anyway'
+            #pragma warning restore CS0618 // 'NodeEditorTextChangedAction' is obsolete: 'Undo/Redo is disabled when node editor is open anyway'
             }
             else
             {
@@ -89,8 +97,7 @@ public class NodeEditorController : MonoBehaviour, CMInput.INodeEditorActions
         IsActive = enabled;
         if (enabled)
         {
-            if (queuedUpdate)
-                ObjectWasSelected();
+            if (queuedUpdate) ObjectWasSelected();
 
             height = Mathf.FloorToInt(Settings.Instance.NodeEditorSize * 20.5f);
             GetComponent<RectTransform>().sizeDelta = new Vector2(300, height);
@@ -114,8 +121,7 @@ public class NodeEditorController : MonoBehaviour, CMInput.INodeEditorActions
     public void ObjectWasSelected()
     {
         queuedUpdate = !IsActive;
-        if (queuedUpdate)
-            return;
+        if (queuedUpdate) return;
 
         if (!SelectionController.HasSelectedObjects())
         {
@@ -123,9 +129,9 @@ public class NodeEditorController : MonoBehaviour, CMInput.INodeEditorActions
             return;
         }
 
-#pragma warning disable CS0618 // 'NodeEditorTextChangedAction' is obsolete: 'Undo/Redo is disabled when node editor is open anyway'
+    #pragma warning disable CS0618 // 'NodeEditorTextChangedAction' is obsolete: 'Undo/Redo is disabled when node editor is open anyway'
         BeatmapActionContainer.RemoveAllActionsOfType<NodeEditorTextChangedAction>();
-#pragma warning restore CS0618 // 'NodeEditorTextChangedAction' is obsolete: 'Undo/Redo is disabled when node editor is open anyway'
+    #pragma warning restore CS0618 // 'NodeEditorTextChangedAction' is obsolete: 'Undo/Redo is disabled when node editor is open anyway'
 
         isEditing = true;
         if (!Settings.Instance.NodeEditor_UseKeybind)
@@ -180,7 +186,8 @@ public class NodeEditorController : MonoBehaviour, CMInput.INodeEditorActions
         {
             if (!CMInputCallbackInstaller.IsActionMapDisabled(ActionMapsDisabled[0]))
             {
-                CMInputCallbackInstaller.DisableActionMaps(typeof(NodeEditorController),
+                CMInputCallbackInstaller.DisableActionMaps(
+                    typeof(NodeEditorController),
                     new[] { typeof(CMInput.INodeEditorActions) });
                 CMInputCallbackInstaller.DisableActionMaps(typeof(NodeEditorController), ActionMapsDisabled);
             }
@@ -189,7 +196,8 @@ public class NodeEditorController : MonoBehaviour, CMInput.INodeEditorActions
 
     public void NodeEditor_EndEdit(string nodeText)
     {
-        CMInputCallbackInstaller.ClearDisabledActionMaps(typeof(NodeEditorController),
+        CMInputCallbackInstaller.ClearDisabledActionMaps(
+            typeof(NodeEditorController),
             new[] { typeof(CMInput.INodeEditorActions) });
         CMInputCallbackInstaller.ClearDisabledActionMaps(typeof(NodeEditorController), ActionMapsDisabled);
 
@@ -202,19 +210,36 @@ public class NodeEditorController : MonoBehaviour, CMInput.INodeEditorActions
                 throw new Exception("Node cannot be empty.");
 
             // Super sneaky clone, maybe not needed
-            var dict = editingObjects.ToDictionary(it => it, it => it.ToJson().Clone());
+            // it was fucking needed
+            var objectJsonMap = editingObjects
+                .ToDictionary(
+                    original => original,
+                    json => json.ToJson().Clone());
 
-            ApplyJson(editingNode.AsObject, newNode.AsObject, dict);
+            ApplyJson(editingNode.AsObject, newNode.AsObject, objectJsonMap);
 
-            var beatmapActions = dict.Select(entry =>
-                new BeatmapObjectModifiedAction(
-                    Activator.CreateInstance(entry.Key.GetType(), new object[] { entry.Value }) as BaseObject,
-                    entry.Key, entry.Key, $"Edited a {entry.Key.ObjectType} with Node Editor.", true)
-            ).ToList();
+            var beatmapActions = objectJsonMap
+                .Select(pair =>
+                {
+                    var (reference, json) = pair;
+                    var original = reference.Clone() as BaseObject;
+                    reference.Apply(Activator.CreateInstance(reference.GetType(), new object[] { json }) as BaseObject);
+                    return new BeatmapObjectModifiedAction(
+                        reference,
+                        reference,
+                        original,
+                        $"Edited a {reference.ObjectType} with Node Editor.",
+                        true);
+                })
+                .ToList();
 
             BeatmapActionContainer.AddAction(
-                new ActionCollectionAction(beatmapActions, true, true,
-                    $"Edited ({editingObjects.Count()}) objects with Node Editor."), true);
+                new ActionCollectionAction(
+                    beatmapActions,
+                    true,
+                    true,
+                    $"Edited ({editingObjects.Count()}) objects with Node Editor."),
+                true);
             UpdateJson();
         }
         catch (Exception e)
@@ -241,7 +266,8 @@ public class NodeEditorController : MonoBehaviour, CMInput.INodeEditorActions
 
     public void Close()
     {
-        CMInputCallbackInstaller.ClearDisabledActionMaps(typeof(NodeEditorController),
+        CMInputCallbackInstaller.ClearDisabledActionMaps(
+            typeof(NodeEditorController),
             new[] { typeof(CMInput.INodeEditorActions) });
         CMInputCallbackInstaller.ClearDisabledActionMaps(typeof(NodeEditorController), ActionMapsDisabled);
         StartCoroutine(UpdateGroup(false, transform as RectTransform));
@@ -251,8 +277,7 @@ public class NodeEditorController : MonoBehaviour, CMInput.INodeEditorActions
 
     private int TypeToInt(JSONNode node)
     {
-        if (node.IsObject)
-            return 0;
+        if (node.IsObject) return 0;
         if (node.IsArray) return 1;
         return 2;
     }
@@ -263,16 +288,13 @@ public class NodeEditorController : MonoBehaviour, CMInput.INodeEditorActions
         var c = -1;
         foreach (var n in nodes)
         {
-            if (!n.HasKey(key))
-                return null;
+            if (!n.HasKey(key)) return null;
 
             var i = TypeToInt(n[key]);
 
-            if ((i != a && a >= 0) || (a == 1 && n[key].AsArray.Count != c))
-                return null;
+            if ((i != a && a >= 0) || (a == 1 && n[key].AsArray.Count != c)) return null;
 
-            if (n[key].IsArray && a == -1)
-                c = n[key].AsArray.Count;
+            if (n[key].IsArray && a == -1) c = n[key].AsArray.Count;
 
             a = i;
         }
@@ -288,8 +310,7 @@ public class NodeEditorController : MonoBehaviour, CMInput.INodeEditorActions
         foreach (var key in first.Keys)
         {
             var t = GetAllType(key, nodes);
-            if (t == null)
-                continue;
+            if (t == null) continue;
 
             if (t == 0)
                 result[key] = GetSharedJson(nodes.Select(it => it[key]));
@@ -312,11 +333,9 @@ public class NodeEditorController : MonoBehaviour, CMInput.INodeEditorActions
         {
             var i = TypeToInt(n[idx]);
 
-            if ((i != a && a >= 0) || (a == 1 && n.AsArray.Count != c))
-                return null;
+            if ((i != a && a >= 0) || (a == 1 && n.AsArray.Count != c)) return null;
 
-            if (n.IsArray && a == -1)
-                c = n.AsArray.Count;
+            if (n.IsArray && a == -1) c = n.AsArray.Count;
 
             a = i;
         }
@@ -332,8 +351,7 @@ public class NodeEditorController : MonoBehaviour, CMInput.INodeEditorActions
         for (var key = 0; key < first.Count; key++)
         {
             var t = GetAllType(key, nodes);
-            if (t == null)
-                continue;
+            if (t == null) continue;
 
             if (t == 0)
                 result[key] = GetSharedJson(nodes.Select(it => it[key]));
@@ -352,8 +370,7 @@ public class NodeEditorController : MonoBehaviour, CMInput.INodeEditorActions
     {
         foreach (var key in old.Keys)
         {
-            if (updated.HasKey(key))
-                continue;
+            if (updated.HasKey(key)) continue;
 
             // User removed this key, blat it
             foreach (var o in objects) o.Value.Remove(key);
@@ -361,23 +378,25 @@ public class NodeEditorController : MonoBehaviour, CMInput.INodeEditorActions
 
         foreach (var key in updated.Keys)
         {
-            if (updated[key] == "-")
-                continue;
+            if (updated[key] == "-") continue;
 
             if (updated[key].IsObject && old[key].IsObject)
             {
-                ApplyJson(old[key].AsObject, updated[key].AsObject,
+                ApplyJson(
+                    old[key].AsObject,
+                    updated[key].AsObject,
                     objects.ToDictionary(it => it.Key, it => it.Value[key]));
             }
             else if (updated[key].IsArray && old[key].IsArray)
             {
-                ApplyJson(old[key].AsArray, updated[key].AsArray,
+                ApplyJson(
+                    old[key].AsArray,
+                    updated[key].AsArray,
                     objects.ToDictionary(it => it.Key, it => it.Value[key].AsArray));
             }
             else
             {
-                foreach (var o in objects)
-                    o.Value[key] = updated[key];
+                foreach (var o in objects) o.Value[key] = updated[key];
             }
         }
     }
@@ -386,14 +405,12 @@ public class NodeEditorController : MonoBehaviour, CMInput.INodeEditorActions
     {
         foreach (var o in objects)
         {
-            for (var i = o.Value.Count - 1; i >= updated.Count; i--)
-                o.Value.Remove(i);
+            for (var i = o.Value.Count - 1; i >= updated.Count; i--) o.Value.Remove(i);
         }
 
         for (var i = 0; i < updated.Count; i++)
         {
-            if (updated[i] == "-")
-                continue;
+            if (updated[i] == "-") continue;
 
             if (updated[i].IsObject && old[i].IsObject)
             {
@@ -401,13 +418,14 @@ public class NodeEditorController : MonoBehaviour, CMInput.INodeEditorActions
             }
             else if (updated[i].IsArray && old[i].IsArray)
             {
-                ApplyJson(old[i].AsArray, updated[i].AsArray,
+                ApplyJson(
+                    old[i].AsArray,
+                    updated[i].AsArray,
                     objects.ToDictionary(it => it.Key, it => it.Value[i].AsArray));
             }
             else
             {
-                foreach (var o in objects)
-                    o.Value[i] = updated[i];
+                foreach (var o in objects) o.Value[i] = updated[i];
             }
         }
     }
