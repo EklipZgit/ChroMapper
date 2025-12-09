@@ -148,47 +148,33 @@
     },
     "uniqueMaterials": [
       {
-        "name": "PlayersPlaceReflectionProbeBlurry",
-        "keywords": [
-          "FOG",
-          "NOISE_DITHERING",
-          "REFLECTION_PROBE",
-          "REFLECTION_PROBE_BOX_PROJECTION",
-          "_ACES_APPROACH_AFTER_EMISSIVE",
-          "_DIFFUSE_TEXTURE_SOURCE_TEXTURE",
-          "_DISSOLVEALPHA_CLIP",
-          "_EMISSIONCOLORTYPE_FLAT",
-          "_EMISSION_ALPHA_SOURCE_EMISSION_G",
-          "_EMISSION_TEXTURE_SOURCE_TEXTURE",
-          "_METALLIC_TEXTURE_NONE",
-          "_OCCLUSION_SOURCE_TEXTURE",
-          "_PROBE_CALCULATION_FAST",
-          "_SMOOTHNESS_TEXTURE_NONE",
-          "ENABLE_DIFFUSE",
+        "hash": "a97bb8953136bcdd00eea8f1107e0aeb",
+        "name": "PlayersPlaceMirror",
+        "shader": "Custom/Mirror",
+        "color": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "shaderKeywords": [
           "ENABLE_DIRT",
-          "ENABLE_FOG",
-          "ENABLE_SPECULAR",
-          "_CURVE_VERTICES_NONE",
-          "_CUSTOM_TIME_STANDARD",
-          "_DECALBLEND_ALPHABLEND",
-          "_DISSOLVEAXIS_LOCALX",
-          "_EMISSION",
-          "_EMISSIONTEXTURE_NONE",
-          "_ENABLE_FOG_TINT",
-          "_HOLOGRAM_NONE",
-          "_RIMLIGHT_NONE",
-          "_RIM_WHITEBOOSTTYPE_NONE",
-          "_ROTATE_UV_NONE",
-          "_SPECTROGRAM_NONE",
-          "_VERTEXMODE_NONE",
-          "_VERTEX_WHITEBOOSTTYPE_NONE",
-          "_WHITEBOOSTTYPE_NONE",
-          "_ZWRITE_ON"
+          "ENABLE_MIRROR",
+          "ETC1_EXTERNAL_ALPHA",
+          "_EMISSION"
         ]
       },
       {
+        "hash": "32344ccefc891a79d61f366a7223ba0c",
         "name": "DarkEnvironmentSimple",
-        "keywords": [
+        "shader": "Custom/SimpleLit",
+        "color": [
+          0.32099995,
+          0.32099995,
+          0.32099995,
+          0.0
+        ],
+        "shaderKeywords": [
           "DIFFUSE",
           "FOG",
           "HEIGHT_FOG",
@@ -227,15 +213,31 @@
         ]
       },
       {
+        "hash": "6a57238a079a4d360b12e9d3a777e1b0",
         "name": "ParametricFakeGlow",
-        "keywords": [
+        "shader": "Custom/ParametricBoxFakeGlow",
+        "color": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "shaderKeywords": [
           "ENABLE_MAIN_EFFECT_WHITE_BOOST",
           "_WHITEBOOSTTYPE_ALWAYS"
         ]
       },
       {
+        "hash": "753e70e0ebb6bcbec2329b02d705b919",
         "name": "SaberBurnMarks",
-        "keywords": [
+        "shader": "Custom/CustomParticles",
+        "color": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "shaderKeywords": [
           "DISTORTION_TARGET_MAIN",
           "TEXTURE_COLOR",
           "_FOGTYPE_ALPHA",
@@ -256,8 +258,16 @@
         ]
       },
       {
+        "hash": "92460274f519f7251d0e83a1ba3232f7",
         "name": "RunwayConstruction",
-        "keywords": [
+        "shader": "Custom/SimpleLit",
+        "color": [
+          0.399999976,
+          0.399999976,
+          0.399999976,
+          1.0
+        ],
+        "shaderKeywords": [
           "DIFFUSE",
           "FOG",
           "HEIGHT_FOG",
@@ -290,8 +300,16 @@
         ]
       },
       {
+        "hash": "9b098f1f441d8e95cf1baf42a26670f3",
         "name": "Tube",
-        "keywords": [
+        "shader": "Custom/SimpleLit",
+        "color": [
+          0.299999982,
+          0.299999982,
+          0.299999982,
+          1.0
+        ],
+        "shaderKeywords": [
           "DIFFUSE",
           "FOG",
           "HEIGHT_FOG",
@@ -326,8 +344,16 @@
         ]
       },
       {
+        "hash": "0dd004d097c885674f53e9736741a1d9",
         "name": "EnvLightSpriteGlow",
-        "keywords": [
+        "shader": "Custom/Parametric3SliceSprite",
+        "color": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "shaderKeywords": [
           "ALPHA_WIDTH_SCALE",
           "ENABLE_FOG",
           "ENABLE_HEIGHT_FOG",
@@ -338,8 +364,16 @@
         ]
       },
       {
+        "hash": "1cdd8c1689ede199954a7104600a2472",
         "name": "EnvLightOpaque",
-        "keywords": [
+        "shader": "Custom/OpaqueNeonLight",
+        "color": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "shaderKeywords": [
           "ENABLE_HEIGHT_FOG",
           "DIFFUSE",
           "ENABLE_BLUE_NOISE",
@@ -349,8 +383,16 @@
         ]
       },
       {
+        "hash": "a5318af17973a0e6705f6f4d35dbfee8",
         "name": "TeslaTower",
-        "keywords": [
+        "shader": "Custom/SimpleLit",
+        "color": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "shaderKeywords": [
           "FOG",
           "HEIGHT_FOG",
           "REFLECTION_PROBE_BOX_PROJECTION",
@@ -382,8 +424,16 @@
         ]
       },
       {
+        "hash": "5ddf20e566534369408052d4b32f0739",
         "name": "Logo",
-        "keywords": [
+        "shader": "Custom/WaterLit",
+        "color": [
+          0.5,
+          0.5,
+          0.5,
+          1.0
+        ],
+        "shaderKeywords": [
           "FOG",
           "HEIGHT_FOG",
           "NOISE_DITHERING",
@@ -405,8 +455,16 @@
         ]
       },
       {
+        "hash": "8a56bdf3305aeb242f7d7849dc1aa45c",
         "name": "DiskGlow",
-        "keywords": [
+        "shader": "Custom/OpaqueNeonLight",
+        "color": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "shaderKeywords": [
           "ENABLE_HEIGHT_FOG",
           "DIFFUSE",
           "ENABLE_BLUE_NOISE",
@@ -416,8 +474,16 @@
         ]
       },
       {
+        "hash": "16a45d70ec619e6483f09c2642b9c798",
         "name": "TeslaDiskFakeGlow",
-        "keywords": [
+        "shader": "Custom/CustomParticles",
+        "color": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "shaderKeywords": [
           "DISTORTION_TARGET_MAIN",
           "HEIGHT_FOG",
           "VERTEX_RED_IS_ALPHA",
@@ -455,8 +521,16 @@
         ]
       },
       {
+        "hash": "5fe065c7744c4d887d4c4c994dccb555",
         "name": "TeslaDisk",
-        "keywords": [
+        "shader": "Custom/SimpleLit",
+        "color": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "shaderKeywords": [
           "FOG",
           "HEIGHT_FOG",
           "NOISE_DITHERING",
@@ -489,8 +563,16 @@
         ]
       },
       {
+        "hash": "0b03599ac7c984699e942948dcc43ee2",
         "name": "SimpleLightning",
-        "keywords": [
+        "shader": "Custom/SimpleLightning",
+        "color": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "shaderKeywords": [
           "ENABLE_TARGET_POINT",
           "DISTORTION_NONE",
           "DISTORTION_TARGET_MAIN",
@@ -506,8 +588,16 @@
         ]
       },
       {
+        "hash": "d49349c2e45d72629cd602ee0906e2b6",
         "name": "SimpleLightningThin",
-        "keywords": [
+        "shader": "Custom/SimpleLightning",
+        "color": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "shaderKeywords": [
           "ENABLE_TARGET_POINT",
           "DISTORTION_NONE",
           "DISTORTION_TARGET_MAIN",
@@ -523,8 +613,16 @@
         ]
       },
       {
+        "hash": "f34dbd2b741fac880b42c0f327007704",
         "name": "Aurora1",
-        "keywords": [
+        "shader": "Custom/CustomParticles",
+        "color": [
+          0.942750931,
+          0.0,
+          1.0,
+          1.0
+        ],
+        "shaderKeywords": [
           "DISTORTION_TARGET_MAIN",
           "MASK2",
           "MASK2_RED_IS_ALPHA",
@@ -549,8 +647,16 @@
         ]
       },
       {
+        "hash": "ed0abf9ada522e78ed6ce3ba7a2ca79d",
         "name": "Aurora2",
-        "keywords": [
+        "shader": "Custom/CustomParticles",
+        "color": [
+          0.942750931,
+          0.0,
+          1.0,
+          1.0
+        ],
+        "shaderKeywords": [
           "DISTORTION_TARGET_MAIN",
           "MASK2",
           "MASK2_RED_IS_ALPHA",
@@ -574,8 +680,16 @@
         ]
       },
       {
+        "hash": "3a283de748a1df4c4199b346367844c8",
         "name": "FrontLaserGlow",
-        "keywords": [
+        "shader": "Custom/Parametric3SliceSprite",
+        "color": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "shaderKeywords": [
           "ALPHA_WIDTH_SCALE",
           "ENABLE_FOG",
           "USE_FOG_FOR_LIGHTS",
@@ -585,8 +699,16 @@
         ]
       },
       {
+        "hash": "b95d48940ab7bef2170421d0118330c5",
         "name": "FrontLaser",
-        "keywords": [
+        "shader": "Custom/TransparentNeonLight",
+        "color": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "shaderKeywords": [
           "DIFFUSE",
           "ENABLE_BLUE_NOISE",
           "ENABLE_DIFFUSE",
@@ -595,8 +717,16 @@
         ]
       },
       {
+        "hash": "fc128b204196cbc98358fa1b57216a7a",
         "name": "RailingMirror",
-        "keywords": [
+        "shader": "Custom/Mirror",
+        "color": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "shaderKeywords": [
           "DIFFUSE",
           "ENABLE_MIRROR",
           "ETC1_EXTERNAL_ALPHA",
@@ -604,8 +734,16 @@
         ]
       },
       {
+        "hash": "47348bfff0fbcb3e14515ad3bfebc6be",
         "name": "SetDepthOnly",
-        "keywords": [
+        "shader": "Custom/SetDepthOnly",
+        "color": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "shaderKeywords": [
           "ENABLE_DIFFUSE",
           "ENABLE_DIRT",
           "ENABLE_DIRT_DETAIL",
@@ -620,8 +758,16 @@
         ]
       },
       {
+        "hash": "42ba8db8a847b0fecc37824a7c996928",
         "name": "RailingConstruction",
-        "keywords": [
+        "shader": "Custom/SimpleLit",
+        "color": [
+          0.399999976,
+          0.399999976,
+          0.399999976,
+          1.0
+        ],
+        "shaderKeywords": [
           "DIFFUSE",
           "FOG",
           "REFLECTION_PROBE",
@@ -660,25 +806,286 @@
       }
     ],
     "uniqueMeshes": [
-      "pb_Mesh-136590",
-      "pb_Mesh-669476",
-      "RectangleFakeGlow",
-      "PlayersPlaceCore",
-      "BackCube",
-      "TubeElement",
-      "ParametricBox",
-      "RunwayPier",
-      "TeslaTowerMesh",
-      "Logo.001",
-      "Disk",
-      "Glow",
-      "CylinderGlow",
-      "Strip",
-      "transform1",
-      "Dynamic3SliceSprite",
-      "MainBeamDisk",
-      "Mirror",
-      "Construction"
+      {
+        "name": "pb_Mesh-136590",
+        "hash": "feca631dc0aef1ae46f0e44b331d9d0e",
+        "boundsSize": [
+          3.0,
+          2.38418579E-07,
+          2.00000024
+        ],
+        "boundsCenter": [
+          0.0,
+          -0.0001,
+          0.0
+        ]
+      },
+      {
+        "name": "pb_Mesh-669476",
+        "hash": "d3ca75607c073a4d2ff24d9950b343e9",
+        "boundsSize": [
+          3.0,
+          112.755005,
+          2.0
+        ],
+        "boundsCenter": [
+          0.0,
+          -56.3724976,
+          0.0
+        ]
+      },
+      {
+        "name": "RectangleFakeGlow",
+        "hash": "82ea09b58af4dc40242a50a3224b8176",
+        "boundsSize": [
+          3.0,
+          3.0,
+          0.0
+        ],
+        "boundsCenter": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "name": "PlayersPlaceCore",
+        "hash": "1cdf5eb3bb475b8ee9c8959d7bbe9ee1",
+        "boundsSize": [
+          3.0,
+          2.38418579E-07,
+          2.00000024
+        ],
+        "boundsCenter": [
+          0.0,
+          -0.0001,
+          0.0
+        ]
+      },
+      {
+        "name": "BackCube",
+        "hash": "8e6e28c9b4d71db5ce731adfc20ce8fe",
+        "boundsSize": [
+          5.5,
+          0.25,
+          0.5
+        ],
+        "boundsCenter": [
+          0.0,
+          -0.125,
+          -0.25
+        ]
+      },
+      {
+        "name": "TubeElement",
+        "hash": "5de43523e91fefef300547b70d5e7951",
+        "boundsSize": [
+          28.6807327,
+          28.84325,
+          231.240356
+        ],
+        "boundsCenter": [
+          -5.95385742,
+          -21.2044582,
+          -40.85345
+        ]
+      },
+      {
+        "name": "ParametricBox",
+        "hash": "918b6e6683288362624bdc36ef36ef62",
+        "boundsSize": [
+          2.0,
+          2.0,
+          2.0
+        ],
+        "boundsCenter": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "name": "RunwayPier",
+        "hash": "d4ddb050fa5c3c1acc2e1a29cffaed0d",
+        "boundsSize": [
+          1.160151,
+          9.396744,
+          12.5353317
+        ],
+        "boundsCenter": [
+          0.158174545,
+          0.013556242,
+          -6.21528625
+        ]
+      },
+      {
+        "name": "Dynamic3SliceSprite",
+        "hash": "e6819d88d5c41ae3e598c9a361498d23",
+        "boundsSize": [
+          10.0,
+          5000.0,
+          0.1
+        ],
+        "boundsCenter": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "name": "RunwayPier",
+        "hash": "8a955c6c0c1403ce8c42348338302498",
+        "boundsSize": [
+          1.2136178,
+          8.796743,
+          38.5749359
+        ],
+        "boundsCenter": [
+          0.131441176,
+          0.013556242,
+          -19.2421989
+        ]
+      },
+      {
+        "name": "TeslaTowerMesh",
+        "hash": "2201d4ba1cc4eb3726c25ed05fb7b5c5",
+        "boundsSize": [
+          14.984684,
+          101.149635,
+          15.22949
+        ],
+        "boundsCenter": [
+          0.01475668,
+          -47.6158333,
+          0.0110008717
+        ]
+      },
+      {
+        "name": "Logo.001",
+        "hash": "461a590700e5154c4941d21febf25c39",
+        "boundsSize": [
+          34.4356,
+          35.065773,
+          0.3109014
+        ],
+        "boundsCenter": [
+          9.536743E-07,
+          3.61938381,
+          0.155445218
+        ]
+      },
+      {
+        "name": "Disk",
+        "hash": "3175d84c7b67678ce47aafb907ff7ceb",
+        "boundsSize": [
+          6.9408226,
+          1.20000029,
+          7.01219654
+        ],
+        "boundsCenter": [
+          2.38418579E-07,
+          -2.98023224E-08,
+          0.0
+        ]
+      },
+      {
+        "name": "Glow",
+        "hash": "dfff68a3bfa06dd9cd3d335b7cfc99fe",
+        "boundsSize": [
+          6.81842041,
+          0.6000006,
+          6.81839
+        ],
+        "boundsCenter": [
+          6.07967377E-06,
+          0.0,
+          2.861023E-06
+        ]
+      },
+      {
+        "name": "CylinderGlow",
+        "hash": "f5d4e4af78290171ab7e85fb6790ab36",
+        "boundsSize": [
+          7.2,
+          7.2,
+          8.099999
+        ],
+        "boundsCenter": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "name": "Strip",
+        "hash": "cb07e672a2e81a54cf7fc9a34a1ab812",
+        "boundsSize": [
+          166.655579,
+          166.655579,
+          166.655579
+        ],
+        "boundsCenter": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "name": "transform1",
+        "hash": "6712b180aee4a4eaaadbad3d8e1ceed0",
+        "boundsSize": [
+          371.726257,
+          111.013931,
+          124.471207
+        ],
+        "boundsCenter": [
+          -4.50914764,
+          -8.305391,
+          -26.358902
+        ]
+      },
+      {
+        "name": "MainBeamDisk",
+        "hash": "bfb3c36ceada02c91a71d90cf453d941",
+        "boundsSize": [
+          7.2897234,
+          0.899397,
+          7.2897234
+        ],
+        "boundsCenter": [
+          0.0,
+          -2.026558E-06,
+          0.0
+        ]
+      },
+      {
+        "name": "Mirror",
+        "hash": "cc9b726de456a0e3c057ef73116c432a",
+        "boundsSize": [
+          4.4437685,
+          0.0,
+          94.25134
+        ],
+        "boundsCenter": [
+          -2.14576721E-05,
+          0.007813707,
+          32.5483551
+        ]
+      },
+      {
+        "name": "Construction",
+        "hash": "c66d78f20e0d03ae75638657e1412e06",
+        "boundsSize": [
+          4.4985466,
+          0.0843677148,
+          94.25134
+        ],
+        "boundsCenter": [
+          -2.15768814E-05,
+          -0.03437015,
+          32.5483551
+        ]
+      }
     ]
   },
   "objects": [
@@ -852,20 +1259,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            -0.0001,
-            0.0
-          ],
-          "boundsSize": [
-            3.0,
-            2.38418579E-07,
-            2.00000024
-          ]
+          "hash": "feca631dc0aef1ae46f0e44b331d9d0e"
         },
         "MeshRenderer": {
           "materials": [
-            "PlayersPlaceReflectionProbeBlurry"
+            "a97bb8953136bcdd00eea8f1107e0aeb"
           ]
         }
       }
@@ -904,20 +1302,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            -56.3724976,
-            0.0
-          ],
-          "boundsSize": [
-            3.0,
-            112.755005,
-            2.0
-          ]
+          "hash": "d3ca75607c073a4d2ff24d9950b343e9"
         },
         "MeshRenderer": {
           "materials": [
-            "DarkEnvironmentSimple"
+            "32344ccefc891a79d61f366a7223ba0c"
           ]
         }
       }
@@ -956,16 +1345,7 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            3.0,
-            3.0,
-            0.0
-          ]
+          "hash": "82ea09b58af4dc40242a50a3224b8176"
         },
         "RectangleFakeGlow": {
           "rectangleSize": [
@@ -975,7 +1355,7 @@
         },
         "MeshRenderer": {
           "materials": [
-            "ParametricFakeGlow"
+            "6a57238a079a4d360b12e9d3a777e1b0"
           ]
         }
       }
@@ -1082,20 +1462,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            -0.0001,
-            0.0
-          ],
-          "boundsSize": [
-            3.0,
-            2.38418579E-07,
-            2.00000024
-          ]
+          "hash": "1cdf5eb3bb475b8ee9c8959d7bbe9ee1"
         },
         "MeshRenderer": {
           "materials": [
-            "SaberBurnMarks"
+            "753e70e0ebb6bcbec2329b02d705b919"
           ]
         }
       }
@@ -1168,20 +1539,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            -0.125,
-            -0.25
-          ],
-          "boundsSize": [
-            5.5,
-            0.25,
-            0.5
-          ]
+          "hash": "8e6e28c9b4d71db5ce731adfc20ce8fe"
         },
         "MeshRenderer": {
           "materials": [
-            "RunwayConstruction"
+            "92460274f519f7251d0e83a1ba3232f7"
           ]
         }
       }
@@ -1220,20 +1582,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            -5.95385742,
-            -21.2044582,
-            -40.85345
-          ],
-          "boundsSize": [
-            28.6807327,
-            28.84325,
-            231.240356
-          ]
+          "hash": "5de43523e91fefef300547b70d5e7951"
         },
         "MeshRenderer": {
           "materials": [
-            "Tube"
+            "9b098f1f441d8e95cf1baf42a26670f3"
           ]
         }
       }
@@ -1272,20 +1625,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            -5.95385742,
-            -21.2044582,
-            -40.85345
-          ],
-          "boundsSize": [
-            28.6807327,
-            28.84325,
-            231.240356
-          ]
+          "hash": "5de43523e91fefef300547b70d5e7951"
         },
         "MeshRenderer": {
           "materials": [
-            "Tube"
+            "9b098f1f441d8e95cf1baf42a26670f3"
           ]
         }
       }
@@ -1324,20 +1668,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            -5.95385742,
-            -21.2044582,
-            -40.85345
-          ],
-          "boundsSize": [
-            28.6807327,
-            28.84325,
-            231.240356
-          ]
+          "hash": "5de43523e91fefef300547b70d5e7951"
         },
         "MeshRenderer": {
           "materials": [
-            "Tube"
+            "9b098f1f441d8e95cf1baf42a26670f3"
           ]
         }
       }
@@ -1459,21 +1794,10 @@
             1.00000012
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightSpriteGlow"
+            "0dd004d097c885674f53e9736741a1d9"
           ]
         }
       }
@@ -1512,20 +1836,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -1614,21 +1929,10 @@
             1.00000012
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightSpriteGlow"
+            "0dd004d097c885674f53e9736741a1d9"
           ]
         }
       }
@@ -1667,20 +1971,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -1769,21 +2064,10 @@
             1.00000024
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightSpriteGlow"
+            "0dd004d097c885674f53e9736741a1d9"
           ]
         }
       }
@@ -1822,20 +2106,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -1924,21 +2199,10 @@
             1.00000024
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightSpriteGlow"
+            "0dd004d097c885674f53e9736741a1d9"
           ]
         }
       }
@@ -1977,20 +2241,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -2030,20 +2285,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.158174545,
-            0.013556242,
-            -6.21528625
-          ],
-          "boundsSize": [
-            1.160151,
-            9.396744,
-            12.5353317
-          ]
+          "hash": "d4ddb050fa5c3c1acc2e1a29cffaed0d"
         },
         "MeshRenderer": {
           "materials": [
-            "RunwayConstruction"
+            "92460274f519f7251d0e83a1ba3232f7"
           ]
         }
       }
@@ -2136,6 +2382,7 @@
     {
       "name": "BakedBloom",
       "id": "GagaEnvironment.[0]Environment.[16]RunwayPillarLow (2).[0]RunwayLightL1.[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
       "layer": "NeonLight",
       "components": {
         "Transform": {
@@ -2165,21 +2412,10 @@
             1.00000012
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightSpriteGlow"
+            "0dd004d097c885674f53e9736741a1d9"
           ]
         }
       }
@@ -2218,20 +2454,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -2291,6 +2518,7 @@
     {
       "name": "BakedBloom",
       "id": "GagaEnvironment.[0]Environment.[16]RunwayPillarLow (2).[1]RunwayLightL0.[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
       "layer": "NeonLight",
       "components": {
         "Transform": {
@@ -2320,21 +2548,10 @@
             1.00000012
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightSpriteGlow"
+            "0dd004d097c885674f53e9736741a1d9"
           ]
         }
       }
@@ -2373,20 +2590,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -2446,6 +2654,7 @@
     {
       "name": "BakedBloom",
       "id": "GagaEnvironment.[0]Environment.[16]RunwayPillarLow (2).[2]RunwayLightR0.[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
       "layer": "NeonLight",
       "components": {
         "Transform": {
@@ -2475,21 +2684,10 @@
             1.00000024
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightSpriteGlow"
+            "0dd004d097c885674f53e9736741a1d9"
           ]
         }
       }
@@ -2528,20 +2726,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -2601,6 +2790,7 @@
     {
       "name": "BakedBloom",
       "id": "GagaEnvironment.[0]Environment.[16]RunwayPillarLow (2).[3]RunwayLightR1.[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
       "layer": "NeonLight",
       "components": {
         "Transform": {
@@ -2630,21 +2820,10 @@
             1.00000024
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightSpriteGlow"
+            "0dd004d097c885674f53e9736741a1d9"
           ]
         }
       }
@@ -2683,20 +2862,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -2736,20 +2906,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.158174545,
-            0.013556242,
-            -6.21528625
-          ],
-          "boundsSize": [
-            1.160151,
-            9.396744,
-            12.5353317
-          ]
+          "hash": "d4ddb050fa5c3c1acc2e1a29cffaed0d"
         },
         "MeshRenderer": {
           "materials": [
-            "RunwayConstruction"
+            "92460274f519f7251d0e83a1ba3232f7"
           ]
         }
       }
@@ -2842,6 +3003,7 @@
     {
       "name": "BakedBloom",
       "id": "GagaEnvironment.[0]Environment.[17]RunwayPillar.[0]RunwayLightL1.[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
       "layer": "NeonLight",
       "components": {
         "Transform": {
@@ -2871,21 +3033,10 @@
             1.00000012
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightSpriteGlow"
+            "0dd004d097c885674f53e9736741a1d9"
           ]
         }
       }
@@ -2924,20 +3075,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -2997,6 +3139,7 @@
     {
       "name": "BakedBloom",
       "id": "GagaEnvironment.[0]Environment.[17]RunwayPillar.[1]RunwayLightL0.[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
       "layer": "NeonLight",
       "components": {
         "Transform": {
@@ -3026,21 +3169,10 @@
             1.00000012
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightSpriteGlow"
+            "0dd004d097c885674f53e9736741a1d9"
           ]
         }
       }
@@ -3079,20 +3211,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -3152,6 +3275,7 @@
     {
       "name": "BakedBloom",
       "id": "GagaEnvironment.[0]Environment.[17]RunwayPillar.[2]RunwayLightR0.[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
       "layer": "NeonLight",
       "components": {
         "Transform": {
@@ -3181,21 +3305,10 @@
             1.00000024
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightSpriteGlow"
+            "0dd004d097c885674f53e9736741a1d9"
           ]
         }
       }
@@ -3234,20 +3347,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -3307,6 +3411,7 @@
     {
       "name": "BakedBloom",
       "id": "GagaEnvironment.[0]Environment.[17]RunwayPillar.[3]RunwayLightR1.[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
       "layer": "NeonLight",
       "components": {
         "Transform": {
@@ -3336,21 +3441,10 @@
             1.00000024
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightSpriteGlow"
+            "0dd004d097c885674f53e9736741a1d9"
           ]
         }
       }
@@ -3389,20 +3483,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -3442,20 +3527,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.131441176,
-            0.013556242,
-            -19.2421989
-          ],
-          "boundsSize": [
-            1.2136178,
-            8.796743,
-            38.5749359
-          ]
+          "hash": "8a955c6c0c1403ce8c42348338302498"
         },
         "MeshRenderer": {
           "materials": [
-            "RunwayConstruction"
+            "92460274f519f7251d0e83a1ba3232f7"
           ]
         }
       }
@@ -3494,20 +3570,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.01475668,
-            -47.6158333,
-            0.0110008717
-          ],
-          "boundsSize": [
-            14.984684,
-            101.149635,
-            15.22949
-          ]
+          "hash": "2201d4ba1cc4eb3726c25ed05fb7b5c5"
         },
         "MeshRenderer": {
           "materials": [
-            "TeslaTower"
+            "a5318af17973a0e6705f6f4d35dbfee8"
           ]
         }
       }
@@ -3546,20 +3613,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.01475668,
-            -47.6158333,
-            0.0110008717
-          ],
-          "boundsSize": [
-            14.984684,
-            101.149635,
-            15.22949
-          ]
+          "hash": "2201d4ba1cc4eb3726c25ed05fb7b5c5"
         },
         "MeshRenderer": {
           "materials": [
-            "TeslaTower"
+            "a5318af17973a0e6705f6f4d35dbfee8"
           ]
         }
       }
@@ -3635,20 +3693,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.01475668,
-            -47.6158333,
-            0.0110008717
-          ],
-          "boundsSize": [
-            14.984684,
-            101.149635,
-            15.22949
-          ]
+          "hash": "2201d4ba1cc4eb3726c25ed05fb7b5c5"
         },
         "MeshRenderer": {
           "materials": [
-            "TeslaTower"
+            "a5318af17973a0e6705f6f4d35dbfee8"
           ]
         }
       }
@@ -3687,20 +3736,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.01475668,
-            -47.6158333,
-            0.0110008717
-          ],
-          "boundsSize": [
-            14.984684,
-            101.149635,
-            15.22949
-          ]
+          "hash": "2201d4ba1cc4eb3726c25ed05fb7b5c5"
         },
         "MeshRenderer": {
           "materials": [
-            "TeslaTower"
+            "a5318af17973a0e6705f6f4d35dbfee8"
           ]
         }
       }
@@ -3722,18 +3762,18 @@
             100.0
           ],
           "rotation": [
-            2.96325374,
-            4.917032,
-            1.33580738E-08
+            2.96229219,
+            4.91486645,
+            1.33580622E-08
           ],
           "localRotation": [
-            2.96325374,
-            4.917032,
-            1.33580738E-08
+            2.96229219,
+            4.91486645,
+            1.33580622E-08
           ],
           "scale": [
             1.0,
-            0.99999994,
+            1.0,
             1.0
           ]
         },
@@ -3750,9 +3790,9 @@
       "components": {
         "Transform": {
           "position": [
-            -12.94881,
-            19.227951,
-            101.85321
+            -12.9489,
+            19.2279625,
+            101.852478
           ],
           "localPosition": [
             -13.06,
@@ -3760,9 +3800,9 @@
             0.0
           ],
           "rotation": [
-            2.96325374,
-            4.917032,
-            1.33580738E-08
+            2.96229219,
+            4.91486645,
+            1.33580622E-08
           ],
           "localRotation": [
             0.0,
@@ -3771,7 +3811,7 @@
           ],
           "scale": [
             1.0,
-            0.99999994,
+            1.0,
             1.0
           ]
         }
@@ -3784,9 +3824,9 @@
       "components": {
         "Transform": {
           "position": [
-            14.0813484,
-            19.227951,
-            99.52781
+            14.0813456,
+            19.2279625,
+            99.52811
           ],
           "localPosition": [
             14.07,
@@ -3794,9 +3834,9 @@
             0.0
           ],
           "rotation": [
-            2.96325374,
-            4.917032,
-            1.33580738E-08
+            2.96229219,
+            4.91486645,
+            1.33580622E-08
           ],
           "localRotation": [
             0.0,
@@ -3805,7 +3845,7 @@
           ],
           "scale": [
             1.0,
-            0.99999994,
+            1.0,
             1.0
           ]
         }
@@ -3829,9 +3869,9 @@
             0.0
           ],
           "rotation": [
-            357.036743,
-            184.917038,
-            -1.33580738E-08
+            357.03772,
+            184.914856,
+            -1.33580622E-08
           ],
           "localRotation": [
             0.0,
@@ -3840,25 +3880,16 @@
           ],
           "scale": [
             1.00000012,
-            0.99999994,
+            1.0,
             1.00000012
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            9.536743E-07,
-            3.61938381,
-            0.155445218
-          ],
-          "boundsSize": [
-            34.4356,
-            35.065773,
-            0.3109014
-          ]
+          "hash": "461a590700e5154c4941d21febf25c39"
         },
         "MeshRenderer": {
           "materials": [
-            "Logo"
+            "5ddf20e566534369408052d4b32f0739"
           ]
         }
       }
@@ -4037,20 +4068,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            2.38418579E-07,
-            -2.98023224E-08,
-            0.0
-          ],
-          "boundsSize": [
-            6.9408226,
-            1.20000029,
-            7.01219654
-          ]
+          "hash": "3175d84c7b67678ce47aafb907ff7ceb"
         },
         "MeshRenderer": {
           "materials": [
-            "TeslaTower"
+            "a5318af17973a0e6705f6f4d35dbfee8"
           ]
         }
       }
@@ -4089,20 +4111,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            6.07967377E-06,
-            0.0,
-            2.861023E-06
-          ],
-          "boundsSize": [
-            6.81842041,
-            0.6000006,
-            6.81839
-          ]
+          "hash": "dfff68a3bfa06dd9cd3d335b7cfc99fe"
         },
         "MeshRenderer": {
           "materials": [
-            "DiskGlow"
+            "8a56bdf3305aeb242f7d7849dc1aa45c"
           ]
         }
       }
@@ -4141,20 +4154,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            7.2,
-            7.2,
-            8.099999
-          ]
+          "hash": "f5d4e4af78290171ab7e85fb6790ab36"
         },
         "MeshRenderer": {
           "materials": [
-            "TeslaDiskFakeGlow"
+            "16a45d70ec619e6483f09c2642b9c798"
           ]
         }
       }
@@ -4231,20 +4235,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            2.38418579E-07,
-            -2.98023224E-08,
-            0.0
-          ],
-          "boundsSize": [
-            6.9408226,
-            1.20000029,
-            7.01219654
-          ]
+          "hash": "3175d84c7b67678ce47aafb907ff7ceb"
         },
         "MeshRenderer": {
           "materials": [
-            "TeslaTower"
+            "a5318af17973a0e6705f6f4d35dbfee8"
           ]
         }
       }
@@ -4283,20 +4278,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            6.07967377E-06,
-            0.0,
-            2.861023E-06
-          ],
-          "boundsSize": [
-            6.81842041,
-            0.6000006,
-            6.81839
-          ]
+          "hash": "dfff68a3bfa06dd9cd3d335b7cfc99fe"
         },
         "MeshRenderer": {
           "materials": [
-            "DiskGlow"
+            "8a56bdf3305aeb242f7d7849dc1aa45c"
           ]
         }
       }
@@ -4335,20 +4321,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            7.2,
-            7.2,
-            8.099999
-          ]
+          "hash": "f5d4e4af78290171ab7e85fb6790ab36"
         },
         "MeshRenderer": {
           "materials": [
-            "TeslaDiskFakeGlow"
+            "16a45d70ec619e6483f09c2642b9c798"
           ]
         }
       }
@@ -4425,20 +4402,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            2.38418579E-07,
-            -2.98023224E-08,
-            0.0
-          ],
-          "boundsSize": [
-            6.9408226,
-            1.20000029,
-            7.01219654
-          ]
+          "hash": "3175d84c7b67678ce47aafb907ff7ceb"
         },
         "MeshRenderer": {
           "materials": [
-            "TeslaTower"
+            "a5318af17973a0e6705f6f4d35dbfee8"
           ]
         }
       }
@@ -4477,20 +4445,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            6.07967377E-06,
-            0.0,
-            2.861023E-06
-          ],
-          "boundsSize": [
-            6.81842041,
-            0.6000006,
-            6.81839
-          ]
+          "hash": "dfff68a3bfa06dd9cd3d335b7cfc99fe"
         },
         "MeshRenderer": {
           "materials": [
-            "DiskGlow"
+            "8a56bdf3305aeb242f7d7849dc1aa45c"
           ]
         }
       }
@@ -4529,20 +4488,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            7.2,
-            7.2,
-            8.099999
-          ]
+          "hash": "f5d4e4af78290171ab7e85fb6790ab36"
         },
         "MeshRenderer": {
           "materials": [
-            "TeslaDiskFakeGlow"
+            "16a45d70ec619e6483f09c2642b9c798"
           ]
         }
       }
@@ -4630,20 +4580,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            2.38418579E-07,
-            -2.98023224E-08,
-            0.0
-          ],
-          "boundsSize": [
-            6.9408226,
-            1.20000029,
-            7.01219654
-          ]
+          "hash": "3175d84c7b67678ce47aafb907ff7ceb"
         },
         "MeshRenderer": {
           "materials": [
-            "TeslaDisk"
+            "5fe065c7744c4d887d4c4c994dccb555"
           ]
         }
       }
@@ -4682,20 +4623,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            6.07967377E-06,
-            0.0,
-            2.861023E-06
-          ],
-          "boundsSize": [
-            6.81842041,
-            0.6000006,
-            6.81839
-          ]
+          "hash": "dfff68a3bfa06dd9cd3d335b7cfc99fe"
         },
         "MeshRenderer": {
           "materials": [
-            "DiskGlow"
+            "8a56bdf3305aeb242f7d7849dc1aa45c"
           ]
         }
       }
@@ -4734,20 +4666,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            7.2,
-            7.2,
-            8.099999
-          ]
+          "hash": "f5d4e4af78290171ab7e85fb6790ab36"
         },
         "MeshRenderer": {
           "materials": [
-            "TeslaDiskFakeGlow"
+            "16a45d70ec619e6483f09c2642b9c798"
           ]
         }
       }
@@ -4786,16 +4709,7 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            166.655579,
-            166.655579,
-            166.655579
-          ]
+          "hash": "cb07e672a2e81a54cf7fc9a34a1ab812"
         },
         "InstancedMaterialLightWithId": {
           "materialLightId": 3,
@@ -4803,7 +4717,7 @@
         },
         "MeshRenderer": {
           "materials": [
-            "SimpleLightning"
+            "0b03599ac7c984699e942948dcc43ee2"
           ]
         }
       }
@@ -4842,16 +4756,7 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            166.655579,
-            166.655579,
-            166.655579
-          ]
+          "hash": "cb07e672a2e81a54cf7fc9a34a1ab812"
         },
         "InstancedMaterialLightWithId": {
           "materialLightId": 3,
@@ -4859,7 +4764,7 @@
         },
         "MeshRenderer": {
           "materials": [
-            "SimpleLightningThin"
+            "d49349c2e45d72629cd602ee0906e2b6"
           ]
         }
       }
@@ -4982,20 +4887,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.01475668,
-            -47.6158333,
-            0.0110008717
-          ],
-          "boundsSize": [
-            14.984684,
-            101.149635,
-            15.22949
-          ]
+          "hash": "2201d4ba1cc4eb3726c25ed05fb7b5c5"
         },
         "MeshRenderer": {
           "materials": [
-            "TeslaTower"
+            "a5318af17973a0e6705f6f4d35dbfee8"
           ]
         }
       }
@@ -5106,20 +5002,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            2.38418579E-07,
-            -2.98023224E-08,
-            0.0
-          ],
-          "boundsSize": [
-            6.9408226,
-            1.20000029,
-            7.01219654
-          ]
+          "hash": "3175d84c7b67678ce47aafb907ff7ceb"
         },
         "MeshRenderer": {
           "materials": [
-            "TeslaTower"
+            "a5318af17973a0e6705f6f4d35dbfee8"
           ]
         }
       }
@@ -5158,20 +5045,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            6.07967377E-06,
-            0.0,
-            2.861023E-06
-          ],
-          "boundsSize": [
-            6.81842041,
-            0.6000006,
-            6.81839
-          ]
+          "hash": "dfff68a3bfa06dd9cd3d335b7cfc99fe"
         },
         "MeshRenderer": {
           "materials": [
-            "DiskGlow"
+            "8a56bdf3305aeb242f7d7849dc1aa45c"
           ]
         }
       }
@@ -5210,20 +5088,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            7.2,
-            7.2,
-            8.099999
-          ]
+          "hash": "f5d4e4af78290171ab7e85fb6790ab36"
         },
         "MeshRenderer": {
           "materials": [
-            "TeslaDiskFakeGlow"
+            "16a45d70ec619e6483f09c2642b9c798"
           ]
         }
       }
@@ -5300,20 +5169,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            2.38418579E-07,
-            -2.98023224E-08,
-            0.0
-          ],
-          "boundsSize": [
-            6.9408226,
-            1.20000029,
-            7.01219654
-          ]
+          "hash": "3175d84c7b67678ce47aafb907ff7ceb"
         },
         "MeshRenderer": {
           "materials": [
-            "TeslaTower"
+            "a5318af17973a0e6705f6f4d35dbfee8"
           ]
         }
       }
@@ -5352,20 +5212,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            6.07967377E-06,
-            0.0,
-            2.861023E-06
-          ],
-          "boundsSize": [
-            6.81842041,
-            0.6000006,
-            6.81839
-          ]
+          "hash": "dfff68a3bfa06dd9cd3d335b7cfc99fe"
         },
         "MeshRenderer": {
           "materials": [
-            "DiskGlow"
+            "8a56bdf3305aeb242f7d7849dc1aa45c"
           ]
         }
       }
@@ -5404,20 +5255,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            7.2,
-            7.2,
-            8.099999
-          ]
+          "hash": "f5d4e4af78290171ab7e85fb6790ab36"
         },
         "MeshRenderer": {
           "materials": [
-            "TeslaDiskFakeGlow"
+            "16a45d70ec619e6483f09c2642b9c798"
           ]
         }
       }
@@ -5494,20 +5336,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            2.38418579E-07,
-            -2.98023224E-08,
-            0.0
-          ],
-          "boundsSize": [
-            6.9408226,
-            1.20000029,
-            7.01219654
-          ]
+          "hash": "3175d84c7b67678ce47aafb907ff7ceb"
         },
         "MeshRenderer": {
           "materials": [
-            "TeslaTower"
+            "a5318af17973a0e6705f6f4d35dbfee8"
           ]
         }
       }
@@ -5546,20 +5379,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            6.07967377E-06,
-            0.0,
-            2.861023E-06
-          ],
-          "boundsSize": [
-            6.81842041,
-            0.6000006,
-            6.81839
-          ]
+          "hash": "dfff68a3bfa06dd9cd3d335b7cfc99fe"
         },
         "MeshRenderer": {
           "materials": [
-            "DiskGlow"
+            "8a56bdf3305aeb242f7d7849dc1aa45c"
           ]
         }
       }
@@ -5598,20 +5422,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            7.2,
-            7.2,
-            8.099999
-          ]
+          "hash": "f5d4e4af78290171ab7e85fb6790ab36"
         },
         "MeshRenderer": {
           "materials": [
-            "TeslaDiskFakeGlow"
+            "16a45d70ec619e6483f09c2642b9c798"
           ]
         }
       }
@@ -5699,20 +5514,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            2.38418579E-07,
-            -2.98023224E-08,
-            0.0
-          ],
-          "boundsSize": [
-            6.9408226,
-            1.20000029,
-            7.01219654
-          ]
+          "hash": "3175d84c7b67678ce47aafb907ff7ceb"
         },
         "MeshRenderer": {
           "materials": [
-            "TeslaDisk"
+            "5fe065c7744c4d887d4c4c994dccb555"
           ]
         }
       }
@@ -5751,20 +5557,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            6.07967377E-06,
-            0.0,
-            2.861023E-06
-          ],
-          "boundsSize": [
-            6.81842041,
-            0.6000006,
-            6.81839
-          ]
+          "hash": "dfff68a3bfa06dd9cd3d335b7cfc99fe"
         },
         "MeshRenderer": {
           "materials": [
-            "DiskGlow"
+            "8a56bdf3305aeb242f7d7849dc1aa45c"
           ]
         }
       }
@@ -5803,20 +5600,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            7.2,
-            7.2,
-            8.099999
-          ]
+          "hash": "f5d4e4af78290171ab7e85fb6790ab36"
         },
         "MeshRenderer": {
           "materials": [
-            "TeslaDiskFakeGlow"
+            "16a45d70ec619e6483f09c2642b9c798"
           ]
         }
       }
@@ -5855,16 +5643,7 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            166.655579,
-            166.655579,
-            166.655579
-          ]
+          "hash": "cb07e672a2e81a54cf7fc9a34a1ab812"
         },
         "InstancedMaterialLightWithId": {
           "materialLightId": 4,
@@ -5872,7 +5651,7 @@
         },
         "MeshRenderer": {
           "materials": [
-            "SimpleLightning"
+            "0b03599ac7c984699e942948dcc43ee2"
           ]
         }
       }
@@ -5911,16 +5690,7 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            166.655579,
-            166.655579,
-            166.655579
-          ]
+          "hash": "cb07e672a2e81a54cf7fc9a34a1ab812"
         },
         "InstancedMaterialLightWithId": {
           "materialLightId": 4,
@@ -5928,7 +5698,7 @@
         },
         "MeshRenderer": {
           "materials": [
-            "SimpleLightningThin"
+            "d49349c2e45d72629cd602ee0906e2b6"
           ]
         }
       }
@@ -6051,20 +5821,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.01475668,
-            -47.6158333,
-            0.0110008717
-          ],
-          "boundsSize": [
-            14.984684,
-            101.149635,
-            15.22949
-          ]
+          "hash": "2201d4ba1cc4eb3726c25ed05fb7b5c5"
         },
         "MeshRenderer": {
           "materials": [
-            "TeslaTower"
+            "a5318af17973a0e6705f6f4d35dbfee8"
           ]
         }
       }
@@ -6221,20 +5982,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            2.38418579E-07,
-            -2.98023224E-08,
-            0.0
-          ],
-          "boundsSize": [
-            6.9408226,
-            1.20000029,
-            7.01219654
-          ]
+          "hash": "3175d84c7b67678ce47aafb907ff7ceb"
         },
         "MeshRenderer": {
           "materials": [
-            "TeslaTower"
+            "a5318af17973a0e6705f6f4d35dbfee8"
           ]
         }
       }
@@ -6273,20 +6025,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            6.07967377E-06,
-            0.0,
-            2.861023E-06
-          ],
-          "boundsSize": [
-            6.81842041,
-            0.6000006,
-            6.81839
-          ]
+          "hash": "dfff68a3bfa06dd9cd3d335b7cfc99fe"
         },
         "MeshRenderer": {
           "materials": [
-            "DiskGlow"
+            "8a56bdf3305aeb242f7d7849dc1aa45c"
           ]
         }
       }
@@ -6325,20 +6068,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            7.2,
-            7.2,
-            8.099999
-          ]
+          "hash": "f5d4e4af78290171ab7e85fb6790ab36"
         },
         "MeshRenderer": {
           "materials": [
-            "TeslaDiskFakeGlow"
+            "16a45d70ec619e6483f09c2642b9c798"
           ]
         }
       }
@@ -6415,20 +6149,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            2.38418579E-07,
-            -2.98023224E-08,
-            0.0
-          ],
-          "boundsSize": [
-            6.9408226,
-            1.20000029,
-            7.01219654
-          ]
+          "hash": "3175d84c7b67678ce47aafb907ff7ceb"
         },
         "MeshRenderer": {
           "materials": [
-            "TeslaTower"
+            "a5318af17973a0e6705f6f4d35dbfee8"
           ]
         }
       }
@@ -6467,20 +6192,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            6.07967377E-06,
-            0.0,
-            2.861023E-06
-          ],
-          "boundsSize": [
-            6.81842041,
-            0.6000006,
-            6.81839
-          ]
+          "hash": "dfff68a3bfa06dd9cd3d335b7cfc99fe"
         },
         "MeshRenderer": {
           "materials": [
-            "DiskGlow"
+            "8a56bdf3305aeb242f7d7849dc1aa45c"
           ]
         }
       }
@@ -6519,20 +6235,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            7.2,
-            7.2,
-            8.099999
-          ]
+          "hash": "f5d4e4af78290171ab7e85fb6790ab36"
         },
         "MeshRenderer": {
           "materials": [
-            "TeslaDiskFakeGlow"
+            "16a45d70ec619e6483f09c2642b9c798"
           ]
         }
       }
@@ -6609,20 +6316,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            2.38418579E-07,
-            -2.98023224E-08,
-            0.0
-          ],
-          "boundsSize": [
-            6.9408226,
-            1.20000029,
-            7.01219654
-          ]
+          "hash": "3175d84c7b67678ce47aafb907ff7ceb"
         },
         "MeshRenderer": {
           "materials": [
-            "TeslaTower"
+            "a5318af17973a0e6705f6f4d35dbfee8"
           ]
         }
       }
@@ -6661,20 +6359,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            6.07967377E-06,
-            0.0,
-            2.861023E-06
-          ],
-          "boundsSize": [
-            6.81842041,
-            0.6000006,
-            6.81839
-          ]
+          "hash": "dfff68a3bfa06dd9cd3d335b7cfc99fe"
         },
         "MeshRenderer": {
           "materials": [
-            "DiskGlow"
+            "8a56bdf3305aeb242f7d7849dc1aa45c"
           ]
         }
       }
@@ -6713,20 +6402,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            7.2,
-            7.2,
-            8.099999
-          ]
+          "hash": "f5d4e4af78290171ab7e85fb6790ab36"
         },
         "MeshRenderer": {
           "materials": [
-            "TeslaDiskFakeGlow"
+            "16a45d70ec619e6483f09c2642b9c798"
           ]
         }
       }
@@ -6814,20 +6494,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            2.38418579E-07,
-            -2.98023224E-08,
-            0.0
-          ],
-          "boundsSize": [
-            6.9408226,
-            1.20000029,
-            7.01219654
-          ]
+          "hash": "3175d84c7b67678ce47aafb907ff7ceb"
         },
         "MeshRenderer": {
           "materials": [
-            "TeslaDisk"
+            "5fe065c7744c4d887d4c4c994dccb555"
           ]
         }
       }
@@ -6866,20 +6537,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            6.07967377E-06,
-            0.0,
-            2.861023E-06
-          ],
-          "boundsSize": [
-            6.81842041,
-            0.6000006,
-            6.81839
-          ]
+          "hash": "dfff68a3bfa06dd9cd3d335b7cfc99fe"
         },
         "MeshRenderer": {
           "materials": [
-            "DiskGlow"
+            "8a56bdf3305aeb242f7d7849dc1aa45c"
           ]
         }
       }
@@ -6918,20 +6580,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            7.2,
-            7.2,
-            8.099999
-          ]
+          "hash": "f5d4e4af78290171ab7e85fb6790ab36"
         },
         "MeshRenderer": {
           "materials": [
-            "TeslaDiskFakeGlow"
+            "16a45d70ec619e6483f09c2642b9c798"
           ]
         }
       }
@@ -6970,16 +6623,7 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            166.655579,
-            166.655579,
-            166.655579
-          ]
+          "hash": "cb07e672a2e81a54cf7fc9a34a1ab812"
         },
         "InstancedMaterialLightWithId": {
           "materialLightId": 6,
@@ -6987,7 +6631,7 @@
         },
         "MeshRenderer": {
           "materials": [
-            "SimpleLightning"
+            "0b03599ac7c984699e942948dcc43ee2"
           ]
         }
       }
@@ -7026,16 +6670,7 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            166.655579,
-            166.655579,
-            166.655579
-          ]
+          "hash": "cb07e672a2e81a54cf7fc9a34a1ab812"
         },
         "InstancedMaterialLightWithId": {
           "materialLightId": 6,
@@ -7043,7 +6678,7 @@
         },
         "MeshRenderer": {
           "materials": [
-            "SimpleLightningThin"
+            "d49349c2e45d72629cd602ee0906e2b6"
           ]
         }
       }
@@ -7166,20 +6801,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.01475668,
-            -47.6158333,
-            0.0110008717
-          ],
-          "boundsSize": [
-            14.984684,
-            101.149635,
-            15.22949
-          ]
+          "hash": "2201d4ba1cc4eb3726c25ed05fb7b5c5"
         },
         "MeshRenderer": {
           "materials": [
-            "TeslaTower"
+            "a5318af17973a0e6705f6f4d35dbfee8"
           ]
         }
       }
@@ -7290,20 +6916,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            2.38418579E-07,
-            -2.98023224E-08,
-            0.0
-          ],
-          "boundsSize": [
-            6.9408226,
-            1.20000029,
-            7.01219654
-          ]
+          "hash": "3175d84c7b67678ce47aafb907ff7ceb"
         },
         "MeshRenderer": {
           "materials": [
-            "TeslaTower"
+            "a5318af17973a0e6705f6f4d35dbfee8"
           ]
         }
       }
@@ -7342,20 +6959,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            6.07967377E-06,
-            0.0,
-            2.861023E-06
-          ],
-          "boundsSize": [
-            6.81842041,
-            0.6000006,
-            6.81839
-          ]
+          "hash": "dfff68a3bfa06dd9cd3d335b7cfc99fe"
         },
         "MeshRenderer": {
           "materials": [
-            "DiskGlow"
+            "8a56bdf3305aeb242f7d7849dc1aa45c"
           ]
         }
       }
@@ -7394,20 +7002,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            7.2,
-            7.2,
-            8.099999
-          ]
+          "hash": "f5d4e4af78290171ab7e85fb6790ab36"
         },
         "MeshRenderer": {
           "materials": [
-            "TeslaDiskFakeGlow"
+            "16a45d70ec619e6483f09c2642b9c798"
           ]
         }
       }
@@ -7484,20 +7083,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            2.38418579E-07,
-            -2.98023224E-08,
-            0.0
-          ],
-          "boundsSize": [
-            6.9408226,
-            1.20000029,
-            7.01219654
-          ]
+          "hash": "3175d84c7b67678ce47aafb907ff7ceb"
         },
         "MeshRenderer": {
           "materials": [
-            "TeslaTower"
+            "a5318af17973a0e6705f6f4d35dbfee8"
           ]
         }
       }
@@ -7536,20 +7126,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            6.07967377E-06,
-            0.0,
-            2.861023E-06
-          ],
-          "boundsSize": [
-            6.81842041,
-            0.6000006,
-            6.81839
-          ]
+          "hash": "dfff68a3bfa06dd9cd3d335b7cfc99fe"
         },
         "MeshRenderer": {
           "materials": [
-            "DiskGlow"
+            "8a56bdf3305aeb242f7d7849dc1aa45c"
           ]
         }
       }
@@ -7588,20 +7169,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            7.2,
-            7.2,
-            8.099999
-          ]
+          "hash": "f5d4e4af78290171ab7e85fb6790ab36"
         },
         "MeshRenderer": {
           "materials": [
-            "TeslaDiskFakeGlow"
+            "16a45d70ec619e6483f09c2642b9c798"
           ]
         }
       }
@@ -7678,20 +7250,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            2.38418579E-07,
-            -2.98023224E-08,
-            0.0
-          ],
-          "boundsSize": [
-            6.9408226,
-            1.20000029,
-            7.01219654
-          ]
+          "hash": "3175d84c7b67678ce47aafb907ff7ceb"
         },
         "MeshRenderer": {
           "materials": [
-            "TeslaTower"
+            "a5318af17973a0e6705f6f4d35dbfee8"
           ]
         }
       }
@@ -7730,20 +7293,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            6.07967377E-06,
-            0.0,
-            2.861023E-06
-          ],
-          "boundsSize": [
-            6.81842041,
-            0.6000006,
-            6.81839
-          ]
+          "hash": "dfff68a3bfa06dd9cd3d335b7cfc99fe"
         },
         "MeshRenderer": {
           "materials": [
-            "DiskGlow"
+            "8a56bdf3305aeb242f7d7849dc1aa45c"
           ]
         }
       }
@@ -7782,20 +7336,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            7.2,
-            7.2,
-            8.099999
-          ]
+          "hash": "f5d4e4af78290171ab7e85fb6790ab36"
         },
         "MeshRenderer": {
           "materials": [
-            "TeslaDiskFakeGlow"
+            "16a45d70ec619e6483f09c2642b9c798"
           ]
         }
       }
@@ -7883,20 +7428,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            2.38418579E-07,
-            -2.98023224E-08,
-            0.0
-          ],
-          "boundsSize": [
-            6.9408226,
-            1.20000029,
-            7.01219654
-          ]
+          "hash": "3175d84c7b67678ce47aafb907ff7ceb"
         },
         "MeshRenderer": {
           "materials": [
-            "TeslaDisk"
+            "5fe065c7744c4d887d4c4c994dccb555"
           ]
         }
       }
@@ -7935,20 +7471,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            6.07967377E-06,
-            0.0,
-            2.861023E-06
-          ],
-          "boundsSize": [
-            6.81842041,
-            0.6000006,
-            6.81839
-          ]
+          "hash": "dfff68a3bfa06dd9cd3d335b7cfc99fe"
         },
         "MeshRenderer": {
           "materials": [
-            "DiskGlow"
+            "8a56bdf3305aeb242f7d7849dc1aa45c"
           ]
         }
       }
@@ -7987,20 +7514,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            7.2,
-            7.2,
-            8.099999
-          ]
+          "hash": "f5d4e4af78290171ab7e85fb6790ab36"
         },
         "MeshRenderer": {
           "materials": [
-            "TeslaDiskFakeGlow"
+            "16a45d70ec619e6483f09c2642b9c798"
           ]
         }
       }
@@ -8039,16 +7557,7 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            166.655579,
-            166.655579,
-            166.655579
-          ]
+          "hash": "cb07e672a2e81a54cf7fc9a34a1ab812"
         },
         "InstancedMaterialLightWithId": {
           "materialLightId": 7,
@@ -8056,7 +7565,7 @@
         },
         "MeshRenderer": {
           "materials": [
-            "SimpleLightning"
+            "0b03599ac7c984699e942948dcc43ee2"
           ]
         }
       }
@@ -8095,16 +7604,7 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            166.655579,
-            166.655579,
-            166.655579
-          ]
+          "hash": "cb07e672a2e81a54cf7fc9a34a1ab812"
         },
         "InstancedMaterialLightWithId": {
           "materialLightId": 7,
@@ -8112,7 +7612,7 @@
         },
         "MeshRenderer": {
           "materials": [
-            "SimpleLightningThin"
+            "d49349c2e45d72629cd602ee0906e2b6"
           ]
         }
       }
@@ -8235,20 +7735,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.01475668,
-            -47.6158333,
-            0.0110008717
-          ],
-          "boundsSize": [
-            14.984684,
-            101.149635,
-            15.22949
-          ]
+          "hash": "2201d4ba1cc4eb3726c25ed05fb7b5c5"
         },
         "MeshRenderer": {
           "materials": [
-            "TeslaTower"
+            "a5318af17973a0e6705f6f4d35dbfee8"
           ]
         }
       }
@@ -8359,20 +7850,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            2.38418579E-07,
-            -2.98023224E-08,
-            0.0
-          ],
-          "boundsSize": [
-            6.9408226,
-            1.20000029,
-            7.01219654
-          ]
+          "hash": "3175d84c7b67678ce47aafb907ff7ceb"
         },
         "MeshRenderer": {
           "materials": [
-            "TeslaTower"
+            "a5318af17973a0e6705f6f4d35dbfee8"
           ]
         }
       }
@@ -8411,20 +7893,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            6.07967377E-06,
-            0.0,
-            2.861023E-06
-          ],
-          "boundsSize": [
-            6.81842041,
-            0.6000006,
-            6.81839
-          ]
+          "hash": "dfff68a3bfa06dd9cd3d335b7cfc99fe"
         },
         "MeshRenderer": {
           "materials": [
-            "DiskGlow"
+            "8a56bdf3305aeb242f7d7849dc1aa45c"
           ]
         }
       }
@@ -8463,20 +7936,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            7.2,
-            7.2,
-            8.099999
-          ]
+          "hash": "f5d4e4af78290171ab7e85fb6790ab36"
         },
         "MeshRenderer": {
           "materials": [
-            "TeslaDiskFakeGlow"
+            "16a45d70ec619e6483f09c2642b9c798"
           ]
         }
       }
@@ -8553,20 +8017,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            2.38418579E-07,
-            -2.98023224E-08,
-            0.0
-          ],
-          "boundsSize": [
-            6.9408226,
-            1.20000029,
-            7.01219654
-          ]
+          "hash": "3175d84c7b67678ce47aafb907ff7ceb"
         },
         "MeshRenderer": {
           "materials": [
-            "TeslaTower"
+            "a5318af17973a0e6705f6f4d35dbfee8"
           ]
         }
       }
@@ -8605,20 +8060,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            6.07967377E-06,
-            0.0,
-            2.861023E-06
-          ],
-          "boundsSize": [
-            6.81842041,
-            0.6000006,
-            6.81839
-          ]
+          "hash": "dfff68a3bfa06dd9cd3d335b7cfc99fe"
         },
         "MeshRenderer": {
           "materials": [
-            "DiskGlow"
+            "8a56bdf3305aeb242f7d7849dc1aa45c"
           ]
         }
       }
@@ -8657,20 +8103,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            7.2,
-            7.2,
-            8.099999
-          ]
+          "hash": "f5d4e4af78290171ab7e85fb6790ab36"
         },
         "MeshRenderer": {
           "materials": [
-            "TeslaDiskFakeGlow"
+            "16a45d70ec619e6483f09c2642b9c798"
           ]
         }
       }
@@ -8747,20 +8184,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            2.38418579E-07,
-            -2.98023224E-08,
-            0.0
-          ],
-          "boundsSize": [
-            6.9408226,
-            1.20000029,
-            7.01219654
-          ]
+          "hash": "3175d84c7b67678ce47aafb907ff7ceb"
         },
         "MeshRenderer": {
           "materials": [
-            "TeslaTower"
+            "a5318af17973a0e6705f6f4d35dbfee8"
           ]
         }
       }
@@ -8799,20 +8227,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            6.07967377E-06,
-            0.0,
-            2.861023E-06
-          ],
-          "boundsSize": [
-            6.81842041,
-            0.6000006,
-            6.81839
-          ]
+          "hash": "dfff68a3bfa06dd9cd3d335b7cfc99fe"
         },
         "MeshRenderer": {
           "materials": [
-            "DiskGlow"
+            "8a56bdf3305aeb242f7d7849dc1aa45c"
           ]
         }
       }
@@ -8851,20 +8270,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            7.2,
-            7.2,
-            8.099999
-          ]
+          "hash": "f5d4e4af78290171ab7e85fb6790ab36"
         },
         "MeshRenderer": {
           "materials": [
-            "TeslaDiskFakeGlow"
+            "16a45d70ec619e6483f09c2642b9c798"
           ]
         }
       }
@@ -8952,20 +8362,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            2.38418579E-07,
-            -2.98023224E-08,
-            0.0
-          ],
-          "boundsSize": [
-            6.9408226,
-            1.20000029,
-            7.01219654
-          ]
+          "hash": "3175d84c7b67678ce47aafb907ff7ceb"
         },
         "MeshRenderer": {
           "materials": [
-            "TeslaDisk"
+            "5fe065c7744c4d887d4c4c994dccb555"
           ]
         }
       }
@@ -9004,20 +8405,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            6.07967377E-06,
-            0.0,
-            2.861023E-06
-          ],
-          "boundsSize": [
-            6.81842041,
-            0.6000006,
-            6.81839
-          ]
+          "hash": "dfff68a3bfa06dd9cd3d335b7cfc99fe"
         },
         "MeshRenderer": {
           "materials": [
-            "DiskGlow"
+            "8a56bdf3305aeb242f7d7849dc1aa45c"
           ]
         }
       }
@@ -9056,20 +8448,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            7.2,
-            7.2,
-            8.099999
-          ]
+          "hash": "f5d4e4af78290171ab7e85fb6790ab36"
         },
         "MeshRenderer": {
           "materials": [
-            "TeslaDiskFakeGlow"
+            "16a45d70ec619e6483f09c2642b9c798"
           ]
         }
       }
@@ -9108,16 +8491,7 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            166.655579,
-            166.655579,
-            166.655579
-          ]
+          "hash": "cb07e672a2e81a54cf7fc9a34a1ab812"
         },
         "InstancedMaterialLightWithId": {
           "materialLightId": 8,
@@ -9125,7 +8499,7 @@
         },
         "MeshRenderer": {
           "materials": [
-            "SimpleLightning"
+            "0b03599ac7c984699e942948dcc43ee2"
           ]
         }
       }
@@ -9164,16 +8538,7 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            166.655579,
-            166.655579,
-            166.655579
-          ]
+          "hash": "cb07e672a2e81a54cf7fc9a34a1ab812"
         },
         "InstancedMaterialLightWithId": {
           "materialLightId": 8,
@@ -9181,7 +8546,7 @@
         },
         "MeshRenderer": {
           "materials": [
-            "SimpleLightningThin"
+            "d49349c2e45d72629cd602ee0906e2b6"
           ]
         }
       }
@@ -9270,20 +8635,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.01475668,
-            -47.6158333,
-            0.0110008717
-          ],
-          "boundsSize": [
-            14.984684,
-            101.149635,
-            15.22949
-          ]
+          "hash": "2201d4ba1cc4eb3726c25ed05fb7b5c5"
         },
         "MeshRenderer": {
           "materials": [
-            "TeslaTower"
+            "a5318af17973a0e6705f6f4d35dbfee8"
           ]
         }
       }
@@ -9394,20 +8750,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            2.38418579E-07,
-            -2.98023224E-08,
-            0.0
-          ],
-          "boundsSize": [
-            6.9408226,
-            1.20000029,
-            7.01219654
-          ]
+          "hash": "3175d84c7b67678ce47aafb907ff7ceb"
         },
         "MeshRenderer": {
           "materials": [
-            "TeslaTower"
+            "a5318af17973a0e6705f6f4d35dbfee8"
           ]
         }
       }
@@ -9446,20 +8793,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            6.07967377E-06,
-            0.0,
-            2.861023E-06
-          ],
-          "boundsSize": [
-            6.81842041,
-            0.6000006,
-            6.81839
-          ]
+          "hash": "dfff68a3bfa06dd9cd3d335b7cfc99fe"
         },
         "MeshRenderer": {
           "materials": [
-            "DiskGlow"
+            "8a56bdf3305aeb242f7d7849dc1aa45c"
           ]
         }
       }
@@ -9498,20 +8836,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            7.2,
-            7.2,
-            8.099999
-          ]
+          "hash": "f5d4e4af78290171ab7e85fb6790ab36"
         },
         "MeshRenderer": {
           "materials": [
-            "TeslaDiskFakeGlow"
+            "16a45d70ec619e6483f09c2642b9c798"
           ]
         }
       }
@@ -9588,20 +8917,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            2.38418579E-07,
-            -2.98023224E-08,
-            0.0
-          ],
-          "boundsSize": [
-            6.9408226,
-            1.20000029,
-            7.01219654
-          ]
+          "hash": "3175d84c7b67678ce47aafb907ff7ceb"
         },
         "MeshRenderer": {
           "materials": [
-            "TeslaTower"
+            "a5318af17973a0e6705f6f4d35dbfee8"
           ]
         }
       }
@@ -9640,20 +8960,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            6.07967377E-06,
-            0.0,
-            2.861023E-06
-          ],
-          "boundsSize": [
-            6.81842041,
-            0.6000006,
-            6.81839
-          ]
+          "hash": "dfff68a3bfa06dd9cd3d335b7cfc99fe"
         },
         "MeshRenderer": {
           "materials": [
-            "DiskGlow"
+            "8a56bdf3305aeb242f7d7849dc1aa45c"
           ]
         }
       }
@@ -9692,20 +9003,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            7.2,
-            7.2,
-            8.099999
-          ]
+          "hash": "f5d4e4af78290171ab7e85fb6790ab36"
         },
         "MeshRenderer": {
           "materials": [
-            "TeslaDiskFakeGlow"
+            "16a45d70ec619e6483f09c2642b9c798"
           ]
         }
       }
@@ -9782,20 +9084,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            2.38418579E-07,
-            -2.98023224E-08,
-            0.0
-          ],
-          "boundsSize": [
-            6.9408226,
-            1.20000029,
-            7.01219654
-          ]
+          "hash": "3175d84c7b67678ce47aafb907ff7ceb"
         },
         "MeshRenderer": {
           "materials": [
-            "TeslaTower"
+            "a5318af17973a0e6705f6f4d35dbfee8"
           ]
         }
       }
@@ -9834,20 +9127,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            6.07967377E-06,
-            0.0,
-            2.861023E-06
-          ],
-          "boundsSize": [
-            6.81842041,
-            0.6000006,
-            6.81839
-          ]
+          "hash": "dfff68a3bfa06dd9cd3d335b7cfc99fe"
         },
         "MeshRenderer": {
           "materials": [
-            "DiskGlow"
+            "8a56bdf3305aeb242f7d7849dc1aa45c"
           ]
         }
       }
@@ -9886,20 +9170,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            7.2,
-            7.2,
-            8.099999
-          ]
+          "hash": "f5d4e4af78290171ab7e85fb6790ab36"
         },
         "MeshRenderer": {
           "materials": [
-            "TeslaDiskFakeGlow"
+            "16a45d70ec619e6483f09c2642b9c798"
           ]
         }
       }
@@ -9987,20 +9262,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            2.38418579E-07,
-            -2.98023224E-08,
-            0.0
-          ],
-          "boundsSize": [
-            6.9408226,
-            1.20000029,
-            7.01219654
-          ]
+          "hash": "3175d84c7b67678ce47aafb907ff7ceb"
         },
         "MeshRenderer": {
           "materials": [
-            "TeslaDisk"
+            "5fe065c7744c4d887d4c4c994dccb555"
           ]
         }
       }
@@ -10039,20 +9305,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            6.07967377E-06,
-            0.0,
-            2.861023E-06
-          ],
-          "boundsSize": [
-            6.81842041,
-            0.6000006,
-            6.81839
-          ]
+          "hash": "dfff68a3bfa06dd9cd3d335b7cfc99fe"
         },
         "MeshRenderer": {
           "materials": [
-            "DiskGlow"
+            "8a56bdf3305aeb242f7d7849dc1aa45c"
           ]
         }
       }
@@ -10091,20 +9348,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            7.2,
-            7.2,
-            8.099999
-          ]
+          "hash": "f5d4e4af78290171ab7e85fb6790ab36"
         },
         "MeshRenderer": {
           "materials": [
-            "TeslaDiskFakeGlow"
+            "16a45d70ec619e6483f09c2642b9c798"
           ]
         }
       }
@@ -10143,16 +9391,7 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            166.655579,
-            166.655579,
-            166.655579
-          ]
+          "hash": "cb07e672a2e81a54cf7fc9a34a1ab812"
         },
         "InstancedMaterialLightWithId": {
           "materialLightId": 9,
@@ -10160,7 +9399,7 @@
         },
         "MeshRenderer": {
           "materials": [
-            "SimpleLightning"
+            "0b03599ac7c984699e942948dcc43ee2"
           ]
         }
       }
@@ -10199,16 +9438,7 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            166.655579,
-            166.655579,
-            166.655579
-          ]
+          "hash": "cb07e672a2e81a54cf7fc9a34a1ab812"
         },
         "InstancedMaterialLightWithId": {
           "materialLightId": 9,
@@ -10216,7 +9446,7 @@
         },
         "MeshRenderer": {
           "materials": [
-            "SimpleLightningThin"
+            "d49349c2e45d72629cd602ee0906e2b6"
           ]
         }
       }
@@ -10305,20 +9535,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.01475668,
-            -47.6158333,
-            0.0110008717
-          ],
-          "boundsSize": [
-            14.984684,
-            101.149635,
-            15.22949
-          ]
+          "hash": "2201d4ba1cc4eb3726c25ed05fb7b5c5"
         },
         "MeshRenderer": {
           "materials": [
-            "TeslaTower"
+            "a5318af17973a0e6705f6f4d35dbfee8"
           ]
         }
       }
@@ -10561,16 +9782,7 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            -4.50914764,
-            -8.305391,
-            -26.358902
-          ],
-          "boundsSize": [
-            371.726257,
-            111.013931,
-            124.471207
-          ]
+          "hash": "6712b180aee4a4eaaadbad3d8e1ceed0"
         },
         "InstancedMaterialLightWithId": {
           "materialLightId": 1,
@@ -10578,7 +9790,7 @@
         },
         "MeshRenderer": {
           "materials": [
-            "Aurora1"
+            "f34dbd2b741fac880b42c0f327007704"
           ]
         }
       }
@@ -10617,16 +9829,7 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            -4.50914764,
-            -8.305391,
-            -26.358902
-          ],
-          "boundsSize": [
-            371.726257,
-            111.013931,
-            124.471207
-          ]
+          "hash": "6712b180aee4a4eaaadbad3d8e1ceed0"
         },
         "InstancedMaterialLightWithId": {
           "materialLightId": 2,
@@ -10634,7 +9837,7 @@
         },
         "MeshRenderer": {
           "materials": [
-            "Aurora2"
+            "ed0abf9ada522e78ed6ce3ba7a2ca79d"
           ]
         }
       }
@@ -11276,21 +10479,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            5000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "FrontLaserGlow"
+            "3a283de748a1df4c4199b346367844c8"
           ]
         }
       }
@@ -11329,20 +10521,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "FrontLaser"
+            "b95d48940ab7bef2170421d0118330c5"
           ]
         },
         "ParametricBoxController": {}
@@ -11432,21 +10615,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            5000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "FrontLaserGlow"
+            "3a283de748a1df4c4199b346367844c8"
           ]
         }
       }
@@ -11485,20 +10657,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "FrontLaser"
+            "b95d48940ab7bef2170421d0118330c5"
           ]
         },
         "ParametricBoxController": {}
@@ -11638,20 +10801,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            -2.026558E-06,
-            0.0
-          ],
-          "boundsSize": [
-            7.2897234,
-            0.899397,
-            7.2897234
-          ]
+          "hash": "bfb3c36ceada02c91a71d90cf453d941"
         },
         "MeshRenderer": {
           "materials": [
-            "RunwayConstruction"
+            "92460274f519f7251d0e83a1ba3232f7"
           ]
         }
       }
@@ -11690,20 +10844,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            -2.026558E-06,
-            0.0
-          ],
-          "boundsSize": [
-            7.2897234,
-            0.899397,
-            7.2897234
-          ]
+          "hash": "bfb3c36ceada02c91a71d90cf453d941"
         },
         "MeshRenderer": {
           "materials": [
-            "RunwayConstruction"
+            "92460274f519f7251d0e83a1ba3232f7"
           ]
         }
       }
@@ -11980,20 +11125,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            -2.14576721E-05,
-            0.007813707,
-            32.5483551
-          ],
-          "boundsSize": [
-            4.4437685,
-            0.0,
-            94.25134
-          ]
+          "hash": "cc9b726de456a0e3c057ef73116c432a"
         },
         "MeshRenderer": {
           "materials": [
-            "RailingMirror"
+            "fc128b204196cbc98358fa1b57216a7a"
           ]
         }
       }
@@ -12032,20 +11168,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            -2.14576721E-05,
-            0.007813707,
-            32.5483551
-          ],
-          "boundsSize": [
-            4.4437685,
-            0.0,
-            94.25134
-          ]
+          "hash": "cc9b726de456a0e3c057ef73116c432a"
         },
         "MeshRenderer": {
           "materials": [
-            "SetDepthOnly"
+            "47348bfff0fbcb3e14515ad3bfebc6be"
           ]
         }
       }
@@ -12084,20 +11211,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            -2.15768814E-05,
-            -0.03437015,
-            32.5483551
-          ],
-          "boundsSize": [
-            4.4985466,
-            0.0843677148,
-            94.25134
-          ]
+          "hash": "c66d78f20e0d03ae75638657e1412e06"
         },
         "MeshRenderer": {
           "materials": [
-            "RailingConstruction"
+            "42ba8db8a847b0fecc37824a7c996928"
           ]
         }
       }

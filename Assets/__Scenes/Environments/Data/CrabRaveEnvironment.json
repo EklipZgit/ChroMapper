@@ -112,8 +112,16 @@
     },
     "uniqueMaterials": [
       {
+        "hash": "7ca9fca9eecf61fec23e9f8ea255e673",
         "name": "Spectrogram",
-        "keywords": [
+        "shader": "Custom/Spectrogram",
+        "color": [
+          0.24999997,
+          0.24999997,
+          0.24999997,
+          0.0
+        ],
+        "shaderKeywords": [
           "DIFFUSE",
           "LIGHT_FALLOFF",
           "SPECULAR",
@@ -123,8 +131,16 @@
         ]
       },
       {
+        "hash": "efd0d242bf2ace2047b83f3bffefe51d",
         "name": "EnvLightBillboardSpriteGlow",
-        "keywords": [
+        "shader": "Custom/Parametric3SliceSprite",
+        "color": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "shaderKeywords": [
           "ALPHA_WIDTH_SCALE",
           "ENABLE_FOG",
           "ENABLE_HEIGHT_FOG",
@@ -137,8 +153,16 @@
         ]
       },
       {
+        "hash": "1cdd8c1689ede199954a7104600a2472",
         "name": "EnvLightOpaque",
-        "keywords": [
+        "shader": "Custom/OpaqueNeonLight",
+        "color": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "shaderKeywords": [
           "ENABLE_HEIGHT_FOG",
           "DIFFUSE",
           "ENABLE_BLUE_NOISE",
@@ -148,16 +172,32 @@
         ]
       },
       {
+        "hash": "2f53648cf0e7229f89336575c9a4624c",
         "name": "EnvLight",
-        "keywords": [
+        "shader": "Custom/TransparentNeonLight",
+        "color": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "shaderKeywords": [
           "ENABLE_HEIGHT_FOG",
           "MULTIPLY_COLOR_WITH_ALPHA",
           "_ENABLE_MAIN_EFFECT_WHITE_BOOST"
         ]
       },
       {
+        "hash": "04a6f1efa418715d7174bb110c23beb6",
         "name": "NearBuildings",
-        "keywords": [
+        "shader": "Custom/SimpleLit",
+        "color": [
+          0.24999997,
+          0.24999997,
+          0.24999997,
+          0.0
+        ],
+        "shaderKeywords": [
           "DIFFUSE",
           "FOG",
           "REFLECTION_PROBE_BOX_PROJECTION",
@@ -193,8 +233,16 @@
         ]
       },
       {
+        "hash": "0dd004d097c885674f53e9736741a1d9",
         "name": "EnvLightSpriteGlow",
-        "keywords": [
+        "shader": "Custom/Parametric3SliceSprite",
+        "color": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "shaderKeywords": [
           "ALPHA_WIDTH_SCALE",
           "ENABLE_FOG",
           "ENABLE_HEIGHT_FOG",
@@ -205,8 +253,16 @@
         ]
       },
       {
+        "hash": "a97bb8953136bcdd00eea8f1107e0aeb",
         "name": "PlayersPlaceMirror",
-        "keywords": [
+        "shader": "Custom/Mirror",
+        "color": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "shaderKeywords": [
           "ENABLE_DIRT",
           "ENABLE_MIRROR",
           "ETC1_EXTERNAL_ALPHA",
@@ -214,8 +270,16 @@
         ]
       },
       {
+        "hash": "32344ccefc891a79d61f366a7223ba0c",
         "name": "DarkEnvironmentSimple",
-        "keywords": [
+        "shader": "Custom/SimpleLit",
+        "color": [
+          0.32099995,
+          0.32099995,
+          0.32099995,
+          0.0
+        ],
+        "shaderKeywords": [
           "DIFFUSE",
           "FOG",
           "HEIGHT_FOG",
@@ -254,15 +318,31 @@
         ]
       },
       {
+        "hash": "6a57238a079a4d360b12e9d3a777e1b0",
         "name": "ParametricFakeGlow",
-        "keywords": [
+        "shader": "Custom/ParametricBoxFakeGlow",
+        "color": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "shaderKeywords": [
           "ENABLE_MAIN_EFFECT_WHITE_BOOST",
           "_WHITEBOOSTTYPE_ALWAYS"
         ]
       },
       {
+        "hash": "753e70e0ebb6bcbec2329b02d705b919",
         "name": "SaberBurnMarks",
-        "keywords": [
+        "shader": "Custom/CustomParticles",
+        "color": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "shaderKeywords": [
           "DISTORTION_TARGET_MAIN",
           "TEXTURE_COLOR",
           "_FOGTYPE_ALPHA",
@@ -283,8 +363,16 @@
         ]
       },
       {
+        "hash": "2487501c6a10ee0041e8c4764f6addaa",
         "name": "GridMirror",
-        "keywords": [
+        "shader": "Custom/Mirror",
+        "color": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "shaderKeywords": [
           "ENABLE_DIRT",
           "ENABLE_MIRROR",
           "ETC1_EXTERNAL_ALPHA",
@@ -292,8 +380,16 @@
         ]
       },
       {
+        "hash": "47348bfff0fbcb3e14515ad3bfebc6be",
         "name": "SetDepthOnly",
-        "keywords": [
+        "shader": "Custom/SetDepthOnly",
+        "color": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "shaderKeywords": [
           "ENABLE_DIFFUSE",
           "ENABLE_DIRT",
           "ENABLE_DIRT_DETAIL",
@@ -308,8 +404,16 @@
         ]
       },
       {
+        "hash": "065b385dca573eb9b01f712b5b7f24f0",
         "name": "VConstruction",
-        "keywords": [
+        "shader": "Custom/SimpleLit",
+        "color": [
+          0.24999997,
+          0.24999997,
+          0.24999997,
+          0.0
+        ],
+        "shaderKeywords": [
           "FOG",
           "REFLECTION_PROBE",
           "REFLECTION_PROBE_BOX_PROJECTION",
@@ -345,8 +449,16 @@
         ]
       },
       {
+        "hash": "0c92f4b17742ab83837d3743f308be5b",
         "name": "FarBuildings",
-        "keywords": [
+        "shader": "Custom/SimpleLit",
+        "color": [
+          0.24999997,
+          0.24999997,
+          0.24999997,
+          0.0
+        ],
+        "shaderKeywords": [
           "FOG",
           "REFLECTION_PROBE",
           "REFLECTION_PROBE_BOX_PROJECTION",
@@ -382,11 +494,66 @@
         ]
       },
       {
+        "hash": "f7c990f1bdf4d15b845042d9dd618a3b",
         "name": "Construction",
-        "keywords": [
+        "shader": "Custom/SimpleLit",
+        "color": [
+          0.65,
+          0.65,
+          0.65,
+          0.0
+        ],
+        "shaderKeywords": [
           "FOG",
           "REFLECTION_PROBE",
           "REFLECTION_PROBE_BOX_PROJECTION",
+          "_ACES_APPROACH_AFTER_EMISSIVE",
+          "_DIFFUSE_TEXTURE_SOURCE_TEXTURE",
+          "_DISSOLVEALPHA_CLIP",
+          "_EMISSIONCOLORTYPE_FLAT",
+          "_EMISSION_ALPHA_SOURCE_EMISSION_G",
+          "_EMISSION_TEXTURE_SOURCE_TEXTURE",
+          "_METALLIC_TEXTURE_NONE",
+          "_OCCLUSION_SOURCE_TEXTURE",
+          "_PROBE_CALCULATION_FAST",
+          "_SMOOTHNESS_TEXTURE_NONE",
+          "ENABLE_DIFFUSE",
+          "ENABLE_FOG",
+          "ENABLE_SPECULAR",
+          "_CURVE_VERTICES_NONE",
+          "_CUSTOM_TIME_STANDARD",
+          "_DECALBLEND_ALPHABLEND",
+          "_DISSOLVEAXIS_LOCALX",
+          "_EMISSION",
+          "_EMISSIONTEXTURE_NONE",
+          "_ENABLE_FOG_TINT",
+          "_HOLOGRAM_NONE",
+          "_RIMLIGHT_NONE",
+          "_RIM_WHITEBOOSTTYPE_NONE",
+          "_ROTATE_UV_NONE",
+          "_SPECTROGRAM_NONE",
+          "_VERTEXMODE_NONE",
+          "_VERTEX_WHITEBOOSTTYPE_NONE",
+          "_WHITEBOOSTTYPE_NONE",
+          "_ZWRITE_ON"
+        ]
+      },
+      {
+        "hash": "d25fcc69b562ec173ff03474528a7c16",
+        "name": "SmallTrackLaneRing",
+        "shader": "Custom/SimpleLit",
+        "color": [
+          0.24999997,
+          0.24999997,
+          0.24999997,
+          0.0
+        ],
+        "shaderKeywords": [
+          "DIFFUSE",
+          "FOG",
+          "LIGHT_FALLOFF",
+          "REFLECTION_PROBE_BOX_PROJECTION",
+          "SPECULAR",
           "_ACES_APPROACH_AFTER_EMISSIVE",
           "_DIFFUSE_TEXTURE_SOURCE_TEXTURE",
           "_DISSOLVEALPHA_CLIP",
@@ -420,19 +587,216 @@
       }
     ],
     "uniqueMeshes": [
-      "Spectrogram0",
-      "Spectrogram1",
-      "ParametricBox",
-      "RightNearBuilding",
-      "LeftNearBuilding",
-      "pb_Mesh-2400820",
-      "pb_Mesh-2400840",
-      "RectangleFakeGlow",
-      "PlayersPlaceCore",
-      "TrackMirror_CrabRave",
-      "VConstruction",
-      "FarBuildings",
-      "Construction"
+      {
+        "name": "Spectrogram0",
+        "hash": "d394434d1bb3f7ff55a5801858d14da1",
+        "boundsSize": [
+          0.9,
+          142.650009,
+          60.0
+        ],
+        "boundsCenter": [
+          1.49011612E-08,
+          70.87501,
+          -30.0
+        ]
+      },
+      {
+        "name": "Spectrogram1",
+        "hash": "3a285cd37fdf7acdcd6442fb68b6fc37",
+        "boundsSize": [
+          0.9,
+          142.650009,
+          60.0
+        ],
+        "boundsCenter": [
+          1.49011612E-08,
+          -70.87501,
+          -30.0
+        ]
+      },
+      {
+        "name": "Dynamic3SliceSprite",
+        "hash": "e6819d88d5c41ae3e598c9a361498d23",
+        "boundsSize": [
+          10.0,
+          5000.0,
+          0.1
+        ],
+        "boundsCenter": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "name": "ParametricBox",
+        "hash": "918b6e6683288362624bdc36ef36ef62",
+        "boundsSize": [
+          2.0,
+          2.0,
+          2.0
+        ],
+        "boundsCenter": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "name": "RightNearBuilding",
+        "hash": "b5ebd93d903f2572d7673e5d8407ea6d",
+        "boundsSize": [
+          9.0,
+          174.5,
+          25.0
+        ],
+        "boundsCenter": [
+          28.0,
+          -40.25,
+          29.0
+        ]
+      },
+      {
+        "name": "LeftNearBuilding",
+        "hash": "8e496436ea23b95d25ba4b01bef82ed4",
+        "boundsSize": [
+          9.0,
+          174.5,
+          25.0
+        ],
+        "boundsCenter": [
+          -28.0,
+          -40.25,
+          29.0
+        ]
+      },
+      {
+        "name": "pb_Mesh-2400820",
+        "hash": "1cdf5eb3bb475b8ee9c8959d7bbe9ee1",
+        "boundsSize": [
+          3.0,
+          2.38418579E-07,
+          2.00000024
+        ],
+        "boundsCenter": [
+          0.0,
+          -0.0001,
+          0.0
+        ]
+      },
+      {
+        "name": "pb_Mesh-2400840",
+        "hash": "d3ca75607c073a4d2ff24d9950b343e9",
+        "boundsSize": [
+          3.0,
+          112.755005,
+          2.0
+        ],
+        "boundsCenter": [
+          0.0,
+          -56.3724976,
+          0.0
+        ]
+      },
+      {
+        "name": "RectangleFakeGlow",
+        "hash": "82ea09b58af4dc40242a50a3224b8176",
+        "boundsSize": [
+          3.0,
+          3.0,
+          0.0
+        ],
+        "boundsCenter": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "name": "PlayersPlaceCore",
+        "hash": "1cdf5eb3bb475b8ee9c8959d7bbe9ee1",
+        "boundsSize": [
+          3.0,
+          2.38418579E-07,
+          2.00000024
+        ],
+        "boundsCenter": [
+          0.0,
+          -0.0001,
+          0.0
+        ]
+      },
+      {
+        "name": "TrackMirror_CrabRave",
+        "hash": "42513ebcd96823ee590171283adf8e51",
+        "boundsSize": [
+          4.75,
+          0.0,
+          247.25
+        ],
+        "boundsCenter": [
+          0.0,
+          0.0,
+          123.575
+        ]
+      },
+      {
+        "name": "VConstruction",
+        "hash": "3f8159522c7849d8ff562f01d511a303",
+        "boundsSize": [
+          122.03109,
+          131.653824,
+          1.0
+        ],
+        "boundsCenter": [
+          3.81469727E-06,
+          -55.0,
+          15.0
+        ]
+      },
+      {
+        "name": "FarBuildings",
+        "hash": "45fa1f136240b379e1ee635309480447",
+        "boundsSize": [
+          25.0,
+          105.0,
+          24.5
+        ],
+        "boundsCenter": [
+          0.0,
+          -44.5,
+          66.75
+        ]
+      },
+      {
+        "name": "Construction",
+        "hash": "ea5100cb59d175fcdc7ef55343855da5",
+        "boundsSize": [
+          5.0,
+          0.3,
+          100.15
+        ],
+        "boundsCenter": [
+          0.0,
+          -0.04999999,
+          57.675
+        ]
+      },
+      {
+        "name": "Ring",
+        "hash": "c3c8adefaf53c8e1ca5a4fd591dbec7f",
+        "boundsSize": [
+          0.595805,
+          10.3174934,
+          10.3174925
+        ],
+        "boundsCenter": [
+          -0.04789859,
+          0.0,
+          0.0
+        ]
+      }
     ]
   },
   "objects": [
@@ -732,20 +1096,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            1.49011612E-08,
-            70.87501,
-            -30.0
-          ],
-          "boundsSize": [
-            0.9,
-            142.650009,
-            60.0
-          ]
+          "hash": "d394434d1bb3f7ff55a5801858d14da1"
         },
         "MeshRenderer": {
           "materials": [
-            "Spectrogram"
+            "7ca9fca9eecf61fec23e9f8ea255e673"
           ]
         }
       }
@@ -784,20 +1139,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            1.49011612E-08,
-            -70.87501,
-            -30.0
-          ],
-          "boundsSize": [
-            0.9,
-            142.650009,
-            60.0
-          ]
+          "hash": "3a285cd37fdf7acdcd6442fb68b6fc37"
         },
         "MeshRenderer": {
           "materials": [
-            "Spectrogram"
+            "7ca9fca9eecf61fec23e9f8ea255e673"
           ]
         }
       }
@@ -870,20 +1216,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            1.49011612E-08,
-            70.87501,
-            -30.0
-          ],
-          "boundsSize": [
-            0.9,
-            142.650009,
-            60.0
-          ]
+          "hash": "d394434d1bb3f7ff55a5801858d14da1"
         },
         "MeshRenderer": {
           "materials": [
-            "Spectrogram"
+            "7ca9fca9eecf61fec23e9f8ea255e673"
           ]
         }
       }
@@ -922,20 +1259,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            1.49011612E-08,
-            -70.87501,
-            -30.0
-          ],
-          "boundsSize": [
-            0.9,
-            142.650009,
-            60.0
-          ]
+          "hash": "3a285cd37fdf7acdcd6442fb68b6fc37"
         },
         "MeshRenderer": {
           "materials": [
-            "Spectrogram"
+            "7ca9fca9eecf61fec23e9f8ea255e673"
           ]
         }
       }
@@ -1030,12 +1358,12 @@
           ],
           "rotation": [
             90.0,
-            359.8125,
+            0.0,
             0.0
           ],
           "localRotation": [
             90.0,
-            359.8125,
+            0.0,
             0.0
           ],
           "scale": [
@@ -1623,6 +1951,7 @@
     {
       "name": "BakedBloom",
       "id": "CrabRaveEnvironment.[0]Environment.[22]FrontLights.[0]NeonTube.[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
       "layer": "NeonLight",
       "components": {
         "Transform": {
@@ -1652,21 +1981,10 @@
             1.00000072
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -1705,20 +2023,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -1782,6 +2091,7 @@
     {
       "name": "BakedBloom",
       "id": "CrabRaveEnvironment.[0]Environment.[22]FrontLights.[1]NeonTube (1).[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
       "layer": "NeonLight",
       "components": {
         "Transform": {
@@ -1811,21 +2121,10 @@
             1.00000072
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -1864,20 +2163,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -1941,6 +2231,7 @@
     {
       "name": "BakedBloom",
       "id": "CrabRaveEnvironment.[0]Environment.[23]GlowTopLine (5).[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
       "layer": "Default",
       "components": {
         "Transform": {
@@ -1970,21 +2261,10 @@
             1.00000024
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -2023,20 +2303,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLight"
+            "2f53648cf0e7229f89336575c9a4624c"
           ]
         },
         "ParametricBoxController": {}
@@ -2100,6 +2371,7 @@
     {
       "name": "BakedBloom",
       "id": "CrabRaveEnvironment.[0]Environment.[24]GlowTopLine (6).[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
       "layer": "Default",
       "components": {
         "Transform": {
@@ -2129,21 +2401,10 @@
             1.00000024
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -2182,20 +2443,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLight"
+            "2f53648cf0e7229f89336575c9a4624c"
           ]
         },
         "ParametricBoxController": {}
@@ -2259,6 +2511,7 @@
     {
       "name": "BakedBloom",
       "id": "CrabRaveEnvironment.[0]Environment.[25]GlowTopLine (7).[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
       "layer": "Default",
       "components": {
         "Transform": {
@@ -2288,21 +2541,10 @@
             1.00000024
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -2341,20 +2583,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLight"
+            "2f53648cf0e7229f89336575c9a4624c"
           ]
         },
         "ParametricBoxController": {}
@@ -2418,6 +2651,7 @@
     {
       "name": "BakedBloom",
       "id": "CrabRaveEnvironment.[0]Environment.[26]GlowTopLine (8).[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
       "layer": "Default",
       "components": {
         "Transform": {
@@ -2447,21 +2681,10 @@
             1.00000024
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -2500,20 +2723,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLight"
+            "2f53648cf0e7229f89336575c9a4624c"
           ]
         },
         "ParametricBoxController": {}
@@ -2577,6 +2791,7 @@
     {
       "name": "BakedBloom",
       "id": "CrabRaveEnvironment.[0]Environment.[27]GlowTopLine (9).[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
       "layer": "Default",
       "components": {
         "Transform": {
@@ -2606,21 +2821,10 @@
             1.00000024
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -2659,20 +2863,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLight"
+            "2f53648cf0e7229f89336575c9a4624c"
           ]
         },
         "ParametricBoxController": {}
@@ -2736,6 +2931,7 @@
     {
       "name": "BakedBloom",
       "id": "CrabRaveEnvironment.[0]Environment.[28]GlowTopLine (10).[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
       "layer": "Default",
       "components": {
         "Transform": {
@@ -2765,21 +2961,10 @@
             1.00000024
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -2818,20 +3003,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLight"
+            "2f53648cf0e7229f89336575c9a4624c"
           ]
         },
         "ParametricBoxController": {}
@@ -2895,6 +3071,7 @@
     {
       "name": "BakedBloom",
       "id": "CrabRaveEnvironment.[0]Environment.[29]GlowTopLine (11).[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
       "layer": "Default",
       "components": {
         "Transform": {
@@ -2924,21 +3101,10 @@
             1.00000024
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -2977,20 +3143,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLight"
+            "2f53648cf0e7229f89336575c9a4624c"
           ]
         },
         "ParametricBoxController": {}
@@ -3064,20 +3221,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            28.0,
-            -40.25,
-            29.0
-          ],
-          "boundsSize": [
-            9.0,
-            174.5,
-            25.0
-          ]
+          "hash": "b5ebd93d903f2572d7673e5d8407ea6d"
         },
         "MeshRenderer": {
           "materials": [
-            "NearBuildings"
+            "04a6f1efa418715d7174bb110c23beb6"
           ]
         }
       }
@@ -3140,6 +3288,7 @@
     {
       "name": "BakedBloom",
       "id": "CrabRaveEnvironment.[0]Environment.[3]NearBuildingRight.[1]Neon.[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
       "layer": "NeonLight",
       "components": {
         "Transform": {
@@ -3169,21 +3318,10 @@
             1.00000024
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightSpriteGlow"
+            "0dd004d097c885674f53e9736741a1d9"
           ]
         }
       }
@@ -3222,20 +3360,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -3299,6 +3428,7 @@
     {
       "name": "BakedBloom",
       "id": "CrabRaveEnvironment.[0]Environment.[3]NearBuildingRight.[2]Neon (1).[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
       "layer": "NeonLight",
       "components": {
         "Transform": {
@@ -3328,21 +3458,10 @@
             1.00000024
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightSpriteGlow"
+            "0dd004d097c885674f53e9736741a1d9"
           ]
         }
       }
@@ -3381,20 +3500,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -3458,6 +3568,7 @@
     {
       "name": "BakedBloom",
       "id": "CrabRaveEnvironment.[0]Environment.[3]NearBuildingRight.[3]Neon (2).[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
       "layer": "NeonLight",
       "components": {
         "Transform": {
@@ -3487,21 +3598,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -3540,20 +3640,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -3617,6 +3708,7 @@
     {
       "name": "BakedBloom",
       "id": "CrabRaveEnvironment.[0]Environment.[30]GlowLineL.[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
       "layer": "Default",
       "components": {
         "Transform": {
@@ -3646,21 +3738,10 @@
             1.00000024
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightSpriteGlow"
+            "0dd004d097c885674f53e9736741a1d9"
           ]
         }
       }
@@ -3699,20 +3780,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLight"
+            "2f53648cf0e7229f89336575c9a4624c"
           ]
         },
         "ParametricBoxController": {}
@@ -3776,6 +3848,7 @@
     {
       "name": "BakedBloom",
       "id": "CrabRaveEnvironment.[0]Environment.[31]GlowLineR.[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
       "layer": "Default",
       "components": {
         "Transform": {
@@ -3805,21 +3878,10 @@
             1.00000024
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightSpriteGlow"
+            "0dd004d097c885674f53e9736741a1d9"
           ]
         }
       }
@@ -3858,20 +3920,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLight"
+            "2f53648cf0e7229f89336575c9a4624c"
           ]
         },
         "ParametricBoxController": {}
@@ -3935,6 +3988,7 @@
     {
       "name": "BakedBloom",
       "id": "CrabRaveEnvironment.[0]Environment.[32]GlowLineL (1).[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
       "layer": "Default",
       "components": {
         "Transform": {
@@ -3964,21 +4018,10 @@
             1.00000024
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -4017,20 +4060,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLight"
+            "2f53648cf0e7229f89336575c9a4624c"
           ]
         },
         "ParametricBoxController": {}
@@ -4094,6 +4128,7 @@
     {
       "name": "BakedBloom",
       "id": "CrabRaveEnvironment.[0]Environment.[33]GlowLineR (1).[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
       "layer": "Default",
       "components": {
         "Transform": {
@@ -4123,21 +4158,10 @@
             1.00000024
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -4176,20 +4200,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLight"
+            "2f53648cf0e7229f89336575c9a4624c"
           ]
         },
         "ParametricBoxController": {}
@@ -4253,6 +4268,7 @@
     {
       "name": "BakedBloom",
       "id": "CrabRaveEnvironment.[0]Environment.[34]Laser (4).[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
       "layer": "Default",
       "components": {
         "Transform": {
@@ -4282,21 +4298,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -4335,20 +4340,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLight"
+            "2f53648cf0e7229f89336575c9a4624c"
           ]
         },
         "ParametricBoxController": {}
@@ -4412,6 +4408,7 @@
     {
       "name": "BakedBloom",
       "id": "CrabRaveEnvironment.[0]Environment.[35]Laser (5).[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
       "layer": "Default",
       "components": {
         "Transform": {
@@ -4441,21 +4438,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -4494,20 +4480,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLight"
+            "2f53648cf0e7229f89336575c9a4624c"
           ]
         },
         "ParametricBoxController": {}
@@ -4571,6 +4548,7 @@
     {
       "name": "BakedBloom",
       "id": "CrabRaveEnvironment.[0]Environment.[36]Laser (7).[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
       "layer": "Default",
       "components": {
         "Transform": {
@@ -4600,21 +4578,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -4653,20 +4620,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLight"
+            "2f53648cf0e7229f89336575c9a4624c"
           ]
         },
         "ParametricBoxController": {}
@@ -4730,6 +4688,7 @@
     {
       "name": "BakedBloom",
       "id": "CrabRaveEnvironment.[0]Environment.[37]Laser (8).[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
       "layer": "Default",
       "components": {
         "Transform": {
@@ -4759,21 +4718,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -4812,20 +4760,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLight"
+            "2f53648cf0e7229f89336575c9a4624c"
           ]
         },
         "ParametricBoxController": {}
@@ -4889,6 +4828,7 @@
     {
       "name": "BakedBloom",
       "id": "CrabRaveEnvironment.[0]Environment.[38]Laser (9).[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
       "layer": "Default",
       "components": {
         "Transform": {
@@ -4918,21 +4858,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -4971,20 +4900,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLight"
+            "2f53648cf0e7229f89336575c9a4624c"
           ]
         },
         "ParametricBoxController": {}
@@ -5048,6 +4968,7 @@
     {
       "name": "BakedBloom",
       "id": "CrabRaveEnvironment.[0]Environment.[39]Laser (10).[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
       "layer": "Default",
       "components": {
         "Transform": {
@@ -5077,21 +4998,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -5130,20 +5040,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLight"
+            "2f53648cf0e7229f89336575c9a4624c"
           ]
         },
         "ParametricBoxController": {}
@@ -5217,20 +5118,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            -28.0,
-            -40.25,
-            29.0
-          ],
-          "boundsSize": [
-            9.0,
-            174.5,
-            25.0
-          ]
+          "hash": "8e496436ea23b95d25ba4b01bef82ed4"
         },
         "MeshRenderer": {
           "materials": [
-            "NearBuildings"
+            "04a6f1efa418715d7174bb110c23beb6"
           ]
         }
       }
@@ -5293,6 +5185,7 @@
     {
       "name": "BakedBloom",
       "id": "CrabRaveEnvironment.[0]Environment.[4]NearBuildingLeft.[1]Neon.[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
       "layer": "NeonLight",
       "components": {
         "Transform": {
@@ -5322,21 +5215,10 @@
             1.00000024
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightSpriteGlow"
+            "0dd004d097c885674f53e9736741a1d9"
           ]
         }
       }
@@ -5375,20 +5257,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -5452,6 +5325,7 @@
     {
       "name": "BakedBloom",
       "id": "CrabRaveEnvironment.[0]Environment.[4]NearBuildingLeft.[2]Neon (1).[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
       "layer": "NeonLight",
       "components": {
         "Transform": {
@@ -5481,21 +5355,10 @@
             1.00000024
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightSpriteGlow"
+            "0dd004d097c885674f53e9736741a1d9"
           ]
         }
       }
@@ -5534,20 +5397,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -5611,6 +5465,7 @@
     {
       "name": "BakedBloom",
       "id": "CrabRaveEnvironment.[0]Environment.[4]NearBuildingLeft.[3]Neon (2).[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
       "layer": "NeonLight",
       "components": {
         "Transform": {
@@ -5640,21 +5495,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -5693,20 +5537,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -5770,6 +5605,7 @@
     {
       "name": "BakedBloom",
       "id": "CrabRaveEnvironment.[0]Environment.[40]Laser (11).[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
       "layer": "Default",
       "components": {
         "Transform": {
@@ -5799,21 +5635,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -5852,20 +5677,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLight"
+            "2f53648cf0e7229f89336575c9a4624c"
           ]
         },
         "ParametricBoxController": {}
@@ -5929,6 +5745,7 @@
     {
       "name": "BakedBloom",
       "id": "CrabRaveEnvironment.[0]Environment.[41]Laser (12).[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
       "layer": "Default",
       "components": {
         "Transform": {
@@ -5958,21 +5775,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -6011,20 +5817,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLight"
+            "2f53648cf0e7229f89336575c9a4624c"
           ]
         },
         "ParametricBoxController": {}
@@ -6156,6 +5953,7 @@
     {
       "name": "BakedBloom",
       "id": "CrabRaveEnvironment.[0]Environment.[42]RotatingLasersPair (1).[0]BaseL.[0]Laser.[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
       "layer": "NeonLight",
       "components": {
         "Transform": {
@@ -6185,21 +5983,10 @@
             1.00000048
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -6238,20 +6025,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLight"
+            "2f53648cf0e7229f89336575c9a4624c"
           ]
         },
         "ParametricBoxController": {}
@@ -6349,6 +6127,7 @@
     {
       "name": "BakedBloom",
       "id": "CrabRaveEnvironment.[0]Environment.[42]RotatingLasersPair (1).[1]BaseR.[0]Laser.[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
       "layer": "NeonLight",
       "components": {
         "Transform": {
@@ -6378,21 +6157,10 @@
             1.00000048
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -6431,20 +6199,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLight"
+            "2f53648cf0e7229f89336575c9a4624c"
           ]
         },
         "ParametricBoxController": {}
@@ -6576,6 +6335,7 @@
     {
       "name": "BakedBloom",
       "id": "CrabRaveEnvironment.[0]Environment.[43]RotatingLasersPair (2).[0]BaseL.[0]Laser.[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
       "layer": "NeonLight",
       "components": {
         "Transform": {
@@ -6605,21 +6365,10 @@
             1.00000048
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -6658,20 +6407,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLight"
+            "2f53648cf0e7229f89336575c9a4624c"
           ]
         },
         "ParametricBoxController": {}
@@ -6769,6 +6509,7 @@
     {
       "name": "BakedBloom",
       "id": "CrabRaveEnvironment.[0]Environment.[43]RotatingLasersPair (2).[1]BaseR.[0]Laser.[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
       "layer": "NeonLight",
       "components": {
         "Transform": {
@@ -6798,21 +6539,10 @@
             1.00000048
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -6851,20 +6581,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLight"
+            "2f53648cf0e7229f89336575c9a4624c"
           ]
         },
         "ParametricBoxController": {}
@@ -6996,6 +6717,7 @@
     {
       "name": "BakedBloom",
       "id": "CrabRaveEnvironment.[0]Environment.[44]RotatingLasersPair (3).[0]BaseL.[0]Laser.[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
       "layer": "NeonLight",
       "components": {
         "Transform": {
@@ -7025,21 +6747,10 @@
             1.00000048
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -7078,20 +6789,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLight"
+            "2f53648cf0e7229f89336575c9a4624c"
           ]
         },
         "ParametricBoxController": {}
@@ -7189,6 +6891,7 @@
     {
       "name": "BakedBloom",
       "id": "CrabRaveEnvironment.[0]Environment.[44]RotatingLasersPair (3).[1]BaseR.[0]Laser.[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
       "layer": "NeonLight",
       "components": {
         "Transform": {
@@ -7218,21 +6921,10 @@
             1.00000048
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -7271,20 +6963,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLight"
+            "2f53648cf0e7229f89336575c9a4624c"
           ]
         },
         "ParametricBoxController": {}
@@ -7416,6 +7099,7 @@
     {
       "name": "BakedBloom",
       "id": "CrabRaveEnvironment.[0]Environment.[45]RotatingLasersPair.[0]BaseL.[0]Laser.[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
       "layer": "NeonLight",
       "components": {
         "Transform": {
@@ -7445,21 +7129,10 @@
             1.00000048
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -7498,20 +7171,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLight"
+            "2f53648cf0e7229f89336575c9a4624c"
           ]
         },
         "ParametricBoxController": {}
@@ -7609,6 +7273,7 @@
     {
       "name": "BakedBloom",
       "id": "CrabRaveEnvironment.[0]Environment.[45]RotatingLasersPair.[1]BaseR.[0]Laser.[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
       "layer": "NeonLight",
       "components": {
         "Transform": {
@@ -7638,21 +7303,10 @@
             1.00000048
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -7691,20 +7345,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLight"
+            "2f53648cf0e7229f89336575c9a4624c"
           ]
         },
         "ParametricBoxController": {}
@@ -7836,6 +7481,7 @@
     {
       "name": "BakedBloom",
       "id": "CrabRaveEnvironment.[0]Environment.[46]RotatingLasersPair (4).[0]BaseL.[0]Laser.[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
       "layer": "NeonLight",
       "components": {
         "Transform": {
@@ -7865,21 +7511,10 @@
             1.00000048
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -7918,20 +7553,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLight"
+            "2f53648cf0e7229f89336575c9a4624c"
           ]
         },
         "ParametricBoxController": {}
@@ -8029,6 +7655,7 @@
     {
       "name": "BakedBloom",
       "id": "CrabRaveEnvironment.[0]Environment.[46]RotatingLasersPair (4).[1]BaseR.[0]Laser.[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
       "layer": "NeonLight",
       "components": {
         "Transform": {
@@ -8058,21 +7685,10 @@
             1.00000048
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -8111,20 +7727,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLight"
+            "2f53648cf0e7229f89336575c9a4624c"
           ]
         },
         "ParametricBoxController": {}
@@ -8312,20 +7919,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            -0.0001,
-            0.0
-          ],
-          "boundsSize": [
-            3.0,
-            2.38418579E-07,
-            2.00000024
-          ]
+          "hash": "1cdf5eb3bb475b8ee9c8959d7bbe9ee1"
         },
         "MeshRenderer": {
           "materials": [
-            "PlayersPlaceMirror"
+            "a97bb8953136bcdd00eea8f1107e0aeb"
           ]
         }
       }
@@ -8364,20 +7962,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            -56.3724976,
-            0.0
-          ],
-          "boundsSize": [
-            3.0,
-            112.755005,
-            2.0
-          ]
+          "hash": "d3ca75607c073a4d2ff24d9950b343e9"
         },
         "MeshRenderer": {
           "materials": [
-            "DarkEnvironmentSimple"
+            "32344ccefc891a79d61f366a7223ba0c"
           ]
         }
       }
@@ -8416,16 +8005,7 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            3.0,
-            3.0,
-            0.0
-          ]
+          "hash": "82ea09b58af4dc40242a50a3224b8176"
         },
         "RectangleFakeGlow": {
           "rectangleSize": [
@@ -8435,7 +8015,7 @@
         },
         "MeshRenderer": {
           "materials": [
-            "ParametricFakeGlow"
+            "6a57238a079a4d360b12e9d3a777e1b0"
           ]
         }
       }
@@ -8542,20 +8122,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            -0.0001,
-            0.0
-          ],
-          "boundsSize": [
-            3.0,
-            2.38418579E-07,
-            2.00000024
-          ]
+          "hash": "1cdf5eb3bb475b8ee9c8959d7bbe9ee1"
         },
         "MeshRenderer": {
           "materials": [
-            "SaberBurnMarks"
+            "753e70e0ebb6bcbec2329b02d705b919"
           ]
         }
       }
@@ -8696,20 +8267,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            123.575
-          ],
-          "boundsSize": [
-            4.75,
-            0.0,
-            247.25
-          ]
+          "hash": "42513ebcd96823ee590171283adf8e51"
         },
         "MeshRenderer": {
           "materials": [
-            "GridMirror"
+            "2487501c6a10ee0041e8c4764f6addaa"
           ]
         }
       }
@@ -8748,20 +8310,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            123.575
-          ],
-          "boundsSize": [
-            4.75,
-            0.0,
-            247.25
-          ]
+          "hash": "42513ebcd96823ee590171283adf8e51"
         },
         "MeshRenderer": {
           "materials": [
-            "SetDepthOnly"
+            "47348bfff0fbcb3e14515ad3bfebc6be"
           ]
         }
       }
@@ -8800,20 +8353,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            3.81469727E-06,
-            -55.0,
-            15.0
-          ],
-          "boundsSize": [
-            122.03109,
-            131.653824,
-            1.0
-          ]
+          "hash": "3f8159522c7849d8ff562f01d511a303"
         },
         "MeshRenderer": {
           "materials": [
-            "VConstruction"
+            "065b385dca573eb9b01f712b5b7f24f0"
           ]
         }
       }
@@ -8852,20 +8396,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            -44.5,
-            66.75
-          ],
-          "boundsSize": [
-            25.0,
-            105.0,
-            24.5
-          ]
+          "hash": "45fa1f136240b379e1ee635309480447"
         },
         "MeshRenderer": {
           "materials": [
-            "FarBuildings"
+            "0c92f4b17742ab83837d3743f308be5b"
           ]
         }
       }
@@ -8904,20 +8439,1571 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            -0.04999999,
-            57.675
-          ],
-          "boundsSize": [
-            5.0,
-            0.3,
-            100.15
-          ]
+          "hash": "ea5100cb59d175fcdc7ef55343855da5"
         },
         "MeshRenderer": {
           "materials": [
-            "Construction"
+            "f7c990f1bdf4d15b845042d9dd618a3b"
+          ]
+        }
+      }
+    },
+    {
+      "name": "SmallTrackLaneRing(Clone)",
+      "id": "GameCore.[1]SmallTrackLaneRing(Clone)",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            1.4,
+            17.0
+          ],
+          "localPosition": [
+            0.0,
+            1.4,
+            17.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            44.80211
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            44.80211
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "TrackLaneRing": {}
+      }
+    },
+    {
+      "name": "Ring",
+      "id": "GameCore.[1]SmallTrackLaneRing(Clone).[0]Ring",
+      "meshName": "Ring",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            1.4,
+            17.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            315.197876,
+            90.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            1.00000036,
+            1.00000012,
+            1.00000036
+          ]
+        },
+        "MeshFilter": {
+          "hash": "c3c8adefaf53c8e1ca5a4fd591dbec7f"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "d25fcc69b562ec173ff03474528a7c16"
+          ]
+        }
+      }
+    },
+    {
+      "name": "SmallTrackLaneRing(Clone)",
+      "id": "GameCore.[10]SmallTrackLaneRing(Clone)",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            1.4,
+            62.0
+          ],
+          "localPosition": [
+            0.0,
+            1.4,
+            62.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            74.78408
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            74.78408
+          ],
+          "scale": [
+            0.99999994,
+            0.99999994,
+            1.0
+          ]
+        },
+        "TrackLaneRing": {}
+      }
+    },
+    {
+      "name": "Ring",
+      "id": "GameCore.[10]SmallTrackLaneRing(Clone).[0]Ring",
+      "meshName": "Ring",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            1.4,
+            62.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            285.215881,
+            90.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            1.00000024,
+            1.00000012,
+            1.00000024
+          ]
+        },
+        "MeshFilter": {
+          "hash": "c3c8adefaf53c8e1ca5a4fd591dbec7f"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "d25fcc69b562ec173ff03474528a7c16"
+          ]
+        }
+      }
+    },
+    {
+      "name": "SmallTrackLaneRing(Clone)",
+      "id": "GameCore.[11]SmallTrackLaneRing(Clone)",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            1.4,
+            67.0
+          ],
+          "localPosition": [
+            0.0,
+            1.4,
+            67.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            70.9081345
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            70.9081345
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "TrackLaneRing": {}
+      }
+    },
+    {
+      "name": "Ring",
+      "id": "GameCore.[11]SmallTrackLaneRing(Clone).[0]Ring",
+      "meshName": "Ring",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            1.4,
+            67.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            289.091858,
+            90.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            1.00000012,
+            1.0,
+            1.00000024
+          ]
+        },
+        "MeshFilter": {
+          "hash": "c3c8adefaf53c8e1ca5a4fd591dbec7f"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "d25fcc69b562ec173ff03474528a7c16"
+          ]
+        }
+      }
+    },
+    {
+      "name": "SmallTrackLaneRing(Clone)",
+      "id": "GameCore.[12]SmallTrackLaneRing(Clone)",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            1.4,
+            72.0
+          ],
+          "localPosition": [
+            0.0,
+            1.4,
+            72.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            61.9602127
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            61.9602127
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "TrackLaneRing": {}
+      }
+    },
+    {
+      "name": "Ring",
+      "id": "GameCore.[12]SmallTrackLaneRing(Clone).[0]Ring",
+      "meshName": "Ring",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            1.4,
+            72.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            298.0398,
+            90.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            1.00000024,
+            1.0,
+            1.00000024
+          ]
+        },
+        "MeshFilter": {
+          "hash": "c3c8adefaf53c8e1ca5a4fd591dbec7f"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "d25fcc69b562ec173ff03474528a7c16"
+          ]
+        }
+      }
+    },
+    {
+      "name": "SmallTrackLaneRing(Clone)",
+      "id": "GameCore.[13]SmallTrackLaneRing(Clone)",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            1.4,
+            77.0
+          ],
+          "localPosition": [
+            0.0,
+            1.4,
+            77.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            45.08733
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            45.08733
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "TrackLaneRing": {}
+      }
+    },
+    {
+      "name": "Ring",
+      "id": "GameCore.[13]SmallTrackLaneRing(Clone).[0]Ring",
+      "meshName": "Ring",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            1.4,
+            77.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            314.912659,
+            90.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            1.00000024,
+            1.0,
+            1.00000012
+          ]
+        },
+        "MeshFilter": {
+          "hash": "c3c8adefaf53c8e1ca5a4fd591dbec7f"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "d25fcc69b562ec173ff03474528a7c16"
+          ]
+        }
+      }
+    },
+    {
+      "name": "SmallTrackLaneRing(Clone)",
+      "id": "GameCore.[14]SmallTrackLaneRing(Clone)",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            1.4,
+            82.0
+          ],
+          "localPosition": [
+            0.0,
+            1.4,
+            82.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            15.8515167
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            15.8515167
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "TrackLaneRing": {}
+      }
+    },
+    {
+      "name": "Ring",
+      "id": "GameCore.[14]SmallTrackLaneRing(Clone).[0]Ring",
+      "meshName": "Ring",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            1.4,
+            82.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            344.148468,
+            90.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            1.00000024,
+            1.0,
+            1.00000024
+          ]
+        },
+        "MeshFilter": {
+          "hash": "c3c8adefaf53c8e1ca5a4fd591dbec7f"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "d25fcc69b562ec173ff03474528a7c16"
+          ]
+        }
+      }
+    },
+    {
+      "name": "SmallTrackLaneRing(Clone)",
+      "id": "GameCore.[15]SmallTrackLaneRing(Clone)",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            1.4,
+            87.0
+          ],
+          "localPosition": [
+            0.0,
+            1.4,
+            87.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "TrackLaneRing": {}
+      }
+    },
+    {
+      "name": "Ring",
+      "id": "GameCore.[15]SmallTrackLaneRing(Clone).[0]Ring",
+      "meshName": "Ring",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            1.4,
+            87.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            1.00000024,
+            1.0,
+            1.00000024
+          ]
+        },
+        "MeshFilter": {
+          "hash": "c3c8adefaf53c8e1ca5a4fd591dbec7f"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "d25fcc69b562ec173ff03474528a7c16"
+          ]
+        }
+      }
+    },
+    {
+      "name": "SmallTrackLaneRing(Clone)",
+      "id": "GameCore.[16]SmallTrackLaneRing(Clone)",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            1.4,
+            92.0
+          ],
+          "localPosition": [
+            0.0,
+            1.4,
+            92.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "TrackLaneRing": {}
+      }
+    },
+    {
+      "name": "Ring",
+      "id": "GameCore.[16]SmallTrackLaneRing(Clone).[0]Ring",
+      "meshName": "Ring",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            1.4,
+            92.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            1.00000024,
+            1.0,
+            1.00000024
+          ]
+        },
+        "MeshFilter": {
+          "hash": "c3c8adefaf53c8e1ca5a4fd591dbec7f"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "d25fcc69b562ec173ff03474528a7c16"
+          ]
+        }
+      }
+    },
+    {
+      "name": "SmallTrackLaneRing(Clone)",
+      "id": "GameCore.[17]SmallTrackLaneRing(Clone)",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            1.4,
+            97.0
+          ],
+          "localPosition": [
+            0.0,
+            1.4,
+            97.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "TrackLaneRing": {}
+      }
+    },
+    {
+      "name": "Ring",
+      "id": "GameCore.[17]SmallTrackLaneRing(Clone).[0]Ring",
+      "meshName": "Ring",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            1.4,
+            97.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            1.00000024,
+            1.0,
+            1.00000024
+          ]
+        },
+        "MeshFilter": {
+          "hash": "c3c8adefaf53c8e1ca5a4fd591dbec7f"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "d25fcc69b562ec173ff03474528a7c16"
+          ]
+        }
+      }
+    },
+    {
+      "name": "SmallTrackLaneRing(Clone)",
+      "id": "GameCore.[18]SmallTrackLaneRing(Clone)",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            1.4,
+            102.0
+          ],
+          "localPosition": [
+            0.0,
+            1.4,
+            102.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "TrackLaneRing": {}
+      }
+    },
+    {
+      "name": "Ring",
+      "id": "GameCore.[18]SmallTrackLaneRing(Clone).[0]Ring",
+      "meshName": "Ring",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            1.4,
+            102.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            1.00000024,
+            1.0,
+            1.00000024
+          ]
+        },
+        "MeshFilter": {
+          "hash": "c3c8adefaf53c8e1ca5a4fd591dbec7f"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "d25fcc69b562ec173ff03474528a7c16"
+          ]
+        }
+      }
+    },
+    {
+      "name": "SmallTrackLaneRing(Clone)",
+      "id": "GameCore.[19]SmallTrackLaneRing(Clone)",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            1.4,
+            107.0
+          ],
+          "localPosition": [
+            0.0,
+            1.4,
+            107.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "TrackLaneRing": {}
+      }
+    },
+    {
+      "name": "Ring",
+      "id": "GameCore.[19]SmallTrackLaneRing(Clone).[0]Ring",
+      "meshName": "Ring",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            1.4,
+            107.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            1.00000024,
+            1.0,
+            1.00000024
+          ]
+        },
+        "MeshFilter": {
+          "hash": "c3c8adefaf53c8e1ca5a4fd591dbec7f"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "d25fcc69b562ec173ff03474528a7c16"
+          ]
+        }
+      }
+    },
+    {
+      "name": "SmallTrackLaneRing(Clone)",
+      "id": "GameCore.[2]SmallTrackLaneRing(Clone)",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            1.4,
+            22.0
+          ],
+          "localPosition": [
+            0.0,
+            1.4,
+            22.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            49.670166
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            49.670166
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "TrackLaneRing": {}
+      }
+    },
+    {
+      "name": "Ring",
+      "id": "GameCore.[2]SmallTrackLaneRing(Clone).[0]Ring",
+      "meshName": "Ring",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            1.4,
+            22.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            310.329834,
+            90.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            1.00000024,
+            1.0,
+            1.00000024
+          ]
+        },
+        "MeshFilter": {
+          "hash": "c3c8adefaf53c8e1ca5a4fd591dbec7f"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "d25fcc69b562ec173ff03474528a7c16"
+          ]
+        }
+      }
+    },
+    {
+      "name": "SmallTrackLaneRing(Clone)",
+      "id": "GameCore.[20]SmallTrackLaneRing(Clone)",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            1.4,
+            112.0
+          ],
+          "localPosition": [
+            0.0,
+            1.4,
+            112.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "TrackLaneRing": {}
+      }
+    },
+    {
+      "name": "Ring",
+      "id": "GameCore.[20]SmallTrackLaneRing(Clone).[0]Ring",
+      "meshName": "Ring",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            1.4,
+            112.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            1.00000024,
+            1.0,
+            1.00000024
+          ]
+        },
+        "MeshFilter": {
+          "hash": "c3c8adefaf53c8e1ca5a4fd591dbec7f"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "d25fcc69b562ec173ff03474528a7c16"
+          ]
+        }
+      }
+    },
+    {
+      "name": "SmallTrackLaneRing(Clone)",
+      "id": "GameCore.[3]SmallTrackLaneRing(Clone)",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            1.4,
+            27.0
+          ],
+          "localPosition": [
+            0.0,
+            1.4,
+            27.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            54.4557762
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            54.4557762
+          ],
+          "scale": [
+            0.99999994,
+            0.99999994,
+            1.0
+          ]
+        },
+        "TrackLaneRing": {}
+      }
+    },
+    {
+      "name": "Ring",
+      "id": "GameCore.[3]SmallTrackLaneRing(Clone).[0]Ring",
+      "meshName": "Ring",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            1.4,
+            27.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            305.54422,
+            90.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            1.00000024,
+            1.0,
+            1.00000024
+          ]
+        },
+        "MeshFilter": {
+          "hash": "c3c8adefaf53c8e1ca5a4fd591dbec7f"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "d25fcc69b562ec173ff03474528a7c16"
+          ]
+        }
+      }
+    },
+    {
+      "name": "SmallTrackLaneRing(Clone)",
+      "id": "GameCore.[4]SmallTrackLaneRing(Clone)",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            1.4,
+            32.0
+          ],
+          "localPosition": [
+            0.0,
+            1.4,
+            32.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            59.1094551
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            59.1094551
+          ],
+          "scale": [
+            1.00000012,
+            1.00000012,
+            1.0
+          ]
+        },
+        "TrackLaneRing": {}
+      }
+    },
+    {
+      "name": "Ring",
+      "id": "GameCore.[4]SmallTrackLaneRing(Clone).[0]Ring",
+      "meshName": "Ring",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            1.4,
+            32.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            300.890533,
+            90.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            1.00000024,
+            1.00000012,
+            1.00000024
+          ]
+        },
+        "MeshFilter": {
+          "hash": "c3c8adefaf53c8e1ca5a4fd591dbec7f"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "d25fcc69b562ec173ff03474528a7c16"
+          ]
+        }
+      }
+    },
+    {
+      "name": "SmallTrackLaneRing(Clone)",
+      "id": "GameCore.[5]SmallTrackLaneRing(Clone)",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            1.4,
+            37.0
+          ],
+          "localPosition": [
+            0.0,
+            1.4,
+            37.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            63.5528564
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            63.5528564
+          ],
+          "scale": [
+            0.99999994,
+            0.99999994,
+            1.0
+          ]
+        },
+        "TrackLaneRing": {}
+      }
+    },
+    {
+      "name": "Ring",
+      "id": "GameCore.[5]SmallTrackLaneRing(Clone).[0]Ring",
+      "meshName": "Ring",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            1.4,
+            37.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            296.447144,
+            90.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            1.00000012,
+            1.0,
+            1.00000024
+          ]
+        },
+        "MeshFilter": {
+          "hash": "c3c8adefaf53c8e1ca5a4fd591dbec7f"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "d25fcc69b562ec173ff03474528a7c16"
+          ]
+        }
+      }
+    },
+    {
+      "name": "SmallTrackLaneRing(Clone)",
+      "id": "GameCore.[6]SmallTrackLaneRing(Clone)",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            1.4,
+            42.0
+          ],
+          "localPosition": [
+            0.0,
+            1.4,
+            42.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            67.6623
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            67.6623
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "TrackLaneRing": {}
+      }
+    },
+    {
+      "name": "Ring",
+      "id": "GameCore.[6]SmallTrackLaneRing(Clone).[0]Ring",
+      "meshName": "Ring",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            1.4,
+            42.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            292.3377,
+            90.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            1.00000036,
+            1.00000012,
+            1.00000036
+          ]
+        },
+        "MeshFilter": {
+          "hash": "c3c8adefaf53c8e1ca5a4fd591dbec7f"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "d25fcc69b562ec173ff03474528a7c16"
+          ]
+        }
+      }
+    },
+    {
+      "name": "SmallTrackLaneRing(Clone)",
+      "id": "GameCore.[7]SmallTrackLaneRing(Clone)",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            1.4,
+            47.0
+          ],
+          "localPosition": [
+            0.0,
+            1.4,
+            47.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            71.243
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            71.243
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "TrackLaneRing": {}
+      }
+    },
+    {
+      "name": "Ring",
+      "id": "GameCore.[7]SmallTrackLaneRing(Clone).[0]Ring",
+      "meshName": "Ring",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            1.4,
+            47.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            288.757019,
+            90.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            1.00000036,
+            1.0,
+            1.00000024
+          ]
+        },
+        "MeshFilter": {
+          "hash": "c3c8adefaf53c8e1ca5a4fd591dbec7f"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "d25fcc69b562ec173ff03474528a7c16"
+          ]
+        }
+      }
+    },
+    {
+      "name": "SmallTrackLaneRing(Clone)",
+      "id": "GameCore.[8]SmallTrackLaneRing(Clone)",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            1.4,
+            52.0
+          ],
+          "localPosition": [
+            0.0,
+            1.4,
+            52.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            73.98877
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            73.98877
+          ],
+          "scale": [
+            1.00000024,
+            1.00000024,
+            1.0
+          ]
+        },
+        "TrackLaneRing": {}
+      }
+    },
+    {
+      "name": "Ring",
+      "id": "GameCore.[8]SmallTrackLaneRing(Clone).[0]Ring",
+      "meshName": "Ring",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            1.4,
+            52.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            286.01123,
+            90.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            1.00000036,
+            1.00000036,
+            1.0000006
+          ]
+        },
+        "MeshFilter": {
+          "hash": "c3c8adefaf53c8e1ca5a4fd591dbec7f"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "d25fcc69b562ec173ff03474528a7c16"
+          ]
+        }
+      }
+    },
+    {
+      "name": "SmallTrackLaneRing(Clone)",
+      "id": "GameCore.[9]SmallTrackLaneRing(Clone)",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            1.4,
+            57.0
+          ],
+          "localPosition": [
+            0.0,
+            1.4,
+            57.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            75.41961
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            75.41961
+          ],
+          "scale": [
+            0.99999994,
+            0.99999994,
+            1.0
+          ]
+        },
+        "TrackLaneRing": {}
+      }
+    },
+    {
+      "name": "Ring",
+      "id": "GameCore.[9]SmallTrackLaneRing(Clone).[0]Ring",
+      "meshName": "Ring",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            1.4,
+            57.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            284.580383,
+            90.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            1.00000036,
+            1.00000012,
+            1.00000024
+          ]
+        },
+        "MeshFilter": {
+          "hash": "c3c8adefaf53c8e1ca5a4fd591dbec7f"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "d25fcc69b562ec173ff03474528a7c16"
           ]
         }
       }

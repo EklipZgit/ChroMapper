@@ -100,8 +100,16 @@
     },
     "uniqueMaterials": [
       {
+        "hash": "efd0d242bf2ace2047b83f3bffefe51d",
         "name": "EnvLightBillboardSpriteGlow",
-        "keywords": [
+        "shader": "Custom/Parametric3SliceSprite",
+        "color": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "shaderKeywords": [
           "ALPHA_WIDTH_SCALE",
           "ENABLE_FOG",
           "ENABLE_HEIGHT_FOG",
@@ -114,8 +122,16 @@
         ]
       },
       {
+        "hash": "1cdd8c1689ede199954a7104600a2472",
         "name": "EnvLightOpaque",
-        "keywords": [
+        "shader": "Custom/OpaqueNeonLight",
+        "color": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "shaderKeywords": [
           "ENABLE_HEIGHT_FOG",
           "DIFFUSE",
           "ENABLE_BLUE_NOISE",
@@ -125,16 +141,32 @@
         ]
       },
       {
+        "hash": "2f53648cf0e7229f89336575c9a4624c",
         "name": "EnvLight",
-        "keywords": [
+        "shader": "Custom/TransparentNeonLight",
+        "color": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "shaderKeywords": [
           "ENABLE_HEIGHT_FOG",
           "MULTIPLY_COLOR_WITH_ALPHA",
           "_ENABLE_MAIN_EFFECT_WHITE_BOOST"
         ]
       },
       {
+        "hash": "0dd004d097c885674f53e9736741a1d9",
         "name": "EnvLightSpriteGlow",
-        "keywords": [
+        "shader": "Custom/Parametric3SliceSprite",
+        "color": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "shaderKeywords": [
           "ALPHA_WIDTH_SCALE",
           "ENABLE_FOG",
           "ENABLE_HEIGHT_FOG",
@@ -145,8 +177,16 @@
         ]
       },
       {
+        "hash": "ed574a70f55ef0f57e172000d975a071",
         "name": "Crystal",
-        "keywords": [
+        "shader": "Custom/OpaqueNeonLight",
+        "color": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "shaderKeywords": [
           "DIFFUSE",
           "FOG",
           "_CUTOUT_NONE",
@@ -158,8 +198,16 @@
         ]
       },
       {
+        "hash": "bd166157e828b06b065101ea9a1942cd",
         "name": "Spear",
-        "keywords": [
+        "shader": "Custom/SimpleLit",
+        "color": [
+          0.403999984,
+          0.403999984,
+          0.403999984,
+          0.0
+        ],
+        "shaderKeywords": [
           "DIFFUSE",
           "FOG",
           "REFLECTION_PROBE_BOX_PROJECTION",
@@ -199,8 +247,16 @@
         ]
       },
       {
+        "hash": "24307e8198057456c375e8794fdf4cfc",
         "name": "Tail",
-        "keywords": [
+        "shader": "Custom/SimpleLit",
+        "color": [
+          0.318999976,
+          0.318999976,
+          0.318999976,
+          0.0
+        ],
+        "shaderKeywords": [
           "DIFFUSE",
           "FOG",
           "REFLECTION_PROBE_BOX_PROJECTION",
@@ -239,8 +295,16 @@
         ]
       },
       {
+        "hash": "99ca5b6a155388704cd325c02350dd39",
         "name": "Construction",
-        "keywords": [
+        "shader": "Custom/SimpleLit",
+        "color": [
+          0.6,
+          0.6,
+          0.6,
+          0.0
+        ],
+        "shaderKeywords": [
           "FOG",
           "LIGHT_FALLOFF",
           "REFLECTION_PROBE",
@@ -279,8 +343,16 @@
         ]
       },
       {
+        "hash": "2487501c6a10ee0041e8c4764f6addaa",
         "name": "GridMirror",
-        "keywords": [
+        "shader": "Custom/Mirror",
+        "color": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "shaderKeywords": [
           "ENABLE_DIRT",
           "ENABLE_MIRROR",
           "ETC1_EXTERNAL_ALPHA",
@@ -288,8 +360,16 @@
         ]
       },
       {
+        "hash": "47348bfff0fbcb3e14515ad3bfebc6be",
         "name": "SetDepthOnly",
-        "keywords": [
+        "shader": "Custom/SetDepthOnly",
+        "color": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "shaderKeywords": [
           "ENABLE_DIFFUSE",
           "ENABLE_DIRT",
           "ENABLE_DIRT_DETAIL",
@@ -304,8 +384,16 @@
         ]
       },
       {
+        "hash": "a97bb8953136bcdd00eea8f1107e0aeb",
         "name": "PlayersPlaceMirror",
-        "keywords": [
+        "shader": "Custom/Mirror",
+        "color": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "shaderKeywords": [
           "ENABLE_DIRT",
           "ENABLE_MIRROR",
           "ETC1_EXTERNAL_ALPHA",
@@ -313,8 +401,16 @@
         ]
       },
       {
+        "hash": "32344ccefc891a79d61f366a7223ba0c",
         "name": "DarkEnvironmentSimple",
-        "keywords": [
+        "shader": "Custom/SimpleLit",
+        "color": [
+          0.32099995,
+          0.32099995,
+          0.32099995,
+          0.0
+        ],
+        "shaderKeywords": [
           "DIFFUSE",
           "FOG",
           "HEIGHT_FOG",
@@ -353,15 +449,31 @@
         ]
       },
       {
+        "hash": "6a57238a079a4d360b12e9d3a777e1b0",
         "name": "ParametricFakeGlow",
-        "keywords": [
+        "shader": "Custom/ParametricBoxFakeGlow",
+        "color": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "shaderKeywords": [
           "ENABLE_MAIN_EFFECT_WHITE_BOOST",
           "_WHITEBOOSTTYPE_ALWAYS"
         ]
       },
       {
+        "hash": "753e70e0ebb6bcbec2329b02d705b919",
         "name": "SaberBurnMarks",
-        "keywords": [
+        "shader": "Custom/CustomParticles",
+        "color": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "shaderKeywords": [
           "DISTORTION_TARGET_MAIN",
           "TEXTURE_COLOR",
           "_FOGTYPE_ALPHA",
@@ -383,17 +495,160 @@
       }
     ],
     "uniqueMeshes": [
-      "Dynamic3SliceSprite",
-      "ParametricBox",
-      "Crystal",
-      "Spear",
-      "Trail",
-      "Construction_KDA",
-      "TrackMirror_KDA",
-      "pb_Mesh-2470234",
-      "pb_Mesh-2470254",
-      "RectangleFakeGlow",
-      "PlayersPlaceCore"
+      {
+        "name": "Dynamic3SliceSprite",
+        "hash": "e6819d88d5c41ae3e598c9a361498d23",
+        "boundsSize": [
+          10.0,
+          5000.0,
+          0.1
+        ],
+        "boundsCenter": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "name": "ParametricBox",
+        "hash": "918b6e6683288362624bdc36ef36ef62",
+        "boundsSize": [
+          2.0,
+          2.0,
+          2.0
+        ],
+        "boundsCenter": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "name": "Crystal",
+        "hash": "6af818c858c2ce4e235e30be6324a7e9",
+        "boundsSize": [
+          0.5226609,
+          0.826503,
+          0.197509587
+        ],
+        "boundsCenter": [
+          0.0,
+          -0.411313921,
+          0.06961921
+        ]
+      },
+      {
+        "name": "Spear",
+        "hash": "7f0b2e47ea93d41fad8a8924c96c4e32",
+        "boundsSize": [
+          2.82842684,
+          5.20941162,
+          0.329690516
+        ],
+        "boundsCenter": [
+          0.0,
+          -1.19049227,
+          -0.000498428941
+        ]
+      },
+      {
+        "name": "Trail",
+        "hash": "41b2b64014361109d9685638cae33196",
+        "boundsSize": [
+          16.572094,
+          71.32909,
+          13.6998653
+        ],
+        "boundsCenter": [
+          0.20741415,
+          15.5853748,
+          7.406809
+        ]
+      },
+      {
+        "name": "Construction_KDA",
+        "hash": "6cbe08a3b5d7a3eb0bd535faba321fba",
+        "boundsSize": [
+          200.0,
+          115.6,
+          500.000061
+        ],
+        "boundsCenter": [
+          0.0,
+          -42.3,
+          7.85001373
+        ]
+      },
+      {
+        "name": "TrackMirror_KDA",
+        "hash": "f3dd6ad04056172aa95927b39f86bf42",
+        "boundsSize": [
+          200.0,
+          0.0,
+          230.0
+        ],
+        "boundsCenter": [
+          0.0,
+          0.0,
+          15.25
+        ]
+      },
+      {
+        "name": "pb_Mesh-2470234",
+        "hash": "305984c181f88426539c88dcb23f61e1",
+        "boundsSize": [
+          3.0,
+          2.38418579E-07,
+          2.00000024
+        ],
+        "boundsCenter": [
+          0.0,
+          -0.0001,
+          0.0
+        ]
+      },
+      {
+        "name": "pb_Mesh-2470254",
+        "hash": "d3ca75607c073a4d2ff24d9950b343e9",
+        "boundsSize": [
+          3.0,
+          112.755005,
+          2.0
+        ],
+        "boundsCenter": [
+          0.0,
+          -56.3724976,
+          0.0
+        ]
+      },
+      {
+        "name": "RectangleFakeGlow",
+        "hash": "82ea09b58af4dc40242a50a3224b8176",
+        "boundsSize": [
+          3.0,
+          3.0,
+          0.0
+        ],
+        "boundsCenter": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "name": "PlayersPlaceCore",
+        "hash": "1cdf5eb3bb475b8ee9c8959d7bbe9ee1",
+        "boundsSize": [
+          3.0,
+          2.38418579E-07,
+          2.00000024
+        ],
+        "boundsCenter": [
+          0.0,
+          -0.0001,
+          0.0
+        ]
+      }
     ]
   },
   "objects": [
@@ -541,12 +796,12 @@
         "Transform": {
           "position": [
             -14.2500086,
-            1.86649577E-05,
+            0.300018668,
             5.07999
           ],
           "localPosition": [
             -14.2500086,
-            1.86649577E-05,
+            0.300018668,
             5.07999
           ],
           "rotation": [
@@ -597,7 +852,7 @@
         "Transform": {
           "position": [
             -14.2500086,
-            1.86649577E-05,
+            0.300018668,
             5.07999
           ],
           "localPosition": [
@@ -621,21 +876,10 @@
             1.00000024
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -649,7 +893,7 @@
         "Transform": {
           "position": [
             -13.8307858,
-            0.265603453,
+            0.5656035,
             5.1409564
           ],
           "localPosition": [
@@ -674,20 +918,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -701,12 +936,12 @@
         "Transform": {
           "position": [
             4.36,
-            0.0,
+            0.3,
             43.21
           ],
           "localPosition": [
             4.36,
-            0.0,
+            0.3,
             43.21
           ],
           "rotation": [
@@ -757,7 +992,7 @@
         "Transform": {
           "position": [
             4.36,
-            0.0,
+            0.3,
             43.21
           ],
           "localPosition": [
@@ -781,21 +1016,10 @@
             1.00000012
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -809,7 +1033,7 @@
         "Transform": {
           "position": [
             4.186432,
-            0.105654567,
+            0.405654579,
             43.0643578
           ],
           "localPosition": [
@@ -834,20 +1058,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -861,12 +1076,12 @@
         "Transform": {
           "position": [
             -7.370001,
-            0.0,
+            0.3,
             37.829998
           ],
           "localPosition": [
             -7.370001,
-            0.0,
+            0.3,
             37.829998
           ],
           "rotation": [
@@ -917,7 +1132,7 @@
         "Transform": {
           "position": [
             -7.370001,
-            0.0,
+            0.3,
             37.829998
           ],
           "localPosition": [
@@ -941,21 +1156,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -969,7 +1173,7 @@
         "Transform": {
           "position": [
             -7.048607,
-            0.383022249,
+            0.683022261,
             37.829998
           ],
           "localPosition": [
@@ -994,20 +1198,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -1021,12 +1216,12 @@
         "Transform": {
           "position": [
             -18.61,
-            0.0,
+            0.3,
             28.92
           ],
           "localPosition": [
             -18.61,
-            0.0,
+            0.3,
             28.92
           ],
           "rotation": [
@@ -1077,7 +1272,7 @@
         "Transform": {
           "position": [
             -18.61,
-            0.0,
+            0.3,
             28.92
           ],
           "localPosition": [
@@ -1101,21 +1296,10 @@
             1.00000012
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -1129,7 +1313,7 @@
         "Transform": {
           "position": [
             -18.2782936,
-            0.25000003,
+            0.5500001,
             29.1983356
           ],
           "localPosition": [
@@ -1154,20 +1338,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -1181,12 +1356,12 @@
         "Transform": {
           "position": [
             -4.28,
-            0.0,
+            0.3,
             49.0
           ],
           "localPosition": [
             -4.28,
-            0.0,
+            0.3,
             49.0
           ],
           "rotation": [
@@ -1237,7 +1412,7 @@
         "Transform": {
           "position": [
             -4.28,
-            0.0,
+            0.3,
             49.0
           ],
           "localPosition": [
@@ -1261,21 +1436,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -1289,7 +1453,7 @@
         "Transform": {
           "position": [
             -4.277576,
-            0.19151102,
+            0.491511047,
             49.16068
           ],
           "localPosition": [
@@ -1314,20 +1478,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -1341,12 +1496,12 @@
         "Transform": {
           "position": [
             13.83,
-            0.0,
+            0.3,
             27.01
           ],
           "localPosition": [
             13.83,
-            0.0,
+            0.3,
             27.01
           ],
           "rotation": [
@@ -1397,7 +1552,7 @@
         "Transform": {
           "position": [
             13.83,
-            0.0,
+            0.3,
             27.01
           ],
           "localPosition": [
@@ -1421,21 +1576,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -1449,7 +1593,7 @@
         "Transform": {
           "position": [
             13.5963936,
-            0.4330127,
+            0.7330127,
             27.09904
           ],
           "localPosition": [
@@ -1474,20 +1618,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -1501,12 +1636,12 @@
         "Transform": {
           "position": [
             3.87,
-            0.0,
+            0.3,
             11.87
           ],
           "localPosition": [
             3.87,
-            0.0,
+            0.3,
             11.87
           ],
           "rotation": [
@@ -1557,7 +1692,7 @@
         "Transform": {
           "position": [
             3.87,
-            0.0,
+            0.3,
             11.87
           ],
           "localPosition": [
@@ -1581,21 +1716,10 @@
             1.00000012
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -1609,7 +1733,7 @@
         "Transform": {
           "position": [
             4.061511,
-            0.433012664,
+            0.7330127,
             12.0306969
           ],
           "localPosition": [
@@ -1634,20 +1758,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -1661,12 +1776,12 @@
         "Transform": {
           "position": [
             -9.96,
-            0.0,
+            0.3,
             17.17
           ],
           "localPosition": [
             -9.96,
-            0.0,
+            0.3,
             17.17
           ],
           "rotation": [
@@ -1717,7 +1832,7 @@
         "Transform": {
           "position": [
             -9.96,
-            0.0,
+            0.3,
             17.17
           ],
           "localPosition": [
@@ -1741,21 +1856,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -1769,7 +1873,7 @@
         "Transform": {
           "position": [
             -10.11779,
-            0.433012664,
+            0.7330127,
             17.3639145
           ],
           "localPosition": [
@@ -1794,20 +1898,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -1969,21 +2064,10 @@
             1.00000048
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -2022,20 +2106,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLight"
+            "2f53648cf0e7229f89336575c9a4624c"
           ]
         },
         "ParametricBoxController": {}
@@ -2123,7 +2198,7 @@
               "parametricBoxId": "KDAEnvironment.[0]Environment.[108]RotatingLasersPair.[1]BaseR.[0]Laser.[1]BoxLight"
             },
             "chromaLight": {
-              "type": 1,
+              "type": -1,
               "lightId": 3
             }
           }
@@ -2163,21 +2238,10 @@
             1.00000048
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -2216,20 +2280,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLight"
+            "2f53648cf0e7229f89336575c9a4624c"
           ]
         },
         "ParametricBoxController": {}
@@ -2391,21 +2446,10 @@
             1.00000048
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -2444,20 +2488,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLight"
+            "2f53648cf0e7229f89336575c9a4624c"
           ]
         },
         "ParametricBoxController": {}
@@ -2585,21 +2620,10 @@
             1.00000048
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -2638,20 +2662,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLight"
+            "2f53648cf0e7229f89336575c9a4624c"
           ]
         },
         "ParametricBoxController": {}
@@ -2674,19 +2689,19 @@
             0.0
           ],
           "rotation": [
-            89.81338,
-            179.625015,
-            180.0
+            90.0,
+            0.0,
+            0.0
           ],
           "localRotation": [
-            89.81338,
-            179.625015,
-            180.0
+            90.0,
+            0.0,
+            0.0
           ],
           "scale": [
             1.0,
-            1.0,
-            1.00000012
+            1.00000024,
+            1.00000024
           ]
         }
       }
@@ -2847,21 +2862,10 @@
             1.00000048
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -2900,20 +2904,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLight"
+            "2f53648cf0e7229f89336575c9a4624c"
           ]
         },
         "ParametricBoxController": {}
@@ -3041,21 +3036,10 @@
             1.00000048
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -3094,20 +3078,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLight"
+            "2f53648cf0e7229f89336575c9a4624c"
           ]
         },
         "ParametricBoxController": {}
@@ -3269,21 +3244,10 @@
             1.00000048
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -3322,20 +3286,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLight"
+            "2f53648cf0e7229f89336575c9a4624c"
           ]
         },
         "ParametricBoxController": {}
@@ -3463,21 +3418,10 @@
             1.00000048
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -3516,20 +3460,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLight"
+            "2f53648cf0e7229f89336575c9a4624c"
           ]
         },
         "ParametricBoxController": {}
@@ -3691,21 +3626,10 @@
             1.00000048
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -3744,20 +3668,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLight"
+            "2f53648cf0e7229f89336575c9a4624c"
           ]
         },
         "ParametricBoxController": {}
@@ -3885,21 +3800,10 @@
             1.00000048
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -3938,20 +3842,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLight"
+            "2f53648cf0e7229f89336575c9a4624c"
           ]
         },
         "ParametricBoxController": {}
@@ -4113,21 +4008,10 @@
             1.00000048
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -4166,20 +4050,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLight"
+            "2f53648cf0e7229f89336575c9a4624c"
           ]
         },
         "ParametricBoxController": {}
@@ -4307,21 +4182,10 @@
             1.00000048
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -4360,20 +4224,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLight"
+            "2f53648cf0e7229f89336575c9a4624c"
           ]
         },
         "ParametricBoxController": {}
@@ -4535,21 +4390,10 @@
             1.00000048
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -4588,20 +4432,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLight"
+            "2f53648cf0e7229f89336575c9a4624c"
           ]
         },
         "ParametricBoxController": {}
@@ -4729,21 +4564,10 @@
             1.00000048
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -4782,20 +4606,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLight"
+            "2f53648cf0e7229f89336575c9a4624c"
           ]
         },
         "ParametricBoxController": {}
@@ -5488,21 +5303,10 @@
             1.00000072
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -5541,20 +5345,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -5648,21 +5443,10 @@
             1.00000072
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -5701,20 +5485,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -5808,21 +5583,10 @@
             1.00000024
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightSpriteGlow"
+            "0dd004d097c885674f53e9736741a1d9"
           ]
         }
       }
@@ -5861,20 +5625,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -5968,21 +5723,10 @@
             1.00000024
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightSpriteGlow"
+            "0dd004d097c885674f53e9736741a1d9"
           ]
         }
       }
@@ -6021,20 +5765,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -6128,21 +5863,10 @@
             1.00000024
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -6181,20 +5905,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLight"
+            "2f53648cf0e7229f89336575c9a4624c"
           ]
         },
         "ParametricBoxController": {}
@@ -6288,21 +6003,10 @@
             1.00000024
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -6341,20 +6045,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLight"
+            "2f53648cf0e7229f89336575c9a4624c"
           ]
         },
         "ParametricBoxController": {}
@@ -6448,21 +6143,10 @@
             1.00000024
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -6501,20 +6185,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLight"
+            "2f53648cf0e7229f89336575c9a4624c"
           ]
         },
         "ParametricBoxController": {}
@@ -6608,21 +6283,10 @@
             1.00000024
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -6661,20 +6325,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLight"
+            "2f53648cf0e7229f89336575c9a4624c"
           ]
         },
         "ParametricBoxController": {}
@@ -6768,21 +6423,10 @@
             1.00000024
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -6821,20 +6465,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLight"
+            "2f53648cf0e7229f89336575c9a4624c"
           ]
         },
         "ParametricBoxController": {}
@@ -7036,21 +6671,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -7089,20 +6713,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLight"
+            "2f53648cf0e7229f89336575c9a4624c"
           ]
         },
         "ParametricBoxController": {}
@@ -7196,21 +6811,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -7249,20 +6853,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLight"
+            "2f53648cf0e7229f89336575c9a4624c"
           ]
         },
         "ParametricBoxController": {}
@@ -7356,21 +6951,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -7409,20 +6993,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLight"
+            "2f53648cf0e7229f89336575c9a4624c"
           ]
         },
         "ParametricBoxController": {}
@@ -7516,21 +7091,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -7569,20 +7133,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLight"
+            "2f53648cf0e7229f89336575c9a4624c"
           ]
         },
         "ParametricBoxController": {}
@@ -7656,20 +7211,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            -0.411313921,
-            0.06961921
-          ],
-          "boundsSize": [
-            0.5226609,
-            0.826503,
-            0.197509587
-          ]
+          "hash": "6af818c858c2ce4e235e30be6324a7e9"
         },
         "MeshRenderer": {
           "materials": [
-            "Crystal"
+            "ed574a70f55ef0f57e172000d975a071"
           ]
         }
       }
@@ -7711,7 +7257,7 @@
           "intensity": 1.0,
           "spriteName": "SquareGlowSliced",
           "chromaLight": {
-            "type": -1,
+            "type": 8,
             "lightId": 3
           }
         }
@@ -7751,20 +7297,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            -1.19049227,
-            -0.000498428941
-          ],
-          "boundsSize": [
-            2.82842684,
-            5.20941162,
-            0.329690516
-          ]
+          "hash": "7f0b2e47ea93d41fad8a8924c96c4e32"
         },
         "MeshRenderer": {
           "materials": [
-            "Spear"
+            "bd166157e828b06b065101ea9a1942cd"
           ]
         }
       }
@@ -7803,20 +7340,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.20741415,
-            15.5853748,
-            7.406809
-          ],
-          "boundsSize": [
-            16.572094,
-            71.32909,
-            13.6998653
-          ]
+          "hash": "41b2b64014361109d9685638cae33196"
         },
         "MeshRenderer": {
           "materials": [
-            "Tail"
+            "24307e8198057456c375e8794fdf4cfc"
           ]
         }
       }
@@ -7909,21 +7437,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -7962,20 +7479,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLight"
+            "2f53648cf0e7229f89336575c9a4624c"
           ]
         },
         "ParametricBoxController": {}
@@ -8069,21 +7577,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -8122,20 +7619,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLight"
+            "2f53648cf0e7229f89336575c9a4624c"
           ]
         },
         "ParametricBoxController": {}
@@ -8149,12 +7637,12 @@
         "Transform": {
           "position": [
             -8.400001,
-            0.0,
+            0.3,
             20.32
           ],
           "localPosition": [
             -8.400001,
-            0.0,
+            0.3,
             20.32
           ],
           "rotation": [
@@ -8205,7 +7693,7 @@
         "Transform": {
           "position": [
             -8.400001,
-            0.0,
+            0.3,
             20.32
           ],
           "localPosition": [
@@ -8229,21 +7717,10 @@
             1.00000012
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -8257,7 +7734,7 @@
         "Transform": {
           "position": [
             -8.208489,
-            0.433012664,
+            0.7330127,
             20.4806957
           ],
           "localPosition": [
@@ -8282,20 +7759,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -8309,12 +7777,12 @@
         "Transform": {
           "position": [
             -13.72,
-            0.0,
+            0.3,
             23.85
           ],
           "localPosition": [
             -13.72,
-            0.0,
+            0.3,
             23.85
           ],
           "rotation": [
@@ -8365,7 +7833,7 @@
         "Transform": {
           "position": [
             -13.72,
-            0.0,
+            0.3,
             23.85
           ],
           "localPosition": [
@@ -8389,21 +7857,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -8417,7 +7874,7 @@
         "Transform": {
           "position": [
             -13.87779,
-            0.433012664,
+            0.7330127,
             24.0439148
           ],
           "localPosition": [
@@ -8442,20 +7899,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -8469,12 +7917,12 @@
         "Transform": {
           "position": [
             10.54,
-            0.0,
+            0.3,
             51.35
           ],
           "localPosition": [
             10.54,
-            0.0,
+            0.3,
             51.35
           ],
           "rotation": [
@@ -8525,7 +7973,7 @@
         "Transform": {
           "position": [
             10.54,
-            0.0,
+            0.3,
             51.35
           ],
           "localPosition": [
@@ -8549,21 +7997,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -8577,7 +8014,7 @@
         "Transform": {
           "position": [
             10.38221,
-            0.433012664,
+            0.7330127,
             51.54391
           ],
           "localPosition": [
@@ -8602,20 +8039,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -8629,12 +8057,12 @@
         "Transform": {
           "position": [
             4.97,
-            0.0,
+            0.3,
             31.1
           ],
           "localPosition": [
             4.97,
-            0.0,
+            0.3,
             31.1
           ],
           "rotation": [
@@ -8685,7 +8113,7 @@
         "Transform": {
           "position": [
             4.97,
-            0.0,
+            0.3,
             31.1
           ],
           "localPosition": [
@@ -8709,21 +8137,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -8737,7 +8154,7 @@
         "Transform": {
           "position": [
             4.736393,
-            0.4330127,
+            0.7330127,
             31.18904
           ],
           "localPosition": [
@@ -8762,20 +8179,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -8789,12 +8197,12 @@
         "Transform": {
           "position": [
             -8.96,
-            0.0,
+            0.3,
             2.2
           ],
           "localPosition": [
             -8.96,
-            0.0,
+            0.3,
             2.2
           ],
           "rotation": [
@@ -8845,7 +8253,7 @@
         "Transform": {
           "position": [
             -8.96,
-            0.0,
+            0.3,
             2.2
           ],
           "localPosition": [
@@ -8869,21 +8277,10 @@
             1.00000024
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -8897,7 +8294,7 @@
         "Transform": {
           "position": [
             -9.148602,
-            0.04341206,
+            0.343412071,
             2.04174447
           ],
           "localPosition": [
@@ -8922,20 +8319,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -8949,12 +8337,12 @@
         "Transform": {
           "position": [
             -17.62,
-            0.0,
+            0.3,
             22.89
           ],
           "localPosition": [
             -17.62,
-            0.0,
+            0.3,
             22.89
           ],
           "rotation": [
@@ -9005,7 +8393,7 @@
         "Transform": {
           "position": [
             -17.62,
-            0.0,
+            0.3,
             22.89
           ],
           "localPosition": [
@@ -9029,21 +8417,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -9057,7 +8434,7 @@
         "Transform": {
           "position": [
             -17.5982952,
-            0.216506332,
+            0.5165063,
             23.0131
           ],
           "localPosition": [
@@ -9082,20 +8459,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -9109,12 +8477,12 @@
         "Transform": {
           "position": [
             -5.8,
-            0.0,
+            0.3,
             33.06
           ],
           "localPosition": [
             -5.8,
-            0.0,
+            0.3,
             33.06
           ],
           "rotation": [
@@ -9165,7 +8533,7 @@
         "Transform": {
           "position": [
             -5.8,
-            0.0,
+            0.3,
             33.06
           ],
           "localPosition": [
@@ -9189,21 +8557,10 @@
             1.00000012
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -9217,7 +8574,7 @@
         "Transform": {
           "position": [
             -5.608489,
-            0.433012664,
+            0.7330127,
             33.2207
           ],
           "localPosition": [
@@ -9242,20 +8599,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -9269,12 +8617,12 @@
         "Transform": {
           "position": [
             -11.85,
-            0.0,
+            0.3,
             13.89
           ],
           "localPosition": [
             -11.85,
-            0.0,
+            0.3,
             13.89
           ],
           "rotation": [
@@ -9325,7 +8673,7 @@
         "Transform": {
           "position": [
             -11.85,
-            0.0,
+            0.3,
             13.89
           ],
           "localPosition": [
@@ -9349,21 +8697,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -9377,7 +8714,7 @@
         "Transform": {
           "position": [
             -11.97276,
-            0.216506287,
+            0.5165063,
             13.9135609
           ],
           "localPosition": [
@@ -9402,20 +8739,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -9489,20 +8817,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            -0.411313921,
-            0.06961921
-          ],
-          "boundsSize": [
-            0.5226609,
-            0.826503,
-            0.197509587
-          ]
+          "hash": "6af818c858c2ce4e235e30be6324a7e9"
         },
         "MeshRenderer": {
           "materials": [
-            "Crystal"
+            "ed574a70f55ef0f57e172000d975a071"
           ]
         }
       }
@@ -9544,7 +8863,7 @@
           "intensity": 1.0,
           "spriteName": "SquareGlowSliced",
           "chromaLight": {
-            "type": -1,
+            "type": 9,
             "lightId": 3
           }
         }
@@ -9584,20 +8903,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            -1.19049227,
-            -0.000498428941
-          ],
-          "boundsSize": [
-            2.82842684,
-            5.20941162,
-            0.329690516
-          ]
+          "hash": "7f0b2e47ea93d41fad8a8924c96c4e32"
         },
         "MeshRenderer": {
           "materials": [
-            "Spear"
+            "bd166157e828b06b065101ea9a1942cd"
           ]
         }
       }
@@ -9636,20 +8946,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.20741415,
-            15.5853748,
-            7.406809
-          ],
-          "boundsSize": [
-            16.572094,
-            71.32909,
-            13.6998653
-          ]
+          "hash": "41b2b64014361109d9685638cae33196"
         },
         "MeshRenderer": {
           "materials": [
-            "Tail"
+            "24307e8198057456c375e8794fdf4cfc"
           ]
         }
       }
@@ -9662,12 +8963,12 @@
         "Transform": {
           "position": [
             12.75,
-            0.0,
+            0.3,
             10.48
           ],
           "localPosition": [
             12.75,
-            0.0,
+            0.3,
             10.48
           ],
           "rotation": [
@@ -9718,7 +9019,7 @@
         "Transform": {
           "position": [
             12.75,
-            0.0,
+            0.3,
             10.48
           ],
           "localPosition": [
@@ -9742,21 +9043,10 @@
             1.00000012
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -9770,7 +9060,7 @@
         "Transform": {
           "position": [
             12.6203518,
-            0.4698463,
+            0.7698463,
             10.5915146
           ],
           "localPosition": [
@@ -9795,20 +9085,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -9822,12 +9103,12 @@
         "Transform": {
           "position": [
             -8.59,
-            0.0,
+            0.3,
             13.18
           ],
           "localPosition": [
             -8.59,
-            0.0,
+            0.3,
             13.18
           ],
           "rotation": [
@@ -9878,7 +9159,7 @@
         "Transform": {
           "position": [
             -8.59,
-            0.0,
+            0.3,
             13.18
           ],
           "localPosition": [
@@ -9902,21 +9183,10 @@
             1.00000012
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -9930,7 +9200,7 @@
         "Transform": {
           "position": [
             -8.813972,
-            0.4330127,
+            0.7330127,
             13.0689306
           ],
           "localPosition": [
@@ -9955,20 +9225,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -9982,12 +9243,12 @@
         "Transform": {
           "position": [
             -3.17,
-            0.0,
+            0.3,
             9.62
           ],
           "localPosition": [
             -3.17,
-            0.0,
+            0.3,
             9.62
           ],
           "rotation": [
@@ -10038,7 +9299,7 @@
         "Transform": {
           "position": [
             -3.17,
-            0.0,
+            0.3,
             9.62
           ],
           "localPosition": [
@@ -10062,21 +9323,10 @@
             1.00000012
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -10090,7 +9340,7 @@
         "Transform": {
           "position": [
             -3.3939724,
-            0.4330127,
+            0.7330127,
             9.50893
           ],
           "localPosition": [
@@ -10115,20 +9365,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -10142,12 +9383,12 @@
         "Transform": {
           "position": [
             8.28,
-            0.0,
+            0.3,
             30.8
           ],
           "localPosition": [
             8.28,
-            0.0,
+            0.3,
             30.8
           ],
           "rotation": [
@@ -10198,7 +9439,7 @@
         "Transform": {
           "position": [
             8.28,
-            0.0,
+            0.3,
             30.8
           ],
           "localPosition": [
@@ -10222,21 +9463,10 @@
             1.00000012
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -10250,7 +9480,7 @@
         "Transform": {
           "position": [
             8.293367,
-            0.49969542,
+            0.799695432,
             30.8112164
           ],
           "localPosition": [
@@ -10275,20 +9505,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -10302,12 +9523,12 @@
         "Transform": {
           "position": [
             16.4,
-            0.0,
+            0.3,
             28.34
           ],
           "localPosition": [
             16.4,
-            0.0,
+            0.3,
             28.34
           ],
           "rotation": [
@@ -10358,7 +9579,7 @@
         "Transform": {
           "position": [
             16.4,
-            0.0,
+            0.3,
             28.34
           ],
           "localPosition": [
@@ -10382,21 +9603,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -10410,7 +9620,7 @@
         "Transform": {
           "position": [
             16.1663933,
-            0.4330127,
+            0.7330127,
             28.429039
           ],
           "localPosition": [
@@ -10435,20 +9645,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -10462,12 +9663,12 @@
         "Transform": {
           "position": [
             3.85,
-            0.0,
+            0.3,
             16.58
           ],
           "localPosition": [
             3.85,
-            0.0,
+            0.3,
             16.58
           ],
           "rotation": [
@@ -10518,7 +9719,7 @@
         "Transform": {
           "position": [
             3.85,
-            0.0,
+            0.3,
             16.58
           ],
           "localPosition": [
@@ -10542,21 +9743,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -10570,7 +9760,7 @@
         "Transform": {
           "position": [
             3.771105,
-            0.216506332,
+            0.5165063,
             16.6769562
           ],
           "localPosition": [
@@ -10595,20 +9785,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -10622,12 +9803,12 @@
         "Transform": {
           "position": [
             6.7,
-            0.0,
+            0.3,
             47.94
           ],
           "localPosition": [
             6.7,
-            0.0,
+            0.3,
             47.94
           ],
           "rotation": [
@@ -10678,7 +9859,7 @@
         "Transform": {
           "position": [
             6.7,
-            0.0,
+            0.3,
             47.94
           ],
           "localPosition": [
@@ -10702,21 +9883,10 @@
             1.00000012
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -10730,7 +9900,7 @@
         "Transform": {
           "position": [
             7.031707,
-            0.25000003,
+            0.5500001,
             48.2183342
           ],
           "localPosition": [
@@ -10755,20 +9925,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -10782,12 +9943,12 @@
         "Transform": {
           "position": [
             -7.65000057,
-            0.0,
+            0.3,
             17.75
           ],
           "localPosition": [
             -7.65000057,
-            0.0,
+            0.3,
             17.75
           ],
           "rotation": [
@@ -10838,7 +9999,7 @@
         "Transform": {
           "position": [
             -7.65000057,
-            0.0,
+            0.3,
             17.75
           ],
           "localPosition": [
@@ -10862,21 +10023,10 @@
             1.00000012
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -10890,7 +10040,7 @@
         "Transform": {
           "position": [
             -7.93601465,
-            0.2113091,
+            0.511309147,
             18.1014881
           ],
           "localPosition": [
@@ -10915,20 +10065,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -10942,12 +10083,12 @@
         "Transform": {
           "position": [
             7.15,
-            0.0,
+            0.3,
             78.18
           ],
           "localPosition": [
             7.15,
-            0.0,
+            0.3,
             78.18
           ],
           "rotation": [
@@ -10998,7 +10139,7 @@
         "Transform": {
           "position": [
             7.15,
-            0.0,
+            0.3,
             78.18
           ],
           "localPosition": [
@@ -11022,21 +10163,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -11050,7 +10180,7 @@
         "Transform": {
           "position": [
             6.91639328,
-            0.4330127,
+            0.7330127,
             78.26904
           ],
           "localPosition": [
@@ -11075,20 +10205,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -11102,12 +10223,12 @@
         "Transform": {
           "position": [
             -16.6,
-            0.0,
+            0.3,
             10.15
           ],
           "localPosition": [
             -16.6,
-            0.0,
+            0.3,
             10.15
           ],
           "rotation": [
@@ -11158,7 +10279,7 @@
         "Transform": {
           "position": [
             -16.6,
-            0.0,
+            0.3,
             10.15
           ],
           "localPosition": [
@@ -11182,21 +10303,10 @@
             0.99999994
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -11210,7 +10320,7 @@
         "Transform": {
           "position": [
             -16.4917469,
-            0.216506332,
+            0.5165063,
             10.0875
           ],
           "localPosition": [
@@ -11235,20 +10345,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -11288,20 +10389,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            -42.3,
-            7.85001373
-          ],
-          "boundsSize": [
-            200.0,
-            115.6,
-            500.000061
-          ]
+          "hash": "6cbe08a3b5d7a3eb0bd535faba321fba"
         },
         "MeshRenderer": {
           "materials": [
-            "Construction"
+            "99ca5b6a155388704cd325c02350dd39"
           ]
         }
       }
@@ -11314,12 +10406,12 @@
         "Transform": {
           "position": [
             -6.58,
-            0.0,
+            0.3,
             71.28
           ],
           "localPosition": [
             -6.58,
-            0.0,
+            0.3,
             71.28
           ],
           "rotation": [
@@ -11370,7 +10462,7 @@
         "Transform": {
           "position": [
             -6.58,
-            0.0,
+            0.3,
             71.28
           ],
           "localPosition": [
@@ -11394,21 +10486,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -11422,7 +10503,7 @@
         "Transform": {
           "position": [
             -6.81360674,
-            0.4330127,
+            0.7330127,
             71.36904
           ],
           "localPosition": [
@@ -11447,20 +10528,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -11474,12 +10546,12 @@
         "Transform": {
           "position": [
             12.09,
-            0.0,
+            0.3,
             18.51
           ],
           "localPosition": [
             12.09,
-            0.0,
+            0.3,
             18.51
           ],
           "rotation": [
@@ -11530,7 +10602,7 @@
         "Transform": {
           "position": [
             12.09,
-            0.0,
+            0.3,
             18.51
           ],
           "localPosition": [
@@ -11554,21 +10626,10 @@
             1.00000012
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -11582,7 +10643,7 @@
         "Transform": {
           "position": [
             11.75963,
-            0.353553385,
+            0.653553367,
             18.63592
           ],
           "localPosition": [
@@ -11607,20 +10668,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -11634,12 +10686,12 @@
         "Transform": {
           "position": [
             4.28,
-            0.0,
+            0.3,
             34.69
           ],
           "localPosition": [
             4.28,
-            0.0,
+            0.3,
             34.69
           ],
           "rotation": [
@@ -11690,7 +10742,7 @@
         "Transform": {
           "position": [
             4.28,
-            0.0,
+            0.3,
             34.69
           ],
           "localPosition": [
@@ -11714,21 +10766,10 @@
             1.00000012
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -11742,7 +10783,7 @@
         "Transform": {
           "position": [
             4.611707,
-            0.25000003,
+            0.5500001,
             34.9683342
           ],
           "localPosition": [
@@ -11767,20 +10808,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -11794,12 +10826,12 @@
         "Transform": {
           "position": [
             15.18,
-            0.0,
+            0.3,
             6.07
           ],
           "localPosition": [
             15.18,
-            0.0,
+            0.3,
             6.07
           ],
           "rotation": [
@@ -11850,7 +10882,7 @@
         "Transform": {
           "position": [
             15.18,
-            0.0,
+            0.3,
             6.07
           ],
           "localPosition": [
@@ -11874,21 +10906,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -11902,7 +10923,7 @@
         "Transform": {
           "position": [
             15.0631971,
-            0.216506347,
+            0.5165064,
             6.1145196
           ],
           "localPosition": [
@@ -11927,20 +10948,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -11954,12 +10966,12 @@
         "Transform": {
           "position": [
             7.15,
-            0.0,
+            0.3,
             14.06
           ],
           "localPosition": [
             7.15,
-            0.0,
+            0.3,
             14.06
           ],
           "rotation": [
@@ -12010,7 +11022,7 @@
         "Transform": {
           "position": [
             7.15,
-            0.0,
+            0.3,
             14.06
           ],
           "localPosition": [
@@ -12034,21 +11046,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -12062,7 +11063,7 @@
         "Transform": {
           "position": [
             6.91639328,
-            0.4330127,
+            0.7330127,
             14.1490393
           ],
           "localPosition": [
@@ -12087,20 +11088,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -12114,12 +11106,12 @@
         "Transform": {
           "position": [
             -5.74000025,
-            0.0,
+            0.3,
             23.18
           ],
           "localPosition": [
             -5.74000025,
-            0.0,
+            0.3,
             23.18
           ],
           "rotation": [
@@ -12170,7 +11162,7 @@
         "Transform": {
           "position": [
             -5.74000025,
-            0.0,
+            0.3,
             23.18
           ],
           "localPosition": [
@@ -12194,21 +11186,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -12222,7 +11203,7 @@
         "Transform": {
           "position": [
             -5.9198184,
-            0.441473842,
+            0.741473854,
             23.0291157
           ],
           "localPosition": [
@@ -12247,20 +11228,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -12274,12 +11246,12 @@
         "Transform": {
           "position": [
             -10.64,
-            0.0,
+            0.3,
             10.03
           ],
           "localPosition": [
             -10.64,
-            0.0,
+            0.3,
             10.03
           ],
           "rotation": [
@@ -12330,7 +11302,7 @@
         "Transform": {
           "position": [
             -10.64,
-            0.0,
+            0.3,
             10.03
           ],
           "localPosition": [
@@ -12354,21 +11326,10 @@
             0.99999994
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -12382,7 +11343,7 @@
         "Transform": {
           "position": [
             -10.5317469,
-            0.216506332,
+            0.5165063,
             9.9675
           ],
           "localPosition": [
@@ -12407,20 +11368,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -12434,12 +11386,12 @@
         "Transform": {
           "position": [
             -12.33,
-            0.0,
+            0.3,
             26.98
           ],
           "localPosition": [
             -12.33,
-            0.0,
+            0.3,
             26.98
           ],
           "rotation": [
@@ -12490,7 +11442,7 @@
         "Transform": {
           "position": [
             -12.33,
-            0.0,
+            0.3,
             26.98
           ],
           "localPosition": [
@@ -12514,21 +11466,10 @@
             0.99999994
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -12542,7 +11483,7 @@
         "Transform": {
           "position": [
             -12.1134939,
-            0.433012664,
+            0.7330127,
             26.855
           ],
           "localPosition": [
@@ -12567,20 +11508,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -12594,12 +11526,12 @@
         "Transform": {
           "position": [
             6.5,
-            0.0,
+            0.3,
             62.23
           ],
           "localPosition": [
             6.5,
-            0.0,
+            0.3,
             62.23
           ],
           "rotation": [
@@ -12650,7 +11582,7 @@
         "Transform": {
           "position": [
             6.5,
-            0.0,
+            0.3,
             62.23
           ],
           "localPosition": [
@@ -12674,21 +11606,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -12702,7 +11623,7 @@
         "Transform": {
           "position": [
             6.266393,
-            0.4330127,
+            0.7330127,
             62.31904
           ],
           "localPosition": [
@@ -12727,20 +11648,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -12754,12 +11666,12 @@
         "Transform": {
           "position": [
             7.15,
-            0.0,
+            0.3,
             39.32
           ],
           "localPosition": [
             7.15,
-            0.0,
+            0.3,
             39.32
           ],
           "rotation": [
@@ -12810,7 +11722,7 @@
         "Transform": {
           "position": [
             7.15,
-            0.0,
+            0.3,
             39.32
           ],
           "localPosition": [
@@ -12834,21 +11746,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -12862,7 +11763,7 @@
         "Transform": {
           "position": [
             6.91639328,
-            0.4330127,
+            0.7330127,
             39.40904
           ],
           "localPosition": [
@@ -12887,20 +11788,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -12940,20 +11832,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            15.25
-          ],
-          "boundsSize": [
-            200.0,
-            0.0,
-            230.0
-          ]
+          "hash": "f3dd6ad04056172aa95927b39f86bf42"
         },
         "MeshRenderer": {
           "materials": [
-            "GridMirror"
+            "2487501c6a10ee0041e8c4764f6addaa"
           ]
         }
       }
@@ -12992,20 +11875,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            15.25
-          ],
-          "boundsSize": [
-            200.0,
-            0.0,
-            230.0
-          ]
+          "hash": "f3dd6ad04056172aa95927b39f86bf42"
         },
         "MeshRenderer": {
           "materials": [
-            "SetDepthOnly"
+            "47348bfff0fbcb3e14515ad3bfebc6be"
           ]
         }
       }
@@ -13018,12 +11892,12 @@
         "Transform": {
           "position": [
             9.04,
-            0.0,
+            0.3,
             16.85
           ],
           "localPosition": [
             9.04,
-            0.0,
+            0.3,
             16.85
           ],
           "rotation": [
@@ -13074,7 +11948,7 @@
         "Transform": {
           "position": [
             9.04,
-            0.0,
+            0.3,
             16.85
           ],
           "localPosition": [
@@ -13098,21 +11972,10 @@
             1.00000012
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -13126,7 +11989,7 @@
         "Transform": {
           "position": [
             9.135756,
-            0.216506332,
+            0.5165063,
             16.93035
           ],
           "localPosition": [
@@ -13151,20 +12014,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -13178,12 +12032,12 @@
         "Transform": {
           "position": [
             4.0,
-            0.0,
+            0.3,
             23.24
           ],
           "localPosition": [
             4.0,
-            0.0,
+            0.3,
             23.24
           ],
           "rotation": [
@@ -13234,7 +12088,7 @@
         "Transform": {
           "position": [
             4.0,
-            0.0,
+            0.3,
             23.24
           ],
           "localPosition": [
@@ -13258,21 +12112,10 @@
             0.99999994
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -13286,7 +12129,7 @@
         "Transform": {
           "position": [
             4.21650648,
-            0.433012664,
+            0.7330127,
             23.115
           ],
           "localPosition": [
@@ -13311,20 +12154,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -13338,12 +12172,12 @@
         "Transform": {
           "position": [
             -7.54,
-            0.0,
+            0.3,
             23.72
           ],
           "localPosition": [
             -7.54,
-            0.0,
+            0.3,
             23.72
           ],
           "rotation": [
@@ -13394,7 +12228,7 @@
         "Transform": {
           "position": [
             -7.54,
-            0.0,
+            0.3,
             23.72
           ],
           "localPosition": [
@@ -13418,21 +12252,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -13446,7 +12269,7 @@
         "Transform": {
           "position": [
             -7.49658775,
-            0.433012664,
+            0.7330127,
             23.9662018
           ],
           "localPosition": [
@@ -13471,20 +12294,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -13498,12 +12312,12 @@
         "Transform": {
           "position": [
             -9.61,
-            0.0,
+            0.3,
             50.79
           ],
           "localPosition": [
             -9.61,
-            0.0,
+            0.3,
             50.79
           ],
           "rotation": [
@@ -13554,7 +12368,7 @@
         "Transform": {
           "position": [
             -9.61,
-            0.0,
+            0.3,
             50.79
           ],
           "localPosition": [
@@ -13578,21 +12392,10 @@
             1.00000012
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -13606,7 +12409,7 @@
         "Transform": {
           "position": [
             -9.444146,
-            0.125000015,
+            0.425,
             50.92917
           ],
           "localPosition": [
@@ -13631,20 +12434,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -13658,12 +12452,12 @@
         "Transform": {
           "position": [
             -3.35,
-            0.0,
+            0.3,
             57.94
           ],
           "localPosition": [
             -3.35,
-            0.0,
+            0.3,
             57.94
           ],
           "rotation": [
@@ -13714,7 +12508,7 @@
         "Transform": {
           "position": [
             -3.35,
-            0.0,
+            0.3,
             57.94
           ],
           "localPosition": [
@@ -13738,21 +12532,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -13766,7 +12549,7 @@
         "Transform": {
           "position": [
             -3.47275949,
-            0.216506287,
+            0.5165063,
             57.96356
           ],
           "localPosition": [
@@ -13791,20 +12574,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -13818,12 +12592,12 @@
         "Transform": {
           "position": [
             -3.58,
-            0.0,
+            0.3,
             38.39
           ],
           "localPosition": [
             -3.58,
-            0.0,
+            0.3,
             38.39
           ],
           "rotation": [
@@ -13874,7 +12648,7 @@
         "Transform": {
           "position": [
             -3.58,
-            0.0,
+            0.3,
             38.39
           ],
           "localPosition": [
@@ -13898,21 +12672,10 @@
             1.00000012
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -13926,7 +12689,7 @@
         "Transform": {
           "position": [
             -3.248293,
-            0.25000003,
+            0.5500001,
             38.668335
           ],
           "localPosition": [
@@ -13951,20 +12714,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -13978,12 +12732,12 @@
         "Transform": {
           "position": [
             19.56,
-            0.0,
+            0.3,
             32.28
           ],
           "localPosition": [
             19.56,
-            0.0,
+            0.3,
             32.28
           ],
           "rotation": [
@@ -14034,7 +12788,7 @@
         "Transform": {
           "position": [
             19.56,
-            0.0,
+            0.3,
             32.28
           ],
           "localPosition": [
@@ -14058,21 +12812,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -14086,7 +12829,7 @@
         "Transform": {
           "position": [
             19.4811039,
-            0.216506332,
+            0.5165063,
             32.3769569
           ],
           "localPosition": [
@@ -14111,20 +12854,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -14138,12 +12872,12 @@
         "Transform": {
           "position": [
             8.25,
-            0.0,
+            0.3,
             0.1500001
           ],
           "localPosition": [
             8.25,
-            0.0,
+            0.3,
             0.1500001
           ],
           "rotation": [
@@ -14194,7 +12928,7 @@
         "Transform": {
           "position": [
             8.25,
-            0.0,
+            0.3,
             0.1500001
           ],
           "localPosition": [
@@ -14218,21 +12952,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -14246,7 +12969,7 @@
         "Transform": {
           "position": [
             8.070182,
-            0.441473842,
+            0.741473854,
             -0.000885129
           ],
           "localPosition": [
@@ -14271,20 +12994,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -14298,12 +13012,12 @@
         "Transform": {
           "position": [
             -12.87,
-            0.0,
+            0.3,
             32.19
           ],
           "localPosition": [
             -12.87,
-            0.0,
+            0.3,
             32.19
           ],
           "rotation": [
@@ -14354,7 +13068,7 @@
         "Transform": {
           "position": [
             -12.87,
-            0.0,
+            0.3,
             32.19
           ],
           "localPosition": [
@@ -14378,21 +13092,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -14406,7 +13109,7 @@
         "Transform": {
           "position": [
             -12.7218447,
-            0.441473871,
+            0.7414739,
             32.0079231
           ],
           "localPosition": [
@@ -14431,20 +13134,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -14458,12 +13152,12 @@
         "Transform": {
           "position": [
             10.21,
-            0.0,
+            0.3,
             4.38
           ],
           "localPosition": [
             10.21,
-            0.0,
+            0.3,
             4.38
           ],
           "rotation": [
@@ -14514,7 +13208,7 @@
         "Transform": {
           "position": [
             10.21,
-            0.0,
+            0.3,
             4.38
           ],
           "localPosition": [
@@ -14538,21 +13232,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -14566,7 +13249,7 @@
         "Transform": {
           "position": [
             10.1311054,
-            0.216506332,
+            0.5165063,
             4.476957
           ],
           "localPosition": [
@@ -14591,20 +13274,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -14678,20 +13352,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            -0.0001,
-            0.0
-          ],
-          "boundsSize": [
-            3.0,
-            2.38418579E-07,
-            2.00000024
-          ]
+          "hash": "305984c181f88426539c88dcb23f61e1"
         },
         "MeshRenderer": {
           "materials": [
-            "PlayersPlaceMirror"
+            "a97bb8953136bcdd00eea8f1107e0aeb"
           ]
         }
       }
@@ -14730,20 +13395,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            -56.3724976,
-            0.0
-          ],
-          "boundsSize": [
-            3.0,
-            112.755005,
-            2.0
-          ]
+          "hash": "d3ca75607c073a4d2ff24d9950b343e9"
         },
         "MeshRenderer": {
           "materials": [
-            "DarkEnvironmentSimple"
+            "32344ccefc891a79d61f366a7223ba0c"
           ]
         }
       }
@@ -14782,16 +13438,7 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            3.0,
-            3.0,
-            0.0
-          ]
+          "hash": "82ea09b58af4dc40242a50a3224b8176"
         },
         "RectangleFakeGlow": {
           "rectangleSize": [
@@ -14801,7 +13448,7 @@
         },
         "MeshRenderer": {
           "materials": [
-            "ParametricFakeGlow"
+            "6a57238a079a4d360b12e9d3a777e1b0"
           ]
         }
       }
@@ -14908,20 +13555,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            -0.0001,
-            0.0
-          ],
-          "boundsSize": [
-            3.0,
-            2.38418579E-07,
-            2.00000024
-          ]
+          "hash": "1cdf5eb3bb475b8ee9c8959d7bbe9ee1"
         },
         "MeshRenderer": {
           "materials": [
-            "SaberBurnMarks"
+            "753e70e0ebb6bcbec2329b02d705b919"
           ]
         }
       }
@@ -14968,12 +13606,12 @@
         "Transform": {
           "position": [
             -12.22,
-            0.0,
+            0.3,
             8.5
           ],
           "localPosition": [
             -12.22,
-            0.0,
+            0.3,
             8.5
           ],
           "rotation": [
@@ -15024,7 +13662,7 @@
         "Transform": {
           "position": [
             -12.22,
-            0.0,
+            0.3,
             8.5
           ],
           "localPosition": [
@@ -15048,21 +13686,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -15076,7 +13703,7 @@
         "Transform": {
           "position": [
             -12.1765881,
-            0.433012664,
+            0.7330127,
             8.746202
           ],
           "localPosition": [
@@ -15101,20 +13728,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -15128,12 +13746,12 @@
         "Transform": {
           "position": [
             8.37,
-            0.0,
+            0.3,
             41.29
           ],
           "localPosition": [
             8.37,
-            0.0,
+            0.3,
             41.29
           ],
           "rotation": [
@@ -15184,7 +13802,7 @@
         "Transform": {
           "position": [
             8.37,
-            0.0,
+            0.3,
             41.29
           ],
           "localPosition": [
@@ -15208,21 +13826,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -15236,7 +13843,7 @@
         "Transform": {
           "position": [
             8.412752,
-            0.216506332,
+            0.5165063,
             41.4074631
           ],
           "localPosition": [
@@ -15261,20 +13868,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -15288,12 +13886,12 @@
         "Transform": {
           "position": [
             -3.5,
-            0.0,
+            0.3,
             17.68
           ],
           "localPosition": [
             -3.5,
-            0.0,
+            0.3,
             17.68
           ],
           "rotation": [
@@ -15344,7 +13942,7 @@
         "Transform": {
           "position": [
             -3.5,
-            0.0,
+            0.3,
             17.68
           ],
           "localPosition": [
@@ -15368,21 +13966,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -15396,7 +13983,7 @@
         "Transform": {
           "position": [
             -3.35184455,
-            0.441473871,
+            0.7414739,
             17.4979267
           ],
           "localPosition": [
@@ -15421,20 +14008,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -15448,12 +14026,12 @@
         "Transform": {
           "position": [
             -5.58,
-            0.0,
+            0.3,
             9.42
           ],
           "localPosition": [
             -5.58,
-            0.0,
+            0.3,
             9.42
           ],
           "rotation": [
@@ -15504,7 +14082,7 @@
         "Transform": {
           "position": [
             -5.58,
-            0.0,
+            0.3,
             9.42
           ],
           "localPosition": [
@@ -15528,21 +14106,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -15556,7 +14123,7 @@
         "Transform": {
           "position": [
             -5.57757568,
-            0.19151102,
+            0.491511047,
             9.580679
           ],
           "localPosition": [
@@ -15581,20 +14148,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -15608,12 +14166,12 @@
         "Transform": {
           "position": [
             -9.61,
-            0.0,
+            0.3,
             25.53
           ],
           "localPosition": [
             -9.61,
-            0.0,
+            0.3,
             25.53
           ],
           "rotation": [
@@ -15664,7 +14222,7 @@
         "Transform": {
           "position": [
             -9.61,
-            0.0,
+            0.3,
             25.53
           ],
           "localPosition": [
@@ -15688,21 +14246,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -15716,7 +14263,7 @@
         "Transform": {
           "position": [
             -9.843606,
-            0.4330127,
+            0.7330127,
             25.61904
           ],
           "localPosition": [
@@ -15741,20 +14288,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -15768,12 +14306,12 @@
         "Transform": {
           "position": [
             11.93,
-            0.0,
+            0.3,
             56.1
           ],
           "localPosition": [
             11.93,
-            0.0,
+            0.3,
             56.1
           ],
           "rotation": [
@@ -15824,7 +14362,7 @@
         "Transform": {
           "position": [
             11.93,
-            0.0,
+            0.3,
             56.1
           ],
           "localPosition": [
@@ -15848,21 +14386,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -15876,7 +14403,7 @@
         "Transform": {
           "position": [
             11.8131971,
-            0.216506347,
+            0.5165064,
             56.14452
           ],
           "localPosition": [
@@ -15901,20 +14428,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -15928,12 +14446,12 @@
         "Transform": {
           "position": [
             6.61,
-            0.0,
+            0.3,
             6.47
           ],
           "localPosition": [
             6.61,
-            0.0,
+            0.3,
             6.47
           ],
           "rotation": [
@@ -15984,7 +14502,7 @@
         "Transform": {
           "position": [
             6.61,
-            0.0,
+            0.3,
             6.47
           ],
           "localPosition": [
@@ -16008,21 +14526,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -16036,7 +14543,7 @@
         "Transform": {
           "position": [
             6.45221043,
-            0.433012664,
+            0.7330127,
             6.66391325
           ],
           "localPosition": [
@@ -16061,20 +14568,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -16088,12 +14586,12 @@
         "Transform": {
           "position": [
             10.2400007,
-            0.0,
+            0.3,
             1.62000036
           ],
           "localPosition": [
             10.2400007,
-            0.0,
+            0.3,
             1.62000036
           ],
           "rotation": [
@@ -16144,7 +14642,7 @@
         "Transform": {
           "position": [
             10.2400007,
-            0.0,
+            0.3,
             1.62000036
           ],
           "localPosition": [
@@ -16168,21 +14666,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -16196,7 +14683,7 @@
         "Transform": {
           "position": [
             10.1231976,
-            0.216506347,
+            0.5165064,
             1.66451979
           ],
           "localPosition": [
@@ -16221,20 +14708,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -16248,12 +14726,12 @@
         "Transform": {
           "position": [
             12.06,
-            0.0,
+            0.3,
             14.1
           ],
           "localPosition": [
             12.06,
-            0.0,
+            0.3,
             14.1
           ],
           "rotation": [
@@ -16304,7 +14782,7 @@
         "Transform": {
           "position": [
             12.06,
-            0.0,
+            0.3,
             14.1
           ],
           "localPosition": [
@@ -16328,21 +14806,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -16356,7 +14823,7 @@
         "Transform": {
           "position": [
             12.1255007,
-            0.234923154,
+            0.5349232,
             14.1549616
           ],
           "localPosition": [
@@ -16381,20 +14848,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -16408,12 +14866,12 @@
         "Transform": {
           "position": [
             -8.0,
-            0.0,
+            0.3,
             4.45
           ],
           "localPosition": [
             -8.0,
-            0.0,
+            0.3,
             4.45
           ],
           "rotation": [
@@ -16464,7 +14922,7 @@
         "Transform": {
           "position": [
             -8.0,
-            0.0,
+            0.3,
             4.45
           ],
           "localPosition": [
@@ -16488,21 +14946,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -16516,7 +14963,7 @@
         "Transform": {
           "position": [
             -7.987968,
-            0.433012724,
+            0.733012736,
             4.69971
           ],
           "localPosition": [
@@ -16541,20 +14988,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -16568,12 +15006,12 @@
         "Transform": {
           "position": [
             -7.9,
-            0.0,
+            0.3,
             68.9
           ],
           "localPosition": [
             -7.9,
-            0.0,
+            0.3,
             68.9
           ],
           "rotation": [
@@ -16624,7 +15062,7 @@
         "Transform": {
           "position": [
             -7.9,
-            0.0,
+            0.3,
             68.9
           ],
           "localPosition": [
@@ -16648,21 +15086,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -16676,7 +15103,7 @@
         "Transform": {
           "position": [
             -7.771748,
-            0.433012664,
+            0.7330127,
             69.1146
           ],
           "localPosition": [
@@ -16701,20 +15128,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -16728,12 +15146,12 @@
         "Transform": {
           "position": [
             9.66,
-            0.0,
+            0.3,
             22.92
           ],
           "localPosition": [
             9.66,
-            0.0,
+            0.3,
             22.92
           ],
           "rotation": [
@@ -16784,7 +15202,7 @@
         "Transform": {
           "position": [
             9.66,
-            0.0,
+            0.3,
             22.92
           ],
           "localPosition": [
@@ -16808,21 +15226,10 @@
             1.00000012
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -16836,7 +15243,7 @@
         "Transform": {
           "position": [
             9.32963,
-            0.353553385,
+            0.653553367,
             23.04592
           ],
           "localPosition": [
@@ -16861,20 +15268,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -16888,12 +15286,12 @@
         "Transform": {
           "position": [
             -6.38593,
-            0.0,
+            0.3,
             2.12375259
           ],
           "localPosition": [
             -6.38593,
-            0.0,
+            0.3,
             2.12375259
           ],
           "rotation": [
@@ -16944,7 +15342,7 @@
         "Transform": {
           "position": [
             -6.38593,
-            0.0,
+            0.3,
             2.12375259
           ],
           "localPosition": [
@@ -16968,21 +15366,10 @@
             1.00000012
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -16996,7 +15383,7 @@
         "Transform": {
           "position": [
             -6.054223,
-            0.25000003,
+            0.5500001,
             2.40208769
           ],
           "localPosition": [
@@ -17021,20 +15408,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -17048,12 +15426,12 @@
         "Transform": {
           "position": [
             -4.06,
-            0.0,
+            0.3,
             29.32
           ],
           "localPosition": [
             -4.06,
-            0.0,
+            0.3,
             29.32
           ],
           "rotation": [
@@ -17104,7 +15482,7 @@
         "Transform": {
           "position": [
             -4.06,
-            0.0,
+            0.3,
             29.32
           ],
           "localPosition": [
@@ -17128,21 +15506,10 @@
             1.00000012
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -17156,7 +15523,7 @@
         "Transform": {
           "position": [
             -4.282516,
-            0.105654567,
+            0.405654579,
             29.3627052
           ],
           "localPosition": [
@@ -17181,20 +15548,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -17208,12 +15566,12 @@
         "Transform": {
           "position": [
             6.95,
-            0.0,
+            0.3,
             19.76
           ],
           "localPosition": [
             6.95,
-            0.0,
+            0.3,
             19.76
           ],
           "rotation": [
@@ -17264,7 +15622,7 @@
         "Transform": {
           "position": [
             6.95,
-            0.0,
+            0.3,
             19.76
           ],
           "localPosition": [
@@ -17288,21 +15646,10 @@
             1.00000012
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -17316,7 +15663,7 @@
         "Transform": {
           "position": [
             6.778907,
-            0.131367892,
+            0.4313679,
             19.8863716
           ],
           "localPosition": [
@@ -17341,20 +15688,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -17368,12 +15706,12 @@
         "Transform": {
           "position": [
             -9.42,
-            0.0,
+            0.3,
             64.0
           ],
           "localPosition": [
             -9.42,
-            0.0,
+            0.3,
             64.0
           ],
           "rotation": [
@@ -17424,7 +15762,7 @@
         "Transform": {
           "position": [
             -9.42,
-            0.0,
+            0.3,
             64.0
           ],
           "localPosition": [
@@ -17448,21 +15786,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -17476,7 +15803,7 @@
         "Transform": {
           "position": [
             -9.098606,
-            0.383022249,
+            0.683022261,
             64.0
           ],
           "localPosition": [
@@ -17501,20 +15828,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -17528,12 +15846,12 @@
         "Transform": {
           "position": [
             15.12,
-            0.0,
+            0.3,
             17.43
           ],
           "localPosition": [
             15.12,
-            0.0,
+            0.3,
             17.43
           ],
           "rotation": [
@@ -17584,7 +15902,7 @@
         "Transform": {
           "position": [
             15.12,
-            0.0,
+            0.3,
             17.43
           ],
           "localPosition": [
@@ -17608,21 +15926,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -17636,7 +15943,7 @@
         "Transform": {
           "position": [
             15.0031967,
-            0.216506347,
+            0.5165064,
             17.47452
           ],
           "localPosition": [
@@ -17661,20 +15968,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -17688,12 +15986,12 @@
         "Transform": {
           "position": [
             -3.86,
-            0.0,
+            0.3,
             13.36
           ],
           "localPosition": [
             -3.86,
-            0.0,
+            0.3,
             13.36
           ],
           "rotation": [
@@ -17744,7 +16042,7 @@
         "Transform": {
           "position": [
             -3.86,
-            0.0,
+            0.3,
             13.36
           ],
           "localPosition": [
@@ -17768,21 +16066,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -17796,7 +16083,7 @@
         "Transform": {
           "position": [
             -3.99541879,
-            0.176776677,
+            0.4767767,
             13.2463694
           ],
           "localPosition": [
@@ -17821,20 +16108,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -17848,12 +16126,12 @@
         "Transform": {
           "position": [
             9.75,
-            0.0,
+            0.3,
             64.95
           ],
           "localPosition": [
             9.75,
-            0.0,
+            0.3,
             64.95
           ],
           "rotation": [
@@ -17904,7 +16182,7 @@
         "Transform": {
           "position": [
             9.75,
-            0.0,
+            0.3,
             64.95
           ],
           "localPosition": [
@@ -17928,21 +16206,10 @@
             1.00000012
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -17956,7 +16223,7 @@
         "Transform": {
           "position": [
             9.941511,
-            0.433012664,
+            0.7330127,
             65.1106949
           ],
           "localPosition": [
@@ -17981,20 +16248,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -18008,12 +16266,12 @@
         "Transform": {
           "position": [
             14.41,
-            0.0,
+            0.3,
             31.7
           ],
           "localPosition": [
             14.41,
-            0.0,
+            0.3,
             31.7
           ],
           "rotation": [
@@ -18064,7 +16322,7 @@
         "Transform": {
           "position": [
             14.41,
-            0.0,
+            0.3,
             31.7
           ],
           "localPosition": [
@@ -18088,21 +16346,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -18116,7 +16363,7 @@
         "Transform": {
           "position": [
             14.1763935,
-            0.4330127,
+            0.7330127,
             31.78904
           ],
           "localPosition": [
@@ -18141,20 +16388,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -18168,12 +16406,12 @@
         "Transform": {
           "position": [
             -11.1699944,
-            0.0,
+            0.3,
             2.820001
           ],
           "localPosition": [
             -11.1699944,
-            0.0,
+            0.3,
             2.820001
           ],
           "rotation": [
@@ -18224,7 +16462,7 @@
         "Transform": {
           "position": [
             -11.1699944,
-            0.0,
+            0.3,
             2.820001
           ],
           "localPosition": [
@@ -18248,21 +16486,10 @@
             1.00000012
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -18276,7 +16503,7 @@
         "Transform": {
           "position": [
             -11.3807316,
-            0.433012635,
+            0.7330127,
             2.68550158
           ],
           "localPosition": [
@@ -18301,20 +16528,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -18328,12 +16546,12 @@
         "Transform": {
           "position": [
             9.75,
-            0.0,
+            0.3,
             39.69
           ],
           "localPosition": [
             9.75,
-            0.0,
+            0.3,
             39.69
           ],
           "rotation": [
@@ -18384,7 +16602,7 @@
         "Transform": {
           "position": [
             9.75,
-            0.0,
+            0.3,
             39.69
           ],
           "localPosition": [
@@ -18408,21 +16626,10 @@
             1.00000012
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -18436,7 +16643,7 @@
         "Transform": {
           "position": [
             9.941511,
-            0.433012664,
+            0.7330127,
             39.8506966
           ],
           "localPosition": [
@@ -18461,20 +16668,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -18488,12 +16686,12 @@
         "Transform": {
           "position": [
             -6.66,
-            0.0,
+            0.3,
             27.3
           ],
           "localPosition": [
             -6.66,
-            0.0,
+            0.3,
             27.3
           ],
           "rotation": [
@@ -18544,7 +16742,7 @@
         "Transform": {
           "position": [
             -6.66,
-            0.0,
+            0.3,
             27.3
           ],
           "localPosition": [
@@ -18568,21 +16766,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -18596,7 +16783,7 @@
         "Transform": {
           "position": [
             -6.839818,
-            0.441473842,
+            0.741473854,
             27.1491146
           ],
           "localPosition": [
@@ -18621,20 +16808,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -18648,12 +16826,12 @@
         "Transform": {
           "position": [
             6.3,
-            0.0,
+            0.3,
             11.21
           ],
           "localPosition": [
             6.3,
-            0.0,
+            0.3,
             11.21
           ],
           "rotation": [
@@ -18704,7 +16882,7 @@
         "Transform": {
           "position": [
             6.3,
-            0.0,
+            0.3,
             11.21
           ],
           "localPosition": [
@@ -18728,21 +16906,10 @@
             1.00000012
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -18756,7 +16923,7 @@
         "Transform": {
           "position": [
             6.46585369,
-            0.125000015,
+            0.425,
             11.3491678
           ],
           "localPosition": [
@@ -18781,20 +16948,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -18808,12 +16966,12 @@
         "Transform": {
           "position": [
             9.79,
-            0.0,
+            0.3,
             10.24
           ],
           "localPosition": [
             9.79,
-            0.0,
+            0.3,
             10.24
           ],
           "rotation": [
@@ -18864,7 +17022,7 @@
         "Transform": {
           "position": [
             9.79,
-            0.0,
+            0.3,
             10.24
           ],
           "localPosition": [
@@ -18888,21 +17046,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -18916,7 +17063,7 @@
         "Transform": {
           "position": [
             9.526024,
-            0.353553385,
+            0.653553367,
             10.0048056
           ],
           "localPosition": [
@@ -18941,20 +17088,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -18968,12 +17106,12 @@
         "Transform": {
           "position": [
             6.210001,
-            0.0,
+            0.3,
             55.4399948
           ],
           "localPosition": [
             6.210001,
-            0.0,
+            0.3,
             55.4399948
           ],
           "rotation": [
@@ -19024,7 +17162,7 @@
         "Transform": {
           "position": [
             6.210001,
-            0.0,
+            0.3,
             55.4399948
           ],
           "localPosition": [
@@ -19048,21 +17186,10 @@
             1.00000012
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -19076,7 +17203,7 @@
         "Transform": {
           "position": [
             6.541708,
-            0.25000003,
+            0.5500001,
             55.71833
           ],
           "localPosition": [
@@ -19101,20 +17228,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -19128,12 +17246,12 @@
         "Transform": {
           "position": [
             11.13,
-            0.0,
+            0.3,
             33.89
           ],
           "localPosition": [
             11.13,
-            0.0,
+            0.3,
             33.89
           ],
           "rotation": [
@@ -19184,7 +17302,7 @@
         "Transform": {
           "position": [
             11.13,
-            0.0,
+            0.3,
             33.89
           ],
           "localPosition": [
@@ -19208,21 +17326,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -19236,7 +17343,7 @@
         "Transform": {
           "position": [
             10.97221,
-            0.433012664,
+            0.7330127,
             34.08391
           ],
           "localPosition": [
@@ -19261,20 +17368,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -19288,12 +17386,12 @@
         "Transform": {
           "position": [
             -6.657659,
-            0.0,
+            0.3,
             -0.3353467
           ],
           "localPosition": [
             -6.657659,
-            0.0,
+            0.3,
             -0.3353467
           ],
           "rotation": [
@@ -19344,7 +17442,7 @@
         "Transform": {
           "position": [
             -6.657659,
-            0.0,
+            0.3,
             -0.3353467
           ],
           "localPosition": [
@@ -19368,21 +17466,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -19396,7 +17483,7 @@
         "Transform": {
           "position": [
             -6.66330767,
-            0.220736936,
+            0.520736933,
             -0.4525785
           ],
           "localPosition": [
@@ -19421,20 +17508,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -19448,12 +17526,12 @@
         "Transform": {
           "position": [
             -11.45,
-            0.0,
+            0.3,
             23.79
           ],
           "localPosition": [
             -11.45,
-            0.0,
+            0.3,
             23.79
           ],
           "rotation": [
@@ -19504,7 +17582,7 @@
         "Transform": {
           "position": [
             -11.45,
-            0.0,
+            0.3,
             23.79
           ],
           "localPosition": [
@@ -19528,21 +17606,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -19556,7 +17623,7 @@
         "Transform": {
           "position": [
             -11.3217478,
-            0.433012664,
+            0.7330127,
             24.0045967
           ],
           "localPosition": [
@@ -19581,20 +17648,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}
@@ -19608,12 +17666,12 @@
         "Transform": {
           "position": [
             -14.07,
-            0.0,
+            0.3,
             17.69
           ],
           "localPosition": [
             -14.07,
-            0.0,
+            0.3,
             17.69
           ],
           "rotation": [
@@ -19664,7 +17722,7 @@
         "Transform": {
           "position": [
             -14.07,
-            0.0,
+            0.3,
             17.69
           ],
           "localPosition": [
@@ -19688,21 +17746,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            2000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -19716,7 +17763,7 @@
         "Transform": {
           "position": [
             -14.2277889,
-            0.433012664,
+            0.7330127,
             17.8839149
           ],
           "localPosition": [
@@ -19741,20 +17788,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightOpaque"
+            "1cdd8c1689ede199954a7104600a2472"
           ]
         },
         "ParametricBoxController": {}

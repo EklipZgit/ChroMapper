@@ -106,8 +106,16 @@
     },
     "uniqueMaterials": [
       {
+        "hash": "5a5630b335a502fc4559c77a34b37608",
         "name": "TunnelRings",
-        "keywords": [
+        "shader": "Custom/SimpleLit",
+        "color": [
+          0.283018857,
+          0.283018857,
+          0.283018857,
+          0.0
+        ],
+        "shaderKeywords": [
           "FOG",
           "LIGHTMAP",
           "REFLECTION_PROBE_BOX_PROJECTION",
@@ -143,8 +151,16 @@
         ]
       },
       {
+        "hash": "a97bb8953136bcdd00eea8f1107e0aeb",
         "name": "PlayersPlaceMirror",
-        "keywords": [
+        "shader": "Custom/Mirror",
+        "color": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "shaderKeywords": [
           "ENABLE_DIRT",
           "ENABLE_MIRROR",
           "ETC1_EXTERNAL_ALPHA",
@@ -152,8 +168,16 @@
         ]
       },
       {
+        "hash": "32344ccefc891a79d61f366a7223ba0c",
         "name": "DarkEnvironmentSimple",
-        "keywords": [
+        "shader": "Custom/SimpleLit",
+        "color": [
+          0.32099995,
+          0.32099995,
+          0.32099995,
+          0.0
+        ],
+        "shaderKeywords": [
           "DIFFUSE",
           "FOG",
           "HEIGHT_FOG",
@@ -192,15 +216,31 @@
         ]
       },
       {
+        "hash": "6a57238a079a4d360b12e9d3a777e1b0",
         "name": "ParametricFakeGlow",
-        "keywords": [
+        "shader": "Custom/ParametricBoxFakeGlow",
+        "color": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "shaderKeywords": [
           "ENABLE_MAIN_EFFECT_WHITE_BOOST",
           "_WHITEBOOSTTYPE_ALWAYS"
         ]
       },
       {
+        "hash": "753e70e0ebb6bcbec2329b02d705b919",
         "name": "SaberBurnMarks",
-        "keywords": [
+        "shader": "Custom/CustomParticles",
+        "color": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "shaderKeywords": [
           "DISTORTION_TARGET_MAIN",
           "TEXTURE_COLOR",
           "_FOGTYPE_ALPHA",
@@ -221,8 +261,16 @@
         ]
       },
       {
+        "hash": "9300706b147a6c4b1e4224af6dc5ab29",
         "name": "MirrorTunnel",
-        "keywords": [
+        "shader": "Custom/Mirror",
+        "color": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "shaderKeywords": [
           "LIGHTMAP",
           "ENABLE_MIRROR",
           "ETC1_EXTERNAL_ALPHA",
@@ -230,8 +278,16 @@
         ]
       },
       {
+        "hash": "47348bfff0fbcb3e14515ad3bfebc6be",
         "name": "SetDepthOnly",
-        "keywords": [
+        "shader": "Custom/SetDepthOnly",
+        "color": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "shaderKeywords": [
           "ENABLE_DIFFUSE",
           "ENABLE_DIRT",
           "ENABLE_DIRT_DETAIL",
@@ -246,8 +302,16 @@
         ]
       },
       {
+        "hash": "91369a099051cbe79ceb1f1291b45ba1",
         "name": "Tunnel",
-        "keywords": [
+        "shader": "Custom/SimpleLit",
+        "color": [
+          0.5,
+          0.5,
+          0.5,
+          1.0
+        ],
+        "shaderKeywords": [
           "FOG",
           "LIGHTMAP",
           "OCCLUSION",
@@ -292,15 +356,31 @@
         ]
       },
       {
+        "hash": "317f37cbc01814faad757ab979c6cb10",
         "name": "TunnelSpectrogram",
-        "keywords": [
+        "shader": "Custom/UnlitSpectrogram",
+        "color": [
+          0.0,
+          0.0,
+          0.0,
+          0.6
+        ],
+        "shaderKeywords": [
           "ENABLE_SPECULAR",
           "ENABLE_VERTEX_DISPLACEMENT"
         ]
       },
       {
+        "hash": "ee49775c214f4a281bb9eb12a608e0a4",
         "name": "EnvLightGlass",
-        "keywords": [
+        "shader": "Custom/TransparentNeonLight",
+        "color": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "shaderKeywords": [
           "REFLECTION_PROBE",
           "ENABLE_BLUE_NOISE",
           "ENABLE_DIFFUSE",
@@ -310,8 +390,16 @@
         ]
       },
       {
+        "hash": "0dd004d097c885674f53e9736741a1d9",
         "name": "EnvLightSpriteGlow",
-        "keywords": [
+        "shader": "Custom/Parametric3SliceSprite",
+        "color": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "shaderKeywords": [
           "ALPHA_WIDTH_SCALE",
           "ENABLE_FOG",
           "ENABLE_HEIGHT_FOG",
@@ -322,16 +410,32 @@
         ]
       },
       {
+        "hash": "2f53648cf0e7229f89336575c9a4624c",
         "name": "EnvLight",
-        "keywords": [
+        "shader": "Custom/TransparentNeonLight",
+        "color": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "shaderKeywords": [
           "ENABLE_HEIGHT_FOG",
           "MULTIPLY_COLOR_WITH_ALPHA",
           "_ENABLE_MAIN_EFFECT_WHITE_BOOST"
         ]
       },
       {
+        "hash": "efd0d242bf2ace2047b83f3bffefe51d",
         "name": "EnvLightBillboardSpriteGlow",
-        "keywords": [
+        "shader": "Custom/Parametric3SliceSprite",
+        "color": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "shaderKeywords": [
           "ALPHA_WIDTH_SCALE",
           "ENABLE_FOG",
           "ENABLE_HEIGHT_FOG",
@@ -344,8 +448,16 @@
         ]
       },
       {
+        "hash": "042143239228e32d64bdc9db1629c423",
         "name": "EnvLightWorldNoise",
-        "keywords": [
+        "shader": "Custom/TransparentNeonLight",
+        "color": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "shaderKeywords": [
           "ENABLE_WORLD_NOISE",
           "ENABLE_WORLD_SPACE_FADE",
           "MULTIPLY_COLOR_WITH_ALPHA",
@@ -353,8 +465,16 @@
         ]
       },
       {
+        "hash": "25fb0aa190d798fb0581dfb404fc19ab",
         "name": "EnvLightBillboardSpriteGlowWorldNoise",
-        "keywords": [
+        "shader": "Custom/Parametric3SliceSprite",
+        "color": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "shaderKeywords": [
           "ENABLE_FOG",
           "ENABLE_HEIGHT_FOG",
           "ENABLE_NOISE_DITHERING",
@@ -368,8 +488,16 @@
         ]
       },
       {
+        "hash": "6579143c3acb23fe3f367c58b9e29b5f",
         "name": "EnvLightSpriteGlowHalfWhiteBoost",
-        "keywords": [
+        "shader": "Custom/Parametric3SliceSprite",
+        "color": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "shaderKeywords": [
           "ALPHA_WIDTH_SCALE",
           "ENABLE_FOG",
           "ENABLE_HEIGHT_FOG",
@@ -381,18 +509,174 @@
       }
     ],
     "uniqueMeshes": [
-      "TunnelRings",
-      "pb_Mesh-2492944",
-      "pb_Mesh-2492964",
-      "RectangleFakeGlow",
-      "PlayersPlaceCore",
-      "TrackMirror_LinkinPark",
-      "TrackConstruction_LinkinPark",
-      "Floor",
-      "Top",
-      "TunnelSpectrogram",
-      "ParametricBox",
-      "Dynamic3SliceSprite"
+      {
+        "name": "TunnelRings",
+        "hash": "bc0f40f617298470c104135b7a9837bd",
+        "boundsSize": [
+          8.571002,
+          50.5899849,
+          5.90748358
+        ],
+        "boundsCenter": [
+          -1.43051147E-06,
+          24.7050152,
+          2.08124661
+        ]
+      },
+      {
+        "name": "pb_Mesh-2492944",
+        "hash": "305984c181f88426539c88dcb23f61e1",
+        "boundsSize": [
+          3.0,
+          2.38418579E-07,
+          2.00000024
+        ],
+        "boundsCenter": [
+          0.0,
+          -0.0001,
+          0.0
+        ]
+      },
+      {
+        "name": "pb_Mesh-2492964",
+        "hash": "d3ca75607c073a4d2ff24d9950b343e9",
+        "boundsSize": [
+          3.0,
+          112.755005,
+          2.0
+        ],
+        "boundsCenter": [
+          0.0,
+          -56.3724976,
+          0.0
+        ]
+      },
+      {
+        "name": "RectangleFakeGlow",
+        "hash": "82ea09b58af4dc40242a50a3224b8176",
+        "boundsSize": [
+          3.0,
+          3.0,
+          0.0
+        ],
+        "boundsCenter": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "name": "PlayersPlaceCore",
+        "hash": "1cdf5eb3bb475b8ee9c8959d7bbe9ee1",
+        "boundsSize": [
+          3.0,
+          2.38418579E-07,
+          2.00000024
+        ],
+        "boundsCenter": [
+          0.0,
+          -0.0001,
+          0.0
+        ]
+      },
+      {
+        "name": "TrackMirror_LinkinPark",
+        "hash": "c867406766bb229631a7190b919e294f",
+        "boundsSize": [
+          2.3,
+          0.0,
+          123.5
+        ],
+        "boundsCenter": [
+          -0.299999982,
+          0.0,
+          61.6999969
+        ]
+      },
+      {
+        "name": "TrackConstruction_LinkinPark",
+        "hash": "0c3d60c6d83ba726ebccd4c5be8ff324",
+        "boundsSize": [
+          2.30000019,
+          0.100999996,
+          121.884476
+        ],
+        "boundsCenter": [
+          -0.9000001,
+          0.0005000029,
+          -39.0377579
+        ]
+      },
+      {
+        "name": "Floor",
+        "hash": "f9bf14061e02e73401ec7a7216a59871",
+        "boundsSize": [
+          7.30002165,
+          20.0000038,
+          0.0
+        ],
+        "boundsCenter": [
+          3.81469727E-06,
+          -1.90734863E-06,
+          -0.12988019
+        ]
+      },
+      {
+        "name": "Top",
+        "hash": "46340d6463727111e46ff98cb60e39c2",
+        "boundsSize": [
+          7.30002165,
+          20.0000038,
+          5.09042645
+        ],
+        "boundsCenter": [
+          3.81469727E-06,
+          -1.90734863E-06,
+          2.255568
+        ]
+      },
+      {
+        "name": "TunnelSpectrogram",
+        "hash": "0f4083cce876b032786cbe9af8e93338",
+        "boundsSize": [
+          0.0,
+          61.9770432,
+          0.6645229
+        ],
+        "boundsCenter": [
+          0.0,
+          30.3690453,
+          0.333777
+        ]
+      },
+      {
+        "name": "ParametricBox",
+        "hash": "918b6e6683288362624bdc36ef36ef62",
+        "boundsSize": [
+          2.0,
+          2.0,
+          2.0
+        ],
+        "boundsCenter": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "name": "Dynamic3SliceSprite",
+        "hash": "e6819d88d5c41ae3e598c9a361498d23",
+        "boundsSize": [
+          10.0,
+          5000.0,
+          0.1
+        ],
+        "boundsCenter": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
     ]
   },
   "objects": [
@@ -538,20 +822,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            -1.43051147E-06,
-            24.7050152,
-            2.08124661
-          ],
-          "boundsSize": [
-            8.571002,
-            50.5899849,
-            5.90748358
-          ]
+          "hash": "bc0f40f617298470c104135b7a9837bd"
         },
         "MeshRenderer": {
           "materials": [
-            "TunnelRings"
+            "5a5630b335a502fc4559c77a34b37608"
           ]
         }
       }
@@ -624,20 +899,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            -0.0001,
-            0.0
-          ],
-          "boundsSize": [
-            3.0,
-            2.38418579E-07,
-            2.00000024
-          ]
+          "hash": "305984c181f88426539c88dcb23f61e1"
         },
         "MeshRenderer": {
           "materials": [
-            "PlayersPlaceMirror"
+            "a97bb8953136bcdd00eea8f1107e0aeb"
           ]
         }
       }
@@ -676,20 +942,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            -56.3724976,
-            0.0
-          ],
-          "boundsSize": [
-            3.0,
-            112.755005,
-            2.0
-          ]
+          "hash": "d3ca75607c073a4d2ff24d9950b343e9"
         },
         "MeshRenderer": {
           "materials": [
-            "DarkEnvironmentSimple"
+            "32344ccefc891a79d61f366a7223ba0c"
           ]
         }
       }
@@ -728,16 +985,7 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            3.0,
-            3.0,
-            0.0
-          ]
+          "hash": "82ea09b58af4dc40242a50a3224b8176"
         },
         "RectangleFakeGlow": {
           "rectangleSize": [
@@ -747,7 +995,7 @@
         },
         "MeshRenderer": {
           "materials": [
-            "ParametricFakeGlow"
+            "6a57238a079a4d360b12e9d3a777e1b0"
           ]
         }
       }
@@ -854,20 +1102,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            -0.0001,
-            0.0
-          ],
-          "boundsSize": [
-            3.0,
-            2.38418579E-07,
-            2.00000024
-          ]
+          "hash": "1cdf5eb3bb475b8ee9c8959d7bbe9ee1"
         },
         "MeshRenderer": {
           "materials": [
-            "SaberBurnMarks"
+            "753e70e0ebb6bcbec2329b02d705b919"
           ]
         }
       }
@@ -940,20 +1179,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            -0.299999982,
-            0.0,
-            61.6999969
-          ],
-          "boundsSize": [
-            2.3,
-            0.0,
-            123.5
-          ]
+          "hash": "c867406766bb229631a7190b919e294f"
         },
         "MeshRenderer": {
           "materials": [
-            "MirrorTunnel"
+            "9300706b147a6c4b1e4224af6dc5ab29"
           ]
         }
       }
@@ -992,20 +1222,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            -0.299999982,
-            0.0,
-            61.6999969
-          ],
-          "boundsSize": [
-            2.3,
-            0.0,
-            123.5
-          ]
+          "hash": "c867406766bb229631a7190b919e294f"
         },
         "MeshRenderer": {
           "materials": [
-            "SetDepthOnly"
+            "47348bfff0fbcb3e14515ad3bfebc6be"
           ]
         }
       }
@@ -1044,20 +1265,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            -0.9000001,
-            0.0005000029,
-            -39.0377579
-          ],
-          "boundsSize": [
-            2.30000019,
-            0.100999996,
-            121.884476
-          ]
+          "hash": "0c3d60c6d83ba726ebccd4c5be8ff324"
         },
         "MeshRenderer": {
           "materials": [
-            "TunnelRings"
+            "5a5630b335a502fc4559c77a34b37608"
           ]
         }
       }
@@ -1232,20 +1444,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            3.81469727E-06,
-            -1.90734863E-06,
-            -0.12988019
-          ],
-          "boundsSize": [
-            7.30002165,
-            20.0000038,
-            0.0
-          ]
+          "hash": "f9bf14061e02e73401ec7a7216a59871"
         },
         "MeshRenderer": {
           "materials": [
-            "Tunnel"
+            "91369a099051cbe79ceb1f1291b45ba1"
           ]
         }
       }
@@ -1284,20 +1487,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            3.81469727E-06,
-            -1.90734863E-06,
-            2.255568
-          ],
-          "boundsSize": [
-            7.30002165,
-            20.0000038,
-            5.09042645
-          ]
+          "hash": "46340d6463727111e46ff98cb60e39c2"
         },
         "MeshRenderer": {
           "materials": [
-            "Tunnel"
+            "91369a099051cbe79ceb1f1291b45ba1"
           ]
         }
       }
@@ -1370,20 +1564,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            3.81469727E-06,
-            -1.90734863E-06,
-            -0.12988019
-          ],
-          "boundsSize": [
-            7.30002165,
-            20.0000038,
-            0.0
-          ]
+          "hash": "f9bf14061e02e73401ec7a7216a59871"
         },
         "MeshRenderer": {
           "materials": [
-            "Tunnel"
+            "91369a099051cbe79ceb1f1291b45ba1"
           ]
         }
       }
@@ -1422,20 +1607,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            3.81469727E-06,
-            -1.90734863E-06,
-            2.255568
-          ],
-          "boundsSize": [
-            7.30002165,
-            20.0000038,
-            5.09042645
-          ]
+          "hash": "46340d6463727111e46ff98cb60e39c2"
         },
         "MeshRenderer": {
           "materials": [
-            "Tunnel"
+            "91369a099051cbe79ceb1f1291b45ba1"
           ]
         }
       }
@@ -1508,20 +1684,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            3.81469727E-06,
-            -1.90734863E-06,
-            -0.12988019
-          ],
-          "boundsSize": [
-            7.30002165,
-            20.0000038,
-            0.0
-          ]
+          "hash": "f9bf14061e02e73401ec7a7216a59871"
         },
         "MeshRenderer": {
           "materials": [
-            "Tunnel"
+            "91369a099051cbe79ceb1f1291b45ba1"
           ]
         }
       }
@@ -1560,20 +1727,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            3.81469727E-06,
-            -1.90734863E-06,
-            2.255568
-          ],
-          "boundsSize": [
-            7.30002165,
-            20.0000038,
-            5.09042645
-          ]
+          "hash": "46340d6463727111e46ff98cb60e39c2"
         },
         "MeshRenderer": {
           "materials": [
-            "Tunnel"
+            "91369a099051cbe79ceb1f1291b45ba1"
           ]
         }
       }
@@ -1680,20 +1838,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            3.81469727E-06,
-            -1.90734863E-06,
-            -0.12988019
-          ],
-          "boundsSize": [
-            7.30002165,
-            20.0000038,
-            0.0
-          ]
+          "hash": "f9bf14061e02e73401ec7a7216a59871"
         },
         "MeshRenderer": {
           "materials": [
-            "Tunnel"
+            "91369a099051cbe79ceb1f1291b45ba1"
           ]
         }
       }
@@ -1732,20 +1881,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            3.81469727E-06,
-            -1.90734863E-06,
-            2.255568
-          ],
-          "boundsSize": [
-            7.30002165,
-            20.0000038,
-            5.09042645
-          ]
+          "hash": "46340d6463727111e46ff98cb60e39c2"
         },
         "MeshRenderer": {
           "materials": [
-            "Tunnel"
+            "91369a099051cbe79ceb1f1291b45ba1"
           ]
         }
       }
@@ -1818,20 +1958,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            3.81469727E-06,
-            -1.90734863E-06,
-            -0.12988019
-          ],
-          "boundsSize": [
-            7.30002165,
-            20.0000038,
-            0.0
-          ]
+          "hash": "f9bf14061e02e73401ec7a7216a59871"
         },
         "MeshRenderer": {
           "materials": [
-            "Tunnel"
+            "91369a099051cbe79ceb1f1291b45ba1"
           ]
         }
       }
@@ -1870,20 +2001,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            3.81469727E-06,
-            -1.90734863E-06,
-            2.255568
-          ],
-          "boundsSize": [
-            7.30002165,
-            20.0000038,
-            5.09042645
-          ]
+          "hash": "46340d6463727111e46ff98cb60e39c2"
         },
         "MeshRenderer": {
           "materials": [
-            "Tunnel"
+            "91369a099051cbe79ceb1f1291b45ba1"
           ]
         }
       }
@@ -1956,20 +2078,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            3.81469727E-06,
-            -1.90734863E-06,
-            -0.12988019
-          ],
-          "boundsSize": [
-            7.30002165,
-            20.0000038,
-            0.0
-          ]
+          "hash": "f9bf14061e02e73401ec7a7216a59871"
         },
         "MeshRenderer": {
           "materials": [
-            "Tunnel"
+            "91369a099051cbe79ceb1f1291b45ba1"
           ]
         }
       }
@@ -2008,20 +2121,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            3.81469727E-06,
-            -1.90734863E-06,
-            2.255568
-          ],
-          "boundsSize": [
-            7.30002165,
-            20.0000038,
-            5.09042645
-          ]
+          "hash": "46340d6463727111e46ff98cb60e39c2"
         },
         "MeshRenderer": {
           "materials": [
-            "Tunnel"
+            "91369a099051cbe79ceb1f1291b45ba1"
           ]
         }
       }
@@ -2094,20 +2198,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            3.81469727E-06,
-            -1.90734863E-06,
-            -0.12988019
-          ],
-          "boundsSize": [
-            7.30002165,
-            20.0000038,
-            0.0
-          ]
+          "hash": "f9bf14061e02e73401ec7a7216a59871"
         },
         "MeshRenderer": {
           "materials": [
-            "Tunnel"
+            "91369a099051cbe79ceb1f1291b45ba1"
           ]
         }
       }
@@ -2146,20 +2241,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            3.81469727E-06,
-            -1.90734863E-06,
-            2.255568
-          ],
-          "boundsSize": [
-            7.30002165,
-            20.0000038,
-            5.09042645
-          ]
+          "hash": "46340d6463727111e46ff98cb60e39c2"
         },
         "MeshRenderer": {
           "materials": [
-            "Tunnel"
+            "91369a099051cbe79ceb1f1291b45ba1"
           ]
         }
       }
@@ -2232,20 +2318,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            3.81469727E-06,
-            -1.90734863E-06,
-            -0.12988019
-          ],
-          "boundsSize": [
-            7.30002165,
-            20.0000038,
-            0.0
-          ]
+          "hash": "f9bf14061e02e73401ec7a7216a59871"
         },
         "MeshRenderer": {
           "materials": [
-            "Tunnel"
+            "91369a099051cbe79ceb1f1291b45ba1"
           ]
         }
       }
@@ -2284,20 +2361,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            3.81469727E-06,
-            -1.90734863E-06,
-            2.255568
-          ],
-          "boundsSize": [
-            7.30002165,
-            20.0000038,
-            5.09042645
-          ]
+          "hash": "46340d6463727111e46ff98cb60e39c2"
         },
         "MeshRenderer": {
           "materials": [
-            "Tunnel"
+            "91369a099051cbe79ceb1f1291b45ba1"
           ]
         }
       }
@@ -2370,20 +2438,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            3.81469727E-06,
-            -1.90734863E-06,
-            -0.12988019
-          ],
-          "boundsSize": [
-            7.30002165,
-            20.0000038,
-            0.0
-          ]
+          "hash": "f9bf14061e02e73401ec7a7216a59871"
         },
         "MeshRenderer": {
           "materials": [
-            "Tunnel"
+            "91369a099051cbe79ceb1f1291b45ba1"
           ]
         }
       }
@@ -2422,20 +2481,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            3.81469727E-06,
-            -1.90734863E-06,
-            2.255568
-          ],
-          "boundsSize": [
-            7.30002165,
-            20.0000038,
-            5.09042645
-          ]
+          "hash": "46340d6463727111e46ff98cb60e39c2"
         },
         "MeshRenderer": {
           "materials": [
-            "Tunnel"
+            "91369a099051cbe79ceb1f1291b45ba1"
           ]
         }
       }
@@ -2508,20 +2558,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            3.81469727E-06,
-            -1.90734863E-06,
-            -0.12988019
-          ],
-          "boundsSize": [
-            7.30002165,
-            20.0000038,
-            0.0
-          ]
+          "hash": "f9bf14061e02e73401ec7a7216a59871"
         },
         "MeshRenderer": {
           "materials": [
-            "Tunnel"
+            "91369a099051cbe79ceb1f1291b45ba1"
           ]
         }
       }
@@ -2560,20 +2601,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            3.81469727E-06,
-            -1.90734863E-06,
-            2.255568
-          ],
-          "boundsSize": [
-            7.30002165,
-            20.0000038,
-            5.09042645
-          ]
+          "hash": "46340d6463727111e46ff98cb60e39c2"
         },
         "MeshRenderer": {
           "materials": [
-            "Tunnel"
+            "91369a099051cbe79ceb1f1291b45ba1"
           ]
         }
       }
@@ -2646,20 +2678,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            3.81469727E-06,
-            -1.90734863E-06,
-            -0.12988019
-          ],
-          "boundsSize": [
-            7.30002165,
-            20.0000038,
-            0.0
-          ]
+          "hash": "f9bf14061e02e73401ec7a7216a59871"
         },
         "MeshRenderer": {
           "materials": [
-            "Tunnel"
+            "91369a099051cbe79ceb1f1291b45ba1"
           ]
         }
       }
@@ -2698,20 +2721,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            3.81469727E-06,
-            -1.90734863E-06,
-            2.255568
-          ],
-          "boundsSize": [
-            7.30002165,
-            20.0000038,
-            5.09042645
-          ]
+          "hash": "46340d6463727111e46ff98cb60e39c2"
         },
         "MeshRenderer": {
           "materials": [
-            "Tunnel"
+            "91369a099051cbe79ceb1f1291b45ba1"
           ]
         }
       }
@@ -2818,20 +2832,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            30.3690453,
-            0.333777
-          ],
-          "boundsSize": [
-            0.0,
-            61.9770432,
-            0.6645229
-          ]
+          "hash": "0f4083cce876b032786cbe9af8e93338"
         },
         "MeshRenderer": {
           "materials": [
-            "TunnelSpectrogram"
+            "317f37cbc01814faad757ab979c6cb10"
           ]
         }
       }
@@ -2870,20 +2875,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            30.3690453,
-            0.333777
-          ],
-          "boundsSize": [
-            0.0,
-            61.9770432,
-            0.6645229
-          ]
+          "hash": "0f4083cce876b032786cbe9af8e93338"
         },
         "MeshRenderer": {
           "materials": [
-            "TunnelSpectrogram"
+            "317f37cbc01814faad757ab979c6cb10"
           ]
         }
       }
@@ -2905,19 +2901,19 @@
             0.0
           ],
           "rotation": [
-            89.62622,
+            89.81338,
             0.0,
             0.0
           ],
           "localRotation": [
-            89.62622,
+            89.81338,
             0.0,
             0.0
           ],
           "scale": [
             1.0,
-            1.00000024,
-            1.00000024
+            1.00000012,
+            1.00000012
           ]
         }
       }
@@ -3491,20 +3487,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightGlass"
+            "ee49775c214f4a281bb9eb12a608e0a4"
           ]
         },
         "ParametricBoxController": {}
@@ -3513,6 +3500,7 @@
     {
       "name": "BakedBloom",
       "id": "LinkinParkEnvironment.[0]Environment.[37]LaserL.[1]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
       "layer": "NeonLight",
       "components": {
         "Transform": {
@@ -3542,21 +3530,10 @@
             1.00000024
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightSpriteGlow"
+            "0dd004d097c885674f53e9736741a1d9"
           ]
         }
       }
@@ -3650,20 +3627,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightGlass"
+            "ee49775c214f4a281bb9eb12a608e0a4"
           ]
         },
         "ParametricBoxController": {}
@@ -3672,6 +3640,7 @@
     {
       "name": "BakedBloom",
       "id": "LinkinParkEnvironment.[0]Environment.[38]LaserL (2).[1]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
       "layer": "NeonLight",
       "components": {
         "Transform": {
@@ -3701,21 +3670,10 @@
             1.00000012
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightSpriteGlow"
+            "0dd004d097c885674f53e9736741a1d9"
           ]
         }
       }
@@ -3809,20 +3767,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightGlass"
+            "ee49775c214f4a281bb9eb12a608e0a4"
           ]
         },
         "ParametricBoxController": {}
@@ -3831,6 +3780,7 @@
     {
       "name": "BakedBloom",
       "id": "LinkinParkEnvironment.[0]Environment.[39]LarerR.[1]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
       "layer": "NeonLight",
       "components": {
         "Transform": {
@@ -3860,21 +3810,10 @@
             1.00000024
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightSpriteGlow"
+            "0dd004d097c885674f53e9736741a1d9"
           ]
         }
       }
@@ -4002,20 +3941,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightGlass"
+            "ee49775c214f4a281bb9eb12a608e0a4"
           ]
         },
         "ParametricBoxController": {}
@@ -4024,6 +3954,7 @@
     {
       "name": "BakedBloom",
       "id": "LinkinParkEnvironment.[0]Environment.[40]LarerR (2).[1]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
       "layer": "NeonLight",
       "components": {
         "Transform": {
@@ -4053,21 +3984,10 @@
             1.00000012
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightSpriteGlow"
+            "0dd004d097c885674f53e9736741a1d9"
           ]
         }
       }
@@ -4161,20 +4081,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLight"
+            "2f53648cf0e7229f89336575c9a4624c"
           ]
         },
         "ParametricBoxController": {}
@@ -4183,6 +4094,7 @@
     {
       "name": "BakedBloom",
       "id": "LinkinParkEnvironment.[0]Environment.[41]LaserFloor (2).[1]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
       "layer": "NeonLight",
       "components": {
         "Transform": {
@@ -4212,21 +4124,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -4320,20 +4221,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLight"
+            "2f53648cf0e7229f89336575c9a4624c"
           ]
         },
         "ParametricBoxController": {}
@@ -4342,6 +4234,7 @@
     {
       "name": "BakedBloom",
       "id": "LinkinParkEnvironment.[0]Environment.[42]LaserFloor (3).[1]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
       "layer": "NeonLight",
       "components": {
         "Transform": {
@@ -4371,21 +4264,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -4479,20 +4361,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLight"
+            "2f53648cf0e7229f89336575c9a4624c"
           ]
         },
         "ParametricBoxController": {}
@@ -4501,6 +4374,7 @@
     {
       "name": "BakedBloom",
       "id": "LinkinParkEnvironment.[0]Environment.[43]LaserFloor (4).[1]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
       "layer": "NeonLight",
       "components": {
         "Transform": {
@@ -4530,21 +4404,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlow"
+            "efd0d242bf2ace2047b83f3bffefe51d"
           ]
         }
       }
@@ -4706,20 +4569,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightWorldNoise"
+            "042143239228e32d64bdc9db1629c423"
           ]
         },
         "ParametricBoxController": {}
@@ -4758,21 +4612,10 @@
             1.00000024
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            5000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlowWorldNoise"
+            "25fb0aa190d798fb0581dfb404fc19ab"
           ]
         }
       }
@@ -4900,20 +4743,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightWorldNoise"
+            "042143239228e32d64bdc9db1629c423"
           ]
         },
         "ParametricBoxController": {}
@@ -4952,21 +4786,10 @@
             1.00000024
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            5000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlowWorldNoise"
+            "25fb0aa190d798fb0581dfb404fc19ab"
           ]
         }
       }
@@ -5128,20 +4951,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightWorldNoise"
+            "042143239228e32d64bdc9db1629c423"
           ]
         },
         "ParametricBoxController": {}
@@ -5180,21 +4994,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            5000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlowWorldNoise"
+            "25fb0aa190d798fb0581dfb404fc19ab"
           ]
         }
       }
@@ -5322,20 +5125,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightWorldNoise"
+            "042143239228e32d64bdc9db1629c423"
           ]
         },
         "ParametricBoxController": {}
@@ -5374,21 +5168,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            5000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlowWorldNoise"
+            "25fb0aa190d798fb0581dfb404fc19ab"
           ]
         }
       }
@@ -5550,20 +5333,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightWorldNoise"
+            "042143239228e32d64bdc9db1629c423"
           ]
         },
         "ParametricBoxController": {}
@@ -5602,21 +5376,10 @@
             1.00000036
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            5000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlowWorldNoise"
+            "25fb0aa190d798fb0581dfb404fc19ab"
           ]
         }
       }
@@ -5744,20 +5507,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightWorldNoise"
+            "042143239228e32d64bdc9db1629c423"
           ]
         },
         "ParametricBoxController": {}
@@ -5796,21 +5550,10 @@
             1.00000036
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            5000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlowWorldNoise"
+            "25fb0aa190d798fb0581dfb404fc19ab"
           ]
         }
       }
@@ -5972,20 +5715,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightWorldNoise"
+            "042143239228e32d64bdc9db1629c423"
           ]
         },
         "ParametricBoxController": {}
@@ -6024,21 +5758,10 @@
             1.00000024
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            5000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlowWorldNoise"
+            "25fb0aa190d798fb0581dfb404fc19ab"
           ]
         }
       }
@@ -6166,20 +5889,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightWorldNoise"
+            "042143239228e32d64bdc9db1629c423"
           ]
         },
         "ParametricBoxController": {}
@@ -6218,21 +5932,10 @@
             1.00000024
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            5000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlowWorldNoise"
+            "25fb0aa190d798fb0581dfb404fc19ab"
           ]
         }
       }
@@ -6394,20 +6097,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightWorldNoise"
+            "042143239228e32d64bdc9db1629c423"
           ]
         },
         "ParametricBoxController": {}
@@ -6446,21 +6140,10 @@
             1.00000024
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            5000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlowWorldNoise"
+            "25fb0aa190d798fb0581dfb404fc19ab"
           ]
         }
       }
@@ -6588,20 +6271,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightWorldNoise"
+            "042143239228e32d64bdc9db1629c423"
           ]
         },
         "ParametricBoxController": {}
@@ -6640,21 +6314,10 @@
             1.00000024
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            5000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlowWorldNoise"
+            "25fb0aa190d798fb0581dfb404fc19ab"
           ]
         }
       }
@@ -6816,20 +6479,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightWorldNoise"
+            "042143239228e32d64bdc9db1629c423"
           ]
         },
         "ParametricBoxController": {}
@@ -6868,21 +6522,10 @@
             1.00000036
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            5000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlowWorldNoise"
+            "25fb0aa190d798fb0581dfb404fc19ab"
           ]
         }
       }
@@ -7010,20 +6653,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightWorldNoise"
+            "042143239228e32d64bdc9db1629c423"
           ]
         },
         "ParametricBoxController": {}
@@ -7062,21 +6696,10 @@
             1.00000036
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            5000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlowWorldNoise"
+            "25fb0aa190d798fb0581dfb404fc19ab"
           ]
         }
       }
@@ -7272,20 +6895,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightWorldNoise"
+            "042143239228e32d64bdc9db1629c423"
           ]
         },
         "ParametricBoxController": {}
@@ -7324,21 +6938,10 @@
             1.00000012
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            5000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlowWorldNoise"
+            "25fb0aa190d798fb0581dfb404fc19ab"
           ]
         }
       }
@@ -7466,20 +7069,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightWorldNoise"
+            "042143239228e32d64bdc9db1629c423"
           ]
         },
         "ParametricBoxController": {}
@@ -7518,21 +7112,10 @@
             1.00000012
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            5000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlowWorldNoise"
+            "25fb0aa190d798fb0581dfb404fc19ab"
           ]
         }
       }
@@ -7694,20 +7277,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightWorldNoise"
+            "042143239228e32d64bdc9db1629c423"
           ]
         },
         "ParametricBoxController": {}
@@ -7746,21 +7320,10 @@
             1.00000024
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            5000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlowWorldNoise"
+            "25fb0aa190d798fb0581dfb404fc19ab"
           ]
         }
       }
@@ -7888,20 +7451,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightWorldNoise"
+            "042143239228e32d64bdc9db1629c423"
           ]
         },
         "ParametricBoxController": {}
@@ -7940,21 +7494,10 @@
             1.00000024
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            5000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlowWorldNoise"
+            "25fb0aa190d798fb0581dfb404fc19ab"
           ]
         }
       }
@@ -8116,20 +7659,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightWorldNoise"
+            "042143239228e32d64bdc9db1629c423"
           ]
         },
         "ParametricBoxController": {}
@@ -8168,21 +7702,10 @@
             1.00000012
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            5000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlowWorldNoise"
+            "25fb0aa190d798fb0581dfb404fc19ab"
           ]
         }
       }
@@ -8310,20 +7833,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightWorldNoise"
+            "042143239228e32d64bdc9db1629c423"
           ]
         },
         "ParametricBoxController": {}
@@ -8362,21 +7876,10 @@
             1.00000012
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            5000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlowWorldNoise"
+            "25fb0aa190d798fb0581dfb404fc19ab"
           ]
         }
       }
@@ -8538,20 +8041,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightWorldNoise"
+            "042143239228e32d64bdc9db1629c423"
           ]
         },
         "ParametricBoxController": {}
@@ -8590,21 +8084,10 @@
             1.00000024
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            5000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlowWorldNoise"
+            "25fb0aa190d798fb0581dfb404fc19ab"
           ]
         }
       }
@@ -8732,20 +8215,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightWorldNoise"
+            "042143239228e32d64bdc9db1629c423"
           ]
         },
         "ParametricBoxController": {}
@@ -8784,21 +8258,10 @@
             1.00000024
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            5000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlowWorldNoise"
+            "25fb0aa190d798fb0581dfb404fc19ab"
           ]
         }
       }
@@ -8960,20 +8423,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightWorldNoise"
+            "042143239228e32d64bdc9db1629c423"
           ]
         },
         "ParametricBoxController": {}
@@ -9012,21 +8466,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            5000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlowWorldNoise"
+            "25fb0aa190d798fb0581dfb404fc19ab"
           ]
         }
       }
@@ -9154,20 +8597,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightWorldNoise"
+            "042143239228e32d64bdc9db1629c423"
           ]
         },
         "ParametricBoxController": {}
@@ -9206,21 +8640,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            5000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlowWorldNoise"
+            "25fb0aa190d798fb0581dfb404fc19ab"
           ]
         }
       }
@@ -9382,20 +8805,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightWorldNoise"
+            "042143239228e32d64bdc9db1629c423"
           ]
         },
         "ParametricBoxController": {}
@@ -9434,21 +8848,10 @@
             1.00000012
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            5000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlowWorldNoise"
+            "25fb0aa190d798fb0581dfb404fc19ab"
           ]
         }
       }
@@ -9576,20 +8979,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightWorldNoise"
+            "042143239228e32d64bdc9db1629c423"
           ]
         },
         "ParametricBoxController": {}
@@ -9628,21 +9022,10 @@
             1.00000012
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            5000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlowWorldNoise"
+            "25fb0aa190d798fb0581dfb404fc19ab"
           ]
         }
       }
@@ -9804,20 +9187,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightWorldNoise"
+            "042143239228e32d64bdc9db1629c423"
           ]
         },
         "ParametricBoxController": {}
@@ -9856,21 +9230,10 @@
             1.00000024
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            5000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlowWorldNoise"
+            "25fb0aa190d798fb0581dfb404fc19ab"
           ]
         }
       }
@@ -9998,20 +9361,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightWorldNoise"
+            "042143239228e32d64bdc9db1629c423"
           ]
         },
         "ParametricBoxController": {}
@@ -10050,21 +9404,10 @@
             1.00000024
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            5000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlowWorldNoise"
+            "25fb0aa190d798fb0581dfb404fc19ab"
           ]
         }
       }
@@ -10226,20 +9569,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightWorldNoise"
+            "042143239228e32d64bdc9db1629c423"
           ]
         },
         "ParametricBoxController": {}
@@ -10278,21 +9612,10 @@
             1.00000024
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            5000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlowWorldNoise"
+            "25fb0aa190d798fb0581dfb404fc19ab"
           ]
         }
       }
@@ -10420,20 +9743,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightWorldNoise"
+            "042143239228e32d64bdc9db1629c423"
           ]
         },
         "ParametricBoxController": {}
@@ -10472,21 +9786,10 @@
             1.00000024
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            5000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlowWorldNoise"
+            "25fb0aa190d798fb0581dfb404fc19ab"
           ]
         }
       }
@@ -10648,20 +9951,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightWorldNoise"
+            "042143239228e32d64bdc9db1629c423"
           ]
         },
         "ParametricBoxController": {}
@@ -10700,21 +9994,10 @@
             1.00000024
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            5000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlowWorldNoise"
+            "25fb0aa190d798fb0581dfb404fc19ab"
           ]
         }
       }
@@ -10842,20 +10125,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightWorldNoise"
+            "042143239228e32d64bdc9db1629c423"
           ]
         },
         "ParametricBoxController": {}
@@ -10894,21 +10168,10 @@
             1.00000024
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            5000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlowWorldNoise"
+            "25fb0aa190d798fb0581dfb404fc19ab"
           ]
         }
       }
@@ -11070,20 +10333,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightWorldNoise"
+            "042143239228e32d64bdc9db1629c423"
           ]
         },
         "ParametricBoxController": {}
@@ -11122,21 +10376,10 @@
             1.00000024
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            5000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlowWorldNoise"
+            "25fb0aa190d798fb0581dfb404fc19ab"
           ]
         }
       }
@@ -11264,20 +10507,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightWorldNoise"
+            "042143239228e32d64bdc9db1629c423"
           ]
         },
         "ParametricBoxController": {}
@@ -11316,21 +10550,10 @@
             1.00000024
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            5000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlowWorldNoise"
+            "25fb0aa190d798fb0581dfb404fc19ab"
           ]
         }
       }
@@ -11526,20 +10749,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightWorldNoise"
+            "042143239228e32d64bdc9db1629c423"
           ]
         },
         "ParametricBoxController": {}
@@ -11578,21 +10792,10 @@
             1.00000024
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            5000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlowWorldNoise"
+            "25fb0aa190d798fb0581dfb404fc19ab"
           ]
         }
       }
@@ -11720,20 +10923,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightWorldNoise"
+            "042143239228e32d64bdc9db1629c423"
           ]
         },
         "ParametricBoxController": {}
@@ -11772,21 +10966,10 @@
             1.00000024
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            5000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlowWorldNoise"
+            "25fb0aa190d798fb0581dfb404fc19ab"
           ]
         }
       }
@@ -11948,20 +11131,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightWorldNoise"
+            "042143239228e32d64bdc9db1629c423"
           ]
         },
         "ParametricBoxController": {}
@@ -12000,21 +11174,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            5000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlowWorldNoise"
+            "25fb0aa190d798fb0581dfb404fc19ab"
           ]
         }
       }
@@ -12142,20 +11305,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightWorldNoise"
+            "042143239228e32d64bdc9db1629c423"
           ]
         },
         "ParametricBoxController": {}
@@ -12194,21 +11348,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            10.0,
-            5000.0,
-            0.1
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightBillboardSpriteGlowWorldNoise"
+            "25fb0aa190d798fb0581dfb404fc19ab"
           ]
         }
       }
@@ -12302,20 +11445,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightGlass"
+            "ee49775c214f4a281bb9eb12a608e0a4"
           ]
         },
         "ParametricBoxController": {}
@@ -12324,6 +11458,7 @@
     {
       "name": "BakedBloom",
       "id": "LinkinParkEnvironment.[0]Environment.[62]LaserTop.[1]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
       "layer": "NeonLight",
       "components": {
         "Transform": {
@@ -12353,21 +11488,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightSpriteGlowHalfWhiteBoost"
+            "6579143c3acb23fe3f367c58b9e29b5f"
           ]
         }
       }
@@ -12461,20 +11585,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightGlass"
+            "ee49775c214f4a281bb9eb12a608e0a4"
           ]
         },
         "ParametricBoxController": {}
@@ -12483,6 +11598,7 @@
     {
       "name": "BakedBloom",
       "id": "LinkinParkEnvironment.[0]Environment.[63]LaserTop (1).[1]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
       "layer": "NeonLight",
       "components": {
         "Transform": {
@@ -12512,21 +11628,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightSpriteGlowHalfWhiteBoost"
+            "6579143c3acb23fe3f367c58b9e29b5f"
           ]
         }
       }
@@ -12620,20 +11725,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightGlass"
+            "ee49775c214f4a281bb9eb12a608e0a4"
           ]
         },
         "ParametricBoxController": {}
@@ -12642,6 +11738,7 @@
     {
       "name": "BakedBloom",
       "id": "LinkinParkEnvironment.[0]Environment.[64]LaserTop (2).[1]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
       "layer": "NeonLight",
       "components": {
         "Transform": {
@@ -12671,21 +11768,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightSpriteGlowHalfWhiteBoost"
+            "6579143c3acb23fe3f367c58b9e29b5f"
           ]
         }
       }
@@ -12779,20 +11865,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightGlass"
+            "ee49775c214f4a281bb9eb12a608e0a4"
           ]
         },
         "ParametricBoxController": {}
@@ -12801,6 +11878,7 @@
     {
       "name": "BakedBloom",
       "id": "LinkinParkEnvironment.[0]Environment.[65]LaserTop (3).[1]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
       "layer": "NeonLight",
       "components": {
         "Transform": {
@@ -12830,21 +11908,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightSpriteGlowHalfWhiteBoost"
+            "6579143c3acb23fe3f367c58b9e29b5f"
           ]
         }
       }
@@ -12938,20 +12005,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightGlass"
+            "ee49775c214f4a281bb9eb12a608e0a4"
           ]
         },
         "ParametricBoxController": {}
@@ -12960,6 +12018,7 @@
     {
       "name": "BakedBloom",
       "id": "LinkinParkEnvironment.[0]Environment.[66]LaserTop (4).[1]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
       "layer": "NeonLight",
       "components": {
         "Transform": {
@@ -12989,21 +12048,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightSpriteGlowHalfWhiteBoost"
+            "6579143c3acb23fe3f367c58b9e29b5f"
           ]
         }
       }
@@ -13097,20 +12145,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightGlass"
+            "ee49775c214f4a281bb9eb12a608e0a4"
           ]
         },
         "ParametricBoxController": {}
@@ -13119,6 +12158,7 @@
     {
       "name": "BakedBloom",
       "id": "LinkinParkEnvironment.[0]Environment.[67]LaserTop (5).[1]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
       "layer": "NeonLight",
       "components": {
         "Transform": {
@@ -13148,21 +12188,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightSpriteGlowHalfWhiteBoost"
+            "6579143c3acb23fe3f367c58b9e29b5f"
           ]
         }
       }
@@ -13256,20 +12285,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightGlass"
+            "ee49775c214f4a281bb9eb12a608e0a4"
           ]
         },
         "ParametricBoxController": {}
@@ -13278,6 +12298,7 @@
     {
       "name": "BakedBloom",
       "id": "LinkinParkEnvironment.[0]Environment.[68]LaserTop (6).[1]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
       "layer": "NeonLight",
       "components": {
         "Transform": {
@@ -13307,21 +12328,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightSpriteGlowHalfWhiteBoost"
+            "6579143c3acb23fe3f367c58b9e29b5f"
           ]
         }
       }
@@ -13415,20 +12425,11 @@
           ]
         },
         "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            2.0,
-            2.0,
-            2.0
-          ]
+          "hash": "918b6e6683288362624bdc36ef36ef62"
         },
         "MeshRenderer": {
           "materials": [
-            "EnvLightGlass"
+            "ee49775c214f4a281bb9eb12a608e0a4"
           ]
         },
         "ParametricBoxController": {}
@@ -13437,6 +12438,7 @@
     {
       "name": "BakedBloom",
       "id": "LinkinParkEnvironment.[0]Environment.[69]LaserTop (7).[1]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
       "layer": "NeonLight",
       "components": {
         "Transform": {
@@ -13466,21 +12468,10 @@
             1.0
           ]
         },
-        "MeshFilter": {
-          "boundsCenter": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "boundsSize": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
+        "MeshFilter": {},
         "MeshRenderer": {
           "materials": [
-            "EnvLightSpriteGlowHalfWhiteBoost"
+            "6579143c3acb23fe3f367c58b9e29b5f"
           ]
         }
       }
