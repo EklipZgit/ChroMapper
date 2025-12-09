@@ -195,7 +195,7 @@ namespace Beatmap.Base
 
         public override bool IsMappingExtensions()
         {
-            var vanillaYLimit = BeatSaberSongContainer.Instance.Map.MajorVersion == 4 ? 4 : 2;
+            var vanillaYLimit = Settings.Instance.MapVersion == 4 ? 4 : 2;
             return PosX <= -1000
                 || PosX >= 1000
                 || PosY < 0
