@@ -10,6 +10,11 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "EnvironmentLibrary", menuName = "Environment/Environment Library")]
 public class EnvironmentLibrarySO : ScriptableObject
 {
+    [SerializeField] public EnvironmentMeshSO Meshes;
+    [SerializeField] public EnvironmentMaterialSO Materials;
+    
+    [SerializeField] public List<ShaderEntry> Shaders;
+    
     // Special material to use for the skybox
     // Ideally this should be the bloomfog skybox material.
     [field: SerializeField] public Material SkyboxMaterial { get; private set; }
@@ -41,4 +46,11 @@ public struct LayerMaskEntry
 {
     public string name;
     public LayerMask layerMask;
+}
+
+[Serializable]
+public struct ShaderEntry
+{
+    public string name;
+    public Shader shader;
 }

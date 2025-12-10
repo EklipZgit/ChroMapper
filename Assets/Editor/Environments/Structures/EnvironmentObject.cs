@@ -30,6 +30,9 @@ public class EnvironmentObject
         [JsonProperty("transform")]
         public TransformComponent? Transform;
         
+        [JsonProperty("meshFilter")]
+        public MeshFilterComponent? MeshFilter;
+
         [JsonProperty("meshRenderer")]
         public MeshRendererComponent? MeshRenderer;
         

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using UnityEngine;
 
 /// <summary>
 /// Metadata about the environment, including its name, internal ID, color scheme, light lanes, and more.
@@ -32,7 +33,7 @@ public class EnvironmentInfo
     
     // Every unique mesh name found in the environments' objects
     [JsonProperty("uniqueMeshes")]
-    public string[] UniqueMeshes;
+    public EnvInfoMesh[] UniqueMeshes;
 }
 
 public class EnvironmentFogDefinition
@@ -89,6 +90,17 @@ public class LightTracksDefinition
 
 public class EnvInfoMaterial
 {
+    public string Hash;
     public string Name;
+    public string Shader;
+    public float[] Color;
     public string[] Keywords;
+}
+
+public class EnvInfoMesh
+{
+    public string Hash;
+    public string Name;
+    public Vector3 BoundsSize;
+    public Vector3 BoundsCenter;
 }

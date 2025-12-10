@@ -1,0 +1,3799 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6dbf1f68830f4a82983a4b034e5f7431, type: 3}
+  m_Name: EnvironmentMeshSO
+  m_EditorClassIdentifier: 
+  list:
+  - Mesh: {fileID: 0}
+    Hash: 00907bc6fa1948a3a0c715cad635499f
+    Names:
+    - Platforms
+    Environments:
+    - HipHopEnvironment
+    BoundsSize: {x: 24.3546, y: 0.5000434, z: 395.50015}
+    BoundsCenter: {x: 0, y: 5.613801, z: 98.53902}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 018b4d8d8cd0d64d2e35223f6d5607fd
+    Names:
+    - WheelsFront
+    Environments:
+    - InterscopeEnvironment
+    BoundsSize: {x: 1.7306745, y: 0.7134882, z: 0.71348846}
+    BoundsCenter: {x: 0, y: 0.36073077, z: 1.5367014}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 019dd9d777dbf84a9951ed821db75ee0
+    Names:
+    - Disc
+    Environments:
+    - DaftPunkEnvironment
+    BoundsSize: {x: 1.9991678, y: 0, z: 1.9995838}
+    BoundsCenter: {x: -0.00041610003, y: 0, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 028bf45844c5213296ec02afbf4d9f04
+    Names:
+    - RearPillar_A
+    Environments:
+    - InterscopeEnvironment
+    BoundsSize: {x: 11.429289, y: 4.5, z: 1}
+    BoundsCenter: {x: -6.5353556, y: 2, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 02a6a9b014437f6237b773d86ec725b1
+    Names:
+    - RunwaySides
+    Environments:
+    - Monstercat2Environment
+    BoundsSize: {x: 9.457647, y: 20.000002, z: 59.080635}
+    BoundsCenter: {x: 0, y: -10.000001, z: 29.296268}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 02e3fd41f4abf287188651f03ac93d00
+    Names:
+    - ScreenMesh
+    Environments:
+    - Monstercat2Environment
+    BoundsSize: {x: 1.4045421, y: 50.704353, z: 27.19756}
+    BoundsCenter: {x: 0.0062344074, y: -0.000051498413, z: 0.000020503998}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 4300000, guid: e28cddbb47b967e418ff18268c17d636, type: 3}
+    Hash: 03803c2d3f7744738a76134bd7ebc53a
+    Names:
+    - GameBackColumns
+    Environments:
+    - PanicEnvironment
+    - NiceEnvironment
+    - TimbalandEnvironment
+    - TheSecondEnvironment
+    - RocketEnvironment
+    - DefaultEnvironment
+    - TriangleEnvironment
+    - Panic2Environment
+    - BigMirrorEnvironment
+    BoundsSize: {x: 19.000048, y: 400.0019, z: 157.74805}
+    BoundsCenter: {x: 0, y: 0, z: -20.000069}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 0407f2ce169924b48c331014fc208824
+    Names:
+    - pCube16
+    Environments:
+    - LizzoEnvironment
+    BoundsSize: {x: 16.506039, y: 24.442331, z: 35.538116}
+    BoundsCenter: {x: 0, y: 12.619588, z: 18.511318}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 05032ad4d1ab9544f6828ff180b03291
+    Names:
+    - ConeLight2
+    Environments:
+    - KaleidoscopeEnvironment
+    BoundsSize: {x: 1.7238815, y: 0.4092989, z: 1.7238815}
+    BoundsCenter: {x: 0, y: 2.094933, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 056758374e2f3e8080da41a581fdf198
+    Names:
+    - LowClouds
+    Environments:
+    - BTSEnvironment
+    BoundsSize: {x: 150, y: 140, z: 150}
+    BoundsCenter: {x: 0, y: 0, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 059bf71c823df5f58912d7262e51a992
+    Names:
+    - TrackConstruction_Second
+    - TrackConstruction_Default
+    Environments:
+    - TheSecondEnvironment
+    - DefaultEnvironment
+    BoundsSize: {x: 29.099998, y: 160.75003, z: 1000}
+    BoundsCenter: {x: 0, y: -80.125015, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 061584d665077785f848f82a8a1c1cc6
+    Names:
+    - RailingFull
+    Environments:
+    - BillieEnvironment
+    BoundsSize: {x: 4.965868, y: 21.39874, z: 0.427073}
+    BoundsCenter: {x: -0.000031232834, y: -1.2340975, z: -0.037809275}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 076670b9d66d7b7797a7082ed13bced2
+    Names:
+    - ConeSmall
+    Environments:
+    - KaleidoscopeEnvironment
+    BoundsSize: {x: 7.4924603, y: 30.768064, z: 7.4924603}
+    BoundsCenter: {x: 0, y: 14.308991, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 07c42fd07251cf8cf29b4078c9ff2486
+    Names:
+    - Arch_01
+    Environments:
+    - LizzoEnvironment
+    BoundsSize: {x: 7.008278, y: 0.6740408, z: 6.219964}
+    BoundsCenter: {x: 0.0000015497208, y: 0.0000077039, z: 0.0000013113022}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 0aa672f3cf91ba3af6b058767d8ab186
+    Names:
+    - LatticeCube
+    Environments:
+    - LatticeEnvironment
+    BoundsSize: {x: 1.1999999, y: 1.1999999, z: 0.4000002}
+    BoundsCenter: {x: 0, y: 0, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 0aafde0fd5abbd503716e7b03341c80a
+    Names:
+    - Base
+    Environments:
+    - TheRollingStonesEnvironment
+    BoundsSize: {x: 1.6, y: 0.41999984, z: 19.343828}
+    BoundsCenter: {x: 0, y: 2.6848378, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 0afbda35c1fe141ef7958dedfe6fc2cb
+    Names:
+    - Tree1
+    Environments:
+    - HalloweenEnvironment
+    BoundsSize: {x: 9.068709, y: 10.460549, z: 0.11096403}
+    BoundsCenter: {x: 0.4904766, y: 3.6727874, z: 0.20484449}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 0c3d60c6d83ba726ebccd4c5be8ff324
+    Names:
+    - TrackConstruction_LinkinPark2
+    - TrackConstruction_LinkinPark
+    Environments:
+    - LinkinPark2Environment
+    - LinkinParkEnvironment
+    BoundsSize: {x: 2.3000002, y: 0.100999996, z: 121.884476}
+    BoundsCenter: {x: -0.9000001, y: 0.0005000029, z: -39.037758}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 0f4083cce876b032786cbe9af8e93338
+    Names:
+    - TunnelSpectrogram
+    Environments:
+    - LinkinParkEnvironment
+    BoundsSize: {x: 0, y: 61.977043, z: 0.6645229}
+    BoundsCenter: {x: 0, y: 30.369045, z: 0.333777}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 1116a964ca8b8d9aae28982accd5edfe
+    Names:
+    - CombinedMesh
+    Environments:
+    - OriginsEnvironment
+    BoundsSize: {x: 6.5, y: 0.099999994, z: 200}
+    BoundsCenter: {x: 0, y: -0.051, z: 107.78}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 1189d57662c169c3070a106e742ff084
+    Names:
+    - groupdelete1
+    Environments:
+    - LinkinPark2Environment
+    BoundsSize: {x: 0.010877235, y: 0.0022398413, z: 0.0076999995}
+    BoundsCenter: {x: -2.3283064e-10, y: -0.00021982542, z: 0.0038499997}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 11e359a231f3a4d4aba2170415642edc
+    Names:
+    - TunnelSpectrogram
+    Environments:
+    - InterscopeEnvironment
+    BoundsSize: {x: 0, y: 61.977043, z: 0.6645229}
+    BoundsCenter: {x: 0, y: 30.369045, z: -0.0022556633}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 15b488269d626b57bba8db1d4e13bd6e
+    Names:
+    - TrackConstruction_Dragons2
+    - TrackConstruction
+    Environments:
+    - Dragons2Environment
+    - DragonsEnvironment
+    BoundsSize: {x: 4.5, y: 0.100999996, z: 200.13}
+    BoundsCenter: {x: -0.8999999, y: 0.0005000029, z: -0.06499863}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 1618e61a086141642305c8aa5341dfe5
+    Names:
+    - CylinderUV
+    Environments:
+    - BritneyEnvironment
+    BoundsSize: {x: 2, y: 0, z: 1.9914684}
+    BoundsCenter: {x: 0, y: 0, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 16f500512b54cf0eb09621492349ca0f
+    Names:
+    - TrackLightL
+    Environments:
+    - HipHopEnvironment
+    BoundsSize: {x: 0.17999983, y: 0, z: 106.22269}
+    BoundsCenter: {x: -2.1168177, y: 0.0001, z: 54.388657}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 171af8cf2525ad287a32c4e11b67e210
+    Names:
+    - Box007
+    Environments:
+    - HalloweenEnvironment
+    BoundsSize: {x: 0.59999996, y: 0.29999998, z: 0.8278124}
+    BoundsCenter: {x: 0, y: 0, z: 0.4139062}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 176488ad84cb8a01fa26963c322ff299
+    Names:
+    - BillieClouds
+    Environments:
+    - BillieEnvironment
+    BoundsSize: {x: 88.00988, y: 80.699814, z: 44.181343}
+    BoundsCenter: {x: -1.7939835, y: -0.3499012, z: 17.464584}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 177a8e8983e93ffb3016b45d208e373e
+    Names:
+    - Basketball
+    Environments:
+    - HipHopEnvironment
+    BoundsSize: {x: 0.7955882, y: 0.7956671, z: 0.7943217}
+    BoundsCenter: {x: 0, y: 0, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 17d2f13b35d7e3d89dba8e608989c34b
+    Names:
+    - Orbit
+    Environments:
+    - DaftPunkEnvironment
+    BoundsSize: {x: 72, y: 72, z: 1}
+    BoundsCenter: {x: 0, y: 0, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 183bcae30c384e90aa2db556257170bb
+    Names:
+    - tubes
+    Environments:
+    - LizzoEnvironment
+    BoundsSize: {x: 25.507248, y: 5.213512, z: 8.444629}
+    BoundsCenter: {x: 0, y: 0.9067561, z: -2.30869}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 19c2b09cab2d0a133dbd46e03659bc8f
+    Names:
+    - BackgroundBuildings
+    Environments:
+    - GreenDayEnvironment
+    - GreenDayGrenadeEnvironment
+    BoundsSize: {x: 5472.2007, y: 16414.613, z: 4485.22}
+    BoundsCenter: {x: 678.5454, y: -4475.771, z: 3962.1091}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 1aa88b0c20beeaee45598a849e348f4c
+    Names:
+    - VisorSpectrogram01
+    Environments:
+    - DaftPunkEnvironment
+    BoundsSize: {x: 1.2267885, y: 1.6539875, z: 0.9469264}
+    BoundsCenter: {x: 0.000022619963, y: 2.3751683, z: 0.33595863}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 1ab540a601944f3db0ba88fe2814f155
+    Names:
+    - Box010
+    Environments:
+    - HalloweenEnvironment
+    BoundsSize: {x: 0.59999996, y: 0.29999998, z: 0.12556477}
+    BoundsCenter: {x: 0, y: 0, z: 0.062782384}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 1b2f786c95b7e10ecf3b21d702642d9a
+    Names:
+    - LatticeCube
+    Environments:
+    - LatticeEnvironment
+    BoundsSize: {x: 0.7999999, y: 0.79999995, z: 0.80000013}
+    BoundsCenter: {x: 0, y: 0, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 1b60bd3f494d5570282383d1043cbfbf
+    Names:
+    - GateLight
+    Environments:
+    - RocketEnvironment
+    BoundsSize: {x: 19.483353, y: 0.33409745, z: 6.940588}
+    BoundsCenter: {x: -0.00000047683716, y: 0.15156344, z: 3.505169}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 1ba13f4be12e237b13f8b0d5e88a8e5f
+    Names:
+    - HighClouds
+    Environments:
+    - BTSEnvironment
+    BoundsSize: {x: 150, y: 160, z: 150}
+    BoundsCenter: {x: 0, y: 0, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 1bde536e832984a324d6435164d92343
+    Names:
+    - BillieRail
+    Environments:
+    - BillieEnvironment
+    BoundsSize: {x: 0.099999994, y: 0.099999994, z: 43.34999}
+    BoundsCenter: {x: 0, y: 0, z: 21.574997}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 4300000, guid: 5f0cf210d5ad4ec8a700950a6237fea0, type: 2}
+    Hash: 1cdf5eb3bb475b8ee9c8959d7bbe9ee1
+    Names:
+    - PlayersPlaceCore
+    - pb_Mesh-1520
+    - pb_Mesh-121890
+    - Mirror
+    - pb_Mesh-2639178
+    - pb_Mesh-2466928
+    - pb_Mesh-2400820
+    Environments:
+    - GreenDayEnvironment
+    - PanicEnvironment
+    - LinkinPark2Environment
+    - QueenEnvironment
+    - TheWeekndEnvironment
+    - NiceEnvironment
+    - LatticeEnvironment
+    - WeaveEnvironment
+    - Dragons2Environment
+    - EDMEnvironment
+    - HalloweenEnvironment
+    - OriginsEnvironment
+    - LinkinParkEnvironment
+    - TimbalandEnvironment
+    - GreenDayGrenadeEnvironment
+    - BillieEnvironment
+    - LizzoEnvironment
+    - BTSEnvironment
+    - HipHopEnvironment
+    - TheSecondEnvironment
+    - MetallicaEnvironment
+    - RocketEnvironment
+    - DefaultEnvironment
+    - TheRollingStonesEnvironment
+    - SkrillexEnvironment
+    - TriangleEnvironment
+    - InterscopeEnvironment
+    - PyroEnvironment
+    - Panic2Environment
+    - GagaEnvironment
+    - DaftPunkEnvironment
+    - KaleidoscopeEnvironment
+    - Monstercat2Environment
+    - CrabRaveEnvironment
+    - FitBeatEnvironment
+    - KDAEnvironment
+    - BritneyEnvironment
+    - RockMixtapeEnvironment
+    - DragonsEnvironment
+    - MonstercatEnvironment
+    - BigMirrorEnvironment
+    - ColliderEnvironment
+    BoundsSize: {x: 3, y: 0.00000023841858, z: 2.0000002}
+    BoundsCenter: {x: 0, y: -0.0001, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 1daceba4a244a18b7287699992e84148
+    Names:
+    - Cylinder
+    Environments:
+    - BTSEnvironment
+    BoundsSize: {x: 1.0000001, y: 2, z: 1.0000002}
+    BoundsCenter: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 1e2f07ec2cff8d005beb1150c8e20318
+    Names:
+    - Castle
+    Environments:
+    - HalloweenEnvironment
+    BoundsSize: {x: 51.53723, y: 28.748247, z: 0}
+    BoundsCenter: {x: 5.885886, y: 11.771472, z: 0.63530487}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 1e35e540cafd6b9fcb9eb3192bf97e81
+    Names:
+    - Horn
+    Environments:
+    - RockMixtapeEnvironment
+    BoundsSize: {x: 6.08, y: 14.4721365, z: 15.216904}
+    BoundsCenter: {x: 0, y: 0.76393175, z: -0.00000023841858}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 2024266e198bf5128227c39c8877fc49
+    Names:
+    - WaterfallSetDepthOnly
+    Environments:
+    - BillieEnvironment
+    BoundsSize: {x: 4.4999995, y: 0.00000023294649, z: 205.89995}
+    BoundsCenter: {x: -0.00000023841858, y: -0.00000013416837, z: 103.049995}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 2070f8a1bb02222b6998e5fb0bf9b8ae
+    Names:
+    - pb_Mesh-121970
+    - pb_Mesh-122110
+    Environments:
+    - GreenDayGrenadeEnvironment
+    BoundsSize: {x: 2.3, y: 0, z: 247.2}
+    BoundsCenter: {x: -0.9, y: 0, z: 123.6}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 207db7ebc92184af653d279096ed87d0
+    Names:
+    - Tree3
+    Environments:
+    - HalloweenEnvironment
+    BoundsSize: {x: 11.725676, y: 9.472564, z: 0}
+    BoundsCenter: {x: 2.1978462, y: 4.221666, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 21dbc7f929c770b5b0df8c74c4d22b4b
+    Names:
+    - Plane
+    Environments:
+    - LatticeEnvironment
+    - HalloweenEnvironment
+    - ColliderEnvironment
+    BoundsSize: {x: 10, y: 2.220446e-16, z: 10}
+    BoundsCenter: {x: 0, y: 0, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 2201d4ba1cc4eb3726c25ed05fb7b5c5
+    Names:
+    - TeslaTowerMesh
+    Environments:
+    - GagaEnvironment
+    BoundsSize: {x: 14.984684, y: 101.149635, z: 15.22949}
+    BoundsCenter: {x: 0.01475668, y: -47.615833, z: 0.011000872}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 232d5b88307bedc6d391d0d61adf1f2b
+    Names:
+    - RunwayReflections
+    Environments:
+    - ColliderEnvironment
+    BoundsSize: {x: 5.5, y: 1, z: 89.740005}
+    BoundsCenter: {x: 0, y: 0, z: 77.61}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 23381da0b4652edd1516466dbd89377f
+    Names:
+    - Side
+    Environments:
+    - TheRollingStonesEnvironment
+    BoundsSize: {x: 1.6, y: 0.30273533, z: 19.343828}
+    BoundsCenter: {x: 0, y: 2.7434702, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 23bf80a1591485fc0d1412ed148e9f4a
+    Names:
+    - BackColumns
+    Environments:
+    - Panic2Environment
+    BoundsSize: {x: 19.000048, y: 400.0019, z: 157.74805}
+    BoundsCenter: {x: 0, y: 0, z: -22.570068}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 2417c5161434f73b82531522a8caf345
+    Names:
+    - BlocksL
+    Environments:
+    - TheRollingStonesEnvironment
+    BoundsSize: {x: 0.30429482, y: 0.30273542, z: 2.2453861}
+    BoundsCenter: {x: 0.02475667, y: -0.024300352, z: -0.0000009536743}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 24482fa2e8132f164c8dcd0dde6c4bd8
+    Names:
+    - Ring
+    Environments:
+    - NiceEnvironment
+    - Dragons2Environment
+    - TheSecondEnvironment
+    - DefaultEnvironment
+    - TriangleEnvironment
+    - FitBeatEnvironment
+    - DragonsEnvironment
+    - BigMirrorEnvironment
+    BoundsSize: {x: 0.8, y: 49.66849, z: 49.66849}
+    BoundsCenter: {x: 0, y: 0, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 24b182cfcd3022473ae608b13512b2f2
+    Names:
+    - Body
+    Environments:
+    - InterscopeEnvironment
+    BoundsSize: {x: 1.9558232, y: 1.1297257, z: 4.6820235}
+    BoundsCenter: {x: 0, y: 0.6832491, z: 0.033750534}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 257117e8c07555e38d486f4d3f6a9185
+    Names:
+    - Pillar
+    Environments:
+    - InterscopeEnvironment
+    BoundsSize: {x: 11.429289, y: 4.5, z: 1}
+    BoundsCenter: {x: -6.5353556, y: 2, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 26451d36360f05340c2dbfbb3ea37bd3
+    Names:
+    - Silhouette_Taylor
+    Environments:
+    - QueenEnvironment
+    BoundsSize: {x: 0.8774414, y: 0.8564453, z: 0}
+    BoundsCenter: {x: 0, y: -0.06665039, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 27a101c5af08f3d6e0361fb0a48738a9
+    Names:
+    - ScreenSquareMesh
+    Environments:
+    - Monstercat2Environment
+    BoundsSize: {x: 1.9999999, y: 2, z: 0.4}
+    BoundsCenter: {x: -0.000000059604645, y: 0.000000059604645, z: -0.000000014901161}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 2807a8508fadc5da707abc141aa2cb87
+    Names:
+    - TrackMirror_Timbaland
+    Environments:
+    - TimbalandEnvironment
+    BoundsSize: {x: 4.75, y: 0, z: 247.25322}
+    BoundsCenter: {x: 0, y: 0, z: 123.57339}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 2a7191de7f2222aa2a63d893400ac9bf
+    Names:
+    - BTSConstruction
+    Environments:
+    - BTSEnvironment
+    BoundsSize: {x: 2.3, y: 0.1, z: 202.99907}
+    BoundsCenter: {x: 0, y: -0.051000003, z: 109.250465}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 2b751ad5b3f9a5891d0ffa14fd8a7bc1
+    Names:
+    - TunnelSpectrogram
+    Environments:
+    - LinkinPark2Environment
+    BoundsSize: {x: 0, y: 1.5, z: 1.3809999}
+    BoundsCenter: {x: -0.987, y: 0.75, z: -0.0020000339}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 2b8c1ff379f0f5429b17146b8bd08de1
+    Names:
+    - DiskFakeGlow
+    Environments:
+    - HipHopEnvironment
+    BoundsSize: {x: 5.5287704, y: 0.4607292, z: 5.5287704}
+    BoundsCenter: {x: 0, y: -0.22155212, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 2b91e6a8b07d2f2a9abd8501bcd1a602
+    Names:
+    - TunnelPiece03
+    Environments:
+    - LinkinPark2Environment
+    BoundsSize: {x: 2.1805, y: 2.1805, z: 1.6950004}
+    BoundsCenter: {x: 0, y: 0, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 2ba849808e2844ac1764965ccd8eedba
+    Names:
+    - HeadMesh
+    Environments:
+    - Monstercat2Environment
+    BoundsSize: {x: 17.046608, y: 14.944341, z: 12.150511}
+    BoundsCenter: {x: 0, y: 1.188415, z: 0.22251463}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 2c24044a2ef66497f7d67ffd074079cd
+    Names:
+    - LampRing
+    Environments:
+    - TheWeekndEnvironment
+    BoundsSize: {x: 2.2652774, y: 0.22, z: 2.2652774}
+    BoundsCenter: {x: 0, y: 0, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 2c31fdbc7e4155f51f35cfa234cae83b
+    Names:
+    - ConeLight1
+    Environments:
+    - KaleidoscopeEnvironment
+    BoundsSize: {x: 0.85948724, y: 0.08823252, z: 0.85948724}
+    BoundsCenter: {x: -0.000000029802322, y: 2.0309045, z: 0.000000029802322}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 2c834147bbe102f18bbd05910bfac5b4
+    Names:
+    - Mirror
+    Environments:
+    - ColliderEnvironment
+    BoundsSize: {x: 2, y: 20, z: 5}
+    BoundsCenter: {x: 0, y: 0, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 2d756fbf3447f9a02e690c3ab353b85e
+    Names:
+    - PlatformMirror
+    Environments:
+    - QueenEnvironment
+    BoundsSize: {x: 1.006, y: 0.000000007450581, z: 16}
+    BoundsCenter: {x: 0, y: -0.0014999937, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 2da35fedb1a951c17dd9239766b35544
+    Names:
+    - RunwaySides
+    Environments:
+    - BritneyEnvironment
+    BoundsSize: {x: 3.7831383, y: 0.292, z: 30.864403}
+    BoundsCenter: {x: 0, y: -0.146, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 2f6876a03ec03fd593c1025edbb3158e
+    Names:
+    - WaterfallTransition
+    Environments:
+    - BillieEnvironment
+    BoundsSize: {x: 4.4999995, y: 0.00000071525574, z: 1.3524704}
+    BoundsCenter: {x: -0.00000023841858, y: 0.021016717, z: 0.6962395}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 2f7ec76cb8b36a456a6008198850b616
+    Names:
+    - LightingBolt
+    Environments:
+    - MetallicaEnvironment
+    BoundsSize: {x: 1.332878, y: 5.9011583, z: 0}
+    BoundsCenter: {x: -0.052104652, y: -0.00000011920929, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 4300000, guid: 0bee37a13b98c4a4eba21bb1f3f99224, type: 2}
+    Hash: 305984c181f88426539c88dcb23f61e1
+    Names:
+    - pb_Mesh-300206
+    - pb_Mesh-2538116
+    - pb_Mesh-2497060
+    - pb_Mesh-7566636
+    - pb_Mesh-9286
+    - pb_Mesh-4595876
+    - pb_Mesh-338368
+    - pb_Mesh-10248452
+    - pb_Mesh-2492944
+    - pb_Mesh-122418
+    - pb_Mesh-1074076
+    - pb_Mesh-620838
+    - pb_Mesh-1454000
+    - pb_Mesh-2643690
+    - pb_Mesh-2606202
+    - pb_Mesh-5043150
+    - pb_Mesh-1048688
+    - pb_Mesh-2679474
+    - pb_Mesh-2461528
+    - pb_Mesh-6458546
+    - pb_Mesh-4965012
+    - pb_Mesh-4580948
+    - pb_Mesh-2440510
+    - pb_Mesh-2470234
+    - pb_Mesh-85482
+    - pb_Mesh-2426152
+    - pb_Mesh-2525164
+    - pb_Mesh-2381336
+    - pb_Mesh-4498784
+    Environments:
+    - GreenDayEnvironment
+    - PanicEnvironment
+    - LinkinPark2Environment
+    - TheWeekndEnvironment
+    - NiceEnvironment
+    - Dragons2Environment
+    - EDMEnvironment
+    - OriginsEnvironment
+    - LinkinParkEnvironment
+    - GreenDayGrenadeEnvironment
+    - BillieEnvironment
+    - LizzoEnvironment
+    - HipHopEnvironment
+    - TheSecondEnvironment
+    - RocketEnvironment
+    - TheRollingStonesEnvironment
+    - SkrillexEnvironment
+    - TriangleEnvironment
+    - InterscopeEnvironment
+    - PyroEnvironment
+    - Panic2Environment
+    - DaftPunkEnvironment
+    - FitBeatEnvironment
+    - KDAEnvironment
+    - RockMixtapeEnvironment
+    - DragonsEnvironment
+    - MonstercatEnvironment
+    - BigMirrorEnvironment
+    - ColliderEnvironment
+    BoundsSize: {x: 3, y: 0.00000023841858, z: 2.0000002}
+    BoundsCenter: {x: 0, y: -0.0001, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 3175d84c7b67678ce47aafb907ff7ceb
+    Names:
+    - Disk
+    Environments:
+    - GagaEnvironment
+    BoundsSize: {x: 6.9408226, y: 1.2000003, z: 7.0121965}
+    BoundsCenter: {x: 0.00000023841858, y: -0.000000029802322, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 3409903e376e81e45156757fd8763471
+    Names:
+    - MountainGlowReduced_UVs_Normalized
+    Environments:
+    - RockMixtapeEnvironment
+    BoundsSize: {x: 160.0014, y: 75.37363, z: 229.31062}
+    BoundsCenter: {x: 0.60282516, y: 19.580276, z: 68.5675}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 349ac7fed7041b02eb1242d9bb2ddaa9
+    Names:
+    - Body
+    Environments:
+    - InterscopeEnvironment
+    BoundsSize: {x: 2.110961, y: 1.184192, z: 4.8968897}
+    BoundsCenter: {x: 0, y: 0.74430585, z: 0.083043694}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 35a454c9eca7a41658c1659531e7128d
+    Names:
+    - BlocksR
+    Environments:
+    - TheRollingStonesEnvironment
+    BoundsSize: {x: 0.30429482, y: 0.30273542, z: 2.2453861}
+    BoundsCenter: {x: -0.02475667, y: -0.024300352, z: -0.0000009536743}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 36b2ce0fdab51e3ccceeff33f8af944d
+    Names:
+    - Construction_Kaleidoscope
+    Environments:
+    - KaleidoscopeEnvironment
+    BoundsSize: {x: 2.3000002, y: 0.10405157, z: 202.99907}
+    BoundsCenter: {x: -0.000000059604645, y: -0.04897422, z: 109.250465}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 372a9a3a5b7be8f1f92938422167dd29
+    Names:
+    - Sphere
+    Environments:
+    - TheRollingStonesEnvironment
+    BoundsSize: {x: 0.34026036, y: 0.35777095, z: 0.4}
+    BoundsCenter: {x: 0, y: 0, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 3754194f28f983963afcbc4de02a0c78
+    Names:
+    - TrackConstruction
+    Environments:
+    - FitBeatEnvironment
+    BoundsSize: {x: 2.3, y: 0.100999996, z: 199.98}
+    BoundsCenter: {x: -0.9, y: 0.0005000029, z: 0.010002136}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 37617d71c907984032831e479e4305ef
+    Names:
+    - Cube
+    Environments:
+    - LizzoEnvironment
+    BoundsSize: {x: 2, y: 2, z: 2}
+    BoundsCenter: {x: 0, y: 0, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 37b9ee90b0af1d6d04709deb7f95f699
+    Names:
+    - Cube
+    Environments:
+    - TheRollingStonesEnvironment
+    BoundsSize: {x: 0.84041166, y: 0.9146544, z: 0.5391201}
+    BoundsCenter: {x: 0, y: -0.000000014901161, z: 0.000000014901161}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 381d721a1a34c1b4d7e8211cd9f43407
+    Names:
+    - CombinedMesh
+    Environments:
+    - MonstercatEnvironment
+    BoundsSize: {x: 41, y: 150, z: 1}
+    BoundsCenter: {x: 0, y: -70, z: -79}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 3a285cd37fdf7acdcd6442fb68b6fc37
+    Names:
+    - Spectrogram1
+    Environments:
+    - PanicEnvironment
+    - NiceEnvironment
+    - Dragons2Environment
+    - OriginsEnvironment
+    - TheSecondEnvironment
+    - DefaultEnvironment
+    - TriangleEnvironment
+    - CrabRaveEnvironment
+    - FitBeatEnvironment
+    - DragonsEnvironment
+    - MonstercatEnvironment
+    - BigMirrorEnvironment
+    BoundsSize: {x: 0.9, y: 142.65001, z: 60}
+    BoundsCenter: {x: 0.000000014901161, y: -70.87501, z: -30}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 3a8ba57b17c3ecbc8f99988ac041d64e
+    Names:
+    - RunwayMirror
+    Environments:
+    - BritneyEnvironment
+    BoundsSize: {x: 3.6831384, y: 0, z: 30.764275}
+    BoundsCenter: {x: 0, y: 0, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 3be7d1e3d223b451522f005c8bf0ad40
+    Names:
+    - Walls
+    Environments:
+    - HipHopEnvironment
+    BoundsSize: {x: 41.8, y: 33.154324, z: 407.39996}
+    BoundsCenter: {x: 0, y: -5.4368973, z: 100.89389}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 3bf23a69f7249ae80d02876b05da543a
+    Names:
+    - RampFar
+    Environments:
+    - InterscopeEnvironment
+    BoundsSize: {x: 56, y: 0, z: 173.75}
+    BoundsCenter: {x: 40, y: 0, z: 86.875}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 3db23d6d89adf15bc380ca874f0d4f82
+    Names:
+    - RunwayMirror
+    Environments:
+    - ColliderEnvironment
+    BoundsSize: {x: 3.72266, y: 0, z: 89.740005}
+    BoundsCenter: {x: 0, y: 0, z: 77.61}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 3f5a7eee2cf075ff03dd57fbb85262fb
+    Names:
+    - LaserSocket
+    Environments:
+    - BritneyEnvironment
+    - ColliderEnvironment
+    BoundsSize: {x: 0.53, y: 0.53, z: 0.53}
+    BoundsCenter: {x: 0, y: 0, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 3f8159522c7849d8ff562f01d511a303
+    Names:
+    - VConstruction
+    Environments:
+    - CrabRaveEnvironment
+    - MonstercatEnvironment
+    BoundsSize: {x: 122.03109, y: 131.65382, z: 1}
+    BoundsCenter: {x: 0.0000038146973, y: -55, z: 15}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 3fa71971af850c5718b056d0a5cf23c8
+    Names:
+    - Chevron
+    Environments:
+    - LatticeEnvironment
+    BoundsSize: {x: 4.0957603, y: 1.5977647, z: 0.19999999}
+    BoundsCenter: {x: 0, y: -0.6768093, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 3fd287ed86cc2ff40e553af4dc6e847c
+    Names:
+    - LizzoZ
+    Environments:
+    - LizzoEnvironment
+    BoundsSize: {x: 3.0942738, y: 3.7259264, z: 0.39999998}
+    BoundsCenter: {x: -0.000089645386, y: 1.8630078, z: 0.19999999}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 41549e6f366a6d007c09342be31ddf74
+    Names:
+    - LightBloom
+    Environments:
+    - PyroEnvironment
+    BoundsSize: {x: 0.79226434, y: 0.39961374, z: 0.050000202}
+    BoundsCenter: {x: -0.0006751567, y: 0.00000010430813, z: 0.025000026}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 41b2b64014361109d9685638cae33196
+    Names:
+    - Trail
+    Environments:
+    - KDAEnvironment
+    BoundsSize: {x: 16.572094, y: 71.32909, z: 13.699865}
+    BoundsCenter: {x: 0.20741415, y: 15.585375, z: 7.406809}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 42513ebcd96823ee590171283adf8e51
+    Names:
+    - TrackMirror_CrabRave
+    - TrackMirror_Monstercat
+    Environments:
+    - CrabRaveEnvironment
+    - MonstercatEnvironment
+    BoundsSize: {x: 4.75, y: 0, z: 247.25}
+    BoundsCenter: {x: 0, y: 0, z: 123.575}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 428a3d040100bfc1eaf83408e1c710ef
+    Names:
+    - PillarMesh
+    Environments:
+    - HipHopEnvironment
+    BoundsSize: {x: 1, y: 15, z: 1.2}
+    BoundsCenter: {x: 0, y: 0.00000023841858, z: -0.099999994}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 43224752a1ea8df17b4e6402d326e50b
+    Names:
+    - Pannel
+    Environments:
+    - ColliderEnvironment
+    BoundsSize: {x: 5, y: 10, z: 5}
+    BoundsCenter: {x: 0, y: 0, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 43c475644f37fbb0aca68bc305088f66
+    Names:
+    - TrackMirror_Pyro
+    Environments:
+    - PyroEnvironment
+    BoundsSize: {x: 4.5, y: 0, z: 300}
+    BoundsCenter: {x: 2.25, y: 0, z: 150}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 43c9f8b3f18a510b9c39352a244b6e52
+    Names:
+    - Spectrogram
+    Environments:
+    - EDMEnvironment
+    BoundsSize: {x: 0, y: 31.7, z: 1.9267654}
+    BoundsCenter: {x: 0.000000007450581, y: 15.75, z: 0.9633827}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 43d0537d732c03d8b378e929168335ec
+    Names:
+    - Peach01Thin
+    Environments:
+    - LizzoEnvironment
+    BoundsSize: {x: 1.4472119, y: 1.6597716, z: 0.07877464}
+    BoundsCenter: {x: 0.0023545027, y: 0.79864985, z: -0.03938732}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 44979f4c57a1b7ca8ffcc1b3f29e0013
+    Names:
+    - SpotlightStructure
+    Environments:
+    - LizzoEnvironment
+    BoundsSize: {x: 25, y: 0.39999998, z: 19.4}
+    BoundsCenter: {x: 0.041554928, y: 0, z: -1.3459301}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 44b1c019119d94864f2d533d896349e1
+    Names:
+    - TunnelPiece
+    Environments:
+    - QueenEnvironment
+    BoundsSize: {x: 0.008303661, y: 0.0012809992, z: 0.013074838}
+    BoundsCenter: {x: 0, y: 0.0002404996, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 455bdd07843086c69ca894493c81a852
+    Names:
+    - TopCones
+    Environments:
+    - PanicEnvironment
+    BoundsSize: {x: 200, y: 85.35535, z: 70}
+    BoundsCenter: {x: 41, y: 7.3223286, z: 27}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 45fa1f136240b379e1ee635309480447
+    Names:
+    - FarBuildings
+    Environments:
+    - CrabRaveEnvironment
+    - MonstercatEnvironment
+    BoundsSize: {x: 25, y: 105, z: 24.5}
+    BoundsCenter: {x: 0, y: -44.5, z: 66.75}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 461a590700e5154c4941d21febf25c39
+    Names:
+    - Logo.001
+    Environments:
+    - GagaEnvironment
+    BoundsSize: {x: 34.4356, y: 35.065773, z: 0.3109014}
+    BoundsCenter: {x: 0.0000009536743, y: 3.6193838, z: 0.15544522}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 461d1a8bfb54f66625826d144e8fcf7c
+    Names:
+    - RotatingPanels
+    Environments:
+    - FitBeatEnvironment
+    - DragonsEnvironment
+    BoundsSize: {x: 2, y: 8.299999, z: 1}
+    BoundsCenter: {x: 0, y: 0.00000023841858, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 46340d6463727111e46ff98cb60e39c2
+    Names:
+    - Top
+    Environments:
+    - LinkinParkEnvironment
+    BoundsSize: {x: 7.3000216, y: 20.000004, z: 5.0904264}
+    BoundsCenter: {x: 0.0000038146973, y: -0.0000019073486, z: 2.255568}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 46876a2086d45772ad2ba759b2a003b2
+    Names:
+    - Cylinder
+    Environments:
+    - LatticeEnvironment
+    BoundsSize: {x: 16, y: 16, z: 2.5095463}
+    BoundsCenter: {x: -0.00000023841858, y: 0, z: 1.2547731}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 46c8ffc380061d98ae7aaa8239ec34ff
+    Names:
+    - TRSLipsPlane
+    Environments:
+    - TheRollingStonesEnvironment
+    BoundsSize: {x: 0.3426789, y: 0.75255775, z: 0.077}
+    BoundsCenter: {x: 0, y: 0, z: -0.0000000037252903}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 46f8638c7a854c58e287b7234a1bff2e
+    Names:
+    - Runway
+    Environments:
+    - MetallicaEnvironment
+    BoundsSize: {x: 2, y: 0.1500001, z: 10}
+    BoundsCenter: {x: 0, y: 0, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 47460854bbf5910a8bb1f3cb92e5d122
+    Names:
+    - FrontWheels
+    Environments:
+    - InterscopeEnvironment
+    BoundsSize: {x: 1.7777996, y: 0.6604598, z: 0.6604625}
+    BoundsCenter: {x: 0, y: 0.32969722, z: 1.6305988}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 475b521a0a230b68cae0d2d33ddd03d8
+    Names:
+    - ParametricCylinder
+    Environments:
+    - BillieEnvironment
+    BoundsSize: {x: 1.9999998, y: 2, z: 2}
+    BoundsCenter: {x: -0.000000029802322, y: 0, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 489b87e5fa8b2c052f893ae473f50dcf
+    Names:
+    - VisorText01
+    Environments:
+    - DaftPunkEnvironment
+    BoundsSize: {x: 1.2267885, y: 1.6539875, z: 0.94652516}
+    BoundsCenter: {x: 0.000022619963, y: 2.3751683, z: 0.335758}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 4a7ed587cd17c4be2ad4d47ecce7f17f
+    Names:
+    - FloorFar
+    - CeilingFar
+    Environments:
+    - InterscopeEnvironment
+    BoundsSize: {x: 20, y: 0, z: 20}
+    BoundsCenter: {x: 0, y: 0, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 4b4ca483ae3995d10f6a8f00fe5e32ba
+    Names:
+    - Stairs1
+    Environments:
+    - PyroEnvironment
+    BoundsSize: {x: 28.991564, y: 4.817024, z: 49.196705}
+    BoundsCenter: {x: -16.899998, y: -0.20966733, z: 75.92}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 4dad1a70222291080201bd22e8e3293c
+    Names:
+    - LightGlow
+    Environments:
+    - EDMEnvironment
+    - LizzoEnvironment
+    - Monstercat2Environment
+    - RockMixtapeEnvironment
+    BoundsSize: {x: 0.40570703, y: 0.4057071, z: 0}
+    BoundsCenter: {x: 0, y: 0, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 4e23d587f8cbc97e38c72883d39e7f55
+    Names:
+    - RunwayPieces
+    Environments:
+    - DaftPunkEnvironment
+    BoundsSize: {x: 1.7670068, y: 0.164, z: 9.428098}
+    BoundsCenter: {x: 0.0003681183, y: 0.082, z: -0.0009942055}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 4efe6da34c0448920ff4956f200145f0
+    Names:
+    - Tree1Depth
+    Environments:
+    - HalloweenEnvironment
+    BoundsSize: {x: 8.140554, y: 10.570941, z: 8.082719}
+    BoundsCenter: {x: 0.026399374, y: 3.6175914, z: -0.17024946}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 4f389b0272146ea3405cbc15dac1c1a5
+    Names:
+    - Mountains
+    Environments:
+    - RockMixtapeEnvironment
+    BoundsSize: {x: 161.63806, y: 84.14211, z: 230.42766}
+    BoundsCenter: {x: 0.91825867, y: 20.023552, z: 69.35578}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 4f994fd984012889b1faaa627a293fee
+    Names:
+    - CombinedMesh
+    Environments:
+    - PyroEnvironment
+    BoundsSize: {x: 31.377907, y: 7.5462446, z: 1.9531136}
+    BoundsCenter: {x: 0.0000009536743, y: 3.7412972, z: 31.818563}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 50dd37f0f793e4d70c63245e4d7050dc
+    Names:
+    - TrackMirror_Weeknd
+    - TrackMirror_Lizzo
+    Environments:
+    - TheWeekndEnvironment
+    - LizzoEnvironment
+    BoundsSize: {x: 4.75, y: 0, z: 247.25}
+    BoundsCenter: {x: 0, y: 0, z: 123.575}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 526736eb7ca4ad6f83b8b3d32ba73802
+    Names:
+    - TrackMirror
+    - TrackMirror_Panic
+    - TrackMirror_Panic2
+    Environments:
+    - GreenDayEnvironment
+    - PanicEnvironment
+    - Panic2Environment
+    BoundsSize: {x: 2.3, y: 0, z: 247.2}
+    BoundsCenter: {x: -0.9, y: 0, z: 123.6}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 553111138ac3435a618a7efa515b3123
+    Names:
+    - BigMirrorConstruction
+    Environments:
+    - BigMirrorEnvironment
+    BoundsSize: {x: 16.7, y: 160.80003, z: 500}
+    BoundsCenter: {x: 0, y: -80.10001, z: 12}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 56dfa9e79381946bed98cc55743f3fdc
+    Names:
+    - TRSLips
+    Environments:
+    - TheRollingStonesEnvironment
+    BoundsSize: {x: 0.3426789, y: 0.75255775, z: 0.077}
+    BoundsCenter: {x: 0, y: 0, z: -0.0000000037252903}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 56dfe1dc8dcc042743492a6598b61f72
+    Names:
+    - TunnelPiece02
+    Environments:
+    - LinkinPark2Environment
+    BoundsSize: {x: 1.5390334, y: 0.416923, z: 1.6950004}
+    BoundsCenter: {x: 0, y: 0.8817885, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 5783308f453dec4b0d0a992d2bb85d07
+    Names:
+    - pCube3
+    Environments:
+    - LizzoEnvironment
+    BoundsSize: {x: 4.840558, y: 10.366471, z: 4.840558}
+    BoundsCenter: {x: -0.04677522, y: 5.168136, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 5949264d7e5354b77054a3c79c50c47c
+    Names:
+    - ScafoldTriangular
+    Environments:
+    - PyroEnvironment
+    BoundsSize: {x: 0.7765877, y: 3.0000021, z: 0.7090037}
+    BoundsCenter: {x: -0.0006043315, y: 1.4999992, z: 0.021679565}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 5a3285e5b393d6f6ca47ef2319d20dae
+    Names:
+    - ConeLight0
+    Environments:
+    - KaleidoscopeEnvironment
+    BoundsSize: {x: 0.1131629, y: 0.64838266, z: 0.1131629}
+    BoundsCenter: {x: 0, y: 1.8192408, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 5b425bde673bc620303c4fb4445dec28
+    Names:
+    - CircleStageConstruction
+    Environments:
+    - BritneyEnvironment
+    BoundsSize: {x: 20.831106, y: 21.039959, z: 20.831106}
+    BoundsCenter: {x: 0, y: 0, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 5b9b8afe93c66ff78f994fc2baf49998
+    Names:
+    - LizzoO
+    Environments:
+    - LizzoEnvironment
+    BoundsSize: {x: 3.9255161, y: 3.9232244, z: 0.39999998}
+    BoundsCenter: {x: -0.00000011920929, y: 1.9617014, z: 0.19999999}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 5bee294b504ede603850ffcdf01530ae
+    Names:
+    - RearPillar_C
+    Environments:
+    - InterscopeEnvironment
+    BoundsSize: {x: 5.5765495, y: 4.5, z: 1.0000014}
+    BoundsCenter: {x: -4.961725, y: 2, z: -0.00000032782555}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 5bf3d1373f9b262cb023ff3b60709302
+    Names:
+    - Splinters
+    Environments:
+    - TheRollingStonesEnvironment
+    BoundsSize: {x: 0.344676, y: 0.648541, z: 0.040000092}
+    BoundsCenter: {x: -0.0041498095, y: 0.3212481, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 5ca8399f957076da3d8e9be8546cd6ca
+    Names:
+    - TrackMirror_FitBeat
+    Environments:
+    - FitBeatEnvironment
+    BoundsSize: {x: 2.3, y: 0, z: 247.2113}
+    BoundsCenter: {x: -0.9, y: 0, z: 123.594345}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 5d2d75f2bc31a9a2364051095409a945
+    Names:
+    - LightGlow
+    Environments:
+    - EDMEnvironment
+    BoundsSize: {x: 11.269638, y: 11.269639, z: 0.0000009536743}
+    BoundsCenter: {x: 0, y: 0, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 5de43523e91fefef300547b70d5e7951
+    Names:
+    - TubeElement
+    Environments:
+    - GagaEnvironment
+    BoundsSize: {x: 28.680733, y: 28.84325, z: 231.24036}
+    BoundsCenter: {x: -5.9538574, y: -21.204458, z: -40.85345}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 5de5fbbc0b62c15f65d6133e4f7862cf
+    Names:
+    - ConstructionMesh
+    Environments:
+    - MetallicaEnvironment
+    BoundsSize: {x: 1.097, y: 14.800001, z: 1.1}
+    BoundsCenter: {x: 0, y: 0.00000023841858, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 5edc6bcd687180fbe647cfb29a3084b0
+    Names:
+    - PlatformBase
+    Environments:
+    - QueenEnvironment
+    BoundsSize: {x: 1.088, y: 0.07600001, z: 16}
+    BoundsCenter: {x: 0, y: -0.039499994, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 5ee19eca2f4185620ea2caec11445f90
+    Names:
+    - FloorBack
+    Environments:
+    - InterscopeEnvironment
+    BoundsSize: {x: 49.504, y: 0, z: 19.780594}
+    BoundsCenter: {x: 39.999996, y: 0, z: 163.90967}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 600a9097f4200e90d3d477048d507254
+    Names:
+    - LampPost
+    Environments:
+    - TheWeekndEnvironment
+    BoundsSize: {x: 0.918, y: 15, z: 0.1}
+    BoundsCenter: {x: 0, y: 0, z: -0.05}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 6034e9ab7c4c3ab12b826e62dfb42127
+    Names:
+    - TrackConstruction_Timbaland
+    Environments:
+    - TimbalandEnvironment
+    BoundsSize: {x: 116.04757, y: 136.30945, z: 160.71463}
+    BoundsCenter: {x: 0, y: -67.8407, z: 87.84276}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 6164d118319a450bfb9252e43bc655fe
+    Names:
+    - Floor
+    Environments:
+    - LinkinPark2Environment
+    BoundsSize: {x: 1.574, y: 0.2811, z: 2}
+    BoundsCenter: {x: 0, y: -0.018911716, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 619df503bc232ee5fa3dcc02da366d4a
+    Names:
+    - BaseBelow
+    Environments:
+    - TheRollingStonesEnvironment
+    BoundsSize: {x: 1.6, y: 5.3696756, z: 19.343828}
+    BoundsCenter: {x: 0, y: -0.20999956, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 620e61cb9294041f8174c27759dcf260
+    Names:
+    - StaticBatchMaterial
+    Environments:
+    - RockMixtapeEnvironment
+    BoundsSize: {x: 16.99411, y: 129.49011, z: 224.90944}
+    BoundsCenter: {x: -0.00000047683716, y: -48.004948, z: 111.39788}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 6473d0c1640149a92f21c8b816e12a38
+    Names:
+    - Box009
+    Environments:
+    - HalloweenEnvironment
+    BoundsSize: {x: 0.59999996, y: 0.29999998, z: 0.450983}
+    BoundsCenter: {x: 0, y: 0, z: 0.2254915}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 6712b180aee4a4eaaadbad3d8e1ceed0
+    Names:
+    - transform1
+    Environments:
+    - GagaEnvironment
+    - RockMixtapeEnvironment
+    BoundsSize: {x: 371.72626, y: 111.01393, z: 124.47121}
+    BoundsCenter: {x: -4.5091476, y: -8.305391, z: -26.358902}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 68fda4a0dabda180a34486fc79f52230
+    Names:
+    - Silhouette_Deacon
+    Environments:
+    - QueenEnvironment
+    BoundsSize: {x: 0.6767578, y: 0.81689453, z: 0}
+    BoundsCenter: {x: 0.030029297, y: -0.0859375, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 6af818c858c2ce4e235e30be6324a7e9
+    Names:
+    - Crystal
+    Environments:
+    - KDAEnvironment
+    BoundsSize: {x: 0.5226609, y: 0.826503, z: 0.19750959}
+    BoundsCenter: {x: 0, y: -0.41131392, z: 0.06961921}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 6c038c08e2a41e48948e11ca406483a9
+    Names:
+    - Cone
+    Environments:
+    - Panic2Environment
+    BoundsSize: {x: 16, y: 52.5, z: 8}
+    BoundsCenter: {x: 0, y: -26.25, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 6cbe08a3b5d7a3eb0bd535faba321fba
+    Names:
+    - Construction_KDA
+    Environments:
+    - KDAEnvironment
+    BoundsSize: {x: 200, y: 115.6, z: 500.00006}
+    BoundsCenter: {x: 0, y: -42.3, z: 7.8500137}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 6cecc4183b65dadcc42f1127f111dcee
+    Names:
+    - Track2
+    Environments:
+    - HipHopEnvironment
+    BoundsSize: {x: 5.1000004, y: 0.00002006283, z: 265.72964}
+    BoundsCenter: {x: 0, y: 0.000009881206, z: 130.49113}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 6f0b81e4722dfe4e9a22d461f7303373
+    Names:
+    - TrackMirror_Interscope
+    Environments:
+    - InterscopeEnvironment
+    BoundsSize: {x: 27, y: 0.00000009685755, z: 48.508095}
+    BoundsCenter: {x: 0, y: -0.0000000037252903, z: 0.74595165}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 6f48a6c856a29c07b52b6b09d3efc5af
+    Names:
+    - CatScreenMesh
+    Environments:
+    - Monstercat2Environment
+    BoundsSize: {x: 9.825161, y: 9.841164, z: 2.73954}
+    BoundsCenter: {x: 0.05674815, y: 0.028482437, z: -4.5029716}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 6f49d3e56662668670b6dd08a7b4c688
+    Names:
+    - VerticalPipe
+    Environments:
+    - PyroEnvironment
+    BoundsSize: {x: 0.25736618, y: 2.6463866, z: 0.38971677}
+    BoundsCenter: {x: 4.3715577, y: -2.0554645, z: 0.19485839}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 7063024e97afc00853f9636a8bab3830
+    Names:
+    - MirrorPannel
+    Environments:
+    - ColliderEnvironment
+    BoundsSize: {x: 2, y: 20, z: 5}
+    BoundsCenter: {x: 0, y: 0, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 71847f4d87e4fff2c16b6d0bce317e59
+    Names:
+    - ScafoldCirclular
+    Environments:
+    - PyroEnvironment
+    BoundsSize: {x: 12.315078, y: 0.76001954, z: 6.1578293}
+    BoundsCenter: {x: 0, y: 0.0000012218952, z: -3.0786238}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 74735d7fa8582eb486bf8047b6353df6
+    Names:
+    - RunwayCollisions
+    Environments:
+    - ColliderEnvironment
+    BoundsSize: {x: 5.5, y: 1, z: 89.740005}
+    BoundsCenter: {x: 0, y: 0, z: 77.61}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 757a6a217ff945943cdc8a2d955f69cc
+    Names:
+    - Window
+    Environments:
+    - Panic2Environment
+    BoundsSize: {x: 0.46251228, y: 0.9399023, z: 0}
+    BoundsCenter: {x: -0.000000014901161, y: -0.0061278343, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 77dd13aadec8182c0ebf44aeed6018d3
+    Names:
+    - Cloud_004
+    Environments:
+    - LizzoEnvironment
+    BoundsSize: {x: 46.950577, y: 21.128683, z: 1.8999007}
+    BoundsCenter: {x: -1.6187811, y: 9.835916, z: -0.000018149614}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 7885bc5e09ab03cac421b4316f3622af
+    Names:
+    - VisorText
+    Environments:
+    - DaftPunkEnvironment
+    BoundsSize: {x: 1.6083477, y: 0.39306068, z: 1.0092926}
+    BoundsCenter: {x: 0.00004592538, y: -0.05995691, z: 0.4643771}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 7a85d2a96da364221a323133182b1c81
+    Names:
+    - TrackMirror_LinkinPark2
+    Environments:
+    - LinkinPark2Environment
+    BoundsSize: {x: 2.3, y: 0, z: 123.5}
+    BoundsCenter: {x: -0.29999998, y: 0, z: 61.699997}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 7b7719d2c93679d39e5789750b26eaaf
+    Names:
+    - GraffitiRibbonsUVId
+    Environments:
+    - HipHopEnvironment
+    BoundsSize: {x: 4.5073366, y: 2.3297844, z: 0.24847555}
+    BoundsCenter: {x: 0.22901118, y: -0.06888932, z: -0.07059434}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 7c625181f5a610689c03d77c5a1917be
+    Names:
+    - ArmHeartBloodLighting
+    Environments:
+    - GreenDayEnvironment
+    - GreenDayGrenadeEnvironment
+    BoundsSize: {x: 233.17917, y: 349.4063, z: 208.32788}
+    BoundsCenter: {x: -75.14143, y: 893.5298, z: 3646.8745}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 7cc0bc8f4b73068b40fd6f6eea9ae6c2
+    Names:
+    - TrackConstruction
+    - TrackConstruction_Panic2
+    Environments:
+    - GreenDayEnvironment
+    - PanicEnvironment
+    - Panic2Environment
+    BoundsSize: {x: 2.3000002, y: 0.100999996, z: 199.98}
+    BoundsCenter: {x: -0.9000001, y: 0.0005000029, z: 0.010002136}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 7cfdab735271f9c979ee993cb68d0922
+    Names:
+    - RunwayMirror
+    Environments:
+    - Monstercat2Environment
+    BoundsSize: {x: 9.200647, y: 0.000000059604645, z: 58.952133}
+    BoundsCenter: {x: 0, y: 0.000000029802322, z: 29.36052}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 7d0e12a45e0d873aad80727a3f47083c
+    Names:
+    - TopStructure_Timbaland
+    Environments:
+    - TimbalandEnvironment
+    BoundsSize: {x: 1, y: 4.8338366, z: 81.1317}
+    BoundsCenter: {x: 0, y: -1.9169183, z: 39.56585}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 7f0b2e47ea93d41fad8a8924c96c4e32
+    Names:
+    - Spear
+    Environments:
+    - KDAEnvironment
+    BoundsSize: {x: 2.8284268, y: 5.2094116, z: 0.32969052}
+    BoundsCenter: {x: 0, y: -1.1904923, z: -0.00049842894}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 7f8f4109d2b791aa5558c6da76c6e4d0
+    Names:
+    - TrackMirror_RockMixtape
+    Environments:
+    - RockMixtapeEnvironment
+    BoundsSize: {x: 4.5, y: 0, z: 300}
+    BoundsCenter: {x: 2.25, y: 0, z: 150}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 815a592c7a9273a4c85a6acbb360099a
+    Names:
+    - MainStructure_Timbaland
+    Environments:
+    - TimbalandEnvironment
+    BoundsSize: {x: 272.46527, y: 326.48526, z: 113.78812}
+    BoundsCenter: {x: 0.0000076293945, y: 0, z: 60}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 821b7a2d96b56fba065c2bf2cdf16439
+    Names:
+    - TubeDisplay
+    Environments:
+    - BritneyEnvironment
+    BoundsSize: {x: 13.6, y: 2.69, z: 13.6}
+    BoundsCenter: {x: 0, y: 0, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 82ea09b58af4dc40242a50a3224b8176
+    Names:
+    - RectangleFakeGlow
+    Environments:
+    - GreenDayEnvironment
+    - PanicEnvironment
+    - LinkinPark2Environment
+    - QueenEnvironment
+    - TheWeekndEnvironment
+    - NiceEnvironment
+    - LatticeEnvironment
+    - WeaveEnvironment
+    - Dragons2Environment
+    - EDMEnvironment
+    - OriginsEnvironment
+    - LinkinParkEnvironment
+    - TimbalandEnvironment
+    - GreenDayGrenadeEnvironment
+    - BillieEnvironment
+    - LizzoEnvironment
+    - BTSEnvironment
+    - HipHopEnvironment
+    - TheSecondEnvironment
+    - MetallicaEnvironment
+    - RocketEnvironment
+    - DefaultEnvironment
+    - TheRollingStonesEnvironment
+    - SkrillexEnvironment
+    - TriangleEnvironment
+    - InterscopeEnvironment
+    - PyroEnvironment
+    - Panic2Environment
+    - GagaEnvironment
+    - DaftPunkEnvironment
+    - KaleidoscopeEnvironment
+    - Monstercat2Environment
+    - CrabRaveEnvironment
+    - FitBeatEnvironment
+    - KDAEnvironment
+    - BritneyEnvironment
+    - RockMixtapeEnvironment
+    - DragonsEnvironment
+    - MonstercatEnvironment
+    - BigMirrorEnvironment
+    - ColliderEnvironment
+    BoundsSize: {x: 3, y: 3, z: 0}
+    BoundsCenter: {x: 0, y: 0, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 8418cad74f47799af65a608f36b35e67
+    Names:
+    - RailingCurve
+    Environments:
+    - BillieEnvironment
+    BoundsSize: {x: 5.100672, y: 0.919014, z: 0.12748802}
+    BoundsCenter: {x: -0.00000035762787, y: 0.15001808, z: 0.0036374964}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 84b3f8d38370f087099037b95f40dfa6
+    Names:
+    - Helmet02Merged
+    Environments:
+    - DaftPunkEnvironment
+    BoundsSize: {x: 1.9040235, y: 1.917489, z: 2.1935043}
+    BoundsCenter: {x: 0, y: -0.00028064847, z: 0.00027763844}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 84f024a1d64526d368a85f3d7aa1f540
+    Names:
+    - Body
+    Environments:
+    - InterscopeEnvironment
+    BoundsSize: {x: 2.102526, y: 1.2813512, z: 4.914524}
+    BoundsCenter: {x: 0, y: 0.691474, z: -0.0042808056}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 85241bee28b279190f8cd87f364c4f7e
+    Names:
+    - FrontMountains
+    Environments:
+    - BillieEnvironment
+    BoundsSize: {x: 842.63605, y: 633.1468, z: 88.32923}
+    BoundsCenter: {x: 54.294525, y: -174.54935, z: 25.107891}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 85ff37f2b35abc25574cc7138838245d
+    Names:
+    - Cube2
+    Environments:
+    - TheRollingStonesEnvironment
+    BoundsSize: {x: 1.0906885, y: 1.2215889, z: 0.5391201}
+    BoundsCenter: {x: 0, y: 0, z: 0.000000014901161}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 8676ae46f5d5acd94eb67f1a744da47a
+    Names:
+    - PlayerPlatformFrame
+    Environments:
+    - RockMixtapeEnvironment
+    BoundsSize: {x: 3.1052084, y: 0.122678295, z: 2.1130514}
+    BoundsCenter: {x: 0, y: 0.061339147, z: -0.00031250715}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 883e8dc7353e809d33fc64719de14b4e
+    Names:
+    - Reflector
+    Environments:
+    - BTSEnvironment
+    BoundsSize: {x: 1.9021136, y: 2.0000005, z: 1.23039}
+    BoundsCenter: {x: 0, y: -0.00000032782555, z: 0.2058636}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 89879ae74ad423a5c191333052ed88ab
+    Names:
+    - RectangleFakeGlow
+    Environments:
+    - RockMixtapeEnvironment
+    BoundsSize: {x: 3.0091412, y: 0.04802599, z: 2.0153139}
+    BoundsCenter: {x: 0, y: 0.024011934, z: -0.0012463331}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 8a955c6c0c1403ce8c42348338302498
+    Names:
+    - RunwayPier
+    Environments:
+    - GagaEnvironment
+    BoundsSize: {x: 1.2136178, y: 8.796743, z: 38.574936}
+    BoundsCenter: {x: 0.13144118, y: 0.013556242, z: -19.242199}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 8aba307fc196b8fd9408de3f70b31e31
+    Names:
+    - Pannel
+    Environments:
+    - ColliderEnvironment
+    BoundsSize: {x: 2, y: 20, z: 5}
+    BoundsCenter: {x: 0, y: 0, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 8abd8382dd512e6d112b0c282b6bc15e
+    Names:
+    - CrowSitting
+    Environments:
+    - HalloweenEnvironment
+    BoundsSize: {x: 0.21400216, y: 0.54640985, z: 0.3582331}
+    BoundsCenter: {x: 0, y: 0.123195484, z: -0.017760836}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 8b55c6a0bae9f4e34376b8b197f971ae
+    Names:
+    - PlatformBrick
+    Environments:
+    - QueenEnvironment
+    BoundsSize: {x: 0.13, y: 0.19858578, z: 0.4}
+    BoundsCenter: {x: 0, y: 0, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 8c11b7f9fbf3e227ab4c8f43d6e80204
+    Names:
+    - Eyes
+    Environments:
+    - RockMixtapeEnvironment
+    BoundsSize: {x: 20.695597, y: 19.746502, z: 6.639432}
+    BoundsCenter: {x: 0, y: 4.8362503, z: 1.494716}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 8c85771fd1b5268e6e8565ed51782365
+    Names:
+    - Equalizer
+    Environments:
+    - RockMixtapeEnvironment
+    BoundsSize: {x: 3.974, y: 0.974, z: 0}
+    BoundsCenter: {x: 0, y: 0, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 8ccac262eed25929bf20816300247c76
+    Names:
+    - FloorConstruction_Triangle
+    Environments:
+    - TriangleEnvironment
+    BoundsSize: {x: 35.5, y: 160.75003, z: 1000}
+    BoundsCenter: {x: 0, y: -80.125015, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 8cffaeecb21fceb9facb3514ee36308d
+    Names:
+    - HallConstruction
+    Environments:
+    - DragonsEnvironment
+    BoundsSize: {x: 123.55179, y: 73.21184, z: 294.11575}
+    BoundsCenter: {x: -0.000005722046, y: -13.13136, z: 53.04211}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 4300000, guid: a28773e0a2664413890a1a1445cc38ed, type: 2}
+    Hash: 8e496436ea23b95d25ba4b01bef82ed4
+    Names:
+    - LeftNearBuilding
+    Environments:
+    - NiceEnvironment
+    - TimbalandEnvironment
+    - TheSecondEnvironment
+    - DefaultEnvironment
+    - TriangleEnvironment
+    - CrabRaveEnvironment
+    - MonstercatEnvironment
+    - BigMirrorEnvironment
+    BoundsSize: {x: 9, y: 174.5, z: 25}
+    BoundsCenter: {x: -28, y: -40.25, z: 29}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 8e6e28c9b4d71db5ce731adfc20ce8fe
+    Names:
+    - BackCube
+    Environments:
+    - GagaEnvironment
+    BoundsSize: {x: 5.5, y: 0.25, z: 0.5}
+    BoundsCenter: {x: 0, y: -0.125, z: -0.25}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 8eb3b29341213e127461ae8002851f30
+    Names:
+    - SpeakersRight
+    Environments:
+    - GreenDayEnvironment
+    - GreenDayGrenadeEnvironment
+    BoundsSize: {x: 985.8506, y: 12072.994, z: 985.8508}
+    BoundsCenter: {x: -1070.1488, y: -5294.702, z: 2814.7324}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 8f419fd445bf1308d5e84a72491b7ff1
+    Names:
+    - Silhouette_Chevron
+    Environments:
+    - QueenEnvironment
+    BoundsSize: {x: 0.9980162, y: 0.45507002, z: 0}
+    BoundsCenter: {x: -0.000000029802322, y: -0.000004053116, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 8f90f17815ba09ad497a830dcfd0125c
+    Names:
+    - WheelsFront
+    Environments:
+    - InterscopeEnvironment
+    BoundsSize: {x: 1.7413003, y: 0.6722973, z: 0.67229724}
+    BoundsCenter: {x: 0, y: 0.33077797, z: 1.4388463}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 8ff2a071063dec2d62afc98f993faeee
+    Names:
+    - Column
+    Environments:
+    - TheRollingStonesEnvironment
+    BoundsSize: {x: 1, y: 7.9866247, z: 1}
+    BoundsCenter: {x: 0, y: -0.024368286, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 9036494af7c6140c7e746a37694307c3
+    Names:
+    - Rotating4Panels
+    Environments:
+    - PanicEnvironment
+    BoundsSize: {x: 0.6, y: 8.2, z: 1}
+    BoundsCenter: {x: 0, y: 0, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 9109c16cc8ee9b3b92a6765d10c9fe0b
+    Names:
+    - FlameHornBase
+    Environments:
+    - RockMixtapeEnvironment
+    BoundsSize: {x: 18.872673, y: 29.686264, z: 8.562}
+    BoundsCenter: {x: -1.651401, y: 3.8395667, z: -0.01138854}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 4300000, guid: 21646711ddd79c14aa44e5a5e0debec8, type: 2}
+    Hash: 918b6e6683288362624bdc36ef36ef62
+    Names:
+    - ParametricBox
+    Environments:
+    - GreenDayEnvironment
+    - PanicEnvironment
+    - LinkinPark2Environment
+    - TheWeekndEnvironment
+    - NiceEnvironment
+    - LatticeEnvironment
+    - Dragons2Environment
+    - HalloweenEnvironment
+    - OriginsEnvironment
+    - LinkinParkEnvironment
+    - TimbalandEnvironment
+    - GreenDayGrenadeEnvironment
+    - BillieEnvironment
+    - LizzoEnvironment
+    - BTSEnvironment
+    - HipHopEnvironment
+    - TheSecondEnvironment
+    - MetallicaEnvironment
+    - RocketEnvironment
+    - DefaultEnvironment
+    - TheRollingStonesEnvironment
+    - SkrillexEnvironment
+    - TriangleEnvironment
+    - InterscopeEnvironment
+    - PyroEnvironment
+    - Panic2Environment
+    - GagaEnvironment
+    - DaftPunkEnvironment
+    - KaleidoscopeEnvironment
+    - Monstercat2Environment
+    - CrabRaveEnvironment
+    - FitBeatEnvironment
+    - KDAEnvironment
+    - BritneyEnvironment
+    - RockMixtapeEnvironment
+    - DragonsEnvironment
+    - MonstercatEnvironment
+    - BigMirrorEnvironment
+    BoundsSize: {x: 2, y: 2, z: 2}
+    BoundsCenter: {x: 0, y: 0, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 91e41e740c7ac4c9bb702ee131377b6a
+    Names:
+    - LampRing1
+    Environments:
+    - TheWeekndEnvironment
+    BoundsSize: {x: 14.002171, y: 2, z: 14.002171}
+    BoundsCenter: {x: 0, y: 0, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 92edae0aa6c7ed070b71b8e1fb8ceb0d
+    Names:
+    - LightGlow
+    Environments:
+    - WeaveEnvironment
+    - TheSecondEnvironment
+    BoundsSize: {x: 0.21130574, y: 0, z: 0.21130574}
+    BoundsCenter: {x: 0, y: 0, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 94154a75fb37e3eb39f65937879e6e52
+    Names:
+    - MirrorPannel
+    Environments:
+    - ColliderEnvironment
+    BoundsSize: {x: 0, y: 19.52, z: 4.5}
+    BoundsCenter: {x: 1, y: 0, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 952ad7f5cbe1ba35b3049d640cf835b7
+    Names:
+    - TubeStageConstruction
+    Environments:
+    - BritneyEnvironment
+    BoundsSize: {x: 61.50634, y: 2.2, z: 61.50623}
+    BoundsCenter: {x: 0.0000009536743, y: -0.4044, z: 13.384123}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 955c7f48da0cfd5913edfedf966013db
+    Names:
+    - HoopPiece
+    Environments:
+    - HipHopEnvironment
+    BoundsSize: {x: 0.26218736, y: 0.1500001, z: 1.0606601}
+    BoundsCenter: {x: -0.07096494, y: 0, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 961d649f6faff03010fa2e02f775025c
+    Names:
+    - Core
+    Environments:
+    - SkrillexEnvironment
+    BoundsSize: {x: 5.3449135, y: 0.24849099, z: 19.381393}
+    BoundsCenter: {x: -0.3609438, y: -0.00000081956387, z: 9.70322}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 966257f8ece1f504be1c546404446e09
+    Names:
+    - Arch_Single_Bent_00
+    Environments:
+    - LizzoEnvironment
+    BoundsSize: {x: 6.272139, y: 0.9825939, z: 37.971695}
+    BoundsCenter: {x: 0, y: -0.000008136034, z: 11.0870495}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 979ae153b47604cb2d21aa3070cb22a5
+    Names:
+    - Ribbon
+    Environments:
+    - BTSEnvironment
+    BoundsSize: {x: 1.8205416, y: 3.1757, z: 1.6593862}
+    BoundsCenter: {x: -0.08055508, y: 1.58785, z: 0.085267186}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 98aeabf7ef00cd581d82e8cd64cff22c
+    Names:
+    - TrainWindow
+    Environments:
+    - HipHopEnvironment
+    BoundsSize: {x: 0, y: 1.1618768, z: 2.818438}
+    BoundsCenter: {x: 0, y: 0, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 98b4d3656faf1884d503e129f39bb005
+    Names:
+    - RearPillar_B
+    Environments:
+    - InterscopeEnvironment
+    BoundsSize: {x: 15.529289, y: 4.5, z: 1.0000005}
+    BoundsCenter: {x: -4.4853554, y: 2, z: 0.000000029802322}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 99190fad05c512a996d9311928d767e0
+    Names:
+    - LogoFlipbook
+    Environments:
+    - PyroEnvironment
+    BoundsSize: {x: 0.7193414, y: 0.9609603, z: 0}
+    BoundsCenter: {x: 0.0036448091, y: 0.016892523, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 995497ce8e37c3fbc5aeb80e4482f549
+    Names:
+    - Quad
+    Environments:
+    - LinkinPark2Environment
+    - Dragons2Environment
+    - HipHopEnvironment
+    - TheSecondEnvironment
+    - MetallicaEnvironment
+    - TheRollingStonesEnvironment
+    - PyroEnvironment
+    - Panic2Environment
+    - DaftPunkEnvironment
+    - Monstercat2Environment
+    - BritneyEnvironment
+    - ColliderEnvironment
+    BoundsSize: {x: 1, y: 1, z: 6.1232336e-17}
+    BoundsCenter: {x: 0, y: 0, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 997c1a37eb663f63722ef49f41da128c
+    Names:
+    - Body
+    Environments:
+    - InterscopeEnvironment
+    BoundsSize: {x: 1.681637, y: 0.9279264, z: 4.4532204}
+    BoundsCenter: {x: 0, y: 0.723676, z: 0.14165103}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 9a02bcf283503f73669ec360ac315be9
+    Names:
+    - BottomCones
+    Environments:
+    - PanicEnvironment
+    - Panic2Environment
+    BoundsSize: {x: 16, y: 50.000008, z: 80}
+    BoundsCenter: {x: 0, y: 25.000004, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 9bc37b5a0ed0fff214a5aca53cf08ecf
+    Names:
+    - Floor
+    Environments:
+    - NiceEnvironment
+    BoundsSize: {x: 200, y: 1.5983607, z: 1000}
+    BoundsCenter: {x: 0, y: 0.39918035, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 9c9b925961d718256e653aa809f172ac
+    Names:
+    - SpeakersLeft
+    Environments:
+    - GreenDayEnvironment
+    - GreenDayGrenadeEnvironment
+    BoundsSize: {x: 985.8506, y: 12000.574, z: 985.8508}
+    BoundsCenter: {x: -1070.1488, y: -5330.912, z: 2814.7324}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 9d86b06dc9109fb8dd60b2796bb00c1f
+    Names:
+    - Cage
+    Environments:
+    - PyroEnvironment
+    BoundsSize: {x: 2.057048, y: 2.7991354, z: 5.0002832}
+    BoundsCenter: {x: 3.471717, y: -1.9790901, z: -0.00014162064}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 9dfa36cdd0eb7120363d7ad38ec6798c
+    Names:
+    - ToothMeshRound
+    Environments:
+    - Monstercat2Environment
+    BoundsSize: {x: 1.7726684, y: 0, z: 1.7726688}
+    BoundsCenter: {x: 0.0000009536743, y: 0, z: -0.0000021755695}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 9e042e1b7d77f0e633929e3befc56b19
+    Names:
+    - Ring
+    Environments:
+    - TimbalandEnvironment
+    BoundsSize: {x: 0.30504206, y: 10.317493, z: 6.8095455}
+    BoundsCenter: {x: 0.101679996, y: 0, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 9e29d94a0c0ec947e91419d8324d1c8c
+    Names:
+    - Box008
+    Environments:
+    - HalloweenEnvironment
+    BoundsSize: {x: 0.59999996, y: 0.29999998, z: 0.8278124}
+    BoundsCenter: {x: 0, y: 0, z: 0.4139062}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 9eb97a8da4ab26b78f88c7285743e8f7
+    Names:
+    - Box001
+    Environments:
+    - HalloweenEnvironment
+    BoundsSize: {x: 0.51, y: 0.08143386, z: 0.6590921}
+    BoundsCenter: {x: 0, y: 0.034283064, z: 0.31786677}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 9fa6dad8b42658c9089321963d93137e
+    Names:
+    - Construction_RocketLeague
+    Environments:
+    - RocketEnvironment
+    BoundsSize: {x: 200, y: 100.75, z: 118.19473}
+    BoundsCenter: {x: -2, y: -50.225, z: 58.347366}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: 9fc38edad64d988f9f8e9c0a363dda00
+    Names:
+    - Connector
+    Environments:
+    - PyroEnvironment
+    BoundsSize: {x: 0.44573975, y: 2.6926033, z: 5.0002832}
+    BoundsCenter: {x: 4.371558, y: -1.8176619, z: -0.00014162064}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: a008b34f00e19e2c96feeeb1a939d214
+    Names:
+    - ArenaLight
+    Environments:
+    - RocketEnvironment
+    BoundsSize: {x: 81.89185, y: 50.473335, z: 6.0966306}
+    BoundsCenter: {x: 0, y: 0.72690964, z: 3.2357128}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: a00cfe6c1e5b7ad5d8d93c98733075c6
+    Names:
+    - LizzoBackground
+    Environments:
+    - LizzoEnvironment
+    BoundsSize: {x: 481.8621, y: 162.84418, z: 2000}
+    BoundsCenter: {x: -1.8600159, y: 42.452072, z: 7.669983}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: a05af070e709bf30f66fabeae97c510a
+    Names:
+    - Heart
+    Environments:
+    - TheRollingStonesEnvironment
+    BoundsSize: {x: 1.3845787, y: 1.4714699, z: 0.53912}
+    BoundsCenter: {x: 0, y: 0.000000029802322, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: a08bce849a238e048ff62a1fb169474c
+    Names:
+    - Vinyl
+    Environments:
+    - QueenEnvironment
+    BoundsSize: {x: 0.7925792, y: 0.79257923, z: 0.01}
+    BoundsCenter: {x: -0.000000014901161, y: 0, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: a0bbb3c796865cdbcf9353019aa626a5
+    Names:
+    - TrackMirror_BTS
+    - TrackMirror_Kaleidoscope
+    Environments:
+    - BTSEnvironment
+    - KaleidoscopeEnvironment
+    BoundsSize: {x: 2.3, y: 0, z: 251}
+    BoundsCenter: {x: -0.29999998, y: 0, z: 125.45}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: a15836089fdd07ef32ee2954ac3a720c
+    Names:
+    - PlayerPlatformDesign
+    Environments:
+    - RockMixtapeEnvironment
+    BoundsSize: {x: 3.4976208, y: 0.3137914, z: 2.552558}
+    BoundsCenter: {x: -0.00000011920929, y: -0.0003662482, z: -0.00000017881393}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: a168f0aa06579148eca64a3ca49ab1db
+    Names:
+    - MirrorPannel
+    Environments:
+    - ColliderEnvironment
+    BoundsSize: {x: 4.666667, y: 8.666667, z: 4.666667}
+    BoundsCenter: {x: 0, y: 0.00000047683716, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: a1e2f3ff1c0041c6cfb1a340b7f15b98
+    Names:
+    - Spectrogram
+    Environments:
+    - TimbalandEnvironment
+    BoundsSize: {x: 0.29999995, y: 63.4, z: 2}
+    BoundsCenter: {x: 0, y: 31.5, z: 1}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: a3f4adc679ba62701c8a204c6138cc1d
+    Names:
+    - BottomCones
+    Environments:
+    - Panic2Environment
+    BoundsSize: {x: 16, y: 50.000008, z: 80}
+    BoundsCenter: {x: 0, y: -31.999996, z: 45.520004}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: a54ef9a110a90cc8de0799d9a5c58861
+    Names:
+    - Platform
+    Environments:
+    - BTSEnvironment
+    BoundsSize: {x: 0.28360584, y: 0.2836058, z: 0.04269099}
+    BoundsCenter: {x: 0, y: 0.000000007450581, z: -0.021570707}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: a5761e389307b3bfccea855851ebfb9c
+    Names:
+    - MainStage
+    Environments:
+    - MetallicaEnvironment
+    BoundsSize: {x: 2.0000007, y: 7.467349, z: 7.46735}
+    BoundsCenter: {x: 0, y: -0.00000011920929, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: a58dced66f667557cb9c6d5f9d2afef7
+    Names:
+    - Mirror_RocketLeague
+    Environments:
+    - RocketEnvironment
+    BoundsSize: {x: 160, y: 0, z: 175.25}
+    BoundsCenter: {x: 0, y: 0, z: 95.375}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: a5e4b1852908f306bfcf4ee7d0058585
+    Names:
+    - RockScreensMerged
+    Environments:
+    - RockMixtapeEnvironment
+    BoundsSize: {x: 9.625, y: 25.98698, z: 4.2679305}
+    BoundsCenter: {x: -0.093579054, y: -0.66681004, z: 2.8630698}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: a7122540a2bff996dfb312f9dd3130a7
+    Names:
+    - RLCar
+    Environments:
+    - RocketEnvironment
+    BoundsSize: {x: 12.568087, y: 5.1463466, z: 11.73358}
+    BoundsCenter: {x: 2.288333, y: 0.30772996, z: 5.8620396}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: a735df9153d91e2e9b741191f0bc03cb
+    Names:
+    - TriWallConstruction
+    Environments:
+    - DaftPunkEnvironment
+    BoundsSize: {x: 6, y: 8.6617, z: 0.5}
+    BoundsCenter: {x: 12, y: 5.41515, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: a876302634dc9eb3ff17044308e4b748
+    Names:
+    - TunnelPiece01
+    Environments:
+    - LinkinPark2Environment
+    BoundsSize: {x: 1.5390334, y: 0.416923, z: 1.6950004}
+    BoundsCenter: {x: 0, y: 0.8817885, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: a8e283a3309fdbe1b68841c89cbcea77
+    Names:
+    - ArmHeartLighting
+    Environments:
+    - GreenDayEnvironment
+    - GreenDayGrenadeEnvironment
+    BoundsSize: {x: 685.7959, y: 753.92725, z: 430.56445}
+    BoundsCenter: {x: -54.803818, y: 1292.2042, z: 3633.3398}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: a91f48b99a7ba64303a3de781cd7ff4f
+    Names:
+    - VisorSpectrogram
+    Environments:
+    - DaftPunkEnvironment
+    BoundsSize: {x: 1.5775489, y: 0.39529642, z: 0.8391917}
+    BoundsCenter: {x: 0.00000500679, y: -0.059104607, z: 0.53834206}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: a996ebbd15f12f3a102242da0b252bf4
+    Names:
+    - TrackMirror_Origins
+    Environments:
+    - OriginsEnvironment
+    BoundsSize: {x: 6.5, y: 0, z: 247.25}
+    BoundsCenter: {x: -0.29999995, y: 0, z: 123.575}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: a9fb95c37c5fcacd42772bfb0744471e
+    Names:
+    - CloudShape2
+    Environments:
+    - LizzoEnvironment
+    BoundsSize: {x: 0.82775784, y: 0.43893105, z: 0.04}
+    BoundsCenter: {x: 0.038292572, y: -0.0395844, z: -0.02}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: ac073969441c5d319ffc6cb61e8131ac
+    Names:
+    - LizzoLi
+    Environments:
+    - LizzoEnvironment
+    BoundsSize: {x: 3.8946173, y: 3.7243054, z: 0.39999998}
+    BoundsCenter: {x: 0, y: 1.8621527, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: ac19448470c2458787928ed419704018
+    Names:
+    - Runway2
+    Environments:
+    - HipHopEnvironment
+    BoundsSize: {x: 5.1002455, y: 12.528208, z: 265.92145}
+    BoundsCenter: {x: 0.00012290478, y: -6.264104, z: 130.41074}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: ac1d23449bc538f1ba3544ba71c4c379
+    Names:
+    - SideLasersConstruction
+    Environments:
+    - DaftPunkEnvironment
+    BoundsSize: {x: 1.0000038, y: 0.25000003, z: 3.25}
+    BoundsCenter: {x: 0, y: 0.12500001, z: 0.000000059604645}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: ac22b8074992f28baa1d85d2ba4a208e
+    Names:
+    - 4Slotbox
+    Environments:
+    - PyroEnvironment
+    BoundsSize: {x: 0.5415979, y: 0.13112175, z: 0.17533089}
+    BoundsCenter: {x: 0.000000059604645, y: -0.000000018626451, z: 0.08766539}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: ac4a3c95b5be1a4882554c06bd0e18e4
+    Names:
+    - Diamond
+    Environments:
+    - Panic2Environment
+    BoundsSize: {x: 1.4159999, y: 0.19999997, z: 0.27999997}
+    BoundsCenter: {x: 0, y: 0, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: ad8646412bfb117c3a327d6a8201902a
+    Names:
+    - FlareRect
+    Environments:
+    - DaftPunkEnvironment
+    BoundsSize: {x: 0.535, y: 0, z: 9.584}
+    BoundsCenter: {x: -0.000000029802322, y: 0, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: af2ae3740ca56925df7781e4ecf87e7d
+    Names:
+    - QuadMesh
+    Environments:
+    - BritneyEnvironment
+    BoundsSize: {x: 2.4896142, y: 2.5, z: 0.99415743}
+    BoundsCenter: {x: 0, y: 0, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: b0216d266fe0b0dc876935c61869aae4
+    Names:
+    - TrackMirror_Dragons2
+    - TrackMirror_Dragons
+    Environments:
+    - Dragons2Environment
+    - DragonsEnvironment
+    BoundsSize: {x: 2.3, y: 0, z: 169.54851}
+    BoundsCenter: {x: -0.9, y: 0, z: 84.76295}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: b0548c046c993d5071bb00a45dc7a835
+    Names:
+    - Rain Instance
+    Environments:
+    - BillieEnvironment
+    BoundsSize: {x: 200, y: 100, z: 200}
+    BoundsCenter: {x: 0, y: 0, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: b0790733a27310ebadecf6a09a90d0fd
+    Names:
+    - RotatingPanels
+    Environments:
+    - Dragons2Environment
+    BoundsSize: {x: 2, y: 0.3000002, z: 1}
+    BoundsCenter: {x: 0, y: 4, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: b0ce4f8bae8ae84b0d7cfbdd32b59e02
+    Names:
+    - GraffitiRibbons
+    Environments:
+    - HipHopEnvironment
+    BoundsSize: {x: 3.3127832, y: 1.449396, z: 0.000000065081494}
+    BoundsCenter: {x: 0.08446282, y: 0.4301358, z: -1.7763568e-15}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: b1195756de641ad0e0a3a9004b5ca020
+    Names:
+    - TrackMirror_Second
+    - TrackMirror_Default
+    - TrackMirror_Triangle
+    Environments:
+    - TheSecondEnvironment
+    - DefaultEnvironment
+    - TriangleEnvironment
+    BoundsSize: {x: 4.75, y: 0, z: 247.25}
+    BoundsCenter: {x: 0, y: 0, z: 123.575}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: b43b727fffab1e5cd2043c4d42951878
+    Names:
+    - Chevron
+    Environments:
+    - TheRollingStonesEnvironment
+    BoundsSize: {x: 0.34078792, y: 0.23852931, z: 0.077}
+    BoundsCenter: {x: -0.013132885, y: 0.025850497, z: 0.0000000037252903}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: b534e68f58641cfd1ae60fda0f5b3a1c
+    Names:
+    - ArmHeartBase
+    Environments:
+    - GreenDayEnvironment
+    - GreenDayGrenadeEnvironment
+    BoundsSize: {x: 5054.4463, y: 12020.253, z: 936.3054}
+    BoundsCenter: {x: -2066.3003, y: -4133.9907, z: 3834.8613}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: b5b45dad9fa8ce63f4d80a8adf9eb4c4
+    Names:
+    - SpiralTube
+    Environments:
+    - BritneyEnvironment
+    BoundsSize: {x: 63.409283, y: 34.81736, z: 69.403595}
+    BoundsCenter: {x: 0, y: -0.0000009536743, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: b5d644a27b41ffd052e66e3a9410e8e2
+    Names:
+    - Projector
+    Environments:
+    - PyroEnvironment
+    BoundsSize: {x: 0.39079133, y: 0.3833267, z: 0.6588587}
+    BoundsCenter: {x: 0, y: 0, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 4300000, guid: eae3ef56f21c47f5876be6f7d4b81733, type: 2}
+    Hash: b5ebd93d903f2572d7673e5d8407ea6d
+    Names:
+    - RightNearBuilding
+    Environments:
+    - NiceEnvironment
+    - TimbalandEnvironment
+    - TheSecondEnvironment
+    - DefaultEnvironment
+    - TriangleEnvironment
+    - CrabRaveEnvironment
+    - MonstercatEnvironment
+    - BigMirrorEnvironment
+    BoundsSize: {x: 9, y: 174.5, z: 25}
+    BoundsCenter: {x: 28, y: -40.25, z: 29}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: b70755b6207e066bc7e69d92f71735e8
+    Names:
+    - RunwayFrame
+    Environments:
+    - RockMixtapeEnvironment
+    BoundsSize: {x: 4.675, y: 1.4665433, z: 165.80576}
+    BoundsCenter: {x: -0.00000011920929, y: -0.3443262, z: 32.902878}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: b7129fd4da119d34d3bd253944648fdd
+    Names:
+    - ColumnInner
+    Environments:
+    - TheRollingStonesEnvironment
+    BoundsSize: {x: 1, y: 4.8373413, z: 1}
+    BoundsCenter: {x: 0, y: 1.5968046, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: b78d6171384298ccb8e5c77eb24a7921
+    Names:
+    - CeilingNear
+    Environments:
+    - InterscopeEnvironment
+    BoundsSize: {x: 40, y: 0.00000009685755, z: 44.499588}
+    BoundsCenter: {x: 0, y: -0.0000000037252903, z: 2.750207}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: b8b4051b418594232b8a753c6605a3b9
+    Names:
+    - TubeDisplayUVMesh
+    Environments:
+    - BritneyEnvironment
+    BoundsSize: {x: 13.654, y: 2.401, z: 13.654}
+    BoundsCenter: {x: 0, y: -0.003000021, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: b8cc987014df18232633bacc6526c823
+    Names:
+    - LoopableFlipbook
+    Environments:
+    - MetallicaEnvironment
+    - PyroEnvironment
+    BoundsSize: {x: 0.33847898, y: 0.88657606, z: 0}
+    BoundsCenter: {x: 0.00868877, y: -0.058227494, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: bb19d540097d12667a2b60c72b11f394
+    Names:
+    - RunwayRing
+    Environments:
+    - Monstercat2Environment
+    BoundsSize: {x: 2.2370272, y: 0, z: 2.2370276}
+    BoundsCenter: {x: 0.00000029802322, y: 0, z: 0.0000009536743}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: bb7d9a74d837ea29270ef6b20d9ce08b
+    Names:
+    - Underground
+    Environments:
+    - DragonsEnvironment
+    BoundsSize: {x: 18, y: 54.1, z: 26}
+    BoundsCenter: {x: 1, y: -30.05, z: 23.5}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: bc0f40f617298470c104135b7a9837bd
+    Names:
+    - TunnelRings
+    Environments:
+    - LinkinParkEnvironment
+    BoundsSize: {x: 8.571002, y: 50.589985, z: 5.9074836}
+    BoundsCenter: {x: -0.0000014305115, y: 24.705015, z: 2.0812466}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: bcb123268f1053469c1fa560d29d18bf
+    Names:
+    - BackMountains
+    Environments:
+    - BillieEnvironment
+    BoundsSize: {x: 818.2848, y: 464.26358, z: 88.42304}
+    BoundsCenter: {x: -12.10318, y: 186.54744, z: 25.061054}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: bd51574395ef334f04141fcde15ea0d7
+    Names:
+    - Hemisphere
+    Environments:
+    - BTSEnvironment
+    BoundsSize: {x: 2000, y: 2000.0004, z: 999.99994}
+    BoundsCenter: {x: -0.00021362305, y: -0.00018310547, z: 500.00003}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: bd5859f88e9b44c0c2f278eacdc9b29a
+    Names:
+    - Light
+    Environments:
+    - WeaveEnvironment
+    - Dragons2Environment
+    - TheSecondEnvironment
+    - PyroEnvironment
+    BoundsSize: {x: 0.17766327, y: 0.30713534, z: 0.17766327}
+    BoundsCenter: {x: 0.000000014901161, y: 0.03165913, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: bd909a95721f86166c8992d624815cc0
+    Names:
+    - FloorBackFar
+    Environments:
+    - InterscopeEnvironment
+    BoundsSize: {x: 435.20395, y: 0, z: 146.5806}
+    BoundsCenter: {x: 39.34999, y: 0, z: 100.509674}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: beb79d407c12a3eae02514a27d248257
+    Names:
+    - Construction_Origins
+    Environments:
+    - OriginsEnvironment
+    BoundsSize: {x: 200, y: 100.3, z: 2.5}
+    BoundsCenter: {x: 0, y: -49.949997, z: 8.75}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: bfb3c36ceada02c91a71d90cf453d941
+    Names:
+    - MainBeamDisk
+    Environments:
+    - GagaEnvironment
+    BoundsSize: {x: 7.2897234, y: 0.899397, z: 7.2897234}
+    BoundsCenter: {x: 0, y: -0.000002026558, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: c3c8adefaf53c8e1ca5a4fd591dbec7f
+    Names:
+    - Ring
+    Environments:
+    - NiceEnvironment
+    - TheSecondEnvironment
+    - DefaultEnvironment
+    - CrabRaveEnvironment
+    - MonstercatEnvironment
+    BoundsSize: {x: 0.595805, y: 10.317493, z: 10.3174925}
+    BoundsCenter: {x: -0.04789859, y: 0, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: c4c6f04fdb6b8c1f4fa4f7f835a59261
+    Names:
+    - SpectrogramCube
+    Environments:
+    - Panic2Environment
+    BoundsSize: {x: 1.2499999, y: 30, z: 1.2499999}
+    BoundsCenter: {x: 0, y: 0.00000047683716, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: c646bbea9a98ff82eab96e1e5d0be3ff
+    Names:
+    - ConeLight3
+    Environments:
+    - KaleidoscopeEnvironment
+    BoundsSize: {x: 7.9662876, y: 1.4838982, z: 7.9662876}
+    BoundsCenter: {x: 0.00000035762787, y: 2.6054306, z: -0.00000035762787}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: c66baf8ee0a0f633b0fde2118ac2370f
+    Names:
+    - LizzoBackgroundGlossy
+    Environments:
+    - LizzoEnvironment
+    BoundsSize: {x: 48.60585, y: 36.01964, z: 62.77747}
+    BoundsCenter: {x: -0.06163311, y: 8.53018, z: 39.70408}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: c66d78f20e0d03ae75638657e1412e06
+    Names:
+    - Construction
+    Environments:
+    - GagaEnvironment
+    BoundsSize: {x: 4.4985466, y: 0.084367715, z: 94.25134}
+    BoundsCenter: {x: -0.000021576881, y: -0.03437015, z: 32.548355}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: c825bffc2e68860f255fbdd190a5f415
+    Names:
+    - Chevron
+    Environments:
+    - ColliderEnvironment
+    BoundsSize: {x: 4.095761, y: 1.5977647, z: 0}
+    BoundsCenter: {x: 0, y: -0.6768093, z: -0.099999994}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: c867406766bb229631a7190b919e294f
+    Names:
+    - TrackMirror_LinkinPark
+    Environments:
+    - LinkinParkEnvironment
+    BoundsSize: {x: 2.3, y: 0, z: 123.5}
+    BoundsCenter: {x: -0.29999998, y: 0, z: 61.699997}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: c96f6c457f7321bca622220622c96763
+    Names:
+    - PackedMeshPillar
+    Environments:
+    - MetallicaEnvironment
+    BoundsSize: {x: 2.085863, y: 4.2137785, z: 2.0000272}
+    BoundsCenter: {x: 0.000101447105, y: 0, z: 0.000001013279}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: c97fc4dd9f47d1a91849fad80e6e6e2c
+    Names:
+    - Arch_DoubleTall_01
+    Environments:
+    - LizzoEnvironment
+    BoundsSize: {x: 9.537341, y: 0.982594, z: 37.971695}
+    BoundsCenter: {x: -1.9230285, y: -0.000007927418, z: 11.0870495}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: c9f2c295ef5a7e3cd0b0ec6e48659fc8
+    Names:
+    - Tree2
+    Environments:
+    - HalloweenEnvironment
+    BoundsSize: {x: 12.287381, y: 16.336124, z: 0.00000017102822}
+    BoundsCenter: {x: 2.2496982, y: 7.3676577, z: -0.000000009820049}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: cb07e672a2e81a54cf7fc9a34a1ab812
+    Names:
+    - Strip
+    Environments:
+    - MetallicaEnvironment
+    - GagaEnvironment
+    BoundsSize: {x: 166.65558, y: 166.65558, z: 166.65558}
+    BoundsCenter: {x: 0, y: 0, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: cbea168feb96ef0e0f438b64599b4eca
+    Names:
+    - arcs
+    Environments:
+    - LizzoEnvironment
+    BoundsSize: {x: 24.542048, y: 12.271025, z: 3.75}
+    BoundsCenter: {x: 0, y: 6.1355114, z: -1.8}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: cc21cfc69320577461897606e7525253
+    Names:
+    - RearWheels
+    Environments:
+    - InterscopeEnvironment
+    BoundsSize: {x: 1.7085118, y: 0.79692245, z: 0.716102}
+    BoundsCenter: {x: 0, y: 0.040410176, z: -0.000000074505806}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: cc9b726de456a0e3c057ef73116c432a
+    Names:
+    - Mirror
+    Environments:
+    - GagaEnvironment
+    BoundsSize: {x: 4.4437685, y: 0, z: 94.25134}
+    BoundsCenter: {x: -0.000021457672, y: 0.007813707, z: 32.548355}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: cd034e3542aee9d4f8eb7420b47d130e
+    Names:
+    - pb_Mesh-122040
+    Environments:
+    - GreenDayGrenadeEnvironment
+    BoundsSize: {x: 2.3000002, y: 0.100999996, z: 199.98}
+    BoundsCenter: {x: -0.9000001, y: 0.000500001, z: 0.010002136}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: cd8438177879109b581290b99f6af084
+    Names:
+    - HornTip
+    Environments:
+    - RockMixtapeEnvironment
+    BoundsSize: {x: 32.8, y: 14.4721365, z: 15.216904}
+    BoundsCenter: {x: 13.359999, y: 0.76393175, z: -0.00000023841858}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: cdbe84e761bb14ceb1c787ef16e44f04
+    Names:
+    - Heart
+    Environments:
+    - BritneyEnvironment
+    BoundsSize: {x: 0.86406064, y: 0.8434119, z: 0}
+    BoundsCenter: {x: 0, y: 0, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: cddba02ddb391b3361878166bd68cd32
+    Names:
+    - SpeakerHigh
+    Environments:
+    - PyroEnvironment
+    BoundsSize: {x: 0.72793674, y: 1.6050999, z: 0.41313305}
+    BoundsCenter: {x: 0, y: 0.80304444, z: -0.00018022954}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: cfb7afbd78bf15777e5097e6eb281a80
+    Names:
+    - LightGlow
+    Environments:
+    - LinkinPark2Environment
+    - QueenEnvironment
+    - TheWeekndEnvironment
+    - LatticeEnvironment
+    - EDMEnvironment
+    - LizzoEnvironment
+    - Monstercat2Environment
+    BoundsSize: {x: 0.057052556, y: 0.05705256, z: 0.0000000037252903}
+    BoundsCenter: {x: 0, y: 0, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: d0e0e256c9e73eddaff1389b18a0c3ee
+    Names:
+    - PillarFull
+    Environments:
+    - BTSEnvironment
+    BoundsSize: {x: 3.5, y: 112.755005, z: 3.5}
+    BoundsCenter: {x: 0, y: -56.372498, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: d10c109cb24ed186583de7906e16b8ed
+    Names:
+    - Triangle
+    Environments:
+    - DaftPunkEnvironment
+    BoundsSize: {x: 2.0000005, y: 1.7320502, z: 0}
+    BoundsCenter: {x: 0.00000011920929, y: 0.28867498, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: d1438b388733f8eb464dec20f9a281aa
+    Names:
+    - BurstFlipbook
+    Environments:
+    - PyroEnvironment
+    BoundsSize: {x: 0.3985716, y: 0.9996315, z: 0}
+    BoundsCenter: {x: -0.004023619, y: -0.0011389256, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: d1bb154ca084ad0e9a56e3d5cb01ca7f
+    Names:
+    - WaterfallFalling
+    Environments:
+    - BillieEnvironment
+    BoundsSize: {x: 4.5000005, y: 13.383844, z: 1.52072}
+    BoundsCenter: {x: 0.00000023841858, y: -6.670905, z: -0.7403538}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: d224fc607dd5e4722ddaed26409f1799
+    Names:
+    - groupdelete1
+    Environments:
+    - HipHopEnvironment
+    BoundsSize: {x: 0.30000022, y: 1.0000001, z: 1.1999977}
+    BoundsCenter: {x: -0.0000003427267, y: -0.49999994, z: 0.00000086426735}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: d34f7a7b62879d7de39dcb591c7952b6
+    Names:
+    - pb_Mesh-2423110
+    Environments:
+    - Dragons2Environment
+    BoundsSize: {x: 123.551796, y: 73.21184, z: 294.11578}
+    BoundsCenter: {x: -0.0000038146973, y: -13.131362, z: 53.042118}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: d394434d1bb3f7ff55a5801858d14da1
+    Names:
+    - Spectrogram0
+    Environments:
+    - PanicEnvironment
+    - NiceEnvironment
+    - Dragons2Environment
+    - OriginsEnvironment
+    - TheSecondEnvironment
+    - DefaultEnvironment
+    - TriangleEnvironment
+    - CrabRaveEnvironment
+    - FitBeatEnvironment
+    - DragonsEnvironment
+    - MonstercatEnvironment
+    - BigMirrorEnvironment
+    BoundsSize: {x: 0.9, y: 142.65001, z: 60}
+    BoundsCenter: {x: 0.000000014901161, y: 70.87501, z: -30}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: d3ca75607c073a4d2ff24d9950b343e9
+    Names:
+    - pb_Mesh-300200
+    - pb_Mesh-2538136
+    - pb_Mesh-2497080
+    - pb_Mesh-2103058
+    - pb_Mesh-7566632
+    - pb_Mesh-9306
+    - pb_Mesh-85262
+    - pb_Mesh-669476
+    - pb_Mesh-4595912
+    - pb_Mesh-10248472
+    - pb_Mesh-2492964
+    - pb_Mesh-1510
+    - pb_Mesh-122412
+    - pb_Mesh-2386092
+    - pb_Mesh-620834
+    - pb_Mesh-121886
+    - pb_Mesh-1454020
+    - pb_Mesh-2643710
+    - PlayersPlaceConstruction
+    - pb_Mesh-2606222
+    - pb_Mesh-2639198
+    - pb_Mesh-5043186
+    - pb_Mesh-1048686
+    - pb_Mesh-2679494
+    - pb_Mesh-2461548
+    - pb_Mesh-6458542
+    - pb_Mesh-4965048
+    - pb_Mesh-4580984
+    - pb_Mesh-2466948
+    - pb_Mesh-2400840
+    - pb_Mesh-2440530
+    - pb_Mesh-2470254
+    - pb_Mesh-85478
+    - pb_Mesh-2426172
+    - pb_Mesh-2525184
+    - pb_Mesh-2381356
+    - pb_Mesh-4498820
+    Environments:
+    - GreenDayEnvironment
+    - PanicEnvironment
+    - LinkinPark2Environment
+    - QueenEnvironment
+    - TheWeekndEnvironment
+    - NiceEnvironment
+    - LatticeEnvironment
+    - WeaveEnvironment
+    - Dragons2Environment
+    - EDMEnvironment
+    - OriginsEnvironment
+    - LinkinParkEnvironment
+    - TimbalandEnvironment
+    - GreenDayGrenadeEnvironment
+    - BillieEnvironment
+    - LizzoEnvironment
+    - BTSEnvironment
+    - HipHopEnvironment
+    - TheSecondEnvironment
+    - MetallicaEnvironment
+    - RocketEnvironment
+    - DefaultEnvironment
+    - TheRollingStonesEnvironment
+    - SkrillexEnvironment
+    - TriangleEnvironment
+    - InterscopeEnvironment
+    - PyroEnvironment
+    - Panic2Environment
+    - GagaEnvironment
+    - DaftPunkEnvironment
+    - KaleidoscopeEnvironment
+    - Monstercat2Environment
+    - CrabRaveEnvironment
+    - FitBeatEnvironment
+    - KDAEnvironment
+    - BritneyEnvironment
+    - RockMixtapeEnvironment
+    - DragonsEnvironment
+    - MonstercatEnvironment
+    - BigMirrorEnvironment
+    - ColliderEnvironment
+    BoundsSize: {x: 3, y: 112.755005, z: 2}
+    BoundsCenter: {x: 0, y: -56.372498, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: d3cf43618740bb7ff000bac109a8cae9
+    Names:
+    - LaserSocket
+    Environments:
+    - MetallicaEnvironment
+    BoundsSize: {x: 0.53, y: 0.53, z: 0.53}
+    BoundsCenter: {x: 0, y: 0, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: d489a026a68a1b4296c7f4cfe38da81e
+    Names:
+    - Body
+    Environments:
+    - InterscopeEnvironment
+    BoundsSize: {x: 1.8346013, y: 0.83205366, z: 5.219793}
+    BoundsCenter: {x: 0, y: 0.50736517, z: -0.08319545}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: d48e97e16687504a07d63b43a6ec5166
+    Names:
+    - SpeakerFBX
+    Environments:
+    - PyroEnvironment
+    BoundsSize: {x: 0.72793674, y: 1.6050998, z: 0.40437084}
+    BoundsCenter: {x: 0, y: 0.8032188, z: 0.020984389}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: d492e26386945ad9b60ad9ecc45c0b56
+    Names:
+    - BuildingBG
+    Environments:
+    - TheWeekndEnvironment
+    BoundsSize: {x: 1477.1733, y: 3980.4775, z: 1480.5486}
+    BoundsCenter: {x: -1.0036621, y: 1991.7502, z: -3.7077637}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: d4ddb050fa5c3c1acc2e1a29cffaed0d
+    Names:
+    - RunwayPier
+    Environments:
+    - GagaEnvironment
+    BoundsSize: {x: 1.160151, y: 9.396744, z: 12.535332}
+    BoundsCenter: {x: 0.15817454, y: 0.013556242, z: -6.2152863}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: d5dc15b639e2699696b6b07419d56d92
+    Names:
+    - Silhouette_May
+    Environments:
+    - QueenEnvironment
+    BoundsSize: {x: 0.4477539, y: 0.9755859, z: 0}
+    BoundsCenter: {x: 0, y: -0.010986358, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: d833971e8d1451f2c8bbc749a31d5d97
+    Names:
+    - PackedMeshPillarFlipped
+    Environments:
+    - MetallicaEnvironment
+    BoundsSize: {x: 2.085863, y: 4.2137785, z: 2.0000272}
+    BoundsCenter: {x: 0.000101447105, y: 0, z: -0.000001013279}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: d95eabb7a5540ab14d45186855612a23
+    Names:
+    - Cube
+    Environments:
+    - TheWeekndEnvironment
+    - Dragons2Environment
+    - BTSEnvironment
+    - PyroEnvironment
+    BoundsSize: {x: 1, y: 1, z: 1}
+    BoundsCenter: {x: 0, y: 0, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: db0e68775ed5164f23d1a98a77a7b5f0
+    Names:
+    - Chevron
+    Environments:
+    - BritneyEnvironment
+    BoundsSize: {x: 4.78192, y: 1.6710755, z: 0}
+    BoundsCenter: {x: 0, y: -0.48943657, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: dbfa38a13d978ddc9a2bfc86ea5490f6
+    Names:
+    - Tombstone
+    Environments:
+    - HalloweenEnvironment
+    BoundsSize: {x: 0.4994655, y: 0.80306643, z: 0.12242427}
+    BoundsCenter: {x: -0.000000044703484, y: 0.3031856, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: de0589b6d61110bc21d2e62a9231d790
+    Names:
+    - Arena
+    Environments:
+    - RocketEnvironment
+    BoundsSize: {x: 169.31207, y: 212.3233, z: 58.250237}
+    BoundsCenter: {x: 0.184124, y: 42.603, z: 26.829475}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: deadefbe0e1d9ce029f456d4acaeccf0
+    Names:
+    - ConeBig
+    Environments:
+    - KaleidoscopeEnvironment
+    BoundsSize: {x: 30.11404, y: 3468.8635, z: 30.11404}
+    BoundsCenter: {x: 0, y: 1737.4806, z: 0.00000047683716}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: dfff68a3bfa06dd9cd3d335b7cfc99fe
+    Names:
+    - Glow
+    Environments:
+    - GagaEnvironment
+    BoundsSize: {x: 6.8184204, y: 0.6000006, z: 6.81839}
+    BoundsCenter: {x: 0.0000060796738, y: 0, z: 0.000002861023}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: e02a7a60ab6dae19aa90c2e647e79867
+    Names:
+    - Ring
+    Environments:
+    - TriangleEnvironment
+    BoundsSize: {x: 1.2292647, y: 25.096764, z: 19.07706}
+    BoundsCenter: {x: -0.49865198, y: 0.00000047683716, z: -1.2352753}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: e3a0a8da143953025ab89c8e5db199dc
+    Names:
+    - Chevron
+    Environments:
+    - MetallicaEnvironment
+    BoundsSize: {x: 10.7154665, y: 0, z: 3.6012588}
+    BoundsCenter: {x: 0, y: 0, z: -0.091362715}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: e5510257d02fbbb5cb24b4b04a26de9b
+    Names:
+    - StaticBase
+    Environments:
+    - WeaveEnvironment
+    - TheSecondEnvironment
+    BoundsSize: {x: 0.030000009, y: 182.4207, z: 0.030000795}
+    BoundsCenter: {x: 0, y: -91.16175, z: 0.0000025569461}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: e624e0a8e2e17f6b5766fc03aa8e0e54
+    Names:
+    - SkrillexTrackPlaneC
+    Environments:
+    - SkrillexEnvironment
+    BoundsSize: {x: 11, y: 10.75, z: 25}
+    BoundsCenter: {x: -9.75, y: -9.625, z: 12.5}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: e632ff31a0194c84c722970fb9b3bfed
+    Names:
+    - Tunnel
+    Environments:
+    - RockMixtapeEnvironment
+    BoundsSize: {x: 8.558964, y: 35.947823, z: 16.835377}
+    BoundsCenter: {x: -0.00000023841858, y: -11.277856, z: 2.9512186}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: e6819d88d5c41ae3e598c9a361498d23
+    Names:
+    - Dynamic3SliceSprite
+    Environments:
+    - GreenDayEnvironment
+    - PanicEnvironment
+    - LinkinPark2Environment
+    - QueenEnvironment
+    - TheWeekndEnvironment
+    - NiceEnvironment
+    - LatticeEnvironment
+    - WeaveEnvironment
+    - Dragons2Environment
+    - EDMEnvironment
+    - HalloweenEnvironment
+    - OriginsEnvironment
+    - LinkinParkEnvironment
+    - TimbalandEnvironment
+    - GreenDayGrenadeEnvironment
+    - BillieEnvironment
+    - LizzoEnvironment
+    - BTSEnvironment
+    - HipHopEnvironment
+    - TheSecondEnvironment
+    - MetallicaEnvironment
+    - RocketEnvironment
+    - DefaultEnvironment
+    - TheRollingStonesEnvironment
+    - SkrillexEnvironment
+    - TriangleEnvironment
+    - InterscopeEnvironment
+    - PyroEnvironment
+    - Panic2Environment
+    - GagaEnvironment
+    - DaftPunkEnvironment
+    - KaleidoscopeEnvironment
+    - Monstercat2Environment
+    - CrabRaveEnvironment
+    - FitBeatEnvironment
+    - KDAEnvironment
+    - BritneyEnvironment
+    - RockMixtapeEnvironment
+    - DragonsEnvironment
+    - MonstercatEnvironment
+    - BigMirrorEnvironment
+    - ColliderEnvironment
+    BoundsSize: {x: 10, y: 5000, z: 0.1}
+    BoundsCenter: {x: 0, y: 0, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: e6d59ddb57d726d3f4d1f63de9ea6b5c
+    Names:
+    - CeilingLight
+    Environments:
+    - HipHopEnvironment
+    BoundsSize: {x: 7.3999987, y: 0.060016047, z: 1.1328803}
+    BoundsCenter: {x: 0, y: -0.000008024275, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: e702827efbb4be2eab567a7ceca11822
+    Names:
+    - Silhouette_Mercury
+    Environments:
+    - QueenEnvironment
+    BoundsSize: {x: 0.6152344, y: 0.98535156, z: 0}
+    BoundsCenter: {x: 0.0036621094, y: -0.0017089844, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: ea5100cb59d175fcdc7ef55343855da5
+    Names:
+    - Construction
+    - Construction_Monstercat
+    Environments:
+    - CrabRaveEnvironment
+    - MonstercatEnvironment
+    BoundsSize: {x: 5, y: 0.3, z: 100.15}
+    BoundsCenter: {x: 0, y: -0.04999999, z: 57.675}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: ea915d9805cdcc085c9e2acbd55be068
+    Names:
+    - Cylinder
+    Environments:
+    - BTSEnvironment
+    BoundsSize: {x: 1, y: 2, z: 1.0000001}
+    BoundsCenter: {x: 0, y: 0, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: ee6c5db1cafa2e9863b8250078202a65
+    Names:
+    - ZombieHand
+    Environments:
+    - HalloweenEnvironment
+    BoundsSize: {x: 0.27553698, y: 0.7984786, z: 0.36672866}
+    BoundsCenter: {x: 0.036916133, y: 0.2641315, z: -0.07279288}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: ef58d420fadbc3a585aa7655d714e002
+    Names:
+    - WheelsFront
+    Environments:
+    - InterscopeEnvironment
+    BoundsSize: {x: 2.0813293, y: 0.7124293, z: 0.7124293}
+    BoundsCenter: {x: 0, y: 0.3298381, z: 1.4528631}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: ef9dc7ddc95d61940e7fcd47f7d2a393
+    Names:
+    - Glow
+    Environments:
+    - BTSEnvironment
+    BoundsSize: {x: 0.34287834, y: 0.34287834, z: 0.08901681}
+    BoundsCenter: {x: 0, y: 0, z: -0.028803565}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: f126d6997caafc8cfa94c9a2196c3b59
+    Names:
+    - Handle
+    Environments:
+    - PyroEnvironment
+    BoundsSize: {x: 0.3445238, y: 0.46287292, z: 0.078669995}
+    BoundsCenter: {x: -0.0031901598, y: 0.22716343, z: -0.000000024214387}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: f1823e128f2d360c696a27e191cfcfa4
+    Names:
+    - LightPanelMesh
+    Environments:
+    - Monstercat2Environment
+    BoundsSize: {x: 1.2124355, y: 4, z: 1.4000001}
+    BoundsCenter: {x: 0.000000029802322, y: 0, z: 0.000000029802322}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: f20dafd29a14a1ae69bd7ff35346ce6f
+    Names:
+    - Runway
+    Environments:
+    - ColliderEnvironment
+    BoundsSize: {x: 5.5, y: 1, z: 10}
+    BoundsCenter: {x: 0, y: 0, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: f2568dec4130f8dd0b5f5dd470f8405e
+    Names:
+    - Box004
+    Environments:
+    - HalloweenEnvironment
+    BoundsSize: {x: 0.49311516, y: 0.08143386, z: 0.6405171}
+    BoundsCenter: {x: 0, y: 0.034283064, z: 0.32025856}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: f33ed82de73265985b5e8e1aa9e75def
+    Names:
+    - CloudShape1
+    Environments:
+    - LizzoEnvironment
+    BoundsSize: {x: 0.9572315, y: 0.59231484, z: 0.04}
+    BoundsCenter: {x: 0.00017133355, y: 0.00032258034, z: -0.02}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: f3ae112e07cc1aef388ef93bcd586812
+    Names:
+    - BigMirrorFloor
+    Environments:
+    - BigMirrorEnvironment
+    BoundsSize: {x: 15.7, y: 0, z: 92.25}
+    BoundsCenter: {x: 0, y: 0, z: 46.375}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: f3dd6ad04056172aa95927b39f86bf42
+    Names:
+    - TrackMirror_KDA
+    Environments:
+    - KDAEnvironment
+    BoundsSize: {x: 200, y: 0, z: 230}
+    BoundsCenter: {x: 0, y: 0, z: 15.25}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: f590db699e6bd91cddf52a3eae375f4d
+    Names:
+    - TunnelPieceMeshGlow
+    Environments:
+    - QueenEnvironment
+    BoundsSize: {x: 0.007821824, y: 0.00087, z: 0.012919577}
+    BoundsCenter: {x: 0, y: 0.0004361443, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: f5d4e4af78290171ab7e85fb6790ab36
+    Names:
+    - CylinderGlow
+    Environments:
+    - GagaEnvironment
+    BoundsSize: {x: 7.2, y: 7.2, z: 8.099999}
+    BoundsCenter: {x: 0, y: 0, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: f9670639bb23a079232e361904bf23e9
+    Names:
+    - RotationBase
+    Environments:
+    - WeaveEnvironment
+    - Dragons2Environment
+    - TheSecondEnvironment
+    - PyroEnvironment
+    BoundsSize: {x: 0.3, y: 0.2733122, z: 0.08919716}
+    BoundsCenter: {x: -0.000000007450581, y: 0.19075283, z: -0.000000007450581}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: f9bf14061e02e73401ec7a7216a59871
+    Names:
+    - Floor
+    Environments:
+    - LinkinParkEnvironment
+    BoundsSize: {x: 7.3000216, y: 20.000004, z: 0}
+    BoundsCenter: {x: 0.0000038146973, y: -0.0000019073486, z: -0.12988019}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: fab82241c578c503eeb59115307a82fb
+    Names:
+    - Helmet01Merged
+    Environments:
+    - DaftPunkEnvironment
+    BoundsSize: {x: 1.6239514, y: 1.9339205, z: 1.7909504}
+    BoundsCenter: {x: 0, y: 0, z: -0.000000059604645}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: fc873120785f6e3d7235c836a7d6191a
+    Names:
+    - GraffitiDecals
+    Environments:
+    - HipHopEnvironment
+    BoundsSize: {x: 2.3243258, y: 2.792284, z: 0.021793721}
+    BoundsCenter: {x: 0.064480186, y: -0.10479212, z: 0.010896853}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: feca631dc0aef1ae46f0e44b331d9d0e
+    Names:
+    - pb_Mesh-2103062
+    - pb_Mesh-85242
+    - pb_Mesh-91202
+    - pb_Mesh-136590
+    Environments:
+    - QueenEnvironment
+    - LatticeEnvironment
+    - WeaveEnvironment
+    - GagaEnvironment
+    BoundsSize: {x: 3, y: 0.00000023841858, z: 2.0000002}
+    BoundsCenter: {x: 0, y: -0.0001, z: 0}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: feec5be6962d1b97b402d08b48532278
+    Names:
+    - WaterfallFlatClose
+    Environments:
+    - BillieEnvironment
+    BoundsSize: {x: 4.4999995, y: 0.0000002327543, z: 67.89997}
+    BoundsCenter: {x: -0.00000023841858, y: -0.00000013426447, z: 34.050007}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: ff4a318421c1a1da338d9568b12ed1b5
+    Names:
+    - Roof
+    Environments:
+    - HipHopEnvironment
+    BoundsSize: {x: 41.8, y: 2.0000305, z: 407.39996}
+    BoundsCenter: {x: 0, y: 12.14025, z: 100.89389}
+    Unused: 0
+    Ignored: 0
+  - Mesh: {fileID: 0}
+    Hash: ff5bb935a1c22995f35956883a9cf4c1
+    Names:
+    - WaterfallFlatFar
+    Environments:
+    - BillieEnvironment
+    BoundsSize: {x: 4.4999995, y: 0.0000002327543, z: 138.14998}
+    BoundsCenter: {x: -0.00000023841858, y: -0.00000013426447, z: 69.17501}
+    Unused: 0
+    Ignored: 0

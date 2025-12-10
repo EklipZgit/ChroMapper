@@ -10,15 +10,46 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b8bed67aecb0df44e94f1913900677f0, type: 3}
-  m_Name: EnvironmentLibrary
+  m_Name: EnvironmentLibrarySO
   m_EditorClassIdentifier: 
+  Meshes: {fileID: 11400000, guid: e07afa9dddf2714c3a5da9236d935d92, type: 2}
+  Materials: {fileID: 11400000, guid: 2e04ee815276c77229446fe0a3c138bf, type: 2}
+  Shaders:
+  - name: Custom/OpaqueNeonLight
+    shader: {fileID: 4800000, guid: 20f9a1141fa23bc45aefafed3a649b3d, type: 3}
+  - name: Custom/Parametric3SliceSprite
+    shader: {fileID: 4800000, guid: 20f9a1141fa23bc45aefafed3a649b3d, type: 3}
+  - name: Custom/TransparentNeonLight
+    shader: {fileID: 4800000, guid: d9fe6e2416664eb38e91285a049ce81e, type: 3}
+  - name: Custom/Mirror
+    shader: {fileID: 4800000, guid: efaf81b9ea3d6c94fb2f56e67786306d, type: 3}
+  - name: Custom/SimpleLit
+    shader: {fileID: 4800000, guid: efaf81b9ea3d6c94fb2f56e67786306d, type: 3}
+  - name: Custom/ParametricBoxFakeGlow
+    shader: {fileID: 4800000, guid: f923e6cb8fd74797a36744e91b9e64f3, type: 3}
+  - name: Custom/CustomParticles
+    shader: {fileID: 0}
+  - name: Custom/SetDepthOnly
+    shader: {fileID: 0}
+  - name: Custom/Spectrogram
+    shader: {fileID: 4800000, guid: efaf81b9ea3d6c94fb2f56e67786306d, type: 3}
+  - name: Custom/SimpleStencil
+    shader: {fileID: 0}
+  - name: Custom/UnlitSpectrogram
+    shader: {fileID: 4800000, guid: f923e6cb8fd74797a36744e91b9e64f3, type: 3}
+  - name: Custom/Rain
+    shader: {fileID: 0}
+  - name: Custom/WaterLit
+    shader: {fileID: 0}
+  - name: Custom/CloudsLitTransparent
+    shader: {fileID: 0}
+  - name: Custom/CloudsOpaque
+    shader: {fileID: 0}
+  - name: Custom/SimpleLightning
+    shader: {fileID: 4800000, guid: 20f9a1141fa23bc45aefafed3a649b3d, type: 3}
   <SkyboxMaterial>k__BackingField: {fileID: 2100000, guid: e08c9a8c6d50c52499b383fff6fa82dd,
     type: 2}
   layerMaskRemap:
-  - name: Environment
-    layerMask:
-      serializedVersion: 2
-      m_Bits: 1
   - name: Default
     layerMask:
       serializedVersion: 2
@@ -27,19 +58,23 @@ MonoBehaviour:
     layerMask:
       serializedVersion: 2
       m_Bits: 1
+  - name: Environment
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 1
+  - name: EnvironmentPhysics
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 1
   - name: NeonLight
     layerMask:
       serializedVersion: 2
       m_Bits: 1073741824
-  - name: PlayersPlace
-    layerMask:
-      serializedVersion: 2
-      m_Bits: 1
-  - name: Water
-    layerMask:
-      serializedVersion: 2
-      m_Bits: 1
   - name: NonReflectedParticles
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 1
+  - name: PlayersPlace
     layerMask:
       serializedVersion: 2
       m_Bits: 1
@@ -47,7 +82,7 @@ MonoBehaviour:
     layerMask:
       serializedVersion: 2
       m_Bits: 32
-  - name: EnvironmentPhysics
+  - name: Water
     layerMask:
       serializedVersion: 2
       m_Bits: 1

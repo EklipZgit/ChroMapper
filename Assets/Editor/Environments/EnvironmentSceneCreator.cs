@@ -25,8 +25,6 @@ public class EnvironmentSceneCreator
         var textAsset = Selection.activeObject switch
         {
             TextAsset tempTextAsset => tempTextAsset,
-            EnvironmentBuildSO envBuild => AssetDatabase.LoadAssetAtPath<TextAsset>(
-                AssetDatabase.GetAssetPath(envBuild).Replace("BuildSO.asset", ".json")),
             _ => null
         };
         if (textAsset == null) return;
@@ -55,20 +53,16 @@ public class EnvironmentSceneCreator
             AssetDatabase.LoadAssetAtPath<EnvironmentLibrarySO>(Path.Combine(assetPath, "EnvironmentLibrarySO.asset"));
         var environmentData =
             JsonConvert.DeserializeObject<EnvironmentData>(textAsset.text, new Vector3ArrayConverter());
-        var environmentBuild =
-            AssetDatabase.LoadAssetAtPath<EnvironmentBuildSO>(
-                Path.Combine(environmentPath, "Data", $"{assetName}BuildSO.asset"));
 
         // Move null checks up here so it doesnt ruin the rest of the process
         if (environmentLibrary == null) throw new ArgumentNullException(nameof(environmentLibrary));
         if (environmentData == null) throw new ArgumentNullException(nameof(environmentData));
-        if (environmentBuild == null) throw new ArgumentNullException(nameof(environmentBuild));
 
         // Set the skybox material if specified in the library
         if (environmentLibrary.SkyboxMaterial != null) RenderSettings.skybox = environmentLibrary.SkyboxMaterial;
 
         // Create the environment in the new scene
-        CreateEnvironment(environmentData, environmentLibrary, environmentBuild);
+        CreateEnvironment(environmentData, environmentLibrary);
 
         // Save the scene to disk
         if ((exist && EditorSceneManager.SaveScene(scene)) || EditorSceneManager.SaveScene(scene, targetPath))
@@ -85,13 +79,12 @@ public class EnvironmentSceneCreator
     [MenuItem("Environment/Create from Data", true)]
     private static bool ValidateCreateEnvironmentFromData() =>
         Selection.objects.Length == 1
-        && (Selection.activeObject is TextAsset || Selection.activeObject is EnvironmentBuildSO);
+        && Selection.activeObject is TextAsset;
 
     // Main method which constructs the environment from parsed data
     private static void CreateEnvironment(
         EnvironmentData data,
-        EnvironmentLibrarySO library,
-        EnvironmentBuildSO envBuild)
+        EnvironmentLibrarySO library)
     {
         Transform lastParent = null;
         string lastParentChromaID = null;
@@ -112,11 +105,11 @@ public class EnvironmentSceneCreator
 
             // Instantiate the environment object from the library
             GameObject prefab;
-            if (string.IsNullOrEmpty(envObject.MeshName))
+            if (envObject.Components.MeshFilter == null || string.IsNullOrEmpty(envObject.Components.MeshFilter.Hash))
                 prefab = new GameObject();
             else
             {
-                if (envBuild.meshLookup.TryGetValue(envObject.MeshName, out var mesh) && mesh != null)
+                if (library.Meshes.Lookup.TryGetValue(envObject.Components.MeshFilter.Hash, out var mesh) && mesh != null)
                 {
                     prefab = new GameObject();
                     var mf = prefab.AddComponent<MeshFilter>();
@@ -126,7 +119,7 @@ public class EnvironmentSceneCreator
                     if (envObject.Components.MeshRenderer != null
                         && envObject.Components.MeshRenderer.Materials.Any())
                     {
-                        if (envBuild.materialLookup.TryGetValue(
+                        if (library.Materials.Lookup.TryGetValue(
                                 envObject.Components.MeshRenderer.Materials[0],
                                 out var mat)
                             && mat != null)
@@ -140,8 +133,12 @@ public class EnvironmentSceneCreator
                 }
                 else
                 {
-                    Debug.LogWarning($"{envObject.ChromaID} mesh not found for:\n{envObject.MeshName}");
-                    prefab = PrefabUtility.InstantiatePrefab(library.fallbackPrefab) as GameObject;
+                    Debug.LogWarning($"{envObject.ChromaID} mesh not found for:\n{envObject.Components.MeshFilter.Hash}");
+                    prefab = new GameObject();
+                    var fallback = PrefabUtility.InstantiatePrefab(library.fallbackPrefab,prefab.transform) as GameObject;
+                    var mInfo = library.Meshes.list.First(x => x.Hash == envObject.Components.MeshFilter.Hash);
+                    fallback.transform.localPosition = mInfo.BoundsCenter;
+                    fallback.transform.localScale = mInfo.BoundsSize;
                 }
             }
 

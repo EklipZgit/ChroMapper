@@ -15,7 +15,7 @@ Material:
   - _MODE_OPAQUE
   m_InvalidKeywords: []
   m_LightmapFlags: 4
-  m_EnableInstancingVariants: 1
+  m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
@@ -36,11 +36,11 @@ Material:
     - _FogHeightScale: 1
     - _FogScale: 1
     - _FogStartOffset: 0
-    - _Glossiness: 0.709
+    - _Glossiness: 0.5
     - _Glow: 0
-    - _Metallic: 0.31
+    - _Metallic: 0
     - _Mode: 0
     m_Colors:
-    - _Color: {r: 0.15686275, g: 0.15686275, b: 0.15686275, a: 1}
+    - _Color: {r: 0.54999995, g: 0.54999995, b: 0.54999995, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
