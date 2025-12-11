@@ -5,11 +5,13 @@ using Beatmap.Containers;
 using Beatmap.Info;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LoadedDifficultySelectController : MonoBehaviour
 {
     [SerializeField] private MapLoader mapLoader;
     [SerializeField] private TMP_Dropdown dropdown;
+    [SerializeField] private EnvironmentListSO environmentList;
 
     public static event Action OnLoadedDifficultyChanged;
 
@@ -95,45 +97,44 @@ public class LoadedDifficultySelectController : MonoBehaviour
 
         var info = BeatSaberSongContainer.Instance.Info;
         var infoDifficulty = setDifficulties[value];
-        var currentPlatform = SongInfoEditUI.GetEnvironmentIDFromString(
-            info.EnvironmentNames[BeatSaberSongContainer.Instance.MapDifficultyInfo.EnvironmentNameIndex]);
+        var currentPlatform =
+            info.EnvironmentNames[BeatSaberSongContainer.Instance.MapDifficultyInfo.EnvironmentNameIndex];
         BeatSaberSongContainer.Instance.MapDifficultyInfo = infoDifficulty;
 
 
         var nextPlatform =
-            SongInfoEditUI.GetEnvironmentIDFromString(info.EnvironmentNames[infoDifficulty.EnvironmentNameIndex]);
+            info.EnvironmentNames[infoDifficulty.EnvironmentNameIndex];
         var customPlat = false;
-        if (!string.IsNullOrEmpty(info.CustomEnvironmentMetadata.Name))
-        {
-            if (CustomPlatformsLoader
-                    .Instance.GetAllEnvironmentIds()
-                    .IndexOf(info.CustomEnvironmentMetadata.Name)
-                >= 0)
-                customPlat = true;
-        }
+        // if (!string.IsNullOrEmpty(info.CustomEnvironmentMetadata.Name))
+        // {
+        //     if (CustomPlatformsLoader
+        //             .Instance.GetAllEnvironmentIds()
+        //             .IndexOf(info.CustomEnvironmentMetadata.Name)
+        //         >= 0)
+        //         customPlat = true;
+        // }
 
         //Instantiate platform, grab descriptor
         if (currentPlatform != nextPlatform || customPlat)
         {
-            DestroyImmediate(LoadInitialMap.Platform.gameObject);
-            var platform = LoadInitialMap.PlatformPrefabs[nextPlatform] == null
-                ? LoadInitialMap.PlatformPrefabs[0]
-                : LoadInitialMap.PlatformPrefabs[nextPlatform];
-            if (customPlat)
-                platform = CustomPlatformsLoader.Instance.LoadPlatform(info.CustomEnvironmentMetadata.Name, platform);
+            SceneManager.UnloadScene(currentPlatform);
+            var platform = environmentList.LookupID.TryGetValue(nextPlatform, out var p)
+                ? p
+                : environmentList.LookupID["DefaultEnvironment"];
 
-            var instantiate = customPlat
-                ? platform
-                : Instantiate(platform, LoadInitialMap.PlatformOffset, Quaternion.identity);
-            var descriptor = instantiate.GetComponent<PlatformDescriptor>();
-            EventContainer.ModifyTypeMode = descriptor.SortMode;
+            // if (customPlat)
+            //     platform = CustomPlatformsLoader.Instance.LoadPlatform(info.CustomEnvironmentMetadata.Name, platform);
+
+            SceneManager.LoadScene(platform.ID, LoadSceneMode.Additive);
+            // var descriptor = instantiate.GetComponent<PlatformDescriptor>();
+            // EventContainer.ModifyTypeMode = descriptor.SortMode;
 
             // this is already handled from LoadedDifficultyChangedEvent it seems
             // LoadInitialMap.PopulateColorsFromMapInfo(descriptor);
             // LoadInitialMap.UpdateObjectContainerColors(descriptor.ColorScheme);
 
             // amazing spaghetti code
-            LoadInitialMap.Platform = descriptor;
+            // LoadInitialMap.Platform = descriptor;
             LoadInitialMap.NotifyPlatformLoaded();
         }
 

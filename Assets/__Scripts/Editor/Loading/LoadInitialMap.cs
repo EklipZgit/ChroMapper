@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using Beatmap.Containers;
+using Unity.VectorGraphics;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 
 // why the hell so many thing depend on this, what's wrong with ya'll
@@ -32,8 +34,7 @@ public class LoadInitialMap : MonoBehaviour
 
     [SerializeField] private MapLoader loader;
 
-    [FormerlySerializedAs("PlatformPrefabs")] [Space] [SerializeField]
-    private GameObject[] platformPrefabs;
+    [SerializeField] private EnvironmentListSO environmentList;
 
     private void Awake() => SceneTransitionManager.Instance.AddLoadRoutine(LoadMap());
 
@@ -51,43 +52,39 @@ public class LoadInitialMap : MonoBehaviour
         var infoDifficulty = BeatSaberSongContainer.Instance.MapDifficultyInfo;
 
         //Set up some local variables
-        var environmentID = 0;
+        var envName = info.EnvironmentNames[infoDifficulty.EnvironmentNameIndex];
         var customPlat = false;
         var directional = false;
 
         //Grab platform by name (Official or Custom)
-        environmentID =
-            SongInfoEditUI.GetEnvironmentIDFromString(info.EnvironmentNames[infoDifficulty.EnvironmentNameIndex]);
-        if (!string.IsNullOrEmpty(info.CustomEnvironmentMetadata.Name))
-        {
-            if (CustomPlatformsLoader
-                    .Instance.GetAllEnvironmentIds()
-                    .IndexOf(info.CustomEnvironmentMetadata.Name)
-                >= 0)
-            {
-                customPlat = true;
-            }
-        }
+        // if (!string.IsNullOrEmpty(info.CustomEnvironmentMetadata.Name))
+        // {
+        //     if (CustomPlatformsLoader
+        //             .Instance.GetAllEnvironmentIds()
+        //             .IndexOf(info.CustomEnvironmentMetadata.Name)
+        //         >= 0)
+        //     {
+        //         customPlat = true;
+        //     }
+        // }
 
         //Instantiate platform, grab descriptor
-        var platform = platformPrefabs[environmentID] == null
-            ? platformPrefabs[0]
-            : platformPrefabs[environmentID];
+        var platform = environmentList.LookupID.TryGetValue(envName, out var value)
+            ? value
+            : environmentList.LookupID["DefaultEnvironment"];
 
-        if (customPlat)
-        {
-            platform = CustomPlatformsLoader.Instance.LoadPlatform(info.CustomEnvironmentMetadata.Name, platform);
-        }
+        // if (customPlat)
+        //     platform = CustomPlatformsLoader.Instance.LoadPlatform(info.CustomEnvironmentMetadata.Name, platform);
 
-        var instantiate = customPlat ? platform : Instantiate(platform, PlatformOffset, Quaternion.identity);
-        var descriptor = instantiate.GetComponent<PlatformDescriptor>();
-        EventContainer.ModifyTypeMode = descriptor.SortMode; //Change sort mode
-
-        PopulateColorsFromMapInfo(descriptor);
-        UpdateObjectContainerColors(descriptor.ColorScheme);
-
-        OnPlatformLoaded.Invoke(descriptor); //Trigger event for classes that use the platform
-        Platform = descriptor;
+        SceneManager.LoadScene(platform.ID, LoadSceneMode.Additive);
+        // var descriptor = instantiate.GetComponent<PlatformDescriptor>();
+        // EventContainer.ModifyTypeMode = descriptor.SortMode; //Change sort mode
+        //
+        // PopulateColorsFromMapInfo(descriptor);
+        // UpdateObjectContainerColors(descriptor.ColorScheme);
+        //
+        // OnPlatformLoaded.Invoke(descriptor); //Trigger event for classes that use the platform
+        // Platform = descriptor;
 
         loader.UpdateMapData(BeatSaberSongContainer.Instance.Map);
         loader.HardRefresh();
@@ -95,8 +92,6 @@ public class LoadInitialMap : MonoBehaviour
     }
 
     public static void NotifyPlatformLoaded() => OnPlatformLoaded?.Invoke(Platform);
-
-    public static GameObject[] PlatformPrefabs => FindAnyObjectByType<LoadInitialMap>().platformPrefabs;
 
     public static void PopulateColorsFromMapInfo(PlatformDescriptor platformDescriptor)
     {
