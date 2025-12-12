@@ -277,7 +277,7 @@ MonoBehaviour:
     BoundsCenter: {x: -2.1168177, y: 0.0001, z: 54.388657}
     Unused: 0
     Ignored: 0
-  - Mesh: {fileID: 0}
+  - Mesh: {fileID: 4300000, guid: 18f78f71f7e07564989a94d7595959b1, type: 2}
     Hash: 171af8cf2525ad287a32c4e11b67e210
     Names:
     - Box007
@@ -516,7 +516,7 @@ MonoBehaviour:
     BoundsCenter: {x: 2.1978462, y: 4.221666, z: 0}
     Unused: 0
     Ignored: 0
-  - Mesh: {fileID: 0}
+  - Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
     Hash: 21dbc7f929c770b5b0df8c74c4d22b4b
     Names:
     - Plane
@@ -1292,7 +1292,7 @@ MonoBehaviour:
     BoundsCenter: {x: 0.0003681183, y: 0.082, z: -0.0009942055}
     Unused: 0
     Ignored: 0
-  - Mesh: {fileID: 0}
+  - Mesh: {fileID: 4300000, guid: 1e25a2399eca0864193651f9b7097f6b, type: 2}
     Hash: 4efe6da34c0448920ff4956f200145f0
     Names:
     - Tree1Depth
