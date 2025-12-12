@@ -1,0 +1,1845 @@
+[
+  {
+    "Hash": "056758374e2f3e8080da41a581fdf198",
+    "Names": [
+      "LowClouds"
+    ],
+    "Envs": [
+      "BTSEnvironment"
+    ],
+    "BoundsSize": [
+      150.0,
+      140.0,
+      150.0
+    ],
+    "BoundsCenter": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "elementId": 9
+  },
+  {
+    "Hash": "059bf71c823df5f58912d7262e51a992",
+    "Names": [
+      "TrackConstruction_Second",
+      "TrackConstruction_Default"
+    ],
+    "Envs": [
+      "TheSecondEnvironment",
+      "DefaultEnvironment"
+    ],
+    "BoundsSize": [
+      29.0999985,
+      160.750031,
+      1000.0
+    ],
+    "BoundsCenter": [
+      0.0,
+      -80.1250153,
+      0.0
+    ],
+    "elementId": 10
+  },
+  {
+    "Hash": "076670b9d66d7b7797a7082ed13bced2",
+    "Names": [
+      "ConeSmall"
+    ],
+    "Envs": [
+      "KaleidoscopeEnvironment"
+    ],
+    "BoundsSize": [
+      7.49246025,
+      30.7680645,
+      7.49246025
+    ],
+    "BoundsCenter": [
+      0.0,
+      14.3089914,
+      0.0
+    ],
+    "elementId": 12
+  },
+  {
+    "Hash": "0c3d60c6d83ba726ebccd4c5be8ff324",
+    "Names": [
+      "TrackConstruction_LinkinPark2",
+      "TrackConstruction_LinkinPark"
+    ],
+    "Envs": [
+      "LinkinPark2Environment",
+      "LinkinParkEnvironment"
+    ],
+    "BoundsSize": [
+      2.30000019,
+      0.100999996,
+      121.884476
+    ],
+    "BoundsCenter": [
+      -0.9000001,
+      0.0005000029,
+      -39.0377579
+    ],
+    "elementId": 17
+  },
+  {
+    "Hash": "0f4083cce876b032786cbe9af8e93338",
+    "Names": [
+      "TunnelSpectrogram"
+    ],
+    "Envs": [
+      "LinkinParkEnvironment"
+    ],
+    "BoundsSize": [
+      0.0,
+      61.9770432,
+      0.6645229
+    ],
+    "BoundsCenter": [
+      0.0,
+      30.3690453,
+      0.333777
+    ],
+    "elementId": 18
+  },
+  {
+    "Hash": "1116a964ca8b8d9aae28982accd5edfe",
+    "Names": [
+      "CombinedMesh"
+    ],
+    "Envs": [
+      "OriginsEnvironment"
+    ],
+    "BoundsSize": [
+      6.5,
+      0.099999994,
+      200.0
+    ],
+    "BoundsCenter": [
+      0.0,
+      -0.051,
+      107.78
+    ],
+    "elementId": 19
+  },
+  {
+    "Hash": "11e359a231f3a4d4aba2170415642edc",
+    "Names": [
+      "TunnelSpectrogram"
+    ],
+    "Envs": [
+      "InterscopeEnvironment"
+    ],
+    "BoundsSize": [
+      0.0,
+      61.9770432,
+      0.6645229
+    ],
+    "BoundsCenter": [
+      0.0,
+      30.3690453,
+      -0.00225566328
+    ],
+    "elementId": 21
+  },
+  {
+    "Hash": "15b488269d626b57bba8db1d4e13bd6e",
+    "Names": [
+      "TrackConstruction_Dragons2",
+      "TrackConstruction"
+    ],
+    "Envs": [
+      "Dragons2Environment",
+      "DragonsEnvironment"
+    ],
+    "BoundsSize": [
+      4.5,
+      0.100999996,
+      200.13
+    ],
+    "BoundsCenter": [
+      -0.8999999,
+      0.0005000029,
+      -0.06499863
+    ],
+    "elementId": 22
+  },
+  {
+    "Hash": "171af8cf2525ad287a32c4e11b67e210",
+    "Names": [
+      "Box007"
+    ],
+    "Envs": [
+      "HalloweenEnvironment"
+    ],
+    "BoundsSize": [
+      0.599999964,
+      0.299999982,
+      0.8278124
+    ],
+    "BoundsCenter": [
+      0.0,
+      0.0,
+      0.4139062
+    ],
+    "elementId": 25
+  },
+  {
+    "Hash": "176488ad84cb8a01fa26963c322ff299",
+    "Names": [
+      "BillieClouds"
+    ],
+    "Envs": [
+      "BillieEnvironment"
+    ],
+    "BoundsSize": [
+      88.00988,
+      80.6998138,
+      44.1813431
+    ],
+    "BoundsCenter": [
+      -1.79398346,
+      -0.3499012,
+      17.4645844
+    ],
+    "elementId": 26
+  },
+  {
+    "Hash": "19c2b09cab2d0a133dbd46e03659bc8f",
+    "Names": [
+      "BackgroundBuildings"
+    ],
+    "Envs": [
+      "GreenDayEnvironment",
+      "GreenDayGrenadeEnvironment"
+    ],
+    "BoundsSize": [
+      5472.20068,
+      16414.6133,
+      4485.22
+    ],
+    "BoundsCenter": [
+      678.5454,
+      -4475.771,
+      3962.10913
+    ],
+    "elementId": 30
+  },
+  {
+    "Hash": "1b60bd3f494d5570282383d1043cbfbf",
+    "Names": [
+      "GateLight"
+    ],
+    "Envs": [
+      "RocketEnvironment"
+    ],
+    "BoundsSize": [
+      19.4833527,
+      0.334097445,
+      6.940588
+    ],
+    "BoundsCenter": [
+      -4.76837158E-07,
+      0.151563436,
+      3.505169
+    ],
+    "elementId": 34
+  },
+  {
+    "Hash": "1ba13f4be12e237b13f8b0d5e88a8e5f",
+    "Names": [
+      "HighClouds"
+    ],
+    "Envs": [
+      "BTSEnvironment"
+    ],
+    "BoundsSize": [
+      150.0,
+      160.0,
+      150.0
+    ],
+    "BoundsCenter": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "elementId": 35
+  },
+  {
+    "Hash": "1daceba4a244a18b7287699992e84148",
+    "Names": [
+      "Cylinder"
+    ],
+    "Envs": [
+      "BTSEnvironment"
+    ],
+    "BoundsSize": [
+      1.00000012,
+      2.0,
+      1.00000024
+    ],
+    "BoundsCenter": [
+      5.96046448E-08,
+      0.0,
+      -8.940697E-08
+    ],
+    "elementId": 38
+  },
+  {
+    "Hash": "2024266e198bf5128227c39c8877fc49",
+    "Names": [
+      "WaterfallSetDepthOnly"
+    ],
+    "Envs": [
+      "BillieEnvironment"
+    ],
+    "BoundsSize": [
+      4.49999952,
+      2.32946491E-07,
+      205.899948
+    ],
+    "BoundsCenter": [
+      -2.38418579E-07,
+      -1.34168374E-07,
+      103.049995
+    ],
+    "elementId": 41
+  },
+  {
+    "Hash": "2070f8a1bb02222b6998e5fb0bf9b8ae",
+    "Names": [
+      "pb_Mesh-121970",
+      "pb_Mesh-122110"
+    ],
+    "Envs": [
+      "GreenDayGrenadeEnvironment"
+    ],
+    "BoundsSize": [
+      2.3,
+      0.0,
+      247.2
+    ],
+    "BoundsCenter": [
+      -0.9,
+      0.0,
+      123.6
+    ],
+    "elementId": 42
+  },
+  {
+    "Hash": "21dbc7f929c770b5b0df8c74c4d22b4b",
+    "Names": [
+      "Plane"
+    ],
+    "Envs": [
+      "LatticeEnvironment",
+      "HalloweenEnvironment",
+      "ColliderEnvironment"
+    ],
+    "BoundsSize": [
+      10.0,
+      2.220446E-16,
+      10.0
+    ],
+    "BoundsCenter": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "elementId": 44
+  },
+  {
+    "Hash": "24482fa2e8132f164c8dcd0dde6c4bd8",
+    "Names": [
+      "Ring"
+    ],
+    "Envs": [
+      "NiceEnvironment",
+      "Dragons2Environment",
+      "TheSecondEnvironment",
+      "DefaultEnvironment",
+      "TriangleEnvironment",
+      "FitBeatEnvironment",
+      "DragonsEnvironment",
+      "BigMirrorEnvironment"
+    ],
+    "BoundsSize": [
+      0.8,
+      49.66849,
+      49.66849
+    ],
+    "BoundsCenter": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "elementId": 50
+  },
+  {
+    "Hash": "2807a8508fadc5da707abc141aa2cb87",
+    "Names": [
+      "TrackMirror_Timbaland"
+    ],
+    "Envs": [
+      "TimbalandEnvironment"
+    ],
+    "BoundsSize": [
+      4.75,
+      0.0,
+      247.25322
+    ],
+    "BoundsCenter": [
+      0.0,
+      0.0,
+      123.573387
+    ],
+    "elementId": 55
+  },
+  {
+    "Hash": "2a7191de7f2222aa2a63d893400ac9bf",
+    "Names": [
+      "BTSConstruction"
+    ],
+    "Envs": [
+      "BTSEnvironment"
+    ],
+    "BoundsSize": [
+      2.3,
+      0.1,
+      202.999069
+    ],
+    "BoundsCenter": [
+      0.0,
+      -0.0510000028,
+      109.250465
+    ],
+    "elementId": 56
+  },
+  {
+    "Hash": "36b2ce0fdab51e3ccceeff33f8af944d",
+    "Names": [
+      "Construction_Kaleidoscope"
+    ],
+    "Envs": [
+      "KaleidoscopeEnvironment"
+    ],
+    "BoundsSize": [
+      2.30000019,
+      0.104051568,
+      202.999069
+    ],
+    "BoundsCenter": [
+      -5.96046448E-08,
+      -0.04897422,
+      109.250465
+    ],
+    "elementId": 73
+  },
+  {
+    "Hash": "381d721a1a34c1b4d7e8211cd9f43407",
+    "Names": [
+      "CombinedMesh"
+    ],
+    "Envs": [
+      "MonstercatEnvironment"
+    ],
+    "BoundsSize": [
+      41.0,
+      150.0,
+      1.0
+    ],
+    "BoundsCenter": [
+      0.0,
+      -70.0,
+      -79.0
+    ],
+    "elementId": 78
+  },
+  {
+    "Hash": "3a285cd37fdf7acdcd6442fb68b6fc37",
+    "Names": [
+      "Spectrogram1"
+    ],
+    "Envs": [
+      "PanicEnvironment",
+      "NiceEnvironment",
+      "Dragons2Environment",
+      "OriginsEnvironment",
+      "TheSecondEnvironment",
+      "DefaultEnvironment",
+      "TriangleEnvironment",
+      "CrabRaveEnvironment",
+      "FitBeatEnvironment",
+      "DragonsEnvironment",
+      "MonstercatEnvironment",
+      "BigMirrorEnvironment"
+    ],
+    "BoundsSize": [
+      0.9,
+      142.650009,
+      60.0
+    ],
+    "BoundsCenter": [
+      1.49011612E-08,
+      -70.87501,
+      -30.0
+    ],
+    "elementId": 79
+  },
+  {
+    "Hash": "3bf23a69f7249ae80d02876b05da543a",
+    "Names": [
+      "RampFar"
+    ],
+    "Envs": [
+      "InterscopeEnvironment"
+    ],
+    "BoundsSize": [
+      56.0,
+      0.0,
+      173.75
+    ],
+    "BoundsCenter": [
+      40.0,
+      0.0,
+      86.875
+    ],
+    "elementId": 82
+  },
+  {
+    "Hash": "3f8159522c7849d8ff562f01d511a303",
+    "Names": [
+      "VConstruction"
+    ],
+    "Envs": [
+      "CrabRaveEnvironment",
+      "MonstercatEnvironment"
+    ],
+    "BoundsSize": [
+      122.03109,
+      131.653824,
+      1.0
+    ],
+    "BoundsCenter": [
+      3.81469727E-06,
+      -55.0,
+      15.0
+    ],
+    "elementId": 85
+  },
+  {
+    "Hash": "455bdd07843086c69ca894493c81a852",
+    "Names": [
+      "TopCones"
+    ],
+    "Envs": [
+      "PanicEnvironment"
+    ],
+    "BoundsSize": [
+      200.0,
+      85.35535,
+      70.0
+    ],
+    "BoundsCenter": [
+      41.0,
+      7.32232857,
+      27.0
+    ],
+    "elementId": 98
+  },
+  {
+    "Hash": "45fa1f136240b379e1ee635309480447",
+    "Names": [
+      "FarBuildings"
+    ],
+    "Envs": [
+      "CrabRaveEnvironment",
+      "MonstercatEnvironment"
+    ],
+    "BoundsSize": [
+      25.0,
+      105.0,
+      24.5
+    ],
+    "BoundsCenter": [
+      0.0,
+      -44.5,
+      66.75
+    ],
+    "elementId": 99
+  },
+  {
+    "Hash": "46340d6463727111e46ff98cb60e39c2",
+    "Names": [
+      "Top"
+    ],
+    "Envs": [
+      "LinkinParkEnvironment"
+    ],
+    "BoundsSize": [
+      7.30002165,
+      20.0000038,
+      5.09042645
+    ],
+    "BoundsCenter": [
+      3.81469727E-06,
+      -1.90734863E-06,
+      2.255568
+    ],
+    "elementId": 102
+  },
+  {
+    "Hash": "4a7ed587cd17c4be2ad4d47ecce7f17f",
+    "Names": [
+      "FloorFar",
+      "CeilingFar"
+    ],
+    "Envs": [
+      "InterscopeEnvironment"
+    ],
+    "BoundsSize": [
+      20.0,
+      0.0,
+      20.0
+    ],
+    "BoundsCenter": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "elementId": 109
+  },
+  {
+    "Hash": "4efe6da34c0448920ff4956f200145f0",
+    "Names": [
+      "Tree1Depth"
+    ],
+    "Envs": [
+      "HalloweenEnvironment"
+    ],
+    "BoundsSize": [
+      8.140554,
+      10.570941,
+      8.082719
+    ],
+    "BoundsCenter": [
+      0.026399374,
+      3.61759138,
+      -0.170249462
+    ],
+    "elementId": 113
+  },
+  {
+    "Hash": "553111138ac3435a618a7efa515b3123",
+    "Names": [
+      "BigMirrorConstruction"
+    ],
+    "Envs": [
+      "BigMirrorEnvironment"
+    ],
+    "BoundsSize": [
+      16.7,
+      160.800034,
+      500.0
+    ],
+    "BoundsCenter": [
+      0.0,
+      -80.10001,
+      12.0
+    ],
+    "elementId": 118
+  },
+  {
+    "Hash": "5ca8399f957076da3d8e9be8546cd6ca",
+    "Names": [
+      "TrackMirror_FitBeat"
+    ],
+    "Envs": [
+      "FitBeatEnvironment"
+    ],
+    "BoundsSize": [
+      2.3,
+      0.0,
+      247.2113
+    ],
+    "BoundsCenter": [
+      -0.9,
+      0.0,
+      123.594345
+    ],
+    "elementId": 128
+  },
+  {
+    "Hash": "5ee19eca2f4185620ea2caec11445f90",
+    "Names": [
+      "FloorBack"
+    ],
+    "Envs": [
+      "InterscopeEnvironment"
+    ],
+    "BoundsSize": [
+      49.504,
+      0.0,
+      19.7805939
+    ],
+    "BoundsCenter": [
+      39.9999962,
+      0.0,
+      163.909668
+    ],
+    "elementId": 133
+  },
+  {
+    "Hash": "6034e9ab7c4c3ab12b826e62dfb42127",
+    "Names": [
+      "TrackConstruction_Timbaland"
+    ],
+    "Envs": [
+      "TimbalandEnvironment"
+    ],
+    "BoundsSize": [
+      116.047569,
+      136.309448,
+      160.71463
+    ],
+    "BoundsCenter": [
+      0.0,
+      -67.8407,
+      87.84276
+    ],
+    "elementId": 135
+  },
+  {
+    "Hash": "6cbe08a3b5d7a3eb0bd535faba321fba",
+    "Names": [
+      "Construction_KDA"
+    ],
+    "Envs": [
+      "KDAEnvironment"
+    ],
+    "BoundsSize": [
+      200.0,
+      115.6,
+      500.000061
+    ],
+    "BoundsCenter": [
+      0.0,
+      -42.3,
+      7.85001373
+    ],
+    "elementId": 144
+  },
+  {
+    "Hash": "6f0b81e4722dfe4e9a22d461f7303373",
+    "Names": [
+      "TrackMirror_Interscope"
+    ],
+    "Envs": [
+      "InterscopeEnvironment"
+    ],
+    "BoundsSize": [
+      27.0,
+      9.685755E-08,
+      48.5080948
+    ],
+    "BoundsCenter": [
+      0.0,
+      -3.7252903E-09,
+      0.745951653
+    ],
+    "elementId": 146
+  },
+  {
+    "Hash": "7d0e12a45e0d873aad80727a3f47083c",
+    "Names": [
+      "TopStructure_Timbaland"
+    ],
+    "Envs": [
+      "TimbalandEnvironment"
+    ],
+    "BoundsSize": [
+      1.0,
+      4.83383656,
+      81.1317
+    ],
+    "BoundsCenter": [
+      0.0,
+      -1.91691828,
+      39.56585
+    ],
+    "elementId": 160
+  },
+  {
+    "Hash": "815a592c7a9273a4c85a6acbb360099a",
+    "Names": [
+      "MainStructure_Timbaland"
+    ],
+    "Envs": [
+      "TimbalandEnvironment"
+    ],
+    "BoundsSize": [
+      272.465271,
+      326.48526,
+      113.788116
+    ],
+    "BoundsCenter": [
+      7.62939453E-06,
+      0.0,
+      60.0
+    ],
+    "elementId": 163
+  },
+  {
+    "Hash": "8ccac262eed25929bf20816300247c76",
+    "Names": [
+      "FloorConstruction_Triangle"
+    ],
+    "Envs": [
+      "TriangleEnvironment"
+    ],
+    "BoundsSize": [
+      35.5,
+      160.750031,
+      1000.0
+    ],
+    "BoundsCenter": [
+      0.0,
+      -80.1250153,
+      0.0
+    ],
+    "elementId": 180
+  },
+  {
+    "Hash": "8cffaeecb21fceb9facb3514ee36308d",
+    "Names": [
+      "HallConstruction"
+    ],
+    "Envs": [
+      "DragonsEnvironment"
+    ],
+    "BoundsSize": [
+      123.551788,
+      73.21184,
+      294.115753
+    ],
+    "BoundsCenter": [
+      -5.722046E-06,
+      -13.13136,
+      53.04211
+    ],
+    "elementId": 181
+  },
+  {
+    "Hash": "8e6e28c9b4d71db5ce731adfc20ce8fe",
+    "Names": [
+      "BackCube"
+    ],
+    "Envs": [
+      "GagaEnvironment"
+    ],
+    "BoundsSize": [
+      5.5,
+      0.25,
+      0.5
+    ],
+    "BoundsCenter": [
+      0.0,
+      -0.125,
+      -0.25
+    ],
+    "elementId": 183
+  },
+  {
+    "Hash": "8eb3b29341213e127461ae8002851f30",
+    "Names": [
+      "SpeakersRight"
+    ],
+    "Envs": [
+      "GreenDayEnvironment",
+      "GreenDayGrenadeEnvironment"
+    ],
+    "BoundsSize": [
+      985.8506,
+      12072.9941,
+      985.8508
+    ],
+    "BoundsCenter": [
+      -1070.1488,
+      -5294.702,
+      2814.73242
+    ],
+    "elementId": 184
+  },
+  {
+    "Hash": "979ae153b47604cb2d21aa3070cb22a5",
+    "Names": [
+      "Ribbon"
+    ],
+    "Envs": [
+      "BTSEnvironment"
+    ],
+    "BoundsSize": [
+      1.82054162,
+      3.1757,
+      1.65938616
+    ],
+    "BoundsCenter": [
+      -0.08055508,
+      1.58785,
+      0.0852671862
+    ],
+    "elementId": 198
+  },
+  {
+    "Hash": "9a02bcf283503f73669ec360ac315be9",
+    "Names": [
+      "BottomCones"
+    ],
+    "Envs": [
+      "PanicEnvironment",
+      "Panic2Environment"
+    ],
+    "BoundsSize": [
+      16.0,
+      50.0000076,
+      80.0
+    ],
+    "BoundsCenter": [
+      0.0,
+      25.0000038,
+      0.0
+    ],
+    "elementId": 204
+  },
+  {
+    "Hash": "9bc37b5a0ed0fff214a5aca53cf08ecf",
+    "Names": [
+      "Floor"
+    ],
+    "Envs": [
+      "NiceEnvironment"
+    ],
+    "BoundsSize": [
+      200.0,
+      1.59836066,
+      1000.0
+    ],
+    "BoundsCenter": [
+      0.0,
+      0.399180353,
+      0.0
+    ],
+    "elementId": 205
+  },
+  {
+    "Hash": "9c9b925961d718256e653aa809f172ac",
+    "Names": [
+      "SpeakersLeft"
+    ],
+    "Envs": [
+      "GreenDayEnvironment",
+      "GreenDayGrenadeEnvironment"
+    ],
+    "BoundsSize": [
+      985.8506,
+      12000.5742,
+      985.8508
+    ],
+    "BoundsCenter": [
+      -1070.1488,
+      -5330.912,
+      2814.73242
+    ],
+    "elementId": 206
+  },
+  {
+    "Hash": "9e042e1b7d77f0e633929e3befc56b19",
+    "Names": [
+      "Ring"
+    ],
+    "Envs": [
+      "TimbalandEnvironment"
+    ],
+    "BoundsSize": [
+      0.305042058,
+      10.3174934,
+      6.80954552
+    ],
+    "BoundsCenter": [
+      0.101679996,
+      0.0,
+      0.0
+    ],
+    "elementId": 209
+  },
+  {
+    "Hash": "a008b34f00e19e2c96feeeb1a939d214",
+    "Names": [
+      "ArenaLight"
+    ],
+    "Envs": [
+      "RocketEnvironment"
+    ],
+    "BoundsSize": [
+      81.89185,
+      50.4733353,
+      6.09663057
+    ],
+    "BoundsCenter": [
+      0.0,
+      0.726909637,
+      3.23571277
+    ],
+    "elementId": 214
+  },
+  {
+    "Hash": "a0bbb3c796865cdbcf9353019aa626a5",
+    "Names": [
+      "TrackMirror_BTS",
+      "TrackMirror_Kaleidoscope"
+    ],
+    "Envs": [
+      "BTSEnvironment",
+      "KaleidoscopeEnvironment"
+    ],
+    "BoundsSize": [
+      2.3,
+      0.0,
+      251.0
+    ],
+    "BoundsCenter": [
+      -0.299999982,
+      0.0,
+      125.45
+    ],
+    "elementId": 218
+  },
+  {
+    "Hash": "a1e2f3ff1c0041c6cfb1a340b7f15b98",
+    "Names": [
+      "Spectrogram"
+    ],
+    "Envs": [
+      "TimbalandEnvironment"
+    ],
+    "BoundsSize": [
+      0.299999952,
+      63.4,
+      2.0
+    ],
+    "BoundsCenter": [
+      0.0,
+      31.5,
+      1.0
+    ],
+    "elementId": 221
+  },
+  {
+    "Hash": "a54ef9a110a90cc8de0799d9a5c58861",
+    "Names": [
+      "Platform"
+    ],
+    "Envs": [
+      "BTSEnvironment"
+    ],
+    "BoundsSize": [
+      0.283605844,
+      0.2836058,
+      0.04269099
+    ],
+    "BoundsCenter": [
+      0.0,
+      7.450581E-09,
+      -0.0215707067
+    ],
+    "elementId": 223
+  },
+  {
+    "Hash": "a58dced66f667557cb9c6d5f9d2afef7",
+    "Names": [
+      "Mirror_RocketLeague"
+    ],
+    "Envs": [
+      "RocketEnvironment"
+    ],
+    "BoundsSize": [
+      160.0,
+      0.0,
+      175.25
+    ],
+    "BoundsCenter": [
+      0.0,
+      0.0,
+      95.375
+    ],
+    "elementId": 225
+  },
+  {
+    "Hash": "a996ebbd15f12f3a102242da0b252bf4",
+    "Names": [
+      "TrackMirror_Origins"
+    ],
+    "Envs": [
+      "OriginsEnvironment"
+    ],
+    "BoundsSize": [
+      6.5,
+      0.0,
+      247.25
+    ],
+    "BoundsCenter": [
+      -0.299999952,
+      0.0,
+      123.575
+    ],
+    "elementId": 232
+  },
+  {
+    "Hash": "b0216d266fe0b0dc876935c61869aae4",
+    "Names": [
+      "TrackMirror_Dragons2",
+      "TrackMirror_Dragons"
+    ],
+    "Envs": [
+      "Dragons2Environment",
+      "DragonsEnvironment"
+    ],
+    "BoundsSize": [
+      2.3,
+      0.0,
+      169.548508
+    ],
+    "BoundsCenter": [
+      -0.9,
+      0.0,
+      84.76295
+    ],
+    "elementId": 241
+  },
+  {
+    "Hash": "b0548c046c993d5071bb00a45dc7a835",
+    "Names": [
+      "Rain Instance"
+    ],
+    "Envs": [
+      "BillieEnvironment"
+    ],
+    "BoundsSize": [
+      200.0,
+      100.0,
+      200.0
+    ],
+    "BoundsCenter": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "elementId": 242
+  },
+  {
+    "Hash": "b1195756de641ad0e0a3a9004b5ca020",
+    "Names": [
+      "TrackMirror_Second",
+      "TrackMirror_Default",
+      "TrackMirror_Triangle"
+    ],
+    "Envs": [
+      "TheSecondEnvironment",
+      "DefaultEnvironment",
+      "TriangleEnvironment"
+    ],
+    "BoundsSize": [
+      4.75,
+      0.0,
+      247.25
+    ],
+    "BoundsCenter": [
+      0.0,
+      0.0,
+      123.575
+    ],
+    "elementId": 245
+  },
+  {
+    "Hash": "b78d6171384298ccb8e5c77eb24a7921",
+    "Names": [
+      "CeilingNear"
+    ],
+    "Envs": [
+      "InterscopeEnvironment"
+    ],
+    "BoundsSize": [
+      40.0,
+      9.685755E-08,
+      44.499588
+    ],
+    "BoundsCenter": [
+      0.0,
+      -3.7252903E-09,
+      2.750207
+    ],
+    "elementId": 253
+  },
+  {
+    "Hash": "bb7d9a74d837ea29270ef6b20d9ce08b",
+    "Names": [
+      "Underground"
+    ],
+    "Envs": [
+      "DragonsEnvironment"
+    ],
+    "BoundsSize": [
+      18.0,
+      54.1,
+      26.0
+    ],
+    "BoundsCenter": [
+      1.0,
+      -30.05,
+      23.5
+    ],
+    "elementId": 257
+  },
+  {
+    "Hash": "bc0f40f617298470c104135b7a9837bd",
+    "Names": [
+      "TunnelRings"
+    ],
+    "Envs": [
+      "LinkinParkEnvironment"
+    ],
+    "BoundsSize": [
+      8.571002,
+      50.5899849,
+      5.90748358
+    ],
+    "BoundsCenter": [
+      -1.43051147E-06,
+      24.7050152,
+      2.08124661
+    ],
+    "elementId": 258
+  },
+  {
+    "Hash": "bd51574395ef334f04141fcde15ea0d7",
+    "Names": [
+      "Hemisphere"
+    ],
+    "Envs": [
+      "BTSEnvironment"
+    ],
+    "BoundsSize": [
+      2000.0,
+      2000.00037,
+      999.999939
+    ],
+    "BoundsCenter": [
+      -0.000213623047,
+      -0.000183105469,
+      500.000031
+    ],
+    "elementId": 260
+  },
+  {
+    "Hash": "bd909a95721f86166c8992d624815cc0",
+    "Names": [
+      "FloorBackFar"
+    ],
+    "Envs": [
+      "InterscopeEnvironment"
+    ],
+    "BoundsSize": [
+      435.203949,
+      0.0,
+      146.5806
+    ],
+    "BoundsCenter": [
+      39.34999,
+      0.0,
+      100.509674
+    ],
+    "elementId": 262
+  },
+  {
+    "Hash": "beb79d407c12a3eae02514a27d248257",
+    "Names": [
+      "Construction_Origins"
+    ],
+    "Envs": [
+      "OriginsEnvironment"
+    ],
+    "BoundsSize": [
+      200.0,
+      100.3,
+      2.5
+    ],
+    "BoundsCenter": [
+      0.0,
+      -49.9499969,
+      8.75
+    ],
+    "elementId": 263
+  },
+  {
+    "Hash": "c3c8adefaf53c8e1ca5a4fd591dbec7f",
+    "Names": [
+      "Ring"
+    ],
+    "Envs": [
+      "NiceEnvironment",
+      "TheSecondEnvironment",
+      "DefaultEnvironment",
+      "CrabRaveEnvironment",
+      "MonstercatEnvironment"
+    ],
+    "BoundsSize": [
+      0.595805,
+      10.3174934,
+      10.3174925
+    ],
+    "BoundsCenter": [
+      -0.04789859,
+      0.0,
+      0.0
+    ],
+    "elementId": 265
+  },
+  {
+    "Hash": "c66d78f20e0d03ae75638657e1412e06",
+    "Names": [
+      "Construction"
+    ],
+    "Envs": [
+      "GagaEnvironment"
+    ],
+    "BoundsSize": [
+      4.4985466,
+      0.0843677148,
+      94.25134
+    ],
+    "BoundsCenter": [
+      -2.15768814E-05,
+      -0.03437015,
+      32.5483551
+    ],
+    "elementId": 269
+  },
+  {
+    "Hash": "c867406766bb229631a7190b919e294f",
+    "Names": [
+      "TrackMirror_LinkinPark"
+    ],
+    "Envs": [
+      "LinkinParkEnvironment"
+    ],
+    "BoundsSize": [
+      2.3,
+      0.0,
+      123.5
+    ],
+    "BoundsCenter": [
+      -0.299999982,
+      0.0,
+      61.6999969
+    ],
+    "elementId": 271
+  },
+  {
+    "Hash": "cb07e672a2e81a54cf7fc9a34a1ab812",
+    "Names": [
+      "Strip"
+    ],
+    "Envs": [
+      "MetallicaEnvironment",
+      "GagaEnvironment"
+    ],
+    "BoundsSize": [
+      166.655579,
+      166.655579,
+      166.655579
+    ],
+    "BoundsCenter": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "elementId": 275
+  },
+  {
+    "Hash": "cd034e3542aee9d4f8eb7420b47d130e",
+    "Names": [
+      "pb_Mesh-122040"
+    ],
+    "Envs": [
+      "GreenDayGrenadeEnvironment"
+    ],
+    "BoundsSize": [
+      2.30000019,
+      0.100999996,
+      199.98
+    ],
+    "BoundsCenter": [
+      -0.9000001,
+      0.000500001,
+      0.0100021362
+    ],
+    "elementId": 279
+  },
+  {
+    "Hash": "d0e0e256c9e73eddaff1389b18a0c3ee",
+    "Names": [
+      "PillarFull"
+    ],
+    "Envs": [
+      "BTSEnvironment"
+    ],
+    "BoundsSize": [
+      3.5,
+      112.755005,
+      3.5
+    ],
+    "BoundsCenter": [
+      0.0,
+      -56.3724976,
+      0.0
+    ],
+    "elementId": 284
+  },
+  {
+    "Hash": "d394434d1bb3f7ff55a5801858d14da1",
+    "Names": [
+      "Spectrogram0"
+    ],
+    "Envs": [
+      "PanicEnvironment",
+      "NiceEnvironment",
+      "Dragons2Environment",
+      "OriginsEnvironment",
+      "TheSecondEnvironment",
+      "DefaultEnvironment",
+      "TriangleEnvironment",
+      "CrabRaveEnvironment",
+      "FitBeatEnvironment",
+      "DragonsEnvironment",
+      "MonstercatEnvironment",
+      "BigMirrorEnvironment"
+    ],
+    "BoundsSize": [
+      0.9,
+      142.650009,
+      60.0
+    ],
+    "BoundsCenter": [
+      1.49011612E-08,
+      70.87501,
+      -30.0
+    ],
+    "elementId": 290
+  },
+  {
+    "Hash": "d3ca75607c073a4d2ff24d9950b343e9",
+    "Names": [
+      "pb_Mesh-300200",
+      "pb_Mesh-2538136",
+      "pb_Mesh-2497080",
+      "pb_Mesh-2103058",
+      "pb_Mesh-7566632",
+      "pb_Mesh-9306",
+      "pb_Mesh-85262",
+      "pb_Mesh-669476",
+      "pb_Mesh-4595912",
+      "pb_Mesh-10248472",
+      "pb_Mesh-2492964",
+      "pb_Mesh-1510",
+      "pb_Mesh-122412",
+      "pb_Mesh-2386092",
+      "pb_Mesh-620834",
+      "pb_Mesh-121886",
+      "pb_Mesh-1454020",
+      "pb_Mesh-2643710",
+      "PlayersPlaceConstruction",
+      "pb_Mesh-2606222",
+      "pb_Mesh-2639198",
+      "pb_Mesh-5043186",
+      "pb_Mesh-1048686",
+      "pb_Mesh-2679494",
+      "pb_Mesh-2461548",
+      "pb_Mesh-6458542",
+      "pb_Mesh-4965048",
+      "pb_Mesh-4580984",
+      "pb_Mesh-2466948",
+      "pb_Mesh-2400840",
+      "pb_Mesh-2440530",
+      "pb_Mesh-2470254",
+      "pb_Mesh-85478",
+      "pb_Mesh-2426172",
+      "pb_Mesh-2525184",
+      "pb_Mesh-2381356",
+      "pb_Mesh-4498820"
+    ],
+    "Envs": [
+      "GreenDayEnvironment",
+      "PanicEnvironment",
+      "LinkinPark2Environment",
+      "QueenEnvironment",
+      "TheWeekndEnvironment",
+      "NiceEnvironment",
+      "LatticeEnvironment",
+      "WeaveEnvironment",
+      "Dragons2Environment",
+      "EDMEnvironment",
+      "OriginsEnvironment",
+      "LinkinParkEnvironment",
+      "TimbalandEnvironment",
+      "GreenDayGrenadeEnvironment",
+      "BillieEnvironment",
+      "LizzoEnvironment",
+      "BTSEnvironment",
+      "HipHopEnvironment",
+      "TheSecondEnvironment",
+      "MetallicaEnvironment",
+      "RocketEnvironment",
+      "DefaultEnvironment",
+      "TheRollingStonesEnvironment",
+      "SkrillexEnvironment",
+      "TriangleEnvironment",
+      "InterscopeEnvironment",
+      "PyroEnvironment",
+      "Panic2Environment",
+      "GagaEnvironment",
+      "DaftPunkEnvironment",
+      "KaleidoscopeEnvironment",
+      "Monstercat2Environment",
+      "CrabRaveEnvironment",
+      "FitBeatEnvironment",
+      "KDAEnvironment",
+      "BritneyEnvironment",
+      "RockMixtapeEnvironment",
+      "DragonsEnvironment",
+      "MonstercatEnvironment",
+      "BigMirrorEnvironment",
+      "ColliderEnvironment"
+    ],
+    "BoundsSize": [
+      3.0,
+      112.755005,
+      2.0
+    ],
+    "BoundsCenter": [
+      0.0,
+      -56.3724976,
+      0.0
+    ],
+    "elementId": 291
+  },
+  {
+    "Hash": "deadefbe0e1d9ce029f456d4acaeccf0",
+    "Names": [
+      "ConeBig"
+    ],
+    "Envs": [
+      "KaleidoscopeEnvironment"
+    ],
+    "BoundsSize": [
+      30.11404,
+      3468.86353,
+      30.11404
+    ],
+    "BoundsCenter": [
+      0.0,
+      1737.48059,
+      4.76837158E-07
+    ],
+    "elementId": 303
+  },
+  {
+    "Hash": "e02a7a60ab6dae19aa90c2e647e79867",
+    "Names": [
+      "Ring"
+    ],
+    "Envs": [
+      "TriangleEnvironment"
+    ],
+    "BoundsSize": [
+      1.22926474,
+      25.0967636,
+      19.07706
+    ],
+    "BoundsCenter": [
+      -0.498651981,
+      4.76837158E-07,
+      -1.23527527
+    ],
+    "elementId": 305
+  },
+  {
+    "Hash": "e624e0a8e2e17f6b5766fc03aa8e0e54",
+    "Names": [
+      "SkrillexTrackPlaneC"
+    ],
+    "Envs": [
+      "SkrillexEnvironment"
+    ],
+    "BoundsSize": [
+      11.0,
+      10.75,
+      25.0
+    ],
+    "BoundsCenter": [
+      -9.75,
+      -9.625,
+      12.5
+    ],
+    "elementId": 308
+  },
+  {
+    "Hash": "e6819d88d5c41ae3e598c9a361498d23",
+    "Names": [
+      "Dynamic3SliceSprite"
+    ],
+    "Envs": [
+      "GreenDayEnvironment",
+      "PanicEnvironment",
+      "LinkinPark2Environment",
+      "QueenEnvironment",
+      "TheWeekndEnvironment",
+      "NiceEnvironment",
+      "LatticeEnvironment",
+      "WeaveEnvironment",
+      "Dragons2Environment",
+      "EDMEnvironment",
+      "HalloweenEnvironment",
+      "OriginsEnvironment",
+      "LinkinParkEnvironment",
+      "TimbalandEnvironment",
+      "GreenDayGrenadeEnvironment",
+      "BillieEnvironment",
+      "LizzoEnvironment",
+      "BTSEnvironment",
+      "HipHopEnvironment",
+      "TheSecondEnvironment",
+      "MetallicaEnvironment",
+      "RocketEnvironment",
+      "DefaultEnvironment",
+      "TheRollingStonesEnvironment",
+      "SkrillexEnvironment",
+      "TriangleEnvironment",
+      "InterscopeEnvironment",
+      "PyroEnvironment",
+      "Panic2Environment",
+      "GagaEnvironment",
+      "DaftPunkEnvironment",
+      "KaleidoscopeEnvironment",
+      "Monstercat2Environment",
+      "CrabRaveEnvironment",
+      "FitBeatEnvironment",
+      "KDAEnvironment",
+      "BritneyEnvironment",
+      "RockMixtapeEnvironment",
+      "DragonsEnvironment",
+      "MonstercatEnvironment",
+      "BigMirrorEnvironment",
+      "ColliderEnvironment"
+    ],
+    "BoundsSize": [
+      10.0,
+      5000.0,
+      0.1
+    ],
+    "BoundsCenter": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "elementId": 310
+  },
+  {
+    "Hash": "ea5100cb59d175fcdc7ef55343855da5",
+    "Names": [
+      "Construction",
+      "Construction_Monstercat"
+    ],
+    "Envs": [
+      "CrabRaveEnvironment",
+      "MonstercatEnvironment"
+    ],
+    "BoundsSize": [
+      5.0,
+      0.3,
+      100.15
+    ],
+    "BoundsCenter": [
+      0.0,
+      -0.04999999,
+      57.675
+    ],
+    "elementId": 313
+  },
+  {
+    "Hash": "ea915d9805cdcc085c9e2acbd55be068",
+    "Names": [
+      "Cylinder"
+    ],
+    "Envs": [
+      "BTSEnvironment"
+    ],
+    "BoundsSize": [
+      1.0,
+      2.0,
+      1.00000012
+    ],
+    "BoundsCenter": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "elementId": 314
+  },
+  {
+    "Hash": "ef9dc7ddc95d61940e7fcd47f7d2a393",
+    "Names": [
+      "Glow"
+    ],
+    "Envs": [
+      "BTSEnvironment"
+    ],
+    "BoundsSize": [
+      0.342878342,
+      0.342878342,
+      0.08901681
+    ],
+    "BoundsCenter": [
+      0.0,
+      0.0,
+      -0.0288035646
+    ],
+    "elementId": 317
+  },
+  {
+    "Hash": "f3ae112e07cc1aef388ef93bcd586812",
+    "Names": [
+      "BigMirrorFloor"
+    ],
+    "Envs": [
+      "BigMirrorEnvironment"
+    ],
+    "BoundsSize": [
+      15.7,
+      0.0,
+      92.25
+    ],
+    "BoundsCenter": [
+      0.0,
+      0.0,
+      46.375
+    ],
+    "elementId": 323
+  },
+  {
+    "Hash": "f3dd6ad04056172aa95927b39f86bf42",
+    "Names": [
+      "TrackMirror_KDA"
+    ],
+    "Envs": [
+      "KDAEnvironment"
+    ],
+    "BoundsSize": [
+      200.0,
+      0.0,
+      230.0
+    ],
+    "BoundsCenter": [
+      0.0,
+      0.0,
+      15.25
+    ],
+    "elementId": 324
+  },
+  {
+    "Hash": "f5d4e4af78290171ab7e85fb6790ab36",
+    "Names": [
+      "CylinderGlow"
+    ],
+    "Envs": [
+      "GagaEnvironment"
+    ],
+    "BoundsSize": [
+      7.2,
+      7.2,
+      8.099999
+    ],
+    "BoundsCenter": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "elementId": 326
+  },
+  {
+    "Hash": "f9bf14061e02e73401ec7a7216a59871",
+    "Names": [
+      "Floor"
+    ],
+    "Envs": [
+      "LinkinParkEnvironment"
+    ],
+    "BoundsSize": [
+      7.30002165,
+      20.0000038,
+      0.0
+    ],
+    "BoundsCenter": [
+      3.81469727E-06,
+      -1.90734863E-06,
+      -0.12988019
+    ],
+    "elementId": 328
+  },
+  {
+    "Hash": "feca631dc0aef1ae46f0e44b331d9d0e",
+    "Names": [
+      "pb_Mesh-2103062",
+      "pb_Mesh-85242",
+      "pb_Mesh-91202",
+      "pb_Mesh-136590"
+    ],
+    "Envs": [
+      "QueenEnvironment",
+      "LatticeEnvironment",
+      "WeaveEnvironment",
+      "GagaEnvironment"
+    ],
+    "BoundsSize": [
+      3.0,
+      2.38418579E-07,
+      2.00000024
+    ],
+    "BoundsCenter": [
+      0.0,
+      -0.0001,
+      0.0
+    ],
+    "elementId": 331
+  },
+  {
+    "Hash": "ff5bb935a1c22995f35956883a9cf4c1",
+    "Names": [
+      "WaterfallFlatFar"
+    ],
+    "Envs": [
+      "BillieEnvironment"
+    ],
+    "BoundsSize": [
+      4.49999952,
+      2.327543E-07,
+      138.149979
+    ],
+    "BoundsCenter": [
+      -2.38418579E-07,
+      -1.34264468E-07,
+      69.17501
+    ],
+    "elementId": 334
+  }
+]
