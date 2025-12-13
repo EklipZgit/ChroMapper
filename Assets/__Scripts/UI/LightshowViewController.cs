@@ -2,9 +2,11 @@
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 
-public class LightshowController : MonoBehaviour, CMInput.ILightshowActions
+public class LightshowViewController : MonoBehaviour, CMInput.ILightshowActions
 {
-    [FormerlySerializedAs("ThingsToToggle")] [SerializeField] private GameObject[] thingsToToggle;
+    [FormerlySerializedAs("ThingsToToggle")] [SerializeField]
+    private GameObject[] thingsToToggle;
+
     [SerializeField] private CameraController cameraController;
     private bool previouslyLocked;
 

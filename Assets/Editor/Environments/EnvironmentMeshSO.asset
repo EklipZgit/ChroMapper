@@ -277,7 +277,7 @@ MonoBehaviour:
     BoundsCenter: {x: -2.1168177, y: 0.0001, z: 54.388657}
     Unused: 0
     Ignored: 0
-  - Mesh: {fileID: 0}
+  - Mesh: {fileID: 4300000, guid: 18f78f71f7e07564989a94d7595959b1, type: 2}
     Hash: 171af8cf2525ad287a32c4e11b67e210
     Names:
     - Box007
@@ -516,7 +516,7 @@ MonoBehaviour:
     BoundsCenter: {x: 2.1978462, y: 4.221666, z: 0}
     Unused: 0
     Ignored: 0
-  - Mesh: {fileID: 0}
+  - Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
     Hash: 21dbc7f929c770b5b0df8c74c4d22b4b
     Names:
     - Plane
@@ -578,7 +578,7 @@ MonoBehaviour:
     BoundsCenter: {x: 0.02475667, y: -0.024300352, z: -0.0000009536743}
     Unused: 0
     Ignored: 0
-  - Mesh: {fileID: 0}
+  - Mesh: {fileID: 4300000, guid: 7a148f0f214ddd749956f663f28f8294, type: 3}
     Hash: 24482fa2e8132f164c8dcd0dde6c4bd8
     Names:
     - Ring
@@ -1292,7 +1292,7 @@ MonoBehaviour:
     BoundsCenter: {x: 0.0003681183, y: 0.082, z: -0.0009942055}
     Unused: 0
     Ignored: 0
-  - Mesh: {fileID: 0}
+  - Mesh: {fileID: 4300000, guid: 1e25a2399eca0864193651f9b7097f6b, type: 2}
     Hash: 4efe6da34c0448920ff4956f200145f0
     Names:
     - Tree1Depth
@@ -2943,7 +2943,7 @@ MonoBehaviour:
     BoundsCenter: {x: 0, y: -0.000002026558, z: 0}
     Unused: 0
     Ignored: 0
-  - Mesh: {fileID: 0}
+  - Mesh: {fileID: 4300000, guid: ef227a3b50bd4812b7c7ae092609ebd1, type: 2}
     Hash: c3c8adefaf53c8e1ca5a4fd591dbec7f
     Names:
     - Ring
@@ -3144,7 +3144,7 @@ MonoBehaviour:
     BoundsCenter: {x: 0, y: 0, z: 0}
     Unused: 0
     Ignored: 0
-  - Mesh: {fileID: 0}
+  - Mesh: {fileID: 4300000, guid: 37067020eddce784391339a0cd7e29b2, type: 2}
     Hash: d0e0e256c9e73eddaff1389b18a0c3ee
     Names:
     - PillarFull
@@ -3475,7 +3475,7 @@ MonoBehaviour:
     BoundsCenter: {x: 0, y: -91.16175, z: 0.0000025569461}
     Unused: 0
     Ignored: 0
-  - Mesh: {fileID: 0}
+  - Mesh: {fileID: 4300000, guid: 3a5ab38c9d00dab408de57357fb175e7, type: 2}
     Hash: e624e0a8e2e17f6b5766fc03aa8e0e54
     Names:
     - SkrillexTrackPlaneC

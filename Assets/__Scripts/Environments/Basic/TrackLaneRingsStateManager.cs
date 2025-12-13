@@ -48,14 +48,14 @@ public class TrackLaneRingsManager : TrackLaneRingsManagerBase
             if (RingCount <= 1) continue;
 
             var lights = Rings[i]
-                .GetComponentsInChildren<LightingObject>()
+                .GetComponentsInChildren<BasicLightController>()
                 .GroupBy(x => x.OverrideLightGroup ? x.OverrideLightGroupID : -1);
             foreach (var group in lights)
             {
                 foreach (var lightingEvent in @group)
                 {
                     lightingEvent.PropGroup = i;
-                    lightingEvent.LightID += i * @group.Count();
+                    lightingEvent.ID += i * @group.Count();
                 }
             }
         }

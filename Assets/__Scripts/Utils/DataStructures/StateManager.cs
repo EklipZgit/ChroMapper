@@ -2,17 +2,24 @@ using System.Collections.Generic;
 using Beatmap.Base;
 using UnityEngine;
 
-public abstract class StateManager<T> : MonoBehaviour where T : BaseObject
+public abstract class StateManager : MonoBehaviour, IBeatmapUpdate
 {
+    protected bool IsDirty;
     public AudioTimeSyncController Atsc;
-
+    
     public abstract void Initialize();
+    public abstract void UpdateDirty();
     public abstract void UpdateTime(float time);
+}
+
+public abstract class StateManager<T> : StateManager where T : BaseObject
+{
     public abstract void BuildFromData(IEnumerable<T> dataList);
+
     public abstract void InsertData(T data);
+
     // TODO: ugly hack, object gets modified by reference and manager having more than one type/id
     public abstract void RemoveData(T data, T original);
-    public abstract void Reset();
 }
 
 public abstract class StateManager<TState, TData> : StateManager<TData>
@@ -62,13 +69,18 @@ public abstract class StateManager<TState, TData> : StateManager<TData>
 
     protected virtual void OnInsertUpdateToNextState(TState newState, TState nextState) { }
 
-    protected virtual void OnInsertUpdateFromPreviousStateAndNextState(TState newState, TState prevState, TState nextState)
+    protected virtual void OnInsertUpdateFromPreviousStateAndNextState(
+        TState newState,
+        TState prevState,
+        TState nextState)
     {
     }
 
     protected virtual void OnInsertConsequentUpdateToNextState(TState newState, TState nextState) { }
 
-    protected void HandleInsertUpdateConsequentStateFrom(StateChunksContainer<TState, TData> container, TState currState)
+    protected void HandleInsertUpdateConsequentStateFrom(
+        StateChunksContainer<TState, TData> container,
+        TState currState)
     {
         var enumerator = container.EnumerateFrom(currState);
         enumerator.MoveNext(); // skip current state
@@ -99,7 +111,9 @@ public abstract class StateManager<TState, TData> : StateManager<TData>
 
     protected virtual void OnRemoveUpdateToNextState(TState currState, TState nextState) { }
 
-    protected void HandleRemoveUpdateConsequentStateFrom(StateChunksContainer<TState, TData> container, TState currState)
+    protected void HandleRemoveUpdateConsequentStateFrom(
+        StateChunksContainer<TState, TData> container,
+        TState currState)
     {
         var enumerator = container.EnumerateFrom(currState);
         enumerator.MoveNext(); // skip current state

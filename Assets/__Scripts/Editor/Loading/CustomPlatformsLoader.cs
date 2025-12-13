@@ -160,7 +160,7 @@ public class CustomPlatformsLoader : MonoBehaviour
 
                 //Set LightsManager Size correctly
                 SetLightsManagerSize(defaultEnvironmentInstance);
-                platformDescriptor.RefreshPlatform();
+                // platformDescriptor.RefreshPlatform();
 
                 //Rings
                 var ringCount = 0;
@@ -219,132 +219,132 @@ public class CustomPlatformsLoader : MonoBehaviour
 
     private void SetLightingEventsForTubeLights(GameObject gameObject)
     {
-        var tubeLights = gameObject.GetComponentsInChildren<TubeLight>();
-        foreach (var tubeLight in tubeLights)
-        {
-            if (tubeLight.gameObject.GetComponent<LightingObject>() != null) continue;
-
-            var eventId = -(int)EventTypeValue.BackLasers;
-            switch (tubeLight.lightsID)
-            {
-                case LightsID.Static:
-                    eventId = (int)EventTypeValue.BackLasers;
-                    break;
-                case LightsID.BackLights:
-                    eventId = (int)EventTypeValue.BackLasers;
-                    break;
-                case LightsID.BigRingLights:
-                    eventId = (int)EventTypeValue.RingLights;
-                    break;
-                case LightsID.LeftLasers:
-                    eventId = (int)EventTypeValue.LeftLasers;
-                    break;
-                case LightsID.RightLasers:
-                    eventId = (int)EventTypeValue.RightLasers;
-                    break;
-                case LightsID.TrackAndBottom:
-                    eventId = (int)EventTypeValue.CenterLights;
-                    break;
-                case LightsID.RingsRotationEffect:
-                    break;
-                case LightsID.RingsStepEffect:
-                    break;
-                case LightsID.RingSpeedLeft:
-                    break;
-                case LightsID.RingSpeedRight:
-                    break;
-                case LightsID.Unused5:
-                    eventId = (int)EventTypeValue.ColorBoost;
-                    break;
-                case LightsID.Unused6:
-                    eventId = (int)EventTypeValue.ExtraLeftLights;
-                    break;
-                case LightsID.Unused7:
-                    eventId = (int)EventTypeValue.ExtraRightLights;
-                    break;
-                case LightsID.Unused10:
-                    eventId = (int)EventTypeValue.ExtraLeftLasers;
-                    break;
-                case LightsID.Unused11:
-                    eventId = (int)EventTypeValue.ExtraRightLasers;
-                    break;
-                default:
-                    //Unused 5 6 7 10 11 14 15
-                    Debug.Log("Custom LightsID " + tubeLight.lightsID);
-                    break;
-            }
-
-            var tubeLightsManager = platformDescriptor.LightingManagers[eventId];
-            if (tubeLightsManager == null)
-            {
-                tubeLightsManager = tubeLight.transform.parent.gameObject.AddComponent<BasicLightManager>();
-                tubeLightsManager.DisableCustomInitialization = true;
-                platformDescriptor.LightingManagers[eventId] = tubeLightsManager;
-            }
-
-            var meshRenderers = tubeLight.gameObject.GetComponentsInChildren<MeshRenderer>();
-            foreach (var renderer in meshRenderers) SetRendererMaterials(renderer, tubeLightsManager, tubeLight.width);
-
-            if (tubeLight.gameObject.GetComponent<MeshFilter>() != null)
-            {
-                var mFilter = tubeLight.gameObject.GetComponent<MeshFilter>();
-                if (mFilter.sharedMesh == null)
-                {
-                    var mesh = new Mesh { name = "ScriptGenerated" };
-
-                    Vector3[] vertices =
-                    {
-                        new Vector3(0, 0, 0), new Vector3(tubeLight.width, 0, 0),
-                        new Vector3(tubeLight.width, tubeLight.length, 0), new Vector3(0, tubeLight.length, 0),
-                        new Vector3(0, tubeLight.length, tubeLight.width),
-                        new Vector3(tubeLight.width, tubeLight.length, tubeLight.width),
-                        new Vector3(tubeLight.width, 0, tubeLight.width), new Vector3(0, 0, tubeLight.width)
-                    };
-
-                    int[] triangles =
-                    {
-                        0, 2, 1, //face front
-                        0, 3, 2, 2, 3, 4, //face top
-                        2, 4, 5, 1, 2, 5, //face right
-                        1, 5, 6, 0, 7, 4, //face left
-                        0, 4, 3, 5, 4, 7, //face back
-                        5, 7, 6, 0, 6, 7, //face bottom
-                        0, 1, 6
-                    };
-
-                    mesh.vertices = vertices;
-                    mesh.triangles = triangles;
-
-                    var colors = new Color[vertices.Length];
-                    for (var i = 0; i < vertices.Length; i++) colors[i] = tubeLight.color;
-                    mesh.colors = colors;
-
-                    var offset = tubeLight.transform.position - tubeLight.transform.TransformPoint(mesh.bounds.center);
-                    tubeLight.transform.position = tubeLight.transform.position + offset;
-
-                    tubeLight.gameObject.GetComponent<MeshFilter>().sharedMesh = mesh;
-                }
-            }
-        }
-
-        var eventHandlers = gameObject.GetComponentsInChildren<SongEventHandler>();
-        foreach (var eventHandler in eventHandlers)
-        {
-            if (eventHandler.gameObject.GetComponent<LightingObject>() != null) continue;
-
-            var eventId = (int)eventHandler.eventType;
-
-            var tubeLightsManager = platformDescriptor.LightingManagers[eventId];
-            if (tubeLightsManager == null)
-            {
-                tubeLightsManager = eventHandler.transform.parent.gameObject.AddComponent<BasicLightManager>();
-                tubeLightsManager.DisableCustomInitialization = true;
-                platformDescriptor.LightingManagers[eventId] = tubeLightsManager;
-            }
-
-            var meshRenderers = eventHandler.gameObject.GetComponentsInChildren<Renderer>();
-            foreach (var renderer in meshRenderers) SetRendererMaterials(renderer, tubeLightsManager);
-        }
+        // var tubeLights = gameObject.GetComponentsInChildren<TubeLight>();
+        // foreach (var tubeLight in tubeLights)
+        // {
+        //     if (tubeLight.gameObject.GetComponent<LightingObject>() != null) continue;
+        //
+        //     var eventId = -(int)EventTypeValue.BackLasers;
+        //     switch (tubeLight.lightsID)
+        //     {
+        //         case LightsID.Static:
+        //             eventId = (int)EventTypeValue.BackLasers;
+        //             break;
+        //         case LightsID.BackLights:
+        //             eventId = (int)EventTypeValue.BackLasers;
+        //             break;
+        //         case LightsID.BigRingLights:
+        //             eventId = (int)EventTypeValue.RingLights;
+        //             break;
+        //         case LightsID.LeftLasers:
+        //             eventId = (int)EventTypeValue.LeftLasers;
+        //             break;
+        //         case LightsID.RightLasers:
+        //             eventId = (int)EventTypeValue.RightLasers;
+        //             break;
+        //         case LightsID.TrackAndBottom:
+        //             eventId = (int)EventTypeValue.CenterLights;
+        //             break;
+        //         case LightsID.RingsRotationEffect:
+        //             break;
+        //         case LightsID.RingsStepEffect:
+        //             break;
+        //         case LightsID.RingSpeedLeft:
+        //             break;
+        //         case LightsID.RingSpeedRight:
+        //             break;
+        //         case LightsID.Unused5:
+        //             eventId = (int)EventTypeValue.ColorBoost;
+        //             break;
+        //         case LightsID.Unused6:
+        //             eventId = (int)EventTypeValue.ExtraLeftLights;
+        //             break;
+        //         case LightsID.Unused7:
+        //             eventId = (int)EventTypeValue.ExtraRightLights;
+        //             break;
+        //         case LightsID.Unused10:
+        //             eventId = (int)EventTypeValue.ExtraLeftLasers;
+        //             break;
+        //         case LightsID.Unused11:
+        //             eventId = (int)EventTypeValue.ExtraRightLasers;
+        //             break;
+        //         default:
+        //             //Unused 5 6 7 10 11 14 15
+        //             Debug.Log("Custom LightsID " + tubeLight.lightsID);
+        //             break;
+        //     }
+        //
+        //     var tubeLightsManager = platformDescriptor.LightingManagers[eventId];
+        //     if (tubeLightsManager == null)
+        //     {
+        //         tubeLightsManager = tubeLight.transform.parent.gameObject.AddComponent<BasicLightManager>();
+        //         tubeLightsManager.DisableCustomInitialization = true;
+        //         platformDescriptor.LightingManagers[eventId] = tubeLightsManager;
+        //     }
+        //
+        //     var meshRenderers = tubeLight.gameObject.GetComponentsInChildren<MeshRenderer>();
+        //     foreach (var renderer in meshRenderers) SetRendererMaterials(renderer, tubeLightsManager, tubeLight.width);
+        //
+        //     if (tubeLight.gameObject.GetComponent<MeshFilter>() != null)
+        //     {
+        //         var mFilter = tubeLight.gameObject.GetComponent<MeshFilter>();
+        //         if (mFilter.sharedMesh == null)
+        //         {
+        //             var mesh = new Mesh { name = "ScriptGenerated" };
+        //
+        //             Vector3[] vertices =
+        //             {
+        //                 new Vector3(0, 0, 0), new Vector3(tubeLight.width, 0, 0),
+        //                 new Vector3(tubeLight.width, tubeLight.length, 0), new Vector3(0, tubeLight.length, 0),
+        //                 new Vector3(0, tubeLight.length, tubeLight.width),
+        //                 new Vector3(tubeLight.width, tubeLight.length, tubeLight.width),
+        //                 new Vector3(tubeLight.width, 0, tubeLight.width), new Vector3(0, 0, tubeLight.width)
+        //             };
+        //
+        //             int[] triangles =
+        //             {
+        //                 0, 2, 1, //face front
+        //                 0, 3, 2, 2, 3, 4, //face top
+        //                 2, 4, 5, 1, 2, 5, //face right
+        //                 1, 5, 6, 0, 7, 4, //face left
+        //                 0, 4, 3, 5, 4, 7, //face back
+        //                 5, 7, 6, 0, 6, 7, //face bottom
+        //                 0, 1, 6
+        //             };
+        //
+        //             mesh.vertices = vertices;
+        //             mesh.triangles = triangles;
+        //
+        //             var colors = new Color[vertices.Length];
+        //             for (var i = 0; i < vertices.Length; i++) colors[i] = tubeLight.color;
+        //             mesh.colors = colors;
+        //
+        //             var offset = tubeLight.transform.position - tubeLight.transform.TransformPoint(mesh.bounds.center);
+        //             tubeLight.transform.position = tubeLight.transform.position + offset;
+        //
+        //             tubeLight.gameObject.GetComponent<MeshFilter>().sharedMesh = mesh;
+        //         }
+        //     }
+        // }
+        //
+        // var eventHandlers = gameObject.GetComponentsInChildren<SongEventHandler>();
+        // foreach (var eventHandler in eventHandlers)
+        // {
+        //     if (eventHandler.gameObject.GetComponent<LightingObject>() != null) continue;
+        //
+        //     var eventId = (int)eventHandler.eventType;
+        //
+        //     var tubeLightsManager = platformDescriptor.LightingManagers[eventId];
+        //     if (tubeLightsManager == null)
+        //     {
+        //         tubeLightsManager = eventHandler.transform.parent.gameObject.AddComponent<BasicLightManager>();
+        //         tubeLightsManager.DisableCustomInitialization = true;
+        //         platformDescriptor.LightingManagers[eventId] = tubeLightsManager;
+        //     }
+        //
+        //     var meshRenderers = eventHandler.gameObject.GetComponentsInChildren<Renderer>();
+        //     foreach (var renderer in meshRenderers) SetRendererMaterials(renderer, tubeLightsManager);
+        // }
     }
 
     private void SetShadersCorrectly(Renderer renderer)
@@ -426,8 +426,8 @@ public class CustomPlatformsLoader : MonoBehaviour
 
         if (basicLightManager != null)
         {
-            var le = renderer.gameObject.AddComponent<LightingObject>();
-            basicLightManager.ControllingLights.Add(le);
+            var le = renderer.gameObject.AddComponent<BasicLightController>();
+            basicLightManager.ControllableLights.Add(le);
         }
     }
 
@@ -612,154 +612,154 @@ public class CustomPlatformsLoader : MonoBehaviour
 
     private void SetRings(GameObject gameObject, TrackRings trackRings, int ringCount)
     {
-        TrackLaneRingsManager ringManager;
-        //BigRing
-        if (gameObject.name.ToLower().Contains("big") || gameObject.name.ToLower().Contains("outer") ||
-            gameObject.name.ToLower().Equals("rings"))
-        {
-            if (platformDescriptor.BigRingManager != null)
-            {
-                foreach (var obj in platformDescriptor.BigRingManager.GetToDestroy())
-                    Destroy(obj);
-            }
-
-            platformDescriptor.BigRingManager = gameObject.AddComponent<TrackLaneRingsManager>();
-            if (platformDescriptor.RotationController == null)
-                platformDescriptor.RotationController = gameObject.AddComponent<GridRotationController>();
-            if (platformDescriptor.BigRingManager is TrackLaneRingsManager tlrm)
-                ringManager = tlrm;
-            else
-                ringManager = null;
-        }
-        else
-        {
-            if (platformDescriptor.SmallRingManager != null)
-            {
-                Destroy(platformDescriptor.SmallRingManager.RotationEffect);
-                Destroy(platformDescriptor.SmallRingManager);
-            }
-
-            platformDescriptor.SmallRingManager = gameObject.AddComponent<TrackLaneRingsManager>();
-
-
-            if (platformDescriptor.RotationController == null)
-                platformDescriptor.RotationController = gameObject.AddComponent<GridRotationController>();
-            ringManager = platformDescriptor.SmallRingManager;
-        }
-
-        if (ringManager == null)
-            return;
-
-        //Also overwrite LightsManager if applicable
-        var tubeRingLights = trackRings.trackLaneRingPrefab.GetComponentsInChildren<TubeLight>();
-        foreach (var tubeLight in tubeRingLights)
-        {
-            var eventId = -1;
-            switch (tubeLight.lightsID)
-            {
-                case LightsID.Static:
-                    eventId = (int)EventTypeValue.BackLasers;
-                    break;
-                case LightsID.BackLights:
-                    eventId = (int)EventTypeValue.BackLasers;
-                    break;
-                case LightsID.BigRingLights:
-                    eventId = (int)EventTypeValue.RingLights;
-                    break;
-                case LightsID.LeftLasers:
-                    eventId = (int)EventTypeValue.LeftLasers;
-                    break;
-                case LightsID.RightLasers:
-                    eventId = (int)EventTypeValue.RightLasers;
-                    break;
-                case LightsID.TrackAndBottom:
-                    eventId = (int)EventTypeValue.CenterLights;
-                    break;
-                case LightsID.Unused5:
-                    eventId = (int)EventTypeValue.ColorBoost;
-                    break;
-                case LightsID.Unused6:
-                    eventId = (int)EventTypeValue.ExtraLeftLights;
-                    break;
-                case LightsID.Unused7:
-                    eventId = (int)EventTypeValue.ExtraRightLights;
-                    break;
-                case LightsID.Unused10:
-                    eventId = (int)EventTypeValue.ExtraLeftLasers;
-                    break;
-                case LightsID.Unused11:
-                    eventId = (int)EventTypeValue.ExtraRightLasers;
-                    break;
-            }
-
-            if (eventId > 0)
-            {
-                var currentLightsManager = platformDescriptor.LightingManagers[eventId];
-                var newLightsManager = gameObject.AddComponent<BasicLightManager>();
-
-                newLightsManager.ControllingLights = currentLightsManager.ControllingLights;
-                newLightsManager.RotatingLights = currentLightsManager.RotatingLights;
-                newLightsManager.GroupLightsBasedOnZ();
-
-                Destroy(currentLightsManager);
-
-
-                platformDescriptor.LightingManagers[eventId] = newLightsManager;
-                break;
-            }
-        }
-
-        if (tubeRingLights.Length == 0)
-        {
-            var tubeLightsManager = platformDescriptor.LightingManagers[(int)EventTypeValue.RingLights];
-            var meshRenderers = trackRings.trackLaneRingPrefab.GetComponentsInChildren<MeshRenderer>();
-
-            foreach (var renderer in meshRenderers) SetRendererMaterials(renderer, tubeLightsManager);
-
-            var newLightsManager = gameObject.AddComponent<BasicLightManager>();
-
-            newLightsManager.ControllingLights = tubeLightsManager.ControllingLights;
-            newLightsManager.RotatingLights = tubeLightsManager.RotatingLights;
-            newLightsManager.GroupLightsBasedOnZ();
-
-            Destroy(tubeLightsManager);
-            platformDescriptor.LightingManagers[(int)EventTypeValue.RingLights] = newLightsManager;
-        }
-
-        //LightsManager lm = pd.LightingManagers[MapEvent.EVENT_TYPE_RING_LIGHTS];
-        ReplaceBetterBlack(trackRings.trackLaneRingPrefab);
-        SetLightingEventsForTubeLights(trackRings.trackLaneRingPrefab);
-
-        var tlr = trackRings.trackLaneRingPrefab.AddComponent<TrackLaneRing>();
-        ringManager.Prefab = tlr;
-
-        ringManager.RingCount = trackRings.ringCount;
-        if (trackRings.useStepEffect)
-        {
-            ringManager.MINPositionStep = trackRings.minPositionStep;
-            ringManager.MAXPositionStep = trackRings.maxPositionStep;
-        }
-        else
-        {
-            ringManager.MINPositionStep = ringManager.MAXPositionStep = trackRings.ringPositionStep;
-        }
-
-        ringManager.MoveSpeed = trackRings.moveSpeed;
-        ringManager.RotationStep = trackRings.rotationStep;
-        ringManager.PropagationSpeed = Mathf.RoundToInt(trackRings.rotationPropagationSpeed);
-        ringManager.FlexySpeed = trackRings.rotationFlexySpeed;
-
-        if (trackRings.useRotationEffect)
-        {
-            var rotationEffect = gameObject.AddComponent<TrackLaneRingsRotationEffect>();
-            ringManager.RotationEffect = rotationEffect;
-
-            rotationEffect.Manager = ringManager;
-            rotationEffect.StartupRotationAngle = trackRings.startupRotationAngle;
-            rotationEffect.StartupRotationStep = trackRings.startupRotationStep;
-            rotationEffect.StartupRotationPropagationSpeed =
-                Mathf.RoundToInt(trackRings.startupRotationPropagationSpeed);
-            rotationEffect.StartupRotationFlexySpeed = trackRings.startupRotationFlexySpeed;
-        }
+        // TrackLaneRingsManager ringManager;
+        // //BigRing
+        // if (gameObject.name.ToLower().Contains("big") || gameObject.name.ToLower().Contains("outer") ||
+        //     gameObject.name.ToLower().Equals("rings"))
+        // {
+        //     if (platformDescriptor.BigRingManager != null)
+        //     {
+        //         foreach (var obj in platformDescriptor.BigRingManager.GetToDestroy())
+        //             Destroy(obj);
+        //     }
+        //
+        //     platformDescriptor.BigRingManager = gameObject.AddComponent<TrackLaneRingsManager>();
+        //     if (platformDescriptor.RotationController == null)
+        //         platformDescriptor.RotationController = gameObject.AddComponent<GridRotationController>();
+        //     if (platformDescriptor.BigRingManager is TrackLaneRingsManager tlrm)
+        //         ringManager = tlrm;
+        //     else
+        //         ringManager = null;
+        // }
+        // else
+        // {
+        //     if (platformDescriptor.SmallRingManager != null)
+        //     {
+        //         Destroy(platformDescriptor.SmallRingManager.RotationEffect);
+        //         Destroy(platformDescriptor.SmallRingManager);
+        //     }
+        //
+        //     platformDescriptor.SmallRingManager = gameObject.AddComponent<TrackLaneRingsManager>();
+        //
+        //
+        //     if (platformDescriptor.RotationController == null)
+        //         platformDescriptor.RotationController = gameObject.AddComponent<GridRotationController>();
+        //     ringManager = platformDescriptor.SmallRingManager;
+        // }
+        //
+        // if (ringManager == null)
+        //     return;
+        //
+        // //Also overwrite LightsManager if applicable
+        // var tubeRingLights = trackRings.trackLaneRingPrefab.GetComponentsInChildren<TubeLight>();
+        // foreach (var tubeLight in tubeRingLights)
+        // {
+        //     var eventId = -1;
+        //     switch (tubeLight.lightsID)
+        //     {
+        //         case LightsID.Static:
+        //             eventId = (int)EventTypeValue.BackLasers;
+        //             break;
+        //         case LightsID.BackLights:
+        //             eventId = (int)EventTypeValue.BackLasers;
+        //             break;
+        //         case LightsID.BigRingLights:
+        //             eventId = (int)EventTypeValue.RingLights;
+        //             break;
+        //         case LightsID.LeftLasers:
+        //             eventId = (int)EventTypeValue.LeftLasers;
+        //             break;
+        //         case LightsID.RightLasers:
+        //             eventId = (int)EventTypeValue.RightLasers;
+        //             break;
+        //         case LightsID.TrackAndBottom:
+        //             eventId = (int)EventTypeValue.CenterLights;
+        //             break;
+        //         case LightsID.Unused5:
+        //             eventId = (int)EventTypeValue.ColorBoost;
+        //             break;
+        //         case LightsID.Unused6:
+        //             eventId = (int)EventTypeValue.ExtraLeftLights;
+        //             break;
+        //         case LightsID.Unused7:
+        //             eventId = (int)EventTypeValue.ExtraRightLights;
+        //             break;
+        //         case LightsID.Unused10:
+        //             eventId = (int)EventTypeValue.ExtraLeftLasers;
+        //             break;
+        //         case LightsID.Unused11:
+        //             eventId = (int)EventTypeValue.ExtraRightLasers;
+        //             break;
+        //     }
+        //
+        //     if (eventId > 0)
+        //     {
+        //         var currentLightsManager = platformDescriptor.LightingManagers[eventId];
+        //         var newLightsManager = gameObject.AddComponent<BasicLightManager>();
+        //
+        //         newLightsManager.ControllingLights = currentLightsManager.ControllingLights;
+        //         newLightsManager.RotatingLights = currentLightsManager.RotatingLights;
+        //         newLightsManager.GroupLightsBasedOnZ();
+        //
+        //         Destroy(currentLightsManager);
+        //
+        //
+        //         platformDescriptor.LightingManagers[eventId] = newLightsManager;
+        //         break;
+        //     }
+        // }
+        //
+        // if (tubeRingLights.Length == 0)
+        // {
+        //     var tubeLightsManager = platformDescriptor.LightingManagers[(int)EventTypeValue.RingLights];
+        //     var meshRenderers = trackRings.trackLaneRingPrefab.GetComponentsInChildren<MeshRenderer>();
+        //
+        //     foreach (var renderer in meshRenderers) SetRendererMaterials(renderer, tubeLightsManager);
+        //
+        //     var newLightsManager = gameObject.AddComponent<BasicLightManager>();
+        //
+        //     newLightsManager.ControllingLights = tubeLightsManager.ControllingLights;
+        //     newLightsManager.RotatingLights = tubeLightsManager.RotatingLights;
+        //     newLightsManager.GroupLightsBasedOnZ();
+        //
+        //     Destroy(tubeLightsManager);
+        //     platformDescriptor.LightingManagers[(int)EventTypeValue.RingLights] = newLightsManager;
+        // }
+        //
+        // //LightsManager lm = pd.LightingManagers[MapEvent.EVENT_TYPE_RING_LIGHTS];
+        // ReplaceBetterBlack(trackRings.trackLaneRingPrefab);
+        // SetLightingEventsForTubeLights(trackRings.trackLaneRingPrefab);
+        //
+        // var tlr = trackRings.trackLaneRingPrefab.AddComponent<TrackLaneRing>();
+        // ringManager.Prefab = tlr;
+        //
+        // ringManager.RingCount = trackRings.ringCount;
+        // if (trackRings.useStepEffect)
+        // {
+        //     ringManager.MINPositionStep = trackRings.minPositionStep;
+        //     ringManager.MAXPositionStep = trackRings.maxPositionStep;
+        // }
+        // else
+        // {
+        //     ringManager.MINPositionStep = ringManager.MAXPositionStep = trackRings.ringPositionStep;
+        // }
+        //
+        // ringManager.MoveSpeed = trackRings.moveSpeed;
+        // ringManager.RotationStep = trackRings.rotationStep;
+        // ringManager.PropagationSpeed = Mathf.RoundToInt(trackRings.rotationPropagationSpeed);
+        // ringManager.FlexySpeed = trackRings.rotationFlexySpeed;
+        //
+        // if (trackRings.useRotationEffect)
+        // {
+        //     var rotationEffect = gameObject.AddComponent<TrackLaneRingsRotationEffect>();
+        //     ringManager.RotationEffect = rotationEffect;
+        //
+        //     rotationEffect.Manager = ringManager;
+        //     rotationEffect.StartupRotationAngle = trackRings.startupRotationAngle;
+        //     rotationEffect.StartupRotationStep = trackRings.startupRotationStep;
+        //     rotationEffect.StartupRotationPropagationSpeed =
+        //         Mathf.RoundToInt(trackRings.startupRotationPropagationSpeed);
+        //     rotationEffect.StartupRotationFlexySpeed = trackRings.startupRotationFlexySpeed;
+        // }
     }
 }

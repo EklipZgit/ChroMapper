@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using Beatmap.Enums;
 using Newtonsoft.Json;
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -19,14 +20,24 @@ public class EnvironmentSceneCreator
     [MenuItem("Environment/Create from Data", false, 1000)]
     private static void CreateEnvironmentFromData()
     {
-        // Check if exactly one object is selected and it's a TextAsset or EnvironmentBuildSO
+        // Check if exactly one object is selected and it's a TextAsset
         // We re-do the check here for safety and to grab a reference to the TextAsset
-        if (Selection.objects.Length != 1) return;
         var textAsset = Selection.activeObject switch
         {
             TextAsset tempTextAsset => tempTextAsset,
             _ => null
         };
+
+        if (textAsset == null)
+        {
+            var scenePath = SceneManager.GetActiveScene().path;
+            var dir = Path.GetDirectoryName(scenePath);
+            var name = Path.GetFileNameWithoutExtension(scenePath);
+
+            var textAssetPath = Path.Combine(dir, "Data", name + ".json");
+            textAsset = AssetDatabase.LoadAssetAtPath<TextAsset>(textAssetPath);
+        }
+
         if (textAsset == null) return;
 
         var assetName = textAsset.name;
@@ -75,12 +86,6 @@ public class EnvironmentSceneCreator
             Debug.LogError("Failed to save the new environment scene.");
     }
 
-    // Validate menu: only show if a single TextAsset is selected
-    [MenuItem("Environment/Create from Data", true)]
-    private static bool ValidateCreateEnvironmentFromData() =>
-        Selection.objects.Length == 1
-        && Selection.activeObject is TextAsset;
-
     // Main method which constructs the environment from parsed data
     private static void CreateEnvironment(
         EnvironmentData data,
@@ -88,6 +93,8 @@ public class EnvironmentSceneCreator
     {
         Transform lastParent = null;
         string lastParentChromaID = null;
+
+        // first pass: spawn object
         foreach (var envObject in data.Objects)
         {
             // Skip ignored objects (Exclude Environment node of ID)
@@ -109,7 +116,8 @@ public class EnvironmentSceneCreator
                 prefab = new GameObject();
             else
             {
-                if (library.Meshes.Lookup.TryGetValue(envObject.Components.MeshFilter.Hash, out var mesh) && mesh != null)
+                if (library.Meshes.Lookup.TryGetValue(envObject.Components.MeshFilter.Hash, out var mesh)
+                    && mesh != null)
                 {
                     prefab = new GameObject();
                     var mf = prefab.AddComponent<MeshFilter>();
@@ -133,9 +141,11 @@ public class EnvironmentSceneCreator
                 }
                 else
                 {
-                    Debug.LogWarning($"{envObject.ChromaID} mesh not found for:\n{envObject.Components.MeshFilter.Hash}");
+                    Debug.LogWarning(
+                        $"{envObject.ChromaID} mesh not found for:\n{envObject.Components.MeshFilter.Hash} -- {library.Meshes.list.FindIndex(l => l.Hash == envObject.Components.MeshFilter.Hash)}");
                     prefab = new GameObject();
-                    var fallback = PrefabUtility.InstantiatePrefab(library.fallbackPrefab,prefab.transform) as GameObject;
+                    var fallback =
+                        PrefabUtility.InstantiatePrefab(library.fallbackPrefab, prefab.transform) as GameObject;
                     var mInfo = library.Meshes.list.First(x => x.Hash == envObject.Components.MeshFilter.Hash);
                     fallback.transform.localPosition = mInfo.BoundsCenter;
                     fallback.transform.localScale = mInfo.BoundsSize;
@@ -144,6 +154,7 @@ public class EnvironmentSceneCreator
 
             prefab.name = envObject.GameObjectName;
             prefab.layer = library.layerMaskLookup[envObject.Layer].value.Get1BitPositions()[0];
+            prefab.AddComponent<ChromaIDMarker>().ID = envObject.ChromaID;
 
             // Set the parent of the instantiated object
             if (lastParent != null) prefab.transform.SetParent(lastParent.transform, false);
@@ -158,6 +169,65 @@ public class EnvironmentSceneCreator
             // Set the last parent to the current object
             lastParent = prefab.transform;
             lastParentChromaID = envObject.ChromaID;
+        }
+
+        // second pass: build component
+        var chromaIdMarkers = Object.FindObjectsByType<ChromaIDMarker>(FindObjectsSortMode.None);
+        var descriptor = GameObject.Find("Environment").AddComponent<PlatformDescriptor>();
+
+        var beec = new GameObject("BasicEventEffectController").AddComponent<BasicEventEffectController>();
+        beec.gameObject.transform.SetParent(GameObject.Find("Environment").transform);
+        descriptor.basicEventEffectController = beec;
+
+        beec.TryInit<ColorBoostManager>((int)EventTypeValue.ColorBoost);
+
+        foreach (var envObject in data.Objects)
+        {
+            if (library.IsIgnored(
+                envObject.ChromaID.Substring(envObject.ChromaID.IndexOf("]", StringComparison.Ordinal) + 1)))
+                continue;
+
+            var marker = chromaIdMarkers.First(x => x.ID == envObject.ChromaID);
+            var go = marker.gameObject;
+
+            if (envObject.Components.TubeBloomPrePassLightWithId != null)
+            {
+                foreach (var tubeBloomPrePass in envObject.Components.TubeBloomPrePassLightWithId)
+                {
+                    if (tubeBloomPrePass.TubeBloomPrePassLight == null
+                        || tubeBloomPrePass.ChromaLight == null
+                        || string.IsNullOrEmpty(tubeBloomPrePass.TubeBloomPrePassLight.ParametricBoxId)
+                        || tubeBloomPrePass.TubeBloomPrePassLight.ParametricBoxId == "null")
+                        continue;
+
+                    var blc = go.AddComponent<BasicLightController>();
+                    var boxLight = chromaIdMarkers.First(x =>
+                            x.ID == tubeBloomPrePass.TubeBloomPrePassLight.ParametricBoxId)
+                        .gameObject;
+                    blc.MainLight = boxLight.AddComponent<LightObject>();
+                    blc.MainLight.Renderer = boxLight.GetComponent<Renderer>();
+                    blc.MainLight.Multiply = tubeBloomPrePass.TubeBloomPrePassLight.ColorAlphaMultiplier;
+
+                    // var quad = GameObject.CreatePrimitive(PrimitiveType.Quad);
+                    // quad.transform.SetParent(go.transform, false);
+                    // quad.transform.localScale = new(
+                    //    tubeBloomPrePass.TubeBloomPrePassLight.TubeWidth
+                    //    * 10f
+                    //    * tubeBloomPrePass.TubeBloomPrePassLight.LightWidthMultiplier,
+                    //    tubeBloomPrePass.TubeBloomPrePassLight.TubeLength,
+                    //    0f);
+                    // quad.transform.localPosition = new(0f, 0f, 0f);
+                    // var lobf = quad.AddComponent<LightObjectBloomFog>();
+                    // lobf.Multiply = tubeBloomPrePass.TubeBloomPrePassLight.BloomFogIntensityMultiplier;
+                    // quad.layer = LayerMask.NameToLayer("Lighting Events");
+                    // quad.GetComponent<Renderer>().sharedMaterial = library.BloomFogMaterial;
+
+                    blc.ID = tubeBloomPrePass.ChromaLight.LightId;
+
+                    beec.TryInit<BasicLightManager>(tubeBloomPrePass.ChromaLight.Type);
+                    beec.Add(tubeBloomPrePass.ChromaLight.Type, blc);
+                }
+            }
         }
     }
 

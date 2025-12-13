@@ -214,7 +214,7 @@ public class GagaDiskManager : BasicEventStateManager<GagaDiskStateData>
         UpdateObject(container.CurrentState.Base);
     }
 
-    public override void Reset()
+    public override void UpdateDirty()
     {
         foreach (var container in stateChunksContainerMap.Values) UpdateObject(container.CurrentState.Base);
     }

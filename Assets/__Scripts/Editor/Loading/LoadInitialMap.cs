@@ -77,14 +77,16 @@ public class LoadInitialMap : MonoBehaviour
         //     platform = CustomPlatformsLoader.Instance.LoadPlatform(info.CustomEnvironmentMetadata.Name, platform);
 
         SceneManager.LoadScene(platform.ID, LoadSceneMode.Additive);
-        // var descriptor = instantiate.GetComponent<PlatformDescriptor>();
-        // EventContainer.ModifyTypeMode = descriptor.SortMode; //Change sort mode
-        //
-        // PopulateColorsFromMapInfo(descriptor);
-        // UpdateObjectContainerColors(descriptor.ColorScheme);
-        //
-        // OnPlatformLoaded.Invoke(descriptor); //Trigger event for classes that use the platform
-        // Platform = descriptor;
+        yield return new WaitUntil(() => SceneManager.GetSceneByName(platform.ID).isLoaded);
+
+        var descriptor = FindAnyObjectByType<PlatformDescriptor>();
+        EventContainer.ModifyTypeMode = descriptor.SortMode; //Change sort mode
+
+        PopulateColorsFromMapInfo(descriptor);
+        UpdateObjectContainerColors(descriptor.ColorScheme);
+
+        OnPlatformLoaded.Invoke(descriptor); //Trigger event for classes that use the platform
+        Platform = descriptor;
 
         loader.UpdateMapData(BeatSaberSongContainer.Instance.Map);
         loader.HardRefresh();

@@ -3,10 +3,10 @@ using System.Linq;
 using Beatmap.Base;
 using UnityEngine;
 
-public abstract class BeatmapObjectManager : MonoBehaviour
+public abstract class BeatmapObjectManager : MonoBehaviour, IBeatmapUpdate
 {
     [SerializeField] protected AudioTimeSyncController Atsc;
-    
+
     public abstract void UpdateTime();
     public abstract void UpdateTime(float beatTime);
 }
@@ -14,7 +14,7 @@ public abstract class BeatmapObjectManager : MonoBehaviour
 public abstract class BeatmapObjectManager<T> : BeatmapObjectManager where T : BaseObject
 {
     protected virtual bool AllowAction => true;
-    
+
     protected virtual void Awake()
     {
         BeatmapActionContainer.OnActionCreated += HandleActionRedo;

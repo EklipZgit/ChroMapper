@@ -1,19 +1,18 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-public class LightingObject : MonoBehaviour
+public class BasicLightController : MonoBehaviour
 {
+    public LightObject MainLight;
+    public LightObject BloomFogLight;
+
     public bool OverrideLightGroup;
     public int OverrideLightGroupID;
     public bool UseInvertedPlatformColors;
     public bool CanBeTurnedOff = true;
 
-    [SerializeField] private float multiplyAlpha = 1;
-
-    [FormerlySerializedAs("lightID")] public int LightID;
-    [FormerlySerializedAs("propGroup")] public int PropGroup;
-
+    public int ID;
+    public int PropGroup;
 
     private float startTimeAlpha;
     private float startTimeColor;
@@ -25,38 +24,9 @@ public class LightingObject : MonoBehaviour
     private float endAlpha;
     private bool useHSV;
     private Func<float, float> easing = Easing.ByName["easeLinear"];
-    private bool canBeDisabled;
-
-    private MaterialPropertyBlock lightPropertyBlock;
-    private Renderer lightRenderer;
-
-    private BoostSprite boostSprite;
-
-
-    private static readonly int mainTex = Shader.PropertyToID("_MainTex");
-    private static readonly int baseColor = Shader.PropertyToID("_Color");
-
+    
     private void Start()
     {
-        lightPropertyBlock = new MaterialPropertyBlock();
-        lightRenderer = GetComponentInChildren<Renderer>();
-        boostSprite = GetComponent<BoostSprite>();
-        canBeDisabled = lightRenderer.sharedMaterial.name.Contains("Transparent");
-
-        // TODO: Remove this with new environment system (assign layers directly in editor)
-        gameObject.layer = LayerMask.NameToLayer("Lighting Events");
-        if (lightRenderer != null && lightRenderer.gameObject != gameObject)
-        {
-            lightRenderer.gameObject.layer = LayerMask.NameToLayer("Lighting Events");
-        }
-
-        if (lightRenderer is SpriteRenderer spriteRenderer)
-        {
-            if (boostSprite != null) boostSprite.Setup(spriteRenderer.sprite);
-
-            lightPropertyBlock.SetTexture(mainTex, spriteRenderer.sprite.texture);
-        }
-
         if (!OverrideLightGroup) return;
         var descriptor = LoadInitialMap.Platform;
 
@@ -66,37 +36,28 @@ public class LightingObject : MonoBehaviour
             && OverrideLightGroupID < descriptor.LightingManagers.Length)
         {
             var lm = descriptor.LightingManagers[OverrideLightGroupID];
-            while (lm.LightIDPlacementMapReverse?.ContainsKey(LightID) ?? false)
+            while (lm.LightIDPlacementMapReverse?.ContainsKey(ID) ?? false)
             {
-                ++LightID;
+                ++ID;
             }
 
-            lm.ControllingLights.Add(this);
+            lm.ControllableLights.Add(this);
             lm.LoadOldLightOrder();
         }
     }
 
     private void OnDestroy()
     {
-        if (OverrideLightGroup)
-        {
-            var descriptor = LoadInitialMap.Platform;
+        if (!OverrideLightGroup) return;
+        var descriptor = LoadInitialMap.Platform;
 
-            if (descriptor != null
-                && OverrideLightGroupID >= 0
-                && OverrideLightGroupID < descriptor.LightingManagers.Length)
-            {
-                var lm = descriptor.LightingManagers[OverrideLightGroupID];
-                lm.ControllingLights.Remove(this);
-                lm.LightIDPlacementMapReverse?.Remove(LightID);
-            }
-        }
-    }
-
-    private void UpdateLighting(Color color)
-    {
-        lightPropertyBlock.SetColor(baseColor, color);
-        lightRenderer.SetPropertyBlock(lightPropertyBlock);
+        if (descriptor == null
+            || OverrideLightGroupID < 0
+            || OverrideLightGroupID >= descriptor.LightingManagers.Length)
+            return;
+        var lm = descriptor.LightingManagers[OverrideLightGroupID];
+        lm.ControllableLights.Remove(this);
+        lm.LightIDPlacementMapReverse?.Remove(ID);
     }
 
     public void UpdateTime(float time)
@@ -109,8 +70,8 @@ public class LightingObject : MonoBehaviour
         var alpha = Mathf.Lerp(startAlpha, endAlpha, easing(nTimeAlpha));
 
         color.a *= alpha;
-        if (canBeDisabled) lightRenderer.enabled = color.a > 0;
-        if (lightRenderer.enabled) UpdateLighting(color);
+        MainLight.UpdateLighting(color);
+        // BloomFogLight.UpdateLighting(color);
     }
 
     private static Color LerpHSV(Color start, Color end, float t)
@@ -150,6 +111,7 @@ public class LightingObject : MonoBehaviour
 
     public void UpdateBoostState(bool boost)
     {
-        if (boostSprite != null) lightPropertyBlock.SetTexture(mainTex, boostSprite.GetSprite(boost).texture);
+        MainLight.UpdateBoostState(boost);
+        // BloomFogLight.UpdateBoostState(boost);
     }
 }

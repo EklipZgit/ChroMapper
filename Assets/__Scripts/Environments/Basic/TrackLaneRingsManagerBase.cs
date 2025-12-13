@@ -123,7 +123,7 @@ public abstract class TrackLaneRingsManagerBase : BasicEventStateManager<RingRot
         nextStateData.RotationInitial -= currStateData.RotationChange;
     }
 
-    public override void Reset()
+    public override void UpdateDirty()
     {
         foreach (var ringType in stateChunksContainerMap.Values) UpdateObject(ringType.CurrentState);
     }

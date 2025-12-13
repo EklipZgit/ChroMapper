@@ -48,7 +48,7 @@ public class ColorBoostManager : BasicEventStateManager<ColorBoostStateData>
         UpdateObject(stateChunksContainer.CurrentState);
     }
 
-    public override void Reset() => UpdateObject(stateChunksContainer.CurrentState);
+    public override void UpdateDirty() => UpdateObject(stateChunksContainer.CurrentState);
 }
 
 public class ColorBoostStateData : BasicEventStateData

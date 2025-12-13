@@ -4,15 +4,11 @@ using System.Linq;
 using Beatmap.Base;
 using Beatmap.Enums;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class BasicLightManager : BasicEventStateManager<BasicLightStateData>
 {
     public static PlatformColorScheme ColorScheme;
     private static bool useBoost;
-
-    [FormerlySerializedAs("disableCustomInitialization")]
-    public bool DisableCustomInitialization;
 
     public static readonly float FadeTimeSecond = 1.2f;
     public static readonly float FlashTimeSecond = 0.5f;
@@ -20,19 +16,16 @@ public class BasicLightManager : BasicEventStateManager<BasicLightStateData>
     public static float FlashTimeBeat = FlashTimeSecond;
     public static readonly float HDRIntensity = Mathf.GammaToLinearSpace(2.4169f);
 
-    public float GroupingMultiplier = 1.0f;
-    public float GroupingOffset = 0.001f;
-
-    public List<LightingObject> ControllingLights = new();
+    public List<BasicLightController> ControllableLights = new();
     public LightGroup[] LightsGroupedByZ = { };
 
     public List<RotatingLightsManagerBase> RotatingLights = new();
 
     public Dictionary<int, int> LightIDPlacementMap;
     public Dictionary<int, int> LightIDPlacementMapReverse;
-    public Dictionary<int, LightingObject> LightIDMap;
+    public Dictionary<int, BasicLightController> LightIDMap;
 
-    private readonly Dictionary<LightingObject, BasicEventStateChunksContainer<BasicLightStateData>>
+    private readonly Dictionary<BasicLightController, BasicEventStateChunksContainer<BasicLightStateData>>
         stateChunksContainerMap =
             new();
 
@@ -43,36 +36,33 @@ public class BasicLightManager : BasicEventStateManager<BasicLightStateData>
 
     public void LoadOldLightOrder()
     {
-        if (!DisableCustomInitialization)
+        foreach (var e in GetComponentsInChildren<BasicLightController>())
+            // No, stop that. Enforcing Light ID breaks Glass Desert
         {
-            foreach (var e in GetComponentsInChildren<LightingObject>())
-                // No, stop that. Enforcing Light ID breaks Glass Desert
-            {
-                if (!e.OverrideLightGroup) ControllingLights.Add(e);
-            }
-
-            foreach (var (index, e) in GetComponentsInChildren<RotatingLightsManagerBase>().Select((e, i) => (i, e)))
-            {
-                e.Index = index;
-                if (!e.IsOverrideLightGroup()) RotatingLights.Add(e);
-            }
-
-            var lightIdOrder = ControllingLights
-                .OrderBy(x => x.LightID)
-                .GroupBy(x => x.LightID)
-                .Select(x => x.First())
-                .ToList();
-            LightIDPlacementMap = lightIdOrder.ToDictionary(x => lightIdOrder.IndexOf(x), x => x.LightID);
-            LightIDPlacementMapReverse = lightIdOrder.ToDictionary(x => x.LightID, x => lightIdOrder.IndexOf(x));
-            LightIDMap = lightIdOrder.ToDictionary(x => x.LightID, x => x);
-
-            LightsGroupedByZ = GroupLightsBasedOnZ();
-            RotatingLights = RotatingLights.OrderBy(x => x.transform.localPosition.z).ToList();
+            if (!e.OverrideLightGroup) ControllableLights.Add(e);
         }
+
+        foreach (var (index, e) in GetComponentsInChildren<RotatingLightsManagerBase>().Select((e, i) => (i, e)))
+        {
+            e.Index = index;
+            if (!e.IsOverrideLightGroup()) RotatingLights.Add(e);
+        }
+
+        var lightIdOrder = ControllableLights
+            .OrderBy(x => x.ID)
+            .GroupBy(x => x.ID)
+            .Select(x => x.First())
+            .ToList();
+        LightIDPlacementMap = lightIdOrder.ToDictionary(x => lightIdOrder.IndexOf(x), x => x.ID);
+        LightIDPlacementMapReverse = lightIdOrder.ToDictionary(x => x.ID, x => lightIdOrder.IndexOf(x));
+        LightIDMap = lightIdOrder.ToDictionary(x => x.ID, x => x);
+
+        LightsGroupedByZ = GroupLightsBasedOnZ();
+        RotatingLights = RotatingLights.OrderBy(x => x.transform.localPosition.z).ToList();
     }
 
     public LightGroup[] GroupLightsBasedOnZ() =>
-        ControllingLights
+        ControllableLights
             .Where(x => x.gameObject.activeInHierarchy)
             .Where(x => x.PropGroup >= 0)
             .GroupBy(x => Mathf.RoundToInt(x.PropGroup))
@@ -83,7 +73,7 @@ public class BasicLightManager : BasicEventStateManager<BasicLightStateData>
     public override void Initialize()
     {
         stateChunksContainerMap.Clear();
-        foreach (var lightingObject in ControllingLights)
+        foreach (var lightingObject in ControllableLights)
         {
             stateChunksContainerMap[lightingObject] =
                 InitializeStates(new BasicEventStateChunksContainer<BasicLightStateData>());
@@ -107,13 +97,13 @@ public class BasicLightManager : BasicEventStateManager<BasicLightStateData>
         }
     }
 
-    private static void UpdateObject(LightingObject lightingObject, BasicLightStateData stateData) =>
-        lightingObject.UpdateFromState(stateData);
+    private static void UpdateObject(BasicLightController basicLightController, BasicLightStateData stateData) =>
+        basicLightController.UpdateFromState(stateData);
 
     public void ToggleBoost(bool boost)
     {
         useBoost = boost;
-        foreach (var lightingObject in ControllingLights)
+        foreach (var lightingObject in ControllableLights)
         {
             lightingObject.UpdateBoostState(boost);
             if (!stateChunksContainerMap.TryGetValue(lightingObject, out var container)) continue;
@@ -374,11 +364,11 @@ public class BasicLightManager : BasicEventStateManager<BasicLightStateData>
         // wtf is solo event
         // if (SoloAnEventType && data.Type != SoloEventType) mainColor = invertedColor = Color.black.WithAlpha(0);
 
-        var affectedLights = ControllingLights;
+        var affectedLights = ControllableLights;
         if (data.CustomLightID != null && LightIDMap != null && Settings.Instance.EmulateChromaAdvanced)
         {
             var lightIDArr = data.CustomLightID;
-            var filteredLights = new List<LightingObject>(lightIDArr.Length);
+            var filteredLights = new List<BasicLightController>(lightIDArr.Length);
             foreach (var lightID in lightIDArr)
             {
                 if (!LightIDMap.TryGetValue(lightID, out var lightingObject)) continue;
@@ -465,12 +455,12 @@ public class BasicLightManager : BasicEventStateManager<BasicLightStateData>
                 original.SongBpmTime + original.CustomLightGradient.Duration);
         }
 
-        IEnumerable<LightingObject> affectedLights = ControllingLights;
+        IEnumerable<BasicLightController> affectedLights = ControllableLights;
 
         if (original.CustomLightID != null && LightIDMap != null && Settings.Instance.EmulateChromaAdvanced)
         {
             var lightIDArr = original.CustomLightID;
-            var filteredLights = new List<LightingObject>(lightIDArr.Length);
+            var filteredLights = new List<BasicLightController>(lightIDArr.Length);
             foreach (var lightID in lightIDArr)
             {
                 if (!LightIDMap.TryGetValue(lightID, out var lightingObject)) continue;
@@ -537,8 +527,7 @@ public class BasicLightManager : BasicEventStateManager<BasicLightStateData>
         InsertWithChromaGradient(nextStateData);
     }
 
-
-    public override void Reset()
+    public override void UpdateDirty()
     {
         foreach (var lightingObject in stateChunksContainerMap.Keys)
             UpdateObject(lightingObject, stateChunksContainerMap[lightingObject].CurrentState);
@@ -547,17 +536,17 @@ public class BasicLightManager : BasicEventStateManager<BasicLightStateData>
     private static LightColor InferColorFromEvent(BaseEvent evt) =>
         evt.IsBlue ? LightColor.Blue : evt.IsRed ? LightColor.Red : LightColor.White;
 
-    public static Color GetStartColorFromState(LightingObject lightingObject, BasicLightStateData stateData) =>
+    public static Color GetStartColorFromState(BasicLightController basicLightController, BasicLightStateData stateData) =>
         (stateData.StartChromaColor
             ?? GetColorFromScheme(
                 stateData.StartColor,
-                lightingObject.UseInvertedPlatformColors)); // .Multiply(HDRIntensity);
+                basicLightController.UseInvertedPlatformColors)); // .Multiply(HDRIntensity);
 
-    public static Color GetEndColorFromState(LightingObject lightingObject, BasicLightStateData stateData) =>
+    public static Color GetEndColorFromState(BasicLightController basicLightController, BasicLightStateData stateData) =>
         (stateData.EndChromaColor
             ?? GetColorFromScheme(
                 stateData.EndColor,
-                lightingObject.UseInvertedPlatformColors)); // .Multiply(HDRIntensity);
+                basicLightController.UseInvertedPlatformColors)); // .Multiply(HDRIntensity);
 
     private static Color GetColorFromScheme(LightColor value, bool useInvertedPlatformColors)
     {
@@ -608,7 +597,7 @@ public class BasicLightManager : BasicEventStateManager<BasicLightStateData>
     [Serializable]
     public class LightGroup
     {
-        public List<LightingObject> Lights = new();
+        public List<BasicLightController> Lights = new();
     }
 }
 

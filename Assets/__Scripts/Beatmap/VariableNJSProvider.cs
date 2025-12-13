@@ -174,7 +174,7 @@ public class VariableNJSProvider : StateManager<VariableNJSStateData, BaseNJSEve
         MaxHalfJumpDurationInBeats = hjds.Keys.Max();
     }
 
-    public override void Reset() => UpdateState();
+    public override void UpdateDirty() => UpdateState();
 
     protected override VariableNJSStateData CreateState(BaseNJSEvent data) => new(data);
 }

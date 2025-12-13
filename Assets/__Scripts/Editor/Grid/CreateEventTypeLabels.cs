@@ -191,7 +191,7 @@ public class CreateEventTypeLabels : MonoBehaviour
     {
         if (type >= lightingManagers.Length) return null;
 
-        var light = lightingManagers[type].ControllingLights.Find(x => Array.IndexOf(lightID, x.LightID) > -1);
+        var light = lightingManagers[type].ControllableLights.Find(x => Array.IndexOf(lightID, x.ID) > -1);
 
         return light != null ? light.PropGroup : (int?)null;
     }
@@ -201,8 +201,8 @@ public class CreateEventTypeLabels : MonoBehaviour
         if (type >= lightingManagers.Length) return new int[0];
 
         return lightingManagers[type]
-            .ControllingLights.Where(x => x.PropGroup == propID)
-            .Select(x => x.LightID)
+            .ControllableLights.Where(x => x.PropGroup == propID)
+            .Select(x => x.ID)
             .OrderBy(x => x)
             .Distinct()
             .ToArray();

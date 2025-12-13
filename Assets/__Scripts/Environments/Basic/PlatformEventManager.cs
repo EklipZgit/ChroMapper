@@ -59,7 +59,7 @@ public abstract class PlatformEventManager : BasicEventStateManager<PlatformEven
         UpdateObject(container.CurrentState);
     }
 
-    public override void Reset()
+    public override void UpdateDirty()
     {
         foreach (var container in stateChunksContainerMap.Values) UpdateObject(container.CurrentState);
     }

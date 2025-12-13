@@ -3,14 +3,14 @@ using Newtonsoft.Json;
 
 namespace Editor.Environments.Structures.Components
 {
-    public class TubeBloomPrePassLightWithIdComponent : EnvironmentComponent<LightingObject>
+    public class TubeBloomPrePassLightWithIdComponent : EnvironmentComponent<BasicLightController>
     {
         [JsonProperty("tubeBloomPrePassLight")] [CanBeNull]
         public TubeBloomPrePassLightComponent TubeBloomPrePassLight;
         [JsonProperty("chromaLight")] [CanBeNull] 
         public ChromaLightComponent ChromaLight;
 
-        public override void CopyTo(LightingObject target)
+        public override void CopyTo(BasicLightController target)
         {
         }
     }
