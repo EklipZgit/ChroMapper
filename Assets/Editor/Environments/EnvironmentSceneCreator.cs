@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Beatmap.Enums;
@@ -94,14 +95,17 @@ public class EnvironmentSceneCreator
         Transform lastParent = null;
         string lastParentChromaID = null;
 
-        // first pass: spawn object
-        foreach (var envObject in data.Objects)
-        {
-            // Skip ignored objects (Exclude Environment node of ID)
-            if (library.IsIgnored(
-                envObject.ChromaID.Substring(envObject.ChromaID.IndexOf("]", StringComparison.Ordinal) + 1)))
-                continue;
+        var objectsToUse = data
+            .Objects.Where(obj =>
+                !library.IsIgnored(obj.ChromaID[(obj.ChromaID.IndexOf("]", StringComparison.Ordinal) + 1)..]))
+            // .OrderBy(d => d.ChromaID) // TODO: properly do this in hierarchy
+            .ToList();
 
+        var chromaIdObjects = new Dictionary<string, GameObject>();
+
+        // first pass: spawn object
+        foreach (var envObject in objectsToUse)
+        {
             // If our parents name is not present in the Chroma ID, assume we're a level up
             while (!IsParentByChromaID(lastParentChromaID, envObject.ChromaID))
             {
@@ -154,7 +158,7 @@ public class EnvironmentSceneCreator
 
             prefab.name = envObject.GameObjectName;
             prefab.layer = library.layerMaskLookup[envObject.Layer].value.Get1BitPositions()[0];
-            prefab.AddComponent<ChromaIDMarker>().ID = envObject.ChromaID;
+            chromaIdObjects[envObject.ChromaID] = prefab;
 
             // Set the parent of the instantiated object
             if (lastParent != null) prefab.transform.SetParent(lastParent.transform, false);
@@ -172,22 +176,21 @@ public class EnvironmentSceneCreator
         }
 
         // second pass: build component
-        var chromaIdMarkers = Object.FindObjectsByType<ChromaIDMarker>(FindObjectsSortMode.None);
         var descriptor = GameObject.Find("Environment").AddComponent<PlatformDescriptor>();
 
-        var beec = new GameObject("BasicEventEffectController").AddComponent<BasicEventEffectController>();
+        data.Data.ColorScheme.CopyTo(descriptor.ColorScheme);
+        data.Data.LightTracks.CopyTo(descriptor.TrackDefinition);
+        data.Data.FogParameters.CopyTo(descriptor.BloomFogParams);
+
+        var beec = new GameObject("BasicEventEffectController").AddComponent<BasicEventEffectManager>();
         beec.gameObject.transform.SetParent(GameObject.Find("Environment").transform);
-        descriptor.basicEventEffectController = beec;
+        descriptor.BasicEventEffectManager = beec;
 
         beec.TryInit<ColorBoostManager>((int)EventTypeValue.ColorBoost);
-
-        foreach (var envObject in data.Objects)
+        
+        foreach (var envObject in objectsToUse)
         {
-            if (library.IsIgnored(
-                envObject.ChromaID.Substring(envObject.ChromaID.IndexOf("]", StringComparison.Ordinal) + 1)))
-                continue;
-
-            var marker = chromaIdMarkers.First(x => x.ID == envObject.ChromaID);
+            var marker = chromaIdObjects[envObject.ChromaID];
             var go = marker.gameObject;
 
             if (envObject.Components.TubeBloomPrePassLightWithId != null)
@@ -200,13 +203,12 @@ public class EnvironmentSceneCreator
                         || tubeBloomPrePass.TubeBloomPrePassLight.ParametricBoxId == "null")
                         continue;
 
-                    var blc = go.AddComponent<BasicLightController>();
-                    var boxLight = chromaIdMarkers.First(x =>
-                            x.ID == tubeBloomPrePass.TubeBloomPrePassLight.ParametricBoxId)
-                        .gameObject;
-                    blc.MainLight = boxLight.AddComponent<LightObject>();
-                    blc.MainLight.Renderer = boxLight.GetComponent<Renderer>();
-                    blc.MainLight.Multiply = tubeBloomPrePass.TubeBloomPrePassLight.ColorAlphaMultiplier;
+                    var blc = go.AddComponent<LightController>();
+
+                    var boxLight = chromaIdObjects[tubeBloomPrePass.TubeBloomPrePassLight.ParametricBoxId];
+                    blc.LightObject = boxLight.AddComponent<LightObject>();
+                    blc.LightObject.Renderer = boxLight.GetComponent<Renderer>();
+                    blc.LightObject.Multiply = tubeBloomPrePass.TubeBloomPrePassLight.ColorAlphaMultiplier;
 
                     // var quad = GameObject.CreatePrimitive(PrimitiveType.Quad);
                     // quad.transform.SetParent(go.transform, false);

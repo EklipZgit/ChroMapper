@@ -64,10 +64,3 @@ public abstract class PlatformEventManager : BasicEventStateManager<PlatformEven
         foreach (var container in stateChunksContainerMap.Values) UpdateObject(container.CurrentState);
     }
 }
-
-public class PlatformEventStateData : BasicEventStateData
-{
-    public PlatformEventStateData(BaseEvent data) : base(data)
-    {
-    }
-}

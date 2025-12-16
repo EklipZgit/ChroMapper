@@ -53,10 +53,3 @@ public abstract class RotatingLightsManagerBase : BasicEventStateManager<Rotatin
 
     public override void UpdateDirty() => UpdateObject(stateChunksContainer.CurrentState);
 }
-
-public class RotatingLightStateData : BasicEventStateData
-{
-    public RotatingLightStateData(BaseEvent data) : base(data)
-    {
-    }
-}

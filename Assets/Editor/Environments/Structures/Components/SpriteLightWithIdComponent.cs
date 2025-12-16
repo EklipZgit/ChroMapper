@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-public class SpriteLightWithIdComponent : EnvironmentComponent<BasicLightController>
+public class SpriteLightWithIdComponent : EnvironmentComponent<LightController>
 {
     [JsonProperty("intensity")]
     public float Intensity = -1;
@@ -11,7 +11,7 @@ public class SpriteLightWithIdComponent : EnvironmentComponent<BasicLightControl
     public ChromaLightComponent ChromaLight;
 
 
-    public override void CopyTo(BasicLightController target)
+    public override void CopyTo(LightController target)
     {
     }
 }

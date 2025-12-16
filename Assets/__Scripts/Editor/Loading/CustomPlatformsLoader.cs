@@ -58,9 +58,18 @@ public class CustomPlatformsLoader : MonoBehaviour
 
             if (cp != null)
             {
-                if (!cp.hideHighway && !cp.hideTowers && cp.hideDefaultPlatform && !cp.hideEQVisualizer &&
-                    !cp.hideSmallRings && !cp.hideBigRings && !cp.hideBackColumns && !cp.hideBackLasers &&
-                    !cp.hideDoubleLasers && !cp.hideDoubleColorLasers && !cp.hideRotatingLasers && !cp.hideTrackLights)
+                if (!cp.hideHighway
+                    && !cp.hideTowers
+                    && cp.hideDefaultPlatform
+                    && !cp.hideEQVisualizer
+                    && !cp.hideSmallRings
+                    && !cp.hideBigRings
+                    && !cp.hideBackColumns
+                    && !cp.hideBackLasers
+                    && !cp.hideDoubleLasers
+                    && !cp.hideDoubleColorLasers
+                    && !cp.hideRotatingLasers
+                    && !cp.hideTrackLights)
                 {
                     cpl.platformsOnly.Add(platformName);
                 }
@@ -78,7 +87,9 @@ public class CustomPlatformsLoader : MonoBehaviour
         return cpl;
     }
 
-    public GameObject LoadPlatform(string customEnvironmentString, GameObject defaultEnvironment = null,
+    public GameObject LoadPlatform(
+        string customEnvironmentString,
+        GameObject defaultEnvironment = null,
         string customPlatformString = null)
     {
         try
@@ -359,8 +370,8 @@ public class CustomPlatformsLoader : MonoBehaviour
 
                 if (tempMaterial == null || tempMaterial.shader == null) continue;
 
-                if (tempMaterial.shader.name.Contains("BeatSaber/Standard") ||
-                    tempMaterial.shader.name.Equals("Standard"))
+                if (tempMaterial.shader.name.Contains("BeatSaber/Standard")
+                    || tempMaterial.shader.name.Equals("Standard"))
                 {
                     tempMaterial.shader = Shader.Find("Universal Render Pipeline/Simple Lit");
                 }
@@ -370,8 +381,7 @@ public class CustomPlatformsLoader : MonoBehaviour
                     tempMaterial = new Material(lightMaterial);
                     tempMaterial.SetColor(baseColor, Color.white);
                     tempMaterial.EnableKeyword("_EMISSION");
-                    tempMaterial.SetColor(emissionColor,
-                        DefaultColors.Right * BasicLightManager.HDRIntensity);
+                    tempMaterial.SetColor(emissionColor, DefaultColors.Right);
                 }
 
                 if (tempMaterial.name.ToUpper().Contains("GLOW_RED"))
@@ -379,8 +389,7 @@ public class CustomPlatformsLoader : MonoBehaviour
                     tempMaterial = new Material(lightMaterial);
                     tempMaterial.SetColor(baseColor, Color.white);
                     tempMaterial.EnableKeyword("_EMISSION");
-                    tempMaterial.SetColor(emissionColor,
-                        DefaultColors.Left * BasicLightManager.HDRIntensity);
+                    tempMaterial.SetColor(emissionColor, DefaultColors.Left);
                 }
 
                 materials[i] = tempMaterial;
@@ -396,8 +405,7 @@ public class CustomPlatformsLoader : MonoBehaviour
 
         if (materials.Length >= 1 && materials[0] != null)
         {
-            if (materials[0] != null && width >= 0.5f)
-                Array.Resize(ref materials, materials.Length + 1);
+            if (materials[0] != null && width >= 0.5f) Array.Resize(ref materials, materials.Length + 1);
 
             var lastMaterial = new Material(lightMaterial);
             for (var i = 0; i < materials.Length; i++)
@@ -406,8 +414,8 @@ public class CustomPlatformsLoader : MonoBehaviour
 
                 if (tempMaterial == null || tempMaterial.color == null) continue;
 
-                if (tempMaterial.shader.name.Equals("Unlit/Color") &&
-                    !(tempMaterial.color.r == 1 && tempMaterial.color.g == 1 && tempMaterial.color.b == 1))
+                if (tempMaterial.shader.name.Equals("Unlit/Color")
+                    && !(tempMaterial.color.r == 1 && tempMaterial.color.g == 1 && tempMaterial.color.b == 1))
                 {
                     tempMaterial = useThisBlack;
                 }
@@ -426,7 +434,7 @@ public class CustomPlatformsLoader : MonoBehaviour
 
         if (basicLightManager != null)
         {
-            var le = renderer.gameObject.AddComponent<BasicLightController>();
+            var le = renderer.gameObject.AddComponent<LightController>();
             basicLightManager.ControllableLights.Add(le);
         }
     }
@@ -512,8 +520,10 @@ public class CustomPlatformsLoader : MonoBehaviour
                 var replaced = false;
                 for (var i = 0; i < materials.Length; i++)
                 {
-                    if (materials[i] != null && materials[i].name != null &&
-                        (materials[i].name.StartsWith("BetterBlack") || materials[i].name.StartsWith("_dark_replace")))
+                    if (materials[i] != null
+                        && materials[i].name != null
+                        && (materials[i].name.StartsWith("BetterBlack")
+                            || materials[i].name.StartsWith("_dark_replace")))
                     {
                         materials[i] = useThisBlack;
                         replaced = true;
@@ -525,7 +535,9 @@ public class CustomPlatformsLoader : MonoBehaviour
         }
     }
 
-    private void RemoveHiddenElementsFromEnvironmentRecursive(GameObject gameObject, string name,
+    private void RemoveHiddenElementsFromEnvironmentRecursive(
+        GameObject gameObject,
+        string name,
         List<string> keepIfChildren = null)
     {
         if (gameObject == null) return;
@@ -537,16 +549,14 @@ public class CustomPlatformsLoader : MonoBehaviour
                 var hasChild = false;
                 foreach (Transform t in gameObject.transform)
                 {
-                    if (keepIfChildren.Contains(t.gameObject.name))
-                        hasChild = true;
+                    if (keepIfChildren.Contains(t.gameObject.name)) hasChild = true;
                 }
 
                 if (hasChild)
                 {
                     foreach (Transform t in gameObject.transform)
                     {
-                        if (!keepIfChildren.Contains(t.gameObject.name))
-                            HideGameObjectRecursive(t.gameObject);
+                        if (!keepIfChildren.Contains(t.gameObject.name)) HideGameObjectRecursive(t.gameObject);
                     }
                 }
                 else
@@ -576,8 +586,7 @@ public class CustomPlatformsLoader : MonoBehaviour
         }
         else
         {
-            foreach (Transform t in gameObject.transform)
-                DisableElementsFromEnvironmentRecursive(t.gameObject, name);
+            foreach (Transform t in gameObject.transform) DisableElementsFromEnvironmentRecursive(t.gameObject, name);
         }
     }
 

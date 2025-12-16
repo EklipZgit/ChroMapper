@@ -16,504 +16,378 @@ MonoBehaviour:
   - Name: Green Day
     ID: GreenDayEnvironment
     ColorScheme:
-      RedColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedBoostColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueBoostColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteBoostColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
-      BlueNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
+      LeftNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      RightNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
       ObstacleColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      CurrentEnvironmentLeftColor: {r: 1, g: 0, b: 0, a: 1}
+      CurrentEnvironmentRightColor: {r: 0, g: 0.282353, b: 1, a: 1}
+      CurrentEnvironmentWhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
   - Name: Panic
     ID: PanicEnvironment
     ColorScheme:
-      RedColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedBoostColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueBoostColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteBoostColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
-      BlueNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
+      LeftNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      RightNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
       ObstacleColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      CurrentEnvironmentLeftColor: {r: 1, g: 0, b: 0, a: 1}
+      CurrentEnvironmentRightColor: {r: 0, g: 0.282353, b: 1, a: 1}
+      CurrentEnvironmentWhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
   - Name: Linkin Park 2.0
     ID: LinkinPark2Environment
     ColorScheme:
-      RedColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedBoostColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueBoostColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteBoostColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
-      BlueNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
+      LeftNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      RightNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
       ObstacleColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      CurrentEnvironmentLeftColor: {r: 1, g: 0, b: 0, a: 1}
+      CurrentEnvironmentRightColor: {r: 0, g: 0.282353, b: 1, a: 1}
+      CurrentEnvironmentWhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
   - Name: Queen
     ID: QueenEnvironment
     ColorScheme:
-      RedColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedBoostColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueBoostColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteBoostColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
-      BlueNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
+      LeftNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      RightNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
       ObstacleColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      CurrentEnvironmentLeftColor: {r: 1, g: 0, b: 0, a: 1}
+      CurrentEnvironmentRightColor: {r: 0, g: 0.282353, b: 1, a: 1}
+      CurrentEnvironmentWhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
   - Name: The Weeknd
     ID: TheWeekndEnvironment
     ColorScheme:
-      RedColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedBoostColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueBoostColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteBoostColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
-      BlueNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
+      LeftNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      RightNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
       ObstacleColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      CurrentEnvironmentLeftColor: {r: 1, g: 0, b: 0, a: 1}
+      CurrentEnvironmentRightColor: {r: 0, g: 0.282353, b: 1, a: 1}
+      CurrentEnvironmentWhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
   - Name: Nice
     ID: NiceEnvironment
     ColorScheme:
-      RedColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedBoostColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueBoostColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteBoostColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
-      BlueNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
+      LeftNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      RightNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
       ObstacleColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      CurrentEnvironmentLeftColor: {r: 1, g: 0, b: 0, a: 1}
+      CurrentEnvironmentRightColor: {r: 0, g: 0.282353, b: 1, a: 1}
+      CurrentEnvironmentWhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
   - Name: Lattice
     ID: LatticeEnvironment
     ColorScheme:
-      RedColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedBoostColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueBoostColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteBoostColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
-      BlueNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
+      LeftNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      RightNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
       ObstacleColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      CurrentEnvironmentLeftColor: {r: 1, g: 0, b: 0, a: 1}
+      CurrentEnvironmentRightColor: {r: 0, g: 0.282353, b: 1, a: 1}
+      CurrentEnvironmentWhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
   - Name: Weave
     ID: WeaveEnvironment
     ColorScheme:
-      RedColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedBoostColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueBoostColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteBoostColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
-      BlueNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
+      LeftNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      RightNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
       ObstacleColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      CurrentEnvironmentLeftColor: {r: 1, g: 0, b: 0, a: 1}
+      CurrentEnvironmentRightColor: {r: 0, g: 0.282353, b: 1, a: 1}
+      CurrentEnvironmentWhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
   - Name: Dragons 2.0
     ID: Dragons2Environment
     ColorScheme:
-      RedColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedBoostColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueBoostColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteBoostColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
-      BlueNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
+      LeftNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      RightNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
       ObstacleColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      CurrentEnvironmentLeftColor: {r: 1, g: 0, b: 0, a: 1}
+      CurrentEnvironmentRightColor: {r: 0, g: 0.282353, b: 1, a: 1}
+      CurrentEnvironmentWhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
   - Name: EDM
     ID: EDMEnvironment
     ColorScheme:
-      RedColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedBoostColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueBoostColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteBoostColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
-      BlueNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
+      LeftNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      RightNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
       ObstacleColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      CurrentEnvironmentLeftColor: {r: 1, g: 0, b: 0, a: 1}
+      CurrentEnvironmentRightColor: {r: 0, g: 0.282353, b: 1, a: 1}
+      CurrentEnvironmentWhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
   - Name: Spooky
     ID: HalloweenEnvironment
     ColorScheme:
-      RedColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedBoostColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueBoostColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteBoostColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
-      BlueNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
+      LeftNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      RightNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
       ObstacleColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      CurrentEnvironmentLeftColor: {r: 1, g: 0, b: 0, a: 1}
+      CurrentEnvironmentRightColor: {r: 0, g: 0.282353, b: 1, a: 1}
+      CurrentEnvironmentWhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
   - Name: Origins
     ID: OriginsEnvironment
     ColorScheme:
-      RedColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedBoostColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueBoostColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteBoostColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
-      BlueNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
+      LeftNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      RightNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
       ObstacleColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      CurrentEnvironmentLeftColor: {r: 1, g: 0, b: 0, a: 1}
+      CurrentEnvironmentRightColor: {r: 0, g: 0.282353, b: 1, a: 1}
+      CurrentEnvironmentWhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
   - Name: Linkin Park
     ID: LinkinParkEnvironment
     ColorScheme:
-      RedColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedBoostColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueBoostColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteBoostColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
-      BlueNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
+      LeftNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      RightNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
       ObstacleColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      CurrentEnvironmentLeftColor: {r: 1, g: 0, b: 0, a: 1}
+      CurrentEnvironmentRightColor: {r: 0, g: 0.282353, b: 1, a: 1}
+      CurrentEnvironmentWhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
   - Name: Timbaland
     ID: TimbalandEnvironment
     ColorScheme:
-      RedColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedBoostColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueBoostColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteBoostColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
-      BlueNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
+      LeftNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      RightNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
       ObstacleColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      CurrentEnvironmentLeftColor: {r: 1, g: 0, b: 0, a: 1}
+      CurrentEnvironmentRightColor: {r: 0, g: 0.282353, b: 1, a: 1}
+      CurrentEnvironmentWhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
   - Name: Green Day Grenade
     ID: GreenDayGrenadeEnvironment
     ColorScheme:
-      RedColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedBoostColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueBoostColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteBoostColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
-      BlueNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
+      LeftNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      RightNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
       ObstacleColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      CurrentEnvironmentLeftColor: {r: 1, g: 0, b: 0, a: 1}
+      CurrentEnvironmentRightColor: {r: 0, g: 0.282353, b: 1, a: 1}
+      CurrentEnvironmentWhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
   - Name: Billie
     ID: BillieEnvironment
     ColorScheme:
-      RedColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedBoostColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueBoostColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteBoostColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
-      BlueNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
+      LeftNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      RightNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
       ObstacleColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      CurrentEnvironmentLeftColor: {r: 1, g: 0, b: 0, a: 1}
+      CurrentEnvironmentRightColor: {r: 0, g: 0.282353, b: 1, a: 1}
+      CurrentEnvironmentWhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
   - Name: Lizzo
     ID: LizzoEnvironment
     ColorScheme:
-      RedColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedBoostColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueBoostColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteBoostColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
-      BlueNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
+      LeftNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      RightNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
       ObstacleColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      CurrentEnvironmentLeftColor: {r: 1, g: 0, b: 0, a: 1}
+      CurrentEnvironmentRightColor: {r: 0, g: 0.282353, b: 1, a: 1}
+      CurrentEnvironmentWhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
   - Name: BTS
     ID: BTSEnvironment
     ColorScheme:
-      RedColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedBoostColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueBoostColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteBoostColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
-      BlueNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
+      LeftNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      RightNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
       ObstacleColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      CurrentEnvironmentLeftColor: {r: 1, g: 0, b: 0, a: 1}
+      CurrentEnvironmentRightColor: {r: 0, g: 0.282353, b: 1, a: 1}
+      CurrentEnvironmentWhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
   - Name: Hip Hop Mixtape
     ID: HipHopEnvironment
     ColorScheme:
-      RedColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedBoostColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueBoostColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteBoostColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
-      BlueNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
+      LeftNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      RightNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
       ObstacleColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      CurrentEnvironmentLeftColor: {r: 1, g: 0, b: 0, a: 1}
+      CurrentEnvironmentRightColor: {r: 0, g: 0.282353, b: 1, a: 1}
+      CurrentEnvironmentWhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
   - Name: The Second
     ID: TheSecondEnvironment
     ColorScheme:
-      RedColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedBoostColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueBoostColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteBoostColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
-      BlueNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
+      LeftNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      RightNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
       ObstacleColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      CurrentEnvironmentLeftColor: {r: 1, g: 0, b: 0, a: 1}
+      CurrentEnvironmentRightColor: {r: 0, g: 0.282353, b: 1, a: 1}
+      CurrentEnvironmentWhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
   - Name: Metallica
     ID: MetallicaEnvironment
     ColorScheme:
-      RedColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedBoostColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueBoostColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteBoostColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
-      BlueNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
+      LeftNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      RightNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
       ObstacleColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      CurrentEnvironmentLeftColor: {r: 1, g: 0, b: 0, a: 1}
+      CurrentEnvironmentRightColor: {r: 0, g: 0.282353, b: 1, a: 1}
+      CurrentEnvironmentWhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
   - Name: Rocket
     ID: RocketEnvironment
     ColorScheme:
-      RedColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedBoostColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueBoostColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteBoostColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
-      BlueNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
+      LeftNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      RightNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
       ObstacleColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      CurrentEnvironmentLeftColor: {r: 1, g: 0, b: 0, a: 1}
+      CurrentEnvironmentRightColor: {r: 0, g: 0.282353, b: 1, a: 1}
+      CurrentEnvironmentWhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
   - Name: The First
     ID: DefaultEnvironment
     ColorScheme:
-      RedColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedBoostColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueBoostColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteBoostColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
-      BlueNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
+      LeftNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      RightNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
       ObstacleColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      CurrentEnvironmentLeftColor: {r: 1, g: 0, b: 0, a: 1}
+      CurrentEnvironmentRightColor: {r: 0, g: 0.282353, b: 1, a: 1}
+      CurrentEnvironmentWhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
   - Name: The Rolling Stones
     ID: TheRollingStonesEnvironment
     ColorScheme:
-      RedColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedBoostColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueBoostColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteBoostColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
-      BlueNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
+      LeftNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      RightNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
       ObstacleColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      CurrentEnvironmentLeftColor: {r: 1, g: 0, b: 0, a: 1}
+      CurrentEnvironmentRightColor: {r: 0, g: 0.282353, b: 1, a: 1}
+      CurrentEnvironmentWhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
   - Name: Skrillex
     ID: SkrillexEnvironment
     ColorScheme:
-      RedColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedBoostColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueBoostColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteBoostColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
-      BlueNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
+      LeftNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      RightNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
       ObstacleColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      CurrentEnvironmentLeftColor: {r: 1, g: 0, b: 0, a: 1}
+      CurrentEnvironmentRightColor: {r: 0, g: 0.282353, b: 1, a: 1}
+      CurrentEnvironmentWhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
   - Name: Triangle
     ID: TriangleEnvironment
     ColorScheme:
-      RedColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedBoostColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueBoostColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteBoostColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
-      BlueNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
+      LeftNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      RightNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
       ObstacleColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      CurrentEnvironmentLeftColor: {r: 1, g: 0, b: 0, a: 1}
+      CurrentEnvironmentRightColor: {r: 0, g: 0.282353, b: 1, a: 1}
+      CurrentEnvironmentWhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
   - Name: Interscope
     ID: InterscopeEnvironment
     ColorScheme:
-      RedColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedBoostColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueBoostColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteBoostColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
-      BlueNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
+      LeftNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      RightNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
       ObstacleColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      CurrentEnvironmentLeftColor: {r: 1, g: 0, b: 0, a: 1}
+      CurrentEnvironmentRightColor: {r: 0, g: 0.282353, b: 1, a: 1}
+      CurrentEnvironmentWhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
   - Name: Fall Out Boy
     ID: PyroEnvironment
     ColorScheme:
-      RedColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedBoostColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueBoostColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteBoostColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
-      BlueNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
+      LeftNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      RightNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
       ObstacleColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      CurrentEnvironmentLeftColor: {r: 1, g: 0, b: 0, a: 1}
+      CurrentEnvironmentRightColor: {r: 0, g: 0.282353, b: 1, a: 1}
+      CurrentEnvironmentWhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
   - Name: Panic 2.0
     ID: Panic2Environment
     ColorScheme:
-      RedColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedBoostColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueBoostColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteBoostColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
-      BlueNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
+      LeftNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      RightNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
       ObstacleColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      CurrentEnvironmentLeftColor: {r: 1, g: 0, b: 0, a: 1}
+      CurrentEnvironmentRightColor: {r: 0, g: 0.282353, b: 1, a: 1}
+      CurrentEnvironmentWhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
   - Name: Gaga
     ID: GagaEnvironment
     ColorScheme:
-      RedColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedBoostColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueBoostColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteBoostColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
-      BlueNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
+      LeftNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      RightNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
       ObstacleColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      CurrentEnvironmentLeftColor: {r: 1, g: 0, b: 0, a: 1}
+      CurrentEnvironmentRightColor: {r: 0, g: 0.282353, b: 1, a: 1}
+      CurrentEnvironmentWhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
   - Name: Daft Punk
     ID: DaftPunkEnvironment
     ColorScheme:
-      RedColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedBoostColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueBoostColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteBoostColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
-      BlueNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
+      LeftNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      RightNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
       ObstacleColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      CurrentEnvironmentLeftColor: {r: 1, g: 0, b: 0, a: 1}
+      CurrentEnvironmentRightColor: {r: 0, g: 0.282353, b: 1, a: 1}
+      CurrentEnvironmentWhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
   - Name: Kaleidoscope
     ID: KaleidoscopeEnvironment
     ColorScheme:
-      RedColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedBoostColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueBoostColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteBoostColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
-      BlueNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
+      LeftNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      RightNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
       ObstacleColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      CurrentEnvironmentLeftColor: {r: 1, g: 0, b: 0, a: 1}
+      CurrentEnvironmentRightColor: {r: 0, g: 0.282353, b: 1, a: 1}
+      CurrentEnvironmentWhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
   - Name: Monstercat 2.0
     ID: Monstercat2Environment
     ColorScheme:
-      RedColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedBoostColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueBoostColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteBoostColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
-      BlueNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
+      LeftNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      RightNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
       ObstacleColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      CurrentEnvironmentLeftColor: {r: 1, g: 0, b: 0, a: 1}
+      CurrentEnvironmentRightColor: {r: 0, g: 0.282353, b: 1, a: 1}
+      CurrentEnvironmentWhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
   - Name: Crab Rave
     ID: CrabRaveEnvironment
     ColorScheme:
-      RedColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedBoostColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueBoostColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteBoostColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
-      BlueNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
+      LeftNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      RightNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
       ObstacleColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      CurrentEnvironmentLeftColor: {r: 1, g: 0, b: 0, a: 1}
+      CurrentEnvironmentRightColor: {r: 0, g: 0.282353, b: 1, a: 1}
+      CurrentEnvironmentWhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
   - Name: Fit Beat
     ID: FitBeatEnvironment
     ColorScheme:
-      RedColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedBoostColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueBoostColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteBoostColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
-      BlueNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
+      LeftNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      RightNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
       ObstacleColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      CurrentEnvironmentLeftColor: {r: 1, g: 0, b: 0, a: 1}
+      CurrentEnvironmentRightColor: {r: 0, g: 0.282353, b: 1, a: 1}
+      CurrentEnvironmentWhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
   - Name: KDA
     ID: KDAEnvironment
     ColorScheme:
-      RedColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedBoostColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueBoostColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteBoostColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
-      BlueNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
+      LeftNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      RightNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
       ObstacleColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      CurrentEnvironmentLeftColor: {r: 1, g: 0, b: 0, a: 1}
+      CurrentEnvironmentRightColor: {r: 0, g: 0.282353, b: 1, a: 1}
+      CurrentEnvironmentWhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
   - Name: Britney Spears
     ID: BritneyEnvironment
     ColorScheme:
-      RedColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedBoostColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueBoostColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteBoostColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
-      BlueNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
+      LeftNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      RightNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
       ObstacleColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      CurrentEnvironmentLeftColor: {r: 1, g: 0, b: 0, a: 1}
+      CurrentEnvironmentRightColor: {r: 0, g: 0.282353, b: 1, a: 1}
+      CurrentEnvironmentWhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
   - Name: Rock Mixtape
     ID: RockMixtapeEnvironment
     ColorScheme:
-      RedColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedBoostColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueBoostColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteBoostColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
-      BlueNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
+      LeftNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      RightNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
       ObstacleColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      CurrentEnvironmentLeftColor: {r: 1, g: 0, b: 0, a: 1}
+      CurrentEnvironmentRightColor: {r: 0, g: 0.282353, b: 1, a: 1}
+      CurrentEnvironmentWhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
   - Name: Dragons
     ID: DragonsEnvironment
     ColorScheme:
-      RedColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedBoostColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueBoostColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteBoostColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
-      BlueNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
+      LeftNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      RightNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
       ObstacleColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      CurrentEnvironmentLeftColor: {r: 1, g: 0, b: 0, a: 1}
+      CurrentEnvironmentRightColor: {r: 0, g: 0.282353, b: 1, a: 1}
+      CurrentEnvironmentWhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
   - Name: Monstercat
     ID: MonstercatEnvironment
     ColorScheme:
-      RedColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedBoostColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueBoostColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteBoostColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
-      BlueNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
+      LeftNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      RightNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
       ObstacleColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      CurrentEnvironmentLeftColor: {r: 1, g: 0, b: 0, a: 1}
+      CurrentEnvironmentRightColor: {r: 0, g: 0.282353, b: 1, a: 1}
+      CurrentEnvironmentWhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
   - Name: Big Mirror
     ID: BigMirrorEnvironment
     ColorScheme:
-      RedColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedBoostColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueBoostColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteBoostColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
-      BlueNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
+      LeftNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      RightNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
       ObstacleColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      CurrentEnvironmentLeftColor: {r: 1, g: 0, b: 0, a: 1}
+      CurrentEnvironmentRightColor: {r: 0, g: 0.282353, b: 1, a: 1}
+      CurrentEnvironmentWhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
   - Name: Collider
     ID: ColliderEnvironment
     ColorScheme:
-      RedColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedBoostColor: {r: 1, g: 0, b: 0, a: 1}
-      BlueBoostColor: {r: 0, g: 0.282353, b: 1, a: 1}
-      WhiteBoostColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-      RedNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
-      BlueNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
+      LeftNoteColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      RightNoteColor: {r: 0, g: 0.3701827, b: 0.7352942, a: 1}
       ObstacleColor: {r: 0.7352942, g: 0, b: 0, a: 1}
+      CurrentEnvironmentLeftColor: {r: 1, g: 0, b: 0, a: 1}
+      CurrentEnvironmentRightColor: {r: 0, g: 0.282353, b: 1, a: 1}
+      CurrentEnvironmentWhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}

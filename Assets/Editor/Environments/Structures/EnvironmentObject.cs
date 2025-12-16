@@ -8,47 +8,34 @@ using Newtonsoft.Json;
 /// </summary>
 public class EnvironmentObject
 {
-    [JsonProperty("name")]
-    public string GameObjectName = string.Empty;
+    [JsonProperty("name")] public string GameObjectName = string.Empty;
 
-    [JsonProperty("id")]
-    public string ChromaID = string.Empty;
+    [JsonProperty("id")] public string ChromaID = string.Empty;
 
-    [JsonProperty("meshName")]
-    public string? MeshName;
+    [JsonProperty("meshName")] public string? MeshName;
 
-    [JsonProperty("layer")] 
-    public string? Layer;
+    [JsonProperty("layer")] public string Layer = "Default";
 
-    [JsonProperty("components")]
-    public EnvironmentComponents Components = new();
+    [JsonProperty("components")] public EnvironmentComponents Components = new();
 
     // We can leave this to standard Newtonsoft.Json serialization.
     public class EnvironmentComponents
     {
         // Basic Components
-        [JsonProperty("transform")]
-        public TransformComponent? Transform;
-        
-        [JsonProperty("meshFilter")]
-        public MeshFilterComponent? MeshFilter;
+        [JsonProperty("transform")] public TransformComponent? Transform;
 
-        [JsonProperty("meshRenderer")]
-        public MeshRendererComponent? MeshRenderer;
-        
+        [JsonProperty("meshFilter")] public MeshFilterComponent? MeshFilter;
+
+        [JsonProperty("meshRenderer")] public MeshRendererComponent? MeshRenderer;
+
         // Lighting Components
         [JsonProperty("tubeBloomPrePassLightWithId")]
         public List<TubeBloomPrePassLightWithIdComponent>? TubeBloomPrePassLightWithId;
-        [JsonProperty("spriteLightWithId")]
-        public SpriteLightWithIdComponent? SpriteLightWithId;
+
+        [JsonProperty("spriteLightWithId")] public SpriteLightWithIdComponent? SpriteLightWithId;
 
         [JsonProperty("trackLaneRingsManager")]
         public TrackLaneRingsManagerComponent? TrackLaneRingsManager;
-
-        /*
-        public FloatFxGroupComponent? FloatFxGroup;
-        public FloatFxGroupEffectComponent? FloatFxGroupEffect;
-        public FloatFxGroupEffectManagerComponent? FloatFxGroupEffectManager;
 
         public LightColorGroupComponent? LightColorGroup;
         public LightColorGroupEffectComponent? LightColorGroupEffect;
@@ -60,7 +47,10 @@ public class EnvironmentObject
 
         public LightTranslationGroupComponent? LightTranslationGroup;
         public LightTranslationGroupEffectManagerComponent? LightTranslationGroupEffectManager;
-        */
+
+        public FloatFxGroupComponent? FloatFxGroup;
+        public FloatFxGroupEffectComponent? FloatFxGroupEffect;
+        public FloatFxGroupEffectManagerComponent? FloatFxGroupEffectManager;
     }
 }
 #nullable restore

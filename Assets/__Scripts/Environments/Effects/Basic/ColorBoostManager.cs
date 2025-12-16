@@ -5,6 +5,7 @@ using Beatmap.Base;
 public class ColorBoostManager : BasicEventStateManager<ColorBoostStateData>
 {
     private readonly BasicEventStateChunksContainer<ColorBoostStateData> stateChunksContainer = new();
+    public PlatformColorScheme ColorScheme;
     public bool Boost;
 
     public event Action<bool> OnStateChanged;
@@ -21,6 +22,7 @@ public class ColorBoostManager : BasicEventStateManager<ColorBoostStateData>
     {
         if (stateData.Boost == Boost) return;
         Boost = stateData.Boost;
+        ColorScheme.SwapEnvironmentColors(Boost);
         OnStateChanged?.Invoke(Boost);
     }
 
@@ -49,13 +51,4 @@ public class ColorBoostManager : BasicEventStateManager<ColorBoostStateData>
     }
 
     public override void UpdateDirty() => UpdateObject(stateChunksContainer.CurrentState);
-}
-
-public class ColorBoostStateData : BasicEventStateData
-{
-    public bool Boost;
-
-    public ColorBoostStateData(BaseEvent data) : base(data)
-    {
-    }
 }

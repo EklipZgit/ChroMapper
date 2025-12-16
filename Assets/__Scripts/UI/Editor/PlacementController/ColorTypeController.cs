@@ -38,10 +38,10 @@ public class ColorTypeController : MonoBehaviour
 
     private void UpdateColors()
     {
-        leftNote.color = platform.ColorScheme.RedNoteColor;
-        leftLight.color = platform.ColorScheme.RedColor;
-        rightNote.color = platform.ColorScheme.BlueNoteColor;
-        rightLight.color = platform.ColorScheme.BlueColor;
+        leftNote.color = platform.RuntimeColorScheme.LeftNoteColor;
+        leftLight.color = platform.RuntimeColorScheme.EnvironmentLeftColor;
+        rightNote.color = platform.RuntimeColorScheme.RightNoteColor;
+        rightLight.color = platform.RuntimeColorScheme.EnvironmentRightColor;
     }
 
     public void RedNote(bool active)

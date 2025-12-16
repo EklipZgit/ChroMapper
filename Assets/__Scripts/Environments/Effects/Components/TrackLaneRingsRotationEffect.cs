@@ -6,14 +6,14 @@ using UnityEngine.Serialization;
 
 public class TrackLaneRingsRotationEffect : MonoBehaviour
 {
-    [FormerlySerializedAs("StateManager")] [FormerlySerializedAs("manager")] public TrackLaneRingsManager Manager;
-    [FormerlySerializedAs("MirrorStateManager")] [FormerlySerializedAs("mirrorManager")] public TrackLaneRingsManager MirrorManager;
-    [FormerlySerializedAs("startupRotationAngle")] public float StartupRotationAngle = 45;
-    [FormerlySerializedAs("startupRotationStep")] public float StartupRotationStep = 5;
-    [FormerlySerializedAs("startupRotationPropagationSpeed")] public float StartupRotationPropagationSpeed = 1;
-    [FormerlySerializedAs("startupRotationFlexySpeed")] public float StartupRotationFlexySpeed = 1;
-    [FormerlySerializedAs("rotationStep")] public float RotationStep = 90;
-    [FormerlySerializedAs("counterSpin")] public bool CounterSpin;
+    public TrackLaneRingsManager Manager;
+    public TrackLaneRingsManager MirrorManager;
+    public float StartupRotationAngle = 45;
+    public float StartupRotationStep = 5;
+    public float StartupRotationPropagationSpeed = 1;
+    public float StartupRotationFlexySpeed = 1;
+    public float RotationStep = 90;
+    public bool CounterSpin;
 
     private List<RingRotationEffect> activeEffects;
     private List<RingRotationEffect> effectsPool;
@@ -40,8 +40,14 @@ public class TrackLaneRingsRotationEffect : MonoBehaviour
         foreach (var mirrorManagerRing in MirrorManager.Rings) mirrorManagerRing.Reset();
     }
 
-    private void Start() => AddRingRotationEvent(StartupRotationAngle, StartupRotationStep,
-        StartupRotationPropagationSpeed, StartupRotationFlexySpeed, false, new BaseEvent());
+    private void Start() =>
+        AddRingRotationEvent(
+            StartupRotationAngle,
+            StartupRotationStep,
+            StartupRotationPropagationSpeed,
+            StartupRotationFlexySpeed,
+            false,
+            new BaseEvent());
 
     private void FixedUpdate()
     {
@@ -55,8 +61,7 @@ public class TrackLaneRingsRotationEffect : MonoBehaviour
                 var destZ = effect.RotationAngle + (progress * effect.RotationStep);
                 rings[progress].SetRotation(destZ, effect.RotationFlexySpeed);
 
-                if (MirrorManager != null)
-                    MirrorManager.Rings[progress].SetRotation(destZ, effect.RotationFlexySpeed);
+                if (MirrorManager != null) MirrorManager.Rings[progress].SetRotation(destZ, effect.RotationFlexySpeed);
 
                 progress++;
             }
@@ -70,8 +75,14 @@ public class TrackLaneRingsRotationEffect : MonoBehaviour
         }
     }
 
-    public void AddRingRotationEvent(float angle, float step, float propagationSpeed, float flexySpeed, float rotation,
-        bool clockwise, bool counterSpinEvent)
+    public void AddRingRotationEvent(
+        float angle,
+        float step,
+        float propagationSpeed,
+        float flexySpeed,
+        float rotation,
+        bool clockwise,
+        bool counterSpinEvent)
     {
         var effect = SpawnRingRotationEffect();
         var multiplier = clockwise ? 1 : -1;
@@ -86,7 +97,12 @@ public class TrackLaneRingsRotationEffect : MonoBehaviour
         activeEffects.Add(effect);
     }
 
-    public void AddRingRotationEvent(float angle, float step, float propagationSpeed, float flexySpeed, bool clockwise,
+    public void AddRingRotationEvent(
+        float angle,
+        float step,
+        float propagationSpeed,
+        float flexySpeed,
+        bool clockwise,
         BaseEvent data)
     {
         var rotationStepLocal = RotationStep;
@@ -113,7 +129,13 @@ public class TrackLaneRingsRotationEffect : MonoBehaviour
             return;
         }
 
-        AddRingRotationEvent(angle, step, propagationSpeed, flexySpeed, rotationStepLocal, clockwise,
+        AddRingRotationEvent(
+            angle,
+            step,
+            propagationSpeed,
+            flexySpeed,
+            rotationStepLocal,
+            clockwise,
             counterSpinEvent);
     }
 

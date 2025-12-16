@@ -1,9 +1,5 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using Beatmap.Base;
-using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class BasicEventManager : BeatmapObjectManager<BaseEvent>
 {
@@ -25,10 +21,7 @@ public class BasicEventManager : BeatmapObjectManager<BaseEvent>
         LoadInitialMap.OnPlatformLoaded -= HandlePlatformLoaded;
     }
 
-    private void HandlePlatformLoaded(PlatformDescriptor desc)
-    {
-        descriptor = desc;
-    }
+    private void HandlePlatformLoaded(PlatformDescriptor desc) => descriptor = desc;
 
     public override void UpdateTime()
     {
@@ -38,7 +31,7 @@ public class BasicEventManager : BeatmapObjectManager<BaseEvent>
 
     public override void UpdateTime(float time)
     {
-        foreach (var manager in descriptor.basicEventEffectController.Managers) manager.UpdateTime(time);
+        foreach (var manager in descriptor.BasicEventEffectManager.EventTypeManagerMap.Values) manager.UpdateTime(time);
     }
 
     protected override bool AddData(IEnumerable<BaseEvent> data)
@@ -46,8 +39,7 @@ public class BasicEventManager : BeatmapObjectManager<BaseEvent>
         var mark = false;
         foreach (var d in data)
         {
-            if (!descriptor.basicEventEffectController.EventTypeManagerMap.TryGetValue(d.Type, out var manager))
-                continue;
+            if (!descriptor.BasicEventEffectManager.EventTypeManagerMap.TryGetValue(d.Type, out var manager)) continue;
             manager.InsertData(d);
             mark = true;
         }
@@ -60,7 +52,7 @@ public class BasicEventManager : BeatmapObjectManager<BaseEvent>
         var mark = false;
         foreach (var (reference, original) in data)
         {
-            if (!descriptor.basicEventEffectController.EventTypeManagerMap.TryGetValue(original.Type, out var manager))
+            if (!descriptor.BasicEventEffectManager.EventTypeManagerMap.TryGetValue(original.Type, out var manager))
                 continue;
             manager.RemoveData(reference, original);
             mark = true;
@@ -74,8 +66,7 @@ public class BasicEventManager : BeatmapObjectManager<BaseEvent>
         var mark = false;
         foreach (var d in data)
         {
-            if (!descriptor.basicEventEffectController.EventTypeManagerMap.TryGetValue(d.Type, out var manager))
-                continue;
+            if (!descriptor.BasicEventEffectManager.EventTypeManagerMap.TryGetValue(d.Type, out var manager)) continue;
             manager.RemoveData(d, d);
             mark = true;
         }

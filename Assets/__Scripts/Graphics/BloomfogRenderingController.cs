@@ -27,16 +27,14 @@ public class BloomfogRenderingController : MonoBehaviour
     {
         bloomfogCamera.enabled = false;
         Camera.onPreRender += OnCameraPreRender;
+        LoadInitialMap.OnPlatformLoaded += HandlePlatformLoaded;
 
         blurMaterial = new Material(blurShader);
 
         Settings.NotifyBySettingName(nameof(Settings.HighQualityBloom), (_) => RegenerateRenderTexture());
         Settings.NotifyBySettingName(nameof(Settings.CameraFOV), (fov) => bloomfogCamera.fieldOfView = (float)fov);
 
-        Shader.SetGlobalFloat("_CustomFogHeightFogStartY", -50);
-        Shader.SetGlobalFloat("_CustomFogHeightFogHeight", 25);
-        Shader.SetGlobalFloat("_CustomFogOffset", 0);
-        Shader.SetGlobalFloat("_CustomFogAttenuation", 0.00025f);
+        UpdateBloomFogParams(0f, 25f, -50f, 0.00025f);
         Shader.SetGlobalFloat("_BloomfogBrightness", 0.1f);
         Shader.EnableKeyword("ENABLE_BLOOM_FOG");
 
@@ -82,12 +80,30 @@ public class BloomfogRenderingController : MonoBehaviour
         }
     }
 
+    private void HandlePlatformLoaded(PlatformDescriptor descriptor)
+    {
+        if (descriptor == null) return;
+        UpdateBloomFogParams(
+            descriptor.BloomFogParams.Offset,
+            descriptor.BloomFogParams.Height,
+            descriptor.BloomFogParams.StartY,
+            descriptor.BloomFogParams.Attenuation);
+    }
+
     private void OnDestroy()
     {
         Camera.onPreRender -= OnCameraPreRender;
         ClearRenderTextures();
         Settings.ClearSettingNotifications(nameof(Settings.HighQualityBloom));
         Settings.ClearSettingNotifications(nameof(Settings.CameraFOV));
+    }
+
+    private void UpdateBloomFogParams(float offset, float height, float startY, float attenuation)
+    {
+        Shader.SetGlobalFloat("_CustomFogOffset", offset);
+        Shader.SetGlobalFloat("_CustomFogHeightFogStartY", startY);
+        Shader.SetGlobalFloat("_CustomFogHeightFogHeight", height);
+        Shader.SetGlobalFloat("_CustomFogAttenuation", attenuation);
     }
 
     private void ClearRenderTextures()
@@ -98,8 +114,7 @@ public class BloomfogRenderingController : MonoBehaviour
         }
     }
 
-    private void RegenerateRenderTexture()
-        => RegenerateRenderTexture(Settings.Instance.HighQualityBloom ? 1 : 2);
+    private void RegenerateRenderTexture() => RegenerateRenderTexture(Settings.Instance.HighQualityBloom ? 1 : 2);
 
     private void RegenerateRenderTexture(int quality)
     {

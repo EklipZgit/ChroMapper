@@ -7,25 +7,27 @@ using UnityEngine;
 
 public class BasicLightManager : BasicEventStateManager<BasicLightStateData>
 {
-    public static PlatformColorScheme ColorScheme;
-    private static bool useBoost;
+    [NonSerialized] public PlatformColorScheme ColorScheme;
 
     public static readonly float FadeTimeSecond = 1.2f;
     public static readonly float FlashTimeSecond = 0.5f;
     public static float FadeTimeBeat = FadeTimeSecond;
     public static float FlashTimeBeat = FlashTimeSecond;
-    public static readonly float HDRIntensity = Mathf.GammaToLinearSpace(2.4169f);
 
-    public List<BasicLightController> ControllableLights = new();
+    [SerializeField] private float offIntensity;
+    [SerializeField] private bool lightOnStart;
+    [SerializeField] private bool invertColorScheme;
+
+    [SerializeField] public List<BaseLightController> ControllableLights = new();
     public LightGroup[] LightsGroupedByZ = { };
 
     public List<RotatingLightsManagerBase> RotatingLights = new();
 
     public Dictionary<int, int> LightIDPlacementMap;
     public Dictionary<int, int> LightIDPlacementMapReverse;
-    public Dictionary<int, BasicLightController> LightIDMap;
+    public Dictionary<int, BaseLightController> LightIDMap;
 
-    private readonly Dictionary<BasicLightController, BasicEventStateChunksContainer<BasicLightStateData>>
+    private readonly Dictionary<BaseLightController, BasicEventStateChunksContainer<BasicLightStateData>>
         stateChunksContainerMap =
             new();
 
@@ -36,7 +38,7 @@ public class BasicLightManager : BasicEventStateManager<BasicLightStateData>
 
     public void LoadOldLightOrder()
     {
-        foreach (var e in GetComponentsInChildren<BasicLightController>())
+        foreach (var e in GetComponentsInChildren<LightController>())
             // No, stop that. Enforcing Light ID breaks Glass Desert
         {
             if (!e.OverrideLightGroup) ControllableLights.Add(e);
@@ -79,10 +81,9 @@ public class BasicLightManager : BasicEventStateManager<BasicLightStateData>
                 InitializeStates(new BasicEventStateChunksContainer<BasicLightStateData>());
             foreach (var state in stateChunksContainerMap[lightingObject].Chunks.SelectMany(chunk => chunk))
             {
-                if (lightingObject.CanBeTurnedOff) continue;
-                state.CanBeTurnedOff = false;
+                if (!lightOnStart) continue;
                 state.Base.FloatValue = 1f;
-                state.StartAlpha = state.EndAlpha = GetNoTurnOffAlpha(state.Base.FloatValue);
+                state.StartAlpha = state.EndAlpha = state.Base.FloatValue * offIntensity;
             }
         }
     }
@@ -97,19 +98,42 @@ public class BasicLightManager : BasicEventStateManager<BasicLightStateData>
         }
     }
 
-    private static void UpdateObject(BasicLightController basicLightController, BasicLightStateData stateData) =>
-        basicLightController.UpdateFromState(stateData);
+    private void UpdateObject(BaseLightController lightController, BasicLightStateData stateData)
+    {
+        lightController.StartTimeAlpha = stateData.StartTime;
+        lightController.StartTimeColor = stateData.StartTimeColor;
+        lightController.StartAlpha = stateData.StartAlpha;
+        lightController.StartColor = stateData.StartChromaColor
+            ?? ColorScheme.GetColorFrom(stateData.StartColor, invertColorScheme);
 
+        lightController.EndTimeAlpha = stateData.EndTimeAlpha;
+        lightController.EndTimeColor = stateData.EndTimeColor;
+        lightController.EndAlpha = stateData.EndAlpha;
+        lightController.EndColor =
+            stateData.EndChromaColor ?? ColorScheme.GetColorFrom(stateData.EndColor, invertColorScheme);
+
+        lightController.UseHSV = stateData.UseHSV;
+        lightController.Easing = stateData.Easing;
+    }
+
+    public void UpdateStartAndEndColor(BaseLightController lightController, BasicLightStateData stateData)
+    {
+        lightController.StartColor = stateData.StartChromaColor
+            ?? ColorScheme.GetColorFrom(stateData.StartColor, invertColorScheme);
+        lightController.EndColor =
+            stateData.EndChromaColor ?? ColorScheme.GetColorFrom(stateData.EndColor, invertColorScheme);
+    }
+
+    // TODO: not sure if this is needed anymore
     public void ToggleBoost(bool boost)
     {
-        useBoost = boost;
         foreach (var lightingObject in ControllableLights)
         {
             lightingObject.UpdateBoostState(boost);
             if (!stateChunksContainerMap.TryGetValue(lightingObject, out var container)) continue;
-            lightingObject.UpdateStartAndEndColor(
-                GetStartColorFromState(lightingObject, container.CurrentState),
-                GetEndColorFromState(lightingObject, container.CurrentState));
+            UpdateStartAndEndColor(
+                lightingObject,
+                container.CurrentState);
         }
     }
 
@@ -160,14 +184,13 @@ public class BasicLightManager : BasicEventStateManager<BasicLightStateData>
             previousStateData.EndAlpha = previousStateData.StartAlpha;
         }
 
-        if (previousStateData.Base.IsOff && !previousStateData.CanBeTurnedOff)
+        if (previousStateData.Base.IsOff)
         {
             previousStateData.StartAlpha =
-                previousStateData.EndAlpha = GetNoTurnOffAlpha(previousStateData.Base.FloatValue);
+                previousStateData.EndAlpha = previousStateData.Base.FloatValue * offIntensity;
         }
 
-        if (newStateData.Base.IsOff && !newStateData.CanBeTurnedOff)
-            newStateData.StartColor = previousStateData.EndColor;
+        if (newStateData.Base.IsOff) newStateData.StartColor = previousStateData.EndColor;
     }
 
     protected override void OnInsertUpdateFromPreviousStateAndNextState(
@@ -256,7 +279,7 @@ public class BasicLightManager : BasicEventStateManager<BasicLightStateData>
                         state.Easing = Easing.Linear;
 
                     state.StartChromaColor = state.EndChromaColor = null;
-                    if ((state.Base.CustomColor != null)
+                    if (state.Base.CustomColor != null
                         && Settings.Instance.EmulateChromaLite
                         && !state.Base.IsWhite)
                         state.StartChromaColor = state.EndChromaColor = (Color)state.Base.CustomColor;
@@ -330,7 +353,7 @@ public class BasicLightManager : BasicEventStateManager<BasicLightStateData>
         }
 
         //Check if it is a PogU new Chroma event
-        if ((data.CustomColor != null)
+        if (data.CustomColor != null
             && Settings.Instance.EmulateChromaLite
             && !data.IsWhite) // White overrides Chroma
             chromaColor = (Color)data.CustomColor;
@@ -368,7 +391,7 @@ public class BasicLightManager : BasicEventStateManager<BasicLightStateData>
         if (data.CustomLightID != null && LightIDMap != null && Settings.Instance.EmulateChromaAdvanced)
         {
             var lightIDArr = data.CustomLightID;
-            var filteredLights = new List<BasicLightController>(lightIDArr.Length);
+            var filteredLights = new List<BaseLightController>(lightIDArr.Length);
             foreach (var lightID in lightIDArr)
             {
                 if (!LightIDMap.TryGetValue(lightID, out var lightingObject)) continue;
@@ -392,15 +415,9 @@ public class BasicLightManager : BasicEventStateManager<BasicLightStateData>
             newState.EndColor = InferColorFromEvent(data);
             newState.EndChromaColor = chromaColor;
             newState.EndAlpha = data.FloatValue;
-            newState.CanBeTurnedOff = lightingObject.CanBeTurnedOff;
 
             if (data.IsOff)
-            {
-                if (lightingObject.CanBeTurnedOff)
-                    newState.StartAlpha = newState.EndAlpha = 0f;
-                else
-                    newState.StartAlpha = newState.EndAlpha = GetNoTurnOffAlpha(data.FloatValue);
-            }
+                newState.StartAlpha = newState.EndAlpha = data.FloatValue * offIntensity;
             else if (data.IsFlash)
             {
                 newState.EndTimeAlpha = newState.StartTime + FlashTimeBeat;
@@ -414,7 +431,7 @@ public class BasicLightManager : BasicEventStateManager<BasicLightStateData>
                 newState.StartAlpha = data.FloatValue * 1.2f;
                 newState.EndAlpha = 0f;
                 newState.Easing = Easing.Exponential.Out;
-                if (!lightingObject.CanBeTurnedOff) newState.EndAlpha = GetNoTurnOffAlpha(data.FloatValue);
+                newState.EndAlpha = data.FloatValue * offIntensity;
             }
 
             InsertWithChromaGradient(newState);
@@ -455,12 +472,12 @@ public class BasicLightManager : BasicEventStateManager<BasicLightStateData>
                 original.SongBpmTime + original.CustomLightGradient.Duration);
         }
 
-        IEnumerable<BasicLightController> affectedLights = ControllableLights;
+        IEnumerable<BaseLightController> affectedLights = ControllableLights;
 
         if (original.CustomLightID != null && LightIDMap != null && Settings.Instance.EmulateChromaAdvanced)
         {
             var lightIDArr = original.CustomLightID;
-            var filteredLights = new List<BasicLightController>(lightIDArr.Length);
+            var filteredLights = new List<BaseLightController>(lightIDArr.Length);
             foreach (var lightID in lightIDArr)
             {
                 if (!LightIDMap.TryGetValue(lightID, out var lightingObject)) continue;
@@ -513,14 +530,13 @@ public class BasicLightManager : BasicEventStateManager<BasicLightStateData>
                 previousStateData.EndAlpha = previousStateData.StartAlpha;
             }
 
-            if (previousStateData.Base.IsOff && !previousStateData.CanBeTurnedOff)
+            if (previousStateData.Base.IsOff)
             {
                 previousStateData.StartAlpha =
-                    previousStateData.EndAlpha = GetNoTurnOffAlpha(previousStateData.Base.FloatValue);
+                    previousStateData.EndAlpha = previousStateData.Base.FloatValue * offIntensity;
             }
 
-            if (nextStateData.Base.IsOff && !nextStateData.CanBeTurnedOff)
-                nextStateData.StartColor = previousStateData.EndColor;
+            if (nextStateData.Base.IsOff) nextStateData.StartColor = previousStateData.EndColor;
         }
 
         InsertWithChromaGradient(previousStateData);
@@ -535,35 +551,6 @@ public class BasicLightManager : BasicEventStateManager<BasicLightStateData>
 
     private static LightColor InferColorFromEvent(BaseEvent evt) =>
         evt.IsBlue ? LightColor.Blue : evt.IsRed ? LightColor.Red : LightColor.White;
-
-    public static Color GetStartColorFromState(BasicLightController basicLightController, BasicLightStateData stateData) =>
-        (stateData.StartChromaColor
-            ?? GetColorFromScheme(
-                stateData.StartColor,
-                basicLightController.UseInvertedPlatformColors)); // .Multiply(HDRIntensity);
-
-    public static Color GetEndColorFromState(BasicLightController basicLightController, BasicLightStateData stateData) =>
-        (stateData.EndChromaColor
-            ?? GetColorFromScheme(
-                stateData.EndColor,
-                basicLightController.UseInvertedPlatformColors)); // .Multiply(HDRIntensity);
-
-    private static Color GetColorFromScheme(LightColor value, bool useInvertedPlatformColors)
-    {
-        return value switch
-        {
-            LightColor.Blue when useInvertedPlatformColors => useBoost
-                ? ColorScheme.RedBoostColor
-                : ColorScheme.RedColor,
-            LightColor.Blue => useBoost ? ColorScheme.BlueBoostColor : ColorScheme.BlueColor,
-            LightColor.Red when useInvertedPlatformColors => useBoost
-                ? ColorScheme.BlueBoostColor
-                : ColorScheme.BlueColor,
-            LightColor.Red => useBoost ? ColorScheme.RedBoostColor : ColorScheme.RedColor,
-            LightColor.White => useBoost ? ColorScheme.WhiteBoostColor : ColorScheme.WhiteColor,
-            _ => Color.white
-        };
-    }
 
     private static bool IsValidEventToTransition(BaseEvent evt) => evt.IsOn || evt.IsOff || evt.IsTransition;
 
@@ -592,33 +579,9 @@ public class BasicLightManager : BasicEventStateManager<BasicLightStateData>
         public override int GetHashCode() => HashCode.Combine(Base, StartTime, EndTime, StartColor, EndColor, Easing);
     }
 
-    private static float GetNoTurnOffAlpha(float value) => value * 2f / 3f;
-
     [Serializable]
     public class LightGroup
     {
-        public List<BasicLightController> Lights = new();
+        public List<BaseLightController> Lights = new();
     }
-}
-
-public class BasicLightStateData : BasicEventStateData
-{
-    public float
-        StartTimeColor = float.MinValue; // this is supposedly the same as start time, special case for chroma gradient
-
-    public LightColor StartColor;
-    public Color? StartChromaColor;
-    public float StartAlpha;
-
-    public float EndTimeAlpha; // similarly this match next start, otherwise used to interpolate flash/fade
-    public float EndTimeColor; // also same case above, only special case for chroma gradient
-    public LightColor EndColor;
-    public Color? EndChromaColor;
-    public float EndAlpha;
-
-    public Func<float, float> Easing = global::Easing.Linear;
-    public bool UseHSV;
-    public bool CanBeTurnedOff = true;
-
-    public BasicLightStateData(BaseEvent evt) : base(evt) { }
 }

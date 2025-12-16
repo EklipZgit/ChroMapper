@@ -80,10 +80,9 @@ public class LoadInitialMap : MonoBehaviour
         yield return new WaitUntil(() => SceneManager.GetSceneByName(platform.ID).isLoaded);
 
         var descriptor = FindAnyObjectByType<PlatformDescriptor>();
-        EventContainer.ModifyTypeMode = descriptor.SortMode; //Change sort mode
 
         PopulateColorsFromMapInfo(descriptor);
-        UpdateObjectContainerColors(descriptor.ColorScheme);
+        UpdateObjectContainerColors(descriptor.RuntimeColorScheme);
 
         OnPlatformLoaded.Invoke(descriptor); //Trigger event for classes that use the platform
         Platform = descriptor;
@@ -99,35 +98,39 @@ public class LoadInitialMap : MonoBehaviour
     {
         var infoDifficulty = BeatSaberSongContainer.Instance.MapDifficultyInfo;
 
-        platformDescriptor.ColorScheme = platformDescriptor.DefaultColorScheme.Clone();
-
         if (infoDifficulty.CustomColorLeft != null)
-            platformDescriptor.ColorScheme.RedNoteColor = infoDifficulty.CustomColorLeft.Value;
+            platformDescriptor.RuntimeColorScheme.LeftNoteColor = infoDifficulty.CustomColorLeft.Value;
         if (infoDifficulty.CustomColorRight != null)
-            platformDescriptor.ColorScheme.BlueNoteColor = infoDifficulty.CustomColorRight.Value;
+            platformDescriptor.RuntimeColorScheme.RightNoteColor = infoDifficulty.CustomColorRight.Value;
 
         if (infoDifficulty.CustomColorObstacle != null)
-            platformDescriptor.ColorScheme.ObstacleColor = infoDifficulty.CustomColorObstacle.Value;
+            platformDescriptor.RuntimeColorScheme.ObstacleColor = infoDifficulty.CustomColorObstacle.Value;
 
         if (infoDifficulty.CustomEnvColorLeft != null)
-            platformDescriptor.ColorScheme.RedColor = infoDifficulty.CustomEnvColorLeft.Value;
+            platformDescriptor.RuntimeColorScheme.EnvironmentLeftColor =
+                infoDifficulty.CustomEnvColorLeft.Value;
         if (infoDifficulty.CustomEnvColorRight != null)
-            platformDescriptor.ColorScheme.BlueColor = infoDifficulty.CustomEnvColorRight.Value;
+            platformDescriptor.RuntimeColorScheme.EnvironmentRightColor =
+                infoDifficulty.CustomEnvColorRight.Value;
         if (infoDifficulty.CustomEnvColorWhite != null)
-            platformDescriptor.ColorScheme.WhiteColor = infoDifficulty.CustomEnvColorWhite.Value;
+            platformDescriptor.RuntimeColorScheme.EnvironmentWhiteColor =
+                infoDifficulty.CustomEnvColorWhite.Value;
 
         if (infoDifficulty.CustomEnvColorBoostLeft != null)
-            platformDescriptor.ColorScheme.RedBoostColor = infoDifficulty.CustomEnvColorBoostLeft.Value;
+            platformDescriptor.RuntimeColorScheme.EnvironmentLeftBoostColor =
+                infoDifficulty.CustomEnvColorBoostLeft.Value;
         if (infoDifficulty.CustomEnvColorBoostRight != null)
-            platformDescriptor.ColorScheme.BlueBoostColor = infoDifficulty.CustomEnvColorBoostRight.Value;
+            platformDescriptor.RuntimeColorScheme.EnvironmentRightBoostColor =
+                infoDifficulty.CustomEnvColorBoostRight.Value;
         if (infoDifficulty.CustomEnvColorBoostWhite != null)
-            platformDescriptor.ColorScheme.WhiteBoostColor = infoDifficulty.CustomEnvColorBoostWhite.Value;
+            platformDescriptor.RuntimeColorScheme.EnvironmentWhiteBoostColor =
+                infoDifficulty.CustomEnvColorBoostWhite.Value;
     }
 
     private void UpdateObjectContainerColors(PlatformColorScheme platformColorScheme)
     {
-        var leftNoteColor = platformColorScheme.RedNoteColor;
-        var rightNoteColor = platformColorScheme.BlueNoteColor;
+        var leftNoteColor = platformColorScheme.LeftNoteColor;
+        var rightNoteColor = platformColorScheme.RightNoteColor;
         noteGridContainer.UpdateColor(leftNoteColor, rightNoteColor);
         arcGridContainer.UpdateColor(leftNoteColor, rightNoteColor);
         chainGridContainer.UpdateColor(leftNoteColor, rightNoteColor);
@@ -135,24 +138,24 @@ public class LoadInitialMap : MonoBehaviour
         obstacleGridContainer.UpdateColor(platformColorScheme.ObstacleColor);
 
         eventGridContainer.UpdateColor(
-            platformColorScheme.RedColor,
-            platformColorScheme.RedBoostColor,
-            platformColorScheme.BlueColor,
-            platformColorScheme.BlueBoostColor,
-            platformColorScheme.WhiteColor,
-            platformColorScheme.WhiteBoostColor
+            platformColorScheme.EnvironmentLeftColor,
+            platformColorScheme.EnvironmentLeftBoostColor,
+            platformColorScheme.EnvironmentRightColor,
+            platformColorScheme.EnvironmentRightBoostColor,
+            platformColorScheme.EnvironmentWhiteColor,
+            platformColorScheme.EnvironmentWhiteBoostColor
         );
     }
 
     private void UpdatePlatformColors()
     {
-        var previousColors = Platform.ColorScheme.Clone();
+        var previousColors = Platform.RuntimeColorScheme.Clone();
 
         PopulateColorsFromMapInfo(Platform);
-        UpdateObjectContainerColors(Platform.ColorScheme);
+        UpdateObjectContainerColors(Platform.RuntimeColorScheme);
 
         // We only want to refresh pools if the colours have changed as refreshing is pretty expensive
-        var currentColors = Platform.ColorScheme;
+        var currentColors = Platform.RuntimeColorScheme;
 
         var obstacleColorChanged = previousColors.ObstacleColor != currentColors.ObstacleColor;
         if (obstacleColorChanged)
@@ -160,8 +163,8 @@ public class LoadInitialMap : MonoBehaviour
             obstacleGridContainer.RefreshPool(true);
         }
 
-        var noteColorChanged = previousColors.BlueNoteColor != currentColors.BlueNoteColor
-            || previousColors.RedNoteColor != currentColors.RedNoteColor;
+        var noteColorChanged = previousColors.RightNoteColor != currentColors.RightNoteColor
+            || previousColors.LeftNoteColor != currentColors.LeftNoteColor;
         if (noteColorChanged)
         {
             noteGridContainer.RefreshPool(true);
@@ -169,17 +172,17 @@ public class LoadInitialMap : MonoBehaviour
             chainGridContainer.RefreshPool(true);
         }
 
-        var lightColorChanged = previousColors.BlueColor != currentColors.BlueColor
-            || previousColors.RedColor != currentColors.RedColor
-            || previousColors.WhiteColor != currentColors.WhiteColor
-            || previousColors.BlueBoostColor != currentColors.BlueBoostColor
-            || previousColors.RedBoostColor != currentColors.RedBoostColor
-            || previousColors.WhiteBoostColor != currentColors.WhiteBoostColor;
+        var lightColorChanged = previousColors.EnvironmentRightColor != currentColors.EnvironmentRightColor
+            || previousColors.EnvironmentLeftColor != currentColors.EnvironmentLeftColor
+            || previousColors.EnvironmentWhiteColor != currentColors.EnvironmentWhiteColor
+            || previousColors.EnvironmentRightBoostColor != currentColors.EnvironmentRightBoostColor
+            || previousColors.EnvironmentLeftBoostColor != currentColors.EnvironmentLeftBoostColor
+            || previousColors.EnvironmentWhiteBoostColor != currentColors.EnvironmentWhiteBoostColor;
         if (lightColorChanged)
         {
             eventGridContainer.RefreshPool(true);
         }
 
-        OnPlatformColorsRefreshed?.Invoke(Platform.ColorScheme);
+        OnPlatformColorsRefreshed?.Invoke(Platform.RuntimeColorScheme);
     }
 }

@@ -16,7 +16,7 @@ namespace Beatmap.Appearances
             PlatformDescriptor platform = null,
             bool canyounot = false)
         {
-            if (platform != null) DefaultObstacleColor = platform.ColorScheme.ObstacleColor;
+            if (platform != null) DefaultObstacleColor = platform.RuntimeColorScheme.ObstacleColor;
 
             if (obj.ObstacleData.Duration < 0 && Settings.Instance.ColorFakeWalls)
             {

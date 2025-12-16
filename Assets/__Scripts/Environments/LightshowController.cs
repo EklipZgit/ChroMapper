@@ -30,7 +30,8 @@ public class LightshowController : MonoBehaviour, IBeatmapUpdate
     private void HandlePlatformLoaded(PlatformDescriptor desc)
     {
         descriptor = desc;
-        activeEffects = (new List<IBeatmapUpdate> { descriptor.basicEventEffectController })
+        activeEffects = new List<IBeatmapUpdate>()
+            .Concat(descriptor.BasicEventEffectManager.EventTypeManagerMap.Values)
             .Where(x => x != null)
             .ToArray();
         activeSize = activeEffects.Length;
@@ -59,7 +60,7 @@ public class LightshowController : MonoBehaviour, IBeatmapUpdate
 
         var events = Mode == LightshowMode.Static
             ? descriptor
-                .basicEventEffectController
+                .BasicEventEffectManager
                 .EventTypeManagerMap
                 .Keys.Select(type =>
                 {
@@ -72,10 +73,10 @@ public class LightshowController : MonoBehaviour, IBeatmapUpdate
                 ? BeatSaberSongContainer.Instance.Map.Events
                 : new();
 
-        foreach (var (type, manager) in descriptor.basicEventEffectController.EventTypeManagerMap)
+        foreach (var (type, manager) in descriptor.BasicEventEffectManager.EventTypeManagerMap)
             manager.BuildFromData(events.Where(e => e.Type == type));
 
-        foreach (var manager in descriptor.basicEventEffectController.Managers) manager.UpdateDirty();
+        foreach (var manager in descriptor.BasicEventEffectManager.EventTypeManagerMap.Values) manager.UpdateDirty();
     }
 
     private void UpdateTimeByMode()

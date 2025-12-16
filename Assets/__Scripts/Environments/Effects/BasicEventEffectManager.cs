@@ -4,34 +4,34 @@ using System.Linq;
 using Beatmap.Base;
 using UnityEngine;
 
-public class BasicEventEffectController : MonoBehaviour, IBeatmapUpdate
+public class BasicEventEffectManager : MonoBehaviour
 {
-    [SerializeField] private List<StateManagerEntry> managerEntries = new();
+    [SerializeField] public List<StateManagerEntry> managerEntries = new();
 
     public readonly Dictionary<int, StateManager<BaseEvent>> EventTypeManagerMap = new();
-    public StateManager<BaseEvent>[] Managers;
     private int size;
 
     private void Awake()
     {
         foreach (var managerEntry in managerEntries) EventTypeManagerMap.Add(managerEntry.Type, managerEntry.Manager);
-        Managers = EventTypeManagerMap.Values.ToArray();
-        size = Managers.Length;
     }
 
-    private void Start()
+    public void Initialize(AudioTimeSyncController atsc, PlatformColorScheme colorScheme)
     {
-        var atsc = FindAnyObjectByType<AudioTimeSyncController>();
-        foreach (var manager in Managers)
+        foreach (var manager in EventTypeManagerMap.Values)
         {
             manager.Atsc = atsc;
             manager.Initialize();
+            switch (manager)
+            {
+                case BasicLightManager blm:
+                    blm.ColorScheme = colorScheme;
+                    break;
+                case ColorBoostManager cbm:
+                    cbm.ColorScheme = colorScheme;
+                    break;
+            }
         }
-    }
-
-    public void UpdateTime(float time)
-    {
-        for (var i = 0; i < size; i++) Managers[i].UpdateTime(time);
     }
 
     public bool TryInit<T>(int type) where T : StateManager<BaseEvent>
@@ -42,7 +42,7 @@ public class BasicEventEffectController : MonoBehaviour, IBeatmapUpdate
         return true;
     }
 
-    public void Add(int type, BasicLightController controllable)
+    public void Add(int type, LightController controllable)
     {
         if (managerEntries.Exists(entry => entry.Type == type && entry.Manager is BasicLightManager))
         {

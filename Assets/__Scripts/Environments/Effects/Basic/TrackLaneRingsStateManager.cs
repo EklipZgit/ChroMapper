@@ -48,7 +48,7 @@ public class TrackLaneRingsManager : TrackLaneRingsManagerBase
             if (RingCount <= 1) continue;
 
             var lights = Rings[i]
-                .GetComponentsInChildren<BasicLightController>()
+                .GetComponentsInChildren<LightController>()
                 .GroupBy(x => x.OverrideLightGroup ? x.OverrideLightGroupID : -1);
             foreach (var group in lights)
             {
@@ -91,10 +91,10 @@ public class TrackLaneRingsManager : TrackLaneRingsManagerBase
         zoomed = index % 2 == 0;
         var step = zoomed ? MAXPositionStep : MINPositionStep;
 
-        if (IsAffectedByZoom() && (data.CustomStep != null)) step = data.CustomStep.Value;
+        if (IsAffectedByZoom() && data.CustomStep != null) step = data.CustomStep.Value;
 
         // Multiplying MoveSpeed by 5 since I don't want to edit 20+ environment prefabs
-        var speed = data.CustomSpeed ?? (MoveSpeed * 5);
+        var speed = data.CustomSpeed ?? MoveSpeed * 5;
 
         for (var i = 0; i < Rings.Length; i++)
         {
