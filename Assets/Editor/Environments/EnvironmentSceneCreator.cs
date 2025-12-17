@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -92,42 +93,46 @@ public class EnvironmentSceneCreator
         EnvironmentData data,
         EnvironmentLibrarySO library)
     {
-        Transform lastParent = null;
-        string lastParentChromaID = null;
-
         var objectsToUse = data
             .Objects.Where(obj =>
                 !library.IsIgnored(obj.ChromaID[(obj.ChromaID.IndexOf("]", StringComparison.Ordinal) + 1)..]))
-            // .OrderBy(d => d.ChromaID) // TODO: properly do this in hierarchy
             .ToList();
 
         var chromaIdObjects = new Dictionary<string, GameObject>();
 
         // first pass: spawn object
-        foreach (var envObject in objectsToUse)
+        var queue = new Queue<EnvironmentObject>(objectsToUse);
+        var limit = queue.Count;
+        var i = 0;
+        while (queue.Count > 0)
         {
-            // If our parents name is not present in the Chroma ID, assume we're a level up
-            while (!IsParentByChromaID(lastParentChromaID, envObject.ChromaID))
+            var envObject = queue.Dequeue();
+            var name = envObject.ChromaID[(envObject.ChromaID.IndexOf("]", StringComparison.Ordinal) + 1)..];
+            var parentName = name.Contains(".[") ? name[..name.LastIndexOf(".[", StringComparison.Ordinal)] : name;
+            var actualParentGoName =
+                envObject.ChromaID[..envObject.ChromaID.LastIndexOf(".[", StringComparison.Ordinal)];
+
+            if (parentName != name && !chromaIdObjects.ContainsKey(actualParentGoName))
             {
-                if (lastParent == null || lastParent.parent == null) break; // No more parents to check
-                lastParent = lastParent.parent;
-                lastParentChromaID = GetParentChromaID(lastParentChromaID);
+                Debug.Log($"Could not find parent object for {envObject.ChromaID}, queued for later");
+                if (++i == limit) throw new Exception("Queued too long, stuck?");
+                queue.Enqueue(envObject);
+                continue;
             }
 
-            // Instantiate the environment object from the library
-            GameObject prefab;
+            GameObject go;
             if (envObject.Components.MeshFilter == null || string.IsNullOrEmpty(envObject.Components.MeshFilter.Hash))
-                prefab = new GameObject();
+                go = new GameObject();
             else
             {
                 if (library.Meshes.Lookup.TryGetValue(envObject.Components.MeshFilter.Hash, out var mesh)
                     && mesh != null)
                 {
-                    prefab = new GameObject();
-                    var mf = prefab.AddComponent<MeshFilter>();
+                    go = new GameObject();
+                    var mf = go.AddComponent<MeshFilter>();
                     mf.sharedMesh = mesh;
 
-                    var renderer = prefab.AddComponent<MeshRenderer>();
+                    var renderer = go.AddComponent<MeshRenderer>();
                     if (envObject.Components.MeshRenderer != null
                         && envObject.Components.MeshRenderer.Materials.Any())
                     {
@@ -147,32 +152,27 @@ public class EnvironmentSceneCreator
                 {
                     Debug.LogWarning(
                         $"{envObject.ChromaID} mesh not found for:\n{envObject.Components.MeshFilter.Hash} -- {library.Meshes.list.FindIndex(l => l.Hash == envObject.Components.MeshFilter.Hash)}");
-                    prefab = new GameObject();
+                    go = new GameObject();
                     var fallback =
-                        PrefabUtility.InstantiatePrefab(library.fallbackPrefab, prefab.transform) as GameObject;
+                        PrefabUtility.InstantiatePrefab(library.fallbackPrefab, go.transform) as GameObject;
                     var mInfo = library.Meshes.list.First(x => x.Hash == envObject.Components.MeshFilter.Hash);
                     fallback.transform.localPosition = mInfo.BoundsCenter;
                     fallback.transform.localScale = mInfo.BoundsSize;
                 }
             }
 
-            prefab.name = envObject.GameObjectName;
-            prefab.layer = library.layerMaskLookup[envObject.Layer].value.Get1BitPositions()[0];
-            chromaIdObjects[envObject.ChromaID] = prefab;
+            go.name = envObject.GameObjectName;
+            go.layer = library.layerMaskLookup[envObject.Layer].value.Get1BitPositions()[0];
+            chromaIdObjects[envObject.ChromaID] = go;
 
-            // Set the parent of the instantiated object
-            if (lastParent != null) prefab.transform.SetParent(lastParent.transform, false);
+            if (parentName != name)
+            {
+                go.transform.SetParent(
+                    chromaIdObjects[actualParentGoName].transform,
+                    false);
+            }
 
-            // Copy properties from EnvironmentInfo to the instantiated object
-            var components = envObject.Components;
-            components.Transform?.CopyTo(prefab.transform);
-
-            // TODO: Add other components (like lights, sprites, and event managers) as needed
-            // TODO: Considering the Chroma ID is already given here, we should also store it for future Environemnt Enhancement support
-
-            // Set the last parent to the current object
-            lastParent = prefab.transform;
-            lastParentChromaID = envObject.ChromaID;
+            envObject.Components.Transform?.CopyTo(go.transform);
         }
 
         // second pass: build component
@@ -187,7 +187,7 @@ public class EnvironmentSceneCreator
         descriptor.BasicEventEffectManager = beec;
 
         beec.TryInit<ColorBoostManager>((int)EventTypeValue.ColorBoost);
-        
+
         foreach (var envObject in objectsToUse)
         {
             var marker = chromaIdObjects[envObject.ChromaID];
@@ -231,24 +231,5 @@ public class EnvironmentSceneCreator
                 }
             }
         }
-    }
-
-    private static bool IsParentByChromaID(string lastParentChromaID, string chromaID)
-    {
-        if (string.IsNullOrEmpty(lastParentChromaID) || string.IsNullOrEmpty(chromaID))
-            return false; // No parent or invalid Chroma ID
-
-        return GetParentChromaID(chromaID) == lastParentChromaID;
-    }
-
-    private static string GetParentChromaID(string chromaID)
-    {
-        if (string.IsNullOrEmpty(chromaID)) return string.Empty; // No Chroma ID to process
-
-        var splitByPeriods = chromaID.Split('.');
-        if (splitByPeriods.Length < 2) return string.Empty; // Not enough segments to determine parent
-
-        // Reconstruct the parent Chroma ID by removing the last segment
-        return string.Join(".", splitByPeriods, 0, splitByPeriods.Length - 1);
     }
 }

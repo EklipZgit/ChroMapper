@@ -101,7 +101,7 @@ MonoBehaviour:
     BoundsCenter: {x: 0, y: 12.619588, z: 18.511318}
     Unused: 0
     Ignored: 0
-  - Mesh: {fileID: 4300000, guid: 5df6fa7c859dff544bee9b381c33fe99, type: 2}
+  - Mesh: {fileID: 4300000, guid: 9c21581ecd36491fc80ae389c9ab457f, type: 2}
     Hash: 05032ad4d1ab9544f6828ff180b03291
     Names:
     - ConeLight2
@@ -143,7 +143,7 @@ MonoBehaviour:
     BoundsCenter: {x: -0.000031232834, y: -1.2340975, z: -0.037809275}
     Unused: 0
     Ignored: 0
-  - Mesh: {fileID: 0}
+  - Mesh: {fileID: 4300000, guid: 835a885f54cd9d1459a1817e24e3c7ed, type: 2}
     Hash: 076670b9d66d7b7797a7082ed13bced2
     Names:
     - ConeSmall
