@@ -22,16 +22,14 @@ public class PlatformDescriptor : MonoBehaviour
     [Tooltip("Leave null if you do not want big rings.")]
     public TrackLaneRingsManagerBase BigRingManager;
 
-    [Header("Lighting Groups")] [Tooltip("Manually map an Event ID (Index) to a group of lights (LightingManagers)")]
-    public BasicLightManager[] LightingManagers = { };
-
     [Tooltip("If you want a thing to rotate around a 360 level with the track, place it here.")]
     public GridRotationController RotationController;
 
-    public bool SoloAnEventType { get; private set; }
-    public int SoloEventType { get; private set; }
-
-    private void Awake() => RuntimeColorScheme.Copy(ColorScheme);
+    private void Awake()
+    {
+        TrackDefinition.Initialize();
+        RuntimeColorScheme.Copy(ColorScheme);
+    }
 
     private void Start()
     {
@@ -46,17 +44,5 @@ public class PlatformDescriptor : MonoBehaviour
 
         BasicLightManager.FlashTimeBeat = atsc.GetBeatFromSeconds(BasicLightManager.FlashTimeSecond);
         BasicLightManager.FadeTimeBeat = atsc.GetBeatFromSeconds(BasicLightManager.FadeTimeSecond);
-
-        if (Settings.Instance.HideDisablableObjectsOnLoad) ToggleDisablableObjects();
-    }
-
-    public void UpdateSoloEventType(bool solo, int soloTypeID)
-    {
-        SoloAnEventType = solo;
-        SoloEventType = soloTypeID;
-    }
-
-    public void ToggleDisablableObjects()
-    {
     }
 }

@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using Beatmap.Base;
+using UnityEngine;
 
 public class BasicEventManager : BeatmapObjectManager<BaseEvent>
 {
     protected override bool AllowAction =>
         lightshowController.Mode != LightshowMode.Static && Settings.Instance.Load_Events;
 
-    private LightshowController lightshowController;
+    [SerializeField] private LightshowController lightshowController;
     private PlatformDescriptor descriptor;
 
     protected override void Awake()

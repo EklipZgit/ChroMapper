@@ -89,6 +89,4 @@ public class InterscopeMovingLightsManager : RotatingLightsManagerBase
             if (Left) MovingLightsRandom.movementSpeed = movementSpeed;
         }
     }
-
-    public override bool IsOverrideLightGroup() => false;
 }

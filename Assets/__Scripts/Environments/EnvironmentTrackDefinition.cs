@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [Serializable]
@@ -8,8 +9,14 @@ public class EnvironmentTrackDefinition
     [SerializeField] public List<TrackDefinitionBasic> BasicEntries;
     [SerializeField] public List<TrackDefinitionGLS> GlsEntries;
 
-    [NonSerialized] public List<TrackDefinitionBasic> Basic;
+    [NonSerialized] public TrackDefinitionBasic[] Basic;
     [NonSerialized] public Dictionary<string, TrackDefinitionGLS> Gls;
+
+    public void Initialize()
+    {
+        Basic = BasicEntries.ToArray();
+        Gls = GlsEntries.ToDictionary(x => x.Group, x => x);
+    }
 }
 
 [Serializable]

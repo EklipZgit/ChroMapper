@@ -97,6 +97,4 @@ public class LinkinParkRotatingLightsManager : RotatingLightsManagerBase
             if (Left) RotatingLightsRandom.rotationSpeed = rotationSpeed;
         }
     }
-
-    public override bool IsOverrideLightGroup() => false;
 }

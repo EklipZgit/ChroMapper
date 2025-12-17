@@ -7,10 +7,9 @@ public abstract class RotatingLightsManagerBase : BasicEventStateManager<Rotatin
 {
     public int Index; // because there are no grouping, we need to assign index for random
     public bool Mirror;
-    
+
     public abstract void UpdateOffset(BaseEvent data, bool mirror, bool isLeftEvent);
 
-    public abstract bool IsOverrideLightGroup();
     private readonly BasicEventStateChunksContainer<RotatingLightStateData> stateChunksContainer = new();
 
     public override void Initialize() => InitializeStates(stateChunksContainer);

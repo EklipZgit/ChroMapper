@@ -1,45 +1,9 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class LightController : BaseLightController
 {
     public static readonly float HDRIntensity = Mathf.GammaToLinearSpace(2.4169f);
     public LightObject LightObject;
-
-    private void Start()
-    {
-        if (!OverrideLightGroup) return;
-        var descriptor = LoadInitialMap.Platform;
-
-        // TODO: Add types?
-        if (descriptor != null
-            && OverrideLightGroupID >= 0
-            && OverrideLightGroupID < descriptor.LightingManagers.Length)
-        {
-            var lm = descriptor.LightingManagers[OverrideLightGroupID];
-            while (lm.LightIDPlacementMapReverse?.ContainsKey(ID) ?? false)
-            {
-                ++ID;
-            }
-
-            lm.ControllableLights.Add(this);
-            lm.LoadOldLightOrder();
-        }
-    }
-
-    private void OnDestroy()
-    {
-        if (!OverrideLightGroup) return;
-        var descriptor = LoadInitialMap.Platform;
-
-        if (descriptor == null
-            || OverrideLightGroupID < 0
-            || OverrideLightGroupID >= descriptor.LightingManagers.Length)
-            return;
-        var lm = descriptor.LightingManagers[OverrideLightGroupID];
-        lm.ControllableLights.Remove(this);
-        lm.LightIDPlacementMapReverse?.Remove(ID);
-    }
 
     public override void UpdateTime(float time)
     {

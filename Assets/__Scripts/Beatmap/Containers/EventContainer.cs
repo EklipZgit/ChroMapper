@@ -11,11 +11,6 @@ namespace Beatmap.Containers
 {
     public class EventContainer : ObjectContainer
     {
-        /// <summary>
-        ///     Different modes to sort events in the editor.
-        /// </summary>
-        public static int ModifyTypeMode = 0;
-
         private static readonly int shaderIdColor = Shader.PropertyToID("_Color");
         private static readonly int shaderIdColorTint = Shader.PropertyToID("_ColorTint");
         private static readonly int position = Shader.PropertyToID("_Position");

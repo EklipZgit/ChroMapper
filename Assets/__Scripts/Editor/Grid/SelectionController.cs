@@ -705,7 +705,7 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
                     if (eventPlacement.ObjectContainerCollection.PropagationEditing
                         == EventGridContainer.PropMode.Light)
                     {
-                        var max = events.platformDescriptor.LightingManagers[events.EventTypeToPropagate]
+                        var max = events.LightingManagers[events.EventTypeToPropagate]
                                 .LightIDPlacementMap
                                 .Count
                             - 1;
@@ -729,7 +729,7 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
                                 ? labels.LightIdsToPropId(events.EventTypeToPropagate, e.CustomLightID)
                                 : null)
                             ?? -1;
-                        var max = events.platformDescriptor.LightingManagers[events.EventTypeToPropagate]
+                        var max = events.LightingManagers[events.EventTypeToPropagate]
                             .LightsGroupedByZ
                             .Length;
                         var newId = Math.Min(oldId + leftRight, max - 1);

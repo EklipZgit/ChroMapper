@@ -60,13 +60,11 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
         }
     }
 
-    internal PlatformDescriptor platformDescriptor;
+    private PlatformDescriptor Descriptor;
+    public Dictionary<int, BasicLightManager> LightingManagers = new();
     private PropMode propagationEditing = PropMode.Off;
 
     public override ObjectType ContainerType => ObjectType.Event;
-    private static int ExtraInterscopeLanes => EventContainer.ModifyTypeMode == 2 ? 2 : 0;
-    private static int ExtraGagaLanes => EventContainer.ModifyTypeMode == 3 ? 4 : 0;
-    private int SpecialEventTypeCount => 7 + labels.NoRotationLaneOffset + ExtraInterscopeLanes + ExtraGagaLanes;
 
     public PropMode PropagationEditing
     {
@@ -76,33 +74,32 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
             propagationEditing = value;
             boxSelectionPlacement.Cancel();
 
-            var lightingManager = platformDescriptor.LightingManagers[EventTypeToPropagate];
-
-            var propagationLength = lightingManager == null
-                ? 0
-                : (value == PropMode.Light
-                    ? platformDescriptor.LightingManagers[EventTypeToPropagate].LightIDPlacementMapReverse?.Count
-                    : platformDescriptor.LightingManagers[EventTypeToPropagate].LightsGroupedByZ?.Length)
-                ?? 0;
-
-            var extraLanes = ExtraInterscopeLanes + ExtraGagaLanes;
+            var propagationLength = 0;
+            if (LightingManagers.TryGetValue(EventTypeToPropagate, out var lightingManager))
+            {
+                propagationLength =
+                    (value == PropMode.Light
+                        ? lightingManager.LightIDPlacementMapReverse?.Count
+                        : lightingManager.LightsGroupedByZ?.Length)
+                    ?? 0;
+            }
 
             labels.UpdateLabels(
                 value,
                 EventTypeToPropagate,
-                value == PropMode.Off ? 16 + extraLanes : propagationLength + 1);
+                propagationLength + 1);
             gridLane.Lane =
                 value != PropMode.Off
                     ? propagationLength + 1
-                    : SpecialEventTypeCount + platformDescriptor.LightingManagers.Count(s => s != null);
+                    : Descriptor.TrackDefinition.Basic.Length;
             EventTypePropagationSize = propagationLength;
             UpdatePropagationMode();
         }
     }
 
-    private void Start() => LoadInitialMap.OnPlatformLoaded += PlatformLoaded;
+    private void Start() => LoadInitialMap.OnPlatformLoaded += HandlePlatformLoaded;
 
-    private void OnDestroy() => LoadInitialMap.OnPlatformLoaded -= PlatformLoaded;
+    private void OnDestroy() => LoadInitialMap.OnPlatformLoaded -= HandlePlatformLoaded;
 
     public void OnToggleLightPropagation(InputAction.CallbackContext context)
     {
@@ -119,21 +116,21 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
     {
         if (!context.performed || laserSpeedController.Activated) return;
 
-        if (platformDescriptor.BigRingManager is TrackLaneRingsManager manager) manager.RotationEffect.Reset();
+        if (Descriptor.BigRingManager is TrackLaneRingsManager manager) manager.RotationEffect.Reset();
 
-        if (platformDescriptor.SmallRingManager != null && platformDescriptor.SmallRingManager.RotationEffect != null)
-            platformDescriptor.SmallRingManager.RotationEffect.Reset();
+        if (Descriptor.SmallRingManager != null && Descriptor.SmallRingManager.RotationEffect != null)
+            Descriptor.SmallRingManager.RotationEffect.Reset();
     }
 
     public void OnCycleLightPropagationUp(InputAction.CallbackContext context)
     {
         if (!context.performed || PropagationEditing == PropMode.Off) return;
         var nextID = EventTypeToPropagate + 1;
-        if (nextID == platformDescriptor.LightingManagers.Length) nextID = 0;
-        while (platformDescriptor.LightingManagers[nextID] == null)
+        if (nextID == LightingManagers.Values.Count) nextID = 0;
+        while (LightingManagers[nextID] == null)
         {
             nextID++;
-            if (nextID == platformDescriptor.LightingManagers.Length) nextID = 0;
+            if (nextID == LightingManagers.Values.Count) nextID = 0;
         }
 
         EventTypeToPropagate = nextID;
@@ -144,11 +141,11 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
     {
         if (!context.performed || PropagationEditing == PropMode.Off) return;
         var nextID = EventTypeToPropagate - 1;
-        if (nextID == -1) nextID = platformDescriptor.LightingManagers.Length - 1;
-        while (platformDescriptor.LightingManagers[nextID] == null)
+        if (nextID == -1) nextID = LightingManagers.Values.Count - 1;
+        while (LightingManagers[nextID] == null)
         {
             nextID--;
-            if (nextID == -1) nextID = platformDescriptor.LightingManagers.Length - 1;
+            if (nextID == -1) nextID = LightingManagers.Values.Count - 1;
         }
 
         EventTypeToPropagate = nextID;
@@ -162,15 +159,9 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
         return mode == PropMode.Prop ? "_propID" : null;
     }
 
-    private void PlatformLoaded(PlatformDescriptor descriptor)
+    private void HandlePlatformLoaded(PlatformDescriptor descriptor)
     {
-        platformDescriptor = descriptor;
-        StartCoroutine(AfterPlatformLoaded());
-    }
-
-    private IEnumerator AfterPlatformLoaded()
-    {
-        yield return null;
+        Descriptor = descriptor;
         PropagationEditing = PropMode.Off;
     }
 

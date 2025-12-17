@@ -200,32 +200,32 @@ public class CustomPlatformsLoader : MonoBehaviour
 
     private void SetLightsManagerSize(GameObject gameObject)
     {
-        var tubeLights = gameObject.GetComponentsInChildren<TubeLight>();
-        var maxSize = platformDescriptor.LightingManagers.Length;
-        foreach (var tubeLight in tubeLights)
-        {
-            switch (tubeLight.lightsID)
-            {
-                case LightsID.Unused5:
-                    maxSize = Math.Max(maxSize, (int)EventTypeValue.ColorBoost + 1);
-                    break;
-                case LightsID.Unused6:
-                    maxSize = Math.Max(maxSize, (int)EventTypeValue.ExtraLeftLights + 1);
-                    break;
-                case LightsID.Unused7:
-                    maxSize = Math.Max(maxSize, (int)EventTypeValue.ExtraRightLights + 1);
-                    break;
-                case LightsID.Unused10:
-                    maxSize = Math.Max(maxSize, (int)EventTypeValue.ExtraLeftLasers + 1);
-                    break;
-                case LightsID.Unused11:
-                    maxSize = Math.Max(maxSize, (int)EventTypeValue.ExtraRightLasers + 1);
-                    break;
-            }
-        }
-
-        if (maxSize != platformDescriptor.LightingManagers.Length)
-            Array.Resize(ref platformDescriptor.LightingManagers, maxSize);
+        // var tubeLights = gameObject.GetComponentsInChildren<TubeLight>();
+        // var maxSize = platformDescriptor.LightingManagers.Length;
+        // foreach (var tubeLight in tubeLights)
+        // {
+        //     switch (tubeLight.lightsID)
+        //     {
+        //         case LightsID.Unused5:
+        //             maxSize = Math.Max(maxSize, (int)EventTypeValue.ColorBoost + 1);
+        //             break;
+        //         case LightsID.Unused6:
+        //             maxSize = Math.Max(maxSize, (int)EventTypeValue.ExtraLeftLights + 1);
+        //             break;
+        //         case LightsID.Unused7:
+        //             maxSize = Math.Max(maxSize, (int)EventTypeValue.ExtraRightLights + 1);
+        //             break;
+        //         case LightsID.Unused10:
+        //             maxSize = Math.Max(maxSize, (int)EventTypeValue.ExtraLeftLasers + 1);
+        //             break;
+        //         case LightsID.Unused11:
+        //             maxSize = Math.Max(maxSize, (int)EventTypeValue.ExtraRightLasers + 1);
+        //             break;
+        //     }
+        // }
+        //
+        // if (maxSize != platformDescriptor.LightingManagers.Length)
+        //     Array.Resize(ref platformDescriptor.LightingManagers, maxSize);
     }
 
     private void SetLightingEventsForTubeLights(GameObject gameObject)

@@ -19,7 +19,7 @@ public class BasicLightManager : BasicEventStateManager<BasicLightStateData>
     [SerializeField] private bool invertColorScheme;
 
     [SerializeField] public List<BaseLightController> ControllableLights = new();
-    public LightGroup[] LightsGroupedByZ = { };
+    public BaseLightController[][] LightsGroupedByZ = { };
 
     public List<RotatingLightsManagerBase> RotatingLights = new();
 
@@ -34,22 +34,8 @@ public class BasicLightManager : BasicEventStateManager<BasicLightStateData>
     private List<ChromaLiteData> chromaLiteDatas = new();
     private List<ChromaGradientData> chromaGradientDatas = new();
 
-    private void Start() => LoadOldLightOrder();
-
-    public void LoadOldLightOrder()
+    private void Start()
     {
-        foreach (var e in GetComponentsInChildren<LightController>())
-            // No, stop that. Enforcing Light ID breaks Glass Desert
-        {
-            if (!e.OverrideLightGroup) ControllableLights.Add(e);
-        }
-
-        foreach (var (index, e) in GetComponentsInChildren<RotatingLightsManagerBase>().Select((e, i) => (i, e)))
-        {
-            e.Index = index;
-            if (!e.IsOverrideLightGroup()) RotatingLights.Add(e);
-        }
-
         var lightIdOrder = ControllableLights
             .OrderBy(x => x.ID)
             .GroupBy(x => x.ID)
@@ -59,18 +45,16 @@ public class BasicLightManager : BasicEventStateManager<BasicLightStateData>
         LightIDPlacementMapReverse = lightIdOrder.ToDictionary(x => x.ID, x => lightIdOrder.IndexOf(x));
         LightIDMap = lightIdOrder.ToDictionary(x => x.ID, x => x);
 
-        LightsGroupedByZ = GroupLightsBasedOnZ();
-        RotatingLights = RotatingLights.OrderBy(x => x.transform.localPosition.z).ToList();
-    }
-
-    public LightGroup[] GroupLightsBasedOnZ() =>
-        ControllableLights
+        LightsGroupedByZ = ControllableLights
             .Where(x => x.gameObject.activeInHierarchy)
             .Where(x => x.PropGroup >= 0)
             .GroupBy(x => Mathf.RoundToInt(x.PropGroup))
             .OrderBy(x => x.Key)
-            .Select(x => new LightGroup { Lights = x.ToList() })
+            .Select(x => x.ToArray())
             .ToArray();
+        RotatingLights = RotatingLights.OrderBy(x => x.transform.localPosition.z).ToList();
+    }
+
 
     public override void Initialize()
     {
@@ -577,11 +561,5 @@ public class BasicLightManager : BasicEventStateManager<BasicLightStateData>
         public override bool Equals(object obj) => obj is ChromaGradientData other && Equals(other);
 
         public override int GetHashCode() => HashCode.Combine(Base, StartTime, EndTime, StartColor, EndColor, Easing);
-    }
-
-    [Serializable]
-    public class LightGroup
-    {
-        public List<BaseLightController> Lights = new();
     }
 }

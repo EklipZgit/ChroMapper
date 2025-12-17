@@ -24,23 +24,23 @@ public class PlatformSoloEventTypeUIController : MonoBehaviour, CMInput.IPlatfor
 
     private void HandleUpdateSoloEventType(string res)
     {
-        if (string.IsNullOrEmpty(res) || string.IsNullOrWhiteSpace(res))
-        {
-            descriptor.UpdateSoloEventType(false, 0);
-        }
-        else if (int.TryParse(res, out var id))
-        {
-            if (id >= 0 && id < descriptor.LightingManagers.Length)
-                descriptor.UpdateSoloEventType(true, id);
-        }
-        else if (descriptor.LightingManagers.Any(x => x.name == res))
-        {
-            descriptor.UpdateSoloEventType(true,
-                descriptor.LightingManagers.ToList().IndexOf(
-                    descriptor.LightingManagers.First(x => x.name == res)));
-        }
-
-        soloEventTypeLabel.gameObject.SetActive(descriptor.SoloAnEventType);
-        soloEventTypeLabel.text = $"Soloing <u>{descriptor.LightingManagers[descriptor.SoloEventType].name}</u>";
+        // if (string.IsNullOrEmpty(res) || string.IsNullOrWhiteSpace(res))
+        // {
+        //     descriptor.UpdateSoloEventType(false, 0);
+        // }
+        // else if (int.TryParse(res, out var id))
+        // {
+        //     if (id >= 0 && id < descriptor.LightingManagers.Length)
+        //         descriptor.UpdateSoloEventType(true, id);
+        // }
+        // else if (descriptor.LightingManagers.Any(x => x.name == res))
+        // {
+        //     descriptor.UpdateSoloEventType(true,
+        //         descriptor.LightingManagers.ToList().IndexOf(
+        //             descriptor.LightingManagers.First(x => x.name == res)));
+        // }
+        //
+        // soloEventTypeLabel.gameObject.SetActive(descriptor.SoloAnEventType);
+        // soloEventTypeLabel.text = $"Soloing <u>{descriptor.LightingManagers[descriptor.SoloEventType].name}</u>";
     }
 }

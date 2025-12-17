@@ -5,12 +5,10 @@ using UnityEngine.Serialization;
 
 public class RotatingLightsManager : RotatingLightsManagerBase
 {
-    [FormerlySerializedAs("multiplier")] public float Multiplier = 20;
+    [SerializeField] public float Multiplier = 20;
     [SerializeField] private float rotationSpeed;
     [SerializeField] private float zPositionModifier;
 
-    public bool OverrideLightGroup;
-    public int OverrideLightGroupID;
     public bool UseZPositionForAngleOffset;
     private readonly Vector3 rotationVector = Vector3.up;
 
@@ -23,13 +21,6 @@ public class RotatingLightsManager : RotatingLightsManagerBase
     private void Start()
     {
         startRotation = transform.localRotation;
-        if (OverrideLightGroup)
-        {
-            var descriptor = GetComponentInParent<PlatformDescriptor>();
-
-            if (descriptor != null) descriptor.LightingManagers[OverrideLightGroupID].RotatingLights.Add(this);
-        }
-
         Settings.NotifyBySettingName("SongSpeed", UpdateSongSpeed);
     }
 
@@ -95,6 +86,4 @@ public class RotatingLightsManager : RotatingLightsManagerBase
         rotationSpeed =
             this.speed * Multiplier * (rotateForwards ? -1 : 1) * Mathf.Sign(Multiplier); //Set rotation speed
     }
-
-    public override bool IsOverrideLightGroup() => OverrideLightGroup;
 }
