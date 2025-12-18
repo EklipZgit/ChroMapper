@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Beatmap.Containers;
 using Beatmap.Info;
 using TMPro;
 using UnityEngine;
@@ -70,7 +70,7 @@ public class LoadedDifficultySelectController : MonoBehaviour
             return;
         }
 
-        SelectDifficulty(queuedDropdownValue);
+        StartCoroutine(SelectDifficulty(queuedDropdownValue));
     }
 
     private void UnsavedChangesDialogueResult(int result)
@@ -78,11 +78,11 @@ public class LoadedDifficultySelectController : MonoBehaviour
         if (result == 0) // 0 - Yes
         {
             autoSaveController.Save();
-            SelectDifficulty(queuedDropdownValue);
+            StartCoroutine(SelectDifficulty(queuedDropdownValue));
         }
         else if (result == 1) // 1 - No
         {
-            SelectDifficulty(queuedDropdownValue);
+            StartCoroutine(SelectDifficulty(queuedDropdownValue));
         }
         else // 2 - Cancel
         {
@@ -90,7 +90,7 @@ public class LoadedDifficultySelectController : MonoBehaviour
         }
     }
 
-    private void SelectDifficulty(int value)
+    private IEnumerator SelectDifficulty(int value)
     {
         // If saving, wait until it's done
         while (autoSaveController.IsSaving) ;
@@ -126,15 +126,15 @@ public class LoadedDifficultySelectController : MonoBehaviour
             //     platform = CustomPlatformsLoader.Instance.LoadPlatform(info.CustomEnvironmentMetadata.Name, platform);
 
             SceneManager.LoadScene(platform.ID, LoadSceneMode.Additive);
-            // var descriptor = instantiate.GetComponent<PlatformDescriptor>();
-            // EventContainer.ModifyTypeMode = descriptor.SortMode;
+            yield return new WaitUntil(() => SceneManager.GetSceneByName(platform.ID).isLoaded);
+            var descriptor = FindAnyObjectByType<PlatformDescriptor>();
 
             // this is already handled from LoadedDifficultyChangedEvent it seems
             // LoadInitialMap.PopulateColorsFromMapInfo(descriptor);
             // LoadInitialMap.UpdateObjectContainerColors(descriptor.ColorScheme);
 
             // amazing spaghetti code
-            // LoadInitialMap.Platform = descriptor;
+            LoadInitialMap.Platform = descriptor;
             LoadInitialMap.NotifyPlatformLoaded();
         }
 
