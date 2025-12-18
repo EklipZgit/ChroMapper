@@ -5,61 +5,20 @@ using UnityEngine.Serialization;
 
 public class TrackLaneRingsManager : TrackLaneRingsManagerBase
 {
-    [FormerlySerializedAs("ringCount")] public int RingCount = 10;
-    [FormerlySerializedAs("prefab")] public TrackLaneRing Prefab;
-
-    [FormerlySerializedAs("moveFirstRing")]
     public bool MoveFirstRing;
 
-    [FormerlySerializedAs("minPositionStep")]
     public float MINPositionStep = 1;
-
-    [FormerlySerializedAs("maxPositionStep")]
     public float MAXPositionStep = 2;
-
-    [FormerlySerializedAs("moveSpeed")] public float MoveSpeed = 1;
-
-    [FormerlySerializedAs("rotationStep")] [Header("Rotation")]
-    public float RotationStep = 5;
-
-    [FormerlySerializedAs("propagationSpeed")]
+    
+    public float MoveSpeed = 1;
+    [Header("Rotation")] public float RotationStep = 5;
     public float PropagationSpeed = 1;
+    public float FlexySpeed = 1;
 
-    [FormerlySerializedAs("flexySpeed")] public float FlexySpeed = 1;
-
-    [FormerlySerializedAs("rotationEffect")]
     public TrackLaneRingsRotationEffect RotationEffect;
 
     private bool zoomed;
     public TrackLaneRing[] Rings { get; private set; }
-
-    public void Awake()
-    {
-        Prefab.gameObject.SetActive(false);
-        Rings = new TrackLaneRing[RingCount];
-        for (var i = 0; i < Rings.Length; i++)
-        {
-            Rings[i] = Instantiate(Prefab, transform);
-            Rings[i].gameObject.SetActive(true);
-            Rings[i].gameObject.name = $"Ring {i}";
-            var pos = new Vector3(0, 0, i * MAXPositionStep);
-            Rings[i].Init(pos, Vector3.zero);
-
-            if (RingCount <= 1) continue;
-
-            var lights = Rings[i]
-                .GetComponentsInChildren<LightController>()
-                .GroupBy(x => x.OverrideLightGroup ? x.OverrideLightGroupID : -1);
-            foreach (var group in lights)
-            {
-                foreach (var lightingEvent in @group)
-                {
-                    lightingEvent.PropGroup = i;
-                    lightingEvent.ID += i * @group.Count();
-                }
-            }
-        }
-    }
 
     private void FixedUpdate()
     {

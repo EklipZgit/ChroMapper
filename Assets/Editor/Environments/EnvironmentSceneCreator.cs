@@ -186,7 +186,7 @@ public class EnvironmentSceneCreator
         beec.gameObject.transform.SetParent(GameObject.Find("Environment").transform);
         descriptor.BasicEventEffectManager = beec;
 
-        beec.TryInit<ColorBoostManager>((int)EventTypeValue.ColorBoost);
+        beec.Register<ColorBoostManager>((int)EventTypeValue.ColorBoost);
 
         foreach (var envObject in objectsToUse)
         {
@@ -224,10 +224,8 @@ public class EnvironmentSceneCreator
                     // quad.layer = LayerMask.NameToLayer("Lighting Events");
                     // quad.GetComponent<Renderer>().sharedMaterial = library.BloomFogMaterial;
 
-                    blc.ID = tubeBloomPrePass.ChromaLight.LightId;
-
-                    beec.TryInit<BasicLightManager>(tubeBloomPrePass.ChromaLight.Type);
-                    beec.Add(tubeBloomPrePass.ChromaLight.Type, blc);
+                    beec.Register<BasicLightManager>(tubeBloomPrePass.ChromaLight.Type);
+                    beec.Register(tubeBloomPrePass.ChromaLight.Type, tubeBloomPrePass.ChromaLight.LightId, blc);
                 }
             }
         }

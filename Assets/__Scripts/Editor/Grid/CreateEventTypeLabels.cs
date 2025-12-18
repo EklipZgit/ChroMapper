@@ -18,7 +18,7 @@ public class CreateEventTypeLabels : MonoBehaviour
     private readonly List<LaneInfo> laneObjs = new List<LaneInfo>();
 
     private PlatformDescriptor descriptor;
-    private Dictionary<int, BasicLightManager> lightingManagers = new();
+    private Dictionary<int, BasicLightManager> typeToManager = new();
     private bool loadedWithRotationEvents;
     public int NoRotationLaneOffset => loadedWithRotationEvents || RotationCallback.IsActive ? 2 : 0;
 
@@ -41,11 +41,12 @@ public class CreateEventTypeLabels : MonoBehaviour
 
         if (propMode == EventGridContainer.PropMode.Off)
         {
-            for (var i = 0; i < descriptor.TrackDefinition.Basic.Length; i++)
+            var entries = descriptor.TrackDefinition.Basic.ToList();
+            for (var i = 0; i < entries.Count; i++)
             {
                 var modified = i + NoRotationLaneOffset;
                 var instantiate = Instantiate(LabelPrefab, transform);
-                var laneInfo = new LaneInfo(i, descriptor.TrackDefinition.Basic[i].Type);
+                var laneInfo = new LaneInfo(i, entries[i].Value.Type);
                 instantiate.SetActive(true);
                 instantiate.transform.localPosition =
                     new Vector3(modified, 0, 0);
@@ -54,7 +55,7 @@ public class CreateEventTypeLabels : MonoBehaviour
                 try
                 {
                     var textMesh = instantiate.GetComponentInChildren<TextMeshProUGUI>();
-                    textMesh.text = descriptor.TrackDefinition.Basic[i].Name;
+                    textMesh.text = entries[i].Value.Name;
                     textMesh.fontSharedMaterial = UtilityMaterial;
 
                     laneInfo.Name = textMesh.text;
@@ -85,7 +86,7 @@ public class CreateEventTypeLabels : MonoBehaviour
                     else
                     {
                         textMesh.text =
-                            $"{lightingManagers[eventType].name} ID {EditorToLightID(eventType, i - 1)}";
+                            $"{descriptor.TrackDefinition.Basic[eventType].Name} ID {LaneToLightID(eventType, i - 1)}";
                         textMesh.fontSharedMaterial = i % 2 == 0 ? UtilityMaterial : AvailableMaterial;
                     }
 
@@ -101,9 +102,9 @@ public class CreateEventTypeLabels : MonoBehaviour
     private void HandlePlatformLoaded(PlatformDescriptor descriptor)
     {
         this.descriptor = descriptor;
-        lightingManagers = descriptor
-            .BasicEventEffectManager.EventTypeManagerMap.Where(x => x.Value is BasicLightManager)
-            .ToDictionary(x => x.Key, x => x.Value as BasicLightManager);
+        typeToManager = descriptor
+            .BasicEventEffectManager.GetAllManagers<BasicLightManager>()
+            .ToDictionary(x => x.type, x => x.manager);
     }
 
     public int LaneIdToEventType(int laneId) => laneObjs[laneId].Type;
@@ -116,23 +117,24 @@ public class CreateEventTypeLabels : MonoBehaviour
 
     public int? LightIdsToPropId(int type, int[] lightID)
     {
-        if (!lightingManagers.ContainsKey(type)) return null;
+        if (!typeToManager.TryGetValue(type, out var manager)) return null;
 
-        var light = lightingManagers[type].ControllableLights.Find(x => Array.IndexOf(lightID, x.ID) > -1);
+        var id = Array.FindIndex(
+            manager.LaneToLightIDs,
+            x => Array.Exists(
+                x,
+                y => Array.Exists(lightID, z => z == y)));
 
-        return light != null ? light.PropGroup : (int?)null;
+        return id != -1 ? id : null;
     }
 
     public int[] PropIdToLightIds(int type, int propID)
     {
-        if (!lightingManagers.ContainsKey(type)) return Array.Empty<int>();
+        if (!typeToManager.TryGetValue(type, out var manager)) return Array.Empty<int>();
 
-        return lightingManagers[type]
-            .ControllableLights.Where(x => x.PropGroup == propID)
-            .Select(x => x.ID)
-            .OrderBy(x => x)
-            .Distinct()
-            .ToArray();
+        return 0 <= propID && propID < manager.LaneToLightIDs.Length
+            ? manager.LaneToLightIDs[propID]
+            : Array.Empty<int>();
     }
 
     public JSONArray PropIdToLightIdsJ(int type, int propID)
@@ -142,12 +144,11 @@ public class CreateEventTypeLabels : MonoBehaviour
         return result;
     }
 
-    public int EditorToLightID(int type, int lightID) => lightingManagers[type].LightIDPlacementMap[lightID];
+    public int LaneToLightID(int type, int lightID) => typeToManager[type].LaneToLightID[lightID];
 
-    public int LightIDToEditor(int type, int lightID)
+    public int LightIDToLane(int type, int lightID)
     {
-        if (lightingManagers[type].LightIDPlacementMapReverse.ContainsKey(lightID))
-            return lightingManagers[type].LightIDPlacementMapReverse[lightID];
+        if (typeToManager[type].LightIDToLane.ContainsKey(lightID)) return typeToManager[type].LightIDToLane[lightID];
         return -1;
     }
 

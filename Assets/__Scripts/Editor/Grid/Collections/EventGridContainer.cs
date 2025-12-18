@@ -60,8 +60,8 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
         }
     }
 
-    private PlatformDescriptor Descriptor;
-    public Dictionary<int, BasicLightManager> LightingManagers = new();
+    private PlatformDescriptor descriptor;
+    public Dictionary<int, BasicLightManager> TypeToManager = new();
     private PropMode propagationEditing = PropMode.Off;
 
     public override ObjectType ContainerType => ObjectType.Event;
@@ -75,12 +75,12 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
             boxSelectionPlacement.Cancel();
 
             var propagationLength = 0;
-            if (LightingManagers.TryGetValue(EventTypeToPropagate, out var lightingManager))
+            if (TypeToManager.TryGetValue(EventTypeToPropagate, out var lightingManager))
             {
                 propagationLength =
                     (value == PropMode.Light
-                        ? lightingManager.LightIDPlacementMapReverse?.Count
-                        : lightingManager.LightsGroupedByZ?.Length)
+                        ? lightingManager.LaneToLightID?.Length
+                        : lightingManager.LaneToLightIDs?.Length)
                     ?? 0;
             }
 
@@ -91,7 +91,7 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
             gridLane.Lane =
                 value != PropMode.Off
                     ? propagationLength + 1
-                    : Descriptor.TrackDefinition.Basic.Length;
+                    : descriptor.TrackDefinition.Basic.Count;
             EventTypePropagationSize = propagationLength;
             UpdatePropagationMode();
         }
@@ -116,39 +116,29 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
     {
         if (!context.performed || laserSpeedController.Activated) return;
 
-        if (Descriptor.BigRingManager is TrackLaneRingsManager manager) manager.RotationEffect.Reset();
+        if (descriptor.BigRingManager is TrackLaneRingsManager manager) manager.RotationEffect.Reset();
 
-        if (Descriptor.SmallRingManager != null && Descriptor.SmallRingManager.RotationEffect != null)
-            Descriptor.SmallRingManager.RotationEffect.Reset();
+        if (descriptor.SmallRingManager != null && descriptor.SmallRingManager.RotationEffect != null)
+            descriptor.SmallRingManager.RotationEffect.Reset();
     }
 
     public void OnCycleLightPropagationUp(InputAction.CallbackContext context)
     {
         if (!context.performed || PropagationEditing == PropMode.Off) return;
-        var nextID = EventTypeToPropagate + 1;
-        if (nextID == LightingManagers.Values.Count) nextID = 0;
-        while (LightingManagers[nextID] == null)
-        {
-            nextID++;
-            if (nextID == LightingManagers.Values.Count) nextID = 0;
-        }
+        var ids = TypeToManager.Keys.ToList();
+        var id = ids.IndexOf(EventTypeToPropagate);
 
-        EventTypeToPropagate = nextID;
+        EventTypeToPropagate = id == -1 ? ids.First() : ids[(int)Mathf.Repeat(id + 1, ids.Count)];
         PropagationEditing = PropagationEditing;
     }
 
     public void OnCycleLightPropagationDown(InputAction.CallbackContext context)
     {
         if (!context.performed || PropagationEditing == PropMode.Off) return;
-        var nextID = EventTypeToPropagate - 1;
-        if (nextID == -1) nextID = LightingManagers.Values.Count - 1;
-        while (LightingManagers[nextID] == null)
-        {
-            nextID--;
-            if (nextID == -1) nextID = LightingManagers.Values.Count - 1;
-        }
+        var ids = TypeToManager.Keys.ToList();
+        var id = ids.IndexOf(EventTypeToPropagate);
 
-        EventTypeToPropagate = nextID;
+        EventTypeToPropagate = id == -1 ? ids.First() : ids[(int)Mathf.Repeat(id - 1, ids.Count)];
         PropagationEditing = PropagationEditing;
     }
 
@@ -161,7 +151,10 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
 
     private void HandlePlatformLoaded(PlatformDescriptor descriptor)
     {
-        Descriptor = descriptor;
+        this.descriptor = descriptor;
+        TypeToManager = descriptor
+            .BasicEventEffectManager.GetAllManagers<BasicLightManager>()
+            .ToDictionary(x => x.type, x => x.manager);
         PropagationEditing = PropMode.Off;
     }
 

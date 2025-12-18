@@ -3,12 +3,6 @@ using UnityEngine;
 
 public abstract class BaseLightController : MonoBehaviour
 {
-    public bool OverrideLightGroup;
-    public int OverrideLightGroupID;
-
-    public int ID;
-    public int PropGroup;
-
     public float StartTimeAlpha;
     public float StartTimeColor;
     public Color StartColor = Color.white;

@@ -288,9 +288,9 @@ public class MirrorSelection : MonoBehaviour
                     else if (moveNotes && (e.CustomLightID != null && events.EventTypeToPropagate == e.Type &&
                                            events.PropagationEditing == EventGridContainer.PropMode.Light))
                     {
-                        var idx = labels.LightIDToEditor(e.Type, e.CustomLightID[0]);
+                        var idx = labels.LightIDToLane(e.Type, e.CustomLightID[0]);
                         var mirroredIdx = events.EventTypePropagationSize - idx - 1;
-                        e.CustomLightID = new[] { labels.EditorToLightID(e.Type, mirroredIdx) };
+                        e.CustomLightID = new[] { labels.LaneToLightID(e.Type, mirroredIdx) };
                     }
 
                     // (M) swaps red and blue

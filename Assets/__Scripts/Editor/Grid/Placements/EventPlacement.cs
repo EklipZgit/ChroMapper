@@ -105,7 +105,7 @@ public class EventPlacement : BasePlacement<BaseEvent, EventContainer, EventGrid
             {
                 var lightIdToApply = ObjectContainerCollection.PropagationEditing == EventGridContainer.PropMode.Prop
                     ? labels.PropIdToLightIds(ObjectContainerCollection.EventTypeToPropagate, propID)
-                    : new[] { labels.EditorToLightID(ObjectContainerCollection.EventTypeToPropagate, propID) };
+                    : new[] { labels.LaneToLightID(ObjectContainerCollection.EventTypeToPropagate, propID) };
                 QueuedData.CustomLightID = lightIdToApply;
             }
             else

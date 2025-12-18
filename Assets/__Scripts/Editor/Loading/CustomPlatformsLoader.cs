@@ -435,7 +435,7 @@ public class CustomPlatformsLoader : MonoBehaviour
         if (basicLightManager != null)
         {
             var le = renderer.gameObject.AddComponent<LightController>();
-            basicLightManager.ControllableLights.Add(le);
+            // basicLightManager.ControllableLightEntries.Add(le);
         }
     }
 

@@ -1,10 +1,6 @@
 using System;
-using System.Collections.Generic;
 using Beatmap.Base.Customs;
-using Beatmap.V2.Customs;
-using Beatmap.V3.Customs;
 using Beatmap.Containers;
-using Beatmap.Shared;
 using SimpleJSON;
 using UnityEngine;
 
@@ -84,11 +80,9 @@ namespace Beatmap.Appearances
 
             if (eh.Components?.HasKey("ILightWithId") ?? false)
             {
+                var descriptor = FindAnyObjectByType<PlatformDescriptor>(); // TODO: sorry
                 var light = container.Shape.AddComponent<LightController>();
-                light.OverrideLightGroup = true;
-                light.OverrideLightGroupID = eh.LightType ?? 0;
-                light.ID = eh.LightID ?? 0;
-                light.PropGroup = -1;
+                descriptor.BasicEventEffectManager.Register(eh.LightType ?? 0, eh.LightID ?? -1, light);
             }
         }
 

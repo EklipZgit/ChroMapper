@@ -705,20 +705,20 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
                     if (eventPlacement.ObjectContainerCollection.PropagationEditing
                         == EventGridContainer.PropMode.Light)
                     {
-                        var max = events.LightingManagers[events.EventTypeToPropagate]
-                                .LightIDPlacementMap
-                                .Count
+                        var max = events.TypeToManager[events.EventTypeToPropagate]
+                                .LaneToLightID
+                                .Length
                             - 1;
 
                         var curLane = e.CustomLightID != null
-                            ? labels.LightIDToEditor(e.Type, e.CustomLightID[0])
+                            ? labels.LightIDToLane(e.Type, e.CustomLightID[0])
                             : -1;
                         var newLane = Math.Min(curLane + leftRight, max);
                         if (newLane < 0)
                             e.CustomLightID = null;
                         else
                         {
-                            var newId = labels.EditorToLightID(e.Type, newLane);
+                            var newId = labels.LaneToLightID(e.Type, newLane);
                             e.CustomLightID = new[] { newId };
                         }
                     }
@@ -729,8 +729,8 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
                                 ? labels.LightIdsToPropId(events.EventTypeToPropagate, e.CustomLightID)
                                 : null)
                             ?? -1;
-                        var max = events.LightingManagers[events.EventTypeToPropagate]
-                            .LightsGroupedByZ
+                        var max = events.TypeToManager[events.EventTypeToPropagate]
+                            .LaneToLightIDs
                             .Length;
                         var newId = Math.Min(oldId + leftRight, max - 1);
 
@@ -757,8 +757,8 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
 
                         if (e.CustomLightID != null)
                         {
-                            var editorID = labels.LightIDToEditor(oldType, e.CustomLightID[0]);
-                            e.CustomLightID = new[] { labels.EditorToLightID(e.Type, editorID) };
+                            var editorID = labels.LightIDToLane(oldType, e.CustomLightID[0]);
+                            e.CustomLightID = new[] { labels.LaneToLightID(e.Type, editorID) };
                         }
 
                         if (e.CustomLightID is { Length: 0 }) e.CustomLightID = null;

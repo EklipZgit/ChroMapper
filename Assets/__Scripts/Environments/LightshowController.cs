@@ -31,7 +31,7 @@ public class LightshowController : MonoBehaviour, IBeatmapUpdate
     {
         descriptor = desc;
         activeEffects = new List<IBeatmapUpdate>()
-            .Concat(descriptor.BasicEventEffectManager.EventTypeManagerMap.Values)
+            .Concat(descriptor.BasicEventEffectManager.EventTypeToManagers.Values.SelectMany(x => x).Distinct())
             .Where(x => x != null)
             .ToArray();
         activeSize = activeEffects.Length;
@@ -61,7 +61,7 @@ public class LightshowController : MonoBehaviour, IBeatmapUpdate
         var events = Mode == LightshowMode.Static
             ? descriptor
                 .BasicEventEffectManager
-                .EventTypeManagerMap
+                .EventTypeToManagers
                 .Keys.Select(type =>
                 {
                     var evt = new BaseEvent { Type = type, songBpmTime = 0f };
@@ -73,10 +73,13 @@ public class LightshowController : MonoBehaviour, IBeatmapUpdate
                 ? BeatSaberSongContainer.Instance.Map.Events
                 : new();
 
-        foreach (var (type, manager) in descriptor.BasicEventEffectManager.EventTypeManagerMap)
+        foreach (var (type, managers) in descriptor.BasicEventEffectManager.EventTypeToManagers)
+        foreach (var manager in managers)
             manager.BuildFromData(events.Where(e => e.Type == type));
 
-        foreach (var manager in descriptor.BasicEventEffectManager.EventTypeManagerMap.Values) manager.UpdateDirty();
+        foreach (var manager in descriptor.BasicEventEffectManager.EventTypeToManagers.Values.SelectMany(managers =>
+            managers))
+            manager.UpdateDirty();
     }
 
     private void UpdateTimeByMode()

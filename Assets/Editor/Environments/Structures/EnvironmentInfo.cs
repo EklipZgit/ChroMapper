@@ -111,10 +111,11 @@ public class LightTracksDefinition
 
     public void CopyTo(EnvironmentTrackDefinition copy)
     {
-        copy.BasicEntries = BasicLightTracks
+        BasicLightTracks
             .Select(x => new TrackDefinitionBasic() { Name = x.TrackName, Type = x.ConvertType(), })
-            .ToList();
-        copy.GlsEntries = GroupPages
+            .ToList()
+            .ForEach(copy.Register);
+        GroupPages
             .SelectMany(x => x.Value.Select(y => (group: x.Key, id: y)))
             .Select(x =>
                 new TrackDefinitionGLS()
@@ -129,7 +130,8 @@ public class LightTracksDefinition
                     FloatFXTrack = x.id.FloatFxTrack,
                     Duplicate = x.id.Duplicate
                 })
-            .ToList();
+            .ToList()
+            .ForEach(copy.Register);
     }
 }
 

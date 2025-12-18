@@ -6,17 +6,20 @@ using UnityEngine;
 [Serializable]
 public class EnvironmentTrackDefinition
 {
-    [SerializeField] public List<TrackDefinitionBasic> BasicEntries;
-    [SerializeField] public List<TrackDefinitionGLS> GlsEntries;
+    [SerializeField] private List<TrackDefinitionBasic> BasicEntries = new();
+    [SerializeField] private List<TrackDefinitionGLS> GlsEntries = new();
 
-    [NonSerialized] public TrackDefinitionBasic[] Basic;
-    [NonSerialized] public Dictionary<string, TrackDefinitionGLS> Gls;
+    [NonSerialized] public Dictionary<int, TrackDefinitionBasic> Basic;
+    [NonSerialized] public Dictionary<int, TrackDefinitionGLS> Gls;
 
     public void Initialize()
     {
-        Basic = BasicEntries.ToArray();
-        Gls = GlsEntries.ToDictionary(x => x.Group, x => x);
+        Basic = BasicEntries.ToDictionary(x => x.Type, x => x);
+        Gls = GlsEntries.Select((x, i) => (i, x)).ToDictionary(x => x.i, x => x.x);
     }
+
+    public void Register(TrackDefinitionBasic basic) => BasicEntries.Add(basic);
+    public void Register(TrackDefinitionGLS gls) => GlsEntries.Add(gls);
 }
 
 [Serializable]

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Beatmap.Base;
 using UnityEngine;
 
@@ -32,7 +33,9 @@ public class BasicEventManager : BeatmapObjectManager<BaseEvent>
 
     public override void UpdateTime(float time)
     {
-        foreach (var manager in descriptor.BasicEventEffectManager.EventTypeManagerMap.Values) manager.UpdateTime(time);
+        foreach (var manager in descriptor.BasicEventEffectManager.EventTypeToManagers.Values.SelectMany(managers =>
+            managers))
+            manager.UpdateTime(time);
     }
 
     protected override bool AddData(IEnumerable<BaseEvent> data)
@@ -40,8 +43,8 @@ public class BasicEventManager : BeatmapObjectManager<BaseEvent>
         var mark = false;
         foreach (var d in data)
         {
-            if (!descriptor.BasicEventEffectManager.EventTypeManagerMap.TryGetValue(d.Type, out var manager)) continue;
-            manager.InsertData(d);
+            if (!descriptor.BasicEventEffectManager.EventTypeToManagers.TryGetValue(d.Type, out var managers)) continue;
+            foreach (var manager in managers) manager.InsertData(d);
             mark = true;
         }
 
@@ -53,9 +56,9 @@ public class BasicEventManager : BeatmapObjectManager<BaseEvent>
         var mark = false;
         foreach (var (reference, original) in data)
         {
-            if (!descriptor.BasicEventEffectManager.EventTypeManagerMap.TryGetValue(original.Type, out var manager))
+            if (!descriptor.BasicEventEffectManager.EventTypeToManagers.TryGetValue(original.Type, out var managers))
                 continue;
-            manager.RemoveData(reference, original);
+            foreach (var manager in managers) manager.RemoveData(reference, original);
             mark = true;
         }
 
@@ -67,8 +70,8 @@ public class BasicEventManager : BeatmapObjectManager<BaseEvent>
         var mark = false;
         foreach (var d in data)
         {
-            if (!descriptor.BasicEventEffectManager.EventTypeManagerMap.TryGetValue(d.Type, out var manager)) continue;
-            manager.RemoveData(d, d);
+            if (!descriptor.BasicEventEffectManager.EventTypeToManagers.TryGetValue(d.Type, out var managers)) continue;
+            foreach (var manager in managers) manager.RemoveData(d, d);
             mark = true;
         }
 

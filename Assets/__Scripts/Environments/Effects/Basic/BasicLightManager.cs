@@ -18,52 +18,66 @@ public class BasicLightManager : BasicEventStateManager<BasicLightStateData>
     [SerializeField] private bool lightOnStart;
     [SerializeField] private bool invertColorScheme;
 
-    [SerializeField] public List<BaseLightController> ControllableLights = new();
-    public BaseLightController[][] LightsGroupedByZ = { };
+    [SerializeField] private List<LightControllerEntry> controllerEntries = new();
 
-    public List<RotatingLightsManagerBase> RotatingLights = new();
-
-    public Dictionary<int, int> LightIDPlacementMap;
-    public Dictionary<int, int> LightIDPlacementMapReverse;
-    public Dictionary<int, BaseLightController> LightIDMap;
+    private Dictionary<int, BaseLightController> lightIDToController;
+    public Dictionary<int, int> LightIDToLane; // we opt for dict because lightID can be arbitrary value
+    [NonSerialized] public int[] LaneToLightID;
+    [NonSerialized] public int[][] LaneToLightIDs; // this also refer to propID
 
     private readonly Dictionary<BaseLightController, BasicEventStateChunksContainer<BasicLightStateData>>
-        stateChunksContainerMap =
+        controllerToStateChunksContainer =
             new();
 
     private List<ChromaLiteData> chromaLiteDatas = new();
     private List<ChromaGradientData> chromaGradientDatas = new();
 
-    private void Start()
-    {
-        var lightIdOrder = ControllableLights
-            .OrderBy(x => x.ID)
-            .GroupBy(x => x.ID)
-            .Select(x => x.First())
-            .ToList();
-        LightIDPlacementMap = lightIdOrder.ToDictionary(x => lightIdOrder.IndexOf(x), x => x.ID);
-        LightIDPlacementMapReverse = lightIdOrder.ToDictionary(x => x.ID, x => lightIdOrder.IndexOf(x));
-        LightIDMap = lightIdOrder.ToDictionary(x => x.ID, x => x);
+    private void Start() => CalculateMapping();
 
-        LightsGroupedByZ = ControllableLights
-            .Where(x => x.gameObject.activeInHierarchy)
-            .Where(x => x.PropGroup >= 0)
-            .GroupBy(x => Mathf.RoundToInt(x.PropGroup))
-            .OrderBy(x => x.Key)
-            .Select(x => x.ToArray())
-            .ToArray();
-        RotatingLights = RotatingLights.OrderBy(x => x.transform.localPosition.z).ToList();
+    public void Register(BaseLightController lightController, int id = -1)
+    {
+        if (controllerEntries.Exists(l => l.Controller == lightController))
+        {
+            Debug.LogWarning($"{lightController} is already registered in {this}");
+            return;
+        }
+
+        if (id != -1 && controllerEntries.Exists(l => l.ID == id))
+        {
+            Debug.LogError($"ID {id} is already used in {this}");
+            return;
+        }
+
+        if (id == -1) id = 0;
+        while (controllerEntries.Exists(l => l.ID == id)) id++;
+        controllerEntries.Add(new() { ID = id, Controller = lightController });
+        controllerEntries.Sort((x, y) => x.ID.CompareTo(y.ID));
     }
 
+    public void Unregister(BaseLightController lightController) =>
+        controllerEntries.RemoveAll(x => x.Controller == lightController);
+
+    private void CalculateMapping()
+    {
+        lightIDToController = controllerEntries.ToDictionary(x => x.ID, x => x.Controller);
+
+        LaneToLightID = controllerEntries.Select(x => x.ID).ToArray();
+        LaneToLightIDs = controllerEntries
+            .GroupBy(x => Mathf.RoundToInt(x.Controller.transform.position.z))
+            .OrderBy(x => x.Key)
+            .Select(x => x.Select(y => y.ID).ToArray())
+            .ToArray();
+        LightIDToLane = controllerEntries.ToDictionary(x => x.ID, x => Array.IndexOf(LaneToLightID, x.ID));
+    }
 
     public override void Initialize()
     {
-        stateChunksContainerMap.Clear();
-        foreach (var lightingObject in ControllableLights)
+        controllerToStateChunksContainer.Clear();
+        foreach (var controller in controllerEntries.Select(x => x.Controller))
         {
-            stateChunksContainerMap[lightingObject] =
+            controllerToStateChunksContainer[controller] =
                 InitializeStates(new BasicEventStateChunksContainer<BasicLightStateData>());
-            foreach (var state in stateChunksContainerMap[lightingObject].Chunks.SelectMany(chunk => chunk))
+            foreach (var state in controllerToStateChunksContainer[controller].Chunks.SelectMany(chunk => chunk))
             {
                 if (!lightOnStart) continue;
                 state.Base.FloatValue = 1f;
@@ -74,7 +88,7 @@ public class BasicLightManager : BasicEventStateManager<BasicLightStateData>
 
     public override void UpdateTime(float currentTime)
     {
-        foreach (var (lightingObject, container) in stateChunksContainerMap)
+        foreach (var (lightingObject, container) in controllerToStateChunksContainer)
         {
             if (!container.IsCurrentOrFindState(currentTime, Atsc.IsPlaying))
                 UpdateObject(lightingObject, container.CurrentState);
@@ -111,13 +125,10 @@ public class BasicLightManager : BasicEventStateManager<BasicLightStateData>
     // TODO: not sure if this is needed anymore
     public void ToggleBoost(bool boost)
     {
-        foreach (var lightingObject in ControllableLights)
+        foreach (var (lightingObject, container) in controllerToStateChunksContainer)
         {
             lightingObject.UpdateBoostState(boost);
-            if (!stateChunksContainerMap.TryGetValue(lightingObject, out var container)) continue;
-            UpdateStartAndEndColor(
-                lightingObject,
-                container.CurrentState);
+            UpdateStartAndEndColor(lightingObject, container.CurrentState);
         }
     }
 
@@ -225,7 +236,7 @@ public class BasicLightManager : BasicEventStateManager<BasicLightStateData>
         var untilIndex = chromaLiteDatas.FindIndex(cl => cl.Base.SongBpmTime > time);
         var until = untilIndex != -1 ? chromaLiteDatas[untilIndex].Base.SongBpmTime : float.MaxValue;
 
-        foreach (var enumerator in stateChunksContainerMap.Values.Select(container =>
+        foreach (var enumerator in controllerToStateChunksContainer.Values.Select(container =>
             container.EnumerateFrom(from.Base.SongBpmTime)))
         {
             while (enumerator.MoveNext())
@@ -240,7 +251,7 @@ public class BasicLightManager : BasicEventStateManager<BasicLightStateData>
     // i would like if chroma gradient just stopped working entirely so i dont have to deal with this shit again
     private void UpdateExistingWithChromaGradient(float startTime, float endTime)
     {
-        foreach (var (container, enumerator) in stateChunksContainerMap.Values.Select(container =>
+        foreach (var (container, enumerator) in controllerToStateChunksContainer.Values.Select(container =>
             (container, container.EnumerateFrom(startTime))))
         {
             while (enumerator.MoveNext())
@@ -371,14 +382,14 @@ public class BasicLightManager : BasicEventStateManager<BasicLightStateData>
         // wtf is solo event
         // if (SoloAnEventType && data.Type != SoloEventType) mainColor = invertedColor = Color.black.WithAlpha(0);
 
-        var affectedLights = ControllableLights;
-        if (data.CustomLightID != null && LightIDMap != null && Settings.Instance.EmulateChromaAdvanced)
+        var affectedLights = lightIDToController.Values.AsEnumerable();
+        if (data.CustomLightID != null && lightIDToController != null && Settings.Instance.EmulateChromaAdvanced)
         {
             var lightIDArr = data.CustomLightID;
             var filteredLights = new List<BaseLightController>(lightIDArr.Length);
             foreach (var lightID in lightIDArr)
             {
-                if (!LightIDMap.TryGetValue(lightID, out var lightingObject)) continue;
+                if (!lightIDToController.TryGetValue(lightID, out var lightingObject)) continue;
                 filteredLights.Add(lightingObject);
             }
 
@@ -420,7 +431,7 @@ public class BasicLightManager : BasicEventStateManager<BasicLightStateData>
 
             InsertWithChromaGradient(newState);
 
-            var container = stateChunksContainerMap[lightingObject];
+            var container = controllerToStateChunksContainer[lightingObject];
 
             // let's assume this will be previous state if this is inserted within the range
             var previousState = container.CurrentState;
@@ -456,15 +467,15 @@ public class BasicLightManager : BasicEventStateManager<BasicLightStateData>
                 original.SongBpmTime + original.CustomLightGradient.Duration);
         }
 
-        IEnumerable<BaseLightController> affectedLights = ControllableLights;
+        var affectedLights = lightIDToController.Values.AsEnumerable();
 
-        if (original.CustomLightID != null && LightIDMap != null && Settings.Instance.EmulateChromaAdvanced)
+        if (original.CustomLightID != null && lightIDToController != null && Settings.Instance.EmulateChromaAdvanced)
         {
             var lightIDArr = original.CustomLightID;
             var filteredLights = new List<BaseLightController>(lightIDArr.Length);
             foreach (var lightID in lightIDArr)
             {
-                if (!LightIDMap.TryGetValue(lightID, out var lightingObject)) continue;
+                if (!lightIDToController.TryGetValue(lightID, out var lightingObject)) continue;
                 filteredLights.Add(lightingObject);
             }
 
@@ -473,7 +484,7 @@ public class BasicLightManager : BasicEventStateManager<BasicLightStateData>
 
         foreach (var lightingObject in affectedLights)
         {
-            var container = stateChunksContainerMap[lightingObject];
+            var container = controllerToStateChunksContainer[lightingObject];
             HandleRemoveState(container, data, original);
 
             // unfortunately, we cannot do the same as insertion so we need to search
@@ -529,8 +540,8 @@ public class BasicLightManager : BasicEventStateManager<BasicLightStateData>
 
     public override void UpdateDirty()
     {
-        foreach (var lightingObject in stateChunksContainerMap.Keys)
-            UpdateObject(lightingObject, stateChunksContainerMap[lightingObject].CurrentState);
+        foreach (var lightingObject in controllerToStateChunksContainer.Keys)
+            UpdateObject(lightingObject, controllerToStateChunksContainer[lightingObject].CurrentState);
     }
 
     private static LightColor InferColorFromEvent(BaseEvent evt) =>
@@ -561,5 +572,22 @@ public class BasicLightManager : BasicEventStateManager<BasicLightStateData>
         public override bool Equals(object obj) => obj is ChromaGradientData other && Equals(other);
 
         public override int GetHashCode() => HashCode.Combine(Base, StartTime, EndTime, StartColor, EndColor, Easing);
+    }
+
+    [Serializable]
+    public struct LightControllerEntry : IEquatable<LightControllerEntry>
+    {
+        public int ID;
+        public BaseLightController Controller;
+
+        public bool Equals(LightControllerEntry other)
+        {
+            return ID == other.ID
+                && Equals(Controller, other.Controller);
+        }
+
+        public override bool Equals(object obj) => obj is LightControllerEntry other && Equals(other);
+
+        public override int GetHashCode() => HashCode.Combine(ID, Controller);
     }
 }
