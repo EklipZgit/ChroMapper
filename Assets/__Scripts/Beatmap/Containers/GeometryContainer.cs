@@ -29,14 +29,14 @@ namespace Beatmap.Containers
         public static GeometryContainer SpawnGeometry(
             BaseEnvironmentEnhancement eh,
             ref GameObject prefab,
-            AudioTimeSyncController audioTimeSyncController,
+            BeatmapRuntimeContext context,
             TracksManager tracksManager)
         {
             var type_str = (string)eh.Geometry[eh.GeometryKeyType];
             if (type_str == null) return null;
 
             var container = Instantiate(prefab).GetComponent<GeometryContainer>();
-            container.Animator.Atsc = audioTimeSyncController;
+            container.Animator.Context = context;
             container.Animator.TracksManager = tracksManager;
             PrimitiveType type;
             if (eh.Geometry[eh.GeometryKeyType] == "Triangle")

@@ -23,8 +23,14 @@ public class StrobeLaserSpeedInterpolationPass : StrobeGeneratorPass
     private readonly Random random;
     private readonly bool rightRotatesClockwise;
 
-    public StrobeLaserSpeedInterpolationPass(float interval, string easingID, int spinDirection,
-        bool uniqueLaserDirection, bool lockRotation, int decimalPrecision)
+    public StrobeLaserSpeedInterpolationPass(
+        TracksDefinitionSO trackDefinitionSo,
+        float interval,
+        string easingID,
+        int spinDirection,
+        bool uniqueLaserDirection,
+        bool lockRotation,
+        int decimalPrecision) : base(trackDefinitionSo)
     {
         this.interval = interval;
         lockLaserRotation = lockRotation;
@@ -49,10 +55,14 @@ public class StrobeLaserSpeedInterpolationPass : StrobeGeneratorPass
         if (uniqueLaserDirection) rightRotatesClockwise = !leftRotatesClockwise;
     }
 
-    public override bool IsEventValidForPass(BaseEvent @event) => @event.IsLaserRotationEvent();
+    public override bool IsEventValidForPass(BaseEvent evt) =>
+        TrackDefinitionSo.Basic[evt.Type].Kind == BasicEventKind.IntValue;
 
-    public override IEnumerable<BaseEvent> StrobePassForLane(IEnumerable<BaseEvent> original, int type,
-        EventGridContainer.PropMode propMode, int[] propID)
+    public override IEnumerable<BaseEvent> StrobePassForLane(
+        IEnumerable<BaseEvent> original,
+        int type,
+        EventGridContainer.PropMode propMode,
+        int[] propID)
     {
         var generatedObjects = new List<BaseEvent>();
 
@@ -87,11 +97,10 @@ public class StrobeLaserSpeedInterpolationPass : StrobeGeneratorPass
             // This does not support negative numbers, however I do not believe there is a reason to support them in the first place
             var roundedPreciseSpeed = (int)Math.Max(1, Math.Round(decimalPreciseSpeed, MidpointRounding.AwayFromZero));
 
-            var data = new BaseEvent{JsonTime = newTime, Type = type, Value = roundedPreciseSpeed, FloatValue = 0f };
+            var data = new BaseEvent { JsonTime = newTime, Type = type, Value = roundedPreciseSpeed, FloatValue = 0f };
 
             // Bit cheeky but hopefully a bit more readable
-            if (Math.Abs(decimalPreciseSpeed - roundedPreciseSpeed) > 0.01f)
-                data.CustomSpeed = decimalPreciseSpeed;
+            if (Math.Abs(decimalPreciseSpeed - roundedPreciseSpeed) > 0.01f) data.CustomSpeed = decimalPreciseSpeed;
 
             if (overrideDirection)
             {
@@ -114,8 +123,7 @@ public class StrobeLaserSpeedInterpolationPass : StrobeGeneratorPass
 
     private float GetLaserSpeedFromEvent(BaseEvent @event)
     {
-        if (@event.CustomPreciseSpeed is null && @event.CustomSpeed is null)
-            return @event.Value;
+        if (@event.CustomPreciseSpeed is null && @event.CustomSpeed is null) return @event.Value;
         return (float)(@event.CustomPreciseSpeed ?? @event.CustomSpeed);
     }
 }

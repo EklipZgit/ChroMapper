@@ -11,6 +11,7 @@ public class LaserSpeedInterpolationUI : StrobeGeneratorPassUIController
     [SerializeField] private StrobeGeneratorEventSelector spinDirection;
     [SerializeField] private Toggle uniqueLaserDirections;
     [SerializeField] private TMP_InputField decimalPrecision;
+    private TracksDefinitionSO trackDefinitionSo;
 
     // Start is called before the first frame update
     private new void Start()
@@ -23,6 +24,7 @@ public class LaserSpeedInterpolationUI : StrobeGeneratorPassUIController
 
     public override StrobeGeneratorPass GetPassForGeneration() =>
         new StrobeLaserSpeedInterpolationPass(
+            trackDefinitionSo,
             float.Parse(interval.text),
             Easing.DisplayNameToInternalName[valueEasings.captionText.text],
             spinDirection.SelectedNum,

@@ -26,7 +26,7 @@ public class ArcGridContainer : BeatmapObjectContainerCollection<BaseArc>
     public override ObjectContainer CreateContainer()
     {
         var con = ArcContainer.SpawnArc(null, ref arcPrefab);
-        con.Animator.Atsc = AudioTimeSyncController;
+        con.Animator.Context = Context;
         con.Animator.TracksManager = tracksManager;
         return con;
     }
@@ -42,7 +42,7 @@ public class ArcGridContainer : BeatmapObjectContainerCollection<BaseArc>
         var notesContainer = GetCollectionForType(ObjectType.Note) as NoteGridContainer;
         if (notesContainer != null) notesContainer.OnContainerSpawned += CheckUpdatedNote;
 
-        AudioTimeSyncController.OnPlayToggled += OnPlayToggle;
+        Context.Atsc.OnPlayToggled += OnPlayToggle;
         UIMode.OnPreviewModeSwitched += OnUIPreviewModeSwitch;
     }
 
@@ -51,7 +51,7 @@ public class ArcGridContainer : BeatmapObjectContainerCollection<BaseArc>
         var notesContainer = GetCollectionForType(ObjectType.Note) as NoteGridContainer;
         if (notesContainer != null) notesContainer.OnContainerSpawned -= CheckUpdatedNote;
 
-        AudioTimeSyncController.OnPlayToggled -= OnPlayToggle;
+        Context.Atsc.OnPlayToggled -= OnPlayToggle;
         UIMode.OnPreviewModeSwitched -= OnUIPreviewModeSwitch;
     }
 

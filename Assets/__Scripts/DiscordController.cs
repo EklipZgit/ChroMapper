@@ -36,7 +36,7 @@ public class DiscordController : MonoBehaviour
                 ActivityManager = Discord.GetActivityManager();
                 ActivityManager.ClearActivity(res => { });
                 SceneManager.activeSceneChanged += SceneUpdated;
-                LoadInitialMap.OnPlatformLoaded += LoadOnPlatform;
+                // LoadInitialMap.OnPlatformLoaded += HandleEnvironmentLoaded;
                 LoadedDifficultySelectController.OnLoadedDifficultyChanged += OnLoadedDifficultyChanged;
             }
             else
@@ -70,15 +70,15 @@ public class DiscordController : MonoBehaviour
     private void OnDestroy()
     {
         SceneManager.activeSceneChanged -= SceneUpdated;
-        LoadInitialMap.OnPlatformLoaded -= LoadOnPlatform;
+        // LoadInitialMap.OnPlatformLoaded -= HandleEnvironmentLoaded;
         LoadedDifficultySelectController.OnLoadedDifficultyChanged -= OnLoadedDifficultyChanged;
     }
 
     private void OnApplicationQuit() => Discord?.Dispose();
 
-    private void LoadOnPlatform(PlatformDescriptor platform)
+    private void HandleEnvironmentLoaded(EnvironmentDescriptor environment)
     {
-        var platformDiscordID = platform.gameObject.name
+        var platformDiscordID = environment.gameObject.name
             .Replace("(Clone)", "")
             .Replace(" ", "")
             .ToLowerInvariant()

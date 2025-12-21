@@ -30,7 +30,7 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
 
     public event Action<BaseObject> OnContainerSpawned;
     public event Action<BaseObject> OnContainerDespawned;
-    public AudioTimeSyncController AudioTimeSyncController;
+    public BeatmapRuntimeContext Context;
 
     /// <summary>
     ///     Loaded objects in this collection.
@@ -79,13 +79,13 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
 
     internal virtual void LateUpdate()
     {
-        if ((AudioTimeSyncController.IsPlaying && !UseChunkLoadingWhenPlaying)
-            || AudioTimeSyncController.CurrentSongBpmTime == previousAtscBeat)
+        if ((Context.Atsc.IsPlaying && !UseChunkLoadingWhenPlaying)
+            || Mathf.Approximately(Context.Atsc.CurrentSongBpmTime, previousAtscBeat))
         {
             return;
         }
 
-        previousAtscBeat = AudioTimeSyncController.CurrentSongBpmTime;
+        previousAtscBeat = Context.Atsc.CurrentSongBpmTime;
         var nearestChunk = (int)Math.Round(previousAtscBeat / (double)ChunkSize, MidpointRounding.AwayFromZero);
         if (nearestChunk != previousChunk)
         {
@@ -178,7 +178,7 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
     public virtual void RefreshPool(bool forceRefresh = false)
     {
         var epsilon = Mathf.Pow(10, -9);
-        if (AudioTimeSyncController.IsPlaying)
+        if (Context.Atsc.IsPlaying)
         {
             var spawnOffset = UseChunkLoadingWhenPlaying
                 ? ChunksLoadedWhilePlaying * ChunkSize
@@ -187,8 +187,8 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
                 ? -ChunksLoadedWhilePlaying * ChunkSize
                 : DespawnCallbackController.Offset;
             RefreshPool(
-                AudioTimeSyncController.CurrentSongBpmTime + despawnOffset - epsilon,
-                AudioTimeSyncController.CurrentSongBpmTime + spawnOffset + epsilon,
+                Context.Atsc.CurrentSongBpmTime + despawnOffset - epsilon,
+                Context.Atsc.CurrentSongBpmTime + spawnOffset + epsilon,
                 forceRefresh);
         }
         else

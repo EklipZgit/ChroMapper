@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// Simple EnvironmentComponent for a Unity Transform.
 /// </summary>
-public class MeshFilterComponent : EnvironmentComponent<MeshFilter>
+public class MeshFilterComponent : EnvDataComponent<MeshFilter>
 {
     [JsonProperty("hash")]
     public string Hash;

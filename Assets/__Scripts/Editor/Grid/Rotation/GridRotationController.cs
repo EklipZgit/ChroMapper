@@ -9,7 +9,7 @@ public class GridRotationController : MonoBehaviour
     public event Action OnObjectRotationChanged;
     public RotationCallbackController RotationCallback;
 
-    [SerializeField] private Vector3 rotationPoint = LoadInitialMap.PlatformOffset;
+    [SerializeField] private Vector3 rotationPoint = Vector3.zero;
     [SerializeField] private bool rotateTransform = true;
 
     private float targetRotation;

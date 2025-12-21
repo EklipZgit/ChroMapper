@@ -27,7 +27,7 @@ public class EnvironmentBuildPopulate
         foreach (var dataPath in envDataPaths)
         {
             var dataAsset = AssetDatabase.LoadAssetAtPath<TextAsset>(dataPath);
-            var data = JsonConvert.DeserializeObject<EnvironmentData>(
+            var data = JsonConvert.DeserializeObject<EnvData>(
                 dataAsset.text,
                 new Vector3ArrayConverter());
 

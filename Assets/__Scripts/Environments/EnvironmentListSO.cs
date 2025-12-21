@@ -12,6 +12,7 @@ public class EnvironmentListSO : ScriptableObject
     [SerializeField] public List<EnvironmentListInfo> list = new();
 
     public readonly Dictionary<string, EnvironmentListInfo> LookupID = new();
+    public readonly string DefaultEnvironment = "DefaultEnvironment";
 
     public void OnValidate() => Initialize();
     public void OnEnable() => Initialize();
@@ -21,13 +22,16 @@ public class EnvironmentListSO : ScriptableObject
         LookupID.Clear();
         foreach (var entry in list) LookupID[entry.ID] = entry;
     }
+
+    public EnvironmentListInfo GetEnvironmentOrDefault(string environment) =>
+        LookupID.TryGetValue(environment, out var env) ? env : LookupID[DefaultEnvironment];
 }
 
-// either this goes into same file
 [Serializable]
 public class EnvironmentListInfo
 {
     public string Name;
     public string ID;
-    public PlatformColorScheme ColorScheme;
+    public TracksDefinitionSO TracksDefinition;
+    public ColorSchemeSO ColorScheme;
 }

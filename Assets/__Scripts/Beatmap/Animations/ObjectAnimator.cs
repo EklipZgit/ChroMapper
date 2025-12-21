@@ -6,7 +6,6 @@ using Beatmap.Base;
 using Beatmap.Base.Customs;
 using Beatmap.Containers;
 using Beatmap.Enums;
-using Beatmap.V2;
 using Beatmap.V2.Customs;
 using SimpleJSON;
 using Random = UnityEngine.Random;
@@ -18,8 +17,8 @@ namespace Beatmap.Animations
         [SerializeField] public GameObject AnimationThis;
         [SerializeField] private ObjectContainer container;
 
+        public BeatmapRuntimeContext Context;
         public Track AnimationTrack;
-        public AudioTimeSyncController Atsc;
         public TracksManager TracksManager;
 
         [SerializeField] public Transform LocalTarget;
@@ -121,10 +120,7 @@ namespace Beatmap.Animations
 
         private void OnDisable()
         {
-            if (Atsc != null)
-            {
-                Atsc.OnTimeChanged -= OnTimeChanged;
-            }
+            if (Context != null) Context.Atsc.OnTimeChanged -= OnTimeChanged;
 
             foreach (var track in tracks)
             {
@@ -264,7 +260,7 @@ namespace Beatmap.Animations
 
             Update();
 
-            Atsc.OnTimeChanged += OnTimeChanged;
+            Context.Atsc.OnTimeChanged += OnTimeChanged;
         }
 
         public void AttachToGeometry(BaseEnvironmentEnhancement eh)
@@ -292,7 +288,7 @@ namespace Beatmap.Animations
                 container.transform.SetParent(this.tracks[0].Track.ObjectParentTransform, false);
             }
 
-            Atsc.OnTimeChanged += OnTimeChanged;
+            Context.Atsc.OnTimeChanged += OnTimeChanged;
 
             OnTimeChanged();
         }
@@ -306,7 +302,7 @@ namespace Beatmap.Animations
             LocalTarget = track.ObjectParentTransform;
             WorldTarget = track.transform;
 
-            Atsc.OnTimeChanged += OnTimeChanged;
+            Context.Atsc.OnTimeChanged += OnTimeChanged;
         }
 
         public void AttachToMaterial(GeometryContainer con, string track)
@@ -333,7 +329,7 @@ namespace Beatmap.Animations
 
         public void Update()
         {
-            var time = _time ?? Atsc?.CurrentSongBpmTime ?? 0;
+            var time = _time ?? Context.Atsc?.CurrentSongBpmTime ?? 0;
 
             if (container?.ObjectData is BaseGrid obj)
             {
@@ -411,7 +407,7 @@ namespace Beatmap.Animations
                 }
             }
 
-            var time = _time ?? Atsc?.CurrentSongBpmTime ?? 0;
+            var time = _time ?? Context.Atsc?.CurrentSongBpmTime ?? 0;
             if (WorldPosition.Count > 0)
             {
                 if (time_begin < time && time < time_end) AnimationTrack.UpdatePosition(0);
@@ -447,7 +443,7 @@ namespace Beatmap.Animations
 
         private void OnTimeChanged()
         {
-            if (Atsc.IsPlaying) return;
+            if (Context.Atsc.IsPlaying) return;
 
             LocalTarget.localRotation = LocalRotation.Get();
 
@@ -487,53 +483,53 @@ namespace Beatmap.Animations
             {
                 case "_dissolve":
                 case "dissolve":
-                    AddPointDef<float>(source, (float f) => Opacity.Add(f), PointDataParsers.ParseFloat, p, 0);
+                    AddPointDef(source, f => Opacity.Add(f), PointDataParsers.ParseFloat, p, 0);
                     break;
                 case "_dissolveArrow":
                 case "dissolveArrow":
-                    AddPointDef<float>(source, (float f) => OpacityArrow.Add(f), PointDataParsers.ParseFloat, p, 0);
+                    AddPointDef(source, f => OpacityArrow.Add(f), PointDataParsers.ParseFloat, p, 0);
                     break;
                 case "_localRotation":
                 case "localRotation":
-                    AddPointDef<Quaternion>(
+                    AddPointDef(
                         source,
-                        (Quaternion q) => LocalRotation.Add(q),
+                        q => LocalRotation.Add(q),
                         PointDataParsers.ParseQuaternion,
                         p,
                         Quaternion.identity);
                     break;
                 case "_rotation":
                 case "offsetWorldRotation":
-                    AddPointDef<Quaternion>(
+                    AddPointDef(
                         source,
-                        (Quaternion v) => WorldRotation.Add(v),
+                        v => WorldRotation.Add(v),
                         PointDataParsers.ParseQuaternion,
                         p,
                         Quaternion.identity);
                     break;
                 case "_position":
                 case "offsetPosition":
-                    AddPointDef<Vector3>(
+                    AddPointDef(
                         source,
-                        (Vector3 v) => OffsetPosition.Add(v),
+                        v => OffsetPosition.Add(v),
                         PointDataParsers.ParseVector3,
                         p,
                         Vector3.zero);
                     break;
                 case "_definitePosition":
                 case "definitePosition":
-                    AddPointDef<Vector3>(
+                    AddPointDef(
                         source,
-                        (Vector3 v) => WorldPosition.Add(v),
+                        v => WorldPosition.Add(v),
                         PointDataParsers.ParseVector3,
                         p,
                         Vector3.zero);
                     break;
                 case "_scale":
                 case "scale":
-                    AddPointDef<Vector3>(
+                    AddPointDef(
                         source,
-                        (Vector3 v) => Scale.Add(v),
+                        v => Scale.Add(v),
                         PointDataParsers.ParseVector3,
                         p,
                         Vector3.one);
@@ -563,7 +559,7 @@ namespace Beatmap.Animations
                     );
                 }
 
-                GetAnimateProperty<T>(p.Key, setter, _default).AddPointDef(parser, p, source);
+                GetAnimateProperty(p.Key, setter, _default).AddPointDef(parser, p, source);
             }
             catch (Exception e)
             {

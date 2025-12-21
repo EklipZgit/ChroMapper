@@ -6,18 +6,14 @@ using UnityEngine.InputSystem;
 public class PlatformSoloEventTypeUIController : MonoBehaviour, CMInput.IPlatformSoloLightGroupActions
 {
     [SerializeField] private TextMeshProUGUI soloEventTypeLabel;
-    private PlatformDescriptor descriptor;
 
-    private void Start() => LoadInitialMap.OnPlatformLoaded += PlatformLoaded;
-
-    private void OnDestroy() => LoadInitialMap.OnPlatformLoaded -= PlatformLoaded;
+    // private void Start() => LoadInitialMap.OnPlatformLoaded += PlatformLoaded;
+    // private void OnDestroy() => LoadInitialMap.OnPlatformLoaded -= PlatformLoaded;
 
     public void OnSoloEventType(InputAction.CallbackContext context)
     {
         if (context.performed) UpdateSoloEventType();
     }
-
-    private void PlatformLoaded(PlatformDescriptor obj) => descriptor = obj;
 
     public void UpdateSoloEventType() =>
         PersistentUI.Instance.ShowInputBox("Please enter the Event Type or its label.", HandleUpdateSoloEventType);

@@ -15,7 +15,12 @@ public class StrobeStepGradientPass : StrobeGeneratorPass
     private readonly float precision;
     private int value;
 
-    public StrobeStepGradientPass(int value, bool switchColors, float precision, Func<float, float> easing)
+    public StrobeStepGradientPass(
+        TracksDefinitionSO trackDefinitionSo,
+        int value,
+        bool switchColors,
+        float precision,
+        Func<float, float> easing) : base(trackDefinitionSo)
     {
         this.value = value;
         alternateColors = switchColors;
@@ -23,10 +28,14 @@ public class StrobeStepGradientPass : StrobeGeneratorPass
         this.easing = easing;
     }
 
-    public override bool IsEventValidForPass(BaseEvent @event) => !@event.IsUtilityEvent();
+    public override bool IsEventValidForPass(BaseEvent evt) =>
+        TrackDefinitionSo.Basic[evt.Type].Kind == BasicEventKind.Lights;
 
-    public override IEnumerable<BaseEvent> StrobePassForLane(IEnumerable<BaseEvent> original, int type,
-        EventGridContainer.PropMode propMode, int[] propID)
+    public override IEnumerable<BaseEvent> StrobePassForLane(
+        IEnumerable<BaseEvent> original,
+        int type,
+        EventGridContainer.PropMode propMode,
+        int[] propID)
     {
         var generatedObjects = new List<BaseEvent>();
 
@@ -44,7 +53,8 @@ public class StrobeStepGradientPass : StrobeGeneratorPass
                 colorPoints.Add(e.JsonTime, e.CustomLightGradient.StartColor);
                 colorPoints.Add(e.JsonTime + e.CustomLightGradient.Duration, e.CustomLightGradient.EndColor);
             }
-            else if (e.CustomColor != null) // This already checks customData, so if this is true then customData exists.
+            else if (
+                e.CustomColor != null) // This already checks customData, so if this is true then customData exists.
             {
                 colorPoints.Add(e.JsonTime, (Color)e.CustomColor);
             }
@@ -52,9 +62,11 @@ public class StrobeStepGradientPass : StrobeGeneratorPass
             {
                 var lastColor = colorPoints.Where(x => x.Key < e.JsonTime).LastOrDefault();
 
-                colorPoints.Add(e.JsonTime, !lastColor.Equals(default(KeyValuePair<float, Color>))
-                    ? lastColor.Value.WithAlpha(0)
-                    : new Color(0, 0, 0, 0));
+                colorPoints.Add(
+                    e.JsonTime,
+                    !lastColor.Equals(default(KeyValuePair<float, Color>))
+                        ? lastColor.Value.WithAlpha(0)
+                        : new Color(0, 0, 0, 0));
             }
         }
 

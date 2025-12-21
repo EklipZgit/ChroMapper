@@ -6,32 +6,35 @@ using UnityEngine;
 
 public class LightshowController : MonoBehaviour, IBeatmapUpdate
 {
-    public AudioTimeSyncController Atsc;
     public LightshowMode Mode;
+    [SerializeField] private BeatmapRuntimeContext context;
 
-    private PlatformDescriptor descriptor;
     private IBeatmapUpdate[] activeEffects = Array.Empty<IBeatmapUpdate>();
     private int activeSize;
 
     protected void Awake()
     {
-        LoadInitialMap.OnPlatformLoaded += HandlePlatformLoaded;
         LoadInitialMap.OnLevelLoaded += HandleLevelLoaded;
-        Atsc.OnTimeChanged += UpdateTime;
+        LoadedDifficultySelectController.OnLoadedDifficultyChanged += HandleLevelLoaded;
+        context.OnEnvironmentChanged += HandleEnvironmentChanged;
+        context.Atsc.OnTimeChanged += UpdateTime;
     }
 
     protected void OnDestroy()
     {
-        LoadInitialMap.OnPlatformLoaded -= HandlePlatformLoaded;
         LoadInitialMap.OnLevelLoaded -= HandleLevelLoaded;
-        Atsc.OnTimeChanged -= UpdateTime;
+        LoadedDifficultySelectController.OnLoadedDifficultyChanged -= HandleLevelLoaded;
+        context.OnEnvironmentChanged -= HandleEnvironmentChanged;
+        context.Atsc.OnTimeChanged -= UpdateTime;
     }
 
-    private void HandlePlatformLoaded(PlatformDescriptor desc)
+    private void HandleEnvironmentChanged(EnvironmentDescriptor desc)
     {
-        descriptor = desc;
         activeEffects = new List<IBeatmapUpdate>()
-            .Concat(descriptor.BasicEventEffectManager.EventTypeToManagers.Values.SelectMany(x => x).Distinct())
+            .Concat(
+                context
+                    .Descriptor.BasicEventEffectManager.EventTypeToManagers.Values.SelectMany(x => x)
+                    .Distinct())
             .Where(x => x != null)
             .ToArray();
         activeSize = activeEffects.Length;
@@ -46,7 +49,7 @@ public class LightshowController : MonoBehaviour, IBeatmapUpdate
     private void UpdateTime()
     {
         if (Mode != LightshowMode.Full) return;
-        UpdateTime(Atsc.CurrentSongBpmTime);
+        UpdateTime(context.Atsc.CurrentSongBpmTime);
     }
 
     public void UpdateTime(float time)
@@ -54,18 +57,20 @@ public class LightshowController : MonoBehaviour, IBeatmapUpdate
         for (var i = 0; i < activeSize; i++) activeEffects[i].UpdateTime(time);
     }
 
+    private void UpdateLightshow(int type, IEnumerable<int> id)
+    {
+    }
+
     private void PopulateLightshow()
     {
-        // descriptor.Initialize();
+        // context.Descriptor.Reset();
 
         var events = Mode == LightshowMode.Static
-            ? descriptor
-                .BasicEventEffectManager
-                .EventTypeToManagers
-                .Keys.Select(type =>
+            ? context
+                .TracksDefinition.Basic.Where(track => track.Value.Kind == BasicEventKind.Lights)
+                .Select(track =>
                 {
-                    var evt = new BaseEvent { Type = type, songBpmTime = 0f };
-                    if (evt.IsLightEvent()) evt.Value = 1;
+                    var evt = new BaseEvent { Type = track.Key, songBpmTime = 0f, Value = 1 };
                     return evt;
                 })
                 .ToList()
@@ -73,12 +78,12 @@ public class LightshowController : MonoBehaviour, IBeatmapUpdate
                 ? BeatSaberSongContainer.Instance.Map.Events
                 : new();
 
-        foreach (var (type, managers) in descriptor.BasicEventEffectManager.EventTypeToManagers)
-        foreach (var manager in managers)
+        foreach (var (type, manager) in context.Descriptor.BasicEventEffectManager.GetAllManagers())
             manager.BuildFromData(events.Where(e => e.Type == type));
 
-        foreach (var manager in descriptor.BasicEventEffectManager.EventTypeToManagers.Values.SelectMany(managers =>
-            managers))
+        foreach (var manager in context.Descriptor.BasicEventEffectManager.EventTypeToManagers.Values
+            .SelectMany(managers =>
+                managers))
             manager.UpdateDirty();
     }
 
@@ -104,7 +109,7 @@ public class LightshowController : MonoBehaviour, IBeatmapUpdate
     {
         // in the future, it should be possible to toggle during playback
         // but as of now, it causes race condition
-        if (Atsc.IsPlaying || mode == Mode) return;
+        if (context.Atsc.IsPlaying || mode == Mode) return;
         var previousMode = Mode;
         Mode = mode;
 

@@ -10,10 +10,7 @@ using UnityEngine.Serialization;
 public class ObstacleGridContainer : BeatmapObjectContainerCollection<BaseObstacle>
 {
     [SerializeField] private GameObject obstaclePrefab;
-
-    [FormerlySerializedAs("obstacleAppearanceSO")] [SerializeField]
-    private ObstacleAppearanceSO obstacleAppearanceSo;
-
+    [SerializeField] private ObstacleAppearanceSO obstacleAppearance;
     [SerializeField] private TracksManager tracksManager;
     [SerializeField] private CountersPlusController countersPlus;
     [SerializeField] private VariableNJSProvider vNjsProvider;
@@ -30,7 +27,7 @@ public class ObstacleGridContainer : BeatmapObjectContainerCollection<BaseObstac
 
     internal override void SubscribeToCallbacks()
     {
-        AudioTimeSyncController.OnTimeChanged += OnTimeChanged;
+        Context.Atsc.OnTimeChanged += OnTimeChanged;
         UIMode.OnPreviewModeSwitched += OnUIPreviewModeSwitch;
 
         Settings.NotifyBySettingName(nameof(Settings.ObstacleOpacity), ObstacleOpacityChanged);
@@ -39,7 +36,7 @@ public class ObstacleGridContainer : BeatmapObjectContainerCollection<BaseObstac
 
     internal override void UnsubscribeToCallbacks()
     {
-        AudioTimeSyncController.OnTimeChanged -= OnTimeChanged;
+        Context.Atsc.OnTimeChanged -= OnTimeChanged;
         UIMode.OnPreviewModeSwitched -= OnUIPreviewModeSwitch;
 
         Settings.ClearSettingNotifications(nameof(Settings.ObstacleOpacity));
@@ -68,7 +65,7 @@ public class ObstacleGridContainer : BeatmapObjectContainerCollection<BaseObstac
 
     private void OnUIPreviewModeSwitch() => RefreshPool(true);
 
-    public void UpdateColor(Color obstacle) => obstacleAppearanceSo.DefaultObstacleColor = obstacle;
+    public void UpdateColor(Color color) => obstacleAppearance.NormalColor = color;
 
     private bool updateFrame = false;
 
@@ -81,8 +78,8 @@ public class ObstacleGridContainer : BeatmapObjectContainerCollection<BaseObstac
     {
         if (!UIMode.AnimationMode) return;
 
-        var time = AudioTimeSyncController.CurrentSongBpmTime;
-        if (AudioTimeSyncController.IsPlaying)
+        var time = Context.Atsc.CurrentSongBpmTime;
+        if (Context.Atsc.IsPlaying)
         {
             while (spawnIndex < SpawnSortedObjects.Length
                 && time + Track.JUMP_TIME
@@ -120,7 +117,7 @@ public class ObstacleGridContainer : BeatmapObjectContainerCollection<BaseObstac
 
     private void RefreshWalls()
     {
-        var time = AudioTimeSyncController.CurrentSongBpmTime;
+        var time = Context.Atsc.CurrentSongBpmTime;
         foreach (var obj in LoadedContainers.Values.ToList())
         {
             RecycleContainer(obj.ObjectData);
@@ -162,7 +159,7 @@ public class ObstacleGridContainer : BeatmapObjectContainerCollection<BaseObstac
     public override ObjectContainer CreateContainer()
     {
         var con = ObstacleContainer.SpawnObstacle(null, tracksManager, ref obstaclePrefab);
-        con.Animator.Atsc = AudioTimeSyncController;
+        con.Animator.Context = Context;
         con.Animator.TracksManager = tracksManager;
         return con;
     }
@@ -177,7 +174,7 @@ public class ObstacleGridContainer : BeatmapObjectContainerCollection<BaseObstac
             track.AttachContainer(con);
         }
 
-        obstacleAppearanceSo.SetObstacleAppearance(obstacle);
+        obstacleAppearance.SetObstacleAppearance(obstacle);
     }
 
     // Where is a good global place to dump this? It's much faster than List.BinarySearch

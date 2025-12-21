@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// Simple EnvironmentComponent for a Unity Transform.
 /// </summary>
-public class MeshRendererComponent : EnvironmentComponent<MeshRenderer>
+public class MeshRendererComponent : EnvDataComponent<MeshRenderer>
 {
     [JsonProperty("materials")]
     public List<string> Materials = new ();

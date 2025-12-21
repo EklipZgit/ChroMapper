@@ -9,15 +9,14 @@ public class BasicEventEffectManager : MonoBehaviour
     [SerializeField] private List<StateManagerEntry> managerEntries = new();
 
     public readonly Dictionary<int, StateManager<BaseEvent>[]> EventTypeToManagers = new();
-    private int size;
 
     private void Awake()
     {
-        foreach (var managerEntry in managerEntries.GroupBy(x => x.Type))
-            EventTypeToManagers.Add(managerEntry.Key, managerEntry.Select(x => x.Manager).ToArray());
+        foreach (var managers in managerEntries.OrderBy(x => x.Type).GroupBy(x => x.Type))
+            EventTypeToManagers.Add(managers.First().Type, managers.Select(x => x.Manager).ToArray());
     }
 
-    public void Initialize(AudioTimeSyncController atsc, PlatformColorScheme colorScheme)
+    public void Initialize(AudioTimeSyncController atsc, ColorSchemeSO colorScheme)
     {
         foreach (var manager in EventTypeToManagers.Values.SelectMany(x => x))
         {
@@ -36,9 +35,8 @@ public class BasicEventEffectManager : MonoBehaviour
     }
 
     public IEnumerable<(int type, StateManager<BaseEvent> manager)> GetAllManagers() =>
-        EventTypeToManagers.Values.SelectMany((
-            managers,
-            type) => managers.Select(m => (type, m)));
+        EventTypeToManagers.SelectMany((
+            managers) => managers.Value.Select(m => (managers.Key, m)));
 
     public IEnumerable<(int type, T manager)> GetAllManagers<T>() where T : StateManager<BaseEvent> =>
         GetAllManagers().Where(m => m.manager is T).Select(m => (m.type, m.manager as T));

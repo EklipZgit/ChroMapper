@@ -15,9 +15,7 @@ namespace Beatmap.Appearances
     [CreateAssetMenu(menuName = "Beatmap/Appearance/Event Appearance SO", fileName = "EventAppearanceSO")]
     public class EventAppearanceSO : ScriptableObject
     {
-        [Space(5)][SerializeField] private GameObject laserSpeedPrefab;
-
-        [Space(5)][Header("Default Colors")] public Color RedColor;
+        [Space(5)] [Header("Default Colors")] public Color RedColor;
         public Color BlueColor;
         public Color WhiteColor = new Color(0.7264151f, 0.7264151f, 0.7264151f);
         public Color RedBoostColor;
@@ -26,31 +24,31 @@ namespace Beatmap.Appearances
 
         [SerializeField] private Color offColor;
 
-        [Header("Other Event Colors")]
-        [SerializeField]
+        [Header("Other Event Colors")] [SerializeField]
         private Color ringEventsColor;
 
-        [Tooltip("Example: Ring rotate/Ring zoom/Light speed change events")]
-        [SerializeField]
+        [Tooltip("Example: Ring rotate/Ring zoom/Light speed change events")] [SerializeField]
         private Color otherColor;
 
-        public void SetEventAppearance(EventContainer e, bool final = true, bool boost = false)
+        public void SetEventAppearance(
+            EventContainer e,
+            bool final = true,
+            bool boost = false)
         {
             var color = Color.white;
-            var envName = EnvironmentInfoHelper.GetName();
+            var trackDef = e.TracksDefinition.GetBasicOrDefault(e.EventData.Type);
             e.UpdateOffset(Vector3.zero, false);
             e.UpdateAlpha(final ? 1.0f : 0.6f, false);
             e.UpdateScale(final ? 0.75f : 0.6f);
             e.ChangeSpotlightSize(1f, false);
-            if (e.EventData.IsLaneRotationEvent() || e.EventData.IsLaserRotationEvent(envName) ||
-                e.EventData.IsUtilityEvent(envName))
+            if (trackDef.Kind == BasicEventKind.IntValue)
             {
                 if (e.EventData.IsLaneRotationEvent())
                 {
                     var rotation = e.EventData.Rotation;
                     e.UpdateTextDisplay(true, $"{rotation}°");
                 }
-                else if (e.EventData.IsLaserRotationEvent(envName) || e.EventData.IsUtilityEvent(envName))
+                else if (trackDef.Kind == BasicEventKind.IntValue)
                 {
                     float speed = e.EventData.Value;
                     if (e.EventData.CustomSpeed != null) speed = (float)e.EventData.CustomSpeed;
@@ -59,35 +57,12 @@ namespace Beatmap.Appearances
                 }
             }
             else
-            {
                 e.UpdateTextDisplay(false);
-            }
 
-            if (!e.EventData.IsLightEvent(envName))
+            if (trackDef.Kind != BasicEventKind.Lights)
             {
                 e.EventModel = EventModelType.Block;
-
-                switch (envName)
-                {
-                    case "InterscopeEnvironment":
-                        if (e.EventData.Type is (int)EventTypeValue.RingRotation
-                            or (int)EventTypeValue.UtilityEvent1
-                            or (int)EventTypeValue.UtilityEvent2)
-                        {
-                            e.UpdateTextDisplay(true, e.EventData.Value.ToString());
-                        }
-
-                        break;
-                    case "BillieEnvironment":
-                        if (e.EventData.Type == (int)EventTypeValue.RingRotation)
-                        {
-                            e.UpdateTextDisplay(true, e.EventData.Value.ToString());
-                        }
-
-                        break;
-                }
-
-                if (e.EventData.IsRingEvent(envName))
+                if (trackDef.Kind == BasicEventKind.None)
                 {
                     e.ChangeColor(ringEventsColor, false);
                     e.ChangeBaseColor(ringEventsColor, false);
@@ -145,21 +120,24 @@ namespace Beatmap.Appearances
                 color = boost ? WhiteBoostColor : WhiteColor;
             }
 
-            if (Settings.Instance.EmulateChromaLite && e.EventData.CustomColor != null && !e.EventData.IsOff
-                    && !e.EventData.IsWhite) // White overrides Chroma
+            if (Settings.Instance.EmulateChromaLite
+                && e.EventData.CustomColor != null
+                && !e.EventData.IsOff
+                && !e.EventData.IsWhite) // White overrides Chroma
             {
                 color = e.EventData.CustomColor.Value;
             }
 
             // Display floatValue only where used
-            if (e.EventData.IsLightEvent(envName) && e.EventData.Value != 0)
+            if (trackDef.Kind == BasicEventKind.Lights
+                && e.EventData.Value != 0)
             {
                 if (Settings.Instance.DisplayFloatValueText)
                 {
                     var text = e.EventData.IsTransition
                         ? $"T{Mathf.RoundToInt(e.EventData.FloatValue * 100)}"
                         : $"{Mathf.RoundToInt(e.EventData.FloatValue * 100)}";
-                    e.UpdateTextDisplay(true, text); 
+                    e.UpdateTextDisplay(true, text);
                 }
 
                 // for clarity sake, we don't want this to be the same as off color
@@ -220,7 +198,9 @@ namespace Beatmap.Appearances
                     nextColor = boost ? WhiteBoostColor : WhiteColor;
                 }
 
-                if (Settings.Instance.EmulateChromaLite && nextEvent.CustomColor != null && !nextEvent.IsWhite) // White overrides Chroma
+                if (Settings.Instance.EmulateChromaLite
+                    && nextEvent.CustomColor != null
+                    && !nextEvent.IsWhite) // White overrides Chroma
                 {
                     nextColor = nextEvent.CustomColor.Value;
                 }

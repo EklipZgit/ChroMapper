@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 375d41bff0e98c74abb5947b0ab58ffb, type: 3}
+  m_Name: RocketEnvironmentColorScheme
+  m_EditorClassIdentifier: 
+  LeftNoteColor: {r: 1, g: 0.49803922, b: 0, a: 1}
+  RightNoteColor: {r: 0, g: 0.5294118, b: 1, a: 1}
+  ObstacleColor: {r: 0.31764707, g: 0.6117647, b: 0.7254902, a: 1}
+  environmentLeftColor: {r: 0.9, g: 0.48662788, b: 0.3244186, a: 1}
+  environmentRightColor: {r: 0.39999998, g: 0.71807235, b: 1, a: 1}
+  environmentWhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
+  environmentLeftBoostColor: {r: 0, g: 0, b: 0, a: 1}
+  environmentRightBoostColor: {r: 0, g: 0, b: 0, a: 1}
+  environmentWhiteBoostColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}

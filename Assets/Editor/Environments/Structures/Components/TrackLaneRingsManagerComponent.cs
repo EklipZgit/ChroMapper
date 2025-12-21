@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-public class TrackLaneRingsManagerComponent : EnvironmentComponent<TrackLaneRingsManager>
+public class TrackLaneRingsManagerComponent : EnvDataComponent<TrackLaneRingsManager>
 {
     [JsonProperty("ringPositionZStep")]
     public float RingPositionZStep = 0f;

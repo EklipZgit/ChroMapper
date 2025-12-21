@@ -80,7 +80,7 @@ namespace Beatmap.Appearances
 
             if (eh.Components?.HasKey("ILightWithId") ?? false)
             {
-                var descriptor = FindAnyObjectByType<PlatformDescriptor>(); // TODO: sorry
+                var descriptor = FindAnyObjectByType<EnvironmentDescriptor>(); // TODO: sorry
                 var light = container.Shape.AddComponent<LightController>();
                 descriptor.BasicEventEffectManager.Register(eh.LightType ?? 0, eh.LightID ?? -1, light);
             }

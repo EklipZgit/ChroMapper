@@ -11,7 +11,7 @@ public class Track : MonoBehaviour
 
     public Vector3 RotationValue = Vector3.zero;
 
-    private readonly Vector3 rotationPoint = LoadInitialMap.PlatformOffset;
+    private readonly Vector3 rotationPoint = Vector3.zero;
 
     private BaseGrid gridObject;
     private ObjectContainer gridContainer;

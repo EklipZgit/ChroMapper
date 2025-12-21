@@ -206,6 +206,8 @@ namespace Beatmap.Animations
 
     public class PointDataParsers
     {
+        public static ColorSchemeSO ColorScheme;
+        
         public static float ParseFloat(JSONArray data, ref int i)
         {
             i += 1;
@@ -224,33 +226,15 @@ namespace Beatmap.Animations
                 {
                     // Intentionally not supporting baseSaber_Color since those don't mirror with left handed
                     // mode while baseNote_Color does. Should almost always use baseNote over baseSaber.
-                    "baseNote0Color" => LoadInitialMap.Platform != null
-                        ? LoadInitialMap.Platform.RuntimeColorScheme.LeftNoteColor
-                        : DefaultColors.LeftNote,
-                    "baseNote1Color" => LoadInitialMap.Platform != null
-                        ? LoadInitialMap.Platform.RuntimeColorScheme.RightNoteColor
-                        : DefaultColors.RightNote,
-                    "baseEnvironmentColor0" => LoadInitialMap.Platform != null
-                        ? LoadInitialMap.Platform.RuntimeColorScheme.EnvironmentLeftColor
-                        : DefaultColors.Left,
-                    "baseEnvironmentColor1" => LoadInitialMap.Platform != null
-                        ? LoadInitialMap.Platform.RuntimeColorScheme.EnvironmentRightColor
-                        : DefaultColors.Right,
-                    "baseEnvironmentColorW" => LoadInitialMap.Platform != null
-                        ? LoadInitialMap.Platform.RuntimeColorScheme.EnvironmentWhiteColor
-                        : DefaultColors.White,
-                    "baseEnvironmentColor0Boost" => LoadInitialMap.Platform != null
-                        ? LoadInitialMap.Platform.RuntimeColorScheme.EnvironmentLeftBoostColor
-                        : DefaultColors.Left,
-                    "baseEnvironmentColor1Boost" => LoadInitialMap.Platform != null
-                        ? LoadInitialMap.Platform.RuntimeColorScheme.EnvironmentRightBoostColor
-                        : DefaultColors.Right,
-                    "baseEnvironmentColorWBoost" => LoadInitialMap.Platform != null
-                        ? LoadInitialMap.Platform.RuntimeColorScheme.EnvironmentWhiteBoostColor
-                        : DefaultColors.White,
-                    "baseObstaclesColor" => LoadInitialMap.Platform != null
-                        ? LoadInitialMap.Platform.RuntimeColorScheme.ObstacleColor
-                        : DefaultColors.White,
+                    "baseNote0Color" => ColorScheme.LeftNoteColor,
+                    "baseNote1Color" => ColorScheme.RightNoteColor,
+                    "baseEnvironmentColor0" => ColorScheme.EnvironmentLeftColor,
+                    "baseEnvironmentColor1" => ColorScheme.EnvironmentRightColor,
+                    "baseEnvironmentColorW" => ColorScheme.EnvironmentWhiteColor,
+                    "baseEnvironmentColor0Boost" => ColorScheme.EnvironmentLeftBoostColor,
+                    "baseEnvironmentColor1Boost" => ColorScheme.EnvironmentRightBoostColor,
+                    "baseEnvironmentColorWBoost" => ColorScheme.EnvironmentWhiteBoostColor,
+                    "baseObstaclesColor" => ColorScheme.ObstacleColor,
                     _ => DefaultColors.White
                 };
             }

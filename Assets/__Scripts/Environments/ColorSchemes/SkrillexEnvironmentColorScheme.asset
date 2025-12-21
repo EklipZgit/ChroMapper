@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 375d41bff0e98c74abb5947b0ab58ffb, type: 3}
+  m_Name: SkrillexEnvironmentColorScheme
+  m_EditorClassIdentifier: 
+  LeftNoteColor: {r: 0.69803923, g: 0.14117648, b: 0.36862746, a: 1}
+  RightNoteColor: {r: 0.32933334, g: 0.32299998, b: 0.38, a: 1}
+  ObstacleColor: {r: 0.15686275, g: 0.6039216, b: 0.6039216, a: 1}
+  environmentLeftColor: {r: 0.8, g: 0.28000003, b: 0.5859449, a: 1}
+  environmentRightColor: {r: 0.06525807, g: 0.578, b: 0.5686774, a: 1}
+  environmentWhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
+  environmentLeftBoostColor: {r: 0.8117648, g: 0.30588236, b: 0.30588236, a: 1}
+  environmentRightBoostColor: {r: 0.2784314, g: 0.8, b: 0.44597632, a: 1}
+  environmentWhiteBoostColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}

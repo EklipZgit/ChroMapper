@@ -6,6 +6,7 @@ public class BloomfogRenderingController : MonoBehaviour
 
     [SerializeField] private Camera bloomfogCamera;
     [SerializeField] private Shader blurShader;
+    [SerializeField] private BeatmapRuntimeContext context;
 
     private Camera editorCamera;
     private Material blurMaterial;
@@ -27,7 +28,7 @@ public class BloomfogRenderingController : MonoBehaviour
     {
         bloomfogCamera.enabled = false;
         Camera.onPreRender += OnCameraPreRender;
-        LoadInitialMap.OnPlatformLoaded += HandlePlatformLoaded;
+        context.OnEnvironmentChanged += HandleEnvironmentLoaded;
 
         blurMaterial = new Material(blurShader);
 
@@ -80,7 +81,7 @@ public class BloomfogRenderingController : MonoBehaviour
         }
     }
 
-    private void HandlePlatformLoaded(PlatformDescriptor descriptor)
+    private void HandleEnvironmentLoaded(EnvironmentDescriptor descriptor)
     {
         if (descriptor == null) return;
         UpdateBloomFogParams(

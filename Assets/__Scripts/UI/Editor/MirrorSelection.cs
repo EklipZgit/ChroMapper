@@ -11,14 +11,16 @@ public class MirrorSelection : MonoBehaviour
     [SerializeField] private TracksManager tracksManager;
     [SerializeField] private CreateEventTypeLabels labels;
 
+    private TracksDefinitionSO trackDefinitionSo;
+
     private readonly Dictionary<int, int> cutDirectionToMirrored = new Dictionary<int, int>
     {
-        {(int)NoteCutDirection.DownLeft, (int)NoteCutDirection.DownRight},
-        {(int)NoteCutDirection.DownRight, (int)NoteCutDirection.DownLeft},
-        {(int)NoteCutDirection.UpLeft, (int)NoteCutDirection.UpRight},
-        {(int)NoteCutDirection.UpRight, (int)NoteCutDirection.UpLeft},
-        {(int)NoteCutDirection.Right, (int)NoteCutDirection.Left},
-        {(int)NoteCutDirection.Left, (int)NoteCutDirection.Right}
+        { (int)NoteCutDirection.DownLeft, (int)NoteCutDirection.DownRight },
+        { (int)NoteCutDirection.DownRight, (int)NoteCutDirection.DownLeft },
+        { (int)NoteCutDirection.UpLeft, (int)NoteCutDirection.UpRight },
+        { (int)NoteCutDirection.UpRight, (int)NoteCutDirection.UpLeft },
+        { (int)NoteCutDirection.Right, (int)NoteCutDirection.Left },
+        { (int)NoteCutDirection.Left, (int)NoteCutDirection.Right }
     };
 
     public void MirrorTime()
@@ -107,6 +109,7 @@ public class MirrorSelection : MonoBehaviour
                         {
                             rot[1] = -rot[1].AsFloat;
                         }
+
                         if (rot.Count > 2)
                         {
                             rot[2] = -rot[2].AsFloat;
@@ -126,6 +129,7 @@ public class MirrorSelection : MonoBehaviour
                         {
                             rot[1] = -rot[1].AsFloat;
                         }
+
                         if (rot.Count > 2)
                         {
                             rot[2] = -rot[2].AsFloat;
@@ -197,6 +201,7 @@ public class MirrorSelection : MonoBehaviour
                             {
                                 rot[1] = -rot[1].AsFloat;
                             }
+
                             if (rot.Count > 2)
                             {
                                 rot[2] = -rot[2].AsFloat;
@@ -216,6 +221,7 @@ public class MirrorSelection : MonoBehaviour
                             {
                                 rot[1] = -rot[1].AsFloat;
                             }
+
                             if (rot.Count > 2)
                             {
                                 rot[2] = -rot[2].AsFloat;
@@ -263,11 +269,9 @@ public class MirrorSelection : MonoBehaviour
             {
                 if (e.IsLaneRotationEvent())
                 {
-                
                     e.Rotation *= -1;
-                    
-                    if (e.CustomLaneRotation != null)
-                        e.CustomLaneRotation *= -1;
+
+                    if (e.CustomLaneRotation != null) e.CustomLaneRotation *= -1;
 
                     tracksManager.RefreshTracks();
                 }
@@ -275,18 +279,23 @@ public class MirrorSelection : MonoBehaviour
                 {
                     if (e.CustomLightGradient != null)
                     {
-                        (e.CustomLightGradient.StartColor, e.CustomLightGradient.EndColor) = (e.CustomLightGradient.EndColor, e.CustomLightGradient.StartColor);
+                        (e.CustomLightGradient.StartColor, e.CustomLightGradient.EndColor) = (
+                            e.CustomLightGradient.EndColor, e.CustomLightGradient.StartColor);
                     }
 
-                    if (!e.IsLightEvent()) continue;
-                    if (moveNotes && (e.IsPropagation && events.EventTypeToPropagate == e.Type &&
-                                      events.PropagationEditing == EventGridContainer.PropMode.Prop))
+                    if (trackDefinitionSo.Basic[e.Type].Kind != BasicEventKind.Lights) continue;
+                    if (moveNotes
+                        && (e.IsPropagation
+                            && events.EventTypeToPropagate == e.Type
+                            && events.PropagationEditing == EventGridContainer.PropMode.Prop))
                     {
                         var mirroredIdx = events.EventTypePropagationSize - (int)e.CustomPropID - 1;
                         e.CustomLightID = labels.PropIdToLightIds(e.Type, mirroredIdx);
                     }
-                    else if (moveNotes && (e.CustomLightID != null && events.EventTypeToPropagate == e.Type &&
-                                           events.PropagationEditing == EventGridContainer.PropMode.Light))
+                    else if (moveNotes
+                        && (e.CustomLightID != null
+                            && events.EventTypeToPropagate == e.Type
+                            && events.PropagationEditing == EventGridContainer.PropMode.Light))
                     {
                         var idx = labels.LightIDToLane(e.Type, e.CustomLightID[0]);
                         var mirroredIdx = events.EventTypePropagationSize - idx - 1;
@@ -297,13 +306,16 @@ public class MirrorSelection : MonoBehaviour
                     // (Shift + M) cycles red, blue, and white
                     if (moveNotes)
                     {
-                        if (e.Value > 0 && e.Value <= 4) e.Value += 4; // blue to red
+                        if (e.Value > 0 && e.Value <= 4)
+                            e.Value += 4; // blue to red
                         else if (e.Value > 4 && e.Value <= 8) e.Value -= 4; // red to blue
                     }
                     else
                     {
-                        if (e.Value > 0 && e.Value <= 4) e.Value += 4; // blue to red
-                        else if (e.Value > 4 && e.Value <= 8) e.Value += 4; // red to white
+                        if (e.Value > 0 && e.Value <= 4)
+                            e.Value += 4; // blue to red
+                        else if (e.Value > 4 && e.Value <= 8)
+                            e.Value += 4; // red to white
                         else if (e.Value > 8 && e.Value <= 12) e.Value -= 8; // white to blue
                     }
                 }
@@ -336,13 +348,15 @@ public class MirrorSelection : MonoBehaviour
 
                     if (arc.MidAnchorMode > 0 && arc.MidAnchorMode < 3)
                     {
-                        arc.MidAnchorMode = arc.MidAnchorMode == (int)SliderMidAnchorMode.Clockwise ? (int)SliderMidAnchorMode.CounterClockwise : (int)SliderMidAnchorMode.Clockwise;
+                        arc.MidAnchorMode = arc.MidAnchorMode == (int)SliderMidAnchorMode.Clockwise
+                            ? (int)SliderMidAnchorMode.CounterClockwise
+                            : (int)SliderMidAnchorMode.Clockwise;
                     }
                 }
+
                 arc.Color = arc.Color == (int)NoteType.Red
                     ? (int)NoteType.Blue
                     : (int)NoteType.Red;
-
             }
             else if (edited is BaseChain chain)
             {
@@ -369,6 +383,7 @@ public class MirrorSelection : MonoBehaviour
 
                     chain.TailPosX = Mathf.RoundToInt(((chain.TailPosX - 1.5f) * -1) + 1.5f);
                 }
+
                 chain.Color = chain.Color == (int)NoteType.Red
                     ? (int)NoteType.Blue
                     : (int)NoteType.Red;
@@ -380,6 +395,11 @@ public class MirrorSelection : MonoBehaviour
             originalObjects.Add(original);
         }
 
-        BeatmapActionContainer.AddAction(new BeatmapObjectModifiedCollectionAction(editedObjects, originalObjects, "Mirrored a selection of objects."), true);
+        BeatmapActionContainer.AddAction(
+            new BeatmapObjectModifiedCollectionAction(
+                editedObjects,
+                originalObjects,
+                "Mirrored a selection of objects."),
+            true);
     }
 }

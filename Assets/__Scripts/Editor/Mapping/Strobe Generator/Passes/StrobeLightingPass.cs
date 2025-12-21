@@ -18,8 +18,15 @@ public class StrobeLightingPass : StrobeGeneratorPass
     private readonly bool easeTime;
     private readonly bool easeValue;
 
-    public StrobeLightingPass(IEnumerable<int> alternatingValues, bool switchColors, bool dynamicStrobe,
-        float strobePrecision, string strobeEasing, bool easingTimeSwitch, bool easingValueSwitch)
+    public StrobeLightingPass(
+        TracksDefinitionSO trackDefinitionSo,
+        IEnumerable<int> alternatingValues,
+        bool switchColors,
+        bool dynamicStrobe,
+        float strobePrecision,
+        string strobeEasing,
+        bool easingTimeSwitch,
+        bool easingValueSwitch) : base(trackDefinitionSo)
     {
         values = alternatingValues;
         alternateColors = switchColors;
@@ -30,10 +37,14 @@ public class StrobeLightingPass : StrobeGeneratorPass
         easeValue = easingValueSwitch;
     }
 
-    public override bool IsEventValidForPass(BaseEvent @event) => !@event.IsUtilityEvent() && !@event.IsLegacyChroma;
+    public override bool IsEventValidForPass(BaseEvent evt) =>
+        TrackDefinitionSo.Basic[evt.Type].Kind != BasicEventKind.Lights && !evt.IsLegacyChroma;
 
-    public override IEnumerable<BaseEvent> StrobePassForLane(IEnumerable<BaseEvent> original, int type,
-        EventGridContainer.PropMode propMode, int[] propID)
+    public override IEnumerable<BaseEvent> StrobePassForLane(
+        IEnumerable<BaseEvent> original,
+        int type,
+        EventGridContainer.PropMode propMode,
+        int[] propID)
     {
         var generatedObjects = new List<BaseEvent>();
 
@@ -48,8 +59,7 @@ public class StrobeLightingPass : StrobeGeneratorPass
         var typeIndex = 0;
         if (alternateColors)
         {
-            for (var i = 0; i < values.Count(); i++)
-                alternatingTypes.Add(InvertColors(alternatingTypes[i]));
+            for (var i = 0; i < values.Count(); i++) alternatingTypes.Add(InvertColors(alternatingTypes[i]));
         }
 
         var distanceInBeats = endTime - startTime;
@@ -61,8 +71,10 @@ public class StrobeLightingPass : StrobeGeneratorPass
             if (typeIndex >= alternatingTypes.Count) typeIndex = 0;
 
             var any = original.Where(x => x.JsonTime <= endTime - distanceInBeats).LastOrDefault();
-            if (any != lastPassed && dynamic && LightEventHelper.IsBlueFromValue(any.Value) !=
-                LightEventHelper.IsBlueFromValue(alternatingTypes[typeIndex]))
+            if (any != lastPassed
+                && dynamic
+                && LightEventHelper.IsBlueFromValue(any.Value)
+                != LightEventHelper.IsBlueFromValue(alternatingTypes[typeIndex]))
             {
                 lastPassed = any;
                 for (var i = 0; i < alternatingTypes.Count; i++)

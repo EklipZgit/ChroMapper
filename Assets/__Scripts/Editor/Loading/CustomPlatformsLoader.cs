@@ -24,7 +24,7 @@ public class CustomPlatformsLoader : MonoBehaviour
     //Always create new INSTANCES of materials. Or else you'd modify the actual file itself, and cause changes in Git.
     private Material lightMaterial;
 
-    private PlatformDescriptor platformDescriptor;
+    private EnvironmentDescriptor environmentDescriptor;
     private Material useThisBlack;
 
     private static readonly int baseColor = Shader.PropertyToID("_BaseColor");
@@ -98,8 +98,8 @@ public class CustomPlatformsLoader : MonoBehaviour
             if (defaultEnvironment != null)
             {
                 defaultEnvironmentInstance =
-                    Instantiate(defaultEnvironment, LoadInitialMap.PlatformOffset, Quaternion.identity);
-                platformDescriptor = defaultEnvironmentInstance.GetComponentInParent<PlatformDescriptor>();
+                    Instantiate(defaultEnvironment, Vector3.zero, Quaternion.identity);
+                environmentDescriptor = defaultEnvironmentInstance.GetComponentInParent<EnvironmentDescriptor>();
             }
 
             var customEnvironments = customPlatformSettings.LoadPlatform(customEnvironmentString);
@@ -135,7 +135,7 @@ public class CustomPlatformsLoader : MonoBehaviour
                 }
 
                 var customPlatformInstance =
-                    Instantiate(customPlatform, LoadInitialMap.PlatformOffset, Quaternion.identity);
+                    Instantiate(customPlatform, Vector3.zero, Quaternion.identity);
                 DisableElementsFromEnvironmentRecursive(customPlatformInstance, "Camera");
                 customPlatformInstance.transform.SetParent(defaultEnvironmentInstance.transform);
                 foreach (var g in customPlatforms)
@@ -143,7 +143,7 @@ public class CustomPlatformsLoader : MonoBehaviour
                     if (g != customPlatform)
                     {
                         var customPlatformInstance2 =
-                            Instantiate(g, LoadInitialMap.PlatformOffset, Quaternion.identity);
+                            Instantiate(g, Vector3.zero, Quaternion.identity);
                         customPlatformInstance2.transform.SetParent(customPlatformInstance.transform);
                     }
                 }
@@ -152,7 +152,7 @@ public class CustomPlatformsLoader : MonoBehaviour
             if (defaultEnvironment != null)
             {
                 var customEnvironmentInstance =
-                    Instantiate(customEnvironment, LoadInitialMap.PlatformOffset, Quaternion.identity);
+                    Instantiate(customEnvironment, Vector3.zero, Quaternion.identity);
                 DisableElementsFromEnvironmentRecursive(customEnvironmentInstance, "Camera");
                 customEnvironmentInstance.transform.SetParent(defaultEnvironmentInstance.transform);
                 foreach (var g in customEnvironments)
@@ -160,7 +160,7 @@ public class CustomPlatformsLoader : MonoBehaviour
                     if (g != customEnvironment)
                     {
                         var customEnvironmentInstance2 =
-                            Instantiate(g, LoadInitialMap.PlatformOffset, Quaternion.identity);
+                            Instantiate(g, Vector3.zero, Quaternion.identity);
                         customEnvironmentInstance2.transform.SetParent(customEnvironmentInstance.transform);
                     }
                 }
@@ -194,7 +194,7 @@ public class CustomPlatformsLoader : MonoBehaviour
         }
         catch
         {
-            return Instantiate(defaultEnvironment, LoadInitialMap.PlatformOffset, Quaternion.identity);
+            return Instantiate(defaultEnvironment, Vector3.zero, Quaternion.identity);
         }
     }
 

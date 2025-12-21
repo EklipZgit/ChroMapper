@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Linq;
 using Beatmap.Base.Customs;
 using Beatmap.Enums;
@@ -342,69 +341,10 @@ namespace Beatmap.Base
 
         public override bool IsMappingExtensions() => IsLaneRotationEvent() && Value >= 1000 && Value <= 1720;
 
-        public bool IsLightEvent(string environment = null) =>
-            environment switch
-            {
-                _ => Type == (int)EventTypeValue.BackLasers
-                    || Type == (int)EventTypeValue.RingLights
-                    || Type == (int)EventTypeValue.LeftLasers
-                    || Type == (int)EventTypeValue.RightLasers
-                    || Type == (int)EventTypeValue.CenterLights
-                    || Type == (int)EventTypeValue.ExtraLeftLasers
-                    || Type == (int)EventTypeValue.ExtraRightLasers
-                    || Type == (int)EventTypeValue.ExtraLeftLights
-                    || Type == (int)EventTypeValue.ExtraRightLights
-            };
-
         public bool IsColorBoostEvent() => Type is (int)EventTypeValue.ColorBoost;
-
-        public bool IsRingEvent(string environment = null) =>
-            environment switch
-            {
-                _ => Type == (int)EventTypeValue.RingRotation || Type == (int)EventTypeValue.RingZoom
-            };
-
-        public bool IsRingZoomEvent(string environment = null) =>
-            environment switch
-            {
-                _ => Type is (int)EventTypeValue.RingZoom
-            };
-
-        public bool IsLaserRotationEvent(string environment = null) =>
-            environment switch
-            {
-                _ => Type == (int)EventTypeValue.LeftLaserRotation || Type == (int)EventTypeValue.RightLaserRotation
-            };
 
         public bool IsLaneRotationEvent() =>
             Type == (int)EventTypeValue.EarlyLaneRotation || Type == (int)EventTypeValue.LateLaneRotation;
-
-        public bool IsExtraEvent(string environment = null) =>
-            environment switch
-            {
-                _ => Type == (int)EventTypeValue.ExtraLeftLasers
-                    || Type == (int)EventTypeValue.ExtraLeftLights
-                    || Type == (int)EventTypeValue.ExtraRightLasers
-                    || Type == (int)EventTypeValue.ExtraRightLights
-            };
-
-        public bool IsUtilityEvent(string environment = null) =>
-            environment switch
-            {
-                _ => Type == (int)EventTypeValue.UtilityEvent0
-                    || Type == (int)EventTypeValue.UtilityEvent1
-                    || Type == (int)EventTypeValue.UtilityEvent2
-                    || Type == (int)EventTypeValue.UtilityEvent3
-            };
-
-        public bool IsSpecialEvent(string environment = null) =>
-            environment switch
-            {
-                _ => Type == (int)EventTypeValue.SpecialEvent0
-                    || Type == (int)EventTypeValue.SpecialEvent1
-                    || Type == (int)EventTypeValue.SpecialEvent2
-                    || Type == (int)EventTypeValue.SpecialEvent3
-            };
 
         public virtual bool IsBpmEvent() => Type is (int)EventTypeValue.BpmChange;
 

@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 375d41bff0e98c74abb5947b0ab58ffb, type: 3}
+  m_Name: OriginsEnvironmentColorScheme
+  m_EditorClassIdentifier: 
+  LeftNoteColor: {r: 0.6792453, g: 0.5712628, b: 0, a: 1}
+  RightNoteColor: {r: 0.7075472, g: 0, b: 0.53644115, a: 1}
+  ObstacleColor: {r: 0.061676756, g: 0.2869513, b: 0.3962264, a: 1}
+  environmentLeftColor: {r: 0.49109948, g: 0.68259156, b: 0.7, a: 1}
+  environmentRightColor: {r: 0.03844783, g: 0.6862745, b: 0.9056604, a: 1}
+  environmentWhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
+  environmentLeftBoostColor: {r: 0, g: 0, b: 0, a: 1}
+  environmentRightBoostColor: {r: 0, g: 0, b: 0, a: 1}
+  environmentWhiteBoostColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}

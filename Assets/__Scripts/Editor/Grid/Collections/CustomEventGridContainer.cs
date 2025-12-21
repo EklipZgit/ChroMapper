@@ -148,7 +148,7 @@ public class CustomEventGridContainer : BeatmapObjectContainerCollection<BaseCus
                     if (at.Animator == null)
                     {
                         at.Animator = at.gameObject.AddComponent<ObjectAnimator>();
-                        at.Animator.Atsc = AudioTimeSyncController;
+                        at.Animator.Context = Context;
                         at.Animator.AttachToTrack(at.Track, tr.Value);
                     }
 

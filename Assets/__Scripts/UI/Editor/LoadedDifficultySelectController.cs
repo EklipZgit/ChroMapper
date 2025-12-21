@@ -9,6 +9,7 @@ using UnityEngine.SceneManagement;
 
 public class LoadedDifficultySelectController : MonoBehaviour
 {
+    [SerializeField] private BeatmapRuntimeContext context;
     [SerializeField] private MapLoader mapLoader;
     [SerializeField] private TMP_Dropdown dropdown;
     [SerializeField] private EnvironmentListSO environmentList;
@@ -118,24 +119,23 @@ public class LoadedDifficultySelectController : MonoBehaviour
         if (currentPlatform != nextPlatform || customPlat)
         {
             SceneManager.UnloadScene(currentPlatform);
-            var platform = environmentList.LookupID.TryGetValue(nextPlatform, out var p)
-                ? p
-                : environmentList.LookupID["DefaultEnvironment"];
+            var platform = context.EnvironmentList.GetEnvironmentOrDefault(nextPlatform);
 
             // if (customPlat)
             //     platform = CustomPlatformsLoader.Instance.LoadPlatform(info.CustomEnvironmentMetadata.Name, platform);
 
             SceneManager.LoadScene(platform.ID, LoadSceneMode.Additive);
             yield return new WaitUntil(() => SceneManager.GetSceneByName(platform.ID).isLoaded);
-            var descriptor = FindAnyObjectByType<PlatformDescriptor>();
+
+            var descriptor = FindAnyObjectByType<EnvironmentDescriptor>();
+
+            context.SetEnvironment(descriptor);
 
             // this is already handled from LoadedDifficultyChangedEvent it seems
             // LoadInitialMap.PopulateColorsFromMapInfo(descriptor);
             // LoadInitialMap.UpdateObjectContainerColors(descriptor.ColorScheme);
 
             // amazing spaghetti code
-            LoadInitialMap.Platform = descriptor;
-            LoadInitialMap.NotifyPlatformLoaded();
         }
 
         var newMap = BeatSaberSongUtils.GetMapFromInfoFiles(

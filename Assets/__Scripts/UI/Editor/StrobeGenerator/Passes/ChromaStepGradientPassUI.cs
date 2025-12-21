@@ -17,6 +17,7 @@ public class ChromaStepGradientPassUI : StrobeGeneratorPassUIController
     [SerializeField] private Toggle swapColors;
     [SerializeField] private TMP_InputField strobeInterval;
     [SerializeField] private TMP_Dropdown chromaEventEasings;
+    private TracksDefinitionSO trackDefinitionSo;
 
     private readonly Dictionary<string, Func<float, float>> extraEasings = new Dictionary<string, Func<float, float>>
     {
@@ -46,6 +47,7 @@ public class ChromaStepGradientPassUI : StrobeGeneratorPassUIController
             ? extraEasings[picked]
             : Easing.Named(Easing.DisplayNameToInternalName[picked]);
         return new StrobeStepGradientPass(
+            trackDefinitionSo,
             GetTypeFromEventIds(eventType.SelectedNum, values.SelectedNum),
             swapColors.isOn,
             float.Parse(strobeInterval.text),

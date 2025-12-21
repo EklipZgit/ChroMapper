@@ -5,163 +5,25 @@ using Beatmap.Base;
 
 public class GagaDiskManager : BasicEventStateManager<GagaDiskStateData>
 {
+    public List<GagaDisk> Disks = new();
+
+    private readonly Dictionary<int, BasicEventStateChunksContainer<GagaDiskStateData>> typeToStateChunksContainer =
+        new();
+
     private const int minEventValue = 0;
     private const int maxEventValue = 8;
-    private readonly int[] heightEventTypes = { 18, 16, 12, 13, 17, 19 };
-
-    public List<GagaDisk> Disks = new();
-    private EventGridContainer eventGridContainer;
-    private AudioTimeSyncController atsc;
-
-    private Dictionary<int, List<BaseEvent>> cachedHeightEvents = new Dictionary<int, List<BaseEvent>>();
 
     public void Start()
     {
-        atsc = FindAnyObjectByType<AudioTimeSyncController>();
-        eventGridContainer = FindAnyObjectByType<EventGridContainer>();
         foreach (var disk in Disks)
-        {
             // Start at Y 20 (default).
             disk.Init();
-
-            // Init cache for each height event type.
-            UpdateEventCache(disk.HeightEventType);
-        }
-
-        eventGridContainer.OnObjectSpawned += UpdateCache;
-        eventGridContainer.OnObjectDeleted += UpdateCache;
-    }
-
-    public void OnDestroy()
-    {
-        eventGridContainer.OnObjectSpawned -= UpdateCache;
-        eventGridContainer.OnObjectDeleted -= UpdateCache;
     }
 
     private void LateUpdate()
     {
-        foreach (var disk in Disks) disk.LateUpdateDisk(atsc.CurrentJsonTime);
+        foreach (var disk in Disks) disk.LateUpdateDisk(Atsc.CurrentJsonTime);
     }
-
-    public void HandlePositionEvent(BaseEvent evt)
-    {
-        foreach (var d in Disks.Where(d => d.HeightEventType == evt.Type))
-        {
-            var nextEvent = GetNextHeightEvent(evt);
-            if (nextEvent == null) return;
-
-            var fromValue = evt.Value;
-            var toValue = nextEvent.Value;
-            var toTime = nextEvent.JsonTime;
-            d.SetPosition(
-                ClampEventValue(fromValue),
-                ClampEventValue(toValue),
-                evt.JsonTime,
-                toTime);
-        }
-    }
-
-    private int ClampEventValue(int value) => Math.Clamp(value, minEventValue, maxEventValue);
-
-    private List<BaseEvent> GetHeightEventsFromGrid()
-    {
-        return eventGridContainer
-            .AllUtilityEvents.Where(x => heightEventTypes.Contains(x.Type))
-            .Concat(eventGridContainer.AllLaserRotationEvents)
-            .Where(x => heightEventTypes.Contains(x.Type))
-            .OrderBy(x => x.JsonTime)
-            .ToList();
-    }
-
-    private List<BaseEvent> GetCachedHeightEvents(int type) =>
-        cachedHeightEvents.TryGetValue(type, out var evts) ? evts : new();
-
-    private BaseEvent GetNextHeightEvent(BaseEvent e)
-    {
-        var heightEvents = GetCachedHeightEvents(e.Type);
-
-        return !heightEvents.Any() ? null : heightEvents.FirstOrDefault(ev => ev.JsonTime > e.JsonTime);
-    }
-
-    private BaseEvent GetNextHeightEvent(int type)
-    {
-        var heightEvents = GetCachedHeightEvents(type);
-
-        return !heightEvents.Any() ? null : heightEvents.FirstOrDefault(ev => ev.JsonTime >= atsc.CurrentJsonTime);
-    }
-
-    private BaseEvent GetPreviousHeightEvent(int type)
-    {
-        var heightEvents = GetCachedHeightEvents(type)
-            .Reverse<BaseEvent>()
-            .ToList();
-
-        if (!heightEvents.Any()) return null;
-
-        return heightEvents.FirstOrDefault(ev => ev.JsonTime >= atsc.CurrentJsonTime);
-    }
-
-    private void UpdateCache(BaseEvent evt)
-    {
-        if (!heightEventTypes.Contains(evt.Type)) return;
-
-        var events = GetHeightEventsFromGrid().Where(x => x.Type == evt.Type);
-
-        // Only update the specific type array.
-        if (cachedHeightEvents.ContainsKey(evt.Type))
-            cachedHeightEvents[evt.Type].Clear();
-        else
-            cachedHeightEvents[evt.Type] = new List<BaseEvent>();
-
-        cachedHeightEvents[evt.Type].AddRange(events);
-
-        // Update position queue
-        foreach (var disk in Disks)
-        {
-            if (disk.HeightEventType != evt.Type) continue;
-            var prevEvt = GetPreviousHeightEvent(evt.Type);
-            var nextEvt = GetNextHeightEvent(evt);
-
-            var fromValue = 4;
-            var toValue = 4;
-            var fromTime = 0f;
-            var toTime = 0.1f;
-
-            if (prevEvt != null)
-            {
-                fromValue = prevEvt.Value;
-                fromTime = prevEvt.JsonTime;
-                if (nextEvt != null)
-                {
-                    toValue = nextEvt.Value;
-                    toTime = nextEvt.JsonTime;
-                }
-            }
-
-            disk.SetPosition(
-                ClampEventValue(fromValue),
-                ClampEventValue(toValue),
-                fromTime,
-                toTime
-            );
-            return;
-        }
-    }
-
-    private void UpdateEventCache(int eventType)
-    {
-        var events = GetHeightEventsFromGrid().Where(x => x.Type == eventType);
-
-        // Only update the specific type array.
-        if (cachedHeightEvents.ContainsKey(eventType))
-            cachedHeightEvents[eventType].Clear();
-        else
-            cachedHeightEvents[eventType] = new List<BaseEvent>();
-
-        cachedHeightEvents[eventType].AddRange(events);
-    }
-
-    private readonly Dictionary<int, BasicEventStateChunksContainer<GagaDiskStateData>> typeToStateChunksContainer = new();
 
     public override void Initialize()
     {
@@ -176,7 +38,8 @@ public class GagaDiskManager : BasicEventStateManager<GagaDiskStateData>
                 19
             }.Where(type => !typeToStateChunksContainer.ContainsKey(type)))
         {
-            typeToStateChunksContainer[type] = InitializeStates(new BasicEventStateChunksContainer<GagaDiskStateData>());
+            typeToStateChunksContainer[type] =
+                InitializeStates(new BasicEventStateChunksContainer<GagaDiskStateData>());
             foreach (var state in typeToStateChunksContainer[type].Chunks.SelectMany(state => state))
                 state.Base.Type = type;
         }
@@ -186,10 +49,22 @@ public class GagaDiskManager : BasicEventStateManager<GagaDiskStateData>
     {
         foreach (var container in typeToStateChunksContainer.Values.Where(container =>
             !container.IsCurrentOrFindState(currentTime, Atsc.IsPlaying)))
-            UpdateObject(container.CurrentState.Base);
+            UpdateObject(container.CurrentState);
     }
 
-    private void UpdateObject(BaseEvent evt) => HandlePositionEvent(evt);
+    private void UpdateObject(GagaDiskStateData state)
+    {
+        foreach (var d in Disks.Where(d => d.HeightEventType == state.Base.Type))
+        {
+            d.SetPosition(
+                ClampEventValue(state.StartValue),
+                ClampEventValue(state.EndValue),
+                state.StartTime,
+                state.EndTime);
+        }
+    }
+
+    private static int ClampEventValue(int value) => Math.Clamp(value, minEventValue, maxEventValue);
 
     protected override GagaDiskStateData CreateState(BaseEvent data) => new(data);
 
@@ -198,10 +73,17 @@ public class GagaDiskManager : BasicEventStateManager<GagaDiskStateData>
         foreach (var evt in dataList) InsertData(evt);
     }
 
+    protected override void OnInsertUpdateFromNextState(GagaDiskStateData newState, GagaDiskStateData nextState)
+    {
+        base.OnInsertUpdateFromNextState(newState, nextState);
+        newState.EndValue = nextState.EndValue;
+    }
+
     public override void InsertData(BaseEvent evt)
     {
         var state = CreateState(evt);
         state.StartTime = evt.SongBpmTime;
+        state.StartValue = evt.Value;
         HandleInsertState(typeToStateChunksContainer[evt.Type], state);
     }
 
@@ -211,17 +93,20 @@ public class GagaDiskManager : BasicEventStateManager<GagaDiskStateData>
         var state = HandleRemoveState(container, evt, original);
         if (container.CurrentState != state) return;
         container.SetStateAt(evt.SongBpmTime);
-        UpdateObject(container.CurrentState.Base);
+        UpdateObject(container.CurrentState);
     }
 
     public override void UpdateDirty()
     {
-        foreach (var container in typeToStateChunksContainer.Values) UpdateObject(container.CurrentState.Base);
+        foreach (var container in typeToStateChunksContainer.Values) UpdateObject(container.CurrentState);
     }
 }
 
 public class GagaDiskStateData : BasicEventStateData
 {
+    public int StartValue;
+    public int EndValue;
+
     public GagaDiskStateData(BaseEvent evt) : base(evt)
     {
     }

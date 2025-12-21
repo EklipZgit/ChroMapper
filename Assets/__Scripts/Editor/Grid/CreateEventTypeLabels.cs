@@ -14,10 +14,10 @@ public class CreateEventTypeLabels : MonoBehaviour
     public Material RedMaterial;
     public GameObject LabelPrefab;
     public RotationCallbackController RotationCallback;
+    [SerializeField] private BeatmapRuntimeContext context;
 
-    private readonly List<LaneInfo> laneObjs = new List<LaneInfo>();
+    private readonly List<LaneInfo> laneObjs = new();
 
-    private PlatformDescriptor descriptor;
     private Dictionary<int, BasicLightManager> typeToManager = new();
     private bool loadedWithRotationEvents;
     public int NoRotationLaneOffset => loadedWithRotationEvents || RotationCallback.IsActive ? 2 : 0;
@@ -26,10 +26,17 @@ public class CreateEventTypeLabels : MonoBehaviour
     private void Start()
     {
         loadedWithRotationEvents = BeatSaberSongContainer.Instance.Map.Events.Any(i => i.IsLaneRotationEvent());
-        LoadInitialMap.OnPlatformLoaded += HandlePlatformLoaded;
+        context.OnEnvironmentChanged += HandleEnvironmentChanged;
     }
 
-    private void OnDestroy() => LoadInitialMap.OnPlatformLoaded -= HandlePlatformLoaded;
+    private void OnDestroy() => context.OnEnvironmentChanged -= HandleEnvironmentChanged;
+
+    private void HandleEnvironmentChanged(EnvironmentDescriptor descriptor)
+    {
+        typeToManager = descriptor
+            .BasicEventEffectManager.GetAllManagers<BasicLightManager>()
+            .ToDictionary(x => x.type, x => x.manager);
+    }
 
     public void UpdateLabels(EventGridContainer.PropMode propMode, int eventType, int lanes)
     {
@@ -41,7 +48,7 @@ public class CreateEventTypeLabels : MonoBehaviour
 
         if (propMode == EventGridContainer.PropMode.Off)
         {
-            var entries = descriptor.TrackDefinition.Basic.ToList();
+            var entries = context.TracksDefinition.Basic.ToList();
             for (var i = 0; i < entries.Count; i++)
             {
                 var modified = i + NoRotationLaneOffset;
@@ -86,7 +93,7 @@ public class CreateEventTypeLabels : MonoBehaviour
                     else
                     {
                         textMesh.text =
-                            $"{descriptor.TrackDefinition.Basic[eventType].Name} ID {LaneToLightID(eventType, i - 1)}";
+                            $"{context.TracksDefinition.GetBasicOrDefault(eventType).Name} ID {LaneToLightID(eventType, i - 1)}";
                         textMesh.fontSharedMaterial = i % 2 == 0 ? UtilityMaterial : AvailableMaterial;
                     }
 
@@ -97,14 +104,6 @@ public class CreateEventTypeLabels : MonoBehaviour
         }
 
         laneObjs.Sort();
-    }
-
-    private void HandlePlatformLoaded(PlatformDescriptor descriptor)
-    {
-        this.descriptor = descriptor;
-        typeToManager = descriptor
-            .BasicEventEffectManager.GetAllManagers<BasicLightManager>()
-            .ToDictionary(x => x.type, x => x.manager);
     }
 
     public int LaneIdToEventType(int laneId) => laneObjs[laneId].Type;

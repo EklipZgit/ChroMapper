@@ -26,7 +26,7 @@ public class GeometryGridContainer : BeatmapObjectContainerCollection<BaseEnviro
                 var container = GeometryContainer.SpawnGeometry(
                     eh,
                     ref geometryPrefab,
-                    AudioTimeSyncController,
+                    Context,
                     tracksManager);
                 if (container == null) return;
                 container.Setup();

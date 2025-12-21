@@ -4,7 +4,7 @@ using UnityEngine;
 /// <summary>
 /// Simple EnvironmentComponent for a Unity Transform.
 /// </summary>
-public class TransformComponent : EnvironmentComponent<Transform>
+public class TransformComponent : EnvDataComponent<Transform>
 {
     [JsonProperty("position")]
     public Vector3 Position = Vector3.zero;

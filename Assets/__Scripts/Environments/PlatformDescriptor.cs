@@ -2,17 +2,16 @@ using System;
 using System.Linq;
 using UnityEngine;
 
-public class PlatformDescriptor : MonoBehaviour
+public class EnvironmentDescriptor : MonoBehaviour
 {
+    public string ID;
+
     [SerializeField] public BasicEventEffectManager BasicEventEffectManager;
     // public LightColorGroupEffectManager lightColorGroupEffectManager;
     // public LightRotationGroupEffectManager lightRotationGroupEffectManager;
     // public LightTranslationGroupEffectManager lightTranslationGroupEffectManager;
     // public FloatFxGroupEffectManager floatFxGroupEffectManager;
 
-    [SerializeField] public PlatformColorScheme ColorScheme = new();
-    [NonSerialized] public readonly PlatformColorScheme RuntimeColorScheme = new();
-    [SerializeField] public EnvironmentTrackDefinition TrackDefinition = new();
     [SerializeField] public BloomFogParams BloomFogParams = new();
 
     // below is old
@@ -25,24 +24,18 @@ public class PlatformDescriptor : MonoBehaviour
     [Tooltip("If you want a thing to rotate around a 360 level with the track, place it here.")]
     public GridRotationController RotationController;
 
-    private void Awake()
-    {
-        TrackDefinition.Initialize();
-        RuntimeColorScheme.Copy(ColorScheme);
-    }
-
     private void Start()
     {
         var rotationCallback = Resources.FindObjectsOfTypeAll<RotationCallbackController>().First();
-        var atsc = rotationCallback.Atsc;
-        BasicEventEffectManager.Initialize(atsc, RuntimeColorScheme);
+        var context = FindAnyObjectByType<BeatmapRuntimeContext>();
+        BasicEventEffectManager.Initialize(context.Atsc, context.ColorScheme);
         if (RotationController != null)
         {
             RotationController.RotationCallback = rotationCallback;
             RotationController.Init();
         }
 
-        BasicLightManager.FlashTimeBeat = atsc.GetBeatFromSeconds(BasicLightManager.FlashTimeSecond);
-        BasicLightManager.FadeTimeBeat = atsc.GetBeatFromSeconds(BasicLightManager.FadeTimeSecond);
+        BasicLightManager.FlashTimeBeat = context.Atsc.GetBeatFromSeconds(BasicLightManager.FlashTimeSecond);
+        BasicLightManager.FadeTimeBeat = context.Atsc.GetBeatFromSeconds(BasicLightManager.FadeTimeSecond);
     }
 }

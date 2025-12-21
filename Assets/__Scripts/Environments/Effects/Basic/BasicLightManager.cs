@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class BasicLightManager : BasicEventStateManager<BasicLightStateData>
 {
-    [NonSerialized] public PlatformColorScheme ColorScheme;
+    [NonSerialized] public ColorSchemeSO ColorScheme;
 
     public static readonly float FadeTimeSecond = 1.2f;
     public static readonly float FlashTimeSecond = 0.5f;
@@ -51,7 +51,6 @@ public class BasicLightManager : BasicEventStateManager<BasicLightStateData>
         if (id == -1) id = 0;
         while (controllerEntries.Exists(l => l.ID == id)) id++;
         controllerEntries.Add(new() { ID = id, Controller = lightController });
-        controllerEntries.Sort((x, y) => x.ID.CompareTo(y.ID));
     }
 
     public void Unregister(BaseLightController lightController) =>
@@ -59,15 +58,15 @@ public class BasicLightManager : BasicEventStateManager<BasicLightStateData>
 
     private void CalculateMapping()
     {
-        lightIDToController = controllerEntries.ToDictionary(x => x.ID, x => x.Controller);
-
-        LaneToLightID = controllerEntries.Select(x => x.ID).ToArray();
-        LaneToLightIDs = controllerEntries
+        var ordered = controllerEntries.OrderBy(x => x.ID).ToList();
+        lightIDToController = ordered.ToDictionary(x => x.ID, x => x.Controller);
+        LaneToLightID = ordered.Select(x => x.ID).ToArray();
+        LaneToLightIDs = ordered
             .GroupBy(x => Mathf.RoundToInt(x.Controller.transform.position.z))
             .OrderBy(x => x.Key)
             .Select(x => x.Select(y => y.ID).ToArray())
             .ToArray();
-        LightIDToLane = controllerEntries.ToDictionary(x => x.ID, x => Array.IndexOf(LaneToLightID, x.ID));
+        LightIDToLane = ordered.ToDictionary(x => x.ID, x => Array.IndexOf(LaneToLightID, x.ID));
     }
 
     public override void Initialize()

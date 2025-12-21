@@ -5,7 +5,7 @@ using Beatmap.Base;
 public class ColorBoostManager : BasicEventStateManager<ColorBoostStateData>
 {
     private readonly BasicEventStateChunksContainer<ColorBoostStateData> stateChunksContainer = new();
-    public PlatformColorScheme ColorScheme;
+    public ColorSchemeSO ColorScheme;
     public bool Boost;
 
     public event Action<bool> OnStateChanged;
