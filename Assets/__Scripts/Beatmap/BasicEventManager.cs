@@ -19,7 +19,7 @@ public class BasicEventManager : BeatmapObjectManager<BaseEvent>
     public override void UpdateTime(float time)
     {
         foreach (var manager in
-            Context.Descriptor.BasicEventEffectManager.EventTypeToManagers.Values.SelectMany(managers =>
+            Context.Descriptor.BasicEventEffectManager.EventTypeToEffects.Values.SelectMany(managers =>
                 managers))
             manager.UpdateTime(time);
     }
@@ -29,7 +29,7 @@ public class BasicEventManager : BeatmapObjectManager<BaseEvent>
         var mark = false;
         foreach (var d in data)
         {
-            if (!Context.Descriptor.BasicEventEffectManager.EventTypeToManagers.TryGetValue(d.Type, out var managers))
+            if (!Context.Descriptor.BasicEventEffectManager.EventTypeToEffects.TryGetValue(d.Type, out var managers))
                 continue;
             foreach (var manager in managers) manager.InsertData(d);
             mark = true;
@@ -43,7 +43,7 @@ public class BasicEventManager : BeatmapObjectManager<BaseEvent>
         var mark = false;
         foreach (var (reference, original) in data)
         {
-            if (!Context.Descriptor.BasicEventEffectManager.EventTypeToManagers.TryGetValue(
+            if (!Context.Descriptor.BasicEventEffectManager.EventTypeToEffects.TryGetValue(
                 original.Type,
                 out var managers))
                 continue;
@@ -59,7 +59,7 @@ public class BasicEventManager : BeatmapObjectManager<BaseEvent>
         var mark = false;
         foreach (var d in data)
         {
-            if (!Context.Descriptor.BasicEventEffectManager.EventTypeToManagers.TryGetValue(d.Type, out var managers))
+            if (!Context.Descriptor.BasicEventEffectManager.EventTypeToEffects.TryGetValue(d.Type, out var managers))
                 continue;
             foreach (var manager in managers) manager.RemoveData(d, d);
             mark = true;

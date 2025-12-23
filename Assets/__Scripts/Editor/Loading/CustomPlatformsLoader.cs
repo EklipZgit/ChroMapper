@@ -399,7 +399,7 @@ public class CustomPlatformsLoader : MonoBehaviour
         renderer.sharedMaterials = materials;
     }
 
-    private void SetRendererMaterials(Renderer renderer, BasicLightManager basicLightManager = null, float width = 1f)
+    private void SetRendererMaterials(Renderer renderer, BasicLightEffect basicLightEffect = null, float width = 1f)
     {
         var materials = renderer.sharedMaterials;
 
@@ -432,7 +432,7 @@ public class CustomPlatformsLoader : MonoBehaviour
 
         renderer.sharedMaterials = materials;
 
-        if (basicLightManager != null)
+        if (basicLightEffect != null)
         {
             var le = renderer.gameObject.AddComponent<LightController>();
             // basicLightManager.ControllableLightEntries.Add(le);

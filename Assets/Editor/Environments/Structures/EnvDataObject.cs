@@ -34,6 +34,9 @@ public class EnvDataObject
 
         [JsonProperty("spriteLightWithId")] public SpriteLightWithIdComponent? SpriteLightWithId;
 
+        [JsonProperty("instancedMaterialLightWithId")]
+        public InstancedMaterialLightWithIdComponent? InstancedMaterialLightWithId;
+
         [JsonProperty("trackLaneRingsManager")]
         public TrackLaneRingsManagerComponent? TrackLaneRingsManager;
 

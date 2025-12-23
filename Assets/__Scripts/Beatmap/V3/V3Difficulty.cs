@@ -119,7 +119,7 @@ namespace Beatmap.V3
                 json["lightTranslationEventBoxGroups"] = lightTranslationEventBoxGroups;
 
                 var floatFxEvents = difficulty.VfxEventBoxGroups
-                    .SelectMany(group => group.Events)
+                    .SelectMany(group => group.Boxes)
                     .SelectMany(box => box.FloatFxEvents)
                     .Distinct()
                     .ToList();

@@ -10,16 +10,17 @@ namespace Beatmap.Base
         {
         }
 
-        protected BaseEventBoxGroup(float time, int id, List<T> events, JSONNode customData = null) : base(time,
+        protected BaseEventBoxGroup(float time, int id, List<T> boxes, JSONNode customData = null) : base(
+            time,
             customData)
         {
             ID = id;
-            Events = events;
+            Boxes = boxes;
         }
 
         public override ObjectType ObjectType { get; set; } = ObjectType.Event;
         public int ID { get; set; }
-        public List<T> Events { get; set; } = new List<T>();
+        public List<T> Boxes { get; set; } = new();
 
         protected override bool IsConflictingWithObjectAtSameTime(BaseObject other, bool deletion = false)
         {

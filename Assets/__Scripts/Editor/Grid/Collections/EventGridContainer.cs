@@ -59,7 +59,7 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
     }
 
     private EnvironmentDescriptor descriptor;
-    public Dictionary<int, BasicLightManager> TypeToManager = new();
+    public Dictionary<int, BasicLightEffect> TypeToManager = new();
     private PropMode propagationEditing = PropMode.Off;
 
     public override ObjectType ContainerType => ObjectType.Event;
@@ -110,7 +110,7 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
     {
         if (!context.performed || laserSpeedController.Activated) return;
 
-        if (descriptor.BigRingManager is TrackLaneRingsManager manager) manager.RotationEffect.Reset();
+        if (descriptor.BigRingManager is BaseTrackLaneRingsManager manager) manager.RotationEffect.Reset();
 
         if (descriptor.SmallRingManager != null && descriptor.SmallRingManager.RotationEffect != null)
             descriptor.SmallRingManager.RotationEffect.Reset();
@@ -147,7 +147,7 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
     {
         this.descriptor = descriptor;
         TypeToManager = descriptor
-            .BasicEventEffectManager.GetAllManagers<BasicLightManager>()
+            .BasicEventEffectManager.GetAllManagers<BasicLightEffect>()
             .ToDictionary(x => x.type, x => x.manager);
         PropagationEditing = PropMode.Off;
     }

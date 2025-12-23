@@ -1,8 +1,8 @@
 public class LightGroup
 {
-    string GroupName { get; set; }
-    int NumberOfElements { get; set; }
-    int StartLightId { get; set; }
-    int GroupId { get; set; }
-    int SameIdElements { get; set; }
+    public string GroupName;
+    public int NumberOfElements;
+    public int StartLightId;
+    public int GroupId;
+    public int SameIdElements;
 }

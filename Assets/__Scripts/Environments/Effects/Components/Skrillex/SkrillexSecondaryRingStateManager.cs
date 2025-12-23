@@ -1,7 +1,7 @@
 ﻿using Beatmap.Base;
 using UnityEngine;
 
-public class SkrillexSecondaryRingManager : TrackLaneRingsManager
+public class SkrillexSecondaryRingManager : BaseTrackLaneRingsManager
 {
     [SerializeField] private InterscopeRingLaserManager[] laserManagers;
 

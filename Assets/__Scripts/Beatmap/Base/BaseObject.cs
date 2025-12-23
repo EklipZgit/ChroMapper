@@ -8,7 +8,12 @@ using UnityEngine;
 
 namespace Beatmap.Base
 {
-    public abstract class BaseObject : BaseItem, ICustomData, IHeckObject, IChromaObject, INetSerializable, IComparable<BaseObject>
+    public abstract class BaseObject : BaseItem,
+                                       ICustomData,
+                                       IHeckObject,
+                                       IChromaObject,
+                                       INetSerializable,
+                                       IComparable<BaseObject>
     {
         public virtual void Serialize(NetDataWriter writer)
         {
@@ -59,10 +64,11 @@ namespace Beatmap.Base
 
         public abstract ObjectType ObjectType { get; set; }
         public bool HasAttachedContainer { get; set; } = false;
-        
+
         protected BaseDifficulty Map;
 
         private float jsonTime;
+
         public float JsonTime
         {
             get => jsonTime;
@@ -76,7 +82,7 @@ namespace Beatmap.Base
         // should only be set directly when initializing
         // read from SongBpmTime instead, and write to JsonTime to update this
         // really should be private but we need to set this from BaseDifficulty on init
-        internal float? songBpmTime; 
+        internal float? songBpmTime;
         public float SongBpmTime => (float)songBpmTime;
 
         public virtual Color? CustomColor { get; set; }
@@ -93,7 +99,7 @@ namespace Beatmap.Base
                 ParseCustom();
             }
         }
-        
+
         public void SetCustomData(JSONNode node) => customData = node ?? new JSONObject();
 
         public virtual bool IsChroma() => false;
@@ -109,13 +115,15 @@ namespace Beatmap.Base
         public virtual void RecomputeSongBpmTime() => songBpmTime = Map?.JsonTimeToSongBpmTime(JsonTime);
 
         public virtual bool IsConflictingWith(BaseObject other, bool deletion = false) =>
-            Mathf.Abs(JsonTime - other.JsonTime) < BeatmapObjectContainerCollection.Epsilon &&
-            IsConflictingWithObjectAtSameTime(other, deletion);
+            Mathf.Abs(JsonTime - other.JsonTime) < BeatmapObjectContainerCollection.Epsilon
+            && IsConflictingWithObjectAtSameTime(other, deletion);
 
         protected abstract bool IsConflictingWithObjectAtSameTime(BaseObject other, bool deletion = false);
 
         public virtual bool HasMatchingTrack(string filter) =>
-            (filter == null) || CustomTrack switch {
+            (filter == null)
+            || CustomTrack switch
+            {
                 JSONString str => filter == (string)str,
                 JSONArray arr => arr.Children.Any((it) => filter == (string)it),
                 _ => false,
@@ -130,7 +138,9 @@ namespace Beatmap.Base
         protected virtual void ParseCustom()
         {
             CustomTrack = (CustomData?.HasKey(CustomKeyTrack) ?? false) ? CustomData?[CustomKeyTrack] : null;
-            CustomColor = (CustomData?.HasKey(CustomKeyColor) ?? false) ? CustomData?[CustomKeyColor].ReadColor() : null;
+            CustomColor = (CustomData?.HasKey(CustomKeyColor) ?? false)
+                ? CustomData?[CustomKeyColor].ReadColor()
+                : null;
         }
 
         public void RefreshCustom() => ParseCustom();
@@ -138,9 +148,15 @@ namespace Beatmap.Base
         protected internal virtual JSONNode SaveCustom()
         {
             var node = CustomData is JSONObject ? CustomData : new JSONObject();
-            if (CustomTrack != null) node[CustomKeyTrack] = CustomTrack; else node.Remove(CustomKeyTrack);
-            if (CustomColor != null) node[CustomKeyColor] = CustomColor; else node.Remove(CustomKeyColor);
-            
+            if (CustomTrack != null)
+                node[CustomKeyTrack] = CustomTrack;
+            else
+                node.Remove(CustomKeyTrack);
+            if (CustomColor != null)
+                node[CustomKeyColor] = CustomColor;
+            else
+                node.Remove(CustomKeyColor);
+
             SetCustomData(node);
             return node;
         }
@@ -149,8 +165,7 @@ namespace Beatmap.Base
 
         public JSONNode GetOrCreateCustom()
         {
-            if (CustomData == null)
-                CustomData = new JSONObject();
+            if (CustomData == null) CustomData = new JSONObject();
 
             return CustomData;
         }

@@ -14,7 +14,33 @@ public class LightController : BaseLightController
             : Color.Lerp(StartColor, EndColor, Easing(nTimeColor));
         var alpha = Mathf.Lerp(StartAlpha, EndAlpha, Easing(nTimeAlpha));
 
-        color.a *= alpha;
+        if (StartStrobeFrequency > 0 || EndStrobeFrequency > 0)
+        {
+            var strobeFadeAlpha = Mathf.LerpUnclamped(StartStrobeBrightness, EndStrobeBrightness, nTimeAlpha);
+            var duration = EndTimeAlpha - StartTimeAlpha;
+            var elapsed = nTimeAlpha * duration;
+            var elapsedHalf = elapsed * elapsed / (2f * duration);
+            var half = (((0f - StartStrobeFrequency) * elapsedHalf)
+                    + (StartStrobeFrequency * elapsed)
+                    + (EndStrobeFrequency * elapsedHalf))
+                % 1f;
+            if (StrobeFade)
+            {
+                var fadeColor = color;
+                fadeColor.a *= strobeFadeAlpha;
+                color = Color.LerpUnclamped(
+                    color,
+                    fadeColor,
+                    global::Easing.Cubic.InOut(1f - Mathf.Abs((half * 2f) - 1f)));
+            }
+            else if (half > 0.5f)
+                color.a *= strobeFadeAlpha;
+            else
+                color.a *= alpha;
+        }
+        else
+            color.a *= alpha;
+
         LightObject.UpdateLighting(color);
     }
 

@@ -3,7 +3,7 @@ using System.Linq;
 using Beatmap.Base;
 using Object = UnityEngine.Object;
 
-public abstract class TrackLaneRingsManagerBase : BasicEventStateManager<RingRotationStateData>
+public abstract class BaseTrackLaneRingsEffect : BasicEventStateManager<RingRotationStateData>
 {
     public RingFilter RingFilter;
 

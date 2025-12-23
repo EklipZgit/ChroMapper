@@ -2,7 +2,7 @@
 using Beatmap.Base;
 using UnityEngine;
 
-internal class InterscopeRingLaserManager : TrackLaneRingsManagerBase
+internal class InterscopeRingLaserManager : BaseTrackLaneRingsEffect
 {
     [SerializeField] private List<MovingLightsRandom> isLasers;
     

@@ -2,7 +2,7 @@
 using Beatmap.Enums;
 using UnityEngine;
 
-public class InterscopeCarBounceEffect : InterscopeCarEventManager
+public class InterscopeCarBounceEffect : InterscopeCarEventEffect
 {
     [SerializeField] private Rigidbody wheelRigidbody;
     [SerializeField] private Vector3 impulse;

@@ -20,7 +20,7 @@ namespace Beatmap.V4
             group.ID = node["g"].AsInt;
 
             var boxEvents = node["e"].AsArray;
-            group.Events = boxEvents.Linq.Select(x =>
+            group.Boxes = boxEvents.Linq.Select(x =>
             {
                 var boxNode = x.Value;
 
@@ -76,7 +76,7 @@ namespace Beatmap.V4
             
             var boxArray = new JSONArray();
 
-            foreach (var boxEvent in group.Events)
+            foreach (var boxEvent in group.Boxes)
             {
                 var boxNode = new JSONObject();
                 boxNode["f"] =

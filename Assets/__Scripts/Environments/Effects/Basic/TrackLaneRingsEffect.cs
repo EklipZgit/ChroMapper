@@ -3,7 +3,7 @@ using Beatmap.Base;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class TrackLaneRingsManager : TrackLaneRingsManagerBase
+public class BaseTrackLaneRingsManager : BaseTrackLaneRingsEffect
 {
     public bool MoveFirstRing;
 

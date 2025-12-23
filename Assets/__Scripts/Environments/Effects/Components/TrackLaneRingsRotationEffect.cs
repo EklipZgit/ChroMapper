@@ -6,8 +6,8 @@ using UnityEngine.Serialization;
 
 public class TrackLaneRingsRotationEffect : MonoBehaviour
 {
-    public TrackLaneRingsManager Manager;
-    public TrackLaneRingsManager MirrorManager;
+    public BaseTrackLaneRingsManager Manager;
+    public BaseTrackLaneRingsManager MirrorManager;
     public float StartupRotationAngle = 45;
     public float StartupRotationStep = 5;
     public float StartupRotationPropagationSpeed = 1;

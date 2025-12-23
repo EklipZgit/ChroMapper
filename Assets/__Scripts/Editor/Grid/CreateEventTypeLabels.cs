@@ -18,7 +18,7 @@ public class CreateEventTypeLabels : MonoBehaviour
 
     private readonly List<LaneInfo> laneObjs = new();
 
-    private Dictionary<int, BasicLightManager> typeToManager = new();
+    private Dictionary<int, BasicLightEffect> typeToManager = new();
     private bool loadedWithRotationEvents;
     public int NoRotationLaneOffset => loadedWithRotationEvents || RotationCallback.IsActive ? 2 : 0;
 
@@ -34,7 +34,7 @@ public class CreateEventTypeLabels : MonoBehaviour
     private void HandleEnvironmentChanged(EnvironmentDescriptor descriptor)
     {
         typeToManager = descriptor
-            .BasicEventEffectManager.GetAllManagers<BasicLightManager>()
+            .BasicEventEffectManager.GetAllManagers<BasicLightEffect>()
             .ToDictionary(x => x.type, x => x.manager);
     }
 

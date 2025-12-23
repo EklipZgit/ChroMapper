@@ -1,14 +1,16 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Beatmap.Base;
+using Random = UnityEngine.Random;
 
-public class ColorBoostManager : BasicEventStateManager<ColorBoostStateData>
+public abstract class BaseRotatingLightsEffect : BasicEventStateManager<RotatingLightStateData>
 {
-    private readonly BasicEventStateChunksContainer<ColorBoostStateData> stateChunksContainer = new();
-    public ColorSchemeSO ColorScheme;
-    public bool Boost;
+    public int Index; // because there are no grouping, we need to assign index for random
+    public bool Mirror;
 
-    public event Action<bool> OnStateChanged;
+    public abstract void UpdateOffset(BaseEvent data, bool mirror, bool isLeftEvent);
+
+    private readonly BasicEventStateChunksContainer<RotatingLightStateData> stateChunksContainer = new();
 
     public override void Initialize() => InitializeStates(stateChunksContainer);
 
@@ -18,15 +20,15 @@ public class ColorBoostManager : BasicEventStateManager<ColorBoostStateData>
         UpdateObject(stateChunksContainer.CurrentState);
     }
 
-    private void UpdateObject(ColorBoostStateData stateData)
+    private void UpdateObject(RotatingLightStateData stateData)
     {
-        if (stateData.Boost == Boost) return;
-        Boost = stateData.Boost;
-        ColorScheme.SwapEnvironmentColors(Boost);
-        OnStateChanged?.Invoke(Boost);
+        var data = stateData.Base;
+        var hash = HashCode.Combine(data.SongBpmTime, Index);
+        Random.InitState(hash);
+        UpdateOffset(data, Mirror, true);
     }
 
-    protected override ColorBoostStateData CreateState(BaseEvent data) => new(data);
+    protected override RotatingLightStateData CreateState(BaseEvent data) => new(data);
 
     public override void BuildFromData(IEnumerable<BaseEvent> dataList)
     {
@@ -37,8 +39,6 @@ public class ColorBoostManager : BasicEventStateManager<ColorBoostStateData>
     {
         var state = CreateState(data);
         state.StartTime = data.SongBpmTime;
-        state.Boost = data.Value == 1;
-
         HandleInsertState(stateChunksContainer, state);
     }
 

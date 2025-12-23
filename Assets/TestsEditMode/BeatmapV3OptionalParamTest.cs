@@ -211,7 +211,7 @@ namespace TestsEditMode
             Assert.AreEqual(0, evt.JsonTime);
             Assert.AreEqual(0, evt.Color);
             Assert.AreEqual(0, evt.Brightness);
-            Assert.AreEqual(0, evt.TransitionType);
+            Assert.AreEqual(0, evt.UsePrevious);
         }
 
         [Test]
@@ -376,9 +376,9 @@ namespace TestsEditMode
         {
             Assert.AreEqual(0, boxGroup.JsonTime);
             Assert.AreEqual(0, boxGroup.ID);
-            Assert.AreEqual(1, boxGroup.Events.Count);
+            Assert.AreEqual(1, boxGroup.Boxes.Count);
 
-            var box = boxGroup.Events[0];
+            var box = boxGroup.Boxes[0];
 
             AssertBaseEventBoxDefaults(box);
             AssertIndexFilterDefaults(box.IndexFilter);

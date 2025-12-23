@@ -34,6 +34,8 @@ public abstract class StateManager<TState, TData> : StateManager<TData>
     {
         container.GenerateChunk(Atsc);
 
+        start.StartTime = 0f;
+        start.EndTime = end.EndTime;
         end.StartTime = end.EndTime;
         container.Chunks[0].Add(start);
         container.Chunks[^1].Add(end);

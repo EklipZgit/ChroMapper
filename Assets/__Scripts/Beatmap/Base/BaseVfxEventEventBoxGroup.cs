@@ -13,8 +13,8 @@ namespace Beatmap.Base
         {
         }
 
-        protected BaseVfxEventEventBoxGroup(float time, int id, int type, List<T> events,
-            JSONNode customData = null) : base(time, id, events, customData)
+        protected BaseVfxEventEventBoxGroup(float time, int id, int type, List<T> boxes,
+            JSONNode customData = null) : base(time, id, boxes, customData)
         {
             Type = type;
         }

@@ -33,8 +33,10 @@ public class LightshowController : MonoBehaviour, IBeatmapUpdate
         activeEffects = new List<IBeatmapUpdate>()
             .Concat(
                 context
-                    .Descriptor.BasicEventEffectManager.EventTypeToManagers.Values.SelectMany(x => x)
+                    .Descriptor.BasicEventEffectManager.EventTypeToEffects.Values.SelectMany(x => x)
                     .Distinct())
+            .Append(context.Descriptor.LightColorGroupEffectManager.Effect)
+            .Append(context.Descriptor.LightRotationGroupEffectManager.Effect)
             .Where(x => x != null)
             .ToArray();
         activeSize = activeEffects.Length;
@@ -81,7 +83,12 @@ public class LightshowController : MonoBehaviour, IBeatmapUpdate
         foreach (var (type, manager) in context.Descriptor.BasicEventEffectManager.GetAllManagers())
             manager.BuildFromData(events.Where(e => e.Type == type));
 
-        foreach (var manager in context.Descriptor.BasicEventEffectManager.EventTypeToManagers.Values
+        context.Descriptor.LightColorGroupEffectManager.Effect.BuildFromData(
+            BeatSaberSongContainer.Instance.Map.LightColorEventBoxGroups);
+        context.Descriptor.LightRotationGroupEffectManager.Effect.BuildFromData(
+            BeatSaberSongContainer.Instance.Map.LightRotationEventBoxGroups);
+
+        foreach (var manager in context.Descriptor.BasicEventEffectManager.EventTypeToEffects.Values
             .SelectMany(managers =>
                 managers))
             manager.UpdateDirty();

@@ -18,7 +18,7 @@ namespace Beatmap.V3
             vfxGroup.JsonTime = node["b"].AsFloat;
             vfxGroup.ID = node["g"].AsInt;
             vfxGroup.Type = node["t"].AsInt;
-            vfxGroup.Events = new List<BaseVfxEventEventBox>(BaseItem.GetRequiredNode(node, "e").AsArray.Linq
+            vfxGroup.Boxes = new List<BaseVfxEventEventBox>(BaseItem.GetRequiredNode(node, "e").AsArray.Linq
                 .Select(x => V3VfxEventEventBox.GetFromJson(x.Value, floatFxEvents)).ToList());
             vfxGroup.CustomData = node["customData"];
 
@@ -32,7 +32,7 @@ namespace Beatmap.V3
             node["g"] = vfxGroup.ID;
             node["t"] = vfxGroup.Type;
             var ary = new JSONArray();
-            foreach (var k in vfxGroup.Events) ary.Add(V3VfxEventEventBox.ToJson(k, floatFxEvents));
+            foreach (var k in vfxGroup.Boxes) ary.Add(V3VfxEventEventBox.ToJson(k, floatFxEvents));
             node["e"] = ary;
             vfxGroup.CustomData = vfxGroup.SaveCustom();
             if (!vfxGroup.CustomData.Children.Any()) return node;

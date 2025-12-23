@@ -21,7 +21,7 @@ namespace Beatmap.V4
             vfxGroup.JsonTime = node["b"].AsFloat;
             vfxGroup.ID = node["g"].AsInt;
 
-            vfxGroup.Events = node["e"].AsArray.Linq.Select(x =>
+            vfxGroup.Boxes = node["e"].AsArray.Linq.Select(x =>
                 {
                     var boxNode = x.Value;
 
@@ -79,7 +79,7 @@ namespace Beatmap.V4
             
             var boxArray = new JSONArray();
 
-            foreach (var boxEvent in group.Events)
+            foreach (var boxEvent in group.Boxes)
             {
                 var boxNode = new JSONObject();
                 boxNode["f"] =
