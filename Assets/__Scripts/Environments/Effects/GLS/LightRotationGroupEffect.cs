@@ -15,7 +15,7 @@ public class
     private readonly Dictionary<(Axis axis, int index), RotationTransformContainer>
         idToContainer = new();
 
-    private readonly List<RotationTransformContainer> transformContainers = new();
+    [SerializeField] private List<RotationTransformContainer> transformContainers = new();
 
     public void Register(int id, Axis axis, bool mirrored, Transform tr) =>
         transformEntries.Add(new() { ID = id, Transform = tr, Axis = axis, Mirrored = mirrored });
@@ -72,28 +72,37 @@ public class
     private void UpdateObject(RotationTransformContainer container, float time)
     {
         var state = container.Container.CurrentState;
-
         var (currentEventTime, currentEvent) = GetCurrentOrPreviousEvent(state, time);
-        var nextEvent = GetNextEvent(state, currentEventTime);
 
+        var nextEvent = GetNextEvent(state, time);
         if (nextEvent.UsePrevious) nextEvent = currentEvent;
 
-        var startAngle = Mathf.Repeat(currentEvent.Rotation, 360f);
+        if (!container.StartEvent.Equals(currentEvent) || !container.EndEvent.Equals(nextEvent))
+        {
+            var startAngle = Mathf.Repeat(currentEvent.Rotation, 360f);
+            var targetAngle = Mathf.Repeat(nextEvent.Rotation, 360f);
+            var nextAngle = ComputeTargetAngle(
+                startAngle,
+                targetAngle,
+                nextEvent.Loop,
+                nextEvent.Direction);
 
-        var targetAngle = Mathf.Repeat(nextEvent.Rotation, 360f);
+            container.StartTime = currentEventTime;
+            container.StartAngle = startAngle;
 
-        var nextAngle = ComputeTargetAngle(
-            startAngle,
-            targetAngle,
-            nextEvent.Loop,
-            nextEvent.Direction);
+            container.EndTime = nextEvent.ActualSongBpmTime;
+            container.EndAngle = nextAngle;
 
-        var tNorm = Mathf.InverseLerp(currentEventTime, nextEvent.ActualSongBpmTime, time);
-        var easing = Easing.FromID((int)nextEvent.EaseType);
+            container.Easing = Easing.FromID((int)nextEvent.EaseType);
 
-        var val = Mathf.LerpUnclamped(startAngle, nextAngle, easing(tNorm));
+            container.StartEvent = currentEvent;
+            container.EndEvent = nextEvent;
+        }
 
-        SetRotation(container.Transform, Mathf.Repeat(val, 360f), container.Axis, container.Mirrored);
+        var tNorm = Mathf.InverseLerp(container.StartTime, container.EndTime, time);
+        var angle = Mathf.LerpUnclamped(container.StartAngle, container.EndAngle, container.Easing(tNorm));
+
+        SetRotation(container.Transform, Mathf.Repeat(angle, 360f), container.Axis, container.Mirrored);
     }
 
     private static void SetRotation(Transform tr, float rotation, Axis axis, bool mirrored)
@@ -144,7 +153,7 @@ public class
         {
             var idx = Array.FindLastIndex(
                 state.Events,
-                x => x.ActualSongBpmTime <= time && x.ActualSongBpmTime < state.EndTime);
+                x => x.ActualSongBpmTime <= time && x.ActualSongBpmTime <= state.EndTime);
             if (idx != -1)
             {
                 var evt = state.Events[idx];
@@ -230,7 +239,9 @@ public class
                     box.RotationDistribution,
                     (EaseType)box.Easing);
 
-                state.StartTime = data.SongBpmTime;
+                state.StartTime =
+                    (float)BeatSaberSongContainer.Instance.Map.JsonTimeToSongBpmTime(
+                        data.JsonTime + (timeStep * durationOrder));
                 state.Events = box
                     .Events.Select((x, i) =>
                         {
@@ -299,7 +310,7 @@ public class LightRotationGroupStateData : StateData<BaseLightRotationEventBoxGr
     {
     }
 
-    public readonly struct LightRotationEvent
+    public readonly struct LightRotationEvent : IEquatable<LightRotationEvent>
     {
         public readonly float ActualSongBpmTime;
 
@@ -321,11 +332,26 @@ public class LightRotationGroupStateData : StateData<BaseLightRotationEventBoxGr
             Loop = data.Loop + x;
             UsePrevious = data.UsePrevious == 1;
         }
+
+        public bool Equals(LightRotationEvent other)
+        {
+            return ActualSongBpmTime.Equals(other.ActualSongBpmTime)
+                && Rotation.Equals(other.Rotation)
+                && Direction == other.Direction
+                && EaseType == other.EaseType
+                && Loop == other.Loop
+                && UsePrevious == other.UsePrevious;
+        }
+
+        public override bool Equals(object obj) => obj is LightRotationEvent other && Equals(other);
+
+        public override int GetHashCode() =>
+            HashCode.Combine(ActualSongBpmTime, Rotation, (int)Direction, (int)EaseType, Loop, UsePrevious);
     }
 }
 
 [Serializable]
-public readonly struct RotationTransformContainer
+public class RotationTransformContainer
 {
     public readonly StateChunksContainer<LightRotationGroupStateData,
             BaseLightRotationEventBoxGroup<BaseLightRotationEventBox>>
@@ -334,6 +360,16 @@ public readonly struct RotationTransformContainer
     public readonly Transform Transform;
     public readonly Axis Axis;
     public readonly bool Mirrored;
+
+    public LightRotationGroupStateData.LightRotationEvent StartEvent;
+    public float StartTime;
+    public float StartAngle;
+
+    public LightRotationGroupStateData.LightRotationEvent EndEvent;
+    public float EndTime;
+    public float EndAngle;
+
+    public Func<float, float> Easing = global::Easing.Step;
 
     public RotationTransformContainer(Transform transform, Axis axis, bool mirrored)
     {
