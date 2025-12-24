@@ -9,57 +9,52 @@ public class
     LightRotationGroupEffect : StateManager<LightRotationGroupStateData,
     BaseLightRotationEventBoxGroup<BaseLightRotationEventBox>>
 {
-    [SerializeField] private List<TransformEntry> lightEntries = new();
+    [SerializeField] private List<TransformEntry> transformEntries = new();
+    [SerializeField] public int Count;
 
-    private readonly Dictionary<int, Dictionary<(int index, Axis axis), (
-            StateChunksContainer<LightRotationGroupStateData, BaseLightRotationEventBoxGroup<BaseLightRotationEventBox>>
-            container,
-            bool mirrored,
-            Transform transform)>>
-        transformsByGroupAndId = new();
+    private readonly Dictionary<(Axis axis, int index), RotationTransformContainer>
+        idToContainer = new();
 
-    private readonly List<(
-        StateChunksContainer<LightRotationGroupStateData, BaseLightRotationEventBoxGroup<BaseLightRotationEventBox>>
-        container,
-        Axis axis,
-        bool mirrored,
-        Transform transform)> activeTransforms = new();
+    private readonly List<RotationTransformContainer> transformContainers = new();
 
-    public void Register(int group, int id, Axis axis, bool mirrored, Transform tr) =>
-        lightEntries.Add(
-            new()
-            {
-                Group = group,
-                ID = id,
-                Axis = axis,
-                Mirrored = mirrored,
-                Transform = tr
-            });
+    public void Register(int id, Axis axis, bool mirrored, Transform tr) =>
+        transformEntries.Add(new() { ID = id, Transform = tr, Axis = axis, Mirrored = mirrored });
 
-    public void Unregister(int group, int id, Axis axis) =>
-        lightEntries.RemoveAll(e => e.Group == group && e.ID == id && e.Axis == axis);
+    public void Unregister(int id, Axis axis) => transformEntries.RemoveAll(e => e.ID == id && e.Axis == axis);
 
-    public void Unregister(Transform tr) => lightEntries.RemoveAll(e => e.Transform == tr);
+    public void Unregister(Transform tr) => transformEntries.RemoveAll(e => e.Transform == tr);
 
     public override void Initialize()
     {
-        transformsByGroupAndId.Clear();
-        activeTransforms.Clear();
-        foreach (var entry in lightEntries)
+        idToContainer.Clear();
+        transformContainers.Clear();
+        foreach (var entry in transformEntries)
         {
-            transformsByGroupAndId.TryAdd(entry.Group, new());
-            if (transformsByGroupAndId[entry.Group].ContainsKey((entry.ID, entry.Axis))) continue;
+            if (idToContainer.ContainsKey((entry.Axis, entry.ID))) continue;
 
-            var container =
-                new StateChunksContainer<LightRotationGroupStateData,
-                    BaseLightRotationEventBoxGroup<BaseLightRotationEventBox>>();
+            var container = new RotationTransformContainer(
+                entry.Transform,
+                entry.Axis,
+                entry.Mirrored
+            );
+
             var start = CreateState(new());
             var end = CreateState(new());
-            start.Box = new() { Events = Array.Empty<BaseLightRotationBase>() };
-            end.Box = new() { Events = Array.Empty<BaseLightRotationBase>() };
-            InitializeStates(container, start, end);
-            transformsByGroupAndId[entry.Group][(entry.ID, entry.Axis)] = (container, entry.Mirrored, entry.Transform);
-            activeTransforms.Add((container, entry.Axis, entry.Mirrored, entry.Transform));
+            start.Events = new[]
+            {
+                new LightRotationGroupStateData.LightRotationEvent(new BaseLightRotationBase(), short.MinValue),
+                new LightRotationGroupStateData.LightRotationEvent(new BaseLightRotationBase(), 0f)
+            };
+            end.Events = new[]
+            {
+                new LightRotationGroupStateData.LightRotationEvent(
+                    new BaseLightRotationBase { EaseType = (int)EaseType.None },
+                    float.MaxValue)
+            };
+            InitializeStates(container.Container, start, end);
+
+            idToContainer[(entry.Axis, entry.ID)] = container;
+            transformContainers.Add(container);
         }
     }
 
@@ -67,43 +62,38 @@ public class
 
     public override void UpdateTime(float time)
     {
-        foreach (var (container, axis, mirrored, tr) in activeTransforms)
+        foreach (var container in transformContainers)
         {
-            container.IsCurrentOrFindState(time, Atsc.IsPlaying);
-            UpdateObject(tr, axis, mirrored, container.CurrentState, time);
+            container.Container.IsCurrentOrFindState(time, Atsc.IsPlaying);
+            UpdateObject(container, time);
         }
     }
 
-    private void UpdateObject(Transform tr, Axis axis, bool mirrored, LightRotationGroupStateData state, float time)
+    private void UpdateObject(RotationTransformContainer container, float time)
     {
-        var (previousTime, previousOffset, previousFlip, previousEvent) = GetCurrentOrPreviousEvent(state, time);
-        if (previousEvent == null) return;
+        var state = container.Container.CurrentState;
 
-        var (nextTime, nextOffset, nextFlip, nextEvent) = GetNextEvent(state, previousTime);
-        if (nextEvent == null) return;
+        var (currentEventTime, currentEvent) = GetCurrentOrPreviousEvent(state, time);
+        var nextEvent = GetNextEvent(state, currentEventTime);
 
-        if (nextEvent.UsePrevious == 1)
-        {
-            nextOffset = previousOffset;
-            nextFlip = previousFlip;
-            nextEvent = previousEvent;
-        }
+        if (nextEvent.UsePrevious) nextEvent = currentEvent;
 
-        var prevVal = previousEvent.Rotation + previousOffset;
-        prevVal = Mathf.Repeat(prevVal, 360f);
-        if (previousFlip) prevVal *= -1f;
+        var startAngle = Mathf.Repeat(currentEvent.Rotation, 360f);
 
-        var nextVal = ComputeTargetAngle(
-            prevVal,
-            Mathf.Repeat(nextEvent.Rotation + nextOffset, 360f) * (nextFlip ? -1f : 1f),
+        var targetAngle = Mathf.Repeat(nextEvent.Rotation, 360f);
+
+        var nextAngle = ComputeTargetAngle(
+            startAngle,
+            targetAngle,
             nextEvent.Loop,
-            (LightRotationDirection)nextEvent.Direction);
+            nextEvent.Direction);
 
-        var tNorm = (time - previousTime) / (nextTime - previousTime);
-        var easing = Easing.FromID(nextEvent.EaseType);
+        var tNorm = Mathf.InverseLerp(currentEventTime, nextEvent.ActualSongBpmTime, time);
+        var easing = Easing.FromID((int)nextEvent.EaseType);
 
-        var val = Mathf.Lerp(prevVal, nextVal, easing(tNorm));
-        SetRotation(tr, Mathf.Repeat(val, 360f), axis, mirrored);
+        var val = Mathf.LerpUnclamped(startAngle, nextAngle, easing(tNorm));
+
+        SetRotation(container.Transform, Mathf.Repeat(val, 360f), container.Axis, container.Mirrored);
     }
 
     private static void SetRotation(Transform tr, float rotation, Axis axis, bool mirrored)
@@ -146,74 +136,65 @@ public class
         return angle + loopAngle;
     }
 
-    private static (float time, float offset, bool flip, BaseLightRotationBase evt) GetCurrentOrPreviousEvent(
+    private static (float time, LightRotationGroupStateData.LightRotationEvent evt) GetCurrentOrPreviousEvent(
         LightRotationGroupStateData state,
         float time)
     {
         while (true)
         {
-            var localTime = time - state.StartTime;
             var idx = Array.FindLastIndex(
-                state.Box.Events,
-                x => x.JsonTime <= localTime && state.StartTime + x.JsonTime < state.EndTime);
+                state.Events,
+                x => x.ActualSongBpmTime <= time && x.ActualSongBpmTime < state.EndTime);
             if (idx != -1)
             {
-                var evt = state.Box.Events[idx];
-                if (evt.UsePrevious != 1)
-                {
-                    return (state.StartTime + evt.JsonTime,
-                        state.Box.RotationAffectFirst == 0 && idx == 0 ? 0f : state.Offset, state.Box.Flip == 1, evt);
-                }
+                var evt = state.Events[idx];
+                if (!evt.UsePrevious) return (evt.ActualSongBpmTime, evt);
 
-                var prev = GetPreviousEvent(state, state.StartTime + evt.JsonTime);
-                return (state.StartTime + evt.JsonTime, prev.offset, prev.flip, prev.evt);
+                var previous = GetPreviousEvent(state, evt.ActualSongBpmTime);
+                return (evt.ActualSongBpmTime, previous);
             }
 
-            if (state.Previous == null) return (-1f, 0f, false, null);
+            // if (state.Previous == null) return (-1f, null);
             state = state.Previous;
         }
     }
 
-    private static (float time, float offset, bool flip, BaseLightRotationBase evt) GetPreviousEvent(
+    private static LightRotationGroupStateData.LightRotationEvent GetPreviousEvent(
         LightRotationGroupStateData state,
         float time)
     {
         while (true)
         {
-            var localTime = time - state.StartTime;
             var idx = Array.FindLastIndex(
-                state.Box.Events,
-                x => x.JsonTime < localTime && state.StartTime + x.JsonTime < state.EndTime && x.UsePrevious != 1);
+                state.Events,
+                x => x.ActualSongBpmTime < time && x.ActualSongBpmTime <= state.EndTime && !x.UsePrevious);
             if (idx != -1)
             {
-                var evt = state.Box.Events[idx];
-                return (state.StartTime + evt.JsonTime,
-                    state.Box.RotationAffectFirst == 0 && idx == 0 ? 0f : state.Offset, state.Box.Flip == 1, evt);
+                var evt = state.Events[idx];
+                return evt;
             }
 
-            if (state.Previous == null) return (-1f, 0f, false, null);
+            // if (state.Previous == null) return (-1f, null);
             state = state.Previous;
         }
     }
 
-    private static (float time, float offset, bool flip, BaseLightRotationBase evt) GetNextEvent(
+    private static LightRotationGroupStateData.LightRotationEvent GetNextEvent(
         LightRotationGroupStateData state,
         float time)
     {
         while (true)
         {
-            var localTime = time - state.StartTime;
             var idx = Array.FindIndex(
-                state.Box.Events,
-                x => x.JsonTime > localTime && state.StartTime + x.JsonTime < state.EndTime);
+                state.Events,
+                x => x.ActualSongBpmTime > time && x.ActualSongBpmTime <= state.EndTime);
             if (idx != -1)
             {
-                var evt = state.Box.Events[idx];
-                return (state.StartTime + evt.JsonTime,
-                    state.Box.RotationAffectFirst == 0 && idx == 0 ? 0f : state.Offset, state.Box.Flip == 1, evt);
+                var evt = state.Events[idx];
+                return evt;
             }
 
-            if (state.Next == null) return (-1f, 0f, false, null);
+            // if (state.Next == null) return (-1f, null);
             state = state.Next;
         }
     }
@@ -229,39 +210,43 @@ public class
         var taken = new HashSet<(int, Axis)>();
         foreach (var box in data.Boxes.Where(b => b.Events.Length > 0))
         {
-            foreach (var (element, durationOrder, distributionOrder) in IndexFilterHelper.Convert(
-                box.IndexFilter,
-                transformsByGroupAndId[data.ID].Count))
+            var indexFilter = IndexFilterHelper.Convert(box.IndexFilter, Count);
+            var timeStep = DistributionHelper.GetBeatStep(
+                DistributionHelper.GetCount(indexFilter),
+                (DistributionType)box.BeatDistributionType,
+                box.BeatDistribution,
+                box.Events.Last().JsonTime);
+            foreach (var (element, durationOrder, distributionOrder) in indexFilter)
             {
                 if (!taken.Add((element, (Axis)box.Axis))) continue;
+                if (!idToContainer.ContainsKey(((Axis)box.Axis, element))) continue;
 
-                var state = new LightRotationGroupStateData(data) { Box = box };
-                var durationOffset = 0f;
-                if (box.BeatDistributionType == (int)DistributionType.Wave)
-                {
-                    var durationNorm = durationOrder / (float)(transformsByGroupAndId[data.ID].Count - 1);
-                    durationOffset = Mathf.Max(
-                            0f,
-                            box.BeatDistribution - box.Events.Max(x => x.JsonTime))
-                        * durationNorm;
-                }
-                else if (box.BeatDistributionType == (int)DistributionType.Step)
-                    durationOffset = box.BeatDistribution * durationOrder;
+                var state = new LightRotationGroupStateData(data);
 
-                var distributionOffset = 0f;
-                if (box.RotationDistributionType == (int)DistributionType.Wave)
-                {
-                    var distributionNorm = distributionOrder / (float)(transformsByGroupAndId[data.ID].Count - 1);
-                    distributionOffset = box.RotationDistribution * distributionNorm;
-                }
-                else if (box.RotationDistributionType == (int)DistributionType.Step)
-                    distributionOffset = box.RotationDistribution * distributionOrder;
+                var distributionOffset = DistributionHelper.GetValueStep(
+                    distributionOrder,
+                    DistributionHelper.GetCount(indexFilter),
+                    (DistributionType)box.RotationDistributionType,
+                    box.RotationDistribution,
+                    (EaseType)box.Easing);
 
-                state.StartTime = data.SongBpmTime + durationOffset;
-                state.Offset = distributionOffset;
+                state.StartTime = data.SongBpmTime;
+                state.Events = box
+                    .Events.Select((x, i) =>
+                        {
+                            var affected = !(i == 0 && box.RotationAffectFirst != 1);
+                            var d = new LightRotationGroupStateData.LightRotationEvent(
+                                x,
+                                (float)BeatSaberSongContainer.Instance.Map.JsonTimeToSongBpmTime(
+                                    data.JsonTime + x.JsonTime + (timeStep * durationOrder)),
+                                box.Flip == 1 ? -1f : 1f,
+                                affected ? distributionOffset : 0f);
+                            return d;
+                        }
+                    )
+                    .ToArray();
 
-                if (!transformsByGroupAndId[data.ID].ContainsKey((element, (Axis)box.Axis))) continue;
-                var container = transformsByGroupAndId[data.ID][(element, (Axis)box.Axis)].container;
+                var container = idToContainer[((Axis)box.Axis, element)].Container;
                 HandleInsertState(container, state);
             }
         }
@@ -305,24 +290,65 @@ public class
 
 public class LightRotationGroupStateData : StateData<BaseLightRotationEventBoxGroup<BaseLightRotationEventBox>>
 {
-    public float Offset;
-
     public LightRotationGroupStateData Previous;
     public LightRotationGroupStateData Next;
 
-    public BaseLightRotationEventBox Box;
+    public LightRotationEvent[] Events;
 
     public LightRotationGroupStateData(BaseLightRotationEventBoxGroup<BaseLightRotationEventBox> data) : base(data)
     {
     }
+
+    public readonly struct LightRotationEvent
+    {
+        public readonly float ActualSongBpmTime;
+
+        public readonly float Rotation;
+        public readonly LightRotationDirection Direction;
+        public readonly EaseType EaseType;
+        public readonly int Loop;
+        public readonly bool UsePrevious;
+
+        public LightRotationEvent(BaseLightRotationBase data, float time, float direction = 1f, float offset = 0f)
+        {
+            var x = Mathf.FloorToInt(Mathf.Abs(offset) / 360f);
+            offset = Mathf.Abs(offset) % 360f * Mathf.Sign(offset);
+
+            ActualSongBpmTime = time;
+            Rotation = (data.Rotation + offset) * direction;
+            Direction = (LightRotationDirection)data.Direction;
+            EaseType = (EaseType)data.EaseType;
+            Loop = data.Loop + x;
+            UsePrevious = data.UsePrevious == 1;
+        }
+    }
 }
 
 [Serializable]
-public class TransformEntry
+public readonly struct RotationTransformContainer
 {
-    public int Group;
+    public readonly StateChunksContainer<LightRotationGroupStateData,
+            BaseLightRotationEventBoxGroup<BaseLightRotationEventBox>>
+        Container;
+
+    public readonly Transform Transform;
+    public readonly Axis Axis;
+    public readonly bool Mirrored;
+
+    public RotationTransformContainer(Transform transform, Axis axis, bool mirrored)
+    {
+        Container = new();
+        Transform = transform;
+        Axis = axis;
+        Mirrored = mirrored;
+    }
+}
+
+[Serializable]
+public struct TransformEntry
+{
     public int ID;
+    public Transform Transform;
     public Axis Axis;
     public bool Mirrored;
-    public Transform Transform;
 }

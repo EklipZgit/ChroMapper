@@ -22,7 +22,7 @@ public partial class EnvironmentSceneCreator
         var beec = new GameObject("BasicEventEffectController").AddComponent<BasicEventEffectManager>();
         beec.gameObject.transform.SetParent(GameObject.Find("Environment").transform);
         descriptor.BasicEventEffectManager = beec;
-        beec.Register<ColorBoostEffect>((int)EventTypeValue.ColorBoost);
+        var boost = beec.Register<ColorBoostEffect>((int)EventTypeValue.ColorBoost);
 
         var lcgemData = objectsToUse.FirstOrDefault(x => x.Components.LightColorGroupEffectManager != null)
             ?.Components.LightColorGroupEffectManager;
@@ -62,12 +62,15 @@ public partial class EnvironmentSceneCreator
                             x.StartLightId <= instancedLight.ID
                             && instancedLight.ID < x.StartLightId + x.NumberOfElements);
                         if (found != null)
+                        {
+                            lrgem.Register(found.GroupId, found.NumberOfElements);
                             lrgem.Register(
                                 found.GroupId,
                                 instancedLight.ID - found.StartLightId,
                                 lrge.Axis,
                                 lrge.Mirrored,
                                 go.transform);
+                        }
                     }
                 }
             }
@@ -121,7 +124,8 @@ public partial class EnvironmentSceneCreator
                 // quad.layer = LayerMask.NameToLayer("Lighting Events");
                 // quad.GetComponent<Renderer>().sharedMaterial = library.BloomFogMaterial;
 
-                beec.Register<BasicLightEffect>(tubeBloomPrePass.ChromaLight.Type);
+                var ble = beec.Register<BasicLightEffect>(tubeBloomPrePass.ChromaLight.Type);
+                ble.ColorBoostEffect = boost;
                 beec.Register(tubeBloomPrePass.ChromaLight.Type, tubeBloomPrePass.ChromaLight.LightId, lc);
             }
         }
@@ -158,7 +162,12 @@ public partial class EnvironmentSceneCreator
             {
                 var found = lcgemData.LightGroups.FirstOrDefault(x =>
                     x.StartLightId <= instancedLight.ID && instancedLight.ID < x.StartLightId + x.NumberOfElements);
-                if (found != null) lcgem.Register(found.GroupId, instancedLight.ID - found.StartLightId, lc);
+                if (found != null)
+                {
+                    var lcge = lcgem.Register(found.GroupId, found.NumberOfElements);
+                    lcge.ColorBoostEffect = boost;
+                    lcgem.Register(found.GroupId, instancedLight.ID - found.StartLightId, lc);
+                }
             }
         }
     }

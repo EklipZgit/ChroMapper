@@ -7,12 +7,12 @@ public class LightController : BaseLightController
 
     public override void UpdateTime(float time)
     {
-        var nTimeAlpha = (time - StartTimeAlpha) / (EndTimeAlpha - StartTimeAlpha);
-        var nTimeColor = (time - StartTimeColor) / (EndTimeColor - StartTimeColor);
+        var nTimeAlpha = Mathf.InverseLerp(StartTimeAlpha, EndTimeAlpha, time);
+        var nTimeColor = Mathf.InverseLerp(StartTimeColor, EndTimeColor, time);
         var color = UseHSV
             ? LerpHSV(StartColor, EndColor, Easing(nTimeColor))
-            : Color.Lerp(StartColor, EndColor, Easing(nTimeColor));
-        var alpha = Mathf.Lerp(StartAlpha, EndAlpha, Easing(nTimeAlpha));
+            : Color.LerpUnclamped(StartColor, EndColor, Easing(nTimeColor));
+        var alpha = Mathf.LerpUnclamped(StartAlpha, EndAlpha, Easing(nTimeAlpha));
 
         if (StartStrobeFrequency > 0 || EndStrobeFrequency > 0)
         {
@@ -52,9 +52,9 @@ public class LightController : BaseLightController
         return Color
             .HSVToRGB(
                 Mathf.Repeat(hue, 360f) / 360f,
-                Mathf.Lerp(sS, eS, t),
-                Mathf.Lerp(sV, eV, t))
-            .WithAlpha(Mathf.Lerp(start.a, end.a, t));
+                Mathf.LerpUnclamped(sS, eS, t),
+                Mathf.LerpUnclamped(sV, eV, t))
+            .WithAlpha(Mathf.LerpUnclamped(start.a, end.a, t));
     }
 
     public override void UpdateBoostState(bool boost) => LightObject.UpdateBoostState(boost);

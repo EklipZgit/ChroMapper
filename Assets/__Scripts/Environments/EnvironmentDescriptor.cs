@@ -9,6 +9,7 @@ public class EnvironmentDescriptor : MonoBehaviour
 
     [SerializeField] public BasicEventEffectManager BasicEventEffectManager;
     [SerializeField] public LightColorGroupEffectManager LightColorGroupEffectManager;
+
     [SerializeField] public LightRotationGroupEffectManager LightRotationGroupEffectManager;
     // [SerializeField] public LightTranslationGroupEffectManager LightTranslationGroupEffectManager;
     // [SerializeField] public FloatFxGroupEffectManager FloatFxGroupEffectManager;

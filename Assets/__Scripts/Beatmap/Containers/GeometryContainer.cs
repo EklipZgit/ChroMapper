@@ -18,6 +18,8 @@ namespace Beatmap.Containers
             set => EnvironmentEnhancement = (BaseEnvironmentEnhancement)value;
         }
 
+        public BeatmapRuntimeContext Context;
+
         public BaseEnvironmentEnhancement EnvironmentEnhancement;
 
         public ObjectAnimator MaterialAnimator;
@@ -36,6 +38,7 @@ namespace Beatmap.Containers
             if (type_str == null) return null;
 
             var container = Instantiate(prefab).GetComponent<GeometryContainer>();
+            container.Context = context;
             container.Animator.Context = context;
             container.Animator.TracksManager = tracksManager;
             PrimitiveType type;

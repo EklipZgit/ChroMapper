@@ -10,18 +10,15 @@ public class
 {
     [SerializeField] private List<LightControllerEntry> lightEntries = new();
 
-    private readonly Dictionary<int, Dictionary<int, (
-            StateChunksContainer<LightColorGroupStateData, BaseLightColorEventBoxGroup<BaseLightColorEventBox>>
-            container,
-            List<BaseLightController> lights)>>
-        lightsByGroupAndId = new();
+    [SerializeField] public ColorBoostEffect ColorBoostEffect;
+    [SerializeField] public int Count;
 
-    private readonly List<(
-        StateChunksContainer<LightColorGroupStateData, BaseLightColorEventBoxGroup<BaseLightColorEventBox>>
-        container,
-        List<BaseLightController> lights)> activeLights = new();
+    private LightControllerContainer[] idToContainer = Array.Empty<LightControllerContainer>();
 
     public ColorSchemeSO ColorScheme;
+
+    public void Start() => ColorBoostEffect.OnStateChanged += HandleBoostChange;
+    public void OnDestroy() => ColorBoostEffect.OnStateChanged -= HandleBoostChange;
 
     public void Register(int group, int id, LightController controller) =>
         lightEntries.Add(new() { Type = group, ID = id, Controller = controller });
@@ -32,29 +29,53 @@ public class
     public void Unregister(LightController controller) =>
         lightEntries.Remove(lightEntries.Find(e => e.Controller == controller));
 
+    private void HandleBoostChange(bool boost)
+    {
+        foreach (var container in idToContainer)
+        foreach (var controller in container.Lights)
+        {
+            var state = container.Container.CurrentState;
+
+            var (previousTime, previousEvent) = GetCurrentOrPreviousEvent(state, Atsc.CurrentSongBpmTime);
+            var nextEvent = GetNextEvent(state, previousTime);
+
+            if (nextEvent.UsePrevious) nextEvent = previousEvent;
+
+            controller.StartColor = ColorScheme.GetColorFrom(previousEvent.Color, false);
+            controller.EndColor = ColorScheme.GetColorFrom(nextEvent.Color, false);
+            controller.UpdateBoostState(boost);
+        }
+    }
+
     public override void Initialize()
     {
-        activeLights.Clear();
-        lightsByGroupAndId.Clear();
+        idToContainer = new LightControllerContainer[Count];
         foreach (var entry in lightEntries)
         {
-            lightsByGroupAndId.TryAdd(entry.Type, new());
-            if (!lightsByGroupAndId[entry.Type].ContainsKey(entry.ID))
+            if (idToContainer[entry.ID].Container is null)
             {
                 var container =
                     new StateChunksContainer<LightColorGroupStateData,
                         BaseLightColorEventBoxGroup<BaseLightColorEventBox>>();
                 var start = CreateState(new());
                 var end = CreateState(new());
-                start.Box = new() { Events = new[] { new BaseLightColorBase() } };
-                end.Box = new() { Events = new[] { new BaseLightColorBase() } };
+                start.Events = new[]
+                {
+                    new LightColorGroupStateData.LightColorEvent(new BaseLightColorBase(), short.MinValue),
+                    new LightColorGroupStateData.LightColorEvent(new BaseLightColorBase(), 0f),
+                };
+                end.Events = new[]
+                {
+                    new LightColorGroupStateData.LightColorEvent(
+                        new BaseLightColorBase { Easing = (int)EaseType.None },
+                        float.MaxValue)
+                };
                 InitializeStates(container, start, end);
-                lightsByGroupAndId[entry.Type][entry.ID] = (container, new List<BaseLightController>());
+                idToContainer[entry.ID] = new(container);
             }
 
-            var active = lightsByGroupAndId[entry.Type][entry.ID];
-            active.lights.Add(entry.Controller);
-            activeLights.Add(active);
+            var c = idToContainer[entry.ID];
+            c.Lights.Add(entry.Controller);
         }
     }
 
@@ -62,117 +83,101 @@ public class
 
     public override void UpdateTime(float time)
     {
-        foreach (var (container, lights) in activeLights)
+        foreach (var container in idToContainer)
         {
-            container.IsCurrentOrFindState(time, Atsc.IsPlaying);
-            foreach (var controller in lights)
+            container.Container.IsCurrentOrFindState(time, Atsc.IsPlaying);
+            foreach (var controller in container.Lights)
             {
-                UpdateObject(controller, container.CurrentState, time);
+                UpdateObject(controller, container.Container.CurrentState, time);
                 controller.UpdateTime(time);
             }
         }
     }
 
-    private void UpdateObject(BaseLightController lightController, LightColorGroupStateData state, float time)
+    private void UpdateObject(BaseLightController controller, LightColorGroupStateData state, float time)
     {
-        var (previousTime, previousOffset, previousEvent) = GetCurrentOrPreviousEvent(state, time);
-        if (previousEvent == null) return;
+        var (currentEventTime, currentEvent) = GetCurrentOrPreviousEvent(state, time);
+        var nextEvent = GetNextEvent(state, currentEventTime);
 
-        var (nextTime, nextOffset, nextEvent) = GetNextEvent(state, previousTime);
-        if (nextEvent == null) return;
+        if (nextEvent.UsePrevious) nextEvent = currentEvent;
 
-        if (nextEvent.UsePrevious == 1)
-        {
-            nextOffset = previousOffset;
-            nextEvent = previousEvent;
-        }
+        controller.StartTimeAlpha = currentEventTime;
+        controller.StartTimeColor = currentEventTime;
+        controller.StartAlpha = currentEvent.Brightness;
+        controller.StartColor = ColorScheme.GetColorFrom(currentEvent.Color, false);
+        controller.StartStrobeFrequency = currentEvent.StrobeFrequency;
+        controller.StartStrobeBrightness = currentEvent.StrobeBrightness;
 
-        lightController.StartTimeAlpha = previousTime;
-        lightController.StartTimeColor = previousTime;
-        lightController.StartAlpha = previousEvent.Brightness + previousOffset;
-        lightController.StartColor = ColorScheme.GetColorFrom((LightColor)previousEvent.Color, false);
-        lightController.StartStrobeFrequency = previousEvent.Frequency;
-        lightController.StartStrobeBrightness = previousEvent.StrobeBrightness;
+        controller.EndTimeAlpha = nextEvent.ActualSongBpmTime;
+        controller.EndTimeColor = nextEvent.ActualSongBpmTime;
+        controller.EndAlpha = nextEvent.Brightness;
+        controller.EndColor = ColorScheme.GetColorFrom(nextEvent.Color, false);
+        controller.EndStrobeFrequency = nextEvent.StrobeFrequency;
+        controller.EndStrobeBrightness = nextEvent.StrobeBrightness;
 
-        lightController.EndTimeAlpha = nextTime;
-        lightController.EndTimeColor = nextTime;
-        lightController.EndAlpha = nextEvent.Brightness + nextOffset;
-        lightController.EndColor = ColorScheme.GetColorFrom((LightColor)nextEvent.Color, false);
-        lightController.EndStrobeFrequency = nextEvent.Frequency;
-        lightController.EndStrobeBrightness = nextEvent.StrobeBrightness;
-
-        lightController.StrobeFade = nextEvent.StrobeFade == 1;
-        lightController.Easing = Easing.FromID(nextEvent.Easing);
+        controller.StrobeFade = nextEvent.StrobeFade;
+        controller.Easing = Easing.FromID((int)nextEvent.EaseType);
     }
 
-    private static (float time, float offset, BaseLightColorBase evt) GetCurrentOrPreviousEvent(
+    private static (float time, LightColorGroupStateData.LightColorEvent evt) GetCurrentOrPreviousEvent(
         LightColorGroupStateData state,
         float time)
     {
         while (true)
         {
-            var localTime = time - state.StartTime;
             var idx = Array.FindLastIndex(
-                state.Box.Events,
-                x => x.JsonTime <= localTime && state.StartTime + x.JsonTime < state.EndTime);
+                state.Events,
+                x => x.ActualSongBpmTime <= time && x.ActualSongBpmTime < state.EndTime);
             if (idx != -1)
             {
-                var evt = state.Box.Events[idx];
-                if (evt.UsePrevious != 1)
-                {
-                    return (state.StartTime + evt.JsonTime,
-                        state.Box.BrightnessAffectFirst == 0 && idx == 0 ? 0f : state.Offset, evt);
-                }
+                var evt = state.Events[idx];
+                if (!evt.UsePrevious) return (evt.ActualSongBpmTime, evt);
 
-                var previous = GetPreviousEvent(state, evt.JsonTime);
-                return (state.StartTime + evt.JsonTime, previous.offset, previous.evt);
+                var previous = GetPreviousEvent(state, evt.ActualSongBpmTime);
+                return (evt.ActualSongBpmTime, previous);
             }
 
-            if (state.Previous == null) return (-1f, 0f, null);
+            // if (state.Previous == null) return (-1f, null);
             state = state.Previous;
         }
     }
 
-    private static (float time, float offset, BaseLightColorBase evt) GetPreviousEvent(
+    private static LightColorGroupStateData.LightColorEvent GetPreviousEvent(
         LightColorGroupStateData state,
         float time)
     {
         while (true)
         {
-            var localTime = time - state.StartTime;
             var idx = Array.FindLastIndex(
-                state.Box.Events,
-                x => x.JsonTime < localTime && state.StartTime + x.JsonTime < state.EndTime);
+                state.Events,
+                x => x.ActualSongBpmTime < time && x.ActualSongBpmTime <= state.EndTime && !x.UsePrevious);
             if (idx != -1)
             {
-                var evt = state.Box.Events[idx];
-                return (state.StartTime + evt.JsonTime,
-                    state.Box.BrightnessAffectFirst == 0 && idx == 0 ? 0f : state.Offset, evt);
+                var evt = state.Events[idx];
+                return evt;
             }
 
-            if (state.Previous == null) return (-1f, 0f, null);
+            // if (state.Previous == null) return (-1f, null);
             state = state.Previous;
         }
     }
 
-    private static (float time, float offset, BaseLightColorBase evt) GetNextEvent(
+    private static LightColorGroupStateData.LightColorEvent GetNextEvent(
         LightColorGroupStateData state,
         float time)
     {
         while (true)
         {
-            var localTime = time - state.StartTime;
             var idx = Array.FindIndex(
-                state.Box.Events,
-                x => x.JsonTime > localTime && state.StartTime + x.JsonTime < state.EndTime);
+                state.Events,
+                x => x.ActualSongBpmTime > time && x.ActualSongBpmTime <= state.EndTime);
             if (idx != -1)
             {
-                var evt = state.Box.Events[idx];
-                return (state.StartTime + evt.JsonTime,
-                    state.Box.BrightnessAffectFirst == 0 && idx == 0 ? 0f : state.Offset, evt);
+                var evt = state.Events[idx];
+                return evt;
             }
 
-            if (state.Next == null) return (-1f, 0f, null);
+            // if (state.Next == null) return (-1f, null);
             state = state.Next;
         }
     }
@@ -188,38 +193,41 @@ public class
         var taken = new HashSet<int>();
         foreach (var box in data.Boxes.Where(b => b.Events.Length > 0))
         {
-            foreach (var (element, durationOrder, distributionOrder) in IndexFilterHelper.Convert(
-                box.IndexFilter,
-                lightsByGroupAndId[data.ID].Count))
+            var indexFilter = IndexFilterHelper.Convert(box.IndexFilter, Count);
+            var timeStep = DistributionHelper.GetBeatStep(
+                DistributionHelper.GetCount(indexFilter),
+                (DistributionType)box.BeatDistributionType,
+                box.BeatDistribution,
+                box.Events.Last().JsonTime);
+            foreach (var (element, durationOrder, distributionOrder) in indexFilter)
             {
                 if (!taken.Add(element)) continue;
 
-                var state = new LightColorGroupStateData(data) { Box = box, };
-                var offset = 0f;
-                if (box.BeatDistributionType == (int)DistributionType.Wave)
-                {
-                    var durationNorm = durationOrder / (float)(lightsByGroupAndId[data.ID].Count - 1);
-                    offset = Mathf.Max(
-                            0f,
-                            box.BeatDistribution - box.Events.Max(x => x.JsonTime))
-                        * durationNorm;
-                }
-                else if (box.BeatDistributionType == (int)DistributionType.Step)
-                    offset = box.BeatDistribution * durationOrder;
+                var state = new LightColorGroupStateData(data);
 
-                var distributionOffset = 0f;
-                if (box.BrightnessDistributionType == (int)DistributionType.Wave)
-                {
-                    var distributionNorm = distributionOrder / (float)(lightsByGroupAndId[data.ID].Count - 1);
-                    distributionOffset = box.BrightnessDistribution * distributionNorm;
-                }
-                else if (box.BrightnessDistributionType == (int)DistributionType.Step)
-                    distributionOffset = box.BrightnessDistribution * distributionOrder;
+                var distributionOffset = DistributionHelper.GetValueStep(
+                    distributionOrder,
+                    DistributionHelper.GetCount(indexFilter),
+                    (DistributionType)box.BrightnessDistributionType,
+                    box.BrightnessDistribution,
+                    (EaseType)box.Easing);
 
-                state.StartTime = data.SongBpmTime + offset;
-                state.Offset = distributionOffset;
+                state.StartTime = data.SongBpmTime;
+                state.Events = box
+                    .Events.Select((x, i) =>
+                        {
+                            var affected = !(i == 0 && box.BrightnessAffectFirst != 1);
+                            var d = new LightColorGroupStateData.LightColorEvent(
+                                x,
+                                (float)BeatSaberSongContainer.Instance.Map.JsonTimeToSongBpmTime(
+                                    data.JsonTime + x.JsonTime + (timeStep * durationOrder)),
+                                affected ? distributionOffset : 0f);
+                            return d;
+                        }
+                    )
+                    .ToArray();
 
-                var container = lightsByGroupAndId[data.ID][element].container;
+                var container = idToContainer[element].Container;
                 HandleInsertState(container, state);
             }
         }
@@ -262,14 +270,52 @@ public class
 
 public class LightColorGroupStateData : StateData<BaseLightColorEventBoxGroup<BaseLightColorEventBox>>
 {
-    public float Offset;
-
     public LightColorGroupStateData Previous;
     public LightColorGroupStateData Next;
 
-    public BaseLightColorEventBox Box;
+    public LightColorEvent[] Events;
 
     public LightColorGroupStateData(BaseLightColorEventBoxGroup<BaseLightColorEventBox> data) : base(data)
     {
+    }
+
+    public readonly struct LightColorEvent
+    {
+        public readonly float ActualSongBpmTime;
+
+        public readonly LightColor Color;
+        public readonly float Brightness;
+        public readonly EaseType EaseType;
+        public readonly bool UsePrevious;
+        public readonly int StrobeFrequency;
+        public readonly float StrobeBrightness;
+        public readonly bool StrobeFade;
+
+        public LightColorEvent(BaseLightColorBase data, float time, float offset = 0f)
+        {
+            ActualSongBpmTime = time;
+            Color = (LightColor)data.Color;
+            Brightness = data.Brightness + offset;
+            EaseType = (EaseType)data.Easing;
+            UsePrevious = data.UsePrevious == 1;
+            StrobeFrequency = data.Frequency;
+            StrobeBrightness = data.StrobeBrightness;
+            StrobeFade = data.StrobeFade == 1;
+        }
+    }
+}
+
+public readonly struct LightControllerContainer
+{
+    public readonly StateChunksContainer<LightColorGroupStateData, BaseLightColorEventBoxGroup<BaseLightColorEventBox>>
+        Container;
+
+    public readonly List<BaseLightController> Lights;
+
+    public LightControllerContainer(
+        StateChunksContainer<LightColorGroupStateData, BaseLightColorEventBoxGroup<BaseLightColorEventBox>> container)
+    {
+        Container = container;
+        Lights = new List<BaseLightController>();
     }
 }

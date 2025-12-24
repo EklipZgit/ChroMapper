@@ -22,6 +22,7 @@ namespace Beatmap.Appearances
         public void SetGeometryAppearance(GeometryContainer container)
         {
             var eh = container.EnvironmentEnhancement;
+            var descriptor = container.Context.Descriptor;
             BaseMaterial basemat = standard;
             switch (eh.Geometry[eh.GeometryKeyMaterial])
             {
@@ -80,7 +81,6 @@ namespace Beatmap.Appearances
 
             if (eh.Components?.HasKey("ILightWithId") ?? false)
             {
-                var descriptor = FindAnyObjectByType<EnvironmentDescriptor>(); // TODO: sorry
                 var light = container.Shape.AddComponent<LightController>();
                 descriptor.BasicEventEffectManager.Register(eh.LightType ?? 0, eh.LightID ?? -1, light);
             }

@@ -41,11 +41,13 @@ public class BasicEventEffectManager : MonoBehaviour
     public IEnumerable<(int type, T manager)> GetAllManagers<T>() where T : StateManager<BaseEvent> =>
         GetAllManagers().Where(m => m.manager is T).Select(m => (m.type, m.manager as T));
 
-    public void Register<T>(int type) where T : StateManager<BaseEvent>
+    public T Register<T>(int type) where T : StateManager<BaseEvent>
     {
-        if (effectEntries.Exists(entry => entry.Type == type && entry.Manager is T)) return;
+        if (effectEntries.Exists(entry => entry.Type == type && entry.Manager is T))
+            return effectEntries.First(entry => entry.Type == type && entry.Manager is T).Manager as T;
         var comp = gameObject.AddComponent<T>();
         effectEntries.Add(new() { Type = type, Manager = comp });
+        return comp;
     }
 
     public void Register(int type, int id, LightController controllable)

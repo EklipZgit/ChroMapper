@@ -6,20 +6,20 @@ using Beatmap.Enums;
 using UnityEngine;
 
 // look, i dont know how to explain this cryptic stuff beat games pull, but i understood how it work
-public class IndexFilterHelper
+public static class IndexFilterHelper
 {
     public class IndexFilter : IReadOnlyCollection<(int element, int durationOrder, int distributionOrder)>
     {
-        private readonly RandomType _random;
-        private readonly int _seed;
-        private readonly int _groupSize;
-        private readonly int _chunkSize;
-        private readonly int _visibleCount;
-        private readonly LimitAlsoAffectType _limitAlsoAffectType;
-        private readonly int _start;
-        private readonly int _step;
-        private readonly int _count;
-        public int Count => _count;
+        private readonly RandomType random;
+        private readonly int seed;
+        private readonly int groupSize;
+        private readonly int chunkSize;
+        private readonly int visibleCount;
+        private readonly LimitAlsoAffectType limitAlsoAffectType;
+        private readonly int start;
+        private readonly int step;
+        private readonly int count;
+        public int Count => count;
 
         public IndexFilter(
             int start,
@@ -32,21 +32,22 @@ public class IndexFilterHelper
             float limit,
             LimitAlsoAffectType limitAlsoAffectType)
         {
-            _start = start;
-            _step = step;
-            _count = count;
-            _random = random;
-            _seed = seed;
-            _groupSize = groupSize;
-            _chunkSize = chunkSize;
-            _visibleCount = limit is 0f or 1f
-                ? _count
-                : Mathf.CeilToInt(_count * limit);
-            _limitAlsoAffectType = limitAlsoAffectType;
+            this.start = start;
+            this.step = step;
+            this.count = count;
+            this.random = random;
+            this.seed = seed;
+            this.groupSize = groupSize;
+            this.chunkSize = chunkSize;
+            visibleCount = limit is 0f or 1f
+                ? this.count
+                : Mathf.CeilToInt(this.count * limit);
+            this.limitAlsoAffectType = limitAlsoAffectType;
         }
 
-        private bool LimitsDuration => _limitAlsoAffectType.HasFlag(LimitAlsoAffectType.Duration);
-        private bool LimitsDistribution => _limitAlsoAffectType.HasFlag(LimitAlsoAffectType.Distribution);
+        public bool LimitsDuration => limitAlsoAffectType.HasFlag(LimitAlsoAffectType.Duration);
+        public bool LimitsDistribution => limitAlsoAffectType.HasFlag(LimitAlsoAffectType.Distribution);
+        public int VisibleCount => visibleCount;
 
         public IndexFilter(
             int start,
@@ -72,30 +73,30 @@ public class IndexFilterHelper
 
         public IEnumerator<(int element, int durationOrder, int distributionOrder)> GetEnumerator()
         {
-            var ints1 = GetValues();
-            if (_random != RandomType.NoRandom
-                && !_random.HasFlag(RandomType.KeepOrder))
-                ints1 = ints1.Shuffle(new System.Random(_seed));
-            var ints2 = Enumerable.Range(0, _count);
-            if (_visibleCount > 0)
+            var elements = GetValues();
+            if (random != RandomType.NoRandom
+                && !random.HasFlag(RandomType.KeepOrder))
+                elements = elements.Shuffle(new System.Random(seed));
+            var ids = Enumerable.Range(0, count);
+            if (visibleCount > 0)
             {
-                ints2 = _random.HasFlag(RandomType.RandomElements)
-                    ? ints2.PickRandomElementsWithTombstone(
-                        _visibleCount,
-                        _count,
-                        new System.Random(_seed),
+                ids = random.HasFlag(RandomType.RandomElements)
+                    ? ids.PickRandomElementsWithTombstone(
+                        visibleCount,
+                        count,
+                        new System.Random(seed),
                         -1)
-                    : ints2.TakeWithTombstone(_visibleCount, -1);
+                    : ids.TakeWithTombstone(visibleCount, -1);
             }
 
-            var valueTuples = ints1.ZipSkipTombstone(ints2, -1);
+            var elementIdPairs = elements.ZipSkipTombstone(ids, -1);
             var limitedOrderIndex = 0;
-            foreach (var (elementIndex, index) in valueTuples)
+            foreach (var (elementIndex, index) in elementIdPairs)
             {
-                for (var localChunkIndex = 0; localChunkIndex < _chunkSize; ++localChunkIndex)
+                for (var localChunkIndex = 0; localChunkIndex < chunkSize; ++localChunkIndex)
                 {
-                    var element = (elementIndex * _chunkSize) + localChunkIndex;
-                    if (element < _groupSize)
+                    var element = (elementIndex * chunkSize) + localChunkIndex;
+                    if (element < groupSize)
                     {
                         var durationOrder = LimitsDuration ? limitedOrderIndex : index;
                         var distributionOrder = LimitsDistribution ? limitedOrderIndex : index;
@@ -111,11 +112,11 @@ public class IndexFilterHelper
 
         private IEnumerable<int> GetValues()
         {
-            var value = _start;
-            for (var i = 0; i < _count; ++i)
+            var value = start;
+            for (var i = 0; i < count; ++i)
             {
                 yield return value;
-                value += _step;
+                value += step;
             }
         }
 
@@ -125,19 +126,19 @@ public class IndexFilterHelper
     public static IndexFilter Convert(BaseIndexFilter indexFilter, int groupSize)
     {
         var chunkSize = indexFilter.Chunks == 0 ? 1 : Mathf.CeilToInt(groupSize / (float)indexFilter.Chunks);
-        var num1 = Mathf.CeilToInt(groupSize / (float)chunkSize);
+        var offsetSize = Mathf.CeilToInt(groupSize / (float)chunkSize);
         switch (indexFilter.Type)
         {
             case (int)IndexFilterType.Division:
-                var p1 = indexFilter.Param0;
-                var t1 = indexFilter.Param1;
-                var num2 = Mathf.CeilToInt(num1 / (float)p1);
+                var section = indexFilter.Param0;
+                var sId = indexFilter.Param1;
+                var offset = Mathf.CeilToInt(offsetSize / (float)section);
                 if (indexFilter.Reverse == 1)
                 {
-                    var start = num1 - (num2 * t1) - 1;
+                    var start = offsetSize - (offset * sId) - 1;
                     return new IndexFilter(
                         start,
-                        Mathf.Max(0, start - num2 + 1),
+                        Mathf.Max(0, start - offset + 1),
                         groupSize,
                         (RandomType)indexFilter.Random,
                         indexFilter.Seed,
@@ -146,10 +147,10 @@ public class IndexFilterHelper
                         (LimitAlsoAffectType)indexFilter.LimitAffectsType);
                 }
 
-                var start1 = num2 * t1;
+                var start1 = offset * sId;
                 return new IndexFilter(
                     start1,
-                    Mathf.Min(num1 - 1, start1 + num2 - 1),
+                    Mathf.Min(offsetSize - 1, start1 + offset - 1),
                     groupSize,
                     (RandomType)indexFilter.Random,
                     indexFilter.Seed,
@@ -157,20 +158,20 @@ public class IndexFilterHelper
                     indexFilter.Limit,
                     (LimitAlsoAffectType)indexFilter.LimitAffectsType);
             case (int)IndexFilterType.StepAndOffset:
-                var p2 = indexFilter.Param0;
-                var t2 = indexFilter.Param1;
-                var num3 = num1 - p2;
-                if (num3 <= 0)
+                var id = indexFilter.Param0;
+                var step = indexFilter.Param1;
+                var offsetStep = offsetSize - id;
+                if (offsetStep <= 0)
                 {
                     Debug.LogWarning("Step and Offset has negative size.");
                     return null;
                 }
 
-                var count = t2 == 0 ? 1 : Mathf.CeilToInt(num3 / (float)t2);
+                var count = step == 0 ? 1 : Mathf.CeilToInt(offsetStep / (float)step);
                 return indexFilter.Reverse == 1
                     ? new IndexFilter(
-                        num1 - 1 - p2,
-                        -t2,
+                        offsetSize - 1 - id,
+                        -step,
                         count,
                         groupSize,
                         (RandomType)indexFilter.Random,
@@ -179,8 +180,8 @@ public class IndexFilterHelper
                         indexFilter.Limit,
                         (LimitAlsoAffectType)indexFilter.LimitAffectsType)
                     : new IndexFilter(
-                        p2,
-                        t2,
+                        id,
+                        step,
                         count,
                         groupSize,
                         (RandomType)indexFilter.Random,

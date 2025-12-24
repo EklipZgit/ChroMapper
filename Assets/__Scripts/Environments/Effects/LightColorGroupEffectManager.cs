@@ -1,21 +1,43 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
-public class LightColorGroupEffectManager :MonoBehaviour
+public class LightColorGroupEffectManager : MonoBehaviour
 {
-    public LightColorGroupEffect Effect;
+    [SerializeField] private List<LightColorGroupEffectEntry> effectEntries = new();
 
-    private void OnValidate()
-    {
-        if (GetComponent<LightColorGroupEffect>() == null) gameObject.AddComponent<LightColorGroupEffect>();
-        Effect = GetComponent<LightColorGroupEffect>();
-    }
-    
+    public Dictionary<int, LightColorGroupEffect> IdToEffect = new();
+
+    private void Awake() => IdToEffect = effectEntries.ToDictionary(x => x.Group, x => x.Effect);
+
     public virtual void Initialize(AudioTimeSyncController atsc, ColorSchemeSO colorScheme)
     {
-        Effect.Atsc = atsc;
-        Effect.ColorScheme = colorScheme;
-        Effect.Initialize();
+        foreach (var effect in IdToEffect.Values)
+        {
+            effect.Atsc = atsc;
+            effect.ColorScheme = colorScheme;
+            effect.Initialize();
+        }
     }
 
-    public void Register(int group, int id, LightController controllable) => Effect.Register(group, id, controllable);
+    public LightColorGroupEffect Register(int group, int count)
+    {
+        if (effectEntries.Any(x => x.Group == group)) return effectEntries.First(x => x.Group == group).Effect;
+        var effect = gameObject.AddComponent<LightColorGroupEffect>();
+        effect.Count = count;
+        effectEntries.Add(new LightColorGroupEffectEntry { Group = group, Effect = effect });
+        IdToEffect.Add(group, effect);
+        return effect;
+    }
+
+    public void Register(int group, int id, LightController controllable) =>
+        IdToEffect[group].Register(group, id, controllable);
+}
+
+[Serializable]
+public struct LightColorGroupEffectEntry
+{
+    public int Group;
+    public LightColorGroupEffect Effect;
 }

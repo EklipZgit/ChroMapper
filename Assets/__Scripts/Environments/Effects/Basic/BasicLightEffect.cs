@@ -9,10 +9,12 @@ public class BasicLightEffect : BasicEventStateManager<BasicLightStateData>
 {
     [NonSerialized] public ColorSchemeSO ColorScheme;
 
-    public static readonly float FadeTimeSecond = 1.2f;
-    public static readonly float FlashTimeSecond = 0.5f;
+    public static readonly float FadeTimeSecond = 1.5f;
+    public static readonly float FlashTimeSecond = 0.6f;
     public static float FadeTimeBeat = FadeTimeSecond;
     public static float FlashTimeBeat = FlashTimeSecond;
+
+    [SerializeField] public ColorBoostEffect ColorBoostEffect;
 
     [SerializeField] private float offIntensity;
     [SerializeField] private bool lightOnStart;
@@ -32,7 +34,13 @@ public class BasicLightEffect : BasicEventStateManager<BasicLightStateData>
     private List<ChromaLiteData> chromaLiteDatas = new();
     private List<ChromaGradientData> chromaGradientDatas = new();
 
-    private void Start() => CalculateMapping();
+    private void Start()
+    {
+        CalculateMapping();
+        ColorBoostEffect.OnStateChanged += HandleBoostChanged;
+    }
+
+    private void OnDestroy() => ColorBoostEffect.OnStateChanged -= HandleBoostChanged;
 
     public void Register(BaseLightController lightController, int id = -1)
     {
@@ -121,8 +129,7 @@ public class BasicLightEffect : BasicEventStateManager<BasicLightStateData>
             stateData.EndChromaColor ?? ColorScheme.GetColorFrom(stateData.EndColor, invertColorScheme);
     }
 
-    // TODO: not sure if this is needed anymore
-    public void ToggleBoost(bool boost)
+    private void HandleBoostChanged(bool boost)
     {
         foreach (var (lightingObject, container) in controllerToStateChunksContainer)
         {
