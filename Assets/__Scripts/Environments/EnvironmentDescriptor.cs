@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Beatmap.Base;
 using UnityEngine;
@@ -15,6 +16,8 @@ public class EnvironmentDescriptor : MonoBehaviour
     // [SerializeField] public FloatFxGroupEffectManager FloatFxGroupEffectManager;
 
     [SerializeField] public BloomFogParams BloomFogParams = new();
+
+    public List<ChromaIDMarker> ChromaIDMarkers = new();
 
     // below is old
     [Header("Rings")] [Tooltip("Leave null if you do not want small rings.")]

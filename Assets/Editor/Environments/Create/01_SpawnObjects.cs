@@ -75,6 +75,10 @@ public partial class EnvironmentSceneCreator
             go.layer = library.layerMaskLookup[envObject.Layer].value.Get1BitPositions()[0];
             chromaIdObjects[envObject.ChromaID] = go;
 
+            // Add ChromaIDMarker for environment enhancements
+            var marker = go.AddComponent<ChromaIDMarker>();
+            marker.ChromaID = envObject.ChromaID;
+
             if (parentName != name)
             {
                 go.transform.SetParent(

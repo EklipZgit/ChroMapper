@@ -16,6 +16,7 @@ public partial class EnvironmentSceneCreator
     {
         var descriptor = GameObject.Find("Environment").AddComponent<EnvironmentDescriptor>();
         descriptor.ID = data.Data.ID;
+        descriptor.ChromaIDMarkers = descriptor.GetComponentsInChildren<ChromaIDMarker>(true).ToList();
 
         data.Data.FogParameters.CopyTo(descriptor.BloomFogParams);
 
