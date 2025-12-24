@@ -22,6 +22,8 @@ public abstract class BaseLightController : MonoBehaviour
     public bool UseHSV;
     public Func<float, float> Easing = global::Easing.ByName["easeLinear"];
 
+    protected Color LastColor;
+
     public abstract void UpdateTime(float time);
     public abstract void UpdateBoostState(bool boost);
 }

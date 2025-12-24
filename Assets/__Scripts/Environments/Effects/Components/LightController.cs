@@ -41,7 +41,8 @@ public class LightController : BaseLightController
         else
             color.a *= alpha;
 
-        LightObject.UpdateLighting(color);
+        if (LastColor != color) LightObject.UpdateLighting(color);
+        LastColor = color;
     }
 
     private static Color LerpHSV(Color start, Color end, float t)

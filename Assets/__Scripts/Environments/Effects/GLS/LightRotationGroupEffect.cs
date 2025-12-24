@@ -15,7 +15,7 @@ public class
     private readonly Dictionary<(Axis axis, int index), RotationTransformContainer>
         idToContainer = new();
 
-    [SerializeField] private List<RotationTransformContainer> transformContainers = new();
+    private readonly List<RotationTransformContainer> transformContainers = new();
 
     public void Register(int id, Axis axis, bool mirrored, Transform tr) =>
         transformEntries.Add(new() { ID = id, Transform = tr, Axis = axis, Mirrored = mirrored });
@@ -37,9 +37,9 @@ public class
                 entry.Axis,
                 entry.Mirrored
             );
-
             var start = CreateState(new());
-            var end = CreateState(new());
+            var end = CreateState(new() { songBpmTime = float.MaxValue });
+
             start.Events = new[]
             {
                 new LightRotationGroupStateData.LightRotationEvent(new BaseLightRotationBase(), short.MinValue),
@@ -51,6 +51,10 @@ public class
                     new BaseLightRotationBase { EaseType = (int)EaseType.None },
                     float.MaxValue)
             };
+
+            start.Next = end;
+            end.Previous = start;
+
             InitializeStates(container.Container, start, end);
 
             idToContainer[(entry.Axis, entry.ID)] = container;
@@ -151,16 +155,17 @@ public class
     {
         while (true)
         {
-            var idx = Array.FindLastIndex(
-                state.Events,
-                x => x.ActualSongBpmTime <= time && x.ActualSongBpmTime <= state.EndTime);
-            if (idx != -1)
+            if (!state.Skip)
             {
-                var evt = state.Events[idx];
-                if (!evt.UsePrevious) return (evt.ActualSongBpmTime, evt);
+                for (var i = state.Events.Length - 1; i >= 0; i--)
+                {
+                    var evt = state.Events[i];
+                    if (!(evt.ActualSongBpmTime <= time) || !(evt.ActualSongBpmTime < state.EndTime)) continue;
 
-                var previous = GetPreviousEvent(state, evt.ActualSongBpmTime);
-                return (evt.ActualSongBpmTime, previous);
+                    if (!evt.UsePrevious) return (evt.ActualSongBpmTime, evt);
+                    var previous = GetPreviousEvent(state, evt.ActualSongBpmTime);
+                    return (evt.ActualSongBpmTime, previous);
+                }
             }
 
             // if (state.Previous == null) return (-1f, null);
@@ -174,13 +179,15 @@ public class
     {
         while (true)
         {
-            var idx = Array.FindLastIndex(
-                state.Events,
-                x => x.ActualSongBpmTime < time && x.ActualSongBpmTime <= state.EndTime && !x.UsePrevious);
-            if (idx != -1)
+            if (!state.Skip)
             {
-                var evt = state.Events[idx];
-                return evt;
+                for (var i = state.Events.Length - 1; i >= 0; i--)
+                {
+                    var evt = state.Events[i];
+                    if (!(evt.ActualSongBpmTime < time) || !(evt.ActualSongBpmTime <= state.EndTime) || evt.UsePrevious)
+                        continue;
+                    return evt;
+                }
             }
 
             // if (state.Previous == null) return (-1f, null);
@@ -194,16 +201,17 @@ public class
     {
         while (true)
         {
-            var idx = Array.FindIndex(
-                state.Events,
-                x => x.ActualSongBpmTime > time && x.ActualSongBpmTime <= state.EndTime);
-            if (idx != -1)
+            if (!state.Skip)
             {
-                var evt = state.Events[idx];
-                return evt;
+                for (var i = 0; i < state.Events.Length; i++)
+                {
+                    var evt = state.Events[i];
+                    if (!(evt.ActualSongBpmTime > time) || !(evt.ActualSongBpmTime <= state.EndTime)) continue;
+                    return evt;
+                }
             }
 
-            // if (state.Next == null) return (-1f, null);
+            // if (state.Next == null) return state.Events[^1];
             state = state.Next;
         }
     }
@@ -277,6 +285,7 @@ public class
     {
         base.OnInsertUpdateToNextState(newState, nextState);
         nextState.Previous = newState;
+        nextState.Skip = nextState.Base.SongBpmTime < newState.StartTime;
     }
 
     protected override void OnInsertUpdateFromPreviousStateAndNextState(
@@ -301,6 +310,8 @@ public class
 
 public class LightRotationGroupStateData : StateData<BaseLightRotationEventBoxGroup<BaseLightRotationEventBox>>
 {
+    public bool Skip;
+
     public LightRotationGroupStateData Previous;
     public LightRotationGroupStateData Next;
 
@@ -312,6 +323,9 @@ public class LightRotationGroupStateData : StateData<BaseLightRotationEventBoxGr
 
     public readonly struct LightRotationEvent : IEquatable<LightRotationEvent>
     {
+        private static long id;
+        private readonly long instanceId;
+
         public readonly float ActualSongBpmTime;
 
         public readonly float Rotation;
@@ -322,6 +336,8 @@ public class LightRotationGroupStateData : StateData<BaseLightRotationEventBoxGr
 
         public LightRotationEvent(BaseLightRotationBase data, float time, float direction = 1f, float offset = 0f)
         {
+            instanceId = id++;
+
             var x = Mathf.FloorToInt(Mathf.Abs(offset) / 360f);
             offset = Mathf.Abs(offset) % 360f * Mathf.Sign(offset);
 
@@ -333,15 +349,7 @@ public class LightRotationGroupStateData : StateData<BaseLightRotationEventBoxGr
             UsePrevious = data.UsePrevious == 1;
         }
 
-        public bool Equals(LightRotationEvent other)
-        {
-            return ActualSongBpmTime.Equals(other.ActualSongBpmTime)
-                && Rotation.Equals(other.Rotation)
-                && Direction == other.Direction
-                && EaseType == other.EaseType
-                && Loop == other.Loop
-                && UsePrevious == other.UsePrevious;
-        }
+        public bool Equals(LightRotationEvent other) => instanceId == other.instanceId;
 
         public override bool Equals(object obj) => obj is LightRotationEvent other && Equals(other);
 
