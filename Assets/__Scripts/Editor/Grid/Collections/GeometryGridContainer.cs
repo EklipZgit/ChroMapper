@@ -19,28 +19,18 @@ public class GeometryGridContainer : BeatmapObjectContainerCollection<BaseEnviro
     protected override void HandleObjectSpawned(BaseObject obj, bool inCollection = false)
     {
         var eh = obj as BaseEnvironmentEnhancement;
-        if (eh.Geometry is JSONNode)
-        {
-            try
-            {
-                var container = GeometryContainer.SpawnGeometry(
-                    eh,
-                    ref geometryPrefab,
-                    Context,
-                    tracksManager);
-                if (container == null) return;
-                container.Setup();
-                LoadedContainers.Add(eh, container);
-                ObjectsWithContainers.Add(eh);
-                geometryAppearanceSo.SetGeometryAppearance(container);
-                container.OutlineVisible = SelectionController.IsObjectSelected(obj);
-            }
-            catch (System.Exception e)
-            {
-                Debug.LogError("Error in geometry:");
-                Debug.LogException(e);
-            }
-        }
+
+        var container = GeometryContainer.SpawnGeometry(
+            eh,
+            ref geometryPrefab,
+            Context,
+            tracksManager);
+        if (container == null) return;
+        container.Setup();
+        LoadedContainers.Add(eh, container);
+        ObjectsWithContainers.Add(eh);
+        geometryAppearanceSo.SetGeometryAppearance(container);
+        container.OutlineVisible = SelectionController.IsObjectSelected(obj);
     }
 
     protected override void HandleObjectDelete(BaseObject obj, bool inCollection = false)

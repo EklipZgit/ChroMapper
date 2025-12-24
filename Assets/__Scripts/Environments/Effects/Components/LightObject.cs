@@ -14,6 +14,11 @@ public class LightObject : MonoBehaviour
     public void UpdateLighting(Color color)
     {
         Mpb.SetColor(colorId, ModifyColor(color));
+        if (Renderer == null)
+        {
+            Debug.LogError("Renderer is null on LightObject attached to " + gameObject.name);
+            return;
+        }
         Renderer.SetPropertyBlock(Mpb);
     }
 

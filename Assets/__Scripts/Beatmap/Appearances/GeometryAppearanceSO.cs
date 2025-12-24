@@ -22,6 +22,10 @@ namespace Beatmap.Appearances
         public void SetGeometryAppearance(GeometryContainer container)
         {
             var eh = container.EnvironmentEnhancement;
+
+            // Bail if not geometry - environment enhancement is handled elsewhere
+            if (eh.Geometry == null) return;
+
             var descriptor = container.Context.Descriptor;
             BaseMaterial basemat = standard;
             switch (eh.Geometry[eh.GeometryKeyMaterial])

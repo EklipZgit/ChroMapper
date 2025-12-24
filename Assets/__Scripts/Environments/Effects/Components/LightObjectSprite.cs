@@ -8,13 +8,16 @@ public class LightObjectSprite : LightObject
     protected override void Start()
     {
         base.Start();
-        if (Renderer is not SpriteRenderer spriteRenderer) return;
+        if (Renderer is not SpriteRenderer spriteRenderer || boostSprite == null) return;
         boostSprite.Setup(spriteRenderer.sprite);
         Mpb.SetTexture(mainTexId, spriteRenderer.sprite.texture);
     }
 
-    public override void UpdateBoostState(bool boost) =>
+    public override void UpdateBoostState(bool boost)
+    {
+        if (boostSprite == null) return;
         Mpb.SetTexture(mainTexId, boostSprite.GetSprite(boost).texture);
+    }
 
     protected override Color ModifyColor(Color color) => color * Multiply;
 }

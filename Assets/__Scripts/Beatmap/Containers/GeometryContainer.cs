@@ -1,7 +1,10 @@
-using System;
 using Beatmap.Animations;
 using Beatmap.Base;
 using Beatmap.Base.Customs;
+using Beatmap.Enums;
+using System;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
 
 namespace Beatmap.Containers
@@ -34,13 +37,32 @@ namespace Beatmap.Containers
             BeatmapRuntimeContext context,
             TracksManager tracksManager)
         {
-            var type_str = (string)eh.Geometry[eh.GeometryKeyType];
-            if (type_str == null) return null;
-
             var container = Instantiate(prefab).GetComponent<GeometryContainer>();
             container.Context = context;
             container.Animator.Context = context;
             container.Animator.TracksManager = tracksManager;
+            container.EnvironmentEnhancement = eh;
+
+            if (eh.Geometry != null)
+            {
+                // Continue with geometry generation if the Geometry object is defined
+                GeneratePrimitiveGeometry(container, eh);
+            }
+            else
+            {
+                // Otherwise, fallback to environment enhancement
+                GenerateEnvironmentEnhancement(container, eh, context);
+            }
+
+            container.Animator.AttachToGeometry(eh);
+            container.gameObject.SetActive(true);
+            container.UpdateCollisionGroups();
+
+            return container;
+        }
+
+        private static void GeneratePrimitiveGeometry(GeometryContainer container, BaseEnvironmentEnhancement eh)
+        {
             PrimitiveType type;
             if (eh.Geometry[eh.GeometryKeyType] == "Triangle")
             {
@@ -54,7 +76,6 @@ namespace Beatmap.Containers
                 }
             }
 
-            container.EnvironmentEnhancement = eh;
             container.Shape = GameObject.CreatePrimitive(type);
             container.Shape.layer = 9;
 
@@ -92,11 +113,132 @@ namespace Beatmap.Containers
             container.Colliders.Add(intersection);
             container.Shape.transform.parent = container.Animator.AnimationThis.transform;
             container.Shape.transform.localScale = 1.667f * Vector3.one;
-            container.Animator.AttachToGeometry(eh);
-            container.gameObject.SetActive(true);
-            container.UpdateCollisionGroups();
-            return container;
         }
+
+        private static void GenerateEnvironmentEnhancement(GeometryContainer container, BaseEnvironmentEnhancement eh, BeatmapRuntimeContext ctx)
+        {
+            // Get descriptor of currently loaded environment
+            var environmentDescriptor = ctx.Descriptor;
+
+            // No environment? No enhancement.
+            if (environmentDescriptor == null) return;
+
+            // Use the ID / Lookup method to find our target marker
+            var chromaIDMarkers = environmentDescriptor.ChromaIDMarkers;
+            var targetMarker = chromaIDMarkers.Find(marker => FindMarker(marker, eh));
+
+            // Bail out if we couldn't find it
+            if (targetMarker == null)
+            {
+                Debug.LogWarning($"Could not find target marker for environment enhancement {eh.ID}!");
+                return;
+            }
+
+            container.MaterialPropertyBlock ??= new MaterialPropertyBlock();
+            container.RendererCount = 0;
+
+            // Gather a list of target objects.
+            // It must be a list because...
+            var targetObjects = new List<GameObject>() { targetMarker.gameObject };
+
+            // We need to handle duplicates if defined!
+            if (eh.Duplicate != null)
+            {
+                // Clear the list - we will no longer affect the original object
+                targetObjects.Clear();
+
+                // Instantiate a copy and add that to our list.
+                var duplicates = eh.Duplicate.Value;
+                for (var i = 0; i < duplicates; i++)
+                {
+                    var duplicateObject = Instantiate(targetMarker.gameObject);
+                    targetObjects.Add(duplicateObject);
+                }
+            }
+
+            // Apply enhancements to each target object (original or duplicates)
+            foreach (var targetObject in targetObjects)
+            {
+                // Parent to our animator but keep world transform
+                targetObject.transform.SetParent(container.Animator.AnimationThis.transform, true);
+
+                container.Animator.AnimationThis.transform.SetPositionAndRotation(
+                    targetObject.transform.position,
+                    targetObject.transform.rotation);
+                container.Animator.AnimationThis.transform.localScale = targetObject.transform.localScale;
+
+                targetObject.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+                targetObject.transform.localScale = Vector3.one * (5f / 3);
+
+                // Reset layer to editor object layer
+                targetObject.layer = 9;
+
+                // Apply enhancement transforms
+                if (eh.Position != null)
+                {
+                    container.Animator.AnimationThis.transform.position = eh.Position.Value;
+                }
+                if (eh.Rotation != null)
+                {
+                    container.Animator.AnimationThis.transform.rotation = Quaternion.Euler(eh.Rotation.Value);
+                }
+                if (eh.Scale != null)
+                {
+                    container.Animator.AnimationThis.transform.localScale = eh.Scale.Value;
+                }
+                if (eh.LocalPosition != null)
+                {
+                    container.Animator.AnimationThis.transform.localPosition = eh.LocalPosition.Value;
+                }
+                if (eh.LocalRotation != null)
+                {
+                    container.Animator.AnimationThis.transform.localRotation = Quaternion.Euler(eh.LocalRotation.Value);
+                }
+
+                // Add colliders to our container
+                var colliders = targetObject.GetComponentsInChildren<MeshFilter>();
+                foreach (var col in colliders)
+                {
+                    var intersection = targetObject.AddComponent<IntersectionCollider>();
+                    intersection.Mesh = col.sharedMesh;
+                    container.Colliders.Add(intersection);
+
+                    // Add renderer too
+                    if (col.TryGetComponent<MeshRenderer>(out var renderer))
+                    {
+                        container.ModelRenderers.Add(renderer);
+                        container.RendererCount++;
+                    }
+                }
+
+                // Handle components if needed
+                if (eh.Components != null)
+                {
+                    if (eh.Components.HasKey("ILightWithID") && targetMarker.TryGetComponent<LightController>(out var lightController))
+                    {
+                        var lightWithID = eh.Components["ILightWithID"];
+                        var type = lightWithID["type"].AsInt;
+                        var lightID = lightWithID["lightID"].AsInt;
+
+                        environmentDescriptor.BasicEventEffectManager.Register(type, lightID, lightController);
+                    }
+
+                    // TODO: Handle TubeBloomPrePassLight to update bloomfog intensity / color alpha multiplier
+                    // TODO: Handle BloomFogEnvironment to update environment bloom fog state
+                }
+            }
+        }
+
+        private static bool FindMarker(ChromaIDMarker marker, BaseEnvironmentEnhancement eh)
+            => eh.LookupMethod switch
+            {
+                EnvironmentLookupMethod.Exact => marker.ChromaID == eh.ID,
+                EnvironmentLookupMethod.StartsWith => marker.ChromaID.StartsWith(eh.ID),
+                EnvironmentLookupMethod.EndsWith => marker.ChromaID.EndsWith(eh.ID),
+                EnvironmentLookupMethod.Contains => marker.ChromaID.Contains(eh.ID),
+                EnvironmentLookupMethod.Regex => Regex.IsMatch(marker.ChromaID, eh.ID),
+                _ => throw new ArgumentException($"Unknown lookup method {eh.LookupMethod}"),
+            };
 
         /// <summary>
         /// https://answers.unity.com/questions/1594750/is-there-a-premade-triangle-asset.html
