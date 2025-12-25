@@ -53,10 +53,10 @@ Shader "Hidden/BloomfogBlurring"
                 // Kawase blur - 4 diagonal samples
                 float4 mipColor = float4(0,0,0,0);
                 
-                mipColor.rgb += saturate(tex2D(_BloomfogPrevTex, i.uv + float2(radius, radius) * texelSize).rgb);
-                mipColor.rgb += saturate(tex2D(_BloomfogPrevTex, i.uv + float2(-radius, radius) * texelSize).rgb);
-                mipColor.rgb += saturate(tex2D(_BloomfogPrevTex, i.uv + float2(radius, -radius) * texelSize).rgb);
-                mipColor.rgb += saturate(tex2D(_BloomfogPrevTex, i.uv + float2(-radius, -radius) * texelSize).rgb);
+                mipColor.rgb += tex2D(_BloomfogPrevTex, i.uv + float2(radius, radius) * texelSize).rgb;
+                mipColor.rgb += tex2D(_BloomfogPrevTex, i.uv + float2(-radius, radius) * texelSize).rgb;
+                mipColor.rgb += tex2D(_BloomfogPrevTex, i.uv + float2(radius, -radius) * texelSize).rgb;
+                mipColor.rgb += tex2D(_BloomfogPrevTex, i.uv + float2(-radius, -radius) * texelSize).rgb;
                 
                 mipColor.rgb /= 4.0; // Average the 4 samples
                 //mipColor.rgb += _BloomfogBrightness;

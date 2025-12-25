@@ -99,18 +99,37 @@ public partial class EnvironmentSceneCreator
             foreach (var tubeBloomPrePass in comps)
             {
                 if (tubeBloomPrePass.TubeBloomPrePassLight == null
-                    || tubeBloomPrePass.ChromaLight == null
-                    || string.IsNullOrEmpty(tubeBloomPrePass.TubeBloomPrePassLight.ParametricBoxId)
-                    || tubeBloomPrePass.TubeBloomPrePassLight.ParametricBoxId == "null")
+                    || tubeBloomPrePass.ChromaLight == null)
                     continue;
 
                 var lc = go.AddComponent<LightController>();
 
-                var boxLight = chromaIdObjects[tubeBloomPrePass.TubeBloomPrePassLight.ParametricBoxId];
-                lc.LightObject = boxLight.AddComponent<LightObject>();
-                lc.LightObject.Renderer = boxLight.GetComponent<Renderer>();
-                lc.LightObject.Multiply = tubeBloomPrePass.TubeBloomPrePassLight.ColorAlphaMultiplier;
+                // Set up bloom fog object
+                lc.BloomFog = go.AddComponent<LightObjectBloomFog>();
+                lc.BloomFog.Length = tubeBloomPrePass.TubeBloomPrePassLight.TubeLength;
+                lc.BloomFog.Width = tubeBloomPrePass.TubeBloomPrePassLight.TubeWidth;
+                lc.BloomFog.Center = tubeBloomPrePass.TubeBloomPrePassLight.Center;
+                lc.BloomFog.Height = tubeBloomPrePass.TubeBloomPrePassLight.Height;
 
+                lc.BloomFog.StartAlpha = tubeBloomPrePass.TubeBloomPrePassLight.StartAlpha;
+                lc.BloomFog.EndAlpha = tubeBloomPrePass.TubeBloomPrePassLight.EndAlpha;
+
+                lc.BloomFog.LightWidthMultiplier =
+                    tubeBloomPrePass.TubeBloomPrePassLight.LightWidthMultiplier;
+                lc.BloomFog.Multiply = tubeBloomPrePass.TubeBloomPrePassLight.ColorAlphaMultiplier;
+                lc.BloomFog.IntensityMultiplier =
+                    tubeBloomPrePass.TubeBloomPrePassLight.BloomFogIntensityMultiplier;
+
+                // Set up physical light object
+                if (!string.IsNullOrEmpty(tubeBloomPrePass.TubeBloomPrePassLight.ParametricBoxId)
+                    && tubeBloomPrePass.TubeBloomPrePassLight.ParametricBoxId != "null")
+                {
+                    var boxLight = chromaIdObjects[tubeBloomPrePass.TubeBloomPrePassLight.ParametricBoxId];
+                    lc.LightObject = boxLight.AddComponent<LightObject>();
+                    lc.LightObject.Renderer = boxLight.GetComponentInChildren<Renderer>();
+                    lc.LightObject.Multiply = tubeBloomPrePass.TubeBloomPrePassLight.ColorAlphaMultiplier;
+                }
+                
                 // var quad = GameObject.CreatePrimitive(PrimitiveType.Quad);
                 // quad.transform.SetParent(go.transform, false);
                 // quad.transform.localScale = new(

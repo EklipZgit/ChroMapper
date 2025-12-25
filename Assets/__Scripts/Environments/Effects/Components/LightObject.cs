@@ -11,14 +11,10 @@ public class LightObject : MonoBehaviour
 
     protected virtual void Start() => Mpb = new MaterialPropertyBlock();
 
-    public void UpdateLighting(Color color)
+    public virtual void UpdateLighting(Color color)
     {
+        if (Renderer == null) return;
         Mpb.SetColor(colorId, ModifyColor(color));
-        if (Renderer == null)
-        {
-            Debug.LogError("Renderer is null on LightObject attached to " + gameObject.name);
-            return;
-        }
         Renderer.SetPropertyBlock(Mpb);
     }
 

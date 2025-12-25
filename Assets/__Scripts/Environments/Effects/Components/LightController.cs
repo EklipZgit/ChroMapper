@@ -4,6 +4,16 @@ public class LightController : BaseLightController
 {
     public static readonly float HDRIntensity = Mathf.GammaToLinearSpace(2.4169f);
     public LightObject LightObject;
+    public LightObjectBloomFog BloomFog;
+
+    private bool useLightObject = false;
+    private bool useBloomFog = false;
+
+    private void Start()
+    {
+        useLightObject = LightObject != null;
+        useBloomFog = BloomFog != null;
+    }
 
     public override void UpdateTime(float time)
     {
@@ -41,8 +51,12 @@ public class LightController : BaseLightController
         else
             color.a *= alpha;
 
-        if (LastColor != color) LightObject.UpdateLighting(color);
+        if (LastColor == color) return;
         LastColor = color;
+
+        // These are basically cached null checks to avoid doing them every frame
+        if (useLightObject) LightObject.UpdateLighting(color);
+        if (useBloomFog) BloomFog.UpdateLighting(color);
     }
 
     private static Color LerpHSV(Color start, Color end, float t)
@@ -58,5 +72,9 @@ public class LightController : BaseLightController
             .WithAlpha(Mathf.LerpUnclamped(start.a, end.a, t));
     }
 
-    public override void UpdateBoostState(bool boost) => LightObject.UpdateBoostState(boost);
+    public override void UpdateBoostState(bool boost)
+    {
+        if (useLightObject) LightObject.UpdateBoostState(boost);
+        if (useBloomFog) BloomFog.UpdateBoostState(boost);
+    }
 }

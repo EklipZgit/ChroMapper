@@ -1,0 +1,52 @@
+Shader "ChroMapper/BloomfogMesh"
+{
+    Properties
+    {
+    }
+    SubShader
+    {
+        Tags { "RenderType"="Transparent" }
+        Blend SrcAlpha OneMinusSrcAlpha
+        LOD 100
+
+        Pass
+        {
+            CGPROGRAM
+            #pragma vertex vert
+            #pragma fragment frag
+
+            struct appdata
+            {
+                float4 vertex : POSITION;
+                float2 uv : TEXCOORD0;
+                uint id : SV_VertexID;
+                //float4 viewPos : TEXCOORD1;
+            };
+
+            struct v2f
+            {
+                float4 vertex : SV_POSITION;
+                float2 uv : TEXCOORD0;
+                uint id : TEXCOORD1;
+            };
+
+            uniform float4x4 _VertexTransformMatrix;
+            uniform StructuredBuffer<float4> _BloomfogColorBuffer;
+
+            v2f vert (appdata v)
+            {
+                v2f o;
+                o.vertex = mul(_VertexTransformMatrix, v.vertex);
+                o.uv = v.uv;
+                o.id = v.id;
+                return o;
+            }
+
+            float4 frag (v2f i) : SV_Target
+            {
+                return _BloomfogColorBuffer[i.id];
+            }
+            ENDCG
+        }
+    }
+}

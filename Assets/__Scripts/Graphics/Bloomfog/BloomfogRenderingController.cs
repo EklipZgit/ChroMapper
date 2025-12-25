@@ -2,39 +2,32 @@ using UnityEngine;
 
 public class BloomfogRenderingController : MonoBehaviour
 {
+    private const int bloomFogResolution = 512;
     private const int maxBloomfogPasses = 5;
 
-    [SerializeField] private Camera bloomfogCamera;
     [SerializeField] private Shader blurShader;
     [SerializeField] private BeatmapRuntimeContext context;
+    [SerializeField] private BloomfogRendererSO bloomfogRenderer;
 
-    private Camera editorCamera;
+    private Camera activeCamera;
     private Material blurMaterial;
     private RenderTexture[] bloomfogPassRTs = new RenderTexture[maxBloomfogPasses];
 
     private int realBloomfogPasses = maxBloomfogPasses;
-    private int cachedScreenWidth = 0;
-    private int cachedScreenHeight = 0;
 
     public void AssignToCamera(CameraController activeCamera)
-    {
-        editorCamera = activeCamera.Camera;
-        transform.SetParent(activeCamera.transform, false);
-        transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
-        bloomfogCamera.fieldOfView = editorCamera.fieldOfView;
-    }
+        => this.activeCamera = activeCamera.Camera;
 
     private void Start()
     {
-        bloomfogCamera.enabled = false;
         Camera.onPreRender += OnCameraPreRender;
         context.OnEnvironmentChanged += HandleEnvironmentLoaded;
 
         blurMaterial = new Material(blurShader);
 
         Settings.NotifyBySettingName(nameof(Settings.HighQualityBloom), (_) => RegenerateRenderTexture());
-        Settings.NotifyBySettingName(nameof(Settings.CameraFOV), (fov) => bloomfogCamera.fieldOfView = (float)fov);
 
+        bloomfogRenderer.Initialize();
         UpdateBloomFogParams(0f, 25f, -50f, 0.00025f);
         Shader.SetGlobalFloat("_BloomfogBrightness", 0.1f);
         Shader.EnableKeyword("ENABLE_BLOOM_FOG");
@@ -42,22 +35,15 @@ public class BloomfogRenderingController : MonoBehaviour
         RegenerateRenderTexture();
     }
 
-    private void Update()
-    {
-        if (cachedScreenWidth != Screen.width || cachedScreenHeight != Screen.height)
-        {
-            RegenerateRenderTexture();
-        }
-    }
-
     // Render bloomfog and perform blur passes before the active editor camera renders
     // This ensures the main render has up-to-date bloomfog texture
     private void OnCameraPreRender(Camera renderingCamera)
     {
-        if (renderingCamera != editorCamera) return;
+        if (renderingCamera != activeCamera) return;
 
         // Render bloomfog to first RT
-        bloomfogCamera.Render();
+        bloomfogRenderer.RenderToTexture(activeCamera, bloomfogPassRTs[0], out var textureToScreenRatio);
+        Shader.SetGlobalVector("_CustomFogTextureToScreenRatio", textureToScreenRatio);
 
         // Downscale
         blurMaterial.SetFloat("_BloomfogAlpha", 1);
@@ -93,6 +79,7 @@ public class BloomfogRenderingController : MonoBehaviour
 
     private void OnDestroy()
     {
+        bloomfogRenderer.Release();
         Camera.onPreRender -= OnCameraPreRender;
         ClearRenderTextures();
         Settings.ClearSettingNotifications(nameof(Settings.HighQualityBloom));
@@ -121,25 +108,8 @@ public class BloomfogRenderingController : MonoBehaviour
     {
         ClearRenderTextures();
 
-        cachedScreenWidth = Screen.width;
-        cachedScreenHeight = Screen.height;
-
-        var width = cachedScreenWidth / quality;
-        var height = cachedScreenHeight / quality;
-
-        // Enforce maximum resolution of 512 while keeping aspect ratio
-        // TODO: Beat Saber/ArcViewer uses square 512x512 and uses shader to sample correctly
-        var aspect = (float)width / height;
-        if (aspect >= 1)
-        {
-            width = Mathf.Clamp(width, 2, 512);
-            height = Mathf.Clamp(Mathf.RoundToInt(width / aspect), 2, 512);
-        }
-        else
-        {
-            height = Mathf.Clamp(height, 2, 512);
-            width = Mathf.Clamp(Mathf.RoundToInt(height * aspect), 2, 512);
-        }
+        var width = bloomFogResolution / quality;
+        var height = bloomFogResolution / quality;
 
         realBloomfogPasses = 0;
 
@@ -161,10 +131,6 @@ public class BloomfogRenderingController : MonoBehaviour
             height /= 2;
         }
 
-        bloomfogCamera.targetTexture = bloomfogPassRTs[0];
-
-        // TODO(Caeden): Calculate screen ratio properly once texture is 512x512
-        Shader.SetGlobalVector("_CustomFogTextureToScreenRatio", new Vector4(1, 1, 0, 0));
         Shader.SetGlobalTexture("_BloomPrePassTexture", bloomfogPassRTs[0]);
     }
 }
