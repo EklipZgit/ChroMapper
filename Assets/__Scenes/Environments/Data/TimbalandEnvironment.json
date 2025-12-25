@@ -433,6 +433,162 @@
           "_WHITEBOOSTTYPE_NONE",
           "_ZWRITE_ON"
         ]
+      },
+      {
+        "hash": "0e26d4cbb471559952d2179cc10c6681",
+        "name": "BackgroundStructures",
+        "shader": "Custom/SimpleLit",
+        "color": [
+          0.319999963,
+          0.319999963,
+          0.319999963,
+          0.0
+        ],
+        "shaderKeywords": [
+          "DIFFUSE",
+          "FOG",
+          "HEIGHT_FOG",
+          "REFLECTION_PROBE_BOX_PROJECTION",
+          "SPECULAR",
+          "_ACES_APPROACH_AFTER_EMISSIVE",
+          "_DIFFUSE_TEXTURE_SOURCE_TEXTURE",
+          "_DISSOLVEALPHA_CLIP",
+          "_EMISSIONCOLORTYPE_FLAT",
+          "_EMISSION_ALPHA_SOURCE_EMISSION_G",
+          "_EMISSION_TEXTURE_SOURCE_TEXTURE",
+          "_METALLIC_TEXTURE_NONE",
+          "_OCCLUSION_SOURCE_TEXTURE",
+          "_PROBE_CALCULATION_FAST",
+          "_SMOOTHNESS_TEXTURE_NONE",
+          "ENABLE_DIFFUSE",
+          "ENABLE_FOG",
+          "ENABLE_SPECULAR",
+          "OVERRIDE_REFLECTION_SMOOTHNESS",
+          "_CURVE_VERTICES_NONE",
+          "_CUSTOM_TIME_STANDARD",
+          "_DECALBLEND_ALPHABLEND",
+          "_DISSOLVEAXIS_LOCALX",
+          "_EMISSION",
+          "_EMISSIONTEXTURE_NONE",
+          "_ENABLE_FOG_TINT",
+          "_HOLOGRAM_NONE",
+          "_RIMLIGHT_NONE",
+          "_RIM_WHITEBOOSTTYPE_NONE",
+          "_ROTATE_UV_NONE",
+          "_SPECTROGRAM_NONE",
+          "_VERTEXMODE_NONE",
+          "_VERTEX_WHITEBOOSTTYPE_NONE",
+          "_WHITEBOOSTTYPE_NONE",
+          "_ZWRITE_ON"
+        ]
+      },
+      {
+        "hash": "2487501c6a10ee0041e8c4764f6addaa",
+        "name": "GridMirror",
+        "shader": "Custom/Mirror",
+        "color": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "shaderKeywords": [
+          "ENABLE_DIRT",
+          "ENABLE_MIRROR",
+          "ETC1_EXTERNAL_ALPHA",
+          "_EMISSION"
+        ]
+      },
+      {
+        "hash": "47348bfff0fbcb3e14515ad3bfebc6be",
+        "name": "SetDepthOnly",
+        "shader": "Custom/SetDepthOnly",
+        "color": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "shaderKeywords": [
+          "ENABLE_DIFFUSE",
+          "ENABLE_DIRT",
+          "ENABLE_DIRT_DETAIL",
+          "ENABLE_FOG",
+          "ENABLE_SPECULAR",
+          "FOG",
+          "LIGHTMAP",
+          "REFLECTION_PROBE",
+          "_EMISSION",
+          "_ENABLE_FOG_TINT",
+          "_RIMLIGHT_NONE"
+        ]
+      },
+      {
+        "hash": "19cb3b1f9cf3cbc03a5bef2da530f65b",
+        "name": "FrontStructures",
+        "shader": "Custom/SimpleLit",
+        "color": [
+          0.319999963,
+          0.319999963,
+          0.319999963,
+          0.0
+        ],
+        "shaderKeywords": [
+          "DIFFUSE",
+          "FOG",
+          "HEIGHT_FOG",
+          "REFLECTION_PROBE_BOX_PROJECTION",
+          "SPECULAR",
+          "_ACES_APPROACH_AFTER_EMISSIVE",
+          "_DIFFUSE_TEXTURE_SOURCE_TEXTURE",
+          "_DISSOLVEALPHA_CLIP",
+          "_EMISSIONCOLORTYPE_FLAT",
+          "_EMISSION_ALPHA_SOURCE_EMISSION_G",
+          "_EMISSION_TEXTURE_SOURCE_TEXTURE",
+          "_METALLIC_TEXTURE_NONE",
+          "_OCCLUSION_SOURCE_TEXTURE",
+          "_PROBE_CALCULATION_FAST",
+          "_SMOOTHNESS_TEXTURE_NONE",
+          "ENABLE_DIFFUSE",
+          "ENABLE_FOG",
+          "ENABLE_SPECULAR",
+          "OVERRIDE_REFLECTION_SMOOTHNESS",
+          "_CURVE_VERTICES_NONE",
+          "_CUSTOM_TIME_STANDARD",
+          "_DECALBLEND_ALPHABLEND",
+          "_DISSOLVEAXIS_LOCALX",
+          "_EMISSION",
+          "_EMISSIONTEXTURE_NONE",
+          "_ENABLE_FOG_TINT",
+          "_HOLOGRAM_NONE",
+          "_RIMLIGHT_NONE",
+          "_RIM_WHITEBOOSTTYPE_NONE",
+          "_ROTATE_UV_NONE",
+          "_SPECTROGRAM_NONE",
+          "_VERTEXMODE_NONE",
+          "_VERTEX_WHITEBOOSTTYPE_NONE",
+          "_WHITEBOOSTTYPE_NONE",
+          "_ZWRITE_ON"
+        ]
+      },
+      {
+        "hash": "cdd7733ddab55d7ddbbea13cb90a0042",
+        "name": "SmallSpectrogram",
+        "shader": "Custom/Spectrogram",
+        "color": [
+          0.319999963,
+          0.319999963,
+          0.319999963,
+          0.0
+        ],
+        "shaderKeywords": [
+          "DIFFUSE",
+          "LIGHT_FALLOFF",
+          "SPECULAR",
+          "ENABLE_DIFFUSE",
+          "ENABLE_SPECULAR",
+          "_ZWRITE_ON"
+        ]
       }
     ],
     "uniqueMeshes": [
@@ -546,6 +702,104 @@
           0.0,
           0.0,
           -20.0000687
+        ]
+      },
+      {
+        "name": "MainStructure_Timbaland",
+        "hash": "815a592c7a9273a4c85a6acbb360099a",
+        "boundsSize": [
+          272.465271,
+          326.48526,
+          113.788116
+        ],
+        "boundsCenter": [
+          7.62939453E-06,
+          0.0,
+          60.0
+        ]
+      },
+      {
+        "name": "TopStructure_Timbaland",
+        "hash": "7d0e12a45e0d873aad80727a3f47083c",
+        "boundsSize": [
+          1.0,
+          4.83383656,
+          81.1317
+        ],
+        "boundsCenter": [
+          0.0,
+          -1.91691828,
+          39.56585
+        ]
+      },
+      {
+        "name": "RightNearBuilding",
+        "hash": "b5ebd93d903f2572d7673e5d8407ea6d",
+        "boundsSize": [
+          9.0,
+          174.5,
+          25.0
+        ],
+        "boundsCenter": [
+          28.0,
+          -40.25,
+          29.0
+        ]
+      },
+      {
+        "name": "LeftNearBuilding",
+        "hash": "8e496436ea23b95d25ba4b01bef82ed4",
+        "boundsSize": [
+          9.0,
+          174.5,
+          25.0
+        ],
+        "boundsCenter": [
+          -28.0,
+          -40.25,
+          29.0
+        ]
+      },
+      {
+        "name": "TrackMirror_Timbaland",
+        "hash": "2807a8508fadc5da707abc141aa2cb87",
+        "boundsSize": [
+          4.75,
+          0.0,
+          247.25322
+        ],
+        "boundsCenter": [
+          0.0,
+          0.0,
+          123.573387
+        ]
+      },
+      {
+        "name": "TrackConstruction_Timbaland",
+        "hash": "6034e9ab7c4c3ab12b826e62dfb42127",
+        "boundsSize": [
+          116.047569,
+          136.309448,
+          160.71463
+        ],
+        "boundsCenter": [
+          0.0,
+          -67.8407,
+          87.84276
+        ]
+      },
+      {
+        "name": "Spectrogram",
+        "hash": "a1e2f3ff1c0041c6cfb1a340b7f15b98",
+        "boundsSize": [
+          0.299999952,
+          63.4,
+          2.0
+        ],
+        "boundsCenter": [
+          0.0,
+          31.5,
+          1.0
         ]
       }
     ]
@@ -15358,6 +15612,700 @@
           "center": 0.5,
           "length": 100.0,
           "minAlpha": 0.0
+        }
+      }
+    },
+    {
+      "name": "Light (7)",
+      "id": "TimbalandEnvironment.[0]Environment.[29]Light (7)",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            2.87,
+            65.0
+          ],
+          "localPosition": [
+            0.0,
+            2.87,
+            65.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            90.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            90.0
+          ],
+          "scale": [
+            1.00000024,
+            1.00000024,
+            1.0
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 2.3,
+              "bloomFogIntensityMultiplier": 30.0,
+              "tubeLength": 0.1,
+              "tubeWidth": 0.2,
+              "center": 0.5,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 0.9,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "null"
+            },
+            "lightId": 5
+          }
+        ]
+      }
+    },
+    {
+      "name": "MainStructure",
+      "id": "TimbalandEnvironment.[0]Environment.[3]MainStructure",
+      "meshName": "MainStructure_Timbaland",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "MeshFilter": {
+          "hash": "815a592c7a9273a4c85a6acbb360099a"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "0e26d4cbb471559952d2179cc10c6681"
+          ]
+        }
+      }
+    },
+    {
+      "name": "GradientBackground",
+      "id": "TimbalandEnvironment.[0]Environment.[30]GradientBackground",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "BakedReflectionProbe",
+      "id": "TimbalandEnvironment.[0]Environment.[31]BakedReflectionProbe",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            1.5,
+            5.0
+          ],
+          "localPosition": [
+            0.0,
+            1.5,
+            5.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "BakedReflectionProbe": {
+          "probeSize": [
+            1000.0,
+            1000.0,
+            1000.0
+          ],
+          "probePosition": [
+            0.0,
+            1.5,
+            5.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "BSBakedLightingLightWithIds",
+      "id": "TimbalandEnvironment.[0]Environment.[32]BSBakedLightingLightWithIds",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "FakeMirrorSettings",
+      "id": "TimbalandEnvironment.[0]Environment.[33]FakeMirrorSettings",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "BakedReflectionProbeInstaller",
+      "id": "TimbalandEnvironment.[0]Environment.[34]BakedReflectionProbeInstaller",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "TopStructure",
+      "id": "TimbalandEnvironment.[0]Environment.[4]TopStructure",
+      "meshName": "TopStructure_Timbaland",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            10.0,
+            20.0
+          ],
+          "localPosition": [
+            0.0,
+            10.0,
+            20.0
+          ],
+          "rotation": [
+            354.5,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            354.5,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            100.0,
+            2.0,
+            1.0
+          ]
+        },
+        "MeshFilter": {
+          "hash": "7d0e12a45e0d873aad80727a3f47083c"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "0e26d4cbb471559952d2179cc10c6681"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Buildings",
+      "id": "TimbalandEnvironment.[0]Environment.[5]Buildings",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            -12.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            -12.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "NearBuildingRight",
+      "id": "TimbalandEnvironment.[0]Environment.[5]Buildings.[0]NearBuildingRight",
+      "meshName": "RightNearBuilding",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            -10.5719566,
+            8.529944,
+            -20.82006
+          ],
+          "localPosition": [
+            -10.5719566,
+            8.529944,
+            -8.820061
+          ],
+          "rotation": [
+            2.13443414E-07,
+            6.999997,
+            325.0
+          ],
+          "localRotation": [
+            2.13443414E-07,
+            6.999997,
+            325.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            0.99999994
+          ]
+        },
+        "MeshFilter": {
+          "hash": "b5ebd93d903f2572d7673e5d8407ea6d"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "0e26d4cbb471559952d2179cc10c6681"
+          ]
+        }
+      }
+    },
+    {
+      "name": "NearBuildingLeft",
+      "id": "TimbalandEnvironment.[0]Environment.[5]Buildings.[1]NearBuildingLeft",
+      "meshName": "LeftNearBuilding",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            10.57196,
+            8.529943,
+            -20.820055
+          ],
+          "localPosition": [
+            10.57196,
+            8.529943,
+            -8.820055
+          ],
+          "rotation": [
+            2.13443414E-07,
+            353.0,
+            34.9999924
+          ],
+          "localRotation": [
+            2.13443414E-07,
+            353.0,
+            34.9999924
+          ],
+          "scale": [
+            0.99999994,
+            1.0,
+            1.0
+          ]
+        },
+        "MeshFilter": {
+          "hash": "8e496436ea23b95d25ba4b01bef82ed4"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "0e26d4cbb471559952d2179cc10c6681"
+          ]
+        }
+      }
+    },
+    {
+      "name": "TrackMirror",
+      "id": "TimbalandEnvironment.[0]Environment.[6]TrackMirror",
+      "meshName": "TrackMirror_Timbaland",
+      "layer": "Water",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            7.8
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            7.8
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "MeshFilter": {
+          "hash": "2807a8508fadc5da707abc141aa2cb87"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "2487501c6a10ee0041e8c4764f6addaa"
+          ]
+        }
+      }
+    },
+    {
+      "name": "TrackMirrorSetDepth",
+      "id": "TimbalandEnvironment.[0]Environment.[6]TrackMirror.[0]TrackMirrorSetDepth",
+      "meshName": "TrackMirror_Timbaland",
+      "layer": "Water",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            7.8
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "MeshFilter": {
+          "hash": "2807a8508fadc5da707abc141aa2cb87"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "47348bfff0fbcb3e14515ad3bfebc6be"
+          ]
+        }
+      }
+    },
+    {
+      "name": "TrackConstruction",
+      "id": "TimbalandEnvironment.[0]Environment.[7]TrackConstruction",
+      "meshName": "TrackConstruction_Timbaland",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "MeshFilter": {
+          "hash": "6034e9ab7c4c3ab12b826e62dfb42127"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "19cb3b1f9cf3cbc03a5bef2da530f65b"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Spectrograms",
+      "id": "TimbalandEnvironment.[0]Environment.[9]Spectrograms",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            4.0,
+            8.07
+          ],
+          "localPosition": [
+            0.0,
+            4.0,
+            8.07
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "Spectrogram",
+      "id": "TimbalandEnvironment.[0]Environment.[9]Spectrograms.[0]Spectrogram",
+      "meshName": "Spectrogram",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            -1.8,
+            -0.0999999046,
+            8.07
+          ],
+          "localPosition": [
+            -1.8,
+            -4.1,
+            0.0
+          ],
+          "rotation": [
+            315.0,
+            270.0,
+            270.0
+          ],
+          "localRotation": [
+            315.0,
+            270.0,
+            270.0
+          ],
+          "scale": [
+            1.00000024,
+            1.00000024,
+            1.00000012
+          ]
+        },
+        "MeshFilter": {
+          "hash": "a1e2f3ff1c0041c6cfb1a340b7f15b98"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "cdd7733ddab55d7ddbbea13cb90a0042"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Spectrogram",
+      "id": "TimbalandEnvironment.[0]Environment.[9]Spectrograms.[1]Spectrogram",
+      "meshName": "Spectrogram",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            1.8,
+            -0.0999999046,
+            8.07
+          ],
+          "localPosition": [
+            1.8,
+            -4.1,
+            0.0
+          ],
+          "rotation": [
+            315.0,
+            90.0,
+            90.0
+          ],
+          "localRotation": [
+            315.0,
+            90.0,
+            90.0
+          ],
+          "scale": [
+            1.00000024,
+            1.00000024,
+            1.00000012
+          ]
+        },
+        "MeshFilter": {
+          "hash": "a1e2f3ff1c0041c6cfb1a340b7f15b98"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "cdd7733ddab55d7ddbbea13cb90a0042"
+          ]
         }
       }
     }

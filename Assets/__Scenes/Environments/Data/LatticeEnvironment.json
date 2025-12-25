@@ -1511,12 +1511,23 @@
                 0.0,
                 0.0
               ],
-              "lightGroup": {
-                "numberOfElements": 8,
-                "startLightId": 97,
-                "groupId": 9,
-                "sameIdElements": 1
-              }
+              "mirrorX": false,
+              "mirrorY": false,
+              "mirrorZ": false,
+              "xTransforms": [],
+              "yTransforms": [
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[0]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[1]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[2]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[3]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[4]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[5]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[6]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[7]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY"
+              ],
+              "zTransforms": [],
+              "count": 8,
+              "groupId": 9
             },
             {
               "xTranslationLimits": [
@@ -1531,12 +1542,23 @@
                 0.0,
                 0.0
               ],
-              "lightGroup": {
-                "numberOfElements": 8,
-                "startLightId": 41,
-                "groupId": 2,
-                "sameIdElements": 1
-              }
+              "mirrorX": false,
+              "mirrorY": false,
+              "mirrorZ": false,
+              "xTransforms": [],
+              "yTransforms": [
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[0]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[1]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[2]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[3]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[4]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[5]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[6]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[7]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY"
+              ],
+              "zTransforms": [],
+              "count": 8,
+              "groupId": 2
             },
             {
               "xTranslationLimits": [
@@ -1551,12 +1573,41 @@
                 -5.0,
                 5.0
               ],
-              "lightGroup": {
-                "numberOfElements": 8,
-                "startLightId": 81,
-                "groupId": 7,
-                "sameIdElements": 1
-              }
+              "mirrorX": true,
+              "mirrorY": false,
+              "mirrorZ": false,
+              "xTransforms": [
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[0]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[1]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[2]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[3]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[4]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[5]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[6]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[7]RowCube"
+              ],
+              "yTransforms": [
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[0]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[1]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[2]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[3]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[4]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[5]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[6]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[7]RowCube"
+              ],
+              "zTransforms": [
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[0]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[1]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[2]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[3]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[4]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[5]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[6]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[7]RowCube"
+              ],
+              "count": 8,
+              "groupId": 7
             },
             {
               "xTranslationLimits": [
@@ -1571,12 +1622,23 @@
                 0.0,
                 0.0
               ],
-              "lightGroup": {
-                "numberOfElements": 8,
-                "startLightId": 153,
-                "groupId": 16,
-                "sameIdElements": 1
-              }
+              "mirrorX": false,
+              "mirrorY": true,
+              "mirrorZ": false,
+              "xTransforms": [],
+              "yTransforms": [
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[0]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[1]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[2]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[3]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[4]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[5]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[6]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[7]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY"
+              ],
+              "zTransforms": [],
+              "count": 8,
+              "groupId": 16
             },
             {
               "xTranslationLimits": [
@@ -1591,12 +1653,23 @@
                 0.0,
                 0.0
               ],
-              "lightGroup": {
-                "numberOfElements": 8,
-                "startLightId": 209,
-                "groupId": 23,
-                "sameIdElements": 1
-              }
+              "mirrorX": false,
+              "mirrorY": true,
+              "mirrorZ": false,
+              "xTransforms": [],
+              "yTransforms": [
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[0]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[1]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[2]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[3]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[4]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[5]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[6]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[7]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY"
+              ],
+              "zTransforms": [],
+              "count": 8,
+              "groupId": 23
             },
             {
               "xTranslationLimits": [
@@ -1611,12 +1684,41 @@
                 -5.0,
                 5.0
               ],
-              "lightGroup": {
-                "numberOfElements": 8,
-                "startLightId": 193,
-                "groupId": 21,
-                "sameIdElements": 1
-              }
+              "mirrorX": true,
+              "mirrorY": true,
+              "mirrorZ": false,
+              "xTransforms": [
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[0]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[1]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[2]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[3]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[4]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[5]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[6]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[7]RowCube"
+              ],
+              "yTransforms": [
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[0]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[1]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[2]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[3]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[4]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[5]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[6]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[7]RowCube"
+              ],
+              "zTransforms": [
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[0]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[1]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[2]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[3]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[4]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[5]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[6]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[7]RowCube"
+              ],
+              "count": 8,
+              "groupId": 21
             },
             {
               "xTranslationLimits": [
@@ -1631,12 +1733,41 @@
                 -5.0,
                 5.0
               ],
-              "lightGroup": {
-                "numberOfElements": 8,
-                "startLightId": 25,
-                "groupId": 0,
-                "sameIdElements": 1
-              }
+              "mirrorX": false,
+              "mirrorY": false,
+              "mirrorZ": false,
+              "xTransforms": [
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[0]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[1]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[2]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[3]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[4]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[5]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[6]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[7]RowCube"
+              ],
+              "yTransforms": [
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[0]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[1]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[2]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[3]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[4]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[5]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[6]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[7]RowCube"
+              ],
+              "zTransforms": [
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[0]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[1]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[2]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[3]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[4]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[5]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[6]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[7]RowCube"
+              ],
+              "count": 8,
+              "groupId": 0
             },
             {
               "xTranslationLimits": [
@@ -1651,12 +1782,32 @@
                 -5.0,
                 5.0
               ],
-              "lightGroup": {
-                "numberOfElements": 8,
-                "startLightId": 249,
-                "groupId": 28,
-                "sameIdElements": 1
-              }
+              "mirrorX": false,
+              "mirrorY": false,
+              "mirrorZ": false,
+              "xTransforms": [
+                "LatticeEnvironment.[0]Environment.[21]Runway.[0]LasersDiagonalWrapper.[0]RunwayLaserInner.[0]TranslationXZ",
+                "LatticeEnvironment.[0]Environment.[21]Runway.[0]LasersDiagonalWrapper.[1]RunwayLaserInner.[0]TranslationXZ",
+                "LatticeEnvironment.[0]Environment.[21]Runway.[0]LasersDiagonalWrapper.[2]RunwayLaserInner.[0]TranslationXZ",
+                "LatticeEnvironment.[0]Environment.[21]Runway.[0]LasersDiagonalWrapper.[3]RunwayLaserInner.[0]TranslationXZ",
+                "LatticeEnvironment.[0]Environment.[21]Runway.[0]LasersDiagonalWrapper.[4]RunwayLaserInner.[0]TranslationXZ",
+                "LatticeEnvironment.[0]Environment.[21]Runway.[0]LasersDiagonalWrapper.[5]RunwayLaserInner.[0]TranslationXZ",
+                "LatticeEnvironment.[0]Environment.[21]Runway.[0]LasersDiagonalWrapper.[6]RunwayLaserInner.[0]TranslationXZ",
+                "LatticeEnvironment.[0]Environment.[21]Runway.[0]LasersDiagonalWrapper.[7]RunwayLaserInner.[0]TranslationXZ"
+              ],
+              "yTransforms": [],
+              "zTransforms": [
+                "LatticeEnvironment.[0]Environment.[21]Runway.[0]LasersDiagonalWrapper.[0]RunwayLaserInner.[0]TranslationXZ",
+                "LatticeEnvironment.[0]Environment.[21]Runway.[0]LasersDiagonalWrapper.[1]RunwayLaserInner.[0]TranslationXZ",
+                "LatticeEnvironment.[0]Environment.[21]Runway.[0]LasersDiagonalWrapper.[2]RunwayLaserInner.[0]TranslationXZ",
+                "LatticeEnvironment.[0]Environment.[21]Runway.[0]LasersDiagonalWrapper.[3]RunwayLaserInner.[0]TranslationXZ",
+                "LatticeEnvironment.[0]Environment.[21]Runway.[0]LasersDiagonalWrapper.[4]RunwayLaserInner.[0]TranslationXZ",
+                "LatticeEnvironment.[0]Environment.[21]Runway.[0]LasersDiagonalWrapper.[5]RunwayLaserInner.[0]TranslationXZ",
+                "LatticeEnvironment.[0]Environment.[21]Runway.[0]LasersDiagonalWrapper.[6]RunwayLaserInner.[0]TranslationXZ",
+                "LatticeEnvironment.[0]Environment.[21]Runway.[0]LasersDiagonalWrapper.[7]RunwayLaserInner.[0]TranslationXZ"
+              ],
+              "count": 8,
+              "groupId": 28
             },
             {
               "xTranslationLimits": [
@@ -1671,12 +1822,41 @@
                 -5.0,
                 5.0
               ],
-              "lightGroup": {
-                "numberOfElements": 8,
-                "startLightId": 137,
-                "groupId": 14,
-                "sameIdElements": 1
-              }
+              "mirrorX": false,
+              "mirrorY": true,
+              "mirrorZ": false,
+              "xTransforms": [
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[0]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[1]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[2]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[3]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[4]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[5]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[6]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[7]RowCube"
+              ],
+              "yTransforms": [
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[0]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[1]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[2]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[3]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[4]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[5]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[6]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[7]RowCube"
+              ],
+              "zTransforms": [
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[0]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[1]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[2]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[3]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[4]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[5]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[6]RowCube",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[7]RowCube"
+              ],
+              "count": 8,
+              "groupId": 14
             },
             {
               "xTranslationLimits": [
@@ -1691,12 +1871,20 @@
                 -5.0,
                 5.0
               ],
-              "lightGroup": {
-                "numberOfElements": 1,
-                "startLightId": 260,
-                "groupId": 30,
-                "sameIdElements": 1
-              }
+              "mirrorX": false,
+              "mirrorY": false,
+              "mirrorZ": false,
+              "xTransforms": [
+                "LatticeEnvironment.[0]Environment.[23]Chevron.[0]ChevronWrapper"
+              ],
+              "yTransforms": [
+                "LatticeEnvironment.[0]Environment.[23]Chevron.[0]ChevronWrapper"
+              ],
+              "zTransforms": [
+                "LatticeEnvironment.[0]Environment.[23]Chevron.[0]ChevronWrapper"
+              ],
+              "count": 1,
+              "groupId": 30
             }
           ]
         }
@@ -4821,12 +5009,32 @@
             -5.0,
             5.0
           ],
-          "lightGroup": {
-            "numberOfElements": 8,
-            "startLightId": 249,
-            "groupId": 28,
-            "sameIdElements": 1
-          }
+          "mirrorX": false,
+          "mirrorY": false,
+          "mirrorZ": false,
+          "xTransforms": [
+            "LatticeEnvironment.[0]Environment.[21]Runway.[0]LasersDiagonalWrapper.[0]RunwayLaserInner.[0]TranslationXZ",
+            "LatticeEnvironment.[0]Environment.[21]Runway.[0]LasersDiagonalWrapper.[1]RunwayLaserInner.[0]TranslationXZ",
+            "LatticeEnvironment.[0]Environment.[21]Runway.[0]LasersDiagonalWrapper.[2]RunwayLaserInner.[0]TranslationXZ",
+            "LatticeEnvironment.[0]Environment.[21]Runway.[0]LasersDiagonalWrapper.[3]RunwayLaserInner.[0]TranslationXZ",
+            "LatticeEnvironment.[0]Environment.[21]Runway.[0]LasersDiagonalWrapper.[4]RunwayLaserInner.[0]TranslationXZ",
+            "LatticeEnvironment.[0]Environment.[21]Runway.[0]LasersDiagonalWrapper.[5]RunwayLaserInner.[0]TranslationXZ",
+            "LatticeEnvironment.[0]Environment.[21]Runway.[0]LasersDiagonalWrapper.[6]RunwayLaserInner.[0]TranslationXZ",
+            "LatticeEnvironment.[0]Environment.[21]Runway.[0]LasersDiagonalWrapper.[7]RunwayLaserInner.[0]TranslationXZ"
+          ],
+          "yTransforms": [],
+          "zTransforms": [
+            "LatticeEnvironment.[0]Environment.[21]Runway.[0]LasersDiagonalWrapper.[0]RunwayLaserInner.[0]TranslationXZ",
+            "LatticeEnvironment.[0]Environment.[21]Runway.[0]LasersDiagonalWrapper.[1]RunwayLaserInner.[0]TranslationXZ",
+            "LatticeEnvironment.[0]Environment.[21]Runway.[0]LasersDiagonalWrapper.[2]RunwayLaserInner.[0]TranslationXZ",
+            "LatticeEnvironment.[0]Environment.[21]Runway.[0]LasersDiagonalWrapper.[3]RunwayLaserInner.[0]TranslationXZ",
+            "LatticeEnvironment.[0]Environment.[21]Runway.[0]LasersDiagonalWrapper.[4]RunwayLaserInner.[0]TranslationXZ",
+            "LatticeEnvironment.[0]Environment.[21]Runway.[0]LasersDiagonalWrapper.[5]RunwayLaserInner.[0]TranslationXZ",
+            "LatticeEnvironment.[0]Environment.[21]Runway.[0]LasersDiagonalWrapper.[6]RunwayLaserInner.[0]TranslationXZ",
+            "LatticeEnvironment.[0]Environment.[21]Runway.[0]LasersDiagonalWrapper.[7]RunwayLaserInner.[0]TranslationXZ"
+          ],
+          "count": 8,
+          "groupId": 28
         }
       }
     },
@@ -8450,12 +8658,41 @@
             -5.0,
             5.0
           ],
-          "lightGroup": {
-            "numberOfElements": 8,
-            "startLightId": 25,
-            "groupId": 0,
-            "sameIdElements": 1
-          }
+          "mirrorX": false,
+          "mirrorY": false,
+          "mirrorZ": false,
+          "xTransforms": [
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[0]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[1]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[2]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[3]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[4]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[5]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[6]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[7]RowCube"
+          ],
+          "yTransforms": [
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[0]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[1]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[2]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[3]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[4]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[5]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[6]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[7]RowCube"
+          ],
+          "zTransforms": [
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[0]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[1]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[2]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[3]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[4]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[5]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[6]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[7]RowCube"
+          ],
+          "count": 8,
+          "groupId": 0
         }
       }
     },
@@ -8504,12 +8741,23 @@
             0.0,
             0.0
           ],
-          "lightGroup": {
-            "numberOfElements": 8,
-            "startLightId": 41,
-            "groupId": 2,
-            "sameIdElements": 1
-          }
+          "mirrorX": false,
+          "mirrorY": false,
+          "mirrorZ": false,
+          "xTransforms": [],
+          "yTransforms": [
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[0]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[1]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[2]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[3]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[4]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[5]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[6]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[7]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY"
+          ],
+          "zTransforms": [],
+          "count": 8,
+          "groupId": 2
         }
       }
     },
@@ -21371,12 +21619,41 @@
             -5.0,
             5.0
           ],
-          "lightGroup": {
-            "numberOfElements": 8,
-            "startLightId": 81,
-            "groupId": 7,
-            "sameIdElements": 1
-          }
+          "mirrorX": true,
+          "mirrorY": false,
+          "mirrorZ": false,
+          "xTransforms": [
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[0]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[1]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[2]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[3]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[4]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[5]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[6]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[7]RowCube"
+          ],
+          "yTransforms": [
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[0]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[1]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[2]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[3]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[4]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[5]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[6]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[7]RowCube"
+          ],
+          "zTransforms": [
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[0]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[1]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[2]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[3]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[4]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[5]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[6]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[7]RowCube"
+          ],
+          "count": 8,
+          "groupId": 7
         }
       }
     },
@@ -21425,12 +21702,23 @@
             0.0,
             0.0
           ],
-          "lightGroup": {
-            "numberOfElements": 8,
-            "startLightId": 97,
-            "groupId": 9,
-            "sameIdElements": 1
-          }
+          "mirrorX": false,
+          "mirrorY": false,
+          "mirrorZ": false,
+          "xTransforms": [],
+          "yTransforms": [
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[0]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[1]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[2]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[3]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[4]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[5]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[6]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[7]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY"
+          ],
+          "zTransforms": [],
+          "count": 8,
+          "groupId": 9
         }
       }
     },
@@ -34292,12 +34580,41 @@
             -5.0,
             5.0
           ],
-          "lightGroup": {
-            "numberOfElements": 8,
-            "startLightId": 137,
-            "groupId": 14,
-            "sameIdElements": 1
-          }
+          "mirrorX": false,
+          "mirrorY": true,
+          "mirrorZ": false,
+          "xTransforms": [
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[0]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[1]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[2]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[3]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[4]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[5]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[6]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[7]RowCube"
+          ],
+          "yTransforms": [
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[0]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[1]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[2]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[3]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[4]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[5]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[6]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[7]RowCube"
+          ],
+          "zTransforms": [
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[0]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[1]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[2]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[3]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[4]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[5]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[6]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[7]RowCube"
+          ],
+          "count": 8,
+          "groupId": 14
         }
       }
     },
@@ -34346,12 +34663,23 @@
             0.0,
             0.0
           ],
-          "lightGroup": {
-            "numberOfElements": 8,
-            "startLightId": 153,
-            "groupId": 16,
-            "sameIdElements": 1
-          }
+          "mirrorX": false,
+          "mirrorY": true,
+          "mirrorZ": false,
+          "xTransforms": [],
+          "yTransforms": [
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[0]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[1]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[2]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[3]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[4]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[5]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[6]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[7]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY"
+          ],
+          "zTransforms": [],
+          "count": 8,
+          "groupId": 16
         }
       }
     },
@@ -47213,12 +47541,41 @@
             -5.0,
             5.0
           ],
-          "lightGroup": {
-            "numberOfElements": 8,
-            "startLightId": 193,
-            "groupId": 21,
-            "sameIdElements": 1
-          }
+          "mirrorX": true,
+          "mirrorY": true,
+          "mirrorZ": false,
+          "xTransforms": [
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[0]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[1]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[2]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[3]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[4]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[5]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[6]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[7]RowCube"
+          ],
+          "yTransforms": [
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[0]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[1]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[2]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[3]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[4]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[5]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[6]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[7]RowCube"
+          ],
+          "zTransforms": [
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[0]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[1]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[2]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[3]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[4]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[5]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[6]RowCube",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[7]RowCube"
+          ],
+          "count": 8,
+          "groupId": 21
         }
       }
     },
@@ -47267,12 +47624,23 @@
             0.0,
             0.0
           ],
-          "lightGroup": {
-            "numberOfElements": 8,
-            "startLightId": 209,
-            "groupId": 23,
-            "sameIdElements": 1
-          }
+          "mirrorX": false,
+          "mirrorY": true,
+          "mirrorZ": false,
+          "xTransforms": [],
+          "yTransforms": [
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[0]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[1]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[2]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[3]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[4]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[5]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[6]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY",
+            "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[7]RowCube.[0]RadialRotationZ.[0]RadialRotationX.[0]RadialTranslationY"
+          ],
+          "zTransforms": [],
+          "count": 8,
+          "groupId": 23
         }
       }
     },
@@ -59923,12 +60291,20 @@
             -5.0,
             5.0
           ],
-          "lightGroup": {
-            "numberOfElements": 1,
-            "startLightId": 260,
-            "groupId": 30,
-            "sameIdElements": 1
-          }
+          "mirrorX": false,
+          "mirrorY": false,
+          "mirrorZ": false,
+          "xTransforms": [
+            "LatticeEnvironment.[0]Environment.[23]Chevron.[0]ChevronWrapper"
+          ],
+          "yTransforms": [
+            "LatticeEnvironment.[0]Environment.[23]Chevron.[0]ChevronWrapper"
+          ],
+          "zTransforms": [
+            "LatticeEnvironment.[0]Environment.[23]Chevron.[0]ChevronWrapper"
+          ],
+          "count": 1,
+          "groupId": 30
         }
       }
     },
@@ -60310,19 +60686,19 @@
             0.0
           ],
           "rotation": [
-            89.71884,
-            359.8125,
-            -1.35884716E-06
+            90.0,
+            0.0,
+            0.0
           ],
           "localRotation": [
-            89.71884,
-            359.8125,
-            -1.35884716E-06
+            90.0,
+            0.0,
+            0.0
           ],
           "scale": [
             1.0,
-            1.00000036,
-            1.00000036
+            1.00000024,
+            1.00000024
           ]
         }
       }
@@ -62266,140 +62642,399 @@
         "LightRotationGroupEffectManager": {
           "lightRotationGroups": [
             {
-              "lightGroup": {
-                "numberOfElements": 8,
-                "startLightId": 145,
-                "groupId": 15,
-                "sameIdElements": 1
-              }
+              "mirrorX": false,
+              "mirrorY": false,
+              "mirrorZ": false,
+              "xTransforms": [
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[0]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[1]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[2]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[3]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[4]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[5]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[6]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[7]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX"
+              ],
+              "yTransforms": [],
+              "zTransforms": [
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[0]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[1]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[2]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[3]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[4]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[5]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[6]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[7]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ"
+              ],
+              "count": 8,
+              "groupId": 15
             },
             {
-              "lightGroup": {
-                "numberOfElements": 8,
-                "startLightId": 89,
-                "groupId": 8,
-                "sameIdElements": 1
-              }
+              "mirrorX": true,
+              "mirrorY": false,
+              "mirrorZ": false,
+              "xTransforms": [
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[0]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[1]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[2]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[3]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[4]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[5]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[6]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[7]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX"
+              ],
+              "yTransforms": [],
+              "zTransforms": [
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[0]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[1]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[2]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[3]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[4]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[5]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[6]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[7]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ"
+              ],
+              "count": 8,
+              "groupId": 8
             },
             {
-              "lightGroup": {
-                "numberOfElements": 8,
-                "startLightId": 113,
-                "groupId": 11,
-                "sameIdElements": 1
-              }
+              "mirrorX": false,
+              "mirrorY": false,
+              "mirrorZ": false,
+              "xTransforms": [],
+              "yTransforms": [],
+              "zTransforms": [
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[0]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[2]Spot02RotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[1]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[2]Spot02RotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[2]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[2]Spot02RotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[3]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[2]Spot02RotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[4]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[2]Spot02RotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[5]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[2]Spot02RotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[6]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[2]Spot02RotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[7]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[2]Spot02RotationZ"
+              ],
+              "count": 8,
+              "groupId": 11
             },
             {
-              "lightGroup": {
-                "numberOfElements": 8,
-                "startLightId": 97,
-                "groupId": 9,
-                "sameIdElements": 1
-              }
+              "mirrorX": false,
+              "mirrorY": false,
+              "mirrorZ": false,
+              "xTransforms": [
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[0]RowCube.[0]RadialRotationZ.[0]RadialRotationX",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[1]RowCube.[0]RadialRotationZ.[0]RadialRotationX",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[2]RowCube.[0]RadialRotationZ.[0]RadialRotationX",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[3]RowCube.[0]RadialRotationZ.[0]RadialRotationX",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[4]RowCube.[0]RadialRotationZ.[0]RadialRotationX",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[5]RowCube.[0]RadialRotationZ.[0]RadialRotationX",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[6]RowCube.[0]RadialRotationZ.[0]RadialRotationX",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[7]RowCube.[0]RadialRotationZ.[0]RadialRotationX"
+              ],
+              "yTransforms": [],
+              "zTransforms": [
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[0]RowCube.[0]RadialRotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[1]RowCube.[0]RadialRotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[2]RowCube.[0]RadialRotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[3]RowCube.[0]RadialRotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[4]RowCube.[0]RadialRotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[5]RowCube.[0]RadialRotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[6]RowCube.[0]RadialRotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[7]RowCube.[0]RadialRotationZ"
+              ],
+              "count": 8,
+              "groupId": 9
             },
             {
-              "lightGroup": {
-                "numberOfElements": 8,
-                "startLightId": 41,
-                "groupId": 2,
-                "sameIdElements": 1
-              }
+              "mirrorX": false,
+              "mirrorY": false,
+              "mirrorZ": true,
+              "xTransforms": [
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[0]RowCube.[0]RadialRotationZ.[0]RadialRotationX",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[1]RowCube.[0]RadialRotationZ.[0]RadialRotationX",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[2]RowCube.[0]RadialRotationZ.[0]RadialRotationX",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[3]RowCube.[0]RadialRotationZ.[0]RadialRotationX",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[4]RowCube.[0]RadialRotationZ.[0]RadialRotationX",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[5]RowCube.[0]RadialRotationZ.[0]RadialRotationX",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[6]RowCube.[0]RadialRotationZ.[0]RadialRotationX",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[7]RowCube.[0]RadialRotationZ.[0]RadialRotationX"
+              ],
+              "yTransforms": [],
+              "zTransforms": [
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[0]RowCube.[0]RadialRotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[1]RowCube.[0]RadialRotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[2]RowCube.[0]RadialRotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[3]RowCube.[0]RadialRotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[4]RowCube.[0]RadialRotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[5]RowCube.[0]RadialRotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[6]RowCube.[0]RadialRotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[7]RowCube.[0]RadialRotationZ"
+              ],
+              "count": 8,
+              "groupId": 2
             },
             {
-              "lightGroup": {
-                "numberOfElements": 8,
-                "startLightId": 201,
-                "groupId": 22,
-                "sameIdElements": 1
-              }
+              "mirrorX": false,
+              "mirrorY": false,
+              "mirrorZ": true,
+              "xTransforms": [
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[0]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[1]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[2]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[3]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[4]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[5]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[6]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[7]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX"
+              ],
+              "yTransforms": [],
+              "zTransforms": [
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[0]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[1]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[2]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[3]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[4]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[5]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[6]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[7]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ"
+              ],
+              "count": 8,
+              "groupId": 22
             },
             {
-              "lightGroup": {
-                "numberOfElements": 8,
-                "startLightId": 241,
-                "groupId": 27,
-                "sameIdElements": 1
-              }
+              "mirrorX": false,
+              "mirrorY": false,
+              "mirrorZ": true,
+              "xTransforms": [],
+              "yTransforms": [],
+              "zTransforms": [
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[0]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[3]Laser02RotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[1]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[3]Laser02RotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[2]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[3]Laser02RotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[3]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[3]Laser02RotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[4]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[3]Laser02RotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[5]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[3]Laser02RotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[6]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[3]Laser02RotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[7]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[3]Laser02RotationZ"
+              ],
+              "count": 8,
+              "groupId": 27
             },
             {
-              "lightGroup": {
-                "numberOfElements": 8,
-                "startLightId": 57,
-                "groupId": 4,
-                "sameIdElements": 1
-              }
+              "mirrorX": false,
+              "mirrorY": false,
+              "mirrorZ": true,
+              "xTransforms": [],
+              "yTransforms": [],
+              "zTransforms": [
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[0]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[2]Spot02RotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[1]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[2]Spot02RotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[2]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[2]Spot02RotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[3]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[2]Spot02RotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[4]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[2]Spot02RotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[5]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[2]Spot02RotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[6]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[2]Spot02RotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[7]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[2]Spot02RotationZ"
+              ],
+              "count": 8,
+              "groupId": 4
             },
             {
-              "lightGroup": {
-                "numberOfElements": 8,
-                "startLightId": 73,
-                "groupId": 6,
-                "sameIdElements": 1
-              }
+              "mirrorX": false,
+              "mirrorY": false,
+              "mirrorZ": true,
+              "xTransforms": [],
+              "yTransforms": [],
+              "zTransforms": [
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[0]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[3]Laser02RotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[1]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[3]Laser02RotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[2]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[3]Laser02RotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[3]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[3]Laser02RotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[4]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[3]Laser02RotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[5]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[3]Laser02RotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[6]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[3]Laser02RotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[7]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[3]Laser02RotationZ"
+              ],
+              "count": 8,
+              "groupId": 6
             },
             {
-              "lightGroup": {
-                "numberOfElements": 8,
-                "startLightId": 153,
-                "groupId": 16,
-                "sameIdElements": 1
-              }
+              "mirrorX": true,
+              "mirrorY": false,
+              "mirrorZ": false,
+              "xTransforms": [
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[0]RowCube.[0]RadialRotationZ.[0]RadialRotationX",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[1]RowCube.[0]RadialRotationZ.[0]RadialRotationX",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[2]RowCube.[0]RadialRotationZ.[0]RadialRotationX",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[3]RowCube.[0]RadialRotationZ.[0]RadialRotationX",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[4]RowCube.[0]RadialRotationZ.[0]RadialRotationX",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[5]RowCube.[0]RadialRotationZ.[0]RadialRotationX",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[6]RowCube.[0]RadialRotationZ.[0]RadialRotationX",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[7]RowCube.[0]RadialRotationZ.[0]RadialRotationX"
+              ],
+              "yTransforms": [],
+              "zTransforms": [
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[0]RowCube.[0]RadialRotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[1]RowCube.[0]RadialRotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[2]RowCube.[0]RadialRotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[3]RowCube.[0]RadialRotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[4]RowCube.[0]RadialRotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[5]RowCube.[0]RadialRotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[6]RowCube.[0]RadialRotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[7]RowCube.[0]RadialRotationZ"
+              ],
+              "count": 8,
+              "groupId": 16
             },
             {
-              "lightGroup": {
-                "numberOfElements": 8,
-                "startLightId": 209,
-                "groupId": 23,
-                "sameIdElements": 1
-              }
+              "mirrorX": true,
+              "mirrorY": false,
+              "mirrorZ": true,
+              "xTransforms": [
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[0]RowCube.[0]RadialRotationZ.[0]RadialRotationX",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[1]RowCube.[0]RadialRotationZ.[0]RadialRotationX",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[2]RowCube.[0]RadialRotationZ.[0]RadialRotationX",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[3]RowCube.[0]RadialRotationZ.[0]RadialRotationX",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[4]RowCube.[0]RadialRotationZ.[0]RadialRotationX",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[5]RowCube.[0]RadialRotationZ.[0]RadialRotationX",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[6]RowCube.[0]RadialRotationZ.[0]RadialRotationX",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[7]RowCube.[0]RadialRotationZ.[0]RadialRotationX"
+              ],
+              "yTransforms": [],
+              "zTransforms": [
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[0]RowCube.[0]RadialRotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[1]RowCube.[0]RadialRotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[2]RowCube.[0]RadialRotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[3]RowCube.[0]RadialRotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[4]RowCube.[0]RadialRotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[5]RowCube.[0]RadialRotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[6]RowCube.[0]RadialRotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[7]RowCube.[0]RadialRotationZ"
+              ],
+              "count": 8,
+              "groupId": 23
             },
             {
-              "lightGroup": {
-                "numberOfElements": 8,
-                "startLightId": 169,
-                "groupId": 18,
-                "sameIdElements": 1
-              }
+              "mirrorX": false,
+              "mirrorY": false,
+              "mirrorZ": false,
+              "xTransforms": [],
+              "yTransforms": [],
+              "zTransforms": [
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[0]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[2]Spot02RotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[1]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[2]Spot02RotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[2]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[2]Spot02RotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[3]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[2]Spot02RotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[4]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[2]Spot02RotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[5]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[2]Spot02RotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[6]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[2]Spot02RotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[7]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[2]Spot02RotationZ"
+              ],
+              "count": 8,
+              "groupId": 18
             },
             {
-              "lightGroup": {
-                "numberOfElements": 8,
-                "startLightId": 225,
-                "groupId": 25,
-                "sameIdElements": 1
-              }
+              "mirrorX": false,
+              "mirrorY": false,
+              "mirrorZ": true,
+              "xTransforms": [],
+              "yTransforms": [],
+              "zTransforms": [
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[0]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[2]Spot02RotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[1]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[2]Spot02RotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[2]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[2]Spot02RotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[3]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[2]Spot02RotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[4]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[2]Spot02RotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[5]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[2]Spot02RotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[6]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[2]Spot02RotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[3]CubeRowTopRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[7]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[2]Spot02RotationZ"
+              ],
+              "count": 8,
+              "groupId": 25
             },
             {
-              "lightGroup": {
-                "numberOfElements": 8,
-                "startLightId": 249,
-                "groupId": 28,
-                "sameIdElements": 1
-              }
+              "mirrorX": false,
+              "mirrorY": false,
+              "mirrorZ": false,
+              "xTransforms": [],
+              "yTransforms": [
+                "LatticeEnvironment.[0]Environment.[21]Runway.[0]LasersDiagonalWrapper.[0]RunwayLaserInner.[0]TranslationXZ.[0]LocalRotationY",
+                "LatticeEnvironment.[0]Environment.[21]Runway.[0]LasersDiagonalWrapper.[1]RunwayLaserInner.[0]TranslationXZ.[0]LocalRotationY",
+                "LatticeEnvironment.[0]Environment.[21]Runway.[0]LasersDiagonalWrapper.[2]RunwayLaserInner.[0]TranslationXZ.[0]LocalRotationY",
+                "LatticeEnvironment.[0]Environment.[21]Runway.[0]LasersDiagonalWrapper.[3]RunwayLaserInner.[0]TranslationXZ.[0]LocalRotationY",
+                "LatticeEnvironment.[0]Environment.[21]Runway.[0]LasersDiagonalWrapper.[4]RunwayLaserInner.[0]TranslationXZ.[0]LocalRotationY",
+                "LatticeEnvironment.[0]Environment.[21]Runway.[0]LasersDiagonalWrapper.[5]RunwayLaserInner.[0]TranslationXZ.[0]LocalRotationY",
+                "LatticeEnvironment.[0]Environment.[21]Runway.[0]LasersDiagonalWrapper.[6]RunwayLaserInner.[0]TranslationXZ.[0]LocalRotationY",
+                "LatticeEnvironment.[0]Environment.[21]Runway.[0]LasersDiagonalWrapper.[7]RunwayLaserInner.[0]TranslationXZ.[0]LocalRotationY"
+              ],
+              "zTransforms": [],
+              "count": 8,
+              "groupId": 28
             },
             {
-              "lightGroup": {
-                "numberOfElements": 8,
-                "startLightId": 129,
-                "groupId": 13,
-                "sameIdElements": 1
-              }
+              "mirrorX": false,
+              "mirrorY": false,
+              "mirrorZ": false,
+              "xTransforms": [],
+              "yTransforms": [],
+              "zTransforms": [
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[0]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[3]Laser02RotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[1]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[3]Laser02RotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[2]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[3]Laser02RotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[3]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[3]Laser02RotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[4]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[3]Laser02RotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[5]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[3]Laser02RotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[6]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[3]Laser02RotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[1]CubeRowBottomRight.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[7]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[3]Laser02RotationZ"
+              ],
+              "count": 8,
+              "groupId": 13
             },
             {
-              "lightGroup": {
-                "numberOfElements": 8,
-                "startLightId": 33,
-                "groupId": 1,
-                "sameIdElements": 1
-              }
+              "mirrorX": true,
+              "mirrorY": false,
+              "mirrorZ": true,
+              "xTransforms": [
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[0]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[1]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[2]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[3]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[4]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[5]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[6]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[7]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX"
+              ],
+              "yTransforms": [],
+              "zTransforms": [
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[0]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[1]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[2]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[3]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[4]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[5]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[6]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[0]CubeRowBottomLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[7]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ"
+              ],
+              "count": 8,
+              "groupId": 1
             },
             {
-              "lightGroup": {
-                "numberOfElements": 8,
-                "startLightId": 185,
-                "groupId": 20,
-                "sameIdElements": 1
-              }
+              "mirrorX": false,
+              "mirrorY": false,
+              "mirrorZ": false,
+              "xTransforms": [],
+              "yTransforms": [],
+              "zTransforms": [
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[0]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[3]Laser02RotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[1]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[3]Laser02RotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[2]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[3]Laser02RotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[3]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[3]Laser02RotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[4]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[3]Laser02RotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[5]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[3]Laser02RotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[6]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[3]Laser02RotationZ",
+                "LatticeEnvironment.[0]Environment.[22]CubesGlobal.[2]CubeRowTopLeft.[0]Spot01Wrapper.[0]Spot02Wrapper.[0]Laser01Wrapper.[0]Laser02Wrapper.[0]LocalWrapper.[0]GlobalWrapper.[0]RadialWrapper.[7]RowCube.[1]PositionFollow.[0]Cube.[0]LocalRotationZ.[0]LocalRotationX.[0]Lasers.[3]Laser02RotationZ"
+              ],
+              "count": 8,
+              "groupId": 20
             }
           ],
           "lightRotationGroupEffects": [

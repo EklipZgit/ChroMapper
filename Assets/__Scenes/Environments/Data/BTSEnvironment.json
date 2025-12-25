@@ -622,6 +622,189 @@
           "ENABLE_LIGHTNING",
           "USE_COLOR_FOG"
         ]
+      },
+      {
+        "hash": "b90c188f8a4c6a9220b9c00ac5ec4f65",
+        "name": "TrackMirror",
+        "shader": "Custom/Mirror",
+        "color": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "shaderKeywords": [
+          "ENABLE_MIRROR",
+          "ETC1_EXTERNAL_ALPHA",
+          "_EMISSION"
+        ]
+      },
+      {
+        "hash": "47348bfff0fbcb3e14515ad3bfebc6be",
+        "name": "SetDepthOnly",
+        "shader": "Custom/SetDepthOnly",
+        "color": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "shaderKeywords": [
+          "ENABLE_DIFFUSE",
+          "ENABLE_DIRT",
+          "ENABLE_DIRT_DETAIL",
+          "ENABLE_FOG",
+          "ENABLE_SPECULAR",
+          "FOG",
+          "LIGHTMAP",
+          "REFLECTION_PROBE",
+          "_EMISSION",
+          "_ENABLE_FOG_TINT",
+          "_RIMLIGHT_NONE"
+        ]
+      },
+      {
+        "hash": "5d16a92505194a7564991236b52db716",
+        "name": "DarkEnvironmentWithHeightFog",
+        "shader": "Custom/SimpleLit",
+        "color": [
+          0.24999997,
+          0.24999997,
+          0.24999997,
+          0.0
+        ],
+        "shaderKeywords": [
+          "DIFFUSE",
+          "FOG",
+          "HEIGHT_FOG",
+          "REFLECTION_PROBE_BOX_PROJECTION",
+          "SPECULAR",
+          "_ACES_APPROACH_AFTER_EMISSIVE",
+          "_DIFFUSE_TEXTURE_SOURCE_TEXTURE",
+          "_DISSOLVEALPHA_CLIP",
+          "_EMISSIONCOLORTYPE_FLAT",
+          "_EMISSION_ALPHA_SOURCE_EMISSION_G",
+          "_EMISSION_TEXTURE_SOURCE_TEXTURE",
+          "_METALLIC_TEXTURE_NONE",
+          "_OCCLUSION_SOURCE_TEXTURE",
+          "_PROBE_CALCULATION_FAST",
+          "_SMOOTHNESS_TEXTURE_NONE",
+          "ENABLE_DIFFUSE",
+          "ENABLE_FOG",
+          "ENABLE_HEIGHT_FOG",
+          "ENABLE_SPECULAR",
+          "_CURVE_VERTICES_NONE",
+          "_CUSTOM_TIME_STANDARD",
+          "_DECALBLEND_ALPHABLEND",
+          "_DISSOLVEAXIS_LOCALX",
+          "_EMISSION",
+          "_EMISSIONTEXTURE_NONE",
+          "_ENABLE_FOG_TINT",
+          "_HOLOGRAM_NONE",
+          "_RIMLIGHT_NONE",
+          "_RIM_WHITEBOOSTTYPE_NONE",
+          "_ROTATE_UV_NONE",
+          "_SPECTROGRAM_NONE",
+          "_VERTEXMODE_NONE",
+          "_VERTEX_WHITEBOOSTTYPE_NONE",
+          "_WHITEBOOSTTYPE_NONE",
+          "_ZWRITE_ON"
+        ]
+      },
+      {
+        "hash": "a97bb8953136bcdd00eea8f1107e0aeb",
+        "name": "PlayersPlaceMirror",
+        "shader": "Custom/Mirror",
+        "color": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "shaderKeywords": [
+          "ENABLE_DIRT",
+          "ENABLE_MIRROR",
+          "ETC1_EXTERNAL_ALPHA",
+          "_EMISSION"
+        ]
+      },
+      {
+        "hash": "6a57238a079a4d360b12e9d3a777e1b0",
+        "name": "ParametricFakeGlow",
+        "shader": "Custom/ParametricBoxFakeGlow",
+        "color": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "shaderKeywords": [
+          "ENABLE_MAIN_EFFECT_WHITE_BOOST",
+          "_WHITEBOOSTTYPE_ALWAYS"
+        ]
+      },
+      {
+        "hash": "753e70e0ebb6bcbec2329b02d705b919",
+        "name": "SaberBurnMarks",
+        "shader": "Custom/CustomParticles",
+        "color": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "shaderKeywords": [
+          "DISTORTION_TARGET_MAIN",
+          "TEXTURE_COLOR",
+          "_FOGTYPE_ALPHA",
+          "_MASK2BLEND_MULTIPLY",
+          "_MASKBLEND_MULTIPLY",
+          "_VERTEXCHANNELS_RGBA",
+          "DISTORTION_NONE",
+          "ENABLE_FOG",
+          "ENABLE_TEXTURE_COLOR",
+          "_ALPHACHANNEL_ALPHA",
+          "_BILLBOARD_NONE",
+          "_CURVE_VERTICES_NONE",
+          "_DISSOLVEAXIS_LOCALX",
+          "_ENABLE_FOG",
+          "_ROTATE_UV_NONE",
+          "_SPECTROGRAM_NONE",
+          "_WHITEBOOSTTYPE_NONE"
+        ]
+      },
+      {
+        "hash": "4e41460cad1c70fc21dd493166ee216c",
+        "name": "BakedGlowSprite",
+        "shader": "Custom/CustomParticles",
+        "color": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "shaderKeywords": [
+          "DISTORTION_TARGET_MAIN",
+          "SQUARE_ALPHA",
+          "VERTEX_COLOR",
+          "_MASK2BLEND_MULTIPLY",
+          "_MASKBLEND_MULTIPLY",
+          "_VERTEXCHANNELS_RGBA",
+          "_WHITEBOOSTTYPE_ALWAYS",
+          "DISTORTION_NONE",
+          "ENABLE_FORCED_WHITE_BOOST",
+          "ENABLE_VERTEX_COLOR",
+          "ETC1_EXTERNAL_ALPHA",
+          "SQUAREALPHA",
+          "_ALPHACHANNEL_ALPHA",
+          "_BILLBOARD_NONE",
+          "_CURVE_VERTICES_NONE",
+          "_DISSOLVEAXIS_LOCALX",
+          "_FOGTYPE_NONE",
+          "_ROTATE_UV_NONE",
+          "_SPECTROGRAM_NONE",
+          "_SQUAREALPHA_ON"
+        ]
       }
     ],
     "uniqueMeshes": [
@@ -806,6 +989,90 @@
           1.58785,
           0.0852671862
         ]
+      },
+      {
+        "name": "TrackMirror_BTS",
+        "hash": "a0bbb3c796865cdbcf9353019aa626a5",
+        "boundsSize": [
+          2.3,
+          0.0,
+          251.0
+        ],
+        "boundsCenter": [
+          -0.299999982,
+          0.0,
+          125.45
+        ]
+      },
+      {
+        "name": "BTSConstruction",
+        "hash": "2a7191de7f2222aa2a63d893400ac9bf",
+        "boundsSize": [
+          2.3,
+          0.1,
+          202.999069
+        ],
+        "boundsCenter": [
+          0.0,
+          -0.0510000028,
+          109.250465
+        ]
+      },
+      {
+        "name": "pb_Mesh-121890",
+        "hash": "1cdf5eb3bb475b8ee9c8959d7bbe9ee1",
+        "boundsSize": [
+          3.0,
+          2.38418579E-07,
+          2.00000024
+        ],
+        "boundsCenter": [
+          0.0,
+          -0.0001,
+          0.0
+        ]
+      },
+      {
+        "name": "pb_Mesh-121886",
+        "hash": "d3ca75607c073a4d2ff24d9950b343e9",
+        "boundsSize": [
+          3.0,
+          112.755005,
+          2.0
+        ],
+        "boundsCenter": [
+          0.0,
+          -56.3724976,
+          0.0
+        ]
+      },
+      {
+        "name": "RectangleFakeGlow",
+        "hash": "82ea09b58af4dc40242a50a3224b8176",
+        "boundsSize": [
+          3.0,
+          3.0,
+          0.0
+        ],
+        "boundsCenter": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "name": "PlayersPlaceCore",
+        "hash": "1cdf5eb3bb475b8ee9c8959d7bbe9ee1",
+        "boundsSize": [
+          3.0,
+          2.38418579E-07,
+          2.00000024
+        ],
+        "boundsCenter": [
+          0.0,
+          -0.0001,
+          0.0
+        ]
       }
     ]
   },
@@ -933,12 +1200,12 @@
           ],
           "rotation": [
             90.0,
-            0.0,
+            359.90625,
             0.0
           ],
           "localRotation": [
             90.0,
-            0.0,
+            359.90625,
             0.0
           ],
           "scale": [
@@ -1274,18 +1541,18 @@
           ],
           "rotation": [
             270.0,
-            97.83358,
+            97.81293,
             0.0
           ],
           "localRotation": [
             0.0,
             0.0,
-            44.8335876
+            44.81293
           ],
           "scale": [
-            1.00000024,
-            1.00000012,
-            1.0
+            1.0,
+            0.99999994,
+            0.9999999
           ]
         },
         "TrackLaneRing": {}
@@ -1309,8 +1576,8 @@
             0.0
           ],
           "rotation": [
-            1.28066051E-06,
-            187.833572,
+            0.0,
+            187.812927,
             270.0
           ],
           "localRotation": [
@@ -1320,7 +1587,7 @@
           ],
           "scale": [
             5.000001,
-            20.0000019,
+            20.0000038,
             20.0000134
           ]
         },
@@ -1352,16 +1619,16 @@
           ],
           "rotation": [
             270.0,
-            98.7448349,
+            98.71315,
             0.0
           ],
           "localRotation": [
             0.0,
             0.0,
-            45.7448463
+            45.7131653
           ],
           "scale": [
-            1.00000012,
+            1.00000024,
             1.00000012,
             1.0
           ]
@@ -1387,8 +1654,8 @@
             0.0
           ],
           "rotation": [
-            1.28066051E-06,
-            188.744827,
+            0.0,
+            188.71315,
             270.0
           ],
           "localRotation": [
@@ -1398,7 +1665,7 @@
           ],
           "scale": [
             5.000001,
-            20.0000038,
+            20.0000057,
             20.0000153
           ]
         },
@@ -1430,13 +1697,13 @@
           ],
           "rotation": [
             270.0,
-            96.2716751,
+            94.81543,
             0.0
           ],
           "localRotation": [
             0.0,
             0.0,
-            43.2716866
+            41.81544
           ],
           "scale": [
             1.00000012,
@@ -1466,7 +1733,7 @@
           ],
           "rotation": [
             0.0,
-            186.271683,
+            184.81543,
             270.0
           ],
           "localRotation": [
@@ -1475,9 +1742,9 @@
             0.0
           ],
           "scale": [
-            5.0,
-            20.0,
-            20.0000076
+            5.000001,
+            20.0000057,
+            20.0000134
           ]
         },
         "MeshFilter": {
@@ -1507,19 +1774,19 @@
             88.0
           ],
           "rotation": [
-            270.019775,
-            91.08766,
+            270.0,
+            88.86358,
             0.0
           ],
           "localRotation": [
             0.0,
             0.0,
-            38.0876732
+            35.86359
           ],
           "scale": [
-            1.00000012,
             1.0,
-            1.0
+            0.99999994,
+            0.9999999
           ]
         },
         "TrackLaneRing": {}
@@ -1543,8 +1810,8 @@
             0.0
           ],
           "rotation": [
-            1.22729966E-06,
-            181.087662,
+            2.45459933E-06,
+            178.863571,
             270.0
           ],
           "localRotation": [
@@ -1553,9 +1820,9 @@
             0.0
           ],
           "scale": [
-            5.0,
-            20.0,
-            20.0000057
+            5.000001,
+            20.0000057,
+            20.0000134
           ]
         },
         "MeshFilter": {
@@ -1585,18 +1852,18 @@
             96.0
           ],
           "rotation": [
-            270.0,
-            82.6516953,
+            270.019775,
+            79.2560043,
             0.0
           ],
           "localRotation": [
             0.0,
             0.0,
-            29.6517086
+            26.2560158
           ],
           "scale": [
-            1.00000024,
-            1.00000012,
+            1.0,
+            1.0,
             1.0
           ]
         },
@@ -1621,8 +1888,8 @@
             0.0
           ],
           "rotation": [
-            -1.70754731E-06,
-            172.6517,
+            2.561321E-06,
+            169.256012,
             270.0
           ],
           "localRotation": [
@@ -1631,9 +1898,9 @@
             0.0
           ],
           "scale": [
-            5.0,
-            20.0,
-            20.0000114
+            5.000001,
+            20.0000038,
+            20.0000134
           ]
         },
         "MeshFilter": {
@@ -1664,18 +1931,18 @@
           ],
           "rotation": [
             270.0,
-            52.9999924,
+            64.07496,
             0.0
           ],
           "localRotation": [
             0.0,
             0.0,
-            0.0
+            11.0749722
           ],
           "scale": [
             0.9999999,
             1.0,
-            0.9999999
+            1.0
           ]
         },
         "TrackLaneRing": {}
@@ -1699,8 +1966,8 @@
             0.0
           ],
           "rotation": [
-            0.0,
-            143.0,
+            -1.70754731E-06,
+            154.074966,
             270.0
           ],
           "localRotation": [
@@ -1709,9 +1976,9 @@
             0.0
           ],
           "scale": [
-            5.000001,
+            5.00000143,
             20.0000076,
-            20.0000114
+            20.0000153
           ]
         },
         "MeshFilter": {
@@ -2210,13 +2477,13 @@
           ],
           "rotation": [
             270.0,
-            99.60893,
+            99.56039,
             0.0
           ],
           "localRotation": [
             0.0,
             0.0,
-            46.60894
+            46.56039
           ],
           "scale": [
             1.0,
@@ -2245,8 +2512,8 @@
             0.0
           ],
           "rotation": [
-            0.0,
-            189.608917,
+            1.28066051E-06,
+            189.560379,
             270.0
           ],
           "localRotation": [
@@ -2255,9 +2522,9 @@
             0.0
           ],
           "scale": [
-            5.000001,
-            20.0000019,
-            20.0000172
+            4.99999952,
+            19.9999962,
+            20.0000019
           ]
         },
         "MeshFilter": {
@@ -3068,13 +3335,13 @@
           ],
           "rotation": [
             270.0,
-            100.400925,
+            100.326538,
             0.0
           ],
           "localRotation": [
             0.0,
             0.0,
-            47.4009361
+            47.3265457
           ],
           "scale": [
             1.00000024,
@@ -3103,8 +3370,8 @@
             0.0
           ],
           "rotation": [
-            1.28066051E-06,
-            190.400925,
+            0.0,
+            190.326523,
             270.0
           ],
           "localRotation": [
@@ -3114,7 +3381,7 @@
           ],
           "scale": [
             5.000001,
-            20.0000038,
+            20.0000057,
             20.0000134
           ]
         },
@@ -3146,18 +3413,18 @@
           ],
           "rotation": [
             270.0,
-            101.082672,
+            100.968773,
             0.0
           ],
           "localRotation": [
             0.0,
             0.0,
-            48.08268
+            47.9687843
           ],
           "scale": [
-            1.00000036,
             1.00000012,
-            1.0
+            0.99999994,
+            0.9999999
           ]
         },
         "TrackLaneRing": {}
@@ -3181,8 +3448,8 @@
             0.0
           ],
           "rotation": [
-            -1.28066051E-06,
-            191.082672,
+            0.0,
+            190.968765,
             270.0
           ],
           "localRotation": [
@@ -3191,9 +3458,9 @@
             0.0
           ],
           "scale": [
-            5.000001,
-            20.0000057,
-            20.0000172
+            5.0,
+            20.0000019,
+            20.0000114
           ]
         },
         "MeshFilter": {
@@ -3224,17 +3491,17 @@
           ],
           "rotation": [
             270.0,
-            101.595932,
+            101.421593,
             0.0
           ],
           "localRotation": [
             0.0,
             0.0,
-            48.5959435
+            48.421608
           ],
           "scale": [
-            1.00000012,
             1.0,
+            0.9999999,
             0.9999999
           ]
         },
@@ -3260,7 +3527,7 @@
           ],
           "rotation": [
             0.0,
-            191.595932,
+            191.4216,
             270.0
           ],
           "localRotation": [
@@ -3270,7 +3537,7 @@
           ],
           "scale": [
             5.000001,
-            20.0000057,
+            20.0000038,
             20.0000153
           ]
         },
@@ -3302,18 +3569,18 @@
           ],
           "rotation": [
             270.0,
-            101.851776,
+            101.585045,
             0.0
           ],
           "localRotation": [
             0.0,
             0.0,
-            48.85178
+            48.5850563
           ],
           "scale": [
+            1.00000012,
             1.0,
-            0.9999998,
-            0.9999999
+            1.0
           ]
         },
         "TrackLaneRing": {}
@@ -3337,8 +3604,8 @@
             0.0
           ],
           "rotation": [
-            -1.28066051E-06,
-            191.851776,
+            -2.561321E-06,
+            191.585037,
             270.0
           ],
           "localRotation": [
@@ -3347,9 +3614,9 @@
             0.0
           ],
           "scale": [
-            4.99999952,
-            19.9999981,
-            20.0000057
+            5.000001,
+            20.0000019,
+            20.0000134
           ]
         },
         "MeshFilter": {
@@ -3380,13 +3647,13 @@
           ],
           "rotation": [
             270.0,
-            101.714485,
+            101.306534,
             0.0
           ],
           "localRotation": [
             0.0,
             0.0,
-            48.7144928
+            48.30655
           ],
           "scale": [
             1.00000024,
@@ -3415,8 +3682,8 @@
             0.0
           ],
           "rotation": [
-            8.53773656E-07,
-            191.714478,
+            0.0,
+            191.306534,
             270.0
           ],
           "localRotation": [
@@ -3425,9 +3692,9 @@
             0.0
           ],
           "scale": [
-            5.000001,
-            20.0000038,
-            20.0000134
+            4.99999952,
+            20.0,
+            20.0000057
           ]
         },
         "MeshFilter": {
@@ -3457,19 +3724,19 @@
             64.0
           ],
           "rotation": [
-            270.0,
-            100.976959,
+            270.019775,
+            100.353287,
             0.0
           ],
           "localRotation": [
             0.0,
             0.0,
-            47.97697
+            47.3532867
           ],
           "scale": [
+            1.00000012,
             1.0,
-            0.9999999,
-            0.9999999
+            1.0
           ]
         },
         "TrackLaneRing": {}
@@ -3493,8 +3760,8 @@
             0.0
           ],
           "rotation": [
-            4.26886828E-07,
-            190.976959,
+            -8.53773656E-07,
+            190.353271,
             270.0
           ],
           "localRotation": [
@@ -3504,7 +3771,7 @@
           ],
           "scale": [
             5.000001,
-            20.0000038,
+            20.0000019,
             20.0000153
           ]
         },
@@ -3536,16 +3803,16 @@
           ],
           "rotation": [
             270.0,
-            99.32327,
+            98.3701,
             0.0
           ],
           "localRotation": [
             0.0,
             0.0,
-            46.323288
+            45.37011
           ],
           "scale": [
-            0.99999994,
+            0.9999999,
             0.9999999,
             0.999999762
           ]
@@ -3571,8 +3838,8 @@
             0.0
           ],
           "rotation": [
-            1.70754731E-06,
-            189.323273,
+            1.28066051E-06,
+            188.370087,
             270.0
           ],
           "localRotation": [
@@ -3582,8 +3849,8 @@
           ],
           "scale": [
             5.0,
-            19.9999981,
-            20.0000134
+            20.0000019,
+            20.0000114
           ]
         },
         "MeshFilter": {
@@ -3690,18 +3957,18 @@
           ],
           "rotation": [
             270.0,
-            351.8336,
+            351.812958,
             0.0
           ],
           "localRotation": [
             0.0,
             0.0,
-            44.8335876
+            44.81293
           ],
           "scale": [
             0.9999998,
             1.00000012,
-            1.0
+            0.9999999
           ]
         },
         "TrackLaneRing": {}
@@ -3725,8 +3992,8 @@
             0.0
           ],
           "rotation": [
-            0.0,
-            81.8336,
+            -1.70754731E-06,
+            81.8129349,
             270.0
           ],
           "localRotation": [
@@ -3736,8 +4003,8 @@
           ],
           "scale": [
             5.0,
-            20.0000038,
-            20.0000038
+            20.0000019,
+            20.0
           ]
         },
         "MeshFilter": {
@@ -3768,18 +4035,18 @@
           ],
           "rotation": [
             270.0,
-            352.744843,
+            352.713165,
             0.0
           ],
           "localRotation": [
             0.0,
             0.0,
-            45.7448463
+            45.7131653
           ],
           "scale": [
             0.9999998,
-            1.00000012,
-            1.0
+            1.00000024,
+            1.00000012
           ]
         },
         "TrackLaneRing": {}
@@ -3804,7 +4071,7 @@
           ],
           "rotation": [
             0.0,
-            82.74485,
+            82.71317,
             270.0
           ],
           "localRotation": [
@@ -3813,9 +4080,9 @@
             0.0
           ],
           "scale": [
-            5.000001,
-            20.0000057,
-            20.0000038
+            5.00000143,
+            20.0000076,
+            20.0000057
           ]
         },
         "MeshFilter": {
@@ -3846,18 +4113,18 @@
           ],
           "rotation": [
             270.0,
-            350.2717,
+            348.81546,
             0.0
           ],
           "localRotation": [
             0.0,
             0.0,
-            43.2716866
+            41.81544
           ],
           "scale": [
-            0.9999998,
-            1.0,
-            0.9999999
+            0.9999999,
+            1.00000024,
+            1.0
           ]
         },
         "TrackLaneRing": {}
@@ -3881,8 +4148,8 @@
             0.0
           ],
           "rotation": [
-            -1.70754731E-06,
-            80.2717,
+            3.41509462E-06,
+            78.8154449,
             270.0
           ],
           "localRotation": [
@@ -3891,9 +4158,9 @@
             0.0
           ],
           "scale": [
-            4.99999952,
-            20.0,
-            20.0
+            5.000001,
+            20.0000057,
+            20.0000038
           ]
         },
         "MeshFilter": {
@@ -3924,18 +4191,18 @@
           ],
           "rotation": [
             270.0,
-            345.087677,
+            342.8636,
             0.0
           ],
           "localRotation": [
             0.0,
             0.0,
-            38.0876732
+            35.86359
           ],
           "scale": [
-            0.9999998,
-            1.00000012,
-            1.0
+            0.999999762,
+            0.9999999,
+            0.999999762
           ]
         },
         "TrackLaneRing": {}
@@ -3959,8 +4226,8 @@
             0.0
           ],
           "rotation": [
-            1.70754731E-06,
-            75.08768,
+            -1.70754731E-06,
+            72.8636,
             270.0
           ],
           "localRotation": [
@@ -4002,17 +4269,17 @@
           ],
           "rotation": [
             270.0,
-            336.651733,
+            333.256042,
             0.0
           ],
           "localRotation": [
             0.0,
             0.0,
-            29.6517086
+            26.2560158
           ],
           "scale": [
-            0.9999999,
-            1.00000012,
+            0.999999762,
+            1.0,
             0.9999999
           ]
         },
@@ -4038,7 +4305,7 @@
           ],
           "rotation": [
             0.0,
-            66.65172,
+            63.2560272,
             270.0
           ],
           "localRotation": [
@@ -4047,7 +4314,7 @@
             0.0
           ],
           "scale": [
-            5.0,
+            5.000001,
             20.0000038,
             20.0000019
           ]
@@ -4080,13 +4347,13 @@
           ],
           "rotation": [
             270.0,
-            307.0,
+            318.074982,
             0.0
           ],
           "localRotation": [
             0.0,
             0.0,
-            0.0
+            11.0749722
           ],
           "scale": [
             0.9999999,
@@ -4116,7 +4383,7 @@
           ],
           "rotation": [
             0.0,
-            37.0000076,
+            48.07498,
             270.0
           ],
           "localRotation": [
@@ -4626,18 +4893,18 @@
           ],
           "rotation": [
             270.0,
-            353.608948,
+            353.5604,
             0.0
           ],
           "localRotation": [
             0.0,
             0.0,
-            46.60894
+            46.56039
           ],
           "scale": [
+            0.999999762,
             0.9999998,
-            1.00000012,
-            0.9999999
+            0.999999762
           ]
         },
         "TrackLaneRing": {}
@@ -4661,8 +4928,8 @@
             0.0
           ],
           "rotation": [
-            3.41509462E-06,
-            83.6089554,
+            1.70754731E-06,
+            83.5604,
             270.0
           ],
           "localRotation": [
@@ -4671,9 +4938,9 @@
             0.0
           ],
           "scale": [
-            5.000001,
-            20.0000019,
-            20.0000038
+            4.99999952,
+            20.0,
+            19.9999981
           ]
         },
         "MeshFilter": {
@@ -5484,18 +5751,18 @@
           ],
           "rotation": [
             270.0,
-            354.40094,
+            354.326569,
             0.0
           ],
           "localRotation": [
             0.0,
             0.0,
-            47.4009361
+            47.3265457
           ],
           "scale": [
             0.9999999,
-            1.00000024,
-            1.0
+            1.00000012,
+            0.9999999
           ]
         },
         "TrackLaneRing": {}
@@ -5519,8 +5786,8 @@
             0.0
           ],
           "rotation": [
-            0.0,
-            84.40094,
+            1.70754731E-06,
+            84.32655,
             270.0
           ],
           "localRotation": [
@@ -5530,7 +5797,7 @@
           ],
           "scale": [
             5.000001,
-            20.0000057,
+            20.00001,
             20.0000057
           ]
         },
@@ -5562,18 +5829,18 @@
           ],
           "rotation": [
             270.0,
-            355.0827,
+            354.968781,
             0.0
           ],
           "localRotation": [
             0.0,
             0.0,
-            48.08268
+            47.9687843
           ],
           "scale": [
+            0.9999998,
             0.9999999,
-            1.0,
-            0.9999999
+            0.999999762
           ]
         },
         "TrackLaneRing": {}
@@ -5597,8 +5864,8 @@
             0.0
           ],
           "rotation": [
-            0.0,
-            85.08269,
+            -1.70754731E-06,
+            84.9687958,
             270.0
           ],
           "localRotation": [
@@ -5607,9 +5874,9 @@
             0.0
           ],
           "scale": [
-            5.00000143,
-            20.0000076,
-            20.0000057
+            5.0,
+            20.0000019,
+            20.0000019
           ]
         },
         "MeshFilter": {
@@ -5640,18 +5907,18 @@
           ],
           "rotation": [
             270.0,
-            355.595947,
+            355.421631,
             0.0
           ],
           "localRotation": [
             0.0,
             0.0,
-            48.5959435
+            48.421608
           ],
           "scale": [
             0.9999998,
-            1.00000012,
-            0.9999999
+            1.00000024,
+            1.0
           ]
         },
         "TrackLaneRing": {}
@@ -5675,8 +5942,8 @@
             0.0
           ],
           "rotation": [
-            0.0,
-            85.59595,
+            -3.41509462E-06,
+            85.42162,
             270.0
           ],
           "localRotation": [
@@ -5685,9 +5952,9 @@
             0.0
           ],
           "scale": [
-            5.00000143,
-            20.0000076,
-            20.0000076
+            5.000001,
+            20.0000057,
+            20.0000057
           ]
         },
         "MeshFilter": {
@@ -5718,16 +5985,16 @@
           ],
           "rotation": [
             270.0,
-            355.8518,
+            355.585052,
             0.0
           ],
           "localRotation": [
             0.0,
             0.0,
-            48.85178
+            48.5850563
           ],
           "scale": [
-            0.9999997,
+            0.9999998,
             1.0,
             0.9999999
           ]
@@ -5754,7 +6021,7 @@
           ],
           "rotation": [
             0.0,
-            85.85179,
+            85.58506,
             270.0
           ],
           "localRotation": [
@@ -5763,9 +6030,9 @@
             0.0
           ],
           "scale": [
-            5.0,
-            20.0000019,
-            20.0000019
+            5.00000143,
+            20.0000057,
+            20.0000038
           ]
         },
         "MeshFilter": {
@@ -5796,18 +6063,18 @@
           ],
           "rotation": [
             270.0,
-            355.7145,
+            355.306549,
             0.0
           ],
           "localRotation": [
             0.0,
             0.0,
-            48.7144928
+            48.30655
           ],
           "scale": [
             0.9999998,
             1.00000012,
-            0.9999999
+            1.0
           ]
         },
         "TrackLaneRing": {}
@@ -5832,7 +6099,7 @@
           ],
           "rotation": [
             0.0,
-            85.71451,
+            85.3065643,
             270.0
           ],
           "localRotation": [
@@ -5841,8 +6108,8 @@
             0.0
           ],
           "scale": [
-            5.000001,
-            20.0000057,
+            4.99999952,
+            20.0000038,
             20.0000038
           ]
         },
@@ -5874,13 +6141,13 @@
           ],
           "rotation": [
             270.0,
-            354.977,
+            354.3533,
             0.0
           ],
           "localRotation": [
             0.0,
             0.0,
-            47.97697
+            47.3532867
           ],
           "scale": [
             0.9999998,
@@ -5909,8 +6176,8 @@
             0.0
           ],
           "rotation": [
-            0.0,
-            84.9769745,
+            -1.70754731E-06,
+            84.3532944,
             270.0
           ],
           "localRotation": [
@@ -5919,9 +6186,9 @@
             0.0
           ],
           "scale": [
-            5.00000143,
-            20.00001,
-            20.0000076
+            5.0,
+            20.0000038,
+            20.0000057
           ]
         },
         "MeshFilter": {
@@ -5952,18 +6219,18 @@
           ],
           "rotation": [
             270.0,
-            353.3233,
+            352.370117,
             0.0
           ],
           "localRotation": [
             0.0,
             0.0,
-            46.323288
+            45.37011
           ],
           "scale": [
-            0.999999762,
-            1.0,
-            0.9999999
+            0.9999998,
+            1.00000012,
+            1.0
           ]
         },
         "TrackLaneRing": {}
@@ -5988,7 +6255,7 @@
           ],
           "rotation": [
             0.0,
-            83.3232956,
+            82.3701248,
             270.0
           ],
           "localRotation": [
@@ -5998,8 +6265,8 @@
           ],
           "scale": [
             5.0,
-            20.0000019,
-            20.0
+            20.0000038,
+            20.0000038
           ]
         },
         "MeshFilter": {
@@ -6604,7 +6871,6 @@
               "tubeLength": 2500.0,
               "tubeWidth": 0.1,
               "center": 0.0,
-              "height": 2500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
               "startWidth": 1.0,
@@ -6614,8 +6880,8 @@
               "maxAlpha": 0.6,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "BTSEnvironment.[0]Environment.[16]PillarPair.[0]PillarL.[2]LaserL.[1]BoxLight",
-              "sliceSpriteControllerId": "BTSEnvironment.[0]Environment.[16]PillarPair.[0]PillarL.[2]LaserL.[0]BakedBloom"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "null"
             },
             "lightId": 2
           }
@@ -6758,7 +7024,6 @@
               "tubeLength": 3.9,
               "tubeWidth": 0.18,
               "center": 0.0,
-              "height": 3.9,
               "startAlpha": 1.0,
               "endAlpha": 0.0,
               "startWidth": 1.0,
@@ -6768,8 +7033,8 @@
               "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "BTSEnvironment.[0]Environment.[16]PillarPair.[0]PillarL.[3]LaserLight0.[1]BoxLight",
-              "sliceSpriteControllerId": "BTSEnvironment.[0]Environment.[16]PillarPair.[0]PillarL.[3]LaserLight0.[0]BakedBloom"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "null"
             },
             "lightId": 2
           }
@@ -7380,7 +7645,6 @@
               "tubeLength": 2500.0,
               "tubeWidth": 0.1,
               "center": 0.0,
-              "height": 2500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
               "startWidth": 1.0,
@@ -7390,8 +7654,8 @@
               "maxAlpha": 0.6,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "BTSEnvironment.[0]Environment.[16]PillarPair.[1]PillarR.[2]LaserR.[1]BoxLight",
-              "sliceSpriteControllerId": "BTSEnvironment.[0]Environment.[16]PillarPair.[1]PillarR.[2]LaserR.[0]BakedBloom"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "null"
             },
             "lightId": 2
           }
@@ -7534,7 +7798,6 @@
               "tubeLength": 3.9,
               "tubeWidth": 0.18,
               "center": 0.0,
-              "height": 3.9,
               "startAlpha": 1.0,
               "endAlpha": 0.0,
               "startWidth": 1.0,
@@ -7544,8 +7807,8 @@
               "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "BTSEnvironment.[0]Environment.[16]PillarPair.[1]PillarR.[3]LaserLight0.[1]BoxLight",
-              "sliceSpriteControllerId": "BTSEnvironment.[0]Environment.[16]PillarPair.[1]PillarR.[3]LaserLight0.[0]BakedBloom"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "null"
             },
             "lightId": 2
           }
@@ -9820,7 +10083,6 @@
               "tubeLength": 2500.0,
               "tubeWidth": 0.1,
               "center": 0.0,
-              "height": 2500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
               "startWidth": 1.0,
@@ -9830,8 +10092,8 @@
               "maxAlpha": 0.6,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "BTSEnvironment.[0]Environment.[18]PillarPair (1).[0]PillarL.[2]LaserL.[1]BoxLight",
-              "sliceSpriteControllerId": "BTSEnvironment.[0]Environment.[18]PillarPair (1).[0]PillarL.[2]LaserL.[0]BakedBloom"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "null"
             },
             "lightId": 2
           }
@@ -9974,7 +10236,6 @@
               "tubeLength": 3.9,
               "tubeWidth": 0.18,
               "center": 0.0,
-              "height": 3.9,
               "startAlpha": 1.0,
               "endAlpha": 0.0,
               "startWidth": 1.0,
@@ -9984,8 +10245,8 @@
               "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "BTSEnvironment.[0]Environment.[18]PillarPair (1).[0]PillarL.[3]LaserLight0.[1]BoxLight",
-              "sliceSpriteControllerId": "BTSEnvironment.[0]Environment.[18]PillarPair (1).[0]PillarL.[3]LaserLight0.[0]BakedBloom"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "null"
             },
             "lightId": 2
           }
@@ -10596,7 +10857,6 @@
               "tubeLength": 2500.0,
               "tubeWidth": 0.1,
               "center": 0.0,
-              "height": 2500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
               "startWidth": 1.0,
@@ -10606,8 +10866,8 @@
               "maxAlpha": 0.6,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "BTSEnvironment.[0]Environment.[18]PillarPair (1).[1]PillarR.[2]LaserR.[1]BoxLight",
-              "sliceSpriteControllerId": "BTSEnvironment.[0]Environment.[18]PillarPair (1).[1]PillarR.[2]LaserR.[0]BakedBloom"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "null"
             },
             "lightId": 2
           }
@@ -10750,7 +11010,6 @@
               "tubeLength": 3.9,
               "tubeWidth": 0.18,
               "center": 0.0,
-              "height": 3.9,
               "startAlpha": 1.0,
               "endAlpha": 0.0,
               "startWidth": 1.0,
@@ -10760,8 +11019,8 @@
               "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "BTSEnvironment.[0]Environment.[18]PillarPair (1).[1]PillarR.[3]LaserLight0.[1]BoxLight",
-              "sliceSpriteControllerId": "BTSEnvironment.[0]Environment.[18]PillarPair (1).[1]PillarR.[3]LaserLight0.[0]BakedBloom"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "null"
             },
             "lightId": 2
           }
@@ -13070,7 +13329,6 @@
               "tubeLength": 2500.0,
               "tubeWidth": 0.1,
               "center": 0.0,
-              "height": 2500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
               "startWidth": 1.0,
@@ -13080,8 +13338,8 @@
               "maxAlpha": 0.6,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "BTSEnvironment.[0]Environment.[20]PillarPair (2).[0]PillarL.[2]LaserL.[1]BoxLight",
-              "sliceSpriteControllerId": "BTSEnvironment.[0]Environment.[20]PillarPair (2).[0]PillarL.[2]LaserL.[0]BakedBloom"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "null"
             },
             "lightId": 2
           }
@@ -13224,7 +13482,6 @@
               "tubeLength": 3.9,
               "tubeWidth": 0.18,
               "center": 0.0,
-              "height": 3.9,
               "startAlpha": 1.0,
               "endAlpha": 0.0,
               "startWidth": 1.0,
@@ -13234,8 +13491,8 @@
               "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "BTSEnvironment.[0]Environment.[20]PillarPair (2).[0]PillarL.[3]LaserLight0.[1]BoxLight",
-              "sliceSpriteControllerId": "BTSEnvironment.[0]Environment.[20]PillarPair (2).[0]PillarL.[3]LaserLight0.[0]BakedBloom"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "null"
             },
             "lightId": 2
           }
@@ -13846,7 +14103,6 @@
               "tubeLength": 2500.0,
               "tubeWidth": 0.1,
               "center": 0.0,
-              "height": 2500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
               "startWidth": 1.0,
@@ -13856,8 +14112,8 @@
               "maxAlpha": 0.6,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "BTSEnvironment.[0]Environment.[20]PillarPair (2).[1]PillarR.[2]LaserR.[1]BoxLight",
-              "sliceSpriteControllerId": "BTSEnvironment.[0]Environment.[20]PillarPair (2).[1]PillarR.[2]LaserR.[0]BakedBloom"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "null"
             },
             "lightId": 2
           }
@@ -14000,7 +14256,6 @@
               "tubeLength": 3.9,
               "tubeWidth": 0.18,
               "center": 0.0,
-              "height": 3.9,
               "startAlpha": 1.0,
               "endAlpha": 0.0,
               "startWidth": 1.0,
@@ -14010,8 +14265,8 @@
               "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "BTSEnvironment.[0]Environment.[20]PillarPair (2).[1]PillarR.[3]LaserLight0.[1]BoxLight",
-              "sliceSpriteControllerId": "BTSEnvironment.[0]Environment.[20]PillarPair (2).[1]PillarR.[3]LaserLight0.[0]BakedBloom"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "null"
             },
             "lightId": 2
           }
@@ -16286,7 +16541,6 @@
               "tubeLength": 2500.0,
               "tubeWidth": 0.1,
               "center": 0.0,
-              "height": 2500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
               "startWidth": 1.0,
@@ -16296,8 +16550,8 @@
               "maxAlpha": 0.6,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "BTSEnvironment.[0]Environment.[22]PillarPair (3).[0]PillarL.[2]LaserL.[1]BoxLight",
-              "sliceSpriteControllerId": "BTSEnvironment.[0]Environment.[22]PillarPair (3).[0]PillarL.[2]LaserL.[0]BakedBloom"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "null"
             },
             "lightId": 2
           }
@@ -16440,7 +16694,6 @@
               "tubeLength": 3.9,
               "tubeWidth": 0.18,
               "center": 0.0,
-              "height": 3.9,
               "startAlpha": 1.0,
               "endAlpha": 0.0,
               "startWidth": 1.0,
@@ -16450,8 +16703,8 @@
               "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "BTSEnvironment.[0]Environment.[22]PillarPair (3).[0]PillarL.[3]LaserLight0.[1]BoxLight",
-              "sliceSpriteControllerId": "BTSEnvironment.[0]Environment.[22]PillarPair (3).[0]PillarL.[3]LaserLight0.[0]BakedBloom"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "null"
             },
             "lightId": 2
           }
@@ -17062,7 +17315,6 @@
               "tubeLength": 2500.0,
               "tubeWidth": 0.1,
               "center": 0.0,
-              "height": 2500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
               "startWidth": 1.0,
@@ -17072,8 +17324,8 @@
               "maxAlpha": 0.6,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "BTSEnvironment.[0]Environment.[22]PillarPair (3).[1]PillarR.[2]LaserR.[1]BoxLight",
-              "sliceSpriteControllerId": "BTSEnvironment.[0]Environment.[22]PillarPair (3).[1]PillarR.[2]LaserR.[0]BakedBloom"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "null"
             },
             "lightId": 2
           }
@@ -17216,7 +17468,6 @@
               "tubeLength": 3.9,
               "tubeWidth": 0.18,
               "center": 0.0,
-              "height": 3.9,
               "startAlpha": 1.0,
               "endAlpha": 0.0,
               "startWidth": 1.0,
@@ -17226,8 +17477,8 @@
               "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "BTSEnvironment.[0]Environment.[22]PillarPair (3).[1]PillarR.[3]LaserLight0.[1]BoxLight",
-              "sliceSpriteControllerId": "BTSEnvironment.[0]Environment.[22]PillarPair (3).[1]PillarR.[3]LaserLight0.[0]BakedBloom"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "null"
             },
             "lightId": 2
           }
@@ -19502,7 +19753,6 @@
               "tubeLength": 2500.0,
               "tubeWidth": 0.1,
               "center": 0.0,
-              "height": 2500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
               "startWidth": 1.0,
@@ -19512,8 +19762,8 @@
               "maxAlpha": 0.6,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "BTSEnvironment.[0]Environment.[24]PillarPair (4).[0]PillarL.[2]LaserL.[1]BoxLight",
-              "sliceSpriteControllerId": "BTSEnvironment.[0]Environment.[24]PillarPair (4).[0]PillarL.[2]LaserL.[0]BakedBloom"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "null"
             },
             "lightId": 2
           }
@@ -19656,7 +19906,6 @@
               "tubeLength": 3.9,
               "tubeWidth": 0.18,
               "center": 0.0,
-              "height": 3.9,
               "startAlpha": 1.0,
               "endAlpha": 0.0,
               "startWidth": 1.0,
@@ -19666,8 +19915,8 @@
               "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "BTSEnvironment.[0]Environment.[24]PillarPair (4).[0]PillarL.[3]LaserLight0.[1]BoxLight",
-              "sliceSpriteControllerId": "BTSEnvironment.[0]Environment.[24]PillarPair (4).[0]PillarL.[3]LaserLight0.[0]BakedBloom"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "null"
             },
             "lightId": 2
           }
@@ -20278,7 +20527,6 @@
               "tubeLength": 2500.0,
               "tubeWidth": 0.1,
               "center": 0.0,
-              "height": 2500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
               "startWidth": 1.0,
@@ -20288,8 +20536,8 @@
               "maxAlpha": 0.6,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "BTSEnvironment.[0]Environment.[24]PillarPair (4).[1]PillarR.[2]LaserR.[1]BoxLight",
-              "sliceSpriteControllerId": "BTSEnvironment.[0]Environment.[24]PillarPair (4).[1]PillarR.[2]LaserR.[0]BakedBloom"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "null"
             },
             "lightId": 2
           }
@@ -20432,7 +20680,6 @@
               "tubeLength": 3.9,
               "tubeWidth": 0.18,
               "center": 0.0,
-              "height": 3.9,
               "startAlpha": 1.0,
               "endAlpha": 0.0,
               "startWidth": 1.0,
@@ -20442,8 +20689,8 @@
               "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "BTSEnvironment.[0]Environment.[24]PillarPair (4).[1]PillarR.[3]LaserLight0.[1]BoxLight",
-              "sliceSpriteControllerId": "BTSEnvironment.[0]Environment.[24]PillarPair (4).[1]PillarR.[3]LaserLight0.[0]BakedBloom"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "null"
             },
             "lightId": 2
           }
@@ -20956,7 +21203,6 @@
               "tubeLength": 1.0,
               "tubeWidth": 0.22,
               "center": 0.0,
-              "height": 1.0,
               "startAlpha": 1.0,
               "endAlpha": 0.0,
               "startWidth": 1.0,
@@ -20966,8 +21212,8 @@
               "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "BTSEnvironment.[0]Environment.[26]BTSEnvironmentCharacterSpawner.[2]CharacterWrapper.[2]LaserLight.[1]BoxLight",
-              "sliceSpriteControllerId": "BTSEnvironment.[0]Environment.[26]BTSEnvironmentCharacterSpawner.[2]CharacterWrapper.[2]LaserLight.[0]BakedBloom"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "null"
             },
             "lightId": 1
           }
@@ -22976,6 +23222,2210 @@
         },
         "ParametricBoxController": {}
       }
+    },
+    {
+      "name": "GlowLineH",
+      "id": "BTSEnvironment.[0]Environment.[35]GlowLineH",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            8.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            8.0
+          ],
+          "rotation": [
+            90.0,
+            315.0,
+            0.0
+          ],
+          "localRotation": [
+            90.0,
+            315.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.00000012,
+            1.00000024
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 1.0,
+              "bloomFogIntensityMultiplier": 0.5,
+              "tubeLength": 500.0,
+              "tubeWidth": 0.05,
+              "center": 1.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 0.6,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "null"
+            },
+            "lightId": 5
+          }
+        ]
+      }
+    },
+    {
+      "name": "GlowLineH (2)",
+      "id": "BTSEnvironment.[0]Environment.[36]GlowLineH (2)",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            8.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            8.0
+          ],
+          "rotation": [
+            90.0,
+            45.0,
+            0.0
+          ],
+          "localRotation": [
+            90.0,
+            45.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.00000012,
+            1.00000024
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 1.0,
+              "bloomFogIntensityMultiplier": 0.5,
+              "tubeLength": 500.0,
+              "tubeWidth": 0.05,
+              "center": 1.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 0.6,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "null"
+            },
+            "lightId": 5
+          }
+        ]
+      }
+    },
+    {
+      "name": "LaserL",
+      "id": "BTSEnvironment.[0]Environment.[37]LaserL",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -8.0,
+            0.0,
+            35.0
+          ],
+          "localPosition": [
+            -8.0,
+            0.0,
+            35.0
+          ],
+          "rotation": [
+            90.0,
+            224.999969,
+            0.0
+          ],
+          "localRotation": [
+            90.0,
+            224.999969,
+            0.0
+          ],
+          "scale": [
+            1.000001,
+            1.00000048,
+            1.00000048
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 1.0,
+              "bloomFogIntensityMultiplier": 1.0,
+              "tubeLength": 2500.0,
+              "tubeWidth": 0.1,
+              "center": 0.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 0.6,
+              "lightWidthMultiplier": 3.0,
+              "useCollision": false,
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "null"
+            },
+            "lightId": 3
+          }
+        ]
+      }
+    },
+    {
+      "name": "LaserR",
+      "id": "BTSEnvironment.[0]Environment.[38]LaserR",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            8.0,
+            0.0,
+            35.0
+          ],
+          "localPosition": [
+            8.0,
+            0.0,
+            35.0
+          ],
+          "rotation": [
+            90.0,
+            135.000031,
+            0.0
+          ],
+          "localRotation": [
+            90.0,
+            135.000031,
+            0.0
+          ],
+          "scale": [
+            1.00000036,
+            1.00000024,
+            1.00000024
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 1.0,
+              "bloomFogIntensityMultiplier": 1.0,
+              "tubeLength": 2500.0,
+              "tubeWidth": 0.1,
+              "center": 0.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 0.6,
+              "lightWidthMultiplier": 3.0,
+              "useCollision": false,
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "null"
+            },
+            "lightId": 4
+          }
+        ]
+      }
+    },
+    {
+      "name": "BottomGlow",
+      "id": "BTSEnvironment.[0]Environment.[39]BottomGlow",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            3.5
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            3.5
+          ],
+          "rotation": [
+            90.0,
+            90.0,
+            0.0
+          ],
+          "localRotation": [
+            90.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 1.3,
+              "bloomFogIntensityMultiplier": 1.2,
+              "tubeLength": 2.0,
+              "tubeWidth": 0.05,
+              "center": 0.5,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 0.6,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "null"
+            },
+            "lightId": 1
+          }
+        ]
+      }
+    },
+    {
+      "name": "TrackMirror",
+      "id": "BTSEnvironment.[0]Environment.[4]TrackMirror",
+      "meshName": "TrackMirror_BTS",
+      "layer": "Water",
+      "components": {
+        "Transform": {
+          "position": [
+            0.3,
+            0.0,
+            3.80000019
+          ],
+          "localPosition": [
+            0.3,
+            0.0,
+            3.80000019
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "MeshFilter": {
+          "hash": "a0bbb3c796865cdbcf9353019aa626a5"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "b90c188f8a4c6a9220b9c00ac5ec4f65"
+          ]
+        }
+      }
+    },
+    {
+      "name": "TrackMirrorSetDepth",
+      "id": "BTSEnvironment.[0]Environment.[4]TrackMirror.[0]TrackMirrorSetDepth",
+      "meshName": "TrackMirror_BTS",
+      "layer": "Water",
+      "components": {
+        "Transform": {
+          "position": [
+            0.3,
+            0.0,
+            3.80000019
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "MeshFilter": {
+          "hash": "a0bbb3c796865cdbcf9353019aa626a5"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "47348bfff0fbcb3e14515ad3bfebc6be"
+          ]
+        }
+      }
+    },
+    {
+      "name": "SideLaser",
+      "id": "BTSEnvironment.[0]Environment.[40]SideLaser",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            100.0,
+            2.0,
+            0.0
+          ],
+          "localPosition": [
+            100.0,
+            2.0,
+            0.0
+          ],
+          "rotation": [
+            90.0,
+            45.0,
+            0.0
+          ],
+          "localRotation": [
+            90.0,
+            45.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.00000012,
+            1.00000024
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 2.0,
+              "bloomFogIntensityMultiplier": 5.0,
+              "tubeLength": 2500.0,
+              "tubeWidth": 0.1,
+              "center": 0.5,
+              "height": 2500.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 0.6,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "BTSEnvironment.[0]Environment.[40]SideLaser.[1]BoxLight",
+              "sliceSpriteControllerId": "BTSEnvironment.[0]Environment.[40]SideLaser.[0]BakedBloom"
+            },
+            "lightId": 2
+          }
+        ]
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "BTSEnvironment.[0]Environment.[40]SideLaser.[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            100.0,
+            2.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            90.0,
+            45.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.00000012,
+            1.00000024
+          ]
+        },
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "efd0d242bf2ace2047b83f3bffefe51d"
+          ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 2500.0,
+          "minAlpha": 0.0
+        }
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "BTSEnvironment.[0]Environment.[40]SideLaser.[1]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            100.0,
+            2.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            90.0,
+            45.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.0500000045,
+            1250.00012,
+            0.0500000156
+          ]
+        },
+        "MeshFilter": {
+          "hash": "918b6e6683288362624bdc36ef36ef62"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "2f53648cf0e7229f89336575c9a4624c"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "SideLaser",
+      "id": "BTSEnvironment.[0]Environment.[41]SideLaser",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            100.0,
+            10.0,
+            0.0
+          ],
+          "localPosition": [
+            100.0,
+            10.0,
+            0.0
+          ],
+          "rotation": [
+            90.0,
+            45.0,
+            0.0
+          ],
+          "localRotation": [
+            90.0,
+            45.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.00000012,
+            1.00000024
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 2.0,
+              "bloomFogIntensityMultiplier": 5.0,
+              "tubeLength": 2500.0,
+              "tubeWidth": 0.1,
+              "center": 0.5,
+              "height": 2500.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 0.6,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "BTSEnvironment.[0]Environment.[41]SideLaser.[1]BoxLight",
+              "sliceSpriteControllerId": "BTSEnvironment.[0]Environment.[41]SideLaser.[0]BakedBloom"
+            },
+            "lightId": 2
+          }
+        ]
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "BTSEnvironment.[0]Environment.[41]SideLaser.[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            100.0,
+            10.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            90.0,
+            45.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.00000012,
+            1.00000024
+          ]
+        },
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "efd0d242bf2ace2047b83f3bffefe51d"
+          ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 2500.0,
+          "minAlpha": 0.0
+        }
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "BTSEnvironment.[0]Environment.[41]SideLaser.[1]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            100.0,
+            10.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            90.0,
+            45.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.0500000045,
+            1250.00012,
+            0.0500000156
+          ]
+        },
+        "MeshFilter": {
+          "hash": "918b6e6683288362624bdc36ef36ef62"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "2f53648cf0e7229f89336575c9a4624c"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "SideLaser",
+      "id": "BTSEnvironment.[0]Environment.[42]SideLaser",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -100.0,
+            2.0,
+            0.0
+          ],
+          "localPosition": [
+            -100.0,
+            2.0,
+            0.0
+          ],
+          "rotation": [
+            90.0,
+            315.0,
+            0.0
+          ],
+          "localRotation": [
+            90.0,
+            315.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.00000012,
+            1.00000024
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 2.0,
+              "bloomFogIntensityMultiplier": 5.0,
+              "tubeLength": 2500.0,
+              "tubeWidth": 0.1,
+              "center": 0.5,
+              "height": 2500.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 0.6,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "BTSEnvironment.[0]Environment.[42]SideLaser.[1]BoxLight",
+              "sliceSpriteControllerId": "BTSEnvironment.[0]Environment.[42]SideLaser.[0]BakedBloom"
+            },
+            "lightId": 2
+          }
+        ]
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "BTSEnvironment.[0]Environment.[42]SideLaser.[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            -100.0,
+            2.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            90.0,
+            315.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.00000012,
+            1.00000024
+          ]
+        },
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "efd0d242bf2ace2047b83f3bffefe51d"
+          ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 2500.0,
+          "minAlpha": 0.0
+        }
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "BTSEnvironment.[0]Environment.[42]SideLaser.[1]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            -100.0,
+            2.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            90.0,
+            315.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.0500000045,
+            1250.00012,
+            0.0500000156
+          ]
+        },
+        "MeshFilter": {
+          "hash": "918b6e6683288362624bdc36ef36ef62"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "2f53648cf0e7229f89336575c9a4624c"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "SideLaser",
+      "id": "BTSEnvironment.[0]Environment.[43]SideLaser",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -100.0,
+            10.0,
+            0.0
+          ],
+          "localPosition": [
+            -100.0,
+            10.0,
+            0.0
+          ],
+          "rotation": [
+            90.0,
+            315.0,
+            0.0
+          ],
+          "localRotation": [
+            90.0,
+            315.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.00000012,
+            1.00000024
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 2.0,
+              "bloomFogIntensityMultiplier": 5.0,
+              "tubeLength": 2500.0,
+              "tubeWidth": 0.1,
+              "center": 0.5,
+              "height": 2500.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 0.6,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "BTSEnvironment.[0]Environment.[43]SideLaser.[1]BoxLight",
+              "sliceSpriteControllerId": "BTSEnvironment.[0]Environment.[43]SideLaser.[0]BakedBloom"
+            },
+            "lightId": 2
+          }
+        ]
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "BTSEnvironment.[0]Environment.[43]SideLaser.[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            -100.0,
+            10.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            90.0,
+            315.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.00000012,
+            1.00000024
+          ]
+        },
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "efd0d242bf2ace2047b83f3bffefe51d"
+          ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 2500.0,
+          "minAlpha": 0.0
+        }
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "BTSEnvironment.[0]Environment.[43]SideLaser.[1]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            -100.0,
+            10.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            90.0,
+            315.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.0500000045,
+            1250.00012,
+            0.0500000156
+          ]
+        },
+        "MeshFilter": {
+          "hash": "918b6e6683288362624bdc36ef36ef62"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "2f53648cf0e7229f89336575c9a4624c"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "BakedReflectionProbe",
+      "id": "BTSEnvironment.[0]Environment.[44]BakedReflectionProbe",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            1.5,
+            5.0
+          ],
+          "localPosition": [
+            0.0,
+            1.5,
+            5.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "BakedReflectionProbe": {
+          "probeSize": [
+            1000.0,
+            1000.0,
+            1000.0
+          ],
+          "probePosition": [
+            0.0,
+            1.5,
+            5.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "BSBakedLightingLightWithIds",
+      "id": "BTSEnvironment.[0]Environment.[45]BSBakedLightingLightWithIds",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "FakeMirrorSettings",
+      "id": "BTSEnvironment.[0]Environment.[46]FakeMirrorSettings",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "BakedReflectionProbeInstaller",
+      "id": "BTSEnvironment.[0]Environment.[47]BakedReflectionProbeInstaller",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "Construction",
+      "id": "BTSEnvironment.[0]Environment.[5]Construction",
+      "meshName": "BTSConstruction",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            -4.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            -4.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "MeshFilter": {
+          "hash": "2a7191de7f2222aa2a63d893400ac9bf"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "5d16a92505194a7564991236b52db716"
+          ]
+        }
+      }
+    },
+    {
+      "name": "PlayersPlace",
+      "id": "BTSEnvironment.[0]Environment.[6]PlayersPlace",
+      "layer": "PlayersPlace",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "Mirror",
+      "id": "BTSEnvironment.[0]Environment.[6]PlayersPlace.[0]Mirror",
+      "meshName": "pb_Mesh-121890",
+      "layer": "Water",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.005,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.005,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "MeshFilter": {
+          "hash": "1cdf5eb3bb475b8ee9c8959d7bbe9ee1"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "a97bb8953136bcdd00eea8f1107e0aeb"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Construction",
+      "id": "BTSEnvironment.[0]Environment.[6]PlayersPlace.[2]Construction",
+      "meshName": "pb_Mesh-121886",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "MeshFilter": {
+          "hash": "d3ca75607c073a4d2ff24d9950b343e9"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "5d16a92505194a7564991236b52db716"
+          ]
+        }
+      }
+    },
+    {
+      "name": "RectangleFakeGlow",
+      "id": "BTSEnvironment.[0]Environment.[6]PlayersPlace.[3]RectangleFakeGlow",
+      "meshName": "RectangleFakeGlow",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.008,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.008,
+            0.0
+          ],
+          "rotation": [
+            90.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            90.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.495,
+            0.995000243,
+            1.00000024
+          ]
+        },
+        "MeshFilter": {
+          "hash": "82ea09b58af4dc40242a50a3224b8176"
+        },
+        "RectangleFakeGlow": {
+          "rectangleSize": [
+            2.99,
+            1.99
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "6a57238a079a4d360b12e9d3a777e1b0"
+          ]
+        }
+      }
+    },
+    {
+      "name": "SaberBurnMarksParticles",
+      "id": "BTSEnvironment.[0]Environment.[6]PlayersPlace.[4]SaberBurnMarksParticles",
+      "layer": "NonReflectedParticles",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.005,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.005,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "SaberBurnMarkSparklePS",
+      "id": "BTSEnvironment.[0]Environment.[6]PlayersPlace.[4]SaberBurnMarksParticles.[0]SaberBurnMarkSparklePS",
+      "layer": "NonReflectedParticles",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.005,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "SaberBurnMarksArea",
+      "id": "BTSEnvironment.[0]Environment.[6]PlayersPlace.[5]SaberBurnMarksArea",
+      "meshName": "PlayersPlaceCore",
+      "layer": "NonReflectedParticles",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.01,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.01,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "MeshFilter": {
+          "hash": "1cdf5eb3bb475b8ee9c8959d7bbe9ee1"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "753e70e0ebb6bcbec2329b02d705b919"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Collider",
+      "id": "BTSEnvironment.[0]Environment.[6]PlayersPlace.[6]Collider",
+      "layer": "PlayersPlace",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            -0.09,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            -0.09,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "MagicDoorSprite",
+      "id": "BTSEnvironment.[0]Environment.[8]MagicDoorSprite",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            16.5,
+            110.0
+          ],
+          "localPosition": [
+            0.0,
+            16.5,
+            110.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "SpriteLightWithId": {
+          "lightId": 1,
+          "lightIntensity": 1.5,
+          "sprite": {
+            "name": "MagicDoor",
+            "textureName": "MagicDoor",
+            "size": [
+              512.0,
+              512.0
+            ],
+            "materials": [
+              "4e41460cad1c70fc21dd493166ee216c"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "BloomL",
+      "id": "BTSEnvironment.[0]Environment.[8]MagicDoorSprite.[0]BloomL",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -2.42,
+            16.82,
+            110.0
+          ],
+          "localPosition": [
+            -2.42,
+            0.32,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 1.0,
+              "bloomFogIntensityMultiplier": 15.0,
+              "tubeLength": 12.0,
+              "tubeWidth": 0.6,
+              "center": 0.5,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.1,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
+              "lightWidthMultiplier": 1.5,
+              "useCollision": false,
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "null"
+            },
+            "lightId": 1
+          }
+        ]
+      }
+    },
+    {
+      "name": "BloomR",
+      "id": "BTSEnvironment.[0]Environment.[8]MagicDoorSprite.[1]BloomR",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            2.42,
+            16.82,
+            110.0
+          ],
+          "localPosition": [
+            2.42,
+            0.32,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 1.0,
+              "bloomFogIntensityMultiplier": 15.0,
+              "tubeLength": 12.0,
+              "tubeWidth": 0.6,
+              "center": 0.5,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.1,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
+              "lightWidthMultiplier": 1.5,
+              "useCollision": false,
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "null"
+            },
+            "lightId": 1
+          }
+        ]
+      }
+    },
+    {
+      "name": "NarrowGameHUD",
+      "id": "BTSEnvironment.[0]Environment.[9]NarrowGameHUD",
+      "layer": "UI",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            -0.5,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            -0.5,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "EnergyPanel",
+      "id": "BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[0]EnergyPanel",
+      "layer": "UI",
+      "components": {
+        "Animator": {
+          "animatorParameters": [],
+          "animatorLayerNames": []
+        }
+      }
+    },
+    {
+      "name": "BG",
+      "id": "BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[0]EnergyPanel.[0]BG",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "BarBG",
+      "id": "BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[0]EnergyPanel.[1]BarBG",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "EnergyIconEmpty",
+      "id": "BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[0]EnergyPanel.[2]EnergyIconEmpty",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "EnergyIconFull",
+      "id": "BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[0]EnergyPanel.[3]EnergyIconFull",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "EnergyBarWrapper",
+      "id": "BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[0]EnergyPanel.[4]EnergyBarWrapper",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "EnergyBar",
+      "id": "BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[0]EnergyPanel.[4]EnergyBarWrapper.[0]EnergyBar",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Laser",
+      "id": "BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[0]EnergyPanel.[5]Laser",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            -0.199999988,
+            2.85000014
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            -40.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            90.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            90.0
+          ],
+          "scale": [
+            0.0200000033,
+            0.0200000033,
+            0.02
+          ]
+        }
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[0]EnergyPanel.[5]Laser.[0]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            -0.199999988,
+            2.85000014
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            90.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.0,
+            5.000001,
+            0.0
+          ]
+        },
+        "MeshFilter": {
+          "hash": "918b6e6683288362624bdc36ef36ef62"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "2f53648cf0e7229f89336575c9a4624c"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[0]EnergyPanel.[5]Laser.[1]BakedBloom",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            -0.199999988,
+            2.85000014
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            90.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.0200000033,
+            0.0200000033,
+            0.02
+          ]
+        },
+        "MeshFilter": {},
+        "MeshRenderer": {
+          "materials": [
+            "efd0d242bf2ace2047b83f3bffefe51d"
+          ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 5.2,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.0,
+          "width": 0.0,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
+        }
+      }
+    },
+    {
+      "name": "FailIcon",
+      "id": "BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[0]EnergyPanel.[6]FailIcon",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "LeftPanel",
+      "id": "BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[1]LeftPanel",
+      "layer": "UI",
+      "components": {
+        "Transform": {
+          "position": [
+            -2.0,
+            0.399999976,
+            9.0
+          ],
+          "localPosition": [
+            -2.0,
+            0.9,
+            9.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "ComboPanel",
+      "id": "BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[1]LeftPanel.[0]ComboPanel",
+      "layer": "UI",
+      "components": {
+        "Animator": {
+          "animatorParameters": [
+            "ComboLost"
+          ],
+          "animatorLayerNames": [
+            "Base Layer"
+          ]
+        }
+      }
+    },
+    {
+      "name": "ComboText",
+      "id": "BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[1]LeftPanel.[0]ComboPanel.[0]ComboText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "ComboCanvas",
+      "id": "BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[1]LeftPanel.[0]ComboPanel.[1]ComboCanvas",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "NumText",
+      "id": "BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[1]LeftPanel.[0]ComboPanel.[1]ComboCanvas.[0]NumText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Line0",
+      "id": "BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[1]LeftPanel.[0]ComboPanel.[2]Line0",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Line1",
+      "id": "BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[1]LeftPanel.[0]ComboPanel.[3]Line1",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "ScoreCanvas",
+      "id": "BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[1]LeftPanel.[1]ScoreCanvas",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "ScoreText",
+      "id": "BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[1]LeftPanel.[1]ScoreCanvas.[0]ScoreText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "ImmediateRankText",
+      "id": "BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[1]LeftPanel.[1]ScoreCanvas.[1]ImmediateRankText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "RelativeScoreText",
+      "id": "BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[1]LeftPanel.[1]ScoreCanvas.[2]RelativeScoreText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "RightPanel",
+      "id": "BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[2]RightPanel",
+      "layer": "UI",
+      "components": {
+        "Transform": {
+          "position": [
+            2.0,
+            0.399999976,
+            9.0
+          ],
+          "localPosition": [
+            2.0,
+            0.9,
+            9.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "MultiplierCanvas",
+      "id": "BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas",
+      "layer": "UI",
+      "components": {
+        "Animator": {
+          "animatorParameters": [
+            "MultiplierIncreased"
+          ],
+          "animatorLayerNames": [
+            "Base Layer"
+          ]
+        }
+      }
+    },
+    {
+      "name": "BGCircle",
+      "id": "BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[0]BGCircle",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "FGCircle",
+      "id": "BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[1]FGCircle",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "AnimationCircle",
+      "id": "BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[2]AnimationCircle",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "TextOverlayPanelOutline1",
+      "id": "BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[3]TextOverlayPanelOutline1",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "XText",
+      "id": "BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[3]TextOverlayPanelOutline1.[0]XText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "NumText",
+      "id": "BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[3]TextOverlayPanelOutline1.[1]NumText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "TextOverlayPanelOutline0",
+      "id": "BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[4]TextOverlayPanelOutline0",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "XText",
+      "id": "BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[4]TextOverlayPanelOutline0.[0]XText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "NumText",
+      "id": "BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[4]TextOverlayPanelOutline0.[1]NumText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "TextPanel",
+      "id": "BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[5]TextPanel",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "XText",
+      "id": "BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[5]TextPanel.[0]XText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "NumText",
+      "id": "BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[5]TextPanel.[1]NumText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "SongProgressCanvas",
+      "id": "BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Progress",
+      "id": "BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[0]Progress",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Slider",
+      "id": "BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[1]Slider",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Background",
+      "id": "BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[1]Slider.[0]Background",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Handle Slide Area",
+      "id": "BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[1]Slider.[1]Handle Slide Area",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Handle",
+      "id": "BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[1]Slider.[1]Handle Slide Area.[0]Handle",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "ProgressText",
+      "id": "BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Progress",
+      "id": "BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.[0]Progress",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "ProgressMinutes",
+      "id": "BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.[0]Progress.[0]ProgressMinutes",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "ProgressColon",
+      "id": "BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.[0]Progress.[1]ProgressColon",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "ProgressSeconds",
+      "id": "BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.[0]Progress.[2]ProgressSeconds",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Separator",
+      "id": "BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.[1]Separator",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Duration",
+      "id": "BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.[2]Duration",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "DurationMinutes",
+      "id": "BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.[2]Duration.[0]DurationMinutes",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "DurationColon",
+      "id": "BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.[2]Duration.[1]DurationColon",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "DurationSeconds",
+      "id": "BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.[2]Duration.[2]DurationSeconds",
+      "layer": "UI",
+      "components": {}
     }
   ]
 }

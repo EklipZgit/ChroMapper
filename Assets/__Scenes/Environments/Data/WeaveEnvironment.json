@@ -1497,132 +1497,468 @@
         "LightRotationGroupEffectManager": {
           "lightRotationGroups": [
             {
-              "lightGroup": {
-                "numberOfElements": 8,
-                "startLightId": 140,
-                "groupId": 9,
-                "sameIdElements": 1
-              }
+              "mirrorX": false,
+              "mirrorY": false,
+              "mirrorZ": false,
+              "xTransforms": [
+                "WeaveEnvironment.[0]Environment.[22]LightGroup9.[0]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[22]LightGroup9.[1]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[22]LightGroup9.[2]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[22]LightGroup9.[3]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[22]LightGroup9.[4]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[22]LightGroup9.[5]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[22]LightGroup9.[6]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[22]LightGroup9.[7]Laser.[1]RotationBase.[0]LightSource"
+              ],
+              "yTransforms": [
+                "WeaveEnvironment.[0]Environment.[22]LightGroup9.[0]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[22]LightGroup9.[1]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[22]LightGroup9.[2]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[22]LightGroup9.[3]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[22]LightGroup9.[4]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[22]LightGroup9.[5]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[22]LightGroup9.[6]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[22]LightGroup9.[7]Laser.[1]RotationBase"
+              ],
+              "zTransforms": [],
+              "count": 8,
+              "groupId": 9
             },
             {
-              "lightGroup": {
-                "numberOfElements": 8,
-                "startLightId": 110,
-                "groupId": 6,
-                "sameIdElements": 1
-              }
+              "mirrorX": false,
+              "mirrorY": true,
+              "mirrorZ": false,
+              "xTransforms": [
+                "WeaveEnvironment.[0]Environment.[19]LightGroup6.[0]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[19]LightGroup6.[1]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[19]LightGroup6.[2]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[19]LightGroup6.[3]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[19]LightGroup6.[4]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[19]LightGroup6.[5]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[19]LightGroup6.[6]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[19]LightGroup6.[7]Laser.[1]RotationBase.[0]LightSource"
+              ],
+              "yTransforms": [
+                "WeaveEnvironment.[0]Environment.[19]LightGroup6.[0]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[19]LightGroup6.[1]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[19]LightGroup6.[2]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[19]LightGroup6.[3]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[19]LightGroup6.[4]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[19]LightGroup6.[5]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[19]LightGroup6.[6]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[19]LightGroup6.[7]Laser.[1]RotationBase"
+              ],
+              "zTransforms": [],
+              "count": 8,
+              "groupId": 6
             },
             {
-              "lightGroup": {
-                "numberOfElements": 8,
-                "startLightId": 220,
-                "groupId": 15,
-                "sameIdElements": 1
-              }
+              "mirrorX": true,
+              "mirrorY": false,
+              "mirrorZ": false,
+              "xTransforms": [
+                "WeaveEnvironment.[0]Environment.[28]LightGroup15.[0]LaserLong.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[28]LightGroup15.[1]LaserLong.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[28]LightGroup15.[2]LaserLong.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[28]LightGroup15.[3]LaserLong.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[28]LightGroup15.[4]LaserLong.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[28]LightGroup15.[5]LaserLong.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[28]LightGroup15.[6]LaserLong.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[28]LightGroup15.[7]LaserLong.[1]RotationBase.[0]LightSource"
+              ],
+              "yTransforms": [
+                "WeaveEnvironment.[0]Environment.[28]LightGroup15.[0]LaserLong.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[28]LightGroup15.[1]LaserLong.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[28]LightGroup15.[2]LaserLong.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[28]LightGroup15.[3]LaserLong.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[28]LightGroup15.[4]LaserLong.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[28]LightGroup15.[5]LaserLong.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[28]LightGroup15.[6]LaserLong.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[28]LightGroup15.[7]LaserLong.[1]RotationBase"
+              ],
+              "zTransforms": [],
+              "count": 8,
+              "groupId": 15
             },
             {
-              "lightGroup": {
-                "numberOfElements": 8,
-                "startLightId": 90,
-                "groupId": 4,
-                "sameIdElements": 1
-              }
+              "mirrorX": false,
+              "mirrorY": false,
+              "mirrorZ": false,
+              "xTransforms": [
+                "WeaveEnvironment.[0]Environment.[17]LightGroup4.[0]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[17]LightGroup4.[1]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[17]LightGroup4.[2]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[17]LightGroup4.[3]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[17]LightGroup4.[4]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[17]LightGroup4.[5]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[17]LightGroup4.[6]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[17]LightGroup4.[7]Laser.[1]RotationBase.[0]LightSource"
+              ],
+              "yTransforms": [
+                "WeaveEnvironment.[0]Environment.[17]LightGroup4.[0]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[17]LightGroup4.[1]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[17]LightGroup4.[2]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[17]LightGroup4.[3]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[17]LightGroup4.[4]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[17]LightGroup4.[5]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[17]LightGroup4.[6]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[17]LightGroup4.[7]Laser.[1]RotationBase"
+              ],
+              "zTransforms": [],
+              "count": 8,
+              "groupId": 4
             },
             {
-              "lightGroup": {
-                "numberOfElements": 8,
-                "startLightId": 60,
-                "groupId": 1,
-                "sameIdElements": 1
-              }
+              "mirrorX": false,
+              "mirrorY": true,
+              "mirrorZ": false,
+              "xTransforms": [
+                "WeaveEnvironment.[0]Environment.[14]LightGroup1.[0]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[14]LightGroup1.[1]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[14]LightGroup1.[2]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[14]LightGroup1.[3]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[14]LightGroup1.[4]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[14]LightGroup1.[5]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[14]LightGroup1.[6]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[14]LightGroup1.[7]Laser.[1]RotationBase.[0]LightSource"
+              ],
+              "yTransforms": [
+                "WeaveEnvironment.[0]Environment.[14]LightGroup1.[0]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[14]LightGroup1.[1]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[14]LightGroup1.[2]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[14]LightGroup1.[3]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[14]LightGroup1.[4]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[14]LightGroup1.[5]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[14]LightGroup1.[6]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[14]LightGroup1.[7]Laser.[1]RotationBase"
+              ],
+              "zTransforms": [],
+              "count": 8,
+              "groupId": 1
             },
             {
-              "lightGroup": {
-                "numberOfElements": 8,
-                "startLightId": 160,
-                "groupId": 11,
-                "sameIdElements": 1
-              }
+              "mirrorX": false,
+              "mirrorY": true,
+              "mirrorZ": false,
+              "xTransforms": [
+                "WeaveEnvironment.[0]Environment.[24]LightGroup11.[0]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[24]LightGroup11.[1]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[24]LightGroup11.[2]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[24]LightGroup11.[3]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[24]LightGroup11.[4]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[24]LightGroup11.[5]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[24]LightGroup11.[6]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[24]LightGroup11.[7]Laser.[1]RotationBase.[0]LightSource"
+              ],
+              "yTransforms": [
+                "WeaveEnvironment.[0]Environment.[24]LightGroup11.[0]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[24]LightGroup11.[1]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[24]LightGroup11.[2]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[24]LightGroup11.[3]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[24]LightGroup11.[4]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[24]LightGroup11.[5]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[24]LightGroup11.[6]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[24]LightGroup11.[7]Laser.[1]RotationBase"
+              ],
+              "zTransforms": [],
+              "count": 8,
+              "groupId": 11
             },
             {
-              "lightGroup": {
-                "numberOfElements": 12,
-                "startLightId": 170,
-                "groupId": 12,
-                "sameIdElements": 1
-              }
+              "mirrorX": true,
+              "mirrorY": false,
+              "mirrorZ": false,
+              "xTransforms": [
+                "WeaveEnvironment.[0]Environment.[25]LightGroup12.[0]LaserLong.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[25]LightGroup12.[1]LaserLong.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[25]LightGroup12.[2]LaserLong.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[25]LightGroup12.[3]LaserLong.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[25]LightGroup12.[4]LaserLong.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[25]LightGroup12.[5]LaserLong.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[25]LightGroup12.[6]LaserLong.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[25]LightGroup12.[7]LaserLong.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[25]LightGroup12.[8]LaserLong.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[25]LightGroup12.[9]LaserLong.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[25]LightGroup12.[10]LaserLong.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[25]LightGroup12.[11]LaserLong.[1]RotationBase.[0]LightSource"
+              ],
+              "yTransforms": [
+                "WeaveEnvironment.[0]Environment.[25]LightGroup12.[0]LaserLong.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[25]LightGroup12.[1]LaserLong.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[25]LightGroup12.[2]LaserLong.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[25]LightGroup12.[3]LaserLong.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[25]LightGroup12.[4]LaserLong.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[25]LightGroup12.[5]LaserLong.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[25]LightGroup12.[6]LaserLong.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[25]LightGroup12.[7]LaserLong.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[25]LightGroup12.[8]LaserLong.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[25]LightGroup12.[9]LaserLong.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[25]LightGroup12.[10]LaserLong.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[25]LightGroup12.[11]LaserLong.[1]RotationBase"
+              ],
+              "zTransforms": [],
+              "count": 12,
+              "groupId": 12
             },
             {
-              "lightGroup": {
-                "numberOfElements": 8,
-                "startLightId": 80,
-                "groupId": 3,
-                "sameIdElements": 1
-              }
+              "mirrorX": false,
+              "mirrorY": false,
+              "mirrorZ": false,
+              "xTransforms": [
+                "WeaveEnvironment.[0]Environment.[16]LightGroup3.[0]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[16]LightGroup3.[1]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[16]LightGroup3.[2]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[16]LightGroup3.[3]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[16]LightGroup3.[4]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[16]LightGroup3.[5]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[16]LightGroup3.[6]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[16]LightGroup3.[7]Laser.[1]RotationBase.[0]LightSource"
+              ],
+              "yTransforms": [
+                "WeaveEnvironment.[0]Environment.[16]LightGroup3.[0]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[16]LightGroup3.[1]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[16]LightGroup3.[2]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[16]LightGroup3.[3]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[16]LightGroup3.[4]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[16]LightGroup3.[5]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[16]LightGroup3.[6]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[16]LightGroup3.[7]Laser.[1]RotationBase"
+              ],
+              "zTransforms": [],
+              "count": 8,
+              "groupId": 3
             },
             {
-              "lightGroup": {
-                "numberOfElements": 8,
-                "startLightId": 150,
-                "groupId": 10,
-                "sameIdElements": 1
-              }
+              "mirrorX": false,
+              "mirrorY": false,
+              "mirrorZ": false,
+              "xTransforms": [
+                "WeaveEnvironment.[0]Environment.[23]LightGroup10.[0]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[23]LightGroup10.[1]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[23]LightGroup10.[2]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[23]LightGroup10.[3]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[23]LightGroup10.[4]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[23]LightGroup10.[5]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[23]LightGroup10.[6]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[23]LightGroup10.[7]Laser.[1]RotationBase.[0]LightSource"
+              ],
+              "yTransforms": [
+                "WeaveEnvironment.[0]Environment.[23]LightGroup10.[0]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[23]LightGroup10.[1]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[23]LightGroup10.[2]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[23]LightGroup10.[3]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[23]LightGroup10.[4]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[23]LightGroup10.[5]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[23]LightGroup10.[6]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[23]LightGroup10.[7]Laser.[1]RotationBase"
+              ],
+              "zTransforms": [],
+              "count": 8,
+              "groupId": 10
             },
             {
-              "lightGroup": {
-                "numberOfElements": 8,
-                "startLightId": 70,
-                "groupId": 2,
-                "sameIdElements": 1
-              }
+              "mirrorX": false,
+              "mirrorY": true,
+              "mirrorZ": false,
+              "xTransforms": [
+                "WeaveEnvironment.[0]Environment.[15]LightGroup2.[0]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[15]LightGroup2.[1]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[15]LightGroup2.[2]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[15]LightGroup2.[3]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[15]LightGroup2.[4]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[15]LightGroup2.[5]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[15]LightGroup2.[6]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[15]LightGroup2.[7]Laser.[1]RotationBase.[0]LightSource"
+              ],
+              "yTransforms": [
+                "WeaveEnvironment.[0]Environment.[15]LightGroup2.[0]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[15]LightGroup2.[1]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[15]LightGroup2.[2]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[15]LightGroup2.[3]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[15]LightGroup2.[4]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[15]LightGroup2.[5]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[15]LightGroup2.[6]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[15]LightGroup2.[7]Laser.[1]RotationBase"
+              ],
+              "zTransforms": [],
+              "count": 8,
+              "groupId": 2
             },
             {
-              "lightGroup": {
-                "numberOfElements": 8,
-                "startLightId": 100,
-                "groupId": 5,
-                "sameIdElements": 1
-              }
+              "mirrorX": false,
+              "mirrorY": true,
+              "mirrorZ": false,
+              "xTransforms": [
+                "WeaveEnvironment.[0]Environment.[18]LightGroup5.[0]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[18]LightGroup5.[1]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[18]LightGroup5.[2]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[18]LightGroup5.[3]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[18]LightGroup5.[4]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[18]LightGroup5.[5]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[18]LightGroup5.[6]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[18]LightGroup5.[7]Laser.[1]RotationBase.[0]LightSource"
+              ],
+              "yTransforms": [
+                "WeaveEnvironment.[0]Environment.[18]LightGroup5.[0]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[18]LightGroup5.[1]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[18]LightGroup5.[2]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[18]LightGroup5.[3]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[18]LightGroup5.[4]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[18]LightGroup5.[5]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[18]LightGroup5.[6]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[18]LightGroup5.[7]Laser.[1]RotationBase"
+              ],
+              "zTransforms": [],
+              "count": 8,
+              "groupId": 5
             },
             {
-              "lightGroup": {
-                "numberOfElements": 8,
-                "startLightId": 120,
-                "groupId": 7,
-                "sameIdElements": 1
-              }
+              "mirrorX": false,
+              "mirrorY": false,
+              "mirrorZ": false,
+              "xTransforms": [
+                "WeaveEnvironment.[0]Environment.[20]LightGroup7.[0]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[20]LightGroup7.[1]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[20]LightGroup7.[2]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[20]LightGroup7.[3]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[20]LightGroup7.[4]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[20]LightGroup7.[5]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[20]LightGroup7.[6]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[20]LightGroup7.[7]Laser.[1]RotationBase.[0]LightSource"
+              ],
+              "yTransforms": [
+                "WeaveEnvironment.[0]Environment.[20]LightGroup7.[0]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[20]LightGroup7.[1]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[20]LightGroup7.[2]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[20]LightGroup7.[3]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[20]LightGroup7.[4]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[20]LightGroup7.[5]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[20]LightGroup7.[6]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[20]LightGroup7.[7]Laser.[1]RotationBase"
+              ],
+              "zTransforms": [],
+              "count": 8,
+              "groupId": 7
             },
             {
-              "lightGroup": {
-                "numberOfElements": 8,
-                "startLightId": 130,
-                "groupId": 8,
-                "sameIdElements": 1
-              }
+              "mirrorX": false,
+              "mirrorY": true,
+              "mirrorZ": false,
+              "xTransforms": [
+                "WeaveEnvironment.[0]Environment.[21]LightGroup8.[0]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[21]LightGroup8.[1]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[21]LightGroup8.[2]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[21]LightGroup8.[3]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[21]LightGroup8.[4]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[21]LightGroup8.[5]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[21]LightGroup8.[6]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[21]LightGroup8.[7]Laser.[1]RotationBase.[0]LightSource"
+              ],
+              "yTransforms": [
+                "WeaveEnvironment.[0]Environment.[21]LightGroup8.[0]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[21]LightGroup8.[1]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[21]LightGroup8.[2]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[21]LightGroup8.[3]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[21]LightGroup8.[4]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[21]LightGroup8.[5]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[21]LightGroup8.[6]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[21]LightGroup8.[7]Laser.[1]RotationBase"
+              ],
+              "zTransforms": [],
+              "count": 8,
+              "groupId": 8
             },
             {
-              "lightGroup": {
-                "numberOfElements": 8,
-                "startLightId": 210,
-                "groupId": 14,
-                "sameIdElements": 1
-              }
+              "mirrorX": true,
+              "mirrorY": false,
+              "mirrorZ": false,
+              "xTransforms": [
+                "WeaveEnvironment.[0]Environment.[27]LightGroup14.[0]LaserLong.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[27]LightGroup14.[1]LaserLong.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[27]LightGroup14.[2]LaserLong.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[27]LightGroup14.[3]LaserLong.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[27]LightGroup14.[4]LaserLong.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[27]LightGroup14.[5]LaserLong.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[27]LightGroup14.[6]LaserLong.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[27]LightGroup14.[7]LaserLong.[1]RotationBase.[0]LightSource"
+              ],
+              "yTransforms": [
+                "WeaveEnvironment.[0]Environment.[27]LightGroup14.[0]LaserLong.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[27]LightGroup14.[1]LaserLong.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[27]LightGroup14.[2]LaserLong.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[27]LightGroup14.[3]LaserLong.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[27]LightGroup14.[4]LaserLong.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[27]LightGroup14.[5]LaserLong.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[27]LightGroup14.[6]LaserLong.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[27]LightGroup14.[7]LaserLong.[1]RotationBase"
+              ],
+              "zTransforms": [],
+              "count": 8,
+              "groupId": 14
             },
             {
-              "lightGroup": {
-                "numberOfElements": 12,
-                "startLightId": 190,
-                "groupId": 13,
-                "sameIdElements": 1
-              }
+              "mirrorX": true,
+              "mirrorY": false,
+              "mirrorZ": false,
+              "xTransforms": [
+                "WeaveEnvironment.[0]Environment.[26]LightGroup13.[0]LaserLong.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[26]LightGroup13.[1]LaserLong.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[26]LightGroup13.[2]LaserLong.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[26]LightGroup13.[3]LaserLong.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[26]LightGroup13.[4]LaserLong.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[26]LightGroup13.[5]LaserLong.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[26]LightGroup13.[6]LaserLong.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[26]LightGroup13.[7]LaserLong.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[26]LightGroup13.[8]LaserLong.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[26]LightGroup13.[9]LaserLong.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[26]LightGroup13.[10]LaserLong.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[26]LightGroup13.[11]LaserLong.[1]RotationBase.[0]LightSource"
+              ],
+              "yTransforms": [
+                "WeaveEnvironment.[0]Environment.[26]LightGroup13.[0]LaserLong.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[26]LightGroup13.[1]LaserLong.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[26]LightGroup13.[2]LaserLong.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[26]LightGroup13.[3]LaserLong.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[26]LightGroup13.[4]LaserLong.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[26]LightGroup13.[5]LaserLong.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[26]LightGroup13.[6]LaserLong.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[26]LightGroup13.[7]LaserLong.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[26]LightGroup13.[8]LaserLong.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[26]LightGroup13.[9]LaserLong.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[26]LightGroup13.[10]LaserLong.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[26]LightGroup13.[11]LaserLong.[1]RotationBase"
+              ],
+              "zTransforms": [],
+              "count": 12,
+              "groupId": 13
             },
             {
-              "lightGroup": {
-                "numberOfElements": 8,
-                "startLightId": 50,
-                "groupId": 0,
-                "sameIdElements": 1
-              }
+              "mirrorX": false,
+              "mirrorY": false,
+              "mirrorZ": false,
+              "xTransforms": [
+                "WeaveEnvironment.[0]Environment.[13]LightGroup0.[0]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[13]LightGroup0.[1]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[13]LightGroup0.[2]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[13]LightGroup0.[3]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[13]LightGroup0.[4]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[13]LightGroup0.[5]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[13]LightGroup0.[6]Laser.[1]RotationBase.[0]LightSource",
+                "WeaveEnvironment.[0]Environment.[13]LightGroup0.[7]Laser.[1]RotationBase.[0]LightSource"
+              ],
+              "yTransforms": [
+                "WeaveEnvironment.[0]Environment.[13]LightGroup0.[0]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[13]LightGroup0.[1]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[13]LightGroup0.[2]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[13]LightGroup0.[3]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[13]LightGroup0.[4]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[13]LightGroup0.[5]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[13]LightGroup0.[6]Laser.[1]RotationBase",
+                "WeaveEnvironment.[0]Environment.[13]LightGroup0.[7]Laser.[1]RotationBase"
+              ],
+              "zTransforms": [],
+              "count": 8,
+              "groupId": 0
             }
           ],
           "lightRotationGroupEffects": [

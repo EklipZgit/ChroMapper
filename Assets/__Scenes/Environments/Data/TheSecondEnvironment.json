@@ -9963,7 +9963,6 @@
               "tubeLength": 3.35,
               "tubeWidth": 0.04,
               "center": 1.0,
-              "height": 3.35,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
               "startWidth": 1.0,
@@ -9973,8 +9972,8 @@
               "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[12]SmallTrackLaneRing.[0]RotationXTransform.[0]AdditionalRotation.[1]RingLaser.[1]BoxLight",
-              "sliceSpriteControllerId": "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[12]SmallTrackLaneRing.[0]RotationXTransform.[0]AdditionalRotation.[1]RingLaser.[0]BakedBloom"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "null"
             },
             "lightId": 98
           }
@@ -10117,7 +10116,6 @@
               "tubeLength": 3.35,
               "tubeWidth": 0.04,
               "center": 1.0,
-              "height": 3.35,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
               "startWidth": 1.0,
@@ -10127,8 +10125,8 @@
               "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[12]SmallTrackLaneRing.[0]RotationXTransform.[0]AdditionalRotation.[2]RingLaser (1).[1]BoxLight",
-              "sliceSpriteControllerId": "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[12]SmallTrackLaneRing.[0]RotationXTransform.[0]AdditionalRotation.[2]RingLaser (1).[0]BakedBloom"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "null"
             },
             "lightId": 99
           }
@@ -10417,7 +10415,6 @@
               "tubeLength": 3.35,
               "tubeWidth": 0.04,
               "center": 1.0,
-              "height": 3.35,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
               "startWidth": 1.0,
@@ -10427,8 +10424,8 @@
               "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[13]SmallTrackLaneRing.[0]RotationXTransform.[0]AdditionalRotation.[1]RingLaser.[1]BoxLight",
-              "sliceSpriteControllerId": "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[13]SmallTrackLaneRing.[0]RotationXTransform.[0]AdditionalRotation.[1]RingLaser.[0]BakedBloom"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "null"
             },
             "lightId": 100
           }
@@ -10571,7 +10568,6 @@
               "tubeLength": 3.35,
               "tubeWidth": 0.04,
               "center": 1.0,
-              "height": 3.35,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
               "startWidth": 1.0,
@@ -10581,8 +10577,8 @@
               "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[13]SmallTrackLaneRing.[0]RotationXTransform.[0]AdditionalRotation.[2]RingLaser (1).[1]BoxLight",
-              "sliceSpriteControllerId": "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[13]SmallTrackLaneRing.[0]RotationXTransform.[0]AdditionalRotation.[2]RingLaser (1).[0]BakedBloom"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "null"
             },
             "lightId": 101
           }
@@ -10871,7 +10867,6 @@
               "tubeLength": 3.35,
               "tubeWidth": 0.04,
               "center": 1.0,
-              "height": 3.35,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
               "startWidth": 1.0,
@@ -10881,8 +10876,8 @@
               "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[14]SmallTrackLaneRing.[0]RotationXTransform.[0]AdditionalRotation.[1]RingLaser.[1]BoxLight",
-              "sliceSpriteControllerId": "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[14]SmallTrackLaneRing.[0]RotationXTransform.[0]AdditionalRotation.[1]RingLaser.[0]BakedBloom"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "null"
             },
             "lightId": 102
           }
@@ -11025,7 +11020,6 @@
               "tubeLength": 3.35,
               "tubeWidth": 0.04,
               "center": 1.0,
-              "height": 3.35,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
               "startWidth": 1.0,
@@ -11035,8 +11029,8 @@
               "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[14]SmallTrackLaneRing.[0]RotationXTransform.[0]AdditionalRotation.[2]RingLaser (1).[1]BoxLight",
-              "sliceSpriteControllerId": "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[14]SmallTrackLaneRing.[0]RotationXTransform.[0]AdditionalRotation.[2]RingLaser (1).[0]BakedBloom"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "null"
             },
             "lightId": 103
           }
@@ -11325,7 +11319,6 @@
               "tubeLength": 3.35,
               "tubeWidth": 0.04,
               "center": 1.0,
-              "height": 3.35,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
               "startWidth": 1.0,
@@ -11335,8 +11328,8 @@
               "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[15]SmallTrackLaneRing.[0]RotationXTransform.[0]AdditionalRotation.[1]RingLaser.[1]BoxLight",
-              "sliceSpriteControllerId": "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[15]SmallTrackLaneRing.[0]RotationXTransform.[0]AdditionalRotation.[1]RingLaser.[0]BakedBloom"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "null"
             },
             "lightId": 104
           }
@@ -11479,7 +11472,6 @@
               "tubeLength": 3.35,
               "tubeWidth": 0.04,
               "center": 1.0,
-              "height": 3.35,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
               "startWidth": 1.0,
@@ -11489,8 +11481,8 @@
               "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[15]SmallTrackLaneRing.[0]RotationXTransform.[0]AdditionalRotation.[2]RingLaser (1).[1]BoxLight",
-              "sliceSpriteControllerId": "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[15]SmallTrackLaneRing.[0]RotationXTransform.[0]AdditionalRotation.[2]RingLaser (1).[0]BakedBloom"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "null"
             },
             "lightId": 105
           }
@@ -11779,7 +11771,6 @@
               "tubeLength": 3.35,
               "tubeWidth": 0.04,
               "center": 1.0,
-              "height": 3.35,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
               "startWidth": 1.0,
@@ -11789,8 +11780,8 @@
               "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[16]SmallTrackLaneRing.[0]RotationXTransform.[0]AdditionalRotation.[1]RingLaser.[1]BoxLight",
-              "sliceSpriteControllerId": "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[16]SmallTrackLaneRing.[0]RotationXTransform.[0]AdditionalRotation.[1]RingLaser.[0]BakedBloom"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "null"
             },
             "lightId": 106
           }
@@ -11933,7 +11924,6 @@
               "tubeLength": 3.35,
               "tubeWidth": 0.04,
               "center": 1.0,
-              "height": 3.35,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
               "startWidth": 1.0,
@@ -11943,8 +11933,8 @@
               "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[16]SmallTrackLaneRing.[0]RotationXTransform.[0]AdditionalRotation.[2]RingLaser (1).[1]BoxLight",
-              "sliceSpriteControllerId": "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[16]SmallTrackLaneRing.[0]RotationXTransform.[0]AdditionalRotation.[2]RingLaser (1).[0]BakedBloom"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "null"
             },
             "lightId": 107
           }
@@ -12233,7 +12223,6 @@
               "tubeLength": 3.35,
               "tubeWidth": 0.04,
               "center": 1.0,
-              "height": 3.35,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
               "startWidth": 1.0,
@@ -12243,8 +12232,8 @@
               "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[17]SmallTrackLaneRing.[0]RotationXTransform.[0]AdditionalRotation.[1]RingLaser.[1]BoxLight",
-              "sliceSpriteControllerId": "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[17]SmallTrackLaneRing.[0]RotationXTransform.[0]AdditionalRotation.[1]RingLaser.[0]BakedBloom"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "null"
             },
             "lightId": 108
           }
@@ -12387,7 +12376,6 @@
               "tubeLength": 3.35,
               "tubeWidth": 0.04,
               "center": 1.0,
-              "height": 3.35,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
               "startWidth": 1.0,
@@ -12397,8 +12385,8 @@
               "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[17]SmallTrackLaneRing.[0]RotationXTransform.[0]AdditionalRotation.[2]RingLaser (1).[1]BoxLight",
-              "sliceSpriteControllerId": "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[17]SmallTrackLaneRing.[0]RotationXTransform.[0]AdditionalRotation.[2]RingLaser (1).[0]BakedBloom"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "null"
             },
             "lightId": 109
           }
@@ -12687,7 +12675,6 @@
               "tubeLength": 3.35,
               "tubeWidth": 0.04,
               "center": 1.0,
-              "height": 3.35,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
               "startWidth": 1.0,
@@ -12697,8 +12684,8 @@
               "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[18]SmallTrackLaneRing.[0]RotationXTransform.[0]AdditionalRotation.[1]RingLaser.[1]BoxLight",
-              "sliceSpriteControllerId": "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[18]SmallTrackLaneRing.[0]RotationXTransform.[0]AdditionalRotation.[1]RingLaser.[0]BakedBloom"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "null"
             },
             "lightId": 110
           }
@@ -12841,7 +12828,6 @@
               "tubeLength": 3.35,
               "tubeWidth": 0.04,
               "center": 1.0,
-              "height": 3.35,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
               "startWidth": 1.0,
@@ -12851,8 +12837,8 @@
               "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[18]SmallTrackLaneRing.[0]RotationXTransform.[0]AdditionalRotation.[2]RingLaser (1).[1]BoxLight",
-              "sliceSpriteControllerId": "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[18]SmallTrackLaneRing.[0]RotationXTransform.[0]AdditionalRotation.[2]RingLaser (1).[0]BakedBloom"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "null"
             },
             "lightId": 111
           }
@@ -13141,7 +13127,6 @@
               "tubeLength": 3.35,
               "tubeWidth": 0.04,
               "center": 1.0,
-              "height": 3.35,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
               "startWidth": 1.0,
@@ -13151,8 +13136,8 @@
               "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[19]SmallTrackLaneRing.[0]RotationXTransform.[0]AdditionalRotation.[1]RingLaser.[1]BoxLight",
-              "sliceSpriteControllerId": "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[19]SmallTrackLaneRing.[0]RotationXTransform.[0]AdditionalRotation.[1]RingLaser.[0]BakedBloom"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "null"
             },
             "lightId": 112
           }
@@ -13295,7 +13280,6 @@
               "tubeLength": 3.35,
               "tubeWidth": 0.04,
               "center": 1.0,
-              "height": 3.35,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
               "startWidth": 1.0,
@@ -13305,8 +13289,8 @@
               "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[19]SmallTrackLaneRing.[0]RotationXTransform.[0]AdditionalRotation.[2]RingLaser (1).[1]BoxLight",
-              "sliceSpriteControllerId": "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[19]SmallTrackLaneRing.[0]RotationXTransform.[0]AdditionalRotation.[2]RingLaser (1).[0]BakedBloom"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "null"
             },
             "lightId": 113
           }
@@ -14055,7 +14039,6 @@
               "tubeLength": 3.35,
               "tubeWidth": 0.04,
               "center": 1.0,
-              "height": 3.35,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
               "startWidth": 1.0,
@@ -14065,8 +14048,8 @@
               "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[20]SmallTrackLaneRing.[0]RotationXTransform.[0]AdditionalRotation.[1]RingLaser.[1]BoxLight",
-              "sliceSpriteControllerId": "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[20]SmallTrackLaneRing.[0]RotationXTransform.[0]AdditionalRotation.[1]RingLaser.[0]BakedBloom"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "null"
             },
             "lightId": 114
           }
@@ -14209,7 +14192,6 @@
               "tubeLength": 3.35,
               "tubeWidth": 0.04,
               "center": 1.0,
-              "height": 3.35,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
               "startWidth": 1.0,
@@ -14219,8 +14201,8 @@
               "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[20]SmallTrackLaneRing.[0]RotationXTransform.[0]AdditionalRotation.[2]RingLaser (1).[1]BoxLight",
-              "sliceSpriteControllerId": "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[20]SmallTrackLaneRing.[0]RotationXTransform.[0]AdditionalRotation.[2]RingLaser (1).[0]BakedBloom"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "null"
             },
             "lightId": 115
           }
@@ -14509,7 +14491,6 @@
               "tubeLength": 3.35,
               "tubeWidth": 0.04,
               "center": 1.0,
-              "height": 3.35,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
               "startWidth": 1.0,
@@ -14519,8 +14500,8 @@
               "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[21]SmallTrackLaneRing.[0]RotationXTransform.[0]AdditionalRotation.[1]RingLaser.[1]BoxLight",
-              "sliceSpriteControllerId": "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[21]SmallTrackLaneRing.[0]RotationXTransform.[0]AdditionalRotation.[1]RingLaser.[0]BakedBloom"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "null"
             },
             "lightId": 116
           }
@@ -14663,7 +14644,6 @@
               "tubeLength": 3.35,
               "tubeWidth": 0.04,
               "center": 1.0,
-              "height": 3.35,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
               "startWidth": 1.0,
@@ -14673,8 +14653,8 @@
               "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[21]SmallTrackLaneRing.[0]RotationXTransform.[0]AdditionalRotation.[2]RingLaser (1).[1]BoxLight",
-              "sliceSpriteControllerId": "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[21]SmallTrackLaneRing.[0]RotationXTransform.[0]AdditionalRotation.[2]RingLaser (1).[0]BakedBloom"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "null"
             },
             "lightId": 117
           }
@@ -14963,7 +14943,6 @@
               "tubeLength": 3.35,
               "tubeWidth": 0.04,
               "center": 1.0,
-              "height": 3.35,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
               "startWidth": 1.0,
@@ -14973,8 +14952,8 @@
               "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[22]SmallTrackLaneRing.[0]RotationXTransform.[0]AdditionalRotation.[1]RingLaser.[1]BoxLight",
-              "sliceSpriteControllerId": "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[22]SmallTrackLaneRing.[0]RotationXTransform.[0]AdditionalRotation.[1]RingLaser.[0]BakedBloom"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "null"
             },
             "lightId": 118
           }
@@ -15117,7 +15096,6 @@
               "tubeLength": 3.35,
               "tubeWidth": 0.04,
               "center": 1.0,
-              "height": 3.35,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
               "startWidth": 1.0,
@@ -15127,8 +15105,8 @@
               "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[22]SmallTrackLaneRing.[0]RotationXTransform.[0]AdditionalRotation.[2]RingLaser (1).[1]BoxLight",
-              "sliceSpriteControllerId": "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[22]SmallTrackLaneRing.[0]RotationXTransform.[0]AdditionalRotation.[2]RingLaser (1).[0]BakedBloom"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "null"
             },
             "lightId": 119
           }
@@ -15417,7 +15395,6 @@
               "tubeLength": 3.35,
               "tubeWidth": 0.04,
               "center": 1.0,
-              "height": 3.35,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
               "startWidth": 1.0,
@@ -15427,8 +15404,8 @@
               "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[23]SmallTrackLaneRing.[0]RotationXTransform.[0]AdditionalRotation.[1]RingLaser.[1]BoxLight",
-              "sliceSpriteControllerId": "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[23]SmallTrackLaneRing.[0]RotationXTransform.[0]AdditionalRotation.[1]RingLaser.[0]BakedBloom"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "null"
             },
             "lightId": 120
           }
@@ -15571,7 +15548,6 @@
               "tubeLength": 3.35,
               "tubeWidth": 0.04,
               "center": 1.0,
-              "height": 3.35,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
               "startWidth": 1.0,
@@ -15581,8 +15557,8 @@
               "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[23]SmallTrackLaneRing.[0]RotationXTransform.[0]AdditionalRotation.[2]RingLaser (1).[1]BoxLight",
-              "sliceSpriteControllerId": "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[23]SmallTrackLaneRing.[0]RotationXTransform.[0]AdditionalRotation.[2]RingLaser (1).[0]BakedBloom"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "null"
             },
             "lightId": 121
           }
@@ -52721,100 +52697,297 @@
         "LightRotationGroupEffectManager": {
           "lightRotationGroups": [
             {
-              "lightGroup": {
-                "numberOfElements": 24,
-                "startLightId": 74,
-                "groupId": 1,
-                "sameIdElements": 1
-              }
+              "mirrorX": false,
+              "mirrorY": false,
+              "mirrorZ": false,
+              "xTransforms": [
+                "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[0]SmallTrackLaneRing.[0]RotationXTransform",
+                "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[1]SmallTrackLaneRing.[0]RotationXTransform",
+                "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[2]SmallTrackLaneRing.[0]RotationXTransform",
+                "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[3]SmallTrackLaneRing.[0]RotationXTransform",
+                "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[4]SmallTrackLaneRing.[0]RotationXTransform",
+                "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[5]SmallTrackLaneRing.[0]RotationXTransform",
+                "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[6]SmallTrackLaneRing.[0]RotationXTransform",
+                "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[7]SmallTrackLaneRing.[0]RotationXTransform",
+                "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[8]SmallTrackLaneRing.[0]RotationXTransform",
+                "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[9]SmallTrackLaneRing.[0]RotationXTransform",
+                "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[10]SmallTrackLaneRing.[0]RotationXTransform",
+                "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[11]SmallTrackLaneRing.[0]RotationXTransform",
+                "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[12]SmallTrackLaneRing.[0]RotationXTransform",
+                "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[13]SmallTrackLaneRing.[0]RotationXTransform",
+                "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[14]SmallTrackLaneRing.[0]RotationXTransform",
+                "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[15]SmallTrackLaneRing.[0]RotationXTransform",
+                "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[16]SmallTrackLaneRing.[0]RotationXTransform",
+                "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[17]SmallTrackLaneRing.[0]RotationXTransform",
+                "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[18]SmallTrackLaneRing.[0]RotationXTransform",
+                "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[19]SmallTrackLaneRing.[0]RotationXTransform",
+                "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[20]SmallTrackLaneRing.[0]RotationXTransform",
+                "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[21]SmallTrackLaneRing.[0]RotationXTransform",
+                "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[22]SmallTrackLaneRing.[0]RotationXTransform",
+                "TheSecondEnvironment.[0]Environment.[24]SmallTrackLaneRingsGroup.[23]SmallTrackLaneRing.[0]RotationXTransform"
+              ],
+              "yTransforms": [],
+              "zTransforms": [],
+              "count": 24,
+              "groupId": 1
             },
             {
-              "lightGroup": {
-                "numberOfElements": 4,
-                "startLightId": 218,
-                "groupId": 9,
-                "sameIdElements": 1
-              }
+              "mirrorX": false,
+              "mirrorY": true,
+              "mirrorZ": false,
+              "xTransforms": [
+                "TheSecondEnvironment.[0]Environment.[30]Main Lasers Top.[2]TopLasersRightTop.[0]MainLaser.[0]TransformX",
+                "TheSecondEnvironment.[0]Environment.[30]Main Lasers Top.[2]TopLasersRightTop.[1]MainLaser.[0]TransformX",
+                "TheSecondEnvironment.[0]Environment.[30]Main Lasers Top.[2]TopLasersRightTop.[2]MainLaser.[0]TransformX",
+                "TheSecondEnvironment.[0]Environment.[30]Main Lasers Top.[2]TopLasersRightTop.[3]MainLaser.[0]TransformX"
+              ],
+              "yTransforms": [
+                "TheSecondEnvironment.[0]Environment.[30]Main Lasers Top.[2]TopLasersRightTop.[0]MainLaser",
+                "TheSecondEnvironment.[0]Environment.[30]Main Lasers Top.[2]TopLasersRightTop.[1]MainLaser",
+                "TheSecondEnvironment.[0]Environment.[30]Main Lasers Top.[2]TopLasersRightTop.[2]MainLaser",
+                "TheSecondEnvironment.[0]Environment.[30]Main Lasers Top.[2]TopLasersRightTop.[3]MainLaser"
+              ],
+              "zTransforms": [],
+              "count": 4,
+              "groupId": 9
             },
             {
-              "lightGroup": {
-                "numberOfElements": 4,
-                "startLightId": 222,
-                "groupId": 10,
-                "sameIdElements": 1
-              }
+              "mirrorX": false,
+              "mirrorY": false,
+              "mirrorZ": false,
+              "xTransforms": [
+                "TheSecondEnvironment.[0]Environment.[31]Main Lasers Bottom.[0]BottomLasersLeftBottom.[0]MainLaser.[0]TransformX",
+                "TheSecondEnvironment.[0]Environment.[31]Main Lasers Bottom.[0]BottomLasersLeftBottom.[1]MainLaser.[0]TransformX",
+                "TheSecondEnvironment.[0]Environment.[31]Main Lasers Bottom.[0]BottomLasersLeftBottom.[2]MainLaser.[0]TransformX",
+                "TheSecondEnvironment.[0]Environment.[31]Main Lasers Bottom.[0]BottomLasersLeftBottom.[3]MainLaser.[0]TransformX"
+              ],
+              "yTransforms": [
+                "TheSecondEnvironment.[0]Environment.[31]Main Lasers Bottom.[0]BottomLasersLeftBottom.[0]MainLaser",
+                "TheSecondEnvironment.[0]Environment.[31]Main Lasers Bottom.[0]BottomLasersLeftBottom.[1]MainLaser",
+                "TheSecondEnvironment.[0]Environment.[31]Main Lasers Bottom.[0]BottomLasersLeftBottom.[2]MainLaser",
+                "TheSecondEnvironment.[0]Environment.[31]Main Lasers Bottom.[0]BottomLasersLeftBottom.[3]MainLaser"
+              ],
+              "zTransforms": [],
+              "count": 4,
+              "groupId": 10
             },
             {
-              "lightGroup": {
-                "numberOfElements": 4,
-                "startLightId": 206,
-                "groupId": 8,
-                "sameIdElements": 1
-              }
+              "mirrorX": true,
+              "mirrorY": false,
+              "mirrorZ": false,
+              "xTransforms": [
+                "TheSecondEnvironment.[0]Environment.[30]Main Lasers Top.[3]TopLasersLeftTop.[0]MainLaser.[0]TransformX",
+                "TheSecondEnvironment.[0]Environment.[30]Main Lasers Top.[3]TopLasersLeftTop.[1]MainLaser.[0]TransformX",
+                "TheSecondEnvironment.[0]Environment.[30]Main Lasers Top.[3]TopLasersLeftTop.[2]MainLaser.[0]TransformX",
+                "TheSecondEnvironment.[0]Environment.[30]Main Lasers Top.[3]TopLasersLeftTop.[3]MainLaser.[0]TransformX"
+              ],
+              "yTransforms": [
+                "TheSecondEnvironment.[0]Environment.[30]Main Lasers Top.[3]TopLasersLeftTop.[0]MainLaser",
+                "TheSecondEnvironment.[0]Environment.[30]Main Lasers Top.[3]TopLasersLeftTop.[1]MainLaser",
+                "TheSecondEnvironment.[0]Environment.[30]Main Lasers Top.[3]TopLasersLeftTop.[2]MainLaser",
+                "TheSecondEnvironment.[0]Environment.[30]Main Lasers Top.[3]TopLasersLeftTop.[3]MainLaser"
+              ],
+              "zTransforms": [],
+              "count": 4,
+              "groupId": 8
             },
             {
-              "lightGroup": {
-                "numberOfElements": 4,
-                "startLightId": 236,
-                "groupId": 13,
-                "sameIdElements": 1
-              }
+              "mirrorX": false,
+              "mirrorY": false,
+              "mirrorZ": false,
+              "xTransforms": [
+                "TheSecondEnvironment.[0]Environment.[31]Main Lasers Bottom.[3]BottomLasersRightTop.[0]MainLaser.[0]TransformX",
+                "TheSecondEnvironment.[0]Environment.[31]Main Lasers Bottom.[3]BottomLasersRightTop.[1]MainLaser.[0]TransformX",
+                "TheSecondEnvironment.[0]Environment.[31]Main Lasers Bottom.[3]BottomLasersRightTop.[2]MainLaser.[0]TransformX",
+                "TheSecondEnvironment.[0]Environment.[31]Main Lasers Bottom.[3]BottomLasersRightTop.[3]MainLaser.[0]TransformX"
+              ],
+              "yTransforms": [
+                "TheSecondEnvironment.[0]Environment.[31]Main Lasers Bottom.[3]BottomLasersRightTop.[0]MainLaser",
+                "TheSecondEnvironment.[0]Environment.[31]Main Lasers Bottom.[3]BottomLasersRightTop.[1]MainLaser",
+                "TheSecondEnvironment.[0]Environment.[31]Main Lasers Bottom.[3]BottomLasersRightTop.[2]MainLaser",
+                "TheSecondEnvironment.[0]Environment.[31]Main Lasers Bottom.[3]BottomLasersRightTop.[3]MainLaser"
+              ],
+              "zTransforms": [],
+              "count": 4,
+              "groupId": 13
             },
             {
-              "lightGroup": {
-                "numberOfElements": 12,
-                "startLightId": 170,
-                "groupId": 5,
-                "sameIdElements": 1
-              }
+              "mirrorX": true,
+              "mirrorY": false,
+              "mirrorZ": false,
+              "xTransforms": [
+                "TheSecondEnvironment.[0]Environment.[34]SpotlightGroupRight.[0]WeaveLaser.[1]RotationBase.[0]LightSource",
+                "TheSecondEnvironment.[0]Environment.[34]SpotlightGroupRight.[1]WeaveLaser.[1]RotationBase.[0]LightSource",
+                "TheSecondEnvironment.[0]Environment.[34]SpotlightGroupRight.[2]WeaveLaser.[1]RotationBase.[0]LightSource",
+                "TheSecondEnvironment.[0]Environment.[34]SpotlightGroupRight.[3]WeaveLaser.[1]RotationBase.[0]LightSource",
+                "TheSecondEnvironment.[0]Environment.[34]SpotlightGroupRight.[4]WeaveLaser.[1]RotationBase.[0]LightSource",
+                "TheSecondEnvironment.[0]Environment.[34]SpotlightGroupRight.[5]WeaveLaser.[1]RotationBase.[0]LightSource",
+                "TheSecondEnvironment.[0]Environment.[34]SpotlightGroupRight.[6]WeaveLaser.[1]RotationBase.[0]LightSource",
+                "TheSecondEnvironment.[0]Environment.[34]SpotlightGroupRight.[7]WeaveLaser.[1]RotationBase.[0]LightSource",
+                "TheSecondEnvironment.[0]Environment.[34]SpotlightGroupRight.[8]WeaveLaser.[1]RotationBase.[0]LightSource",
+                "TheSecondEnvironment.[0]Environment.[34]SpotlightGroupRight.[9]WeaveLaser.[1]RotationBase.[0]LightSource",
+                "TheSecondEnvironment.[0]Environment.[34]SpotlightGroupRight.[10]WeaveLaser.[1]RotationBase.[0]LightSource",
+                "TheSecondEnvironment.[0]Environment.[34]SpotlightGroupRight.[11]WeaveLaser.[1]RotationBase.[0]LightSource"
+              ],
+              "yTransforms": [
+                "TheSecondEnvironment.[0]Environment.[34]SpotlightGroupRight.[0]WeaveLaser.[1]RotationBase",
+                "TheSecondEnvironment.[0]Environment.[34]SpotlightGroupRight.[1]WeaveLaser.[1]RotationBase",
+                "TheSecondEnvironment.[0]Environment.[34]SpotlightGroupRight.[2]WeaveLaser.[1]RotationBase",
+                "TheSecondEnvironment.[0]Environment.[34]SpotlightGroupRight.[3]WeaveLaser.[1]RotationBase",
+                "TheSecondEnvironment.[0]Environment.[34]SpotlightGroupRight.[4]WeaveLaser.[1]RotationBase",
+                "TheSecondEnvironment.[0]Environment.[34]SpotlightGroupRight.[5]WeaveLaser.[1]RotationBase",
+                "TheSecondEnvironment.[0]Environment.[34]SpotlightGroupRight.[6]WeaveLaser.[1]RotationBase",
+                "TheSecondEnvironment.[0]Environment.[34]SpotlightGroupRight.[7]WeaveLaser.[1]RotationBase",
+                "TheSecondEnvironment.[0]Environment.[34]SpotlightGroupRight.[8]WeaveLaser.[1]RotationBase",
+                "TheSecondEnvironment.[0]Environment.[34]SpotlightGroupRight.[9]WeaveLaser.[1]RotationBase",
+                "TheSecondEnvironment.[0]Environment.[34]SpotlightGroupRight.[10]WeaveLaser.[1]RotationBase",
+                "TheSecondEnvironment.[0]Environment.[34]SpotlightGroupRight.[11]WeaveLaser.[1]RotationBase"
+              ],
+              "zTransforms": [],
+              "count": 12,
+              "groupId": 5
             },
             {
-              "lightGroup": {
-                "numberOfElements": 12,
-                "startLightId": 146,
-                "groupId": 4,
-                "sameIdElements": 1
-              }
+              "mirrorX": false,
+              "mirrorY": true,
+              "mirrorZ": false,
+              "xTransforms": [
+                "TheSecondEnvironment.[0]Environment.[33]SpotlightGroupLeft.[0]WeaveLaser.[1]RotationBase.[0]LightSource",
+                "TheSecondEnvironment.[0]Environment.[33]SpotlightGroupLeft.[1]WeaveLaser.[1]RotationBase.[0]LightSource",
+                "TheSecondEnvironment.[0]Environment.[33]SpotlightGroupLeft.[2]WeaveLaser.[1]RotationBase.[0]LightSource",
+                "TheSecondEnvironment.[0]Environment.[33]SpotlightGroupLeft.[3]WeaveLaser.[1]RotationBase.[0]LightSource",
+                "TheSecondEnvironment.[0]Environment.[33]SpotlightGroupLeft.[4]WeaveLaser.[1]RotationBase.[0]LightSource",
+                "TheSecondEnvironment.[0]Environment.[33]SpotlightGroupLeft.[5]WeaveLaser.[1]RotationBase.[0]LightSource",
+                "TheSecondEnvironment.[0]Environment.[33]SpotlightGroupLeft.[6]WeaveLaser.[1]RotationBase.[0]LightSource",
+                "TheSecondEnvironment.[0]Environment.[33]SpotlightGroupLeft.[7]WeaveLaser.[1]RotationBase.[0]LightSource",
+                "TheSecondEnvironment.[0]Environment.[33]SpotlightGroupLeft.[8]WeaveLaser.[1]RotationBase.[0]LightSource",
+                "TheSecondEnvironment.[0]Environment.[33]SpotlightGroupLeft.[9]WeaveLaser.[1]RotationBase.[0]LightSource",
+                "TheSecondEnvironment.[0]Environment.[33]SpotlightGroupLeft.[10]WeaveLaser.[1]RotationBase.[0]LightSource",
+                "TheSecondEnvironment.[0]Environment.[33]SpotlightGroupLeft.[11]WeaveLaser.[1]RotationBase.[0]LightSource"
+              ],
+              "yTransforms": [
+                "TheSecondEnvironment.[0]Environment.[33]SpotlightGroupLeft.[0]WeaveLaser.[1]RotationBase",
+                "TheSecondEnvironment.[0]Environment.[33]SpotlightGroupLeft.[1]WeaveLaser.[1]RotationBase",
+                "TheSecondEnvironment.[0]Environment.[33]SpotlightGroupLeft.[2]WeaveLaser.[1]RotationBase",
+                "TheSecondEnvironment.[0]Environment.[33]SpotlightGroupLeft.[3]WeaveLaser.[1]RotationBase",
+                "TheSecondEnvironment.[0]Environment.[33]SpotlightGroupLeft.[4]WeaveLaser.[1]RotationBase",
+                "TheSecondEnvironment.[0]Environment.[33]SpotlightGroupLeft.[5]WeaveLaser.[1]RotationBase",
+                "TheSecondEnvironment.[0]Environment.[33]SpotlightGroupLeft.[6]WeaveLaser.[1]RotationBase",
+                "TheSecondEnvironment.[0]Environment.[33]SpotlightGroupLeft.[7]WeaveLaser.[1]RotationBase",
+                "TheSecondEnvironment.[0]Environment.[33]SpotlightGroupLeft.[8]WeaveLaser.[1]RotationBase",
+                "TheSecondEnvironment.[0]Environment.[33]SpotlightGroupLeft.[9]WeaveLaser.[1]RotationBase",
+                "TheSecondEnvironment.[0]Environment.[33]SpotlightGroupLeft.[10]WeaveLaser.[1]RotationBase",
+                "TheSecondEnvironment.[0]Environment.[33]SpotlightGroupLeft.[11]WeaveLaser.[1]RotationBase"
+              ],
+              "zTransforms": [],
+              "count": 12,
+              "groupId": 4
             },
             {
-              "lightGroup": {
-                "numberOfElements": 4,
-                "startLightId": 182,
-                "groupId": 6,
-                "sameIdElements": 1
-              }
+              "mirrorX": false,
+              "mirrorY": false,
+              "mirrorZ": false,
+              "xTransforms": [
+                "TheSecondEnvironment.[0]Environment.[30]Main Lasers Top.[0]TopLasersLeftBottom.[0]MainLaser.[0]TransformX",
+                "TheSecondEnvironment.[0]Environment.[30]Main Lasers Top.[0]TopLasersLeftBottom.[1]MainLaser.[0]TransformX",
+                "TheSecondEnvironment.[0]Environment.[30]Main Lasers Top.[0]TopLasersLeftBottom.[2]MainLaser.[0]TransformX",
+                "TheSecondEnvironment.[0]Environment.[30]Main Lasers Top.[0]TopLasersLeftBottom.[3]MainLaser.[0]TransformX"
+              ],
+              "yTransforms": [
+                "TheSecondEnvironment.[0]Environment.[30]Main Lasers Top.[0]TopLasersLeftBottom.[0]MainLaser",
+                "TheSecondEnvironment.[0]Environment.[30]Main Lasers Top.[0]TopLasersLeftBottom.[1]MainLaser",
+                "TheSecondEnvironment.[0]Environment.[30]Main Lasers Top.[0]TopLasersLeftBottom.[2]MainLaser",
+                "TheSecondEnvironment.[0]Environment.[30]Main Lasers Top.[0]TopLasersLeftBottom.[3]MainLaser"
+              ],
+              "zTransforms": [],
+              "count": 4,
+              "groupId": 6
             },
             {
-              "lightGroup": {
-                "numberOfElements": 15,
-                "startLightId": 50,
-                "groupId": 0,
-                "sameIdElements": 1
-              }
+              "mirrorX": false,
+              "mirrorY": false,
+              "mirrorZ": false,
+              "xTransforms": [
+                "TheSecondEnvironment.[0]Environment.[25]BigTrackLaneRingsGroup.[0]BigTrackLaneRing.[0]AdditionalRotation.[0]RotationXParent",
+                "TheSecondEnvironment.[0]Environment.[25]BigTrackLaneRingsGroup.[1]BigTrackLaneRing.[0]AdditionalRotation.[0]RotationXParent",
+                "TheSecondEnvironment.[0]Environment.[25]BigTrackLaneRingsGroup.[2]BigTrackLaneRing.[0]AdditionalRotation.[0]RotationXParent",
+                "TheSecondEnvironment.[0]Environment.[25]BigTrackLaneRingsGroup.[3]BigTrackLaneRing.[0]AdditionalRotation.[0]RotationXParent",
+                "TheSecondEnvironment.[0]Environment.[25]BigTrackLaneRingsGroup.[4]BigTrackLaneRing.[0]AdditionalRotation.[0]RotationXParent",
+                "TheSecondEnvironment.[0]Environment.[25]BigTrackLaneRingsGroup.[5]BigTrackLaneRing.[0]AdditionalRotation.[0]RotationXParent",
+                "TheSecondEnvironment.[0]Environment.[25]BigTrackLaneRingsGroup.[6]BigTrackLaneRing.[0]AdditionalRotation.[0]RotationXParent",
+                "TheSecondEnvironment.[0]Environment.[25]BigTrackLaneRingsGroup.[7]BigTrackLaneRing.[0]AdditionalRotation.[0]RotationXParent",
+                "TheSecondEnvironment.[0]Environment.[25]BigTrackLaneRingsGroup.[8]BigTrackLaneRing.[0]AdditionalRotation.[0]RotationXParent",
+                "TheSecondEnvironment.[0]Environment.[25]BigTrackLaneRingsGroup.[9]BigTrackLaneRing.[0]AdditionalRotation.[0]RotationXParent",
+                "TheSecondEnvironment.[0]Environment.[25]BigTrackLaneRingsGroup.[10]BigTrackLaneRing.[0]AdditionalRotation.[0]RotationXParent",
+                "TheSecondEnvironment.[0]Environment.[25]BigTrackLaneRingsGroup.[11]BigTrackLaneRing.[0]AdditionalRotation.[0]RotationXParent",
+                "TheSecondEnvironment.[0]Environment.[25]BigTrackLaneRingsGroup.[12]BigTrackLaneRing.[0]AdditionalRotation.[0]RotationXParent",
+                "TheSecondEnvironment.[0]Environment.[25]BigTrackLaneRingsGroup.[13]BigTrackLaneRing.[0]AdditionalRotation.[0]RotationXParent",
+                "TheSecondEnvironment.[0]Environment.[25]BigTrackLaneRingsGroup.[14]BigTrackLaneRing.[0]AdditionalRotation.[0]RotationXParent"
+              ],
+              "yTransforms": [],
+              "zTransforms": [],
+              "count": 15,
+              "groupId": 0
             },
             {
-              "lightGroup": {
-                "numberOfElements": 4,
-                "startLightId": 194,
-                "groupId": 7,
-                "sameIdElements": 1
-              }
+              "mirrorX": true,
+              "mirrorY": true,
+              "mirrorZ": false,
+              "xTransforms": [
+                "TheSecondEnvironment.[0]Environment.[30]Main Lasers Top.[1]TopLasersRightBottom.[0]MainLaser.[0]TransformX",
+                "TheSecondEnvironment.[0]Environment.[30]Main Lasers Top.[1]TopLasersRightBottom.[1]MainLaser.[0]TransformX",
+                "TheSecondEnvironment.[0]Environment.[30]Main Lasers Top.[1]TopLasersRightBottom.[2]MainLaser.[0]TransformX",
+                "TheSecondEnvironment.[0]Environment.[30]Main Lasers Top.[1]TopLasersRightBottom.[3]MainLaser.[0]TransformX"
+              ],
+              "yTransforms": [
+                "TheSecondEnvironment.[0]Environment.[30]Main Lasers Top.[1]TopLasersRightBottom.[0]MainLaser",
+                "TheSecondEnvironment.[0]Environment.[30]Main Lasers Top.[1]TopLasersRightBottom.[1]MainLaser",
+                "TheSecondEnvironment.[0]Environment.[30]Main Lasers Top.[1]TopLasersRightBottom.[2]MainLaser",
+                "TheSecondEnvironment.[0]Environment.[30]Main Lasers Top.[1]TopLasersRightBottom.[3]MainLaser"
+              ],
+              "zTransforms": [],
+              "count": 4,
+              "groupId": 7
             },
             {
-              "lightGroup": {
-                "numberOfElements": 4,
-                "startLightId": 232,
-                "groupId": 12,
-                "sameIdElements": 1
-              }
+              "mirrorX": true,
+              "mirrorY": true,
+              "mirrorZ": false,
+              "xTransforms": [
+                "TheSecondEnvironment.[0]Environment.[31]Main Lasers Bottom.[2]BottomLasersLeftTop.[0]MainLaser.[0]TransformX",
+                "TheSecondEnvironment.[0]Environment.[31]Main Lasers Bottom.[2]BottomLasersLeftTop.[1]MainLaser.[0]TransformX",
+                "TheSecondEnvironment.[0]Environment.[31]Main Lasers Bottom.[2]BottomLasersLeftTop.[2]MainLaser.[0]TransformX",
+                "TheSecondEnvironment.[0]Environment.[31]Main Lasers Bottom.[2]BottomLasersLeftTop.[3]MainLaser.[0]TransformX"
+              ],
+              "yTransforms": [
+                "TheSecondEnvironment.[0]Environment.[31]Main Lasers Bottom.[2]BottomLasersLeftTop.[0]MainLaser",
+                "TheSecondEnvironment.[0]Environment.[31]Main Lasers Bottom.[2]BottomLasersLeftTop.[1]MainLaser",
+                "TheSecondEnvironment.[0]Environment.[31]Main Lasers Bottom.[2]BottomLasersLeftTop.[2]MainLaser",
+                "TheSecondEnvironment.[0]Environment.[31]Main Lasers Bottom.[2]BottomLasersLeftTop.[3]MainLaser"
+              ],
+              "zTransforms": [],
+              "count": 4,
+              "groupId": 12
             },
             {
-              "lightGroup": {
-                "numberOfElements": 4,
-                "startLightId": 227,
-                "groupId": 11,
-                "sameIdElements": 1
-              }
+              "mirrorX": true,
+              "mirrorY": true,
+              "mirrorZ": false,
+              "xTransforms": [
+                "TheSecondEnvironment.[0]Environment.[31]Main Lasers Bottom.[1]BottomLasersRightBottom.[0]MainLaser.[0]TransformX",
+                "TheSecondEnvironment.[0]Environment.[31]Main Lasers Bottom.[1]BottomLasersRightBottom.[1]MainLaser.[0]TransformX",
+                "TheSecondEnvironment.[0]Environment.[31]Main Lasers Bottom.[1]BottomLasersRightBottom.[2]MainLaser.[0]TransformX",
+                "TheSecondEnvironment.[0]Environment.[31]Main Lasers Bottom.[1]BottomLasersRightBottom.[3]MainLaser.[0]TransformX"
+              ],
+              "yTransforms": [
+                "TheSecondEnvironment.[0]Environment.[31]Main Lasers Bottom.[1]BottomLasersRightBottom.[0]MainLaser",
+                "TheSecondEnvironment.[0]Environment.[31]Main Lasers Bottom.[1]BottomLasersRightBottom.[1]MainLaser",
+                "TheSecondEnvironment.[0]Environment.[31]Main Lasers Bottom.[1]BottomLasersRightBottom.[2]MainLaser",
+                "TheSecondEnvironment.[0]Environment.[31]Main Lasers Bottom.[1]BottomLasersRightBottom.[3]MainLaser"
+              ],
+              "zTransforms": [],
+              "count": 4,
+              "groupId": 11
             }
           ],
           "lightRotationGroupEffects": [

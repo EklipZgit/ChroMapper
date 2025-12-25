@@ -3731,7 +3731,7 @@
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
               "parametricBoxId": "null",
-              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[27]DayAndNight.[1]Night.[0]Moon.[0]NeonTube.[0]BakedBloom"
+              "sliceSpriteControllerId": "null"
             },
             "lightId": 5
           }

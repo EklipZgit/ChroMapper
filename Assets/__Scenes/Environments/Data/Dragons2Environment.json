@@ -2474,60 +2474,181 @@
         "LightRotationGroupEffectManager": {
           "lightRotationGroups": [
             {
-              "lightGroup": {
-                "numberOfElements": 24,
-                "startLightId": 17,
-                "groupId": 0,
-                "sameIdElements": 1
-              }
+              "mirrorX": false,
+              "mirrorY": false,
+              "mirrorZ": true,
+              "xTransforms": [],
+              "yTransforms": [],
+              "zTransforms": [
+                "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[0]SmallRing",
+                "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[1]SmallRing",
+                "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[2]SmallRing",
+                "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[3]SmallRing",
+                "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[4]SmallRing",
+                "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[5]SmallRing",
+                "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[6]SmallRing",
+                "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[7]SmallRing",
+                "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[8]SmallRing",
+                "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[9]SmallRing",
+                "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[10]SmallRing",
+                "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[11]SmallRing",
+                "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[12]SmallRing",
+                "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[13]SmallRing",
+                "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[14]SmallRing",
+                "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[15]SmallRing",
+                "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[16]SmallRing",
+                "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[17]SmallRing",
+                "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[18]SmallRing",
+                "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[19]SmallRing",
+                "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[20]SmallRing",
+                "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[21]SmallRing",
+                "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[22]SmallRing",
+                "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[23]SmallRing"
+              ],
+              "count": 24,
+              "groupId": 0
             },
             {
-              "lightGroup": {
-                "numberOfElements": 8,
-                "startLightId": 187,
-                "groupId": 4,
-                "sameIdElements": 1
-              }
+              "mirrorX": false,
+              "mirrorY": false,
+              "mirrorZ": false,
+              "xTransforms": [
+                "Dragons2Environment.[0]Environment.[26]TopSpotlightsGroup.[0]LaserProjector.[0]RotationBase.[0]LightSource",
+                "Dragons2Environment.[0]Environment.[26]TopSpotlightsGroup.[1]LaserProjector.[0]RotationBase.[0]LightSource",
+                "Dragons2Environment.[0]Environment.[26]TopSpotlightsGroup.[2]LaserProjector.[0]RotationBase.[0]LightSource",
+                "Dragons2Environment.[0]Environment.[26]TopSpotlightsGroup.[3]LaserProjector.[0]RotationBase.[0]LightSource",
+                "Dragons2Environment.[0]Environment.[26]TopSpotlightsGroup.[4]LaserProjector.[0]RotationBase.[0]LightSource",
+                "Dragons2Environment.[0]Environment.[26]TopSpotlightsGroup.[5]LaserProjector.[0]RotationBase.[0]LightSource",
+                "Dragons2Environment.[0]Environment.[26]TopSpotlightsGroup.[6]LaserProjector.[0]RotationBase.[0]LightSource",
+                "Dragons2Environment.[0]Environment.[26]TopSpotlightsGroup.[7]LaserProjector.[0]RotationBase.[0]LightSource"
+              ],
+              "yTransforms": [
+                "Dragons2Environment.[0]Environment.[26]TopSpotlightsGroup.[0]LaserProjector.[0]RotationBase",
+                "Dragons2Environment.[0]Environment.[26]TopSpotlightsGroup.[1]LaserProjector.[0]RotationBase",
+                "Dragons2Environment.[0]Environment.[26]TopSpotlightsGroup.[2]LaserProjector.[0]RotationBase",
+                "Dragons2Environment.[0]Environment.[26]TopSpotlightsGroup.[3]LaserProjector.[0]RotationBase",
+                "Dragons2Environment.[0]Environment.[26]TopSpotlightsGroup.[4]LaserProjector.[0]RotationBase",
+                "Dragons2Environment.[0]Environment.[26]TopSpotlightsGroup.[5]LaserProjector.[0]RotationBase",
+                "Dragons2Environment.[0]Environment.[26]TopSpotlightsGroup.[6]LaserProjector.[0]RotationBase",
+                "Dragons2Environment.[0]Environment.[26]TopSpotlightsGroup.[7]LaserProjector.[0]RotationBase"
+              ],
+              "zTransforms": [],
+              "count": 8,
+              "groupId": 4
             },
             {
-              "lightGroup": {
-                "numberOfElements": 15,
-                "startLightId": 172,
-                "groupId": 3,
-                "sameIdElements": 1
-              }
+              "mirrorX": false,
+              "mirrorY": false,
+              "mirrorZ": true,
+              "xTransforms": [],
+              "yTransforms": [],
+              "zTransforms": [
+                "Dragons2Environment.[0]Environment.[30]BigRingsGroup.[0]BigTrackLaneRing",
+                "Dragons2Environment.[0]Environment.[30]BigRingsGroup.[1]BigTrackLaneRing",
+                "Dragons2Environment.[0]Environment.[30]BigRingsGroup.[2]BigTrackLaneRing",
+                "Dragons2Environment.[0]Environment.[30]BigRingsGroup.[3]BigTrackLaneRing",
+                "Dragons2Environment.[0]Environment.[30]BigRingsGroup.[4]BigTrackLaneRing",
+                "Dragons2Environment.[0]Environment.[30]BigRingsGroup.[5]BigTrackLaneRing",
+                "Dragons2Environment.[0]Environment.[30]BigRingsGroup.[6]BigTrackLaneRing",
+                "Dragons2Environment.[0]Environment.[30]BigRingsGroup.[7]BigTrackLaneRing",
+                "Dragons2Environment.[0]Environment.[30]BigRingsGroup.[8]BigTrackLaneRing",
+                "Dragons2Environment.[0]Environment.[30]BigRingsGroup.[9]BigTrackLaneRing",
+                "Dragons2Environment.[0]Environment.[30]BigRingsGroup.[10]BigTrackLaneRing",
+                "Dragons2Environment.[0]Environment.[30]BigRingsGroup.[11]BigTrackLaneRing",
+                "Dragons2Environment.[0]Environment.[30]BigRingsGroup.[12]BigTrackLaneRing",
+                "Dragons2Environment.[0]Environment.[30]BigRingsGroup.[13]BigTrackLaneRing",
+                "Dragons2Environment.[0]Environment.[30]BigRingsGroup.[14]BigTrackLaneRing"
+              ],
+              "count": 15,
+              "groupId": 3
             },
             {
-              "lightGroup": {
-                "numberOfElements": 5,
-                "startLightId": 234,
-                "groupId": 10,
-                "sameIdElements": 1
-              }
+              "mirrorX": true,
+              "mirrorY": false,
+              "mirrorZ": false,
+              "xTransforms": [
+                "Dragons2Environment.[0]Environment.[34]TopLasersLeftTop.[0]MainLaser.[0]TransformX",
+                "Dragons2Environment.[0]Environment.[34]TopLasersLeftTop.[1]MainLaser.[0]TransformX",
+                "Dragons2Environment.[0]Environment.[34]TopLasersLeftTop.[2]MainLaser.[0]TransformX",
+                "Dragons2Environment.[0]Environment.[34]TopLasersLeftTop.[3]MainLaser.[0]TransformX",
+                "Dragons2Environment.[0]Environment.[34]TopLasersLeftTop.[4]MainLaser.[0]TransformX"
+              ],
+              "yTransforms": [
+                "Dragons2Environment.[0]Environment.[34]TopLasersLeftTop.[0]MainLaser",
+                "Dragons2Environment.[0]Environment.[34]TopLasersLeftTop.[1]MainLaser",
+                "Dragons2Environment.[0]Environment.[34]TopLasersLeftTop.[2]MainLaser",
+                "Dragons2Environment.[0]Environment.[34]TopLasersLeftTop.[3]MainLaser",
+                "Dragons2Environment.[0]Environment.[34]TopLasersLeftTop.[4]MainLaser"
+              ],
+              "zTransforms": [],
+              "count": 5,
+              "groupId": 10
             },
             {
-              "lightGroup": {
-                "numberOfElements": 5,
-                "startLightId": 229,
-                "groupId": 9,
-                "sameIdElements": 1
-              }
+              "mirrorX": false,
+              "mirrorY": true,
+              "mirrorZ": false,
+              "xTransforms": [
+                "Dragons2Environment.[0]Environment.[35]TopLasersLeftBottom.[0]MainLaser.[0]TransformX",
+                "Dragons2Environment.[0]Environment.[35]TopLasersLeftBottom.[1]MainLaser.[0]TransformX",
+                "Dragons2Environment.[0]Environment.[35]TopLasersLeftBottom.[2]MainLaser.[0]TransformX",
+                "Dragons2Environment.[0]Environment.[35]TopLasersLeftBottom.[3]MainLaser.[0]TransformX",
+                "Dragons2Environment.[0]Environment.[35]TopLasersLeftBottom.[4]MainLaser.[0]TransformX"
+              ],
+              "yTransforms": [
+                "Dragons2Environment.[0]Environment.[35]TopLasersLeftBottom.[0]MainLaser",
+                "Dragons2Environment.[0]Environment.[35]TopLasersLeftBottom.[1]MainLaser",
+                "Dragons2Environment.[0]Environment.[35]TopLasersLeftBottom.[2]MainLaser",
+                "Dragons2Environment.[0]Environment.[35]TopLasersLeftBottom.[3]MainLaser",
+                "Dragons2Environment.[0]Environment.[35]TopLasersLeftBottom.[4]MainLaser"
+              ],
+              "zTransforms": [],
+              "count": 5,
+              "groupId": 9
             },
             {
-              "lightGroup": {
-                "numberOfElements": 5,
-                "startLightId": 244,
-                "groupId": 12,
-                "sameIdElements": 1
-              }
+              "mirrorX": true,
+              "mirrorY": false,
+              "mirrorZ": false,
+              "xTransforms": [
+                "Dragons2Environment.[0]Environment.[38]TopLasersRightBottom.[0]MainLaser.[0]TransformX",
+                "Dragons2Environment.[0]Environment.[38]TopLasersRightBottom.[1]MainLaser.[0]TransformX",
+                "Dragons2Environment.[0]Environment.[38]TopLasersRightBottom.[2]MainLaser.[0]TransformX",
+                "Dragons2Environment.[0]Environment.[38]TopLasersRightBottom.[3]MainLaser.[0]TransformX",
+                "Dragons2Environment.[0]Environment.[38]TopLasersRightBottom.[4]MainLaser.[0]TransformX"
+              ],
+              "yTransforms": [
+                "Dragons2Environment.[0]Environment.[38]TopLasersRightBottom.[0]MainLaser",
+                "Dragons2Environment.[0]Environment.[38]TopLasersRightBottom.[1]MainLaser",
+                "Dragons2Environment.[0]Environment.[38]TopLasersRightBottom.[2]MainLaser",
+                "Dragons2Environment.[0]Environment.[38]TopLasersRightBottom.[3]MainLaser",
+                "Dragons2Environment.[0]Environment.[38]TopLasersRightBottom.[4]MainLaser"
+              ],
+              "zTransforms": [],
+              "count": 5,
+              "groupId": 12
             },
             {
-              "lightGroup": {
-                "numberOfElements": 5,
-                "startLightId": 239,
-                "groupId": 11,
-                "sameIdElements": 1
-              }
+              "mirrorX": false,
+              "mirrorY": true,
+              "mirrorZ": false,
+              "xTransforms": [
+                "Dragons2Environment.[0]Environment.[36]TopLasersRightTop.[0]MainLaser.[0]TransformX",
+                "Dragons2Environment.[0]Environment.[36]TopLasersRightTop.[1]MainLaser.[0]TransformX",
+                "Dragons2Environment.[0]Environment.[36]TopLasersRightTop.[2]MainLaser.[0]TransformX",
+                "Dragons2Environment.[0]Environment.[36]TopLasersRightTop.[3]MainLaser.[0]TransformX",
+                "Dragons2Environment.[0]Environment.[36]TopLasersRightTop.[4]MainLaser.[0]TransformX"
+              ],
+              "yTransforms": [
+                "Dragons2Environment.[0]Environment.[36]TopLasersRightTop.[0]MainLaser",
+                "Dragons2Environment.[0]Environment.[36]TopLasersRightTop.[1]MainLaser",
+                "Dragons2Environment.[0]Environment.[36]TopLasersRightTop.[2]MainLaser",
+                "Dragons2Environment.[0]Environment.[36]TopLasersRightTop.[3]MainLaser",
+                "Dragons2Environment.[0]Environment.[36]TopLasersRightTop.[4]MainLaser"
+              ],
+              "zTransforms": [],
+              "count": 5,
+              "groupId": 11
             }
           ],
           "lightRotationGroupEffects": [
@@ -3057,12 +3178,39 @@
                 -72.0,
                 72.0
               ],
-              "lightGroup": {
-                "numberOfElements": 24,
-                "startLightId": 17,
-                "groupId": 0,
-                "sameIdElements": 1
-              }
+              "mirrorX": false,
+              "mirrorY": false,
+              "mirrorZ": false,
+              "xTransforms": [],
+              "yTransforms": [],
+              "zTransforms": [
+                "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[0]SmallRing.[0]Lasers",
+                "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[1]SmallRing.[0]Lasers",
+                "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[2]SmallRing.[0]Lasers",
+                "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[3]SmallRing.[0]Lasers",
+                "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[4]SmallRing.[0]Lasers",
+                "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[5]SmallRing.[0]Lasers",
+                "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[6]SmallRing.[0]Lasers",
+                "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[7]SmallRing.[0]Lasers",
+                "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[8]SmallRing.[0]Lasers",
+                "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[9]SmallRing.[0]Lasers",
+                "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[10]SmallRing.[0]Lasers",
+                "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[11]SmallRing.[0]Lasers",
+                "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[12]SmallRing.[0]Lasers",
+                "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[13]SmallRing.[0]Lasers",
+                "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[14]SmallRing.[0]Lasers",
+                "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[15]SmallRing.[0]Lasers",
+                "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[16]SmallRing.[0]Lasers",
+                "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[17]SmallRing.[0]Lasers",
+                "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[18]SmallRing.[0]Lasers",
+                "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[19]SmallRing.[0]Lasers",
+                "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[20]SmallRing.[0]Lasers",
+                "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[21]SmallRing.[0]Lasers",
+                "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[22]SmallRing.[0]Lasers",
+                "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[23]SmallRing.[0]Lasers"
+              ],
+              "count": 24,
+              "groupId": 0
             },
             {
               "xTranslationLimits": [
@@ -3077,12 +3225,30 @@
                 -105.0,
                 105.0
               ],
-              "lightGroup": {
-                "numberOfElements": 15,
-                "startLightId": 172,
-                "groupId": 3,
-                "sameIdElements": 1
-              }
+              "mirrorX": false,
+              "mirrorY": false,
+              "mirrorZ": false,
+              "xTransforms": [],
+              "yTransforms": [],
+              "zTransforms": [
+                "Dragons2Environment.[0]Environment.[30]BigRingsGroup.[0]BigTrackLaneRing.[0]TranslationWrapper",
+                "Dragons2Environment.[0]Environment.[30]BigRingsGroup.[1]BigTrackLaneRing.[0]TranslationWrapper",
+                "Dragons2Environment.[0]Environment.[30]BigRingsGroup.[2]BigTrackLaneRing.[0]TranslationWrapper",
+                "Dragons2Environment.[0]Environment.[30]BigRingsGroup.[3]BigTrackLaneRing.[0]TranslationWrapper",
+                "Dragons2Environment.[0]Environment.[30]BigRingsGroup.[4]BigTrackLaneRing.[0]TranslationWrapper",
+                "Dragons2Environment.[0]Environment.[30]BigRingsGroup.[5]BigTrackLaneRing.[0]TranslationWrapper",
+                "Dragons2Environment.[0]Environment.[30]BigRingsGroup.[6]BigTrackLaneRing.[0]TranslationWrapper",
+                "Dragons2Environment.[0]Environment.[30]BigRingsGroup.[7]BigTrackLaneRing.[0]TranslationWrapper",
+                "Dragons2Environment.[0]Environment.[30]BigRingsGroup.[8]BigTrackLaneRing.[0]TranslationWrapper",
+                "Dragons2Environment.[0]Environment.[30]BigRingsGroup.[9]BigTrackLaneRing.[0]TranslationWrapper",
+                "Dragons2Environment.[0]Environment.[30]BigRingsGroup.[10]BigTrackLaneRing.[0]TranslationWrapper",
+                "Dragons2Environment.[0]Environment.[30]BigRingsGroup.[11]BigTrackLaneRing.[0]TranslationWrapper",
+                "Dragons2Environment.[0]Environment.[30]BigRingsGroup.[12]BigTrackLaneRing.[0]TranslationWrapper",
+                "Dragons2Environment.[0]Environment.[30]BigRingsGroup.[13]BigTrackLaneRing.[0]TranslationWrapper",
+                "Dragons2Environment.[0]Environment.[30]BigRingsGroup.[14]BigTrackLaneRing.[0]TranslationWrapper"
+              ],
+              "count": 15,
+              "groupId": 3
             },
             {
               "xTranslationLimits": [
@@ -3097,12 +3263,50 @@
                 0.0,
                 0.0
               ],
-              "lightGroup": {
-                "numberOfElements": 35,
-                "startLightId": 137,
-                "groupId": 2,
-                "sameIdElements": 1
-              }
+              "mirrorX": false,
+              "mirrorY": false,
+              "mirrorZ": false,
+              "xTransforms": [],
+              "yTransforms": [
+                "Dragons2Environment.[0]Environment.[25]NewUnderground.[0]Cube.[0]CubeMesh",
+                "Dragons2Environment.[0]Environment.[25]NewUnderground.[1]Cube.[0]CubeMesh",
+                "Dragons2Environment.[0]Environment.[25]NewUnderground.[2]Cube.[0]CubeMesh",
+                "Dragons2Environment.[0]Environment.[25]NewUnderground.[3]Cube.[0]CubeMesh",
+                "Dragons2Environment.[0]Environment.[25]NewUnderground.[4]Cube.[0]CubeMesh",
+                "Dragons2Environment.[0]Environment.[25]NewUnderground.[5]Cube.[0]CubeMesh",
+                "Dragons2Environment.[0]Environment.[25]NewUnderground.[6]Cube.[0]CubeMesh",
+                "Dragons2Environment.[0]Environment.[25]NewUnderground.[7]Cube.[0]CubeMesh",
+                "Dragons2Environment.[0]Environment.[25]NewUnderground.[8]Cube.[0]CubeMesh",
+                "Dragons2Environment.[0]Environment.[25]NewUnderground.[9]Cube.[0]CubeMesh",
+                "Dragons2Environment.[0]Environment.[25]NewUnderground.[10]Cube.[0]CubeMesh",
+                "Dragons2Environment.[0]Environment.[25]NewUnderground.[11]Cube.[0]CubeMesh",
+                "Dragons2Environment.[0]Environment.[25]NewUnderground.[12]Cube.[0]CubeMesh",
+                "Dragons2Environment.[0]Environment.[25]NewUnderground.[13]Cube.[0]CubeMesh",
+                "Dragons2Environment.[0]Environment.[25]NewUnderground.[14]Cube.[0]CubeMesh",
+                "Dragons2Environment.[0]Environment.[25]NewUnderground.[15]Cube.[0]CubeMesh",
+                "Dragons2Environment.[0]Environment.[25]NewUnderground.[16]Cube.[0]CubeMesh",
+                "Dragons2Environment.[0]Environment.[25]NewUnderground.[17]Cube.[0]CubeMesh",
+                "Dragons2Environment.[0]Environment.[25]NewUnderground.[18]Cube.[0]CubeMesh",
+                "Dragons2Environment.[0]Environment.[25]NewUnderground.[19]Cube.[0]CubeMesh",
+                "Dragons2Environment.[0]Environment.[25]NewUnderground.[20]Cube.[0]CubeMesh",
+                "Dragons2Environment.[0]Environment.[25]NewUnderground.[21]Cube.[0]CubeMesh",
+                "Dragons2Environment.[0]Environment.[25]NewUnderground.[22]Cube.[0]CubeMesh",
+                "Dragons2Environment.[0]Environment.[25]NewUnderground.[23]Cube.[0]CubeMesh",
+                "Dragons2Environment.[0]Environment.[25]NewUnderground.[24]Cube.[0]CubeMesh",
+                "Dragons2Environment.[0]Environment.[25]NewUnderground.[25]Cube.[0]CubeMesh",
+                "Dragons2Environment.[0]Environment.[25]NewUnderground.[26]Cube.[0]CubeMesh",
+                "Dragons2Environment.[0]Environment.[25]NewUnderground.[27]Cube.[0]CubeMesh",
+                "Dragons2Environment.[0]Environment.[25]NewUnderground.[28]Cube.[0]CubeMesh",
+                "Dragons2Environment.[0]Environment.[25]NewUnderground.[29]Cube.[0]CubeMesh",
+                "Dragons2Environment.[0]Environment.[25]NewUnderground.[30]Cube.[0]CubeMesh",
+                "Dragons2Environment.[0]Environment.[25]NewUnderground.[31]Cube.[0]CubeMesh",
+                "Dragons2Environment.[0]Environment.[25]NewUnderground.[32]Cube.[0]CubeMesh",
+                "Dragons2Environment.[0]Environment.[25]NewUnderground.[33]Cube.[0]CubeMesh",
+                "Dragons2Environment.[0]Environment.[25]NewUnderground.[34]Cube.[0]CubeMesh"
+              ],
+              "zTransforms": [],
+              "count": 35,
+              "groupId": 2
             }
           ]
         }
@@ -6156,12 +6360,50 @@
             0.0,
             0.0
           ],
-          "lightGroup": {
-            "numberOfElements": 35,
-            "startLightId": 137,
-            "groupId": 2,
-            "sameIdElements": 1
-          }
+          "mirrorX": false,
+          "mirrorY": false,
+          "mirrorZ": false,
+          "xTransforms": [],
+          "yTransforms": [
+            "Dragons2Environment.[0]Environment.[25]NewUnderground.[0]Cube.[0]CubeMesh",
+            "Dragons2Environment.[0]Environment.[25]NewUnderground.[1]Cube.[0]CubeMesh",
+            "Dragons2Environment.[0]Environment.[25]NewUnderground.[2]Cube.[0]CubeMesh",
+            "Dragons2Environment.[0]Environment.[25]NewUnderground.[3]Cube.[0]CubeMesh",
+            "Dragons2Environment.[0]Environment.[25]NewUnderground.[4]Cube.[0]CubeMesh",
+            "Dragons2Environment.[0]Environment.[25]NewUnderground.[5]Cube.[0]CubeMesh",
+            "Dragons2Environment.[0]Environment.[25]NewUnderground.[6]Cube.[0]CubeMesh",
+            "Dragons2Environment.[0]Environment.[25]NewUnderground.[7]Cube.[0]CubeMesh",
+            "Dragons2Environment.[0]Environment.[25]NewUnderground.[8]Cube.[0]CubeMesh",
+            "Dragons2Environment.[0]Environment.[25]NewUnderground.[9]Cube.[0]CubeMesh",
+            "Dragons2Environment.[0]Environment.[25]NewUnderground.[10]Cube.[0]CubeMesh",
+            "Dragons2Environment.[0]Environment.[25]NewUnderground.[11]Cube.[0]CubeMesh",
+            "Dragons2Environment.[0]Environment.[25]NewUnderground.[12]Cube.[0]CubeMesh",
+            "Dragons2Environment.[0]Environment.[25]NewUnderground.[13]Cube.[0]CubeMesh",
+            "Dragons2Environment.[0]Environment.[25]NewUnderground.[14]Cube.[0]CubeMesh",
+            "Dragons2Environment.[0]Environment.[25]NewUnderground.[15]Cube.[0]CubeMesh",
+            "Dragons2Environment.[0]Environment.[25]NewUnderground.[16]Cube.[0]CubeMesh",
+            "Dragons2Environment.[0]Environment.[25]NewUnderground.[17]Cube.[0]CubeMesh",
+            "Dragons2Environment.[0]Environment.[25]NewUnderground.[18]Cube.[0]CubeMesh",
+            "Dragons2Environment.[0]Environment.[25]NewUnderground.[19]Cube.[0]CubeMesh",
+            "Dragons2Environment.[0]Environment.[25]NewUnderground.[20]Cube.[0]CubeMesh",
+            "Dragons2Environment.[0]Environment.[25]NewUnderground.[21]Cube.[0]CubeMesh",
+            "Dragons2Environment.[0]Environment.[25]NewUnderground.[22]Cube.[0]CubeMesh",
+            "Dragons2Environment.[0]Environment.[25]NewUnderground.[23]Cube.[0]CubeMesh",
+            "Dragons2Environment.[0]Environment.[25]NewUnderground.[24]Cube.[0]CubeMesh",
+            "Dragons2Environment.[0]Environment.[25]NewUnderground.[25]Cube.[0]CubeMesh",
+            "Dragons2Environment.[0]Environment.[25]NewUnderground.[26]Cube.[0]CubeMesh",
+            "Dragons2Environment.[0]Environment.[25]NewUnderground.[27]Cube.[0]CubeMesh",
+            "Dragons2Environment.[0]Environment.[25]NewUnderground.[28]Cube.[0]CubeMesh",
+            "Dragons2Environment.[0]Environment.[25]NewUnderground.[29]Cube.[0]CubeMesh",
+            "Dragons2Environment.[0]Environment.[25]NewUnderground.[30]Cube.[0]CubeMesh",
+            "Dragons2Environment.[0]Environment.[25]NewUnderground.[31]Cube.[0]CubeMesh",
+            "Dragons2Environment.[0]Environment.[25]NewUnderground.[32]Cube.[0]CubeMesh",
+            "Dragons2Environment.[0]Environment.[25]NewUnderground.[33]Cube.[0]CubeMesh",
+            "Dragons2Environment.[0]Environment.[25]NewUnderground.[34]Cube.[0]CubeMesh"
+          ],
+          "zTransforms": [],
+          "count": 35,
+          "groupId": 2
         }
       }
     },
@@ -14697,12 +14939,39 @@
             -72.0,
             72.0
           ],
-          "lightGroup": {
-            "numberOfElements": 24,
-            "startLightId": 17,
-            "groupId": 0,
-            "sameIdElements": 1
-          }
+          "mirrorX": false,
+          "mirrorY": false,
+          "mirrorZ": false,
+          "xTransforms": [],
+          "yTransforms": [],
+          "zTransforms": [
+            "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[0]SmallRing.[0]Lasers",
+            "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[1]SmallRing.[0]Lasers",
+            "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[2]SmallRing.[0]Lasers",
+            "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[3]SmallRing.[0]Lasers",
+            "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[4]SmallRing.[0]Lasers",
+            "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[5]SmallRing.[0]Lasers",
+            "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[6]SmallRing.[0]Lasers",
+            "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[7]SmallRing.[0]Lasers",
+            "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[8]SmallRing.[0]Lasers",
+            "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[9]SmallRing.[0]Lasers",
+            "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[10]SmallRing.[0]Lasers",
+            "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[11]SmallRing.[0]Lasers",
+            "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[12]SmallRing.[0]Lasers",
+            "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[13]SmallRing.[0]Lasers",
+            "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[14]SmallRing.[0]Lasers",
+            "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[15]SmallRing.[0]Lasers",
+            "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[16]SmallRing.[0]Lasers",
+            "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[17]SmallRing.[0]Lasers",
+            "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[18]SmallRing.[0]Lasers",
+            "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[19]SmallRing.[0]Lasers",
+            "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[20]SmallRing.[0]Lasers",
+            "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[21]SmallRing.[0]Lasers",
+            "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[22]SmallRing.[0]Lasers",
+            "Dragons2Environment.[0]Environment.[29]SmallRingsLightGroup.[0]SmallRingsTransformGroup.[23]SmallRing.[0]Lasers"
+          ],
+          "count": 24,
+          "groupId": 0
         }
       }
     },
@@ -37479,12 +37748,30 @@
             -105.0,
             105.0
           ],
-          "lightGroup": {
-            "numberOfElements": 15,
-            "startLightId": 172,
-            "groupId": 3,
-            "sameIdElements": 1
-          }
+          "mirrorX": false,
+          "mirrorY": false,
+          "mirrorZ": false,
+          "xTransforms": [],
+          "yTransforms": [],
+          "zTransforms": [
+            "Dragons2Environment.[0]Environment.[30]BigRingsGroup.[0]BigTrackLaneRing.[0]TranslationWrapper",
+            "Dragons2Environment.[0]Environment.[30]BigRingsGroup.[1]BigTrackLaneRing.[0]TranslationWrapper",
+            "Dragons2Environment.[0]Environment.[30]BigRingsGroup.[2]BigTrackLaneRing.[0]TranslationWrapper",
+            "Dragons2Environment.[0]Environment.[30]BigRingsGroup.[3]BigTrackLaneRing.[0]TranslationWrapper",
+            "Dragons2Environment.[0]Environment.[30]BigRingsGroup.[4]BigTrackLaneRing.[0]TranslationWrapper",
+            "Dragons2Environment.[0]Environment.[30]BigRingsGroup.[5]BigTrackLaneRing.[0]TranslationWrapper",
+            "Dragons2Environment.[0]Environment.[30]BigRingsGroup.[6]BigTrackLaneRing.[0]TranslationWrapper",
+            "Dragons2Environment.[0]Environment.[30]BigRingsGroup.[7]BigTrackLaneRing.[0]TranslationWrapper",
+            "Dragons2Environment.[0]Environment.[30]BigRingsGroup.[8]BigTrackLaneRing.[0]TranslationWrapper",
+            "Dragons2Environment.[0]Environment.[30]BigRingsGroup.[9]BigTrackLaneRing.[0]TranslationWrapper",
+            "Dragons2Environment.[0]Environment.[30]BigRingsGroup.[10]BigTrackLaneRing.[0]TranslationWrapper",
+            "Dragons2Environment.[0]Environment.[30]BigRingsGroup.[11]BigTrackLaneRing.[0]TranslationWrapper",
+            "Dragons2Environment.[0]Environment.[30]BigRingsGroup.[12]BigTrackLaneRing.[0]TranslationWrapper",
+            "Dragons2Environment.[0]Environment.[30]BigRingsGroup.[13]BigTrackLaneRing.[0]TranslationWrapper",
+            "Dragons2Environment.[0]Environment.[30]BigRingsGroup.[14]BigTrackLaneRing.[0]TranslationWrapper"
+          ],
+          "count": 15,
+          "groupId": 3
         }
       }
     },

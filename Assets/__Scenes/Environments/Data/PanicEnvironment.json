@@ -308,6 +308,328 @@
           "ENABLE_SPECULAR",
           "_ZWRITE_ON"
         ]
+      },
+      {
+        "hash": "f04289f2711e586837705b68c88d53c0",
+        "name": "BackColumns",
+        "shader": "Custom/SimpleLit",
+        "color": [
+          0.24999997,
+          0.24999997,
+          0.24999997,
+          0.0
+        ],
+        "shaderKeywords": [
+          "DIFFUSE",
+          "FOG",
+          "LIGHT_FALLOFF",
+          "REFLECTION_PROBE_BOX_PROJECTION",
+          "SPECULAR",
+          "_ACES_APPROACH_AFTER_EMISSIVE",
+          "_DIFFUSE_TEXTURE_SOURCE_TEXTURE",
+          "_DISSOLVEALPHA_CLIP",
+          "_EMISSIONCOLORTYPE_FLAT",
+          "_EMISSION_ALPHA_SOURCE_EMISSION_G",
+          "_EMISSION_TEXTURE_SOURCE_TEXTURE",
+          "_METALLIC_TEXTURE_NONE",
+          "_OCCLUSION_SOURCE_TEXTURE",
+          "_PROBE_CALCULATION_FAST",
+          "_SMOOTHNESS_TEXTURE_NONE",
+          "ENABLE_DIFFUSE",
+          "ENABLE_FOG",
+          "ENABLE_SPECULAR",
+          "_CURVE_VERTICES_NONE",
+          "_CUSTOM_TIME_STANDARD",
+          "_DECALBLEND_ALPHABLEND",
+          "_DISSOLVEAXIS_LOCALX",
+          "_EMISSION",
+          "_EMISSIONTEXTURE_NONE",
+          "_ENABLE_FOG_TINT",
+          "_HOLOGRAM_NONE",
+          "_RIMLIGHT_NONE",
+          "_RIM_WHITEBOOSTTYPE_NONE",
+          "_ROTATE_UV_NONE",
+          "_SPECTROGRAM_NONE",
+          "_VERTEXMODE_NONE",
+          "_VERTEX_WHITEBOOSTTYPE_NONE",
+          "_WHITEBOOSTTYPE_NONE",
+          "_ZWRITE_ON"
+        ]
+      },
+      {
+        "hash": "a97bb8953136bcdd00eea8f1107e0aeb",
+        "name": "PlayersPlaceMirror",
+        "shader": "Custom/Mirror",
+        "color": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "shaderKeywords": [
+          "ENABLE_DIRT",
+          "ENABLE_MIRROR",
+          "ETC1_EXTERNAL_ALPHA",
+          "_EMISSION"
+        ]
+      },
+      {
+        "hash": "32344ccefc891a79d61f366a7223ba0c",
+        "name": "DarkEnvironmentSimple",
+        "shader": "Custom/SimpleLit",
+        "color": [
+          0.32099995,
+          0.32099995,
+          0.32099995,
+          0.0
+        ],
+        "shaderKeywords": [
+          "DIFFUSE",
+          "FOG",
+          "HEIGHT_FOG",
+          "LIGHT_FALLOFF",
+          "REFLECTION_PROBE_BOX_PROJECTION",
+          "SPECULAR",
+          "_ACES_APPROACH_AFTER_EMISSIVE",
+          "_DIFFUSE_TEXTURE_SOURCE_TEXTURE",
+          "_DISSOLVEALPHA_CLIP",
+          "_EMISSIONCOLORTYPE_FLAT",
+          "_EMISSION_ALPHA_SOURCE_EMISSION_G",
+          "_EMISSION_TEXTURE_SOURCE_TEXTURE",
+          "_METALLIC_TEXTURE_NONE",
+          "_OCCLUSION_SOURCE_TEXTURE",
+          "_PROBE_CALCULATION_FAST",
+          "_SMOOTHNESS_TEXTURE_NONE",
+          "ENABLE_DIFFUSE",
+          "ENABLE_FOG",
+          "ENABLE_SPECULAR",
+          "_CURVE_VERTICES_NONE",
+          "_CUSTOM_TIME_STANDARD",
+          "_DECALBLEND_ALPHABLEND",
+          "_DISSOLVEAXIS_LOCALX",
+          "_EMISSION",
+          "_EMISSIONTEXTURE_NONE",
+          "_ENABLE_FOG_TINT",
+          "_HOLOGRAM_NONE",
+          "_RIMLIGHT_NONE",
+          "_RIM_WHITEBOOSTTYPE_NONE",
+          "_ROTATE_UV_NONE",
+          "_SPECTROGRAM_NONE",
+          "_VERTEXMODE_NONE",
+          "_VERTEX_WHITEBOOSTTYPE_NONE",
+          "_WHITEBOOSTTYPE_NONE",
+          "_ZWRITE_ON"
+        ]
+      },
+      {
+        "hash": "6a57238a079a4d360b12e9d3a777e1b0",
+        "name": "ParametricFakeGlow",
+        "shader": "Custom/ParametricBoxFakeGlow",
+        "color": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "shaderKeywords": [
+          "ENABLE_MAIN_EFFECT_WHITE_BOOST",
+          "_WHITEBOOSTTYPE_ALWAYS"
+        ]
+      },
+      {
+        "hash": "753e70e0ebb6bcbec2329b02d705b919",
+        "name": "SaberBurnMarks",
+        "shader": "Custom/CustomParticles",
+        "color": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "shaderKeywords": [
+          "DISTORTION_TARGET_MAIN",
+          "TEXTURE_COLOR",
+          "_FOGTYPE_ALPHA",
+          "_MASK2BLEND_MULTIPLY",
+          "_MASKBLEND_MULTIPLY",
+          "_VERTEXCHANNELS_RGBA",
+          "DISTORTION_NONE",
+          "ENABLE_FOG",
+          "ENABLE_TEXTURE_COLOR",
+          "_ALPHACHANNEL_ALPHA",
+          "_BILLBOARD_NONE",
+          "_CURVE_VERTICES_NONE",
+          "_DISSOLVEAXIS_LOCALX",
+          "_ENABLE_FOG",
+          "_ROTATE_UV_NONE",
+          "_SPECTROGRAM_NONE",
+          "_WHITEBOOSTTYPE_NONE"
+        ]
+      },
+      {
+        "hash": "84d4c639f46135f14282fc50856755f9",
+        "name": "BakedGlowSprite",
+        "shader": "Custom/CustomParticles",
+        "color": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "shaderKeywords": [
+          "DISTORTION_TARGET_MAIN",
+          "SQUARE_ALPHA",
+          "VERTEX_COLOR",
+          "_MASK2BLEND_MULTIPLY",
+          "_MASKBLEND_MULTIPLY",
+          "_VERTEXCHANNELS_RGBA",
+          "_WHITEBOOSTTYPE_MAINEFFECT",
+          "DISTORTION_NONE",
+          "ENABLE_FORCED_WHITE_BOOST",
+          "ENABLE_VERTEX_COLOR",
+          "ETC1_EXTERNAL_ALPHA",
+          "SQUAREALPHA",
+          "_ALPHACHANNEL_ALPHA",
+          "_BILLBOARD_NONE",
+          "_CURVE_VERTICES_NONE",
+          "_DISSOLVEAXIS_LOCALX",
+          "_FOGTYPE_NONE",
+          "_ROTATE_UV_NONE",
+          "_SPECTROGRAM_NONE",
+          "_SQUAREALPHA_ON"
+        ]
+      },
+      {
+        "hash": "181778b6a2f19b89a26bad20821dcdca",
+        "name": "BottomCones",
+        "shader": "Custom/SimpleLit",
+        "color": [
+          0.349999964,
+          0.349999964,
+          0.349999964,
+          0.0
+        ],
+        "shaderKeywords": [
+          "DIFFUSE",
+          "FOG",
+          "REFLECTION_PROBE_BOX_PROJECTION",
+          "_ACES_APPROACH_AFTER_EMISSIVE",
+          "_DIFFUSE_TEXTURE_SOURCE_TEXTURE",
+          "_DISSOLVEALPHA_CLIP",
+          "_EMISSIONCOLORTYPE_FLAT",
+          "_EMISSION_ALPHA_SOURCE_EMISSION_G",
+          "_EMISSION_TEXTURE_SOURCE_TEXTURE",
+          "_METALLIC_TEXTURE_NONE",
+          "_OCCLUSION_SOURCE_TEXTURE",
+          "_PROBE_CALCULATION_FAST",
+          "_SMOOTHNESS_TEXTURE_NONE",
+          "ENABLE_DIFFUSE",
+          "ENABLE_FOG",
+          "ENABLE_SPECULAR",
+          "_CURVE_VERTICES_NONE",
+          "_CUSTOM_TIME_STANDARD",
+          "_DECALBLEND_ALPHABLEND",
+          "_DISSOLVEAXIS_LOCALX",
+          "_EMISSION",
+          "_EMISSIONTEXTURE_NONE",
+          "_ENABLE_FOG_TINT",
+          "_HOLOGRAM_NONE",
+          "_RIMLIGHT_NONE",
+          "_RIM_WHITEBOOSTTYPE_NONE",
+          "_ROTATE_UV_NONE",
+          "_SPECTROGRAM_NONE",
+          "_VERTEXMODE_NONE",
+          "_VERTEX_WHITEBOOSTTYPE_NONE",
+          "_WHITEBOOSTTYPE_NONE",
+          "_ZWRITE_ON"
+        ]
+      },
+      {
+        "hash": "2a31b23cd8ac805fbd05603596f92962",
+        "name": "TopCones",
+        "shader": "Custom/SimpleLit",
+        "color": [
+          0.349999964,
+          0.349999964,
+          0.349999964,
+          0.0
+        ],
+        "shaderKeywords": [
+          "DIFFUSE",
+          "FOG",
+          "REFLECTION_PROBE",
+          "REFLECTION_PROBE_BOX_PROJECTION",
+          "_ACES_APPROACH_AFTER_EMISSIVE",
+          "_DIFFUSE_TEXTURE_SOURCE_TEXTURE",
+          "_DISSOLVEALPHA_CLIP",
+          "_EMISSIONCOLORTYPE_FLAT",
+          "_EMISSION_ALPHA_SOURCE_EMISSION_G",
+          "_EMISSION_TEXTURE_SOURCE_TEXTURE",
+          "_METALLIC_TEXTURE_NONE",
+          "_OCCLUSION_SOURCE_TEXTURE",
+          "_PROBE_CALCULATION_FAST",
+          "_SMOOTHNESS_TEXTURE_NONE",
+          "ENABLE_DIFFUSE",
+          "ENABLE_FOG",
+          "ENABLE_SPECULAR",
+          "OVERRIDE_REFLECTION_SMOOTHNESS",
+          "_CURVE_VERTICES_NONE",
+          "_CUSTOM_TIME_STANDARD",
+          "_DECALBLEND_ALPHABLEND",
+          "_DISSOLVEAXIS_LOCALX",
+          "_EMISSION",
+          "_EMISSIONTEXTURE_NONE",
+          "_ENABLE_FOG_TINT",
+          "_HOLOGRAM_NONE",
+          "_RIMLIGHT_NONE",
+          "_RIM_WHITEBOOSTTYPE_NONE",
+          "_ROTATE_UV_NONE",
+          "_SPECTROGRAM_NONE",
+          "_VERTEXMODE_NONE",
+          "_VERTEX_WHITEBOOSTTYPE_NONE",
+          "_WHITEBOOSTTYPE_NONE",
+          "_ZWRITE_ON"
+        ]
+      },
+      {
+        "hash": "b90c188f8a4c6a9220b9c00ac5ec4f65",
+        "name": "TrackMirror",
+        "shader": "Custom/Mirror",
+        "color": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "shaderKeywords": [
+          "ENABLE_MIRROR",
+          "ETC1_EXTERNAL_ALPHA",
+          "_EMISSION"
+        ]
+      },
+      {
+        "hash": "47348bfff0fbcb3e14515ad3bfebc6be",
+        "name": "SetDepthOnly",
+        "shader": "Custom/SetDepthOnly",
+        "color": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "shaderKeywords": [
+          "ENABLE_DIFFUSE",
+          "ENABLE_DIRT",
+          "ENABLE_DIRT_DETAIL",
+          "ENABLE_FOG",
+          "ENABLE_SPECULAR",
+          "FOG",
+          "LIGHTMAP",
+          "REFLECTION_PROBE",
+          "_EMISSION",
+          "_ENABLE_FOG_TINT",
+          "_RIMLIGHT_NONE"
+        ]
       }
     ],
     "uniqueMeshes": [
@@ -394,6 +716,118 @@
           -70.87501,
           -30.0
         ]
+      },
+      {
+        "name": "GameBackColumns",
+        "hash": "03803c2d3f7744738a76134bd7ebc53a",
+        "boundsSize": [
+          19.0000477,
+          400.0019,
+          157.748047
+        ],
+        "boundsCenter": [
+          0.0,
+          0.0,
+          -20.0000687
+        ]
+      },
+      {
+        "name": "pb_Mesh-2538116",
+        "hash": "305984c181f88426539c88dcb23f61e1",
+        "boundsSize": [
+          3.0,
+          2.38418579E-07,
+          2.00000024
+        ],
+        "boundsCenter": [
+          0.0,
+          -0.0001,
+          0.0
+        ]
+      },
+      {
+        "name": "pb_Mesh-2538136",
+        "hash": "d3ca75607c073a4d2ff24d9950b343e9",
+        "boundsSize": [
+          3.0,
+          112.755005,
+          2.0
+        ],
+        "boundsCenter": [
+          0.0,
+          -56.3724976,
+          0.0
+        ]
+      },
+      {
+        "name": "RectangleFakeGlow",
+        "hash": "82ea09b58af4dc40242a50a3224b8176",
+        "boundsSize": [
+          3.0,
+          3.0,
+          0.0
+        ],
+        "boundsCenter": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "name": "PlayersPlaceCore",
+        "hash": "1cdf5eb3bb475b8ee9c8959d7bbe9ee1",
+        "boundsSize": [
+          3.0,
+          2.38418579E-07,
+          2.00000024
+        ],
+        "boundsCenter": [
+          0.0,
+          -0.0001,
+          0.0
+        ]
+      },
+      {
+        "name": "BottomCones",
+        "hash": "9a02bcf283503f73669ec360ac315be9",
+        "boundsSize": [
+          16.0,
+          50.0000076,
+          80.0
+        ],
+        "boundsCenter": [
+          0.0,
+          25.0000038,
+          0.0
+        ]
+      },
+      {
+        "name": "TopCones",
+        "hash": "455bdd07843086c69ca894493c81a852",
+        "boundsSize": [
+          200.0,
+          85.35535,
+          70.0
+        ],
+        "boundsCenter": [
+          41.0,
+          7.32232857,
+          27.0
+        ]
+      },
+      {
+        "name": "TrackMirror_Panic",
+        "hash": "526736eb7ca4ad6f83b8b3d32ba73802",
+        "boundsSize": [
+          2.3,
+          0.0,
+          247.2
+        ],
+        "boundsCenter": [
+          -0.9,
+          0.0,
+          123.6
+        ]
       }
     ]
   },
@@ -417,16 +851,16 @@
           "rotation": [
             0.0,
             0.0,
-            89.63848
+            89.63001
           ],
           "localRotation": [
             0.0,
             0.0,
-            89.63848
+            89.63001
           ],
           "scale": [
-            1.0,
-            1.0,
+            1.00000012,
+            1.00000012,
             1.0
           ]
         },
@@ -451,7 +885,7 @@
             0.0
           ],
           "rotation": [
-            270.362061,
+            270.3701,
             90.0,
             0.0
           ],
@@ -462,8 +896,8 @@
           ],
           "scale": [
             1.00000036,
-            1.00000012,
-            1.00000024
+            1.00000024,
+            1.00000036
           ]
         },
         "MeshFilter": {
@@ -483,8 +917,8 @@
       "components": {
         "Transform": {
           "position": [
-            -0.0252387524,
-            -2.99992037,
+            -0.025829792,
+            -2.99991679,
             9.6
           ],
           "localPosition": [
@@ -495,7 +929,7 @@
           "rotation": [
             0.0,
             0.0,
-            89.63848
+            89.63001
           ],
           "localRotation": [
             0.0,
@@ -503,8 +937,8 @@
             0.0
           ],
           "scale": [
-            1.0,
-            1.0,
+            1.00000012,
+            1.00000012,
             1.0
           ]
         },
@@ -542,8 +976,8 @@
       "components": {
         "Transform": {
           "position": [
-            -0.0252387524,
-            -2.99992037,
+            -0.025829792,
+            -2.99991679,
             9.6
           ],
           "localPosition": [
@@ -554,7 +988,7 @@
           "rotation": [
             0.0,
             0.0,
-            89.63848
+            89.63001
           ],
           "localRotation": [
             0.0,
@@ -562,8 +996,8 @@
             0.0
           ],
           "scale": [
-            0.1,
-            0.5,
+            0.100000016,
+            0.50000006,
             0.1
           ]
         },
@@ -586,8 +1020,8 @@
       "components": {
         "Transform": {
           "position": [
-            -0.0252387524,
-            -2.99992037,
+            -0.025829792,
+            -2.99991679,
             9.6
           ],
           "localPosition": [
@@ -598,7 +1032,7 @@
           "rotation": [
             0.0,
             0.0,
-            89.63848
+            89.63001
           ],
           "localRotation": [
             0.0,
@@ -606,8 +1040,8 @@
             0.0
           ],
           "scale": [
-            1.0,
-            1.0,
+            1.00000012,
+            1.00000012,
             1.0
           ]
         },
@@ -640,8 +1074,8 @@
       "components": {
         "Transform": {
           "position": [
-            0.0252387524,
-            4.99992037,
+            0.025829792,
+            4.999917,
             9.6
           ],
           "localPosition": [
@@ -652,7 +1086,7 @@
           "rotation": [
             0.0,
             0.0,
-            89.63848
+            89.63001
           ],
           "localRotation": [
             0.0,
@@ -660,8 +1094,8 @@
             0.0
           ],
           "scale": [
-            1.0,
-            1.0,
+            1.00000012,
+            1.00000012,
             1.0
           ]
         },
@@ -699,8 +1133,8 @@
       "components": {
         "Transform": {
           "position": [
-            0.0252387524,
-            4.99992037,
+            0.025829792,
+            4.999917,
             9.6
           ],
           "localPosition": [
@@ -711,7 +1145,7 @@
           "rotation": [
             0.0,
             0.0,
-            89.63848
+            89.63001
           ],
           "localRotation": [
             0.0,
@@ -719,8 +1153,8 @@
             0.0
           ],
           "scale": [
-            0.1,
-            0.5,
+            0.100000016,
+            0.50000006,
             0.1
           ]
         },
@@ -743,8 +1177,8 @@
       "components": {
         "Transform": {
           "position": [
-            0.0252387524,
-            4.99992037,
+            0.025829792,
+            4.999917,
             9.6
           ],
           "localPosition": [
@@ -755,7 +1189,7 @@
           "rotation": [
             0.0,
             0.0,
-            89.63848
+            89.63001
           ],
           "localRotation": [
             0.0,
@@ -763,8 +1197,8 @@
             0.0
           ],
           "scale": [
-            1.0,
-            1.0,
+            1.00000012,
+            1.00000012,
             1.0
           ]
         },
@@ -809,12 +1243,12 @@
           "rotation": [
             0.0,
             0.0,
-            114.152481
+            113.664154
           ],
           "localRotation": [
             0.0,
             0.0,
-            114.152481
+            113.664154
           ],
           "scale": [
             1.00000012,
@@ -843,7 +1277,7 @@
             0.0
           ],
           "rotation": [
-            294.152466,
+            293.664154,
             270.0,
             180.0
           ],
@@ -854,8 +1288,8 @@
           ],
           "scale": [
             1.00000024,
-            1.00000036,
-            1.00000036
+            1.00000024,
+            1.00000024
           ]
         },
         "MeshFilter": {
@@ -875,8 +1309,8 @@
       "components": {
         "Transform": {
           "position": [
-            1.63666582,
-            -2.6498394,
+            1.60549974,
+            -2.66365552,
             18.6
           ],
           "localPosition": [
@@ -887,7 +1321,7 @@
           "rotation": [
             0.0,
             0.0,
-            114.152481
+            113.664154
           ],
           "localRotation": [
             0.0,
@@ -934,8 +1368,8 @@
       "components": {
         "Transform": {
           "position": [
-            1.63666582,
-            -2.6498394,
+            1.60549974,
+            -2.66365552,
             18.6
           ],
           "localPosition": [
@@ -946,7 +1380,7 @@
           "rotation": [
             0.0,
             0.0,
-            114.152481
+            113.664154
           ],
           "localRotation": [
             0.0,
@@ -954,7 +1388,7 @@
             0.0
           ],
           "scale": [
-            0.100000024,
+            0.100000009,
             0.50000006,
             0.1
           ]
@@ -978,8 +1412,8 @@
       "components": {
         "Transform": {
           "position": [
-            1.63666582,
-            -2.6498394,
+            1.60549974,
+            -2.66365552,
             18.6
           ],
           "localPosition": [
@@ -990,7 +1424,7 @@
           "rotation": [
             0.0,
             0.0,
-            114.152481
+            113.664154
           ],
           "localRotation": [
             0.0,
@@ -1032,8 +1466,8 @@
       "components": {
         "Transform": {
           "position": [
-            -1.63666582,
-            4.6498394,
+            -1.60549974,
+            4.66365528,
             18.6
           ],
           "localPosition": [
@@ -1044,7 +1478,7 @@
           "rotation": [
             0.0,
             0.0,
-            114.152481
+            113.664154
           ],
           "localRotation": [
             0.0,
@@ -1091,8 +1525,8 @@
       "components": {
         "Transform": {
           "position": [
-            -1.63666582,
-            4.6498394,
+            -1.60549974,
+            4.66365528,
             18.6
           ],
           "localPosition": [
@@ -1103,7 +1537,7 @@
           "rotation": [
             0.0,
             0.0,
-            114.152481
+            113.664154
           ],
           "localRotation": [
             0.0,
@@ -1111,7 +1545,7 @@
             0.0
           ],
           "scale": [
-            0.100000024,
+            0.100000009,
             0.50000006,
             0.1
           ]
@@ -1135,8 +1569,8 @@
       "components": {
         "Transform": {
           "position": [
-            -1.63666582,
-            4.6498394,
+            -1.60549974,
+            4.66365528,
             18.6
           ],
           "localPosition": [
@@ -1147,7 +1581,7 @@
           "rotation": [
             0.0,
             0.0,
-            114.152481
+            113.664154
           ],
           "localRotation": [
             0.0,
@@ -1201,16 +1635,16 @@
           "rotation": [
             0.0,
             0.0,
-            107.570534
+            106.810921
           ],
           "localRotation": [
             0.0,
             0.0,
-            107.570534
+            106.810921
           ],
           "scale": [
-            1.0,
-            1.0,
+            1.00000012,
+            1.00000012,
             1.0
           ]
         },
@@ -1235,7 +1669,7 @@
             0.0
           ],
           "rotation": [
-            287.5705,
+            286.810944,
             270.0,
             180.0
           ],
@@ -1245,9 +1679,9 @@
             0.0
           ],
           "scale": [
+            1.00000036,
             1.00000024,
-            1.00000024,
-            1.00000024
+            1.00000036
           ]
         },
         "MeshFilter": {
@@ -1267,8 +1701,8 @@
       "components": {
         "Transform": {
           "position": [
-            1.20751858,
-            -2.81338429,
+            1.15685749,
+            -2.82905769,
             19.6
           ],
           "localPosition": [
@@ -1279,7 +1713,7 @@
           "rotation": [
             0.0,
             0.0,
-            107.570534
+            106.810921
           ],
           "localRotation": [
             0.0,
@@ -1287,8 +1721,8 @@
             0.0
           ],
           "scale": [
-            1.0,
-            1.0,
+            1.00000012,
+            1.00000012,
             1.0
           ]
         },
@@ -1326,8 +1760,8 @@
       "components": {
         "Transform": {
           "position": [
-            1.20751858,
-            -2.81338429,
+            1.15685749,
+            -2.82905769,
             19.6
           ],
           "localPosition": [
@@ -1338,7 +1772,7 @@
           "rotation": [
             0.0,
             0.0,
-            107.570534
+            106.810921
           ],
           "localRotation": [
             0.0,
@@ -1346,8 +1780,8 @@
             0.0
           ],
           "scale": [
-            0.100000009,
-            0.5,
+            0.100000016,
+            0.50000006,
             0.1
           ]
         },
@@ -1370,8 +1804,8 @@
       "components": {
         "Transform": {
           "position": [
-            1.20751858,
-            -2.81338429,
+            1.15685749,
+            -2.82905769,
             19.6
           ],
           "localPosition": [
@@ -1382,7 +1816,7 @@
           "rotation": [
             0.0,
             0.0,
-            107.570534
+            106.810921
           ],
           "localRotation": [
             0.0,
@@ -1390,8 +1824,8 @@
             0.0
           ],
           "scale": [
-            1.0,
-            1.0,
+            1.00000012,
+            1.00000012,
             1.0
           ]
         },
@@ -1424,8 +1858,8 @@
       "components": {
         "Transform": {
           "position": [
-            -1.20751858,
-            4.813384,
+            -1.15685749,
+            4.82905769,
             19.6
           ],
           "localPosition": [
@@ -1436,7 +1870,7 @@
           "rotation": [
             0.0,
             0.0,
-            107.570534
+            106.810921
           ],
           "localRotation": [
             0.0,
@@ -1444,8 +1878,8 @@
             0.0
           ],
           "scale": [
-            1.0,
-            1.0,
+            1.00000012,
+            1.00000012,
             1.0
           ]
         },
@@ -1483,8 +1917,8 @@
       "components": {
         "Transform": {
           "position": [
-            -1.20751858,
-            4.813384,
+            -1.15685749,
+            4.82905769,
             19.6
           ],
           "localPosition": [
@@ -1495,7 +1929,7 @@
           "rotation": [
             0.0,
             0.0,
-            107.570534
+            106.810921
           ],
           "localRotation": [
             0.0,
@@ -1503,8 +1937,8 @@
             0.0
           ],
           "scale": [
-            0.100000009,
-            0.5,
+            0.100000016,
+            0.50000006,
             0.1
           ]
         },
@@ -1527,8 +1961,8 @@
       "components": {
         "Transform": {
           "position": [
-            -1.20751858,
-            4.813384,
+            -1.15685749,
+            4.82905769,
             19.6
           ],
           "localPosition": [
@@ -1539,7 +1973,7 @@
           "rotation": [
             0.0,
             0.0,
-            107.570534
+            106.810921
           ],
           "localRotation": [
             0.0,
@@ -1547,8 +1981,8 @@
             0.0
           ],
           "scale": [
-            1.0,
-            1.0,
+            1.00000012,
+            1.00000012,
             1.0
           ]
         },
@@ -1593,16 +2027,16 @@
           "rotation": [
             0.0,
             0.0,
-            94.61851
+            93.43837
           ],
           "localRotation": [
             0.0,
             0.0,
-            94.61851
+            93.43837
           ],
           "scale": [
-            1.0,
-            1.0,
+            1.00000012,
+            1.00000012,
             1.0
           ]
         },
@@ -1627,7 +2061,7 @@
             0.0
           ],
           "rotation": [
-            274.618378,
+            273.4384,
             270.0,
             180.0
           ],
@@ -1637,7 +2071,7 @@
             0.0
           ],
           "scale": [
-            1.00000024,
+            1.00000036,
             1.00000024,
             1.00000036
           ]
@@ -1659,8 +2093,8 @@
       "components": {
         "Transform": {
           "position": [
-            0.322083473,
-            -2.98701167,
+            0.239899635,
+            -2.99279976,
             20.6
           ],
           "localPosition": [
@@ -1671,7 +2105,7 @@
           "rotation": [
             0.0,
             0.0,
-            94.61851
+            93.43837
           ],
           "localRotation": [
             0.0,
@@ -1679,8 +2113,8 @@
             0.0
           ],
           "scale": [
-            1.0,
-            1.0,
+            1.00000012,
+            1.00000012,
             1.0
           ]
         },
@@ -1718,8 +2152,8 @@
       "components": {
         "Transform": {
           "position": [
-            0.322083473,
-            -2.98701167,
+            0.239899635,
+            -2.99279976,
             20.6
           ],
           "localPosition": [
@@ -1730,7 +2164,7 @@
           "rotation": [
             0.0,
             0.0,
-            94.61851
+            93.43837
           ],
           "localRotation": [
             0.0,
@@ -1738,8 +2172,8 @@
             0.0
           ],
           "scale": [
-            0.1,
-            0.5,
+            0.100000009,
+            0.50000006,
             0.1
           ]
         },
@@ -1762,8 +2196,8 @@
       "components": {
         "Transform": {
           "position": [
-            0.322083473,
-            -2.98701167,
+            0.239899635,
+            -2.99279976,
             20.6
           ],
           "localPosition": [
@@ -1774,7 +2208,7 @@
           "rotation": [
             0.0,
             0.0,
-            94.61851
+            93.43837
           ],
           "localRotation": [
             0.0,
@@ -1782,8 +2216,8 @@
             0.0
           ],
           "scale": [
-            1.0,
-            1.0,
+            1.00000012,
+            1.00000012,
             1.0
           ]
         },
@@ -1816,8 +2250,8 @@
       "components": {
         "Transform": {
           "position": [
-            -0.322083473,
-            4.987012,
+            -0.239899635,
+            4.99279976,
             20.6
           ],
           "localPosition": [
@@ -1828,7 +2262,7 @@
           "rotation": [
             0.0,
             0.0,
-            94.61851
+            93.43837
           ],
           "localRotation": [
             0.0,
@@ -1836,8 +2270,8 @@
             0.0
           ],
           "scale": [
-            1.0,
-            1.0,
+            1.00000012,
+            1.00000012,
             1.0
           ]
         },
@@ -1875,8 +2309,8 @@
       "components": {
         "Transform": {
           "position": [
-            -0.322083473,
-            4.987012,
+            -0.239899635,
+            4.99279976,
             20.6
           ],
           "localPosition": [
@@ -1887,7 +2321,7 @@
           "rotation": [
             0.0,
             0.0,
-            94.61851
+            93.43837
           ],
           "localRotation": [
             0.0,
@@ -1895,8 +2329,8 @@
             0.0
           ],
           "scale": [
-            0.1,
-            0.5,
+            0.100000009,
+            0.50000006,
             0.1
           ]
         },
@@ -1919,8 +2353,8 @@
       "components": {
         "Transform": {
           "position": [
-            -0.322083473,
-            4.987012,
+            -0.239899635,
+            4.99279976,
             20.6
           ],
           "localPosition": [
@@ -1931,7 +2365,7 @@
           "rotation": [
             0.0,
             0.0,
-            94.61851
+            93.43837
           ],
           "localRotation": [
             0.0,
@@ -1939,8 +2373,8 @@
             0.0
           ],
           "scale": [
-            1.0,
-            1.0,
+            1.00000012,
+            1.00000012,
             1.0
           ]
         },
@@ -1985,16 +2419,16 @@
           "rotation": [
             0.0,
             0.0,
-            71.82182
+            69.9905853
           ],
           "localRotation": [
             0.0,
             0.0,
-            71.82182
+            69.9905853
           ],
           "scale": [
-            1.0,
-            1.0,
+            0.99999994,
+            0.99999994,
             1.0
           ]
         },
@@ -2019,7 +2453,7 @@
             0.0
           ],
           "rotation": [
-            288.178131,
+            290.0094,
             90.0,
             0.0
           ],
@@ -2030,8 +2464,8 @@
           ],
           "scale": [
             1.00000024,
-            1.00000012,
-            1.00000036
+            1.0,
+            1.00000024
           ]
         },
         "MeshFilter": {
@@ -2051,8 +2485,8 @@
       "components": {
         "Transform": {
           "position": [
-            -1.24789214,
-            -2.800364,
+            -1.36869788,
+            -2.75854564,
             21.6
           ],
           "localPosition": [
@@ -2063,7 +2497,7 @@
           "rotation": [
             0.0,
             0.0,
-            71.82182
+            69.9905853
           ],
           "localRotation": [
             0.0,
@@ -2071,8 +2505,8 @@
             0.0
           ],
           "scale": [
-            1.0,
-            1.0,
+            0.99999994,
+            0.99999994,
             1.0
           ]
         },
@@ -2110,8 +2544,8 @@
       "components": {
         "Transform": {
           "position": [
-            -1.24789214,
-            -2.800364,
+            -1.36869788,
+            -2.75854564,
             21.6
           ],
           "localPosition": [
@@ -2122,7 +2556,7 @@
           "rotation": [
             0.0,
             0.0,
-            71.82182
+            69.9905853
           ],
           "localRotation": [
             0.0,
@@ -2130,8 +2564,8 @@
             0.0
           ],
           "scale": [
-            0.100000009,
-            0.5,
+            0.099999994,
+            0.49999997,
             0.1
           ]
         },
@@ -2154,8 +2588,8 @@
       "components": {
         "Transform": {
           "position": [
-            -1.24789214,
-            -2.800364,
+            -1.36869788,
+            -2.75854564,
             21.6
           ],
           "localPosition": [
@@ -2166,7 +2600,7 @@
           "rotation": [
             0.0,
             0.0,
-            71.82182
+            69.9905853
           ],
           "localRotation": [
             0.0,
@@ -2174,8 +2608,8 @@
             0.0
           ],
           "scale": [
-            1.0,
-            1.0,
+            0.99999994,
+            0.99999994,
             1.0
           ]
         },
@@ -2208,8 +2642,8 @@
       "components": {
         "Transform": {
           "position": [
-            1.24789214,
-            4.800364,
+            1.36869788,
+            4.758546,
             21.6
           ],
           "localPosition": [
@@ -2220,7 +2654,7 @@
           "rotation": [
             0.0,
             0.0,
-            71.82182
+            69.9905853
           ],
           "localRotation": [
             0.0,
@@ -2228,8 +2662,8 @@
             0.0
           ],
           "scale": [
-            1.0,
-            1.0,
+            0.99999994,
+            0.99999994,
             1.0
           ]
         },
@@ -2267,8 +2701,8 @@
       "components": {
         "Transform": {
           "position": [
-            1.24789214,
-            4.800364,
+            1.36869788,
+            4.758546,
             21.6
           ],
           "localPosition": [
@@ -2279,7 +2713,7 @@
           "rotation": [
             0.0,
             0.0,
-            71.82182
+            69.9905853
           ],
           "localRotation": [
             0.0,
@@ -2287,8 +2721,8 @@
             0.0
           ],
           "scale": [
-            0.100000009,
-            0.5,
+            0.099999994,
+            0.49999997,
             0.1
           ]
         },
@@ -2311,8 +2745,8 @@
       "components": {
         "Transform": {
           "position": [
-            1.24789214,
-            4.800364,
+            1.36869788,
+            4.758546,
             21.6
           ],
           "localPosition": [
@@ -2323,7 +2757,7 @@
           "rotation": [
             0.0,
             0.0,
-            71.82182
+            69.9905853
           ],
           "localRotation": [
             0.0,
@@ -2331,8 +2765,8 @@
             0.0
           ],
           "scale": [
-            1.0,
-            1.0,
+            0.99999994,
+            0.99999994,
             1.0
           ]
         },
@@ -4729,16 +5163,16 @@
           "rotation": [
             0.0,
             0.0,
-            94.42758
+            94.41417
           ],
           "localRotation": [
             0.0,
             0.0,
-            94.42758
+            94.41417
           ],
           "scale": [
-            1.0,
-            1.0,
+            0.99999994,
+            0.99999994,
             1.0
           ]
         },
@@ -4763,7 +5197,7 @@
             0.0
           ],
           "rotation": [
-            274.4275,
+            274.414124,
             270.0,
             180.0
           ],
@@ -4795,8 +5229,8 @@
       "components": {
         "Transform": {
           "position": [
-            0.308795452,
-            -2.98806286,
+            0.307862282,
+            -2.98813486,
             10.6
           ],
           "localPosition": [
@@ -4807,7 +5241,7 @@
           "rotation": [
             0.0,
             0.0,
-            94.42758
+            94.41417
           ],
           "localRotation": [
             0.0,
@@ -4815,8 +5249,8 @@
             0.0
           ],
           "scale": [
-            1.0,
-            1.0,
+            0.99999994,
+            0.99999994,
             1.0
           ]
         },
@@ -4854,8 +5288,8 @@
       "components": {
         "Transform": {
           "position": [
-            0.308795452,
-            -2.98806286,
+            0.307862282,
+            -2.98813486,
             10.6
           ],
           "localPosition": [
@@ -4866,7 +5300,7 @@
           "rotation": [
             0.0,
             0.0,
-            94.42758
+            94.41417
           ],
           "localRotation": [
             0.0,
@@ -4874,8 +5308,8 @@
             0.0
           ],
           "scale": [
-            0.1,
-            0.5,
+            0.099999994,
+            0.49999997,
             0.1
           ]
         },
@@ -4898,8 +5332,8 @@
       "components": {
         "Transform": {
           "position": [
-            0.308795452,
-            -2.98806286,
+            0.307862282,
+            -2.98813486,
             10.6
           ],
           "localPosition": [
@@ -4910,7 +5344,7 @@
           "rotation": [
             0.0,
             0.0,
-            94.42758
+            94.41417
           ],
           "localRotation": [
             0.0,
@@ -4918,8 +5352,8 @@
             0.0
           ],
           "scale": [
-            1.0,
-            1.0,
+            0.99999994,
+            0.99999994,
             1.0
           ]
         },
@@ -4952,8 +5386,8 @@
       "components": {
         "Transform": {
           "position": [
-            -0.308795452,
-            4.988063,
+            -0.307862282,
+            4.988135,
             10.6
           ],
           "localPosition": [
@@ -4964,7 +5398,7 @@
           "rotation": [
             0.0,
             0.0,
-            94.42758
+            94.41417
           ],
           "localRotation": [
             0.0,
@@ -4972,8 +5406,8 @@
             0.0
           ],
           "scale": [
-            1.0,
-            1.0,
+            0.99999994,
+            0.99999994,
             1.0
           ]
         },
@@ -5011,8 +5445,8 @@
       "components": {
         "Transform": {
           "position": [
-            -0.308795452,
-            4.988063,
+            -0.307862282,
+            4.988135,
             10.6
           ],
           "localPosition": [
@@ -5023,7 +5457,7 @@
           "rotation": [
             0.0,
             0.0,
-            94.42758
+            94.41417
           ],
           "localRotation": [
             0.0,
@@ -5031,8 +5465,8 @@
             0.0
           ],
           "scale": [
-            0.1,
-            0.5,
+            0.099999994,
+            0.49999997,
             0.1
           ]
         },
@@ -5055,8 +5489,8 @@
       "components": {
         "Transform": {
           "position": [
-            -0.308795452,
-            4.988063,
+            -0.307862282,
+            4.988135,
             10.6
           ],
           "localPosition": [
@@ -5067,7 +5501,7 @@
           "rotation": [
             0.0,
             0.0,
-            94.42758
+            94.41417
           ],
           "localRotation": [
             0.0,
@@ -5075,8 +5509,8 @@
             0.0
           ],
           "scale": [
-            1.0,
-            1.0,
+            0.99999994,
+            0.99999994,
             1.0
           ]
         },
@@ -9041,16 +9475,16 @@
           "rotation": [
             0.0,
             0.0,
-            99.0961761
+            99.07501
           ],
           "localRotation": [
             0.0,
             0.0,
-            99.0961761
+            99.07501
           ],
           "scale": [
-            1.00000024,
-            1.00000024,
+            1.00000012,
+            1.00000012,
             1.0
           ]
         },
@@ -9075,7 +9509,7 @@
             0.0
           ],
           "rotation": [
-            279.0962,
+            279.075,
             270.0,
             180.0
           ],
@@ -9107,8 +9541,8 @@
       "components": {
         "Transform": {
           "position": [
-            0.632369041,
-            -2.949698,
+            0.6309099,
+            -2.949931,
             11.6
           ],
           "localPosition": [
@@ -9119,7 +9553,7 @@
           "rotation": [
             0.0,
             0.0,
-            99.0961761
+            99.07501
           ],
           "localRotation": [
             0.0,
@@ -9127,8 +9561,8 @@
             0.0
           ],
           "scale": [
-            1.00000024,
-            1.00000024,
+            1.00000012,
+            1.00000012,
             1.0
           ]
         },
@@ -9166,8 +9600,8 @@
       "components": {
         "Transform": {
           "position": [
-            0.632369041,
-            -2.949698,
+            0.6309099,
+            -2.949931,
             11.6
           ],
           "localPosition": [
@@ -9178,7 +9612,7 @@
           "rotation": [
             0.0,
             0.0,
-            99.0961761
+            99.07501
           ],
           "localRotation": [
             0.0,
@@ -9186,8 +9620,8 @@
             0.0
           ],
           "scale": [
-            0.100000031,
-            0.5000001,
+            0.100000009,
+            0.50000006,
             0.1
           ]
         },
@@ -9210,8 +9644,8 @@
       "components": {
         "Transform": {
           "position": [
-            0.632369041,
-            -2.949698,
+            0.6309099,
+            -2.949931,
             11.6
           ],
           "localPosition": [
@@ -9222,7 +9656,7 @@
           "rotation": [
             0.0,
             0.0,
-            99.0961761
+            99.07501
           ],
           "localRotation": [
             0.0,
@@ -9230,8 +9664,8 @@
             0.0
           ],
           "scale": [
-            1.00000024,
-            1.00000024,
+            1.00000012,
+            1.00000012,
             1.0
           ]
         },
@@ -9264,8 +9698,8 @@
       "components": {
         "Transform": {
           "position": [
-            -0.632369041,
-            4.949698,
+            -0.6309099,
+            4.949931,
             11.6
           ],
           "localPosition": [
@@ -9276,7 +9710,7 @@
           "rotation": [
             0.0,
             0.0,
-            99.0961761
+            99.07501
           ],
           "localRotation": [
             0.0,
@@ -9284,8 +9718,8 @@
             0.0
           ],
           "scale": [
-            1.00000024,
-            1.00000024,
+            1.00000012,
+            1.00000012,
             1.0
           ]
         },
@@ -9323,8 +9757,8 @@
       "components": {
         "Transform": {
           "position": [
-            -0.632369041,
-            4.949698,
+            -0.6309099,
+            4.949931,
             11.6
           ],
           "localPosition": [
@@ -9335,7 +9769,7 @@
           "rotation": [
             0.0,
             0.0,
-            99.0961761
+            99.07501
           ],
           "localRotation": [
             0.0,
@@ -9343,8 +9777,8 @@
             0.0
           ],
           "scale": [
-            0.100000031,
-            0.5000001,
+            0.100000009,
+            0.50000006,
             0.1
           ]
         },
@@ -9367,8 +9801,8 @@
       "components": {
         "Transform": {
           "position": [
-            -0.632369041,
-            4.949698,
+            -0.6309099,
+            4.949931,
             11.6
           ],
           "localPosition": [
@@ -9379,7 +9813,7 @@
           "rotation": [
             0.0,
             0.0,
-            99.0961761
+            99.07501
           ],
           "localRotation": [
             0.0,
@@ -9387,8 +9821,8 @@
             0.0
           ],
           "scale": [
-            1.00000024,
-            1.00000024,
+            1.00000012,
+            1.00000012,
             1.0
           ]
         },
@@ -9825,12 +10259,12 @@
           "rotation": [
             0.0,
             0.0,
-            103.576492
+            103.543144
           ],
           "localRotation": [
             0.0,
             0.0,
-            103.576492
+            103.543144
           ],
           "scale": [
             0.99999994,
@@ -9859,7 +10293,7 @@
             0.0
           ],
           "rotation": [
-            283.576477,
+            283.5431,
             270.0,
             180.0
           ],
@@ -9891,8 +10325,8 @@
       "components": {
         "Transform": {
           "position": [
-            0.93897295,
-            -2.88822961,
+            0.9367099,
+            -2.88877535,
             12.6
           ],
           "localPosition": [
@@ -9903,7 +10337,7 @@
           "rotation": [
             0.0,
             0.0,
-            103.576492
+            103.543144
           ],
           "localRotation": [
             0.0,
@@ -9950,8 +10384,8 @@
       "components": {
         "Transform": {
           "position": [
-            0.93897295,
-            -2.88822961,
+            0.9367099,
+            -2.88877535,
             12.6
           ],
           "localPosition": [
@@ -9962,7 +10396,7 @@
           "rotation": [
             0.0,
             0.0,
-            103.576492
+            103.543144
           ],
           "localRotation": [
             0.0,
@@ -9970,7 +10404,7 @@
             0.0
           ],
           "scale": [
-            0.1,
+            0.099999994,
             0.49999997,
             0.1
           ]
@@ -9994,8 +10428,8 @@
       "components": {
         "Transform": {
           "position": [
-            0.93897295,
-            -2.88822961,
+            0.9367099,
+            -2.88877535,
             12.6
           ],
           "localPosition": [
@@ -10006,7 +10440,7 @@
           "rotation": [
             0.0,
             0.0,
-            103.576492
+            103.543144
           ],
           "localRotation": [
             0.0,
@@ -10048,8 +10482,8 @@
       "components": {
         "Transform": {
           "position": [
-            -0.93897295,
-            4.88822937,
+            -0.9367099,
+            4.88877535,
             12.6
           ],
           "localPosition": [
@@ -10060,7 +10494,7 @@
           "rotation": [
             0.0,
             0.0,
-            103.576492
+            103.543144
           ],
           "localRotation": [
             0.0,
@@ -10107,8 +10541,8 @@
       "components": {
         "Transform": {
           "position": [
-            -0.93897295,
-            4.88822937,
+            -0.9367099,
+            4.88877535,
             12.6
           ],
           "localPosition": [
@@ -10119,7 +10553,7 @@
           "rotation": [
             0.0,
             0.0,
-            103.576492
+            103.543144
           ],
           "localRotation": [
             0.0,
@@ -10127,7 +10561,7 @@
             0.0
           ],
           "scale": [
-            0.1,
+            0.099999994,
             0.49999997,
             0.1
           ]
@@ -10151,8 +10585,8 @@
       "components": {
         "Transform": {
           "position": [
-            -0.93897295,
-            4.88822937,
+            -0.9367099,
+            4.88877535,
             12.6
           ],
           "localPosition": [
@@ -10163,7 +10597,7 @@
           "rotation": [
             0.0,
             0.0,
-            103.576492
+            103.543144
           ],
           "localRotation": [
             0.0,
@@ -10217,16 +10651,16 @@
           "rotation": [
             0.0,
             0.0,
-            107.763054
+            107.71064
           ],
           "localRotation": [
             0.0,
             0.0,
-            107.763054
+            107.71064
           ],
           "scale": [
-            1.00000012,
-            1.00000012,
+            1.0,
+            1.0,
             1.0
           ]
         },
@@ -10251,7 +10685,7 @@
             0.0
           ],
           "rotation": [
-            287.763031,
+            287.710632,
             270.0,
             180.0
           ],
@@ -10283,8 +10717,8 @@
       "components": {
         "Transform": {
           "position": [
-            1.220325,
-            -2.80930543,
+            1.21684027,
+            -2.81042,
             13.6
           ],
           "localPosition": [
@@ -10295,7 +10729,7 @@
           "rotation": [
             0.0,
             0.0,
-            107.763054
+            107.71064
           ],
           "localRotation": [
             0.0,
@@ -10303,8 +10737,8 @@
             0.0
           ],
           "scale": [
-            1.00000012,
-            1.00000012,
+            1.0,
+            1.0,
             1.0
           ]
         },
@@ -10342,8 +10776,8 @@
       "components": {
         "Transform": {
           "position": [
-            1.220325,
-            -2.80930543,
+            1.21684027,
+            -2.81042,
             13.6
           ],
           "localPosition": [
@@ -10354,7 +10788,7 @@
           "rotation": [
             0.0,
             0.0,
-            107.763054
+            107.71064
           ],
           "localRotation": [
             0.0,
@@ -10362,8 +10796,8 @@
             0.0
           ],
           "scale": [
-            0.100000009,
-            0.50000006,
+            0.1,
+            0.5,
             0.1
           ]
         },
@@ -10386,8 +10820,8 @@
       "components": {
         "Transform": {
           "position": [
-            1.220325,
-            -2.80930543,
+            1.21684027,
+            -2.81042,
             13.6
           ],
           "localPosition": [
@@ -10398,7 +10832,7 @@
           "rotation": [
             0.0,
             0.0,
-            107.763054
+            107.71064
           ],
           "localRotation": [
             0.0,
@@ -10406,8 +10840,8 @@
             0.0
           ],
           "scale": [
-            1.00000012,
-            1.00000012,
+            1.0,
+            1.0,
             1.0
           ]
         },
@@ -10440,8 +10874,8 @@
       "components": {
         "Transform": {
           "position": [
-            -1.220325,
-            4.809305,
+            -1.21684027,
+            4.81042,
             13.6
           ],
           "localPosition": [
@@ -10452,7 +10886,7 @@
           "rotation": [
             0.0,
             0.0,
-            107.763054
+            107.71064
           ],
           "localRotation": [
             0.0,
@@ -10460,8 +10894,8 @@
             0.0
           ],
           "scale": [
-            1.00000012,
-            1.00000012,
+            1.0,
+            1.0,
             1.0
           ]
         },
@@ -10499,8 +10933,8 @@
       "components": {
         "Transform": {
           "position": [
-            -1.220325,
-            4.809305,
+            -1.21684027,
+            4.81042,
             13.6
           ],
           "localPosition": [
@@ -10511,7 +10945,7 @@
           "rotation": [
             0.0,
             0.0,
-            107.763054
+            107.71064
           ],
           "localRotation": [
             0.0,
@@ -10519,8 +10953,8 @@
             0.0
           ],
           "scale": [
-            0.100000009,
-            0.50000006,
+            0.1,
+            0.5,
             0.1
           ]
         },
@@ -10543,8 +10977,8 @@
       "components": {
         "Transform": {
           "position": [
-            -1.220325,
-            4.809305,
+            -1.21684027,
+            4.81042,
             13.6
           ],
           "localPosition": [
@@ -10555,7 +10989,7 @@
           "rotation": [
             0.0,
             0.0,
-            107.763054
+            107.71064
           ],
           "localRotation": [
             0.0,
@@ -10563,8 +10997,8 @@
             0.0
           ],
           "scale": [
-            1.00000012,
-            1.00000012,
+            1.0,
+            1.0,
             1.0
           ]
         },
@@ -10609,16 +11043,16 @@
           "rotation": [
             0.0,
             0.0,
-            111.492058
+            111.4099
           ],
           "localRotation": [
             0.0,
             0.0,
-            111.492058
+            111.4099
           ],
           "scale": [
-            1.00000012,
-            1.00000012,
+            0.9999999,
+            0.9999999,
             1.0
           ]
         },
@@ -10643,7 +11077,7 @@
             0.0
           ],
           "rotation": [
-            291.492035,
+            291.409882,
             270.0,
             180.0
           ],
@@ -10653,9 +11087,9 @@
             0.0
           ],
           "scale": [
-            1.00000024,
-            1.00000024,
-            1.00000036
+            1.00000012,
+            0.99999994,
+            1.00000012
           ]
         },
         "MeshFilter": {
@@ -10675,8 +11109,8 @@
       "components": {
         "Transform": {
           "position": [
-            1.46548891,
-            -2.72187376,
+            1.46014977,
+            -2.72397113,
             14.6
           ],
           "localPosition": [
@@ -10687,7 +11121,7 @@
           "rotation": [
             0.0,
             0.0,
-            111.492058
+            111.4099
           ],
           "localRotation": [
             0.0,
@@ -10695,8 +11129,8 @@
             0.0
           ],
           "scale": [
-            1.00000012,
-            1.00000012,
+            0.9999999,
+            0.9999999,
             1.0
           ]
         },
@@ -10734,8 +11168,8 @@
       "components": {
         "Transform": {
           "position": [
-            1.46548891,
-            -2.72187376,
+            1.46014977,
+            -2.72397113,
             14.6
           ],
           "localPosition": [
@@ -10746,7 +11180,7 @@
           "rotation": [
             0.0,
             0.0,
-            111.492058
+            111.4099
           ],
           "localRotation": [
             0.0,
@@ -10754,8 +11188,8 @@
             0.0
           ],
           "scale": [
-            0.100000016,
-            0.50000006,
+            0.099999994,
+            0.49999994,
             0.1
           ]
         },
@@ -10778,8 +11212,8 @@
       "components": {
         "Transform": {
           "position": [
-            1.46548891,
-            -2.72187376,
+            1.46014977,
+            -2.72397113,
             14.6
           ],
           "localPosition": [
@@ -10790,7 +11224,7 @@
           "rotation": [
             0.0,
             0.0,
-            111.492058
+            111.4099
           ],
           "localRotation": [
             0.0,
@@ -10798,8 +11232,8 @@
             0.0
           ],
           "scale": [
-            1.00000012,
-            1.00000012,
+            0.9999999,
+            0.9999999,
             1.0
           ]
         },
@@ -10832,8 +11266,8 @@
       "components": {
         "Transform": {
           "position": [
-            -1.46548891,
-            4.72187376,
+            -1.46014977,
+            4.72397137,
             14.6
           ],
           "localPosition": [
@@ -10844,7 +11278,7 @@
           "rotation": [
             0.0,
             0.0,
-            111.492058
+            111.4099
           ],
           "localRotation": [
             0.0,
@@ -10852,8 +11286,8 @@
             0.0
           ],
           "scale": [
-            1.00000012,
-            1.00000012,
+            0.9999999,
+            0.9999999,
             1.0
           ]
         },
@@ -10891,8 +11325,8 @@
       "components": {
         "Transform": {
           "position": [
-            -1.46548891,
-            4.72187376,
+            -1.46014977,
+            4.72397137,
             14.6
           ],
           "localPosition": [
@@ -10903,7 +11337,7 @@
           "rotation": [
             0.0,
             0.0,
-            111.492058
+            111.4099
           ],
           "localRotation": [
             0.0,
@@ -10911,8 +11345,8 @@
             0.0
           ],
           "scale": [
-            0.100000016,
-            0.50000006,
+            0.099999994,
+            0.49999994,
             0.1
           ]
         },
@@ -10935,8 +11369,8 @@
       "components": {
         "Transform": {
           "position": [
-            -1.46548891,
-            4.72187376,
+            -1.46014977,
+            4.72397137,
             14.6
           ],
           "localPosition": [
@@ -10947,7 +11381,7 @@
           "rotation": [
             0.0,
             0.0,
-            111.492058
+            111.4099
           ],
           "localRotation": [
             0.0,
@@ -10955,8 +11389,8 @@
             0.0
           ],
           "scale": [
-            1.00000012,
-            1.00000012,
+            0.9999999,
+            0.9999999,
             1.0
           ]
         },
@@ -11001,16 +11435,16 @@
           "rotation": [
             0.0,
             0.0,
-            114.5093
+            114.380684
           ],
           "localRotation": [
             0.0,
             0.0,
-            114.5093
+            114.380684
           ],
           "scale": [
-            1.0,
-            1.0,
+            0.99999994,
+            0.99999994,
             1.0
           ]
         },
@@ -11035,7 +11469,7 @@
             0.0
           ],
           "rotation": [
-            294.509277,
+            294.380676,
             270.0,
             180.0
           ],
@@ -11046,7 +11480,7 @@
           ],
           "scale": [
             1.00000024,
-            1.00000012,
+            1.00000024,
             1.00000024
           ]
         },
@@ -11067,8 +11501,8 @@
       "components": {
         "Transform": {
           "position": [
-            1.65936327,
-            -2.639576,
+            1.65118933,
+            -2.64329147,
             15.6
           ],
           "localPosition": [
@@ -11079,7 +11513,7 @@
           "rotation": [
             0.0,
             0.0,
-            114.5093
+            114.380684
           ],
           "localRotation": [
             0.0,
@@ -11087,8 +11521,8 @@
             0.0
           ],
           "scale": [
-            1.0,
-            1.0,
+            0.99999994,
+            0.99999994,
             1.0
           ]
         },
@@ -11126,8 +11560,8 @@
       "components": {
         "Transform": {
           "position": [
-            1.65936327,
-            -2.639576,
+            1.65118933,
+            -2.64329147,
             15.6
           ],
           "localPosition": [
@@ -11138,7 +11572,7 @@
           "rotation": [
             0.0,
             0.0,
-            114.5093
+            114.380684
           ],
           "localRotation": [
             0.0,
@@ -11146,8 +11580,8 @@
             0.0
           ],
           "scale": [
-            0.1,
-            0.5,
+            0.099999994,
+            0.49999997,
             0.1
           ]
         },
@@ -11170,8 +11604,8 @@
       "components": {
         "Transform": {
           "position": [
-            1.65936327,
-            -2.639576,
+            1.65118933,
+            -2.64329147,
             15.6
           ],
           "localPosition": [
@@ -11182,7 +11616,7 @@
           "rotation": [
             0.0,
             0.0,
-            114.5093
+            114.380684
           ],
           "localRotation": [
             0.0,
@@ -11190,8 +11624,8 @@
             0.0
           ],
           "scale": [
-            1.0,
-            1.0,
+            0.99999994,
+            0.99999994,
             1.0
           ]
         },
@@ -11224,8 +11658,8 @@
       "components": {
         "Transform": {
           "position": [
-            -1.65936327,
-            4.639576,
+            -1.65118933,
+            4.64329147,
             15.6
           ],
           "localPosition": [
@@ -11236,7 +11670,7 @@
           "rotation": [
             0.0,
             0.0,
-            114.5093
+            114.380684
           ],
           "localRotation": [
             0.0,
@@ -11244,8 +11678,8 @@
             0.0
           ],
           "scale": [
-            1.0,
-            1.0,
+            0.99999994,
+            0.99999994,
             1.0
           ]
         },
@@ -11283,8 +11717,8 @@
       "components": {
         "Transform": {
           "position": [
-            -1.65936327,
-            4.639576,
+            -1.65118933,
+            4.64329147,
             15.6
           ],
           "localPosition": [
@@ -11295,7 +11729,7 @@
           "rotation": [
             0.0,
             0.0,
-            114.5093
+            114.380684
           ],
           "localRotation": [
             0.0,
@@ -11303,8 +11737,8 @@
             0.0
           ],
           "scale": [
-            0.1,
-            0.5,
+            0.099999994,
+            0.49999997,
             0.1
           ]
         },
@@ -11327,8 +11761,8 @@
       "components": {
         "Transform": {
           "position": [
-            -1.65936327,
-            4.639576,
+            -1.65118933,
+            4.64329147,
             15.6
           ],
           "localPosition": [
@@ -11339,7 +11773,7 @@
           "rotation": [
             0.0,
             0.0,
-            114.5093
+            114.380684
           ],
           "localRotation": [
             0.0,
@@ -11347,8 +11781,8 @@
             0.0
           ],
           "scale": [
-            1.0,
-            1.0,
+            0.99999994,
+            0.99999994,
             1.0
           ]
         },
@@ -11393,16 +11827,16 @@
           "rotation": [
             0.0,
             0.0,
-            116.420784
+            116.219826
           ],
           "localRotation": [
             0.0,
             0.0,
-            116.420784
+            116.219826
           ],
           "scale": [
-            0.9999999,
-            0.9999999,
+            1.00000012,
+            1.00000012,
             1.0
           ]
         },
@@ -11427,7 +11861,7 @@
             0.0
           ],
           "rotation": [
-            296.420776,
+            296.219818,
             270.0,
             180.0
           ],
@@ -11437,9 +11871,9 @@
             0.0
           ],
           "scale": [
-            1.00000024,
-            1.00000012,
-            1.00000024
+            1.00000036,
+            1.00000036,
+            1.00000036
           ]
         },
         "MeshFilter": {
@@ -11459,8 +11893,8 @@
       "components": {
         "Transform": {
           "position": [
-            1.77984,
-            -2.58220148,
+            1.76726532,
+            -2.5884223,
             16.6
           ],
           "localPosition": [
@@ -11471,7 +11905,7 @@
           "rotation": [
             0.0,
             0.0,
-            116.420784
+            116.219826
           ],
           "localRotation": [
             0.0,
@@ -11479,8 +11913,8 @@
             0.0
           ],
           "scale": [
-            0.9999999,
-            0.9999999,
+            1.00000012,
+            1.00000012,
             1.0
           ]
         },
@@ -11518,8 +11952,8 @@
       "components": {
         "Transform": {
           "position": [
-            1.77984,
-            -2.58220148,
+            1.76726532,
+            -2.5884223,
             16.6
           ],
           "localPosition": [
@@ -11530,7 +11964,7 @@
           "rotation": [
             0.0,
             0.0,
-            116.420784
+            116.219826
           ],
           "localRotation": [
             0.0,
@@ -11538,8 +11972,8 @@
             0.0
           ],
           "scale": [
-            0.099999994,
-            0.49999994,
+            0.100000009,
+            0.50000006,
             0.1
           ]
         },
@@ -11562,8 +11996,8 @@
       "components": {
         "Transform": {
           "position": [
-            1.77984,
-            -2.58220148,
+            1.76726532,
+            -2.5884223,
             16.6
           ],
           "localPosition": [
@@ -11574,7 +12008,7 @@
           "rotation": [
             0.0,
             0.0,
-            116.420784
+            116.219826
           ],
           "localRotation": [
             0.0,
@@ -11582,8 +12016,8 @@
             0.0
           ],
           "scale": [
-            0.9999999,
-            0.9999999,
+            1.00000012,
+            1.00000012,
             1.0
           ]
         },
@@ -11616,8 +12050,8 @@
       "components": {
         "Transform": {
           "position": [
-            -1.77984,
-            4.58220148,
+            -1.76726532,
+            4.5884223,
             16.6
           ],
           "localPosition": [
@@ -11628,7 +12062,7 @@
           "rotation": [
             0.0,
             0.0,
-            116.420784
+            116.219826
           ],
           "localRotation": [
             0.0,
@@ -11636,8 +12070,8 @@
             0.0
           ],
           "scale": [
-            0.9999999,
-            0.9999999,
+            1.00000012,
+            1.00000012,
             1.0
           ]
         },
@@ -11675,8 +12109,8 @@
       "components": {
         "Transform": {
           "position": [
-            -1.77984,
-            4.58220148,
+            -1.76726532,
+            4.5884223,
             16.6
           ],
           "localPosition": [
@@ -11687,7 +12121,7 @@
           "rotation": [
             0.0,
             0.0,
-            116.420784
+            116.219826
           ],
           "localRotation": [
             0.0,
@@ -11695,8 +12129,8 @@
             0.0
           ],
           "scale": [
-            0.099999994,
-            0.49999994,
+            0.100000009,
+            0.50000006,
             0.1
           ]
         },
@@ -11719,8 +12153,8 @@
       "components": {
         "Transform": {
           "position": [
-            -1.77984,
-            4.58220148,
+            -1.76726532,
+            4.5884223,
             16.6
           ],
           "localPosition": [
@@ -11731,7 +12165,7 @@
           "rotation": [
             0.0,
             0.0,
-            116.420784
+            116.219826
           ],
           "localRotation": [
             0.0,
@@ -11739,8 +12173,8 @@
             0.0
           ],
           "scale": [
-            0.9999999,
-            0.9999999,
+            1.00000012,
+            1.00000012,
             1.0
           ]
         },
@@ -11785,16 +12219,16 @@
           "rotation": [
             0.0,
             0.0,
-            116.616425
+            116.302933
           ],
           "localRotation": [
             0.0,
             0.0,
-            116.616425
+            116.302933
           ],
           "scale": [
-            1.00000012,
-            1.00000012,
+            1.00000036,
+            1.00000036,
             1.0
           ]
         },
@@ -11819,7 +12253,7 @@
             0.0
           ],
           "rotation": [
-            296.6164,
+            296.302917,
             270.0,
             180.0
           ],
@@ -11829,9 +12263,9 @@
             0.0
           ],
           "scale": [
-            1.00000024,
-            1.00000024,
-            1.00000024
+            1.00000036,
+            1.0000006,
+            1.0000006
           ]
         },
         "MeshFilter": {
@@ -11851,8 +12285,8 @@
       "components": {
         "Transform": {
           "position": [
-            1.79206133,
-            -2.57610369,
+            1.772469,
+            -2.58585548,
             17.6
           ],
           "localPosition": [
@@ -11863,7 +12297,7 @@
           "rotation": [
             0.0,
             0.0,
-            116.616425
+            116.302933
           ],
           "localRotation": [
             0.0,
@@ -11871,8 +12305,8 @@
             0.0
           ],
           "scale": [
-            1.00000012,
-            1.00000012,
+            1.00000036,
+            1.00000036,
             1.0
           ]
         },
@@ -11910,8 +12344,8 @@
       "components": {
         "Transform": {
           "position": [
-            1.79206133,
-            -2.57610369,
+            1.772469,
+            -2.58585548,
             17.6
           ],
           "localPosition": [
@@ -11922,7 +12356,7 @@
           "rotation": [
             0.0,
             0.0,
-            116.616425
+            116.302933
           ],
           "localRotation": [
             0.0,
@@ -11930,8 +12364,8 @@
             0.0
           ],
           "scale": [
-            0.100000009,
-            0.50000006,
+            0.100000039,
+            0.5000002,
             0.1
           ]
         },
@@ -11954,8 +12388,8 @@
       "components": {
         "Transform": {
           "position": [
-            1.79206133,
-            -2.57610369,
+            1.772469,
+            -2.58585548,
             17.6
           ],
           "localPosition": [
@@ -11966,7 +12400,7 @@
           "rotation": [
             0.0,
             0.0,
-            116.616425
+            116.302933
           ],
           "localRotation": [
             0.0,
@@ -11974,8 +12408,8 @@
             0.0
           ],
           "scale": [
-            1.00000012,
-            1.00000012,
+            1.00000036,
+            1.00000036,
             1.0
           ]
         },
@@ -12008,8 +12442,8 @@
       "components": {
         "Transform": {
           "position": [
-            -1.79206133,
-            4.57610369,
+            -1.772469,
+            4.58585548,
             17.6
           ],
           "localPosition": [
@@ -12020,7 +12454,7 @@
           "rotation": [
             0.0,
             0.0,
-            116.616425
+            116.302933
           ],
           "localRotation": [
             0.0,
@@ -12028,8 +12462,8 @@
             0.0
           ],
           "scale": [
-            1.00000012,
-            1.00000012,
+            1.00000036,
+            1.00000036,
             1.0
           ]
         },
@@ -12067,8 +12501,8 @@
       "components": {
         "Transform": {
           "position": [
-            -1.79206133,
-            4.57610369,
+            -1.772469,
+            4.58585548,
             17.6
           ],
           "localPosition": [
@@ -12079,7 +12513,7 @@
           "rotation": [
             0.0,
             0.0,
-            116.616425
+            116.302933
           ],
           "localRotation": [
             0.0,
@@ -12087,8 +12521,8 @@
             0.0
           ],
           "scale": [
-            0.100000009,
-            0.50000006,
+            0.100000039,
+            0.5000002,
             0.1
           ]
         },
@@ -12111,8 +12545,8 @@
       "components": {
         "Transform": {
           "position": [
-            -1.79206133,
-            4.57610369,
+            -1.772469,
+            4.58585548,
             17.6
           ],
           "localPosition": [
@@ -12123,7 +12557,7 @@
           "rotation": [
             0.0,
             0.0,
-            116.616425
+            116.302933
           ],
           "localRotation": [
             0.0,
@@ -12131,8 +12565,8 @@
             0.0
           ],
           "scale": [
-            1.00000012,
-            1.00000012,
+            1.00000036,
+            1.00000036,
             1.0
           ]
         },
@@ -15243,6 +15677,4518 @@
           "offColorIntensity": 0.0,
           "lightOnStart": false,
           "lightsId": 5
+        }
+      }
+    },
+    {
+      "name": "Light (5)",
+      "id": "PanicEnvironment.[0]Environment.[27]Light (5)",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            -6.69,
+            11.0
+          ],
+          "localPosition": [
+            0.0,
+            -6.69,
+            11.0
+          ],
+          "rotation": [
+            90.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            90.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.00000024,
+            1.00000024
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 1.0,
+              "bloomFogIntensityMultiplier": 1.2,
+              "tubeLength": 20.0,
+              "tubeWidth": 0.2,
+              "center": 0.5,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "null"
+            },
+            "lightId": 5
+          }
+        ]
+      }
+    },
+    {
+      "name": "RotatingLasersPair",
+      "id": "PanicEnvironment.[0]Environment.[28]RotatingLasersPair",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            10.0,
+            55.0
+          ],
+          "localPosition": [
+            0.0,
+            10.0,
+            55.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "LightPairRotationEventEffect": {
+          "eventTypeL": "Event12",
+          "transformL": "PanicEnvironment.[0]Environment.[28]RotatingLasersPair.[0]BaseL",
+          "eventTypeR": "Event13",
+          "transformR": "PanicEnvironment.[0]Environment.[28]RotatingLasersPair.[1]BaseR",
+          "switchOverrideRandomValuesEvent": "VoidEvent",
+          "rotationVector": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "overrideRandomValues": false,
+          "useZPositionForAngleOffset": false,
+          "zPositionAngleOffsetScale": 1.0,
+          "startRotation": 0.0
+        }
+      }
+    },
+    {
+      "name": "BaseL",
+      "id": "PanicEnvironment.[0]Environment.[28]RotatingLasersPair.[0]BaseL",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -12.0,
+            10.0,
+            55.0
+          ],
+          "localPosition": [
+            -12.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "Laser",
+      "id": "PanicEnvironment.[0]Environment.[28]RotatingLasersPair.[0]BaseL.[0]Laser",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -12.0,
+            10.0,
+            55.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            305.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            305.0
+          ],
+          "scale": [
+            1.00000012,
+            1.00000012,
+            1.0
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 1.5,
+              "bloomFogIntensityMultiplier": 0.5,
+              "tubeLength": 500.0,
+              "tubeWidth": 0.05,
+              "center": 0.5,
+              "height": 500.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "PanicEnvironment.[0]Environment.[28]RotatingLasersPair.[0]BaseL.[0]Laser.[1]BoxLight",
+              "sliceSpriteControllerId": "PanicEnvironment.[0]Environment.[28]RotatingLasersPair.[0]BaseL.[0]Laser.[0]BakedBloom"
+            },
+            "lightId": 3
+          }
+        ]
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "PanicEnvironment.[0]Environment.[28]RotatingLasersPair.[0]BaseL.[0]Laser.[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -12.0,
+            10.0,
+            55.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            55.0000038,
+            90.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            1.00000036,
+            1.00000024,
+            1.00000048
+          ]
+        },
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "efd0d242bf2ace2047b83f3bffefe51d"
+          ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.5,
+          "width": 0.05,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
+        }
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "PanicEnvironment.[0]Environment.[28]RotatingLasersPair.[0]BaseL.[0]Laser.[1]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -12.0,
+            10.0,
+            55.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            305.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.025000006,
+            250.000031,
+            0.025
+          ]
+        },
+        "MeshFilter": {
+          "hash": "918b6e6683288362624bdc36ef36ef62"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "2f53648cf0e7229f89336575c9a4624c"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "BaseR",
+      "id": "PanicEnvironment.[0]Environment.[28]RotatingLasersPair.[1]BaseR",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            12.0,
+            10.0,
+            55.0
+          ],
+          "localPosition": [
+            12.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "Laser",
+      "id": "PanicEnvironment.[0]Environment.[28]RotatingLasersPair.[1]BaseR.[0]Laser",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            12.0,
+            10.0,
+            55.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            55.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            55.0
+          ],
+          "scale": [
+            1.00000012,
+            1.00000012,
+            1.0
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 1.5,
+              "bloomFogIntensityMultiplier": 0.5,
+              "tubeLength": 500.0,
+              "tubeWidth": 0.05,
+              "center": 0.5,
+              "height": 500.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "PanicEnvironment.[0]Environment.[28]RotatingLasersPair.[1]BaseR.[0]Laser.[1]BoxLight",
+              "sliceSpriteControllerId": "PanicEnvironment.[0]Environment.[28]RotatingLasersPair.[1]BaseR.[0]Laser.[0]BakedBloom"
+            },
+            "lightId": 4
+          }
+        ]
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "PanicEnvironment.[0]Environment.[28]RotatingLasersPair.[1]BaseR.[0]Laser.[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            12.0,
+            10.0,
+            55.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            305.0,
+            90.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            1.00000036,
+            1.00000024,
+            1.00000048
+          ]
+        },
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "efd0d242bf2ace2047b83f3bffefe51d"
+          ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.5,
+          "width": 0.05,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
+        }
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "PanicEnvironment.[0]Environment.[28]RotatingLasersPair.[1]BaseR.[0]Laser.[1]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            12.0,
+            10.0,
+            55.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            55.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.025000006,
+            250.000031,
+            0.025
+          ]
+        },
+        "MeshFilter": {
+          "hash": "918b6e6683288362624bdc36ef36ef62"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "2f53648cf0e7229f89336575c9a4624c"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "RotatingLasersPair (1)",
+      "id": "PanicEnvironment.[0]Environment.[29]RotatingLasersPair (1)",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            10.0,
+            50.0
+          ],
+          "localPosition": [
+            0.0,
+            10.0,
+            50.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "LightPairRotationEventEffect": {
+          "eventTypeL": "Event12",
+          "transformL": "PanicEnvironment.[0]Environment.[29]RotatingLasersPair (1).[0]BaseL",
+          "eventTypeR": "Event13",
+          "transformR": "PanicEnvironment.[0]Environment.[29]RotatingLasersPair (1).[1]BaseR",
+          "switchOverrideRandomValuesEvent": "VoidEvent",
+          "rotationVector": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "overrideRandomValues": false,
+          "useZPositionForAngleOffset": false,
+          "zPositionAngleOffsetScale": 1.0,
+          "startRotation": 0.0
+        }
+      }
+    },
+    {
+      "name": "BaseL",
+      "id": "PanicEnvironment.[0]Environment.[29]RotatingLasersPair (1).[0]BaseL",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -12.0,
+            10.0,
+            50.0
+          ],
+          "localPosition": [
+            -12.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "Laser",
+      "id": "PanicEnvironment.[0]Environment.[29]RotatingLasersPair (1).[0]BaseL.[0]Laser",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -12.0,
+            10.0,
+            50.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            305.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            305.0
+          ],
+          "scale": [
+            1.00000012,
+            1.00000012,
+            1.0
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 1.5,
+              "bloomFogIntensityMultiplier": 0.5,
+              "tubeLength": 500.0,
+              "tubeWidth": 0.05,
+              "center": 0.5,
+              "height": 500.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "PanicEnvironment.[0]Environment.[29]RotatingLasersPair (1).[0]BaseL.[0]Laser.[1]BoxLight",
+              "sliceSpriteControllerId": "PanicEnvironment.[0]Environment.[29]RotatingLasersPair (1).[0]BaseL.[0]Laser.[0]BakedBloom"
+            },
+            "lightId": 3
+          }
+        ]
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "PanicEnvironment.[0]Environment.[29]RotatingLasersPair (1).[0]BaseL.[0]Laser.[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -12.0,
+            10.0,
+            50.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            55.0000038,
+            90.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            1.00000036,
+            1.00000024,
+            1.00000048
+          ]
+        },
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "efd0d242bf2ace2047b83f3bffefe51d"
+          ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.5,
+          "width": 0.05,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
+        }
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "PanicEnvironment.[0]Environment.[29]RotatingLasersPair (1).[0]BaseL.[0]Laser.[1]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -12.0,
+            10.0,
+            50.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            305.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.025000006,
+            250.000031,
+            0.025
+          ]
+        },
+        "MeshFilter": {
+          "hash": "918b6e6683288362624bdc36ef36ef62"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "2f53648cf0e7229f89336575c9a4624c"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "BaseR",
+      "id": "PanicEnvironment.[0]Environment.[29]RotatingLasersPair (1).[1]BaseR",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            12.0,
+            10.0,
+            50.0
+          ],
+          "localPosition": [
+            12.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "Laser",
+      "id": "PanicEnvironment.[0]Environment.[29]RotatingLasersPair (1).[1]BaseR.[0]Laser",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            12.0,
+            10.0,
+            50.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            55.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            55.0
+          ],
+          "scale": [
+            1.00000012,
+            1.00000012,
+            1.0
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 1.5,
+              "bloomFogIntensityMultiplier": 0.5,
+              "tubeLength": 500.0,
+              "tubeWidth": 0.05,
+              "center": 0.5,
+              "height": 500.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "PanicEnvironment.[0]Environment.[29]RotatingLasersPair (1).[1]BaseR.[0]Laser.[1]BoxLight",
+              "sliceSpriteControllerId": "PanicEnvironment.[0]Environment.[29]RotatingLasersPair (1).[1]BaseR.[0]Laser.[0]BakedBloom"
+            },
+            "lightId": 4
+          }
+        ]
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "PanicEnvironment.[0]Environment.[29]RotatingLasersPair (1).[1]BaseR.[0]Laser.[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            12.0,
+            10.0,
+            50.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            305.0,
+            90.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            1.00000036,
+            1.00000024,
+            1.00000048
+          ]
+        },
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "efd0d242bf2ace2047b83f3bffefe51d"
+          ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.5,
+          "width": 0.05,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
+        }
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "PanicEnvironment.[0]Environment.[29]RotatingLasersPair (1).[1]BaseR.[0]Laser.[1]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            12.0,
+            10.0,
+            50.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            55.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.025000006,
+            250.000031,
+            0.025
+          ]
+        },
+        "MeshFilter": {
+          "hash": "918b6e6683288362624bdc36ef36ef62"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "2f53648cf0e7229f89336575c9a4624c"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "BackColumns",
+      "id": "PanicEnvironment.[0]Environment.[3]BackColumns",
+      "meshName": "GameBackColumns",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "MeshFilter": {
+          "hash": "03803c2d3f7744738a76134bd7ebc53a"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "f04289f2711e586837705b68c88d53c0"
+          ]
+        }
+      }
+    },
+    {
+      "name": "BackColumnNeon",
+      "id": "PanicEnvironment.[0]Environment.[3]BackColumns.[0]BackColumnNeon",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            3.0,
+            0.239414215,
+            -19.1
+          ],
+          "localPosition": [
+            3.0,
+            0.239414215,
+            -19.1
+          ],
+          "rotation": [
+            340.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            340.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 1.0,
+              "bloomFogIntensityMultiplier": 1.0,
+              "tubeLength": 100.0,
+              "tubeWidth": 0.2,
+              "center": 0.5,
+              "height": 100.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "PanicEnvironment.[0]Environment.[3]BackColumns.[0]BackColumnNeon.[0]BoxLight",
+              "sliceSpriteControllerId": "PanicEnvironment.[0]Environment.[3]BackColumns.[0]BackColumnNeon.[1]BakedBloom"
+            },
+            "lightId": 5
+          }
+        ]
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "PanicEnvironment.[0]Environment.[3]BackColumns.[0]BackColumnNeon.[0]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            3.0,
+            0.239414215,
+            -19.1
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            340.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.1,
+            50.0,
+            0.1
+          ]
+        },
+        "MeshFilter": {
+          "hash": "918b6e6683288362624bdc36ef36ef62"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "1cdd8c1689ede199954a7104600a2472"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "PanicEnvironment.[0]Environment.[3]BackColumns.[0]BackColumnNeon.[1]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            3.0,
+            0.239414215,
+            -19.1
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            20.00001,
+            180.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            180.0,
+            0.0
+          ],
+          "scale": [
+            1.00000024,
+            1.0,
+            1.00000012
+          ]
+        },
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "0dd004d097c885674f53e9736741a1d9"
+          ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.0,
+          "width": 0.2,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 100.0,
+          "minAlpha": 0.0
+        }
+      }
+    },
+    {
+      "name": "BackColumnNeon",
+      "id": "PanicEnvironment.[0]Environment.[3]BackColumns.[1]BackColumnNeon",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            -3.0,
+            0.239414215,
+            -19.1
+          ],
+          "localPosition": [
+            -3.0,
+            0.239414215,
+            -19.1
+          ],
+          "rotation": [
+            340.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            340.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 1.0,
+              "bloomFogIntensityMultiplier": 1.0,
+              "tubeLength": 100.0,
+              "tubeWidth": 0.2,
+              "center": 0.5,
+              "height": 100.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "PanicEnvironment.[0]Environment.[3]BackColumns.[1]BackColumnNeon.[0]BoxLight",
+              "sliceSpriteControllerId": "PanicEnvironment.[0]Environment.[3]BackColumns.[1]BackColumnNeon.[1]BakedBloom"
+            },
+            "lightId": 5
+          }
+        ]
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "PanicEnvironment.[0]Environment.[3]BackColumns.[1]BackColumnNeon.[0]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            -3.0,
+            0.239414215,
+            -19.1
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            340.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.1,
+            50.0,
+            0.1
+          ]
+        },
+        "MeshFilter": {
+          "hash": "918b6e6683288362624bdc36ef36ef62"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "1cdd8c1689ede199954a7104600a2472"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "PanicEnvironment.[0]Environment.[3]BackColumns.[1]BackColumnNeon.[1]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            -3.0,
+            0.239414215,
+            -19.1
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            20.00001,
+            180.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            180.0,
+            0.0
+          ],
+          "scale": [
+            1.00000024,
+            1.0,
+            1.00000012
+          ]
+        },
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "0dd004d097c885674f53e9736741a1d9"
+          ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.0,
+          "width": 0.2,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 100.0,
+          "minAlpha": 0.0
+        }
+      }
+    },
+    {
+      "name": "RotatingLasersPair (2)",
+      "id": "PanicEnvironment.[0]Environment.[30]RotatingLasersPair (2)",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            10.0,
+            45.0
+          ],
+          "localPosition": [
+            0.0,
+            10.0,
+            45.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "LightPairRotationEventEffect": {
+          "eventTypeL": "Event12",
+          "transformL": "PanicEnvironment.[0]Environment.[30]RotatingLasersPair (2).[0]BaseL",
+          "eventTypeR": "Event13",
+          "transformR": "PanicEnvironment.[0]Environment.[30]RotatingLasersPair (2).[1]BaseR",
+          "switchOverrideRandomValuesEvent": "VoidEvent",
+          "rotationVector": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "overrideRandomValues": false,
+          "useZPositionForAngleOffset": false,
+          "zPositionAngleOffsetScale": 1.0,
+          "startRotation": 0.0
+        }
+      }
+    },
+    {
+      "name": "BaseL",
+      "id": "PanicEnvironment.[0]Environment.[30]RotatingLasersPair (2).[0]BaseL",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -12.0,
+            10.0,
+            45.0
+          ],
+          "localPosition": [
+            -12.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "Laser",
+      "id": "PanicEnvironment.[0]Environment.[30]RotatingLasersPair (2).[0]BaseL.[0]Laser",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -12.0,
+            10.0,
+            45.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            305.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            305.0
+          ],
+          "scale": [
+            1.00000012,
+            1.00000012,
+            1.0
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 1.5,
+              "bloomFogIntensityMultiplier": 0.5,
+              "tubeLength": 500.0,
+              "tubeWidth": 0.05,
+              "center": 0.5,
+              "height": 500.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "PanicEnvironment.[0]Environment.[30]RotatingLasersPair (2).[0]BaseL.[0]Laser.[1]BoxLight",
+              "sliceSpriteControllerId": "PanicEnvironment.[0]Environment.[30]RotatingLasersPair (2).[0]BaseL.[0]Laser.[0]BakedBloom"
+            },
+            "lightId": 3
+          }
+        ]
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "PanicEnvironment.[0]Environment.[30]RotatingLasersPair (2).[0]BaseL.[0]Laser.[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -12.0,
+            10.0,
+            45.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            55.0000038,
+            90.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            1.00000036,
+            1.00000024,
+            1.00000048
+          ]
+        },
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "efd0d242bf2ace2047b83f3bffefe51d"
+          ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.5,
+          "width": 0.05,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
+        }
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "PanicEnvironment.[0]Environment.[30]RotatingLasersPair (2).[0]BaseL.[0]Laser.[1]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -12.0,
+            10.0,
+            45.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            305.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.025000006,
+            250.000031,
+            0.025
+          ]
+        },
+        "MeshFilter": {
+          "hash": "918b6e6683288362624bdc36ef36ef62"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "2f53648cf0e7229f89336575c9a4624c"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "BaseR",
+      "id": "PanicEnvironment.[0]Environment.[30]RotatingLasersPair (2).[1]BaseR",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            12.0,
+            10.0,
+            45.0
+          ],
+          "localPosition": [
+            12.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "Laser",
+      "id": "PanicEnvironment.[0]Environment.[30]RotatingLasersPair (2).[1]BaseR.[0]Laser",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            12.0,
+            10.0,
+            45.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            55.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            55.0
+          ],
+          "scale": [
+            1.00000012,
+            1.00000012,
+            1.0
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 1.5,
+              "bloomFogIntensityMultiplier": 0.5,
+              "tubeLength": 500.0,
+              "tubeWidth": 0.05,
+              "center": 0.5,
+              "height": 500.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "PanicEnvironment.[0]Environment.[30]RotatingLasersPair (2).[1]BaseR.[0]Laser.[1]BoxLight",
+              "sliceSpriteControllerId": "PanicEnvironment.[0]Environment.[30]RotatingLasersPair (2).[1]BaseR.[0]Laser.[0]BakedBloom"
+            },
+            "lightId": 4
+          }
+        ]
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "PanicEnvironment.[0]Environment.[30]RotatingLasersPair (2).[1]BaseR.[0]Laser.[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            12.0,
+            10.0,
+            45.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            305.0,
+            90.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            1.00000036,
+            1.00000024,
+            1.00000048
+          ]
+        },
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "efd0d242bf2ace2047b83f3bffefe51d"
+          ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.5,
+          "width": 0.05,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
+        }
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "PanicEnvironment.[0]Environment.[30]RotatingLasersPair (2).[1]BaseR.[0]Laser.[1]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            12.0,
+            10.0,
+            45.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            55.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.025000006,
+            250.000031,
+            0.025
+          ]
+        },
+        "MeshFilter": {
+          "hash": "918b6e6683288362624bdc36ef36ef62"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "2f53648cf0e7229f89336575c9a4624c"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "RotatingLasersPair (3)",
+      "id": "PanicEnvironment.[0]Environment.[31]RotatingLasersPair (3)",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            10.0,
+            40.0
+          ],
+          "localPosition": [
+            0.0,
+            10.0,
+            40.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "LightPairRotationEventEffect": {
+          "eventTypeL": "Event12",
+          "transformL": "PanicEnvironment.[0]Environment.[31]RotatingLasersPair (3).[0]BaseL",
+          "eventTypeR": "Event13",
+          "transformR": "PanicEnvironment.[0]Environment.[31]RotatingLasersPair (3).[1]BaseR",
+          "switchOverrideRandomValuesEvent": "VoidEvent",
+          "rotationVector": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "overrideRandomValues": false,
+          "useZPositionForAngleOffset": false,
+          "zPositionAngleOffsetScale": 1.0,
+          "startRotation": 0.0
+        }
+      }
+    },
+    {
+      "name": "BaseL",
+      "id": "PanicEnvironment.[0]Environment.[31]RotatingLasersPair (3).[0]BaseL",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -12.0,
+            10.0,
+            40.0
+          ],
+          "localPosition": [
+            -12.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "Laser",
+      "id": "PanicEnvironment.[0]Environment.[31]RotatingLasersPair (3).[0]BaseL.[0]Laser",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -12.0,
+            10.0,
+            40.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            305.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            305.0
+          ],
+          "scale": [
+            1.00000012,
+            1.00000012,
+            1.0
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 1.5,
+              "bloomFogIntensityMultiplier": 0.5,
+              "tubeLength": 500.0,
+              "tubeWidth": 0.05,
+              "center": 0.5,
+              "height": 500.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "PanicEnvironment.[0]Environment.[31]RotatingLasersPair (3).[0]BaseL.[0]Laser.[1]BoxLight",
+              "sliceSpriteControllerId": "PanicEnvironment.[0]Environment.[31]RotatingLasersPair (3).[0]BaseL.[0]Laser.[0]BakedBloom"
+            },
+            "lightId": 3
+          }
+        ]
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "PanicEnvironment.[0]Environment.[31]RotatingLasersPair (3).[0]BaseL.[0]Laser.[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -12.0,
+            10.0,
+            40.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            55.0000038,
+            90.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            1.00000036,
+            1.00000024,
+            1.00000048
+          ]
+        },
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "efd0d242bf2ace2047b83f3bffefe51d"
+          ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.5,
+          "width": 0.05,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
+        }
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "PanicEnvironment.[0]Environment.[31]RotatingLasersPair (3).[0]BaseL.[0]Laser.[1]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -12.0,
+            10.0,
+            40.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            305.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.025000006,
+            250.000031,
+            0.025
+          ]
+        },
+        "MeshFilter": {
+          "hash": "918b6e6683288362624bdc36ef36ef62"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "2f53648cf0e7229f89336575c9a4624c"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "BaseR",
+      "id": "PanicEnvironment.[0]Environment.[31]RotatingLasersPair (3).[1]BaseR",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            12.0,
+            10.0,
+            40.0
+          ],
+          "localPosition": [
+            12.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "Laser",
+      "id": "PanicEnvironment.[0]Environment.[31]RotatingLasersPair (3).[1]BaseR.[0]Laser",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            12.0,
+            10.0,
+            40.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            55.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            55.0
+          ],
+          "scale": [
+            1.00000012,
+            1.00000012,
+            1.0
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 1.5,
+              "bloomFogIntensityMultiplier": 0.5,
+              "tubeLength": 500.0,
+              "tubeWidth": 0.05,
+              "center": 0.5,
+              "height": 500.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "PanicEnvironment.[0]Environment.[31]RotatingLasersPair (3).[1]BaseR.[0]Laser.[1]BoxLight",
+              "sliceSpriteControllerId": "PanicEnvironment.[0]Environment.[31]RotatingLasersPair (3).[1]BaseR.[0]Laser.[0]BakedBloom"
+            },
+            "lightId": 4
+          }
+        ]
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "PanicEnvironment.[0]Environment.[31]RotatingLasersPair (3).[1]BaseR.[0]Laser.[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            12.0,
+            10.0,
+            40.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            305.0,
+            90.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            1.00000036,
+            1.00000024,
+            1.00000048
+          ]
+        },
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "efd0d242bf2ace2047b83f3bffefe51d"
+          ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.5,
+          "width": 0.05,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
+        }
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "PanicEnvironment.[0]Environment.[31]RotatingLasersPair (3).[1]BaseR.[0]Laser.[1]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            12.0,
+            10.0,
+            40.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            55.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.025000006,
+            250.000031,
+            0.025
+          ]
+        },
+        "MeshFilter": {
+          "hash": "918b6e6683288362624bdc36ef36ef62"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "2f53648cf0e7229f89336575c9a4624c"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "RotatingLasersPair (4)",
+      "id": "PanicEnvironment.[0]Environment.[32]RotatingLasersPair (4)",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            10.0,
+            35.0
+          ],
+          "localPosition": [
+            0.0,
+            10.0,
+            35.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "LightPairRotationEventEffect": {
+          "eventTypeL": "Event12",
+          "transformL": "PanicEnvironment.[0]Environment.[32]RotatingLasersPair (4).[0]BaseL",
+          "eventTypeR": "Event13",
+          "transformR": "PanicEnvironment.[0]Environment.[32]RotatingLasersPair (4).[1]BaseR",
+          "switchOverrideRandomValuesEvent": "VoidEvent",
+          "rotationVector": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "overrideRandomValues": false,
+          "useZPositionForAngleOffset": false,
+          "zPositionAngleOffsetScale": 1.0,
+          "startRotation": 0.0
+        }
+      }
+    },
+    {
+      "name": "BaseL",
+      "id": "PanicEnvironment.[0]Environment.[32]RotatingLasersPair (4).[0]BaseL",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -12.0,
+            10.0,
+            35.0
+          ],
+          "localPosition": [
+            -12.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "Laser",
+      "id": "PanicEnvironment.[0]Environment.[32]RotatingLasersPair (4).[0]BaseL.[0]Laser",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -12.0,
+            10.0,
+            35.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            305.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            305.0
+          ],
+          "scale": [
+            1.00000012,
+            1.00000012,
+            1.0
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 1.5,
+              "bloomFogIntensityMultiplier": 0.5,
+              "tubeLength": 500.0,
+              "tubeWidth": 0.05,
+              "center": 0.5,
+              "height": 500.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "PanicEnvironment.[0]Environment.[32]RotatingLasersPair (4).[0]BaseL.[0]Laser.[1]BoxLight",
+              "sliceSpriteControllerId": "PanicEnvironment.[0]Environment.[32]RotatingLasersPair (4).[0]BaseL.[0]Laser.[0]BakedBloom"
+            },
+            "lightId": 3
+          }
+        ]
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "PanicEnvironment.[0]Environment.[32]RotatingLasersPair (4).[0]BaseL.[0]Laser.[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -12.0,
+            10.0,
+            35.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            55.0000038,
+            90.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            1.00000036,
+            1.00000024,
+            1.00000048
+          ]
+        },
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "efd0d242bf2ace2047b83f3bffefe51d"
+          ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.5,
+          "width": 0.05,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
+        }
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "PanicEnvironment.[0]Environment.[32]RotatingLasersPair (4).[0]BaseL.[0]Laser.[1]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -12.0,
+            10.0,
+            35.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            305.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.025000006,
+            250.000031,
+            0.025
+          ]
+        },
+        "MeshFilter": {
+          "hash": "918b6e6683288362624bdc36ef36ef62"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "2f53648cf0e7229f89336575c9a4624c"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "BaseR",
+      "id": "PanicEnvironment.[0]Environment.[32]RotatingLasersPair (4).[1]BaseR",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            12.0,
+            10.0,
+            35.0
+          ],
+          "localPosition": [
+            12.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "Laser",
+      "id": "PanicEnvironment.[0]Environment.[32]RotatingLasersPair (4).[1]BaseR.[0]Laser",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            12.0,
+            10.0,
+            35.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            55.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            55.0
+          ],
+          "scale": [
+            1.00000012,
+            1.00000012,
+            1.0
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 1.5,
+              "bloomFogIntensityMultiplier": 0.5,
+              "tubeLength": 500.0,
+              "tubeWidth": 0.05,
+              "center": 0.5,
+              "height": 500.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "PanicEnvironment.[0]Environment.[32]RotatingLasersPair (4).[1]BaseR.[0]Laser.[1]BoxLight",
+              "sliceSpriteControllerId": "PanicEnvironment.[0]Environment.[32]RotatingLasersPair (4).[1]BaseR.[0]Laser.[0]BakedBloom"
+            },
+            "lightId": 4
+          }
+        ]
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "PanicEnvironment.[0]Environment.[32]RotatingLasersPair (4).[1]BaseR.[0]Laser.[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            12.0,
+            10.0,
+            35.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            305.0,
+            90.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            1.00000036,
+            1.00000024,
+            1.00000048
+          ]
+        },
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "efd0d242bf2ace2047b83f3bffefe51d"
+          ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.5,
+          "width": 0.05,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
+        }
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "PanicEnvironment.[0]Environment.[32]RotatingLasersPair (4).[1]BaseR.[0]Laser.[1]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            12.0,
+            10.0,
+            35.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            55.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.025000006,
+            250.000031,
+            0.025
+          ]
+        },
+        "MeshFilter": {
+          "hash": "918b6e6683288362624bdc36ef36ef62"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "2f53648cf0e7229f89336575c9a4624c"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "RotatingLasersPair (5)",
+      "id": "PanicEnvironment.[0]Environment.[33]RotatingLasersPair (5)",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            10.0,
+            30.0
+          ],
+          "localPosition": [
+            0.0,
+            10.0,
+            30.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "LightPairRotationEventEffect": {
+          "eventTypeL": "Event12",
+          "transformL": "PanicEnvironment.[0]Environment.[33]RotatingLasersPair (5).[0]BaseL",
+          "eventTypeR": "Event13",
+          "transformR": "PanicEnvironment.[0]Environment.[33]RotatingLasersPair (5).[1]BaseR",
+          "switchOverrideRandomValuesEvent": "VoidEvent",
+          "rotationVector": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "overrideRandomValues": false,
+          "useZPositionForAngleOffset": false,
+          "zPositionAngleOffsetScale": 1.0,
+          "startRotation": 0.0
+        }
+      }
+    },
+    {
+      "name": "BaseL",
+      "id": "PanicEnvironment.[0]Environment.[33]RotatingLasersPair (5).[0]BaseL",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -12.0,
+            10.0,
+            30.0
+          ],
+          "localPosition": [
+            -12.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "Laser",
+      "id": "PanicEnvironment.[0]Environment.[33]RotatingLasersPair (5).[0]BaseL.[0]Laser",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -12.0,
+            10.0,
+            30.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            305.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            305.0
+          ],
+          "scale": [
+            1.00000012,
+            1.00000012,
+            1.0
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 1.5,
+              "bloomFogIntensityMultiplier": 0.5,
+              "tubeLength": 500.0,
+              "tubeWidth": 0.05,
+              "center": 0.5,
+              "height": 500.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "PanicEnvironment.[0]Environment.[33]RotatingLasersPair (5).[0]BaseL.[0]Laser.[1]BoxLight",
+              "sliceSpriteControllerId": "PanicEnvironment.[0]Environment.[33]RotatingLasersPair (5).[0]BaseL.[0]Laser.[0]BakedBloom"
+            },
+            "lightId": 3
+          }
+        ]
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "PanicEnvironment.[0]Environment.[33]RotatingLasersPair (5).[0]BaseL.[0]Laser.[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -12.0,
+            10.0,
+            30.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            55.0000038,
+            90.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            1.00000036,
+            1.00000024,
+            1.00000048
+          ]
+        },
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "efd0d242bf2ace2047b83f3bffefe51d"
+          ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.5,
+          "width": 0.05,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
+        }
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "PanicEnvironment.[0]Environment.[33]RotatingLasersPair (5).[0]BaseL.[0]Laser.[1]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -12.0,
+            10.0,
+            30.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            305.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.025000006,
+            250.000031,
+            0.025
+          ]
+        },
+        "MeshFilter": {
+          "hash": "918b6e6683288362624bdc36ef36ef62"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "2f53648cf0e7229f89336575c9a4624c"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "BaseR",
+      "id": "PanicEnvironment.[0]Environment.[33]RotatingLasersPair (5).[1]BaseR",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            12.0,
+            10.0,
+            30.0
+          ],
+          "localPosition": [
+            12.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "Laser",
+      "id": "PanicEnvironment.[0]Environment.[33]RotatingLasersPair (5).[1]BaseR.[0]Laser",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            12.0,
+            10.0,
+            30.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            55.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            55.0
+          ],
+          "scale": [
+            1.00000012,
+            1.00000012,
+            1.0
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 1.5,
+              "bloomFogIntensityMultiplier": 0.5,
+              "tubeLength": 500.0,
+              "tubeWidth": 0.05,
+              "center": 0.5,
+              "height": 500.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "PanicEnvironment.[0]Environment.[33]RotatingLasersPair (5).[1]BaseR.[0]Laser.[1]BoxLight",
+              "sliceSpriteControllerId": "PanicEnvironment.[0]Environment.[33]RotatingLasersPair (5).[1]BaseR.[0]Laser.[0]BakedBloom"
+            },
+            "lightId": 4
+          }
+        ]
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "PanicEnvironment.[0]Environment.[33]RotatingLasersPair (5).[1]BaseR.[0]Laser.[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            12.0,
+            10.0,
+            30.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            305.0,
+            90.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            1.00000036,
+            1.00000024,
+            1.00000048
+          ]
+        },
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "efd0d242bf2ace2047b83f3bffefe51d"
+          ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.5,
+          "width": 0.05,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
+        }
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "PanicEnvironment.[0]Environment.[33]RotatingLasersPair (5).[1]BaseR.[0]Laser.[1]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            12.0,
+            10.0,
+            30.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            55.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.025000006,
+            250.000031,
+            0.025
+          ]
+        },
+        "MeshFilter": {
+          "hash": "918b6e6683288362624bdc36ef36ef62"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "2f53648cf0e7229f89336575c9a4624c"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "RotatingLasersPair (6)",
+      "id": "PanicEnvironment.[0]Environment.[34]RotatingLasersPair (6)",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            10.0,
+            25.0
+          ],
+          "localPosition": [
+            0.0,
+            10.0,
+            25.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "LightPairRotationEventEffect": {
+          "eventTypeL": "Event12",
+          "transformL": "PanicEnvironment.[0]Environment.[34]RotatingLasersPair (6).[0]BaseL",
+          "eventTypeR": "Event13",
+          "transformR": "PanicEnvironment.[0]Environment.[34]RotatingLasersPair (6).[1]BaseR",
+          "switchOverrideRandomValuesEvent": "VoidEvent",
+          "rotationVector": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "overrideRandomValues": false,
+          "useZPositionForAngleOffset": false,
+          "zPositionAngleOffsetScale": 1.0,
+          "startRotation": 0.0
+        }
+      }
+    },
+    {
+      "name": "BaseL",
+      "id": "PanicEnvironment.[0]Environment.[34]RotatingLasersPair (6).[0]BaseL",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -12.0,
+            10.0,
+            25.0
+          ],
+          "localPosition": [
+            -12.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "Laser",
+      "id": "PanicEnvironment.[0]Environment.[34]RotatingLasersPair (6).[0]BaseL.[0]Laser",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -12.0,
+            10.0,
+            25.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            305.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            305.0
+          ],
+          "scale": [
+            1.00000012,
+            1.00000012,
+            1.0
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 1.5,
+              "bloomFogIntensityMultiplier": 0.5,
+              "tubeLength": 500.0,
+              "tubeWidth": 0.05,
+              "center": 0.5,
+              "height": 500.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "PanicEnvironment.[0]Environment.[34]RotatingLasersPair (6).[0]BaseL.[0]Laser.[1]BoxLight",
+              "sliceSpriteControllerId": "PanicEnvironment.[0]Environment.[34]RotatingLasersPair (6).[0]BaseL.[0]Laser.[0]BakedBloom"
+            },
+            "lightId": 3
+          }
+        ]
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "PanicEnvironment.[0]Environment.[34]RotatingLasersPair (6).[0]BaseL.[0]Laser.[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -12.0,
+            10.0,
+            25.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            55.0000038,
+            90.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            1.00000036,
+            1.00000024,
+            1.00000048
+          ]
+        },
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "efd0d242bf2ace2047b83f3bffefe51d"
+          ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.5,
+          "width": 0.05,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
+        }
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "PanicEnvironment.[0]Environment.[34]RotatingLasersPair (6).[0]BaseL.[0]Laser.[1]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -12.0,
+            10.0,
+            25.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            305.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.025000006,
+            250.000031,
+            0.025
+          ]
+        },
+        "MeshFilter": {
+          "hash": "918b6e6683288362624bdc36ef36ef62"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "2f53648cf0e7229f89336575c9a4624c"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "BaseR",
+      "id": "PanicEnvironment.[0]Environment.[34]RotatingLasersPair (6).[1]BaseR",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            12.0,
+            10.0,
+            25.0
+          ],
+          "localPosition": [
+            12.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "Laser",
+      "id": "PanicEnvironment.[0]Environment.[34]RotatingLasersPair (6).[1]BaseR.[0]Laser",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            12.0,
+            10.0,
+            25.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            55.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            55.0
+          ],
+          "scale": [
+            1.00000012,
+            1.00000012,
+            1.0
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 1.5,
+              "bloomFogIntensityMultiplier": 0.5,
+              "tubeLength": 500.0,
+              "tubeWidth": 0.05,
+              "center": 0.5,
+              "height": 500.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "PanicEnvironment.[0]Environment.[34]RotatingLasersPair (6).[1]BaseR.[0]Laser.[1]BoxLight",
+              "sliceSpriteControllerId": "PanicEnvironment.[0]Environment.[34]RotatingLasersPair (6).[1]BaseR.[0]Laser.[0]BakedBloom"
+            },
+            "lightId": 4
+          }
+        ]
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "PanicEnvironment.[0]Environment.[34]RotatingLasersPair (6).[1]BaseR.[0]Laser.[0]BakedBloom",
+      "meshName": "Dynamic3SliceSprite",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            12.0,
+            10.0,
+            25.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            305.0,
+            90.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            1.00000036,
+            1.00000024,
+            1.00000048
+          ]
+        },
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "efd0d242bf2ace2047b83f3bffefe51d"
+          ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.5,
+          "width": 0.05,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
+        }
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "PanicEnvironment.[0]Environment.[34]RotatingLasersPair (6).[1]BaseR.[0]Laser.[1]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            12.0,
+            10.0,
+            25.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            55.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.025000006,
+            250.000031,
+            0.025
+          ]
+        },
+        "MeshFilter": {
+          "hash": "918b6e6683288362624bdc36ef36ef62"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "2f53648cf0e7229f89336575c9a4624c"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "NeonTube",
+      "id": "PanicEnvironment.[0]Environment.[35]NeonTube",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -2.55,
+            7.0,
+            68.0
+          ],
+          "localPosition": [
+            -2.55,
+            7.0,
+            68.0
+          ],
+          "rotation": [
+            340.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            340.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 2.0,
+              "bloomFogIntensityMultiplier": 13.0,
+              "tubeLength": 4.0,
+              "tubeWidth": 0.2,
+              "center": 0.5,
+              "height": 4.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "PanicEnvironment.[0]Environment.[35]NeonTube.[1]BoxLight",
+              "sliceSpriteControllerId": "PanicEnvironment.[0]Environment.[35]NeonTube.[0]BakedBloom"
+            },
+            "lightId": 5
+          }
+        ]
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "PanicEnvironment.[0]Environment.[35]NeonTube.[0]BakedBloom",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -2.55,
+            7.0,
+            68.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            90.0,
+            340.0
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            1.00000024,
+            1.0,
+            1.00000024
+          ]
+        },
+        "MeshFilter": {},
+        "MeshRenderer": {
+          "materials": [
+            "efd0d242bf2ace2047b83f3bffefe51d"
+          ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.2,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 4.0,
+          "minAlpha": 0.0
+        }
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "PanicEnvironment.[0]Environment.[35]NeonTube.[1]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            -2.55,
+            7.0,
+            68.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            340.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.1,
+            2.0,
+            0.1
+          ]
+        },
+        "MeshFilter": {
+          "hash": "918b6e6683288362624bdc36ef36ef62"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "1cdd8c1689ede199954a7104600a2472"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "NeonTube (1)",
+      "id": "PanicEnvironment.[0]Environment.[36]NeonTube (1)",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            2.55,
+            7.0,
+            68.0
+          ],
+          "localPosition": [
+            2.55,
+            7.0,
+            68.0
+          ],
+          "rotation": [
+            340.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            340.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "TubeBloomPrePassLightWithId": [
+          {
+            "tubeBloomPrePassLight": {
+              "colorAlphaMultiplier": 2.0,
+              "bloomFogIntensityMultiplier": 13.0,
+              "tubeLength": 4.0,
+              "tubeWidth": 0.2,
+              "center": 0.5,
+              "height": 4.0,
+              "startAlpha": 1.0,
+              "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
+              "lightWidthMultiplier": 1.0,
+              "useCollision": false,
+              "parametricBoxId": "PanicEnvironment.[0]Environment.[36]NeonTube (1).[1]BoxLight",
+              "sliceSpriteControllerId": "PanicEnvironment.[0]Environment.[36]NeonTube (1).[0]BakedBloom"
+            },
+            "lightId": 5
+          }
+        ]
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "PanicEnvironment.[0]Environment.[36]NeonTube (1).[0]BakedBloom",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            2.55,
+            7.0,
+            68.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            90.0,
+            340.0
+          ],
+          "localRotation": [
+            0.0,
+            90.0,
+            0.0
+          ],
+          "scale": [
+            1.00000024,
+            1.0,
+            1.00000024
+          ]
+        },
+        "MeshFilter": {},
+        "MeshRenderer": {
+          "materials": [
+            "efd0d242bf2ace2047b83f3bffefe51d"
+          ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.2,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 4.0,
+          "minAlpha": 0.0
+        }
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "PanicEnvironment.[0]Environment.[36]NeonTube (1).[1]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            2.55,
+            7.0,
+            68.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            340.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.1,
+            2.0,
+            0.1
+          ]
+        },
+        "MeshFilter": {
+          "hash": "918b6e6683288362624bdc36ef36ef62"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "1cdd8c1689ede199954a7104600a2472"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "GradientBackground",
+      "id": "PanicEnvironment.[0]Environment.[37]GradientBackground",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "BakedReflectionProbe",
+      "id": "PanicEnvironment.[0]Environment.[38]BakedReflectionProbe",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            1.5,
+            5.0
+          ],
+          "localPosition": [
+            0.0,
+            1.5,
+            5.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "BakedReflectionProbe": {
+          "probeSize": [
+            200.0,
+            200.0,
+            200.0
+          ],
+          "probePosition": [
+            0.0,
+            1.5,
+            5.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "BSBakedLightingLightWithIds",
+      "id": "PanicEnvironment.[0]Environment.[39]BSBakedLightingLightWithIds",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "PlayersPlace",
+      "id": "PanicEnvironment.[0]Environment.[4]PlayersPlace",
+      "layer": "PlayersPlace",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "Mirror",
+      "id": "PanicEnvironment.[0]Environment.[4]PlayersPlace.[0]Mirror",
+      "meshName": "pb_Mesh-2538116",
+      "layer": "Water",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.005,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.005,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "MeshFilter": {
+          "hash": "305984c181f88426539c88dcb23f61e1"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "a97bb8953136bcdd00eea8f1107e0aeb"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Construction",
+      "id": "PanicEnvironment.[0]Environment.[4]PlayersPlace.[2]Construction",
+      "meshName": "pb_Mesh-2538136",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "MeshFilter": {
+          "hash": "d3ca75607c073a4d2ff24d9950b343e9"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "32344ccefc891a79d61f366a7223ba0c"
+          ]
+        }
+      }
+    },
+    {
+      "name": "RectangleFakeGlow",
+      "id": "PanicEnvironment.[0]Environment.[4]PlayersPlace.[3]RectangleFakeGlow",
+      "meshName": "RectangleFakeGlow",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.008,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.008,
+            0.0
+          ],
+          "rotation": [
+            90.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            90.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.495,
+            0.995000243,
+            1.00000024
+          ]
+        },
+        "MeshFilter": {
+          "hash": "82ea09b58af4dc40242a50a3224b8176"
+        },
+        "RectangleFakeGlow": {
+          "rectangleSize": [
+            2.99,
+            1.99
+          ]
+        },
+        "MeshRenderer": {
+          "materials": [
+            "6a57238a079a4d360b12e9d3a777e1b0"
+          ]
+        }
+      }
+    },
+    {
+      "name": "SaberBurnMarksParticles",
+      "id": "PanicEnvironment.[0]Environment.[4]PlayersPlace.[4]SaberBurnMarksParticles",
+      "layer": "NonReflectedParticles",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.005,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.005,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "SaberBurnMarkSparklePS",
+      "id": "PanicEnvironment.[0]Environment.[4]PlayersPlace.[4]SaberBurnMarksParticles.[0]SaberBurnMarkSparklePS",
+      "layer": "NonReflectedParticles",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.005,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "SaberBurnMarksArea",
+      "id": "PanicEnvironment.[0]Environment.[4]PlayersPlace.[5]SaberBurnMarksArea",
+      "meshName": "PlayersPlaceCore",
+      "layer": "NonReflectedParticles",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.01,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.01,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "MeshFilter": {
+          "hash": "1cdf5eb3bb475b8ee9c8959d7bbe9ee1"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "753e70e0ebb6bcbec2329b02d705b919"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Collider",
+      "id": "PanicEnvironment.[0]Environment.[4]PlayersPlace.[6]Collider",
+      "layer": "PlayersPlace",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            -0.09,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            -0.09,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "FakeMirrorSettings",
+      "id": "PanicEnvironment.[0]Environment.[40]FakeMirrorSettings",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "BakedReflectionProbeInstaller",
+      "id": "PanicEnvironment.[0]Environment.[41]BakedReflectionProbeInstaller",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "Window",
+      "id": "PanicEnvironment.[0]Environment.[5]Window",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            -2.5,
+            7.0,
+            68.0
+          ],
+          "localPosition": [
+            -2.5,
+            7.0,
+            68.0
+          ],
+          "rotation": [
+            340.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            340.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            10.0,
+            10.0,
+            1.0
+          ]
+        },
+        "SpriteLightWithId": {
+          "lightId": 5,
+          "lightIntensity": 1.3,
+          "sprite": {
+            "name": "PanicWindow",
+            "textureName": "PanicWindow",
+            "size": [
+              256.0,
+              512.0
+            ],
+            "materials": [
+              "84d4c639f46135f14282fc50856755f9"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "Window",
+      "id": "PanicEnvironment.[0]Environment.[6]Window",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            2.5,
+            7.0,
+            68.0
+          ],
+          "localPosition": [
+            2.5,
+            7.0,
+            68.0
+          ],
+          "rotation": [
+            340.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            340.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            10.0,
+            10.0,
+            1.0
+          ]
+        },
+        "SpriteLightWithId": {
+          "lightId": 5,
+          "lightIntensity": 1.3,
+          "sprite": {
+            "name": "PanicWindow",
+            "textureName": "PanicWindow",
+            "size": [
+              256.0,
+              512.0
+            ],
+            "materials": [
+              "84d4c639f46135f14282fc50856755f9"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "BottomCones",
+      "id": "PanicEnvironment.[0]Environment.[7]BottomCones",
+      "meshName": "BottomCones",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            -55.0,
+            44.0
+          ],
+          "localPosition": [
+            0.0,
+            -55.0,
+            44.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "MeshFilter": {
+          "hash": "9a02bcf283503f73669ec360ac315be9"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "181778b6a2f19b89a26bad20821dcdca"
+          ]
+        }
+      }
+    },
+    {
+      "name": "TopCones",
+      "id": "PanicEnvironment.[0]Environment.[8]TopCones",
+      "meshName": "TopCones",
+      "layer": "Environment",
+      "components": {
+        "Transform": {
+          "position": [
+            -41.0,
+            40.0,
+            24.0
+          ],
+          "localPosition": [
+            -41.0,
+            40.0,
+            24.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "MeshFilter": {
+          "hash": "455bdd07843086c69ca894493c81a852"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "2a31b23cd8ac805fbd05603596f92962"
+          ]
+        }
+      }
+    },
+    {
+      "name": "TrackMirror",
+      "id": "PanicEnvironment.[0]Environment.[9]TrackMirror",
+      "meshName": "TrackMirror_Panic",
+      "layer": "Water",
+      "components": {
+        "Transform": {
+          "position": [
+            0.9,
+            0.0,
+            7.8
+          ],
+          "localPosition": [
+            0.9,
+            0.0,
+            7.8
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "MeshFilter": {
+          "hash": "526736eb7ca4ad6f83b8b3d32ba73802"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "b90c188f8a4c6a9220b9c00ac5ec4f65"
+          ]
+        }
+      }
+    },
+    {
+      "name": "TrackMirrorSetDepth",
+      "id": "PanicEnvironment.[0]Environment.[9]TrackMirror.[0]TrackMirrorSetDepth",
+      "meshName": "TrackMirror_Panic",
+      "layer": "Water",
+      "components": {
+        "Transform": {
+          "position": [
+            0.9,
+            0.0,
+            7.8
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "MeshFilter": {
+          "hash": "526736eb7ca4ad6f83b8b3d32ba73802"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "47348bfff0fbcb3e14515ad3bfebc6be"
+          ]
         }
       }
     }
