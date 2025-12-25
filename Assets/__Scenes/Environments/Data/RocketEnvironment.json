@@ -23,6 +23,11 @@
         0.718072355,
         1.0
       ],
+      "envColorWhite": [
+        0.7254902,
+        0.7254902,
+        0.7254902
+      ],
       "obstacleColor": [
         0.31764707,
         0.6117647,
@@ -34,6 +39,11 @@
         0.0
       ],
       "envColorRightBoost": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "envColorWhiteBoost": [
         0.0,
         0.0,
         0.0
@@ -100,6 +110,44 @@
     },
     "uniqueMaterials": [
       {
+        "hash": "2f53648cf0e7229f89336575c9a4624c",
+        "name": "EnvLight",
+        "shader": "Custom/TransparentNeonLight",
+        "color": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "shaderKeywords": [
+          "ENABLE_HEIGHT_FOG",
+          "MULTIPLY_COLOR_WITH_ALPHA",
+          "_ENABLE_MAIN_EFFECT_WHITE_BOOST"
+        ]
+      },
+      {
+        "hash": "efd0d242bf2ace2047b83f3bffefe51d",
+        "name": "EnvLightBillboardSpriteGlow",
+        "shader": "Custom/Parametric3SliceSprite",
+        "color": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "shaderKeywords": [
+          "ALPHA_WIDTH_SCALE",
+          "ENABLE_FOG",
+          "ENABLE_HEIGHT_FOG",
+          "ENABLE_NOISE_DITHERING",
+          "ENABLE_Y_AXIS_BILLBOARD",
+          "USE_FOG_FOR_LIGHTS",
+          "ETC1_EXTERNAL_ALPHA",
+          "_ENABLE_Y_AXIS_BILLBOARD",
+          "_WHITEBOOSTTYPE_NONE"
+        ]
+      },
+      {
         "hash": "6bab63cf078f8d9af8162a9eb168b069",
         "name": "BakedGlowLine",
         "shader": "Custom/CustomParticles",
@@ -154,28 +202,6 @@
         ]
       },
       {
-        "hash": "efd0d242bf2ace2047b83f3bffefe51d",
-        "name": "EnvLightBillboardSpriteGlow",
-        "shader": "Custom/Parametric3SliceSprite",
-        "color": [
-          -1.0,
-          -1.0,
-          -1.0,
-          -1.0
-        ],
-        "shaderKeywords": [
-          "ALPHA_WIDTH_SCALE",
-          "ENABLE_FOG",
-          "ENABLE_HEIGHT_FOG",
-          "ENABLE_NOISE_DITHERING",
-          "ENABLE_Y_AXIS_BILLBOARD",
-          "USE_FOG_FOR_LIGHTS",
-          "ETC1_EXTERNAL_ALPHA",
-          "_ENABLE_Y_AXIS_BILLBOARD",
-          "_WHITEBOOSTTYPE_NONE"
-        ]
-      },
-      {
         "hash": "2487501c6a10ee0041e8c4764f6addaa",
         "name": "GridMirror",
         "shader": "Custom/Mirror",
@@ -214,22 +240,6 @@
           "_EMISSION",
           "_ENABLE_FOG_TINT",
           "_RIMLIGHT_NONE"
-        ]
-      },
-      {
-        "hash": "2f53648cf0e7229f89336575c9a4624c",
-        "name": "EnvLight",
-        "shader": "Custom/TransparentNeonLight",
-        "color": [
-          -1.0,
-          -1.0,
-          -1.0,
-          -1.0
-        ],
-        "shaderKeywords": [
-          "ENABLE_HEIGHT_FOG",
-          "MULTIPLY_COLOR_WITH_ALPHA",
-          "_ENABLE_MAIN_EFFECT_WHITE_BOOST"
         ]
       },
       {
@@ -557,6 +567,20 @@
     ],
     "uniqueMeshes": [
       {
+        "name": "ParametricBox",
+        "hash": "918b6e6683288362624bdc36ef36ef62",
+        "boundsSize": [
+          2.0,
+          2.0,
+          2.0
+        ],
+        "boundsCenter": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
         "name": "ArenaLight",
         "hash": "a008b34f00e19e2c96feeeb1a939d214",
         "boundsSize": [
@@ -582,20 +606,6 @@
           -4.76837158E-07,
           0.151563436,
           3.505169
-        ]
-      },
-      {
-        "name": "ParametricBox",
-        "hash": "918b6e6683288362624bdc36ef36ef62",
-        "boundsSize": [
-          2.0,
-          2.0,
-          2.0
-        ],
-        "boundsCenter": [
-          0.0,
-          0.0,
-          0.0
         ]
       },
       {
@@ -863,22 +873,559 @@
             0.0
           ],
           "rotation": [
-            89.90722,
-            359.90625,
+            90.0,
+            0.0,
             0.0
           ],
           "localRotation": [
-            89.90722,
-            359.90625,
+            90.0,
+            0.0,
             0.0
           ],
           "scale": [
             1.0,
-            1.00000012,
+            1.00000024,
+            1.00000024
+          ]
+        }
+      }
+    },
+    {
+      "name": "NarrowGameHUD",
+      "id": "RocketEnvironment.[0]Environment.[12]NarrowGameHUD",
+      "layer": "UI",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
             1.0
           ]
         }
       }
+    },
+    {
+      "name": "EnergyPanel",
+      "id": "RocketEnvironment.[0]Environment.[12]NarrowGameHUD.[0]EnergyPanel",
+      "layer": "UI",
+      "components": {
+        "Animator": {
+          "animatorParameters": [],
+          "animatorLayerNames": []
+        }
+      }
+    },
+    {
+      "name": "BG",
+      "id": "RocketEnvironment.[0]Environment.[12]NarrowGameHUD.[0]EnergyPanel.[0]BG",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "BarBG",
+      "id": "RocketEnvironment.[0]Environment.[12]NarrowGameHUD.[0]EnergyPanel.[1]BarBG",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "EnergyIconEmpty",
+      "id": "RocketEnvironment.[0]Environment.[12]NarrowGameHUD.[0]EnergyPanel.[2]EnergyIconEmpty",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "EnergyIconFull",
+      "id": "RocketEnvironment.[0]Environment.[12]NarrowGameHUD.[0]EnergyPanel.[3]EnergyIconFull",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "EnergyBarWrapper",
+      "id": "RocketEnvironment.[0]Environment.[12]NarrowGameHUD.[0]EnergyPanel.[4]EnergyBarWrapper",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "EnergyBar",
+      "id": "RocketEnvironment.[0]Environment.[12]NarrowGameHUD.[0]EnergyPanel.[4]EnergyBarWrapper.[0]EnergyBar",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Laser",
+      "id": "RocketEnvironment.[0]Environment.[12]NarrowGameHUD.[0]EnergyPanel.[5]Laser",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            5.7
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            -40.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            90.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            90.0
+          ],
+          "scale": [
+            0.0200000033,
+            0.0200000033,
+            0.02
+          ]
+        }
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "RocketEnvironment.[0]Environment.[12]NarrowGameHUD.[0]EnergyPanel.[5]Laser.[0]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            5.7
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            90.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.0,
+            5.000001,
+            0.0
+          ]
+        },
+        "MeshFilter": {
+          "hash": "918b6e6683288362624bdc36ef36ef62"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "2f53648cf0e7229f89336575c9a4624c"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "RocketEnvironment.[0]Environment.[12]NarrowGameHUD.[0]EnergyPanel.[5]Laser.[1]BakedBloom",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            5.7
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            90.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.0200000033,
+            0.0200000033,
+            0.02
+          ]
+        },
+        "MeshFilter": {},
+        "MeshRenderer": {
+          "materials": [
+            "efd0d242bf2ace2047b83f3bffefe51d"
+          ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 5.2,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.0,
+          "width": 0.0,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
+        }
+      }
+    },
+    {
+      "name": "FailIcon",
+      "id": "RocketEnvironment.[0]Environment.[12]NarrowGameHUD.[0]EnergyPanel.[6]FailIcon",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "LeftPanel",
+      "id": "RocketEnvironment.[0]Environment.[12]NarrowGameHUD.[1]LeftPanel",
+      "layer": "UI",
+      "components": {
+        "Transform": {
+          "position": [
+            -2.0,
+            0.4,
+            7.0
+          ],
+          "localPosition": [
+            -2.0,
+            0.4,
+            7.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "ComboPanel",
+      "id": "RocketEnvironment.[0]Environment.[12]NarrowGameHUD.[1]LeftPanel.[0]ComboPanel",
+      "layer": "UI",
+      "components": {
+        "Animator": {
+          "animatorParameters": [
+            "ComboLost"
+          ],
+          "animatorLayerNames": [
+            "Base Layer"
+          ]
+        }
+      }
+    },
+    {
+      "name": "ComboText",
+      "id": "RocketEnvironment.[0]Environment.[12]NarrowGameHUD.[1]LeftPanel.[0]ComboPanel.[0]ComboText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "ComboCanvas",
+      "id": "RocketEnvironment.[0]Environment.[12]NarrowGameHUD.[1]LeftPanel.[0]ComboPanel.[1]ComboCanvas",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "NumText",
+      "id": "RocketEnvironment.[0]Environment.[12]NarrowGameHUD.[1]LeftPanel.[0]ComboPanel.[1]ComboCanvas.[0]NumText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Line0",
+      "id": "RocketEnvironment.[0]Environment.[12]NarrowGameHUD.[1]LeftPanel.[0]ComboPanel.[2]Line0",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Line1",
+      "id": "RocketEnvironment.[0]Environment.[12]NarrowGameHUD.[1]LeftPanel.[0]ComboPanel.[3]Line1",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "ScoreCanvas",
+      "id": "RocketEnvironment.[0]Environment.[12]NarrowGameHUD.[1]LeftPanel.[1]ScoreCanvas",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "ScoreText",
+      "id": "RocketEnvironment.[0]Environment.[12]NarrowGameHUD.[1]LeftPanel.[1]ScoreCanvas.[0]ScoreText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "ImmediateRankText",
+      "id": "RocketEnvironment.[0]Environment.[12]NarrowGameHUD.[1]LeftPanel.[1]ScoreCanvas.[1]ImmediateRankText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "RelativeScoreText",
+      "id": "RocketEnvironment.[0]Environment.[12]NarrowGameHUD.[1]LeftPanel.[1]ScoreCanvas.[2]RelativeScoreText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "RightPanel",
+      "id": "RocketEnvironment.[0]Environment.[12]NarrowGameHUD.[2]RightPanel",
+      "layer": "UI",
+      "components": {
+        "Transform": {
+          "position": [
+            2.0,
+            0.4,
+            7.0
+          ],
+          "localPosition": [
+            2.0,
+            0.4,
+            7.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "MultiplierCanvas",
+      "id": "RocketEnvironment.[0]Environment.[12]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas",
+      "layer": "UI",
+      "components": {
+        "Animator": {
+          "animatorParameters": [
+            "MultiplierIncreased"
+          ],
+          "animatorLayerNames": [
+            "Base Layer"
+          ]
+        }
+      }
+    },
+    {
+      "name": "BGCircle",
+      "id": "RocketEnvironment.[0]Environment.[12]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[0]BGCircle",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "FGCircle",
+      "id": "RocketEnvironment.[0]Environment.[12]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[1]FGCircle",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "AnimationCircle",
+      "id": "RocketEnvironment.[0]Environment.[12]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[2]AnimationCircle",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "TextOverlayPanelOutline1",
+      "id": "RocketEnvironment.[0]Environment.[12]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[3]TextOverlayPanelOutline1",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "XText",
+      "id": "RocketEnvironment.[0]Environment.[12]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[3]TextOverlayPanelOutline1.[0]XText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "NumText",
+      "id": "RocketEnvironment.[0]Environment.[12]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[3]TextOverlayPanelOutline1.[1]NumText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "TextOverlayPanelOutline0",
+      "id": "RocketEnvironment.[0]Environment.[12]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[4]TextOverlayPanelOutline0",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "XText",
+      "id": "RocketEnvironment.[0]Environment.[12]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[4]TextOverlayPanelOutline0.[0]XText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "NumText",
+      "id": "RocketEnvironment.[0]Environment.[12]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[4]TextOverlayPanelOutline0.[1]NumText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "TextPanel",
+      "id": "RocketEnvironment.[0]Environment.[12]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[5]TextPanel",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "XText",
+      "id": "RocketEnvironment.[0]Environment.[12]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[5]TextPanel.[0]XText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "NumText",
+      "id": "RocketEnvironment.[0]Environment.[12]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[5]TextPanel.[1]NumText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "SongProgressCanvas",
+      "id": "RocketEnvironment.[0]Environment.[12]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Progress",
+      "id": "RocketEnvironment.[0]Environment.[12]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[0]Progress",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Slider",
+      "id": "RocketEnvironment.[0]Environment.[12]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[1]Slider",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Background",
+      "id": "RocketEnvironment.[0]Environment.[12]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[1]Slider.[0]Background",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Handle Slide Area",
+      "id": "RocketEnvironment.[0]Environment.[12]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[1]Slider.[1]Handle Slide Area",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Handle",
+      "id": "RocketEnvironment.[0]Environment.[12]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[1]Slider.[1]Handle Slide Area.[0]Handle",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "ProgressText",
+      "id": "RocketEnvironment.[0]Environment.[12]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Progress",
+      "id": "RocketEnvironment.[0]Environment.[12]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.[0]Progress",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "ProgressMinutes",
+      "id": "RocketEnvironment.[0]Environment.[12]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.[0]Progress.[0]ProgressMinutes",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "ProgressColon",
+      "id": "RocketEnvironment.[0]Environment.[12]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.[0]Progress.[1]ProgressColon",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "ProgressSeconds",
+      "id": "RocketEnvironment.[0]Environment.[12]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.[0]Progress.[2]ProgressSeconds",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Separator",
+      "id": "RocketEnvironment.[0]Environment.[12]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.[1]Separator",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Duration",
+      "id": "RocketEnvironment.[0]Environment.[12]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.[2]Duration",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "DurationMinutes",
+      "id": "RocketEnvironment.[0]Environment.[12]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.[2]Duration.[0]DurationMinutes",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "DurationColon",
+      "id": "RocketEnvironment.[0]Environment.[12]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.[2]Duration.[1]DurationColon",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "DurationSeconds",
+      "id": "RocketEnvironment.[0]Environment.[12]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.[2]Duration.[2]DurationSeconds",
+      "layer": "UI",
+      "components": {}
     },
     {
       "name": "RocketArenaLight",
@@ -917,7 +1464,7 @@
           "hash": "a008b34f00e19e2c96feeeb1a939d214"
         },
         "InstancedMaterialLightWithId": {
-          "materialLightId": 1,
+          "lightId": 1,
           "materialLightIntensity": 1.5
         },
         "MeshRenderer": {
@@ -998,7 +1545,7 @@
           "hash": "1b60bd3f494d5570282383d1043cbfbf"
         },
         "InstancedMaterialLightWithId": {
-          "materialLightId": 5,
+          "lightId": 5,
           "materialLightIntensity": 1.5
         },
         "MeshRenderer": {
@@ -1038,6 +1585,196 @@
             1.0,
             1.0,
             1.0
+          ]
+        },
+        "LightWithIdManager": {
+          "lights": [
+            [
+              {
+                "ID": "RocketEnvironment.[0]Environment.[42]GlowLineL (8)",
+                "id": 1
+              },
+              {
+                "ID": "RocketEnvironment.[0]Environment.[30]EnvLight0 (3)",
+                "id": 1
+              },
+              {
+                "ID": "RocketEnvironment.[0]Environment.[43]GlowLineL (9)",
+                "id": 1
+              },
+              {
+                "ID": "RocketEnvironment.[0]Environment.[41]GlowLineL (7)",
+                "id": 1
+              },
+              {
+                "ID": "RocketEnvironment.[0]Environment.[26]EnvLight0 (4)",
+                "id": 1
+              },
+              {
+                "ID": "RocketEnvironment.[0]Environment.[28]EnvLight0 (7)",
+                "id": 1
+              },
+              {
+                "ID": "RocketEnvironment.[0]Environment.[29]EnvLight0 (8)",
+                "id": 1
+              },
+              {
+                "ID": "RocketEnvironment.[0]Environment.[31]EnvLight0 (5)",
+                "id": 1
+              },
+              {
+                "ID": "RocketEnvironment.[0]Environment.[25]EnvLight0 (2)",
+                "id": 1
+              },
+              {
+                "ID": "RocketEnvironment.[0]Environment.[27]EnvLight0 (6)",
+                "id": 1
+              },
+              {
+                "ID": "RocketEnvironment.[0]Environment.[32]EnvLight0 (9)",
+                "id": 1
+              },
+              {
+                "ID": "RocketEnvironment.[0]Environment.[40]GlowLineL (6)",
+                "id": 1
+              },
+              {
+                "ID": "RocketEnvironment.[0]Environment.[13]RocketArenaLight",
+                "id": 1
+              }
+            ],
+            [
+              {
+                "ID": "RocketEnvironment.[0]Environment.[38]GlowLineL (5)",
+                "id": 2
+              },
+              {
+                "ID": "RocketEnvironment.[0]Environment.[36]GlowLineL (3)",
+                "id": 2
+              },
+              {
+                "ID": "RocketEnvironment.[0]Environment.[35]GlowLineL (2)",
+                "id": 2
+              },
+              {
+                "ID": "RocketEnvironment.[0]Environment.[37]GlowLineL (4)",
+                "id": 2
+              }
+            ],
+            [
+              {
+                "ID": "RocketEnvironment.[0]Environment.[50]RotatingLasersPair (10).[0]BaseL.[0]Laser",
+                "id": 3
+              },
+              {
+                "ID": "RocketEnvironment.[0]Environment.[48]RotatingLasersPair (8).[0]BaseL.[0]Laser",
+                "id": 3
+              },
+              {
+                "ID": "RocketEnvironment.[0]Environment.[49]RotatingLasersPair (9).[0]BaseL.[0]Laser",
+                "id": 3
+              },
+              {
+                "ID": "RocketEnvironment.[0]Environment.[45]RotatingLasersPair (13).[0]BaseL.[0]Laser",
+                "id": 3
+              },
+              {
+                "ID": "RocketEnvironment.[0]Environment.[51]RotatingLasersPair (11).[0]BaseL.[0]Laser",
+                "id": 3
+              },
+              {
+                "ID": "RocketEnvironment.[0]Environment.[46]RotatingLasersPair (12).[0]BaseL.[0]Laser",
+                "id": 3
+              },
+              {
+                "ID": "RocketEnvironment.[0]Environment.[47]RotatingLasersPair (7).[0]BaseL.[0]Laser",
+                "id": 3
+              }
+            ],
+            [
+              {
+                "ID": "RocketEnvironment.[0]Environment.[48]RotatingLasersPair (8).[1]BaseR.[0]Laser",
+                "id": 4
+              },
+              {
+                "ID": "RocketEnvironment.[0]Environment.[50]RotatingLasersPair (10).[1]BaseR.[0]Laser",
+                "id": 4
+              },
+              {
+                "ID": "RocketEnvironment.[0]Environment.[49]RotatingLasersPair (9).[1]BaseR.[0]Laser",
+                "id": 4
+              },
+              {
+                "ID": "RocketEnvironment.[0]Environment.[45]RotatingLasersPair (13).[1]BaseR.[0]Laser",
+                "id": 4
+              },
+              {
+                "ID": "RocketEnvironment.[0]Environment.[51]RotatingLasersPair (11).[1]BaseR.[0]Laser",
+                "id": 4
+              },
+              {
+                "ID": "RocketEnvironment.[0]Environment.[46]RotatingLasersPair (12).[1]BaseR.[0]Laser",
+                "id": 4
+              },
+              {
+                "ID": "RocketEnvironment.[0]Environment.[47]RotatingLasersPair (7).[1]BaseR.[0]Laser",
+                "id": 4
+              }
+            ],
+            [
+              {
+                "ID": "RocketEnvironment.[0]Environment.[6]PlayersPlace.[1]Feet",
+                "id": 5
+              },
+              {
+                "ID": "RocketEnvironment.[0]Environment.[6]PlayersPlace.[3]RectangleFakeGlow",
+                "id": 5
+              },
+              {
+                "ID": "RocketEnvironment.[0]Environment.[22]FrontLights.[1]NeonTube (1)",
+                "id": 5
+              },
+              {
+                "ID": "RocketEnvironment.[0]Environment.[22]FrontLights.[0]NeonTube",
+                "id": 5
+              },
+              {
+                "ID": "RocketEnvironment.[0]Environment.[39]BackColumns.[1]BackColumnNeon",
+                "id": 5
+              },
+              {
+                "ID": "RocketEnvironment.[0]Environment.[39]BackColumns.[0]BackColumnNeon",
+                "id": 5
+              },
+              {
+                "ID": "RocketEnvironment.[0]Environment.[15]RocketGateLight",
+                "id": 5
+              },
+              {
+                "ID": "RocketEnvironment.[0]Environment.[24]EnvLight0",
+                "id": 5
+              },
+              {
+                "ID": "RocketEnvironment.[0]Environment.[33]GlowLineL (1)",
+                "id": 5
+              },
+              {
+                "ID": "RocketEnvironment.[0]Environment.[21]GateLight1",
+                "id": 5
+              },
+              {
+                "ID": "RocketEnvironment.[0]Environment.[20]GateLight0",
+                "id": 5
+              },
+              {
+                "ID": "RocketEnvironment.[0]Environment.[34]GlowLineR (1)",
+                "id": 5
+              },
+              {
+                "ID": "RocketEnvironment.[0]Environment.[23]GateLight1 (4)",
+                "id": 5
+              }
+            ]
           ]
         }
       }
@@ -1307,6 +2044,20 @@
             1.0,
             1.0
           ]
+        },
+        "LightRotationEventEffect": {
+          "eventType": "Event12",
+          "rotationVector": [
+            0.9311541,
+            -0.173648179,
+            -0.320622027
+          ],
+          "rotationSpeedMultiplier": -2.0,
+          "startRotation": [
+            0.0,
+            0.0,
+            0.0
+          ]
         }
       }
     },
@@ -1383,6 +2134,20 @@
             1.0,
             1.0,
             1.0
+          ]
+        },
+        "LightRotationEventEffect": {
+          "eventType": "Event13",
+          "rotationVector": [
+            -0.9311541,
+            -0.173648179,
+            -0.320622027
+          ],
+          "rotationSpeedMultiplier": 2.0,
+          "startRotation": [
+            0.0,
+            0.0,
+            0.0
           ]
         }
       }
@@ -1590,6 +2355,12 @@
             1.0,
             1.0
           ]
+        },
+        "LightSwitchEventEffect": {
+          "eventType": "Event4",
+          "offColorIntensity": 0.0,
+          "lightOnStart": false,
+          "lightsId": 5
         }
       }
     },
@@ -1636,14 +2407,17 @@
               "height": 16.6,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 0.9,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "RocketEnvironment.[0]Environment.[20]GateLight0.[0]BoxLight"
+              "parametricBoxId": "RocketEnvironment.[0]Environment.[20]GateLight0.[0]BoxLight",
+              "sliceSpriteControllerId": "RocketEnvironment.[0]Environment.[20]GateLight0.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": -1,
-              "lightId": 4
-            }
+            "lightId": 5
           }
         ]
       }
@@ -1729,6 +2503,18 @@
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.2,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 16.6,
+          "minAlpha": 0.0
         }
       }
     },
@@ -1775,14 +2561,17 @@
               "height": 4.99,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 0.9,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "RocketEnvironment.[0]Environment.[21]GateLight1.[0]BoxLight"
+              "parametricBoxId": "RocketEnvironment.[0]Environment.[21]GateLight1.[0]BoxLight",
+              "sliceSpriteControllerId": "RocketEnvironment.[0]Environment.[21]GateLight1.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": -1,
-              "lightId": 4
-            }
+            "lightId": 5
           }
         ]
       }
@@ -1868,6 +2657,18 @@
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.2,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.0,
+          "length": 4.99,
+          "minAlpha": 0.0
         }
       }
     },
@@ -1948,14 +2749,17 @@
               "height": 2.5,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "RocketEnvironment.[0]Environment.[22]FrontLights.[0]NeonTube.[1]BoxLight"
+              "parametricBoxId": "RocketEnvironment.[0]Environment.[22]FrontLights.[0]NeonTube.[1]BoxLight",
+              "sliceSpriteControllerId": "RocketEnvironment.[0]Environment.[22]FrontLights.[0]NeonTube.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 4,
-              "lightId": 4
-            }
+            "lightId": 5
           }
         ]
       }
@@ -1993,11 +2797,25 @@
             1.00000072
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 4.0,
+          "width": 0.2,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 1.0,
+          "length": 2.5,
+          "minAlpha": 0.0
         }
       }
     },
@@ -2088,14 +2906,17 @@
               "height": 2.5,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "RocketEnvironment.[0]Environment.[22]FrontLights.[1]NeonTube (1).[1]BoxLight"
+              "parametricBoxId": "RocketEnvironment.[0]Environment.[22]FrontLights.[1]NeonTube (1).[1]BoxLight",
+              "sliceSpriteControllerId": "RocketEnvironment.[0]Environment.[22]FrontLights.[1]NeonTube (1).[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 5,
-              "lightId": 4
-            }
+            "lightId": 5
           }
         ]
       }
@@ -2133,11 +2954,25 @@
             1.00000072
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 4.0,
+          "width": 0.2,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 1.0,
+          "length": 2.5,
+          "minAlpha": 0.0
         }
       }
     },
@@ -2228,14 +3063,17 @@
               "height": 4.99,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 0.9,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "RocketEnvironment.[0]Environment.[23]GateLight1 (4).[0]BoxLight"
+              "parametricBoxId": "RocketEnvironment.[0]Environment.[23]GateLight1 (4).[0]BoxLight",
+              "sliceSpriteControllerId": "RocketEnvironment.[0]Environment.[23]GateLight1 (4).[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": -1,
-              "lightId": 4
-            }
+            "lightId": 5
           }
         ]
       }
@@ -2321,6 +3159,18 @@
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.2,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.0,
+          "length": 4.99,
+          "minAlpha": 0.0
         }
       }
     },
@@ -2367,14 +3217,17 @@
               "height": 16.9,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "RocketEnvironment.[0]Environment.[24]EnvLight0.[0]BoxLight"
+              "parametricBoxId": "RocketEnvironment.[0]Environment.[24]EnvLight0.[0]BoxLight",
+              "sliceSpriteControllerId": "RocketEnvironment.[0]Environment.[24]EnvLight0.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": -1,
-              "lightId": 4
-            }
+            "lightId": 5
           }
         ]
       }
@@ -2460,6 +3313,18 @@
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.2,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 16.9,
+          "minAlpha": 0.0
         }
       }
     },
@@ -2506,14 +3371,17 @@
               "height": 16.27,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "RocketEnvironment.[0]Environment.[25]EnvLight0 (2).[0]BoxLight"
+              "parametricBoxId": "RocketEnvironment.[0]Environment.[25]EnvLight0 (2).[0]BoxLight",
+              "sliceSpriteControllerId": "RocketEnvironment.[0]Environment.[25]EnvLight0 (2).[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 11,
-              "lightId": 0
-            }
+            "lightId": 1
           }
         ]
       }
@@ -2599,6 +3467,18 @@
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.2,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 1.0,
+          "length": 16.27,
+          "minAlpha": 0.0
         }
       }
     },
@@ -2645,14 +3525,17 @@
               "height": 16.7,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "RocketEnvironment.[0]Environment.[26]EnvLight0 (4).[0]BoxLight"
+              "parametricBoxId": "RocketEnvironment.[0]Environment.[26]EnvLight0 (4).[0]BoxLight",
+              "sliceSpriteControllerId": "RocketEnvironment.[0]Environment.[26]EnvLight0 (4).[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 9,
-              "lightId": 0
-            }
+            "lightId": 1
           }
         ]
       }
@@ -2738,6 +3621,18 @@
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.2,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 1.0,
+          "length": 16.7,
+          "minAlpha": 0.0
         }
       }
     },
@@ -2784,14 +3679,17 @@
               "height": 34.5,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "RocketEnvironment.[0]Environment.[27]EnvLight0 (6).[0]BoxLight"
+              "parametricBoxId": "RocketEnvironment.[0]Environment.[27]EnvLight0 (6).[0]BoxLight",
+              "sliceSpriteControllerId": "RocketEnvironment.[0]Environment.[27]EnvLight0 (6).[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 7,
-              "lightId": 0
-            }
+            "lightId": 1
           }
         ]
       }
@@ -2877,6 +3775,18 @@
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.2,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 1.0,
+          "length": 34.5,
+          "minAlpha": 0.0
         }
       }
     },
@@ -2923,14 +3833,17 @@
               "height": 6.08,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "RocketEnvironment.[0]Environment.[28]EnvLight0 (7).[0]BoxLight"
+              "parametricBoxId": "RocketEnvironment.[0]Environment.[28]EnvLight0 (7).[0]BoxLight",
+              "sliceSpriteControllerId": "RocketEnvironment.[0]Environment.[28]EnvLight0 (7).[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 13,
-              "lightId": 0
-            }
+            "lightId": 1
           }
         ]
       }
@@ -3016,6 +3929,18 @@
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.2,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 1.0,
+          "length": 6.08,
+          "minAlpha": 0.0
         }
       }
     },
@@ -3062,14 +3987,17 @@
               "height": 6.08,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "RocketEnvironment.[0]Environment.[29]EnvLight0 (8).[0]BoxLight"
+              "parametricBoxId": "RocketEnvironment.[0]Environment.[29]EnvLight0 (8).[0]BoxLight",
+              "sliceSpriteControllerId": "RocketEnvironment.[0]Environment.[29]EnvLight0 (8).[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 12,
-              "lightId": 0
-            }
+            "lightId": 1
           }
         ]
       }
@@ -3155,6 +4083,18 @@
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.2,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 1.0,
+          "length": 6.08,
+          "minAlpha": 0.0
         }
       }
     },
@@ -3287,14 +4227,17 @@
               "height": 16.27,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "RocketEnvironment.[0]Environment.[30]EnvLight0 (3).[0]BoxLight"
+              "parametricBoxId": "RocketEnvironment.[0]Environment.[30]EnvLight0 (3).[0]BoxLight",
+              "sliceSpriteControllerId": "RocketEnvironment.[0]Environment.[30]EnvLight0 (3).[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 10,
-              "lightId": 0
-            }
+            "lightId": 1
           }
         ]
       }
@@ -3380,6 +4323,18 @@
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.2,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 1.0,
+          "length": 16.27,
+          "minAlpha": 0.0
         }
       }
     },
@@ -3426,14 +4381,17 @@
               "height": 16.7,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "RocketEnvironment.[0]Environment.[31]EnvLight0 (5).[0]BoxLight"
+              "parametricBoxId": "RocketEnvironment.[0]Environment.[31]EnvLight0 (5).[0]BoxLight",
+              "sliceSpriteControllerId": "RocketEnvironment.[0]Environment.[31]EnvLight0 (5).[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 8,
-              "lightId": 0
-            }
+            "lightId": 1
           }
         ]
       }
@@ -3519,6 +4477,18 @@
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.2,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 1.0,
+          "length": 16.7,
+          "minAlpha": 0.0
         }
       }
     },
@@ -3565,14 +4535,17 @@
               "height": 34.5,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "RocketEnvironment.[0]Environment.[32]EnvLight0 (9).[0]BoxLight"
+              "parametricBoxId": "RocketEnvironment.[0]Environment.[32]EnvLight0 (9).[0]BoxLight",
+              "sliceSpriteControllerId": "RocketEnvironment.[0]Environment.[32]EnvLight0 (9).[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 6,
-              "lightId": 0
-            }
+            "lightId": 1
           }
         ]
       }
@@ -3658,6 +4631,18 @@
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.2,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 1.0,
+          "length": 34.5,
+          "minAlpha": 0.0
         }
       }
     },
@@ -3704,14 +4689,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "RocketEnvironment.[0]Environment.[33]GlowLineL (1).[1]BoxLight"
+              "parametricBoxId": "RocketEnvironment.[0]Environment.[33]GlowLineL (1).[1]BoxLight",
+              "sliceSpriteControllerId": "RocketEnvironment.[0]Environment.[33]GlowLineL (1).[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 2,
-              "lightId": 4
-            }
+            "lightId": 5
           }
         ]
       }
@@ -3749,11 +4737,25 @@
             1.00000024
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.0,
+          "width": 0.04,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.0,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -3844,14 +4846,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "RocketEnvironment.[0]Environment.[34]GlowLineR (1).[1]BoxLight"
+              "parametricBoxId": "RocketEnvironment.[0]Environment.[34]GlowLineR (1).[1]BoxLight",
+              "sliceSpriteControllerId": "RocketEnvironment.[0]Environment.[34]GlowLineR (1).[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 3,
-              "lightId": 4
-            }
+            "lightId": 5
           }
         ]
       }
@@ -3889,11 +4894,25 @@
             1.00000024
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.0,
+          "width": 0.04,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.0,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -3984,14 +5003,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "RocketEnvironment.[0]Environment.[35]GlowLineL (2).[1]BoxLight"
+              "parametricBoxId": "RocketEnvironment.[0]Environment.[35]GlowLineL (2).[1]BoxLight",
+              "sliceSpriteControllerId": "RocketEnvironment.[0]Environment.[35]GlowLineL (2).[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 2,
-              "lightId": 1
-            }
+            "lightId": 2
           }
         ]
       }
@@ -4029,11 +5051,25 @@
             1.00000024
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.0,
+          "width": 0.04,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -4124,14 +5160,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "RocketEnvironment.[0]Environment.[36]GlowLineL (3).[1]BoxLight"
+              "parametricBoxId": "RocketEnvironment.[0]Environment.[36]GlowLineL (3).[1]BoxLight",
+              "sliceSpriteControllerId": "RocketEnvironment.[0]Environment.[36]GlowLineL (3).[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 1,
-              "lightId": 1
-            }
+            "lightId": 2
           }
         ]
       }
@@ -4169,11 +5208,25 @@
             1.00000024
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.0,
+          "width": 0.04,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -4264,14 +5317,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "RocketEnvironment.[0]Environment.[37]GlowLineL (4).[1]BoxLight"
+              "parametricBoxId": "RocketEnvironment.[0]Environment.[37]GlowLineL (4).[1]BoxLight",
+              "sliceSpriteControllerId": "RocketEnvironment.[0]Environment.[37]GlowLineL (4).[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 3,
-              "lightId": 1
-            }
+            "lightId": 2
           }
         ]
       }
@@ -4309,11 +5365,25 @@
             1.00000024
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.0,
+          "width": 0.04,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -4404,14 +5474,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "RocketEnvironment.[0]Environment.[38]GlowLineL (5).[1]BoxLight"
+              "parametricBoxId": "RocketEnvironment.[0]Environment.[38]GlowLineL (5).[1]BoxLight",
+              "sliceSpriteControllerId": "RocketEnvironment.[0]Environment.[38]GlowLineL (5).[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 4,
-              "lightId": 1
-            }
+            "lightId": 2
           }
         ]
       }
@@ -4449,11 +5522,25 @@
             1.00000024
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.0,
+          "width": 0.04,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -4587,14 +5674,17 @@
               "height": 100.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "RocketEnvironment.[0]Environment.[39]BackColumns.[0]BackColumnNeon.[0]BoxLight"
+              "parametricBoxId": "RocketEnvironment.[0]Environment.[39]BackColumns.[0]BackColumnNeon.[0]BoxLight",
+              "sliceSpriteControllerId": "RocketEnvironment.[0]Environment.[39]BackColumns.[0]BackColumnNeon.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 7,
-              "lightId": 4
-            }
+            "lightId": 5
           }
         ]
       }
@@ -4676,11 +5766,25 @@
             1.00000012
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "0dd004d097c885674f53e9736741a1d9"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.0,
+          "width": 0.2,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 100.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -4727,14 +5831,17 @@
               "height": 100.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "RocketEnvironment.[0]Environment.[39]BackColumns.[1]BackColumnNeon.[0]BoxLight"
+              "parametricBoxId": "RocketEnvironment.[0]Environment.[39]BackColumns.[1]BackColumnNeon.[0]BoxLight",
+              "sliceSpriteControllerId": "RocketEnvironment.[0]Environment.[39]BackColumns.[1]BackColumnNeon.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 6,
-              "lightId": 4
-            }
+            "lightId": 5
           }
         ]
       }
@@ -4816,11 +5923,25 @@
             1.00000012
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "0dd004d097c885674f53e9736741a1d9"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.0,
+          "width": 0.2,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 100.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -4910,14 +6031,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "RocketEnvironment.[0]Environment.[40]GlowLineL (6).[1]BoxLight"
+              "parametricBoxId": "RocketEnvironment.[0]Environment.[40]GlowLineL (6).[1]BoxLight",
+              "sliceSpriteControllerId": "RocketEnvironment.[0]Environment.[40]GlowLineL (6).[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 2,
-              "lightId": 0
-            }
+            "lightId": 1
           }
         ]
       }
@@ -4955,11 +6079,25 @@
             1.00000024
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.0,
+          "width": 0.04,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -5050,14 +6188,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "RocketEnvironment.[0]Environment.[41]GlowLineL (7).[1]BoxLight"
+              "parametricBoxId": "RocketEnvironment.[0]Environment.[41]GlowLineL (7).[1]BoxLight",
+              "sliceSpriteControllerId": "RocketEnvironment.[0]Environment.[41]GlowLineL (7).[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 3,
-              "lightId": 0
-            }
+            "lightId": 1
           }
         ]
       }
@@ -5095,11 +6236,25 @@
             1.00000024
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.0,
+          "width": 0.04,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -5190,14 +6345,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "RocketEnvironment.[0]Environment.[42]GlowLineL (8).[1]BoxLight"
+              "parametricBoxId": "RocketEnvironment.[0]Environment.[42]GlowLineL (8).[1]BoxLight",
+              "sliceSpriteControllerId": "RocketEnvironment.[0]Environment.[42]GlowLineL (8).[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 4,
-              "lightId": 0
-            }
+            "lightId": 1
           }
         ]
       }
@@ -5235,11 +6393,25 @@
             1.00000024
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.0,
+          "width": 0.04,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -5330,14 +6502,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "RocketEnvironment.[0]Environment.[43]GlowLineL (9).[1]BoxLight"
+              "parametricBoxId": "RocketEnvironment.[0]Environment.[43]GlowLineL (9).[1]BoxLight",
+              "sliceSpriteControllerId": "RocketEnvironment.[0]Environment.[43]GlowLineL (9).[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 1,
-              "lightId": 0
-            }
+            "lightId": 1
           }
         ]
       }
@@ -5375,11 +6550,25 @@
             1.00000024
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.0,
+          "width": 0.04,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -5492,6 +6681,22 @@
             1.0,
             1.0
           ]
+        },
+        "LightPairRotationEventEffect": {
+          "eventTypeL": "Event12",
+          "transformL": "RocketEnvironment.[0]Environment.[45]RotatingLasersPair (13).[0]BaseL",
+          "eventTypeR": "Event13",
+          "transformR": "RocketEnvironment.[0]Environment.[45]RotatingLasersPair (13).[1]BaseR",
+          "switchOverrideRandomValuesEvent": "VoidEvent",
+          "rotationVector": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "overrideRandomValues": false,
+          "useZPositionForAngleOffset": false,
+          "zPositionAngleOffsetScale": 1.0,
+          "startRotation": 0.0
         }
       }
     },
@@ -5572,14 +6777,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "RocketEnvironment.[0]Environment.[45]RotatingLasersPair (13).[0]BaseL.[0]Laser.[1]BoxLight"
+              "parametricBoxId": "RocketEnvironment.[0]Environment.[45]RotatingLasersPair (13).[0]BaseL.[0]Laser.[1]BoxLight",
+              "sliceSpriteControllerId": "RocketEnvironment.[0]Environment.[45]RotatingLasersPair (13).[0]BaseL.[0]Laser.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 7,
-              "lightId": 2
-            }
+            "lightId": 3
           }
         ]
       }
@@ -5617,11 +6825,25 @@
             1.00000048
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -5746,14 +6968,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "RocketEnvironment.[0]Environment.[45]RotatingLasersPair (13).[1]BaseR.[0]Laser.[1]BoxLight"
+              "parametricBoxId": "RocketEnvironment.[0]Environment.[45]RotatingLasersPair (13).[1]BaseR.[0]Laser.[1]BoxLight",
+              "sliceSpriteControllerId": "RocketEnvironment.[0]Environment.[45]RotatingLasersPair (13).[1]BaseR.[0]Laser.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 7,
-              "lightId": 3
-            }
+            "lightId": 4
           }
         ]
       }
@@ -5791,11 +7016,25 @@
             1.00000048
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -5874,6 +7113,22 @@
             1.0,
             1.0
           ]
+        },
+        "LightPairRotationEventEffect": {
+          "eventTypeL": "Event12",
+          "transformL": "RocketEnvironment.[0]Environment.[46]RotatingLasersPair (12).[0]BaseL",
+          "eventTypeR": "Event13",
+          "transformR": "RocketEnvironment.[0]Environment.[46]RotatingLasersPair (12).[1]BaseR",
+          "switchOverrideRandomValuesEvent": "VoidEvent",
+          "rotationVector": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "overrideRandomValues": false,
+          "useZPositionForAngleOffset": false,
+          "zPositionAngleOffsetScale": 1.0,
+          "startRotation": 0.0
         }
       }
     },
@@ -5954,14 +7209,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "RocketEnvironment.[0]Environment.[46]RotatingLasersPair (12).[0]BaseL.[0]Laser.[1]BoxLight"
+              "parametricBoxId": "RocketEnvironment.[0]Environment.[46]RotatingLasersPair (12).[0]BaseL.[0]Laser.[1]BoxLight",
+              "sliceSpriteControllerId": "RocketEnvironment.[0]Environment.[46]RotatingLasersPair (12).[0]BaseL.[0]Laser.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 6,
-              "lightId": 2
-            }
+            "lightId": 3
           }
         ]
       }
@@ -5999,11 +7257,25 @@
             1.00000048
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -6128,14 +7400,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "RocketEnvironment.[0]Environment.[46]RotatingLasersPair (12).[1]BaseR.[0]Laser.[1]BoxLight"
+              "parametricBoxId": "RocketEnvironment.[0]Environment.[46]RotatingLasersPair (12).[1]BaseR.[0]Laser.[1]BoxLight",
+              "sliceSpriteControllerId": "RocketEnvironment.[0]Environment.[46]RotatingLasersPair (12).[1]BaseR.[0]Laser.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 6,
-              "lightId": 3
-            }
+            "lightId": 4
           }
         ]
       }
@@ -6173,11 +7448,25 @@
             1.00000048
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -6256,6 +7545,22 @@
             1.0,
             1.0
           ]
+        },
+        "LightPairRotationEventEffect": {
+          "eventTypeL": "Event12",
+          "transformL": "RocketEnvironment.[0]Environment.[47]RotatingLasersPair (7).[0]BaseL",
+          "eventTypeR": "Event13",
+          "transformR": "RocketEnvironment.[0]Environment.[47]RotatingLasersPair (7).[1]BaseR",
+          "switchOverrideRandomValuesEvent": "VoidEvent",
+          "rotationVector": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "overrideRandomValues": false,
+          "useZPositionForAngleOffset": false,
+          "zPositionAngleOffsetScale": 1.0,
+          "startRotation": 0.0
         }
       }
     },
@@ -6336,14 +7641,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "RocketEnvironment.[0]Environment.[47]RotatingLasersPair (7).[0]BaseL.[0]Laser.[1]BoxLight"
+              "parametricBoxId": "RocketEnvironment.[0]Environment.[47]RotatingLasersPair (7).[0]BaseL.[0]Laser.[1]BoxLight",
+              "sliceSpriteControllerId": "RocketEnvironment.[0]Environment.[47]RotatingLasersPair (7).[0]BaseL.[0]Laser.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 5,
-              "lightId": 2
-            }
+            "lightId": 3
           }
         ]
       }
@@ -6381,11 +7689,25 @@
             1.00000048
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -6510,14 +7832,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "RocketEnvironment.[0]Environment.[47]RotatingLasersPair (7).[1]BaseR.[0]Laser.[1]BoxLight"
+              "parametricBoxId": "RocketEnvironment.[0]Environment.[47]RotatingLasersPair (7).[1]BaseR.[0]Laser.[1]BoxLight",
+              "sliceSpriteControllerId": "RocketEnvironment.[0]Environment.[47]RotatingLasersPair (7).[1]BaseR.[0]Laser.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 5,
-              "lightId": 3
-            }
+            "lightId": 4
           }
         ]
       }
@@ -6555,11 +7880,25 @@
             1.00000048
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -6638,6 +7977,22 @@
             1.0,
             1.0
           ]
+        },
+        "LightPairRotationEventEffect": {
+          "eventTypeL": "Event12",
+          "transformL": "RocketEnvironment.[0]Environment.[48]RotatingLasersPair (8).[0]BaseL",
+          "eventTypeR": "Event13",
+          "transformR": "RocketEnvironment.[0]Environment.[48]RotatingLasersPair (8).[1]BaseR",
+          "switchOverrideRandomValuesEvent": "VoidEvent",
+          "rotationVector": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "overrideRandomValues": false,
+          "useZPositionForAngleOffset": false,
+          "zPositionAngleOffsetScale": 1.0,
+          "startRotation": 0.0
         }
       }
     },
@@ -6718,14 +8073,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "RocketEnvironment.[0]Environment.[48]RotatingLasersPair (8).[0]BaseL.[0]Laser.[1]BoxLight"
+              "parametricBoxId": "RocketEnvironment.[0]Environment.[48]RotatingLasersPair (8).[0]BaseL.[0]Laser.[1]BoxLight",
+              "sliceSpriteControllerId": "RocketEnvironment.[0]Environment.[48]RotatingLasersPair (8).[0]BaseL.[0]Laser.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 4,
-              "lightId": 2
-            }
+            "lightId": 3
           }
         ]
       }
@@ -6763,11 +8121,25 @@
             1.00000048
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -6892,14 +8264,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "RocketEnvironment.[0]Environment.[48]RotatingLasersPair (8).[1]BaseR.[0]Laser.[1]BoxLight"
+              "parametricBoxId": "RocketEnvironment.[0]Environment.[48]RotatingLasersPair (8).[1]BaseR.[0]Laser.[1]BoxLight",
+              "sliceSpriteControllerId": "RocketEnvironment.[0]Environment.[48]RotatingLasersPair (8).[1]BaseR.[0]Laser.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 4,
-              "lightId": 3
-            }
+            "lightId": 4
           }
         ]
       }
@@ -6937,11 +8312,25 @@
             1.00000048
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -7020,6 +8409,22 @@
             1.0,
             1.0
           ]
+        },
+        "LightPairRotationEventEffect": {
+          "eventTypeL": "Event12",
+          "transformL": "RocketEnvironment.[0]Environment.[49]RotatingLasersPair (9).[0]BaseL",
+          "eventTypeR": "Event13",
+          "transformR": "RocketEnvironment.[0]Environment.[49]RotatingLasersPair (9).[1]BaseR",
+          "switchOverrideRandomValuesEvent": "VoidEvent",
+          "rotationVector": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "overrideRandomValues": false,
+          "useZPositionForAngleOffset": false,
+          "zPositionAngleOffsetScale": 1.0,
+          "startRotation": 0.0
         }
       }
     },
@@ -7100,14 +8505,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "RocketEnvironment.[0]Environment.[49]RotatingLasersPair (9).[0]BaseL.[0]Laser.[1]BoxLight"
+              "parametricBoxId": "RocketEnvironment.[0]Environment.[49]RotatingLasersPair (9).[0]BaseL.[0]Laser.[1]BoxLight",
+              "sliceSpriteControllerId": "RocketEnvironment.[0]Environment.[49]RotatingLasersPair (9).[0]BaseL.[0]Laser.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 3,
-              "lightId": 2
-            }
+            "lightId": 3
           }
         ]
       }
@@ -7145,11 +8553,25 @@
             1.00000048
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -7274,14 +8696,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "RocketEnvironment.[0]Environment.[49]RotatingLasersPair (9).[1]BaseR.[0]Laser.[1]BoxLight"
+              "parametricBoxId": "RocketEnvironment.[0]Environment.[49]RotatingLasersPair (9).[1]BaseR.[0]Laser.[1]BoxLight",
+              "sliceSpriteControllerId": "RocketEnvironment.[0]Environment.[49]RotatingLasersPair (9).[1]BaseR.[0]Laser.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 3,
-              "lightId": 3
-            }
+            "lightId": 4
           }
         ]
       }
@@ -7319,11 +8744,25 @@
             1.00000048
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -7445,6 +8884,22 @@
             1.0,
             1.0
           ]
+        },
+        "LightPairRotationEventEffect": {
+          "eventTypeL": "Event12",
+          "transformL": "RocketEnvironment.[0]Environment.[50]RotatingLasersPair (10).[0]BaseL",
+          "eventTypeR": "Event13",
+          "transformR": "RocketEnvironment.[0]Environment.[50]RotatingLasersPair (10).[1]BaseR",
+          "switchOverrideRandomValuesEvent": "VoidEvent",
+          "rotationVector": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "overrideRandomValues": false,
+          "useZPositionForAngleOffset": false,
+          "zPositionAngleOffsetScale": 1.0,
+          "startRotation": 0.0
         }
       }
     },
@@ -7525,14 +8980,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "RocketEnvironment.[0]Environment.[50]RotatingLasersPair (10).[0]BaseL.[0]Laser.[1]BoxLight"
+              "parametricBoxId": "RocketEnvironment.[0]Environment.[50]RotatingLasersPair (10).[0]BaseL.[0]Laser.[1]BoxLight",
+              "sliceSpriteControllerId": "RocketEnvironment.[0]Environment.[50]RotatingLasersPair (10).[0]BaseL.[0]Laser.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 2,
-              "lightId": 2
-            }
+            "lightId": 3
           }
         ]
       }
@@ -7570,11 +9028,25 @@
             1.00000048
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -7699,14 +9171,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "RocketEnvironment.[0]Environment.[50]RotatingLasersPair (10).[1]BaseR.[0]Laser.[1]BoxLight"
+              "parametricBoxId": "RocketEnvironment.[0]Environment.[50]RotatingLasersPair (10).[1]BaseR.[0]Laser.[1]BoxLight",
+              "sliceSpriteControllerId": "RocketEnvironment.[0]Environment.[50]RotatingLasersPair (10).[1]BaseR.[0]Laser.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 2,
-              "lightId": 3
-            }
+            "lightId": 4
           }
         ]
       }
@@ -7744,11 +9219,25 @@
             1.00000048
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -7827,6 +9316,22 @@
             1.0,
             1.0
           ]
+        },
+        "LightPairRotationEventEffect": {
+          "eventTypeL": "Event12",
+          "transformL": "RocketEnvironment.[0]Environment.[51]RotatingLasersPair (11).[0]BaseL",
+          "eventTypeR": "Event13",
+          "transformR": "RocketEnvironment.[0]Environment.[51]RotatingLasersPair (11).[1]BaseR",
+          "switchOverrideRandomValuesEvent": "VoidEvent",
+          "rotationVector": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "overrideRandomValues": false,
+          "useZPositionForAngleOffset": false,
+          "zPositionAngleOffsetScale": 1.0,
+          "startRotation": 0.0
         }
       }
     },
@@ -7907,14 +9412,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "RocketEnvironment.[0]Environment.[51]RotatingLasersPair (11).[0]BaseL.[0]Laser.[1]BoxLight"
+              "parametricBoxId": "RocketEnvironment.[0]Environment.[51]RotatingLasersPair (11).[0]BaseL.[0]Laser.[1]BoxLight",
+              "sliceSpriteControllerId": "RocketEnvironment.[0]Environment.[51]RotatingLasersPair (11).[0]BaseL.[0]Laser.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 1,
-              "lightId": 2
-            }
+            "lightId": 3
           }
         ]
       }
@@ -7952,11 +9460,25 @@
             1.00000048
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -8081,14 +9603,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "RocketEnvironment.[0]Environment.[51]RotatingLasersPair (11).[1]BaseR.[0]Laser.[1]BoxLight"
+              "parametricBoxId": "RocketEnvironment.[0]Environment.[51]RotatingLasersPair (11).[1]BaseR.[0]Laser.[1]BoxLight",
+              "sliceSpriteControllerId": "RocketEnvironment.[0]Environment.[51]RotatingLasersPair (11).[1]BaseR.[0]Laser.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 1,
-              "lightId": 3
-            }
+            "lightId": 4
           }
         ]
       }
@@ -8126,11 +9651,25 @@
             1.00000048
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },

@@ -23,6 +23,11 @@
         0.551764667,
         1.0
       ],
+      "envColorWhite": [
+        0.7254902,
+        0.7254902,
+        0.7254902
+      ],
       "obstacleColor": [
         0.5,
         0.5,
@@ -34,6 +39,11 @@
         0.0
       ],
       "envColorRightBoost": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "envColorWhiteBoost": [
         0.0,
         0.0,
         0.0
@@ -325,6 +335,39 @@
         ]
       },
       {
+        "hash": "84d4c639f46135f14282fc50856755f9",
+        "name": "BakedGlowSprite",
+        "shader": "Custom/CustomParticles",
+        "color": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "shaderKeywords": [
+          "DISTORTION_TARGET_MAIN",
+          "SQUARE_ALPHA",
+          "VERTEX_COLOR",
+          "_MASK2BLEND_MULTIPLY",
+          "_MASKBLEND_MULTIPLY",
+          "_VERTEXCHANNELS_RGBA",
+          "_WHITEBOOSTTYPE_MAINEFFECT",
+          "DISTORTION_NONE",
+          "ENABLE_FORCED_WHITE_BOOST",
+          "ENABLE_VERTEX_COLOR",
+          "ETC1_EXTERNAL_ALPHA",
+          "SQUAREALPHA",
+          "_ALPHACHANNEL_ALPHA",
+          "_BILLBOARD_NONE",
+          "_CURVE_VERTICES_NONE",
+          "_DISSOLVEAXIS_LOCALX",
+          "_FOGTYPE_NONE",
+          "_ROTATE_UV_NONE",
+          "_SPECTROGRAM_NONE",
+          "_SQUAREALPHA_ON"
+        ]
+      },
+      {
         "hash": "1cdd8c1689ede199954a7104600a2472",
         "name": "EnvLightOpaque",
         "shader": "Custom/OpaqueNeonLight",
@@ -388,162 +431,6 @@
           "_VERTEXMODE_NONE",
           "_VERTEX_WHITEBOOSTTYPE_NONE",
           "_WHITEBOOSTTYPE_NONE",
-          "_ZWRITE_ON"
-        ]
-      },
-      {
-        "hash": "0e26d4cbb471559952d2179cc10c6681",
-        "name": "BackgroundStructures",
-        "shader": "Custom/SimpleLit",
-        "color": [
-          0.319999963,
-          0.319999963,
-          0.319999963,
-          0.0
-        ],
-        "shaderKeywords": [
-          "DIFFUSE",
-          "FOG",
-          "HEIGHT_FOG",
-          "REFLECTION_PROBE_BOX_PROJECTION",
-          "SPECULAR",
-          "_ACES_APPROACH_AFTER_EMISSIVE",
-          "_DIFFUSE_TEXTURE_SOURCE_TEXTURE",
-          "_DISSOLVEALPHA_CLIP",
-          "_EMISSIONCOLORTYPE_FLAT",
-          "_EMISSION_ALPHA_SOURCE_EMISSION_G",
-          "_EMISSION_TEXTURE_SOURCE_TEXTURE",
-          "_METALLIC_TEXTURE_NONE",
-          "_OCCLUSION_SOURCE_TEXTURE",
-          "_PROBE_CALCULATION_FAST",
-          "_SMOOTHNESS_TEXTURE_NONE",
-          "ENABLE_DIFFUSE",
-          "ENABLE_FOG",
-          "ENABLE_SPECULAR",
-          "OVERRIDE_REFLECTION_SMOOTHNESS",
-          "_CURVE_VERTICES_NONE",
-          "_CUSTOM_TIME_STANDARD",
-          "_DECALBLEND_ALPHABLEND",
-          "_DISSOLVEAXIS_LOCALX",
-          "_EMISSION",
-          "_EMISSIONTEXTURE_NONE",
-          "_ENABLE_FOG_TINT",
-          "_HOLOGRAM_NONE",
-          "_RIMLIGHT_NONE",
-          "_RIM_WHITEBOOSTTYPE_NONE",
-          "_ROTATE_UV_NONE",
-          "_SPECTROGRAM_NONE",
-          "_VERTEXMODE_NONE",
-          "_VERTEX_WHITEBOOSTTYPE_NONE",
-          "_WHITEBOOSTTYPE_NONE",
-          "_ZWRITE_ON"
-        ]
-      },
-      {
-        "hash": "2487501c6a10ee0041e8c4764f6addaa",
-        "name": "GridMirror",
-        "shader": "Custom/Mirror",
-        "color": [
-          -1.0,
-          -1.0,
-          -1.0,
-          -1.0
-        ],
-        "shaderKeywords": [
-          "ENABLE_DIRT",
-          "ENABLE_MIRROR",
-          "ETC1_EXTERNAL_ALPHA",
-          "_EMISSION"
-        ]
-      },
-      {
-        "hash": "47348bfff0fbcb3e14515ad3bfebc6be",
-        "name": "SetDepthOnly",
-        "shader": "Custom/SetDepthOnly",
-        "color": [
-          -1.0,
-          -1.0,
-          -1.0,
-          -1.0
-        ],
-        "shaderKeywords": [
-          "ENABLE_DIFFUSE",
-          "ENABLE_DIRT",
-          "ENABLE_DIRT_DETAIL",
-          "ENABLE_FOG",
-          "ENABLE_SPECULAR",
-          "FOG",
-          "LIGHTMAP",
-          "REFLECTION_PROBE",
-          "_EMISSION",
-          "_ENABLE_FOG_TINT",
-          "_RIMLIGHT_NONE"
-        ]
-      },
-      {
-        "hash": "19cb3b1f9cf3cbc03a5bef2da530f65b",
-        "name": "FrontStructures",
-        "shader": "Custom/SimpleLit",
-        "color": [
-          0.319999963,
-          0.319999963,
-          0.319999963,
-          0.0
-        ],
-        "shaderKeywords": [
-          "DIFFUSE",
-          "FOG",
-          "HEIGHT_FOG",
-          "REFLECTION_PROBE_BOX_PROJECTION",
-          "SPECULAR",
-          "_ACES_APPROACH_AFTER_EMISSIVE",
-          "_DIFFUSE_TEXTURE_SOURCE_TEXTURE",
-          "_DISSOLVEALPHA_CLIP",
-          "_EMISSIONCOLORTYPE_FLAT",
-          "_EMISSION_ALPHA_SOURCE_EMISSION_G",
-          "_EMISSION_TEXTURE_SOURCE_TEXTURE",
-          "_METALLIC_TEXTURE_NONE",
-          "_OCCLUSION_SOURCE_TEXTURE",
-          "_PROBE_CALCULATION_FAST",
-          "_SMOOTHNESS_TEXTURE_NONE",
-          "ENABLE_DIFFUSE",
-          "ENABLE_FOG",
-          "ENABLE_SPECULAR",
-          "OVERRIDE_REFLECTION_SMOOTHNESS",
-          "_CURVE_VERTICES_NONE",
-          "_CUSTOM_TIME_STANDARD",
-          "_DECALBLEND_ALPHABLEND",
-          "_DISSOLVEAXIS_LOCALX",
-          "_EMISSION",
-          "_EMISSIONTEXTURE_NONE",
-          "_ENABLE_FOG_TINT",
-          "_HOLOGRAM_NONE",
-          "_RIMLIGHT_NONE",
-          "_RIM_WHITEBOOSTTYPE_NONE",
-          "_ROTATE_UV_NONE",
-          "_SPECTROGRAM_NONE",
-          "_VERTEXMODE_NONE",
-          "_VERTEX_WHITEBOOSTTYPE_NONE",
-          "_WHITEBOOSTTYPE_NONE",
-          "_ZWRITE_ON"
-        ]
-      },
-      {
-        "hash": "cdd7733ddab55d7ddbbea13cb90a0042",
-        "name": "SmallSpectrogram",
-        "shader": "Custom/Spectrogram",
-        "color": [
-          0.319999963,
-          0.319999963,
-          0.319999963,
-          0.0
-        ],
-        "shaderKeywords": [
-          "DIFFUSE",
-          "LIGHT_FALLOFF",
-          "SPECULAR",
-          "ENABLE_DIFFUSE",
-          "ENABLE_SPECULAR",
           "_ZWRITE_ON"
         ]
       }
@@ -659,104 +546,6 @@
           0.0,
           0.0,
           -20.0000687
-        ]
-      },
-      {
-        "name": "MainStructure_Timbaland",
-        "hash": "815a592c7a9273a4c85a6acbb360099a",
-        "boundsSize": [
-          272.465271,
-          326.48526,
-          113.788116
-        ],
-        "boundsCenter": [
-          7.62939453E-06,
-          0.0,
-          60.0
-        ]
-      },
-      {
-        "name": "TopStructure_Timbaland",
-        "hash": "7d0e12a45e0d873aad80727a3f47083c",
-        "boundsSize": [
-          1.0,
-          4.83383656,
-          81.1317
-        ],
-        "boundsCenter": [
-          0.0,
-          -1.91691828,
-          39.56585
-        ]
-      },
-      {
-        "name": "RightNearBuilding",
-        "hash": "b5ebd93d903f2572d7673e5d8407ea6d",
-        "boundsSize": [
-          9.0,
-          174.5,
-          25.0
-        ],
-        "boundsCenter": [
-          28.0,
-          -40.25,
-          29.0
-        ]
-      },
-      {
-        "name": "LeftNearBuilding",
-        "hash": "8e496436ea23b95d25ba4b01bef82ed4",
-        "boundsSize": [
-          9.0,
-          174.5,
-          25.0
-        ],
-        "boundsCenter": [
-          -28.0,
-          -40.25,
-          29.0
-        ]
-      },
-      {
-        "name": "TrackMirror_Timbaland",
-        "hash": "2807a8508fadc5da707abc141aa2cb87",
-        "boundsSize": [
-          4.75,
-          0.0,
-          247.25322
-        ],
-        "boundsCenter": [
-          0.0,
-          0.0,
-          123.573387
-        ]
-      },
-      {
-        "name": "TrackConstruction_Timbaland",
-        "hash": "6034e9ab7c4c3ab12b826e62dfb42127",
-        "boundsSize": [
-          116.047569,
-          136.309448,
-          160.71463
-        ],
-        "boundsCenter": [
-          0.0,
-          -67.8407,
-          87.84276
-        ]
-      },
-      {
-        "name": "Spectrogram",
-        "hash": "a1e2f3ff1c0041c6cfb1a340b7f15b98",
-        "boundsSize": [
-          0.299999952,
-          63.4,
-          2.0
-        ],
-        "boundsCenter": [
-          0.0,
-          31.5,
-          1.0
         ]
       }
     ]
@@ -895,14 +684,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GameCore.[1]PairLaserTrackLaneRing(Clone).[1]LaserL.[0]BoxLight"
+              "parametricBoxId": "GameCore.[1]PairLaserTrackLaneRing(Clone).[1]LaserL.[0]BoxLight",
+              "sliceSpriteControllerId": "GameCore.[1]PairLaserTrackLaneRing(Clone).[1]LaserL.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 1,
-              "lightId": 2
-            }
+            "lightId": 3
           }
         ]
       }
@@ -984,11 +776,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -1035,14 +841,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GameCore.[1]PairLaserTrackLaneRing(Clone).[2]LaserR.[0]BoxLight"
+              "parametricBoxId": "GameCore.[1]PairLaserTrackLaneRing(Clone).[2]LaserR.[0]BoxLight",
+              "sliceSpriteControllerId": "GameCore.[1]PairLaserTrackLaneRing(Clone).[2]LaserR.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 1,
-              "lightId": 3
-            }
+            "lightId": 4
           }
         ]
       }
@@ -1124,11 +933,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -1175,14 +998,17 @@
               "height": 3.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GameCore.[1]PairLaserTrackLaneRing(Clone).[3]LaserLF.[0]BoxLight"
+              "parametricBoxId": "GameCore.[1]PairLaserTrackLaneRing(Clone).[3]LaserLF.[0]BoxLight",
+              "sliceSpriteControllerId": "GameCore.[1]PairLaserTrackLaneRing(Clone).[3]LaserLF.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 1,
-              "lightId": 1
-            }
+            "lightId": 2
           }
         ]
       }
@@ -1264,11 +1090,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "0dd004d097c885674f53e9736741a1d9"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 3.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -1315,14 +1155,17 @@
               "height": 3.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GameCore.[1]PairLaserTrackLaneRing(Clone).[4]LaserRF.[0]BoxLight"
+              "parametricBoxId": "GameCore.[1]PairLaserTrackLaneRing(Clone).[4]LaserRF.[0]BoxLight",
+              "sliceSpriteControllerId": "GameCore.[1]PairLaserTrackLaneRing(Clone).[4]LaserRF.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 2,
-              "lightId": 1
-            }
+            "lightId": 2
           }
         ]
       }
@@ -1404,11 +1247,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "0dd004d097c885674f53e9736741a1d9"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 3.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -1443,6 +1300,22 @@
             1.0,
             1.0
           ]
+        },
+        "LightPairRotationEventEffect": {
+          "eventTypeL": "Event12",
+          "transformL": "GameCore.[1]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL",
+          "eventTypeR": "Event13",
+          "transformR": "GameCore.[1]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR",
+          "switchOverrideRandomValuesEvent": "VoidEvent",
+          "rotationVector": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "overrideRandomValues": true,
+          "useZPositionForAngleOffset": true,
+          "zPositionAngleOffsetScale": 10.0,
+          "startRotation": 0.0
         }
       }
     },
@@ -1523,14 +1396,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GameCore.[1]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser.[0]BoxLight"
+              "parametricBoxId": "GameCore.[1]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser.[0]BoxLight",
+              "sliceSpriteControllerId": "GameCore.[1]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 1,
-              "lightId": 0
-            }
+            "lightId": 1
           }
         ]
       }
@@ -1612,11 +1488,25 @@
             1.00000036
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.0,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -1697,14 +1587,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GameCore.[1]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser.[0]BoxLight"
+              "parametricBoxId": "GameCore.[1]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser.[0]BoxLight",
+              "sliceSpriteControllerId": "GameCore.[1]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 2,
-              "lightId": 0
-            }
+            "lightId": 1
           }
         ]
       }
@@ -1786,11 +1679,25 @@
             1.00000036
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 1.0,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -1927,14 +1834,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GameCore.[10]PairLaserTrackLaneRing(Clone).[1]LaserL.[0]BoxLight"
+              "parametricBoxId": "GameCore.[10]PairLaserTrackLaneRing(Clone).[1]LaserL.[0]BoxLight",
+              "sliceSpriteControllerId": "GameCore.[10]PairLaserTrackLaneRing(Clone).[1]LaserL.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 10,
-              "lightId": 2
-            }
+            "lightId": 3
           }
         ]
       }
@@ -2016,11 +1926,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -2067,14 +1991,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GameCore.[10]PairLaserTrackLaneRing(Clone).[2]LaserR.[0]BoxLight"
+              "parametricBoxId": "GameCore.[10]PairLaserTrackLaneRing(Clone).[2]LaserR.[0]BoxLight",
+              "sliceSpriteControllerId": "GameCore.[10]PairLaserTrackLaneRing(Clone).[2]LaserR.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 10,
-              "lightId": 3
-            }
+            "lightId": 4
           }
         ]
       }
@@ -2156,11 +2083,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -2207,14 +2148,17 @@
               "height": 3.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GameCore.[10]PairLaserTrackLaneRing(Clone).[3]LaserLF.[0]BoxLight"
+              "parametricBoxId": "GameCore.[10]PairLaserTrackLaneRing(Clone).[3]LaserLF.[0]BoxLight",
+              "sliceSpriteControllerId": "GameCore.[10]PairLaserTrackLaneRing(Clone).[3]LaserLF.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 19,
-              "lightId": 1
-            }
+            "lightId": 2
           }
         ]
       }
@@ -2296,11 +2240,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "0dd004d097c885674f53e9736741a1d9"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 3.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -2347,14 +2305,17 @@
               "height": 3.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GameCore.[10]PairLaserTrackLaneRing(Clone).[4]LaserRF.[0]BoxLight"
+              "parametricBoxId": "GameCore.[10]PairLaserTrackLaneRing(Clone).[4]LaserRF.[0]BoxLight",
+              "sliceSpriteControllerId": "GameCore.[10]PairLaserTrackLaneRing(Clone).[4]LaserRF.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 20,
-              "lightId": 1
-            }
+            "lightId": 2
           }
         ]
       }
@@ -2436,11 +2397,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "0dd004d097c885674f53e9736741a1d9"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 3.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -2475,6 +2450,22 @@
             1.0,
             1.0
           ]
+        },
+        "LightPairRotationEventEffect": {
+          "eventTypeL": "Event12",
+          "transformL": "GameCore.[10]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL",
+          "eventTypeR": "Event13",
+          "transformR": "GameCore.[10]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR",
+          "switchOverrideRandomValuesEvent": "VoidEvent",
+          "rotationVector": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "overrideRandomValues": true,
+          "useZPositionForAngleOffset": true,
+          "zPositionAngleOffsetScale": 10.0,
+          "startRotation": 0.0
         }
       }
     },
@@ -2555,14 +2546,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GameCore.[10]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser.[0]BoxLight"
+              "parametricBoxId": "GameCore.[10]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser.[0]BoxLight",
+              "sliceSpriteControllerId": "GameCore.[10]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 19,
-              "lightId": 0
-            }
+            "lightId": 1
           }
         ]
       }
@@ -2644,11 +2638,25 @@
             1.00000036
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.0,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -2729,14 +2737,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GameCore.[10]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser.[0]BoxLight"
+              "parametricBoxId": "GameCore.[10]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser.[0]BoxLight",
+              "sliceSpriteControllerId": "GameCore.[10]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 20,
-              "lightId": 0
-            }
+            "lightId": 1
           }
         ]
       }
@@ -2818,11 +2829,25 @@
             1.00000036
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 1.0,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -2959,14 +2984,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GameCore.[2]PairLaserTrackLaneRing(Clone).[1]LaserL.[0]BoxLight"
+              "parametricBoxId": "GameCore.[2]PairLaserTrackLaneRing(Clone).[1]LaserL.[0]BoxLight",
+              "sliceSpriteControllerId": "GameCore.[2]PairLaserTrackLaneRing(Clone).[1]LaserL.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 2,
-              "lightId": 2
-            }
+            "lightId": 3
           }
         ]
       }
@@ -3048,11 +3076,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -3099,14 +3141,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GameCore.[2]PairLaserTrackLaneRing(Clone).[2]LaserR.[0]BoxLight"
+              "parametricBoxId": "GameCore.[2]PairLaserTrackLaneRing(Clone).[2]LaserR.[0]BoxLight",
+              "sliceSpriteControllerId": "GameCore.[2]PairLaserTrackLaneRing(Clone).[2]LaserR.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 2,
-              "lightId": 3
-            }
+            "lightId": 4
           }
         ]
       }
@@ -3188,11 +3233,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -3239,14 +3298,17 @@
               "height": 3.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GameCore.[2]PairLaserTrackLaneRing(Clone).[3]LaserLF.[0]BoxLight"
+              "parametricBoxId": "GameCore.[2]PairLaserTrackLaneRing(Clone).[3]LaserLF.[0]BoxLight",
+              "sliceSpriteControllerId": "GameCore.[2]PairLaserTrackLaneRing(Clone).[3]LaserLF.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 3,
-              "lightId": 1
-            }
+            "lightId": 2
           }
         ]
       }
@@ -3328,11 +3390,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "0dd004d097c885674f53e9736741a1d9"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 3.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -3379,14 +3455,17 @@
               "height": 3.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GameCore.[2]PairLaserTrackLaneRing(Clone).[4]LaserRF.[0]BoxLight"
+              "parametricBoxId": "GameCore.[2]PairLaserTrackLaneRing(Clone).[4]LaserRF.[0]BoxLight",
+              "sliceSpriteControllerId": "GameCore.[2]PairLaserTrackLaneRing(Clone).[4]LaserRF.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 4,
-              "lightId": 1
-            }
+            "lightId": 2
           }
         ]
       }
@@ -3468,11 +3547,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "0dd004d097c885674f53e9736741a1d9"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 3.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -3507,6 +3600,22 @@
             1.0,
             1.0
           ]
+        },
+        "LightPairRotationEventEffect": {
+          "eventTypeL": "Event12",
+          "transformL": "GameCore.[2]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL",
+          "eventTypeR": "Event13",
+          "transformR": "GameCore.[2]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR",
+          "switchOverrideRandomValuesEvent": "VoidEvent",
+          "rotationVector": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "overrideRandomValues": true,
+          "useZPositionForAngleOffset": true,
+          "zPositionAngleOffsetScale": 10.0,
+          "startRotation": 0.0
         }
       }
     },
@@ -3587,14 +3696,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GameCore.[2]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser.[0]BoxLight"
+              "parametricBoxId": "GameCore.[2]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser.[0]BoxLight",
+              "sliceSpriteControllerId": "GameCore.[2]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 3,
-              "lightId": 0
-            }
+            "lightId": 1
           }
         ]
       }
@@ -3676,11 +3788,25 @@
             1.00000036
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.0,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -3761,14 +3887,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GameCore.[2]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser.[0]BoxLight"
+              "parametricBoxId": "GameCore.[2]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser.[0]BoxLight",
+              "sliceSpriteControllerId": "GameCore.[2]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 4,
-              "lightId": 0
-            }
+            "lightId": 1
           }
         ]
       }
@@ -3850,11 +3979,25 @@
             1.00000036
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 1.0,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -3991,14 +4134,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GameCore.[3]PairLaserTrackLaneRing(Clone).[1]LaserL.[0]BoxLight"
+              "parametricBoxId": "GameCore.[3]PairLaserTrackLaneRing(Clone).[1]LaserL.[0]BoxLight",
+              "sliceSpriteControllerId": "GameCore.[3]PairLaserTrackLaneRing(Clone).[1]LaserL.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 3,
-              "lightId": 2
-            }
+            "lightId": 3
           }
         ]
       }
@@ -4080,11 +4226,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -4131,14 +4291,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GameCore.[3]PairLaserTrackLaneRing(Clone).[2]LaserR.[0]BoxLight"
+              "parametricBoxId": "GameCore.[3]PairLaserTrackLaneRing(Clone).[2]LaserR.[0]BoxLight",
+              "sliceSpriteControllerId": "GameCore.[3]PairLaserTrackLaneRing(Clone).[2]LaserR.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 3,
-              "lightId": 3
-            }
+            "lightId": 4
           }
         ]
       }
@@ -4220,11 +4383,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -4271,14 +4448,17 @@
               "height": 3.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GameCore.[3]PairLaserTrackLaneRing(Clone).[3]LaserLF.[0]BoxLight"
+              "parametricBoxId": "GameCore.[3]PairLaserTrackLaneRing(Clone).[3]LaserLF.[0]BoxLight",
+              "sliceSpriteControllerId": "GameCore.[3]PairLaserTrackLaneRing(Clone).[3]LaserLF.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 5,
-              "lightId": 1
-            }
+            "lightId": 2
           }
         ]
       }
@@ -4360,11 +4540,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "0dd004d097c885674f53e9736741a1d9"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 3.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -4411,14 +4605,17 @@
               "height": 3.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GameCore.[3]PairLaserTrackLaneRing(Clone).[4]LaserRF.[0]BoxLight"
+              "parametricBoxId": "GameCore.[3]PairLaserTrackLaneRing(Clone).[4]LaserRF.[0]BoxLight",
+              "sliceSpriteControllerId": "GameCore.[3]PairLaserTrackLaneRing(Clone).[4]LaserRF.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 6,
-              "lightId": 1
-            }
+            "lightId": 2
           }
         ]
       }
@@ -4500,11 +4697,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "0dd004d097c885674f53e9736741a1d9"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 3.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -4539,6 +4750,22 @@
             1.0,
             1.0
           ]
+        },
+        "LightPairRotationEventEffect": {
+          "eventTypeL": "Event12",
+          "transformL": "GameCore.[3]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL",
+          "eventTypeR": "Event13",
+          "transformR": "GameCore.[3]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR",
+          "switchOverrideRandomValuesEvent": "VoidEvent",
+          "rotationVector": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "overrideRandomValues": true,
+          "useZPositionForAngleOffset": true,
+          "zPositionAngleOffsetScale": 10.0,
+          "startRotation": 0.0
         }
       }
     },
@@ -4619,14 +4846,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GameCore.[3]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser.[0]BoxLight"
+              "parametricBoxId": "GameCore.[3]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser.[0]BoxLight",
+              "sliceSpriteControllerId": "GameCore.[3]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 5,
-              "lightId": 0
-            }
+            "lightId": 1
           }
         ]
       }
@@ -4708,11 +4938,25 @@
             1.00000036
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.0,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -4793,14 +5037,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GameCore.[3]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser.[0]BoxLight"
+              "parametricBoxId": "GameCore.[3]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser.[0]BoxLight",
+              "sliceSpriteControllerId": "GameCore.[3]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 6,
-              "lightId": 0
-            }
+            "lightId": 1
           }
         ]
       }
@@ -4882,11 +5129,25 @@
             1.00000036
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 1.0,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -5023,14 +5284,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GameCore.[4]PairLaserTrackLaneRing(Clone).[1]LaserL.[0]BoxLight"
+              "parametricBoxId": "GameCore.[4]PairLaserTrackLaneRing(Clone).[1]LaserL.[0]BoxLight",
+              "sliceSpriteControllerId": "GameCore.[4]PairLaserTrackLaneRing(Clone).[1]LaserL.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 4,
-              "lightId": 2
-            }
+            "lightId": 3
           }
         ]
       }
@@ -5112,11 +5376,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -5163,14 +5441,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GameCore.[4]PairLaserTrackLaneRing(Clone).[2]LaserR.[0]BoxLight"
+              "parametricBoxId": "GameCore.[4]PairLaserTrackLaneRing(Clone).[2]LaserR.[0]BoxLight",
+              "sliceSpriteControllerId": "GameCore.[4]PairLaserTrackLaneRing(Clone).[2]LaserR.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 4,
-              "lightId": 3
-            }
+            "lightId": 4
           }
         ]
       }
@@ -5252,11 +5533,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -5303,14 +5598,17 @@
               "height": 3.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GameCore.[4]PairLaserTrackLaneRing(Clone).[3]LaserLF.[0]BoxLight"
+              "parametricBoxId": "GameCore.[4]PairLaserTrackLaneRing(Clone).[3]LaserLF.[0]BoxLight",
+              "sliceSpriteControllerId": "GameCore.[4]PairLaserTrackLaneRing(Clone).[3]LaserLF.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 7,
-              "lightId": 1
-            }
+            "lightId": 2
           }
         ]
       }
@@ -5392,11 +5690,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "0dd004d097c885674f53e9736741a1d9"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 3.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -5443,14 +5755,17 @@
               "height": 3.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GameCore.[4]PairLaserTrackLaneRing(Clone).[4]LaserRF.[0]BoxLight"
+              "parametricBoxId": "GameCore.[4]PairLaserTrackLaneRing(Clone).[4]LaserRF.[0]BoxLight",
+              "sliceSpriteControllerId": "GameCore.[4]PairLaserTrackLaneRing(Clone).[4]LaserRF.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 8,
-              "lightId": 1
-            }
+            "lightId": 2
           }
         ]
       }
@@ -5532,11 +5847,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "0dd004d097c885674f53e9736741a1d9"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 3.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -5571,6 +5900,22 @@
             1.0,
             1.0
           ]
+        },
+        "LightPairRotationEventEffect": {
+          "eventTypeL": "Event12",
+          "transformL": "GameCore.[4]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL",
+          "eventTypeR": "Event13",
+          "transformR": "GameCore.[4]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR",
+          "switchOverrideRandomValuesEvent": "VoidEvent",
+          "rotationVector": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "overrideRandomValues": true,
+          "useZPositionForAngleOffset": true,
+          "zPositionAngleOffsetScale": 10.0,
+          "startRotation": 0.0
         }
       }
     },
@@ -5651,14 +5996,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GameCore.[4]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser.[0]BoxLight"
+              "parametricBoxId": "GameCore.[4]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser.[0]BoxLight",
+              "sliceSpriteControllerId": "GameCore.[4]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 7,
-              "lightId": 0
-            }
+            "lightId": 1
           }
         ]
       }
@@ -5740,11 +6088,25 @@
             1.00000036
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.0,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -5825,14 +6187,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GameCore.[4]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser.[0]BoxLight"
+              "parametricBoxId": "GameCore.[4]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser.[0]BoxLight",
+              "sliceSpriteControllerId": "GameCore.[4]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 8,
-              "lightId": 0
-            }
+            "lightId": 1
           }
         ]
       }
@@ -5914,11 +6279,25 @@
             1.00000036
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 1.0,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -6055,14 +6434,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GameCore.[5]PairLaserTrackLaneRing(Clone).[1]LaserL.[0]BoxLight"
+              "parametricBoxId": "GameCore.[5]PairLaserTrackLaneRing(Clone).[1]LaserL.[0]BoxLight",
+              "sliceSpriteControllerId": "GameCore.[5]PairLaserTrackLaneRing(Clone).[1]LaserL.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 5,
-              "lightId": 2
-            }
+            "lightId": 3
           }
         ]
       }
@@ -6144,11 +6526,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -6195,14 +6591,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GameCore.[5]PairLaserTrackLaneRing(Clone).[2]LaserR.[0]BoxLight"
+              "parametricBoxId": "GameCore.[5]PairLaserTrackLaneRing(Clone).[2]LaserR.[0]BoxLight",
+              "sliceSpriteControllerId": "GameCore.[5]PairLaserTrackLaneRing(Clone).[2]LaserR.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 5,
-              "lightId": 3
-            }
+            "lightId": 4
           }
         ]
       }
@@ -6284,11 +6683,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -6335,14 +6748,17 @@
               "height": 3.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GameCore.[5]PairLaserTrackLaneRing(Clone).[3]LaserLF.[0]BoxLight"
+              "parametricBoxId": "GameCore.[5]PairLaserTrackLaneRing(Clone).[3]LaserLF.[0]BoxLight",
+              "sliceSpriteControllerId": "GameCore.[5]PairLaserTrackLaneRing(Clone).[3]LaserLF.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 9,
-              "lightId": 1
-            }
+            "lightId": 2
           }
         ]
       }
@@ -6424,11 +6840,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "0dd004d097c885674f53e9736741a1d9"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 3.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -6475,14 +6905,17 @@
               "height": 3.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GameCore.[5]PairLaserTrackLaneRing(Clone).[4]LaserRF.[0]BoxLight"
+              "parametricBoxId": "GameCore.[5]PairLaserTrackLaneRing(Clone).[4]LaserRF.[0]BoxLight",
+              "sliceSpriteControllerId": "GameCore.[5]PairLaserTrackLaneRing(Clone).[4]LaserRF.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 10,
-              "lightId": 1
-            }
+            "lightId": 2
           }
         ]
       }
@@ -6564,11 +6997,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "0dd004d097c885674f53e9736741a1d9"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 3.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -6603,6 +7050,22 @@
             1.0,
             1.0
           ]
+        },
+        "LightPairRotationEventEffect": {
+          "eventTypeL": "Event12",
+          "transformL": "GameCore.[5]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL",
+          "eventTypeR": "Event13",
+          "transformR": "GameCore.[5]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR",
+          "switchOverrideRandomValuesEvent": "VoidEvent",
+          "rotationVector": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "overrideRandomValues": true,
+          "useZPositionForAngleOffset": true,
+          "zPositionAngleOffsetScale": 10.0,
+          "startRotation": 0.0
         }
       }
     },
@@ -6683,14 +7146,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GameCore.[5]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser.[0]BoxLight"
+              "parametricBoxId": "GameCore.[5]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser.[0]BoxLight",
+              "sliceSpriteControllerId": "GameCore.[5]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 9,
-              "lightId": 0
-            }
+            "lightId": 1
           }
         ]
       }
@@ -6772,11 +7238,25 @@
             1.00000036
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.0,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -6857,14 +7337,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GameCore.[5]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser.[0]BoxLight"
+              "parametricBoxId": "GameCore.[5]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser.[0]BoxLight",
+              "sliceSpriteControllerId": "GameCore.[5]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 10,
-              "lightId": 0
-            }
+            "lightId": 1
           }
         ]
       }
@@ -6946,11 +7429,25 @@
             1.00000036
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 1.0,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -7087,14 +7584,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GameCore.[6]PairLaserTrackLaneRing(Clone).[1]LaserL.[0]BoxLight"
+              "parametricBoxId": "GameCore.[6]PairLaserTrackLaneRing(Clone).[1]LaserL.[0]BoxLight",
+              "sliceSpriteControllerId": "GameCore.[6]PairLaserTrackLaneRing(Clone).[1]LaserL.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 6,
-              "lightId": 2
-            }
+            "lightId": 3
           }
         ]
       }
@@ -7176,11 +7676,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -7227,14 +7741,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GameCore.[6]PairLaserTrackLaneRing(Clone).[2]LaserR.[0]BoxLight"
+              "parametricBoxId": "GameCore.[6]PairLaserTrackLaneRing(Clone).[2]LaserR.[0]BoxLight",
+              "sliceSpriteControllerId": "GameCore.[6]PairLaserTrackLaneRing(Clone).[2]LaserR.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 6,
-              "lightId": 3
-            }
+            "lightId": 4
           }
         ]
       }
@@ -7316,11 +7833,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -7367,14 +7898,17 @@
               "height": 3.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GameCore.[6]PairLaserTrackLaneRing(Clone).[3]LaserLF.[0]BoxLight"
+              "parametricBoxId": "GameCore.[6]PairLaserTrackLaneRing(Clone).[3]LaserLF.[0]BoxLight",
+              "sliceSpriteControllerId": "GameCore.[6]PairLaserTrackLaneRing(Clone).[3]LaserLF.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 11,
-              "lightId": 1
-            }
+            "lightId": 2
           }
         ]
       }
@@ -7456,11 +7990,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "0dd004d097c885674f53e9736741a1d9"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 3.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -7507,14 +8055,17 @@
               "height": 3.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GameCore.[6]PairLaserTrackLaneRing(Clone).[4]LaserRF.[0]BoxLight"
+              "parametricBoxId": "GameCore.[6]PairLaserTrackLaneRing(Clone).[4]LaserRF.[0]BoxLight",
+              "sliceSpriteControllerId": "GameCore.[6]PairLaserTrackLaneRing(Clone).[4]LaserRF.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 12,
-              "lightId": 1
-            }
+            "lightId": 2
           }
         ]
       }
@@ -7596,11 +8147,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "0dd004d097c885674f53e9736741a1d9"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 3.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -7635,6 +8200,22 @@
             1.0,
             1.0
           ]
+        },
+        "LightPairRotationEventEffect": {
+          "eventTypeL": "Event12",
+          "transformL": "GameCore.[6]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL",
+          "eventTypeR": "Event13",
+          "transformR": "GameCore.[6]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR",
+          "switchOverrideRandomValuesEvent": "VoidEvent",
+          "rotationVector": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "overrideRandomValues": true,
+          "useZPositionForAngleOffset": true,
+          "zPositionAngleOffsetScale": 10.0,
+          "startRotation": 0.0
         }
       }
     },
@@ -7715,14 +8296,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GameCore.[6]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser.[0]BoxLight"
+              "parametricBoxId": "GameCore.[6]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser.[0]BoxLight",
+              "sliceSpriteControllerId": "GameCore.[6]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 11,
-              "lightId": 0
-            }
+            "lightId": 1
           }
         ]
       }
@@ -7804,11 +8388,25 @@
             1.00000036
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.0,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -7889,14 +8487,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GameCore.[6]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser.[0]BoxLight"
+              "parametricBoxId": "GameCore.[6]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser.[0]BoxLight",
+              "sliceSpriteControllerId": "GameCore.[6]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 12,
-              "lightId": 0
-            }
+            "lightId": 1
           }
         ]
       }
@@ -7978,11 +8579,25 @@
             1.00000036
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 1.0,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -8119,14 +8734,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GameCore.[7]PairLaserTrackLaneRing(Clone).[1]LaserL.[0]BoxLight"
+              "parametricBoxId": "GameCore.[7]PairLaserTrackLaneRing(Clone).[1]LaserL.[0]BoxLight",
+              "sliceSpriteControllerId": "GameCore.[7]PairLaserTrackLaneRing(Clone).[1]LaserL.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 7,
-              "lightId": 2
-            }
+            "lightId": 3
           }
         ]
       }
@@ -8208,11 +8826,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -8259,14 +8891,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GameCore.[7]PairLaserTrackLaneRing(Clone).[2]LaserR.[0]BoxLight"
+              "parametricBoxId": "GameCore.[7]PairLaserTrackLaneRing(Clone).[2]LaserR.[0]BoxLight",
+              "sliceSpriteControllerId": "GameCore.[7]PairLaserTrackLaneRing(Clone).[2]LaserR.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 7,
-              "lightId": 3
-            }
+            "lightId": 4
           }
         ]
       }
@@ -8348,11 +8983,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -8399,14 +9048,17 @@
               "height": 3.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GameCore.[7]PairLaserTrackLaneRing(Clone).[3]LaserLF.[0]BoxLight"
+              "parametricBoxId": "GameCore.[7]PairLaserTrackLaneRing(Clone).[3]LaserLF.[0]BoxLight",
+              "sliceSpriteControllerId": "GameCore.[7]PairLaserTrackLaneRing(Clone).[3]LaserLF.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 13,
-              "lightId": 1
-            }
+            "lightId": 2
           }
         ]
       }
@@ -8488,11 +9140,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "0dd004d097c885674f53e9736741a1d9"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 3.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -8539,14 +9205,17 @@
               "height": 3.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GameCore.[7]PairLaserTrackLaneRing(Clone).[4]LaserRF.[0]BoxLight"
+              "parametricBoxId": "GameCore.[7]PairLaserTrackLaneRing(Clone).[4]LaserRF.[0]BoxLight",
+              "sliceSpriteControllerId": "GameCore.[7]PairLaserTrackLaneRing(Clone).[4]LaserRF.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 14,
-              "lightId": 1
-            }
+            "lightId": 2
           }
         ]
       }
@@ -8628,11 +9297,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "0dd004d097c885674f53e9736741a1d9"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 3.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -8667,6 +9350,22 @@
             1.0,
             1.0
           ]
+        },
+        "LightPairRotationEventEffect": {
+          "eventTypeL": "Event12",
+          "transformL": "GameCore.[7]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL",
+          "eventTypeR": "Event13",
+          "transformR": "GameCore.[7]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR",
+          "switchOverrideRandomValuesEvent": "VoidEvent",
+          "rotationVector": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "overrideRandomValues": true,
+          "useZPositionForAngleOffset": true,
+          "zPositionAngleOffsetScale": 10.0,
+          "startRotation": 0.0
         }
       }
     },
@@ -8747,14 +9446,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GameCore.[7]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser.[0]BoxLight"
+              "parametricBoxId": "GameCore.[7]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser.[0]BoxLight",
+              "sliceSpriteControllerId": "GameCore.[7]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 13,
-              "lightId": 0
-            }
+            "lightId": 1
           }
         ]
       }
@@ -8836,11 +9538,25 @@
             1.00000036
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.0,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -8921,14 +9637,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GameCore.[7]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser.[0]BoxLight"
+              "parametricBoxId": "GameCore.[7]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser.[0]BoxLight",
+              "sliceSpriteControllerId": "GameCore.[7]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 14,
-              "lightId": 0
-            }
+            "lightId": 1
           }
         ]
       }
@@ -9010,11 +9729,25 @@
             1.00000036
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 1.0,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -9151,14 +9884,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GameCore.[8]PairLaserTrackLaneRing(Clone).[1]LaserL.[0]BoxLight"
+              "parametricBoxId": "GameCore.[8]PairLaserTrackLaneRing(Clone).[1]LaserL.[0]BoxLight",
+              "sliceSpriteControllerId": "GameCore.[8]PairLaserTrackLaneRing(Clone).[1]LaserL.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 8,
-              "lightId": 2
-            }
+            "lightId": 3
           }
         ]
       }
@@ -9240,11 +9976,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -9291,14 +10041,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GameCore.[8]PairLaserTrackLaneRing(Clone).[2]LaserR.[0]BoxLight"
+              "parametricBoxId": "GameCore.[8]PairLaserTrackLaneRing(Clone).[2]LaserR.[0]BoxLight",
+              "sliceSpriteControllerId": "GameCore.[8]PairLaserTrackLaneRing(Clone).[2]LaserR.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 8,
-              "lightId": 3
-            }
+            "lightId": 4
           }
         ]
       }
@@ -9380,11 +10133,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -9431,14 +10198,17 @@
               "height": 3.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GameCore.[8]PairLaserTrackLaneRing(Clone).[3]LaserLF.[0]BoxLight"
+              "parametricBoxId": "GameCore.[8]PairLaserTrackLaneRing(Clone).[3]LaserLF.[0]BoxLight",
+              "sliceSpriteControllerId": "GameCore.[8]PairLaserTrackLaneRing(Clone).[3]LaserLF.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 15,
-              "lightId": 1
-            }
+            "lightId": 2
           }
         ]
       }
@@ -9520,11 +10290,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "0dd004d097c885674f53e9736741a1d9"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 3.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -9571,14 +10355,17 @@
               "height": 3.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GameCore.[8]PairLaserTrackLaneRing(Clone).[4]LaserRF.[0]BoxLight"
+              "parametricBoxId": "GameCore.[8]PairLaserTrackLaneRing(Clone).[4]LaserRF.[0]BoxLight",
+              "sliceSpriteControllerId": "GameCore.[8]PairLaserTrackLaneRing(Clone).[4]LaserRF.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 16,
-              "lightId": 1
-            }
+            "lightId": 2
           }
         ]
       }
@@ -9660,11 +10447,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "0dd004d097c885674f53e9736741a1d9"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 3.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -9699,6 +10500,22 @@
             1.0,
             1.0
           ]
+        },
+        "LightPairRotationEventEffect": {
+          "eventTypeL": "Event12",
+          "transformL": "GameCore.[8]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL",
+          "eventTypeR": "Event13",
+          "transformR": "GameCore.[8]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR",
+          "switchOverrideRandomValuesEvent": "VoidEvent",
+          "rotationVector": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "overrideRandomValues": true,
+          "useZPositionForAngleOffset": true,
+          "zPositionAngleOffsetScale": 10.0,
+          "startRotation": 0.0
         }
       }
     },
@@ -9779,14 +10596,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GameCore.[8]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser.[0]BoxLight"
+              "parametricBoxId": "GameCore.[8]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser.[0]BoxLight",
+              "sliceSpriteControllerId": "GameCore.[8]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 15,
-              "lightId": 0
-            }
+            "lightId": 1
           }
         ]
       }
@@ -9868,11 +10688,25 @@
             1.00000036
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.0,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -9953,14 +10787,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GameCore.[8]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser.[0]BoxLight"
+              "parametricBoxId": "GameCore.[8]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser.[0]BoxLight",
+              "sliceSpriteControllerId": "GameCore.[8]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 16,
-              "lightId": 0
-            }
+            "lightId": 1
           }
         ]
       }
@@ -10042,11 +10879,25 @@
             1.00000036
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 1.0,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -10183,14 +11034,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GameCore.[9]PairLaserTrackLaneRing(Clone).[1]LaserL.[0]BoxLight"
+              "parametricBoxId": "GameCore.[9]PairLaserTrackLaneRing(Clone).[1]LaserL.[0]BoxLight",
+              "sliceSpriteControllerId": "GameCore.[9]PairLaserTrackLaneRing(Clone).[1]LaserL.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 9,
-              "lightId": 2
-            }
+            "lightId": 3
           }
         ]
       }
@@ -10272,11 +11126,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -10323,14 +11191,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GameCore.[9]PairLaserTrackLaneRing(Clone).[2]LaserR.[0]BoxLight"
+              "parametricBoxId": "GameCore.[9]PairLaserTrackLaneRing(Clone).[2]LaserR.[0]BoxLight",
+              "sliceSpriteControllerId": "GameCore.[9]PairLaserTrackLaneRing(Clone).[2]LaserR.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 9,
-              "lightId": 3
-            }
+            "lightId": 4
           }
         ]
       }
@@ -10412,11 +11283,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -10463,14 +11348,17 @@
               "height": 3.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GameCore.[9]PairLaserTrackLaneRing(Clone).[3]LaserLF.[0]BoxLight"
+              "parametricBoxId": "GameCore.[9]PairLaserTrackLaneRing(Clone).[3]LaserLF.[0]BoxLight",
+              "sliceSpriteControllerId": "GameCore.[9]PairLaserTrackLaneRing(Clone).[3]LaserLF.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 17,
-              "lightId": 1
-            }
+            "lightId": 2
           }
         ]
       }
@@ -10552,11 +11440,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "0dd004d097c885674f53e9736741a1d9"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 3.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -10603,14 +11505,17 @@
               "height": 3.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GameCore.[9]PairLaserTrackLaneRing(Clone).[4]LaserRF.[0]BoxLight"
+              "parametricBoxId": "GameCore.[9]PairLaserTrackLaneRing(Clone).[4]LaserRF.[0]BoxLight",
+              "sliceSpriteControllerId": "GameCore.[9]PairLaserTrackLaneRing(Clone).[4]LaserRF.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 18,
-              "lightId": 1
-            }
+            "lightId": 2
           }
         ]
       }
@@ -10692,11 +11597,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "0dd004d097c885674f53e9736741a1d9"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 3.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -10731,6 +11650,22 @@
             1.0,
             1.0
           ]
+        },
+        "LightPairRotationEventEffect": {
+          "eventTypeL": "Event12",
+          "transformL": "GameCore.[9]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL",
+          "eventTypeR": "Event13",
+          "transformR": "GameCore.[9]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR",
+          "switchOverrideRandomValuesEvent": "VoidEvent",
+          "rotationVector": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "overrideRandomValues": true,
+          "useZPositionForAngleOffset": true,
+          "zPositionAngleOffsetScale": 10.0,
+          "startRotation": 0.0
         }
       }
     },
@@ -10811,14 +11746,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GameCore.[9]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser.[0]BoxLight"
+              "parametricBoxId": "GameCore.[9]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser.[0]BoxLight",
+              "sliceSpriteControllerId": "GameCore.[9]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 17,
-              "lightId": 0
-            }
+            "lightId": 1
           }
         ]
       }
@@ -10900,11 +11838,25 @@
             1.00000036
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.0,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -10985,14 +11937,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GameCore.[9]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser.[0]BoxLight"
+              "parametricBoxId": "GameCore.[9]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser.[0]BoxLight",
+              "sliceSpriteControllerId": "GameCore.[9]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 18,
-              "lightId": 0
-            }
+            "lightId": 1
           }
         ]
       }
@@ -11074,11 +12029,25 @@
             1.00000036
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 1.0,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -11191,6 +12160,697 @@
           ]
         }
       }
+    },
+    {
+      "name": "BasicGameHUD",
+      "id": "TimbalandEnvironment.[0]Environment.[10]BasicGameHUD",
+      "layer": "UI",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "EnergyPanel",
+      "id": "TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[0]EnergyPanel",
+      "layer": "UI",
+      "components": {
+        "Animator": {
+          "animatorParameters": [],
+          "animatorLayerNames": []
+        }
+      }
+    },
+    {
+      "name": "BG",
+      "id": "TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[0]EnergyPanel.[0]BG",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "BarBG",
+      "id": "TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[0]EnergyPanel.[1]BarBG",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "EnergyIconEmpty",
+      "id": "TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[0]EnergyPanel.[2]EnergyIconEmpty",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "EnergyIconFull",
+      "id": "TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[0]EnergyPanel.[3]EnergyIconFull",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "EnergyBarWrapper",
+      "id": "TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[0]EnergyPanel.[4]EnergyBarWrapper",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "EnergyBar",
+      "id": "TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[0]EnergyPanel.[4]EnergyBarWrapper.[0]EnergyBar",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Laser",
+      "id": "TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[0]EnergyPanel.[5]Laser",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            -0.64,
+            6.95
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            -40.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            90.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            90.0
+          ],
+          "scale": [
+            0.0200000033,
+            0.0200000033,
+            0.02
+          ]
+        }
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[0]EnergyPanel.[5]Laser.[0]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            -0.64,
+            6.95
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            90.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.0,
+            5.000001,
+            0.0
+          ]
+        },
+        "MeshFilter": {
+          "hash": "918b6e6683288362624bdc36ef36ef62"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "2f53648cf0e7229f89336575c9a4624c"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[0]EnergyPanel.[5]Laser.[1]BakedBloom",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            -0.64,
+            6.95
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            90.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.0200000033,
+            0.0200000033,
+            0.02
+          ]
+        },
+        "MeshFilter": {},
+        "MeshRenderer": {
+          "materials": [
+            "efd0d242bf2ace2047b83f3bffefe51d"
+          ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 5.2,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.0,
+          "width": 0.0,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
+        }
+      }
+    },
+    {
+      "name": "FailIcon",
+      "id": "TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[0]EnergyPanel.[6]FailIcon",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "LeftPanel",
+      "id": "TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[1]LeftPanel",
+      "layer": "UI",
+      "components": {
+        "Transform": {
+          "position": [
+            -3.2,
+            0.4,
+            7.0
+          ],
+          "localPosition": [
+            -3.2,
+            0.4,
+            7.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "BG",
+      "id": "TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[1]LeftPanel.[0]BG",
+      "layer": "UI",
+      "components": {
+        "Transform": {
+          "position": [
+            -3.2,
+            -27.6,
+            7.01
+          ],
+          "localPosition": [
+            0.0,
+            -28.0,
+            0.01
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.4,
+            60.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "Top",
+      "id": "TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[1]LeftPanel.[1]Top",
+      "layer": "UI",
+      "components": {
+        "Transform": {
+          "position": [
+            -3.2,
+            2.5,
+            7.0
+          ],
+          "localPosition": [
+            0.0,
+            2.1,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.4,
+            0.1,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "ComboPanel",
+      "id": "TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[1]LeftPanel.[2]ComboPanel",
+      "layer": "UI",
+      "components": {
+        "Animator": {
+          "animatorParameters": [
+            "ComboLost"
+          ],
+          "animatorLayerNames": [
+            "Base Layer"
+          ]
+        }
+      }
+    },
+    {
+      "name": "ComboText",
+      "id": "TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[1]LeftPanel.[2]ComboPanel.[0]ComboText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "ComboCanvas",
+      "id": "TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[1]LeftPanel.[2]ComboPanel.[1]ComboCanvas",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "NumText",
+      "id": "TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[1]LeftPanel.[2]ComboPanel.[1]ComboCanvas.[0]NumText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Line0",
+      "id": "TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[1]LeftPanel.[2]ComboPanel.[2]Line0",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Line1",
+      "id": "TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[1]LeftPanel.[2]ComboPanel.[3]Line1",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "ScoreCanvas",
+      "id": "TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[1]LeftPanel.[3]ScoreCanvas",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "ScoreText",
+      "id": "TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[1]LeftPanel.[3]ScoreCanvas.[0]ScoreText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "ImmediateRankText",
+      "id": "TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[1]LeftPanel.[3]ScoreCanvas.[1]ImmediateRankText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "RelativeScoreText",
+      "id": "TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[1]LeftPanel.[3]ScoreCanvas.[2]RelativeScoreText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "RightPanel",
+      "id": "TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[2]RightPanel",
+      "layer": "UI",
+      "components": {
+        "Transform": {
+          "position": [
+            3.2,
+            0.4,
+            7.0
+          ],
+          "localPosition": [
+            3.2,
+            0.4,
+            7.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "BG",
+      "id": "TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[2]RightPanel.[0]BG",
+      "layer": "UI",
+      "components": {
+        "Transform": {
+          "position": [
+            3.2,
+            -27.6,
+            7.01
+          ],
+          "localPosition": [
+            0.0,
+            -28.0,
+            0.01
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.4,
+            60.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "Top",
+      "id": "TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[2]RightPanel.[1]Top",
+      "layer": "UI",
+      "components": {
+        "Transform": {
+          "position": [
+            3.2,
+            2.5,
+            7.0
+          ],
+          "localPosition": [
+            0.0,
+            2.1,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.4,
+            0.1,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "MultiplierCanvas",
+      "id": "TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[2]RightPanel.[2]MultiplierCanvas",
+      "layer": "UI",
+      "components": {
+        "Animator": {
+          "animatorParameters": [
+            "MultiplierIncreased"
+          ],
+          "animatorLayerNames": [
+            "Base Layer"
+          ]
+        }
+      }
+    },
+    {
+      "name": "BGCircle",
+      "id": "TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[2]RightPanel.[2]MultiplierCanvas.[0]BGCircle",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "FGCircle",
+      "id": "TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[2]RightPanel.[2]MultiplierCanvas.[1]FGCircle",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "AnimationCircle",
+      "id": "TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[2]RightPanel.[2]MultiplierCanvas.[2]AnimationCircle",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "TextOverlayPanelOutline1",
+      "id": "TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[2]RightPanel.[2]MultiplierCanvas.[3]TextOverlayPanelOutline1",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "XText",
+      "id": "TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[2]RightPanel.[2]MultiplierCanvas.[3]TextOverlayPanelOutline1.[0]XText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "NumText",
+      "id": "TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[2]RightPanel.[2]MultiplierCanvas.[3]TextOverlayPanelOutline1.[1]NumText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "TextOverlayPanelOutline0",
+      "id": "TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[2]RightPanel.[2]MultiplierCanvas.[4]TextOverlayPanelOutline0",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "XText",
+      "id": "TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[2]RightPanel.[2]MultiplierCanvas.[4]TextOverlayPanelOutline0.[0]XText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "NumText",
+      "id": "TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[2]RightPanel.[2]MultiplierCanvas.[4]TextOverlayPanelOutline0.[1]NumText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "TextPanel",
+      "id": "TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[2]RightPanel.[2]MultiplierCanvas.[5]TextPanel",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "XText",
+      "id": "TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[2]RightPanel.[2]MultiplierCanvas.[5]TextPanel.[0]XText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "NumText",
+      "id": "TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[2]RightPanel.[2]MultiplierCanvas.[5]TextPanel.[1]NumText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "SongProgressCanvas",
+      "id": "TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Progress",
+      "id": "TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.[0]Progress",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Slider",
+      "id": "TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.[1]Slider",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Background",
+      "id": "TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.[1]Slider.[0]Background",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Handle Slide Area",
+      "id": "TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.[1]Slider.[1]Handle Slide Area",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Handle",
+      "id": "TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.[1]Slider.[1]Handle Slide Area.[0]Handle",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "ProgressText",
+      "id": "TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.[2]ProgressText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Progress",
+      "id": "TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.[2]ProgressText.[0]Progress",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "ProgressMinutes",
+      "id": "TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.[2]ProgressText.[0]Progress.[0]ProgressMinutes",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "ProgressColon",
+      "id": "TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.[2]ProgressText.[0]Progress.[1]ProgressColon",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "ProgressSeconds",
+      "id": "TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.[2]ProgressText.[0]Progress.[2]ProgressSeconds",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Separator",
+      "id": "TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.[2]ProgressText.[1]Separator",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Duration",
+      "id": "TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.[2]ProgressText.[2]Duration",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "DurationMinutes",
+      "id": "TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.[2]ProgressText.[2]Duration.[0]DurationMinutes",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "DurationColon",
+      "id": "TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.[2]ProgressText.[2]Duration.[1]DurationColon",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "DurationSeconds",
+      "id": "TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.[2]ProgressText.[2]Duration.[2]DurationSeconds",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "RecordingPanel",
+      "id": "TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[2]RightPanel.[4]RecordingPanel",
+      "layer": "DontShowInExternalMRCamera",
+      "components": {}
+    },
+    {
+      "name": "RecordingText",
+      "id": "TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[2]RightPanel.[4]RecordingPanel.[0]RecordingText",
+      "layer": "DontShowInExternalMRCamera",
+      "components": {}
+    },
+    {
+      "name": "RecordingCircle",
+      "id": "TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[2]RightPanel.[4]RecordingPanel.[1]RecordingCircle",
+      "layer": "DontShowInExternalMRCamera",
+      "components": {}
     },
     {
       "name": "PlayersPlace",
@@ -11523,19 +13183,19 @@
             0.0
           ],
           "rotation": [
-            89.90722,
+            90.0,
             0.0,
             0.0
           ],
           "localRotation": [
-            89.90722,
+            90.0,
             0.0,
             0.0
           ],
           "scale": [
             1.0,
-            1.0,
-            1.0
+            1.00000024,
+            1.00000024
           ]
         }
       }
@@ -11573,8 +13233,26 @@
           ]
         },
         "TrackLaneRingsManager": {
-          "ringCount": 10,
-          "ringPositionZStep": 1.5
+          "ringPositionZStep": 1.5,
+          "rings": [
+            "GameCore.[1]PairLaserTrackLaneRing(Clone)",
+            "GameCore.[2]PairLaserTrackLaneRing(Clone)",
+            "GameCore.[3]PairLaserTrackLaneRing(Clone)",
+            "GameCore.[4]PairLaserTrackLaneRing(Clone)",
+            "GameCore.[5]PairLaserTrackLaneRing(Clone)",
+            "GameCore.[6]PairLaserTrackLaneRing(Clone)",
+            "GameCore.[7]PairLaserTrackLaneRing(Clone)",
+            "GameCore.[8]PairLaserTrackLaneRing(Clone)",
+            "GameCore.[9]PairLaserTrackLaneRing(Clone)",
+            "GameCore.[10]PairLaserTrackLaneRing(Clone)"
+          ]
+        },
+        "TrackLaneRingsPositionStepEffectSpawner": {
+          "eventType": "Event9",
+          "trackLaneRingsManager": "TimbalandEnvironment.[0]Environment.[14]PairLaserTrackLaneRings",
+          "minPositionStep": 1.5,
+          "maxPositionStep": 3.0,
+          "moveSpeed": 5.0
         }
       }
     },
@@ -11994,12 +13672,18 @@
           ]
         },
         "SpriteLightWithId": {
-          "spriteLightId": 4,
-          "intensity": 1.0,
-          "spriteName": "TimbalandLogo",
-          "chromaLight": {
-            "type": 11,
-            "lightId": 3
+          "lightId": 4,
+          "lightIntensity": 1.0,
+          "sprite": {
+            "name": "TimbalandLogo",
+            "textureName": "TimbalandLogo",
+            "size": [
+              512.0,
+              64.0
+            ],
+            "materials": [
+              "84d4c639f46135f14282fc50856755f9"
+            ]
           }
         }
       }
@@ -12035,6 +13719,12 @@
             1.0,
             1.0
           ]
+        },
+        "LightSwitchEventEffect": {
+          "eventType": "Event4",
+          "offColorIntensity": 0.0,
+          "lightOnStart": false,
+          "lightsId": 5
         }
       }
     },
@@ -12068,6 +13758,316 @@
             1.0,
             1.0,
             1.0
+          ]
+        },
+        "LightWithIdManager": {
+          "lights": [
+            [
+              {
+                "ID": "GameCore.[1]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser",
+                "id": 1
+              },
+              {
+                "ID": "GameCore.[1]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser",
+                "id": 1
+              },
+              {
+                "ID": "GameCore.[2]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser",
+                "id": 1
+              },
+              {
+                "ID": "GameCore.[2]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser",
+                "id": 1
+              },
+              {
+                "ID": "GameCore.[3]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser",
+                "id": 1
+              },
+              {
+                "ID": "GameCore.[3]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser",
+                "id": 1
+              },
+              {
+                "ID": "GameCore.[4]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser",
+                "id": 1
+              },
+              {
+                "ID": "GameCore.[4]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser",
+                "id": 1
+              },
+              {
+                "ID": "GameCore.[5]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser",
+                "id": 1
+              },
+              {
+                "ID": "GameCore.[5]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser",
+                "id": 1
+              },
+              {
+                "ID": "GameCore.[6]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser",
+                "id": 1
+              },
+              {
+                "ID": "GameCore.[6]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser",
+                "id": 1
+              },
+              {
+                "ID": "GameCore.[7]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser",
+                "id": 1
+              },
+              {
+                "ID": "GameCore.[7]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser",
+                "id": 1
+              },
+              {
+                "ID": "GameCore.[8]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser",
+                "id": 1
+              },
+              {
+                "ID": "GameCore.[8]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser",
+                "id": 1
+              },
+              {
+                "ID": "GameCore.[9]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser",
+                "id": 1
+              },
+              {
+                "ID": "GameCore.[9]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser",
+                "id": 1
+              },
+              {
+                "ID": "GameCore.[10]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser",
+                "id": 1
+              },
+              {
+                "ID": "GameCore.[10]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser",
+                "id": 1
+              }
+            ],
+            [
+              {
+                "ID": "GameCore.[1]PairLaserTrackLaneRing(Clone).[3]LaserLF",
+                "id": 2
+              },
+              {
+                "ID": "GameCore.[1]PairLaserTrackLaneRing(Clone).[4]LaserRF",
+                "id": 2
+              },
+              {
+                "ID": "GameCore.[2]PairLaserTrackLaneRing(Clone).[3]LaserLF",
+                "id": 2
+              },
+              {
+                "ID": "GameCore.[2]PairLaserTrackLaneRing(Clone).[4]LaserRF",
+                "id": 2
+              },
+              {
+                "ID": "GameCore.[3]PairLaserTrackLaneRing(Clone).[3]LaserLF",
+                "id": 2
+              },
+              {
+                "ID": "GameCore.[3]PairLaserTrackLaneRing(Clone).[4]LaserRF",
+                "id": 2
+              },
+              {
+                "ID": "GameCore.[4]PairLaserTrackLaneRing(Clone).[3]LaserLF",
+                "id": 2
+              },
+              {
+                "ID": "GameCore.[4]PairLaserTrackLaneRing(Clone).[4]LaserRF",
+                "id": 2
+              },
+              {
+                "ID": "GameCore.[5]PairLaserTrackLaneRing(Clone).[3]LaserLF",
+                "id": 2
+              },
+              {
+                "ID": "GameCore.[5]PairLaserTrackLaneRing(Clone).[4]LaserRF",
+                "id": 2
+              },
+              {
+                "ID": "GameCore.[6]PairLaserTrackLaneRing(Clone).[3]LaserLF",
+                "id": 2
+              },
+              {
+                "ID": "GameCore.[6]PairLaserTrackLaneRing(Clone).[4]LaserRF",
+                "id": 2
+              },
+              {
+                "ID": "GameCore.[7]PairLaserTrackLaneRing(Clone).[3]LaserLF",
+                "id": 2
+              },
+              {
+                "ID": "GameCore.[7]PairLaserTrackLaneRing(Clone).[4]LaserRF",
+                "id": 2
+              },
+              {
+                "ID": "GameCore.[8]PairLaserTrackLaneRing(Clone).[3]LaserLF",
+                "id": 2
+              },
+              {
+                "ID": "GameCore.[8]PairLaserTrackLaneRing(Clone).[4]LaserRF",
+                "id": 2
+              },
+              {
+                "ID": "GameCore.[9]PairLaserTrackLaneRing(Clone).[3]LaserLF",
+                "id": 2
+              },
+              {
+                "ID": "GameCore.[9]PairLaserTrackLaneRing(Clone).[4]LaserRF",
+                "id": 2
+              },
+              {
+                "ID": "GameCore.[10]PairLaserTrackLaneRing(Clone).[3]LaserLF",
+                "id": 2
+              },
+              {
+                "ID": "GameCore.[10]PairLaserTrackLaneRing(Clone).[4]LaserRF",
+                "id": 2
+              }
+            ],
+            [
+              {
+                "ID": "GameCore.[1]PairLaserTrackLaneRing(Clone).[1]LaserL",
+                "id": 3
+              },
+              {
+                "ID": "GameCore.[2]PairLaserTrackLaneRing(Clone).[1]LaserL",
+                "id": 3
+              },
+              {
+                "ID": "GameCore.[3]PairLaserTrackLaneRing(Clone).[1]LaserL",
+                "id": 3
+              },
+              {
+                "ID": "GameCore.[4]PairLaserTrackLaneRing(Clone).[1]LaserL",
+                "id": 3
+              },
+              {
+                "ID": "GameCore.[5]PairLaserTrackLaneRing(Clone).[1]LaserL",
+                "id": 3
+              },
+              {
+                "ID": "GameCore.[6]PairLaserTrackLaneRing(Clone).[1]LaserL",
+                "id": 3
+              },
+              {
+                "ID": "GameCore.[7]PairLaserTrackLaneRing(Clone).[1]LaserL",
+                "id": 3
+              },
+              {
+                "ID": "GameCore.[8]PairLaserTrackLaneRing(Clone).[1]LaserL",
+                "id": 3
+              },
+              {
+                "ID": "GameCore.[9]PairLaserTrackLaneRing(Clone).[1]LaserL",
+                "id": 3
+              },
+              {
+                "ID": "GameCore.[10]PairLaserTrackLaneRing(Clone).[1]LaserL",
+                "id": 3
+              }
+            ],
+            [
+              {
+                "ID": "TimbalandEnvironment.[0]Environment.[17]TimbalandLogo",
+                "id": 4
+              },
+              {
+                "ID": "TimbalandEnvironment.[0]Environment.[20]TimbalandLogo (1)",
+                "id": 4
+              },
+              {
+                "ID": "TimbalandEnvironment.[0]Environment.[21]TimbalandLogo (2)",
+                "id": 4
+              },
+              {
+                "ID": "TimbalandEnvironment.[0]Environment.[22]TimbalandLogo (3)",
+                "id": 4
+              },
+              {
+                "ID": "GameCore.[1]PairLaserTrackLaneRing(Clone).[2]LaserR",
+                "id": 4
+              },
+              {
+                "ID": "GameCore.[2]PairLaserTrackLaneRing(Clone).[2]LaserR",
+                "id": 4
+              },
+              {
+                "ID": "GameCore.[3]PairLaserTrackLaneRing(Clone).[2]LaserR",
+                "id": 4
+              },
+              {
+                "ID": "GameCore.[4]PairLaserTrackLaneRing(Clone).[2]LaserR",
+                "id": 4
+              },
+              {
+                "ID": "GameCore.[5]PairLaserTrackLaneRing(Clone).[2]LaserR",
+                "id": 4
+              },
+              {
+                "ID": "GameCore.[6]PairLaserTrackLaneRing(Clone).[2]LaserR",
+                "id": 4
+              },
+              {
+                "ID": "GameCore.[7]PairLaserTrackLaneRing(Clone).[2]LaserR",
+                "id": 4
+              },
+              {
+                "ID": "GameCore.[8]PairLaserTrackLaneRing(Clone).[2]LaserR",
+                "id": 4
+              },
+              {
+                "ID": "GameCore.[9]PairLaserTrackLaneRing(Clone).[2]LaserR",
+                "id": 4
+              },
+              {
+                "ID": "GameCore.[10]PairLaserTrackLaneRing(Clone).[2]LaserR",
+                "id": 4
+              }
+            ],
+            [
+              {
+                "ID": "TimbalandEnvironment.[0]Environment.[11]PlayersPlace.[1]Feet",
+                "id": 5
+              },
+              {
+                "ID": "TimbalandEnvironment.[0]Environment.[11]PlayersPlace.[3]RectangleFakeGlow",
+                "id": 5
+              },
+              {
+                "ID": "TimbalandEnvironment.[0]Environment.[28]BackColumns.[1]BackColumnNeon",
+                "id": 5
+              },
+              {
+                "ID": "TimbalandEnvironment.[0]Environment.[28]BackColumns.[0]BackColumnNeon",
+                "id": 5
+              },
+              {
+                "ID": "TimbalandEnvironment.[0]Environment.[27]Light (5)",
+                "id": 5
+              },
+              {
+                "ID": "TimbalandEnvironment.[0]Environment.[24]GlowLineR",
+                "id": 5
+              },
+              {
+                "ID": "TimbalandEnvironment.[0]Environment.[26]Light (6)",
+                "id": 5
+              },
+              {
+                "ID": "TimbalandEnvironment.[0]Environment.[25]Light (4)",
+                "id": 5
+              },
+              {
+                "ID": "TimbalandEnvironment.[0]Environment.[29]Light (7)",
+                "id": 5
+              },
+              {
+                "ID": "TimbalandEnvironment.[0]Environment.[23]GlowLineL",
+                "id": 5
+              }
+            ]
           ]
         }
       }
@@ -12105,12 +14105,18 @@
           ]
         },
         "SpriteLightWithId": {
-          "spriteLightId": 4,
-          "intensity": 1.0,
-          "spriteName": "TimbalandLogo",
-          "chromaLight": {
-            "type": 12,
-            "lightId": 3
+          "lightId": 4,
+          "lightIntensity": 1.0,
+          "sprite": {
+            "name": "TimbalandLogo",
+            "textureName": "TimbalandLogo",
+            "size": [
+              512.0,
+              64.0
+            ],
+            "materials": [
+              "84d4c639f46135f14282fc50856755f9"
+            ]
           }
         }
       }
@@ -12148,12 +14154,18 @@
           ]
         },
         "SpriteLightWithId": {
-          "spriteLightId": 4,
-          "intensity": 1.0,
-          "spriteName": "TimbalandLogo",
-          "chromaLight": {
-            "type": 14,
-            "lightId": 3
+          "lightId": 4,
+          "lightIntensity": 1.0,
+          "sprite": {
+            "name": "TimbalandLogo",
+            "textureName": "TimbalandLogo",
+            "size": [
+              512.0,
+              64.0
+            ],
+            "materials": [
+              "84d4c639f46135f14282fc50856755f9"
+            ]
           }
         }
       }
@@ -12191,12 +14203,18 @@
           ]
         },
         "SpriteLightWithId": {
-          "spriteLightId": 4,
-          "intensity": 1.0,
-          "spriteName": "TimbalandLogo",
-          "chromaLight": {
-            "type": 13,
-            "lightId": 3
+          "lightId": 4,
+          "lightIntensity": 1.0,
+          "sprite": {
+            "name": "TimbalandLogo",
+            "textureName": "TimbalandLogo",
+            "size": [
+              512.0,
+              64.0
+            ],
+            "materials": [
+              "84d4c639f46135f14282fc50856755f9"
+            ]
           }
         }
       }
@@ -12244,14 +14262,17 @@
               "height": 250.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "TimbalandEnvironment.[0]Environment.[23]GlowLineL.[1]BoxLight"
+              "parametricBoxId": "TimbalandEnvironment.[0]Environment.[23]GlowLineL.[1]BoxLight",
+              "sliceSpriteControllerId": "TimbalandEnvironment.[0]Environment.[23]GlowLineL.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 1,
-              "lightId": 4
-            }
+            "lightId": 5
           }
         ]
       }
@@ -12289,11 +14310,25 @@
             1.00000024
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "0dd004d097c885674f53e9736741a1d9"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.08,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.0,
+          "length": 250.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -12384,14 +14419,17 @@
               "height": 250.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "TimbalandEnvironment.[0]Environment.[24]GlowLineR.[1]BoxLight"
+              "parametricBoxId": "TimbalandEnvironment.[0]Environment.[24]GlowLineR.[1]BoxLight",
+              "sliceSpriteControllerId": "TimbalandEnvironment.[0]Environment.[24]GlowLineR.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 2,
-              "lightId": 4
-            }
+            "lightId": 5
           }
         ]
       }
@@ -12429,11 +14467,25 @@
             1.00000024
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "0dd004d097c885674f53e9736741a1d9"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.08,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.0,
+          "length": 250.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -12524,14 +14576,17 @@
               "height": 3.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 0.9,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "TimbalandEnvironment.[0]Environment.[25]Light (4).[0]BoxLight"
+              "parametricBoxId": "TimbalandEnvironment.[0]Environment.[25]Light (4).[0]BoxLight",
+              "sliceSpriteControllerId": "TimbalandEnvironment.[0]Environment.[25]Light (4).[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 3,
-              "lightId": 4
-            }
+            "lightId": 5
           }
         ]
       }
@@ -12613,11 +14668,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.2,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 1.0,
+          "length": 3.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -12664,14 +14733,17 @@
               "height": 7.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 0.9,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "TimbalandEnvironment.[0]Environment.[26]Light (6).[0]BoxLight"
+              "parametricBoxId": "TimbalandEnvironment.[0]Environment.[26]Light (6).[0]BoxLight",
+              "sliceSpriteControllerId": "TimbalandEnvironment.[0]Environment.[26]Light (6).[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 4,
-              "lightId": 4
-            }
+            "lightId": 5
           }
         ]
       }
@@ -12753,11 +14825,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.2,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 7.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -12804,14 +14890,17 @@
               "height": 3.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 0.9,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "TimbalandEnvironment.[0]Environment.[27]Light (5).[0]BoxLight"
+              "parametricBoxId": "TimbalandEnvironment.[0]Environment.[27]Light (5).[0]BoxLight",
+              "sliceSpriteControllerId": "TimbalandEnvironment.[0]Environment.[27]Light (5).[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 5,
-              "lightId": 4
-            }
+            "lightId": 5
           }
         ]
       }
@@ -12893,11 +14982,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.2,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 1.0,
+          "length": 3.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -12987,14 +15090,17 @@
               "height": 100.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "TimbalandEnvironment.[0]Environment.[28]BackColumns.[0]BackColumnNeon.[0]BoxLight"
+              "parametricBoxId": "TimbalandEnvironment.[0]Environment.[28]BackColumns.[0]BackColumnNeon.[0]BoxLight",
+              "sliceSpriteControllerId": "TimbalandEnvironment.[0]Environment.[28]BackColumns.[0]BackColumnNeon.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 8,
-              "lightId": 4
-            }
+            "lightId": 5
           }
         ]
       }
@@ -13076,11 +15182,25 @@
             1.00000012
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "0dd004d097c885674f53e9736741a1d9"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.0,
+          "width": 0.2,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 100.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -13127,14 +15247,17 @@
               "height": 100.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "TimbalandEnvironment.[0]Environment.[28]BackColumns.[1]BackColumnNeon.[0]BoxLight"
+              "parametricBoxId": "TimbalandEnvironment.[0]Environment.[28]BackColumns.[1]BackColumnNeon.[0]BoxLight",
+              "sliceSpriteControllerId": "TimbalandEnvironment.[0]Environment.[28]BackColumns.[1]BackColumnNeon.[1]BakedBloom"
             },
-            "chromaLight": {
-              "type": 7,
-              "lightId": 4
-            }
+            "lightId": 5
           }
         ]
       }
@@ -13216,702 +15339,25 @@
             1.00000012
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "0dd004d097c885674f53e9736741a1d9"
           ]
-        }
-      }
-    },
-    {
-      "name": "Light (7)",
-      "id": "TimbalandEnvironment.[0]Environment.[29]Light (7)",
-      "layer": "NeonLight",
-      "components": {
-        "Transform": {
-          "position": [
-            0.0,
-            2.87,
-            65.0
-          ],
-          "localPosition": [
-            0.0,
-            2.87,
-            65.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            90.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            90.0
-          ],
-          "scale": [
-            1.00000024,
-            1.00000024,
-            1.0
-          ]
         },
-        "TubeBloomPrePassLightWithId": [
-          {
-            "tubeBloomPrePassLight": {
-              "colorAlphaMultiplier": 2.3,
-              "bloomFogIntensityMultiplier": 30.0,
-              "tubeLength": 0.1,
-              "tubeWidth": 0.2,
-              "center": 0.5,
-              "startAlpha": 1.0,
-              "endAlpha": 1.0,
-              "lightWidthMultiplier": 1.0,
-              "useCollision": false,
-              "parametricBoxId": "null"
-            },
-            "chromaLight": {
-              "type": 6,
-              "lightId": 4
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "MainStructure",
-      "id": "TimbalandEnvironment.[0]Environment.[3]MainStructure",
-      "meshName": "MainStructure_Timbaland",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "MeshFilter": {
-          "hash": "815a592c7a9273a4c85a6acbb360099a"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "0e26d4cbb471559952d2179cc10c6681"
-          ]
-        }
-      }
-    },
-    {
-      "name": "GradientBackground",
-      "id": "TimbalandEnvironment.[0]Environment.[30]GradientBackground",
-      "layer": "NeonLight",
-      "components": {
-        "Transform": {
-          "position": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        }
-      }
-    },
-    {
-      "name": "BakedReflectionProbe",
-      "id": "TimbalandEnvironment.[0]Environment.[31]BakedReflectionProbe",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            0.0,
-            1.5,
-            5.0
-          ],
-          "localPosition": [
-            0.0,
-            1.5,
-            5.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "BakedReflectionProbe": {
-          "probeSize": [
-            1000.0,
-            1000.0,
-            1000.0
-          ],
-          "probePosition": [
-            0.0,
-            1.5,
-            5.0
-          ]
-        }
-      }
-    },
-    {
-      "name": "BSBakedLightingLightWithIds",
-      "id": "TimbalandEnvironment.[0]Environment.[32]BSBakedLightingLightWithIds",
-      "layer": "Environment",
-      "components": {
-        "Transform": {
-          "position": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        }
-      }
-    },
-    {
-      "name": "FakeMirrorSettings",
-      "id": "TimbalandEnvironment.[0]Environment.[33]FakeMirrorSettings",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        }
-      }
-    },
-    {
-      "name": "BakedReflectionProbeInstaller",
-      "id": "TimbalandEnvironment.[0]Environment.[34]BakedReflectionProbeInstaller",
-      "layer": "Environment",
-      "components": {
-        "Transform": {
-          "position": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        }
-      }
-    },
-    {
-      "name": "TopStructure",
-      "id": "TimbalandEnvironment.[0]Environment.[4]TopStructure",
-      "meshName": "TopStructure_Timbaland",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            0.0,
-            10.0,
-            20.0
-          ],
-          "localPosition": [
-            0.0,
-            10.0,
-            20.0
-          ],
-          "rotation": [
-            354.5,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            354.5,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            100.0,
-            2.0,
-            1.0
-          ]
-        },
-        "MeshFilter": {
-          "hash": "7d0e12a45e0d873aad80727a3f47083c"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "0e26d4cbb471559952d2179cc10c6681"
-          ]
-        }
-      }
-    },
-    {
-      "name": "Buildings",
-      "id": "TimbalandEnvironment.[0]Environment.[5]Buildings",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            0.0,
-            0.0,
-            -12.0
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            -12.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        }
-      }
-    },
-    {
-      "name": "NearBuildingRight",
-      "id": "TimbalandEnvironment.[0]Environment.[5]Buildings.[0]NearBuildingRight",
-      "meshName": "RightNearBuilding",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            -10.5719566,
-            8.529944,
-            -20.82006
-          ],
-          "localPosition": [
-            -10.5719566,
-            8.529944,
-            -8.820061
-          ],
-          "rotation": [
-            2.13443414E-07,
-            6.999997,
-            325.0
-          ],
-          "localRotation": [
-            2.13443414E-07,
-            6.999997,
-            325.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            0.99999994
-          ]
-        },
-        "MeshFilter": {
-          "hash": "b5ebd93d903f2572d7673e5d8407ea6d"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "0e26d4cbb471559952d2179cc10c6681"
-          ]
-        }
-      }
-    },
-    {
-      "name": "NearBuildingLeft",
-      "id": "TimbalandEnvironment.[0]Environment.[5]Buildings.[1]NearBuildingLeft",
-      "meshName": "LeftNearBuilding",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            10.57196,
-            8.529943,
-            -20.820055
-          ],
-          "localPosition": [
-            10.57196,
-            8.529943,
-            -8.820055
-          ],
-          "rotation": [
-            2.13443414E-07,
-            353.0,
-            34.9999924
-          ],
-          "localRotation": [
-            2.13443414E-07,
-            353.0,
-            34.9999924
-          ],
-          "scale": [
-            0.99999994,
-            1.0,
-            1.0
-          ]
-        },
-        "MeshFilter": {
-          "hash": "8e496436ea23b95d25ba4b01bef82ed4"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "0e26d4cbb471559952d2179cc10c6681"
-          ]
-        }
-      }
-    },
-    {
-      "name": "TrackMirror",
-      "id": "TimbalandEnvironment.[0]Environment.[6]TrackMirror",
-      "meshName": "TrackMirror_Timbaland",
-      "layer": "Water",
-      "components": {
-        "Transform": {
-          "position": [
-            0.0,
-            0.0,
-            7.8
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            7.8
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "MeshFilter": {
-          "hash": "2807a8508fadc5da707abc141aa2cb87"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "2487501c6a10ee0041e8c4764f6addaa"
-          ]
-        }
-      }
-    },
-    {
-      "name": "TrackMirrorSetDepth",
-      "id": "TimbalandEnvironment.[0]Environment.[6]TrackMirror.[0]TrackMirrorSetDepth",
-      "meshName": "TrackMirror_Timbaland",
-      "layer": "Water",
-      "components": {
-        "Transform": {
-          "position": [
-            0.0,
-            0.0,
-            7.8
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "MeshFilter": {
-          "hash": "2807a8508fadc5da707abc141aa2cb87"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "47348bfff0fbcb3e14515ad3bfebc6be"
-          ]
-        }
-      }
-    },
-    {
-      "name": "TrackConstruction",
-      "id": "TimbalandEnvironment.[0]Environment.[7]TrackConstruction",
-      "meshName": "TrackConstruction_Timbaland",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "MeshFilter": {
-          "hash": "6034e9ab7c4c3ab12b826e62dfb42127"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "19cb3b1f9cf3cbc03a5bef2da530f65b"
-          ]
-        }
-      }
-    },
-    {
-      "name": "Spectrograms",
-      "id": "TimbalandEnvironment.[0]Environment.[9]Spectrograms",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            0.0,
-            4.0,
-            8.07
-          ],
-          "localPosition": [
-            0.0,
-            4.0,
-            8.07
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        }
-      }
-    },
-    {
-      "name": "Spectrogram",
-      "id": "TimbalandEnvironment.[0]Environment.[9]Spectrograms.[0]Spectrogram",
-      "meshName": "Spectrogram",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            -1.8,
-            -0.0999999046,
-            8.07
-          ],
-          "localPosition": [
-            -1.8,
-            -4.1,
-            0.0
-          ],
-          "rotation": [
-            315.0,
-            270.0,
-            270.0
-          ],
-          "localRotation": [
-            315.0,
-            270.0,
-            270.0
-          ],
-          "scale": [
-            1.00000024,
-            1.00000024,
-            1.00000012
-          ]
-        },
-        "MeshFilter": {
-          "hash": "a1e2f3ff1c0041c6cfb1a340b7f15b98"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "cdd7733ddab55d7ddbbea13cb90a0042"
-          ]
-        }
-      }
-    },
-    {
-      "name": "Spectrogram",
-      "id": "TimbalandEnvironment.[0]Environment.[9]Spectrograms.[1]Spectrogram",
-      "meshName": "Spectrogram",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            1.8,
-            -0.0999999046,
-            8.07
-          ],
-          "localPosition": [
-            1.8,
-            -4.1,
-            0.0
-          ],
-          "rotation": [
-            315.0,
-            90.0,
-            90.0
-          ],
-          "localRotation": [
-            315.0,
-            90.0,
-            90.0
-          ],
-          "scale": [
-            1.00000024,
-            1.00000024,
-            1.00000012
-          ]
-        },
-        "MeshFilter": {
-          "hash": "a1e2f3ff1c0041c6cfb1a340b7f15b98"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "cdd7733ddab55d7ddbbea13cb90a0042"
-          ]
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.0,
+          "width": 0.2,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 100.0,
+          "minAlpha": 0.0
         }
       }
     }

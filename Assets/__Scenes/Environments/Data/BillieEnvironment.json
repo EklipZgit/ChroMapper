@@ -23,6 +23,11 @@
         0.706770957,
         0.5647059
       ],
+      "envColorWhite": [
+        0.7254902,
+        0.7254902,
+        0.7254902
+      ],
       "obstacleColor": [
         0.71325314,
         0.5614098,
@@ -37,6 +42,11 @@
         0.5568628,
         0.7019608,
         0.776470661
+      ],
+      "envColorWhiteBoost": [
+        0.7254902,
+        0.7254902,
+        0.7254902
       ]
     },
     "fogParams": {
@@ -331,6 +341,44 @@
         ]
       },
       {
+        "hash": "2f53648cf0e7229f89336575c9a4624c",
+        "name": "EnvLight",
+        "shader": "Custom/TransparentNeonLight",
+        "color": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "shaderKeywords": [
+          "ENABLE_HEIGHT_FOG",
+          "MULTIPLY_COLOR_WITH_ALPHA",
+          "_ENABLE_MAIN_EFFECT_WHITE_BOOST"
+        ]
+      },
+      {
+        "hash": "efd0d242bf2ace2047b83f3bffefe51d",
+        "name": "EnvLightBillboardSpriteGlow",
+        "shader": "Custom/Parametric3SliceSprite",
+        "color": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "shaderKeywords": [
+          "ALPHA_WIDTH_SCALE",
+          "ENABLE_FOG",
+          "ENABLE_HEIGHT_FOG",
+          "ENABLE_NOISE_DITHERING",
+          "ENABLE_Y_AXIS_BILLBOARD",
+          "USE_FOG_FOR_LIGHTS",
+          "ETC1_EXTERNAL_ALPHA",
+          "_ENABLE_Y_AXIS_BILLBOARD",
+          "_WHITEBOOSTTYPE_NONE"
+        ]
+      },
+      {
         "hash": "943a528cb09469563a01fd902d86f243",
         "name": "RailingFront",
         "shader": "Custom/SimpleLit",
@@ -499,25 +547,60 @@
         ]
       },
       {
-        "hash": "efd0d242bf2ace2047b83f3bffefe51d",
-        "name": "EnvLightBillboardSpriteGlow",
-        "shader": "Custom/Parametric3SliceSprite",
+        "hash": "444d6c7616f86d6de1d3e77ad842cbda",
+        "name": "Sun",
+        "shader": "Custom/CustomParticles",
         "color": [
-          -1.0,
-          -1.0,
-          -1.0,
-          -1.0
+          1.0,
+          1.0,
+          1.0,
+          1.0
         ],
         "shaderKeywords": [
-          "ALPHA_WIDTH_SCALE",
-          "ENABLE_FOG",
-          "ENABLE_HEIGHT_FOG",
-          "ENABLE_NOISE_DITHERING",
-          "ENABLE_Y_AXIS_BILLBOARD",
-          "USE_FOG_FOR_LIGHTS",
+          "DISTORTION_TARGET_MAIN",
+          "SQUARE_ALPHA",
+          "VERTEX_COLOR",
+          "_MASK2BLEND_MULTIPLY",
+          "_MASKBLEND_MULTIPLY",
+          "_VERTEXCHANNELS_RGBA",
+          "_WHITEBOOSTTYPE_ALWAYS",
+          "DISTORTION_NONE",
+          "ENABLE_FORCED_WHITE_BOOST",
+          "ENABLE_VERTEX_COLOR",
           "ETC1_EXTERNAL_ALPHA",
-          "_ENABLE_Y_AXIS_BILLBOARD",
-          "_WHITEBOOSTTYPE_NONE"
+          "SQUAREALPHA",
+          "_ALPHACHANNEL_ALPHA",
+          "_BILLBOARD_NONE",
+          "_CURVE_VERTICES_NONE",
+          "_DISSOLVEAXIS_LOCALX",
+          "_FOGTYPE_NONE",
+          "_ROTATE_UV_NONE",
+          "_SPECTROGRAM_NONE",
+          "_SQUAREALPHA_ON"
+        ]
+      },
+      {
+        "hash": "0b406e3f0f1a846aef652424726c863a",
+        "name": "Moon",
+        "shader": "Custom/CustomParticles",
+        "color": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "shaderKeywords": [
+          "SQUARE_ALPHA",
+          "TEXTURE_COLOR",
+          "VERTEX_COLOR",
+          "_VERTEXCHANNELS_RGBA",
+          "_WHITEBOOSTTYPE_ALWAYS",
+          "ENABLE_FORCED_WHITE_BOOST",
+          "ENABLE_VERTEX_COLOR",
+          "ETC1_EXTERNAL_ALPHA",
+          "SQUAREALPHA",
+          "_FOGTYPE_NONE",
+          "_SQUAREALPHA_ON"
         ]
       },
       {
@@ -625,22 +708,6 @@
           "_ENABLE_Y_AXIS_BILLBOARD",
           "_WHITEBOOSTTYPE_NONE"
         ]
-      },
-      {
-        "hash": "2f53648cf0e7229f89336575c9a4624c",
-        "name": "EnvLight",
-        "shader": "Custom/TransparentNeonLight",
-        "color": [
-          -1.0,
-          -1.0,
-          -1.0,
-          -1.0
-        ],
-        "shaderKeywords": [
-          "ENABLE_HEIGHT_FOG",
-          "MULTIPLY_COLOR_WITH_ALPHA",
-          "_ENABLE_MAIN_EFFECT_WHITE_BOOST"
-        ]
       }
     ],
     "uniqueMeshes": [
@@ -740,6 +807,20 @@
           0.0,
           0.0,
           21.5749969
+        ]
+      },
+      {
+        "name": "ParametricBox",
+        "hash": "918b6e6683288362624bdc36ef36ef62",
+        "boundsSize": [
+          2.0,
+          2.0,
+          2.0
+        ],
+        "boundsCenter": [
+          0.0,
+          0.0,
+          0.0
         ]
       },
       {
@@ -895,20 +976,6 @@
           0.0,
           0.0
         ]
-      },
-      {
-        "name": "ParametricBox",
-        "hash": "918b6e6683288362624bdc36ef36ef62",
-        "boundsSize": [
-          2.0,
-          2.0,
-          2.0
-        ],
-        "boundsCenter": [
-          0.0,
-          0.0,
-          0.0
-        ]
       }
     ]
   },
@@ -1049,6 +1116,12 @@
             1.0,
             1.0
           ]
+        },
+        "LightSwitchEventEffect": {
+          "eventType": "Event10",
+          "offColorIntensity": 0.0,
+          "lightOnStart": false,
+          "lightsId": 8
         }
       }
     },
@@ -1745,6 +1818,543 @@
       }
     },
     {
+      "name": "NarrowGameHUD",
+      "id": "BillieEnvironment.[0]Environment.[2]NarrowGameHUD",
+      "layer": "UI",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "EnergyPanel",
+      "id": "BillieEnvironment.[0]Environment.[2]NarrowGameHUD.[0]EnergyPanel",
+      "layer": "UI",
+      "components": {
+        "Animator": {
+          "animatorParameters": [],
+          "animatorLayerNames": []
+        }
+      }
+    },
+    {
+      "name": "BG",
+      "id": "BillieEnvironment.[0]Environment.[2]NarrowGameHUD.[0]EnergyPanel.[0]BG",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "BarBG",
+      "id": "BillieEnvironment.[0]Environment.[2]NarrowGameHUD.[0]EnergyPanel.[1]BarBG",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "EnergyIconEmpty",
+      "id": "BillieEnvironment.[0]Environment.[2]NarrowGameHUD.[0]EnergyPanel.[2]EnergyIconEmpty",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "EnergyIconFull",
+      "id": "BillieEnvironment.[0]Environment.[2]NarrowGameHUD.[0]EnergyPanel.[3]EnergyIconFull",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "EnergyBarWrapper",
+      "id": "BillieEnvironment.[0]Environment.[2]NarrowGameHUD.[0]EnergyPanel.[4]EnergyBarWrapper",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "EnergyBar",
+      "id": "BillieEnvironment.[0]Environment.[2]NarrowGameHUD.[0]EnergyPanel.[4]EnergyBarWrapper.[0]EnergyBar",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Laser",
+      "id": "BillieEnvironment.[0]Environment.[2]NarrowGameHUD.[0]EnergyPanel.[5]Laser",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            5.7
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            -40.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            90.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            90.0
+          ],
+          "scale": [
+            0.0200000033,
+            0.0200000033,
+            0.02
+          ]
+        }
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "BillieEnvironment.[0]Environment.[2]NarrowGameHUD.[0]EnergyPanel.[5]Laser.[0]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            5.7
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            90.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.0,
+            5.000001,
+            0.0
+          ]
+        },
+        "MeshFilter": {
+          "hash": "918b6e6683288362624bdc36ef36ef62"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "2f53648cf0e7229f89336575c9a4624c"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "BillieEnvironment.[0]Environment.[2]NarrowGameHUD.[0]EnergyPanel.[5]Laser.[1]BakedBloom",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            5.7
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            90.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.0200000033,
+            0.0200000033,
+            0.02
+          ]
+        },
+        "MeshFilter": {},
+        "MeshRenderer": {
+          "materials": [
+            "efd0d242bf2ace2047b83f3bffefe51d"
+          ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 5.2,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.0,
+          "width": 0.0,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
+        }
+      }
+    },
+    {
+      "name": "FailIcon",
+      "id": "BillieEnvironment.[0]Environment.[2]NarrowGameHUD.[0]EnergyPanel.[6]FailIcon",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "LeftPanel",
+      "id": "BillieEnvironment.[0]Environment.[2]NarrowGameHUD.[1]LeftPanel",
+      "layer": "UI",
+      "components": {
+        "Transform": {
+          "position": [
+            -2.0,
+            0.7,
+            7.0
+          ],
+          "localPosition": [
+            -2.0,
+            0.7,
+            7.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "ComboPanel",
+      "id": "BillieEnvironment.[0]Environment.[2]NarrowGameHUD.[1]LeftPanel.[0]ComboPanel",
+      "layer": "UI",
+      "components": {
+        "Animator": {
+          "animatorParameters": [
+            "ComboLost"
+          ],
+          "animatorLayerNames": [
+            "Base Layer"
+          ]
+        }
+      }
+    },
+    {
+      "name": "ComboText",
+      "id": "BillieEnvironment.[0]Environment.[2]NarrowGameHUD.[1]LeftPanel.[0]ComboPanel.[0]ComboText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "ComboCanvas",
+      "id": "BillieEnvironment.[0]Environment.[2]NarrowGameHUD.[1]LeftPanel.[0]ComboPanel.[1]ComboCanvas",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "NumText",
+      "id": "BillieEnvironment.[0]Environment.[2]NarrowGameHUD.[1]LeftPanel.[0]ComboPanel.[1]ComboCanvas.[0]NumText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Line0",
+      "id": "BillieEnvironment.[0]Environment.[2]NarrowGameHUD.[1]LeftPanel.[0]ComboPanel.[2]Line0",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Line1",
+      "id": "BillieEnvironment.[0]Environment.[2]NarrowGameHUD.[1]LeftPanel.[0]ComboPanel.[3]Line1",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "ScoreCanvas",
+      "id": "BillieEnvironment.[0]Environment.[2]NarrowGameHUD.[1]LeftPanel.[1]ScoreCanvas",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "ScoreText",
+      "id": "BillieEnvironment.[0]Environment.[2]NarrowGameHUD.[1]LeftPanel.[1]ScoreCanvas.[0]ScoreText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "ImmediateRankText",
+      "id": "BillieEnvironment.[0]Environment.[2]NarrowGameHUD.[1]LeftPanel.[1]ScoreCanvas.[1]ImmediateRankText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "RelativeScoreText",
+      "id": "BillieEnvironment.[0]Environment.[2]NarrowGameHUD.[1]LeftPanel.[1]ScoreCanvas.[2]RelativeScoreText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "RightPanel",
+      "id": "BillieEnvironment.[0]Environment.[2]NarrowGameHUD.[2]RightPanel",
+      "layer": "UI",
+      "components": {
+        "Transform": {
+          "position": [
+            2.0,
+            0.7,
+            7.0
+          ],
+          "localPosition": [
+            2.0,
+            0.7,
+            7.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "MultiplierCanvas",
+      "id": "BillieEnvironment.[0]Environment.[2]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas",
+      "layer": "UI",
+      "components": {
+        "Animator": {
+          "animatorParameters": [
+            "MultiplierIncreased"
+          ],
+          "animatorLayerNames": [
+            "Base Layer"
+          ]
+        }
+      }
+    },
+    {
+      "name": "BGCircle",
+      "id": "BillieEnvironment.[0]Environment.[2]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[0]BGCircle",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "FGCircle",
+      "id": "BillieEnvironment.[0]Environment.[2]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[1]FGCircle",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "AnimationCircle",
+      "id": "BillieEnvironment.[0]Environment.[2]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[2]AnimationCircle",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "TextOverlayPanelOutline1",
+      "id": "BillieEnvironment.[0]Environment.[2]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[3]TextOverlayPanelOutline1",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "XText",
+      "id": "BillieEnvironment.[0]Environment.[2]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[3]TextOverlayPanelOutline1.[0]XText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "NumText",
+      "id": "BillieEnvironment.[0]Environment.[2]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[3]TextOverlayPanelOutline1.[1]NumText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "TextOverlayPanelOutline0",
+      "id": "BillieEnvironment.[0]Environment.[2]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[4]TextOverlayPanelOutline0",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "XText",
+      "id": "BillieEnvironment.[0]Environment.[2]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[4]TextOverlayPanelOutline0.[0]XText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "NumText",
+      "id": "BillieEnvironment.[0]Environment.[2]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[4]TextOverlayPanelOutline0.[1]NumText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "TextPanel",
+      "id": "BillieEnvironment.[0]Environment.[2]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[5]TextPanel",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "XText",
+      "id": "BillieEnvironment.[0]Environment.[2]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[5]TextPanel.[0]XText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "NumText",
+      "id": "BillieEnvironment.[0]Environment.[2]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[5]TextPanel.[1]NumText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "SongProgressCanvas",
+      "id": "BillieEnvironment.[0]Environment.[2]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Progress",
+      "id": "BillieEnvironment.[0]Environment.[2]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[0]Progress",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Slider",
+      "id": "BillieEnvironment.[0]Environment.[2]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[1]Slider",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Background",
+      "id": "BillieEnvironment.[0]Environment.[2]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[1]Slider.[0]Background",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Handle Slide Area",
+      "id": "BillieEnvironment.[0]Environment.[2]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[1]Slider.[1]Handle Slide Area",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Handle",
+      "id": "BillieEnvironment.[0]Environment.[2]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[1]Slider.[1]Handle Slide Area.[0]Handle",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "ProgressText",
+      "id": "BillieEnvironment.[0]Environment.[2]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Progress",
+      "id": "BillieEnvironment.[0]Environment.[2]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.[0]Progress",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "ProgressMinutes",
+      "id": "BillieEnvironment.[0]Environment.[2]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.[0]Progress.[0]ProgressMinutes",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "ProgressColon",
+      "id": "BillieEnvironment.[0]Environment.[2]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.[0]Progress.[1]ProgressColon",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "ProgressSeconds",
+      "id": "BillieEnvironment.[0]Environment.[2]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.[0]Progress.[2]ProgressSeconds",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Separator",
+      "id": "BillieEnvironment.[0]Environment.[2]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.[1]Separator",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Duration",
+      "id": "BillieEnvironment.[0]Environment.[2]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.[2]Duration",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "DurationMinutes",
+      "id": "BillieEnvironment.[0]Environment.[2]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.[2]Duration.[0]DurationMinutes",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "DurationColon",
+      "id": "BillieEnvironment.[0]Environment.[2]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.[2]Duration.[1]DurationColon",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "DurationSeconds",
+      "id": "BillieEnvironment.[0]Environment.[2]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.[2]Duration.[2]DurationSeconds",
+      "layer": "UI",
+      "components": {}
+    },
+    {
       "name": "RailingFullBack",
       "id": "BillieEnvironment.[0]Environment.[20]RailingFullBack",
       "meshName": "RailingFull",
@@ -1958,6 +2568,12 @@
             1.0,
             1.0,
             1.0
+          ]
+        },
+        "ParticleSystemContinuousEventEffect": {
+          "eventType": "Event8",
+          "particleSystems": [
+            "BillieEnvironment.[0]Environment.[25]WaterRainRipples"
           ]
         }
       }
@@ -2346,12 +2962,18 @@
           ]
         },
         "SpriteLightWithId": {
-          "spriteLightId": 5,
-          "intensity": 2.0,
-          "spriteName": "Sun",
-          "chromaLight": {
-            "type": 1,
-            "lightId": 4
+          "lightId": 5,
+          "lightIntensity": 2.0,
+          "sprite": {
+            "name": "Sun",
+            "textureName": "Sun",
+            "size": [
+              512.0,
+              512.0
+            ],
+            "materials": [
+              "444d6c7616f86d6de1d3e77ad842cbda"
+            ]
           }
         }
       }
@@ -2398,14 +3020,17 @@
               "center": 0.5,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "null"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[27]DayAndNight.[0]Day.[0]Sun.[0]NeonTube (3).[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 5,
-              "lightId": 4
-            }
+            "lightId": 5
           }
         ]
       }
@@ -2443,11 +3068,25 @@
             1.00000036
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 8.0,
+          "width": 3.0,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 1.5,
+          "minAlpha": 0.0
         }
       }
     },
@@ -2493,14 +3132,17 @@
               "center": 0.5,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "null"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[27]DayAndNight.[0]Day.[0]Sun.[1]NeonTube (2).[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 4,
-              "lightId": 4
-            }
+            "lightId": 5
           }
         ]
       }
@@ -2538,11 +3180,25 @@
             1.00000024
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 8.0,
+          "width": 3.0,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 1.5,
+          "minAlpha": 0.0
         }
       }
     },
@@ -2588,14 +3244,17 @@
               "center": 0.5,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "null"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[27]DayAndNight.[0]Day.[0]Sun.[2]NeonTube (1).[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 3,
-              "lightId": 4
-            }
+            "lightId": 5
           }
         ]
       }
@@ -2633,11 +3292,25 @@
             1.00000024
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 8.0,
+          "width": 3.0,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 1.5,
+          "minAlpha": 0.0
         }
       }
     },
@@ -2683,14 +3356,17 @@
               "center": 0.5,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "null"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[27]DayAndNight.[0]Day.[0]Sun.[3]NeonTube.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 2,
-              "lightId": 4
-            }
+            "lightId": 5
           }
         ]
       }
@@ -2728,11 +3404,25 @@
             1.00000048
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 4.0,
+          "width": 1.5,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 1.5,
+          "minAlpha": 0.0
         }
       }
     },
@@ -2975,12 +3665,18 @@
           ]
         },
         "SpriteLightWithId": {
-          "spriteLightId": 5,
-          "intensity": 2.0,
-          "spriteName": "Moon",
-          "chromaLight": {
-            "type": -1,
-            "lightId": 4
+          "lightId": 5,
+          "lightIntensity": 2.0,
+          "sprite": {
+            "name": "Moon",
+            "textureName": "Moon",
+            "size": [
+              512.0,
+              512.0
+            ],
+            "materials": [
+              "0b406e3f0f1a846aef652424726c863a"
+            ]
           }
         }
       }
@@ -3027,14 +3723,17 @@
               "center": 0.5,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "null"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[27]DayAndNight.[1]Night.[0]Moon.[0]NeonTube.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": -1,
-              "lightId": 4
-            }
+            "lightId": 5
           }
         ]
       }
@@ -3076,6 +3775,18 @@
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 4.0,
+          "width": 1.0,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 0.1,
+          "minAlpha": 0.0
         }
       }
     },
@@ -3516,14 +4227,17 @@
               "height": 5.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "BillieEnvironment.[0]Environment.[31]LightRailingSegment.[1]NeonTubeDirectionalL.[1]BoxLight"
+              "parametricBoxId": "BillieEnvironment.[0]Environment.[31]LightRailingSegment.[1]NeonTubeDirectionalL.[1]BoxLight",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[31]LightRailingSegment.[1]NeonTubeDirectionalL.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 1,
-              "lightId": 1
-            }
+            "lightId": 2
           }
         ]
       }
@@ -3561,11 +4275,25 @@
             1.00000024
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "0dd004d097c885674f53e9736741a1d9"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.3,
+          "width": 0.075,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 5.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -3656,14 +4384,17 @@
               "height": 5.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "BillieEnvironment.[0]Environment.[31]LightRailingSegment.[2]NeonTubeDirectionalR.[1]BoxLight"
+              "parametricBoxId": "BillieEnvironment.[0]Environment.[31]LightRailingSegment.[2]NeonTubeDirectionalR.[1]BoxLight",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[31]LightRailingSegment.[2]NeonTubeDirectionalR.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 2,
-              "lightId": 1
-            }
+            "lightId": 2
           }
         ]
       }
@@ -3701,11 +4432,25 @@
             1.00000036
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "0dd004d097c885674f53e9736741a1d9"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.3,
+          "width": 0.075,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 5.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -3796,14 +4541,17 @@
               "height": 6.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "BillieEnvironment.[0]Environment.[31]LightRailingSegment.[3]NeonTubeDirectionalL (1).[1]BoxLight"
+              "parametricBoxId": "BillieEnvironment.[0]Environment.[31]LightRailingSegment.[3]NeonTubeDirectionalL (1).[1]BoxLight",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[31]LightRailingSegment.[3]NeonTubeDirectionalL (1).[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 3,
-              "lightId": 1
-            }
+            "lightId": 2
           }
         ]
       }
@@ -3845,6 +4593,18 @@
           "materials": [
             "0dd004d097c885674f53e9736741a1d9"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.3,
+          "width": 0.045,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 6.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -3935,14 +4695,17 @@
               "height": 6.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "BillieEnvironment.[0]Environment.[31]LightRailingSegment.[4]NeonTubeDirectionalR (1).[1]BoxLight"
+              "parametricBoxId": "BillieEnvironment.[0]Environment.[31]LightRailingSegment.[4]NeonTubeDirectionalR (1).[1]BoxLight",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[31]LightRailingSegment.[4]NeonTubeDirectionalR (1).[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 4,
-              "lightId": 1
-            }
+            "lightId": 2
           }
         ]
       }
@@ -3984,6 +4747,18 @@
           "materials": [
             "0dd004d097c885674f53e9736741a1d9"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.3,
+          "width": 0.045,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 6.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -4151,14 +4926,17 @@
               "height": 5.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "BillieEnvironment.[0]Environment.[32]LightRailingSegment (1).[1]NeonTubeDirectionalL.[1]BoxLight"
+              "parametricBoxId": "BillieEnvironment.[0]Environment.[32]LightRailingSegment (1).[1]NeonTubeDirectionalL.[1]BoxLight",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[32]LightRailingSegment (1).[1]NeonTubeDirectionalL.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 1,
-              "lightId": 2
-            }
+            "lightId": 3
           }
         ]
       }
@@ -4196,11 +4974,25 @@
             1.00000024
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "0dd004d097c885674f53e9736741a1d9"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.3,
+          "width": 0.075,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 5.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -4291,14 +5083,17 @@
               "height": 5.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "BillieEnvironment.[0]Environment.[32]LightRailingSegment (1).[2]NeonTubeDirectionalR.[1]BoxLight"
+              "parametricBoxId": "BillieEnvironment.[0]Environment.[32]LightRailingSegment (1).[2]NeonTubeDirectionalR.[1]BoxLight",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[32]LightRailingSegment (1).[2]NeonTubeDirectionalR.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 2,
-              "lightId": 2
-            }
+            "lightId": 3
           }
         ]
       }
@@ -4336,11 +5131,25 @@
             1.00000036
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "0dd004d097c885674f53e9736741a1d9"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.3,
+          "width": 0.075,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 5.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -4431,14 +5240,17 @@
               "height": 6.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "BillieEnvironment.[0]Environment.[32]LightRailingSegment (1).[3]NeonTubeDirectionalL (1).[1]BoxLight"
+              "parametricBoxId": "BillieEnvironment.[0]Environment.[32]LightRailingSegment (1).[3]NeonTubeDirectionalL (1).[1]BoxLight",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[32]LightRailingSegment (1).[3]NeonTubeDirectionalL (1).[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 3,
-              "lightId": 2
-            }
+            "lightId": 3
           }
         ]
       }
@@ -4480,6 +5292,18 @@
           "materials": [
             "0dd004d097c885674f53e9736741a1d9"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.3,
+          "width": 0.045,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 6.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -4570,14 +5394,17 @@
               "height": 6.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "BillieEnvironment.[0]Environment.[32]LightRailingSegment (1).[4]NeonTubeDirectionalR (1).[1]BoxLight"
+              "parametricBoxId": "BillieEnvironment.[0]Environment.[32]LightRailingSegment (1).[4]NeonTubeDirectionalR (1).[1]BoxLight",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[32]LightRailingSegment (1).[4]NeonTubeDirectionalR (1).[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 4,
-              "lightId": 2
-            }
+            "lightId": 3
           }
         ]
       }
@@ -4619,6 +5446,18 @@
           "materials": [
             "0dd004d097c885674f53e9736741a1d9"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.3,
+          "width": 0.045,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 6.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -4786,14 +5625,17 @@
               "height": 5.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "BillieEnvironment.[0]Environment.[33]LightRailingSegment (2).[1]NeonTubeDirectionalL.[1]BoxLight"
+              "parametricBoxId": "BillieEnvironment.[0]Environment.[33]LightRailingSegment (2).[1]NeonTubeDirectionalL.[1]BoxLight",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[33]LightRailingSegment (2).[1]NeonTubeDirectionalL.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 1,
-              "lightId": 3
-            }
+            "lightId": 4
           }
         ]
       }
@@ -4831,11 +5673,25 @@
             1.00000024
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "0dd004d097c885674f53e9736741a1d9"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.3,
+          "width": 0.075,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 5.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -4926,14 +5782,17 @@
               "height": 5.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "BillieEnvironment.[0]Environment.[33]LightRailingSegment (2).[2]NeonTubeDirectionalR.[1]BoxLight"
+              "parametricBoxId": "BillieEnvironment.[0]Environment.[33]LightRailingSegment (2).[2]NeonTubeDirectionalR.[1]BoxLight",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[33]LightRailingSegment (2).[2]NeonTubeDirectionalR.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 2,
-              "lightId": 3
-            }
+            "lightId": 4
           }
         ]
       }
@@ -4971,11 +5830,25 @@
             1.00000036
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "0dd004d097c885674f53e9736741a1d9"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.3,
+          "width": 0.075,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 5.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -5066,14 +5939,17 @@
               "height": 6.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "BillieEnvironment.[0]Environment.[33]LightRailingSegment (2).[3]NeonTubeDirectionalL (1).[1]BoxLight"
+              "parametricBoxId": "BillieEnvironment.[0]Environment.[33]LightRailingSegment (2).[3]NeonTubeDirectionalL (1).[1]BoxLight",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[33]LightRailingSegment (2).[3]NeonTubeDirectionalL (1).[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 3,
-              "lightId": 3
-            }
+            "lightId": 4
           }
         ]
       }
@@ -5115,6 +5991,18 @@
           "materials": [
             "0dd004d097c885674f53e9736741a1d9"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.3,
+          "width": 0.045,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 6.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -5205,14 +6093,17 @@
               "height": 6.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "BillieEnvironment.[0]Environment.[33]LightRailingSegment (2).[4]NeonTubeDirectionalR (1).[1]BoxLight"
+              "parametricBoxId": "BillieEnvironment.[0]Environment.[33]LightRailingSegment (2).[4]NeonTubeDirectionalR (1).[1]BoxLight",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[33]LightRailingSegment (2).[4]NeonTubeDirectionalR (1).[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 4,
-              "lightId": 3
-            }
+            "lightId": 4
           }
         ]
       }
@@ -5254,6 +6145,18 @@
           "materials": [
             "0dd004d097c885674f53e9736741a1d9"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.3,
+          "width": 0.045,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 6.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -5421,14 +6324,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "BillieEnvironment.[0]Environment.[34]LightRailingSegment (3).[1]NeonTubeDirectionalL.[1]BoxLight"
+              "parametricBoxId": "BillieEnvironment.[0]Environment.[34]LightRailingSegment (3).[1]NeonTubeDirectionalL.[1]BoxLight",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[34]LightRailingSegment (3).[1]NeonTubeDirectionalL.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 1,
-              "lightId": 0
-            }
+            "lightId": 1
           }
         ]
       }
@@ -5466,11 +6372,25 @@
             1.00000024
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "0dd004d097c885674f53e9736741a1d9"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.3,
+          "width": 0.075,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 1.0,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -5561,14 +6481,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "BillieEnvironment.[0]Environment.[34]LightRailingSegment (3).[2]NeonTubeDirectionalR.[1]BoxLight"
+              "parametricBoxId": "BillieEnvironment.[0]Environment.[34]LightRailingSegment (3).[2]NeonTubeDirectionalR.[1]BoxLight",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[34]LightRailingSegment (3).[2]NeonTubeDirectionalR.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 2,
-              "lightId": 0
-            }
+            "lightId": 1
           }
         ]
       }
@@ -5606,11 +6529,25 @@
             1.00000036
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "0dd004d097c885674f53e9736741a1d9"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.3,
+          "width": 0.075,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 1.0,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -5701,14 +6638,17 @@
               "height": 1000.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "BillieEnvironment.[0]Environment.[34]LightRailingSegment (3).[3]NeonTubeDirectionalL (1).[1]BoxLight"
+              "parametricBoxId": "BillieEnvironment.[0]Environment.[34]LightRailingSegment (3).[3]NeonTubeDirectionalL (1).[1]BoxLight",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[34]LightRailingSegment (3).[3]NeonTubeDirectionalL (1).[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 3,
-              "lightId": 0
-            }
+            "lightId": 1
           }
         ]
       }
@@ -5750,6 +6690,18 @@
           "materials": [
             "0dd004d097c885674f53e9736741a1d9"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.3,
+          "width": 0.045,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 1.0,
+          "length": 1000.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -5840,14 +6792,17 @@
               "height": 1000.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "BillieEnvironment.[0]Environment.[34]LightRailingSegment (3).[4]NeonTubeDirectionalR (1).[1]BoxLight"
+              "parametricBoxId": "BillieEnvironment.[0]Environment.[34]LightRailingSegment (3).[4]NeonTubeDirectionalR (1).[1]BoxLight",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[34]LightRailingSegment (3).[4]NeonTubeDirectionalR (1).[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 4,
-              "lightId": 0
-            }
+            "lightId": 1
           }
         ]
       }
@@ -5889,6 +6844,18 @@
           "materials": [
             "0dd004d097c885674f53e9736741a1d9"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.3,
+          "width": 0.045,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 1.0,
+          "length": 1000.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -5967,6 +6934,22 @@
             1.0,
             1.0
           ]
+        },
+        "LightPairRotationEventEffect": {
+          "eventTypeL": "Event12",
+          "transformL": "BillieEnvironment.[0]Environment.[35]TunnelRotatingLasersPair (4).[0]BaseL",
+          "eventTypeR": "Event13",
+          "transformR": "BillieEnvironment.[0]Environment.[35]TunnelRotatingLasersPair (4).[1]BaseR",
+          "switchOverrideRandomValuesEvent": "Event9",
+          "rotationVector": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "overrideRandomValues": false,
+          "useZPositionForAngleOffset": false,
+          "zPositionAngleOffsetScale": 5.0,
+          "startRotation": -75.0
         }
       }
     },
@@ -6046,14 +7029,17 @@
               "center": 0.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "null"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[35]TunnelRotatingLasersPair (4).[0]BaseL.[0]Laser.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 11,
-              "lightId": 5
-            }
+            "lightId": 6
           }
         ]
       }
@@ -6091,11 +7077,25 @@
             1.00000024
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "8236443ba6e2b639cd935be169706e97"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 4.0,
+          "width": 0.04,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.0,
+          "length": 400.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -6175,14 +7175,17 @@
               "center": 0.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "null"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[35]TunnelRotatingLasersPair (4).[1]BaseR.[0]Laser.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 11,
-              "lightId": 6
-            }
+            "lightId": 7
           }
         ]
       }
@@ -6220,11 +7223,25 @@
             1.00000024
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "8236443ba6e2b639cd935be169706e97"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 4.0,
+          "width": 0.04,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.0,
+          "length": 400.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -6259,6 +7276,22 @@
             1.0,
             1.0
           ]
+        },
+        "LightPairRotationEventEffect": {
+          "eventTypeL": "Event12",
+          "transformL": "BillieEnvironment.[0]Environment.[36]TunnelRotatingLasersPair (5).[0]BaseL",
+          "eventTypeR": "Event13",
+          "transformR": "BillieEnvironment.[0]Environment.[36]TunnelRotatingLasersPair (5).[1]BaseR",
+          "switchOverrideRandomValuesEvent": "Event9",
+          "rotationVector": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "overrideRandomValues": false,
+          "useZPositionForAngleOffset": false,
+          "zPositionAngleOffsetScale": 5.0,
+          "startRotation": -60.0
         }
       }
     },
@@ -6338,14 +7371,17 @@
               "center": 0.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "null"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[36]TunnelRotatingLasersPair (5).[0]BaseL.[0]Laser.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 10,
-              "lightId": 5
-            }
+            "lightId": 6
           }
         ]
       }
@@ -6383,11 +7419,25 @@
             1.00000024
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "8236443ba6e2b639cd935be169706e97"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 4.0,
+          "width": 0.04,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.0,
+          "length": 400.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -6467,14 +7517,17 @@
               "center": 0.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "null"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[36]TunnelRotatingLasersPair (5).[1]BaseR.[0]Laser.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 10,
-              "lightId": 6
-            }
+            "lightId": 7
           }
         ]
       }
@@ -6512,11 +7565,25 @@
             1.00000036
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "8236443ba6e2b639cd935be169706e97"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 4.0,
+          "width": 0.04,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.0,
+          "length": 400.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -6551,6 +7618,22 @@
             1.0,
             1.0
           ]
+        },
+        "LightPairRotationEventEffect": {
+          "eventTypeL": "Event12",
+          "transformL": "BillieEnvironment.[0]Environment.[37]TunnelRotatingLasersPair (6).[0]BaseL",
+          "eventTypeR": "Event13",
+          "transformR": "BillieEnvironment.[0]Environment.[37]TunnelRotatingLasersPair (6).[1]BaseR",
+          "switchOverrideRandomValuesEvent": "Event9",
+          "rotationVector": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "overrideRandomValues": false,
+          "useZPositionForAngleOffset": false,
+          "zPositionAngleOffsetScale": 5.0,
+          "startRotation": -45.0
         }
       }
     },
@@ -6630,14 +7713,17 @@
               "center": 0.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "null"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[37]TunnelRotatingLasersPair (6).[0]BaseL.[0]Laser.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 9,
-              "lightId": 5
-            }
+            "lightId": 6
           }
         ]
       }
@@ -6675,11 +7761,25 @@
             1.00000048
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "8236443ba6e2b639cd935be169706e97"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 4.0,
+          "width": 0.04,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.0,
+          "length": 400.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -6759,14 +7859,17 @@
               "center": 0.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "null"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[37]TunnelRotatingLasersPair (6).[1]BaseR.[0]Laser.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 9,
-              "lightId": 6
-            }
+            "lightId": 7
           }
         ]
       }
@@ -6804,11 +7907,25 @@
             1.00000036
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "8236443ba6e2b639cd935be169706e97"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 4.0,
+          "width": 0.04,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.0,
+          "length": 400.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -6843,6 +7960,22 @@
             1.0,
             1.0
           ]
+        },
+        "LightPairRotationEventEffect": {
+          "eventTypeL": "Event12",
+          "transformL": "BillieEnvironment.[0]Environment.[38]TunnelRotatingLasersPair (7).[0]BaseL",
+          "eventTypeR": "Event13",
+          "transformR": "BillieEnvironment.[0]Environment.[38]TunnelRotatingLasersPair (7).[1]BaseR",
+          "switchOverrideRandomValuesEvent": "Event9",
+          "rotationVector": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "overrideRandomValues": false,
+          "useZPositionForAngleOffset": false,
+          "zPositionAngleOffsetScale": 5.0,
+          "startRotation": -30.0
         }
       }
     },
@@ -6922,14 +8055,17 @@
               "center": 0.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "null"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[38]TunnelRotatingLasersPair (7).[0]BaseL.[0]Laser.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 8,
-              "lightId": 5
-            }
+            "lightId": 6
           }
         ]
       }
@@ -6967,11 +8103,25 @@
             1.00000024
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "8236443ba6e2b639cd935be169706e97"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 4.0,
+          "width": 0.04,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.0,
+          "length": 400.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -7051,14 +8201,17 @@
               "center": 0.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "null"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[38]TunnelRotatingLasersPair (7).[1]BaseR.[0]Laser.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 8,
-              "lightId": 6
-            }
+            "lightId": 7
           }
         ]
       }
@@ -7096,11 +8249,25 @@
             1.00000036
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "8236443ba6e2b639cd935be169706e97"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 4.0,
+          "width": 0.04,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.0,
+          "length": 400.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -7135,6 +8302,22 @@
             1.0,
             1.0
           ]
+        },
+        "LightPairRotationEventEffect": {
+          "eventTypeL": "Event12",
+          "transformL": "BillieEnvironment.[0]Environment.[39]TunnelRotatingLasersPair (8).[0]BaseL",
+          "eventTypeR": "Event13",
+          "transformR": "BillieEnvironment.[0]Environment.[39]TunnelRotatingLasersPair (8).[1]BaseR",
+          "switchOverrideRandomValuesEvent": "Event9",
+          "rotationVector": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "overrideRandomValues": false,
+          "useZPositionForAngleOffset": false,
+          "zPositionAngleOffsetScale": 5.0,
+          "startRotation": -15.0
         }
       }
     },
@@ -7214,14 +8397,17 @@
               "center": 0.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "null"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[39]TunnelRotatingLasersPair (8).[0]BaseL.[0]Laser.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 7,
-              "lightId": 5
-            }
+            "lightId": 6
           }
         ]
       }
@@ -7259,11 +8445,25 @@
             1.00000012
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "8236443ba6e2b639cd935be169706e97"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 4.0,
+          "width": 0.04,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.0,
+          "length": 400.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -7343,14 +8543,17 @@
               "center": 0.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "null"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[39]TunnelRotatingLasersPair (8).[1]BaseR.[0]Laser.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 7,
-              "lightId": 6
-            }
+            "lightId": 7
           }
         ]
       }
@@ -7388,11 +8591,25 @@
             1.00000012
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "8236443ba6e2b639cd935be169706e97"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 4.0,
+          "width": 0.04,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.0,
+          "length": 400.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -7461,6 +8678,22 @@
             1.0,
             1.0
           ]
+        },
+        "LightPairRotationEventEffect": {
+          "eventTypeL": "Event12",
+          "transformL": "BillieEnvironment.[0]Environment.[40]TunnelRotatingLasersPair (9).[0]BaseL",
+          "eventTypeR": "Event13",
+          "transformR": "BillieEnvironment.[0]Environment.[40]TunnelRotatingLasersPair (9).[1]BaseR",
+          "switchOverrideRandomValuesEvent": "Event9",
+          "rotationVector": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "overrideRandomValues": false,
+          "useZPositionForAngleOffset": false,
+          "zPositionAngleOffsetScale": 5.0,
+          "startRotation": 0.0
         }
       }
     },
@@ -7540,14 +8773,17 @@
               "center": 0.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "null"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[40]TunnelRotatingLasersPair (9).[0]BaseL.[0]Laser.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 6,
-              "lightId": 5
-            }
+            "lightId": 6
           }
         ]
       }
@@ -7585,11 +8821,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "8236443ba6e2b639cd935be169706e97"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 4.0,
+          "width": 0.04,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.0,
+          "length": 400.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -7669,14 +8919,17 @@
               "center": 0.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "null"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[40]TunnelRotatingLasersPair (9).[1]BaseR.[0]Laser.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 6,
-              "lightId": 6
-            }
+            "lightId": 7
           }
         ]
       }
@@ -7714,11 +8967,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "8236443ba6e2b639cd935be169706e97"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 4.0,
+          "width": 0.04,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.0,
+          "length": 400.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -7753,6 +9020,22 @@
             1.0,
             1.0
           ]
+        },
+        "LightPairRotationEventEffect": {
+          "eventTypeL": "Event12",
+          "transformL": "BillieEnvironment.[0]Environment.[41]TunnelRotatingLasersPair (10).[0]BaseL",
+          "eventTypeR": "Event13",
+          "transformR": "BillieEnvironment.[0]Environment.[41]TunnelRotatingLasersPair (10).[1]BaseR",
+          "switchOverrideRandomValuesEvent": "Event9",
+          "rotationVector": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "overrideRandomValues": false,
+          "useZPositionForAngleOffset": false,
+          "zPositionAngleOffsetScale": 5.0,
+          "startRotation": 15.0
         }
       }
     },
@@ -7832,14 +9115,17 @@
               "center": 0.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "null"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[41]TunnelRotatingLasersPair (10).[0]BaseL.[0]Laser.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 5,
-              "lightId": 5
-            }
+            "lightId": 6
           }
         ]
       }
@@ -7877,11 +9163,25 @@
             1.00000012
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "8236443ba6e2b639cd935be169706e97"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 4.0,
+          "width": 0.04,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.0,
+          "length": 400.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -7961,14 +9261,17 @@
               "center": 0.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "null"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[41]TunnelRotatingLasersPair (10).[1]BaseR.[0]Laser.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 5,
-              "lightId": 6
-            }
+            "lightId": 7
           }
         ]
       }
@@ -8006,11 +9309,25 @@
             1.00000012
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "8236443ba6e2b639cd935be169706e97"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 4.0,
+          "width": 0.04,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.0,
+          "length": 400.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -8045,6 +9362,22 @@
             1.0,
             1.0
           ]
+        },
+        "LightPairRotationEventEffect": {
+          "eventTypeL": "Event12",
+          "transformL": "BillieEnvironment.[0]Environment.[42]TunnelRotatingLasersPair (11).[0]BaseL",
+          "eventTypeR": "Event13",
+          "transformR": "BillieEnvironment.[0]Environment.[42]TunnelRotatingLasersPair (11).[1]BaseR",
+          "switchOverrideRandomValuesEvent": "Event9",
+          "rotationVector": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "overrideRandomValues": false,
+          "useZPositionForAngleOffset": false,
+          "zPositionAngleOffsetScale": 5.0,
+          "startRotation": 30.0
         }
       }
     },
@@ -8124,14 +9457,17 @@
               "center": 0.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "null"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[42]TunnelRotatingLasersPair (11).[0]BaseL.[0]Laser.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 4,
-              "lightId": 5
-            }
+            "lightId": 6
           }
         ]
       }
@@ -8169,11 +9505,25 @@
             1.00000036
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "8236443ba6e2b639cd935be169706e97"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 4.0,
+          "width": 0.04,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.0,
+          "length": 400.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -8253,14 +9603,17 @@
               "center": 0.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "null"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[42]TunnelRotatingLasersPair (11).[1]BaseR.[0]Laser.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 4,
-              "lightId": 6
-            }
+            "lightId": 7
           }
         ]
       }
@@ -8298,11 +9651,25 @@
             1.00000036
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "8236443ba6e2b639cd935be169706e97"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 4.0,
+          "width": 0.04,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.0,
+          "length": 400.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -8337,6 +9704,22 @@
             1.0,
             1.0
           ]
+        },
+        "LightPairRotationEventEffect": {
+          "eventTypeL": "Event12",
+          "transformL": "BillieEnvironment.[0]Environment.[43]TunnelRotatingLasersPair (12).[0]BaseL",
+          "eventTypeR": "Event13",
+          "transformR": "BillieEnvironment.[0]Environment.[43]TunnelRotatingLasersPair (12).[1]BaseR",
+          "switchOverrideRandomValuesEvent": "Event9",
+          "rotationVector": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "overrideRandomValues": false,
+          "useZPositionForAngleOffset": false,
+          "zPositionAngleOffsetScale": 5.0,
+          "startRotation": 45.0
         }
       }
     },
@@ -8416,14 +9799,17 @@
               "center": 0.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "null"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[43]TunnelRotatingLasersPair (12).[0]BaseL.[0]Laser.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 3,
-              "lightId": 5
-            }
+            "lightId": 6
           }
         ]
       }
@@ -8461,11 +9847,25 @@
             1.00000036
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "8236443ba6e2b639cd935be169706e97"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 4.0,
+          "width": 0.04,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.0,
+          "length": 400.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -8545,14 +9945,17 @@
               "center": 0.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "null"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[43]TunnelRotatingLasersPair (12).[1]BaseR.[0]Laser.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 3,
-              "lightId": 6
-            }
+            "lightId": 7
           }
         ]
       }
@@ -8590,11 +9993,25 @@
             1.00000024
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "8236443ba6e2b639cd935be169706e97"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 4.0,
+          "width": 0.04,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.0,
+          "length": 400.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -8629,6 +10046,22 @@
             1.0,
             1.0
           ]
+        },
+        "LightPairRotationEventEffect": {
+          "eventTypeL": "Event12",
+          "transformL": "BillieEnvironment.[0]Environment.[44]TunnelRotatingLasersPair (13).[0]BaseL",
+          "eventTypeR": "Event13",
+          "transformR": "BillieEnvironment.[0]Environment.[44]TunnelRotatingLasersPair (13).[1]BaseR",
+          "switchOverrideRandomValuesEvent": "Event9",
+          "rotationVector": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "overrideRandomValues": false,
+          "useZPositionForAngleOffset": false,
+          "zPositionAngleOffsetScale": 5.0,
+          "startRotation": 60.0
         }
       }
     },
@@ -8708,14 +10141,17 @@
               "center": 0.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "null"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[44]TunnelRotatingLasersPair (13).[0]BaseL.[0]Laser.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 2,
-              "lightId": 5
-            }
+            "lightId": 6
           }
         ]
       }
@@ -8753,11 +10189,25 @@
             1.00000048
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "8236443ba6e2b639cd935be169706e97"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 4.0,
+          "width": 0.04,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.0,
+          "length": 400.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -8837,14 +10287,17 @@
               "center": 0.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "null"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[44]TunnelRotatingLasersPair (13).[1]BaseR.[0]Laser.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 2,
-              "lightId": 6
-            }
+            "lightId": 7
           }
         ]
       }
@@ -8882,11 +10335,25 @@
             1.00000036
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "8236443ba6e2b639cd935be169706e97"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 4.0,
+          "width": 0.04,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.0,
+          "length": 400.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -8921,6 +10388,22 @@
             1.0,
             1.0
           ]
+        },
+        "LightPairRotationEventEffect": {
+          "eventTypeL": "Event12",
+          "transformL": "BillieEnvironment.[0]Environment.[45]TunnelRotatingLasersPair (14).[0]BaseL",
+          "eventTypeR": "Event13",
+          "transformR": "BillieEnvironment.[0]Environment.[45]TunnelRotatingLasersPair (14).[1]BaseR",
+          "switchOverrideRandomValuesEvent": "Event9",
+          "rotationVector": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "overrideRandomValues": false,
+          "useZPositionForAngleOffset": false,
+          "zPositionAngleOffsetScale": 5.0,
+          "startRotation": 75.0
         }
       }
     },
@@ -9000,14 +10483,17 @@
               "center": 0.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "null"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[45]TunnelRotatingLasersPair (14).[0]BaseL.[0]Laser.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 1,
-              "lightId": 5
-            }
+            "lightId": 6
           }
         ]
       }
@@ -9045,11 +10531,25 @@
             1.00000024
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "8236443ba6e2b639cd935be169706e97"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 4.0,
+          "width": 0.04,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.0,
+          "length": 400.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -9129,14 +10629,17 @@
               "center": 0.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "null"
+              "parametricBoxId": "null",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[45]TunnelRotatingLasersPair (14).[1]BaseR.[0]Laser.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 1,
-              "lightId": 6
-            }
+            "lightId": 7
           }
         ]
       }
@@ -9174,11 +10677,25 @@
             1.00000024
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "8236443ba6e2b639cd935be169706e97"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 4.0,
+          "width": 0.04,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.0,
+          "length": 400.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -9213,6 +10730,22 @@
             1.0,
             1.0
           ]
+        },
+        "LightPairRotationEventEffect": {
+          "eventTypeL": "Event12",
+          "transformL": "BillieEnvironment.[0]Environment.[46]BottomPairLasers.[0]PillarL.[0]RotationBaseL",
+          "eventTypeR": "Event13",
+          "transformR": "BillieEnvironment.[0]Environment.[46]BottomPairLasers.[1]PillarR.[0]RotationBaseR",
+          "switchOverrideRandomValuesEvent": "Event9",
+          "rotationVector": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "overrideRandomValues": false,
+          "useZPositionForAngleOffset": true,
+          "zPositionAngleOffsetScale": 2.0,
+          "startRotation": 0.0
         }
       }
     },
@@ -9327,14 +10860,17 @@
               "height": 300.0,
               "startAlpha": 1.0,
               "endAlpha": 0.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 0.6,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "BillieEnvironment.[0]Environment.[46]BottomPairLasers.[0]PillarL.[0]RotationBaseL.[0]LaserLH.[1]BoxLight"
+              "parametricBoxId": "BillieEnvironment.[0]Environment.[46]BottomPairLasers.[0]PillarL.[0]RotationBaseL.[0]LaserLH.[1]BoxLight",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[46]BottomPairLasers.[0]PillarL.[0]RotationBaseL.[0]LaserLH.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 1,
-              "lightId": 7
-            }
+            "lightId": 8
           }
         ]
       }
@@ -9372,11 +10908,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 0.0,
+          "alphaMultiplier": 1.5,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.0,
+          "length": 300.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -9535,14 +11085,17 @@
               "height": 300.0,
               "startAlpha": 1.0,
               "endAlpha": 0.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 0.6,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "BillieEnvironment.[0]Environment.[46]BottomPairLasers.[1]PillarR.[0]RotationBaseR.[0]LaserRH.[1]BoxLight"
+              "parametricBoxId": "BillieEnvironment.[0]Environment.[46]BottomPairLasers.[1]PillarR.[0]RotationBaseR.[0]LaserRH.[1]BoxLight",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[46]BottomPairLasers.[1]PillarR.[0]RotationBaseR.[0]LaserRH.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 1,
-              "lightId": 8
-            }
+            "lightId": 9
           }
         ]
       }
@@ -9580,11 +11133,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 0.0,
+          "alphaMultiplier": 1.5,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.0,
+          "length": 300.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -9663,6 +11230,22 @@
             1.0,
             1.0
           ]
+        },
+        "LightPairRotationEventEffect": {
+          "eventTypeL": "Event12",
+          "transformL": "BillieEnvironment.[0]Environment.[47]BottomPairLasers (1).[0]PillarL.[0]RotationBaseL",
+          "eventTypeR": "Event13",
+          "transformR": "BillieEnvironment.[0]Environment.[47]BottomPairLasers (1).[1]PillarR.[0]RotationBaseR",
+          "switchOverrideRandomValuesEvent": "Event9",
+          "rotationVector": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "overrideRandomValues": false,
+          "useZPositionForAngleOffset": true,
+          "zPositionAngleOffsetScale": 2.0,
+          "startRotation": 0.0
         }
       }
     },
@@ -9777,14 +11360,17 @@
               "height": 300.0,
               "startAlpha": 1.0,
               "endAlpha": 0.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 0.6,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "BillieEnvironment.[0]Environment.[47]BottomPairLasers (1).[0]PillarL.[0]RotationBaseL.[0]LaserLH.[1]BoxLight"
+              "parametricBoxId": "BillieEnvironment.[0]Environment.[47]BottomPairLasers (1).[0]PillarL.[0]RotationBaseL.[0]LaserLH.[1]BoxLight",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[47]BottomPairLasers (1).[0]PillarL.[0]RotationBaseL.[0]LaserLH.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 2,
-              "lightId": 7
-            }
+            "lightId": 8
           }
         ]
       }
@@ -9822,11 +11408,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 0.0,
+          "alphaMultiplier": 1.5,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.0,
+          "length": 300.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -9985,14 +11585,17 @@
               "height": 300.0,
               "startAlpha": 1.0,
               "endAlpha": 0.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 0.6,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "BillieEnvironment.[0]Environment.[47]BottomPairLasers (1).[1]PillarR.[0]RotationBaseR.[0]LaserRH.[1]BoxLight"
+              "parametricBoxId": "BillieEnvironment.[0]Environment.[47]BottomPairLasers (1).[1]PillarR.[0]RotationBaseR.[0]LaserRH.[1]BoxLight",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[47]BottomPairLasers (1).[1]PillarR.[0]RotationBaseR.[0]LaserRH.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 2,
-              "lightId": 8
-            }
+            "lightId": 9
           }
         ]
       }
@@ -10030,11 +11633,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 0.0,
+          "alphaMultiplier": 1.5,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.0,
+          "length": 300.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -10113,6 +11730,22 @@
             1.0,
             1.0
           ]
+        },
+        "LightPairRotationEventEffect": {
+          "eventTypeL": "Event12",
+          "transformL": "BillieEnvironment.[0]Environment.[48]BottomPairLasers (2).[0]PillarL.[0]RotationBaseL",
+          "eventTypeR": "Event13",
+          "transformR": "BillieEnvironment.[0]Environment.[48]BottomPairLasers (2).[1]PillarR.[0]RotationBaseR",
+          "switchOverrideRandomValuesEvent": "Event9",
+          "rotationVector": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "overrideRandomValues": false,
+          "useZPositionForAngleOffset": true,
+          "zPositionAngleOffsetScale": 2.0,
+          "startRotation": 0.0
         }
       }
     },
@@ -10227,14 +11860,17 @@
               "height": 300.0,
               "startAlpha": 1.0,
               "endAlpha": 0.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 0.6,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "BillieEnvironment.[0]Environment.[48]BottomPairLasers (2).[0]PillarL.[0]RotationBaseL.[0]LaserLH.[1]BoxLight"
+              "parametricBoxId": "BillieEnvironment.[0]Environment.[48]BottomPairLasers (2).[0]PillarL.[0]RotationBaseL.[0]LaserLH.[1]BoxLight",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[48]BottomPairLasers (2).[0]PillarL.[0]RotationBaseL.[0]LaserLH.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 3,
-              "lightId": 7
-            }
+            "lightId": 8
           }
         ]
       }
@@ -10272,11 +11908,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 0.0,
+          "alphaMultiplier": 1.5,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.0,
+          "length": 300.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -10435,14 +12085,17 @@
               "height": 300.0,
               "startAlpha": 1.0,
               "endAlpha": 0.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 0.6,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "BillieEnvironment.[0]Environment.[48]BottomPairLasers (2).[1]PillarR.[0]RotationBaseR.[0]LaserRH.[1]BoxLight"
+              "parametricBoxId": "BillieEnvironment.[0]Environment.[48]BottomPairLasers (2).[1]PillarR.[0]RotationBaseR.[0]LaserRH.[1]BoxLight",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[48]BottomPairLasers (2).[1]PillarR.[0]RotationBaseR.[0]LaserRH.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 3,
-              "lightId": 8
-            }
+            "lightId": 9
           }
         ]
       }
@@ -10480,11 +12133,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 0.0,
+          "alphaMultiplier": 1.5,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.0,
+          "length": 300.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -10563,6 +12230,22 @@
             1.0,
             1.0
           ]
+        },
+        "LightPairRotationEventEffect": {
+          "eventTypeL": "Event12",
+          "transformL": "BillieEnvironment.[0]Environment.[49]BottomPairLasers (3).[0]PillarL.[0]RotationBaseL",
+          "eventTypeR": "Event13",
+          "transformR": "BillieEnvironment.[0]Environment.[49]BottomPairLasers (3).[1]PillarR.[0]RotationBaseR",
+          "switchOverrideRandomValuesEvent": "Event9",
+          "rotationVector": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "overrideRandomValues": false,
+          "useZPositionForAngleOffset": true,
+          "zPositionAngleOffsetScale": 2.0,
+          "startRotation": 0.0
         }
       }
     },
@@ -10677,14 +12360,17 @@
               "height": 300.0,
               "startAlpha": 1.0,
               "endAlpha": 0.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 0.6,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "BillieEnvironment.[0]Environment.[49]BottomPairLasers (3).[0]PillarL.[0]RotationBaseL.[0]LaserLH.[1]BoxLight"
+              "parametricBoxId": "BillieEnvironment.[0]Environment.[49]BottomPairLasers (3).[0]PillarL.[0]RotationBaseL.[0]LaserLH.[1]BoxLight",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[49]BottomPairLasers (3).[0]PillarL.[0]RotationBaseL.[0]LaserLH.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 4,
-              "lightId": 7
-            }
+            "lightId": 8
           }
         ]
       }
@@ -10722,11 +12408,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 0.0,
+          "alphaMultiplier": 1.5,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.0,
+          "length": 300.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -10885,14 +12585,17 @@
               "height": 300.0,
               "startAlpha": 1.0,
               "endAlpha": 0.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 0.6,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "BillieEnvironment.[0]Environment.[49]BottomPairLasers (3).[1]PillarR.[0]RotationBaseR.[0]LaserRH.[1]BoxLight"
+              "parametricBoxId": "BillieEnvironment.[0]Environment.[49]BottomPairLasers (3).[1]PillarR.[0]RotationBaseR.[0]LaserRH.[1]BoxLight",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[49]BottomPairLasers (3).[1]PillarR.[0]RotationBaseR.[0]LaserRH.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 4,
-              "lightId": 8
-            }
+            "lightId": 9
           }
         ]
       }
@@ -10930,11 +12633,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 0.0,
+          "alphaMultiplier": 1.5,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.0,
+          "length": 300.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -11047,6 +12764,22 @@
             1.0,
             1.0
           ]
+        },
+        "LightPairRotationEventEffect": {
+          "eventTypeL": "Event12",
+          "transformL": "BillieEnvironment.[0]Environment.[50]BottomPairLasers (4).[0]PillarL.[0]RotationBaseL",
+          "eventTypeR": "Event13",
+          "transformR": "BillieEnvironment.[0]Environment.[50]BottomPairLasers (4).[1]PillarR.[0]RotationBaseR",
+          "switchOverrideRandomValuesEvent": "Event9",
+          "rotationVector": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "overrideRandomValues": false,
+          "useZPositionForAngleOffset": true,
+          "zPositionAngleOffsetScale": 2.0,
+          "startRotation": 0.0
         }
       }
     },
@@ -11161,14 +12894,17 @@
               "height": 300.0,
               "startAlpha": 1.0,
               "endAlpha": 0.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 0.6,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "BillieEnvironment.[0]Environment.[50]BottomPairLasers (4).[0]PillarL.[0]RotationBaseL.[0]LaserLH.[1]BoxLight"
+              "parametricBoxId": "BillieEnvironment.[0]Environment.[50]BottomPairLasers (4).[0]PillarL.[0]RotationBaseL.[0]LaserLH.[1]BoxLight",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[50]BottomPairLasers (4).[0]PillarL.[0]RotationBaseL.[0]LaserLH.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 5,
-              "lightId": 7
-            }
+            "lightId": 8
           }
         ]
       }
@@ -11206,11 +12942,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 0.0,
+          "alphaMultiplier": 1.5,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.0,
+          "length": 300.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -11369,14 +13119,17 @@
               "height": 300.0,
               "startAlpha": 1.0,
               "endAlpha": 0.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 0.6,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "BillieEnvironment.[0]Environment.[50]BottomPairLasers (4).[1]PillarR.[0]RotationBaseR.[0]LaserRH.[1]BoxLight"
+              "parametricBoxId": "BillieEnvironment.[0]Environment.[50]BottomPairLasers (4).[1]PillarR.[0]RotationBaseR.[0]LaserRH.[1]BoxLight",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[50]BottomPairLasers (4).[1]PillarR.[0]RotationBaseR.[0]LaserRH.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 5,
-              "lightId": 8
-            }
+            "lightId": 9
           }
         ]
       }
@@ -11414,11 +13167,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 0.0,
+          "alphaMultiplier": 1.5,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.0,
+          "length": 300.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -11497,6 +13264,22 @@
             1.0,
             1.0
           ]
+        },
+        "LightPairRotationEventEffect": {
+          "eventTypeL": "Event12",
+          "transformL": "BillieEnvironment.[0]Environment.[51]BottomPairLasers (5).[0]PillarL.[0]RotationBaseL",
+          "eventTypeR": "Event13",
+          "transformR": "BillieEnvironment.[0]Environment.[51]BottomPairLasers (5).[1]PillarR.[0]RotationBaseR",
+          "switchOverrideRandomValuesEvent": "Event9",
+          "rotationVector": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "overrideRandomValues": false,
+          "useZPositionForAngleOffset": true,
+          "zPositionAngleOffsetScale": 2.0,
+          "startRotation": 0.0
         }
       }
     },
@@ -11611,14 +13394,17 @@
               "height": 300.0,
               "startAlpha": 1.0,
               "endAlpha": 0.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 0.6,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "BillieEnvironment.[0]Environment.[51]BottomPairLasers (5).[0]PillarL.[0]RotationBaseL.[0]LaserLH.[1]BoxLight"
+              "parametricBoxId": "BillieEnvironment.[0]Environment.[51]BottomPairLasers (5).[0]PillarL.[0]RotationBaseL.[0]LaserLH.[1]BoxLight",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[51]BottomPairLasers (5).[0]PillarL.[0]RotationBaseL.[0]LaserLH.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 6,
-              "lightId": 7
-            }
+            "lightId": 8
           }
         ]
       }
@@ -11656,11 +13442,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 0.0,
+          "alphaMultiplier": 1.5,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.0,
+          "length": 300.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -11819,14 +13619,17 @@
               "height": 300.0,
               "startAlpha": 1.0,
               "endAlpha": 0.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 0.6,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "BillieEnvironment.[0]Environment.[51]BottomPairLasers (5).[1]PillarR.[0]RotationBaseR.[0]LaserRH.[1]BoxLight"
+              "parametricBoxId": "BillieEnvironment.[0]Environment.[51]BottomPairLasers (5).[1]PillarR.[0]RotationBaseR.[0]LaserRH.[1]BoxLight",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[51]BottomPairLasers (5).[1]PillarR.[0]RotationBaseR.[0]LaserRH.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 6,
-              "lightId": 8
-            }
+            "lightId": 9
           }
         ]
       }
@@ -11864,11 +13667,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 0.0,
+          "alphaMultiplier": 1.5,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.0,
+          "length": 300.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -11947,6 +13764,22 @@
             1.0,
             1.0
           ]
+        },
+        "LightPairRotationEventEffect": {
+          "eventTypeL": "Event12",
+          "transformL": "BillieEnvironment.[0]Environment.[52]BottomPairLasers (6).[0]PillarL.[0]RotationBaseL",
+          "eventTypeR": "Event13",
+          "transformR": "BillieEnvironment.[0]Environment.[52]BottomPairLasers (6).[1]PillarR.[0]RotationBaseR",
+          "switchOverrideRandomValuesEvent": "Event9",
+          "rotationVector": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "overrideRandomValues": false,
+          "useZPositionForAngleOffset": true,
+          "zPositionAngleOffsetScale": 2.0,
+          "startRotation": 0.0
         }
       }
     },
@@ -12061,14 +13894,17 @@
               "height": 300.0,
               "startAlpha": 1.0,
               "endAlpha": 0.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 0.6,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "BillieEnvironment.[0]Environment.[52]BottomPairLasers (6).[0]PillarL.[0]RotationBaseL.[0]LaserLH.[1]BoxLight"
+              "parametricBoxId": "BillieEnvironment.[0]Environment.[52]BottomPairLasers (6).[0]PillarL.[0]RotationBaseL.[0]LaserLH.[1]BoxLight",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[52]BottomPairLasers (6).[0]PillarL.[0]RotationBaseL.[0]LaserLH.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 7,
-              "lightId": 7
-            }
+            "lightId": 8
           }
         ]
       }
@@ -12106,11 +13942,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 0.0,
+          "alphaMultiplier": 1.5,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.0,
+          "length": 300.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -12269,14 +14119,17 @@
               "height": 300.0,
               "startAlpha": 1.0,
               "endAlpha": 0.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 0.6,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "BillieEnvironment.[0]Environment.[52]BottomPairLasers (6).[1]PillarR.[0]RotationBaseR.[0]LaserRH.[1]BoxLight"
+              "parametricBoxId": "BillieEnvironment.[0]Environment.[52]BottomPairLasers (6).[1]PillarR.[0]RotationBaseR.[0]LaserRH.[1]BoxLight",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[52]BottomPairLasers (6).[1]PillarR.[0]RotationBaseR.[0]LaserRH.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 7,
-              "lightId": 8
-            }
+            "lightId": 9
           }
         ]
       }
@@ -12314,11 +14167,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 0.0,
+          "alphaMultiplier": 1.5,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.0,
+          "length": 300.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -12397,6 +14264,22 @@
             1.0,
             1.0
           ]
+        },
+        "LightPairRotationEventEffect": {
+          "eventTypeL": "Event12",
+          "transformL": "BillieEnvironment.[0]Environment.[53]BottomPairLasers (7).[0]PillarL.[0]RotationBaseL",
+          "eventTypeR": "Event13",
+          "transformR": "BillieEnvironment.[0]Environment.[53]BottomPairLasers (7).[1]PillarR.[0]RotationBaseR",
+          "switchOverrideRandomValuesEvent": "Event9",
+          "rotationVector": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "overrideRandomValues": false,
+          "useZPositionForAngleOffset": true,
+          "zPositionAngleOffsetScale": 2.0,
+          "startRotation": 0.0
         }
       }
     },
@@ -12511,14 +14394,17 @@
               "height": 300.0,
               "startAlpha": 1.0,
               "endAlpha": 0.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 0.6,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "BillieEnvironment.[0]Environment.[53]BottomPairLasers (7).[0]PillarL.[0]RotationBaseL.[0]LaserLH.[1]BoxLight"
+              "parametricBoxId": "BillieEnvironment.[0]Environment.[53]BottomPairLasers (7).[0]PillarL.[0]RotationBaseL.[0]LaserLH.[1]BoxLight",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[53]BottomPairLasers (7).[0]PillarL.[0]RotationBaseL.[0]LaserLH.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 8,
-              "lightId": 7
-            }
+            "lightId": 8
           }
         ]
       }
@@ -12556,11 +14442,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 0.0,
+          "alphaMultiplier": 1.5,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.0,
+          "length": 300.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -12719,14 +14619,17 @@
               "height": 300.0,
               "startAlpha": 1.0,
               "endAlpha": 0.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 0.6,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "BillieEnvironment.[0]Environment.[53]BottomPairLasers (7).[1]PillarR.[0]RotationBaseR.[0]LaserRH.[1]BoxLight"
+              "parametricBoxId": "BillieEnvironment.[0]Environment.[53]BottomPairLasers (7).[1]PillarR.[0]RotationBaseR.[0]LaserRH.[1]BoxLight",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[53]BottomPairLasers (7).[1]PillarR.[0]RotationBaseR.[0]LaserRH.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 8,
-              "lightId": 8
-            }
+            "lightId": 9
           }
         ]
       }
@@ -12764,11 +14667,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 0.0,
+          "alphaMultiplier": 1.5,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.0,
+          "length": 300.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -12847,6 +14764,22 @@
             1.0,
             1.0
           ]
+        },
+        "LightPairRotationEventEffect": {
+          "eventTypeL": "Event12",
+          "transformL": "BillieEnvironment.[0]Environment.[54]BottomPairLasers (8).[0]PillarL.[0]RotationBaseL",
+          "eventTypeR": "Event13",
+          "transformR": "BillieEnvironment.[0]Environment.[54]BottomPairLasers (8).[1]PillarR.[0]RotationBaseR",
+          "switchOverrideRandomValuesEvent": "Event9",
+          "rotationVector": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "overrideRandomValues": false,
+          "useZPositionForAngleOffset": true,
+          "zPositionAngleOffsetScale": 2.0,
+          "startRotation": 0.0
         }
       }
     },
@@ -12961,14 +14894,17 @@
               "height": 300.0,
               "startAlpha": 1.0,
               "endAlpha": 0.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 0.6,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "BillieEnvironment.[0]Environment.[54]BottomPairLasers (8).[0]PillarL.[0]RotationBaseL.[0]LaserLH.[1]BoxLight"
+              "parametricBoxId": "BillieEnvironment.[0]Environment.[54]BottomPairLasers (8).[0]PillarL.[0]RotationBaseL.[0]LaserLH.[1]BoxLight",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[54]BottomPairLasers (8).[0]PillarL.[0]RotationBaseL.[0]LaserLH.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 9,
-              "lightId": 7
-            }
+            "lightId": 8
           }
         ]
       }
@@ -13006,11 +14942,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 0.0,
+          "alphaMultiplier": 1.5,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.0,
+          "length": 300.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -13169,14 +15119,17 @@
               "height": 300.0,
               "startAlpha": 1.0,
               "endAlpha": 0.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 0.6,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "BillieEnvironment.[0]Environment.[54]BottomPairLasers (8).[1]PillarR.[0]RotationBaseR.[0]LaserRH.[1]BoxLight"
+              "parametricBoxId": "BillieEnvironment.[0]Environment.[54]BottomPairLasers (8).[1]PillarR.[0]RotationBaseR.[0]LaserRH.[1]BoxLight",
+              "sliceSpriteControllerId": "BillieEnvironment.[0]Environment.[54]BottomPairLasers (8).[1]PillarR.[0]RotationBaseR.[0]LaserRH.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 9,
-              "lightId": 8
-            }
+            "lightId": 9
           }
         ]
       }
@@ -13214,11 +15167,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 0.0,
+          "alphaMultiplier": 1.5,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.0,
+          "length": 300.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -13680,6 +15647,280 @@
             1.0,
             1.0,
             1.0
+          ]
+        },
+        "LightWithIdManager": {
+          "lights": [
+            [
+              {
+                "ID": "BillieEnvironment.[0]Environment.[34]LightRailingSegment (3).[2]NeonTubeDirectionalR",
+                "id": 1
+              },
+              {
+                "ID": "BillieEnvironment.[0]Environment.[34]LightRailingSegment (3).[1]NeonTubeDirectionalL",
+                "id": 1
+              },
+              {
+                "ID": "BillieEnvironment.[0]Environment.[34]LightRailingSegment (3).[3]NeonTubeDirectionalL (1)",
+                "id": 1
+              },
+              {
+                "ID": "BillieEnvironment.[0]Environment.[34]LightRailingSegment (3).[4]NeonTubeDirectionalR (1)",
+                "id": 1
+              }
+            ],
+            [
+              {
+                "ID": "BillieEnvironment.[0]Environment.[31]LightRailingSegment.[2]NeonTubeDirectionalR",
+                "id": 2
+              },
+              {
+                "ID": "BillieEnvironment.[0]Environment.[31]LightRailingSegment.[1]NeonTubeDirectionalL",
+                "id": 2
+              },
+              {
+                "ID": "BillieEnvironment.[0]Environment.[31]LightRailingSegment.[3]NeonTubeDirectionalL (1)",
+                "id": 2
+              },
+              {
+                "ID": "BillieEnvironment.[0]Environment.[31]LightRailingSegment.[4]NeonTubeDirectionalR (1)",
+                "id": 2
+              }
+            ],
+            [
+              {
+                "ID": "BillieEnvironment.[0]Environment.[32]LightRailingSegment (1).[2]NeonTubeDirectionalR",
+                "id": 3
+              },
+              {
+                "ID": "BillieEnvironment.[0]Environment.[32]LightRailingSegment (1).[1]NeonTubeDirectionalL",
+                "id": 3
+              },
+              {
+                "ID": "BillieEnvironment.[0]Environment.[32]LightRailingSegment (1).[3]NeonTubeDirectionalL (1)",
+                "id": 3
+              },
+              {
+                "ID": "BillieEnvironment.[0]Environment.[32]LightRailingSegment (1).[4]NeonTubeDirectionalR (1)",
+                "id": 3
+              }
+            ],
+            [
+              {
+                "ID": "BillieEnvironment.[0]Environment.[33]LightRailingSegment (2).[2]NeonTubeDirectionalR",
+                "id": 4
+              },
+              {
+                "ID": "BillieEnvironment.[0]Environment.[33]LightRailingSegment (2).[1]NeonTubeDirectionalL",
+                "id": 4
+              },
+              {
+                "ID": "BillieEnvironment.[0]Environment.[33]LightRailingSegment (2).[3]NeonTubeDirectionalL (1)",
+                "id": 4
+              },
+              {
+                "ID": "BillieEnvironment.[0]Environment.[33]LightRailingSegment (2).[4]NeonTubeDirectionalR (1)",
+                "id": 4
+              }
+            ],
+            [
+              {
+                "ID": "BillieEnvironment.[0]Environment.[13]PlayersPlace.[1]Feet",
+                "id": 5
+              },
+              {
+                "ID": "BillieEnvironment.[0]Environment.[13]PlayersPlace.[3]RectangleFakeGlow",
+                "id": 5
+              },
+              {
+                "ID": "BillieEnvironment.[0]Environment.[27]DayAndNight.[0]Day.[0]Sun",
+                "id": 5
+              },
+              {
+                "ID": "BillieEnvironment.[0]Environment.[27]DayAndNight.[0]Day.[0]Sun.[1]NeonTube (2)",
+                "id": 5
+              },
+              {
+                "ID": "BillieEnvironment.[0]Environment.[27]DayAndNight.[0]Day.[0]Sun.[0]NeonTube (3)",
+                "id": 5
+              },
+              {
+                "ID": "BillieEnvironment.[0]Environment.[27]DayAndNight.[0]Day.[0]Sun.[3]NeonTube",
+                "id": 5
+              },
+              {
+                "ID": "BillieEnvironment.[0]Environment.[27]DayAndNight.[0]Day.[0]Sun.[2]NeonTube (1)",
+                "id": 5
+              }
+            ],
+            [
+              {
+                "ID": "BillieEnvironment.[0]Environment.[45]TunnelRotatingLasersPair (14).[0]BaseL.[0]Laser",
+                "id": 6
+              },
+              {
+                "ID": "BillieEnvironment.[0]Environment.[35]TunnelRotatingLasersPair (4).[0]BaseL.[0]Laser",
+                "id": 6
+              },
+              {
+                "ID": "BillieEnvironment.[0]Environment.[41]TunnelRotatingLasersPair (10).[0]BaseL.[0]Laser",
+                "id": 6
+              },
+              {
+                "ID": "BillieEnvironment.[0]Environment.[42]TunnelRotatingLasersPair (11).[0]BaseL.[0]Laser",
+                "id": 6
+              },
+              {
+                "ID": "BillieEnvironment.[0]Environment.[39]TunnelRotatingLasersPair (8).[0]BaseL.[0]Laser",
+                "id": 6
+              },
+              {
+                "ID": "BillieEnvironment.[0]Environment.[36]TunnelRotatingLasersPair (5).[0]BaseL.[0]Laser",
+                "id": 6
+              },
+              {
+                "ID": "BillieEnvironment.[0]Environment.[40]TunnelRotatingLasersPair (9).[0]BaseL.[0]Laser",
+                "id": 6
+              },
+              {
+                "ID": "BillieEnvironment.[0]Environment.[38]TunnelRotatingLasersPair (7).[0]BaseL.[0]Laser",
+                "id": 6
+              },
+              {
+                "ID": "BillieEnvironment.[0]Environment.[43]TunnelRotatingLasersPair (12).[0]BaseL.[0]Laser",
+                "id": 6
+              },
+              {
+                "ID": "BillieEnvironment.[0]Environment.[37]TunnelRotatingLasersPair (6).[0]BaseL.[0]Laser",
+                "id": 6
+              },
+              {
+                "ID": "BillieEnvironment.[0]Environment.[44]TunnelRotatingLasersPair (13).[0]BaseL.[0]Laser",
+                "id": 6
+              }
+            ],
+            [
+              {
+                "ID": "BillieEnvironment.[0]Environment.[42]TunnelRotatingLasersPair (11).[1]BaseR.[0]Laser",
+                "id": 7
+              },
+              {
+                "ID": "BillieEnvironment.[0]Environment.[35]TunnelRotatingLasersPair (4).[1]BaseR.[0]Laser",
+                "id": 7
+              },
+              {
+                "ID": "BillieEnvironment.[0]Environment.[41]TunnelRotatingLasersPair (10).[1]BaseR.[0]Laser",
+                "id": 7
+              },
+              {
+                "ID": "BillieEnvironment.[0]Environment.[45]TunnelRotatingLasersPair (14).[1]BaseR.[0]Laser",
+                "id": 7
+              },
+              {
+                "ID": "BillieEnvironment.[0]Environment.[37]TunnelRotatingLasersPair (6).[1]BaseR.[0]Laser",
+                "id": 7
+              },
+              {
+                "ID": "BillieEnvironment.[0]Environment.[44]TunnelRotatingLasersPair (13).[1]BaseR.[0]Laser",
+                "id": 7
+              },
+              {
+                "ID": "BillieEnvironment.[0]Environment.[40]TunnelRotatingLasersPair (9).[1]BaseR.[0]Laser",
+                "id": 7
+              },
+              {
+                "ID": "BillieEnvironment.[0]Environment.[38]TunnelRotatingLasersPair (7).[1]BaseR.[0]Laser",
+                "id": 7
+              },
+              {
+                "ID": "BillieEnvironment.[0]Environment.[43]TunnelRotatingLasersPair (12).[1]BaseR.[0]Laser",
+                "id": 7
+              },
+              {
+                "ID": "BillieEnvironment.[0]Environment.[36]TunnelRotatingLasersPair (5).[1]BaseR.[0]Laser",
+                "id": 7
+              },
+              {
+                "ID": "BillieEnvironment.[0]Environment.[39]TunnelRotatingLasersPair (8).[1]BaseR.[0]Laser",
+                "id": 7
+              }
+            ],
+            [
+              {
+                "ID": "BillieEnvironment.[0]Environment.[46]BottomPairLasers.[0]PillarL.[0]RotationBaseL.[0]LaserLH",
+                "id": 8
+              },
+              {
+                "ID": "BillieEnvironment.[0]Environment.[49]BottomPairLasers (3).[0]PillarL.[0]RotationBaseL.[0]LaserLH",
+                "id": 8
+              },
+              {
+                "ID": "BillieEnvironment.[0]Environment.[50]BottomPairLasers (4).[0]PillarL.[0]RotationBaseL.[0]LaserLH",
+                "id": 8
+              },
+              {
+                "ID": "BillieEnvironment.[0]Environment.[53]BottomPairLasers (7).[0]PillarL.[0]RotationBaseL.[0]LaserLH",
+                "id": 8
+              },
+              {
+                "ID": "BillieEnvironment.[0]Environment.[48]BottomPairLasers (2).[0]PillarL.[0]RotationBaseL.[0]LaserLH",
+                "id": 8
+              },
+              {
+                "ID": "BillieEnvironment.[0]Environment.[52]BottomPairLasers (6).[0]PillarL.[0]RotationBaseL.[0]LaserLH",
+                "id": 8
+              },
+              {
+                "ID": "BillieEnvironment.[0]Environment.[54]BottomPairLasers (8).[0]PillarL.[0]RotationBaseL.[0]LaserLH",
+                "id": 8
+              },
+              {
+                "ID": "BillieEnvironment.[0]Environment.[47]BottomPairLasers (1).[0]PillarL.[0]RotationBaseL.[0]LaserLH",
+                "id": 8
+              },
+              {
+                "ID": "BillieEnvironment.[0]Environment.[51]BottomPairLasers (5).[0]PillarL.[0]RotationBaseL.[0]LaserLH",
+                "id": 8
+              }
+            ],
+            [
+              {
+                "ID": "BillieEnvironment.[0]Environment.[52]BottomPairLasers (6).[1]PillarR.[0]RotationBaseR.[0]LaserRH",
+                "id": 9
+              },
+              {
+                "ID": "BillieEnvironment.[0]Environment.[54]BottomPairLasers (8).[1]PillarR.[0]RotationBaseR.[0]LaserRH",
+                "id": 9
+              },
+              {
+                "ID": "BillieEnvironment.[0]Environment.[47]BottomPairLasers (1).[1]PillarR.[0]RotationBaseR.[0]LaserRH",
+                "id": 9
+              },
+              {
+                "ID": "BillieEnvironment.[0]Environment.[51]BottomPairLasers (5).[1]PillarR.[0]RotationBaseR.[0]LaserRH",
+                "id": 9
+              },
+              {
+                "ID": "BillieEnvironment.[0]Environment.[50]BottomPairLasers (4).[1]PillarR.[0]RotationBaseR.[0]LaserRH",
+                "id": 9
+              },
+              {
+                "ID": "BillieEnvironment.[0]Environment.[49]BottomPairLasers (3).[1]PillarR.[0]RotationBaseR.[0]LaserRH",
+                "id": 9
+              },
+              {
+                "ID": "BillieEnvironment.[0]Environment.[48]BottomPairLasers (2).[1]PillarR.[0]RotationBaseR.[0]LaserRH",
+                "id": 9
+              },
+              {
+                "ID": "BillieEnvironment.[0]Environment.[53]BottomPairLasers (7).[1]PillarR.[0]RotationBaseR.[0]LaserRH",
+                "id": 9
+              },
+              {
+                "ID": "BillieEnvironment.[0]Environment.[46]BottomPairLasers.[1]PillarR.[0]RotationBaseR.[0]LaserRH",
+                "id": 9
+              }
+            ]
           ]
         }
       }

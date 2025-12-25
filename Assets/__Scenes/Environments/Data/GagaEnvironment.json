@@ -23,6 +23,11 @@
         0.162545457,
         0.7485644
       ],
+      "envColorWhite": [
+        0.7254902,
+        0.7254902,
+        0.7254902
+      ],
       "obstacleColor": [
         0.992156863,
         0.0,
@@ -37,6 +42,11 @@
         0.0,
         0.7058824,
         1.0
+      ],
+      "envColorWhiteBoost": [
+        0.7254902,
+        0.7254902,
+        0.7254902
       ]
     },
     "fogParams": {
@@ -148,20 +158,50 @@
     },
     "uniqueMaterials": [
       {
-        "hash": "a97bb8953136bcdd00eea8f1107e0aeb",
-        "name": "PlayersPlaceMirror",
-        "shader": "Custom/Mirror",
+        "hash": "50f8c02792793289991302c11a29586e",
+        "name": "PlayersPlaceReflectionProbeBlurry",
+        "shader": "Custom/SimpleLit",
         "color": [
-          -1.0,
-          -1.0,
-          -1.0,
-          -1.0
+          0.149999976,
+          0.149999976,
+          0.149999976,
+          0.0
         ],
         "shaderKeywords": [
+          "FOG",
+          "NOISE_DITHERING",
+          "REFLECTION_PROBE",
+          "REFLECTION_PROBE_BOX_PROJECTION",
+          "_ACES_APPROACH_AFTER_EMISSIVE",
+          "_DIFFUSE_TEXTURE_SOURCE_TEXTURE",
+          "_DISSOLVEALPHA_CLIP",
+          "_EMISSIONCOLORTYPE_FLAT",
+          "_EMISSION_ALPHA_SOURCE_EMISSION_G",
+          "_EMISSION_TEXTURE_SOURCE_TEXTURE",
+          "_METALLIC_TEXTURE_NONE",
+          "_OCCLUSION_SOURCE_TEXTURE",
+          "_PROBE_CALCULATION_FAST",
+          "_SMOOTHNESS_TEXTURE_NONE",
+          "ENABLE_DIFFUSE",
           "ENABLE_DIRT",
-          "ENABLE_MIRROR",
-          "ETC1_EXTERNAL_ALPHA",
-          "_EMISSION"
+          "ENABLE_FOG",
+          "ENABLE_SPECULAR",
+          "_CURVE_VERTICES_NONE",
+          "_CUSTOM_TIME_STANDARD",
+          "_DECALBLEND_ALPHABLEND",
+          "_DISSOLVEAXIS_LOCALX",
+          "_EMISSION",
+          "_EMISSIONTEXTURE_NONE",
+          "_ENABLE_FOG_TINT",
+          "_HOLOGRAM_NONE",
+          "_RIMLIGHT_NONE",
+          "_RIM_WHITEBOOSTTYPE_NONE",
+          "_ROTATE_UV_NONE",
+          "_SPECTROGRAM_NONE",
+          "_VERTEXMODE_NONE",
+          "_VERTEX_WHITEBOOSTTYPE_NONE",
+          "_WHITEBOOSTTYPE_NONE",
+          "_ZWRITE_ON"
         ]
       },
       {
@@ -455,6 +495,44 @@
         ]
       },
       {
+        "hash": "2f53648cf0e7229f89336575c9a4624c",
+        "name": "EnvLight",
+        "shader": "Custom/TransparentNeonLight",
+        "color": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "shaderKeywords": [
+          "ENABLE_HEIGHT_FOG",
+          "MULTIPLY_COLOR_WITH_ALPHA",
+          "_ENABLE_MAIN_EFFECT_WHITE_BOOST"
+        ]
+      },
+      {
+        "hash": "efd0d242bf2ace2047b83f3bffefe51d",
+        "name": "EnvLightBillboardSpriteGlow",
+        "shader": "Custom/Parametric3SliceSprite",
+        "color": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "shaderKeywords": [
+          "ALPHA_WIDTH_SCALE",
+          "ENABLE_FOG",
+          "ENABLE_HEIGHT_FOG",
+          "ENABLE_NOISE_DITHERING",
+          "ENABLE_Y_AXIS_BILLBOARD",
+          "USE_FOG_FOR_LIGHTS",
+          "ETC1_EXTERNAL_ALPHA",
+          "_ENABLE_Y_AXIS_BILLBOARD",
+          "_WHITEBOOSTTYPE_NONE"
+        ]
+      },
+      {
         "hash": "8a56bdf3305aeb242f7d7849dc1aa45c",
         "name": "DiskGlow",
         "shader": "Custom/OpaqueNeonLight",
@@ -610,198 +688,6 @@
           "_ROTATE_UV_NONE",
           "_VERTEXCHANNELS_RGBA",
           "_WHITEBOOSTTYPE_NONE"
-        ]
-      },
-      {
-        "hash": "f34dbd2b741fac880b42c0f327007704",
-        "name": "Aurora1",
-        "shader": "Custom/CustomParticles",
-        "color": [
-          0.942750931,
-          0.0,
-          1.0,
-          1.0
-        ],
-        "shaderKeywords": [
-          "DISTORTION_TARGET_MAIN",
-          "MASK2",
-          "MASK2_RED_IS_ALPHA",
-          "MASK_RED_IS_ALPHA",
-          "SPATIAL_DISPLACEMENT",
-          "SQUARE_ALPHA",
-          "VERTEX_COLOR",
-          "VERTEX_DISPLACEMENT",
-          "VERTEX_SQUARE_ALPHA",
-          "_ALPHACHANNEL_RED",
-          "_MASK2BLEND_MASKED_ADD",
-          "_MASKBLEND_MULTIPLY",
-          "_VERTEXCHANNELS_A",
-          "_WHITEBOOSTTYPE_ALWAYS",
-          "DISTORTION_NONE",
-          "_BILLBOARD_NONE",
-          "_CURVE_VERTICES_NONE",
-          "_DISSOLVEAXIS_LOCALX",
-          "_FOGTYPE_NONE",
-          "_ROTATE_UV_NONE",
-          "_SPECTROGRAM_NONE"
-        ]
-      },
-      {
-        "hash": "ed0abf9ada522e78ed6ce3ba7a2ca79d",
-        "name": "Aurora2",
-        "shader": "Custom/CustomParticles",
-        "color": [
-          0.942750931,
-          0.0,
-          1.0,
-          1.0
-        ],
-        "shaderKeywords": [
-          "DISTORTION_TARGET_MAIN",
-          "MASK2",
-          "MASK2_RED_IS_ALPHA",
-          "MASK_RED_IS_ALPHA",
-          "SPATIAL_DISPLACEMENT",
-          "SQUARE_ALPHA",
-          "VERTEX_COLOR",
-          "VERTEX_DISPLACEMENT",
-          "_ALPHACHANNEL_RED",
-          "_MASK2BLEND_MASKED_ADD",
-          "_MASKBLEND_MULTIPLY",
-          "_VERTEXCHANNELS_A",
-          "_WHITEBOOSTTYPE_ALWAYS",
-          "DISTORTION_NONE",
-          "_BILLBOARD_NONE",
-          "_CURVE_VERTICES_NONE",
-          "_DISSOLVEAXIS_LOCALX",
-          "_FOGTYPE_NONE",
-          "_ROTATE_UV_NONE",
-          "_SPECTROGRAM_NONE"
-        ]
-      },
-      {
-        "hash": "3a283de748a1df4c4199b346367844c8",
-        "name": "FrontLaserGlow",
-        "shader": "Custom/Parametric3SliceSprite",
-        "color": [
-          -1.0,
-          -1.0,
-          -1.0,
-          -1.0
-        ],
-        "shaderKeywords": [
-          "ALPHA_WIDTH_SCALE",
-          "ENABLE_FOG",
-          "USE_FOG_FOR_LIGHTS",
-          "ETC1_EXTERNAL_ALPHA",
-          "_ENABLE_Y_AXIS_BILLBOARD",
-          "_WHITEBOOSTTYPE_NONE"
-        ]
-      },
-      {
-        "hash": "b95d48940ab7bef2170421d0118330c5",
-        "name": "FrontLaser",
-        "shader": "Custom/TransparentNeonLight",
-        "color": [
-          -1.0,
-          -1.0,
-          -1.0,
-          -1.0
-        ],
-        "shaderKeywords": [
-          "DIFFUSE",
-          "ENABLE_BLUE_NOISE",
-          "ENABLE_DIFFUSE",
-          "ENABLE_LIGHTNING",
-          "USE_COLOR_FOG"
-        ]
-      },
-      {
-        "hash": "fc128b204196cbc98358fa1b57216a7a",
-        "name": "RailingMirror",
-        "shader": "Custom/Mirror",
-        "color": [
-          -1.0,
-          -1.0,
-          -1.0,
-          -1.0
-        ],
-        "shaderKeywords": [
-          "DIFFUSE",
-          "ENABLE_MIRROR",
-          "ETC1_EXTERNAL_ALPHA",
-          "_EMISSION"
-        ]
-      },
-      {
-        "hash": "47348bfff0fbcb3e14515ad3bfebc6be",
-        "name": "SetDepthOnly",
-        "shader": "Custom/SetDepthOnly",
-        "color": [
-          -1.0,
-          -1.0,
-          -1.0,
-          -1.0
-        ],
-        "shaderKeywords": [
-          "ENABLE_DIFFUSE",
-          "ENABLE_DIRT",
-          "ENABLE_DIRT_DETAIL",
-          "ENABLE_FOG",
-          "ENABLE_SPECULAR",
-          "FOG",
-          "LIGHTMAP",
-          "REFLECTION_PROBE",
-          "_EMISSION",
-          "_ENABLE_FOG_TINT",
-          "_RIMLIGHT_NONE"
-        ]
-      },
-      {
-        "hash": "42ba8db8a847b0fecc37824a7c996928",
-        "name": "RailingConstruction",
-        "shader": "Custom/SimpleLit",
-        "color": [
-          0.399999976,
-          0.399999976,
-          0.399999976,
-          1.0
-        ],
-        "shaderKeywords": [
-          "DIFFUSE",
-          "FOG",
-          "REFLECTION_PROBE",
-          "REFLECTION_PROBE_BOX_PROJECTION",
-          "_ACES_APPROACH_AFTER_EMISSIVE",
-          "_DIFFUSE_TEXTURE_SOURCE_TEXTURE",
-          "_DISSOLVEALPHA_CLIP",
-          "_EMISSIONCOLORTYPE_FLAT",
-          "_EMISSION_ALPHA_SOURCE_EMISSION_G",
-          "_EMISSION_TEXTURE_SOURCE_TEXTURE",
-          "_METALLIC_TEXTURE_NONE",
-          "_OCCLUSION_SOURCE_TEXTURE",
-          "_PROBE_CALCULATION_FAST",
-          "_SMOOTHNESS_TEXTURE_NONE",
-          "ENABLE_DIFFUSE",
-          "ENABLE_DIRT",
-          "ENABLE_FOG",
-          "ENABLE_SPECULAR",
-          "_CURVE_VERTICES_NONE",
-          "_CUSTOM_TIME_STANDARD",
-          "_DECALBLEND_ALPHABLEND",
-          "_DISSOLVEAXIS_LOCALX",
-          "_EMISSION",
-          "_EMISSIONTEXTURE_NONE",
-          "_ENABLE_FOG_TINT",
-          "_HOLOGRAM_NONE",
-          "_RIMLIGHT_NONE",
-          "_RIM_WHITEBOOSTTYPE_NONE",
-          "_ROTATE_UV_NONE",
-          "_SPECTROGRAM_NONE",
-          "_VERTEXMODE_NONE",
-          "_VERTEX_WHITEBOOSTTYPE_NONE",
-          "_WHITEBOOSTTYPE_NONE",
-          "_ZWRITE_ON"
         ]
       }
     ],
@@ -1029,62 +915,6 @@
           0.0,
           0.0
         ]
-      },
-      {
-        "name": "transform1",
-        "hash": "6712b180aee4a4eaaadbad3d8e1ceed0",
-        "boundsSize": [
-          371.726257,
-          111.013931,
-          124.471207
-        ],
-        "boundsCenter": [
-          -4.50914764,
-          -8.305391,
-          -26.358902
-        ]
-      },
-      {
-        "name": "MainBeamDisk",
-        "hash": "bfb3c36ceada02c91a71d90cf453d941",
-        "boundsSize": [
-          7.2897234,
-          0.899397,
-          7.2897234
-        ],
-        "boundsCenter": [
-          0.0,
-          -2.026558E-06,
-          0.0
-        ]
-      },
-      {
-        "name": "Mirror",
-        "hash": "cc9b726de456a0e3c057ef73116c432a",
-        "boundsSize": [
-          4.4437685,
-          0.0,
-          94.25134
-        ],
-        "boundsCenter": [
-          -2.14576721E-05,
-          0.007813707,
-          32.5483551
-        ]
-      },
-      {
-        "name": "Construction",
-        "hash": "c66d78f20e0d03ae75638657e1412e06",
-        "boundsSize": [
-          4.4985466,
-          0.0843677148,
-          94.25134
-        ],
-        "boundsCenter": [
-          -2.15768814E-05,
-          -0.03437015,
-          32.5483551
-        ]
       }
     ]
   },
@@ -1263,7 +1093,7 @@
         },
         "MeshRenderer": {
           "materials": [
-            "a97bb8953136bcdd00eea8f1107e0aeb"
+            "50f8c02792793289991302c11a29586e"
           ]
         }
       }
@@ -1754,10 +1584,17 @@
               "height": 1.15,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GagaEnvironment.[0]Environment.[15]RunwayPillarLow (1).[0]RunwayLightL1.[1]BoxLight"
-            }
+              "parametricBoxId": "GagaEnvironment.[0]Environment.[15]RunwayPillarLow (1).[0]RunwayLightL1.[1]BoxLight",
+              "sliceSpriteControllerId": "GagaEnvironment.[0]Environment.[15]RunwayPillarLow (1).[0]RunwayLightL1.[0]BakedBloom"
+            },
+            "lightId": 3
           }
         ]
       }
@@ -1799,6 +1636,18 @@
           "materials": [
             "0dd004d097c885674f53e9736741a1d9"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.935,
+          "width": 0.042,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 1.15,
+          "minAlpha": 0.0
         }
       }
     },
@@ -1889,10 +1738,17 @@
               "height": 1.15,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GagaEnvironment.[0]Environment.[15]RunwayPillarLow (1).[1]RunwayLightL0.[1]BoxLight"
-            }
+              "parametricBoxId": "GagaEnvironment.[0]Environment.[15]RunwayPillarLow (1).[1]RunwayLightL0.[1]BoxLight",
+              "sliceSpriteControllerId": "GagaEnvironment.[0]Environment.[15]RunwayPillarLow (1).[1]RunwayLightL0.[0]BakedBloom"
+            },
+            "lightId": 3
           }
         ]
       }
@@ -1934,6 +1790,18 @@
           "materials": [
             "0dd004d097c885674f53e9736741a1d9"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.935,
+          "width": 0.042,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 1.15,
+          "minAlpha": 0.0
         }
       }
     },
@@ -2024,10 +1892,17 @@
               "height": 1.15,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GagaEnvironment.[0]Environment.[15]RunwayPillarLow (1).[2]RunwayLightR0.[1]BoxLight"
-            }
+              "parametricBoxId": "GagaEnvironment.[0]Environment.[15]RunwayPillarLow (1).[2]RunwayLightR0.[1]BoxLight",
+              "sliceSpriteControllerId": "GagaEnvironment.[0]Environment.[15]RunwayPillarLow (1).[2]RunwayLightR0.[0]BakedBloom"
+            },
+            "lightId": 4
           }
         ]
       }
@@ -2069,6 +1944,18 @@
           "materials": [
             "0dd004d097c885674f53e9736741a1d9"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.935,
+          "width": 0.042,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 1.15,
+          "minAlpha": 0.0
         }
       }
     },
@@ -2159,10 +2046,17 @@
               "height": 1.15,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GagaEnvironment.[0]Environment.[15]RunwayPillarLow (1).[3]RunwayLightR1.[1]BoxLight"
-            }
+              "parametricBoxId": "GagaEnvironment.[0]Environment.[15]RunwayPillarLow (1).[3]RunwayLightR1.[1]BoxLight",
+              "sliceSpriteControllerId": "GagaEnvironment.[0]Environment.[15]RunwayPillarLow (1).[3]RunwayLightR1.[0]BakedBloom"
+            },
+            "lightId": 4
           }
         ]
       }
@@ -2204,6 +2098,18 @@
           "materials": [
             "0dd004d097c885674f53e9736741a1d9"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.935,
+          "width": 0.042,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 1.15,
+          "minAlpha": 0.0
         }
       }
     },
@@ -2371,10 +2277,17 @@
               "height": 1.15,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GagaEnvironment.[0]Environment.[16]RunwayPillarLow (2).[0]RunwayLightL1.[1]BoxLight"
-            }
+              "parametricBoxId": "GagaEnvironment.[0]Environment.[16]RunwayPillarLow (2).[0]RunwayLightL1.[1]BoxLight",
+              "sliceSpriteControllerId": "GagaEnvironment.[0]Environment.[16]RunwayPillarLow (2).[0]RunwayLightL1.[0]BakedBloom"
+            },
+            "lightId": 3
           }
         ]
       }
@@ -2412,11 +2325,25 @@
             1.00000012
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "0dd004d097c885674f53e9736741a1d9"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.935,
+          "width": 0.042,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 1.15,
+          "minAlpha": 0.0
         }
       }
     },
@@ -2507,10 +2434,17 @@
               "height": 1.15,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GagaEnvironment.[0]Environment.[16]RunwayPillarLow (2).[1]RunwayLightL0.[1]BoxLight"
-            }
+              "parametricBoxId": "GagaEnvironment.[0]Environment.[16]RunwayPillarLow (2).[1]RunwayLightL0.[1]BoxLight",
+              "sliceSpriteControllerId": "GagaEnvironment.[0]Environment.[16]RunwayPillarLow (2).[1]RunwayLightL0.[0]BakedBloom"
+            },
+            "lightId": 3
           }
         ]
       }
@@ -2548,11 +2482,25 @@
             1.00000012
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "0dd004d097c885674f53e9736741a1d9"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.935,
+          "width": 0.042,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 1.15,
+          "minAlpha": 0.0
         }
       }
     },
@@ -2643,10 +2591,17 @@
               "height": 1.15,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GagaEnvironment.[0]Environment.[16]RunwayPillarLow (2).[2]RunwayLightR0.[1]BoxLight"
-            }
+              "parametricBoxId": "GagaEnvironment.[0]Environment.[16]RunwayPillarLow (2).[2]RunwayLightR0.[1]BoxLight",
+              "sliceSpriteControllerId": "GagaEnvironment.[0]Environment.[16]RunwayPillarLow (2).[2]RunwayLightR0.[0]BakedBloom"
+            },
+            "lightId": 4
           }
         ]
       }
@@ -2684,11 +2639,25 @@
             1.00000024
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "0dd004d097c885674f53e9736741a1d9"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.935,
+          "width": 0.042,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 1.15,
+          "minAlpha": 0.0
         }
       }
     },
@@ -2779,10 +2748,17 @@
               "height": 1.15,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GagaEnvironment.[0]Environment.[16]RunwayPillarLow (2).[3]RunwayLightR1.[1]BoxLight"
-            }
+              "parametricBoxId": "GagaEnvironment.[0]Environment.[16]RunwayPillarLow (2).[3]RunwayLightR1.[1]BoxLight",
+              "sliceSpriteControllerId": "GagaEnvironment.[0]Environment.[16]RunwayPillarLow (2).[3]RunwayLightR1.[0]BakedBloom"
+            },
+            "lightId": 4
           }
         ]
       }
@@ -2820,11 +2796,25 @@
             1.00000024
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "0dd004d097c885674f53e9736741a1d9"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.935,
+          "width": 0.042,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 1.15,
+          "minAlpha": 0.0
         }
       }
     },
@@ -2992,10 +2982,17 @@
               "height": 1.15,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GagaEnvironment.[0]Environment.[17]RunwayPillar.[0]RunwayLightL1.[1]BoxLight"
-            }
+              "parametricBoxId": "GagaEnvironment.[0]Environment.[17]RunwayPillar.[0]RunwayLightL1.[1]BoxLight",
+              "sliceSpriteControllerId": "GagaEnvironment.[0]Environment.[17]RunwayPillar.[0]RunwayLightL1.[0]BakedBloom"
+            },
+            "lightId": 3
           }
         ]
       }
@@ -3033,11 +3030,25 @@
             1.00000012
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "0dd004d097c885674f53e9736741a1d9"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.935,
+          "width": 0.042,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 1.15,
+          "minAlpha": 0.0
         }
       }
     },
@@ -3128,10 +3139,17 @@
               "height": 1.15,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GagaEnvironment.[0]Environment.[17]RunwayPillar.[1]RunwayLightL0.[1]BoxLight"
-            }
+              "parametricBoxId": "GagaEnvironment.[0]Environment.[17]RunwayPillar.[1]RunwayLightL0.[1]BoxLight",
+              "sliceSpriteControllerId": "GagaEnvironment.[0]Environment.[17]RunwayPillar.[1]RunwayLightL0.[0]BakedBloom"
+            },
+            "lightId": 3
           }
         ]
       }
@@ -3169,11 +3187,25 @@
             1.00000012
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "0dd004d097c885674f53e9736741a1d9"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.935,
+          "width": 0.042,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 1.15,
+          "minAlpha": 0.0
         }
       }
     },
@@ -3264,10 +3296,17 @@
               "height": 1.15,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GagaEnvironment.[0]Environment.[17]RunwayPillar.[2]RunwayLightR0.[1]BoxLight"
-            }
+              "parametricBoxId": "GagaEnvironment.[0]Environment.[17]RunwayPillar.[2]RunwayLightR0.[1]BoxLight",
+              "sliceSpriteControllerId": "GagaEnvironment.[0]Environment.[17]RunwayPillar.[2]RunwayLightR0.[0]BakedBloom"
+            },
+            "lightId": 4
           }
         ]
       }
@@ -3305,11 +3344,25 @@
             1.00000024
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "0dd004d097c885674f53e9736741a1d9"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.935,
+          "width": 0.042,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 1.15,
+          "minAlpha": 0.0
         }
       }
     },
@@ -3400,10 +3453,17 @@
               "height": 1.15,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "GagaEnvironment.[0]Environment.[17]RunwayPillar.[3]RunwayLightR1.[1]BoxLight"
-            }
+              "parametricBoxId": "GagaEnvironment.[0]Environment.[17]RunwayPillar.[3]RunwayLightR1.[1]BoxLight",
+              "sliceSpriteControllerId": "GagaEnvironment.[0]Environment.[17]RunwayPillar.[3]RunwayLightR1.[0]BakedBloom"
+            },
+            "lightId": 4
           }
         ]
       }
@@ -3441,11 +3501,25 @@
             1.00000024
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "0dd004d097c885674f53e9736741a1d9"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.935,
+          "width": 0.042,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 1.15,
+          "minAlpha": 0.0
         }
       }
     },
@@ -3762,14 +3836,14 @@
             100.0
           ],
           "rotation": [
-            2.96229219,
-            4.91486645,
-            1.33580622E-08
+            2.96312284,
+            4.91673756,
+            0.0
           ],
           "localRotation": [
-            2.96229219,
-            4.91486645,
-            1.33580622E-08
+            2.96312284,
+            4.91673756,
+            0.0
           ],
           "scale": [
             1.0,
@@ -3790,9 +3864,9 @@
       "components": {
         "Transform": {
           "position": [
-            -12.9489,
-            19.2279625,
-            101.852478
+            -12.948822,
+            19.227951,
+            101.853111
           ],
           "localPosition": [
             -13.06,
@@ -3800,9 +3874,9 @@
             0.0
           ],
           "rotation": [
-            2.96229219,
-            4.91486645,
-            1.33580622E-08
+            2.96312284,
+            4.91673756,
+            0.0
           ],
           "localRotation": [
             0.0,
@@ -3824,9 +3898,9 @@
       "components": {
         "Transform": {
           "position": [
-            14.0813456,
-            19.2279625,
-            99.52811
+            14.0813484,
+            19.227951,
+            99.5278549
           ],
           "localPosition": [
             14.07,
@@ -3834,9 +3908,9 @@
             0.0
           ],
           "rotation": [
-            2.96229219,
-            4.91486645,
-            1.33580622E-08
+            2.96312284,
+            4.91673756,
+            0.0
           ],
           "localRotation": [
             0.0,
@@ -3869,9 +3943,9 @@
             0.0
           ],
           "rotation": [
-            357.03772,
-            184.914856,
-            -1.33580622E-08
+            357.036865,
+            184.916733,
+            0.0
           ],
           "localRotation": [
             0.0,
@@ -3893,6 +3967,543 @@
           ]
         }
       }
+    },
+    {
+      "name": "NarrowGameHUD",
+      "id": "GagaEnvironment.[0]Environment.[24]NarrowGameHUD",
+      "layer": "UI",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.1,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.1,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "EnergyPanel",
+      "id": "GagaEnvironment.[0]Environment.[24]NarrowGameHUD.[0]EnergyPanel",
+      "layer": "UI",
+      "components": {
+        "Animator": {
+          "animatorParameters": [],
+          "animatorLayerNames": []
+        }
+      }
+    },
+    {
+      "name": "BG",
+      "id": "GagaEnvironment.[0]Environment.[24]NarrowGameHUD.[0]EnergyPanel.[0]BG",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "BarBG",
+      "id": "GagaEnvironment.[0]Environment.[24]NarrowGameHUD.[0]EnergyPanel.[1]BarBG",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "EnergyIconEmpty",
+      "id": "GagaEnvironment.[0]Environment.[24]NarrowGameHUD.[0]EnergyPanel.[2]EnergyIconEmpty",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "EnergyIconFull",
+      "id": "GagaEnvironment.[0]Environment.[24]NarrowGameHUD.[0]EnergyPanel.[3]EnergyIconFull",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "EnergyBarWrapper",
+      "id": "GagaEnvironment.[0]Environment.[24]NarrowGameHUD.[0]EnergyPanel.[4]EnergyBarWrapper",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "EnergyBar",
+      "id": "GagaEnvironment.[0]Environment.[24]NarrowGameHUD.[0]EnergyPanel.[4]EnergyBarWrapper.[0]EnergyBar",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Laser",
+      "id": "GagaEnvironment.[0]Environment.[24]NarrowGameHUD.[0]EnergyPanel.[5]Laser",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.1,
+            5.7
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            -40.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            90.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            90.0
+          ],
+          "scale": [
+            0.0200000033,
+            0.0200000033,
+            0.02
+          ]
+        }
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "GagaEnvironment.[0]Environment.[24]NarrowGameHUD.[0]EnergyPanel.[5]Laser.[0]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.1,
+            5.7
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            90.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.0,
+            5.000001,
+            0.0
+          ]
+        },
+        "MeshFilter": {
+          "hash": "918b6e6683288362624bdc36ef36ef62"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "2f53648cf0e7229f89336575c9a4624c"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "GagaEnvironment.[0]Environment.[24]NarrowGameHUD.[0]EnergyPanel.[5]Laser.[1]BakedBloom",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.1,
+            5.7
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            90.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.0200000033,
+            0.0200000033,
+            0.02
+          ]
+        },
+        "MeshFilter": {},
+        "MeshRenderer": {
+          "materials": [
+            "efd0d242bf2ace2047b83f3bffefe51d"
+          ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 5.2,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.0,
+          "width": 0.0,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
+        }
+      }
+    },
+    {
+      "name": "FailIcon",
+      "id": "GagaEnvironment.[0]Environment.[24]NarrowGameHUD.[0]EnergyPanel.[6]FailIcon",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "LeftPanel",
+      "id": "GagaEnvironment.[0]Environment.[24]NarrowGameHUD.[1]LeftPanel",
+      "layer": "UI",
+      "components": {
+        "Transform": {
+          "position": [
+            -2.0,
+            0.5,
+            7.0
+          ],
+          "localPosition": [
+            -2.0,
+            0.4,
+            7.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "ComboPanel",
+      "id": "GagaEnvironment.[0]Environment.[24]NarrowGameHUD.[1]LeftPanel.[0]ComboPanel",
+      "layer": "UI",
+      "components": {
+        "Animator": {
+          "animatorParameters": [
+            "ComboLost"
+          ],
+          "animatorLayerNames": [
+            "Base Layer"
+          ]
+        }
+      }
+    },
+    {
+      "name": "ComboText",
+      "id": "GagaEnvironment.[0]Environment.[24]NarrowGameHUD.[1]LeftPanel.[0]ComboPanel.[0]ComboText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "ComboCanvas",
+      "id": "GagaEnvironment.[0]Environment.[24]NarrowGameHUD.[1]LeftPanel.[0]ComboPanel.[1]ComboCanvas",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "NumText",
+      "id": "GagaEnvironment.[0]Environment.[24]NarrowGameHUD.[1]LeftPanel.[0]ComboPanel.[1]ComboCanvas.[0]NumText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Line0",
+      "id": "GagaEnvironment.[0]Environment.[24]NarrowGameHUD.[1]LeftPanel.[0]ComboPanel.[2]Line0",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Line1",
+      "id": "GagaEnvironment.[0]Environment.[24]NarrowGameHUD.[1]LeftPanel.[0]ComboPanel.[3]Line1",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "ScoreCanvas",
+      "id": "GagaEnvironment.[0]Environment.[24]NarrowGameHUD.[1]LeftPanel.[1]ScoreCanvas",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "ScoreText",
+      "id": "GagaEnvironment.[0]Environment.[24]NarrowGameHUD.[1]LeftPanel.[1]ScoreCanvas.[0]ScoreText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "ImmediateRankText",
+      "id": "GagaEnvironment.[0]Environment.[24]NarrowGameHUD.[1]LeftPanel.[1]ScoreCanvas.[1]ImmediateRankText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "RelativeScoreText",
+      "id": "GagaEnvironment.[0]Environment.[24]NarrowGameHUD.[1]LeftPanel.[1]ScoreCanvas.[2]RelativeScoreText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "RightPanel",
+      "id": "GagaEnvironment.[0]Environment.[24]NarrowGameHUD.[2]RightPanel",
+      "layer": "UI",
+      "components": {
+        "Transform": {
+          "position": [
+            2.0,
+            0.5,
+            7.0
+          ],
+          "localPosition": [
+            2.0,
+            0.4,
+            7.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "MultiplierCanvas",
+      "id": "GagaEnvironment.[0]Environment.[24]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas",
+      "layer": "UI",
+      "components": {
+        "Animator": {
+          "animatorParameters": [
+            "MultiplierIncreased"
+          ],
+          "animatorLayerNames": [
+            "Base Layer"
+          ]
+        }
+      }
+    },
+    {
+      "name": "BGCircle",
+      "id": "GagaEnvironment.[0]Environment.[24]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[0]BGCircle",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "FGCircle",
+      "id": "GagaEnvironment.[0]Environment.[24]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[1]FGCircle",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "AnimationCircle",
+      "id": "GagaEnvironment.[0]Environment.[24]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[2]AnimationCircle",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "TextOverlayPanelOutline1",
+      "id": "GagaEnvironment.[0]Environment.[24]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[3]TextOverlayPanelOutline1",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "XText",
+      "id": "GagaEnvironment.[0]Environment.[24]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[3]TextOverlayPanelOutline1.[0]XText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "NumText",
+      "id": "GagaEnvironment.[0]Environment.[24]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[3]TextOverlayPanelOutline1.[1]NumText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "TextOverlayPanelOutline0",
+      "id": "GagaEnvironment.[0]Environment.[24]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[4]TextOverlayPanelOutline0",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "XText",
+      "id": "GagaEnvironment.[0]Environment.[24]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[4]TextOverlayPanelOutline0.[0]XText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "NumText",
+      "id": "GagaEnvironment.[0]Environment.[24]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[4]TextOverlayPanelOutline0.[1]NumText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "TextPanel",
+      "id": "GagaEnvironment.[0]Environment.[24]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[5]TextPanel",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "XText",
+      "id": "GagaEnvironment.[0]Environment.[24]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[5]TextPanel.[0]XText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "NumText",
+      "id": "GagaEnvironment.[0]Environment.[24]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[5]TextPanel.[1]NumText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "SongProgressCanvas",
+      "id": "GagaEnvironment.[0]Environment.[24]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Progress",
+      "id": "GagaEnvironment.[0]Environment.[24]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[0]Progress",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Slider",
+      "id": "GagaEnvironment.[0]Environment.[24]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[1]Slider",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Background",
+      "id": "GagaEnvironment.[0]Environment.[24]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[1]Slider.[0]Background",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Handle Slide Area",
+      "id": "GagaEnvironment.[0]Environment.[24]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[1]Slider.[1]Handle Slide Area",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Handle",
+      "id": "GagaEnvironment.[0]Environment.[24]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[1]Slider.[1]Handle Slide Area.[0]Handle",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "ProgressText",
+      "id": "GagaEnvironment.[0]Environment.[24]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Progress",
+      "id": "GagaEnvironment.[0]Environment.[24]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.[0]Progress",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "ProgressMinutes",
+      "id": "GagaEnvironment.[0]Environment.[24]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.[0]Progress.[0]ProgressMinutes",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "ProgressColon",
+      "id": "GagaEnvironment.[0]Environment.[24]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.[0]Progress.[1]ProgressColon",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "ProgressSeconds",
+      "id": "GagaEnvironment.[0]Environment.[24]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.[0]Progress.[2]ProgressSeconds",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Separator",
+      "id": "GagaEnvironment.[0]Environment.[24]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.[1]Separator",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Duration",
+      "id": "GagaEnvironment.[0]Environment.[24]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.[2]Duration",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "DurationMinutes",
+      "id": "GagaEnvironment.[0]Environment.[24]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.[2]Duration.[0]DurationMinutes",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "DurationColon",
+      "id": "GagaEnvironment.[0]Environment.[24]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.[2]Duration.[1]DurationColon",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "DurationSeconds",
+      "id": "GagaEnvironment.[0]Environment.[24]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.[2]Duration.[2]DurationSeconds",
+      "layer": "UI",
+      "components": {}
     },
     {
       "name": "TowersNonLightGroupRenderer",
@@ -4029,7 +4640,7 @@
           ]
         },
         "InstancedMaterialLightWithId": {
-          "materialLightId": 3,
+          "lightId": 3,
           "materialLightIntensity": 3.0
         }
       }
@@ -4196,7 +4807,7 @@
           ]
         },
         "InstancedMaterialLightWithId": {
-          "materialLightId": 3,
+          "lightId": 3,
           "materialLightIntensity": 3.0
         }
       }
@@ -4363,7 +4974,7 @@
           ]
         },
         "InstancedMaterialLightWithId": {
-          "materialLightId": 3,
+          "lightId": 3,
           "materialLightIntensity": 3.0
         }
       }
@@ -4530,7 +5141,7 @@
           ]
         },
         "InstancedMaterialLightWithId": {
-          "materialLightId": 3,
+          "lightId": 3,
           "materialLightIntensity": 0.0
         },
         "SmoothStepPositionEventEffect": {
@@ -4712,7 +5323,7 @@
           "hash": "cb07e672a2e81a54cf7fc9a34a1ab812"
         },
         "InstancedMaterialLightWithId": {
-          "materialLightId": 3,
+          "lightId": 3,
           "materialLightIntensity": 1.0
         },
         "MeshRenderer": {
@@ -4759,7 +5370,7 @@
           "hash": "cb07e672a2e81a54cf7fc9a34a1ab812"
         },
         "InstancedMaterialLightWithId": {
-          "materialLightId": 3,
+          "lightId": 3,
           "materialLightIntensity": 1.0
         },
         "MeshRenderer": {
@@ -4799,6423 +5410,6 @@
             1.0,
             1.0,
             1.0
-          ]
-        }
-      }
-    },
-    {
-      "name": "BloomFog",
-      "id": "GagaEnvironment.[0]Environment.[28]TeslaTower1L.[4]BloomFog",
-      "layer": "NeonLight",
-      "components": {
-        "Transform": {
-          "position": [
-            -44.0,
-            25.27,
-            148.7
-          ],
-          "localPosition": [
-            0.0,
-            25.27,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "TubeBloomPrePassLightWithId": [
-          {
-            "tubeBloomPrePassLight": {
-              "colorAlphaMultiplier": 0.0,
-              "bloomFogIntensityMultiplier": 5.0,
-              "tubeLength": 75.0,
-              "tubeWidth": 1.5,
-              "center": 0.5,
-              "startAlpha": 1.0,
-              "endAlpha": 1.0,
-              "lightWidthMultiplier": 1.0,
-              "useCollision": false,
-              "parametricBoxId": "null"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "Tower",
-      "id": "GagaEnvironment.[0]Environment.[28]TeslaTower1L.[5]Tower",
-      "meshName": "TeslaTowerMesh",
-      "layer": "Environment",
-      "components": {
-        "Transform": {
-          "position": [
-            -44.0,
-            59.71,
-            148.7
-          ],
-          "localPosition": [
-            0.0,
-            59.71,
-            0.0
-          ],
-          "rotation": [
-            7.513434E-06,
-            -5.008955E-06,
-            5.008956E-06
-          ],
-          "localRotation": [
-            7.513434E-06,
-            -5.008955E-06,
-            5.008956E-06
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "MeshFilter": {
-          "hash": "2201d4ba1cc4eb3726c25ed05fb7b5c5"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "a5318af17973a0e6705f6f4d35dbfee8"
-          ]
-        }
-      }
-    },
-    {
-      "name": "TeslaTower1R",
-      "id": "GagaEnvironment.[0]Environment.[29]TeslaTower1R",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            44.0,
-            0.0,
-            148.7
-          ],
-          "localPosition": [
-            44.0,
-            0.0,
-            148.7
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        }
-      }
-    },
-    {
-      "name": "DiskTop",
-      "id": "GagaEnvironment.[0]Environment.[29]TeslaTower1R.[0]DiskTop",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            44.0,
-            62.0,
-            148.7
-          ],
-          "localPosition": [
-            0.0,
-            62.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.47,
-            1.0,
-            1.47
-          ]
-        },
-        "InstancedMaterialLightWithId": {
-          "materialLightId": 4,
-          "materialLightIntensity": 3.0
-        }
-      }
-    },
-    {
-      "name": "Disk",
-      "id": "GagaEnvironment.[0]Environment.[29]TeslaTower1R.[0]DiskTop.[0]Disk",
-      "meshName": "Disk",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            44.0,
-            62.0,
-            148.7
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.47,
-            1.0,
-            1.47
-          ]
-        },
-        "MeshFilter": {
-          "hash": "3175d84c7b67678ce47aafb907ff7ceb"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "a5318af17973a0e6705f6f4d35dbfee8"
-          ]
-        }
-      }
-    },
-    {
-      "name": "GlowingCore",
-      "id": "GagaEnvironment.[0]Environment.[29]TeslaTower1R.[0]DiskTop.[1]GlowingCore",
-      "meshName": "Glow",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            44.0,
-            62.0,
-            148.7
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.47,
-            1.0,
-            1.47
-          ]
-        },
-        "MeshFilter": {
-          "hash": "dfff68a3bfa06dd9cd3d335b7cfc99fe"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "8a56bdf3305aeb242f7d7849dc1aa45c"
-          ]
-        }
-      }
-    },
-    {
-      "name": "FakeGlow",
-      "id": "GagaEnvironment.[0]Environment.[29]TeslaTower1R.[0]DiskTop.[2]FakeGlow",
-      "meshName": "CylinderGlow",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            44.0,
-            62.0,
-            148.7
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            270.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            270.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.47,
-            1.47000027,
-            1.00000024
-          ]
-        },
-        "MeshFilter": {
-          "hash": "f5d4e4af78290171ab7e85fb6790ab36"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "16a45d70ec619e6483f09c2642b9c798"
-          ]
-        }
-      }
-    },
-    {
-      "name": "DiskUpper",
-      "id": "GagaEnvironment.[0]Environment.[29]TeslaTower1R.[1]DiskUpper",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            44.0,
-            50.0,
-            148.7
-          ],
-          "localPosition": [
-            0.0,
-            50.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "InstancedMaterialLightWithId": {
-          "materialLightId": 4,
-          "materialLightIntensity": 3.0
-        }
-      }
-    },
-    {
-      "name": "Disk",
-      "id": "GagaEnvironment.[0]Environment.[29]TeslaTower1R.[1]DiskUpper.[0]Disk",
-      "meshName": "Disk",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            44.0,
-            50.0,
-            148.7
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "MeshFilter": {
-          "hash": "3175d84c7b67678ce47aafb907ff7ceb"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "a5318af17973a0e6705f6f4d35dbfee8"
-          ]
-        }
-      }
-    },
-    {
-      "name": "GlowingCore",
-      "id": "GagaEnvironment.[0]Environment.[29]TeslaTower1R.[1]DiskUpper.[1]GlowingCore",
-      "meshName": "Glow",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            44.0,
-            50.0,
-            148.7
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "MeshFilter": {
-          "hash": "dfff68a3bfa06dd9cd3d335b7cfc99fe"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "8a56bdf3305aeb242f7d7849dc1aa45c"
-          ]
-        }
-      }
-    },
-    {
-      "name": "FakeGlow",
-      "id": "GagaEnvironment.[0]Environment.[29]TeslaTower1R.[1]DiskUpper.[2]FakeGlow",
-      "meshName": "CylinderGlow",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            44.0,
-            50.0,
-            148.7
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            270.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            270.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.00000024,
-            1.00000024
-          ]
-        },
-        "MeshFilter": {
-          "hash": "f5d4e4af78290171ab7e85fb6790ab36"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "16a45d70ec619e6483f09c2642b9c798"
-          ]
-        }
-      }
-    },
-    {
-      "name": "DiskBottom",
-      "id": "GagaEnvironment.[0]Environment.[29]TeslaTower1R.[2]DiskBottom",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            44.0,
-            -10.0,
-            148.7
-          ],
-          "localPosition": [
-            0.0,
-            -10.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "InstancedMaterialLightWithId": {
-          "materialLightId": 4,
-          "materialLightIntensity": 3.0
-        }
-      }
-    },
-    {
-      "name": "Disk",
-      "id": "GagaEnvironment.[0]Environment.[29]TeslaTower1R.[2]DiskBottom.[0]Disk",
-      "meshName": "Disk",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            44.0,
-            -10.0,
-            148.7
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "MeshFilter": {
-          "hash": "3175d84c7b67678ce47aafb907ff7ceb"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "a5318af17973a0e6705f6f4d35dbfee8"
-          ]
-        }
-      }
-    },
-    {
-      "name": "GlowingCore",
-      "id": "GagaEnvironment.[0]Environment.[29]TeslaTower1R.[2]DiskBottom.[1]GlowingCore",
-      "meshName": "Glow",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            44.0,
-            -10.0,
-            148.7
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "MeshFilter": {
-          "hash": "dfff68a3bfa06dd9cd3d335b7cfc99fe"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "8a56bdf3305aeb242f7d7849dc1aa45c"
-          ]
-        }
-      }
-    },
-    {
-      "name": "FakeGlow",
-      "id": "GagaEnvironment.[0]Environment.[29]TeslaTower1R.[2]DiskBottom.[2]FakeGlow",
-      "meshName": "CylinderGlow",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            44.0,
-            -10.0,
-            148.7
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            270.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            270.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.00000024,
-            1.00000024
-          ]
-        },
-        "MeshFilter": {
-          "hash": "f5d4e4af78290171ab7e85fb6790ab36"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "16a45d70ec619e6483f09c2642b9c798"
-          ]
-        }
-      }
-    },
-    {
-      "name": "DynamicTeslaDisc",
-      "id": "GagaEnvironment.[0]Environment.[29]TeslaTower1R.[3]DynamicTeslaDisc",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            44.0,
-            20.0,
-            148.7
-          ],
-          "localPosition": [
-            0.0,
-            20.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "InstancedMaterialLightWithId": {
-          "materialLightId": 4,
-          "materialLightIntensity": 0.0
-        },
-        "SmoothStepPositionEventEffect": {
-          "minY": 0,
-          "maxY": 8,
-          "stepSize": 6.0,
-          "startPos": [
-            0.0,
-            20.0,
-            0.0
-          ],
-          "easing": "InOutCubic"
-        }
-      }
-    },
-    {
-      "name": "Disk",
-      "id": "GagaEnvironment.[0]Environment.[29]TeslaTower1R.[3]DynamicTeslaDisc.[0]Disk",
-      "meshName": "Disk",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            44.0,
-            20.0,
-            148.7
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "MeshFilter": {
-          "hash": "3175d84c7b67678ce47aafb907ff7ceb"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "5fe065c7744c4d887d4c4c994dccb555"
-          ]
-        }
-      }
-    },
-    {
-      "name": "GlowingCore",
-      "id": "GagaEnvironment.[0]Environment.[29]TeslaTower1R.[3]DynamicTeslaDisc.[1]GlowingCore",
-      "meshName": "Glow",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            44.0,
-            20.0,
-            148.7
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "MeshFilter": {
-          "hash": "dfff68a3bfa06dd9cd3d335b7cfc99fe"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "8a56bdf3305aeb242f7d7849dc1aa45c"
-          ]
-        }
-      }
-    },
-    {
-      "name": "FakeGlow",
-      "id": "GagaEnvironment.[0]Environment.[29]TeslaTower1R.[3]DynamicTeslaDisc.[2]FakeGlow",
-      "meshName": "CylinderGlow",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            44.0,
-            20.0,
-            148.7
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            270.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            270.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.00000024,
-            1.00000024
-          ]
-        },
-        "MeshFilter": {
-          "hash": "f5d4e4af78290171ab7e85fb6790ab36"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "16a45d70ec619e6483f09c2642b9c798"
-          ]
-        }
-      }
-    },
-    {
-      "name": "LightningWithTarget",
-      "id": "GagaEnvironment.[0]Environment.[29]TeslaTower1R.[3]DynamicTeslaDisc.[3]LightningWithTarget",
-      "meshName": "Strip",
-      "layer": "NeonLight",
-      "components": {
-        "Transform": {
-          "position": [
-            40.2,
-            20.0,
-            148.7
-          ],
-          "localPosition": [
-            -3.8,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "MeshFilter": {
-          "hash": "cb07e672a2e81a54cf7fc9a34a1ab812"
-        },
-        "InstancedMaterialLightWithId": {
-          "materialLightId": 4,
-          "materialLightIntensity": 1.0
-        },
-        "MeshRenderer": {
-          "materials": [
-            "0b03599ac7c984699e942948dcc43ee2"
-          ]
-        }
-      }
-    },
-    {
-      "name": "LightningWithTargetThin",
-      "id": "GagaEnvironment.[0]Environment.[29]TeslaTower1R.[3]DynamicTeslaDisc.[4]LightningWithTargetThin",
-      "meshName": "Strip",
-      "layer": "NeonLight",
-      "components": {
-        "Transform": {
-          "position": [
-            40.2,
-            20.0,
-            148.7
-          ],
-          "localPosition": [
-            -3.8,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "MeshFilter": {
-          "hash": "cb07e672a2e81a54cf7fc9a34a1ab812"
-        },
-        "InstancedMaterialLightWithId": {
-          "materialLightId": 4,
-          "materialLightIntensity": 1.0
-        },
-        "MeshRenderer": {
-          "materials": [
-            "d49349c2e45d72629cd602ee0906e2b6"
-          ]
-        }
-      }
-    },
-    {
-      "name": "LightningTarget",
-      "id": "GagaEnvironment.[0]Environment.[29]TeslaTower1R.[3]DynamicTeslaDisc.[5]LightningTarget",
-      "layer": "NeonLight",
-      "components": {
-        "Transform": {
-          "position": [
-            44.0,
-            20.0,
-            144.9
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            -3.8
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        }
-      }
-    },
-    {
-      "name": "BloomFog",
-      "id": "GagaEnvironment.[0]Environment.[29]TeslaTower1R.[4]BloomFog",
-      "layer": "NeonLight",
-      "components": {
-        "Transform": {
-          "position": [
-            44.0,
-            25.27,
-            148.7
-          ],
-          "localPosition": [
-            0.0,
-            25.27,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "TubeBloomPrePassLightWithId": [
-          {
-            "tubeBloomPrePassLight": {
-              "colorAlphaMultiplier": 0.0,
-              "bloomFogIntensityMultiplier": 5.0,
-              "tubeLength": 75.0,
-              "tubeWidth": 1.5,
-              "center": 0.5,
-              "startAlpha": 1.0,
-              "endAlpha": 1.0,
-              "lightWidthMultiplier": 1.0,
-              "useCollision": false,
-              "parametricBoxId": "null"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "Tower",
-      "id": "GagaEnvironment.[0]Environment.[29]TeslaTower1R.[5]Tower",
-      "meshName": "TeslaTowerMesh",
-      "layer": "Environment",
-      "components": {
-        "Transform": {
-          "position": [
-            44.0,
-            59.71,
-            148.7
-          ],
-          "localPosition": [
-            0.0,
-            59.71,
-            0.0
-          ],
-          "rotation": [
-            7.513434E-06,
-            -5.008955E-06,
-            5.008956E-06
-          ],
-          "localRotation": [
-            7.513434E-06,
-            -5.008955E-06,
-            5.008956E-06
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "MeshFilter": {
-          "hash": "2201d4ba1cc4eb3726c25ed05fb7b5c5"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "a5318af17973a0e6705f6f4d35dbfee8"
-          ]
-        }
-      }
-    },
-    {
-      "name": "BakedReflectionProbe",
-      "id": "GagaEnvironment.[0]Environment.[3]BakedReflectionProbe",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            0.0,
-            1.5,
-            0.0
-          ],
-          "localPosition": [
-            0.0,
-            1.5,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "BakedReflectionProbe": {
-          "probeSize": [
-            50.0,
-            50.0,
-            1000.0
-          ],
-          "probePosition": [
-            0.0,
-            1.5,
-            0.0
-          ]
-        }
-      }
-    },
-    {
-      "name": "TeslaTower2L",
-      "id": "GagaEnvironment.[0]Environment.[30]TeslaTower2L",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            -60.0,
-            0.0,
-            106.0
-          ],
-          "localPosition": [
-            -60.0,
-            0.0,
-            106.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        }
-      }
-    },
-    {
-      "name": "DiskTop",
-      "id": "GagaEnvironment.[0]Environment.[30]TeslaTower2L.[0]DiskTop",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            -60.0,
-            62.0,
-            106.0
-          ],
-          "localPosition": [
-            0.0,
-            62.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.47,
-            1.0,
-            1.47
-          ]
-        },
-        "InstancedMaterialLightWithId": {
-          "materialLightId": 6,
-          "materialLightIntensity": 3.0
-        }
-      }
-    },
-    {
-      "name": "Disk",
-      "id": "GagaEnvironment.[0]Environment.[30]TeslaTower2L.[0]DiskTop.[0]Disk",
-      "meshName": "Disk",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            -60.0,
-            62.0,
-            106.0
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.47,
-            1.0,
-            1.47
-          ]
-        },
-        "MeshFilter": {
-          "hash": "3175d84c7b67678ce47aafb907ff7ceb"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "a5318af17973a0e6705f6f4d35dbfee8"
-          ]
-        }
-      }
-    },
-    {
-      "name": "GlowingCore",
-      "id": "GagaEnvironment.[0]Environment.[30]TeslaTower2L.[0]DiskTop.[1]GlowingCore",
-      "meshName": "Glow",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            -60.0,
-            62.0,
-            106.0
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.47,
-            1.0,
-            1.47
-          ]
-        },
-        "MeshFilter": {
-          "hash": "dfff68a3bfa06dd9cd3d335b7cfc99fe"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "8a56bdf3305aeb242f7d7849dc1aa45c"
-          ]
-        }
-      }
-    },
-    {
-      "name": "FakeGlow",
-      "id": "GagaEnvironment.[0]Environment.[30]TeslaTower2L.[0]DiskTop.[2]FakeGlow",
-      "meshName": "CylinderGlow",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            -60.0,
-            62.0,
-            106.0
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            270.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            270.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.47,
-            1.47000027,
-            1.00000024
-          ]
-        },
-        "MeshFilter": {
-          "hash": "f5d4e4af78290171ab7e85fb6790ab36"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "16a45d70ec619e6483f09c2642b9c798"
-          ]
-        }
-      }
-    },
-    {
-      "name": "DiskUpper",
-      "id": "GagaEnvironment.[0]Environment.[30]TeslaTower2L.[1]DiskUpper",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            -60.0,
-            50.0,
-            106.0
-          ],
-          "localPosition": [
-            0.0,
-            50.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "InstancedMaterialLightWithId": {
-          "materialLightId": 6,
-          "materialLightIntensity": 3.0
-        }
-      }
-    },
-    {
-      "name": "Disk",
-      "id": "GagaEnvironment.[0]Environment.[30]TeslaTower2L.[1]DiskUpper.[0]Disk",
-      "meshName": "Disk",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            -60.0,
-            50.0,
-            106.0
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "MeshFilter": {
-          "hash": "3175d84c7b67678ce47aafb907ff7ceb"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "a5318af17973a0e6705f6f4d35dbfee8"
-          ]
-        }
-      }
-    },
-    {
-      "name": "GlowingCore",
-      "id": "GagaEnvironment.[0]Environment.[30]TeslaTower2L.[1]DiskUpper.[1]GlowingCore",
-      "meshName": "Glow",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            -60.0,
-            50.0,
-            106.0
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "MeshFilter": {
-          "hash": "dfff68a3bfa06dd9cd3d335b7cfc99fe"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "8a56bdf3305aeb242f7d7849dc1aa45c"
-          ]
-        }
-      }
-    },
-    {
-      "name": "FakeGlow",
-      "id": "GagaEnvironment.[0]Environment.[30]TeslaTower2L.[1]DiskUpper.[2]FakeGlow",
-      "meshName": "CylinderGlow",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            -60.0,
-            50.0,
-            106.0
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            270.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            270.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.00000024,
-            1.00000024
-          ]
-        },
-        "MeshFilter": {
-          "hash": "f5d4e4af78290171ab7e85fb6790ab36"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "16a45d70ec619e6483f09c2642b9c798"
-          ]
-        }
-      }
-    },
-    {
-      "name": "DiskBottom",
-      "id": "GagaEnvironment.[0]Environment.[30]TeslaTower2L.[2]DiskBottom",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            -60.0,
-            -10.0,
-            106.0
-          ],
-          "localPosition": [
-            0.0,
-            -10.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "InstancedMaterialLightWithId": {
-          "materialLightId": 6,
-          "materialLightIntensity": 3.0
-        }
-      }
-    },
-    {
-      "name": "Disk",
-      "id": "GagaEnvironment.[0]Environment.[30]TeslaTower2L.[2]DiskBottom.[0]Disk",
-      "meshName": "Disk",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            -60.0,
-            -10.0,
-            106.0
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "MeshFilter": {
-          "hash": "3175d84c7b67678ce47aafb907ff7ceb"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "a5318af17973a0e6705f6f4d35dbfee8"
-          ]
-        }
-      }
-    },
-    {
-      "name": "GlowingCore",
-      "id": "GagaEnvironment.[0]Environment.[30]TeslaTower2L.[2]DiskBottom.[1]GlowingCore",
-      "meshName": "Glow",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            -60.0,
-            -10.0,
-            106.0
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "MeshFilter": {
-          "hash": "dfff68a3bfa06dd9cd3d335b7cfc99fe"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "8a56bdf3305aeb242f7d7849dc1aa45c"
-          ]
-        }
-      }
-    },
-    {
-      "name": "FakeGlow",
-      "id": "GagaEnvironment.[0]Environment.[30]TeslaTower2L.[2]DiskBottom.[2]FakeGlow",
-      "meshName": "CylinderGlow",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            -60.0,
-            -10.0,
-            106.0
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            270.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            270.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.00000024,
-            1.00000024
-          ]
-        },
-        "MeshFilter": {
-          "hash": "f5d4e4af78290171ab7e85fb6790ab36"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "16a45d70ec619e6483f09c2642b9c798"
-          ]
-        }
-      }
-    },
-    {
-      "name": "DynamicTeslaDisc",
-      "id": "GagaEnvironment.[0]Environment.[30]TeslaTower2L.[3]DynamicTeslaDisc",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            -60.0,
-            20.0,
-            106.0
-          ],
-          "localPosition": [
-            0.0,
-            20.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "InstancedMaterialLightWithId": {
-          "materialLightId": 6,
-          "materialLightIntensity": 0.0
-        },
-        "SmoothStepPositionEventEffect": {
-          "minY": 0,
-          "maxY": 8,
-          "stepSize": 6.0,
-          "startPos": [
-            0.0,
-            20.0,
-            0.0
-          ],
-          "easing": "InOutCubic"
-        }
-      }
-    },
-    {
-      "name": "Disk",
-      "id": "GagaEnvironment.[0]Environment.[30]TeslaTower2L.[3]DynamicTeslaDisc.[0]Disk",
-      "meshName": "Disk",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            -60.0,
-            20.0,
-            106.0
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "MeshFilter": {
-          "hash": "3175d84c7b67678ce47aafb907ff7ceb"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "5fe065c7744c4d887d4c4c994dccb555"
-          ]
-        }
-      }
-    },
-    {
-      "name": "GlowingCore",
-      "id": "GagaEnvironment.[0]Environment.[30]TeslaTower2L.[3]DynamicTeslaDisc.[1]GlowingCore",
-      "meshName": "Glow",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            -60.0,
-            20.0,
-            106.0
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "MeshFilter": {
-          "hash": "dfff68a3bfa06dd9cd3d335b7cfc99fe"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "8a56bdf3305aeb242f7d7849dc1aa45c"
-          ]
-        }
-      }
-    },
-    {
-      "name": "FakeGlow",
-      "id": "GagaEnvironment.[0]Environment.[30]TeslaTower2L.[3]DynamicTeslaDisc.[2]FakeGlow",
-      "meshName": "CylinderGlow",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            -60.0,
-            20.0,
-            106.0
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            270.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            270.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.00000024,
-            1.00000024
-          ]
-        },
-        "MeshFilter": {
-          "hash": "f5d4e4af78290171ab7e85fb6790ab36"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "16a45d70ec619e6483f09c2642b9c798"
-          ]
-        }
-      }
-    },
-    {
-      "name": "LightningWithTarget",
-      "id": "GagaEnvironment.[0]Environment.[30]TeslaTower2L.[3]DynamicTeslaDisc.[3]LightningWithTarget",
-      "meshName": "Strip",
-      "layer": "NeonLight",
-      "components": {
-        "Transform": {
-          "position": [
-            -56.2,
-            20.0,
-            106.0
-          ],
-          "localPosition": [
-            3.8,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "MeshFilter": {
-          "hash": "cb07e672a2e81a54cf7fc9a34a1ab812"
-        },
-        "InstancedMaterialLightWithId": {
-          "materialLightId": 6,
-          "materialLightIntensity": 1.0
-        },
-        "MeshRenderer": {
-          "materials": [
-            "0b03599ac7c984699e942948dcc43ee2"
-          ]
-        }
-      }
-    },
-    {
-      "name": "LightningWithTargetThin",
-      "id": "GagaEnvironment.[0]Environment.[30]TeslaTower2L.[3]DynamicTeslaDisc.[4]LightningWithTargetThin",
-      "meshName": "Strip",
-      "layer": "NeonLight",
-      "components": {
-        "Transform": {
-          "position": [
-            -56.2,
-            20.0,
-            106.0
-          ],
-          "localPosition": [
-            3.8,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "MeshFilter": {
-          "hash": "cb07e672a2e81a54cf7fc9a34a1ab812"
-        },
-        "InstancedMaterialLightWithId": {
-          "materialLightId": 6,
-          "materialLightIntensity": 1.0
-        },
-        "MeshRenderer": {
-          "materials": [
-            "d49349c2e45d72629cd602ee0906e2b6"
-          ]
-        }
-      }
-    },
-    {
-      "name": "LightningTarget",
-      "id": "GagaEnvironment.[0]Environment.[30]TeslaTower2L.[3]DynamicTeslaDisc.[5]LightningTarget",
-      "layer": "NeonLight",
-      "components": {
-        "Transform": {
-          "position": [
-            -60.0,
-            20.0,
-            102.2
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            -3.8
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        }
-      }
-    },
-    {
-      "name": "BloomFog",
-      "id": "GagaEnvironment.[0]Environment.[30]TeslaTower2L.[4]BloomFog",
-      "layer": "NeonLight",
-      "components": {
-        "Transform": {
-          "position": [
-            -60.0,
-            25.27,
-            106.0
-          ],
-          "localPosition": [
-            0.0,
-            25.27,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "TubeBloomPrePassLightWithId": [
-          {
-            "tubeBloomPrePassLight": {
-              "colorAlphaMultiplier": 0.0,
-              "bloomFogIntensityMultiplier": 2.0,
-              "tubeLength": 75.0,
-              "tubeWidth": 1.5,
-              "center": 0.5,
-              "startAlpha": 1.0,
-              "endAlpha": 1.0,
-              "lightWidthMultiplier": 1.0,
-              "useCollision": false,
-              "parametricBoxId": "null"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "Tower",
-      "id": "GagaEnvironment.[0]Environment.[30]TeslaTower2L.[5]Tower",
-      "meshName": "TeslaTowerMesh",
-      "layer": "Environment",
-      "components": {
-        "Transform": {
-          "position": [
-            -60.0,
-            59.71,
-            106.0
-          ],
-          "localPosition": [
-            0.0,
-            59.71,
-            0.0
-          ],
-          "rotation": [
-            7.513434E-06,
-            -5.008955E-06,
-            5.008956E-06
-          ],
-          "localRotation": [
-            7.513434E-06,
-            -5.008955E-06,
-            5.008956E-06
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "MeshFilter": {
-          "hash": "2201d4ba1cc4eb3726c25ed05fb7b5c5"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "a5318af17973a0e6705f6f4d35dbfee8"
-          ]
-        }
-      }
-    },
-    {
-      "name": "TeslaTower2R",
-      "id": "GagaEnvironment.[0]Environment.[31]TeslaTower2R",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            60.0,
-            0.0,
-            106.0
-          ],
-          "localPosition": [
-            60.0,
-            0.0,
-            106.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        }
-      }
-    },
-    {
-      "name": "DiskTop",
-      "id": "GagaEnvironment.[0]Environment.[31]TeslaTower2R.[0]DiskTop",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            60.0,
-            62.0,
-            106.0
-          ],
-          "localPosition": [
-            0.0,
-            62.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.47,
-            1.0,
-            1.47
-          ]
-        },
-        "InstancedMaterialLightWithId": {
-          "materialLightId": 7,
-          "materialLightIntensity": 3.0
-        }
-      }
-    },
-    {
-      "name": "Disk",
-      "id": "GagaEnvironment.[0]Environment.[31]TeslaTower2R.[0]DiskTop.[0]Disk",
-      "meshName": "Disk",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            60.0,
-            62.0,
-            106.0
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.47,
-            1.0,
-            1.47
-          ]
-        },
-        "MeshFilter": {
-          "hash": "3175d84c7b67678ce47aafb907ff7ceb"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "a5318af17973a0e6705f6f4d35dbfee8"
-          ]
-        }
-      }
-    },
-    {
-      "name": "GlowingCore",
-      "id": "GagaEnvironment.[0]Environment.[31]TeslaTower2R.[0]DiskTop.[1]GlowingCore",
-      "meshName": "Glow",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            60.0,
-            62.0,
-            106.0
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.47,
-            1.0,
-            1.47
-          ]
-        },
-        "MeshFilter": {
-          "hash": "dfff68a3bfa06dd9cd3d335b7cfc99fe"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "8a56bdf3305aeb242f7d7849dc1aa45c"
-          ]
-        }
-      }
-    },
-    {
-      "name": "FakeGlow",
-      "id": "GagaEnvironment.[0]Environment.[31]TeslaTower2R.[0]DiskTop.[2]FakeGlow",
-      "meshName": "CylinderGlow",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            60.0,
-            62.0,
-            106.0
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            270.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            270.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.47,
-            1.47000027,
-            1.00000024
-          ]
-        },
-        "MeshFilter": {
-          "hash": "f5d4e4af78290171ab7e85fb6790ab36"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "16a45d70ec619e6483f09c2642b9c798"
-          ]
-        }
-      }
-    },
-    {
-      "name": "DiskUpper",
-      "id": "GagaEnvironment.[0]Environment.[31]TeslaTower2R.[1]DiskUpper",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            60.0,
-            50.0,
-            106.0
-          ],
-          "localPosition": [
-            0.0,
-            50.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "InstancedMaterialLightWithId": {
-          "materialLightId": 7,
-          "materialLightIntensity": 3.0
-        }
-      }
-    },
-    {
-      "name": "Disk",
-      "id": "GagaEnvironment.[0]Environment.[31]TeslaTower2R.[1]DiskUpper.[0]Disk",
-      "meshName": "Disk",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            60.0,
-            50.0,
-            106.0
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "MeshFilter": {
-          "hash": "3175d84c7b67678ce47aafb907ff7ceb"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "a5318af17973a0e6705f6f4d35dbfee8"
-          ]
-        }
-      }
-    },
-    {
-      "name": "GlowingCore",
-      "id": "GagaEnvironment.[0]Environment.[31]TeslaTower2R.[1]DiskUpper.[1]GlowingCore",
-      "meshName": "Glow",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            60.0,
-            50.0,
-            106.0
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "MeshFilter": {
-          "hash": "dfff68a3bfa06dd9cd3d335b7cfc99fe"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "8a56bdf3305aeb242f7d7849dc1aa45c"
-          ]
-        }
-      }
-    },
-    {
-      "name": "FakeGlow",
-      "id": "GagaEnvironment.[0]Environment.[31]TeslaTower2R.[1]DiskUpper.[2]FakeGlow",
-      "meshName": "CylinderGlow",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            60.0,
-            50.0,
-            106.0
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            270.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            270.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.00000024,
-            1.00000024
-          ]
-        },
-        "MeshFilter": {
-          "hash": "f5d4e4af78290171ab7e85fb6790ab36"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "16a45d70ec619e6483f09c2642b9c798"
-          ]
-        }
-      }
-    },
-    {
-      "name": "DiskBottom",
-      "id": "GagaEnvironment.[0]Environment.[31]TeslaTower2R.[2]DiskBottom",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            60.0,
-            -10.0,
-            106.0
-          ],
-          "localPosition": [
-            0.0,
-            -10.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "InstancedMaterialLightWithId": {
-          "materialLightId": 7,
-          "materialLightIntensity": 3.0
-        }
-      }
-    },
-    {
-      "name": "Disk",
-      "id": "GagaEnvironment.[0]Environment.[31]TeslaTower2R.[2]DiskBottom.[0]Disk",
-      "meshName": "Disk",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            60.0,
-            -10.0,
-            106.0
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "MeshFilter": {
-          "hash": "3175d84c7b67678ce47aafb907ff7ceb"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "a5318af17973a0e6705f6f4d35dbfee8"
-          ]
-        }
-      }
-    },
-    {
-      "name": "GlowingCore",
-      "id": "GagaEnvironment.[0]Environment.[31]TeslaTower2R.[2]DiskBottom.[1]GlowingCore",
-      "meshName": "Glow",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            60.0,
-            -10.0,
-            106.0
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "MeshFilter": {
-          "hash": "dfff68a3bfa06dd9cd3d335b7cfc99fe"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "8a56bdf3305aeb242f7d7849dc1aa45c"
-          ]
-        }
-      }
-    },
-    {
-      "name": "FakeGlow",
-      "id": "GagaEnvironment.[0]Environment.[31]TeslaTower2R.[2]DiskBottom.[2]FakeGlow",
-      "meshName": "CylinderGlow",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            60.0,
-            -10.0,
-            106.0
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            270.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            270.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.00000024,
-            1.00000024
-          ]
-        },
-        "MeshFilter": {
-          "hash": "f5d4e4af78290171ab7e85fb6790ab36"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "16a45d70ec619e6483f09c2642b9c798"
-          ]
-        }
-      }
-    },
-    {
-      "name": "DynamicTeslaDisc",
-      "id": "GagaEnvironment.[0]Environment.[31]TeslaTower2R.[3]DynamicTeslaDisc",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            60.0,
-            20.0,
-            106.0
-          ],
-          "localPosition": [
-            0.0,
-            20.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "InstancedMaterialLightWithId": {
-          "materialLightId": 7,
-          "materialLightIntensity": 0.0
-        },
-        "SmoothStepPositionEventEffect": {
-          "minY": 0,
-          "maxY": 8,
-          "stepSize": 6.0,
-          "startPos": [
-            0.0,
-            20.0,
-            0.0
-          ],
-          "easing": "InOutCubic"
-        }
-      }
-    },
-    {
-      "name": "Disk",
-      "id": "GagaEnvironment.[0]Environment.[31]TeslaTower2R.[3]DynamicTeslaDisc.[0]Disk",
-      "meshName": "Disk",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            60.0,
-            20.0,
-            106.0
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "MeshFilter": {
-          "hash": "3175d84c7b67678ce47aafb907ff7ceb"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "5fe065c7744c4d887d4c4c994dccb555"
-          ]
-        }
-      }
-    },
-    {
-      "name": "GlowingCore",
-      "id": "GagaEnvironment.[0]Environment.[31]TeslaTower2R.[3]DynamicTeslaDisc.[1]GlowingCore",
-      "meshName": "Glow",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            60.0,
-            20.0,
-            106.0
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "MeshFilter": {
-          "hash": "dfff68a3bfa06dd9cd3d335b7cfc99fe"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "8a56bdf3305aeb242f7d7849dc1aa45c"
-          ]
-        }
-      }
-    },
-    {
-      "name": "FakeGlow",
-      "id": "GagaEnvironment.[0]Environment.[31]TeslaTower2R.[3]DynamicTeslaDisc.[2]FakeGlow",
-      "meshName": "CylinderGlow",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            60.0,
-            20.0,
-            106.0
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            270.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            270.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.00000024,
-            1.00000024
-          ]
-        },
-        "MeshFilter": {
-          "hash": "f5d4e4af78290171ab7e85fb6790ab36"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "16a45d70ec619e6483f09c2642b9c798"
-          ]
-        }
-      }
-    },
-    {
-      "name": "LightningWithTarget",
-      "id": "GagaEnvironment.[0]Environment.[31]TeslaTower2R.[3]DynamicTeslaDisc.[3]LightningWithTarget",
-      "meshName": "Strip",
-      "layer": "NeonLight",
-      "components": {
-        "Transform": {
-          "position": [
-            56.2,
-            20.0,
-            106.0
-          ],
-          "localPosition": [
-            -3.8,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "MeshFilter": {
-          "hash": "cb07e672a2e81a54cf7fc9a34a1ab812"
-        },
-        "InstancedMaterialLightWithId": {
-          "materialLightId": 7,
-          "materialLightIntensity": 1.0
-        },
-        "MeshRenderer": {
-          "materials": [
-            "0b03599ac7c984699e942948dcc43ee2"
-          ]
-        }
-      }
-    },
-    {
-      "name": "LightningWithTargetThin",
-      "id": "GagaEnvironment.[0]Environment.[31]TeslaTower2R.[3]DynamicTeslaDisc.[4]LightningWithTargetThin",
-      "meshName": "Strip",
-      "layer": "NeonLight",
-      "components": {
-        "Transform": {
-          "position": [
-            56.2,
-            20.0,
-            106.0
-          ],
-          "localPosition": [
-            -3.8,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "MeshFilter": {
-          "hash": "cb07e672a2e81a54cf7fc9a34a1ab812"
-        },
-        "InstancedMaterialLightWithId": {
-          "materialLightId": 7,
-          "materialLightIntensity": 1.0
-        },
-        "MeshRenderer": {
-          "materials": [
-            "d49349c2e45d72629cd602ee0906e2b6"
-          ]
-        }
-      }
-    },
-    {
-      "name": "LightningTarget",
-      "id": "GagaEnvironment.[0]Environment.[31]TeslaTower2R.[3]DynamicTeslaDisc.[5]LightningTarget",
-      "layer": "NeonLight",
-      "components": {
-        "Transform": {
-          "position": [
-            60.0,
-            20.0,
-            102.2
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            -3.8
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        }
-      }
-    },
-    {
-      "name": "BloomFog",
-      "id": "GagaEnvironment.[0]Environment.[31]TeslaTower2R.[4]BloomFog",
-      "layer": "NeonLight",
-      "components": {
-        "Transform": {
-          "position": [
-            60.0,
-            25.27,
-            106.0
-          ],
-          "localPosition": [
-            0.0,
-            25.27,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "TubeBloomPrePassLightWithId": [
-          {
-            "tubeBloomPrePassLight": {
-              "colorAlphaMultiplier": 0.0,
-              "bloomFogIntensityMultiplier": 2.0,
-              "tubeLength": 75.0,
-              "tubeWidth": 1.5,
-              "center": 0.5,
-              "startAlpha": 1.0,
-              "endAlpha": 1.0,
-              "lightWidthMultiplier": 1.0,
-              "useCollision": false,
-              "parametricBoxId": "null"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "Tower",
-      "id": "GagaEnvironment.[0]Environment.[31]TeslaTower2R.[5]Tower",
-      "meshName": "TeslaTowerMesh",
-      "layer": "Environment",
-      "components": {
-        "Transform": {
-          "position": [
-            60.0,
-            59.71,
-            106.0
-          ],
-          "localPosition": [
-            0.0,
-            59.71,
-            0.0
-          ],
-          "rotation": [
-            7.513434E-06,
-            -5.008955E-06,
-            5.008956E-06
-          ],
-          "localRotation": [
-            7.513434E-06,
-            -5.008955E-06,
-            5.008956E-06
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "MeshFilter": {
-          "hash": "2201d4ba1cc4eb3726c25ed05fb7b5c5"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "a5318af17973a0e6705f6f4d35dbfee8"
-          ]
-        }
-      }
-    },
-    {
-      "name": "TeslaTower3L",
-      "id": "GagaEnvironment.[0]Environment.[32]TeslaTower3L",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            -60.0,
-            0.0,
-            52.2
-          ],
-          "localPosition": [
-            -60.0,
-            0.0,
-            52.2
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        }
-      }
-    },
-    {
-      "name": "DiskTop",
-      "id": "GagaEnvironment.[0]Environment.[32]TeslaTower3L.[0]DiskTop",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            -60.0,
-            62.0,
-            52.2
-          ],
-          "localPosition": [
-            0.0,
-            62.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.47,
-            1.0,
-            1.47
-          ]
-        },
-        "InstancedMaterialLightWithId": {
-          "materialLightId": 8,
-          "materialLightIntensity": 3.0
-        }
-      }
-    },
-    {
-      "name": "Disk",
-      "id": "GagaEnvironment.[0]Environment.[32]TeslaTower3L.[0]DiskTop.[0]Disk",
-      "meshName": "Disk",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            -60.0,
-            62.0,
-            52.2
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.47,
-            1.0,
-            1.47
-          ]
-        },
-        "MeshFilter": {
-          "hash": "3175d84c7b67678ce47aafb907ff7ceb"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "a5318af17973a0e6705f6f4d35dbfee8"
-          ]
-        }
-      }
-    },
-    {
-      "name": "GlowingCore",
-      "id": "GagaEnvironment.[0]Environment.[32]TeslaTower3L.[0]DiskTop.[1]GlowingCore",
-      "meshName": "Glow",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            -60.0,
-            62.0,
-            52.2
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.47,
-            1.0,
-            1.47
-          ]
-        },
-        "MeshFilter": {
-          "hash": "dfff68a3bfa06dd9cd3d335b7cfc99fe"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "8a56bdf3305aeb242f7d7849dc1aa45c"
-          ]
-        }
-      }
-    },
-    {
-      "name": "FakeGlow",
-      "id": "GagaEnvironment.[0]Environment.[32]TeslaTower3L.[0]DiskTop.[2]FakeGlow",
-      "meshName": "CylinderGlow",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            -60.0,
-            62.0,
-            52.2
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            270.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            270.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.47,
-            1.47000027,
-            1.00000024
-          ]
-        },
-        "MeshFilter": {
-          "hash": "f5d4e4af78290171ab7e85fb6790ab36"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "16a45d70ec619e6483f09c2642b9c798"
-          ]
-        }
-      }
-    },
-    {
-      "name": "DiskUpper",
-      "id": "GagaEnvironment.[0]Environment.[32]TeslaTower3L.[1]DiskUpper",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            -60.0,
-            50.0,
-            52.2
-          ],
-          "localPosition": [
-            0.0,
-            50.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "InstancedMaterialLightWithId": {
-          "materialLightId": 8,
-          "materialLightIntensity": 3.0
-        }
-      }
-    },
-    {
-      "name": "Disk",
-      "id": "GagaEnvironment.[0]Environment.[32]TeslaTower3L.[1]DiskUpper.[0]Disk",
-      "meshName": "Disk",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            -60.0,
-            50.0,
-            52.2
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "MeshFilter": {
-          "hash": "3175d84c7b67678ce47aafb907ff7ceb"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "a5318af17973a0e6705f6f4d35dbfee8"
-          ]
-        }
-      }
-    },
-    {
-      "name": "GlowingCore",
-      "id": "GagaEnvironment.[0]Environment.[32]TeslaTower3L.[1]DiskUpper.[1]GlowingCore",
-      "meshName": "Glow",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            -60.0,
-            50.0,
-            52.2
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "MeshFilter": {
-          "hash": "dfff68a3bfa06dd9cd3d335b7cfc99fe"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "8a56bdf3305aeb242f7d7849dc1aa45c"
-          ]
-        }
-      }
-    },
-    {
-      "name": "FakeGlow",
-      "id": "GagaEnvironment.[0]Environment.[32]TeslaTower3L.[1]DiskUpper.[2]FakeGlow",
-      "meshName": "CylinderGlow",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            -60.0,
-            50.0,
-            52.2
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            270.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            270.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.00000024,
-            1.00000024
-          ]
-        },
-        "MeshFilter": {
-          "hash": "f5d4e4af78290171ab7e85fb6790ab36"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "16a45d70ec619e6483f09c2642b9c798"
-          ]
-        }
-      }
-    },
-    {
-      "name": "DiskBottom",
-      "id": "GagaEnvironment.[0]Environment.[32]TeslaTower3L.[2]DiskBottom",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            -60.0,
-            -10.0,
-            52.2
-          ],
-          "localPosition": [
-            0.0,
-            -10.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "InstancedMaterialLightWithId": {
-          "materialLightId": 8,
-          "materialLightIntensity": 3.0
-        }
-      }
-    },
-    {
-      "name": "Disk",
-      "id": "GagaEnvironment.[0]Environment.[32]TeslaTower3L.[2]DiskBottom.[0]Disk",
-      "meshName": "Disk",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            -60.0,
-            -10.0,
-            52.2
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "MeshFilter": {
-          "hash": "3175d84c7b67678ce47aafb907ff7ceb"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "a5318af17973a0e6705f6f4d35dbfee8"
-          ]
-        }
-      }
-    },
-    {
-      "name": "GlowingCore",
-      "id": "GagaEnvironment.[0]Environment.[32]TeslaTower3L.[2]DiskBottom.[1]GlowingCore",
-      "meshName": "Glow",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            -60.0,
-            -10.0,
-            52.2
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "MeshFilter": {
-          "hash": "dfff68a3bfa06dd9cd3d335b7cfc99fe"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "8a56bdf3305aeb242f7d7849dc1aa45c"
-          ]
-        }
-      }
-    },
-    {
-      "name": "FakeGlow",
-      "id": "GagaEnvironment.[0]Environment.[32]TeslaTower3L.[2]DiskBottom.[2]FakeGlow",
-      "meshName": "CylinderGlow",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            -60.0,
-            -10.0,
-            52.2
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            270.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            270.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.00000024,
-            1.00000024
-          ]
-        },
-        "MeshFilter": {
-          "hash": "f5d4e4af78290171ab7e85fb6790ab36"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "16a45d70ec619e6483f09c2642b9c798"
-          ]
-        }
-      }
-    },
-    {
-      "name": "DynamicTeslaDisc",
-      "id": "GagaEnvironment.[0]Environment.[32]TeslaTower3L.[3]DynamicTeslaDisc",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            -60.0,
-            20.0,
-            52.2
-          ],
-          "localPosition": [
-            0.0,
-            20.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "InstancedMaterialLightWithId": {
-          "materialLightId": 8,
-          "materialLightIntensity": 0.0
-        },
-        "SmoothStepPositionEventEffect": {
-          "minY": 0,
-          "maxY": 8,
-          "stepSize": 6.0,
-          "startPos": [
-            0.0,
-            20.0,
-            0.0
-          ],
-          "easing": "InOutCubic"
-        }
-      }
-    },
-    {
-      "name": "Disk",
-      "id": "GagaEnvironment.[0]Environment.[32]TeslaTower3L.[3]DynamicTeslaDisc.[0]Disk",
-      "meshName": "Disk",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            -60.0,
-            20.0,
-            52.2
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "MeshFilter": {
-          "hash": "3175d84c7b67678ce47aafb907ff7ceb"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "5fe065c7744c4d887d4c4c994dccb555"
-          ]
-        }
-      }
-    },
-    {
-      "name": "GlowingCore",
-      "id": "GagaEnvironment.[0]Environment.[32]TeslaTower3L.[3]DynamicTeslaDisc.[1]GlowingCore",
-      "meshName": "Glow",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            -60.0,
-            20.0,
-            52.2
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "MeshFilter": {
-          "hash": "dfff68a3bfa06dd9cd3d335b7cfc99fe"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "8a56bdf3305aeb242f7d7849dc1aa45c"
-          ]
-        }
-      }
-    },
-    {
-      "name": "FakeGlow",
-      "id": "GagaEnvironment.[0]Environment.[32]TeslaTower3L.[3]DynamicTeslaDisc.[2]FakeGlow",
-      "meshName": "CylinderGlow",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            -60.0,
-            20.0,
-            52.2
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            270.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            270.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.00000024,
-            1.00000024
-          ]
-        },
-        "MeshFilter": {
-          "hash": "f5d4e4af78290171ab7e85fb6790ab36"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "16a45d70ec619e6483f09c2642b9c798"
-          ]
-        }
-      }
-    },
-    {
-      "name": "LightningWithTarget",
-      "id": "GagaEnvironment.[0]Environment.[32]TeslaTower3L.[3]DynamicTeslaDisc.[3]LightningWithTarget",
-      "meshName": "Strip",
-      "layer": "NeonLight",
-      "components": {
-        "Transform": {
-          "position": [
-            -56.2,
-            20.0,
-            52.2
-          ],
-          "localPosition": [
-            3.8,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "MeshFilter": {
-          "hash": "cb07e672a2e81a54cf7fc9a34a1ab812"
-        },
-        "InstancedMaterialLightWithId": {
-          "materialLightId": 8,
-          "materialLightIntensity": 1.0
-        },
-        "MeshRenderer": {
-          "materials": [
-            "0b03599ac7c984699e942948dcc43ee2"
-          ]
-        }
-      }
-    },
-    {
-      "name": "LightningWithTargetThin",
-      "id": "GagaEnvironment.[0]Environment.[32]TeslaTower3L.[3]DynamicTeslaDisc.[4]LightningWithTargetThin",
-      "meshName": "Strip",
-      "layer": "NeonLight",
-      "components": {
-        "Transform": {
-          "position": [
-            -56.2,
-            20.0,
-            52.2
-          ],
-          "localPosition": [
-            3.8,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "MeshFilter": {
-          "hash": "cb07e672a2e81a54cf7fc9a34a1ab812"
-        },
-        "InstancedMaterialLightWithId": {
-          "materialLightId": 8,
-          "materialLightIntensity": 1.0
-        },
-        "MeshRenderer": {
-          "materials": [
-            "d49349c2e45d72629cd602ee0906e2b6"
-          ]
-        }
-      }
-    },
-    {
-      "name": "BloomFog",
-      "id": "GagaEnvironment.[0]Environment.[32]TeslaTower3L.[4]BloomFog",
-      "layer": "NeonLight",
-      "components": {
-        "Transform": {
-          "position": [
-            -60.0,
-            25.27,
-            52.2
-          ],
-          "localPosition": [
-            0.0,
-            25.27,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "TubeBloomPrePassLightWithId": [
-          {
-            "tubeBloomPrePassLight": {
-              "colorAlphaMultiplier": 0.0,
-              "bloomFogIntensityMultiplier": 1.0,
-              "tubeLength": 75.0,
-              "tubeWidth": 1.5,
-              "center": 0.5,
-              "startAlpha": 1.0,
-              "endAlpha": 1.0,
-              "lightWidthMultiplier": 1.0,
-              "useCollision": false,
-              "parametricBoxId": "null"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "Tower",
-      "id": "GagaEnvironment.[0]Environment.[32]TeslaTower3L.[5]Tower",
-      "meshName": "TeslaTowerMesh",
-      "layer": "Environment",
-      "components": {
-        "Transform": {
-          "position": [
-            -60.0,
-            59.71,
-            52.2
-          ],
-          "localPosition": [
-            0.0,
-            59.71,
-            0.0
-          ],
-          "rotation": [
-            7.513434E-06,
-            -5.008955E-06,
-            5.008956E-06
-          ],
-          "localRotation": [
-            7.513434E-06,
-            -5.008955E-06,
-            5.008956E-06
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "MeshFilter": {
-          "hash": "2201d4ba1cc4eb3726c25ed05fb7b5c5"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "a5318af17973a0e6705f6f4d35dbfee8"
-          ]
-        }
-      }
-    },
-    {
-      "name": "TeslaTower3R",
-      "id": "GagaEnvironment.[0]Environment.[33]TeslaTower3R",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            60.0,
-            0.0,
-            52.2
-          ],
-          "localPosition": [
-            60.0,
-            0.0,
-            52.2
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        }
-      }
-    },
-    {
-      "name": "DiskTop",
-      "id": "GagaEnvironment.[0]Environment.[33]TeslaTower3R.[0]DiskTop",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            60.0,
-            62.0,
-            52.2
-          ],
-          "localPosition": [
-            0.0,
-            62.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.47,
-            1.0,
-            1.47
-          ]
-        },
-        "InstancedMaterialLightWithId": {
-          "materialLightId": 9,
-          "materialLightIntensity": 3.0
-        }
-      }
-    },
-    {
-      "name": "Disk",
-      "id": "GagaEnvironment.[0]Environment.[33]TeslaTower3R.[0]DiskTop.[0]Disk",
-      "meshName": "Disk",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            60.0,
-            62.0,
-            52.2
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.47,
-            1.0,
-            1.47
-          ]
-        },
-        "MeshFilter": {
-          "hash": "3175d84c7b67678ce47aafb907ff7ceb"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "a5318af17973a0e6705f6f4d35dbfee8"
-          ]
-        }
-      }
-    },
-    {
-      "name": "GlowingCore",
-      "id": "GagaEnvironment.[0]Environment.[33]TeslaTower3R.[0]DiskTop.[1]GlowingCore",
-      "meshName": "Glow",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            60.0,
-            62.0,
-            52.2
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.47,
-            1.0,
-            1.47
-          ]
-        },
-        "MeshFilter": {
-          "hash": "dfff68a3bfa06dd9cd3d335b7cfc99fe"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "8a56bdf3305aeb242f7d7849dc1aa45c"
-          ]
-        }
-      }
-    },
-    {
-      "name": "FakeGlow",
-      "id": "GagaEnvironment.[0]Environment.[33]TeslaTower3R.[0]DiskTop.[2]FakeGlow",
-      "meshName": "CylinderGlow",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            60.0,
-            62.0,
-            52.2
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            270.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            270.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.47,
-            1.47000027,
-            1.00000024
-          ]
-        },
-        "MeshFilter": {
-          "hash": "f5d4e4af78290171ab7e85fb6790ab36"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "16a45d70ec619e6483f09c2642b9c798"
-          ]
-        }
-      }
-    },
-    {
-      "name": "DiskUpper",
-      "id": "GagaEnvironment.[0]Environment.[33]TeslaTower3R.[1]DiskUpper",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            60.0,
-            50.0,
-            52.2
-          ],
-          "localPosition": [
-            0.0,
-            50.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "InstancedMaterialLightWithId": {
-          "materialLightId": 9,
-          "materialLightIntensity": 3.0
-        }
-      }
-    },
-    {
-      "name": "Disk",
-      "id": "GagaEnvironment.[0]Environment.[33]TeslaTower3R.[1]DiskUpper.[0]Disk",
-      "meshName": "Disk",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            60.0,
-            50.0,
-            52.2
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "MeshFilter": {
-          "hash": "3175d84c7b67678ce47aafb907ff7ceb"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "a5318af17973a0e6705f6f4d35dbfee8"
-          ]
-        }
-      }
-    },
-    {
-      "name": "GlowingCore",
-      "id": "GagaEnvironment.[0]Environment.[33]TeslaTower3R.[1]DiskUpper.[1]GlowingCore",
-      "meshName": "Glow",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            60.0,
-            50.0,
-            52.2
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "MeshFilter": {
-          "hash": "dfff68a3bfa06dd9cd3d335b7cfc99fe"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "8a56bdf3305aeb242f7d7849dc1aa45c"
-          ]
-        }
-      }
-    },
-    {
-      "name": "FakeGlow",
-      "id": "GagaEnvironment.[0]Environment.[33]TeslaTower3R.[1]DiskUpper.[2]FakeGlow",
-      "meshName": "CylinderGlow",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            60.0,
-            50.0,
-            52.2
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            270.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            270.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.00000024,
-            1.00000024
-          ]
-        },
-        "MeshFilter": {
-          "hash": "f5d4e4af78290171ab7e85fb6790ab36"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "16a45d70ec619e6483f09c2642b9c798"
-          ]
-        }
-      }
-    },
-    {
-      "name": "DiskBottom",
-      "id": "GagaEnvironment.[0]Environment.[33]TeslaTower3R.[2]DiskBottom",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            60.0,
-            -10.0,
-            52.2
-          ],
-          "localPosition": [
-            0.0,
-            -10.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "InstancedMaterialLightWithId": {
-          "materialLightId": 9,
-          "materialLightIntensity": 3.0
-        }
-      }
-    },
-    {
-      "name": "Disk",
-      "id": "GagaEnvironment.[0]Environment.[33]TeslaTower3R.[2]DiskBottom.[0]Disk",
-      "meshName": "Disk",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            60.0,
-            -10.0,
-            52.2
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "MeshFilter": {
-          "hash": "3175d84c7b67678ce47aafb907ff7ceb"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "a5318af17973a0e6705f6f4d35dbfee8"
-          ]
-        }
-      }
-    },
-    {
-      "name": "GlowingCore",
-      "id": "GagaEnvironment.[0]Environment.[33]TeslaTower3R.[2]DiskBottom.[1]GlowingCore",
-      "meshName": "Glow",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            60.0,
-            -10.0,
-            52.2
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "MeshFilter": {
-          "hash": "dfff68a3bfa06dd9cd3d335b7cfc99fe"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "8a56bdf3305aeb242f7d7849dc1aa45c"
-          ]
-        }
-      }
-    },
-    {
-      "name": "FakeGlow",
-      "id": "GagaEnvironment.[0]Environment.[33]TeslaTower3R.[2]DiskBottom.[2]FakeGlow",
-      "meshName": "CylinderGlow",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            60.0,
-            -10.0,
-            52.2
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            270.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            270.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.00000024,
-            1.00000024
-          ]
-        },
-        "MeshFilter": {
-          "hash": "f5d4e4af78290171ab7e85fb6790ab36"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "16a45d70ec619e6483f09c2642b9c798"
-          ]
-        }
-      }
-    },
-    {
-      "name": "DynamicTeslaDisc",
-      "id": "GagaEnvironment.[0]Environment.[33]TeslaTower3R.[3]DynamicTeslaDisc",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            60.0,
-            20.0,
-            52.2
-          ],
-          "localPosition": [
-            0.0,
-            20.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "InstancedMaterialLightWithId": {
-          "materialLightId": 9,
-          "materialLightIntensity": 0.0
-        },
-        "SmoothStepPositionEventEffect": {
-          "minY": 0,
-          "maxY": 8,
-          "stepSize": 6.0,
-          "startPos": [
-            0.0,
-            20.0,
-            0.0
-          ],
-          "easing": "InOutCubic"
-        }
-      }
-    },
-    {
-      "name": "Disk",
-      "id": "GagaEnvironment.[0]Environment.[33]TeslaTower3R.[3]DynamicTeslaDisc.[0]Disk",
-      "meshName": "Disk",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            60.0,
-            20.0,
-            52.2
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "MeshFilter": {
-          "hash": "3175d84c7b67678ce47aafb907ff7ceb"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "5fe065c7744c4d887d4c4c994dccb555"
-          ]
-        }
-      }
-    },
-    {
-      "name": "GlowingCore",
-      "id": "GagaEnvironment.[0]Environment.[33]TeslaTower3R.[3]DynamicTeslaDisc.[1]GlowingCore",
-      "meshName": "Glow",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            60.0,
-            20.0,
-            52.2
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "MeshFilter": {
-          "hash": "dfff68a3bfa06dd9cd3d335b7cfc99fe"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "8a56bdf3305aeb242f7d7849dc1aa45c"
-          ]
-        }
-      }
-    },
-    {
-      "name": "FakeGlow",
-      "id": "GagaEnvironment.[0]Environment.[33]TeslaTower3R.[3]DynamicTeslaDisc.[2]FakeGlow",
-      "meshName": "CylinderGlow",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            60.0,
-            20.0,
-            52.2
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            270.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            270.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.00000024,
-            1.00000024
-          ]
-        },
-        "MeshFilter": {
-          "hash": "f5d4e4af78290171ab7e85fb6790ab36"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "16a45d70ec619e6483f09c2642b9c798"
-          ]
-        }
-      }
-    },
-    {
-      "name": "LightningWithTarget",
-      "id": "GagaEnvironment.[0]Environment.[33]TeslaTower3R.[3]DynamicTeslaDisc.[3]LightningWithTarget",
-      "meshName": "Strip",
-      "layer": "NeonLight",
-      "components": {
-        "Transform": {
-          "position": [
-            56.2,
-            20.0,
-            52.2
-          ],
-          "localPosition": [
-            -3.8,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "MeshFilter": {
-          "hash": "cb07e672a2e81a54cf7fc9a34a1ab812"
-        },
-        "InstancedMaterialLightWithId": {
-          "materialLightId": 9,
-          "materialLightIntensity": 1.0
-        },
-        "MeshRenderer": {
-          "materials": [
-            "0b03599ac7c984699e942948dcc43ee2"
-          ]
-        }
-      }
-    },
-    {
-      "name": "LightningWithTargetThin",
-      "id": "GagaEnvironment.[0]Environment.[33]TeslaTower3R.[3]DynamicTeslaDisc.[4]LightningWithTargetThin",
-      "meshName": "Strip",
-      "layer": "NeonLight",
-      "components": {
-        "Transform": {
-          "position": [
-            56.2,
-            20.0,
-            52.2
-          ],
-          "localPosition": [
-            -3.8,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "MeshFilter": {
-          "hash": "cb07e672a2e81a54cf7fc9a34a1ab812"
-        },
-        "InstancedMaterialLightWithId": {
-          "materialLightId": 9,
-          "materialLightIntensity": 1.0
-        },
-        "MeshRenderer": {
-          "materials": [
-            "d49349c2e45d72629cd602ee0906e2b6"
-          ]
-        }
-      }
-    },
-    {
-      "name": "BloomFog",
-      "id": "GagaEnvironment.[0]Environment.[33]TeslaTower3R.[4]BloomFog",
-      "layer": "NeonLight",
-      "components": {
-        "Transform": {
-          "position": [
-            60.0,
-            25.27,
-            52.2
-          ],
-          "localPosition": [
-            0.0,
-            25.27,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "TubeBloomPrePassLightWithId": [
-          {
-            "tubeBloomPrePassLight": {
-              "colorAlphaMultiplier": 0.0,
-              "bloomFogIntensityMultiplier": 1.0,
-              "tubeLength": 75.0,
-              "tubeWidth": 1.5,
-              "center": 0.5,
-              "startAlpha": 1.0,
-              "endAlpha": 1.0,
-              "lightWidthMultiplier": 1.0,
-              "useCollision": false,
-              "parametricBoxId": "null"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "Tower",
-      "id": "GagaEnvironment.[0]Environment.[33]TeslaTower3R.[5]Tower",
-      "meshName": "TeslaTowerMesh",
-      "layer": "Environment",
-      "components": {
-        "Transform": {
-          "position": [
-            60.0,
-            59.71,
-            52.2
-          ],
-          "localPosition": [
-            0.0,
-            59.71,
-            0.0
-          ],
-          "rotation": [
-            7.513434E-06,
-            -5.008955E-06,
-            5.008956E-06
-          ],
-          "localRotation": [
-            7.513434E-06,
-            -5.008955E-06,
-            5.008956E-06
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "MeshFilter": {
-          "hash": "2201d4ba1cc4eb3726c25ed05fb7b5c5"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "a5318af17973a0e6705f6f4d35dbfee8"
-          ]
-        }
-      }
-    },
-    {
-      "name": "SmokePSL",
-      "id": "GagaEnvironment.[0]Environment.[34]SmokePSL",
-      "layer": "NonReflectedParticles",
-      "components": {
-        "Transform": {
-          "position": [
-            0.0,
-            -3.0,
-            3.0
-          ],
-          "localPosition": [
-            0.0,
-            -3.0,
-            3.0
-          ],
-          "rotation": [
-            0.0,
-            300.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            300.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        }
-      }
-    },
-    {
-      "name": "SmokePSR",
-      "id": "GagaEnvironment.[0]Environment.[35]SmokePSR",
-      "layer": "NonReflectedParticles",
-      "components": {
-        "Transform": {
-          "position": [
-            0.0,
-            -3.0,
-            3.0
-          ],
-          "localPosition": [
-            0.0,
-            -3.0,
-            3.0
-          ],
-          "rotation": [
-            0.0,
-            60.0000038,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            60.0000038,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        }
-      }
-    },
-    {
-      "name": "StarSky",
-      "id": "GagaEnvironment.[0]Environment.[36]StarSky",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        }
-      }
-    },
-    {
-      "name": "StarSkyPS",
-      "id": "GagaEnvironment.[0]Environment.[36]StarSky.[0]StarSkyPS",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            0.0,
-            50.0,
-            0.0
-          ],
-          "localPosition": [
-            0.0,
-            50.0,
-            0.0
-          ],
-          "rotation": [
-            270.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            270.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.00000024,
-            1.00000024
-          ]
-        }
-      }
-    },
-    {
-      "name": "StarSkyPS2",
-      "id": "GagaEnvironment.[0]Environment.[36]StarSky.[1]StarSkyPS2",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            270.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            270.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.00000024,
-            1.00000024
-          ]
-        }
-      }
-    },
-    {
-      "name": "Aurora",
-      "id": "GagaEnvironment.[0]Environment.[37]Aurora",
-      "layer": "Environment",
-      "components": {
-        "Transform": {
-          "position": [
-            0.0,
-            150.0,
-            0.0
-          ],
-          "localPosition": [
-            0.0,
-            150.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        }
-      }
-    },
-    {
-      "name": "AuroraMain",
-      "id": "GagaEnvironment.[0]Environment.[37]Aurora.[0]AuroraMain",
-      "meshName": "transform1",
-      "layer": "Environment",
-      "components": {
-        "Transform": {
-          "position": [
-            0.0,
-            157.0,
-            150.0
-          ],
-          "localPosition": [
-            0.0,
-            7.0,
-            150.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            2.0,
-            2.0,
-            2.0
-          ]
-        },
-        "MeshFilter": {
-          "hash": "6712b180aee4a4eaaadbad3d8e1ceed0"
-        },
-        "InstancedMaterialLightWithId": {
-          "materialLightId": 1,
-          "materialLightIntensity": 1.0
-        },
-        "MeshRenderer": {
-          "materials": [
-            "f34dbd2b741fac880b42c0f327007704"
-          ]
-        }
-      }
-    },
-    {
-      "name": "AuroraSecondary",
-      "id": "GagaEnvironment.[0]Environment.[37]Aurora.[1]AuroraSecondary",
-      "meshName": "transform1",
-      "layer": "Environment",
-      "components": {
-        "Transform": {
-          "position": [
-            10.0,
-            130.0,
-            180.0
-          ],
-          "localPosition": [
-            10.0,
-            -20.0,
-            180.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            2.3,
-            1.5,
-            2.0
-          ]
-        },
-        "MeshFilter": {
-          "hash": "6712b180aee4a4eaaadbad3d8e1ceed0"
-        },
-        "InstancedMaterialLightWithId": {
-          "materialLightId": 2,
-          "materialLightIntensity": 1.0
-        },
-        "MeshRenderer": {
-          "materials": [
-            "ed0abf9ada522e78ed6ce3ba7a2ca79d"
-          ]
-        }
-      }
-    },
-    {
-      "name": "CoreLighting",
-      "id": "GagaEnvironment.[0]Environment.[38]CoreLighting",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        }
-      }
-    },
-    {
-      "name": "LightManager",
-      "id": "GagaEnvironment.[0]Environment.[38]CoreLighting.[0]LightManager",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "LightManager": {
-          "directionalLightDirections": [
-            [
-              0.0,
-              0.3420203,
-              0.939692736,
-              0.0
-            ],
-            [
-              -0.3535535,
-              0.7071067,
-              0.6123726,
-              0.0
-            ],
-            [
-              0.0,
-              1.00000012,
-              1.1920929E-07,
-              0.0
-            ],
-            [
-              0.3535535,
-              0.7071067,
-              0.6123726,
-              0.0
-            ],
-            [
-              0.0,
-              0.0,
-              0.0,
-              0.0
-            ]
-          ],
-          "directionalLightPositions": [
-            [
-              0.0,
-              0.0,
-              20.0,
-              0.0
-            ],
-            [
-              0.0,
-              0.0,
-              20.0,
-              0.0
-            ],
-            [
-              0.0,
-              0.0,
-              20.0,
-              0.0
-            ],
-            [
-              0.0,
-              0.0,
-              20.0,
-              0.0
-            ],
-            [
-              0.0,
-              0.0,
-              0.0,
-              0.0
-            ]
-          ]
-        }
-      }
-    },
-    {
-      "name": "DirectionalLights",
-      "id": "GagaEnvironment.[0]Environment.[39]DirectionalLights",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        }
-      }
-    },
-    {
-      "name": "DirectionalLightFront",
-      "id": "GagaEnvironment.[0]Environment.[39]DirectionalLights.[0]DirectionalLightFront",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            0.0,
-            0.0,
-            20.0
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            20.0
-          ],
-          "rotation": [
-            20.00001,
-            180.0,
-            180.0
-          ],
-          "localRotation": [
-            20.00001,
-            180.0,
-            180.0
-          ],
-          "scale": [
-            1.0,
-            1.00000036,
-            1.00000036
-          ]
-        },
-        "DirectionalLight": {
-          "lightIntensity": 1.0,
-          "lightRadius": 150.0,
-          "lightRotation": [
-            20.00001,
-            180.0,
-            180.0
-          ]
-        }
-      }
-    },
-    {
-      "name": "DirectionalLightBack",
-      "id": "GagaEnvironment.[0]Environment.[39]DirectionalLights.[1]DirectionalLightBack",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            0.0,
-            1.0,
-            30.4
-          ],
-          "localPosition": [
-            0.0,
-            1.0,
-            30.4
-          ],
-          "rotation": [
-            20.6196766,
-            180.0,
-            180.0
-          ],
-          "localRotation": [
-            20.6196766,
-            180.0,
-            180.0
-          ],
-          "scale": [
-            1.0,
-            1.00000036,
-            1.00000036
-          ]
-        },
-        "DirectionalLight": {
-          "lightIntensity": 5.0,
-          "lightRadius": 150.0,
-          "lightRotation": [
-            20.6196766,
-            180.0,
-            180.0
-          ]
-        }
-      }
-    },
-    {
-      "name": "DirectionalLightLeft",
-      "id": "GagaEnvironment.[0]Environment.[39]DirectionalLights.[2]DirectionalLightLeft",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            0.0,
-            0.0,
-            20.0
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            20.0
-          ],
-          "rotation": [
-            44.9999962,
-            150.0,
-            0.0
-          ],
-          "localRotation": [
-            44.9999962,
-            150.0,
-            0.0
-          ],
-          "scale": [
-            1.00000024,
-            1.0,
-            1.00000024
-          ]
-        },
-        "DirectionalLight": {
-          "lightIntensity": 1.0,
-          "lightRadius": 150.0,
-          "lightRotation": [
-            44.9999962,
-            150.0,
-            0.0
-          ]
-        }
-      }
-    },
-    {
-      "name": "DirectionalLightRight",
-      "id": "GagaEnvironment.[0]Environment.[39]DirectionalLights.[3]DirectionalLightRight",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            0.0,
-            0.0,
-            20.0
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            20.0
-          ],
-          "rotation": [
-            44.9999962,
-            210.0,
-            0.0
-          ],
-          "localRotation": [
-            44.9999962,
-            210.0,
-            0.0
-          ],
-          "scale": [
-            1.00000024,
-            1.0,
-            1.00000024
-          ]
-        },
-        "DirectionalLight": {
-          "lightIntensity": 1.0,
-          "lightRadius": 150.0,
-          "lightRotation": [
-            44.9999962,
-            210.0,
-            0.0
-          ]
-        }
-      }
-    },
-    {
-      "name": "DirectionalLightTop",
-      "id": "GagaEnvironment.[0]Environment.[39]DirectionalLights.[4]DirectionalLightTop",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            0.0,
-            0.0,
-            20.0
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            20.0
-          ],
-          "rotation": [
-            90.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            90.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.00000024,
-            1.00000024
-          ]
-        },
-        "DirectionalLight": {
-          "lightIntensity": 1.4,
-          "lightRadius": 90.0,
-          "lightRotation": [
-            90.0,
-            0.0,
-            0.0
-          ]
-        }
-      }
-    },
-    {
-      "name": "FakeMirrorSettings",
-      "id": "GagaEnvironment.[0]Environment.[4]FakeMirrorSettings",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        }
-      }
-    },
-    {
-      "name": "LightWithIdManager",
-      "id": "GagaEnvironment.[0]Environment.[40]LightWithIdManager",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        }
-      }
-    },
-    {
-      "name": "LightEffects",
-      "id": "GagaEnvironment.[0]Environment.[41]LightEffects",
-      "layer": "Environment",
-      "components": {
-        "Transform": {
-          "position": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        }
-      }
-    },
-    {
-      "name": "GradientBackground",
-      "id": "GagaEnvironment.[0]Environment.[42]GradientBackground",
-      "layer": "NeonLight",
-      "components": {
-        "Transform": {
-          "position": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        }
-      }
-    },
-    {
-      "name": "FrontLasers",
-      "id": "GagaEnvironment.[0]Environment.[43]FrontLasers",
-      "layer": "NeonLight",
-      "components": {
-        "Transform": {
-          "position": [
-            0.0,
-            1.0,
-            140.0
-          ],
-          "localPosition": [
-            0.0,
-            1.0,
-            140.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        }
-      }
-    },
-    {
-      "name": "FrontLaserL",
-      "id": "GagaEnvironment.[0]Environment.[43]FrontLasers.[0]FrontLaserL",
-      "layer": "NeonLight",
-      "components": {
-        "Transform": {
-          "position": [
-            -5.0,
-            -0.5,
-            140.0
-          ],
-          "localPosition": [
-            -5.0,
-            -1.5,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "TubeBloomPrePassLightWithId": [
-          {
-            "tubeBloomPrePassLight": {
-              "colorAlphaMultiplier": 3.2,
-              "bloomFogIntensityMultiplier": 0.0,
-              "tubeLength": 1000.0,
-              "tubeWidth": 1.8,
-              "center": 0.0,
-              "height": 1000.0,
-              "startAlpha": 1.0,
-              "endAlpha": 0.0,
-              "lightWidthMultiplier": 1.0,
-              "useCollision": false,
-              "parametricBoxId": "GagaEnvironment.[0]Environment.[43]FrontLasers.[0]FrontLaserL.[1]BoxLight"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "BakedBloom",
-      "id": "GagaEnvironment.[0]Environment.[43]FrontLasers.[0]FrontLaserL.[0]BakedBloom",
-      "meshName": "Dynamic3SliceSprite",
-      "layer": "NeonLight",
-      "components": {
-        "Transform": {
-          "position": [
-            -5.0,
-            -0.5,
-            140.72
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.7200012
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "MeshFilter": {},
-        "MeshRenderer": {
-          "materials": [
-            "3a283de748a1df4c4199b346367844c8"
-          ]
-        }
-      }
-    },
-    {
-      "name": "BoxLight",
-      "id": "GagaEnvironment.[0]Environment.[43]FrontLasers.[0]FrontLaserL.[1]BoxLight",
-      "meshName": "ParametricBox",
-      "layer": "NeonLight",
-      "components": {
-        "Transform": {
-          "position": [
-            -5.0,
-            499.5,
-            140.0
-          ],
-          "localPosition": [
-            0.0,
-            500.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            0.9,
-            500.0,
-            0.9
-          ]
-        },
-        "MeshFilter": {
-          "hash": "918b6e6683288362624bdc36ef36ef62"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "b95d48940ab7bef2170421d0118330c5"
-          ]
-        },
-        "ParametricBoxController": {}
-      }
-    },
-    {
-      "name": "FrontLaserR",
-      "id": "GagaEnvironment.[0]Environment.[43]FrontLasers.[1]FrontLaserR",
-      "layer": "NeonLight",
-      "components": {
-        "Transform": {
-          "position": [
-            5.0,
-            -0.5,
-            140.0
-          ],
-          "localPosition": [
-            5.0,
-            -1.5,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "TubeBloomPrePassLightWithId": [
-          {
-            "tubeBloomPrePassLight": {
-              "colorAlphaMultiplier": 3.2,
-              "bloomFogIntensityMultiplier": 0.0,
-              "tubeLength": 1000.0,
-              "tubeWidth": 1.8,
-              "center": 0.0,
-              "height": 1000.0,
-              "startAlpha": 1.0,
-              "endAlpha": 0.0,
-              "lightWidthMultiplier": 1.0,
-              "useCollision": false,
-              "parametricBoxId": "GagaEnvironment.[0]Environment.[43]FrontLasers.[1]FrontLaserR.[1]BoxLight"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "BakedBloom",
-      "id": "GagaEnvironment.[0]Environment.[43]FrontLasers.[1]FrontLaserR.[0]BakedBloom",
-      "meshName": "Dynamic3SliceSprite",
-      "layer": "NeonLight",
-      "components": {
-        "Transform": {
-          "position": [
-            5.0,
-            -0.5,
-            140.72
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.72
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "MeshFilter": {},
-        "MeshRenderer": {
-          "materials": [
-            "3a283de748a1df4c4199b346367844c8"
-          ]
-        }
-      }
-    },
-    {
-      "name": "BoxLight",
-      "id": "GagaEnvironment.[0]Environment.[43]FrontLasers.[1]FrontLaserR.[1]BoxLight",
-      "meshName": "ParametricBox",
-      "layer": "NeonLight",
-      "components": {
-        "Transform": {
-          "position": [
-            5.0,
-            499.5,
-            140.0
-          ],
-          "localPosition": [
-            0.0,
-            500.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            0.9,
-            500.0,
-            0.9
-          ]
-        },
-        "MeshFilter": {
-          "hash": "918b6e6683288362624bdc36ef36ef62"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "b95d48940ab7bef2170421d0118330c5"
-          ]
-        },
-        "ParametricBoxController": {}
-      }
-    },
-    {
-      "name": "FrontLaserFogL",
-      "id": "GagaEnvironment.[0]Environment.[43]FrontLasers.[2]FrontLaserFogL",
-      "layer": "NeonLight",
-      "components": {
-        "Transform": {
-          "position": [
-            -5.0,
-            -1.0,
-            140.0
-          ],
-          "localPosition": [
-            -5.0,
-            -2.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "TubeBloomPrePassLightWithId": [
-          {
-            "tubeBloomPrePassLight": {
-              "colorAlphaMultiplier": 3.0,
-              "bloomFogIntensityMultiplier": 20.0,
-              "tubeLength": 150.0,
-              "tubeWidth": 2.0,
-              "center": 0.0,
-              "startAlpha": 1.0,
-              "endAlpha": 0.0,
-              "lightWidthMultiplier": 1.0,
-              "useCollision": false,
-              "parametricBoxId": "null"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "FrontLaserFogR",
-      "id": "GagaEnvironment.[0]Environment.[43]FrontLasers.[3]FrontLaserFogR",
-      "layer": "NeonLight",
-      "components": {
-        "Transform": {
-          "position": [
-            5.0,
-            -1.0,
-            140.0
-          ],
-          "localPosition": [
-            5.0,
-            -2.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "TubeBloomPrePassLightWithId": [
-          {
-            "tubeBloomPrePassLight": {
-              "colorAlphaMultiplier": 3.0,
-              "bloomFogIntensityMultiplier": 20.0,
-              "tubeLength": 150.0,
-              "tubeWidth": 2.0,
-              "center": 0.0,
-              "startAlpha": 1.0,
-              "endAlpha": 0.0,
-              "lightWidthMultiplier": 1.0,
-              "useCollision": false,
-              "parametricBoxId": "null"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "MainBeamDisk",
-      "id": "GagaEnvironment.[0]Environment.[43]FrontLasers.[4]MainBeamDisk",
-      "meshName": "MainBeamDisk",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            -5.0,
-            -1.0,
-            140.0
-          ],
-          "localPosition": [
-            -5.0,
-            -2.0,
-            0.0
-          ],
-          "rotation": [
-            5.008956E-06,
-            180.0,
-            0.0
-          ],
-          "localRotation": [
-            5.008956E-06,
-            180.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "MeshFilter": {
-          "hash": "bfb3c36ceada02c91a71d90cf453d941"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "92460274f519f7251d0e83a1ba3232f7"
-          ]
-        }
-      }
-    },
-    {
-      "name": "MainBeamDisk (1)",
-      "id": "GagaEnvironment.[0]Environment.[43]FrontLasers.[5]MainBeamDisk (1)",
-      "meshName": "MainBeamDisk",
-      "layer": "Default",
-      "components": {
-        "Transform": {
-          "position": [
-            5.0,
-            -1.0,
-            140.0
-          ],
-          "localPosition": [
-            5.0,
-            -2.0,
-            0.0
-          ],
-          "rotation": [
-            5.008956E-06,
-            180.0,
-            0.0
-          ],
-          "localRotation": [
-            5.008956E-06,
-            180.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "MeshFilter": {
-          "hash": "bfb3c36ceada02c91a71d90cf453d941"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "92460274f519f7251d0e83a1ba3232f7"
-          ]
-        }
-      }
-    },
-    {
-      "name": "FakeMirrorObjectsInstaller",
-      "id": "GagaEnvironment.[0]Environment.[5]FakeMirrorObjectsInstaller",
-      "layer": "Environment",
-      "components": {
-        "Transform": {
-          "position": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        }
-      }
-    },
-    {
-      "name": "LightmapLightsWithIds",
-      "id": "GagaEnvironment.[0]Environment.[6]LightmapLightsWithIds",
-      "layer": "Environment",
-      "components": {
-        "Transform": {
-          "position": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        }
-      }
-    },
-    {
-      "name": "A",
-      "id": "GagaEnvironment.[0]Environment.[6]LightmapLightsWithIds.[0]A",
-      "layer": "Environment",
-      "components": {
-        "Transform": {
-          "position": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        }
-      }
-    },
-    {
-      "name": "B",
-      "id": "GagaEnvironment.[0]Environment.[6]LightmapLightsWithIds.[1]B",
-      "layer": "Environment",
-      "components": {
-        "Transform": {
-          "position": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        }
-      }
-    },
-    {
-      "name": "C",
-      "id": "GagaEnvironment.[0]Environment.[6]LightmapLightsWithIds.[2]C",
-      "layer": "Environment",
-      "components": {
-        "Transform": {
-          "position": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        }
-      }
-    },
-    {
-      "name": "D",
-      "id": "GagaEnvironment.[0]Environment.[6]LightmapLightsWithIds.[3]D",
-      "layer": "Environment",
-      "components": {
-        "Transform": {
-          "position": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        }
-      }
-    },
-    {
-      "name": "E",
-      "id": "GagaEnvironment.[0]Environment.[6]LightmapLightsWithIds.[4]E",
-      "layer": "Environment",
-      "components": {
-        "Transform": {
-          "position": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        }
-      }
-    },
-    {
-      "name": "Runway",
-      "id": "GagaEnvironment.[0]Environment.[8]Runway",
-      "meshName": "Mirror",
-      "layer": "Water",
-      "components": {
-        "Transform": {
-          "position": [
-            0.0,
-            -0.2,
-            10.3
-          ],
-          "localPosition": [
-            0.0,
-            -0.2,
-            10.3
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "MeshFilter": {
-          "hash": "cc9b726de456a0e3c057ef73116c432a"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "fc128b204196cbc98358fa1b57216a7a"
-          ]
-        }
-      }
-    },
-    {
-      "name": "SetDepthOnly",
-      "id": "GagaEnvironment.[0]Environment.[8]Runway.[0]SetDepthOnly",
-      "meshName": "Mirror",
-      "layer": "Water",
-      "components": {
-        "Transform": {
-          "position": [
-            0.0,
-            -0.2,
-            10.3
-          ],
-          "localPosition": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "MeshFilter": {
-          "hash": "cc9b726de456a0e3c057ef73116c432a"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "47348bfff0fbcb3e14515ad3bfebc6be"
-          ]
-        }
-      }
-    },
-    {
-      "name": "Construction",
-      "id": "GagaEnvironment.[0]Environment.[9]Construction",
-      "meshName": "Construction",
-      "layer": "Water",
-      "components": {
-        "Transform": {
-          "position": [
-            0.0,
-            -0.2,
-            10.3
-          ],
-          "localPosition": [
-            0.0,
-            -0.2,
-            10.3
-          ],
-          "rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "localRotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "MeshFilter": {
-          "hash": "c66d78f20e0d03ae75638657e1412e06"
-        },
-        "MeshRenderer": {
-          "materials": [
-            "42ba8db8a847b0fecc37824a7c996928"
           ]
         }
       }

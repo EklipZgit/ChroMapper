@@ -23,6 +23,11 @@
         0.6211764,
         0.9
       ],
+      "envColorWhite": [
+        0.7254902,
+        0.7254902,
+        0.7254902
+      ],
       "obstacleColor": [
         0.0,
         0.8117648,
@@ -37,6 +42,11 @@
         0.054901965,
         0.619607866,
         0.90196085
+      ],
+      "envColorWhiteBoost": [
+        0.7254902,
+        0.7254902,
+        0.7254902
       ]
     },
     "fogParams": {
@@ -112,22 +122,19 @@
     },
     "uniqueMaterials": [
       {
-        "hash": "7ca9fca9eecf61fec23e9f8ea255e673",
-        "name": "Spectrogram",
-        "shader": "Custom/Spectrogram",
+        "hash": "2f53648cf0e7229f89336575c9a4624c",
+        "name": "EnvLight",
+        "shader": "Custom/TransparentNeonLight",
         "color": [
-          0.24999997,
-          0.24999997,
-          0.24999997,
-          0.0
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
         ],
         "shaderKeywords": [
-          "DIFFUSE",
-          "LIGHT_FALLOFF",
-          "SPECULAR",
-          "ENABLE_DIFFUSE",
-          "ENABLE_SPECULAR",
-          "_ZWRITE_ON"
+          "ENABLE_HEIGHT_FOG",
+          "MULTIPLY_COLOR_WITH_ALPHA",
+          "_ENABLE_MAIN_EFFECT_WHITE_BOOST"
         ]
       },
       {
@@ -153,6 +160,58 @@
         ]
       },
       {
+        "hash": "84d4c639f46135f14282fc50856755f9",
+        "name": "BakedGlowSprite",
+        "shader": "Custom/CustomParticles",
+        "color": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "shaderKeywords": [
+          "DISTORTION_TARGET_MAIN",
+          "SQUARE_ALPHA",
+          "VERTEX_COLOR",
+          "_MASK2BLEND_MULTIPLY",
+          "_MASKBLEND_MULTIPLY",
+          "_VERTEXCHANNELS_RGBA",
+          "_WHITEBOOSTTYPE_MAINEFFECT",
+          "DISTORTION_NONE",
+          "ENABLE_FORCED_WHITE_BOOST",
+          "ENABLE_VERTEX_COLOR",
+          "ETC1_EXTERNAL_ALPHA",
+          "SQUAREALPHA",
+          "_ALPHACHANNEL_ALPHA",
+          "_BILLBOARD_NONE",
+          "_CURVE_VERTICES_NONE",
+          "_DISSOLVEAXIS_LOCALX",
+          "_FOGTYPE_NONE",
+          "_ROTATE_UV_NONE",
+          "_SPECTROGRAM_NONE",
+          "_SQUAREALPHA_ON"
+        ]
+      },
+      {
+        "hash": "7ca9fca9eecf61fec23e9f8ea255e673",
+        "name": "Spectrogram",
+        "shader": "Custom/Spectrogram",
+        "color": [
+          0.24999997,
+          0.24999997,
+          0.24999997,
+          0.0
+        ],
+        "shaderKeywords": [
+          "DIFFUSE",
+          "LIGHT_FALLOFF",
+          "SPECULAR",
+          "ENABLE_DIFFUSE",
+          "ENABLE_SPECULAR",
+          "_ZWRITE_ON"
+        ]
+      },
+      {
         "hash": "1cdd8c1689ede199954a7104600a2472",
         "name": "EnvLightOpaque",
         "shader": "Custom/OpaqueNeonLight",
@@ -169,22 +228,6 @@
           "ENABLE_DIFFUSE",
           "ENABLE_LIGHTNING",
           "USE_COLOR_FOG"
-        ]
-      },
-      {
-        "hash": "2f53648cf0e7229f89336575c9a4624c",
-        "name": "EnvLight",
-        "shader": "Custom/TransparentNeonLight",
-        "color": [
-          -1.0,
-          -1.0,
-          -1.0,
-          -1.0
-        ],
-        "shaderKeywords": [
-          "ENABLE_HEIGHT_FOG",
-          "MULTIPLY_COLOR_WITH_ALPHA",
-          "_ENABLE_MAIN_EFFECT_WHITE_BOOST"
         ]
       },
       {
@@ -588,6 +631,20 @@
     ],
     "uniqueMeshes": [
       {
+        "name": "ParametricBox",
+        "hash": "918b6e6683288362624bdc36ef36ef62",
+        "boundsSize": [
+          2.0,
+          2.0,
+          2.0
+        ],
+        "boundsCenter": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
         "name": "Spectrogram0",
         "hash": "d394434d1bb3f7ff55a5801858d14da1",
         "boundsSize": [
@@ -622,20 +679,6 @@
           10.0,
           5000.0,
           0.1
-        ],
-        "boundsCenter": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      {
-        "name": "ParametricBox",
-        "hash": "918b6e6683288362624bdc36ef36ef62",
-        "boundsSize": [
-          2.0,
-          2.0,
-          2.0
         ],
         "boundsCenter": [
           0.0,
@@ -909,6 +952,697 @@
       }
     },
     {
+      "name": "BasicGameHUD",
+      "id": "CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD",
+      "layer": "UI",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "EnergyPanel",
+      "id": "CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[0]EnergyPanel",
+      "layer": "UI",
+      "components": {
+        "Animator": {
+          "animatorParameters": [],
+          "animatorLayerNames": []
+        }
+      }
+    },
+    {
+      "name": "BG",
+      "id": "CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[0]EnergyPanel.[0]BG",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "BarBG",
+      "id": "CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[0]EnergyPanel.[1]BarBG",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "EnergyIconEmpty",
+      "id": "CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[0]EnergyPanel.[2]EnergyIconEmpty",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "EnergyIconFull",
+      "id": "CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[0]EnergyPanel.[3]EnergyIconFull",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "EnergyBarWrapper",
+      "id": "CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[0]EnergyPanel.[4]EnergyBarWrapper",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "EnergyBar",
+      "id": "CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[0]EnergyPanel.[4]EnergyBarWrapper.[0]EnergyBar",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Laser",
+      "id": "CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[0]EnergyPanel.[5]Laser",
+      "layer": "NeonLight",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            -0.64,
+            6.95
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            -40.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            90.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            90.0
+          ],
+          "scale": [
+            0.0200000033,
+            0.0200000033,
+            0.02
+          ]
+        }
+      }
+    },
+    {
+      "name": "BoxLight",
+      "id": "CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[0]EnergyPanel.[5]Laser.[0]BoxLight",
+      "meshName": "ParametricBox",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            -0.64,
+            6.95
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            90.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.0,
+            5.000001,
+            0.0
+          ]
+        },
+        "MeshFilter": {
+          "hash": "918b6e6683288362624bdc36ef36ef62"
+        },
+        "MeshRenderer": {
+          "materials": [
+            "2f53648cf0e7229f89336575c9a4624c"
+          ]
+        },
+        "ParametricBoxController": {}
+      }
+    },
+    {
+      "name": "BakedBloom",
+      "id": "CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[0]EnergyPanel.[5]Laser.[1]BakedBloom",
+      "layer": "Default",
+      "components": {
+        "Transform": {
+          "position": [
+            0.0,
+            -0.64,
+            6.95
+          ],
+          "localPosition": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            90.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.0200000033,
+            0.0200000033,
+            0.02
+          ]
+        },
+        "MeshFilter": {},
+        "MeshRenderer": {
+          "materials": [
+            "efd0d242bf2ace2047b83f3bffefe51d"
+          ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 5.2,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.0,
+          "width": 0.0,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
+        }
+      }
+    },
+    {
+      "name": "FailIcon",
+      "id": "CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[0]EnergyPanel.[6]FailIcon",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "LeftPanel",
+      "id": "CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[1]LeftPanel",
+      "layer": "UI",
+      "components": {
+        "Transform": {
+          "position": [
+            -3.2,
+            0.4,
+            7.0
+          ],
+          "localPosition": [
+            -3.2,
+            0.4,
+            7.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "BG",
+      "id": "CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[1]LeftPanel.[0]BG",
+      "layer": "UI",
+      "components": {
+        "Transform": {
+          "position": [
+            -3.2,
+            -27.6,
+            7.01
+          ],
+          "localPosition": [
+            0.0,
+            -28.0,
+            0.01
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.4,
+            60.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "Top",
+      "id": "CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[1]LeftPanel.[1]Top",
+      "layer": "UI",
+      "components": {
+        "Transform": {
+          "position": [
+            -3.2,
+            2.5,
+            7.0
+          ],
+          "localPosition": [
+            0.0,
+            2.1,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.4,
+            0.1,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "ComboPanel",
+      "id": "CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[1]LeftPanel.[2]ComboPanel",
+      "layer": "UI",
+      "components": {
+        "Animator": {
+          "animatorParameters": [
+            "ComboLost"
+          ],
+          "animatorLayerNames": [
+            "Base Layer"
+          ]
+        }
+      }
+    },
+    {
+      "name": "ComboText",
+      "id": "CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[1]LeftPanel.[2]ComboPanel.[0]ComboText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "ComboCanvas",
+      "id": "CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[1]LeftPanel.[2]ComboPanel.[1]ComboCanvas",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "NumText",
+      "id": "CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[1]LeftPanel.[2]ComboPanel.[1]ComboCanvas.[0]NumText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Line0",
+      "id": "CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[1]LeftPanel.[2]ComboPanel.[2]Line0",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Line1",
+      "id": "CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[1]LeftPanel.[2]ComboPanel.[3]Line1",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "ScoreCanvas",
+      "id": "CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[1]LeftPanel.[3]ScoreCanvas",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "ScoreText",
+      "id": "CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[1]LeftPanel.[3]ScoreCanvas.[0]ScoreText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "ImmediateRankText",
+      "id": "CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[1]LeftPanel.[3]ScoreCanvas.[1]ImmediateRankText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "RelativeScoreText",
+      "id": "CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[1]LeftPanel.[3]ScoreCanvas.[2]RelativeScoreText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "RightPanel",
+      "id": "CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[2]RightPanel",
+      "layer": "UI",
+      "components": {
+        "Transform": {
+          "position": [
+            3.2,
+            0.4,
+            7.0
+          ],
+          "localPosition": [
+            3.2,
+            0.4,
+            7.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "BG",
+      "id": "CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[2]RightPanel.[0]BG",
+      "layer": "UI",
+      "components": {
+        "Transform": {
+          "position": [
+            3.2,
+            -27.6,
+            7.01
+          ],
+          "localPosition": [
+            0.0,
+            -28.0,
+            0.01
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.4,
+            60.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "Top",
+      "id": "CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[2]RightPanel.[1]Top",
+      "layer": "UI",
+      "components": {
+        "Transform": {
+          "position": [
+            3.2,
+            2.5,
+            7.0
+          ],
+          "localPosition": [
+            0.0,
+            2.1,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "localRotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.4,
+            0.1,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "MultiplierCanvas",
+      "id": "CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[2]RightPanel.[2]MultiplierCanvas",
+      "layer": "UI",
+      "components": {
+        "Animator": {
+          "animatorParameters": [
+            "MultiplierIncreased"
+          ],
+          "animatorLayerNames": [
+            "Base Layer"
+          ]
+        }
+      }
+    },
+    {
+      "name": "BGCircle",
+      "id": "CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[2]RightPanel.[2]MultiplierCanvas.[0]BGCircle",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "FGCircle",
+      "id": "CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[2]RightPanel.[2]MultiplierCanvas.[1]FGCircle",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "AnimationCircle",
+      "id": "CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[2]RightPanel.[2]MultiplierCanvas.[2]AnimationCircle",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "TextOverlayPanelOutline1",
+      "id": "CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[2]RightPanel.[2]MultiplierCanvas.[3]TextOverlayPanelOutline1",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "XText",
+      "id": "CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[2]RightPanel.[2]MultiplierCanvas.[3]TextOverlayPanelOutline1.[0]XText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "NumText",
+      "id": "CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[2]RightPanel.[2]MultiplierCanvas.[3]TextOverlayPanelOutline1.[1]NumText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "TextOverlayPanelOutline0",
+      "id": "CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[2]RightPanel.[2]MultiplierCanvas.[4]TextOverlayPanelOutline0",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "XText",
+      "id": "CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[2]RightPanel.[2]MultiplierCanvas.[4]TextOverlayPanelOutline0.[0]XText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "NumText",
+      "id": "CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[2]RightPanel.[2]MultiplierCanvas.[4]TextOverlayPanelOutline0.[1]NumText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "TextPanel",
+      "id": "CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[2]RightPanel.[2]MultiplierCanvas.[5]TextPanel",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "XText",
+      "id": "CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[2]RightPanel.[2]MultiplierCanvas.[5]TextPanel.[0]XText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "NumText",
+      "id": "CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[2]RightPanel.[2]MultiplierCanvas.[5]TextPanel.[1]NumText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "SongProgressCanvas",
+      "id": "CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Progress",
+      "id": "CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.[0]Progress",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Slider",
+      "id": "CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.[1]Slider",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Background",
+      "id": "CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.[1]Slider.[0]Background",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Handle Slide Area",
+      "id": "CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.[1]Slider.[1]Handle Slide Area",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Handle",
+      "id": "CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.[1]Slider.[1]Handle Slide Area.[0]Handle",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "ProgressText",
+      "id": "CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.[2]ProgressText",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Progress",
+      "id": "CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.[2]ProgressText.[0]Progress",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "ProgressMinutes",
+      "id": "CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.[2]ProgressText.[0]Progress.[0]ProgressMinutes",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "ProgressColon",
+      "id": "CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.[2]ProgressText.[0]Progress.[1]ProgressColon",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "ProgressSeconds",
+      "id": "CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.[2]ProgressText.[0]Progress.[2]ProgressSeconds",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Separator",
+      "id": "CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.[2]ProgressText.[1]Separator",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "Duration",
+      "id": "CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.[2]ProgressText.[2]Duration",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "DurationMinutes",
+      "id": "CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.[2]ProgressText.[2]Duration.[0]DurationMinutes",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "DurationColon",
+      "id": "CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.[2]ProgressText.[2]Duration.[1]DurationColon",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "DurationSeconds",
+      "id": "CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.[2]ProgressText.[2]Duration.[2]DurationSeconds",
+      "layer": "UI",
+      "components": {}
+    },
+    {
+      "name": "RecordingPanel",
+      "id": "CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[2]RightPanel.[4]RecordingPanel",
+      "layer": "DontShowInExternalMRCamera",
+      "components": {}
+    },
+    {
+      "name": "RecordingText",
+      "id": "CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[2]RightPanel.[4]RecordingPanel.[0]RecordingText",
+      "layer": "DontShowInExternalMRCamera",
+      "components": {}
+    },
+    {
+      "name": "RecordingCircle",
+      "id": "CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[2]RightPanel.[4]RecordingPanel.[1]RecordingCircle",
+      "layer": "DontShowInExternalMRCamera",
+      "components": {}
+    },
+    {
       "name": "MonstercatLogoL",
       "id": "CrabRaveEnvironment.[0]Environment.[12]MonstercatLogoL",
       "layer": "Default",
@@ -941,12 +1675,18 @@
           ]
         },
         "SpriteLightWithId": {
-          "spriteLightId": 5,
-          "intensity": 1.3,
-          "spriteName": "MonstercatStrokeLogo",
-          "chromaLight": {
-            "type": 1,
-            "lightId": 4
+          "lightId": 5,
+          "lightIntensity": 1.3,
+          "sprite": {
+            "name": "MonstercatStrokeLogo",
+            "textureName": "MonstercatStrokeLogo",
+            "size": [
+              360.0,
+              434.0
+            ],
+            "materials": [
+              "84d4c639f46135f14282fc50856755f9"
+            ]
           }
         }
       }
@@ -984,12 +1724,18 @@
           ]
         },
         "SpriteLightWithId": {
-          "spriteLightId": 5,
-          "intensity": 1.3,
-          "spriteName": "MonstercatStrokeLogo",
-          "chromaLight": {
-            "type": 2,
-            "lightId": 4
+          "lightId": 5,
+          "lightIntensity": 1.3,
+          "sprite": {
+            "name": "MonstercatStrokeLogo",
+            "textureName": "MonstercatStrokeLogo",
+            "size": [
+              360.0,
+              434.0
+            ],
+            "materials": [
+              "84d4c639f46135f14282fc50856755f9"
+            ]
           }
         }
       }
@@ -1301,8 +2047,29 @@
           ]
         },
         "TrackLaneRingsManager": {
-          "ringCount": 20,
-          "ringPositionZStep": 5.0
+          "ringPositionZStep": 5.0,
+          "rings": [
+            "GameCore.[1]SmallTrackLaneRing(Clone)",
+            "GameCore.[2]SmallTrackLaneRing(Clone)",
+            "GameCore.[3]SmallTrackLaneRing(Clone)",
+            "GameCore.[4]SmallTrackLaneRing(Clone)",
+            "GameCore.[5]SmallTrackLaneRing(Clone)",
+            "GameCore.[6]SmallTrackLaneRing(Clone)",
+            "GameCore.[7]SmallTrackLaneRing(Clone)",
+            "GameCore.[8]SmallTrackLaneRing(Clone)",
+            "GameCore.[9]SmallTrackLaneRing(Clone)",
+            "GameCore.[10]SmallTrackLaneRing(Clone)",
+            "GameCore.[11]SmallTrackLaneRing(Clone)",
+            "GameCore.[12]SmallTrackLaneRing(Clone)",
+            "GameCore.[13]SmallTrackLaneRing(Clone)",
+            "GameCore.[14]SmallTrackLaneRing(Clone)",
+            "GameCore.[15]SmallTrackLaneRing(Clone)",
+            "GameCore.[16]SmallTrackLaneRing(Clone)",
+            "GameCore.[17]SmallTrackLaneRing(Clone)",
+            "GameCore.[18]SmallTrackLaneRing(Clone)",
+            "GameCore.[19]SmallTrackLaneRing(Clone)",
+            "GameCore.[20]SmallTrackLaneRing(Clone)"
+          ]
         }
       }
     },
@@ -1539,6 +2306,20 @@
             1.0,
             1.0
           ]
+        },
+        "LightRotationEventEffect": {
+          "eventType": "Event12",
+          "rotationVector": [
+            -0.5565387,
+            -0.241921872,
+            -0.794819653
+          ],
+          "rotationSpeedMultiplier": -2.0,
+          "startRotation": [
+            0.0,
+            0.0,
+            0.0
+          ]
         }
       }
     },
@@ -1615,6 +2396,20 @@
             1.0,
             1.0,
             1.0
+          ]
+        },
+        "LightRotationEventEffect": {
+          "eventType": "Event13",
+          "rotationVector": [
+            0.5565387,
+            -0.241921872,
+            -0.794819653
+          ],
+          "rotationSpeedMultiplier": 2.0,
+          "startRotation": [
+            0.0,
+            0.0,
+            0.0
           ]
         }
       }
@@ -1822,6 +2617,184 @@
             1.0,
             1.0
           ]
+        },
+        "LightWithIdManager": {
+          "lights": [
+            [
+              {
+                "ID": "CrabRaveEnvironment.[0]Environment.[40]Laser (11)",
+                "id": 1
+              },
+              {
+                "ID": "CrabRaveEnvironment.[0]Environment.[35]Laser (5)",
+                "id": 1
+              },
+              {
+                "ID": "CrabRaveEnvironment.[0]Environment.[41]Laser (12)",
+                "id": 1
+              },
+              {
+                "ID": "CrabRaveEnvironment.[0]Environment.[37]Laser (8)",
+                "id": 1
+              },
+              {
+                "ID": "CrabRaveEnvironment.[0]Environment.[39]Laser (10)",
+                "id": 1
+              },
+              {
+                "ID": "CrabRaveEnvironment.[0]Environment.[34]Laser (4)",
+                "id": 1
+              },
+              {
+                "ID": "CrabRaveEnvironment.[0]Environment.[38]Laser (9)",
+                "id": 1
+              },
+              {
+                "ID": "CrabRaveEnvironment.[0]Environment.[36]Laser (7)",
+                "id": 1
+              }
+            ],
+            [
+              {
+                "ID": "CrabRaveEnvironment.[0]Environment.[28]GlowTopLine (10)",
+                "id": 2
+              },
+              {
+                "ID": "CrabRaveEnvironment.[0]Environment.[27]GlowTopLine (9)",
+                "id": 2
+              },
+              {
+                "ID": "CrabRaveEnvironment.[0]Environment.[25]GlowTopLine (7)",
+                "id": 2
+              },
+              {
+                "ID": "CrabRaveEnvironment.[0]Environment.[24]GlowTopLine (6)",
+                "id": 2
+              },
+              {
+                "ID": "CrabRaveEnvironment.[0]Environment.[29]GlowTopLine (11)",
+                "id": 2
+              },
+              {
+                "ID": "CrabRaveEnvironment.[0]Environment.[23]GlowTopLine (5)",
+                "id": 2
+              },
+              {
+                "ID": "CrabRaveEnvironment.[0]Environment.[26]GlowTopLine (8)",
+                "id": 2
+              }
+            ],
+            [
+              {
+                "ID": "CrabRaveEnvironment.[0]Environment.[45]RotatingLasersPair.[0]BaseL.[0]Laser",
+                "id": 3
+              },
+              {
+                "ID": "CrabRaveEnvironment.[0]Environment.[44]RotatingLasersPair (3).[0]BaseL.[0]Laser",
+                "id": 3
+              },
+              {
+                "ID": "CrabRaveEnvironment.[0]Environment.[46]RotatingLasersPair (4).[0]BaseL.[0]Laser",
+                "id": 3
+              },
+              {
+                "ID": "CrabRaveEnvironment.[0]Environment.[43]RotatingLasersPair (2).[0]BaseL.[0]Laser",
+                "id": 3
+              },
+              {
+                "ID": "CrabRaveEnvironment.[0]Environment.[42]RotatingLasersPair (1).[0]BaseL.[0]Laser",
+                "id": 3
+              }
+            ],
+            [
+              {
+                "ID": "CrabRaveEnvironment.[0]Environment.[45]RotatingLasersPair.[1]BaseR.[0]Laser",
+                "id": 4
+              },
+              {
+                "ID": "CrabRaveEnvironment.[0]Environment.[44]RotatingLasersPair (3).[1]BaseR.[0]Laser",
+                "id": 4
+              },
+              {
+                "ID": "CrabRaveEnvironment.[0]Environment.[46]RotatingLasersPair (4).[1]BaseR.[0]Laser",
+                "id": 4
+              },
+              {
+                "ID": "CrabRaveEnvironment.[0]Environment.[43]RotatingLasersPair (2).[1]BaseR.[0]Laser",
+                "id": 4
+              },
+              {
+                "ID": "CrabRaveEnvironment.[0]Environment.[42]RotatingLasersPair (1).[1]BaseR.[0]Laser",
+                "id": 4
+              }
+            ],
+            [
+              {
+                "ID": "CrabRaveEnvironment.[0]Environment.[3]NearBuildingRight.[3]Neon (2)",
+                "id": 5
+              },
+              {
+                "ID": "CrabRaveEnvironment.[0]Environment.[4]NearBuildingLeft.[1]Neon",
+                "id": 5
+              },
+              {
+                "ID": "CrabRaveEnvironment.[0]Environment.[5]PlayersPlace.[1]Feet",
+                "id": 5
+              },
+              {
+                "ID": "CrabRaveEnvironment.[0]Environment.[5]PlayersPlace.[3]RectangleFakeGlow",
+                "id": 5
+              },
+              {
+                "ID": "CrabRaveEnvironment.[0]Environment.[22]FrontLights.[1]NeonTube (1)",
+                "id": 5
+              },
+              {
+                "ID": "CrabRaveEnvironment.[0]Environment.[22]FrontLights.[0]NeonTube",
+                "id": 5
+              },
+              {
+                "ID": "CrabRaveEnvironment.[0]Environment.[4]NearBuildingLeft.[3]Neon (2)",
+                "id": 5
+              },
+              {
+                "ID": "CrabRaveEnvironment.[0]Environment.[3]NearBuildingRight.[2]Neon (1)",
+                "id": 5
+              },
+              {
+                "ID": "CrabRaveEnvironment.[0]Environment.[4]NearBuildingLeft.[2]Neon (1)",
+                "id": 5
+              },
+              {
+                "ID": "CrabRaveEnvironment.[0]Environment.[3]NearBuildingRight.[1]Neon",
+                "id": 5
+              },
+              {
+                "ID": "CrabRaveEnvironment.[0]Environment.[32]GlowLineL (1)",
+                "id": 5
+              },
+              {
+                "ID": "CrabRaveEnvironment.[0]Environment.[12]MonstercatLogoL",
+                "id": 5
+              },
+              {
+                "ID": "CrabRaveEnvironment.[0]Environment.[33]GlowLineR (1)",
+                "id": 5
+              },
+              {
+                "ID": "CrabRaveEnvironment.[0]Environment.[13]MonstercatLogoR",
+                "id": 5
+              },
+              {
+                "ID": "CrabRaveEnvironment.[0]Environment.[30]GlowLineL",
+                "id": 5
+              },
+              {
+                "ID": "CrabRaveEnvironment.[0]Environment.[31]GlowLineR",
+                "id": 5
+              }
+            ]
+          ]
         }
       }
     },
@@ -1856,6 +2829,12 @@
             1.0,
             1.0
           ]
+        },
+        "LightSwitchEventEffect": {
+          "eventType": "Event4",
+          "offColorIntensity": 0.0,
+          "lightOnStart": false,
+          "lightsId": 5
         }
       }
     },
@@ -1936,14 +2915,17 @@
               "height": 2.5,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[22]FrontLights.[0]NeonTube.[1]BoxLight"
+              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[22]FrontLights.[0]NeonTube.[1]BoxLight",
+              "sliceSpriteControllerId": "CrabRaveEnvironment.[0]Environment.[22]FrontLights.[0]NeonTube.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 13,
-              "lightId": 4
-            }
+            "lightId": 5
           }
         ]
       }
@@ -1981,11 +2963,25 @@
             1.00000072
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 4.0,
+          "width": 0.2,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 1.0,
+          "length": 2.5,
+          "minAlpha": 0.0
         }
       }
     },
@@ -2076,14 +3072,17 @@
               "height": 2.5,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[22]FrontLights.[1]NeonTube (1).[1]BoxLight"
+              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[22]FrontLights.[1]NeonTube (1).[1]BoxLight",
+              "sliceSpriteControllerId": "CrabRaveEnvironment.[0]Environment.[22]FrontLights.[1]NeonTube (1).[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 14,
-              "lightId": 4
-            }
+            "lightId": 5
           }
         ]
       }
@@ -2121,11 +3120,25 @@
             1.00000072
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 4.0,
+          "width": 0.2,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 1.0,
+          "length": 2.5,
+          "minAlpha": 0.0
         }
       }
     },
@@ -2216,14 +3229,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[23]GlowTopLine (5).[1]BoxLight"
+              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[23]GlowTopLine (5).[1]BoxLight",
+              "sliceSpriteControllerId": "CrabRaveEnvironment.[0]Environment.[23]GlowTopLine (5).[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 4,
-              "lightId": 1
-            }
+            "lightId": 2
           }
         ]
       }
@@ -2261,11 +3277,25 @@
             1.00000024
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.0,
+          "width": 0.08,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -2356,14 +3386,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[24]GlowTopLine (6).[1]BoxLight"
+              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[24]GlowTopLine (6).[1]BoxLight",
+              "sliceSpriteControllerId": "CrabRaveEnvironment.[0]Environment.[24]GlowTopLine (6).[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 3,
-              "lightId": 1
-            }
+            "lightId": 2
           }
         ]
       }
@@ -2401,11 +3434,25 @@
             1.00000024
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.0,
+          "width": 0.08,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -2496,14 +3543,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[25]GlowTopLine (7).[1]BoxLight"
+              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[25]GlowTopLine (7).[1]BoxLight",
+              "sliceSpriteControllerId": "CrabRaveEnvironment.[0]Environment.[25]GlowTopLine (7).[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 5,
-              "lightId": 1
-            }
+            "lightId": 2
           }
         ]
       }
@@ -2541,11 +3591,25 @@
             1.00000024
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.0,
+          "width": 0.08,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -2636,14 +3700,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[26]GlowTopLine (8).[1]BoxLight"
+              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[26]GlowTopLine (8).[1]BoxLight",
+              "sliceSpriteControllerId": "CrabRaveEnvironment.[0]Environment.[26]GlowTopLine (8).[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 2,
-              "lightId": 1
-            }
+            "lightId": 2
           }
         ]
       }
@@ -2681,11 +3748,25 @@
             1.00000024
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.0,
+          "width": 0.08,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -2776,14 +3857,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[27]GlowTopLine (9).[1]BoxLight"
+              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[27]GlowTopLine (9).[1]BoxLight",
+              "sliceSpriteControllerId": "CrabRaveEnvironment.[0]Environment.[27]GlowTopLine (9).[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 6,
-              "lightId": 1
-            }
+            "lightId": 2
           }
         ]
       }
@@ -2821,11 +3905,25 @@
             1.00000024
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.0,
+          "width": 0.08,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -2916,14 +4014,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[28]GlowTopLine (10).[1]BoxLight"
+              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[28]GlowTopLine (10).[1]BoxLight",
+              "sliceSpriteControllerId": "CrabRaveEnvironment.[0]Environment.[28]GlowTopLine (10).[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 1,
-              "lightId": 1
-            }
+            "lightId": 2
           }
         ]
       }
@@ -2961,11 +4062,25 @@
             1.00000024
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.0,
+          "width": 0.08,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -3056,14 +4171,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[29]GlowTopLine (11).[1]BoxLight"
+              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[29]GlowTopLine (11).[1]BoxLight",
+              "sliceSpriteControllerId": "CrabRaveEnvironment.[0]Environment.[29]GlowTopLine (11).[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 7,
-              "lightId": 1
-            }
+            "lightId": 2
           }
         ]
       }
@@ -3101,11 +4219,25 @@
             1.00000024
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.0,
+          "width": 0.08,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -3273,14 +4405,17 @@
               "height": 20.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[3]NearBuildingRight.[1]Neon.[1]BoxLight"
+              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[3]NearBuildingRight.[1]Neon.[1]BoxLight",
+              "sliceSpriteControllerId": "CrabRaveEnvironment.[0]Environment.[3]NearBuildingRight.[1]Neon.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 6,
-              "lightId": 4
-            }
+            "lightId": 5
           }
         ]
       }
@@ -3318,11 +4453,25 @@
             1.00000024
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "0dd004d097c885674f53e9736741a1d9"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.5,
+          "width": 0.2,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 20.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -3413,14 +4562,17 @@
               "height": 20.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[3]NearBuildingRight.[2]Neon (1).[1]BoxLight"
+              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[3]NearBuildingRight.[2]Neon (1).[1]BoxLight",
+              "sliceSpriteControllerId": "CrabRaveEnvironment.[0]Environment.[3]NearBuildingRight.[2]Neon (1).[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 4,
-              "lightId": 4
-            }
+            "lightId": 5
           }
         ]
       }
@@ -3458,11 +4610,25 @@
             1.00000024
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "0dd004d097c885674f53e9736741a1d9"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.5,
+          "width": 0.2,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 20.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -3553,14 +4719,17 @@
               "height": 300.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[3]NearBuildingRight.[3]Neon (2).[1]BoxLight"
+              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[3]NearBuildingRight.[3]Neon (2).[1]BoxLight",
+              "sliceSpriteControllerId": "CrabRaveEnvironment.[0]Environment.[3]NearBuildingRight.[3]Neon (2).[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 8,
-              "lightId": 4
-            }
+            "lightId": 5
           }
         ]
       }
@@ -3598,11 +4767,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.5,
+          "width": 0.2,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.0,
+          "length": 300.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -3693,14 +4876,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[30]GlowLineL.[1]BoxLight"
+              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[30]GlowLineL.[1]BoxLight",
+              "sliceSpriteControllerId": "CrabRaveEnvironment.[0]Environment.[30]GlowLineL.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 10,
-              "lightId": 4
-            }
+            "lightId": 5
           }
         ]
       }
@@ -3738,11 +4924,25 @@
             1.00000024
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "0dd004d097c885674f53e9736741a1d9"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.08,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.0,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -3833,14 +5033,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[31]GlowLineR.[1]BoxLight"
+              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[31]GlowLineR.[1]BoxLight",
+              "sliceSpriteControllerId": "CrabRaveEnvironment.[0]Environment.[31]GlowLineR.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 11,
-              "lightId": 4
-            }
+            "lightId": 5
           }
         ]
       }
@@ -3878,11 +5081,25 @@
             1.00000024
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "0dd004d097c885674f53e9736741a1d9"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.08,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.0,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -3973,14 +5190,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[32]GlowLineL (1).[1]BoxLight"
+              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[32]GlowLineL (1).[1]BoxLight",
+              "sliceSpriteControllerId": "CrabRaveEnvironment.[0]Environment.[32]GlowLineL (1).[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 9,
-              "lightId": 4
-            }
+            "lightId": 5
           }
         ]
       }
@@ -4018,11 +5238,25 @@
             1.00000024
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.04,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -4113,14 +5347,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[33]GlowLineR (1).[1]BoxLight"
+              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[33]GlowLineR (1).[1]BoxLight",
+              "sliceSpriteControllerId": "CrabRaveEnvironment.[0]Environment.[33]GlowLineR (1).[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 12,
-              "lightId": 4
-            }
+            "lightId": 5
           }
         ]
       }
@@ -4158,11 +5395,25 @@
             1.00000024
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.04,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -4253,14 +5504,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 0.5,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[34]Laser (4).[1]BoxLight"
+              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[34]Laser (4).[1]BoxLight",
+              "sliceSpriteControllerId": "CrabRaveEnvironment.[0]Environment.[34]Laser (4).[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 7,
-              "lightId": 0
-            }
+            "lightId": 1
           }
         ]
       }
@@ -4298,11 +5552,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 1.0,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -4393,14 +5661,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 0.5,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[35]Laser (5).[1]BoxLight"
+              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[35]Laser (5).[1]BoxLight",
+              "sliceSpriteControllerId": "CrabRaveEnvironment.[0]Environment.[35]Laser (5).[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 8,
-              "lightId": 0
-            }
+            "lightId": 1
           }
         ]
       }
@@ -4438,11 +5709,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 1.0,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -4533,14 +5818,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 0.5,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[36]Laser (7).[1]BoxLight"
+              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[36]Laser (7).[1]BoxLight",
+              "sliceSpriteControllerId": "CrabRaveEnvironment.[0]Environment.[36]Laser (7).[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 5,
-              "lightId": 0
-            }
+            "lightId": 1
           }
         ]
       }
@@ -4578,11 +5866,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 1.0,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -4673,14 +5975,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 0.5,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[37]Laser (8).[1]BoxLight"
+              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[37]Laser (8).[1]BoxLight",
+              "sliceSpriteControllerId": "CrabRaveEnvironment.[0]Environment.[37]Laser (8).[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 6,
-              "lightId": 0
-            }
+            "lightId": 1
           }
         ]
       }
@@ -4718,11 +6023,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 1.0,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -4813,14 +6132,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 0.5,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[38]Laser (9).[1]BoxLight"
+              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[38]Laser (9).[1]BoxLight",
+              "sliceSpriteControllerId": "CrabRaveEnvironment.[0]Environment.[38]Laser (9).[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 3,
-              "lightId": 0
-            }
+            "lightId": 1
           }
         ]
       }
@@ -4858,11 +6180,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 1.0,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -4953,14 +6289,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 0.5,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[39]Laser (10).[1]BoxLight"
+              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[39]Laser (10).[1]BoxLight",
+              "sliceSpriteControllerId": "CrabRaveEnvironment.[0]Environment.[39]Laser (10).[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 4,
-              "lightId": 0
-            }
+            "lightId": 1
           }
         ]
       }
@@ -4998,11 +6337,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 1.0,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -5170,14 +6523,17 @@
               "height": 20.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[4]NearBuildingLeft.[1]Neon.[1]BoxLight"
+              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[4]NearBuildingLeft.[1]Neon.[1]BoxLight",
+              "sliceSpriteControllerId": "CrabRaveEnvironment.[0]Environment.[4]NearBuildingLeft.[1]Neon.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 5,
-              "lightId": 4
-            }
+            "lightId": 5
           }
         ]
       }
@@ -5215,11 +6571,25 @@
             1.00000024
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "0dd004d097c885674f53e9736741a1d9"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.5,
+          "width": 0.2,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 20.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -5310,14 +6680,17 @@
               "height": 20.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[4]NearBuildingLeft.[2]Neon (1).[1]BoxLight"
+              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[4]NearBuildingLeft.[2]Neon (1).[1]BoxLight",
+              "sliceSpriteControllerId": "CrabRaveEnvironment.[0]Environment.[4]NearBuildingLeft.[2]Neon (1).[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 3,
-              "lightId": 4
-            }
+            "lightId": 5
           }
         ]
       }
@@ -5355,11 +6728,25 @@
             1.00000024
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "0dd004d097c885674f53e9736741a1d9"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.5,
+          "width": 0.2,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 20.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -5450,14 +6837,17 @@
               "height": 300.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[4]NearBuildingLeft.[3]Neon (2).[1]BoxLight"
+              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[4]NearBuildingLeft.[3]Neon (2).[1]BoxLight",
+              "sliceSpriteControllerId": "CrabRaveEnvironment.[0]Environment.[4]NearBuildingLeft.[3]Neon (2).[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 7,
-              "lightId": 4
-            }
+            "lightId": 5
           }
         ]
       }
@@ -5495,11 +6885,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.5,
+          "width": 0.2,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.0,
+          "length": 300.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -5590,14 +6994,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 0.5,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[40]Laser (11).[1]BoxLight"
+              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[40]Laser (11).[1]BoxLight",
+              "sliceSpriteControllerId": "CrabRaveEnvironment.[0]Environment.[40]Laser (11).[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 1,
-              "lightId": 0
-            }
+            "lightId": 1
           }
         ]
       }
@@ -5635,11 +7042,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 1.0,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -5730,14 +7151,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 0.5,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[41]Laser (12).[1]BoxLight"
+              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[41]Laser (12).[1]BoxLight",
+              "sliceSpriteControllerId": "CrabRaveEnvironment.[0]Environment.[41]Laser (12).[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 2,
-              "lightId": 0
-            }
+            "lightId": 1
           }
         ]
       }
@@ -5775,11 +7199,25 @@
             1.0
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 1.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 1.0,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -5858,6 +7296,22 @@
             1.0,
             1.0
           ]
+        },
+        "LightPairRotationEventEffect": {
+          "eventTypeL": "Event12",
+          "transformL": "CrabRaveEnvironment.[0]Environment.[42]RotatingLasersPair (1).[0]BaseL",
+          "eventTypeR": "Event13",
+          "transformR": "CrabRaveEnvironment.[0]Environment.[42]RotatingLasersPair (1).[1]BaseR",
+          "switchOverrideRandomValuesEvent": "VoidEvent",
+          "rotationVector": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "overrideRandomValues": false,
+          "useZPositionForAngleOffset": false,
+          "zPositionAngleOffsetScale": 1.0,
+          "startRotation": 0.0
         }
       }
     },
@@ -5938,14 +7392,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[42]RotatingLasersPair (1).[0]BaseL.[0]Laser.[1]BoxLight"
+              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[42]RotatingLasersPair (1).[0]BaseL.[0]Laser.[1]BoxLight",
+              "sliceSpriteControllerId": "CrabRaveEnvironment.[0]Environment.[42]RotatingLasersPair (1).[0]BaseL.[0]Laser.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 5,
-              "lightId": 2
-            }
+            "lightId": 3
           }
         ]
       }
@@ -5983,11 +7440,25 @@
             1.00000048
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -6112,14 +7583,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[42]RotatingLasersPair (1).[1]BaseR.[0]Laser.[1]BoxLight"
+              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[42]RotatingLasersPair (1).[1]BaseR.[0]Laser.[1]BoxLight",
+              "sliceSpriteControllerId": "CrabRaveEnvironment.[0]Environment.[42]RotatingLasersPair (1).[1]BaseR.[0]Laser.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 1,
-              "lightId": 3
-            }
+            "lightId": 4
           }
         ]
       }
@@ -6157,11 +7631,25 @@
             1.00000048
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -6240,6 +7728,22 @@
             1.0,
             1.0
           ]
+        },
+        "LightPairRotationEventEffect": {
+          "eventTypeL": "Event12",
+          "transformL": "CrabRaveEnvironment.[0]Environment.[43]RotatingLasersPair (2).[0]BaseL",
+          "eventTypeR": "Event13",
+          "transformR": "CrabRaveEnvironment.[0]Environment.[43]RotatingLasersPair (2).[1]BaseR",
+          "switchOverrideRandomValuesEvent": "VoidEvent",
+          "rotationVector": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "overrideRandomValues": false,
+          "useZPositionForAngleOffset": false,
+          "zPositionAngleOffsetScale": 1.0,
+          "startRotation": 0.0
         }
       }
     },
@@ -6320,14 +7824,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[43]RotatingLasersPair (2).[0]BaseL.[0]Laser.[1]BoxLight"
+              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[43]RotatingLasersPair (2).[0]BaseL.[0]Laser.[1]BoxLight",
+              "sliceSpriteControllerId": "CrabRaveEnvironment.[0]Environment.[43]RotatingLasersPair (2).[0]BaseL.[0]Laser.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 4,
-              "lightId": 2
-            }
+            "lightId": 3
           }
         ]
       }
@@ -6365,11 +7872,25 @@
             1.00000048
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -6494,14 +8015,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[43]RotatingLasersPair (2).[1]BaseR.[0]Laser.[1]BoxLight"
+              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[43]RotatingLasersPair (2).[1]BaseR.[0]Laser.[1]BoxLight",
+              "sliceSpriteControllerId": "CrabRaveEnvironment.[0]Environment.[43]RotatingLasersPair (2).[1]BaseR.[0]Laser.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 2,
-              "lightId": 3
-            }
+            "lightId": 4
           }
         ]
       }
@@ -6539,11 +8063,25 @@
             1.00000048
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -6622,6 +8160,22 @@
             1.0,
             1.0
           ]
+        },
+        "LightPairRotationEventEffect": {
+          "eventTypeL": "Event12",
+          "transformL": "CrabRaveEnvironment.[0]Environment.[44]RotatingLasersPair (3).[0]BaseL",
+          "eventTypeR": "Event13",
+          "transformR": "CrabRaveEnvironment.[0]Environment.[44]RotatingLasersPair (3).[1]BaseR",
+          "switchOverrideRandomValuesEvent": "VoidEvent",
+          "rotationVector": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "overrideRandomValues": false,
+          "useZPositionForAngleOffset": false,
+          "zPositionAngleOffsetScale": 1.0,
+          "startRotation": 0.0
         }
       }
     },
@@ -6702,14 +8256,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[44]RotatingLasersPair (3).[0]BaseL.[0]Laser.[1]BoxLight"
+              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[44]RotatingLasersPair (3).[0]BaseL.[0]Laser.[1]BoxLight",
+              "sliceSpriteControllerId": "CrabRaveEnvironment.[0]Environment.[44]RotatingLasersPair (3).[0]BaseL.[0]Laser.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 3,
-              "lightId": 2
-            }
+            "lightId": 3
           }
         ]
       }
@@ -6747,11 +8304,25 @@
             1.00000048
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -6876,14 +8447,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[44]RotatingLasersPair (3).[1]BaseR.[0]Laser.[1]BoxLight"
+              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[44]RotatingLasersPair (3).[1]BaseR.[0]Laser.[1]BoxLight",
+              "sliceSpriteControllerId": "CrabRaveEnvironment.[0]Environment.[44]RotatingLasersPair (3).[1]BaseR.[0]Laser.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 3,
-              "lightId": 3
-            }
+            "lightId": 4
           }
         ]
       }
@@ -6921,11 +8495,25 @@
             1.00000048
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -7004,6 +8592,22 @@
             1.0,
             1.0
           ]
+        },
+        "LightPairRotationEventEffect": {
+          "eventTypeL": "Event12",
+          "transformL": "CrabRaveEnvironment.[0]Environment.[45]RotatingLasersPair.[0]BaseL",
+          "eventTypeR": "Event13",
+          "transformR": "CrabRaveEnvironment.[0]Environment.[45]RotatingLasersPair.[1]BaseR",
+          "switchOverrideRandomValuesEvent": "VoidEvent",
+          "rotationVector": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "overrideRandomValues": false,
+          "useZPositionForAngleOffset": false,
+          "zPositionAngleOffsetScale": 1.0,
+          "startRotation": 0.0
         }
       }
     },
@@ -7084,14 +8688,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[45]RotatingLasersPair.[0]BaseL.[0]Laser.[1]BoxLight"
+              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[45]RotatingLasersPair.[0]BaseL.[0]Laser.[1]BoxLight",
+              "sliceSpriteControllerId": "CrabRaveEnvironment.[0]Environment.[45]RotatingLasersPair.[0]BaseL.[0]Laser.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 2,
-              "lightId": 2
-            }
+            "lightId": 3
           }
         ]
       }
@@ -7129,11 +8736,25 @@
             1.00000048
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -7258,14 +8879,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[45]RotatingLasersPair.[1]BaseR.[0]Laser.[1]BoxLight"
+              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[45]RotatingLasersPair.[1]BaseR.[0]Laser.[1]BoxLight",
+              "sliceSpriteControllerId": "CrabRaveEnvironment.[0]Environment.[45]RotatingLasersPair.[1]BaseR.[0]Laser.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 4,
-              "lightId": 3
-            }
+            "lightId": 4
           }
         ]
       }
@@ -7303,11 +8927,25 @@
             1.00000048
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -7386,6 +9024,22 @@
             1.0,
             1.0
           ]
+        },
+        "LightPairRotationEventEffect": {
+          "eventTypeL": "Event12",
+          "transformL": "CrabRaveEnvironment.[0]Environment.[46]RotatingLasersPair (4).[0]BaseL",
+          "eventTypeR": "Event13",
+          "transformR": "CrabRaveEnvironment.[0]Environment.[46]RotatingLasersPair (4).[1]BaseR",
+          "switchOverrideRandomValuesEvent": "VoidEvent",
+          "rotationVector": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "overrideRandomValues": false,
+          "useZPositionForAngleOffset": false,
+          "zPositionAngleOffsetScale": 1.0,
+          "startRotation": 0.0
         }
       }
     },
@@ -7466,14 +9120,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[46]RotatingLasersPair (4).[0]BaseL.[0]Laser.[1]BoxLight"
+              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[46]RotatingLasersPair (4).[0]BaseL.[0]Laser.[1]BoxLight",
+              "sliceSpriteControllerId": "CrabRaveEnvironment.[0]Environment.[46]RotatingLasersPair (4).[0]BaseL.[0]Laser.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 1,
-              "lightId": 2
-            }
+            "lightId": 3
           }
         ]
       }
@@ -7511,11 +9168,25 @@
             1.00000048
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -7640,14 +9311,17 @@
               "height": 500.0,
               "startAlpha": 1.0,
               "endAlpha": 1.0,
+              "startWidth": 1.0,
+              "endWidth": 1.0,
+              "boostToWhite": 0.0,
+              "minAlpha": 0.0,
+              "maxAlpha": 1.0,
               "lightWidthMultiplier": 1.0,
               "useCollision": false,
-              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[46]RotatingLasersPair (4).[1]BaseR.[0]Laser.[1]BoxLight"
+              "parametricBoxId": "CrabRaveEnvironment.[0]Environment.[46]RotatingLasersPair (4).[1]BaseR.[0]Laser.[1]BoxLight",
+              "sliceSpriteControllerId": "CrabRaveEnvironment.[0]Environment.[46]RotatingLasersPair (4).[1]BaseR.[0]Laser.[0]BakedBloom"
             },
-            "chromaLight": {
-              "type": 5,
-              "lightId": 3
-            }
+            "lightId": 4
           }
         ]
       }
@@ -7685,11 +9359,25 @@
             1.00000048
           ]
         },
-        "MeshFilter": {},
+        "MeshFilter": {
+          "hash": "e6819d88d5c41ae3e598c9a361498d23"
+        },
         "MeshRenderer": {
           "materials": [
             "efd0d242bf2ace2047b83f3bffefe51d"
           ]
+        },
+        "Parametric3SliceSpriteController": {
+          "widthMultiplier": 10.4,
+          "alphaStart": 1.0,
+          "alphaEnd": 1.0,
+          "alphaMultiplier": 2.0,
+          "width": 0.1,
+          "widthStart": 1.0,
+          "widthEnd": 1.0,
+          "center": 0.5,
+          "length": 500.0,
+          "minAlpha": 0.0
         }
       }
     },
@@ -8467,12 +10155,12 @@
           "rotation": [
             0.0,
             0.0,
-            44.80211
+            44.8732
           ],
           "localRotation": [
             0.0,
             0.0,
-            44.80211
+            44.8732
           ],
           "scale": [
             1.0,
@@ -8501,7 +10189,7 @@
             0.0
           ],
           "rotation": [
-            315.197876,
+            315.1268,
             90.0,
             0.0
           ],
@@ -8511,9 +10199,9 @@
             0.0
           ],
           "scale": [
-            1.00000036,
-            1.00000012,
-            1.00000036
+            1.00000024,
+            1.0,
+            1.00000024
           ]
         },
         "MeshFilter": {
@@ -8545,12 +10233,12 @@
           "rotation": [
             0.0,
             0.0,
-            74.78408
+            80.2508545
           ],
           "localRotation": [
             0.0,
             0.0,
-            74.78408
+            80.2508545
           ],
           "scale": [
             0.99999994,
@@ -8579,7 +10267,7 @@
             0.0
           ],
           "rotation": [
-            285.215881,
+            279.7491,
             90.0,
             0.0
           ],
@@ -8590,8 +10278,8 @@
           ],
           "scale": [
             1.00000024,
-            1.00000012,
-            1.00000024
+            1.0,
+            1.00000012
           ]
         },
         "MeshFilter": {
@@ -8623,16 +10311,16 @@
           "rotation": [
             0.0,
             0.0,
-            70.9081345
+            79.5638657
           ],
           "localRotation": [
             0.0,
             0.0,
-            70.9081345
+            79.5638657
           ],
           "scale": [
-            1.0,
-            1.0,
+            0.99999994,
+            0.99999994,
             1.0
           ]
         },
@@ -8657,7 +10345,7 @@
             0.0
           ],
           "rotation": [
-            289.091858,
+            280.4361,
             90.0,
             0.0
           ],
@@ -8667,8 +10355,8 @@
             0.0
           ],
           "scale": [
+            1.00000024,
             1.00000012,
-            1.0,
             1.00000024
           ]
         },
@@ -8701,12 +10389,12 @@
           "rotation": [
             0.0,
             0.0,
-            61.9602127
+            75.62714
           ],
           "localRotation": [
             0.0,
             0.0,
-            61.9602127
+            75.62714
           ],
           "scale": [
             1.0,
@@ -8735,7 +10423,7 @@
             0.0
           ],
           "rotation": [
-            298.0398,
+            284.372833,
             90.0,
             0.0
           ],
@@ -8746,7 +10434,7 @@
           ],
           "scale": [
             1.00000024,
-            1.0,
+            1.00000012,
             1.00000024
           ]
         },
@@ -8779,12 +10467,12 @@
           "rotation": [
             0.0,
             0.0,
-            45.08733
+            66.61272
           ],
           "localRotation": [
             0.0,
             0.0,
-            45.08733
+            66.61272
           ],
           "scale": [
             1.0,
@@ -8813,7 +10501,7 @@
             0.0
           ],
           "rotation": [
-            314.912659,
+            293.387268,
             90.0,
             0.0
           ],
@@ -8824,8 +10512,8 @@
           ],
           "scale": [
             1.00000024,
-            1.0,
-            1.00000012
+            1.00000012,
+            1.00000036
           ]
         },
         "MeshFilter": {
@@ -8857,12 +10545,12 @@
           "rotation": [
             0.0,
             0.0,
-            15.8515167
+            0.0
           ],
           "localRotation": [
             0.0,
             0.0,
-            15.8515167
+            0.0
           ],
           "scale": [
             1.0,
@@ -8891,7 +10579,7 @@
             0.0
           ],
           "rotation": [
-            344.148468,
+            0.0,
             90.0,
             0.0
           ],
@@ -9325,16 +11013,16 @@
           "rotation": [
             0.0,
             0.0,
-            49.670166
+            49.7886734
           ],
           "localRotation": [
             0.0,
             0.0,
-            49.670166
+            49.7886734
           ],
           "scale": [
-            1.0,
-            1.0,
+            1.00000012,
+            1.00000012,
             1.0
           ]
         },
@@ -9359,7 +11047,7 @@
             0.0
           ],
           "rotation": [
-            310.329834,
+            310.211334,
             90.0,
             0.0
           ],
@@ -9369,9 +11057,9 @@
             0.0
           ],
           "scale": [
-            1.00000024,
-            1.0,
-            1.00000024
+            1.00000036,
+            1.00000012,
+            1.00000036
           ]
         },
         "MeshFilter": {
@@ -9481,16 +11169,16 @@
           "rotation": [
             0.0,
             0.0,
-            54.4557762
+            54.6513023
           ],
           "localRotation": [
             0.0,
             0.0,
-            54.4557762
+            54.6513023
           ],
           "scale": [
-            0.99999994,
-            0.99999994,
+            1.0,
+            1.0,
             1.0
           ]
         },
@@ -9515,7 +11203,7 @@
             0.0
           ],
           "rotation": [
-            305.54422,
+            305.3487,
             90.0,
             0.0
           ],
@@ -9525,8 +11213,8 @@
             0.0
           ],
           "scale": [
-            1.00000024,
-            1.0,
+            1.00000036,
+            1.00000012,
             1.00000024
           ]
         },
@@ -9559,16 +11247,16 @@
           "rotation": [
             0.0,
             0.0,
-            59.1094551
+            59.4294
           ],
           "localRotation": [
             0.0,
             0.0,
-            59.1094551
+            59.4294
           ],
           "scale": [
-            1.00000012,
-            1.00000012,
+            0.9999999,
+            0.9999999,
             1.0
           ]
         },
@@ -9593,7 +11281,7 @@
             0.0
           ],
           "rotation": [
-            300.890533,
+            300.5706,
             90.0,
             0.0
           ],
@@ -9604,7 +11292,7 @@
           ],
           "scale": [
             1.00000024,
-            1.00000012,
+            1.0,
             1.00000024
           ]
         },
@@ -9637,16 +11325,16 @@
           "rotation": [
             0.0,
             0.0,
-            63.5528564
+            64.07279
           ],
           "localRotation": [
             0.0,
             0.0,
-            63.5528564
+            64.07279
           ],
           "scale": [
-            0.99999994,
-            0.99999994,
+            1.0,
+            1.0,
             1.0
           ]
         },
@@ -9671,7 +11359,7 @@
             0.0
           ],
           "rotation": [
-            296.447144,
+            295.9272,
             90.0,
             0.0
           ],
@@ -9681,8 +11369,8 @@
             0.0
           ],
           "scale": [
+            1.00000024,
             1.00000012,
-            1.0,
             1.00000024
           ]
         },
@@ -9715,16 +11403,16 @@
           "rotation": [
             0.0,
             0.0,
-            67.6623
+            68.5022
           ],
           "localRotation": [
             0.0,
             0.0,
-            67.6623
+            68.5022
           ],
           "scale": [
-            1.0,
-            1.0,
+            0.99999994,
+            0.99999994,
             1.0
           ]
         },
@@ -9749,7 +11437,7 @@
             0.0
           ],
           "rotation": [
-            292.3377,
+            291.4978,
             90.0,
             0.0
           ],
@@ -9759,9 +11447,9 @@
             0.0
           ],
           "scale": [
-            1.00000036,
-            1.00000012,
-            1.00000036
+            1.00000024,
+            1.0,
+            1.00000024
           ]
         },
         "MeshFilter": {
@@ -9793,16 +11481,16 @@
           "rotation": [
             0.0,
             0.0,
-            71.243
+            72.592804
           ],
           "localRotation": [
             0.0,
             0.0,
-            71.243
+            72.592804
           ],
           "scale": [
-            1.0,
-            1.0,
+            1.00000012,
+            1.00000012,
             1.0
           ]
         },
@@ -9827,7 +11515,7 @@
             0.0
           ],
           "rotation": [
-            288.757019,
+            287.407166,
             90.0,
             0.0
           ],
@@ -9837,9 +11525,9 @@
             0.0
           ],
           "scale": [
-            1.00000036,
-            1.0,
-            1.00000024
+            1.00000024,
+            1.00000012,
+            1.00000036
           ]
         },
         "MeshFilter": {
@@ -9871,16 +11559,16 @@
           "rotation": [
             0.0,
             0.0,
-            73.98877
+            76.14848
           ],
           "localRotation": [
             0.0,
             0.0,
-            73.98877
+            76.14848
           ],
           "scale": [
-            1.00000024,
-            1.00000024,
+            0.99999994,
+            0.99999994,
             1.0
           ]
         },
@@ -9905,7 +11593,7 @@
             0.0
           ],
           "rotation": [
-            286.01123,
+            283.8515,
             90.0,
             0.0
           ],
@@ -9915,9 +11603,9 @@
             0.0
           ],
           "scale": [
-            1.00000036,
-            1.00000036,
-            1.0000006
+            1.00000024,
+            1.0,
+            1.00000024
           ]
         },
         "MeshFilter": {
@@ -9949,16 +11637,16 @@
           "rotation": [
             0.0,
             0.0,
-            75.41961
+            78.86165
           ],
           "localRotation": [
             0.0,
             0.0,
-            75.41961
+            78.86165
           ],
           "scale": [
-            0.99999994,
-            0.99999994,
+            1.0,
+            1.0,
             1.0
           ]
         },
@@ -9983,7 +11671,7 @@
             0.0
           ],
           "rotation": [
-            284.580383,
+            281.1383,
             90.0,
             0.0
           ],
@@ -9993,7 +11681,7 @@
             0.0
           ],
           "scale": [
-            1.00000036,
+            1.00000012,
             1.00000012,
             1.00000024
           ]
