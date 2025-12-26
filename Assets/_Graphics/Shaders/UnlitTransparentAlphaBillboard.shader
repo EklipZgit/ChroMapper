@@ -116,16 +116,19 @@
                 fixed4 alphaWidth = UNITY_ACCESS_INSTANCED_PROP(Props, _AlphaWidth);
 
                 float adjustedLengthFactor = i.lengthFactor - sizeParams.z;
-                if (!(alphaWidth.y <= adjustedLengthFactor && adjustedLengthFactor <= alphaWidth.x)) discard;
 
                 float widthFactor = lerp(1 / alphaWidth.z, 1 / alphaWidth.w, adjustedLengthFactor);
                 float2 adjustedUv = i.uv;
                 adjustedUv.x = (adjustedUv.x - 0.5) * widthFactor + 0.5;
                 fixed4 albedo = color * tex2D(_MainTex, TRANSFORM_TEX(adjustedUv, _MainTex));
 
+                if (albedo.a > 1.0) albedo.rgb *= albedo.a;
+                albedo.a = saturate(albedo.a);
+                albedo.rgb *= albedo.a;
+
                 float alphaFactor = lerp(alphaWidth.x, alphaWidth.y, adjustedLengthFactor);
-                albedo.rgb *= albedo.a * alphaFactor;
-                albedo.a *= length(albedo.rgb) * alphaFactor;
+                albedo *= alphaFactor;
+                albedo.a *= saturate(length(albedo.rgb)) * alphaFactor;
 
                 #ifdef ENABLE_HEIGHT_FOG
                 BLOOM_FOG_HEIGHT_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,

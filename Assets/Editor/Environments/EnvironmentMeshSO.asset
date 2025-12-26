@@ -2182,7 +2182,7 @@ MonoBehaviour:
     BoundsCenter: {x: 0, y: 0, z: 0}
     Unused: 0
     Ignored: 0
-  - Mesh: {fileID: 0}
+  - Mesh: {fileID: 385675676071886462, guid: a41405ceeaa569b6199be3b8483759cc, type: 3}
     Hash: 92edae0aa6c7ed070b71b8e1fb8ceb0d
     Names:
     - LightGlow

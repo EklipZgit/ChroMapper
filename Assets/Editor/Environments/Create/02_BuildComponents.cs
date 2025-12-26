@@ -182,16 +182,10 @@ public partial class EnvironmentSceneCreator
             GameObject go,
             InstancedMaterialLightWithIdComponent instancedLight)
         {
-            return;
-            var rend = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            rend.transform.SetParent(go.transform.GetChild(1), false);
-            rend.transform.localPosition = Vector3.up * 4.2f;
-            rend.transform.localScale = (Vector3.one * 0.1f) + (Vector3.up * 8f);
+            // If you get error here, just comment or return it out
             var lc = go.AddComponent<LightController>();
             lc.BoxLight = go.AddComponent<LightObject>();
-            lc.BoxLight.Renderer = rend.GetComponent<Renderer>();
-            lc.BoxLight.Renderer.sharedMaterial = AssetDatabase.LoadAssetAtPath<Material>(
-                "Assets/_Graphics/Materials/Environment/Custom/LightTransparent.mat");
+            lc.BoxLight.Renderer = go.transform.GetChild(1).Find("LightGlow")?.GetComponent<Renderer>();
             lc.BoxLight.Multiply = instancedLight.Intensity;
 
             RegisterLight(id, lc);
