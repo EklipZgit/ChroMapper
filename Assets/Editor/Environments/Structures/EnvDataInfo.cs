@@ -99,6 +99,7 @@ public class LightTracksDefinition
 
     public class PageDefinition
     {
+        [JsonProperty("groupId")] public int GroupId;
         [JsonProperty("groupName")] public string GroupName = "";
         [JsonProperty("colorTrack")] public bool ColorTrack;
         [JsonProperty("floatFxTrack")] public bool FloatFxTrack;
@@ -186,10 +187,12 @@ public class EnvColorScheme
         copy.RightNoteColor = ToColor(ColorRight);
 
         copy.EnvironmentLeftColor = ToColor(EnvColorLeft);
-        copy.EnvironmentLeftBoostColor = ToColor(EnvColorLeftBoost);
-
         copy.EnvironmentRightColor = ToColor(EnvColorRight);
+        copy.EnvironmentWhiteColor = ToColor(EnvColorWhite);
+
+        copy.EnvironmentLeftBoostColor = ToColor(EnvColorLeftBoost);
         copy.EnvironmentRightBoostColor = ToColor(EnvColorRightBoost);
+        copy.EnvironmentWhiteBoostColor = ToColor(EnvColorWhiteBoost);
 
         copy.ObstacleColor = ToColor(ObstacleColor);
     }

@@ -32,6 +32,36 @@ public partial class EnvironmentSceneCreator
         lcgem.gameObject.transform.SetParent(GameObject.Find("Environment").transform);
         descriptor.LightColorGroupEffectManager = lcgem;
 
+        if (lcgemData != null)
+        {
+            foreach (var lg in lcgemData.LightGroups) lcgem.Register(lg.GroupId, lg.NumberOfElements);
+            foreach (var lightColorGroupEffect in lcgem.IdToEffect.Values)
+                lightColorGroupEffect.ColorBoostEffect = boost;
+        }
+
+        var lightWithIdManager = data.Objects.FirstOrDefault(x => x.Components.LightWithIdManager != null)
+            ?.Components.LightWithIdManager;
+        if (lightWithIdManager != null)
+        {
+            foreach (var lights in lightWithIdManager.Lights)
+            {
+                foreach (var l in lights)
+                {
+                    var envObject = objectsToUse.Find(x => x.ChromaID == l.Name);
+                    if (envObject is null) continue;
+                    var marker = chromaIdObjects[l.Name];
+                    var go = marker.gameObject;
+
+                    if (envObject.Components.TubeBloomPrePassLightWithId != null)
+                        HandleTubeBloomPrePassLightWithId(l.ID, go, envObject.Components.TubeBloomPrePassLightWithId);
+                    if (envObject.Components.SpriteLightWithId != null)
+                        HandleSpriteLightWithId(l.ID, go, envObject.Components.SpriteLightWithId);
+                    if (envObject.Components.InstancedMaterialLightWithId != null)
+                        HandleInstancedMaterialLightWithId(l.ID, go, envObject.Components.InstancedMaterialLightWithId);
+                }
+            }
+        }
+
         var lrgemData = objectsToUse.FirstOrDefault(x => x.Components.LightRotationGroupEffectManager != null)
             ?.Components.LightRotationGroupEffectManager;
         var lrgem = new GameObject("LightRotationGroupEffectManager")
@@ -39,68 +69,52 @@ public partial class EnvironmentSceneCreator
         lrgem.gameObject.transform.SetParent(GameObject.Find("Environment").transform);
         descriptor.LightRotationGroupEffectManager = lrgem;
 
-        // this shouldn't work, i just had to hack some solution to get weave working
         if (lrgemData != null)
         {
-            foreach (var lrge in lrgemData.LightRotationGroupEffects)
+            foreach (var lrgData in lrgemData.LightRotationGroups)
             {
-                if (chromaIdObjects.TryGetValue(lrge.Transform, out var go))
+                lrgem.Register(lrgData.GroupId, lrgData.Count);
+
+                RegisterRotation(Axis.X, lrgData.XTransforms, lrgData.MirrorX);
+                RegisterRotation(Axis.Y, lrgData.YTransforms, lrgData.MirrorY);
+                RegisterRotation(Axis.Z, lrgData.ZTransforms, lrgData.MirrorZ);
+                continue;
+
+                void RegisterRotation(Axis axis, string[] transforms, bool mirror)
                 {
-                    var chromaObj = objectsToUse.First(x => x.ChromaID == lrge.Transform);
-
-                    var instancedLight = chromaObj.Components.InstancedMaterialLightWithId;
-                    if (instancedLight == null)
+                    for (var i = 0; i < transforms.Length; i++)
                     {
-                        chromaObj = objectsToUse.First(x =>
-                            x.ChromaID == lrge.Transform[..lrge.Transform.LastIndexOf('.')]);
-                        instancedLight = chromaObj.Components.InstancedMaterialLightWithId;
-                    }
-
-                    // if (instancedLight == null) continue;
-                    if (lcgemData != null)
-                    {
-                        var found = lcgemData.LightGroups.FirstOrDefault(x =>
-                            x.StartLightId <= instancedLight.ID
-                            && instancedLight.ID < x.StartLightId + x.NumberOfElements);
-                        if (found != null)
-                        {
-                            lrgem.Register(found.GroupId, found.NumberOfElements);
-                            lrgem.Register(
-                                found.GroupId,
-                                instancedLight.ID - found.StartLightId,
-                                lrge.Axis,
-                                lrge.Mirrored,
-                                go.transform);
-                        }
+                        var transformName = transforms[i];
+                        var t = chromaIdObjects[transformName].transform;
+                        lrgem.Register(lrgData.GroupId, i, axis, mirror, t.gameObject.transform);
                     }
                 }
             }
         }
 
-        foreach (var envObject in objectsToUse)
-        {
-            var marker = chromaIdObjects[envObject.ChromaID];
-            var go = marker.gameObject;
-
-            if (envObject.Components.TubeBloomPrePassLightWithId != null)
-                HandleTubeBloomPrePassLightWithId(go, envObject.Components.TubeBloomPrePassLightWithId);
-            if (envObject.Components.SpriteLightWithId != null)
-                HandleSpriteLightWithId(go, envObject.Components.SpriteLightWithId);
-            if (envObject.Components.InstancedMaterialLightWithId != null)
-                HandleInstancedMaterialLightWithId(go, envObject.Components.InstancedMaterialLightWithId);
-        }
-
         return;
 
+        void RegisterLight(int id, LightController controller)
+        {
+            var lg = lcgemData.LightGroups.FirstOrDefault(x =>
+                x.StartLightId <= id && id < x.StartLightId + x.NumberOfElements);
+            if (lg is not null)
+            {
+                lcgem.Register(lg.GroupId, id - lg.StartLightId, controller);
+                return;
+            }
+
+            Debug.LogError($"Somehow ID {id} is not registered for {controller}");
+        }
+
         void HandleTubeBloomPrePassLightWithId(
+            int id,
             GameObject go,
             List<TubeBloomPrePassLightWithIdComponent> comps)
         {
             foreach (var tubeBloomPrePass in comps)
             {
-                if (tubeBloomPrePass.TubeBloomPrePassLight == null
-                    || tubeBloomPrePass.ChromaLight == null)
-                    continue;
+                if (tubeBloomPrePass.TubeBloomPrePassLight == null) continue;
 
                 var lc = go.AddComponent<LightController>();
 
@@ -129,43 +143,29 @@ public partial class EnvironmentSceneCreator
                     lc.LightObject.Renderer = boxLight.GetComponentInChildren<Renderer>();
                     lc.LightObject.Multiply = tubeBloomPrePass.TubeBloomPrePassLight.ColorAlphaMultiplier;
                 }
-                
-                // var quad = GameObject.CreatePrimitive(PrimitiveType.Quad);
-                // quad.transform.SetParent(go.transform, false);
-                // quad.transform.localScale = new(
-                //    tubeBloomPrePass.TubeBloomPrePassLight.TubeWidth
-                //    * 10f
-                //    * tubeBloomPrePass.TubeBloomPrePassLight.LightWidthMultiplier,
-                //    tubeBloomPrePass.TubeBloomPrePassLight.TubeLength,
-                //    0f);
-                // quad.transform.localPosition = new(0f, 0f, 0f);
-                // var lobf = quad.AddComponent<LightObjectBloomFog>();
-                // lobf.Multiply = tubeBloomPrePass.TubeBloomPrePassLight.BloomFogIntensityMultiplier;
-                // quad.layer = LayerMask.NameToLayer("Lighting Events");
-                // quad.GetComponent<Renderer>().sharedMaterial = library.BloomFogMaterial;
 
-                var ble = beec.Register<BasicLightEffect>(tubeBloomPrePass.ChromaLight.Type);
-                ble.ColorBoostEffect = boost;
-                beec.Register(tubeBloomPrePass.ChromaLight.Type, tubeBloomPrePass.ChromaLight.LightId, lc);
+                RegisterLight(id, lc);
             }
         }
 
-        void HandleSpriteLightWithId(GameObject go, SpriteLightWithIdComponent spriteLight)
+        void HandleSpriteLightWithId(int id, GameObject go, SpriteLightWithIdComponent spriteLight)
         {
-            if (spriteLight.ChromaLight == null
-                || string.IsNullOrEmpty(spriteLight.SpriteName)
-                || spriteLight.SpriteName == "null")
-                return;
-
-            var lc = go.AddComponent<LightController>();
-
-            // var sprite = chromaIdObjects[spriteLight.SpriteName];
-            lc.LightObject = go.AddComponent<LightObjectSprite>();
-            lc.LightObject.Renderer = go.AddComponent<SpriteRenderer>();
-            lc.LightObject.Multiply = spriteLight.Intensity;
+            // if (string.IsNullOrEmpty(spriteLight.SpriteName)
+            //     || spriteLight.SpriteName == "null")
+            //     return;
+            //
+            // var lc = go.AddComponent<LightController>();
+            //
+            // // var sprite = chromaIdObjects[spriteLight.SpriteName];
+            // lc.LightObject = go.AddComponent<LightObjectSprite>();
+            // lc.LightObject.Renderer = go.AddComponent<SpriteRenderer>();
+            // lc.LightObject.Multiply = spriteLight.Intensity;
         }
 
-        void HandleInstancedMaterialLightWithId(GameObject go, InstancedMaterialLightWithIdComponent instancedLight)
+        void HandleInstancedMaterialLightWithId(
+            int id,
+            GameObject go,
+            InstancedMaterialLightWithIdComponent instancedLight)
         {
             var rend = GameObject.CreatePrimitive(PrimitiveType.Cube);
             rend.transform.SetParent(go.transform.GetChild(1), false);
@@ -178,17 +178,7 @@ public partial class EnvironmentSceneCreator
                 "Assets/_Graphics/Materials/Environment/Custom/LightTransparent.mat");
             lc.LightObject.Multiply = instancedLight.Intensity;
 
-            if (lcgemData != null)
-            {
-                var found = lcgemData.LightGroups.FirstOrDefault(x =>
-                    x.StartLightId <= instancedLight.ID && instancedLight.ID < x.StartLightId + x.NumberOfElements);
-                if (found != null)
-                {
-                    var lcge = lcgem.Register(found.GroupId, found.NumberOfElements);
-                    lcge.ColorBoostEffect = boost;
-                    lcgem.Register(found.GroupId, instancedLight.ID - found.StartLightId, lc);
-                }
-            }
+            RegisterLight(id, lc);
         }
     }
 }

@@ -21,7 +21,7 @@ public class EnvDataObject
     // We can leave this to standard Newtonsoft.Json serialization.
     public class EnvironmentComponents
     {
-        // Basic Components
+        // Unity Components
         [JsonProperty("transform")] public TransformComponent? Transform;
 
         [JsonProperty("meshFilter")] public MeshFilterComponent? MeshFilter;
@@ -29,16 +29,53 @@ public class EnvDataObject
         [JsonProperty("meshRenderer")] public MeshRendererComponent? MeshRenderer;
 
         // Lighting Components
-        [JsonProperty("tubeBloomPrePassLightWithId")]
-        public List<TubeBloomPrePassLightWithIdComponent>? TubeBloomPrePassLightWithId;
-
-        [JsonProperty("spriteLightWithId")] public SpriteLightWithIdComponent? SpriteLightWithId;
-
         [JsonProperty("instancedMaterialLightWithId")]
         public InstancedMaterialLightWithIdComponent? InstancedMaterialLightWithId;
 
+        [JsonProperty("particleSystemLightWithId")]
+        public ParticleSystemLightWithIdComponent? ParticleSystemLightWithID;
+
+        [JsonProperty("spriteLightWithId")] public SpriteLightWithIdComponent? SpriteLightWithId;
+
+        [JsonProperty("tubeBloomPrePassLightWithId")]
+        public List<TubeBloomPrePassLightWithIdComponent>? TubeBloomPrePassLightWithId;
+
+        // Controller Components
+        [JsonProperty("parametric3SliceSpriteController")]
+        public Parametric3SliceSpriteControllerComponent? Parametric3SliceSpriteController;
+
+        // Basic
+        [JsonProperty("lightPairRotationEventEffect")]
+        public LightPairRotationEventEffectComponent? LightPairRotationEventEffect;
+
+        [JsonProperty("lightPairSinMoveEventEffect")]
+        public LightPairSinMoveEventEffectComponent? LightPairSinMoveEventEffect;
+
+        [JsonProperty("lightSwitchEventEffect")]
+        public LightSwitchEventEffectComponent? LightSwitchEventEffect;
+
+        [JsonProperty("particleSystemContinuousEventEffect")]
+        public ParticleSystemContinuousEventEffectComponent? ParticleSystemContinuousEventEffect;
+
+        [JsonProperty("particleSystemEventEffect")]
+        public ParticleSystemEventEffectComponent? ParticleSystemEventEffect;
+
+        [JsonProperty("trackLaneRing")] public TrackLaneRingComponent? TrackLaneRing;
+
         [JsonProperty("trackLaneRingsManager")]
         public TrackLaneRingsManagerComponent? TrackLaneRingsManager;
+
+        [JsonProperty("trackLaneRingsPositionStepEffectSpawner")]
+        public TrackLaneRingsPositionStepEffectSpawnerComponent? TrackLaneRingsPositionStepEffectSpawner;
+
+        [JsonProperty("trackLaneRingsRotationEffect")]
+        public TrackLaneRingsRotationEffectComponent? TrackLaneRingsRotationEffect;
+
+        [JsonProperty("trackLaneRingsRotationEffectSpawner")]
+        public TrackLaneRingsRotationEffectSpawnerComponent? TrackLaneRingsRotationEffectSpawner;
+
+        // Others
+        [JsonProperty("lightWithIdManager")] public LightWithIdManagerComponent? LightWithIdManager;
 
         public LightColorGroupComponent? LightColorGroup;
         public LightColorGroupEffectComponent? LightColorGroupEffect;

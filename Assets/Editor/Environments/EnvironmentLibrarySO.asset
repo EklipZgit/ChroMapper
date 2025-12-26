@@ -49,8 +49,6 @@ MonoBehaviour:
     shader: {fileID: 4800000, guid: 20f9a1141fa23bc45aefafed3a649b3d, type: 3}
   <SkyboxMaterial>k__BackingField: {fileID: 2100000, guid: e08c9a8c6d50c52499b383fff6fa82dd,
     type: 2}
-  <BloomFogMaterial>k__BackingField: {fileID: 2100000, guid: 32f0a31e341975cada52651103b55d30,
-    type: 2}
   layerMaskRemap:
   - name: Default
     layerMask:

@@ -6,5 +6,6 @@ public interface ILightTransformGroup
     string[] XTransforms { get; set; }
     string[] YTransforms { get; set; }
     string[] ZTransforms { get; set; }
+    int GroupId { get; set; }
     int Count { get; set; }
 }
