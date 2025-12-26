@@ -15,6 +15,8 @@ Shader "ChroMapper/BloomfogMesh"
             #pragma vertex vert
             #pragma fragment frag
 
+            #include "../CGIncludes/CustomTonemapping.cginc"
+
             struct appdata
             {
                 float4 vertex : POSITION;
@@ -30,6 +32,7 @@ Shader "ChroMapper/BloomfogMesh"
                 uint id : TEXCOORD1;
             };
 
+            // Need a dedicated color buffer because vertex colors dont support HDR
             uniform float4x4 _VertexTransformMatrix;
             uniform StructuredBuffer<float4> _BloomfogColorBuffer;
 
@@ -44,7 +47,9 @@ Shader "ChroMapper/BloomfogMesh"
 
             float4 frag (v2f i) : SV_Target
             {
-                return _BloomfogColorBuffer[i.id];
+                float4 color = _BloomfogColorBuffer[i.id];
+                REINHARD_TONE_MAPPING_APPLY(color)
+                return color;
             }
             ENDCG
         }
