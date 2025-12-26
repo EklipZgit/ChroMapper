@@ -139,9 +139,24 @@ public partial class EnvironmentSceneCreator
                     && tubeBloomPrePass.TubeBloomPrePassLight.ParametricBoxId != "null")
                 {
                     var boxLight = chromaIdObjects[tubeBloomPrePass.TubeBloomPrePassLight.ParametricBoxId];
-                    lc.LightObject = boxLight.AddComponent<LightObject>();
-                    lc.LightObject.Renderer = boxLight.GetComponentInChildren<Renderer>();
-                    lc.LightObject.Multiply = tubeBloomPrePass.TubeBloomPrePassLight.ColorAlphaMultiplier;
+                    lc.BoxLight = boxLight.AddComponent<LightObject>();
+                    lc.BoxLight.Renderer = boxLight.GetComponent<Renderer>();
+                    lc.BoxLight.Multiply = tubeBloomPrePass.TubeBloomPrePassLight.ColorAlphaMultiplier;
+                }
+
+                // Set up sprite light object
+                if (!string.IsNullOrEmpty(tubeBloomPrePass.TubeBloomPrePassLight.SliceSpriteControllerId)
+                    && tubeBloomPrePass.TubeBloomPrePassLight.SliceSpriteControllerId != "null")
+                {
+                    var spriteLight = chromaIdObjects[tubeBloomPrePass.TubeBloomPrePassLight.SliceSpriteControllerId];
+                    var envObject = data.Objects.First(x =>
+                        x.ChromaID == tubeBloomPrePass.TubeBloomPrePassLight.SliceSpriteControllerId);
+
+                    lc.SpriteLight = spriteLight.AddComponent<LightObjectParametric3SliceSprite>();
+                    lc.SpriteLight.Renderer = spriteLight.GetComponent<Renderer>();
+
+                    envObject.Components.Parametric3SliceSpriteController.CopyTo(
+                        (LightObjectParametric3SliceSprite)lc.SpriteLight);
                 }
 
                 RegisterLight(id, lc);
@@ -167,16 +182,17 @@ public partial class EnvironmentSceneCreator
             GameObject go,
             InstancedMaterialLightWithIdComponent instancedLight)
         {
+            return;
             var rend = GameObject.CreatePrimitive(PrimitiveType.Cube);
             rend.transform.SetParent(go.transform.GetChild(1), false);
             rend.transform.localPosition = Vector3.up * 4.2f;
             rend.transform.localScale = (Vector3.one * 0.1f) + (Vector3.up * 8f);
             var lc = go.AddComponent<LightController>();
-            lc.LightObject = go.AddComponent<LightObject>();
-            lc.LightObject.Renderer = rend.GetComponent<Renderer>();
-            lc.LightObject.Renderer.sharedMaterial = AssetDatabase.LoadAssetAtPath<Material>(
+            lc.BoxLight = go.AddComponent<LightObject>();
+            lc.BoxLight.Renderer = rend.GetComponent<Renderer>();
+            lc.BoxLight.Renderer.sharedMaterial = AssetDatabase.LoadAssetAtPath<Material>(
                 "Assets/_Graphics/Materials/Environment/Custom/LightTransparent.mat");
-            lc.LightObject.Multiply = instancedLight.Intensity;
+            lc.BoxLight.Multiply = instancedLight.Intensity;
 
             RegisterLight(id, lc);
         }

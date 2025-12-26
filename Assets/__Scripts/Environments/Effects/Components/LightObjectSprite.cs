@@ -13,11 +13,5 @@ public class LightObjectSprite : LightObject
         Mpb.SetTexture(mainTexId, spriteRenderer.sprite.texture);
     }
 
-    public override void UpdateBoostState(bool boost)
-    {
-        if (boostSprite == null) return;
-        Mpb.SetTexture(mainTexId, boostSprite.GetSprite(boost).texture);
-    }
-
     protected override Color ModifyColor(Color color) => color * Multiply;
 }

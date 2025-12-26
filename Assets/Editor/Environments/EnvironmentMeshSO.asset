@@ -3499,7 +3499,7 @@ MonoBehaviour:
     BoundsCenter: {x: -0.00000023841858, y: -11.277856, z: 2.9512186}
     Unused: 0
     Ignored: 0
-  - Mesh: {fileID: 0}
+  - Mesh: {fileID: 4300000, guid: a96174836f8b90962b9d37a6d8d29363, type: 2}
     Hash: e6819d88d5c41ae3e598c9a361498d23
     Names:
     - Dynamic3SliceSprite

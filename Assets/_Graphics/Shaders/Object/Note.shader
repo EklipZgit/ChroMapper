@@ -241,18 +241,10 @@ Shader "ChroMapper/Object/Note"
                 fixed3 lightColor = _LightColor0.rgb;
                 float diffuse = saturate(dot(worldNormal, lightDirection));
 
-                float _FogScale = 5;
-                float _FogAttenuation = 0.00002;
-                float distance = length(i.worldPos - _WorldSpaceCameraPos);
-                float factor = max(dot(distance, distance), 0);
-                factor = max(factor * _FogScale, 0);
-                factor = 1 / (factor * _FogAttenuation + 1);
-                // return fixed4(factor.xxx, 0);
-
                 fixed3 color = albedo.rgb * UNITY_LIGHTMODEL_AMBIENT.rgb;
                 color += diffuse * lightColor * albedo.rgb;
 
-                fixed4 bloomfog_color = fixed4(color, saturate(noteColor.a * _Glow)) * factor;
+                fixed4 bloomfog_color = fixed4(color, saturate(noteColor.a * _Glow));
                 
                 #ifdef CM_PREVIEW_MODE
                     #ifdef ENABLE_HEIGHT_FOG

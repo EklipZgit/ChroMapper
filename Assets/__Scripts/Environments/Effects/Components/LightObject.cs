@@ -7,18 +7,15 @@ public class LightObject : MonoBehaviour
 
     protected MaterialPropertyBlock Mpb;
 
-    private static readonly int colorId = Shader.PropertyToID("_Color");
+    protected static readonly int colorId = Shader.PropertyToID("_Color");
 
     protected virtual void Start() => Mpb = new MaterialPropertyBlock();
 
     public virtual void UpdateLighting(Color color)
     {
-        if (Renderer == null) return;
         Mpb.SetColor(colorId, ModifyColor(color));
         Renderer.SetPropertyBlock(Mpb);
     }
-
-    public virtual void UpdateBoostState(bool boost) { }
 
     protected virtual Color ModifyColor(Color color)
     {
