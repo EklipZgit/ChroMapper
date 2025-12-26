@@ -39,7 +39,6 @@ public class
             {
                 controller.StartColor = ColorScheme.GetColorFrom((LightColor)state.Base.Color, false);
                 controller.EndColor = ColorScheme.GetColorFrom((LightColor)state.Next.Base.Color, false);
-                controller.UpdateBoostState(boost);
             }
         }
     }
@@ -123,15 +122,15 @@ public class
                 controller.StartStrobeBrightness = startState.Base.StrobeBrightness;
 
                 controller.EndTimeAlpha = controller.EndTimeColor = state.EndTime;
-                var endState = state;
-                if (endState.Base.UsePrevious == 1) endState = state;
-                controller.EndAlpha = endState.Next.Base.Brightness;
-                controller.EndColor = ColorScheme.GetColorFrom((LightColor)endState.Next.Base.Color, false);
-                controller.EndStrobeFrequency = endState.Next.Base.Frequency;
-                controller.EndStrobeBrightness = endState.Next.Base.StrobeBrightness;
+                var endState = state.Next;
+                if (endState.Base.UsePrevious == 1) endState = startState;
+                controller.EndAlpha = endState.Base.Brightness;
+                controller.EndColor = ColorScheme.GetColorFrom((LightColor)endState.Base.Color, false);
+                controller.EndStrobeFrequency = endState.Base.Frequency;
+                controller.EndStrobeBrightness = endState.Base.StrobeBrightness;
 
-                controller.StrobeFade = endState.Next.Base.StrobeFade == 1;
-                controller.Easing = Easing.FromID(endState.Next.Base.Easing);
+                controller.StrobeFade = endState.Base.StrobeFade == 1;
+                controller.Easing = Easing.FromID(endState.Base.Easing);
             }
 
             controller.UpdateTime(time);
@@ -189,7 +188,6 @@ public class
         base.OnInsertUpdateFromPreviousStateAndNextState(newState, prevState, nextState);
 
         RemoveEvents(prevState);
-        RemoveEvents(nextState);
 
         RegenerateEvents(prevState, newState.LocalStartTime);
         RegenerateEvents(newState, nextState.LocalStartTime);

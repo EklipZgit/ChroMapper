@@ -25,5 +25,4 @@ public abstract class BaseLightController : MonoBehaviour
     protected Color LastColor;
 
     public abstract void UpdateTime(float time);
-    public abstract void UpdateBoostState(bool boost);
 }

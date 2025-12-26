@@ -132,10 +132,7 @@ public class BasicLightEffect : BasicEventStateManager<BasicLightStateData>
     private void HandleBoostChanged(bool boost)
     {
         foreach (var (lightingObject, container) in controllerToStateChunksContainer)
-        {
-            lightingObject.UpdateBoostState(boost);
             UpdateStartAndEndColor(lightingObject, container.CurrentState);
-        }
     }
 
     //private void OnDrawGizmosSelected()
