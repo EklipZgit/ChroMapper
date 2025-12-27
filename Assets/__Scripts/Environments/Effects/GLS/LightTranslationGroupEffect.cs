@@ -1,0 +1,282 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Beatmap.Base;
+using Beatmap.Enums;
+using UnityEngine;
+
+public class
+    LightTranslationGroupEffect : EventGroupEffect<
+    LightTranslationGroupStateData,
+    LightTranslationEventStateData,
+    BaseLightTranslationEventBoxGroup<BaseLightTranslationEventBox>,
+    BaseLightTranslationEventBox,
+    BaseLightTranslationBase>
+{
+    [SerializeField] private List<TransformEntry> transformEntries = new();
+
+    [SerializeField] public Vector2[] TranslationLimits;
+    [SerializeField] public Vector2[] DistributionLimits;
+
+    private readonly Dictionary<(Axis axis, int index), LightTranslationGroupContainer>
+        idToContainer = new();
+
+    public void Register(int id, Axis axis, bool mirrored, Transform tr) =>
+        transformEntries.Add(new() { ID = id, Transform = tr, Axis = axis, Mirrored = mirrored });
+
+    public void Unregister(int id, Axis axis) => transformEntries.RemoveAll(e => e.ID == id && e.Axis == axis);
+
+    public void Unregister(Transform tr) => transformEntries.RemoveAll(e => e.Transform == tr);
+
+    public override void Initialize()
+    {
+        idToContainer.Clear();
+        foreach (var entry in transformEntries)
+        {
+            if (idToContainer.ContainsKey((entry.Axis, entry.ID))) continue;
+
+            idToContainer[(entry.Axis, entry.ID)] = new(entry.Transform, entry.Axis, entry.Mirrored);
+            var container = idToContainer[(entry.Axis, entry.ID)];
+
+            var startEvent = new LightTranslationEventStateData(new BaseLightTranslationBase(), short.MinValue);
+            var endEvent = new LightTranslationEventStateData(
+                new BaseLightTranslationBase { UsePrevious = 1 },
+                float.MaxValue);
+            container.EventContainer.GenerateChunk(Atsc);
+
+            startEvent.EndTime = endEvent.StartTime;
+            startEvent.Next = endEvent;
+            endEvent.Previous = startEvent;
+
+            container.EventContainer.Chunks[0].Add(startEvent);
+            container.EventContainer.Chunks[^1].Add(endEvent);
+
+            var start = CreateState(new() { songBpmTime = short.MinValue, JsonTime = short.MinValue });
+            start.Box = new BaseLightTranslationEventBox
+            {
+                Axis = (int)entry.Axis,
+                IndexFilter = new() { Type = (int)IndexFilterType.Division, Param0 = 1 },
+                Events = Array.Empty<BaseLightTranslationBase>()
+            };
+            start.LocalJsonTime = start.StartTime;
+
+            var end = CreateState(new() { songBpmTime = float.MaxValue, JsonTime = float.MaxValue });
+            end.Box = new BaseLightTranslationEventBox
+            {
+                Axis = (int)entry.Axis,
+                IndexFilter = new() { Type = (int)IndexFilterType.Division, Param0 = 1 },
+                Events = Array.Empty<BaseLightTranslationBase>()
+            };
+            end.LocalJsonTime = end.StartTime = end.EndTime;
+
+            RegenerateEvents(start, float.MaxValue);
+            RegenerateEvents(end, float.MaxValue);
+
+            InitializeStates(container.GroupContainer, start, end);
+
+            container.GroupContainer.SetStateAt(0);
+            container.EventContainer.SetStateAt(0);
+        }
+    }
+
+    public override void UpdateDirty() => throw new NotImplementedException();
+
+    public override void UpdateTime(float time)
+    {
+        foreach (var container in idToContainer.Values.Where(c => c is not null))
+        {
+            var tween = container.Tween;
+            if (!container.EventContainer.IsCurrentOrFindState(time, Atsc.IsPlaying))
+            {
+                var state = container.EventContainer.CurrentState;
+
+                tween.StartTime = state.StartTime;
+                var startState = state;
+                while (startState.Base.UsePrevious == 1)
+                    startState = (LightTranslationEventStateData)startState.Previous;
+
+                tween.EndTime = state.EndTime;
+                var endState = state.Next;
+                if (endState.Base.UsePrevious == 1) endState = startState;
+
+                var translationLimits = container.Axis switch
+                {
+                    Axis.X => TranslationLimits[0],
+                    Axis.Y => TranslationLimits[1],
+                    Axis.Z => TranslationLimits[2],
+                    _ => throw new ArgumentOutOfRangeException()
+                };
+
+                var distributionLimits = container.Axis switch
+                {
+                    Axis.X => DistributionLimits[0],
+                    Axis.Y => DistributionLimits[1],
+                    Axis.Z => DistributionLimits[2],
+                    _ => throw new ArgumentOutOfRangeException()
+                };
+
+                tween.StartValue = ComputeTranslation(
+                    startState.Base.Translation,
+                    translationLimits,
+                    startState.Distribution,
+                    distributionLimits,
+                    container.Mirrored);
+                tween.EndValue = ComputeTranslation(
+                    endState.Base.Translation,
+                    translationLimits,
+                    endState.Distribution,
+                    distributionLimits,
+                    container.Mirrored);
+
+                tween.Easing = Easing.FromID(endState.Base.EaseType);
+            }
+
+            if (!tween.UpdateTime(time)) continue;
+            var t = tween.Current;
+            var local = container.Transform.localPosition;
+            switch (container.Axis)
+            {
+                case Axis.X:
+                    local.x = t;
+                    break;
+                case Axis.Y:
+                    local.y = t;
+                    break;
+                case Axis.Z:
+                    local.z = t;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            container.Transform.localPosition = local;
+        }
+    }
+
+    private float ComputeTranslation(
+        float translation,
+        Vector2 translationLimits,
+        float distribution,
+        Vector2 distributionLimits,
+        bool mirrored)
+    {
+        var tTrans = ((mirrored ? 0f - translation : translation) + 1f) * 0.5f;
+        var tDist = ((mirrored ? 0f - distribution : distribution) + 1f) * 0.5f;
+        return Mathf.LerpUnclamped(translationLimits.x, translationLimits.y, tTrans)
+            + Mathf.LerpUnclamped(distributionLimits.x, distributionLimits.y, tDist);
+    }
+
+
+    protected override LightTranslationGroupStateData CreateState(
+        BaseLightTranslationEventBoxGroup<BaseLightTranslationEventBox> data) =>
+        new(data);
+
+    protected override Axis GetAxis(BaseLightTranslationEventBox box) => (Axis)box.Axis;
+
+    protected override
+        StateChunksContainer<LightTranslationGroupStateData,
+            BaseLightTranslationEventBoxGroup<BaseLightTranslationEventBox>>
+        GetGroupContainer((Axis axis, int element) key)
+    {
+        return idToContainer.TryGetValue(key, out var value)
+            ? value?.GroupContainer
+            : null;
+    }
+
+    protected override StateChunksContainer<LightTranslationEventStateData, BaseLightTranslationBase> GetEventContainer(
+        (Axis axis, int element) key)
+    {
+        return idToContainer.TryGetValue(key, out var value)
+            ? value?.EventContainer
+            : null;
+    }
+
+    protected override
+        IEnumerable<(
+            StateChunksContainer<LightTranslationGroupStateData,
+                BaseLightTranslationEventBoxGroup<BaseLightTranslationEventBox>> groupContainer,
+            StateChunksContainer<LightTranslationEventStateData, BaseLightTranslationBase> eventContainer)>
+        GetContainers() =>
+        idToContainer.Values.Select(x => (x.GroupContainer, x.EventContainer));
+
+    protected override int GetEventCount(BaseLightTranslationEventBox box) => box.Events.Length;
+
+    protected override float GetLastEventTime(BaseLightTranslationEventBox box) => box.Events[^1].JsonTime;
+
+    protected override float GetDistribution(
+        IndexFilterHelper.IndexFilter indexFilter,
+        BaseLightTranslationEventBox box,
+        int order) =>
+        DistributionHelper.GetValueStep(
+            order,
+            DistributionHelper.GetCount(indexFilter),
+            (DistributionType)box.TranslationDistributionType,
+            box.TranslationDistribution,
+            (EaseType)box.Easing);
+
+    protected override LightTranslationEventStateData[] GenerateEvents(
+        LightTranslationGroupStateData state,
+        float distributionOffset,
+        float maxJsonTime) =>
+        state
+            .Box
+            .Events
+            .Where(x => state.Base.JsonTime + x.JsonTime + (state.DurationOrder * state.BeatStep) <= maxJsonTime)
+            .Select((x, i) =>
+                {
+                    var affected = !(i == 0 && state.Box.TranslationAffectFirst != 1);
+                    var d = new LightTranslationEventStateData(
+                        x,
+                        (float)BeatSaberSongContainer.Instance.Map.JsonTimeToSongBpmTime(
+                            state.Base.JsonTime + x.JsonTime + (state.DurationOrder * state.BeatStep)),
+                        state.Box.Flip == 1 ? -1 : 1,
+                        affected ? distributionOffset : 0f);
+                    return d;
+                }
+            )
+            .ToArray();
+}
+
+public class LightTranslationGroupStateData : EventGroupStateData<
+    BaseLightTranslationEventBoxGroup<BaseLightTranslationEventBox>,
+    BaseLightTranslationEventBox,
+    BaseLightTranslationBase>
+{
+    public LightTranslationGroupStateData(BaseLightTranslationEventBoxGroup<BaseLightTranslationEventBox> data) : base(
+        data)
+    {
+    }
+}
+
+[Serializable]
+public class LightTranslationEventStateData : EventGroupEventStateData<BaseLightTranslationBase>
+{
+    public LightTranslationEventStateData(
+        BaseLightTranslationBase data,
+        float startTime,
+        int direction = 1,
+        float offset = 0f) : base(data, startTime, offset)
+    {
+    }
+}
+
+public record LightTranslationGroupContainer : EventGroupContainer<
+    LightTranslationGroupStateData,
+    LightTranslationEventStateData,
+    BaseLightTranslationEventBoxGroup<BaseLightTranslationEventBox>,
+    BaseLightTranslationEventBox,
+    BaseLightTranslationBase>
+{
+    public readonly Transform Transform;
+    public readonly Axis Axis;
+    public readonly bool Mirrored;
+
+    public readonly FloatTween Tween = new();
+
+    public LightTranslationGroupContainer(Transform transform, Axis axis, bool mirrored)
+    {
+        Transform = transform;
+        Axis = axis;
+        Mirrored = mirrored;
+    }
+}

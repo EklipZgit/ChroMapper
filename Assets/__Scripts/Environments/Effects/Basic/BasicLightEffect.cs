@@ -27,9 +27,9 @@ public class BasicLightEffect : BasicEventStateManager<BasicLightStateData>
     [NonSerialized] public int[] LaneToLightID;
     [NonSerialized] public int[][] LaneToLightIDs; // this also refer to propID
 
-    private readonly Dictionary<BaseLightController, BasicEventStateChunksContainer<BasicLightStateData>>
-        controllerToStateChunksContainer =
-            new();
+    private readonly Dictionary<BaseLightController, (LightColorTween tween,
+            BasicEventStateChunksContainer<BasicLightStateData> container)>
+        controllerToContainer = new();
 
     private List<ChromaLiteData> chromaLiteDatas = new();
     private List<ChromaGradientData> chromaGradientDatas = new();
@@ -79,12 +79,12 @@ public class BasicLightEffect : BasicEventStateManager<BasicLightStateData>
 
     public override void Initialize()
     {
-        controllerToStateChunksContainer.Clear();
+        controllerToContainer.Clear();
         foreach (var controller in controllerEntries.Select(x => x.Controller))
         {
-            controllerToStateChunksContainer[controller] =
-                InitializeStates(new BasicEventStateChunksContainer<BasicLightStateData>());
-            foreach (var state in controllerToStateChunksContainer[controller].Chunks.SelectMany(chunk => chunk))
+            controllerToContainer[controller] =
+                (new(), InitializeStates(new BasicEventStateChunksContainer<BasicLightStateData>()));
+            foreach (var state in controllerToContainer[controller].container.Chunks.SelectMany(chunk => chunk))
             {
                 if (!lightOnStart) continue;
                 state.Base.FloatValue = 1f;
@@ -95,44 +95,45 @@ public class BasicLightEffect : BasicEventStateManager<BasicLightStateData>
 
     public override void UpdateTime(float currentTime)
     {
-        foreach (var (lightingObject, container) in controllerToStateChunksContainer)
+        foreach (var (lightingObject, (tween, container)) in controllerToContainer)
         {
             if (!container.IsCurrentOrFindState(currentTime, Atsc.IsPlaying))
-                UpdateObject(lightingObject, container.CurrentState);
-            lightingObject.UpdateTime(currentTime);
+                UpdateObject(tween, container.CurrentState);
+
+            if (tween.UpdateTime(currentTime)) lightingObject.UpdateColor(tween.Color);
         }
     }
 
-    private void UpdateObject(BaseLightController lightController, BasicLightStateData stateData)
+    private void UpdateObject(LightColorTween tween, BasicLightStateData stateData)
     {
-        lightController.StartTimeAlpha = stateData.StartTime;
-        lightController.StartTimeColor = stateData.StartTimeColor;
-        lightController.StartAlpha = stateData.StartAlpha;
-        lightController.StartColor = stateData.StartChromaColor
+        tween.StartTimeAlpha = stateData.StartTime;
+        tween.StartTimeColor = stateData.StartTimeColor;
+        tween.StartAlpha = stateData.StartAlpha;
+        tween.StartColor = stateData.StartChromaColor
             ?? ColorScheme.GetColorFrom(stateData.StartColor, invertColorScheme);
 
-        lightController.EndTimeAlpha = stateData.EndTimeAlpha;
-        lightController.EndTimeColor = stateData.EndTimeColor;
-        lightController.EndAlpha = stateData.EndAlpha;
-        lightController.EndColor =
+        tween.EndTimeAlpha = stateData.EndTimeAlpha;
+        tween.EndTimeColor = stateData.EndTimeColor;
+        tween.EndAlpha = stateData.EndAlpha;
+        tween.EndColor =
             stateData.EndChromaColor ?? ColorScheme.GetColorFrom(stateData.EndColor, invertColorScheme);
 
-        lightController.UseHSV = stateData.UseHSV;
-        lightController.Easing = stateData.Easing;
+        tween.UseHSV = stateData.UseHSV;
+        tween.Easing = stateData.Easing;
     }
 
-    public void UpdateStartAndEndColor(BaseLightController lightController, BasicLightStateData stateData)
+    public void UpdateStartAndEndColor(LightColorTween tween, BasicLightStateData stateData)
     {
-        lightController.StartColor = stateData.StartChromaColor
+        tween.StartColor = stateData.StartChromaColor
             ?? ColorScheme.GetColorFrom(stateData.StartColor, invertColorScheme);
-        lightController.EndColor =
+        tween.EndColor =
             stateData.EndChromaColor ?? ColorScheme.GetColorFrom(stateData.EndColor, invertColorScheme);
     }
 
     private void HandleBoostChanged(bool boost)
     {
-        foreach (var (lightingObject, container) in controllerToStateChunksContainer)
-            UpdateStartAndEndColor(lightingObject, container.CurrentState);
+        foreach (var (_, (tween, container)) in controllerToContainer)
+            UpdateStartAndEndColor(tween, container.CurrentState);
     }
 
     //private void OnDrawGizmosSelected()
@@ -239,8 +240,8 @@ public class BasicLightEffect : BasicEventStateManager<BasicLightStateData>
         var untilIndex = chromaLiteDatas.FindIndex(cl => cl.Base.SongBpmTime > time);
         var until = untilIndex != -1 ? chromaLiteDatas[untilIndex].Base.SongBpmTime : float.MaxValue;
 
-        foreach (var enumerator in controllerToStateChunksContainer.Values.Select(container =>
-            container.EnumerateFrom(from.Base.SongBpmTime)))
+        foreach (var enumerator in controllerToContainer.Values.Select(c =>
+            c.container.EnumerateFrom(from.Base.SongBpmTime)))
         {
             while (enumerator.MoveNext())
             {
@@ -254,8 +255,8 @@ public class BasicLightEffect : BasicEventStateManager<BasicLightStateData>
     // i would like if chroma gradient just stopped working entirely so i dont have to deal with this shit again
     private void UpdateExistingWithChromaGradient(float startTime, float endTime)
     {
-        foreach (var (container, enumerator) in controllerToStateChunksContainer.Values.Select(container =>
-            (container, container.EnumerateFrom(startTime))))
+        foreach (var (container, enumerator) in controllerToContainer.Values.Select(c =>
+            (c.container, c.container.EnumerateFrom(startTime))))
         {
             while (enumerator.MoveNext())
             {
@@ -434,7 +435,7 @@ public class BasicLightEffect : BasicEventStateManager<BasicLightStateData>
 
             InsertWithChromaGradient(newState);
 
-            var container = controllerToStateChunksContainer[lightingObject];
+            var (tween, container) = controllerToContainer[lightingObject];
 
             // let's assume this will be previous state if this is inserted within the range
             var previousState = container.CurrentState;
@@ -443,7 +444,7 @@ public class BasicLightEffect : BasicEventStateManager<BasicLightStateData>
 
             if (!previousValid) continue;
             container.SetStateAt(Atsc.CurrentSongBpmTime);
-            UpdateObject(lightingObject, container.CurrentState);
+            UpdateObject(tween, container.CurrentState);
         }
     }
 
@@ -487,14 +488,14 @@ public class BasicLightEffect : BasicEventStateManager<BasicLightStateData>
 
         foreach (var lightingObject in affectedLights)
         {
-            var container = controllerToStateChunksContainer[lightingObject];
+            var (tween, container) = controllerToContainer[lightingObject];
             HandleRemoveState(container, data, original);
 
             // unfortunately, we cannot do the same as insertion so we need to search
             var (_, _, previousState) = container.GetStateAt(Atsc.CurrentSongBpmTime);
             if (!previousState.IsWithinRange(data.SongBpmTime)) continue;
             container.SetStateAt(Atsc.CurrentSongBpmTime);
-            UpdateObject(lightingObject, container.CurrentState);
+            UpdateObject(tween, container.CurrentState);
         }
     }
 
@@ -543,8 +544,7 @@ public class BasicLightEffect : BasicEventStateManager<BasicLightStateData>
 
     public override void UpdateDirty()
     {
-        foreach (var lightingObject in controllerToStateChunksContainer.Keys)
-            UpdateObject(lightingObject, controllerToStateChunksContainer[lightingObject].CurrentState);
+        foreach (var (tween, container) in controllerToContainer.Values) UpdateObject(tween, container.CurrentState);
     }
 
     private static LightColor InferColorFromEvent(BaseEvent evt) =>

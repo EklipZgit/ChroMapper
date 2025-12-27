@@ -30,7 +30,7 @@ public class LightObjectParametric3SliceSprite : LightObject
         Renderer.SetPropertyBlock(Mpb);
     }
 
-    protected virtual Color ModifyColor(Color color)
+    protected override Color ModifyColor(Color color)
     {
         color.a *= AlphaMultiplier;
         color.a = Mathf.Max(color.a, MinAlpha);

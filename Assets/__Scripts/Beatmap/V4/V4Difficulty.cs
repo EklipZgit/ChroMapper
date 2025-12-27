@@ -363,7 +363,7 @@ namespace Beatmap.V4
                 
                 var floatFxEventsCommonData = difficulty.VfxEventBoxGroups
                     .SelectMany(group => group.Boxes)
-                    .SelectMany(box => box.FloatFxEvents)
+                    .SelectMany(box => box.Events)
                     .Select(V4CommonData.FloatFxEvent.FromFloatFxEventBase)
                     .Distinct()
                     .ToList();

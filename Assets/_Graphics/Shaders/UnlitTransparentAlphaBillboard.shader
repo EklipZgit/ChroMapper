@@ -5,7 +5,7 @@
         _Color ("Color", Color) = (1, 1, 1, 1)
         _MainTex ("Texture", 2D) = "white" {}
 
-        _SizeParams("Size Params", Vector) = (0.5,2500,0.5,1)
+        _SizeParams("Size Params", Vector) = (0.25,10,0.5,0.5)
         _AlphaWidth("Alpha Width", Vector) = (1,1,1,1)
 
         [Header(Fog Settings)]

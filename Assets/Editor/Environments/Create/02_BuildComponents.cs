@@ -10,6 +10,7 @@ using UnityEngine;
 public partial class EnvironmentSceneCreator
 {
     private static void BuildComponents(
+        EnvironmentLibrarySO library,
         EnvData data,
         Dictionary<string, GameObject> chromaIdObjects,
         List<EnvDataObject> objectsToUse)
@@ -92,7 +93,74 @@ public partial class EnvironmentSceneCreator
             }
         }
 
+        var ltgemData = objectsToUse.FirstOrDefault(x => x.Components.LightTranslationGroupEffectManager != null)
+            ?.Components.LightTranslationGroupEffectManager;
+        var ltgem = new GameObject("LightTranslationGroupEffectManager")
+            .AddComponent<LightTranslationGroupEffectManager>();
+        ltgem.gameObject.transform.SetParent(GameObject.Find("Environment").transform);
+        descriptor.LightTranslationGroupEffectManager = ltgem;
+
+        if (ltgemData != null)
+        {
+            foreach (var ltgData in ltgemData.LightTranslationGroups)
+            {
+                ltgem.Register(
+                    ltgData.GroupId,
+                    ltgData.Count,
+                    new[]
+                    {
+                        FloatArrayToVector2(ltgData.xTranslationLimits),
+                        FloatArrayToVector2(ltgData.yTranslationLimits),
+                        FloatArrayToVector2(ltgData.zTranslationLimits)
+                    },
+                    new[]
+                    {
+                        Vector2.zero, Vector2.zero, Vector2.zero
+                        // FloatArrayToVector2(ltgData.xDistributionLimits),
+                        // FloatArrayToVector2(ltgData.yDistributionLimits),
+                        // FloatArrayToVector2(ltgData.zDistributionLimits)
+                    });
+
+                RegisterTranslation(Axis.X, ltgData.XTransforms, ltgData.MirrorX);
+                RegisterTranslation(Axis.Y, ltgData.YTransforms, ltgData.MirrorY);
+                RegisterTranslation(Axis.Z, ltgData.ZTransforms, ltgData.MirrorZ);
+                continue;
+
+                void RegisterTranslation(Axis axis, string[] transforms, bool mirror)
+                {
+                    for (var i = 0; i < transforms.Length; i++)
+                    {
+                        var transformName = transforms[i];
+                        var t = chromaIdObjects[transformName].transform;
+                        ltgem.Register(ltgData.GroupId, i, axis, mirror, t.gameObject.transform);
+                    }
+                }
+            }
+        }
+
+        var ffgemData = objectsToUse.FirstOrDefault(x => x.Components.FloatFxGroupEffectManager != null)
+            ?.Components.FloatFxGroupEffectManager;
+        var ffgem = new GameObject("FloatFxGroupEffectManager")
+            .AddComponent<FloatFxGroupEffectManager>();
+        ffgem.gameObject.transform.SetParent(GameObject.Find("Environment").transform);
+        descriptor.FloatFxGroupEffectManager = ffgem;
+
+        if (ffgemData != null)
+        {
+            foreach (var ffgData in ffgemData.FloatFxGroups)
+            {
+                ffgem.Register(
+                    ffgData.LightGroup.GroupId,
+                    ffgData.LightGroup.NumberOfElements);
+            }
+        }
+
         return;
+
+        Vector2 FloatArrayToVector2(float[] array)
+        {
+            return new Vector2(array[0], array[1]);
+        }
 
         void RegisterLight(int id, LightController controller)
         {
@@ -155,6 +223,29 @@ public partial class EnvironmentSceneCreator
                     lc.SpriteLight = spriteLight.AddComponent<LightObjectParametric3SliceSprite>();
                     lc.SpriteLight.Renderer = spriteLight.GetComponent<Renderer>();
 
+                    // Good chance env data doesnt have this and it's fine
+                    if (lc.SpriteLight.Renderer == null)
+                    {
+                        spriteLight.AddComponent<MeshFilter>();
+                        var renderer = spriteLight.AddComponent<MeshRenderer>();
+                        if (envObject.Components.MeshRenderer != null
+                            && envObject.Components.MeshRenderer.Materials.Any())
+                        {
+                            if (library.Materials.Lookup.TryGetValue(
+                                    envObject.Components.MeshRenderer.Materials[0],
+                                    out var mat)
+                                && mat != null)
+                                renderer.sharedMaterial = mat;
+                            else
+                            {
+                                Debug.LogWarning(
+                                    $"{envObject.ChromaID} material not found for:\n{envObject.Components.MeshRenderer.Materials[0]}");
+                            }
+                        }
+
+                        lc.SpriteLight.Renderer = renderer;
+                    }
+
                     envObject.Components.Parametric3SliceSpriteController.CopyTo(
                         (LightObjectParametric3SliceSprite)lc.SpriteLight);
                 }
@@ -183,6 +274,7 @@ public partial class EnvironmentSceneCreator
             InstancedMaterialLightWithIdComponent instancedLight)
         {
             // If you get error here, just comment or return it out
+            return;
             var lc = go.AddComponent<LightController>();
             lc.BoxLight = go.AddComponent<LightObject>();
             lc.BoxLight.Renderer = go.transform.GetChild(1).Find("LightGlow")?.GetComponent<Renderer>();

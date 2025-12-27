@@ -120,7 +120,7 @@ namespace Beatmap.V3
 
                 var floatFxEvents = difficulty.VfxEventBoxGroups
                     .SelectMany(group => group.Boxes)
-                    .SelectMany(box => box.FloatFxEvents)
+                    .SelectMany(box => box.Events)
                     .Distinct()
                     .ToList();
                 

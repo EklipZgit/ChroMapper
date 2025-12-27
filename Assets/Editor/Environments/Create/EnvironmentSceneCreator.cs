@@ -104,7 +104,7 @@ public partial class EnvironmentSceneCreator
         var chromaIdObjects = SpawnObjects(library, objectsToUse);
 
         // second pass: build component
-        BuildComponents(data, chromaIdObjects, objectsToUse);
+        BuildComponents(library, data, chromaIdObjects, objectsToUse);
 
         // third pass: connect component
         ConnectComponents(chromaIdObjects);

@@ -423,7 +423,7 @@ namespace TestsEditMode
                 Assert.AreEqual(0, vfxEventEventBox.VfxDistributionType);
                 Assert.AreEqual(0, vfxEventEventBox.VfxAffectFirst);
                 Assert.AreEqual(0, vfxEventEventBox.Easing);
-                Assert.AreEqual(0, vfxEventEventBox.FloatFxEvents.Count);
+                Assert.AreEqual(0, vfxEventEventBox.Events.Length);
             }
         }
 

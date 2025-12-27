@@ -92,7 +92,6 @@ MonoBehaviour:
   - Feet
   - SaberBurnMarksParticles
   - SaberBurnMarkSparklePS
-  - Collider
   - SetDepthOnly
   - DustPS
   - FakeMirrorSettings

@@ -23,12 +23,12 @@ namespace Beatmap.V3
 
             if (node.HasKey("l"))
             {
-                vfxBox.FloatFxEvents = node["l"].AsArray.Linq.Select(x =>
+                vfxBox.Events = node["l"].AsArray.Linq.Select(x =>
                 { 
                     var floatFxIndex = x.Value.AsInt;
                     var floatFxEvent = (FloatFxEventBase)floatFxEvents[floatFxIndex].Clone();
                     return floatFxEvent;
-                }).ToList();
+                }).ToArray();
             }
 
             return vfxBox;
@@ -46,7 +46,7 @@ namespace Beatmap.V3
             node["i"] = vfxBox.Easing;
 
             node["l"] = new JSONArray();
-            foreach (var data in vfxBox.FloatFxEvents)
+            foreach (var data in vfxBox.Events)
             {
                 node["l"].Add(floatFxEvents.IndexOf(data));
             }

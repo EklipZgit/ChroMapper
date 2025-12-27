@@ -10,7 +10,7 @@ namespace Beatmap.V3
             var floatFxEventBase = new FloatFxEventBase();
             
             floatFxEventBase.JsonTime = node["b"].AsFloat;
-            floatFxEventBase.UsePreviousEventValue = node["p"].AsInt;
+            floatFxEventBase.UsePrevious = node["p"].AsInt;
             floatFxEventBase.Value = node["v"].AsFloat;
             floatFxEventBase.Easing = node["i"].AsInt;
 
@@ -22,7 +22,7 @@ namespace Beatmap.V3
             return new JSONObject
             {
                 ["b"] = floatFxEventBase.JsonTime,
-                ["p"] = floatFxEventBase.UsePreviousEventValue,
+                ["p"] = floatFxEventBase.UsePrevious,
                 ["v"] = floatFxEventBase.Value,
                 ["i"] = floatFxEventBase.Easing
             };

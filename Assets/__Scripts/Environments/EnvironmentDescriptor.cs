@@ -10,10 +10,9 @@ public class EnvironmentDescriptor : MonoBehaviour
 
     [SerializeField] public BasicEventEffectManager BasicEventEffectManager;
     [SerializeField] public LightColorGroupEffectManager LightColorGroupEffectManager;
-
     [SerializeField] public LightRotationGroupEffectManager LightRotationGroupEffectManager;
-    // [SerializeField] public LightTranslationGroupEffectManager LightTranslationGroupEffectManager;
-    // [SerializeField] public FloatFxGroupEffectManager FloatFxGroupEffectManager;
+    [SerializeField] public LightTranslationGroupEffectManager LightTranslationGroupEffectManager;
+    [SerializeField] public FloatFxGroupEffectManager FloatFxGroupEffectManager;
 
     [SerializeField] public BloomFogParams BloomFogParams = new();
 
@@ -36,6 +35,8 @@ public class EnvironmentDescriptor : MonoBehaviour
         BasicEventEffectManager.Initialize(context.Atsc, context.ColorScheme);
         LightColorGroupEffectManager.Initialize(context.Atsc, context.ColorScheme);
         LightRotationGroupEffectManager.Initialize(context.Atsc);
+        LightTranslationGroupEffectManager.Initialize(context.Atsc);
+        FloatFxGroupEffectManager.Initialize(context.Atsc);
         if (RotationController != null)
         {
             RotationController.RotationCallback = rotationCallback;

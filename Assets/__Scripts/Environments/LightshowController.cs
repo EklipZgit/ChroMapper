@@ -37,6 +37,7 @@ public class LightshowController : MonoBehaviour, IBeatmapUpdate
                     .Distinct())
             .Concat(context.Descriptor.LightColorGroupEffectManager.IdToEffect.Values)
             .Concat(context.Descriptor.LightRotationGroupEffectManager.IdToEffect.Values)
+            .Concat(context.Descriptor.LightTranslationGroupEffectManager.IdToEffect.Values)
             .Where(x => x != null)
             .ToArray();
         activeSize = activeEffects.Length;
@@ -93,6 +94,18 @@ public class LightshowController : MonoBehaviour, IBeatmapUpdate
         {
             effect.BuildFromData(
                 BeatSaberSongContainer.Instance.Map.LightRotationEventBoxGroups.Where(g => g.ID == id));
+        }
+
+        foreach (var (id, effect) in context.Descriptor.LightTranslationGroupEffectManager.IdToEffect)
+        {
+            effect.BuildFromData(
+                BeatSaberSongContainer.Instance.Map.LightTranslationEventBoxGroups.Where(g => g.ID == id));
+        }
+
+        foreach (var (id, effect) in context.Descriptor.FloatFxGroupEffectManager.IdToEffect)
+        {
+            effect.BuildFromData(
+                BeatSaberSongContainer.Instance.Map.VfxEventBoxGroups.Where(g => g.ID == id));
         }
 
         foreach (var manager in context.Descriptor.BasicEventEffectManager.EventTypeToEffects.Values

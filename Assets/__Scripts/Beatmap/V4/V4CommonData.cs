@@ -1050,7 +1050,7 @@ namespace Beatmap.V4
 
             public static FloatFxEvent FromFloatFxEventBase(FloatFxEventBase floatFxEvent) => new()
             {
-                TransitionType = floatFxEvent.UsePreviousEventValue,
+                TransitionType = floatFxEvent.UsePrevious,
                 Value = floatFxEvent.Value,
                 Easing = floatFxEvent.Easing
             };

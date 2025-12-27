@@ -41,7 +41,7 @@ namespace Beatmap.V4
                     box.Easing = boxCommonData.Easing;
 
 
-                    box.FloatFxEvents = boxNode["l"].AsArray.Linq.Select(
+                    box.Events = boxNode["l"].AsArray.Linq.Select(
                         y =>
                         {
                             var eventNode = y.Value;
@@ -53,11 +53,11 @@ namespace Beatmap.V4
                             var commonEventData = floatFxEventsCommonData[eventIndex];
                         
                             evt.Value = commonEventData.Value;
-                            evt.UsePreviousEventValue = commonEventData.TransitionType;
+                            evt.UsePrevious = commonEventData.TransitionType;
                             evt.Easing = commonEventData.Easing;
                         
                             return evt;
-                        }).ToList();
+                        }).ToArray();
                     
                     return box;
                 })
@@ -90,7 +90,7 @@ namespace Beatmap.V4
 
                 var eventArray = new JSONArray();
 
-                foreach (var floatEvent in boxEvent.FloatFxEvents)
+                foreach (var floatEvent in boxEvent.Events)
                 {
                     var eventNode = new JSONObject();
                     eventNode["b"] = floatEvent.JsonTime;
