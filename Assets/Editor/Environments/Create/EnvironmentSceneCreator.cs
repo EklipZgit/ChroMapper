@@ -73,11 +73,8 @@ public partial class EnvironmentSceneCreator
         // Set the skybox material if specified in the library
         if (environmentLibrary.SkyboxMaterial != null) RenderSettings.skybox = environmentLibrary.SkyboxMaterial;
 
-        // Remove everything from scene
-        foreach (var go in scene.GetRootGameObjects()) Object.DestroyImmediate(go);
-
         // Create the environment in the new scene
-        CreateEnvironment(environmentData, environmentLibrary);
+        CreateEnvironment(scene, environmentData, environmentLibrary);
 
         // Save the scene to disk
         if ((exist && EditorSceneManager.SaveScene(scene)) || EditorSceneManager.SaveScene(scene, targetPath))
@@ -92,6 +89,7 @@ public partial class EnvironmentSceneCreator
 
     // Main method which constructs the environment from parsed data
     public static void CreateEnvironment(
+        Scene scene,
         EnvData data,
         EnvironmentLibrarySO library)
     {
@@ -99,16 +97,16 @@ public partial class EnvironmentSceneCreator
             .Objects.Where(obj =>
                 !library.IsIgnored(obj.ChromaID[(obj.ChromaID.IndexOf("]", StringComparison.Ordinal) + 1)..]))
             .ToList();
-        
-        // first pass: spawn object
-        var chromaIdObjects = SpawnObjects(library, objectsToUse);
 
-        // second pass: build component
+        // first pass: strip existing object and component
+        var existingObjects = StripObjects(scene, data);
+
+        // second pass: spawn object
+        var chromaIdObjects = SpawnObjects(library, existingObjects, objectsToUse);
+
+        // third pass: build component
         BuildComponents(library, data, chromaIdObjects, objectsToUse);
 
-        // third pass: connect component
-        ConnectComponents(chromaIdObjects);
-        
         // forth pass: cleanup
         Cleanup();
     }

@@ -3,10 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Rendering;
+using Object = UnityEngine.Object;
 
 public partial class EnvironmentSceneCreator
 {
-    private static Dictionary<string, GameObject> SpawnObjects(EnvironmentLibrarySO library, List<EnvDataObject> objectsToUse)
+    private static Dictionary<string, GameObject> SpawnObjects(
+        EnvironmentLibrarySO library,
+        Dictionary<string, GameObject> existingObjects,
+        List<EnvDataObject> objectsToUse)
     {
         var chromaIdObjects = new Dictionary<string, GameObject>();
 
@@ -30,19 +35,26 @@ public partial class EnvironmentSceneCreator
                 continue;
             }
 
-            GameObject go;
-            if (envObject.Components.MeshFilter == null || string.IsNullOrEmpty(envObject.Components.MeshFilter.Hash))
-                go = new GameObject();
+            var go = existingObjects.TryGetValue(envObject.ChromaID, out var val) ? val : new GameObject();
+            if (envObject.Components.MeshFilter == null
+                || string.IsNullOrEmpty(envObject.Components.MeshFilter.Hash))
+            {
+                var filter = go.GetComponent<MeshFilter>();
+                if (filter != null) Object.DestroyImmediate(filter);
+
+                var renderer = go.GetComponent<MeshRenderer>();
+                if (renderer != null) Object.DestroyImmediate(filter);
+            }
             else
             {
                 if (library.Meshes.Lookup.TryGetValue(envObject.Components.MeshFilter.Hash, out var mesh)
                     && mesh != null)
                 {
-                    go = new GameObject();
-                    var mf = go.AddComponent<MeshFilter>();
+                    var mf = go.GetComponent<MeshFilter>();
+                    if (mf == null) mf = go.AddComponent<MeshFilter>();
                     mf.sharedMesh = mesh;
 
-                    var renderer = go.AddComponent<MeshRenderer>();
+                    var renderer = GetOrCreateMeshRenderer(go);
                     if (envObject.Components.MeshRenderer != null
                         && envObject.Components.MeshRenderer.Materials.Any())
                     {
@@ -62,7 +74,6 @@ public partial class EnvironmentSceneCreator
                 {
                     Debug.LogWarning(
                         $"{envObject.ChromaID} mesh not found for:\n{envObject.Components.MeshFilter.Hash} -- {library.Meshes.list.FindIndex(l => l.Hash == envObject.Components.MeshFilter.Hash)}");
-                    go = new GameObject();
                     var fallback =
                         PrefabUtility.InstantiatePrefab(library.fallbackPrefab, go.transform) as GameObject;
                     var mInfo = library.Meshes.list.First(x => x.Hash == envObject.Components.MeshFilter.Hash);
@@ -76,7 +87,8 @@ public partial class EnvironmentSceneCreator
             chromaIdObjects[envObject.ChromaID] = go;
 
             // Add ChromaIDMarker for environment enhancements
-            var marker = go.AddComponent<ChromaIDMarker>();
+            var marker = go.GetComponent<ChromaIDMarker>();
+            if (marker == null) marker = go.AddComponent<ChromaIDMarker>();
             marker.ChromaID = envObject.ChromaID;
 
             if (parentName != name)
@@ -90,5 +102,17 @@ public partial class EnvironmentSceneCreator
         }
 
         return chromaIdObjects;
+    }
+
+    private static MeshRenderer GetOrCreateMeshRenderer(GameObject go)
+    {
+        var renderer = go.GetComponent<MeshRenderer>();
+        if (renderer == null) renderer = go.AddComponent<MeshRenderer>();
+        renderer.shadowCastingMode = ShadowCastingMode.Off;
+        renderer.receiveShadows = false;
+        renderer.lightProbeUsage = LightProbeUsage.Off;
+        renderer.reflectionProbeUsage = ReflectionProbeUsage.Off;
+
+        return renderer;
     }
 }
