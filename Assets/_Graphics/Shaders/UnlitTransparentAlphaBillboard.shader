@@ -5,7 +5,7 @@
         _Color ("Color", Color) = (1, 1, 1, 1)
         _MainTex ("Texture", 2D) = "white" {}
 
-        _SizeParams("Size Params", Vector) = (0.25,10,0.5,0.5)
+        _SizeParams("Size Params", Vector) = (0.25,10,0,0.5)
         _AlphaWidth("Alpha Width", Vector) = (1,1,1,1)
 
         [Header(Fog Settings)]
@@ -60,7 +60,7 @@
             struct v2f
             {
                 float4 vertex : SV_POSITION;
-                float2 uv : TEXCOORD0;
+                float3 uv : TEXCOORD0;
                 float lengthFactor : TEXCOORD1;
                 float3 worldPos : TEXCOORD2;
                 float4 customScreenPos : TEXCOORD3;
@@ -90,18 +90,19 @@
                 float3 look = normalize(dirToCam - localUp * dot(dirToCam, localUp));
                 float3 right = normalize(cross(localUp, look));
 
-                o.lengthFactor = i.vertex.y + sizeParams.z;
+                o.lengthFactor = i.vertex.y;
 
-                float currentLength = o.lengthFactor * sizeParams.y;
-                float verticalOffset = currentLength - sizeParams.z * sizeParams.y;
+                float currentLength = i.vertex.y * sizeParams.y;
+                float verticalOffset = (i.vertex.y - sizeParams.z) * currentLength;
 
-                float currentWidth = lerp(sizeParams.x, sizeParams.w, o.lengthFactor);
+                float currentWidth = lerp(sizeParams.x, sizeParams.w, i.vertex.y);
                 float horizontalOffset = i.vertex.x * currentWidth;
                 float3 worldPos = worldOrigin + right * horizontalOffset + localUp * verticalOffset;
 
                 o.vertex = mul(UNITY_MATRIX_VP, float4(worldPos, 1.0));
 
-                o.uv = i.uv;
+                // i.uv.y = i.uv.y * o.lengthFactor * 4 / 3;
+                o.uv = float3(i.uv * currentWidth, currentWidth);
                 o.worldPos = mul(unity_ObjectToWorld, i.vertex).xyz;
                 o.customScreenPos = ComputeScreenPosCustom(o.vertex);
 
@@ -112,13 +113,12 @@
             {
                 UNITY_SETUP_INSTANCE_ID(i);
                 fixed4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
-                fixed4 sizeParams = UNITY_ACCESS_INSTANCED_PROP(Props, _SizeParams);
                 fixed4 alphaWidth = UNITY_ACCESS_INSTANCED_PROP(Props, _AlphaWidth);
 
-                float adjustedLengthFactor = i.lengthFactor - sizeParams.z;
+                float adjustedLengthFactor = i.lengthFactor;
 
                 float widthFactor = lerp(1 / alphaWidth.z, 1 / alphaWidth.w, adjustedLengthFactor);
-                float2 adjustedUv = i.uv;
+                float2 adjustedUv = i.uv.xy / i.uv.z;
                 adjustedUv.x = (adjustedUv.x - 0.5) * widthFactor + 0.5;
                 fixed4 albedo = color * tex2D(_MainTex, TRANSFORM_TEX(adjustedUv, _MainTex));
 
