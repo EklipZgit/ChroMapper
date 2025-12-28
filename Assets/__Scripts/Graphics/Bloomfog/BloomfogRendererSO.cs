@@ -15,10 +15,13 @@ public class BloomfogRendererSO : ScriptableObject
     public Material BloomfogObjectMaterial;
 
     private int capacity = startCapacity;
+    private CommandBuffer bloomfogCommandBuffer;
     private Mesh bloomfogMesh;
 
     public void Initialize()
     {
+        bloomfogCommandBuffer = new CommandBuffer() { name = "Bloomfog Render" };
+
         PrepareMesh(true);
         Shader.SetGlobalMatrix(vertexTransformMatrix, Matrix4x4.Ortho(0, 1, 1, 0, -1, 1));
     }
@@ -31,10 +34,17 @@ public class BloomfogRendererSO : ScriptableObject
             DestroyImmediate(bloomfogMesh);
             bloomfogMesh = null;
         }
+        if (bloomfogCommandBuffer != null)
+        {
+            bloomfogCommandBuffer.Release();
+            bloomfogCommandBuffer = null;
+        }
     }
 
     public void RenderToTexture(Camera camera, RenderTexture tex, out Vector2 textureToScreenRatio)
     {
+        if (bloomfogCommandBuffer == null || bloomfogMesh == null) Initialize();
+
         var viewMatrix = camera.worldToCameraMatrix;
         var projectionMatrix = camera.projectionMatrix;
 
@@ -46,21 +56,19 @@ public class BloomfogRendererSO : ScriptableObject
         projectionMatrix.m11 *= textureToScreenRatio.y;
         projectionMatrix.m12 *= textureToScreenRatio.y;
 
-        using var commandBuffer = new CommandBuffer() { name = "Bloomfog Render" };
-        commandBuffer.SetRenderTarget(tex);
-        commandBuffer.ClearRenderTarget(true, true, Color.clear);
+        bloomfogCommandBuffer.Clear();
+        bloomfogCommandBuffer.SetRenderTarget(tex);
+        bloomfogCommandBuffer.ClearRenderTarget(true, true, Color.clear);
 
         RenderQuads(viewMatrix, projectionMatrix, LineWidth);
 
-        commandBuffer.DrawMesh(bloomfogMesh, Matrix4x4.identity, BloomfogObjectMaterial);
+        bloomfogCommandBuffer.DrawMesh(bloomfogMesh, Matrix4x4.identity, BloomfogObjectMaterial);
     
-        Graphics.ExecuteCommandBuffer(commandBuffer);
+        Graphics.ExecuteCommandBuffer(bloomfogCommandBuffer);
     }
 
     private void RenderQuads(Matrix4x4 view, Matrix4x4 projection, float lineWidth)
     {
-        if (bloomfogMesh == null) Initialize();
-
         var vertices = bloomfogMesh.vertices;
         var uvs = bloomfogMesh.uv;
         var uv2s = bloomfogMesh.uv2;
