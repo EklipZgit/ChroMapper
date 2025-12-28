@@ -30,7 +30,7 @@
 
         ZWrite Off
         Cull Front
-        Blend SrcAlpha OneMinusSrcAlpha
+        Blend SrcColor OneMinusSrcColor
 
         Pass
         {
@@ -82,7 +82,8 @@
                 UNITY_SETUP_INSTANCE_ID(i);
                 UNITY_TRANSFER_INSTANCE_ID(i, o);
 
-                fixed4 sizeParams = UNITY_ACCESS_INSTANCED_PROP(Props, _SizeParams);
+                float4 alphaWidth = UNITY_ACCESS_INSTANCED_PROP(Props, _AlphaWidth);
+                float4 sizeParams = UNITY_ACCESS_INSTANCED_PROP(Props, _SizeParams);
 
                 float3 worldOrigin = mul(unity_ObjectToWorld, float4(0, 0, 0, 1)).xyz;
                 float3 localUp = normalize(mul((float3x3)unity_ObjectToWorld, float3(0, 1, 0)));
@@ -90,19 +91,38 @@
                 float3 look = normalize(dirToCam - localUp * dot(dirToCam, localUp));
                 float3 right = normalize(cross(localUp, look));
 
+                float width;
+                float height;
+                float offset = sizeParams.y * sizeParams.z;
+                // TODO: replace t and lerp with vertex access
+                if (i.uv.y < 0.25)
+                {
+                    float t = i.uv.y / 0.25;
+                    width = alphaWidth.z;
+                    height = lerp(-sizeParams.w, 0, t) - offset;
+                }
+                else if (i.uv.y >= 0.25 && i.uv.y <= 0.75)
+                {
+                    float t = (i.uv.y - 0.25) * 2;
+                    width = lerp(alphaWidth.z, alphaWidth.w, t);
+                    height = lerp(0, sizeParams.y, t) - offset;
+                }
+                else
+                {
+                    float t = (i.uv.y - 0.75) / 0.25;
+                    width = alphaWidth.w;
+                    height = lerp(sizeParams.y, sizeParams.y + sizeParams.w, t) - offset;
+                }
+
+                width *= sizeParams.x;
+
                 o.lengthFactor = i.vertex.y;
-
-                float currentLength = i.vertex.y * sizeParams.y;
-                float verticalOffset = (i.vertex.y - sizeParams.z) * currentLength;
-
-                float currentWidth = lerp(sizeParams.x, sizeParams.w, i.vertex.y);
-                float horizontalOffset = i.vertex.x * currentWidth;
-                float3 worldPos = worldOrigin + right * horizontalOffset + localUp * verticalOffset;
+                float horizontal = i.vertex.x * width;
+                float3 worldPos = worldOrigin + right * horizontal + localUp * height;
 
                 o.vertex = mul(UNITY_MATRIX_VP, float4(worldPos, 1.0));
 
-                // i.uv.y = i.uv.y * o.lengthFactor * 4 / 3;
-                o.uv = float3(i.uv * currentWidth, currentWidth);
+                o.uv = float3(i.uv * width / sizeParams.x, width / sizeParams.x);
                 o.worldPos = mul(unity_ObjectToWorld, i.vertex).xyz;
                 o.customScreenPos = ComputeScreenPosCustom(o.vertex);
 
@@ -113,25 +133,26 @@
             {
                 UNITY_SETUP_INSTANCE_ID(i);
                 fixed4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
-                fixed4 alphaWidth = UNITY_ACCESS_INSTANCED_PROP(Props, _AlphaWidth);
+                float4 alphaWidth = UNITY_ACCESS_INSTANCED_PROP(Props, _AlphaWidth);
 
                 float adjustedLengthFactor = i.lengthFactor;
 
-                float widthFactor = lerp(alphaWidth.z, alphaWidth.w, adjustedLengthFactor);
                 float2 adjustedUv = i.uv.xy / i.uv.z;
-                adjustedUv.x = (adjustedUv.x - 0.5) / widthFactor + 0.5;
                 fixed4 albedo = color * tex2D(_MainTex, TRANSFORM_TEX(adjustedUv, _MainTex));
 
+                // TODO: figure out color blending and glow intensity
                 if (albedo.a > 1.0) albedo.rgb *= albedo.a;
                 albedo.a = saturate(albedo.a);
                 albedo.rgb *= albedo.a;
 
                 float alphaFactor = lerp(alphaWidth.x, alphaWidth.y, adjustedLengthFactor);
-                albedo.a *= saturate(length(albedo.rgb)) * alphaFactor;
+                albedo *= alphaFactor;
+                albedo.a = sqrt(max(albedo.a - 0.5, 0));
+                albedo.a *= pow(alphaFactor, 4);
 
                 #ifdef ENABLE_HEIGHT_FOG
                 BLOOM_FOG_HEIGHT_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,
-                                             _FogHeightOffset, _FogHeightScale);
+                                           _FogHeightOffset, _FogHeightScale);
                 #else
                 BLOOM_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
                 #endif
