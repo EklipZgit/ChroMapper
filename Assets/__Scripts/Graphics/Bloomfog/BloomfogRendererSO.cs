@@ -165,10 +165,6 @@ public class BloomfogRendererSO : ScriptableObject
         {
             // 4 vertices per quad
             var vIndex = i * 4;
-            vertices[vIndex + 0] = Vector3.zero;
-            vertices[vIndex + 1] = Vector3.zero;
-            vertices[vIndex + 2] = Vector3.zero;
-            vertices[vIndex + 3] = Vector3.zero;
 
             // 6 indices per quad
             var tIndex = i * 6;
@@ -176,8 +172,8 @@ public class BloomfogRendererSO : ScriptableObject
             triangles[tIndex + 1] = vIndex + 1;
             triangles[tIndex + 2] = vIndex + 2;
             triangles[tIndex + 3] = vIndex + 2;
-            triangles[tIndex + 4] = vIndex + 1;
-            triangles[tIndex + 5] = vIndex + 3;
+            triangles[tIndex + 4] = vIndex + 3;
+            triangles[tIndex + 5] = vIndex + 0;
         }
 
         bloomfogMesh.vertices = vertices;
