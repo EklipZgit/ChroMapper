@@ -88,13 +88,11 @@ public class
                 var state = container.EventContainer.CurrentState;
 
                 tween.StartTime = state.StartTime;
-                var startState = state;
-                while (startState.UsePrevious) startState = (LightRotationEventStateData)startState.Previous;
+                var startState = (LightRotationEventStateData)(state.UsePrevious ? state.Previous : state);
                 var startAngle = Mathf.Repeat(startState.Rotation, 360f);
 
                 tween.EndTime = state.EndTime;
-                var endState = (LightRotationEventStateData)state.Next;
-                if (endState.UsePrevious) endState = startState;
+                var endState = (LightRotationEventStateData)(state.Next.UsePrevious ? startState : state.Next);
                 var endAngle = Mathf.Repeat(endState.Rotation, 360f);
 
                 var targetAngle = ComputeTargetAngle(startAngle, endAngle, endState.Loop, endState.Direction);
@@ -105,7 +103,7 @@ public class
             }
 
             if (tween.UpdateTime(time))
-                SetRotation(container.Transform, Mathf.Repeat(tween.Current, 360f), container.Axis, container.Mirrored);
+                SetRotation(container.Transform, tween.Current, container.Axis, container.Mirrored);
         }
     }
 
@@ -232,24 +230,20 @@ public class LightRotationEventStateData : EventGroupEventStateData<BaseLightRot
 {
     public readonly float Rotation;
     public readonly LightRotationDirection Direction;
-    public readonly EaseType EaseType;
     public readonly int Loop;
-    public readonly bool UsePrevious;
 
     public LightRotationEventStateData(
         BaseLightRotationBase data,
         float startTime,
         int direction = 1,
-        float offset = 0f) : base(data, startTime, offset)
+        float offset = 0f) : base(data, startTime, data.EaseType, data.UsePrevious)
     {
         var additionalLoop = Mathf.FloorToInt(Mathf.Abs(offset) / 360f);
         offset = Mathf.Abs(offset) % 360f * Mathf.Sign(offset);
 
         Rotation = (offset + data.Rotation) * direction;
         Direction = (LightRotationDirection)data.Direction;
-        EaseType = (EaseType)data.EaseType;
         Loop = data.Loop + additionalLoop;
-        UsePrevious = data.UsePrevious == 1;
     }
 }
 

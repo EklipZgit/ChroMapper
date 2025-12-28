@@ -81,14 +81,12 @@ public class
                 var tween = container.Tween;
 
                 tween.StartTime = state.StartTime;
-                var startState = state;
-                while (startState.Base.UsePrevious == 1) startState = (FloatFxEventStateData)startState.Previous;
-                tween.StartValue = startState.Base.Value;
+                var startState = (FloatFxEventStateData)(state.UsePrevious ? state.Previous : state);
+                tween.StartValue = startState.Value;
 
                 tween.EndTime = state.EndTime;
-                var endState = state.Next;
-                if (endState.Base.UsePrevious == 1) endState = startState;
-                tween.EndValue = endState.Base.Value;
+                var endState = (FloatFxEventStateData)(state.Next.UsePrevious ? startState : state.Next);
+                tween.EndValue = endState.Value;
 
                 tween.Easing = Easing.FromID(endState.Base.Easing);
             }
@@ -177,12 +175,14 @@ public class FloatFxGroupStateData : EventGroupStateData<
 [Serializable]
 public class FloatFxEventStateData : EventGroupEventStateData<FloatFxEventBase>
 {
+    public readonly float Value;
+
     public FloatFxEventStateData(FloatFxEventBase data, float startTime, float offset = 0f) : base(
         data,
         startTime,
-        offset)
-    {
-    }
+        data.Easing,
+        data.UsePrevious) =>
+        Value = data.Value + offset;
 }
 
 public record FloatFxGroupContainer : EventGroupContainer<

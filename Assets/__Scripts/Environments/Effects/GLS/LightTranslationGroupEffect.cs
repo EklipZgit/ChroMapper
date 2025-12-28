@@ -91,13 +91,10 @@ public class
                 var state = container.EventContainer.CurrentState;
 
                 tween.StartTime = state.StartTime;
-                var startState = state;
-                while (startState.Base.UsePrevious == 1)
-                    startState = (LightTranslationEventStateData)startState.Previous;
+                var startState = (LightTranslationEventStateData)(state.UsePrevious ? state.Previous : state);
 
                 tween.EndTime = state.EndTime;
-                var endState = state.Next;
-                if (endState.Base.UsePrevious == 1) endState = startState;
+                var endState = (LightTranslationEventStateData)(state.Next.UsePrevious ? startState : state.Next);
 
                 var translationLimits = container.Axis switch
                 {
@@ -115,20 +112,22 @@ public class
                     _ => throw new ArgumentOutOfRangeException()
                 };
 
+                distributionLimits = translationLimits;
+
                 tween.StartValue = ComputeTranslation(
-                    startState.Base.Translation,
+                    startState.Translation,
                     translationLimits,
                     startState.Distribution,
                     distributionLimits,
                     container.Mirrored);
                 tween.EndValue = ComputeTranslation(
-                    endState.Base.Translation,
+                    endState.Translation,
                     translationLimits,
                     endState.Distribution,
                     distributionLimits,
                     container.Mirrored);
 
-                tween.Easing = Easing.FromID(endState.Base.EaseType);
+                tween.Easing = Easing.FromID((int)endState.EaseType);
             }
 
             if (!tween.UpdateTime(time)) continue;
@@ -251,12 +250,17 @@ public class LightTranslationGroupStateData : EventGroupStateData<
 [Serializable]
 public class LightTranslationEventStateData : EventGroupEventStateData<BaseLightTranslationBase>
 {
+    public readonly float Translation;
+    public readonly float Distribution;
+
     public LightTranslationEventStateData(
         BaseLightTranslationBase data,
         float startTime,
         int direction = 1,
-        float offset = 0f) : base(data, startTime, offset)
+        float offset = 0f) : base(data, startTime, data.EaseType, data.UsePrevious)
     {
+        Translation = data.Translation * direction;
+        Distribution = offset * direction;
     }
 }
 

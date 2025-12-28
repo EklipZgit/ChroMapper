@@ -105,17 +105,15 @@ public class
                 var tween = container.Tween;
 
                 tween.StartTimeAlpha = tween.StartTimeColor = state.StartTime;
-                var startState = state;
-                while (startState.Base.UsePrevious == 1) startState = (LightColorEventStateData)startState.Previous;
-                tween.StartAlpha = startState.Base.Brightness + startState.Distribution;
+                var startState = (LightColorEventStateData)(state.UsePrevious ? state.Previous : state);
+                tween.StartAlpha = startState.Brightness;
                 tween.StartColor = ColorScheme.GetColorFrom((LightColor)startState.Base.Color, false);
                 tween.StartStrobeFrequency = startState.Base.Frequency;
                 tween.StartStrobeBrightness = startState.Base.StrobeBrightness;
 
                 tween.EndTimeAlpha = tween.EndTimeColor = state.EndTime;
-                var endState = state.Next;
-                if (endState.Base.UsePrevious == 1) endState = startState;
-                tween.EndAlpha = endState.Base.Brightness + endState.Distribution;
+                var endState = (LightColorEventStateData)(state.Next.UsePrevious ? startState : state.Next);
+                tween.EndAlpha = endState.Brightness;
                 tween.EndColor = ColorScheme.GetColorFrom((LightColor)endState.Base.Color, false);
 
                 if (endState.Base.Easing == (int)EaseType.None)
@@ -218,12 +216,14 @@ public class LightColorGroupStateData : EventGroupStateData<
 [Serializable]
 public class LightColorEventStateData : EventGroupEventStateData<BaseLightColorBase>
 {
+    public readonly float Brightness;
+
     public LightColorEventStateData(BaseLightColorBase data, float startTime, float offset = 0f) : base(
         data,
         startTime,
-        offset)
-    {
-    }
+        data.Easing,
+        data.UsePrevious) =>
+        Brightness = data.Brightness + offset;
 }
 
 public record LightColorGroupContainer : EventGroupContainer<

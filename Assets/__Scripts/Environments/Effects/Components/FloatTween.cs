@@ -14,7 +14,9 @@ public class FloatTween
     public Func<float, float> Easing = global::Easing.Step;
 
     public bool UpdateTime(float time) =>
-        !Mathf.Approximately(
-            Current,
-            Current = Mathf.LerpUnclamped(StartValue, EndValue, Easing(Mathf.InverseLerp(StartTime, EndTime, time))));
+        Current
+        != (Current = Mathf.LerpUnclamped(
+            StartValue,
+            EndValue,
+            Easing(Mathf.InverseLerp(StartTime, EndTime, time))));
 }

@@ -90,13 +90,16 @@ public abstract class
         var (prevChunk, prevIndex, prevState) = container.GetOverlappingStateFrom(newState);
         var (nextChunk, _, nextState) = container.GetNextStateFrom(newState);
 
-        prevState.Next = newState;
-        newState.Previous = prevState;
-        newState.Next = nextState;
-        nextState.Previous = newState;
-
         prevState.EndTime = newState.StartTime;
+        prevState.Next = newState;
+
         newState.EndTime = nextState.StartTime;
+        newState.Previous = prevState;
+        if (newState.Previous.UsePrevious) newState.Previous = newState.Previous.Previous;
+        newState.Next = nextState;
+
+        nextState.Previous = newState;
+        if (nextState.Previous.UsePrevious) nextState.Previous = nextState.Previous.Previous;
 
         var (_, chunk) = container.GetChunk(newState.StartTime);
         if (prevChunk != chunk)
@@ -137,14 +140,6 @@ public abstract class
         RegenerateEvents(prevState, nextState.LocalJsonTime);
     }
 
-    private static void OnRemoveUpdatePreviousAndNextEventState(TEventState prevState, TEventState nextState)
-    {
-        prevState.EndTime = nextState.StartTime;
-
-        prevState.Next = nextState;
-        nextState.Previous = prevState;
-    }
-
     private void HandleRemoveEventState(
         StateChunksContainer<TEventState, TEvent> container,
         TEventState stateToRemove)
@@ -153,7 +148,12 @@ public abstract class
         var (_, _, prevState) = container.GetPreviousStateFrom(stateToRemove);
         var (_, _, nextState) = container.GetNextStateFrom(stateToRemove);
 
-        OnRemoveUpdatePreviousAndNextEventState(prevState, nextState);
+        prevState.EndTime = nextState.StartTime;
+        prevState.Next = nextState;
+
+        nextState.Previous = prevState;
+        if (nextState.Previous.UsePrevious) nextState.Previous = nextState.Previous.Previous;
+
         currChunk.Remove(stateToRemove);
     }
 
@@ -200,12 +200,14 @@ public abstract class EventGroupEventStateData<T> : StateData<T> where T : BaseO
     public EventGroupEventStateData<T> Previous;
     public EventGroupEventStateData<T> Next;
 
-    public float Distribution;
+    public readonly EaseType EaseType;
+    public readonly bool UsePrevious;
 
-    protected EventGroupEventStateData(T data, float startTime, float offset) : base(data)
+    protected EventGroupEventStateData(T data, float startTime, int easeType, int usePrevious) : base(data)
     {
+        EaseType = (EaseType)easeType;
+        UsePrevious = usePrevious == 1;
         StartTime = startTime;
-        Distribution = offset;
     }
 }
 
