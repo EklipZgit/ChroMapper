@@ -125,6 +125,7 @@ public sealed class LightObjectBloomFog : LightObject
         {
             finalAlpha = Mathf.Clamp(finalAlpha, MinAlpha, MaxAlpha);
         }
+        finalAlpha = Mathf.LinearToGammaSpace(finalAlpha);
 
         // Calculate vertex colors
         // TODO(Caeden): Collision
@@ -140,7 +141,6 @@ public sealed class LightObjectBloomFog : LightObject
             EndAlpha * finalAlpha);
 
         // Fill quad data
-        // TODO(Caeden): Start/end width
         quad.Vertex0Position.x = tubeStartScreenX - startWidthOffsetX;
         quad.Vertex0Position.y = tubeStartScreenY - startWidthOffsetY;
         quad.Vertex0Position.z = 0;

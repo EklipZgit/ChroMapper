@@ -2,6 +2,7 @@ Shader "ChroMapper/BloomfogMesh"
 {
     Properties
     {
+        _BloomfogAlphaMask("Bloomfog Alpha Mask", 2D) = "white" {}
     }
     SubShader
     {
@@ -36,6 +37,8 @@ Shader "ChroMapper/BloomfogMesh"
             uniform float4x4 _VertexTransformMatrix;
             uniform StructuredBuffer<float4> _BloomfogColorBuffer;
 
+            sampler2D _BloomfogAlphaMask;
+
             v2f vert (appdata v)
             {
                 v2f o;
@@ -49,6 +52,7 @@ Shader "ChroMapper/BloomfogMesh"
             {
                 float4 color = _BloomfogColorBuffer[i.id];
                 REINHARD_TONE_MAPPING_APPLY(color)
+                color *= tex2D(_BloomfogAlphaMask, i.uv).a;
                 return color;
             }
             ENDCG
