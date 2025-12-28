@@ -112,8 +112,6 @@ public class
                     _ => throw new ArgumentOutOfRangeException()
                 };
 
-                distributionLimits = translationLimits;
-
                 tween.StartValue = ComputeTranslation(
                     startState.Translation,
                     translationLimits,

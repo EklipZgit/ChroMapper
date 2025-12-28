@@ -14,6 +14,12 @@ public class LightObjectMaterial : LightObject
 
     public override void UpdateLighting(Color color)
     {
+        Mpb.SetColor(colorId, ModifyColor(color));
+        Renderer.SetPropertyBlock(Mpb);
+    }
+
+    protected virtual Color ModifyColor(Color color)
+    {
         var adjustedColor = color;
         color.a *= AlphaIntensity;
         // if (SetAlphaOnly)
@@ -35,13 +41,6 @@ public class LightObjectMaterial : LightObject
             adjustedColor.b *= alpha;
         }
 
-        Mpb.SetColor(colorId, ModifyColor(adjustedColor));
-        Renderer.SetPropertyBlock(Mpb);
-    }
-
-    protected virtual Color ModifyColor(Color color)
-    {
-        color.a *= Multiply;
-        return color;
+        return adjustedColor;
     }
 }

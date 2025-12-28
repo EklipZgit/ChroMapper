@@ -119,10 +119,9 @@ public partial class EnvironmentSceneCreator
                     },
                     new[]
                     {
-                        Vector2.zero, Vector2.zero, Vector2.zero
-                        // FloatArrayToVector2(ltgData.xDistributionLimits),
-                        // FloatArrayToVector2(ltgData.yDistributionLimits),
-                        // FloatArrayToVector2(ltgData.zDistributionLimits)
+                        FloatArrayToVector2(ltgData.xDistributionLimits),
+                        FloatArrayToVector2(ltgData.yDistributionLimits),
+                        FloatArrayToVector2(ltgData.zDistributionLimits)
                     });
 
                 RegisterTranslation(Axis.X, ltgData.XTransforms, ltgData.MirrorX);
