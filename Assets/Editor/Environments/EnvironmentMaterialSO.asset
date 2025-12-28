@@ -104,6 +104,29 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Material: {fileID: 2100000, guid: 66032328947df06c7a673faec594da59, type: 2}
+    Hash: f04289f2711e586837705b68c88d53c0
+    Name: BackColumns
+    Shader: Custom/SimpleLit
+    Color: {r: 0.24999997, g: 0.24999997, b: 0.24999997, a: 0}
+    Keywords: []
+    Environments:
+    - PanicEnvironment
+    - NiceEnvironment
+    - RocketEnvironment
+    Unused: 0
+    Ignored: 0
+  - Material: {fileID: 2100000, guid: 66032328947df06c7a673faec594da59, type: 2}
+    Hash: 8ac7da5bbd2bc15ee550c63e2ab79d26
+    Name: BackColumns
+    Shader: Custom/SimpleLit
+    Color: {r: 0.24999994, g: 0.24999994, b: 0.24999994, a: 0}
+    Keywords: []
+    Environments:
+    - TriangleEnvironment
+    - BigMirrorEnvironment
+    Unused: 0
+    Ignored: 0
+  - Material: {fileID: 2100000, guid: 66032328947df06c7a673faec594da59, type: 2}
     Hash: d43711e5b06cb0744f199d46a5efad18
     Name: BackColumns
     Shader: Custom/SimpleLit
@@ -122,29 +145,6 @@ MonoBehaviour:
     Keywords: []
     Environments:
     - DefaultEnvironment
-    Unused: 0
-    Ignored: 0
-  - Material: {fileID: 2100000, guid: 66032328947df06c7a673faec594da59, type: 2}
-    Hash: 8ac7da5bbd2bc15ee550c63e2ab79d26
-    Name: BackColumns
-    Shader: Custom/SimpleLit
-    Color: {r: 0.24999994, g: 0.24999994, b: 0.24999994, a: 0}
-    Keywords: []
-    Environments:
-    - TriangleEnvironment
-    - BigMirrorEnvironment
-    Unused: 0
-    Ignored: 0
-  - Material: {fileID: 2100000, guid: 66032328947df06c7a673faec594da59, type: 2}
-    Hash: f04289f2711e586837705b68c88d53c0
-    Name: BackColumns
-    Shader: Custom/SimpleLit
-    Color: {r: 0.24999997, g: 0.24999997, b: 0.24999997, a: 0}
-    Keywords: []
-    Environments:
-    - PanicEnvironment
-    - NiceEnvironment
-    - RocketEnvironment
     Unused: 0
     Ignored: 0
   - Material: {fileID: 2100000, guid: 7739d412f10210327b19f59d4d9dc65e, type: 2}
@@ -377,16 +377,6 @@ MonoBehaviour:
     - HipHopEnvironment
     Unused: 0
     Ignored: 0
-  - Material: {fileID: 2100000, guid: e7ff495885ebe7250ab7989fcd616b5f, type: 2}
-    Hash: 181778b6a2f19b89a26bad20821dcdca
-    Name: BottomCones
-    Shader: Custom/SimpleLit
-    Color: {r: 0.34999996, g: 0.34999996, b: 0.34999996, a: 0}
-    Keywords: []
-    Environments:
-    - PanicEnvironment
-    Unused: 0
-    Ignored: 0
   - Material: {fileID: 2100000, guid: 62b76d330581434a584f99f3f13b6129, type: 2}
     Hash: 270ef18f0c2ad8a3fee09035e987cc54
     Name: BottomCones
@@ -395,6 +385,16 @@ MonoBehaviour:
     Keywords: []
     Environments:
     - Panic2Environment
+    Unused: 0
+    Ignored: 0
+  - Material: {fileID: 2100000, guid: e7ff495885ebe7250ab7989fcd616b5f, type: 2}
+    Hash: 181778b6a2f19b89a26bad20821dcdca
+    Name: BottomCones
+    Shader: Custom/SimpleLit
+    Color: {r: 0.34999996, g: 0.34999996, b: 0.34999996, a: 0}
+    Keywords: []
+    Environments:
+    - PanicEnvironment
     Unused: 0
     Ignored: 0
   - Material: {fileID: 2100000, guid: bcd342e8d2c5e6c8d838681d6cf3e835, type: 2}
@@ -710,34 +710,14 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Material: {fileID: 2100000, guid: b3cfd2556c5af6bc9affc8343d566e8d, type: 2}
-    Hash: f7c990f1bdf4d15b845042d9dd618a3b
-    Name: Construction
-    Shader: Custom/SimpleLit
-    Color: {r: 0.65, g: 0.65, b: 0.65, a: 0}
-    Keywords: []
-    Environments:
-    - CrabRaveEnvironment
-    - MonstercatEnvironment
-    Unused: 0
-    Ignored: 0
-  - Material: {fileID: 2100000, guid: c5d1be2504f1fcc389504e4f9868465b, type: 2}
-    Hash: cf8aee3cd2a8e583cb309af364384088
-    Name: Construction
-    Shader: Custom/SimpleLit
-    Color: {r: 0.65, g: 0.65, b: 0.65, a: 0}
-    Keywords: []
-    Environments:
-    - OriginsEnvironment
-    Unused: 0
-    Ignored: 0
-  - Material: {fileID: 2100000, guid: 911ede6d2ad064165946dc2aad2c7036, type: 2}
-    Hash: 2e1fc470bf720d916d94da4c6106f03c
+    Hash: 84b550a284ce9003b1e9b6d22048f558
     Name: Construction
     Shader: Custom/SimpleLit
     Color: {r: 0.24999997, g: 0.24999997, b: 0.24999997, a: 0}
     Keywords: []
     Environments:
-    - KaleidoscopeEnvironment
+    - Dragons2Environment
+    - DragonsEnvironment
     Unused: 0
     Ignored: 0
   - Material: {fileID: 2100000, guid: a4c65b1bf6e5fa7eb82e348cc994590d, type: 2}
@@ -750,17 +730,6 @@ MonoBehaviour:
     - KDAEnvironment
     Unused: 0
     Ignored: 0
-  - Material: {fileID: 2100000, guid: b3cfd2556c5af6bc9affc8343d566e8d, type: 2}
-    Hash: 84b550a284ce9003b1e9b6d22048f558
-    Name: Construction
-    Shader: Custom/SimpleLit
-    Color: {r: 0.24999997, g: 0.24999997, b: 0.24999997, a: 0}
-    Keywords: []
-    Environments:
-    - Dragons2Environment
-    - DragonsEnvironment
-    Unused: 0
-    Ignored: 0
   - Material: {fileID: 2100000, guid: 0dc7972280d4aefaca6d762b18d75928, type: 2}
     Hash: b831c67ffbf47d7f2119b9424786eaae
     Name: Construction
@@ -769,6 +738,37 @@ MonoBehaviour:
     Keywords: []
     Environments:
     - BigMirrorEnvironment
+    Unused: 0
+    Ignored: 0
+  - Material: {fileID: 2100000, guid: c5d1be2504f1fcc389504e4f9868465b, type: 2}
+    Hash: cf8aee3cd2a8e583cb309af364384088
+    Name: Construction
+    Shader: Custom/SimpleLit
+    Color: {r: 0.65, g: 0.65, b: 0.65, a: 0}
+    Keywords: []
+    Environments:
+    - OriginsEnvironment
+    Unused: 0
+    Ignored: 0
+  - Material: {fileID: 2100000, guid: b3cfd2556c5af6bc9affc8343d566e8d, type: 2}
+    Hash: f7c990f1bdf4d15b845042d9dd618a3b
+    Name: Construction
+    Shader: Custom/SimpleLit
+    Color: {r: 0.65, g: 0.65, b: 0.65, a: 0}
+    Keywords: []
+    Environments:
+    - CrabRaveEnvironment
+    - MonstercatEnvironment
+    Unused: 0
+    Ignored: 0
+  - Material: {fileID: 2100000, guid: 911ede6d2ad064165946dc2aad2c7036, type: 2}
+    Hash: 2e1fc470bf720d916d94da4c6106f03c
+    Name: Construction
+    Shader: Custom/SimpleLit
+    Color: {r: 0.24999997, g: 0.24999997, b: 0.24999997, a: 0}
+    Keywords: []
+    Environments:
+    - KaleidoscopeEnvironment
     Unused: 0
     Ignored: 0
   - Material: {fileID: 2100000, guid: 3782ce120bed7721eb6cccf0a928b93e, type: 2}
@@ -1179,6 +1179,38 @@ MonoBehaviour:
     - ColliderEnvironment
     Unused: 0
     Ignored: 0
+  - Material: {fileID: 2100000, guid: 8209e02aa3e46e569bf21ae5f1711383, type: 2}
+    Hash: 71db2d8aa7d3e11278dc2082fbc5f338
+    Name: EnvLightBillboardSpriteGlow
+    Shader: Custom/Parametric3SliceSprite
+    Color: {r: 0, g: 0.5, b: 1, a: 1}
+    Keywords: []
+    Environments:
+    - MetallicaEnvironment
+    - BritneyEnvironment
+    - ColliderEnvironment
+    Unused: 0
+    Ignored: 0
+  - Material: {fileID: 2100000, guid: 5fa81fb1a68fddae6acb618d09c9b469, type: 2}
+    Hash: 17117c19771ccc8102039b8145b629bc
+    Name: EnvLightBillboardSpriteGlow
+    Shader: Custom/Parametric3SliceSprite
+    Color: {r: 0, g: 0.5, b: 1, a: 1}
+    Keywords: []
+    Environments:
+    - DaftPunkEnvironment
+    Unused: 0
+    Ignored: 0
+  - Material: {fileID: 2100000, guid: 408ad577b44ec5e83a2393fc9ea8cfa9, type: 2}
+    Hash: 2ec32dd509280680b35fa094711f56eb
+    Name: EnvLightBillboardSpriteGlow
+    Shader: Custom/Parametric3SliceSprite
+    Color: {r: 0, g: 0.5, b: 1, a: 1}
+    Keywords: []
+    Environments:
+    - WeaveEnvironment
+    Unused: 0
+    Ignored: 0
   - Material: {fileID: 2100000, guid: 4b5295fe990429291b18a2361de6ffa8, type: 2}
     Hash: f10ae1649ddd58b248c37902eff08279
     Name: EnvLightBillboardSpriteGlow
@@ -1237,38 +1269,6 @@ MonoBehaviour:
     - DragonsEnvironment
     - MonstercatEnvironment
     - BigMirrorEnvironment
-    - ColliderEnvironment
-    Unused: 0
-    Ignored: 0
-  - Material: {fileID: 2100000, guid: 5fa81fb1a68fddae6acb618d09c9b469, type: 2}
-    Hash: 17117c19771ccc8102039b8145b629bc
-    Name: EnvLightBillboardSpriteGlow
-    Shader: Custom/Parametric3SliceSprite
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
-    Keywords: []
-    Environments:
-    - DaftPunkEnvironment
-    Unused: 0
-    Ignored: 0
-  - Material: {fileID: 2100000, guid: 408ad577b44ec5e83a2393fc9ea8cfa9, type: 2}
-    Hash: 2ec32dd509280680b35fa094711f56eb
-    Name: EnvLightBillboardSpriteGlow
-    Shader: Custom/Parametric3SliceSprite
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
-    Keywords: []
-    Environments:
-    - WeaveEnvironment
-    Unused: 0
-    Ignored: 0
-  - Material: {fileID: 2100000, guid: 8209e02aa3e46e569bf21ae5f1711383, type: 2}
-    Hash: 71db2d8aa7d3e11278dc2082fbc5f338
-    Name: EnvLightBillboardSpriteGlow
-    Shader: Custom/Parametric3SliceSprite
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
-    Keywords: []
-    Environments:
-    - MetallicaEnvironment
-    - BritneyEnvironment
     - ColliderEnvironment
     Unused: 0
     Ignored: 0
@@ -1333,6 +1333,16 @@ MonoBehaviour:
     - RockMixtapeEnvironment
     Unused: 0
     Ignored: 0
+  - Material: {fileID: 2100000, guid: a5cfd4fdc27f4474da81f682f3ec2bbe, type: 2}
+    Hash: 6f561089e82699c4e5bf72446d5039fd
+    Name: EnvLightBillboardSpriteGlowWorldNoise
+    Shader: Custom/Parametric3SliceSprite
+    Color: {r: 0, g: 0.5, b: 1, a: 1}
+    Keywords: []
+    Environments:
+    - LinkinPark2Environment
+    Unused: 0
+    Ignored: 0
   - Material: {fileID: 2100000, guid: bd9be70e8803a18348014a8a5852fca8, type: 2}
     Hash: 31fd48d1dd1e33299c744aa732a48732
     Name: EnvLightBillboardSpriteGlowWorldNoise
@@ -1365,16 +1375,6 @@ MonoBehaviour:
     - EDMEnvironment
     - LizzoEnvironment
     - HipHopEnvironment
-    Unused: 0
-    Ignored: 0
-  - Material: {fileID: 2100000, guid: a5cfd4fdc27f4474da81f682f3ec2bbe, type: 2}
-    Hash: 6f561089e82699c4e5bf72446d5039fd
-    Name: EnvLightBillboardSpriteGlowWorldNoise
-    Shader: Custom/Parametric3SliceSprite
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
-    Keywords: []
-    Environments:
-    - LinkinPark2Environment
     Unused: 0
     Ignored: 0
   - Material: {fileID: 2100000, guid: bd9be70e8803a18348014a8a5852fca8, type: 2}
@@ -2185,14 +2185,14 @@ MonoBehaviour:
     - TheWeekndEnvironment
     Unused: 0
     Ignored: 0
-  - Material: {fileID: 2100000, guid: 7db6e2eb39b00d4b196dc844e6d277fe, type: 2}
-    Hash: f437901d2567f203c0d76baa199c138f
+  - Material: {fileID: 2100000, guid: 0a7ddecd6a9faecb2b820318c2c3d9e2, type: 2}
+    Hash: 8c7d20741dd6def6152d285d9a4f3efc
     Name: LaserSocket
     Shader: Custom/SimpleLit
     Color: {r: 0.26415086, g: 0.26415086, b: 0.26415086, a: 0}
     Keywords: []
     Environments:
-    - BritneyEnvironment
+    - MetallicaEnvironment
     Unused: 0
     Ignored: 0
   - Material: {fileID: 2100000, guid: a1807214af385bdbbb7f5b1fd60dff95, type: 2}
@@ -2205,14 +2205,14 @@ MonoBehaviour:
     - ColliderEnvironment
     Unused: 0
     Ignored: 0
-  - Material: {fileID: 2100000, guid: 0a7ddecd6a9faecb2b820318c2c3d9e2, type: 2}
-    Hash: 8c7d20741dd6def6152d285d9a4f3efc
+  - Material: {fileID: 2100000, guid: 7db6e2eb39b00d4b196dc844e6d277fe, type: 2}
+    Hash: f437901d2567f203c0d76baa199c138f
     Name: LaserSocket
     Shader: Custom/SimpleLit
     Color: {r: 0.26415086, g: 0.26415086, b: 0.26415086, a: 0}
     Keywords: []
     Environments:
-    - MetallicaEnvironment
+    - BritneyEnvironment
     Unused: 0
     Ignored: 0
   - Material: {fileID: 2100000, guid: a2b9e76a9d9ce6763be0fdaad5cc5d6e, type: 2}
@@ -2317,16 +2317,6 @@ MonoBehaviour:
     - LizzoEnvironment
     Unused: 0
     Ignored: 0
-  - Material: {fileID: 2100000, guid: ab017577ac2cf0a6fb3d2aa918ecd867, type: 2}
-    Hash: 0ce5304fd7278b6dae81a8a4ab50aae1
-    Name: LightBloom
-    Shader: Custom/CustomParticles
-    Color: {r: 1, g: 0, b: 0.06729505, a: 1}
-    Keywords: []
-    Environments:
-    - PyroEnvironment
-    Unused: 0
-    Ignored: 0
   - Material: {fileID: 2100000, guid: 3c80713456e4e70c1905845d544d2dab, type: 2}
     Hash: 2f025242efed44e450512634029379e8
     Name: LightBloom
@@ -2335,6 +2325,16 @@ MonoBehaviour:
     Keywords: []
     Environments:
     - MetallicaEnvironment
+    Unused: 0
+    Ignored: 0
+  - Material: {fileID: 2100000, guid: ab017577ac2cf0a6fb3d2aa918ecd867, type: 2}
+    Hash: 0ce5304fd7278b6dae81a8a4ab50aae1
+    Name: LightBloom
+    Shader: Custom/CustomParticles
+    Color: {r: 1, g: 0, b: 0.06729505, a: 1}
+    Keywords: []
+    Environments:
+    - PyroEnvironment
     Unused: 0
     Ignored: 0
   - Material: {fileID: 2100000, guid: e656acfb993bc2770abe58b9aa8f7653, type: 2}
@@ -2681,6 +2681,16 @@ MonoBehaviour:
     - RockMixtapeEnvironment
     Unused: 0
     Ignored: 0
+  - Material: {fileID: 2100000, guid: 481d543f677404362a5770db82f3cc9e, type: 2}
+    Hash: 8e3fb2d51544214db7bc67ce299d9fe6
+    Name: NearBuilding
+    Shader: Custom/SimpleLit
+    Color: {r: 0.24999997, g: 0.24999997, b: 0.24999997, a: 0}
+    Keywords: []
+    Environments:
+    - NiceEnvironment
+    Unused: 0
+    Ignored: 0
   - Material: {fileID: 2100000, guid: 078b98bfc013130c4aa3c1c37472e364, type: 2}
     Hash: dd8e05d8409aa534b88f6340178f5d0b
     Name: NearBuilding
@@ -2691,16 +2701,6 @@ MonoBehaviour:
     - DefaultEnvironment
     - TriangleEnvironment
     - BigMirrorEnvironment
-    Unused: 0
-    Ignored: 0
-  - Material: {fileID: 2100000, guid: 481d543f677404362a5770db82f3cc9e, type: 2}
-    Hash: 8e3fb2d51544214db7bc67ce299d9fe6
-    Name: NearBuilding
-    Shader: Custom/SimpleLit
-    Color: {r: 0.24999997, g: 0.24999997, b: 0.24999997, a: 0}
-    Keywords: []
-    Environments:
-    - NiceEnvironment
     Unused: 0
     Ignored: 0
   - Material: {fileID: 2100000, guid: 3dfe9037b0f68299bb086bfe08256361, type: 2}
@@ -3103,26 +3103,6 @@ MonoBehaviour:
     - BTSEnvironment
     Unused: 0
     Ignored: 0
-  - Material: {fileID: 2100000, guid: 44bdbaa96edd0d08aa7637e41b3318a0, type: 2}
-    Hash: 6cc1bfeacd8378fc1ad8af113142191a
-    Name: Runway
-    Shader: Custom/SimpleLit
-    Color: {r: 1, g: 1, b: 1, a: 1}
-    Keywords: []
-    Environments:
-    - DaftPunkEnvironment
-    Unused: 0
-    Ignored: 0
-  - Material: {fileID: 2100000, guid: 967f7a2364edbf32599094650b0d334b, type: 2}
-    Hash: 494ee2693a981b7ae9413c0063abd32b
-    Name: Runway
-    Shader: Custom/SimpleLit
-    Color: {r: 0.07450979, g: 0.07450979, b: 0.07450979, a: 0}
-    Keywords: []
-    Environments:
-    - ColliderEnvironment
-    Unused: 0
-    Ignored: 0
   - Material: {fileID: 2100000, guid: 9b6f7a8687960c201a9cf4785eb90936, type: 2}
     Hash: be8eed5cffff31a039484f5464f2f059
     Name: Runway
@@ -3141,6 +3121,26 @@ MonoBehaviour:
     Keywords: []
     Environments:
     - MetallicaEnvironment
+    Unused: 0
+    Ignored: 0
+  - Material: {fileID: 2100000, guid: 44bdbaa96edd0d08aa7637e41b3318a0, type: 2}
+    Hash: 6cc1bfeacd8378fc1ad8af113142191a
+    Name: Runway
+    Shader: Custom/SimpleLit
+    Color: {r: 1, g: 1, b: 1, a: 1}
+    Keywords: []
+    Environments:
+    - DaftPunkEnvironment
+    Unused: 0
+    Ignored: 0
+  - Material: {fileID: 2100000, guid: 967f7a2364edbf32599094650b0d334b, type: 2}
+    Hash: 494ee2693a981b7ae9413c0063abd32b
+    Name: Runway
+    Shader: Custom/SimpleLit
+    Color: {r: 0.07450979, g: 0.07450979, b: 0.07450979, a: 0}
+    Keywords: []
+    Environments:
+    - ColliderEnvironment
     Unused: 0
     Ignored: 0
   - Material: {fileID: 2100000, guid: 097e27c1340d8b9debda4245bc829b49, type: 2}
@@ -3465,16 +3465,6 @@ MonoBehaviour:
     - QueenEnvironment
     Unused: 0
     Ignored: 0
-  - Material: {fileID: 2100000, guid: ae887f10a1d9e84aab502c886be45f23, type: 2}
-    Hash: 0b03599ac7c984699e942948dcc43ee2
-    Name: SimpleLightning
-    Shader: Custom/SimpleLightning
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
-    Keywords: []
-    Environments:
-    - GagaEnvironment
-    Unused: 0
-    Ignored: 0
   - Material: {fileID: 2100000, guid: 45793f815aaa6adf2998b683c32d4bda, type: 2}
     Hash: 9441cd8e4e125ad682153b3a694521c7
     Name: SimpleLightning
@@ -3483,6 +3473,16 @@ MonoBehaviour:
     Keywords: []
     Environments:
     - MetallicaEnvironment
+    Unused: 0
+    Ignored: 0
+  - Material: {fileID: 2100000, guid: ae887f10a1d9e84aab502c886be45f23, type: 2}
+    Hash: 0b03599ac7c984699e942948dcc43ee2
+    Name: SimpleLightning
+    Shader: Custom/SimpleLightning
+    Color: {r: 0, g: 0.5, b: 1, a: 1}
+    Keywords: []
+    Environments:
+    - GagaEnvironment
     Unused: 0
     Ignored: 0
   - Material: {fileID: 2100000, guid: 801b834489bf9e026b360633f370670b, type: 2}
@@ -3977,16 +3977,6 @@ MonoBehaviour:
     - BritneyEnvironment
     Unused: 0
     Ignored: 0
-  - Material: {fileID: 2100000, guid: c221535ecbe19661281f664e646bc8ed, type: 2}
-    Hash: c44557f59b09524030c27502dfdfd345
-    Name: Track
-    Shader: Custom/SimpleLit
-    Color: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
-    Keywords: []
-    Environments:
-    - SkrillexEnvironment
-    Unused: 0
-    Ignored: 0
   - Material: {fileID: 2100000, guid: 5b80d69b5176054f689ca0b6e96e5cec, type: 2}
     Hash: ca3a1a3caa68368cf78ab1fed36a5db7
     Name: Track
@@ -3995,6 +3985,16 @@ MonoBehaviour:
     Keywords: []
     Environments:
     - LinkinPark2Environment
+    Unused: 0
+    Ignored: 0
+  - Material: {fileID: 2100000, guid: c221535ecbe19661281f664e646bc8ed, type: 2}
+    Hash: c44557f59b09524030c27502dfdfd345
+    Name: Track
+    Shader: Custom/SimpleLit
+    Color: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
+    Keywords: []
+    Environments:
+    - SkrillexEnvironment
     Unused: 0
     Ignored: 0
   - Material: {fileID: 2100000, guid: c13c328e882c838649e170007f827371, type: 2}

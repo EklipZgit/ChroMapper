@@ -164,15 +164,15 @@ public partial class EnvironmentSceneCreator
 
         void RegisterLight(int id, LightController controller)
         {
-            var lg = lcgemData.LightGroups.FirstOrDefault(x =>
+            var lg = lcgemData?.LightGroups.FirstOrDefault(x =>
                 x.StartLightId <= id && id < x.StartLightId + x.NumberOfElements);
-            if (lg is not null)
+            if (lg != null)
             {
                 lcgem.Register(lg.GroupId, id - lg.StartLightId, controller);
                 return;
             }
 
-            Debug.LogError($"Somehow ID {id} is not registered for {controller}");
+            Debug.LogError($"{controller} ID {id} could not registered, missing event type or group ID register?");
         }
 
         void HandleTubeBloomPrePassLightWithId(

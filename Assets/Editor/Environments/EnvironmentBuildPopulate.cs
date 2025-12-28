@@ -93,6 +93,8 @@ public class EnvironmentBuildPopulate
             }
             
             matInfo.Material.SetColor("_Color", matInfo.Color);
+
+            matInfo.Material.enableInstancing = true;
         }
         
         AssetDatabase.ForceReserializeAssets(

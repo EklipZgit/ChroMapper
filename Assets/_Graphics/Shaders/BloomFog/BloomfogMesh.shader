@@ -7,7 +7,7 @@ Shader "ChroMapper/BloomfogMesh"
     SubShader
     {
         Tags { "RenderType"="Transparent" }
-        Blend SrcAlpha OneMinusSrcAlpha
+        Blend SrcColor OneMinusSrcColor
         LOD 100
 
         Pass

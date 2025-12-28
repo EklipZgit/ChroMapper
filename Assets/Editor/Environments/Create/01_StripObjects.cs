@@ -9,6 +9,7 @@ public partial class EnvironmentSceneCreator
     private static Dictionary<string, GameObject> StripObjects(Scene scene, EnvData data)
     {
         var existingObjects = new Dictionary<string, GameObject>();
+        var validObjects = data.Objects.Select(x => x.ChromaID).ToHashSet();
         TraverseAndStrip(scene.GetRootGameObjects());
 
         return existingObjects;
@@ -18,7 +19,7 @@ public partial class EnvironmentSceneCreator
             foreach (var go in gos)
             {
                 var marker = go.GetComponent<ChromaIDMarker>();
-                if (marker == null || !data.Objects.Exists(d => d.ChromaID == marker.ChromaID))
+                if (marker == null || !validObjects.Contains(marker.ChromaID))
                 {
                     Object.DestroyImmediate(go);
                     continue;
@@ -26,7 +27,8 @@ public partial class EnvironmentSceneCreator
 
                 foreach (var component in go.GetComponents<Component>())
                 {
-                    if (component is not (Transform or MeshFilter or MeshRenderer or ChromaIDMarker)) Object.DestroyImmediate(component);
+                    if (component is not (Transform or MeshFilter or MeshRenderer or ChromaIDMarker))
+                        Object.DestroyImmediate(component);
                 }
 
                 existingObjects.Add(marker.ChromaID, go);
@@ -34,12 +36,12 @@ public partial class EnvironmentSceneCreator
             }
         }
 
+        // messy enumerator, wcyd
         GameObject[] GetChildren(GameObject go)
         {
             var objects = new List<GameObject>();
             var c = go.transform.childCount;
             for (var i = 0; i < c; i++) objects.Add(go.transform.GetChild(i).gameObject);
-
             return objects.ToArray();
         }
     }
