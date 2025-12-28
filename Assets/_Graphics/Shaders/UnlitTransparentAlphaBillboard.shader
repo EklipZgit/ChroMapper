@@ -30,7 +30,7 @@
 
         ZWrite Off
         Cull Front
-        Blend SrcColor OneMinusSrcColor
+        Blend SrcAlpha OneMinusSrcAlpha
 
         Pass
         {
@@ -117,9 +117,9 @@
 
                 float adjustedLengthFactor = i.lengthFactor;
 
-                float widthFactor = lerp(1 / alphaWidth.z, 1 / alphaWidth.w, adjustedLengthFactor);
+                float widthFactor = lerp(alphaWidth.z, alphaWidth.w, adjustedLengthFactor);
                 float2 adjustedUv = i.uv.xy / i.uv.z;
-                adjustedUv.x = (adjustedUv.x - 0.5) * widthFactor + 0.5;
+                adjustedUv.x = (adjustedUv.x - 0.5) / widthFactor + 0.5;
                 fixed4 albedo = color * tex2D(_MainTex, TRANSFORM_TEX(adjustedUv, _MainTex));
 
                 if (albedo.a > 1.0) albedo.rgb *= albedo.a;
@@ -127,12 +127,11 @@
                 albedo.rgb *= albedo.a;
 
                 float alphaFactor = lerp(alphaWidth.x, alphaWidth.y, adjustedLengthFactor);
-                albedo *= alphaFactor;
                 albedo.a *= saturate(length(albedo.rgb)) * alphaFactor;
 
                 #ifdef ENABLE_HEIGHT_FOG
                 BLOOM_FOG_HEIGHT_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,
-                                           _FogHeightOffset, _FogHeightScale);
+                                             _FogHeightOffset, _FogHeightScale);
                 #else
                 BLOOM_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
                 #endif
