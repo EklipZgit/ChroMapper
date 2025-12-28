@@ -10,11 +10,19 @@ public sealed class LightObjectBloomFog : LightObject
     public float Height = 1f;
     public float Center = 1f;
 
+    public float StartWidth = 1f;
+    public float EndWidth = 1f;
+
     public float StartAlpha = 1f;
     public float EndAlpha = 1f;
 
     public float LightWidthMultiplier = 1f;
     public float IntensityMultiplier = 1f;
+
+    public float BoostToWhite = 0f;
+    public float LimitAlpha = 0f;
+    public float MinAlpha = 0f;
+    public float MaxAlpha = 1f;
 
     public bool UseCollision = false;
 
@@ -67,7 +75,91 @@ public sealed class LightObjectBloomFog : LightObject
         var tubeStartClip = projection * new Vector4(tubeStartView.x, tubeStartView.y, tubeStartView.z, 1);
         var tubeEndClip = projection * new Vector4(tubeEndView.x, tubeEndView.y, tubeEndView.z, 1);
 
-        // TODO(Caeden): Frustrum culling
+        #region Frustrum Culling
+        // Left frustrum
+        var startPointInsideFrustrum = tubeStartClip.x >= -tubeStartClip.w;
+        var endPointInsideFrustrum = tubeEndClip.x >= -tubeEndClip.w;
+        if (!startPointInsideFrustrum && !endPointInsideFrustrum)
+        {
+            ZeroQuad(ref quad);
+            return;
+        }
+        if (startPointInsideFrustrum != endPointInsideFrustrum)
+        {
+            var leftFrustumClipInterpolation = (-tubeStartClip.w - tubeStartClip.x) / (tubeEndClip.x - tubeStartClip.x + tubeEndClip.w - tubeStartClip.w);
+            ClipPoints(ref tubeStartClip, ref tubeEndClip, ref tubeStartView, ref tubeEndView, startPointInsideFrustrum, leftFrustumClipInterpolation);
+        }
+
+        // Right frustrum
+        startPointInsideFrustrum = tubeStartClip.x <= tubeStartClip.w;
+        endPointInsideFrustrum = tubeEndClip.x <= tubeEndClip.w;
+        if (!startPointInsideFrustrum && !endPointInsideFrustrum)
+        {
+            ZeroQuad(ref quad);
+            return;
+        }
+        if (startPointInsideFrustrum != endPointInsideFrustrum)
+        {
+            var rightFrustumClipInterpolation = (tubeStartClip.w - tubeStartClip.x) / (tubeEndClip.x - tubeStartClip.x - tubeEndClip.w + tubeStartClip.w);
+            ClipPoints(ref tubeStartClip, ref tubeEndClip, ref tubeStartView, ref tubeEndView, startPointInsideFrustrum, rightFrustumClipInterpolation);
+        }
+
+        // Bottom frustrum
+        startPointInsideFrustrum = tubeStartClip.y >= -tubeStartClip.w;
+        endPointInsideFrustrum = tubeEndClip.y >= -tubeEndClip.w;
+        if (!startPointInsideFrustrum && !endPointInsideFrustrum)
+        {
+            ZeroQuad(ref quad);
+            return;
+        }
+        if (startPointInsideFrustrum != endPointInsideFrustrum)
+        {
+            var bottomFrustumClipInterpolation = (-tubeStartClip.w - tubeStartClip.y) / (tubeEndClip.y - tubeStartClip.y + tubeEndClip.w - tubeStartClip.w);
+            ClipPoints(ref tubeStartClip, ref tubeEndClip, ref tubeStartView, ref tubeEndView, startPointInsideFrustrum, bottomFrustumClipInterpolation);
+        }
+
+        // Top frustrum
+        startPointInsideFrustrum = tubeStartClip.y <= tubeStartClip.w;
+        endPointInsideFrustrum = tubeEndClip.y <= tubeEndClip.w;
+        if (!startPointInsideFrustrum && !endPointInsideFrustrum)
+        {
+            ZeroQuad(ref quad);
+            return;
+        }
+        if (startPointInsideFrustrum != endPointInsideFrustrum)
+        {
+            var topFrustumClipInterpolation = (tubeStartClip.w - tubeStartClip.y) / (tubeEndClip.y - tubeStartClip.y - tubeEndClip.w + tubeStartClip.w);
+            ClipPoints(ref tubeStartClip, ref tubeEndClip, ref tubeStartView, ref tubeEndView, startPointInsideFrustrum, topFrustumClipInterpolation);
+        }
+
+        // Far plane
+        startPointInsideFrustrum = tubeStartClip.z <= tubeStartClip.w;
+        endPointInsideFrustrum = tubeEndClip.z <= tubeEndClip.w;
+        if (!startPointInsideFrustrum && !endPointInsideFrustrum)
+        {
+            ZeroQuad(ref quad);
+            return;
+        }
+        if (startPointInsideFrustrum != endPointInsideFrustrum)
+        {
+            var farPlaneClipInterpolation = (tubeStartClip.w - tubeStartClip.z) / (tubeEndClip.z - tubeStartClip.z - tubeEndClip.w + tubeStartClip.w);
+            ClipPoints(ref tubeStartClip, ref tubeEndClip, ref tubeStartView, ref tubeEndView, startPointInsideFrustrum, farPlaneClipInterpolation);
+        }
+
+        // Near plane (with small epsilon for precision)
+        startPointInsideFrustrum = tubeStartClip.z >= -tubeStartClip.w - 0.0001f;
+        endPointInsideFrustrum = tubeEndClip.z >= -tubeEndClip.w - 0.0001f;
+        if (!startPointInsideFrustrum && !endPointInsideFrustrum)
+        {
+            ZeroQuad(ref quad);
+            return;
+        }
+        if (startPointInsideFrustrum != endPointInsideFrustrum)
+        {
+            var nearPlaneClipInterpolation = (-tubeStartClip.w - tubeStartClip.z) / (tubeEndClip.z - tubeStartClip.z + tubeEndClip.w - tubeStartClip.w);
+            ClipPoints(ref tubeStartClip, ref tubeEndClip, ref tubeStartView, ref tubeEndView, startPointInsideFrustrum, nearPlaneClipInterpolation);
+        }
+        #endregion
 
         // Convert to NDC space
         var tubeStartScreenX = (tubeStartClip.x / tubeStartClip.w * 0.5f) + 0.5f;
@@ -87,7 +179,13 @@ public sealed class LightObjectBloomFog : LightObject
         screenDirX /= screenDirLength;
         screenDirY /= screenDirLength;
 
-        // TODO(Caeden): Consider adding small offset here? Apparently it helps with AA
+        // Apply anti-aliasing offset
+        var screenOffsetX = screenDirX * (1f / 64);
+        var screenOffsetY = screenDirY * (1f / 64);
+        tubeEndScreenX += screenOffsetX;
+        tubeEndScreenY += screenOffsetY;
+        tubeStartScreenX -= screenOffsetX;
+        tubeStartScreenY -= screenOffsetY;
 
         // Calculate perpendicular direction
         var effectiveLineWidth = lineWidth * LightWidthMultiplier;
@@ -96,18 +194,22 @@ public sealed class LightObjectBloomFog : LightObject
 
         // Calculate width offsets at endpoints
         // TODO(Caeden): Start/end widths
-        var startWidthOffsetX = perpX * Width;
-        var startWidthOffsetY = perpY * Width;
-        var endWidthOffsetX = perpX * Width;
-        var endWidthOffsetY = perpY * Width;
+        var startWidthOffsetX = perpX * StartWidth;
+        var startWidthOffsetY = perpY * StartWidth;
+        var endWidthOffsetX = perpX * EndWidth;
+        var endWidthOffsetY = perpY * EndWidth;
 
         // Calculate color components
-        // TODO(Caeden): Boost to white
-        var boostedR = color.r;
-        var boostedG = color.g;
-        var boostedB = color.b;
+        var boostedR = color.r + BoostToWhite;
+        var boostedG = color.g + BoostToWhite;
+        var boostedB = color.b + BoostToWhite;
         var finalAlpha = color.a * IntensityMultiplier;
-        // TODO(Caeden): Alpha limiting
+        
+        if (!Mathf.Approximately(LimitAlpha, 0f))
+        {
+            finalAlpha = Mathf.Clamp(finalAlpha, MinAlpha, MaxAlpha);
+        }
+        finalAlpha = Mathf.LinearToGammaSpace(finalAlpha);
 
         // Calculate vertex colors
         // TODO(Caeden): Collision
@@ -123,35 +225,51 @@ public sealed class LightObjectBloomFog : LightObject
             EndAlpha * finalAlpha);
 
         // Fill quad data
-        // TODO(Caeden): Start/end width
         quad.Vertex0Position.x = tubeStartScreenX - startWidthOffsetX;
         quad.Vertex0Position.y = tubeStartScreenY - startWidthOffsetY;
         quad.Vertex0Position.z = 0;
         quad.Vertex0ViewPos = tubeStartView;
         quad.Vertex0Color = startColor;
-        quad.Vertex0UV = new Vector3(0, 0, Width);
+        quad.Vertex0UV = new Vector3(0, 0, StartWidth);
 
         quad.Vertex1Position.x = tubeStartScreenX + startWidthOffsetX;
         quad.Vertex1Position.y = tubeStartScreenY + startWidthOffsetY;
         quad.Vertex1Position.z = 0;
         quad.Vertex1ViewPos = tubeStartView;
         quad.Vertex1Color = startColor;
-        quad.Vertex1UV = new Vector3(Width, 0, Width);
+        quad.Vertex1UV = new Vector3(StartWidth, 0, StartWidth);
 
         quad.Vertex2Position.x = tubeEndScreenX + endWidthOffsetX;
         quad.Vertex2Position.y = tubeEndScreenY + endWidthOffsetY;
         quad.Vertex2Position.z = 0;
         quad.Vertex2ViewPos = tubeEndView;
         quad.Vertex2Color = endColor;
-        quad.Vertex2UV = new Vector3(Width, 1, Width);
+        quad.Vertex2UV = new Vector3(EndWidth, 1, EndWidth);
 
         quad.Vertex3Position.x = tubeEndScreenX - endWidthOffsetX;
         quad.Vertex3Position.y = tubeEndScreenY - endWidthOffsetY;
         quad.Vertex3Position.z = 0;
         quad.Vertex3ViewPos = tubeEndView;
         quad.Vertex3Color = endColor;
-        quad.Vertex3UV = new Vector3(0, 1, Width);
+        quad.Vertex3UV = new Vector3(0, 1, EndWidth);
     }
 
     private static void ZeroQuad(ref BloomfogQuad quad) => quad = default;
+
+    // Clip the line segment against a single frustum plane
+    private static void ClipPoints(ref Vector4 startClipPos, ref Vector4 endClipPos, ref Vector3 startViewPos, ref Vector3 endViewPos, bool startPointInsideFrustrum, float clipInterpolation)
+    {
+        if (startPointInsideFrustrum)
+        {
+            // Start point is inside, end point is outside - clip the end point
+            endClipPos = Vector4.Lerp(startClipPos, endClipPos, clipInterpolation);
+            endViewPos = Vector3.Lerp(startViewPos, endViewPos, clipInterpolation);
+        }
+        else
+        {
+            // End point is inside, start point is outside - clip the start point
+            startClipPos = Vector4.Lerp(startClipPos, endClipPos, clipInterpolation);
+            startViewPos = Vector3.Lerp(startViewPos, endViewPos, clipInterpolation);
+        }
+    }
 }
