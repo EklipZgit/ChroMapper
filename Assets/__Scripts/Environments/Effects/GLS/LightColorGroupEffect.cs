@@ -33,7 +33,7 @@ public class
 
     private void HandleBoostChange(bool boost)
     {
-        foreach (var container in idToContainer)
+        foreach (var container in idToContainer.Where(c => c is not null))
         {
             var state = container.EventContainer.CurrentState;
 
@@ -176,7 +176,7 @@ public class
         int order) =>
         DistributionHelper.GetValueStep(
             order,
-            DistributionHelper.GetCount(indexFilter),
+            DistributionHelper.GetDistributionCount(indexFilter),
             (DistributionType)box.BrightnessDistributionType,
             box.BrightnessDistribution,
             (EaseType)box.Easing);
@@ -188,7 +188,6 @@ public class
         state
             .Box
             .Events
-            .Where(x => state.Base.JsonTime + x.JsonTime + (state.DurationOrder * state.BeatStep) < maxJsonTime)
             .Select((x, i) =>
                 {
                     var affected = !(i == 0 && state.Box.BrightnessAffectFirst != 1);
@@ -200,6 +199,7 @@ public class
                     return d;
                 }
             )
+            .Where(x => state.Base.JsonTime + x.Base.JsonTime + (state.DurationOrder * state.BeatStep) <= maxJsonTime)
             .ToArray();
 }
 

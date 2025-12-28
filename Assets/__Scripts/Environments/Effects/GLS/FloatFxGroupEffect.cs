@@ -135,7 +135,7 @@ public class
         int order) =>
         DistributionHelper.GetValueStep(
             order,
-            DistributionHelper.GetCount(indexFilter),
+            DistributionHelper.GetDistributionCount(indexFilter),
             (DistributionType)box.VfxDistributionType,
             box.VfxDistribution,
             (EaseType)box.Easing);
@@ -147,7 +147,6 @@ public class
         state
             .Box
             .Events
-            .Where(x => state.Base.JsonTime + x.JsonTime + (state.DurationOrder * state.BeatStep) < maxJsonTime)
             .Select((x, i) =>
                 {
                     var affected = !(i == 0 && state.Box.VfxAffectFirst != 1);
@@ -159,6 +158,7 @@ public class
                     return d;
                 }
             )
+            .Where(x => state.Base.JsonTime + x.Base.JsonTime + (state.DurationOrder * state.BeatStep) <= maxJsonTime)
             .ToArray();
 }
 

@@ -28,7 +28,7 @@ public abstract class
         {
             var indexFilter = IndexFilterHelper.Convert(box.IndexFilter, Count);
             var beatStep = DistributionHelper.GetBeatStep(
-                DistributionHelper.GetCount(indexFilter),
+                DistributionHelper.GetDurationCount(indexFilter),
                 (DistributionType)box.BeatDistributionType,
                 box.BeatDistribution,
                 GetLastEventTime(box));

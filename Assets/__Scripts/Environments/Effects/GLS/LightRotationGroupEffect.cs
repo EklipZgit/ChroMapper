@@ -187,7 +187,7 @@ public class
         int order) =>
         DistributionHelper.GetValueStep(
             order,
-            DistributionHelper.GetCount(indexFilter),
+            DistributionHelper.GetDistributionCount(indexFilter),
             (DistributionType)box.RotationDistributionType,
             box.RotationDistribution,
             (EaseType)box.Easing);
@@ -199,19 +199,19 @@ public class
         state
             .Box
             .Events
-            .Where(x => state.Base.JsonTime + x.JsonTime + (state.DurationOrder * state.BeatStep) <= maxJsonTime)
             .Select((x, i) =>
                 {
-                    var affected = !(i == 0 && state.Box.RotationAffectFirst != 1);
+                    var distribution = state.Box.RotationAffectFirst != 1 && i == 0 ? 0f : distributionOffset;
                     var d = new LightRotationEventStateData(
                         x,
                         (float)BeatSaberSongContainer.Instance.Map.JsonTimeToSongBpmTime(
                             state.Base.JsonTime + x.JsonTime + (state.DurationOrder * state.BeatStep)),
                         state.Box.Flip == 1 ? -1 : 1,
-                        affected ? distributionOffset : 0f);
+                        distribution);
                     return d;
                 }
             )
+            .Where(x => state.Base.JsonTime + x.Base.JsonTime + (state.DurationOrder * state.BeatStep) <= maxJsonTime)
             .ToArray();
 }
 

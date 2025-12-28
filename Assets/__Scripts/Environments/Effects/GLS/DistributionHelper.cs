@@ -3,8 +3,11 @@ using UnityEngine;
 
 public static class DistributionHelper
 {
-    public static int GetCount(IndexFilterHelper.IndexFilter indexFilter) =>
+    public static int GetDurationCount(IndexFilterHelper.IndexFilter indexFilter) =>
         indexFilter.LimitsDuration ? indexFilter.VisibleCount : indexFilter.Count;
+    
+    public static int GetDistributionCount(IndexFilterHelper.IndexFilter indexFilter) =>
+        indexFilter.LimitsDistribution ? indexFilter.VisibleCount : indexFilter.Count;
 
     public static float GetBeatStep(
         int count,
