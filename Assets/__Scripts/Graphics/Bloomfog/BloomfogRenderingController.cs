@@ -6,11 +6,15 @@ public class BloomfogRenderingController : MonoBehaviour
     private const int maxBloomfogPasses = 5;
 
     [SerializeField] private Shader blurShader;
+    [SerializeField] private Shader autoExposeShader;
     [SerializeField] private BeatmapRuntimeContext context;
     [SerializeField] private BloomfogRendererSO bloomfogRenderer;
 
     private Camera activeCamera;
     private Material blurMaterial;
+    private Material autoExposeMaterial;
+
+    private RenderTexture bloomPrePassTexture = null;
     private RenderTexture[] bloomfogPassRTs = new RenderTexture[maxBloomfogPasses];
 
     private int realBloomfogPasses = maxBloomfogPasses;
@@ -24,11 +28,12 @@ public class BloomfogRenderingController : MonoBehaviour
         context.OnEnvironmentChanged += HandleEnvironmentLoaded;
 
         blurMaterial = new Material(blurShader);
+        autoExposeMaterial = new Material(autoExposeShader);
 
         Settings.NotifyBySettingName(nameof(Settings.HighQualityBloom), (_) => RegenerateRenderTexture());
 
         bloomfogRenderer.Initialize();
-        UpdateBloomFogParams(0f, 25f, -50f, 0.00025f);
+        UpdateBloomFogParams(1000f, 0f, 25f, -50f, 0.00025f);
         Shader.SetGlobalFloat("_BloomfogBrightness", 0.1f);
         Shader.EnableKeyword("ENABLE_BLOOM_FOG");
 
@@ -41,7 +46,7 @@ public class BloomfogRenderingController : MonoBehaviour
     {
         if (renderingCamera != activeCamera) return;
 
-        // Render bloomfog to first RT
+        // Render bloomfog to first RT pass
         bloomfogRenderer.RenderToTexture(activeCamera, bloomfogPassRTs[0], out var textureToScreenRatio);
         Shader.SetGlobalVector("_CustomFogTextureToScreenRatio", textureToScreenRatio);
 
@@ -65,12 +70,16 @@ public class BloomfogRenderingController : MonoBehaviour
             Graphics.Blit(bloomfogPassRTs[i], bloomfogPassRTs[i - 1], blurMaterial);
             passes++;
         }
+
+        // Auto exposure into final output texture
+        autoExposeMaterial.SetTexture("_BloomfogPrevTex", bloomfogPassRTs[0]);
+        Graphics.Blit(bloomfogPassRTs[0], bloomPrePassTexture, autoExposeMaterial);
     }
 
     private void HandleEnvironmentLoaded(EnvironmentDescriptor descriptor)
     {
         if (descriptor == null) return;
-        UpdateBloomFogParams(
+        UpdateBloomFogParams(1000f,
             descriptor.BloomFogParams.Offset,
             descriptor.BloomFogParams.Height,
             descriptor.BloomFogParams.StartY,
@@ -86,8 +95,9 @@ public class BloomfogRenderingController : MonoBehaviour
         Settings.ClearSettingNotifications(nameof(Settings.CameraFOV));
     }
 
-    private void UpdateBloomFogParams(float offset, float height, float startY, float attenuation)
+    private void UpdateBloomFogParams(float autoExposureLimit, float offset, float height, float startY, float attenuation)
     {
+        autoExposeMaterial.SetFloat("_AutoExposureLimit", autoExposureLimit);
         Shader.SetGlobalFloat("_CustomFogOffset", offset);
         Shader.SetGlobalFloat("_CustomFogHeightFogStartY", startY);
         Shader.SetGlobalFloat("_CustomFogHeightFogHeight", height);
@@ -96,6 +106,12 @@ public class BloomfogRenderingController : MonoBehaviour
 
     private void ClearRenderTextures()
     {
+        if (bloomPrePassTexture != null)
+        {
+            bloomPrePassTexture.Release();
+            bloomPrePassTexture = null;
+        }
+
         foreach (var rt in bloomfogPassRTs)
         {
             if (rt != null) rt.Release();
@@ -110,6 +126,13 @@ public class BloomfogRenderingController : MonoBehaviour
 
         var width = bloomFogResolution / quality;
         var height = bloomFogResolution / quality;
+
+        // Create final render texture
+        bloomPrePassTexture = new RenderTexture(width, height, 0, RenderTextureFormat.ARGBFloat)
+        {
+            filterMode = FilterMode.Bilinear
+        };
+        bloomPrePassTexture.Create();
 
         realBloomfogPasses = 0;
 
@@ -131,6 +154,6 @@ public class BloomfogRenderingController : MonoBehaviour
             height /= 2;
         }
 
-        Shader.SetGlobalTexture("_BloomPrePassTexture", bloomfogPassRTs[0]);
+        Shader.SetGlobalTexture("_BloomPrePassTexture", bloomPrePassTexture);
     }
 }
