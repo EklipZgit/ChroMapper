@@ -193,6 +193,9 @@ public partial class EnvironmentSceneCreator
                 lc.BloomFog.Center = tubeBloomPrePass.TubeBloomPrePassLight.Center;
                 lc.BloomFog.Height = tubeBloomPrePass.TubeBloomPrePassLight.Height;
 
+                lc.BloomFog.StartWidth = tubeBloomPrePass.TubeBloomPrePassLight.StartWidth;
+                lc.BloomFog.EndWidth = tubeBloomPrePass.TubeBloomPrePassLight.EndWidth;
+
                 lc.BloomFog.StartAlpha = tubeBloomPrePass.TubeBloomPrePassLight.StartAlpha;
                 lc.BloomFog.EndAlpha = tubeBloomPrePass.TubeBloomPrePassLight.EndAlpha;
 
@@ -201,6 +204,12 @@ public partial class EnvironmentSceneCreator
                 lc.BloomFog.Multiply = tubeBloomPrePass.TubeBloomPrePassLight.ColorAlphaMultiplier;
                 lc.BloomFog.IntensityMultiplier =
                     tubeBloomPrePass.TubeBloomPrePassLight.BloomFogIntensityMultiplier;
+
+                lc.BloomFog.BoostToWhite = tubeBloomPrePass.TubeBloomPrePassLight.BoostToWhite;
+
+                lc.BloomFog.LimitAlpha = tubeBloomPrePass.TubeBloomPrePassLight.LimitAlpha;
+                lc.BloomFog.MinAlpha = tubeBloomPrePass.TubeBloomPrePassLight.MinAlpha;
+                lc.BloomFog.MaxAlpha = tubeBloomPrePass.TubeBloomPrePassLight.MaxAlpha;
 
                 // Set up physical light object
                 if (!string.IsNullOrEmpty(tubeBloomPrePass.TubeBloomPrePassLight.ParametricBoxId)

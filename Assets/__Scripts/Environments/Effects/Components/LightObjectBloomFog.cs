@@ -10,11 +10,19 @@ public sealed class LightObjectBloomFog : LightObject
     public float Height = 1f;
     public float Center = 1f;
 
+    public float StartWidth = 1f;
+    public float EndWidth = 1f;
+
     public float StartAlpha = 1f;
     public float EndAlpha = 1f;
 
     public float LightWidthMultiplier = 1f;
     public float IntensityMultiplier = 1f;
+
+    public float BoostToWhite = 0f;
+    public float LimitAlpha = 0f;
+    public float MinAlpha = 0f;
+    public float MaxAlpha = 1f;
 
     public bool UseCollision = false;
 
@@ -87,7 +95,13 @@ public sealed class LightObjectBloomFog : LightObject
         screenDirX /= screenDirLength;
         screenDirY /= screenDirLength;
 
-        // TODO(Caeden): Consider adding small offset here? Apparently it helps with AA
+        // Apply anti-aliasing offset
+        var screenOffsetX = screenDirX * (1f / 64);
+        var screenOffsetY = screenDirY * (1f / 64);
+        tubeEndScreenX += screenOffsetX;
+        tubeEndScreenY += screenOffsetY;
+        tubeStartScreenX -= screenOffsetX;
+        tubeStartScreenY -= screenOffsetY;
 
         // Calculate perpendicular direction
         var effectiveLineWidth = lineWidth * LightWidthMultiplier;
@@ -96,18 +110,21 @@ public sealed class LightObjectBloomFog : LightObject
 
         // Calculate width offsets at endpoints
         // TODO(Caeden): Start/end widths
-        var startWidthOffsetX = perpX * Width;
-        var startWidthOffsetY = perpY * Width;
-        var endWidthOffsetX = perpX * Width;
-        var endWidthOffsetY = perpY * Width;
+        var startWidthOffsetX = perpX * StartWidth;
+        var startWidthOffsetY = perpY * StartWidth;
+        var endWidthOffsetX = perpX * EndWidth;
+        var endWidthOffsetY = perpY * EndWidth;
 
         // Calculate color components
-        // TODO(Caeden): Boost to white
-        var boostedR = color.r;
-        var boostedG = color.g;
-        var boostedB = color.b;
+        var boostedR = color.r + BoostToWhite;
+        var boostedG = color.g + BoostToWhite;
+        var boostedB = color.b + BoostToWhite;
         var finalAlpha = color.a * IntensityMultiplier;
-        // TODO(Caeden): Alpha limiting
+        
+        if (!Mathf.Approximately(LimitAlpha, 0f))
+        {
+            finalAlpha = Mathf.Clamp(finalAlpha, MinAlpha, MaxAlpha);
+        }
 
         // Calculate vertex colors
         // TODO(Caeden): Collision
@@ -129,28 +146,28 @@ public sealed class LightObjectBloomFog : LightObject
         quad.Vertex0Position.z = 0;
         quad.Vertex0ViewPos = tubeStartView;
         quad.Vertex0Color = startColor;
-        quad.Vertex0UV = new Vector3(0, 0, Width);
+        quad.Vertex0UV = new Vector3(0, 0, StartWidth);
 
         quad.Vertex1Position.x = tubeStartScreenX + startWidthOffsetX;
         quad.Vertex1Position.y = tubeStartScreenY + startWidthOffsetY;
         quad.Vertex1Position.z = 0;
         quad.Vertex1ViewPos = tubeStartView;
         quad.Vertex1Color = startColor;
-        quad.Vertex1UV = new Vector3(Width, 0, Width);
+        quad.Vertex1UV = new Vector3(StartWidth, 0, StartWidth);
 
         quad.Vertex2Position.x = tubeEndScreenX + endWidthOffsetX;
         quad.Vertex2Position.y = tubeEndScreenY + endWidthOffsetY;
         quad.Vertex2Position.z = 0;
         quad.Vertex2ViewPos = tubeEndView;
         quad.Vertex2Color = endColor;
-        quad.Vertex2UV = new Vector3(Width, 1, Width);
+        quad.Vertex2UV = new Vector3(EndWidth, 1, EndWidth);
 
         quad.Vertex3Position.x = tubeEndScreenX - endWidthOffsetX;
         quad.Vertex3Position.y = tubeEndScreenY - endWidthOffsetY;
         quad.Vertex3Position.z = 0;
         quad.Vertex3ViewPos = tubeEndView;
         quad.Vertex3Color = endColor;
-        quad.Vertex3UV = new Vector3(0, 1, Width);
+        quad.Vertex3UV = new Vector3(0, 1, EndWidth);
     }
 
     private static void ZeroQuad(ref BloomfogQuad quad) => quad = default;
