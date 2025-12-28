@@ -17,10 +17,6 @@ public class BloomfogRendererSO : ScriptableObject
     private int capacity = startCapacity;
     private Mesh bloomfogMesh;
 
-    // We use a dedicated graphics buffer for colors because vertex colors are SDR only
-    private GraphicsBuffer colorBuffer;
-    private Color[] quadColors;
-
     public void Initialize()
     {
         PrepareMesh(true);
@@ -34,11 +30,6 @@ public class BloomfogRendererSO : ScriptableObject
             bloomfogMesh.Clear();
             DestroyImmediate(bloomfogMesh);
             bloomfogMesh = null;
-        }
-        if (colorBuffer != null)
-        {
-            colorBuffer.Dispose();
-            colorBuffer = null;
         }
     }
 
@@ -72,6 +63,8 @@ public class BloomfogRendererSO : ScriptableObject
 
         var vertices = bloomfogMesh.vertices;
         var uvs = bloomfogMesh.uv;
+        var uv2s = bloomfogMesh.uv2;
+        var uv3s = bloomfogMesh.uv3;
 
         var lights = LightObjectBloomFog.AllBloomFogLights;
 
@@ -96,16 +89,33 @@ public class BloomfogRendererSO : ScriptableObject
             uvs[vertIndex + 2] = quad.Vertex2UV;
             uvs[vertIndex + 3] = quad.Vertex3UV;
 
-            quadColors[vertIndex + 0] = quad.Vertex0Color;
-            quadColors[vertIndex + 1] = quad.Vertex1Color;
-            quadColors[vertIndex + 2] = quad.Vertex2Color;
-            quadColors[vertIndex + 3] = quad.Vertex3Color;
+            // UV2/UV3 store HDR color data since vertex colors dont support HDR
+            uv2s[vertIndex + 0].x = quad.Vertex0Color.r;
+            uv2s[vertIndex + 0].y = quad.Vertex0Color.g;
+            uv3s[vertIndex + 0].x = quad.Vertex0Color.b;
+            uv3s[vertIndex + 0].y = quad.Vertex0Color.a;
+
+            uv2s[vertIndex + 1].x = quad.Vertex1Color.r;
+            uv2s[vertIndex + 1].y = quad.Vertex1Color.g;
+            uv3s[vertIndex + 1].x = quad.Vertex1Color.b;
+            uv3s[vertIndex + 1].y = quad.Vertex1Color.a;
+
+            uv2s[vertIndex + 2].x = quad.Vertex2Color.r;
+            uv2s[vertIndex + 2].y = quad.Vertex2Color.g;
+            uv3s[vertIndex + 2].x = quad.Vertex2Color.b;
+            uv3s[vertIndex + 2].y = quad.Vertex2Color.a;
+
+            uv2s[vertIndex + 3].x = quad.Vertex3Color.r;
+            uv2s[vertIndex + 3].y = quad.Vertex3Color.g;
+            uv3s[vertIndex + 3].x = quad.Vertex3Color.b;
+            uv3s[vertIndex + 3].y = quad.Vertex3Color.a;
         }
 
         bloomfogMesh.vertices = vertices;
         bloomfogMesh.uv = uvs;
+        bloomfogMesh.uv2 = uv2s;
+        bloomfogMesh.uv3 = uv3s;
         bloomfogMesh.UploadMeshData(false);
-        colorBuffer.SetData(quadColors);
     }
 
     private void PrepareMesh(bool force = false)
@@ -123,7 +133,6 @@ public class BloomfogRendererSO : ScriptableObject
         {
             Debug.LogWarning("Need to recreate bloomfog mesh with larger capacity: " + capacity);
             bloomfogMesh.Clear();
-            colorBuffer.Dispose();
         }
         else
         {
@@ -137,13 +146,12 @@ public class BloomfogRendererSO : ScriptableObject
 
         // Recreate quad array (should be initialized to zeroes by default)
         bloomfogQuads = new BloomfogQuad[capacity];
-        colorBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, capacity * 4, sizeof(float) * 4);
-        Shader.SetGlobalBuffer("_BloomfogColorBuffer", colorBuffer);
 
         var vertices = new Vector3[capacity * 4];
         var triangles = new int[capacity * 6];
         var uvs = new Vector2[capacity * 4];
-        quadColors = new Color[capacity * 4];
+        var uv2s = new Vector2[capacity * 4];
+        var uv3s = new Vector2[capacity * 4];
 
         for (var i = 0; i < capacity; i++)
         {
@@ -167,6 +175,7 @@ public class BloomfogRendererSO : ScriptableObject
         bloomfogMesh.vertices = vertices;
         bloomfogMesh.triangles = triangles;
         bloomfogMesh.uv = uvs;
-        colorBuffer.SetData(quadColors);
+        bloomfogMesh.uv2 = uv2s;
+        bloomfogMesh.uv3 = uv3s;
     }
 }

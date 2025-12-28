@@ -22,20 +22,20 @@ Shader "ChroMapper/BloomfogMesh"
             {
                 float4 vertex : POSITION;
                 float2 uv : TEXCOORD0;
-                uint id : SV_VertexID;
-                //float4 viewPos : TEXCOORD1;
+                // UV1/UV2 is used for HDR color data (and also allows for easy interpolation)
+                float2 uv1 : TEXCOORD1;
+                float2 uv2 : TEXCOORD2;
             };
 
             struct v2f
             {
                 float4 vertex : SV_POSITION;
                 float2 uv : TEXCOORD0;
-                uint id : TEXCOORD1;
+                float2 uv1 : TEXCOORD1;
+                float2 uv2 : TEXCOORD2;
             };
 
-            // Need a dedicated color buffer because vertex colors dont support HDR
             uniform float4x4 _VertexTransformMatrix;
-            uniform StructuredBuffer<float4> _BloomfogColorBuffer;
 
             sampler2D _BloomfogAlphaMask;
 
@@ -44,15 +44,23 @@ Shader "ChroMapper/BloomfogMesh"
                 v2f o;
                 o.vertex = mul(_VertexTransformMatrix, v.vertex);
                 o.uv = v.uv;
-                o.id = v.id;
+                o.uv1 = v.uv1;
+                o.uv2 = v.uv2;
                 return o;
             }
 
             float4 frag (v2f i) : SV_Target
             {
-                float4 color = _BloomfogColorBuffer[i.id];
-                REINHARD_TONE_MAPPING_APPLY(color)
+                // Construct HDR color from UV1 and UV2
+                float4 color = float4(i.uv1.xy, i.uv2.xy);
+
+                // Apply alpha mask
                 color *= tex2D(_BloomfogAlphaMask, i.uv).a;
+                
+                // Apply Reinhard tone mapping
+                REINHARD_TONE_MAPPING_APPLY(color)
+
+                // Yeah this should be fine.
                 return color;
             }
             ENDCG
