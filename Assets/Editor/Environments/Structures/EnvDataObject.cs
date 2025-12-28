@@ -22,75 +22,76 @@ public class EnvDataObject
     public class EnvironmentComponents
     {
         // Unity Components
-        [JsonProperty("transform")] public TransformComponent? Transform;
+        [JsonProperty("transform")] public TransformComponent[]? Transform;
 
-        [JsonProperty("meshFilter")] public MeshFilterComponent? MeshFilter;
+        [JsonProperty("meshFilter")] public MeshFilterComponent[]? MeshFilter;
 
-        [JsonProperty("meshRenderer")] public MeshRendererComponent? MeshRenderer;
+        [JsonProperty("meshRenderer")] public MeshRendererComponent[]? MeshRenderer;
 
         // Lighting Components
         [JsonProperty("instancedMaterialLightWithId")]
-        public InstancedMaterialLightWithIdComponent? InstancedMaterialLightWithId;
+        public InstancedMaterialLightWithIdComponent[]? InstancedMaterialLightWithId;
 
+        [JsonProperty("materialLightWithId")]
+        public MaterialLightWithIdComponent[]? MaterialLightWithId;
+        
         [JsonProperty("particleSystemLightWithId")]
-        public ParticleSystemLightWithIdComponent? ParticleSystemLightWithID;
+        public ParticleSystemLightWithIdComponent[]? ParticleSystemLightWithID;
 
-        [JsonProperty("spriteLightWithId")] public SpriteLightWithIdComponent? SpriteLightWithId;
+        [JsonProperty("spriteLightWithId")] public SpriteLightWithIdComponent[]? SpriteLightWithId;
 
         [JsonProperty("tubeBloomPrePassLightWithId")]
-        public List<TubeBloomPrePassLightWithIdComponent>? TubeBloomPrePassLightWithId;
+        public TubeBloomPrePassLightWithIdComponent[]? TubeBloomPrePassLightWithId;
 
         // Controller Components
         [JsonProperty("parametric3SliceSpriteController")]
-        public Parametric3SliceSpriteControllerComponent? Parametric3SliceSpriteController;
+        public Parametric3SliceSpriteControllerComponent[]? Parametric3SliceSpriteController;
 
         // Basic
         [JsonProperty("lightPairRotationEventEffect")]
-        public LightPairRotationEventEffectComponent? LightPairRotationEventEffect;
+        public LightPairRotationEventEffectComponent[]? LightPairRotationEventEffect;
 
         [JsonProperty("lightPairSinMoveEventEffect")]
-        public LightPairSinMoveEventEffectComponent? LightPairSinMoveEventEffect;
+        public LightPairSinMoveEventEffectComponent[]? LightPairSinMoveEventEffect;
 
         [JsonProperty("lightSwitchEventEffect")]
-        public LightSwitchEventEffectComponent? LightSwitchEventEffect;
+        public LightSwitchEventEffectComponent[]? LightSwitchEventEffect;
 
         [JsonProperty("particleSystemContinuousEventEffect")]
-        public ParticleSystemContinuousEventEffectComponent? ParticleSystemContinuousEventEffect;
+        public ParticleSystemContinuousEventEffectComponent[]? ParticleSystemContinuousEventEffect;
 
         [JsonProperty("particleSystemEventEffect")]
-        public ParticleSystemEventEffectComponent? ParticleSystemEventEffect;
+        public ParticleSystemEventEffectComponent[]? ParticleSystemEventEffect;
 
-        [JsonProperty("trackLaneRing")] public TrackLaneRingComponent? TrackLaneRing;
+        [JsonProperty("trackLaneRing")] public TrackLaneRingComponent[]? TrackLaneRing;
 
         [JsonProperty("trackLaneRingsManager")]
-        public TrackLaneRingsManagerComponent? TrackLaneRingsManager;
+        public TrackLaneRingsManagerComponent[]? TrackLaneRingsManager;
 
         [JsonProperty("trackLaneRingsPositionStepEffectSpawner")]
-        public TrackLaneRingsPositionStepEffectSpawnerComponent? TrackLaneRingsPositionStepEffectSpawner;
+        public TrackLaneRingsPositionStepEffectSpawnerComponent[]? TrackLaneRingsPositionStepEffectSpawner;
 
         [JsonProperty("trackLaneRingsRotationEffect")]
-        public TrackLaneRingsRotationEffectComponent? TrackLaneRingsRotationEffect;
+        public TrackLaneRingsRotationEffectComponent[]? TrackLaneRingsRotationEffect;
 
         [JsonProperty("trackLaneRingsRotationEffectSpawner")]
-        public TrackLaneRingsRotationEffectSpawnerComponent? TrackLaneRingsRotationEffectSpawner;
+        public TrackLaneRingsRotationEffectSpawnerComponent[]? TrackLaneRingsRotationEffectSpawner;
 
         // Others
-        [JsonProperty("lightWithIdManager")] public LightWithIdManagerComponent? LightWithIdManager;
+        [JsonProperty("lightWithIdManager")] public LightWithIdManagerComponent[]? LightWithIdManager;
 
-        public LightColorGroupComponent? LightColorGroup;
-        public LightColorGroupEffectComponent? LightColorGroupEffect;
-        public LightColorGroupEffectManagerComponent? LightColorGroupEffectManager;
+        public LightColorGroupComponent[]? LightColorGroup;
+        public LightColorGroupEffectManagerComponent[]? LightColorGroupEffectManager;
 
-        public LightRotationGroupComponent? LightRotationGroup;
-        public LightRotationGroupEffectComponent? LightRotationGroupEffect;
-        public LightRotationGroupEffectManagerComponent? LightRotationGroupEffectManager;
+        public LightRotationGroupComponent[]? LightRotationGroup;
+        public LightRotationGroupEffectManagerComponent[]? LightRotationGroupEffectManager;
 
-        public LightTranslationGroupComponent? LightTranslationGroup;
-        public LightTranslationGroupEffectManagerComponent? LightTranslationGroupEffectManager;
+        public LightTranslationGroupComponent[]? LightTranslationGroup;
+        public LightTranslationGroupEffectManagerComponent[]? LightTranslationGroupEffectManager;
 
-        public FloatFxGroupComponent? FloatFxGroup;
-        public FloatFxGroupEffectComponent? FloatFxGroupEffect;
-        public FloatFxGroupEffectManagerComponent? FloatFxGroupEffectManager;
+        public FloatFxGroupComponent[]? FloatFxGroup;
+        public FloatFxGroupEffectComponent[]? FloatFxGroupEffect;
+        public FloatFxGroupEffectManagerComponent[]? FloatFxGroupEffectManager;
     }
 }
 #nullable restore

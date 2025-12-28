@@ -19,7 +19,11 @@ public class LightObjectParametric3SliceSprite : LightObject
     private static readonly int sizeParamsId = Shader.PropertyToID("_SizeParams");
     private static readonly int alphaWidthId = Shader.PropertyToID("_AlphaWidth");
 
-    public void OnValidate() => Start();
+    public void OnValidate()
+    {
+        if (Renderer != null) Start();
+    }
+
     protected override void Start()
     {
         base.Start();

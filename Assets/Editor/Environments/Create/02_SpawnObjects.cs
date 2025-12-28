@@ -37,7 +37,7 @@ public partial class EnvironmentSceneCreator
 
             var go = existingObjects.TryGetValue(envObject.ChromaID, out var val) ? val : new GameObject();
             if (envObject.Components.MeshFilter == null
-                || string.IsNullOrEmpty(envObject.Components.MeshFilter.Hash))
+                || string.IsNullOrEmpty(envObject.Components.MeshFilter[0].Hash))
             {
                 var filter = go.GetComponent<MeshFilter>();
                 if (filter != null) Object.DestroyImmediate(filter);
@@ -47,7 +47,7 @@ public partial class EnvironmentSceneCreator
             }
             else
             {
-                if (library.Meshes.Lookup.TryGetValue(envObject.Components.MeshFilter.Hash, out var mesh)
+                if (library.Meshes.Lookup.TryGetValue(envObject.Components.MeshFilter[0].Hash, out var mesh)
                     && mesh != null)
                 {
                     var mf = go.GetComponent<MeshFilter>();
@@ -56,27 +56,27 @@ public partial class EnvironmentSceneCreator
 
                     var renderer = GetOrCreateMeshRenderer(go);
                     if (envObject.Components.MeshRenderer != null
-                        && envObject.Components.MeshRenderer.Materials.Any())
+                        && envObject.Components.MeshRenderer[0].Materials.Any())
                     {
                         if (library.Materials.Lookup.TryGetValue(
-                                envObject.Components.MeshRenderer.Materials[0],
+                                envObject.Components.MeshRenderer[0].Materials[0],
                                 out var mat)
                             && mat != null)
                             renderer.sharedMaterial = mat;
                         else
                         {
                             Debug.LogWarning(
-                                $"{envObject.ChromaID} material not found for:\n{envObject.Components.MeshRenderer.Materials[0]}");
+                                $"{envObject.ChromaID} material not found for:\n{envObject.Components.MeshRenderer[0].Materials[0]}");
                         }
                     }
                 }
                 else
                 {
                     Debug.LogWarning(
-                        $"{envObject.ChromaID} mesh not found for:\n{envObject.Components.MeshFilter.Hash} -- {library.Meshes.list.FindIndex(l => l.Hash == envObject.Components.MeshFilter.Hash)}");
+                        $"{envObject.ChromaID} mesh not found for:\n{envObject.Components.MeshFilter[0].Hash} -- {library.Meshes.list.FindIndex(l => l.Hash == envObject.Components.MeshFilter[0].Hash)}");
                     var fallback =
                         PrefabUtility.InstantiatePrefab(library.fallbackPrefab, go.transform) as GameObject;
-                    var mInfo = library.Meshes.list.First(x => x.Hash == envObject.Components.MeshFilter.Hash);
+                    var mInfo = library.Meshes.list.First(x => x.Hash == envObject.Components.MeshFilter[0].Hash);
                     fallback.transform.localPosition = mInfo.BoundsCenter;
                     fallback.transform.localScale = mInfo.BoundsSize;
                 }
@@ -98,7 +98,7 @@ public partial class EnvironmentSceneCreator
                     false);
             }
 
-            envObject.Components.Transform?.CopyTo(go.transform);
+            envObject.Components.Transform[0].CopyTo(go.transform);
         }
 
         return chromaIdObjects;

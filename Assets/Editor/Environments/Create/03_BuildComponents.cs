@@ -26,8 +26,9 @@ public partial class EnvironmentSceneCreator
         descriptor.BasicEventEffectManager = beec;
         var boost = beec.Register<ColorBoostEffect>((int)EventTypeValue.ColorBoost);
 
-        var lcgemData = objectsToUse.FirstOrDefault(x => x.Components.LightColorGroupEffectManager != null)
-            ?.Components.LightColorGroupEffectManager;
+        var lcgemData = objectsToUse
+            .FirstOrDefault(x => x.Components.LightColorGroupEffectManager != null)
+            ?.Components.LightColorGroupEffectManager[0];
         var lcgem = new GameObject("LightColorGroupEffectManager")
             .AddComponent<LightColorGroupEffectManager>();
         lcgem.gameObject.transform.SetParent(GameObject.Find("Environment").transform);
@@ -40,8 +41,9 @@ public partial class EnvironmentSceneCreator
                 lightColorGroupEffect.ColorBoostEffect = boost;
         }
 
-        var lightWithIdManager = data.Objects.FirstOrDefault(x => x.Components.LightWithIdManager != null)
-            ?.Components.LightWithIdManager;
+        var lightWithIdManager = data
+            .Objects.FirstOrDefault(x => x.Components.LightWithIdManager != null)
+            ?.Components.LightWithIdManager[0];
         if (lightWithIdManager != null)
         {
             foreach (var lights in lightWithIdManager.Lights)
@@ -57,14 +59,15 @@ public partial class EnvironmentSceneCreator
                         HandleTubeBloomPrePassLightWithId(l.ID, go, envObject.Components.TubeBloomPrePassLightWithId);
                     if (envObject.Components.SpriteLightWithId != null)
                         HandleSpriteLightWithId(l.ID, go, envObject.Components.SpriteLightWithId);
-                    if (envObject.Components.InstancedMaterialLightWithId != null)
-                        HandleInstancedMaterialLightWithId(l.ID, go, envObject.Components.InstancedMaterialLightWithId);
+                    if (envObject.Components.MaterialLightWithId != null)
+                        HandleMaterialLightWithId(l.ID, go, envObject.Components.MaterialLightWithId);
                 }
             }
         }
 
-        var lrgemData = objectsToUse.FirstOrDefault(x => x.Components.LightRotationGroupEffectManager != null)
-            ?.Components.LightRotationGroupEffectManager;
+        var lrgemData = objectsToUse
+            .FirstOrDefault(x => x.Components.LightRotationGroupEffectManager != null)
+            ?.Components.LightRotationGroupEffectManager[0];
         var lrgem = new GameObject("LightRotationGroupEffectManager")
             .AddComponent<LightRotationGroupEffectManager>();
         lrgem.gameObject.transform.SetParent(GameObject.Find("Environment").transform);
@@ -93,8 +96,9 @@ public partial class EnvironmentSceneCreator
             }
         }
 
-        var ltgemData = objectsToUse.FirstOrDefault(x => x.Components.LightTranslationGroupEffectManager != null)
-            ?.Components.LightTranslationGroupEffectManager;
+        var ltgemData = objectsToUse
+            .FirstOrDefault(x => x.Components.LightTranslationGroupEffectManager != null)
+            ?.Components.LightTranslationGroupEffectManager[0];
         var ltgem = new GameObject("LightTranslationGroupEffectManager")
             .AddComponent<LightTranslationGroupEffectManager>();
         ltgem.gameObject.transform.SetParent(GameObject.Find("Environment").transform);
@@ -138,8 +142,9 @@ public partial class EnvironmentSceneCreator
             }
         }
 
-        var ffgemData = objectsToUse.FirstOrDefault(x => x.Components.FloatFxGroupEffectManager != null)
-            ?.Components.FloatFxGroupEffectManager;
+        var ffgemData = objectsToUse
+            .FirstOrDefault(x => x.Components.FloatFxGroupEffectManager != null)
+            ?.Components.FloatFxGroupEffectManager[0];
         var ffgem = new GameObject("FloatFxGroupEffectManager")
             .AddComponent<FloatFxGroupEffectManager>();
         ffgem.gameObject.transform.SetParent(GameObject.Find("Environment").transform);
@@ -178,7 +183,7 @@ public partial class EnvironmentSceneCreator
         void HandleTubeBloomPrePassLightWithId(
             int id,
             GameObject go,
-            List<TubeBloomPrePassLightWithIdComponent> comps)
+            TubeBloomPrePassLightWithIdComponent[] comps)
         {
             foreach (var tubeBloomPrePass in comps)
             {
@@ -238,32 +243,34 @@ public partial class EnvironmentSceneCreator
                         spriteLight.AddComponent<MeshFilter>();
                         var renderer = spriteLight.AddComponent<MeshRenderer>();
                         if (envObject.Components.MeshRenderer != null
-                            && envObject.Components.MeshRenderer.Materials.Any())
+                            && envObject.Components.MeshRenderer[0].Materials.Any())
                         {
                             if (library.Materials.Lookup.TryGetValue(
-                                    envObject.Components.MeshRenderer.Materials[0],
+                                    envObject.Components.MeshRenderer[0].Materials[0],
                                     out var mat)
                                 && mat != null)
                                 renderer.sharedMaterial = mat;
                             else
                             {
                                 Debug.LogWarning(
-                                    $"{envObject.ChromaID} material not found for:\n{envObject.Components.MeshRenderer.Materials[0]}");
+                                    $"{envObject.ChromaID} material not found for:\n{envObject.Components.MeshRenderer[0].Materials[0]}");
                             }
                         }
 
                         lc.SpriteLight.Renderer = renderer;
                     }
 
-                    envObject.Components.Parametric3SliceSpriteController.CopyTo(
-                        (LightObjectParametric3SliceSprite)lc.SpriteLight);
+                    envObject
+                        .Components.Parametric3SliceSpriteController[0]
+                        .CopyTo(
+                            (LightObjectParametric3SliceSprite)lc.SpriteLight);
                 }
 
                 RegisterLight(id, lc);
             }
         }
 
-        void HandleSpriteLightWithId(int id, GameObject go, SpriteLightWithIdComponent spriteLight)
+        void HandleSpriteLightWithId(int id, GameObject go, SpriteLightWithIdComponent[] spriteLight)
         {
             // if (string.IsNullOrEmpty(spriteLight.SpriteName)
             //     || spriteLight.SpriteName == "null")
@@ -277,17 +284,24 @@ public partial class EnvironmentSceneCreator
             // lc.LightObject.Multiply = spriteLight.Intensity;
         }
 
-        void HandleInstancedMaterialLightWithId(
+        void HandleMaterialLightWithId(
             int id,
             GameObject go,
-            InstancedMaterialLightWithIdComponent instancedLight)
+            MaterialLightWithIdComponent[] materialLight)
         {
             // If you get error here, just comment or return it out
-            return;
             var lc = go.AddComponent<LightController>();
-            lc.BoxLight = go.AddComponent<LightObject>();
-            lc.BoxLight.Renderer = go.transform.GetChild(1).Find("LightGlow")?.GetComponent<Renderer>();
-            lc.BoxLight.Multiply = instancedLight.Intensity;
+            var lom = go.AddComponent<LightObjectMaterial>();
+            lc.BoxLight = lom;
+            lom.Renderer = go.GetComponent<Renderer>();
+
+            lom.AlphaIntensity = materialLight[0].AlphaIntensity;
+            lom.AlphaIntoColor = materialLight[0].AlphaIntoColor;
+            lom.SetColorOnly = materialLight[0].SetColorOnly;
+            lom.MultiplyColorWithAlpha = materialLight[0].MultiplyColorWithAlpha;
+            lom.MultiplyColor = materialLight[0].MultiplyColor;
+            lom.ColorMultiplier = materialLight[0].ColorMultiplier;
+            lom.Alpha = materialLight[0].Alpha;
 
             RegisterLight(id, lc);
         }
