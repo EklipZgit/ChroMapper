@@ -19,12 +19,6 @@ public class EnvironmentDescriptor : MonoBehaviour
     public List<ChromaIDMarker> ChromaIDMarkers = new();
 
     // below is old
-    [Header("Rings")] [Tooltip("Leave null if you do not want small rings.")]
-    public BaseTrackLaneRingsManager SmallRingManager;
-
-    [Tooltip("Leave null if you do not want big rings.")]
-    public BaseTrackLaneRingsEffect BigRingManager;
-
     [Tooltip("If you want a thing to rotate around a 360 level with the track, place it here.")]
     public GridRotationController RotationController;
 
@@ -32,11 +26,13 @@ public class EnvironmentDescriptor : MonoBehaviour
     {
         var rotationCallback = Resources.FindObjectsOfTypeAll<RotationCallbackController>().First();
         var context = FindAnyObjectByType<BeatmapRuntimeContext>();
+        
         BasicEventEffectManager.Initialize(context.Atsc, context.ColorScheme);
         LightColorGroupEffectManager.Initialize(context.Atsc, context.ColorScheme);
         LightRotationGroupEffectManager.Initialize(context.Atsc);
         LightTranslationGroupEffectManager.Initialize(context.Atsc);
         FloatFxGroupEffectManager.Initialize(context.Atsc);
+        
         if (RotationController != null)
         {
             RotationController.RotationCallback = rotationCallback;

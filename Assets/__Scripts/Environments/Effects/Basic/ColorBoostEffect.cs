@@ -4,18 +4,17 @@ using Beatmap.Base;
 
 public class ColorBoostEffect : BasicEventStateManager<ColorBoostStateData>
 {
-    private readonly BasicEventStateChunksContainer<ColorBoostStateData> stateChunksContainer = new();
+    private readonly BasicEventStateChunksContainer<ColorBoostStateData> container = new();
     public ColorSchemeSO ColorScheme;
     public bool Boost;
 
     public event Action<bool> OnStateChanged;
 
-    public override void Initialize() => InitializeStates(stateChunksContainer);
+    public override void Initialize() => InitializeStates(container);
 
     public override void UpdateTime(float currentTime)
     {
-        if (stateChunksContainer.IsCurrentOrFindState(currentTime, Atsc.IsPlaying)) return;
-        UpdateObject(stateChunksContainer.CurrentState);
+        if (!container.IsCurrentOrFindState(currentTime, Atsc.IsPlaying)) UpdateObject(container.CurrentState);
     }
 
     private void UpdateObject(ColorBoostStateData stateData)
@@ -39,16 +38,25 @@ public class ColorBoostEffect : BasicEventStateManager<ColorBoostStateData>
         state.StartTime = data.SongBpmTime;
         state.Boost = data.Value == 1;
 
-        HandleInsertState(stateChunksContainer, state);
+        HandleInsertState(container, state);
     }
 
     public override void RemoveData(BaseEvent data, BaseEvent original)
     {
-        var state = HandleRemoveState(stateChunksContainer, data, original);
-        if (stateChunksContainer.CurrentState != state) return;
-        stateChunksContainer.SetStateAt(data.SongBpmTime);
-        UpdateObject(stateChunksContainer.CurrentState);
+        var state = HandleRemoveState(container, data, original);
+        if (container.CurrentState != state) return;
+        container.SetStateAt(data.SongBpmTime);
+        UpdateObject(container.CurrentState);
     }
 
-    public override void UpdateDirty() => UpdateObject(stateChunksContainer.CurrentState);
+    public override void UpdateDirty() => UpdateObject(container.CurrentState);
+}
+
+public class ColorBoostStateData : BasicEventStateData
+{
+    public bool Boost;
+
+    public ColorBoostStateData(BaseEvent data) : base(data)
+    {
+    }
 }

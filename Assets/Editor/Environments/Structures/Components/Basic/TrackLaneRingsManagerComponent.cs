@@ -1,12 +1,8 @@
 using Newtonsoft.Json;
 
-public class TrackLaneRingsManagerComponent : EnvDataComponent<BaseTrackLaneRingsManager>
+public class TrackLaneRingsManagerComponent
 {
-    [JsonProperty("ringPositionZStep")] public float RingPositionZStep;
-    [JsonProperty("rings")] public string[] Rings;
-
-    public override void CopyTo(BaseTrackLaneRingsManager target)
-    {
-        target.RotationStep = RingPositionZStep;
-    }
+    public string[] Rings;
+    public float RingPositionZStep;
+    public bool SpawnAsChildren;
 }

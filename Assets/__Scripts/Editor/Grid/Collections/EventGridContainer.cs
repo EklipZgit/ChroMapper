@@ -110,10 +110,10 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
     {
         if (!context.performed || laserSpeedController.Activated) return;
 
-        if (descriptor.BigRingManager is BaseTrackLaneRingsManager manager) manager.RotationEffect.Reset();
-
-        if (descriptor.SmallRingManager != null && descriptor.SmallRingManager.RotationEffect != null)
-            descriptor.SmallRingManager.RotationEffect.Reset();
+        // if (descriptor.BigRingRotationManager is TrackLaneRingsRotationManager manager) manager.RotationEffect.Reset();
+        //
+        // if (descriptor.SmallRingRotationManager != null && descriptor.SmallRingRotationManager.RotationEffect != null)
+        //     descriptor.SmallRingRotationManager.RotationEffect.Reset();
     }
 
     public void OnCycleLightPropagationUp(InputAction.CallbackContext context)

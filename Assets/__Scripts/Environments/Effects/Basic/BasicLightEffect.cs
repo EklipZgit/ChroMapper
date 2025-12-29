@@ -16,9 +16,9 @@ public class BasicLightEffect : BasicEventStateManager<BasicLightStateData>
 
     [SerializeField] public ColorBoostEffect ColorBoostEffect;
 
-    [SerializeField] private float offIntensity;
-    [SerializeField] private bool lightOnStart;
-    [SerializeField] private bool invertColorScheme;
+    [SerializeField] public float OffIntensity;
+    [SerializeField] public bool LightOnStart;
+    [SerializeField] public bool InvertColorScheme;
 
     [SerializeField] private List<LightControllerEntry> controllerEntries = new();
 
@@ -42,23 +42,23 @@ public class BasicLightEffect : BasicEventStateManager<BasicLightStateData>
 
     private void OnDestroy() => ColorBoostEffect.OnStateChanged -= HandleBoostChanged;
 
-    public void Register(BaseLightController lightController, int id = -1)
+    public void Register(BaseLightController controller, int id = -1)
     {
-        if (controllerEntries.Exists(l => l.Controller == lightController))
+        if (controllerEntries.Exists(l => l.Controller == controller))
         {
-            Debug.LogWarning($"{lightController} is already registered in {this}");
+            Debug.LogWarning($"{controller} is already registered in {this}");
             return;
         }
 
         if (id != -1 && controllerEntries.Exists(l => l.ID == id))
         {
-            Debug.LogError($"ID {id} is already used in {this}");
+            Debug.LogError($"{controller} ID {id} is already used in {this}");
             return;
         }
 
         if (id == -1) id = 0;
         while (controllerEntries.Exists(l => l.ID == id)) id++;
-        controllerEntries.Add(new() { ID = id, Controller = lightController });
+        controllerEntries.Add(new() { ID = id, Controller = controller });
     }
 
     public void Unregister(BaseLightController lightController) =>
@@ -86,9 +86,9 @@ public class BasicLightEffect : BasicEventStateManager<BasicLightStateData>
                 (new(), InitializeStates(new BasicEventStateChunksContainer<BasicLightStateData>()));
             foreach (var state in controllerToContainer[controller].container.Chunks.SelectMany(chunk => chunk))
             {
-                if (!lightOnStart) continue;
+                if (!LightOnStart) continue;
                 state.Base.FloatValue = 1f;
-                state.StartAlpha = state.EndAlpha = state.Base.FloatValue * offIntensity;
+                state.StartAlpha = state.EndAlpha = state.Base.FloatValue * OffIntensity;
             }
         }
     }
@@ -110,13 +110,13 @@ public class BasicLightEffect : BasicEventStateManager<BasicLightStateData>
         tween.StartTimeColor = stateData.StartTimeColor;
         tween.StartAlpha = stateData.StartAlpha;
         tween.StartColor = stateData.StartChromaColor
-            ?? ColorScheme.GetColorFrom(stateData.StartColor, invertColorScheme);
+            ?? ColorScheme.GetColorFrom(stateData.StartColor, InvertColorScheme);
 
         tween.EndTimeAlpha = stateData.EndTimeAlpha;
         tween.EndTimeColor = stateData.EndTimeColor;
         tween.EndAlpha = stateData.EndAlpha;
         tween.EndColor =
-            stateData.EndChromaColor ?? ColorScheme.GetColorFrom(stateData.EndColor, invertColorScheme);
+            stateData.EndChromaColor ?? ColorScheme.GetColorFrom(stateData.EndColor, InvertColorScheme);
 
         tween.UseHSV = stateData.UseHSV;
         tween.Easing = stateData.Easing;
@@ -125,9 +125,9 @@ public class BasicLightEffect : BasicEventStateManager<BasicLightStateData>
     public void UpdateStartAndEndColor(LightColorTween tween, BasicLightStateData stateData)
     {
         tween.StartColor = stateData.StartChromaColor
-            ?? ColorScheme.GetColorFrom(stateData.StartColor, invertColorScheme);
+            ?? ColorScheme.GetColorFrom(stateData.StartColor, InvertColorScheme);
         tween.EndColor =
-            stateData.EndChromaColor ?? ColorScheme.GetColorFrom(stateData.EndColor, invertColorScheme);
+            stateData.EndChromaColor ?? ColorScheme.GetColorFrom(stateData.EndColor, InvertColorScheme);
     }
 
     private void HandleBoostChanged(bool boost)
@@ -186,7 +186,7 @@ public class BasicLightEffect : BasicEventStateManager<BasicLightStateData>
         if (previousStateData.Base.IsOff)
         {
             previousStateData.StartAlpha =
-                previousStateData.EndAlpha = previousStateData.Base.FloatValue * offIntensity;
+                previousStateData.EndAlpha = previousStateData.Base.FloatValue * OffIntensity;
         }
 
         if (newStateData.Base.IsOff) newStateData.StartColor = previousStateData.EndColor;
@@ -416,7 +416,7 @@ public class BasicLightEffect : BasicEventStateManager<BasicLightStateData>
             newState.EndAlpha = data.FloatValue;
 
             if (data.IsOff)
-                newState.StartAlpha = newState.EndAlpha = data.FloatValue * offIntensity;
+                newState.StartAlpha = newState.EndAlpha = data.FloatValue * OffIntensity;
             else if (data.IsFlash)
             {
                 newState.EndTimeAlpha = newState.StartTime + FlashTimeBeat;
@@ -430,7 +430,7 @@ public class BasicLightEffect : BasicEventStateManager<BasicLightStateData>
                 newState.StartAlpha = data.FloatValue * 1.2f;
                 newState.EndAlpha = 0f;
                 newState.Easing = Easing.Exponential.Out;
-                newState.EndAlpha = data.FloatValue * offIntensity;
+                newState.EndAlpha = data.FloatValue * OffIntensity;
             }
 
             InsertWithChromaGradient(newState);
@@ -532,7 +532,7 @@ public class BasicLightEffect : BasicEventStateManager<BasicLightStateData>
             if (previousStateData.Base.IsOff)
             {
                 previousStateData.StartAlpha =
-                    previousStateData.EndAlpha = previousStateData.Base.FloatValue * offIntensity;
+                    previousStateData.EndAlpha = previousStateData.Base.FloatValue * OffIntensity;
             }
 
             if (nextStateData.Base.IsOff) nextStateData.StartColor = previousStateData.EndColor;
@@ -576,4 +576,25 @@ public class BasicLightEffect : BasicEventStateManager<BasicLightStateData>
 
         public override int GetHashCode() => HashCode.Combine(Base, StartTime, EndTime, StartColor, EndColor, Easing);
     }
+}
+
+public class BasicLightStateData : BasicEventStateData
+{
+    public float
+        StartTimeColor = float.MinValue; // this is supposedly the same as start time, special case for chroma gradient
+
+    public LightColor StartColor;
+    public Color? StartChromaColor;
+    public float StartAlpha;
+
+    public float EndTimeAlpha; // similarly this match next start, otherwise used to interpolate flash/fade
+    public float EndTimeColor; // also same case above, only special case for chroma gradient
+    public LightColor EndColor;
+    public Color? EndChromaColor;
+    public float EndAlpha;
+
+    public Func<float, float> Easing = global::Easing.Linear;
+    public bool UseHSV;
+
+    public BasicLightStateData(BaseEvent evt) : base(evt) { }
 }

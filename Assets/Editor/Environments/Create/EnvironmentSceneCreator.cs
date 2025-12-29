@@ -1,15 +1,11 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Beatmap.Enums;
 using Newtonsoft.Json;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Object = UnityEngine.Object;
 
 /// <summary>
 /// Editor utility to create a new Unity scene from an EnvironmentInfo JSON file.
@@ -17,7 +13,7 @@ using Object = UnityEngine.Object;
 public partial class EnvironmentSceneCreator
 {
     private const string environmentPath = "Assets/__Scenes/Environments";
-    private const string assetPath = "Assets/Editor/Environments";
+    private const string editorPath = "Assets/Editor/Environments";
 
     [MenuItem("Environment/Create from Data", false, 1000)]
     private static void CreateEnvironmentFromData()
@@ -62,7 +58,7 @@ public partial class EnvironmentSceneCreator
 
         // Oh dear I'm loading stuff at runtime
         var environmentLibrary =
-            AssetDatabase.LoadAssetAtPath<EnvironmentLibrarySO>(Path.Combine(assetPath, "EnvironmentLibrarySO.asset"));
+            AssetDatabase.LoadAssetAtPath<EnvironmentLibrarySO>(Path.Combine(editorPath, "EnvironmentLibrarySO.asset"));
         var environmentData =
             JsonConvert.DeserializeObject<EnvData>(textAsset.text, new Vector3ArrayConverter());
 

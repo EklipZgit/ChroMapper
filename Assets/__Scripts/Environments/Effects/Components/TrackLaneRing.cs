@@ -2,24 +2,24 @@
 
 public class TrackLaneRing : MonoBehaviour
 {
-    private float destPosZ;
-    private float destRotZ;
-    private float moveSpeed;
-    private Vector3 positionOffset;
-    private float posZ;
+    [SerializeField] private Vector3 positionOffset;
 
-    private float prevPosZ;
+    private float previousRotZ;
+    private float rotationZ;
+    private float destinationRotationZ;
 
-    private float prevRotZ;
+    private float previousPosZ;
+    private float positionZ;
+    private float destinationPosZ;
 
     private float rotateSpeed;
-    private float rotZ;
+    private float moveSpeed;
 
-    public void Reset()
+    public void DoReset()
     {
-        rotZ = 0;
-        prevRotZ = 0;
-        destRotZ = 0;
+        rotationZ = 0;
+        previousRotZ = 0;
+        destinationRotationZ = 0;
         rotateSpeed = 0;
     }
 
@@ -27,37 +27,43 @@ public class TrackLaneRing : MonoBehaviour
     {
         positionOffset = posOffset;
         transform.localPosition = pos + positionOffset;
-        prevPosZ = posZ = pos.z + positionOffset.z;
-        rotZ = destRotZ = transform.localPosition.z;
+        previousPosZ = positionZ = pos.z + positionOffset.z;
+        rotationZ = destinationRotationZ = transform.localPosition.z;
     }
 
     public void FixedUpdateRing(float fixedDeltaTime)
     {
-        prevRotZ = rotZ;
-        rotZ = Mathf.Lerp(rotZ, destRotZ, fixedDeltaTime * rotateSpeed);
-        prevPosZ = posZ;
-        posZ = Mathf.Lerp(posZ, positionOffset.z + destPosZ, fixedDeltaTime * moveSpeed);
+        previousRotZ = rotationZ;
+        rotationZ = Mathf.Lerp(rotationZ, destinationRotationZ, fixedDeltaTime * rotateSpeed);
+
+        previousPosZ = positionZ;
+        positionZ = Mathf.Lerp(positionZ, positionOffset.z + destinationPosZ, fixedDeltaTime * moveSpeed);
     }
 
     public void LateUpdateRing(float interpolationFactor)
     {
-        transform.localEulerAngles = new Vector3(0, 0, prevRotZ + ((rotZ - prevRotZ) * interpolationFactor));
-        transform.localPosition = new Vector3(positionOffset.x, positionOffset.y,
-            prevPosZ + ((posZ - prevPosZ) * interpolationFactor));
+        transform.localEulerAngles = new Vector3(
+            0,
+            0,
+            previousRotZ + ((rotationZ - previousRotZ) * interpolationFactor));
+        transform.localPosition = new Vector3(
+            positionOffset.x,
+            positionOffset.y,
+            previousPosZ + ((positionZ - previousPosZ) * interpolationFactor));
     }
 
     public void SetRotation(float destinationZ, float rotateSpeed)
     {
-        destRotZ = destinationZ;
+        destinationRotationZ = destinationZ;
         this.rotateSpeed = rotateSpeed;
     }
 
-    public float GetRotation() => rotZ;
-    public float GetDestinationRotation() => destRotZ;
+    public float GetRotation() => rotationZ;
+    public float GetDestinationRotation() => destinationRotationZ;
 
     public void SetPosition(float destinationZ, float moveSpeed)
     {
-        destPosZ = destinationZ;
+        destinationPosZ = destinationZ;
         this.moveSpeed = moveSpeed;
     }
 }

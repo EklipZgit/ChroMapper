@@ -30,34 +30,40 @@ public class BasicEventEffectManager : MonoBehaviour
                 case ColorBoostEffect cbm:
                     cbm.ColorScheme = colorScheme;
                     break;
+                case TrackLaneRingsPositionEffect tlrpe:
+                    tlrpe.Manager.Atsc = atsc;
+                    break;
+                case TrackLaneRingsRotationEffect tlrre:
+                    tlrre.Effect.Manager.Atsc = atsc;
+                    break;
             }
         }
     }
 
     public IEnumerable<(int type, StateManager<BaseEvent> manager)> GetAllManagers() =>
-        EventTypeToEffects.SelectMany((
-            managers) => managers.Value.Select(m => (managers.Key, m)));
+        EventTypeToEffects.SelectMany(managers => managers.Value.Select(m => (managers.Key, m)));
 
     public IEnumerable<(int type, T manager)> GetAllManagers<T>() where T : StateManager<BaseEvent> =>
         GetAllManagers().Where(m => m.manager is T).Select(m => (m.type, m.manager as T));
 
     public T Register<T>(int type) where T : StateManager<BaseEvent>
     {
-        if (effectEntries.Exists(entry => entry.Type == type && entry.Manager is T))
-            return effectEntries.First(entry => entry.Type == type && entry.Manager is T).Manager as T;
         var comp = gameObject.AddComponent<T>();
         effectEntries.Add(new() { Type = type, Manager = comp });
         return comp;
     }
 
-    public void Register(int type, int id, LightController controllable)
+    public void Register<T>(int type, T comp) where T : StateManager<BaseEvent> =>
+        effectEntries.Add(new() { Type = type, Manager = comp });
+
+    public void Register(int type, int id, BaseLightController controller)
     {
         if (effectEntries.Exists(entry => entry.Type == type && entry.Manager is BasicLightEffect))
         {
             var manager = effectEntries
                 .First(entry => entry.Type == type && entry.Manager is BasicLightEffect)
                 .Manager as BasicLightEffect;
-            manager!.Register(controllable, id);
+            manager!.Register(controller, id);
         }
         else
             throw new Exception("Could not find manager for type " + type);

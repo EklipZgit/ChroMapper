@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Beatmap.Base;
-using UnityEngine;
 
 public abstract class PlatformEventEffect : BasicEventStateManager<PlatformEventStateData>
 {
@@ -62,5 +61,12 @@ public abstract class PlatformEventEffect : BasicEventStateManager<PlatformEvent
     public override void UpdateDirty()
     {
         foreach (var container in stateChunksContainerMap.Values) UpdateObject(container.CurrentState);
+    }
+}
+
+public class PlatformEventStateData : BasicEventStateData
+{
+    public PlatformEventStateData(BaseEvent data) : base(data)
+    {
     }
 }

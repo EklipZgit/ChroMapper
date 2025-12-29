@@ -32,9 +32,8 @@ public class EnvDataObject
         [JsonProperty("instancedMaterialLightWithId")]
         public InstancedMaterialLightWithIdComponent[]? InstancedMaterialLightWithId;
 
-        [JsonProperty("materialLightWithId")]
-        public MaterialLightWithIdComponent[]? MaterialLightWithId;
-        
+        [JsonProperty("materialLightWithId")] public MaterialLightWithIdComponent[]? MaterialLightWithId;
+
         [JsonProperty("particleSystemLightWithId")]
         public ParticleSystemLightWithIdComponent[]? ParticleSystemLightWithID;
 
@@ -48,6 +47,9 @@ public class EnvDataObject
         public Parametric3SliceSpriteControllerComponent[]? Parametric3SliceSpriteController;
 
         // Basic
+        [JsonProperty("lightRotationEventEffect")]
+        public LightRotationEventEffectComponent[]? LightRotationEventEffect;
+
         [JsonProperty("lightPairRotationEventEffect")]
         public LightPairRotationEventEffectComponent[]? LightPairRotationEventEffect;
 

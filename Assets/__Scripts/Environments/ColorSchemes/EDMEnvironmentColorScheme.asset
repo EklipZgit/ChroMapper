@@ -20,4 +20,4 @@ MonoBehaviour:
   environmentWhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
   environmentLeftBoostColor: {r: 0.735849, g: 0, b: 0.17586324, a: 1}
   environmentRightBoostColor: {r: 0.42845926, g: 0, b: 0.754717, a: 1}
-  environmentWhiteBoostColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
+  environmentWhiteBoostColor: {r: 0.7254902, g: 0.7254902, b: 0.7254902, a: 1}

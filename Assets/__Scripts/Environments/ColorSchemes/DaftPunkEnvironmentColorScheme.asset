@@ -17,7 +17,7 @@ MonoBehaviour:
   ObstacleColor: {r: 0.60680914, g: 0, b: 1, a: 1}
   environmentLeftColor: {r: 1, g: 0.70175433, b: 0.25157225, a: 1}
   environmentRightColor: {r: 0.52156866, g: 0.32941177, b: 0.8196079, a: 1}
-  environmentWhiteColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
+  environmentWhiteColor: {r: 0.47843137, g: 0.8117647, b: 1, a: 1}
   environmentLeftBoostColor: {r: 0.85882354, g: 0, b: 0.47843137, a: 1}
   environmentRightBoostColor: {r: 0, g: 0.81960785, b: 0.8039216, a: 1}
-  environmentWhiteBoostColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
+  environmentWhiteBoostColor: {r: 1, g: 0.834256, b: 0.48742133, a: 1}
