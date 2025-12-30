@@ -1,8 +1,6 @@
 Shader "Hidden/BloomfogBlurring"
 {
-    Properties
-    {
-    }
+    Properties {}
     SubShader
     {
         // No culling or depth
@@ -30,7 +28,7 @@ Shader "Hidden/BloomfogBlurring"
                 float4 vertex : SV_POSITION;
             };
 
-            v2f vert (appdata v)
+            v2f vert(appdata v)
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
@@ -45,25 +43,26 @@ Shader "Hidden/BloomfogBlurring"
             float4 _BloomfogPrevTex_TexelSize;
             float4 _BloomfogPrevTex_ST;
 
-            float4 frag (v2f i) : SV_Target
+            float4 frag(v2f i) : SV_Target
             {
                 float2 texelSize = _BloomfogPrevTex_TexelSize.xy;
                 float radius = _BloomfogBlurRadius + 0.5;
-                
+
                 // Kawase blur - 4 diagonal samples
-                float4 mipColor = float4(0,0,0,0);
-                
+                float4 mipColor = float4(0, 0, 0, 0);
+
                 mipColor.rgb += tex2D(_BloomfogPrevTex, i.uv + float2(radius, radius) * texelSize).rgb;
                 mipColor.rgb += tex2D(_BloomfogPrevTex, i.uv + float2(-radius, radius) * texelSize).rgb;
                 mipColor.rgb += tex2D(_BloomfogPrevTex, i.uv + float2(radius, -radius) * texelSize).rgb;
                 mipColor.rgb += tex2D(_BloomfogPrevTex, i.uv + float2(-radius, -radius) * texelSize).rgb;
-                
+
                 mipColor.rgb /= 4.0; // Average the 4 samples
                 //mipColor.rgb += _BloomfogBrightness;
 
                 mipColor.a = _BloomfogAlpha + _BloomfogBrightness;
-                
-                return mipColor;
+
+                // less aggressive bloomfog, still need to figure out proper fog
+                return normalize(mipColor);
             }
             ENDCG
         }

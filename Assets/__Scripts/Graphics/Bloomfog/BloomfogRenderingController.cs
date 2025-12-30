@@ -102,6 +102,8 @@ public class BloomfogRenderingController : MonoBehaviour
         float startY,
         float attenuation)
     {
+        // TODO: do these also need to be scaled by whatever weird value we have?
+        var scale = 5f / 3f;
         autoExposeMaterial.SetFloat("_AutoExposureLimit", autoExposureLimit);
         Shader.SetGlobalFloat("_CustomFogOffset", offset);
         Shader.SetGlobalFloat("_CustomFogHeightFogStartY", startY);

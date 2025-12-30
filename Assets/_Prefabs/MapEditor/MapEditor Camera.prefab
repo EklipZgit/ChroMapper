@@ -156,7 +156,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 3000
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -384,6 +384,4 @@ MonoBehaviour:
   - assemblyQualifiedName: CustomBloom, Main, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   m_AfterStackBundles:
   - assemblyQualifiedName: CustomTonemapping, Main, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-  - assemblyQualifiedName: ApplyBloomfog, Main, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
