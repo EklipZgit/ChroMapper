@@ -116,12 +116,34 @@ namespace Beatmap.Containers
             if (eh.Components?.HasKey("ILightWithId") ?? false)
             {
                 var controller = container.Shape.AddComponent<LightController>();
+
                 var light = container.Shape.AddComponent<LightObject>();
                 light.Renderer = container.Shape.GetComponent<Renderer>();
                 controller.BoxLight = light;
+
+                var bf = container.Shape.AddComponent<LightObjectBloomFog>();
+                controller.BloomFog = bf;
+
                 controller.Type = eh.LightType ?? 0;
                 controller.ID = eh.LightID ?? -1;
                 descriptor.BasicEventEffectManager.Register(controller, false);
+            }
+
+            if (eh.Components?.HasKey("TubeBloomPrePassLight") ?? false)
+            {
+                var ppLight = eh.Components["TubeBloomPrePassLight"];
+                var controller = container.Shape.GetComponent<LightController>();
+                if (controller == null) return;
+                if (ppLight["colorAlphaMultiplier"] != null)
+                {
+                    if (controller.BoxLight != null) controller.BoxLight.Multiply = ppLight["colorAlphaMultiplier"];
+                    if (controller.SpriteLight != null)
+                        controller.SpriteLight.Multiply = ppLight["colorAlphaMultiplier"];
+                }
+
+                if (ppLight["bloomFogIntensityMultiplier"] != null
+                    && controller.BloomFog != null)
+                    controller.BloomFog.Multiply = ppLight["bloomFogIntensityMultiplier"];
             }
         }
 
@@ -248,6 +270,21 @@ namespace Beatmap.Containers
                     controller.ID = eh.LightID ?? controller.ID;
 
                     descriptor.BasicEventEffectManager.Register(controller, false);
+
+                    if (eh.Components?.HasKey("TubeBloomPrePassLight") ?? false)
+                    {
+                        var ppLight = eh.Components["TubeBloomPrePassLight"];
+                        if (controller is not LightController lc) continue;
+                        if (ppLight["colorAlphaMultiplier"] != null)
+                        {
+                            if (lc.BoxLight != null) lc.BoxLight.Multiply = ppLight["colorAlphaMultiplier"];
+                            if (lc.SpriteLight != null) lc.SpriteLight.Multiply = ppLight["colorAlphaMultiplier"];
+                        }
+
+                        if (ppLight["bloomFogIntensityMultiplier"] != null
+                            && lc.BloomFog != null)
+                            lc.BloomFog.Multiply = ppLight["bloomFogIntensityMultiplier"];
+                    }
                 }
             }
         }
