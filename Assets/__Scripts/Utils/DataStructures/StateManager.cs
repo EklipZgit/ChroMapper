@@ -7,6 +7,9 @@ public abstract class StateManager : MonoBehaviour, IBeatmapUpdate
     protected bool IsDirty;
     public AudioTimeSyncController Atsc;
     
+    public bool AutoRegister;
+    public List<int> Types = new();
+    
     public abstract void Initialize();
     public abstract void UpdateDirty();
     public abstract void UpdateTime(float time);

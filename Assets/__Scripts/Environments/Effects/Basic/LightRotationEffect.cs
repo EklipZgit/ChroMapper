@@ -1,28 +1,25 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System;
+using System.Collections.Generic;
 using Beatmap.Base;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class LightRotationEffect : BasicEventStateManager<LightRotationStateData>
 {
-    public Vector3 RotationVector;
-    public float SpeedMultiplier;
-
-    private Transform tr;
-    private Quaternion startRotation;
-    private float speed;
+    public TransformContainer[] TransformContainers;
 
     private readonly BasicEventStateChunksContainer<LightRotationStateData> container = new();
 
-    private void Start()
-    {
-        tr = transform;
-        startRotation = tr.rotation;
-        enabled = false;
-    }
+    private void Start() => enabled = false;
 
-    private void Update() => tr.Rotate(RotationVector, Time.deltaTime * speed, Space.Self);
+    private void Update()
+    {
+        for (var i = 0; i < TransformContainers.Length; i++)
+        {
+            var c = TransformContainers[i];
+            c.Transform.Rotate(c.RotationVector, Time.deltaTime * c.Speed, Space.Self);
+        }
+    }
 
     public override void Initialize() => InitializeStates(container);
 
@@ -58,13 +55,17 @@ public class LightRotationEffect : BasicEventStateManager<LightRotationStateData
             case 0:
                 enabled = false;
                 if (lockRotation) return;
-                tr.localRotation = startRotation;
+                foreach (var c in TransformContainers) c.Transform.localRotation = c.StartRotation;
                 break;
             case > 0:
-                tr.localRotation = startRotation;
-                tr.Rotate(RotationVector, Random.Range(0f, 180f), Space.Self);
+                foreach (var c in TransformContainers)
+                {
+                    c.Transform.localRotation = c.StartRotation;
+                    c.Transform.Rotate(c.RotationVector, Random.Range(0f, 180f), Space.Self);
+                    c.Speed = value * c.SpeedMultiplier * 20f * direction;
+                }
+
                 enabled = !evt.CustomLockRotation.HasValue || lockRotation;
-                speed = value * SpeedMultiplier * 20f * direction;
                 break;
         }
     }
@@ -91,6 +92,17 @@ public class LightRotationEffect : BasicEventStateManager<LightRotationStateData
     }
 
     public override void UpdateDirty() => UpdateRotation();
+
+    [Serializable]
+    public class TransformContainer
+    {
+        public Transform Transform;
+        public Quaternion StartRotation;
+        public Vector3 RotationVector;
+        public float SpeedMultiplier;
+
+        [NonSerialized] public float Speed;
+    }
 }
 
 public class LightRotationStateData : BasicEventStateData

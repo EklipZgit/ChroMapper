@@ -12,12 +12,10 @@ public partial class EnvironmentSceneCreator
     private static void BuildComponents(
         EnvironmentLibrarySO library,
         EnvData data,
-        Dictionary<string, GameObject> chromaIdObjects,
-        List<EnvDataObject> objectsToUse)
+        Dictionary<string, GameObject> chromaIdObjects)
     {
         var descriptor = GameObject.Find("Environment").AddComponent<EnvironmentDescriptor>();
         descriptor.ID = data.Data.ID;
-        descriptor.ChromaIDMarkers = descriptor.GetComponentsInChildren<ChromaIDMarker>(true).ToList();
 
         data.Data.FogParameters.CopyTo(descriptor.BloomFogParams);
 
@@ -26,7 +24,8 @@ public partial class EnvironmentSceneCreator
         descriptor.BasicEventEffectManager = beec;
         var boost = beec.Register<ColorBoostEffect>((int)EventTypeValue.ColorBoost);
 
-        var lcgemData = objectsToUse
+        var lcgemData = data
+            .Objects
             .FirstOrDefault(x => x.Components.LightColorGroupEffectManager != null)
             ?.Components.LightColorGroupEffectManager[0];
         var lcgem = new GameObject("LightColorGroupEffectManager")
@@ -41,7 +40,8 @@ public partial class EnvironmentSceneCreator
                 lightColorGroupEffect.ColorBoostEffect = boost;
         }
 
-        var lseeData = objectsToUse
+        var lseeData = data
+            .Objects
             .Where(x => x.Components.LightSwitchEventEffect != null)
             .SelectMany(x => x.Components.LightSwitchEventEffect)
             .ToArray();
@@ -71,7 +71,7 @@ public partial class EnvironmentSceneCreator
                 for (var id = 0; id < lights.Length; id++)
                 {
                     var light = lights[id];
-                    var envObject = objectsToUse.Find(x => x.ChromaID == light.Name);
+                    var envObject = data.Objects.Find(x => x.ChromaID == light.Name);
                     if (envObject is null) continue;
                     var marker = chromaIdObjects[light.Name];
                     var go = marker.gameObject;
@@ -114,7 +114,8 @@ public partial class EnvironmentSceneCreator
             }
         }
 
-        var lrgemData = objectsToUse
+        var lrgemData = data
+            .Objects
             .FirstOrDefault(x => x.Components.LightRotationGroupEffectManager != null)
             ?.Components.LightRotationGroupEffectManager[0];
         var lrgem = new GameObject("LightRotationGroupEffectManager")
@@ -145,7 +146,8 @@ public partial class EnvironmentSceneCreator
             }
         }
 
-        var ltgemData = objectsToUse
+        var ltgemData = data
+            .Objects
             .FirstOrDefault(x => x.Components.LightTranslationGroupEffectManager != null)
             ?.Components.LightTranslationGroupEffectManager[0];
         var ltgem = new GameObject("LightTranslationGroupEffectManager")
@@ -190,7 +192,8 @@ public partial class EnvironmentSceneCreator
             }
         }
 
-        var ffgemData = objectsToUse
+        var ffgemData = data
+            .Objects
             .FirstOrDefault(x => x.Components.FloatFxGroupEffectManager != null)
             ?.Components.FloatFxGroupEffectManager[0];
         var ffgem = new GameObject("FloatFxGroupEffectManager")
@@ -209,7 +212,7 @@ public partial class EnvironmentSceneCreator
         }
 
         // RINGS
-        foreach (var obj in objectsToUse.Where(x => x.Components.TrackLaneRingsManager != null))
+        foreach (var obj in data.Objects.Where(x => x.Components.TrackLaneRingsManager != null))
         {
             foreach (var tlrmData in obj.Components.TrackLaneRingsManager)
             {
@@ -228,7 +231,7 @@ public partial class EnvironmentSceneCreator
             }
         }
 
-        foreach (var obj in objectsToUse.Where(x => x.Components.TrackLaneRingsRotationEffect != null))
+        foreach (var obj in data.Objects.Where(x => x.Components.TrackLaneRingsRotationEffect != null))
         {
             foreach (var tlrreData in obj.Components.TrackLaneRingsRotationEffect)
             {
@@ -247,7 +250,7 @@ public partial class EnvironmentSceneCreator
             }
         }
 
-        foreach (var obj in objectsToUse.Where(x => x.Components.TrackLaneRingsRotationEffectSpawner != null))
+        foreach (var obj in data.Objects.Where(x => x.Components.TrackLaneRingsRotationEffectSpawner != null))
         {
             foreach (var tlrresData in obj.Components.TrackLaneRingsRotationEffectSpawner)
             {
@@ -268,7 +271,7 @@ public partial class EnvironmentSceneCreator
             }
         }
 
-        foreach (var obj in objectsToUse.Where(x => x.Components.TrackLaneRingsPositionStepEffectSpawner != null))
+        foreach (var obj in data.Objects.Where(x => x.Components.TrackLaneRingsPositionStepEffectSpawner != null))
         {
             foreach (var tlrpsesData in obj.Components.TrackLaneRingsPositionStepEffectSpawner)
             {
@@ -287,21 +290,25 @@ public partial class EnvironmentSceneCreator
         }
 
         // ROTATION
-        foreach (var obj in objectsToUse.Where(x => x.Components.LightRotationEventEffect != null))
+        foreach (var typeObj in data
+            .Objects
+            .Where(x => x.Components.LightRotationEventEffect != null)
+            .SelectMany(x => x.Components.LightRotationEventEffect.Select(y => (obj: x, comp: y)))
+            .GroupBy(x => x.comp.EventType))
         {
-            foreach (var lreData in obj.Components.LightRotationEventEffect)
-            {
-                var go = chromaIdObjects[obj.ChromaID];
-                var lre = go.AddComponent<LightRotationEffect>();
-
-                lre.RotationVector = FloatArrayToVector3(lreData.RotationVector);
-                lre.SpeedMultiplier = lreData.RotationSpeedMultiplier;
-
-                beec.Register(ConvertUtils.ToEventType(lreData.EventType), lre);
-            }
+            var lre = beec.Register<LightRotationEffect>(ConvertUtils.ToEventType(typeObj.Key));
+            lre.TransformContainers = typeObj
+                .Select(x => new LightRotationEffect.TransformContainer
+                {
+                    Transform = chromaIdObjects[x.obj.ChromaID].transform,
+                    StartRotation = chromaIdObjects[x.obj.ChromaID].transform.rotation,
+                    RotationVector = FloatArrayToVector3(x.comp.RotationVector),
+                    SpeedMultiplier = x.comp.RotationSpeedMultiplier,
+                })
+                .ToArray();
         }
 
-        foreach (var obj in objectsToUse.Where(x => x.Components.LightPairRotationEventEffect != null))
+        foreach (var obj in data.Objects.Where(x => x.Components.LightPairRotationEventEffect != null))
         {
             foreach (var lpreData in obj.Components.LightPairRotationEventEffect)
             {
@@ -340,7 +347,7 @@ public partial class EnvironmentSceneCreator
             }
         }
 
-        foreach (var obj in objectsToUse.Where(x => x.Components.LightPairSinMoveEventEffect != null))
+        foreach (var obj in data.Objects.Where(x => x.Components.LightPairSinMoveEventEffect != null))
         {
             foreach (var lpsmeData in obj.Components.LightPairSinMoveEventEffect)
             {

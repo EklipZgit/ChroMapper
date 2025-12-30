@@ -53,8 +53,13 @@ public class BasicEventEffectManager : MonoBehaviour
         return comp;
     }
 
-    public void Register<T>(int type, T comp) where T : StateManager<BaseEvent> =>
+    public void Register<T>(int type, T comp) where T : StateManager<BaseEvent>
+    {
         effectEntries.Add(new() { Type = type, Manager = comp });
+        if (comp.Types.Contains(type)) return;
+        comp.AutoRegister = true;
+        comp.Types.Add(type);
+    }
 
     public void Register(int type, int id, BaseLightController controller)
     {

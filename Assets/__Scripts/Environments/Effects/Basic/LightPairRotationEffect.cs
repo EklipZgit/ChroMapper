@@ -26,9 +26,9 @@ public class LightPairRotationEffect : BasicEventStateManager<LightRotationState
     private float randomStartRotation;
     private float randomDirection;
 
-    private readonly Dictionary<int, LightPairRotationContainer> typeToContainer = new();
-    private readonly List<LightPairRotationContainer> actives = new();
-    private LightPairRotationContainer switchContainer;
+    private readonly Dictionary<int, TransformContainer> typeToContainer = new();
+    private readonly List<TransformContainer> actives = new();
+    private TransformContainer switchContainer;
 
     private void Awake()
     {
@@ -38,7 +38,7 @@ public class LightPairRotationEffect : BasicEventStateManager<LightRotationState
             }
             .Distinct())
         {
-            var container = new LightPairRotationContainer
+            var container = new TransformContainer
             {
                 Speed = 0f, StartAngle = mirror ? -StartRotation : StartRotation, Mirror = mirror
             };
@@ -107,7 +107,7 @@ public class LightPairRotationEffect : BasicEventStateManager<LightRotationState
         }
     }
 
-    private void UpdateSwitchEvent(LightPairRotationContainer container)
+    private void UpdateSwitchEvent(TransformContainer container)
     {
         var state = container.Container.CurrentState;
         OverrideRandomValues = container.Container.GetStateIndex(state) % 2 == 1;
@@ -122,7 +122,7 @@ public class LightPairRotationEffect : BasicEventStateManager<LightRotationState
         }
     }
 
-    private void UpdateRotationEvent(LightPairRotationContainer container)
+    private void UpdateRotationEvent(TransformContainer container)
     {
         UpdateRandom();
         UpdateRotation(
@@ -132,7 +132,7 @@ public class LightPairRotationEffect : BasicEventStateManager<LightRotationState
     }
 
     private void UpdateRotation(
-        LightPairRotationContainer container,
+        TransformContainer container,
         float startOffset,
         float direction)
     {
@@ -214,19 +214,19 @@ public class LightPairRotationEffect : BasicEventStateManager<LightRotationState
                 UpdateSwitchEvent(container);
         }
     }
-}
 
-public class LightPairRotationContainer
-{
-    public bool Enabled;
-    public bool Mirror;
-    public bool HasTransform;
+    private class TransformContainer
+    {
+        public bool Enabled;
+        public bool Mirror;
+        public bool HasTransform;
 
-    public Transform Transform;
-    public float Speed;
-    public Quaternion Start;
-    public float StartAngle;
-    public float Angle;
+        public Transform Transform;
+        public float Speed;
+        public Quaternion Start;
+        public float StartAngle;
+        public float Angle;
 
-    public readonly BasicEventStateChunksContainer<LightRotationStateData> Container = new();
+        public readonly BasicEventStateChunksContainer<LightRotationStateData> Container = new();
+    }
 }

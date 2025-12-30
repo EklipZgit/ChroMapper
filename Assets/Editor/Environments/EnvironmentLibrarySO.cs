@@ -22,10 +22,6 @@ public class EnvironmentLibrarySO : ScriptableObject
     [SerializeField] public List<LayerMaskEntry> layerMaskRemap = new();
     public Dictionary<string, LayerMask> layerMaskLookup = new();
 
-    // Objects in this list will be ignored entirely when creating an environment
-    // (This is typically Beat Saber specific objects that ChroMapper will never use, or have different implementations for)
-    [SerializeField] private List<string> ignoreNames = new();
-
     // The fallback prefab to use when no replacement is found
     [SerializeField] public GameObject fallbackPrefab;
 
@@ -37,8 +33,6 @@ public class EnvironmentLibrarySO : ScriptableObject
         layerMaskLookup.Clear();
         foreach (var entry in layerMaskRemap) layerMaskLookup.Add(entry.name, entry.layerMask);
     }
-
-    public bool IsIgnored(string name) => ignoreNames.Exists(it => name.Contains(it));
 }
 
 [Serializable]

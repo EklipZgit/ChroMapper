@@ -10,12 +10,12 @@ public partial class EnvironmentSceneCreator
 {
     private static Dictionary<string, GameObject> SpawnObjects(
         EnvironmentLibrarySO library,
-        Dictionary<string, GameObject> existingObjects,
-        List<EnvDataObject> objectsToUse)
+        EnvData data,
+        Dictionary<string, GameObject> existingObjects)
     {
         var chromaIdObjects = new Dictionary<string, GameObject>();
 
-        var queue = new Queue<EnvDataObject>(objectsToUse);
+        var queue = new Queue<EnvDataObject>(data.Objects);
         var limit = queue.Count;
 
         var i = 0;

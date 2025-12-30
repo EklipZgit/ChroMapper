@@ -89,21 +89,16 @@ public partial class EnvironmentSceneCreator
         EnvData data,
         EnvironmentLibrarySO library)
     {
-        var objectsToUse = data
-            .Objects.Where(obj =>
-                !library.IsIgnored(obj.ChromaID[(obj.ChromaID.IndexOf("]", StringComparison.Ordinal) + 1)..]))
-            .ToList();
-
         // first pass: strip existing object and component
         var existingObjects = StripObjects(scene, data);
 
         // second pass: spawn object
-        var chromaIdObjects = SpawnObjects(library, existingObjects, objectsToUse);
+        var chromaIdObjects = SpawnObjects(library, data, existingObjects);
 
         // third pass: build component
-        BuildComponents(library, data, chromaIdObjects, objectsToUse);
+        BuildComponents(library, data, chromaIdObjects);
 
-        // forth pass: cleanup
-        Cleanup();
+        // forth pass: cleanup and remove unused
+        Cleanup(scene);
     }
 }

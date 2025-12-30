@@ -5,10 +5,8 @@ using UnityEngine.Serialization;
 
 public abstract class InterscopeCarEventEffect : PlatformEventEffect
 {
-    [FormerlySerializedAs("carRigidbody")] [SerializeField]
-    protected Rigidbody CarRigidbody;
+    [SerializeField] protected Rigidbody CarRigidbody;
 
-    [FormerlySerializedAs("carFlags")]
     [Tooltip(
         "All Cars = 0 & 1\nLeft Side = 2\nRight Side = 3\nFirst Row = 4\nSecond Row = 5\nThird Row = 6\nFourth Row = 7")]
     [SerializeField]

@@ -2366,7 +2366,7 @@ MonoBehaviour:
     BoundsCenter: {x: 0.0000009536743, y: 0, z: -0.0000021755695}
     Unused: 0
     Ignored: 0
-  - Mesh: {fileID: 0}
+  - Mesh: {fileID: 5689065679114948658, guid: b560138687c023a4c9751a1c0ecc1726, type: 3}
     Hash: 9e042e1b7d77f0e633929e3befc56b19
     Names:
     - Ring
@@ -3448,7 +3448,7 @@ MonoBehaviour:
     BoundsCenter: {x: 0.0000060796738, y: 0, z: 0.000002861023}
     Unused: 0
     Ignored: 0
-  - Mesh: {fileID: 0}
+  - Mesh: {fileID: 4300000, guid: e6370ba8555081c4cb929f08a423343f, type: 3}
     Hash: e02a7a60ab6dae19aa90c2e647e79867
     Names:
     - Ring

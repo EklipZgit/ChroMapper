@@ -22,9 +22,9 @@ public class LightPairSinMoveEffect : BasicEventStateManager<LightRotationStateD
     private int randomGenerationFrameNum = -1;
     private float randomStartOffset;
 
-    private readonly Dictionary<int, LightPairSinMoveContainer> typeToContainer = new();
-    private readonly List<LightPairSinMoveContainer> actives = new();
-    private LightPairSinMoveContainer switchContainer;
+    private readonly Dictionary<int, TransformContainer> typeToContainer = new();
+    private readonly List<TransformContainer> actives = new();
+    private TransformContainer switchContainer;
 
     private void Awake()
     {
@@ -34,7 +34,7 @@ public class LightPairSinMoveEffect : BasicEventStateManager<LightRotationStateD
             }
             .Distinct())
         {
-            var container = new LightPairSinMoveContainer { Mirror = mirror, Speed = 0f, Side = mirror ? -1f : 1f };
+            var container = new TransformContainer { Mirror = mirror, Speed = 0f, Side = mirror ? -1f : 1f };
 
             if (tr != null)
             {
@@ -100,7 +100,7 @@ public class LightPairSinMoveEffect : BasicEventStateManager<LightRotationStateD
         randomStartOffset = OverrideRandomValues ? 0f : Random.Range(0f, MathF.PI * 2f);
     }
 
-    private void UpdateSwitchEvent(LightPairSinMoveContainer container)
+    private void UpdateSwitchEvent(TransformContainer container)
     {
         var state = container.Container.CurrentState;
         OverrideRandomValues = container.Container.GetStateIndex(state) % 2 == 1;
@@ -113,14 +113,14 @@ public class LightPairSinMoveEffect : BasicEventStateManager<LightRotationStateD
         }
     }
 
-    private void UpdateMoveEvent(LightPairSinMoveContainer container)
+    private void UpdateMoveEvent(TransformContainer container)
     {
         UpdateRandom();
         UpdateMovement(container, container.Mirror ? -randomStartOffset : randomStartOffset);
     }
 
     private void UpdateMovement(
-        LightPairSinMoveContainer container,
+        TransformContainer container,
         float movementOffset)
     {
         var state = container.Container.CurrentState;
@@ -209,20 +209,20 @@ public class LightPairSinMoveEffect : BasicEventStateManager<LightRotationStateD
                 UpdateSwitchEvent(container);
         }
     }
-}
 
-public class LightPairSinMoveContainer
-{
-    public bool Enabled;
-    public bool Mirror;
-    public bool HasTransform;
+    private class TransformContainer
+    {
+        public bool Enabled;
+        public bool Mirror;
+        public bool HasTransform;
 
-    public float Speed;
-    public Vector3 StartPosition;
-    public Transform Transform;
-    public float StartMovementValue;
-    public float MovementValue;
-    public float Side;
+        public float Speed;
+        public Vector3 StartPosition;
+        public Transform Transform;
+        public float StartMovementValue;
+        public float MovementValue;
+        public float Side;
 
-    public readonly BasicEventStateChunksContainer<LightRotationStateData> Container = new();
+        public readonly BasicEventStateChunksContainer<LightRotationStateData> Container = new();
+    }
 }
