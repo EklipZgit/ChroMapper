@@ -51,9 +51,7 @@ public class LoadedDifficultySelectController : MonoBehaviour
             dropdown.interactable = false;
         }
         else
-        {
             dropdown.onValueChanged.AddListener(OnDropdownChange);
-        }
     }
 
     private void OnDropdownChange(int value)
@@ -82,13 +80,9 @@ public class LoadedDifficultySelectController : MonoBehaviour
             StartCoroutine(SelectDifficulty(queuedDropdownValue));
         }
         else if (result == 1) // 1 - No
-        {
             StartCoroutine(SelectDifficulty(queuedDropdownValue));
-        }
         else // 2 - Cancel
-        {
             dropdown.SetValueWithoutNotify(previousDropdownValue);
-        }
     }
 
     private IEnumerator SelectDifficulty(int value)
@@ -118,14 +112,16 @@ public class LoadedDifficultySelectController : MonoBehaviour
         //Instantiate platform, grab descriptor
         if (currentPlatform != nextPlatform || customPlat)
         {
-            SceneManager.UnloadScene(currentPlatform);
+            var sceneUnload = SceneManager.UnloadSceneAsync(currentPlatform);
+            while (!sceneUnload.isDone) yield return null;
+
             var platform = context.EnvironmentList.GetEnvironmentOrDefault(nextPlatform);
 
             // if (customPlat)
             //     platform = CustomPlatformsLoader.Instance.LoadPlatform(info.CustomEnvironmentMetadata.Name, platform);
 
-            SceneManager.LoadScene(platform.ID, LoadSceneMode.Additive);
-            yield return new WaitUntil(() => SceneManager.GetSceneByName(platform.ID).isLoaded);
+            var sceneLoad = SceneManager.LoadSceneAsync(platform.ID, LoadSceneMode.Additive);
+            while (!sceneLoad.isDone) yield return null;
 
             var descriptor = FindAnyObjectByType<EnvironmentDescriptor>();
 
