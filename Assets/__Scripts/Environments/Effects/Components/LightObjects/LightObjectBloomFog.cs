@@ -41,9 +41,7 @@ public sealed class LightObjectBloomFog : LightObject
 
     private void OnDisable() => AllBloomFogLights.Remove(this);
 
-    public override void UpdateLighting(Color color) => this.color = ModifyColor(color);
-
-    protected override Color ModifyColor(Color color) => color * Multiply;
+    public override void SetColor(Color color) => this.color = color * Multiply;
 
     public void ApplyToQuad(int quadNum, BloomfogQuad[] quads, Matrix4x4 view, Matrix4x4 projection, float lineWidth)
     {
@@ -66,7 +64,7 @@ public sealed class LightObjectBloomFog : LightObject
         var localToWorld = cachedTransform.localToWorldMatrix;
         var tubeStartWorld = localToWorld.MultiplyPoint3x4(new(0f, tubeStartLocalY, 0f));
         var tubeEndWorld = localToWorld.MultiplyPoint3x4(new(0f, tubeEndLocalY, 0f));
-    
+
         // Transform to view space
         var tubeStartView = view.MultiplyPoint3x4(tubeStartWorld);
         var tubeEndView = view.MultiplyPoint3x4(tubeEndWorld);
@@ -76,6 +74,7 @@ public sealed class LightObjectBloomFog : LightObject
         var tubeEndClip = projection * new Vector4(tubeEndView.x, tubeEndView.y, tubeEndView.z, 1);
 
         #region Frustrum Culling
+
         // Left frustrum
         var startPointInsideFrustrum = tubeStartClip.x >= -tubeStartClip.w;
         var endPointInsideFrustrum = tubeEndClip.x >= -tubeEndClip.w;
@@ -84,10 +83,18 @@ public sealed class LightObjectBloomFog : LightObject
             ZeroQuad(ref quad);
             return;
         }
+
         if (startPointInsideFrustrum != endPointInsideFrustrum)
         {
-            var leftFrustumClipInterpolation = (-tubeStartClip.w - tubeStartClip.x) / (tubeEndClip.x - tubeStartClip.x + tubeEndClip.w - tubeStartClip.w);
-            ClipPoints(ref tubeStartClip, ref tubeEndClip, ref tubeStartView, ref tubeEndView, startPointInsideFrustrum, leftFrustumClipInterpolation);
+            var leftFrustumClipInterpolation = (-tubeStartClip.w - tubeStartClip.x)
+                / (tubeEndClip.x - tubeStartClip.x + tubeEndClip.w - tubeStartClip.w);
+            ClipPoints(
+                ref tubeStartClip,
+                ref tubeEndClip,
+                ref tubeStartView,
+                ref tubeEndView,
+                startPointInsideFrustrum,
+                leftFrustumClipInterpolation);
         }
 
         // Right frustrum
@@ -98,10 +105,18 @@ public sealed class LightObjectBloomFog : LightObject
             ZeroQuad(ref quad);
             return;
         }
+
         if (startPointInsideFrustrum != endPointInsideFrustrum)
         {
-            var rightFrustumClipInterpolation = (tubeStartClip.w - tubeStartClip.x) / (tubeEndClip.x - tubeStartClip.x - tubeEndClip.w + tubeStartClip.w);
-            ClipPoints(ref tubeStartClip, ref tubeEndClip, ref tubeStartView, ref tubeEndView, startPointInsideFrustrum, rightFrustumClipInterpolation);
+            var rightFrustumClipInterpolation = (tubeStartClip.w - tubeStartClip.x)
+                / (tubeEndClip.x - tubeStartClip.x - tubeEndClip.w + tubeStartClip.w);
+            ClipPoints(
+                ref tubeStartClip,
+                ref tubeEndClip,
+                ref tubeStartView,
+                ref tubeEndView,
+                startPointInsideFrustrum,
+                rightFrustumClipInterpolation);
         }
 
         // Bottom frustrum
@@ -112,10 +127,18 @@ public sealed class LightObjectBloomFog : LightObject
             ZeroQuad(ref quad);
             return;
         }
+
         if (startPointInsideFrustrum != endPointInsideFrustrum)
         {
-            var bottomFrustumClipInterpolation = (-tubeStartClip.w - tubeStartClip.y) / (tubeEndClip.y - tubeStartClip.y + tubeEndClip.w - tubeStartClip.w);
-            ClipPoints(ref tubeStartClip, ref tubeEndClip, ref tubeStartView, ref tubeEndView, startPointInsideFrustrum, bottomFrustumClipInterpolation);
+            var bottomFrustumClipInterpolation = (-tubeStartClip.w - tubeStartClip.y)
+                / (tubeEndClip.y - tubeStartClip.y + tubeEndClip.w - tubeStartClip.w);
+            ClipPoints(
+                ref tubeStartClip,
+                ref tubeEndClip,
+                ref tubeStartView,
+                ref tubeEndView,
+                startPointInsideFrustrum,
+                bottomFrustumClipInterpolation);
         }
 
         // Top frustrum
@@ -126,10 +149,18 @@ public sealed class LightObjectBloomFog : LightObject
             ZeroQuad(ref quad);
             return;
         }
+
         if (startPointInsideFrustrum != endPointInsideFrustrum)
         {
-            var topFrustumClipInterpolation = (tubeStartClip.w - tubeStartClip.y) / (tubeEndClip.y - tubeStartClip.y - tubeEndClip.w + tubeStartClip.w);
-            ClipPoints(ref tubeStartClip, ref tubeEndClip, ref tubeStartView, ref tubeEndView, startPointInsideFrustrum, topFrustumClipInterpolation);
+            var topFrustumClipInterpolation = (tubeStartClip.w - tubeStartClip.y)
+                / (tubeEndClip.y - tubeStartClip.y - tubeEndClip.w + tubeStartClip.w);
+            ClipPoints(
+                ref tubeStartClip,
+                ref tubeEndClip,
+                ref tubeStartView,
+                ref tubeEndView,
+                startPointInsideFrustrum,
+                topFrustumClipInterpolation);
         }
 
         // Far plane
@@ -140,10 +171,18 @@ public sealed class LightObjectBloomFog : LightObject
             ZeroQuad(ref quad);
             return;
         }
+
         if (startPointInsideFrustrum != endPointInsideFrustrum)
         {
-            var farPlaneClipInterpolation = (tubeStartClip.w - tubeStartClip.z) / (tubeEndClip.z - tubeStartClip.z - tubeEndClip.w + tubeStartClip.w);
-            ClipPoints(ref tubeStartClip, ref tubeEndClip, ref tubeStartView, ref tubeEndView, startPointInsideFrustrum, farPlaneClipInterpolation);
+            var farPlaneClipInterpolation = (tubeStartClip.w - tubeStartClip.z)
+                / (tubeEndClip.z - tubeStartClip.z - tubeEndClip.w + tubeStartClip.w);
+            ClipPoints(
+                ref tubeStartClip,
+                ref tubeEndClip,
+                ref tubeStartView,
+                ref tubeEndView,
+                startPointInsideFrustrum,
+                farPlaneClipInterpolation);
         }
 
         // Near plane (with small epsilon for precision)
@@ -154,11 +193,20 @@ public sealed class LightObjectBloomFog : LightObject
             ZeroQuad(ref quad);
             return;
         }
+
         if (startPointInsideFrustrum != endPointInsideFrustrum)
         {
-            var nearPlaneClipInterpolation = (-tubeStartClip.w - tubeStartClip.z) / (tubeEndClip.z - tubeStartClip.z + tubeEndClip.w - tubeStartClip.w);
-            ClipPoints(ref tubeStartClip, ref tubeEndClip, ref tubeStartView, ref tubeEndView, startPointInsideFrustrum, nearPlaneClipInterpolation);
+            var nearPlaneClipInterpolation = (-tubeStartClip.w - tubeStartClip.z)
+                / (tubeEndClip.z - tubeStartClip.z + tubeEndClip.w - tubeStartClip.w);
+            ClipPoints(
+                ref tubeStartClip,
+                ref tubeEndClip,
+                ref tubeStartView,
+                ref tubeEndView,
+                startPointInsideFrustrum,
+                nearPlaneClipInterpolation);
         }
+
         #endregion
 
         // Convert to NDC space
@@ -174,7 +222,7 @@ public sealed class LightObjectBloomFog : LightObject
 
         // Prevent division by zero
         if (screenDirLength == 0) screenDirLength = 1E-06f;
-    
+
         // Normalize direction
         screenDirX /= screenDirLength;
         screenDirY /= screenDirLength;
@@ -204,11 +252,12 @@ public sealed class LightObjectBloomFog : LightObject
         var boostedG = color.g + BoostToWhite;
         var boostedB = color.b + BoostToWhite;
         var finalAlpha = color.a * IntensityMultiplier;
-        
+
         if (!Mathf.Approximately(LimitAlpha, 0f))
         {
             finalAlpha = Mathf.Clamp(finalAlpha, MinAlpha, MaxAlpha);
         }
+
         finalAlpha = Mathf.LinearToGammaSpace(finalAlpha);
 
         // Calculate vertex colors
@@ -257,7 +306,13 @@ public sealed class LightObjectBloomFog : LightObject
     private static void ZeroQuad(ref BloomfogQuad quad) => quad = default;
 
     // Clip the line segment against a single frustum plane
-    private static void ClipPoints(ref Vector4 startClipPos, ref Vector4 endClipPos, ref Vector3 startViewPos, ref Vector3 endViewPos, bool startPointInsideFrustrum, float clipInterpolation)
+    private static void ClipPoints(
+        ref Vector4 startClipPos,
+        ref Vector4 endClipPos,
+        ref Vector3 startViewPos,
+        ref Vector3 endViewPos,
+        bool startPointInsideFrustrum,
+        float clipInterpolation)
     {
         if (startPointInsideFrustrum)
         {

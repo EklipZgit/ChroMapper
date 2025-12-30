@@ -18,21 +18,23 @@ public class EnvironmentDescriptor : MonoBehaviour
 
     public List<ChromaIDMarker> ChromaIDMarkers = new();
 
+    private bool hasInitialized;
+
     // below is old
     [Tooltip("If you want a thing to rotate around a 360 level with the track, place it here.")]
     public GridRotationController RotationController;
 
-    private void Start()
+    public void Initialize(BeatmapRuntimeContext context)
     {
+        hasInitialized = true;
         var rotationCallback = Resources.FindObjectsOfTypeAll<RotationCallbackController>().First();
-        var context = FindAnyObjectByType<BeatmapRuntimeContext>();
-        
+
         BasicEventEffectManager.Initialize(context.Atsc, context.ColorScheme);
         LightColorGroupEffectManager.Initialize(context.Atsc, context.ColorScheme);
         LightRotationGroupEffectManager.Initialize(context.Atsc);
         LightTranslationGroupEffectManager.Initialize(context.Atsc);
         FloatFxGroupEffectManager.Initialize(context.Atsc);
-        
+
         if (RotationController != null)
         {
             RotationController.RotationCallback = rotationCallback;
@@ -41,5 +43,14 @@ public class EnvironmentDescriptor : MonoBehaviour
 
         BasicLightEffect.FlashTimeBeat = context.Atsc.GetBeatFromSeconds(BasicLightEffect.FlashTimeSecond);
         BasicLightEffect.FadeTimeBeat = context.Atsc.GetBeatFromSeconds(BasicLightEffect.FadeTimeSecond);
+    }
+
+    public void Refresh()
+    {
+        BasicEventEffectManager.Refresh();
+        LightColorGroupEffectManager.Refresh();
+        LightRotationGroupEffectManager.Refresh();
+        LightTranslationGroupEffectManager.Refresh();
+        FloatFxGroupEffectManager.Refresh();
     }
 }

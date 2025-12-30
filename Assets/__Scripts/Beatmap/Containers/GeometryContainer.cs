@@ -5,6 +5,7 @@ using Beatmap.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using SimpleJSON;
 using UnityEngine;
 
 namespace Beatmap.Containers
@@ -46,7 +47,7 @@ namespace Beatmap.Containers
             if (eh.Geometry != null)
             {
                 // Continue with geometry generation if the Geometry object is defined
-                GeneratePrimitiveGeometry(container, eh);
+                GeneratePrimitiveGeometry(container, eh, context);
             }
             else
             {
@@ -61,19 +62,18 @@ namespace Beatmap.Containers
             return container;
         }
 
-        private static void GeneratePrimitiveGeometry(GeometryContainer container, BaseEnvironmentEnhancement eh)
+        private static void GeneratePrimitiveGeometry(
+            GeometryContainer container,
+            BaseEnvironmentEnhancement eh,
+            BeatmapRuntimeContext ctx)
         {
             PrimitiveType type;
             if (eh.Geometry[eh.GeometryKeyType] == "Triangle")
-            {
                 type = PrimitiveType.Quad;
-            }
             else
             {
-                if (!Enum.TryParse<PrimitiveType>((string)eh.Geometry[eh.GeometryKeyType], out type))
-                {
+                if (!Enum.TryParse(eh.Geometry[eh.GeometryKeyType], out type))
                     Debug.LogError($"Invalid geometry type '{(string)eh.Geometry[eh.GeometryKeyType]}'!");
-                }
             }
 
             container.Shape = GameObject.CreatePrimitive(type);
@@ -84,18 +84,13 @@ namespace Beatmap.Containers
 
             if (eh.Geometry[eh.GeometryKeyType] == "Triangle")
             {
-                if (triangleMesh == null)
-                {
-                    triangleMesh = CreateTriangleMesh();
-                }
+                if (triangleMesh == null) triangleMesh = CreateTriangleMesh();
 
                 container.Shape.GetComponent<MeshFilter>().sharedMesh = triangleMesh;
                 container.SelectionRenderers[0].transform.localPosition = new Vector3(0, 0, 0.01f);
             }
             else if (type == PrimitiveType.Quad)
-            {
                 container.SelectionRenderers[0].transform.localPosition = new Vector3(0, 0, -0.01f);
-            }
 
             var mesh = container.Shape.GetComponent<MeshFilter>().sharedMesh;
             container.SelectionRenderers[0].GetComponent<MeshFilter>().sharedMesh = mesh;
@@ -112,94 +107,127 @@ namespace Beatmap.Containers
 
             container.Colliders.Add(intersection);
             container.Shape.transform.parent = container.Animator.AnimationThis.transform;
-            container.Shape.transform.localScale = 1.667f * Vector3.one;
+            container.Shape.transform.localScale = 5f / 3f * Vector3.one;
+
+            // Handle components if needed
+            var descriptor = ctx.Descriptor;
+            if (descriptor == null) return;
+
+            if (eh.Components?.HasKey("ILightWithId") ?? false)
+            {
+                var controller = container.Shape.AddComponent<LightController>();
+                var light = container.Shape.AddComponent<LightObject>();
+                light.Renderer = container.Shape.GetComponent<Renderer>();
+                controller.BoxLight = light;
+                controller.Type = eh.LightType ?? 0;
+                controller.ID = eh.LightID ?? -1;
+                descriptor.BasicEventEffectManager.Register(controller, false);
+            }
         }
 
-        private static void GenerateEnvironmentEnhancement(GeometryContainer container, BaseEnvironmentEnhancement eh, BeatmapRuntimeContext ctx)
+        private static void GenerateEnvironmentEnhancement(
+            GeometryContainer container,
+            BaseEnvironmentEnhancement eh,
+            BeatmapRuntimeContext ctx)
         {
             // Get descriptor of currently loaded environment
-            var environmentDescriptor = ctx.Descriptor;
+            var descriptor = ctx.Descriptor;
 
             // No environment? No enhancement.
-            if (environmentDescriptor == null) return;
+            if (descriptor == null) return;
 
             // Use the ID / Lookup method to find our target marker
-            var chromaIDMarkers = environmentDescriptor.ChromaIDMarkers;
-            var targetMarker = chromaIDMarkers.Find(marker => FindMarker(marker, eh));
+            var chromaIDMarkers = descriptor.ChromaIDMarkers;
+            // Yes, all the matching IDs, don't ask me why
+            var targetObjects = chromaIDMarkers.FindAll(marker => FindMarker(marker, eh));
 
-            // Bail out if we couldn't find it
-            if (targetMarker == null)
+            // Chroma precheck this and throws, but we don't care but we also do not want to destroy our PC
+            // Also if this value is a lil too low or inaccurate, feel free to increase
+            if (targetObjects.Count > 100)
             {
-                Debug.LogWarning($"Could not find target marker for environment enhancement {eh.ID}!");
+                Debug.LogError(
+                    "Extreme value reached, you are attempting to duplicate over 100 objects! Environment enhancements stopped");
                 return;
             }
 
             container.MaterialPropertyBlock ??= new MaterialPropertyBlock();
             container.RendererCount = 0;
 
-            // Gather a list of target objects.
-            // It must be a list because...
-            var targetObjects = new List<GameObject>() { targetMarker.gameObject };
-
             // We need to handle duplicates if defined!
             if (eh.Duplicate != null)
             {
-                // Clear the list - we will no longer affect the original object
-                targetObjects.Clear();
-
-                // Instantiate a copy and add that to our list.
+                // Because we are duplicating, we make a new target list
+                var newTargetObjects = new List<ChromaIDMarker>();
                 var duplicates = eh.Duplicate.Value;
-                for (var i = 0; i < duplicates; i++)
+                foreach (var obj in targetObjects)
                 {
-                    var duplicateObject = Instantiate(targetMarker.gameObject);
-                    targetObjects.Add(duplicateObject);
+                    for (var i = 0; i < duplicates; i++)
+                    {
+                        var duplicateObject = Instantiate(obj.gameObject, obj.transform.parent);
+                        var marker = duplicateObject.GetComponent<ChromaIDMarker>();
+                        marker.ChromaID = obj.ChromaID[..obj.ChromaID.LastIndexOf(']')] + marker.name;
+                        // descriptor.ChromaIDMarkers.Add(marker); // probably include, probably not, need to test
+                        newTargetObjects.Add(marker);
+                    }
                 }
+
+                targetObjects = newTargetObjects;
+            }
+
+            // lets pretend this is always valid
+            if (eh.Components?.HasKey("BloomFogEnvironment") ?? false)
+            {
+                var bloomFog = eh.Components["BloomFogEnvironment"];
+                if (bloomFog["attenuation"] != null) descriptor.BloomFogParams.Attenuation = bloomFog["attenuation"];
+                if (bloomFog["offset"] != null) descriptor.BloomFogParams.Offset = bloomFog["offset"];
+                if (bloomFog["startY"] != null) descriptor.BloomFogParams.StartY = bloomFog["startY"];
+                if (bloomFog["height"] != null) descriptor.BloomFogParams.Height = bloomFog["height"];
             }
 
             // Apply enhancements to each target object (original or duplicates)
             foreach (var targetObject in targetObjects)
             {
+                if (eh.Active != null) targetObject.gameObject.SetActive(eh.Active.AsBool);
+
                 // Parent to our animator but keep world transform
-                targetObject.transform.SetParent(container.Animator.AnimationThis.transform, true);
+                if (eh.Track != null)
+                {
+                    targetObject.transform.SetParent(container.Animator.AnimationThis.transform, true);
 
-                container.Animator.AnimationThis.transform.SetPositionAndRotation(
-                    targetObject.transform.position,
-                    targetObject.transform.rotation);
-                container.Animator.AnimationThis.transform.localScale = targetObject.transform.localScale;
+                    container.Animator.AnimationThis.transform.SetPositionAndRotation(
+                        targetObject.transform.position,
+                        targetObject.transform.rotation);
+                    container.Animator.AnimationThis.transform.localScale = targetObject.transform.localScale;
 
-                targetObject.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
-                targetObject.transform.localScale = Vector3.one * (5f / 3);
+                    targetObject.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+                    targetObject.transform.localScale = Vector3.one * (5f / 3);
 
-                // Reset layer to editor object layer
-                targetObject.layer = 9;
-
-                // Apply enhancement transforms
-                if (eh.Position != null)
-                {
-                    container.Animator.AnimationThis.transform.position = eh.Position.Value;
+                    // Apply enhancement transforms
+                    if (eh.Position != null) container.Animator.AnimationThis.transform.position = eh.Position.Value;
+                    if (eh.Rotation != null)
+                        container.Animator.AnimationThis.transform.rotation = Quaternion.Euler(eh.Rotation.Value);
+                    if (eh.Scale != null) container.Animator.AnimationThis.transform.localScale = eh.Scale.Value;
+                    if (eh.LocalPosition != null)
+                        container.Animator.AnimationThis.transform.localPosition = eh.LocalPosition.Value;
+                    if (eh.LocalRotation != null)
+                        container.Animator.AnimationThis.transform.localRotation =
+                            Quaternion.Euler(eh.LocalRotation.Value);
                 }
-                if (eh.Rotation != null)
+                else
                 {
-                    container.Animator.AnimationThis.transform.rotation = Quaternion.Euler(eh.Rotation.Value);
-                }
-                if (eh.Scale != null)
-                {
-                    container.Animator.AnimationThis.transform.localScale = eh.Scale.Value;
-                }
-                if (eh.LocalPosition != null)
-                {
-                    container.Animator.AnimationThis.transform.localPosition = eh.LocalPosition.Value;
-                }
-                if (eh.LocalRotation != null)
-                {
-                    container.Animator.AnimationThis.transform.localRotation = Quaternion.Euler(eh.LocalRotation.Value);
+                    if (eh.Position != null) targetObject.transform.position = eh.Position.Value;
+                    if (eh.Rotation != null) targetObject.transform.rotation = Quaternion.Euler(eh.Rotation.Value);
+                    if (eh.Scale != null) targetObject.transform.localScale = eh.Scale.Value;
+                    if (eh.LocalPosition != null) targetObject.transform.localPosition = eh.LocalPosition.Value;
+                    if (eh.LocalRotation != null)
+                        targetObject.transform.localRotation = Quaternion.Euler(eh.LocalRotation.Value);
                 }
 
                 // Add colliders to our container
                 var colliders = targetObject.GetComponentsInChildren<MeshFilter>();
                 foreach (var col in colliders)
                 {
-                    var intersection = targetObject.AddComponent<IntersectionCollider>();
+                    var intersection = targetObject.gameObject.AddComponent<IntersectionCollider>();
                     intersection.Mesh = col.sharedMesh;
                     container.Colliders.Add(intersection);
 
@@ -212,25 +240,20 @@ namespace Beatmap.Containers
                 }
 
                 // Handle components if needed
-                if (eh.Components != null)
+                foreach (var controller in targetObject.GetComponentsInChildren<BaseLightController>(true))
                 {
-                    if (eh.Components.HasKey("ILightWithID") && targetMarker.TryGetComponent<LightController>(out var lightController))
-                    {
-                        var lightWithID = eh.Components["ILightWithID"];
-                        var type = lightWithID["type"].AsInt;
-                        var lightID = lightWithID["lightID"].AsInt;
+                    if (eh.Duplicate == null) descriptor.BasicEventEffectManager.Unregister(controller);
 
-                        environmentDescriptor.BasicEventEffectManager.Register(type, lightID, lightController);
-                    }
+                    controller.Type = eh.LightType ?? controller.Type;
+                    controller.ID = eh.LightID ?? controller.ID;
 
-                    // TODO: Handle TubeBloomPrePassLight to update bloomfog intensity / color alpha multiplier
-                    // TODO: Handle BloomFogEnvironment to update environment bloom fog state
+                    descriptor.BasicEventEffectManager.Register(controller, false);
                 }
             }
         }
 
-        private static bool FindMarker(ChromaIDMarker marker, BaseEnvironmentEnhancement eh)
-            => eh.LookupMethod switch
+        private static bool FindMarker(ChromaIDMarker marker, BaseEnvironmentEnhancement eh) =>
+            eh.LookupMethod switch
             {
                 EnvironmentLookupMethod.Exact => marker.ChromaID == eh.ID,
                 EnvironmentLookupMethod.StartsWith => marker.ChromaID.StartsWith(eh.ID),
@@ -254,7 +277,7 @@ namespace Beatmap.Containers
 
             int[] triangles = { 0, 1, 2 };
 
-            var mesh = new Mesh() { vertices = vertices, uv = uv, triangles = triangles };
+            var mesh = new Mesh { vertices = vertices, uv = uv, triangles = triangles };
             mesh.RecalculateBounds();
             mesh.RecalculateNormals();
             mesh.RecalculateTangents();

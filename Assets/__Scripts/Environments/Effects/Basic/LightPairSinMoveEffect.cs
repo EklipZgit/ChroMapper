@@ -7,12 +7,7 @@ using Random = UnityEngine.Random;
 
 public class LightPairSinMoveEffect : BasicEventStateManager<LightRotationStateData>
 {
-    public Transform TransformL;
-    public Transform TransformR;
-
-    public int LeftEvent;
-    public int RightEvent;
-    public int SwitchEvent;
+    public TransformContainer[] Transforms = new TransformContainer[2];
 
     public bool OverrideRandomValues;
     public float StartValueOffset;
@@ -23,48 +18,35 @@ public class LightPairSinMoveEffect : BasicEventStateManager<LightRotationStateD
     private float randomStartOffset;
 
     private readonly Dictionary<int, TransformContainer> typeToContainer = new();
-    private readonly List<TransformContainer> actives = new();
-    private TransformContainer switchContainer;
+    private readonly TransformContainer switchContainer = new();
 
     private void Awake()
     {
-        foreach (var (type, tr, mirror) in new[]
-            {
-                (LeftEvent, TransformL, false), (RightEvent, TransformR, true), (SwitchEvent, null, false)
-            }
-            .Distinct())
+        Transforms[0].Side = 1f;
+        Transforms[1].Side = -1f;
+        foreach (var container in Transforms)
         {
-            var container = new TransformContainer { Mirror = mirror, Speed = 0f, Side = mirror ? -1f : 1f };
+            container.HasTransform = true;
 
-            if (tr != null)
-            {
-                container.HasTransform = true;
-                container.StartPosition = tr.localPosition;
-                container.StartMovementValue = StartValueOffset;
-                container.Transform = tr;
+            container.Speed = 0f;
+            container.StartPosition = container.Transform.localPosition;
+            container.StartMovementValue = StartValueOffset;
 
-                var vector = Vector3.LerpUnclamped(
-                    StartPositionOffset,
-                    EndPositionOffset,
-                    (Mathf.Sin(container.StartMovementValue) * 0.5f) + 0.5f);
-                vector.x *= container.Side;
-                container.Transform.localPosition = container.StartPosition + vector;
-
-                actives.Add(container);
-            }
-            else
-                switchContainer = container;
-
-            typeToContainer[type] = container;
+            var vector = Vector3.LerpUnclamped(
+                StartPositionOffset,
+                EndPositionOffset,
+                (Mathf.Sin(container.StartMovementValue) * 0.5f) + 0.5f);
+            vector.x *= container.Side;
+            container.Transform.localPosition = container.StartPosition + vector;
         }
     }
 
     private void Update()
     {
         var dt = Time.deltaTime;
-        for (var i = 0; i < actives.Count; i++)
+        for (var i = 0; i < Transforms.Length; i++)
         {
-            var container = actives[i];
+            var container = Transforms[i];
             if (!container.Enabled) continue;
             container.MovementValue += dt * container.Speed;
             var vec = Vector3.LerpUnclamped(
@@ -78,16 +60,25 @@ public class LightPairSinMoveEffect : BasicEventStateManager<LightRotationStateD
 
     public override void Initialize()
     {
-        foreach (var container in typeToContainer.Values) InitializeStates(container.Container);
+        typeToContainer.Clear();
+        foreach (var (type, container) in new[]
+            {
+                (Types[0], Transforms[0]), (Types[1], Transforms[1]), (Types.Count > 2 ? Types[2] : -1, switchContainer)
+            })
+        {
+            InitializeStates(container.Container);
+            if (type == -1) continue;
+            typeToContainer[type] = container;
+        }
     }
 
     public override void UpdateTime(float currentTime)
     {
         if (!switchContainer.Container.IsCurrentOrFindState(currentTime, Atsc.IsPlaying))
             UpdateSwitchEvent(switchContainer);
-        for (var index = 0; index < actives.Count; index++)
+        for (var i = 0; i < Transforms.Length; i++)
         {
-            var active = actives[index];
+            var active = Transforms[i];
             if (!active.Container.IsCurrentOrFindState(currentTime, Atsc.IsPlaying)) UpdateMoveEvent(active);
         }
     }
@@ -106,17 +97,17 @@ public class LightPairSinMoveEffect : BasicEventStateManager<LightRotationStateD
         OverrideRandomValues = container.Container.GetStateIndex(state) % 2 == 1;
         randomGenerationFrameNum = -1;
         UpdateRandom();
-        foreach (var active in actives)
+        foreach (var c in Transforms)
         {
-            active.MovementValue = randomStartOffset + active.StartMovementValue;
-            active.Speed = Mathf.Abs(active.Speed);
+            c.MovementValue = randomStartOffset + c.StartMovementValue;
+            c.Speed = Mathf.Abs(c.Speed);
         }
     }
 
     private void UpdateMoveEvent(TransformContainer container)
     {
         UpdateRandom();
-        UpdateMovement(container, container.Mirror ? -randomStartOffset : randomStartOffset);
+        UpdateMovement(container, randomStartOffset * container.Side);
     }
 
     private void UpdateMovement(
@@ -210,18 +201,19 @@ public class LightPairSinMoveEffect : BasicEventStateManager<LightRotationStateD
         }
     }
 
-    private class TransformContainer
+    [Serializable]
+    public class TransformContainer
     {
-        public bool Enabled;
-        public bool Mirror;
-        public bool HasTransform;
-
-        public float Speed;
-        public Vector3 StartPosition;
         public Transform Transform;
-        public float StartMovementValue;
-        public float MovementValue;
-        public float Side;
+
+        [NonSerialized] public bool Enabled;
+        [NonSerialized] public bool HasTransform;
+
+        [NonSerialized] public float Speed;
+        [NonSerialized] public Vector3 StartPosition;
+        [NonSerialized] public float StartMovementValue;
+        [NonSerialized] public float MovementValue;
+        [NonSerialized] public float Side;
 
         public readonly BasicEventStateChunksContainer<LightRotationStateData> Container = new();
     }

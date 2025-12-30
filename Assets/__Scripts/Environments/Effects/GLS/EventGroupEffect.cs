@@ -17,7 +17,6 @@ public abstract class
 
     public override void BuildFromData(IEnumerable<TGroup> dataList)
     {
-        Initialize();
         foreach (var data in dataList) InsertData(data);
     }
 

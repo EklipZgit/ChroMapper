@@ -2,6 +2,7 @@
 
 public class LightObjectMaterial : LightObject
 {
+    public bool SetAlphaOnly;
     public float AlphaIntensity;
     public bool AlphaIntoColor;
     public bool SetColorOnly;
@@ -10,22 +11,16 @@ public class LightObjectMaterial : LightObject
     public float ColorMultiplier;
     public float Alpha;
 
-    protected virtual void Start() => Mpb = new MaterialPropertyBlock();
-
-    public override void UpdateLighting(Color color)
+    public override void SetColor(Color color)
     {
-        Mpb.SetColor(colorId, ModifyColor(color));
-        Renderer.SetPropertyBlock(Mpb);
-    }
+        if (!HasInitialized) return;
 
-    protected virtual Color ModifyColor(Color color)
-    {
         var adjustedColor = color;
         color.a *= AlphaIntensity;
-        // if (SetAlphaOnly)
-        //     adjustedColor.a = color.a;
-        // else
-        adjustedColor = (AlphaIntoColor ? new Color(color.a, color.a, color.a) : color);
+        if (SetAlphaOnly)
+            adjustedColor.a = color.a;
+        else
+            adjustedColor = (AlphaIntoColor ? new Color(color.a, color.a, color.a) : color);
 
         if (SetColorOnly) adjustedColor.a = Alpha;
 
@@ -41,6 +36,7 @@ public class LightObjectMaterial : LightObject
             adjustedColor.b *= alpha;
         }
 
-        return adjustedColor;
+        Mpb.SetColor(colorId, adjustedColor);
+        Renderer.SetPropertyBlock(Mpb);
     }
 }

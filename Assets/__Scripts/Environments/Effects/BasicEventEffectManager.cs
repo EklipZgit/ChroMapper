@@ -18,10 +18,9 @@ public class BasicEventEffectManager : MonoBehaviour
 
     public void Initialize(AudioTimeSyncController atsc, ColorSchemeSO colorScheme)
     {
-        foreach (var manager in EventTypeToEffects.Values.SelectMany(x => x))
+        foreach (var manager in EventTypeToEffects.Values.SelectMany(x => x).Distinct())
         {
             manager.Atsc = atsc;
-            manager.Initialize();
             switch (manager)
             {
                 case BasicLightEffect blm:
@@ -37,7 +36,14 @@ public class BasicEventEffectManager : MonoBehaviour
                     tlrre.Effect.Manager.Atsc = atsc;
                     break;
             }
+
+            manager.Initialize();
         }
+    }
+
+    public void Refresh()
+    {
+        foreach (var manager in EventTypeToEffects.Values.SelectMany(x => x).Distinct()) manager.Initialize();
     }
 
     public IEnumerable<(int type, StateManager<BaseEvent> manager)> GetAllManagers() =>
@@ -61,17 +67,30 @@ public class BasicEventEffectManager : MonoBehaviour
         comp.Types.Add(type);
     }
 
-    public void Register(int type, int id, BaseLightController controller)
+    public void Register(BaseLightController controller, bool strict = true)
     {
-        if (effectEntries.Exists(entry => entry.Type == type && entry.Manager is BasicLightEffect))
+        if (effectEntries.Exists(entry => entry.Type == controller.Type && entry.Manager is BasicLightEffect))
         {
             var manager = effectEntries
-                .First(entry => entry.Type == type && entry.Manager is BasicLightEffect)
+                .First(entry => entry.Type == controller.Type && entry.Manager is BasicLightEffect)
                 .Manager as BasicLightEffect;
-            manager!.Register(controller, id);
+            manager!.Register(controller, strict);
         }
         else
-            throw new Exception("Could not find manager for type " + type);
+            throw new Exception("Could not find manager for type " + controller.Type);
+    }
+
+    public void Unregister(BaseLightController controller)
+    {
+        if (effectEntries.Exists(entry => entry.Type == controller.Type && entry.Manager is BasicLightEffect))
+        {
+            var manager = effectEntries
+                .First(entry => entry.Type == controller.Type && entry.Manager is BasicLightEffect)
+                .Manager as BasicLightEffect;
+            manager!.Unregister(controller);
+        }
+        else
+            throw new Exception("Could not find manager for type " + controller.Type);
     }
 }
 

@@ -56,8 +56,8 @@ public class LoadInitialMap : MonoBehaviour
         // if (customPlat)
         //     platform = CustomPlatformsLoader.Instance.LoadPlatform(info.CustomEnvironmentMetadata.Name, platform);
 
-        SceneManager.LoadScene(platform.ID, LoadSceneMode.Additive);
-        yield return new WaitUntil(() => SceneManager.GetSceneByName(platform.ID).isLoaded);
+        var sceneLoading = SceneManager.LoadSceneAsync(platform.ID, LoadSceneMode.Additive);
+        while (!sceneLoading.isDone) yield return null;
 
         var descriptor = FindAnyObjectByType<EnvironmentDescriptor>();
 

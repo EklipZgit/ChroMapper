@@ -7,4 +7,5 @@ public class BloomFogParams
     public float Height;
     public float StartY;
     public float Attenuation;
+    public float AutoExposureLimit;
 }

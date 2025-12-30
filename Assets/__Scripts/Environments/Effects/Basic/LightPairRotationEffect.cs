@@ -1,18 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Beatmap.Base;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class LightPairRotationEffect : BasicEventStateManager<LightRotationStateData>
 {
-    public Transform TransformL;
-    public Transform TransformR;
-
-    public int LeftEvent;
-    public int RightEvent;
-    public int SwitchEvent;
+    public TransformContainer[] Transforms = new TransformContainer[2];
 
     public Vector3 RotationVector;
 
@@ -26,45 +20,31 @@ public class LightPairRotationEffect : BasicEventStateManager<LightRotationState
     private float randomStartRotation;
     private float randomDirection;
 
+    private bool hasInitialized;
+
     private readonly Dictionary<int, TransformContainer> typeToContainer = new();
-    private readonly List<TransformContainer> actives = new();
-    private TransformContainer switchContainer;
+    private readonly TransformContainer switchContainer = new();
 
     private void Awake()
     {
-        foreach (var (type, tr, mirror) in new[]
-            {
-                (LeftEvent, TransformL, false), (RightEvent, TransformR, true), (SwitchEvent, null, false)
-            }
-            .Distinct())
+        Transforms[1].Mirror = true;
+        foreach (var container in Transforms)
         {
-            var container = new TransformContainer
-            {
-                Speed = 0f, StartAngle = mirror ? -StartRotation : StartRotation, Mirror = mirror
-            };
+            container.HasTransform = true;
 
-            if (tr != null)
-            {
-                container.HasTransform = true;
-                container.Start = tr.rotation;
-                container.Transform = tr;
-                container.Transform.localRotation =
-                    container.Start * Quaternion.Euler(RotationVector * container.StartAngle);
-                actives.Add(container);
-            }
-            else
-                switchContainer = container;
-
-            typeToContainer[type] = container;
+            container.StartAngle = container.Mirror ? -StartRotation : StartRotation;
+            container.Start = container.Transform.rotation;
+            container.Transform.localRotation =
+                container.Start * Quaternion.Euler(RotationVector * container.StartAngle);
         }
     }
 
     private void Update()
     {
         var dt = Time.deltaTime;
-        for (var i = 0; i < actives.Count; i++)
+        for (var i = 0; i < Transforms.Length; i++)
         {
-            var container = actives[i];
+            var container = Transforms[i];
             if (!container.Enabled) continue;
             container.Angle += dt * container.Speed;
             container.Transform.localRotation = container.Start * Quaternion.Euler(RotationVector * container.Angle);
@@ -73,16 +53,25 @@ public class LightPairRotationEffect : BasicEventStateManager<LightRotationState
 
     public override void Initialize()
     {
-        foreach (var container in typeToContainer.Values) InitializeStates(container.Container);
+        typeToContainer.Clear();
+        foreach (var (type, container) in new[]
+            {
+                (Types[0], Transforms[0]), (Types[1], Transforms[1]), (Types.Count > 2 ? Types[2] : -1, switchContainer)
+            })
+        {
+            InitializeStates(container.Container);
+            if (type == -1) continue;
+            typeToContainer[type] = container;
+        }
     }
 
     public override void UpdateTime(float currentTime)
     {
         if (!switchContainer.Container.IsCurrentOrFindState(currentTime, Atsc.IsPlaying))
             UpdateSwitchEvent(switchContainer);
-        for (var index = 0; index < actives.Count; index++)
+        for (var index = 0; index < Transforms.Length; index++)
         {
-            var active = actives[index];
+            var active = Transforms[index];
             if (!active.Container.IsCurrentOrFindState(currentTime, Atsc.IsPlaying)) UpdateRotationEvent(active);
         }
     }
@@ -112,7 +101,7 @@ public class LightPairRotationEffect : BasicEventStateManager<LightRotationState
         var state = container.Container.CurrentState;
         OverrideRandomValues = container.Container.GetStateIndex(state) % 2 == 1;
         UpdateRandom();
-        foreach (var active in actives)
+        foreach (var active in Transforms)
         {
             active.Angle = active.Mirror
                 ? 0f - randomStartRotation + active.StartAngle
@@ -215,17 +204,19 @@ public class LightPairRotationEffect : BasicEventStateManager<LightRotationState
         }
     }
 
-    private class TransformContainer
+    [Serializable]
+    public class TransformContainer
     {
-        public bool Enabled;
-        public bool Mirror;
-        public bool HasTransform;
-
         public Transform Transform;
-        public float Speed;
-        public Quaternion Start;
-        public float StartAngle;
-        public float Angle;
+
+        [NonSerialized] public bool Enabled;
+        [NonSerialized] public bool Mirror;
+        [NonSerialized] public bool HasTransform;
+
+        [NonSerialized] public float Speed;
+        [NonSerialized] public Quaternion Start;
+        [NonSerialized] public float StartAngle;
+        [NonSerialized] public float Angle;
 
         public readonly BasicEventStateChunksContainer<LightRotationStateData> Container = new();
     }

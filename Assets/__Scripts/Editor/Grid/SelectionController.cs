@@ -707,7 +707,7 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
                     {
                         var max = events.TypeToManager[events.EventTypeToPropagate]
                                 .LaneToLightID
-                                .Length
+                                .Count
                             - 1;
 
                         var curLane = e.CustomLightID != null
@@ -731,7 +731,7 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
                             ?? -1;
                         var max = events.TypeToManager[events.EventTypeToPropagate]
                             .LaneToLightIDs
-                            .Length;
+                            .Count;
                         var newId = Math.Min(oldId + leftRight, max - 1);
 
                         if (newId < 0)

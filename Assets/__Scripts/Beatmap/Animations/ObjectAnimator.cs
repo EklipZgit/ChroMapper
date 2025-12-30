@@ -74,7 +74,7 @@ namespace Beatmap.Animations
                     track.AttachContainer(container);
                 }
 
-                GameObject.Destroy(AnimationTrack.gameObject);
+                Destroy(AnimationTrack.gameObject);
                 AnimationTrack = null;
                 AnimatedTrack = false;
             }
@@ -285,7 +285,7 @@ namespace Beatmap.Animations
             if (eh.Track != null)
             {
                 AddParent(eh.Track);
-                container.transform.SetParent(this.tracks[0].Track.ObjectParentTransform, false);
+                container.transform.SetParent(tracks[0].Track.ObjectParentTransform, false);
             }
 
             Context.Atsc.OnTimeChanged += OnTimeChanged;
@@ -320,7 +320,7 @@ namespace Beatmap.Animations
         {
             var track = TracksManager.GetAnimationTrack(name);
             track.AddChild(this);
-            this.tracks.Add(track);
+            tracks.Add(track);
         }
 
         private float? _time = null;

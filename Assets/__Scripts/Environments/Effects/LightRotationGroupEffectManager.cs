@@ -12,13 +12,18 @@ public class LightRotationGroupEffectManager : MonoBehaviour
 
     private void Awake() => IdToEffect = effectEntries.ToDictionary(x => x.Group, x => x.Effect);
 
-    public virtual void Initialize(AudioTimeSyncController atsc)
+    public void Initialize(AudioTimeSyncController atsc)
     {
         foreach (var lightRotationGroupEffect in IdToEffect.Values)
         {
             lightRotationGroupEffect.Atsc = atsc;
             lightRotationGroupEffect.Initialize();
         }
+    }
+
+    public void Refresh()
+    {
+        foreach (var effect in IdToEffect.Values) effect.Initialize();
     }
 
     public void Register(int group, int count)

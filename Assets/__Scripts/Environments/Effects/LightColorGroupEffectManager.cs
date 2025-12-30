@@ -11,7 +11,7 @@ public class LightColorGroupEffectManager : MonoBehaviour
 
     private void Awake() => IdToEffect = effectEntries.ToDictionary(x => x.Group, x => x.Effect);
 
-    public virtual void Initialize(AudioTimeSyncController atsc, ColorSchemeSO colorScheme)
+    public void Initialize(AudioTimeSyncController atsc, ColorSchemeSO colorScheme)
     {
         foreach (var effect in IdToEffect.Values)
         {
@@ -19,6 +19,11 @@ public class LightColorGroupEffectManager : MonoBehaviour
             effect.ColorScheme = colorScheme;
             effect.Initialize();
         }
+    }
+
+    public void Refresh()
+    {
+        foreach (var effect in IdToEffect.Values) effect.Initialize();
     }
 
     public LightColorGroupEffect Register(int group, int count)

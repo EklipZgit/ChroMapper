@@ -24,27 +24,18 @@ public class LightObjectParametric3SliceSprite : LightObject
         if (Renderer != null) Start();
     }
 
-    protected override void Start()
+    public override void SetColor(Color color)
     {
-        base.Start();
-        UpdateLighting(Color.blue);
-    }
+        if (!HasInitialized) return;
 
-    public override void UpdateLighting(Color color)
-    {
         var length = UseCollision ? Mathf.Min(CollisionLength, Length) : Length;
         var alphaEnd = Mathf.Lerp(AlphaStart, AlphaEnd, Mathf.InverseLerp(0f, Length, length));
 
-        Mpb.SetColor(colorId, ModifyColor(color));
+        color.a *= AlphaMultiplier;
+        color.a = Mathf.Max(color.a, MinAlpha);
+        Mpb.SetColor(colorId, color);
         Mpb.SetVector(alphaWidthId, new Vector4(AlphaStart, alphaEnd, WidthStart, WidthEnd));
         Mpb.SetVector(sizeParamsId, new Vector4(Width * WidthMultiplier, length, Center, Width * 2f * WidthMultiplier));
         Renderer.SetPropertyBlock(Mpb);
-    }
-
-    protected override Color ModifyColor(Color color)
-    {
-        color.a *= AlphaMultiplier;
-        color.a = Mathf.Max(color.a, MinAlpha);
-        return color;
     }
 }

@@ -18,11 +18,11 @@ public class LightController : BaseLightController
         useBloomFog = BloomFog != null;
     }
 
-    public override void UpdateColor(Color color)
+    public override void SetColor(Color color)
     {
         // These are basically cached null checks to avoid doing them every frame
-        if (useBoxLight) BoxLight.UpdateLighting(color);
-        if (useSpriteLight) SpriteLight.UpdateLighting(color);
-        if (useBloomFog) BloomFog.UpdateLighting(color);
+        if (useBoxLight) BoxLight.SetColor(color);
+        if (useSpriteLight) SpriteLight.SetColor(color);
+        if (useBloomFog) BloomFog.SetColor(color);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Beatmap.Base;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -10,7 +11,12 @@ public class LightRotationEffect : BasicEventStateManager<LightRotationStateData
 
     private readonly BasicEventStateChunksContainer<LightRotationStateData> container = new();
 
-    private void Start() => enabled = false;
+    private void Start()
+    {
+        // TODO: remove these later
+        TransformContainers = TransformContainers.Where(t => t.Transform != null).ToArray();
+        enabled = false;
+    }
 
     private void Update()
     {

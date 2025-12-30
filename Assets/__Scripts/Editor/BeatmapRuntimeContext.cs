@@ -28,6 +28,7 @@ public class BeatmapRuntimeContext : MonoBehaviour
             var listing = EnvironmentList.GetEnvironmentOrDefault(descriptor.ID);
             SetColorScheme(listing.ColorScheme);
             SetTracksDefinition(listing.TracksDefinition);
+            Descriptor.Initialize(this);
         }
 
         NotifyEnvironment();

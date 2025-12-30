@@ -17,7 +17,7 @@ namespace Beatmap.Appearances
 
         private static BaseMaterial standard;
 
-        public void OnEnable() => standard = new BaseMaterial{ Shader = "Standard" };
+        public void OnEnable() => standard = new BaseMaterial { Shader = "Standard" };
 
         public void SetGeometryAppearance(GeometryContainer container)
         {
@@ -26,7 +26,6 @@ namespace Beatmap.Appearances
             // Bail if not geometry - environment enhancement is handled elsewhere
             if (eh.Geometry == null) return;
 
-            var descriptor = container.Context.Descriptor;
             BaseMaterial basemat = standard;
             switch (eh.Geometry[eh.GeometryKeyMaterial])
             {
@@ -39,6 +38,7 @@ namespace Beatmap.Appearances
                             basemat = standard;
                         }
                     }
+
                     break;
                 case JSONObject obj:
                     basemat = new BaseMaterial(obj);
@@ -58,7 +58,7 @@ namespace Beatmap.Appearances
 
             var material = shader switch
             {
-                ShaderType.OpaqueLight  => lightOpaqueMaterial,
+                ShaderType.OpaqueLight => lightOpaqueMaterial,
                 ShaderType.TransparentLight => lightTransparentMaterial,
                 ShaderType.BaseWater => shinyMaterial,
                 ShaderType.BillieWater => shinyMaterial,
@@ -75,19 +75,10 @@ namespace Beatmap.Appearances
             }
 
             // For animating material color
-            if (basemat.Track is string track)
-            {
-                container.MaterialAnimator.AttachToMaterial(container, track);
-            }
+            if (basemat.Track is string track) container.MaterialAnimator.AttachToMaterial(container, track);
 
             meshRenderer.sharedMaterial = material;
             meshRenderer.SetPropertyBlock(container.MaterialPropertyBlock);
-
-            if (eh.Components?.HasKey("ILightWithId") ?? false)
-            {
-                var light = container.Shape.AddComponent<LightController>();
-                descriptor.BasicEventEffectManager.Register(eh.LightType ?? 0, eh.LightID ?? -1, light);
-            }
         }
 
         // Straight outta heck

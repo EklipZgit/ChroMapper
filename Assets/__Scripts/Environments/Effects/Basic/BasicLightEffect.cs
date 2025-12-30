@@ -20,12 +20,15 @@ public class BasicLightEffect : BasicEventStateManager<BasicLightStateData>
     [SerializeField] public bool LightOnStart;
     [SerializeField] public bool InvertColorScheme;
 
-    [SerializeField] private List<LightControllerEntry> controllerEntries = new();
+    [SerializeField] private List<BaseLightController> controllerEntries = new();
 
     private Dictionary<int, BaseLightController> lightIDToController;
-    public Dictionary<int, int> LightIDToLane; // we opt for dict because lightID can be arbitrary value
-    [NonSerialized] public int[] LaneToLightID;
-    [NonSerialized] public int[][] LaneToLightIDs; // this also refer to propID
+
+    public readonly Dictionary<int, int>
+        LightIDToLane = new(); // we opt for dict because lightID can be arbitrary value
+
+    public readonly List<int> LaneToLightID = new();
+    public readonly List<int[]> LaneToLightIDs = new(); // this also refer to propID
 
     private readonly Dictionary<BaseLightController, (LightColorTween tween,
             BasicEventStateChunksContainer<BasicLightStateData> container)>
@@ -34,53 +37,53 @@ public class BasicLightEffect : BasicEventStateManager<BasicLightStateData>
     private List<ChromaLiteData> chromaLiteDatas = new();
     private List<ChromaGradientData> chromaGradientDatas = new();
 
-    private void Start()
-    {
-        CalculateMapping();
-        ColorBoostEffect.OnStateChanged += HandleBoostChanged;
-    }
+    private void Start() => ColorBoostEffect.OnStateChanged += HandleBoostChanged;
 
     private void OnDestroy() => ColorBoostEffect.OnStateChanged -= HandleBoostChanged;
 
-    public void Register(BaseLightController controller, int id = -1)
+    public void Register(BaseLightController controller, bool strict = true)
     {
-        if (controllerEntries.Exists(l => l.Controller == controller))
+        if (controllerEntries.Exists(l => l == controller))
         {
             Debug.LogWarning($"{controller} is already registered in {this}");
             return;
         }
 
-        if (id != -1 && controllerEntries.Exists(l => l.ID == id))
+        if (strict && controller.ID != -1 && controllerEntries.Exists(l => l.ID == controller.ID))
         {
-            Debug.LogError($"{controller} ID {id} is already used in {this}");
+            Debug.LogError($"{controller} ID {controller.ID} is already used in {this}");
             return;
         }
 
-        if (id == -1) id = 0;
-        while (controllerEntries.Exists(l => l.ID == id)) id++;
-        controllerEntries.Add(new() { ID = id, Controller = controller });
+        if (controller.ID == -1) controller.ID = 0;
+        while (controllerEntries.Exists(l => l.ID == controller.ID)) controller.ID++;
+        controllerEntries.Add(controller);
     }
 
-    public void Unregister(BaseLightController lightController) =>
-        controllerEntries.RemoveAll(x => x.Controller == lightController);
+    public void Unregister(BaseLightController controller) => controllerEntries.Remove(controller);
 
     private void CalculateMapping()
     {
+        LaneToLightID.Clear();
+        LaneToLightIDs.Clear();
+        LightIDToLane.Clear();
+
         var ordered = controllerEntries.OrderBy(x => x.ID).ToList();
-        lightIDToController = ordered.ToDictionary(x => x.ID, x => x.Controller);
-        LaneToLightID = ordered.Select(x => x.ID).ToArray();
-        LaneToLightIDs = ordered
-            .GroupBy(x => Mathf.RoundToInt(x.Controller.transform.position.z))
-            .OrderBy(x => x.Key)
-            .Select(x => x.Select(y => y.ID).ToArray())
-            .ToArray();
-        LightIDToLane = ordered.ToDictionary(x => x.ID, x => Array.IndexOf(LaneToLightID, x.ID));
+        lightIDToController = ordered.ToDictionary(x => x.ID, x => x);
+        LaneToLightID.AddRange(ordered.Select(x => x.ID));
+        LaneToLightIDs.AddRange(
+            ordered
+                .GroupBy(x => Mathf.RoundToInt(x.transform.position.z))
+                .OrderBy(x => x.Key)
+                .Select(x => x.Select(y => y.ID).ToArray()));
+        foreach (var x in ordered) LightIDToLane[x.ID] = LaneToLightID.IndexOf(x.ID);
     }
 
     public override void Initialize()
     {
+        CalculateMapping();
         controllerToContainer.Clear();
-        foreach (var controller in controllerEntries.Select(x => x.Controller))
+        foreach (var controller in controllerEntries.Select(x => x))
         {
             controllerToContainer[controller] =
                 (new(), InitializeStates(new BasicEventStateChunksContainer<BasicLightStateData>()));
@@ -100,7 +103,7 @@ public class BasicLightEffect : BasicEventStateManager<BasicLightStateData>
             if (!container.IsCurrentOrFindState(currentTime, Atsc.IsPlaying))
                 UpdateObject(tween, container.CurrentState);
 
-            if (tween.UpdateTime(currentTime)) lightingObject.UpdateColor(tween.Color);
+            if (tween.UpdateTime(currentTime)) lightingObject.SetColor(tween.Color);
         }
     }
 

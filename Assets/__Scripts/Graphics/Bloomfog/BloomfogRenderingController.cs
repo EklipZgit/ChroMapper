@@ -19,8 +19,7 @@ public class BloomfogRenderingController : MonoBehaviour
 
     private int realBloomfogPasses = maxBloomfogPasses;
 
-    public void AssignToCamera(CameraController activeCamera)
-        => this.activeCamera = activeCamera.Camera;
+    public void AssignToCamera(CameraController activeCamera) => this.activeCamera = activeCamera.Camera;
 
     private void Start()
     {
@@ -79,7 +78,8 @@ public class BloomfogRenderingController : MonoBehaviour
     private void HandleEnvironmentLoaded(EnvironmentDescriptor descriptor)
     {
         if (descriptor == null) return;
-        UpdateBloomFogParams(1000f,
+        UpdateBloomFogParams(
+            descriptor.BloomFogParams.AutoExposureLimit,
             descriptor.BloomFogParams.Offset,
             descriptor.BloomFogParams.Height,
             descriptor.BloomFogParams.StartY,
@@ -95,7 +95,12 @@ public class BloomfogRenderingController : MonoBehaviour
         Settings.ClearSettingNotifications(nameof(Settings.CameraFOV));
     }
 
-    private void UpdateBloomFogParams(float autoExposureLimit, float offset, float height, float startY, float attenuation)
+    private void UpdateBloomFogParams(
+        float autoExposureLimit,
+        float offset,
+        float height,
+        float startY,
+        float attenuation)
     {
         autoExposeMaterial.SetFloat("_AutoExposureLimit", autoExposureLimit);
         Shader.SetGlobalFloat("_CustomFogOffset", offset);

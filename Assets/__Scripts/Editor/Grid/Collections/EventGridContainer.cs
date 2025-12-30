@@ -77,8 +77,8 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
             {
                 propagationLength =
                     (value == PropMode.Light
-                        ? lightingManager.LaneToLightID?.Length
-                        : lightingManager.LaneToLightIDs?.Length)
+                        ? lightingManager.LaneToLightID?.Count
+                        : lightingManager.LaneToLightIDs?.Count)
                     ?? 0;
             }
 

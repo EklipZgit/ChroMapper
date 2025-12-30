@@ -113,6 +113,7 @@ public class EnvFogDefinition
     public float Height;
     public float StartY;
     public float Attenuation;
+    public float AutoExposureLimit;
 
     public void CopyTo(BloomFogParams copy)
     {
@@ -120,6 +121,7 @@ public class EnvFogDefinition
         copy.Height = Height;
         copy.StartY = StartY;
         copy.Attenuation = Attenuation;
+        copy.AutoExposureLimit = AutoExposureLimit;
     }
 }
 

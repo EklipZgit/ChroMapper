@@ -75,6 +75,12 @@ public class MapLoader : MonoBehaviour
             events.LoadAll();
         }
 
+        if (objects is List<BaseEnvironmentEnhancement> && objects.Count > 0)
+        {
+            var context = Resources.FindObjectsOfTypeAll<BeatmapRuntimeContext>().FirstOrDefault();
+            context.NotifyEnvironment();
+        }
+
         collection.RefreshPool(true);
     }
 }

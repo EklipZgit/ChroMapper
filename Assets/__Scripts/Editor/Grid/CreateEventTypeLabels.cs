@@ -118,11 +118,9 @@ public class CreateEventTypeLabels : MonoBehaviour
     {
         if (!typeToManager.TryGetValue(type, out var manager)) return null;
 
-        var id = Array.FindIndex(
-            manager.LaneToLightIDs,
-            x => Array.Exists(
-                x,
-                y => Array.Exists(lightID, z => z == y)));
+        var id = manager.LaneToLightIDs.FindIndex(x => Array.Exists(
+            x,
+            y => Array.Exists(lightID, z => z == y)));
 
         return id != -1 ? id : null;
     }
@@ -131,7 +129,7 @@ public class CreateEventTypeLabels : MonoBehaviour
     {
         if (!typeToManager.TryGetValue(type, out var manager)) return Array.Empty<int>();
 
-        return 0 <= propID && propID < manager.LaneToLightIDs.Length
+        return 0 <= propID && propID < manager.LaneToLightIDs.Count
             ? manager.LaneToLightIDs[propID]
             : Array.Empty<int>();
     }

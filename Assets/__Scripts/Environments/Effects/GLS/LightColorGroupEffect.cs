@@ -132,7 +132,7 @@ public class
             }
 
             if (!container.Tween.UpdateTime(time)) continue;
-            foreach (var controller in container.Lights) controller.UpdateColor(container.Tween.Color);
+            foreach (var controller in container.Lights) controller.SetColor(container.Tween.Color);
         }
     }
 

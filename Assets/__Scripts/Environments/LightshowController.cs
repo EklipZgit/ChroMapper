@@ -64,9 +64,9 @@ public class LightshowController : MonoBehaviour, IBeatmapUpdate
     {
     }
 
-    private void PopulateLightshow()
+    public void PopulateLightshow()
     {
-        // context.Descriptor.Reset();
+        context.Descriptor.Refresh();
 
         var events = Mode == LightshowMode.Static
             ? context
@@ -81,8 +81,8 @@ public class LightshowController : MonoBehaviour, IBeatmapUpdate
                 ? BeatSaberSongContainer.Instance.Map.Events
                 : new();
 
-        foreach (var (type, manager) in context.Descriptor.BasicEventEffectManager.GetAllManagers())
-            manager.BuildFromData(events.Where(e => e.Type == type));
+        foreach (var (type, effect) in context.Descriptor.BasicEventEffectManager.GetAllManagers().Distinct())
+            effect.BuildFromData(events.Where(e => e.Type == type));
 
         foreach (var (id, effect) in context.Descriptor.LightColorGroupEffectManager.IdToEffect)
         {
@@ -108,10 +108,7 @@ public class LightshowController : MonoBehaviour, IBeatmapUpdate
                 BeatSaberSongContainer.Instance.Map.VfxEventBoxGroups.Where(g => g.ID == id));
         }
 
-        foreach (var manager in context.Descriptor.BasicEventEffectManager.EventTypeToEffects.Values
-            .SelectMany(managers =>
-                managers))
-            manager.UpdateDirty();
+        foreach (var effect in activeEffects) effect.UpdateTime(context.Atsc.CurrentSongBpmTime);
     }
 
     private void UpdateTimeByMode()

@@ -318,32 +318,21 @@ public partial class EnvironmentSceneCreator
                 var rT = chromaIdObjects[lpreData.TransformR].transform;
 
                 var lpre = go.AddComponent<LightPairRotationEffect>();
-
-                lpre.TransformL = lT;
-                lpre.TransformR = rT;
+                lpre.Transforms =
+                    new LightPairRotationEffect.TransformContainer[]
+                    {
+                        new() { Transform = lT }, new() { Transform = rT }
+                    };
                 lpre.RotationVector = FloatArrayToVector3(lpreData.RotationVector);
                 lpre.OverrideRandomValues = lpreData.OverrideRandomValues;
                 lpre.UseZPositionForAngleOffset = lpreData.UseZPositionForAngleOffset;
                 lpre.ZPositionAngleOffsetScale = lpreData.ZPositionAngleOffsetScale;
                 lpre.StartRotation = lpreData.StartRotation;
 
-                if (ConvertUtils.ToEventType(lpreData.EventTypeL, out var res) && res != -1)
-                {
-                    lpre.LeftEvent = res;
-                    beec.Register(res, lpre);
-                }
-
-                if (ConvertUtils.ToEventType(lpreData.EventTypeR, out res) && res != -1)
-                {
-                    lpre.RightEvent = res;
-                    beec.Register(res, lpre);
-                }
-
+                if (ConvertUtils.ToEventType(lpreData.EventTypeL, out var res) && res != -1) beec.Register(res, lpre);
+                if (ConvertUtils.ToEventType(lpreData.EventTypeR, out res) && res != -1) beec.Register(res, lpre);
                 if (ConvertUtils.ToEventType(lpreData.SwitchOverrideRandomValuesEvent, out res) && res != -1)
-                {
-                    lpre.SwitchEvent = res;
                     beec.Register(res, lpre);
-                }
             }
         }
 
@@ -357,32 +346,20 @@ public partial class EnvironmentSceneCreator
                 var rT = chromaIdObjects[lpsmeData.TransformR].transform;
 
                 var lpsme = go.AddComponent<LightPairSinMoveEffect>();
-
-                lpsme.TransformL = lT;
-                lpsme.TransformR = rT;
-
+                lpsme.Transforms =
+                    new LightPairSinMoveEffect.TransformContainer[]
+                    {
+                        new() { Transform = lT }, new() { Transform = rT }
+                    };
                 lpsme.OverrideRandomValues = lpsmeData.OverrideRandomValues;
                 lpsme.StartValueOffset = lpsmeData.StartValueOffset;
                 lpsme.StartPositionOffset = FloatArrayToVector3(lpsmeData.StartPositionOffset);
                 lpsme.EndPositionOffset = FloatArrayToVector3(lpsmeData.EndPositionOffset);
 
-                if (ConvertUtils.ToEventType(lpsmeData.EventTypeL, out var res) && res != -1)
-                {
-                    lpsme.LeftEvent = res;
-                    beec.Register(res, lpsme);
-                }
-
-                if (ConvertUtils.ToEventType(lpsmeData.EventTypeR, out res) && res != -1)
-                {
-                    lpsme.RightEvent = res;
-                    beec.Register(res, lpsme);
-                }
-
+                if (ConvertUtils.ToEventType(lpsmeData.EventTypeL, out var res) && res != -1) beec.Register(res, lpsme);
+                if (ConvertUtils.ToEventType(lpsmeData.EventTypeR, out res) && res != -1) beec.Register(res, lpsme);
                 if (ConvertUtils.ToEventType(lpsmeData.SwitchOverrideRandomValuesEvent, out res) && res != -1)
-                {
-                    lpsme.SwitchEvent = res;
                     beec.Register(res, lpsme);
-                }
             }
         }
 
@@ -393,7 +370,7 @@ public partial class EnvironmentSceneCreator
             return new Vector2(array[0], array[1]);
         }
 
-        Vector2 FloatArrayToVector3(float[] array)
+        Vector3 FloatArrayToVector3(float[] array)
         {
             return new Vector3(array[0], array[1], array[2]);
         }
@@ -417,7 +394,9 @@ public partial class EnvironmentSceneCreator
                     && remap.TryGetValue(orderId.ToString(), out var newId))
                     orderId = newId;
 
-                beec.Register(type, orderId, controller);
+                controller.Type = type;
+                controller.ID = orderId;
+                beec.Register(controller);
                 return;
             }
 

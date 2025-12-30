@@ -20,6 +20,11 @@ public class FloatFxGroupEffectManager : MonoBehaviour
         }
     }
 
+    public void Refresh()
+    {
+        foreach (var effect in IdToEffect.Values) effect.Initialize();
+    }
+
     public FloatFxGroupEffect Register(int group, int count)
     {
         if (effectEntries.Any(x => x.Group == group)) return effectEntries.First(x => x.Group == group).Effect;

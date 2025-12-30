@@ -12,13 +12,18 @@ public class LightTranslationGroupEffectManager : MonoBehaviour
 
     private void Awake() => IdToEffect = effectEntries.ToDictionary(x => x.Group, x => x.Effect);
 
-    public virtual void Initialize(AudioTimeSyncController atsc)
+    public void Initialize(AudioTimeSyncController atsc)
     {
         foreach (var LightTranslationGroupEffect in IdToEffect.Values)
         {
             LightTranslationGroupEffect.Atsc = atsc;
             LightTranslationGroupEffect.Initialize();
         }
+    }
+
+    public void Refresh()
+    {
+        foreach (var effect in IdToEffect.Values) effect.Initialize();
     }
 
     public void Register(int group, int count, Vector2[] translationLimits, Vector2[] distributionLimits)
