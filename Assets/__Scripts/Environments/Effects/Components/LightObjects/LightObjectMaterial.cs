@@ -40,3 +40,17 @@ public class LightObjectMaterial : LightObject
         Renderer.SetPropertyBlock(Mpb);
     }
 }
+
+public class LightObjectInstancedMaterial : LightObject
+{
+    public override void SetColor(Color color)
+    {
+        if (!HasInitialized) return;
+
+        var adjustedColor = color;
+        adjustedColor *= Multiply;
+
+        Mpb.SetColor(colorId, adjustedColor);
+        Renderer.SetPropertyBlock(Mpb);
+    }
+}

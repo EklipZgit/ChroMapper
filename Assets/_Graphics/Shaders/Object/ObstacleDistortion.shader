@@ -159,14 +159,6 @@
                 color *= 0.2;
                 color.a = 0;
 
-                float _FogScale = 5;
-                float _FogAttenuation = 0.00002;
-                float distance = length(i.worldPos - _WorldSpaceCameraPos);
-                float factor = max(dot(distance, distance), 0);
-                factor = max(factor * _FogScale, 0);
-                factor = 1 / (factor * _FogAttenuation + 1);
-                // return float4(factor.xxx, 0);
-
                 // float2 halfUv = 0.5 - abs(0.5 - i.uv);
                 float2 screenUV = i.screenPos.xy / i.screenPos.w;
                 // obstacle distortion need to be stable, cannot be based on screen space position
@@ -179,7 +171,6 @@
                     _DistortionStrength;
 
                 fixed4 col = (color * 0.5) + tex2D(_GrabTexture, screenUV);
-                col = col * factor;
 
                 #ifdef CM_PREVIEW_MODE
                     #ifdef ENABLE_HEIGHT_FOG

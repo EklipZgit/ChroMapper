@@ -163,21 +163,21 @@ namespace Beatmap.Containers
             // Yes, all the matching IDs, don't ask me why
             var targetObjects = chromaIDMarkers.FindAll(marker => FindMarker(marker, eh));
 
-            // Chroma precheck this and throws, but we don't care but we also do not want to destroy our PC
-            // Also if this value is a lil too low or inaccurate, feel free to increase
-            if (targetObjects.Count > 100)
-            {
-                Debug.LogError(
-                    "Extreme value reached, you are attempting to duplicate over 100 objects! Environment enhancements stopped");
-                return;
-            }
-
             container.MaterialPropertyBlock ??= new MaterialPropertyBlock();
             container.RendererCount = 0;
 
             // We need to handle duplicates if defined!
             if (eh.Duplicate != null)
             {
+                // Chroma precheck this and throws, but we don't care but we also do not want to destroy our PC
+                // Also if this value is a lil too low or inaccurate, feel free to increase
+                if (targetObjects.Count > 100)
+                {
+                    Debug.LogError(
+                        "Extreme value reached, you are attempting to duplicate over 100 objects! Environment enhancements stopped");
+                    return;
+                }
+
                 // Because we are duplicating, we make a new target list
                 var newTargetObjects = new List<ChromaIDMarker>();
                 var duplicates = eh.Duplicate.Value;
@@ -222,7 +222,10 @@ namespace Beatmap.Containers
                     container.Animator.AnimationThis.transform.localScale = targetObject.transform.localScale;
 
                     targetObject.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
-                    targetObject.transform.localScale = Vector3.one * (5f / 3);
+                    if (BeatSaberSongContainer.Instance.Map.MajorVersion == 2)
+                        targetObject.transform.localScale = Vector3.one * (5f / 3);
+                    else
+                        targetObject.transform.localScale = Vector3.one;
 
                     // Apply enhancement transforms
                     if (eh.Position != null) container.Animator.AnimationThis.transform.position = eh.Position.Value;

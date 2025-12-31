@@ -109,6 +109,16 @@ public partial class EnvironmentSceneCreator
                             envObject.Components.MaterialLightWithId);
                     }
 
+                    if (envObject.Components.InstancedMaterialLightWithId != null)
+                    {
+                        HandleInstancedMaterialLightWithId(
+                            componentId[light.Name],
+                            arrayId,
+                            light.ID,
+                            go,
+                            envObject.Components.InstancedMaterialLightWithId);
+                    }
+
                     componentId[light.Name]++;
                 }
             }
@@ -526,13 +536,31 @@ public partial class EnvironmentSceneCreator
             lc.BoxLight = lom;
             lom.Renderer = go.GetComponent<Renderer>();
 
-            lom.AlphaIntensity = materialLight[0].AlphaIntensity;
-            lom.AlphaIntoColor = materialLight[0].AlphaIntoColor;
-            lom.SetColorOnly = materialLight[0].SetColorOnly;
-            lom.MultiplyColorWithAlpha = materialLight[0].MultiplyColorWithAlpha;
-            lom.MultiplyColor = materialLight[0].MultiplyColor;
-            lom.ColorMultiplier = materialLight[0].ColorMultiplier;
-            lom.Alpha = materialLight[0].Alpha;
+            lom.AlphaIntensity = materialLight[componentId].AlphaIntensity;
+            lom.AlphaIntoColor = materialLight[componentId].AlphaIntoColor;
+            lom.SetColorOnly = materialLight[componentId].SetColorOnly;
+            lom.MultiplyColorWithAlpha = materialLight[componentId].MultiplyColorWithAlpha;
+            lom.MultiplyColor = materialLight[componentId].MultiplyColor;
+            lom.ColorMultiplier = materialLight[componentId].ColorMultiplier;
+            lom.Alpha = materialLight[componentId].Alpha;
+
+            RegisterLight(arrayId + componentId, lightId, lc);
+        }
+
+        void HandleInstancedMaterialLightWithId(
+            int componentId,
+            int arrayId,
+            int lightId,
+            GameObject go,
+            InstancedMaterialLightWithIdComponent[] materialLight)
+        {
+            // If you get error here, just comment or return it out
+            var lc = go.AddComponent<LightController>();
+            var lom = go.AddComponent<LightObjectMaterial>();
+            lc.BoxLight = lom;
+            lom.Renderer = go.GetComponent<Renderer>();
+
+            lom.Multiply = materialLight[componentId].Intensity;
 
             RegisterLight(arrayId + componentId, lightId, lc);
         }

@@ -92,7 +92,7 @@
                 o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
                 o.customScreenPos = ComputeScreenPosCustom(o.pos);
                 o.cutoutPos = mul(unity_ObjectToWorld, v.vertex.xyz);
-                
+
                 return o;
             }
 
@@ -129,34 +129,23 @@
                 float c = noise - cutout;
                 clip(c);
 
-                float _FogScale = 5;
-                float _FogAttenuation = 0.00002;
-                float distance = length(i.worldPos - _WorldSpaceCameraPos);
-                float factor = max(dot(distance, distance), 0);
-                factor = max(factor * _FogScale, 0);
-                factor = 1 / (factor * _FogAttenuation + 1);
-                // factor = -factor + 1;
-
-                // return float4(factor.xxx, 0);
-
                 fixed4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
                 #ifdef CM_PREVIEW_MODE
                 fixed alpha = saturate(color.a);
                 #else
                 fixed alpha = 0.05;
                 #endif
-                
-                color = float4(log2(color.rgb + 1.0), alpha) * factor;
 
                 #ifdef CM_PREVIEW_MODE
-                    #ifdef ENABLE_HEIGHT_FOG
-                        BLOOM_FOG_HEIGHT_FOG_APPLY(color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset, _FogHeightScale);
-                    #else
-                        BLOOM_FOG_APPLY(color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
-                    #endif
+                #ifdef ENABLE_HEIGHT_FOG
+                BLOOM_FOG_HEIGHT_FOG_APPLY(color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,
+       _FogHeightOffset, _FogHeightScale);
+                #else
+                BLOOM_FOG_APPLY(color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
+                #endif
                 #endif
 
-                return color;
+                return saturate(log(1 + color));
             }
             ENDHLSL
         }
