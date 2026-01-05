@@ -303,6 +303,11 @@ public sealed class LightObjectBloomFog : LightObject
         quad.Vertex3UV = new Vector3(0, 1, EndWidth);
     }
 
+    /*private void OnDrawGizmosSelected()
+    {
+        Debug.Log(color);
+    }*/
+
     private static void ZeroQuad(ref BloomfogQuad quad) => quad = default;
 
     // Clip the line segment against a single frustum plane

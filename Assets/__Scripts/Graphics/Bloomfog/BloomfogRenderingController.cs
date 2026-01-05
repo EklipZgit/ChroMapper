@@ -2,22 +2,31 @@ using UnityEngine;
 
 public class BloomfogRenderingController : MonoBehaviour
 {
+    private const int prefilterPass = 0;
+    private const int downscalePass = 0;
+    private const int upscalePass = 1;
+    private const int finalUpscalePass = 2;
+
     private const int bloomFogResolution = 512;
-    private const int maxBloomfogPasses = 5;
+    private const int maxBloomfogPasses = 16;
 
     [SerializeField] private Shader blurShader;
-    [SerializeField] private Shader autoExposeShader;
     [SerializeField] private BeatmapRuntimeContext context;
     [SerializeField] private BloomfogRendererSO bloomfogRenderer;
+    [Space]
+    [SerializeField] private float bloomIntensity = 0.4f;
+    [SerializeField] private float bloomRadius = 16f;
+    [SerializeField] private float pyramidWeightsParam = 0.2f;
+    [SerializeField] private float downIntensityOffset = 1f;
+    [SerializeField] private float firstUpscaleBrightness = 1f;
+    [SerializeField] private float finalUpscaleBrightness = 1f;
 
     private Camera activeCamera;
     private Material blurMaterial;
-    private Material autoExposeMaterial;
 
-    private RenderTexture bloomPrePassTexture = null;
-    private RenderTexture[] bloomfogPassRTs = new RenderTexture[maxBloomfogPasses];
-
-    private int realBloomfogPasses = maxBloomfogPasses;
+    private RenderTexture bloomfogRaw = null;
+    private RenderTexture bloomfogTex = null;
+    private readonly Level[] bloomfogPasses = new Level[maxBloomfogPasses];
 
     public void AssignToCamera(CameraController activeCamera) => this.activeCamera = activeCamera.Camera;
 
@@ -27,7 +36,6 @@ public class BloomfogRenderingController : MonoBehaviour
         context.OnEnvironmentChanged += HandleEnvironmentLoaded;
 
         blurMaterial = new Material(blurShader);
-        autoExposeMaterial = new Material(autoExposeShader);
 
         Settings.NotifyBySettingName(nameof(Settings.HighQualityBloom), (_) => RegenerateRenderTexture());
 
@@ -45,34 +53,106 @@ public class BloomfogRenderingController : MonoBehaviour
     {
         if (renderingCamera != activeCamera) return;
 
-        // Render bloomfog to first RT pass
-        bloomfogRenderer.RenderToTexture(activeCamera, bloomfogPassRTs[0], out var textureToScreenRatio);
+        // Render bloomfog to raw texture
+        bloomfogRenderer.RenderToTexture(activeCamera, bloomfogRaw, out var textureToScreenRatio);
         Shader.SetGlobalVector("_CustomFogTextureToScreenRatio", textureToScreenRatio);
 
-        // Downscale
-        blurMaterial.SetFloat("_BloomfogAlpha", 1);
-        blurMaterial.SetFloat("_BloomfogBlurRadius", 0);
-        for (var i = 0; i < realBloomfogPasses - 1; i++)
+        // Low quality bloom uses half resolution to start
+        var qualityDownscale = Settings.Instance.HighQualityBloom ? 1 : 2;
+
+        // Gather descriptor for temporary render textures
+        var descriptor = new RenderTextureDescriptor
         {
-            blurMaterial.SetTexture("_BloomfogPrevTex", bloomfogPassRTs[i]);
-            Graphics.Blit(bloomfogPassRTs[i], bloomfogPassRTs[i + 1], blurMaterial);
+            width = bloomfogTex.width / qualityDownscale,
+            height = bloomfogTex.height / qualityDownscale,
+            volumeDepth = 1,
+            msaaSamples = 1,
+            dimension = UnityEngine.Rendering.TextureDimension.Tex2D,
+            colorFormat = RenderTextureFormat.ARGBFloat,
+            depthBufferBits = 0,
+            sRGB = false,
+            useMipMap = false,
+            autoGenerateMips = false,
+            enableRandomWrite = false
+        };
+
+        // Determine number of passes based on resolution and radius
+        var bloomfogPassFloat = Mathf.Log(Mathf.Max(descriptor.width, descriptor.height), 2f) + Mathf.Min(bloomRadius, 10f) - 10f;
+        var unclampedBloomfogPasses = Mathf.FloorToInt(bloomfogPassFloat);
+        var realBloomfogPasses = Mathf.Clamp(unclampedBloomfogPasses, 1, maxBloomfogPasses);
+        var blurRadius = 0.5f + bloomfogPassFloat - unclampedBloomfogPasses;
+
+        // Set up downscale parameters
+        blurMaterial.SetFloat("_BloomfogCombineDst", 1);
+        blurMaterial.SetFloat("_BloomfogCombineSrc", bloomIntensity);
+        blurMaterial.SetFloat("_BloomfogBlurRadius", blurRadius);
+
+        // Downscale
+        var downscaleSrc = bloomfogRaw;
+        for (var i = 0; i < realBloomfogPasses; i++)
+        {
+            // Pass 0 is prefilter, rest are downscale
+            var pass = i == 0 ? prefilterPass : downscalePass;
+
+            // Allocate temporary render texture for this pass
+            bloomfogPasses[i].down = RenderTexture.GetTemporary(descriptor);
+            if (i > 0)
+            {
+                bloomfogPasses[i].up = RenderTexture.GetTemporary(descriptor);
+            }
+
+            // Apply blur pass
+            blurMaterial.SetTexture("_BloomfogSrcTex", downscaleSrc);
+            Graphics.Blit(downscaleSrc, bloomfogPasses[i].down, blurMaterial, pass);
+
+            // Next source is current destination
+            downscaleSrc = bloomfogPasses[i].down;
+
+            // Downscale for next iteration
+            descriptor.width /= 2;
+            descriptor.height /= 2;
         }
+
+        // Set last downsample texture for auto exposure
+        blurMaterial.SetTexture("_BloomfogGlobalIntensityTex", downscaleSrc);
 
         // Upscale
-        var passes = 0;
-        for (var i = realBloomfogPasses - 1; i > 0; i--)
+        var upscaleSrc = bloomfogPasses[realBloomfogPasses - 1].down;
+        for (var i = realBloomfogPasses - 2; i >= 0; i--)
         {
-            //blurMaterial.SetFloat("_BloomfogAlpha", Mathf.Pow(0.5f, (float)i / realBloomfogPasses));
-            blurMaterial.SetFloat("_BloomfogAlpha", Mathf.Lerp(1.2f, 0.25f, (float)passes / realBloomfogPasses));
-            blurMaterial.SetFloat("_BloomfogBlurRadius", passes);
-            blurMaterial.SetTexture("_BloomfogPrevTex", bloomfogPassRTs[i]);
-            Graphics.Blit(bloomfogPassRTs[i], bloomfogPassRTs[i - 1], blurMaterial);
-            passes++;
+            var dstStrength = Mathf.Min(1f, Mathf.Pow(bloomIntensity * (i + 1) / (realBloomfogPasses - 1), pyramidWeightsParam));
+            var srcStrength = Mathf.Min(1f, 1 + downIntensityOffset - dstStrength);
+            var brightness = 1f;
+
+            if (i == 0)
+            {
+                brightness = finalUpscaleBrightness;
+            }
+            else if (i == realBloomfogPasses - 2)
+            {
+                brightness = firstUpscaleBrightness;
+            }
+
+            blurMaterial.SetFloat("_BloomfogCombineDst", dstStrength * brightness);
+            blurMaterial.SetFloat("_BloomfogCombineSrc", srcStrength * brightness);
+            blurMaterial.SetTexture("_BloomfogPrevTex", bloomfogPasses[i].down);
+            blurMaterial.SetTexture("_BloomfogSrcTex", upscaleSrc);
+
+            var upscaleDst = (i == 0) ? bloomfogTex : bloomfogPasses[i].up;
+            var shaderPass = (i == 0) ? finalUpscalePass : upscalePass;
+
+            Graphics.Blit(upscaleSrc, upscaleDst, blurMaterial, shaderPass);
+
+            // Update for next iteration - we cant release here as we still need the texture in prevTexture
+            upscaleSrc = upscaleDst;
         }
 
-        // Auto exposure into final output texture
-        autoExposeMaterial.SetTexture("_BloomfogPrevTex", bloomfogPassRTs[0]);
-        Graphics.Blit(bloomfogPassRTs[0], bloomPrePassTexture, autoExposeMaterial);
+        // Release all temporary render textures
+        for (var i = 0; i < realBloomfogPasses; i++)
+        {
+            RenderTexture.ReleaseTemporary(bloomfogPasses[i].down);
+            RenderTexture.ReleaseTemporary(bloomfogPasses[i].up);
+        }
     }
 
     private void HandleEnvironmentLoaded(EnvironmentDescriptor descriptor)
@@ -104,7 +184,7 @@ public class BloomfogRenderingController : MonoBehaviour
     {
         // TODO: do these also need to be scaled by whatever weird value we have?
         var scale = 5f / 3f;
-        autoExposeMaterial.SetFloat("_AutoExposureLimit", autoExposureLimit);
+        blurMaterial.SetFloat("_AutoExposureLimit", autoExposureLimit);
         Shader.SetGlobalFloat("_CustomFogOffset", offset);
         Shader.SetGlobalFloat("_CustomFogHeightFogStartY", startY);
         Shader.SetGlobalFloat("_CustomFogHeightFogHeight", height);
@@ -113,15 +193,14 @@ public class BloomfogRenderingController : MonoBehaviour
 
     private void ClearRenderTextures()
     {
-        if (bloomPrePassTexture != null)
+        if (bloomfogRaw != null)
         {
-            bloomPrePassTexture.Release();
-            bloomPrePassTexture = null;
+            bloomfogRaw.Release();
         }
 
-        foreach (var rt in bloomfogPassRTs)
+        if (bloomfogTex != null)
         {
-            if (rt != null) rt.Release();
+            bloomfogTex.Release();
         }
     }
 
@@ -134,33 +213,26 @@ public class BloomfogRenderingController : MonoBehaviour
         var width = bloomFogResolution / quality;
         var height = bloomFogResolution / quality;
 
-        // Create final render texture
-        bloomPrePassTexture = new RenderTexture(width, height, 0, RenderTextureFormat.ARGBFloat)
+        bloomfogTex = new RenderTexture(width, height, 0, RenderTextureFormat.ARGBFloat)
         {
+            name = "Bloomfog Final Texture",
             filterMode = FilterMode.Bilinear
         };
-        bloomPrePassTexture.Create();
+        bloomfogTex.Create();
 
-        realBloomfogPasses = 0;
-
-        // Create render textures for each pass
-        for (var i = 0; i < maxBloomfogPasses; i++)
+        bloomfogRaw = new RenderTexture(width, height, 0, RenderTextureFormat.ARGBFloat)
         {
-            // Stop if the texture is too small
-            if (width < 2 || height < 2) break;
+            name = "Bloomfog Raw Texture",
+            filterMode = FilterMode.Bilinear,
+        };
+        bloomfogRaw.Create();
 
-            var rt = new RenderTexture(width, height, 0, RenderTextureFormat.ARGBFloat)
-            {
-                filterMode = FilterMode.Bilinear
-            };
-            rt.Create();
-            bloomfogPassRTs[i] = rt;
+        Shader.SetGlobalTexture("_BloomPrePassTexture", bloomfogTex);
+    }
 
-            realBloomfogPasses++;
-            width /= 2;
-            height /= 2;
-        }
-
-        Shader.SetGlobalTexture("_BloomPrePassTexture", bloomPrePassTexture);
+    private struct Level
+    {
+        internal RenderTexture down;
+        internal RenderTexture up;
     }
 }
