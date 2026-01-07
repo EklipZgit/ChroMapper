@@ -558,6 +558,16 @@ MonoBehaviour:
     - TheWeekndEnvironment
     Unused: 0
     Ignored: 0
+  - Material: {fileID: 2100000, guid: 5d829523aba1dad59994d9e3dfb9a9ff, type: 2}
+    Hash: 1671584f0fa0155f82d94674c727a468
+    Name: Chevron
+    Shader: Custom/CustomParticles
+    Color: {r: 1, g: 1, b: 1, a: 1}
+    Keywords: []
+    Environments:
+    - ColdplayEnvironment
+    Unused: 0
+    Ignored: 0
   - Material: {fileID: 2100000, guid: 8571591f0ed4196ef9d1399bd5afba7f, type: 2}
     Hash: 9e8f00d8a53ade551481fb56077bec49
     Name: Chevron
@@ -579,16 +589,6 @@ MonoBehaviour:
     - MetallicaEnvironment
     - BritneyEnvironment
     - ColliderEnvironment
-    Unused: 0
-    Ignored: 0
-  - Material: {fileID: 2100000, guid: 5d829523aba1dad59994d9e3dfb9a9ff, type: 2}
-    Hash: 1671584f0fa0155f82d94674c727a468
-    Name: Chevron
-    Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
-    Keywords: []
-    Environments:
-    - ColdplayEnvironment
     Unused: 0
     Ignored: 0
   - Material: {fileID: 2100000, guid: fd2088703c4339965959426ec8968f71, type: 2}

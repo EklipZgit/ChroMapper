@@ -87,8 +87,8 @@ Material:
     - _CutoutSize: 4
     - _DstBlend: 0
     - _FogHeightOffset: 0
-    - _FogHeightScale: 1
-    - _FogScale: 1
+    - _FogHeightScale: 0.05
+    - _FogScale: 0.05
     - _FogStartOffset: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5
@@ -97,7 +97,7 @@ Material:
     - _Glow: 0.1
     - _Lit: 0
     - _Metallic: 0
-    - _ObjectTime: 209.02
+    - _ObjectTime: 0
     - _OcclusionStrength: 1
     - _OpaqueAlpha: 1
     - _OutlineWidth: 0.05

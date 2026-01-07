@@ -18,6 +18,7 @@
         Pass
         {
             Cull Off
+            ZWrite Off
             Lighting Off
             Blend SrcAlpha OneMinusSrcAlpha
 

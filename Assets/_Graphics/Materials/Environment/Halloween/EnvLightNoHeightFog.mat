@@ -31,8 +31,8 @@ Material:
     m_Floats:
     - ENABLE_HEIGHT_FOG: 0
     - _FogHeightOffset: 0
-    - _FogHeightScale: 1
-    - _FogScale: 1
+    - _FogHeightScale: 0.01
+    - _FogScale: 0.01
     - _FogStartOffset: 0
     m_Colors:
     - _AlphaWidth: {r: 1, g: 1, b: 1, a: 1}

@@ -82,6 +82,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - ENABLE_HEIGHT_FOG: 0
     - _AlphaClip: 0
     - _AlwaysTranslucent: 0
     - _Ambient: 1
@@ -94,9 +95,14 @@ Material:
     - _Cutout: 0
     - _CutoutEdgeGlow: 0.5
     - _CutoutEdgeWidth: 0.02
+    - _CutoutSize: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _Editor_IsPlaying: 0
+    - _FogHeightOffset: 0
+    - _FogHeightScale: 0.01
+    - _FogScale: 0.01
+    - _FogStartOffset: 0
     - _GlossMapScale: 0
     - _Glossiness: 0.71
     - _GlossyReflections: 1

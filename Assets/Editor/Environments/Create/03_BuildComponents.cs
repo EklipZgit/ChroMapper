@@ -1,9 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Beatmap.Enums;
-using Editor.Environments.Structures.Components;
 using Newtonsoft.Json;
 using UnityEditor;
 using UnityEngine;
@@ -56,9 +54,9 @@ public partial class EnvironmentSceneCreator
 
         var idRemapAsset =
             AssetDatabase.LoadAssetAtPath<TextAsset>(Path.Combine(editorPath, "LightIDTables", data.Data.ID + ".json"));
-        var idRemap = new Dictionary<string, Dictionary<string, int>>();
+        var typeIdRemap = new Dictionary<string, Dictionary<string, int>>();
         if (idRemapAsset != null)
-            idRemap = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, int>>>(idRemapAsset.text);
+            typeIdRemap = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, int>>>(idRemapAsset.text);
 
         var registeredLight = new HashSet<int>();
 
@@ -485,7 +483,7 @@ public partial class EnvironmentSceneCreator
                 controller.Kind = LightController.LightKind.Group;
                 controller.Type = lg.GroupId;
                 controller.ID = lightId - lg.StartLightId;
-                lcgem.Register(controller);
+                descriptor.Register(controller);
                 return;
             }
 
@@ -493,14 +491,14 @@ public partial class EnvironmentSceneCreator
             if (lsee != null)
             {
                 order += 1;
-                // if (idRemap.TryGetValue(lightId.ToString(), out var remap)
-                //     && remap.TryGetValue(order.ToString(), out var newOrder))
-                //     order = newOrder;
+                if (typeIdRemap.TryGetValue(lightId.ToString(), out var idRemap)
+                    && idRemap.TryGetValue(order.ToString(), out var newOrder))
+                    order = newOrder;
 
                 controller.Kind = LightController.LightKind.Basic;
                 controller.Type = ConvertUtils.ToEventType(lsee.EventType);
                 controller.ID = order;
-                beec.Register(controller);
+                descriptor.Register(controller, false);
                 return;
             }
 

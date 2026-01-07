@@ -102,8 +102,8 @@ Material:
     - _EnableHeightFog: 0
     - _EnvironmentReflections: 1
     - _FogHeightOffset: 0
-    - _FogHeightScale: 1
-    - _FogScale: 0.1
+    - _FogHeightScale: 0.01
+    - _FogScale: 0.01
     - _FogStartOffset: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.709

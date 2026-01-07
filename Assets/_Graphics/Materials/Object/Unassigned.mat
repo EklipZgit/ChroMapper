@@ -90,7 +90,7 @@ Material:
     - _AlphaClip: 0
     - _AlwaysTranslucent: 0
     - _Ambient: 1
-    - _AnimationSpawned: 0.97
+    - _AnimationSpawned: 0
     - _Blend: 0
     - _BumpScale: 1
     - _ColorMult: 1
@@ -105,8 +105,8 @@ Material:
     - _Editor_IsPlaying: 0
     - _FogEnd: 500
     - _FogHeightOffset: 0
-    - _FogHeightScale: 1
-    - _FogScale: 1
+    - _FogHeightScale: 0.01
+    - _FogScale: 0.01
     - _FogStart: 0
     - _FogStartOffset: 0
     - _GlossMapScale: 0

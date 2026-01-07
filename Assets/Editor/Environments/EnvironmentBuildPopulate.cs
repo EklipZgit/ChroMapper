@@ -121,6 +121,8 @@ public class EnvironmentBuildPopulate
             }
 
             matInfo.Material.SetColor("_Color", matInfo.Color);
+            matInfo.Material.SetFloat("_FogScale", 0.01f);
+            matInfo.Material.SetFloat("_FogHeightScale", 0.01f);
 
             matInfo.Material.enableInstancing = true;
         }
