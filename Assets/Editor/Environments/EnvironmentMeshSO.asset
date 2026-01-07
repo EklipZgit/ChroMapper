@@ -33,7 +33,7 @@ MonoBehaviour:
     BoundsCenter: {x: 0, y: 0.36073077, z: 1.5367014}
     Unused: 0
     Ignored: 0
-  - Mesh: {fileID: 0}
+  - Mesh: {fileID: -7628182941106214636, guid: f86c0fc3ce93ae06ea9c92a75d762390, type: 3}
     Hash: 019dd9d777dbf84a9951ed821db75ee0
     Names:
     - Disc
@@ -63,7 +63,7 @@ MonoBehaviour:
     BoundsCenter: {x: 0, y: -10.000001, z: 29.296268}
     Unused: 0
     Ignored: 0
-  - Mesh: {fileID: 0}
+  - Mesh: {fileID: 5116657784475969176, guid: 57b9fd33b981fb8e4b22531353035412, type: 3}
     Hash: 02e3fd41f4abf287188651f03ac93d00
     Names:
     - ScreenMesh
@@ -318,7 +318,7 @@ MonoBehaviour:
     BoundsCenter: {x: 0, y: 0, z: 0}
     Unused: 0
     Ignored: 0
-  - Mesh: {fileID: 0}
+  - Mesh: {fileID: -118424009166941876, guid: f86c0fc3ce93ae06ea9c92a75d762390, type: 3}
     Hash: 17d2f13b35d7e3d89dba8e608989c34b
     Names:
     - Orbit
@@ -625,7 +625,7 @@ MonoBehaviour:
     BoundsCenter: {x: 0, y: -0.06665039, z: 0}
     Unused: 0
     Ignored: 0
-  - Mesh: {fileID: 0}
+  - Mesh: {fileID: -1875780437015597444, guid: 57b9fd33b981fb8e4b22531353035412, type: 3}
     Hash: 27a101c5af08f3d6e0361fb0a48738a9
     Names:
     - ScreenSquareMesh
@@ -645,7 +645,7 @@ MonoBehaviour:
     BoundsCenter: {x: 0, y: 0, z: 123.57339}
     Unused: 0
     Ignored: 0
-  - Mesh: {fileID: 0}
+  - Mesh: {fileID: 6980050762359926242, guid: 52ee0da6675716d9191aafb4ba2b7d11, type: 3}
     Hash: 2a7191de7f2222aa2a63d893400ac9bf
     Names:
     - BTSConstruction
@@ -805,7 +805,7 @@ MonoBehaviour:
     BoundsCenter: {x: -0.02475667, y: -0.024300352, z: -0.0000009536743}
     Unused: 0
     Ignored: 0
-  - Mesh: {fileID: 0}
+  - Mesh: {fileID: 6980050762359926242, guid: 52ee0da6675716d9191aafb4ba2b7d11, type: 3}
     Hash: 36b2ce0fdab51e3ccceeff33f8af944d
     Names:
     - Construction_Kaleidoscope
@@ -1247,7 +1247,7 @@ MonoBehaviour:
     BoundsCenter: {x: 0, y: 0, z: 0}
     Unused: 0
     Ignored: 0
-  - Mesh: {fileID: 0}
+  - Mesh: {fileID: 5704420323510309740, guid: f86c0fc3ce93ae06ea9c92a75d762390, type: 3}
     Hash: 4e23d587f8cbc97e38c72883d39e7f55
     Names:
     - RunwayPieces
@@ -2502,7 +2502,7 @@ MonoBehaviour:
     BoundsCenter: {x: -0.000000014901161, y: 0, z: 0}
     Unused: 0
     Ignored: 0
-  - Mesh: {fileID: 0}
+  - Mesh: {fileID: -6698513248298829829, guid: 52ee0da6675716d9191aafb4ba2b7d11, type: 3}
     Hash: a0bbb3c796865cdbcf9353019aa626a5
     Names:
     - TrackMirror_BTS
@@ -2615,7 +2615,7 @@ MonoBehaviour:
     BoundsCenter: {x: 2.288333, y: 0.30772996, z: 5.8620396}
     Unused: 0
     Ignored: 0
-  - Mesh: {fileID: 0}
+  - Mesh: {fileID: 8817918488262685710, guid: f86c0fc3ce93ae06ea9c92a75d762390, type: 3}
     Hash: a735df9153d91e2e9b741191f0bc03cb
     Names:
     - TriWallConstruction
@@ -2696,7 +2696,7 @@ MonoBehaviour:
     BoundsCenter: {x: 0.00012290478, y: -6.264104, z: 130.41074}
     Unused: 0
     Ignored: 0
-  - Mesh: {fileID: 0}
+  - Mesh: {fileID: 7258109410040748789, guid: f86c0fc3ce93ae06ea9c92a75d762390, type: 3}
     Hash: ac1d23449bc538f1ba3544ba71c4c379
     Names:
     - SideLasersConstruction
@@ -2736,7 +2736,7 @@ MonoBehaviour:
     BoundsCenter: {x: 0, y: 0, z: 0}
     Unused: 0
     Ignored: 0
-  - Mesh: {fileID: 0}
+  - Mesh: {fileID: 7649823384841987304, guid: f86c0fc3ce93ae06ea9c92a75d762390, type: 3}
     Hash: ad8646412bfb117c3a327d6a8201902a
     Names:
     - FlareRect
@@ -3238,7 +3238,7 @@ MonoBehaviour:
     BoundsCenter: {x: 0, y: -56.372498, z: 0}
     Unused: 0
     Ignored: 0
-  - Mesh: {fileID: 0}
+  - Mesh: {fileID: 2443237146360861554, guid: f86c0fc3ce93ae06ea9c92a75d762390, type: 3}
     Hash: d10c109cb24ed186583de7906e16b8ed
     Names:
     - Triangle
@@ -3475,7 +3475,7 @@ MonoBehaviour:
     BoundsCenter: {x: 0.184124, y: 42.603, z: 26.829475}
     Unused: 0
     Ignored: 0
-  - Mesh: {fileID: 0}
+  - Mesh: {fileID: 2273851805500150652, guid: f33c16507a98ba311b77a2e126c96114, type: 3}
     Hash: deadefbe0e1d9ce029f456d4acaeccf0
     Names:
     - ConeBig
@@ -3712,7 +3712,7 @@ MonoBehaviour:
     BoundsCenter: {x: -0.0031901598, y: 0.22716343, z: -0.000000024214387}
     Unused: 0
     Ignored: 0
-  - Mesh: {fileID: 0}
+  - Mesh: {fileID: -6425891436909223755, guid: 57b9fd33b981fb8e4b22531353035412, type: 3}
     Hash: f1823e128f2d360c696a27e191cfcfa4
     Names:
     - LightPanelMesh
