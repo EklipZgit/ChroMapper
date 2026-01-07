@@ -271,12 +271,15 @@ namespace Beatmap.Containers
                 // Handle components if needed
                 foreach (var controller in targetObject.GetComponentsInChildren<LightController>(true))
                 {
-                    if (eh.Duplicate == null) descriptor.BasicEventEffectManager.Unregister(controller);
+                    if (eh.Duplicate == null) descriptor.Unregister(controller);
 
-                    controller.Type = eh.LightType ?? controller.Type;
-                    controller.ID = eh.LightID ?? controller.ID;
+                    if (controller.Kind == LightController.LightKind.Basic)
+                    {
+                        controller.Type = eh.LightType ?? controller.Type;
+                        controller.ID = eh.LightID ?? controller.ID;
+                    }
 
-                    descriptor.BasicEventEffectManager.Register(controller, false);
+                    descriptor.Register(controller, false);
 
                     if (eh.Components?.HasKey("TubeBloomPrePassLight") ?? false)
                     {

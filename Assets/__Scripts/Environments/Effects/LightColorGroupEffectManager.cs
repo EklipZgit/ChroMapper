@@ -71,16 +71,23 @@ public class LightColorGroupEffectManager : MonoBehaviour
     {
         if (effectEntries.Any(x => x.Group == group)) return effectEntries.First(x => x.Group == group).Effect;
         var effect = gameObject.AddComponent<LightColorGroupEffect>();
+        effect.ID = group;
         effect.Count = count;
         effectEntries.Add(new LightColorGroupEffectEntry { Group = group, Effect = effect });
         IdToEffect.Add(group, effect);
         return effect;
     }
 
-    public void Register(LightController controllable)
+    public void Register(LightController controller)
     {
-        if (controllable.Kind != LightController.LightKind.Group) return;
-        IdToEffect[controllable.Type].Register(controllable);
+        if (controller.Kind != LightController.LightKind.Group) return;
+        IdToEffect[controller.Type].Register(controller);
+    }
+
+    public void Unregister(LightController controller)
+    {
+        if (controller.Kind != LightController.LightKind.Group) return;
+        IdToEffect[controller.Type].Unregister(controller);
     }
 }
 

@@ -135,7 +135,7 @@ public class BasicEventEffectManager : MonoBehaviour
             manager!.Register(controller, strict);
         }
         else
-            throw new Exception("Could not find manager for type " + controller.Type);
+            Debug.LogError("Could not find manager for type " + controller.Type);
     }
 
     public void Unregister(LightController controller)
@@ -148,7 +148,7 @@ public class BasicEventEffectManager : MonoBehaviour
             manager!.Unregister(controller);
         }
         else
-            throw new Exception("Could not find manager for type " + controller.Type);
+            Debug.LogError("Could not find manager for type " + controller.Type);
     }
 }
 

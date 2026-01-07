@@ -24,8 +24,6 @@ public class
 
     public void Register(LightController controller) => lightEntries.Add(controller);
 
-    public void Unregister(int id) => lightEntries.Remove(lightEntries.Find(e => e.ID == id));
-
     public void Unregister(LightController controller) => lightEntries.Remove(controller);
 
     private void HandleBoostChange(bool boost)

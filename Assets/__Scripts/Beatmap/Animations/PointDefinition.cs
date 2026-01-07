@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using SimpleJSON;
 using Beatmap.Base.Customs;
+using UnityEngine.Animations;
 
 namespace Beatmap.Animations
 {

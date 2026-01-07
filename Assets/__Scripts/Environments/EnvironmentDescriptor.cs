@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -60,5 +61,36 @@ public class EnvironmentDescriptor : MonoBehaviour
         LightRotationGroupEffectManager.Refresh();
         LightTranslationGroupEffectManager.Refresh();
         FloatFxGroupEffectManager.Refresh();
+    }
+
+
+    public void Register(LightController controller, bool strict = true)
+    {
+        switch (controller.Kind)
+        {
+            case LightController.LightKind.Basic:
+                BasicEventEffectManager.Register(controller, strict);
+                break;
+            case LightController.LightKind.Group:
+                LightColorGroupEffectManager.Register(controller);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+    }
+
+    public void Unregister(LightController controller)
+    {
+        switch (controller.Kind)
+        {
+            case LightController.LightKind.Basic:
+                BasicEventEffectManager.Unregister(controller);
+                break;
+            case LightController.LightKind.Group:
+                LightColorGroupEffectManager.Unregister(controller);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
     }
 }
