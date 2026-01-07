@@ -1,3 +1,13 @@
+/*
+TODO:
+
+Okay so I admit that a lot of this can essentially be copy/pasted from CustomBloom.shader
+I reimplemented all of this not knowing how much could be reused, so now we're left with
+one nicely implemented shader (CustomBloom) and whatever mess this shader turned out to be.
+
+Whoops!
+*/
+
 Shader "Hidden/BloomfogBlurring"
 {
     Properties
@@ -12,6 +22,9 @@ Shader "Hidden/BloomfogBlurring"
         CGINCLUDE
         #include "UnityCG.cginc"
         #include "../CGIncludes/Blurs.cginc"
+        #include "../CGIncludes/CustomTonemapping.cginc"
+        #pragma multi_compile ACES_TONE_MAPPING
+        #pragma multi_compile REINHARD_TONE_MAPPING
 
         struct appdata
         {
@@ -82,7 +95,7 @@ Shader "Hidden/BloomfogBlurring"
         }
         ENDCG
 
-        // Downscale pass - kawase blur
+        // Downscale pass - 4-point box downsample
         Pass
         {
             CGPROGRAM
@@ -100,16 +113,14 @@ Shader "Hidden/BloomfogBlurring"
                 #endif
 
                 float2 texelSize = abs(_BloomfogSrcTex_TexelSize.xy);
-                float4 originalColor = tex2D(_BloomfogSrcTex, uv);
-
-                float4 blurColor = kawase(_BloomfogSrcTex, uv, _BloomfogBlurRadius, texelSize);
-
-                return combine(originalColor, blurColor);
+                
+                float4 downsampled = downsample4(_BloomfogSrcTex, uv, _BloomfogBlurRadius, texelSize);
+                return downsampled;
             }
             ENDCG
         }
 
-        // Upscale pass - box blur
+        // Upscale pass - tent upsample
         Pass
         {
             CGPROGRAM
@@ -125,20 +136,19 @@ Shader "Hidden/BloomfogBlurring"
                     uv.y = 1.0 - uv.y;
                 }
                 #endif
-
-                float4 originalColor = tex2D(_BloomfogPrevTex, uv);
+                
+                float4 srcColor = tex2D(_BloomfogSrcTex, uv);
                 float2 texelSize = abs(_BloomfogSrcTex_TexelSize.xy);
+                float4 upsampledBlur = upsampleTent(_BloomfogSrcTex, uv, _BloomfogBlurRadius, texelSize);
 
-                // Sample 5x5 box blur
-                float4 blurColor = box(_BloomfogSrcTex, uv, _BloomfogBlurRadius, texelSize, 1);
-                blurColor = autoExposure(blurColor, uv);
-
-                return combine(originalColor, blurColor);
+                float4 bloomColor = tex2D(_BloomfogPrevTex, uv);
+                float4 combined = combine(bloomColor, upsampledBlur);
+                return combined;
             }
             ENDCG
         }
 
-        // Final upscale pass - box blur + gamma correction
+        // Final upscale pass - tent upsample + ACES tone mapping
         Pass
         {
             CGPROGRAM
@@ -154,16 +164,18 @@ Shader "Hidden/BloomfogBlurring"
                     uv.y = 1.0 - uv.y;
                 }
                 #endif
-
-                float4 originalColor = tex2D(_BloomfogPrevTex, uv);
+                
+                // Use tent filter for high-quality upsampling
+                float4 srcColor = tex2D(_BloomfogSrcTex, uv);
                 float2 texelSize = abs(_BloomfogSrcTex_TexelSize.xy);
+                float4 upsampledBlur = upsampleTent(_BloomfogSrcTex, uv, _BloomfogBlurRadius, texelSize);
+                
+                float4 bloomColor = tex2D(_BloomfogPrevTex, uv);
 
-                // Sample 5x5 box blur
-                float4 blurColor = box(_BloomfogSrcTex, uv, _BloomfogBlurRadius, texelSize, 1);
-                blurColor = autoExposure(blurColor, uv);
-                blurColor.rgb = GammaToLinearSpace(blurColor.rgb);
-
-                return combine(originalColor, blurColor);
+                float4 combined = combine(bloomColor, upsampledBlur);
+                combined = autoExposure(combined, uv);
+                ACES_TONE_MAPPING_APPLY(combined);
+                return combined;
             }
             ENDCG
         }

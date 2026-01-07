@@ -7,7 +7,7 @@ Shader "ChroMapper/BloomfogMesh"
     SubShader
     {
         Tags { "RenderType"="Transparent" "Queue"="Transparent" }
-        Blend SrcAlpha OneMinusSrcAlpha
+        Blend One One
         LOD 100
 
         Pass
@@ -15,6 +15,7 @@ Shader "ChroMapper/BloomfogMesh"
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
+            #pragma multi_compile REINHARD_TONE_MAPPING
 
             #include "../CGIncludes/CustomTonemapping.cginc"
 
@@ -55,10 +56,8 @@ Shader "ChroMapper/BloomfogMesh"
                 float4 color = float4(i.uv1.xy, i.uv2.xy);
 
                 // Apply alpha mask
-                color *= tex2D(_BloomfogAlphaMask, i.uv).a;
-                
-                // Apply Reinhard tone mapping
-                REINHARD_TONE_MAPPING_APPLY(color)
+                color.rgb *= tex2D(_BloomfogAlphaMask, i.uv).a;
+                color.rgb *= color.a;
 
                 // Yeah this should be fine.
                 return color;

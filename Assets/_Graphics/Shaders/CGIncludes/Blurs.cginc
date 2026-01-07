@@ -1,40 +1,91 @@
+/*
+TODO:
+
+Yeah ok I didnt realize a lot of these were implemented elsewhere and this file as a whole is essentially redundant.
+At some point I need to uh.... clean this up and remove duplicates.
+*/
+
 #ifndef BLURS_INCLUDED
 #define BLURS_INCLUDED
 
-// Simple kawase blur
+// 4-point box downsample
+// Standard box filtering for downsampling - samples 4 points in a box pattern
+float4 downsample4(sampler2D blurTex, float2 uv, float radius, float2 texelSize)
+{
+    float4 d = texelSize.xyxy * float4(-1.0, -1.0, 1.0, 1.0) * radius;
+
+    float4 s;
+    s  = tex2D(blurTex, uv + d.xy);
+    s += tex2D(blurTex, uv + d.zy);
+    s += tex2D(blurTex, uv + d.xw);
+    s += tex2D(blurTex, uv + d.zw);
+
+    return s * 0.25;
+}
+
+// 9-tap bilinear upsample (tent filter)
+// Provides better quality upsampling with weighted samples
+float4 upsampleTent(sampler2D blurTex, float2 uv, float radius, float2 texelSize)
+{
+    float4 d = texelSize.xyxy * float4(1.0, 1.0, -1.0, 0.0) * radius * 0.5;
+
+    float4 s;
+    s  = tex2D(blurTex, uv - d.xy);
+    s += tex2D(blurTex, uv - d.wy) * 2.0;
+    s += tex2D(blurTex, uv - d.zy);
+
+    s += tex2D(blurTex, uv + d.zw) * 2.0;
+    s += tex2D(blurTex, uv       ) * 4.0;
+    s += tex2D(blurTex, uv + d.xw) * 2.0;
+
+    s += tex2D(blurTex, uv + d.zy);
+    s += tex2D(blurTex, uv + d.wy) * 2.0;
+    s += tex2D(blurTex, uv + d.xy);
+
+    return s * (1.0 / 16.0);
+}
+
+// Legacy kawase blur - kept for compatibility
 float4 kawase(sampler2D blurTex, float2 uv, float radius, float2 texelSize)
 {
     float4 blurColor = float4(0, 0, 0, 0);
-            
+    
+    // Center sample
     blurColor.rgb += tex2D(blurTex, uv).rgb;
+    
+    // Four diagonal samples
     blurColor.rgb += tex2D(blurTex, uv + float2(radius, radius) * texelSize).rgb;
     blurColor.rgb += tex2D(blurTex, uv + float2(-radius, radius) * texelSize).rgb;
     blurColor.rgb += tex2D(blurTex, uv + float2(radius, -radius) * texelSize).rgb;
     blurColor.rgb += tex2D(blurTex, uv + float2(-radius, -radius) * texelSize).rgb;
-            
-    blurColor.rgb /= 5.0;
+    
+    // Add axis-aligned samples for better coverage (9-tap)
+    blurColor.rgb += tex2D(blurTex, uv + float2(radius, 0) * texelSize).rgb;
+    blurColor.rgb += tex2D(blurTex, uv + float2(-radius, 0) * texelSize).rgb;
+    blurColor.rgb += tex2D(blurTex, uv + float2(0, radius) * texelSize).rgb;
+    blurColor.rgb += tex2D(blurTex, uv + float2(0, -radius) * texelSize).rgb;
+    
+    blurColor.rgb /= 9.0;
     
     return blurColor;
 }
 
-// Simple box blur
-// boxRadius defines how many pixels to sample in each direction
-// e.g., boxRadius of 1 samples a 3x3 grid, boxRadius of 2 samples a 5x5 grid, etc.
-// (yeah ill admit its not super intuitive but i didnt feel like manually adjusting the loops)
+// Legacy box blur - kept for compatibility
 float4 box(sampler2D blurTex, float2 uv, float radius, float2 texelSize, int boxRadius)
 {
     float4 blurColor = float4(0, 0, 0, 0);
+    int sampleCount = 0;
     
-    // TODO(Caeden): Can loops be unrolled if boxRadius is a parameter?
-    for (int x = -boxRadius; x < boxRadius; x++)
+    for (int x = -boxRadius; x <= boxRadius; x++)
     {
-        for (int y = -boxRadius; y < boxRadius; y++)
+        for (int y = -boxRadius; y <= boxRadius; y++)
         {
             blurColor.rgb += tex2D(blurTex, uv + (float2(x, y) * radius * texelSize)).rgb;
+            sampleCount++;
         }
     }
 
-    blurColor.rgb /= pow((boxRadius * 2), 2);
+    blurColor.rgb /= float(sampleCount);
     
     return blurColor;
 }

@@ -120,8 +120,8 @@ public class BloomfogRenderingController : MonoBehaviour
         var upscaleSrc = bloomfogPasses[realBloomfogPasses - 1].down;
         for (var i = realBloomfogPasses - 2; i >= 0; i--)
         {
-            var dstStrength = Mathf.Min(1f, Mathf.Pow(bloomIntensity * (i + 1) / (realBloomfogPasses - 1), pyramidWeightsParam));
-            var srcStrength = Mathf.Min(1f, 1 + downIntensityOffset - dstStrength);
+            var srcStrength = Mathf.Min(1f, Mathf.Pow(bloomIntensity * (i + 1) / (realBloomfogPasses - 1), pyramidWeightsParam));
+            var dstStrength = Mathf.Min(1f, 1 + downIntensityOffset - srcStrength);
             var brightness = 1f;
 
             if (i == 0)
@@ -133,8 +133,8 @@ public class BloomfogRenderingController : MonoBehaviour
                 brightness = firstUpscaleBrightness;
             }
 
-            blurMaterial.SetFloat("_BloomfogCombineDst", dstStrength * brightness);
             blurMaterial.SetFloat("_BloomfogCombineSrc", srcStrength * brightness);
+            blurMaterial.SetFloat("_BloomfogCombineDst", dstStrength * brightness);
             blurMaterial.SetTexture("_BloomfogPrevTex", bloomfogPasses[i].down);
             blurMaterial.SetTexture("_BloomfogSrcTex", upscaleSrc);
 
