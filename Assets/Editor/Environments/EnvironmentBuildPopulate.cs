@@ -83,7 +83,13 @@ public class EnvironmentBuildPopulate
             {
                 var shader = Shader.Find("ChroMapper/Missing");
                 if (TryGetShader(library.Shaders, matInfo.Shader, out var existingShader)) shader = existingShader;
-                var mat = new Material(shader);
+
+                // Create new material with gpu instancing enabled
+                // Shaders that dont support instancing should ignore the flag, but otherwise this should be free performance
+                var mat = new Material(shader)
+                {
+                    enableInstancing = true
+                };
 
                 if (matInfo.Environments.Count > 1)
                 {
