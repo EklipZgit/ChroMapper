@@ -4,9 +4,9 @@ public class BasicEventStateChunksContainer<T> : StateChunksContainer<T, BaseEve
 {
 }
 
-public abstract class BasicEventStateData : StateData<BaseEvent>
+public class BasicEventStateData : StateData<BaseEvent>
 {
-    protected BasicEventStateData(BaseEvent @base) : base(@base)
+    public BasicEventStateData(BaseEvent data) : base(data)
     {
     }
 }

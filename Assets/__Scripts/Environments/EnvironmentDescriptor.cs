@@ -1,8 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using Beatmap.Base;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EnvironmentDescriptor : MonoBehaviour
 {
@@ -43,6 +42,15 @@ public class EnvironmentDescriptor : MonoBehaviour
 
         BasicLightEffect.FlashTimeBeat = context.Atsc.GetBeatFromSeconds(BasicLightEffect.FlashTimeSecond);
         BasicLightEffect.FadeTimeBeat = context.Atsc.GetBeatFromSeconds(BasicLightEffect.FadeTimeSecond);
+    }
+
+    public void Reinitialize()
+    {
+        BasicEventEffectManager.Reinitialize();
+        LightColorGroupEffectManager.Reinitialize();
+        LightRotationGroupEffectManager.Reinitialize();
+        LightTranslationGroupEffectManager.Reinitialize();
+        FloatFxGroupEffectManager.Reinitialize();
     }
 
     public void Refresh()

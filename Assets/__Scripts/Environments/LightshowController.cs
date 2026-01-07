@@ -28,7 +28,31 @@ public class LightshowController : MonoBehaviour, IBeatmapUpdate
         context.Atsc.OnTimeChanged -= UpdateTime;
     }
 
-    private void HandleEnvironmentChanged(EnvironmentDescriptor desc)
+    private void HandleEnvironmentChanged(EnvironmentDescriptor _) => PopulateEffects();
+
+    private void HandleLevelLoaded()
+    {
+        PopulateEffects();
+        PopulateLightshow();
+    }
+
+    private void UpdateTime()
+    {
+        if (Mode != LightshowMode.Full) return;
+        UpdateTime(context.Atsc.CurrentSongBpmTime);
+    }
+
+    public void UpdateTime(float time)
+    {
+        for (var i = 0; i < activeSize; i++) activeEffects[i].UpdateTime(time);
+    }
+
+    public void Refresh()
+    {
+        foreach (var effect in activeEffects) effect.Refresh();
+    }
+
+    private void PopulateEffects()
     {
         activeEffects = new List<IBeatmapUpdate>()
             .Concat(
@@ -43,30 +67,9 @@ public class LightshowController : MonoBehaviour, IBeatmapUpdate
         activeSize = activeEffects.Length;
     }
 
-    private void HandleLevelLoaded()
-    {
-        PopulateLightshow();
-        UpdateTimeByMode();
-    }
-
-    private void UpdateTime()
-    {
-        if (Mode != LightshowMode.Full) return;
-        UpdateTime(context.Atsc.CurrentSongBpmTime);
-    }
-
-    public void UpdateTime(float time)
-    {
-        for (var i = 0; i < activeSize; i++) activeEffects[i].UpdateTime(time);
-    }
-
-    private void UpdateLightshow(int type, IEnumerable<int> id)
-    {
-    }
-
     public void PopulateLightshow()
     {
-        context.Descriptor.Refresh();
+        context.Descriptor.Reinitialize();
 
         var events = Mode == LightshowMode.Static
             ? context
@@ -81,34 +84,17 @@ public class LightshowController : MonoBehaviour, IBeatmapUpdate
                 ? BeatSaberSongContainer.Instance.Map.Events
                 : new();
 
-        foreach (var (type, effect) in context.Descriptor.BasicEventEffectManager.GetAllManagers().Distinct())
-            effect.BuildFromData(events.Where(e => e.Type == type));
+        context.Descriptor.BasicEventEffectManager.InsertData(events);
+        context.Descriptor.LightColorGroupEffectManager.InsertData(
+            BeatSaberSongContainer.Instance.Map.LightColorEventBoxGroups);
+        context.Descriptor.LightRotationGroupEffectManager.InsertData(
+            BeatSaberSongContainer.Instance.Map.LightRotationEventBoxGroups);
+        context.Descriptor.LightTranslationGroupEffectManager.InsertData(
+            BeatSaberSongContainer.Instance.Map.LightTranslationEventBoxGroups);
+        context.Descriptor.FloatFxGroupEffectManager.InsertData(
+            BeatSaberSongContainer.Instance.Map.VfxEventBoxGroups);
 
-        foreach (var (id, effect) in context.Descriptor.LightColorGroupEffectManager.IdToEffect)
-        {
-            effect.BuildFromData(
-                BeatSaberSongContainer.Instance.Map.LightColorEventBoxGroups.Where(g => g.ID == id));
-        }
-
-        foreach (var (id, effect) in context.Descriptor.LightRotationGroupEffectManager.IdToEffect)
-        {
-            effect.BuildFromData(
-                BeatSaberSongContainer.Instance.Map.LightRotationEventBoxGroups.Where(g => g.ID == id));
-        }
-
-        foreach (var (id, effect) in context.Descriptor.LightTranslationGroupEffectManager.IdToEffect)
-        {
-            effect.BuildFromData(
-                BeatSaberSongContainer.Instance.Map.LightTranslationEventBoxGroups.Where(g => g.ID == id));
-        }
-
-        foreach (var (id, effect) in context.Descriptor.FloatFxGroupEffectManager.IdToEffect)
-        {
-            effect.BuildFromData(
-                BeatSaberSongContainer.Instance.Map.VfxEventBoxGroups.Where(g => g.ID == id));
-        }
-
-        foreach (var effect in activeEffects) effect.UpdateTime(context.Atsc.CurrentSongBpmTime);
+        UpdateTimeByMode();
     }
 
     private void UpdateTimeByMode()
@@ -151,12 +137,10 @@ public class LightshowController : MonoBehaviour, IBeatmapUpdate
             default:
                 throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
         }
-
-        UpdateTimeByMode();
     }
 }
 
-public enum LightshowMode
+public enum LightshowMode : byte
 {
     Full,
     Static,

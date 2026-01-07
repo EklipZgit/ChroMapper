@@ -8,15 +8,15 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: LightOpaque
-  m_Shader: {fileID: 4800000, guid: 20f9a1141fa23bc45aefafed3a649b3d, type: 3}
+  m_Shader: {fileID: 4800000, guid: cebb0ae868240dce5a0ddbc949c0cd45, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
-  - _MODE_OPAQUE
+  m_ValidKeywords: []
   m_InvalidKeywords:
   - ALPHA_AFFECT_RGB
   - ENABLE_HEIGHT_FOG_ON
   - _EMISSION
+  - _MODE_OPAQUE
   - _RECEIVE_SHADOWS_OFF
   - _SPECULAR_COLOR
   - _SURFACE_TYPE_TRANSPARENT
@@ -129,7 +129,7 @@ Material:
     - _FirstOutlineWidth: 1.405
     - _FogHeightOffset: 10
     - _FogHeightScale: 0.9
-    - _FogScale: 0
+    - _FogScale: 0.05
     - _FogStartOffset: 0
     - _GlossMapScale: 1
     - _Glossiness: 1
@@ -163,6 +163,7 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 0
     m_Colors:
+    - _AlphaWidth: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColour: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 0, g: 0.49803895, b: 1, a: 1}
@@ -171,6 +172,7 @@ Material:
     - _GridColour: {r: 0.5, g: 1, b: 1, a: 1}
     - _LightDir: {r: 0, g: -1, b: -2, a: 0}
     - _SecondOutlineColor: {r: 1, g: 0, b: 0, a: 1}
+    - _SizeParams: {r: 0.25, g: 10, b: 0, a: 0.5}
     - _SpecColor: {r: 1, g: 1, b: 1, a: 0.01}
     - _cliprect: {r: -1, g: -1, b: -1, a: -1}
   m_BuildTextureStacks: []

@@ -34,8 +34,8 @@ public class CreateEventTypeLabels : MonoBehaviour
     private void HandleEnvironmentChanged(EnvironmentDescriptor descriptor)
     {
         typeToManager = descriptor
-            .BasicEventEffectManager.GetAllManagers<BasicLightEffect>()
-            .ToDictionary(x => x.type, x => x.manager);
+            .BasicEventEffectManager.GetEffects<BasicLightEffect>()
+            .ToDictionary(x => x.type, x => x.effect);
     }
 
     public void UpdateLabels(EventGridContainer.PropMode propMode, int eventType, int lanes)

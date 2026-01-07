@@ -24,7 +24,7 @@ MonoBehaviour:
     Name: Bottom Left
     ID: 0
     ColorTrack: 1
-    RotationTracks: 010101
+    RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
     TranslationTracks: 000000
     OverrideDefaultTranslationAxis: NoOverride
@@ -34,7 +34,7 @@ MonoBehaviour:
     Name: Bottom Right
     ID: 0
     ColorTrack: 1
-    RotationTracks: 010101
+    RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
     TranslationTracks: 000000
     OverrideDefaultTranslationAxis: NoOverride
@@ -44,7 +44,7 @@ MonoBehaviour:
     Name: Top Left
     ID: 0
     ColorTrack: 1
-    RotationTracks: 010101
+    RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
     TranslationTracks: 000000
     OverrideDefaultTranslationAxis: NoOverride
@@ -54,7 +54,7 @@ MonoBehaviour:
     Name: Top Right
     ID: 0
     ColorTrack: 1
-    RotationTracks: 010101
+    RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
     TranslationTracks: 000000
     OverrideDefaultTranslationAxis: NoOverride
@@ -64,7 +64,7 @@ MonoBehaviour:
     Name: Bottom Left
     ID: 0
     ColorTrack: 1
-    RotationTracks: 010101
+    RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
     TranslationTracks: 000000
     OverrideDefaultTranslationAxis: NoOverride
@@ -74,7 +74,7 @@ MonoBehaviour:
     Name: Bottom Right
     ID: 0
     ColorTrack: 1
-    RotationTracks: 010101
+    RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
     TranslationTracks: 000000
     OverrideDefaultTranslationAxis: NoOverride
@@ -84,7 +84,7 @@ MonoBehaviour:
     Name: Top Left
     ID: 0
     ColorTrack: 1
-    RotationTracks: 010101
+    RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
     TranslationTracks: 000000
     OverrideDefaultTranslationAxis: NoOverride
@@ -94,7 +94,7 @@ MonoBehaviour:
     Name: Top Right
     ID: 0
     ColorTrack: 1
-    RotationTracks: 010101
+    RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
     TranslationTracks: 000000
     OverrideDefaultTranslationAxis: NoOverride
@@ -104,7 +104,7 @@ MonoBehaviour:
     Name: Bottom Left
     ID: 0
     ColorTrack: 1
-    RotationTracks: 010101
+    RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
     TranslationTracks: 000000
     OverrideDefaultTranslationAxis: NoOverride
@@ -114,7 +114,7 @@ MonoBehaviour:
     Name: Bottom Right
     ID: 0
     ColorTrack: 1
-    RotationTracks: 010101
+    RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
     TranslationTracks: 000000
     OverrideDefaultTranslationAxis: NoOverride
@@ -124,7 +124,7 @@ MonoBehaviour:
     Name: Top Left
     ID: 0
     ColorTrack: 1
-    RotationTracks: 010101
+    RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
     TranslationTracks: 000000
     OverrideDefaultTranslationAxis: NoOverride
@@ -134,7 +134,7 @@ MonoBehaviour:
     Name: Top Right
     ID: 0
     ColorTrack: 1
-    RotationTracks: 010101
+    RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
     TranslationTracks: 000000
     OverrideDefaultTranslationAxis: NoOverride
@@ -144,7 +144,7 @@ MonoBehaviour:
     Name: 'Top '
     ID: 0
     ColorTrack: 1
-    RotationTracks: 010101
+    RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
     TranslationTracks: 000000
     OverrideDefaultTranslationAxis: NoOverride
@@ -154,7 +154,7 @@ MonoBehaviour:
     Name: Bottom
     ID: 0
     ColorTrack: 1
-    RotationTracks: 010101
+    RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
     TranslationTracks: 000000
     OverrideDefaultTranslationAxis: NoOverride
@@ -164,7 +164,7 @@ MonoBehaviour:
     Name: Left
     ID: 0
     ColorTrack: 1
-    RotationTracks: 010101
+    RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
     TranslationTracks: 000000
     OverrideDefaultTranslationAxis: NoOverride
@@ -174,7 +174,7 @@ MonoBehaviour:
     Name: Right
     ID: 0
     ColorTrack: 1
-    RotationTracks: 010101
+    RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
     TranslationTracks: 000000
     OverrideDefaultTranslationAxis: NoOverride

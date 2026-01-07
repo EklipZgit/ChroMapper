@@ -79,75 +79,89 @@ public class
         }
     }
 
-    public override void UpdateDirty() => throw new NotImplementedException();
+    public override void Refresh()
+    {
+        foreach (var container in idToContainer.Values.Where(c => c is not null))
+        {
+            // if (!container.EventContainer.IsCurrentOrFindState(time, Atsc.IsPlaying)) UpdateObject(container);
+            // if (!container.Tween.UpdateTime(time)) continue;
+            SetTranslation(container);
+        }
+    }
 
     public override void UpdateTime(float time)
     {
         foreach (var container in idToContainer.Values.Where(c => c is not null))
         {
-            var tween = container.Tween;
-            if (!container.EventContainer.IsCurrentOrFindState(time, Atsc.IsPlaying))
-            {
-                var state = container.EventContainer.CurrentState;
-
-                tween.StartTime = state.StartTime;
-                var startState = (LightTranslationEventStateData)(state.UsePrevious ? state.Previous : state);
-
-                tween.EndTime = state.EndTime;
-                var endState = (LightTranslationEventStateData)(state.Next.UsePrevious ? startState : state.Next);
-
-                var translationLimits = container.Axis switch
-                {
-                    Axis.X => TranslationLimits[0],
-                    Axis.Y => TranslationLimits[1],
-                    Axis.Z => TranslationLimits[2],
-                    _ => throw new ArgumentOutOfRangeException()
-                };
-
-                var distributionLimits = container.Axis switch
-                {
-                    Axis.X => DistributionLimits[0],
-                    Axis.Y => DistributionLimits[1],
-                    Axis.Z => DistributionLimits[2],
-                    _ => throw new ArgumentOutOfRangeException()
-                };
-
-                tween.StartValue = ComputeTranslation(
-                    startState.Translation,
-                    translationLimits,
-                    startState.Distribution,
-                    distributionLimits,
-                    container.Mirrored);
-                tween.EndValue = ComputeTranslation(
-                    endState.Translation,
-                    translationLimits,
-                    endState.Distribution,
-                    distributionLimits,
-                    container.Mirrored);
-
-                tween.Easing = Easing.FromID((int)endState.EaseType);
-            }
-
-            if (!tween.UpdateTime(time)) continue;
-            var t = tween.Current;
-            var local = container.Transform.localPosition;
-            switch (container.Axis)
-            {
-                case Axis.X:
-                    local.x = t;
-                    break;
-                case Axis.Y:
-                    local.y = t;
-                    break;
-                case Axis.Z:
-                    local.z = t;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-
-            container.Transform.localPosition = local;
+            if (!container.EventContainer.IsCurrentOrFindState(time, Atsc.IsPlaying)) UpdateObject(container);
+            if (!container.Tween.UpdateTime(time)) continue;
+            SetTranslation(container);
         }
+    }
+
+    private void UpdateObject(LightTranslationGroupContainer container)
+    {
+        var state = container.EventContainer.CurrentState;
+        var tween = container.Tween;
+
+        tween.StartTime = state.StartTime;
+        var startState = (LightTranslationEventStateData)(state.UsePrevious ? state.Previous : state);
+
+        tween.EndTime = state.EndTime;
+        var endState = (LightTranslationEventStateData)(state.Next.UsePrevious ? startState : state.Next);
+
+        var translationLimits = container.Axis switch
+        {
+            Axis.X => TranslationLimits[0],
+            Axis.Y => TranslationLimits[1],
+            Axis.Z => TranslationLimits[2],
+            _ => throw new ArgumentOutOfRangeException()
+        };
+
+        var distributionLimits = container.Axis switch
+        {
+            Axis.X => DistributionLimits[0],
+            Axis.Y => DistributionLimits[1],
+            Axis.Z => DistributionLimits[2],
+            _ => throw new ArgumentOutOfRangeException()
+        };
+
+        tween.StartValue = ComputeTranslation(
+            startState.Translation,
+            translationLimits,
+            startState.Distribution,
+            distributionLimits,
+            container.Mirrored);
+        tween.EndValue = ComputeTranslation(
+            endState.Translation,
+            translationLimits,
+            endState.Distribution,
+            distributionLimits,
+            container.Mirrored);
+
+        tween.Easing = Easing.FromID((int)endState.EaseType);
+    }
+
+    private void SetTranslation(LightTranslationGroupContainer container)
+    {
+        var t = container.Tween.Current;
+        var local = container.Transform.localPosition;
+        switch (container.Axis)
+        {
+            case Axis.X:
+                local.x = t;
+                break;
+            case Axis.Y:
+                local.y = t;
+                break;
+            case Axis.Z:
+                local.z = t;
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+
+        container.Transform.localPosition = local;
     }
 
     private float ComputeTranslation(
@@ -162,7 +176,6 @@ public class
         return Mathf.LerpUnclamped(translationLimits.x, translationLimits.y, tTrans)
             + Mathf.LerpUnclamped(distributionLimits.x, distributionLimits.y, tDist);
     }
-
 
     protected override LightTranslationGroupStateData CreateState(
         BaseLightTranslationEventBoxGroup<BaseLightTranslationEventBox> data) =>

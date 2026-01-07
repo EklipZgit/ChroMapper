@@ -6,11 +6,12 @@ using UnityEngine;
 /// </summary>
 public class LightWithIdManagerComponent
 {
-    [JsonProperty("lights")] public LightId[][] Lights;
+    public LightId[][] Lights;
 
     public class LightId
     {
-        [JsonProperty("ID")] public string Name;
-        [JsonProperty("id")] public int ID;
+        [JsonProperty("objectId")] public string ObjectId;
+        [JsonProperty("lightId")] public int Id;
+        [JsonProperty("instanceId")] public int InstanceId;
     }
 }

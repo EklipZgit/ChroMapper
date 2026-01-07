@@ -2,28 +2,28 @@ using Newtonsoft.Json;
 
 public class Parametric3SliceSpriteControllerComponent
 {
-    [JsonProperty("widthMultiplier")] public float WidthMultiplier;
-    [JsonProperty("alphaStart")] public float AlphaStart;
-    [JsonProperty("alphaEnd")] public float AlphaEnd;
-    [JsonProperty("alphaMultiplier")] public float AlphaMultiplier;
-    [JsonProperty("width")] public float Width;
-    [JsonProperty("widthStart")] public float WidthStart;
-    [JsonProperty("widthEnd")] public float WidthEnd;
-    [JsonProperty("center")] public float Center;
-    [JsonProperty("length")] public float Length;
-    [JsonProperty("minAlpha")] public float MinAlpha;
+    public float WidthMultiplier;
+    public float AlphaStart;
+    public float AlphaEnd;
+    public float AlphaMultiplier;
+    public float Width;
+    public float WidthStart;
+    public float WidthEnd;
+    public float Center;
+    public float Length;
+    public float MinAlpha;
 
-    public void CopyTo(LightObjectParametric3SliceSprite lightObject)
+    public void CopyTo(ParametricSpriteLight parametricSpriteLightObject)
     {
-        lightObject.WidthMultiplier = WidthMultiplier;
-        lightObject.AlphaStart = AlphaStart;
-        lightObject.AlphaEnd = AlphaEnd;
-        lightObject.AlphaMultiplier = AlphaMultiplier;
-        lightObject.Width = Width;
-        lightObject.WidthStart = WidthStart;
-        lightObject.WidthEnd = WidthEnd;
-        lightObject.Center = Center;
-        lightObject.Length = Length;
-        lightObject.MinAlpha = MinAlpha;
+        parametricSpriteLightObject.WidthMultiplier = WidthMultiplier;
+        parametricSpriteLightObject.AlphaStart = AlphaStart;
+        parametricSpriteLightObject.AlphaEnd = AlphaEnd;
+        parametricSpriteLightObject.AlphaMultiplier = AlphaMultiplier;
+        parametricSpriteLightObject.Width = Width;
+        parametricSpriteLightObject.WidthStart = WidthStart;
+        parametricSpriteLightObject.WidthEnd = WidthEnd;
+        parametricSpriteLightObject.Center = Center;
+        parametricSpriteLightObject.Length = Length;
+        parametricSpriteLightObject.MinAlpha = MinAlpha;
     }
 }

@@ -10,6 +10,10 @@ public class BasicEventManager : BeatmapObjectManager<BaseEvent>
 
     [SerializeField] private LightshowController lightshowController;
 
+    public override void Refresh()
+    {
+    }
+
     public override void UpdateTime()
     {
         if (lightshowController.Mode != LightshowMode.Full) return;
@@ -24,47 +28,17 @@ public class BasicEventManager : BeatmapObjectManager<BaseEvent>
             manager.UpdateTime(time);
     }
 
-    protected override bool AddData(IEnumerable<BaseEvent> data)
-    {
-        var mark = false;
-        foreach (var d in data)
-        {
-            if (!Context.Descriptor.BasicEventEffectManager.EventTypeToEffects.TryGetValue(d.Type, out var managers))
-                continue;
-            foreach (var manager in managers) manager.InsertData(d);
-            mark = true;
-        }
-
-        return mark;
-    }
+    protected override bool AddData(IEnumerable<BaseEvent> data) =>
+        Context.Descriptor.BasicEventEffectManager.InsertData(data);
 
     protected override bool RemoveData(IEnumerable<(BaseEvent reference, BaseEvent original)> data)
     {
         var mark = false;
         foreach (var (reference, original) in data)
-        {
-            if (!Context.Descriptor.BasicEventEffectManager.EventTypeToEffects.TryGetValue(
-                original.Type,
-                out var managers))
-                continue;
-            foreach (var manager in managers) manager.RemoveData(reference, original);
-            mark = true;
-        }
-
+            mark |= Context.Descriptor.BasicEventEffectManager.RemoveData(reference, original);
         return mark;
     }
 
-    protected override bool RemoveData(IEnumerable<BaseEvent> data)
-    {
-        var mark = false;
-        foreach (var d in data)
-        {
-            if (!Context.Descriptor.BasicEventEffectManager.EventTypeToEffects.TryGetValue(d.Type, out var managers))
-                continue;
-            foreach (var manager in managers) manager.RemoveData(d, d);
-            mark = true;
-        }
-
-        return mark;
-    }
+    protected override bool RemoveData(IEnumerable<BaseEvent> data) =>
+        data.Aggregate(false, (current, d) => current | Context.Descriptor.BasicEventEffectManager.RemoveData(d, d));
 }

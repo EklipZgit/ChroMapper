@@ -1,5 +1,7 @@
 public class LightPairRotationEventEffectComponent
 {
+    public bool IsEnabled;
+    
     public string EventTypeL;
     public string TransformL;
     public string EventTypeR;

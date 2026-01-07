@@ -29,6 +29,10 @@ MonoBehaviour:
     ID: BTSEnvironment
     TracksDefinition: {fileID: 11400000, guid: bc2637d5fd3c33c96a9195b46565f861, type: 2}
     ColorScheme: {fileID: 11400000, guid: 1b6f191f948bb8ef5a4c31727f969b4e, type: 2}
+  - Name: Coldplay
+    ID: ColdplayEnvironment
+    TracksDefinition: {fileID: 11400000, guid: d5fcfd9d9d0c1c31a82b389d22dd15db, type: 2}
+    ColorScheme: {fileID: 11400000, guid: 1675b23ca671ca45aac9a010362be61b, type: 2}
   - Name: Collider
     ID: ColliderEnvironment
     TracksDefinition: {fileID: 11400000, guid: 9542a4c7b5a13a81ca8197523afc6025, type: 2}
@@ -73,6 +77,14 @@ MonoBehaviour:
     ID: GreenDayGrenadeEnvironment
     TracksDefinition: {fileID: 11400000, guid: 6ab65c263e95e589982d44936a12be77, type: 2}
     ColorScheme: {fileID: 11400000, guid: ae0c17cc9930d7c239f49b11d4a06b20, type: 2}
+  - Name: Cube
+    ID: GridEnvironment
+    TracksDefinition: {fileID: 11400000, guid: 47b2a98af6e9c2582a5a8de226531b9e, type: 2}
+    ColorScheme: {fileID: 11400000, guid: 288a2143d265d1f12a2a10de97bbb1b2, type: 2}
+  - Name: Spoooky
+    ID: Halloween2Environment
+    TracksDefinition: {fileID: 11400000, guid: 02c2f79f6a76feed49003ec465b97b1c, type: 2}
+    ColorScheme: {fileID: 11400000, guid: 4037f9911033ad2e6be99ceaf88a569e, type: 2}
   - Name: Spooky
     ID: HalloweenEnvironment
     TracksDefinition: {fileID: 11400000, guid: dff1864bff2a63d2cbcb9332c76930ca, type: 2}

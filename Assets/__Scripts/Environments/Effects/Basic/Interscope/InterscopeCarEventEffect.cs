@@ -3,8 +3,10 @@ using Beatmap.Base;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public abstract class InterscopeCarEventEffect : PlatformEventEffect
+public abstract class InterscopeCarEventEffect : MonoBehaviour
 {
+    public abstract int[] ListeningEventTypes { get; }
+
     [SerializeField] protected Rigidbody CarRigidbody;
 
     [Tooltip(
@@ -16,7 +18,7 @@ public abstract class InterscopeCarEventEffect : PlatformEventEffect
 
     protected virtual void Start() => eventValuesHash = new HashSet<int>(CarFlags);
 
-    public override void OnEventTrigger(int type, BaseEvent data)
+    public virtual void OnEventTrigger(int type, BaseEvent data)
     {
         // Values 0 and 1 affect all cars, but after that, the events affect different cars depending on their flags.
         if (data.Value == 0

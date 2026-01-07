@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Beatmap.Base;
 using UnityEngine;
 
 public class FloatFxGroupEffectManager : MonoBehaviour
@@ -20,9 +21,49 @@ public class FloatFxGroupEffectManager : MonoBehaviour
         }
     }
 
-    public void Refresh()
+    public void Reinitialize()
     {
         foreach (var effect in IdToEffect.Values) effect.Initialize();
+    }
+
+    public void Refresh()
+    {
+        foreach (var effect in IdToEffect.Values) effect.Refresh();
+    }
+
+    public bool InsertData(BaseVfxEventEventBoxGroup<BaseVfxEventEventBox> data)
+    {
+        if (!IdToEffect.TryGetValue(data.ID, out var effect)) return false;
+        effect.InsertData(data);
+        return true;
+    }
+
+    public bool InsertData(IEnumerable<BaseVfxEventEventBoxGroup<BaseVfxEventEventBox>> data) =>
+        data.GroupBy(x => x.ID).Aggregate(false, (current, d) => current | InsertData(d.Key, d));
+
+    public bool InsertData(int type, IEnumerable<BaseVfxEventEventBoxGroup<BaseVfxEventEventBox>> data)
+    {
+        data = data.ToList();
+        if (!IdToEffect.TryGetValue(type, out var effect)) return false;
+
+        var marked = false;
+        foreach (var evt in data)
+        {
+            effect.InsertData(evt);
+            marked = true;
+        }
+
+        return marked;
+    }
+
+    public bool RemoveData(
+        BaseVfxEventEventBoxGroup<BaseVfxEventEventBox> reference,
+        BaseVfxEventEventBoxGroup<BaseVfxEventEventBox> original)
+    {
+        if (!IdToEffect.TryGetValue(original.ID, out var effect)) return false;
+        effect.RemoveData(reference, original);
+
+        return true;
     }
 
     public FloatFxGroupEffect Register(int group, int count)

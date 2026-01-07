@@ -1,5 +1,7 @@
 public class TrackLaneRingsRotationEffectSpawnerComponent
 {
+    public bool IsEnabled;
+
     public string EventType;
     public string TrackLaneRingsRotationEffect;
     public float Rotation;

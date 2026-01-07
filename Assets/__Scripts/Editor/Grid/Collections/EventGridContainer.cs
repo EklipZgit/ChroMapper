@@ -147,8 +147,8 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
     {
         this.descriptor = descriptor;
         TypeToManager = descriptor
-            .BasicEventEffectManager.GetAllManagers<BasicLightEffect>()
-            .ToDictionary(x => x.type, x => x.manager);
+            .BasicEventEffectManager.GetEffects<BasicLightEffect>()
+            .ToDictionary(x => x.type, x => x.effect);
         PropagationEditing = PropMode.Off;
     }
 

@@ -7,6 +7,7 @@ public abstract class BeatmapObjectManager : MonoBehaviour, IBeatmapUpdate
 {
     [SerializeField] protected BeatmapRuntimeContext Context;
 
+    public abstract void Refresh();
     public abstract void UpdateTime();
     public abstract void UpdateTime(float beatTime);
 }

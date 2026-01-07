@@ -131,9 +131,9 @@
 
                 fixed4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
                 #ifdef CM_PREVIEW_MODE
-                fixed alpha = saturate(color.a);
+                color.a = saturate(color.a);
                 #else
-                fixed alpha = 0.05;
+                color.a = 0.05;
                 #endif
 
                 #ifdef CM_PREVIEW_MODE

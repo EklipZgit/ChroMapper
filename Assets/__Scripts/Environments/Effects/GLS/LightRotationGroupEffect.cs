@@ -76,35 +76,44 @@ public class
         }
     }
 
-    public override void UpdateDirty() => throw new NotImplementedException();
+    public override void Refresh()
+    {
+        foreach (var container in idToContainer.Values.Where(c => c is not null))
+        {
+            // if (!container.EventContainer.IsCurrentOrFindState(time, Atsc.IsPlaying)) UpdateObject(container);
+            // if (container.Tween.UpdateTime(time))
+            SetRotation(container.Transform, container.Tween.Current, container.Axis, container.Mirrored);
+        }
+    }
 
     public override void UpdateTime(float time)
     {
         foreach (var container in idToContainer.Values.Where(c => c is not null))
         {
-            var tween = container.Tween;
-            if (!container.EventContainer.IsCurrentOrFindState(time, Atsc.IsPlaying))
-            {
-                var state = container.EventContainer.CurrentState;
-
-                tween.StartTime = state.StartTime;
-                var startState = (LightRotationEventStateData)(state.UsePrevious ? state.Previous : state);
-                var startAngle = Mathf.Repeat(startState.Rotation, 360f);
-
-                tween.EndTime = state.EndTime;
-                var endState = (LightRotationEventStateData)(state.Next.UsePrevious ? startState : state.Next);
-                var endAngle = Mathf.Repeat(endState.Rotation, 360f);
-
-                var targetAngle = ComputeTargetAngle(startAngle, endAngle, endState.Loop, endState.Direction);
-
-                tween.StartValue = startAngle;
-                tween.EndValue = targetAngle;
-                tween.Easing = Easing.FromID((int)endState.EaseType);
-            }
-
-            if (tween.UpdateTime(time))
-                SetRotation(container.Transform, tween.Current, container.Axis, container.Mirrored);
+            if (!container.EventContainer.IsCurrentOrFindState(time, Atsc.IsPlaying)) UpdateObject(container);
+            if (container.Tween.UpdateTime(time))
+                SetRotation(container.Transform, container.Tween.Current, container.Axis, container.Mirrored);
         }
+    }
+
+    private void UpdateObject(LightRotationGroupContainer container)
+    {
+        var state = container.EventContainer.CurrentState;
+        var tween = container.Tween;
+
+        tween.StartTime = state.StartTime;
+        var startState = (LightRotationEventStateData)(state.UsePrevious ? state.Previous : state);
+        var startAngle = Mathf.Repeat(startState.Rotation, 360f);
+
+        tween.EndTime = state.EndTime;
+        var endState = (LightRotationEventStateData)(state.Next.UsePrevious ? startState : state.Next);
+        var endAngle = Mathf.Repeat(endState.Rotation, 360f);
+
+        var targetAngle = ComputeTargetAngle(startAngle, endAngle, endState.Loop, endState.Direction);
+
+        tween.StartValue = startAngle;
+        tween.EndValue = targetAngle;
+        tween.Easing = Easing.FromID((int)endState.EaseType);
     }
 
     private static void SetRotation(Transform tr, float rotation, Axis axis, bool mirrored)

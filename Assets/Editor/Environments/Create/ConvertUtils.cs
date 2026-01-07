@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 public static class ConvertUtils
 {
@@ -70,4 +71,6 @@ public static class ConvertUtils
 
     public static RotationStepType ToRotationStepType(string val) =>
         Enum.TryParse<RotationStepType>(val, out var result) ? result : RotationStepType.Range;
+
+    public static Vector2 ToVector2(float[] ary) => new(ary[0], ary[1]);
 }

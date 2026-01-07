@@ -23,6 +23,7 @@ public class EnvironmentBuildPopulate
 
         library.Meshes.MarkForChange();
         library.Materials.MarkForChange();
+        library.Sprites.MarkForChange();
 
         foreach (var dataPath in envDataPaths)
         {
@@ -41,15 +42,32 @@ public class EnvironmentBuildPopulate
                     library.Shaders.Add(new ShaderEntry() { name = m.Shader });
             }
 
+            foreach (var o in data.Objects.Where(x => x.Components.SpriteLightWithId != null))
+            {
+                var t = o.Components.SpriteLightWithId;
+                foreach (var r in t)
+                {
+                    if (r.Sprite == null)
+                    {
+                        Debug.LogWarning($"Could not get sprite in {o.ChromaID}");
+                        continue;
+                    }
+
+                    library.Sprites.AddEntry(r.Sprite.TextureName, data.Data.ID);
+                }
+            }
+
             foreach (var layerName in data.Objects.Select(x => x.Layer))
                 library.layerMaskLookup.TryAdd(layerName, LayerMask.GetMask("Default"));
         }
 
         library.Meshes.RemoveUnused();
         library.Materials.RemoveUnused();
-        
+        library.Sprites.RemoveUnused();
+
         library.Meshes.Sort();
         library.Materials.Sort();
+        library.Sprites.Sort();
 
         library.layerMaskRemap =
             library
@@ -70,8 +88,10 @@ public class EnvironmentBuildPopulate
                 if (matInfo.Environments.Count > 1)
                 {
                     var targetPath = Path.Combine(graphicsPath, "Materials", "Environment", $"{matInfo.Name}.mat");
-                    if (!AssetDatabase.AssetPathExists(targetPath)) AssetDatabase.CreateAsset(mat, targetPath);
-                    else mat = AssetDatabase.LoadAssetAtPath<Material>(targetPath);
+                    if (!AssetDatabase.AssetPathExists(targetPath))
+                        AssetDatabase.CreateAsset(mat, targetPath);
+                    else
+                        mat = AssetDatabase.LoadAssetAtPath<Material>(targetPath);
                 }
                 else
                 {
@@ -81,22 +101,24 @@ public class EnvironmentBuildPopulate
                     if (!AssetDatabase.AssetPathExists(folderPath)) AssetDatabase.CreateFolder(parentPath, env);
 
                     var targetPath = Path.Combine(folderPath, $"{matInfo.Name}.mat");
-                    if (!AssetDatabase.AssetPathExists(targetPath)) AssetDatabase.CreateAsset(mat, targetPath);
-                    else mat = AssetDatabase.LoadAssetAtPath<Material>(targetPath);
+                    if (!AssetDatabase.AssetPathExists(targetPath))
+                        AssetDatabase.CreateAsset(mat, targetPath);
+                    else
+                        mat = AssetDatabase.LoadAssetAtPath<Material>(targetPath);
                 }
-                
+
                 matInfo.Material = mat;
             }
             else if (matInfo.Material.shader.name == "ChroMapper/Missing")
             {
                 if (TryGetShader(library.Shaders, matInfo.Shader, out var shader)) matInfo.Material.shader = shader;
             }
-            
+
             matInfo.Material.SetColor("_Color", matInfo.Color);
 
             matInfo.Material.enableInstancing = true;
         }
-        
+
         AssetDatabase.ForceReserializeAssets(
             AssetDatabase
                 .GetAllAssetPaths()

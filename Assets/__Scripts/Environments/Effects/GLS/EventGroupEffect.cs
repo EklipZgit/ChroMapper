@@ -15,11 +15,6 @@ public abstract class
 {
     [SerializeField] public int Count;
 
-    public override void BuildFromData(IEnumerable<TGroup> dataList)
-    {
-        foreach (var data in dataList) InsertData(data);
-    }
-
     public override void InsertData(TGroup data)
     {
         var taken = new HashSet<(Axis, int)>();

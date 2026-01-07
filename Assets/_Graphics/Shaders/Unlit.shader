@@ -8,7 +8,6 @@
         [Space(10)]
         _Color ("Color", Color) = (1, 1, 1, 1)
         _MainTex ("Texture", 2D) = "white" {}
-        _Glow ("Glow", Range(0, 1)) = 0.0
 
         [Header(Fog Settings)]
         [Space]
@@ -64,7 +63,6 @@
 
             sampler2D _MainTex;
             float4 _MainTex_ST;
-            float _Glow;
 
             float _FogStartOffset;
             float _FogScale;
@@ -97,7 +95,7 @@
                 #endif
 
                 albedo.rgb *= color.a;
-                albedo.a = saturate(log2(_Glow * color.a + 1.0));
+                albedo.a = saturate(log(1.0 + color.a));
 
                 #ifdef ENABLE_HEIGHT_FOG
                     BLOOM_FOG_HEIGHT_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset, _FogHeightScale);

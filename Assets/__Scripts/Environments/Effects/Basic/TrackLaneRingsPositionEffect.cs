@@ -1,20 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using Beatmap.Base;
-using UnityEngine;
-using Object = UnityEngine.Object;
 
-public class TrackLaneRingsPositionEffect : BasicEventStateManager<TrackLaneRingsPositionStateData>
+public class TrackLaneRingsPositionEffect : BasicEventEffect<TrackLaneRingsPositionStateData>,
+                                            IEffectStateSignal<(int index, TrackLaneRingsPositionStateData state)>
 {
-    public TrackLaneRingsManager Manager;
-
-    public float MinPositionStep;
-    public float MaxPositionStep;
-    public float MoveSpeed;
-
+    public event Action<(int index, TrackLaneRingsPositionStateData state)> OnStateChanged;
     private readonly BasicEventStateChunksContainer<TrackLaneRingsPositionStateData> container = new();
 
     public override void Initialize() => InitializeStates(container);
+    public override void Refresh() => UpdateObject(container.CurrentState);
 
     public override void UpdateTime(float currentTime)
     {
@@ -24,30 +18,15 @@ public class TrackLaneRingsPositionEffect : BasicEventStateManager<TrackLaneRing
     private void UpdateObject(TrackLaneRingsPositionStateData state)
     {
         var index = container.GetStateIndex(state);
-
-        var zoomed = index % 2 == 0;
-        var step = state.UseCustom ? state.Step : zoomed ? MaxPositionStep : MinPositionStep;
-        var speed = state.Speed;
-
-        for (var i = 0; i < Manager.Rings.Length; i++)
-        {
-            var destPosZ = i * step;
-            Manager.Rings[i].SetPosition(destPosZ, speed);
-        }
-    }
-
-    public override void BuildFromData(IEnumerable<BaseEvent> dataList)
-    {
-        foreach (var data in dataList) InsertData(data);
+        OnStateChanged?.Invoke((index, container.CurrentState));
     }
 
     public override void InsertData(BaseEvent data)
     {
         var state = CreateState(data);
         state.StartTime = data.SongBpmTime;
-        state.UseCustom = data.CustomStep.HasValue;
-        state.Step = data.CustomStep ?? 0f;
-        state.Speed = data.CustomSpeed ?? MoveSpeed;
+        state.Step = data.CustomStep;
+        state.Speed = data.CustomSpeed;
 
         HandleInsertState(container, state);
     }
@@ -63,16 +42,13 @@ public class TrackLaneRingsPositionEffect : BasicEventStateManager<TrackLaneRing
         UpdateObject(container.CurrentState);
     }
 
-    public override void UpdateDirty() => UpdateObject(container.CurrentState);
-
     protected override TrackLaneRingsPositionStateData CreateState(BaseEvent data) => new(data);
 }
 
 public class TrackLaneRingsPositionStateData : BasicEventStateData
 {
-    public bool UseCustom;
-    public float Step;
-    public float Speed;
+    public float? Step;
+    public float? Speed;
 
     public TrackLaneRingsPositionStateData(BaseEvent data) : base(data)
     {

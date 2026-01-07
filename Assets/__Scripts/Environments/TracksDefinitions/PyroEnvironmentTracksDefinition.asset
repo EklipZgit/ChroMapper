@@ -39,120 +39,120 @@ MonoBehaviour:
     Kind: 2
   glsEntries:
   - Group: Stage
-    Name: Left Platform
+    Name: Left Stairs
     ID: 0
     ColorTrack: 1
-    RotationTracks: 010101
+    RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
     TranslationTracks: 000000
     OverrideDefaultTranslationAxis: NoOverride
     FloatFXTrack: 0
     Duplicate: 1
   - Group: Stage
-    Name: Right Platform
+    Name: Right Stairs
     ID: 0
     ColorTrack: 1
-    RotationTracks: 010101
+    RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
     TranslationTracks: 000000
     OverrideDefaultTranslationAxis: NoOverride
     FloatFXTrack: 0
     Duplicate: 1
   - Group: Stage
-    Name: Left Platform
+    Name: Left Lasers
     ID: 0
     ColorTrack: 1
-    RotationTracks: 010101
+    RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
     TranslationTracks: 000000
     OverrideDefaultTranslationAxis: NoOverride
     FloatFXTrack: 0
     Duplicate: 1
   - Group: Stage
-    Name: Right Platform
+    Name: Right Lasers
     ID: 0
     ColorTrack: 1
-    RotationTracks: 010101
+    RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
     TranslationTracks: 000000
     OverrideDefaultTranslationAxis: NoOverride
     FloatFXTrack: 0
     Duplicate: 1
   - Group: Top Stage
-    Name: Left Top
+    Name: Projectors Left
     ID: 0
     ColorTrack: 1
-    RotationTracks: 010101
+    RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
     TranslationTracks: 000000
     OverrideDefaultTranslationAxis: NoOverride
     FloatFXTrack: 0
     Duplicate: 1
   - Group: Top Stage
-    Name: Right Top
+    Name: Projectors Right
     ID: 0
     ColorTrack: 1
-    RotationTracks: 010101
+    RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
     TranslationTracks: 000000
     OverrideDefaultTranslationAxis: NoOverride
     FloatFXTrack: 0
     Duplicate: 1
   - Group: Top Stage
-    Name: ?? Top
+    Name: Projectors Top
     ID: 0
     ColorTrack: 1
-    RotationTracks: 010101
+    RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
     TranslationTracks: 000000
     OverrideDefaultTranslationAxis: NoOverride
     FloatFXTrack: 0
     Duplicate: 1
   - Group: Top Stage
-    Name: Top
+    Name: 4 Slot
     ID: 0
     ColorTrack: 1
-    RotationTracks: 010101
+    RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
     TranslationTracks: 000000
     OverrideDefaultTranslationAxis: NoOverride
     FloatFXTrack: 0
     Duplicate: 1
   - Group: Side Panels
-    Name: Left Panels
+    Name: Tower Left
     ID: 0
     ColorTrack: 1
-    RotationTracks: 010101
+    RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
     TranslationTracks: 000000
     OverrideDefaultTranslationAxis: NoOverride
     FloatFXTrack: 0
     Duplicate: 1
   - Group: Side Panels
-    Name: Right Panels
+    Name: Tower Right
     ID: 0
     ColorTrack: 1
-    RotationTracks: 010101
+    RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
     TranslationTracks: 000000
     OverrideDefaultTranslationAxis: NoOverride
     FloatFXTrack: 0
     Duplicate: 1
   - Group: Side Panels
-    Name: ??
+    Name: Lasers Left
     ID: 0
     ColorTrack: 1
-    RotationTracks: 010101
+    RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
     TranslationTracks: 000000
     OverrideDefaultTranslationAxis: NoOverride
     FloatFXTrack: 0
     Duplicate: 1
   - Group: Side Panels
-    Name: ??
+    Name: Lasers Right
     ID: 0
     ColorTrack: 1
-    RotationTracks: 010101
+    RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
     TranslationTracks: 000000
     OverrideDefaultTranslationAxis: NoOverride
@@ -162,7 +162,7 @@ MonoBehaviour:
     Name: Left Fire
     ID: 0
     ColorTrack: 1
-    RotationTracks: 010101
+    RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
     TranslationTracks: 000000
     OverrideDefaultTranslationAxis: NoOverride
@@ -172,7 +172,7 @@ MonoBehaviour:
     Name: Right Fire
     ID: 0
     ColorTrack: 1
-    RotationTracks: 010101
+    RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
     TranslationTracks: 000000
     OverrideDefaultTranslationAxis: NoOverride

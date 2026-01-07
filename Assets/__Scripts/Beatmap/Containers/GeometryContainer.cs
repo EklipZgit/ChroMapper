@@ -4,9 +4,10 @@ using Beatmap.Base.Customs;
 using Beatmap.Enums;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
-using SimpleJSON;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Beatmap.Containers
 {
@@ -39,6 +40,8 @@ namespace Beatmap.Containers
             TracksManager tracksManager)
         {
             var container = Instantiate(prefab).GetComponent<GeometryContainer>();
+            if (context.Descriptor != null)
+                SceneManager.MoveGameObjectToScene(container.gameObject, context.Descriptor.gameObject.scene);
             container.Context = context;
             container.Animator.Context = context;
             container.Animator.TracksManager = tracksManager;
@@ -111,17 +114,18 @@ namespace Beatmap.Containers
 
             // Handle components if needed
             var descriptor = ctx.Descriptor;
-            if (descriptor == null) return;
+            // if (descriptor == null) return;
 
             if (eh.Components?.HasKey("ILightWithId") ?? false)
             {
-                var controller = container.Shape.AddComponent<LightController>();
+                var controller = container.Shape.AddComponent<ParametricBloomFogLightController>();
 
-                var light = container.Shape.AddComponent<LightObject>();
+                var light = container.Shape.AddComponent<ParametricBoxLight>();
+                light.UpdateTransform = false;
                 light.Renderer = container.Shape.GetComponent<Renderer>();
                 controller.BoxLight = light;
 
-                var bf = container.Shape.AddComponent<LightObjectBloomFog>();
+                var bf = container.Shape.AddComponent<BloomFogObject>();
                 controller.BloomFog = bf;
 
                 controller.Type = eh.LightType ?? 0;
@@ -132,18 +136,18 @@ namespace Beatmap.Containers
             if (eh.Components?.HasKey("TubeBloomPrePassLight") ?? false)
             {
                 var ppLight = eh.Components["TubeBloomPrePassLight"];
-                var controller = container.Shape.GetComponent<LightController>();
+                var controller = container.Shape.GetComponent<ParametricBloomFogLightController>();
                 if (controller == null) return;
                 if (ppLight["colorAlphaMultiplier"] != null)
                 {
-                    if (controller.BoxLight != null) controller.BoxLight.Multiply = ppLight["colorAlphaMultiplier"];
+                    if (controller.BoxLight != null)
+                        controller.BoxLight.AlphaMultiplier = ppLight["colorAlphaMultiplier"];
                     if (controller.SpriteLight != null)
-                        controller.SpriteLight.Multiply = ppLight["colorAlphaMultiplier"];
+                        controller.SpriteLight.AlphaMultiplier = ppLight["colorAlphaMultiplier"];
                 }
 
-                if (ppLight["bloomFogIntensityMultiplier"] != null
-                    && controller.BloomFog != null)
-                    controller.BloomFog.Multiply = ppLight["bloomFogIntensityMultiplier"];
+                if (ppLight["bloomFogIntensityMultiplier"] != null)
+                    controller.BloomFog.IntensityMultiplier = ppLight["bloomFogIntensityMultiplier"];
             }
         }
 
@@ -170,7 +174,7 @@ namespace Beatmap.Containers
             if (eh.Duplicate != null)
             {
                 // Chroma precheck this and throws, but we don't care but we also do not want to destroy our PC
-                // Also if this value is a lil too low or inaccurate, feel free to increase
+                // Also if this value is a lil inaccurate, feel free to change
                 if (targetObjects.Count > 100)
                 {
                     Debug.LogError(
@@ -188,7 +192,7 @@ namespace Beatmap.Containers
                         var duplicateObject = Instantiate(obj.gameObject, obj.transform.parent);
                         var marker = duplicateObject.GetComponent<ChromaIDMarker>();
                         marker.ChromaID = obj.ChromaID[..obj.ChromaID.LastIndexOf(']')] + marker.name;
-                        // descriptor.ChromaIDMarkers.Add(marker); // probably include, probably not, need to test
+                        descriptor.ChromaIDMarkers.Add(marker);
                         newTargetObjects.Add(marker);
                     }
                 }
@@ -265,7 +269,7 @@ namespace Beatmap.Containers
                 }
 
                 // Handle components if needed
-                foreach (var controller in targetObject.GetComponentsInChildren<BaseLightController>(true))
+                foreach (var controller in targetObject.GetComponentsInChildren<LightController>(true))
                 {
                     if (eh.Duplicate == null) descriptor.BasicEventEffectManager.Unregister(controller);
 
@@ -277,18 +281,23 @@ namespace Beatmap.Containers
                     if (eh.Components?.HasKey("TubeBloomPrePassLight") ?? false)
                     {
                         var ppLight = eh.Components["TubeBloomPrePassLight"];
-                        if (controller is not LightController lc) continue;
+                        if (controller is not ParametricBloomFogLightController pbflc) continue;
                         if (ppLight["colorAlphaMultiplier"] != null)
                         {
-                            if (lc.BoxLight != null) lc.BoxLight.Multiply = ppLight["colorAlphaMultiplier"];
-                            if (lc.SpriteLight != null) lc.SpriteLight.Multiply = ppLight["colorAlphaMultiplier"];
+                            if (pbflc.BoxLight != null)
+                                pbflc.BoxLight.AlphaMultiplier = ppLight["colorAlphaMultiplier"];
+                            if (pbflc.SpriteLight != null)
+                                pbflc.SpriteLight.AlphaMultiplier = ppLight["colorAlphaMultiplier"];
                         }
 
-                        if (ppLight["bloomFogIntensityMultiplier"] != null
-                            && lc.BloomFog != null)
-                            lc.BloomFog.Multiply = ppLight["bloomFogIntensityMultiplier"];
+                        if (ppLight["bloomFogIntensityMultiplier"] != null)
+                            pbflc.BloomFog.IntensityMultiplier = ppLight["bloomFogIntensityMultiplier"];
                     }
                 }
+
+                foreach (var effect in targetObject
+                    .GetComponentsInChildren<StateManager<BaseEvent>>())
+                    descriptor.BasicEventEffectManager.Register(effect.ID, effect);
             }
         }
 
@@ -308,13 +317,8 @@ namespace Beatmap.Containers
         /// </summary>
         private static Mesh CreateTriangleMesh()
         {
-            Vector3[] vertices =
-            {
-                new Vector3(-0.5f, -0.5f, 0), new Vector3(0.5f, -0.5f, 0), new Vector3(0f, 0.5f, 0)
-            };
-
+            Vector3[] vertices = { new(-0.5f, -0.5f, 0), new(0.5f, -0.5f, 0), new(0f, 0.5f, 0) };
             Vector2[] uv = { new Vector3(0, 0), new Vector3(1, 0), new Vector3(0.5f, 1) };
-
             int[] triangles = { 0, 1, 2 };
 
             var mesh = new Mesh { vertices = vertices, uv = uv, triangles = triangles };

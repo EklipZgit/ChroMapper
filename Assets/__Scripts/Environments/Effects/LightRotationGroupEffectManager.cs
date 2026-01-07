@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Beatmap.Base;
 using Beatmap.Enums;
 using UnityEngine;
 
@@ -21,9 +22,49 @@ public class LightRotationGroupEffectManager : MonoBehaviour
         }
     }
 
-    public void Refresh()
+    public void Reinitialize()
     {
         foreach (var effect in IdToEffect.Values) effect.Initialize();
+    }
+
+    public void Refresh()
+    {
+        foreach (var effect in IdToEffect.Values) effect.Refresh();
+    }
+
+    public bool InsertData(BaseLightRotationEventBoxGroup<BaseLightRotationEventBox> data)
+    {
+        if (!IdToEffect.TryGetValue(data.ID, out var effect)) return false;
+        effect.InsertData(data);
+        return true;
+    }
+
+    public bool InsertData(IEnumerable<BaseLightRotationEventBoxGroup<BaseLightRotationEventBox>> data) =>
+        data.GroupBy(x => x.ID).Aggregate(false, (current, d) => current | InsertData(d.Key, d));
+
+    public bool InsertData(int type, IEnumerable<BaseLightRotationEventBoxGroup<BaseLightRotationEventBox>> data)
+    {
+        data = data.ToList();
+        if (!IdToEffect.TryGetValue(type, out var effect)) return false;
+
+        var marked = false;
+        foreach (var evt in data)
+        {
+            effect.InsertData(evt);
+            marked = true;
+        }
+
+        return marked;
+    }
+
+    public bool RemoveData(
+        BaseLightRotationEventBoxGroup<BaseLightRotationEventBox> reference,
+        BaseLightRotationEventBoxGroup<BaseLightRotationEventBox> original)
+    {
+        if (!IdToEffect.TryGetValue(original.ID, out var effect)) return false;
+        effect.RemoveData(reference, original);
+
+        return true;
     }
 
     public void Register(int group, int count)

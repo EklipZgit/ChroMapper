@@ -30,7 +30,7 @@ MonoBehaviour:
     Name: Top Circle
     ID: 0
     ColorTrack: 1
-    RotationTracks: 010101
+    RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
     TranslationTracks: 000000
     OverrideDefaultTranslationAxis: NoOverride
@@ -40,7 +40,7 @@ MonoBehaviour:
     Name: Close Circle
     ID: 0
     ColorTrack: 1
-    RotationTracks: 010101
+    RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
     TranslationTracks: 000000
     OverrideDefaultTranslationAxis: NoOverride
@@ -50,7 +50,7 @@ MonoBehaviour:
     Name: Distant Circle 1
     ID: 0
     ColorTrack: 1
-    RotationTracks: 010101
+    RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
     TranslationTracks: 000000
     OverrideDefaultTranslationAxis: NoOverride
@@ -60,7 +60,7 @@ MonoBehaviour:
     Name: Distant Circle 2
     ID: 0
     ColorTrack: 1
-    RotationTracks: 010101
+    RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
     TranslationTracks: 000000
     OverrideDefaultTranslationAxis: NoOverride
@@ -70,7 +70,7 @@ MonoBehaviour:
     Name: Left (Up)
     ID: 0
     ColorTrack: 1
-    RotationTracks: 010101
+    RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
     TranslationTracks: 000000
     OverrideDefaultTranslationAxis: NoOverride
@@ -80,7 +80,7 @@ MonoBehaviour:
     Name: Left (Out)
     ID: 0
     ColorTrack: 1
-    RotationTracks: 010101
+    RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
     TranslationTracks: 000000
     OverrideDefaultTranslationAxis: NoOverride
@@ -90,7 +90,7 @@ MonoBehaviour:
     Name: Left (Down)
     ID: 0
     ColorTrack: 1
-    RotationTracks: 010101
+    RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
     TranslationTracks: 000000
     OverrideDefaultTranslationAxis: NoOverride
@@ -100,7 +100,7 @@ MonoBehaviour:
     Name: Right (Up)
     ID: 0
     ColorTrack: 1
-    RotationTracks: 010101
+    RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
     TranslationTracks: 000000
     OverrideDefaultTranslationAxis: NoOverride
@@ -110,7 +110,7 @@ MonoBehaviour:
     Name: Right (Out)
     ID: 0
     ColorTrack: 1
-    RotationTracks: 010101
+    RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
     TranslationTracks: 000000
     OverrideDefaultTranslationAxis: NoOverride
@@ -120,7 +120,7 @@ MonoBehaviour:
     Name: Right (Down)
     ID: 0
     ColorTrack: 1
-    RotationTracks: 010101
+    RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
     TranslationTracks: 000000
     OverrideDefaultTranslationAxis: NoOverride
@@ -130,7 +130,7 @@ MonoBehaviour:
     Name: Left Single Source Circle
     ID: 0
     ColorTrack: 1
-    RotationTracks: 010101
+    RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
     TranslationTracks: 000000
     OverrideDefaultTranslationAxis: NoOverride
@@ -140,7 +140,7 @@ MonoBehaviour:
     Name: Right Single Source Circle
     ID: 0
     ColorTrack: 1
-    RotationTracks: 010101
+    RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
     TranslationTracks: 000000
     OverrideDefaultTranslationAxis: NoOverride
@@ -150,7 +150,7 @@ MonoBehaviour:
     Name: Top Circle
     ID: 0
     ColorTrack: 0
-    RotationTracks: 010101
+    RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
     TranslationTracks: 000000
     OverrideDefaultTranslationAxis: NoOverride
@@ -160,7 +160,7 @@ MonoBehaviour:
     Name: Close Circle
     ID: 0
     ColorTrack: 0
-    RotationTracks: 010101
+    RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
     TranslationTracks: 000000
     OverrideDefaultTranslationAxis: NoOverride
@@ -170,7 +170,7 @@ MonoBehaviour:
     Name: Distant Circle 1
     ID: 0
     ColorTrack: 0
-    RotationTracks: 010101
+    RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
     TranslationTracks: 000000
     OverrideDefaultTranslationAxis: NoOverride
@@ -180,7 +180,7 @@ MonoBehaviour:
     Name: Distant Circle 2
     ID: 0
     ColorTrack: 0
-    RotationTracks: 010101
+    RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
     TranslationTracks: 000000
     OverrideDefaultTranslationAxis: NoOverride
@@ -190,7 +190,7 @@ MonoBehaviour:
     Name: Single Source Circle Left
     ID: 0
     ColorTrack: 0
-    RotationTracks: 010101
+    RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
     TranslationTracks: 000000
     OverrideDefaultTranslationAxis: NoOverride
@@ -200,7 +200,7 @@ MonoBehaviour:
     Name: Single Source Circle Right
     ID: 0
     ColorTrack: 0
-    RotationTracks: 010101
+    RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
     TranslationTracks: 000000
     OverrideDefaultTranslationAxis: NoOverride

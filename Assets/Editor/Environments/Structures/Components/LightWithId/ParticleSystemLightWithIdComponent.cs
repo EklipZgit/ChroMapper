@@ -1,11 +1,14 @@
 using Newtonsoft.Json;
 
-public class ParticleSystemLightWithIdComponent : EnvDataComponent<LightController>
+public class ParticleSystemLightWithIdComponent : EnvDataComponent<ParametricBloomFogLightController>
 {
-    [JsonProperty("lightId")] public int ID;
-    [JsonProperty("intensity")] public float Intensity;
+    public bool IsEnabled;
 
-    public override void CopyTo(LightController target)
+    [JsonProperty("instanceId")] public int InstanceId;
+    [JsonProperty("lightId")] public int Id;
+    public float Intensity;
+
+    public override void CopyTo(ParametricBloomFogLightController target)
     {
     }
 }

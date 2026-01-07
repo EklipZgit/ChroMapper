@@ -434,7 +434,7 @@ public class CustomPlatformsLoader : MonoBehaviour
 
         if (basicLightEffect != null)
         {
-            var le = renderer.gameObject.AddComponent<LightController>();
+            var le = renderer.gameObject.AddComponent<ParametricBloomFogLightController>();
             // basicLightManager.ControllableLightEntries.Add(le);
         }
     }

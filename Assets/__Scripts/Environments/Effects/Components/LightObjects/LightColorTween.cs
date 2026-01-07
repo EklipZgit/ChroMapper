@@ -5,14 +5,14 @@ public class LightColorTween
 {
     public float StartTimeAlpha;
     public float StartTimeColor;
-    public Color StartColor = Color.white;
+    public Color StartColor;
     public float StartAlpha;
     public float StartStrobeFrequency;
     public float StartStrobeBrightness;
 
     public float EndTimeAlpha;
     public float EndTimeColor;
-    public Color EndColor = Color.white;
+    public Color EndColor;
     public float EndAlpha;
     public float EndStrobeFrequency;
     public float EndStrobeBrightness;

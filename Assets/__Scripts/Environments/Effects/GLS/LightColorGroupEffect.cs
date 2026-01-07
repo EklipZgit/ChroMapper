@@ -14,22 +14,19 @@ public class
     BaseLightColorBase>
 {
     [SerializeField] public ColorBoostEffect ColorBoostEffect;
-    [SerializeField] private List<LightControllerEntry> lightEntries = new();
-    private LightColorGroupContainer[] idToContainer = Array.Empty<LightColorGroupContainer>();
-
     [NonSerialized] public ColorSchemeSO ColorScheme;
+
+    [SerializeField] private List<LightController> lightEntries = new();
+    private LightColorGroupContainer[] idToContainer = Array.Empty<LightColorGroupContainer>();
 
     public void Start() => ColorBoostEffect.OnStateChanged += HandleBoostChange;
     public void OnDestroy() => ColorBoostEffect.OnStateChanged -= HandleBoostChange;
 
-    public void Register(int group, int id, LightController controller) =>
-        lightEntries.Add(new() { Type = group, ID = id, Controller = controller });
+    public void Register(LightController controller) => lightEntries.Add(controller);
 
-    public void Unregister(int group, int id) =>
-        lightEntries.Remove(lightEntries.Find(e => e.Type == group && e.ID == id));
+    public void Unregister(int id) => lightEntries.Remove(lightEntries.Find(e => e.ID == id));
 
-    public void Unregister(LightController controller) =>
-        lightEntries.Remove(lightEntries.Find(e => e.Controller == controller));
+    public void Unregister(LightController controller) => lightEntries.Remove(controller);
 
     private void HandleBoostChange(bool boost)
     {
@@ -89,51 +86,61 @@ public class
                 InitializeStates(container.GroupContainer, start, end);
             }
 
-            idToContainer[entry.ID].Lights.Add(entry.Controller);
+            idToContainer[entry.ID].Lights.Add(entry);
         }
     }
 
-    public override void UpdateDirty() => throw new NotImplementedException();
+    public override void Refresh()
+    {
+        foreach (var container in idToContainer.Where(c => c is not null))
+        {
+            // if (!container.EventContainer.IsCurrentOrFindState(Atsc.CurrentSongBpmTime, Atsc.IsPlaying))
+            //     UpdateObject(container);
+            // container.Tween.UpdateTime(Atsc.CurrentSongBpmTime);
+            foreach (var controller in container.Lights) controller.SetColor(container.Tween.Color);
+        }
+    }
 
     public override void UpdateTime(float time)
     {
         foreach (var container in idToContainer.Where(c => c is not null))
         {
-            if (!container.EventContainer.IsCurrentOrFindState(time, Atsc.IsPlaying))
-            {
-                var state = container.EventContainer.CurrentState;
-                var tween = container.Tween;
-
-                tween.StartTimeAlpha = tween.StartTimeColor = state.StartTime;
-                var startState = (LightColorEventStateData)(state.UsePrevious ? state.Previous : state);
-                tween.StartAlpha = startState.Brightness;
-                tween.StartColor = ColorScheme.GetColorFrom((LightColor)startState.Base.Color, false);
-                tween.StartStrobeFrequency = startState.Base.Frequency;
-                tween.StartStrobeBrightness = startState.Base.StrobeBrightness;
-
-                tween.EndTimeAlpha = tween.EndTimeColor = state.EndTime;
-                var endState = (LightColorEventStateData)(state.Next.UsePrevious ? startState : state.Next);
-                tween.EndAlpha = endState.Brightness;
-                tween.EndColor = ColorScheme.GetColorFrom((LightColor)endState.Base.Color, false);
-
-                if (endState.Base.Easing == (int)EaseType.None)
-                {
-                    tween.EndStrobeFrequency = startState.Base.Frequency;
-                    tween.EndStrobeBrightness = startState.Base.StrobeBrightness;
-                }
-                else
-                {
-                    tween.EndStrobeFrequency = endState.Base.Frequency;
-                    tween.EndStrobeBrightness = endState.Base.StrobeBrightness;
-                }
-
-                tween.StrobeFade = endState.Base.StrobeFade == 1;
-                tween.Easing = Easing.FromID(endState.Base.Easing);
-            }
-
+            if (!container.EventContainer.IsCurrentOrFindState(time, Atsc.IsPlaying)) UpdateObject(container);
             if (!container.Tween.UpdateTime(time)) continue;
             foreach (var controller in container.Lights) controller.SetColor(container.Tween.Color);
         }
+    }
+
+    private void UpdateObject(LightColorGroupContainer container)
+    {
+        var state = container.EventContainer.CurrentState;
+        var tween = container.Tween;
+
+        tween.StartTimeAlpha = tween.StartTimeColor = state.StartTime;
+        var startState = (LightColorEventStateData)(state.UsePrevious ? state.Previous : state);
+        tween.StartAlpha = startState.Brightness;
+        tween.StartColor = ColorScheme.GetColorFrom((LightColor)startState.Base.Color, false);
+        tween.StartStrobeFrequency = startState.Base.Frequency;
+        tween.StartStrobeBrightness = startState.Base.StrobeBrightness;
+
+        tween.EndTimeAlpha = tween.EndTimeColor = state.EndTime;
+        var endState = (LightColorEventStateData)(state.Next.UsePrevious ? startState : state.Next);
+        tween.EndAlpha = endState.Brightness;
+        tween.EndColor = ColorScheme.GetColorFrom((LightColor)endState.Base.Color, false);
+
+        if (endState.Base.Easing == (int)EaseType.None)
+        {
+            tween.EndStrobeFrequency = startState.Base.Frequency;
+            tween.EndStrobeBrightness = startState.Base.StrobeBrightness;
+        }
+        else
+        {
+            tween.EndStrobeFrequency = endState.Base.Frequency;
+            tween.EndStrobeBrightness = endState.Base.StrobeBrightness;
+        }
+
+        tween.StrobeFade = endState.Base.StrobeFade == 1;
+        tween.Easing = Easing.FromID(endState.Base.Easing);
     }
 
     protected override LightColorGroupStateData CreateState(BaseLightColorEventBoxGroup<BaseLightColorEventBox> data) =>
@@ -234,5 +241,5 @@ public record LightColorGroupContainer : EventGroupContainer<
     BaseLightColorBase>
 {
     public readonly LightColorTween Tween = new();
-    public readonly List<BaseLightController> Lights = new();
+    public readonly List<LightController> Lights = new();
 }

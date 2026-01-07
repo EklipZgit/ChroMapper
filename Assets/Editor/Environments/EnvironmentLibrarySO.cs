@@ -12,12 +12,15 @@ public class EnvironmentLibrarySO : ScriptableObject
 {
     [SerializeField] public EnvironmentMeshSO Meshes;
     [SerializeField] public EnvironmentMaterialSO Materials;
+    [SerializeField] public EnvironmentSpriteSO Sprites;
     
     [SerializeField] public List<ShaderEntry> Shaders;
     
     // Special material to use for the skybox
     // Ideally this should be the bloomfog skybox material.
     [field: SerializeField] public Material SkyboxMaterial { get; private set; }
+    
+    [field: SerializeField] public Mesh SliceSprite { get; private set; }
 
     [SerializeField] public List<LayerMaskEntry> layerMaskRemap = new();
     public Dictionary<string, LayerMask> layerMaskLookup = new();

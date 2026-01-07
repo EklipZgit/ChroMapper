@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-using Beatmap.Base;
+﻿using Beatmap.Base;
 using UnityEngine;
 
-public class TrackLaneRingsRotationEffect : BasicEventStateManager<TrackLaneRingsRotationStateData>
+public class TrackLaneRingsRotationEffect : BasicEventEffect<TrackLaneRingsRotationStateData>
 {
     public TrackLaneRingsRotation Effect;
 
@@ -18,7 +17,11 @@ public class TrackLaneRingsRotationEffect : BasicEventStateManager<TrackLaneRing
 
     private void Awake() => ringName = gameObject.name;
 
+    protected void Start() => Effect.Manager.Atsc = Atsc;
+
     public override void Initialize() => InitializeStates(container);
+
+    public override void Refresh() => UpdateObject(container.CurrentState);
 
     public override void UpdateTime(float currentTime)
     {
@@ -49,11 +52,6 @@ public class TrackLaneRingsRotationEffect : BasicEventStateManager<TrackLaneRing
 
     protected override TrackLaneRingsRotationStateData CreateState(BaseEvent data) =>
         new(data) { RotationInitial = Effect.StartupRotationAngle, RotationChange = 0f };
-
-    public override void BuildFromData(IEnumerable<BaseEvent> dataList)
-    {
-        foreach (var data in dataList) InsertData(data);
-    }
 
     protected override void OnInsertUpdateToPreviousState(
         TrackLaneRingsRotationStateData newStateData,
@@ -99,8 +97,6 @@ public class TrackLaneRingsRotationEffect : BasicEventStateManager<TrackLaneRing
         base.OnRemoveUpdateToNextState(currStateData, nextStateData);
         nextStateData.RotationInitial -= currStateData.RotationChange;
     }
-
-    public override void UpdateDirty() => UpdateObject(container.CurrentState);
 }
 
 public class TrackLaneRingsRotationStateData : BasicEventStateData

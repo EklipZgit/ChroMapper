@@ -6,7 +6,7 @@ public class BloomfogRendererSO : ScriptableObject
 {
     private static readonly int vertexTransformMatrix = Shader.PropertyToID("_VertexTransformMatrix");
 
-    private const int startCapacity = 1024;
+    private const int startCapacity = 2048;
 
     private static BloomfogQuad[] bloomfogQuads = new BloomfogQuad[startCapacity];
 
@@ -74,7 +74,7 @@ public class BloomfogRendererSO : ScriptableObject
         var uv2s = bloomfogMesh.uv2;
         var uv3s = bloomfogMesh.uv3;
 
-        var lights = LightObjectBloomFog.AllBloomFogLights;
+        var lights = BloomFogObject.AllBloomFogLights;
 
         if (lights.Count > capacity) PrepareMesh();
 
@@ -128,7 +128,7 @@ public class BloomfogRendererSO : ScriptableObject
 
     private void PrepareMesh(bool force = false)
     {
-        var lightCount = LightObjectBloomFog.AllBloomFogLights.Count;
+        var lightCount = BloomFogObject.AllBloomFogLights.Count;
 
         if (!force && bloomfogMesh != null && capacity >= lightCount) return;
 

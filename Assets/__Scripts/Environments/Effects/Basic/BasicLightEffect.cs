@@ -5,24 +5,23 @@ using Beatmap.Base;
 using Beatmap.Enums;
 using UnityEngine;
 
-public class BasicLightEffect : BasicEventStateManager<BasicLightStateData>
+public class BasicLightEffect : BasicEventEffect<BasicLightStateData>
 {
+    [SerializeField] public ColorBoostEffect ColorBoostEffect;
     [NonSerialized] public ColorSchemeSO ColorScheme;
+
+    [SerializeField] public float OffIntensity;
+    [SerializeField] public bool LightOnStart;
+    [SerializeField] public bool InvertColorScheme;
 
     public static readonly float FadeTimeSecond = 1.5f;
     public static readonly float FlashTimeSecond = 0.6f;
     public static float FadeTimeBeat = FadeTimeSecond;
     public static float FlashTimeBeat = FlashTimeSecond;
 
-    [SerializeField] public ColorBoostEffect ColorBoostEffect;
+    [SerializeField] private List<LightController> lightEntries = new();
 
-    [SerializeField] public float OffIntensity;
-    [SerializeField] public bool LightOnStart;
-    [SerializeField] public bool InvertColorScheme;
-
-    [SerializeField] private List<BaseLightController> controllerEntries = new();
-
-    private Dictionary<int, BaseLightController> lightIDToController;
+    private Dictionary<int, LightController> lightIDToController;
 
     public readonly Dictionary<int, int>
         LightIDToLane = new(); // we opt for dict because lightID can be arbitrary value
@@ -30,37 +29,42 @@ public class BasicLightEffect : BasicEventStateManager<BasicLightStateData>
     public readonly List<int> LaneToLightID = new();
     public readonly List<int[]> LaneToLightIDs = new(); // this also refer to propID
 
-    private readonly Dictionary<BaseLightController, (LightColorTween tween,
+    private readonly Dictionary<LightController, (LightColorTween tween,
             BasicEventStateChunksContainer<BasicLightStateData> container)>
         controllerToContainer = new();
 
     private List<ChromaLiteData> chromaLiteDatas = new();
     private List<ChromaGradientData> chromaGradientDatas = new();
 
-    private void Start() => ColorBoostEffect.OnStateChanged += HandleBoostChanged;
+    protected void Start() => ColorBoostEffect.OnStateChanged += HandleBoostChanged;
 
     private void OnDestroy() => ColorBoostEffect.OnStateChanged -= HandleBoostChanged;
 
-    public void Register(BaseLightController controller, bool strict = true)
+    public void Register(LightController controller, bool strict = true)
     {
-        if (controllerEntries.Exists(l => l == controller))
+        LightController overlight = null;
+        if (lightEntries.Exists(l => l == controller))
         {
             Debug.LogWarning($"{controller} is already registered in {this}");
             return;
         }
 
-        if (strict && controller.ID != -1 && controllerEntries.Exists(l => l.ID == controller.ID))
+        if (strict && controller.ID != -1 && lightEntries.Exists(l => l.ID == controller.ID))
         {
-            Debug.LogError($"{controller} ID {controller.ID} is already used in {this}");
-            return;
+            overlight = lightEntries.First(l => l.ID == controller.ID);
+            Debug.LogError(
+                $"{controller} ID {controller.ID} is already used in {this} by {overlight}; re-registering as new");
+            Unregister(overlight);
+            overlight.ID = -1;
         }
 
-        if (controller.ID == -1) controller.ID = 0;
-        while (controllerEntries.Exists(l => l.ID == controller.ID)) controller.ID++;
-        controllerEntries.Add(controller);
+        if (controller.ID <= 0) controller.ID = 1;
+        while (lightEntries.Exists(l => l.ID == controller.ID)) controller.ID++;
+        lightEntries.Add(controller);
+        if (overlight != null) Register(overlight, false);
     }
 
-    public void Unregister(BaseLightController controller) => controllerEntries.Remove(controller);
+    public void Unregister(LightController controller) => lightEntries.Remove(controller);
 
     private void CalculateMapping()
     {
@@ -68,7 +72,7 @@ public class BasicLightEffect : BasicEventStateManager<BasicLightStateData>
         LaneToLightIDs.Clear();
         LightIDToLane.Clear();
 
-        var ordered = controllerEntries.OrderBy(x => x.ID).ToList();
+        var ordered = lightEntries.OrderBy(x => x.ID).ToList();
         lightIDToController = ordered.ToDictionary(x => x.ID, x => x);
         LaneToLightID.AddRange(ordered.Select(x => x.ID));
         LaneToLightIDs.AddRange(
@@ -83,7 +87,7 @@ public class BasicLightEffect : BasicEventStateManager<BasicLightStateData>
     {
         CalculateMapping();
         controllerToContainer.Clear();
-        foreach (var controller in controllerEntries.Select(x => x))
+        foreach (var controller in lightEntries.Select(x => x))
         {
             controllerToContainer[controller] =
                 (new(), InitializeStates(new BasicEventStateChunksContainer<BasicLightStateData>()));
@@ -96,14 +100,19 @@ public class BasicLightEffect : BasicEventStateManager<BasicLightStateData>
         }
     }
 
+    public override void Refresh()
+    {
+        foreach (var (controller, (tween, _)) in controllerToContainer) controller.SetColor(tween.Color);
+    }
+
     public override void UpdateTime(float currentTime)
     {
-        foreach (var (lightingObject, (tween, container)) in controllerToContainer)
+        foreach (var (controller, (tween, container)) in controllerToContainer)
         {
             if (!container.IsCurrentOrFindState(currentTime, Atsc.IsPlaying))
                 UpdateObject(tween, container.CurrentState);
 
-            if (tween.UpdateTime(currentTime)) lightingObject.SetColor(tween.Color);
+            if (tween.UpdateTime(currentTime)) controller.SetColor(tween.Color);
         }
     }
 
@@ -151,11 +160,6 @@ public class BasicLightEffect : BasicEventStateManager<BasicLightStateData>
     //}
 
     protected override BasicLightStateData CreateState(BaseEvent data) => new(data);
-
-    public override void BuildFromData(IEnumerable<BaseEvent> dataList)
-    {
-        foreach (var data in dataList) InsertData(data);
-    }
 
     protected override void OnInsertUpdateToPreviousState(
         BasicLightStateData newStateData,
@@ -393,7 +397,7 @@ public class BasicLightEffect : BasicEventStateManager<BasicLightStateData>
         if (data.CustomLightID != null && lightIDToController != null && Settings.Instance.EmulateChromaAdvanced)
         {
             var lightIDArr = data.CustomLightID;
-            var filteredLights = new List<BaseLightController>(lightIDArr.Length);
+            var filteredLights = new List<LightController>(lightIDArr.Length);
             foreach (var lightID in lightIDArr)
             {
                 if (!lightIDToController.TryGetValue(lightID, out var lightingObject)) continue;
@@ -479,7 +483,7 @@ public class BasicLightEffect : BasicEventStateManager<BasicLightStateData>
         if (original.CustomLightID != null && lightIDToController != null && Settings.Instance.EmulateChromaAdvanced)
         {
             var lightIDArr = original.CustomLightID;
-            var filteredLights = new List<BaseLightController>(lightIDArr.Length);
+            var filteredLights = new List<LightController>(lightIDArr.Length);
             foreach (var lightID in lightIDArr)
             {
                 if (!lightIDToController.TryGetValue(lightID, out var lightingObject)) continue;
@@ -543,11 +547,6 @@ public class BasicLightEffect : BasicEventStateManager<BasicLightStateData>
 
         InsertWithChromaGradient(previousStateData);
         InsertWithChromaGradient(nextStateData);
-    }
-
-    public override void UpdateDirty()
-    {
-        foreach (var (tween, container) in controllerToContainer.Values) UpdateObject(tween, container.CurrentState);
     }
 
     private static LightColor InferColorFromEvent(BaseEvent evt) =>

@@ -8,7 +8,6 @@
         [Space(10)]
         _Color ("Color", Color) = (1,1,1,1)
         _MainTex ("Texture", 2D) = "white" {}
-        _Glow ("Glow", Range(0, 1)) = 0.0
 
         [Space(10)]
         _Glossiness ("Smoothness", Range(0, 1)) = 0.5
@@ -73,7 +72,6 @@
 
             sampler2D _MainTex;
             float4 _MainTex_ST;
-            float _Glow;
             float _Glossiness;
             float _Metallic;
 
@@ -102,7 +100,6 @@
             {
                 UNITY_SETUP_INSTANCE_ID(i);
                 fixed4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
-                fixed glow = _Glow;
                 fixed glossiness = _Glossiness;
                 fixed metallic = _Metallic;
 
@@ -127,7 +124,7 @@
                 col += diffuse * lightColor * albedo.rgb;
                 col += specular * lightColor;
 
-                float alpha = log2(glow + 1.0);
+                float alpha = log(1 + albedo.a);
 
                 fixed4 bloomfog_color = fixed4(col.rgb, saturate(alpha));
 

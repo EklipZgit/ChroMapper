@@ -4,21 +4,16 @@ using UnityEngine;
 
 public abstract class StateManager : MonoBehaviour, IBeatmapUpdate
 {
-    protected bool IsDirty;
     public AudioTimeSyncController Atsc;
-    
-    public bool AutoRegister;
-    public List<int> Types = new();
-    
+    public int ID = -1;
+
     public abstract void Initialize();
-    public abstract void UpdateDirty();
+    public abstract void Refresh();
     public abstract void UpdateTime(float time);
 }
 
 public abstract class StateManager<T> : StateManager where T : BaseObject
 {
-    public abstract void BuildFromData(IEnumerable<T> dataList);
-
     public abstract void InsertData(T data);
 
     // TODO: ugly hack, object gets modified by reference and manager having more than one type/id

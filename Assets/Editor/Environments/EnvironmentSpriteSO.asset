@@ -1,0 +1,147 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73ed625f333e480a961eeeb5ae345136, type: 3}
+  m_Name: EnvironmentSpriteSO
+  m_EditorClassIdentifier: 
+  list:
+  - Sprite: {fileID: 0}
+    Name: Arrow
+    Environments:
+    - TheWeekndEnvironment
+    Unused: 0
+    Ignored: 0
+  - Sprite: {fileID: 0}
+    Name: ArrowWhite
+    Environments:
+    - LinkinPark2Environment
+    Unused: 0
+    Ignored: 0
+  - Sprite: {fileID: 0}
+    Name: Circle
+    Environments:
+    - Dragons2Environment
+    - LizzoEnvironment
+    Unused: 0
+    Ignored: 0
+  - Sprite: {fileID: 0}
+    Name: CircleWithGradient
+    Environments:
+    - BTSEnvironment
+    Unused: 0
+    Ignored: 0
+  - Sprite: {fileID: 0}
+    Name: DanceFloorTile
+    Environments:
+    - LizzoEnvironment
+    Unused: 0
+    Ignored: 0
+  - Sprite: {fileID: 0}
+    Name: FortMinorStar
+    Environments:
+    - LinkinPark2Environment
+    Unused: 0
+    Ignored: 0
+  - Sprite: {fileID: 21300000, guid: adb8610132f85e24d8404d7a400a0c33, type: 3}
+    Name: GreenDayLogo
+    Environments:
+    - GreenDayEnvironment
+    - GreenDayGrenadeEnvironment
+    Unused: 0
+    Ignored: 0
+  - Sprite: {fileID: 0}
+    Name: GuitarDot
+    Environments:
+    - RockMixtapeEnvironment
+    Unused: 0
+    Ignored: 0
+  - Sprite: {fileID: 21300000, guid: 0bbaafe17d0fc4b44b791b16da84d645, type: 3}
+    Name: LinkinParkLogo
+    Environments:
+    - LinkinPark2Environment
+    - LinkinParkEnvironment
+    Unused: 0
+    Ignored: 0
+  - Sprite: {fileID: 0}
+    Name: MKLogo
+    Environments:
+    - LinkinPark2Environment
+    Unused: 0
+    Ignored: 0
+  - Sprite: {fileID: 21300000, guid: 4d74b6d100ca3e5448ed79cc41db0716, type: 3}
+    Name: MagicDoor
+    Environments:
+    - BTSEnvironment
+    Unused: 0
+    Ignored: 0
+  - Sprite: {fileID: 21300000, guid: f0b4f53228994b88b1afa07ff8113a09, type: 3}
+    Name: MonstercatStrokeLogo
+    Environments:
+    - CrabRaveEnvironment
+    - MonstercatEnvironment
+    Unused: 0
+    Ignored: 0
+  - Sprite: {fileID: 21300000, guid: 705c4bd64627e2c46a9c3ffa2443f333, type: 3}
+    Name: Moon
+    Environments:
+    - HalloweenEnvironment
+    - BillieEnvironment
+    - Halloween2Environment
+    Unused: 0
+    Ignored: 0
+  - Sprite: {fileID: 21300000, guid: 1d6da6887572461c9f03029a525f1f40, type: 3}
+    Name: PanicWindow
+    Environments:
+    - PanicEnvironment
+    Unused: 0
+    Ignored: 0
+  - Sprite: {fileID: 0}
+    Name: RainbowCircle
+    Environments:
+    - LizzoEnvironment
+    Unused: 0
+    Ignored: 0
+  - Sprite: {fileID: 0}
+    Name: Roof
+    Environments:
+    - TheWeekndEnvironment
+    Unused: 0
+    Ignored: 0
+  - Sprite: {fileID: 21300000, guid: 503e5a08e0b5f3d4da64f242f81758a5, type: 3}
+    Name: SkrillexLogo
+    Environments:
+    - SkrillexEnvironment
+    Unused: 0
+    Ignored: 0
+  - Sprite: {fileID: 21300000, guid: 09ddbcbc770f7ca4fb84243dfb8602ad, type: 3}
+    Name: Sun
+    Environments:
+    - BillieEnvironment
+    Unused: 0
+    Ignored: 0
+  - Sprite: {fileID: 21300000, guid: 5097f592d9cd3a463962864023ea8776, type: 3}
+    Name: TimbalandLogo
+    Environments:
+    - TimbalandEnvironment
+    Unused: 0
+    Ignored: 0
+  - Sprite: {fileID: 0}
+    Name: Window
+    Environments:
+    - TheWeekndEnvironment
+    Unused: 0
+    Ignored: 0
+  - Sprite: {fileID: 0}
+    Name: sactx-0-2048x2048-BC7-Core-fb6911ec
+    Environments:
+    - KDAEnvironment
+    Unused: 0
+    Ignored: 0

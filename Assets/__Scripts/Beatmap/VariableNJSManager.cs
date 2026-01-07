@@ -21,16 +21,16 @@ public class VariableNJSManager : BeatmapObjectManager<BaseNJSEvent>
         Context.Atsc.OnTimeChangedEarly -= UpdateTime;
     }
 
-    public override void UpdateTime() => UpdateTime(Context.Atsc.CurrentSongBpmTime);
-    public override void UpdateTime(float beatTime) => provider.UpdateTime(beatTime);
-
-    private void Refresh()
+    public override void Refresh()
     {
         provider.Initialize();
-        provider.BuildFromData(BeatSaberSongContainer.Instance.Map.NJSEvents);
+        BeatSaberSongContainer.Instance.Map.NJSEvents.ForEach(provider.InsertData);
 
         Context.Atsc.OnTimeChangedEarly += UpdateTime;
     }
+
+    public override void UpdateTime() => UpdateTime(Context.Atsc.CurrentSongBpmTime);
+    public override void UpdateTime(float beatTime) => provider.UpdateTime(beatTime);
 
     protected override bool AddData(IEnumerable<BaseNJSEvent> data)
     {

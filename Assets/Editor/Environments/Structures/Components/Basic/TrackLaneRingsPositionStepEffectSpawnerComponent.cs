@@ -1,7 +1,7 @@
-using Newtonsoft.Json;
-
 public class TrackLaneRingsPositionStepEffectSpawnerComponent
 {
+    public bool IsEnabled;
+
     public string EventType;
     public string TrackLaneRingsManager;
     public float MinPositionStep;

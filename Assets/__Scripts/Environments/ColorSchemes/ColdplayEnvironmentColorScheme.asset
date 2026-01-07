@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 375d41bff0e98c74abb5947b0ab58ffb, type: 3}
+  m_Name: ColdplayEnvironmentColorScheme
+  m_EditorClassIdentifier: 
+  LeftNoteColor: {r: 0.7921569, g: 0.21568628, b: 0.45882353, a: 1}
+  RightNoteColor: {r: 0.5686275, g: 0.5921569, b: 0.9529412, a: 1}
+  ObstacleColor: {r: 0.76470596, g: 0.050980397, b: 1, a: 1}
+  environmentLeftColor: {r: 0.2509804, g: 0.08627451, b: 0.70980394, a: 1}
+  environmentRightColor: {r: 0.42352945, g: 0.6745098, b: 1, a: 1}
+  environmentWhiteColor: {r: 0.7254902, g: 0.7254902, b: 0.7254902, a: 1}
+  environmentLeftBoostColor: {r: 0.7372549, g: 0.5882353, b: 0, a: 1}
+  environmentRightBoostColor: {r: 0.30980393, g: 0.7803922, b: 0.6509804, a: 1}
+  environmentWhiteBoostColor: {r: 0.7254902, g: 0.7254902, b: 0.7254902, a: 1}

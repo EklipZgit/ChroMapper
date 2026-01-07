@@ -14,14 +14,18 @@
     {
         Tags
         {
+            "Queue"="Transparent"
             "PreviewType"="Plane"
             "CanUseSpriteAtlas"="True"
+            "RenderType"="Transparent"
         }
 
         Pass
         {
             Cull Off
+            ZWrite Off
             Lighting Off
+            Blend One OneMinusSrcColor, SrcColor OneMinusSrcColor
 
             CGPROGRAM
             #pragma vertex SpriteVert
@@ -35,7 +39,7 @@
             fixed4 frag(v2f IN) : SV_Target
             {
                 fixed4 c = SampleSpriteTexture(IN.texcoord) * IN.color;
-                if (c.a < 0.5) discard;
+                c.rgb *= c.a;
                 c.a = 0;
                 return c;
             }

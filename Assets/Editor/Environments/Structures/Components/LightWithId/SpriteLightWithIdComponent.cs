@@ -1,11 +1,23 @@
 using Newtonsoft.Json;
 
-public class SpriteLightWithIdComponent : EnvDataComponent<LightController>
+public class SpriteLightWithIdComponent : EnvDataComponent<SpriteLightController>
 {
-    [JsonProperty("lightId")] public float LightId;
-    [JsonProperty("lightIntensity")] public float LightIntensity;
+    public bool IsEnabled;
+
+    [JsonProperty("instanceId")] public int InstanceId;
+    [JsonProperty("lightId")] public int Id;
 
     [JsonProperty("sprite")] public SpriteData Sprite;
+
+    public bool HideIfAlphaOutOfRange;
+    public float HideAlphaRangeMin;
+    public float HideAlphaRangeMax;
+    [JsonProperty("lightIntensity")] public float Intensity;
+    public float MinAlpha;
+    public MultiplyColorByAlphaType MultiplyColorByAlpha;
+    public bool SetColorOnly;
+    public bool SetAlphaOnly;
+    public bool SetOnlyOnce;
 
     public class SpriteData
     {
@@ -15,7 +27,16 @@ public class SpriteLightWithIdComponent : EnvDataComponent<LightController>
         public string[] Materials;
     }
 
-    public override void CopyTo(LightController target)
+    public override void CopyTo(SpriteLightController target)
     {
+        target.HideIfAlphaOutOfRange = HideIfAlphaOutOfRange;
+        target.HideAlphaRangeMin = HideAlphaRangeMin;
+        target.HideAlphaRangeMax = HideAlphaRangeMax;
+        target.Intensity = Intensity;
+        target.MinAlpha = MinAlpha;
+        target.MultiplyColorByAlpha = MultiplyColorByAlpha;
+        target.SetColorOnly = SetColorOnly;
+        target.SetAlphaOnly = SetAlphaOnly;
+        target.SetOnlyOnce = SetOnlyOnce;
     }
 }

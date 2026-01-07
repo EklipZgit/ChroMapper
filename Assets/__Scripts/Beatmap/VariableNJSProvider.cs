@@ -87,11 +87,6 @@ public class VariableNJSProvider : StateManager<VariableNJSStateData, BaseNJSEve
         OnChanged?.Invoke();
     }
 
-    public override void BuildFromData(IEnumerable<BaseNJSEvent> dataList)
-    {
-        foreach (var evt in dataList) InsertData(evt);
-    }
-
     protected override void OnInsertUpdateToPreviousState(VariableNJSStateData newState, VariableNJSStateData prevState)
     {
         base.OnInsertUpdateToPreviousState(newState, prevState);
@@ -174,7 +169,7 @@ public class VariableNJSProvider : StateManager<VariableNJSStateData, BaseNJSEve
         MaxHalfJumpDurationInBeats = hjds.Keys.Max();
     }
 
-    public override void UpdateDirty() => UpdateState();
+    public override void Refresh() => UpdateState();
 
     protected override VariableNJSStateData CreateState(BaseNJSEvent data) => new(data);
 }

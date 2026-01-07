@@ -1,16 +1,17 @@
 using System;
-using System.Collections.Generic;
 using Beatmap.Base;
 
-public class ColorBoostEffect : BasicEventStateManager<ColorBoostStateData>
+public class ColorBoostEffect : BasicEventEffect<ColorBoostStateData>, IEffectStateSignal<bool>
 {
     private readonly BasicEventStateChunksContainer<ColorBoostStateData> container = new();
     public ColorSchemeSO ColorScheme;
     public bool Boost;
-
+    
     public event Action<bool> OnStateChanged;
 
     public override void Initialize() => InitializeStates(container);
+
+    public override void Refresh() => UpdateObject(container.CurrentState);
 
     public override void UpdateTime(float currentTime)
     {
@@ -26,11 +27,6 @@ public class ColorBoostEffect : BasicEventStateManager<ColorBoostStateData>
     }
 
     protected override ColorBoostStateData CreateState(BaseEvent data) => new(data);
-
-    public override void BuildFromData(IEnumerable<BaseEvent> dataList)
-    {
-        foreach (var data in dataList) InsertData(data);
-    }
 
     public override void InsertData(BaseEvent data)
     {
@@ -48,8 +44,6 @@ public class ColorBoostEffect : BasicEventStateManager<ColorBoostStateData>
         container.SetStateAt(data.SongBpmTime);
         UpdateObject(container.CurrentState);
     }
-
-    public override void UpdateDirty() => UpdateObject(container.CurrentState);
 }
 
 public class ColorBoostStateData : BasicEventStateData

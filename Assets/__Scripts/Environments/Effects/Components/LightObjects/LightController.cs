@@ -1,28 +1,39 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
-public class LightController : BaseLightController
+public abstract class LightController : MonoBehaviour
 {
     public static readonly float HDRIntensity = Mathf.GammaToLinearSpace(2.4169f);
-    public LightObject BoxLight;
-    public LightObject SpriteLight;
-    public LightObjectBloomFog BloomFog;
 
-    private bool useBoxLight;
-    private bool useSpriteLight;
-    private bool useBloomFog;
+    public LightKind Kind;
+    public int Type;
+    public int ID;
 
-    private void Start()
+    protected static readonly int ColorId = Shader.PropertyToID("_Color");
+
+    protected bool HasInitialized;
+    protected MaterialPropertyBlock Mpb;
+    protected Color Color;
+
+    protected virtual void OnValidate()
     {
-        useBoxLight = BoxLight != null;
-        useSpriteLight = SpriteLight != null;
-        useBloomFog = BloomFog != null;
+        Color = new(0f, 0.5f, 1f);
+        Start();
     }
 
-    public override void SetColor(Color color)
+    public void Start()
     {
-        // These are basically cached null checks to avoid doing them every frame
-        if (useBoxLight) BoxLight.SetColor(color);
-        if (useSpriteLight) SpriteLight.SetColor(color);
-        if (useBloomFog) BloomFog.SetColor(color);
+        Mpb = new();
+        HasInitialized = Initialize();
+        SetColor(Color);
+    }
+
+    protected abstract bool Initialize();
+    public abstract void SetColor(Color color);
+
+    public enum LightKind : byte
+    {
+        Basic,
+        Group
     }
 }

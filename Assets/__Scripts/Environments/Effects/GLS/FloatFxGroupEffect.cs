@@ -69,30 +69,38 @@ public class
         }
     }
 
-    public override void UpdateDirty() => throw new NotImplementedException();
+    public override void Refresh()
+    {
+        foreach (var container in idToContainer.Where(c => c is not null))
+        {
+            // if (!container.EventContainer.IsCurrentOrFindState(time, Atsc.IsPlaying)) UpdateObject(container);
+            // if (!container.Tween.UpdateTime(time)) continue;
+        }
+    }
 
     public override void UpdateTime(float time)
     {
         foreach (var container in idToContainer.Where(c => c is not null))
         {
-            if (!container.EventContainer.IsCurrentOrFindState(time, Atsc.IsPlaying))
-            {
-                var state = container.EventContainer.CurrentState;
-                var tween = container.Tween;
-
-                tween.StartTime = state.StartTime;
-                var startState = (FloatFxEventStateData)(state.UsePrevious ? state.Previous : state);
-                tween.StartValue = startState.Value;
-
-                tween.EndTime = state.EndTime;
-                var endState = (FloatFxEventStateData)(state.Next.UsePrevious ? startState : state.Next);
-                tween.EndValue = endState.Value;
-
-                tween.Easing = Easing.FromID(endState.Base.Easing);
-            }
-
+            if (!container.EventContainer.IsCurrentOrFindState(time, Atsc.IsPlaying)) UpdateObject(container);
             if (!container.Tween.UpdateTime(time)) continue;
         }
+    }
+
+    private void UpdateObject(FloatFxGroupContainer container)
+    {
+        var state = container.EventContainer.CurrentState;
+        var tween = container.Tween;
+
+        tween.StartTime = state.StartTime;
+        var startState = (FloatFxEventStateData)(state.UsePrevious ? state.Previous : state);
+        tween.StartValue = startState.Value;
+
+        tween.EndTime = state.EndTime;
+        var endState = (FloatFxEventStateData)(state.Next.UsePrevious ? startState : state.Next);
+        tween.EndValue = endState.Value;
+
+        tween.Easing = Easing.FromID(endState.Base.Easing);
     }
 
     protected override FloatFxGroupStateData CreateState(BaseVfxEventEventBoxGroup<BaseVfxEventEventBox> data) =>
@@ -193,7 +201,7 @@ public record FloatFxGroupContainer : EventGroupContainer<
     FloatFxEventBase>
 {
     public readonly FloatTween Tween = new();
-    public readonly List<BaseLightController> Lights = new();
+    public readonly List<LightController> Fxs = new();
 }
 
 [Serializable]

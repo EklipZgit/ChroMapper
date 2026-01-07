@@ -99,6 +99,6 @@ public partial class EnvironmentSceneCreator
         BuildComponents(library, data, chromaIdObjects);
 
         // forth pass: cleanup and remove unused
-        Cleanup(scene);
+        Cleanup(scene, data);
     }
 }

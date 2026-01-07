@@ -73,7 +73,7 @@ MonoBehaviour:
     Name: Top Lasers
     ID: 0
     ColorTrack: 1
-    RotationTracks: 010101
+    RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
     TranslationTracks: 000000
     OverrideDefaultTranslationAxis: NoOverride
@@ -83,7 +83,7 @@ MonoBehaviour:
     Name: Left Lasers
     ID: 0
     ColorTrack: 1
-    RotationTracks: 010101
+    RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
     TranslationTracks: 000000
     OverrideDefaultTranslationAxis: NoOverride
@@ -93,7 +93,7 @@ MonoBehaviour:
     Name: Right Lasers
     ID: 0
     ColorTrack: 1
-    RotationTracks: 010101
+    RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
     TranslationTracks: 000000
     OverrideDefaultTranslationAxis: NoOverride
@@ -153,7 +153,7 @@ MonoBehaviour:
     Name: Lasers
     ID: 0
     ColorTrack: 1
-    RotationTracks: 010101
+    RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
     TranslationTracks: 000000
     OverrideDefaultTranslationAxis: NoOverride
@@ -163,7 +163,7 @@ MonoBehaviour:
     Name: Lasers Left
     ID: 0
     ColorTrack: 1
-    RotationTracks: 010101
+    RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
     TranslationTracks: 000000
     OverrideDefaultTranslationAxis: NoOverride
@@ -173,7 +173,7 @@ MonoBehaviour:
     Name: Lasers Right
     ID: 0
     ColorTrack: 1
-    RotationTracks: 010101
+    RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
     TranslationTracks: 000000
     OverrideDefaultTranslationAxis: NoOverride
@@ -183,7 +183,7 @@ MonoBehaviour:
     Name: Ring Left
     ID: 0
     ColorTrack: 0
-    RotationTracks: 010101
+    RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
     TranslationTracks: 000000
     OverrideDefaultTranslationAxis: NoOverride
@@ -193,7 +193,7 @@ MonoBehaviour:
     Name: Ring Right
     ID: 0
     ColorTrack: 0
-    RotationTracks: 010101
+    RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
     TranslationTracks: 000000
     OverrideDefaultTranslationAxis: NoOverride
@@ -223,7 +223,7 @@ MonoBehaviour:
     Name: Stand Lasers Left
     ID: 0
     ColorTrack: 1
-    RotationTracks: 010101
+    RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
     TranslationTracks: 000000
     OverrideDefaultTranslationAxis: NoOverride
@@ -233,7 +233,7 @@ MonoBehaviour:
     Name: Stand Lasers Right
     ID: 0
     ColorTrack: 1
-    RotationTracks: 010101
+    RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
     TranslationTracks: 000000
     OverrideDefaultTranslationAxis: NoOverride

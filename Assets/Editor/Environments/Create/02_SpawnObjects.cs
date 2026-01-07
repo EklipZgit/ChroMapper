@@ -54,10 +54,10 @@ public partial class EnvironmentSceneCreator
                     if (mf == null) mf = go.AddComponent<MeshFilter>();
                     mf.sharedMesh = mesh;
 
-                    var renderer = GetOrCreateMeshRenderer(go);
                     if (envObject.Components.MeshRenderer != null
                         && envObject.Components.MeshRenderer[0].Materials.Any())
                     {
+                        var renderer = GetOrCreateMeshRenderer(go);
                         if (library.Materials.Lookup.TryGetValue(
                                 envObject.Components.MeshRenderer[0].Materials[0],
                                 out var mat)
@@ -70,7 +70,8 @@ public partial class EnvironmentSceneCreator
                         }
                     }
                 }
-                else
+                // remove this if statement if u need to search all "invisible" fallback object
+                else if (envObject.Components.MeshRenderer != null)
                 {
                     Debug.LogWarning(
                         $"{envObject.ChromaID} mesh not found for:\n{envObject.Components.MeshFilter[0].Hash} -- {library.Meshes.list.FindIndex(l => l.Hash == envObject.Components.MeshFilter[0].Hash)}");
@@ -79,6 +80,28 @@ public partial class EnvironmentSceneCreator
                     var mInfo = library.Meshes.list.First(x => x.Hash == envObject.Components.MeshFilter[0].Hash);
                     fallback.transform.localPosition = mInfo.BoundsCenter;
                     fallback.transform.localScale = mInfo.BoundsSize;
+                }
+            }
+
+            if (envObject.Components.Collider != null)
+            {
+                foreach (var component in go.GetComponents<Collider>()) Object.DestroyImmediate(component);
+                foreach (var colliderComponent in envObject.Components.Collider)
+                {
+                    switch (colliderComponent.Type)
+                    {
+                        case "BoxCollider":
+                            var box = go.AddComponent<BoxCollider>();
+                            box.center = colliderComponent.BoundsCenter;
+                            box.size = colliderComponent.BoundsSize;
+                            break;
+                        case "MeshCollider":
+                            var mf = go.GetComponent<MeshFilter>();
+                            if (mf == null) break;
+                            var m = go.AddComponent<MeshCollider>();
+                            m.sharedMesh = mf.sharedMesh;
+                            break;
+                    }
                 }
             }
 

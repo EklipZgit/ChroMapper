@@ -24,6 +24,8 @@ public class EnvDataObject
         // Unity Components
         [JsonProperty("transform")] public TransformComponent[]? Transform;
 
+        [JsonProperty("collider")] public ColliderComponent[]? Collider;
+
         [JsonProperty("meshFilter")] public MeshFilterComponent[]? MeshFilter;
 
         [JsonProperty("meshRenderer")] public MeshRendererComponent[]? MeshRenderer;
@@ -37,16 +39,30 @@ public class EnvDataObject
         [JsonProperty("particleSystemLightWithId")]
         public ParticleSystemLightWithIdComponent[]? ParticleSystemLightWithID;
 
+        [JsonProperty("rectangleFakeGlowLightWithId")]
+        public RectangleFakeGlowLightWithIdComponent[]? RectangleFakeGlowLightWithId;
+
         [JsonProperty("spriteLightWithId")] public SpriteLightWithIdComponent[]? SpriteLightWithId;
 
         [JsonProperty("tubeBloomPrePassLightWithId")]
         public TubeBloomPrePassLightWithIdComponent[]? TubeBloomPrePassLightWithId;
 
         // Controller Components
+        [JsonProperty("rectangleFakeGlow")] public RectangleFakeGlowComponent[]? RectangleFakeGlow;
+
+        [JsonProperty("parametricBoxController")]
+        public ParametricBoxControllerComponent[]? ParametricBoxController;
+
         [JsonProperty("parametric3SliceSpriteController")]
         public Parametric3SliceSpriteControllerComponent[]? Parametric3SliceSpriteController;
 
         // Basic
+        [JsonProperty("GameObjectIntSwitchEventEffect")]
+        public GameObjectIntSwitchEventEffectComponent[]? GameObjectIntSwitchEventEffect;
+
+        [JsonProperty("GameObjectSwitchEventEffect")]
+        public GameObjectSwitchEventEffectComponent[]? GameObjectSwitchEventEffect;
+
         [JsonProperty("lightRotationEventEffect")]
         public LightRotationEventEffectComponent[]? LightRotationEventEffect;
 
@@ -59,11 +75,20 @@ public class EnvDataObject
         [JsonProperty("lightSwitchEventEffect")]
         public LightSwitchEventEffectComponent[]? LightSwitchEventEffect;
 
+        [JsonProperty("MeshRendererSwitchEventEffect")]
+        public MeshRendererSwitchEventEffectComponent[]? MeshRendererSwitchEventEffect;
+
+        [JsonProperty("MovementBeatmapEventEffect")]
+        public MovementBeatmapEventEffectComponent[]? MovementBeatmapEventEffect;
+
         [JsonProperty("particleSystemContinuousEventEffect")]
         public ParticleSystemContinuousEventEffectComponent[]? ParticleSystemContinuousEventEffect;
 
         [JsonProperty("particleSystemEventEffect")]
         public ParticleSystemEventEffectComponent[]? ParticleSystemEventEffect;
+
+        [JsonProperty("smoothStepPositionEventEffect")]
+        public SmoothStepPositionEventEffectComponent[]? SmoothStepPositionEventEffect;
 
         [JsonProperty("trackLaneRing")] public TrackLaneRingComponent[]? TrackLaneRing;
 
