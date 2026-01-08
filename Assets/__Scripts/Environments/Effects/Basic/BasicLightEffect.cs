@@ -32,8 +32,8 @@ public class BasicLightEffect : BasicEventEffect<BasicLightStateData>
             BasicEventStateChunksContainer<BasicLightStateData> container)>
         controllerToContainer = new();
 
-    private List<ChromaLiteData> chromaLiteDatas = new();
-    private List<ChromaGradientData> chromaGradientDatas = new();
+    private List<ChromaLiteData> chromaLiteData = new();
+    private List<ChromaGradientData> chromaGradientData = new();
 
     private void Start() => ColorBoostEffect.OnStateChanged += HandleBoostChanged;
     private void OnDestroy() => ColorBoostEffect.OnStateChanged -= HandleBoostChanged;
@@ -151,17 +151,6 @@ public class BasicLightEffect : BasicEventEffect<BasicLightStateData>
             UpdateStartAndEndColor(tween, container.CurrentState);
     }
 
-    //private void OnDrawGizmosSelected()
-    //{
-    //    Gizmos.color = Color.red;
-    //    if (GroupingMultiplier <= 0.1f) return;
-    //    for (var i = -5; i < 150; i++)
-    //    {
-    //        var z = ((i - GroupingOffset) / GroupingMultiplier) + 0.5f;
-    //        Gizmos.DrawLine(new Vector3(-50, 0, z), new Vector3(50, 0, z));
-    //    }
-    //}
-
     protected override BasicLightStateData CreateState(BaseEvent data) => new(data);
 
     protected override void OnInsertUpdateToPreviousState(
@@ -242,13 +231,13 @@ public class BasicLightEffect : BasicEventEffect<BasicLightStateData>
 
     private void UpdateExistingWithChromaLite(float time)
     {
-        var fromIndex = chromaLiteDatas.FindLastIndex(cl => cl.Base.SongBpmTime <= time);
-        var from = fromIndex != -1 && fromIndex < chromaLiteDatas.Count
-            ? chromaLiteDatas[fromIndex]
+        var fromIndex = chromaLiteData.FindLastIndex(cl => cl.Base.SongBpmTime <= time);
+        var from = fromIndex != -1 && fromIndex < chromaLiteData.Count
+            ? chromaLiteData[fromIndex]
             : new ChromaLiteData { Base = new BaseEvent { songBpmTime = float.MinValue } };
 
-        var untilIndex = chromaLiteDatas.FindIndex(cl => cl.Base.SongBpmTime > time);
-        var until = untilIndex != -1 ? chromaLiteDatas[untilIndex].Base.SongBpmTime : float.MaxValue;
+        var untilIndex = chromaLiteData.FindIndex(cl => cl.Base.SongBpmTime > time);
+        var until = untilIndex != -1 ? chromaLiteData[untilIndex].Base.SongBpmTime : float.MaxValue;
 
         foreach (var enumerator in controllerToContainer.Values.Select(c =>
             c.container.EnumerateFrom(from.Base.SongBpmTime)))
@@ -273,7 +262,7 @@ public class BasicLightEffect : BasicEventEffect<BasicLightStateData>
                 var state = enumerator.Current;
                 if (state!.StartTime >= endTime) break;
 
-                var fromIndex = chromaGradientDatas.FindLastIndex(cl =>
+                var fromIndex = chromaGradientData.FindLastIndex(cl =>
                     cl.StartTime <= state.StartTime && state.StartTime <= cl.EndTime);
                 if (fromIndex == -1)
                 {
@@ -293,18 +282,18 @@ public class BasicLightEffect : BasicEventEffect<BasicLightStateData>
                         && !state.Base.IsWhite)
                         state.StartChromaColor = state.EndChromaColor = (Color)state.Base.CustomColor;
 
-                    if (chromaLiteDatas.Count > 0)
+                    if (chromaLiteData.Count > 0)
                     {
                         var chromaLiteIndex =
-                            chromaLiteDatas.FindLastIndex(data =>
+                            chromaLiteData.FindLastIndex(data =>
                                 data.Base.SongBpmTime <= state.Base.SongBpmTime);
                         if (chromaLiteIndex != -1 && Settings.Instance.EmulateChromaLite)
-                            state.StartChromaColor = state.EndChromaColor = chromaLiteDatas[chromaLiteIndex].Color;
+                            state.StartChromaColor = state.EndChromaColor = chromaLiteData[chromaLiteIndex].Color;
                     }
                 }
                 else
                 {
-                    var from = chromaGradientDatas[fromIndex];
+                    var from = chromaGradientData[fromIndex];
                     UpdateStateWithChromaGradient(state, from);
                 }
 
@@ -322,10 +311,10 @@ public class BasicLightEffect : BasicEventEffect<BasicLightStateData>
     private void InsertWithChromaGradient(BasicLightStateData stateData)
     {
         var chromaGradientIndex =
-            chromaGradientDatas.FindLastIndex(cg =>
+            chromaGradientData.FindLastIndex(cg =>
                 cg.StartTime <= stateData.StartTime && stateData.StartTime <= cg.EndTime);
         if (chromaGradientIndex != -1)
-            UpdateStateWithChromaGradient(stateData, chromaGradientDatas[chromaGradientIndex]);
+            UpdateStateWithChromaGradient(stateData, chromaGradientData[chromaGradientIndex]);
     }
 
     private void UpdateStateWithChromaGradient(BasicLightStateData stateData, ChromaGradientData chromaGradientData)
@@ -346,16 +335,16 @@ public class BasicLightEffect : BasicEventEffect<BasicLightStateData>
         {
             case >= ColourManager.RgbintOffset when Settings.Instance.EmulateChromaLite:
                 {
-                    chromaLiteDatas.Add(
+                    chromaLiteData.Add(
                         new() { Base = data, Color = ColourManager.ColourFromInt(data.Value) });
-                    chromaLiteDatas = chromaLiteDatas.OrderBy(cl => cl.Base.SongBpmTime).ToList();
+                    chromaLiteData = chromaLiteData.OrderBy(cl => cl.Base.SongBpmTime).ToList();
                     UpdateExistingWithChromaLite(data.SongBpmTime);
                     return;
                 }
             case ColourManager.RGBReset when Settings.Instance.EmulateChromaLite:
                 {
-                    chromaLiteDatas.Add(new() { Base = data, Color = null });
-                    chromaLiteDatas = chromaLiteDatas.OrderBy(cl => cl.Base.SongBpmTime).ToList();
+                    chromaLiteData.Add(new() { Base = data, Color = null });
+                    chromaLiteData = chromaLiteData.OrderBy(cl => cl.Base.SongBpmTime).ToList();
                     UpdateExistingWithChromaLite(data.SongBpmTime);
                     return; // this was a break, not sure why
                 }
@@ -367,16 +356,16 @@ public class BasicLightEffect : BasicEventEffect<BasicLightStateData>
             && !data.IsWhite) // White overrides Chroma
             chromaColor = (Color)data.CustomColor;
 
-        if (chromaLiteDatas.Count > 0)
+        if (chromaLiteData.Count > 0)
         {
-            var chromaLiteIndex = chromaLiteDatas.FindLastIndex(d => d.Base.SongBpmTime <= data.SongBpmTime);
+            var chromaLiteIndex = chromaLiteData.FindLastIndex(d => d.Base.SongBpmTime <= data.SongBpmTime);
             if (chromaLiteIndex != -1 && Settings.Instance.EmulateChromaLite)
-                chromaColor = chromaLiteDatas[chromaLiteIndex].Color;
+                chromaColor = chromaLiteData[chromaLiteIndex].Color;
         }
 
         if (data.CustomLightGradient != null && Settings.Instance.EmulateChromaLite)
         {
-            chromaGradientDatas.Add(
+            chromaGradientData.Add(
                 new ChromaGradientData
                 {
                     Base = data,
@@ -388,7 +377,7 @@ public class BasicLightEffect : BasicEventEffect<BasicLightStateData>
                     EndColor = data.CustomLightGradient.EndColor,
                     Easing = Easing.Named(data.CustomLightGradient.EasingType)
                 });
-            chromaGradientDatas = chromaGradientDatas.OrderBy(cl => cl.StartTime).ToList();
+            chromaGradientData = chromaGradientData.OrderBy(cl => cl.StartTime).ToList();
             UpdateExistingWithChromaGradient(data.SongBpmTime, data.SongBpmTime + data.CustomLightGradient.Duration);
         }
 
@@ -396,20 +385,9 @@ public class BasicLightEffect : BasicEventEffect<BasicLightStateData>
         // wtf is solo event
         // if (SoloAnEventType && data.Type != SoloEventType) mainColor = invertedColor = Color.black.WithAlpha(0);
 
-        var affectedLights = lightIDToController.Values.AsEnumerable();
-        if (data.CustomLightID != null && Settings.Instance.EmulateChromaAdvanced)
-        {
-            var lightIDArr = data.CustomLightID;
-            var filteredLights = new List<LightController>(lightIDArr.Length);
-            foreach (var lightID in lightIDArr)
-            {
-                var newId = lightIdRemap.GetValueOrDefault(lightID, lightID);
-                if (!lightIDToController.TryGetValue(newId, out var lightingObject)) continue;
-                filteredLights.Add(lightingObject);
-            }
-
-            affectedLights = filteredLights.Distinct();
-        }
+        var affectedLights = data.CustomLightID != null && Settings.Instance.EmulateChromaAdvanced
+            ? GetLightControllerFromLightIds(data)
+            : lightIDToController.Values.AsEnumerable();
 
         foreach (var lightingObject in affectedLights)
         {
@@ -466,8 +444,8 @@ public class BasicLightEffect : BasicEventEffect<BasicLightStateData>
             case >= ColourManager.RgbintOffset when Settings.Instance.EmulateChromaLite:
             case ColourManager.RGBReset when Settings.Instance.EmulateChromaLite:
                 {
-                    var d = chromaLiteDatas.Find(d => d.Base == data);
-                    chromaLiteDatas.Remove(d);
+                    var d = chromaLiteData.Find(d => d.Base == data);
+                    chromaLiteData.Remove(d);
                     UpdateExistingWithChromaLite(original.SongBpmTime);
                     return;
                 }
@@ -475,28 +453,16 @@ public class BasicLightEffect : BasicEventEffect<BasicLightStateData>
 
         if (original.CustomLightGradient != null && Settings.Instance.EmulateChromaLite)
         {
-            var d = chromaGradientDatas.Find(d => d.Base == data);
-            chromaGradientDatas.Remove(d);
+            var d = chromaGradientData.Find(d => d.Base == data);
+            chromaGradientData.Remove(d);
             UpdateExistingWithChromaGradient(
                 original.SongBpmTime,
                 original.SongBpmTime + original.CustomLightGradient.Duration);
         }
 
-        var affectedLights = lightIDToController.Values.AsEnumerable();
-
-        if (original.CustomLightID != null && Settings.Instance.EmulateChromaAdvanced)
-        {
-            var lightIDArr = original.CustomLightID;
-            var filteredLights = new List<LightController>(lightIDArr.Length);
-            foreach (var lightID in lightIDArr)
-            {
-                var newId = lightIdRemap.GetValueOrDefault(lightID, lightID);
-                if (!lightIDToController.TryGetValue(newId, out var lightingObject)) continue;
-                filteredLights.Add(lightingObject);
-            }
-
-            affectedLights = filteredLights.Distinct();
-        }
+        var affectedLights = original.CustomLightID != null && Settings.Instance.EmulateChromaAdvanced
+            ? GetLightControllerFromLightIds(original)
+            : lightIDToController.Values.AsEnumerable();
 
         foreach (var lightingObject in affectedLights)
         {
@@ -558,6 +524,19 @@ public class BasicLightEffect : BasicEventEffect<BasicLightStateData>
         evt.IsBlue ? LightColor.Blue : evt.IsRed ? LightColor.Red : LightColor.White;
 
     private static bool IsValidEventToTransition(BaseEvent evt) => evt.IsOn || evt.IsOff || evt.IsTransition;
+
+    private IEnumerable<LightController> GetLightControllerFromLightIds(BaseEvent data)
+    {
+        var set = new HashSet<int>();
+        for (var i = 0; i < data.CustomLightID.Length; i++)
+        {
+            var lightID = data.CustomLightID[i];
+            var newId = lightIdRemap.GetValueOrDefault(lightID, lightID);
+            if (!set.Add(newId)) continue;
+            if (!lightIDToController.TryGetValue(newId, out var controller)) continue;
+            yield return controller;
+        }
+    }
 
     public struct ChromaLiteData : IEquatable<ChromaLiteData>
     {

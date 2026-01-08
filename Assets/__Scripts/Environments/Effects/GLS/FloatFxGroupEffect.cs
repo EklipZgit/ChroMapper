@@ -15,6 +15,7 @@ public class
 {
     [SerializeField] private List<FxEntry> fxEntries = new();
     private FloatFxGroupContainer[] idToContainer = Array.Empty<FloatFxGroupContainer>();
+    private FloatFxGroupContainer[] activeContainers = Array.Empty<FloatFxGroupContainer>();
 
     public void Register(int id) => fxEntries.Add(new() { ID = id });
 
@@ -25,6 +26,13 @@ public class
         idToContainer = new FloatFxGroupContainer[Count];
         foreach (var entry in fxEntries)
         {
+            if (entry.ID >= Count)
+            {
+                Debug.LogError(
+                    $"{entry}:{entry.ID} ID is larger than supported by group {ID}:{Count}, was the controller modified?");
+                continue;
+            }
+
             if (idToContainer[entry.ID] is null)
             {
                 idToContainer[entry.ID] = new();
@@ -67,11 +75,13 @@ public class
                 InitializeStates(container.GroupContainer, start, end);
             }
         }
+
+        activeContainers = idToContainer.Where(x => x is not null).ToArray();
     }
 
     public override void Refresh()
     {
-        foreach (var container in idToContainer.Where(c => c is not null))
+        foreach (var container in activeContainers)
         {
             // if (!container.EventContainer.IsCurrentOrFindState(time, Atsc.IsPlaying)) UpdateObject(container);
             // if (!container.Tween.UpdateTime(time)) continue;
@@ -80,7 +90,7 @@ public class
 
     public override void UpdateTime(float time)
     {
-        foreach (var container in idToContainer.Where(c => c is not null))
+        foreach (var container in activeContainers)
         {
             if (!container.EventContainer.IsCurrentOrFindState(time, Atsc.IsPlaying)) UpdateObject(container);
             if (!container.Tween.UpdateTime(time)) continue;

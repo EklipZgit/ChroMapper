@@ -78,7 +78,7 @@ public class
 
     public override void Refresh()
     {
-        foreach (var container in idToContainer.Values.Where(c => c is not null))
+        foreach (var container in idToContainer.Values)
         {
             // if (!container.EventContainer.IsCurrentOrFindState(time, Atsc.IsPlaying)) UpdateObject(container);
             // if (container.Tween.UpdateTime(time))
@@ -88,7 +88,7 @@ public class
 
     public override void UpdateTime(float time)
     {
-        foreach (var container in idToContainer.Values.Where(c => c is not null))
+        foreach (var container in idToContainer.Values)
         {
             if (!container.EventContainer.IsCurrentOrFindState(time, Atsc.IsPlaying)) UpdateObject(container);
             if (container.Tween.UpdateTime(time))
