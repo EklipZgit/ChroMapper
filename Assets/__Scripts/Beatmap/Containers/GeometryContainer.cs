@@ -210,14 +210,23 @@ namespace Beatmap.Containers
                 if (bloomFog["height"] != null) descriptor.BloomFogParams.Height = bloomFog["height"];
             }
 
+            var adjustScale = BeatSaberSongContainer.Instance.Map.MajorVersion == 2 ? 5f / 3f : 1f;
             // Apply enhancements to each target object (original or duplicates)
             foreach (var targetObject in targetObjects)
             {
                 if (eh.Active != null) targetObject.gameObject.SetActive(eh.Active.AsBool);
 
-                // Parent to our animator but keep world transform
+                if (eh.Scale != null) targetObject.transform.localScale = eh.Scale.Value * adjustScale;
+                if (eh.LocalPosition != null)
+                    targetObject.transform.localPosition = eh.LocalPosition.Value * adjustScale;
+                else if (eh.Position != null) targetObject.transform.position = eh.Position.Value * adjustScale;
+                if (eh.LocalRotation != null)
+                    targetObject.transform.localRotation = Quaternion.Euler(eh.LocalRotation.Value);
+                else if (eh.Rotation != null) targetObject.transform.rotation = Quaternion.Euler(eh.Rotation.Value);
+
                 if (eh.Track != null)
                 {
+                    // Parent to our animator but keep world transform
                     targetObject.transform.SetParent(container.Animator.AnimationThis.transform, true);
 
                     container.Animator.AnimationThis.transform.SetPositionAndRotation(
@@ -226,30 +235,20 @@ namespace Beatmap.Containers
                     container.Animator.AnimationThis.transform.localScale = targetObject.transform.localScale;
 
                     targetObject.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
-                    if (BeatSaberSongContainer.Instance.Map.MajorVersion == 2)
-                        targetObject.transform.localScale = Vector3.one * (5f / 3);
-                    else
-                        targetObject.transform.localScale = Vector3.one;
+                    targetObject.transform.localScale = Vector3.one * adjustScale;
 
                     // Apply enhancement transforms
-                    if (eh.Position != null) container.Animator.AnimationThis.transform.position = eh.Position.Value;
-                    if (eh.Rotation != null)
-                        container.Animator.AnimationThis.transform.rotation = Quaternion.Euler(eh.Rotation.Value);
-                    if (eh.Scale != null) container.Animator.AnimationThis.transform.localScale = eh.Scale.Value;
+                    if (eh.Scale != null)
+                        container.Animator.AnimationThis.transform.localScale = eh.Scale.Value * adjustScale;
                     if (eh.LocalPosition != null)
-                        container.Animator.AnimationThis.transform.localPosition = eh.LocalPosition.Value;
+                        container.Animator.AnimationThis.transform.localPosition = eh.LocalPosition.Value * adjustScale;
+                    else if (eh.Position != null)
+                        container.Animator.AnimationThis.transform.position = eh.Position.Value * adjustScale;
                     if (eh.LocalRotation != null)
                         container.Animator.AnimationThis.transform.localRotation =
                             Quaternion.Euler(eh.LocalRotation.Value);
-                }
-                else
-                {
-                    if (eh.Position != null) targetObject.transform.position = eh.Position.Value;
-                    if (eh.Rotation != null) targetObject.transform.rotation = Quaternion.Euler(eh.Rotation.Value);
-                    if (eh.Scale != null) targetObject.transform.localScale = eh.Scale.Value;
-                    if (eh.LocalPosition != null) targetObject.transform.localPosition = eh.LocalPosition.Value;
-                    if (eh.LocalRotation != null)
-                        targetObject.transform.localRotation = Quaternion.Euler(eh.LocalRotation.Value);
+                    else if (eh.Rotation != null)
+                        container.Animator.AnimationThis.transform.rotation = Quaternion.Euler(eh.Rotation.Value);
                 }
 
                 // Add colliders to our container

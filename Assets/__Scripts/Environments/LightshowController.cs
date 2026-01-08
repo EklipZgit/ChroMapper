@@ -95,6 +95,7 @@ public class LightshowController : MonoBehaviour, IBeatmapUpdate
             BeatSaberSongContainer.Instance.Map.VfxEventBoxGroups);
 
         UpdateTimeByMode();
+        context.Descriptor.Refresh();
     }
 
     private void UpdateTimeByMode()
