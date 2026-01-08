@@ -28,6 +28,7 @@ public class ParametricSpriteLight : MonoBehaviour
 
     private void OnValidate()
     {
+        hasInitialized = false;
         color = new(0f, 0.5f, 1f);
         Start();
     }

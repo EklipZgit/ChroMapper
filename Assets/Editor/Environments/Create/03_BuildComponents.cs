@@ -38,6 +38,12 @@ public partial class EnvironmentSceneCreator
             foreach (var lightColorGroupEffect in lcgem.IdToEffect.Values) lightColorGroupEffect.ColorBoostEffect = cbe;
         }
 
+        var idRemapAsset =
+            AssetDatabase.LoadAssetAtPath<TextAsset>(Path.Combine(editorPath, "LightIDTables", data.Data.ID + ".json"));
+        var typeIdRemap = new Dictionary<int, Dictionary<int, int>>();
+        if (idRemapAsset != null)
+            typeIdRemap = JsonConvert.DeserializeObject<Dictionary<int, Dictionary<int, int>>>(idRemapAsset.text);
+
         var lseeData = data
             .Objects
             .Where(x => x.Components.LightSwitchEventEffect != null)
@@ -46,17 +52,14 @@ public partial class EnvironmentSceneCreator
         foreach (var d in lseeData)
         {
             var ble = beec.Register<BasicLightEffect>(ConvertUtils.ToEventType(d.EventType));
+            foreach (var (original, remap) in typeIdRemap.GetValueOrDefault(d.LightsId, new Dictionary<int, int>()))
+                ble.LightIdRemapEntries.Add(new(original, remap));
+
             ble.ColorBoostEffect = cbe;
             ble.OffIntensity = d.OffColorIntensity;
             ble.LightOnStart = d.LightOnStart;
             // ble.InvertColorScheme = 
         }
-
-        var idRemapAsset =
-            AssetDatabase.LoadAssetAtPath<TextAsset>(Path.Combine(editorPath, "LightIDTables", data.Data.ID + ".json"));
-        var typeIdRemap = new Dictionary<string, Dictionary<string, int>>();
-        if (idRemapAsset != null)
-            typeIdRemap = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, int>>>(idRemapAsset.text);
 
         var registeredLight = new HashSet<int>();
 
@@ -348,7 +351,7 @@ public partial class EnvironmentSceneCreator
                             Value = x.Value,
                             GameObjects =
                                 x
-                                    .GameObjectIds.Select(y => chromaIdObjects.TryGetValue(y, out var g) ? g : null)
+                                    .GameObjectIds.Select(chromaIdObjects.GetValueOrDefault)
                                     .Where(y => y != null)
                                     .ToArray()
                         })
@@ -365,11 +368,11 @@ public partial class EnvironmentSceneCreator
                 gos.Effect = cbe;
                 goseData.CopyTo(gos);
                 gos.NormalGameObjects = goseData
-                    .DeactivateOnBoostObjects.Select(y => chromaIdObjects.TryGetValue(y, out var g) ? g : null)
+                    .DeactivateOnBoostObjects.Select(chromaIdObjects.GetValueOrDefault)
                     .Where(y => y != null)
                     .ToArray();
                 gos.BoostGameObjects = goseData
-                    .ActivateOnBoostObjects.Select(y => chromaIdObjects.TryGetValue(y, out var g) ? g : null)
+                    .ActivateOnBoostObjects.Select(chromaIdObjects.GetValueOrDefault)
                     .Where(y => y != null)
                     .ToArray();
             }
@@ -474,7 +477,7 @@ public partial class EnvironmentSceneCreator
             }
         }
 
-        void RegisterLight(int lightId, int order, LightController controller)
+        void RegisterLight(LightController controller, int lightId, int order)
         {
             var lg = lcgemData?.LightGroups.FirstOrDefault(x =>
                 x.StartLightId <= lightId && lightId < x.StartLightId + x.NumberOfElements);
@@ -490,15 +493,10 @@ public partial class EnvironmentSceneCreator
             var lsee = lseeData.FirstOrDefault(x => x.LightsId == lightId);
             if (lsee != null)
             {
-                order += 1;
-                if (typeIdRemap.TryGetValue(lightId.ToString(), out var idRemap)
-                    && idRemap.TryGetValue(order.ToString(), out var newOrder))
-                    order = newOrder;
-
                 controller.Kind = LightController.LightKind.Basic;
                 controller.Type = ConvertUtils.ToEventType(lsee.EventType);
                 controller.ID = order;
-                descriptor.Register(controller, false);
+                descriptor.Register(controller);
                 return;
             }
 
@@ -515,7 +513,7 @@ public partial class EnvironmentSceneCreator
             var mlc = go.AddComponent<MaterialLightController>();
             mlc.Renderer = go.GetComponent<Renderer>();
             comp.CopyTo(mlc);
-            RegisterLight(comp.Id, order, mlc);
+            RegisterLight(mlc, comp.Id, order);
         }
 
         void HandleInstancedMaterialLightWithId(
@@ -527,7 +525,7 @@ public partial class EnvironmentSceneCreator
             var imlc = go.AddComponent<InstancedMaterialLightController>();
             imlc.Renderer = go.GetComponent<Renderer>();
             comp.CopyTo(imlc);
-            RegisterLight(comp.Id, order, imlc);
+            RegisterLight(imlc, comp.Id, order);
         }
 
         void HandleRectangleFakeGlowLightWithId(
@@ -541,7 +539,7 @@ public partial class EnvironmentSceneCreator
                 data.Objects.First(y => y.ChromaID == chromaIdObjects.First(x => x.Value == go).Key);
             comp.CopyTo(rfglc);
             envObject.Components.RectangleFakeGlow[0].CopyTo(rfglc);
-            RegisterLight(comp.Id, order, rfglc);
+            RegisterLight(rfglc, comp.Id, order);
         }
 
         void HandleSpriteLightWithId(
@@ -561,7 +559,7 @@ public partial class EnvironmentSceneCreator
 
             slc.Renderer = renderer;
             comp.CopyTo(slc);
-            RegisterLight(comp.Id, order, slc);
+            RegisterLight(slc, comp.Id, order);
         }
 
         void HandleTubeBloomPrePassLightWithId(
@@ -650,7 +648,7 @@ public partial class EnvironmentSceneCreator
                 envObject.Components.Parametric3SliceSpriteController[0].CopyTo(pbflc.SpriteLight);
             }
 
-            RegisterLight(comp.Id, order, pbflc);
+            RegisterLight(pbflc, comp.Id, order);
         }
     }
 }

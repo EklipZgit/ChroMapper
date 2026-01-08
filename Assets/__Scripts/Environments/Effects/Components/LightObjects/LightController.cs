@@ -17,6 +17,7 @@ public abstract class LightController : MonoBehaviour
 
     protected virtual void OnValidate()
     {
+        HasInitialized = false;
         Color = new(0f, 0.5f, 1f);
         Start();
     }

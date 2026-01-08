@@ -19,12 +19,11 @@ public class BasicLightEffect : BasicEventEffect<BasicLightStateData>
     public static float FadeTimeBeat = FadeTimeSecond;
     public static float FlashTimeBeat = FlashTimeSecond;
 
+    [SerializeField] public List<Vector2> LightIdRemapEntries = new();
     [SerializeField] private List<LightController> lightEntries = new();
-
-    private Dictionary<int, LightController> lightIDToController;
-
-    public readonly Dictionary<int, int>
-        LightIDToLane = new(); // we opt for dict because lightID can be arbitrary value
+    private readonly Dictionary<int, int> lightIdRemap = new();
+    private readonly Dictionary<int, LightController> lightIDToController = new();
+    public readonly Dictionary<int, int> LightIDToLane = new();
 
     public readonly List<int> LaneToLightID = new();
     public readonly List<int[]> LaneToLightIDs = new(); // this also refer to propID
@@ -36,8 +35,7 @@ public class BasicLightEffect : BasicEventEffect<BasicLightStateData>
     private List<ChromaLiteData> chromaLiteDatas = new();
     private List<ChromaGradientData> chromaGradientDatas = new();
 
-    protected void Start() => ColorBoostEffect.OnStateChanged += HandleBoostChanged;
-
+    private void Start() => ColorBoostEffect.OnStateChanged += HandleBoostChanged;
     private void OnDestroy() => ColorBoostEffect.OnStateChanged -= HandleBoostChanged;
 
     public void Register(LightController controller, bool strict = true)
@@ -52,13 +50,15 @@ public class BasicLightEffect : BasicEventEffect<BasicLightStateData>
         if (strict && controller.ID != -1 && lightEntries.Exists(l => l.ID == controller.ID))
         {
             overlight = lightEntries.First(l => l.ID == controller.ID);
+            var marker = controller.GetComponent<ChromaIDMarker>();
+            var overmarker = overlight.GetComponent<ChromaIDMarker>();
             Debug.LogError(
-                $"{controller} ID {controller.ID} is already used in {this} by {overlight}; re-registering as new");
+                $"{marker.ChromaID} {controller.Type}:{controller.ID} is already used by:\n{overmarker.ChromaID} {overlight.Type}:{overlight.ID}; re-registering occupied as new");
             Unregister(overlight);
             overlight.ID = -1;
         }
 
-        if (controller.ID <= 0) controller.ID = 1;
+        if (controller.ID == -1) controller.ID = 0;
         while (lightEntries.Exists(l => l.ID == controller.ID)) controller.ID++;
         lightEntries.Add(controller);
         if (overlight != null) Register(overlight, false);
@@ -71,9 +71,12 @@ public class BasicLightEffect : BasicEventEffect<BasicLightStateData>
         LaneToLightID.Clear();
         LaneToLightIDs.Clear();
         LightIDToLane.Clear();
+        lightIDToController.Clear();
+        lightIdRemap.Clear();
+        foreach (var lightId in LightIdRemapEntries) lightIdRemap[(int)lightId.x] = (int)lightId.y;
 
         var ordered = lightEntries.OrderBy(x => x.ID).ToList();
-        lightIDToController = ordered.ToDictionary(x => x.ID, x => x);
+        foreach (var x in ordered) lightIDToController[x.ID] = x;
         LaneToLightID.AddRange(ordered.Select(x => x.ID));
         LaneToLightIDs.AddRange(
             ordered
@@ -394,17 +397,18 @@ public class BasicLightEffect : BasicEventEffect<BasicLightStateData>
         // if (SoloAnEventType && data.Type != SoloEventType) mainColor = invertedColor = Color.black.WithAlpha(0);
 
         var affectedLights = lightIDToController.Values.AsEnumerable();
-        if (data.CustomLightID != null && lightIDToController != null && Settings.Instance.EmulateChromaAdvanced)
+        if (data.CustomLightID != null && Settings.Instance.EmulateChromaAdvanced)
         {
             var lightIDArr = data.CustomLightID;
             var filteredLights = new List<LightController>(lightIDArr.Length);
             foreach (var lightID in lightIDArr)
             {
-                if (!lightIDToController.TryGetValue(lightID, out var lightingObject)) continue;
+                var newId = lightIdRemap.GetValueOrDefault(lightID, lightID);
+                if (!lightIDToController.TryGetValue(newId, out var lightingObject)) continue;
                 filteredLights.Add(lightingObject);
             }
 
-            affectedLights = filteredLights;
+            affectedLights = filteredLights.Distinct();
         }
 
         foreach (var lightingObject in affectedLights)
@@ -480,17 +484,18 @@ public class BasicLightEffect : BasicEventEffect<BasicLightStateData>
 
         var affectedLights = lightIDToController.Values.AsEnumerable();
 
-        if (original.CustomLightID != null && lightIDToController != null && Settings.Instance.EmulateChromaAdvanced)
+        if (original.CustomLightID != null && Settings.Instance.EmulateChromaAdvanced)
         {
             var lightIDArr = original.CustomLightID;
             var filteredLights = new List<LightController>(lightIDArr.Length);
             foreach (var lightID in lightIDArr)
             {
-                if (!lightIDToController.TryGetValue(lightID, out var lightingObject)) continue;
+                var newId = lightIdRemap.GetValueOrDefault(lightID, lightID);
+                if (!lightIDToController.TryGetValue(newId, out var lightingObject)) continue;
                 filteredLights.Add(lightingObject);
             }
 
-            affectedLights = filteredLights;
+            affectedLights = filteredLights.Distinct();
         }
 
         foreach (var lightingObject in affectedLights)
