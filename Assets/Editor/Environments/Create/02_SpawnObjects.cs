@@ -106,7 +106,7 @@ public partial class EnvironmentSceneCreator
             }
 
             go.name = envObject.GameObjectName;
-            go.layer = library.layerMaskLookup[envObject.Layer].value.Get1BitPositions()[0];
+            go.layer = library.LayerMaskLookup[envObject.Layer].value.Get1BitPositions()[0];
             chromaIdObjects[envObject.ChromaID] = go;
 
             // Add ChromaIDMarker for environment enhancements

@@ -23,7 +23,7 @@ public class EnvironmentLibrarySO : ScriptableObject
     [field: SerializeField] public Mesh SliceSprite { get; private set; }
 
     [SerializeField] public List<LayerMaskEntry> layerMaskRemap = new();
-    public Dictionary<string, LayerMask> layerMaskLookup = new();
+    public readonly Dictionary<string, LayerMask> LayerMaskLookup = new();
 
     // The fallback prefab to use when no replacement is found
     [SerializeField] public GameObject fallbackPrefab;
@@ -33,8 +33,8 @@ public class EnvironmentLibrarySO : ScriptableObject
 
     private void Initialize()
     {
-        layerMaskLookup.Clear();
-        foreach (var entry in layerMaskRemap) layerMaskLookup.Add(entry.name, entry.layerMask);
+        LayerMaskLookup.Clear();
+        foreach (var entry in layerMaskRemap) LayerMaskLookup.Add(entry.name, entry.layerMask);
     }
 }
 
@@ -46,8 +46,9 @@ public struct LayerMaskEntry
 }
 
 [Serializable]
-public struct ShaderEntry
+public class ShaderEntry
 {
     public string name;
     public Shader shader;
+    public List<string> keywords;
 }

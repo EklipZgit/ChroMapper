@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -24,6 +25,7 @@ public class EnvironmentBuildPopulate
         library.Meshes.MarkForChange();
         library.Materials.MarkForChange();
         library.Sprites.MarkForChange();
+        foreach (var s in library.Shaders) s.keywords.Clear();
 
         foreach (var dataPath in envDataPaths)
         {
@@ -39,7 +41,9 @@ public class EnvironmentBuildPopulate
             {
                 library.Materials.AddEntry(m, data.Data.ID);
                 if (library.Shaders.All(s => s.name != m.Shader))
-                    library.Shaders.Add(new ShaderEntry() { name = m.Shader });
+                    library.Shaders.Add(new ShaderEntry { name = m.Shader });
+                var keywords = library.Shaders.Find(x => x.name == m.Shader).keywords;
+                keywords.AddRange(m.Keywords.Where(x => !keywords.Contains(x)));
             }
 
             foreach (var o in data.Objects.Where(x => x.Components.SpriteLightWithId != null))
@@ -58,7 +62,7 @@ public class EnvironmentBuildPopulate
             }
 
             foreach (var layerName in data.Objects.Select(x => x.Layer))
-                library.layerMaskLookup.TryAdd(layerName, LayerMask.GetMask("Default"));
+                library.LayerMaskLookup.TryAdd(layerName, LayerMask.GetMask("Default"));
         }
 
         library.Meshes.RemoveUnused();
@@ -68,10 +72,12 @@ public class EnvironmentBuildPopulate
         library.Meshes.Sort();
         library.Materials.Sort();
         library.Sprites.Sort();
+        foreach (var s in library.Shaders)
+            s.keywords.Sort((a, b) => string.Compare(a.Replace("_", ""), b.Replace("_", ""), StringComparison.Ordinal));
 
         library.layerMaskRemap =
             library
-                .layerMaskLookup
+                .LayerMaskLookup
                 .Select(x => new LayerMaskEntry { name = x.Key, layerMask = x.Value })
                 .OrderBy(x => x.name)
                 .ToList();
