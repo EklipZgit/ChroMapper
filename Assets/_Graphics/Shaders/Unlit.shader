@@ -14,8 +14,7 @@
         _FogStartOffset ("Fog Start Offset", Float) = 0
         _FogScale ("Fog Scale", Float) = 1
         [Space]
-        [Toggle]
-        ENABLE_HEIGHT_FOG ("Enable Height Fog", Float) = 0
+        [Toggle(ENABLE_HEIGHT_FOG)] ENABLE_HEIGHT_FOG ("Enable Height Fog", Float) = 0
         _FogHeightOffset ("Fog Height Offset", Float) = 0
         _FogHeightScale ("Fog Height Scale", Float) = 1
     }

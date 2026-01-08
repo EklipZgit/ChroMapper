@@ -59,8 +59,8 @@ public class EnvironmentSpriteSO : ScriptableObject
 [Serializable]
 public class TextureInfo
 {
-    public Sprite Sprite;
     public string Name;
+    public Sprite Sprite;
 
     public List<string> Environments;
 

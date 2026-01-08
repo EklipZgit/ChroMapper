@@ -30,8 +30,9 @@ Material:
     m_Ints: []
     m_Floats:
     - ENABLE_HEIGHT_FOG: 0
+    - _EnableHeightFog: 0
     - _FogHeightOffset: 0
-    - _FogHeightScale: 0.01
+    - _FogHeightScale: 0.2
     - _FogScale: 0.01
     - _FogStartOffset: 0
     m_Colors:

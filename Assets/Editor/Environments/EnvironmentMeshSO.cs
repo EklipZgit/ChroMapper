@@ -68,9 +68,9 @@ public class EnvironmentMeshSO : ScriptableObject
 [Serializable]
 public class MeshInfo
 {
-    public Mesh Mesh;
-    public string Hash;
     public List<string> Names;
+    public string Hash;
+    public Mesh Mesh;
     public List<string> Environments;
 
     public Vector3 BoundsSize;

@@ -25,6 +25,7 @@ public class EnvironmentMaterialSO : ScriptableObject
         {
             x.Unused = true;
             x.Environments.Clear();
+            x.Keywords.Clear();
         });
     }
 
@@ -50,7 +51,8 @@ public class EnvironmentMaterialSO : ScriptableObject
                     Name = material.Name,
                     Shader = material.Shader,
                     Color = GetColor(material.Color),
-                    Environments = new List<string> { environment }
+                    Environments = new List<string> { environment },
+                    Keywords = new List<string>(material.Keywords)
                 });
         }
         else
@@ -58,6 +60,7 @@ public class EnvironmentMaterialSO : ScriptableObject
             var m = list.First(x => x.Hash == material.Hash);
             m.Color = GetColor(material.Color);
             if (!m.Environments.Contains(environment)) m.Environments.Add(environment);
+            if (material.Keywords != null) m.Keywords.AddRange(material.Keywords.Where(x => !m.Keywords.Contains(x)));
         }
     }
 
@@ -70,9 +73,9 @@ public class EnvironmentMaterialSO : ScriptableObject
 [Serializable]
 public class MaterialInfo
 {
-    public Material Material;
-    public string Hash;
     public string Name;
+    public string Hash;
+    public Material Material;
     public string Shader;
 
     public Color Color;

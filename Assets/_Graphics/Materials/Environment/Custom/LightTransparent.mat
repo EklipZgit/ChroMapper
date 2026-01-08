@@ -13,6 +13,7 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords:
+  - ENABLE_HEIGHT_FOG_ON
   - _EMISSION
   - _MODE_OPAQUE
   - _RECEIVE_SHADOWS_OFF
@@ -105,7 +106,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - ENABLE_HEIGHT_FOG: 0
+    - ENABLE_HEIGHT_FOG: 1
     - _AddPrecomputedVelocity: 0
     - _AlphaClip: 0
     - _AlphaToMask: 0
@@ -126,7 +127,7 @@ Material:
     - _EnableHeightFog: 0
     - _FirstOutlineWidth: 1.405
     - _FogHeightOffset: 10
-    - _FogHeightScale: 0.01
+    - _FogHeightScale: 0.25
     - _FogScale: 0.01
     - _FogStartOffset: 0
     - _GlossMapScale: 1

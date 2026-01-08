@@ -86,10 +86,7 @@ public class EnvironmentBuildPopulate
 
                 // Create new material with gpu instancing enabled
                 // Shaders that dont support instancing should ignore the flag, but otherwise this should be free performance
-                var mat = new Material(shader)
-                {
-                    enableInstancing = true
-                };
+                var mat = new Material(shader) { enableInstancing = true };
 
                 if (matInfo.Environments.Count > 1)
                 {
@@ -122,15 +119,20 @@ public class EnvironmentBuildPopulate
 
             matInfo.Material.SetColor("_Color", matInfo.Color);
             matInfo.Material.SetFloat("_FogScale", 0.01f);
-            matInfo.Material.SetFloat("_FogHeightScale", 0.01f);
+            matInfo.Material.SetFloat("_FogHeightScale", 0.2f);
 
-            matInfo.Material.enableInstancing = true;
+            matInfo.Material.SetFloat(
+                "ENABLE_HEIGHT_FOG",
+                matInfo.Keywords.Contains("HEIGHT_FOG") || matInfo.Keywords.Contains("ENABLE_HEIGHT_FOG") ? 1f : 0f);
         }
 
         AssetDatabase.ForceReserializeAssets(
-            AssetDatabase
-                .GetAllAssetPaths()
-                .Where(x => x.StartsWith(Path.Combine(editorPath)) && x.EndsWith(".asset")),
+            library
+                .Materials.list.Select(x => AssetDatabase.GetAssetPath(x.Material))
+                .Concat(
+                    AssetDatabase
+                        .GetAllAssetPaths()
+                        .Where(x => x.StartsWith(Path.Combine(editorPath)) && x.EndsWith(".asset"))),
             ForceReserializeAssetsOptions.ReserializeAssets);
     }
 
