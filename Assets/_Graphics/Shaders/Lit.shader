@@ -42,10 +42,12 @@
             #pragma multi_compile_instancing
             #pragma multi_compile _ ENABLE_BLOOM_FOG
             #pragma shader_feature ENABLE_HEIGHT_FOG
+            #pragma multi_compile ACES_TONE_MAPPING
 
             #include "UnityCG.cginc"
             #include "Lighting.cginc"
             #include "CGIncludes/BloomFog.cginc"
+            #include "CGIncludes/CustomTonemapping.cginc"
 
             UNITY_INSTANCING_BUFFER_START(Props)
                 UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
@@ -126,13 +128,14 @@
                 float alpha = log(1 + albedo.a);
 
                 fixed4 bloomfog_color = fixed4(col.rgb, saturate(alpha));
+                ACES_TONE_MAPPING_APPLY(bloomfog_color);
 
                 #ifdef ENABLE_HEIGHT_FOG
                     BLOOM_FOG_HEIGHT_FOG_APPLY(bloomfog_color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset, _FogHeightScale);
                 #else
                     BLOOM_FOG_APPLY(bloomfog_color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
                 #endif
-
+                
                 return bloomfog_color;
             }
             ENDCG

@@ -17,6 +17,7 @@
 
         Pass
         {
+            
             Cull Off
             ZWrite Off
             Lighting Off
@@ -29,12 +30,16 @@
             #pragma multi_compile_instancing
             #pragma multi_compile_local _ PIXELSNAP_ON
             #pragma multi_compile _ ETC1_EXTERNAL_ALPHA
+            #pragma multi_compile ACES_TONE_MAPPING
+            
             #include "UnitySprites.cginc"
+            #include "CGIncludes/CustomTonemapping.cginc"
 
             fixed4 frag(v2f i) : SV_Target
             {
-                fixed4 c = SampleSpriteTexture(i.texcoord) * i.color;
-                return c;
+                fixed4 color = SampleSpriteTexture(i.texcoord) * i.color;
+                ACES_TONE_MAPPING_APPLY(color);
+                return color;
             }
             ENDCG
         }
