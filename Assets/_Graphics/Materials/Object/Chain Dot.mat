@@ -24,7 +24,8 @@ Material:
   m_Shader: {fileID: 4800000, guid: 1c1dcf599a39e9a48bd2f0d56ca8ed0e, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - ENABLE_HEIGHT_FOG
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
@@ -116,12 +117,13 @@ Material:
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
+    - _EnableHeightFog: 1
     - _EnvironmentReflections: 1
     - _FadeSize: 0
     - _FogHeightOffset: 0
-    - _FogHeightScale: 0.01
-    - _FogScale: 0.01
-    - _FogStartOffset: 0
+    - _FogHeightScale: 2.5
+    - _FogScale: 1
+    - _FogStartOffset: 100
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0

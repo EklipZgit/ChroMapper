@@ -5,6 +5,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 public class EnvironmentBuildPopulate
 {
@@ -74,6 +75,7 @@ public class EnvironmentBuildPopulate
         library.Sprites.Sort();
         foreach (var s in library.Shaders)
             s.keywords.Sort((a, b) => string.Compare(a.Replace("_", ""), b.Replace("_", ""), StringComparison.Ordinal));
+        library.Shaders.Sort((a, b) => string.Compare(a.name, b.name, StringComparison.Ordinal));
 
         library.layerMaskRemap =
             library
@@ -128,18 +130,19 @@ public class EnvironmentBuildPopulate
             matInfo.Material.SetFloat("_FogHeightScale", 0.2f);
 
             matInfo.Material.SetFloat(
-                "ENABLE_HEIGHT_FOG",
+                "_EnableHeightFog",
                 matInfo.Keywords.Contains("HEIGHT_FOG") || matInfo.Keywords.Contains("ENABLE_HEIGHT_FOG") ? 1f : 0f);
         }
 
-        AssetDatabase.ForceReserializeAssets(
-            library
-                .Materials.list.Select(x => AssetDatabase.GetAssetPath(x.Material))
-                .Concat(
-                    AssetDatabase
-                        .GetAllAssetPaths()
-                        .Where(x => x.StartsWith(Path.Combine(editorPath)) && x.EndsWith(".asset"))),
-            ForceReserializeAssetsOptions.ReserializeAssets);
+        foreach (var obj in library
+            .Materials.list.Select(x => x.Material)
+            .Cast<Object>()
+            .Append(library)
+            .Append(library.Materials)
+            .Append(library.Meshes)
+            .Append(library.Sprites))
+            EditorUtility.SetDirty(obj);
+        AssetDatabase.SaveAssets();
     }
 
     private static bool TryGetShader(List<ShaderEntry> list, string shaderName, out Shader shader)

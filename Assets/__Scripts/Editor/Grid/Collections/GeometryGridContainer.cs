@@ -27,8 +27,8 @@ public class GeometryGridContainer : BeatmapObjectContainerCollection<BaseEnviro
             tracksManager);
         if (container == null) return;
         container.Setup();
-        LoadedContainers.Add(eh, container);
-        ObjectsWithContainers.Add(eh);
+        if (LoadedContainers.TryAdd(eh, container))
+            ObjectsWithContainers.Add(eh);
         geometryAppearanceSo.SetGeometryAppearance(container);
         container.OutlineVisible = SelectionController.IsObjectSelected(obj);
     }

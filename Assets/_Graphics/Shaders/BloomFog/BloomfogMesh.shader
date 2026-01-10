@@ -7,6 +7,7 @@ Shader "ChroMapper/BloomfogMesh"
     SubShader
     {
         Tags { "RenderType"="Transparent" "Queue"="Transparent" }
+        BlendOp Max
         Blend One One
         LOD 100
 

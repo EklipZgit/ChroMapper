@@ -2360,49 +2360,6 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: Chevron
-    Hash: 1671584f0fa0155f82d94674c727a468
-    Material: {fileID: 2100000, guid: 5d829523aba1dad59994d9e3dfb9a9ff, type: 2}
-    Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
-    Keywords:
-    - HEIGHT_FOG
-    - MAIN_TEXTURE
-    - MASK
-    - MASK_RED_IS_ALPHA
-    - SQUARE_ALPHA
-    - _ALPHACHANNEL_RED
-    - _CUSTOM_TIME_FREEZE
-    - _FOGTYPE_ALPHA
-    - _WHITEBOOSTTYPE_MAINEFFECT
-    - DISTORTION_NONE
-    - DISTORTION_TARGET_MAIN
-    - REFLECTION_PROBE_BOX_PROJECTION
-    - _ACES_APPROACH_BEFORE_EMISSIVE
-    - _BILLBOARD_NONE
-    - _CURVE_VERTICES_NONE
-    - _CUTOUTTYPE_NONE
-    - _DECALBLEND_ALPHABLEND
-    - _DISSOLVEAXIS_LOCALX
-    - _DISSOLVE_GRID_NONE
-    - _DISSOLVE_SPACE_LOCAL
-    - _EMISSIONCOLORTYPE_WHITEBOOST
-    - _EMISSIONTEXTURE_SIMPLE
-    - _EROSION_SOURCE_EROSION
-    - _FOG_MASK_SOURCE_NONE
-    - _MASK2BLEND_MULTIPLY
-    - _MASKBLEND_MULTIPLY
-    - _OVERRIDE_FINAL_ALPHA_NONE
-    - _ROTATE_UV_NONE
-    - _SECONDARY_UVS_NONE
-    - _SPECTROGRAM_NONE
-    - _VERTEXCHANNELS_RGBA
-    - _VERTEXMODE_NONE
-    - _ZWRITE_ON
-    Environments:
-    - ColdplayEnvironment
-    Unused: 0
-    Ignored: 0
-  - Name: Chevron
     Hash: 9e8f00d8a53ade551481fb56077bec49
     Material: {fileID: 2100000, guid: 8571591f0ed4196ef9d1399bd5afba7f, type: 2}
     Shader: Custom/SimpleLit
@@ -2511,6 +2468,49 @@ MonoBehaviour:
     - MetallicaEnvironment
     - BritneyEnvironment
     - ColliderEnvironment
+    Unused: 0
+    Ignored: 0
+  - Name: Chevron
+    Hash: 1671584f0fa0155f82d94674c727a468
+    Material: {fileID: 2100000, guid: 5d829523aba1dad59994d9e3dfb9a9ff, type: 2}
+    Shader: Custom/CustomParticles
+    Color: {r: 1, g: 1, b: 1, a: 1}
+    Keywords:
+    - HEIGHT_FOG
+    - MAIN_TEXTURE
+    - MASK
+    - MASK_RED_IS_ALPHA
+    - SQUARE_ALPHA
+    - _ALPHACHANNEL_RED
+    - _CUSTOM_TIME_FREEZE
+    - _FOGTYPE_ALPHA
+    - _WHITEBOOSTTYPE_MAINEFFECT
+    - DISTORTION_NONE
+    - DISTORTION_TARGET_MAIN
+    - REFLECTION_PROBE_BOX_PROJECTION
+    - _ACES_APPROACH_BEFORE_EMISSIVE
+    - _BILLBOARD_NONE
+    - _CURVE_VERTICES_NONE
+    - _CUTOUTTYPE_NONE
+    - _DECALBLEND_ALPHABLEND
+    - _DISSOLVEAXIS_LOCALX
+    - _DISSOLVE_GRID_NONE
+    - _DISSOLVE_SPACE_LOCAL
+    - _EMISSIONCOLORTYPE_WHITEBOOST
+    - _EMISSIONTEXTURE_SIMPLE
+    - _EROSION_SOURCE_EROSION
+    - _FOG_MASK_SOURCE_NONE
+    - _MASK2BLEND_MULTIPLY
+    - _MASKBLEND_MULTIPLY
+    - _OVERRIDE_FINAL_ALPHA_NONE
+    - _ROTATE_UV_NONE
+    - _SECONDARY_UVS_NONE
+    - _SPECTROGRAM_NONE
+    - _VERTEXCHANNELS_RGBA
+    - _VERTEXMODE_NONE
+    - _ZWRITE_ON
+    Environments:
+    - ColdplayEnvironment
     Unused: 0
     Ignored: 0
   - Name: Claw

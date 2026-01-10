@@ -62,15 +62,24 @@ public class EnvironmentMeshSO : ScriptableObject
         }
     }
 
-    public void Sort() => list.Sort((a, b) => string.Compare(a.Hash, b.Hash, StringComparison.Ordinal));
+    public void Sort()
+    {
+        list.Sort((a, b) => string.Compare(a.Names.First(), b.Names.First(), StringComparison.Ordinal));
+        for (var index = 0; index < list.Count; index++)
+        {
+            var m = list[index];
+            m.Name = $"{index}: {m.Names.First()}";
+        }
+    }
 }
 
 [Serializable]
 public class MeshInfo
 {
-    public List<string> Names;
+    public string Name;
     public string Hash;
     public Mesh Mesh;
+    public List<string> Names;
     public List<string> Environments;
 
     public Vector3 BoundsSize;

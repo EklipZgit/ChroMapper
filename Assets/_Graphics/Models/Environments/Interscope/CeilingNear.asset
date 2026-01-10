@@ -6,7 +6,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 'Plane (1)[590]'
+  m_Name: CeilingNear
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2

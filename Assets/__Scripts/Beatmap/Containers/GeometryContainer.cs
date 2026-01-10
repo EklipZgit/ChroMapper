@@ -216,14 +216,6 @@ namespace Beatmap.Containers
             {
                 if (eh.Active != null) targetObject.gameObject.SetActive(eh.Active.AsBool);
 
-                if (eh.Scale != null) targetObject.transform.localScale = eh.Scale.Value * adjustScale;
-                if (eh.LocalPosition != null)
-                    targetObject.transform.localPosition = eh.LocalPosition.Value * adjustScale;
-                else if (eh.Position != null) targetObject.transform.position = eh.Position.Value * adjustScale;
-                if (eh.LocalRotation != null)
-                    targetObject.transform.localRotation = Quaternion.Euler(eh.LocalRotation.Value);
-                else if (eh.Rotation != null) targetObject.transform.rotation = Quaternion.Euler(eh.Rotation.Value);
-
                 if (eh.Track != null)
                 {
                     // Parent to our animator but keep world transform
@@ -249,6 +241,14 @@ namespace Beatmap.Containers
                             Quaternion.Euler(eh.LocalRotation.Value);
                     else if (eh.Rotation != null)
                         container.Animator.AnimationThis.transform.rotation = Quaternion.Euler(eh.Rotation.Value);
+                } else {
+                    if (eh.Scale != null) targetObject.transform.localScale = eh.Scale.Value * adjustScale;
+                    if (eh.LocalPosition != null)
+                        targetObject.transform.localPosition = eh.LocalPosition.Value * adjustScale;
+                    else if (eh.Position != null) targetObject.transform.position = eh.Position.Value * adjustScale;
+                    if (eh.LocalRotation != null)
+                        targetObject.transform.localRotation = Quaternion.Euler(eh.LocalRotation.Value);
+                    else if (eh.Rotation != null) targetObject.transform.rotation = Quaternion.Euler(eh.Rotation.Value);
                 }
 
                 // Add colliders to our container

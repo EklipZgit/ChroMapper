@@ -65,6 +65,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _BlendDstFactor: 1
+    - _BlendDstFactorA: 6
+    - _BlendOp: 4
+    - _BlendSrcFactor: 1
+    - _BlendSrcFactorA: 0
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1

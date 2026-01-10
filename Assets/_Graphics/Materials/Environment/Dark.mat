@@ -12,7 +12,6 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - ENABLE_HEIGHT_FOG
   - _MODE_OPAQUE
   m_InvalidKeywords:
   - ENABLE_HEIGHT_FOG_ON
@@ -34,11 +33,11 @@ Material:
     m_Floats:
     - ENABLE_HEIGHT_FOG: 1
     - _CullMode: 2
-    - _EnableHeightFog: 0
+    - _EnableHeightFog: 1
     - _FogHeightOffset: 0
     - _FogHeightScale: 0.2
     - _FogScale: 0.01
-    - _FogStartOffset: 0
+    - _FogStartOffset: 1
     - _Glossiness: 0.5
     - _Glow: 0
     - _Metallic: 0

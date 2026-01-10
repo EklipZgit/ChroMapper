@@ -37,9 +37,9 @@ Material:
     - _CullMode: 2
     - _EnableHeightFog: 1
     - _FogHeightOffset: 0
-    - _FogHeightScale: 0.2
-    - _FogScale: 0.01
-    - _FogStartOffset: 0
+    - _FogHeightScale: 1
+    - _FogScale: 0.08
+    - _FogStartOffset: 1
     - _Glossiness: 0.5
     - _Glow: 0
     - _Metallic: 0
