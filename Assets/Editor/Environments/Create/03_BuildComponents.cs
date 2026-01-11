@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -190,13 +191,19 @@ public partial class EnvironmentSceneCreator
                 var tlrm = go.AddComponent<TrackLaneRingsManager>();
                 tlrm.RingPositionStep = tlrmData.RingPositionZStep;
                 tlrm.SpawnAsChildren = tlrmData.SpawnAsChildren;
-                tlrm.Rings = tlrmData
-                    .Rings.Select((r, i) =>
-                    {
-                        var tlr = chromaIdObjects[r].AddComponent<TrackLaneRing>();
-                        return tlr;
-                    })
-                    .ToArray();
+                if (tlrmData.Rings is null)
+                    tlrm.Rings = Array.Empty<TrackLaneRing>();
+                else
+                {
+                    tlrm.Rings = tlrmData
+                        .Rings.Select((r, i) =>
+                        {
+                            var tlr = chromaIdObjects[r].AddComponent<TrackLaneRing>();
+                            return tlr;
+                        })
+                        .ToArray();
+                }
+
                 tlrm.Start();
             }
         }

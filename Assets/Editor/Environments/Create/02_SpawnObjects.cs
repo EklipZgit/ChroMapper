@@ -62,7 +62,11 @@ public partial class EnvironmentSceneCreator
                                 envObject.Components.MeshRenderer[0].Materials[0],
                                 out var mat)
                             && mat != null)
-                            renderer.sharedMaterial = mat;
+                        {
+                            var mats = new Material[mesh.subMeshCount];
+                            for (var x = 0; x < mesh.subMeshCount; x++) mats[x] = mat;
+                            renderer.sharedMaterials = mats;
+                        }
                         else
                         {
                             Debug.LogWarning(

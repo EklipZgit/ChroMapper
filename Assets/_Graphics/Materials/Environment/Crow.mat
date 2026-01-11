@@ -12,6 +12,7 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
+  - ENABLE_HEIGHT_FOG
   - _MODE_OPAQUE
   m_InvalidKeywords:
   - ENABLE_HEIGHT_FOG_ON
