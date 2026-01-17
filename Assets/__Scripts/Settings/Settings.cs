@@ -228,6 +228,11 @@ public class Settings
     public int CursorPrecisionA = 1;
     public int CursorPrecisionB = 1;
 
+    public float DefaultArcHeadMultiplier = 1f;
+    public float DefaultArcTailMultiplier = 1f;
+    public float DefaultChainSquish = 1f;
+    public int DefaultChainSliceCount = 5;
+
     public string LastLoadedMap = "";
     public string LastLoadedChar = "";
     public string LastLoadedDiff = "";

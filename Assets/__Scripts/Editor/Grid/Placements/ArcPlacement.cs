@@ -69,6 +69,10 @@ public class ArcPlacement : BasePlacement<BaseArc, ArcContainer, ArcGridContaine
     {
         if (head.JsonTime > tail.JsonTime) (head, tail) = (tail, head);
 
-        return new BaseArc(head, tail);
+        return new BaseArc(head, tail)
+        {
+            HeadControlPointLengthMultiplier = Settings.Instance.DefaultArcHeadMultiplier,
+            TailControlPointLengthMultiplier = Settings.Instance.DefaultArcTailMultiplier
+        };
     }
 }
