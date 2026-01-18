@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class InstancedMaterialLightController : LightController
 {
-    public Renderer Renderer;
+    public MaterialPropertyBlockColorSetter MpbController;
 
     public float Intensity;
     public bool HDR;
@@ -12,7 +12,7 @@ public class InstancedMaterialLightController : LightController
     public MultiplyColorByAlphaType MultiplyColorByAlpha;
     public bool SaturateIntensity;
 
-    protected override bool Initialize() => Renderer != null;
+    protected override bool Initialize() => MpbController != null;
 
     public override void SetColor(Color color)
     {
@@ -50,7 +50,6 @@ public class InstancedMaterialLightController : LightController
 
         if (HDR) color *= Intensity;
 
-        Mpb.SetColor(ColorId, color);
-        Renderer.SetPropertyBlock(Mpb);
+        MpbController.SetColor(color);
     }
 }

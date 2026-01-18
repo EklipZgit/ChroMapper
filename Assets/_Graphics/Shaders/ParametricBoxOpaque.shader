@@ -4,6 +4,9 @@
     {
         _Color ("Color", Color) = (1, 1, 1, 1)
         _MainTex ("Texture", 2D) = "white" {}
+        [KeywordEnum(None,PP,Frag)] _BloomWhite ("Bloom White", float) = 0
+        _BloomBoost ("Bloom Boost", float) = 1
+        [KeywordEnum(Before Emissive, After Emissive)] _AcesTonemap ("ACES Tonemapping", float) = 1
 
         _AlphaWidth("Alpha Width", Vector) = (1,1,1,1)
 
@@ -15,10 +18,19 @@
         [Toggle(ENABLE_HEIGHT_FOG)] _EnableHeightFog ("Enable Height Fog", Float) = 0
         _FogHeightOffset ("Fog Height Offset", Float) = 0
         _FogHeightScale ("Fog Height Scale", Float) = 1
+
+        [Header(Settings)] [Space]
+        [Enum(UnityEngine.Rendering.CullMode)] _CullMode ("Cull Mode", Float) = 2
+        [Enum(UnityEngine.Rendering.CompareFunction)] _ZTest ("Z Test", Float) = 4
+        [Toggle] _ZWrite ("Z Write", Float) = 1
     }
 
     SubShader
     {
+        Cull [_CullMode]
+        ZTest [_ZTest]
+        ZWrite [_ZWrite]
+        
         Pass
         {
             CGPROGRAM
@@ -27,9 +39,13 @@
             #pragma multi_compile_instancing
             #pragma multi_compile _ ENABLE_BLOOM_FOG
             #pragma shader_feature ENABLE_HEIGHT_FOG
+            #pragma multi_compile _BLOOMWHITE_NONE _BLOOMWHITE_PP _BLOOMWHITE_FRAG
+            #pragma multi_compile _ACESTONEMAP_BEFORE_EMISSIVE _ACESTONEMAP_AFTER_EMISSIVE
+            #pragma multi_compile ACES_TONE_MAPPING
 
             #include "UnityCG.cginc"
             #include "CGIncludes/BloomFog.cginc"
+            #include "CGIncludes/CustomBloom.cginc"
 
             UNITY_INSTANCING_BUFFER_START(Props)
                 UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
@@ -56,6 +72,8 @@
             sampler2D _MainTex;
             float4 _MainTex_ST;
 
+            float _BloomBoost;
+
             float _FogStartOffset;
             float _FogScale;
             float _FogHeightOffset;
@@ -70,7 +88,7 @@
 
                 float4 alphaWidth = UNITY_ACCESS_INSTANCED_PROP(Props, _AlphaWidth);
 
-                o.lengthFactor = (i.vertex.y) / 2;
+                o.lengthFactor = i.vertex.y / 2;
                 float width = lerp(alphaWidth.z, alphaWidth.w, o.lengthFactor);
 
                 i.vertex.x = i.vertex.x * width;
@@ -96,15 +114,10 @@
                 float2 adjustedUv = i.uv.xy / i.uv.z;
                 fixed4 albedo = color * tex2D(_MainTex, TRANSFORM_TEX(adjustedUv, _MainTex));
 
-                // TODO: figure out color blending and glow intensity
-                if (albedo.a > 1.0) albedo.rgb *= albedo.a;
-                albedo.a = saturate(albedo.a);
-                albedo.rgb *= albedo.a;
+                albedo = ApplyCustomBloom(albedo, _BloomBoost);
 
                 float alphaFactor = lerp(alphaWidth.x, alphaWidth.y, adjustedLengthFactor);
                 albedo *= alphaFactor;
-                albedo.a = sqrt(max(albedo.a - 0.5, 0));
-                albedo.a *= pow(alphaFactor, 4);
 
                 #ifdef ENABLE_HEIGHT_FOG
                 BLOOM_FOG_HEIGHT_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,

@@ -1,0 +1,167 @@
+﻿Shader "ChroMapper/Lightning"
+{
+    Properties
+    {
+        [Space(10)]
+        _Color ("Color", Color) = (1,1,1,1)
+        _MainTex ("Texture", 2D) = "white" {}
+
+        _TargetPoint ("Target Point", Vector) = (0,0,0,0)
+        _Width ("Width", Range(0, 2)) = 1
+        _Jitter ("Jitter", Range(0, 5)) = 15
+        _Speed ("Speed", Range(0, 1)) = 1
+
+        [Header(Fog Settings)] [Space]
+        _FogStartOffset ("Fog Start Offset", Float) = 1
+        _FogScale ("Fog Scale", Float) = 1
+        [Space]
+        [Toggle(ENABLE_HEIGHT_FOG)] _EnableHeightFog ("Enable Height Fog", Float) = 0
+        _FogHeightOffset ("Fog Height Offset", Float) = 0
+        _FogHeightScale ("Fog Height Scale", Float) = 1
+
+        [Header(Settings)] [Space]
+        [Enum(UnityEngine.Rendering.BlendMode)] _BlendModeSrc ("Blend Src", Float) = 1
+        [Enum(UnityEngine.Rendering.BlendMode)] _BlendModeDst ("Blend Dst", Float) = 1
+        [Enum(UnityEngine.Rendering.BlendMode)] _BlendModeSrcA ("Blend Src A", Float) = 0
+        [Enum(UnityEngine.Rendering.BlendMode)] _BlendModeDstA ("Blend Dst A", Float) = 0
+        [Enum(UnityEngine.Rendering.BlendOp)] _BlendOp ("Blend Operation", Float) = 0
+
+        [Space]
+        [Enum(UnityEngine.Rendering.CullMode)] _CullMode ("Cull Mode", Float) = 2
+        [Enum(UnityEngine.Rendering.CompareFunction)] _ZTest ("Z Test", Float) = 4
+        [Toggle] _ZWrite ("Z Write", Float) = 0
+    }
+    SubShader
+    {
+        Tags
+        {
+            "Queue"="Transparent"
+            "IgnoreProjector"="True"
+            "RenderType"="Transparent"
+        }
+
+        Pass
+        {
+            Blend [_BlendModeSrc] [_BlendModeDst], [_BlendModeSrcA] [_BlendModeDstA]
+            BlendOp [_BlendOp]
+            Cull [_CullMode]
+            ZTest [_ZTest]
+            ZWrite [_ZWrite]
+
+            CGPROGRAM
+            #pragma vertex vert
+            #pragma fragment frag
+            #pragma multi_compile_instancing
+            #pragma multi_compile _ ENABLE_BLOOM_FOG
+            #pragma shader_feature ENABLE_HEIGHT_FOG
+            #pragma multi_compile _BLOOMWHITE_FRAG
+            #pragma multi_compile _ACESTONEMAP_AFTER_EMISSIVE
+            #pragma multi_compile ACES_TONE_MAPPING
+
+            #include "UnityCG.cginc"
+            #include "CGIncludes/BloomFog.cginc"
+            #include "CGIncludes/CustomBloom.cginc"
+
+            UNITY_INSTANCING_BUFFER_START(Props)
+                UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
+                UNITY_DEFINE_INSTANCED_PROP(float4, _TargetPoint)
+            UNITY_INSTANCING_BUFFER_END(Props)
+
+            struct appdata
+            {
+                float4 vertex : POSITION;
+                float2 uv : TEXCOORD0;
+                float3 normal : NORMAL;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
+            };
+
+            struct v2f
+            {
+                float4 vertex : SV_POSITION;
+                float2 uv : TEXCOORD0;
+                float3 worldPos : TEXCOORD1;
+                float4 customScreenPos : TEXCOORD2;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
+            };
+
+            sampler2D _MainTex;
+            float4 _MainTex_ST;
+
+            float _BloomBoost;
+
+            float _Width;
+            float _Speed;
+            float _Jitter;
+
+            float _FogStartOffset;
+            float _FogScale;
+            float _FogHeightOffset;
+            float _FogHeightScale;
+
+            float hash(float n) { return frac(sin(n) * 43758.5453123); }
+
+            float lightningNoise(float v, float time)
+            {
+                float n = sin(v * 10.0 - time * 15.0) * 1.0;
+                n += sin(v * 25.0 + time * 22.0) * 0.5;
+                n += sin(v * 50.0 - time * 35.0) * 0.25;
+                return n;
+            }
+
+            v2f vert(appdata i)
+            {
+                v2f o;
+
+                UNITY_SETUP_INSTANCE_ID(i);
+                UNITY_TRANSFER_INSTANCE_ID(i, o);
+                float4 targetPoint = UNITY_ACCESS_INSTANCED_PROP(Props, _TargetPoint);
+
+                float3 worldOrigin = mul(unity_ObjectToWorld, float4(0, 0, 0, 1)).xyz;
+                float3 worldTarget = targetPoint.xyz;
+
+                float3 beamDir = worldOrigin - worldTarget;
+                float3 up = float3(1, 0, 0);
+                float3 side = normalize(cross(beamDir, up)) * _Width;
+
+                float jump = (frac(sin(floor(_Time.y * 8 * _Speed)) * 43758.5453) - 0.5) * 2;
+
+                // float noise = sin(i.uv.x * 20.0 + _Time.y * _Speed) * _Jitter;
+                // float noise = hash(floor(i.uv.x * 10.0 + _Time.y * _Speed)) * _Jitter;
+                float mask = i.uv.x * (1 - i.uv.x);
+                float noise = (lightningNoise(i.uv.x + _Width, _Time.y * _Speed) + jump) * _Jitter * mask;
+
+                float offset = (i.uv.y - 0.5) * 2;
+                float3 lerpedPos = lerp(worldOrigin, worldTarget, i.uv.x);
+                float3 finalWorldPos = lerpedPos + side * (offset + noise);
+
+                o.vertex = mul(UNITY_MATRIX_VP, float4(finalWorldPos, 1));
+                o.uv = TRANSFORM_TEX(i.uv, _MainTex);
+                o.worldPos = mul(unity_ObjectToWorld, i.vertex).xyz;
+                o.customScreenPos = ComputeScreenPosCustom(o.vertex);
+
+                return o;
+            }
+
+            fixed4 frag(v2f i) : SV_Target
+            {
+                UNITY_SETUP_INSTANCE_ID(i);
+                fixed4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
+
+                fixed mask = saturate(sin(i.uv.x * 3.14159) * 4);
+                i.uv.x = (i.uv.x + _Time.x) % 1;
+                fixed4 albedo = color * mask * tex2D(_MainTex, i.uv);
+                albedo = ApplyCustomBloom(albedo, _BloomBoost);
+
+                #ifdef ENABLE_HEIGHT_FOG
+                BLOOM_FOG_HEIGHT_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,
+                                           _FogHeightOffset, _FogHeightScale);
+                #else
+                BLOOM_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
+                #endif
+
+                return albedo;
+            }
+            ENDCG
+        }
+    }
+}

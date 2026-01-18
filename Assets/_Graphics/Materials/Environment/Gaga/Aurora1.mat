@@ -1,18 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-1178002607986681543
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 639247ca83abc874e893eb93af2b5e44, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 0
 --- !u!21 &2100000
 Material:
   serializedVersion: 8
@@ -47,10 +34,28 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AcesTonemap: 1
     - _BUILTIN_QueueControl: 0
     - _BUILTIN_QueueOffset: 0
+    - _Billboard: 0
+    - _BillboardScale: 1
+    - _BlendModeDst: 1
+    - _BlendModeDstA: 0
+    - _BlendModeSrc: 1
+    - _BlendModeSrcA: 0
+    - _BlendOp: 0
+    - _BloomBoost: 1
+    - _BloomWhite: 2
+    - _CullMode: 2
     - _DistortSpeed: 0.05
     - _DistortStrength: 1
+    - _EnableHeightFog: 0
+    - _FogHeightOffset: 0
+    - _FogHeightScale: 1
+    - _FogScale: 1
+    - _FogStartOffset: 0
+    - _ZTest: 4
+    - _ZWrite: 0
     m_Colors:
     - _Color: {r: 0.94275093, g: 0, b: 1, a: 1}
     - _DistortAxis: {r: 0, g: 0, b: 0, a: 0}
@@ -58,3 +63,16 @@ Material:
     - _NoiseTiling: {r: 1, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
+--- !u!114 &3764695949104841844
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 639247ca83abc874e893eb93af2b5e44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 0

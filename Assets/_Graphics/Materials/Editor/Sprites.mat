@@ -11,7 +11,9 @@ Material:
   m_Shader: {fileID: 4800000, guid: 3c7afbe72eb24999850a27d405517843, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _ACESTONEMAP_AFTER_EMISSIVE
+  - _BLOOMWHITE_NONE
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
@@ -119,15 +121,29 @@ Material:
     m_Ints: []
     m_Floats:
     - PixelSnap: 0
+    - _AcesTonemap: 1
     - _AlphaClip: 0
     - _Blend: 0
+    - _BlendModeDst: 1
+    - _BlendModeDstA: 1
+    - _BlendModeSrc: 1
+    - _BlendModeSrcA: 1
+    - _BlendOp: 0
+    - _BloomBoost: 1
+    - _BloomWhite: 0
     - _BumpScale: 1
     - _Cull: 2
+    - _CullMode: 0
     - _Cutoff: 0
     - _DetailNormalMapScale: 1
     - _DstBlend: 10
     - _EnableExternalAlpha: 0
+    - _EnableHeightFog: 0
     - _EnvironmentReflections: 1
+    - _FogHeightOffset: 0
+    - _FogHeightScale: 1
+    - _FogScale: 1
+    - _FogStartOffset: 1
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossinessSource: 0
@@ -153,6 +169,7 @@ Material:
     - _Surface: 1
     - _UVSec: 0
     - _WorkflowMode: 1
+    - _ZTest: 4
     - _ZWrite: 0
     m_Colors:
     - _BASE_COLOR: {r: 1, g: 1, b: 1, a: 1}

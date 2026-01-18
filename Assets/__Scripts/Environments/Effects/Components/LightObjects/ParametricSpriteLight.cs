@@ -5,19 +5,20 @@ public class ParametricSpriteLight : MonoBehaviour
 {
     public Renderer Renderer;
 
-    public float WidthMultiplier;
-    public float AlphaStart;
-    public float AlphaEnd;
-    public float AlphaMultiplier;
-    public float Width;
-    public float WidthStart;
-    public float WidthEnd;
-    public float Center;
-    public float Length;
+    public float WidthMultiplier = 1f;
+    public float Width = 0.5f;
+    public float Length = 1f;
+    public float Center = 0.5f;
+    public float AlphaMultiplier = 1f;
     public float MinAlpha;
 
-    [NonSerialized] public bool UseCollision;
-    [NonSerialized] public float CollisionLength;
+    public float AlphaStart = 1f;
+    public float AlphaEnd = 1f;
+    public float WidthStart = 1f;
+    public float WidthEnd = 1f;
+
+    public bool UseCollision;
+    public float CollisionLength;
 
     private MaterialPropertyBlock mpb;
     private bool hasInitialized;
@@ -28,6 +29,7 @@ public class ParametricSpriteLight : MonoBehaviour
 
     private void OnValidate()
     {
+        if (!Application.isEditor || Application.isPlaying) return;
         hasInitialized = false;
         color = new(0f, 0.5f, 1f);
         Start();
@@ -36,7 +38,7 @@ public class ParametricSpriteLight : MonoBehaviour
     private void Start()
     {
         mpb = new MaterialPropertyBlock();
-        hasInitialized = Renderer != null;
+        if (!hasInitialized) hasInitialized = Renderer != null;
         SetColor(color);
     }
 

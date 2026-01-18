@@ -22,6 +22,10 @@ public partial class EnvironmentSceneCreator
         while (queue.Count > 0)
         {
             var envObject = queue.Dequeue();
+            
+            // static mesh or whatever, we dont need this
+            if (envObject.ChromaID.Contains("Static Batch Component Container")) continue;
+            
             var name = envObject.ChromaID[(envObject.ChromaID.IndexOf("]", StringComparison.Ordinal) + 1)..];
             var parentName = name.Contains(".[") ? name[..name.LastIndexOf(".[", StringComparison.Ordinal)] : name;
             var actualParentGoName =
@@ -78,34 +82,37 @@ public partial class EnvironmentSceneCreator
                 else if (envObject.Components.MeshRenderer != null)
                 {
                     Debug.LogWarning(
-                        $"{envObject.ChromaID} mesh not found for:\n{envObject.Components.MeshFilter[0].Hash} -- {library.Meshes.list.FindIndex(l => l.Hash == envObject.Components.MeshFilter[0].Hash)}");
+                        $"{envObject.ChromaID} mesh not found for:\n{envObject.Components.MeshFilter[0].Hash} -- {library.Meshes.list.Find(l => l.Hash == envObject.Components.MeshFilter[0].Hash).Name}");
                     var fallback =
                         PrefabUtility.InstantiatePrefab(library.fallbackPrefab, go.transform) as GameObject;
                     var mInfo = library.Meshes.list.First(x => x.Hash == envObject.Components.MeshFilter[0].Hash);
                     fallback.transform.localPosition = mInfo.BoundsCenter;
                     fallback.transform.localScale = mInfo.BoundsSize;
+                    // fallback.SetActive(false); // uncomment if u really dont want to see it when testing
                 }
             }
 
-            if (envObject.Components.Collider != null)
+            foreach (var component in go.GetComponents<Collider>()) Object.DestroyImmediate(component);
+
+            if (envObject.Components.BoxCollider != null)
             {
-                foreach (var component in go.GetComponents<Collider>()) Object.DestroyImmediate(component);
-                foreach (var colliderComponent in envObject.Components.Collider)
+                foreach (var colliderComponent in envObject.Components.BoxCollider)
                 {
-                    switch (colliderComponent.Type)
-                    {
-                        case "BoxCollider":
-                            var box = go.AddComponent<BoxCollider>();
-                            box.center = colliderComponent.BoundsCenter;
-                            box.size = colliderComponent.BoundsSize;
-                            break;
-                        case "MeshCollider":
-                            var mf = go.GetComponent<MeshFilter>();
-                            if (mf == null) break;
-                            var m = go.AddComponent<MeshCollider>();
-                            m.sharedMesh = mf.sharedMesh;
-                            break;
-                    }
+                    var box = go.AddComponent<BoxCollider>();
+                    box.size = colliderComponent.Size;
+                    box.center = colliderComponent.Center;
+                }
+            }
+
+            if (envObject.Components.MeshCollider != null)
+            {
+                foreach (var _ in envObject.Components.MeshCollider)
+                {
+                    var mf = go.GetComponent<MeshFilter>();
+                    if (mf == null) break;
+                    var m = go.AddComponent<MeshCollider>();
+                    m.sharedMesh = mf.sharedMesh;
+                    break;
                 }
             }
 
@@ -126,6 +133,7 @@ public partial class EnvironmentSceneCreator
             }
 
             envObject.Components.Transform[0].CopyTo(go.transform);
+            go.SetActive(envObject.ActiveSelf);
         }
 
         return chromaIdObjects;
@@ -133,8 +141,7 @@ public partial class EnvironmentSceneCreator
 
     private static MeshRenderer GetOrCreateMeshRenderer(GameObject go)
     {
-        var renderer = go.GetComponent<MeshRenderer>();
-        if (renderer == null) renderer = go.AddComponent<MeshRenderer>();
+        var renderer = go.GetOrAddComponent<MeshRenderer>();
         renderer.shadowCastingMode = ShadowCastingMode.Off;
         renderer.receiveShadows = false;
         renderer.lightProbeUsage = LightProbeUsage.Off;

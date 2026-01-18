@@ -6,8 +6,6 @@ public sealed class BloomFogObject : MonoBehaviour
     public static List<BloomFogObject> AllBloomFogLights = new();
 
     public float Length = 1f;
-    public float Width = 1f;
-    public float Height = 1f;
     public float Center = 1f;
 
     public float StartWidth = 1f;
@@ -19,19 +17,15 @@ public sealed class BloomFogObject : MonoBehaviour
     public float LightWidthMultiplier = 1f;
     public float IntensityMultiplier = 1f;
 
-    public float BoostToWhite = 0f;
-    public float LimitAlpha = 0f;
-    public float MinAlpha = 0f;
+    public float BoostToWhite;
+    public float LimitAlpha;
+    public float MinAlpha;
     public float MaxAlpha = 1f;
 
-    public bool UseCollision = false;
+    public bool UseCollision;
 
-    public string ParametricBoxId = "";
-
-    private Transform cachedTransform;
+    public Transform CachedTransform;
     private Color color;
-
-    private void Start() => cachedTransform = transform;
 
     private void OnEnable() => AllBloomFogLights.Add(this);
 
@@ -57,7 +51,7 @@ public sealed class BloomFogObject : MonoBehaviour
         var tubeEndLocalY = tubeLength * (1f - Center);
 
         // Calculate endpoints in world space
-        var localToWorld = cachedTransform.localToWorldMatrix;
+        var localToWorld = CachedTransform.localToWorldMatrix;
         var tubeStartWorld = localToWorld.MultiplyPoint3x4(new(0f, tubeStartLocalY, 0f));
         var tubeEndWorld = localToWorld.MultiplyPoint3x4(new(0f, tubeEndLocalY, 0f));
 

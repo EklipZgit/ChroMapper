@@ -21,9 +21,11 @@ public partial class EnvironmentSceneCreator
         {
             TraverseAndRemove(GetChildren(go), data);
             CheckParametricAndRemove(go, data);
-            if (!go.GetComponents<Component>().All(x => x is Transform or ChromaIDMarker)
+            if ((go.TryGetComponent<ChromaIDMarker>(out var cim) && cim.MarkUse)
+                || !go.GetComponents<Component>().All(x => x is Transform or ChromaIDMarker)
                 || go.transform.childCount > 0)
                 continue;
+
             Object.DestroyImmediate(go);
         }
 

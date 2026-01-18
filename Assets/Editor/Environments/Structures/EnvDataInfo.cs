@@ -162,7 +162,8 @@ public class EnvInfoMaterial
     public string Name;
     public string Shader;
     public float[] Color;
-    [JsonProperty("shaderKeywords")] public string[] Keywords;
+    [JsonProperty("shaderProperties")] public Dictionary<string, float> FloatProps;
+    [JsonProperty("enabledShaderKeywords")] public string[] Keywords;
 }
 
 public class EnvInfoMesh

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 /// <summary>
@@ -6,4 +7,5 @@ using UnityEngine;
 public class ChromaIDMarker : MonoBehaviour
 {
     public string ChromaID;
+    [NonSerialized] public bool MarkUse;
 }

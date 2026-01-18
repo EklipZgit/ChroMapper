@@ -51,16 +51,26 @@ public class EnvironmentMaterialSO : ScriptableObject
                     Name = material.Name,
                     Shader = material.Shader,
                     Color = GetColor(material.Color),
+                    Keywords = new List<string>(material.Keywords),
+                    FloatProps =
+                        material
+                            .FloatProps.Select(x =>
+                                new MaterialInfo.ShaderProps<float>() { Key = x.Key, Value = x.Value })
+                            .ToList(),
                     Environments = new List<string> { environment },
-                    Keywords = new List<string>(material.Keywords)
                 });
         }
         else
         {
             var m = list.First(x => x.Hash == material.Hash);
             m.Color = GetColor(material.Color);
-            if (!m.Environments.Contains(environment)) m.Environments.Add(environment);
             if (material.Keywords != null) m.Keywords.AddRange(material.Keywords.Where(x => !m.Keywords.Contains(x)));
+            m.FloatProps.AddRange(
+                material
+                    .FloatProps.Where(x => !m.FloatProps.Exists(y => y.Key == x.Key))
+                    .Select(x =>
+                        new MaterialInfo.ShaderProps<float> { Key = x.Key, Value = x.Value }));
+            if (!m.Environments.Contains(environment)) m.Environments.Add(environment);
         }
     }
 
@@ -81,10 +91,18 @@ public class MaterialInfo
     public Color Color;
 
     public List<string> Keywords;
+    public List<ShaderProps<float>> FloatProps;
     public List<string> Environments;
 
     [HideInInspector]
     public bool Unused; // when recreate, this mark object that were changed or not used due to game update or oopsies
 
     [HideInInspector] public bool Ignored;
+
+    [Serializable]
+    public class ShaderProps<T>
+    {
+        public string Key;
+        public T Value;
+    }
 }

@@ -16,9 +16,9 @@ public class ParametricBoxLight : MonoBehaviour
     public float Length = 1f;
     public float MinAlpha;
 
-    [NonSerialized] public bool UseCollision;
-    [NonSerialized] public float CollisionHeight;
-    [NonSerialized] public bool UpdateTransform = true;
+    public bool UseCollision;
+    public float CollisionHeight;
+    public bool UpdateTransform = true;
 
     private Transform tr;
     private MaterialPropertyBlock mpb;
@@ -29,6 +29,7 @@ public class ParametricBoxLight : MonoBehaviour
 
     private void OnValidate()
     {
+        if (!Application.isEditor || Application.isPlaying) return;
         hasInitialized = false;
         color = new(0f, 0.5f, 1f);
         Start();
@@ -38,7 +39,7 @@ public class ParametricBoxLight : MonoBehaviour
     {
         tr = transform;
         mpb = new MaterialPropertyBlock();
-        hasInitialized = Renderer != null;
+        if (!hasInitialized) hasInitialized = Renderer != null;
         SetColor(color);
     }
 
@@ -48,12 +49,12 @@ public class ParametricBoxLight : MonoBehaviour
         if (!hasInitialized) return;
 
         var height = UseCollision ? Mathf.Min(CollisionHeight, Height) : Height;
-        if(UpdateTransform)
+        if (UpdateTransform)
         {
             tr.localScale = new Vector3(Width * 0.5f, height * 0.5f, Length * 0.5f);
             tr.localPosition = new Vector3(0f, (0.5f - Center) * height, 0f);
         }
-        
+
         var newCol = color;
         newCol.a *= AlphaMultiplier;
         if (newCol.a < MinAlpha) newCol.a = MinAlpha;

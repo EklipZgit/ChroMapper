@@ -13,10 +13,11 @@ public abstract class LightController : MonoBehaviour
 
     protected bool HasInitialized;
     protected MaterialPropertyBlock Mpb;
-    protected Color Color;
+    [NonSerialized] public Color Color;
 
     protected virtual void OnValidate()
     {
+        if (!Application.isEditor || Application.isPlaying) return;
         HasInitialized = false;
         Color = new(0f, 0.5f, 1f);
         Start();
@@ -25,7 +26,7 @@ public abstract class LightController : MonoBehaviour
     public void Start()
     {
         Mpb = new();
-        HasInitialized = Initialize();
+        if (!HasInitialized) HasInitialized = Initialize();
         SetColor(Color);
     }
 

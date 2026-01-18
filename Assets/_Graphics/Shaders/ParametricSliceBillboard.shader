@@ -4,8 +4,15 @@
     {
         _Color ("Color", Color) = (1, 1, 1, 1)
         _MainTex ("Texture", 2D) = "white" {}
-
+		[Toggle(ENABLE_Y_AXIS_BILLBOARD)] _EnableYAxisBillboard ("Y Axis Billboard", Float) = 1
+        [KeywordEnum(None,PP,Frag)] _BloomWhite ("Bloom White", float) = 0
+        _BloomBoost ("Bloom Boost", float) = 1
+        [KeywordEnum(Before Emissive, After Emissive)] _AcesTonemap ("ACES Tonemapping", float) = 1
+        
+        [Toggle(SQUARE_ALPHA)] _SquareAlpha("Square Alpha", float) = 1
+        
         _SizeParams("Size Params", Vector) = (0.25,10,0,0.5)
+        [Toggle(ALPHA_WIDTH_SCALE)] _EnableAlphaWidthScale ("Alpha Width Scale", float) = 0
         _AlphaWidth("Alpha Width", Vector) = (1,1,1,1)
 
         [Header(Fog Settings)]
@@ -16,6 +23,18 @@
         [Toggle(ENABLE_HEIGHT_FOG)] _EnableHeightFog ("Enable Height Fog", Float) = 0
         _FogHeightOffset ("Fog Height Offset", Float) = 0
         _FogHeightScale ("Fog Height Scale", Float) = 1
+
+        [Header(Settings)] [Space]
+        [Enum(UnityEngine.Rendering.BlendMode)] _BlendModeSrc ("Blend Src", Float) = 1
+        [Enum(UnityEngine.Rendering.BlendMode)] _BlendModeDst ("Blend Dst", Float) = 1
+        [Enum(UnityEngine.Rendering.BlendMode)] _BlendModeSrcA ("Blend Src A", Float) = 1
+        [Enum(UnityEngine.Rendering.BlendMode)] _BlendModeDstA ("Blend Dst A", Float) = 1
+        [Enum(UnityEngine.Rendering.BlendOp)] _BlendOp ("Blend Operation", Float) = 0
+
+        [Space]
+        [Enum(UnityEngine.Rendering.CullMode)] _CullMode ("Cull Mode", Float) = 2
+        [Enum(UnityEngine.Rendering.CompareFunction)] _ZTest ("Z Test", Float) = 4
+        [Toggle] _ZWrite ("Z Write", Float) = 0
     }
 
     SubShader
@@ -29,9 +48,11 @@
             "RenderType"="Transparent"
         }
 
-        ZWrite Off
-        Cull Front
-        Blend SrcColor OneMinusSrcColor
+        Blend [_BlendModeSrc] [_BlendModeDst], [_BlendModeSrcA] [_BlendModeDstA]
+        BlendOp [_BlendOp]
+        Cull [_CullMode]
+        ZTest [_ZTest]
+        ZWrite [_ZWrite]
 
         Pass
         {
@@ -41,9 +62,16 @@
             #pragma multi_compile_instancing
             #pragma multi_compile _ ENABLE_BLOOM_FOG
             #pragma shader_feature ENABLE_HEIGHT_FOG
+            #pragma shader_feature ENABLE_Y_AXIS_BILLBOARD
+            #pragma shader_feature ALPHA_WIDTH_SCALE
+            #pragma shader_feature SQUARE_ALPHA
+            #pragma multi_compile _BLOOMWHITE_NONE _BLOOMWHITE_PP _BLOOMWHITE_FRAG
+            #pragma multi_compile _ACESTONEMAP_BEFORE_EMISSIVE _ACESTONEMAP_AFTER_EMISSIVE
+            #pragma multi_compile ACES_TONE_MAPPING
 
             #include "UnityCG.cginc"
             #include "CGIncludes/BloomFog.cginc"
+            #include "CGIncludes/CustomBloom.cginc"
 
             UNITY_INSTANCING_BUFFER_START(Props)
                 UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
@@ -71,6 +99,8 @@
             sampler2D _MainTex;
             float4 _MainTex_ST;
 
+            float _BloomBoost;
+            
             float _FogStartOffset;
             float _FogScale;
             float _FogHeightOffset;
@@ -90,38 +120,51 @@
                 float3 localUp = normalize(mul((float3x3)unity_ObjectToWorld, float3(0, 1, 0)));
                 float3 dirToCam = _WorldSpaceCameraPos - worldOrigin;
                 float3 look = normalize(dirToCam - localUp * dot(dirToCam, localUp));
-                float3 right = normalize(cross(localUp, look));
+                float3 right = -normalize(cross(localUp, look));
 
-                float width;
+                float width = 1;
                 float height;
                 float offset = sizeParams.y * sizeParams.z;
                 // TODO: replace t and lerp with vertex access
                 if (i.uv.y < 0.25)
                 {
-                    float t = i.uv.y / 0.25;
+                    float t = 1 - i.uv.y / 0.25;
+                    #if ALPHA_WIDTH_SCALE
                     width = alphaWidth.z;
-                    height = lerp(-sizeParams.w, 0, t) - offset;
+                    #endif
+                    height = -sizeParams.w * t;
                 }
                 else if (i.uv.y < 0.75)
                 {
                     float t = (i.uv.y - 0.25) * 2;
+                    #if ALPHA_WIDTH_SCALE
                     width = lerp(alphaWidth.z, alphaWidth.w, t);
-                    height = lerp(0, sizeParams.y, t) - offset;
+                    #endif
+                    height = sizeParams.y * t;
                 }
                 else
                 {
                     float t = (i.uv.y - 0.75) / 0.25;
+                    #if ALPHA_WIDTH_SCALE
                     width = alphaWidth.w;
-                    height = lerp(sizeParams.y, sizeParams.y + sizeParams.w, t) - offset;
+                    #endif
+                    height = sizeParams.y + sizeParams.w * t;
                 }
 
+                float maxHeight = sizeParams.y + sizeParams.w * 2;
+                o.lengthFactor = (height + sizeParams.w) / maxHeight;
+                height -= offset;
                 width *= sizeParams.x;
 
-                o.lengthFactor = i.vertex.y;
-                float horizontal = i.vertex.x * width;
-                float3 worldPos = worldOrigin + right * horizontal + localUp * height;
-
+                i.vertex.x *= width;
+                i.vertex.y = height;
+                
+                #if ENABLE_Y_AXIS_BILLBOARD
+                float3 worldPos = worldOrigin + right * i.vertex.x + localUp * i.vertex.y;
                 o.vertex = mul(UNITY_MATRIX_VP, float4(worldPos, 1.0));
+                #else
+                o.vertex = UnityObjectToClipPos(i.vertex);
+                #endif
 
                 o.uv = float3(i.uv * width / sizeParams.x, width / sizeParams.x);
                 o.worldPos = mul(unity_ObjectToWorld, i.vertex).xyz;
@@ -136,20 +179,8 @@
                 fixed4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
                 float4 alphaWidth = UNITY_ACCESS_INSTANCED_PROP(Props, _AlphaWidth);
 
-                float adjustedLengthFactor = i.lengthFactor;
-
                 float2 adjustedUv = i.uv.xy / i.uv.z;
                 fixed4 albedo = color * tex2D(_MainTex, TRANSFORM_TEX(adjustedUv, _MainTex));
-
-                // TODO: figure out color blending and glow intensity
-                if (albedo.a > 1.0) albedo.rgb *= albedo.a;
-                albedo.a = saturate(albedo.a);
-                albedo.rgb *= albedo.a;
-
-                float alphaFactor = lerp(alphaWidth.x, alphaWidth.y, adjustedLengthFactor);
-                albedo *= alphaFactor;
-                albedo.a = sqrt(max(albedo.a - 0.5, 0));
-                albedo.a *= pow(alphaFactor, 4);
 
                 #ifdef ENABLE_HEIGHT_FOG
                 BLOOM_FOG_HEIGHT_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,
@@ -158,7 +189,20 @@
                 BLOOM_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
                 #endif
 
-                return saturate(log(1 + albedo));
+                #if SQUARE_ALPHA
+                albedo.a *= albedo.a;
+                #endif
+
+                albedo = ApplyCustomBloom(albedo, _BloomBoost);
+
+                float alphaFactor = lerp(alphaWidth.x, alphaWidth.y, i.lengthFactor);
+                #if SQUARE_ALPHA
+                albedo *= alphaFactor * alphaFactor;
+                #else
+                albedo *= alphaFactor;
+                #endif
+
+                return albedo;
             }
             ENDCG
         }

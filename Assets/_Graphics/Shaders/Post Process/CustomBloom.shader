@@ -68,7 +68,7 @@ Shader "ChroMapper/Post Process/Bloom"
         #if BLOOM_TOWARDS_WHITE
         // Give whiteness to glowing material
         float alpha = saturate(color.a);
-        color.rgb += alpha;
+        color.rgb = lerp(color.rgb, 1, alpha);
         #endif
 
         float4 bloom = SAMPLE_TEXTURE2D(_BloomTex, sampler_BloomTex, i.texcoord) * _Intensity;

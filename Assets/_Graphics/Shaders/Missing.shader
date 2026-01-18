@@ -46,7 +46,14 @@
 
             fixed4 frag(v2f i) : SV_Target
             {
-                return fixed4(1, 0, 1, 0);
+                fixed4 col = 0;
+
+                float tileSize = 0.25;
+                if ((i.uv.x % tileSize > tileSize / 2 && i.uv.y % tileSize < tileSize / 2) || (i.uv.y % tileSize >
+                    tileSize / 2 && i.uv.x % tileSize < tileSize / 2))
+                    col.rb = 1;
+
+                return col;
             }
             ENDCG
         }
