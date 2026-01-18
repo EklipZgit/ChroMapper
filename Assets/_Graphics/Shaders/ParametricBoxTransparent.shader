@@ -6,8 +6,8 @@
         _MainTex ("Texture", 2D) = "white" {}
         _AlphaWidth("Alpha Width", Vector) = (1,1,1,1)
 
-        [Header(Fog Settings)]
-        [Space]
+        [Header(Fog Settings)] [Space]
+        [Toggle(ENABLE_FOG)] _EnableFog ("Enable Fog", Float) = 1
         _FogStartOffset ("Fog Start Offset", Float) = 1
         _FogScale ("Fog Scale", Float) = 1
         [Space]
@@ -50,7 +50,7 @@
             #pragma fragment frag
             #pragma multi_compile_instancing
             #pragma multi_compile _ ENABLE_BLOOM_FOG
-            #pragma shader_feature ENABLE_HEIGHT_FOG
+            #pragma multi_compile _ ENABLE_HEIGHT_FOG
             #pragma shader_feature _BLOOMWHITE_PP
             #pragma multi_compile _ACESTONEMAP_AFTER_EMISSIVE
             #pragma multi_compile ACES_TONE_MAPPING
@@ -84,7 +84,7 @@
             sampler2D _MainTex;
             float4 _MainTex_ST;
 
-            float _BloomBoost;
+            float _BloomWhiteMultiplier;
 
             float _FogStartOffset;
             float _FogScale;
@@ -133,10 +133,8 @@
                 BLOOM_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
                 #endif
 
-                albedo = ApplyCustomBloom(albedo, 1);
-
-                float alphaFactor = lerp(alphaWidth.x, alphaWidth.y, adjustedLengthFactor);
-                albedo *= alphaFactor;
+                fixed alphaFactor = lerp(alphaWidth.x, alphaWidth.y, adjustedLengthFactor);
+                albedo = ApplyCustomBloom(albedo, alphaFactor, 1);
 
                 return saturate(log(1 + albedo));
             }

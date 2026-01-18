@@ -4,14 +4,11 @@
     {
         _Color ("Color", Color) = (1, 1, 1, 1)
         _MainTex ("Texture", 2D) = "white" {}
-        [KeywordEnum(None,PP,Frag)] _BloomWhite ("Bloom White", float) = 0
-        _BloomBoost ("Bloom Boost", float) = 1
-        [KeywordEnum(Before Emissive, After Emissive)] _AcesTonemap ("ACES Tonemapping", float) = 1
 
         _AlphaWidth("Alpha Width", Vector) = (1,1,1,1)
 
-        [Header(Fog Settings)]
-        [Space]
+        [Header(Fog Settings)] [Space]
+        [Toggle(ENABLE_FOG)] _EnableFog ("Enable Fog", Float) = 1
         _FogStartOffset ("Fog Start Offset", Float) = 1
         _FogScale ("Fog Scale", Float) = 1
         [Space]
@@ -30,7 +27,7 @@
         Cull [_CullMode]
         ZTest [_ZTest]
         ZWrite [_ZWrite]
-        
+
         Pass
         {
             CGPROGRAM
@@ -38,9 +35,9 @@
             #pragma fragment frag
             #pragma multi_compile_instancing
             #pragma multi_compile _ ENABLE_BLOOM_FOG
-            #pragma shader_feature ENABLE_HEIGHT_FOG
-            #pragma multi_compile _BLOOMWHITE_NONE _BLOOMWHITE_PP _BLOOMWHITE_FRAG
-            #pragma multi_compile _ACESTONEMAP_BEFORE_EMISSIVE _ACESTONEMAP_AFTER_EMISSIVE
+            #pragma multi_compile _ ENABLE_HEIGHT_FOG
+            #pragma multi_compile _BLOOMWHITE_PP
+            #pragma multi_compile _ACESTONEMAP_AFTER_EMISSIVE
             #pragma multi_compile ACES_TONE_MAPPING
 
             #include "UnityCG.cginc"
@@ -71,8 +68,6 @@
 
             sampler2D _MainTex;
             float4 _MainTex_ST;
-
-            float _BloomBoost;
 
             float _FogStartOffset;
             float _FogScale;
@@ -114,14 +109,12 @@
                 float2 adjustedUv = i.uv.xy / i.uv.z;
                 fixed4 albedo = color * tex2D(_MainTex, TRANSFORM_TEX(adjustedUv, _MainTex));
 
-                albedo = ApplyCustomBloom(albedo, _BloomBoost);
-
-                float alphaFactor = lerp(alphaWidth.x, alphaWidth.y, adjustedLengthFactor);
-                albedo *= alphaFactor;
+                fixed alphaFactor = lerp(alphaWidth.x, alphaWidth.y, adjustedLengthFactor);
+                albedo = ApplyCustomBloom(albedo, alphaFactor, 1);
 
                 #ifdef ENABLE_HEIGHT_FOG
                 BLOOM_FOG_HEIGHT_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,
-                           _FogHeightOffset, _FogHeightScale);
+                                           _FogHeightOffset, _FogHeightScale);
                 #else
                 BLOOM_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
                 #endif

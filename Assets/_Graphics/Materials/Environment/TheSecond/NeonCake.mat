@@ -16,6 +16,7 @@ Material:
   - _BILLBOARD_NONE
   - _BLOOMWHITE_PP
   m_InvalidKeywords:
+  - ENABLE_FOG
   - ENABLE_HEIGHT_FOG
   - SQUARE_ALPHA
   m_LightmapFlags: 4
@@ -44,7 +45,9 @@ Material:
     - _BlendOp: 4
     - _BloomBoost: 1
     - _BloomWhite: 1
+    - _BloomWhiteMultiplier: 1
     - _CullMode: 0
+    - _EnableFog: 1
     - _EnableHeightFog: 1
     - _FogHeightOffset: 0
     - _FogHeightScale: 1

@@ -12,8 +12,8 @@
         _Cutout("Cutout", Range(0, 1)) = 0.0
         _CutoutTexOffset("Cutout Tex Offset", Vector) = (0, 0, 0, 0)
 
-        [Header(Fog Settings)]
-        [Space]
+        [Header(Fog Settings)] [Space]
+        [Toggle(ENABLE_FOG)] _EnableFog ("Enable Fog", Float) = 1
         _FogStartOffset ("Fog Start Offset", Float) = 1
         _FogScale ("Fog Scale", Float) = 1
         [Space]
@@ -81,7 +81,7 @@
             #pragma multi_compile_instancing
             #pragma multi_compile _ ENABLE_BLOOM_FOG
             #pragma multi_compile _ CM_PREVIEW_MODE
-            #pragma shader_feature ENABLE_HEIGHT_FOG
+            #pragma multi_compile _ ENABLE_HEIGHT_FOG
 
             struct appdata
             {

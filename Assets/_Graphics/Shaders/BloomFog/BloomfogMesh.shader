@@ -16,9 +16,6 @@ Shader "ChroMapper/BloomfogMesh"
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-            #pragma multi_compile REINHARD_TONE_MAPPING
-
-            #include "../CGIncludes/CustomTonemapping.cginc"
 
             struct appdata
             {
@@ -54,11 +51,12 @@ Shader "ChroMapper/BloomfogMesh"
             float4 frag (v2f i) : SV_Target
             {
                 // Construct HDR color from UV1 and UV2
-                float4 color = float4(i.uv1.xy, i.uv2.xy);
+                float4 color = float4(i. uv1.xy, i.uv2.xy);
 
                 // Apply alpha mask
                 color.rgb *= tex2D(_BloomfogAlphaMask, i.uv).a;
                 color.rgb *= color.a;
+                color.a = 0;
 
                 // Yeah this should be fine.
                 return color;

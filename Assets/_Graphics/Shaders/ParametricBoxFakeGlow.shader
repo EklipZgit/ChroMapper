@@ -5,13 +5,13 @@
         _Color ("Color", Color) = (1, 1, 1, 1)
         _MainTex ("Texture", 2D) = "white" {}
         [KeywordEnum(None,PP,Frag)] _BloomWhite ("Bloom White", float) = 0
-        _BloomBoost ("Bloom Boost", float) = 1
+        _BloomWhiteMultiplier ("White Multiplier", float) = 1
         [KeywordEnum(Before Emissive, After Emissive)] _AcesTonemap ("ACES Tonemapping", float) = 1
 
         _SizeParams("Size Params", Vector) = (3,2,0,0.3)
 
-        [Header(Fog Settings)]
-        [Space]
+        [Header(Fog Settings)] [Space]
+        [Toggle(ENABLE_FOG)] _EnableFog ("Enable Fog", Float) = 1
         _FogStartOffset ("Fog Start Offset", Float) = 1
         _FogScale ("Fog Scale", Float) = 1
         [Space]
@@ -54,7 +54,7 @@
             #pragma fragment frag
             #pragma multi_compile_instancing
             #pragma multi_compile _ ENABLE_BLOOM_FOG
-            #pragma shader_feature ENABLE_HEIGHT_FOG
+            #pragma multi_compile _ ENABLE_HEIGHT_FOG
             #pragma multi_compile _BLOOMWHITE_NONE _BLOOMWHITE_PP _BLOOMWHITE_FRAG
             #pragma multi_compile _ACESTONEMAP_BEFORE_EMISSIVE _ACESTONEMAP_AFTER_EMISSIVE
             #pragma multi_compile ACES_TONE_MAPPING
@@ -87,7 +87,7 @@
             sampler2D _MainTex;
             float4 _MainTex_ST;
 
-            float _BloomBoost;
+            float _BloomWhiteMultiplier;
 
             float _FogStartOffset;
             float _FogScale;
@@ -142,7 +142,7 @@
 
                 fixed4 albedo = color * tex2D(_MainTex, TRANSFORM_TEX(i.uv, _MainTex));
 
-                albedo = ApplyCustomBloom(albedo, _BloomBoost);
+                albedo = ApplyCustomBloom(albedo, _BloomWhiteMultiplier);
 
                 #ifdef ENABLE_HEIGHT_FOG
                 BLOOM_FOG_HEIGHT_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,

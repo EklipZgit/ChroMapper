@@ -144,26 +144,29 @@ public class EnvironmentBuildPopulate
                 "_EnableYAxisBillboard",
                 matInfo.Keywords.Contains("ENABLE_Y_AXIS_BILLBOARD") ? 1f : 0f);
             matInfo.Material.SetFloat("_SquareAlpha", matInfo.Keywords.Contains("SQUARE_ALPHA") ? 1f : 0f);
+            matInfo.Material.SetFloat("_UseFogForLights", matInfo.Keywords.Contains("USE_FOR_FOR_LIGHTS") ? 1f : 0f);
 
-            if (matInfo.Keywords.Contains("_BILLBOARD_NONE"))
-                matInfo.Material.SetFloat("_Billboard", 0f);
-            else if (matInfo.Keywords.Contains("_BILLBOARD_FULL"))
+            if (matInfo.Keywords.Contains("_BILLBOARD_FULL"))
                 matInfo.Material.SetFloat("_Billboard", 1f);
             else if (matInfo.Keywords.Contains("_BILLBOARD_Y_AXIS"))
                 matInfo.Material.SetFloat("_Billboard", 2f);
-            else if (matInfo.Keywords.Contains("_BILLBOARD_CAMERA_FACING")) matInfo.Material.SetFloat("_Billboard", 3f);
+            else if (matInfo.Keywords.Contains("_BILLBOARD_CAMERA_FACING"))
+                matInfo.Material.SetFloat("_Billboard", 3f);
+            else
+                matInfo.Material.SetFloat("_Billboard", 0f);
 
             if (matInfo.Keywords.Contains("_ACES_APPROACH_AFTER_EMISSIVE"))
                 matInfo.Material.SetFloat("_AcesTonemap", 1f);
             else if (matInfo.Keywords.Contains("_ACES_APPROACH_BEFORE_EMISSIVE"))
                 matInfo.Material.SetFloat("_AcesTonemap", 0f);
 
-            if (matInfo.Keywords.Contains("_WHITEBOOSTTYPE_NONE"))
-                matInfo.Material.SetFloat("_BloomWhite", 0f);
-            else if (matInfo.Keywords.Contains("_WHITEBOOSTTYPE_MAINEFFECT")
+            if (matInfo.Keywords.Contains("_WHITEBOOSTTYPE_MAINEFFECT")
                 || matInfo.Keywords.Contains("_ENABLE_MAIN_EFFECT_WHITE_BOOST"))
                 matInfo.Material.SetFloat("_BloomWhite", 1f);
-            else if (matInfo.Keywords.Contains("_WHITEBOOSTTYPE_ALWAYS")) matInfo.Material.SetFloat("_BloomWhite", 2f);
+            else if (matInfo.Keywords.Contains("_WHITEBOOSTTYPE_ALWAYS"))
+                matInfo.Material.SetFloat("_BloomWhite", 2f);
+            else
+                matInfo.Material.SetFloat("_BloomWhite", 0f);
         }
 
         foreach (var obj in library

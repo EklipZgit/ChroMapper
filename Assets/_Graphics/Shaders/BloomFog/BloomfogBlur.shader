@@ -175,7 +175,7 @@ Shader "Hidden/BloomfogBlurring"
                 float4 combined = combine(bloomColor, upsampledBlur);
                 combined = autoExposure(combined, uv);
                 ACES_TONE_MAPPING_APPLY(combined);
-                return combined;
+                return saturate(combined);
             }
             ENDCG
         }

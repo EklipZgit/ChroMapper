@@ -6,15 +6,15 @@
         _Color ("Color", Color) = (1,1,1,1)
         _MainTex ("Texture", 2D) = "white" {}
         [KeywordEnum(None,PP,Frag)] _BloomWhite ("Bloom White", float) = 0
-        _BloomBoost ("Bloom Boost", float) = 1
+        _BloomWhiteMultiplier ("White Multiplier", float) = 1
         [KeywordEnum(Before Emissive, After Emissive)] _AcesTonemap ("ACES Tonemapping", float) = 1
 
         [Space(10)]
         _Glossiness ("Smoothness", Range(0, 1)) = 0.5
         _Metallic ("Metallic", Range(0, 1)) = 0.0
 
-        [Header(Fog Settings)]
-        [Space]
+        [Header(Fog Settings)] [Space]
+        [Toggle(ENABLE_FOG)] _EnableFog ("Enable Fog", Float) = 1
         _FogStartOffset ("Fog Start Offset", Float) = 1
         _FogScale ("Fog Scale", Float) = 1
         [Space]
@@ -47,7 +47,7 @@
             #pragma fragment frag
             #pragma multi_compile_instancing
             #pragma multi_compile _ ENABLE_BLOOM_FOG
-            #pragma shader_feature ENABLE_HEIGHT_FOG
+            #pragma multi_compile _ ENABLE_HEIGHT_FOG
             #pragma multi_compile _BLOOMWHITE_NONE _BLOOMWHITE_PP _BLOOMWHITE_FRAG
             #pragma multi_compile _ACESTONEMAP_BEFORE_EMISSIVE _ACESTONEMAP_AFTER_EMISSIVE
             #pragma multi_compile ACES_TONE_MAPPING
@@ -82,7 +82,7 @@
             sampler2D _MainTex;
             float4 _MainTex_ST;
 
-            float _BloomBoost;
+            float _BloomWhiteMultiplier;
             
             float _Glossiness;
             float _Metallic;
@@ -132,7 +132,7 @@
                 col += diffuse * lightColor * albedo.rgb;
                 col += specular * lightColor;
 
-                albedo = ApplyCustomBloom(fixed4(col.rgb, albedo.a), _BloomBoost);
+                albedo = ApplyCustomBloom(fixed4(col.rgb, albedo.a), _BloomWhiteMultiplier);
 
                 #ifdef ENABLE_HEIGHT_FOG
                 BLOOM_FOG_HEIGHT_FOG_APPLY(bloomfog_color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,

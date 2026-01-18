@@ -4,25 +4,28 @@
     {
         _Color ("Color", Color) = (1, 1, 1, 1)
         _MainTex ("Texture", 2D) = "white" {}
-		[Toggle(ENABLE_Y_AXIS_BILLBOARD)] _EnableYAxisBillboard ("Y Axis Billboard", Float) = 1
+        [Toggle(ENABLE_Y_AXIS_BILLBOARD)] _EnableYAxisBillboard ("Y Axis Billboard", Float) = 1
         [KeywordEnum(None,PP,Frag)] _BloomWhite ("Bloom White", float) = 0
-        _BloomBoost ("Bloom Boost", float) = 1
+        _BloomMultiplier ("Bloom Multiplier", float) = 1
+        _BloomWhiteMultiplier ("White Multiplier", float) = 1
         [KeywordEnum(Before Emissive, After Emissive)] _AcesTonemap ("ACES Tonemapping", float) = 1
-        
+
         [Toggle(SQUARE_ALPHA)] _SquareAlpha("Square Alpha", float) = 1
-        
+
         _SizeParams("Size Params", Vector) = (0.25,10,0,0.5)
         [Toggle(ALPHA_WIDTH_SCALE)] _EnableAlphaWidthScale ("Alpha Width Scale", float) = 0
         _AlphaWidth("Alpha Width", Vector) = (1,1,1,1)
 
-        [Header(Fog Settings)]
-        [Space]
+        [Header(Fog Settings)] [Space]
+        [Toggle(ENABLE_FOG)] _EnableFog ("Enable Fog", Float) = 1
         _FogStartOffset ("Fog Start Offset", Float) = 1
         _FogScale ("Fog Scale", Float) = 1
         [Space]
         [Toggle(ENABLE_HEIGHT_FOG)] _EnableHeightFog ("Enable Height Fog", Float) = 0
         _FogHeightOffset ("Fog Height Offset", Float) = 0
         _FogHeightScale ("Fog Height Scale", Float) = 1
+        [Space]
+        [Toggle(USE_FOG_FOR_LIGHTS)] _UseFogForLights("Use Fog For Lights", float) = 1
 
         [Header(Settings)] [Space]
         [Enum(UnityEngine.Rendering.BlendMode)] _BlendModeSrc ("Blend Src", Float) = 1
@@ -61,7 +64,8 @@
             #pragma fragment frag
             #pragma multi_compile_instancing
             #pragma multi_compile _ ENABLE_BLOOM_FOG
-            #pragma shader_feature ENABLE_HEIGHT_FOG
+            #pragma shader_feature USE_FOG_FOR_LIGHTS
+            #pragma multi_compile _ ENABLE_HEIGHT_FOG
             #pragma shader_feature ENABLE_Y_AXIS_BILLBOARD
             #pragma shader_feature ALPHA_WIDTH_SCALE
             #pragma shader_feature SQUARE_ALPHA
@@ -99,8 +103,9 @@
             sampler2D _MainTex;
             float4 _MainTex_ST;
 
-            float _BloomBoost;
-            
+            float _BloomMultiplier;
+            float _BloomWhiteMultiplier;
+
             float _FogStartOffset;
             float _FogScale;
             float _FogHeightOffset;
@@ -158,7 +163,7 @@
 
                 i.vertex.x *= width;
                 i.vertex.y = height;
-                
+
                 #if ENABLE_Y_AXIS_BILLBOARD
                 float3 worldPos = worldOrigin + right * i.vertex.x + localUp * i.vertex.y;
                 o.vertex = mul(UNITY_MATRIX_VP, float4(worldPos, 1.0));
@@ -182,6 +187,17 @@
                 float2 adjustedUv = i.uv.xy / i.uv.z;
                 fixed4 albedo = color * tex2D(_MainTex, TRANSFORM_TEX(adjustedUv, _MainTex));
 
+                #if USE_FOG_FOR_LIGHTS
+                #if SQUARE_ALPHA
+                albedo.a *= albedo.a;
+                #endif
+                fixed alphaFactor = lerp(alphaWidth.x, alphaWidth.y, i.lengthFactor);
+                #if SQUARE_ALPHA
+                alphaFactor *= alphaFactor;
+                #endif
+                albedo = ApplyCustomBloom(albedo, alphaFactor, _BloomWhiteMultiplier);
+                #endif
+
                 #ifdef ENABLE_HEIGHT_FOG
                 BLOOM_FOG_HEIGHT_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,
                                            _FogHeightOffset, _FogHeightScale);
@@ -189,18 +205,17 @@
                 BLOOM_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
                 #endif
 
+                #if !USE_FOG_FOR_LIGHTS
                 #if SQUARE_ALPHA
                 albedo.a *= albedo.a;
                 #endif
-
-                albedo = ApplyCustomBloom(albedo, _BloomBoost);
-
-                float alphaFactor = lerp(alphaWidth.x, alphaWidth.y, i.lengthFactor);
+                fixed alphaFactor = lerp(alphaWidth.x, alphaWidth.y, i.lengthFactor);
                 #if SQUARE_ALPHA
-                albedo *= alphaFactor * alphaFactor;
-                #else
-                albedo *= alphaFactor;
+                alphaFactor *= alphaFactor;
                 #endif
+                albedo = ApplyCustomBloom(albedo, alphaFactor, _BloomWhiteMultiplier);
+                #endif
+
 
                 return albedo;
             }

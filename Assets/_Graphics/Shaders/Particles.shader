@@ -7,13 +7,13 @@
         [KeywordEnum(None, Full, Y Axis, Camera Facing)] _Billboard ("Billboard", Float) = 0
         _BillboardScale ("Billboard Scale", Float) = 1
         [KeywordEnum(None,PP,Frag)] _BloomWhite ("Bloom White", float) = 0
-        _BloomBoost ("Bloom Boost", float) = 1
+        _BloomWhiteMultiplier ("White Multiplier", float) = 1
         [KeywordEnum(Before Emissive, After Emissive)] _AcesTonemap ("ACES Tonemapping", float) = 1
 
         [Toggle(SQUARE_ALPHA)] _SquareAlpha("Square Alpha", float) = 1
         
-        [Header(Fog Settings)]
-        [Space]
+        [Header(Fog Settings)] [Space]
+        [Toggle(ENABLE_FOG)] _EnableFog ("Enable Fog", Float) = 1
         _FogStartOffset ("Fog Start Offset", Float) = 1
         _FogScale ("Fog Scale", Float) = 1
         [Space]
@@ -27,7 +27,6 @@
         [Enum(UnityEngine.Rendering.BlendMode)] _BlendModeSrcA ("Blend Src A", Float) = 1
         [Enum(UnityEngine.Rendering.BlendMode)] _BlendModeDstA ("Blend Dst A", Float) = 1
         [Enum(UnityEngine.Rendering.BlendOp)] _BlendOp ("Blend Operation", Float) = 0
-
         [Space]
         [Enum(UnityEngine.Rendering.CullMode)] _CullMode ("Cull Mode", Float) = 0
         [Enum(UnityEngine.Rendering.CompareFunction)] _ZTest ("Z Test", Float) = 4
@@ -152,7 +151,7 @@
             }
 
             sampler2D _MainTex;
-            float _BloomBoost;
+            float _BloomWhiteMultiplier;
 
             float _FogStartOffset;
             float _FogScale;
@@ -163,6 +162,12 @@
             {
                 fixed4 color = tex2D(_MainTex, i.uv) * i.color;
 
+                #if SQUARE_ALPHA
+                albedo.a *= albedo.a;
+                #endif
+
+                color = ApplyCustomBloom(color, _BloomWhiteMultiplier);
+  
                 #ifdef ENABLE_HEIGHT_FOG
                 BLOOM_FOG_HEIGHT_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,
                                            _FogHeightOffset, _FogHeightScale);
@@ -170,12 +175,6 @@
                 BLOOM_FOG_APPLY(color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
                 #endif
               
-                #if SQUARE_ALPHA
-                albedo.a *= albedo.a;
-                #endif
-
-                color = ApplyCustomBloom(color, _BloomBoost);
-  
                 return color;
             }
             ENDCG

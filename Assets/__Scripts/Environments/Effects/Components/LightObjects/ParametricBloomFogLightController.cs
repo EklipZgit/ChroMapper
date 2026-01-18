@@ -62,7 +62,6 @@ public class ParametricBloomFogLightController : LightController
         set
         {
             useCollision = value;
-            BloomFog.UseCollision = value;
             if (hasBoxLight) BoxLight.UseCollision = value;
             if (hasSpriteLight) SpriteLight.UseCollision = value;
         }
@@ -145,17 +144,16 @@ public class ParametricBloomFogLightController : LightController
             BloomFog.EndWidth = EndWidth;
             BloomFog.StartWidth = StartWidth;
             BloomFog.StartAlpha = StartAlpha;
-            BloomFog.EndAlpha = EndAlpha;
-            BloomFog.LimitAlpha = LimitAlpha ? 1f : 0f;
+            BloomFog.EndAlpha = CollisionEndAlpha;
+            BloomFog.LimitAlpha = LimitAlpha;
             BloomFog.MinAlpha = MinAlpha;
             BloomFog.MaxAlpha = MaxAlpha;
-            // BloomFog.MultiplyLengthByAlphaBloomFogMultiplier = multiplyLengthByAlphaBloomFogMultiplier;
-            // BloomFog.MultiplyLengthByAlphaMultiplier = multiplyLengthByAlphaMultiplier;
+            BloomFog.MultiplyLengthByAlphaBloomFogMultiplier = MultiplyLengthByAlphaBloomFogMultiplier;
+            BloomFog.MultiplyLengthByAlphaMultiplier = multiplyLengthByAlphaMultiplier;
             BloomFog.BoostToWhite = BoostToWhite;
             BloomFog.IntensityMultiplier = BloomFogIntensityMultiplier;
             BloomFog.Length = CalculatedCollisionLength;
             BloomFog.Center = Center;
-            BloomFog.UseCollision = useCollision;
 
             BloomFog.SetColor(Color);
         }

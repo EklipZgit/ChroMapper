@@ -12,6 +12,7 @@
         _Speed ("Speed", Range(0, 1)) = 1
 
         [Header(Fog Settings)] [Space]
+        [Toggle(ENABLE_FOG)] _EnableFog ("Enable Fog", Float) = 1
         _FogStartOffset ("Fog Start Offset", Float) = 1
         _FogScale ("Fog Scale", Float) = 1
         [Space]
@@ -53,7 +54,7 @@
             #pragma fragment frag
             #pragma multi_compile_instancing
             #pragma multi_compile _ ENABLE_BLOOM_FOG
-            #pragma shader_feature ENABLE_HEIGHT_FOG
+            #pragma multi_compile _ ENABLE_HEIGHT_FOG
             #pragma multi_compile _BLOOMWHITE_FRAG
             #pragma multi_compile _ACESTONEMAP_AFTER_EMISSIVE
             #pragma multi_compile ACES_TONE_MAPPING
@@ -87,7 +88,7 @@
             sampler2D _MainTex;
             float4 _MainTex_ST;
 
-            float _BloomBoost;
+            float _BloomWhiteMultiplier;
 
             float _Width;
             float _Speed;
@@ -150,7 +151,7 @@
                 fixed mask = saturate(sin(i.uv.x * 3.14159) * 4);
                 i.uv.x = (i.uv.x + _Time.x) % 1;
                 fixed4 albedo = color * mask * tex2D(_MainTex, i.uv);
-                albedo = ApplyCustomBloom(albedo, _BloomBoost);
+                albedo = ApplyCustomBloom(albedo, _BloomWhiteMultiplier);
 
                 #ifdef ENABLE_HEIGHT_FOG
                 BLOOM_FOG_HEIGHT_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,
