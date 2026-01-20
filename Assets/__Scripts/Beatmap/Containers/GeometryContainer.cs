@@ -130,7 +130,7 @@ namespace Beatmap.Containers
 
                 controller.Type = eh.LightType ?? 0;
                 controller.ID = eh.LightID ?? -1;
-                descriptor.BasicEventEffectManager.Register(controller, false);
+                descriptor.Register(controller, false);
             }
 
             if (eh.Components?.HasKey("TubeBloomPrePassLight") ?? false)
@@ -139,15 +139,9 @@ namespace Beatmap.Containers
                 var controller = container.Shape.GetComponent<ParametricBloomFogLightController>();
                 if (controller == null) return;
                 if (ppLight["colorAlphaMultiplier"] != null)
-                {
-                    if (controller.BoxLight != null)
-                        controller.BoxLight.AlphaMultiplier = ppLight["colorAlphaMultiplier"];
-                    if (controller.SpriteLight != null)
-                        controller.SpriteLight.AlphaMultiplier = ppLight["colorAlphaMultiplier"];
-                }
-
+                    controller.ColorAlphaMultiplier = ppLight["colorAlphaMultiplier"];
                 if (ppLight["bloomFogIntensityMultiplier"] != null)
-                    controller.BloomFog.IntensityMultiplier = ppLight["bloomFogIntensityMultiplier"];
+                    controller.BloomFogIntensityMultiplier = ppLight["bloomFogIntensityMultiplier"];
             }
         }
 
@@ -191,8 +185,13 @@ namespace Beatmap.Containers
                     {
                         var duplicateObject = Instantiate(obj.gameObject, obj.transform.parent);
                         var marker = duplicateObject.GetComponent<ChromaIDMarker>();
+                        var originalParentId = marker.ChromaID;
                         marker.ChromaID = obj.ChromaID[..obj.ChromaID.LastIndexOf(']')] + marker.name;
-                        descriptor.ChromaIDMarkers.Add(marker);
+                        foreach (var childMarker in duplicateObject.GetComponentsInChildren<ChromaIDMarker>())
+                        {
+                            childMarker.ChromaID = childMarker.ChromaID.Replace(originalParentId, marker.ChromaID);
+                            descriptor.ChromaIDMarkers.Add(childMarker);
+                        }
                         newTargetObjects.Add(marker);
                     }
                 }
@@ -241,7 +240,9 @@ namespace Beatmap.Containers
                             Quaternion.Euler(eh.LocalRotation.Value);
                     else if (eh.Rotation != null)
                         container.Animator.AnimationThis.transform.rotation = Quaternion.Euler(eh.Rotation.Value);
-                } else {
+                }
+                else
+                {
                     if (eh.Scale != null) targetObject.transform.localScale = eh.Scale.Value * adjustScale;
                     if (eh.LocalPosition != null)
                         targetObject.transform.localPosition = eh.LocalPosition.Value * adjustScale;
@@ -285,15 +286,9 @@ namespace Beatmap.Containers
                         var ppLight = eh.Components["TubeBloomPrePassLight"];
                         if (controller is not ParametricBloomFogLightController pbflc) continue;
                         if (ppLight["colorAlphaMultiplier"] != null)
-                        {
-                            if (pbflc.BoxLight != null)
-                                pbflc.BoxLight.AlphaMultiplier = ppLight["colorAlphaMultiplier"];
-                            if (pbflc.SpriteLight != null)
-                                pbflc.SpriteLight.AlphaMultiplier = ppLight["colorAlphaMultiplier"];
-                        }
-
+                            pbflc.ColorAlphaMultiplier = ppLight["colorAlphaMultiplier"];
                         if (ppLight["bloomFogIntensityMultiplier"] != null)
-                            pbflc.BloomFog.IntensityMultiplier = ppLight["bloomFogIntensityMultiplier"];
+                            pbflc.BloomFogIntensityMultiplier = ppLight["bloomFogIntensityMultiplier"];
                     }
                 }
 

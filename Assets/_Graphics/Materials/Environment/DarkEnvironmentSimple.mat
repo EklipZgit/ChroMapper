@@ -69,7 +69,7 @@ Material:
     - _ZTest: 4
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0.29999998, g: 0.29999998, b: 0.29999998, a: 0}
+    - _Color: {r: 0.32099995, g: 0.32099995, b: 0.32099995, a: 0}
     - _PrivatePointLightColor: {r: 0, g: 0.5, b: 1, a: 1}
     - _PrivatePointLightPosition: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
