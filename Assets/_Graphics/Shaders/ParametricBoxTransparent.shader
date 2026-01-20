@@ -51,7 +51,7 @@
             #pragma multi_compile_instancing
             #pragma multi_compile _ ENABLE_BLOOM_FOG
             #pragma multi_compile _ ENABLE_HEIGHT_FOG
-            #pragma shader_feature _BLOOMWHITE_PP
+            #pragma multi_compile _BLOOMWHITE_PP
             #pragma multi_compile _ACESTONEMAP_AFTER_EMISSIVE
             #pragma multi_compile ACES_TONE_MAPPING
 
