@@ -69,7 +69,7 @@
                 albedo.rgb *= albedo.a;
                 albedo.a = 0;
 
-                return saturate(log(1 + albedo));
+                return saturate(albedo);
             }
             ENDCG
         }

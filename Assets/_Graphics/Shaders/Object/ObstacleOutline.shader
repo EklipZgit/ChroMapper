@@ -18,14 +18,22 @@
         [Toggle(ENABLE_HEIGHT_FOG)] _EnableHeightFog ("Enable Height Fog", Float) = 0
         _FogHeightOffset ("Fog Height Offset", Float) = 0
         _FogHeightScale ("Fog Height Scale", Float) = 1
+
+        [Header(Settings)] [Space]
+        [Enum(UnityEngine.Rendering.CullMode)] _CullMode ("Cull Mode", Float) = 2
+        [Enum(UnityEngine.Rendering.CompareFunction)] _ZTest ("Z Test", Float) = 4
+        [Toggle] _ZWrite ("Z Write", Float) = 1
     }
     SubShader
     {
-        LOD 100
+        Cull [_CullMode]
+        ZTest [_ZTest]
+        ZWrite [_ZWrite]
 
         HLSLINCLUDE
         #include "UnityCG.cginc"
         #include "../CGIncludes/BloomFog.cginc"
+        #include "../CGIncludes/CustomBloom.cginc"
 
         // These are global properties and should not be instanced
         uniform float _MainAlpha = 0.5;
@@ -47,12 +55,11 @@
 
         Pass
         {
-            Cull Off
-
             HLSLPROGRAM
             #pragma multi_compile _ ENABLE_BLOOM_FOG
             #pragma multi_compile _ CM_PREVIEW_MODE
             #pragma multi_compile _ ENABLE_HEIGHT_FOG
+            #pragma multi_compile _BLOOMWHITE_PP
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_instancing
@@ -130,21 +137,21 @@
 
                 fixed4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
                 #ifdef CM_PREVIEW_MODE
-                color.a = saturate(color.a);
+                color = ApplyCustomBloom(color, 1);
                 #else
-                color.a = 0.05;
+                color.a = 0;
                 #endif
 
                 #ifdef CM_PREVIEW_MODE
                 #ifdef ENABLE_HEIGHT_FOG
                 BLOOM_FOG_HEIGHT_FOG_APPLY(color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,
-       _FogHeightOffset, _FogHeightScale);
+                                                           _FogHeightOffset, _FogHeightScale);
                 #else
                 BLOOM_FOG_APPLY(color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
                 #endif
                 #endif
 
-                return saturate(log(1 + color));
+                return saturate(color);
             }
             ENDHLSL
         }

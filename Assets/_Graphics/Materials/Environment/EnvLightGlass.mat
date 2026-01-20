@@ -33,10 +33,10 @@ Material:
     m_Ints: []
     m_Floats:
     - _AcesTonemap: 1
-    - _BlendModeDst: 1
-    - _BlendModeDstA: 0
+    - _BlendModeDst: 10
+    - _BlendModeDstA: 1
     - _BlendModeSrc: 1
-    - _BlendModeSrcA: 0
+    - _BlendModeSrcA: 1
     - _BlendOp: 0
     - _BloomBoost: 1
     - _BloomWhite: 0

@@ -136,7 +136,7 @@
                 fixed alphaFactor = lerp(alphaWidth.x, alphaWidth.y, adjustedLengthFactor);
                 albedo = ApplyCustomBloom(albedo, alphaFactor, 1);
 
-                return saturate(log(1 + albedo));
+                return saturate(albedo);
             }
             ENDCG
         }

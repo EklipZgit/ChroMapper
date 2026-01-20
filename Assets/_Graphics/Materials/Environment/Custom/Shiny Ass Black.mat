@@ -12,10 +12,13 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
+  - DIFFUSE
   - ENABLE_HEIGHT_FOG
+  - SPECULAR
   - _ACESTONEMAP_AFTER_EMISSIVE
   - _BLOOMWHITE_NONE
   m_InvalidKeywords:
+  - ENABLE_FOG
   - ENABLE_HEIGHT_FOG_ON
   - _MODE_OPAQUE
   - _NORMALMAP
@@ -99,6 +102,7 @@ Material:
     - _BlendModePreserveSpecular: 1
     - _BloomBoost: 1
     - _BloomWhite: 0
+    - _BloomWhiteMultiplier: 1
     - _BumpScale: 0.1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
@@ -109,14 +113,17 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _DstBlendAlpha: 0
+    - _EnableDiffuse: 1
+    - _EnableFog: 1
     - _EnableHeightFog: 1
+    - _EnableSpecular: 1
     - _EnvironmentReflections: 1
     - _FogHeightOffset: 0
     - _FogHeightScale: 1
-    - _FogScale: 1
+    - _FogScale: 0.1
     - _FogStartOffset: 1
     - _GlossMapScale: 1
-    - _Glossiness: 0.2
+    - _Glossiness: 1
     - _GlossyReflections: 1
     - _Glow: 0
     - _Metallic: 0.5

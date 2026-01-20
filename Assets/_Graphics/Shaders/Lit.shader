@@ -10,8 +10,27 @@
         [KeywordEnum(Before Emissive, After Emissive)] _AcesTonemap ("ACES Tonemapping", float) = 1
 
         [Space(10)]
-        _Glossiness ("Smoothness", Range(0, 1)) = 0.5
-        _Metallic ("Metallic", Range(0, 1)) = 0.0
+        [Toggle(DIFFUSE)] _EnableDiffuse ("Diffuse", float) = 1
+        [Toggle(SPECULAR)] _EnableSpecular ("Specular", float) = 1
+        _Metallic ("Metallic", Range(0, 1)) = 1
+        _Smoothness ("Smoothness", Range(0, 1)) = 0.5
+
+        [Space(10)]
+        [Toggle(RIM_DIM)] _EnableRimDim ("Rim Dim", Float) = 0
+        _RimScale ("Rim Scale", Float) = 1
+        _RimOffset ("Rim Offset", Float) = 1
+        _RimDistanceOffset ("Rim Distance Offset", Float) = 2
+        _RimDistanceScale ("Rim Distance Scale", Float) = 0.3
+        _RimSmoothness ("Rim Smoothness", Float) = 1
+        _RimDarkening ("Rim Darkening", Float) = 0
+        [Toggle(INVERT_RIM_DIM)] _InvertRimDim ("Invert Rim Dim", Float) = 0
+
+        [Header(Lighting)] [Space]
+        [Toggle(PRIVATE_POINT_LIGHT)] _EnablePrivatePointLight ("Private Point Light", float) = 0
+        _PrivatePointLightColor ("Color", Color) = (0,0.5,1,1)
+        [Toggle(POINT_LIGHT_IS_LOCAL)] _PointLightPositionLocal ("Make Position Local", Float) = 0
+        _PrivatePointLightIntensity ("Intensity Multiplier", Float) = 1
+        _PrivatePointLightPosition ("Light World Position", Vector) = (0,0,0,1)
 
         [Header(Fog Settings)] [Space]
         [Toggle(ENABLE_FOG)] _EnableFog ("Enable Fog", Float) = 1
@@ -33,34 +52,41 @@
         Tags
         {
             "RenderType"="Opaque"
-            "LightMode"="ForwardBase"
-            "PassFlags"="OnlyDirectional"
         }
+
+        Cull [_CullMode]
+        ZTest [_ZTest]
+        ZWrite [_ZWrite]
 
         Pass
         {
-            Cull [_CullMode]
-            ZTest [_ZTest]
-            ZWrite [_ZWrite]
-
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_instancing
             #pragma multi_compile _ ENABLE_BLOOM_FOG
+            #pragma multi_compile _ ENABLE_FOG
             #pragma multi_compile _ ENABLE_HEIGHT_FOG
             #pragma shader_feature ALPHA_CUTOUT
+            #pragma shader_feature DIFFUSE
+            #pragma shader_feature SPECULAR
+            #pragma shader_feature RIM_DIM
+            #pragma shader_feature INVERT_RIM_DIM
+            #pragma shader_feature PRIVATE_POINT_LIGHT
+            #pragma shader_feature POINT_LIGHT_IS_LOCAL
             #pragma multi_compile _BLOOMWHITE_NONE _BLOOMWHITE_PP _BLOOMWHITE_FRAG
             #pragma multi_compile _ACESTONEMAP_BEFORE_EMISSIVE _ACESTONEMAP_AFTER_EMISSIVE
             #pragma multi_compile ACES_TONE_MAPPING
 
             #include "UnityCG.cginc"
-            #include "Lighting.cginc"
             #include "CGIncludes/BloomFog.cginc"
             #include "CGIncludes/CustomBloom.cginc"
 
             UNITY_INSTANCING_BUFFER_START(Props)
                 UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
+                #if PRIVATE_POINT_LIGHT
+                UNITY_DEFINE_INSTANCED_PROP(float4, _PrivatePointLightColor)
+                #endif
             UNITY_INSTANCING_BUFFER_END(Props)
 
             struct appdata
@@ -85,9 +111,26 @@
             float4 _MainTex_ST;
 
             float _BloomWhiteMultiplier;
-            
-            float _Glossiness;
+
+            float _Smoothness;
             float _Metallic;
+
+            float _RimScale;
+            float _RimOffset;
+            float _RimDistanceOffset;
+            float _RimDistanceScale;
+            float _RimSmoothness;
+            float _RimDarkening;
+
+            uniform float4 _DirectionalLightDirections[5];
+            uniform float4 _DirectionalLightPositionsRadii[5];
+            uniform float4 _DirectionalLightColors[5];
+            uniform float4 _PointLightPositions[1];
+            uniform float4 _PointLightColors[1];
+
+            float4 _PrivatePointLightColor;
+            float _PrivatePointLightIntensity;
+            float4 _PrivatePointLightPosition;
 
             float _FogStartOffset;
             float _FogScale;
@@ -110,44 +153,109 @@
                 return o;
             }
 
+
+            float3 directionalLighting(float3 albedo, float3 lPos, float lRad, float3 lDir, float4 lCol,
+                                       float3 worldPos, float normal)
+            {
+                float3 viewDir = normalize(_WorldSpaceCameraPos - worldPos);
+
+                float3 specColor = lerp(0.04, albedo, _Metallic);
+                float3 diffColor = albedo * (1.0 - _Metallic);
+
+                float dist = distance(worldPos, lPos);
+                float atten = saturate(1 - dist / lRad);
+
+                float3 diffuse;
+                float3 specular;
+                diffuse = specular = 0;
+
+                #if DIFFUSE
+                float ndotl = max(0, dot(normal, lDir));
+                diffuse += diffColor * lCol * ndotl * atten;
+                #endif
+
+                #if SPECULAR
+                float3 halfDir = normalize(lDir + viewDir);
+                float ndoth = max(0, dot(normal, halfDir));
+
+                float specIntensity = pow(ndoth, _Smoothness * 128);
+                specular += specColor * lCol * specIntensity * atten;
+                #endif
+
+                return diffuse + specular;
+            }
+
+            float3 pointLighting(float3 lPos, float4 lCol, float3 worldPos, float normal)
+            {
+                float3 lightDir = lPos - worldPos;
+                float dist = length(lightDir);
+                lightDir = normalize(lightDir);
+
+                float diff = max(0, dot(normalize(normal), lightDir));
+
+                float _Attenuation = 0.1;
+                float atten = 1.0 / (1.0 + _Attenuation * dist * dist);
+
+                return lCol * diff * atten;
+                // return lCol * diff;
+            }
+
             fixed4 frag(v2f i) : SV_Target
             {
                 UNITY_SETUP_INSTANCE_ID(i);
                 fixed4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
-                fixed glossiness = _Glossiness;
-                fixed metallic = _Metallic;
 
-                fixed4 albedo = color * tex2D(_MainTex, TRANSFORM_TEX(i.uv, _MainTex));
+                float4 albedo = color * tex2D(_MainTex, TRANSFORM_TEX(i.uv, _MainTex));
 
                 #ifdef ALPHA_CUTOUT
                 if (albedo.a == 0) discard;
                 #endif
 
-                fixed3 worldNormal = normalize(i.worldNormal);
-                // this looks awful, but it's camera's fault
-                // fixed3 lightDirection = normalize(_WorldSpaceLightPos0.xyz);
-                fixed3 lightDirection = normalize(float3(0.0, 1.0, -1.0));
-                fixed3 lightColor = _LightColor0.rgb;
-                fixed3 viewDirection = normalize(_WorldSpaceCameraPos.xyz - i.worldPos);
+                float3 normal = normalize(i.worldNormal);
 
-                float diffuse = saturate(dot(worldNormal, lightDirection));
-                float3 halfDirection = normalize(lightDirection + viewDirection);
-                float specular = pow(saturate(dot(worldNormal, halfDirection)), glossiness * 128) * metallic;
+                float3 calculated = 0;
 
-                fixed3 col = albedo.rgb * UNITY_LIGHTMODEL_AMBIENT.rgb;
-                col += diffuse * lightColor * albedo.rgb;
-                col += specular * lightColor;
+                int l;
+                for (l = 0; l < 5; l++)
+                {
+                    float3 lPos = _DirectionalLightPositionsRadii[l].xyz;
+                    float lRad = _DirectionalLightPositionsRadii[l].w;
+                    float3 lDir = normalize(-_DirectionalLightDirections[l].xyz);
+                    float4 lCol = _DirectionalLightColors[l];
 
-                fixed4 bloomfog_color = ApplyCustomBloom(fixed4(col, albedo.a), _BloomWhiteMultiplier);
+                    calculated += directionalLighting(albedo, lPos, lRad, lDir, lCol, i.worldPos, normal);
+                }
 
-                #ifdef ENABLE_HEIGHT_FOG
-                BLOOM_FOG_HEIGHT_FOG_APPLY(bloomfog_color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,
-                                                           _FogHeightOffset, _FogHeightScale);
-                #else
-                BLOOM_FOG_APPLY(bloomfog_color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
+                for (l = 0; l < 1; l++)
+                {
+                    float3 lPos = _PointLightPositions[l].xyz;
+                    float4 lCol = _PointLightColors[l];
+
+                    calculated += albedo * pointLighting(lPos, lCol, i.worldPos, normal);
+                }
+
+                #if PRIVATE_POINT_LIGHT
+                float4 plCol = UNITY_ACCESS_INSTANCED_PROP(Props, _PrivatePointLightColor);
+                calculated += albedo * pointLighting(_PrivatePointLightPosition, plCol * _PrivatePointLightIntensity,
+                                                     i.worldPos,
+                                                     normal);
                 #endif
 
-                return bloomfog_color;
+                albedo.rgb = calculated;
+                return albedo;
+
+                albedo = ApplyCustomBloom(albedo, _BloomWhiteMultiplier);
+
+                #if ENABLE_FOG
+                #if ENABLE_HEIGHT_FOG
+                BLOOM_FOG_HEIGHT_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,
+                                           _FogHeightOffset, _FogHeightScale);
+                #else
+                BLOOM_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
+                #endif
+                #endif
+
+                return albedo;
             }
             ENDCG
         }

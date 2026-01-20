@@ -14,7 +14,6 @@ Material:
   m_ValidKeywords:
   - ALPHA_WIDTH_SCALE
   - ENABLE_Y_AXIS_BILLBOARD
-  - USE_FOG_FOR_LIGHTS
   - _ACESTONEMAP_AFTER_EMISSIVE
   - _BLOOMWHITE_NONE
   m_InvalidKeywords:
@@ -38,11 +37,12 @@ Material:
     - _AcesTonemap: 1
     - _AlphaWidthScale: 1
     - _BlendModeDst: 1
-    - _BlendModeDstA: 0
+    - _BlendModeDstA: 1
     - _BlendModeSrc: 1
     - _BlendModeSrcA: 0
     - _BlendOp: 0
     - _BloomBoost: 1
+    - _BloomMultiplier: 1
     - _BloomWhite: 0
     - _BloomWhiteMultiplier: 1
     - _CullMode: 2

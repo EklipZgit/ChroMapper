@@ -38,7 +38,7 @@ Material:
     - _Billboard: 0
     - _BillboardScale: 1
     - _BlendModeDst: 1
-    - _BlendModeDstA: 0
+    - _BlendModeDstA: 1
     - _BlendModeSrc: 1
     - _BlendModeSrcA: 0
     - _BlendOp: 0

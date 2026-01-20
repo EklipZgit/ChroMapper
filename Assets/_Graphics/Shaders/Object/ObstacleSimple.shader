@@ -9,18 +9,33 @@
         [Space(10)]
         _Cutout("Cutout", Range(0, 1)) = 0.0
         _CutoutTexOffset("Cutout Tex Offset", Vector) = (0, 0, 0, 0)
+
+        [Header(Settings)] [Space]
+        [Enum(UnityEngine.Rendering.BlendMode)] _BlendModeSrc ("Blend Src", Float) = 1
+        [Enum(UnityEngine.Rendering.BlendMode)] _BlendModeDst ("Blend Dst", Float) = 1
+        [Enum(UnityEngine.Rendering.BlendMode)] _BlendModeSrcA ("Blend Src A", Float) = 0
+        [Enum(UnityEngine.Rendering.BlendMode)] _BlendModeDstA ("Blend Dst A", Float) = 0
+        [Enum(UnityEngine.Rendering.BlendOp)] _BlendOp ("Blend Operation", Float) = 0
+
+        [Space]
+        [Enum(UnityEngine.Rendering.CullMode)] _CullMode ("Cull Mode", Float) = 0
+        [Enum(UnityEngine.Rendering.CompareFunction)] _ZTest ("Z Test", Float) = 4
+        [Toggle] _ZWrite ("Z Write", Float) = 1
     }
     SubShader
     {
+        Blend [_BlendModeSrc] [_BlendModeDst], [_BlendModeSrcA] [_BlendModeDstA]
+        BlendOp [_BlendOp]
+        Cull [_CullMode]
+        ZTest [_ZTest]
+        ZWrite [_ZWrite]
+        
         Tags
         {
             "Queue"="Transparent+50"
             "IgnoreProjector"="True"
             "RenderType"="Transparent"
         }
-        Cull Off
-        Blend SrcColor OneMinusSrcColor
-        LOD 100
 
         HLSLINCLUDE
         #include "UnityCG.cginc"

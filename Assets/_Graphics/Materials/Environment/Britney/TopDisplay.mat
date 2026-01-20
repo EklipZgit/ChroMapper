@@ -41,7 +41,7 @@ Material:
     - _BlendModeDst: 1
     - _BlendModeDstA: 0
     - _BlendModeSrc: 1
-    - _BlendModeSrcA: 0
+    - _BlendModeSrcA: 5
     - _BlendOp: 4
     - _BloomBoost: 1
     - _BloomWhite: 1

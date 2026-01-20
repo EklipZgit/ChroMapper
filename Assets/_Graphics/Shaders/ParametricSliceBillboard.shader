@@ -216,7 +216,6 @@
                 albedo = ApplyCustomBloom(albedo, alphaFactor, _BloomWhiteMultiplier);
                 #endif
 
-
                 return albedo;
             }
             ENDCG

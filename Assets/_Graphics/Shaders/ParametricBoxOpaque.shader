@@ -119,7 +119,7 @@
                 BLOOM_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
                 #endif
 
-                return saturate(log(1 + albedo));
+                return saturate(albedo);
             }
             ENDCG
         }

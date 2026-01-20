@@ -20,22 +20,33 @@
         [Toggle(ENABLE_HEIGHT_FOG)] _EnableHeightFog ("Enable Height Fog", Float) = 0
         _FogHeightOffset ("Fog Height Offset", Float) = 0
         _FogHeightScale ("Fog Height Scale", Float) = 1
+
+        [Header(Settings)] [Space]
+        [Enum(UnityEngine.Rendering.BlendMode)] _BlendModeSrc ("Blend Src", Float) = 1
+        [Enum(UnityEngine.Rendering.BlendMode)] _BlendModeDst ("Blend Dst", Float) = 1
+        [Enum(UnityEngine.Rendering.BlendMode)] _BlendModeSrcA ("Blend Src A", Float) = 0
+        [Enum(UnityEngine.Rendering.BlendMode)] _BlendModeDstA ("Blend Dst A", Float) = 0
+        [Enum(UnityEngine.Rendering.BlendOp)] _BlendOp ("Blend Operation", Float) = 0
+
+        [Space]
+        [Enum(UnityEngine.Rendering.CullMode)] _CullMode ("Cull Mode", Float) = 2
+        [Enum(UnityEngine.Rendering.CompareFunction)] _ZTest ("Z Test", Float) = 4
+        [Toggle] _ZWrite ("Z Write", Float) = 1
     }
     SubShader
     {
-        // Beat Saber uses transparent+3 queue and it helps to get transparent stuff behind gets rendered
-        // but this comes at a cost of no instancing
-        // however, Geometry+100 causes some transparency to not get rendered correctly
-        // but it's more performant as it has instancing
-        // perhaps, we can do separate material for performance and quality?
+        Blend [_BlendModeSrc] [_BlendModeDst], [_BlendModeSrcA] [_BlendModeDstA]
+        BlendOp [_BlendOp]
+        Cull [_CullMode]
+        ZTest [_ZTest]
+        ZWrite [_ZWrite]
+        
         Tags
         {
             "Queue"="Transparent+50"
             "IgnoreProjector"="True"
             "RenderType"="Transparent"
         }
-        Cull Off
-        LOD 100
 
         GrabPass
         {

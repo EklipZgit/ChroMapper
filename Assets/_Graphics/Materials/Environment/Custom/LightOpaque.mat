@@ -14,10 +14,11 @@ Material:
   m_ValidKeywords:
   - ENABLE_HEIGHT_FOG
   - _ACESTONEMAP_AFTER_EMISSIVE
-  - _BLOOMWHITE_NONE
   m_InvalidKeywords:
   - ALPHA_AFFECT_RGB
+  - ENABLE_FOG
   - ENABLE_HEIGHT_FOG_ON
+  - _BLOOMWHITE_NONE
   - _EMISSION
   - _MODE_OPAQUE
   - _RECEIVE_SHADOWS_OFF
@@ -132,11 +133,12 @@ Material:
     - _DstBlend: 10
     - _DstBlendAlpha: 10
     - _Emissive: 0
+    - _EnableFog: 1
     - _EnableHeightFog: 1
     - _FirstOutlineWidth: 1.405
     - _FogHeightOffset: 0
     - _FogHeightScale: 1
-    - _FogScale: 1
+    - _FogScale: 0.01
     - _FogStartOffset: 1
     - _GlossMapScale: 1
     - _Glossiness: 1

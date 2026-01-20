@@ -5,18 +5,33 @@
         _Color("Base Color", Color) = (0.5, 0, 0, 0)
         _FadeSize("Fade Size", Range(0, 10)) = 5
         [HideInInspector] _Rotation("Rotation", Float) = 0
+
+        [Header(Settings)] [Space]
+        [Enum(UnityEngine.Rendering.BlendMode)] _BlendModeSrc ("Blend Src", Float) = 1
+        [Enum(UnityEngine.Rendering.BlendMode)] _BlendModeDst ("Blend Dst", Float) = 1
+        [Enum(UnityEngine.Rendering.BlendMode)] _BlendModeSrcA ("Blend Src A", Float) = 1
+        [Enum(UnityEngine.Rendering.BlendMode)] _BlendModeDstA ("Blend Dst A", Float) = 1
+        [Enum(UnityEngine.Rendering.BlendOp)] _BlendOp ("Blend Operation", Float) = 0
+
+        [Space]
+        [Enum(UnityEngine.Rendering.CullMode)] _CullMode ("Cull Mode", Float) = 2
+        [Enum(UnityEngine.Rendering.CompareFunction)] _ZTest ("Z Test", Float) = 4
+        [Toggle] _ZWrite ("Z Write", Float) = 0
     }
     SubShader
     {
+        Blend [_BlendModeSrc] [_BlendModeDst], [_BlendModeSrcA] [_BlendModeDstA]
+        BlendOp [_BlendOp]
+        Cull [_CullMode]
+        ZTest [_ZTest]
+        ZWrite [_ZWrite]
+        
         Tags
         {
-            "Queue"="Transparent+50" "RenderType"="Transparent"
+            "Queue"="Transparent+50"
+            "IgnoreProjector"="True"
+            "RenderType"="Transparent"
         }
-        LOD 100
-        Blend SrcColor OneMinusSrcColor, One OneMinusSrcColor
-        Cull Off
-        ZTest LEqual
-        ZWrite Off
 
         Pass
         {

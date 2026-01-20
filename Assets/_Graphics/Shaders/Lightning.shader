@@ -34,6 +34,12 @@
     }
     SubShader
     {
+        Blend [_BlendModeSrc] [_BlendModeDst], [_BlendModeSrcA] [_BlendModeDstA]
+        BlendOp [_BlendOp]
+        Cull [_CullMode]
+        ZTest [_ZTest]
+        ZWrite [_ZWrite]
+        
         Tags
         {
             "Queue"="Transparent"
@@ -43,12 +49,6 @@
 
         Pass
         {
-            Blend [_BlendModeSrc] [_BlendModeDst], [_BlendModeSrcA] [_BlendModeDstA]
-            BlendOp [_BlendOp]
-            Cull [_CullMode]
-            ZTest [_ZTest]
-            ZWrite [_ZWrite]
-
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
@@ -151,7 +151,6 @@
                 fixed mask = saturate(sin(i.uv.x * 3.14159) * 4);
                 i.uv.x = (i.uv.x + _Time.x) % 1;
                 fixed4 albedo = color * mask * tex2D(_MainTex, i.uv);
-                albedo = ApplyCustomBloom(albedo, _BloomWhiteMultiplier);
 
                 #ifdef ENABLE_HEIGHT_FOG
                 BLOOM_FOG_HEIGHT_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,
@@ -160,6 +159,8 @@
                 BLOOM_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
                 #endif
 
+                albedo = ApplyCustomBloom(albedo, _BloomWhiteMultiplier);
+                
                 return albedo;
             }
             ENDCG

@@ -12,11 +12,13 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
+  - DIFFUSE
+  - ENABLE_FOG
   - ENABLE_HEIGHT_FOG
+  - SPECULAR
   - _ACESTONEMAP_AFTER_EMISSIVE
   - _BLOOMWHITE_NONE
   m_InvalidKeywords:
-  - ENABLE_FOG
   - _MODE_OPAQUE
   - _ZWRITE_ON
   m_LightmapFlags: 4
@@ -41,18 +43,34 @@ Material:
     - _BloomWhite: 0
     - _BloomWhiteMultiplier: 1
     - _CullMode: 2
+    - _EnableDiffuse: 1
     - _EnableFog: 1
     - _EnableHeightFog: 1
+    - _EnablePrivatePointLight: 0
+    - _EnableRimDim: 0
+    - _EnableSpecular: 1
     - _FogHeightOffset: 0
     - _FogHeightScale: 1
     - _FogScale: 0.08
     - _FogStartOffset: 1
     - _Glossiness: 0.5
-    - _Metallic: 0
+    - _InvertRimDim: 0
+    - _Metallic: 1
     - _Mode: 0
+    - _PointLightPositionLocal: 0
+    - _PrivatePointLightIntensity: 1
+    - _RimDarkening: 0
+    - _RimDistanceOffset: 2
+    - _RimDistanceScale: 0.3
+    - _RimOffset: 1
+    - _RimScale: 1
+    - _RimSmoothness: 1
+    - _Smoothness: 0.5
     - _ZTest: 4
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 0.34999996, g: 0.34999996, b: 0.34999996, a: 0}
+    - _PrivatePointLightColor: {r: 0, g: 0.5, b: 1, a: 1}
+    - _PrivatePointLightPosition: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
