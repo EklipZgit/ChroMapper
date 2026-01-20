@@ -213,8 +213,9 @@
 
                 float3 normal = normalize(i.worldNormal);
 
+                // TODO: not sure if it will be 0 regardless if any light or diffuse enabled at all
                 float3 calculated = 0;
-
+                
                 int l;
                 for (l = 0; l < 5; l++)
                 {
@@ -242,7 +243,6 @@
                 #endif
 
                 albedo.rgb = calculated;
-                return albedo;
 
                 albedo = ApplyCustomBloom(albedo, _BloomWhiteMultiplier);
 

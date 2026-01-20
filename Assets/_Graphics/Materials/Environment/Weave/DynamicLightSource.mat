@@ -49,7 +49,7 @@ Material:
     - _EnableHeightFog: 1
     - _EnablePrivatePointLight: 1
     - _EnableRimDim: 0
-    - _EnableSpecular: 1
+    - _EnableSpecular: 0
     - _FogHeightOffset: 0
     - _FogHeightScale: 1
     - _FogScale: 30

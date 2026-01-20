@@ -86,10 +86,11 @@ public class EnvironmentBuildPopulate
 
         var shaderPropRemap = new Dictionary<string, string>()
         {
-            {"_BlendSrcFactor", "_BlendModeSrc"},
-            {"_BlendDstFactor", "_BlendModeDst"},
-            {"_BlendSrcFactorA", "_BlendModeSrcA"},
-            {"_BlendDstFactorA", "_BlendModeDstA"},
+            { "_BlendSrcFactor", "_BlendModeSrc" },
+            { "_BlendDstFactor", "_BlendModeDst" },
+            { "_BlendSrcFactorA", "_BlendModeSrcA" },
+            { "_BlendDstFactorA", "_BlendModeDstA" },
+            { "_WhiteBoostMultiplier", "_BloomWhiteMultiplier" }
         };
         foreach (var matInfo in library.Materials.list)
         {
@@ -138,14 +139,18 @@ public class EnvironmentBuildPopulate
                 var renamedKey = shaderPropRemap.GetValueOrDefault(floatProp.Key, floatProp.Key);
                 matInfo.Material.SetFloat(renamedKey, floatProp.Value);
             }
-            
+
             matInfo.Material.SetFloat("_EnableDiffuse", matInfo.Keywords.Contains("DIFFUSE") ? 1f : 0f);
             matInfo.Material.SetFloat("_EnableSpecular", matInfo.Keywords.Contains("SPECULAR") ? 1f : 0f);
             matInfo.Material.SetFloat("_EnableRimDim", matInfo.Keywords.Contains("ENABLE_RIM_DIM") ? 1f : 0f);
             matInfo.Material.SetFloat("_InvertRimDim", matInfo.Keywords.Contains("INVERT_RIM_DIM") ? 1f : 0f);
-            
-            matInfo.Material.SetFloat("_EnablePrivatePointLight", matInfo.Keywords.Contains("PRIVATE_POINT_LIGHT") ? 1f : 0f);
-            matInfo.Material.SetFloat("_PointLightPositionLocal", matInfo.Keywords.Contains("POINT_LIGHT_IS_LOCAL") ? 1f : 0f);
+
+            matInfo.Material.SetFloat(
+                "_EnablePrivatePointLight",
+                matInfo.Keywords.Contains("PRIVATE_POINT_LIGHT") ? 1f : 0f);
+            matInfo.Material.SetFloat(
+                "_PointLightPositionLocal",
+                matInfo.Keywords.Contains("POINT_LIGHT_IS_LOCAL") ? 1f : 0f);
 
             matInfo.Material.SetFloat(
                 "_EnableHeightFog",

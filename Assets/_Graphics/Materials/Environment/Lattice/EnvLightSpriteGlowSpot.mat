@@ -44,7 +44,7 @@ Material:
     - _BloomBoost: 1
     - _BloomMultiplier: 1
     - _BloomWhite: 1
-    - _BloomWhiteMultiplier: 1
+    - _BloomWhiteMultiplier: 0.7
     - _CullMode: 0
     - _EnableAlphaWidthScale: 1
     - _EnableFog: 1
