@@ -1,5 +1,7 @@
 using System;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BeatmapRuntimeContext : MonoBehaviour
 {
@@ -29,6 +31,29 @@ public class BeatmapRuntimeContext : MonoBehaviour
             SetColorScheme(listing.ColorScheme);
             SetTracksDefinition(listing.TracksDefinition);
             Descriptor.Initialize(this);
+            if (BeatSaberSongContainer.Instance.MapDifficultyInfo.CustomData["_environmentRemoval"] != null)
+            {
+                var envRemoval = BeatSaberSongContainer.Instance.MapDifficultyInfo.CustomData["_environmentRemoval"]
+                    .AsArray;
+                foreach (var go in Descriptor.gameObject.scene.GetRootGameObjects())
+                    SearchAndDeactivate(go);
+
+                void SearchAndDeactivate(GameObject go)
+                {
+                    var c = go.GetComponent<ChromaIDMarker>();
+                    if (c != null)
+                    {
+                        foreach (var (_, value) in envRemoval)
+                        {
+                            if (!c.ChromaID.Contains(value)) continue;
+                            go.SetActive(false);
+                            return;
+                        }
+                    }
+
+                    foreach (Transform child in go.transform) SearchAndDeactivate(child.gameObject);
+                }
+            }
         }
 
         NotifyEnvironment();

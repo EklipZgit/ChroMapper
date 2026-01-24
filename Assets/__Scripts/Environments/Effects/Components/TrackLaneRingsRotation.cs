@@ -9,7 +9,7 @@ public class TrackLaneRingsRotation : MonoBehaviour
     public float StartupRotationStep;
     public int StartupRotationPropagationSpeed;
     public float StartupRotationFlexySpeed;
-    
+
     public float RotationStep = 90;
     public bool CounterSpin;
 
@@ -46,11 +46,12 @@ public class TrackLaneRingsRotation : MonoBehaviour
     private void FixedUpdate()
     {
         var rings = Manager.Rings;
+        var len = rings.Count;
         for (var i = activeEffects.Count - 1; i >= 0; i--)
         {
             var effect = activeEffects[i];
             var progress = (int)effect.ProgressPos;
-            while (progress < effect.ProgressPos + effect.RotationPropagationSpeed && progress < rings.Length)
+            while (progress < effect.ProgressPos + effect.RotationPropagationSpeed && progress < len)
             {
                 var destZ = effect.RotationAngle + (progress * effect.RotationStep);
                 rings[progress].SetRotation(destZ, effect.RotationFlexySpeed);
@@ -59,7 +60,7 @@ public class TrackLaneRingsRotation : MonoBehaviour
             }
 
             effect.ProgressPos += effect.RotationPropagationSpeed;
-            if (effect.ProgressPos >= rings.Length)
+            if (effect.ProgressPos >= len)
             {
                 RecycleRingRotationEffect(activeEffects[i]);
                 activeEffects.RemoveAt(i);

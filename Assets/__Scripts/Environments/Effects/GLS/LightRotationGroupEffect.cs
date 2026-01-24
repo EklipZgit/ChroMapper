@@ -39,14 +39,14 @@ public class
             var endEvent = new LightRotationEventStateData(
                 new BaseLightRotationBase { UsePrevious = 1 },
                 float.MaxValue);
-            container.EventContainer.GenerateChunk(Atsc);
+            container.EventContainer.Resize(Atsc.SongAudioSource.clip.length);
 
             startEvent.EndTime = endEvent.StartTime;
             startEvent.Next = endEvent;
             endEvent.Previous = startEvent;
 
-            container.EventContainer.Chunks[0].Add(startEvent);
-            container.EventContainer.Chunks[^1].Add(endEvent);
+            container.EventContainer.AddState(startEvent);
+            container.EventContainer.AddState(endEvent);
 
             var start = CreateState(new() { songBpmTime = short.MinValue, JsonTime = short.MinValue });
             start.Box = new BaseLightRotationEventBox

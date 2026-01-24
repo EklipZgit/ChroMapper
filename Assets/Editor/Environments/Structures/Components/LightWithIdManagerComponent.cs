@@ -1,17 +1,17 @@
+using System.Collections.Generic;
 using Newtonsoft.Json;
-using UnityEngine;
 
 /// <summary>
 /// Simple EnvironmentComponent for a Unity Transform.
 /// </summary>
 public class LightWithIdManagerComponent
 {
-    public LightId[][] Lights;
+    public Dictionary<int, LightId[]> Lights;
 
     public class LightId
     {
-        [JsonProperty("objectId")] public string ObjectId;
+        public string ObjectId;
         [JsonProperty("lightId")] public int Id;
-        [JsonProperty("instanceId")] public int InstanceId;
+        public int InstanceId;
     }
 }

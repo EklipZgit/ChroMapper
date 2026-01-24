@@ -22,10 +22,10 @@ public partial class EnvironmentSceneCreator
         while (queue.Count > 0)
         {
             var envObject = queue.Dequeue();
-            
+
             // static mesh or whatever, we dont need this
             if (envObject.ChromaID.Contains("Static Batch Component Container")) continue;
-            
+
             var name = envObject.ChromaID[(envObject.ChromaID.IndexOf("]", StringComparison.Ordinal) + 1)..];
             var parentName = name.Contains(".[") ? name[..name.LastIndexOf(".[", StringComparison.Ordinal)] : name;
             var actualParentGoName =
@@ -96,11 +96,21 @@ public partial class EnvironmentSceneCreator
 
             if (envObject.Components.BoxCollider != null)
             {
-                foreach (var colliderComponent in envObject.Components.BoxCollider)
+                foreach (var comp in envObject.Components.BoxCollider)
                 {
                     var box = go.AddComponent<BoxCollider>();
-                    box.size = colliderComponent.Size;
-                    box.center = colliderComponent.Center;
+                    box.center = comp.Center;
+                    box.size = comp.Size;
+                }
+            }
+
+            if (envObject.Components.SphereCollider != null)
+            {
+                foreach (var comp in envObject.Components.SphereCollider)
+                {
+                    var box = go.AddComponent<SphereCollider>();
+                    box.center = comp.Center;
+                    box.radius = comp.Radius;
                 }
             }
 

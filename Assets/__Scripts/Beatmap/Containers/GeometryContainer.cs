@@ -159,7 +159,7 @@ namespace Beatmap.Containers
             // Use the ID / Lookup method to find our target marker
             var chromaIDMarkers = descriptor.ChromaIDMarkers;
             // Yes, all the matching IDs, don't ask me why
-            var targetObjects = chromaIDMarkers.FindAll(marker => FindMarker(marker, eh));
+            var targetObjects = chromaIDMarkers.Where(marker => FindMarker(marker, eh)).Select(x => (x, x)).ToList();
 
             container.MaterialPropertyBlock ??= new MaterialPropertyBlock();
             container.RendererCount = 0;
@@ -177,22 +177,26 @@ namespace Beatmap.Containers
                 }
 
                 // Because we are duplicating, we make a new target list
-                var newTargetObjects = new List<ChromaIDMarker>();
+                var newTargetObjects = new List<(ChromaIDMarker, ChromaIDMarker)>();
                 var duplicates = eh.Duplicate.Value;
-                foreach (var obj in targetObjects)
+                foreach (var (original, _) in targetObjects)
                 {
                     for (var i = 0; i < duplicates; i++)
                     {
-                        var duplicateObject = Instantiate(obj.gameObject, obj.transform.parent);
-                        var marker = duplicateObject.GetComponent<ChromaIDMarker>();
-                        var originalParentId = marker.ChromaID;
-                        marker.ChromaID = obj.ChromaID[..obj.ChromaID.LastIndexOf(']')] + marker.name;
+                        var duplicateObject = Instantiate(original.gameObject, original.transform.parent);
+                        var duplicate = duplicateObject.GetComponent<ChromaIDMarker>();
+                        var originalParentId = duplicate.ChromaID;
+                        duplicate.ChromaID = original.ChromaID[..(original.ChromaID.LastIndexOf(']') + 1)]
+                            + duplicate.name;
                         foreach (var childMarker in duplicateObject.GetComponentsInChildren<ChromaIDMarker>())
                         {
-                            childMarker.ChromaID = childMarker.ChromaID.Replace(originalParentId, marker.ChromaID);
+                            childMarker.ChromaID = childMarker.ChromaID.Replace(originalParentId, duplicate.ChromaID);
                             descriptor.ChromaIDMarkers.Add(childMarker);
                         }
-                        newTargetObjects.Add(marker);
+
+                        newTargetObjects.Add((original, duplicate));
+                        if (duplicateObject.transform.root == duplicateObject.transform)
+                            SceneManager.MoveGameObjectToScene(duplicateObject, ctx.Descriptor.gameObject.scene);
                     }
                 }
 
@@ -209,24 +213,24 @@ namespace Beatmap.Containers
                 if (bloomFog["height"] != null) descriptor.BloomFogParams.Height = bloomFog["height"];
             }
 
-            var adjustScale = BeatSaberSongContainer.Instance.Map.MajorVersion == 2 ? 5f / 3f : 1f;
+            var adjustScale = BeatSaberSongContainer.Instance.Map.MajorVersion == 2 ? 1f / 0.6f : 1f;
             // Apply enhancements to each target object (original or duplicates)
-            foreach (var targetObject in targetObjects)
+            foreach (var (original, target) in targetObjects)
             {
-                if (eh.Active != null) targetObject.gameObject.SetActive(eh.Active.AsBool);
+                if (eh.Active != null) target.gameObject.SetActive(eh.Active.AsBool);
 
                 if (eh.Track != null)
                 {
                     // Parent to our animator but keep world transform
-                    targetObject.transform.SetParent(container.Animator.AnimationThis.transform, true);
+                    target.transform.SetParent(container.Animator.AnimationThis.transform, true);
 
                     container.Animator.AnimationThis.transform.SetPositionAndRotation(
-                        targetObject.transform.position,
-                        targetObject.transform.rotation);
-                    container.Animator.AnimationThis.transform.localScale = targetObject.transform.localScale;
+                        target.transform.position,
+                        target.transform.rotation);
+                    container.Animator.AnimationThis.transform.localScale = target.transform.localScale;
 
-                    targetObject.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
-                    targetObject.transform.localScale = Vector3.one * adjustScale;
+                    target.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+                    target.transform.localScale = Vector3.one * adjustScale;
 
                     // Apply enhancement transforms
                     if (eh.Scale != null)
@@ -243,36 +247,20 @@ namespace Beatmap.Containers
                 }
                 else
                 {
-                    if (eh.Scale != null) targetObject.transform.localScale = eh.Scale.Value * adjustScale;
+                    if (eh.Scale != null) target.transform.localScale = eh.Scale.Value;
                     if (eh.LocalPosition != null)
-                        targetObject.transform.localPosition = eh.LocalPosition.Value * adjustScale;
-                    else if (eh.Position != null) targetObject.transform.position = eh.Position.Value * adjustScale;
+                        target.transform.localPosition = eh.LocalPosition.Value;
+                    else if (eh.Position != null) target.transform.position = eh.Position.Value;
                     if (eh.LocalRotation != null)
-                        targetObject.transform.localRotation = Quaternion.Euler(eh.LocalRotation.Value);
-                    else if (eh.Rotation != null) targetObject.transform.rotation = Quaternion.Euler(eh.Rotation.Value);
+                        target.transform.localRotation = Quaternion.Euler(eh.LocalRotation.Value);
+                    else if (eh.Rotation != null) target.transform.rotation = Quaternion.Euler(eh.Rotation.Value);
                 }
 
-                // Add colliders to our container
-                var colliders = targetObject.GetComponentsInChildren<MeshFilter>();
-                foreach (var col in colliders)
-                {
-                    var intersection = targetObject.gameObject.AddComponent<IntersectionCollider>();
-                    intersection.Mesh = col.sharedMesh;
-                    container.Colliders.Add(intersection);
+                if (eh.Duplicate != null) HandleDuplicateComponents(original.transform, target.transform);
 
-                    // Add renderer too
-                    if (col.TryGetComponent<MeshRenderer>(out var renderer))
-                    {
-                        container.ModelRenderers.Add(renderer);
-                        container.RendererCount++;
-                    }
-                }
-
-                // Handle components if needed
-                foreach (var controller in targetObject.GetComponentsInChildren<LightController>(true))
+                foreach (var controller in target.GetComponentsInChildren<LightController>(true))
                 {
                     if (eh.Duplicate == null) descriptor.Unregister(controller);
-
                     if (controller.Kind == LightController.LightKind.Basic)
                     {
                         controller.Type = eh.LightType ?? controller.Type;
@@ -292,9 +280,45 @@ namespace Beatmap.Containers
                     }
                 }
 
-                foreach (var effect in targetObject
-                    .GetComponentsInChildren<StateManager<BaseEvent>>())
-                    descriptor.BasicEventEffectManager.Register(effect.ID, effect);
+                foreach (var pbl in target.GetComponentsInChildren<ParametricBoxLight>(true))
+                    pbl.UpdateTransform = false;
+            }
+
+            return;
+
+            void HandleDuplicateComponents(Transform original, Transform target)
+            {
+                // var originalComponents = original.GetComponents<MonoBehaviour>();
+                var targetComponents = target.GetComponents<MonoBehaviour>();
+
+                for (var i = 0; i < targetComponents.Length; i++)
+                {
+                    // var originalComponent = originalComponents[i];
+                    var targetComponent = targetComponents[i];
+
+                    switch (targetComponent)
+                    {
+                        case TrackLaneRing trackLaneRing:
+                            // var originalTrackLaneRing = (TrackLaneRing)originalComponent;
+                            // _trackLaneRingOffset.CopyRing(originalTrackLaneRing, trackLaneRing);
+
+                            if (trackLaneRing.ParentManager != null && !trackLaneRing.ParentManager.SpawnAsChildren)
+                                trackLaneRing.ParentManager.Rings.Add(trackLaneRing);
+
+                            break;
+
+                        case StateManager<BaseEvent> effect:
+                            descriptor.BasicEventEffectManager.Register(effect.ID, effect);
+                            break;
+                    }
+                }
+
+                foreach (Transform newTarget in target)
+                {
+                    var index = newTarget.GetSiblingIndex();
+                    // in the future, we might need the original
+                    HandleDuplicateComponents(newTarget, newTarget);
+                }
             }
         }
 

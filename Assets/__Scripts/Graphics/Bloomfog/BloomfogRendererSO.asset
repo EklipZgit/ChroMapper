@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: BloomfogRendererSO
   m_EditorClassIdentifier: 
   FOV: {x: 130, y: 130}
-  LineWidth: 0.01
+  LineWidth: 0.02
   BloomfogObjectMaterial: {fileID: 2100000, guid: af0f143885a58964aa9334d1f8de6f12,
     type: 2}

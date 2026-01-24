@@ -50,11 +50,14 @@ public class LightRotation : MonoBehaviour
                 Transform.localRotation = StartRotation;
                 break;
             case > 0:
-                Transform.localRotation = StartRotation;
-                Transform.Rotate(RotationVector, Random.Range(0f, 180f), Space.Self);
-                speed = value * SpeedMultiplier * 20f * direction;
+                enabled = true;
+                if (!lockRotation)
+                {
+                    Transform.localRotation = StartRotation;
+                    Transform.Rotate(RotationVector, Random.Range(0f, 180f), Space.Self);
+                }
 
-                enabled = !evt.CustomLockRotation.HasValue || lockRotation;
+                speed = value * SpeedMultiplier * 20f * direction;
                 break;
         }
     }

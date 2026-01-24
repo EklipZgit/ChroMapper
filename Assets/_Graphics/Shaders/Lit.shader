@@ -152,18 +152,16 @@
 
                 return o;
             }
-
-
+            
             float3 directionalLighting(float3 albedo, float3 lPos, float lRad, float3 lDir, float4 lCol,
                                        float3 worldPos, float normal)
             {
                 float3 viewDir = normalize(_WorldSpaceCameraPos - worldPos);
 
-                float3 specColor = lerp(0.04, albedo, _Metallic);
-                float3 diffColor = albedo * (1.0 - _Metallic);
-
+                // idk why position is provided so maybe figure it out?
                 float dist = distance(worldPos, lPos);
-                float atten = saturate(1 - dist / lRad);
+                // float atten = saturate(1 - dist / lRad);
+                float atten = 1;
 
                 float3 diffuse;
                 float3 specular;
@@ -171,15 +169,16 @@
 
                 #if DIFFUSE
                 float ndotl = max(0, dot(normal, lDir));
-                diffuse += diffColor * lCol * ndotl * atten;
+                diffuse = albedo * lCol * ndotl * atten;
                 #endif
 
                 #if SPECULAR
+                // technically should be texture but whatever
+                float3 specColor = lerp(0.04, albedo, _Metallic);
                 float3 halfDir = normalize(lDir + viewDir);
                 float ndoth = max(0, dot(normal, halfDir));
-
-                float specIntensity = pow(ndoth, _Smoothness * 128);
-                specular += specColor * lCol * specIntensity * atten;
+                float specIntensity = pow(ndoth, _Smoothness);
+                specular = specColor * lCol * specIntensity * atten;
                 #endif
 
                 return diffuse + specular;
@@ -193,11 +192,11 @@
 
                 float diff = max(0, dot(normalize(normal), lightDir));
 
-                float _Attenuation = 0.1;
-                float atten = 1.0 / (1.0 + _Attenuation * dist * dist);
+                // float _Attenuation = 0.1;
+                // float atten = 1.0 / (1.0 + _Attenuation * dist * dist);
 
-                return lCol * diff * atten;
-                // return lCol * diff;
+                // return lCol * diff * atten;
+                return lCol * diff;
             }
 
             fixed4 frag(v2f i) : SV_Target
@@ -221,11 +220,12 @@
                 {
                     float3 lPos = _DirectionalLightPositionsRadii[l].xyz;
                     float lRad = _DirectionalLightPositionsRadii[l].w;
-                    float3 lDir = normalize(-_DirectionalLightDirections[l].xyz);
+                    float3 lDir = normalize(_DirectionalLightDirections[l].xyz);
                     float4 lCol = _DirectionalLightColors[l];
 
                     calculated += directionalLighting(albedo, lPos, lRad, lDir, lCol, i.worldPos, normal);
                 }
+                calculated /= 5;
 
                 for (l = 0; l < 1; l++)
                 {
@@ -242,9 +242,13 @@
                                                      normal);
                 #endif
 
-                albedo.rgb = calculated;
+                albedo.rgb = saturate(calculated);
 
+                #if _BLOOMWHITE_NONE
+                albedo.a = 0;
+                #else
                 albedo = ApplyCustomBloom(albedo, _BloomWhiteMultiplier);
+                #endif
 
                 #if ENABLE_FOG
                 #if ENABLE_HEIGHT_FOG

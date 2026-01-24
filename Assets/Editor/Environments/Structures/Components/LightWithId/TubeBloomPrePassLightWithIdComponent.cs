@@ -8,11 +8,51 @@ public class TubeBloomPrePassLightWithIdComponent : EnvDataComponent<ParametricB
     [JsonProperty("instanceId")] public int InstanceId;
     [JsonProperty("lightId")] public int Id;
 
-    [JsonProperty("tubeBloomPrePassLight")] [CanBeNull]
-    public TubeBloomPrePassLightComponent TubeBloomPrePassLight;
+    [CanBeNull] public TubeBloomPrePassLightComponent TubeBloomPrePassLight;
+    public bool SetOnlyOnce;
+    public bool SetColorOnly;
 
     public override void CopyTo(ParametricBloomFogLightController target)
     {
+        // target.SetOnlyOnce = SetOnlyOnce;
+        // target.SetColorOnly = SetColorOnly;
+
+        if (TubeBloomPrePassLight is null) return;
+        
+        target.ColorAlphaMultiplier = TubeBloomPrePassLight.ColorAlphaMultiplier;
+        target.BloomFogIntensityMultiplier = TubeBloomPrePassLight.BloomFogIntensityMultiplier;
+        target.Length = TubeBloomPrePassLight.TubeLength;
+        target.Width = TubeBloomPrePassLight.TubeWidth;
+        target.Center = TubeBloomPrePassLight.Center;
+        target.StartAlpha = TubeBloomPrePassLight.StartAlpha;
+        target.EndAlpha = TubeBloomPrePassLight.EndAlpha;
+        target.StartWidth = TubeBloomPrePassLight.StartWidth;
+        target.EndWidth = TubeBloomPrePassLight.EndWidth;
+        target.BoostToWhite = TubeBloomPrePassLight.BoostToWhite;
+        target.LimitAlpha = TubeBloomPrePassLight.LimitAlpha;
+        target.MinAlpha = TubeBloomPrePassLight.MinAlpha;
+        target.MaxAlpha = TubeBloomPrePassLight.MaxAlpha;
+        target.LightWidthMultiplier = TubeBloomPrePassLight.LightWidthMultiplier;
+        target.MultiplyLengthByAlphaBloomFogMultiplier = TubeBloomPrePassLight.MultiplyLengthByAlphaBloomFogMultiplier;
+        target.UseCollision = TubeBloomPrePassLight.UseCollision;
+        target.OverrideChildrenLength = TubeBloomPrePassLight.OverrideChildrenLength;
+        target.FakeBloomIntensityMultiplier = TubeBloomPrePassLight.FakeBloomIntensityMultiplier;
+        target.AddWidthToLength = TubeBloomPrePassLight.AddWidthToLength;
+        target.ThickenWithDistance = TubeBloomPrePassLight.ThickenWithDistance;
+        target.MinDistance = TubeBloomPrePassLight.MinDistance;
+        target.MaxDistance = TubeBloomPrePassLight.MaxDistance;
+        target.MinWidthMultiplier = TubeBloomPrePassLight.MinWidthMultiplier;
+        target.MaxWidthMultiplier = TubeBloomPrePassLight.MaxWidthMultiplier;
+        target.DisableRenderersOnZeroAlpha = TubeBloomPrePassLight.DisableRenderersOnZeroAlpha;
+        target.BakedGlowWidthScale = TubeBloomPrePassLight.BakedGlowWidthScale;
+        target.MultiplyLengthByAlpha = TubeBloomPrePassLight.MultiplyLengthByAlpha;
+        target.UpdateAlways = TubeBloomPrePassLight.UpdateAlways;
+        target.OverrideChildrenWidth = TubeBloomPrePassLight.OverrideChildrenWidth;
+        target.OverrideChildrenAlpha = TubeBloomPrePassLight.OverrideChildrenAlpha;
+
+        target.ThickenCurve = TubeBloomPrePassLight.ThickenCurve.Create();
+        target.AlphaToLengthBloomFogCurve = TubeBloomPrePassLight.AlphaToLengthBloomFogCurve.Create();
+        target.AlphaToLengthCurve = TubeBloomPrePassLight.AlphaToLengthCurve.Create();
     }
 }
 
@@ -55,42 +95,4 @@ public class TubeBloomPrePassLightComponent
 
     public string ParametricBoxId = "";
     public string SliceSpriteControllerId = "";
-
-    public void CopyTo(ParametricBloomFogLightController target)
-    {
-        target.ColorAlphaMultiplier = ColorAlphaMultiplier;
-        target.BloomFogIntensityMultiplier = BloomFogIntensityMultiplier;
-        target.Length = TubeLength;
-        target.Width = TubeWidth;
-        target.Center = Center;
-        target.StartAlpha = StartAlpha;
-        target.EndAlpha = EndAlpha;
-        target.StartWidth = StartWidth;
-        target.EndWidth = EndWidth;
-        target.BoostToWhite = BoostToWhite;
-        target.LimitAlpha = LimitAlpha;
-        target.MinAlpha = MinAlpha;
-        target.MaxAlpha = MaxAlpha;
-        target.LightWidthMultiplier = LightWidthMultiplier;
-        target.MultiplyLengthByAlphaBloomFogMultiplier = MultiplyLengthByAlphaBloomFogMultiplier;
-        target.UseCollision = UseCollision;
-        target.OverrideChildrenLength = OverrideChildrenLength;
-        target.FakeBloomIntensityMultiplier = FakeBloomIntensityMultiplier;
-        target.AddWidthToLength = AddWidthToLength;
-        target.ThickenWithDistance = ThickenWithDistance;
-        target.MinDistance = MinDistance;
-        target.MaxDistance = MaxDistance;
-        target.MinWidthMultiplier = MinWidthMultiplier;
-        target.MaxWidthMultiplier = MaxWidthMultiplier;
-        target.DisableRenderersOnZeroAlpha = DisableRenderersOnZeroAlpha;
-        target.BakedGlowWidthScale = BakedGlowWidthScale;
-        target.MultiplyLengthByAlpha = MultiplyLengthByAlpha;
-        target.UpdateAlways = UpdateAlways;
-        target.OverrideChildrenWidth = OverrideChildrenWidth;
-        target.OverrideChildrenAlpha = OverrideChildrenAlpha;
-
-        target.ThickenCurve = ThickenCurve.Create();
-        target.AlphaToLengthBloomFogCurve = AlphaToLengthBloomFogCurve.Create();
-        target.AlphaToLengthCurve = AlphaToLengthCurve.Create();
-    }
 }

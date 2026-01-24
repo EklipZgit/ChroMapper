@@ -12,7 +12,7 @@ public class LightshowController : MonoBehaviour, IBeatmapUpdate
     private IBeatmapUpdate[] activeEffects = Array.Empty<IBeatmapUpdate>();
     private int activeSize;
 
-    protected void Awake()
+    private void Awake()
     {
         LoadInitialMap.OnLevelLoaded += HandleLevelLoaded;
         LoadedDifficultySelectController.OnLoadedDifficultyChanged += HandleLevelLoaded;

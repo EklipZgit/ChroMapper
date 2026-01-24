@@ -136,14 +136,18 @@ public class LightPairSinMove : MonoBehaviour
                 container.Transform.localPosition = container.StartPosition + vector;
                 break;
             case > 0:
-                container.Enabled = !evt.CustomLockRotation.HasValue || lockRotation;
-                container.MovementValue = movementOffset + container.StartMovementValue;
-                var vec = Vector3.LerpUnclamped(
-                    StartPositionOffset,
-                    EndPositionOffset,
-                    (Mathf.Sin(container.MovementValue) * 0.5f) + 0.5f);
-                vec.x *= container.Side;
-                container.Transform.localPosition = container.StartPosition + vec;
+                container.Enabled = true;
+                if (!lockRotation)
+                {
+                    container.MovementValue = movementOffset + container.StartMovementValue;
+                    var vec = Vector3.LerpUnclamped(
+                        StartPositionOffset,
+                        EndPositionOffset,
+                        (Mathf.Sin(container.MovementValue) * 0.5f) + 0.5f);
+                    vec.x *= container.Side;
+                    container.Transform.localPosition = container.StartPosition + vec;
+                }
+
                 container.Speed = value;
                 break;
         }

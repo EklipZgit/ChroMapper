@@ -94,7 +94,7 @@ public class BasicLightEffect : BasicEventEffect<BasicLightStateData>
         {
             controllerToContainer[controller] =
                 (new(), InitializeStates(new BasicEventStateChunksContainer<BasicLightStateData>()));
-            foreach (var state in controllerToContainer[controller].container.Chunks.SelectMany(chunk => chunk))
+            foreach (var state in controllerToContainer[controller].container.Collection.Select(chunk => chunk))
             {
                 if (!LightOnStart) continue;
                 state.Base.FloatValue = 1f;
@@ -240,7 +240,7 @@ public class BasicLightEffect : BasicEventEffect<BasicLightStateData>
         var until = untilIndex != -1 ? chromaLiteData[untilIndex].Base.SongBpmTime : float.MaxValue;
 
         foreach (var enumerator in controllerToContainer.Values.Select(c =>
-            c.container.EnumerateFrom(from.Base.SongBpmTime)))
+            c.container.Collection.EnumerateFrom(from.Base.SongBpmTime)))
         {
             while (enumerator.MoveNext())
             {
@@ -255,7 +255,7 @@ public class BasicLightEffect : BasicEventEffect<BasicLightStateData>
     private void UpdateExistingWithChromaGradient(float startTime, float endTime)
     {
         foreach (var (container, enumerator) in controllerToContainer.Values.Select(c =>
-            (c.container, c.container.EnumerateFrom(startTime))))
+            (c.container, c.container.Collection.EnumerateFrom(startTime))))
         {
             while (enumerator.MoveNext())
             {
@@ -297,8 +297,8 @@ public class BasicLightEffect : BasicEventEffect<BasicLightStateData>
                     UpdateStateWithChromaGradient(state, from);
                 }
 
-                var (_, _, prevState) = container.GetPreviousStateFrom(state);
-                var (_, _, nextState) = container.GetNextStateFrom(state);
+                var prevState = container.GetPreviousStateFrom(state);
+                var nextState = container.GetNextStateFrom(state);
 
                 OnInsertUpdateToPreviousState(state, prevState);
                 OnInsertUpdateFromPreviousStateAndNextState(state, prevState, nextState);

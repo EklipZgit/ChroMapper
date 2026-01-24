@@ -45,7 +45,7 @@ Material:
     - _FogScale: 1
     - _FogStartOffset: 0
     - _Glossiness: 0.5
-    - _Metallic: 1
+    - _Metallic: 0
     - _StencilComp: 8
     - _StencilPass: 1
     - _StencilRefValue: 0

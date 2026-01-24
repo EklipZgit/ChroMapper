@@ -1,6 +1,5 @@
 public class FloatFxGroupComponent
 {
-    public bool isTriggerOnly = false;
-    
+    public bool IsTriggerOnly;
     public LightGroup LightGroup;
 }

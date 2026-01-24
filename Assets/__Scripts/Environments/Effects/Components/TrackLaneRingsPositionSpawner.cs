@@ -23,7 +23,8 @@ public class TrackLaneRingsPositionSpawner : MonoBehaviour
         var step = state.Step ?? (zoomed ? MaxPositionStep : MinPositionStep);
         var speed = state.Speed ?? MoveSpeed;
 
-        for (var i = 0; i < RingManager.Rings.Length; i++)
+        var len = RingManager.Rings.Count;
+        for (var i = 0; i < len; i++)
         {
             var destPosZ = i * step;
             RingManager.Rings[i].SetPosition(destPosZ, speed);

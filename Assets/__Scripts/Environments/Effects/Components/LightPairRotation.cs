@@ -146,10 +146,14 @@ public class LightPairRotation : MonoBehaviour
                     container.Start * Quaternion.Euler(RotationVector * container.StartAngle);
                 break;
             case > 0:
-                container.Enabled = !evt.CustomLockRotation.HasValue || lockRotation;
-                container.Angle = startOffset + container.StartAngle;
-                container.Transform.localRotation =
-                    container.Start * Quaternion.Euler(RotationVector * container.Angle);
+                container.Enabled = true;
+                if (!lockRotation)
+                {
+                    container.Angle = startOffset + container.StartAngle;
+                    container.Transform.localRotation =
+                        container.Start * Quaternion.Euler(RotationVector * container.Angle);
+                }
+
                 container.Speed = value * 20f * direction;
                 break;
         }

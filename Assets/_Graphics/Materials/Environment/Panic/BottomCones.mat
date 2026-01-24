@@ -53,7 +53,7 @@ Material:
     - _FogStartOffset: 0
     - _Glossiness: 0.5
     - _InvertRimDim: 0
-    - _Metallic: 1
+    - _Metallic: 0.3
     - _Mode: 0
     - _PointLightPositionLocal: 0
     - _PrivatePointLightIntensity: 1

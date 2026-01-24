@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Beatmap.Base;
+﻿using Beatmap.Base;
 using UnityEngine;
 
 public class SmoothStepPositionEventEffect : BasicEventEffect<SmoothStepPositionStateData>

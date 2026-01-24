@@ -20,20 +20,28 @@ public class EnvDataObject
         // Unity Components
         public TransformComponent[]? Transform;
         public BoxColliderComponent[]? BoxCollider;
+        public SphereColliderComponent[]? SphereCollider;
         public MeshColliderComponent[]? MeshCollider;
         public MeshFilterComponent[]? MeshFilter;
         public MeshRendererComponent[]? MeshRenderer;
 
-        // Lighting Components
+        // Lighting
+        public DirectionalLightWithIdComponent[]? DirectionalLightWithId;
         public InstancedMaterialLightWithIdComponent[]? InstancedMaterialLightWithId;
         public MaterialLightWithIdComponent[]? MaterialLightWithId;
-        public ParticleSystemLightWithIdComponent[]? ParticleSystemLightWithID;
+        public ParticleSystemLightWithIdComponent[]? ParticleSystemLightWithId;
         public RectangleFakeGlowLightWithIdComponent[]? RectangleFakeGlowLightWithId;
         public SpriteLightWithIdComponent[]? SpriteLightWithId;
         public TubeBloomPrePassLightWithIdComponent[]? TubeBloomPrePassLightWithId;
 
-        // Controller Components
-        public RectangleFakeGlowComponent[]? RectangleFakeGlow;
+        // Runtime Lighting
+        public DirectionalLightWithGroupIdsComponent[]? DirectionalLightWithGroupIds;
+        public DirectionalLightWithIdsComponent[]? DirectionalLightWithIds;
+        public MaterialLightWithIdsComponent[]? MaterialLightWithIds;
+        public MixedLightsColorSetterRuntimeLightWithIdsComponent[]? MixedLightsColorSetterRuntimeLightWithIds;
+        public PointLightWithIdsComponent[]? PointLightWithIds;
+
+        // Controller
         public ParametricBoxControllerComponent[]? ParametricBoxController;
         public Parametric3SliceSpriteControllerComponent[]? Parametric3SliceSpriteController;
 
@@ -58,15 +66,33 @@ public class EnvDataObject
         // MPB
         public MaterialPropertyBlockControllerComponent[]? MaterialPropertyBlockController;
         public MaterialPropertyBlockColorSetterComponent[]? MaterialPropertyBlockColorSetter;
-        public MaterialPropertyBlockAnimatorComponent[]? MaterialPropertyBlockAnimator;
         public MaterialPropertyBlockPositionUpdaterComponent[]? MaterialPropertyBlockPositionUpdater;
+
+        // FX
+        public AlphaFloatFxGroupEffectTargetComponent[]? AlphaFloatFxGroupEffectTarget;
+        public ColliderEventEffectComponent[]? ColliderEventEffect;
+        public FloatArrayMaterialPropertyEffectTargetComponent[]? FloatArrayMaterialPropertyEffectTarget;
+        public FloatFxGroupEffectCollectionTargetComponent[]? FloatFxGroupEffectCollectionTarget;
+        public FloatLocalScaleEffectComponent[]? FloatLocalScaleEffect;
+        public FloatMaterialPropertyEffectTargetComponent[]? FloatMaterialPropertyEffectTarget;
+        public MoveInDirectionEffectComponent[]? MoveInDirectionEffect;
+
+        public Parametric3SliceSpriteWidthEndFloatFxEffectTargetComponent[]?
+            Parametric3SliceSpriteWidthEndFloatFxEffectTarget;
+
+        public StepFloatMaterialEffectTargetComponent[]? StepFloatMaterialEffectTarget;
+        public SwitchGameObjectArrayEffectTargetComponent[]? SwitchGameObjectArrayEffectTarget;
+        public SwitchGameObjectEffectTargetComponent[]? SwitchGameObjectEffectTarget;
 
         // Others
         public LightWithIdManagerComponent[]? LightWithIdManager;
-        public ColliderEventEffectComponent[]? ColliderEventEffect;
+        public RectangleFakeGlowComponent[]? RectangleFakeGlow;
         public TubeBloomPrePassLightCollisionComponent[]? TubeBloomPrePassLightCollisionEffect;
         public TubeBloomPrePassLightReflectionComponent[]? TubeBloomPrePassLightReflectionEffect;
         public CopyPositionComponent[]? CopyPosition;
+        public PointLightComponent[]? PointLight;
+        public DirectionalLightComponent[]? DirectionalLight;
+        public LightManagerComponent[]? LightManager;
 
         // GLS
         public LightColorGroupComponent[]? LightColorGroup;
@@ -81,6 +107,7 @@ public class EnvDataObject
         public FloatFxGroupComponent[]? FloatFxGroup;
         public FloatFxGroupEffectComponent[]? FloatFxGroupEffect;
         public FloatFxGroupEffectManagerComponent[]? FloatFxGroupEffectManager;
+        public FloatFxGroupEffectManagerComponent[]? TriggerFloatFxGroupEffectManager;
     }
 }
 #nullable restore

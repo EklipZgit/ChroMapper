@@ -12,7 +12,7 @@ public class InstancedMaterialLightWithIdComponent : EnvDataComponent<InstancedM
     public bool HDR;
     public float MinAlpha;
     public bool SetColorOnly;
-    public string MultiplyColorByAlpha;
+    public int MultiplyColorByAlpha;
     public bool SaturateIntensity;
 
     public override void CopyTo(InstancedMaterialLightController target)
@@ -21,8 +21,7 @@ public class InstancedMaterialLightWithIdComponent : EnvDataComponent<InstancedM
         target.HDR = HDR;
         target.MinAlpha = MinAlpha;
         target.SetColorOnly = SetColorOnly;
-        // TODO: fix
-        // target.MultiplyColorByAlpha = Enum.Parse<MultiplyColorByAlphaType>(MultiplyColorByAlpha);
+        target.MultiplyColorByAlpha = (MultiplyColorByAlphaType)MultiplyColorByAlpha;
         target.SaturateIntensity = SaturateIntensity;
     }
 }

@@ -1,113 +1,23 @@
-using System.Collections;
 using System.Collections.Generic;
 using Beatmap.Base;
 using UnityEngine;
 
-public class StateChunksContainer<TState, TData> : IEnumerable<TState>
-    where TState : StateData<TData> where TData : BaseObject
+public class StateChunksContainer<TState, TData> where TState : StateData<TData> where TData : BaseObject
 {
+    public readonly SortedBucketArray<TState> Collection = new(value => value.StartTime, 10, 100);
     public TState CurrentState;
-    public readonly List<List<TState>> Chunks = new();
 
-    private int currentChunkIndex;
-    private int currentLocalIndex;
-    private const float chunkByBeatTime = 10f;
+    private List<TState> currBucket;
+    private int currBucketIdx;
+    private int currLocalIdx;
 
-    public void GenerateChunk(AudioTimeSyncController atsc)
-    {
-        Chunks.Clear();
-        for (var secondTime = 0f;
-            secondTime < atsc.SongAudioSource.clip.length;
-            secondTime += atsc.GetSecondsFromBeat(chunkByBeatTime))
-            Chunks.Add(new List<TState>());
-    }
+    public void Resize(float max) => Collection.Resize((int)max);
 
-    public (int index, List<TState> chunk) GetChunk(float beatTime)
-    {
-        var index = Mathf.Clamp(Mathf.FloorToInt(beatTime / chunkByBeatTime), 0, Chunks.Count - 1);
-        return (index, Chunks[index]);
-    }
+    public void AddState(TState state) => Collection.Add(state);
+    public bool RemoveState(TState state) => Collection.Remove(state);
 
     public bool IsCurrentOrFindState(float time, bool playing) =>
         playing ? UseCurrentOrNextState(time) : UseCurrentOrFindState(time);
-
-    public (int chunkIndex, int localIndex, TState state) GetStateAt(float time)
-    {
-        var (chunkIdx, chunk) = GetChunk(time);
-        var idx = BinarySearch(chunk, time);
-
-        if (idx == -1)
-        {
-            chunkIdx--;
-            while (chunkIdx >= 0)
-            {
-                chunk = Chunks[chunkIdx];
-                idx = BinarySearch(chunk, time);
-
-                if (idx != -1) break;
-                chunkIdx--;
-            }
-        }
-
-        return (chunkIdx, idx, chunk[idx]);
-    }
-
-    public (List<TState> chunk, int index, TState state) GetPreviousStateFrom(TState state)
-    {
-        var (chunkIdx, chunk) = GetChunk(state.StartTime);
-        var idx = BinarySearch(chunk, state.StartTime) - 1;
-
-        if (idx < 0)
-        {
-            while (--chunkIdx >= 0)
-            {
-                chunk = Chunks[chunkIdx];
-                if (Chunks[chunkIdx].Count != 0) break;
-            }
-
-            idx = chunk.Count - 1;
-        }
-
-        return (chunk, idx, chunk[idx]);
-    }
-
-    public (List<TState> chunk, int index, TState state) GetOverlappingStateFrom(TState state)
-    {
-        var (chunkIdx, chunk) = GetChunk(state.StartTime);
-        var idx = BinarySearch(chunk, state.StartTime);
-
-        if (idx < 0)
-        {
-            while (--chunkIdx >= 0)
-            {
-                chunk = Chunks[chunkIdx];
-                if (Chunks[chunkIdx].Count != 0) break;
-            }
-
-            idx = chunk.Count - 1;
-        }
-
-        return (chunk, idx, chunk[idx]);
-    }
-
-    public (List<TState> chunk, int index, TState state) GetNextStateFrom(TState state)
-    {
-        var (chunkIdx, chunk) = GetChunk(state.StartTime);
-        var idx = BinarySearch(chunk, state.StartTime) + 1;
-
-        if (idx == -1 || idx == chunk.Count)
-        {
-            while (++chunkIdx < Chunks.Count)
-            {
-                chunk = Chunks[chunkIdx];
-                if (Chunks[chunkIdx].Count != 0) break;
-            }
-
-            idx = 0;
-        }
-
-        return (chunk, idx, chunk[idx]);
-    }
 
     private bool UseCurrentOrNextState(float time)
     {
@@ -118,18 +28,18 @@ public class StateChunksContainer<TState, TData> : IEnumerable<TState>
 
     private void SetNextState(float time)
     {
-        while (currentChunkIndex < Chunks.Count)
+        while (currBucketIdx < Collection.Buckets.Count)
         {
-            var chunk = Chunks[currentChunkIndex];
-            while (currentLocalIndex < chunk.Count)
+            currBucket = Collection.Buckets[currBucketIdx];
+            while (currLocalIdx < currBucket.Count)
             {
-                CurrentState = chunk[currentLocalIndex];
+                CurrentState = currBucket[currLocalIdx];
                 if (CurrentState.IsWithinRange(time)) return;
-                currentLocalIndex++;
+                currLocalIdx++;
             }
 
-            currentLocalIndex = 0;
-            currentChunkIndex++;
+            currLocalIdx = 0;
+            currBucketIdx++;
         }
     }
 
@@ -142,101 +52,117 @@ public class StateChunksContainer<TState, TData> : IEnumerable<TState>
 
     public void SetStateAt(float time)
     {
-        var (chunkIndex, localIndex, state) = GetStateAt(time);
-        currentChunkIndex = chunkIndex;
-        currentLocalIndex = localIndex;
+        var (bucketIdx, localIdx, state) = GetStateAt(time);
+        currBucket = Collection.Buckets[bucketIdx];
+        currBucketIdx = bucketIdx;
+        currLocalIdx = localIdx;
         CurrentState = state;
     }
 
-    public (int chunkIndex, int localIndex, TState state) GetStateFrom(TData reference, TData original)
+    public (int chunkIdx, int localIdx, TState state) GetStateAt(float time)
     {
-        var (chunkIdx, chunk) = GetChunk(original.SongBpmTime);
+        var bucket = Collection.GetBucketFrom(time);
+        var bucketIdx = Collection.Buckets.IndexOf(bucket);
+        var idx = BinarySearch(bucket, time);
+
+        if (idx == -1)
+        {
+            while (bucketIdx >= 0)
+            {
+                bucket = Collection.Buckets[bucketIdx];
+                idx = BinarySearch(bucket, time);
+
+                if (idx != -1) break;
+                bucketIdx--;
+            }
+        }
+
+        return (bucketIdx, idx, bucket[idx]);
+    }
+
+    public TState GetPreviousStateFrom(TState state)
+    {
+        var bucket = Collection.GetBucketFrom(state.StartTime);
+        var bucketIdx = Collection.Buckets.IndexOf(bucket);
+        var idx = BinarySearch(bucket, state.StartTime) - 1;
+
+        if (idx < 0)
+        {
+            while (--bucketIdx >= 0)
+            {
+                bucket = Collection.Buckets[bucketIdx];
+                if (Collection.Buckets[bucketIdx].Count != 0) break;
+            }
+
+            idx = bucket.Count - 1;
+        }
+
+        return bucket[idx];
+    }
+
+    public TState GetOverlappingStateFrom(TState state)
+    {
+        var bucket = Collection.GetBucketFrom(state.StartTime);
+        var bucketIdx = Collection.Buckets.IndexOf(bucket);
+        var idx = BinarySearch(bucket, state.StartTime);
+
+        if (idx < 0)
+        {
+            while (--bucketIdx >= 0)
+            {
+                bucket = Collection.Buckets[bucketIdx];
+                if (Collection.Buckets[bucketIdx].Count != 0) break;
+            }
+
+            idx = bucket.Count - 1;
+        }
+
+        return bucket[idx];
+    }
+
+    public TState GetNextStateFrom(TState state)
+    {
+        var bucket = Collection.GetBucketFrom(state.StartTime);
+        var bucketIdx = Collection.Buckets.IndexOf(bucket);
+        var idx = BinarySearch(bucket, state.StartTime) + 1;
+
+        if (idx == -1 || idx == bucket.Count)
+        {
+            while (++bucketIdx < Collection.Buckets.Count)
+            {
+                bucket = Collection.Buckets[bucketIdx];
+                if (Collection.Buckets[bucketIdx].Count != 0) break;
+            }
+
+            idx = 0;
+        }
+
+        return bucket[idx];
+    }
+
+    public TState GetStateFrom(TData reference, TData original)
+    {
+        var chunk = Collection.GetBucketFrom(original.SongBpmTime);
         var idx = chunk.FindIndex(x => x.Base == reference);
 
-        return (chunkIdx, idx, chunk[idx]);
+        return chunk[idx];
     }
 
-    public int GetStateIndex(TState state)
+    private static int BinarySearch(List<TState> bucket, float time)
     {
-        var (chunkIdx, chunk) = GetChunk(state.StartTime);
-        var idx = chunk.IndexOf(state);
-        for (var i = 0; i < chunkIdx; i++) idx += Chunks[i].Count;
-        return idx;
-    }
-
-    private static int BinarySearch(List<TState> chunk, float time)
-    {
-        var right = chunk.Count - 1;
+        var right = bucket.Count - 1;
         var left = 0;
 
         while (left <= right)
         {
             var mid = (left + right) / 2;
-            if (chunk[mid].IsWithinRange(time)) return mid;
-            if (chunk[mid].StartTime <= time)
+            if (bucket[mid].IsWithinRange(time)) return mid;
+            if (bucket[mid].StartTime <= time)
                 left = mid + 1;
             else
                 right = mid - 1;
         }
 
         return -1;
-    }
-
-    public IEnumerator<TState> GetEnumerator()
-    {
-        var chunkIdx = 0;
-        while (chunkIdx < Chunks.Count)
-        {
-            var chunk = Chunks[chunkIdx];
-            var index = 0;
-            while (index < chunk.Count)
-            {
-                yield return chunk[index];
-                index++;
-            }
-
-            chunkIdx++;
-        }
-    }
-
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-
-    public IEnumerator<TState> EnumerateFrom(TState state)
-    {
-        var (chunkIdx, chunk) = GetChunk(state.StartTime);
-        var localIdx = chunk.IndexOf(state) + 1;
-        while (chunkIdx < Chunks.Count)
-        {
-            chunk = Chunks[chunkIdx];
-            while (localIdx < chunk.Count)
-            {
-                yield return chunk[localIdx];
-                localIdx++;
-            }
-
-            localIdx = 0;
-            chunkIdx++;
-        }
-    }
-
-    public IEnumerator<TState> EnumerateFrom(float time)
-    {
-        var (chunkIdx, localIdx, _) = GetStateAt(time);
-
-        // we want very first of the state of same time
-        while (localIdx > 0 && Mathf.Approximately(Chunks[chunkIdx][localIdx - 1].StartTime, time)) localIdx--;
-
-        while (chunkIdx < Chunks.Count)
-        {
-            var chunk = Chunks[chunkIdx];
-            while (localIdx < chunk.Count)
-            {
-                yield return chunk[localIdx];
-                localIdx++;
-            }
-
-            localIdx = 0;
-            chunkIdx++;
-        }
     }
 }

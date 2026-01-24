@@ -2,18 +2,23 @@
 
 public class TrackLaneRing : MonoBehaviour
 {
-    [SerializeField] private Vector3 positionOffset;
+    [SerializeField] public Vector3 PositionOffset;
+    [SerializeField] public TrackLaneRingsManager ParentManager;
 
     private float previousRotZ;
     private float rotationZ;
     private float destinationRotationZ;
 
     private float previousPosZ;
-    private float positionZ;
+    public float PositionZ;
     private float destinationPosZ;
 
     private float rotateSpeed;
     private float moveSpeed;
+
+    public Transform CachedTransform;
+
+    public void Start() => CachedTransform = transform;
 
     public void DoReset()
     {
@@ -25,10 +30,11 @@ public class TrackLaneRing : MonoBehaviour
 
     public void Init(Vector3 pos, Vector3 posOffset)
     {
-        positionOffset = posOffset;
-        transform.localPosition = pos + positionOffset;
-        previousPosZ = positionZ = pos.z + positionOffset.z;
-        rotationZ = destinationRotationZ = transform.localPosition.z;
+        CachedTransform = transform; // don't ask why twice
+        PositionOffset = posOffset;
+        CachedTransform.localPosition = pos + PositionOffset;
+        previousPosZ = PositionZ = pos.z + PositionOffset.z;
+        rotationZ = destinationRotationZ = CachedTransform.localPosition.z;
     }
 
     public void FixedUpdateRing(float fixedDeltaTime)
@@ -36,20 +42,20 @@ public class TrackLaneRing : MonoBehaviour
         previousRotZ = rotationZ;
         rotationZ = Mathf.Lerp(rotationZ, destinationRotationZ, fixedDeltaTime * rotateSpeed);
 
-        previousPosZ = positionZ;
-        positionZ = Mathf.Lerp(positionZ, positionOffset.z + destinationPosZ, fixedDeltaTime * moveSpeed);
+        previousPosZ = PositionZ;
+        PositionZ = Mathf.Lerp(PositionZ, PositionOffset.z + destinationPosZ, fixedDeltaTime * moveSpeed);
     }
 
     public void LateUpdateRing(float interpolationFactor)
     {
-        transform.localEulerAngles = new Vector3(
+        CachedTransform.localEulerAngles = new Vector3(
             0,
             0,
             previousRotZ + ((rotationZ - previousRotZ) * interpolationFactor));
-        transform.localPosition = new Vector3(
-            positionOffset.x,
-            positionOffset.y,
-            previousPosZ + ((positionZ - previousPosZ) * interpolationFactor));
+        CachedTransform.localPosition = new Vector3(
+            PositionOffset.x,
+            PositionOffset.y,
+            previousPosZ + ((PositionZ - previousPosZ) * interpolationFactor));
     }
 
     public void SetRotation(float destinationZ, float rotateSpeed)

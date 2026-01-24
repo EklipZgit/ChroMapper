@@ -17,7 +17,7 @@ public class TrackLaneRingsPositionEffect : BasicEventEffect<TrackLaneRingsPosit
 
     private void UpdateObject(TrackLaneRingsPositionStateData state)
     {
-        var index = container.GetStateIndex(state);
+        var index = container.Collection.IndexOf(state);
         OnStateChanged?.Invoke((index, container.CurrentState));
     }
 
@@ -33,7 +33,7 @@ public class TrackLaneRingsPositionEffect : BasicEventEffect<TrackLaneRingsPosit
 
     public override void RemoveData(BaseEvent data, BaseEvent original)
     {
-        var (_, _, state) = container.GetStateFrom(data, original);
+        var state = container.GetStateFrom(data, original);
         HandleRemoveUpdateConsequentStateFrom(container, state);
         HandleRemoveState(container, state);
 

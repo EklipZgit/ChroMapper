@@ -18,7 +18,7 @@ public class GenericCallbackEventEffect : BasicEventEffect<BasicEventStateData>,
 
     private void UpdateObject(BasicEventStateData state)
     {
-        var index = container.GetStateIndex(state);
+        var index = container.Collection.IndexOf(state);
         OnStateChanged?.Invoke((index, state));
     }
 

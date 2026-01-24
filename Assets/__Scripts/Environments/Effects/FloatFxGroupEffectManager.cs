@@ -66,17 +66,19 @@ public class FloatFxGroupEffectManager : MonoBehaviour
         return true;
     }
 
-    public FloatFxGroupEffect Register(int group, int count)
+    public FloatFxGroupEffect Register(int group, int count, bool trigger)
     {
         if (effectEntries.Any(x => x.Group == group)) return effectEntries.First(x => x.Group == group).Effect;
         var effect = gameObject.AddComponent<FloatFxGroupEffect>();
+        effect.ID = group;
         effect.Count = count;
+        effect.Trigger = trigger;
         effectEntries.Add(new FloatFxGroupEffectEntry { Group = group, Effect = effect });
         IdToEffect.Add(group, effect);
         return effect;
     }
 
-    public void Register(int group, int id, GameObject go) => IdToEffect[group].Register(id);
+    public void Register(int group, int id, FxTarget target) => IdToEffect[group].Register(id, target);
 }
 
 [Serializable]

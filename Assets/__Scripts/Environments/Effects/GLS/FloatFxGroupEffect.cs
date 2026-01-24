@@ -13,12 +13,13 @@ public class
     BaseVfxEventEventBox,
     FloatFxEventBase>
 {
+    [SerializeField] public bool Trigger;
+
     [SerializeField] private List<FxEntry> fxEntries = new();
     private FloatFxGroupContainer[] idToContainer = Array.Empty<FloatFxGroupContainer>();
     private FloatFxGroupContainer[] activeContainers = Array.Empty<FloatFxGroupContainer>();
 
-    public void Register(int id) => fxEntries.Add(new() { ID = id });
-
+    public void Register(int id, FxTarget target) => fxEntries.Add(new() { ID = id, Target = target });
     public void Unregister(int id) => fxEntries.Remove(fxEntries.Find(e => e.ID == id));
 
     public override void Initialize()
@@ -35,21 +36,21 @@ public class
 
             if (idToContainer[entry.ID] is null)
             {
-                idToContainer[entry.ID] = new();
+                idToContainer[entry.ID] = new(entry.ID, entry.Target);
                 var container = idToContainer[entry.ID];
 
                 var startEvent = new FloatFxEventStateData(new FloatFxEventBase(), short.MinValue);
                 var endEvent = new FloatFxEventStateData(
                     new FloatFxEventBase { UsePrevious = 1 },
                     float.MaxValue);
-                container.EventContainer.GenerateChunk(Atsc);
+                container.EventContainer.Resize(Atsc.SongAudioSource.clip.length);
 
                 startEvent.EndTime = endEvent.StartTime;
                 startEvent.Next = endEvent;
                 endEvent.Previous = startEvent;
 
-                container.EventContainer.Chunks[0].Add(startEvent);
-                container.EventContainer.Chunks[^1].Add(endEvent);
+                container.EventContainer.AddState(startEvent);
+                container.EventContainer.AddState(endEvent);
 
                 var start = CreateState(new() { songBpmTime = short.MinValue, JsonTime = short.MinValue });
                 start.Box = new BaseVfxEventEventBox
@@ -76,15 +77,17 @@ public class
             }
         }
 
-        activeContainers = idToContainer.Where(x => x is not null).ToArray();
+        activeContainers = idToContainer.Where(x => x is not null && x.Target != null).ToArray();
     }
 
     public override void Refresh()
     {
         foreach (var container in activeContainers)
         {
-            // if (!container.EventContainer.IsCurrentOrFindState(time, Atsc.IsPlaying)) UpdateObject(container);
-            // if (!container.Tween.UpdateTime(time)) continue;
+            if (Trigger)
+                container.Target.TriggerValue(ID, container.Id, container.EventContainer.CurrentState.Value);
+            else
+                container.Target.SetValue(ID, container.Id, container.Tween.Current);
         }
     }
 
@@ -92,8 +95,15 @@ public class
     {
         foreach (var container in activeContainers)
         {
-            if (!container.EventContainer.IsCurrentOrFindState(time, Atsc.IsPlaying)) UpdateObject(container);
-            if (!container.Tween.UpdateTime(time)) continue;
+            if (!container.EventContainer.IsCurrentOrFindState(time, Atsc.IsPlaying))
+            {
+                UpdateObject(container);
+                if (Trigger)
+                    container.Target.TriggerValue(ID, container.Id, container.EventContainer.CurrentState.Value);
+            }
+
+            if (!Trigger && !container.Tween.UpdateTime(time))
+                container.Target.SetValue(ID, container.Id, container.EventContainer.CurrentState.Value);
         }
     }
 
@@ -211,11 +221,19 @@ public record FloatFxGroupContainer : EventGroupContainer<
     FloatFxEventBase>
 {
     public readonly FloatTween Tween = new();
-    public readonly List<LightController> Fxs = new();
+    public readonly int Id;
+    public readonly FxTarget Target;
+
+    public FloatFxGroupContainer(int id, FxTarget target)
+    {
+        Id = id;
+        Target = target;
+    }
 }
 
 [Serializable]
 public class FxEntry
 {
     public int ID;
+    public FxTarget Target;
 }

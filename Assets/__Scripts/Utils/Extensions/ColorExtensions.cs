@@ -47,4 +47,11 @@ internal static class ColorExtensions
         hsv.S = saturation;
         return HSVUtil.ConvertHsvToRgb(hsv.H, hsv.S, hsv.V, color.a);
     }
+
+    public static Color WithValue(this Color color, float value)
+    {
+        Color.RGBToHSV(color, out var h, out var s, out var v);
+        v = value;
+        return Color.HSVToRGB(h, s, v);
+    }
 }

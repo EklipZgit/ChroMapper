@@ -45,7 +45,7 @@ Material:
     - _FogScale: 10
     - _FogStartOffset: -10
     - _Glossiness: 0.5
-    - _Metallic: 1
+    - _Metallic: 0
     - _ZTest: 4
     - _ZWrite: 1
     m_Colors:

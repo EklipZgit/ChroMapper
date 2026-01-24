@@ -81,8 +81,8 @@ public abstract class
         StateChunksContainer<TEventState, TEvent> container,
         TEventState newState)
     {
-        var (prevChunk, prevIndex, prevState) = container.GetOverlappingStateFrom(newState);
-        var (nextChunk, _, nextState) = container.GetNextStateFrom(newState);
+        var prevState = container.GetOverlappingStateFrom(newState);
+        var nextState = container.GetNextStateFrom(newState);
 
         prevState.EndTime = newState.StartTime;
         prevState.Next = newState;
@@ -95,13 +95,7 @@ public abstract class
         nextState.Previous = newState;
         if (nextState.Previous.UsePrevious) nextState.Previous = nextState.Previous.Previous;
 
-        var (_, chunk) = container.GetChunk(newState.StartTime);
-        if (prevChunk != chunk)
-            chunk.Insert(0, newState);
-        else if (nextChunk != chunk)
-            chunk.Add(newState);
-        else
-            chunk.Insert(prevIndex + 1, newState);
+        container.AddState(newState);
     }
 
     public override void RemoveData(
@@ -138,9 +132,8 @@ public abstract class
         StateChunksContainer<TEventState, TEvent> container,
         TEventState stateToRemove)
     {
-        var (_, currChunk) = container.GetChunk(stateToRemove.StartTime);
-        var (_, _, prevState) = container.GetPreviousStateFrom(stateToRemove);
-        var (_, _, nextState) = container.GetNextStateFrom(stateToRemove);
+        var prevState = container.GetPreviousStateFrom(stateToRemove);
+        var nextState = container.GetNextStateFrom(stateToRemove);
 
         prevState.EndTime = nextState.StartTime;
         prevState.Next = nextState;
@@ -148,7 +141,7 @@ public abstract class
         nextState.Previous = prevState;
         if (nextState.Previous.UsePrevious) nextState.Previous = nextState.Previous.Previous;
 
-        currChunk.Remove(stateToRemove);
+        container.RemoveState(stateToRemove);
     }
 
     protected abstract Axis GetAxis(TBox box);

@@ -81,7 +81,7 @@ public class TrackLaneRingsRotationEffect : BasicEventEffect<TrackLaneRingsRotat
 
     public override void RemoveData(BaseEvent data, BaseEvent original)
     {
-        var (_, _, state) = container.GetStateFrom(data, original);
+        var state = container.GetStateFrom(data, original);
         HandleRemoveUpdateConsequentStateFrom(container, state);
         HandleRemoveState(container, state);
 

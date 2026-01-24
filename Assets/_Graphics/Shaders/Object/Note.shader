@@ -10,10 +10,10 @@
         [Header(Rim Dim)] [Space(10)]
         [Toggle(RIM_DIM)] _EnableRimDim("Rim Dim", float) = 1
         _RimScale ("Rim Scale", Range(0, 4)) = 2
-        _RimOffset ("Rim Offset", Range(-1, 1)) = -0.1
+        _RimOffset ("Rim Offset", Range(-1, 1)) = 0
         _RimDistanceScale ("Rim Distance Scale", Range(0, 4)) = 0.03
         _RimDistanceOffset ("Rim Distance Offset", Float) = 5
-        _RimDarkening ("Rim Darkening", Range(0, 1)) = 0.2
+        _RimDarkening ("Rim Darkening", Range(0, 1)) = 0
 
         [Space(10)]
         _OutlineWidth("Outline Width", Float) = 0.05
@@ -244,9 +244,9 @@
                 float diff = max(0, dot(normal, lightDir));
                 float3 diffuse = diff * color * 1;
 
-                float specPower = exp2(_Smoothness * 10);
-                float spec = pow(max(0, dot(normal, halfDir)), specPower);
-                float3 specular = spec * color * 1;
+                float ndoth = max(0, dot(normal, halfDir));
+                float specIntensity = pow(ndoth, _Smoothness * 128);
+                float3 specular = specIntensity * color * 0.5;
                 
                 color.rgb += diffuse + specular;
 
@@ -257,7 +257,6 @@
                 color.rgb *= (1 - finalRim * _RimDarkening);
                 #endif
 
-                color = saturate(color);
                 color.a = 0;
 
                 #if CM_PREVIEW_MODE && ENABLE_FOG
@@ -269,7 +268,7 @@
                 #endif
                 #endif
 
-                return color;
+                return saturate(color);
             }
             ENDHLSL
         }

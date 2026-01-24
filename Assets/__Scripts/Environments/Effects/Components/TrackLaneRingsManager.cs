@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class TrackLaneRingsManager : MonoBehaviour
 {
-    public TrackLaneRing[] Rings;
+    public List<TrackLaneRing> Rings;
     public float RingPositionStep;
     public bool SpawnAsChildren;
     private AudioTimeSyncController atsc;
@@ -23,7 +24,8 @@ public class TrackLaneRingsManager : MonoBehaviour
     {
         hasAtsc = Atsc != null;
         var forward = transform.forward;
-        for (var i = 0; i < Rings.Length; i++)
+        var len = Rings.Count;
+        for (var i = 0; i < len; i++)
         {
             var t = Rings[i];
             if (SpawnAsChildren)
@@ -42,13 +44,15 @@ public class TrackLaneRingsManager : MonoBehaviour
     private void FixedUpdate()
     {
         var fdt = TimeHelper.FixedDeltaTime;
-        for (var i = 0; i < Rings.Length; i++) Rings[i].FixedUpdateRing(fdt);
+        var len = Rings.Count;
+        for (var i = 0; i < len; i++) Rings[i].FixedUpdateRing(fdt);
     }
 
     private void LateUpdate()
     {
         if (!hasAtsc) return;
         var intF = TimeHelper.InterpolationFactor;
-        for (var i = 0; i < Rings.Length; i++) Rings[i].LateUpdateRing(intF);
+        var len = Rings.Count;
+        for (var i = 0; i < len; i++) Rings[i].LateUpdateRing(intF);
     }
 }
