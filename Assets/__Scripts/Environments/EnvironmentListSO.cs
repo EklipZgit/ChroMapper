@@ -9,22 +9,22 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Environment/Environment List", fileName = "EnvironmentListSO")]
 public class EnvironmentListSO : ScriptableObject
 {
-    [SerializeField] public List<EnvironmentListInfo> list = new();
+    [SerializeField] public List<EnvironmentListInfo> List = new();
 
-    public readonly Dictionary<string, EnvironmentListInfo> LookupID = new();
-    public readonly string DefaultEnvironment = "DefaultEnvironment";
+    private readonly Dictionary<string, EnvironmentListInfo> lookupID = new();
+    private readonly string defaultEnvironment = "DefaultEnvironment";
 
     public void OnValidate() => Initialize();
     public void OnEnable() => Initialize();
 
     private void Initialize()
     {
-        LookupID.Clear();
-        foreach (var entry in list) LookupID[entry.ID] = entry;
+        lookupID.Clear();
+        foreach (var entry in List) lookupID[entry.ID] = entry;
     }
 
     public EnvironmentListInfo GetEnvironmentOrDefault(string environment) =>
-        LookupID.TryGetValue(environment, out var env) ? env : LookupID[DefaultEnvironment];
+        lookupID.TryGetValue(environment, out var env) && !env.Ignore ? env : lookupID[defaultEnvironment];
 }
 
 [Serializable]
@@ -34,4 +34,5 @@ public class EnvironmentListInfo
     public string ID;
     public TracksDefinitionSO TracksDefinition;
     public ColorSchemeSO ColorScheme;
+    public bool Ignore;
 }

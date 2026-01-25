@@ -24,8 +24,6 @@ public static class EnvironmentListUpdate
             AssetDatabase.LoadAssetAtPath<EnvironmentListSO>(Path.Combine(scriptPath, "EnvironmentListSO.asset"));
         var assetToReserialize = new List<Object> { listSo };
 
-        listSo.list.Clear();
-
         foreach (var dataPath in envDataPaths)
         {
             var dataAsset = AssetDatabase.LoadAssetAtPath<TextAsset>(dataPath);
@@ -57,14 +55,24 @@ public static class EnvironmentListUpdate
             data.Data.ColorScheme.CopyTo(colorScheme);
             data.Data.LightTracks.CopyTo(tracksDefinition);
 
-            listSo.list.Add(
-                new EnvironmentListInfo
-                {
-                    Name = data.Data.Title,
-                    ID = data.Data.ID,
-                    ColorScheme = colorScheme,
-                    TracksDefinition = tracksDefinition
-                });
+            if (listSo.List.Exists(x => x.ID == data.Data.ID))
+            {
+                var d = listSo.List.First(x => x.ID == data.Data.ID);
+                d.Name = data.Data.Title;
+                d.ColorScheme = colorScheme;
+                d.TracksDefinition = tracksDefinition;
+            }
+            else
+            {
+                listSo.List.Add(
+                    new EnvironmentListInfo
+                    {
+                        Name = data.Data.Title,
+                        ID = data.Data.ID,
+                        ColorScheme = colorScheme,
+                        TracksDefinition = tracksDefinition
+                    });
+            }
 
             if (!AssetDatabase.AssetPathExists(colorSchemePath))
                 AssetDatabase.CreateAsset(colorScheme, colorSchemePath);
@@ -72,10 +80,9 @@ public static class EnvironmentListUpdate
                 AssetDatabase.CreateAsset(tracksDefinition, tracksDefinitionPath);
         }
 
-        listSo.list = listSo.list.OrderBy(x => x.ID).ToList();
-        
-        AssetDatabase.ForceReserializeAssets(
-            assetToReserialize.Select(AssetDatabase.GetAssetPath).ToArray(),
-            ForceReserializeAssetsOptions.ReserializeAssets);
+        listSo.List = listSo.List.OrderBy(x => x.ID).ToList();
+
+        foreach (var o in assetToReserialize) EditorUtility.SetDirty(o);
+        AssetDatabase.SaveAssets();
     }
 }

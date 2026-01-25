@@ -8217,6 +8217,46 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: LaserSocket
+    Hash: 49204bd96fb79516112cba5ae979f994
+    Material: {fileID: 2100000, guid: 742c8a5863354e213b3ea8331200be74, type: 2}
+    Shader: Custom/SimpleLit
+    Color: {r: 0.26415086, g: 0.26415086, b: 0.26415086, a: 0}
+    Keywords:
+    - FOG
+    - HEIGHT_FOG
+    - _ACES_APPROACH_BEFORE_EMISSIVE
+    - DIFFUSE
+    - POINT_LIGHT_IS_LOCAL
+    - NOISE_DITHERING
+    - _VERTEX_WHITEBOOSTTYPE_MAINEFFECT
+    - REFLECTION_PROBE_BOX_PROJECTION
+    - MULTIPLY_REFLECTIONS
+    - _EMISSIONTEXTURE_SIMPLE
+    - _EMISSIONCOLORTYPE_MAINEFFECT
+    FloatProps:
+    - Key: _FogScale
+      Value: 1
+    - Key: _FogStartOffset
+      Value: 0
+    - Key: _FogHeightScale
+      Value: 0.5
+    - Key: _FogHeightOffset
+      Value: 0
+    - Key: _BlendSrcFactor
+      Value: 1
+    - Key: _BlendDstFactor
+      Value: 0
+    - Key: _BlendSrcFactorA
+      Value: 5
+    - Key: _BlendDstFactorA
+      Value: 0
+    - Key: _Metallic
+      Value: 0.418
+    Environments:
+    - GridEnvironment
+    Unused: 0
+    Ignored: 0
+  - Name: LaserSocket
     Hash: 3f2f7d1f0fe4e5fc052e3c0f4c2a9e88
     Material: {fileID: 2100000, guid: 0a7ddecd6a9faecb2b820318c2c3d9e2, type: 2}
     Shader: Custom/SimpleLit
@@ -8295,46 +8335,6 @@ MonoBehaviour:
     Environments:
     - BritneyEnvironment
     - ColliderEnvironment
-    Unused: 0
-    Ignored: 0
-  - Name: LaserSocket
-    Hash: 49204bd96fb79516112cba5ae979f994
-    Material: {fileID: 2100000, guid: 742c8a5863354e213b3ea8331200be74, type: 2}
-    Shader: Custom/SimpleLit
-    Color: {r: 0.26415086, g: 0.26415086, b: 0.26415086, a: 0}
-    Keywords:
-    - FOG
-    - HEIGHT_FOG
-    - _ACES_APPROACH_BEFORE_EMISSIVE
-    - DIFFUSE
-    - POINT_LIGHT_IS_LOCAL
-    - NOISE_DITHERING
-    - _VERTEX_WHITEBOOSTTYPE_MAINEFFECT
-    - REFLECTION_PROBE_BOX_PROJECTION
-    - MULTIPLY_REFLECTIONS
-    - _EMISSIONTEXTURE_SIMPLE
-    - _EMISSIONCOLORTYPE_MAINEFFECT
-    FloatProps:
-    - Key: _FogScale
-      Value: 1
-    - Key: _FogStartOffset
-      Value: 0
-    - Key: _FogHeightScale
-      Value: 0.5
-    - Key: _FogHeightOffset
-      Value: 0
-    - Key: _BlendSrcFactor
-      Value: 1
-    - Key: _BlendDstFactor
-      Value: 0
-    - Key: _BlendSrcFactorA
-      Value: 5
-    - Key: _BlendDstFactorA
-      Value: 0
-    - Key: _Metallic
-      Value: 0.418
-    Environments:
-    - GridEnvironment
     Unused: 0
     Ignored: 0
   - Name: LaserSphereDot
