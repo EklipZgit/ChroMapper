@@ -240,10 +240,10 @@ namespace Beatmap.Containers
 
         public void SetColor(Color c)
         {
-            MaterialPropertyBlock.SetColor(color, c);
+            MaterialPropertyBlock.SetColor(colorId, c);
 
             var arrowColor = Color.Lerp(c, Color.white, Settings.Instance.ArrowColorWhiteBlend);
-            arrowMaterialPropertyBlock.SetColor(color, arrowColor);
+            arrowMaterialPropertyBlock.SetColor(colorId, arrowColor);
 
             MaterialPropertyBlock.SetFloat(colorMultiplier, Settings.Instance.NoteColorMultiplier);
             arrowMaterialPropertyBlock.SetFloat(colorMultiplier, Settings.Instance.ArrowColorMultiplier);

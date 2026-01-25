@@ -303,7 +303,7 @@ namespace Beatmap.Containers
 
         public void SetColor(Color c)
         {
-            MaterialPropertyBlock.SetColor(color, c);
+            MaterialPropertyBlock.SetColor(colorId, c);
             MaterialPropertyBlock.SetColor(emissionColor, c * arcEmissionIntensity);
             UpdateMaterials();
         }
