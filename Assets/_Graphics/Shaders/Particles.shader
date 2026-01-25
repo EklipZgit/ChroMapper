@@ -56,6 +56,7 @@
             #pragma fragment frag
             #pragma target 2.0
             #pragma multi_compile_instancing
+            #pragma multi_compile _BLOOM_TRANSPARENT
             #pragma multi_compile _BILLBOARD_NONE _BILLBOARD_FULL _BILLBOARD_Y_AXIS _BILLBOARD_CAMERA_FACING
             #pragma multi_compile _BLOOMWHITE_NONE _BLOOMWHITE_PP _BLOOMWHITE_FRAG
             #pragma multi_compile _ACESTONEMAP_BEFORE_EMISSIVE _ACESTONEMAP_AFTER_EMISSIVE
@@ -69,6 +70,7 @@
 
             UNITY_INSTANCING_BUFFER_START (PerDrawSprite)
             // SpriteRenderer.Color while Non-Batched/Instanced.
+            UNITY_DEFINE_INSTANCED_PROP(fixed4, _Color)
             UNITY_DEFINE_INSTANCED_PROP(fixed4, unity_SpriteRendererColorArray)
             // this could be smaller but that's how bit each entry is regardless of type
             UNITY_DEFINE_INSTANCED_PROP(fixed2, unity_SpriteFlipArray)
@@ -81,6 +83,7 @@
 
             CBUFFER_START(UnityPerDrawSprite)
                 #ifndef UNITY_INSTANCING_ENABLED
+                fixed4 _Color;
                 fixed4 _RendererColor;
                 fixed2 _Flip;
                 #endif
@@ -88,7 +91,6 @@
             CBUFFER_END
 
             float _BillboardScale;
-            fixed4 _Color;
 
             struct appdata_t
             {
@@ -104,6 +106,7 @@
                 fixed4 color : COLOR;
                 float2 uv : TEXCOORD0;
                 float3 worldPos : TEXCOORD1;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
                 UNITY_VERTEX_OUTPUT_STEREO
             };
 
@@ -117,6 +120,7 @@
                 v2f o;
 
                 UNITY_SETUP_INSTANCE_ID(i);
+                UNITY_TRANSFER_INSTANCE_ID(i, o);
 
                 #if !_BILLBOARD_NONE
                 float3 worldOrigin = mul(unity_ObjectToWorld, float4(0, 0, 0, 1)).xyz;
@@ -145,7 +149,7 @@
                 o.vertex = UnityObjectToClipPos(o.vertex);
                 #endif
                 o.uv = i.texcoord;
-                o.color = i.color * _Color * _RendererColor;
+                o.color = i.color * _RendererColor;
 
                 return o;
             }
@@ -160,22 +164,24 @@
 
             fixed4 frag(v2f i) : SV_Target
             {
-                fixed4 color = tex2D(_MainTex, i.uv) * i.color;
+                UNITY_SETUP_INSTANCE_ID(i);
+                fixed4 color = UNITY_ACCESS_INSTANCED_PROP(PerDrawSprite, _Color);
+                fixed4 albedo = tex2D(_MainTex, i.uv) * color;
 
                 #if SQUARE_ALPHA
                 albedo.a *= albedo.a;
                 #endif
 
-                color = ApplyCustomBloom(color, _BloomWhiteMultiplier);
+                albedo = ApplyCustomBloom(albedo, _BloomWhiteMultiplier);
   
                 #ifdef ENABLE_HEIGHT_FOG
                 BLOOM_FOG_HEIGHT_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,
                                            _FogHeightOffset, _FogHeightScale);
                 #else
-                BLOOM_FOG_APPLY(color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
+                BLOOM_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
                 #endif
               
-                return color;
+                return albedo;
             }
             ENDCG
         }

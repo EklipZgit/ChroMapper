@@ -114,7 +114,7 @@
                 fixed4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
 
                 fixed4 albedo = color * tex2D(_MainTex, TRANSFORM_TEX(i.uv, _MainTex));
-                albedo.rgb = saturate(applyCustomLighting(color, _Metallic, _Smoothness, i.worldPos, i.worldNormal));
+                albedo.rgb = applyCustomLighting(color, _Metallic, _Smoothness, i.worldPos, i.worldNormal) / 6;
 
                 #if _BLOOMWHITE_NONE
                 albedo.a = 0;
@@ -124,7 +124,7 @@
 
                 #ifdef ENABLE_HEIGHT_FOG
                 BLOOM_FOG_HEIGHT_FOG_APPLY(bloomfog_color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,
-                           _FogHeightOffset, _FogHeightScale);
+                                           _FogHeightOffset, _FogHeightScale);
                 #else
                 BLOOM_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
                 #endif

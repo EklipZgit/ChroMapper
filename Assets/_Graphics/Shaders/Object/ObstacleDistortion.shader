@@ -160,14 +160,6 @@
                 clip(c);
 
                 fixed4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
-                fixed mag = length(color.rgb);
-                if (mag > 1)
-                {
-                    color.rgb = normalize(color.rgb) * min(sqrt(mag), 16) * color.a;
-                    color.rgb = saturate(color.rgb);
-                }
-                color *= 0.2;
-                color.a = 0;
 
                 // float2 halfUv = 0.5 - abs(0.5 - i.uv);
                 float2 screenUV = i.screenPos.xy / i.screenPos.w;
@@ -180,17 +172,18 @@
                     (simplex((i.uv.yx * uvScalar.yx + cutoutTexOffset * _DistortionScale) / _DistortionScale) - 0.5) *
                     _DistortionStrength;
 
-                fixed4 col = (color * 0.5) + tex2D(_GrabTexture, screenUV);
+                color.a = 0;
+                color = color * 0.5 + tex2D(_GrabTexture, screenUV);
 
                 #ifdef CM_PREVIEW_MODE
                     #ifdef ENABLE_HEIGHT_FOG
-                        BLOOM_FOG_HEIGHT_FOG_APPLY(col, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset, _FogHeightScale);
+                        BLOOM_FOG_HEIGHT_FOG_APPLY(color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset, _FogHeightScale);
                     #else
-                        BLOOM_FOG_APPLY(col, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
+                        BLOOM_FOG_APPLY(color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
                     #endif
                 #endif
 
-                return col;
+                return color;
             }
             ENDHLSL
         }

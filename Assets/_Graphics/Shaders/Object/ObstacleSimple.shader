@@ -101,16 +101,10 @@
                 clip(c);
 
                 fixed4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
-                fixed mag = length(color.rgb);
-                if (mag > 1)
-                {
-                    color.rgb = normalize(color.rgb) * min(sqrt(mag), 16) * color.a;
-                    color.rgb = saturate(color.rgb);
-                }
-                color *= 0.5;
+                color.rgb *= 0.5;
                 color.a = 0;
                 
-                return saturate(color);
+                return color;
             }
             ENDHLSL
         }

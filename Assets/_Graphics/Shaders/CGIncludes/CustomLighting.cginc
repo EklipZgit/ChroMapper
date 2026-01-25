@@ -14,11 +14,11 @@ float4 _PrivatePointLightPosition;
 #endif
 
 float3 directionalLighting(float3 albedo, float metallic, float smoothness, float3 lPos, float lRad, float3 lDir,
-                           float4 lCol, float3 worldPos, float normal)
+                           float4 lCol, float3 worldPos, float3 worldNormal)
 {
     float3 viewDir = normalize(_WorldSpaceCameraPos - worldPos);
 
-    // idk why position is provided so maybe figure it out?
+    // idk why position and radii is provided so maybe figure it out?
     // float dist = distance(worldPos, lPos);
     // float atten = saturate(1 - dist / lRad);
     float atten = 1;
@@ -27,7 +27,7 @@ float3 directionalLighting(float3 albedo, float metallic, float smoothness, floa
     float3 specular = 0;
 
     #if DIFFUSE
-    float ndotl = max(0, dot(normal, lDir));
+    float ndotl = max(0, dot(worldNormal, lDir));
     diffuse = albedo * lCol * ndotl * atten;
     #endif
 
@@ -35,7 +35,7 @@ float3 directionalLighting(float3 albedo, float metallic, float smoothness, floa
     // technically should be texture but whatever
     float3 specColor = lerp(0.04, albedo, metallic);
     float3 halfDir = normalize(lDir + viewDir);
-    float ndoth = max(0, dot(normal, halfDir));
+    float ndoth = max(0, dot(worldNormal, halfDir));
     float specIntensity = pow(ndoth, smoothness);
     specular = specColor * lCol * specIntensity * atten;
     #endif
@@ -43,7 +43,7 @@ float3 directionalLighting(float3 albedo, float metallic, float smoothness, floa
     return diffuse + specular;
 }
 
-float3 pointLighting(float3 lPos, float4 lCol, float3 worldPos, float worldNormal)
+float3 pointLighting(float3 lPos, float4 lCol, float3 worldPos, float3 worldNormal)
 {
     float3 lightDir = lPos - worldPos;
     lightDir = normalize(lightDir);
@@ -53,7 +53,7 @@ float3 pointLighting(float3 lPos, float4 lCol, float3 worldPos, float worldNorma
     return lCol * diff;
 }
 
-float3 applyCustomLighting(float3 color, float metallic, float smoothness, float3 worldPos, float worldNormal)
+float3 applyCustomLighting(float3 color, float metallic, float smoothness, float3 worldPos, float3 worldNormal)
 {
     worldNormal = normalize(worldNormal);
     // TODO: not sure if it will be 0 regardless if any light or diffuse enabled at all
@@ -77,15 +77,6 @@ float3 applyCustomLighting(float3 color, float metallic, float smoothness, float
 
         calculated += color * pointLighting(lPos, lCol, worldPos, worldNormal);
     }
-
-    #if PRIVATE_POINT_LIGHT
-    float4 plCol = UNITY_ACCESS_INSTANCED_PROP(Props, _PrivatePointLightColor);
-    calculated += color * pointLighting(_PrivatePointLightPosition, plCol * _PrivatePointLightIntensity,
-                                        worldPos, normal);
-    calculated /= 7;
-    #else
-    calculated /= 6;
-    #endif
 
     return calculated;
 }

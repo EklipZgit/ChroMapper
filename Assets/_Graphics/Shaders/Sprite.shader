@@ -49,6 +49,7 @@
             #pragma fragment frag
             #pragma target 2.0
             #pragma multi_compile_instancing
+            #pragma multi_compile _BLOOM_TRANSPARENT
             #pragma multi_compile _BLOOMWHITE_NONE _BLOOMWHITE_PP _BLOOMWHITE_FRAG
             #pragma multi_compile _ACESTONEMAP_BEFORE_EMISSIVE _ACESTONEMAP_AFTER_EMISSIVE
             #pragma multi_compile _ ACES_TONE_MAPPING

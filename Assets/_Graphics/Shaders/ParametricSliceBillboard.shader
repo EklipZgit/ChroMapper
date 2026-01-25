@@ -63,9 +63,11 @@
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_instancing
+            #pragma multi_compile _BLOOM_TRANSPARENT
             #pragma multi_compile _ ENABLE_BLOOM_FOG
-            #pragma shader_feature USE_FOG_FOR_LIGHTS
+            #pragma multi_compile _ ENABLE_FOG
             #pragma multi_compile _ ENABLE_HEIGHT_FOG
+            #pragma shader_feature USE_FOG_FOR_LIGHTS
             #pragma shader_feature ENABLE_Y_AXIS_BILLBOARD
             #pragma shader_feature ALPHA_WIDTH_SCALE
             #pragma shader_feature SQUARE_ALPHA
@@ -198,11 +200,13 @@
                 albedo = ApplyCustomBloom(albedo, alphaFactor, _BloomWhiteMultiplier);
                 #endif
 
+                #ifdef ENABLE_FOG
                 #ifdef ENABLE_HEIGHT_FOG
                 BLOOM_FOG_HEIGHT_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,
                                            _FogHeightOffset, _FogHeightScale);
                 #else
                 BLOOM_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
+                #endif
                 #endif
 
                 #if !USE_FOG_FOR_LIGHTS

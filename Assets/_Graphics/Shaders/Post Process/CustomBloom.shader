@@ -68,13 +68,16 @@ Shader "ChroMapper/Post Process/Bloom"
         #if BLOOM_TOWARDS_WHITE
         // Give whiteness to glowing material
         float alpha = saturate(color.a);
-        color.rgb = lerp(color.rgb, 1, alpha);
+        float4 invert = 1 - color;
+        color = alpha * invert + color;
         #endif
-
-        float4 bloom = SAMPLE_TEXTURE2D(_BloomTex, sampler_BloomTex, i.texcoord) * _Intensity;
+ 
+        float4 bloom = SAMPLE_TEXTURE2D(_BloomTex, sampler_BloomTex, i.texcoord);
+        color = bloom * 0.2 + color;
+        color.rgb = saturate(color.rgb);
+        
         // Either this effect is subtle or this doesn't do as I expect it to do
-        REINHARD_TONE_MAPPING_APPLY(bloom);
-        color = bloom + color;
+        // REINHARD_TONE_MAPPING_APPLY(color);
         
         return color;
     }

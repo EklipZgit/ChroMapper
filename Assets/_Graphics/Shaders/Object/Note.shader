@@ -270,7 +270,7 @@
                 #endif
                 #endif
 
-                return saturate(color);
+                return color;
             }
             ENDHLSL
         }

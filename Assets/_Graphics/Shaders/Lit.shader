@@ -155,19 +155,24 @@
                 if (albedo.a == 0) discard;
                 #endif
 
-                float3 normal = normalize(i.worldNormal);
-                albedo.rgb = saturate(applyCustomLighting(albedo, _Metallic, _Smoothness, i.worldPos, normal));
+                float3 calculated = applyCustomLighting(albedo, _Metallic, _Smoothness, i.worldPos, i.worldNormal);
 
-                #if _BLOOMWHITE_NONE
-                albedo.a = 0;
+                #if PRIVATE_POINT_LIGHT
+                float4 plCol = UNITY_ACCESS_INSTANCED_PROP(Props, _PrivatePointLightColor);
+                calculated += color * pointLighting(_PrivatePointLightPosition, plCol * _PrivatePointLightIntensity,
+                                                    i.worldPos, normalize(i.worldNormal));
+                calculated /= 7;
                 #else
-                albedo = ApplyCustomBloom(albedo, _BloomWhiteMultiplier);
+                calculated /= 6;
                 #endif
+
+                albedo.rgb = calculated;
+                albedo = ApplyCustomBloom(albedo, _BloomWhiteMultiplier);
 
                 #if ENABLE_FOG
                 #if ENABLE_HEIGHT_FOG
                 BLOOM_FOG_HEIGHT_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,
-                                           _FogHeightOffset, _FogHeightScale);
+                                       _FogHeightOffset, _FogHeightScale);
                 #else
                 BLOOM_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
                 #endif

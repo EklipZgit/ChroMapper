@@ -10,21 +10,20 @@ fixed4 ApplyCustomBloom(fixed4 color, fixed alphaFactor, fixed whiteMult)
     #endif
 
     #if _BLOOMWHITE_NONE
-    color.rgb *= color.a * alphaFactor;
+    #if _BLOOM_TRANSPARENT
+    color.rgb *= abs(color.a * alphaFactor);
+    #endif
     color.a = 0;
     #endif
-    
+
     #if _BLOOMWHITE_PP
-    color.a = saturate(color.a * alphaFactor);
+    color.a = abs(color.a * alphaFactor);
     color.rgb *= color.a;
     #endif
 
     #if _BLOOMWHITE_FRAG
-    // make it white
+    color.a = abs(color.a * alphaFactor);
     color.rgb += color.a * alphaFactor * whiteMult;
-    // color.rgb = saturate(color.rgb);
-    
-    color.a = saturate(color.a * alphaFactor);
     color.rgb *= color.a;
     color.a = 0;
     #endif
