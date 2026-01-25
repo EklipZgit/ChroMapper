@@ -35,23 +35,14 @@ public class BeatmapRuntimeContext : MonoBehaviour
             {
                 var envRemoval = BeatSaberSongContainer.Instance.MapDifficultyInfo.CustomData["_environmentRemoval"]
                     .AsArray;
-                foreach (var go in Descriptor.gameObject.scene.GetRootGameObjects())
-                    SearchAndDeactivate(go);
-
-                void SearchAndDeactivate(GameObject go)
+                foreach (var marker in Descriptor.ChromaIDMarkers)
                 {
-                    var c = go.GetComponent<ChromaIDMarker>();
-                    if (c != null)
+                    foreach (var (_, id) in envRemoval)
                     {
-                        foreach (var (_, value) in envRemoval)
-                        {
-                            if (!c.ChromaID.Contains(value)) continue;
-                            go.SetActive(false);
-                            return;
-                        }
+                        if (!marker.ChromaID.Contains(id)) continue;
+                        marker.gameObject.SetActive(false);
+                        break;
                     }
-
-                    foreach (Transform child in go.transform) SearchAndDeactivate(child.gameObject);
                 }
             }
         }
