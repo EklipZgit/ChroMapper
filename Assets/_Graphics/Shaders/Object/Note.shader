@@ -3,8 +3,8 @@
     Properties
     {
         _Color("Color", Color) = (0, 0, 0, 0)
+        _ColorMultiplier("Color Multiplier", Range(0, 10)) = 1
         _MainTex("Texture", 2D) = "white" {}
-        _Intensity("Intensity", Range(0, 1)) = 0
         _Smoothness ("Smoothness", Range(0, 1)) = 0.95
 
         [Header(Rim Dim)] [Space(10)]
@@ -65,6 +65,7 @@
 
         UNITY_INSTANCING_BUFFER_START(Props)
             UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
+            UNITY_DEFINE_INSTANCED_PROP(float, _ColorMultiplier)
             UNITY_DEFINE_INSTANCED_PROP(float4, _OverNoteInterfaceColor)
             UNITY_DEFINE_INSTANCED_PROP(float, _TranslucentAlpha)
             UNITY_DEFINE_INSTANCED_PROP(float, _Cutout)
@@ -211,6 +212,7 @@
                 float isTranslucent = UNITY_ACCESS_INSTANCED_PROP(Props, _AlwaysTranslucent);
                 float4 interfaceColor = UNITY_ACCESS_INSTANCED_PROP(Props, _OverNoteInterfaceColor);
                 float4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
+                float colorMultiplier = UNITY_ACCESS_INSTANCED_PROP(Props, _ColorMultiplier);
                 float animation = UNITY_ACCESS_INSTANCED_PROP(Props, _AnimationSpawned);
                 float translucentAlpha = UNITY_ACCESS_INSTANCED_PROP(Props, _TranslucentAlpha);
                 float cutout = UNITY_ACCESS_INSTANCED_PROP(Props, _Cutout);
@@ -220,7 +222,7 @@
 
                 float3 albedo = _EnableNoteSurfaceGridLine > 0 && rotatedZ < _OutlineWidth && isTranslucent < 1
                                     ? interfaceColor
-                                    : color.rgb;
+                                    : color.rgb * colorMultiplier;
 
                 float alpha = animation < 1 && (isTranslucent >= 1 || i.rotatedPos.w <= 0)
                                   ? translucentAlpha
@@ -247,7 +249,7 @@
                 float ndoth = max(0, dot(normal, halfDir));
                 float specIntensity = pow(ndoth, _Smoothness * 128);
                 float3 specular = specIntensity * color * 0.5;
-                
+
                 color.rgb += diffuse + specular;
 
                 #if RIM_DIM
