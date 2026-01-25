@@ -57,8 +57,9 @@ public class BloomfogRenderingController : MonoBehaviour
         bloomfogRenderer.RenderToTexture(activeCamera, bloomfogRaw, out var textureToScreenRatio);
         Shader.SetGlobalVector("_CustomFogTextureToScreenRatio", textureToScreenRatio);
 
-        // Low quality bloom uses half resolution to start
-        var qualityDownscale = Settings.Instance.HighQualityBloom ? 1 : 2;
+        // Beat Saber does an initial downscale so we mimic that here
+        // Low quality bloom will do another downscale on top of that,
+        var qualityDownscale = Settings.Instance.HighQualityBloom ? 2 : 4;
 
         // Gather descriptor for temporary render textures
         var descriptor = new RenderTextureDescriptor
@@ -120,7 +121,7 @@ public class BloomfogRenderingController : MonoBehaviour
         var upscaleSrc = bloomfogPasses[realBloomfogPasses - 1].down;
         for (var i = realBloomfogPasses - 2; i >= 0; i--)
         {
-            var srcStrength = Mathf.Min(1f, Mathf.Pow(bloomIntensity * (i + 1) / (realBloomfogPasses - 1), pyramidWeightsParam));
+            var srcStrength = Mathf.Min(1f, Mathf.Pow(bloomIntensity * (i + 1f) / (realBloomfogPasses - 1f), pyramidWeightsParam));
             var dstStrength = Mathf.Min(1f, 1 + downIntensityOffset - srcStrength);
             var brightness = 1f;
 
@@ -213,14 +214,14 @@ public class BloomfogRenderingController : MonoBehaviour
         var width = bloomFogResolution / quality;
         var height = bloomFogResolution / quality;
 
-        bloomfogTex = new RenderTexture(width, height, 0, RenderTextureFormat.ARGBFloat)
+        bloomfogTex = new RenderTexture(width, height, 0, RenderTextureFormat.RGB111110Float)
         {
             name = "Bloomfog Final Texture",
             filterMode = FilterMode.Bilinear
         };
         bloomfogTex.Create();
 
-        bloomfogRaw = new RenderTexture(width, height, 0, RenderTextureFormat.ARGBFloat)
+        bloomfogRaw = new RenderTexture(width, height, 0, RenderTextureFormat.RGB111110Float)
         {
             name = "Bloomfog Raw Texture",
             filterMode = FilterMode.Bilinear,

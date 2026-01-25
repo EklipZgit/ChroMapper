@@ -1,3 +1,4 @@
+using Unity.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -69,60 +70,25 @@ public class BloomfogRendererSO : ScriptableObject
 
     private void RenderQuads(Matrix4x4 view, Matrix4x4 projection, float lineWidth)
     {
-        var vertices = bloomfogMesh.vertices;
-        var uvs = bloomfogMesh.uv;
-        var uv2s = bloomfogMesh.uv2;
-        var uv3s = bloomfogMesh.uv3;
-
         var lights = BloomFogObject.AllBloomFogLights;
 
         if (lights.Count > capacity) PrepareMesh();
 
+        var activeLights = 0;
         for (var i = 0; i < lights.Count; i++)
         {
-            lights[i].ApplyToQuad(i, bloomfogQuads, view, projection, lineWidth);
-
-            ref var quad = ref bloomfogQuads[i];
-
-            // Update mesh data
-            var vertIndex = i * 4;
-
-            vertices[vertIndex + 0] = quad.Vertex0Position;
-            vertices[vertIndex + 1] = quad.Vertex1Position;
-            vertices[vertIndex + 2] = quad.Vertex2Position;
-            vertices[vertIndex + 3] = quad.Vertex3Position;
-
-            uvs[vertIndex + 0] = quad.Vertex0UV;
-            uvs[vertIndex + 1] = quad.Vertex1UV;
-            uvs[vertIndex + 2] = quad.Vertex2UV;
-            uvs[vertIndex + 3] = quad.Vertex3UV;
-
-            // UV2/UV3 store HDR color data since vertex colors dont support HDR
-            uv2s[vertIndex + 0].x = quad.Vertex0Color.r;
-            uv2s[vertIndex + 0].y = quad.Vertex0Color.g;
-            uv3s[vertIndex + 0].x = quad.Vertex0Color.b;
-            uv3s[vertIndex + 0].y = quad.Vertex0Color.a;
-
-            uv2s[vertIndex + 1].x = quad.Vertex1Color.r;
-            uv2s[vertIndex + 1].y = quad.Vertex1Color.g;
-            uv3s[vertIndex + 1].x = quad.Vertex1Color.b;
-            uv3s[vertIndex + 1].y = quad.Vertex1Color.a;
-
-            uv2s[vertIndex + 2].x = quad.Vertex2Color.r;
-            uv2s[vertIndex + 2].y = quad.Vertex2Color.g;
-            uv3s[vertIndex + 2].x = quad.Vertex2Color.b;
-            uv3s[vertIndex + 2].y = quad.Vertex2Color.a;
-
-            uv2s[vertIndex + 3].x = quad.Vertex3Color.r;
-            uv2s[vertIndex + 3].y = quad.Vertex3Color.g;
-            uv3s[vertIndex + 3].x = quad.Vertex3Color.b;
-            uv3s[vertIndex + 3].y = quad.Vertex3Color.a;
+            lights[i].ApplyToQuad(ref activeLights, bloomfogQuads, view, projection, lineWidth);
         }
 
-        bloomfogMesh.vertices = vertices;
-        bloomfogMesh.uv = uvs;
-        bloomfogMesh.uv2 = uv2s;
-        bloomfogMesh.uv3 = uv3s;
+        var descriptor = new SubMeshDescriptor(0, activeLights * 6)
+        {
+            firstVertex = 0,
+            vertexCount = activeLights * 4,
+        };
+
+        bloomfogMesh.SetVertexBufferData(bloomfogQuads, 0, 0, activeLights, 0, MeshUpdateFlags.DontRecalculateBounds);
+        bloomfogMesh.subMeshCount = 1;
+        bloomfogMesh.SetSubMesh(0, descriptor, MeshUpdateFlags.DontRecalculateBounds);
         bloomfogMesh.UploadMeshData(false);
     }
 
@@ -149,37 +115,41 @@ public class BloomfogRendererSO : ScriptableObject
             {
                 name = "Bloomfog Mesh",
                 indexFormat = IndexFormat.UInt32,
+                vertexBufferTarget = GraphicsBuffer.Target.Vertex | GraphicsBuffer.Target.Raw
             };
         }
+
+        // Initialize vertex buffer
+        var vertexAttributes = new VertexAttributeDescriptor[]
+        {
+            new(VertexAttribute.Position, VertexAttributeFormat.Float32, 3, 0),
+            new(VertexAttribute.Tangent, VertexAttributeFormat.Float32, 3, 0),
+            new(VertexAttribute.Color, VertexAttributeFormat.Float32, 4, 0),
+            new(VertexAttribute.TexCoord0, VertexAttributeFormat.Float32, 3, 0),
+        };
+        bloomfogMesh.SetVertexBufferParams(4 * capacity, vertexAttributes);
 
         // Recreate quad array (should be initialized to zeroes by default)
         bloomfogQuads = new BloomfogQuad[capacity];
 
-        var vertices = new Vector3[capacity * 4];
-        var triangles = new int[capacity * 6];
-        var uvs = new Vector2[capacity * 4];
-        var uv2s = new Vector2[capacity * 4];
-        var uv3s = new Vector2[capacity * 4];
-
+        // Initialize index buffer
+        var data = new NativeArray<ushort>(capacity * 6, Allocator.Temp, NativeArrayOptions.UninitializedMemory);
         for (var i = 0; i < capacity; i++)
         {
-            // 4 vertices per quad
-            var vIndex = i * 4;
-
-            // 6 indices per quad
-            var tIndex = i * 6;
-            triangles[tIndex + 0] = vIndex + 0;
-            triangles[tIndex + 1] = vIndex + 1;
-            triangles[tIndex + 2] = vIndex + 2;
-            triangles[tIndex + 3] = vIndex + 2;
-            triangles[tIndex + 4] = vIndex + 3;
-            triangles[tIndex + 5] = vIndex + 0;
+            data[i * 6] = (ushort)(i * 4);
+            data[(i * 6) + 1] = (ushort)((i * 4) + 1);
+            data[(i * 6) + 2] = (ushort)((i * 4) + 2);
+            data[(i * 6) + 3] = (ushort)((i * 4) + 2);
+            data[(i * 6) + 4] = (ushort)((i * 4) + 3);
+            data[(i * 6) + 5] = (ushort)(i * 4);
         }
+        bloomfogMesh.SetIndexBufferParams(data.Length, IndexFormat.UInt16);
+        bloomfogMesh.SetIndexBufferData(data, 0, 0, data.Length, MeshUpdateFlags.Default);
 
-        bloomfogMesh.vertices = vertices;
-        bloomfogMesh.triangles = triangles;
-        bloomfogMesh.uv = uvs;
-        bloomfogMesh.uv2 = uv2s;
-        bloomfogMesh.uv3 = uv3s;
+        // Set submesh and bounds
+        bloomfogMesh.subMeshCount = 1;
+        bloomfogMesh.SetSubMesh(0, new SubMeshDescriptor(0, data.Length), MeshUpdateFlags.DontRecalculateBounds);
+        bloomfogMesh.bounds = new Bounds(Vector3.zero, Vector3.one * 10000f);
+        bloomfogMesh.UploadMeshData(false);
     }
 }

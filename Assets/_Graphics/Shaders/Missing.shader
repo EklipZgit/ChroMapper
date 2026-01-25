@@ -14,6 +14,7 @@
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_instancing
+            #pragma multi_compile _ CM_PREVIEW_MODE
 
             #include "UnityCG.cginc"
 
@@ -44,6 +45,14 @@
                 return o;
             }
 
+            #ifdef CM_PREVIEW_MODE
+            fixed4 frag(v2f i) : SV_Target
+            {
+                // Force fail so you can at least see the map in preview mode
+                clip(-1);
+                return fixed4(1, 0, 1, 1);
+            }
+            #else
             fixed4 frag(v2f i) : SV_Target
             {
                 fixed4 col = 0;
@@ -55,6 +64,7 @@
 
                 return col;
             }
+            #endif
             ENDCG
         }
     }

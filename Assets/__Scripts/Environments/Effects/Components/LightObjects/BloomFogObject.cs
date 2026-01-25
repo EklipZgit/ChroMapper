@@ -33,7 +33,7 @@ public sealed class BloomFogObject : MonoBehaviour
 
     public void SetColor(Color col) => color = col;
 
-    public void ApplyToQuad(int quadNum, BloomfogQuad[] quads, Matrix4x4 view, Matrix4x4 projection, float lineWidth)
+    public void ApplyToQuad(ref int quadNum, BloomfogQuad[] quads, Matrix4x4 view, Matrix4x4 projection, float lineWidth)
     {
         // Get current quad
         ref var quad = ref quads[quadNum];
@@ -43,6 +43,8 @@ public sealed class BloomFogObject : MonoBehaviour
             ZeroQuad(ref quad);
             return;
         }
+
+        quadNum++;
 
         // Calculate tube start/end based on center and length
         var length = Length;

@@ -1,5 +1,7 @@
+using System.Runtime.InteropServices;
 using UnityEngine;
 
+[StructLayout(LayoutKind.Sequential)]
 public struct BloomfogQuad
 {
     public Vector3 Vertex0Position;

@@ -70,27 +70,16 @@ Shader "Hidden/BloomfogBlurring"
 
         float4 autoExposure(float4 color, float2 uv)
         {
-            float4 globalIntensity = tex2D(_BloomfogGlobalIntensityTex, uv);
+            // sample in the middle to get a free 1x1 mip
+            float4 globalIntensity = tex2D(_BloomfogGlobalIntensityTex, float2(0.5, 0.5));
 
-            // Calculate luminance
-            float luminance = dot(globalIntensity.rgb, unity_ColorSpaceLuminance.rgb);
+            // according to owen: saves 1 multiplication instruction
+            // we multiply the luminance constant by 49 bc we are soon to sqrt it to effectively equal 7 / sqrt(luminance)
+            float luminance = dot(globalIntensity, float3(0.299, 0.587, 0.114) * 49);
+            
+            // Beat Saber's actual equation is 7 / sqrt(luminance)
+            color /= sqrt(luminance);
 
-            // Normalize auto exposure limit since it goes from 0-1000+
-            //float normalizedLimit = 0.5;
-            float normalizedLimit = lerp(0.001, 0.5, _AutoExposureLimit / 1000.0);
-            //float normalizedLimit = _AutoExposureLimit / 1000.0;
-
-            // Smooth transition using smoothstep
-            // Below the limit, gradually reduce the multiplier
-            float exposureMultiplier = smoothstep(0.0, normalizedLimit, luminance);
-
-            // Ensure we don't completely kill the bloom, keep a minimum
-            // Scale minimum based on the limit to maintain consistency
-            float minMultiplier = saturate(normalizedLimit * 0.1);
-            exposureMultiplier = max(exposureMultiplier, minMultiplier);
-
-            color *= exposureMultiplier;
- 
             return color;
         }
         ENDCG
@@ -139,10 +128,12 @@ Shader "Hidden/BloomfogBlurring"
                 
                 float4 srcColor = tex2D(_BloomfogSrcTex, uv);
                 float2 texelSize = abs(_BloomfogSrcTex_TexelSize.xy);
+
                 float4 upsampledBlur = upsampleTent(_BloomfogSrcTex, uv, _BloomfogBlurRadius, texelSize);
 
                 float4 bloomColor = tex2D(_BloomfogPrevTex, uv);
                 float4 combined = combine(bloomColor, upsampledBlur);
+
                 return combined;
             }
             ENDCG
@@ -168,11 +159,12 @@ Shader "Hidden/BloomfogBlurring"
                 // Use tent filter for high-quality upsampling
                 float4 srcColor = tex2D(_BloomfogSrcTex, uv);
                 float2 texelSize = abs(_BloomfogSrcTex_TexelSize.xy);
-                float4 upsampledBlur = upsampleTent(_BloomfogSrcTex, uv, _BloomfogBlurRadius, texelSize);
-                
-                float4 bloomColor = tex2D(_BloomfogPrevTex, uv);
 
+                float4 upsampledBlur = upsampleTent(_BloomfogSrcTex, uv, _BloomfogBlurRadius, texelSize);
+
+                float4 bloomColor = tex2D(_BloomfogPrevTex, uv);
                 float4 combined = combine(bloomColor, upsampledBlur);
+
                 combined = autoExposure(combined, uv);
                 ACES_TONE_MAPPING_APPLY(combined);
                 return saturate(combined);
