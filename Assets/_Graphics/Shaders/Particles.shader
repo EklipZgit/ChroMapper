@@ -20,6 +20,8 @@
         [Toggle(ENABLE_HEIGHT_FOG)] _EnableHeightFog ("Enable Height Fog", Float) = 0
         _FogHeightOffset ("Fog Height Offset", Float) = 0
         _FogHeightScale ("Fog Height Scale", Float) = 1
+        [Space]
+        [KeywordEnum(Lerp, Color, Alpha)] _FogType ("Fog Type", Float) = 0
 
         [Header(Settings)] [Space]
         [Enum(UnityEngine.Rendering.BlendMode)] _BlendModeSrc ("Blend Src", Float) = 1
@@ -57,6 +59,9 @@
             #pragma target 2.0
             #pragma multi_compile_instancing
             #pragma multi_compile _BLOOM_TRANSPARENT
+            #pragma multi_compile _ ENABLE_BLOOM_FOG
+            #pragma multi_compile _ ENABLE_HEIGHT_FOG
+            #pragma multi_compile _ _FOGTYPE_LERP _FOGTYPE_COLOR _FOGTYPE_ALPHA
             #pragma multi_compile _BILLBOARD_NONE _BILLBOARD_FULL _BILLBOARD_Y_AXIS _BILLBOARD_CAMERA_FACING
             #pragma multi_compile _BLOOMWHITE_NONE _BLOOMWHITE_PP _BLOOMWHITE_FRAG
             #pragma multi_compile _ACESTONEMAP_BEFORE_EMISSIVE _ACESTONEMAP_AFTER_EMISSIVE
@@ -106,6 +111,7 @@
                 fixed4 color : COLOR;
                 float2 uv : TEXCOORD0;
                 float3 worldPos : TEXCOORD1;
+                float4 customScreenPos : TEXCOORD2;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
                 UNITY_VERTEX_OUTPUT_STEREO
             };
@@ -149,6 +155,7 @@
                 o.vertex = UnityObjectToClipPos(o.vertex);
                 #endif
                 o.uv = i.texcoord;
+                o.customScreenPos = ComputeScreenPosCustom(o.vertex);
                 o.color = i.color * _RendererColor;
 
                 return o;
@@ -169,13 +176,13 @@
                 fixed4 albedo = tex2D(_MainTex, i.uv) * color;
 
                 #if SQUARE_ALPHA
-                albedo.a *= albedo.a;
+                color.a *= color.a;
                 #endif
 
                 albedo = ApplyCustomBloom(albedo, _BloomWhiteMultiplier);
   
                 #ifdef ENABLE_HEIGHT_FOG
-                BLOOM_FOG_HEIGHT_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,
+                BLOOM_FOG_HEIGHT_FOG_APPLY(color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,
                                            _FogHeightOffset, _FogHeightScale);
                 #else
                 BLOOM_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
