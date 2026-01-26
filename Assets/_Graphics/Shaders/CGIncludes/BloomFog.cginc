@@ -73,11 +73,25 @@ sampler2D _BloomPrePassTexture;
 
 #endif
 
+#if defined(_FOGTYPE_LERP) || (!defined(_FOGTYPE_LERP) && !defined(_FOGTYPE_COLOR) && !defined(_FOGTYPE_ALPHA))
+#define BLOOM_FOG_BLEND(col, bloomfogCol) \
+  col = bloomfogCol;
+#endif
+#ifdef _FOGTYPE_COLOR
+#define BLOOM_FOG_BLEND(col, bloomfogCol) \
+  col.rgb = bloomfogCol.rgb;
+#endif
+#ifdef _FOGTYPE_ALPHA
+#define BLOOM_FOG_BLEND(col, bloomfogCol) \
+  col.a = bloomfogCol.a;
+#endif
+
 #define BLOOM_FOG_APPLY(col, screenPos, worldPos, fogStartOffset, fogScale) \
   float3 bloomFogDistance = worldPos - _WorldSpaceCameraPos; \
   CUSTOM_FOG_COMPUTE_FACTOR(bloomFogDistance, fogStartOffset, fogScale); \
   BLOOM_PREPASS_SAMPLE(screenPos); \
-  col = customFogFactor * (-col + bloomPrepassCol) + col
+  float4 bloomfogCol = customFogFactor * (-col + bloomPrepassCol) + col; \
+  BLOOM_FOG_BLEND(col, bloomfogCol)
 
 #define BLOOM_FOG_HEIGHT_FOG_APPLY(col, screenPos, worldPos, fogStartOffset, fogScale, fogHeightOffset, fogHeightScale) \
   float3 bloomFogDistance = worldPos - _WorldSpaceCameraPos; \
@@ -85,13 +99,15 @@ sampler2D _BloomPrePassTexture;
   CUSTOM_FOG_COMPUTE_FACTOR(bloomFogDistance, fogStartOffset, fogScale); \
   BLOOM_PREPASS_SAMPLE(screenPos); \
   customFogFactor = -customFogFactor + 1; \
-  col = (customFogHeightFogFactor * -customFogFactor + 1) * (-col + bloomPrepassCol) + col
+  float4 bloomfogCol = (customFogHeightFogFactor * -customFogFactor + 1) * (-col + bloomPrepassCol) + col; \
+  BLOOM_FOG_BLEND(col, bloomfogCol)
 
 #define BLOOM_FOG_APPLY_TRANSPARENT(col, worldPos, fogStartOffset, fogScale) \
   float3 bloomFogDistance = worldPos - _WorldSpaceCameraPos; \
   CUSTOM_FOG_COMPUTE_FACTOR(bloomFogDistance, fogStartOffset, fogScale); \
   customFogFactor = (-customFogFactor + 1) * col.a; \
-  col = float4(customFogFactor * col.rgb, customFogFactor)
+  float4 bloomfogCol = float4(customFogFactor * col.rgb, customFogFactor); \
+  BLOOM_FOG_BLEND(col, bloomfogCol)
 
 #endif // BLOOM_FOG_CG_INCLUDED
 
