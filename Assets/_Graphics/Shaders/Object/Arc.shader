@@ -3,6 +3,7 @@
     Properties
     {
         _Color("Base Color", Color) = (0.5, 0, 0, 0)
+        _MainTex("Texture", 2D) = "white" {}
         _FadeSize("Fade Size", Range(0, 10)) = 5
         [HideInInspector] _Rotation("Rotation", Float) = 0
 
@@ -25,7 +26,7 @@
         Cull [_CullMode]
         ZTest [_ZTest]
         ZWrite [_ZWrite]
-        
+
         Tags
         {
             "Queue"="Transparent+50"
@@ -35,24 +36,29 @@
 
         Pass
         {
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-            // make fog work
-            #pragma target 3.0
             #pragma multi_compile_instancing
             #pragma multi_compile _ CM_PREVIEW_MODE
+            #pragma multi_compile _BLOOMWHITE_PP
 
             #include "UnityCG.cginc"
+            #include "../CGIncludes/CustomBloom.cginc"
 
             // Define instanced properties
             UNITY_INSTANCING_BUFFER_START(Props)
                 UNITY_DEFINE_INSTANCED_PROP(float, _Rotation)
                 UNITY_DEFINE_INSTANCED_PROP(float, _FadeSize)
                 UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
+                UNITY_DEFINE_INSTANCED_PROP(float, _ObjectTime)
             UNITY_INSTANCING_BUFFER_END(Props)
 
+            uniform float _SongTime;
             uniform float _EditorDistance;
+            uniform float _TrackLaneYPosition; // we are keeping this name because Vivify uses this too
+
+            sampler2D _MainTex;
 
             struct appdata
             {
@@ -64,42 +70,50 @@
 
             struct v2f
             {
-                float4 pos : SV_POSITION;
+                float4 vertex : SV_POSITION;
                 float2 uv : TEXCOORD0;
                 float3 normal : NORMAL;
-                float4 worldPos : TEXCOORD1;
+                float3 worldPos : TEXCOORD1;
                 float4 rotatedPos : TEXCOORD2;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
-            v2f vert(appdata v)
+            float3 ComputeRotatedPosition(float3 position, float theta)
+            {
+                float cosTheta = cos(theta);
+                float sinTheta = sin(theta);
+
+                return float3(position.x * cosTheta - position.z * sinTheta,
+                              position.y,
+                              position.z * cosTheta + position.x * sinTheta);
+            }
+
+            v2f vert(appdata i)
             {
                 v2f o;
 
-                UNITY_SETUP_INSTANCE_ID(v);
-                UNITY_TRANSFER_INSTANCE_ID(v, o);
-                // necessary only if you want to access instanced properties in the fragment Shader.
+                UNITY_SETUP_INSTANCE_ID(i);
+                UNITY_TRANSFER_INSTANCE_ID(i, o);
 
-                o.pos = UnityObjectToClipPos(v.vertex);
-                o.uv = v.uv;
-                o.normal = v.normal;
+                o.worldPos = mul(unity_ObjectToWorld, i.vertex);
+                o.worldPos.y = max(_TrackLaneYPosition + 0.01, o.worldPos.y); // save me
 
-                // Calculate the world position coordinates to pass to the fragment shader
-                o.worldPos = mul(unity_ObjectToWorld, v.vertex);
+                o.vertex = mul(UNITY_MATRIX_VP, float4(o.worldPos, 1));
+                o.uv = i.uv;
+                o.normal = i.normal;
 
                 //Global platform offset
-                float4 offset = float4(0, -0.5, -1.5, 0);
+                const float4 offset = float4(0, -0.5, -1.5, 0);
 
                 //Get rotation in radians (this is used for 360/90 degree map rotation).
                 float rotationInRadians = UNITY_ACCESS_INSTANCED_PROP(Props, _Rotation) * (3.141592653 / 180);
 
-                //Transform X and Z around global platform offset (2D rotation PogU)
-                float newX = (o.worldPos.x - offset.x) * cos(rotationInRadians) - (o.worldPos.z - offset.z) * sin(
-                    rotationInRadians);
-                float newZ = (o.worldPos.z - offset.z) * cos(rotationInRadians) + (o.worldPos.x - offset.x) * sin(
-                    rotationInRadians);
+                float objectTime = UNITY_ACCESS_INSTANCED_PROP(Props, _ObjectTime);
 
-                o.rotatedPos = float4(newX + offset.x, o.worldPos.y, newZ + offset.z, o.worldPos.w);
+                o.rotatedPos = float4(
+                    ComputeRotatedPosition(o.worldPos - offset, rotationInRadians) + offset,
+                    objectTime + 0.001 - _SongTime
+                );
 
                 return o;
             }
@@ -111,12 +125,12 @@
                 /// Coloring ///
                 float4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
 
-                float mag = length(color);
-
-                if (mag > 1)
-                {
-                    color = normalize(color) * sqrt(mag);
-                }
+                fixed mask = saturate(sin(i.uv.x * 3.14159) * 5);
+                #if CM_PREVIEW_MODE
+                i.uv.x = (i.uv.x + _Time.y) % 1;
+                #endif
+                float4 albedo = color * tex2D(_MainTex, i.uv);
+                albedo *= mask;
 
                 #ifdef CM_PREVIEW_MODE
                 float fadeSize = UNITY_ACCESS_INSTANCED_PROP(Props, _FadeSize);
@@ -125,16 +139,18 @@
                 float startDistance = fadeSize;
                 float endDistance = _EditorDistance - fadeSize;
 
-                float fade = 1.0;
-                if (distance <= startDistance) fade = clamp(distance / startDistance, 0.0, 1.0);
-                else if (distance >= endDistance) fade = 1.0 - clamp((distance - endDistance) / fadeSize, 0.0, 1.0);
+                float fade = 1;
+                if (distance <= startDistance) fade = saturate(distance / startDistance);
+                else if (distance >= endDistance) fade = 1 - saturate((distance - endDistance) / fadeSize);
 
-                return fixed4(color.rgb * fade * 2, fade * 0.1);
-                #else
-                return fixed4(color.rgb * 2, 0.1);
+                albedo *= fade;
                 #endif
+
+                albedo= ApplyCustomBloom(albedo, 1);
+                albedo.a *= albedo.a * albedo.a;
+                return albedo;
             }
-            ENDCG
+            ENDHLSL
         }
     }
 }
