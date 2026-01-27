@@ -40,10 +40,13 @@ Material:
     - _BloomBoost: 1
     - _BloomWhite: 0
     - _BloomWhiteMultiplier: 1
+    - _BothSidesDiffuseMultiplier: 1
     - _CullMode: 2
+    - _EnableBothSidesDiffuse: 0
     - _EnableDiffuse: 0
     - _EnableFog: 1
     - _EnableHeightFog: 0
+    - _EnableLightFalloff: 0
     - _EnablePrivatePointLight: 0
     - _EnableRimDim: 0
     - _EnableSpecular: 0

@@ -173,7 +173,7 @@
                     _DistortionStrength;
 
                 color.a = 0;
-                color = color * 0.5 + tex2D(_GrabTexture, screenUV);
+                color = color * 0.25 + tex2D(_GrabTexture, screenUV);
 
                 #ifdef CM_PREVIEW_MODE
                     #ifdef ENABLE_HEIGHT_FOG

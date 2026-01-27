@@ -12,6 +12,7 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
+  - BOTH_SIDES_DIFFUSE
   - DIFFUSE
   - ENABLE_FOG
   - ENABLE_HEIGHT_FOG
@@ -43,10 +44,13 @@ Material:
     - _BloomBoost: 1
     - _BloomWhite: 0
     - _BloomWhiteMultiplier: 1
+    - _BothSidesDiffuseMultiplier: 1
     - _CullMode: 2
+    - _EnableBothSidesDiffuse: 1
     - _EnableDiffuse: 1
     - _EnableFog: 1
     - _EnableHeightFog: 1
+    - _EnableLightFalloff: 0
     - _EnablePrivatePointLight: 1
     - _EnableRimDim: 0
     - _EnableSpecular: 0

@@ -38,7 +38,7 @@ Material:
     m_Floats:
     - _CullMode: 2
     - _EnableDiffuse: 1
-    - _EnableFog: 1
+    - _EnableFog: 0
     - _EnableHeightFog: 0
     - _EnableSpecular: 0
     - _FogHeightOffset: 0

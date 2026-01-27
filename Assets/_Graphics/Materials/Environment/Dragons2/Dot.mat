@@ -12,12 +12,14 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
+  - ENABLE_HEIGHT_FOG
+  - VERTEX_COLOR
   - _ACESTONEMAP_AFTER_EMISSIVE
   - _BILLBOARD_NONE
   - _BLOOMWHITE_PP
+  - _FOGTYPE_ALPHA
   m_InvalidKeywords:
   - ENABLE_FOG
-  - ENABLE_HEIGHT_FOG
   - SQUARE_ALPHA
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
@@ -47,12 +49,14 @@ Material:
     - _BloomWhite: 1
     - _BloomWhiteMultiplier: 1
     - _CullMode: 0
-    - _EnableFog: 1
+    - _EnableFog: 0
     - _EnableHeightFog: 1
+    - _EnableVertexColor: 1
     - _FogHeightOffset: 0
     - _FogHeightScale: 0.7
     - _FogScale: 0
     - _FogStartOffset: 0
+    - _FogType: 3
     - _SquareAlpha: 1
     - _ZTest: 4
     - _ZWrite: 0

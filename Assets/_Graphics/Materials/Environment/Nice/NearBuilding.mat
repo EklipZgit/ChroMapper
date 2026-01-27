@@ -14,6 +14,7 @@ Material:
   m_ValidKeywords:
   - DIFFUSE
   - ENABLE_FOG
+  - LIGHT_FALLOFF
   - SPECULAR
   - _ACESTONEMAP_AFTER_EMISSIVE
   - _BLOOMWHITE_NONE
@@ -41,10 +42,13 @@ Material:
     - _BloomBoost: 1
     - _BloomWhite: 0
     - _BloomWhiteMultiplier: 1
+    - _BothSidesDiffuseMultiplier: 1
     - _CullMode: 2
+    - _EnableBothSidesDiffuse: 0
     - _EnableDiffuse: 1
     - _EnableFog: 1
     - _EnableHeightFog: 0
+    - _EnableLightFalloff: 1
     - _EnablePrivatePointLight: 0
     - _EnableRimDim: 0
     - _EnableSpecular: 1

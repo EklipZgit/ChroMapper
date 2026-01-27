@@ -14,6 +14,9 @@
         [Toggle(SPECULAR)] _EnableSpecular ("Specular", float) = 1
         _Metallic ("Metallic", Range(0, 1)) = 1
         _Smoothness ("Smoothness", Range(0, 1)) = 0.5
+        [Toggle(LIGHT_FALLOFF)] _EnableLightFalloff ("Light Falloff", float) = 0
+        [Toggle(BOTH_SIDES_DIFFUSE)] _EnableBothSidesDiffuse ("Both Sides Diffuse", float) = 0
+        _BothSidesDiffuseMultiplier ("Other Diffuse Multiplier", Float) = 1
 
         [Space(10)]
         [Toggle(RIM_DIM)] _EnableRimDim ("Rim Dim", Float) = 0
@@ -70,6 +73,8 @@
             #pragma shader_feature ALPHA_CUTOUT
             #pragma shader_feature DIFFUSE
             #pragma shader_feature SPECULAR
+            #pragma shader_feature LIGHT_FALLOFF
+            #pragma shader_feature BOTH_SIDES_DIFFUSE
             #pragma shader_feature RIM_DIM
             #pragma shader_feature INVERT_RIM_DIM
             #pragma shader_feature PRIVATE_POINT_LIGHT
@@ -155,24 +160,18 @@
                 if (albedo.a == 0) discard;
                 #endif
 
-                float3 calculated = applyCustomLighting(albedo, _Metallic, _Smoothness, i.worldPos, i.worldNormal);
-
-                #if PRIVATE_POINT_LIGHT
-                float4 plCol = UNITY_ACCESS_INSTANCED_PROP(Props, _PrivatePointLightColor);
-                calculated += color * pointLighting(_PrivatePointLightPosition, plCol * _PrivatePointLightIntensity,
-                                                    i.worldPos, normalize(i.worldNormal));
-                calculated /= 7;
-                #else
-                calculated /= 6;
-                #endif
-
+                float3 worldPos = i.worldPos;
+                float3 worldNormal = normalize(i.worldNormal);
+                float3 calculated = 0;
+                CUSTOM_LIGHTING_APPLY(calculated, albedo, _Metallic, _Smoothness, worldPos, worldNormal);
                 albedo.rgb = calculated;
+
                 albedo = ApplyCustomBloom(albedo, _BloomWhiteMultiplier);
 
                 #if ENABLE_FOG
                 #if ENABLE_HEIGHT_FOG
                 BLOOM_FOG_HEIGHT_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,
-                                       _FogHeightOffset, _FogHeightScale);
+                                           _FogHeightOffset, _FogHeightScale);
                 #else
                 BLOOM_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
                 #endif

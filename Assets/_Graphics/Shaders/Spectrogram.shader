@@ -10,11 +10,13 @@
         [KeywordEnum(Before Emissive, After Emissive)] _AcesTonemap ("ACES Tonemapping", float) = 1
 
         [Space(10)]
+        [Toggle(DIFFUSE)] _EnableDiffuse ("Diffuse", float) = 1
+        [Toggle(SPECULAR)] _EnableSpecular ("Specular", float) = 1
+        _Metallic ("Metallic", Range(0, 1)) = 1
         _Smoothness ("Smoothness", Range(0, 1)) = 0.5
-        _Metallic ("Metallic", Range(0, 1)) = 0.0
+        [Toggle(LIGHT_FALLOFF)] _EnableLightFalloff ("Light Falloff", float) = 0
 
         [Header(Fog Settings)] [Space]
-        [Toggle(ENABLE_FOG)] _EnableFog ("Enable Fog", Float) = 1
         _FogStartOffset ("Fog Start Offset", Float) = 1
         _FogScale ("Fog Scale", Float) = 1
         [Space]
@@ -46,8 +48,9 @@
             #pragma multi_compile_instancing
             #pragma multi_compile _ ENABLE_BLOOM_FOG
             #pragma multi_compile _ ENABLE_HEIGHT_FOG
-            #pragma multi_compile DIFFUSE
-            #pragma multi_compile SPECULAR
+            #pragma shader_feature DIFFUSE
+            #pragma shader_feature SPECULAR
+            #pragma shader_feature LIGHT_FALLOFF
             #pragma multi_compile _BLOOMWHITE_NONE _BLOOMWHITE_PP _BLOOMWHITE_FRAG
             #pragma multi_compile _ACESTONEMAP_BEFORE_EMISSIVE _ACESTONEMAP_AFTER_EMISSIVE
             #pragma multi_compile ACES_TONE_MAPPING
@@ -114,15 +117,15 @@
                 fixed4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
 
                 fixed4 albedo = color * tex2D(_MainTex, TRANSFORM_TEX(i.uv, _MainTex));
-                albedo.rgb = applyCustomLighting(color, _Metallic, _Smoothness, i.worldPos, i.worldNormal) / 6;
-
-                #if _BLOOMWHITE_NONE
-                albedo.a = 0;
-                #else
+                float3 worldPos = i.worldPos;
+                float3 worldNormal = normalize(i.worldNormal);
+                float3 calculated = 0;
+                CUSTOM_LIGHTING_APPLY(calculated, albedo, _Metallic, _Smoothness, worldPos, worldNormal);
+                albedo.rgb = calculated;
+                
                 albedo = ApplyCustomBloom(albedo, _BloomWhiteMultiplier);
-                #endif
 
-                #ifdef ENABLE_HEIGHT_FOG
+                #if ENABLE_HEIGHT_FOG
                 BLOOM_FOG_HEIGHT_FOG_APPLY(bloomfog_color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,
                                            _FogHeightOffset, _FogHeightScale);
                 #else

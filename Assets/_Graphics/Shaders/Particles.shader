@@ -3,6 +3,7 @@
     Properties
     {
         _Color ("Color", Color) = (1, 1, 1, 1)
+        [Toggle(VERTEX_COLOR)] _EnableVertexColor ("Vertex Color", float) = 0
         _MainTex ("Texture", 2D) = "white" {}
         [KeywordEnum(None, Full, Y Axis, Camera Facing)] _Billboard ("Billboard", Float) = 0
         _BillboardScale ("Billboard Scale", Float) = 1
@@ -11,17 +12,15 @@
         [KeywordEnum(Before Emissive, After Emissive)] _AcesTonemap ("ACES Tonemapping", float) = 1
 
         [Toggle(SQUARE_ALPHA)] _SquareAlpha("Square Alpha", float) = 1
-        
+
         [Header(Fog Settings)] [Space]
-        [Toggle(ENABLE_FOG)] _EnableFog ("Enable Fog", Float) = 1
+        [KeywordEnum(None, Lerp, Color, Alpha)] _FogType ("Fog Type", Float) = 0
         _FogStartOffset ("Fog Start Offset", Float) = 1
         _FogScale ("Fog Scale", Float) = 1
         [Space]
         [Toggle(ENABLE_HEIGHT_FOG)] _EnableHeightFog ("Enable Height Fog", Float) = 0
         _FogHeightOffset ("Fog Height Offset", Float) = 0
         _FogHeightScale ("Fog Height Scale", Float) = 1
-        [Space]
-        [KeywordEnum(Lerp, Color, Alpha)] _FogType ("Fog Type", Float) = 0
 
         [Header(Settings)] [Space]
         [Enum(UnityEngine.Rendering.BlendMode)] _BlendModeSrc ("Blend Src", Float) = 1
@@ -58,6 +57,7 @@
             #pragma fragment frag
             #pragma target 2.0
             #pragma multi_compile_instancing
+            #pragma shader_feature VERTEX_COLOR
             #pragma multi_compile _BLOOM_TRANSPARENT
             #pragma multi_compile _ ENABLE_BLOOM_FOG
             #pragma multi_compile _ ENABLE_HEIGHT_FOG
@@ -108,7 +108,9 @@
             struct v2f
             {
                 float4 vertex : SV_POSITION;
+                #ifdef VERTEX_COLOR
                 fixed4 color : COLOR;
+                #endif
                 float2 uv : TEXCOORD0;
                 float3 worldPos : TEXCOORD1;
                 float4 customScreenPos : TEXCOORD2;
@@ -156,7 +158,9 @@
                 #endif
                 o.uv = i.texcoord;
                 o.customScreenPos = ComputeScreenPosCustom(o.vertex);
-                o.color = i.color * _RendererColor;
+                #ifdef VERTEX_COLOR
+                o.color = i.color * _RendererColor * UNITY_ACCESS_INSTANCED_PROP(PerDrawSprite, _Color);
+                #endif
 
                 return o;
             }
@@ -172,7 +176,11 @@
             fixed4 frag(v2f i) : SV_Target
             {
                 UNITY_SETUP_INSTANCE_ID(i);
+                #ifdef VERTEX_COLOR
+                fixed4 color = i.color;
+                #else
                 fixed4 color = UNITY_ACCESS_INSTANCED_PROP(PerDrawSprite, _Color);
+                #endif
                 fixed4 albedo = tex2D(_MainTex, i.uv) * color;
 
                 #if SQUARE_ALPHA
@@ -180,14 +188,16 @@
                 #endif
 
                 albedo = ApplyCustomBloom(albedo, _BloomWhiteMultiplier);
-  
+
+                #if defined(_FOGTYPE_LERP) || defined(_FOGTYPE_COLOR) || defined(_FOGTYPE_ALPHA)
                 #ifdef ENABLE_HEIGHT_FOG
                 BLOOM_FOG_HEIGHT_FOG_APPLY(color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,
                                            _FogHeightOffset, _FogHeightScale);
                 #else
                 BLOOM_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
                 #endif
-              
+                #endif
+
                 return albedo;
             }
             ENDCG

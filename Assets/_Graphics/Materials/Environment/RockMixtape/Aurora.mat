@@ -63,7 +63,7 @@ Material:
     - _CullMode: 2
     - _DistortSpeed: 0.05
     - _DistortStrength: 1
-    - _EnableFog: 1
+    - _EnableFog: 0
     - _EnableHeightFog: 0
     - _FogHeightOffset: 0
     - _FogHeightScale: 1

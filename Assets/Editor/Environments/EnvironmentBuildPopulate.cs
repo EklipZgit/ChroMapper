@@ -140,8 +140,13 @@ public class EnvironmentBuildPopulate
                 matInfo.Material.SetFloat(renamedKey, floatProp.Value);
             }
 
+            matInfo.Material.SetFloat("_EnableVertexColor", matInfo.Keywords.Contains("VERTEX_COLOR") ? 1f : 0f);
             matInfo.Material.SetFloat("_EnableDiffuse", matInfo.Keywords.Contains("DIFFUSE") ? 1f : 0f);
             matInfo.Material.SetFloat("_EnableSpecular", matInfo.Keywords.Contains("SPECULAR") ? 1f : 0f);
+            matInfo.Material.SetFloat("_EnableLightFalloff", matInfo.Keywords.Contains("LIGHT_FALLOFF") ? 1f : 0f);
+            matInfo.Material.SetFloat(
+                "_EnableBothSidesDiffuse",
+                matInfo.Keywords.Contains("BOTH_SIDES_DIFFUSE") ? 1f : 0f);
             matInfo.Material.SetFloat("_EnableRimDim", matInfo.Keywords.Contains("ENABLE_RIM_DIM") ? 1f : 0f);
             matInfo.Material.SetFloat("_InvertRimDim", matInfo.Keywords.Contains("INVERT_RIM_DIM") ? 1f : 0f);
 
@@ -153,8 +158,20 @@ public class EnvironmentBuildPopulate
                 matInfo.Keywords.Contains("POINT_LIGHT_IS_LOCAL") ? 1f : 0f);
 
             matInfo.Material.SetFloat(
+                "_EnableFog",
+                matInfo.Keywords.Contains("FOG") || matInfo.Keywords.Contains("ENABLE_FOG") ? 1f : 0f);
+            matInfo.Material.SetFloat(
                 "_EnableHeightFog",
                 matInfo.Keywords.Contains("HEIGHT_FOG") || matInfo.Keywords.Contains("ENABLE_HEIGHT_FOG") ? 1f : 0f);
+            
+            if (matInfo.Keywords.Contains("_FOGTYPE_LERP"))
+                matInfo.Material.SetFloat("_FogType", 1f);
+            else if (matInfo.Keywords.Contains("_FOGTYPE_COLOR"))
+                matInfo.Material.SetFloat("_FogType", 2f);
+            else if (matInfo.Keywords.Contains("_FOGTYPE_ALPHA"))
+                matInfo.Material.SetFloat("_FogType", 3f);
+            else
+                matInfo.Material.SetFloat("_FogType", 0f);
 
             matInfo.Material.SetFloat(
                 "_EnableAlphaWidthScale",

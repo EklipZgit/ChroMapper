@@ -56,6 +56,7 @@
             #pragma multi_compile _BLOOM_TRANSPARENT
             #pragma multi_compile _ ENABLE_BLOOM_FOG
             #pragma multi_compile _ ENABLE_HEIGHT_FOG
+            #pragma multi_compile _FOGTYPE_ALPHA
             #pragma multi_compile _BLOOMWHITE_NONE _BLOOMWHITE_PP _BLOOMWHITE_FRAG
             #pragma multi_compile _ACESTONEMAP_BEFORE_EMISSIVE _ACESTONEMAP_AFTER_EMISSIVE
             #pragma multi_compile ACES_TONE_MAPPING

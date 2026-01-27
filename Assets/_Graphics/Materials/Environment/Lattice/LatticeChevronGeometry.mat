@@ -18,6 +18,7 @@ Material:
   m_InvalidKeywords:
   - ENABLE_FOG
   - SQUARE_ALPHA
+  - _FOGTYPE_NONE
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
@@ -46,12 +47,14 @@ Material:
     - _BloomWhite: 1
     - _BloomWhiteMultiplier: 1
     - _CullMode: 0
-    - _EnableFog: 1
+    - _EnableFog: 0
     - _EnableHeightFog: 0
+    - _EnableVertexColor: 0
     - _FogHeightOffset: 0
     - _FogHeightScale: 1
     - _FogScale: 0
     - _FogStartOffset: 0
+    - _FogType: 0
     - _SquareAlpha: 1
     - _ZTest: 4
     - _ZWrite: 0

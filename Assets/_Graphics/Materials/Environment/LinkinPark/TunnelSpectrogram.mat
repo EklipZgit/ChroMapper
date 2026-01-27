@@ -38,7 +38,7 @@ Material:
     - _BloomWhite: 0
     - _BloomWhiteMultiplier: 1
     - _CullMode: 2
-    - _EnableFog: 1
+    - _EnableFog: 0
     - _EnableHeightFog: 0
     - _FogHeightOffset: 0
     - _FogHeightScale: 0.2

@@ -4,20 +4,19 @@ using UnityEngine;
 [ExecuteAlways]
 public class LightManager : MonoBehaviour
 {
-    private static readonly int directionalLightDirectionsID = Shader.PropertyToID("_DirectionalLightDirections");
+    private static readonly int directionalLightDirectionsId = Shader.PropertyToID("_DirectionalLightDirections");
+    private static readonly int directionalLightPositionId = Shader.PropertyToID("_DirectionalLightPositions");
+    private static readonly int directionalLightRadiiId = Shader.PropertyToID("_DirectionalLightRadii");
+    private static readonly int directionalLightColorsId = Shader.PropertyToID("_DirectionalLightColors");
+    private static readonly int pointLightPositionsId = Shader.PropertyToID("_PointLightPositions");
+    private static readonly int pointLightColorsId = Shader.PropertyToID("_PointLightColors");
 
-    private static readonly int directionalLightPositionRadiiID =
-        Shader.PropertyToID("_DirectionalLightPositionsRadii");
-
-    private static readonly int directionalLightColorsID = Shader.PropertyToID("_DirectionalLightColors");
-    private static readonly int pointLightPositionsID = Shader.PropertyToID("_PointLightPositions");
-    private static readonly int pointLightColorsID = Shader.PropertyToID("_PointLightColors");
-
-    private Vector4[] directionalLightDirections = new Vector4[5];
-    private Vector4[] directionalLightColors = new Vector4[5];
-    private Vector4[] directionalLightPositionRadii = new Vector4[5];
-    private Vector4[] pointLightPositions = new Vector4[1];
-    private Vector4[] pointLightColors = new Vector4[1];
+    private readonly Vector4[] directionalLightDirections = new Vector4[5];
+    private readonly Vector4[] directionalLightColors = new Vector4[5];
+    private readonly Vector4[] directionalLightPositions = new Vector4[5];
+    private readonly float[] directionalLightRadii = new float[5];
+    private readonly Vector4[] pointLightPositions = new Vector4[1];
+    private readonly Vector4[] pointLightColors = new Vector4[1];
 
     private int lastRefreshFrameNum = -1;
 
@@ -40,7 +39,7 @@ public class LightManager : MonoBehaviour
         if (currentCamera.cullingMask != (currentCamera.cullingMask | (1 << gameObject.layer))
             || lastRefreshFrameNum == Time.frameCount)
             return;
-        
+
         lastRefreshFrameNum = Time.frameCount;
         var dirLight = DirectionalLight.Lights;
         for (var i = 0; i < 5; i++)
@@ -49,21 +48,22 @@ public class LightManager : MonoBehaviour
             {
                 var directionalLight = dirLight[i];
                 var tr = directionalLight.transform;
-                directionalLightPositionRadii[i] = tr.position;
-                directionalLightPositionRadii[i].w = directionalLight.Radius;
+                directionalLightPositions[i] = tr.position;
                 directionalLightDirections[i] = -tr.forward;
                 directionalLightColors[i] = (directionalLight.Color * directionalLight.Intensity).linear;
+                directionalLightRadii[i] = directionalLight.Radius;
             }
             else
             {
                 directionalLightColors[i] = new Color(0f, 0f, 0f, 0f);
-                directionalLightPositionRadii[i].w = 100f;
+                directionalLightRadii[i] = 100f;
             }
         }
 
-        Shader.SetGlobalVectorArray(directionalLightDirectionsID, directionalLightDirections);
-        Shader.SetGlobalVectorArray(directionalLightPositionRadiiID, directionalLightPositionRadii);
-        Shader.SetGlobalVectorArray(directionalLightColorsID, directionalLightColors);
+        Shader.SetGlobalVectorArray(directionalLightDirectionsId, directionalLightDirections);
+        Shader.SetGlobalVectorArray(directionalLightPositionId, directionalLightPositions);
+        Shader.SetGlobalFloatArray(directionalLightRadiiId, directionalLightRadii);
+        Shader.SetGlobalVectorArray(directionalLightColorsId, directionalLightColors);
         var pLight = PointLight.Lights;
         for (var j = 0; j < 1; j++)
         {
@@ -77,8 +77,8 @@ public class LightManager : MonoBehaviour
                 pointLightColors[j] = new Color(0f, 0f, 0f, 0f);
         }
 
-        Shader.SetGlobalVectorArray(pointLightPositionsID, pointLightPositions);
-        Shader.SetGlobalVectorArray(pointLightColorsID, pointLightColors);
+        Shader.SetGlobalVectorArray(pointLightPositionsId, pointLightPositions);
+        Shader.SetGlobalVectorArray(pointLightColorsId, pointLightColors);
     }
 
     protected void OnDestroy() => ResetColors();
@@ -88,8 +88,8 @@ public class LightManager : MonoBehaviour
         for (var i = 0; i < 5; i++) directionalLightColors[i] = new Color(0f, 0f, 0f, 0f);
         for (var j = 0; j < 1; j++) pointLightColors[j] = new Color(0f, 0f, 0f, 0f);
 
-        Shader.SetGlobalVectorArray(directionalLightDirectionsID, directionalLightDirections);
-        Shader.SetGlobalVectorArray(directionalLightColorsID, directionalLightColors);
-        Shader.SetGlobalVectorArray(pointLightColorsID, pointLightColors);
+        Shader.SetGlobalVectorArray(directionalLightDirectionsId, directionalLightDirections);
+        Shader.SetGlobalVectorArray(directionalLightColorsId, directionalLightColors);
+        Shader.SetGlobalVectorArray(pointLightColorsId, pointLightColors);
     }
 }

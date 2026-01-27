@@ -13,11 +13,8 @@ namespace Beatmap.Containers
             splineControlPointScaleFactor =
                 2.5f / 0.6f; // 2.5 multiplier used by game, divide by 0.6 to scale to cm units
 
-        internal const float arcEmissionIntensity = 6;
         public const int NumSamples = 30;
 
-        private static readonly int emissionColor = Shader.PropertyToID("_ColorTint");
-        private static readonly int lit = Shader.PropertyToID("_Lit");
         private static readonly int translucentAlpha = Shader.PropertyToID("_TranslucentAlpha");
 
         [SerializeField] private GameObject indicatorMu;
@@ -115,7 +112,6 @@ namespace Beatmap.Containers
             HasHeadNote = false;
             HasTailNote = false;
 
-            MaterialPropertyBlock.SetFloat(lit, 1);
             MaterialPropertyBlock.SetFloat(translucentAlpha, 1f);
             foreach (var gameObj in indicators) gameObj.GetComponent<ArcIndicatorContainer>().Setup();
 
@@ -304,7 +300,6 @@ namespace Beatmap.Containers
         public void SetColor(Color c)
         {
             MaterialPropertyBlock.SetColor(colorId, c);
-            MaterialPropertyBlock.SetColor(emissionColor, c * arcEmissionIntensity);
             UpdateMaterials();
         }
 

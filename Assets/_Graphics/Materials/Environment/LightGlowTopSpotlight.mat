@@ -15,6 +15,7 @@ Material:
   - _ACESTONEMAP_AFTER_EMISSIVE
   - _BILLBOARD_FULL
   - _BLOOMWHITE_PP
+  - _FOGTYPE_ALPHA
   m_InvalidKeywords:
   - ENABLE_FOG
   m_LightmapFlags: 4
@@ -45,12 +46,14 @@ Material:
     - _BloomWhite: 1
     - _BloomWhiteMultiplier: 1
     - _CullMode: 0
-    - _EnableFog: 1
+    - _EnableFog: 0
     - _EnableHeightFog: 0
+    - _EnableVertexColor: 0
     - _FogHeightOffset: 0
     - _FogHeightScale: 1
     - _FogScale: 0.4
     - _FogStartOffset: 0
+    - _FogType: 3
     - _SquareAlpha: 0
     - _ZTest: 4
     - _ZWrite: 0
