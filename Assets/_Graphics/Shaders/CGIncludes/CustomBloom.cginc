@@ -3,41 +3,44 @@
 
 #include "CustomTonemapping.cginc"
 
-fixed4 ApplyCustomBloom(fixed4 color, fixed alphaFactor, fixed whiteMult)
-{
-    #if _ACESTONEMAP_BEFORE_EMISSIVE
-    ACES_TONE_MAPPING_APPLY(color);
-    #endif
 
-    #if _BLOOMWHITE_NONE
-    #if _BLOOM_TRANSPARENT
-    color.rgb *= abs(color.a * alphaFactor);
-    #endif
-    color.a = 0;
-    #endif
+#if _ACESTONEMAP_BEFORE_EMISSIVE
+#define TONEMAP_APPLY_BEFORE(color) \
+    ACES_TONE_MAPPING_APPLY(color)
+#else
+#define TONEMAP_APPLY_BEFORE(color)
+#endif
 
-    #if _BLOOMWHITE_PP
-    color.a = abs(color.a * alphaFactor);
-    color.rgb *= color.a;
-    #endif
+#if _ACESTONEMAP_AFTER_EMISSIVE
+#define TONEMAP_APPLY_AFTER(color) \
+    ACES_TONE_MAPPING_APPLY(color)
+#else
+#define TONEMAP_APPLY_AFTER(color)
+#endif
 
-    #if _BLOOMWHITE_FRAG
-    color.a = abs(color.a * alphaFactor);
-    color.rgb += color.a * alphaFactor * whiteMult;
-    color.rgb *= color.a;
-    color.a = 0;
-    #endif
+#define CUSTOM_BLOOM_NONE_TRANSPARENT_APPLY(color) \
+    TONEMAP_APPLY_BEFORE(color); \
+    color.rgb *= abs(color.a); \
+    color.a = 0; \
+    TONEMAP_APPLY_AFTER(color)
 
-    #if _ACESTONEMAP_AFTER_EMISSIVE
-    ACES_TONE_MAPPING_APPLY(color);
-    #endif
+#define CUSTOM_BLOOM_NONE_APPLY(color) \
+    TONEMAP_APPLY_BEFORE(color); \
+    color.a = 0; \
+    TONEMAP_APPLY_AFTER(color)
 
-    return color;
-}
+#define CUSTOM_BLOOM_PP_APPLY(color, multiplier) \
+    TONEMAP_APPLY_BEFORE(color); \
+    color.a = abs(color.a); \
+    color.rgb *= color.a; \
+    TONEMAP_APPLY_AFTER(color)
 
-fixed4 ApplyCustomBloom(fixed4 color, fixed whiteMult)
-{
-    return ApplyCustomBloom(color, 1, whiteMult);
-}
+#define CUSTOM_BLOOM_FRAG_APPLY(color, multiplier) \
+    TONEMAP_APPLY_BEFORE(color); \
+    color.a = abs(color.a); \
+    color.rgb += color.a * multiplier; \
+    color.rgb *= color.a; \
+    color.a = 0; \
+    TONEMAP_APPLY_AFTER(color)
 
 #endif

@@ -12,12 +12,15 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
+  - MAIN_TEXTURE
   - _ACESTONEMAP_AFTER_EMISSIVE
-  - _BILLBOARD_NONE
-  - _BLOOMWHITE_NONE
   - _FOGTYPE_ALPHA
   m_InvalidKeywords:
   - ENABLE_FOG
+  - _BILLBOARD_NONE
+  - _BLOOMTYPE_NONE
+  - _BLOOMWHITE_NONE
+  - _VERTEXCHANNELS_RGBA
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
@@ -35,6 +38,8 @@ Material:
     m_Ints: []
     m_Floats:
     - _AcesTonemap: 1
+    - _AlphaMultiplier: 1
+    - _BaseLayer: 1
     - _Billboard: 0
     - _BillboardScale: 1
     - _BlendModeDst: 10
@@ -43,21 +48,30 @@ Material:
     - _BlendModeSrcA: 5
     - _BlendOp: 0
     - _BloomBoost: 1
+    - _BloomMultiplier: 1
+    - _BloomType: 0
     - _BloomWhite: 0
     - _BloomWhiteMultiplier: 1
     - _CullMode: 0
     - _EnableFog: 0
     - _EnableHeightFog: 0
+    - _EnableRemapWhiteBoostStart: 0
     - _EnableVertexColor: 0
     - _FogHeightOffset: 0
     - _FogHeightScale: 1
     - _FogScale: 1
     - _FogStartOffset: 0
     - _FogType: 3
+    - _Intensity: 1
+    - _RedIsVertexAlpha: 0
     - _SquareAlpha: 0
+    - _SquareVertexAlpha: 0
+    - _UseMainTex: 1
+    - _VertexChannels: 0
+    - _WhiteBoostRemapStart: 0
     - _ZTest: 4
     - _ZWrite: 0
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

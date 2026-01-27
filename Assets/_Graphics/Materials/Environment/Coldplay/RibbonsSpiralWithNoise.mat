@@ -15,8 +15,15 @@ Material:
   - ENABLE_FOG
   - ENABLE_HEIGHT_FOG
   - _ACESTONEMAP_BEFORE_EMISSIVE
-  - _BLOOMWHITE_NONE
+  - _DIFFUSE_TEXTURE_SOURCE_TEXTURE
+  - _EMISSIONBLOOMTYPE_GRADIENT
+  - _EMISSIONTEXTURE_SIMPLE
+  - _EMISSION_ALPHA_SOURCE_COPY_EMISSION
+  - _EMISSION_TEXTURE_SOURCE_SDF
+  - _VERTEX_BLOOMTYPE_PP
+  - _VERTEX_DISPLACEMENT
   m_InvalidKeywords:
+  - _BLOOMWHITE_NONE
   - _MODE_OPAQUE
   - _ZWRITE_ON
   m_LightmapFlags: 4
@@ -29,24 +36,61 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _DiffuseTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionGradientTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetalSmoothnessTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
     - _AcesTonemap: 0
+    - _AlbedoMultiplier: 1
     - _AlphaCutout: 0
+    - _AmbientMinimalValue: 0
+    - _AmbientMultiplier: 1
     - _BloomBoost: 1
     - _BloomWhite: 0
     - _BloomWhiteMultiplier: 1
     - _BothSidesDiffuseMultiplier: 1
     - _CullMode: 2
+    - _Diffuse_Texture_Source: 0
+    - _EmissionBloomIntensity: 1
+    - _EmissionBloomType: 2
+    - _EmissionBrightness: 1
+    - _EmissionGradientIntensity: 1
+    - _EmissionGradientPanningSpeed: 0
+    - _EmissionGradientPosition: 0.5
+    - _EmissionStrength: 1
+    - _EmissionTexBloomIntensity: 1
+    - _EmissionTexWhiteBoostMultiplier: 1
+    - _EmissionTexture: 1
+    - _EmissionThreshold: 0
+    - _EmissionThresholdAngle: 0
+    - _Emission_Alpha_Source: 1
+    - _Emission_Texture_Source: 3
     - _EnableBothSidesDiffuse: 0
     - _EnableDiffuse: 0
+    - _EnableDiffuseTexture: 0
+    - _EnableEmissionAngleDisappear: 0
     - _EnableFog: 1
     - _EnableHeightFog: 1
     - _EnableLightFalloff: 0
+    - _EnableMetalSmoothnessTex: 0
     - _EnablePrivatePointLight: 0
     - _EnableRimDim: 0
     - _EnableSpecular: 0
@@ -66,11 +110,19 @@ Material:
     - _RimOffset: 1
     - _RimScale: 1
     - _RimSmoothness: 1
+    - _SecondaryUVsEmissionTex: 0
     - _Smoothness: 0.5
+    - _SpecularIntensity: 1
+    - _Vertex: 5
+    - _Vertex_BloomType: 1
     - _ZTest: 4
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 0}
+    - _EmissionTexColor: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionTexSpeed: {r: 0, g: 0, b: 0, a: 0}
+    - _NominalDiffuseLevel: {r: 0, g: 0, b: 0, a: 0}
     - _PrivatePointLightColor: {r: 0, g: 0.5, b: 1, a: 1}
     - _PrivatePointLightPosition: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []

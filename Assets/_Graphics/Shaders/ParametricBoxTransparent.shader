@@ -48,10 +48,8 @@
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_instancing
-            #pragma multi_compile _BLOOM_TRANSPARENT
             #pragma multi_compile _ ENABLE_BLOOM_FOG
             #pragma multi_compile _ ENABLE_HEIGHT_FOG
-            #pragma multi_compile _BLOOMWHITE_PP
             #pragma multi_compile _ACESTONEMAP_AFTER_EMISSIVE
             #pragma multi_compile ACES_TONE_MAPPING
 
@@ -134,7 +132,9 @@
                 #endif
 
                 fixed alphaFactor = lerp(alphaWidth.x, alphaWidth.y, adjustedLengthFactor);
-                albedo = ApplyCustomBloom(albedo, alphaFactor, 1);
+                albedo *= alphaFactor;
+                
+                CUSTOM_BLOOM_PP_APPLY(albedo, 1);
 
                 return albedo;
             }

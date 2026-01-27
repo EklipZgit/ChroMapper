@@ -38,7 +38,7 @@
         Cull [_CullMode]
         ZTest [_ZTest]
         ZWrite [_ZWrite]
-        
+
         Tags
         {
             "Queue"="Transparent"
@@ -52,10 +52,8 @@
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_instancing
-            #pragma multi_compile _BLOOM_TRANSPARENT
             #pragma multi_compile _ ENABLE_BLOOM_FOG
             #pragma multi_compile _ ENABLE_HEIGHT_FOG
-            #pragma multi_compile _BLOOMWHITE_FRAG
             #pragma multi_compile _ACESTONEMAP_AFTER_EMISSIVE
             #pragma multi_compile ACES_TONE_MAPPING
 
@@ -87,8 +85,6 @@
 
             sampler2D _MainTex;
             float4 _MainTex_ST;
-
-            float _BloomWhiteMultiplier;
 
             float _Width;
             float _Speed;
@@ -159,8 +155,8 @@
                 BLOOM_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
                 #endif
 
-                albedo = ApplyCustomBloom(albedo, _BloomWhiteMultiplier);
-                
+                CUSTOM_BLOOM_FRAG_APPLY(albedo, 1);
+
                 return albedo;
             }
             ENDCG

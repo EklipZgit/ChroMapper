@@ -5,7 +5,7 @@
         _Color ("Color", Color) = (1, 1, 1, 1)
         _MainTex ("Texture", 2D) = "white" {}
         [Toggle(ENABLE_Y_AXIS_BILLBOARD)] _EnableYAxisBillboard ("Y Axis Billboard", Float) = 1
-        [KeywordEnum(None,PP,Frag)] _BloomWhite ("Bloom White", float) = 0
+        [KeywordEnum(None, PP, Frag)] _BloomType ("Bloom White", float) = 0
         _BloomMultiplier ("Bloom Multiplier", float) = 1
         _BloomWhiteMultiplier ("White Multiplier", float) = 1
         [KeywordEnum(Before Emissive, After Emissive)] _AcesTonemap ("ACES Tonemapping", float) = 1
@@ -63,15 +63,15 @@
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_instancing
-            #pragma multi_compile _BLOOM_TRANSPARENT
             #pragma multi_compile _ ENABLE_BLOOM_FOG
             #pragma multi_compile _ ENABLE_FOG
             #pragma multi_compile _ ENABLE_HEIGHT_FOG
+            #pragma multi_compile _FOGTYPE_ALPHA
             #pragma shader_feature USE_FOG_FOR_LIGHTS
             #pragma shader_feature ENABLE_Y_AXIS_BILLBOARD
             #pragma shader_feature ALPHA_WIDTH_SCALE
             #pragma shader_feature SQUARE_ALPHA
-            #pragma multi_compile _BLOOMWHITE_NONE _BLOOMWHITE_PP _BLOOMWHITE_FRAG
+            #pragma multi_compile _ _BLOOMTYPE_PP _BLOOMTYPE_FRAG
             #pragma multi_compile _ACESTONEMAP_BEFORE_EMISSIVE _ACESTONEMAP_AFTER_EMISSIVE
             #pragma multi_compile ACES_TONE_MAPPING
 
@@ -197,7 +197,16 @@
                 #if SQUARE_ALPHA
                 alphaFactor *= alphaFactor;
                 #endif
-                albedo = ApplyCustomBloom(albedo, alphaFactor, _BloomWhiteMultiplier);
+                albedo *= alphaFactor;
+
+                #if _BLOOMTYPE_PP
+                CUSTOM_BLOOM_PP_APPLY(albedo, _BloomMultiplier);
+                #elif _BLOOMTYPE_FRAG
+                CUSTOM_BLOOM_FRAG_APPLY(albedo, _BloomWhiteMultiplier);
+                #else
+                CUSTOM_BLOOM_NONE_TRANSPARENT_APPLY(albedo);
+                #endif
+
                 #endif
 
                 #ifdef ENABLE_FOG
@@ -217,7 +226,16 @@
                 #if SQUARE_ALPHA
                 alphaFactor *= alphaFactor;
                 #endif
-                albedo = ApplyCustomBloom(albedo, alphaFactor, _BloomWhiteMultiplier);
+                albedo *= alphaFactor;
+
+                #if _BLOOMTYPE_PP
+                CUSTOM_BLOOM_PP_APPLY(albedo, _BloomMultiplier);
+                #elif _BLOOMTYPE_FRAG
+                CUSTOM_BLOOM_FRAG_APPLY(albedo, _BloomWhiteMultiplier);
+                #else
+                CUSTOM_BLOOM_NONE_TRANSPARENT_APPLY(albedo);
+                #endif
+
                 #endif
 
                 return albedo;

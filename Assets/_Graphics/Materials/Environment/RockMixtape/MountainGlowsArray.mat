@@ -13,13 +13,17 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - ENABLE_HEIGHT_FOG
+  - MAIN_TEXTURE
+  - VERTEX_RED_IS_ALPHA
   - _ACESTONEMAP_AFTER_EMISSIVE
-  - _BILLBOARD_NONE
-  - _BLOOMWHITE_NONE
   - _FOGTYPE_ALPHA
   m_InvalidKeywords:
   - ENABLE_FOG
   - SQUARE_ALPHA
+  - _BILLBOARD_NONE
+  - _BLOOMTYPE_NONE
+  - _BLOOMWHITE_NONE
+  - _VERTEXCHANNELS_A
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
@@ -37,6 +41,8 @@ Material:
     m_Ints: []
     m_Floats:
     - _AcesTonemap: 1
+    - _AlphaMultiplier: 1
+    - _BaseLayer: 1
     - _Billboard: 0
     - _BillboardScale: 1
     - _BlendModeDst: 1
@@ -45,18 +51,27 @@ Material:
     - _BlendModeSrcA: 0
     - _BlendOp: 0
     - _BloomBoost: 1
+    - _BloomMultiplier: 1
+    - _BloomType: 0
     - _BloomWhite: 0
     - _BloomWhiteMultiplier: 1
     - _CullMode: 0
     - _EnableFog: 0
     - _EnableHeightFog: 1
+    - _EnableRemapWhiteBoostStart: 0
     - _EnableVertexColor: 0
     - _FogHeightOffset: 0.8
     - _FogHeightScale: 0.7
     - _FogScale: 0.01
     - _FogStartOffset: 0
     - _FogType: 3
+    - _Intensity: 1
+    - _RedIsVertexAlpha: 1
     - _SquareAlpha: 1
+    - _SquareVertexAlpha: 0
+    - _UseMainTex: 1
+    - _VertexChannels: 1
+    - _WhiteBoostRemapStart: 0
     - _ZTest: 4
     - _ZWrite: 0
     m_Colors:

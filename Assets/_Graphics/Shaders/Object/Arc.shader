@@ -41,7 +41,6 @@
             #pragma fragment frag
             #pragma multi_compile_instancing
             #pragma multi_compile _ CM_PREVIEW_MODE
-            #pragma multi_compile _BLOOMWHITE_PP
 
             #include "UnityCG.cginc"
             #include "../CGIncludes/CustomBloom.cginc"
@@ -146,7 +145,7 @@
                 albedo *= fade;
                 #endif
 
-                albedo= ApplyCustomBloom(albedo, 1);
+                CUSTOM_BLOOM_PP_APPLY(albedo, 1);
                 albedo.a *= albedo.a * albedo.a;
                 return albedo;
             }

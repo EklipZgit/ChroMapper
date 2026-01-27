@@ -56,13 +56,12 @@
         Pass
         {
             HLSLPROGRAM
-            #pragma multi_compile _ ENABLE_BLOOM_FOG
-            #pragma multi_compile _ CM_PREVIEW_MODE
-            #pragma multi_compile _ ENABLE_HEIGHT_FOG
-            #pragma multi_compile _BLOOMWHITE_PP
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_instancing
+            #pragma multi_compile _ ENABLE_BLOOM_FOG
+            #pragma multi_compile _ CM_PREVIEW_MODE
+            #pragma multi_compile _ ENABLE_HEIGHT_FOG
 
             struct appdata
             {
@@ -137,7 +136,7 @@
 
                 fixed4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
                 #ifdef CM_PREVIEW_MODE
-                color = ApplyCustomBloom(color, 1);
+                CUSTOM_BLOOM_PP_APPLY(color, 1);
                 #else
                 color.a = 0;
                 #endif

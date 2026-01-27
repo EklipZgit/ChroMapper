@@ -4,8 +4,7 @@
     {
         [PerRendererData] _MainTex ("Sprite Texture", 2D) = "white" {}
         _Color ("Tint", Color) = (1,1,1,1)
-        [KeywordEnum(None,PP,Frag)] _BloomWhite ("Bloom White", float) = 0
-        _BloomWhiteMultiplier ("White Multiplier", float) = 1
+        [KeywordEnum(None, PP, Frag)] _BloomType ("Bloom Type", float) = 0
         [KeywordEnum(Before Emissive, After Emissive)] _AcesTonemap ("ACES Tonemapping", float) = 1
 
         [MaterialToggle] PixelSnap ("Pixel snap", Float) = 0
@@ -49,8 +48,7 @@
             #pragma fragment frag
             #pragma target 2.0
             #pragma multi_compile_instancing
-            #pragma multi_compile _BLOOM_TRANSPARENT
-            #pragma multi_compile _BLOOMWHITE_NONE _BLOOMWHITE_PP _BLOOMWHITE_FRAG
+            #pragma multi_compile _ _BLOOMTYPE_PP _BLOOMTYPE_FRAG
             #pragma multi_compile _ACESTONEMAP_BEFORE_EMISSIVE _ACESTONEMAP_AFTER_EMISSIVE
             #pragma multi_compile _ ACES_TONE_MAPPING
             #pragma multi_compile_local _ PIXELSNAP_ON
@@ -59,18 +57,17 @@
             #include "UnitySprites.cginc"
             #include "CGIncludes/CustomBloom.cginc"
 
-            float _BloomWhiteMultiplier;
-
-            float _FogStartOffset;
-            float _FogScale;
-            float _FogHeightOffset;
-            float _FogHeightScale;
-
             fixed4 frag(v2f i) : SV_Target
             {
                 fixed4 color = SampleSpriteTexture(i.texcoord) * i.color;
 
-                color = ApplyCustomBloom(color, _BloomWhiteMultiplier);
+                #if _BLOOMTYPE_PP
+                CUSTOM_BLOOM_PP_APPLY(color, 1);
+                #elif _BLOOMTYPE_FRAG
+                CUSTOM_BLOOM_FRAG_APPLY(color, 1);
+                #else
+                CUSTOM_BLOOM_NONE_TRANSPARENT_APPLY(color);
+                #endif
 
                 return color;
             }

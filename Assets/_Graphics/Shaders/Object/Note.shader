@@ -238,22 +238,22 @@
                     return fixed4(albedo.rgb, _CutoutEdgeGlow);
                 }
 
-                float3 normal = normalize(i.worldNormal);
-                float3 lightDir = normalize(_WorldSpaceLightPos0.xyz);
-                float3 viewDir = normalize(_WorldSpaceCameraPos - i.worldPos);
-                float3 halfDir = normalize(lightDir + viewDir);
+                float3 worldNormal = normalize(i.worldNormal);
+                
+                float3 lDir = normalize(_WorldSpaceCameraPos - i.worldPos);
+                float ndotl = dot(worldNormal, lDir);
+                float3 diffuse = (ndotl * 0.5 + 0.5) * color;
 
-                float diff = max(0, dot(normal, lightDir));
-                float3 diffuse = diff * color * 1;
+                float3 halfDir = normalize(lDir + i.viewDir);
+                float ndoth = max(0, dot(worldNormal, halfDir));
+                float gloss = exp2(_Smoothness * 7 + 1);
+                float spec = pow(ndoth, gloss);
+                float3 specular = spec * color;
 
-                float ndoth = max(0, dot(normal, halfDir));
-                float specIntensity = pow(ndoth, _Smoothness * 128);
-                float3 specular = specIntensity * color * 0.5;
-
-                color.rgb += diffuse + specular;
+                color.rgb = diffuse + specular;
 
                 #if RIM_DIM
-                float rim = 1 - saturate(dot(normal, viewDir));
+                float rim = 1 - saturate(dot(worldNormal, i.viewDir));
                 // float distFactor = (i.dist + _RimDistanceOffset) * _RimDistanceScale;
                 float finalRim = saturate((rim + _RimOffset) * _RimScale);
                 color.rgb *= (1 - finalRim * _RimDarkening);

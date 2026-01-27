@@ -3,14 +3,28 @@
     Properties
     {
         _Color ("Color", Color) = (1, 1, 1, 1)
-        [Toggle(VERTEX_COLOR)] _EnableVertexColor ("Vertex Color", float) = 0
+
+        [Toggle(MAIN_TEXTURE)] _UseMainTex ("Base Texture", Float) = 1
+        _BaseLayer ("Base Color", Float) = 1
         _MainTex ("Texture", 2D) = "white" {}
+        _Intensity("Color Intensity", Float) = 1
+
         [KeywordEnum(None, Full, Y Axis, Camera Facing)] _Billboard ("Billboard", Float) = 0
         _BillboardScale ("Billboard Scale", Float) = 1
-        [KeywordEnum(None,PP,Frag)] _BloomWhite ("Bloom White", float) = 0
+
+        [KeywordEnum(None, PP, Frag)] _BloomType ("Bloom Type", float) = 0
         _BloomWhiteMultiplier ("White Multiplier", float) = 1
+        _BloomMultiplier ("Bloom Multiplier", Float) = 1
+        [Toggle(REMAP_WHITEBOOST_START)] _EnableRemapWhiteBoostStart ("Remap White Boost Start", Float) = 0
+        _WhiteBoostRemapStart ("Alpha for no White Boost", Range(0, 1)) = 0
         [KeywordEnum(Before Emissive, After Emissive)] _AcesTonemap ("ACES Tonemapping", float) = 1
 
+        [Toggle(VERTEX_COLOR)] _EnableVertexColor ("Vertex Color", float) = 0
+        [Toggle(VERTEX_SQUARE_ALPHA)] _SquareVertexAlpha ("Square Vertex Alpha", Float) = 0
+        [Toggle(VERTEX_RED_IS_ALPHA)] _RedIsVertexAlpha ("Red is Vertex Alpha", Float) = 0
+        [KeywordEnum(RGBA, A, RGB)] _VertexChannels ("Vertex Channels", Float) = 0
+
+        _AlphaMultiplier ("Alpha Multiplier", Float) = 1
         [Toggle(SQUARE_ALPHA)] _SquareAlpha("Square Alpha", float) = 1
 
         [Header(Fog Settings)] [Space]
@@ -57,13 +71,21 @@
             #pragma fragment frag
             #pragma target 2.0
             #pragma multi_compile_instancing
-            #pragma shader_feature VERTEX_COLOR
-            #pragma multi_compile _BLOOM_TRANSPARENT
             #pragma multi_compile _ ENABLE_BLOOM_FOG
-            #pragma multi_compile _ ENABLE_HEIGHT_FOG
             #pragma multi_compile _ _FOGTYPE_LERP _FOGTYPE_COLOR _FOGTYPE_ALPHA
-            #pragma multi_compile _BILLBOARD_NONE _BILLBOARD_FULL _BILLBOARD_Y_AXIS _BILLBOARD_CAMERA_FACING
-            #pragma multi_compile _BLOOMWHITE_NONE _BLOOMWHITE_PP _BLOOMWHITE_FRAG
+            #define ENABLE_FOG defined(_FOGTYPE_LERP) || defined(_FOGTYPE_COLOR) || defined(_FOGTYPE_ALPHA)
+            #pragma multi_compile _ ENABLE_HEIGHT_FOG
+
+            #pragma shader_feature MAIN_TEXTURE
+            #pragma shader_feature REMAP_WHITEBOOST_START
+
+            #pragma shader_feature VERTEX_COLOR
+            #pragma shader_feature VERTEX_SQUARE_ALPHA
+            #pragma shader_feature VERTEX_RED_IS_ALPHA
+            #pragma multi_compile _ _BILLBOARD_FULL _BILLBOARD_Y_AXIS _BILLBOARD_CAMERA_FACING
+
+            #pragma multi_compile _ _BLOOMTYPE_PP _BLOOMTYPE_FRAG
+
             #pragma multi_compile _ACESTONEMAP_BEFORE_EMISSIVE _ACESTONEMAP_AFTER_EMISSIVE
             #pragma multi_compile ACES_TONE_MAPPING
 
@@ -95,7 +117,28 @@
                 float _EnableExternalAlpha;
             CBUFFER_END
 
+            #ifdef MAIN_TEXTURE
+            sampler2D _MainTex;
+            #endif
+
+            float _AlphaMultiplier;
+            float _BloomMultiplier;
+            float _BloomWhiteMultiplier;
+            float _Intensity;
+
+            #define USE_BILLBOARD defined(_BILLBOARD_FULL) || defined(_BILLBOARD_Y_AXIS) || defined(_BILLBOARD_CAMERA_FACING)
+            #if USE_BILLBOARD
             float _BillboardScale;
+            #endif
+
+            #ifdef REMAP_WHITEBOOST_START
+            float _WhiteBoostRemapStart;
+            #endif
+
+            float _FogStartOffset;
+            float _FogScale;
+            float _FogHeightOffset;
+            float _FogHeightScale;
 
             struct appdata_t
             {
@@ -130,7 +173,7 @@
                 UNITY_SETUP_INSTANCE_ID(i);
                 UNITY_TRANSFER_INSTANCE_ID(i, o);
 
-                #if !_BILLBOARD_NONE
+                #if USE_BILLBOARD
                 float3 worldOrigin = mul(unity_ObjectToWorld, float4(0, 0, 0, 1)).xyz;
 
                 #if _BILLBOARD_CAMERA_FACING || _BILLBOARD_FULL
@@ -165,14 +208,6 @@
                 return o;
             }
 
-            sampler2D _MainTex;
-            float _BloomWhiteMultiplier;
-
-            float _FogStartOffset;
-            float _FogScale;
-            float _FogHeightOffset;
-            float _FogHeightScale;
-
             fixed4 frag(v2f i) : SV_Target
             {
                 UNITY_SETUP_INSTANCE_ID(i);
@@ -181,15 +216,29 @@
                 #else
                 fixed4 color = UNITY_ACCESS_INSTANCED_PROP(PerDrawSprite, _Color);
                 #endif
-                fixed4 albedo = tex2D(_MainTex, i.uv) * color;
+                color.rgb *= _Intensity;
 
-                #if SQUARE_ALPHA
-                color.a *= color.a;
+                #ifdef MAIN_TEXTURE
+                fixed4 albedo = tex2D(_MainTex, i.uv) * color;
+                #else
+                fixed4 albedo = color;
                 #endif
 
-                albedo = ApplyCustomBloom(albedo, _BloomWhiteMultiplier);
+                #if SQUARE_ALPHA
+                albedo.a *= albedo.a;
+                #endif
 
-                #if defined(_FOGTYPE_LERP) || defined(_FOGTYPE_COLOR) || defined(_FOGTYPE_ALPHA)
+                albedo.a *= _AlphaMultiplier;
+
+                #if _BLOOMTYPE_PP
+                CUSTOM_BLOOM_PP_APPLY(albedo, _BloomMultiplier);
+                #elif _BLOOMTYPE_FRAG
+                CUSTOM_BLOOM_FRAG_APPLY(albedo, _BloomWhiteMultiplier);
+                #else
+                CUSTOM_BLOOM_NONE_TRANSPARENT_APPLY(albedo);
+                #endif
+
+                #if ENABLE_FOG
                 #ifdef ENABLE_HEIGHT_FOG
                 BLOOM_FOG_HEIGHT_FOG_APPLY(color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,
                                            _FogHeightOffset, _FogHeightScale);

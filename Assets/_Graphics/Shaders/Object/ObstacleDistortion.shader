@@ -40,7 +40,7 @@
         Cull [_CullMode]
         ZTest [_ZTest]
         ZWrite [_ZWrite]
-        
+
         Tags
         {
             "Queue"="Transparent+50"
@@ -176,11 +176,12 @@
                 color = color * 0.25 + tex2D(_GrabTexture, screenUV);
 
                 #ifdef CM_PREVIEW_MODE
-                    #ifdef ENABLE_HEIGHT_FOG
-                        BLOOM_FOG_HEIGHT_FOG_APPLY(color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset, _FogHeightScale);
-                    #else
-                        BLOOM_FOG_APPLY(color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
-                    #endif
+                #ifdef ENABLE_HEIGHT_FOG
+                BLOOM_FOG_HEIGHT_FOG_APPLY(color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,
+                                           _FogHeightOffset, _FogHeightScale);
+                #else
+                BLOOM_FOG_APPLY(color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
+                #endif
                 #endif
 
                 return color;

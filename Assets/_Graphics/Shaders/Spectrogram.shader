@@ -5,16 +5,17 @@
         [Space(10)]
         _Color ("Color", Color) = (1,1,1,1)
         _MainTex ("Texture", 2D) = "white" {}
-        [KeywordEnum(None,PP,Frag)] _BloomWhite ("Bloom White", float) = 0
-        _BloomWhiteMultiplier ("White Multiplier", float) = 1
+        [KeywordEnum(None, PP, Frag)] _BloomType ("Bloom Type", float) = 0
         [KeywordEnum(Before Emissive, After Emissive)] _AcesTonemap ("ACES Tonemapping", float) = 1
 
-        [Space(10)]
+        [Header(Lighting)] [Space]
         [Toggle(DIFFUSE)] _EnableDiffuse ("Diffuse", float) = 1
-        [Toggle(SPECULAR)] _EnableSpecular ("Specular", float) = 1
         _Metallic ("Metallic", Range(0, 1)) = 1
         _Smoothness ("Smoothness", Range(0, 1)) = 0.5
         [Toggle(LIGHT_FALLOFF)] _EnableLightFalloff ("Light Falloff", float) = 0
+        
+        [Toggle(SPECULAR)] _EnableSpecular ("Specular", float) = 1
+        _SpecularIntensity ("Specular Intensity", float) = 1
 
         [Header(Fog Settings)] [Space]
         _FogStartOffset ("Fog Start Offset", Float) = 1
@@ -51,7 +52,7 @@
             #pragma shader_feature DIFFUSE
             #pragma shader_feature SPECULAR
             #pragma shader_feature LIGHT_FALLOFF
-            #pragma multi_compile _BLOOMWHITE_NONE _BLOOMWHITE_PP _BLOOMWHITE_FRAG
+            #pragma multi_compile _ _BLOOMTYPE_PP _BLOOMTYPE_FRAG
             #pragma multi_compile _ACESTONEMAP_BEFORE_EMISSIVE _ACESTONEMAP_AFTER_EMISSIVE
             #pragma multi_compile ACES_TONE_MAPPING
 
@@ -85,10 +86,10 @@
             sampler2D _MainTex;
             float4 _MainTex_ST;
 
-            float _BloomWhiteMultiplier;
-
             float _Smoothness;
             float _Metallic;
+            
+            float _SpecularIntensity;
 
             float _FogStartOffset;
             float _FogScale;
@@ -120,10 +121,16 @@
                 float3 worldPos = i.worldPos;
                 float3 worldNormal = normalize(i.worldNormal);
                 float3 calculated = 0;
-                CUSTOM_LIGHTING_APPLY(calculated, albedo, _Metallic, _Smoothness, worldPos, worldNormal);
+                CUSTOM_LIGHTING_APPLY(calculated, albedo, _Metallic, _Smoothness, _SpecularIntensity, worldPos, worldNormal);
                 albedo.rgb = calculated;
                 
-                albedo = ApplyCustomBloom(albedo, _BloomWhiteMultiplier);
+                #if _BLOOMTYPE_PP
+                CUSTOM_BLOOM_PP_APPLY(albedo, 1);
+                #elif _BLOOMTYPE_FRAG
+                CUSTOM_BLOOM_FRAG_APPLY(albedo, 1);
+                #else
+                CUSTOM_BLOOM_NONE_APPLY(albedo);
+                #endif
 
                 #if ENABLE_HEIGHT_FOG
                 BLOOM_FOG_HEIGHT_FOG_APPLY(bloomfog_color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,

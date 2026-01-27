@@ -41,16 +41,18 @@ float CUSTOM_FOG_HEIGHT_FOG_HEIGHT_NAME;
   customFogHeightFogFactor = (-customFogHeightFogFactor * 2 + 3) * (customFogHeightFogFactor * customFogHeightFogFactor)
 #endif
 
-inline float4 ComputeScreenPosCustom(float4 pos) {
-  float4 screenPos = ComputeNonStereoScreenPos(pos);
-#if defined(UNITY_SINGLE_PASS_STEREO) || defined(STEREO_INSTANCING_ON) || defined(STEREO_MULTIVIEW_ON)
-  float eyeOffset = (unity_StereoEyeIndex * (_StereoCameraEyeOffset + _StereoCameraEyeOffset)) + -_StereoCameraEyeOffset;
-  screenPos.x = pos.w * eyeOffset + screenPos.x;
-#if !UNITY_UV_STARTS_AT_TOP
-  screenPos.y = -screenPos.y + pos.w;
-#endif
-#endif
-  return screenPos;
+inline float4 ComputeScreenPosCustom(float4 pos)
+{
+    float4 screenPos = ComputeNonStereoScreenPos(pos);
+    #if defined(UNITY_SINGLE_PASS_STEREO) || defined(STEREO_INSTANCING_ON) || defined(STEREO_MULTIVIEW_ON)
+    float eyeOffset = (unity_StereoEyeIndex * (_StereoCameraEyeOffset + _StereoCameraEyeOffset)) + -
+        _StereoCameraEyeOffset;
+    screenPos.x = pos.w * eyeOffset + screenPos.x;
+    #if !UNITY_UV_STARTS_AT_TOP
+    screenPos.y = -screenPos.y + pos.w;
+    #endif
+    #endif
+    return screenPos;
 }
 
 #ifdef ENABLE_BLOOM_FOG

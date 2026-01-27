@@ -14,10 +14,10 @@ Material:
   m_ValidKeywords:
   - ENABLE_HEIGHT_FOG
   - _ACESTONEMAP_AFTER_EMISSIVE
-  - _BLOOMWHITE_PP
   m_InvalidKeywords:
   - ENABLE_FOG
   - MULTIPLY_COLOR_WITH_ALPHA
+  - _BLOOMWHITE_PP
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
