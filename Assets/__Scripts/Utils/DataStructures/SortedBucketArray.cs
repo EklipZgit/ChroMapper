@@ -24,7 +24,7 @@ public class SortedBucketArray<T> : ICollection<T>
     public void Resize(int max)
     {
         Buckets.Clear();
-        for (var i = 0; i < max / size; i++) Buckets.Add(new List<T>());
+        for (var i = 0; i < (max / size) + 1; i++) Buckets.Add(new List<T>());
     }
 
     private int GetBucketIndex(float value) =>

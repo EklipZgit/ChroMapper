@@ -67,13 +67,11 @@ public class StateChunksContainer<TState, TData> where TState : StateData<TData>
 
         if (idx == -1)
         {
-            while (bucketIdx >= 0)
+            while (bucketIdx > 0)
             {
-                bucket = Collection.Buckets[bucketIdx];
+                bucket = Collection.Buckets[--bucketIdx];
                 idx = BinarySearch(bucket, time);
-
                 if (idx != -1) break;
-                bucketIdx--;
             }
         }
 
