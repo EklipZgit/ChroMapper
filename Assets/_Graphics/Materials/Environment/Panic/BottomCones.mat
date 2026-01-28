@@ -15,14 +15,18 @@ Material:
   - DIFFUSE
   - ENABLE_FOG
   - _ACESTONEMAP_AFTER_EMISSIVE
-  - _DIFFUSE_TEXTURE_SOURCE_TEXTURE
   - _EMISSIONBLOOMTYPE_FLAT
   - _EMISSION_ALPHA_SOURCE_EMISSION_G
   - _EMISSION_TEXTURE_SOURCE_TEXTURE
+  - _MASKBLEND_MULTIPLY
+  - _SECONDARY_MASKBLEND_MULTIPLY
   m_InvalidKeywords:
   - _BLOOMWHITE_NONE
+  - _DIFFUSE_TEXTURE_SOURCE_TEXTURE
   - _EMISSIONTEXTURE_NONE
+  - _METALLIC_TEXTURE_SOURCE_NONE
   - _MODE_OPAQUE
+  - _SMOOTHNESS_TEXTURE_SOURCE_NONE
   - _VERTEX_BLOOMTYPE_NONE
   - _VERTEX_NONE
   - _ZWRITE_ON
@@ -36,11 +40,19 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _DiffuseTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _DiffuseTexture:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionGradientTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMask:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -53,6 +65,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetalSmoothnessTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SecondaryEmissionMask:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -75,6 +91,9 @@ Material:
     - _EmissionGradientIntensity: 1
     - _EmissionGradientPanningSpeed: 0
     - _EmissionGradientPosition: 0.5
+    - _EmissionMaskIntensity: 1
+    - _EmissionMaskStepValue: 0.5
+    - _EmissionMaskStepWidth: 0.1
     - _EmissionStrength: 1
     - _EmissionTexBloomIntensity: 1
     - _EmissionTexWhiteBoostMultiplier: 1
@@ -87,12 +106,14 @@ Material:
     - _EnableDiffuse: 1
     - _EnableDiffuseTexture: 0
     - _EnableEmissionAngleDisappear: 0
+    - _EnableEmissionMask: 0
     - _EnableFog: 1
     - _EnableHeightFog: 0
     - _EnableLightFalloff: 0
     - _EnableMetalSmoothnessTex: 0
     - _EnablePrivatePointLight: 0
     - _EnableRimDim: 0
+    - _EnableSecondaryEmissionMask: 0
     - _EnableSpecular: 0
     - _FogHeightOffset: 0
     - _FogHeightScale: 1
@@ -100,7 +121,9 @@ Material:
     - _FogStartOffset: 0
     - _Glossiness: 0.5
     - _InvertRimDim: 0
+    - _MaskBlend: 0
     - _Metallic: 0.3
+    - _Metallic_Texture_Source: 0
     - _Mode: 0
     - _PointLightPositionLocal: 0
     - _PrivatePointLightIntensity: 1
@@ -110,8 +133,14 @@ Material:
     - _RimOffset: 1
     - _RimScale: 1
     - _RimSmoothness: 1
+    - _SecondaryEmissionMaskIntensity: 1
     - _SecondaryUVsEmissionTex: 0
+    - _SecondaryUVsMask: 0
+    - _SecondaryUVsMask2: 0
+    - _Secondary_MaskBlend: 0
+    - _Secondary_Mask_Blend: 0
     - _Smoothness: 0.5
+    - _Smoothness_Texture_Source: 0
     - _SpecularIntensity: 1
     - _Vertex: 0
     - _Vertex_BloomType: 0
@@ -120,10 +149,12 @@ Material:
     m_Colors:
     - _Color: {r: 0.34999996, g: 0.34999996, b: 0.34999996, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 0}
+    - _EmissionMaskSpeed: {r: 0, g: 1, b: 0, a: 0}
     - _EmissionTexColor: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionTexSpeed: {r: 0, g: 0, b: 0, a: 0}
     - _NominalDiffuseLevel: {r: 0, g: 0, b: 0, a: 0}
     - _PrivatePointLightColor: {r: 0, g: 0.5, b: 1, a: 1}
     - _PrivatePointLightPosition: {r: 0, g: 0, b: 0, a: 1}
+    - _SecondaryEmissionMaskSpeed: {r: 0, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

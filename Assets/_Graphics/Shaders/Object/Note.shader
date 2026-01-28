@@ -61,6 +61,7 @@
         HLSLINCLUDE
         #include "UnityCG.cginc"
         #include "../CGIncludes/BloomFog.cginc"
+        #include "../CGIncludes/CustomLighting.cginc"
         #pragma multi_compile_instancing
 
         UNITY_INSTANCING_BUFFER_START(Props)
@@ -95,21 +96,18 @@
         float _FogScale;
         float _FogHeightOffset;
         float _FogHeightScale;
-
-        float _CullMode;
         ENDHLSL
 
         Pass
         {
             HLSLPROGRAM
-            #pragma prefer_hlslcc gles
-            #pragma exclude_renderers d3d11_9x gles
             #pragma vertex vert
             #pragma fragment frag
+            #pragma multi_compile DIFFUSE
+            #pragma multi_compile BOTH_SIDES_DIFFUSE
+            #pragma multi_compile HALF_LAMBERT
+            #pragma multi_compile SPECULAR
             #pragma shader_feature RIM_DIM
-            #pragma shader_feature _ALPHATEST_ON
-            #pragma shader_feature _ALPHAPREMULTIPLY_ON
-            #pragma shader_feature _RECEIVE_SHADOWS_OFF
             #pragma multi_compile _ ENABLE_FOG
             #pragma multi_compile _ ENABLE_HEIGHT_FOG
             #pragma multi_compile _ ENABLE_BLOOM_FOG
@@ -220,9 +218,9 @@
 
                 float rotatedZ = abs(i.rotatedPos.z);
 
-                float3 albedo = _EnableNoteSurfaceGridLine > 0 && rotatedZ < _OutlineWidth && isTranslucent < 1
-                                    ? interfaceColor
-                                    : color.rgb * colorMultiplier;
+                float4 albedo = float4(_EnableNoteSurfaceGridLine > 0 && rotatedZ < _OutlineWidth && isTranslucent < 1
+                                           ? interfaceColor
+                                           : color.rgb * colorMultiplier, 0);
 
                 float alpha = animation < 1 && (isTranslucent >= 1 || i.rotatedPos.w <= 0)
                                   ? translucentAlpha
@@ -239,38 +237,31 @@
                 }
 
                 float3 worldNormal = normalize(i.worldNormal);
-                
+
                 float3 lDir = normalize(_WorldSpaceCameraPos - i.worldPos);
-                float ndotl = dot(worldNormal, lDir);
-                float3 diffuse = (ndotl * 0.5 + 0.5) * color;
+                float4 diffuse = CALCULATE_DIFFUSE(albedo, worldNormal, lDir, 1);
+                float4 specular = CALCULATE_SPECULAR(specular, albedo, 1, _Smoothness, 0.04,
+                         lDir, 1, i.worldPos, worldNormal);
 
-                float3 halfDir = normalize(lDir + i.viewDir);
-                float ndoth = max(0, dot(worldNormal, halfDir));
-                float gloss = exp2(_Smoothness * 7 + 1);
-                float spec = pow(ndoth, gloss);
-                float3 specular = spec * color;
-
-                color.rgb = diffuse + specular;
+                albedo = diffuse + specular;
 
                 #if RIM_DIM
                 float rim = 1 - saturate(dot(worldNormal, i.viewDir));
                 // float distFactor = (i.dist + _RimDistanceOffset) * _RimDistanceScale;
                 float finalRim = saturate((rim + _RimOffset) * _RimScale);
-                color.rgb *= (1 - finalRim * _RimDarkening);
+                albedo *= (1 - finalRim * _RimDarkening);
                 #endif
-
-                color.a = 0;
 
                 #if CM_PREVIEW_MODE && ENABLE_FOG
                 #if ENABLE_HEIGHT_FOG
-                BLOOM_FOG_HEIGHT_FOG_APPLY(color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,
-                                           _FogHeightOffset, _FogHeightScale);
+                BLOOM_FOG_HEIGHT_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,
+                                       _FogHeightOffset, _FogHeightScale);
                 #else
-                BLOOM_FOG_APPLY(color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
+                BLOOM_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
                 #endif
                 #endif
 
-                return color;
+                return albedo;
             }
             ENDHLSL
         }

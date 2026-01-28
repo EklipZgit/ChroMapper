@@ -90,7 +90,8 @@ public class EnvironmentBuildPopulate
             { "_BlendDstFactor", "_BlendModeDst" },
             { "_BlendSrcFactorA", "_BlendModeSrcA" },
             { "_BlendDstFactorA", "_BlendModeDstA" },
-            { "_WhiteBoostMultiplier", "_BloomWhiteMultiplier" }
+            { "_WhiteBoostMultiplier", "_BloomWhiteMultiplier" },
+            { "_ThresholdAngle", "_EmissionThresholdAngle" }
         };
         foreach (var matInfo in library.Materials.list)
         {
@@ -140,16 +141,31 @@ public class EnvironmentBuildPopulate
                 matInfo.Material.SetFloat(renamedKey, floatProp.Value);
             }
 
+            matInfo.Material.SetFloat(
+                "_EnableMetalSmoothnessTex",
+                matInfo.Keywords.Contains("METAL_SMOOTHNESS_TEXTURE") ? 1f : 0f);
+            if (matInfo.Keywords.Contains("_METALLIC_TEXTURE_MPM_R"))
+                matInfo.Material.SetFloat("_Metallic_Texture_Source", 1f);
+            else if (matInfo.Keywords.Contains("_METALLIC_TEXTURE_MPM_A"))
+                matInfo.Material.SetFloat("_Metallic_Texture_Source", 2f);
+            else
+                matInfo.Material.SetFloat("_Metallic_Texture_Source", 0f);
+
+            if (matInfo.Keywords.Contains("_SMOOTHNESS_TEXTURE_MPM_A"))
+                matInfo.Material.SetFloat("_Smoothness_Texture_Source", 1f);
+            else if (matInfo.Keywords.Contains("_SMOOTHNESS_TEXTURE_MPM_G_ROUGHNESS"))
+                matInfo.Material.SetFloat("_Smoothness_Texture_Source", 2f);
+            else
+                matInfo.Material.SetFloat("_Smoothness_Texture_Source", 0f);
+
             matInfo.Material.SetFloat("_EnableDiffuse", matInfo.Keywords.Contains("DIFFUSE") ? 1f : 0f);
             matInfo.Material.SetFloat("_EnableDiffuseTexture", matInfo.Keywords.Contains("DIFFUSE_TEXTURE") ? 1f : 0f);
-            matInfo.Material.SetFloat("_EnableMetalSmoothnessTex", matInfo.Keywords.Contains("METAL_SMOOTHNESS_TEXTURE") ? 1f : 0f);
             if (matInfo.Keywords.Contains("_DIFFUSE_TEXTURE_SOURCE_MPM_R"))
                 matInfo.Material.SetFloat("_Diffuse_Texture_Source", 1f);
             else if (matInfo.Keywords.Contains("_DIFFUSE_TEXTURE_SOURCE_MPM_A_SMOOTHNESS"))
                 matInfo.Material.SetFloat("_Diffuse_Texture_Source", 2f);
             else
                 matInfo.Material.SetFloat("_Diffuse_Texture_Source", 0f);
-            matInfo.Material.SetFloat("_EnableRemapWhiteBoostStart", matInfo.Keywords.Contains("REMAP_WHITEBOOST_START") ? 1f : 0f);
             matInfo.Material.SetFloat("_EnableSpecular", matInfo.Keywords.Contains("SPECULAR") ? 1f : 0f);
             matInfo.Material.SetFloat("_EnableLightFalloff", matInfo.Keywords.Contains("LIGHT_FALLOFF") ? 1f : 0f);
             matInfo.Material.SetFloat(
@@ -157,6 +173,10 @@ public class EnvironmentBuildPopulate
                 matInfo.Keywords.Contains("BOTH_SIDES_DIFFUSE") ? 1f : 0f);
             matInfo.Material.SetFloat("_EnableRimDim", matInfo.Keywords.Contains("ENABLE_RIM_DIM") ? 1f : 0f);
             matInfo.Material.SetFloat("_InvertRimDim", matInfo.Keywords.Contains("INVERT_RIM_DIM") ? 1f : 0f);
+
+            matInfo.Material.SetFloat(
+                "_EnableRemapWhiteBoostStart",
+                matInfo.Keywords.Contains("REMAP_WHITEBOOST_START") ? 1f : 0f);
 
             matInfo.Material.SetFloat(
                 "_EnablePrivatePointLight",
@@ -219,7 +239,7 @@ public class EnvironmentBuildPopulate
             matInfo.Material.SetFloat("_EnableVertexColor", matInfo.Keywords.Contains("VERTEX_COLOR") ? 1f : 0f);
             matInfo.Material.SetFloat("_SquareVertexAlpha", matInfo.Keywords.Contains("VERTEX_SQUARE_ALPHA") ? 1f : 0f);
             matInfo.Material.SetFloat("_RedIsVertexAlpha", matInfo.Keywords.Contains("VERTEX_RED_IS_ALPHA") ? 1f : 0f);
-            
+
             if (matInfo.Keywords.Contains("_VERTEXCHANNELS_A"))
                 matInfo.Material.SetFloat("_VertexChannels", 1f);
             else if (matInfo.Keywords.Contains("_VERTEXCHANNELS_RGB"))
@@ -249,9 +269,13 @@ public class EnvironmentBuildPopulate
             else
                 matInfo.Material.SetFloat("_Vertex_BloomType", 0f);
 
-            matInfo.Material.SetFloat("_SecondaryUVsEmissionTex", matInfo.Keywords.Contains("SECONDARY_UVS_EMISSION") ? 1f : 0f);
-            matInfo.Material.SetFloat("_EnableEmissionAngleDisappear", matInfo.Keywords.Contains("EMISSION_ANGLE_DISAPPEAR") ? 1f : 0f);
-            
+            matInfo.Material.SetFloat(
+                "_SecondaryUVsEmissionTex",
+                matInfo.Keywords.Contains("SECONDARY_UVS_EMISSION") ? 1f : 0f);
+            matInfo.Material.SetFloat(
+                "_EnableEmissionAngleDisappear",
+                matInfo.Keywords.Contains("EMISSION_ANGLE_DISAPPEAR") ? 1f : 0f);
+
             if (matInfo.Keywords.Contains("_EMISSIONTEXTURE_SIMPLE"))
                 matInfo.Material.SetFloat("_EmissionTexture", 1f);
             else if (matInfo.Keywords.Contains("_EMISSIONTEXTURE_PULSE"))
@@ -261,12 +285,8 @@ public class EnvironmentBuildPopulate
             else
                 matInfo.Material.SetFloat("_EmissionTexture", 0f);
 
-            if (matInfo.Keywords.Contains("_EMISSION_TEXTURE_SOURCE_FILL"))
+            if (matInfo.Keywords.Contains("_EMISSION_TEXTURE_SOURCE_MPM_G"))
                 matInfo.Material.SetFloat("_Emission_Texture_Source", 1f);
-            else if (matInfo.Keywords.Contains("_EMISSION_TEXTURE_SOURCE_MPM_G"))
-                matInfo.Material.SetFloat("_Emission_Texture_Source", 2f);
-            else if (matInfo.Keywords.Contains("_EMISSION_TEXTURE_SOURCE_SDF"))
-                matInfo.Material.SetFloat("_Emission_Texture_Source", 3f);
             else
                 matInfo.Material.SetFloat("_Emission_Texture_Source", 0f);
 
@@ -285,6 +305,34 @@ public class EnvironmentBuildPopulate
                 matInfo.Material.SetFloat("_Emission_Alpha_Source", 2f);
             else
                 matInfo.Material.SetFloat("_Emission_Alpha_Source", 0f);
+
+            matInfo.Material.SetFloat("_EnableEmissionMask", matInfo.Keywords.Contains("EMISSION_MASK") ? 1f : 0f);
+
+            if (matInfo.Keywords.Contains("_MASKBLEND_ADD"))
+                matInfo.Material.SetFloat("_MaskBlend", 1f);
+            else if (matInfo.Keywords.Contains("_MASKBLEND_MASKED_ADD"))
+                matInfo.Material.SetFloat("_MaskBlend", 2f);
+            else
+                matInfo.Material.SetFloat("_MaskBlend", 0f);
+
+            matInfo.Material.SetFloat(
+                "_SecondaryUVsMask",
+                matInfo.Keywords.Contains("SECONDARY_UVS_EMISSION_MASK") ? 1f : 0f);
+
+            matInfo.Material.SetFloat(
+                "_EnableSecondaryEmissionMask",
+                matInfo.Keywords.Contains("SECONDARY_EMISSION_MASK") ? 1f : 0f);
+
+            if (matInfo.Keywords.Contains("_SECONDARY_MASK_BLEND_ADD"))
+                matInfo.Material.SetFloat("_Secondary_MaskBlend", 1f);
+            else if (matInfo.Keywords.Contains("_SECONDARY_MASK_BLEND_MASKED_ADD"))
+                matInfo.Material.SetFloat("_Secondary_MaskBlend", 2f);
+            else
+                matInfo.Material.SetFloat("_Secondary_MaskBlend", 0f);
+
+            matInfo.Material.SetFloat(
+                "_SecondaryUVsMask2",
+                matInfo.Keywords.Contains("SECONDARY_UVS_EMISSION_MASK2") ? 1f : 0f);
         }
 
         foreach (var obj in library

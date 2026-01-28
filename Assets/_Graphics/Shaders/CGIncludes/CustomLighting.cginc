@@ -31,9 +31,21 @@ float4 _PrivatePointLightPosition;
     1
 #endif
 
+#define __LAMBERT(worldNormal, lightDir) \
+    max(0, dot(worldNormal, lightDir))
+
+// twice for nice falloff
+#define __HALF_LAMBERT(worldNormal, lightDir) \
+    (dot(worldNormal, lightDir) * 0.5 + 0.5) * (dot(worldNormal, lightDir) * 0.5 + 0.5)
+
 #ifdef DIFFUSE
+#ifdef HALF_LAMBERT
 #define __CALCULATE_DIFFUSE(albedo, worldNormal, lDir, lCol) \
-    albedo * lCol * max(0, dot(worldNormal, lDir))
+    albedo * lCol * __HALF_LAMBERT(worldNormal, lDir)
+#else
+#define __CALCULATE_DIFFUSE(albedo, worldNormal, lDir, lCol) \
+    albedo * lCol * __LAMBERT(worldNormal, lDir)
+#endif
 #ifdef BOTH_SIDES_DIFFUSE
 #define CALCULATE_DIFFUSE(albedo, worldNormal, lDir, lCol) \
     __CALCULATE_DIFFUSE(albedo, worldNormal, lDir, lCol) + __CALCULATE_DIFFUSE(albedo, worldNormal, -lDir, lCol)
@@ -47,29 +59,33 @@ float4 _PrivatePointLightPosition;
 #endif
 
 #ifdef SPECULAR
-#define CALCULATE_SPECULAR(specular, albedo, smoothness, specularIntensity, lDir, lCol, worldPos, worldNormal) \
-    float3 viewDir = normalize(_WorldSpaceCameraPos - worldPos); \
-    float3 halfDir = normalize(lDir + viewDir); \
-    float ndoth = max(0, dot(worldNormal, halfDir)); \
-    float gloss = exp2(smoothness * 7 + 1); \
-    float spec = pow(ndoth, gloss); \
-    specular = lCol * spec * specularIntensity
+#define CALCULATE_SPECULAR(result, albedo, metallic, smoothness, specIntensity, lDir, lCol, worldPos, worldNormal) \
+    0; \
+    float specN = smoothness * 128; \
+    float specBase = pow(saturate(dot(worldNormal, normalize(lDir + normalize(_WorldSpaceCameraPos - worldPos)))), specN); \
+    float specNormal = (specN + 8) / (8 * 3.14159); \
+    float4 specColor = lerp(1, albedo, metallic); \
+    result = lCol * specBase * specNormal * specColor * specIntensity
 #else
-#define CALCULATE_SPECULAR(specular, albedo, smoothness, specularIntensity, lDir, lCol, worldPos, worldNormal)
+#define CALCULATE_SPECULAR(result, albedo, metallic, smoothness, specIntensity, lDir, lCol, worldPos, worldNormal) \
+    0
 #endif
 
-#define CALCULATE_DIRECTIONAL_LIGHTING(calculated, albedo, metallic, smoothness, specularIntensity, lPos, lRad, lDir, lCol, worldPos, worldNormal) \
+#define CALCULATE_DIRECTIONAL_LIGHTING(result, albedo, metallic, smoothness, specularIntensity, lPos, lRad, lDir, lCol, worldPos, worldNormal) \
     float attenuation = GET_LIGHT_FALLOFF_ATTENUATION(worldPos, lPos, lRad); \
     float4 diffuse = CALCULATE_DIFFUSE(albedo, worldNormal, lDir, lCol); \
-    float4 specular = 0; \
-    CALCULATE_SPECULAR(specular, albedo, smoothness, specularIntensity, lDir, lCol, worldPos, worldNormal); \
+    float4 specular = CALCULATE_SPECULAR(specular, albedo, metallic, smoothness, specularIntensity, lDir, lCol, worldPos, worldNormal); \
     specular = lerp(specular, specular * albedo, metallic); \
     diffuse = diffuse * (1 - metallic); \
-    calculated = diffuse * attenuation + specular * attenuation
+    result = diffuse * attenuation + specular * attenuation
 
-#define CALCULATE_POINT_LIGHTING(calculated, albedo, lPos, lCol, worldPos, worldNormal) \
+#define CALCULATE_POINT_LIGHTING(result, albedo, metallic, smoothness, specularIntensity, lPos, lCol, worldPos, worldNormal) \
     float3 lDir = normalize(lPos - worldPos); \
-    calculated = CALCULATE_DIFFUSE(albedo, worldNormal, lDir, lCol)
+    float4 diffuse = CALCULATE_DIFFUSE(albedo, worldNormal, lDir, lCol); \
+    float4 specular = CALCULATE_SPECULAR(specular, albedo, metallic, smoothness, specularIntensity, lDir, lCol, worldPos, worldNormal); \
+    specular = lerp(specular, specular * albedo, metallic); \
+    diffuse = diffuse * (1 - metallic); \
+    result = diffuse + specular
 
 #ifdef LIGHT_FALLOFF
 #define GET_LIGHT_FALLOFF_PROP(lightPosition, lightRadii)\
@@ -91,14 +107,15 @@ float4 _PrivatePointLightPosition;
 #endif
 
 #ifdef PRIVATE_POINT_LIGHT
-#define CALCULATE_PRIVATE_POINT_LIGHT(result, color, worldPos, worldNormal) \
+#define CALCULATE_PRIVATE_POINT_LIGHT(result, color, metallic, smoothness, specularIntensity, worldPos, worldNormal) \
     float4 plCol = GET_PRIVATE_POINT_LIGHT_COLOR(); \
-    CALCULATE_POINT_LIGHTING(LIGHT_CALCULATE_NAME, color, _PrivatePointLightPosition, plCol * _PrivatePointLightIntensity, worldPos, worldNormal); \
+    CALCULATE_POINT_LIGHTING(LIGHT_CALCULATE_NAME, color, metallic, smoothness, specularIntensity, _PrivatePointLightPosition, plCol * _PrivatePointLightIntensity, worldPos, worldNormal); \
     result += LIGHT_CALCULATE_NAME
 #define CALCULATE_AVERAGE(result) \
     result /= MAX_DIRECTIONAL_LIGHTS + MAX_POINT_LIGHTS + 1
 #else
-#define CALCULATE_PRIVATE_POINT_LIGHT(result, color, worldPos, worldNormal)
+#define CALCULATE_PRIVATE_POINT_LIGHT(result, color, metallic, smoothness, specularIntensity, worldPos, worldNormal) \
+    0
 #define CALCULATE_AVERAGE(result) \
     result /= MAX_DIRECTIONAL_LIGHTS + MAX_POINT_LIGHTS
 #endif
@@ -120,8 +137,8 @@ float4 _PrivatePointLightPosition;
     { \
         float3 lPos = _PointLightPositions[LIGHT_ITERATOR_NAME].xyz; \
         float4 lCol = _PointLightColors[LIGHT_ITERATOR_NAME]; \
-        CALCULATE_POINT_LIGHTING(LIGHT_CALCULATE_NAME, color, lPos, lCol, worldPos, worldNormal); \
+        CALCULATE_POINT_LIGHTING(LIGHT_CALCULATE_NAME, color, metallic, smoothness, specularIntensity, lPos, lCol, worldPos, worldNormal); \
         result += LIGHT_CALCULATE_NAME; \
     } \
-    CALCULATE_PRIVATE_POINT_LIGHT(result, color, worldPos, worldNormal); \
+    CALCULATE_PRIVATE_POINT_LIGHT(result, color, metallic, smoothness, specularIntensity, worldPos, worldNormal); \
     CALCULATE_AVERAGE(result)

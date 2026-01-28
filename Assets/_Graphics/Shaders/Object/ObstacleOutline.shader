@@ -135,9 +135,8 @@
                 clip(c);
 
                 fixed4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
-                #ifdef CM_PREVIEW_MODE
-                CUSTOM_BLOOM_PP_APPLY(color, 1);
-                #else
+                // CUSTOM_BLOOM_PP_APPLY(color, 1);
+                #ifndef CM_PREVIEW_MODE
                 color.a = 0;
                 #endif
 
