@@ -384,7 +384,7 @@
                 albedo.rgb += calculated;
 
                 #ifdef RIM_DIM
-                float rim = 1 - saturate(dot(worldNormal, i.viewDir));
+                float rim = 1 - saturate(dot(worldNormal, normalize(_WorldSpaceCameraPos - worldPos)));
                 #ifdef INVERT_RIM_DIM
                 rim = 1 - rim;
                 #endif
