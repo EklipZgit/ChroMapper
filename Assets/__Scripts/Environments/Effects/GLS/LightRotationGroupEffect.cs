@@ -39,7 +39,7 @@ public class
             var endEvent = new LightRotationEventStateData(
                 new BaseLightRotationBase { UsePrevious = 1 },
                 float.MaxValue);
-            container.EventContainer.Resize(Atsc.SongAudioSource.clip.length);
+            container.EventContainer.Resize(Atsc.GetBeatFromSeconds(Atsc.SongAudioSource.clip.length));
 
             startEvent.EndTime = endEvent.StartTime;
             startEvent.Next = endEvent;

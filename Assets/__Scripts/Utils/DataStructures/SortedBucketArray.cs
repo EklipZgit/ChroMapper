@@ -115,10 +115,37 @@ public class SortedBucketArray<T> : ICollection<T>
     public void Add(T item)
     {
         var bucket = GetBucketFrom(item);
-        bucket.Insert(bucket.FindLastIndex(x => getKeyValue(x) <= getKeyValue(item)) + 1, item);
+        if (bucket.Count > 0)
+        {
+            if (getKeyValue(bucket[^1]) <= getKeyValue(item))
+                bucket.Add(item);
+            else
+                bucket.Insert(BinarySearch(bucket, getKeyValue(item)) + 1, item);
+        }
+        else
+            bucket.Add(item);
         count++;
     }
 
+
+    private int BinarySearch(List<T> bucket, float time)
+    {
+        var right = bucket.Count - 1;
+        var left = 0;
+
+        while (left <= right)
+        {
+            var mid = (left + right) / 2;
+            if (getKeyValue(bucket[mid]) <= time)
+                left = mid + 1;
+            else if (getKeyValue(bucket[mid]) > time)
+                right = mid - 1;
+            else
+                return mid;
+        }
+
+        return -1;
+    }
     public bool Remove(T item)
     {
         var bucket = GetBucketFrom(item);

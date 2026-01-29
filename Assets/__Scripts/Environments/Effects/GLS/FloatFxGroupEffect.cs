@@ -43,7 +43,7 @@ public class
                 var endEvent = new FloatFxEventStateData(
                     new FloatFxEventBase { UsePrevious = 1 },
                     float.MaxValue);
-                container.EventContainer.Resize(Atsc.SongAudioSource.clip.length);
+                container.EventContainer.Resize(Atsc.GetBeatFromSeconds(Atsc.SongAudioSource.clip.length));
 
                 startEvent.EndTime = endEvent.StartTime;
                 startEvent.Next = endEvent;

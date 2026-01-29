@@ -30,7 +30,7 @@ public abstract class StateManager<TState, TData> : StateManager<TData>
         TState start,
         TState end)
     {
-        container.Resize(Atsc.SongAudioSource.clip.length);
+        container.Resize(Atsc.GetBeatFromSeconds(Atsc.SongAudioSource.clip.length));
 
         end.StartTime = end.EndTime;
         container.AddState(start);

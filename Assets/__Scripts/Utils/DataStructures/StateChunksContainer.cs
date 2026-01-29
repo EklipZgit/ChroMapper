@@ -86,10 +86,10 @@ public class StateChunksContainer<TState, TData> where TState : StateData<TData>
 
         if (idx < 0)
         {
-            while (--bucketIdx >= 0)
+            while (bucketIdx > 0)
             {
-                bucket = Collection.Buckets[bucketIdx];
-                if (Collection.Buckets[bucketIdx].Count != 0) break;
+                bucket = Collection.Buckets[--bucketIdx];
+                if (bucket.Count != 0) break;
             }
 
             idx = bucket.Count - 1;
@@ -106,10 +106,10 @@ public class StateChunksContainer<TState, TData> where TState : StateData<TData>
 
         if (idx < 0)
         {
-            while (--bucketIdx >= 0)
+            while (bucketIdx > 0)
             {
-                bucket = Collection.Buckets[bucketIdx];
-                if (Collection.Buckets[bucketIdx].Count != 0) break;
+                bucket = Collection.Buckets[--bucketIdx];
+                if (bucket.Count != 0) break;
             }
 
             idx = bucket.Count - 1;
@@ -129,7 +129,7 @@ public class StateChunksContainer<TState, TData> where TState : StateData<TData>
             while (++bucketIdx < Collection.Buckets.Count)
             {
                 bucket = Collection.Buckets[bucketIdx];
-                if (Collection.Buckets[bucketIdx].Count != 0) break;
+                if (bucket.Count != 0) break;
             }
 
             idx = 0;
@@ -154,7 +154,7 @@ public class StateChunksContainer<TState, TData> where TState : StateData<TData>
         while (left <= right)
         {
             var mid = (left + right) / 2;
-            if (bucket[mid].IsWithinRange(time)) return mid;
+            if (bucket[mid].IsWithinRange(time)) return mid; // we want the rightmost
             if (bucket[mid].StartTime <= time)
                 left = mid + 1;
             else
