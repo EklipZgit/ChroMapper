@@ -11,7 +11,7 @@ Shader "ChroMapper/Legacy/Standard"
         _Color ("Color", Color) = (1, 1, 1, 1)
         _MainTex ("Albedo", 2D) = "white" {}
         [NoScaleOffset] _NormalTex ("Normal Map", 2D) = "bump" {}
-        _BumpScale ("Bump Scale", Float) = 1
+        _BumpScale ("Bump Scale", float) = 1
 
         // Rim Lighting Parameters
         _Scale ("Rimlight Scale", Range(0, 5)) = 4.0
@@ -19,7 +19,7 @@ Shader "ChroMapper/Legacy/Standard"
 
         // Lighting Parameters
         _Ambient ("Ambient", Range(0, 1)) = 0.0
-        _LightIntensity ("Light Intensity", Float) = 1
+        _LightIntensity ("Light Intensity", float) = 1
         _LightDir ("Light Direction", Vector) = (0,-1,-2,0)
 
         // Surface Parameters

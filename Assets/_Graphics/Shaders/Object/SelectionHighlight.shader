@@ -4,7 +4,7 @@
     {
         _OutlineColor("Outline Color", Color) = (0,0,0,1)
         _Outline("Outline width", Range(.002, 0.05)) = .005
-        _HandleScale("Handle scale", Float) = 0
+        _HandleScale("Handle scale", float) = 0
     }
     SubShader
     {

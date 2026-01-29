@@ -47,14 +47,14 @@ Shader "ChroMapper/TextMeshPro/Distance Field Transparent Color"
         _MaskSoftnessX ("Mask SoftnessX", float) = 0
         _MaskSoftnessY ("Mask SoftnessY", float) = 0
 
-        _StencilComp ("Stencil Comparison", Float) = 8
-        _Stencil ("Stencil ID", Float) = 0
-        _StencilOp ("Stencil Operation", Float) = 0
-        _StencilWriteMask ("Stencil Write Mask", Float) = 255
-        _StencilReadMask ("Stencil Read Mask", Float) = 255
+        _StencilComp ("Stencil Comparison", float) = 8
+        _Stencil ("Stencil ID", float) = 0
+        _StencilOp ("Stencil Operation", float) = 0
+        _StencilWriteMask ("Stencil Write Mask", float) = 255
+        _StencilReadMask ("Stencil Read Mask", float) = 255
 
-        _CullMode ("Cull Mode", Float) = 0
-        _ColorMask ("Color Mask", Float) = 15
+        _CullMode ("Cull Mode", float) = 0
+        _ColorMask ("Color Mask", float) = 15
     }
 
     SubShader

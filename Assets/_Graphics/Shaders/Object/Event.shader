@@ -7,9 +7,9 @@ Shader "ChroMapper/Object/Event"
         _ColorTint("Color Tint", Color) = (1, 0, 0, 0)
         _Color("Base Color", Color) = (0, 0, 0, 0)
         _Position("Point Position", Vector) = (0, 0, 0, 0)
-        _CircleRadius("Spotlight Size", Float) = 0.2
-        _FadeSize("Fade Size", Float) = 0.5
-        _MainAlpha("Base Alpha", Float) = 1
+        _CircleRadius("Spotlight Size", float) = 0.2
+        _FadeSize("Fade Size", float) = 0.5
+        _MainAlpha("Base Alpha", float) = 1
     }
     SubShader
     {

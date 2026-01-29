@@ -141,6 +141,17 @@ public class EnvironmentBuildPopulate
                 matInfo.Material.SetFloat(renamedKey, floatProp.Value);
             }
 
+            if (matInfo.Keywords.Contains("_SECONDARY_UVS_IMPORT"))
+                matInfo.Material.SetFloat("_Secondary_UVs", 1f);
+            else if (matInfo.Keywords.Contains("_SECONDARY_UVS_EXTERNAL_SCALE"))
+                matInfo.Material.SetFloat("_Secondary_UVs", 2f);
+            else if (matInfo.Keywords.Contains("_SECONDARY_UVS_OBJECT_SPACE"))
+                matInfo.Material.SetFloat("_Secondary_UVs", 3f);
+            else if (matInfo.Keywords.Contains("_SECONDARY_UVS_ADDITIVE_OFFSET"))
+                matInfo.Material.SetFloat("_Secondary_UVs", 4f);
+            else
+                matInfo.Material.SetFloat("_Secondary_UVs", 0f);
+
             matInfo.Material.SetFloat(
                 "_EnableMetalSmoothnessTex",
                 matInfo.Keywords.Contains("METAL_SMOOTHNESS_TEXTURE") ? 1f : 0f);
@@ -157,6 +168,7 @@ public class EnvironmentBuildPopulate
                 matInfo.Material.SetFloat("_Smoothness_Texture_Source", 2f);
             else
                 matInfo.Material.SetFloat("_Smoothness_Texture_Source", 0f);
+            matInfo.Material.SetFloat("_PreciseNormal", matInfo.Keywords.Contains("PRECISE_NORMAL") ? 1f : 0f);
 
             matInfo.Material.SetFloat("_EnableDiffuse", matInfo.Keywords.Contains("DIFFUSE") ? 1f : 0f);
             matInfo.Material.SetFloat("_EnableDiffuseTexture", matInfo.Keywords.Contains("DIFFUSE_TEXTURE") ? 1f : 0f);

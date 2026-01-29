@@ -4,48 +4,48 @@
     {
         _Color ("Color", Color) = (1, 1, 1, 1)
 
-        [Toggle(MAIN_TEXTURE)] _UseMainTex ("Base Texture", Float) = 1
-        _BaseLayer ("Base Color", Float) = 1
+        [Toggle(MAIN_TEXTURE)] _UseMainTex ("Base Texture", float) = 1
+        _BaseLayer ("Base Color", float) = 1
         _MainTex ("Texture", 2D) = "white" {}
-        _Intensity("Color Intensity", Float) = 1
+        _Intensity("Color Intensity", float) = 1
 
-        [KeywordEnum(None, Full, Y Axis, Camera Facing)] _Billboard ("Billboard", Float) = 0
-        _BillboardScale ("Billboard Scale", Float) = 1
+        [KeywordEnum(None, Full, Y Axis, Camera Facing)] _Billboard ("Billboard", float) = 0
+        _BillboardScale ("Billboard Scale", float) = 1
 
         [KeywordEnum(None, PP, Frag)] _BloomType ("Bloom Type", float) = 0
         _BloomWhiteMultiplier ("White Multiplier", float) = 1
-        _BloomMultiplier ("Bloom Multiplier", Float) = 1
-        [Toggle(REMAP_WHITEBOOST_START)] _EnableRemapWhiteBoostStart ("Remap White Boost Start", Float) = 0
+        _BloomMultiplier ("Bloom Multiplier", float) = 1
+        [Toggle(REMAP_WHITEBOOST_START)] _EnableRemapWhiteBoostStart ("Remap White Boost Start", float) = 0
         _WhiteBoostRemapStart ("Alpha for no White Boost", Range(0, 1)) = 0
         [KeywordEnum(Before Emissive, After Emissive)] _AcesTonemap ("ACES Tonemapping", float) = 1
 
         [Toggle(VERTEX_COLOR)] _EnableVertexColor ("Vertex Color", float) = 0
-        [Toggle(VERTEX_SQUARE_ALPHA)] _SquareVertexAlpha ("Square Vertex Alpha", Float) = 0
-        [Toggle(VERTEX_RED_IS_ALPHA)] _RedIsVertexAlpha ("Red is Vertex Alpha", Float) = 0
-        [KeywordEnum(RGBA, A, RGB)] _VertexChannels ("Vertex Channels", Float) = 0
+        [Toggle(VERTEX_SQUARE_ALPHA)] _SquareVertexAlpha ("Square Vertex Alpha", float) = 0
+        [Toggle(VERTEX_RED_IS_ALPHA)] _RedIsVertexAlpha ("Red is Vertex Alpha", float) = 0
+        [KeywordEnum(RGBA, A, RGB)] _VertexChannels ("Vertex Channels", float) = 0
 
-        _AlphaMultiplier ("Alpha Multiplier", Float) = 1
+        _AlphaMultiplier ("Alpha Multiplier", float) = 1
         [Toggle(SQUARE_ALPHA)] _SquareAlpha("Square Alpha", float) = 1
 
         [Header(Fog Settings)] [Space]
-        [KeywordEnum(None, Lerp, Color, Alpha)] _FogType ("Fog Type", Float) = 0
-        _FogStartOffset ("Fog Start Offset", Float) = 1
-        _FogScale ("Fog Scale", Float) = 1
+        [KeywordEnum(None, Lerp, Color, Alpha)] _FogType ("Fog Type", float) = 0
+        _FogStartOffset ("Fog Start Offset", float) = 1
+        _FogScale ("Fog Scale", float) = 1
         [Space]
-        [Toggle(ENABLE_HEIGHT_FOG)] _EnableHeightFog ("Enable Height Fog", Float) = 0
-        _FogHeightOffset ("Fog Height Offset", Float) = 0
-        _FogHeightScale ("Fog Height Scale", Float) = 1
+        [Toggle(ENABLE_HEIGHT_FOG)] _EnableHeightFog ("Enable Height Fog", float) = 0
+        _FogHeightOffset ("Fog Height Offset", float) = 0
+        _FogHeightScale ("Fog Height Scale", float) = 1
 
         [Header(Settings)] [Space]
-        [Enum(UnityEngine.Rendering.BlendMode)] _BlendModeSrc ("Blend Src", Float) = 1
-        [Enum(UnityEngine.Rendering.BlendMode)] _BlendModeDst ("Blend Dst", Float) = 1
-        [Enum(UnityEngine.Rendering.BlendMode)] _BlendModeSrcA ("Blend Src A", Float) = 1
-        [Enum(UnityEngine.Rendering.BlendMode)] _BlendModeDstA ("Blend Dst A", Float) = 1
-        [Enum(UnityEngine.Rendering.BlendOp)] _BlendOp ("Blend Operation", Float) = 0
+        [Enum(UnityEngine.Rendering.BlendMode)] _BlendModeSrc ("Blend Src", float) = 1
+        [Enum(UnityEngine.Rendering.BlendMode)] _BlendModeDst ("Blend Dst", float) = 1
+        [Enum(UnityEngine.Rendering.BlendMode)] _BlendModeSrcA ("Blend Src A", float) = 1
+        [Enum(UnityEngine.Rendering.BlendMode)] _BlendModeDstA ("Blend Dst A", float) = 1
+        [Enum(UnityEngine.Rendering.BlendOp)] _BlendOp ("Blend Operation", float) = 0
         [Space]
-        [Enum(UnityEngine.Rendering.CullMode)] _CullMode ("Cull Mode", Float) = 0
-        [Enum(UnityEngine.Rendering.CompareFunction)] _ZTest ("Z Test", Float) = 4
-        [Toggle] _ZWrite ("Z Write", Float) = 0
+        [Enum(UnityEngine.Rendering.CullMode)] _CullMode ("Cull Mode", float) = 0
+        [Enum(UnityEngine.Rendering.CompareFunction)] _ZTest ("Z Test", float) = 4
+        [Toggle] _ZWrite ("Z Write", float) = 0
     }
     SubShader
     {

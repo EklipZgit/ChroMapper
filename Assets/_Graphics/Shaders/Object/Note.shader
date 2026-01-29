@@ -12,14 +12,14 @@
         _RimScale ("Rim Scale", Range(0, 4)) = 2
         _RimOffset ("Rim Offset", Range(-1, 1)) = 0
         _RimDistanceScale ("Rim Distance Scale", Range(0, 4)) = 0.03
-        _RimDistanceOffset ("Rim Distance Offset", Float) = 5
+        _RimDistanceOffset ("Rim Distance Offset", float) = 5
         _RimDarkening ("Rim Darkening", Range(0, 1)) = 0
 
         [Space(10)]
-        _OutlineWidth("Outline Width", Float) = 0.05
+        _OutlineWidth("Outline Width", float) = 0.05
         _OverNoteInterfaceColor("Over Note Interface Color", Color) = (1, 1, 1, 0)
-        _Rotation("Rotation", Float) = 0
-        _AnimationSpawned("Animation Spawned", Float) = 0
+        _Rotation("Rotation", float) = 0
+        _AnimationSpawned("Animation Spawned", float) = 0
 
         [Header(Beat Saber)] [Space]
         _Cutout("Cutout", Range(0, 1)) = 0.0
@@ -30,22 +30,22 @@
         _CutPlane("Cut Plane", Vector) = (0, 0, 0, 0)
 
         [Header(Fog Settings)] [Space]
-        [Toggle(ENABLE_FOG)] _EnableFog ("Enable Fog", Float) = 1
-        _FogStartOffset ("Fog Start Offset", Float) = 1
-        _FogScale ("Fog Scale", Float) = 1
+        [Toggle(ENABLE_FOG)] _EnableFog ("Enable Fog", float) = 1
+        _FogStartOffset ("Fog Start Offset", float) = 1
+        _FogScale ("Fog Scale", float) = 1
         [Space]
-        [Toggle(ENABLE_HEIGHT_FOG)] _EnableHeightFog ("Enable Height Fog", Float) = 0
-        _FogHeightOffset ("Fog Height Offset", Float) = 0
-        _FogHeightScale ("Fog Height Scale", Float) = 1
+        [Toggle(ENABLE_HEIGHT_FOG)] _EnableHeightFog ("Enable Height Fog", float) = 0
+        _FogHeightOffset ("Fog Height Offset", float) = 0
+        _FogHeightScale ("Fog Height Scale", float) = 1
 
         [Header(Editor)] [Space]
-        [Toggle] _AlwaysTranslucent("Always Translucent", Float) = 0
-        _TranslucentAlpha("Translucent Alpha", Float) = 0.5
+        [Toggle] _AlwaysTranslucent("Always Translucent", float) = 0
+        _TranslucentAlpha("Translucent Alpha", float) = 0.5
 
         [Header(Settings)] [Space]
-        [Enum(UnityEngine.Rendering.CullMode)] _CullMode ("Cull Mode", Float) = 2
-        [Enum(UnityEngine.Rendering.CompareFunction)] _ZTest ("Z Test", Float) = 4
-        [Toggle] _ZWrite ("Z Write", Float) = 1
+        [Enum(UnityEngine.Rendering.CullMode)] _CullMode ("Cull Mode", float) = 2
+        [Enum(UnityEngine.Rendering.CompareFunction)] _ZTest ("Z Test", float) = 4
+        [Toggle] _ZWrite ("Z Write", float) = 1
     }
     SubShader
     {
@@ -239,7 +239,7 @@
                 float3 worldNormal = normalize(i.worldNormal);
 
                 float3 lDir = normalize(_WorldSpaceCameraPos - i.worldPos);
-                float4 diffuse = CALCULATE_DIFFUSE(albedo, worldNormal, lDir, 1);
+                float4 diffuse = CALCULATE_DIFFUSE(albedo, 1, worldNormal, lDir, 1);
                 float4 specular = CALCULATE_SPECULAR(specular, albedo, 1, _Smoothness, 0.04,
                          lDir, 1, i.worldPos, worldNormal);
 

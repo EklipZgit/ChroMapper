@@ -4,6 +4,10 @@
     {
         _Color ("Color", Color) = (1,1,1,1)
         [KeywordEnum(Before Emissive, After Emissive)] _AcesTonemap ("ACES Tonemapping", float) = 1
+        [KeywordEnum(None, Import, External Scale, Object Space, Additive Offset)] _Secondary_UVs ("Secondary UVs", float) = 0
+        [ShowIfAny(_SECONDARY_UVS_EXTERNAL_SCALE, _SECONDARY_UVS_OBJECT_SPACE)] _UVScale ("UV Scale", Vector) = (1,1,1,1)
+        [ShowIfAny(_SECONDARY_UVS_ADDITIVE_OFFSET)] _AdditiveUVOffset ("UV Offset", Vector) = (0,0,0,0)
+        [VectorShowIfAny(2)] _InputUvMultiplier ("UV Multiplier", Vector) = (1,1,0,0)
 
         [Header(Lighting)] [Space]
         [Toggle(METAL_SMOOTHNESS_TEXTURE)] _EnableMetalSmoothnessTex ("Multi Purpose Map", float) = 0
@@ -12,6 +16,7 @@
         _Metallic ("Metallic", Range(0, 1)) = 1
         [KeywordEnum(None, MPM A, MPM G Roughness)] _Smoothness_Texture_Source ("Smoothness Source", float) = 0
         _Smoothness ("Smoothness", Range(0, 1)) = 0.5
+        [Toggle(PRECISE_NORMAL)] _PreciseNormal ("Precise Normal", float) = 0
 
         [Space(20)]
         _AmbientMinimalValue ("Ambient Minimum", Range(0, 1)) = 0
@@ -19,12 +24,19 @@
         _AmbientMultiplier ("Ambient Color Multiplier", float) = 1
 
         [Space(20)]
+        [Toggle(PRIVATE_POINT_LIGHT)] _EnablePrivatePointLight ("Private Point Light", float) = 0
+        _PrivatePointLightColor ("Color", Color) = (0,0.5,1,1)
+        [Toggle(POINT_LIGHT_IS_LOCAL)] _PointLightPositionLocal ("Make Position Local", float) = 0
+        _PrivatePointLightIntensity ("Intensity Multiplier", float) = 1
+        _PrivatePointLightPosition ("Light World Position", Vector) = (0,0,0,1)
+
+        [Space(20)]
         [KeywordEnum(None, Color, Emission, Metal Smoothness, Special, Displacement, Emissive Mult Add)] _Vertex ("Vertex Color Mode", float) = 0
         _EmissionThreshold ("Emission Threshold", Range(0, 1)) = 0
         _EmissionColor ("Emission Color", Color) = (1,1,1,0)
         _EmissionStrength ("Emission Strength", float) = 1
-        _EmissionBloomIntensity ("Bloom Intensity", float) = 1
-        [KeywordEnum(None, PP, Frag)] _Vertex_BloomType ("Vertex Color Treatment", float) = 0
+        _EmissionBloomIntensity ("Emission Bloom Intensity", float) = 1
+        [KeywordEnum(None, PP, Frag)] _Vertex_BloomType ("Color Treatment", float) = 0
 
         [Space(20)]
         [Toggle(DIFFUSE)] _EnableDiffuse ("Diffuse", float) = 1
@@ -38,63 +50,60 @@
 
         [Space(20)]
         [Toggle(SPECULAR)] _EnableSpecular ("Specular", float) = 1
-        _SpecularIntensity ("Specular Intensity", float) = 1
+        _SpecularIntensity ("Intensity", float) = 1
 
         [Space(20)]
         [Toggle(RIM_DIM)] _EnableRimDim ("Rim Dim", float) = 0
-        _RimScale ("Rim Scale", float) = 1
-        _RimOffset ("Rim Offset", float) = 1
-        _RimDistanceOffset ("Rim Distance Offset", float) = 2
-        _RimDistanceScale ("Rim Distance Scale", float) = 0.3
-        _RimSmoothness ("Rim Smoothness", float) = 1
-        _RimDarkening ("Rim Darkening", float) = 0
-        [Toggle(INVERT_RIM_DIM)] _InvertRimDim ("Invert Rim Dim", float) = 0
+        [Toggle(INVERT_RIM_DIM)] _InvertRimDim ("Invert", float) = 0
+        _RimScale ("Scale", float) = 1
+        _RimOffset ("Offset", float) = 1
+        _RimDistanceOffset ("Distance Offset", float) = 2
+        _RimDistanceScale ("Distance Scale", float) = 0.3
+        _RimSmoothness ("Smoothness", float) = 1
+        _RimDarkening ("Darkening", float) = 0
 
-        [Space(20)]
-        [KeywordEnum(None, Simple, Pulse, Flipbook)] _EmissionTexture ("Texture Emission", float) = 0
-        [KeywordEnum(Texture, MPM G)] _Emission_Texture_Source ("Emission Source", float) = 0
-        _EmissionTex ("Emission Texture", 2D) = "white" {}
+        [Header(Emission)] [Space]
+        [KeywordEnum(None, Simple, Pulse, Flipbook)] _EmissionTexture ("Emission Texture", float) = 0
+        [KeywordEnum(Texture, MPM G)] _Emission_Texture_Source ("Source", float) = 0
+        _EmissionTex ("Texture", 2D) = "white" {}
         _EmissionTexSpeed ("Texture Speed", Vector) = (0,0,0,0)
         [Toggle(SECONDARY_UVS_EMISSION)] _SecondaryUVsEmissionTex ("Use Secondary UVs", float) = 0
         [KeywordEnum(Emission G, Copy Emission, MPM R)] _Emission_Alpha_Source ("Alpha Source", float) = 0
         _EmissionBrightness ("Brightness", float) = 1
         [Toggle(EMISSION_ANGLE_DISAPPEAR)] _EnableEmissionAngleDisappear ("Angle Disappear", float) = 0
         _EmissionThresholdAngle ("Threshold Angle", float) = 0
-        [KeywordEnum(Flat, Frag, Gradient, PP)] _EmissionBloomType ("Emission Color Treatment", float) = 0
-        _EmissionTexColor ("Emission Color", Color) = (1,1,1,1)
+        [KeywordEnum(Flat, Frag, Gradient, PP)] _EmissionBloomType ("Color Treatment", float) = 0
+        _EmissionTexColor ("Color", Color) = (1,1,1,1)
 
-        [Space(10)]
+        [Space(20)]
         _EmissionGradientTex ("Gradient LUT", 2D) = "white" {}
         _EmissionGradientPosition ("LUT Position", float) = 0.5
         _EmissionGradientPanningSpeed ("LUT Panning", float) = 0
         _EmissionGradientIntensity ("LUT Intensity", float) = 1
 
-        [Toggle(EMISSION_MASK)] _EnableEmissionMask ("Layer 2", float) = 0
-        [KeywordEnum(Multiply, Add, Masked Add)] _MaskBlend ("Layer Blend", float) = 0
-        _EmissionMask ("Layer Texture", 2D) = "white" {}
+        [Space(20)]
+        [Toggle(EMISSION_MASK)] _EnableEmissionMask ("Emission Mask", float) = 0
+        [KeywordEnum(Multiply, Add, Masked Add)] _MaskBlend ("Blend", float) = 0
+        _EmissionMask ("Texture", 2D) = "white" {}
         [Toggle(SECONDARY_UVS_EMISSION_MASK)] _SecondaryUVsMask ("Use Secondary UVs", float) = 0
-        _EmissionMaskSpeed ("Layer Texture Speed", Vector) = (0,1,0,0)
-        _EmissionMaskIntensity ("Layer Intensity", float) = 1
-        [Toggle(SECONDARY_EMISSION_MASK)] _EnableSecondaryEmissionMask ("Layer 3", float) = 0
-        [KeywordEnum(Multiply, Add, Masked Add)] _Secondary_MaskBlend ("Layer Blend", float) = 0
-        _SecondaryEmissionMask ("Layer Texture", 2D) = "white" {}
+        _EmissionMaskSpeed ("Texture Speed", Vector) = (0,1,0,0)
+        _EmissionMaskIntensity ("Intensity", float) = 1
+
+        [Space(20)]
+        [Toggle(SECONDARY_EMISSION_MASK)] _EnableSecondaryEmissionMask ("Secondary Emission Mask", float) = 0
+        [KeywordEnum(Multiply, Add, Masked Add)] _Secondary_MaskBlend ("Blend", float) = 0
+        _SecondaryEmissionMask ("Texture", 2D) = "white" {}
         [Toggle(SECONDARY_UVS_EMISSION_MASK2)] _SecondaryUVsMask2 ("Use Secondary UVs", float) = 0
         _SecondaryEmissionMaskSpeed ("Texture Speed", Vector) = (0,1,0,0)
-        _SecondaryEmissionMaskIntensity ("Layer Intensity", float) = 1
+        _SecondaryEmissionMaskIntensity ("Intensity", float) = 1
 
+        [Space(20)]
         _EmissionMaskStepValue ("Step Value", Range(0, 1)) = 0.5
         _EmissionMaskStepWidth ("Step Width", Range(0, 0.5)) = 0.1
 
-        [Space(10)]
+        [Space(20)]
         _EmissionTexBloomIntensity ("Bloom Intensity", float) = 1
         _EmissionTexWhiteBoostMultiplier ("White Boost Multiplier", float) = 1
-
-        [Space(20)]
-        [Toggle(PRIVATE_POINT_LIGHT)] _EnablePrivatePointLight ("Private Point Light", float) = 0
-        _PrivatePointLightColor ("Color", Color) = (0,0.5,1,1)
-        [Toggle(POINT_LIGHT_IS_LOCAL)] _PointLightPositionLocal ("Make Position Local", float) = 0
-        _PrivatePointLightIntensity ("Intensity Multiplier", float) = 1
-        _PrivatePointLightPosition ("Light World Position", Vector) = (0,0,0,1)
 
         [Header(Fog Settings)] [Space]
         [Toggle(ENABLE_FOG)] _EnableFog ("Enable Fog", float) = 1
@@ -106,7 +115,6 @@
         _FogHeightScale ("Fog Height Scale", float) = 1
 
         [Header(Settings)] [Space]
-        [Toggle(ALPHA_CUTOUT)] _AlphaCutout ("Alpha Cutout", float) = 0
         [Enum(UnityEngine.Rendering.CullMode)] _CullMode ("Cull Mode", float) = 2
         [Enum(UnityEngine.Rendering.CompareFunction)] _ZTest ("Z Test", float) = 4
         [Toggle] _ZWrite ("Z Write", float) = 1
@@ -124,21 +132,24 @@
 
         Pass
         {
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_instancing
-            #pragma shader_feature ALPHA_CUTOUT
             #pragma multi_compile _ ENABLE_BLOOM_FOG
             #pragma multi_compile _ ENABLE_FOG
             #pragma multi_compile _ ENABLE_HEIGHT_FOG
 
+            #pragma multi_compile _ _SECONDARY_UVS_IMPORT _SECONDARY_UVS_EXTERNAL_SCALE _SECONDARY_UVS_OBJECT_SPACE _SECONDARY_UVS_ADDITIVE_OFFSET
             #pragma multi_compile _ACESTONEMAP_BEFORE_EMISSIVE _ACESTONEMAP_AFTER_EMISSIVE
             #pragma multi_compile ACES_TONE_MAPPING
 
             #pragma shader_feature METAL_SMOOTHNESS_TEXTURE
             #pragma multi_compile _ _METALLIC_TEXTURE_SOURCE_MPM_R _METALLIC_TEXTURE_SOURCE_MPM_A
             #pragma multi_compile _ _SMOOTHNESS_TEXTURE_SOURCE_MPM_A _SMOOTHNESS_TEXTURE_SOURCE_MPM_G_ROUGHNESS
+
+            #pragma shader_feature PRIVATE_POINT_LIGHT
+            #pragma shader_feature POINT_LIGHT_IS_LOCAL
 
             #pragma multi_compile _ _VERTEX_COLOR _VERTEX_EMISSION _VERTEX_METAL_SMOOTHNESS _VERTEX_SPECIAL _VERTEX_DISPLACEMENT _VERTEX_EMISSIVE_MULT_ADD
             #pragma multi_compile _ _VERTEX_BLOOMTYPE_PP _VERTEX_BLOOMTYPE_FRAG
@@ -163,9 +174,6 @@
             #pragma multi_compile _ _SECONDARY_MASKBLEND_ADD _SECONDARY_MASKBLEND_MASKED_ADD
             #pragma shader_feature SECONDARY_UVS_EMISSION_MASK2
 
-            #pragma shader_feature PRIVATE_POINT_LIGHT
-            #pragma shader_feature POINT_LIGHT_IS_LOCAL
-
             #include "UnityCG.cginc"
             #include "CGIncludes/BloomFog.cginc"
             #include "CGIncludes/CustomBloom.cginc"
@@ -173,6 +181,18 @@
 
             #ifndef UNITY_INSTANCING_ENABLED
             float4 _Color;
+            #endif
+
+            #define USE_UV_SCALE defined(_SECONDARY_UVS_EXTERNAL_SCALE) || defined(_SECONDARY_UVS_OBJECT_SPACE)
+            #define USE_SECONDARY_UV USE_UV_SCALE || defined(_SECONDARY_UVS_IMPORT) || defined(_SECONDARY_UVS_ADDITIVE_OFFSET)
+            #if USE_SECONDARY_UV
+            #if USE_UV_SCALE
+            float4 _UVScale;
+            #endif
+            #if defined(_SECONDARY_UVS_ADDITIVE_OFFSET)
+            float4 _AdditiveUVOffset;
+            #endif
+            float4 _InputUvMultiplier;
             #endif
 
             #ifdef METAL_SMOOTHNESS_TEXTURE
@@ -295,7 +315,7 @@
                 #if USE_VERTEX_COLOR
                 float4 color : COLOR;
                 #endif
-                float2 uv : TEXCOORD0;
+                float4 uv : TEXCOORD0;
                 float3 worldNormal : TEXCOORD1;
                 float3 worldPos : TEXCOORD2;
                 float4 customScreenPos : TEXCOORD3;
@@ -320,8 +340,24 @@
                 CUSTOM_BLOOM_NONE_APPLY(o.color);
                 #endif
                 #endif
-                o.uv = i.uv;
+
+                o.uv = float4(i.uv, 0, 0);
+                #if USE_SECONDARY_UV
+                o.uv.zw = i.uv;
+                #if USE_UV_SCALE
+                o.uv.zw *= _UVScale.xy;
+                #endif
+                #if defined(_SECONDARY_UVS_ADDITIVE_OFFSET)
+                o.uv.zw += _AdditiveUVOffset.xy;
+                #endif
+                o.uv.zw *= _InputUvMultiplier.xy;
+                #endif
+
+                #ifdef PRECISE_NORMAL
                 o.worldNormal = UnityObjectToWorldNormal(i.normal);
+                #else
+                o.worldNormal = normalize(UnityObjectToWorldNormal(i.normal));
+                #endif
                 o.worldPos = mul(unity_ObjectToWorld, i.vertex).xyz;
                 o.customScreenPos = ComputeScreenPosCustom(o.vertex);
 
@@ -331,6 +367,12 @@
             fixed4 frag(v2f i) : SV_Target
             {
                 UNITY_SETUP_INSTANCE_ID(i);
+
+                #if USE_SECONDARY_UV
+                float2 uv2 = i.uv.zw;
+                #else
+                float2 uv2 = i.uv.xy;
+                #endif
 
                 float4 baseColor = 0;
                 #if USE_VERTEX_EMISSION
@@ -346,21 +388,21 @@
 
                 float4 albedo = baseColor;
                 #ifdef DIFFUSE_TEXTURE
-                #ifdef _DIFFUSE_TEXTURE_SOURCE_MPM_R
-                albedo *= tex2D(_DiffuseTex, i.uv).r * _AlbedoMultiplier;
-                #elifdef _DIFFUSE_TEXTURE_SOURCE_MPM_A_SMOOTHNESS
-                albedo *= tex2D(_DiffuseTex, i.uv).a * _AlbedoMultiplier;
+                #if defined(METAL_SMOOTHNESS_TEXTURE) && defined(_DIFFUSE_TEXTURE_SOURCE_MPM_R)
+                albedo *= tex2D(_MetalSmoothnessTex, i.uv).r * _AlbedoMultiplier;
+                #elif defined(METAL_SMOOTHNESS_TEXTURE) && defined(_DIFFUSE_TEXTURE_SOURCE_MPM_A_SMOOTHNESS)
+                albedo *= tex2D(_MetalSmoothnessTex, i.uv).a * _AlbedoMultiplier;
                 #else
                 albedo *= tex2D(_DiffuseTex, i.uv) * _AlbedoMultiplier;
                 #endif
                 #endif
 
-                #ifdef ALPHA_CUTOUT
-                if (albedo.a == 0) discard;
-                #endif
-
                 float3 worldPos = i.worldPos;
+                #ifdef PRECISE_NORMAL
                 float3 worldNormal = normalize(i.worldNormal);
+                #else
+                float3 worldNormal = i.worldNormal;
+                #endif
 
                 float3 calculated = 0;
 
@@ -369,17 +411,18 @@
                 #ifdef METAL_SMOOTHNESS_TEXTURE
                 #ifdef _METALLIC_TEXTURE_SOURCE_MPM_R
                 metallic *= tex2D(_MetalSmoothnessTex, i.uv).r;
-                #elif _METALLIC_TEXTURE_SOURCE_MPM_A
+                #elifdef _METALLIC_TEXTURE_SOURCE_MPM_A
                 metallic *= tex2D(_MetalSmoothnessTex, i.uv).a;
                 #endif
                 #ifdef _SMOOTHNESS_TEXTURE_SOURCE_MPM_A
                 smoothness *= tex2D(_MetalSmoothnessTex, i.uv).a;
-                #elif _SMOOTHNESS_TEXTURE_SOURCE_MPM_G_ROUGHNESS
+                #elifdef _SMOOTHNESS_TEXTURE_SOURCE_MPM_G_ROUGHNESS
                 smoothness *= tex2D(_MetalSmoothnessTex, i.uv).g;
                 #endif
                 #endif
 
-                CUSTOM_LIGHTING_APPLY(calculated, albedo, metallic, smoothness, _SpecularIntensity, worldPos,
+                CUSTOM_LIGHTING_APPLY(calculated, albedo, metallic, smoothness, _SpecularIntensity,
+                                      _BothSidesDiffuseMultiplier, worldPos,
                                       worldNormal);
                 albedo.rgb += calculated;
 
@@ -412,13 +455,36 @@
                 #if USE_EMISSION_MASK
 
                 #ifdef EMISSION_MASK
-                float4 emissionMask = tex2D(_EmissionMask, i.uv) * _EmissionMaskIntensity;
+                #if defined(SECONDARY_UVS_EMISSION_MASK)
+                float4 emissionMask = tex2D(_EmissionMask, uv2);
+                #else
+                float4 emissionMask = tex2D(_EmissionMask, i.uv);
+                #endif
+                emissionMask *= _EmissionMaskIntensity;
+
                 #ifdef _MASKBLEND_ADD
                 emissionTex += emissionMask;
                 #elifdef _MASKBLEND_MASKED_ADD
                 emissionTex += emissionMask;
                 #else
                 emissionTex *= emissionMask;
+                #endif
+                #endif
+
+                #ifdef SECONDARY_EMISSION_MASK
+                #if defined(SECONDARY_UVS_EMISSION_MASK2)
+                float4 emissionMask2 = tex2D(_SecondaryEmissionMask, uv2);
+                #else
+                float4 emissionMask2 = tex2D(_SecondaryEmissionMask, i.uv);
+                #endif
+                emissionMask2 *= _SecondaryEmissionMaskIntensity;
+
+                #ifdef _SECONDARY_MASKBLEND_ADD
+                emissionTex += emissionMask2;
+                #elifdef _SECONDARY_MASKBLEND_MASKED_ADD
+                emissionTex += emissionMask2;
+                #else
+                emissionTex *= emissionMask2;
                 #endif
                 #endif
 
@@ -450,7 +516,7 @@
 
                 return albedo;
             }
-            ENDCG
+            ENDHLSL
         }
     }
 }

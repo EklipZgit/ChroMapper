@@ -4,10 +4,10 @@ Shader "ChroMapper/Editor/Spectrogram"
     {
         _Stencil ("Stencil ID", Integer) = 0
 
-        [Toggle] _FlipX ("Flip X", Float) = 0.0
-        [Toggle] _FlipY ("Flip Y", Float) = 0.0
-        _OutlineWidth ("Outline Width", Float) = 0.1
-        _ValueCutoff ("Value Cutoff", Float) = 0
+        [Toggle] _FlipX ("Flip X", float) = 0.0
+        [Toggle] _FlipY ("Flip Y", float) = 0.0
+        _OutlineWidth ("Outline Width", float) = 0.1
+        _ValueCutoff ("Value Cutoff", float) = 0
     }
     SubShader
     {
