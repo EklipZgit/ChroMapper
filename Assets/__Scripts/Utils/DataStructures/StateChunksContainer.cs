@@ -63,14 +63,14 @@ public class StateChunksContainer<TState, TData> where TState : StateData<TData>
     {
         var bucket = Collection.GetBucketFrom(time);
         var bucketIdx = Collection.Buckets.IndexOf(bucket);
-        var idx = BinarySearch(bucket, time);
+        var idx = Collection.BinarySearch(bucket, time);
 
         if (idx == -1)
         {
             while (bucketIdx > 0)
             {
                 bucket = Collection.Buckets[--bucketIdx];
-                idx = BinarySearch(bucket, time);
+                idx = Collection.BinarySearch(bucket, time);
                 if (idx != -1) break;
             }
         }
@@ -82,7 +82,7 @@ public class StateChunksContainer<TState, TData> where TState : StateData<TData>
     {
         var bucket = Collection.GetBucketFrom(state.StartTime);
         var bucketIdx = Collection.Buckets.IndexOf(bucket);
-        var idx = BinarySearch(bucket, state.StartTime) - 1;
+        var idx = Collection.BinarySearch(bucket, state.StartTime) - 1;
 
         if (idx < 0)
         {
@@ -102,7 +102,7 @@ public class StateChunksContainer<TState, TData> where TState : StateData<TData>
     {
         var bucket = Collection.GetBucketFrom(state.StartTime);
         var bucketIdx = Collection.Buckets.IndexOf(bucket);
-        var idx = BinarySearch(bucket, state.StartTime);
+        var idx = Collection.BinarySearch(bucket, state.StartTime);
 
         if (idx < 0)
         {
@@ -122,7 +122,7 @@ public class StateChunksContainer<TState, TData> where TState : StateData<TData>
     {
         var bucket = Collection.GetBucketFrom(state.StartTime);
         var bucketIdx = Collection.Buckets.IndexOf(bucket);
-        var idx = BinarySearch(bucket, state.StartTime) + 1;
+        var idx = Collection.BinarySearch(bucket, state.StartTime) + 1;
 
         if (idx == -1 || idx == bucket.Count)
         {
@@ -144,23 +144,5 @@ public class StateChunksContainer<TState, TData> where TState : StateData<TData>
         var idx = chunk.FindIndex(x => x.Base == reference);
 
         return chunk[idx];
-    }
-
-    private static int BinarySearch(List<TState> bucket, float time)
-    {
-        var right = bucket.Count - 1;
-        var left = 0;
-
-        while (left <= right)
-        {
-            var mid = (left + right) / 2;
-            if (bucket[mid].IsWithinRange(time)) return mid; // we want the rightmost
-            if (bucket[mid].StartTime <= time)
-                left = mid + 1;
-            else
-                right = mid - 1;
-        }
-
-        return -1;
     }
 }

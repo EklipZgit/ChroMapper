@@ -124,28 +124,27 @@ public class SortedBucketArray<T> : ICollection<T>
         }
         else
             bucket.Add(item);
+
         count++;
     }
 
-
-    private int BinarySearch(List<T> bucket, float time)
+    public int BinarySearch(List<T> bucket, float target)
     {
-        var right = bucket.Count - 1;
         var left = 0;
+        var right = bucket.Count - 1;
 
         while (left <= right)
         {
             var mid = (left + right) / 2;
-            if (getKeyValue(bucket[mid]) <= time)
+            if (getKeyValue(bucket[mid]) <= target)
                 left = mid + 1;
-            else if (getKeyValue(bucket[mid]) > time)
-                right = mid - 1;
             else
-                return mid;
+                right = mid - 1;
         }
 
-        return -1;
+        return right;
     }
+
     public bool Remove(T item)
     {
         var bucket = GetBucketFrom(item);
