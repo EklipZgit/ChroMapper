@@ -60,6 +60,6 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 0.24999997, g: 0.24999997, b: 0.24999997, a: 0}
-    - _PeakOffset: {r: 0, g: 10, b: 0, a: 1}
+    - _PeakOffset: {r: 0, g: 0, b: 8, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

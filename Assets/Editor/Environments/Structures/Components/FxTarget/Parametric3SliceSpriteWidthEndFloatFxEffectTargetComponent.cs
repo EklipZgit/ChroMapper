@@ -1,6 +1,6 @@
 public class Parametric3SliceSpriteWidthEndFloatFxEffectTargetComponent
 {
-    public string SliceSpriteControllerId;
+    public string Parametric3SliceSpriteController;
 
     public float[] ValueBounds;
     public float ValueMultiplier = 1f;

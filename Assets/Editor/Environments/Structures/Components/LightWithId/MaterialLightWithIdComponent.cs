@@ -14,6 +14,7 @@ public class MaterialLightWithIdComponent : EnvDataComponent<MaterialLightContro
     public bool MultiplyColor;
     public float ColorMultiplier;
     public float Alpha;
+    public string ColorProperty;
 
     public override void CopyTo(MaterialLightController target)
     {
@@ -24,5 +25,6 @@ public class MaterialLightWithIdComponent : EnvDataComponent<MaterialLightContro
         target.MultiplyColor = MultiplyColor;
         target.ColorMultiplier = ColorMultiplier;
         target.Alpha = Alpha;
+        target.Property = ColorProperty;
     }
 }

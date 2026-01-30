@@ -1,5 +1,7 @@
+using Newtonsoft.Json;
+
 public class SwitchGameObjectEffectTargetComponent
 {
-    public string GameObjectA;
-    public string GameObjectB;
+    [JsonProperty("gameObject01")] public string GameObjectA;
+    [JsonProperty("gameObject02")] public string GameObjectB;
 }

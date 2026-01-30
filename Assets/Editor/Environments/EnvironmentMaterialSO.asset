@@ -548,6 +548,49 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: BackColumns
+    Hash: f7ec24df15644a1a6fa478c21b7361b5
+    Material: {fileID: 2100000, guid: 66032328947df06c7a673faec594da59, type: 2}
+    Shader: Custom/SimpleLit
+    Color: {r: 0.24999997, g: 0.24999997, b: 0.24999997, a: 0}
+    Keywords:
+    - FOG
+    - HEIGHT_FOG
+    - DIFFUSE
+    - SPECULAR
+    - LIGHT_FALLOFF
+    - REFLECTION_PROBE_BOX_PROJECTION
+    - MULTIPLY_REFLECTIONS
+    FloatProps:
+    - Key: _FogScale
+      Value: 1
+    - Key: _FogStartOffset
+      Value: 0
+    - Key: _FogHeightScale
+      Value: 1
+    - Key: _FogHeightOffset
+      Value: 0
+    - Key: _BlendSrcFactor
+      Value: 1
+    - Key: _BlendDstFactor
+      Value: 0
+    - Key: _BlendSrcFactorA
+      Value: 0
+    - Key: _BlendDstFactorA
+      Value: 0
+    - Key: _Metallic
+      Value: 0.27
+    VectorProps:
+    - Key: _PrivatePointLightPosition
+      Value: {x: 0, y: 0, z: 0, w: 1}
+    - Key: _NominalDiffuseLevel
+      Value: {x: 0, y: 0, z: 0, w: 0}
+    Environments:
+    - TimbalandEnvironment
+    - DefaultEnvironment
+    - Panic2Environment
+    Unused: 0
+    Ignored: 0
+  - Name: BackColumns
     Hash: 35dcde1d0510a7df02746b8b89179bd2
     Material: {fileID: 2100000, guid: 66032328947df06c7a673faec594da59, type: 2}
     Shader: Custom/SimpleLit
@@ -589,49 +632,6 @@ MonoBehaviour:
     - RocketEnvironment
     - TriangleEnvironment
     - BigMirrorEnvironment
-    Unused: 0
-    Ignored: 0
-  - Name: BackColumns
-    Hash: f7ec24df15644a1a6fa478c21b7361b5
-    Material: {fileID: 2100000, guid: 66032328947df06c7a673faec594da59, type: 2}
-    Shader: Custom/SimpleLit
-    Color: {r: 0.24999997, g: 0.24999997, b: 0.24999997, a: 0}
-    Keywords:
-    - FOG
-    - HEIGHT_FOG
-    - DIFFUSE
-    - SPECULAR
-    - LIGHT_FALLOFF
-    - REFLECTION_PROBE_BOX_PROJECTION
-    - MULTIPLY_REFLECTIONS
-    FloatProps:
-    - Key: _FogScale
-      Value: 1
-    - Key: _FogStartOffset
-      Value: 0
-    - Key: _FogHeightScale
-      Value: 1
-    - Key: _FogHeightOffset
-      Value: 0
-    - Key: _BlendSrcFactor
-      Value: 1
-    - Key: _BlendDstFactor
-      Value: 0
-    - Key: _BlendSrcFactorA
-      Value: 0
-    - Key: _BlendDstFactorA
-      Value: 0
-    - Key: _Metallic
-      Value: 0.27
-    VectorProps:
-    - Key: _PrivatePointLightPosition
-      Value: {x: 0, y: 0, z: 0, w: 1}
-    - Key: _NominalDiffuseLevel
-      Value: {x: 0, y: 0, z: 0, w: 0}
-    Environments:
-    - TimbalandEnvironment
-    - DefaultEnvironment
-    - Panic2Environment
     Unused: 0
     Ignored: 0
   - Name: BackColumnsTheSecond
@@ -2738,7 +2738,11 @@ MonoBehaviour:
       Value: 0
     - Key: _Metallic
       Value: 0.3
-    VectorProps: []
+    VectorProps:
+    - Key: _PrivatePointLightPosition
+      Value: {x: 0, y: 0, z: 0, w: 1}
+    - Key: _NominalDiffuseLevel
+      Value: {x: 0, y: 0, z: 0, w: 0}
     Environments:
     - KaleidoscopeEnvironment
     Unused: 0
@@ -3753,47 +3757,6 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: DarkEnvironmentSimple
-    Hash: 933a8b5c169e9f42a50208f9e1cac1b9
-    Material: {fileID: 2100000, guid: bd4b2f57e2345cfc0b7c3dd3f700abef, type: 2}
-    Shader: Custom/SimpleLit
-    Color: {r: 0.29999998, g: 0.29999998, b: 0.29999998, a: 0}
-    Keywords:
-    - FOG
-    - HEIGHT_FOG
-    - DIFFUSE
-    - SPECULAR
-    - REFLECTION_PROBE_BOX_PROJECTION
-    - MULTIPLY_REFLECTIONS
-    FloatProps:
-    - Key: _FogScale
-      Value: 1
-    - Key: _FogStartOffset
-      Value: 0
-    - Key: _FogHeightScale
-      Value: 1
-    - Key: _FogHeightOffset
-      Value: 0
-    - Key: _BlendSrcFactor
-      Value: 1
-    - Key: _BlendDstFactor
-      Value: 0
-    - Key: _BlendSrcFactorA
-      Value: 0
-    - Key: _BlendDstFactorA
-      Value: 0
-    - Key: _Metallic
-      Value: 0
-    VectorProps:
-    - Key: _PrivatePointLightPosition
-      Value: {x: 0, y: 0, z: 0, w: 1}
-    - Key: _NominalDiffuseLevel
-      Value: {x: 0, y: 0, z: 0, w: 0}
-    Environments:
-    - GreenDayEnvironment
-    - GreenDayGrenadeEnvironment
-    Unused: 0
-    Ignored: 0
-  - Name: DarkEnvironmentSimple
     Hash: 7d3e8dbac30398a8c43800dc938e5333
     Material: {fileID: 2100000, guid: bd4b2f57e2345cfc0b7c3dd3f700abef, type: 2}
     Shader: Custom/SimpleLit
@@ -3872,6 +3835,47 @@ MonoBehaviour:
     - MonstercatEnvironment
     - BigMirrorEnvironment
     - ColliderEnvironment
+    Unused: 0
+    Ignored: 0
+  - Name: DarkEnvironmentSimple
+    Hash: 933a8b5c169e9f42a50208f9e1cac1b9
+    Material: {fileID: 2100000, guid: bd4b2f57e2345cfc0b7c3dd3f700abef, type: 2}
+    Shader: Custom/SimpleLit
+    Color: {r: 0.29999998, g: 0.29999998, b: 0.29999998, a: 0}
+    Keywords:
+    - FOG
+    - HEIGHT_FOG
+    - DIFFUSE
+    - SPECULAR
+    - REFLECTION_PROBE_BOX_PROJECTION
+    - MULTIPLY_REFLECTIONS
+    FloatProps:
+    - Key: _FogScale
+      Value: 1
+    - Key: _FogStartOffset
+      Value: 0
+    - Key: _FogHeightScale
+      Value: 1
+    - Key: _FogHeightOffset
+      Value: 0
+    - Key: _BlendSrcFactor
+      Value: 1
+    - Key: _BlendDstFactor
+      Value: 0
+    - Key: _BlendSrcFactorA
+      Value: 0
+    - Key: _BlendDstFactorA
+      Value: 0
+    - Key: _Metallic
+      Value: 0
+    VectorProps:
+    - Key: _PrivatePointLightPosition
+      Value: {x: 0, y: 0, z: 0, w: 1}
+    - Key: _NominalDiffuseLevel
+      Value: {x: 0, y: 0, z: 0, w: 0}
+    Environments:
+    - GreenDayEnvironment
+    - GreenDayGrenadeEnvironment
     Unused: 0
     Ignored: 0
   - Name: DarkEnvironmentVertex
@@ -4633,6 +4637,7 @@ MonoBehaviour:
     - PyroEnvironment
     - GagaEnvironment
     - DaftPunkEnvironment
+    - KaleidoscopeEnvironment
     - Monstercat2Environment
     - Halloween2Environment
     - CrabRaveEnvironment
@@ -8882,14 +8887,13 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: LaserSocket
-    Hash: 49204bd96fb79516112cba5ae979f994
-    Material: {fileID: 2100000, guid: 742c8a5863354e213b3ea8331200be74, type: 2}
+    Hash: 1aae39c7a8f10f5447fe000dd36bd502
+    Material: {fileID: 2100000, guid: d338c47b9d5c8f7519f4645d0ab48f54, type: 2}
     Shader: Custom/SimpleLit
     Color: {r: 0.26415086, g: 0.26415086, b: 0.26415086, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
-    - _ACES_APPROACH_BEFORE_EMISSIVE
     - DIFFUSE
     - POINT_LIGHT_IS_LOCAL
     - NOISE_DITHERING
@@ -8904,7 +8908,7 @@ MonoBehaviour:
     - Key: _FogStartOffset
       Value: 0
     - Key: _FogHeightScale
-      Value: 0.5
+      Value: 0.75
     - Key: _FogHeightOffset
       Value: 0
     - Key: _BlendSrcFactor
@@ -8923,7 +8927,8 @@ MonoBehaviour:
     - Key: _NominalDiffuseLevel
       Value: {x: 0.3396226, y: 0.3396226, z: 0.3396226, w: 0}
     Environments:
-    - GridEnvironment
+    - BritneyEnvironment
+    - ColliderEnvironment
     Unused: 0
     Ignored: 0
   - Name: LaserSocket
@@ -8973,13 +8978,14 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: LaserSocket
-    Hash: 1aae39c7a8f10f5447fe000dd36bd502
-    Material: {fileID: 2100000, guid: d338c47b9d5c8f7519f4645d0ab48f54, type: 2}
+    Hash: 49204bd96fb79516112cba5ae979f994
+    Material: {fileID: 2100000, guid: 742c8a5863354e213b3ea8331200be74, type: 2}
     Shader: Custom/SimpleLit
     Color: {r: 0.26415086, g: 0.26415086, b: 0.26415086, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
+    - _ACES_APPROACH_BEFORE_EMISSIVE
     - DIFFUSE
     - POINT_LIGHT_IS_LOCAL
     - NOISE_DITHERING
@@ -8994,7 +9000,7 @@ MonoBehaviour:
     - Key: _FogStartOffset
       Value: 0
     - Key: _FogHeightScale
-      Value: 0.75
+      Value: 0.5
     - Key: _FogHeightOffset
       Value: 0
     - Key: _BlendSrcFactor
@@ -9013,8 +9019,7 @@ MonoBehaviour:
     - Key: _NominalDiffuseLevel
       Value: {x: 0.3396226, y: 0.3396226, z: 0.3396226, w: 0}
     Environments:
-    - BritneyEnvironment
-    - ColliderEnvironment
+    - GridEnvironment
     Unused: 0
     Ignored: 0
   - Name: LaserSphereDot
@@ -9498,6 +9503,48 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: LightBloom
+    Hash: ce76af40114e2b387f54f97b44b27c16
+    Material: {fileID: 2100000, guid: ab017577ac2cf0a6fb3d2aa918ecd867, type: 2}
+    Shader: Custom/CustomParticles
+    Color: {r: 0, g: 0, b: 0, a: 1}
+    Keywords:
+    - _WHITEBOOSTTYPE_ALWAYS
+    - SQUARE_ALPHA
+    - MIPMAP_BIAS
+    - REMAP_WHITEBOOST_START
+    - _ALPHACHANNEL_RED
+    - MAIN_TEXTURE
+    FloatProps:
+    - Key: _FogScale
+      Value: 1
+    - Key: _FogStartOffset
+      Value: 0
+    - Key: _FogHeightScale
+      Value: 1
+    - Key: _FogHeightOffset
+      Value: 0
+    - Key: _BillboardScale
+      Value: 1
+    - Key: _BloomMultiplier
+      Value: 1
+    - Key: _BlendSrcFactor
+      Value: 1
+    - Key: _BlendDstFactor
+      Value: 10
+    - Key: _BlendSrcFactorA
+      Value: 0
+    - Key: _BlendDstFactorA
+      Value: 1
+    - Key: _BlendOp
+      Value: 0
+    - Key: _CullMode
+      Value: 0
+    VectorProps: []
+    Environments:
+    - PyroEnvironment
+    Unused: 0
+    Ignored: 0
+  - Name: LightBloom
     Hash: 2bd3d12ef2bbf93bd0fb94ac30ff6f35
     Material: {fileID: 2100000, guid: 3c80713456e4e70c1905845d544d2dab, type: 2}
     Shader: Custom/CustomParticles
@@ -9542,48 +9589,6 @@ MonoBehaviour:
     VectorProps: []
     Environments:
     - MetallicaEnvironment
-    Unused: 0
-    Ignored: 0
-  - Name: LightBloom
-    Hash: ce76af40114e2b387f54f97b44b27c16
-    Material: {fileID: 2100000, guid: ab017577ac2cf0a6fb3d2aa918ecd867, type: 2}
-    Shader: Custom/CustomParticles
-    Color: {r: 0, g: 0, b: 0, a: 1}
-    Keywords:
-    - _WHITEBOOSTTYPE_ALWAYS
-    - SQUARE_ALPHA
-    - MIPMAP_BIAS
-    - REMAP_WHITEBOOST_START
-    - _ALPHACHANNEL_RED
-    - MAIN_TEXTURE
-    FloatProps:
-    - Key: _FogScale
-      Value: 1
-    - Key: _FogStartOffset
-      Value: 0
-    - Key: _FogHeightScale
-      Value: 1
-    - Key: _FogHeightOffset
-      Value: 0
-    - Key: _BillboardScale
-      Value: 1
-    - Key: _BloomMultiplier
-      Value: 1
-    - Key: _BlendSrcFactor
-      Value: 1
-    - Key: _BlendDstFactor
-      Value: 10
-    - Key: _BlendSrcFactorA
-      Value: 0
-    - Key: _BlendDstFactorA
-      Value: 1
-    - Key: _BlendOp
-      Value: 0
-    - Key: _CullMode
-      Value: 0
-    VectorProps: []
-    Environments:
-    - PyroEnvironment
     Unused: 0
     Ignored: 0
   - Name: LightGlow
@@ -10650,25 +10655,6 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: MirrorTunnel
-    Hash: edd79815f80f1ed63df3e2ed3ff33774
-    Material: {fileID: 2100000, guid: 83020ba70e82bb241b2e9094cda59048, type: 2}
-    Shader: Custom/Mirror
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
-    Keywords:
-    - DIFFUSE
-    FloatProps:
-    - Key: _FogScale
-      Value: 1
-    - Key: _FogStartOffset
-      Value: 0
-    - Key: _Metallic
-      Value: 0
-    VectorProps: []
-    Environments:
-    - LinkinPark2Environment
-    Unused: 0
-    Ignored: 0
-  - Name: MirrorTunnel
     Hash: 1d60f7e10b0c609bf7d0a954a5bf9db3
     Material: {fileID: 2100000, guid: 2529fb56a271793c882a53d320b956da, type: 2}
     Shader: Custom/Mirror
@@ -10685,6 +10671,25 @@ MonoBehaviour:
     VectorProps: []
     Environments:
     - LinkinParkEnvironment
+    Unused: 0
+    Ignored: 0
+  - Name: MirrorTunnel
+    Hash: edd79815f80f1ed63df3e2ed3ff33774
+    Material: {fileID: 2100000, guid: 83020ba70e82bb241b2e9094cda59048, type: 2}
+    Shader: Custom/Mirror
+    Color: {r: 0, g: 0.5, b: 1, a: 1}
+    Keywords:
+    - DIFFUSE
+    FloatProps:
+    - Key: _FogScale
+      Value: 1
+    - Key: _FogStartOffset
+      Value: 0
+    - Key: _Metallic
+      Value: 0
+    VectorProps: []
+    Environments:
+    - LinkinPark2Environment
     Unused: 0
     Ignored: 0
   - Name: Moon
@@ -14162,6 +14167,31 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: SimpleLightning
+    Hash: 46584bca735862bef3ba3e332239fd86
+    Material: {fileID: 2100000, guid: ae887f10a1d9e84aab502c886be45f23, type: 2}
+    Shader: Custom/SimpleLightning
+    Color: {r: 0, g: 0.5, b: 1, a: 1}
+    Keywords:
+    - ENABLE_TARGET_POINT
+    FloatProps:
+    - Key: _BlendSrcFactor
+      Value: 1
+    - Key: _BlendDstFactor
+      Value: 1
+    - Key: _BlendSrcFactorA
+      Value: 0
+    - Key: _BlendDstFactorA
+      Value: 1
+    - Key: _BlendOp
+      Value: 0
+    - Key: _CullMode
+      Value: 0
+    VectorProps: []
+    Environments:
+    - GagaEnvironment
+    Unused: 0
+    Ignored: 0
+  - Name: SimpleLightning
     Hash: f6d328e9fed5f13555f1ae4f39af19d9
     Material: {fileID: 2100000, guid: 45793f815aaa6adf2998b683c32d4bda, type: 2}
     Shader: Custom/SimpleLightning
@@ -14185,31 +14215,6 @@ MonoBehaviour:
     VectorProps: []
     Environments:
     - MetallicaEnvironment
-    Unused: 0
-    Ignored: 0
-  - Name: SimpleLightning
-    Hash: 46584bca735862bef3ba3e332239fd86
-    Material: {fileID: 2100000, guid: ae887f10a1d9e84aab502c886be45f23, type: 2}
-    Shader: Custom/SimpleLightning
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
-    Keywords:
-    - ENABLE_TARGET_POINT
-    FloatProps:
-    - Key: _BlendSrcFactor
-      Value: 1
-    - Key: _BlendDstFactor
-      Value: 1
-    - Key: _BlendSrcFactorA
-      Value: 0
-    - Key: _BlendDstFactorA
-      Value: 1
-    - Key: _BlendOp
-      Value: 0
-    - Key: _CullMode
-      Value: 0
-    VectorProps: []
-    Environments:
-    - GagaEnvironment
     Unused: 0
     Ignored: 0
   - Name: SimpleLightningThin
@@ -14310,7 +14315,11 @@ MonoBehaviour:
       Value: 0
     - Key: _Metallic
       Value: 0.3
-    VectorProps: []
+    VectorProps:
+    - Key: _PrivatePointLightPosition
+      Value: {x: 0, y: 0, z: 0, w: 1}
+    - Key: _NominalDiffuseLevel
+      Value: {x: 0, y: 0, z: 0, w: 0}
     Environments:
     - KaleidoscopeEnvironment
     Unused: 0
@@ -14331,7 +14340,9 @@ MonoBehaviour:
       Value: 0
     - Key: _Metallic
       Value: 0.3
-    VectorProps: []
+    VectorProps:
+    - Key: _PeakOffset
+      Value: {x: 0, y: 0, z: 2, w: 1}
     Environments:
     - TimbalandEnvironment
     Unused: 0
@@ -14349,7 +14360,9 @@ MonoBehaviour:
       Value: -10
     - Key: _Metallic
       Value: 0
-    VectorProps: []
+    VectorProps:
+    - Key: _PeakOffset
+      Value: {x: 0, y: 0, z: 1.8, w: 1}
     Environments:
     - EDMEnvironment
     Unused: 0
@@ -14737,7 +14750,9 @@ MonoBehaviour:
       Value: 0
     - Key: _Metallic
       Value: 0.3
-    VectorProps: []
+    VectorProps:
+    - Key: _PeakOffset
+      Value: {x: 0, y: 0, z: 8, w: 1}
     Environments:
     - PanicEnvironment
     - NiceEnvironment
@@ -14889,7 +14904,9 @@ MonoBehaviour:
       Value: -8
     - Key: _Metallic
       Value: 0.781
-    VectorProps: []
+    VectorProps:
+    - Key: _PeakOffset
+      Value: {x: 0, y: 0, z: 8, w: 1}
     Environments:
     - TheSecondEnvironment
     Unused: 0
@@ -16327,45 +16344,6 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: Track
-    Hash: f8b4869c0f74a79697e8c5d2bf3e6eb3
-    Material: {fileID: 2100000, guid: 5b80d69b5176054f689ca0b6e96e5cec, type: 2}
-    Shader: Custom/SimpleLit
-    Color: {r: 0.21899995, g: 0.21899995, b: 0.21899995, a: 0}
-    Keywords:
-    - FOG
-    - DIFFUSE
-    - REFLECTION_PROBE_BOX_PROJECTION
-    - REFLECTION_STATIC
-    - MULTIPLY_REFLECTIONS
-    FloatProps:
-    - Key: _FogScale
-      Value: 1
-    - Key: _FogStartOffset
-      Value: 0
-    - Key: _FogHeightScale
-      Value: 1
-    - Key: _FogHeightOffset
-      Value: 0
-    - Key: _BlendSrcFactor
-      Value: 1
-    - Key: _BlendDstFactor
-      Value: 0
-    - Key: _BlendSrcFactorA
-      Value: 0
-    - Key: _BlendDstFactorA
-      Value: 0
-    - Key: _Metallic
-      Value: 0.3
-    VectorProps:
-    - Key: _PrivatePointLightPosition
-      Value: {x: 0, y: 0, z: 0, w: 1}
-    - Key: _NominalDiffuseLevel
-      Value: {x: 0, y: 0, z: 0, w: 0}
-    Environments:
-    - LinkinPark2Environment
-    Unused: 0
-    Ignored: 0
-  - Name: Track
     Hash: 9b5a515317f32e86a6a8bc02561960b2
     Material: {fileID: 2100000, guid: c221535ecbe19661281f664e646bc8ed, type: 2}
     Shader: Custom/SimpleLit
@@ -16404,6 +16382,45 @@ MonoBehaviour:
       Value: {x: 0, y: 0, z: 0, w: 0}
     Environments:
     - SkrillexEnvironment
+    Unused: 0
+    Ignored: 0
+  - Name: Track
+    Hash: f8b4869c0f74a79697e8c5d2bf3e6eb3
+    Material: {fileID: 2100000, guid: 5b80d69b5176054f689ca0b6e96e5cec, type: 2}
+    Shader: Custom/SimpleLit
+    Color: {r: 0.21899995, g: 0.21899995, b: 0.21899995, a: 0}
+    Keywords:
+    - FOG
+    - DIFFUSE
+    - REFLECTION_PROBE_BOX_PROJECTION
+    - REFLECTION_STATIC
+    - MULTIPLY_REFLECTIONS
+    FloatProps:
+    - Key: _FogScale
+      Value: 1
+    - Key: _FogStartOffset
+      Value: 0
+    - Key: _FogHeightScale
+      Value: 1
+    - Key: _FogHeightOffset
+      Value: 0
+    - Key: _BlendSrcFactor
+      Value: 1
+    - Key: _BlendDstFactor
+      Value: 0
+    - Key: _BlendSrcFactorA
+      Value: 0
+    - Key: _BlendDstFactorA
+      Value: 0
+    - Key: _Metallic
+      Value: 0.3
+    VectorProps:
+    - Key: _PrivatePointLightPosition
+      Value: {x: 0, y: 0, z: 0, w: 1}
+    - Key: _NominalDiffuseLevel
+      Value: {x: 0, y: 0, z: 0, w: 0}
+    Environments:
+    - LinkinPark2Environment
     Unused: 0
     Ignored: 0
   - Name: TrackConstruction

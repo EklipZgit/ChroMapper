@@ -239,11 +239,11 @@
                 float3 worldNormal = normalize(i.worldNormal);
 
                 float3 lDir = normalize(_WorldSpaceCameraPos - i.worldPos);
-                float4 diffuse = CALCULATE_DIFFUSE(albedo, 1, worldNormal, lDir, 1);
-                float4 specular = CALCULATE_SPECULAR(specular, albedo, 1, _Smoothness, 0.04,
+                float3 diffuse = CALCULATE_DIFFUSE(albedo, 1, 1, worldNormal, lDir, 1);
+                float3 specular = CALCULATE_SPECULAR(specular, albedo, 1, _Smoothness, 0.04,
                          lDir, 1, i.worldPos, worldNormal);
 
-                albedo = diffuse + specular;
+                albedo.rgb = diffuse + specular;
 
                 #if RIM_DIM
                 float rim = 1 - saturate(dot(worldNormal, i.viewDir));

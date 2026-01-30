@@ -702,7 +702,7 @@ public partial class EnvironmentSceneCreator
                 var go = chromaIdObjects[obj.ChromaID];
                 var maf = go.AddComponent<MpbArrayFx>();
                 maf.MpbControllers = fampetData
-                    .MaterialPropertyBlockControllerId.Select(x => chromaIdObjects.GetValueOrDefault(x, null))
+                    .MaterialPropertyBlockControllers.Select(x => chromaIdObjects.GetValueOrDefault(x, null))
                     .Where(x => x != null)
                     .Select(x => x.GetComponent<MaterialPropertyBlockController>())
                     .ToArray();
@@ -745,7 +745,7 @@ public partial class EnvironmentSceneCreator
             {
                 var go = chromaIdObjects[obj.ChromaID];
                 var mf = go.AddComponent<MpbFx>();
-                mf.MpbController = chromaIdObjects[fmpetData.MaterialPropertyBlockControllerId]
+                mf.MpbController = chromaIdObjects[fmpetData.MaterialPropertyBlockController]
                     .GetComponent<MaterialPropertyBlockController>();
                 fmpetData.CopyTo(mf);
             }
@@ -769,7 +769,7 @@ public partial class EnvironmentSceneCreator
             {
                 var go = chromaIdObjects[obj.ChromaID];
                 var psewf = go.AddComponent<ParametricSliceEndWidthFx>();
-                psewf.SpriteLight = chromaIdObjects[p3ssweffetData.SliceSpriteControllerId]
+                psewf.SpriteLight = chromaIdObjects[p3ssweffetData.Parametric3SliceSpriteController]
                     .GetComponent<ParametricSpriteLight>();
                 p3ssweffetData.CopyTo(psewf);
             }
@@ -781,7 +781,7 @@ public partial class EnvironmentSceneCreator
             {
                 var go = chromaIdObjects[obj.ChromaID];
                 var msf = go.AddComponent<MpbStepFx>();
-                msf.MpbController = chromaIdObjects[sfmetData.MaterialPropertyBlockControllerId]
+                msf.MpbController = chromaIdObjects[sfmetData.MaterialPropertyBlockController]
                     .GetComponent<MaterialPropertyBlockController>();
                 sfmetData.CopyTo(msf);
             }
@@ -824,10 +824,9 @@ public partial class EnvironmentSceneCreator
         {
             foreach (var ffgData in ffgemData.FloatFxGroupEffects)
             {
-                ffgem.Register(
-                    ffgData.GroupId,
-                    ffgData.ElementId,
-                    chromaIdObjects[ffgData.Target].GetComponent<FxTarget>());
+                var fx = chromaIdObjects[ffgData.Target].GetComponent<FxTarget>();
+                if (fx == null) continue;
+                ffgem.Register(ffgData.GroupId, ffgData.ElementId, fx);
             }
         }
 
@@ -835,10 +834,9 @@ public partial class EnvironmentSceneCreator
         {
             foreach (var ffgData in tffgemData.FloatFxGroupEffects)
             {
-                ffgem.Register(
-                    ffgData.GroupId,
-                    ffgData.ElementId,
-                    chromaIdObjects[ffgData.Target].GetComponent<FxTarget>());
+                var fx = chromaIdObjects[ffgData.Target].GetComponent<FxTarget>();
+                if (fx == null) continue;
+                ffgem.Register(ffgData.GroupId, ffgData.ElementId, fx);
             }
         }
 

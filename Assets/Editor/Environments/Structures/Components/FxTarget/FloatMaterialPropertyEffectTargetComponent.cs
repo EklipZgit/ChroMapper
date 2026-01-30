@@ -1,6 +1,6 @@
 public class FloatMaterialPropertyEffectTargetComponent
 {
-    public string MaterialPropertyBlockControllerId;
+    public string MaterialPropertyBlockController;
     public string PropertyName;
 
     public float[] ValueBounds;
