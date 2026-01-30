@@ -45,7 +45,7 @@
                 return o;
             }
 
-            #ifdef CM_PREVIEW_MODE
+            #if defined(CM_PREVIEW_MODE)
             fixed4 frag(v2f i) : SV_Target
             {
                 // Force fail so you can at least see the map in preview mode

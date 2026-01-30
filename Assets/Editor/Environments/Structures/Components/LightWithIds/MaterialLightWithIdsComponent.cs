@@ -2,6 +2,7 @@ using System.Linq;
 
 public class MaterialLightWithIdsComponent : EnvDataComponent<MaterialLightsController>
 {
+    public int InstanceId;
     public bool IsEnabled;
 
     public LightIntensityIdComponent[] LightIntensityData;

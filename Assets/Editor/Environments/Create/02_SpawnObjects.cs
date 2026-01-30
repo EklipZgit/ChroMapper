@@ -62,20 +62,14 @@ public partial class EnvironmentSceneCreator
                         && envObject.Components.MeshRenderer[0].Materials.Any())
                     {
                         var renderer = GetOrCreateMeshRenderer(go);
-                        if (library.Materials.Lookup.TryGetValue(
-                                envObject.Components.MeshRenderer[0].Materials[0],
-                                out var mat)
-                            && mat != null)
+                        var mats = new List<Material>();
+                        foreach (var matData in envObject.Components.MeshRenderer[0].Materials)
                         {
-                            var mats = new Material[mesh.subMeshCount];
-                            for (var x = 0; x < mesh.subMeshCount; x++) mats[x] = mat;
-                            renderer.sharedMaterials = mats;
+                            if (!library.Materials.Lookup.TryGetValue(matData, out var mat)) continue;
+                            mats.Add(mat);
                         }
-                        else
-                        {
-                            Debug.LogWarning(
-                                $"{envObject.ChromaID} material not found for:\n{envObject.Components.MeshRenderer[0].Materials[0]}");
-                        }
+
+                        renderer.sharedMaterials = mats.ToArray();
                     }
                 }
                 // remove this if statement if u need to search all "invisible" fallback object

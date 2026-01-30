@@ -2,6 +2,7 @@ using System.Linq;
 
 public class PointLightWithIdsComponent : EnvDataComponent<PointLightsController>
 {
+    public int InstanceId;
     public bool IsEnabled;
 
     public LightIntensityIdComponent[] LightIntensityData;

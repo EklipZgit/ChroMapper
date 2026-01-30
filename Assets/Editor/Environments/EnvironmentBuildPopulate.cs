@@ -141,6 +141,12 @@ public class EnvironmentBuildPopulate
                 matInfo.Material.SetFloat(renamedKey, floatProp.Value);
             }
 
+            foreach (var vectorProp in matInfo.VectorProps)
+            {
+                var renamedKey = shaderPropRemap.GetValueOrDefault(vectorProp.Key, vectorProp.Key);
+                matInfo.Material.SetVector(renamedKey, vectorProp.Value);
+            }
+
             if (matInfo.Keywords.Contains("_SECONDARY_UVS_IMPORT"))
                 matInfo.Material.SetFloat("_Secondary_UVs", 1f);
             else if (matInfo.Keywords.Contains("_SECONDARY_UVS_EXTERNAL_SCALE"))

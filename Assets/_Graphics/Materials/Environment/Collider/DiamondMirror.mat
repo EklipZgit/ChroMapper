@@ -20,11 +20,11 @@ Material:
   - _ACESTONEMAP_BEFORE_EMISSIVE
   - _EMISSIONBLOOMTYPE_PP
   - _EMISSION_ALPHA_SOURCE_EMISSION_G
-  - _EMISSION_TEXTURE_SOURCE_TEXTURE
   m_InvalidKeywords:
   - _BLOOMWHITE_NONE
   - _DIFFUSE_TEXTURE_SOURCE_TEXTURE
   - _EMISSIONTEXTURE_NONE
+  - _EMISSION_TEXTURE_SOURCE_TEXTURE
   - _MASKBLEND_MULTIPLY
   - _METALLIC_TEXTURE_SOURCE_NONE
   - _MODE_OPAQUE
@@ -160,9 +160,9 @@ Material:
     - _EmissionTexColor: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionTexSpeed: {r: 0, g: 0, b: 0, a: 0}
     - _InputUvMultiplier: {r: 1, g: 1, b: 0, a: 0}
-    - _NominalDiffuseLevel: {r: 0, g: 0, b: 0, a: 0}
+    - _NominalDiffuseLevel: {r: 0, g: 0, b: 0, a: 1}
     - _PrivatePointLightColor: {r: 0, g: 0.5, b: 1, a: 1}
-    - _PrivatePointLightPosition: {r: 0, g: 0, b: 0, a: 1}
+    - _PrivatePointLightPosition: {r: 0, g: 0, b: -2.29, a: 1}
     - _SecondaryEmissionMaskSpeed: {r: 0, g: 1, b: 0, a: 0}
     - _UVScale: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

@@ -136,12 +136,12 @@
 
                 fixed4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
                 // CUSTOM_BLOOM_PP_APPLY(color, 1);
-                #ifndef CM_PREVIEW_MODE
+                #if !defined(CM_PREVIEW_MODE)
                 color.a = 0;
                 #endif
 
-                #ifdef CM_PREVIEW_MODE
-                #ifdef ENABLE_HEIGHT_FOG
+                #if defined(CM_PREVIEW_MODE)
+                #if defined(ENABLE_HEIGHT_FOG)
                 BLOOM_FOG_HEIGHT_FOG_APPLY(color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,
                                                            _FogHeightOffset, _FogHeightScale);
                 #else

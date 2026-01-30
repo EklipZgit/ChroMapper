@@ -104,6 +104,7 @@ MonoBehaviour:
     - DETAIL_NORMAL_MAP
     - DIFFUSE
     - ENABLE_DIRT
+    - LIGHT_FALLOFF
     - LIGHTMAP
   - name: Custom/OpaqueNeonLight
     shader: {fileID: 4800000, guid: cebb0ae868240dce5a0ddbc949c0cd45, type: 3}

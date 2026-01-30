@@ -164,8 +164,8 @@
             #pragma shader_feature INVERT_RIM_DIM
 
             #pragma multi_compile _ _EMISSIONTEXTURE_SIMPLE _EMISSIONTEXTURE_PULSE _EMISSIONTEXTURE_FLIPBOOK
-            #pragma multi_compile _EMISSION_TEXTURE_SOURCE_TEXTURE _EMISSION_TEXTURE_SOURCE_MPM_G
-            #pragma multi_compile _EMISSIONBLOOMTYPE_FLAT _EMISSIONBLOOMTYPE_FRAG _EMISSIONBLOOMTYPE_GRADIENT _EMISSIONBLOOMTYPE_PP
+            #pragma multi_compile _ _EMISSION_TEXTURE_SOURCE_MPM_G
+            #pragma multi_compile _ _EMISSIONBLOOMTYPE_FRAG _EMISSIONBLOOMTYPE_GRADIENT _EMISSIONBLOOMTYPE_PP
             #pragma multi_compile _EMISSION_ALPHA_SOURCE_EMISSION_G _EMISSION_ALPHA_SOURCE_COPY_EMISSION _EMISSION_ALPHA_SOURCE_MPM_R
             #pragma shader_feature EMISSION_MASK
             #pragma multi_compile _ _MASKBLEND_ADD _MASKBLEND_MASKED_ADD
@@ -179,12 +179,12 @@
             #include "CGIncludes/CustomBloom.cginc"
             #include "CGIncludes/CustomLighting.cginc"
 
-            #ifndef UNITY_INSTANCING_ENABLED
+            #if !defined(UNITY_INSTANCING_ENABLED)
             float4 _Color;
             #endif
 
-            #define USE_UV_SCALE defined(_SECONDARY_UVS_EXTERNAL_SCALE) || defined(_SECONDARY_UVS_OBJECT_SPACE)
-            #define USE_SECONDARY_UV USE_UV_SCALE || defined(_SECONDARY_UVS_IMPORT) || defined(_SECONDARY_UVS_ADDITIVE_OFFSET)
+            #define USE_UV_SCALE (defined(_SECONDARY_UVS_EXTERNAL_SCALE) || defined(_SECONDARY_UVS_OBJECT_SPACE))
+            #define USE_SECONDARY_UV (USE_UV_SCALE || defined(_SECONDARY_UVS_IMPORT) || defined(_SECONDARY_UVS_ADDITIVE_OFFSET))
             #if USE_SECONDARY_UV
             #if USE_UV_SCALE
             float4 _UVScale;
@@ -195,7 +195,7 @@
             float4 _InputUvMultiplier;
             #endif
 
-            #ifdef METAL_SMOOTHNESS_TEXTURE
+            #if defined(METAL_SMOOTHNESS_TEXTURE)
             sampler2D _MetalSmoothnessTex;
             float4 _MetalSmoothnessTex_ST;
             #endif
@@ -208,14 +208,14 @@
             float4 _NominalDiffuseLevel;
             float _AmbientMultiplier;
 
-            #ifdef DIFFUSE_TEXTURE
+            #if defined(DIFFUSE_TEXTURE)
             sampler2D _DiffuseTex;
             float4 _DiffuseTex_ST;
             #endif
             float _BothSidesDiffuseMultiplier;
             float _AlbedoMultiplier;
 
-            #define USE_EMISSION_TEXTURE defined(_EMISSION_TEXTURE_SOURCE_TEXTURE) || defined(_EMISSIONTEXTURE_PULSE) || defined(_EMISSIONTEXTURE_FLIPBOOK)
+            #define USE_EMISSION_TEXTURE (defined(_EMISSIONTEXTURE_SIMPLE) || defined(_EMISSIONTEXTURE_FLIPBOOK))
             #if USE_EMISSION_TEXTURE
             sampler2D _EmissionTex;
             float4 _EmissionTex_ST;
@@ -226,12 +226,12 @@
             float4 _EmissionTexColor;
             #endif
 
-            #define USE_EMISSION_GRADIENT_TEXTURE defined(_EMISSIONBLOOMTYPE_GRADIENT) || defined(_EMISSIONTEXTURE_SIMPLE) || defined(_EMISSIONTEXTURE_PULSE) || defined(_EMISSIONTEXTURE_FLIPBOOK)
+            #define USE_EMISSION_GRADIENT_TEXTURE (defined(_EMISSIONBLOOMTYPE_GRADIENT) || defined(_EMISSIONTEXTURE_SIMPLE) || defined(_EMISSIONTEXTURE_PULSE) || defined(_EMISSIONTEXTURE_FLIPBOOK))
             #if USE_EMISSION_GRADIENT_TEXTURE
             sampler2D _EmissionGradientTex;
             float4 _EmissionGradientTex_ST;
             #endif
-            #ifdef _EMISSIONBLOOMTYPE_GRADIENT
+            #if defined(_EMISSIONBLOOMTYPE_GRADIENT)
             float _EmissionGradientPosition;
             float _EmissionGradientPanningSpeed;
             float _EmissionGradientIntensity;
@@ -240,17 +240,19 @@
             float _EmissionTexBloomIntensity;
             float _EmissionTexWhiteBoostMultiplier;
 
-            #define USE_EMISSION_MASK defined(_EMISSIONTEXTURE_PULSE) || defined(_EMISSIONTEXTURE_SIMPLE)
+            #define USE_EMISSION_MASK (defined(_EMISSIONTEXTURE_PULSE) || defined(_EMISSIONTEXTURE_SIMPLE))
             #if USE_EMISSION_MASK
 
-            #ifdef EMISSION_MASK
+            #if defined(EMISSION_MASK)
             sampler2D _EmissionMask;
+            float4 _EmissionMask_ST;
             float _EmissionMaskSpeed;
             float _EmissionMaskIntensity;
             #endif
 
-            #ifdef SECONDARY_EMISSION_MASK
+            #if defined(SECONDARY_EMISSION_MASK)
             sampler2D _SecondaryEmissionMask;
+            float4 _SecondaryEmissionMask_ST;
             float _SecondaryEmissionMaskSpeed;
             float _SecondaryEmissionMaskIntensity;
             #endif
@@ -259,18 +261,18 @@
             float _EmissionMaskStepWidth;
             #endif
 
-            #define USE_VERTEX_EMISSION defined(_VERTEX_EMISSION) || defined(_VERTEX_SPECIAL) || defined(_VERTEX_EMISSIVE_MULT_ADD)
+            #define USE_VERTEX_EMISSION (defined(_VERTEX_EMISSION) || defined(_VERTEX_SPECIAL) || defined(_VERTEX_EMISSIVE_MULT_ADD))
             #define USE_VERTEX_COLOR defined(_VERTEX_COLOR) || USE_VERTEX_EMISSION
             #if USE_VERTEX_COLOR
             float _EmissionThreshold;
-            #ifndef UNITY_INSTANCING_ENABLED
+            #if !defined(UNITY_INSTANCING_ENABLED)
             float4 _EmissionColor;
             #endif
             float _EmissionStrength;
             float _EmissionBloomIntensity;
             #endif
 
-            #ifdef RIM_DIM
+            #if defined(RIM_DIM)
             float _RimScale;
             float _RimOffset;
             float _RimDistanceOffset;
@@ -286,7 +288,7 @@
             float _FogHeightScale;
             #endif
 
-            #ifdef UNITY_INSTANCING_ENABLED
+            #if defined(UNITY_INSTANCING_ENABLED)
             UNITY_INSTANCING_BUFFER_START (Props)
             UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
             #if USE_EMISSION_COLOR
@@ -353,7 +355,7 @@
                 o.uv.zw *= _InputUvMultiplier.xy;
                 #endif
 
-                #ifdef PRECISE_NORMAL
+                #if defined(PRECISE_NORMAL)
                 o.worldNormal = UnityObjectToWorldNormal(i.normal);
                 #else
                 o.worldNormal = normalize(UnityObjectToWorldNormal(i.normal));
@@ -380,14 +382,14 @@
                 #elif USE_VERTEX_COLOR
                 baseColor = i.color;
                 #else
-                #ifdef UNITY_INSTANCED_ENABLED
+                #if defined(UNITY_INSTANCED_ENABLED)
                 baseColor = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
                 #endif
                 baseColor.a = 0;
                 #endif
 
                 float4 albedo = baseColor;
-                #ifdef DIFFUSE_TEXTURE
+                #if defined(DIFFUSE_TEXTURE)
                 #if defined(METAL_SMOOTHNESS_TEXTURE) && defined(_DIFFUSE_TEXTURE_SOURCE_MPM_R)
                 albedo *= tex2D(_MetalSmoothnessTex, i.uv).r * _AlbedoMultiplier;
                 #elif defined(METAL_SMOOTHNESS_TEXTURE) && defined(_DIFFUSE_TEXTURE_SOURCE_MPM_A_SMOOTHNESS)
@@ -398,7 +400,7 @@
                 #endif
 
                 float3 worldPos = i.worldPos;
-                #ifdef PRECISE_NORMAL
+                #if defined(PRECISE_NORMAL)
                 float3 worldNormal = normalize(i.worldNormal);
                 #else
                 float3 worldNormal = i.worldNormal;
@@ -408,15 +410,15 @@
 
                 float metallic = _Metallic;
                 float smoothness = _Smoothness;
-                #ifdef METAL_SMOOTHNESS_TEXTURE
-                #ifdef _METALLIC_TEXTURE_SOURCE_MPM_R
+                #if defined(METAL_SMOOTHNESS_TEXTURE)
+                #if defined(_METALLIC_TEXTURE_SOURCE_MPM_R)
                 metallic *= tex2D(_MetalSmoothnessTex, i.uv).r;
-                #elifdef _METALLIC_TEXTURE_SOURCE_MPM_A
+                #elif defined(_METALLIC_TEXTURE_SOURCE_MPM_A)
                 metallic *= tex2D(_MetalSmoothnessTex, i.uv).a;
                 #endif
-                #ifdef _SMOOTHNESS_TEXTURE_SOURCE_MPM_A
+                #if defined(_SMOOTHNESS_TEXTURE_SOURCE_MPM_A)
                 smoothness *= tex2D(_MetalSmoothnessTex, i.uv).a;
-                #elifdef _SMOOTHNESS_TEXTURE_SOURCE_MPM_G_ROUGHNESS
+                #elif defined(_SMOOTHNESS_TEXTURE_SOURCE_MPM_G_ROUGHNESS)
                 smoothness *= tex2D(_MetalSmoothnessTex, i.uv).g;
                 #endif
                 #endif
@@ -426,9 +428,9 @@
                                       worldNormal);
                 albedo.rgb += calculated;
 
-                #ifdef RIM_DIM
+                #if defined(RIM_DIM)
                 float rim = 1 - saturate(dot(worldNormal, normalize(_WorldSpaceCameraPos - worldPos)));
-                #ifdef INVERT_RIM_DIM
+                #if defined(INVERT_RIM_DIM)
                 rim = 1 - rim;
                 #endif
                 // float distFactor = (i.dist + _RimDistanceOffset) * _RimDistanceScale;
@@ -454,7 +456,7 @@
 
                 #if USE_EMISSION_MASK
 
-                #ifdef EMISSION_MASK
+                #if defined(EMISSION_MASK)
                 #if defined(SECONDARY_UVS_EMISSION_MASK)
                 float4 emissionMask = tex2D(_EmissionMask, uv2);
                 #else
@@ -462,16 +464,16 @@
                 #endif
                 emissionMask *= _EmissionMaskIntensity;
 
-                #ifdef _MASKBLEND_ADD
+                #if defined(_MASKBLEND_ADD)
                 emissionTex += emissionMask;
-                #elifdef _MASKBLEND_MASKED_ADD
+                #elif defined(_MASKBLEND_MASKED_ADD)
                 emissionTex += emissionMask;
                 #else
                 emissionTex *= emissionMask;
                 #endif
                 #endif
 
-                #ifdef SECONDARY_EMISSION_MASK
+                #if defined(SECONDARY_EMISSION_MASK)
                 #if defined(SECONDARY_UVS_EMISSION_MASK2)
                 float4 emissionMask2 = tex2D(_SecondaryEmissionMask, uv2);
                 #else
@@ -479,9 +481,9 @@
                 #endif
                 emissionMask2 *= _SecondaryEmissionMaskIntensity;
 
-                #ifdef _SECONDARY_MASKBLEND_ADD
+                #if defined(_SECONDARY_MASKBLEND_ADD)
                 emissionTex += emissionMask2;
-                #elifdef _SECONDARY_MASKBLEND_MASKED_ADD
+                #elif defined(_SECONDARY_MASKBLEND_MASKED_ADD)
                 emissionTex += emissionMask2;
                 #else
                 emissionTex *= emissionMask2;

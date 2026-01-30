@@ -93,7 +93,7 @@
             #include "CGIncludes/CustomBloom.cginc"
             #include "CGIncludes/BloomFog.cginc"
 
-            #ifdef UNITY_INSTANCING_ENABLED
+            #if defined(UNITY_INSTANCING_ENABLED)
 
             UNITY_INSTANCING_BUFFER_START (PerDrawSprite)
             // SpriteRenderer.Color while Non-Batched/Instanced.
@@ -109,7 +109,7 @@
             #endif // instancing
 
             CBUFFER_START(UnityPerDrawSprite)
-                #ifndef UNITY_INSTANCING_ENABLED
+                #if !defined(UNITY_INSTANCING_ENABLED)
                 fixed4 _Color;
                 fixed4 _RendererColor;
                 fixed2 _Flip;
@@ -117,8 +117,9 @@
                 float _EnableExternalAlpha;
             CBUFFER_END
 
-            #ifdef MAIN_TEXTURE
+            #if defined(MAIN_TEXTURE)
             sampler2D _MainTex;
+            float4 _MainTex_ST;
             #endif
 
             float _AlphaMultiplier;
@@ -131,7 +132,7 @@
             float _BillboardScale;
             #endif
 
-            #ifdef REMAP_WHITEBOOST_START
+            #if defined(REMAP_WHITEBOOST_START)
             float _WhiteBoostRemapStart;
             #endif
 
@@ -151,7 +152,7 @@
             struct v2f
             {
                 float4 vertex : SV_POSITION;
-                #ifdef VERTEX_COLOR
+                #if defined(VERTEX_COLOR)
                 fixed4 color : COLOR;
                 #endif
                 float2 uv : TEXCOORD0;
@@ -201,7 +202,7 @@
                 #endif
                 o.uv = i.texcoord;
                 o.customScreenPos = ComputeScreenPosCustom(o.vertex);
-                #ifdef VERTEX_COLOR
+                #if defined(VERTEX_COLOR)
                 o.color = i.color * _RendererColor * UNITY_ACCESS_INSTANCED_PROP(PerDrawSprite, _Color);
                 #endif
 
@@ -211,15 +212,15 @@
             fixed4 frag(v2f i) : SV_Target
             {
                 UNITY_SETUP_INSTANCE_ID(i);
-                #ifdef VERTEX_COLOR
+                #if defined(VERTEX_COLOR)
                 fixed4 color = i.color;
                 #else
                 fixed4 color = UNITY_ACCESS_INSTANCED_PROP(PerDrawSprite, _Color);
                 #endif
                 color.rgb *= _Intensity;
 
-                #ifdef MAIN_TEXTURE
-                fixed4 albedo = tex2D(_MainTex, i.uv) * color;
+                #if defined(MAIN_TEXTURE)
+                fixed4 albedo = tex2D(_MainTex, TRANSFORM_TEX(i.uv)) * color;
                 #else
                 fixed4 albedo = color;
                 #endif
@@ -239,7 +240,7 @@
                 #endif
 
                 #if ENABLE_FOG
-                #ifdef ENABLE_HEIGHT_FOG
+                #if defined(ENABLE_HEIGHT_FOG)
                 BLOOM_FOG_HEIGHT_FOG_APPLY(color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,
                                            _FogHeightOffset, _FogHeightScale);
                 #else

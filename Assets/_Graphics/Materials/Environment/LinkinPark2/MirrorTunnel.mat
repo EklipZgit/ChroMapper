@@ -40,6 +40,7 @@ Material:
     - _EnableDiffuse: 1
     - _EnableFog: 0
     - _EnableHeightFog: 0
+    - _EnableLightFalloff: 0
     - _EnableSpecular: 0
     - _FogHeightOffset: 0
     - _FogHeightScale: 1

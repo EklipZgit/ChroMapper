@@ -2,6 +2,7 @@ using System.Linq;
 
 public class DirectionalLightWithIdsComponent : EnvDataComponent<DirectionalLightsController>
 {
+    public int InstanceId;
     public bool IsEnabled;
 
     public LightIntensityIdComponent[] LightIntensityData;

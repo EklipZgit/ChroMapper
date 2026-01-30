@@ -131,7 +131,7 @@
                 float4 albedo = color * tex2D(_MainTex, i.uv);
                 albedo *= mask;
 
-                #ifdef CM_PREVIEW_MODE
+                #if defined(CM_PREVIEW_MODE)
                 float fadeSize = UNITY_ACCESS_INSTANCED_PROP(Props, _FadeSize);
 
                 float distance = i.rotatedPos.z;

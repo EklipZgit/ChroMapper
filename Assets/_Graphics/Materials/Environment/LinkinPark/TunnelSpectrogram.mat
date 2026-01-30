@@ -11,10 +11,10 @@ Material:
   m_Shader: {fileID: 4800000, guid: 41e7cce6237f4c27a653fc80119b1c56, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
-  - _ACESTONEMAP_AFTER_EMISSIVE
+  m_ValidKeywords: []
   m_InvalidKeywords:
   - ENABLE_FOG
+  - _ACESTONEMAP_AFTER_EMISSIVE
   - _BLOOMTYPE_NONE
   - _BLOOMWHITE_NONE
   - _ZWRITE_ON
@@ -46,6 +46,7 @@ Material:
     - _FogHeightScale: 0.2
     - _FogScale: 0.7
     - _FogStartOffset: 0
+    - _SpectrogramScale: 0.5
     - _ZTest: 4
     - _ZWrite: 1
     m_Colors:

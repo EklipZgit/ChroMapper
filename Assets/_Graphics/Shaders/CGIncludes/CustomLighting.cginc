@@ -6,6 +6,8 @@
 #define LIGHT_CALCULATE_NAME __light_calculate
 #define LIGHT_ITERATOR_NAME __light_id
 
+uniform float4 _GlobalLightTintColor;
+
 uniform float4 _DirectionalLightDirections[MAX_DIRECTIONAL_LIGHTS];
 uniform float4 _DirectionalLightColors[MAX_DIRECTIONAL_LIGHTS];
 #ifdef LIGHT_FALLOFF
@@ -87,6 +89,9 @@ float4 _PrivatePointLightPosition;
     diffuse = diffuse * (1 - metallic); \
     result = diffuse + specular
 
+#define CALCULATE_GLOBAL_TINT_LIGHTING(result) \
+    result += _GlobalLightTintColor
+
 #ifdef LIGHT_FALLOFF
 #define GET_LIGHT_FALLOFF_PROP(lightPosition, lightRadii)\
     float3 lPos = lightPosition.xyz; \
@@ -107,17 +112,17 @@ float4 _PrivatePointLightPosition;
 #endif
 
 #ifdef PRIVATE_POINT_LIGHT
-#define CALCULATE_PRIVATE_POINT_LIGHT(result, color, metallic, smoothness, specularIntensity, otherDiffuse, worldPos, worldNormal) \
+#define CALCULATE_PRIVATE_POINT_LIGHTING(result, color, metallic, smoothness, specularIntensity, otherDiffuse, worldPos, worldNormal) \
     float4 plCol = GET_PRIVATE_POINT_LIGHT_COLOR(); \
     CALCULATE_POINT_LIGHTING(LIGHT_CALCULATE_NAME, color, metallic, smoothness, specularIntensity, otherDiffuse, _PrivatePointLightPosition, plCol * _PrivatePointLightIntensity, worldPos, worldNormal); \
     result += LIGHT_CALCULATE_NAME
 #define CALCULATE_AVERAGE(result) \
-    result /= MAX_DIRECTIONAL_LIGHTS + MAX_POINT_LIGHTS + 1
+    result /= MAX_DIRECTIONAL_LIGHTS + MAX_POINT_LIGHTS + 2
 #else
-#define CALCULATE_PRIVATE_POINT_LIGHT(result, color, metallic, smoothness, specularIntensity, otherDiffuse, worldPos, worldNormal) \
+#define CALCULATE_PRIVATE_POINT_LIGHTING(result, color, metallic, smoothness, specularIntensity, otherDiffuse, worldPos, worldNormal) \
     0
 #define CALCULATE_AVERAGE(result) \
-    result /= MAX_DIRECTIONAL_LIGHTS + MAX_POINT_LIGHTS
+    result /= MAX_DIRECTIONAL_LIGHTS + MAX_POINT_LIGHTS + 1
 #endif
 
 #define CUSTOM_LIGHTING_APPLY(result, color, metallic, smoothness, specularIntensity, otherDiffuse, worldPos, worldNormal) \
@@ -140,5 +145,6 @@ float4 _PrivatePointLightPosition;
         CALCULATE_POINT_LIGHTING(LIGHT_CALCULATE_NAME, color, metallic, smoothness, specularIntensity, otherDiffuse, lPos, lCol, worldPos, worldNormal); \
         result += LIGHT_CALCULATE_NAME; \
     } \
-    CALCULATE_PRIVATE_POINT_LIGHT(result, color, metallic, smoothness, specularIntensity, otherDiffuse, worldPos, worldNormal); \
+    CALCULATE_PRIVATE_POINT_LIGHTING(result, color, metallic, smoothness, specularIntensity, otherDiffuse, worldPos, worldNormal); \
+    CALCULATE_GLOBAL_TINT_LIGHTING(result); \
     CALCULATE_AVERAGE(result)

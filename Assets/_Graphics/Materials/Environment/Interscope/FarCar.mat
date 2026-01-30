@@ -15,14 +15,14 @@ Material:
   - ENABLE_FOG
   - INVERT_RIM_DIM
   - _ACESTONEMAP_AFTER_EMISSIVE
-  - _EMISSIONBLOOMTYPE_FLAT
   - _EMISSION_ALPHA_SOURCE_EMISSION_G
-  - _EMISSION_TEXTURE_SOURCE_TEXTURE
   - _VERTEX_METAL_SMOOTHNESS
   m_InvalidKeywords:
   - _BLOOMWHITE_NONE
   - _DIFFUSE_TEXTURE_SOURCE_TEXTURE
+  - _EMISSIONBLOOMTYPE_FLAT
   - _EMISSIONTEXTURE_NONE
+  - _EMISSION_TEXTURE_SOURCE_TEXTURE
   - _MASKBLEND_MULTIPLY
   - _METALLIC_TEXTURE_SOURCE_NONE
   - _MODE_OPAQUE
@@ -158,7 +158,7 @@ Material:
     - _InputUvMultiplier: {r: 1, g: 1, b: 0, a: 0}
     - _NominalDiffuseLevel: {r: 0, g: 0, b: 0, a: 0}
     - _PrivatePointLightColor: {r: 0, g: 0.5, b: 1, a: 1}
-    - _PrivatePointLightPosition: {r: 0, g: 0, b: 0, a: 1}
+    - _PrivatePointLightPosition: {r: 1, g: 1, b: 10, a: 1}
     - _SecondaryEmissionMaskSpeed: {r: 0, g: 1, b: 0, a: 0}
     - _UVScale: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

@@ -15,8 +15,7 @@ public partial class EnvironmentSceneCreator
     private const string environmentPath = "Assets/__Scenes/Environments";
     private const string editorPath = "Assets/Editor/Environments";
 
-    [MenuItem("Environment/Create from Data", false, 1000)]
-    private static void CreateEnvironmentFromData()
+    private static void CreateEnvironmentFromData(bool script = true)
     {
         // Check if exactly one object is selected and it's a TextAsset
         // We re-do the check here for safety and to grab a reference to the TextAsset
@@ -70,7 +69,7 @@ public partial class EnvironmentSceneCreator
         if (environmentLibrary.SkyboxMaterial != null) RenderSettings.skybox = environmentLibrary.SkyboxMaterial;
 
         // Create the environment in the new scene
-        CreateEnvironment(scene, environmentData, environmentLibrary);
+        CreateEnvironment(scene, environmentData, environmentLibrary, script);
 
         // Save the scene to disk
         if ((exist && EditorSceneManager.SaveScene(scene)) || EditorSceneManager.SaveScene(scene, targetPath))
@@ -82,12 +81,19 @@ public partial class EnvironmentSceneCreator
         else
             Debug.LogError("Failed to save the new environment scene.");
     }
+    
+    [MenuItem("Environment/Create from Data", false, 1000)]
+    private static void CreateEnvironmentFromDataWithScript() => CreateEnvironmentFromData();
+
+    [MenuItem("Environment/Create from Data (No Script)", false, 1000)]
+    private static void CreateEnvironmentFromDataWithoutScript() => CreateEnvironmentFromData(false);
 
     // Main method which constructs the environment from parsed data
     public static void CreateEnvironment(
         Scene scene,
         EnvData data,
-        EnvironmentLibrarySO library)
+        EnvironmentLibrarySO library,
+        bool script)
     {
         // first pass: strip existing object and component
         var existingObjects = StripObjects(scene, data);
@@ -96,9 +102,9 @@ public partial class EnvironmentSceneCreator
         var chromaIdObjects = SpawnObjects(library, data, existingObjects);
 
         // third pass: build component
-        BuildComponents(library, data, chromaIdObjects);
+        if (script) BuildComponents(library, data, chromaIdObjects);
 
         // forth pass: cleanup and remove unused
-        Cleanup(scene, data);
+        if (script) Cleanup(scene, data);
     }
 }

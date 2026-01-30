@@ -11,10 +11,10 @@ Material:
   m_Shader: {fileID: 4800000, guid: 299fea2b05da409785fdc7e33f2c8c4e, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
-  - _ACESTONEMAP_AFTER_EMISSIVE
+  m_ValidKeywords: []
   m_InvalidKeywords:
   - ENABLE_FOG
+  - _ACESTONEMAP_AFTER_EMISSIVE
   - _BLOOMTYPE_NONE
   - _BLOOMWHITE_NONE
   - _ZWRITE_ON
@@ -57,5 +57,6 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 0.24999997, g: 0.24999997, b: 0.24999997, a: 0}
+    - _PeakOffset: {r: 0, g: 10, b: 0, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

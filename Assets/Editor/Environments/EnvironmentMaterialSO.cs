@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json.Linq;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Environment/Environment Material", fileName = "EnvironmentMaterialSO")]
@@ -54,8 +55,19 @@ public class EnvironmentMaterialSO : ScriptableObject
                     Keywords = new List<string>(material.Keywords),
                     FloatProps =
                         material
-                            .FloatProps.Select(x =>
-                                new MaterialInfo.ShaderProps<float>() { Key = x.Key, Value = x.Value })
+                            .ShaderProps.Where(x => x.Value is float)
+                            .Select(x =>
+                                new MaterialInfo.ShaderProps<float> { Key = x.Key, Value = x.Value })
+                            .ToList(),
+                    VectorProps =
+                        material
+                            .ShaderProps.Where(x => x.Value is not double)
+                            .Select(x =>
+                                new MaterialInfo.ShaderProps<Vector4>
+                                {
+                                    Key = x.Key,
+                                    Value = ConvertUtils.ToVector4(((JArray)x.Value).ToObject<float[]>())
+                                })
                             .ToList(),
                     Environments = new List<string> { environment },
                 });
@@ -67,9 +79,21 @@ public class EnvironmentMaterialSO : ScriptableObject
             if (material.Keywords != null) m.Keywords.AddRange(material.Keywords.Where(x => !m.Keywords.Contains(x)));
             m.FloatProps.AddRange(
                 material
-                    .FloatProps.Where(x => !m.FloatProps.Exists(y => y.Key == x.Key))
+                    .ShaderProps.Where(x => x.Value is float)
+                    .Where(x => !m.FloatProps.Exists(y => y.Key == x.Key))
                     .Select(x =>
                         new MaterialInfo.ShaderProps<float> { Key = x.Key, Value = x.Value }));
+            m.VectorProps.AddRange(
+                material
+                    .ShaderProps.Where(x => x.Value is not double)
+                    .Where(x => !m.VectorProps.Exists(y => y.Key == x.Key))
+                    .Select(x =>
+                        new MaterialInfo.ShaderProps<Vector4>
+                        {
+                            Key = x.Key,
+                            Value =
+                                ConvertUtils.ToVector4(((JArray)x.Value).ToObject<float[]>())
+                        }));
             if (!m.Environments.Contains(environment)) m.Environments.Add(environment);
         }
     }
@@ -92,6 +116,7 @@ public class MaterialInfo
 
     public List<string> Keywords;
     public List<ShaderProps<float>> FloatProps;
+    public List<ShaderProps<Vector4>> VectorProps;
     public List<string> Environments;
 
     [HideInInspector]

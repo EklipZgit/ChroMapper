@@ -223,7 +223,7 @@ Shader "ChroMapper/TextMeshPro/Distance Field Transparent Color"
 
                 float c = tex2D(_MainTex, input.atlas).a;
 
-                #ifndef UNDERLAY_ON
+                #if !defined(UNDERLAY_ON)
                 clip(c - input.param.x);
                 #endif
 

@@ -175,8 +175,8 @@
                 color.a = 0;
                 color = color * 0.25 + tex2D(_GrabTexture, screenUV);
 
-                #ifdef CM_PREVIEW_MODE
-                #ifdef ENABLE_HEIGHT_FOG
+                #if defined(CM_PREVIEW_MODE)
+                #if defined(ENABLE_HEIGHT_FOG)
                 BLOOM_FOG_HEIGHT_FOG_APPLY(color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,
                                            _FogHeightOffset, _FogHeightScale);
                 #else

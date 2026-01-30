@@ -2,6 +2,7 @@ using System.Linq;
 
 public class MixedLightsColorSetterRuntimeLightWithIdsComponent : EnvDataComponent<MixedLightsController>
 {
+    public int InstanceId;
     public bool IsEnabled;
 
     public LightIntensityIdComponent[] LightIntensityData;

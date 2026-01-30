@@ -15,9 +15,9 @@ Material:
   - DIFFUSE
   - LIGHT_FALLOFF
   - SPECULAR
-  - _ACESTONEMAP_AFTER_EMISSIVE
   m_InvalidKeywords:
   - ENABLE_FOG
+  - _ACESTONEMAP_AFTER_EMISSIVE
   - _BLOOMTYPE_NONE
   - _BLOOMWHITE_NONE
   - _ZWRITE_ON
@@ -60,5 +60,6 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 0.31999996, g: 0.31999996, b: 0.31999996, a: 0}
+    - _PeakOffset: {r: 0, g: 10, b: 0, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

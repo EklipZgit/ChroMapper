@@ -36,8 +36,7 @@ public partial class EnvironmentSceneCreator
             }
         }
 
-        var runtimeLights = new Dictionary<(int, int), (CombinedLightsController, int)>();
-        var runtimeLightsGroup = new Dictionary<(int, int), (CombinedLightsGroupController, int)>();
+        var lightWithIds = new Dictionary<int, MonoBehaviour>();
 
         foreach (var obj in data.Objects.Where(x => x.Components.DirectionalLight != null))
         {
@@ -67,11 +66,7 @@ public partial class EnvironmentSceneCreator
                 var dlc = go.AddComponent<DirectionalLightsController>();
                 dlc.Light = chromaIdObjects[dlwiData.DirectionalLight].GetComponent<DirectionalLight>();
                 dlwiData.CopyTo(dlc);
-                for (var index = 0; index < dlwiData.LightIntensityData.Length; index++)
-                {
-                    var comp = dlwiData.LightIntensityData[index];
-                    runtimeLights.Add((comp.ID, comp.ArrayId), (dlc, index));
-                }
+                lightWithIds.Add(dlwiData.InstanceId, dlc);
             }
         }
 
@@ -83,11 +78,7 @@ public partial class EnvironmentSceneCreator
                 var dlgc = go.AddComponent<DirectionalLightsGroupController>();
                 dlgc.Light = chromaIdObjects[dligiData.DirectionalLight].GetComponent<DirectionalLight>();
                 dligiData.CopyTo(dlgc);
-                for (var index = 0; index < dligiData.LightIntensityData.Length; index++)
-                {
-                    var comp = dligiData.LightIntensityData[index];
-                    runtimeLightsGroup.Add((comp.ID, comp.ArrayId), (dlgc, index));
-                }
+                lightWithIds.Add(dligiData.InstanceId, dlgc);
             }
         }
 
@@ -99,11 +90,7 @@ public partial class EnvironmentSceneCreator
                 var mlc = go.AddComponent<MaterialLightsController>();
                 mlc.MeshRenderer = chromaIdObjects[mlwiData.MeshRenderer].GetComponent<MeshRenderer>();
                 mlwiData.CopyTo(mlc);
-                for (var index = 0; index < mlwiData.LightIntensityData.Length; index++)
-                {
-                    var comp = mlwiData.LightIntensityData[index];
-                    runtimeLights.Add((comp.ID, comp.ArrayId), (mlc, index));
-                }
+                lightWithIds.Add(mlwiData.InstanceId, mlc);
             }
         }
 
@@ -116,11 +103,7 @@ public partial class EnvironmentSceneCreator
                 mlc.MpbColorSetter = chromaIdObjects[mlcsrlwiData.MaterialPropertyBlockColorSetterId]
                     .GetComponent<MaterialPropertyBlockColorSetter>();
                 mlcsrlwiData.CopyTo(mlc);
-                for (var index = 0; index < mlcsrlwiData.LightIntensityData.Length; index++)
-                {
-                    var comp = mlcsrlwiData.LightIntensityData[index];
-                    runtimeLights.Add((comp.ID, comp.ArrayId), (mlc, index));
-                }
+                lightWithIds.Add(mlcsrlwiData.InstanceId, mlc);
             }
         }
 
@@ -132,11 +115,7 @@ public partial class EnvironmentSceneCreator
                 var plc = go.AddComponent<PointLightsController>();
                 plc.Light = chromaIdObjects[plwiData.PointLight].GetComponent<PointLight>();
                 plwiData.CopyTo(plc);
-                for (var index = 0; index < plwiData.LightIntensityData.Length; index++)
-                {
-                    var comp = plwiData.LightIntensityData[index];
-                    runtimeLights.Add((comp.ID, comp.ArrayId), (plc, index));
-                }
+                lightWithIds.Add(plwiData.InstanceId, plc);
             }
         }
 
@@ -240,26 +219,29 @@ public partial class EnvironmentSceneCreator
         {
             foreach (var (lightId, lights) in lightWithIdManager.Lights)
             {
-                var nId = lightId - 1;
                 for (var order = 0; order < lights.Length; order++)
                 {
                     var light = lights[order];
-                    if (light is null)
+                    if (light is null) RegisterLight(sinkObject.AddComponent<LightSink>(), lightId, order);
+
+                    if (light.ArrayId != null)
                     {
                         // Get runtime light
-                        if (runtimeLights.TryGetValue((nId, order), out var stuff))
+                        if (lightWithIds.TryGetValue(light.InstanceId, out var controller))
                         {
-                            var (controller, id) = stuff;
-                            RegisterLight(controller.LightIntensityData[id], nId, order);
-                        }
-                        else if (runtimeLightsGroup.TryGetValue((nId, order), out var stuff2))
-                        {
-                            var (controller, id) = stuff2;
-                            RegisterLight(controller.LightIntensityData[id], nId, order);
+                            switch (controller)
+                            {
+                                case CombinedLightsController clc:
+                                    RegisterLight(clc.LightIntensityData[light.ArrayId.Value], lightId, order);
+                                    break;
+                                case CombinedLightsGroupController clgc:
+                                    RegisterLight(clgc.LightIntensityData[light.ArrayId.Value], lightId, order);
+                                    break;
+                            }
                         }
                         // Otherwise become sink
                         else
-                            RegisterLight(sinkObject.AddComponent<LightSink>(), nId, order);
+                            RegisterLight(sinkObject.AddComponent<LightSink>(), lightId, order);
 
                         continue;
                     }
@@ -268,7 +250,7 @@ public partial class EnvironmentSceneCreator
                     if (envObject is null)
                     {
                         // If for whatever reason this is missing, become sink
-                        RegisterLight(sinkObject.AddComponent<LightSink>(), nId, order);
+                        RegisterLight(sinkObject.AddComponent<LightSink>(), lightId, order);
                         continue;
                     }
 

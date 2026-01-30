@@ -148,7 +148,7 @@
                 i.uv.x = (i.uv.x + _Time.x) % 1;
                 fixed4 albedo = color * mask * tex2D(_MainTex, i.uv);
 
-                #ifdef ENABLE_HEIGHT_FOG
+                #if defined(ENABLE_HEIGHT_FOG)
                 BLOOM_FOG_HEIGHT_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,
                                            _FogHeightOffset, _FogHeightScale);
                 #else

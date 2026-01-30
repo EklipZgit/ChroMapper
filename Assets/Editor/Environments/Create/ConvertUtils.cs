@@ -73,4 +73,5 @@ public static class ConvertUtils
         Enum.TryParse<RotationStepType>(val, out var result) ? result : RotationStepType.Range;
 
     public static Vector2 ToVector2(float[] ary) => new(ary[0], ary[1]);
+    public static Vector4 ToVector4(float[] ary) => new(ary[0], ary[1], ary[2], ary[3]);
 }

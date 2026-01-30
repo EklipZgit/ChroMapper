@@ -19,6 +19,8 @@ public class EnvDataInfo
 
     // The environment-specific bloom fog parameters
     [JsonProperty("fogParams")] public EnvFogDefinition FogParameters;
+    
+    [JsonProperty("sizeData")] public EnvSizeData SizeData;
 
     // The light tracks/lanes of the environment
     [JsonProperty("lightTracks")] public LightTracksDefinition LightTracks;
@@ -125,6 +127,13 @@ public class EnvFogDefinition
     }
 }
 
+public class EnvSizeData
+{
+    public string FloorType;
+    public string CeilingType;
+    public string TrackLaneType;
+}
+
 public class EnvColorScheme
 {
     public float[] ColorLeft;
@@ -162,7 +171,7 @@ public class EnvInfoMaterial
     public string Name;
     public string Shader;
     public float[] Color;
-    [JsonProperty("shaderProperties")] public Dictionary<string, float> FloatProps;
+    [JsonProperty("shaderProperties")] public Dictionary<string, dynamic> ShaderProps;
     [JsonProperty("enabledShaderKeywords")] public string[] Keywords;
 }
 

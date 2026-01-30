@@ -24,16 +24,16 @@ Material:
   - _EMISSIONBLOOMTYPE_PP
   - _EMISSIONTEXTURE_SIMPLE
   - _EMISSION_ALPHA_SOURCE_EMISSION_G
-  - _EMISSION_TEXTURE_SOURCE_TEXTURE
   - _METALLIC_TEXTURE_SOURCE_MPM_R
+  - _SECONDARY_UVS_ADDITIVE_OFFSET
   - _SMOOTHNESS_TEXTURE_SOURCE_MPM_G_ROUGHNESS
   m_InvalidKeywords:
   - _BLOOMWHITE_NONE
   - _DIFFUSE_TEXTURE_SOURCE_TEXTURE
+  - _EMISSION_TEXTURE_SOURCE_TEXTURE
   - _MASKBLEND_MULTIPLY
   - _MODE_OPAQUE
   - _SECONDARY_MASKBLEND_MULTIPLY
-  - _SECONDARY_UVS_NONE
   - _VERTEX_BLOOMTYPE_NONE
   - _VERTEX_NONE
   - _ZWRITE_ON
@@ -162,9 +162,9 @@ Material:
     - _EmissionTexColor: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionTexSpeed: {r: 0, g: 0, b: 0, a: 0}
     - _InputUvMultiplier: {r: 1, g: 1, b: 0, a: 0}
-    - _NominalDiffuseLevel: {r: 0, g: 0, b: 0, a: 0}
+    - _NominalDiffuseLevel: {r: 0, g: 0, b: 0, a: 1}
     - _PrivatePointLightColor: {r: 0, g: 0.5, b: 1, a: 1}
-    - _PrivatePointLightPosition: {r: 0, g: 0, b: 0, a: 1}
+    - _PrivatePointLightPosition: {r: 0, g: 0, b: -2.29, a: 1}
     - _SecondaryEmissionMaskSpeed: {r: 0, g: 1, b: 0, a: 0}
     - _UVScale: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

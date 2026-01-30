@@ -44,7 +44,7 @@ Material:
     - _BlendOp: 0
     - _BloomBoost: 1
     - _BloomMultiplier: 1
-    - _BloomType: 2
+    - _BloomType: 0
     - _BloomWhite: 2
     - _BloomWhiteMultiplier: 1
     - _CullMode: 2
@@ -54,7 +54,7 @@ Material:
     - _EnableYAxisBillboard: 1
     - _FogHeightOffset: 0
     - _FogHeightScale: 1
-    - _FogScale: 0.3
+    - _FogScale: 1
     - _FogStartOffset: 0
     - _SquareAlpha: 0
     - _UseFogForLights: 0

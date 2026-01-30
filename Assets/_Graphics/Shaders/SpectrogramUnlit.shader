@@ -91,7 +91,7 @@
                 UNITY_SETUP_INSTANCE_ID(i);
                 fixed4 albedo = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
                 
-                #ifdef ENABLE_HEIGHT_FOG
+                #if defined(ENABLE_HEIGHT_FOG)
                 BLOOM_FOG_HEIGHT_FOG_APPLY(bloomfog_color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,
                                            _FogHeightOffset, _FogHeightScale);
                 #else

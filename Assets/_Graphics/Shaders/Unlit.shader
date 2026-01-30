@@ -101,7 +101,7 @@
                 fixed4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
 
                 fixed4 albedo = color * tex2D(_MainTex, TRANSFORM_TEX(i.uv, _MainTex));
-                #ifdef ALPHA_CUTOUT
+                #if defined(ALPHA_CUTOUT)
                 if (albedo.a == 0) discard;
                 #endif
 
@@ -113,7 +113,7 @@
                 CUSTOM_BLOOM_NONE_APPLY(albedo);
                 #endif
 
-                #ifdef ENABLE_HEIGHT_FOG
+                #if defined(ENABLE_HEIGHT_FOG)
                 BLOOM_FOG_HEIGHT_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,
                                             _FogHeightOffset, _FogHeightScale);
                 #else

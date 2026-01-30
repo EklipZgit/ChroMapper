@@ -24,6 +24,7 @@ Material:
   - _BLOOMWHITE_NONE
   - _DIFFUSE_TEXTURE_SOURCE_TEXTURE
   - _EMISSION_TEXTURE_SOURCE_SDF
+  - _EMISSION_TEXTURE_SOURCE_TEXTURE
   - _MASKBLEND_MULTIPLY
   - _METALLIC_TEXTURE_SOURCE_NONE
   - _MODE_OPAQUE
@@ -158,7 +159,7 @@ Material:
     - _InputUvMultiplier: {r: 1, g: 1, b: 0, a: 0}
     - _NominalDiffuseLevel: {r: 0, g: 0, b: 0, a: 0}
     - _PrivatePointLightColor: {r: 0, g: 0.5, b: 1, a: 1}
-    - _PrivatePointLightPosition: {r: 0, g: 0, b: 0, a: 1}
+    - _PrivatePointLightPosition: {r: 0, g: 0, b: 0, a: 0}
     - _SecondaryEmissionMaskSpeed: {r: 0, g: 1, b: 0, a: 0}
     - _UVScale: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

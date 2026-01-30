@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Newtonsoft.Json;
 
 /// <summary>
 /// Simple EnvironmentComponent for a Unity Transform.
@@ -11,7 +10,7 @@ public class LightWithIdManagerComponent
     public class LightId
     {
         public string ObjectId;
-        [JsonProperty("lightId")] public int Id;
         public int InstanceId;
+        public int? ArrayId;
     }
 }
