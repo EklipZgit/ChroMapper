@@ -220,7 +220,7 @@
                 color.rgb *= _Intensity;
 
                 #if defined(MAIN_TEXTURE)
-                fixed4 albedo = tex2D(_MainTex, TRANSFORM_TEX(i.uv)) * color;
+                fixed4 albedo = tex2D(_MainTex, TRANSFORM_TEX(i.uv, _MainTex)) * color;
                 #else
                 fixed4 albedo = color;
                 #endif
