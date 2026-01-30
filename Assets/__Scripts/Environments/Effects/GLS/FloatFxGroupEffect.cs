@@ -19,7 +19,12 @@ public class
     private FloatFxGroupContainer[] idToContainer = Array.Empty<FloatFxGroupContainer>();
     private FloatFxGroupContainer[] activeContainers = Array.Empty<FloatFxGroupContainer>();
 
-    public void Register(int id, FxTarget target) => fxEntries.Add(new() { ID = id, Target = target });
+    public void Register(int id, FxTarget target)
+    {
+        if (target == null) throw new ArgumentNullException(nameof(target));
+        fxEntries.Add(new() { ID = id, Target = target });
+    }
+
     public void Unregister(int id) => fxEntries.Remove(fxEntries.Find(e => e.ID == id));
 
     public override void Initialize()
@@ -77,7 +82,7 @@ public class
             }
         }
 
-        activeContainers = idToContainer.Where(x => x is not null && x.Target != null).ToArray();
+        activeContainers = idToContainer.Where(x => x is not null).ToArray();
     }
 
     public override void Refresh()
@@ -102,8 +107,8 @@ public class
                     container.Target.TriggerValue(ID, container.Id, container.EventContainer.CurrentState.Value);
             }
 
-            if (!Trigger && !container.Tween.UpdateTime(time))
-                container.Target.SetValue(ID, container.Id, container.EventContainer.CurrentState.Value);
+            if (!Trigger && container.Tween.UpdateTime(time))
+                container.Target.SetValue(ID, container.Id, container.Tween.Current);
         }
     }
 

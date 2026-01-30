@@ -12,6 +12,11 @@ public class MaterialLightController : LightController
     public bool MultiplyColor;
     public float ColorMultiplier;
     public float Alpha;
+    public string Property;
+
+    private int propId;
+
+    private void Awake() => propId = Shader.PropertyToID(Property);
 
     protected override bool Initialize() => Renderer != null;
 
@@ -41,7 +46,7 @@ public class MaterialLightController : LightController
             adjustedColor.b *= alpha;
         }
 
-        Mpb.SetColor(ColorId, adjustedColor);
+        Mpb.SetColor(propId, adjustedColor);
         Renderer.SetPropertyBlock(Mpb);
     }
 }

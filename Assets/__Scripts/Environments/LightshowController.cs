@@ -62,6 +62,7 @@ public class LightshowController : MonoBehaviour, IBeatmapUpdate
             .Concat(context.Descriptor.LightColorGroupEffectManager.IdToEffect.Values)
             .Concat(context.Descriptor.LightRotationGroupEffectManager.IdToEffect.Values)
             .Concat(context.Descriptor.LightTranslationGroupEffectManager.IdToEffect.Values)
+            .Concat(context.Descriptor.FloatFxGroupEffectManager.IdToEffect.Values)
             .Where(x => x != null)
             .ToArray();
         activeSize = activeEffects.Length;
