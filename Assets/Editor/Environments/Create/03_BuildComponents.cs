@@ -747,6 +747,11 @@ public partial class EnvironmentSceneCreator
                     .Transforms.Select(x => chromaIdObjects.GetValueOrDefault(x, null))
                     .Where(x => x != null)
                     .Select(x => x.transform)
+                    .Select(x =>
+                    {
+                        x.transform.localScale = flseData.StartScale;
+                        return x;
+                    })
                     .ToArray();
                 flseData.CopyTo(lsf);
             }
@@ -1153,6 +1158,7 @@ public partial class EnvironmentSceneCreator
                 go = dgo;
                 return true;
             }
+
             return chromaIdObjects.TryGetValue(id, out go);
         }
     }

@@ -8,7 +8,6 @@ public class FloatLocalScaleEffectComponent
 
     public void CopyTo(LocalScaleFx target)
     {
-        target.transform.localScale = StartScale;
         target.ValueBounds = ConvertUtils.ToVector2(ValueBounds);
     }
 }
