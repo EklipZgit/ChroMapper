@@ -21,12 +21,17 @@ public class
     private readonly Dictionary<(Axis axis, int index), LightTranslationGroupContainer>
         idToContainer = new();
 
-    public void Register(int id, Axis axis, bool mirrored, Transform tr) =>
-        transformEntries.Add(new() { ID = id, Transform = tr, Axis = axis, Mirrored = mirrored });
+    public void Register(int id, Axis axis, bool mirrored, Transform tr)
+    {
+        if (transformEntries.Exists(x => x.ID == id && x.Axis == axis))
+            transformEntries.First(x => x.ID == id && x.Axis == axis).Transforms.Add(tr);
+        else
+            transformEntries.Add(new() { ID = id, Transforms = new() { tr }, Axis = axis, Mirrored = mirrored });
+    }
 
     public void Unregister(int id, Axis axis) => transformEntries.RemoveAll(e => e.ID == id && e.Axis == axis);
 
-    public void Unregister(Transform tr) => transformEntries.RemoveAll(e => e.Transform == tr);
+    // public void Unregister(Transform tr) => transformEntries.RemoveAll(e => e.Transforms == tr);
 
     public override void Initialize()
     {
@@ -35,7 +40,7 @@ public class
         {
             if (idToContainer.ContainsKey((entry.Axis, entry.ID))) continue;
 
-            idToContainer[(entry.Axis, entry.ID)] = new(entry.Transform, entry.Axis, entry.Mirrored);
+            idToContainer[(entry.Axis, entry.ID)] = new(entry.Transforms.ToArray(), entry.Axis, entry.Mirrored);
             var container = idToContainer[(entry.Axis, entry.ID)];
 
             var startEvent = new LightTranslationEventStateData(new BaseLightTranslationBase(), short.MinValue);
@@ -145,23 +150,28 @@ public class
     private void SetTranslation(LightTranslationGroupContainer container)
     {
         var t = container.Tween.Current;
-        var local = container.Transform.localPosition;
-        switch (container.Axis)
+        for (var i = 0; i < container.Transforms.Length; i++)
         {
-            case Axis.X:
-                local.x = t;
-                break;
-            case Axis.Y:
-                local.y = t;
-                break;
-            case Axis.Z:
-                local.z = t;
-                break;
-            default:
-                throw new ArgumentOutOfRangeException();
-        }
+            var containerTransform = container.Transforms[i];
+            var tr = containerTransform;
+            var local = tr.localPosition;
+            switch (container.Axis)
+            {
+                case Axis.X:
+                    local.x = t;
+                    break;
+                case Axis.Y:
+                    local.y = t;
+                    break;
+                case Axis.Z:
+                    local.z = t;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
 
-        container.Transform.localPosition = local;
+            tr.localPosition = local;
+        }
     }
 
     private float ComputeTranslation(
@@ -282,15 +292,15 @@ public record LightTranslationGroupContainer : EventGroupContainer<
     BaseLightTranslationEventBox,
     BaseLightTranslationBase>
 {
-    public readonly Transform Transform;
+    public readonly Transform[] Transforms;
     public readonly Axis Axis;
     public readonly bool Mirrored;
 
     public readonly FloatTween Tween = new();
 
-    public LightTranslationGroupContainer(Transform transform, Axis axis, bool mirrored)
+    public LightTranslationGroupContainer(Transform[] transforms, Axis axis, bool mirrored)
     {
-        Transform = transform;
+        Transforms = transforms;
         Axis = axis;
         Mirrored = mirrored;
     }

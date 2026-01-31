@@ -22,7 +22,10 @@ public class
     public void Register(int id, FxTarget target)
     {
         if (target == null) throw new ArgumentNullException(nameof(target));
-        fxEntries.Add(new() { ID = id, Target = target });
+        if (fxEntries.Exists(x => x.ID == id))
+            fxEntries.First(x => x.ID == id).Targets.Add(target);
+        else
+            fxEntries.Add(new() { ID = id, Targets = new() { target } });
     }
 
     public void Unregister(int id) => fxEntries.Remove(fxEntries.Find(e => e.ID == id));
@@ -41,7 +44,7 @@ public class
 
             if (idToContainer[entry.ID] is null)
             {
-                idToContainer[entry.ID] = new(entry.ID, entry.Target);
+                idToContainer[entry.ID] = new(entry.ID, entry.Targets.ToArray());
                 var container = idToContainer[entry.ID];
 
                 var startEvent = new FloatFxEventStateData(new FloatFxEventBase(), short.MinValue);
@@ -90,25 +93,40 @@ public class
         foreach (var container in activeContainers)
         {
             if (Trigger)
-                container.Target.TriggerValue(ID, container.Id, container.EventContainer.CurrentState.Value);
+            {
+                for (var i = 0; i < container.Targets.Length; i++)
+                    container.Targets[i].TriggerValue(ID, container.Id, container.EventContainer.CurrentState.Value);
+            }
             else
-                container.Target.SetValue(ID, container.Id, container.Tween.Current);
+            {
+                for (var i = 0; i < container.Targets.Length; i++)
+                    container.Targets[i].SetValue(ID, container.Id, container.Tween.Current);
+            }
         }
     }
 
     public override void UpdateTime(float time)
     {
-        foreach (var container in activeContainers)
+        for (var j = 0; j < activeContainers.Length; j++)
         {
+            var container = activeContainers[j];
             if (!container.EventContainer.IsCurrentOrFindState(time, Atsc.IsPlaying))
             {
                 UpdateObject(container);
                 if (Trigger)
-                    container.Target.TriggerValue(ID, container.Id, container.EventContainer.CurrentState.Value);
+                {
+                    for (var i = 0; i < container.Targets.Length; i++)
+                        container
+                            .Targets[i]
+                            .TriggerValue(ID, container.Id, container.EventContainer.CurrentState.Value);
+                }
             }
 
             if (!Trigger && container.Tween.UpdateTime(time))
-                container.Target.SetValue(ID, container.Id, container.Tween.Current);
+            {
+                for (var i = 0; i < container.Targets.Length; i++)
+                    container.Targets[i].SetValue(ID, container.Id, container.Tween.Current);
+            }
         }
     }
 
@@ -227,12 +245,12 @@ public record FloatFxGroupContainer : EventGroupContainer<
 {
     public readonly FloatTween Tween = new();
     public readonly int Id;
-    public readonly FxTarget Target;
+    public readonly FxTarget[] Targets;
 
-    public FloatFxGroupContainer(int id, FxTarget target)
+    public FloatFxGroupContainer(int id, FxTarget[] targets)
     {
         Id = id;
-        Target = target;
+        Targets = targets;
     }
 }
 
@@ -240,5 +258,5 @@ public record FloatFxGroupContainer : EventGroupContainer<
 public class FxEntry
 {
     public int ID;
-    public FxTarget Target;
+    public List<FxTarget> Targets;
 }

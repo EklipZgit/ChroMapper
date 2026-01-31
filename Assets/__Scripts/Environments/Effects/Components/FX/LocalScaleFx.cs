@@ -9,7 +9,7 @@ public class LocalScaleFx : FxTarget
 
     private void Awake()
     {
-        for (var i = 0; i < TargetTransforms.Length; i++) startScale = TargetTransforms[i].localScale;
+        if (TargetTransforms.Length > 0) startScale = TargetTransforms[^1].localScale;
     }
 
     public override void SetValue(int group, int id, float value) => SetFloat(value);

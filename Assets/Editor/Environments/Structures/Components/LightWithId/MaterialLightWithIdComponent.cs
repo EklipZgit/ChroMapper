@@ -25,6 +25,6 @@ public class MaterialLightWithIdComponent : EnvDataComponent<MaterialLightContro
         target.MultiplyColor = MultiplyColor;
         target.ColorMultiplier = ColorMultiplier;
         target.Alpha = Alpha;
-        target.Property = ColorProperty;
+        target.Property = string.IsNullOrEmpty(ColorProperty) ? "_Color" : ColorProperty;
     }
 }

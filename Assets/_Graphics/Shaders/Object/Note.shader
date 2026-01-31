@@ -113,6 +113,7 @@
             #pragma multi_compile _ ENABLE_BLOOM_FOG
             #pragma multi_compile _ CM_PREVIEW_MODE
             #pragma multi_compile_fog
+            #pragma multi_compile LOW_QUALITY_SHADER // GGX makes a dot
 
             // Hello! We're global shader variables.
             uniform float _EnableNoteSurfaceGridLine = 1;
@@ -237,13 +238,9 @@
                 }
 
                 float3 worldNormal = normalize(i.worldNormal);
-
-                float3 lDir = normalize(_WorldSpaceCameraPos - i.worldPos);
-                float3 diffuse = CALCULATE_DIFFUSE(albedo, 1, 1, worldNormal, lDir, 1);
-                float3 specular = CALCULATE_SPECULAR(specular, albedo, 1, _Smoothness, 0.04,
-                         lDir, 1, i.worldPos, worldNormal);
-
-                albedo.rgb = diffuse + specular;
+                float3 viewDir = normalize(_WorldSpaceCameraPos - i.worldPos);
+                CALCULATE_DIRECTIONAL_LIGHTING(albedo, albedo, 0, _Smoothness, 0.1, 1, 0, 0,
+                                               viewDir, 1, i.worldPos, worldNormal);
 
                 #if RIM_DIM
                 float rim = 1 - saturate(dot(worldNormal, i.viewDir));
@@ -255,7 +252,7 @@
                 #if CM_PREVIEW_MODE && ENABLE_FOG
                 #if ENABLE_HEIGHT_FOG
                 BLOOM_FOG_HEIGHT_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,
-                                       _FogHeightOffset, _FogHeightScale);
+                                           _FogHeightOffset, _FogHeightScale);
                 #else
                 BLOOM_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
                 #endif

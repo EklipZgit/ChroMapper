@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Beatmap.Enums;
 using UnityEngine;
 
@@ -6,7 +7,7 @@ using UnityEngine;
 public struct TransformEntry
 {
     public int ID;
-    public Transform Transform;
+    public List<Transform> Transforms;
     public Axis Axis;
     public bool Mirrored;
 }

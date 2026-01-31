@@ -14,7 +14,6 @@ public class MaterialPropertyBlockColorSetter : MonoBehaviour
     private int alphaPropId;
     private bool hasInitialized;
 
-    public Color Color => Controller.Mpb.GetColor(propId);
     private Color lastColor;
 
     private void Awake()

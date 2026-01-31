@@ -18,12 +18,17 @@ public class
     private readonly Dictionary<(Axis axis, int index), LightRotationGroupContainer>
         idToContainer = new();
 
-    public void Register(int id, Axis axis, bool mirrored, Transform tr) =>
-        transformEntries.Add(new() { ID = id, Transform = tr, Axis = axis, Mirrored = mirrored });
+    public void Register(int id, Axis axis, bool mirrored, Transform tr)
+    {
+        if (transformEntries.Exists(x => x.ID == id && x.Axis == axis))
+            transformEntries.First(x => x.ID == id && x.Axis == axis).Transforms.Add(tr);
+        else
+            transformEntries.Add(new() { ID = id, Transforms = new() { tr }, Axis = axis, Mirrored = mirrored });
+    }
 
     public void Unregister(int id, Axis axis) => transformEntries.RemoveAll(e => e.ID == id && e.Axis == axis);
 
-    public void Unregister(Transform tr) => transformEntries.RemoveAll(e => e.Transform == tr);
+    // public void Unregister(Transform tr) => transformEntries.RemoveAll(e => e.Transforms == tr);
 
     public override void Initialize()
     {
@@ -32,7 +37,7 @@ public class
         {
             if (idToContainer.ContainsKey((entry.Axis, entry.ID))) continue;
 
-            idToContainer[(entry.Axis, entry.ID)] = new(entry.Transform, entry.Axis, entry.Mirrored);
+            idToContainer[(entry.Axis, entry.ID)] = new(entry.Transforms.ToArray(), entry.Axis, entry.Mirrored);
             var container = idToContainer[(entry.Axis, entry.ID)];
 
             var startEvent = new LightRotationEventStateData(new BaseLightRotationBase(), short.MinValue);
@@ -82,7 +87,7 @@ public class
         {
             // if (!container.EventContainer.IsCurrentOrFindState(time, Atsc.IsPlaying)) UpdateObject(container);
             // if (container.Tween.UpdateTime(time))
-            SetRotation(container.Transform, container.Tween.Current, container.Axis, container.Mirrored);
+            SetRotation(container.Transforms, container.Tween.Current, container.Axis, container.Mirrored);
         }
     }
 
@@ -92,7 +97,7 @@ public class
         {
             if (!container.EventContainer.IsCurrentOrFindState(time, Atsc.IsPlaying)) UpdateObject(container);
             if (container.Tween.UpdateTime(time))
-                SetRotation(container.Transform, container.Tween.Current, container.Axis, container.Mirrored);
+                SetRotation(container.Transforms, container.Tween.Current, container.Axis, container.Mirrored);
         }
     }
 
@@ -116,16 +121,19 @@ public class
         tween.Easing = Easing.FromID((int)endState.EaseType);
     }
 
-    private static void SetRotation(Transform tr, float rotation, Axis axis, bool mirrored)
+    private static void SetRotation(Transform[] transforms, float rotation, Axis axis, bool mirrored)
     {
         if (mirrored) rotation *= -1f;
-        tr.localRotation = axis switch
+        for (var i = 0; i < transforms.Length; i++)
         {
-            Axis.X => Quaternion.AngleAxis(rotation, Vector3.right),
-            Axis.Y => Quaternion.AngleAxis(rotation, Vector3.up),
-            Axis.Z => Quaternion.AngleAxis(rotation, Vector3.forward),
-            _ => Quaternion.identity,
-        };
+            transforms[i].localRotation = axis switch
+            {
+                Axis.X => Quaternion.AngleAxis(rotation, Vector3.right),
+                Axis.Y => Quaternion.AngleAxis(rotation, Vector3.up),
+                Axis.Z => Quaternion.AngleAxis(rotation, Vector3.forward),
+                _ => Quaternion.identity,
+            };
+        }
     }
 
     private static float ComputeTargetAngle(
@@ -263,15 +271,15 @@ public record LightRotationGroupContainer : EventGroupContainer<
     BaseLightRotationEventBox,
     BaseLightRotationBase>
 {
-    public readonly Transform Transform;
+    public readonly Transform[] Transforms;
     public readonly Axis Axis;
     public readonly bool Mirrored;
 
     public readonly FloatTween Tween = new();
 
-    public LightRotationGroupContainer(Transform transform, Axis axis, bool mirrored)
+    public LightRotationGroupContainer(Transform[] transforms, Axis axis, bool mirrored)
     {
-        Transform = transform;
+        Transforms = transforms;
         Axis = axis;
         Mirrored = mirrored;
     }
