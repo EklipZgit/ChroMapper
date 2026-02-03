@@ -3,8 +3,6 @@
     Properties
     {
         _Color ("Color", Color) = (1, 1, 1, 1)
-        _MainTex ("Texture", 2D) = "white" {}
-
         _AlphaWidth("Alpha Width", Vector) = (1,1,1,1)
 
         [Header(Fog Settings)] [Space]
@@ -63,9 +61,6 @@
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
-            sampler2D _MainTex;
-            float4 _MainTex_ST;
-
             float _FogStartOffset;
             float _FogScale;
             float _FogHeightOffset;
@@ -104,7 +99,7 @@
                 float adjustedLengthFactor = i.lengthFactor;
 
                 float2 adjustedUv = i.uv.xy / i.uv.z;
-                fixed4 albedo = color * tex2D(_MainTex, TRANSFORM_TEX(adjustedUv, _MainTex));
+                fixed4 albedo = color;
 
                 fixed alphaFactor = lerp(alphaWidth.x, alphaWidth.y, adjustedLengthFactor);
                 albedo *= alphaFactor;

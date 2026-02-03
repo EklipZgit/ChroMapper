@@ -240,10 +240,10 @@
 
                 float3 worldNormal = normalize(i.worldNormal);
                 float3 viewDir = normalize(_WorldSpaceCameraPos - i.worldPos);
-                float4 calculated = 0;
+                float3 calculated = 0;
                 CALCULATE_DIRECTIONAL_LIGHTING(calculated, albedo, 0, _Smoothness, 0.1, 1, 0, 0,
                                                viewDir, 1, i.worldPos, worldNormal);
-                albedo = calculated;
+                albedo.rgb = calculated.rgb;
 
                 #if RIM_DIM
                 float rim = 1 - saturate(dot(worldNormal, i.viewDir));

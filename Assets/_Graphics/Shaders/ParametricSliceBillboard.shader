@@ -4,17 +4,20 @@
     {
         _Color ("Color", Color) = (1, 1, 1, 1)
         _MainTex ("Texture", 2D) = "white" {}
-        [Toggle(ENABLE_Y_AXIS_BILLBOARD)] _EnableYAxisBillboard ("Y Axis Billboard", float) = 1
-        [KeywordEnum(None, PP, Frag)] _BloomType ("Bloom White", float) = 0
-        _BloomMultiplier ("Bloom Multiplier", float) = 1
-        _BloomWhiteMultiplier ("White Multiplier", float) = 1
-        [KeywordEnum(Before Emissive, After Emissive)] _AcesTonemap ("ACES Tonemapping", float) = 1
-
-        [Toggle(SQUARE_ALPHA)] _SquareAlpha("Square Alpha", float) = 1
-
+		_CapUVSize ("Cap UV Size", Float) = 0.25
+        
         _SizeParams("Size Params", Vector) = (0.25,10,0,0.5)
         [Toggle(ALPHA_WIDTH_SCALE)] _EnableAlphaWidthScale ("Alpha Width Scale", float) = 0
         _AlphaWidth("Alpha Width", Vector) = (1,1,1,1)
+
+        [KeywordEnum(None, PP, Frag)] _BloomType ("Bloom White", float) = 0
+        _BloomMultiplier ("Bloom Multiplier", float) = 1
+        _BloomWhiteMultiplier ("White Multiplier", float) = 1
+
+        [Header(Others)] [Space]
+        [Toggle(SQUARE_ALPHA)] _SquareAlpha("Square Alpha", float) = 1
+        [Toggle(ANGLE_DISAPPEAR)] _EnableAngleDisappear("Angle Disappear", float)= 1
+        [Toggle(Y_AXIS_BILLBOARD)] _EnableYAxisBillboard ("Y Axis Billboard", float) = 1
 
         [Header(Fog Settings)] [Space]
         [Toggle(ENABLE_FOG)] _EnableFog ("Enable Fog", float) = 1
@@ -38,6 +41,8 @@
         [Enum(UnityEngine.Rendering.CullMode)] _CullMode ("Cull Mode", float) = 2
         [Enum(UnityEngine.Rendering.CompareFunction)] _ZTest ("Z Test", float) = 4
         [Toggle] _ZWrite ("Z Write", float) = 0
+		_OffsetFactor ("Offset Factor", Float) = 0
+		_OffsetUnits ("Offset Units", Float) = 0
     }
 
     SubShader
@@ -56,6 +61,7 @@
         Cull [_CullMode]
         ZTest [_ZTest]
         ZWrite [_ZWrite]
+        Offset [_OffsetFactor], [_OffsetUnits]
 
         Pass
         {
@@ -63,15 +69,17 @@
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_instancing
-            #pragma multi_compile _ ENABLE_BLOOM_FOG
-            #pragma multi_compile _ ENABLE_FOG
-            #pragma multi_compile _ ENABLE_HEIGHT_FOG
-            #pragma multi_compile _FOGTYPE_ALPHA
-            #pragma shader_feature USE_FOG_FOR_LIGHTS
-            #pragma shader_feature ENABLE_Y_AXIS_BILLBOARD
             #pragma shader_feature ALPHA_WIDTH_SCALE
             #pragma shader_feature SQUARE_ALPHA
+            #pragma shader_feature ANGLE_DISAPPEAR
+            #pragma shader_feature Y_AXIS_BILLBOARD
             #pragma multi_compile _ _BLOOMTYPE_PP _BLOOMTYPE_FRAG
+
+            #pragma multi_compile _ ENABLE_BLOOM_FOG
+            #pragma multi_compile _FOGTYPE_ALPHA
+            #pragma multi_compile _ ENABLE_FOG
+            #pragma multi_compile _ ENABLE_HEIGHT_FOG
+            #pragma shader_feature USE_FOG_FOR_LIGHTS
 
             #include "UnityCG.cginc"
             #include "CGIncludes/BloomFog.cginc"
@@ -103,6 +111,7 @@
 
             sampler2D _MainTex;
             float4 _MainTex_ST;
+            float2 _CapUVSize;
 
             float _BloomMultiplier;
             float _BloomWhiteMultiplier;
@@ -135,7 +144,7 @@
                 if (i.uv.y < 0.25)
                 {
                     float t = 1 - i.uv.y / 0.25;
-                    #if ALPHA_WIDTH_SCALE
+                    #if defined(ALPHA_WIDTH_SCALE)
                     width = alphaWidth.z;
                     #endif
                     height = -sizeParams.w * t;
@@ -143,7 +152,7 @@
                 else if (i.uv.y < 0.75)
                 {
                     float t = (i.uv.y - 0.25) * 2;
-                    #if ALPHA_WIDTH_SCALE
+                    #if defined(ALPHA_WIDTH_SCALE)
                     width = lerp(alphaWidth.z, alphaWidth.w, t);
                     #endif
                     height = sizeParams.y * t;
@@ -151,7 +160,7 @@
                 else
                 {
                     float t = (i.uv.y - 0.75) / 0.25;
-                    #if ALPHA_WIDTH_SCALE
+                    #if defined(ALPHA_WIDTH_SCALE)
                     width = alphaWidth.w;
                     #endif
                     height = sizeParams.y + sizeParams.w * t;
@@ -165,7 +174,7 @@
                 i.vertex.x *= width;
                 i.vertex.y = height;
 
-                #if ENABLE_Y_AXIS_BILLBOARD
+                #if defined(Y_AXIS_BILLBOARD)
                 float3 worldPos = worldOrigin + right * i.vertex.x + localUp * i.vertex.y;
                 o.vertex = mul(UNITY_MATRIX_VP, float4(worldPos, 1.0));
                 #else
@@ -186,21 +195,22 @@
                 float4 alphaWidth = UNITY_ACCESS_INSTANCED_PROP(Props, _AlphaWidth);
 
                 float2 adjustedUv = i.uv.xy / i.uv.z;
+                adjustedUv = min(adjustedUv, _CapUVSize.xy);
                 fixed4 albedo = color * tex2D(_MainTex, TRANSFORM_TEX(adjustedUv, _MainTex));
 
-                #if USE_FOG_FOR_LIGHTS
-                #if SQUARE_ALPHA
+                #if defined(USE_FOG_FOR_LIGHTS)
+                #if defined(SQUARE_ALPHA)
                 albedo.a *= albedo.a;
                 #endif
                 fixed alphaFactor = lerp(alphaWidth.x, alphaWidth.y, i.lengthFactor);
-                #if SQUARE_ALPHA
+                #if defined(SQUARE_ALPHA)
                 alphaFactor *= alphaFactor;
                 #endif
                 albedo *= alphaFactor;
 
-                #if _BLOOMTYPE_PP
+                #if defined(_BLOOMTYPE_PP)
                 CUSTOM_BLOOM_PP_APPLY(albedo, _BloomMultiplier);
-                #elif _BLOOMTYPE_FRAG
+                #elif defined(_BLOOMTYPE_FRAG)
                 CUSTOM_BLOOM_FRAG_APPLY(albedo, _BloomWhiteMultiplier);
                 #else
                 CUSTOM_BLOOM_NONE_TRANSPARENT_APPLY(albedo);
@@ -219,19 +229,19 @@
                 #endif
                 #endif
 
-                #if !USE_FOG_FOR_LIGHTS
-                #if SQUARE_ALPHA
+                #if !defined(USE_FOG_FOR_LIGHTS)
+                #if defined(SQUARE_ALPHA)
                 albedo.a *= albedo.a;
                 #endif
                 fixed alphaFactor = lerp(alphaWidth.x, alphaWidth.y, i.lengthFactor);
-                #if SQUARE_ALPHA
+                #if defined(SQUARE_ALPHA)
                 alphaFactor *= alphaFactor;
                 #endif
                 albedo *= alphaFactor;
 
-                #if _BLOOMTYPE_PP
+                #if defined(_BLOOMTYPE_PP)
                 CUSTOM_BLOOM_PP_APPLY(albedo, _BloomMultiplier);
-                #elif _BLOOMTYPE_FRAG
+                #elif defined(_BLOOMTYPE_FRAG)
                 CUSTOM_BLOOM_FRAG_APPLY(albedo, _BloomWhiteMultiplier);
                 #else
                 CUSTOM_BLOOM_NONE_TRANSPARENT_APPLY(albedo);

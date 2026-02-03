@@ -149,6 +149,8 @@
         [Enum(UnityEngine.Rendering.CullMode)] _CullMode ("Cull Mode", float) = 0
         [Enum(UnityEngine.Rendering.CompareFunction)] _ZTest ("Z Test", float) = 4
         [Toggle] _ZWrite ("Z Write", float) = 0
+		_OffsetFactor ("Offset Factor", Float) = 0
+		_OffsetUnits ("Offset Units", Float) = 0
     }
     SubShader
     {
@@ -166,6 +168,7 @@
         ZTest [_ZTest]
         ZWrite [_ZWrite]
         Lighting Off
+        Offset [_OffsetFactor], [_OffsetUnits]
 
         Pass
         {

@@ -2,7 +2,6 @@
 {
     Properties
     {
-        [Space(10)]
         _Color ("Color", Color) = (1,1,1,1)
 		_SpectrogramScale ("Spectrogram Scale", float) = 0.5
 
@@ -86,10 +85,10 @@
                 return o;
             }
 
-            fixed4 frag(v2f i) : SV_Target
+            float4 frag(v2f i) : SV_Target
             {
                 UNITY_SETUP_INSTANCE_ID(i);
-                fixed4 albedo = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
+                float4 albedo = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
                 
                 ACES_TONE_MAPPING_APPLY(albedo);
                 

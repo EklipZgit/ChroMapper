@@ -3,7 +3,6 @@
     Properties
     {
         _Color ("Color", Color) = (1, 1, 1, 1)
-        _MainTex ("Texture", 2D) = "white" {}
         _AlphaWidth("Alpha Width", Vector) = (1,1,1,1)
 
         [Header(Fog Settings)] [Space]
@@ -78,9 +77,6 @@
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
-            sampler2D _MainTex;
-            float4 _MainTex_ST;
-
             float _BloomWhiteMultiplier;
 
             float _FogStartOffset;
@@ -112,31 +108,31 @@
                 return o;
             }
 
-            fixed4 frag(v2f i) : SV_Target
+            float4 frag(v2f i) : SV_Target
             {
                 UNITY_SETUP_INSTANCE_ID(i);
-                fixed4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
+                float4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
                 float4 alphaWidth = UNITY_ACCESS_INSTANCED_PROP(Props, _AlphaWidth);
 
                 float adjustedLengthFactor = i.lengthFactor;
 
                 float2 adjustedUv = i.uv.xy / i.uv.z;
-                fixed4 albedo = color * tex2D(_MainTex, TRANSFORM_TEX(adjustedUv, _MainTex));
+                float4 albedo = color;
 
                 fixed alphaFactor = lerp(alphaWidth.x, alphaWidth.y, adjustedLengthFactor);
                 albedo *= alphaFactor;
-                
+
                 #if defined(ENABLE_HEIGHT_FOG)
                 BLOOM_FOG_HEIGHT_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,
                                            _FogHeightOffset, _FogHeightScale);
                 #else
                 BLOOM_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
                 #endif
-                
+
                 CUSTOM_BLOOM_PP_APPLY(albedo, 1);
 
                 ACES_TONE_MAPPING_APPLY(albedo);
-                
+
                 return albedo;
             }
             ENDCG

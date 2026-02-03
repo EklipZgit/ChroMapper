@@ -483,7 +483,8 @@
 
                 CUSTOM_LIGHTING_APPLY(calculated, albedo, metallic, smoothness, _SpecularIntensity,
                                       _BothSidesDiffuseMultiplier, worldPos, worldNormal);
-                albedo = max(_NominalDiffuseLevel * albedo, _AmbientMinimalValue) * _AmbientMultiplier + calculated;
+                albedo = max(_NominalDiffuseLevel * albedo, _AmbientMinimalValue) * _AmbientMultiplier + float4(
+                    calculated.rgb, 0);
 
                 #if defined(_ACES_APPROACH_BEFORE_EMISSIVE)
                 ACES_TONE_MAPPING_APPLY(albedo);
@@ -508,7 +509,8 @@
                 #if defined(_EMISSIONBLOOMTYPE_GRADIENT)
                 emissionTex = tex2D(_EmissionGradientTex,
                                     TRANSFORM_TEX(
-                                        i.uv + UNITY_ACCESS_INSTANCED_PROP(Props, _EmissionGradientPosition).xx *
+                                        i.uv + UNITY_ACCESS_INSTANCED_PROP(
+                                            Props, _EmissionGradientPosition).xx *
                                         _EmissionGradientPanningSpeed.xx * GET_TIME(
                                             UNITY_ACCESS_INSTANCED_PROP(Props, _TimeOffset)).yy,
                                         _EmissionGradientTex));

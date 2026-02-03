@@ -2,15 +2,14 @@
 {
     Properties
     {
-        [Space(10)]
         _Color ("Color", Color) = (1,1,1,1)
         _PeakOffset ("Peak Offset", Vector) = (0,10,0,1)
 
         [Header(Lighting)] [Space]
         [Toggle(DIFFUSE)] _EnableDiffuse ("Diffuse", float) = 1
+        [Toggle(LIGHT_FALLOFF)] _EnableLightFalloff ("Light Falloff", float) = 0
         _Metallic ("Metallic", Range(0, 1)) = 1
         _Smoothness ("Smoothness", Range(0, 1)) = 0.5
-        [Toggle(LIGHT_FALLOFF)] _EnableLightFalloff ("Light Falloff", float) = 0
 
         [Toggle(SPECULAR)] _EnableSpecular ("Specular", float) = 1
         _SpecularIntensity ("Specular Intensity", float) = 1
@@ -112,10 +111,10 @@
                 float4 albedo = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
                 float3 worldPos = i.worldPos;
                 float3 worldNormal = i.worldNormal;
-                float4 calculated = 0;
+                float3 calculated = 0;
                 CUSTOM_LIGHTING_APPLY(calculated, albedo, _Metallic, _Smoothness, _SpecularIntensity, 1, worldPos,
                                       worldNormal);
-                albedo = calculated;
+                albedo.rgb = calculated.rgb;
 
                 ACES_TONE_MAPPING_APPLY(albedo);
 
