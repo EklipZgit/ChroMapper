@@ -37,8 +37,17 @@ public class ParametricSpriteLight : MonoBehaviour
 
     private void Start()
     {
-        mpb = new MaterialPropertyBlock();
-        if (!hasInitialized) hasInitialized = Renderer != null;
+        if (hasInitialized)
+            SetColor(color);
+        else
+            InitIfNeeded();
+    }
+
+    public void InitIfNeeded()
+    {
+        if (hasInitialized) return;
+        mpb ??= new MaterialPropertyBlock();
+        hasInitialized = Renderer != null;
         SetColor(color);
     }
 

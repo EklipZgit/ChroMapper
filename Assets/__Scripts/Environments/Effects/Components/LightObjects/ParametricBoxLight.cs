@@ -37,9 +37,18 @@ public class ParametricBoxLight : MonoBehaviour
 
     private void Start()
     {
+        if (hasInitialized)
+            SetColor(color);
+        else
+            InitIfNeeded();
+    }
+
+    public void InitIfNeeded()
+    {
+        if (hasInitialized) return;
         tr = transform;
         mpb ??= new MaterialPropertyBlock();
-        if (!hasInitialized) hasInitialized = Renderer != null;
+        hasInitialized = Renderer != null;
         SetColor(color);
     }
 

@@ -97,6 +97,7 @@ public class ParametricBloomFogLightController : LightController
                 BoxLight.WidthStart = StartWidth;
                 BoxLight.WidthEnd = EndWidth;
             }
+            BoxLight.InitIfNeeded();
         }
 
         if (hasSpriteLight)
@@ -109,6 +110,7 @@ public class ParametricBloomFogLightController : LightController
                 SpriteLight.WidthStart = StartWidth;
                 SpriteLight.WidthEnd = EndWidth;
             }
+            SpriteLight.InitIfNeeded();
         }
 
         return true;
