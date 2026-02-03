@@ -62,6 +62,7 @@
         #include "UnityCG.cginc"
         #include "../CGIncludes/BloomFog.cginc"
         #include "../CGIncludes/CustomLighting.cginc"
+        #include "../CGIncludes/CustomTonemapping.cginc"
         #pragma multi_compile_instancing
 
         UNITY_INSTANCING_BUFFER_START(Props)
@@ -230,25 +231,29 @@
                 clip(isDithered(i.customScreenPos.xy / i.customScreenPos.w, alpha));
 
                 float noise = tex3D(_CutoutTex, (i.cutoutPos + cutoutTexOffset.xyz) * 0.25 * _CutoutSize);
-                float c = noise - cutout;
-                clip(c);
-                if (c < _CutoutEdgeWidth * cutout)
+                float cl = noise - cutout;
+                clip(cl);
+                if (cl < _CutoutEdgeWidth * cutout)
                 {
                     return fixed4(albedo.rgb, _CutoutEdgeGlow);
                 }
 
                 float3 worldNormal = normalize(i.worldNormal);
                 float3 viewDir = normalize(_WorldSpaceCameraPos - i.worldPos);
-                CALCULATE_DIRECTIONAL_LIGHTING(albedo, albedo, 0, _Smoothness, 0.1, 1, 0, 0,
+                float4 calculated = 0;
+                CALCULATE_DIRECTIONAL_LIGHTING(calculated, albedo, 0, _Smoothness, 0.1, 1, 0, 0,
                                                viewDir, 1, i.worldPos, worldNormal);
+                albedo = calculated;
 
                 #if RIM_DIM
                 float rim = 1 - saturate(dot(worldNormal, i.viewDir));
-                // float distFactor = (i.dist + _RimDistanceOffset) * _RimDistanceScale;
-                float finalRim = saturate((rim + _RimOffset) * _RimScale);
+                float distFactor = (i.dist + _RimDistanceOffset) * _RimDistanceScale;
+                float finalRim = saturate((rim + _RimOffset) * _RimScale) * distFactor;
                 albedo *= (1 - finalRim * _RimDarkening);
                 #endif
 
+                ACES_TONE_MAPPING_APPLY(albedo);
+                
                 #if CM_PREVIEW_MODE && ENABLE_FOG
                 #if ENABLE_HEIGHT_FOG
                 BLOOM_FOG_HEIGHT_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,
@@ -257,7 +262,7 @@
                 BLOOM_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
                 #endif
                 #endif
-
+                
                 return albedo;
             }
             ENDHLSL

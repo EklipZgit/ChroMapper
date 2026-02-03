@@ -23,8 +23,6 @@ Shader "Hidden/BloomfogBlurring"
         #include "UnityCG.cginc"
         #include "../CGIncludes/Blurs.cginc"
         #include "../CGIncludes/CustomTonemapping.cginc"
-        #pragma multi_compile _ ACES_TONE_MAPPING
-        #pragma multi_compile REINHARD_TONE_MAPPING
 
         struct appdata
         {

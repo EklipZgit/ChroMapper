@@ -15,9 +15,9 @@ Material:
   - ENABLE_FOG
   - ENABLE_HEIGHT_FOG
   - ENABLE_Y_AXIS_BILLBOARD
-  - _ACESTONEMAP_AFTER_EMISSIVE
   - _BLOOMTYPE_FRAG
   m_InvalidKeywords:
+  - _ACESTONEMAP_AFTER_EMISSIVE
   - _BLOOMWHITE_FRAG
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1

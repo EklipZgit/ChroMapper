@@ -14,7 +14,7 @@ Material:
   m_ValidKeywords:
   - ENABLE_FOG
   - METAL_SMOOTHNESS_TEXTURE
-  - _ACESTONEMAP_BEFORE_EMISSIVE
+  - _ACES_APPROACH_BEFORE_EMISSIVE
   - _EMISSIONBLOOMTYPE_FRAG
   - _EMISSIONTEXTURE_SIMPLE
   - _EMISSION_ALPHA_SOURCE_COPY_EMISSION
@@ -23,7 +23,9 @@ Material:
   - _SMOOTHNESS_TEXTURE_SOURCE_MPM_A
   - _VERTEX_COLOR
   m_InvalidKeywords:
+  - _ACESTONEMAP_BEFORE_EMISSIVE
   - _BLOOMWHITE_NONE
+  - _CUSTOM_TIME_STANDARD
   - _DIFFUSE_TEXTURE_SOURCE_TEXTURE
   - _MASKBLEND_MULTIPLY
   - _MODE_OPAQUE
@@ -75,6 +77,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _ACES_Approach: 1
     - _AcesTonemap: 0
     - _AlbedoMultiplier: 1
     - _AlphaCutout: 0
@@ -85,6 +88,7 @@ Material:
     - _BloomWhiteMultiplier: 1
     - _BothSidesDiffuseMultiplier: 1
     - _CullMode: 2
+    - _Custom_Time: 0
     - _Diffuse_Texture_Source: 0
     - _EmissionBloomIntensity: 1
     - _EmissionBloomType: 1
@@ -144,6 +148,7 @@ Material:
     - _Smoothness: 0.5
     - _Smoothness_Texture_Source: 1
     - _SpecularIntensity: 1
+    - _UseColorArray: 0
     - _Vertex: 1
     - _Vertex_BloomType: 0
     - _ZTest: 4

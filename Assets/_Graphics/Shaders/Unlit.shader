@@ -7,7 +7,6 @@
         _Color ("Color", Color) = (1, 1, 1, 1)
         _MainTex ("Texture", 2D) = "white" {}
         [KeywordEnum(None, PP, Frag)] _BloomType ("Bloom Type", float) = 0
-        [KeywordEnum(Before Emissive, After Emissive)] _AcesTonemap ("ACES Tonemapping", float) = 1
 
         [Header(Fog Settings)] [Space]
         [Toggle(ENABLE_FOG)] _EnableFog ("Enable Fog", float) = 1
@@ -45,12 +44,11 @@
             #pragma multi_compile _ ENABLE_HEIGHT_FOG
             #pragma shader_feature ALPHA_CUTOUT
             #pragma multi_compile _ _BLOOMTYPE_PP _BLOOMTYPE_FRAG
-            #pragma multi_compile _ACESTONEMAP_BEFORE_EMISSIVE _ACESTONEMAP_AFTER_EMISSIVE
-            #pragma multi_compile ACES_TONE_MAPPING
 
             #include "UnityCG.cginc"
             #include "CGIncludes/BloomFog.cginc"
             #include "CGIncludes/CustomBloom.cginc"
+            #include "CGIncludes/CustomTonemapping.cginc"
 
             UNITY_INSTANCING_BUFFER_START(Props)
                 UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
@@ -113,6 +111,8 @@
                 CUSTOM_BLOOM_NONE_APPLY(albedo);
                 #endif
 
+                ACES_TONE_MAPPING_APPLY(albedo);
+                
                 #if defined(ENABLE_HEIGHT_FOG)
                 BLOOM_FOG_HEIGHT_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,
                                             _FogHeightOffset, _FogHeightScale);

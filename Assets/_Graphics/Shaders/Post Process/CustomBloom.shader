@@ -6,8 +6,6 @@ Shader "ChroMapper/Post Process/Bloom"
     #include "Packages/com.unity.postprocessing/PostProcessing/Shaders/Colors.hlsl"
     #include "Packages/com.unity.postprocessing/PostProcessing/Shaders/Sampling.hlsl"
     #include "../CGIncludes/CustomTonemapping.cginc"
-    #pragma multi_compile REINHARD_TONE_MAPPING
-    #pragma multi_compile BLOOM_TOWARDS_WHITE
 
     TEXTURE2D_SAMPLER2D(_MainTex, sampler_MainTex);
     TEXTURE2D_SAMPLER2D(_BloomTex, sampler_BloomTex);
@@ -65,12 +63,10 @@ Shader "ChroMapper/Post Process/Bloom"
     {
         float4 color = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.texcoord);
 
-        #if BLOOM_TOWARDS_WHITE
         // Give whiteness to glowing material
         float alpha = saturate(color.a);
         float4 invert = 1 - color;
         color = alpha * invert + color;
-        #endif
  
         float4 bloom = SAMPLE_TEXTURE2D(_BloomTex, sampler_BloomTex, i.texcoord);
         color = bloom * 0.2 + color;

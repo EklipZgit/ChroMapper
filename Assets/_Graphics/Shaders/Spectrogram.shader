@@ -55,6 +55,7 @@
             #include "CGIncludes/BloomFog.cginc"
             #include "CGIncludes/CustomBloom.cginc"
             #include "CGIncludes/CustomLighting.cginc"
+            #include "CGIncludes/CustomTonemapping.cginc"
 
             UNITY_INSTANCING_BUFFER_START(Props)
                 UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
@@ -105,16 +106,18 @@
                 return o;
             }
 
-            fixed4 frag(v2f i) : SV_Target
+            float4 frag(v2f i) : SV_Target
             {
                 UNITY_SETUP_INSTANCE_ID(i);
-                fixed4 albedo = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
+                float4 albedo = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
                 float3 worldPos = i.worldPos;
                 float3 worldNormal = i.worldNormal;
-                float3 calculated = 0;
+                float4 calculated = 0;
                 CUSTOM_LIGHTING_APPLY(calculated, albedo, _Metallic, _Smoothness, _SpecularIntensity, 1, worldPos,
                                       worldNormal);
-                albedo.rgb = calculated;
+                albedo = calculated;
+
+                ACES_TONE_MAPPING_APPLY(albedo);
 
                 #if ENABLE_HEIGHT_FOG
                 BLOOM_FOG_HEIGHT_FOG_APPLY(bloomfog_color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,

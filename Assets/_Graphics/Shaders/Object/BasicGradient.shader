@@ -26,6 +26,7 @@ Shader "ChroMapper/Object/Basic Gradient"
 
             #include "UnityCG.cginc"
             #include "../CGIncludes/Easings.cginc"
+            #include "../CGIncludes/CustomTonemapping.cginc"
 
             // Define instanced properties
             UNITY_INSTANCING_BUFFER_START(Props)
@@ -66,8 +67,8 @@ Shader "ChroMapper/Object/Basic Gradient"
                 UNITY_SETUP_INSTANCE_ID(i);
 
                 // Grab GPU Instanced parameters
-                float4 a = UNITY_ACCESS_INSTANCED_PROP(Props, _ColorA);
-                float4 b = UNITY_ACCESS_INSTANCED_PROP(Props, _ColorB);
+                float4 startColor = UNITY_ACCESS_INSTANCED_PROP(Props, _ColorA);
+                float4 endColor = UNITY_ACCESS_INSTANCED_PROP(Props, _ColorB);
                 float t = i.uv.x;
 
                 int id = UNITY_ACCESS_INSTANCED_PROP(Props, _EasingID);
@@ -169,7 +170,7 @@ Shader "ChroMapper/Object/Basic Gradient"
                         break;
                 }
 
-                float4 color = lerp(a, b, t);
+                float4 color = lerp(startColor, endColor, t);
 
                 float mult = max(color.a, 1);
                 color.r *= mult;
@@ -179,6 +180,7 @@ Shader "ChroMapper/Object/Basic Gradient"
                 color.rgb *= clamp(color.a, 0, 1);
                 color.a = 0;
 
+                ACES_TONE_MAPPING_APPLY(color);
                 return color;
             }
             ENDCG

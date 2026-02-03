@@ -22,15 +22,17 @@ Material:
   - SECONDARY_EMISSION_MASK
   - SECONDARY_UVS_EMISSION_MASK
   - SECONDARY_UVS_EMISSION_MASK2
-  - _ACESTONEMAP_BEFORE_EMISSIVE
+  - _ACES_APPROACH_BEFORE_EMISSIVE
+  - _CUSTOM_TIME_FREEZE
   - _EMISSIONBLOOMTYPE_PP
   - _EMISSIONTEXTURE_SIMPLE
-  - _EMISSION_ALPHA_SOURCE_EMISSION_G
   - _SECONDARY_UVS_IMPORT
   - _VERTEX_BLOOMTYPE_PP
   m_InvalidKeywords:
+  - _ACESTONEMAP_BEFORE_EMISSIVE
   - _BLOOMWHITE_NONE
   - _DIFFUSE_TEXTURE_SOURCE_TEXTURE
+  - _EMISSION_ALPHA_SOURCE_EMISSION_G
   - _EMISSION_TEXTURE_SOURCE_TEXTURE
   - _MASKBLEND_MULTIPLY
   - _METALLIC_TEXTURE_SOURCE_NONE
@@ -83,6 +85,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _ACES_Approach: 1
     - _AcesTonemap: 0
     - _AlbedoMultiplier: 1
     - _AlphaCutout: 0
@@ -93,6 +96,7 @@ Material:
     - _BloomWhiteMultiplier: 1
     - _BothSidesDiffuseMultiplier: 1
     - _CullMode: 2
+    - _Custom_Time: 2
     - _Diffuse_Texture_Source: 0
     - _EmissionBloomIntensity: 1
     - _EmissionBloomType: 3
@@ -153,6 +157,7 @@ Material:
     - _Smoothness: 0.5
     - _Smoothness_Texture_Source: 0
     - _SpecularIntensity: 1
+    - _UseColorArray: 0
     - _Vertex: 0
     - _Vertex_BloomType: 1
     - _ZTest: 4

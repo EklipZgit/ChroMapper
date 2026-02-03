@@ -44,6 +44,7 @@
 
             #include "UnityCG.cginc"
             #include "../CGIncludes/CustomBloom.cginc"
+            #include "../CGIncludes/CustomTonemapping.cginc"
 
             // Define instanced properties
             UNITY_INSTANCING_BUFFER_START(Props)
@@ -131,6 +132,11 @@
                 float4 albedo = color * tex2D(_MainTex, i.uv);
                 albedo *= mask;
 
+                CUSTOM_BLOOM_PP_APPLY(albedo, 1);
+                albedo.a *= albedo.a * albedo.a;
+                
+                ACES_TONE_MAPPING_APPLY(albedo);
+                
                 #if defined(CM_PREVIEW_MODE)
                 float fadeSize = UNITY_ACCESS_INSTANCED_PROP(Props, _FadeSize);
 
@@ -145,8 +151,6 @@
                 albedo *= fade;
                 #endif
 
-                CUSTOM_BLOOM_PP_APPLY(albedo, 1);
-                albedo.a *= albedo.a * albedo.a;
                 return albedo;
             }
             ENDHLSL

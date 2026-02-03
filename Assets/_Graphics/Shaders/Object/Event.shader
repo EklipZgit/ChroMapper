@@ -28,6 +28,7 @@ Shader "ChroMapper/Object/Event"
             #pragma multi_compile_instancing
 
             #include "UnityCG.cginc"
+            #include "../CGIncludes/CustomTonemapping.cginc"
 
             UNITY_INSTANCING_BUFFER_START(Props)
                UNITY_DEFINE_INSTANCED_PROP(fixed4, _ColorTint)
@@ -86,16 +87,20 @@ Shader "ChroMapper/Object/Event"
                     fixed4 transitionColor = lerp(colorTint, colorBase, t);
 
                     transitionColor.a = 0;
+                ACES_TONE_MAPPING_APPLY(transitionColor);
+                
                     return transitionColor;
                 }
                 else if (distance > circleRadius + fadeSize)
                 {
                     colorBase.a = 0;
+                ACES_TONE_MAPPING_APPLY(colorBase);
                     return colorBase;
                 }
                 else
                 {
                     colorTint.a = 0;
+                ACES_TONE_MAPPING_APPLY(colorBase);
                     return colorTint;
                 }
             }

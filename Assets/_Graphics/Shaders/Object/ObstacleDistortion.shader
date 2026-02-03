@@ -61,6 +61,7 @@
         #include "UnityCG.cginc"
         #include "../CGIncludes/Noise.cginc"
         #include "../CGIncludes/BloomFog.cginc"
+        #include "../CGIncludes/CustomTonemapping.cginc"
 
         // These are global properties and should not be instanced
         uniform float _MainAlpha = 0.5;
@@ -156,8 +157,8 @@
                 float cutout = UNITY_ACCESS_INSTANCED_PROP(Props, _Cutout);
                 float4 cutoutTexOffset = UNITY_ACCESS_INSTANCED_PROP(Props, _CutoutTexOffset);
                 float noise = tex3D(_CutoutTex, (i.cutoutPos + cutoutTexOffset.xyz) * 0.3);
-                float c = noise - cutout;
-                clip(c);
+                float cl = noise - cutout;
+                clip(cl);
 
                 fixed4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
 
@@ -175,6 +176,8 @@
                 color.a = 0;
                 color = color * 0.25 + tex2D(_GrabTexture, screenUV);
 
+                ACES_TONE_MAPPING_APPLY(color);
+                
                 #if defined(CM_PREVIEW_MODE)
                 #if defined(ENABLE_HEIGHT_FOG)
                 BLOOM_FOG_HEIGHT_FOG_APPLY(color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,
@@ -183,7 +186,7 @@
                 BLOOM_FOG_APPLY(color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
                 #endif
                 #endif
-
+                
                 return color;
             }
             ENDHLSL

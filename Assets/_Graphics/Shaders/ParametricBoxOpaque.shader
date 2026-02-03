@@ -35,12 +35,11 @@
             #pragma multi_compile_instancing
             #pragma multi_compile _ ENABLE_BLOOM_FOG
             #pragma multi_compile _ ENABLE_HEIGHT_FOG
-            #pragma multi_compile _ACESTONEMAP_AFTER_EMISSIVE
-            #pragma multi_compile ACES_TONE_MAPPING
 
             #include "UnityCG.cginc"
             #include "CGIncludes/BloomFog.cginc"
             #include "CGIncludes/CustomBloom.cginc"
+            #include "CGIncludes/CustomTonemapping.cginc"
 
             UNITY_INSTANCING_BUFFER_START(Props)
                 UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
@@ -112,6 +111,8 @@
                 
                 CUSTOM_BLOOM_PP_APPLY(albedo, 1);
 
+                ACES_TONE_MAPPING_APPLY(albedo);
+                
                 #if defined(ENABLE_HEIGHT_FOG)
                 BLOOM_FOG_HEIGHT_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,
                                            _FogHeightOffset, _FogHeightScale);

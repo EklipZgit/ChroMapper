@@ -72,12 +72,11 @@
             #pragma shader_feature ALPHA_WIDTH_SCALE
             #pragma shader_feature SQUARE_ALPHA
             #pragma multi_compile _ _BLOOMTYPE_PP _BLOOMTYPE_FRAG
-            #pragma multi_compile _ACESTONEMAP_BEFORE_EMISSIVE _ACESTONEMAP_AFTER_EMISSIVE
-            #pragma multi_compile ACES_TONE_MAPPING
 
             #include "UnityCG.cginc"
             #include "CGIncludes/BloomFog.cginc"
             #include "CGIncludes/CustomBloom.cginc"
+            #include "CGIncludes/CustomTonemapping.cginc"
 
             UNITY_INSTANCING_BUFFER_START(Props)
                 UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
@@ -207,6 +206,8 @@
                 CUSTOM_BLOOM_NONE_TRANSPARENT_APPLY(albedo);
                 #endif
 
+                ACES_TONE_MAPPING_APPLY(albedo);
+                
                 #endif
 
                 #if defined(ENABLE_FOG)
@@ -236,6 +237,8 @@
                 CUSTOM_BLOOM_NONE_TRANSPARENT_APPLY(albedo);
                 #endif
 
+                ACES_TONE_MAPPING_APPLY(albedo);
+                
                 #endif
 
                 return albedo;

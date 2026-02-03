@@ -41,7 +41,7 @@
 
             #include "UnityCG.cginc"
             #include "CGIncludes/BloomFog.cginc"
-            #include "CGIncludes/CustomBloom.cginc"
+            #include "CGIncludes/CustomTonemapping.cginc"
 
             UNITY_INSTANCING_BUFFER_START(Props)
                 UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
@@ -90,6 +90,8 @@
             {
                 UNITY_SETUP_INSTANCE_ID(i);
                 fixed4 albedo = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
+                
+                ACES_TONE_MAPPING_APPLY(albedo);
                 
                 #if defined(ENABLE_HEIGHT_FOG)
                 BLOOM_FOG_HEIGHT_FOG_APPLY(bloomfog_color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,

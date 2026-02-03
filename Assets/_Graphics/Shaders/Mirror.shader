@@ -2,7 +2,6 @@
 {
     Properties
     {
-        [Space(10)]
         _Color ("Tint Color", Color) = (1,1,1,1)
 
         [Space(10)]
@@ -10,7 +9,7 @@
         [Toggle(LIGHT_FALLOFF)] _EnableLightFalloff ("Light Falloff", float) = 0
         [Toggle(SPECULAR)] _EnableSpecular ("Specular", float) = 1
         _Metallic ("Metallic", Range(0, 1)) = 1
-        _Glossiness ("Smoothness", Range(0, 1)) = 0.5
+        _Smoothness ("Smoothness", Range(0, 1)) = 0.5
 
         [Header(Fog Settings)] [Space]
         _FogStartOffset ("Fog Start Offset", float) = 1

@@ -11,10 +11,10 @@ Material:
   m_Shader: {fileID: 4800000, guid: d38a0cb249974565a59a0d783a380e72, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
-  - _ACESTONEMAP_AFTER_EMISSIVE
+  m_ValidKeywords: []
   m_InvalidKeywords:
   - ENABLE_FOG
+  - _ACESTONEMAP_AFTER_EMISSIVE
   - _BLOOMWHITE_NONE
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1

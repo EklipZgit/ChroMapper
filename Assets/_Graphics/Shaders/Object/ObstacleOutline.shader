@@ -34,6 +34,7 @@
         #include "UnityCG.cginc"
         #include "../CGIncludes/BloomFog.cginc"
         #include "../CGIncludes/CustomBloom.cginc"
+        #include "../CGIncludes/CustomTonemapping.cginc"
 
         // These are global properties and should not be instanced
         uniform float _MainAlpha = 0.5;
@@ -131,11 +132,11 @@
                 float4 cutoutTexOffset = UNITY_ACCESS_INSTANCED_PROP(Props, _CutoutTexOffset);
                 // TexOffset is apparently different
                 float noise = tex3D(_CutoutTex, (i.cutoutPos + cutoutTexOffset.xyz) * 0.25);
-                float c = noise - cutout;
-                clip(c);
+                float cl = noise - cutout;
+                clip(cl);
 
                 fixed4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
-                // CUSTOM_BLOOM_PP_APPLY(color, 1);
+                
                 #if !defined(CM_PREVIEW_MODE)
                 color.a = 0;
                 #endif
@@ -149,7 +150,9 @@
                 #endif
                 #endif
 
-                return saturate(color);
+                ACES_TONE_MAPPING_APPLY(color);
+                
+                return color;
             }
             ENDHLSL
         }
