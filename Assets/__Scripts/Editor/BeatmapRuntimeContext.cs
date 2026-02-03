@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Beatmap.Animations;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -55,6 +56,8 @@ public class BeatmapRuntimeContext : MonoBehaviour
     public void SetColorScheme(ColorSchemeSO colorScheme)
     {
         ColorScheme.Copy(colorScheme);
+        // TODO: make a class that handles no event class that require direct assignment
+        PointDataParsers.ColorScheme = colorScheme;
         NotifyColorScheme();
     }
 

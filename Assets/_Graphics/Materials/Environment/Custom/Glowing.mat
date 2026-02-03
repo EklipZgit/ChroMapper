@@ -7,23 +7,26 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Basic Black
-  m_Shader: {fileID: 4800000, guid: efaf81b9ea3d6c94fb2f56e67786306d, type: 3}
+  m_Name: Glowing
+  m_Shader: {fileID: 4800000, guid: 8f0a9a0986044315bca8565db4da3fd6, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
+  m_ValidKeywords: []
+  m_InvalidKeywords:
   - DIFFUSE
   - ENABLE_FOG
   - ENABLE_HEIGHT_FOG
-  - SPECULAR
-  - _EMISSION_ALPHA_SOURCE_EMISSION_G
-  m_InvalidKeywords:
   - ENABLE_HEIGHT_FOG_ON
+  - SPECULAR
   - _ACESTONEMAP_AFTER_EMISSIVE
+  - _ACES_APPROACH_AFTER_EMISSIVE
+  - _BLOOMTYPE_NONE
   - _BLOOMWHITE_NONE
+  - _CUSTOM_TIME_STANDARD
   - _DIFFUSE_TEXTURE_SOURCE_TEXTURE
   - _EMISSIONBLOOMTYPE_FLAT
   - _EMISSIONTEXTURE_NONE
+  - _EMISSION_ALPHA_SOURCE_EMISSION_G
   - _EMISSION_TEXTURE_SOURCE_TEXTURE
   - _MASKBLEND_MULTIPLY
   - _METALLIC_TEXTURE_SOURCE_NONE
@@ -132,6 +135,7 @@ Material:
     m_Ints: []
     m_Floats:
     - ENABLE_HEIGHT_FOG: 1
+    - _ACES_Approach: 0
     - _AcesTonemap: 1
     - _AddPrecomputedVelocity: 0
     - _AlbedoMultiplier: 1
@@ -143,6 +147,7 @@ Material:
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BloomBoost: 1
+    - _BloomType: 0
     - _BloomWhite: 0
     - _BloomWhiteMultiplier: 1
     - _BothSidesDiffuseMultiplier: 1
@@ -151,6 +156,7 @@ Material:
     - _ClearCoatSmoothness: 0
     - _Cull: 2
     - _CullMode: 2
+    - _Custom_Time: 0
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
@@ -190,8 +196,8 @@ Material:
     - _EnvironmentReflections: 1
     - _FogHeightOffset: 0
     - _FogHeightScale: 1
-    - _FogScale: 0.1
-    - _FogStartOffset: 1
+    - _FogScale: 1
+    - _FogStartOffset: 0
     - _GlossMapScale: 1
     - _Glossiness: 1
     - _GlossyReflections: 1
@@ -230,6 +236,7 @@ Material:
     - _SrcBlendAlpha: 1
     - _Surface: 0
     - _UVSec: 0
+    - _UseColorArray: 0
     - _Vertex: 0
     - _Vertex_BloomType: 0
     - _WorkflowMode: 1
@@ -238,7 +245,7 @@ Material:
     m_Colors:
     - _AdditiveUVOffset: {r: 0, g: 0, b: 0, a: 0}
     - _BaseColor: {r: 0.16981131, g: 0.16981131, b: 0.16981131, a: 1}
-    - _Color: {r: 0, g: 0, b: 0, a: 0}
+    - _Color: {r: 1, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _EmissionMaskSpeed: {r: 0, g: 1, b: 0, a: 0}
     - _EmissionTexColor: {r: 1, g: 1, b: 1, a: 1}

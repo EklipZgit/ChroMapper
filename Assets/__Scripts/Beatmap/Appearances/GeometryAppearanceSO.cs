@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Beatmap.Base.Customs;
 using Beatmap.Containers;
 using SimpleJSON;
@@ -9,12 +10,13 @@ namespace Beatmap.Appearances
     [CreateAssetMenu(menuName = "Beatmap/Appearance/Geometry Appearance SO", fileName = "GeometryAppearanceSO")]
     public class GeometryAppearanceSO : ScriptableObject
     {
+        [SerializeField] private Material regularMaterial;
         [SerializeField] private Material lightOpaqueMaterial;
         [SerializeField] private Material lightTransparentMaterial;
+        [SerializeField] private Material glowingMaterial;
         [SerializeField] private Material waterMaterial;
         [SerializeField] private Material btsMaterial;
         [SerializeField] private Material obstacleMaterial;
-        [SerializeField] private Material regularMaterial;
 
         private static BaseMaterial standard;
 
@@ -61,6 +63,7 @@ namespace Beatmap.Appearances
             {
                 ShaderType.OpaqueLight => lightOpaqueMaterial,
                 ShaderType.TransparentLight => lightTransparentMaterial,
+                ShaderType.Glowing => glowingMaterial,
                 ShaderType.BaseWater => waterMaterial,
                 ShaderType.BillieWater => waterMaterial,
                 ShaderType.WaterfallMirror => waterMaterial,
@@ -68,6 +71,24 @@ namespace Beatmap.Appearances
                 ShaderType.Obstacle => obstacleMaterial,
                 _ => regularMaterial,
             };
+
+            if (eh.Geometry[eh.GeometryKeyMaterial].IsObject
+                && eh.Geometry[eh.GeometryKeyMaterial][eh.GeometryKeyMaterialKeywords].IsArray)
+            {
+                if ((shader == ShaderType.Standard || shader == ShaderType.BTSPillar)
+                    && eh.Geometry[eh.GeometryKeyMaterial][eh.GeometryKeyMaterialKeywords].Count == 0)
+                {
+                    material = glowingMaterial;
+                }
+                else
+                {
+                    material.shaderKeywords =
+                        eh.Geometry[eh.GeometryKeyMaterial][eh.GeometryKeyMaterialKeywords]
+                            .AsArray.Children.Where(x => x.IsString)
+                            .Cast<string>()
+                            .ToArray();
+                }
+            }
 
             var colorKeyword = Shader.PropertyToID("_Color");
 
@@ -89,6 +110,7 @@ namespace Beatmap.Appearances
             Standard,
             OpaqueLight,
             TransparentLight,
+            Glowing,
             BaseWater,
             BillieWater,
             BTSPillar,

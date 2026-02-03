@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab5e76f0d02f24262a1e27bd5a4e9da2, type: 3}
   m_Name: GeometryAppearanceSO
   m_EditorClassIdentifier: 
+  regularMaterial: {fileID: 2100000, guid: 83678a6b610602440a1b0f7ecc0ae928, type: 2}
   lightOpaqueMaterial: {fileID: 2100000, guid: 1ac6fecbe52c84159b0e2a1a03671cbb, type: 2}
   lightTransparentMaterial: {fileID: 2100000, guid: fb188bc24cdab074398580328234a46e,
     type: 2}
+  glowingMaterial: {fileID: 2100000, guid: aa8dc49216e45c016a9728a95732b608, type: 2}
   waterMaterial: {fileID: 2100000, guid: c1463863a69b55077994061b934a4dbc, type: 2}
   btsMaterial: {fileID: 2100000, guid: caa7cd1fa8b23b0adb8a5acbbe10fa23, type: 2}
   obstacleMaterial: {fileID: 2100000, guid: ed10b4bf10ee79d49a2f63af13875bac, type: 2}
-  regularMaterial: {fileID: 2100000, guid: 83678a6b610602440a1b0f7ecc0ae928, type: 2}

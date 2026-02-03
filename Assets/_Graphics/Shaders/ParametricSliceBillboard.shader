@@ -194,8 +194,9 @@
                 fixed4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
                 float4 alphaWidth = UNITY_ACCESS_INSTANCED_PROP(Props, _AlphaWidth);
 
+                // TODO: what does cap UV size supposed to do
+                // i.uv.xy = min(adjustedUv, i.uv.xy);
                 float2 adjustedUv = i.uv.xy / i.uv.z;
-                adjustedUv = min(adjustedUv, _CapUVSize.xy);
                 fixed4 albedo = color * tex2D(_MainTex, TRANSFORM_TEX(adjustedUv, _MainTex));
 
                 #if defined(USE_FOG_FOR_LIGHTS)

@@ -377,6 +377,9 @@ public class EnvironmentBuildPopulate
                 "_EnableYAxisBillboard",
                 matInfo.Keywords.Contains("ENABLE_Y_AXIS_BILLBOARD") ? 1f : 0f);
             matInfo.Material.SetFloat("_SquareAlpha", matInfo.Keywords.Contains("SQUARE_ALPHA") ? 1f : 0f);
+            matInfo.Material.SetFloat(
+                "_EnableAngleDisappear",
+                matInfo.Keywords.Contains("ENABLE_ANGLE_DISAPPEAR") ? 1f : 0f);
             matInfo.Material.SetFloat("_UseFogForLights", matInfo.Keywords.Contains("USE_FOR_FOR_LIGHTS") ? 1f : 0f);
 
             if (matInfo.Keywords.Contains("_WHITEBOOSTTYPE_MAINEFFECT")
