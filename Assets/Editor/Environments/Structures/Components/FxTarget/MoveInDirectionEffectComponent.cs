@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class MoveInDirectionEffectComponent
 {
-    public string TargetTransform;
+    public string Transform;
     public Vector3 MoveOrigin;
     public float MoveScale = 1f;
     

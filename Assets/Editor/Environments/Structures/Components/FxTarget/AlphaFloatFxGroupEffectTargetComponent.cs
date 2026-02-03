@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class AlphaFloatFxGroupEffectTargetComponent
 {
-    public string[] MaterialPropertyBlockControllerId;
+    public string[] MaterialPropertyBlockControllers;
     public string Property;
     public float[] StaticColor;
 

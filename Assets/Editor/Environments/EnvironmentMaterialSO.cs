@@ -101,7 +101,10 @@ public class EnvironmentMaterialSO : ScriptableObject
     private Color GetColor(float[] val) =>
         Mathf.Approximately(val[0], -1) ? new Color(0f, 0.5f, 1f) : new Color(val[0], val[1], val[2], val[3]);
 
-    public void Sort() => list.Sort((a, b) => string.Compare(a.Name, b.Name, StringComparison.Ordinal));
+    public void Sort()
+    {
+        list = list.OrderBy(x => x.Name.First()).ThenBy(x => x.Hash).ToList();
+    }
 }
 
 [Serializable]

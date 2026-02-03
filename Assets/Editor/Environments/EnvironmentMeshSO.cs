@@ -64,7 +64,7 @@ public class EnvironmentMeshSO : ScriptableObject
 
     public void Sort()
     {
-        list.Sort((a, b) => string.Compare(a.Names.First(), b.Names.First(), StringComparison.Ordinal));
+        list = list.OrderBy(x => x.Names.First()).ThenBy(x => x.Hash).ToList();
         for (var index = 0; index < list.Count; index++)
         {
             var m = list[index];

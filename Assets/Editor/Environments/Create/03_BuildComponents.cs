@@ -64,8 +64,7 @@ public partial class EnvironmentSceneCreator
             {
                 var go = chromaIdObjects[obj.ChromaID];
                 var dlc = go.AddComponent<DirectionalLightsController>();
-                dlc.Light = chromaIdObjects
-                    .GetValueOrDefault(dlwiData.DirectionalLight, go)
+                dlc.Light = GetGameObjectOrNull(dlwiData.DirectionalLight, go)
                     .GetComponent<DirectionalLight>();
                 dlwiData.CopyTo(dlc);
                 lightWithIds.Add(dlwiData.InstanceId, dlc);
@@ -78,8 +77,7 @@ public partial class EnvironmentSceneCreator
             {
                 var go = chromaIdObjects[obj.ChromaID];
                 var dlgc = go.AddComponent<DirectionalLightsGroupController>();
-                dlgc.Light = chromaIdObjects
-                    .GetValueOrDefault(dligiData.DirectionalLight, go)
+                dlgc.Light = GetGameObjectOrNull(dligiData.DirectionalLight, go)
                     .GetComponent<DirectionalLight>();
                 dligiData.CopyTo(dlgc);
                 lightWithIds.Add(dligiData.InstanceId, dlgc);
@@ -92,8 +90,7 @@ public partial class EnvironmentSceneCreator
             {
                 var go = chromaIdObjects[obj.ChromaID];
                 var mlc = go.AddComponent<MaterialLightsController>();
-                mlc.MeshRenderer = chromaIdObjects
-                    .GetValueOrDefault(mlwiData.MeshRenderer, go)
+                mlc.MeshRenderer = GetGameObjectOrNull(mlwiData.MeshRenderer, go)
                     .GetComponent<MeshRenderer>();
                 mlwiData.CopyTo(mlc);
                 lightWithIds.Add(mlwiData.InstanceId, mlc);
@@ -106,8 +103,7 @@ public partial class EnvironmentSceneCreator
             {
                 var go = chromaIdObjects[obj.ChromaID];
                 var mlc = go.AddComponent<MixedLightsController>();
-                mlc.MpbColorSetter = chromaIdObjects
-                    .GetValueOrDefault(mlcsrlwiData.MaterialPropertyBlockColorSetterId, go)
+                mlc.MpbColorSetter = GetGameObjectOrNull(mlcsrlwiData.MaterialPropertyBlockColorSetterId, go)
                     .GetComponent<MaterialPropertyBlockColorSetter>();
                 mlcsrlwiData.CopyTo(mlc);
                 lightWithIds.Add(mlcsrlwiData.InstanceId, mlc);
@@ -120,7 +116,7 @@ public partial class EnvironmentSceneCreator
             {
                 var go = chromaIdObjects[obj.ChromaID];
                 var plc = go.AddComponent<PointLightsController>();
-                plc.Light = chromaIdObjects.GetValueOrDefault(plwiData.PointLight, go).GetComponent<PointLight>();
+                plc.Light = GetGameObjectOrNull(plwiData.PointLight, go).GetComponent<PointLight>();
                 plwiData.CopyTo(plc);
                 lightWithIds.Add(plwiData.InstanceId, plc);
             }
@@ -152,8 +148,7 @@ public partial class EnvironmentSceneCreator
             {
                 var go = chromaIdObjects[obj.ChromaID];
                 var mpbcs = go.AddComponent<MaterialPropertyBlockColorSetter>();
-                mpbcs.Controller = chromaIdObjects
-                    .GetValueOrDefault(mpbcsData.MaterialPropertyBlockControllerId, go)
+                mpbcs.Controller = GetGameObjectOrNull(mpbcsData.MaterialPropertyBlockControllerId, go)
                     .GetComponent<MaterialPropertyBlockController>();
                 mpbcs.Property = mpbcsData.Property;
                 mpbcs.InverseAlpha = mpbcsData.InverseAlpha;
@@ -172,7 +167,7 @@ public partial class EnvironmentSceneCreator
                 var mpbpa = go.AddComponent<MaterialPropertyBlockPositionAnimator>();
                 mpbpa.Controller = go.GetComponent<MaterialPropertyBlockController>();
                 mpbpa.Property = mpbpuData.Property;
-                mpbpa.TargetTransform = chromaIdObjects.GetValueOrDefault(mpbpuData.TargetTransform, go).transform;
+                mpbpa.TargetTransform = GetGameObjectOrNull(mpbpuData.TargetTransform, go).transform;
                 mpbpa.TargetTransform.gameObject.GetComponent<ChromaIDMarker>().MarkUse = true;
             }
         }
@@ -405,8 +400,7 @@ public partial class EnvironmentSceneCreator
             foreach (var tlrreData in obj.Components.TrackLaneRingsRotationEffect)
             {
                 var go = chromaIdObjects[obj.ChromaID];
-                var tlrm = chromaIdObjects
-                    .GetValueOrDefault(tlrreData.TrackLaneRingsManager, go)
+                var tlrm = GetGameObjectOrNull(tlrreData.TrackLaneRingsManager, go)
                     .GetComponent<TrackLaneRingsManager>();
                 var tlrr = go.AddComponent<TrackLaneRingsRotation>();
 
@@ -428,8 +422,7 @@ public partial class EnvironmentSceneCreator
                 if (!tlrresData.IsEnabled) continue;
 
                 var go = chromaIdObjects[obj.ChromaID];
-                var tlrr = chromaIdObjects
-                    .GetValueOrDefault(tlrresData.TrackLaneRingsRotationEffect, go)
+                var tlrr = GetGameObjectOrNull(tlrresData.TrackLaneRingsRotationEffect, go)
                     .GetComponent<TrackLaneRingsRotation>();
                 var tlrre = go.AddComponent<TrackLaneRingsRotationEffect>();
 
@@ -452,8 +445,7 @@ public partial class EnvironmentSceneCreator
                 if (!tlrpsesData.IsEnabled) continue;
 
                 var go = chromaIdObjects[obj.ChromaID];
-                var tlrm = chromaIdObjects
-                    .GetValueOrDefault(tlrpsesData.TrackLaneRingsManager, go)
+                var tlrm = GetGameObjectOrNull(tlrpsesData.TrackLaneRingsManager, go)
                     .GetComponent<TrackLaneRingsManager>();
                 var tlrps = go.AddComponent<TrackLaneRingsPositionSpawner>();
                 var tlrpe = beec.GetOrRegister<TrackLaneRingsPositionEffect>(
@@ -491,9 +483,9 @@ public partial class EnvironmentSceneCreator
             {
                 var go = chromaIdObjects[obj.ChromaID];
 
-                var lT = chromaIdObjects.GetValueOrDefault(lpreData.TransformL, go).transform;
+                var lT = GetGameObjectOrNull(lpreData.TransformL, go).transform;
                 lT.gameObject.GetOrAddComponent<ChromaIDMarker>().MarkUse = true;
-                var rT = chromaIdObjects.GetValueOrDefault(lpreData.TransformR, go).transform;
+                var rT = GetGameObjectOrNull(lpreData.TransformR, go).transform;
                 rT.gameObject.GetOrAddComponent<ChromaIDMarker>().MarkUse = true;
 
                 var lpr = go.AddComponent<LightPairRotation>();
@@ -520,9 +512,9 @@ public partial class EnvironmentSceneCreator
             {
                 var go = chromaIdObjects[obj.ChromaID];
 
-                var lT = chromaIdObjects.GetValueOrDefault(lpsmeData.TransformL, go).transform;
+                var lT = GetGameObjectOrNull(lpsmeData.TransformL, go).transform;
                 lT.gameObject.GetOrAddComponent<ChromaIDMarker>().MarkUse = true;
-                var rT = chromaIdObjects.GetValueOrDefault(lpsmeData.TransformR, go).transform;
+                var rT = GetGameObjectOrNull(lpsmeData.TransformR, go).transform;
                 rT.gameObject.GetOrAddComponent<ChromaIDMarker>().MarkUse = true;
 
                 var lpsm = go.AddComponent<LightPairSinMove>();
@@ -559,7 +551,7 @@ public partial class EnvironmentSceneCreator
                             Value = x.Value,
                             GameObjects =
                                 x
-                                    .GameObjectIds.Select(chromaIdObjects.GetValueOrDefault)
+                                    .GameObjectIds.Select(x => GetGameObjectOrNull(x, go))
                                     .Where(y => y != null)
                                     .Select(g =>
                                     {
@@ -581,7 +573,7 @@ public partial class EnvironmentSceneCreator
                 gos.Effect = cbe;
                 goseData.CopyTo(gos);
                 gos.NormalGameObjects = goseData
-                    .DeactivateOnBoostObjects.Select(chromaIdObjects.GetValueOrDefault)
+                    .DeactivateOnBoostObjects.Select(x => GetGameObjectOrNull(x, go))
                     .Where(y => y != null)
                     .Select(g =>
                     {
@@ -590,7 +582,7 @@ public partial class EnvironmentSceneCreator
                     })
                     .ToArray();
                 gos.BoostGameObjects = goseData
-                    .ActivateOnBoostObjects.Select(chromaIdObjects.GetValueOrDefault)
+                    .ActivateOnBoostObjects.Select(x => GetGameObjectOrNull(x, go))
                     .Where(y => y != null)
                     .Select(g =>
                     {
@@ -682,7 +674,7 @@ public partial class EnvironmentSceneCreator
                 var go = chromaIdObjects[obj.ChromaID];
                 var af = go.AddComponent<AlphaFx>();
                 af.MpbControllers = affgetData
-                    .MaterialPropertyBlockControllerId.Select(x => chromaIdObjects.GetValueOrDefault(x, null))
+                    .MaterialPropertyBlockControllers.Select(x => GetGameObjectOrNull(x, go))
                     .Where(x => x != null)
                     .Select(x => x.GetComponent<MaterialPropertyBlockController>())
                     .ToArray();
@@ -715,7 +707,7 @@ public partial class EnvironmentSceneCreator
                 var go = chromaIdObjects[obj.ChromaID];
                 var maf = go.AddComponent<MpbArrayFx>();
                 maf.MpbControllers = fampetData
-                    .MaterialPropertyBlockControllers.Select(x => chromaIdObjects.GetValueOrDefault(x, null))
+                    .MaterialPropertyBlockControllers.Select(x => GetGameObjectOrNull(x, go))
                     .Where(x => x != null)
                     .Select(x => x.GetComponent<MaterialPropertyBlockController>())
                     .ToArray();
@@ -730,7 +722,7 @@ public partial class EnvironmentSceneCreator
                 var go = chromaIdObjects[obj.ChromaID];
                 var cf = go.AddComponent<CollectionFx>();
                 cf.Targets = ffgectData
-                    .FloatFxGroupEffectTargets.Select(x => chromaIdObjects.GetValueOrDefault(x, null))
+                    .FloatFxGroupEffectTargets.Select(x => GetGameObjectOrNull(x, go))
                     .Where(x => x != null)
                     .Select(x => x.GetComponent<FxTarget>())
                     .ToArray();
@@ -744,7 +736,7 @@ public partial class EnvironmentSceneCreator
                 var go = chromaIdObjects[obj.ChromaID];
                 var lsf = go.AddComponent<LocalScaleFx>();
                 lsf.TargetTransforms = flseData
-                    .Transforms.Select(x => chromaIdObjects.GetValueOrDefault(x, null))
+                    .Transforms.Select(x => GetGameObjectOrNull(x, go))
                     .Where(x => x != null)
                     .Select(x => x.transform)
                     .Select(x =>
@@ -763,8 +755,7 @@ public partial class EnvironmentSceneCreator
             {
                 var go = chromaIdObjects[obj.ChromaID];
                 var mf = go.AddComponent<MpbFx>();
-                mf.MpbController = chromaIdObjects
-                    .GetValueOrDefault(fmpetData.MaterialPropertyBlockController, go)
+                mf.MpbController = GetGameObjectOrNull(fmpetData.MaterialPropertyBlockController, go)
                     .GetComponent<MaterialPropertyBlockController>();
                 fmpetData.CopyTo(mf);
             }
@@ -776,7 +767,7 @@ public partial class EnvironmentSceneCreator
             {
                 var go = chromaIdObjects[obj.ChromaID];
                 var midf = go.AddComponent<MoveInDirectionFx>();
-                midf.TargetTransform = chromaIdObjects.GetValueOrDefault(mideData.TargetTransform, go).transform;
+                midf.TargetTransform = GetGameObjectOrNull(mideData.Transform, go).transform;
                 mideData.CopyTo(midf);
             }
         }
@@ -788,8 +779,7 @@ public partial class EnvironmentSceneCreator
             {
                 var go = chromaIdObjects[obj.ChromaID];
                 var psewf = go.AddComponent<ParametricSliceEndWidthFx>();
-                psewf.SpriteLight = chromaIdObjects
-                    .GetValueOrDefault(p3ssweffetData.Parametric3SliceSpriteController, go)
+                psewf.SpriteLight = GetGameObjectOrNull(p3ssweffetData.Parametric3SliceSpriteController, go)
                     .GetComponent<ParametricSpriteLight>();
                 p3ssweffetData.CopyTo(psewf);
             }
@@ -801,8 +791,7 @@ public partial class EnvironmentSceneCreator
             {
                 var go = chromaIdObjects[obj.ChromaID];
                 var msf = go.AddComponent<MpbStepFx>();
-                msf.MpbController = chromaIdObjects
-                    .GetValueOrDefault(sfmetData.MaterialPropertyBlockController, go)
+                msf.MpbController = GetGameObjectOrNull(sfmetData.MaterialPropertyBlockController, go)
                     .GetComponent<MaterialPropertyBlockController>();
                 sfmetData.CopyTo(msf);
             }
@@ -815,7 +804,7 @@ public partial class EnvironmentSceneCreator
                 var go = chromaIdObjects[obj.ChromaID];
                 var sgoaf = go.AddComponent<SwitchGameObjectArrayFx>();
                 sgoaf.GameObjects = sgoaetData
-                    .GameObjects.Select(x => (chromaIdObjects.GetValueOrDefault(x.GameObject, null), x.Threshold))
+                    .GameObjects.Select(x => (GetGameObjectOrNull(x.GameObject, go), x.Threshold))
                     .Where(x => x.Item1 != null)
                     .Select(x => new SwitchGameObjectArrayFx.GameObjectActivation()
                     {
@@ -868,14 +857,12 @@ public partial class EnvironmentSceneCreator
             {
                 var go = chromaIdObjects[obj.ChromaID];
                 var lc = go.AddComponent<LightCollision>();
-                lc.ParametricLight = chromaIdObjects
-                    .GetValueOrDefault(tbpplcData.TubeBloomPrePassLightId, go)
+                lc.ParametricLight = GetGameObjectOrNull(tbpplcData.TubeBloomPrePassLightId, go)
                     .GetComponent<ParametricBloomFogLightController>();
-                lc.HitPointLightWithId = chromaIdObjects
-                    .GetValueOrDefault(tbpplcData.HitPointLightWithId, go)
+                lc.HitPointLightWithId = GetGameObjectOrNull(tbpplcData.HitPointLightWithId, go)
                     .GetComponent<InstancedMaterialLightController>();
-                lc.HitPointGameObject = chromaIdObjects.GetValueOrDefault(tbpplcData.HitPointGameObject, go);
-                lc.HitPointTransform = chromaIdObjects.GetValueOrDefault(tbpplcData.HitPointTransform, go).transform;
+                lc.HitPointGameObject = GetGameObjectOrNull(tbpplcData.HitPointGameObject, go);
+                lc.HitPointTransform = GetGameObjectOrNull(tbpplcData.HitPointTransform, go).transform;
                 lc.UseScale = tbpplcData.UseScale;
                 if (TryGetGameObjectOrNull(tbpplcData.ScaleTransform, go, out var o)) lc.ScaleTransform = o.transform;
                 lc.EnvironmentLayerMask = library.LayerMaskLookup[tbpplcData.EnvironmentLayerMask[0]];
@@ -1008,7 +995,7 @@ public partial class EnvironmentSceneCreator
             }
 
             Debug.LogError(
-                $"{controller} ID {lightId} could not be registered, missing event type or group ID register?");
+                $"{(controller.TryGetComponent<ChromaIDMarker>(out var marker) ? marker.ChromaID : "")}: {controller} ID {lightId} could not be registered, missing event type or group ID register?");
         }
 
         void HandleDirectionalLightWithId(
@@ -1148,6 +1135,7 @@ public partial class EnvironmentSceneCreator
         GameObject GetGameObjectOrNull(string id, GameObject go)
         {
             if (id == "self") return go;
+            if (string.IsNullOrEmpty(id)) return null;
             return chromaIdObjects.TryGetValue(id, out var g) ? g : null;
         }
 
@@ -1157,6 +1145,12 @@ public partial class EnvironmentSceneCreator
             {
                 go = dgo;
                 return true;
+            }
+
+            if (string.IsNullOrEmpty(id))
+            {
+                go = null;
+                return false;
             }
 
             return chromaIdObjects.TryGetValue(id, out go);

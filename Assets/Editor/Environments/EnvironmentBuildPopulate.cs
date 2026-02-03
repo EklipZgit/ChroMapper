@@ -91,7 +91,10 @@ public class EnvironmentBuildPopulate
             { "_BlendSrcFactorA", "_BlendModeSrcA" },
             { "_BlendDstFactorA", "_BlendModeDstA" },
             { "_WhiteBoostMultiplier", "_BloomWhiteMultiplier" },
-            { "_ThresholdAngle", "_EmissionThresholdAngle" }
+            { "_ThresholdAngle", "_EmissionThresholdAngle" },
+            { "_Rotate_UV", "_RotateUV" },
+            { "_RimCameraDistanceOffset", "_RimDistanceOffset" },
+            { "_RimCameraDistanceScale", "_RimDistanceScale" }
         };
         foreach (var matInfo in library.Materials.list)
         {
@@ -147,6 +150,18 @@ public class EnvironmentBuildPopulate
                 matInfo.Material.SetVector(renamedKey, vectorProp.Value);
             }
 
+            matInfo.Material.SetFloat(
+                "_EnableSecondaryColor",
+                matInfo.Keywords.Contains("SECONDARY_COLOR") ? 1f : 0f);
+
+            matInfo.Material.SetFloat(
+                "_UseColorGradient",
+                matInfo.Keywords.Contains("COLOR_GRADIENT") ? 1f : 0f);
+
+            matInfo.Material.SetFloat(
+                "_UseSpectrogram",
+                matInfo.Keywords.Contains("SPECTROGRAM_COLOR") ? 1f : 0f);
+
             if (matInfo.Keywords.Contains("_SECONDARY_UVS_IMPORT"))
                 matInfo.Material.SetFloat("_Secondary_UVs", 1f);
             else if (matInfo.Keywords.Contains("_SECONDARY_UVS_EXTERNAL_SCALE"))
@@ -167,7 +182,6 @@ public class EnvironmentBuildPopulate
                 matInfo.Material.SetFloat("_Metallic_Texture_Source", 2f);
             else
                 matInfo.Material.SetFloat("_Metallic_Texture_Source", 0f);
-
             if (matInfo.Keywords.Contains("_SMOOTHNESS_TEXTURE_MPM_A"))
                 matInfo.Material.SetFloat("_Smoothness_Texture_Source", 1f);
             else if (matInfo.Keywords.Contains("_SMOOTHNESS_TEXTURE_MPM_G_ROUGHNESS"))
@@ -176,94 +190,31 @@ public class EnvironmentBuildPopulate
                 matInfo.Material.SetFloat("_Smoothness_Texture_Source", 0f);
             matInfo.Material.SetFloat("_PreciseNormal", matInfo.Keywords.Contains("PRECISE_NORMAL") ? 1f : 0f);
 
-            matInfo.Material.SetFloat("_EnableDiffuse", matInfo.Keywords.Contains("DIFFUSE") ? 1f : 0f);
-            matInfo.Material.SetFloat("_EnableDiffuseTexture", matInfo.Keywords.Contains("DIFFUSE_TEXTURE") ? 1f : 0f);
-            if (matInfo.Keywords.Contains("_DIFFUSE_TEXTURE_SOURCE_MPM_R"))
-                matInfo.Material.SetFloat("_Diffuse_Texture_Source", 1f);
-            else if (matInfo.Keywords.Contains("_DIFFUSE_TEXTURE_SOURCE_MPM_A_SMOOTHNESS"))
-                matInfo.Material.SetFloat("_Diffuse_Texture_Source", 2f);
-            else
-                matInfo.Material.SetFloat("_Diffuse_Texture_Source", 0f);
-            matInfo.Material.SetFloat("_EnableSpecular", matInfo.Keywords.Contains("SPECULAR") ? 1f : 0f);
-            matInfo.Material.SetFloat("_EnableLightFalloff", matInfo.Keywords.Contains("LIGHT_FALLOFF") ? 1f : 0f);
-            matInfo.Material.SetFloat(
-                "_EnableBothSidesDiffuse",
-                matInfo.Keywords.Contains("BOTH_SIDES_DIFFUSE") ? 1f : 0f);
-            matInfo.Material.SetFloat("_EnableRimDim", matInfo.Keywords.Contains("ENABLE_RIM_DIM") ? 1f : 0f);
-            matInfo.Material.SetFloat("_InvertRimDim", matInfo.Keywords.Contains("INVERT_RIM_DIM") ? 1f : 0f);
-
-            matInfo.Material.SetFloat(
-                "_EnableRemapWhiteBoostStart",
-                matInfo.Keywords.Contains("REMAP_WHITEBOOST_START") ? 1f : 0f);
-
-            matInfo.Material.SetFloat(
-                "_EnablePrivatePointLight",
-                matInfo.Keywords.Contains("PRIVATE_POINT_LIGHT") ? 1f : 0f);
-            matInfo.Material.SetFloat(
-                "_PointLightPositionLocal",
-                matInfo.Keywords.Contains("POINT_LIGHT_IS_LOCAL") ? 1f : 0f);
-
-            matInfo.Material.SetFloat(
-                "_EnableFog",
-                matInfo.Keywords.Contains("FOG") || matInfo.Keywords.Contains("ENABLE_FOG") ? 1f : 0f);
-            matInfo.Material.SetFloat(
-                "_EnableHeightFog",
-                matInfo.Keywords.Contains("HEIGHT_FOG") || matInfo.Keywords.Contains("ENABLE_HEIGHT_FOG") ? 1f : 0f);
-
-            if (matInfo.Keywords.Contains("_FOGTYPE_LERP"))
-                matInfo.Material.SetFloat("_FogType", 1f);
-            else if (matInfo.Keywords.Contains("_FOGTYPE_COLOR"))
-                matInfo.Material.SetFloat("_FogType", 2f);
-            else if (matInfo.Keywords.Contains("_FOGTYPE_ALPHA"))
-                matInfo.Material.SetFloat("_FogType", 3f);
-            else
-                matInfo.Material.SetFloat("_FogType", 0f);
-
-            matInfo.Material.SetFloat(
-                "_EnableAlphaWidthScale",
-                matInfo.Keywords.Contains("ALPHA_WIDTH_SCALE") ? 1f : 0f);
-
-            matInfo.Material.SetFloat(
-                "_MultiplyColorWithAlpha",
-                matInfo.Keywords.Contains("MULTIPLY_COLOR_WITH_ALPHA") ? 1f : 0f);
-            matInfo.Material.SetFloat(
-                "_EnableYAxisBillboard",
-                matInfo.Keywords.Contains("ENABLE_Y_AXIS_BILLBOARD") ? 1f : 0f);
-            matInfo.Material.SetFloat("_SquareAlpha", matInfo.Keywords.Contains("SQUARE_ALPHA") ? 1f : 0f);
-            matInfo.Material.SetFloat("_UseFogForLights", matInfo.Keywords.Contains("USE_FOR_FOR_LIGHTS") ? 1f : 0f);
-
-            if (matInfo.Keywords.Contains("_BILLBOARD_FULL"))
-                matInfo.Material.SetFloat("_Billboard", 1f);
-            else if (matInfo.Keywords.Contains("_BILLBOARD_Y_AXIS"))
-                matInfo.Material.SetFloat("_Billboard", 2f);
-            else if (matInfo.Keywords.Contains("_BILLBOARD_CAMERA_FACING"))
-                matInfo.Material.SetFloat("_Billboard", 3f);
-            else
-                matInfo.Material.SetFloat("_Billboard", 0f);
-
-            if (matInfo.Keywords.Contains("_ACES_APPROACH_AFTER_EMISSIVE"))
-                matInfo.Material.SetFloat("_AcesTonemap", 1f);
-            else if (matInfo.Keywords.Contains("_ACES_APPROACH_BEFORE_EMISSIVE"))
-                matInfo.Material.SetFloat("_AcesTonemap", 0f);
-
-            if (matInfo.Keywords.Contains("_WHITEBOOSTTYPE_MAINEFFECT")
-                || matInfo.Keywords.Contains("_ENABLE_MAIN_EFFECT_WHITE_BOOST"))
-                matInfo.Material.SetFloat("_BloomType", 1f);
-            else if (matInfo.Keywords.Contains("_WHITEBOOSTTYPE_ALWAYS"))
-                matInfo.Material.SetFloat("_BloomType", 2f);
-            else
-                matInfo.Material.SetFloat("_BloomType", 0f);
-
             matInfo.Material.SetFloat("_EnableVertexColor", matInfo.Keywords.Contains("VERTEX_COLOR") ? 1f : 0f);
             matInfo.Material.SetFloat("_SquareVertexAlpha", matInfo.Keywords.Contains("VERTEX_SQUARE_ALPHA") ? 1f : 0f);
             matInfo.Material.SetFloat("_RedIsVertexAlpha", matInfo.Keywords.Contains("VERTEX_RED_IS_ALPHA") ? 1f : 0f);
-
             if (matInfo.Keywords.Contains("_VERTEXCHANNELS_A"))
                 matInfo.Material.SetFloat("_VertexChannels", 1f);
             else if (matInfo.Keywords.Contains("_VERTEXCHANNELS_RGB"))
                 matInfo.Material.SetFloat("_VertexChannels", 2f);
             else
                 matInfo.Material.SetFloat("_VertexChannels", 0f);
+
+            if (matInfo.Keywords.Contains("_SPECTROGRAM_FLAT"))
+                matInfo.Material.SetFloat("_Spectrogram", 1f);
+            else if (matInfo.Keywords.Contains("_SPECTROGRAM_FULL"))
+                matInfo.Material.SetFloat("_Spectrogram", 2f);
+            else
+                matInfo.Material.SetFloat("_Spectrogram", 0f);
+
+            if (matInfo.Keywords.Contains("_CURVE_VERTICES_AROUND_X"))
+                matInfo.Material.SetFloat("_Curve_Vertices", 1f);
+            else if (matInfo.Keywords.Contains("_CURVE_VERTICES_AROUND_Y"))
+                matInfo.Material.SetFloat("_Curve_Vertices", 2f);
+            else if (matInfo.Keywords.Contains("_CURVE_VERTICES_AROUND_Z"))
+                matInfo.Material.SetFloat("_Curve_Vertices", 3f);
+            else
+                matInfo.Material.SetFloat("_Curve_Vertices", 0f);
 
             if (matInfo.Keywords.Contains("_VERTEXMODE_COLOR"))
                 matInfo.Material.SetFloat("_Vertex", 1f);
@@ -287,12 +238,16 @@ public class EnvironmentBuildPopulate
             else
                 matInfo.Material.SetFloat("_Vertex_BloomType", 0f);
 
+            matInfo.Material.SetFloat("_UseMainTex", matInfo.Keywords.Contains("MAIN_TEXTURE") ? 1f : 0f);
+
+            matInfo.Material.SetFloat("_Pixelate", matInfo.Keywords.Contains("PIXELATE") ? 1f : 0f);
+
+            matInfo.Material.SetFloat("_EnableCustomPadding", matInfo.Keywords.Contains("CUSTOM_WRAPPING") ? 1f : 0f);
+
+            matInfo.Material.SetFloat("_UseTextureFlipbook", matInfo.Keywords.Contains("TEXTURE_FLIPBOOK") ? 1f : 0f);
             matInfo.Material.SetFloat(
-                "_SecondaryUVsEmissionTex",
-                matInfo.Keywords.Contains("SECONDARY_UVS_EMISSION") ? 1f : 0f);
-            matInfo.Material.SetFloat(
-                "_EnableEmissionAngleDisappear",
-                matInfo.Keywords.Contains("EMISSION_ANGLE_DISAPPEAR") ? 1f : 0f);
+                "_FlipbookBlendingOff",
+                matInfo.Keywords.Contains("FLIPBOOK_BLENDING_OFF") ? 1f : 0f);
 
             if (matInfo.Keywords.Contains("_EMISSIONTEXTURE_SIMPLE"))
                 matInfo.Material.SetFloat("_EmissionTexture", 1f);
@@ -302,11 +257,13 @@ public class EnvironmentBuildPopulate
                 matInfo.Material.SetFloat("_EmissionTexture", 3f);
             else
                 matInfo.Material.SetFloat("_EmissionTexture", 0f);
-
             if (matInfo.Keywords.Contains("_EMISSION_TEXTURE_SOURCE_MPM_G"))
                 matInfo.Material.SetFloat("_Emission_Texture_Source", 1f);
             else
                 matInfo.Material.SetFloat("_Emission_Texture_Source", 0f);
+            matInfo.Material.SetFloat(
+                "_SecondaryUVsEmissionTex",
+                matInfo.Keywords.Contains("SECONDARY_UVS_EMISSION") ? 1f : 0f);
 
             if (matInfo.Keywords.Contains("_EMISSIONCOLORTYPE_WHITEBOOST"))
                 matInfo.Material.SetFloat("_EmissionBloomType", 1f);
@@ -316,7 +273,9 @@ public class EnvironmentBuildPopulate
                 matInfo.Material.SetFloat("_EmissionBloomType", 3f);
             else
                 matInfo.Material.SetFloat("_EmissionBloomType", 0f);
-
+            matInfo.Material.SetFloat(
+                "_EnableEmissionAngleDisappear",
+                matInfo.Keywords.Contains("EMISSION_ANGLE_DISAPPEAR") ? 1f : 0f);
             if (matInfo.Keywords.Contains("_EMISSION_ALPHA_SOURCE_COPY_EMISSION"))
                 matInfo.Material.SetFloat("_Emission_Alpha_Source", 1f);
             else if (matInfo.Keywords.Contains("_EMISSION_ALPHA_SOURCE_MPM_R"))
@@ -325,14 +284,12 @@ public class EnvironmentBuildPopulate
                 matInfo.Material.SetFloat("_Emission_Alpha_Source", 0f);
 
             matInfo.Material.SetFloat("_EnableEmissionMask", matInfo.Keywords.Contains("EMISSION_MASK") ? 1f : 0f);
-
             if (matInfo.Keywords.Contains("_MASKBLEND_ADD"))
                 matInfo.Material.SetFloat("_MaskBlend", 1f);
             else if (matInfo.Keywords.Contains("_MASKBLEND_MASKED_ADD"))
                 matInfo.Material.SetFloat("_MaskBlend", 2f);
             else
                 matInfo.Material.SetFloat("_MaskBlend", 0f);
-
             matInfo.Material.SetFloat(
                 "_SecondaryUVsMask",
                 matInfo.Keywords.Contains("SECONDARY_UVS_EMISSION_MASK") ? 1f : 0f);
@@ -340,17 +297,137 @@ public class EnvironmentBuildPopulate
             matInfo.Material.SetFloat(
                 "_EnableSecondaryEmissionMask",
                 matInfo.Keywords.Contains("SECONDARY_EMISSION_MASK") ? 1f : 0f);
-
             if (matInfo.Keywords.Contains("_SECONDARY_MASK_BLEND_ADD"))
                 matInfo.Material.SetFloat("_Secondary_MaskBlend", 1f);
             else if (matInfo.Keywords.Contains("_SECONDARY_MASK_BLEND_MASKED_ADD"))
                 matInfo.Material.SetFloat("_Secondary_MaskBlend", 2f);
             else
                 matInfo.Material.SetFloat("_Secondary_MaskBlend", 0f);
-
             matInfo.Material.SetFloat(
                 "_SecondaryUVsMask2",
                 matInfo.Keywords.Contains("SECONDARY_UVS_EMISSION_MASK2") ? 1f : 0f);
+
+            matInfo.Material.SetFloat("_EnableMask", matInfo.Keywords.Contains("MASK") ? 1f : 0f);
+            matInfo.Material.SetFloat(
+                "_MaskSecondaryUVs",
+                matInfo.Keywords.Contains("SECONDARY_UVS_MASK") ? 1f : 0f);
+            matInfo.Material.SetFloat(
+                "_MaskRedIsAlpha",
+                matInfo.Keywords.Contains("MASK_RED_IS_ALPHA") ? 1f : 0f);
+            if (matInfo.Keywords.Contains("_MASKBLEND_ADD"))
+                matInfo.Material.SetFloat("_MaskBlend", 1f);
+            else if (matInfo.Keywords.Contains("_MASKBLEND_MASKED_ADD"))
+                matInfo.Material.SetFloat("_MaskBlend", 2f);
+            else
+                matInfo.Material.SetFloat("_MaskBlend", 0f);
+
+            matInfo.Material.SetFloat("_EnableMask2", matInfo.Keywords.Contains("MASK2") ? 1f : 0f);
+            matInfo.Material.SetFloat(
+                "_Mask2SecondaryUVs",
+                matInfo.Keywords.Contains("SECONDARY_UVS_MASK2") ? 1f : 0f);
+            matInfo.Material.SetFloat(
+                "_Mask2RedIsAlpha",
+                matInfo.Keywords.Contains("MASK2_RED_IS_ALPHA") ? 1f : 0f);
+            if (matInfo.Keywords.Contains("_MASK2BLEND_ADD"))
+                matInfo.Material.SetFloat("_Mask2Blend", 1f);
+            else if (matInfo.Keywords.Contains("_MASK2BLEND_MASKED_ADD"))
+                matInfo.Material.SetFloat("_Mask2Blend", 2f);
+            else
+                matInfo.Material.SetFloat("_Mask2Blend", 0f);
+
+            matInfo.Material.SetFloat(
+                "_EnablePrivatePointLight",
+                matInfo.Keywords.Contains("PRIVATE_POINT_LIGHT") ? 1f : 0f);
+
+            matInfo.Material.SetFloat(
+                "_EnableViewAlignDisappear",
+                matInfo.Keywords.Contains("VIEW_ALIGN_DISAPPEAR") ? 1f : 0f);
+            matInfo.Material.SetFloat(
+                "_PointLightPositionLocal",
+                matInfo.Keywords.Contains("POINT_LIGHT_IS_LOCAL") ? 1f : 0f);
+            matInfo.Material.SetFloat("_EnableDiffuse", matInfo.Keywords.Contains("DIFFUSE") ? 1f : 0f);
+            matInfo.Material.SetFloat("_EnableDiffuseTexture", matInfo.Keywords.Contains("DIFFUSE_TEXTURE") ? 1f : 0f);
+            if (matInfo.Keywords.Contains("_DIFFUSE_TEXTURE_SOURCE_MPM_R"))
+                matInfo.Material.SetFloat("_Diffuse_Texture_Source", 1f);
+            else if (matInfo.Keywords.Contains("_DIFFUSE_TEXTURE_SOURCE_MPM_A_SMOOTHNESS"))
+                matInfo.Material.SetFloat("_Diffuse_Texture_Source", 2f);
+            else
+                matInfo.Material.SetFloat("_Diffuse_Texture_Source", 0f);
+            matInfo.Material.SetFloat("_EnableSpecular", matInfo.Keywords.Contains("SPECULAR") ? 1f : 0f);
+            matInfo.Material.SetFloat("_EnableLightFalloff", matInfo.Keywords.Contains("LIGHT_FALLOFF") ? 1f : 0f);
+            matInfo.Material.SetFloat(
+                "_EnableBothSidesDiffuse",
+                matInfo.Keywords.Contains("BOTH_SIDES_DIFFUSE") ? 1f : 0f);
+
+            matInfo.Material.SetFloat("_EnableRimDim", matInfo.Keywords.Contains("ENABLE_RIM_DIM") ? 1f : 0f);
+            matInfo.Material.SetFloat("_InvertRimDim", matInfo.Keywords.Contains("INVERT_RIM_DIM") ? 1f : 0f);
+
+            matInfo.Material.SetFloat(
+                "_EnableRemapWhiteBoostStart",
+                matInfo.Keywords.Contains("REMAP_WHITEBOOST_START") ? 1f : 0f);
+
+            matInfo.Material.SetFloat(
+                "_EnableAlphaWidthScale",
+                matInfo.Keywords.Contains("ALPHA_WIDTH_SCALE") ? 1f : 0f);
+
+            matInfo.Material.SetFloat(
+                "_MultiplyColorWithAlpha",
+                matInfo.Keywords.Contains("MULTIPLY_COLOR_WITH_ALPHA") ? 1f : 0f);
+            matInfo.Material.SetFloat(
+                "_EnableYAxisBillboard",
+                matInfo.Keywords.Contains("ENABLE_Y_AXIS_BILLBOARD") ? 1f : 0f);
+            matInfo.Material.SetFloat("_SquareAlpha", matInfo.Keywords.Contains("SQUARE_ALPHA") ? 1f : 0f);
+            matInfo.Material.SetFloat("_UseFogForLights", matInfo.Keywords.Contains("USE_FOR_FOR_LIGHTS") ? 1f : 0f);
+
+            if (matInfo.Keywords.Contains("_WHITEBOOSTTYPE_MAINEFFECT")
+                || matInfo.Keywords.Contains("_ENABLE_MAIN_EFFECT_WHITE_BOOST"))
+                matInfo.Material.SetFloat("_BloomType", 1f);
+            else if (matInfo.Keywords.Contains("_WHITEBOOSTTYPE_ALWAYS"))
+                matInfo.Material.SetFloat("_BloomType", 2f);
+            else
+                matInfo.Material.SetFloat("_BloomType", 0f);
+
+            if (matInfo.Keywords.Contains("_ACES_APPROACH_BEFORE_EMISSIVE"))
+                matInfo.Material.SetFloat("_ACES_Approach", 1f);
+            else
+                matInfo.Material.SetFloat("_ACES_Approach", 0f);
+
+            matInfo.Material.SetFloat(
+                "_UseColorArray",
+                matInfo.Keywords.Contains("COLOR_ARRAY") ? 1f : 0f);
+
+            if (matInfo.Keywords.Contains("_CUSTOM_TIME_SONG_TIME"))
+                matInfo.Material.SetFloat("_Custom_Time", 1f);
+            else if (matInfo.Keywords.Contains("_CUSTOM_TIME_FREEZE"))
+                matInfo.Material.SetFloat("_Custom_Time", 2f);
+            else
+                matInfo.Material.SetFloat("_Custom_Time", 0f);
+
+
+            if (matInfo.Keywords.Contains("_BILLBOARD_FULL"))
+                matInfo.Material.SetFloat("_Billboard", 1f);
+            else if (matInfo.Keywords.Contains("_BILLBOARD_Y_AXIS"))
+                matInfo.Material.SetFloat("_Billboard", 2f);
+            else if (matInfo.Keywords.Contains("_BILLBOARD_CAMERA_FACING"))
+                matInfo.Material.SetFloat("_Billboard", 3f);
+            else
+                matInfo.Material.SetFloat("_Billboard", 0f);
+
+            matInfo.Material.SetFloat(
+                "_EnableFog",
+                matInfo.Keywords.Contains("FOG") || matInfo.Keywords.Contains("ENABLE_FOG") ? 1f : 0f);
+            matInfo.Material.SetFloat(
+                "_EnableHeightFog",
+                matInfo.Keywords.Contains("HEIGHT_FOG") || matInfo.Keywords.Contains("ENABLE_HEIGHT_FOG") ? 1f : 0f);
+
+            if (matInfo.Keywords.Contains("_FOGTYPE_LERP"))
+                matInfo.Material.SetFloat("_FogType", 1f);
+            else if (matInfo.Keywords.Contains("_FOGTYPE_COLOR"))
+                matInfo.Material.SetFloat("_FogType", 2f);
+            else if (matInfo.Keywords.Contains("_FOGTYPE_ALPHA"))
+                matInfo.Material.SetFloat("_FogType", 3f);
+            else
+                matInfo.Material.SetFloat("_FogType", 0f);
         }
 
         foreach (var obj in library
