@@ -11,7 +11,8 @@ namespace Beatmap.Appearances
     {
         [SerializeField] private Material lightOpaqueMaterial;
         [SerializeField] private Material lightTransparentMaterial;
-        [SerializeField] private Material shinyMaterial;
+        [SerializeField] private Material waterMaterial;
+        [SerializeField] private Material btsMaterial;
         [SerializeField] private Material obstacleMaterial;
         [SerializeField] private Material regularMaterial;
 
@@ -60,9 +61,10 @@ namespace Beatmap.Appearances
             {
                 ShaderType.OpaqueLight => lightOpaqueMaterial,
                 ShaderType.TransparentLight => lightTransparentMaterial,
-                ShaderType.BaseWater => shinyMaterial,
-                ShaderType.BillieWater => shinyMaterial,
-                ShaderType.WaterfallMirror => shinyMaterial,
+                ShaderType.BaseWater => waterMaterial,
+                ShaderType.BillieWater => waterMaterial,
+                ShaderType.WaterfallMirror => waterMaterial,
+                ShaderType.BTSPillar => btsMaterial,
                 ShaderType.Obstacle => obstacleMaterial,
                 _ => regularMaterial,
             };
