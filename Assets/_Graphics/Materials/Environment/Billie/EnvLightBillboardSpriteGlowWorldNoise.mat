@@ -14,8 +14,9 @@ Material:
   m_ValidKeywords:
   - ENABLE_FOG
   - ENABLE_HEIGHT_FOG
-  - ENABLE_Y_AXIS_BILLBOARD
+  - Y_AXIS_BILLBOARD
   m_InvalidKeywords:
+  - ENABLE_Y_AXIS_BILLBOARD
   - _ACESTONEMAP_AFTER_EMISSIVE
   - _BLOOMTYPE_NONE
   - _BLOOMWHITE_NONE
@@ -47,8 +48,10 @@ Material:
     - _BloomType: 0
     - _BloomWhite: 0
     - _BloomWhiteMultiplier: 1
+    - _CapUVSize: 0.25
     - _CullMode: 2
     - _EnableAlphaWidthScale: 0
+    - _EnableAngleDisappear: 0
     - _EnableFog: 1
     - _EnableHeightFog: 1
     - _EnableYAxisBillboard: 1
@@ -56,6 +59,8 @@ Material:
     - _FogHeightScale: 1
     - _FogScale: 2
     - _FogStartOffset: 0
+    - _OffsetFactor: 0
+    - _OffsetUnits: 0
     - _SquareAlpha: 0
     - _UseFogForLights: 0
     - _ZTest: 4

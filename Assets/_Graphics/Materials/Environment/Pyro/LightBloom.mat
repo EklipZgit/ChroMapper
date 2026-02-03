@@ -125,6 +125,8 @@ Material:
     - _MaskSecondaryUVs: 0
     - _MaskStrength: 1
     - _MaskTexWorldspacePanning: 0
+    - _OffsetFactor: 0
+    - _OffsetUnits: 0
     - _Pixelate: 0
     - _RedIsVertexAlpha: 0
     - _RotateMainUVOnly: 0

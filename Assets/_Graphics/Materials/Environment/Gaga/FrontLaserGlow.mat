@@ -46,8 +46,10 @@ Material:
     - _BloomType: 0
     - _BloomWhite: 0
     - _BloomWhiteMultiplier: 1.5
+    - _CapUVSize: 0.25
     - _CullMode: 2
     - _EnableAlphaWidthScale: 1
+    - _EnableAngleDisappear: 0
     - _EnableFog: 1
     - _EnableHeightFog: 0
     - _EnableYAxisBillboard: 0
@@ -55,6 +57,8 @@ Material:
     - _FogHeightScale: 1
     - _FogScale: 1
     - _FogStartOffset: 0
+    - _OffsetFactor: 0
+    - _OffsetUnits: 0
     - _SquareAlpha: 0
     - _UseFogForLights: 0
     - _ZTest: 4
