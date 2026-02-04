@@ -39,8 +39,6 @@ public class UIMode : MonoBehaviour, CMInput.IUIModeActions
     private Coroutine showUI;
     private Coroutine slideSelectionCoroutine;
 
-    private static readonly int enableNoteSurfaceGridLine = Shader.PropertyToID("_EnableNoteSurfaceGridLine");
-
     private void Awake()
     {
         mapEditorUi = transform.GetComponentInParent<MapEditorUI>();
@@ -62,7 +60,6 @@ public class UIMode : MonoBehaviour, CMInput.IUIModeActions
         }
 
         atsc.OnPlayToggled += OnPlayToggle;
-        Shader.SetGlobalFloat(enableNoteSurfaceGridLine, 1f);
         Shader.DisableKeyword("CM_PREVIEW_MODE");
     }
 
@@ -219,7 +216,6 @@ public class UIMode : MonoBehaviour, CMInput.IUIModeActions
 
         if (showPlacement)
         {
-            Shader.SetGlobalFloat(enableNoteSurfaceGridLine, 1f);
             foreach (var s in thingsThatRequireAMoveForPreview)
             {
                 var t = s.transform;
@@ -235,7 +231,6 @@ public class UIMode : MonoBehaviour, CMInput.IUIModeActions
         }
         else
         {
-            Shader.SetGlobalFloat(enableNoteSurfaceGridLine, 0f);
             foreach (var s in thingsThatRequireAMoveForPreview)
             {
                 var t = s.transform;

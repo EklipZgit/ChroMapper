@@ -116,17 +116,15 @@
             #pragma multi_compile_fog
             #pragma multi_compile LOW_QUALITY_SHADER // GGX makes a dot
 
-            // Hello! We're global shader variables.
-            uniform float _EnableNoteSurfaceGridLine = 1;
             uniform float _SongTime;
             sampler3D _CutoutTex;
 
             struct appdata
             {
                 float4 vertex : POSITION;
-                UNITY_VERTEX_INPUT_INSTANCE_ID
                 float3 normal : NORMAL;
                 float4 tangent : TANGENT;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
             struct v2f
@@ -134,13 +132,15 @@
                 float4 vertex : SV_POSITION;
                 float4 customScreenPos : POSITION1;
                 float4 rotatedPos : POSITION2;
-                UNITY_VERTEX_INPUT_INSTANCE_ID
                 float4 localPos : TEXCOORD0;
                 float3 viewDir : TEXCOORD1;
-                float dist : TEXCOORD2;
-                float3 worldPos : TEXCOORD3;
-                float3 worldNormal : TEXCOORD4;
-                float3 cutoutPos : TEXCOORD5;
+                float3 worldPos : TEXCOORD2;
+                float3 worldNormal : TEXCOORD3;
+                float3 cutoutPos : TEXCOORD4;
+                #if defined(RIM_DIM)
+                float dist : TEXCOORD5;
+                #endif
+                UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
             float3 ComputeRotatedPosition(float3 position, float theta)
@@ -181,7 +181,9 @@
 
                 o.worldNormal = UnityObjectToWorldNormal(i.normal);
                 o.viewDir = normalize(_WorldSpaceCameraPos - o.worldPos);
+                #if defined(RIM_DIM)
                 o.dist = distance(_WorldSpaceCameraPos, o.worldPos);
+                #endif
                 o.cutoutPos = mul(unity_ObjectToWorld, i.vertex.xyz);
                 return o;
             }
@@ -220,9 +222,13 @@
 
                 float rotatedZ = abs(i.rotatedPos.z);
 
-                float4 albedo = float4(_EnableNoteSurfaceGridLine > 0 && rotatedZ < _OutlineWidth && isTranslucent < 1
+                #if defined(CM_PREVIEW_MODE)
+                float4 albedo = float4(color.rgb * colorMultiplier, 0);
+                #else
+                float4 albedo = float4(rotatedZ < _OutlineWidth && isTranslucent < 1
                                            ? interfaceColor
                                            : color.rgb * colorMultiplier, 0);
+                #endif
 
                 float alpha = animation < 1 && (isTranslucent >= 1 || i.rotatedPos.w <= 0)
                                   ? translucentAlpha
@@ -245,7 +251,7 @@
                                                viewDir, 1, i.worldPos, worldNormal);
                 albedo.rgb = calculated.rgb;
 
-                #if RIM_DIM
+                #if defined(RIM_DIM)
                 float rim = 1 - saturate(dot(worldNormal, i.viewDir));
                 float distFactor = (i.dist + _RimDistanceOffset) * _RimDistanceScale;
                 float finalRim = saturate((rim + _RimOffset) * _RimScale) * distFactor;
@@ -254,8 +260,8 @@
 
                 ACES_TONE_MAPPING_APPLY(albedo);
                 
-                #if CM_PREVIEW_MODE && ENABLE_FOG
-                #if ENABLE_HEIGHT_FOG
+                #if defined(CM_PREVIEW_MODE) && defined(ENABLE_FOG)
+                #if defined(ENABLE_HEIGHT_FOG)
                 BLOOM_FOG_HEIGHT_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,
                                            _FogHeightOffset, _FogHeightScale);
                 #else
