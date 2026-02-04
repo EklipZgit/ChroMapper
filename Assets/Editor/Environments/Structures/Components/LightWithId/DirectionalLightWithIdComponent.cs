@@ -6,7 +6,7 @@ public class DirectionalLightWithIdComponent : EnvDataComponent<DirectionalLight
     public bool IsEnabled;
 
     [JsonProperty("instanceId")] public int InstanceId;
-    public int Id;
+    [JsonProperty("lightId")] public int Id;
 
     public float Intensity;
     public float MinIntensity;

@@ -36,7 +36,7 @@ public partial class EnvironmentSceneCreator
             }
         }
 
-        var lightWithIds = new Dictionary<int, MonoBehaviour>();
+        var lightWithIds = new Dictionary<string, MonoBehaviour>();
 
         foreach (var obj in data.Objects.Where(x => x.Components.DirectionalLight != null))
         {
@@ -67,7 +67,7 @@ public partial class EnvironmentSceneCreator
                 dlc.Light = GetGameObjectOrNull(dlwiData.DirectionalLight, go)
                     .GetComponent<DirectionalLight>();
                 dlwiData.CopyTo(dlc);
-                lightWithIds.Add(dlwiData.InstanceId, dlc);
+                lightWithIds.Add(obj.ChromaID, dlc);
             }
         }
 
@@ -80,7 +80,7 @@ public partial class EnvironmentSceneCreator
                 dlgc.Light = GetGameObjectOrNull(dligiData.DirectionalLight, go)
                     .GetComponent<DirectionalLight>();
                 dligiData.CopyTo(dlgc);
-                lightWithIds.Add(dligiData.InstanceId, dlgc);
+                lightWithIds.Add(obj.ChromaID, dlgc);
             }
         }
 
@@ -93,7 +93,7 @@ public partial class EnvironmentSceneCreator
                 mlc.MeshRenderer = GetGameObjectOrNull(mlwiData.MeshRenderer, go)
                     .GetComponent<MeshRenderer>();
                 mlwiData.CopyTo(mlc);
-                lightWithIds.Add(mlwiData.InstanceId, mlc);
+                lightWithIds.Add(obj.ChromaID, mlc);
             }
         }
 
@@ -106,7 +106,7 @@ public partial class EnvironmentSceneCreator
                 mlc.MpbColorSetter = GetGameObjectOrNull(mlcsrlwiData.MaterialPropertyBlockColorSetterId, go)
                     .GetComponent<MaterialPropertyBlockColorSetter>();
                 mlcsrlwiData.CopyTo(mlc);
-                lightWithIds.Add(mlcsrlwiData.InstanceId, mlc);
+                lightWithIds.Add(obj.ChromaID, mlc);
             }
         }
 
@@ -118,7 +118,7 @@ public partial class EnvironmentSceneCreator
                 var plc = go.AddComponent<PointLightsController>();
                 plc.Light = GetGameObjectOrNull(plwiData.PointLight, go).GetComponent<PointLight>();
                 plwiData.CopyTo(plc);
-                lightWithIds.Add(plwiData.InstanceId, plc);
+                lightWithIds.Add(obj.ChromaID, plc);
             }
         }
 
@@ -230,7 +230,7 @@ public partial class EnvironmentSceneCreator
                     if (light.ArrayId != null)
                     {
                         // Get runtime light
-                        if (lightWithIds.TryGetValue(light.InstanceId, out var controller))
+                        if (lightWithIds.TryGetValue(light.ObjectId, out var controller))
                         {
                             switch (controller)
                             {
