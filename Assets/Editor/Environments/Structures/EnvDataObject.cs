@@ -30,7 +30,7 @@ public class EnvDataObject
         public InstancedMaterialLightWithIdComponent[]? InstancedMaterialLightWithId;
         public MaterialLightWithIdComponent[]? MaterialLightWithId;
         public ParticleSystemLightWithIdComponent[]? ParticleSystemLightWithId;
-        public RectangleFakeGlowLightWithIdComponent[]? RectangleFakeGlowLightWithId;
+        public RectangleFakeGlowLightWithIdComponent[]? RectangleFakeGlowLightWithLightId;
         public SpriteLightWithIdComponent[]? SpriteLightWithId;
         public TubeBloomPrePassLightWithIdComponent[]? TubeBloomPrePassLightWithId;
 

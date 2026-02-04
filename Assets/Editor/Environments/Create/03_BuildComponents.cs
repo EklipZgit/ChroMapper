@@ -944,11 +944,11 @@ public partial class EnvironmentSceneCreator
                 foreach (var comp in l) HandleMaterialLightWithId(comp, go, order);
             }
 
-            if (envObject.Components.RectangleFakeGlowLightWithId != null)
+            if (envObject.Components.RectangleFakeGlowLightWithLightId != null)
             {
                 var l = instanceId != -1
-                    ? envObject.Components.RectangleFakeGlowLightWithId.Where(x => x.InstanceId == instanceId)
-                    : envObject.Components.RectangleFakeGlowLightWithId.Where(x =>
+                    ? envObject.Components.RectangleFakeGlowLightWithLightId.Where(x => x.InstanceId == instanceId)
+                    : envObject.Components.RectangleFakeGlowLightWithLightId.Where(x =>
                         !registeredLight.Contains(x.InstanceId));
                 foreach (var comp in l) HandleRectangleFakeGlowLightWithId(comp, go, order);
             }
@@ -1041,7 +1041,7 @@ public partial class EnvironmentSceneCreator
             int order)
         {
             var rfglc = go.AddComponent<RectangleFakeGlowLightController>();
-            rfglc.Renderer = go.GetComponent<Renderer>();
+            rfglc.MpbController = go.GetComponent<MaterialPropertyBlockController>();
             var envObject =
                 data.Objects.First(y => y.ChromaID == chromaIdObjects.First(x => x.Value == go).Key);
             comp.CopyTo(rfglc);
