@@ -75,6 +75,18 @@
         _EmissionTexBloomIntensity ("Bloom Intensity", float) = 1
         _EmissionTexWhiteBoostMultiplier ("White Boost Multiplier", float) = 1
 
+        [Space(20)]
+        _PulseMask ("Pulse Mask", 2D) = "white" {}
+        _PulseWidth ("Pulse Width", float) = 0.1
+        _PulseSpeed ("Pulse Speed", float) = 0.2
+        _PulseSmooth ("Pulse Smooth", Range(0, 0.2)) = 0.02
+
+        [Space(20)]
+        _FlipbookColumns ("Flipbook Columns", float) = 8
+        _FlipbookRows ("Flipbook Rows", float) = 8
+        _FlipbookNonloopableFrames ("Full Non-loopable frames", float) = 0
+        _FlipbookSpeed ("Flipbook Speed", float) = 1
+        [Toggle(FLIPBOOK_BLENDING_OFF)] _FlipbookBlendingOff ("No Frame Blending", float) = 0
 
 
         [Header(Lighting)] [Space]
@@ -131,6 +143,8 @@
         [Toggle(ENABLE_HEIGHT_FOG)] _EnableHeightFog ("Enable Height Fog", float) = 0
         _FogHeightOffset ("Fog Height Offset", float) = 0
         _FogHeightScale ("Fog Height Scale", float) = 1
+        _EmissionFogSuppression ("Emission Fog Suppression", Range(0, 1)) = 0
+        _MainEffectFogSuppression ("Main Effect Fog Suppression", Range(0, 1)) = 0
 
 
 
@@ -184,6 +198,8 @@
             #pragma shader_feature SECONDARY_EMISSION_MASK
             #pragma multi_compile _ _SECONDARY_MASKBLEND_ADD _SECONDARY_MASKBLEND_MASKED_ADD
             #pragma shader_feature SECONDARY_UVS_EMISSION_MASK2
+
+            #pragma shader_feature FLIPBOOK_BLENDING_OFF
 
             #pragma shader_feature PRIVATE_POINT_LIGHT
             #pragma shader_feature POINT_LIGHT_IS_LOCAL
@@ -288,6 +304,21 @@
             float _EmissionTexBloomIntensity;
             float _EmissionTexWhiteBoostMultiplier;
 
+            #if defined(_EMISSIONTEXTURE_PULSE)
+            sampler2D _PulseMask;
+            float4 _PulseMask_ST;
+            float _PulseWidth;
+            float _PulseSpeed;
+            float _PulseSmooth;
+            #endif
+
+            #if defined(_EMISSIONTEXTURE_FLIPBOOK)
+            float _FlipbookColumns;
+            float _FlipbookRows;
+            float _FlipbookNonloopableFrames;
+            float _FlipbookSpeed;
+            #endif
+
             #define USE_VERTEX_EMISSION (defined(_VERTEX_EMISSION) || defined(_VERTEX_SPECIAL) || defined(_VERTEX_EMISSIVE_MULT_ADD))
             #define USE_VERTEX_COLOR defined(_VERTEX_COLOR) || USE_VERTEX_EMISSION
             #if USE_VERTEX_COLOR
@@ -306,10 +337,16 @@
             #if defined(DIFFUSE_TEXTURE)
             sampler2D _DiffuseTex;
             float4 _DiffuseTex_ST;
-            #endif
-            float _BothSidesDiffuseMultiplier;
             float _AlbedoMultiplier;
+            #endif
+            
+            #if defined(DIFFUSE)
+            float _BothSidesDiffuseMultiplier;
+            #endif
+
+            #if defined(SPECULAR)
             float _SpecularIntensity;
+            #endif
 
             #if defined(RIM_DIM)
             float _RimScale;
@@ -329,6 +366,11 @@
             float _FogScale;
             float _FogHeightOffset;
             float _FogHeightScale;
+            #define USE_FOG_SUPPRESSION defined(_EMISSIONTEXTURE_SIMPLE) || defined(_EMISSIONTEXTURE_PULSE) || defined(_EMISSIONTEXTURE_FLIPBOOK) || defined(_VERTEX_EMISSION) || defined(_VERTEX_SPECIAL)
+            #if USE_FOG_SUPPRESSION
+            float _EmissionFogSuppression;
+            float _MainEffectFogSuppression;
+            #endif
             #endif
 
             #if defined(UNITY_INSTANCING_ENABLED)
@@ -367,8 +409,7 @@
                 #endif
                 float2 uv : TEXCOORD0;
                 float3 normal : NORMAL;
-                UNITY_VERTEX_INPUT_INSTANCE_ID
-            };
+                UNITY_VERTEX_INPUT_INSTANCE_ID};
 
             struct v2f
             {
@@ -380,8 +421,7 @@
                 float3 worldNormal : TEXCOORD1;
                 float3 worldPos : TEXCOORD2;
                 float4 customScreenPos : TEXCOORD3;
-                UNITY_VERTEX_INPUT_INSTANCE_ID
-            };
+                UNITY_VERTEX_INPUT_INSTANCE_ID};
 
             v2f vert(appdata i)
             {
@@ -452,19 +492,22 @@
                 #elif defined(METAL_SMOOTHNESS_TEXTURE) && defined(_DIFFUSE_TEXTURE_SOURCE_MPM_A_SMOOTHNESS)
                 albedo = tex2D(_MetalSmoothnessTex, i.uv).a * _Smoothness;
                 #else
-                albedo *= tex2D(_DiffuseTex, i.uv);
+                albedo = tex2D(_DiffuseTex, i.uv);
                 #endif
                 albedo *= _AlbedoMultiplier;
                 #endif
-
+                
                 float3 worldPos = i.worldPos;
                 #if defined(PRECISE_NORMAL)
                 float3 worldNormal = normalize(i.worldNormal);
                 #else
                 float3 worldNormal = i.worldNormal;
                 #endif
+                
+                // LIGHTING
+                #if defined(DIFFUSE) || defined(SPECULAR)
 
-                float4 calculated = 0;
+                float3 calculated = 0;
 
                 float metallic = _Metallic;
                 float smoothness = _Smoothness;
@@ -481,11 +524,25 @@
                 #endif
                 #endif
 
-                CUSTOM_LIGHTING_APPLY(calculated, albedo, metallic, smoothness, _SpecularIntensity,
-                                      _BothSidesDiffuseMultiplier, worldPos, worldNormal);
+                #if defined(DIFFUSE) && defined(BOTH_SIDES_DIFFUSE)
+                float diffuseBothSides = _BothSidesDiffuseMultiplier;
+                #else
+                float diffuseBothSides = 0;
+                #endif
+                #if defined(SPECULAR)
+                float specIntensity = _SpecularIntensity;
+                #else
+                float specIntensity = 0;
+                #endif
+                CUSTOM_LIGHTING_APPLY(calculated, albedo, metallic, smoothness, specIntensity,
+                                      diffuseBothSides, worldPos, worldNormal);
                 albedo = max(_NominalDiffuseLevel * albedo, _AmbientMinimalValue) * _AmbientMultiplier + float4(
                     calculated.rgb, 0);
+                #else
+                albedo = max(_NominalDiffuseLevel * albedo, _AmbientMinimalValue) * _AmbientMultiplier;
+                #endif
 
+                // EMISSION
                 #if defined(_ACES_APPROACH_BEFORE_EMISSIVE)
                 ACES_TONE_MAPPING_APPLY(albedo);
                 #endif
@@ -556,9 +613,14 @@
                 albedo += emissionTex * UNITY_ACCESS_INSTANCED_PROP(Props, _EmissionTexColor) *
                     UNITY_ACCESS_INSTANCED_PROP(Props, _EmissionBrightness);
 
+
                 #else
-                albedo += UNITY_ACCESS_INSTANCED_PROP(Props, _EmissionTexColor) * UNITY_ACCESS_INSTANCED_PROP(
+                float emissionTex = UNITY_ACCESS_INSTANCED_PROP(Props, _EmissionTexColor) * UNITY_ACCESS_INSTANCED_PROP(
                     Props, _EmissionBrightness);
+                #if defined(_EMISSIONTEXTURE_PULSE)
+                emissionTex *= sin(GET_TIME(UNITY_ACCESS_INSTANCED_PROP(Props, _TimeOffset)));
+                #endif
+                albedo += emissionTex;
                 #endif
 
                 #if _EMISSIONBLOOMTYPE_PP
@@ -568,7 +630,7 @@
                 #else
                 CUSTOM_BLOOM_NONE_APPLY(albedo);
                 #endif
-
+                
                 #endif
 
                 #if defined(RIM_DIM)
@@ -576,7 +638,7 @@
                 #if defined(INVERT_RIM_DIM)
                 rim = 1 - rim;
                 #endif
-                float distFactor = (i.dist + _RimDistanceOffset) * _RimDistanceScale;
+                float distFactor = (distance(worldPos, _WorldSpaceCameraPos) + _RimDistanceOffset) * _RimDistanceScale;
                 float finalRim = saturate((rim + _RimOffset) * _RimScale) * distFactor;
                 albedo *= (1 - finalRim * _RimDarkening);
                 #endif
