@@ -104,17 +104,16 @@
             HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-            #pragma multi_compile DIFFUSE
-            #pragma multi_compile BOTH_SIDES_DIFFUSE
-            #pragma multi_compile HALF_LAMBERT
-            #pragma multi_compile SPECULAR
-            #pragma shader_feature RIM_DIM
-            #pragma multi_compile _ ENABLE_FOG
-            #pragma multi_compile _ ENABLE_HEIGHT_FOG
+            #pragma multi_compile_local DIFFUSE
+            #pragma multi_compile_local BOTH_SIDES_DIFFUSE
+            #pragma multi_compile_local HALF_LAMBERT
+            #pragma multi_compile_local SPECULAR
+            #pragma shader_feature_local RIM_DIM
             #pragma multi_compile _ ENABLE_BLOOM_FOG
+            #pragma shader_feature_local _ ENABLE_FOG
+            #pragma shader_feature_local _ ENABLE_HEIGHT_FOG
             #pragma multi_compile _ CM_PREVIEW_MODE
-            #pragma multi_compile_fog
-            #pragma multi_compile LOW_QUALITY_SHADER // GGX makes a dot
+            #pragma multi_compile_local LOW_QUALITY_SHADER // GGX makes a dot
 
             uniform float _SongTime;
             sampler3D _CutoutTex;

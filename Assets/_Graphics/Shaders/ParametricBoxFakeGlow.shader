@@ -54,9 +54,9 @@
             #pragma fragment frag
             #pragma multi_compile_instancing
             #pragma multi_compile _ ENABLE_BLOOM_FOG
-            #pragma multi_compile _ ENABLE_HEIGHT_FOG
-            #pragma multi_compile _FOGTYPE_ALPHA
-            #pragma multi_compile _ _BLOOMTYPE_PP _BLOOMTYPE_FRAG
+            #pragma shader_feature_local _ ENABLE_HEIGHT_FOG
+            #pragma multi_compile_local _FOGTYPE_ALPHA
+            #pragma shader_feature_local _ _BLOOMTYPE_PP _BLOOMTYPE_FRAG
 
             #include "UnityCG.cginc"
             #include "CGIncludes/BloomFog.cginc"

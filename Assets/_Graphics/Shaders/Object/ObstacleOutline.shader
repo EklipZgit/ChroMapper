@@ -61,8 +61,8 @@
             #pragma fragment frag
             #pragma multi_compile_instancing
             #pragma multi_compile _ ENABLE_BLOOM_FOG
+            #pragma shader_feature_local _ ENABLE_HEIGHT_FOG
             #pragma multi_compile _ CM_PREVIEW_MODE
-            #pragma multi_compile _ ENABLE_HEIGHT_FOG
 
             struct appdata
             {

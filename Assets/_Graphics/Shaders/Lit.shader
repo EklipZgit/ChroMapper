@@ -171,57 +171,57 @@
             #pragma fragment frag
             #pragma multi_compile_instancing
 
-            #pragma multi_compile _ _SECONDARY_UVS_IMPORT _SECONDARY_UVS_EXTERNAL_SCALE _SECONDARY_UVS_OBJECT_SPACE _SECONDARY_UVS_ADDITIVE_OFFSET
+            #pragma shader_feature_local _ _SECONDARY_UVS_IMPORT _SECONDARY_UVS_EXTERNAL_SCALE _SECONDARY_UVS_OBJECT_SPACE _SECONDARY_UVS_ADDITIVE_OFFSET
 
-            #pragma shader_feature METAL_SMOOTHNESS_TEXTURE
-            #pragma multi_compile _ _METALLIC_TEXTURE_SOURCE_MPM_R _METALLIC_TEXTURE_SOURCE_MPM_A
-            #pragma multi_compile _ _SMOOTHNESS_TEXTURE_SOURCE_MPM_A _SMOOTHNESS_TEXTURE_SOURCE_MPM_G_ROUGHNESS
-            #pragma shader_feature PRECISE_NORMAL
+            #pragma shader_feature_local METAL_SMOOTHNESS_TEXTURE
+            #pragma shader_feature_local _ _METALLIC_TEXTURE_SOURCE_MPM_R _METALLIC_TEXTURE_SOURCE_MPM_A
+            #pragma shader_feature_local _ _SMOOTHNESS_TEXTURE_SOURCE_MPM_A _SMOOTHNESS_TEXTURE_SOURCE_MPM_G_ROUGHNESS
+            #pragma shader_feature_local PRECISE_NORMAL
 
-            #pragma multi_compile _ _VERTEX_COLOR _VERTEX_EMISSION _VERTEX_METAL_SMOOTHNESS _VERTEX_SPECIAL _VERTEX_DISPLACEMENT _VERTEX_EMISSIVE_MULT_ADD
-            #pragma multi_compile _ _VERTEX_BLOOMTYPE_PP _VERTEX_BLOOMTYPE_FRAG
+            #pragma shader_feature_local _ _VERTEX_COLOR _VERTEX_EMISSION _VERTEX_METAL_SMOOTHNESS _VERTEX_SPECIAL _VERTEX_DISPLACEMENT _VERTEX_EMISSIVE_MULT_ADD
+            #pragma shader_feature_local _ _VERTEX_BLOOMTYPE_PP _VERTEX_BLOOMTYPE_FRAG
 
-            #pragma multi_compile _ _CURVE_VERTICES_AROUND_X _CURVE_VERTICES_AROUND_Y _CURVE_VERTICES_AROUND_Z
+            #pragma shader_feature_local _ _CURVE_VERTICES_AROUND_X _CURVE_VERTICES_AROUND_Y _CURVE_VERTICES_AROUND_Z
 
-            #pragma multi_compile _ _EMISSIONTEXTURE_SIMPLE _EMISSIONTEXTURE_PULSE _EMISSIONTEXTURE_FLIPBOOK
-            #pragma multi_compile _ _EMISSION_TEXTURE_SOURCE_MPM_G
-            #pragma shader_feature SECONDARY_UVS_EMISSION
+            #pragma shader_feature_local _ _EMISSIONTEXTURE_SIMPLE _EMISSIONTEXTURE_PULSE _EMISSIONTEXTURE_FLIPBOOK
+            #pragma shader_feature_local _ _EMISSION_TEXTURE_SOURCE_MPM_G
+            #pragma shader_feature_local SECONDARY_UVS_EMISSION
 
-            #pragma multi_compile _ _EMISSIONBLOOMTYPE_FRAG _EMISSIONBLOOMTYPE_GRADIENT _EMISSIONBLOOMTYPE_PP
-            #pragma shader_feature EMISSION_ANGLE_DISAPPEAR
-            #pragma multi_compile _ _EMISSION_ALPHA_SOURCE_COPY_EMISSION _EMISSION_ALPHA_SOURCE_MPM_R
+            #pragma shader_feature_local _ _EMISSIONBLOOMTYPE_FRAG _EMISSIONBLOOMTYPE_GRADIENT _EMISSIONBLOOMTYPE_PP
+            #pragma shader_feature_local EMISSION_ANGLE_DISAPPEAR
+            #pragma shader_feature_local _ _EMISSION_ALPHA_SOURCE_COPY_EMISSION _EMISSION_ALPHA_SOURCE_MPM_R
 
-            #pragma shader_feature EMISSION_MASK
-            #pragma multi_compile _ _MASKBLEND_ADD _MASKBLEND_MASKED_ADD
-            #pragma shader_feature SECONDARY_UVS_EMISSION_MASK
+            #pragma shader_feature_local EMISSION_MASK
+            #pragma shader_feature_local _ _MASKBLEND_ADD _MASKBLEND_MASKED_ADD
+            #pragma shader_feature_local SECONDARY_UVS_EMISSION_MASK
 
-            #pragma shader_feature SECONDARY_EMISSION_MASK
-            #pragma multi_compile _ _SECONDARY_MASKBLEND_ADD _SECONDARY_MASKBLEND_MASKED_ADD
-            #pragma shader_feature SECONDARY_UVS_EMISSION_MASK2
+            #pragma shader_feature_local SECONDARY_EMISSION_MASK
+            #pragma shader_feature_local _ _SECONDARY_MASKBLEND_ADD _SECONDARY_MASKBLEND_MASKED_ADD
+            #pragma shader_feature_local SECONDARY_UVS_EMISSION_MASK2
 
-            #pragma shader_feature FLIPBOOK_BLENDING_OFF
+            #pragma shader_feature_local FLIPBOOK_BLENDING_OFF
 
-            #pragma shader_feature PRIVATE_POINT_LIGHT
-            #pragma shader_feature POINT_LIGHT_IS_LOCAL
+            #pragma shader_feature_local PRIVATE_POINT_LIGHT
+            #pragma shader_feature_local POINT_LIGHT_IS_LOCAL
 
-            #pragma shader_feature DIFFUSE
-            #pragma shader_feature BOTH_SIDES_DIFFUSE
-            #pragma shader_feature LIGHT_FALLOFF
-            #pragma shader_feature DIFFUSE_TEXTURE
-            #pragma multi_compile _ _DIFFUSE_TEXTURE_SOURCE_MPM_R _DIFFUSE_TEXTURE_SOURCE_MPM_A_SMOOTHNESS
+            #pragma shader_feature_local DIFFUSE
+            #pragma shader_feature_local BOTH_SIDES_DIFFUSE
+            #pragma shader_feature_local LIGHT_FALLOFF
+            #pragma shader_feature_local DIFFUSE_TEXTURE
+            #pragma shader_feature_local _ _DIFFUSE_TEXTURE_SOURCE_MPM_R _DIFFUSE_TEXTURE_SOURCE_MPM_A_SMOOTHNESS
 
-            #pragma shader_feature SPECULAR
+            #pragma shader_feature_local SPECULAR
 
-            #pragma shader_feature RIM_DIM
-            #pragma shader_feature INVERT_RIM_DIM
+            #pragma shader_feature_local RIM_DIM
+            #pragma shader_feature_local INVERT_RIM_DIM
 
-            #pragma multi_compile _ _CUSTOM_TIME_SONG_TIME _CUSTOM_TIME_FREEZE
-            #pragma multi_compile _ _ACES_APPROACH_BEFORE_EMISSIVE
-            #pragma shader_feature COLOR_ARRAY
+            #pragma shader_feature_local _ _CUSTOM_TIME_SONG_TIME _CUSTOM_TIME_FREEZE
+            #pragma shader_feature_local _ _ACES_APPROACH_BEFORE_EMISSIVE
+            #pragma shader_feature_local COLOR_ARRAY
 
             #pragma multi_compile _ ENABLE_BLOOM_FOG
-            #pragma multi_compile _ ENABLE_FOG
-            #pragma multi_compile _ ENABLE_HEIGHT_FOG
+            #pragma shader_feature_local _ ENABLE_FOG
+            #pragma shader_feature_local _ ENABLE_HEIGHT_FOG
 
             #include "UnityCG.cginc"
             #include "CGIncludes/BloomFog.cginc"
@@ -230,8 +230,8 @@
             #include "CGIncludes/CustomTime.cginc"
             #include "CGIncludes/CustomTonemapping.cginc"
 
-            #define USE_UV_SCALE (defined(_SECONDARY_UVS_EXTERNAL_SCALE) || defined(_SECONDARY_UVS_OBJECT_SPACE))
-            #define USE_SECONDARY_UV (USE_UV_SCALE || defined(_SECONDARY_UVS_IMPORT) || defined(_SECONDARY_UVS_ADDITIVE_OFFSET))
+            #define USE_UV_SCALE defined(_SECONDARY_UVS_EXTERNAL_SCALE) || defined(_SECONDARY_UVS_OBJECT_SPACE)
+            #define USE_SECONDARY_UV USE_UV_SCALE || defined(_SECONDARY_UVS_IMPORT) || defined(_SECONDARY_UVS_ADDITIVE_OFFSET)
             #if USE_SECONDARY_UV
             #if USE_UV_SCALE
             float4 _UVScale;
@@ -249,20 +249,43 @@
             float _Smoothness;
             float _Metallic;
 
-            #define USE_EMISSION_TEXTURE (defined(_EMISSIONTEXTURE_SIMPLE) || defined(_EMISSIONTEXTURE_FLIPBOOK))
+            #define USE_VERTEX_EMISSION defined(_VERTEX_EMISSION) || defined(_VERTEX_SPECIAL) || defined(_VERTEX_EMISSIVE_MULT_ADD)
+            #define USE_VERTEX_COLOR USE_VERTEX_EMISSION || defined(_VERTEX_COLOR) || defined(_VERTEX_METAL_SMOOTHNESS) || defined(_VERTEX_DISPLACEMENT)
+            #if USE_VERTEX_EMISSION
+            float _EmissionThreshold;
+            #if !defined(UNITY_INSTANCING_ENABLED)
+            float4 _EmissionColor;
+            #endif
+            float _EmissionStrength;
+            float _EmissionBloomIntensity;
+            #endif
+
+            #define EMISSION_TEXTURE_ENABLED defined(_EMISSIONTEXTURE_SIMPLE) || defined(_EMISSIONTEXTURE_PULSE) || defined(_EMISSIONTEXTURE_FLIPBOOK)
+            #define USE_EMISSION_TEXTURE defined(_EMISSION_TEXTURE_SOURCE_TEXTURE) && (defined(_EMISSIONTEXTURE_SIMPLE) || defined(_EMISSIONTEXTURE_FLIPBOOK))
             #if USE_EMISSION_TEXTURE
             sampler2D _EmissionTex;
             float4 _EmissionTex_ST;
+            #if defined(_EMISSION_TEXTURE_SOURCE_TEXTURE) && defined(_EMISSIONTEXTURE_SIMPLE)
+            float2 _EmissionTexSpeed;
             #endif
-            #define USE_EMISSION_TEX_COLOR defined(_EMISSIONBLOOMTYPE_GRADIENT) || (defined(_EMISSIONTEXTURE_SIMPLE) || defined(_EMISSIONTEXTURE_PULSE) || defined(_EMISSIONTEXTURE_FLIPBOOK))
-            #if USE_EMISSION_TEX_COLOR
+            #endif
+
+            #if !defined(UNITY_INSTANCING_ENABLED)
+            float _EmissionBrightness;
+            #endif
+
+            #if defined(EMISSION_ANGLE_DISAPPEAR) && EMISSION_TEXTURE_ENABLED
             float _EmissionThresholdAngle;
+            #endif
+
+            #define USE_EMISSION_TEX_COLOR !defined(_EMISSIONBLOOMTYPE_GRADIENT) && EMISSION_TEXTURE_ENABLED
+            #if USE_EMISSION_TEX_COLOR
             #if !defined(UNITY_INSTANCING_ENABLED)
             float4 _EmissionTexColor;
             #endif
             #endif
 
-            #define USE_EMISSION_GRADIENT_TEXTURE defined(_EMISSIONBLOOMTYPE_GRADIENT) || defined(_EMISSIONTEXTURE_SIMPLE) || defined(_EMISSIONTEXTURE_PULSE) || defined(_EMISSIONTEXTURE_FLIPBOOK)
+            #define USE_EMISSION_GRADIENT_TEXTURE defined(_EMISSIONBLOOMTYPE_GRADIENT) && EMISSION_TEXTURE_ENABLED
             #if USE_EMISSION_GRADIENT_TEXTURE
             sampler2D _EmissionGradientTex;
             float4 _EmissionGradientTex_ST;
@@ -275,9 +298,23 @@
             float _EmissionGradientIntensity;
             #endif
 
-            #if !defined(UNITY_INSTANCING_ENABLED)
-            float _EmissionBrightness;
+            #if defined(_EMISSIONTEXTURE_PULSE)
+            sampler2D _PulseMask;
+            float4 _PulseMask_ST;
+            float _PulseWidth;
+            float _PulseSpeed;
+            float _PulseSmooth;
             #endif
+
+            #if defined(_EMISSIONTEXTURE_FLIPBOOK)
+            float _FlipbookColumns;
+            float _FlipbookRows;
+            float _FlipbookNonloopableFrames;
+            float _FlipbookSpeed;
+            #endif
+
+            float _EmissionTexBloomIntensity;
+            float _EmissionTexWhiteBoostMultiplier;
 
             #define USE_EMISSION_MASK (defined(_EMISSIONTEXTURE_PULSE) || defined(_EMISSIONTEXTURE_SIMPLE))
             #if USE_EMISSION_MASK
@@ -301,35 +338,6 @@
             float _EmissionMaskStepWidth;
             #endif
 
-            float _EmissionTexBloomIntensity;
-            float _EmissionTexWhiteBoostMultiplier;
-
-            #if defined(_EMISSIONTEXTURE_PULSE)
-            sampler2D _PulseMask;
-            float4 _PulseMask_ST;
-            float _PulseWidth;
-            float _PulseSpeed;
-            float _PulseSmooth;
-            #endif
-
-            #if defined(_EMISSIONTEXTURE_FLIPBOOK)
-            float _FlipbookColumns;
-            float _FlipbookRows;
-            float _FlipbookNonloopableFrames;
-            float _FlipbookSpeed;
-            #endif
-
-            #define USE_VERTEX_EMISSION (defined(_VERTEX_EMISSION) || defined(_VERTEX_SPECIAL) || defined(_VERTEX_EMISSIVE_MULT_ADD))
-            #define USE_VERTEX_COLOR defined(_VERTEX_COLOR) || USE_VERTEX_EMISSION
-            #if USE_VERTEX_COLOR
-            float _EmissionThreshold;
-            #if !defined(UNITY_INSTANCING_ENABLED)
-            float4 _EmissionColor;
-            #endif
-            float _EmissionStrength;
-            float _EmissionBloomIntensity;
-            #endif
-
             float _AmbientMinimalValue;
             float4 _NominalDiffuseLevel;
             float _AmbientMultiplier;
@@ -339,7 +347,7 @@
             float4 _DiffuseTex_ST;
             float _AlbedoMultiplier;
             #endif
-            
+
             #if defined(DIFFUSE)
             float _BothSidesDiffuseMultiplier;
             #endif
@@ -364,8 +372,10 @@
             #if defined(ENABLE_BLOOM_FOG) && defined(ENABLE_FOG)
             float _FogStartOffset;
             float _FogScale;
+            #if defined(ENABLE_HEIGHT_FOG)
             float _FogHeightOffset;
             float _FogHeightScale;
+            #endif
             #define USE_FOG_SUPPRESSION defined(_EMISSIONTEXTURE_SIMPLE) || defined(_EMISSIONTEXTURE_PULSE) || defined(_EMISSIONTEXTURE_FLIPBOOK) || defined(_VERTEX_EMISSION) || defined(_VERTEX_SPECIAL)
             #if USE_FOG_SUPPRESSION
             float _EmissionFogSuppression;
@@ -377,11 +387,11 @@
             UNITY_INSTANCING_BUFFER_START (Props)
             UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
             UNITY_DEFINE_INSTANCED_PROP(float, _EmissionBrightness)
-            #if USE_EMISSION_TEX_COLOR
-            UNITY_DEFINE_INSTANCED_PROP(float4, _EmissionTexColor)
-            #endif
             #if USE_VERTEX_EMISSION
             UNITY_DEFINE_INSTANCED_PROP(float4, _EmissionColor)
+            #endif
+            #if USE_EMISSION_TEX_COLOR
+            UNITY_DEFINE_INSTANCED_PROP(float4, _EmissionTexColor)
             #endif
             #if defined(_EMISSIONBLOOMTYPE_GRADIENT)
             UNITY_DEFINE_INSTANCED_PROP(float, _EmissionGradientPosition)
@@ -401,6 +411,8 @@
             float4 _Color;
             #endif
 
+            #define USE_WORLD_NORMAL defined(DIFFUSE) || defined(SPECULAR) || defined(RIM_DIM)
+
             struct appdata
             {
                 float4 vertex : POSITION;
@@ -408,19 +420,26 @@
                 float4 color : COLOR;
                 #endif
                 float2 uv : TEXCOORD0;
+                #if USE_WORLD_NORMAL
                 float3 normal : NORMAL;
+                #endif
                 UNITY_VERTEX_INPUT_INSTANCE_ID};
 
             struct v2f
             {
                 float4 vertex : SV_POSITION;
                 #if USE_VERTEX_COLOR
-                float4 color : COLOR;
+                float4 color : COLOR0;
+                #endif
+                #if USE_VERTEX_EMISSION
+                float4 emission : COLOR1;
                 #endif
                 float4 uv : TEXCOORD0;
-                float3 worldNormal : TEXCOORD1;
-                float3 worldPos : TEXCOORD2;
-                float4 customScreenPos : TEXCOORD3;
+                float3 worldPos : TEXCOORD1;
+                float4 customScreenPos : TEXCOORD2;
+                #if USE_WORLD_NORMAL
+                float3 worldNormal : TEXCOORD3;
+                #endif
                 UNITY_VERTEX_INPUT_INSTANCE_ID};
 
             v2f vert(appdata i)
@@ -433,15 +452,20 @@
                 o.vertex = UnityObjectToClipPos(i.vertex);
                 #if USE_VERTEX_COLOR
                 o.color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
+                // TODO: wtf does this do
                 #if USE_VERTEX_EMISSION
-                o.color *= UNITY_ACCESS_INSTANCED_PROP(Props, _EmissionColor);
-                #endif
-                #if _VERTEX_BLOOMTYPE_PP
-                CUSTOM_BLOOM_PP_APPLY(o.color, 1);
-                #elif _VERTEX_BLOOMTYPE_FRAG
-                CUSTOM_BLOOM_FRAG_APPLY(o.color, _EmissionBloomIntensity);
+                o.emission = UNITY_ACCESS_INSTANCED_PROP(Props, _EmissionColor);
+                o.emission *= max(0, o.color.g - _EmissionThreshold) * _EmissionStrength;
+                #if defined(_VERTEX_BLOOMTYPE_PP)
+                CUSTOM_BLOOM_PP_APPLY(o.emission, _EmissionBloomIntensity);
+                #elif defined(_VERTEX_BLOOMTYPE_FRAG)
+                CUSTOM_BLOOM_FRAG_APPLY(o.emission, _EmissionBloomIntensity);
                 #else
-                CUSTOM_BLOOM_NONE_APPLY(o.color);
+                CUSTOM_BLOOM_NONE_APPLY(o.emission);
+                #endif
+                #if !defined(_VERTEX_SPECIAL)
+                o.emission *= o.color.a;
+                #endif
                 #endif
                 #endif
 
@@ -457,10 +481,12 @@
                 o.uv.zw *= _InputUvMultiplier.xy;
                 #endif
 
+                #if USE_WORLD_NORMAL
                 #if defined(PRECISE_NORMAL)
                 o.worldNormal = UnityObjectToWorldNormal(i.normal);
                 #else
                 o.worldNormal = normalize(UnityObjectToWorldNormal(i.normal));
+                #endif
                 #endif
                 o.worldPos = mul(unity_ObjectToWorld, i.vertex).xyz;
                 o.customScreenPos = ComputeScreenPosCustom(o.vertex);
@@ -478,39 +504,47 @@
                 float2 uv2 = i.uv.xy;
                 #endif
 
-                float4 baseColor = 0;
-                #if USE_VERTEX_COLOR
-                baseColor = i.color;
+                #if defined(_VERTEX_COLOR)
+                float4 baseColor = i.color;
                 #else
-                baseColor = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
+                float4 baseColor = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
                 #endif
 
                 float4 albedo = baseColor;
                 #if defined(DIFFUSE_TEXTURE)
                 #if defined(METAL_SMOOTHNESS_TEXTURE) && defined(_DIFFUSE_TEXTURE_SOURCE_MPM_R)
-                albedo = tex2D(_MetalSmoothnessTex, i.uv).r;
+                albedo.rgb = tex2D(_MetalSmoothnessTex, i.uv).r;
                 #elif defined(METAL_SMOOTHNESS_TEXTURE) && defined(_DIFFUSE_TEXTURE_SOURCE_MPM_A_SMOOTHNESS)
-                albedo = tex2D(_MetalSmoothnessTex, i.uv).a * _Smoothness;
+                albedo.rgb = tex2D(_MetalSmoothnessTex, i.uv).a * _Smoothness;
                 #else
-                albedo = tex2D(_DiffuseTex, i.uv);
+                albedo.rgb = tex2D(_DiffuseTex, i.uv);
                 #endif
-                albedo *= _AlbedoMultiplier;
+                albedo.rgb *= _AlbedoMultiplier;
                 #endif
-                
+
+                #if USE_VERTEX_EMISSION
+                albedo += i.emission;
+                #endif
+
                 float3 worldPos = i.worldPos;
+                #if USE_WORLD_NORMAL
                 #if defined(PRECISE_NORMAL)
                 float3 worldNormal = normalize(i.worldNormal);
                 #else
                 float3 worldNormal = i.worldNormal;
                 #endif
-                
+                #endif
+
                 // LIGHTING
                 #if defined(DIFFUSE) || defined(SPECULAR)
-
                 float3 calculated = 0;
-
+                #if defined(_VERTEX_SPECIAL) || defined(_VERTEX_METAL_SMOOTHNESS)
+                float metallic = i.color.r;
+                float smoothness = i.color.a;
+                #else
                 float metallic = _Metallic;
                 float smoothness = _Smoothness;
+                #endif
                 #if defined(METAL_SMOOTHNESS_TEXTURE)
                 #if defined(_METALLIC_TEXTURE_SOURCE_MPM_R)
                 metallic = tex2D(_MetalSmoothnessTex, i.uv).r;
@@ -541,7 +575,7 @@
                 #else
                 albedo = max(_NominalDiffuseLevel * albedo, _AmbientMinimalValue) * _AmbientMultiplier;
                 #endif
-
+                
                 // EMISSION
                 #if defined(_ACES_APPROACH_BEFORE_EMISSIVE)
                 ACES_TONE_MAPPING_APPLY(albedo);
@@ -623,14 +657,14 @@
                 albedo += emissionTex;
                 #endif
 
-                #if _EMISSIONBLOOMTYPE_PP
+                #if defined(_EMISSIONBLOOMTYPE_PP)
                 CUSTOM_BLOOM_PP_APPLY(albedo, _EmissionTexBloomIntensity);
-                #elif _EMISSIONBLOOMTYPE_FRAG
+                #elif defined(_EMISSIONBLOOMTYPE_FRAG)
                 CUSTOM_BLOOM_FRAG_APPLY(albedo, _EmissionTexWhiteBoostMultiplier);
                 #else
                 CUSTOM_BLOOM_NONE_APPLY(albedo);
                 #endif
-                
+
                 #endif
 
                 #if defined(RIM_DIM)

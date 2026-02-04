@@ -178,59 +178,59 @@
             #pragma target 2.0
             #pragma multi_compile_instancing
 
-            #pragma shader_feature SECONDARY_COLOR
+            #pragma shader_feature_local SECONDARY_COLOR
 
-            #pragma shader_feature COLOR_GRADIENT
+            #pragma shader_feature_local COLOR_GRADIENT
 
-            #pragma shader_feature SPECTROGRAM_COLOR
+            #pragma shader_feature_local SPECTROGRAM_COLOR
 
-            #pragma shader_feature COLOR_ARRAY
+            #pragma shader_feature_local COLOR_ARRAY
 
-            #pragma multi_compile _ _SECONDARY_UVS_IMPORT
+            #pragma shader_feature_local _ _SECONDARY_UVS_IMPORT
 
-            #pragma shader_feature VERTEX_COLOR
-            #pragma shader_feature VERTEX_SQUARE_ALPHA
-            #pragma shader_feature VERTEX_RED_IS_ALPHA
-            #pragma multi_compile _ _VERTEXCHANNELS_A _VERTEXCHANNELS_RGB
+            #pragma shader_feature_local VERTEX_COLOR
+            #pragma shader_feature_local VERTEX_SQUARE_ALPHA
+            #pragma shader_feature_local VERTEX_RED_IS_ALPHA
+            #pragma shader_feature_local _ _VERTEXCHANNELS_A _VERTEXCHANNELS_RGB
 
-            #pragma shader_feature VERTEX_DISPLACEMENT
-            #pragma shader_feature SPATIAL_DISPLACEMENT
-            #pragma multi_compile _ _SPECTROGRAM_FLAT _SPECTROGRAM_FULL
+            #pragma shader_feature_local VERTEX_DISPLACEMENT
+            #pragma shader_feature_local SPATIAL_DISPLACEMENT
+            #pragma shader_feature_local _ _SPECTROGRAM_FLAT _SPECTROGRAM_FULL
 
-            #pragma multi_compile _ _CURVE_VERTICES_AROUND_X _CURVE_VERTICES_AROUND_Y _CURVE_VERTICES_AROUND_Z
+            #pragma shader_feature_local _ _CURVE_VERTICES_AROUND_X _CURVE_VERTICES_AROUND_Y _CURVE_VERTICES_AROUND_Z
 
-            #pragma shader_feature MAIN_TEXTURE
+            #pragma shader_feature_local MAIN_TEXTURE
 
-            #pragma shader_feature PIXELATE
+            #pragma shader_feature_local PIXELATE
 
-            #pragma shader_feature CUSTOM_WRAPPING
+            #pragma shader_feature_local CUSTOM_WRAPPING
 
-            #pragma shader_feature TEXTURE_FLIPBOOK
-            #pragma shader_feature FLIPBOOK_BLENDING_OFF
+            #pragma shader_feature_local TEXTURE_FLIPBOOK
+            #pragma shader_feature_local FLIPBOOK_BLENDING_OFF
 
-            #pragma shader_feature MASK
-            #pragma shader_feature SECONDARY_UVS_MASK
-            #pragma shader_feature MASK_RED_IS_ALPHA
-            #pragma multi_compile _ _MASKBLEND_ADD _MASKBLEND_MASKED_ADD
+            #pragma shader_feature_local MASK
+            #pragma shader_feature_local SECONDARY_UVS_MASK
+            #pragma shader_feature_local MASK_RED_IS_ALPHA
+            #pragma shader_feature_local _ _MASKBLEND_ADD _MASKBLEND_MASKED_ADD
 
-            #pragma shader_feature MASK2
-            #pragma shader_feature SECONDARY_UVS_MASK2
-            #pragma shader_feature MASK2_RED_IS_ALPHA
-            #pragma multi_compile _ _MASKBLEND2_ADD _MASKBLEND2_MASKED_ADD
+            #pragma shader_feature_local MASK2
+            #pragma shader_feature_local SECONDARY_UVS_MASK2
+            #pragma shader_feature_local MASK2_RED_IS_ALPHA
+            #pragma shader_feature_local _ _MASKBLEND2_ADD _MASKBLEND2_MASKED_ADD
 
-            #pragma shader_feature SQUARE_ALPHA
-            #pragma shader_feature VIEW_ALIGN_DISAPPEAR
+            #pragma shader_feature_local SQUARE_ALPHA
+            #pragma shader_feature_local VIEW_ALIGN_DISAPPEAR
 
-            #pragma multi_compile _ _BLOOMTYPE_PP _BLOOMTYPE_FRAG
-            #pragma shader_feature REMAP_WHITEBOOST_START
+            #pragma shader_feature_local _ _BLOOMTYPE_PP _BLOOMTYPE_FRAG
+            #pragma shader_feature_local REMAP_WHITEBOOST_START
 
-            #pragma multi_compile _ _BILLBOARD_FULL _BILLBOARD_Y_AXIS _BILLBOARD_CAMERA_FACING
-            #pragma multi_compile _ _CUSTOM_TIME_SONG_TIME _CUSTOM_TIME_FREEZE
+            #pragma shader_feature_local _ _BILLBOARD_FULL _BILLBOARD_Y_AXIS _BILLBOARD_CAMERA_FACING
+            #pragma shader_feature_local _ _CUSTOM_TIME_SONG_TIME _CUSTOM_TIME_FREEZE
 
             #pragma multi_compile _ ENABLE_BLOOM_FOG
-            #pragma multi_compile _ _FOGTYPE_LERP _FOGTYPE_COLOR _FOGTYPE_ALPHA
+            #pragma shader_feature_local _ _FOGTYPE_LERP _FOGTYPE_COLOR _FOGTYPE_ALPHA
             #define ENABLE_FOG defined(_FOGTYPE_LERP) || defined(_FOGTYPE_COLOR) || defined(_FOGTYPE_ALPHA)
-            #pragma multi_compile _ ENABLE_HEIGHT_FOG
+            #pragma shader_feature_local _ ENABLE_HEIGHT_FOG
 
             #include "UnityCG.cginc"
             #include "CGIncludes/BloomFog.cginc"

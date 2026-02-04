@@ -45,10 +45,10 @@
             #pragma fragment frag
             #pragma multi_compile_instancing
             #pragma multi_compile _ ENABLE_BLOOM_FOG
-            #pragma multi_compile _ ENABLE_HEIGHT_FOG
-            #pragma shader_feature DIFFUSE
-            #pragma shader_feature SPECULAR
-            #pragma shader_feature LIGHT_FALLOFF
+            #pragma shader_feature_local _ ENABLE_HEIGHT_FOG
+            #pragma shader_feature_local DIFFUSE
+            #pragma shader_feature_local SPECULAR
+            #pragma shader_feature_local LIGHT_FALLOFF
 
             #include "UnityCG.cginc"
             #include "CGIncludes/BloomFog.cginc"

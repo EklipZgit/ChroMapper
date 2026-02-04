@@ -69,17 +69,17 @@
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_instancing
-            #pragma shader_feature ALPHA_WIDTH_SCALE
-            #pragma shader_feature SQUARE_ALPHA
-            #pragma shader_feature ANGLE_DISAPPEAR
-            #pragma shader_feature Y_AXIS_BILLBOARD
-            #pragma multi_compile _ _BLOOMTYPE_PP _BLOOMTYPE_FRAG
+            #pragma shader_feature_local ALPHA_WIDTH_SCALE
+            #pragma shader_feature_local SQUARE_ALPHA
+            #pragma shader_feature_local ANGLE_DISAPPEAR
+            #pragma shader_feature_local Y_AXIS_BILLBOARD
+            #pragma shader_feature_local _ _BLOOMTYPE_PP _BLOOMTYPE_FRAG
 
             #pragma multi_compile _ ENABLE_BLOOM_FOG
-            #pragma multi_compile _FOGTYPE_ALPHA
-            #pragma multi_compile _ ENABLE_FOG
-            #pragma multi_compile _ ENABLE_HEIGHT_FOG
-            #pragma shader_feature USE_FOG_FOR_LIGHTS
+            #pragma multi_compile_local _FOGTYPE_ALPHA
+            #pragma shader_feature_local _ ENABLE_FOG
+            #pragma shader_feature_local _ ENABLE_HEIGHT_FOG
+            #pragma shader_feature_local USE_FOG_FOR_LIGHTS
 
             #include "UnityCG.cginc"
             #include "CGIncludes/BloomFog.cginc"

@@ -32,7 +32,7 @@
             #pragma fragment frag
             #pragma multi_compile_instancing
             #pragma multi_compile _ ENABLE_BLOOM_FOG
-            #pragma multi_compile _ _BLOOMTYPE_PP _BLOOMTYPE_FRAG
+            #pragma multi_compile_local _ _BLOOMTYPE_PP _BLOOMTYPE_FRAG
 
             #include "UnityCG.cginc"
             #include "CGIncludes/BloomFog.cginc"
