@@ -94,6 +94,7 @@ Material:
     - _EmissionBloomIntensity: 1
     - _EmissionBloomType: 1
     - _EmissionBrightness: 1
+    - _EmissionFogSuppression: 0
     - _EmissionGradientIntensity: 1
     - _EmissionGradientPanningSpeed: 0
     - _EmissionGradientPosition: 0.5
@@ -121,12 +122,18 @@ Material:
     - _EnableRimDim: 0
     - _EnableSecondaryEmissionMask: 0
     - _EnableSpecular: 0
+    - _FlipbookBlendingOff: 0
+    - _FlipbookColumns: 8
+    - _FlipbookNonloopableFrames: 0
+    - _FlipbookRows: 8
+    - _FlipbookSpeed: 1
     - _FogHeightOffset: 0
     - _FogHeightScale: 1.57
     - _FogScale: 0.25
     - _FogStartOffset: 0
     - _Glossiness: 0.5
     - _InvertRimDim: 0
+    - _MainEffectFogSuppression: 0
     - _MaskBlend: 0
     - _Metallic: 0.072
     - _Metallic_Texture_Source: 0

@@ -149,8 +149,8 @@
         [Enum(UnityEngine.Rendering.CullMode)] _CullMode ("Cull Mode", float) = 0
         [Enum(UnityEngine.Rendering.CompareFunction)] _ZTest ("Z Test", float) = 4
         [Toggle] _ZWrite ("Z Write", float) = 0
-		_OffsetFactor ("Offset Factor", Float) = 0
-		_OffsetUnits ("Offset Units", Float) = 0
+        _OffsetFactor ("Offset Factor", Float) = 0
+        _OffsetUnits ("Offset Units", Float) = 0
     }
     SubShader
     {
@@ -287,14 +287,14 @@
             #endif
 
             #if defined(PIXELATE)
-            float4 _PixelateResolution;
+            float2 _PixelateResolution;
             #endif
 
             float _Intensity;
             float4 _UvPanning;
 
             #if defined(CUSTOM_WRAPPING)
-            float4 _CustomPadding;
+            float2 _CustomPadding;
             #endif
 
             #if defined(TEXTURE_FLIPBOOK)
@@ -310,7 +310,7 @@
             #if !defined(UNITY_INSTANCING_ENABLED)
             float _MaskStrength;
             #endif
-            float4 _MaskPanning;
+            float2 _MaskPanning;
             #endif
 
             #if defined(MASK2)
@@ -385,6 +385,7 @@
                 #if defined(VERTEX_COLOR)
                 float4 color : COLOR;
                 #endif
+                float3 normal : NORMAL;
                 float2 texcoord : TEXCOORD0;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
@@ -437,13 +438,31 @@
                 #endif
 
                 #else
+                float angle, s, c;
+                #if defined(_CURVE_VERTICES_AROUND_X)
+                angle = i.vertex.y;
+                sincos(angle, s, c);
+                i.vertex.xyz = float3(i.vertex.x, i.vertex.y * c - i.vertex.z * s, i.vertex.y * s + i.vertex.z * c);
+                float3 normal = float3(i.normal.x, i.normal.y * c - i.normal.z * s, i.normal.y * s + i.normal.z * c);
+                #elif defined(_CURVE_VERTICES_AROUND_Y)
+                angle = i.vertex.x;
+                sincos(angle, s, c);
+                i.vertex.xyz = float3(i.vertex.x * c - i.vertex.z * s, i.vertex.y, i.vertex.x * s + i.vertex.z * c);
+                float3 normal = float3(i.normal.x * c - i.normal.z * s, i.normal.y, i.normal.x * s + i.normal.z * c);
+                #elif defined(_CURVE_VERTICES_AROUND_Z)
+                angle = i.vertex.x;
+                sincos(angle, s, c);
+                i.vertex.xyz = float3(i.vertex.x * c - i.vertex.y * s, i.vertex.x * s + i.vertex.y * c, i.vertex.z);
+                float3 normal = float3(i.normal.x * c - i.normal.y * s, i.normal.x * s + i.normal.y * c, i.normal.z);
+                #endif
+
                 o.vertex = UnityFlipSprite(i.vertex, _Flip);
                 o.worldPos = mul(unity_ObjectToWorld, o.vertex).xyz;
                 o.vertex = UnityObjectToClipPos(o.vertex);
                 #endif
                 o.uv = i.texcoord;
                 o.customScreenPos = ComputeScreenPosCustom(o.vertex);
-                
+
                 #if defined(VERTEX_COLOR)
                 o.color = i.color * _RendererColor * UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
                 #if defined(VERTEX_RED_IS_ALPHA)
@@ -457,7 +476,7 @@
                 o.color.a = 0;
                 #endif
                 #endif
-                
+
                 #endif
 
                 return o;
@@ -466,13 +485,16 @@
             float4 frag(v2f i) : SV_Target
             {
                 UNITY_SETUP_INSTANCE_ID(i);
+
+                float4 time = GET_TIME(UNITY_ACCESS_INSTANCED_PROP(Props, _TimeOffset));
+
                 #if defined(_SECONDARY_UVS_IMPORT)
                 // TODO: secondary uv stuff
                 float2 uv2 = i.uv;
                 #else
                 float2 uv2 = i.uv;
                 #endif
-                
+
                 #if defined(VERTEX_COLOR)
                 float4 color = i.color;
                 #else
@@ -490,14 +512,16 @@
                 // TODO: honestly, how does this work
                 #if defined(CUSTOM_WRAPPING)
                 #endif
-                albedo *= tex2D(_MainTex, TRANSFORM_TEX(uv, _MainTex));
+                albedo *= tex2D(_MainTex, TRANSFORM_TEX(uv + _UvPanning * time.yy, _MainTex));
                 #endif
-                
+
                 #if defined(MASK)
                 #if defined(SECONDARY_UVS_MASK)
-                float4 mask = tex2D(_MaskTex, TRANSFORM_TEX(uv2 + _MaskPanning, _MaskTex)) * UNITY_ACCESS_INSTANCED_PROP(Props, _MaskStrength);
+                float4 mask = tex2D(_MaskTex, TRANSFORM_TEX(uv2 + _MaskPanning * time.yy, _MaskTex)) *
+                    UNITY_ACCESS_INSTANCED_PROP(Props, _MaskStrength);
                 #else
-                float4 mask = tex2D(_MaskTex, TRANSFORM_TEX(i.uv + _MaskPanning, _MaskTex)) * UNITY_ACCESS_INSTANCED_PROP(Props, _MaskStrength);
+                float4 mask = tex2D(_MaskTex, TRANSFORM_TEX(i.uv + _MaskPanning * time.yy, _MaskTex)) *
+                    UNITY_ACCESS_INSTANCED_PROP(Props, _MaskStrength);
                 #endif
                 #if defined(MASK_RED_IS_ALPHA)
                 mask = mask.r;
@@ -513,9 +537,11 @@
 
                 #if defined(MASK2)
                 #if defined(SECONDARY_UVS_MASK2)
-                float4 mask2 = tex2D(_Mask2Tex, TRANSFORM_TEX(uv2 + _Mask2Panning, _Mask2Tex)) * UNITY_ACCESS_INSTANCED_PROP(Props, _Mask2Strength);
+                float4 mask2 = tex2D(_Mask2Tex, TRANSFORM_TEX(uv2 + _Mask2Panning * time.yy, _Mask2Tex)) *
+                    UNITY_ACCESS_INSTANCED_PROP(Props, _Mask2Strength);
                 #else
-                float4 mask2 = tex2D(_Mask2Tex, TRANSFORM_TEX(i.uv + _Mask2Panning, _Mask2Tex)) * UNITY_ACCESS_INSTANCED_PROP(Props, _Mask2Strength);
+                float4 mask2 = tex2D(_Mask2Tex, TRANSFORM_TEX(i.uv + _Mask2Panning * time.yy, _Mask2Tex)) *
+                    UNITY_ACCESS_INSTANCED_PROP(Props, _Mask2Strength);
                 #endif
                 #if defined(MASK2_RED_IS_ALPHA)
                 mask2 = mask2.r;
@@ -542,9 +568,9 @@
                 #else
                 CUSTOM_BLOOM_NONE_TRANSPARENT_APPLY(albedo);
                 #endif
-                
+
                 ACES_TONE_MAPPING_APPLY(albedo);
-                
+
                 #if ENABLE_FOG
                 #if defined(ENABLE_HEIGHT_FOG)
                 BLOOM_FOG_HEIGHT_FOG_APPLY(color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,

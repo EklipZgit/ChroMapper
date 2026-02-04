@@ -76,17 +76,12 @@
         _EmissionTexWhiteBoostMultiplier ("White Boost Multiplier", float) = 1
 
         [Space(20)]
-        _PulseMask ("Pulse Mask", 2D) = "white" {}
-        _PulseWidth ("Pulse Width", float) = 0.1
-        _PulseSpeed ("Pulse Speed", float) = 0.2
-        _PulseSmooth ("Pulse Smooth", Range(0, 0.2)) = 0.02
-
-        [Space(20)]
         _FlipbookColumns ("Flipbook Columns", float) = 8
         _FlipbookRows ("Flipbook Rows", float) = 8
         _FlipbookNonloopableFrames ("Full Non-loopable frames", float) = 0
         _FlipbookSpeed ("Flipbook Speed", float) = 1
         [Toggle(FLIPBOOK_BLENDING_OFF)] _FlipbookBlendingOff ("No Frame Blending", float) = 0
+
 
 
         [Header(Lighting)] [Space]
@@ -181,9 +176,7 @@
             #pragma shader_feature_local _ _VERTEX_COLOR _VERTEX_EMISSION _VERTEX_METAL_SMOOTHNESS _VERTEX_SPECIAL _VERTEX_DISPLACEMENT _VERTEX_EMISSIVE_MULT_ADD
             #pragma shader_feature_local _ _VERTEX_BLOOMTYPE_PP _VERTEX_BLOOMTYPE_FRAG
 
-            #pragma shader_feature_local _ _CURVE_VERTICES_AROUND_X _CURVE_VERTICES_AROUND_Y _CURVE_VERTICES_AROUND_Z
-
-            #pragma shader_feature_local _ _EMISSIONTEXTURE_SIMPLE _EMISSIONTEXTURE_PULSE _EMISSIONTEXTURE_FLIPBOOK
+            #pragma shader_feature_local _ _EMISSIONTEXTURE_SIMPLE _EMISSIONTEXTURE_FLIPBOOK
             #pragma shader_feature_local _ _EMISSION_TEXTURE_SOURCE_MPM_G
             #pragma shader_feature_local SECONDARY_UVS_EMISSION
 
@@ -239,7 +232,7 @@
             #if defined(_SECONDARY_UVS_ADDITIVE_OFFSET)
             float4 _AdditiveUVOffset;
             #endif
-            float4 _InputUvMultiplier;
+            float2 _InputUvMultiplier;
             #endif
 
             #if defined(METAL_SMOOTHNESS_TEXTURE)
@@ -260,12 +253,12 @@
             float _EmissionBloomIntensity;
             #endif
 
-            #define EMISSION_TEXTURE_ENABLED defined(_EMISSIONTEXTURE_SIMPLE) || defined(_EMISSIONTEXTURE_PULSE) || defined(_EMISSIONTEXTURE_FLIPBOOK)
-            #define USE_EMISSION_TEXTURE defined(_EMISSION_TEXTURE_SOURCE_TEXTURE) && (defined(_EMISSIONTEXTURE_SIMPLE) || defined(_EMISSIONTEXTURE_FLIPBOOK))
+            #define ENABLE_EMISSION_TEXTURE defined(_EMISSIONTEXTURE_SIMPLE) || defined(_EMISSIONTEXTURE_PULSE) || defined(_EMISSIONTEXTURE_FLIPBOOK)
+            #define USE_EMISSION_TEXTURE !defined(_EMISSION_TEXTURE_SOURCE_MPM_G) && (defined(_EMISSIONTEXTURE_SIMPLE) || defined(_EMISSIONTEXTURE_FLIPBOOK))
             #if USE_EMISSION_TEXTURE
             sampler2D _EmissionTex;
             float4 _EmissionTex_ST;
-            #if defined(_EMISSION_TEXTURE_SOURCE_TEXTURE) && defined(_EMISSIONTEXTURE_SIMPLE)
+            #if defined(_EMISSIONTEXTURE_SIMPLE)
             float2 _EmissionTexSpeed;
             #endif
             #endif
@@ -274,18 +267,18 @@
             float _EmissionBrightness;
             #endif
 
-            #if defined(EMISSION_ANGLE_DISAPPEAR) && EMISSION_TEXTURE_ENABLED
+            #if defined(EMISSION_ANGLE_DISAPPEAR) && ENABLE_EMISSION_TEXTURE
             float _EmissionThresholdAngle;
             #endif
 
-            #define USE_EMISSION_TEX_COLOR !defined(_EMISSIONBLOOMTYPE_GRADIENT) && EMISSION_TEXTURE_ENABLED
-            #if USE_EMISSION_TEX_COLOR
+            #define USE_EMISSION_TEXTURE_COLOR !defined(_EMISSIONBLOOMTYPE_GRADIENT) && ENABLE_EMISSION_TEXTURE
+            #if USE_EMISSION_TEXTURE_COLOR
             #if !defined(UNITY_INSTANCING_ENABLED)
             float4 _EmissionTexColor;
             #endif
             #endif
 
-            #define USE_EMISSION_GRADIENT_TEXTURE defined(_EMISSIONBLOOMTYPE_GRADIENT) && EMISSION_TEXTURE_ENABLED
+            #define USE_EMISSION_GRADIENT_TEXTURE defined(_EMISSIONBLOOMTYPE_GRADIENT) && ENABLE_EMISSION_TEXTURE
             #if USE_EMISSION_GRADIENT_TEXTURE
             sampler2D _EmissionGradientTex;
             float4 _EmissionGradientTex_ST;
@@ -298,14 +291,6 @@
             float _EmissionGradientIntensity;
             #endif
 
-            #if defined(_EMISSIONTEXTURE_PULSE)
-            sampler2D _PulseMask;
-            float4 _PulseMask_ST;
-            float _PulseWidth;
-            float _PulseSpeed;
-            float _PulseSmooth;
-            #endif
-
             #if defined(_EMISSIONTEXTURE_FLIPBOOK)
             float _FlipbookColumns;
             float _FlipbookRows;
@@ -316,12 +301,12 @@
             float _EmissionTexBloomIntensity;
             float _EmissionTexWhiteBoostMultiplier;
 
-            #define USE_EMISSION_MASK (defined(_EMISSIONTEXTURE_PULSE) || defined(_EMISSIONTEXTURE_SIMPLE))
+            #define USE_EMISSION_MASK defined(_EMISSIONTEXTURE_PULSE) || defined(_EMISSIONTEXTURE_SIMPLE)
             #if USE_EMISSION_MASK
             #if defined(EMISSION_MASK)
             sampler2D _EmissionMask;
             float4 _EmissionMask_ST;
-            float _EmissionMaskSpeed;
+            float2 _EmissionMaskSpeed;
             #if !defined(UNITY_INSTANCING_ENABLED)
             float _EmissionMaskIntensity;
             #endif
@@ -329,7 +314,7 @@
             #if defined(SECONDARY_EMISSION_MASK)
             sampler2D _SecondaryEmissionMask;
             float4 _SecondaryEmissionMask_ST;
-            float _SecondaryEmissionMaskSpeed;
+            float2 _SecondaryEmissionMaskSpeed;
             #if !defined(UNITY_INSTANCING_ENABLED)
             float _SecondaryEmissionMaskIntensity;
             #endif
@@ -369,6 +354,7 @@
             float _TimeOffset;
             #endif
 
+            #define USE_FOG_SUPPRESSION defined(_EMISSIONTEXTURE_SIMPLE) || defined(_EMISSIONTEXTURE_PULSE) || defined(_EMISSIONTEXTURE_FLIPBOOK) || defined(_VERTEX_EMISSION) || defined(_VERTEX_SPECIAL)
             #if defined(ENABLE_BLOOM_FOG) && defined(ENABLE_FOG)
             float _FogStartOffset;
             float _FogScale;
@@ -376,7 +362,6 @@
             float _FogHeightOffset;
             float _FogHeightScale;
             #endif
-            #define USE_FOG_SUPPRESSION defined(_EMISSIONTEXTURE_SIMPLE) || defined(_EMISSIONTEXTURE_PULSE) || defined(_EMISSIONTEXTURE_FLIPBOOK) || defined(_VERTEX_EMISSION) || defined(_VERTEX_SPECIAL)
             #if USE_FOG_SUPPRESSION
             float _EmissionFogSuppression;
             float _MainEffectFogSuppression;
@@ -390,7 +375,7 @@
             #if USE_VERTEX_EMISSION
             UNITY_DEFINE_INSTANCED_PROP(float4, _EmissionColor)
             #endif
-            #if USE_EMISSION_TEX_COLOR
+            #if USE_EMISSION_TEXTURE_COLOR
             UNITY_DEFINE_INSTANCED_PROP(float4, _EmissionTexColor)
             #endif
             #if defined(_EMISSIONBLOOMTYPE_GRADIENT)
@@ -498,6 +483,8 @@
             {
                 UNITY_SETUP_INSTANCE_ID(i);
 
+                float4 time = GET_TIME(UNITY_ACCESS_INSTANCED_PROP(Props, _TimeOffset));
+
                 #if USE_SECONDARY_UV
                 float2 uv2 = i.uv.zw;
                 #else
@@ -575,18 +562,37 @@
                 #else
                 albedo = max(_NominalDiffuseLevel * albedo, _AmbientMinimalValue) * _AmbientMultiplier;
                 #endif
-                
+
                 // EMISSION
                 #if defined(_ACES_APPROACH_BEFORE_EMISSIVE)
                 ACES_TONE_MAPPING_APPLY(albedo);
                 #endif
 
-                #if USE_EMISSION_TEX_COLOR
+                #if USE_EMISSION_TEXTURE_COLOR
 
                 #if USE_EMISSION_TEXTURE
-                float4 emissionTex = tex2D(_EmissionTex, i.uv);
-                #if defined(METAL_SMOOTHNESS_TEXTURE) && defined(_EMISSION_TEXTURE_SOURCE_MPM_G)
-                emissionTex.rgb = tex2D(_MetalSmoothnessTex, i.uv).g;
+                float2 emissionUv = i.uv;
+                #if defined(_EMISSIONTEXTURE_FLIPBOOK)
+                emissionUv.x /= _FlipbookColumns;
+                emissionUv.y /= _FlipbookRows;
+                float flipbookTime = time.y * _FlipbookSpeed;
+                emissionUv += float2(floor(flipbookTime % _FlipbookColumns) / _FlipbookColumns,
+                                     floor(flipbookTime / _FlipbookColumns) % _FlipbookRows / _FlipbookRows);
+                #endif
+                #if defined(_EMISSIONTEXTURE_SIMPLE)
+                emissionUv += _EmissionTexSpeed * time.y;
+                #endif
+                float4 emissionTex = tex2D(_EmissionTex, TRANSFORM_TEX(emissionUv, _EmissionTex));
+                #if defined(_EMISSIONTEXTURE_FLIPBOOK) && !defined(FLIPBOOK_BLENDING_OFF)
+                // TODO: im not sure if it's next or previous
+                float2 emissionUv2 = i.uv + float2(floor((flipbookTime + 1) % _FlipbookColumns) / _FlipbookColumns,
+                                                   floor((flipbookTime + 1) / _FlipbookColumns) % _FlipbookRows /
+                                                   _FlipbookRows);
+                emissionTex = lerp(emissionTex, tex2D(_EmissionTex, TRANSFORM_TEX(emissionUv2, _EmissionTex)),
+                                   flipbookTime % 1);
+                #endif
+                #elif defined(METAL_SMOOTHNESS_TEXTURE) && defined(_EMISSION_TEXTURE_SOURCE_MPM_G)
+                float4 emissionTex = float4(tex2D(_MetalSmoothnessTex, i.uv).ggg, 0);
                 #endif
 
                 #if defined(_EMISSION_ALPHA_SOURCE_COPY_EMISSION)
@@ -601,17 +607,20 @@
                 emissionTex = tex2D(_EmissionGradientTex,
                                     TRANSFORM_TEX(
                                         i.uv + UNITY_ACCESS_INSTANCED_PROP(
-                                            Props, _EmissionGradientPosition).xx *
-                                        _EmissionGradientPanningSpeed.xx * GET_TIME(
-                                            UNITY_ACCESS_INSTANCED_PROP(Props, _TimeOffset)).yy,
+                                            Props, _EmissionGradientPosition) *
+                                        _EmissionGradientPanningSpeed * time.yy,
                                         _EmissionGradientTex));
-                #elif USE_EMISSION_MASK
+                #endif
+
+                #if USE_EMISSION_MASK
 
                 #if defined(EMISSION_MASK)
                 #if defined(SECONDARY_UVS_EMISSION_MASK)
-                float4 emissionMask = tex2D(_EmissionMask, uv2);
+                float4 emissionMask = tex2D(_EmissionMask, TRANSFORM_TEX(uv2 + _EmissionMaskSpeed * time.yy,
+                                                                         _EmissionMask));
                 #else
-                float4 emissionMask = tex2D(_EmissionMask, i.uv);
+                float4 emissionMask = tex2D(_EmissionMask,
+                                            TRANSFORM_TEX(i.uv + _EmissionMaskSpeed * time.yy, _EmissionMask));
                 #endif
                 emissionMask *= UNITY_ACCESS_INSTANCED_PROP(Props, _EmissionMaskIntensity);
 
@@ -627,9 +636,13 @@
 
                 #if defined(SECONDARY_EMISSION_MASK)
                 #if defined(SECONDARY_UVS_EMISSION_MASK2)
-                float4 emissionMask2 = tex2D(_SecondaryEmissionMask, uv2);
+                float4 emissionMask2 = tex2D(_SecondaryEmissionMask,
+                                             TRANSFORM_TEX(uv2 + _SecondaryEmissionMaskSpeed * time.yy,
+                                                           _SecondaryEmissionMask));
                 #else
-                float4 emissionMask2 = tex2D(_SecondaryEmissionMask, i.uv);
+                float4 emissionMask2 = tex2D(_SecondaryEmissionMask,
+                                             TRANSFORM_TEX(i.uv + _SecondaryEmissionMaskSpeed * time.yy,
+                                                           _SecondaryEmissionMask));
                 #endif
                 emissionMask2 *= UNITY_ACCESS_INSTANCED_PROP(Props, _SecondaryEmissionMaskIntensity);
 
@@ -647,16 +660,6 @@
                 albedo += emissionTex * UNITY_ACCESS_INSTANCED_PROP(Props, _EmissionTexColor) *
                     UNITY_ACCESS_INSTANCED_PROP(Props, _EmissionBrightness);
 
-
-                #else
-                float emissionTex = UNITY_ACCESS_INSTANCED_PROP(Props, _EmissionTexColor) * UNITY_ACCESS_INSTANCED_PROP(
-                    Props, _EmissionBrightness);
-                #if defined(_EMISSIONTEXTURE_PULSE)
-                emissionTex *= sin(GET_TIME(UNITY_ACCESS_INSTANCED_PROP(Props, _TimeOffset)));
-                #endif
-                albedo += emissionTex;
-                #endif
-
                 #if defined(_EMISSIONBLOOMTYPE_PP)
                 CUSTOM_BLOOM_PP_APPLY(albedo, _EmissionTexBloomIntensity);
                 #elif defined(_EMISSIONBLOOMTYPE_FRAG)
@@ -664,6 +667,14 @@
                 #else
                 CUSTOM_BLOOM_NONE_APPLY(albedo);
                 #endif
+
+                #elif USE_EMISSION_GRADIENT_TEXTURE
+                albedo *= tex2D(_EmissionGradientTex,
+                                TRANSFORM_TEX(
+                                    i.uv + UNITY_ACCESS_INSTANCED_PROP(
+                                        Props, _EmissionGradientPosition) *
+                                    _EmissionGradientPanningSpeed * time.yy, _EmissionGradientTex)) *
+                    _EmissionGradientIntensity;
 
                 #endif
 

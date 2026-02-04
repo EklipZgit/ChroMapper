@@ -13,11 +13,11 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - ENABLE_HEIGHT_FOG
-  - _ACESTONEMAP_AFTER_EMISSIVE
   m_InvalidKeywords:
   - ALPHA_AFFECT_RGB
   - ENABLE_FOG
   - ENABLE_HEIGHT_FOG_ON
+  - _ACESTONEMAP_AFTER_EMISSIVE
   - _BLOOMWHITE_NONE
   - _EMISSION
   - _MODE_OPAQUE
@@ -138,7 +138,7 @@ Material:
     - _FirstOutlineWidth: 1.405
     - _FogHeightOffset: 0
     - _FogHeightScale: 1
-    - _FogScale: 0.01
+    - _FogScale: 1
     - _FogStartOffset: 1
     - _GlossMapScale: 1
     - _Glossiness: 1

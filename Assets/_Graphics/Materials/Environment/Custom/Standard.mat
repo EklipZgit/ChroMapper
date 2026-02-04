@@ -16,14 +16,16 @@ Material:
   - ENABLE_FOG
   - ENABLE_HEIGHT_FOG
   - SPECULAR
-  - _EMISSION_ALPHA_SOURCE_EMISSION_G
   m_InvalidKeywords:
   - ENABLE_HEIGHT_FOG_ON
   - _ACESTONEMAP_AFTER_EMISSIVE
+  - _ACES_APPROACH_AFTER_EMISSIVE
   - _BLOOMWHITE_NONE
+  - _CUSTOM_TIME_STANDARD
   - _DIFFUSE_TEXTURE_SOURCE_TEXTURE
   - _EMISSIONBLOOMTYPE_FLAT
   - _EMISSIONTEXTURE_NONE
+  - _EMISSION_ALPHA_SOURCE_EMISSION_G
   - _EMISSION_TEXTURE_SOURCE_TEXTURE
   - _MASKBLEND_MULTIPLY
   - _METALLIC_TEXTURE_SOURCE_NONE
@@ -132,6 +134,7 @@ Material:
     m_Ints: []
     m_Floats:
     - ENABLE_HEIGHT_FOG: 1
+    - _ACES_Approach: 0
     - _AcesTonemap: 1
     - _AddPrecomputedVelocity: 0
     - _AlbedoMultiplier: 1
@@ -151,6 +154,7 @@ Material:
     - _ClearCoatSmoothness: 0
     - _Cull: 2
     - _CullMode: 2
+    - _Custom_Time: 0
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
@@ -160,6 +164,7 @@ Material:
     - _EmissionBloomIntensity: 1
     - _EmissionBloomType: 0
     - _EmissionBrightness: 1
+    - _EmissionFogSuppression: 0
     - _EmissionGradientIntensity: 1
     - _EmissionGradientPanningSpeed: 0
     - _EmissionGradientPosition: 0.5
@@ -188,15 +193,21 @@ Material:
     - _EnableSecondaryEmissionMask: 0
     - _EnableSpecular: 1
     - _EnvironmentReflections: 1
+    - _FlipbookBlendingOff: 0
+    - _FlipbookColumns: 8
+    - _FlipbookNonloopableFrames: 0
+    - _FlipbookRows: 8
+    - _FlipbookSpeed: 1
     - _FogHeightOffset: 0
     - _FogHeightScale: 1
-    - _FogScale: 0.1
+    - _FogScale: 1
     - _FogStartOffset: 1
     - _GlossMapScale: 1
     - _Glossiness: 1
     - _GlossyReflections: 1
     - _Glow: 0
     - _InvertRimDim: 0
+    - _MainEffectFogSuppression: 0
     - _MaskBlend: 0
     - _Metallic: 0
     - _Metallic_Texture_Source: 0
@@ -230,6 +241,7 @@ Material:
     - _SrcBlendAlpha: 1
     - _Surface: 0
     - _UVSec: 0
+    - _UseColorArray: 0
     - _Vertex: 0
     - _Vertex_BloomType: 0
     - _WorkflowMode: 1
