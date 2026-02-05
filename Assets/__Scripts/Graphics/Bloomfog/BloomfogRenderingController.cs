@@ -33,7 +33,7 @@ public class BloomfogRenderingController : MonoBehaviour
     private void Start()
     {
         Camera.onPreRender += OnCameraPreRender;
-        context.OnEnvironmentChanged += HandleEnvironmentLoaded;
+        context.OnEnvironmentLoaded += HandleEnvironmentLoaded;
 
         blurMaterial = new Material(blurShader);
 

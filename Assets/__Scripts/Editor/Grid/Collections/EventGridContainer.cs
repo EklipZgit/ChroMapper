@@ -154,7 +154,7 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
 
     internal override void SubscribeToCallbacks()
     {
-        Context.OnEnvironmentChanged += HandleEnvironmentLoaded;
+        Context.OnEnvironmentLoaded += HandleEnvironmentLoaded;
         SpawnCallbackController.OnEventPassedThreshold += SpawnCallback;
         SpawnCallbackController.OnRecursiveEventCheckFinished += OnRecursiveCheckFinished;
         DespawnCallbackController.OnEventPassedThreshold += DespawnCallback;
@@ -163,7 +163,7 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
 
     internal override void UnsubscribeToCallbacks()
     {
-        Context.OnEnvironmentChanged -= HandleEnvironmentLoaded;
+        Context.OnEnvironmentLoaded -= HandleEnvironmentLoaded;
         SpawnCallbackController.OnEventPassedThreshold -= SpawnCallback;
         SpawnCallbackController.OnRecursiveEventCheckFinished -= OnRecursiveCheckFinished;
         DespawnCallbackController.OnEventPassedThreshold -= DespawnCallback;

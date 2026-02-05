@@ -16,19 +16,29 @@ public class LightshowController : MonoBehaviour, IBeatmapUpdate
     {
         LoadInitialMap.OnLevelLoaded += HandleLevelLoaded;
         LoadedDifficultySelectController.OnLoadedDifficultyChanged += HandleLevelLoaded;
-        context.OnEnvironmentChanged += HandleEnvironmentChanged;
-        context.Atsc.OnTimeChanged += UpdateTime;
+        context.OnEnvironmentLoaded += HandleEnvironmentLoaded;
+        context.OnEnvironmentUnloaded += HandleEnvironmentUnloaded;
     }
 
     protected void OnDestroy()
     {
         LoadInitialMap.OnLevelLoaded -= HandleLevelLoaded;
         LoadedDifficultySelectController.OnLoadedDifficultyChanged -= HandleLevelLoaded;
-        context.OnEnvironmentChanged -= HandleEnvironmentChanged;
-        context.Atsc.OnTimeChanged -= UpdateTime;
+        context.OnEnvironmentLoaded -= HandleEnvironmentLoaded;
+        context.OnEnvironmentUnloaded -= HandleEnvironmentUnloaded;
     }
 
-    private void HandleEnvironmentChanged(EnvironmentDescriptor _) => PopulateEffects();
+    private void HandleEnvironmentUnloaded()
+    {
+        context.Atsc.OnTimeChanged -= UpdateTime;
+        activeEffects = Array.Empty<IBeatmapUpdate>();
+    }
+
+    private void HandleEnvironmentLoaded(EnvironmentDescriptor _)
+    {
+        PopulateEffects();
+        context.Atsc.OnTimeChanged += UpdateTime;
+    }
 
     private void HandleLevelLoaded()
     {

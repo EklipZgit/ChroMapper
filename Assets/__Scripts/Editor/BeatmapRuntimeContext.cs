@@ -13,7 +13,8 @@ public class BeatmapRuntimeContext : MonoBehaviour
     public ColorSchemeSO ColorScheme;
     public TracksDefinitionSO TracksDefinition;
 
-    public event Action<EnvironmentDescriptor> OnEnvironmentChanged;
+    public event Action OnEnvironmentUnloaded;
+    public event Action<EnvironmentDescriptor> OnEnvironmentLoaded;
     public event Action<ColorSchemeSO> OnColorSchemeChanged;
     public event Action<TracksDefinitionSO> OnTracksDefinitionChanged;
 
@@ -32,6 +33,7 @@ public class BeatmapRuntimeContext : MonoBehaviour
             SetColorScheme(listing.ColorScheme);
             SetTracksDefinition(listing.TracksDefinition);
             Descriptor.Initialize(this);
+            // TODO: also move this elsewhere
             if (BeatSaberSongContainer.Instance.MapDifficultyInfo.CustomData["_environmentRemoval"] != null)
             {
                 var envRemoval = BeatSaberSongContainer.Instance.MapDifficultyInfo.CustomData["_environmentRemoval"]
@@ -51,7 +53,13 @@ public class BeatmapRuntimeContext : MonoBehaviour
         NotifyEnvironment();
     }
 
-    public void NotifyEnvironment() => OnEnvironmentChanged?.Invoke(Descriptor);
+    public void NotifyEnvironment()
+    {
+        if (Descriptor != null)
+            OnEnvironmentLoaded?.Invoke(Descriptor);
+        else
+            OnEnvironmentUnloaded?.Invoke();
+    }
 
     public void SetColorScheme(ColorSchemeSO colorScheme)
     {

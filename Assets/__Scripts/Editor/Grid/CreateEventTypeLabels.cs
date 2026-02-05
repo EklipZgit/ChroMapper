@@ -26,12 +26,12 @@ public class CreateEventTypeLabels : MonoBehaviour
     private void Start()
     {
         loadedWithRotationEvents = BeatSaberSongContainer.Instance.Map.Events.Any(i => i.IsLaneRotationEvent());
-        context.OnEnvironmentChanged += HandleEnvironmentChanged;
+        context.OnEnvironmentLoaded += HandleEnvironmentLoaded;
     }
 
-    private void OnDestroy() => context.OnEnvironmentChanged -= HandleEnvironmentChanged;
+    private void OnDestroy() => context.OnEnvironmentLoaded -= HandleEnvironmentLoaded;
 
-    private void HandleEnvironmentChanged(EnvironmentDescriptor descriptor)
+    private void HandleEnvironmentLoaded(EnvironmentDescriptor descriptor)
     {
         typeToManager = descriptor
             .BasicEventEffectManager.GetEffects<BasicLightEffect>()
