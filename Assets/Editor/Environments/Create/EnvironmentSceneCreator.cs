@@ -15,10 +15,26 @@ public partial class EnvironmentSceneCreator
     private const string environmentPath = "Assets/__Scenes/Environments";
     private const string editorPath = "Assets/Editor/Environments";
 
-    private static void CreateEnvironmentFromData(bool script = true)
+    [MenuItem("Environment/Create from Data", false, 1000)]
+    private static void CreateEnvironmentFromDataWithScript() => ReadSelectedAndCreateEnvironment(true);
+
+    [MenuItem("Environment/Create from Data (No Script)", false, 1000)]
+    private static void CreateEnvironmentFromDataWithoutScript() => ReadSelectedAndCreateEnvironment(false);
+
+    [MenuItem("Environment/Create All from Data", false, 1000)]
+    private static void CreateAllEnvironmentFromData()
     {
-        // Check if exactly one object is selected and it's a TextAsset
-        // We re-do the check here for safety and to grab a reference to the TextAsset
+        foreach (var se in AssetDatabase
+            .GetAllAssetPaths()
+            .Where(x => x.StartsWith(environmentPath + "/Data") && x.EndsWith(".json")))
+        {
+            var textAsset = AssetDatabase.LoadAssetAtPath<TextAsset>(se);
+            if (textAsset != null) CreateEnvironmentFromData(textAsset, true);
+        }
+    }
+
+    private static void ReadSelectedAndCreateEnvironment(bool script)
+    {
         var textAsset = Selection.activeObject switch
         {
             TextAsset tempTextAsset => tempTextAsset,
@@ -41,7 +57,11 @@ public partial class EnvironmentSceneCreator
         }
 
         if (textAsset == null) return;
+        CreateEnvironmentFromData(textAsset, script);
+    }
 
+    private static void CreateEnvironmentFromData(TextAsset textAsset, bool script)
+    {
         var assetName = textAsset.name;
 
         var targetPath = Path.Combine(environmentPath, $"{assetName}.unity");
@@ -81,12 +101,6 @@ public partial class EnvironmentSceneCreator
         else
             Debug.LogError("Failed to save the new environment scene.");
     }
-    
-    [MenuItem("Environment/Create from Data", false, 1000)]
-    private static void CreateEnvironmentFromDataWithScript() => CreateEnvironmentFromData();
-
-    [MenuItem("Environment/Create from Data (No Script)", false, 1000)]
-    private static void CreateEnvironmentFromDataWithoutScript() => CreateEnvironmentFromData(false);
 
     // Main method which constructs the environment from parsed data
     public static void CreateEnvironment(
