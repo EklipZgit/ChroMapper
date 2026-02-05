@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -135,7 +134,7 @@ public partial class EnvironmentSceneCreator
                     .Where(y => y != null)
                     .Select(g =>
                     {
-                        g.gameObject.GetOrAddComponent<ChromaIDMarker>().MarkUse = true;
+                        g.gameObject.GetComponent<ChromaIDMarker>().MarkUse = true;
                         return g;
                     })
                     .ToArray();
@@ -211,7 +210,8 @@ public partial class EnvironmentSceneCreator
             // ble.InvertColorScheme = 
         }
 
-        var registeredLight = new HashSet<int>();
+        var registeredLightInstance = new HashSet<int>();
+        var lightToRegister = new List<(LightController controller, int lightId, int order, bool force)>();
         var sinkObject = new GameObject("Sink Object");
         sinkObject.transform.SetParent(beec.transform.parent);
 
@@ -235,16 +235,16 @@ public partial class EnvironmentSceneCreator
                             switch (controller)
                             {
                                 case CombinedLightsController clc:
-                                    RegisterLight(clc.LightIntensityData[light.ArrayId.Value], lightId, order);
+                                    RegisterLight(clc.LightIntensityData[light.ArrayId.Value], lightId, order, true);
                                     break;
                                 case CombinedLightsGroupController clgc:
-                                    RegisterLight(clgc.LightIntensityData[light.ArrayId.Value], lightId, order);
+                                    RegisterLight(clgc.LightIntensityData[light.ArrayId.Value], lightId, order, true);
                                     break;
                             }
                         }
                         // Otherwise become sink
                         else
-                            RegisterLight(sinkObject.AddComponent<LightSink>(), lightId, order);
+                            RegisterLight(sinkObject.AddComponent<LightSink>(), lightId, order, true);
 
                         continue;
                     }
@@ -253,17 +253,18 @@ public partial class EnvironmentSceneCreator
                     if (envObject is null)
                     {
                         // If for whatever reason this is missing, become sink
-                        RegisterLight(sinkObject.AddComponent<LightSink>(), lightId, order);
+                        RegisterLight(sinkObject.AddComponent<LightSink>(), lightId, order, true);
                         continue;
                     }
 
                     // Non-runtime
-                    GetAndRegisterLight(envObject, order, light.InstanceId);
-                    registeredLight.Add(light.InstanceId);
+                    GetAndRegisterLight(envObject, order, light.InstanceId, true);
+                    registeredLightInstance.Add(light.InstanceId);
                 }
             }
         }
 
+        // the rest of the light if they were not registered due to dynamic registration
         foreach (var envObject in data.Objects)
             GetAndRegisterLight(
                 envObject); // TODO: the rest of id, which is likely bad for lightId if they were inactive
@@ -294,7 +295,7 @@ public partial class EnvironmentSceneCreator
                     {
                         var transformName = transforms[i];
                         var t = chromaIdObjects[transformName].transform;
-                        t.gameObject.GetOrAddComponent<ChromaIDMarker>().MarkUse = true;
+                        t.gameObject.GetComponent<ChromaIDMarker>().MarkUse = true;
                         lrgem.Register(lrgData.GroupId, i, axis, mirror, t.gameObject.transform);
                     }
                 }
@@ -341,7 +342,7 @@ public partial class EnvironmentSceneCreator
                     {
                         var transformName = transforms[i];
                         var t = chromaIdObjects[transformName].transform;
-                        t.gameObject.GetOrAddComponent<ChromaIDMarker>().MarkUse = true;
+                        t.gameObject.GetComponent<ChromaIDMarker>().MarkUse = true;
                         ltgem.Register(ltgData.GroupId, i, axis, mirror, t.gameObject.transform);
                     }
                 }
@@ -472,7 +473,7 @@ public partial class EnvironmentSceneCreator
                 lr.Effect = lre;
                 lr.Transform = go.transform;
                 lr.StartRotation = go.transform.rotation;
-                lr.RotationVector = FloatArrayToVector3(lreData.RotationVector);
+                lr.RotationVector = lreData.RotationVector;
                 lr.SpeedMultiplier = lreData.RotationSpeedMultiplier;
             }
         }
@@ -484,14 +485,14 @@ public partial class EnvironmentSceneCreator
                 var go = chromaIdObjects[obj.ChromaID];
 
                 var lT = GetGameObjectOrNull(lpreData.TransformL, go).transform;
-                lT.gameObject.GetOrAddComponent<ChromaIDMarker>().MarkUse = true;
+                lT.gameObject.GetComponent<ChromaIDMarker>().MarkUse = true;
                 var rT = GetGameObjectOrNull(lpreData.TransformR, go).transform;
-                rT.gameObject.GetOrAddComponent<ChromaIDMarker>().MarkUse = true;
+                rT.gameObject.GetComponent<ChromaIDMarker>().MarkUse = true;
 
                 var lpr = go.AddComponent<LightPairRotation>();
                 lpr.Transforms =
                     new LightPairRotation.TransformContainer[] { new() { Transform = lT }, new() { Transform = rT } };
-                lpr.RotationVector = FloatArrayToVector3(lpreData.RotationVector);
+                lpr.RotationVector = lpreData.RotationVector;
                 lpr.OverrideRandomValues = lpreData.OverrideRandomValues;
                 lpr.UseZPositionForAngleOffset = lpreData.UseZPositionForAngleOffset;
                 lpr.ZPositionAngleOffsetScale = lpreData.ZPositionAngleOffsetScale;
@@ -513,17 +514,17 @@ public partial class EnvironmentSceneCreator
                 var go = chromaIdObjects[obj.ChromaID];
 
                 var lT = GetGameObjectOrNull(lpsmeData.TransformL, go).transform;
-                lT.gameObject.GetOrAddComponent<ChromaIDMarker>().MarkUse = true;
+                lT.gameObject.GetComponent<ChromaIDMarker>().MarkUse = true;
                 var rT = GetGameObjectOrNull(lpsmeData.TransformR, go).transform;
-                rT.gameObject.GetOrAddComponent<ChromaIDMarker>().MarkUse = true;
+                rT.gameObject.GetComponent<ChromaIDMarker>().MarkUse = true;
 
                 var lpsm = go.AddComponent<LightPairSinMove>();
                 lpsm.Transforms =
                     new LightPairSinMove.TransformContainer[] { new() { Transform = lT }, new() { Transform = rT } };
                 lpsm.OverrideRandomValues = lpsmeData.OverrideRandomValues;
                 lpsm.StartValueOffset = lpsmeData.StartValueOffset;
-                lpsm.StartPositionOffset = FloatArrayToVector3(lpsmeData.StartPositionOffset);
-                lpsm.EndPositionOffset = FloatArrayToVector3(lpsmeData.EndPositionOffset);
+                lpsm.StartPositionOffset = lpsmeData.StartPositionOffset;
+                lpsm.EndPositionOffset = lpsmeData.EndPositionOffset;
 
                 if (ConvertUtils.ToEventType(lpsmeData.EventTypeL, out var type) && type != -1)
                     lpsm.LeftEffect = beec.GetOrRegister<LightRotationEffect>(type);
@@ -546,7 +547,7 @@ public partial class EnvironmentSceneCreator
                 goiseData.CopyTo(gois);
                 gois.GameObjectsValueContainers =
                     goiseData
-                        .GameObjectsValueLists.Select(x => new GameObjectIntSwitch.GameObjectsValueContainer()
+                        .GameObjectsValueLists.Select(x => new GameObjectIntSwitch.GameObjectsValueContainer
                         {
                             Value = x.Value,
                             GameObjects =
@@ -555,7 +556,8 @@ public partial class EnvironmentSceneCreator
                                     .Where(y => y != null)
                                     .Select(g =>
                                     {
-                                        g.GetOrAddComponent<ChromaIDMarker>().MarkUse = true;
+                                        g.GetComponent<ChromaIDMarker>().MarkUse = true;
+                                        g.GetComponent<ChromaIDMarker>().MarkActivator = true;
                                         return g;
                                     })
                                     .ToArray()
@@ -577,7 +579,8 @@ public partial class EnvironmentSceneCreator
                     .Where(y => y != null)
                     .Select(g =>
                     {
-                        g.GetOrAddComponent<ChromaIDMarker>().MarkUse = true;
+                        g.GetComponent<ChromaIDMarker>().MarkUse = true;
+                        g.GetComponent<ChromaIDMarker>().MarkActivator = true;
                         return g;
                     })
                     .ToArray();
@@ -586,7 +589,7 @@ public partial class EnvironmentSceneCreator
                     .Where(y => y != null)
                     .Select(g =>
                     {
-                        g.GetOrAddComponent<ChromaIDMarker>().MarkUse = true;
+                        g.GetComponent<ChromaIDMarker>().MarkUse = true;
                         return g;
                     })
                     .ToArray();
@@ -608,7 +611,7 @@ public partial class EnvironmentSceneCreator
                     .Where(y => y != null)
                     .Select(g =>
                     {
-                        g.gameObject.GetOrAddComponent<ChromaIDMarker>().MarkUse = true;
+                        g.gameObject.GetComponent<ChromaIDMarker>().MarkUse = true;
                         return g;
                     })
                     .ToArray();
@@ -618,7 +621,7 @@ public partial class EnvironmentSceneCreator
                     .Where(y => y != null)
                     .Select(g =>
                     {
-                        g.gameObject.GetOrAddComponent<ChromaIDMarker>().MarkUse = true;
+                        g.gameObject.GetComponent<ChromaIDMarker>().MarkUse = true;
                         return g;
                     })
                     .ToArray();
@@ -651,7 +654,7 @@ public partial class EnvironmentSceneCreator
                         TryGetGameObjectOrNull(y, go, out var g) ? g.transform : null)
                     .Where(y => y != null)
                     .ToArray();
-                foreach (var t in m.Transforms) t.gameObject.GetOrAddComponent<ChromaIDMarker>().MarkUse = true;
+                foreach (var t in m.Transforms) t.gameObject.GetComponent<ChromaIDMarker>().MarkUse = true;
             }
         }
 
@@ -806,9 +809,14 @@ public partial class EnvironmentSceneCreator
                 sgoaf.GameObjects = sgoaetData
                     .GameObjects.Select(x => (GetGameObjectOrNull(x.GameObject, go), x.Threshold))
                     .Where(x => x.Item1 != null)
-                    .Select(x => new SwitchGameObjectArrayFx.GameObjectActivation()
+                    .Select(x =>
                     {
-                        GameObject = x.Item1, Threshold = x.Threshold
+                        x.Item1.GetComponent<ChromaIDMarker>().MarkUse = true;
+                        x.Item1.GetComponent<ChromaIDMarker>().MarkActivator = true;
+                        return new SwitchGameObjectArrayFx.GameObjectActivation
+                        {
+                            GameObject = x.Item1, Threshold = x.Threshold
+                        };
                     })
                     .ToArray();
             }
@@ -822,6 +830,11 @@ public partial class EnvironmentSceneCreator
                 var sgof = go.AddComponent<SwitchGameObjectFx>();
                 sgof.GameObjectA = chromaIdObjects[sgoetData.GameObjectA];
                 sgof.GameObjectB = chromaIdObjects[sgoetData.GameObjectB];
+
+                sgof.GameObjectA.GetComponent<ChromaIDMarker>().MarkUse = true;
+                sgof.GameObjectA.GetComponent<ChromaIDMarker>().MarkActivator = true;
+                sgof.GameObjectB.GetComponent<ChromaIDMarker>().MarkUse = true;
+                sgof.GameObjectB.GetComponent<ChromaIDMarker>().MarkActivator = true;
             }
         }
 
@@ -859,8 +872,21 @@ public partial class EnvironmentSceneCreator
                 var lc = go.AddComponent<LightCollision>();
                 lc.ParametricLight = GetGameObjectOrNull(tbpplcData.TubeBloomPrePassLightId, go)
                     .GetComponent<ParametricBloomFogLightController>();
+                GetGameObjectOrNull(tbpplcData.TubeBloomPrePassLightId, go)
+                    .GetComponent<ChromaIDMarker>()
+                    .MarkUse = true;
+                GetGameObjectOrNull(tbpplcData.TubeBloomPrePassLightId, go)
+                    .GetComponent<ChromaIDMarker>()
+                    .MarkActivator = true;
+
                 lc.HitPointLightWithId = GetGameObjectOrNull(tbpplcData.HitPointLightWithId, go)
                     .GetComponent<InstancedMaterialLightController>();
+                GetGameObjectOrNull(tbpplcData.HitPointLightWithId, go).GetComponent<ChromaIDMarker>().MarkUse =
+                    true;
+                GetGameObjectOrNull(tbpplcData.HitPointLightWithId, go)
+                    .GetComponent<ChromaIDMarker>()
+                    .MarkActivator = true;
+
                 lc.HitPointGameObject = GetGameObjectOrNull(tbpplcData.HitPointGameObject, go);
                 lc.HitPointTransform = GetGameObjectOrNull(tbpplcData.HitPointTransform, go).transform;
                 lc.UseScale = tbpplcData.UseScale;
@@ -880,23 +906,6 @@ public partial class EnvironmentSceneCreator
                 var go = chromaIdObjects[obj.ChromaID];
                 var lr = go.AddComponent<LightReflection>();
 
-                LightReflection.ParametricLightWithHitPoint RegisterReflection(
-                    TubeBloomPrePassLightWithHitPoint comp)
-                {
-                    return new LightReflection.ParametricLightWithHitPoint
-                    {
-                        Light =
-                            chromaIdObjects[comp.TubeBloomPrePassLightId]
-                                .GetComponent<ParametricBloomFogLightController>(),
-                        HitPointLightWithId =
-                            chromaIdObjects[comp.HitPointLightWithId].GetComponent<InstancedMaterialLightController>(),
-                        HitPointGameObject = chromaIdObjects[comp.HitPointGameObject],
-                        HitPointTransform = chromaIdObjects[comp.HitPointTransform].transform,
-                        HitPointDistanceToAlphaCurve = comp.HitPointDistanceToAlphaCurve.Create(),
-                        ShowHitPoint = comp.ShowHitPoint,
-                    };
-                }
-
                 lr.Repository = ffgem.gameObject.GetOrAddComponent<ColliderRepository>();
                 lr.MainParametricLight = RegisterReflection(tbpplrData.MainTubeBloomPrePassLight);
                 lr.ParametricLightReflection =
@@ -904,17 +913,43 @@ public partial class EnvironmentSceneCreator
                 lr.EnvironmentLayerMask = library.LayerMaskLookup[tbpplrData.EnvironmentLayerMask[0]];
 
                 lr.enabled = tbpplrData.IsEnabled;
+                continue;
+
+                LightReflection.ParametricLightWithHitPoint RegisterReflection(
+                    TubeBloomPrePassLightWithHitPoint comp)
+                {
+                    GetGameObjectOrNull(comp.TubeBloomPrePassLightId, go).GetComponent<ChromaIDMarker>().MarkUse =
+                        true;
+                    GetGameObjectOrNull(comp.TubeBloomPrePassLightId, go)
+                        .GetComponent<ChromaIDMarker>()
+                        .MarkActivator = true;
+                    GetGameObjectOrNull(comp.HitPointLightWithId, go).GetComponent<ChromaIDMarker>().MarkUse =
+                        true;
+                    GetGameObjectOrNull(comp.HitPointLightWithId, go)
+                        .GetComponent<ChromaIDMarker>()
+                        .MarkActivator = true;
+                    return new LightReflection.ParametricLightWithHitPoint
+                    {
+                        Light =
+                            GetGameObjectOrNull(comp.TubeBloomPrePassLightId, go)
+                                .GetComponent<ParametricBloomFogLightController>(),
+                        HitPointLightWithId =
+                            GetGameObjectOrNull(comp.HitPointLightWithId, go)
+                                .GetComponent<InstancedMaterialLightController>(),
+                        HitPointGameObject = chromaIdObjects[comp.HitPointGameObject],
+                        HitPointTransform = chromaIdObjects[comp.HitPointTransform].transform,
+                        HitPointDistanceToAlphaCurve = comp.HitPointDistanceToAlphaCurve.Create(),
+                        ShowHitPoint = comp.ShowHitPoint,
+                    };
+                }
             }
         }
 
+        FinalRegisterLight();
+
         return;
 
-        Vector3 FloatArrayToVector3(float[] array)
-        {
-            return new Vector3(array[0], array[1], array[2]);
-        }
-
-        void GetAndRegisterLight(EnvDataObject envObject, int order = -1, int instanceId = -1)
+        void GetAndRegisterLight(EnvDataObject envObject, int order = -1, int instanceId = -1, bool force = false)
         {
             if (!chromaIdObjects.TryGetValue(envObject.ChromaID, out var marker)) return;
             var go = marker.gameObject;
@@ -923,8 +958,9 @@ public partial class EnvironmentSceneCreator
             {
                 var l = instanceId != -1
                     ? envObject.Components.DirectionalLightWithId.Where(x => x.InstanceId == instanceId)
-                    : envObject.Components.DirectionalLightWithId.Where(x => !registeredLight.Contains(x.InstanceId));
-                foreach (var comp in l) HandleDirectionalLightWithId(comp, go, order);
+                    : envObject.Components.DirectionalLightWithId.Where(x =>
+                        !registeredLightInstance.Contains(x.InstanceId));
+                foreach (var comp in l) HandleDirectionalLightWithId(comp, go, order, force);
             }
 
             if (envObject.Components.InstancedMaterialLightWithId != null)
@@ -932,16 +968,17 @@ public partial class EnvironmentSceneCreator
                 var l = instanceId != -1
                     ? envObject.Components.InstancedMaterialLightWithId.Where(x => x.InstanceId == instanceId)
                     : envObject.Components.InstancedMaterialLightWithId.Where(x =>
-                        !registeredLight.Contains(x.InstanceId));
-                foreach (var comp in l) HandleInstancedMaterialLightWithId(comp, go, order);
+                        !registeredLightInstance.Contains(x.InstanceId));
+                foreach (var comp in l) HandleInstancedMaterialLightWithId(comp, go, order, force);
             }
 
             if (envObject.Components.MaterialLightWithId != null)
             {
                 var l = instanceId != -1
                     ? envObject.Components.MaterialLightWithId.Where(x => x.InstanceId == instanceId)
-                    : envObject.Components.MaterialLightWithId.Where(x => !registeredLight.Contains(x.InstanceId));
-                foreach (var comp in l) HandleMaterialLightWithId(comp, go, order);
+                    : envObject.Components.MaterialLightWithId.Where(x =>
+                        !registeredLightInstance.Contains(x.InstanceId));
+                foreach (var comp in l) HandleMaterialLightWithId(comp, go, order, force);
             }
 
             if (envObject.Components.RectangleFakeGlowLightWithLightId != null)
@@ -949,16 +986,17 @@ public partial class EnvironmentSceneCreator
                 var l = instanceId != -1
                     ? envObject.Components.RectangleFakeGlowLightWithLightId.Where(x => x.InstanceId == instanceId)
                     : envObject.Components.RectangleFakeGlowLightWithLightId.Where(x =>
-                        !registeredLight.Contains(x.InstanceId));
-                foreach (var comp in l) HandleRectangleFakeGlowLightWithId(comp, go, order);
+                        !registeredLightInstance.Contains(x.InstanceId));
+                foreach (var comp in l) HandleRectangleFakeGlowLightWithId(comp, go, order, force);
             }
 
             if (envObject.Components.SpriteLightWithId != null)
             {
                 var l = instanceId != -1
                     ? envObject.Components.SpriteLightWithId.Where(x => x.InstanceId == instanceId)
-                    : envObject.Components.SpriteLightWithId.Where(x => !registeredLight.Contains(x.InstanceId));
-                foreach (var comp in l) HandleSpriteLightWithId(comp, go, order);
+                    : envObject.Components.SpriteLightWithId.Where(x =>
+                        !registeredLightInstance.Contains(x.InstanceId));
+                foreach (var comp in l) HandleSpriteLightWithId(comp, go, order, force);
             }
 
             if (envObject.Components.TubeBloomPrePassLightWithId != null)
@@ -966,79 +1004,104 @@ public partial class EnvironmentSceneCreator
                 var l = instanceId != -1
                     ? envObject.Components.TubeBloomPrePassLightWithId.Where(x => x.InstanceId == instanceId)
                     : envObject.Components.TubeBloomPrePassLightWithId.Where(x =>
-                        !registeredLight.Contains(x.InstanceId));
-                foreach (var comp in l) HandleTubeBloomPrePassLightWithId(comp, go, order);
+                        !registeredLightInstance.Contains(x.InstanceId));
+                foreach (var comp in l) HandleTubeBloomPrePassLightWithId(comp, go, order, force);
             }
         }
 
-        void RegisterLight(LightController controller, int lightId, int order)
+        void RegisterLight(LightController controller, int lightId, int order, bool force = false)
         {
-            var lg = lcgemData?.LightGroups.FirstOrDefault(x =>
-                x.StartLightId <= lightId && lightId < x.StartLightId + x.NumberOfElements);
-            if (lg != null)
-            {
-                controller.Kind = LightController.LightKind.Group;
-                controller.Type = lg.GroupId;
-                controller.ID = lightId - lg.StartLightId;
-                descriptor.Register(controller);
-                return;
-            }
+            lightToRegister.Add((controller, lightId, order, force));
+        }
 
-            var lsee = lseeData.FirstOrDefault(x => x.LightsId == lightId);
-            if (lsee != null)
+        void FinalRegisterLight()
+        {
+            foreach (var (controller, lightId, order, force) in lightToRegister)
             {
-                controller.Kind = LightController.LightKind.Basic;
-                controller.Type = ConvertUtils.ToEventType(lsee.EventType);
-                controller.ID = order;
-                descriptor.Register(controller);
-                return;
-            }
+                var lg = lcgemData?.LightGroups.FirstOrDefault(x =>
+                    x.StartLightId <= lightId && lightId < x.StartLightId + x.NumberOfElements);
+                if (lg != null)
+                {
+                    controller.Kind = LightController.LightKind.Group;
+                    controller.Type = lg.GroupId;
+                    controller.ID = lightId - lg.StartLightId;
+                    if (force || !SkipThisShit(controller.transform)) descriptor.Register(controller);
+                    continue;
+                }
 
-            Debug.LogError(
-                $"{(controller.TryGetComponent<ChromaIDMarker>(out var marker) ? marker.ChromaID : "")}: {controller} ID {lightId} could not be registered, missing event type or group ID register?");
+                var lsee = lseeData.FirstOrDefault(x => x.LightsId == lightId);
+                if (lsee != null)
+                {
+                    controller.Kind = LightController.LightKind.Basic;
+                    controller.Type = ConvertUtils.ToEventType(lsee.EventType);
+                    controller.ID = order;
+                    if (force || !SkipThisShit(controller.transform)) descriptor.Register(controller);
+                    continue;
+                }
+
+                Debug.LogWarning(
+                    $"{(controller.TryGetComponent<ChromaIDMarker>(out var marker) ? marker.ChromaID : "")}: {controller} ID {lightId} could not be registered, missing event type or group ID register?");
+                continue;
+
+                // Should we skip or register regardless
+                bool SkipThisShit(Transform tr)
+                {
+                    if (tr.gameObject.activeInHierarchy) return false;
+                    while (true)
+                    {
+                        if (!tr.gameObject.activeSelf)
+                            return !tr.gameObject.GetComponent<ChromaIDMarker>().MarkActivator;
+                        if (tr.parent == tr) break;
+                        tr = tr.parent;
+                    }
+
+                    return true;
+                }
+            }
         }
 
         void HandleDirectionalLightWithId(
             DirectionalLightWithIdComponent comp,
             GameObject go,
-            int order
-        )
+            int order,
+            bool force)
         {
             var dlc = go.AddComponent<DirectionalLightController>();
             dlc.Light = chromaIdObjects[comp.Light].GetComponent<DirectionalLight>();
             comp.CopyTo(dlc);
-            RegisterLight(dlc, comp.Id, order);
+            RegisterLight(dlc, comp.Id, order, force);
         }
 
         void HandleInstancedMaterialLightWithId(
             InstancedMaterialLightWithIdComponent comp,
             GameObject go,
-            int order
-        )
+            int order,
+            bool force)
         {
             var imlc = go.AddComponent<InstancedMaterialLightController>();
             // TODO: this should be string reference
             imlc.MpbColorSetter = go.GetOrAddComponent<MaterialPropertyBlockColorSetter>();
             comp.CopyTo(imlc);
-            RegisterLight(imlc, comp.Id, order);
+            RegisterLight(imlc, comp.Id, order, force);
         }
 
         void HandleMaterialLightWithId(
             MaterialLightWithIdComponent comp,
             GameObject go,
-            int order
-        )
+            int order,
+            bool force)
         {
             var mlc = go.AddComponent<MaterialLightController>();
             mlc.Renderer = go.GetComponent<Renderer>();
             comp.CopyTo(mlc);
-            RegisterLight(mlc, comp.Id, order);
+            RegisterLight(mlc, comp.Id, order, force);
         }
 
         void HandleRectangleFakeGlowLightWithId(
             RectangleFakeGlowLightWithIdComponent comp,
             GameObject go,
-            int order)
+            int order,
+            bool force)
         {
             var rfglc = go.AddComponent<RectangleFakeGlowLightController>();
             rfglc.MpbController = go.GetComponent<MaterialPropertyBlockController>();
@@ -1046,13 +1109,14 @@ public partial class EnvironmentSceneCreator
                 data.Objects.First(y => y.ChromaID == chromaIdObjects.First(x => x.Value == go).Key);
             comp.CopyTo(rfglc);
             envObject.Components.RectangleFakeGlow[0].CopyTo(rfglc);
-            RegisterLight(rfglc, comp.Id, order);
+            RegisterLight(rfglc, comp.Id, order, force);
         }
 
         void HandleSpriteLightWithId(
             SpriteLightWithIdComponent comp,
             GameObject go,
-            int order)
+            int order,
+            bool force)
         {
             var slc = go.AddComponent<SpriteLightController>();
             var renderer = go.AddComponent<SpriteRenderer>();
@@ -1066,13 +1130,14 @@ public partial class EnvironmentSceneCreator
 
             slc.Renderer = renderer;
             comp.CopyTo(slc);
-            RegisterLight(slc, comp.Id, order);
+            RegisterLight(slc, comp.Id, order, force);
         }
 
         void HandleTubeBloomPrePassLightWithId(
             TubeBloomPrePassLightWithIdComponent comp,
             GameObject go,
-            int order
+            int order,
+            bool force
         )
         {
             var pbflc = go.AddComponent<ParametricBloomFogLightController>();
@@ -1129,14 +1194,13 @@ public partial class EnvironmentSceneCreator
                 envObject.Components.Parametric3SliceSpriteController[0].CopyTo(pbflc.SpriteLight);
             }
 
-            RegisterLight(pbflc, comp.Id, order);
+            RegisterLight(pbflc, comp.Id, order, force);
         }
 
         GameObject GetGameObjectOrNull(string id, GameObject go)
         {
             if (id == "self") return go;
-            if (string.IsNullOrEmpty(id)) return null;
-            return chromaIdObjects.TryGetValue(id, out var g) ? g : null;
+            return string.IsNullOrEmpty(id) ? null : chromaIdObjects.GetValueOrDefault(id);
         }
 
         bool TryGetGameObjectOrNull(string id, GameObject dgo, out GameObject go)
@@ -1147,13 +1211,9 @@ public partial class EnvironmentSceneCreator
                 return true;
             }
 
-            if (string.IsNullOrEmpty(id))
-            {
-                go = null;
-                return false;
-            }
-
-            return chromaIdObjects.TryGetValue(id, out go);
+            if (!string.IsNullOrEmpty(id)) return chromaIdObjects.TryGetValue(id, out go);
+            go = null;
+            return false;
         }
     }
 }

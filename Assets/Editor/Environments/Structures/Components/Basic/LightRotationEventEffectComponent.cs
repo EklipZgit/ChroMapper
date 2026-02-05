@@ -1,8 +1,10 @@
+using UnityEngine;
+
 public class LightRotationEventEffectComponent
 {
     public bool IsEnabled;
 
     public string EventType;
-    public float[] RotationVector;
+    public Vector3 RotationVector;
     public float RotationSpeedMultiplier;
 }

@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class LightPairSinMoveEventEffectComponent
 {
     public bool IsEnabled;
@@ -9,6 +11,6 @@ public class LightPairSinMoveEventEffectComponent
     public string SwitchOverrideRandomValuesEvent;
     public bool OverrideRandomValues;
     public float StartValueOffset;
-    public float[] StartPositionOffset;
-    public float[] EndPositionOffset;
+    public Vector3 StartPositionOffset;
+    public Vector3 EndPositionOffset;
 }

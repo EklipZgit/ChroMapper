@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public sealed class BloomFogObject : MonoBehaviour
@@ -24,7 +25,7 @@ public sealed class BloomFogObject : MonoBehaviour
     public float MinAlpha;
     public float MaxAlpha = 1f;
 
-    public Transform CachedTransform;
+    [NonSerialized] public Transform CachedTransform;
     private Color color;
 
     private void OnEnable() => AllBloomFogLights.Add(this);
