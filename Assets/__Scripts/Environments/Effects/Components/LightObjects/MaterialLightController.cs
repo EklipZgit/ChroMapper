@@ -18,6 +18,7 @@ public class MaterialLightController : LightController
 
     private void Awake() => propId = Shader.PropertyToID(Property);
 
+    public override bool IsPhysical => true;
     protected override bool Initialize() => Renderer != null;
 
     public override void SetColor(Color color)

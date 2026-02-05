@@ -9,6 +9,8 @@ public abstract class LightController : MonoBehaviour
     public int Type;
     public int ID;
 
+    public virtual bool IsPhysical => false;
+
     protected static readonly int ColorId = Shader.PropertyToID("_Color");
 
     protected bool HasInitialized;

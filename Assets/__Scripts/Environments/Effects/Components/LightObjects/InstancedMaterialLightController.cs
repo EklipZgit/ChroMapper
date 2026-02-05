@@ -12,6 +12,7 @@ public class InstancedMaterialLightController : LightController
     public MultiplyColorByAlphaType MultiplyColorByAlpha;
     public bool SaturateIntensity;
 
+    public override bool IsPhysical => true;
     protected override bool Initialize() => MpbColorSetter != null;
 
     public override void SetColor(Color color)

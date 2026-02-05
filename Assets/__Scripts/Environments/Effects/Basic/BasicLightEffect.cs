@@ -23,8 +23,8 @@ public class BasicLightEffect : BasicEventEffect<BasicLightStateData>
     [SerializeField] private List<LightController> lightEntries = new();
     private readonly Dictionary<int, int> lightIdRemap = new();
     private readonly Dictionary<int, LightController> lightIDToController = new();
-    public readonly Dictionary<int, int> LightIDToLane = new();
 
+    public readonly Dictionary<int, int> LightIDToLane = new();
     public readonly List<int> LaneToLightID = new();
     public readonly List<int[]> LaneToLightIDs = new(); // this also refer to propID
 
@@ -73,17 +73,28 @@ public class BasicLightEffect : BasicEventEffect<BasicLightStateData>
         LightIDToLane.Clear();
         lightIDToController.Clear();
         lightIdRemap.Clear();
-        foreach (var lightId in LightIdRemapEntries) lightIdRemap[(int)lightId.x] = (int)lightId.y;
 
-        var ordered = lightEntries.OrderBy(x => x.ID).ToList();
-        foreach (var x in ordered) lightIDToController[x.ID] = x;
-        LaneToLightID.AddRange(ordered.Select(x => x.ID));
+        foreach (var x in lightEntries) lightIDToController[x.ID] = x;
+
+        var reverseLightIdRemap = new Dictionary<int, int>();
+        foreach (var lightId in LightIdRemapEntries)
+        {
+            lightIdRemap[(int)lightId.x] = (int)lightId.y;
+            reverseLightIdRemap[(int)lightId.y] = (int)lightId.x;
+        }
+
+        var physicalLights = lightEntries
+            .Where(x => x.IsPhysical)
+            .Select(x => (controller: x, ID: reverseLightIdRemap.GetValueOrDefault(x.ID, x.ID)))
+            .OrderBy(x => x.ID)
+            .ToList();
+        LaneToLightID.AddRange(physicalLights.Select(x => x.ID));
         LaneToLightIDs.AddRange(
-            ordered
-                .GroupBy(x => Mathf.RoundToInt(x.transform.position.z))
+            physicalLights
+                .GroupBy(x => Mathf.RoundToInt(x.controller.transform.position.z))
                 .OrderBy(x => x.Key)
                 .Select(x => x.Select(y => y.ID).ToArray()));
-        foreach (var x in ordered) LightIDToLane[x.ID] = LaneToLightID.IndexOf(x.ID);
+        foreach (var x in physicalLights) LightIDToLane[x.ID] = LaneToLightID.IndexOf(x.ID);
     }
 
     public override void Initialize()

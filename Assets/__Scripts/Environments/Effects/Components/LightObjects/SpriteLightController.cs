@@ -14,6 +14,7 @@ public class SpriteLightController : LightController
     public bool SetAlphaOnly;
     public bool SetOnlyOnce;
 
+    public override bool IsPhysical => true;
     protected override bool Initialize() => Renderer != null;
 
     public override void SetColor(Color color)

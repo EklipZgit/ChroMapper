@@ -77,6 +77,8 @@ public class ParametricBloomFogLightController : LightController
 
     private float CalculatedCollisionLength => !UseCollision ? Length : Mathf.Min(CollisionLength, Length);
 
+    public override bool IsPhysical => hasBoxLight || hasSpriteLight;
+
     protected override bool Initialize()
     {
         tr = transform;
@@ -97,6 +99,7 @@ public class ParametricBloomFogLightController : LightController
                 BoxLight.WidthStart = StartWidth;
                 BoxLight.WidthEnd = EndWidth;
             }
+
             BoxLight.InitIfNeeded();
         }
 
@@ -110,6 +113,7 @@ public class ParametricBloomFogLightController : LightController
                 SpriteLight.WidthStart = StartWidth;
                 SpriteLight.WidthEnd = EndWidth;
             }
+
             SpriteLight.InitIfNeeded();
         }
 
@@ -205,8 +209,7 @@ public class ParametricBloomFogLightController : LightController
                 ? Width * BakedGlowWidthScale * widthFactor
                 : Width * BakedGlowWidthScale;
             SpriteLight.Width = width;
-            if (OverrideChildrenLength)
-                SpriteLight.Length = (Length + (AddWidthToLength ? width : 0f)) * lengthFactor;
+            if (OverrideChildrenLength) SpriteLight.Length = (Length + (AddWidthToLength ? width : 0f)) * lengthFactor;
 
             if (useCollision) SpriteLight.CollisionLength = CollisionLength;
 
