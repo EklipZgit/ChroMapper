@@ -18,35 +18,6 @@ using Debug = UnityEngine.Debug;
 
 public class SongInfoEditUI : MenuBase
 {
-    public static List<Environment> VanillaEnvironments = new()
-    {
-        new Environment("Default", "DefaultEnvironment"),
-        new Environment("Big Mirror", "BigMirrorEnvironment"),
-        new Environment("Triangle", "TriangleEnvironment"),
-        new Environment("Nice", "NiceEnvironment"),
-        new Environment("K/DA", "KDAEnvironment"),
-        new Environment("Monstercat", "MonstercatEnvironment"),
-        new Environment("Dragons", "DragonsEnvironment"),
-        new Environment("Origins",
-            "OriginsEnvironment"), //i swear to god if beat games reverts this back i am going to lose my shit
-        new Environment("Crab Rave", "CrabRaveEnvironment"),
-        new Environment("Panic! At The Disco", "PanicEnvironment"),
-        new Environment("Rocket League", "RocketEnvironment"),
-        new Environment("Green Day", "GreenDayEnvironment"),
-        new Environment("Green Day Grenade", "GreenDayGrenadeEnvironment"),
-        new Environment("Timbaland", "TimbalandEnvironment"),
-        new Environment("FitBeat", "FitBeatEnvironment"),
-        new Environment("Linkin Park", "LinkinParkEnvironment"),
-        new Environment("BTS", "BTSEnvironment"),
-        new Environment("Kaleidoscope", "KaleidoscopeEnvironment"),
-        new Environment("Interscope", "InterscopeEnvironment"),
-        new Environment("Skrillex", "SkrillexEnvironment"),
-        new Environment("Billie", "BillieEnvironment"),
-        new Environment("Spooky", "HalloweenEnvironment"),
-        new Environment("Gaga", "GagaEnvironment"),
-        new Environment("Glass Desert", "GlassDesertEnvironment")
-    };
-
     public static List<string> CharacteristicDropdownToBeatmapName = new()
     {
         "Standard",
@@ -58,6 +29,8 @@ public class SongInfoEditUI : MenuBase
         "Lightshow",
         "Lawless"
     };
+
+    [SerializeField] private EnvironmentListSO environmentList;
 
     [SerializeField] private AudioSource previewAudio;
     
@@ -113,21 +86,6 @@ public class SongInfoEditUI : MenuBase
         ContributorWrapper.SetActive(true);
 
         LoadFromSong();
-    }
-
-    public static int GetEnvironmentIDFromString(string environment) =>
-        VanillaEnvironments.TakeWhile(i => i.JsonName != environment).Count();
-
-    public static bool TryGetEnvironmentNameFromID(int id, out string environmentName)
-    {
-        if (id >= VanillaEnvironments.Count)
-        {
-            environmentName = null;
-            return false;
-        }
-
-        environmentName = VanillaEnvironments[id].JsonName;
-        return true;
     }
 
     /// <summary>
@@ -656,16 +614,4 @@ public class SongInfoEditUI : MenuBase
 
     private static bool NearlyEqual(float a, float b, float epsilon = 0.01f) =>
         a.Equals(b) || Math.Abs(a - b) < epsilon;
-
-    public class Environment
-    {
-        public readonly string HumanName;
-        public readonly string JsonName;
-
-        public Environment(string humanName, string jsonName)
-        {
-            HumanName = humanName;
-            JsonName = jsonName;
-        }
-    }
 }

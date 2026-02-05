@@ -14,6 +14,7 @@ public class DiscordController : MonoBehaviour
 
     private Activity activity;
 
+    [SerializeField] private EnvironmentListSO environmentList;
     [SerializeField] private TextAsset clientIDTextAsset;
 
     // Start is called before the first frame update
@@ -27,8 +28,8 @@ public class DiscordController : MonoBehaviour
 
         try
         {
-            if (long.TryParse(clientIDTextAsset.text, out var discordClientID) &&
-                Application.internetReachability != NetworkReachability.NotReachable)
+            if (long.TryParse(clientIDTextAsset.text, out var discordClientID)
+                && Application.internetReachability != NetworkReachability.NotReachable)
             {
                 Discord = new Discord.Discord(discordClientID, (ulong)CreateFlags.NoRequireDiscord);
                 ImageManager = Discord.GetImageManager();
@@ -78,7 +79,8 @@ public class DiscordController : MonoBehaviour
 
     private void HandleEnvironmentLoaded(EnvironmentDescriptor environment)
     {
-        var platformDiscordID = environment.gameObject.name
+        var platformDiscordID = environment
+            .gameObject.name
             .Replace("(Clone)", "")
             .Replace(" ", "")
             .ToLowerInvariant()
@@ -88,8 +90,10 @@ public class DiscordController : MonoBehaviour
 
         var jsonEnvironmentName = BeatSaberSongContainer.Instance.Info.EnvironmentName;
 
-        var platformName = SongInfoEditUI.VanillaEnvironments
-            .Find(x => x.JsonName == jsonEnvironmentName)?.HumanName ?? jsonEnvironmentName;
+        var platformName = environmentList
+                .List.Find(x => x.ID == jsonEnvironmentName)
+                ?.Name
+            ?? jsonEnvironmentName;
         activity.Assets.LargeText = platformName;
 
         UpdatePresence();
@@ -139,10 +143,11 @@ public class DiscordController : MonoBehaviour
         {
             Details = details,
             State = state,
-            Timestamps = new ActivityTimestamps
-            { 
-                Start = (long)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds
-            },
+            Timestamps =
+                new ActivityTimestamps
+                {
+                    Start = (long)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds
+                },
             Assets = new ActivityAssets
             {
                 SmallImage = "newlogo",
@@ -159,18 +164,25 @@ public class DiscordController : MonoBehaviour
     {
         if (Application.internetReachability == NetworkReachability.NotReachable) return;
 
-        ActivityManager?.UpdateActivity(activity, res =>
-        {
-            if (res == Result.Ok) Debug.Log("Discord Presence updated!");
-            else Debug.LogWarning($"Discord Presence failed! {res}");
-        });
+        ActivityManager?.UpdateActivity(
+            activity,
+            res =>
+            {
+                if (res == Result.Ok)
+                    Debug.Log("Discord Presence updated!");
+                else
+                    Debug.LogWarning($"Discord Presence failed! {res}");
+            });
     }
 
     private void HandleException(string msg)
     {
         PersistentUI.Instance.ShowDialogBox(
-            "PersistentUI", "discord.error"
-            , null, PersistentUI.DialogBoxPresetType.Ok, new object[] { msg });
+            "PersistentUI",
+            "discord.error",
+            null,
+            PersistentUI.DialogBoxPresetType.Ok,
+            new object[] { msg });
         IsActive = false;
     }
 }
