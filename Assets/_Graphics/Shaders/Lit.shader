@@ -647,14 +647,6 @@
                 emissionTex.a = emissionTex.g;
                 #endif
 
-                #if defined(_EMISSIONBLOOMTYPE_GRADIENT)
-                emissionTex = tex2D(_EmissionGradientTex,
-                                    TRANSFORM_TEX(i.uv, _EmissionGradientTex)
-                                    + UNITY_ACCESS_INSTANCED_PROP(
-                                        Props, _EmissionGradientPosition) *
-                                    _EmissionGradientPanningSpeed * time.yy);
-                #endif
-
                 #if USE_EMISSION_MASK
 
                 #if defined(EMISSION_MASK)
@@ -674,7 +666,7 @@
                 #if defined(_MASKBLEND_ADD)
                 emissionTex += emissionMask;
                 #elif defined(_MASKBLEND_MASKED_ADD)
-                emissionTex = emissionTex * emissionMask + emissionMask;
+                emissionTex += emissionTex * emissionMask;
                 #else
                 emissionTex *= emissionMask;
                 #endif
@@ -698,7 +690,7 @@
                 #if defined(_SECONDARY_MASKBLEND_ADD)
                 emissionTex += emissionMask2;
                 #elif defined(_SECONDARY_MASKBLEND_MASKED_ADD)
-                emissionTex = emissionTex * emissionMask2 + emissionMask2;
+                emissionTex += emissionTex * emissionMask2;
                 #else
                 emissionTex *= emissionMask2;
                 #endif
@@ -706,8 +698,9 @@
 
                 #endif
 
-                albedo += emissionTex * UNITY_ACCESS_INSTANCED_PROP(Props, _EmissionTexColor) *
+                float4 finalEmission = emissionTex * UNITY_ACCESS_INSTANCED_PROP(Props, _EmissionTexColor) *
                     UNITY_ACCESS_INSTANCED_PROP(Props, _EmissionBrightness);
+                albedo += finalEmission;
 
                 #if defined(_EMISSIONBLOOMTYPE_PP)
                 CUSTOM_BLOOM_PP_APPLY(albedo, _EmissionTexBloomIntensity);
@@ -718,12 +711,13 @@
                 #endif
 
                 #elif USE_EMISSION_GRADIENT_TEXTURE
-                albedo *= tex2D(_EmissionGradientTex,
-                                TRANSFORM_TEX(i.uv, _EmissionGradientTex) +
-                                UNITY_ACCESS_INSTANCED_PROP(
-                                    Props, _EmissionGradientPosition) *
-                                _EmissionGradientPanningSpeed * time
-                                .yy) * _EmissionGradientIntensity;
+                float4 finalEmission = tex2D(_EmissionGradientTex,
+                                             TRANSFORM_TEX(i.uv, _EmissionGradientTex) +
+                                             UNITY_ACCESS_INSTANCED_PROP(
+                                                 Props, _EmissionGradientPosition) *
+                                             _EmissionGradientPanningSpeed * time
+                                             .yy) * _EmissionGradientIntensity;
+                albedo += finalEmission;
 
                 #endif
 

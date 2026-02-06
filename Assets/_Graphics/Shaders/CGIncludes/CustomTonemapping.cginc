@@ -5,14 +5,9 @@
 #define CUSTOM_TONEMAPPING_CG_INCLUDED
 
 #define ACES_TONE_MAPPING_APPLY(col) \
-const float a = 2.51; \
-const float b = 0.03; \
-const float c = 2.43; \
-const float d = 0.59; \
-const float e = 0.14; \
-col = saturate((col*(a*col+b))/(col*(c*col+d)+e))
+col.rgb = saturate((col.rgb * (2.51 * col.rgb + 0.03)) / (col.rgb * (2.43 * col.rgb + 0.59) + 0.14))
 
 #define REINHARD_TONE_MAPPING_APPLY(col) \
-col.rgb = col.rgb / (col.rgb + 1.0)
+col.rgb = col.rgb / (col.rgb + 1)
 
 #endif // CUSTOM_TONEMAPPING_CG_INCLUDED

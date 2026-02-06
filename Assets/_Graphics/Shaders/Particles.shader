@@ -299,6 +299,7 @@
             #if defined(MAIN_TEXTURE)
             sampler2D _MainTex;
             float4 _MainTex_ST;
+            float _BaseLayer;
             #endif
 
             #if defined(PIXELATE)
@@ -532,7 +533,6 @@
                 #else
                 float4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
                 #endif
-                color.rgb *= _Intensity;
 
                 #if !defined(TEXTURE_FLIPBOOK) && defined(TEXTURE_COLOR)
                 float4 albedo = float4(1, 1, 1, color.a);
@@ -545,15 +545,24 @@
                 #else
                 float2 uv = i.uv;
                 #endif
+                #if defined(TEXTURE_FLIPBOOK)
+                uv.x /= _FlipbookColumns;
+                uv.y /= _FlipbookRows;
+                float flipbookTime = time.y * _FlipbookSpeed;
+                uv += float2(floor(flipbookTime % _FlipbookColumns) / _FlipbookColumns,
+                             floor(flipbookTime / _FlipbookColumns) % _FlipbookRows /
+                             _FlipbookRows);
+                #endif
                 // TODO: honestly, how does this work
                 #if defined(CUSTOM_WRAPPING)
                 #endif
                 #if !defined(TEXTURE_COLOR) && defined(_ALPHACHANNEL_RED)
-                albedo.a *= tex2D(_MainTex, TRANSFORM_TEX(uv, _MainTex) + _UvPanning * time.yy).r;
+                albedo.a *= tex2D(_MainTex, TRANSFORM_TEX(uv, _MainTex) + _UvPanning * time.yy).r * _BaseLayer;
                 #else
-                albedo *= tex2D(_MainTex, TRANSFORM_TEX(uv, _MainTex) + _UvPanning * time.yy);
+                albedo *= tex2D(_MainTex, TRANSFORM_TEX(uv, _MainTex) + _UvPanning * time.yy) * _BaseLayer;
                 #endif
                 #endif
+                albedo.rgb *= _Intensity;
 
                 #if defined(SECONDARY_COLOR)
                 albedo += tex2D(_SecondaryColorTex,
@@ -574,12 +583,15 @@
                 float4 mask = tex2D(_MaskTex, TRANSFORM_TEX(maskUv, _MaskTex) + _MaskPanning * time.yy) *
                     UNITY_ACCESS_INSTANCED_PROP(Props, _MaskStrength);
                 #if defined(MASK_RED_IS_ALPHA)
-                mask = float4(0, 0, 0, mask.r);
+                mask.a = mask.r;
+                mask.rgb = 0;
                 #endif
                 #if defined(_MASKBLEND_ADD)
-                albedo += mask;
+                albedo.rgb += mask.rgb;
+                albedo.a *= mask.a;
                 #elif defined(_MASKBLEND_MASKED_ADD)
-                albedo = albedo * mask + mask;
+                albedo.rgb += albedo.rgb * mask.rgb;
+                albedo.a *= mask.a;
                 #else
                 albedo *= mask;
                 #endif
@@ -594,12 +606,15 @@
                 float4 mask2 = tex2D(_Mask2Tex, TRANSFORM_TEX(mask2Uv, _Mask2Tex) + _Mask2Panning * time.yy) *
                     UNITY_ACCESS_INSTANCED_PROP(Props, _Mask2Strength);
                 #if defined(MASK2_RED_IS_ALPHA)
-                mask2 = float4(0, 0, 0, mask2.r);
+                mask2.a = mask2.r;
+                mask2.rgb = 0;
                 #endif
                 #if defined(_MASK2BLEND_ADD)
-                albedo += mask2;
+                albedo.rgb += mask2.rgb;
+                albedo.a *= mask2.a;
                 #elif defined(_MASK2BLEND_MASKED_ADD)
-                albedo = albedo * mask2 + mask2;
+                albedo.rgb += albedo.rgb * mask2.rgb;
+                albedo.a *= mask2.a;
                 #else
                 albedo *= mask2;
                 #endif
