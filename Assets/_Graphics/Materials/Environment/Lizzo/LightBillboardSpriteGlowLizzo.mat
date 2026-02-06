@@ -12,12 +12,14 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - ENABLE_FOG
-  - ENABLE_HEIGHT_FOG
+  - FOG
+  - HEIGHT_FOG
   - SQUARE_ALPHA
   - Y_AXIS_BILLBOARD
   - _BLOOMTYPE_FRAG
   m_InvalidKeywords:
+  - ENABLE_FOG
+  - ENABLE_HEIGHT_FOG
   - ENABLE_Y_AXIS_BILLBOARD
   - _ACESTONEMAP_AFTER_EMISSIVE
   - _BLOOMWHITE_FRAG

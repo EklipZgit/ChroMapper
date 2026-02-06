@@ -12,10 +12,11 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - ENABLE_FOG
-  m_InvalidKeywords:
   - DIFFUSE
+  - FOG
   - SPECULAR
+  m_InvalidKeywords:
+  - ENABLE_FOG
   - _EMISSION
   - _GLOSSINESS_FROM_BASE_ALPHA
   - _SPECULAR_COLOR
@@ -83,6 +84,7 @@ Material:
     - _Blend: 0
     - _BumpScale: 1
     - _ColorMult: 1.71875
+    - _ColorMultiplier: 1
     - _Cull: 2
     - _CullMode: 2
     - _Cutoff: 0.5

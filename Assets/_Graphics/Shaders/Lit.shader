@@ -2,7 +2,7 @@
 {
     Properties
     {
-        _Color ("Color", Color) = (1,1,1,1)
+        _Color ("Color", Color) = (1, 1, 1, 1)
 
         [KeywordEnum(None, Import, External Scale, Object Space, Additive Offset)] _Secondary_UVs ("Secondary UVs", float) = 0
         _UVScale ("UV Scale", Vector) = (1,1,1,1)
@@ -124,6 +124,13 @@
 
 
 
+        [Header(Occlusion)] [Space]
+        [Toggle(GROUND_FADE)] _EnableGroundFade ("Height Occlusion", Float) = 0
+        _GroundFadeScale ("Height Occlusion Scale", Float) = 0.5
+        _GroundFadeOffset ("Height Occlusion Offset", Float) = 1
+
+
+
         [Header(Others)] [Space]
         [KeywordEnum(Standard, Song Time, Freeze)] _Custom_Time ("Time Behavior", float) = 0
         [KeywordEnum(After Emissive, Before Emissive)] _ACES_Approach ("ACES Approach", float) = 0
@@ -131,16 +138,22 @@
 
 
         [Header(Fog Settings)] [Space]
-        [Toggle(ENABLE_FOG)] _EnableFog ("Enable Fog", float) = 1
+        [Toggle(FOG)] _EnableFog ("Enable Fog", float) = 1
         _FogStartOffset ("Fog Start Offset", float) = 1
         _FogScale ("Fog Scale", float) = 1
         [Space]
-        [Toggle(ENABLE_HEIGHT_FOG)] _EnableHeightFog ("Enable Height Fog", float) = 0
+        [Toggle(HEIGHT_FOG)] _EnableHeightFog ("Enable Height Fog", float) = 0
         _FogHeightOffset ("Fog Height Offset", float) = 0
         _FogHeightScale ("Fog Height Scale", float) = 1
         _EmissionFogSuppression ("Emission Fog Suppression", Range(0, 1)) = 0
         _MainEffectFogSuppression ("Main Effect Fog Suppression", Range(0, 1)) = 0
 
+        [Space(20)]
+        [ToggleHeader(DISTANCE_DARKENING)] _EnableDistanceDarkening ("Worldspace Occlusion", float) = 0
+        _DarkeningScale ("Scale", float) = 0.35
+        _DarkeningIntensity ("Intensity", float) = 1
+        _DarkeningCenter ("Center", Vector) = (0,0,0,0)
+        _DarkeningDirection ("Axes", Vector) = (1,1,1,1)
 
 
         [Header(Settings)] [Space]
@@ -208,13 +221,16 @@
             #pragma shader_feature_local RIM_DIM
             #pragma shader_feature_local INVERT_RIM_DIM
 
+            #pragma shader_feature_local GROUND_FADE
+
             #pragma shader_feature_local _ _CUSTOM_TIME_SONG_TIME _CUSTOM_TIME_FREEZE
             #pragma shader_feature_local _ _ACES_APPROACH_BEFORE_EMISSIVE
             #pragma shader_feature_local COLOR_ARRAY
 
             #pragma multi_compile _ ENABLE_BLOOM_FOG
-            #pragma shader_feature_local _ ENABLE_FOG
-            #pragma shader_feature_local _ ENABLE_HEIGHT_FOG
+            #pragma shader_feature_local FOG
+            #pragma shader_feature_local HEIGHT_FOG
+            #pragma shader_feature_local DISTANCE_DARKENING
 
             #include "UnityCG.cginc"
             #include "CGIncludes/BloomFog.cginc"
@@ -350,15 +366,20 @@
             float _RimDarkening;
             #endif
 
+            #if defined(GROUND_FADE)
+            float _GroundFadeScale;
+            float _GroundFadeOffset;
+            #endif
+
             #if !defined(UNITY_INSTANCING_ENABLED)
             float _TimeOffset;
             #endif
 
             #define USE_FOG_SUPPRESSION defined(_EMISSIONTEXTURE_SIMPLE) || defined(_EMISSIONTEXTURE_PULSE) || defined(_EMISSIONTEXTURE_FLIPBOOK) || defined(_VERTEX_EMISSION) || defined(_VERTEX_SPECIAL)
-            #if defined(ENABLE_BLOOM_FOG) && defined(ENABLE_FOG)
+            #if defined(ENABLE_BLOOM_FOG) && defined(FOG)
             float _FogStartOffset;
             float _FogScale;
-            #if defined(ENABLE_HEIGHT_FOG)
+            #if defined(HEIGHT_FOG)
             float _FogHeightOffset;
             float _FogHeightScale;
             #endif
@@ -366,6 +387,13 @@
             float _EmissionFogSuppression;
             float _MainEffectFogSuppression;
             #endif
+            #endif
+
+            #if defined(DISTANCE_DARKENING)
+            float _DarkeningScale;
+            float _DarkeningIntensity;
+            float3 _DarkeningCenter;
+            float3 _DarkeningDirection;
             #endif
 
             #if defined(UNITY_INSTANCING_ENABLED)
@@ -404,7 +432,13 @@
                 #if USE_VERTEX_COLOR
                 float4 color : COLOR;
                 #endif
-                float2 uv : TEXCOORD0;
+                float2 uv1 : TEXCOORD0;
+                #if USE_SECONDARY_UV
+                float2 uv2 : TEXCOORD1;
+                #endif
+                #if defined(_SPECTROGRAM_FULL)
+                float2 uv3 : TEXCOORD2;
+                #endif
                 #if USE_WORLD_NORMAL
                 float3 normal : NORMAL;
                 #endif
@@ -419,7 +453,11 @@
                 #if USE_VERTEX_EMISSION
                 float4 emission : COLOR1;
                 #endif
+                #if USE_SECONDARY_UV
                 float4 uv : TEXCOORD0;
+                #else
+                float2 uv : TEXCOORD0;
+                #endif
                 float3 worldPos : TEXCOORD1;
                 float4 customScreenPos : TEXCOORD2;
                 #if USE_WORLD_NORMAL
@@ -454,9 +492,9 @@
                 #endif
                 #endif
 
-                o.uv = float4(i.uv, 0, 0);
+                o.uv.xy = i.uv1.xy;
                 #if USE_SECONDARY_UV
-                o.uv.zw = i.uv;
+                o.uv.zw = i.uv2.xy;
                 #if USE_UV_SCALE
                 o.uv.zw *= _UVScale.xy;
                 #endif
@@ -500,11 +538,11 @@
                 float4 albedo = baseColor;
                 #if defined(DIFFUSE_TEXTURE)
                 #if defined(METAL_SMOOTHNESS_TEXTURE) && defined(_DIFFUSE_TEXTURE_SOURCE_MPM_R)
-                albedo.rgb = tex2D(_MetalSmoothnessTex, i.uv).r;
+                albedo.rgb = tex2D(_MetalSmoothnessTex, TRANSFORM_TEX(i.uv, _MetalSmoothnessTex)).r;
                 #elif defined(METAL_SMOOTHNESS_TEXTURE) && defined(_DIFFUSE_TEXTURE_SOURCE_MPM_A_SMOOTHNESS)
-                albedo.rgb = tex2D(_MetalSmoothnessTex, i.uv).a * _Smoothness;
+                albedo.rgb = tex2D(_MetalSmoothnessTex, TRANSFORM_TEX(i.uv, _MetalSmoothnessTex)).a * _Smoothness;
                 #else
-                albedo.rgb = tex2D(_DiffuseTex, i.uv);
+                albedo.rgb = tex2D(_DiffuseTex, TRANSFORM_TEX(i.uv, _DiffuseTex));
                 #endif
                 albedo.rgb *= _AlbedoMultiplier;
                 #endif
@@ -534,14 +572,14 @@
                 #endif
                 #if defined(METAL_SMOOTHNESS_TEXTURE)
                 #if defined(_METALLIC_TEXTURE_SOURCE_MPM_R)
-                metallic = tex2D(_MetalSmoothnessTex, i.uv).r;
+                metallic = tex2D(_MetalSmoothnessTex, TRANSFORM_TEX(i.uv, _MetalSmoothnessTex)).r;
                 #elif defined(_METALLIC_TEXTURE_SOURCE_MPM_A)
-                metallic = tex2D(_MetalSmoothnessTex, i.uv).a;
+                metallic = tex2D(_MetalSmoothnessTex, TRANSFORM_TEX(i.uv, _MetalSmoothnessTex)).a;
                 #endif
                 #if defined(_SMOOTHNESS_TEXTURE_SOURCE_MPM_A)
-                smoothness = tex2D(_MetalSmoothnessTex, i.uv).a;
+                smoothness = tex2D(_MetalSmoothnessTex, TRANSFORM_TEX(i.uv, _MetalSmoothnessTex)).a;
                 #elif defined(_SMOOTHNESS_TEXTURE_SOURCE_MPM_G_ROUGHNESS)
-                smoothness = tex2D(_MetalSmoothnessTex, i.uv).g;
+                smoothness = tex2D(_MetalSmoothnessTex, TRANSFORM_TEX(i.uv, _MetalSmoothnessTex)).g;
                 #endif
                 #endif
 
@@ -577,50 +615,58 @@
                 emissionUv.y /= _FlipbookRows;
                 float flipbookTime = time.y * _FlipbookSpeed;
                 emissionUv += float2(floor(flipbookTime % _FlipbookColumns) / _FlipbookColumns,
-                                     floor(flipbookTime / _FlipbookColumns) % _FlipbookRows / _FlipbookRows);
+                                     floor(flipbookTime / _FlipbookColumns) % _FlipbookRows /
+                                     _FlipbookRows);
                 #endif
                 #if defined(_EMISSIONTEXTURE_SIMPLE)
-                emissionUv += _EmissionTexSpeed * time.y;
-                #endif
+                float4 emissionTex = tex2D(_EmissionTex,
+                                           TRANSFORM_TEX(emissionUv, _EmissionTex) + _EmissionTexSpeed * time.yy);
+                #else
                 float4 emissionTex = tex2D(_EmissionTex, TRANSFORM_TEX(emissionUv, _EmissionTex));
+                #endif
                 #if defined(_EMISSIONTEXTURE_FLIPBOOK) && !defined(FLIPBOOK_BLENDING_OFF)
                 // TODO: im not sure if it's next or previous
                 float2 emissionUv2 = i.uv + float2(floor((flipbookTime + 1) % _FlipbookColumns) / _FlipbookColumns,
-                                                   floor((flipbookTime + 1) / _FlipbookColumns) % _FlipbookRows /
+                                                   floor((flipbookTime + 1) / _FlipbookColumns)
+                                                   %
+                                                   _FlipbookRows /
                                                    _FlipbookRows);
                 emissionTex = lerp(emissionTex, tex2D(_EmissionTex, TRANSFORM_TEX(emissionUv2, _EmissionTex)),
                                    flipbookTime % 1);
                 #endif
                 #elif defined(METAL_SMOOTHNESS_TEXTURE) && defined(_EMISSION_TEXTURE_SOURCE_MPM_G)
-                float4 emissionTex = float4(tex2D(_MetalSmoothnessTex, i.uv).ggg, 0);
+                float4 emissionTex = float4(tex2D(_MetalSmoothnessTex, TRANSFORM_TEX(i.uv, _MetalSmoothnessTex)).ggg,
+                                            0);
                 #endif
 
                 #if defined(_EMISSION_ALPHA_SOURCE_COPY_EMISSION)
                 emissionTex.a = emissionTex.a;
                 #elif defined(METAL_SMOOTHNESS_TEXTURE) && defined(_EMISSION_ALPHA_SOURCE_MPM_R)
-                emissionTex.a = tex2D(_MetalSmoothnessTex, i.uv).r;
+                emissionTex.a = tex2D(_MetalSmoothnessTex, TRANSFORM_TEX(i.uv, _MetalSmoothnessTex)).r;
                 #else
                 emissionTex.a = emissionTex.g;
                 #endif
 
                 #if defined(_EMISSIONBLOOMTYPE_GRADIENT)
                 emissionTex = tex2D(_EmissionGradientTex,
-                                    TRANSFORM_TEX(
-                                        i.uv + UNITY_ACCESS_INSTANCED_PROP(
-                                            Props, _EmissionGradientPosition) *
-                                        _EmissionGradientPanningSpeed * time.yy,
-                                        _EmissionGradientTex));
+                                    TRANSFORM_TEX(i.uv, _EmissionGradientTex)
+                                    + UNITY_ACCESS_INSTANCED_PROP(
+                                        Props, _EmissionGradientPosition) *
+                                    _EmissionGradientPanningSpeed * time.yy);
                 #endif
 
                 #if USE_EMISSION_MASK
 
                 #if defined(EMISSION_MASK)
                 #if defined(SECONDARY_UVS_EMISSION_MASK)
-                float4 emissionMask = tex2D(_EmissionMask, TRANSFORM_TEX(uv2 + _EmissionMaskSpeed * time.yy,
-                                                                         _EmissionMask));
+                float4 emissionMask = tex2D(_EmissionMask,
+                                            TRANSFORM_TEX(uv2, _EmissionMask) +
+                                            _EmissionMaskSpeed * time.yy);
                 #else
                 float4 emissionMask = tex2D(_EmissionMask,
-                                            TRANSFORM_TEX(i.uv + _EmissionMaskSpeed * time.yy, _EmissionMask));
+                                            TRANSFORM_TEX(i.uv, _EmissionMask) + _EmissionMaskSpeed *
+                                            time
+                                            .yy);
                 #endif
                 emissionMask *= UNITY_ACCESS_INSTANCED_PROP(Props, _EmissionMaskIntensity);
 
@@ -637,12 +683,15 @@
                 #if defined(SECONDARY_EMISSION_MASK)
                 #if defined(SECONDARY_UVS_EMISSION_MASK2)
                 float4 emissionMask2 = tex2D(_SecondaryEmissionMask,
-                                             TRANSFORM_TEX(uv2 + _SecondaryEmissionMaskSpeed * time.yy,
-                                                           _SecondaryEmissionMask));
+                                             TRANSFORM_TEX(uv2, _SecondaryEmissionMask)
+                                             +
+                                             _SecondaryEmissionMaskSpeed *
+                                             time.yy);
                 #else
                 float4 emissionMask2 = tex2D(_SecondaryEmissionMask,
-                                             TRANSFORM_TEX(i.uv + _SecondaryEmissionMaskSpeed * time.yy,
-                                                           _SecondaryEmissionMask));
+                                             TRANSFORM_TEX(i.uv, _SecondaryEmissionMask) +
+                                             _SecondaryEmissionMaskSpeed *
+                                             time.yy);
                 #endif
                 emissionMask2 *= UNITY_ACCESS_INSTANCED_PROP(Props, _SecondaryEmissionMaskIntensity);
 
@@ -670,11 +719,11 @@
 
                 #elif USE_EMISSION_GRADIENT_TEXTURE
                 albedo *= tex2D(_EmissionGradientTex,
-                                TRANSFORM_TEX(
-                                    i.uv + UNITY_ACCESS_INSTANCED_PROP(
-                                        Props, _EmissionGradientPosition) *
-                                    _EmissionGradientPanningSpeed * time.yy, _EmissionGradientTex)) *
-                    _EmissionGradientIntensity;
+                                TRANSFORM_TEX(i.uv, _EmissionGradientTex) +
+                                UNITY_ACCESS_INSTANCED_PROP(
+                                    Props, _EmissionGradientPosition) *
+                                _EmissionGradientPanningSpeed * time
+                                .yy) * _EmissionGradientIntensity;
 
                 #endif
 
@@ -688,17 +737,28 @@
                 albedo *= (1 - finalRim * _RimDarkening);
                 #endif
 
+                #if defined(GROUND_FADE)
+                albedo *= saturate((worldPos.y + _GroundFadeOffset) * _GroundFadeScale);
+                #endif
+
                 #if !defined(_ACES_APPROACH_BEFORE_EMISSIVE)
                 ACES_TONE_MAPPING_APPLY(albedo);
                 #endif
 
-                #if defined(ENABLE_BLOOM_FOG) && defined(ENABLE_FOG)
-                #if ENABLE_HEIGHT_FOG
+                #if defined(ENABLE_BLOOM_FOG) && defined(FOG)
+                #if HEIGHT_FOG
                 BLOOM_FOG_HEIGHT_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,
                                            _FogHeightOffset, _FogHeightScale);
                 #else
                 BLOOM_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
                 #endif
+                #endif
+
+                #if defined(DISTANCE_DARKENING)
+                float darkeningOffset = worldPos - _DarkeningCenter;
+                float dist = max(0, dot(darkeningOffset, normalize(_DarkeningDirection)));
+                float darkeningFactor = saturate(dist * _DarkeningScale) * _DarkeningIntensity;
+                albedo.rgb = lerp(albedo.rgb, 0, darkeningFactor);
                 #endif
 
                 return albedo;

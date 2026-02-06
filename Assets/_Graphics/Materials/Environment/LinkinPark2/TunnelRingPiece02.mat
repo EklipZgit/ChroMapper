@@ -15,14 +15,17 @@ Material:
   - BOTH_SIDES_DIFFUSE
   - DIFFUSE
   - DIFFUSE_TEXTURE
-  - ENABLE_FOG
-  - ENABLE_HEIGHT_FOG
+  - FOG
+  - GROUND_FADE
+  - HEIGHT_FOG
   - POINT_LIGHT_IS_LOCAL
   - PRECISE_NORMAL
   - _ACES_APPROACH_BEFORE_EMISSIVE
   - _EMISSIONBLOOMTYPE_PP
   - _EMISSIONTEXTURE_SIMPLE
   m_InvalidKeywords:
+  - ENABLE_FOG
+  - ENABLE_HEIGHT_FOG
   - _ACESTONEMAP_BEFORE_EMISSIVE
   - _BLOOMWHITE_NONE
   - _CUSTOM_TIME_STANDARD
@@ -94,6 +97,8 @@ Material:
     - _BothSidesDiffuseMultiplier: 1
     - _CullMode: 2
     - _Custom_Time: 0
+    - _DarkeningIntensity: 1
+    - _DarkeningScale: 0.35
     - _Diffuse_Texture_Source: 0
     - _EmissionBloomIntensity: 1
     - _EmissionBloomType: 3
@@ -116,9 +121,11 @@ Material:
     - _EnableBothSidesDiffuse: 1
     - _EnableDiffuse: 1
     - _EnableDiffuseTexture: 1
+    - _EnableDistanceDarkening: 0
     - _EnableEmissionAngleDisappear: 0
     - _EnableEmissionMask: 0
     - _EnableFog: 1
+    - _EnableGroundFade: 1
     - _EnableHeightFog: 1
     - _EnableLightFalloff: 0
     - _EnableMetalSmoothnessTex: 0
@@ -136,6 +143,8 @@ Material:
     - _FogScale: 1
     - _FogStartOffset: 0
     - _Glossiness: 0.5
+    - _GroundFadeOffset: 1
+    - _GroundFadeScale: 0.5
     - _InvertRimDim: 0
     - _MainEffectFogSuppression: 0
     - _MaskBlend: 0
@@ -168,6 +177,8 @@ Material:
     m_Colors:
     - _AdditiveUVOffset: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 0.23584905, g: 0.2030597, b: 0.18393257, a: 1}
+    - _DarkeningCenter: {r: 0, g: 0, b: 0, a: 0}
+    - _DarkeningDirection: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionMaskSpeed: {r: 0, g: 1, b: 0, a: 0}
     - _EmissionTexColor: {r: 1, g: 1, b: 1, a: 1}

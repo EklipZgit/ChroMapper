@@ -12,20 +12,23 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - ENABLE_HEIGHT_FOG
   - FLIPBOOK_BLENDING_OFF
+  - HEIGHT_FOG
   - MAIN_TEXTURE
   - SQUARE_ALPHA
   - _CUSTOM_TIME_SONG_TIME
+  - _CUTOUTTYPE_ALPHA_CLIP
   - _FOGTYPE_LERP
+  - _MASK2BLEND_ADD
   m_InvalidKeywords:
   - ENABLE_FOG
+  - ENABLE_HEIGHT_FOG
   - _ACESTONEMAP_AFTER_EMISSIVE
+  - _ALPHACHANNEL_ALPHA
   - _BILLBOARD_NONE
   - _BLOOMTYPE_NONE
   - _BLOOMWHITE_NONE
   - _CURVE_VERTICES_NONE
-  - _MASK2BLEND_ADD
   - _MASKBLEND_MULTIPLY
   - _SECONDARY_UVS_NONE
   - _SPECTROGRAM_NONE
@@ -68,6 +71,7 @@ Material:
     m_Floats:
     - _3DDisplacement: 0
     - _AcesTonemap: 1
+    - _AlphaChannel: 0
     - _AlphaMultiplier: 1
     - _BaseLayer: 1
     - _Billboard: 0
@@ -85,6 +89,8 @@ Material:
     - _CullMode: 0
     - _Curve_Vertices: 0
     - _Custom_Time: 1
+    - _Cutout: 0.5
+    - _CutoutType: 1
     - _DisplacementPanningSpeed: 1
     - _DisplacementStrength: 0.1
     - _EnableCustomPadding: 0
@@ -95,6 +101,7 @@ Material:
     - _EnableRemapWhiteBoostStart: 0
     - _EnableRotateUV: 0
     - _EnableSecondaryColor: 0
+    - _EnableTextureColor: 0
     - _EnableVertexColor: 0
     - _EnableViewAlignDisappear: 0
     - _FlipbookBlendingOff: 1

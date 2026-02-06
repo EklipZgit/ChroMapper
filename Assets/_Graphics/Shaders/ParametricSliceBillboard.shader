@@ -20,11 +20,11 @@
         [Toggle(Y_AXIS_BILLBOARD)] _EnableYAxisBillboard ("Y Axis Billboard", float) = 1
 
         [Header(Fog Settings)] [Space]
-        [Toggle(ENABLE_FOG)] _EnableFog ("Enable Fog", float) = 1
+        [Toggle(FOG)] _EnableFog ("Enable Fog", float) = 1
         _FogStartOffset ("Fog Start Offset", float) = 1
         _FogScale ("Fog Scale", float) = 1
         [Space]
-        [Toggle(ENABLE_HEIGHT_FOG)] _EnableHeightFog ("Enable Height Fog", float) = 0
+        [Toggle(HEIGHT_FOG)] _EnableHeightFog ("Enable Height Fog", float) = 0
         _FogHeightOffset ("Fog Height Offset", float) = 0
         _FogHeightScale ("Fog Height Scale", float) = 1
         [Space]
@@ -77,8 +77,8 @@
 
             #pragma multi_compile _ ENABLE_BLOOM_FOG
             #pragma multi_compile_local _FOGTYPE_ALPHA
-            #pragma shader_feature_local _ ENABLE_FOG
-            #pragma shader_feature_local _ ENABLE_HEIGHT_FOG
+            #pragma shader_feature_local FOG
+            #pragma shader_feature_local HEIGHT_FOG
             #pragma shader_feature_local USE_FOG_FOR_LIGHTS
 
             #include "UnityCG.cginc"
@@ -221,8 +221,8 @@
                 
                 #endif
 
-                #if defined(ENABLE_FOG)
-                #if defined(ENABLE_HEIGHT_FOG)
+                #if defined(FOG)
+                #if defined(HEIGHT_FOG)
                 BLOOM_FOG_HEIGHT_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,
                                            _FogHeightOffset, _FogHeightScale);
                 #else

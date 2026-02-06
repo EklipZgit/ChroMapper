@@ -17,6 +17,7 @@ Material:
   - SQUARE_ALPHA
   - TEXTURE_FLIPBOOK
   - VERTEX_COLOR
+  - _ALPHACHANNEL_RED
   - _BILLBOARD_Y_AXIS
   - _BLOOMTYPE_FRAG
   - _CUSTOM_TIME_SONG_TIME
@@ -26,6 +27,7 @@ Material:
   - _ACESTONEMAP_AFTER_EMISSIVE
   - _BLOOMWHITE_FRAG
   - _CURVE_VERTICES_NONE
+  - _CUTOUTTYPE_NONE
   - _FOGTYPE_NONE
   - _MASK2BLEND_MULTIPLY
   - _MASKBLEND_MULTIPLY
@@ -69,6 +71,7 @@ Material:
     m_Floats:
     - _3DDisplacement: 0
     - _AcesTonemap: 1
+    - _AlphaChannel: 1
     - _AlphaMultiplier: 1
     - _BaseLayer: 1
     - _Billboard: 2
@@ -86,6 +89,8 @@ Material:
     - _CullMode: 0
     - _Curve_Vertices: 0
     - _Custom_Time: 1
+    - _Cutout: 0.5
+    - _CutoutType: 0
     - _DisplacementPanningSpeed: 1
     - _DisplacementStrength: 0.1
     - _EnableCustomPadding: 0
@@ -96,6 +101,7 @@ Material:
     - _EnableRemapWhiteBoostStart: 0
     - _EnableRotateUV: 0
     - _EnableSecondaryColor: 0
+    - _EnableTextureColor: 0
     - _EnableVertexColor: 1
     - _EnableViewAlignDisappear: 0
     - _FlipbookBlendingOff: 0

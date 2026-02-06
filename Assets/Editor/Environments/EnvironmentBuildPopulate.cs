@@ -242,6 +242,9 @@ public class EnvironmentBuildPopulate
 
             matInfo.Material.SetFloat("_Pixelate", matInfo.Keywords.Contains("PIXELATE") ? 1f : 0f);
 
+            matInfo.Material.SetFloat("_EnableTextureColor", matInfo.Keywords.Contains("TEXTURE_COLOR") ? 1f : 0f);
+            matInfo.Material.SetFloat("_AlphaChannel", matInfo.Keywords.Contains("_ALPHACHANNEL_RED") ? 1f : 0f);
+
             matInfo.Material.SetFloat("_EnableCustomPadding", matInfo.Keywords.Contains("CUSTOM_WRAPPING") ? 1f : 0f);
 
             matInfo.Material.SetFloat("_UseTextureFlipbook", matInfo.Keywords.Contains("TEXTURE_FLIPBOOK") ? 1f : 0f);
@@ -336,6 +339,10 @@ public class EnvironmentBuildPopulate
                 matInfo.Material.SetFloat("_Mask2Blend", 0f);
 
             matInfo.Material.SetFloat(
+                "_CutoutType",
+                matInfo.Keywords.Contains("_CUTOUTTYPE_ALPHA_CLIP") ? 1f : 0f);
+
+            matInfo.Material.SetFloat(
                 "_EnablePrivatePointLight",
                 matInfo.Keywords.Contains("PRIVATE_POINT_LIGHT") ? 1f : 0f);
 
@@ -362,6 +369,8 @@ public class EnvironmentBuildPopulate
             matInfo.Material.SetFloat("_EnableRimDim", matInfo.Keywords.Contains("ENABLE_RIM_DIM") ? 1f : 0f);
             matInfo.Material.SetFloat("_InvertRimDim", matInfo.Keywords.Contains("INVERT_RIM_DIM") ? 1f : 0f);
 
+            matInfo.Material.SetFloat("_EnableGroundFade", matInfo.Keywords.Contains("GROUND_FADE") ? 1f : 0f);
+            
             matInfo.Material.SetFloat(
                 "_EnableRemapWhiteBoostStart",
                 matInfo.Keywords.Contains("REMAP_WHITEBOOST_START") ? 1f : 0f);
@@ -431,6 +440,9 @@ public class EnvironmentBuildPopulate
                 matInfo.Material.SetFloat("_FogType", 3f);
             else
                 matInfo.Material.SetFloat("_FogType", 0f);
+            matInfo.Material.SetFloat(
+                "_EnableDistanceDarkening",
+                matInfo.Keywords.Contains("DISTANCE_DARKENING") ? 1f : 0f);
         }
 
         foreach (var obj in library

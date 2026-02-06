@@ -12,7 +12,7 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - ENABLE_HEIGHT_FOG
+  - HEIGHT_FOG
   - MAIN_TEXTURE
   - MASK
   - MASK2_RED_IS_ALPHA
@@ -20,17 +20,21 @@ Material:
   - SECONDARY_COLOR
   - SECONDARY_UVS_MASK
   - SQUARE_ALPHA
+  - TEXTURE_COLOR
   - VERTEX_COLOR
+  - _ALPHACHANNEL_RED
   - _BLOOMTYPE_PP
   - _CUSTOM_TIME_FREEZE
   - _FOGTYPE_ALPHA
   - _SECONDARY_UVS_IMPORT
   m_InvalidKeywords:
   - ENABLE_FOG
+  - ENABLE_HEIGHT_FOG
   - _ACESTONEMAP_AFTER_EMISSIVE
   - _BILLBOARD_NONE
   - _BLOOMWHITE_PP
   - _CURVE_VERTICES_NONE
+  - _CUTOUTTYPE_NONE
   - _MASK2BLEND_MULTIPLY
   - _MASKBLEND_MULTIPLY
   - _SPECTROGRAM_NONE
@@ -73,6 +77,7 @@ Material:
     m_Floats:
     - _3DDisplacement: 0
     - _AcesTonemap: 1
+    - _AlphaChannel: 1
     - _AlphaMultiplier: 1
     - _BaseLayer: 1
     - _Billboard: 0
@@ -90,6 +95,8 @@ Material:
     - _CullMode: 2
     - _Curve_Vertices: 0
     - _Custom_Time: 2
+    - _Cutout: 0.5
+    - _CutoutType: 0
     - _DisplacementPanningSpeed: 1
     - _DisplacementStrength: 0.1
     - _EnableCustomPadding: 0
@@ -100,6 +107,7 @@ Material:
     - _EnableRemapWhiteBoostStart: 0
     - _EnableRotateUV: 0
     - _EnableSecondaryColor: 1
+    - _EnableTextureColor: 1
     - _EnableVertexColor: 1
     - _EnableViewAlignDisappear: 0
     - _FlipbookBlendingOff: 0

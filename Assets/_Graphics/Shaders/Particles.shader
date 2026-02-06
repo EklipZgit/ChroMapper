@@ -65,6 +65,10 @@
         _PixelateResolution ("Pixelate Resolution", Vector) = (64,64,0,0)
 
         [Space(20)]
+        [Toggle(TEXTURE_COLOR)] _EnableTextureColor ("Use Texture Color", float) = 0
+        [KeywordEnum(Alpha, Red)] _AlphaChannel ("Alpha Channel", float) = 0
+
+        [Space(20)]
         _Intensity("Color Intensity", float) = 1
         _UvPanning ("UV Panning", Vector) = (0,0,0,0)
 
@@ -97,6 +101,12 @@
         _Mask2Tex ("Secondary Mask Texture", 2D) = "white" {}
         _Mask2Strength ("Secondary Mask Strength", float) = 1
         _Mask2Panning ("Secondary Mask Panning", Vector) = (0,0,0,0)
+
+
+
+        [Header(Dissolve)] [Space]
+        [KeywordEnum(None, Alpha Clip)] _CutoutType ("Cutout", float) = 0
+        _Cutout ("Threshold", Range(0, 1)) = 0.5
 
 
 
@@ -133,7 +143,7 @@
         _FogStartOffset ("Fog Start Offset", float) = 1
         _FogScale ("Fog Scale", float) = 1
         [Space]
-        [Toggle(ENABLE_HEIGHT_FOG)] _EnableHeightFog ("Enable Height Fog", float) = 0
+        [Toggle(HEIGHT_FOG)] _EnableHeightFog ("Enable Height Fog", float) = 0
         _FogHeightOffset ("Fog Height Offset", float) = 0
         _FogHeightScale ("Fog Height Scale", float) = 1
 
@@ -149,8 +159,8 @@
         [Enum(UnityEngine.Rendering.CullMode)] _CullMode ("Cull Mode", float) = 0
         [Enum(UnityEngine.Rendering.CompareFunction)] _ZTest ("Z Test", float) = 4
         [Toggle] _ZWrite ("Z Write", float) = 0
-        _OffsetFactor ("Offset Factor", Float) = 0
-        _OffsetUnits ("Offset Units", Float) = 0
+        _OffsetFactor ("Offset Factor", float) = 0
+        _OffsetUnits ("Offset Units", float) = 0
     }
     SubShader
     {
@@ -203,6 +213,9 @@
 
             #pragma shader_feature_local PIXELATE
 
+            #pragma shader_feature_local TEXTURE_COLOR
+            #pragma shader_feature_local _ _ALPHACHANNEL_RED
+
             #pragma shader_feature_local CUSTOM_WRAPPING
 
             #pragma shader_feature_local TEXTURE_FLIPBOOK
@@ -216,7 +229,9 @@
             #pragma shader_feature_local MASK2
             #pragma shader_feature_local SECONDARY_UVS_MASK2
             #pragma shader_feature_local MASK2_RED_IS_ALPHA
-            #pragma shader_feature_local _ _MASKBLEND2_ADD _MASKBLEND2_MASKED_ADD
+            #pragma shader_feature_local _ _MASK2BLEND_ADD _MASK2BLEND_MASKED_ADD
+
+            #pragma shader_feature_local _ _CUTOUTTYPE_ALPHA_CLIP
 
             #pragma shader_feature_local SQUARE_ALPHA
             #pragma shader_feature_local VIEW_ALIGN_DISAPPEAR
@@ -229,8 +244,8 @@
 
             #pragma multi_compile _ ENABLE_BLOOM_FOG
             #pragma shader_feature_local _ _FOGTYPE_LERP _FOGTYPE_COLOR _FOGTYPE_ALPHA
-            #define ENABLE_FOG defined(_FOGTYPE_LERP) || defined(_FOGTYPE_COLOR) || defined(_FOGTYPE_ALPHA)
-            #pragma shader_feature_local _ ENABLE_HEIGHT_FOG
+            #define FOG defined(_FOGTYPE_LERP) || defined(_FOGTYPE_COLOR) || defined(_FOGTYPE_ALPHA)
+            #pragma shader_feature_local HEIGHT_FOG
 
             #include "UnityCG.cginc"
             #include "CGIncludes/BloomFog.cginc"
@@ -275,7 +290,7 @@
             #endif
             float _DisplacementPanningSpeed;
             float4 _DisplacementPanning;
-            #if defined(SPECTROGRAM_FULL)
+            #if defined(_SPECTROGRAM_FULL)
             float _UV3Offset;
             float _UV3Scale;
             #endif
@@ -320,6 +335,10 @@
             float _Mask2Strength;
             #endif
             float4 _Mask2Panning;
+            #endif
+
+            #if defined(_CUTOUTTYPE_ALPHA_CLIP)
+            float _Cutout;
             #endif
 
             float _AlphaMultiplier;
@@ -386,7 +405,13 @@
                 float4 color : COLOR;
                 #endif
                 float3 normal : NORMAL;
-                float2 texcoord : TEXCOORD0;
+                float2 uv1 : TEXCOORD0;
+                #if defined(_SECONDARY_UVS_IMPORT)
+                float2 uv2 : TEXCOORD1;
+                #endif
+                #if defined(_SPECTROGRAM_FULL)
+                float2 uv3 : TEXCOORD2;
+                #endif
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
@@ -396,7 +421,11 @@
                 #if defined(VERTEX_COLOR)
                 float4 color : COLOR;
                 #endif
+                #if defined(_SECONDARY_UVS_IMPORT)
+                float4 uv : TEXCOORD0;
+                #else
                 float2 uv : TEXCOORD0;
+                #endif
                 float3 worldPos : TEXCOORD1;
                 float4 customScreenPos : TEXCOORD2;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
@@ -460,13 +489,16 @@
                 o.worldPos = mul(unity_ObjectToWorld, o.vertex).xyz;
                 o.vertex = UnityObjectToClipPos(o.vertex);
                 #endif
-                o.uv = i.texcoord;
+                o.uv.xy = i.uv1.xy;
+                #if defined(_SECONDARY_UVS_IMPORT)
+                o.uv.zw = i.uv2.xy;
+                #endif
                 o.customScreenPos = ComputeScreenPosCustom(o.vertex);
 
                 #if defined(VERTEX_COLOR)
                 o.color = i.color * _RendererColor * UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
                 #if defined(VERTEX_RED_IS_ALPHA)
-                o.color.a = o.color.r;
+                o.color = float4(1, 1, 1, o.color.r);
                 #endif
                 #if defined(VERTEX_SQUARE_ALPHA)
                 o.color.a *= o.color.a;
@@ -490,9 +522,9 @@
 
                 #if defined(_SECONDARY_UVS_IMPORT)
                 // TODO: secondary uv stuff
-                float2 uv2 = i.uv;
+                float2 uv2 = i.uv.zw;
                 #else
-                float2 uv2 = i.uv;
+                float2 uv2 = i.uv.xy;
                 #endif
 
                 #if defined(VERTEX_COLOR)
@@ -502,7 +534,11 @@
                 #endif
                 color.rgb *= _Intensity;
 
+                #if !defined(TEXTURE_FLIPBOOK) && defined(TEXTURE_COLOR)
+                float4 albedo = float4(1, 1, 1, color.a);
+                #else
                 float4 albedo = color;
+                #endif
                 #if defined(MAIN_TEXTURE)
                 #if defined(PIXELATE)
                 float2 uv = floor(i.uv * _PixelateResolution) / _PixelateResolution;
@@ -512,19 +548,33 @@
                 // TODO: honestly, how does this work
                 #if defined(CUSTOM_WRAPPING)
                 #endif
-                albedo *= tex2D(_MainTex, TRANSFORM_TEX(uv + _UvPanning * time.yy, _MainTex));
+                #if !defined(TEXTURE_COLOR) && defined(_ALPHACHANNEL_RED)
+                albedo.a *= tex2D(_MainTex, TRANSFORM_TEX(uv, _MainTex) + _UvPanning * time.yy).r;
+                #else
+                albedo *= tex2D(_MainTex, TRANSFORM_TEX(uv, _MainTex) + _UvPanning * time.yy);
+                #endif
+                #endif
+
+                #if defined(SECONDARY_COLOR)
+                albedo += tex2D(_SecondaryColorTex,
+                                TRANSFORM_TEX(i.uv, _SecondaryColorTex) + _SecondaryColorPanning * time.yy);
+                #endif
+
+                #if defined(COLOR_GRADIENT)
+                albedo.rgb += tex2D(_ColorGradient,
+                                    TRANSFORM_TEX(i.uv, _ColorGradient) + _GradientPosition.xx * time.yy).rgb;
                 #endif
 
                 #if defined(MASK)
                 #if defined(SECONDARY_UVS_MASK)
-                float4 mask = tex2D(_MaskTex, TRANSFORM_TEX(uv2 + _MaskPanning * time.yy, _MaskTex)) *
-                    UNITY_ACCESS_INSTANCED_PROP(Props, _MaskStrength);
+                float2 maskUv = i.uv.xy;
                 #else
-                float4 mask = tex2D(_MaskTex, TRANSFORM_TEX(i.uv + _MaskPanning * time.yy, _MaskTex)) *
-                    UNITY_ACCESS_INSTANCED_PROP(Props, _MaskStrength);
+                float2 maskUv = uv2.xy;
                 #endif
+                float4 mask = tex2D(_MaskTex, TRANSFORM_TEX(maskUv, _MaskTex) + _MaskPanning * time.yy) *
+                    UNITY_ACCESS_INSTANCED_PROP(Props, _MaskStrength);
                 #if defined(MASK_RED_IS_ALPHA)
-                mask = mask.r;
+                mask = float4(0, 0, 0, mask.r);
                 #endif
                 #if defined(_MASKBLEND_ADD)
                 albedo += mask;
@@ -537,14 +587,14 @@
 
                 #if defined(MASK2)
                 #if defined(SECONDARY_UVS_MASK2)
-                float4 mask2 = tex2D(_Mask2Tex, TRANSFORM_TEX(uv2 + _Mask2Panning * time.yy, _Mask2Tex)) *
-                    UNITY_ACCESS_INSTANCED_PROP(Props, _Mask2Strength);
+                float2 mask2Uv = i.uv.xy;
                 #else
-                float4 mask2 = tex2D(_Mask2Tex, TRANSFORM_TEX(i.uv + _Mask2Panning * time.yy, _Mask2Tex)) *
-                    UNITY_ACCESS_INSTANCED_PROP(Props, _Mask2Strength);
+                float2 mask2Uv = uv2.xy;
                 #endif
+                float4 mask2 = tex2D(_Mask2Tex, TRANSFORM_TEX(mask2Uv, _Mask2Tex) + _Mask2Panning * time.yy) *
+                    UNITY_ACCESS_INSTANCED_PROP(Props, _Mask2Strength);
                 #if defined(MASK2_RED_IS_ALPHA)
-                mask2 = mask2.r;
+                mask2 = float4(0, 0, 0, mask2.r);
                 #endif
                 #if defined(_MASK2BLEND_ADD)
                 albedo += mask2;
@@ -561,6 +611,10 @@
                 albedo.a *= albedo.a;
                 #endif
 
+                #if defined(_CUTOUTTYPE_ALPHA_CLIP)
+                if (albedo.a < _Cutout) discard;
+                #endif
+
                 #if defined(_BLOOMTYPE_PP)
                 CUSTOM_BLOOM_PP_APPLY(albedo, _BloomMultiplier);
                 #elif defined(_BLOOMTYPE_FRAG)
@@ -571,8 +625,8 @@
 
                 ACES_TONE_MAPPING_APPLY(albedo);
 
-                #if ENABLE_FOG
-                #if defined(ENABLE_HEIGHT_FOG)
+                #if FOG
+                #if defined(HEIGHT_FOG)
                 BLOOM_FOG_HEIGHT_FOG_APPLY(color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,
                                            _FogHeightOffset, _FogHeightScale);
                 #else

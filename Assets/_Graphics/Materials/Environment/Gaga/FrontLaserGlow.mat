@@ -13,8 +13,9 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - ALPHA_WIDTH_SCALE
-  - ENABLE_FOG
+  - FOG
   m_InvalidKeywords:
+  - ENABLE_FOG
   - _ACESTONEMAP_AFTER_EMISSIVE
   - _BLOOMTYPE_NONE
   - _BLOOMWHITE_NONE

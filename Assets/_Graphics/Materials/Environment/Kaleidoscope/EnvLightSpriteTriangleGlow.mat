@@ -12,9 +12,11 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
+  - FOG
+  - HEIGHT_FOG
+  m_InvalidKeywords:
   - ENABLE_FOG
   - ENABLE_HEIGHT_FOG
-  m_InvalidKeywords:
   - _ACESTONEMAP_AFTER_EMISSIVE
   - _BLOOMTYPE_NONE
   - _BLOOMWHITE_NONE

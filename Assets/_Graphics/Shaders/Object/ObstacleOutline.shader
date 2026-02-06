@@ -11,11 +11,11 @@
         _CutoutTexOffset("Cutout Tex Offset", Vector) = (0, 0, 0, 0)
 
         [Header(Fog Settings)] [Space]
-        [Toggle(ENABLE_FOG)] _EnableFog ("Enable Fog", float) = 1
+        [Toggle(FOG)] _EnableFog ("Enable Fog", float) = 1
         _FogStartOffset ("Fog Start Offset", float) = 1
         _FogScale ("Fog Scale", float) = 1
         [Space]
-        [Toggle(ENABLE_HEIGHT_FOG)] _EnableHeightFog ("Enable Height Fog", float) = 0
+        [Toggle(HEIGHT_FOG)] _EnableHeightFog ("Enable Height Fog", float) = 0
         _FogHeightOffset ("Fog Height Offset", float) = 0
         _FogHeightScale ("Fog Height Scale", float) = 1
 
@@ -61,7 +61,7 @@
             #pragma fragment frag
             #pragma multi_compile_instancing
             #pragma multi_compile _ ENABLE_BLOOM_FOG
-            #pragma shader_feature_local _ ENABLE_HEIGHT_FOG
+            #pragma shader_feature_local HEIGHT_FOG
             #pragma multi_compile _ CM_PREVIEW_MODE
 
             struct appdata
@@ -142,7 +142,7 @@
                 #endif
 
                 #if defined(CM_PREVIEW_MODE)
-                #if defined(ENABLE_HEIGHT_FOG)
+                #if defined(HEIGHT_FOG)
                 BLOOM_FOG_HEIGHT_FOG_APPLY(color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,
                                                            _FogHeightOffset, _FogHeightScale);
                 #else

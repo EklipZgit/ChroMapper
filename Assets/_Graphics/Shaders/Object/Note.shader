@@ -30,11 +30,11 @@
         _CutPlane("Cut Plane", Vector) = (0, 0, 0, 0)
 
         [Header(Fog Settings)] [Space]
-        [Toggle(ENABLE_FOG)] _EnableFog ("Enable Fog", float) = 1
+        [Toggle(FOG)] _EnableFog ("Enable Fog", float) = 1
         _FogStartOffset ("Fog Start Offset", float) = 1
         _FogScale ("Fog Scale", float) = 1
         [Space]
-        [Toggle(ENABLE_HEIGHT_FOG)] _EnableHeightFog ("Enable Height Fog", float) = 0
+        [Toggle(HEIGHT_FOG)] _EnableHeightFog ("Enable Height Fog", float) = 0
         _FogHeightOffset ("Fog Height Offset", float) = 0
         _FogHeightScale ("Fog Height Scale", float) = 1
 
@@ -110,8 +110,8 @@
             #pragma multi_compile_local SPECULAR
             #pragma shader_feature_local RIM_DIM
             #pragma multi_compile _ ENABLE_BLOOM_FOG
-            #pragma shader_feature_local _ ENABLE_FOG
-            #pragma shader_feature_local _ ENABLE_HEIGHT_FOG
+            #pragma shader_feature_local FOG
+            #pragma shader_feature_local HEIGHT_FOG
             #pragma multi_compile _ CM_PREVIEW_MODE
             #pragma multi_compile_local LOW_QUALITY_SHADER // GGX makes a dot
 
@@ -259,8 +259,8 @@
 
                 ACES_TONE_MAPPING_APPLY(albedo);
                 
-                #if defined(CM_PREVIEW_MODE) && defined(ENABLE_FOG)
-                #if defined(ENABLE_HEIGHT_FOG)
+                #if defined(CM_PREVIEW_MODE) && defined(FOG)
+                #if defined(HEIGHT_FOG)
                 BLOOM_FOG_HEIGHT_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,
                                            _FogHeightOffset, _FogHeightScale);
                 #else

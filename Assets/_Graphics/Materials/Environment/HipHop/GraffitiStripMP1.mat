@@ -18,6 +18,7 @@ Material:
   - VERTEX_COLOR
   - VERTEX_RED_IS_ALPHA
   - VERTEX_SQUARE_ALPHA
+  - _ALPHACHANNEL_RED
   - _BLOOMTYPE_FRAG
   m_InvalidKeywords:
   - ENABLE_FOG
@@ -26,6 +27,7 @@ Material:
   - _BLOOMWHITE_FRAG
   - _CURVE_VERTICES_NONE
   - _CUSTOM_TIME_STANDARD
+  - _CUTOUTTYPE_NONE
   - _FOGTYPE_NONE
   - _MASK2BLEND_MULTIPLY
   - _MASKBLEND_MULTIPLY
@@ -70,6 +72,7 @@ Material:
     m_Floats:
     - _3DDisplacement: 0
     - _AcesTonemap: 0
+    - _AlphaChannel: 1
     - _AlphaMultiplier: 1
     - _BaseLayer: 1
     - _Billboard: 0
@@ -87,6 +90,8 @@ Material:
     - _CullMode: 0
     - _Curve_Vertices: 0
     - _Custom_Time: 0
+    - _Cutout: 0.5
+    - _CutoutType: 0
     - _DisplacementPanningSpeed: 1
     - _DisplacementStrength: 0.1
     - _EnableCustomPadding: 0
@@ -97,6 +102,7 @@ Material:
     - _EnableRemapWhiteBoostStart: 0
     - _EnableRotateUV: 0
     - _EnableSecondaryColor: 0
+    - _EnableTextureColor: 0
     - _EnableVertexColor: 1
     - _EnableViewAlignDisappear: 0
     - _FlipbookBlendingOff: 0

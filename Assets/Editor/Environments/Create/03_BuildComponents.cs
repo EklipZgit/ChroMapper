@@ -680,6 +680,7 @@ public partial class EnvironmentSceneCreator
                     .MaterialPropertyBlockControllers.Select(x => GetGameObjectOrNull(x, go))
                     .Where(x => x != null)
                     .Select(x => x.GetComponent<MaterialPropertyBlockController>())
+                    .Where(x => x != null)
                     .ToArray();
                 affgetData.CopyTo(af);
             }
@@ -713,6 +714,7 @@ public partial class EnvironmentSceneCreator
                     .MaterialPropertyBlockControllers.Select(x => GetGameObjectOrNull(x, go))
                     .Where(x => x != null)
                     .Select(x => x.GetComponent<MaterialPropertyBlockController>())
+                    .Where(x => x != null)
                     .ToArray();
                 fampetData.CopyTo(maf);
             }
@@ -728,6 +730,7 @@ public partial class EnvironmentSceneCreator
                     .FloatFxGroupEffectTargets.Select(x => GetGameObjectOrNull(x, go))
                     .Where(x => x != null)
                     .Select(x => x.GetComponent<FxTarget>())
+                    .Where(x => x != null)
                     .ToArray();
             }
         }

@@ -13,11 +13,12 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - ALPHA_WIDTH_SCALE
-  - ENABLE_FOG
+  - FOG
   - SQUARE_ALPHA
   - Y_AXIS_BILLBOARD
   - _BLOOMTYPE_FRAG
   m_InvalidKeywords:
+  - ENABLE_FOG
   - ENABLE_Y_AXIS_BILLBOARD
   - _ACESTONEMAP_AFTER_EMISSIVE
   - _BLOOMWHITE_FRAG
