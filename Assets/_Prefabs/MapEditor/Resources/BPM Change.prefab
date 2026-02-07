@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4919757777345930}
   - component: {fileID: 114866437164864884}
   - component: {fileID: 2662271189267428640}
-  m_Layer: 9
+  m_Layer: 12
   m_Name: BPM Change
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -53,7 +53,6 @@ MonoBehaviour:
   - {fileID: 2662271189267428640}
   SelectionRenderers:
   - {fileID: 6325708122774775993}
-  BoxCollider: {fileID: 0}
   Animator: {fileID: 0}
   bpmText: {fileID: 114113500200447462}
 --- !u!114 &2662271189267428640
@@ -69,37 +68,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
-  BoundsRenderer: {fileID: 23420730268809820}
   Center: {x: 0, y: 0, z: 0}
   Size: {x: 1, y: 1, z: 1}
-  MeshTriangles: 0000000002000000030000000000000003000000010000000800000004000000050000000800000005000000090000000a00000006000000070000000a000000070000000b0000000c0000000d0000000e0000000c0000000e0000000f000000100000001100000012000000100000001200000013000000140000001500000016000000140000001600000017000000
-  MeshVertices:
-  - {x: 0.5, y: -0.5, z: 0.5}
-  - {x: -0.5, y: -0.5, z: 0.5}
-  - {x: 0.5, y: 0.5, z: 0.5}
-  - {x: -0.5, y: 0.5, z: 0.5}
-  - {x: 0.5, y: 0.5, z: -0.5}
-  - {x: -0.5, y: 0.5, z: -0.5}
-  - {x: 0.5, y: -0.5, z: -0.5}
-  - {x: -0.5, y: -0.5, z: -0.5}
-  - {x: 0.5, y: 0.5, z: 0.5}
-  - {x: -0.5, y: 0.5, z: 0.5}
-  - {x: 0.5, y: 0.5, z: -0.5}
-  - {x: -0.5, y: 0.5, z: -0.5}
-  - {x: 0.5, y: -0.5, z: -0.5}
-  - {x: 0.5, y: -0.5, z: 0.5}
-  - {x: -0.5, y: -0.5, z: 0.5}
-  - {x: -0.5, y: -0.5, z: -0.5}
-  - {x: -0.5, y: -0.5, z: 0.5}
-  - {x: -0.5, y: 0.5, z: 0.5}
-  - {x: -0.5, y: 0.5, z: -0.5}
-  - {x: -0.5, y: -0.5, z: -0.5}
-  - {x: 0.5, y: -0.5, z: -0.5}
-  - {x: 0.5, y: 0.5, z: -0.5}
-  - {x: 0.5, y: 0.5, z: 0.5}
-  - {x: 0.5, y: -0.5, z: 0.5}
-  CollisionLayer: 9
-  CollisionGroups: 
 --- !u!1 &1347973604245180
 GameObject:
   m_ObjectHideFlags: 0
@@ -112,7 +82,7 @@ GameObject:
   - component: {fileID: 223046746003822336}
   - component: {fileID: 114481241352880878}
   - component: {fileID: 114008719434730440}
-  m_Layer: 9
+  m_Layer: 12
   m_Name: BPM Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -213,7 +183,7 @@ GameObject:
   - component: {fileID: 224840120855966840}
   - component: {fileID: 222769151225064656}
   - component: {fileID: 114113500200447462}
-  m_Layer: 9
+  m_Layer: 12
   m_Name: Label Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -351,7 +321,7 @@ GameObject:
   - component: {fileID: 4465411356976526}
   - component: {fileID: 33290730782000504}
   - component: {fileID: 23420730268809820}
-  m_Layer: 9
+  m_Layer: 12
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -437,7 +407,7 @@ GameObject:
   - component: {fileID: 7900499836632789766}
   - component: {fileID: 8064907415706184207}
   - component: {fileID: 6325708122774775993}
-  m_Layer: 9
+  m_Layer: 12
   m_Name: Selection
   m_TagString: Untagged
   m_Icon: {fileID: 0}
