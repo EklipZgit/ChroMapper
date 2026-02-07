@@ -61,10 +61,10 @@ public class LoadInitialMap : MonoBehaviour
 
         var descriptor = FindAnyObjectByType<EnvironmentDescriptor>();
 
+        context.SetEnvironment(descriptor);
+
         PopulateColorsFromMapInfo();
         UpdateObjectContainerColors();
-
-        context.SetEnvironment(descriptor);
 
         loader.UpdateMapData(BeatSaberSongContainer.Instance.Map);
         loader.HardRefresh();
