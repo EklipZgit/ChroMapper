@@ -20,6 +20,33 @@ public partial class EnvironmentSceneCreator
 
         data.Data.FogParameters.CopyTo(descriptor.BloomFogParams);
 
+        foreach (var obj in data.Objects)
+        {
+            if (obj.Components.MeshRenderer != null
+                && obj
+                    .Components.MeshRenderer[0]
+                    .Materials.Any(x =>
+                        data.Data.UniqueMaterials.ToList().Exists(y => y.Hash == x && y.Shader.Contains("Mirror"))))
+            {
+                var go = chromaIdObjects[obj.ChromaID];
+                var reflection = go.AddComponent<PlanarReflection>();
+                reflection.MirrorRenderer = library.MirrorRenderer;
+                reflection.Renderer = go.GetComponent<MeshRenderer>();
+                reflection.PlaneTransform = chromaIdObjects.GetValueOrDefault(
+                        data.Objects.FirstOrDefault(x =>
+                                !x.ChromaID.Contains("Player")
+                                && x.Components.MeshRenderer != null
+                                && x.Components.MeshRenderer.Any(m => m
+                                    .Materials.Any(z =>
+                                        data
+                                            .Data.UniqueMaterials.ToList()
+                                            .Exists(y => y.Hash == z && y.Shader.Contains("Mirror")))))
+                            .ChromaID,
+                        go)
+                    .transform;
+            }
+        }
+
         var beec = new GameObject("BasicEventEffectController").AddComponent<BasicEventEffectManager>();
         beec.gameObject.transform.SetParent(GameObject.Find("Environment").transform);
         descriptor.BasicEventEffectManager = beec;

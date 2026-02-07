@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4222731422578252}
   - component: {fileID: 6629995464547447196}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Selection Wall of Doom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -58,6 +58,7 @@ MonoBehaviour:
   lightGradientController: {fileID: 0}
   eventModels: []
   labels: {fileID: 0}
+  TracksDefinition: {fileID: 0}
 --- !u!1 &1453166767989322
 GameObject:
   m_ObjectHideFlags: 0
@@ -69,7 +70,7 @@ GameObject:
   - component: {fileID: 4984948779305434}
   - component: {fileID: 33468369549684910}
   - component: {fileID: 23329621693881470}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Its pretty much an obstacle but for selecting
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -153,7 +154,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4973644234919965061}
-  m_Layer: 9
+  m_Layer: 12
   m_Name: Outline
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -186,7 +187,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8209755968513384687}
   - component: {fileID: 577154157013320455}
-  m_Layer: 9
+  m_Layer: 12
   m_Name: Line
   m_TagString: Untagged
   m_Icon: {fileID: 0}

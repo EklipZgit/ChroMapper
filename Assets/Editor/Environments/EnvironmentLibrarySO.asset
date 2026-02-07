@@ -279,6 +279,8 @@ MonoBehaviour:
     type: 2}
   <SliceSprite>k__BackingField: {fileID: 4300000, guid: a96174836f8b90962b9d37a6d8d29363,
     type: 2}
+  <MirrorRenderer>k__BackingField: {fileID: 11400000, guid: b54751a1fc3ac3983afa3aa9d4141095,
+    type: 2}
   layerMaskRemap:
   - name: Default
     layerMask:

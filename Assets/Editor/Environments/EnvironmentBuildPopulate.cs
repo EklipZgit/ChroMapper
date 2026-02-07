@@ -352,6 +352,8 @@ public class EnvironmentBuildPopulate
             matInfo.Material.SetFloat(
                 "_PointLightPositionLocal",
                 matInfo.Keywords.Contains("POINT_LIGHT_IS_LOCAL") ? 1f : 0f);
+            matInfo.Material.SetFloat("_DetailNormalMap", matInfo.Keywords.Contains("DETAIL_NORMAL_MAP") ? 1f : 0f);
+            matInfo.Material.SetFloat("_EnableLightmap", matInfo.Keywords.Contains("LIGHTMAP") ? 1f : 0f);
             matInfo.Material.SetFloat("_EnableDiffuse", matInfo.Keywords.Contains("DIFFUSE") ? 1f : 0f);
             matInfo.Material.SetFloat("_EnableDiffuseTexture", matInfo.Keywords.Contains("DIFFUSE_TEXTURE") ? 1f : 0f);
             if (matInfo.Keywords.Contains("_DIFFUSE_TEXTURE_SOURCE_MPM_R"))
@@ -370,7 +372,7 @@ public class EnvironmentBuildPopulate
             matInfo.Material.SetFloat("_InvertRimDim", matInfo.Keywords.Contains("INVERT_RIM_DIM") ? 1f : 0f);
 
             matInfo.Material.SetFloat("_EnableGroundFade", matInfo.Keywords.Contains("GROUND_FADE") ? 1f : 0f);
-            
+
             matInfo.Material.SetFloat(
                 "_EnableRemapWhiteBoostStart",
                 matInfo.Keywords.Contains("REMAP_WHITEBOOST_START") ? 1f : 0f);

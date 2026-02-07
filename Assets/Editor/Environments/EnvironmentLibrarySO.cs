@@ -21,6 +21,7 @@ public class EnvironmentLibrarySO : ScriptableObject
     [field: SerializeField] public Material SkyboxMaterial { get; private set; }
     
     [field: SerializeField] public Mesh SliceSprite { get; private set; }
+    [field: SerializeField] public MirrorRendererSO MirrorRenderer { get; private set; }
 
     [SerializeField] public List<LayerMaskEntry> layerMaskRemap = new();
     public readonly Dictionary<string, LayerMask> LayerMaskLookup = new();
