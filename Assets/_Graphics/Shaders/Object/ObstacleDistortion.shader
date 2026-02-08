@@ -92,6 +92,7 @@
             #pragma fragment frag
             #pragma multi_compile_instancing
             #pragma multi_compile _ ENABLE_BLOOM_FOG
+            #pragma shader_feature_local FOG
             #pragma shader_feature_local HEIGHT_FOG
             #pragma multi_compile _ CM_PREVIEW_MODE
 
@@ -111,8 +112,7 @@
                 float3 localPos : TEXCOORD1;
                 float3 worldPos : TEXCOORD2;
                 float4 screenPos : TEXCOORD3;
-                float4 customScreenPos : TEXCOORD4;
-                float3 cutoutPos : TEXCOORD5;
+                float3 cutoutPos : TEXCOORD4;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
@@ -125,11 +125,10 @@
 
                 o.pos = UnityObjectToClipPos(v.vertex);
                 o.localPos = v.vertex;
-                o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
-                o.uv = v.uv;
+                o.worldPos.xyz = mul(unity_ObjectToWorld, v.vertex).xyz;
+                o.uv.xy = v.uv;
                 o.normal = v.normal;
-                o.screenPos = ComputeGrabScreenPos(o.pos);
-                o.customScreenPos = ComputeScreenPosCustom(o.pos);
+                o.screenPos = ComputeScreenPosCustom(o.pos);
                 o.cutoutPos = mul(unity_ObjectToWorld, v.vertex.xyz);
                 return o;
             }
@@ -160,14 +159,14 @@
                 float cl = noise - cutout;
                 clip(cl);
 
-                fixed4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
+                float4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
 
                 // float2 halfUv = 0.5 - abs(0.5 - i.uv);
                 float2 screenUV = i.screenPos.xy / i.screenPos.w;
                 // obstacle distortion need to be stable, cannot be based on screen space position
                 // horribad
                 screenUV.x +=
-                    (simplex((i.uv * uvScalar + cutoutTexOffset * _DistortionScale) / _DistortionScale) - 0.5) *
+                    (simplex((i.uv.xy * uvScalar + cutoutTexOffset * _DistortionScale) / _DistortionScale) - 0.5) *
                     _DistortionStrength;
                 screenUV.y +=
                     (simplex((i.uv.yx * uvScalar.yx + cutoutTexOffset * _DistortionScale) / _DistortionScale) - 0.5) *
@@ -178,12 +177,11 @@
 
                 ACES_TONE_MAPPING_APPLY(color);
                 
-                #if defined(CM_PREVIEW_MODE)
+                #if defined(CM_PREVIEW_MODE) && defined(FOG)
                 #if defined(HEIGHT_FOG)
-                BLOOM_FOG_HEIGHT_FOG_APPLY(color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,
-                                           _FogHeightOffset, _FogHeightScale);
+                BLOOM_FOG_HEIGHT_APPLY(color, i.screenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset, _FogHeightScale);
                 #else
-                BLOOM_FOG_APPLY(color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
+                BLOOM_FOG_APPLY(color, i.screenPos, i.worldPos, _FogStartOffset, _FogScale);
                 #endif
                 #endif
                 

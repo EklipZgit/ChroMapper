@@ -257,7 +257,6 @@
             #if !defined(UNITY_INSTANCING_ENABLED)
             float4 _SecondaryColor;
             #endif
-            float4 _SecondaryColor;
             sampler2D _SecondaryColorTex;
             float4 _SecondaryColorTex_ST;
             float4 _SecondaryColorPanning;
@@ -428,7 +427,7 @@
                 float2 uv : TEXCOORD0;
                 #endif
                 float3 worldPos : TEXCOORD1;
-                float4 customScreenPos : TEXCOORD2;
+                float4 screenPos : TEXCOORD2;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
                 UNITY_VERTEX_OUTPUT_STEREO
             };
@@ -494,7 +493,7 @@
                 #if defined(_SECONDARY_UVS_IMPORT)
                 o.uv.zw = i.uv2.xy;
                 #endif
-                o.customScreenPos = ComputeScreenPosCustom(o.vertex);
+                o.screenPos = ComputeScreenPosCustom(o.vertex);
 
                 #if defined(VERTEX_COLOR)
                 o.color = i.color * _RendererColor * UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
@@ -571,7 +570,8 @@
 
                 #if defined(COLOR_GRADIENT)
                 albedo.rgb += tex2D(_ColorGradient,
-                                    TRANSFORM_TEX(i.uv, _ColorGradient) + _GradientPosition.xx * time.yy).rgb;
+                                    TRANSFORM_TEX(i.uv, _ColorGradient) + _GradientPosition.xx * time.yy)
+                    .rgb;
                 #endif
 
                 #if defined(MASK)
@@ -642,10 +642,10 @@
 
                 #if FOG
                 #if defined(HEIGHT_FOG)
-                BLOOM_FOG_HEIGHT_FOG_APPLY(color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,
-                                           _FogHeightOffset, _FogHeightScale);
+                BLOOM_FOG_HEIGHT_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset,
+                                       _FogHeightScale);
                 #else
-                BLOOM_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
+                BLOOM_FOG_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale);
                 #endif
                 #endif
 

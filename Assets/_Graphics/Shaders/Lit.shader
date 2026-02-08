@@ -137,6 +137,7 @@
         [Toggle(COLOR_ARRAY)] _UseColorArray ("Color Array", float) = 0
 
 
+
         [Header(Fog Settings)] [Space]
         [Toggle(FOG)] _EnableFog ("Enable Fog", float) = 1
         _FogStartOffset ("Fog Start Offset", float) = 1
@@ -149,11 +150,12 @@
         _MainEffectFogSuppression ("Main Effect Fog Suppression", Range(0, 1)) = 0
 
         [Space(20)]
-        [ToggleHeader(DISTANCE_DARKENING)] _EnableDistanceDarkening ("Worldspace Occlusion", float) = 0
+        [Toggle(DISTANCE_DARKENING)] _EnableDistanceDarkening ("Worldspace Occlusion", float) = 0
         _DarkeningScale ("Scale", float) = 0.35
         _DarkeningIntensity ("Intensity", float) = 1
         _DarkeningCenter ("Center", Vector) = (0,0,0,0)
         _DarkeningDirection ("Axes", Vector) = (1,1,1,1)
+
 
 
         [Header(Settings)] [Space]
@@ -458,8 +460,12 @@
                 #else
                 float2 uv : TEXCOORD0;
                 #endif
+                #if defined(RIM_DIM)
+                float4 worldPos : TEXCOORD1;
+                #else
                 float3 worldPos : TEXCOORD1;
-                float4 customScreenPos : TEXCOORD2;
+                #endif
+                float4 screenPos : TEXCOORD2;
                 #if USE_WORLD_NORMAL
                 float3 worldNormal : TEXCOORD3;
                 #endif
@@ -511,8 +517,11 @@
                 o.worldNormal = normalize(UnityObjectToWorldNormal(i.normal));
                 #endif
                 #endif
-                o.worldPos = mul(unity_ObjectToWorld, i.vertex).xyz;
-                o.customScreenPos = ComputeScreenPosCustom(o.vertex);
+                o.worldPos.xyz = mul(unity_ObjectToWorld, i.vertex).xyz;
+                #if defined(RIM_DIM)
+                o.worldPos.w = distance(o.worldPos.xyz, _WorldSpaceCameraPos);
+                #endif
+                o.screenPos = ComputeScreenPosCustom(o.vertex);
 
                 return o;
             }
@@ -656,7 +665,8 @@
                                             _EmissionMaskSpeed * time.yy);
                 #else
                 float4 emissionMask = tex2D(_EmissionMask,
-                                            TRANSFORM_TEX(i.uv, _EmissionMask) + _EmissionMaskSpeed *
+                                            TRANSFORM_TEX(i.uv, _EmissionMask) +
+                                            _EmissionMaskSpeed *
                                             time
                                             .yy);
                 #endif
@@ -726,7 +736,7 @@
                 #if defined(INVERT_RIM_DIM)
                 rim = 1 - rim;
                 #endif
-                float distFactor = (distance(worldPos, _WorldSpaceCameraPos) + _RimDistanceOffset) * _RimDistanceScale;
+                float distFactor = (i.worldPos.w + _RimDistanceOffset) * _RimDistanceScale;
                 float finalRim = saturate((rim + _RimOffset) * _RimScale) * distFactor;
                 albedo *= (1 - finalRim * _RimDarkening);
                 #endif
@@ -741,10 +751,9 @@
 
                 #if defined(ENABLE_BLOOM_FOG) && defined(FOG)
                 #if HEIGHT_FOG
-                BLOOM_FOG_HEIGHT_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,
-                                           _FogHeightOffset, _FogHeightScale);
+                BLOOM_FOG_HEIGHT_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset, _FogHeightScale);
                 #else
-                BLOOM_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
+                BLOOM_FOG_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale);
                 #endif
                 #endif
 

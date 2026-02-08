@@ -102,7 +102,7 @@
                 clip(cl);
 
                 fixed4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
-                color.rgb *= 0.5;
+                color.rgb *= 0.25;
                 color.a = 0;
                 
                 ACES_TONE_MAPPING_APPLY(color);

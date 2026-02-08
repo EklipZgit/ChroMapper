@@ -7,6 +7,15 @@
         _FadeSize("Fade Size", Range(0, 10)) = 5
         [HideInInspector] _Rotation("Rotation", float) = 0
 
+        [Header(Fog Settings)] [Space]
+        [Toggle(FOG)] _EnableFog ("Enable Fog", float) = 1
+        _FogStartOffset ("Fog Start Offset", float) = 1
+        _FogScale ("Fog Scale", float) = 1
+        [Space]
+        [Toggle(HEIGHT_FOG)] _EnableHeightFog ("Enable Height Fog", float) = 0
+        _FogHeightOffset ("Fog Height Offset", float) = 0
+        _FogHeightScale ("Fog Height Scale", float) = 1
+
         [Header(Settings)] [Space]
         [Enum(UnityEngine.Rendering.BlendMode)] _BlendModeSrc ("Blend Src", float) = 1
         [Enum(UnityEngine.Rendering.BlendMode)] _BlendModeDst ("Blend Dst", float) = 1
@@ -42,7 +51,12 @@
             #pragma multi_compile_instancing
             #pragma multi_compile _ CM_PREVIEW_MODE
 
+            #pragma shader_feature_local FOG
+            #pragma shader_feature_local HEIGHT_FOG
+            #pragma shader_feature_local _FOGTYPE_ALPHA
+
             #include "UnityCG.cginc"
+            #include "../CGIncludes/BloomFog.cginc"
             #include "../CGIncludes/CustomBloom.cginc"
             #include "../CGIncludes/CustomTonemapping.cginc"
 
@@ -60,11 +74,15 @@
 
             sampler2D _MainTex;
 
+            float _FogStartOffset;
+            float _FogScale;
+            float _FogHeightOffset;
+            float _FogHeightScale;
+
             struct appdata
             {
                 float4 vertex : POSITION;
                 float2 uv : TEXCOORD0;
-                float3 normal : NORMAL;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
@@ -72,7 +90,6 @@
             {
                 float4 vertex : SV_POSITION;
                 float2 uv : TEXCOORD0;
-                float3 normal : NORMAL;
                 float3 worldPos : TEXCOORD1;
                 float4 rotatedPos : TEXCOORD2;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
@@ -95,13 +112,11 @@
                 UNITY_SETUP_INSTANCE_ID(i);
                 UNITY_TRANSFER_INSTANCE_ID(i, o);
 
-                o.worldPos = mul(unity_ObjectToWorld, i.vertex);
+                o.worldPos.xyz = mul(unity_ObjectToWorld, i.vertex).xyz;
                 o.worldPos.y = max(_TrackLaneYPosition + 0.01, o.worldPos.y); // save me
-
                 o.vertex = mul(UNITY_MATRIX_VP, float4(o.worldPos, 1));
-                o.uv = i.uv;
-                o.normal = i.normal;
-
+                o.uv.xy = i.uv.xy;
+                
                 //Global platform offset
                 const float4 offset = float4(0, -0.5, -1.5, 0);
 
@@ -121,11 +136,9 @@
             float4 frag(v2f i) : SV_Target
             {
                 UNITY_SETUP_INSTANCE_ID(i);
-
-                /// Coloring ///
                 float4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
 
-                fixed mask = saturate(sin(i.uv.x * 3.14159) * 5);
+                float mask = saturate(sin(i.uv.x * 3.14159) * 5);
                 #if CM_PREVIEW_MODE
                 i.uv.x = (i.uv.x + _Time.y) % 1;
                 #endif
@@ -134,10 +147,19 @@
 
                 CUSTOM_BLOOM_PP_APPLY(albedo, 1);
                 albedo.a *= albedo.a * albedo.a;
-                
+
                 ACES_TONE_MAPPING_APPLY(albedo);
-                
+
                 #if defined(CM_PREVIEW_MODE)
+
+                #if defined(FOG)
+                #if defined(HEIGHT_FOG)
+                BLOOM_FOG_HEIGHT_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset, _FogHeightScale);
+                #else
+                BLOOM_FOG_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale);
+                #endif
+                #endif
+
                 float fadeSize = UNITY_ACCESS_INSTANCED_PROP(Props, _FadeSize);
 
                 float distance = i.rotatedPos.z;

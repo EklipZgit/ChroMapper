@@ -15,12 +15,20 @@ float _StereoCameraEyeOffset;
 float CUSTOM_FOG_ATTENUATION_NAME;
 float CUSTOM_FOG_OFFSET_NAME;
 
+inline float distanceSquared(float3 pos)
+{
+    float3 distance = pos - _WorldSpaceCameraPos;
+    return dot(distance, distance);
+}
+
 #ifndef CUSTOM_FOG_COMPUTE_FACTOR
-#define CUSTOM_FOG_COMPUTE_FACTOR(distance, fogStartOffset, fogScale) \
-  float customFogFactor = max(dot(distance, distance) + -fogStartOffset, 0); \
-  customFogFactor = max(customFogFactor * fogScale + -CUSTOM_FOG_OFFSET_NAME, 0); \
-  customFogFactor = 1 / (customFogFactor * CUSTOM_FOG_ATTENUATION_NAME + 1); \
-  customFogFactor = -customFogFactor + 1
+#define CUSTOM_FOG_COMPUTE_FACTOR(result, distanceSq, fogStartOffset, fogScale) \
+  result = max(distanceSq + -fogStartOffset, 0); \
+  result = max(result * fogScale + -CUSTOM_FOG_OFFSET_NAME, 0); \
+  result = 1 / (result * CUSTOM_FOG_ATTENUATION_NAME + 1); \
+  result = -result + 1; \
+  result *= result * result
+
 #endif
 
 #ifndef CUSTOM_FOG_HEIGHT_FOG_START_Y_NAME
@@ -33,12 +41,12 @@ float CUSTOM_FOG_OFFSET_NAME;
 float CUSTOM_FOG_HEIGHT_FOG_START_Y_NAME;
 float CUSTOM_FOG_HEIGHT_FOG_HEIGHT_NAME;
 
-#ifndef CUSTOM_FOG_HEIGHT_FOG_COMPUTE_FACTOR
-#define CUSTOM_FOG_HEIGHT_FOG_COMPUTE_FACTOR(worldPos, fogHeightOffset, fogHeightScale) \
-  float customFogHeightFogFactor = CUSTOM_FOG_HEIGHT_FOG_HEIGHT_NAME + CUSTOM_FOG_HEIGHT_FOG_START_Y_NAME; \
-  customFogHeightFogFactor = ((worldPos.y * fogHeightScale) + fogHeightOffset) + -customFogHeightFogFactor; \
-  customFogHeightFogFactor = clamp(customFogHeightFogFactor / CUSTOM_FOG_HEIGHT_FOG_HEIGHT_NAME, 0, 1); \
-  customFogHeightFogFactor = (-customFogHeightFogFactor * 2 + 3) * (customFogHeightFogFactor * customFogHeightFogFactor)
+#ifndef CUSTOM_HEIGHT_FOG_COMPUTE_FACTOR
+#define CUSTOM_HEIGHT_FOG_COMPUTE_FACTOR(result, worldPos, fogHeightOffset, fogHeightScale) \
+  result = CUSTOM_FOG_HEIGHT_FOG_HEIGHT_NAME + CUSTOM_FOG_HEIGHT_FOG_START_Y_NAME; \
+  result = ((worldPos.y * fogHeightScale) + fogHeightOffset) + -result; \
+  result = clamp(result / CUSTOM_FOG_HEIGHT_FOG_HEIGHT_NAME, 0, 1); \
+  result = (-result * 2 + 3) * (result * result)
 #endif
 
 inline float4 ComputeScreenPosCustom(float4 pos)
@@ -71,7 +79,7 @@ sampler2D _BloomPrePassTexture;
 #else
 
 #define BLOOM_PREPASS_SAMPLE(screenPos) \
-  float4 bloomPrepassCol = float4(0,0,0,0)
+  float4 bloomPrepassCol = 0
 
 #endif
 
@@ -88,31 +96,37 @@ sampler2D _BloomPrePassTexture;
   col.a = bloomfogCol.a;
 #endif
 
-#define BLOOM_FOG_APPLY(col, screenPos, worldPos, fogStartOffset, fogScale) \
-  float3 bloomFogDistance = worldPos - _WorldSpaceCameraPos; \
-  CUSTOM_FOG_COMPUTE_FACTOR(bloomFogDistance, fogStartOffset, fogScale); \
+#define BLOOM_FOG_APPLY_CALCULATED_FACTOR(col, screenPos, fogFactor) \
   BLOOM_PREPASS_SAMPLE(screenPos); \
-  customFogFactor *= customFogFactor; \
-  float4 bloomfogCol = customFogFactor * (-col + bloomPrepassCol) + col; \
+  float4 bloomfogCol = fogFactor * (-col + bloomPrepassCol) + col; \
   BLOOM_FOG_BLEND(col, bloomfogCol)
 
-#define BLOOM_FOG_HEIGHT_FOG_APPLY(col, screenPos, worldPos, fogStartOffset, fogScale, fogHeightOffset, fogHeightScale) \
-  float3 bloomFogDistance = worldPos - _WorldSpaceCameraPos; \
-  CUSTOM_FOG_HEIGHT_FOG_COMPUTE_FACTOR(worldPos, fogHeightOffset, fogHeightScale); \
-  CUSTOM_FOG_COMPUTE_FACTOR(bloomFogDistance, fogStartOffset, fogScale); \
+#define BLOOM_FOG_APPLY(col, screenPos, worldPos, fogStartOffset, fogScale) \
+  float customFogFactor; \
+  CUSTOM_FOG_COMPUTE_FACTOR(customFogFactor, distanceSquared(worldPos), fogStartOffset, fogScale); \
+  BLOOM_FOG_APPLY_CALCULATED_FACTOR(col, screenPos, customFogFactor)
+
+#define BLOOM_FOG_HEIGHT_APPLY_CALCULATED_FACTOR(col, screenPos, fogFactor, heightFogFactor) \
   BLOOM_PREPASS_SAMPLE(screenPos); \
-  customFogFactor *= customFogFactor; \
-  customFogFactor = -customFogFactor + 1; \
-  float4 bloomfogCol = (customFogHeightFogFactor * -customFogFactor + 1) * (-col + bloomPrepassCol) + col; \
+  fogFactor = -fogFactor + 1; \
+  float4 bloomfogCol = (heightFogFactor * -fogFactor + 1) * (-col + bloomPrepassCol) + col; \
+  BLOOM_FOG_BLEND(col, bloomfogCol)
+
+#define BLOOM_FOG_HEIGHT_APPLY(col, screenPos, worldPos, fogStartOffset, fogScale, fogHeightOffset, fogHeightScale) \
+  float customHeightFogFactor; \
+  float customFogFactor; \
+  CUSTOM_HEIGHT_FOG_COMPUTE_FACTOR(customHeightFogFactor, worldPos, fogHeightOffset, fogHeightScale); \
+  CUSTOM_FOG_COMPUTE_FACTOR(customFogFactor, distanceSquared(worldPos), fogStartOffset, fogScale); \
+  BLOOM_FOG_HEIGHT_APPLY_CALCULATED_FACTOR(col, screenPos, customFogFactor, customHeightFogFactor)
+
+#define BLOOM_FOG_APPLY_TRANSPARENT_CALCULATED_FACTOR(col, fogFactor) \
+  fogFactor = (-fogFactor + 1) * col.a; \
+  float4 bloomfogCol = float4(fogFactor * col.rgb, fogFactor); \
   BLOOM_FOG_BLEND(col, bloomfogCol)
 
 #define BLOOM_FOG_APPLY_TRANSPARENT(col, worldPos, fogStartOffset, fogScale) \
-  float3 bloomFogDistance = worldPos - _WorldSpaceCameraPos; \
-  CUSTOM_FOG_COMPUTE_FACTOR(bloomFogDistance, fogStartOffset, fogScale); \
-  customFogFactor *= customFogFactor; \
-  customFogFactor = (-customFogFactor + 1) * col.a; \
-  float4 bloomfogCol = float4(customFogFactor * col.rgb, customFogFactor); \
-  BLOOM_FOG_BLEND(col, bloomfogCol)
+  float customFogFactor; \
+  CUSTOM_FOG_COMPUTE_FACTOR(customFogFactor, distanceSquared(worldPos), fogStartOffset, fogScale); \
+  BLOOM_FOG_APPLY_TRANSPARENT_CALCULATED_FACTOR(col, customFogFactor)
 
 #endif // BLOOM_FOG_CG_INCLUDED
-

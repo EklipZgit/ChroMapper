@@ -45,7 +45,6 @@
             struct appdata
             {
                 float4 vertex : POSITION;
-                float2 uv : TEXCOORD0;
                 float3 normal : NORMAL;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
@@ -53,12 +52,11 @@
             struct v2f
             {
                 float4 vertex : SV_POSITION;
-                float2 uv : TEXCOORD0;
                 float3 worldPos : TEXCOORD1;
-                float4 customScreenPos : TEXCOORD2;
+                float4 screenPos : TEXCOORD2;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
-            
+
             float _FogStartOffset;
             float _FogScale;
 
@@ -70,9 +68,8 @@
                 UNITY_TRANSFER_INSTANCE_ID(i, o);
 
                 o.vertex = UnityObjectToClipPos(i.vertex);
-                o.uv = i.uv;
-                o.worldPos = mul(unity_ObjectToWorld, i.vertex).xyz;
-                o.customScreenPos = ComputeScreenPosCustom(o.vertex);
+                o.worldPos.xyz = mul(unity_ObjectToWorld, i.vertex).xyz;
+                o.screenPos = ComputeScreenPosCustom(o.vertex);
 
                 return o;
             }
@@ -81,10 +78,10 @@
             {
                 UNITY_SETUP_INSTANCE_ID(i);
                 float4 albedo = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
-                
+
                 ACES_TONE_MAPPING_APPLY(albedo);
-                
-                BLOOM_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
+
+                BLOOM_FOG_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale);
 
                 return albedo;
             }

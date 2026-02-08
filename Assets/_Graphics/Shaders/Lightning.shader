@@ -78,7 +78,7 @@
                 float4 vertex : SV_POSITION;
                 float2 uv : TEXCOORD0;
                 float3 worldPos : TEXCOORD1;
-                float4 customScreenPos : TEXCOORD2;
+                float4 screenPos : TEXCOORD2;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
@@ -131,9 +131,9 @@
                 float3 finalWorldPos = lerpedPos + side * (offset + noise);
 
                 o.vertex = mul(UNITY_MATRIX_VP, float4(finalWorldPos, 1));
-                o.uv = TRANSFORM_TEX(i.uv, _MainTex);
-                o.worldPos = mul(unity_ObjectToWorld, i.vertex).xyz;
-                o.customScreenPos = ComputeScreenPosCustom(o.vertex);
+                o.worldPos.xyz = mul(unity_ObjectToWorld, i.vertex).xyz;
+                o.uv.xy = TRANSFORM_TEX(i.uv.xy, _MainTex);
+                o.screenPos = ComputeScreenPosCustom(o.vertex);
 
                 return o;
             }
@@ -150,12 +150,11 @@
                 CUSTOM_BLOOM_FRAG_APPLY(albedo, 1);
 
                 ACES_TONE_MAPPING_APPLY(albedo);
-                
+
                 #if defined(HEIGHT_FOG)
-                BLOOM_FOG_HEIGHT_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,
-                                           _FogHeightOffset, _FogHeightScale);
+                BLOOM_FOG_HEIGHT_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset, _FogHeightScale);
                 #else
-                BLOOM_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
+                BLOOM_FOG_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale);
                 #endif
 
                 return albedo;

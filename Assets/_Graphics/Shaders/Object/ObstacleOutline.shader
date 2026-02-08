@@ -60,9 +60,10 @@
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_instancing
-            #pragma multi_compile _ ENABLE_BLOOM_FOG
-            #pragma shader_feature_local HEIGHT_FOG
             #pragma multi_compile _ CM_PREVIEW_MODE
+            #pragma multi_compile _ ENABLE_BLOOM_FOG
+            #pragma shader_feature_local FOG
+            #pragma shader_feature_local HEIGHT_FOG
 
             struct appdata
             {
@@ -79,7 +80,7 @@
                 float2 uv : TEXCOORD0;
                 float4 localPos : TEXCOORD1;
                 float3 worldPos : TEXCOORD2;
-                float4 customScreenPos : TEXCOORD3;
+                float4 screenPos : TEXCOORD3;
                 float3 cutoutPos : TEXCOORD4;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
@@ -93,15 +94,14 @@
 
                 o.pos = UnityObjectToClipPos(v.vertex);
                 o.localPos = v.vertex;
-                o.uv = v.uv;
+                o.worldPos.xyz = mul(unity_ObjectToWorld, v.vertex).xyz;
+                o.uv.xy = v.uv.xy;
                 o.normal = v.normal;
-                o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
-                o.customScreenPos = ComputeScreenPosCustom(o.pos);
+                o.screenPos = ComputeScreenPosCustom(o.pos);
                 o.cutoutPos = mul(unity_ObjectToWorld, v.vertex.xyz);
 
                 return o;
             }
-
 
             float4 frag(v2f i) : SV_Target
             {
@@ -122,7 +122,7 @@
                     uvScalar.xy = worldScale.xy;
                 }
 
-                float2 halfUv = 0.5 - abs(0.5 - i.uv);
+                float2 halfUv = 0.5 - abs(0.5 - i.uv.xy);
                 if (halfUv.x * uvScalar.x >= 0.05 && halfUv.y * uvScalar.y >= 0.05)
                 {
                     discard;
@@ -136,24 +136,24 @@
                 clip(cl);
 
                 fixed4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
-                
+
                 #if !defined(CM_PREVIEW_MODE)
                 color.a = 0;
                 #else
                 color.a = max(0, color.a);
                 #endif
 
-                #if defined(CM_PREVIEW_MODE)
+                #if defined(CM_PREVIEW_MODE) && defined(FOG)
                 #if defined(HEIGHT_FOG)
-                BLOOM_FOG_HEIGHT_FOG_APPLY(color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,
-                                                           _FogHeightOffset, _FogHeightScale);
+                BLOOM_FOG_HEIGHT_APPLY(color, i.screenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset,
+                                       _FogHeightScale);
                 #else
-                BLOOM_FOG_APPLY(color, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
+                BLOOM_FOG_APPLY(color, i.screenPos, i.worldPos, _FogStartOffset, _FogScale);
                 #endif
                 #endif
 
                 ACES_TONE_MAPPING_APPLY(color);
-                
+
                 return color;
             }
             ENDHLSL

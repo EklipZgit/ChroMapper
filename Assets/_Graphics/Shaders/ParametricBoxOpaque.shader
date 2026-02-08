@@ -54,10 +54,9 @@
             struct v2f
             {
                 float4 vertex : SV_POSITION;
-                float3 uv : TEXCOORD0;
-                float lengthFactor : TEXCOORD1;
-                float3 worldPos : TEXCOORD2;
-                float4 customScreenPos : TEXCOORD3;
+                float4 uv : TEXCOORD0;
+                float3 worldPos : TEXCOORD1;
+                float4 screenPos : TEXCOORD2;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
@@ -75,17 +74,17 @@
 
                 float4 alphaWidth = UNITY_ACCESS_INSTANCED_PROP(Props, _AlphaWidth);
 
-                o.lengthFactor = i.vertex.y / 2;
-                float width = lerp(alphaWidth.z, alphaWidth.w, o.lengthFactor);
+                o.uv.w = i.vertex.y / 2;
+                float width = lerp(alphaWidth.z, alphaWidth.w, o.uv.w);
 
                 i.vertex.x = i.vertex.x * width;
                 i.vertex.z = i.vertex.z * width;
 
                 o.vertex = UnityObjectToClipPos(i.vertex);
 
-                o.uv = float3(i.uv * width / alphaWidth.z, width / alphaWidth.w);
+                o.uv.xyz = float3(i.uv * width / alphaWidth.z, width / alphaWidth.w);
                 o.worldPos = mul(unity_ObjectToWorld, i.vertex).xyz;
-                o.customScreenPos = ComputeScreenPosCustom(o.vertex);
+                o.screenPos = ComputeScreenPosCustom(o.vertex);
 
                 return o;
             }
@@ -96,23 +95,22 @@
                 fixed4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
                 float4 alphaWidth = UNITY_ACCESS_INSTANCED_PROP(Props, _AlphaWidth);
 
-                float adjustedLengthFactor = i.lengthFactor;
+                float adjustedLengthFactor = i.uv.w;
 
                 float2 adjustedUv = i.uv.xy / i.uv.z;
                 fixed4 albedo = color;
 
                 fixed alphaFactor = lerp(alphaWidth.x, alphaWidth.y, adjustedLengthFactor);
                 albedo *= alphaFactor;
-                
+
                 CUSTOM_BLOOM_PP_APPLY(albedo, 1);
 
                 ACES_TONE_MAPPING_APPLY(albedo);
-                
+
                 #if defined(HEIGHT_FOG)
-                BLOOM_FOG_HEIGHT_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,
-                                           _FogHeightOffset, _FogHeightScale);
+                BLOOM_FOG_HEIGHT_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset, _FogHeightScale);
                 #else
-                BLOOM_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
+                BLOOM_FOG_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale);
                 #endif
 
                 return albedo;

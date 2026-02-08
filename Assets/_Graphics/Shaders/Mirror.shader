@@ -83,7 +83,7 @@
             // this has no use in BIRP, but whatever it's still nice
             CBUFFER_START(UnityPerMaterial)
                 float4 _NormalTex_ST;
-            
+
                 float _BumpIntensity;
                 float _ReflectionIntensity;
                 float2 _TextureScrolling;
@@ -101,7 +101,7 @@
                 float4 _DirtTex_ST;
                 float _DirtIntensity;
                 #endif
-            
+
                 float4 _Color; // is tint supposed to be -1/default blue?
 
                 #if defined(ENABLE_BLOOM_FOG)
@@ -135,7 +135,7 @@
                 float3 worldPos : TEXCOORD1;
                 float3 worldNormal : TEXCOORD2;
                 float3 viewDir : TEXCOORD3;
-                float4 customScreenPos : TEXCOORD4;
+                float4 screenPos : TEXCOORD4;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
@@ -148,11 +148,11 @@
                 UNITY_TRANSFER_INSTANCE_ID(i, o);
 
                 o.vertex = UnityObjectToClipPos(i.vertex);
-                o.customScreenPos = ComputeScreenPosCustom(o.vertex);
-                o.worldPos = mul(unity_ObjectToWorld, i.vertex).xyz;
+                o.screenPos = ComputeScreenPosCustom(o.vertex);
+                o.worldPos.xyz = mul(unity_ObjectToWorld, i.vertex).xyz;
                 o.viewDir = normalize(UnityWorldSpaceViewDir(o.worldPos));
                 o.worldNormal = normalize(UnityObjectToWorldNormal(i.normal));
-                o.uv = i.uv;
+                o.uv.xy = i.uv.xy;
 
                 return o;
             }
@@ -173,7 +173,7 @@
                 albedo.rgb += calculated.rgb;
                 #endif
 
-                float2 screenUV = i.customScreenPos.xy / i.customScreenPos.w;
+                float2 screenUV = i.screenPos.xy / i.screenPos.w;
                 float4 reflectionCol = tex2D(_ReflectionTex, screenUV) * _ReflectionIntensity;
                 albedo *= reflectionCol;
 
@@ -181,10 +181,10 @@
 
                 #if defined(ENABLE_BLOOM_FOG)
                 #if defined(HEIGHT_FOG)
-                BLOOM_FOG_HEIGHT_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,
-                                           _FogHeightOffset, _FogHeightScale);
+                BLOOM_FOG_HEIGHT_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset,
+                                       _FogHeightScale);
                 #else
-                BLOOM_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
+                BLOOM_FOG_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale);
                 #endif
                 #endif
 

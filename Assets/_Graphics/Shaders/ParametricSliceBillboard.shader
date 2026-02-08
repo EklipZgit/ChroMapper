@@ -4,8 +4,8 @@
     {
         _Color ("Color", Color) = (1, 1, 1, 1)
         _MainTex ("Texture", 2D) = "white" {}
-		_CapUVSize ("Cap UV Size", Float) = 0.25
-        
+        _CapUVSize ("Cap UV Size", Float) = 0.25
+
         _SizeParams("Size Params", Vector) = (0.25,10,0,0.5)
         [Toggle(ALPHA_WIDTH_SCALE)] _EnableAlphaWidthScale ("Alpha Width Scale", float) = 0
         _AlphaWidth("Alpha Width", Vector) = (1,1,1,1)
@@ -41,8 +41,8 @@
         [Enum(UnityEngine.Rendering.CullMode)] _CullMode ("Cull Mode", float) = 2
         [Enum(UnityEngine.Rendering.CompareFunction)] _ZTest ("Z Test", float) = 4
         [Toggle] _ZWrite ("Z Write", float) = 0
-		_OffsetFactor ("Offset Factor", Float) = 0
-		_OffsetUnits ("Offset Units", Float) = 0
+        _OffsetFactor ("Offset Factor", Float) = 0
+        _OffsetUnits ("Offset Units", Float) = 0
     }
 
     SubShader
@@ -102,10 +102,9 @@
             struct v2f
             {
                 float4 vertex : SV_POSITION;
-                float3 uv : TEXCOORD0;
-                float lengthFactor : TEXCOORD1;
+                float4 uv : TEXCOORD0;
                 float3 worldPos : TEXCOORD2;
-                float4 customScreenPos : TEXCOORD3;
+                float4 screenPos : TEXCOORD3;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
@@ -167,7 +166,7 @@
                 }
 
                 float maxHeight = sizeParams.y + sizeParams.w * 2;
-                o.lengthFactor = (height + sizeParams.w) / maxHeight;
+                o.uv.w = (height + sizeParams.w) / maxHeight;
                 height -= offset;
                 width *= sizeParams.x;
 
@@ -181,9 +180,9 @@
                 o.vertex = UnityObjectToClipPos(i.vertex);
                 #endif
 
-                o.uv = float3(i.uv * width / sizeParams.x, width / sizeParams.x);
-                o.worldPos = mul(unity_ObjectToWorld, i.vertex).xyz;
-                o.customScreenPos = ComputeScreenPosCustom(o.vertex);
+                o.uv.xyz = float3(i.uv * width / sizeParams.x, width / sizeParams.x);
+                o.worldPos.xyz = mul(unity_ObjectToWorld, i.vertex).xyz;
+                o.screenPos = ComputeScreenPosCustom(o.vertex);
 
                 return o;
             }
@@ -218,15 +217,14 @@
                 #endif
 
                 ACES_TONE_MAPPING_APPLY(albedo);
-                
+
                 #endif
 
                 #if defined(FOG)
                 #if defined(HEIGHT_FOG)
-                BLOOM_FOG_HEIGHT_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,
-                                           _FogHeightOffset, _FogHeightScale);
+                BLOOM_FOG_HEIGHT_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset, _FogHeightScale);
                 #else
-                BLOOM_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
+                BLOOM_FOG_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale);
                 #endif
                 #endif
 
@@ -234,7 +232,7 @@
                 #if defined(SQUARE_ALPHA)
                 albedo.a *= albedo.a;
                 #endif
-                fixed alphaFactor = lerp(alphaWidth.x, alphaWidth.y, i.lengthFactor);
+                fixed alphaFactor = lerp(alphaWidth.x, alphaWidth.y, i.uv.w);
                 #if defined(SQUARE_ALPHA)
                 alphaFactor *= alphaFactor;
                 #endif
@@ -249,7 +247,7 @@
                 #endif
 
                 ACES_TONE_MAPPING_APPLY(albedo);
-                
+
                 #endif
 
                 return albedo;

@@ -4,7 +4,6 @@
     {
         _Color("Color", Color) = (0, 0, 0, 0)
         _ColorMultiplier("Color Multiplier", Range(0, 10)) = 1
-        _MainTex("Texture", 2D) = "white" {}
         _Smoothness ("Smoothness", Range(0, 1)) = 0.95
 
         [Header(Rim Dim)] [Space(10)]
@@ -129,16 +128,13 @@
             struct v2f
             {
                 float4 vertex : SV_POSITION;
-                float4 customScreenPos : POSITION1;
-                float4 rotatedPos : POSITION2;
                 float4 localPos : TEXCOORD0;
                 float3 viewDir : TEXCOORD1;
-                float3 worldPos : TEXCOORD2;
+                float4 worldPos : TEXCOORD2;
                 float3 worldNormal : TEXCOORD3;
-                float3 cutoutPos : TEXCOORD4;
-                #if defined(RIM_DIM)
-                float dist : TEXCOORD5;
-                #endif
+                float4 rotatedPos : TEXCOORD4;
+                float4 screenPos : TEXCOORD5;
+                float3 cutoutPos : TEXCOORD6;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
@@ -162,8 +158,9 @@
                 o.vertex = UnityObjectToClipPos(i.vertex);
                 o.localPos = i.vertex;
 
-                o.worldPos = mul(unity_ObjectToWorld, i.vertex).xyz;
-                o.customScreenPos = ComputeScreenPosCustom(o.vertex);
+                o.worldPos.xyz = mul(unity_ObjectToWorld, i.vertex).xyz;
+                o.worldPos.w = distance(o.worldPos.xyz, _WorldSpaceCameraPos);
+                o.screenPos = ComputeScreenPosCustom(o.vertex);
 
                 //Global platform offset
                 const float4 offset = float4(0, -0.5, -1.5, 0);
@@ -178,11 +175,8 @@
                     objectTime + 0.001 - _SongTime
                 );
 
-                o.worldNormal = UnityObjectToWorldNormal(i.normal);
+                o.worldNormal = normalize(UnityObjectToWorldNormal(i.normal));
                 o.viewDir = normalize(_WorldSpaceCameraPos - o.worldPos);
-                #if defined(RIM_DIM)
-                o.dist = distance(_WorldSpaceCameraPos, o.worldPos);
-                #endif
                 o.cutoutPos = mul(unity_ObjectToWorld, i.vertex.xyz);
                 return o;
             }
@@ -206,7 +200,7 @@
                 return alpha - DITHER_THRESHOLDS[index];
             }
 
-            half4 frag(v2f i) : SV_Target
+            float4 frag(v2f i) : SV_Target
             {
                 UNITY_SETUP_INSTANCE_ID(i);
 
@@ -233,41 +227,34 @@
                                   ? translucentAlpha
                                   : 1;
 
-                clip(isDithered(i.customScreenPos.xy / i.customScreenPos.w, alpha));
+                clip(isDithered(i.screenPos.xy / i.screenPos.w, alpha));
 
-                float noise = tex3D(_CutoutTex, (i.cutoutPos + cutoutTexOffset.xyz) * 0.25 * _CutoutSize);
+                float noise = tex3D(_CutoutTex, (i.cutoutPos.xyz + cutoutTexOffset.xyz) * 0.25 * _CutoutSize);
                 float cl = noise - cutout;
                 clip(cl);
                 if (cl < _CutoutEdgeWidth * cutout)
-                {
-                    return fixed4(albedo.rgb, _CutoutEdgeGlow);
-                }
+                    return float4(albedo.rgb, _CutoutEdgeGlow);
 
-                float3 worldNormal = normalize(i.worldNormal);
-                float3 viewDir = normalize(_WorldSpaceCameraPos - i.worldPos);
-                float3 calculated = 0;
-                CALCULATE_DIRECTIONAL_LIGHTING(calculated, albedo, 0, _Smoothness, 0.1, 1, 0, 0,
-                                               viewDir, 1, i.worldPos, worldNormal);
-                albedo.rgb = calculated.rgb;
+                CALCULATE_DIRECTIONAL_LIGHTING(albedo.rgb, albedo, 0, _Smoothness, 0.1, 1, 0, 0,
+                                               i.viewDir, 1, i.worldPos, i.worldNormal);
 
                 #if defined(RIM_DIM)
-                float rim = 1 - saturate(dot(worldNormal, i.viewDir));
-                float distFactor = (i.dist + _RimDistanceOffset) * _RimDistanceScale;
+                float rim = 1 - saturate(dot(i.worldNormal, i.viewDir));
+                float distFactor = (i.worldPos.w + _RimDistanceOffset) * _RimDistanceScale;
                 float finalRim = saturate((rim + _RimOffset) * _RimScale) * distFactor;
                 albedo *= (1 - finalRim * _RimDarkening);
                 #endif
 
                 ACES_TONE_MAPPING_APPLY(albedo);
-                
+
                 #if defined(CM_PREVIEW_MODE) && defined(FOG)
                 #if defined(HEIGHT_FOG)
-                BLOOM_FOG_HEIGHT_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,
-                                           _FogHeightOffset, _FogHeightScale);
+                BLOOM_FOG_HEIGHT_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset, _FogHeightScale);
                 #else
-                BLOOM_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
+                BLOOM_FOG_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale);
                 #endif
                 #endif
-                
+
                 return albedo;
             }
             ENDHLSL

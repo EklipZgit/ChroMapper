@@ -70,10 +70,9 @@
             struct v2f
             {
                 float4 vertex : SV_POSITION;
-                float3 uv : TEXCOORD0;
-                float lengthFactor : TEXCOORD1;
-                float3 worldPos : TEXCOORD2;
-                float4 customScreenPos : TEXCOORD3;
+                float4 uv : TEXCOORD0;
+                float3 worldPos : TEXCOORD1;
+                float4 screenPos : TEXCOORD2;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
@@ -93,17 +92,17 @@
 
                 float4 alphaWidth = UNITY_ACCESS_INSTANCED_PROP(Props, _AlphaWidth);
 
-                o.lengthFactor = (1 + i.vertex.y) / 2;
-                float width = lerp(alphaWidth.z, alphaWidth.w, o.lengthFactor);
+                o.uv.w = (1 + i.vertex.y) / 2;
+                float width = lerp(alphaWidth.z, alphaWidth.w, o.uv.w);
 
                 i.vertex.x = i.vertex.x * width;
                 i.vertex.z = i.vertex.z * width;
 
                 o.vertex = UnityObjectToClipPos(i.vertex);
 
-                o.uv = float3(i.uv * width / alphaWidth.z, width / alphaWidth.w);
-                o.worldPos = mul(unity_ObjectToWorld, i.vertex).xyz;
-                o.customScreenPos = ComputeScreenPosCustom(o.vertex);
+                o.uv.xyz = float3(i.uv * width / alphaWidth.z, width / alphaWidth.w);
+                o.worldPos.xyz = mul(unity_ObjectToWorld, i.vertex).xyz;
+                o.screenPos = ComputeScreenPosCustom(o.vertex);
 
                 return o;
             }
@@ -114,7 +113,7 @@
                 float4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
                 float4 alphaWidth = UNITY_ACCESS_INSTANCED_PROP(Props, _AlphaWidth);
 
-                float adjustedLengthFactor = i.lengthFactor;
+                float adjustedLengthFactor = i.uv.w;
 
                 float2 adjustedUv = i.uv.xy / i.uv.z;
                 float4 albedo = color;
@@ -123,10 +122,9 @@
                 albedo *= alphaFactor;
 
                 #if defined(HEIGHT_FOG)
-                BLOOM_FOG_HEIGHT_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,
-                                           _FogHeightOffset, _FogHeightScale);
+                BLOOM_FOG_HEIGHT_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset, _FogHeightScale);
                 #else
-                BLOOM_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
+                BLOOM_FOG_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale);
                 #endif
 
                 CUSTOM_BLOOM_PP_APPLY(albedo, 1);

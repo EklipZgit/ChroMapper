@@ -53,7 +53,6 @@
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_instancing
-            #pragma multi_compile _ ENABLE_BLOOM_FOG
             #pragma shader_feature_local HEIGHT_FOG
             #pragma multi_compile_local _FOGTYPE_ALPHA
             #pragma shader_feature_local _ _BLOOMTYPE_PP _BLOOMTYPE_FRAG
@@ -80,7 +79,7 @@
                 float4 vertex : SV_POSITION;
                 float2 uv : TEXCOORD0;
                 float3 worldPos : TEXCOORD2;
-                float4 customScreenPos : TEXCOORD3;
+                float4 screenPos : TEXCOORD3;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
@@ -128,9 +127,9 @@
 
                 o.vertex = UnityObjectToClipPos(i.vertex);
 
-                o.uv = i.uv;
+                o.uv.xy = i.uv.xy;
                 o.worldPos = mul(unity_ObjectToWorld, i.vertex).xyz;
-                o.customScreenPos = ComputeScreenPosCustom(o.vertex);
+                o.screenPos = ComputeScreenPosCustom(o.vertex);
 
                 return o;
             }
@@ -151,12 +150,11 @@
                 #endif
 
                 ACES_TONE_MAPPING_APPLY(albedo);
-                
+
                 #if defined(HEIGHT_FOG)
-                BLOOM_FOG_HEIGHT_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,
-                                           _FogHeightOffset, _FogHeightScale);
+                BLOOM_FOG_HEIGHT_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset, _FogHeightScale);
                 #else
-                BLOOM_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
+                BLOOM_FOG_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale);
                 #endif
 
                 return albedo;
