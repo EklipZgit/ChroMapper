@@ -3,7 +3,7 @@
     Properties
     {
         _Color ("Color", Color) = (1,1,1,1)
-        _PeakOffset ("Peak Offset", Vector) = (0,10,0,1)
+        _PeakOffset ("Peak Offset", Vector) = (0,0,8,1)
 
         [Header(Lighting)] [Space]
         [Toggle(DIFFUSE)] _EnableDiffuse ("Diffuse", float) = 1
@@ -55,6 +55,7 @@
             #include "CGIncludes/CustomBloom.cginc"
             #include "CGIncludes/CustomLighting.cginc"
             #include "CGIncludes/CustomTonemapping.cginc"
+            #include "Packages/com.llealloo.audiolink/Runtime/Shaders/AudioLink.cginc"
 
             UNITY_INSTANCING_BUFFER_START(Props)
                 UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
@@ -78,7 +79,7 @@
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
-            float _PeakOffset;
+            float3 _PeakOffset;
 
             float _Smoothness;
             float _Metallic;
@@ -95,6 +96,11 @@
 
                 UNITY_SETUP_INSTANCE_ID(i);
                 UNITY_TRANSFER_INSTANCE_ID(i, o);
+
+                float segment = floor(i.uv.x * 64) / 64;
+                float4 audioData = AudioLinkLerpMultiline(
+                    ALPASS_DFT + uint2(segment * AUDIOLINK_ETOTALBINS, 0));
+                i.vertex.xyz += i.uv.y * (audioData.b * _PeakOffset.xyz - _PeakOffset.xyz);
 
                 o.vertex = UnityObjectToClipPos(i.vertex);
                 o.worldPos = mul(unity_ObjectToWorld, i.vertex).xyz;
@@ -119,7 +125,8 @@
                 ACES_TONE_MAPPING_APPLY(albedo);
 
                 #if HEIGHT_FOG
-                BLOOM_FOG_HEIGHT_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset, _FogHeightScale);
+                BLOOM_FOG_HEIGHT_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset,
+                                       _FogHeightScale);
                 #else
                 BLOOM_FOG_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale);
                 #endif
