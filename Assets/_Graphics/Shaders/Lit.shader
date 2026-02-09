@@ -221,13 +221,13 @@
             #pragma shader_feature_local_fragment PRIVATE_POINT_LIGHT
             #pragma shader_feature_local_fragment POINT_LIGHT_IS_LOCAL
 
-            #pragma shader_feature_local_fragment DIFFUSE
+            #pragma shader_feature_local DIFFUSE
             #pragma shader_feature_local_fragment BOTH_SIDES_DIFFUSE
             #pragma shader_feature_local_fragment LIGHT_FALLOFF
             #pragma shader_feature_local_fragment DIFFUSE_TEXTURE
             #pragma shader_feature_local_fragment _ _DIFFUSE_TEXTURE_SOURCE_MPM_R _DIFFUSE_TEXTURE_SOURCE_MPM_A_SMOOTHNESS
 
-            #pragma shader_feature_local_fragment SPECULAR
+            #pragma shader_feature_local SPECULAR
 
             #pragma shader_feature_local RIM_DIM
             #pragma shader_feature_local_fragment INVERT_RIM_DIM
@@ -361,9 +361,6 @@
             float _GroundFadeScale;
             float _GroundFadeOffset;
             // --
-
-            #if !defined(UNITY_INSTANCING_ENABLED)
-            #endif
 
             #define USE_FOG_SUPPRESSION defined(_EMISSIONTEXTURE_SIMPLE) || defined(_EMISSIONTEXTURE_PULSE) || defined(_EMISSIONTEXTURE_FLIPBOOK) || defined(_VERTEX_EMISSION) || defined(_VERTEX_SPECIAL)
             // BLOOM_FOG && FOG

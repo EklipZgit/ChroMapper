@@ -578,7 +578,11 @@
                 albedo.rgb += albedo.rgb * mask.rgb;
                 albedo.a *= mask.a;
                 #else
+                #if defined(MASK_RED_IS_ALPHA)
+                albedo.a *= mask.a;
+                #else
                 albedo *= mask;
+                #endif
                 #endif
                 #endif
 
@@ -592,7 +596,7 @@
                     UNITY_ACCESS_INSTANCED_PROP(Props, _Mask2Strength);
                 #if defined(MASK2_RED_IS_ALPHA)
                 mask2.a = mask2.r;
-                mask2.rgb = 0;
+                mask2.rgb = 1;
                 #endif
                 #if defined(_MASK2BLEND_ADD)
                 albedo.rgb += mask2.rgb;
@@ -601,7 +605,11 @@
                 albedo.rgb += albedo.rgb * mask2.rgb;
                 albedo.a *= mask2.a;
                 #else
+                #if defined(MASK2_RED_IS_ALPHA)
+                albedo.a *= mask2.a;
+                #else
                 albedo *= mask2;
+                #endif
                 #endif
                 #endif
 
