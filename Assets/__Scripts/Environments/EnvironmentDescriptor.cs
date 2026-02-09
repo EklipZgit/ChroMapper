@@ -14,19 +14,21 @@ public class EnvironmentDescriptor : MonoBehaviour
     [SerializeField] public LightTranslationGroupEffectManager LightTranslationGroupEffectManager;
     [SerializeField] public FloatFxGroupEffectManager FloatFxGroupEffectManager;
 
+    [SerializeField] public EnvironmentSizeData SizeData = new();
     [SerializeField] public BloomFogParams BloomFogParams = new();
 
     public List<ChromaIDMarker> ChromaIDMarkers = new();
 
     private bool hasInitialized;
 
-    // below is old
+    // TODO: replace this, idrk where this goes
     [Tooltip("If you want a thing to rotate around a 360 level with the track, place it here.")]
     public GridRotationController RotationController;
 
     public void Initialize(BeatmapRuntimeContext context)
     {
         hasInitialized = true;
+        Shader.SetGlobalFloat("_TrackLaneYPosition", SizeData.TrackLaneType == TrackLaneType.None ? -100f : 0f);
         var rotationCallback = Resources.FindObjectsOfTypeAll<RotationCallbackController>().First();
 
         BasicEventEffectManager.Initialize(context.Atsc, context.ColorScheme);

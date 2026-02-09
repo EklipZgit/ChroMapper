@@ -132,6 +132,13 @@ public class EnvSizeData
     public string FloorType;
     public string CeilingType;
     public string TrackLaneType;
+
+    public void CopyTo(EnvironmentSizeData copy)
+    {
+        copy.FloorType = Enum.Parse<FloorType>(FloorType);
+        copy.CeilingType = Enum.Parse<CeilingType>(CeilingType);
+        copy.TrackLaneType = Enum.Parse<TrackLaneType>(TrackLaneType);
+    }
 }
 
 public class EnvColorScheme

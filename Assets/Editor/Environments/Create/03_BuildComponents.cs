@@ -19,6 +19,7 @@ public partial class EnvironmentSceneCreator
         descriptor.ID = data.Data.ID;
 
         data.Data.FogParameters.CopyTo(descriptor.BloomFogParams);
+        data.Data.SizeData.CopyTo(descriptor.SizeData);
 
         foreach (var obj in data.Objects)
         {

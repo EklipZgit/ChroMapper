@@ -165,7 +165,7 @@
 
                 float fadeSize = UNITY_ACCESS_INSTANCED_PROP(Props, _FadeSize);
 
-                float distance = i.rotatedPos.z;
+                float distance = i.rotatedPos.z - (5 / 3);
                 float startDistance = fadeSize;
                 float endDistance = _EditorDistance - fadeSize;
 

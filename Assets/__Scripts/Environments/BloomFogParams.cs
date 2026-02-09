@@ -1,7 +1,7 @@
 ﻿using System;
 
 [Serializable]
-public class BloomFogParams
+public sealed class BloomFogParams
 {
     public float Offset;
     public float Height;
