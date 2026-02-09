@@ -17,12 +17,7 @@ Material:
   - HEIGHT_FOG
   - Y_AXIS_BILLBOARD
   - _BLOOMTYPE_PP
-  m_InvalidKeywords:
-  - ENABLE_FOG
-  - ENABLE_HEIGHT_FOG
-  - ENABLE_Y_AXIS_BILLBOARD
-  - _ACESTONEMAP_AFTER_EMISSIVE
-  - _BLOOMWHITE_PP
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0

@@ -42,7 +42,7 @@ public class BloomfogRenderingController : MonoBehaviour
         bloomfogRenderer.Initialize();
         UpdateBloomFogParams(1000f, 0f, 25f, -50f, 0.00025f);
         Shader.SetGlobalFloat("_BloomfogBrightness", 0.1f);
-        Shader.EnableKeyword("ENABLE_BLOOM_FOG");
+        Shader.EnableKeyword("BLOOM_FOG");
 
         RegenerateRenderTexture();
     }

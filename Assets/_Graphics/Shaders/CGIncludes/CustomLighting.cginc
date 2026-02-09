@@ -8,20 +8,13 @@
 
 uniform float4 _DirectionalLightDirections[MAX_DIRECTIONAL_LIGHTS];
 uniform float4 _DirectionalLightColors[MAX_DIRECTIONAL_LIGHTS];
-#if defined(LIGHT_FALLOFF)
 uniform float4 _DirectionalLightPositions[MAX_DIRECTIONAL_LIGHTS];
 uniform float _DirectionalLightRadii[MAX_DIRECTIONAL_LIGHTS];
-#endif
 uniform float4 _PointLightPositions[MAX_POINT_LIGHTS];
 uniform float4 _PointLightColors[MAX_POINT_LIGHTS];
 
-#if defined(PRIVATE_POINT_LIGHT)
-#if !defined(UNITY_INSTANCING_ENABLED)
-float4 _PrivatePointLightColor;
-#endif
 float _PrivatePointLightIntensity;
 float4 _PrivatePointLightPosition;
-#endif
 
 #if defined(LIGHT_FALLOFF)
 #define GET_LIGHT_FALLOFF_ATTENUATION(worldPos, lightPos, lightRad) \
@@ -64,7 +57,7 @@ float4 _PrivatePointLightPosition;
 // Blinn-Phong
 #define CALCULATE_SPECULAR(result, albedo, metallic, smoothness, specIntensity, lightDir, worldPos, worldNormal) \
     0; \
-    float3 specViewDir = normalize(_WorldSpaceCameraPos - worldPos); \ 
+    float3 specViewDir = normalize(_WorldSpaceCameraPos - worldPos); \
     float3 specHalfDir = normalize(lightDir + specViewDir); \
     float specPower = smoothness * 128; \
     float specNDotH = saturate(dot(worldNormal, specHalfDir)); \
@@ -77,7 +70,7 @@ float4 _PrivatePointLightPosition;
 // GGX
 #define CALCULATE_SPECULAR(result, albedo, metallic, smoothness, specIntensity, lightDir, worldPos, worldNormal) \
     0; \
-    float3 specViewDir = normalize(_WorldSpaceCameraPos - worldPos); \ 
+    float3 specViewDir = normalize(_WorldSpaceCameraPos - worldPos); \
     float3 specHalfDir = normalize(lightDir + specViewDir); \
     float specNDotH = saturate(dot(worldNormal, specHalfDir)); \
     float specNDotV = saturate(dot(worldNormal, specViewDir)); \

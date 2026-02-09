@@ -3,7 +3,7 @@
     Properties
     {
         _Color ("Color", Color) = (1,1,1,1)
-		_SpectrogramScale ("Spectrogram Scale", float) = 0.5
+        _SpectrogramScale ("Spectrogram Scale", float) = 0.5
 
         [Header(Fog Settings)] [Space]
         _FogStartOffset ("Fog Start Offset", float) = 1
@@ -35,12 +35,21 @@
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_instancing
-            #pragma multi_compile _ ENABLE_BLOOM_FOG
-            #pragma shader_feature_local HEIGHT_FOG
+
+            #pragma shader_feature_local_fragment HEIGHT_FOG
+
+            #pragma multi_compile_fragment _ BLOOM_FOG
 
             #include "UnityCG.cginc"
             #include "CGIncludes/BloomFog.cginc"
             #include "CGIncludes/CustomTonemapping.cginc"
+
+            float _SpectrogramScale;
+
+            float _FogStartOffset;
+            float _FogScale;
+            float _FogHeightOffset;
+            float _FogHeightScale;
 
             UNITY_INSTANCING_BUFFER_START(Props)
                 UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
@@ -62,13 +71,6 @@
                 float4 screenPos : TEXCOORD2;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
-            
-            float _SpectrogramScale;
-
-            float _FogStartOffset;
-            float _FogScale;
-            float _FogHeightOffset;
-            float _FogHeightScale;
 
             v2f vert(appdata i)
             {
@@ -89,13 +91,16 @@
             {
                 UNITY_SETUP_INSTANCE_ID(i);
                 float4 albedo = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
-                
+
                 ACES_TONE_MAPPING_APPLY(albedo);
-                
+
+                #if defined(BLOOM_FOG)
                 #if defined(HEIGHT_FOG)
-                BLOOM_FOG_HEIGHT_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset, _FogHeightScale);
+                BLOOM_FOG_HEIGHT_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset,
+                                       _FogHeightScale);
                 #else
                 BLOOM_FOG_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale);
+                #endif
                 #endif
 
                 return albedo;

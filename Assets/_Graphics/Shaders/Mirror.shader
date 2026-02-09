@@ -64,15 +64,16 @@
             #pragma fragment frag
             #pragma multi_compile_instancing
 
-            #pragma shader_feature_local LIGHTMAP
-            #pragma shader_feature_local DIFFUSE
-            #pragma shader_feature_local LIGHT_FALLOFF
+            #pragma shader_feature_local_fragment LIGHTMAP
+            #pragma shader_feature_local_fragment DIFFUSE
+            #pragma shader_feature_local_fragment LIGHT_FALLOFF
 
-            #pragma shader_feature_local DETAIL_NORMAL_MAP
-            #pragma shader_feature_local DIRT
+            #pragma shader_feature_local_fragment DETAIL_NORMAL_MAP
+            #pragma shader_feature_local_fragment DIRT
 
-            #pragma multi_compile _ ENABLE_BLOOM_FOG
-            #pragma shader_feature_local HEIGHT_FOG
+            #pragma shader_feature_local_fragment HEIGHT_FOG
+
+            #pragma multi_compile_fragment _ BLOOM_FOG
 
             #include "UnityCG.cginc"
             #include "CGIncludes/BloomFog.cginc"
@@ -80,45 +81,31 @@
             #include "CGIncludes/CustomLighting.cginc"
             #include "CGIncludes/CustomTonemapping.cginc"
 
-            // this has no use in BIRP, but whatever it's still nice
-            CBUFFER_START(UnityPerMaterial)
-                float4 _NormalTex_ST;
-
-                float _BumpIntensity;
-                float _ReflectionIntensity;
-                float2 _TextureScrolling;
-
-                #if defined(DETAIL_NORMAL_MAP)
-                float _DetailNormalTextureScale;
-                float _DetailNormalIntensity;
-                float2 _DetailNormalTexScrolling;
-                #endif
-
-                float _Metallic;
-                float _Smoothness;
-
-                #if defined(DIRT)
-                float4 _DirtTex_ST;
-                float _DirtIntensity;
-                #endif
-
-                float4 _Color; // is tint supposed to be -1/default blue?
-
-                #if defined(ENABLE_BLOOM_FOG)
-                float _FogStartOffset;
-                float _FogScale;
-                #if defined(HEIGHT_FOG)
-                float _FogHeightOffset;
-                float _FogHeightScale;
-                #endif
-                #endif
-            CBUFFER_END
-
             sampler2D _NormalTex;
-            #if defined(DIRT)
+            float4 _NormalTex_ST;
+
+            float _DetailNormalTextureScale;
+            float _DetailNormalIntensity;
+            float2 _DetailNormalTexScrolling;
+
+            float4 _Color; // is tint supposed to be -1/default blue?
+            float _Metallic;
+            float _Smoothness;
+
+            float _BumpIntensity;
+            float _ReflectionIntensity;
+            float2 _TextureScrolling;
+
             sampler2D _DirtTex;
-            #endif
+            float4 _DirtTex_ST;
+            float _DirtIntensity;
+
             sampler2D _ReflectionTex;
+
+            float _FogStartOffset;
+            float _FogScale;
+            float _FogHeightOffset;
+            float _FogHeightScale;
 
             struct appdata
             {
@@ -179,7 +166,7 @@
 
                 ACES_TONE_MAPPING_APPLY(albedo);
 
-                #if defined(ENABLE_BLOOM_FOG)
+                #if defined(BLOOM_FOG)
                 #if defined(HEIGHT_FOG)
                 BLOOM_FOG_HEIGHT_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset,
                                        _FogHeightScale);

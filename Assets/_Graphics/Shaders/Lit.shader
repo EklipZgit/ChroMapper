@@ -29,7 +29,12 @@
         _EmissionStrength ("Emission Strength", float) = 1
         _EmissionBloomIntensity ("Emission Bloom Intensity", float) = 1
         [KeywordEnum(None, PP, Frag)] _Vertex_BloomType ("Color Treatment", float) = 0
-
+        [Space]
+        [Toggle(DISPLACEMENT_SPATIAL)] _DisplacementSpatial ("RGB Direction", float) = 0
+        [Toggle(DISPLACEMENT_BIDIRECTIONAL)] _DisplacementBidirectional ("RGB Bidirectional", float) = 0
+        [KeywordEnum(None, Flat, Full)] _Spectrogram ("Spectrogram", float) = 0
+        _DisplacementStrength ("Displacement Strength", float) = 0.1
+        _DisplacementAxisMultiplier ("Axis Multiplier", Vector) = (1,1,1,1)
 
 
         [Header(Emission)] [Space]
@@ -183,56 +188,61 @@
 
             #pragma shader_feature_local _ _SECONDARY_UVS_IMPORT _SECONDARY_UVS_EXTERNAL_SCALE _SECONDARY_UVS_OBJECT_SPACE _SECONDARY_UVS_ADDITIVE_OFFSET
 
-            #pragma shader_feature_local METAL_SMOOTHNESS_TEXTURE
-            #pragma shader_feature_local _ _METALLIC_TEXTURE_SOURCE_MPM_R _METALLIC_TEXTURE_SOURCE_MPM_A
-            #pragma shader_feature_local _ _SMOOTHNESS_TEXTURE_SOURCE_MPM_A _SMOOTHNESS_TEXTURE_SOURCE_MPM_G_ROUGHNESS
-            #pragma shader_feature_local PRECISE_NORMAL
+            #pragma shader_feature_local_fragment METAL_SMOOTHNESS_TEXTURE
+            #pragma shader_feature_local_fragment _ _METALLIC_TEXTURE_SOURCE_MPM_R _METALLIC_TEXTURE_SOURCE_MPM_A
+            #pragma shader_feature_local_fragment _ _SMOOTHNESS_TEXTURE_SOURCE_MPM_A _SMOOTHNESS_TEXTURE_SOURCE_MPM_G_ROUGHNESS
+            #pragma shader_feature_local_fragment PRECISE_NORMAL
 
             #pragma shader_feature_local _ _VERTEX_COLOR _VERTEX_EMISSION _VERTEX_METAL_SMOOTHNESS _VERTEX_SPECIAL _VERTEX_DISPLACEMENT _VERTEX_EMISSIVE_MULT_ADD
-            #pragma shader_feature_local _ _VERTEX_BLOOMTYPE_PP _VERTEX_BLOOMTYPE_FRAG
+            #pragma shader_feature_local_vertex _ _VERTEX_BLOOMTYPE_PP _VERTEX_BLOOMTYPE_FRAG
 
-            #pragma shader_feature_local _ _EMISSIONTEXTURE_SIMPLE _EMISSIONTEXTURE_FLIPBOOK
-            #pragma shader_feature_local _ _EMISSION_TEXTURE_SOURCE_MPM_G
-            #pragma shader_feature_local SECONDARY_UVS_EMISSION
+            #pragma shader_feature_local_vertex DISPLACEMENT_SPATIAL
+            #pragma shader_feature_local_vertex DISPLACEMENT_BIDIRECTIONAL
+            #pragma shader_feature_local_vertex _ _SPECTROGRAM_FLAT _SPECTROGRAM_FULL
 
-            #pragma shader_feature_local _ _EMISSIONBLOOMTYPE_FRAG _EMISSIONBLOOMTYPE_GRADIENT _EMISSIONBLOOMTYPE_PP
-            #pragma shader_feature_local EMISSION_ANGLE_DISAPPEAR
-            #pragma shader_feature_local _ _EMISSION_ALPHA_SOURCE_COPY_EMISSION _EMISSION_ALPHA_SOURCE_MPM_R
+            #pragma shader_feature_local_fragment _ _EMISSIONTEXTURE_SIMPLE _EMISSIONTEXTURE_FLIPBOOK
+            #pragma shader_feature_local_fragment _ _EMISSION_TEXTURE_SOURCE_MPM_G
+            #pragma shader_feature_local_fragment SECONDARY_UVS_EMISSION
 
-            #pragma shader_feature_local EMISSION_MASK
-            #pragma shader_feature_local _ _MASKBLEND_ADD _MASKBLEND_MASKED_ADD
-            #pragma shader_feature_local SECONDARY_UVS_EMISSION_MASK
+            #pragma shader_feature_local_fragment _ _EMISSIONBLOOMTYPE_FRAG _EMISSIONBLOOMTYPE_GRADIENT _EMISSIONBLOOMTYPE_PP
+            #pragma shader_feature_local_fragment EMISSION_ANGLE_DISAPPEAR
+            #pragma shader_feature_local_fragment _ _EMISSION_ALPHA_SOURCE_COPY_EMISSION _EMISSION_ALPHA_SOURCE_MPM_R
 
-            #pragma shader_feature_local SECONDARY_EMISSION_MASK
-            #pragma shader_feature_local _ _SECONDARY_MASKBLEND_ADD _SECONDARY_MASKBLEND_MASKED_ADD
-            #pragma shader_feature_local SECONDARY_UVS_EMISSION_MASK2
+            #pragma shader_feature_local_fragment EMISSION_MASK
+            #pragma shader_feature_local_fragment _ _MASKBLEND_ADD _MASKBLEND_MASKED_ADD
+            #pragma shader_feature_local_fragment SECONDARY_UVS_EMISSION_MASK
 
-            #pragma shader_feature_local FLIPBOOK_BLENDING_OFF
+            #pragma shader_feature_local_fragment SECONDARY_EMISSION_MASK
+            #pragma shader_feature_local_fragment _ _SECONDARY_MASKBLEND_ADD _SECONDARY_MASKBLEND_MASKED_ADD
+            #pragma shader_feature_local_fragment SECONDARY_UVS_EMISSION_MASK2
 
-            #pragma shader_feature_local PRIVATE_POINT_LIGHT
-            #pragma shader_feature_local POINT_LIGHT_IS_LOCAL
+            #pragma shader_feature_local_fragment FLIPBOOK_BLENDING_OFF
 
-            #pragma shader_feature_local DIFFUSE
-            #pragma shader_feature_local BOTH_SIDES_DIFFUSE
-            #pragma shader_feature_local LIGHT_FALLOFF
-            #pragma shader_feature_local DIFFUSE_TEXTURE
-            #pragma shader_feature_local _ _DIFFUSE_TEXTURE_SOURCE_MPM_R _DIFFUSE_TEXTURE_SOURCE_MPM_A_SMOOTHNESS
+            #pragma shader_feature_local_fragment PRIVATE_POINT_LIGHT
+            #pragma shader_feature_local_fragment POINT_LIGHT_IS_LOCAL
 
-            #pragma shader_feature_local SPECULAR
+            #pragma shader_feature_local_fragment DIFFUSE
+            #pragma shader_feature_local_fragment BOTH_SIDES_DIFFUSE
+            #pragma shader_feature_local_fragment LIGHT_FALLOFF
+            #pragma shader_feature_local_fragment DIFFUSE_TEXTURE
+            #pragma shader_feature_local_fragment _ _DIFFUSE_TEXTURE_SOURCE_MPM_R _DIFFUSE_TEXTURE_SOURCE_MPM_A_SMOOTHNESS
+
+            #pragma shader_feature_local_fragment SPECULAR
 
             #pragma shader_feature_local RIM_DIM
-            #pragma shader_feature_local INVERT_RIM_DIM
+            #pragma shader_feature_local_fragment INVERT_RIM_DIM
 
-            #pragma shader_feature_local GROUND_FADE
+            #pragma shader_feature_local_fragment GROUND_FADE
 
-            #pragma shader_feature_local _ _CUSTOM_TIME_SONG_TIME _CUSTOM_TIME_FREEZE
-            #pragma shader_feature_local _ _ACES_APPROACH_BEFORE_EMISSIVE
-            #pragma shader_feature_local COLOR_ARRAY
+            #pragma shader_feature_local_fragment _ _CUSTOM_TIME_SONG_TIME _CUSTOM_TIME_FREEZE
+            #pragma shader_feature_local_fragment _ _ACES_APPROACH_BEFORE_EMISSIVE
+            #pragma shader_feature_local_fragment COLOR_ARRAY
 
-            #pragma multi_compile _ ENABLE_BLOOM_FOG
-            #pragma shader_feature_local FOG
-            #pragma shader_feature_local HEIGHT_FOG
-            #pragma shader_feature_local DISTANCE_DARKENING
+            #pragma shader_feature_local_fragment FOG
+            #pragma shader_feature_local_fragment HEIGHT_FOG
+            #pragma shader_feature_local_fragment DISTANCE_DARKENING
+            
+            #pragma multi_compile_fragment _ BLOOM_FOG
 
             #include "UnityCG.cginc"
             #include "CGIncludes/BloomFog.cginc"
@@ -243,187 +253,163 @@
 
             #define USE_UV_SCALE defined(_SECONDARY_UVS_EXTERNAL_SCALE) || defined(_SECONDARY_UVS_OBJECT_SPACE)
             #define USE_SECONDARY_UV USE_UV_SCALE || defined(_SECONDARY_UVS_IMPORT) || defined(_SECONDARY_UVS_ADDITIVE_OFFSET)
-            #if USE_SECONDARY_UV
-            #if USE_UV_SCALE
+            // USE_SECONDARY_UV
+            // USE_UV_SCALE
             float4 _UVScale;
-            #endif
-            #if defined(_SECONDARY_UVS_ADDITIVE_OFFSET)
+            // --
+            // _SECONDARY_UVS_ADDITIVE_OFFSET
             float4 _AdditiveUVOffset;
-            #endif
+            // --
             float2 _InputUvMultiplier;
-            #endif
+            // --
 
-            #if defined(METAL_SMOOTHNESS_TEXTURE)
+            // METAL_SMOOTHNESS_TEXTURE
             sampler2D _MetalSmoothnessTex;
             float4 _MetalSmoothnessTex_ST;
-            #endif
+            // --
             float _Smoothness;
             float _Metallic;
 
             #define USE_VERTEX_EMISSION defined(_VERTEX_EMISSION) || defined(_VERTEX_SPECIAL) || defined(_VERTEX_EMISSIVE_MULT_ADD)
             #define USE_VERTEX_COLOR USE_VERTEX_EMISSION || defined(_VERTEX_COLOR) || defined(_VERTEX_METAL_SMOOTHNESS) || defined(_VERTEX_DISPLACEMENT)
-            #if USE_VERTEX_EMISSION
+            // USE_VERTEX_EMISSION
             float _EmissionThreshold;
-            #if !defined(UNITY_INSTANCING_ENABLED)
-            float4 _EmissionColor;
-            #endif
             float _EmissionStrength;
             float _EmissionBloomIntensity;
-            #endif
+            // --
 
             #define ENABLE_EMISSION_TEXTURE defined(_EMISSIONTEXTURE_SIMPLE) || defined(_EMISSIONTEXTURE_PULSE) || defined(_EMISSIONTEXTURE_FLIPBOOK)
             #define USE_EMISSION_TEXTURE !defined(_EMISSION_TEXTURE_SOURCE_MPM_G) && (defined(_EMISSIONTEXTURE_SIMPLE) || defined(_EMISSIONTEXTURE_FLIPBOOK))
-            #if USE_EMISSION_TEXTURE
+            // USE_EMISSION_TEXTURE
             sampler2D _EmissionTex;
             float4 _EmissionTex_ST;
-            #if defined(_EMISSIONTEXTURE_SIMPLE)
+            // _EMISSIONTEXTURE_SIMPLE
             float2 _EmissionTexSpeed;
-            #endif
-            #endif
+            // --
+            // --
 
-            #if !defined(UNITY_INSTANCING_ENABLED)
-            float _EmissionBrightness;
-            #endif
-
-            #if defined(EMISSION_ANGLE_DISAPPEAR) && ENABLE_EMISSION_TEXTURE
+            // EMISSION_ANGLE_DISAPPEAR && ENABLE_EMISSION_TEXTURE
             float _EmissionThresholdAngle;
-            #endif
+            // --
 
             #define USE_EMISSION_TEXTURE_COLOR !defined(_EMISSIONBLOOMTYPE_GRADIENT) && ENABLE_EMISSION_TEXTURE
-            #if USE_EMISSION_TEXTURE_COLOR
-            #if !defined(UNITY_INSTANCING_ENABLED)
-            float4 _EmissionTexColor;
-            #endif
-            #endif
 
             #define USE_EMISSION_GRADIENT_TEXTURE defined(_EMISSIONBLOOMTYPE_GRADIENT) && ENABLE_EMISSION_TEXTURE
-            #if USE_EMISSION_GRADIENT_TEXTURE
+            // USE_EMISSION_GRADIENT_TEXTURE
             sampler2D _EmissionGradientTex;
             float4 _EmissionGradientTex_ST;
-            #endif
-            #if defined(_EMISSIONBLOOMTYPE_GRADIENT)
-            #if !defined(UNITY_INSTANCING_ENABLED)
-            float _EmissionGradientPosition;
-            #endif
+            // --
+            // _EMISSIONBLOOMTYPE_GRADIENT
             float _EmissionGradientPanningSpeed;
             float _EmissionGradientIntensity;
-            #endif
+            // --
 
-            #if defined(_EMISSIONTEXTURE_FLIPBOOK)
+            // _EMISSIONTEXTURE_FLIPBOOK
             float _FlipbookColumns;
             float _FlipbookRows;
             float _FlipbookNonloopableFrames;
             float _FlipbookSpeed;
-            #endif
+            // --
 
             float _EmissionTexBloomIntensity;
             float _EmissionTexWhiteBoostMultiplier;
 
             #define USE_EMISSION_MASK defined(_EMISSIONTEXTURE_PULSE) || defined(_EMISSIONTEXTURE_SIMPLE)
-            #if USE_EMISSION_MASK
-            #if defined(EMISSION_MASK)
+            // USE_EMISSION_MASK
+            // EMISSION_MASK
             sampler2D _EmissionMask;
             float4 _EmissionMask_ST;
             float2 _EmissionMaskSpeed;
-            #if !defined(UNITY_INSTANCING_ENABLED)
-            float _EmissionMaskIntensity;
-            #endif
-            #endif
-            #if defined(SECONDARY_EMISSION_MASK)
+            // --
+            // SECONDARY_EMISSION_MASK
             sampler2D _SecondaryEmissionMask;
             float4 _SecondaryEmissionMask_ST;
             float2 _SecondaryEmissionMaskSpeed;
-            #if !defined(UNITY_INSTANCING_ENABLED)
-            float _SecondaryEmissionMaskIntensity;
-            #endif
-            #endif
+            // --
             float _EmissionMaskStepValue;
             float _EmissionMaskStepWidth;
-            #endif
+            // --
 
             float _AmbientMinimalValue;
             float4 _NominalDiffuseLevel;
             float _AmbientMultiplier;
 
-            #if defined(DIFFUSE_TEXTURE)
+            // DIFFUSE_TEXTURE
             sampler2D _DiffuseTex;
             float4 _DiffuseTex_ST;
             float _AlbedoMultiplier;
-            #endif
+            // --
 
-            #if defined(DIFFUSE)
+            // DIFFUSE
             float _BothSidesDiffuseMultiplier;
-            #endif
+            // --
 
-            #if defined(SPECULAR)
+            // SPECULAR
             float _SpecularIntensity;
-            #endif
+            // --
 
-            #if defined(RIM_DIM)
+            // RIM_DIM
             float _RimScale;
             float _RimOffset;
             float _RimDistanceOffset;
             float _RimDistanceScale;
             float _RimSmoothness;
             float _RimDarkening;
-            #endif
+            // --
 
-            #if defined(GROUND_FADE)
+            // GROUND_FADE
             float _GroundFadeScale;
             float _GroundFadeOffset;
-            #endif
+            // --
 
             #if !defined(UNITY_INSTANCING_ENABLED)
-            float _TimeOffset;
             #endif
 
             #define USE_FOG_SUPPRESSION defined(_EMISSIONTEXTURE_SIMPLE) || defined(_EMISSIONTEXTURE_PULSE) || defined(_EMISSIONTEXTURE_FLIPBOOK) || defined(_VERTEX_EMISSION) || defined(_VERTEX_SPECIAL)
-            #if defined(ENABLE_BLOOM_FOG) && defined(FOG)
+            // BLOOM_FOG && FOG
             float _FogStartOffset;
             float _FogScale;
-            #if defined(HEIGHT_FOG)
+            // HEIGHT_FOG
             float _FogHeightOffset;
             float _FogHeightScale;
-            #endif
-            #if USE_FOG_SUPPRESSION
+            // --
+            // USE_FOG_SUPPRESSION
             float _EmissionFogSuppression;
             float _MainEffectFogSuppression;
-            #endif
-            #endif
+            // --
+            // --
 
-            #if defined(DISTANCE_DARKENING)
+            // DISTANCE_DARKENING
             float _DarkeningScale;
             float _DarkeningIntensity;
             float3 _DarkeningCenter;
             float3 _DarkeningDirection;
-            #endif
+            // --
 
             #if defined(UNITY_INSTANCING_ENABLED)
             UNITY_INSTANCING_BUFFER_START (Props)
             UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
             UNITY_DEFINE_INSTANCED_PROP(float, _EmissionBrightness)
-            #if USE_VERTEX_EMISSION
             UNITY_DEFINE_INSTANCED_PROP(float4, _EmissionColor)
-            #endif
-            #if USE_EMISSION_TEXTURE_COLOR
             UNITY_DEFINE_INSTANCED_PROP(float4, _EmissionTexColor)
-            #endif
-            #if defined(_EMISSIONBLOOMTYPE_GRADIENT)
             UNITY_DEFINE_INSTANCED_PROP(float, _EmissionGradientPosition)
-            #endif
-            #if defined(EMISSION_MASK)
             UNITY_DEFINE_INSTANCED_PROP(float, _EmissionMaskIntensity)
-            #endif
-            #if defined(SECONDARY_EMISSION_MASK)
             UNITY_DEFINE_INSTANCED_PROP(float, _SecondaryEmissionMaskIntensity)
-            #endif
-            #if defined(PRIVATE_POINT_LIGHT)
             UNITY_DEFINE_INSTANCED_PROP(float4, _PrivatePointLightColor)
-            #endif
             UNITY_DEFINE_INSTANCED_PROP(float, _TimeOffset)
             UNITY_INSTANCING_BUFFER_END (Props)
             #else
-            float4 _Color;
+            CBUFFER_START(UnityPerMaterial)
+                float4 _Color;
+                float4 _EmissionColor;
+                float4 _EmissionTexColor;
+                float _EmissionBrightness;
+                float _EmissionGradientPosition;
+                float _EmissionMaskIntensity;
+                float _SecondaryEmissionMaskIntensity;
+                float4 _PrivatePointLightColor;
+                float _TimeOffset;
+            CBUFFER_END
             #endif
 
             #define USE_WORLD_NORMAL defined(DIFFUSE) || defined(SPECULAR) || defined(RIM_DIM)
@@ -480,7 +466,8 @@
 
                 o.vertex = UnityObjectToClipPos(i.vertex);
                 #if USE_VERTEX_COLOR
-                o.color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
+                // TODO: i dont think this does what i think it odes
+                o.color = i.color * UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
                 // TODO: wtf does this do
                 #if USE_VERTEX_EMISSION
                 o.emission = UNITY_ACCESS_INSTANCED_PROP(Props, _EmissionColor);
@@ -629,14 +616,16 @@
                 #endif
                 #if defined(_EMISSIONTEXTURE_SIMPLE)
                 float4 emissionTex = tex2D(_EmissionTex,
-                                           TRANSFORM_TEX(emissionUv, _EmissionTex) + _EmissionTexSpeed * time.yy);
+                                           TRANSFORM_TEX(emissionUv, _EmissionTex) +
+                                           _EmissionTexSpeed * time.yy);
                 #else
                 float4 emissionTex = tex2D(_EmissionTex, TRANSFORM_TEX(emissionUv, _EmissionTex));
                 #endif
                 #if defined(_EMISSIONTEXTURE_FLIPBOOK) && !defined(FLIPBOOK_BLENDING_OFF)
                 // TODO: im not sure if it's next or previous
                 float2 emissionUv2 = i.uv + float2(floor((flipbookTime + 1) % _FlipbookColumns) / _FlipbookColumns,
-                                                   floor((flipbookTime + 1) / _FlipbookColumns)
+                                                   floor((flipbookTime + 1) /
+                                                       _FlipbookColumns)
                                                    %
                                                    _FlipbookRows /
                                                    _FlipbookRows);
@@ -749,9 +738,10 @@
                 ACES_TONE_MAPPING_APPLY(albedo);
                 #endif
 
-                #if defined(ENABLE_BLOOM_FOG) && defined(FOG)
+                #if defined(BLOOM_FOG) && defined(FOG)
                 #if HEIGHT_FOG
-                BLOOM_FOG_HEIGHT_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset, _FogHeightScale);
+                BLOOM_FOG_HEIGHT_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset,
+                                       _FogHeightScale);
                 #else
                 BLOOM_FOG_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale);
                 #endif

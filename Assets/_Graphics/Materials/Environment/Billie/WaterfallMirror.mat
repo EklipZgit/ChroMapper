@@ -11,9 +11,10 @@ Material:
   m_Shader: {fileID: 4800000, guid: 924f42608618457aaa16fdd29dca98e6, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - DETAIL_NORMAL_MAP
+  - LIGHTMAP
   m_InvalidKeywords:
-  - ENABLE_FOG
   - _ZWRITE_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
@@ -46,7 +47,7 @@ Material:
     - _BumpIntensity: 0.1
     - _CullMode: 2
     - _DetailNormalIntensity: 0
-    - _DetailNormalMap: 0
+    - _DetailNormalMap: 1
     - _DetailNormalTextureScale: 1
     - _DirtIntensity: 1
     - _EnableDiffuse: 0
@@ -54,7 +55,7 @@ Material:
     - _EnableFog: 0
     - _EnableHeightFog: 0
     - _EnableLightFalloff: 0
-    - _EnableLightmap: 0
+    - _EnableLightmap: 1
     - _EnableSpecular: 0
     - _FogHeightOffset: 0
     - _FogHeightScale: 1

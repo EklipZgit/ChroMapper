@@ -40,15 +40,25 @@
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_instancing
-            #pragma multi_compile _ ENABLE_BLOOM_FOG
-            #pragma shader_feature_local HEIGHT_FOG
-            #pragma shader_feature_local ALPHA_CUTOUT
-            #pragma shader_feature_local _ _BLOOMTYPE_PP _BLOOMTYPE_FRAG
+
+            #pragma shader_feature_local_fragment ALPHA_CUTOUT
+            #pragma shader_feature_local_fragment _ _BLOOMTYPE_PP _BLOOMTYPE_FRAG
+            #pragma shader_feature_local_fragment HEIGHT_FOG
+
+            #pragma multi_compile_fragment _ BLOOM_FOG
 
             #include "UnityCG.cginc"
             #include "CGIncludes/BloomFog.cginc"
             #include "CGIncludes/CustomBloom.cginc"
             #include "CGIncludes/CustomTonemapping.cginc"
+
+            sampler2D _MainTex;
+            float4 _MainTex_ST;
+
+            float _FogStartOffset;
+            float _FogScale;
+            float _FogHeightOffset;
+            float _FogHeightScale;
 
             UNITY_INSTANCING_BUFFER_START(Props)
                 UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
@@ -69,14 +79,6 @@
                 float4 screenPos : TEXCOORD2;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
-
-            sampler2D _MainTex;
-            float4 _MainTex_ST;
-
-            float _FogStartOffset;
-            float _FogScale;
-            float _FogHeightOffset;
-            float _FogHeightScale;
 
             v2f vert(appdata i)
             {
@@ -113,10 +115,13 @@
 
                 ACES_TONE_MAPPING_APPLY(albedo);
 
+                #if defined(BLOOM_FOG)
                 #if defined(HEIGHT_FOG)
-                BLOOM_FOG_HEIGHT_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset, _FogHeightScale);
+                BLOOM_FOG_HEIGHT_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset,
+                                       _FogHeightScale);
                 #else
                 BLOOM_FOG_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale);
+                #endif
                 #endif
 
                 return albedo;

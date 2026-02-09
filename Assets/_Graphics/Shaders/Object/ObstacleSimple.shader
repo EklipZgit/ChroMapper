@@ -29,7 +29,7 @@
         Cull [_CullMode]
         ZTest [_ZTest]
         ZWrite [_ZWrite]
-        
+
         Tags
         {
             "Queue"="Transparent+50"
@@ -37,29 +37,25 @@
             "RenderType"="Transparent"
         }
 
-        HLSLINCLUDE
-        #include "UnityCG.cginc"
-        #include "../CGIncludes/CustomTonemapping.cginc"
-
-        // These are global properties and should not be instanced
-        uniform float _MainAlpha = 0.5;
-        uniform sampler3D _CutoutTex;
-
-        // Define instanced properties
-        UNITY_INSTANCING_BUFFER_START(Props)
-            UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
-            UNITY_DEFINE_INSTANCED_PROP(float4, _WorldScale)
-            UNITY_DEFINE_INSTANCED_PROP(float, _Cutout)
-            UNITY_DEFINE_INSTANCED_PROP(float4, _CutoutTexOffset)
-        UNITY_INSTANCING_BUFFER_END(Props)
-        ENDHLSL
-
         Pass
         {
             HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_instancing
+
+            #include "UnityCG.cginc"
+            #include "../CGIncludes/CustomTonemapping.cginc"
+
+            uniform float _MainAlpha = 0.5;
+            uniform sampler3D _CutoutTex;
+
+            UNITY_INSTANCING_BUFFER_START(Props)
+                UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
+                UNITY_DEFINE_INSTANCED_PROP(float4, _WorldScale)
+                UNITY_DEFINE_INSTANCED_PROP(float, _Cutout)
+                UNITY_DEFINE_INSTANCED_PROP(float4, _CutoutTexOffset)
+            UNITY_INSTANCING_BUFFER_END(Props)
 
             struct appdata
             {
@@ -104,9 +100,9 @@
                 fixed4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
                 color.rgb *= 0.25;
                 color.a = 0;
-                
+
                 ACES_TONE_MAPPING_APPLY(color);
-                
+
                 return color;
             }
             ENDHLSL

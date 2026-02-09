@@ -57,65 +57,65 @@
         ZTest [_ZTest]
         ZWrite [_ZWrite]
 
-        HLSLINCLUDE
-        #include "UnityCG.cginc"
-        #include "../CGIncludes/BloomFog.cginc"
-        #include "../CGIncludes/CustomLighting.cginc"
-        #include "../CGIncludes/CustomTonemapping.cginc"
-        #pragma multi_compile_instancing
-
-        UNITY_INSTANCING_BUFFER_START(Props)
-            UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
-            UNITY_DEFINE_INSTANCED_PROP(float, _ColorMultiplier)
-            UNITY_DEFINE_INSTANCED_PROP(float4, _OverNoteInterfaceColor)
-            UNITY_DEFINE_INSTANCED_PROP(float, _TranslucentAlpha)
-            UNITY_DEFINE_INSTANCED_PROP(float, _Cutout)
-            UNITY_DEFINE_INSTANCED_PROP(float4, _CutoutTexOffset)
-            UNITY_DEFINE_INSTANCED_PROP(float4, _CutPlane)
-            UNITY_DEFINE_INSTANCED_PROP(float, _Rotation)
-            UNITY_DEFINE_INSTANCED_PROP(float, _AlwaysTranslucent)
-            UNITY_DEFINE_INSTANCED_PROP(float, _AnimationSpawned)
-            UNITY_DEFINE_INSTANCED_PROP(float, _ObjectTime)
-        UNITY_INSTANCING_BUFFER_END(Props)
-
-        float _Intensity;
-        float _Smoothness;
-
-        float _RimScale;
-        float _RimOffset;
-        float _RimDistanceScale;
-        float _RimDistanceOffset;
-        float _RimDarkening;
-
-        float _OutlineWidth;
-        float _CutoutEdgeGlow;
-        float _CutoutEdgeWidth;
-        float _CutoutSize;
-
-        float _FogStartOffset;
-        float _FogScale;
-        float _FogHeightOffset;
-        float _FogHeightScale;
-        ENDHLSL
-
         Pass
         {
             HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-            #pragma multi_compile_local DIFFUSE
-            #pragma multi_compile_local BOTH_SIDES_DIFFUSE
-            #pragma multi_compile_local HALF_LAMBERT
-            #pragma multi_compile_local SPECULAR
-            #pragma shader_feature_local RIM_DIM
-            #pragma multi_compile _ ENABLE_BLOOM_FOG
-            #pragma shader_feature_local FOG
-            #pragma shader_feature_local HEIGHT_FOG
-            #pragma multi_compile _ CM_PREVIEW_MODE
-            #pragma multi_compile_local LOW_QUALITY_SHADER // GGX makes a dot
+            #pragma multi_compile_local_fragment LOW_QUALITY_SHADER // GGX makes a dot
+
+            #pragma multi_compile_local_fragment DIFFUSE
+            #pragma multi_compile_local_fragment BOTH_SIDES_DIFFUSE
+            #pragma multi_compile_local_fragment HALF_LAMBERT
+            #pragma multi_compile_local_fragment SPECULAR
+            #pragma shader_feature_local_fragment RIM_DIM
+
+            #pragma shader_feature_local_fragment FOG
+            #pragma shader_feature_local_fragment HEIGHT_FOG
+
+            #pragma multi_compile_fragment _ BLOOM_FOG
+            #pragma multi_compile_fragment _ CM_PREVIEW_MODE
+
+            #include "UnityCG.cginc"
+            #include "../CGIncludes/BloomFog.cginc"
+            #include "../CGIncludes/CustomLighting.cginc"
+            #include "../CGIncludes/CustomTonemapping.cginc"
+            #pragma multi_compile_instancing
+
+            float _Smoothness;
+
+            float _RimScale;
+            float _RimOffset;
+            float _RimDistanceScale;
+            float _RimDistanceOffset;
+            float _RimDarkening;
+
+            float _OutlineWidth;
+            float _CutoutEdgeGlow;
+            float _CutoutEdgeWidth;
+            float _CutoutSize;
+
+            float _FogStartOffset;
+            float _FogScale;
+            float _FogHeightOffset;
+            float _FogHeightScale;
 
             uniform float _SongTime;
-            sampler3D _CutoutTex;
+            uniform sampler3D _CutoutTex;
+
+            UNITY_INSTANCING_BUFFER_START(Props)
+                UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
+                UNITY_DEFINE_INSTANCED_PROP(float, _ColorMultiplier)
+                UNITY_DEFINE_INSTANCED_PROP(float4, _OverNoteInterfaceColor)
+                UNITY_DEFINE_INSTANCED_PROP(float, _TranslucentAlpha)
+                UNITY_DEFINE_INSTANCED_PROP(float, _Cutout)
+                UNITY_DEFINE_INSTANCED_PROP(float4, _CutoutTexOffset)
+                UNITY_DEFINE_INSTANCED_PROP(float4, _CutPlane)
+                UNITY_DEFINE_INSTANCED_PROP(float, _Rotation)
+                UNITY_DEFINE_INSTANCED_PROP(float, _AlwaysTranslucent)
+                UNITY_DEFINE_INSTANCED_PROP(float, _AnimationSpawned)
+                UNITY_DEFINE_INSTANCED_PROP(float, _ObjectTime)
+            UNITY_INSTANCING_BUFFER_END(Props)
 
             struct appdata
             {
@@ -245,11 +245,12 @@
                 albedo *= (1 - finalRim * _RimDarkening);
                 #endif
 
-                ACES_TONE_MAPPING_APPLY(albedo);
+                    ACES_TONE_MAPPING_APPLY(albedo);
 
-                #if defined(CM_PREVIEW_MODE) && defined(FOG)
+                #if defined(CM_PREVIEW_MODE) && defined(BLOOM_FOG) && defined(FOG)
                 #if defined(HEIGHT_FOG)
-                BLOOM_FOG_HEIGHT_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset, _FogHeightScale);
+                BLOOM_FOG_HEIGHT_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset,
+                                                                  _FogHeightScale);
                 #else
                 BLOOM_FOG_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale);
                 #endif

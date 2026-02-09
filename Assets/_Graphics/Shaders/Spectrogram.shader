@@ -44,11 +44,13 @@
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_instancing
-            #pragma multi_compile _ ENABLE_BLOOM_FOG
-            #pragma shader_feature_local HEIGHT_FOG
-            #pragma shader_feature_local DIFFUSE
-            #pragma shader_feature_local SPECULAR
-            #pragma shader_feature_local LIGHT_FALLOFF
+
+            #pragma shader_feature_local_fragment HEIGHT_FOG
+            #pragma shader_feature_local_fragment DIFFUSE
+            #pragma shader_feature_local_fragment SPECULAR
+            #pragma shader_feature_local_fragment LIGHT_FALLOFF
+
+            #pragma multi_compile_fragment _ BLOOM_FOG
 
             #include "UnityCG.cginc"
             #include "CGIncludes/BloomFog.cginc"
@@ -56,6 +58,17 @@
             #include "CGIncludes/CustomLighting.cginc"
             #include "CGIncludes/CustomTonemapping.cginc"
             #include "Packages/com.llealloo.audiolink/Runtime/Shaders/AudioLink.cginc"
+
+            float3 _PeakOffset;
+
+            float _Smoothness;
+            float _Metallic;
+            float _SpecularIntensity;
+
+            float _FogStartOffset;
+            float _FogScale;
+            float _FogHeightOffset;
+            float _FogHeightScale;
 
             UNITY_INSTANCING_BUFFER_START(Props)
                 UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
@@ -78,17 +91,6 @@
                 float4 screenPos : TEXCOORD3;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
-
-            float3 _PeakOffset;
-
-            float _Smoothness;
-            float _Metallic;
-            float _SpecularIntensity;
-
-            float _FogStartOffset;
-            float _FogScale;
-            float _FogHeightOffset;
-            float _FogHeightScale;
 
             v2f vert(appdata i)
             {
@@ -124,11 +126,13 @@
 
                 ACES_TONE_MAPPING_APPLY(albedo);
 
-                #if HEIGHT_FOG
+                #if defined(BLOOM_FOG)
+                #if defined(HEIGHT_FOG)
                 BLOOM_FOG_HEIGHT_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset,
                                        _FogHeightScale);
                 #else
                 BLOOM_FOG_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale);
+                #endif
                 #endif
 
                 return albedo;

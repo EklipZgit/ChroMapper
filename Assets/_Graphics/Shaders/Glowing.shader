@@ -31,12 +31,18 @@
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_instancing
-            #pragma multi_compile _ ENABLE_BLOOM_FOG
-            #pragma multi_compile_local _ _BLOOMTYPE_PP _BLOOMTYPE_FRAG
+
+            #pragma shader_feature_local_fragment _ _BLOOMTYPE_PP _BLOOMTYPE_FRAG
+
+            #pragma multi_compile_fragment _ BLOOM_FOG
 
             #include "UnityCG.cginc"
             #include "CGIncludes/BloomFog.cginc"
+            #include "CGIncludes/CustomBloom.cginc"
             #include "CGIncludes/CustomTonemapping.cginc"
+
+            float _FogStartOffset;
+            float _FogScale;
 
             UNITY_INSTANCING_BUFFER_START(Props)
                 UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
@@ -57,9 +63,6 @@
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
-            float _FogStartOffset;
-            float _FogScale;
-
             v2f vert(appdata i)
             {
                 v2f o;
@@ -79,9 +82,19 @@
                 UNITY_SETUP_INSTANCE_ID(i);
                 float4 albedo = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
 
+                #if defined(_BLOOMTYPE_PP)
+                CUSTOM_BLOOM_PP_APPLY(albedo, 1);
+                #elif defined(_BLOOMTYPE_FRAG)
+                CUSTOM_BLOOM_FRAG_APPLY(albedo, 1);
+                #else
+                CUSTOM_BLOOM_NONE_APPLY(albedo);
+                #endif
+
                 ACES_TONE_MAPPING_APPLY(albedo);
 
+                #if defined(BLOOM_FOG)
                 BLOOM_FOG_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale);
+                #endif
 
                 return albedo;
             }

@@ -200,6 +200,10 @@ public class EnvironmentBuildPopulate
             else
                 matInfo.Material.SetFloat("_VertexChannels", 0f);
 
+            matInfo.Material.SetFloat("_VertexDisplacement", matInfo.Keywords.Contains("VERTEX_DISPLACEMENT") ? 1f : 0f);
+            matInfo.Material.SetFloat("_3DDisplacement", matInfo.Keywords.Contains("SPATIAL_DISPLACEMENT") ? 1f : 0f);
+            matInfo.Material.SetFloat("_DisplacementSpatial", matInfo.Keywords.Contains("DISPLACEMENT_SPATIAL") ? 1f : 0f);
+            matInfo.Material.SetFloat("_DisplacementBidirectional", matInfo.Keywords.Contains("DISPLACEMENT_BIDIRECTIONAL") ? 1f : 0f);
             if (matInfo.Keywords.Contains("_SPECTROGRAM_FLAT"))
                 matInfo.Material.SetFloat("_Spectrogram", 1f);
             else if (matInfo.Keywords.Contains("_SPECTROGRAM_FULL"))

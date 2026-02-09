@@ -14,7 +14,7 @@
 
 #define CUSTOM_BLOOM_FRAG_APPLY(color, multiplier) \
     color.a = abs(color.a); \
-    color.rgb += color.a * multiplier; \
+    color.rgb += color.a * color.a * multiplier; \
     color.rgb *= color.a; \
     color.a = 0
 

@@ -29,16 +29,12 @@ Material:
   - _SECONDARY_UVS_ADDITIVE_OFFSET
   - _SMOOTHNESS_TEXTURE_SOURCE_MPM_G_ROUGHNESS
   m_InvalidKeywords:
-  - ENABLE_FOG
-  - ENABLE_HEIGHT_FOG
-  - _ACESTONEMAP_BEFORE_EMISSIVE
-  - _BLOOMWHITE_NONE
   - _DIFFUSE_TEXTURE_SOURCE_TEXTURE
   - _EMISSION_ALPHA_SOURCE_EMISSION_G
   - _EMISSION_TEXTURE_SOURCE_TEXTURE
   - _MASKBLEND_MULTIPLY
-  - _MODE_OPAQUE
   - _SECONDARY_MASKBLEND_MULTIPLY
+  - _SPECTROGRAM_NONE
   - _VERTEX_BLOOMTYPE_NONE
   - _VERTEX_NONE
   - _ZWRITE_ON
@@ -101,6 +97,9 @@ Material:
     - _DarkeningIntensity: 1
     - _DarkeningScale: 0.35
     - _Diffuse_Texture_Source: 0
+    - _DisplacementBidirectional: 0
+    - _DisplacementSpatial: 0
+    - _DisplacementStrength: 0.1
     - _EmissionBloomIntensity: 1
     - _EmissionBloomType: 3
     - _EmissionBrightness: 1
@@ -169,6 +168,7 @@ Material:
     - _Secondary_UVs: 4
     - _Smoothness: 0.5
     - _Smoothness_Texture_Source: 2
+    - _Spectrogram: 0
     - _SpecularIntensity: 1
     - _UseColorArray: 0
     - _Vertex: 0
@@ -180,6 +180,7 @@ Material:
     - _Color: {r: 0.735849, g: 0.735849, b: 0.735849, a: 0}
     - _DarkeningCenter: {r: 0, g: 0, b: 0, a: 0}
     - _DarkeningDirection: {r: 1, g: 1, b: 1, a: 1}
+    - _DisplacementAxisMultiplier: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionMaskSpeed: {r: 0, g: 1, b: 0, a: 0}
     - _EmissionTexColor: {r: 1, g: 1, b: 1, a: 1}

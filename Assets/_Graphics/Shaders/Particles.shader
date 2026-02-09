@@ -185,67 +185,67 @@
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-            #pragma target 2.0
             #pragma multi_compile_instancing
 
-            #pragma shader_feature_local SECONDARY_COLOR
+            #pragma shader_feature_local_fragment SECONDARY_COLOR
 
-            #pragma shader_feature_local COLOR_GRADIENT
+            #pragma shader_feature_local_fragment COLOR_GRADIENT
 
-            #pragma shader_feature_local SPECTROGRAM_COLOR
+            #pragma shader_feature_local_fragment SPECTROGRAM_COLOR
 
-            #pragma shader_feature_local COLOR_ARRAY
+            #pragma shader_feature_local_fragment COLOR_ARRAY
 
             #pragma shader_feature_local _ _SECONDARY_UVS_IMPORT
 
-            #pragma shader_feature_local VERTEX_COLOR
-            #pragma shader_feature_local VERTEX_SQUARE_ALPHA
-            #pragma shader_feature_local VERTEX_RED_IS_ALPHA
-            #pragma shader_feature_local _ _VERTEXCHANNELS_A _VERTEXCHANNELS_RGB
+            #pragma shader_feature_local_vertex VERTEX_COLOR
+            #pragma shader_feature_local_vertex VERTEX_SQUARE_ALPHA
+            #pragma shader_feature_local_vertex VERTEX_RED_IS_ALPHA
+            #pragma shader_feature_local_vertex _ _VERTEXCHANNELS_A _VERTEXCHANNELS_RGB
 
-            #pragma shader_feature_local VERTEX_DISPLACEMENT
-            #pragma shader_feature_local SPATIAL_DISPLACEMENT
-            #pragma shader_feature_local _ _SPECTROGRAM_FLAT _SPECTROGRAM_FULL
+            #pragma shader_feature_local_vertex VERTEX_DISPLACEMENT
+            #pragma shader_feature_local_vertex SPATIAL_DISPLACEMENT
+            #pragma shader_feature_local_vertex _ _SPECTROGRAM_FLAT _SPECTROGRAM_FULL
 
-            #pragma shader_feature_local _ _CURVE_VERTICES_AROUND_X _CURVE_VERTICES_AROUND_Y _CURVE_VERTICES_AROUND_Z
+            #pragma shader_feature_local_vertex _ _CURVE_VERTICES_AROUND_X _CURVE_VERTICES_AROUND_Y _CURVE_VERTICES_AROUND_Z
 
-            #pragma shader_feature_local MAIN_TEXTURE
+            #pragma shader_feature_local_fragment MAIN_TEXTURE
 
-            #pragma shader_feature_local PIXELATE
+            #pragma shader_feature_local_fragment PIXELATE
 
-            #pragma shader_feature_local TEXTURE_COLOR
-            #pragma shader_feature_local _ _ALPHACHANNEL_RED
+            #pragma shader_feature_local_fragment TEXTURE_COLOR
+            #pragma shader_feature_local_fragment _ _ALPHACHANNEL_RED
 
-            #pragma shader_feature_local CUSTOM_WRAPPING
+            #pragma shader_feature_local_fragment CUSTOM_WRAPPING
 
-            #pragma shader_feature_local TEXTURE_FLIPBOOK
-            #pragma shader_feature_local FLIPBOOK_BLENDING_OFF
+            #pragma shader_feature_local_fragment TEXTURE_FLIPBOOK
+            #pragma shader_feature_local_fragment FLIPBOOK_BLENDING_OFF
 
-            #pragma shader_feature_local MASK
-            #pragma shader_feature_local SECONDARY_UVS_MASK
-            #pragma shader_feature_local MASK_RED_IS_ALPHA
-            #pragma shader_feature_local _ _MASKBLEND_ADD _MASKBLEND_MASKED_ADD
+            #pragma shader_feature_local_fragment MASK
+            #pragma shader_feature_local_fragment SECONDARY_UVS_MASK
+            #pragma shader_feature_local_fragment MASK_RED_IS_ALPHA
+            #pragma shader_feature_local_fragment _ _MASKBLEND_ADD _MASKBLEND_MASKED_ADD
 
-            #pragma shader_feature_local MASK2
-            #pragma shader_feature_local SECONDARY_UVS_MASK2
-            #pragma shader_feature_local MASK2_RED_IS_ALPHA
-            #pragma shader_feature_local _ _MASK2BLEND_ADD _MASK2BLEND_MASKED_ADD
+            #pragma shader_feature_local_fragment MASK2
+            #pragma shader_feature_local_fragment SECONDARY_UVS_MASK2
+            #pragma shader_feature_local_fragment MASK2_RED_IS_ALPHA
+            #pragma shader_feature_local_fragment _ _MASK2BLEND_ADD _MASK2BLEND_MASKED_ADD
 
-            #pragma shader_feature_local _ _CUTOUTTYPE_ALPHA_CLIP
+            #pragma shader_feature_local_fragment _ _CUTOUTTYPE_ALPHA_CLIP
 
-            #pragma shader_feature_local SQUARE_ALPHA
-            #pragma shader_feature_local VIEW_ALIGN_DISAPPEAR
+            #pragma shader_feature_local_fragment SQUARE_ALPHA
+            #pragma shader_feature_local_fragment VIEW_ALIGN_DISAPPEAR
 
-            #pragma shader_feature_local _ _BLOOMTYPE_PP _BLOOMTYPE_FRAG
-            #pragma shader_feature_local REMAP_WHITEBOOST_START
+            #pragma shader_feature_local_fragment _ _BLOOMTYPE_PP _BLOOMTYPE_FRAG
+            #pragma shader_feature_local_fragment REMAP_WHITEBOOST_START
 
-            #pragma shader_feature_local _ _BILLBOARD_FULL _BILLBOARD_Y_AXIS _BILLBOARD_CAMERA_FACING
+            #pragma shader_feature_local_vertex _ _BILLBOARD_FULL _BILLBOARD_Y_AXIS _BILLBOARD_CAMERA_FACING
             #pragma shader_feature_local _ _CUSTOM_TIME_SONG_TIME _CUSTOM_TIME_FREEZE
 
-            #pragma multi_compile _ ENABLE_BLOOM_FOG
-            #pragma shader_feature_local _ _FOGTYPE_LERP _FOGTYPE_COLOR _FOGTYPE_ALPHA
-            #define FOG defined(_FOGTYPE_LERP) || defined(_FOGTYPE_COLOR) || defined(_FOGTYPE_ALPHA)
-            #pragma shader_feature_local HEIGHT_FOG
+            #pragma shader_feature_local_fragment _ _FOGTYPE_LERP _FOGTYPE_COLOR _FOGTYPE_ALPHA
+            #pragma shader_feature_local_fragment HEIGHT_FOG
+
+            #pragma multi_compile_fragment _ BLOOM_FOG
+            #define FOG defined(BLOOM_FOG) && (defined(_FOGTYPE_LERP) || defined(_FOGTYPE_COLOR) || defined(_FOGTYPE_ALPHA))
 
             #include "UnityCG.cginc"
             #include "CGIncludes/BloomFog.cginc"
@@ -253,116 +253,103 @@
             #include "CGIncludes/CustomTime.cginc"
             #include "CGIncludes/CustomTonemapping.cginc"
 
-            #if defined(SECONDARY_COLOR)
-            #if !defined(UNITY_INSTANCING_ENABLED)
-            float4 _SecondaryColor;
-            #endif
+            // SECONDARY_COLOR
             sampler2D _SecondaryColorTex;
             float4 _SecondaryColorTex_ST;
             float4 _SecondaryColorPanning;
-            #endif
+            // --
 
-            #if defined(COLOR_GRADIENT)
+            // COLOR_GRADIENT
             sampler2D _ColorGradient;
             float4 _ColorGradient_ST;
             float _GradientPosition;
             float _GradientPanningSpeed;
-            #endif
+            // --
 
-            #if defined(SPECTROGRAM_COLOR)
+            // SPECTROGRAM_COLOR
             float _SpectrogramBaseValue;
             float _SpectrogramRange;
-            #endif
+            // --
 
-            #if defined(_SECONDARY_UVS_IMPORT)
+            // _SECONDARY_UVS_IMPORT
             float _EnableRotateUV;
             float _RotateUV;
             float _RotateMainUVOnly;
-            #endif
+            // --
 
-            #if defined(VERTEX_DISPLACEMENT)
+            // VERTEX_DISPLACEMENT
             sampler2D _DisplacementTex;
             float4 _DisplacementTex_ST;
             float _DisplacementStrength;
-            #if defined(SPATIAL_DISPLACEMENT)
+            // SPATIAL_DISPLACEMENT
             float4 _DisplacementAxes;
-            #endif
+            // --
             float _DisplacementPanningSpeed;
             float4 _DisplacementPanning;
-            #if defined(_SPECTROGRAM_FULL)
+            // _SPECTROGRAM_FULL
             float _UV3Offset;
             float _UV3Scale;
-            #endif
-            #endif
+            // --
+            // --
 
-            #if defined(MAIN_TEXTURE)
+            // MAIN_TEXTURE
             sampler2D _MainTex;
             float4 _MainTex_ST;
             float _BaseLayer;
-            #endif
+            // --
 
-            #if defined(PIXELATE)
+            // PIXELATE
             float2 _PixelateResolution;
-            #endif
+            // --
 
             float _Intensity;
             float4 _UvPanning;
 
-            #if defined(CUSTOM_WRAPPING)
+            // CUSTOM_WRAPPING
             float2 _CustomPadding;
-            #endif
+            // --
 
-            #if defined(TEXTURE_FLIPBOOK)
+            // TEXTURE_FLIPBOOK
             float _FlipbookColumns;
             float _FlipbookRows;
             float _FlipbookNonloopableFrames;
             float _FlipbookSpeed;
-            #endif
+            // --
 
-            #if defined(MASK)
+            // MASK
             sampler2D _MaskTex;
             float4 _MaskTex_ST;
-            #if !defined(UNITY_INSTANCING_ENABLED)
-            float _MaskStrength;
-            #endif
             float2 _MaskPanning;
-            #endif
+            // --
 
-            #if defined(MASK2)
+            // MASK2
             sampler2D _Mask2Tex;
             float4 _Mask2Tex_ST;
-            #if !defined(UNITY_INSTANCING_ENABLED)
-            float _Mask2Strength;
-            #endif
             float4 _Mask2Panning;
-            #endif
+            // --
 
-            #if defined(_CUTOUTTYPE_ALPHA_CLIP)
+            // _CUTOUTTYPE_ALPHA_CLIP
             float _Cutout;
-            #endif
+            // --
 
             float _AlphaMultiplier;
 
-            #if defined(VIEW_ALIGN_DISAPPEAR)
+            // VIEW_ALIGN_DISAPPEAR
             float _SquareAngleForViewAlignDisappear;
             float _ViewAlignFactor;
             float _ViewAlignOffset;
-            #endif
+            // --
 
             float _BloomMultiplier;
             float _BloomWhiteMultiplier;
-            #if defined(REMAP_WHITEBOOST_START)
+            // REMAP_WHITEBOOST_START
             float _WhiteBoostRemapStart;
-            #endif
+            // --
 
             #define USE_BILLBOARD defined(_BILLBOARD_FULL) || defined(_BILLBOARD_Y_AXIS) || defined(_BILLBOARD_CAMERA_FACING)
-            #if USE_BILLBOARD
+            // USE_BILLBOARD
             float _BillboardScale;
-            #endif
-
-            #if !defined(UNITY_INSTANCING_ENABLED)
-            float _TimeOffset;
-            #endif
+            // --
 
             float _FogStartOffset;
             float _FogScale;
@@ -372,28 +359,26 @@
             #if defined(UNITY_INSTANCING_ENABLED)
             UNITY_INSTANCING_BUFFER_START (Props)
             UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
-            #if defined(SECONDARY_COLOR)
             UNITY_DEFINE_INSTANCED_PROP(float4, _SecondaryColor)
-            #endif
             UNITY_DEFINE_INSTANCED_PROP(float4, unity_SpriteRendererColorArray)
             UNITY_DEFINE_INSTANCED_PROP(fixed2, unity_SpriteFlipArray)
-            #if defined(MASK)
             UNITY_DEFINE_INSTANCED_PROP(float, _MaskStrength)
-            #endif
-            #if defined(MASK2)
             UNITY_DEFINE_INSTANCED_PROP(float, _Mask2Strength)
-            #endif
             UNITY_DEFINE_INSTANCED_PROP(float, _TimeOffset)
             UNITY_INSTANCING_BUFFER_END (Props)
             #define _RendererColor  UNITY_ACCESS_INSTANCED_PROP(Props, unity_SpriteRendererColorArray)
             #define _Flip           UNITY_ACCESS_INSTANCED_PROP(Props, unity_SpriteFlipArray)
             #endif
 
-            CBUFFER_START(UnityProps)
+            CBUFFER_START(UnityPerMaterial)
                 #if !defined(UNITY_INSTANCING_ENABLED)
                 float4 _Color;
+                float4 _SecondaryColor;
                 float4 _RendererColor;
                 fixed2 _Flip;
+                float _MaskStrength;
+                float _Mask2Strength;
+                float _TimeOffset;
                 #endif
                 float _EnableExternalAlpha;
             CBUFFER_END

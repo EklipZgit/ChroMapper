@@ -31,22 +31,20 @@ Shader "ChroMapper/Object/Event"
             #include "../CGIncludes/CustomTonemapping.cginc"
 
             UNITY_INSTANCING_BUFFER_START(Props)
-               UNITY_DEFINE_INSTANCED_PROP(fixed4, _ColorTint)
-               UNITY_DEFINE_INSTANCED_PROP(fixed4, _Color)
-               UNITY_DEFINE_INSTANCED_PROP(fixed4, _Position)
-               UNITY_DEFINE_INSTANCED_PROP(fixed, _CircleRadius)
-               UNITY_DEFINE_INSTANCED_PROP(fixed, _FadeSize)
-               UNITY_DEFINE_INSTANCED_PROP(fixed, _MainAlpha)
+                UNITY_DEFINE_INSTANCED_PROP(float4, _ColorTint)
+                UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
+                UNITY_DEFINE_INSTANCED_PROP(float4, _Position)
+                UNITY_DEFINE_INSTANCED_PROP(float, _CircleRadius)
+                UNITY_DEFINE_INSTANCED_PROP(float, _FadeSize)
+                UNITY_DEFINE_INSTANCED_PROP(float, _MainAlpha)
             UNITY_INSTANCING_BUFFER_END(Props)
 
-            // vertex shader inputs
             struct appdata
             {
-                float4 vertex : POSITION; // vertex position
+                float4 vertex : POSITION;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
-            // vertex shader outputs ("vertex to fragment")
             struct v2f
             {
                 float4 vertex : POSITION0; // clip space position
@@ -57,19 +55,18 @@ Shader "ChroMapper/Object/Event"
             v2f vert(appdata v)
             {
                 v2f o;
-                
+
                 UNITY_SETUP_INSTANCE_ID(v);
-                UNITY_TRANSFER_INSTANCE_ID(v, o); // necessary only if you want to access instanced properties in the fragment Shader.
+                UNITY_TRANSFER_INSTANCE_ID(v, o);
 
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.vertex_Object = v.vertex;
                 return o;
             }
 
-            // pixel shader, no inputs needed
             fixed4 frag(v2f i) : SV_Target
             {
-                UNITY_SETUP_INSTANCE_ID(i); // necessary only if any instanced properties are going to be accessed in the fragment Shader.
+                UNITY_SETUP_INSTANCE_ID(i);
 
                 fixed4 position = UNITY_ACCESS_INSTANCED_PROP(Props, _Position);
                 fixed4 colorTint = UNITY_ACCESS_INSTANCED_PROP(Props, _ColorTint);
@@ -87,22 +84,21 @@ Shader "ChroMapper/Object/Event"
                     fixed4 transitionColor = lerp(colorTint, colorBase, t);
 
                     transitionColor.a = 0;
-                ACES_TONE_MAPPING_APPLY(transitionColor);
-                
+                    ACES_TONE_MAPPING_APPLY(transitionColor);
+
                     return transitionColor;
                 }
-                else if (distance > circleRadius + fadeSize)
+
+                if (distance > circleRadius + fadeSize)
                 {
                     colorBase.a = 0;
-                ACES_TONE_MAPPING_APPLY(colorBase);
+                    ACES_TONE_MAPPING_APPLY(colorBase);
                     return colorBase;
                 }
-                else
-                {
-                    colorTint.a = 0;
+
+                colorTint.a = 0;
                 ACES_TONE_MAPPING_APPLY(colorBase);
-                    return colorTint;
-                }
+                return colorTint;
             }
             ENDCG
         }

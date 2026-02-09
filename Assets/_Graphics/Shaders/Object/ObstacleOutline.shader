@@ -30,40 +30,38 @@
         ZTest [_ZTest]
         ZWrite [_ZWrite]
 
-        HLSLINCLUDE
-        #include "UnityCG.cginc"
-        #include "../CGIncludes/BloomFog.cginc"
-        #include "../CGIncludes/CustomBloom.cginc"
-        #include "../CGIncludes/CustomTonemapping.cginc"
-
-        // These are global properties and should not be instanced
-        uniform float _MainAlpha = 0.5;
-
-        // Define instanced properties
-        UNITY_INSTANCING_BUFFER_START(Props)
-            UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
-            UNITY_DEFINE_INSTANCED_PROP(float4, _WorldScale)
-            UNITY_DEFINE_INSTANCED_PROP(float, _Cutout)
-            UNITY_DEFINE_INSTANCED_PROP(float4, _CutoutTexOffset)
-        UNITY_INSTANCING_BUFFER_END(Props)
-
-        float _FogStartOffset;
-        float _FogScale;
-        float _FogHeightOffset;
-        float _FogHeightScale;
-        sampler3D _CutoutTex;
-        ENDHLSL
-
         Pass
         {
             HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_instancing
-            #pragma multi_compile _ CM_PREVIEW_MODE
-            #pragma multi_compile _ ENABLE_BLOOM_FOG
-            #pragma shader_feature_local FOG
-            #pragma shader_feature_local HEIGHT_FOG
+
+            #pragma shader_feature_local_fragment FOG
+            #pragma shader_feature_local_fragment HEIGHT_FOG
+
+            #pragma multi_compile_fragment _ CM_PREVIEW_MODE
+            #pragma multi_compile_fragment _ BLOOM_FOG
+
+            #include "UnityCG.cginc"
+            #include "../CGIncludes/BloomFog.cginc"
+            #include "../CGIncludes/CustomBloom.cginc"
+            #include "../CGIncludes/CustomTonemapping.cginc"
+
+            float _FogStartOffset;
+            float _FogScale;
+            float _FogHeightOffset;
+            float _FogHeightScale;
+
+            uniform sampler3D _CutoutTex;
+            uniform float _MainAlpha = 0.5;
+
+            UNITY_INSTANCING_BUFFER_START(Props)
+                UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
+                UNITY_DEFINE_INSTANCED_PROP(float4, _WorldScale)
+                UNITY_DEFINE_INSTANCED_PROP(float, _Cutout)
+                UNITY_DEFINE_INSTANCED_PROP(float4, _CutoutTexOffset)
+            UNITY_INSTANCING_BUFFER_END(Props)
 
             struct appdata
             {
@@ -143,7 +141,7 @@
                 color.a = max(0, color.a);
                 #endif
 
-                #if defined(CM_PREVIEW_MODE) && defined(FOG)
+                #if defined(CM_PREVIEW_MODE) && defined(BLOOM_FOG) && defined(FOG)
                 #if defined(HEIGHT_FOG)
                 BLOOM_FOG_HEIGHT_APPLY(color, i.screenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset,
                                        _FogHeightScale);

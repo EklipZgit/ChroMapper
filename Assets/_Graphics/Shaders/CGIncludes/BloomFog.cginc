@@ -63,7 +63,7 @@ inline float4 ComputeScreenPosCustom(float4 pos)
     return screenPos;
 }
 
-#ifdef ENABLE_BLOOM_FOG
+#ifdef BLOOM_FOG
 
 float2 _CustomFogTextureToScreenRatio;
 sampler2D _BloomPrePassTexture;

@@ -15,17 +15,15 @@ Material:
   - MAIN_TEXTURE
   - MASK_RED_IS_ALPHA
   - REMAP_WHITEBOOST_START
+  - SPATIAL_DISPLACEMENT
   - SQUARE_ALPHA
   - VERTEX_RED_IS_ALPHA
   - VERTEX_SQUARE_ALPHA
   - _BLOOMTYPE_FRAG
   - _MASK2BLEND_MASKED_ADD
   m_InvalidKeywords:
-  - ENABLE_FOG
-  - _ACESTONEMAP_BEFORE_EMISSIVE
   - _ALPHACHANNEL_ALPHA
   - _BILLBOARD_NONE
-  - _BLOOMWHITE_FRAG
   - _CURVE_VERTICES_NONE
   - _CUSTOM_TIME_STANDARD
   - _CUTOUTTYPE_NONE
@@ -70,7 +68,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _3DDisplacement: 0
+    - _3DDisplacement: 1
     - _AcesTonemap: 0
     - _AlphaChannel: 0
     - _AlphaMultiplier: 1

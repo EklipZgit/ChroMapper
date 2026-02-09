@@ -69,22 +69,36 @@
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_instancing
-            #pragma shader_feature_local ALPHA_WIDTH_SCALE
-            #pragma shader_feature_local SQUARE_ALPHA
-            #pragma shader_feature_local ANGLE_DISAPPEAR
-            #pragma shader_feature_local Y_AXIS_BILLBOARD
-            #pragma shader_feature_local _ _BLOOMTYPE_PP _BLOOMTYPE_FRAG
 
-            #pragma multi_compile _ ENABLE_BLOOM_FOG
-            #pragma multi_compile_local _FOGTYPE_ALPHA
-            #pragma shader_feature_local FOG
-            #pragma shader_feature_local HEIGHT_FOG
-            #pragma shader_feature_local USE_FOG_FOR_LIGHTS
+            #pragma shader_feature_local_vertex ALPHA_WIDTH_SCALE
+            #pragma shader_feature_local_fragment SQUARE_ALPHA
+            #pragma shader_feature_local_fragment ANGLE_DISAPPEAR
+            #pragma shader_feature_local_vertex Y_AXIS_BILLBOARD
+            #pragma shader_feature_local_fragment _ _BLOOMTYPE_PP _BLOOMTYPE_FRAG
+
+            #pragma multi_compile_local_fragment _FOGTYPE_ALPHA
+            #pragma shader_feature_local_fragment FOG
+            #pragma shader_feature_local_fragment HEIGHT_FOG
+            #pragma shader_feature_local_fragment USE_FOG_FOR_LIGHTS
+
+            #pragma multi_compile_fragment _ BLOOM_FOG
 
             #include "UnityCG.cginc"
             #include "CGIncludes/BloomFog.cginc"
             #include "CGIncludes/CustomBloom.cginc"
             #include "CGIncludes/CustomTonemapping.cginc"
+
+            sampler2D _MainTex;
+            float4 _MainTex_ST;
+            float2 _CapUVSize;
+
+            float _BloomMultiplier;
+            float _BloomWhiteMultiplier;
+
+            float _FogStartOffset;
+            float _FogScale;
+            float _FogHeightOffset;
+            float _FogHeightScale;
 
             UNITY_INSTANCING_BUFFER_START(Props)
                 UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
@@ -107,18 +121,6 @@
                 float4 screenPos : TEXCOORD3;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
-
-            sampler2D _MainTex;
-            float4 _MainTex_ST;
-            float2 _CapUVSize;
-
-            float _BloomMultiplier;
-            float _BloomWhiteMultiplier;
-
-            float _FogStartOffset;
-            float _FogScale;
-            float _FogHeightOffset;
-            float _FogHeightScale;
 
             v2f vert(appdata i)
             {
@@ -176,12 +178,13 @@
                 #if defined(Y_AXIS_BILLBOARD)
                 float3 worldPos = worldOrigin + right * i.vertex.x + localUp * i.vertex.y;
                 o.vertex = mul(UNITY_MATRIX_VP, float4(worldPos, 1.0));
+                o.worldPos.xyz = worldPos;
                 #else
                 o.vertex = UnityObjectToClipPos(i.vertex);
+                o.worldPos.xyz = mul(unity_ObjectToWorld, i.vertex).xyz;
                 #endif
 
                 o.uv.xyz = float3(i.uv * width / sizeParams.x, width / sizeParams.x);
-                o.worldPos.xyz = mul(unity_ObjectToWorld, i.vertex).xyz;
                 o.screenPos = ComputeScreenPosCustom(o.vertex);
 
                 return o;
@@ -220,9 +223,10 @@
 
                 #endif
 
-                #if defined(FOG)
+                #if defined(BLOOM_FOG) && defined(FOG)
                 #if defined(HEIGHT_FOG)
-                BLOOM_FOG_HEIGHT_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset, _FogHeightScale);
+                BLOOM_FOG_HEIGHT_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset,
+                                       _FogHeightScale);
                 #else
                 BLOOM_FOG_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale);
                 #endif

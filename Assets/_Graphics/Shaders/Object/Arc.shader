@@ -49,11 +49,12 @@
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_instancing
-            #pragma multi_compile _ CM_PREVIEW_MODE
+            #pragma multi_compile_fragment _ BLOOM_FOG
+            #pragma multi_compile_fragment _ CM_PREVIEW_MODE
 
-            #pragma shader_feature_local FOG
-            #pragma shader_feature_local HEIGHT_FOG
-            #pragma shader_feature_local _FOGTYPE_ALPHA
+            #pragma shader_feature_local_fragment FOG
+            #pragma shader_feature_local_fragment HEIGHT_FOG
+            #pragma shader_feature_local_fragment _FOGTYPE_ALPHA
 
             #include "UnityCG.cginc"
             #include "../CGIncludes/BloomFog.cginc"
@@ -68,16 +69,16 @@
                 UNITY_DEFINE_INSTANCED_PROP(float, _ObjectTime)
             UNITY_INSTANCING_BUFFER_END(Props)
 
-            uniform float _SongTime;
-            uniform float _EditorDistance;
-            uniform float _TrackLaneYPosition; // we are keeping this name because Vivify uses this too
-
             sampler2D _MainTex;
 
             float _FogStartOffset;
             float _FogScale;
             float _FogHeightOffset;
             float _FogHeightScale;
+
+            uniform float _SongTime;
+            uniform float _EditorDistance;
+            uniform float _TrackLaneYPosition; // we are keeping this name because Vivify uses this too
 
             struct appdata
             {
@@ -92,6 +93,7 @@
                 float2 uv : TEXCOORD0;
                 float3 worldPos : TEXCOORD1;
                 float4 rotatedPos : TEXCOORD2;
+                float4 screenPos : TEXCOORD3;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
@@ -129,6 +131,7 @@
                     ComputeRotatedPosition(o.worldPos - offset, rotationInRadians) + offset,
                     objectTime + 0.001 - _SongTime
                 );
+                o.screenPos = ComputeScreenPosCustom(o.vertex);
 
                 return o;
             }
@@ -139,7 +142,7 @@
                 float4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
 
                 float mask = saturate(sin(i.uv.x * 3.14159) * 5);
-                #if CM_PREVIEW_MODE
+                #if defined(CM_PREVIEW_MODE)
                 i.uv.x = (i.uv.x + _Time.y) % 1;
                 #endif
                 float4 albedo = color * tex2D(_MainTex, i.uv);
@@ -152,7 +155,7 @@
 
                 #if defined(CM_PREVIEW_MODE)
 
-                #if defined(FOG)
+                #if defined(FOG) && defined(BLOOM_FOG)
                 #if defined(HEIGHT_FOG)
                 BLOOM_FOG_HEIGHT_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset, _FogHeightScale);
                 #else

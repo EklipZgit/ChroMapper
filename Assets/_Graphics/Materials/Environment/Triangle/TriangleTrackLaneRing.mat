@@ -17,10 +17,7 @@ Material:
   - LIGHT_FALLOFF
   - SPECULAR
   m_InvalidKeywords:
-  - ENABLE_FOG
-  - _ACESTONEMAP_AFTER_EMISSIVE
   - _ACES_APPROACH_AFTER_EMISSIVE
-  - _BLOOMWHITE_NONE
   - _CUSTOM_TIME_STANDARD
   - _DIFFUSE_TEXTURE_SOURCE_TEXTURE
   - _EMISSIONBLOOMTYPE_FLAT
@@ -29,10 +26,10 @@ Material:
   - _EMISSION_TEXTURE_SOURCE_TEXTURE
   - _MASKBLEND_MULTIPLY
   - _METALLIC_TEXTURE_SOURCE_NONE
-  - _MODE_OPAQUE
   - _SECONDARY_MASKBLEND_MULTIPLY
   - _SECONDARY_UVS_NONE
   - _SMOOTHNESS_TEXTURE_SOURCE_NONE
+  - _SPECTROGRAM_NONE
   - _VERTEX_BLOOMTYPE_NONE
   - _VERTEX_NONE
   - _ZWRITE_ON
@@ -95,6 +92,9 @@ Material:
     - _DarkeningIntensity: 1
     - _DarkeningScale: 0.35
     - _Diffuse_Texture_Source: 0
+    - _DisplacementBidirectional: 0
+    - _DisplacementSpatial: 0
+    - _DisplacementStrength: 0.1
     - _EmissionBloomIntensity: 1
     - _EmissionBloomType: 0
     - _EmissionBrightness: 1
@@ -163,6 +163,7 @@ Material:
     - _Secondary_UVs: 0
     - _Smoothness: 0.5
     - _Smoothness_Texture_Source: 0
+    - _Spectrogram: 0
     - _SpecularIntensity: 1
     - _UseColorArray: 0
     - _Vertex: 0
@@ -174,6 +175,7 @@ Material:
     - _Color: {r: 0.24999997, g: 0.24999997, b: 0.24999997, a: 0}
     - _DarkeningCenter: {r: 0, g: 0, b: 0, a: 0}
     - _DarkeningDirection: {r: 1, g: 1, b: 1, a: 1}
+    - _DisplacementAxisMultiplier: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionMaskSpeed: {r: 0, g: 1, b: 0, a: 0}
     - _EmissionTexColor: {r: 1, g: 1, b: 1, a: 1}
