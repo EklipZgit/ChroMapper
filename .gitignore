@@ -305,6 +305,7 @@ Playlists/
 Assets/_TerrainAutoUpgrade/
 
 # You should like, not ignore these
+!/[Pp]ackages/**/*.meta
 !/[Aa]ssets/**/*.meta
 !/[Aa]ssets/**/*.obj
 
