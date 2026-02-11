@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class PlacementLaneController : MonoBehaviour
@@ -6,13 +5,15 @@ public class PlacementLaneController : MonoBehaviour
     [SerializeField] private PlacementModeController placemenModeController;
     [SerializeField] private ObstaclePlacement obstaclePlacement;
     [SerializeField] private GridLane lane;
-    private bool hasExpanded;
     private bool hasOffset;
+    private bool hasExpanded;
 
+    public int HeightCount = 3;
     public int LaneCount = 4;
-    private bool v2Mode;
+    private bool canExpand;
+    private bool expandFullyOnBothState;
 
-    private void OnValidate() => UpdateLane();
+    private void OnValidate() => UpdateObstacleLane();
 
     public void Awake()
     {
@@ -31,8 +32,16 @@ public class PlacementLaneController : MonoBehaviour
         obstaclePlacement.OnApplied -= UpdateGrid;
     }
 
-    private void HandleLevelLoaded() => v2Mode = BeatSaberSongContainer.Instance.Map.MajorVersion == 2;
-    private void HandleModeChanged(PlacementModeController.PlacementMode _) => UpdateGrid();
+    private void HandleLevelLoaded()
+    {
+        canExpand = BeatSaberSongContainer.Instance.Map.MajorVersion != 2;
+        expandFullyOnBothState = BeatSaberSongContainer.Instance.Map.MajorVersion == 4;
+    }
+
+    private void HandleModeChanged(PlacementModeController.PlacementMode _)
+    {
+        UpdateGrid();
+    }
 
     private void HandleNoteLanesChanged(object value)
     {
@@ -40,68 +49,65 @@ public class PlacementLaneController : MonoBehaviour
         if (!int.TryParse(noteLanesText, out var noteLanes)) return;
         if (noteLanes < 1) return;
         LaneCount = noteLanes;
-        UpdateLane();
+        UpdateObstacleLane();
     }
 
     private void UpdateGrid()
     {
-        if (v2Mode) return;
+        if (!canExpand) return;
         switch (obstaclePlacement.AllowPlacement)
         {
             case true:
-                {
-                    if (!hasOffset)
-                    {
-                        // Offset Y by whole grid or XY grid only
-                        var offset = lane.XYOffset;
-                        offset.y = -0.5f;
-                        // lane.LocalOffset = offset;
-                        lane.XYOffset = offset;
-                        lane.RefreshPosition();
-                        lane.RefreshVisual();
-
-                        UpdateLane();
-
-                        hasOffset = true;
-                    }
-
-                    switch (obstaclePlacement.IsPlacing)
-                    {
-                        case true when !hasExpanded:
-                            lane.Height = 5;
-                            hasExpanded = true;
-                            break;
-                        case false when hasExpanded:
-                            lane.Height = 3;
-                            hasExpanded = false;
-                            break;
-                    }
-
-                    break;
-                }
             case false when hasOffset || hasExpanded:
                 {
-                    var offset = lane.XYOffset;
-                    offset.y = 0;
-                    // lane.LocalOffset = offset;
-                    lane.XYOffset = offset;
-                    lane.RefreshPosition();
-                    lane.RefreshVisual();
-
-                    lane.Height = 3;
-                    UpdateLane();
-
-                    hasOffset = hasExpanded = false;
+                    UpdateObstacleLane();
                     break;
                 }
         }
     }
 
-    private void UpdateLane()
+    private void UpdateObstacleLane()
     {
-        if (obstaclePlacement.AllowPlacement && !v2Mode)
+        if (obstaclePlacement.AllowPlacement && canExpand)
+        {
+            if (!hasOffset)
+            {
+                // Offset Y by whole grid or XY grid only
+                var offset = lane.XYOffset;
+                offset.y = -0.5f;
+                // lane.LocalOffset = offset;
+                lane.XYOffset = offset;
+                lane.RefreshPosition();
+                lane.RefreshVisual();
+            }
+            
             lane.Lane = (LaneCount * 2) + Mathf.CeilToInt(LaneCount % 2 / 2f);
+            switch (obstaclePlacement.IsPlacing)
+            {
+                case false when expandFullyOnBothState:
+                case true:
+                    lane.Height = 5;
+                    hasExpanded = true;
+                    break;
+                case false:
+                    lane.Height = HeightCount;
+                    hasExpanded = false;
+                    break;
+            }
+            hasOffset = true;
+        }
         else
+        {
+            var offset = lane.XYOffset;
+            offset.y = 0;
+            // lane.LocalOffset = offset;
+            lane.XYOffset = offset;
+            lane.RefreshPosition();
+            lane.RefreshVisual();
+
             lane.Lane = LaneCount;
+            lane.Height = HeightCount;
+            hasOffset = hasExpanded = false;
+        }
     }
 }
