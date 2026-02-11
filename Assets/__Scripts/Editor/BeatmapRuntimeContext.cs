@@ -74,6 +74,7 @@ public class BeatmapRuntimeContext : MonoBehaviour
     public void SetTracksDefinition(TracksDefinitionSO tracksDefinition)
     {
         TracksDefinition.Copy(tracksDefinition);
+        PaintSelectedObjects.TracksDefinition = tracksDefinition;
         NotifyTracksDefinition();
     }
 

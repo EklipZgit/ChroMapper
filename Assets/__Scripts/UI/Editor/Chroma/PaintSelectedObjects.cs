@@ -8,7 +8,7 @@ using UnityEngine;
 public class PaintSelectedObjects : MonoBehaviour
 {
     [SerializeField] private ColorPicker picker;
-    private TracksDefinitionSO trackDefinitionSo;
+    public static TracksDefinitionSO TracksDefinition;
 
     public void Paint()
     {
@@ -38,7 +38,7 @@ public class PaintSelectedObjects : MonoBehaviour
         if (obj is BaseEvent evt)
         {
             if (evt.Value == (int)LightValue.Off) return false; //Ignore painting Off events
-            if (trackDefinitionSo.Basic[evt.Type].Kind != BasicEventKind.Lights) return false; //Ignore non-light event
+            if (TracksDefinition.Basic.GetValueOrDefault(evt.Type, new()).Kind != BasicEventKind.Lights) return false; //Ignore non-light event
             if (evt.CustomLightGradient != null)
             {
                 //Modify start color if we are painting a Chroma 2.0 gradient

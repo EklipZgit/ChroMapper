@@ -8,12 +8,13 @@ using UnityEngine;
 
 public class MirrorSelection : MonoBehaviour
 {
+    [SerializeField] private BeatmapRuntimeContext context;
     [SerializeField] private TracksManager tracksManager;
     [SerializeField] private CreateEventTypeLabels labels;
 
-    private TracksDefinitionSO trackDefinitionSo;
+    private TracksDefinitionSO tracksDefinition;
 
-    private readonly Dictionary<int, int> cutDirectionToMirrored = new Dictionary<int, int>
+    private readonly Dictionary<int, int> cutDirectionToMirrored = new()
     {
         { (int)NoteCutDirection.DownLeft, (int)NoteCutDirection.DownRight },
         { (int)NoteCutDirection.DownRight, (int)NoteCutDirection.DownLeft },
@@ -22,6 +23,11 @@ public class MirrorSelection : MonoBehaviour
         { (int)NoteCutDirection.Right, (int)NoteCutDirection.Left },
         { (int)NoteCutDirection.Left, (int)NoteCutDirection.Right }
     };
+
+    public void Start() => context.OnTracksDefinitionChanged += HandleTracksDefinitionChanged;
+    public void OnDestroy() => context.OnTracksDefinitionChanged -= HandleTracksDefinitionChanged;
+
+    private void HandleTracksDefinitionChanged(TracksDefinitionSO obj) => tracksDefinition = obj;
 
     public void MirrorTime()
     {
@@ -283,22 +289,24 @@ public class MirrorSelection : MonoBehaviour
                             e.CustomLightGradient.EndColor, e.CustomLightGradient.StartColor);
                     }
 
-                    if (trackDefinitionSo.Basic[e.Type].Kind != BasicEventKind.Lights) continue;
+                    if (tracksDefinition.Basic.GetValueOrDefault(e.Type, new()).Kind != BasicEventKind.Lights) continue;
                     if (moveNotes
-                        && (e.IsPropagation
-                            && events.EventTypeToPropagate == e.Type
-                            && events.PropagationEditing == EventGridContainer.PropMode.Prop))
+                        && e.IsPropagation
+                        && e.CustomLightID != null
+                        && events.EventTypeToPropagate == e.Type
+                        && events.PropagationEditing == EventGridContainer.PropMode.Prop)
                     {
-                        var mirroredIdx = events.EventTypePropagationSize - (int)e.CustomPropID - 1;
+                        var idx = labels.LightIDsToPropID(e.Type, e.CustomLightID);
+                        var mirroredIdx = (int)Mathf.Repeat(-idx - 1, events.EventTypePropagationSize);
                         e.CustomLightID = labels.PropIdToLightIds(e.Type, mirroredIdx);
                     }
                     else if (moveNotes
-                        && (e.CustomLightID != null
-                            && events.EventTypeToPropagate == e.Type
-                            && events.PropagationEditing == EventGridContainer.PropMode.Light))
+                        && e.CustomLightID != null
+                        && events.EventTypeToPropagate == e.Type
+                        && events.PropagationEditing == EventGridContainer.PropMode.Light)
                     {
                         var idx = labels.LightIDToLane(e.Type, e.CustomLightID[0]);
-                        var mirroredIdx = events.EventTypePropagationSize - idx - 1;
+                        var mirroredIdx = (int)Mathf.Repeat(-idx - 1, events.EventTypePropagationSize);
                         e.CustomLightID = new[] { labels.LaneToLightID(e.Type, mirroredIdx) };
                     }
 

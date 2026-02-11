@@ -137,15 +137,31 @@ public class CreateEventTypeLabels : MonoBehaviour
     public JSONArray PropIdToLightIdsJ(int type, int propID)
     {
         var result = new JSONArray();
-        foreach (var lightingEvent in PropIdToLightIds(type, propID)) result.Add(lightingEvent);
+        foreach (var id in PropIdToLightIds(type, propID)) result.Add(id);
         return result;
     }
 
-    public int LaneToLightID(int type, int lightID) => typeToManager[type].LaneToLightID[lightID];
+    public int LaneToLightID(int type, int lightID)
+    {
+        if (!typeToManager.TryGetValue(type, out var manager)) return -1;
+        return lightID >= 0 && lightID < manager.LaneToLightID.Count ? manager.LaneToLightID[lightID] : -1;
+    }
 
     public int LightIDToLane(int type, int lightID)
     {
-        if (typeToManager[type].LightIDToLane.ContainsKey(lightID)) return typeToManager[type].LightIDToLane[lightID];
+        if (!typeToManager.TryGetValue(type, out var manager)) return -1;
+        return manager.LightIDToLane.GetValueOrDefault(lightID, -1);
+    }
+
+    public int LightIDsToPropID(int type, int[] lightIDs)
+    {
+        if (!typeToManager.TryGetValue(type, out var manager) || lightIDs == null) return -1;
+        foreach (var lightID in lightIDs)
+        {
+            var idx = manager.LaneToLightIDs.FindIndex(x => x.Contains(lightID));
+            if (idx != -1) return idx;
+        }
+
         return -1;
     }
 

@@ -35,7 +35,7 @@ namespace Tests
         [Test]
         public void ChromaStepGradient()
         {
-            var genericTracksDefinition = ScriptableObject.CreateInstance<TracksDefinitionSO>();
+            var tracksDefinition = Object.FindAnyObjectByType<BeatmapRuntimeContext>().TracksDefinition;
             var containerCollection = BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Event);
             if (containerCollection is EventGridContainer eventsContainer)
             {
@@ -71,7 +71,7 @@ namespace Tests
                 var strobeGenerator = Object.FindAnyObjectByType<StrobeGenerator>();
                 strobeGenerator.GenerateStrobe(new List<StrobeGeneratorPass>
                 {
-                    new StrobeStepGradientPass(genericTracksDefinition,(int)LightValue.BlueOn, false, 2, Easing.Linear)
+                    new StrobeStepGradientPass(tracksDefinition,(int)LightValue.BlueOn, false, 2, Easing.Linear)
                 });
 
                 CheckUtils.CheckEvent("Check step Chroma event color", eventsContainer, 1, 2.5f,
@@ -85,7 +85,7 @@ namespace Tests
         [Test]
         public void LightIDChromaStepGradient()
         {
-            var genericTracksDefinition = ScriptableObject.CreateInstance<TracksDefinitionSO>();
+            var tracksDefinition = Object.FindAnyObjectByType<BeatmapRuntimeContext>().TracksDefinition;
             var containerCollection = BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Event);
             if (containerCollection is EventGridContainer eventsContainer)
             {
@@ -146,7 +146,7 @@ namespace Tests
                 var strobeGenerator = Object.FindAnyObjectByType<StrobeGenerator>();
                 strobeGenerator.GenerateStrobe(new List<StrobeGeneratorPass>
                 {
-                    new StrobeStepGradientPass(genericTracksDefinition,(int)LightValue.BlueOn, false, 2, Easing.Linear)
+                    new StrobeStepGradientPass(tracksDefinition,(int)LightValue.BlueOn, false, 2, Easing.Linear)
                 });
 
                 // Current _lightID from the first event is used. As eventC is added first here we always get a single light id

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using Beatmap.Appearances;
 using Beatmap.Base;
@@ -67,7 +68,7 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
         {
             e.EventData.Value = e.EventData.Value > 0 ? 0 : 1;
         }
-        else if (trackDefinition.Basic[e.EventData.Type].Kind != BasicEventKind.Lights)
+        else if (trackDefinition.Basic.GetValueOrDefault(e.EventData.Type, new()).Kind != BasicEventKind.Lights)
         {
             return;
         }
@@ -98,7 +99,7 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
     {
         var original = BeatmapFactory.Clone(e.ObjectData);
 
-        if (trackDefinition.Basic[e.EventData.Type].Kind == BasicEventKind.Lights)
+        if (trackDefinition.Basic.GetValueOrDefault(e.EventData.Type, new()).Kind == BasicEventKind.Lights)
         {
             e.EventData.FloatValue += 0.1f * modifier;
             if (e.EventData.FloatValue < 0) e.EventData.FloatValue = 0;
@@ -141,7 +142,7 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
     {
         var original = BeatmapFactory.Clone(e.ObjectData);
 
-        if (trackDefinition.Basic[e.EventData.Type].Kind == BasicEventKind.Lights)
+        if (trackDefinition.Basic.GetValueOrDefault(e.EventData.Type, new()).Kind == BasicEventKind.Lights)
         {
             e.EventData.Value += modifier;
 
