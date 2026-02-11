@@ -21,14 +21,14 @@ Shader "ChroMapper/Object/Event"
 
         Pass
         {
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
             #pragma target 3.0
             #pragma multi_compile_instancing
 
             #include "UnityCG.cginc"
-            #include "../CGIncludes/CustomTonemapping.cginc"
+            #include "../ShaderLibrary/CustomTonemapping.hlsl"
 
             UNITY_INSTANCING_BUFFER_START(Props)
                 UNITY_DEFINE_INSTANCED_PROP(float4, _ColorTint)
@@ -64,24 +64,24 @@ Shader "ChroMapper/Object/Event"
                 return o;
             }
 
-            fixed4 frag(v2f i) : SV_Target
+            half4 frag(v2f i) : SV_Target
             {
                 UNITY_SETUP_INSTANCE_ID(i);
 
-                fixed4 position = UNITY_ACCESS_INSTANCED_PROP(Props, _Position);
-                fixed4 colorTint = UNITY_ACCESS_INSTANCED_PROP(Props, _ColorTint);
-                fixed4 colorBase = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
-                fixed circleRadius = UNITY_ACCESS_INSTANCED_PROP(Props, _CircleRadius);
-                fixed fadeSize = UNITY_ACCESS_INSTANCED_PROP(Props, _FadeSize);
-                fixed mainAlpha = UNITY_ACCESS_INSTANCED_PROP(Props, _MainAlpha);
+                half4 position = UNITY_ACCESS_INSTANCED_PROP(Props, _Position);
+                half4 colorTint = UNITY_ACCESS_INSTANCED_PROP(Props, _ColorTint);
+                half4 colorBase = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
+                half circleRadius = UNITY_ACCESS_INSTANCED_PROP(Props, _CircleRadius);
+                half fadeSize = UNITY_ACCESS_INSTANCED_PROP(Props, _FadeSize);
+                half mainAlpha = UNITY_ACCESS_INSTANCED_PROP(Props, _MainAlpha);
 
-                fixed distance = abs(i.vertex_Object.z - position.z);
+                half distance = abs(i.vertex_Object.z - position.z);
 
-                fixed t = (distance - circleRadius) / fadeSize;
+                half t = (distance - circleRadius) / fadeSize;
 
                 if (distance < circleRadius + fadeSize && distance > circleRadius)
                 {
-                    fixed4 transitionColor = lerp(colorTint, colorBase, t);
+                    half4 transitionColor = lerp(colorTint, colorBase, t);
 
                     transitionColor.a = 0;
                     ACES_TONE_MAPPING_APPLY(transitionColor);
@@ -100,7 +100,7 @@ Shader "ChroMapper/Object/Event"
                 ACES_TONE_MAPPING_APPLY(colorBase);
                 return colorTint;
             }
-            ENDCG
+            ENDHLSL
         }
     }
 }

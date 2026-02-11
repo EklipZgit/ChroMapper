@@ -17,7 +17,7 @@ Shader "ChroMapper/Environment/GagaArc"
 
         Pass
         {
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
 
@@ -40,13 +40,13 @@ Shader "ChroMapper/Environment/GagaArc"
             float4 _MainTex_ST;
             float4 _EmissionColor;
             float4 _BaseColor;
-            
+
             float2 hash(float2 p)
             {
                 p = float2(dot(p, float2(127.1, 311.7)), dot(p, float2(269.5, 183.3)));
                 return frac(sin(p) * 43758.5453);
             }
-            
+
             float2 noise2d(float2 p)
             {
                 float2 i = floor(p);
@@ -55,10 +55,10 @@ Shader "ChroMapper/Environment/GagaArc"
                 float2 u = f * f * (3.0 - 2.0 * f);
 
                 return lerp(lerp(hash(i + float2(0, 0)), hash(i + float2(1, 0)), u.x),
-                    lerp(hash(i + float2(0, 1)), hash(i + float2(1, 1)), u.x), u.y);
+                            lerp(hash(i + float2(0, 1)), hash(i + float2(1, 1)), u.x), u.y);
             }
-            
-            v2f vert (appdata v)
+
+            v2f vert(appdata v)
             {
                 v2f o;
                 float2 noise = noise2d(float2(v.vertex.x, _SinTime.y * 7.5)) * 2;
@@ -70,15 +70,15 @@ Shader "ChroMapper/Environment/GagaArc"
                 return o;
             }
 
-            fixed4 frag (v2f i) : SV_Target
+            half4 frag(v2f i) : SV_Target
             {
                 // sample the texture
-                fixed4 col = tex2D(_MainTex, i.uv);
+                half4 col = tex2D(_MainTex, i.uv);
                 col.rgb = col.rgb * _BaseColor.rgb;
                 col.rgb += _EmissionColor.rgb * 0.5;
                 return col;
             }
-            ENDCG
+            ENDHLSL
         }
     }
 }

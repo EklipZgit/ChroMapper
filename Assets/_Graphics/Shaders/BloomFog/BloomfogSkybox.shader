@@ -3,14 +3,17 @@ Shader "ChroMapper/BloomfogSkybox"
     Properties {}
     SubShader
     {
-        Tags { "RenderType"="Background" "Queue"="Background" }
+        Tags
+        {
+            "RenderType"="Background" "Queue"="Background"
+        }
         LOD 100
         Cull Off
         ZWrite Off
 
         Pass
         {
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
 
@@ -30,7 +33,7 @@ Shader "ChroMapper/BloomfogSkybox"
             uniform sampler2D _BloomPrePassTexture;
             uniform float2 _CustomFogTextureToScreenRatio;
 
-            v2f vert (appdata v)
+            v2f vert(appdata v)
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
@@ -38,20 +41,20 @@ Shader "ChroMapper/BloomfogSkybox"
                 return o;
             }
 
-            fixed4 frag (v2f i) : SV_Target
+            half4 frag(v2f i) : SV_Target
             {
                 // Convert screen position to UV coordinates
                 float2 screenUV = i.screenPos.xy / i.screenPos.w;
-                
+
                 // Apply custom ratio to screen space UVs
                 float2 modifiedUV = (screenUV - 0.5) * _CustomFogTextureToScreenRatio + 0.5;
-                
+
                 // Sample the bloom prepass texture
-                fixed4 col = tex2D(_BloomPrePassTexture, modifiedUV);
+                half4 col = tex2D(_BloomPrePassTexture, modifiedUV);
                 col.a = 0;
                 return col;
             }
-            ENDCG
+            ENDHLSL
         }
     }
 }

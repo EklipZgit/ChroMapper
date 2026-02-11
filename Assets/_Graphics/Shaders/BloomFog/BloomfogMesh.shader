@@ -6,7 +6,10 @@ Shader "ChroMapper/BloomfogMesh"
     }
     SubShader
     {
-        Tags { "RenderType"="Transparent" "Queue"="Transparent" }
+        Tags
+        {
+            "RenderType"="Transparent" "Queue"="Transparent"
+        }
         ZWrite Off
         Cull Off
         BlendOp Max
@@ -15,7 +18,7 @@ Shader "ChroMapper/BloomfogMesh"
 
         Pass
         {
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
 
@@ -41,14 +44,14 @@ Shader "ChroMapper/BloomfogMesh"
 
             sampler2D _BloomfogAlphaMask;
 
-            v2f vert (appdata v)
+            v2f vert(appdata v)
             {
                 // Constant view matrix, so it lives here
                 float4x4 ViewMatrix = float4x4(
-                  2, 0, 0, 0,
-                  0, -2, 0, 0,
-                  0, 0, -1, 0,
-                  -1, 1, 0, 1
+                    2, 0, 0, 0,
+                    0, -2, 0, 0,
+                    0, 0, -1, 0,
+                    -1, 1, 0, 1
                 );
 
                 v2f o;
@@ -66,7 +69,7 @@ Shader "ChroMapper/BloomfogMesh"
 
             // im NGL a lot of this came from Owen's decompilation help
             // this is unreadable as fuck but it is 1:1 equivalent to Beat Saber's bloomfog mesh
-            float4 frag (v2f i) : SV_Target
+            float4 frag(v2f i) : SV_Target
             {
                 float3 dir = i.tangent.xyz / i.tangent.w;
 
@@ -99,7 +102,7 @@ Shader "ChroMapper/BloomfogMesh"
 
                 return float4(bloom_color.rgb * bloom_alpha, bloom_alpha);
             }
-            ENDCG
+            ENDHLSL
         }
     }
 }

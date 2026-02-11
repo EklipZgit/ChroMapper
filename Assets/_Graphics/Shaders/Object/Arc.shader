@@ -57,9 +57,9 @@
             #pragma shader_feature_local_fragment _FOGTYPE_ALPHA
 
             #include "UnityCG.cginc"
-            #include "../CGIncludes/BloomFog.cginc"
-            #include "../CGIncludes/CustomBloom.cginc"
-            #include "../CGIncludes/CustomTonemapping.cginc"
+            #include "../ShaderLibrary/BloomFog.hlsl"
+            #include "../ShaderLibrary/CustomBloom.hlsl"
+            #include "../ShaderLibrary/CustomTonemapping.hlsl"
 
             // Define instanced properties
             UNITY_INSTANCING_BUFFER_START(Props)
@@ -118,7 +118,7 @@
                 o.worldPos.y = max(_TrackLaneYPosition + 0.01, o.worldPos.y); // save me
                 o.vertex = mul(UNITY_MATRIX_VP, float4(o.worldPos, 1));
                 o.uv.xy = i.uv.xy;
-                
+
                 //Global platform offset
                 const float4 offset = float4(0, -0.5, -1.5, 0);
 
@@ -157,7 +157,8 @@
 
                 #if defined(FOG) && defined(BLOOM_FOG)
                 #if defined(HEIGHT_FOG)
-                BLOOM_FOG_HEIGHT_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset, _FogHeightScale);
+                BLOOM_FOG_HEIGHT_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset,
+                       _FogHeightScale);
                 #else
                 BLOOM_FOG_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale);
                 #endif

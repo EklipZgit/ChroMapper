@@ -10,7 +10,7 @@
         _Angle("Switch shader on angle", Range(0.0, 180.0)) = 89
     }
 
-    CGINCLUDE
+    HLSLINCLUDE
     #include "UnityCG.cginc"
 
     uniform float4 _FirstOutlineColor;
@@ -18,7 +18,7 @@
 
     uniform float4 _Color;
     uniform float _Angle;
-    ENDCG
+    ENDHLSL
 
     SubShader
     {
@@ -35,7 +35,7 @@
             ZWrite On
             Blend SrcColor OneMinusSrcColor
             Cull Back
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_instancing
@@ -66,12 +66,12 @@
                 return o;
             }
 
-            fixed4 frag(v2f i) : SV_Target
+            half4 frag(v2f i) : SV_Target
             {
                 UNITY_SETUP_INSTANCE_ID(i);
                 return _Color;
             }
-            ENDCG
+            ENDHLSL
         }
 
         //First outline
@@ -86,7 +86,7 @@
             Blend SrcAlpha OneMinusSrcAlpha
             ZWrite On
             Cull Back
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_instancing
@@ -133,7 +133,7 @@
             {
                 return _FirstOutlineColor;
             }
-            ENDCG
+            ENDHLSL
         }
 
 

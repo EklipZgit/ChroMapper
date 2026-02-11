@@ -65,7 +65,7 @@
 
         Pass
         {
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_instancing
@@ -84,9 +84,9 @@
             #pragma multi_compile_fragment _ BLOOM_FOG
 
             #include "UnityCG.cginc"
-            #include "CGIncludes/BloomFog.cginc"
-            #include "CGIncludes/CustomBloom.cginc"
-            #include "CGIncludes/CustomTonemapping.cginc"
+            #include "ShaderLibrary/BloomFog.hlsl"
+            #include "ShaderLibrary/CustomBloom.hlsl"
+            #include "ShaderLibrary/CustomTonemapping.hlsl"
 
             sampler2D _MainTex;
             float4 _MainTex_ST;
@@ -190,22 +190,22 @@
                 return o;
             }
 
-            fixed4 frag(v2f i) : SV_Target
+            half4 frag(v2f i) : SV_Target
             {
                 UNITY_SETUP_INSTANCE_ID(i);
-                fixed4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
+                half4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
                 float4 alphaWidth = UNITY_ACCESS_INSTANCED_PROP(Props, _AlphaWidth);
 
                 // TODO: what does cap UV size supposed to do
                 // i.uv.xy = min(adjustedUv, i.uv.xy);
                 float2 adjustedUv = i.uv.xy / i.uv.z;
-                fixed4 albedo = color * tex2D(_MainTex, TRANSFORM_TEX(adjustedUv, _MainTex));
+                half4 albedo = color * tex2D(_MainTex, TRANSFORM_TEX(adjustedUv, _MainTex));
 
                 #if defined(USE_FOG_FOR_LIGHTS)
                 #if defined(SQUARE_ALPHA)
                 albedo.a *= albedo.a;
                 #endif
-                fixed alphaFactor = lerp(alphaWidth.x, alphaWidth.y, i.lengthFactor);
+                half alphaFactor = lerp(alphaWidth.x, alphaWidth.y, i.lengthFactor);
                 #if defined(SQUARE_ALPHA)
                 alphaFactor *= alphaFactor;
                 #endif
@@ -236,7 +236,7 @@
                 #if defined(SQUARE_ALPHA)
                 albedo.a *= albedo.a;
                 #endif
-                fixed alphaFactor = lerp(alphaWidth.x, alphaWidth.y, i.uv.w);
+                half alphaFactor = lerp(alphaWidth.x, alphaWidth.y, i.uv.w);
                 #if defined(SQUARE_ALPHA)
                 alphaFactor *= alphaFactor;
                 #endif
@@ -256,7 +256,7 @@
 
                 return albedo;
             }
-            ENDCG
+            ENDHLSL
         }
     }
 }

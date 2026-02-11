@@ -40,7 +40,7 @@
 
         Pass
         {
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_instancing
@@ -53,10 +53,10 @@
             #pragma multi_compile_fragment _ BLOOM_FOG
 
             #include "UnityCG.cginc"
-            #include "CGIncludes/BloomFog.cginc"
-            #include "CGIncludes/CustomBloom.cginc"
-            #include "CGIncludes/CustomLighting.cginc"
-            #include "CGIncludes/CustomTonemapping.cginc"
+            #include "ShaderLibrary/BloomFog.hlsl"
+            #include "ShaderLibrary/CustomBloom.hlsl"
+            #include "ShaderLibrary/CustomLighting.hlsl"
+            #include "ShaderLibrary/CustomTonemapping.hlsl"
             #include "Packages/com.llealloo.audiolink/Runtime/Shaders/AudioLink.cginc"
 
             float3 _PeakOffset;
@@ -137,7 +137,7 @@
 
                 return albedo;
             }
-            ENDCG
+            ENDHLSL
         }
     }
 }

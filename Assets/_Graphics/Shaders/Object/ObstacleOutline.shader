@@ -44,9 +44,9 @@
             #pragma multi_compile_fragment _ BLOOM_FOG
 
             #include "UnityCG.cginc"
-            #include "../CGIncludes/BloomFog.cginc"
-            #include "../CGIncludes/CustomBloom.cginc"
-            #include "../CGIncludes/CustomTonemapping.cginc"
+            #include "../ShaderLibrary/BloomFog.hlsl"
+            #include "../ShaderLibrary/CustomBloom.hlsl"
+            #include "../ShaderLibrary/CustomTonemapping.hlsl"
 
             float _FogStartOffset;
             float _FogScale;
@@ -133,7 +133,7 @@
                 float cl = noise - cutout;
                 clip(cl);
 
-                fixed4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
+                half4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
 
                 #if !defined(CM_PREVIEW_MODE)
                 color.a = 0;

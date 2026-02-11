@@ -6,7 +6,6 @@
         _MainTex ("Texture", 2D) = "white" {}
         [KeywordEnum(None, PP, Frag)] _BloomType ("Bloom Type", float) = 0
         _BloomWhiteMultiplier ("White Multiplier", float) = 1
-        [KeywordEnum(Before Emissive, After Emissive)] _AcesTonemap ("ACES Tonemapping", float) = 1
 
         _SizeParams("Size Params", Vector) = (3,2,0,0.3)
 
@@ -49,7 +48,7 @@
 
         Pass
         {
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_instancing
@@ -58,9 +57,9 @@
             #pragma shader_feature_local _ _BLOOMTYPE_PP _BLOOMTYPE_FRAG
 
             #include "UnityCG.cginc"
-            #include "CGIncludes/BloomFog.cginc"
-            #include "CGIncludes/CustomBloom.cginc"
-            #include "CGIncludes/CustomTonemapping.cginc"
+            #include "ShaderLibrary/BloomFog.hlsl"
+            #include "ShaderLibrary/CustomBloom.hlsl"
+            #include "ShaderLibrary/CustomTonemapping.hlsl"
 
             UNITY_INSTANCING_BUFFER_START(Props)
                 UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
@@ -134,12 +133,12 @@
                 return o;
             }
 
-            fixed4 frag(v2f i) : SV_Target
+            half4 frag(v2f i) : SV_Target
             {
                 UNITY_SETUP_INSTANCE_ID(i);
-                fixed4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
+                half4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
 
-                fixed4 albedo = color * tex2D(_MainTex, TRANSFORM_TEX(i.uv, _MainTex));
+                half4 albedo = color * tex2D(_MainTex, TRANSFORM_TEX(i.uv, _MainTex));
 
                 #if _BLOOMTYPE_PP
                 CUSTOM_BLOOM_PP_APPLY(albedo, 1);
@@ -152,14 +151,15 @@
                 ACES_TONE_MAPPING_APPLY(albedo);
 
                 #if defined(HEIGHT_FOG)
-                BLOOM_FOG_HEIGHT_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset, _FogHeightScale);
+                BLOOM_FOG_HEIGHT_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset,
+                                       _FogHeightScale);
                 #else
                 BLOOM_FOG_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale);
                 #endif
 
                 return albedo;
             }
-            ENDCG
+            ENDHLSL
         }
     }
 }

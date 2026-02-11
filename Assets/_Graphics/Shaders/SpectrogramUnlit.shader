@@ -31,7 +31,7 @@
 
         Pass
         {
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_instancing
@@ -41,8 +41,8 @@
             #pragma multi_compile_fragment _ BLOOM_FOG
 
             #include "UnityCG.cginc"
-            #include "CGIncludes/BloomFog.cginc"
-            #include "CGIncludes/CustomTonemapping.cginc"
+            #include "ShaderLibrary/BloomFog.hlsl"
+            #include "ShaderLibrary/CustomTonemapping.hlsl"
 
             float _SpectrogramScale;
 
@@ -105,7 +105,7 @@
 
                 return albedo;
             }
-            ENDCG
+            ENDHLSL
         }
     }
 }

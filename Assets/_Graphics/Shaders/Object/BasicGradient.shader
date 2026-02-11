@@ -19,14 +19,14 @@ Shader "ChroMapper/Object/Basic Gradient"
 
         Pass
         {
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_instancing
 
             #include "UnityCG.cginc"
-            #include "../CGIncludes/Easings.cginc"
-            #include "../CGIncludes/CustomTonemapping.cginc"
+            #include "../ShaderLibrary/Easings.hlsl"
+            #include "../ShaderLibrary/CustomTonemapping.hlsl"
 
             // Define instanced properties
             UNITY_INSTANCING_BUFFER_START(Props)
@@ -187,7 +187,7 @@ Shader "ChroMapper/Object/Basic Gradient"
                 ACES_TONE_MAPPING_APPLY(color);
                 return color;
             }
-            ENDCG
+            ENDHLSL
         }
     }
 }

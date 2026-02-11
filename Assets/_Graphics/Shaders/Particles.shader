@@ -182,7 +182,7 @@
 
         Pass
         {
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_instancing
@@ -248,10 +248,10 @@
             #define FOG defined(BLOOM_FOG) && (defined(_FOGTYPE_LERP) || defined(_FOGTYPE_COLOR) || defined(_FOGTYPE_ALPHA))
 
             #include "UnityCG.cginc"
-            #include "CGIncludes/BloomFog.cginc"
-            #include "CGIncludes/CustomBloom.cginc"
-            #include "CGIncludes/CustomTime.cginc"
-            #include "CGIncludes/CustomTonemapping.cginc"
+            #include "ShaderLibrary/BloomFog.hlsl"
+            #include "ShaderLibrary/CustomBloom.hlsl"
+            #include "ShaderLibrary/CustomTime.hlsl"
+            #include "ShaderLibrary/CustomTonemapping.hlsl"
 
             // SECONDARY_COLOR
             sampler2D _SecondaryColorTex;
@@ -361,7 +361,7 @@
             UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
             UNITY_DEFINE_INSTANCED_PROP(float4, _SecondaryColor)
             UNITY_DEFINE_INSTANCED_PROP(float4, unity_SpriteRendererColorArray)
-            UNITY_DEFINE_INSTANCED_PROP(fixed2, unity_SpriteFlipArray)
+            UNITY_DEFINE_INSTANCED_PROP(half2, unity_SpriteFlipArray)
             UNITY_DEFINE_INSTANCED_PROP(float, _MaskStrength)
             UNITY_DEFINE_INSTANCED_PROP(float, _Mask2Strength)
             UNITY_DEFINE_INSTANCED_PROP(float, _TimeOffset)
@@ -375,7 +375,7 @@
                 float4 _Color;
                 float4 _SecondaryColor;
                 float4 _RendererColor;
-                fixed2 _Flip;
+                half2 _Flip;
                 float _MaskStrength;
                 float _Mask2Strength;
                 float _TimeOffset;
@@ -417,7 +417,7 @@
                 UNITY_VERTEX_OUTPUT_STEREO
             };
 
-            inline float4 UnityFlipSprite(in float3 pos, in fixed2 flip)
+            inline float4 UnityFlipSprite(in float3 pos, in half2 flip)
             {
                 return float4(pos.xy * flip, pos.z, 1.0);
             }
@@ -644,7 +644,7 @@
 
                 return albedo;
             }
-            ENDCG
+            ENDHLSL
         }
     }
 }

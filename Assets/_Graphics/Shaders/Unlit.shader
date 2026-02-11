@@ -36,7 +36,7 @@
             ZTest [_ZTest]
             ZWrite [_ZWrite]
 
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_instancing
@@ -48,9 +48,9 @@
             #pragma multi_compile_fragment _ BLOOM_FOG
 
             #include "UnityCG.cginc"
-            #include "CGIncludes/BloomFog.cginc"
-            #include "CGIncludes/CustomBloom.cginc"
-            #include "CGIncludes/CustomTonemapping.cginc"
+            #include "ShaderLibrary/BloomFog.hlsl"
+            #include "ShaderLibrary/CustomBloom.hlsl"
+            #include "ShaderLibrary/CustomTonemapping.hlsl"
 
             sampler2D _MainTex;
             float4 _MainTex_ST;
@@ -95,12 +95,12 @@
                 return o;
             }
 
-            fixed4 frag(v2f i) : SV_Target
+            half4 frag(v2f i) : SV_Target
             {
                 UNITY_SETUP_INSTANCE_ID(i);
-                fixed4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
+                half4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
 
-                fixed4 albedo = color * tex2D(_MainTex, TRANSFORM_TEX(i.uv, _MainTex));
+                half4 albedo = color * tex2D(_MainTex, TRANSFORM_TEX(i.uv, _MainTex));
                 #if defined(ALPHA_CUTOUT)
                 if (albedo.a == 0) discard;
                 #endif
@@ -126,7 +126,7 @@
 
                 return albedo;
             }
-            ENDCG
+            ENDHLSL
         }
     }
 }

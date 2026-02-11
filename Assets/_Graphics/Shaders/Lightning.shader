@@ -48,7 +48,7 @@
 
         Pass
         {
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_instancing
@@ -58,9 +58,9 @@
             #pragma multi_compile_fragment _ BLOOM_FOG
 
             #include "UnityCG.cginc"
-            #include "CGIncludes/BloomFog.cginc"
-            #include "CGIncludes/CustomBloom.cginc"
-            #include "CGIncludes/CustomTonemapping.cginc"
+            #include "ShaderLibrary/BloomFog.hlsl"
+            #include "ShaderLibrary/CustomBloom.hlsl"
+            #include "ShaderLibrary/CustomTonemapping.hlsl"
 
             sampler2D _MainTex;
             float4 _MainTex_ST;
@@ -140,14 +140,14 @@
                 return o;
             }
 
-            fixed4 frag(v2f i) : SV_Target
+            half4 frag(v2f i) : SV_Target
             {
                 UNITY_SETUP_INSTANCE_ID(i);
-                fixed4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
+                half4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
 
-                fixed mask = saturate(sin(i.uv.x * 3.14159) * 4);
+                half mask = saturate(sin(i.uv.x * 3.14159) * 4);
                 i.uv.x = (i.uv.x + _Time.x) % 1;
-                fixed4 albedo = color * mask * tex2D(_MainTex, i.uv);
+                half4 albedo = color * mask * tex2D(_MainTex, i.uv);
 
                 CUSTOM_BLOOM_FRAG_APPLY(albedo, 1);
 
@@ -164,7 +164,7 @@
 
                 return albedo;
             }
-            ENDCG
+            ENDHLSL
         }
     }
 }

@@ -25,7 +25,7 @@ Shader "ChroMapper/Editor/Spectrogram"
                 Comp Equal
             }
 
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
 
@@ -147,9 +147,9 @@ Shader "ChroMapper/Editor/Spectrogram"
 
                     // Calculate strengths of our sampling points
                     float4 strength = float4((x2 - x) * (y2 - y),
-                                     (x2 - x) * (y - y1),
-                                     (x - x1) * (y2 - y),
-                                     (x - x1) * (y - y1));
+                                             (x2 - x) * (y - y1),
+                                             (x - x1) * (y2 - y),
+                                             (x - x1) * (y - y1));
 
                     float4 weightedMean = strength * samples;
                     weightedMean /= (x2 - x1) * (y2 - y1);
@@ -162,8 +162,8 @@ Shader "ChroMapper/Editor/Spectrogram"
             float inverseLerp(float a, float b, float value)
             {
                 return a != b
-                            ? saturate((value - a) / (b - a))
-                            : 0.0f;
+                     ? saturate((value - a) / (b - a))
+                     : 0.0f;
             }
 
             float4 frag(v2f i) : SV_Target
@@ -183,8 +183,8 @@ Shader "ChroMapper/Editor/Spectrogram"
                 // fix shimmering pixels by saturating our spectrogram value between [0,1]
                 //   I guess when interpolating between pixels, the above math can produce values slightly out of intended range.
                 float value = currentSeconds > 0
-                 ? saturate(calculateSpectrogramValue(currentSeconds, uv))
-                 : 0.0;
+                                            ? saturate(calculateSpectrogramValue(currentSeconds, uv))
+                                            : 0.0;
 
                 // Value clipping
                 clip(value - _ValueCutoff);
@@ -215,9 +215,9 @@ Shader "ChroMapper/Editor/Spectrogram"
 
                 // Gradient interpolation
                 float4 color = lerp(GradientColors[lowerGradientIdx],
-                    GradientColors[upperGradientIdx],
-                    Remap(value, GradientKeys[lowerGradientIdx],
-                        GradientKeys[upperGradientIdx], 0, 1));
+                              GradientColors[upperGradientIdx],
+                              Remap(value, GradientKeys[lowerGradientIdx],
+                                             GradientKeys[upperGradientIdx], 0, 1));
 
                 // Add 0.2 to each component if we are within outline
                 if (abs(currentSeconds - _SongTimeSeconds) < _OutlineWidth / _EditorScale / (_SongBPM / 120))
@@ -231,7 +231,7 @@ Shader "ChroMapper/Editor/Spectrogram"
                 color.a = 0;
                 return color;
             }
-            ENDCG
+            ENDHLSL
         }
     }
 }

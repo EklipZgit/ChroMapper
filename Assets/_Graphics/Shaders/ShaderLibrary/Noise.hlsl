@@ -68,10 +68,10 @@ float simplex(float3 p)
 }
 
 // I dont fucking know where this came from lol
-float2 hash( float2 p ) // replace this by something better
+float2 hash(float2 p) // replace this by something better
 {
-    p = float2( dot(p,float2(127.1,311.7)), dot(p,float2(269.5,183.3)) );
-    return -1.0 + 2.0*frac(sin(p)*43758.5453123);
+    p = float2(dot(p, float2(127.1, 311.7)), dot(p, float2(269.5, 183.3)));
+    return -1.0 + 2.0 * frac(sin(p) * 43758.5453123);
 }
 
 // https://www.shadertoy.com/view/ldl3Dl

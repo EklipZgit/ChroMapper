@@ -10,7 +10,7 @@
 
         Pass
         {
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_instancing
@@ -46,16 +46,16 @@
             }
 
             #if defined(CM_PREVIEW_MODE)
-            fixed4 frag(v2f i) : SV_Target
+            half4 frag(v2f i) : SV_Target
             {
                 // Force fail so you can at least see the map in preview mode
                 clip(-1);
-                return fixed4(1, 0, 1, 1);
+                return half4(1, 0, 1, 1);
             }
             #else
-            fixed4 frag(v2f i) : SV_Target
+            half4 frag(v2f i) : SV_Target
             {
-                fixed4 col = 0;
+                half4 col = 0;
 
                 float tileSize = 0.25;
                 if ((i.uv.x % tileSize > tileSize / 2 && i.uv.y % tileSize < tileSize / 2) || (i.uv.y % tileSize >
@@ -65,7 +65,7 @@
                 return col;
             }
             #endif
-            ENDCG
+            ENDHLSL
         }
     }
 }

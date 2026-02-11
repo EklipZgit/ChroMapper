@@ -34,7 +34,7 @@
 
         Pass
         {
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex SpriteVert
             #pragma fragment frag
             #pragma target 2.0
@@ -43,19 +43,19 @@
             #pragma multi_compile _ ETC1_EXTERNAL_ALPHA
 
             #include "UnitySprites.cginc"
-            
+
             float _CutoutThreshold;
 
-            fixed4 frag(v2f i) : SV_Target
+            half4 frag(v2f i) : SV_Target
             {
-                fixed4 color = SampleSpriteTexture(i.texcoord) * i.color;
-                
+                half4 color = SampleSpriteTexture(i.texcoord) * i.color;
+
                 if (color.a < _CutoutThreshold) discard;
                 color.a = 0;
 
                 return color;
             }
-            ENDCG
+            ENDHLSL
         }
     }
 }

@@ -15,7 +15,7 @@ float4 downsample4(sampler2D blurTex, float2 uv, float radius, float2 texelSize)
     float4 d = texelSize.xyxy * float4(-1.0, -1.0, 1.0, 1.0) * radius;
 
     float4 s;
-    s  = tex2D(blurTex, uv + d.xy);
+    s = tex2D(blurTex, uv + d.xy);
     s += tex2D(blurTex, uv + d.zy);
     s += tex2D(blurTex, uv + d.xw);
     s += tex2D(blurTex, uv + d.zw);
@@ -30,12 +30,12 @@ float4 upsampleTent(sampler2D blurTex, float2 uv, float radius, float2 texelSize
     float4 d = texelSize.xyxy * float4(1.0, 1.0, -1.0, 0.0) * radius * 0.5;
 
     float4 s;
-    s  = tex2D(blurTex, uv - d.xy);
+    s = tex2D(blurTex, uv - d.xy);
     s += tex2D(blurTex, uv - d.wy) * 2.0;
     s += tex2D(blurTex, uv - d.zy);
 
     s += tex2D(blurTex, uv + d.zw) * 2.0;
-    s += tex2D(blurTex, uv       ) * 4.0;
+    s += tex2D(blurTex, uv) * 4.0;
     s += tex2D(blurTex, uv + d.xw) * 2.0;
 
     s += tex2D(blurTex, uv + d.zy);
@@ -49,24 +49,24 @@ float4 upsampleTent(sampler2D blurTex, float2 uv, float radius, float2 texelSize
 float4 kawase(sampler2D blurTex, float2 uv, float radius, float2 texelSize)
 {
     float4 blurColor = float4(0, 0, 0, 0);
-    
+
     // Center sample
     blurColor.rgb += tex2D(blurTex, uv).rgb;
-    
+
     // Four diagonal samples
     blurColor.rgb += tex2D(blurTex, uv + float2(radius, radius) * texelSize).rgb;
     blurColor.rgb += tex2D(blurTex, uv + float2(-radius, radius) * texelSize).rgb;
     blurColor.rgb += tex2D(blurTex, uv + float2(radius, -radius) * texelSize).rgb;
     blurColor.rgb += tex2D(blurTex, uv + float2(-radius, -radius) * texelSize).rgb;
-    
+
     // Add axis-aligned samples for better coverage (9-tap)
     blurColor.rgb += tex2D(blurTex, uv + float2(radius, 0) * texelSize).rgb;
     blurColor.rgb += tex2D(blurTex, uv + float2(-radius, 0) * texelSize).rgb;
     blurColor.rgb += tex2D(blurTex, uv + float2(0, radius) * texelSize).rgb;
     blurColor.rgb += tex2D(blurTex, uv + float2(0, -radius) * texelSize).rgb;
-    
+
     blurColor.rgb /= 9.0;
-    
+
     return blurColor;
 }
 
@@ -75,7 +75,7 @@ float4 box(sampler2D blurTex, float2 uv, float radius, float2 texelSize, int box
 {
     float4 blurColor = float4(0, 0, 0, 0);
     int sampleCount = 0;
-    
+
     for (int x = -boxRadius; x <= boxRadius; x++)
     {
         for (int y = -boxRadius; y <= boxRadius; y++)
@@ -86,7 +86,7 @@ float4 box(sampler2D blurTex, float2 uv, float radius, float2 texelSize, int box
     }
 
     blurColor.rgb /= float(sampleCount);
-    
+
     return blurColor;
 }
 

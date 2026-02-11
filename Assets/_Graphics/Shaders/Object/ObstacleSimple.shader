@@ -45,7 +45,7 @@
             #pragma multi_compile_instancing
 
             #include "UnityCG.cginc"
-            #include "../CGIncludes/CustomTonemapping.cginc"
+            #include "../ShaderLibrary/CustomTonemapping.hlsl"
 
             uniform float _MainAlpha = 0.5;
             uniform sampler3D _CutoutTex;
@@ -97,7 +97,7 @@
                 float cl = noise - cutout;
                 clip(cl);
 
-                fixed4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
+                half4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
                 color.rgb *= 0.25;
                 color.a = 0;
 

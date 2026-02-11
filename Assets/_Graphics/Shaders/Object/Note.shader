@@ -77,9 +77,9 @@
             #pragma multi_compile_fragment _ CM_PREVIEW_MODE
 
             #include "UnityCG.cginc"
-            #include "../CGIncludes/BloomFog.cginc"
-            #include "../CGIncludes/CustomLighting.cginc"
-            #include "../CGIncludes/CustomTonemapping.cginc"
+            #include "../ShaderLibrary/BloomFog.hlsl"
+            #include "../ShaderLibrary/CustomLighting.hlsl"
+            #include "../ShaderLibrary/CustomTonemapping.hlsl"
             #pragma multi_compile_instancing
 
             float _Smoothness;
@@ -245,12 +245,12 @@
                 albedo *= (1 - finalRim * _RimDarkening);
                 #endif
 
-                    ACES_TONE_MAPPING_APPLY(albedo);
+                ACES_TONE_MAPPING_APPLY(albedo);
 
                 #if defined(CM_PREVIEW_MODE) && defined(BLOOM_FOG) && defined(FOG)
                 #if defined(HEIGHT_FOG)
                 BLOOM_FOG_HEIGHT_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset,
-                                                                  _FogHeightScale);
+                                   _FogHeightScale);
                 #else
                 BLOOM_FOG_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale);
                 #endif

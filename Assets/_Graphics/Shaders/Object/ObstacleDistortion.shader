@@ -71,9 +71,9 @@
             #pragma multi_compile_fragment _ CM_PREVIEW_MODE
 
             #include "UnityCG.cginc"
-            #include "../CGIncludes/Noise.cginc"
-            #include "../CGIncludes/BloomFog.cginc"
-            #include "../CGIncludes/CustomTonemapping.cginc"
+            #include "../ShaderLibrary/Noise.hlsl"
+            #include "../ShaderLibrary/BloomFog.hlsl"
+            #include "../ShaderLibrary/CustomTonemapping.hlsl"
 
             uniform sampler2D _GrabTexture;
             uniform sampler3D _CutoutTex;

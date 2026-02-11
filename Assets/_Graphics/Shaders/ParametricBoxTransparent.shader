@@ -43,7 +43,7 @@
 
         Pass
         {
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_instancing
@@ -53,9 +53,9 @@
             #pragma multi_compile_fragment _ BLOOM_FOG
 
             #include "UnityCG.cginc"
-            #include "CGIncludes/BloomFog.cginc"
-            #include "CGIncludes/CustomBloom.cginc"
-            #include "CGIncludes/CustomTonemapping.cginc"
+            #include "ShaderLibrary/BloomFog.hlsl"
+            #include "ShaderLibrary/CustomBloom.hlsl"
+            #include "ShaderLibrary/CustomTonemapping.hlsl"
 
             float _BloomWhiteMultiplier;
 
@@ -120,7 +120,7 @@
                 float2 adjustedUv = i.uv.xy / i.uv.z;
                 float4 albedo = color;
 
-                fixed alphaFactor = lerp(alphaWidth.x, alphaWidth.y, adjustedLengthFactor);
+                half alphaFactor = lerp(alphaWidth.x, alphaWidth.y, adjustedLengthFactor);
                 albedo *= alphaFactor;
 
                 #if defined(BLOOM_FOG)
@@ -138,7 +138,7 @@
 
                 return albedo;
             }
-            ENDCG
+            ENDHLSL
         }
     }
 }
