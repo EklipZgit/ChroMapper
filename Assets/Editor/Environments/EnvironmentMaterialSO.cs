@@ -79,21 +79,20 @@ public class EnvironmentMaterialSO : ScriptableObject
             if (material.Keywords != null) m.Keywords.AddRange(material.Keywords.Where(x => !m.Keywords.Contains(x)));
             m.FloatProps.AddRange(
                 material
-                    .ShaderProps.Where(x => x.Value is float)
+                    .ShaderProps.Where(x => x.Value is float or double or long)
                     .Where(x => !m.FloatProps.Exists(y => y.Key == x.Key))
                     .Select(x =>
-                        new MaterialInfo.ShaderProps<float> { Key = x.Key, Value = x.Value }));
+                        new MaterialInfo.ShaderProps<float> { Key = x.Key, Value = (float)x.Value }));
             m.VectorProps.AddRange(
                 material
-                    .ShaderProps.Where(x => x.Value is not double)
+                    .ShaderProps.Where(x => x.Value is not double && x.Value is not long)
                     .Where(x => !m.VectorProps.Exists(y => y.Key == x.Key))
-                    .Select(x =>
-                        new MaterialInfo.ShaderProps<Vector4>
-                        {
-                            Key = x.Key,
-                            Value =
-                                ConvertUtils.ToVector4(((JArray)x.Value).ToObject<float[]>())
-                        }));
+                    .Select(x => new MaterialInfo.ShaderProps<Vector4>
+                    {
+                        Key = x.Key,
+                        Value =
+                            ConvertUtils.ToVector4(((JArray)x.Value).ToObject<float[]>())
+                    }));
             if (!m.Environments.Contains(environment)) m.Environments.Add(environment);
         }
     }

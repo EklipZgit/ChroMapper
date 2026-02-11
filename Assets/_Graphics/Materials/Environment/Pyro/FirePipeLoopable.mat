@@ -98,7 +98,7 @@ Material:
     - _DisplacementStrength: 0.1
     - _EmissionBloomIntensity: 1
     - _EmissionBloomType: 0
-    - _EmissionBrightness: 1
+    - _EmissionBrightness: 0.52
     - _EmissionFogSuppression: 0
     - _EmissionGradientIntensity: 1
     - _EmissionGradientPanningSpeed: 0
@@ -165,7 +165,7 @@ Material:
     - _Smoothness: 0.5
     - _Smoothness_Texture_Source: 0
     - _Spectrogram: 0
-    - _SpecularIntensity: 1
+    - _SpecularIntensity: 0.47
     - _UseColorArray: 0
     - _Vertex: 0
     - _Vertex_BloomType: 0

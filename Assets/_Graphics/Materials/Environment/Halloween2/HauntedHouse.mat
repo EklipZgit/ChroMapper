@@ -79,7 +79,7 @@ Material:
     - _AcesTonemap: 0
     - _AlbedoMultiplier: 1
     - _AlphaCutout: 0
-    - _AmbientMinimalValue: 0
+    - _AmbientMinimalValue: 1
     - _AmbientMultiplier: 1
     - _BloomBoost: 1
     - _BloomWhite: 0
@@ -95,7 +95,7 @@ Material:
     - _DisplacementStrength: 0.1
     - _EmissionBloomIntensity: 1
     - _EmissionBloomType: 0
-    - _EmissionBrightness: 1
+    - _EmissionBrightness: 3
     - _EmissionFogSuppression: 0
     - _EmissionGradientIntensity: 1
     - _EmissionGradientPanningSpeed: 0
@@ -104,7 +104,7 @@ Material:
     - _EmissionMaskStepValue: 0.5
     - _EmissionMaskStepWidth: 0.1
     - _EmissionStrength: 1
-    - _EmissionTexBloomIntensity: 1
+    - _EmissionTexBloomIntensity: 0.3
     - _EmissionTexWhiteBoostMultiplier: 1
     - _EmissionTexture: 1
     - _EmissionThreshold: 0
@@ -162,7 +162,7 @@ Material:
     - _Smoothness: 0.5
     - _Smoothness_Texture_Source: 0
     - _Spectrogram: 0
-    - _SpecularIntensity: 1
+    - _SpecularIntensity: 1.49
     - _UseColorArray: 0
     - _Vertex: 0
     - _Vertex_BloomType: 0

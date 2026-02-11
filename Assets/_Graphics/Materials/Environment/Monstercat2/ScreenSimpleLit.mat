@@ -95,7 +95,7 @@ Material:
     - _DisplacementBidirectional: 0
     - _DisplacementSpatial: 0
     - _DisplacementStrength: 0.1
-    - _EmissionBloomIntensity: 1
+    - _EmissionBloomIntensity: 0.2
     - _EmissionBloomType: 3
     - _EmissionBrightness: 1
     - _EmissionFogSuppression: 0
@@ -106,7 +106,7 @@ Material:
     - _EmissionMaskStepValue: 0.5
     - _EmissionMaskStepWidth: 0.1
     - _EmissionStrength: 1
-    - _EmissionTexBloomIntensity: 1
+    - _EmissionTexBloomIntensity: 0.5
     - _EmissionTexWhiteBoostMultiplier: 1
     - _EmissionTexture: 1
     - _EmissionThreshold: 0

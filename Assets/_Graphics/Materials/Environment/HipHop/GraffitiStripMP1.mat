@@ -70,7 +70,7 @@ Material:
     - _3DDisplacement: 0
     - _AcesTonemap: 0
     - _AlphaChannel: 1
-    - _AlphaMultiplier: 1
+    - _AlphaMultiplier: 2
     - _BaseLayer: 1
     - _Billboard: 0
     - _BillboardScale: 1

@@ -54,9 +54,9 @@ Material:
     - _FogHeightOffset: 0
     - _FogHeightScale: 1
     - _FogScale: 1
-    - _FogStartOffset: 1
+    - _FogStartOffset: 0
     - _Glossiness: 0.5
-    - _Metallic: 1
+    - _Metallic: 0
     - _ReflectionIntensity: 0.5
     - _Smoothness: 0.5
     - _StencilComp: 8

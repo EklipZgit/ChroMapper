@@ -88,7 +88,7 @@ Material:
     - _BloomBoost: 1
     - _BloomWhite: 0
     - _BloomWhiteMultiplier: 1
-    - _BothSidesDiffuseMultiplier: 1
+    - _BothSidesDiffuseMultiplier: 0.1
     - _CullMode: 2
     - _Custom_Time: 0
     - _DarkeningIntensity: 1
@@ -150,7 +150,7 @@ Material:
     - _Mode: 0
     - _PointLightPositionLocal: 1
     - _PreciseNormal: 0
-    - _PrivatePointLightIntensity: 1
+    - _PrivatePointLightIntensity: 10
     - _RimDarkening: 0
     - _RimDistanceOffset: 2
     - _RimDistanceScale: 0.3
@@ -166,7 +166,7 @@ Material:
     - _Smoothness: 0.5
     - _Smoothness_Texture_Source: 0
     - _Spectrogram: 0
-    - _SpecularIntensity: 1
+    - _SpecularIntensity: 0.5
     - _UseColorArray: 0
     - _Vertex: 0
     - _Vertex_BloomType: 1

@@ -125,13 +125,13 @@ Material:
     - _FogHeightOffset: 0
     - _FogHeightScale: 1
     - _FogScale: 1
-    - _FogStartOffset: 1
+    - _FogStartOffset: 0
     - _GroundFadeOffset: 1
     - _GroundFadeScale: 0.5
     - _InvertRimDim: 0
     - _MainEffectFogSuppression: 0
     - _MaskBlend: 0
-    - _Metallic: 1
+    - _Metallic: 0.3
     - _Metallic_Texture_Source: 0
     - _PointLightPositionLocal: 0
     - _PreciseNormal: 0

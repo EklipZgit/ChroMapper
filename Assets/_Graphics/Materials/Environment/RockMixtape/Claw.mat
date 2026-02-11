@@ -163,7 +163,7 @@ Material:
     - _Smoothness: 0.5
     - _Smoothness_Texture_Source: 0
     - _Spectrogram: 0
-    - _SpecularIntensity: 1
+    - _SpecularIntensity: 0.05
     - _UseColorArray: 0
     - _Vertex: 0
     - _Vertex_BloomType: 0

@@ -96,7 +96,7 @@ Material:
     - _DisplacementBidirectional: 0
     - _DisplacementSpatial: 0
     - _DisplacementStrength: 0.1
-    - _EmissionBloomIntensity: 1
+    - _EmissionBloomIntensity: 0.5
     - _EmissionBloomType: 0
     - _EmissionBrightness: 1
     - _EmissionFogSuppression: 0
@@ -149,7 +149,7 @@ Material:
     - _Mode: 0
     - _PointLightPositionLocal: 0
     - _PreciseNormal: 0
-    - _PrivatePointLightIntensity: 1
+    - _PrivatePointLightIntensity: 2500
     - _RimDarkening: 0
     - _RimDistanceOffset: 2
     - _RimDistanceScale: 0.3
@@ -166,7 +166,7 @@ Material:
     - _Smoothness: 0.5
     - _Smoothness_Texture_Source: 0
     - _Spectrogram: 0
-    - _SpecularIntensity: 1
+    - _SpecularIntensity: 0.5
     - _UseColorArray: 0
     - _Vertex: 0
     - _Vertex_BloomType: 1

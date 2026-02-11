@@ -86,7 +86,7 @@ Material:
     - _BloomBoost: 1
     - _BloomWhite: 0
     - _BloomWhiteMultiplier: 1
-    - _BothSidesDiffuseMultiplier: 1
+    - _BothSidesDiffuseMultiplier: 0.2
     - _CullMode: 2
     - _Custom_Time: 0
     - _DarkeningIntensity: 1
@@ -95,7 +95,7 @@ Material:
     - _DisplacementBidirectional: 0
     - _DisplacementSpatial: 0
     - _DisplacementStrength: 0.1
-    - _EmissionBloomIntensity: 1
+    - _EmissionBloomIntensity: 0.5
     - _EmissionBloomType: 0
     - _EmissionBrightness: 1
     - _EmissionFogSuppression: 0

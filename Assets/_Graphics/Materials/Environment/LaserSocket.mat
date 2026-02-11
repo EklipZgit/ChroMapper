@@ -97,7 +97,7 @@ Material:
     - _DisplacementStrength: 0.1
     - _EmissionBloomIntensity: 1
     - _EmissionBloomType: 3
-    - _EmissionBrightness: 1
+    - _EmissionBrightness: 0.5
     - _EmissionFogSuppression: 0
     - _EmissionGradientIntensity: 1
     - _EmissionGradientPanningSpeed: 0
@@ -147,7 +147,7 @@ Material:
     - _Metallic_Texture_Source: 0
     - _PointLightPositionLocal: 1
     - _PreciseNormal: 0
-    - _PrivatePointLightIntensity: 1
+    - _PrivatePointLightIntensity: 10
     - _RimDarkening: 0
     - _RimDistanceOffset: 2
     - _RimDistanceScale: 0.3

@@ -96,7 +96,7 @@ Material:
     - _BloomBoost: 1
     - _BloomWhite: 0
     - _BloomWhiteMultiplier: 1
-    - _BothSidesDiffuseMultiplier: 1
+    - _BothSidesDiffuseMultiplier: 0.1
     - _CullMode: 2
     - _Custom_Time: 2
     - _DarkeningIntensity: 1
@@ -116,7 +116,7 @@ Material:
     - _EmissionMaskStepValue: 0.5
     - _EmissionMaskStepWidth: 0.1
     - _EmissionStrength: 1
-    - _EmissionTexBloomIntensity: 1
+    - _EmissionTexBloomIntensity: 0.3
     - _EmissionTexWhiteBoostMultiplier: 1
     - _EmissionTexture: 1
     - _EmissionThreshold: 0
@@ -177,7 +177,7 @@ Material:
     - _Smoothness: 0.5
     - _Smoothness_Texture_Source: 2
     - _Spectrogram: 0
-    - _SpecularIntensity: 1
+    - _SpecularIntensity: 0.1
     - _UseColorArray: 0
     - _Vertex: 0
     - _Vertex_BloomType: 1

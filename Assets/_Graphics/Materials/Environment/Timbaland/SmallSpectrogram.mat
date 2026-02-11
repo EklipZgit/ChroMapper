@@ -51,7 +51,7 @@ Material:
     - _Glossiness: 0.5
     - _Metallic: 0.3
     - _Smoothness: 0.5
-    - _SpecularIntensity: 1
+    - _SpecularIntensity: 0.2
     - _ZTest: 4
     - _ZWrite: 1
     m_Colors:

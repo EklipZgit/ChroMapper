@@ -148,7 +148,7 @@ Material:
     - _Mode: 0
     - _PointLightPositionLocal: 1
     - _PreciseNormal: 0
-    - _PrivatePointLightIntensity: 1
+    - _PrivatePointLightIntensity: 50
     - _RimDarkening: 0
     - _RimDistanceOffset: 2
     - _RimDistanceScale: 0.3

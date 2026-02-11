@@ -42,7 +42,7 @@ Material:
     - _FogHeightScale: 0.2
     - _FogScale: 0.8
     - _FogStartOffset: 0
-    - _SpectrogramScale: 0.5
+    - _SpectrogramScale: 1.5
     - _ZTest: 4
     - _ZWrite: 1
     m_Colors:

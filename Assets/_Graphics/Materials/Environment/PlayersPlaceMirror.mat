@@ -63,7 +63,7 @@ Material:
     - _Metallic: 0
     - _ReflectionIntensity: 0.5
     - _Smoothness: 0.5
-    - _SpecularIntensity: 1
+    - _SpecularIntensity: 0.3
     - _StencilComp: 8
     - _StencilPass: 1
     - _StencilRefValue: 0
