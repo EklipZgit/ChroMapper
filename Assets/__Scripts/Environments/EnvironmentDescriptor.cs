@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -20,6 +21,7 @@ public class EnvironmentDescriptor : MonoBehaviour
     public List<ChromaIDMarker> ChromaIDMarkers = new();
 
     private bool hasInitialized;
+    private IEnvironmentComponentUpdate[] componentUpdates;
 
     // TODO: replace this, idrk where this goes
     [Tooltip("If you want a thing to rotate around a 360 level with the track, place it here.")]
@@ -27,6 +29,17 @@ public class EnvironmentDescriptor : MonoBehaviour
 
     public void Initialize(BeatmapRuntimeContext context)
     {
+        // TODO: do proper batch update
+        if (hasInitialized)
+        {
+            componentUpdates = componentUpdates
+                .Concat(GetComponentsInChildren<IEnvironmentComponentUpdate>(true))
+                .Distinct()
+                .ToArray();
+        }
+        else
+            componentUpdates = GetComponentsInChildren<IEnvironmentComponentUpdate>(true);
+
         hasInitialized = true;
         Shader.SetGlobalFloat("_TrackLaneYPosition", SizeData.TrackLaneType == TrackLaneType.None ? -100f : 0f);
         var rotationCallback = Resources.FindObjectsOfTypeAll<RotationCallbackController>().First();
@@ -95,4 +108,7 @@ public class EnvironmentDescriptor : MonoBehaviour
                 throw new ArgumentOutOfRangeException();
         }
     }
+
+    public IEnvironmentComponentUpdate[] GetComponentUpdates() =>
+        componentUpdates.Where(x => x.ShouldInclude).ToArray();
 }

@@ -18,6 +18,8 @@ public class
     private readonly Dictionary<(Axis axis, int index), LightRotationGroupContainer>
         idToContainer = new();
 
+    private LightRotationGroupContainer[] activeContainers = Array.Empty<LightRotationGroupContainer>();
+
     public void Register(int id, Axis axis, bool mirrored, Transform tr)
     {
         if (transformEntries.Exists(x => x.ID == id && x.Axis == axis))
@@ -79,23 +81,25 @@ public class
             container.GroupContainer.SetStateAt(0);
             container.EventContainer.SetStateAt(0);
         }
+
+        activeContainers = idToContainer.Values.ToArray();
     }
 
     public override void Refresh()
     {
         foreach (var container in idToContainer.Values)
         {
-            // if (!container.EventContainer.IsCurrentOrFindState(time, Atsc.IsPlaying)) UpdateObject(container);
+            // if (!container.EventContainer.IsCurrentOrFindState(time, isPlaying)) UpdateObject(container);
             // if (container.Tween.UpdateTime(time))
             SetRotation(container.Transforms, container.Tween.Current, container.Axis, container.Mirrored);
         }
     }
 
-    public override void UpdateTime(float time)
+    public override void UpdateTime(bool isPlaying, float time)
     {
-        foreach (var container in idToContainer.Values)
+        foreach (var container in activeContainers)
         {
-            if (!container.EventContainer.IsCurrentOrFindState(time, Atsc.IsPlaying)) UpdateObject(container);
+            if (!container.EventContainer.IsCurrentOrFindState(time, isPlaying)) UpdateObject(container);
             if (container.Tween.UpdateTime(time))
                 SetRotation(container.Transforms, container.Tween.Current, container.Axis, container.Mirrored);
         }

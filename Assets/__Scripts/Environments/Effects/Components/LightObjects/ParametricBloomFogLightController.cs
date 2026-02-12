@@ -120,30 +120,33 @@ public class ParametricBloomFogLightController : LightController
         return true;
     }
 
-    private void LateUpdate()
-    {
-        // TODO: this is expensive
-        if (UpdateAlways) UpdateProp();
-    }
+    private bool shouldRefresh;
+
+    private void OnEnable() => shouldRefresh = true;
+    private void OnDisable() => shouldRefresh = false;
+
+    public override bool ShouldInclude => UpdateAlways;
+    public override bool ShouldRefresh => shouldRefresh;
 
     public override void SetColor(Color color)
     {
         Color = color;
         if (!HasInitialized || UpdateAlways) return;
-        UpdateProp();
+        Refresh();
     }
 
-    public void UpdateProp()
+    public override void Refresh()
     {
         var rendered = !DisableRenderersOnZeroAlpha || Color.a > 0.01f;
+        if (!rendered && !EnabledRenderers) return;
+        
         if (EnabledRenderers != rendered)
         {
             EnabledRenderers = rendered;
             if (hasBoxLight) BoxLight.enabled = rendered;
             if (hasSpriteLight) SpriteLight.enabled = rendered;
         }
-
-        // if (!rendered) return;
+        
         if (hasBloomFog)
         {
             BloomFog.LightWidthMultiplier = LightWidthMultiplier;

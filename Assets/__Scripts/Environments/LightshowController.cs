@@ -10,7 +10,10 @@ public class LightshowController : MonoBehaviour, IBeatmapUpdate
     [SerializeField] private BeatmapRuntimeContext context;
 
     private IBeatmapUpdate[] activeEffects = Array.Empty<IBeatmapUpdate>();
+    private IEnvironmentComponentUpdate[] componentUpdates = Array.Empty<IEnvironmentComponentUpdate>();
+
     private int activeSize;
+    private int componentSize;
 
     private void Awake()
     {
@@ -31,7 +34,10 @@ public class LightshowController : MonoBehaviour, IBeatmapUpdate
     private void HandleEnvironmentUnloaded()
     {
         context.Atsc.OnTimeChanged -= UpdateTime;
+        activeSize = 0;
+        componentSize = 0;
         activeEffects = Array.Empty<IBeatmapUpdate>();
+        componentUpdates = Array.Empty<IEnvironmentComponentUpdate>();
     }
 
     private void HandleEnvironmentLoaded(EnvironmentDescriptor _)
@@ -49,12 +55,20 @@ public class LightshowController : MonoBehaviour, IBeatmapUpdate
     private void UpdateTime()
     {
         if (Mode != LightshowMode.Full) return;
-        UpdateTime(context.Atsc.CurrentSongBpmTime);
+        UpdateTime(context.Atsc.IsPlaying, context.Atsc.CurrentSongBpmTime);
     }
 
-    public void UpdateTime(float time)
+    public void UpdateTime(bool isPlaying, float time)
     {
-        for (var i = 0; i < activeSize; i++) activeEffects[i].UpdateTime(time);
+        for (var i = 0; i < activeSize; i++) activeEffects[i].UpdateTime(isPlaying, time);
+    }
+
+    public void LateUpdate()
+    {
+        for (var i = 0; i < componentSize; i++)
+        {
+            if (componentUpdates[i].ShouldRefresh) componentUpdates[i].Refresh();
+        }
     }
 
     public void Refresh()
@@ -76,6 +90,9 @@ public class LightshowController : MonoBehaviour, IBeatmapUpdate
             .Where(x => x != null)
             .ToArray();
         activeSize = activeEffects.Length;
+
+        componentUpdates = context.Descriptor.GetComponentUpdates();
+        componentSize = componentUpdates.Length;
     }
 
     public void PopulateLightshow()
@@ -117,10 +134,10 @@ public class LightshowController : MonoBehaviour, IBeatmapUpdate
                 UpdateTime();
                 break;
             case LightshowMode.Static:
-                UpdateTime(0f);
+                UpdateTime(false, 0f);
                 break;
             case LightshowMode.None:
-                UpdateTime(-1f);
+                UpdateTime(false, -1f);
                 break;
             default:
                 throw new ArgumentOutOfRangeException();

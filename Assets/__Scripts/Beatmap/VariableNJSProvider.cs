@@ -51,7 +51,7 @@ public class VariableNJSProvider : StateManager<VariableNJSStateData, BaseNJSEve
         InsertData(new BaseNJSEvent());
     }
 
-    public override void UpdateTime(float time)
+    public override void UpdateTime(bool isPlaying, float time)
     {
         container.IsCurrentOrFindState(time, Atsc.IsPlaying);
 

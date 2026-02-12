@@ -17,15 +17,15 @@ public class BasicEventManager : BeatmapObjectManager<BaseEvent>
     public override void UpdateTime()
     {
         if (lightshowController.Mode != LightshowMode.Full) return;
-        UpdateTime(Context.Atsc.CurrentSongBpmTime);
+        UpdateTime(Context.Atsc.IsPlaying, Context.Atsc.CurrentSongBpmTime);
     }
 
-    public override void UpdateTime(float time)
+    public override void UpdateTime(bool isPlaying, float time)
     {
         foreach (var manager in
             Context.Descriptor.BasicEventEffectManager.EventTypeToEffects.Values.SelectMany(managers =>
                 managers))
-            manager.UpdateTime(time);
+            manager.UpdateTime(isPlaying, time);
     }
 
     protected override bool AddData(IEnumerable<BaseEvent> data) =>

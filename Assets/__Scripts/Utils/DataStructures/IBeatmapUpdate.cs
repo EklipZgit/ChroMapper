@@ -1,5 +1,5 @@
 public interface IBeatmapUpdate
 {
     public void Refresh();
-    public void UpdateTime(float time);
+    public void UpdateTime(bool isPlaying, float time);
 }

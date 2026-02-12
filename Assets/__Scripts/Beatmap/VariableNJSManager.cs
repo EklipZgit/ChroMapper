@@ -29,8 +29,8 @@ public class VariableNJSManager : BeatmapObjectManager<BaseNJSEvent>
         Context.Atsc.OnTimeChangedEarly += UpdateTime;
     }
 
-    public override void UpdateTime() => UpdateTime(Context.Atsc.CurrentSongBpmTime);
-    public override void UpdateTime(float beatTime) => provider.UpdateTime(beatTime);
+    public override void UpdateTime() => UpdateTime(Context.Atsc.IsPlaying, Context.Atsc.CurrentSongBpmTime);
+    public override void UpdateTime(bool isPlaying, float beatTime) => provider.UpdateTime(isPlaying, beatTime);
 
     protected override bool AddData(IEnumerable<BaseNJSEvent> data)
     {

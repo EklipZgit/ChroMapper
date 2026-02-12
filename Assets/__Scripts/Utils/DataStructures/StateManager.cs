@@ -9,7 +9,7 @@ public abstract class StateManager : MonoBehaviour, IBeatmapUpdate
 
     public abstract void Initialize();
     public abstract void Refresh();
-    public abstract void UpdateTime(float time);
+    public abstract void UpdateTime(bool isPlaying, float time);
 }
 
 public abstract class StateManager<T> : StateManager where T : BaseObject

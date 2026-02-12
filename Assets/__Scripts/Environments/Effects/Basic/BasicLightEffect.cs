@@ -32,6 +32,14 @@ public class BasicLightEffect : BasicEventEffect<BasicLightStateData>
             BasicEventStateChunksContainer<BasicLightStateData> container)>
         controllerToContainer = new();
 
+    private (LightController controller, LightColorTween tween,
+        BasicEventStateChunksContainer<BasicLightStateData> container)[]
+        activeControllers =
+            Array.Empty<(LightController controller, LightColorTween tween,
+                BasicEventStateChunksContainer<BasicLightStateData> container)>();
+
+    private int activeSize;
+
     private List<ChromaLiteData> chromaLiteData = new();
     private List<ChromaGradientData> chromaGradientData = new();
 
@@ -112,19 +120,26 @@ public class BasicLightEffect : BasicEventEffect<BasicLightStateData>
                 state.StartAlpha = state.EndAlpha = state.Base.FloatValue * OffIntensity;
             }
         }
+
+        activeControllers = controllerToContainer.Select(x => (x.Key, x.Value.tween, x.Value.container)).ToArray();
+        activeSize = activeControllers.Length;
     }
 
     public override void Refresh()
     {
-        foreach (var (controller, (tween, _)) in controllerToContainer) controller.SetColor(tween.Color);
+        for (var i = 0; i < activeSize; i++)
+        {
+            var (controller, tween, _) = activeControllers[i];
+            controller.SetColor(tween.Color);
+        }
     }
 
-    public override void UpdateTime(float currentTime)
+    public override void UpdateTime(bool isPlaying, float currentTime)
     {
-        foreach (var (controller, (tween, container)) in controllerToContainer)
+        for (var i = 0; i < activeSize; i++)
         {
-            if (!container.IsCurrentOrFindState(currentTime, Atsc.IsPlaying))
-                UpdateObject(tween, container.CurrentState);
+            var (controller, tween, container) = activeControllers[i];
+            if (!container.IsCurrentOrFindState(currentTime, isPlaying)) UpdateObject(tween, container.CurrentState);
 
             if (tween.UpdateTime(currentTime)) controller.SetColor(tween.Color);
         }
@@ -158,8 +173,11 @@ public class BasicLightEffect : BasicEventEffect<BasicLightStateData>
 
     private void HandleBoostChanged(bool boost)
     {
-        foreach (var (_, (tween, container)) in controllerToContainer)
+        for (var i = 0; i < activeSize; i++)
+        {
+            var (_, tween, container) = activeControllers[i];
             UpdateStartAndEndColor(tween, container.CurrentState);
+        }
     }
 
     protected override BasicLightStateData CreateState(BaseEvent data) => new(data);

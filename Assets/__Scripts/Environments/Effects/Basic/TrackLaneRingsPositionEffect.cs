@@ -10,9 +10,9 @@ public class TrackLaneRingsPositionEffect : BasicEventEffect<TrackLaneRingsPosit
     public override void Initialize() => InitializeStates(container);
     public override void Refresh() => UpdateObject(container.CurrentState);
 
-    public override void UpdateTime(float currentTime)
+    public override void UpdateTime(bool isPlaying, float currentTime)
     {
-        if (!container.IsCurrentOrFindState(currentTime, Atsc.IsPlaying)) UpdateObject(container.CurrentState);
+        if (!container.IsCurrentOrFindState(currentTime, isPlaying)) UpdateObject(container.CurrentState);
     }
 
     private void UpdateObject(TrackLaneRingsPositionStateData state)

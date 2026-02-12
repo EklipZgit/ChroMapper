@@ -29,8 +29,9 @@ public class
 
     private void HandleBoostChange(bool boost)
     {
-        foreach (var container in activeContainers)
+        for (var i = 0; i < activeContainers.Length; i++)
         {
+            var container = activeContainers[i];
             var state = container.EventContainer.CurrentState;
 
             container.Tween.StartColor = ColorScheme.GetColorFrom((LightColor)state.Base.Color, false);
@@ -102,18 +103,18 @@ public class
     {
         foreach (var container in activeContainers)
         {
-            // if (!container.EventContainer.IsCurrentOrFindState(Atsc.CurrentSongBpmTime, Atsc.IsPlaying))
+            // if (!container.EventContainer.IsCurrentOrFindState(Atsc.CurrentSongBpmTime, isPlaying))
             //     UpdateObject(container);
             // container.Tween.UpdateTime(Atsc.CurrentSongBpmTime);
             foreach (var controller in container.Lights) controller.SetColor(container.Tween.Color);
         }
     }
 
-    public override void UpdateTime(float time)
+    public override void UpdateTime(bool isPlaying, float time)
     {
         foreach (var container in activeContainers)
         {
-            if (!container.EventContainer.IsCurrentOrFindState(time, Atsc.IsPlaying)) UpdateObject(container);
+            if (!container.EventContainer.IsCurrentOrFindState(time, isPlaying)) UpdateObject(container);
             if (!container.Tween.UpdateTime(time)) continue;
             foreach (var controller in container.Lights) controller.SetColor(container.Tween.Color);
         }

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public abstract class CombinedLightsGroupController : MonoBehaviour
+public abstract class CombinedLightsGroupController : MonoBehaviour, IEnvironmentComponentUpdate
 {
     public LightIntensityController[] LightIntensityData;
 
@@ -27,7 +27,7 @@ public abstract class CombinedLightsGroupController : MonoBehaviour
 
     protected abstract bool Initialize();
 
-    private void LateUpdate()
+    public void Refresh()
     {
         var color = default(Color);
         for (var i = 0; i < LightIntensityData.Length; i++)
@@ -70,4 +70,6 @@ public abstract class CombinedLightsGroupController : MonoBehaviour
     }
 
     public abstract void SetColor(Color color);
+    public bool ShouldInclude => true;
+    public bool ShouldRefresh => true;
 }

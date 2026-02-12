@@ -105,12 +105,12 @@ public class
         }
     }
 
-    public override void UpdateTime(float time)
+    public override void UpdateTime(bool isPlaying, float time)
     {
         for (var j = 0; j < activeContainers.Length; j++)
         {
             var container = activeContainers[j];
-            if (!container.EventContainer.IsCurrentOrFindState(time, Atsc.IsPlaying))
+            if (!container.EventContainer.IsCurrentOrFindState(time, isPlaying))
             {
                 UpdateObject(container);
                 if (Trigger)

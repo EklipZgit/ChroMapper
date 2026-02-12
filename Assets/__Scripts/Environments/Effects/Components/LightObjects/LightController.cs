@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public abstract class LightController : MonoBehaviour
+public abstract class LightController : MonoBehaviour, IEnvironmentComponentUpdate
 {
     public static readonly float HDRIntensity = Mathf.GammaToLinearSpace(2.4169f);
 
@@ -40,4 +40,8 @@ public abstract class LightController : MonoBehaviour
         Basic,
         Group
     }
+
+    public virtual bool ShouldInclude => false;
+    public virtual bool ShouldRefresh => false;
+    public virtual void Refresh() { }
 }

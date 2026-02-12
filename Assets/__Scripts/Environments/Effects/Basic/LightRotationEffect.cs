@@ -10,9 +10,9 @@ public class LightRotationEffect : BasicEventEffect<LightRotationStateData>, IEf
 
     public override void Refresh() => OnStateChanged?.Invoke(container.CurrentState);
 
-    public override void UpdateTime(float currentTime)
+    public override void UpdateTime(bool isPlaying, float currentTime)
     {
-        if (!container.IsCurrentOrFindState(currentTime, Atsc.IsPlaying))
+        if (!container.IsCurrentOrFindState(currentTime, isPlaying))
             OnStateChanged?.Invoke(container.CurrentState);
     }
 

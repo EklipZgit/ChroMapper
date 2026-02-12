@@ -9,7 +9,7 @@ public abstract class BeatmapObjectManager : MonoBehaviour, IBeatmapUpdate
 
     public abstract void Refresh();
     public abstract void UpdateTime();
-    public abstract void UpdateTime(float beatTime);
+    public abstract void UpdateTime(bool isPlaying, float beatTime);
 }
 
 public abstract class BeatmapObjectManager<T> : BeatmapObjectManager where T : BaseObject

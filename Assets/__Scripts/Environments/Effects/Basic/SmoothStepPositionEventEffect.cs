@@ -29,9 +29,9 @@ public class SmoothStepPositionEventEffect : BasicEventEffect<SmoothStepPosition
 
     public override void Refresh() => UpdateObject();
 
-    public override void UpdateTime(float currentTime)
+    public override void UpdateTime(bool isPlaying, float currentTime)
     {
-        if (!container.IsCurrentOrFindState(currentTime, Atsc.IsPlaying)) UpdateObject();
+        if (!container.IsCurrentOrFindState(currentTime, isPlaying)) UpdateObject();
         if (tween.UpdateTime(currentTime)) SetPosition(Vector3.LerpUnclamped(startPos, endPos, tween.Current));
     }
 
