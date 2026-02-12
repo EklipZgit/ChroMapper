@@ -74,34 +74,71 @@ public class LoadInitialMap : MonoBehaviour
     public void PopulateColorsFromMapInfo()
     {
         var infoDifficulty = BeatSaberSongContainer.Instance.MapDifficultyInfo;
+        var infoColorScheme =
+            0 <= infoDifficulty.ColorSchemeIndex
+            && infoDifficulty.ColorSchemeIndex < BeatSaberSongContainer.Instance.Info.ColorSchemes.Count
+                ? BeatSaberSongContainer.Instance.Info.ColorSchemes[infoDifficulty.ColorSchemeIndex]
+                : null;
 
         if (infoDifficulty.CustomColorLeft != null)
             context.ColorScheme.LeftNoteColor = infoDifficulty.CustomColorLeft.Value;
+        else if (infoColorScheme is { OverrideNotes: true })
+            context.ColorScheme.LeftNoteColor = infoColorScheme.SaberAColor;
         if (infoDifficulty.CustomColorRight != null)
             context.ColorScheme.RightNoteColor = infoDifficulty.CustomColorRight.Value;
+        else if (infoColorScheme is { OverrideNotes: true })
+            context.ColorScheme.RightNoteColor = infoColorScheme.SaberBColor;
 
         if (infoDifficulty.CustomColorObstacle != null)
             context.ColorScheme.ObstacleColor = infoDifficulty.CustomColorObstacle.Value;
+        else if (infoColorScheme is { OverrideNotes: true })
+            context.ColorScheme.ObstacleColor = infoColorScheme.ObstaclesColor;
 
         if (infoDifficulty.CustomEnvColorLeft != null)
-            context.ColorScheme.EnvironmentLeftColor =
-                infoDifficulty.CustomEnvColorLeft.Value;
+            context.ColorScheme.EnvironmentLeftColor = infoDifficulty.CustomEnvColorLeft.Value;
+        else if (infoDifficulty.CustomColorLeft != null)
+            context.ColorScheme.EnvironmentLeftColor = infoDifficulty.CustomColorLeft.Value;
+        else if (infoColorScheme is { OverrideLights: true })
+            context.ColorScheme.EnvironmentLeftColor = infoColorScheme.EnvironmentColor0;
         if (infoDifficulty.CustomEnvColorRight != null)
-            context.ColorScheme.EnvironmentRightColor =
-                infoDifficulty.CustomEnvColorRight.Value;
+            context.ColorScheme.EnvironmentRightColor = infoDifficulty.CustomEnvColorRight.Value;
+        else if (infoDifficulty.CustomColorRight != null)
+            context.ColorScheme.EnvironmentRightColor = infoDifficulty.CustomColorRight.Value;
+        else if (infoColorScheme is { OverrideLights: true })
+            context.ColorScheme.EnvironmentRightColor = infoColorScheme.EnvironmentColor1;
+
         if (infoDifficulty.CustomEnvColorWhite != null)
+        {
             context.ColorScheme.EnvironmentWhiteColor =
                 infoDifficulty.CustomEnvColorWhite.Value;
+        }
+        else if (infoColorScheme is { OverrideLights: true, EnvironmentColorW: not null })
+            context.ColorScheme.EnvironmentWhiteColor = infoColorScheme.EnvironmentColorW.Value;
 
         if (infoDifficulty.CustomEnvColorBoostLeft != null)
-            context.ColorScheme.EnvironmentLeftBoostColor =
-                infoDifficulty.CustomEnvColorBoostLeft.Value;
+            context.ColorScheme.EnvironmentLeftBoostColor = infoDifficulty.CustomEnvColorBoostLeft.Value;
+        else if (infoDifficulty.CustomEnvColorLeft != null)
+            context.ColorScheme.EnvironmentLeftBoostColor = infoDifficulty.CustomEnvColorLeft.Value;
+        else if (infoDifficulty.CustomColorLeft != null)
+            context.ColorScheme.EnvironmentLeftBoostColor = infoDifficulty.CustomColorLeft.Value;
+        else if (infoColorScheme is { OverrideLights: true })
+            context.ColorScheme.EnvironmentLeftBoostColor = infoColorScheme.EnvironmentColor0Boost;
         if (infoDifficulty.CustomEnvColorBoostRight != null)
-            context.ColorScheme.EnvironmentRightBoostColor =
-                infoDifficulty.CustomEnvColorBoostRight.Value;
+            context.ColorScheme.EnvironmentRightBoostColor = infoDifficulty.CustomEnvColorBoostRight.Value;
+        else if (infoDifficulty.CustomEnvColorRight != null)
+            context.ColorScheme.EnvironmentRightBoostColor = infoDifficulty.CustomEnvColorRight.Value;
+        else if (infoDifficulty.CustomColorRight != null)
+            context.ColorScheme.EnvironmentRightBoostColor = infoDifficulty.CustomColorRight.Value;
+        else if (infoColorScheme is { OverrideLights: true })
+            context.ColorScheme.EnvironmentRightBoostColor = infoColorScheme.EnvironmentColor1Boost;
+
         if (infoDifficulty.CustomEnvColorBoostWhite != null)
+        {
             context.ColorScheme.EnvironmentWhiteBoostColor =
                 infoDifficulty.CustomEnvColorBoostWhite.Value;
+        }
+        else if (infoColorScheme is { OverrideLights: true, EnvironmentColorWBoost: not null })
+            context.ColorScheme.EnvironmentWhiteBoostColor = infoColorScheme.EnvironmentColorWBoost.Value;
     }
 
     private void UpdateObjectContainerColors()

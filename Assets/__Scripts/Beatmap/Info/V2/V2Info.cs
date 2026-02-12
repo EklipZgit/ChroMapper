@@ -7,7 +7,7 @@ namespace Beatmap.Info
     public static class V2Info
     {
         public const string Version = "2.1.0";
-        
+
         public static BaseInfo GetFromJson(JSONNode node)
         {
             var info = new BaseInfo();
@@ -16,11 +16,11 @@ namespace Beatmap.Info
             info.SongName = node["_songName"].Value;
             info.SongSubName = node["_songSubName"].Value;
             info.SongAuthorName = node["_songAuthorName"].Value;
-            
+
             info.LevelAuthorName = node["_levelAuthorName"].Value;
-            
+
             info.BeatsPerMinute = node["_beatsPerMinute"].AsFloat;
-            
+
             // Deprecated fields
             info.SongTimeOffset = node["_songTimeOffset"].AsFloat;
             info.Shuffle = node["_shuffle"].AsFloat;
@@ -40,7 +40,7 @@ namespace Beatmap.Info
             {
                 info.EnvironmentNames.Add(environmentName);
             }
-            
+
             var colorSchemes = new List<InfoColorScheme>();
             var colorSchemeNodes = node["_colorSchemes"].AsArray.Children.Select(x => x.AsObject);
             foreach (var colorSchemeNode in colorSchemeNodes)
@@ -49,7 +49,7 @@ namespace Beatmap.Info
                 colorScheme.UseOverride = colorSchemeNode["useOverride"].AsBool;
                 colorScheme.OverrideNotes = colorSchemeNode["useOverride"].AsBool;
                 colorScheme.OverrideLights = colorSchemeNode["useOverride"].AsBool;
-                
+
                 colorScheme.ColorSchemeName = colorSchemeNode["colorScheme"]["colorSchemeId"].Value;
                 // Ideally, this should read no alpha key as 0,
                 // but due to previous bug where alpha was not written,
@@ -59,10 +59,25 @@ namespace Beatmap.Info
                 colorScheme.ObstaclesColor = colorSchemeNode["colorScheme"]["obstaclesColor"].ReadColor();
                 colorScheme.EnvironmentColor0 = colorSchemeNode["colorScheme"]["environmentColor0"].ReadColor();
                 colorScheme.EnvironmentColor1 = colorSchemeNode["colorScheme"]["environmentColor1"].ReadColor();
-                colorScheme.EnvironmentColor0Boost = colorSchemeNode["colorScheme"]["environmentColor0Boost"].ReadColor();
-                colorScheme.EnvironmentColor1Boost = colorSchemeNode["colorScheme"]["environmentColor1Boost"].ReadColor();
+                if (colorSchemeNode["colorScheme"].HasKey("environmentColorW"))
+                {
+                    colorScheme.EnvironmentColorW =
+                        colorSchemeNode["colorScheme"]["environmentColorW"].ReadColor();
+                }
+
+                colorScheme.EnvironmentColor0Boost =
+                    colorSchemeNode["colorScheme"]["environmentColor0Boost"].ReadColor();
+                colorScheme.EnvironmentColor1Boost =
+                    colorSchemeNode["colorScheme"]["environmentColor1Boost"].ReadColor();
+                if (colorSchemeNode["colorScheme"].HasKey("environmentColorWBoost"))
+                {
+                    colorScheme.EnvironmentColorWBoost =
+                        colorSchemeNode["colorScheme"]["environmentColorWBoost"].ReadColor();
+                }
+
                 colorSchemes.Add(colorScheme);
             }
+
             info.ColorSchemes = colorSchemes;
 
             var beatmapSets = new List<InfoDifficultySet>();
@@ -71,7 +86,7 @@ namespace Beatmap.Info
             {
                 var beatmapSet = new InfoDifficultySet();
                 beatmapSet.Characteristic = beatmapSetNode["_beatmapCharacteristicName"].Value;
-                
+
                 var difficulties = new List<InfoDifficulty>();
 
                 var beatmapsNode = beatmapSetNode["_difficultyBeatmaps"].AsArray;
@@ -86,11 +101,11 @@ namespace Beatmap.Info
                     infoDifficulty.NoteStartBeatOffset = beatmapNode["_noteJumpStartBeatOffset"].AsFloat;
 
                     var customData = beatmapNode["_customData"].AsObject;
-                    
+
                     ParseDifficultyCustomData(customData, infoDifficulty);
 
                     infoDifficulty.CustomData = customData;
-                    
+
                     difficulties.Add(infoDifficulty);
                 }
 
@@ -99,11 +114,12 @@ namespace Beatmap.Info
                 var setCustomData = beatmapSetNode["_customData"].AsObject;
 
                 ParseDifficultySetCustomData(setCustomData, beatmapSet);
-                
+
                 beatmapSet.CustomData = setCustomData;
 
                 beatmapSets.Add(beatmapSet);
             }
+
             info.DifficultySets = beatmapSets;
 
             // CustomData Parsing
@@ -113,7 +129,9 @@ namespace Beatmap.Info
 
                 if (customData["_contributors"].IsArray)
                 {
-                    info.CustomContributors = customData["_contributors"].AsArray.Children.Select(V2Contributor.GetFromJson).ToList();
+                    info.CustomContributors = customData["_contributors"]
+                        .AsArray.Children.Select(V2Contributor.GetFromJson)
+                        .ToList();
                     customData.Remove("_contributors");
                 }
 
@@ -130,10 +148,10 @@ namespace Beatmap.Info
                     customData.Remove("_customEnvironment");
                     customData.Remove("_customEnvironmentHash");
                 }
-                
+
                 info.CustomData = customData;
             }
-            
+
             return info;
         }
 
@@ -164,6 +182,7 @@ namespace Beatmap.Info
             {
                 environmentNames.Add(environmentName);
             }
+
             json["_environmentNames"] = environmentNames;
 
             // This is pretty terrible design however we're stuck with switching the serialization method of colors
@@ -183,13 +202,25 @@ namespace Beatmap.Info
                 node["colorScheme"]["obstaclesColor"] = new JSONObject().WriteColor(colorScheme.ObstaclesColor);
                 node["colorScheme"]["environmentColor0"] = new JSONObject().WriteColor(colorScheme.EnvironmentColor0);
                 node["colorScheme"]["environmentColor1"] = new JSONObject().WriteColor(colorScheme.EnvironmentColor1);
+                if (colorScheme.EnvironmentColorW.HasValue)
+                {
+                    node["colorScheme"]["environmentColorW"] =
+                        new JSONObject().WriteColor(colorScheme.EnvironmentColorW.Value);
+                }
+
                 node["colorScheme"]["environmentColor0Boost"] =
                     new JSONObject().WriteColor(colorScheme.EnvironmentColor0Boost);
                 node["colorScheme"]["environmentColor1Boost"] =
                     new JSONObject().WriteColor(colorScheme.EnvironmentColor1Boost);
-                
+                if (colorScheme.EnvironmentColorWBoost.HasValue)
+                {
+                    node["colorScheme"]["environmentColorWBoost"] =
+                        new JSONObject().WriteColor(colorScheme.EnvironmentColorWBoost.Value);
+                }
+
                 colorSchemes.Add(node);
             }
+
             json["_colorSchemes"] = colorSchemes;
 
 
@@ -218,7 +249,7 @@ namespace Beatmap.Info
                     {
                         node["_customData"] = diffCustomData;
                     }
-                    
+
                     difficultyBeatmapsArray.Add(node);
                 }
 
@@ -229,7 +260,7 @@ namespace Beatmap.Info
                 {
                     setNode["_customData"] = diffSetCustomData;
                 }
-                
+
                 // Only add non-empty sets
                 if (beatmapSet.Difficulties.Count > 0 || diffSetCustomData.Count > 0)
                 {
@@ -248,23 +279,23 @@ namespace Beatmap.Info
                 {
                     customContributors.Add(V2Contributor.ToJson(customContributor));
                 }
-                
+
                 customData["_contributors"] = customContributors;
             }
-            
+
             if (!string.IsNullOrEmpty(info.CustomEnvironmentMetadata.Name))
             {
                 customData["_customEnvironment"] = info.CustomEnvironmentMetadata.Name;
                 customData["_customEnvironmentHash"] = info.CustomEnvironmentMetadata.Hash;
             }
-            
+
             customData["_editors"] = info.CustomEditorsData.ToJson();
-            
+
             json["_customData"] = customData;
-            
+
             return json;
         }
-        
+
         private static void ParseDifficultySetCustomData(JSONNode customData, InfoDifficultySet difficultySet)
         {
             if (customData["_characteristicLabel"].IsString)
@@ -275,7 +306,8 @@ namespace Beatmap.Info
 
             if (customData["_characteristicIconImageFilename"].IsString)
             {
-                difficultySet.CustomCharacteristicIconImageFileName = customData["_characteristicIconImageFilename"].Value;
+                difficultySet.CustomCharacteristicIconImageFileName =
+                    customData["_characteristicIconImageFilename"].Value;
                 customData.Remove("_characteristicIconImageFilename");
             }
         }
@@ -299,7 +331,7 @@ namespace Beatmap.Info
                 difficulty.CustomLabel = customData["_difficultyLabel"].Value;
                 customData.Remove("_difficultyLabel");
             }
-            
+
             if (customData["_information"].IsArray)
             {
                 difficulty.CustomInformation =
@@ -333,13 +365,13 @@ namespace Beatmap.Info
                 difficulty.CustomColorLeft = customData["_colorLeft"].ReadColor();
                 customData.Remove("_colorLeft");
             }
-            
+
             if (customData["_colorRight"].IsObject)
             {
                 difficulty.CustomColorRight = customData["_colorRight"].ReadColor();
                 customData.Remove("_colorRight");
             }
-            
+
             if (customData["_obstacleColor"].IsObject)
             {
                 difficulty.CustomColorObstacle = customData["_obstacleColor"].ReadColor();
@@ -351,31 +383,31 @@ namespace Beatmap.Info
                 difficulty.CustomEnvColorLeft = customData["_envColorLeft"].ReadColor();
                 customData.Remove("_envColorLeft");
             }
-            
+
             if (customData["_envColorRight"].IsObject)
             {
                 difficulty.CustomEnvColorRight = customData["_envColorRight"].ReadColor();
                 customData.Remove("_envColorRight");
             }
-            
+
             if (customData["_envColorWhite"].IsObject)
             {
                 difficulty.CustomEnvColorWhite = customData["_envColorWhite"].ReadColor();
                 customData.Remove("_envColorWhite");
             }
-            
+
             if (customData["_envColorLeftBoost"].IsObject)
             {
                 difficulty.CustomEnvColorBoostLeft = customData["_envColorLeftBoost"].ReadColor();
                 customData.Remove("_envColorLeftBoost");
             }
-            
+
             if (customData["_envColorRightBoost"].IsObject)
             {
                 difficulty.CustomEnvColorBoostRight = customData["_envColorRightBoost"].ReadColor();
                 customData.Remove("_envColorRightBoost");
             }
-            
+
             if (customData["_envColorWhiteBoost"].IsObject)
             {
                 difficulty.CustomEnvColorBoostWhite = customData["_envColorWhiteBoost"].ReadColor();
@@ -391,7 +423,7 @@ namespace Beatmap.Info
             {
                 customData["_characteristicLabel"] = difficultySet.CustomCharacteristicLabel;
             }
-            
+
             if (!string.IsNullOrWhiteSpace(difficultySet.CustomCharacteristicIconImageFileName))
             {
                 customData["_characteristicIconImageFilename"] = difficultySet.CustomCharacteristicIconImageFileName;
@@ -424,25 +456,25 @@ namespace Beatmap.Info
                 customData["_information"] =
                     SimpleJSONHelper.MapSequenceToJSONArray(difficulty.CustomInformation, s => s);
             }
-            
+
             if (difficulty.CustomWarnings.Any())
             {
                 customData["_warnings"] =
                     SimpleJSONHelper.MapSequenceToJSONArray(difficulty.CustomWarnings, s => s);
             }
-            
+
             if (difficulty.CustomSuggestions.Any())
             {
                 customData["_suggestions"] =
                     SimpleJSONHelper.MapSequenceToJSONArray(difficulty.CustomSuggestions, s => s);
             }
-            
+
             if (difficulty.CustomRequirements.Any())
             {
                 customData["_requirements"] =
                     SimpleJSONHelper.MapSequenceToJSONArray(difficulty.CustomRequirements, s => s);
             }
-            
+
             // SongCore saves colors in Object format so temporarily change container type
             JSONNode.ColorContainerType = JSONContainerType.Object;
 
@@ -490,7 +522,7 @@ namespace Beatmap.Info
             {
                 customData["_envColorWhiteBoost"] = difficulty.CustomEnvColorBoostWhite.Value;
             }
-            
+
             JSONNode.ColorContainerType = JSONContainerType.Array;
 
             return customData;
