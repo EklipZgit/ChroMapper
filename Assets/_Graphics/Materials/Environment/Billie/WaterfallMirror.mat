@@ -35,7 +35,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 20127404c2be10d6985caf6c8d690c93, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ReflectionTex:
@@ -44,11 +44,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _BumpIntensity: 0.1
+    - _BumpIntensity: 0.02
     - _CullMode: 2
-    - _DetailNormalIntensity: 0
+    - _DetailNormalIntensity: 0.5
     - _DetailNormalMap: 1
-    - _DetailNormalTextureScale: 1
+    - _DetailNormalTextureScale: 0.025
     - _DirtIntensity: 1
     - _EnableDiffuse: 0
     - _EnableDirt: 0
@@ -63,7 +63,7 @@ Material:
     - _FogStartOffset: 0
     - _Glossiness: 0.5
     - _Metallic: 0.3
-    - _ReflectionIntensity: 0.5
+    - _ReflectionIntensity: 0.9
     - _Smoothness: 0.5
     - _StencilComp: 8
     - _StencilPass: 1
@@ -72,7 +72,7 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 0, g: 0.5, b: 1, a: 1}
-    - _DetailNormalTexScrolling: {r: 0.05, g: 2, b: 0, a: 0}
-    - _TextureScrolling: {r: 0, g: 0, b: 0, a: 0}
+    - _DetailNormalTexScrolling: {r: 0.2, g: 1, b: 0, a: 0}
+    - _TextureScrolling: {r: 0, g: 0.6, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

@@ -148,15 +148,18 @@
 
             float4 frag(v2f i) : SV_Target
             {
-                #if defined(DETAIL_NORMAL_MAP)
                 float3 normalTangent = UnpackNormalWithScale(
-                    tex2D(_NormalTex, TRANSFORM_TEX(i.uv, _NormalTex) + _DetailNormalTexScrolling.xy * _Time.yy),
+                    tex2D(_NormalTex, TRANSFORM_TEX(i.uv, _NormalTex) + _TextureScrolling.xy * _Time.xx),
+                    _BumpIntensity);
+
+                #if defined(DETAIL_NORMAL_MAP)
+                float3 detailNormalTangent = UnpackNormalWithScale(
+                    tex2D(_NormalTex, TRANSFORM_TEX(i.uv, _NormalTex) + _DetailNormalTexScrolling.xy * _Time.xx),
                     _DetailNormalTextureScale * _DetailNormalIntensity);
                 // TODO: ok idk, what are even the difference
-                #else
-                float3 normalTangent = UnpackNormalWithScale(tex2D(_NormalTex, TRANSFORM_TEX(i.uv, _NormalTex)),
-                                                             _BumpIntensity);
+                normalTangent = float3(normalTangent.xy + detailNormalTangent.xy, normalTangent.z * normalTangent.z);
                 #endif
+
                 normalTangent = normalize(normalTangent);
 
                 float3 worldNormal = i.worldNormal;
