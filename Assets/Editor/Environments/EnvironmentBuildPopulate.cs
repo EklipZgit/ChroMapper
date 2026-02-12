@@ -96,6 +96,8 @@ public class EnvironmentBuildPopulate
             { "_RimCameraDistanceOffset", "_RimDistanceOffset" },
             { "_RimCameraDistanceScale", "_RimDistanceScale" }
         };
+
+        var usedMaterialName = new Dictionary<string, int>();
         foreach (var matInfo in library.Materials.list)
         {
             if (matInfo.Material == null)
@@ -107,9 +109,12 @@ public class EnvironmentBuildPopulate
                 // Shaders that dont support instancing should ignore the flag, but otherwise this should be free performance
                 var mat = new Material(shader) { enableInstancing = true };
 
+                var name = usedMaterialName.TryGetValue(matInfo.Name, out var n) && n > 0
+                    ? matInfo.Name + n
+                    : matInfo.Name;
                 if (matInfo.Environments.Count > 1)
                 {
-                    var targetPath = Path.Combine(graphicsPath, "Materials", "Environment", $"{matInfo.Name}.mat");
+                    var targetPath = Path.Combine(graphicsPath, "Materials", "Environment", $"{name}.mat");
                     if (!AssetDatabase.AssetPathExists(targetPath))
                         AssetDatabase.CreateAsset(mat, targetPath);
                     else
@@ -122,12 +127,15 @@ public class EnvironmentBuildPopulate
                     var folderPath = Path.Combine(parentPath, env);
                     if (!AssetDatabase.AssetPathExists(folderPath)) AssetDatabase.CreateFolder(parentPath, env);
 
-                    var targetPath = Path.Combine(folderPath, $"{matInfo.Name}.mat");
+                    var targetPath = Path.Combine(folderPath, $"{name}.mat");
                     if (!AssetDatabase.AssetPathExists(targetPath))
                         AssetDatabase.CreateAsset(mat, targetPath);
                     else
                         mat = AssetDatabase.LoadAssetAtPath<Material>(targetPath);
                 }
+
+                usedMaterialName.TryAdd(name, 0);
+                usedMaterialName[name]++;
 
                 matInfo.Material = mat;
             }
@@ -200,10 +208,16 @@ public class EnvironmentBuildPopulate
             else
                 matInfo.Material.SetFloat("_VertexChannels", 0f);
 
-            matInfo.Material.SetFloat("_VertexDisplacement", matInfo.Keywords.Contains("VERTEX_DISPLACEMENT") ? 1f : 0f);
+            matInfo.Material.SetFloat(
+                "_VertexDisplacement",
+                matInfo.Keywords.Contains("VERTEX_DISPLACEMENT") ? 1f : 0f);
             matInfo.Material.SetFloat("_3DDisplacement", matInfo.Keywords.Contains("SPATIAL_DISPLACEMENT") ? 1f : 0f);
-            matInfo.Material.SetFloat("_DisplacementSpatial", matInfo.Keywords.Contains("DISPLACEMENT_SPATIAL") ? 1f : 0f);
-            matInfo.Material.SetFloat("_DisplacementBidirectional", matInfo.Keywords.Contains("DISPLACEMENT_BIDIRECTIONAL") ? 1f : 0f);
+            matInfo.Material.SetFloat(
+                "_DisplacementSpatial",
+                matInfo.Keywords.Contains("DISPLACEMENT_SPATIAL") ? 1f : 0f);
+            matInfo.Material.SetFloat(
+                "_DisplacementBidirectional",
+                matInfo.Keywords.Contains("DISPLACEMENT_BIDIRECTIONAL") ? 1f : 0f);
             if (matInfo.Keywords.Contains("_SPECTROGRAM_FLAT"))
                 matInfo.Material.SetFloat("_Spectrogram", 1f);
             else if (matInfo.Keywords.Contains("_SPECTROGRAM_FULL"))
@@ -356,6 +370,7 @@ public class EnvironmentBuildPopulate
             matInfo.Material.SetFloat(
                 "_PointLightPositionLocal",
                 matInfo.Keywords.Contains("POINT_LIGHT_IS_LOCAL") ? 1f : 0f);
+            matInfo.Material.SetFloat("_EnableDirt", matInfo.Keywords.Contains("ENABLE_DIRT") ? 1f : 0f);
             matInfo.Material.SetFloat("_DetailNormalMap", matInfo.Keywords.Contains("DETAIL_NORMAL_MAP") ? 1f : 0f);
             matInfo.Material.SetFloat("_EnableLightmap", matInfo.Keywords.Contains("LIGHTMAP") ? 1f : 0f);
             matInfo.Material.SetFloat("_EnableDiffuse", matInfo.Keywords.Contains("DIFFUSE") ? 1f : 0f);

@@ -12,6 +12,7 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
+  - DIRT
   - LIGHTMAP
   m_InvalidKeywords:
   - _ZWRITE_ON
@@ -50,7 +51,7 @@ Material:
     - _DetailNormalTextureScale: 1
     - _DirtIntensity: 1
     - _EnableDiffuse: 0
-    - _EnableDirt: 0
+    - _EnableDirt: 1
     - _EnableFog: 0
     - _EnableHeightFog: 0
     - _EnableLightFalloff: 0

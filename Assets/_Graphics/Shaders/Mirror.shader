@@ -2,7 +2,7 @@
 {
     Properties
     {
-        _NormalTex ("Normal Texture", 2D) = "white" {}
+        _NormalTex ("Normal Texture", 2D) = "bump" {}
         _BumpIntensity ("Bump Intensity", float) = 0.1
         _ReflectionIntensity ("Reflection Intensity", float) = 0.5
         _TextureScrolling ("Texture Scrolling", Vector) = (0,0,0,0)
@@ -112,6 +112,7 @@
                 float4 vertex : POSITION;
                 float2 uv : TEXCOORD0;
                 float3 normal : NORMAL;
+                float4 tangent : TANGENT;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
@@ -119,13 +120,13 @@
             {
                 float4 vertex : SV_POSITION;
                 float2 uv : TEXCOORD0;
-                float3 worldPos : TEXCOORD1;
-                float3 worldNormal : TEXCOORD2;
-                float3 viewDir : TEXCOORD3;
-                float4 screenPos : TEXCOORD4;
+                float4 tangent : TEXCOORD1;
+                float3 worldPos : TEXCOORD2;
+                float3 worldNormal : TEXCOORD3;
+                float3 viewDir : TEXCOORD4;
+                float4 screenPos : TEXCOORD5;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
-
 
             v2f vert(appdata i)
             {
@@ -140,29 +141,48 @@
                 o.viewDir = normalize(UnityWorldSpaceViewDir(o.worldPos));
                 o.worldNormal = normalize(UnityObjectToWorldNormal(i.normal));
                 o.uv.xy = i.uv.xy;
+                o.tangent = float4(UnityObjectToWorldDir(i.tangent.xyz), i.tangent.w);
 
                 return o;
             }
 
             float4 frag(v2f i) : SV_Target
             {
-                float4 albedo = 1;
+                #if defined(DETAIL_NORMAL_MAP)
+                float3 normalTangent = UnpackNormalWithScale(
+                    tex2D(_NormalTex, TRANSFORM_TEX(i.uv, _NormalTex) + _DetailNormalTexScrolling.xy * _Time.yy),
+                    _DetailNormalTextureScale * _DetailNormalIntensity);
+                // TODO: ok idk, what are even the difference
+                #else
+                float3 normalTangent = UnpackNormalWithScale(tex2D(_NormalTex, TRANSFORM_TEX(i.uv, _NormalTex)),
+                                                             _BumpIntensity);
+                #endif
+                normalTangent = normalize(normalTangent);
 
+                float3 worldNormal = i.worldNormal;
+                float3 worldTangent = normalize(i.tangent.xyz);
+                float3 worldBitangent = cross(worldNormal, worldTangent) * i.tangent.w;
+                float3x3 tbn = float3x3(worldTangent, worldBitangent, worldNormal);
+
+                float3 normalWorld = normalize(mul(normalTangent, tbn));
+
+                float4 albedo = 1;
                 #if defined(DIRT)
-                albedo += tex2D(_DirtTex, TRANSFORM_TEX(i.uv, _DirtTex) + _TextureScrolling * _Time.yy) *
+                albedo = tex2D(_DirtTex, TRANSFORM_TEX(i.uv, _DirtTex) + _TextureScrolling * _Time.yy) *
                     _DirtIntensity;
                 #endif
+
+                float2 screenUV = i.screenPos.xy / i.screenPos.w;
+                screenUV = screenUV + normalTangent.xy;
+                float4 reflectionCol = tex2D(_ReflectionTex, screenUV) * _ReflectionIntensity;
+                albedo *= reflectionCol;
 
                 #if defined(DIFFUSE)
                 float3 calculated = 0;
                 CUSTOM_LIGHTING_APPLY(calculated, albedo, _Metallic, _Smoothness, 1, 1, i.worldPos,
-                                      i.worldNormal);
+                                      normalWorld);
                 albedo.rgb += calculated.rgb;
                 #endif
-
-                float2 screenUV = i.screenPos.xy / i.screenPos.w;
-                float4 reflectionCol = tex2D(_ReflectionTex, screenUV) * _ReflectionIntensity;
-                albedo *= reflectionCol;
 
                 ACES_TONE_MAPPING_APPLY(albedo);
 

@@ -120,7 +120,7 @@ Material:
     - _EnableFog: 1
     - _EnableGroundFade: 0
     - _EnableHeightFog: 0
-    - _EnableLightFalloff: 1
+    - _EnableLightFalloff: 0
     - _EnableMetalSmoothnessTex: 0
     - _EnablePrivatePointLight: 0
     - _EnableRimDim: 0
@@ -141,7 +141,7 @@ Material:
     - _InvertRimDim: 0
     - _MainEffectFogSuppression: 0
     - _MaskBlend: 0
-    - _Metallic: 1
+    - _Metallic: 0
     - _Metallic_Texture_Source: 0
     - _Mode: 0
     - _PointLightPositionLocal: 0
@@ -163,15 +163,15 @@ Material:
     - _Smoothness: 0.5
     - _Smoothness_Texture_Source: 0
     - _Spectrogram: 0
-    - _SpecularIntensity: 0.5
+    - _SpecularIntensity: 1
     - _UseColorArray: 0
-    - _Vertex: 1
+    - _Vertex: 0
     - _Vertex_BloomType: 0
     - _ZTest: 4
     - _ZWrite: 1
     m_Colors:
     - _AdditiveUVOffset: {r: 0, g: 0, b: 0, a: 0}
-    - _Color: {r: 0.6, g: 0.6, b: 0.6, a: 0}
+    - _Color: {r: 0.65, g: 0.65, b: 0.65, a: 0}
     - _DarkeningCenter: {r: 0, g: 0, b: 0, a: 0}
     - _DarkeningDirection: {r: 1, g: 1, b: 1, a: 1}
     - _DisplacementAxisMultiplier: {r: 1, g: 1, b: 1, a: 1}
@@ -182,7 +182,7 @@ Material:
     - _InputUvMultiplier: {r: 1, g: 1, b: 0, a: 0}
     - _NominalDiffuseLevel: {r: 0, g: 0, b: 0, a: 0}
     - _PrivatePointLightColor: {r: 0, g: 0.5, b: 1, a: 1}
-    - _PrivatePointLightPosition: {r: 5.15, g: 0, b: 0, a: 1}
+    - _PrivatePointLightPosition: {r: 0, g: 0, b: 0, a: 1}
     - _SecondaryEmissionMaskSpeed: {r: 0, g: 1, b: 0, a: 0}
     - _UVScale: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

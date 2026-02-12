@@ -827,7 +827,7 @@ MonoBehaviour:
     Ignored: 0
   - Name: BakedGlowSprite
     Hash: 4ca546622f8267e7f41166a0f1e1f165
-    Material: {fileID: 2100000, guid: 2554974f43227846da35c4f154ed9ede, type: 2}
+    Material: {fileID: 2100000, guid: 99cd62b6e362f3d6fa3a0d5bca368ee1, type: 2}
     Shader: Custom/CustomParticles
     Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
@@ -938,7 +938,7 @@ MonoBehaviour:
     Ignored: 0
   - Name: BottomCones
     Hash: 551810c6b171ca0e45404c58eb10cdfa
-    Material: {fileID: 2100000, guid: e7ff495885ebe7250ab7989fcd616b5f, type: 2}
+    Material: {fileID: 2100000, guid: 27d87fd2ecc6c719db73906177662ce5, type: 2}
     Shader: Custom/SimpleLit
     Color: {r: 0.34999996, g: 0.34999996, b: 0.34999996, a: 0}
     Keywords:
@@ -1286,7 +1286,7 @@ MonoBehaviour:
     Ignored: 0
   - Name: BakedBloom
     Hash: 78dbcc011e9f5866b9080f24360c33ee
-    Material: {fileID: 2100000, guid: 36e719cec2eca01938bb3641e2492f2a, type: 2}
+    Material: {fileID: 2100000, guid: 6ed018fadcde5648d991850e9e1f2ff2, type: 2}
     Shader: Custom/Parametric3SliceSprite
     Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
@@ -2054,7 +2054,7 @@ MonoBehaviour:
     Ignored: 0
   - Name: BigTrackLaneRing
     Hash: d44e6be81f48af0573f85b2aa52b7f7e
-    Material: {fileID: 2100000, guid: 2c1b351c3c36ac3569df8aa69d0c6ff7, type: 2}
+    Material: {fileID: 2100000, guid: 2cdaa8196d7a763678cde124b33f4d37, type: 2}
     Shader: Custom/SimpleLit
     Color: {r: 0.24999997, g: 0.24999997, b: 0.24999997, a: 0}
     Keywords:
@@ -2274,7 +2274,7 @@ MonoBehaviour:
     Ignored: 0
   - Name: BackColumns
     Hash: f7ec24df15644a1a6fa478c21b7361b5
-    Material: {fileID: 2100000, guid: 66032328947df06c7a673faec594da59, type: 2}
+    Material: {fileID: 2100000, guid: d8722afc336ddff7f8749aba785103d8, type: 2}
     Shader: Custom/SimpleLit
     Color: {r: 0.24999997, g: 0.24999997, b: 0.24999997, a: 0}
     Keywords:
@@ -3007,7 +3007,7 @@ MonoBehaviour:
     Ignored: 0
   - Name: Chevron
     Hash: 40284ee44dc966d248adb25349c32d7a
-    Material: {fileID: 2100000, guid: 478d2ecdb8100a83292e34c4e63b89b4, type: 2}
+    Material: {fileID: 2100000, guid: 91bc934f9cbba7e69b15b110b90d0552, type: 2}
     Shader: Custom/CustomParticles
     Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
@@ -4415,7 +4415,7 @@ MonoBehaviour:
     Ignored: 0
   - Name: Construction
     Hash: be7407cd216f99b214f359ff432f53f8
-    Material: {fileID: 2100000, guid: 911ede6d2ad064165946dc2aad2c7036, type: 2}
+    Material: {fileID: 2100000, guid: 41daf88649f81bff5bab7ae8ada33632, type: 2}
     Shader: Custom/SimpleLit
     Color: {r: 0.24999997, g: 0.24999997, b: 0.24999997, a: 0}
     Keywords:
@@ -4721,7 +4721,7 @@ MonoBehaviour:
     Ignored: 0
   - Name: Construction
     Hash: fc1320e2f355d10f2638b2dcff39098e
-    Material: {fileID: 2100000, guid: b3cfd2556c5af6bc9affc8343d566e8d, type: 2}
+    Material: {fileID: 2100000, guid: bd85257570e758941ab74a290a2f29c0, type: 2}
     Shader: Custom/SimpleLit
     Color: {r: 0.6, g: 0.6, b: 0.6, a: 0}
     Keywords:
@@ -4788,7 +4788,7 @@ MonoBehaviour:
     Ignored: 0
   - Name: Construction
     Hash: fc56ad99169c4ea650f76cfff0f6bf10
-    Material: {fileID: 2100000, guid: c5d1be2504f1fcc389504e4f9868465b, type: 2}
+    Material: {fileID: 2100000, guid: 679817241df87f0cfb824266ca9a4472, type: 2}
     Shader: Custom/SimpleLit
     Color: {r: 0.65, g: 0.65, b: 0.65, a: 0}
     Keywords:
@@ -5829,7 +5829,7 @@ MonoBehaviour:
     Ignored: 0
   - Name: DarkEnvironmentSimple
     Hash: 933a8b5c169e9f42a50208f9e1cac1b9
-    Material: {fileID: 2100000, guid: bd4b2f57e2345cfc0b7c3dd3f700abef, type: 2}
+    Material: {fileID: 2100000, guid: b111f1b195248445c9cb8613d750b7ba, type: 2}
     Shader: Custom/SimpleLit
     Color: {r: 0.29999998, g: 0.29999998, b: 0.29999998, a: 0}
     Keywords:
@@ -6811,7 +6811,7 @@ MonoBehaviour:
     Ignored: 0
   - Name: EnvLight
     Hash: 170f69175f14d758264e4c5f0c92a1ee
-    Material: {fileID: 2100000, guid: f2723fd3ee2631263b3b13b6aa704d20, type: 2}
+    Material: {fileID: 2100000, guid: f492b623eda18db189d8030c048cb84c, type: 2}
     Shader: Custom/TransparentNeonLight
     Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
@@ -6938,7 +6938,7 @@ MonoBehaviour:
     Ignored: 0
   - Name: EnvLightBillboardSpriteGlowWorldNoise
     Hash: 31fd48d1dd1e33299c744aa732a48732
-    Material: {fileID: 2100000, guid: bd9be70e8803a18348014a8a5852fca8, type: 2}
+    Material: {fileID: 2100000, guid: cce96d0ac545fbd29b777ecb910c203a, type: 2}
     Shader: Custom/Parametric3SliceSprite
     Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
@@ -7500,7 +7500,7 @@ MonoBehaviour:
     Ignored: 0
   - Name: EnvLightBillboardSpriteGlowWorldNoise
     Hash: 6f561089e82699c4e5bf72446d5039fd
-    Material: {fileID: 2100000, guid: a5cfd4fdc27f4474da81f682f3ec2bbe, type: 2}
+    Material: {fileID: 2100000, guid: f6abaec27da5dca81a8ad1be253b73c4, type: 2}
     Shader: Custom/Parametric3SliceSprite
     Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
@@ -7634,7 +7634,7 @@ MonoBehaviour:
     Ignored: 0
   - Name: EnvLightWorldNoise
     Hash: 8a81c015f36c1cec581d6752beb1d518
-    Material: {fileID: 2100000, guid: f79f7e256161532d08a19c8d830eaa92, type: 2}
+    Material: {fileID: 2100000, guid: b469f0bd9d84e729cad035deffcffae2, type: 2}
     Shader: Custom/TransparentNeonLight
     Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
@@ -7719,7 +7719,7 @@ MonoBehaviour:
     Ignored: 0
   - Name: EnvLightBillboardSpriteGlowWorldNoise
     Hash: 9875f6f7b8d7a434851b33cd69141fd4
-    Material: {fileID: 2100000, guid: b369220ae544a81478d11b2f92039711, type: 2}
+    Material: {fileID: 2100000, guid: ff5c3bb2efb74eda5a5df31210d68603, type: 2}
     Shader: Custom/Parametric3SliceSprite
     Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
@@ -7763,7 +7763,7 @@ MonoBehaviour:
     Ignored: 0
   - Name: EnvLightBillboardSpriteGlow
     Hash: 9a9d314ad80eb514819322e55205c602
-    Material: {fileID: 2100000, guid: 4b5295fe990429291b18a2361de6ffa8, type: 2}
+    Material: {fileID: 2100000, guid: 59201999d6474ca41894b53951001b72, type: 2}
     Shader: Custom/Parametric3SliceSprite
     Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
@@ -7911,7 +7911,7 @@ MonoBehaviour:
     Ignored: 0
   - Name: EnvLightSpriteGlow
     Hash: abe53b577e64c7379f77602c07ec7825
-    Material: {fileID: 2100000, guid: fb21d4bc5e605cb52bda4663b1c32896, type: 2}
+    Material: {fileID: 2100000, guid: 1ef3e91abd66bc2b9a6b3c128aad24e2, type: 2}
     Shader: Custom/Parametric3SliceSprite
     Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
@@ -7996,7 +7996,7 @@ MonoBehaviour:
     Ignored: 0
   - Name: EnvLightBillboardSpriteGlow
     Hash: c2330ea0c3b52d23053261c8a054b3f3
-    Material: {fileID: 2100000, guid: 8209e02aa3e46e569bf21ae5f1711383, type: 2}
+    Material: {fileID: 2100000, guid: b5bfb36a0825fa046a1062252b788691, type: 2}
     Shader: Custom/Parametric3SliceSprite
     Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
@@ -8176,7 +8176,7 @@ MonoBehaviour:
     Ignored: 0
   - Name: EnvLightBillboardSpriteGlow
     Hash: d47f817d3f5eb7e0682195efcac8c51b
-    Material: {fileID: 2100000, guid: 5fa81fb1a68fddae6acb618d09c9b469, type: 2}
+    Material: {fileID: 2100000, guid: 274baafc8fa4d4b38aab823b3d8f5be9, type: 2}
     Shader: Custom/Parametric3SliceSprite
     Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
@@ -8308,7 +8308,7 @@ MonoBehaviour:
     Ignored: 0
   - Name: EnvLightBillboardSpriteGlow
     Hash: eef11c2bf2f7002df47441282c65eb80
-    Material: {fileID: 2100000, guid: 8209e02aa3e46e569bf21ae5f1711383, type: 2}
+    Material: {fileID: 2100000, guid: b5bfb36a0825fa046a1062252b788691, type: 2}
     Shader: Custom/Parametric3SliceSprite
     Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
@@ -9805,7 +9805,7 @@ MonoBehaviour:
     Ignored: 0
   - Name: Floor
     Hash: cb65df2537657f8e5ff696a4b78b3b76
-    Material: {fileID: 2100000, guid: 635bb7c8d2cd4029dbe56d792d8b3bc5, type: 2}
+    Material: {fileID: 2100000, guid: 7def2e5588f9ab083bbad3d6220e4899, type: 2}
     Shader: Custom/SimpleLit
     Color: {r: 0.24999997, g: 0.24999997, b: 0.24999997, a: 0}
     Keywords:
@@ -10317,7 +10317,7 @@ MonoBehaviour:
     Ignored: 0
   - Name: GridMirror
     Hash: 930ee1e605d06ef264d67875b352a349
-    Material: {fileID: 2100000, guid: 2326af279b8d7b5c78a83cf864d00db9, type: 2}
+    Material: {fileID: 2100000, guid: 893a7daa8f508a38e9aa6995184aaf4d, type: 2}
     Shader: Custom/Mirror
     Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
@@ -10556,7 +10556,7 @@ MonoBehaviour:
     Ignored: 0
   - Name: GridMirror
     Hash: c812fc5f27a9d60d29b2c54928e50a69
-    Material: {fileID: 2100000, guid: 0463012e0c75fbb7f8e33669a525a02f, type: 2}
+    Material: {fileID: 2100000, guid: 804e89fca0b07e1ce82476d7f681bf20, type: 2}
     Shader: Custom/Mirror
     Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords: []
@@ -12171,7 +12171,7 @@ MonoBehaviour:
     Ignored: 0
   - Name: LaserSocket
     Hash: 3f2f7d1f0fe4e5fc052e3c0f4c2a9e88
-    Material: {fileID: 2100000, guid: 0a7ddecd6a9faecb2b820318c2c3d9e2, type: 2}
+    Material: {fileID: 2100000, guid: 62498e485b0a4507c9fe1224e1efd98d, type: 2}
     Shader: Custom/SimpleLit
     Color: {r: 0.26415086, g: 0.26415086, b: 0.26415086, a: 0}
     Keywords:
@@ -12453,7 +12453,7 @@ MonoBehaviour:
     Ignored: 0
   - Name: LaserSocket
     Hash: 49204bd96fb79516112cba5ae979f994
-    Material: {fileID: 2100000, guid: 742c8a5863354e213b3ea8331200be74, type: 2}
+    Material: {fileID: 2100000, guid: e67528d29a2cef797a7468d4b79eaa02, type: 2}
     Shader: Custom/SimpleLit
     Color: {r: 0.26415086, g: 0.26415086, b: 0.26415086, a: 0}
     Keywords:
@@ -12685,7 +12685,7 @@ MonoBehaviour:
     Ignored: 0
   - Name: LightGlow
     Hash: 6d811442d5852047ffc3e39277898f80
-    Material: {fileID: 2100000, guid: 656893dd00b90b87d87c26d4801cf362, type: 2}
+    Material: {fileID: 2100000, guid: 16c43441a582496a39500dc07aec6426, type: 2}
     Shader: Custom/CustomParticles
     Color: {r: 1, g: 0, b: 0, a: 1}
     Keywords:
@@ -12983,7 +12983,7 @@ MonoBehaviour:
     Ignored: 0
   - Name: LasersDot
     Hash: bb0a81858eb1e01594f623ab6b91217a
-    Material: {fileID: 2100000, guid: ba3f508e9c9dfb8fea9a87c373943940, type: 2}
+    Material: {fileID: 2100000, guid: f283484a00630dea399a590dc8f0ec97, type: 2}
     Shader: Custom/CustomParticles
     Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
@@ -13224,7 +13224,7 @@ MonoBehaviour:
     Ignored: 0
   - Name: LightBloom
     Hash: ce76af40114e2b387f54f97b44b27c16
-    Material: {fileID: 2100000, guid: ab017577ac2cf0a6fb3d2aa918ecd867, type: 2}
+    Material: {fileID: 2100000, guid: a0848aa33866efe12bcdb3bb93b4615b, type: 2}
     Shader: Custom/CustomParticles
     Color: {r: 0, g: 0, b: 0, a: 1}
     Keywords:
@@ -13431,7 +13431,7 @@ MonoBehaviour:
     Ignored: 0
   - Name: LightGlowBillboard
     Hash: e5e6c5a0104bce3eaee79b843a958219
-    Material: {fileID: 2100000, guid: b558eaaf9a402343ba2e5ebb317594a2, type: 2}
+    Material: {fileID: 2100000, guid: 65e969b142f87a7ce9559786a76e5d07, type: 2}
     Shader: Custom/CustomParticles
     Color: {r: 1, g: 0, b: 0, a: 1}
     Keywords:
@@ -13475,7 +13475,7 @@ MonoBehaviour:
     Ignored: 0
   - Name: LightGlow
     Hash: f4aa28239e5f6d1c4ffe4397987ec6ca
-    Material: {fileID: 2100000, guid: 052df2f423c8fb6d1a32b475a99c0b1e, type: 2}
+    Material: {fileID: 2100000, guid: 0d1c401b522b99f4ab5615981279a9c6, type: 2}
     Shader: Custom/CustomParticles
     Color: {r: 1, g: 0, b: 0, a: 1}
     Keywords:
@@ -14215,7 +14215,7 @@ MonoBehaviour:
     Ignored: 0
   - Name: Mountains
     Hash: e3eb61ad116f2ea550bb618b3b291bd6
-    Material: {fileID: 2100000, guid: 02e23886945700367a035ccb5162a288, type: 2}
+    Material: {fileID: 2100000, guid: 95863d29b7dbf6eeb831e30c7eb67a2e, type: 2}
     Shader: Custom/SimpleLit
     Color: {r: 0.03, g: 0.03, b: 0.03, a: 1}
     Keywords:
@@ -14327,7 +14327,7 @@ MonoBehaviour:
     Ignored: 0
   - Name: MirrorTunnel
     Hash: edd79815f80f1ed63df3e2ed3ff33774
-    Material: {fileID: 2100000, guid: 83020ba70e82bb241b2e9094cda59048, type: 2}
+    Material: {fileID: 2100000, guid: 244e2bbf699a7fc6ab46582e66ff53ce, type: 2}
     Shader: Custom/Mirror
     Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
@@ -14524,7 +14524,7 @@ MonoBehaviour:
     Ignored: 0
   - Name: NearBuilding
     Hash: c6ed6f19b7763d88546bbec1d9d6a6c1
-    Material: {fileID: 2100000, guid: 078b98bfc013130c4aa3c1c37472e364, type: 2}
+    Material: {fileID: 2100000, guid: 7c254f82ce6c955c1bf249de5a1174bf, type: 2}
     Shader: Custom/SimpleLit
     Color: {r: 0.24999997, g: 0.24999997, b: 0.24999997, a: 0}
     Keywords:
@@ -15698,7 +15698,7 @@ MonoBehaviour:
     Ignored: 0
   - Name: Pillar
     Hash: f6c47a164d142d690190aa185d1a472e
-    Material: {fileID: 2100000, guid: 26960a49cc2a081c8b49a1ab753dc311, type: 2}
+    Material: {fileID: 2100000, guid: 74901729407a78eda8c9b689a723542f, type: 2}
     Shader: Custom/SimpleLit
     Color: {r: 0.5169999, g: 0.5169999, b: 0.5169999, a: 0}
     Keywords:
@@ -16754,7 +16754,7 @@ MonoBehaviour:
     Ignored: 0
   - Name: Runway
     Hash: 8a239221740fc898ba11d54e6edf87f1
-    Material: {fileID: 2100000, guid: 7cebbe29b918a0da69554e640bc6b89e, type: 2}
+    Material: {fileID: 2100000, guid: 5a20ff0f9de27241696c4360d2156d39, type: 2}
     Shader: Custom/SimpleLit
     Color: {r: 0.735849, g: 0.735849, b: 0.735849, a: 0}
     Keywords:
@@ -16836,7 +16836,7 @@ MonoBehaviour:
     Ignored: 0
   - Name: Runway
     Hash: 8c313e3dccfa47ad1e4c44b14967cbe9
-    Material: {fileID: 2100000, guid: 9b6f7a8687960c201a9cf4785eb90936, type: 2}
+    Material: {fileID: 2100000, guid: 8cc22681ae2c9e31a83748130f737829, type: 2}
     Shader: Custom/SimpleLit
     Color: {r: 0.33018863, g: 0.33018863, b: 0.33018863, a: 0}
     Keywords:
@@ -16985,7 +16985,7 @@ MonoBehaviour:
     Ignored: 0
   - Name: Runway
     Hash: 9f72cd41c400c4d736e40b38d4bff435
-    Material: {fileID: 2100000, guid: 967f7a2364edbf32599094650b0d334b, type: 2}
+    Material: {fileID: 2100000, guid: 72c11fd4c2940963dafbbe4af87d8411, type: 2}
     Shader: Custom/SimpleLit
     Color: {r: 0.07450979, g: 0.07450979, b: 0.07450979, a: 0}
     Keywords:
@@ -17344,7 +17344,7 @@ MonoBehaviour:
     Ignored: 0
   - Name: RunwayRing
     Hash: c628f532a4c6bc54b52b798083e3377c
-    Material: {fileID: 2100000, guid: 138a86e933b0187d793788ce3a89af68, type: 2}
+    Material: {fileID: 2100000, guid: ad4c657642fd8bb3f8c244dbf28a68d8, type: 2}
     Shader: Custom/CustomParticles
     Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
@@ -18599,7 +18599,7 @@ MonoBehaviour:
     Ignored: 0
   - Name: Spectrogram
     Hash: 2d261562a5623bd240231d6d116c99d1
-    Material: {fileID: 2100000, guid: 6947232a4285488ce9e2eddc205250d1, type: 2}
+    Material: {fileID: 2100000, guid: 3296a766606095dac88ef3e5cfe65514, type: 2}
     Shader: Custom/UnlitSpectrogram
     Color: {r: 0, g: 0, b: 0, a: 0.6}
     Keywords: []
@@ -19228,7 +19228,7 @@ MonoBehaviour:
     Ignored: 0
   - Name: SmallSpectrogram
     Hash: 52477b68e9a8d640f84ad366f7e73637
-    Material: {fileID: 2100000, guid: 5a32abadfc0b414bea0e3b4654c5146a, type: 2}
+    Material: {fileID: 2100000, guid: 555e13c7efc938e519f218cd7d495b8a, type: 2}
     Shader: Custom/Spectrogram
     Color: {r: 0.31999996, g: 0.31999996, b: 0.31999996, a: 0}
     Keywords:
@@ -21223,7 +21223,7 @@ MonoBehaviour:
     Ignored: 0
   - Name: SimpleLightning
     Hash: f6d328e9fed5f13555f1ae4f39af19d9
-    Material: {fileID: 2100000, guid: 45793f815aaa6adf2998b683c32d4bda, type: 2}
+    Material: {fileID: 2100000, guid: 8a842cf2eb84a90b0913fcaca7f1d1c8, type: 2}
     Shader: Custom/SimpleLightning
     Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
@@ -21249,7 +21249,7 @@ MonoBehaviour:
     Ignored: 0
   - Name: SmallTrackLaneRing
     Hash: f777c366675ef98ac422b851b1b9c402
-    Material: {fileID: 2100000, guid: 11f5f22777e55b3f7bac85d14848b5e8, type: 2}
+    Material: {fileID: 2100000, guid: 06b03656c3d010753a60894972706c23, type: 2}
     Shader: Custom/SimpleLit
     Color: {r: 0.24999997, g: 0.24999997, b: 0.24999997, a: 0}
     Keywords:
@@ -21697,7 +21697,7 @@ MonoBehaviour:
     Ignored: 0
   - Name: TopCones
     Hash: 4355fe26d59b4e27fe30c05bfd41716f
-    Material: {fileID: 2100000, guid: 7b395a5e74bb5b81bbfc9505289e3329, type: 2}
+    Material: {fileID: 2100000, guid: 70f6e9a63ad9eb809b3dae897f07bc00, type: 2}
     Shader: Custom/SimpleLit
     Color: {r: 0.34999996, g: 0.34999996, b: 0.34999996, a: 0}
     Keywords:
@@ -22528,7 +22528,7 @@ MonoBehaviour:
     Ignored: 0
   - Name: TrackLineRing
     Hash: 8efacd4c07ba65f426cba8028afc3248
-    Material: {fileID: 2100000, guid: 853a615958462d995a62e398e601ed81, type: 2}
+    Material: {fileID: 2100000, guid: 184ff53ebd4875672b07569ee4992cd6, type: 2}
     Shader: Custom/SimpleLit
     Color: {r: 0.24999997, g: 0.24999997, b: 0.24999997, a: 0}
     Keywords:
@@ -23268,7 +23268,7 @@ MonoBehaviour:
     Ignored: 0
   - Name: TrackConstruction
     Hash: d48fec2341398ae90849b598f9aff901
-    Material: {fileID: 2100000, guid: c13c328e882c838649e170007f827371, type: 2}
+    Material: {fileID: 2100000, guid: 00617e30deebf8f44b26d863ac32ba9a, type: 2}
     Shader: Custom/SimpleLit
     Color: {r: 0.65, g: 0.65, b: 0.65, a: 0}
     Keywords:
@@ -23526,7 +23526,7 @@ MonoBehaviour:
     Ignored: 0
   - Name: TrackMirror
     Hash: eb540d06768cfbf65b4f2badeb37754e
-    Material: {fileID: 2100000, guid: 9d3caa6344b865b19a2488358760eb85, type: 2}
+    Material: {fileID: 2100000, guid: c531336a48eba893abcdad33c99a31ef, type: 2}
     Shader: Custom/Mirror
     Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
@@ -23547,7 +23547,7 @@ MonoBehaviour:
     Ignored: 0
   - Name: TrackConstruction
     Hash: ecee5ce9abf4ce4af7df47fa0290ed2d
-    Material: {fileID: 2100000, guid: 99574389897bef918982a93a169cc06a, type: 2}
+    Material: {fileID: 2100000, guid: 9528b623fc8f60d15949eeb1c4711436, type: 2}
     Shader: Custom/SimpleLit
     Color: {r: 0.6, g: 0.6, b: 0.6, a: 0}
     Keywords:
@@ -23660,7 +23660,7 @@ MonoBehaviour:
     Ignored: 0
   - Name: Track
     Hash: f8b4869c0f74a79697e8c5d2bf3e6eb3
-    Material: {fileID: 2100000, guid: 5b80d69b5176054f689ca0b6e96e5cec, type: 2}
+    Material: {fileID: 2100000, guid: e75dab980bfbed1f7b4d76e28786f730, type: 2}
     Shader: Custom/SimpleLit
     Color: {r: 0.21899995, g: 0.21899995, b: 0.21899995, a: 0}
     Keywords:

@@ -66,8 +66,8 @@ Material:
     m_Floats:
     - _3DDisplacement: 0
     - _AcesTonemap: 1
-    - _AlphaChannel: 0
-    - _AlphaMultiplier: 1
+    - _AlphaChannel: 1
+    - _AlphaMultiplier: 3
     - _BaseLayer: 1
     - _Billboard: 0
     - _BillboardScale: 1
@@ -81,7 +81,7 @@ Material:
     - _BloomType: 1
     - _BloomWhite: 1
     - _BloomWhiteMultiplier: 1
-    - _CullMode: 0
+    - _CullMode: 1
     - _Curve_Vertices: 0
     - _Custom_Time: 0
     - _Cutout: 0.5
@@ -90,7 +90,7 @@ Material:
     - _DisplacementStrength: 0.1
     - _EnableCustomPadding: 0
     - _EnableFog: 0
-    - _EnableHeightFog: 0
+    - _EnableHeightFog: 1
     - _EnableMask: 0
     - _EnableMask2: 0
     - _EnableRemapWhiteBoostStart: 0
@@ -98,17 +98,17 @@ Material:
     - _EnableSecondaryColor: 0
     - _EnableTextureColor: 0
     - _EnableVertexColor: 1
-    - _EnableViewAlignDisappear: 0
+    - _EnableViewAlignDisappear: 1
     - _FlipbookBlendingOff: 0
     - _FlipbookColumns: 8
     - _FlipbookNonloopableFrames: 0
     - _FlipbookRows: 8
     - _FlipbookSpeed: 1
-    - _FogHeightOffset: 50
-    - _FogHeightScale: 1
-    - _FogScale: 0
-    - _FogStartOffset: 9000
-    - _FogType: 0
+    - _FogHeightOffset: 0
+    - _FogHeightScale: 0.5
+    - _FogScale: 0.25
+    - _FogStartOffset: 0
+    - _FogType: 3
     - _GradientPanningSpeed: 0
     - _GradientPosition: 0.5
     - _GradientUseAlpha: 0
@@ -139,7 +139,7 @@ Material:
     - _Spectrogram: 0
     - _SpectrogramBaseValue: 0.2
     - _SpectrogramRange: 0.2
-    - _SquareAlpha: 1
+    - _SquareAlpha: 0
     - _SquareAngleForViewAlignDisappear: 0
     - _SquareVertexAlpha: 0
     - _UV3Offset: 0
