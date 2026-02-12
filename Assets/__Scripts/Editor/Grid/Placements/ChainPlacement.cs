@@ -107,7 +107,11 @@ public class ChainPlacement : BasePlacement<BaseChain, ChainContainer, ChainGrid
             return false;
         }
 
-        chain = new BaseChain(head, tail);
+        chain = new BaseChain(head, tail)
+        {
+            SliceCount = Settings.Instance.DefaultChainSliceCount,
+            Squish = Settings.Instance.DefaultChainSquish
+        };
         return true;
     }
 }
