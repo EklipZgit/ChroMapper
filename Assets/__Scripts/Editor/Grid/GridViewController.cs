@@ -7,8 +7,6 @@ public class GridViewController : MonoBehaviour
 {
     private static Dictionary<int, List<GridChild>> allChildren = new();
 
-    [SerializeField] private GridRotationController gridRotationController;
-
     [SerializeField] private int centerOffset;
 
     private static EditingMode editingMode = EditingMode.Gameplay;
@@ -25,13 +23,8 @@ public class GridViewController : MonoBehaviour
 
     public static event Action OnGridViewUpdated;
 
-    private void Awake() => gridRotationController.OnObjectRotationChanged += NotifyChanged;
     private void OnEnable() => NotifyChanged();
-    private void OnDestroy()
-    {
-        gridRotationController.OnObjectRotationChanged -= NotifyChanged;
-        allChildren.Clear();
-    }
+    private void OnDestroy() => allChildren.Clear();
 
     private static void UpdateGrid()
     {
@@ -71,19 +64,9 @@ public class GridViewController : MonoBehaviour
             children.RemoveAll(x => x == null);
             foreach (var child in children)
             {
-                if (child is GridLane lane)
-                    lane.OddLaneOffset = isOdd;
-
-                child.transform.eulerAngles = new Vector3(
-                    child.transform.eulerAngles.x,
-                    child.transform.parent.eulerAngles.y,
-                    child.transform.eulerAngles.z);
-                var x = childX + child.LocalOffset.x;
-                var side = child.transform.parent.right.normalized * x;
-                var up = child.transform.parent.up.normalized * child.LocalOffset.y;
-                var forward = child.transform.parent.forward.normalized * child.LocalOffset.z;
-                var total = side + up + forward;
-                child.transform.localPosition = total;
+                if (child is GridLane lane) lane.OddLaneOffset = isOdd;
+                var xPos = childX + child.LocalOffset.x;
+                child.transform.localPosition = new Vector3(xPos, child.LocalOffset.y, child.LocalOffset.z);
             }
 
             childX += Mathf.Ceil(children.Any() ? children.Max(x => x.Lane) + 1 : 0);

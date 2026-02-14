@@ -2,11 +2,13 @@
 {
     Properties
     {
-        _Color("Color", Color) = (1.0, 1.0, 1.0, 1.0)
-        _GridSpacing("Grid Spacing", Vector) = (1.0, 0.25, 0.125, 0.0625)
+        _Color("Color", Color) = (1, 1, 1, 1)
+        
+        _GridSpacing("Grid Spacing", Vector) = (1, 0.25, 0.125, 0.0625)
         _GridThickness("Grid Thickness", Vector) = (0.1, 0.05, 0.025, 0.0125)
         _GridOffset("Grid Offset", Vector) = (0, 0, 0, 0)
-        _MousePosition("Mouse Position", Vector) = (0.0, 0.0, 0.0, 0.0)
+        
+        _MousePosition("Mouse Position", Vector) = (0, 0, 0, 0)
         _FadeRadius("Fade Radius", Range(1, 10)) = 5
     }
     SubShader

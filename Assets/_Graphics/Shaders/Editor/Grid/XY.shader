@@ -2,8 +2,9 @@
 {
     Properties
     {
-        _Color("Color", Color) = (1.0, 1.0, 1.0, 1.0)
-        _GridSpacing("Grid Spacing", Vector) = (1.0, 0.25, 0.125, 0.0625)
+        _Color("Color", Color) = (1, 1, 1, 1)
+        
+        _GridSpacing("Grid Spacing", Vector) = (1, 0.25, 0.125, 0.0625)
         _GridThickness("Grid Thickness", Vector) = (0.1, 0.05, 0.025, 0.0125)
         _GridOffset("Grid Offset", Vector) = (0, 0, 0, 0)
     }
@@ -54,16 +55,13 @@
                 o.pos = UnityObjectToClipPos(v.vertex);
                 o.worldPos = mul(unity_ObjectToWorld, v.vertex);
 
-                //Global platform offset
-                float4 offset = float4(0, -0.5, -1.5, 0);
-
                 //Get rotation in radians (this is used for 360/90 degree map rotation).
                 float rotationInRadians = _Rotation * (3.141592653 / 180);
 
                 //Transform X and Z around global platform offset (2D rotation PogU)
-                float newX = (o.worldPos.x - offset.x) * cos(rotationInRadians) - (o.worldPos.z - offset.z) * sin(
+                float newX = o.worldPos.x * cos(rotationInRadians) - o.worldPos.z * sin(
                     rotationInRadians);
-                float newZ = (o.worldPos.z - offset.z) * cos(rotationInRadians) + (o.worldPos.x - offset.x) * sin(
+                float newZ = o.worldPos.z * cos(rotationInRadians) + o.worldPos.x * sin(
                     rotationInRadians);
 
                 o.rotatedPos = float4(newX, o.worldPos.y, newZ, o.worldPos.w);
