@@ -90,15 +90,12 @@ public class LoadedDifficultySelectController : MonoBehaviour
         // If saving, wait until it's done
         while (autoSaveController.IsSaving) ;
 
-        var info = BeatSaberSongContainer.Instance.Info;
+        var currentPlatform = EnvironmentInfoHelper.GetCurrentEnvironment();
+        
         var infoDifficulty = setDifficulties[value];
-        var currentPlatform =
-            info.EnvironmentNames[BeatSaberSongContainer.Instance.MapDifficultyInfo.EnvironmentNameIndex];
         BeatSaberSongContainer.Instance.MapDifficultyInfo = infoDifficulty;
-
-
-        var nextPlatform =
-            info.EnvironmentNames[infoDifficulty.EnvironmentNameIndex];
+        var nextPlatform = EnvironmentInfoHelper.GetCurrentEnvironment(infoDifficulty);
+        
         var customPlat = false;
         // if (!string.IsNullOrEmpty(info.CustomEnvironmentMetadata.Name))
         // {

@@ -30,13 +30,9 @@ public class LoadInitialMap : MonoBehaviour
         PersistentUI.Instance.LevelLoadSliderLabel.text = "";
         yield return new WaitUntil(() => context.Atsc.Initialized); // Wait until Start has been called
 
-        var info = BeatSaberSongContainer.Instance.Info; //Grab songe data
-        var infoDifficulty = BeatSaberSongContainer.Instance.MapDifficultyInfo;
-
         //Set up some local variables
-        var envName = info.EnvironmentNames[infoDifficulty.EnvironmentNameIndex];
+        var envName = EnvironmentInfoHelper.GetCurrentEnvironment();
         var customPlat = false;
-        var directional = false;
 
         //Grab platform by name (Official or Custom)
         // if (!string.IsNullOrEmpty(info.CustomEnvironmentMetadata.Name))

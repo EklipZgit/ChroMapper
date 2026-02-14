@@ -83,6 +83,11 @@ MonoBehaviour:
     TracksDefinition: {fileID: 11400000, guid: ebc9238dc02e921fcb53e0d46da959a4, type: 2}
     ColorScheme: {fileID: 11400000, guid: 980f179f00444fdea9869ead09cca582, type: 2}
     Ignore: 0
+  - Name: Glass Desert
+    ID: GlassDesertEnvironment
+    TracksDefinition: {fileID: 11400000, guid: 88a568bdd3cb992a7bd2e0e16bce903d, type: 2}
+    ColorScheme: {fileID: 11400000, guid: a0d3abaee552a6130924596fe6d16b8b, type: 2}
+    Ignore: 0
   - Name: Green Day
     ID: GreenDayEnvironment
     TracksDefinition: {fileID: 11400000, guid: 1b95625357a350f41a195035f2330425, type: 2}

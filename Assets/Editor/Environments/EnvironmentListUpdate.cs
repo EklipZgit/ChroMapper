@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
+using NUnit.Framework;
 using UnityEditor;
 using UnityEditor.VersionControl;
 using UnityEngine;
@@ -53,7 +54,25 @@ public static class EnvironmentListUpdate
             assetToReserialize.Add(tracksDefinition);
 
             data.Data.ColorScheme.CopyTo(colorScheme);
-            data.Data.LightTracks.CopyTo(tracksDefinition);
+            if (data.Data.LightTracks != null)
+                data.Data.LightTracks.CopyTo(tracksDefinition);
+            else
+            {
+                tracksDefinition.UnregisterAll();
+                new TrackDefinitionBasic[]
+                    {
+                        new() { Kind = BasicEventKind.Lights, Type = 0, Name = "Back Light" },
+                        new() { Kind = BasicEventKind.Lights, Type = 1, Name = "Ring" },
+                        new() { Kind = BasicEventKind.Lights, Type = 2, Name = "Left Lasers" },
+                        new() { Kind = BasicEventKind.Lights, Type = 3, Name = "Right Lasers" },
+                        new() { Kind = BasicEventKind.Lights, Type = 4, Name = "Center Light" },
+                        new() { Kind = BasicEventKind.Toggle, Type = 5, Name = "Boost" },
+                        new() { Kind = BasicEventKind.IntValue, Type = 12, Name = "Left Speed" },
+                        new() { Kind = BasicEventKind.IntValue, Type = 13, Name = "Right Speed" }
+                    }
+                    .ToList()
+                    .ForEach(tracksDefinition.Register);
+            }
 
             if (listSo.List.Exists(x => x.ID == data.Data.ID))
             {

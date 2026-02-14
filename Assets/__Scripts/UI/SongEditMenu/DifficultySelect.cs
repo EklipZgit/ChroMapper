@@ -55,9 +55,8 @@ public class DifficultySelect : MonoBehaviour
 
     private BaseInfo MapInfo => BeatSaberSongContainer.Instance != null ? BeatSaberSongContainer.Instance.Info : null;
 
-
     // TODO: Clean this up
-    private List<(string id, string name)> environmentNames = new();
+    private readonly List<(string id, string name)> environmentNames = new();
 
     /// <summary>
     ///     Load song data and set up listeners on UI elements
@@ -88,19 +87,21 @@ public class DifficultySelect : MonoBehaviour
             {
                 // This means use default
                 if (difficultySetting.InfoDifficulty.EnvironmentNameIndex == -1)
-                {
                     difficultySetting.InfoDifficulty.EnvironmentNameIndex = 0;
-                }
+                var index = difficultySetting.InfoDifficulty.EnvironmentNameIndex;
 
-                difficultySetting.EnvironmentNameIndex = difficultySetting.InfoDifficulty.EnvironmentNameIndex;
-                difficultySetting.EnvironmentName =
-                    MapInfo.EnvironmentNames.ElementAtOrDefault(difficultySetting.InfoDifficulty.EnvironmentNameIndex)
-                    ?? "DefaultEnvironment";
+                difficultySetting.EnvironmentNameIndex = index;
+                difficultySetting.EnvironmentName = EnvironmentInfoHelper.GetCurrentEnvironment(
+                    MapInfo,
+                    difficultySetting.InfoDifficulty,
+                    index);
             }
 
             // Handle unsupported environment for dropdown
             if (environmentList.List.All(env => env.ID != MapInfo.EnvironmentName))
                 environmentNames.Add((MapInfo.EnvironmentName, MapInfo.EnvironmentName));
+            if (environmentList.List.All(env => env.ID != MapInfo.AllDirectionsEnvironmentName))
+                environmentNames.Add((MapInfo.AllDirectionsEnvironmentName, MapInfo.AllDirectionsEnvironmentName));
 
             // Add any unsupported environments present in environmentNames
             foreach (var environmentName in MapInfo.EnvironmentNames.Where(environmentName =>
@@ -181,9 +182,7 @@ public class DifficultySelect : MonoBehaviour
 
     public void UpdateEnvironment()
     {
-        if (selected == null || !diffs.ContainsKey(selected.Name)) return;
-
-        var diff = diffs[selected.Name];
+        if (selected == null || !diffs.TryGetValue(selected.Name, out var diff)) return;
 
         diff.EnvironmentName = environmentNames
             .Find(x => x.name == environmentDropdown.options[environmentDropdown.value].text)
@@ -385,9 +384,7 @@ public class DifficultySelect : MonoBehaviour
                 difficultySetting.InfoDifficulty.EnvironmentNameIndex = environmentNames.Count - 1;
             }
             else
-            {
                 difficultySetting.InfoDifficulty.EnvironmentNameIndex = environmentNameIndex;
-            }
         }
 
         mapInfo.EnvironmentNames = environmentNames;
