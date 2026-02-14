@@ -138,7 +138,7 @@
                 #if !defined(CM_PREVIEW_MODE)
                 color.a = 0;
                 #else
-                color.a = max(0, color.a);
+                color.a = saturate(max(0, color.a));
                 #endif
 
                 #if defined(CM_PREVIEW_MODE) && defined(BLOOM_FOG) && defined(FOG)
