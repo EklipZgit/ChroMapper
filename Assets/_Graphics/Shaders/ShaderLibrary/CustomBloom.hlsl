@@ -10,7 +10,8 @@
 
 #define CUSTOM_BLOOM_PP_APPLY(color, multiplier) \
     color.a = abs(color.a); \
-    color.rgb *= color.a
+    color.rgb *= color.a; \
+    color.a = saturate(color.a)
 
 #define CUSTOM_BLOOM_FRAG_APPLY(color, multiplier) \
     color.a = abs(color.a); \
