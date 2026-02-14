@@ -20,7 +20,6 @@ public class CreateEventTypeLabels : MonoBehaviour
 
     private Dictionary<int, BasicLightEffect> typeToManager = new();
     private bool loadedWithRotationEvents;
-    public int NoRotationLaneOffset => loadedWithRotationEvents || RotationCallback.IsActive ? 2 : 0;
 
     // Use this for initialization
     private void Start()
@@ -51,12 +50,10 @@ public class CreateEventTypeLabels : MonoBehaviour
             var entries = context.TracksDefinition.Basic.ToList();
             for (var i = 0; i < entries.Count; i++)
             {
-                var modified = i + NoRotationLaneOffset;
                 var instantiate = Instantiate(LabelPrefab, transform);
                 var laneInfo = new LaneInfo(i, entries[i].Value.Type);
                 instantiate.SetActive(true);
-                instantiate.transform.localPosition =
-                    new Vector3(modified, 0, 0);
+                instantiate.transform.localPosition = new Vector3(i, 0, 0);
                 laneObjs.Add(laneInfo);
 
                 try

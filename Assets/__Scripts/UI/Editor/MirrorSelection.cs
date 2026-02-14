@@ -289,7 +289,7 @@ public class MirrorSelection : MonoBehaviour
                             e.CustomLightGradient.EndColor, e.CustomLightGradient.StartColor);
                     }
 
-                    if (tracksDefinition.Basic.GetValueOrDefault(e.Type, new()).Kind != BasicEventKind.Lights) continue;
+                    if (tracksDefinition.GetBasicOrDefault(e.Type).Kind != BasicEventKind.Lights) continue;
                     if (moveNotes
                         && e.IsPropagation
                         && e.CustomLightID != null

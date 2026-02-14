@@ -116,7 +116,7 @@ public class EventPlacement : BasePlacement<BaseEvent, EventContainer, EventGrid
 
         if (CanPlaceChromaEvents
             && dropdown.Visible
-            && context.TracksDefinition.Basic.GetValueOrDefault(QueuedData.Type, new()).Kind == BasicEventKind.Lights
+            && context.TracksDefinition.GetBasicOrDefault(QueuedData.Type).Kind == BasicEventKind.Lights
             && QueuedData.Value != (int)LightValue.Off)
             QueuedData.CustomColor = colorPicker.CurrentColor;
         else
@@ -132,7 +132,7 @@ public class EventPlacement : BasePlacement<BaseEvent, EventContainer, EventGrid
     {
         QueuedData.Value = value;
 
-        if (context.TracksDefinition.Basic.GetValueOrDefault(QueuedData.Type, new()).Kind == BasicEventKind.IntValue
+        if (context.TracksDefinition.GetBasicOrDefault(QueuedData.Type).Kind == BasicEventKind.IntValue
             && int.TryParse(laserSpeedInputField.text, out var laserSpeed))
             QueuedData.Value = laserSpeed;
 
@@ -148,7 +148,7 @@ public class EventPlacement : BasePlacement<BaseEvent, EventContainer, EventGrid
 
     public void UpdateQueuedFloatValue(float value)
     {
-        if (context.TracksDefinition.Basic.GetValueOrDefault(QueuedData.Type, new()).Kind != BasicEventKind.Lights)
+        if (context.TracksDefinition.GetBasicOrDefault(QueuedData.Type).Kind != BasicEventKind.Lights)
         {
             QueuedData.FloatValue = 1f;
             return;
@@ -185,7 +185,7 @@ public class EventPlacement : BasePlacement<BaseEvent, EventContainer, EventGrid
 
     public void SwapColors(bool red)
     {
-        if (context.TracksDefinition.Basic.GetValueOrDefault(QueuedData.Type, new()).Kind != BasicEventKind.Lights) return;
+        if (context.TracksDefinition.GetBasicOrDefault(QueuedData.Type).Kind != BasicEventKind.Lights) return;
         if (queuedValue >= ColourManager.RgbintOffset || queuedValue == (int)LightValue.Off) return;
         if ((red && queuedValue >= (int)LightValue.RedOn)
             || (!red && queuedValue >= (int)LightValue.BlueOn && queuedValue < (int)LightValue.RedOn))

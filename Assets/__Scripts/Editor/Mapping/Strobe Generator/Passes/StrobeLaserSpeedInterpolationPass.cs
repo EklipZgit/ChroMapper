@@ -56,7 +56,7 @@ public class StrobeLaserSpeedInterpolationPass : StrobeGeneratorPass
     }
 
     public override bool IsEventValidForPass(BaseEvent evt) =>
-        TracksDefinition.Basic.GetValueOrDefault(evt.Type, new()).Kind == BasicEventKind.IntValue;
+        TracksDefinition.GetBasicOrDefault(evt.Type).Kind == BasicEventKind.IntValue;
 
     public override IEnumerable<BaseEvent> StrobePassForLane(
         IEnumerable<BaseEvent> original,

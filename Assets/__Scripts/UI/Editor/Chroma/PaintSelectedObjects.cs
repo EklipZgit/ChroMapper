@@ -38,7 +38,7 @@ public class PaintSelectedObjects : MonoBehaviour
         if (obj is BaseEvent evt)
         {
             if (evt.Value == (int)LightValue.Off) return false; //Ignore painting Off events
-            if (TracksDefinition.Basic.GetValueOrDefault(evt.Type, new()).Kind != BasicEventKind.Lights) return false; //Ignore non-light event
+            if (TracksDefinition.GetBasicOrDefault(evt.Type).Kind != BasicEventKind.Lights) return false; //Ignore non-light event
             if (evt.CustomLightGradient != null)
             {
                 //Modify start color if we are painting a Chroma 2.0 gradient

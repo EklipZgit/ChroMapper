@@ -29,7 +29,7 @@ public class StrobeStepGradientPass : StrobeGeneratorPass
     }
 
     public override bool IsEventValidForPass(BaseEvent evt) =>
-        TracksDefinition.Basic.GetValueOrDefault(evt.Type, new()).Kind == BasicEventKind.Lights;
+        TracksDefinition.GetBasicOrDefault(evt.Type).Kind == BasicEventKind.Lights;
 
     public override IEnumerable<BaseEvent> StrobePassForLane(
         IEnumerable<BaseEvent> original,
