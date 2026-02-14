@@ -32,6 +32,8 @@ namespace Beatmap.Info
             info.SongFilename = node["_songFilename"].Value;
             info.CoverImageFilename = node["_coverImageFilename"].Value;
 
+            info.EnvironmentName = node["_environmentName"];
+            info.AllDirectionsEnvironmentName = node["_allDirectionsEnvironmentName"];
             info.EnvironmentNames = node["_environmentNames"].AsArray.Children.Select(x => x.Value).ToList();
 
             var colorSchemes = new List<InfoColorScheme>();
