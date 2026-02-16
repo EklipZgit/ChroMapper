@@ -63,6 +63,9 @@ EditorBuildSettings:
     path: Assets/__Scenes/Environments/GagaEnvironment.unity
     guid: 4c0aa01857cbc1b2c97f15ecb039df39
   - enabled: 1
+    path: Assets/__Scenes/Environments/GlassDesertEnvironment.unity
+    guid: be97c8de561253be8a709e6caaa605e9
+  - enabled: 1
     path: Assets/__Scenes/Environments/GreenDayEnvironment.unity
     guid: 9f10285642e41493f90ce5c2c32d99a0
   - enabled: 1
