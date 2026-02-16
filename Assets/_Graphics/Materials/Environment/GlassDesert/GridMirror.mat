@@ -28,7 +28,7 @@ Material:
     m_TexEnvs:
     - _DirtTex:
         m_Texture: {fileID: 2800000, guid: 5c6e3716a4109cb87932a9c877058128, type: 3}
-        m_Scale: {x: 1, y: 1}
+        m_Scale: {x: 1, y: 20}
         m_Offset: {x: 0, y: 0}
     - _NormalTex:
         m_Texture: {fileID: 0}
@@ -66,7 +66,7 @@ Material:
     - _ZTest: 4
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0, g: 0.5, b: 1, a: 1}
+    - _Color: {r: 0.4, g: 0.4, b: 0.4, a: 0.2509804}
     - _DetailNormalTexScrolling: {r: 0.05, g: 2, b: 0, a: 0}
     - _TextureScrolling: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []

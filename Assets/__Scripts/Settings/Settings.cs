@@ -129,6 +129,7 @@ public class Settings
     public float SpectrogramHeight = 0.15f;
 
     public bool Reflections = true;
+    public int MirrorQuality = (int)MirrorRendererSO.MirrorQuality.High;
     public bool HighQualityBloom = true;
     public bool ChromaticAberration = true;
     public float CameraFOV = 60f;

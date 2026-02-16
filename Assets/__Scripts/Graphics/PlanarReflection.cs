@@ -18,7 +18,11 @@ public class PlanarReflection : MonoBehaviour
         var position = PlaneTransform.position;
         var up = PlaneTransform.up;
         var texture = MirrorRenderer.RenderMirrorTexture(Camera.current, position - (up * 0.001f), up);
-        if (texture == null) return;
+        if (texture == null)
+        {
+            Renderer.sharedMaterial.SetTexture(texturePropertyId, Texture2D.blackTexture);
+            return;
+        }
         Renderer.sharedMaterial.SetTexture(texturePropertyId, texture);
     }
 }

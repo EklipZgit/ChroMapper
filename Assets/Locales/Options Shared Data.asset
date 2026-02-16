@@ -1387,6 +1387,10 @@ MonoBehaviour:
     m_Key: graphics.solidchainlink
     m_Metadata:
       m_Items: []
+  - m_Id: 600253739467243520
+    m_Key: graphics.mirror.tooltip
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

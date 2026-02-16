@@ -88,7 +88,7 @@
             float _DetailNormalIntensity;
             float2 _DetailNormalTexScrolling;
 
-            float4 _Color; // is tint supposed to be -1/default blue?
+            float4 _Color;
             float _Metallic;
             float _Smoothness;
 
@@ -178,7 +178,7 @@
                 float2 screenUV = i.screenPos.xy / i.screenPos.w;
                 screenUV = screenUV + normalTangent.xy;
                 float4 reflectionCol = tex2D(_ReflectionTex, screenUV) * _ReflectionIntensity;
-                albedo *= reflectionCol;
+                albedo *= reflectionCol * _Color;
 
                 #if defined(DIFFUSE)
                 float3 calculated = 0;

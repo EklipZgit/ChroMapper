@@ -5,20 +5,42 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "MirrorRendererSO", menuName = "Environment/Mirror Renderer")]
 public class MirrorRendererSO : ScriptableObject
 {
+    public enum MirrorQuality
+    {
+        None,
+        Low,
+        High
+    }
+
     [SerializeField] private LayerMask reflectLayers = -1;
-    [SerializeField] private int textureWidth = 1024;
-    [SerializeField] private int textureHeight = 1024;
-    [SerializeField] private int maxAntiAliasing = 1;
-    [SerializeField] private bool disableDepthTexture = true;
+    private int textureWidth = 1024;
+    private int textureHeight = 1024;
+    private int maxAntiAliasing = 4;
+    private bool disableDepthTexture = true;
 
     private Camera mirrorCamera;
     private int antialiasing;
+    private MirrorQuality quality = MirrorQuality.High;
 
     private readonly Dictionary<CameraTransformData, RenderTexture> renderTextures = new(4);
     private readonly Rect fullRect = new(0f, 0f, 1f, 1f);
 
     private void OnValidate() => antialiasing = 1;
-    private void Awake() => antialiasing = 1;
+
+    private void Awake()
+    {
+        antialiasing = 1;
+        HandleMirrorQuality(Settings.Instance.MirrorQuality);
+        Settings.NotifyBySettingName(nameof(Settings.MirrorQuality), HandleMirrorQuality);
+    }
+
+    private void HandleMirrorQuality(object value)
+    {
+        if (!Application.isPlaying) return;
+        quality = (MirrorQuality)value;
+        textureWidth = quality == MirrorQuality.Low ? 256 : 1024;
+        textureHeight = quality == MirrorQuality.Low ? 256 : 1024;
+    }
 
     private void OnDisable()
     {
@@ -41,6 +63,7 @@ public class MirrorRendererSO : ScriptableObject
 
     public Texture RenderMirrorTexture(Camera cam, Vector3 planePos, Vector3 planeNormal)
     {
+        if (quality == MirrorQuality.None) return null;
         if (reflectLayers == 0) return null;
         if (!cam || cam == mirrorCamera) return null;
 
