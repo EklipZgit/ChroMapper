@@ -20,7 +20,7 @@ public class DiscordController : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        if (Settings.Instance.DiscordRPCEnabled == false)
+        if (!Settings.Instance.DiscordRPCEnabled)
         {
             IsActive = false;
             return;
@@ -37,7 +37,6 @@ public class DiscordController : MonoBehaviour
                 ActivityManager = Discord.GetActivityManager();
                 ActivityManager.ClearActivity(res => { });
                 SceneManager.activeSceneChanged += SceneUpdated;
-                // LoadInitialMap.OnPlatformLoaded += HandleEnvironmentLoaded;
                 LoadedDifficultySelectController.OnLoadedDifficultyChanged += OnLoadedDifficultyChanged;
             }
             else
@@ -71,33 +70,10 @@ public class DiscordController : MonoBehaviour
     private void OnDestroy()
     {
         SceneManager.activeSceneChanged -= SceneUpdated;
-        // LoadInitialMap.OnPlatformLoaded -= HandleEnvironmentLoaded;
         LoadedDifficultySelectController.OnLoadedDifficultyChanged -= OnLoadedDifficultyChanged;
     }
 
     private void OnApplicationQuit() => Discord?.Dispose();
-
-    private void HandleEnvironmentLoaded(EnvironmentDescriptor environment)
-    {
-        var platformDiscordID = environment
-            .gameObject.name
-            .Replace("(Clone)", "")
-            .Replace(" ", "")
-            .ToLowerInvariant()
-            .Trim();
-
-        activity.Assets.LargeImage = platformDiscordID;
-
-        var jsonEnvironmentName = BeatSaberSongContainer.Instance.Info.EnvironmentName;
-
-        var platformName = environmentList
-                .List.Find(x => x.ID == jsonEnvironmentName)
-                ?.Name
-            ?? jsonEnvironmentName;
-        activity.Assets.LargeText = platformName;
-
-        UpdatePresence();
-    }
 
     private void OnLoadedDifficultyChanged()
     {
@@ -108,10 +84,16 @@ public class DiscordController : MonoBehaviour
 
     private void SceneUpdated(Scene from, Scene to)
     {
-        StopAllCoroutines();
-
         var details = "Invalid!";
         var state = "";
+        var assets = new ActivityAssets
+        {
+            SmallImage = "newlogo",
+            SmallText = $"ChroMapper v{Application.version}",
+            LargeImage = "newlogo_glow",
+            LargeText = "In Menus"
+        };
+        var timestamp = (long)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
 
         switch (to.name)
         {
@@ -130,9 +112,14 @@ public class DiscordController : MonoBehaviour
 
                 var info = songContainer.Info;
                 var diff = songContainer.MapDifficultyInfo;
+                var envName = EnvironmentInfoHelper.GetCurrentEnvironment();
 
                 details = $"Editing {info.SongName}";
                 state = $"{diff.Characteristic} {diff.Difficulty}";
+
+                // i hate discord for enforcing lowercase image keys
+                assets.LargeImage = envName.ToLower();
+                assets.LargeText = environmentList.GetEnvironmentOrDefault(envName).Name;
                 break;
             case "04_Options":
                 details = "Editing ChroMapper options";
@@ -143,18 +130,8 @@ public class DiscordController : MonoBehaviour
         {
             Details = details,
             State = state,
-            Timestamps =
-                new ActivityTimestamps
-                {
-                    Start = (long)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds
-                },
-            Assets = new ActivityAssets
-            {
-                SmallImage = "newlogo",
-                SmallText = $"ChroMapper v{Application.version}",
-                LargeImage = "newlogo_glow",
-                LargeText = "In Menus"
-            }
+            Timestamps = new() { Start = timestamp },
+            Assets = assets
         };
 
         UpdatePresence();
