@@ -1391,6 +1391,10 @@ MonoBehaviour:
     m_Key: graphics.mirror.tooltip
     m_Metadata:
       m_Items: []
+  - m_Id: 600578224938516480
+    m_Key: graphics.mirror
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

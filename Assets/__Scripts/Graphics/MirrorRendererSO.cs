@@ -19,27 +19,26 @@ public class MirrorRendererSO : ScriptableObject
     private bool disableDepthTexture = true;
 
     private Camera mirrorCamera;
-    private int antialiasing;
+    private int antialiasing = 1;
     private MirrorQuality quality = MirrorQuality.High;
 
     private readonly Dictionary<CameraTransformData, RenderTexture> renderTextures = new(4);
     private readonly Rect fullRect = new(0f, 0f, 1f, 1f);
 
-    private void OnValidate() => antialiasing = 1;
-
     private void Awake()
     {
-        antialiasing = 1;
         HandleMirrorQuality(Settings.Instance.MirrorQuality);
         Settings.NotifyBySettingName(nameof(Settings.MirrorQuality), HandleMirrorQuality);
     }
 
     private void HandleMirrorQuality(object value)
     {
+    #if UNITY_EDITOR
         if (!Application.isPlaying) return;
+    #endif
         quality = (MirrorQuality)value;
-        textureWidth = quality == MirrorQuality.Low ? 256 : 1024;
-        textureHeight = quality == MirrorQuality.Low ? 256 : 1024;
+        textureWidth = textureHeight = quality == MirrorQuality.Low ? 256 : 1024;
+        antialiasing = quality == MirrorQuality.Low ? 1 : 2;
     }
 
     private void OnDisable()

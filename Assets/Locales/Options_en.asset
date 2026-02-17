@@ -1511,6 +1511,10 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 600253739467243520
+    m_Localized: Set planar reflection visual quality
+    m_Metadata:
+      m_Items: []
+  - m_Id: 600578224938516480
     m_Localized: Mirror Quality
     m_Metadata:
       m_Items: []
