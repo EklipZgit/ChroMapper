@@ -12,6 +12,7 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
+  - DIFFUSE
   - FOG
   m_InvalidKeywords:
   - _ACES_APPROACH_AFTER_EMISSIVE
