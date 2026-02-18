@@ -67,7 +67,7 @@ Shader "ChroMapper/Editor/Spectrogram"
             uniform uint FFTQuality = 1;
             uniform uint GradientLength = 4;
 
-            uniform StructuredBuffer<float> FFTResults;
+            uniform StructuredBuffer<uint> FFTResults;
             uniform StructuredBuffer<float> GradientKeys;
             uniform StructuredBuffer<float4> GradientColors;
 
@@ -86,13 +86,17 @@ Shader "ChroMapper/Editor/Spectrogram"
 
             float sampleSpectrogram(uint resultIdx)
             {
-                // Fix spectrogram offset by subtracting by our FFT Size multiplied by quality setting
-                uint idx = resultIdx - (FFTSize * FFTQuality);
-
-                // Grab our FFT sample if its within bounds
-                return idx < FFTCount
-                           ? FFTResults[idx]
-                           : 0;
+                if (resultIdx >= FFTCount)
+                    return 0.0;
+                
+                // Unpack: each uint contains 4 values as RGBA bytes
+                uint packedIdx = resultIdx / 4;
+                uint byteOffset = resultIdx % 4;
+                uint packed = FFTResults[packedIdx];
+                
+                // Extract the specific byte and normalize back to [0, 1]
+                uint byteValue = (packed >> (byteOffset * 8)) & 0xFF;
+                return float(byteValue) / 255.0;
             }
 
             float calculateSpectrogramValue(float currentSeconds, float2 uv)

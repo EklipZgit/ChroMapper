@@ -1,6 +1,7 @@
 using System;
 using Unity.Collections;
 using UnityEngine;
+using UnityEngine.LightTransport;
 
 public class AudioManager : MonoBehaviour
 {
@@ -62,7 +63,7 @@ public class AudioManager : MonoBehaviour
         //   (Video memory should still be available for ChroMapper and other programs)
         var videoMemoryBytes = SystemInfo.graphicsMemorySize * 1024L * 1024L;
         const int fftCountBuffers = 3;
-        while ((long)sampleCount * quality * sizeof(float) * fftCountBuffers > videoMemoryBytes / 2L)
+        while ((long)sampleCount * quality * sizeof(uint) * fftCountBuffers > videoMemoryBytes / 2L)
         {
             quality /= 2;
             Debug.Log($"Video Memory exceeded. Reduced spectrogram quality to: {quality}");
@@ -89,7 +90,9 @@ public class AudioManager : MonoBehaviour
         Shader.SetGlobalFloat(fftFrequency, clip.frequency * quality);
         Shader.SetGlobalFloat(fftQuality, quality);
 
-        cachedFFTBuffer = new ComputeBuffer(fftCount, sizeof(float));
+        // Calculate packed buffer size: each uint stores 4 samples as bytes
+        var packedFftCount = (fftCount + 3) / 4; // Round up to ensure all values fit
+        cachedFFTBuffer = new ComputeBuffer(packedFftCount, sizeof(uint));
         Shader.SetGlobalBuffer(fftResults, cachedFFTBuffer);
 
         // Step 1: Prepare real components of our FFT by multiply song samples by window coefficients for FFT
