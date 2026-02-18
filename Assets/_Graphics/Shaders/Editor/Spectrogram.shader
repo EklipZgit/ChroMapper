@@ -86,12 +86,16 @@ Shader "ChroMapper/Editor/Spectrogram"
 
             float sampleSpectrogram(uint resultIdx)
             {
-                if (resultIdx >= FFTCount)
+                // oops sorry galaxymaster
+                // Fix spectrogram offset by subtracting by our FFT Size multiplied by quality setting
+                uint idx = resultIdx - (FFTSize * FFTQuality);
+
+                if (idx >= FFTCount)
                     return 0.0;
                 
                 // Unpack: each uint contains 4 values as RGBA bytes
-                uint packedIdx = resultIdx / 4;
-                uint byteOffset = resultIdx % 4;
+                uint packedIdx = idx / 4;
+                uint byteOffset = idx % 4;
                 uint packed = FFTResults[packedIdx];
                 
                 // Extract the specific byte and normalize back to [0, 1]
