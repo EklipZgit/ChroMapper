@@ -139,14 +139,14 @@ public class ParametricBloomFogLightController : LightController
     {
         var rendered = !DisableRenderersOnZeroAlpha || Color.a > 0.01f;
         if (!rendered && !EnabledRenderers) return;
-        
+
         if (EnabledRenderers != rendered)
         {
             EnabledRenderers = rendered;
-            if (hasBoxLight) BoxLight.enabled = rendered;
-            if (hasSpriteLight) SpriteLight.enabled = rendered;
+            if (hasBoxLight) BoxLight.Renderer.enabled = rendered;
+            if (hasSpriteLight) SpriteLight.Renderer.enabled = rendered;
         }
-        
+
         if (hasBloomFog)
         {
             BloomFog.LightWidthMultiplier = LightWidthMultiplier;
