@@ -2,23 +2,26 @@
 {
     Properties
     {
-        [KeywordEnum(Opaque, Cutout)] _Mode ("Rendering Mode", Float) = 0
-        [Enum(Off,0,Front,1,Back,2)] _CullMode ("Culling Mode", Float) = 2
 
         [Space(10)]
         _Color ("Color", Color) = (1, 1, 1, 1)
         _MainTex ("Texture", 2D) = "white" {}
-        _Glow ("Glow", Range(0, 1)) = 0.0
+        [KeywordEnum(None, PP, Frag)] _BloomType ("Bloom Type", float) = 0
 
-        [Header(Fog Settings)]
+        [Header(Fog Settings)] [Space]
+        [Toggle(FOG)] _EnableFog ("Enable Fog", float) = 1
+        _FogStartOffset ("Fog Start Offset", float) = 1
+        _FogScale ("Fog Scale", float) = 1
         [Space]
-        _FogStartOffset ("Fog Start Offset", Float) = 0
-        _FogScale ("Fog Scale", Float) = 1
-        [Space]
-        [Toggle]
-        ENABLE_HEIGHT_FOG ("Enable Height Fog", Float) = 0
-        _FogHeightOffset ("Fog Height Offset", Float) = 0
-        _FogHeightScale ("Fog Height Scale", Float) = 1
+        [Toggle(HEIGHT_FOG)] _EnableHeightFog ("Enable Height Fog", float) = 0
+        _FogHeightOffset ("Fog Height Offset", float) = 0
+        _FogHeightScale ("Fog Height Scale", float) = 1
+
+        [Header(Settings)] [Space]
+        [Toggle(ALPHA_CUTOUT)] _AlphaCutout ("Alpha Cutout", float) = 0
+        [Enum(UnityEngine.Rendering.CullMode)] _CullMode ("Cull Mode", float) = 2
+        [Enum(UnityEngine.Rendering.CompareFunction)] _ZTest ("Z Test", float) = 4
+        [Toggle] _ZWrite ("Z Write", float) = 1
     }
     SubShader
     {
@@ -30,17 +33,32 @@
         Pass
         {
             Cull [_CullMode]
+            ZTest [_ZTest]
+            ZWrite [_ZWrite]
 
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-            #pragma multi_compile _MODE_OPAQUE _MODE_CUTOUT
             #pragma multi_compile_instancing
-            #pragma multi_compile _ ENABLE_BLOOM_FOG
-            #pragma shader_feature ENABLE_HEIGHT_FOG
+
+            #pragma shader_feature_local_fragment ALPHA_CUTOUT
+            #pragma shader_feature_local_fragment _ _BLOOMTYPE_PP _BLOOMTYPE_FRAG
+            #pragma shader_feature_local_fragment HEIGHT_FOG
+
+            #pragma multi_compile_fragment _ BLOOM_FOG
 
             #include "UnityCG.cginc"
-            #include "CGIncludes/BloomFog.cginc"
+            #include "ShaderLibrary/BloomFog.hlsl"
+            #include "ShaderLibrary/CustomBloom.hlsl"
+            #include "ShaderLibrary/CustomTonemapping.hlsl"
+
+            sampler2D _MainTex;
+            float4 _MainTex_ST;
+
+            float _FogStartOffset;
+            float _FogScale;
+            float _FogHeightOffset;
+            float _FogHeightScale;
 
             UNITY_INSTANCING_BUFFER_START(Props)
                 UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
@@ -58,56 +76,57 @@
                 float4 vertex : SV_POSITION;
                 float2 uv : TEXCOORD0;
                 float3 worldPos : TEXCOORD1;
-                float4 customScreenPos : TEXCOORD2;
+                float4 screenPos : TEXCOORD2;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
-
-            sampler2D _MainTex;
-            float4 _MainTex_ST;
-            float _Glow;
-
-            float _FogStartOffset;
-            float _FogScale;
-            float _FogHeightOffset;
-            float _FogHeightScale;
 
             v2f vert(appdata i)
             {
                 v2f o;
-                
+
                 UNITY_SETUP_INSTANCE_ID(i);
                 UNITY_TRANSFER_INSTANCE_ID(i, o);
 
                 o.vertex = UnityObjectToClipPos(i.vertex);
-                o.uv = i.uv;
-                o.worldPos = mul(unity_ObjectToWorld, i.vertex).xyz;
-                o.customScreenPos = ComputeScreenPosCustom(o.vertex);
+                o.worldPos.xyz = mul(unity_ObjectToWorld, i.vertex).xyz;
+                o.uv.xy = i.uv.xy;
+                o.screenPos = ComputeScreenPosCustom(o.vertex);
 
                 return o;
             }
 
-            fixed4 frag(v2f i) : SV_Target
+            half4 frag(v2f i) : SV_Target
             {
                 UNITY_SETUP_INSTANCE_ID(i);
-                fixed4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
+                half4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
 
-                fixed4 albedo = color * tex2D(_MainTex, TRANSFORM_TEX(i.uv, _MainTex));
-                #if _MODE_CUTOUT
+                half4 albedo = color * tex2D(_MainTex, TRANSFORM_TEX(i.uv, _MainTex));
+                #if defined(ALPHA_CUTOUT)
                 if (albedo.a == 0) discard;
                 #endif
 
-                albedo.rgb *= color.a;
-                albedo.a = saturate(log2(_Glow * color.a + 1.0));
-
-                #ifdef ENABLE_HEIGHT_FOG
-                    BLOOM_FOG_HEIGHT_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset, _FogHeightScale);
+                #if _BLOOMTYPE_PP
+                CUSTOM_BLOOM_PP_APPLY(albedo, 1);
+                #elif _BLOOMTYPE_FRAG
+                CUSTOM_BLOOM_FRAG_APPLY(albedo, 1);
                 #else
-                    BLOOM_FOG_APPLY(albedo, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
+                CUSTOM_BLOOM_NONE_APPLY(albedo);
+                #endif
+
+                ACES_TONE_MAPPING_APPLY(albedo);
+
+                #if defined(BLOOM_FOG)
+                #if defined(HEIGHT_FOG)
+                BLOOM_FOG_HEIGHT_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset,
+                                       _FogHeightScale);
+                #else
+                BLOOM_FOG_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale);
+                #endif
                 #endif
 
                 return albedo;
             }
-            ENDCG
+            ENDHLSL
         }
     }
 }

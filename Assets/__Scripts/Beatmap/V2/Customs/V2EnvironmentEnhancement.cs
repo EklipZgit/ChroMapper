@@ -37,6 +37,8 @@ namespace Beatmap.V2.Customs
         public const string GeometryKeyType = "_type";
 
         public const string GeometryKeyMaterial = "_material";
+        
+        public const string GeometryKeyMaterialKeywords = "_shaderKeywords";
 
         public static BaseEnvironmentEnhancement GetFromJson(JSONNode node) => new BaseEnvironmentEnhancement(node);
 

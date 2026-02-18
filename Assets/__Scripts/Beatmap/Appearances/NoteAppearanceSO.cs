@@ -76,7 +76,7 @@ namespace Beatmap.Appearances
             {
                 note.SetArrowVisible(false);
                 note.SetDotVisible(false);
-                note.SetColor(null);
+                note.SetColor(new (0.25f, 0.25f, 0.25f));
             }
 
             if (note.NoteData.CustomColor != null)

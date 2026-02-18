@@ -3,18 +3,19 @@ using System.Linq;
 using Beatmap.Base;
 using UnityEngine;
 
-public abstract class BeatmapObjectManager : MonoBehaviour
+public abstract class BeatmapObjectManager : MonoBehaviour, IBeatmapUpdate
 {
-    [SerializeField] protected AudioTimeSyncController Atsc;
-    
+    [SerializeField] protected BeatmapRuntimeContext Context;
+
+    public abstract void Refresh();
     public abstract void UpdateTime();
-    public abstract void UpdateTime(float beatTime);
+    public abstract void UpdateTime(bool isPlaying, float beatTime);
 }
 
 public abstract class BeatmapObjectManager<T> : BeatmapObjectManager where T : BaseObject
 {
     protected virtual bool AllowAction => true;
-    
+
     protected virtual void Awake()
     {
         BeatmapActionContainer.OnActionCreated += HandleActionRedo;
@@ -36,7 +37,7 @@ public abstract class BeatmapObjectManager<T> : BeatmapObjectManager where T : B
     private void HandleActionRedo(BeatmapAction action)
     {
         if (!AllowAction) return;
-        if (!HandleActionEventRedoNoNotify(action) || Atsc.IsPlaying) return;
+        if (!HandleActionEventRedoNoNotify(action) || Context.Atsc.IsPlaying) return;
         UpdateTime();
     }
 
@@ -173,7 +174,7 @@ public abstract class BeatmapObjectManager<T> : BeatmapObjectManager where T : B
     private void HandleActionUndo(BeatmapAction action)
     {
         if (!AllowAction) return;
-        if (!HandleActionEventUndoNoNotify(action) || Atsc.IsPlaying) return;
+        if (!HandleActionEventUndoNoNotify(action) || Context.Atsc.IsPlaying) return;
         UpdateTime();
     }
 

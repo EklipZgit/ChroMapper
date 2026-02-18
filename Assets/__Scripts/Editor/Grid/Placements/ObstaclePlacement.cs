@@ -50,7 +50,7 @@ public class ObstaclePlacement : BasePlacement<BaseObstacle, ObstacleContainer, 
     {
         base.Initialize(provider);
         PlacementVisualContainer.ObstacleData = QueuedData;
-        obstacleAppearanceSo.SetObstacleAppearance(PlacementVisualContainer, null, true);
+        obstacleAppearanceSo.SetObstacleAppearance(PlacementVisualContainer, true);
     }
 
     public override void UpdateState(Intersections.IntersectionHit hit, PlacementInputState inputState)

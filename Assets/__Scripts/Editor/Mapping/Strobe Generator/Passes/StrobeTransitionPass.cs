@@ -12,16 +12,23 @@ public class StrobeTransitionPass : StrobeGeneratorPass
     private readonly string easing;
     private readonly string lerpType;
 
-    public StrobeTransitionPass(string easing, string lerpType)
+    public StrobeTransitionPass(
+        TracksDefinitionSO tracksDefinition,
+        string easing,
+        string lerpType) : base(tracksDefinition)
     {
         this.easing = (easing != DefaultEasing) ? easing : null;
         this.lerpType = (lerpType != DefaultLerpType) ? lerpType : null;
     }
 
-    public override bool IsEventValidForPass(BaseEvent @event) => @event.IsLightEvent();
+    public override bool IsEventValidForPass(BaseEvent evt) =>
+        TracksDefinition.GetBasicOrDefault(evt.Type).Kind == BasicEventKind.Lights;
 
-    public override IEnumerable<BaseEvent> StrobePassForLane(IEnumerable<BaseEvent> original, int type,
-        EventGridContainer.PropMode propMode, int[] propID)
+    public override IEnumerable<BaseEvent> StrobePassForLane(
+        IEnumerable<BaseEvent> original,
+        int type,
+        EventGridContainer.PropMode propMode,
+        int[] propID)
     {
         var generatedObjects = original.Select(BeatmapFactory.Clone).ToList();
 
@@ -30,7 +37,7 @@ public class StrobeTransitionPass : StrobeGeneratorPass
             var previousEvent = generatedObjects[i - 1];
             previousEvent.CustomEasing = easing;
             previousEvent.CustomLerpType = lerpType;
-            
+
             var currentEvent = generatedObjects[i];
             if (currentEvent.IsBlue)
             {

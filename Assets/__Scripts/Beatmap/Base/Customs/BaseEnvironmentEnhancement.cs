@@ -209,6 +209,12 @@ namespace Beatmap.Base.Customs
             3 or 4 => V3EnvironmentEnhancement.GeometryKeyMaterial
         };
 
+        public string GeometryKeyMaterialKeywords => Settings.Instance.MapVersion switch
+        {
+            2 => V2EnvironmentEnhancement.GeometryKeyMaterialKeywords,
+            3 or 4 => V3EnvironmentEnhancement.GeometryKeyMaterialKeywords
+        };
+
         public override string CustomKeyColor => null;
 
         #endregion

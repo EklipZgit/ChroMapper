@@ -11,7 +11,7 @@ public class Track : MonoBehaviour
 
     public Vector3 RotationValue = Vector3.zero;
 
-    private readonly Vector3 rotationPoint = LoadInitialMap.PlatformOffset;
+    private readonly Vector3 rotationPoint = Vector3.zero;
 
     private BaseGrid gridObject;
     private ObjectContainer gridContainer;
@@ -68,7 +68,7 @@ public class Track : MonoBehaviour
         else
             z = Mathf.Lerp(despawnPosition, -JUMP_FAR, (time - despawnTime) / JUMP_TIME);
 
-        position.z = z;
+        position.z = z + (5f / 3f);
 
         // oh yeah you know its good when things start with a check like this
         switch (gridObject)

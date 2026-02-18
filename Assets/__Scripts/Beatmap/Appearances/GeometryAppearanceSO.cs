@@ -1,10 +1,7 @@
 using System;
-using System.Collections.Generic;
+using System.Linq;
 using Beatmap.Base.Customs;
-using Beatmap.V2.Customs;
-using Beatmap.V3.Customs;
 using Beatmap.Containers;
-using Beatmap.Shared;
 using SimpleJSON;
 using UnityEngine;
 
@@ -13,19 +10,25 @@ namespace Beatmap.Appearances
     [CreateAssetMenu(menuName = "Beatmap/Appearance/Geometry Appearance SO", fileName = "GeometryAppearanceSO")]
     public class GeometryAppearanceSO : ScriptableObject
     {
+        [SerializeField] private Material regularMaterial;
         [SerializeField] private Material lightOpaqueMaterial;
         [SerializeField] private Material lightTransparentMaterial;
-        [SerializeField] private Material shinyMaterial;
+        [SerializeField] private Material glowingMaterial;
+        [SerializeField] private Material waterMaterial;
+        [SerializeField] private Material btsMaterial;
         [SerializeField] private Material obstacleMaterial;
-        [SerializeField] private Material regularMaterial;
 
         private static BaseMaterial standard;
 
-        public void OnEnable() => standard = new BaseMaterial{ Shader = "Standard" };
+        public void OnEnable() => standard = new BaseMaterial { Shader = "Standard" };
 
         public void SetGeometryAppearance(GeometryContainer container)
         {
             var eh = container.EnvironmentEnhancement;
+
+            // Bail if not geometry - environment enhancement is handled elsewhere
+            if (eh.Geometry == null) return;
+
             BaseMaterial basemat = standard;
             switch (eh.Geometry[eh.GeometryKeyMaterial])
             {
@@ -38,6 +41,7 @@ namespace Beatmap.Appearances
                             basemat = standard;
                         }
                     }
+
                     break;
                 case JSONObject obj:
                     basemat = new BaseMaterial(obj);
@@ -57,14 +61,34 @@ namespace Beatmap.Appearances
 
             var material = shader switch
             {
-                ShaderType.OpaqueLight  => lightOpaqueMaterial,
+                ShaderType.OpaqueLight => lightOpaqueMaterial,
                 ShaderType.TransparentLight => lightTransparentMaterial,
-                ShaderType.BaseWater => shinyMaterial,
-                ShaderType.BillieWater => shinyMaterial,
-                ShaderType.WaterfallMirror => shinyMaterial,
+                ShaderType.Glowing => glowingMaterial,
+                ShaderType.BaseWater => waterMaterial,
+                ShaderType.BillieWater => waterMaterial,
+                ShaderType.WaterfallMirror => waterMaterial,
+                ShaderType.BTSPillar => btsMaterial,
                 ShaderType.Obstacle => obstacleMaterial,
                 _ => regularMaterial,
             };
+
+            if (eh.Geometry[eh.GeometryKeyMaterial].IsObject
+                && eh.Geometry[eh.GeometryKeyMaterial][eh.GeometryKeyMaterialKeywords].IsArray)
+            {
+                if ((shader == ShaderType.Standard || shader == ShaderType.BTSPillar)
+                    && eh.Geometry[eh.GeometryKeyMaterial][eh.GeometryKeyMaterialKeywords].Count == 0)
+                {
+                    material = glowingMaterial;
+                }
+                else
+                {
+                    material.shaderKeywords =
+                        eh.Geometry[eh.GeometryKeyMaterial][eh.GeometryKeyMaterialKeywords]
+                            .AsArray.Children.Where(x => x.IsString)
+                            .Cast<string>()
+                            .ToArray();
+                }
+            }
 
             var colorKeyword = Shader.PropertyToID("_Color");
 
@@ -74,22 +98,10 @@ namespace Beatmap.Appearances
             }
 
             // For animating material color
-            if (basemat.Track is string track)
-            {
-                container.MaterialAnimator.AttachToMaterial(container, track);
-            }
+            if (basemat.Track is string track) container.MaterialAnimator.AttachToMaterial(container, track);
 
             meshRenderer.sharedMaterial = material;
             meshRenderer.SetPropertyBlock(container.MaterialPropertyBlock);
-
-            if (eh.Components?.HasKey("ILightWithId") ?? false)
-            {
-                var light = container.Shape.AddComponent<LightingObject>();
-                light.OverrideLightGroup = true;
-                light.OverrideLightGroupID = eh.LightType ?? 0;
-                light.LightID = eh.LightID ?? 0;
-                light.PropGroup = -1;
-            }
         }
 
         // Straight outta heck
@@ -98,6 +110,7 @@ namespace Beatmap.Appearances
             Standard,
             OpaqueLight,
             TransparentLight,
+            Glowing,
             BaseWater,
             BillieWater,
             BTSPillar,

@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Linq;
 using Beatmap.Base.Customs;
 using Beatmap.Enums;
@@ -43,14 +42,15 @@ namespace Beatmap.Base
             FloatValue = other.FloatValue;
             CustomData = other.SaveCustom().Clone();
         }
-        
+
         // Used for Node Editor
-        public BaseEvent(JSONNode node) : this(BeatmapFactory.Event(node)) {}
+        public BaseEvent(JSONNode node) : this(BeatmapFactory.Event(node)) { }
 
         public override ObjectType ObjectType { get; set; } = ObjectType.Event;
         public virtual int Type { get; set; }
 
         private int value;
+
         public int Value
         {
             get => value;
@@ -73,8 +73,9 @@ namespace Beatmap.Base
         }
 
         public float FloatValue { get; set; } = 1f;
-        
+
         private float rotation;
+
         public float Rotation
         {
             get => rotation;
@@ -96,39 +97,50 @@ namespace Beatmap.Base
 
         public BaseEvent Prev { get; set; }
         public BaseEvent Next { get; set; }
-        
+
         public static readonly int[] LightValueToRotationDegrees = { -60, -45, -30, -15, 15, 30, 45, 60 };
         private int[] customLightID;
         protected float? customSpeed;
-        
-
-        public bool IsBlue => Value == (int)LightValue.BlueOn || Value == (int)LightValue.BlueFlash ||
-                              Value == (int)LightValue.BlueFade || Value == (int)LightValue.BlueTransition;
 
 
-        public bool IsRed => Value == (int)LightValue.RedOn || Value == (int)LightValue.RedFlash ||
-                             Value == (int)LightValue.RedFade || Value == (int)LightValue.RedTransition;
+        public bool IsBlue =>
+            Value == (int)LightValue.BlueOn
+            || Value == (int)LightValue.BlueFlash
+            || Value == (int)LightValue.BlueFade
+            || Value == (int)LightValue.BlueTransition;
 
 
-        public bool IsWhite => Value == (int)LightValue.WhiteOn || Value == (int)LightValue.WhiteFlash ||
-                               Value == (int)LightValue.WhiteFade || Value == (int)LightValue.WhiteTransition;
+        public bool IsRed =>
+            Value == (int)LightValue.RedOn
+            || Value == (int)LightValue.RedFlash
+            || Value == (int)LightValue.RedFade
+            || Value == (int)LightValue.RedTransition;
+
+
+        public bool IsWhite =>
+            Value == (int)LightValue.WhiteOn
+            || Value == (int)LightValue.WhiteFlash
+            || Value == (int)LightValue.WhiteFade
+            || Value == (int)LightValue.WhiteTransition;
 
 
         public bool IsOff => Value is (int)LightValue.Off;
 
-        public bool IsOn => Value == (int)LightValue.BlueOn || Value == (int)LightValue.RedOn ||
-                            Value == (int)LightValue.WhiteOn;
+        public bool IsOn =>
+            Value == (int)LightValue.BlueOn || Value == (int)LightValue.RedOn || Value == (int)LightValue.WhiteOn;
 
-        public bool IsFlash => Value == (int)LightValue.BlueFlash || Value == (int)LightValue.RedFlash ||
-                               Value == (int)LightValue.WhiteFlash;
+        public bool IsFlash =>
+            Value == (int)LightValue.BlueFlash
+            || Value == (int)LightValue.RedFlash
+            || Value == (int)LightValue.WhiteFlash;
 
         public bool IsFade =>
-            Value == (int)LightValue.BlueFade || Value == (int)LightValue.RedFade ||
-            Value == (int)LightValue.WhiteFade;
+            Value == (int)LightValue.BlueFade || Value == (int)LightValue.RedFade || Value == (int)LightValue.WhiteFade;
 
         public bool IsTransition =>
-            Value == (int)LightValue.BlueTransition || Value == (int)LightValue.RedTransition ||
-            Value == (int)LightValue.WhiteTransition;
+            Value == (int)LightValue.BlueTransition
+            || Value == (int)LightValue.RedTransition
+            || Value == (int)LightValue.WhiteTransition;
 
         public bool IsLegacyChroma => Value >= ColourManager.RgbintOffset;
         public bool IsPropagation => CustomPropID >= -1;
@@ -184,192 +196,160 @@ namespace Beatmap.Base
 
         public virtual float? CustomLaneRotation { get; set; }
 
-        public override string CustomKeyColor => Settings.Instance.MapVersion switch
-        {
-            2 => V2Event.CustomKeyColor,
-            3 or 4 => V3BasicEvent.CustomKeyColor
-        };
+        public override string CustomKeyColor =>
+            Settings.Instance.MapVersion switch
+            {
+                2 => V2Event.CustomKeyColor,
+                3 or 4 => V3BasicEvent.CustomKeyColor
+            };
 
-        public override string CustomKeyTrack => Settings.Instance.MapVersion switch
-        {
-            2 => V2Event.CustomKeyTrack,
-            3 or 4 => V3BasicEvent.CustomKeyTrack
-        };
+        public override string CustomKeyTrack =>
+            Settings.Instance.MapVersion switch
+            {
+                2 => V2Event.CustomKeyTrack,
+                3 or 4 => V3BasicEvent.CustomKeyTrack
+            };
 
-        public string CustomKeyPropID => Settings.Instance.MapVersion switch
-        {
-            2 => V2Event.CustomKeyPropID,
-            3 or 4 => V3BasicEvent.CustomKeyPropID
-        };
+        public string CustomKeyPropID =>
+            Settings.Instance.MapVersion switch
+            {
+                2 => V2Event.CustomKeyPropID,
+                3 or 4 => V3BasicEvent.CustomKeyPropID
+            };
 
-        public string CustomKeyLightID => Settings.Instance.MapVersion switch
-        {
-            2 => V2Event.CustomKeyLightID,
-            3 or 4 => V3BasicEvent.CustomKeyLightID
-        };
+        public string CustomKeyLightID =>
+            Settings.Instance.MapVersion switch
+            {
+                2 => V2Event.CustomKeyLightID,
+                3 or 4 => V3BasicEvent.CustomKeyLightID
+            };
 
-        public string CustomKeyLerpType => Settings.Instance.MapVersion switch
-        {
-            2 => V2Event.CustomKeyLerpType,
-            3 or 4 => V3BasicEvent.CustomKeyLerpType
-        };
+        public string CustomKeyLerpType =>
+            Settings.Instance.MapVersion switch
+            {
+                2 => V2Event.CustomKeyLerpType,
+                3 or 4 => V3BasicEvent.CustomKeyLerpType
+            };
 
-        public string CustomKeyEasing => Settings.Instance.MapVersion switch
-        {
-            2 => V2Event.CustomKeyEasing,
-            3 or 4 => V3BasicEvent.CustomKeyEasing
-        };
+        public string CustomKeyEasing =>
+            Settings.Instance.MapVersion switch
+            {
+                2 => V2Event.CustomKeyEasing,
+                3 or 4 => V3BasicEvent.CustomKeyEasing
+            };
 
-        public string CustomKeyLightGradient => Settings.Instance.MapVersion switch
-        {
-            2 => V2Event.CustomKeyLightGradient,
-            3 or 4 => V3BasicEvent.CustomKeyLightGradient
-        };
+        public string CustomKeyLightGradient =>
+            Settings.Instance.MapVersion switch
+            {
+                2 => V2Event.CustomKeyLightGradient,
+                3 or 4 => V3BasicEvent.CustomKeyLightGradient
+            };
 
-        public string CustomKeyStep => Settings.Instance.MapVersion switch
-        {
-            2 => V2Event.CustomKeyStep,
-            3 or 4 => V3BasicEvent.CustomKeyStep
-        };
+        public string CustomKeyStep =>
+            Settings.Instance.MapVersion switch
+            {
+                2 => V2Event.CustomKeyStep,
+                3 or 4 => V3BasicEvent.CustomKeyStep
+            };
 
-        public string CustomKeyProp => Settings.Instance.MapVersion switch
-        {
-            2 => V2Event.CustomKeyProp,
-            3 or 4 => V3BasicEvent.CustomKeyProp
-        };
+        public string CustomKeyProp =>
+            Settings.Instance.MapVersion switch
+            {
+                2 => V2Event.CustomKeyProp,
+                3 or 4 => V3BasicEvent.CustomKeyProp
+            };
 
-        public string CustomKeySpeed => Settings.Instance.MapVersion switch
-        {
-            2 => V2Event.CustomKeySpeed,
-            3 or 4 => V3BasicEvent.CustomKeySpeed
-        };
+        public string CustomKeySpeed =>
+            Settings.Instance.MapVersion switch
+            {
+                2 => V2Event.CustomKeySpeed,
+                3 or 4 => V3BasicEvent.CustomKeySpeed
+            };
 
-        public string CustomKeyRingRotation => Settings.Instance.MapVersion switch
-        {
-            2 => V2Event.CustomKeyRingRotation,
-            3 or 4 => V3BasicEvent.CustomKeyRingRotation
-        };
+        public string CustomKeyRingRotation =>
+            Settings.Instance.MapVersion switch
+            {
+                2 => V2Event.CustomKeyRingRotation,
+                3 or 4 => V3BasicEvent.CustomKeyRingRotation
+            };
 
-        public string CustomKeyDirection => Settings.Instance.MapVersion switch
-        {
-            2 => V2Event.CustomKeyDirection,
-            3 or 4 => V3BasicEvent.CustomKeyDirection
-        };
+        public string CustomKeyDirection =>
+            Settings.Instance.MapVersion switch
+            {
+                2 => V2Event.CustomKeyDirection,
+                3 or 4 => V3BasicEvent.CustomKeyDirection
+            };
 
-        public string CustomKeyLockRotation => Settings.Instance.MapVersion switch
-        {
-            2 => V2Event.CustomKeyLockRotation,
-            3 or 4 => V3BasicEvent.CustomKeyLockRotation
-        };
+        public string CustomKeyLockRotation =>
+            Settings.Instance.MapVersion switch
+            {
+                2 => V2Event.CustomKeyLockRotation,
+                3 or 4 => V3BasicEvent.CustomKeyLockRotation
+            };
 
-        public string CustomKeyLaneRotation => Settings.Instance.MapVersion switch
-        {
-            2 => V2Event.CustomKeyLaneRotation,
-            3 or 4 => V3BasicEvent.CustomKeyLaneRotation
-        };
+        public string CustomKeyLaneRotation =>
+            Settings.Instance.MapVersion switch
+            {
+                2 => V2Event.CustomKeyLaneRotation,
+                3 or 4 => V3BasicEvent.CustomKeyLaneRotation
+            };
 
-        public string CustomKeyNameFilter => Settings.Instance.MapVersion switch
-        {
-            2 => V2Event.CustomKeyNameFilter,
-            3 or 4 => V3BasicEvent.CustomKeyNameFilter
-        };
+        public string CustomKeyNameFilter =>
+            Settings.Instance.MapVersion switch
+            {
+                2 => V2Event.CustomKeyNameFilter,
+                3 or 4 => V3BasicEvent.CustomKeyNameFilter
+            };
 
         public string CustomKeyStepMult => V2Event.CustomKeyStepMult;
         public string CustomKeyPropMult => V2Event.CustomKeyPropMult;
         public string CustomKeySpeedMult => V2Event.CustomKeySpeedMult;
         public string CustomKeyPreciseSpeed => V2Event.CustomKeyPreciseSpeed;
 
-        public override bool HasMatchingTrack(string filter) =>
-            true;
+        public override bool HasMatchingTrack(string filter) => true;
 
         public override bool IsChroma() =>
-            CustomData != null &&
-            ((CustomData.HasKey(CustomKeyColor) && CustomData[CustomKeyColor].IsArray) ||
-             (CustomData.HasKey(CustomKeyLightGradient) && CustomData[CustomKeyLightGradient].IsArray) ||
-             (CustomData.HasKey(CustomKeyLightID) &&
-              (CustomData[CustomKeyLightID].IsArray || CustomData[CustomKeyLightID].IsNumber)) ||
-             (CustomData.HasKey(CustomKeyPropID) &&
-             (CustomData[CustomKeyPropID].IsArray || CustomData[CustomKeyPropID].IsNumber)) ||
-             (CustomData.HasKey(CustomKeyEasing) && CustomData[CustomKeyEasing].IsString) ||
-             (CustomData.HasKey(CustomKeyLerpType) && CustomData[CustomKeyLerpType].IsString) ||
-             (CustomData.HasKey(CustomKeyNameFilter) && CustomData[CustomKeyNameFilter].IsString) ||
-             (CustomData.HasKey("_reset") && CustomData["_reset"].IsBoolean) ||
-             (CustomData.HasKey("_counterSpin") && CustomData["_counterSpin"].IsBoolean) ||
-             (CustomData.HasKey(CustomKeyPropMult) && CustomData[CustomKeyPropMult].IsNumber) ||
-             (CustomData.HasKey(CustomKeyStepMult) && CustomData[CustomKeyStepMult].IsNumber) ||
-             (CustomData.HasKey(CustomKeySpeedMult) && CustomData[CustomKeySpeedMult].IsNumber) ||
-             (!IsLaneRotationEvent() && CustomData.HasKey(CustomKeyRingRotation) && CustomData[CustomKeyRingRotation].IsNumber) ||
-             (CustomData.HasKey(CustomKeyStep) && CustomData[CustomKeyStep].IsNumber) ||
-             (CustomData.HasKey(CustomKeyProp) && CustomData[CustomKeyProp].IsNumber) ||
-             (CustomData.HasKey(CustomKeySpeed) && CustomData[CustomKeySpeed].IsNumber) ||
-             (CustomData.HasKey(CustomKeyDirection) && CustomData[CustomKeyDirection].IsNumber) ||
-             (CustomData.HasKey(CustomKeyLockRotation) && CustomData[CustomKeyLockRotation].IsBoolean));
-        
+            CustomData != null
+            && ((CustomData.HasKey(CustomKeyColor) && CustomData[CustomKeyColor].IsArray)
+                || (CustomData.HasKey(CustomKeyLightGradient) && CustomData[CustomKeyLightGradient].IsArray)
+                || (CustomData.HasKey(CustomKeyLightID)
+                    && (CustomData[CustomKeyLightID].IsArray || CustomData[CustomKeyLightID].IsNumber))
+                || (CustomData.HasKey(CustomKeyPropID)
+                    && (CustomData[CustomKeyPropID].IsArray || CustomData[CustomKeyPropID].IsNumber))
+                || (CustomData.HasKey(CustomKeyEasing) && CustomData[CustomKeyEasing].IsString)
+                || (CustomData.HasKey(CustomKeyLerpType) && CustomData[CustomKeyLerpType].IsString)
+                || (CustomData.HasKey(CustomKeyNameFilter) && CustomData[CustomKeyNameFilter].IsString)
+                || (CustomData.HasKey("_reset") && CustomData["_reset"].IsBoolean)
+                || (CustomData.HasKey("_counterSpin") && CustomData["_counterSpin"].IsBoolean)
+                || (CustomData.HasKey(CustomKeyPropMult) && CustomData[CustomKeyPropMult].IsNumber)
+                || (CustomData.HasKey(CustomKeyStepMult) && CustomData[CustomKeyStepMult].IsNumber)
+                || (CustomData.HasKey(CustomKeySpeedMult) && CustomData[CustomKeySpeedMult].IsNumber)
+                || (!IsLaneRotationEvent()
+                    && CustomData.HasKey(CustomKeyRingRotation)
+                    && CustomData[CustomKeyRingRotation].IsNumber)
+                || (CustomData.HasKey(CustomKeyStep) && CustomData[CustomKeyStep].IsNumber)
+                || (CustomData.HasKey(CustomKeyProp) && CustomData[CustomKeyProp].IsNumber)
+                || (CustomData.HasKey(CustomKeySpeed) && CustomData[CustomKeySpeed].IsNumber)
+                || (CustomData.HasKey(CustomKeyDirection) && CustomData[CustomKeyDirection].IsNumber)
+                || (CustomData.HasKey(CustomKeyLockRotation) && CustomData[CustomKeyLockRotation].IsBoolean));
+
         public override bool IsNoodleExtensions() =>
-            IsLaneRotationEvent() && CustomData != null &&
-            CustomData.HasKey("_rotation") && CustomData["_rotation"].IsNumber;
+            IsLaneRotationEvent()
+            && CustomData != null
+            && CustomData.HasKey("_rotation")
+            && CustomData["_rotation"].IsNumber;
 
-        public override bool IsMappingExtensions() =>
-            IsLaneRotationEvent() && Value >= 1000 && Value <= 1720;
-
-        public bool IsLightEvent(string environment = null) =>
-            environment switch
-            {
-                _ => Type == (int)EventTypeValue.BackLasers || Type == (int)EventTypeValue.RingLights ||
-                     Type == (int)EventTypeValue.LeftLasers || Type == (int)EventTypeValue.RightLasers ||
-                     Type == (int)EventTypeValue.CenterLights || Type == (int)EventTypeValue.ExtraLeftLasers ||
-                     Type == (int)EventTypeValue.ExtraRightLasers || Type == (int)EventTypeValue.ExtraLeftLights ||
-                     Type == (int)EventTypeValue.ExtraRightLights
-            };
+        public override bool IsMappingExtensions() => IsLaneRotationEvent() && Value >= 1000 && Value <= 1720;
 
         public bool IsColorBoostEvent() => Type is (int)EventTypeValue.ColorBoost;
 
-        public bool IsRingEvent(string environment = null) =>
-            environment switch
-            {
-                _ => Type == (int)EventTypeValue.RingRotation || Type == (int)EventTypeValue.RingZoom
-            };
-
-        public bool IsRingZoomEvent(string environment = null) =>
-            environment switch
-            {
-                _ => Type is (int)EventTypeValue.RingZoom
-            };
-
-        public bool IsLaserRotationEvent(string environment = null) =>
-            environment switch
-            {
-                _ => Type == (int)EventTypeValue.LeftLaserRotation || Type == (int)EventTypeValue.RightLaserRotation
-            };
-
-        public bool IsLaneRotationEvent() => Type == (int)EventTypeValue.EarlyLaneRotation ||
-                                             Type == (int)EventTypeValue.LateLaneRotation;
-
-        public bool IsExtraEvent(string environment = null) =>
-            environment switch
-            {
-                _ => Type == (int)EventTypeValue.ExtraLeftLasers || Type == (int)EventTypeValue.ExtraLeftLights ||
-                     Type == (int)EventTypeValue.ExtraRightLasers || Type == (int)EventTypeValue.ExtraRightLights
-            };
-
-        public bool IsUtilityEvent(string environment = null) =>
-            environment switch
-            {
-                _ => Type == (int)EventTypeValue.UtilityEvent0 || Type == (int)EventTypeValue.UtilityEvent1 ||
-                     Type == (int)EventTypeValue.UtilityEvent2 || Type == (int)EventTypeValue.UtilityEvent3
-            };
-
-        public bool IsSpecialEvent(string environment = null) =>
-            environment switch
-            {
-                _ => Type == (int)EventTypeValue.SpecialEvent0 || Type == (int)EventTypeValue.SpecialEvent1 ||
-                     Type == (int)EventTypeValue.SpecialEvent2 || Type == (int)EventTypeValue.SpecialEvent3
-            };
+        public bool IsLaneRotationEvent() =>
+            Type == (int)EventTypeValue.EarlyLaneRotation || Type == (int)EventTypeValue.LateLaneRotation;
 
         public virtual bool IsBpmEvent() => Type is (int)EventTypeValue.BpmChange;
 
         public Vector2? GetPosition(CreateEventTypeLabels labels, EventGridContainer.PropMode mode, int prop)
-        {   
+        {
             if (mode == EventGridContainer.PropMode.Off)
             {
                 return new Vector2(
@@ -390,9 +370,8 @@ namespace Beatmap.Base
 
             CustomPropID = labels.LightIdsToPropId(Type, CustomLightID) ?? -1;
 
-            var x = mode == EventGridContainer.PropMode.Prop ? CustomPropID : -1;
-
-            if (x < 0) x = CustomLightID.Length > 0 ? labels.LightIDToEditor(Type, CustomLightID[0]) : -1;
+            var x = mode == EventGridContainer.PropMode.Prop && CustomPropID != -1 ? CustomPropID :
+                CustomLightID.Length > 0 ? labels.LightIDToLane(Type, CustomLightID.Min()) : -1;
 
             return new Vector2(
                 x + 1.5f,
@@ -405,8 +384,8 @@ namespace Beatmap.Base
             {
                 var lightId = CustomLightID;
                 var otherLightId = @event.CustomLightID;
-                var lightIdEquals = lightId?.Length == otherLightId?.Length &&
-                                    (lightId == null || lightId.All(x => otherLightId.Contains(x)));
+                var lightIdEquals = lightId?.Length == otherLightId?.Length
+                    && (lightId == null || lightId.All(x => otherLightId.Contains(x)));
 
                 return Type == @event.Type && lightIdEquals;
             }
@@ -445,23 +424,36 @@ namespace Beatmap.Base
             if (CustomData?.HasKey(CustomKeyLightGradient) ?? false)
             {
                 var gradient = CustomData[CustomKeyLightGradient];
-                CustomLightGradient = new ChromaLightGradient(gradient["_startColor"], gradient["_endColor"],
-                    gradient["_duration"], gradient["_easing"]);
+                CustomLightGradient = new ChromaLightGradient(
+                    gradient["_startColor"],
+                    gradient["_endColor"],
+                    gradient["_duration"],
+                    gradient["_easing"]);
             }
             else
             {
                 CustomLightGradient = null;
             }
 
-            CustomLerpType = (CustomData?.HasKey(CustomKeyLerpType) ?? false) ? CustomData?[CustomKeyLerpType].Value : null;
-            CustomNameFilter = (CustomData?.HasKey(CustomKeyNameFilter) ?? false) ? CustomData?[CustomKeyNameFilter].Value : null;
+            CustomLerpType = (CustomData?.HasKey(CustomKeyLerpType) ?? false)
+                ? CustomData?[CustomKeyLerpType].Value
+                : null;
+            CustomNameFilter = (CustomData?.HasKey(CustomKeyNameFilter) ?? false)
+                ? CustomData?[CustomKeyNameFilter].Value
+                : null;
             CustomEasing = (CustomData?.HasKey(CustomKeyEasing) ?? false) ? CustomData?[CustomKeyEasing].Value : null;
             CustomStep = (CustomData?.HasKey(CustomKeyStep) ?? false) ? CustomData?[CustomKeyStep].AsFloat : null;
             CustomProp = (CustomData?.HasKey(CustomKeyProp) ?? false) ? CustomData?[CustomKeyProp].AsFloat : null;
             CustomSpeed = (CustomData?.HasKey(CustomKeySpeed) ?? false) ? CustomData?[CustomKeySpeed].AsFloat : null;
-            CustomRingRotation = (CustomData?.HasKey(CustomKeyRingRotation) ?? false) ? CustomData?[CustomKeyRingRotation].AsFloat : null;
-            CustomDirection = (CustomData?.HasKey(CustomKeyDirection) ?? false) ? CustomData?[CustomKeyDirection].AsInt : null;
-            CustomLockRotation = (CustomData?.HasKey(CustomKeyLockRotation) ?? false) ? CustomData?[CustomKeyLockRotation].AsBool : null;
+            CustomRingRotation = (CustomData?.HasKey(CustomKeyRingRotation) ?? false)
+                ? CustomData?[CustomKeyRingRotation].AsFloat
+                : null;
+            CustomDirection = (CustomData?.HasKey(CustomKeyDirection) ?? false)
+                ? CustomData?[CustomKeyDirection].AsInt
+                : null;
+            CustomLockRotation = (CustomData?.HasKey(CustomKeyLockRotation) ?? false)
+                ? CustomData?[CustomKeyLockRotation].AsBool
+                : null;
         }
 
         protected internal override JSONNode SaveCustom()
@@ -486,20 +478,47 @@ namespace Beatmap.Base
                 node.Remove(CustomKeyLightGradient);
             }
 
-            if (CustomLerpType != null) node[CustomKeyLerpType] = CustomLerpType; else node.Remove(CustomKeyLerpType);
-            if (CustomNameFilter != null) node[CustomKeyNameFilter] = CustomNameFilter; else node.Remove(CustomKeyNameFilter);
-            if (CustomEasing != null) node[CustomKeyEasing] = CustomEasing; else node.Remove(CustomKeyEasing);
-            if (CustomStep != null) node[CustomKeyStep] = CustomStep; else node.Remove(CustomKeyStep);
-            if (CustomProp != null) node[CustomKeyProp] = CustomProp; else node.Remove(CustomKeyProp);
-            if (CustomSpeed != null) node[CustomKeySpeed] = CustomSpeed; else node.Remove(CustomKeySpeed);
-            if (CustomRingRotation != null) node[CustomKeyRingRotation] = CustomRingRotation; else node.Remove(CustomKeyRingRotation);
-            if (CustomDirection != null) node[CustomKeyDirection] = CustomDirection; else node.Remove(CustomKeyDirection);
-            if (CustomLockRotation != null) node[CustomKeyLockRotation] = CustomLockRotation; else node.Remove(CustomKeyLockRotation);
-            
+            if (CustomLerpType != null)
+                node[CustomKeyLerpType] = CustomLerpType;
+            else
+                node.Remove(CustomKeyLerpType);
+            if (CustomNameFilter != null)
+                node[CustomKeyNameFilter] = CustomNameFilter;
+            else
+                node.Remove(CustomKeyNameFilter);
+            if (CustomEasing != null)
+                node[CustomKeyEasing] = CustomEasing;
+            else
+                node.Remove(CustomKeyEasing);
+            if (CustomStep != null)
+                node[CustomKeyStep] = CustomStep;
+            else
+                node.Remove(CustomKeyStep);
+            if (CustomProp != null)
+                node[CustomKeyProp] = CustomProp;
+            else
+                node.Remove(CustomKeyProp);
+            if (CustomSpeed != null)
+                node[CustomKeySpeed] = CustomSpeed;
+            else
+                node.Remove(CustomKeySpeed);
+            if (CustomRingRotation != null)
+                node[CustomKeyRingRotation] = CustomRingRotation;
+            else
+                node.Remove(CustomKeyRingRotation);
+            if (CustomDirection != null)
+                node[CustomKeyDirection] = CustomDirection;
+            else
+                node.Remove(CustomKeyDirection);
+            if (CustomLockRotation != null)
+                node[CustomKeyLockRotation] = CustomLockRotation;
+            else
+                node.Remove(CustomKeyLockRotation);
+
             SetCustomData(node);
             return node;
         }
-        
+
         public override int CompareTo(BaseObject other)
         {
             var comparison = base.CompareTo(other);
@@ -522,15 +541,17 @@ namespace Beatmap.Base
             {
                 switch ((customLightID, @event.customLightID))
                 {
-                    case (null, not null): return -1;
-                    case (not null, null): return 1;
+                    case (null, not null):
+                        return -1;
+                    case (not null, null):
+                        return 1;
                     case (not null, not null):
                         var length = Mathf.Min(customLightID.Length, @event.customLightID.Length);
 
                         for (var i = 0; i < length; i++)
                         {
                             comparison = customLightID[i].CompareTo(@event.customLightID[i]);
-                            
+
                             if (comparison != 0) return comparison;
                         }
 
@@ -540,32 +561,37 @@ namespace Beatmap.Base
             //if (comparison == 0) comparison = StructuralComparisons.StructuralComparer.Compare(CustomLightID, @event.CustomLightID);
 
             // All matching vanilla properties so compare custom data as a final check
-            if (comparison == 0) comparison = string.Compare(CustomData?.ToString(), @event.CustomData?.ToString(), StringComparison.Ordinal);
-            
+            if (comparison == 0)
+                comparison = string.Compare(
+                    CustomData?.ToString(),
+                    @event.CustomData?.ToString(),
+                    StringComparison.Ordinal);
+
             return comparison;
         }
 
-        public override JSONNode ToJson() => Settings.Instance.MapVersion switch
-        {
-            2 => V2Event.ToJson(this),
-            3 or 4 => Type switch
+        public override JSONNode ToJson() =>
+            Settings.Instance.MapVersion switch
             {
-                (int)EventTypeValue.EarlyLaneRotation => V3RotationEvent.ToJson(this),
-                (int)EventTypeValue.LateLaneRotation => V3RotationEvent.ToJson(this),
-                (int)EventTypeValue.ColorBoost => V3ColorBoostEvent.ToJson(this),
-                _ => V3BasicEvent.ToJson(this)
-            }
-        };
+                2 => V2Event.ToJson(this),
+                3 or 4 => Type switch
+                {
+                    (int)EventTypeValue.EarlyLaneRotation => V3RotationEvent.ToJson(this),
+                    (int)EventTypeValue.LateLaneRotation => V3RotationEvent.ToJson(this),
+                    (int)EventTypeValue.ColorBoost => V3ColorBoostEvent.ToJson(this),
+                    _ => V3BasicEvent.ToJson(this)
+                }
+            };
 
         public override BaseItem Clone()
         {
             var evt = new BaseEvent(this);
             evt.ParseCustom();
-            
+
             // This depends on environment and is calculated by grid position after creation
             // so we need to set this here to clone correctly  
             evt.CustomPropID = CustomPropID;
-            
+
             return evt;
         }
     }

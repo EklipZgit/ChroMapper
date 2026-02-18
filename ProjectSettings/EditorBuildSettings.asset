@@ -20,12 +20,144 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/__Scenes/04_Options.unity
     guid: 56ec1747ec4bdfa4396104eda05c448a
-  - enabled: 0
-    path: Assets/__Scenes/99_EditorHelper.unity
-    guid: 26fc50e4208da4544bf2ab89e91ccdd3
-  - enabled: 0
-    path: Assets/__Scenes/999_PrefabBuilding.unity
-    guid: 34ae2ae2fc6102c4e8b74df89340ed7f
+  - enabled: 1
+    path: Assets/__Scenes/Environments/BigMirrorEnvironment.unity
+    guid: 0d4f7c1c73d18498fb6f0fc644cb6a4d
+  - enabled: 1
+    path: Assets/__Scenes/Environments/BillieEnvironment.unity
+    guid: 9c495479d9d764907ba5bc623db6e9ed
+  - enabled: 1
+    path: Assets/__Scenes/Environments/BritneyEnvironment.unity
+    guid: 3e64f58bf025ce8cf8695dbbbe21ed50
+  - enabled: 1
+    path: Assets/__Scenes/Environments/BTSEnvironment.unity
+    guid: e38f26c33fe9f7334be3c572d0e456ae
+  - enabled: 1
+    path: Assets/__Scenes/Environments/ColdplayEnvironment.unity
+    guid: 1e0e2ec94063c2ddab5cedeff1b41003
+  - enabled: 1
+    path: Assets/__Scenes/Environments/ColliderEnvironment.unity
+    guid: 3cd764f685d34502c9b26dc4d86e78f9
+  - enabled: 1
+    path: Assets/__Scenes/Environments/CrabRaveEnvironment.unity
+    guid: 19761272198cc25d69f26d299dda11d7
+  - enabled: 1
+    path: Assets/__Scenes/Environments/DaftPunkEnvironment.unity
+    guid: 129e60eb3f423bf3a841e3905e857c9e
+  - enabled: 1
+    path: Assets/__Scenes/Environments/DefaultEnvironment.unity
+    guid: f5dda8a8910ffab44a5e52ab94046b25
+  - enabled: 1
+    path: Assets/__Scenes/Environments/Dragons2Environment.unity
+    guid: e8a9ca9a264c287779084544f46a1980
+  - enabled: 1
+    path: Assets/__Scenes/Environments/DragonsEnvironment.unity
+    guid: 102594fb94788bd568f202f7a410f4d0
+  - enabled: 1
+    path: Assets/__Scenes/Environments/EDMEnvironment.unity
+    guid: 45043042eb4b846b09986ac159c6c92f
+  - enabled: 1
+    path: Assets/__Scenes/Environments/FitBeatEnvironment.unity
+    guid: 1584b38f7335eeefeaf5ffd2770ee6ef
+  - enabled: 1
+    path: Assets/__Scenes/Environments/GagaEnvironment.unity
+    guid: 4c0aa01857cbc1b2c97f15ecb039df39
+  - enabled: 1
+    path: Assets/__Scenes/Environments/GlassDesertEnvironment.unity
+    guid: be97c8de561253be8a709e6caaa605e9
+  - enabled: 1
+    path: Assets/__Scenes/Environments/GreenDayEnvironment.unity
+    guid: 9f10285642e41493f90ce5c2c32d99a0
+  - enabled: 1
+    path: Assets/__Scenes/Environments/GreenDayGrenadeEnvironment.unity
+    guid: 285830d26cc8eed53bc3bf832df96314
+  - enabled: 1
+    path: Assets/__Scenes/Environments/GridEnvironment.unity
+    guid: 868c9bbde9bba91b19c57e657b05bc60
+  - enabled: 1
+    path: Assets/__Scenes/Environments/Halloween2Environment.unity
+    guid: 1e17b3130b7c387f4aa6ff63a32569ed
+  - enabled: 1
+    path: Assets/__Scenes/Environments/HalloweenEnvironment.unity
+    guid: fe919d3d38fbd22c9bd43a8e844e4984
+  - enabled: 1
+    path: Assets/__Scenes/Environments/HipHopEnvironment.unity
+    guid: e2876d8f2cdd89f2e8f067f0e3ebef91
+  - enabled: 1
+    path: Assets/__Scenes/Environments/InterscopeEnvironment.unity
+    guid: d54f62c7d01c28e95ab0c596d8cd2c58
+  - enabled: 1
+    path: Assets/__Scenes/Environments/KaleidoscopeEnvironment.unity
+    guid: 7abaecf11ebe576c1844d05093676701
+  - enabled: 1
+    path: Assets/__Scenes/Environments/KDAEnvironment.unity
+    guid: 5b8b97a8db53a6a96980461dc01a79f1
+  - enabled: 1
+    path: Assets/__Scenes/Environments/LatticeEnvironment.unity
+    guid: b8aa92e32b22bb04e8a513208066efa2
+  - enabled: 1
+    path: Assets/__Scenes/Environments/LinkinPark2Environment.unity
+    guid: 885ce518a7fcc2203ac80ae71beb80c7
+  - enabled: 1
+    path: Assets/__Scenes/Environments/LinkinParkEnvironment.unity
+    guid: 8b64216f62699307c853fcaffed6a9d8
+  - enabled: 1
+    path: Assets/__Scenes/Environments/LizzoEnvironment.unity
+    guid: a1c5151e0bc9e65c2bd1da13f2f941ef
+  - enabled: 1
+    path: Assets/__Scenes/Environments/MetallicaEnvironment.unity
+    guid: 0e5172eadf1e32a1692cbe581ce23c19
+  - enabled: 1
+    path: Assets/__Scenes/Environments/Monstercat2Environment.unity
+    guid: 45190c5259434a2be8ff8fb2212ed5fc
+  - enabled: 1
+    path: Assets/__Scenes/Environments/MonstercatEnvironment.unity
+    guid: 82a2fafa4aeb603ceb8d01740cf6e388
+  - enabled: 1
+    path: Assets/__Scenes/Environments/NiceEnvironment.unity
+    guid: ea66ed42783e3198bb9196fd1ae680da
+  - enabled: 1
+    path: Assets/__Scenes/Environments/OriginsEnvironment.unity
+    guid: 08e5c62743b3d4a268c514d11dd24dbf
+  - enabled: 1
+    path: Assets/__Scenes/Environments/Panic2Environment.unity
+    guid: 67ced5b6a3a40dae58fdf6bf021d2a5b
+  - enabled: 1
+    path: Assets/__Scenes/Environments/PanicEnvironment.unity
+    guid: 032a8cdcd16fab13db8f1df43fe82118
+  - enabled: 1
+    path: Assets/__Scenes/Environments/PyroEnvironment.unity
+    guid: 9e43b912fbdef6ebba2d076913a24e81
+  - enabled: 1
+    path: Assets/__Scenes/Environments/QueenEnvironment.unity
+    guid: cd28a9780f0a32fef98d0970240421dd
+  - enabled: 1
+    path: Assets/__Scenes/Environments/RocketEnvironment.unity
+    guid: 200f1a6b314f1466494d1e4c8afe21f0
+  - enabled: 1
+    path: Assets/__Scenes/Environments/RockMixtapeEnvironment.unity
+    guid: 60af228581e92c98d8a71c0b5848d320
+  - enabled: 1
+    path: Assets/__Scenes/Environments/SkrillexEnvironment.unity
+    guid: d311844198bfc2cab931ee289e081785
+  - enabled: 1
+    path: Assets/__Scenes/Environments/TheRollingStonesEnvironment.unity
+    guid: 6e4fe21b0e43dc70394c2e71229d8a33
+  - enabled: 1
+    path: Assets/__Scenes/Environments/TheSecondEnvironment.unity
+    guid: 69e5bfbdceee06ddabfe06476234093e
+  - enabled: 1
+    path: Assets/__Scenes/Environments/TheWeekndEnvironment.unity
+    guid: c0a3f37aace38b8439f54ca548bb58e4
+  - enabled: 1
+    path: Assets/__Scenes/Environments/TimbalandEnvironment.unity
+    guid: f905e40577f07277cae19921d53207e4
+  - enabled: 1
+    path: Assets/__Scenes/Environments/TriangleEnvironment.unity
+    guid: ab2a439c5e89b1e00940add2ed1e0a74
+  - enabled: 1
+    path: Assets/__Scenes/Environments/WeaveEnvironment.unity
+    guid: fdc6aa64b88165252bf3e894920951c6
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: bdf45c6da21061c40bc73d490cd7b3ae,
       type: 2}

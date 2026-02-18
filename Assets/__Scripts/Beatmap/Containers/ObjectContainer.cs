@@ -9,7 +9,7 @@ namespace Beatmap.Containers
 {
     public abstract class ObjectContainer : MonoBehaviour
     {
-        internal static readonly int color = Shader.PropertyToID("_Color");
+        internal static readonly int colorId = Shader.PropertyToID("_Color");
         internal static readonly int rotation = Shader.PropertyToID("_Rotation");
         internal static readonly int outline = Shader.PropertyToID("_Outline");
         internal static readonly int outlineColor = Shader.PropertyToID("_OutlineColor");

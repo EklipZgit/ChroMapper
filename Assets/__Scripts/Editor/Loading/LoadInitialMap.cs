@@ -1,39 +1,22 @@
 using System;
 using System.Collections;
-using Beatmap.Containers;
 using UnityEngine;
-using UnityEngine.Serialization;
+using UnityEngine.SceneManagement;
 
 // why the hell so many thing depend on this, what's wrong with ya'll
 public class LoadInitialMap : MonoBehaviour
 {
-    public static event Action<PlatformDescriptor> OnPlatformLoaded;
-    public static event Action<PlatformColorScheme> OnPlatformColorsRefreshed;
     public static event Action OnLevelLoaded;
-    public static PlatformDescriptor Platform;
-    public static readonly Vector3 PlatformOffset = new Vector3(0, -0.5f, -1.5f);
 
-    [SerializeField] private AudioTimeSyncController atsc;
     [SerializeField] private RotationCallbackController rotationController;
+    [SerializeField] private BeatmapRuntimeContext context;
 
-    [FormerlySerializedAs("notesContainer")] [Space] [SerializeField]
-    private NoteGridContainer noteGridContainer;
-
-    [FormerlySerializedAs("obstaclesContainer")] [SerializeField]
-    private ObstacleGridContainer obstacleGridContainer;
-
-    [FormerlySerializedAs("arcsContainer")] [SerializeField]
-    private ArcGridContainer arcGridContainer;
-
-    [FormerlySerializedAs("chainsContainer")] [SerializeField]
-    private ChainGridContainer chainGridContainer;
-
+    [Space] [SerializeField] private NoteGridContainer noteGridContainer;
+    [SerializeField] private ObstacleGridContainer obstacleGridContainer;
+    [SerializeField] private ArcGridContainer arcGridContainer;
+    [SerializeField] private ChainGridContainer chainGridContainer;
     [SerializeField] private EventGridContainer eventGridContainer;
-
     [SerializeField] private MapLoader loader;
-
-    [FormerlySerializedAs("PlatformPrefabs")] [Space] [SerializeField]
-    private GameObject[] platformPrefabs;
 
     private void Awake() => SceneTransitionManager.Instance.AddLoadRoutine(LoadMap());
 
@@ -45,126 +28,150 @@ public class LoadInitialMap : MonoBehaviour
     {
         if (BeatSaberSongContainer.Instance == null) yield break;
         PersistentUI.Instance.LevelLoadSliderLabel.text = "";
-        yield return new WaitUntil(() => atsc.Initialized); //Wait until Start has been called
-
-        var info = BeatSaberSongContainer.Instance.Info; //Grab songe data
-        var infoDifficulty = BeatSaberSongContainer.Instance.MapDifficultyInfo;
+        yield return new WaitUntil(() => context.Atsc.Initialized); // Wait until Start has been called
 
         //Set up some local variables
-        var environmentID = 0;
+        var envName = EnvironmentInfoHelper.GetCurrentEnvironment();
         var customPlat = false;
-        var directional = false;
 
         //Grab platform by name (Official or Custom)
-        environmentID =
-            SongInfoEditUI.GetEnvironmentIDFromString(info.EnvironmentNames[infoDifficulty.EnvironmentNameIndex]);
-        if (!string.IsNullOrEmpty(info.CustomEnvironmentMetadata.Name))
-        {
-            if (CustomPlatformsLoader
-                    .Instance.GetAllEnvironmentIds()
-                    .IndexOf(info.CustomEnvironmentMetadata.Name)
-                >= 0)
-            {
-                customPlat = true;
-            }
-        }
+        // if (!string.IsNullOrEmpty(info.CustomEnvironmentMetadata.Name))
+        // {
+        //     if (CustomPlatformsLoader
+        //             .Instance.GetAllEnvironmentIds()
+        //             .IndexOf(info.CustomEnvironmentMetadata.Name)
+        //         >= 0)
+        //     {
+        //         customPlat = true;
+        //     }
+        // }
 
         //Instantiate platform, grab descriptor
-        var platform = platformPrefabs[environmentID] == null
-            ? platformPrefabs[0]
-            : platformPrefabs[environmentID];
+        var platform = context.EnvironmentList.GetEnvironmentOrDefault(envName);
 
-        if (customPlat)
-        {
-            platform = CustomPlatformsLoader.Instance.LoadPlatform(info.CustomEnvironmentMetadata.Name, platform);
-        }
+        // if (customPlat)
+        //     platform = CustomPlatformsLoader.Instance.LoadPlatform(info.CustomEnvironmentMetadata.Name, platform);
 
-        var instantiate = customPlat ? platform : Instantiate(platform, PlatformOffset, Quaternion.identity);
-        var descriptor = instantiate.GetComponent<PlatformDescriptor>();
-        EventContainer.ModifyTypeMode = descriptor.SortMode; //Change sort mode
+        var sceneLoading = SceneManager.LoadSceneAsync(platform.ID, LoadSceneMode.Additive);
+        while (!sceneLoading.isDone) yield return null;
 
-        PopulateColorsFromMapInfo(descriptor);
-        UpdateObjectContainerColors(descriptor.ColorScheme);
+        var descriptor = FindAnyObjectByType<EnvironmentDescriptor>();
 
-        OnPlatformLoaded.Invoke(descriptor); //Trigger event for classes that use the platform
-        Platform = descriptor;
+        context.SetEnvironment(descriptor);
+
+        PopulateColorsFromMapInfo();
+        UpdateObjectContainerColors();
 
         loader.UpdateMapData(BeatSaberSongContainer.Instance.Map);
         loader.HardRefresh();
         OnLevelLoaded?.Invoke();
     }
 
-    public static void NotifyPlatformLoaded() => OnPlatformLoaded?.Invoke(Platform);
-
-    public static GameObject[] PlatformPrefabs => FindAnyObjectByType<LoadInitialMap>().platformPrefabs;
-
-    public static void PopulateColorsFromMapInfo(PlatformDescriptor platformDescriptor)
+    public void PopulateColorsFromMapInfo()
     {
         var infoDifficulty = BeatSaberSongContainer.Instance.MapDifficultyInfo;
-
-        platformDescriptor.ColorScheme = platformDescriptor.DefaultColorScheme.Clone();
+        var infoColorScheme =
+            0 <= infoDifficulty.ColorSchemeIndex
+            && infoDifficulty.ColorSchemeIndex < BeatSaberSongContainer.Instance.Info.ColorSchemes.Count
+                ? BeatSaberSongContainer.Instance.Info.ColorSchemes[infoDifficulty.ColorSchemeIndex]
+                : null;
 
         if (infoDifficulty.CustomColorLeft != null)
-            platformDescriptor.ColorScheme.RedNoteColor = infoDifficulty.CustomColorLeft.Value;
+            context.ColorScheme.LeftNoteColor = infoDifficulty.CustomColorLeft.Value;
+        else if (infoColorScheme is { OverrideNotes: true })
+            context.ColorScheme.LeftNoteColor = infoColorScheme.SaberAColor;
         if (infoDifficulty.CustomColorRight != null)
-            platformDescriptor.ColorScheme.BlueNoteColor = infoDifficulty.CustomColorRight.Value;
+            context.ColorScheme.RightNoteColor = infoDifficulty.CustomColorRight.Value;
+        else if (infoColorScheme is { OverrideNotes: true })
+            context.ColorScheme.RightNoteColor = infoColorScheme.SaberBColor;
 
         if (infoDifficulty.CustomColorObstacle != null)
-            platformDescriptor.ColorScheme.ObstacleColor = infoDifficulty.CustomColorObstacle.Value;
+            context.ColorScheme.ObstacleColor = infoDifficulty.CustomColorObstacle.Value;
+        else if (infoColorScheme is { OverrideNotes: true })
+            context.ColorScheme.ObstacleColor = infoColorScheme.ObstaclesColor;
 
         if (infoDifficulty.CustomEnvColorLeft != null)
-            platformDescriptor.ColorScheme.RedColor = infoDifficulty.CustomEnvColorLeft.Value;
+            context.ColorScheme.EnvironmentLeftColor = infoDifficulty.CustomEnvColorLeft.Value;
+        else if (infoDifficulty.CustomColorLeft != null)
+            context.ColorScheme.EnvironmentLeftColor = infoDifficulty.CustomColorLeft.Value;
+        else if (infoColorScheme is { OverrideLights: true })
+            context.ColorScheme.EnvironmentLeftColor = infoColorScheme.EnvironmentColor0;
         if (infoDifficulty.CustomEnvColorRight != null)
-            platformDescriptor.ColorScheme.BlueColor = infoDifficulty.CustomEnvColorRight.Value;
+            context.ColorScheme.EnvironmentRightColor = infoDifficulty.CustomEnvColorRight.Value;
+        else if (infoDifficulty.CustomColorRight != null)
+            context.ColorScheme.EnvironmentRightColor = infoDifficulty.CustomColorRight.Value;
+        else if (infoColorScheme is { OverrideLights: true })
+            context.ColorScheme.EnvironmentRightColor = infoColorScheme.EnvironmentColor1;
+
         if (infoDifficulty.CustomEnvColorWhite != null)
-            platformDescriptor.ColorScheme.WhiteColor = infoDifficulty.CustomEnvColorWhite.Value;
+        {
+            context.ColorScheme.EnvironmentWhiteColor =
+                infoDifficulty.CustomEnvColorWhite.Value;
+        }
+        else if (infoColorScheme is { OverrideLights: true, EnvironmentColorW: not null })
+            context.ColorScheme.EnvironmentWhiteColor = infoColorScheme.EnvironmentColorW.Value;
 
         if (infoDifficulty.CustomEnvColorBoostLeft != null)
-            platformDescriptor.ColorScheme.RedBoostColor = infoDifficulty.CustomEnvColorBoostLeft.Value;
+            context.ColorScheme.EnvironmentLeftBoostColor = infoDifficulty.CustomEnvColorBoostLeft.Value;
+        else if (infoDifficulty.CustomEnvColorLeft != null)
+            context.ColorScheme.EnvironmentLeftBoostColor = infoDifficulty.CustomEnvColorLeft.Value;
+        else if (infoDifficulty.CustomColorLeft != null)
+            context.ColorScheme.EnvironmentLeftBoostColor = infoDifficulty.CustomColorLeft.Value;
+        else if (infoColorScheme is { OverrideLights: true })
+            context.ColorScheme.EnvironmentLeftBoostColor = infoColorScheme.EnvironmentColor0Boost;
         if (infoDifficulty.CustomEnvColorBoostRight != null)
-            platformDescriptor.ColorScheme.BlueBoostColor = infoDifficulty.CustomEnvColorBoostRight.Value;
+            context.ColorScheme.EnvironmentRightBoostColor = infoDifficulty.CustomEnvColorBoostRight.Value;
+        else if (infoDifficulty.CustomEnvColorRight != null)
+            context.ColorScheme.EnvironmentRightBoostColor = infoDifficulty.CustomEnvColorRight.Value;
+        else if (infoDifficulty.CustomColorRight != null)
+            context.ColorScheme.EnvironmentRightBoostColor = infoDifficulty.CustomColorRight.Value;
+        else if (infoColorScheme is { OverrideLights: true })
+            context.ColorScheme.EnvironmentRightBoostColor = infoColorScheme.EnvironmentColor1Boost;
+
         if (infoDifficulty.CustomEnvColorBoostWhite != null)
-            platformDescriptor.ColorScheme.WhiteBoostColor = infoDifficulty.CustomEnvColorBoostWhite.Value;
+        {
+            context.ColorScheme.EnvironmentWhiteBoostColor =
+                infoDifficulty.CustomEnvColorBoostWhite.Value;
+        }
+        else if (infoColorScheme is { OverrideLights: true, EnvironmentColorWBoost: not null })
+            context.ColorScheme.EnvironmentWhiteBoostColor = infoColorScheme.EnvironmentColorWBoost.Value;
     }
 
-    private void UpdateObjectContainerColors(PlatformColorScheme platformColorScheme)
+    private void UpdateObjectContainerColors()
     {
-        var leftNoteColor = platformColorScheme.RedNoteColor;
-        var rightNoteColor = platformColorScheme.BlueNoteColor;
+        var leftNoteColor = context.ColorScheme.LeftNoteColor;
+        var rightNoteColor = context.ColorScheme.RightNoteColor;
         noteGridContainer.UpdateColor(leftNoteColor, rightNoteColor);
         arcGridContainer.UpdateColor(leftNoteColor, rightNoteColor);
         chainGridContainer.UpdateColor(leftNoteColor, rightNoteColor);
 
-        obstacleGridContainer.UpdateColor(platformColorScheme.ObstacleColor);
+        obstacleGridContainer.UpdateColor(context.ColorScheme.ObstacleColor);
 
         eventGridContainer.UpdateColor(
-            platformColorScheme.RedColor,
-            platformColorScheme.RedBoostColor,
-            platformColorScheme.BlueColor,
-            platformColorScheme.BlueBoostColor,
-            platformColorScheme.WhiteColor,
-            platformColorScheme.WhiteBoostColor
+            context.ColorScheme.EnvironmentLeftColor,
+            context.ColorScheme.EnvironmentLeftBoostColor,
+            context.ColorScheme.EnvironmentRightColor,
+            context.ColorScheme.EnvironmentRightBoostColor,
+            context.ColorScheme.EnvironmentWhiteColor,
+            context.ColorScheme.EnvironmentWhiteBoostColor
         );
     }
 
     private void UpdatePlatformColors()
     {
-        var previousColors = Platform.ColorScheme.Clone();
+        var previousColors = context.ColorScheme.Clone();
 
-        PopulateColorsFromMapInfo(Platform);
-        UpdateObjectContainerColors(Platform.ColorScheme);
+        PopulateColorsFromMapInfo();
+        UpdateObjectContainerColors();
 
         // We only want to refresh pools if the colours have changed as refreshing is pretty expensive
-        var currentColors = Platform.ColorScheme;
+        var currentColors = context.ColorScheme;
 
         var obstacleColorChanged = previousColors.ObstacleColor != currentColors.ObstacleColor;
-        if (obstacleColorChanged)
-        {
-            obstacleGridContainer.RefreshPool(true);
-        }
+        if (obstacleColorChanged) obstacleGridContainer.RefreshPool(true);
 
-        var noteColorChanged = previousColors.BlueNoteColor != currentColors.BlueNoteColor
-            || previousColors.RedNoteColor != currentColors.RedNoteColor;
+        var noteColorChanged = previousColors.RightNoteColor != currentColors.RightNoteColor
+            || previousColors.LeftNoteColor != currentColors.LeftNoteColor;
         if (noteColorChanged)
         {
             noteGridContainer.RefreshPool(true);
@@ -172,17 +179,14 @@ public class LoadInitialMap : MonoBehaviour
             chainGridContainer.RefreshPool(true);
         }
 
-        var lightColorChanged = previousColors.BlueColor != currentColors.BlueColor
-            || previousColors.RedColor != currentColors.RedColor
-            || previousColors.WhiteColor != currentColors.WhiteColor
-            || previousColors.BlueBoostColor != currentColors.BlueBoostColor
-            || previousColors.RedBoostColor != currentColors.RedBoostColor
-            || previousColors.WhiteBoostColor != currentColors.WhiteBoostColor;
-        if (lightColorChanged)
-        {
-            eventGridContainer.RefreshPool(true);
-        }
+        var lightColorChanged = previousColors.EnvironmentRightColor != currentColors.EnvironmentRightColor
+            || previousColors.EnvironmentLeftColor != currentColors.EnvironmentLeftColor
+            || previousColors.EnvironmentWhiteColor != currentColors.EnvironmentWhiteColor
+            || previousColors.EnvironmentRightBoostColor != currentColors.EnvironmentRightBoostColor
+            || previousColors.EnvironmentLeftBoostColor != currentColors.EnvironmentLeftBoostColor
+            || previousColors.EnvironmentWhiteBoostColor != currentColors.EnvironmentWhiteBoostColor;
+        if (lightColorChanged) eventGridContainer.RefreshPool(true);
 
-        OnPlatformColorsRefreshed?.Invoke(Platform.ColorScheme);
+        context.NotifyColorScheme();
     }
 }

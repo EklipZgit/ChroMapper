@@ -4,7 +4,7 @@
     {
         _OutlineColor("Outline Color", Color) = (0,0,0,1)
         _Outline("Outline width", Range(.002, 0.05)) = .005
-        _HandleScale("Handle scale", Float) = 0
+        _HandleScale("Handle scale", float) = 0
     }
     SubShader
     {
@@ -22,7 +22,7 @@
 
         Pass
         {
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_instancing
@@ -30,9 +30,9 @@
             #include "UnityCG.cginc"
 
             UNITY_INSTANCING_BUFFER_START(Props)
-                UNITY_DEFINE_INSTANCED_PROP(fixed4, _OutlineColor)
-                UNITY_DEFINE_INSTANCED_PROP(fixed, _Outline)
-                UNITY_DEFINE_INSTANCED_PROP(fixed, _HandleScale)
+                UNITY_DEFINE_INSTANCED_PROP(half4, _OutlineColor)
+                UNITY_DEFINE_INSTANCED_PROP(half, _Outline)
+                UNITY_DEFINE_INSTANCED_PROP(half, _HandleScale)
             UNITY_INSTANCING_BUFFER_END(Props)
 
             struct appdata
@@ -70,7 +70,7 @@
                 return o;
             }
 
-            fixed4 frag(v2f i) : SV_Target
+            half4 frag(v2f i) : SV_Target
             {
                 UNITY_SETUP_INSTANCE_ID(i);
                 // necessary only if any instanced properties are going to be accessed in the fragment Shader.
@@ -79,7 +79,7 @@
 
                 return UNITY_ACCESS_INSTANCED_PROP(Props, _OutlineColor);
             }
-            ENDCG
+            ENDHLSL
         }
     }
 }

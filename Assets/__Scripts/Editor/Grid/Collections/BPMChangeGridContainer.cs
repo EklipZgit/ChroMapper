@@ -54,14 +54,14 @@ public class BPMChangeGridContainer : BeatmapObjectContainerCollection<BaseBpmEv
     {
         EditorScaleController.OnEditorScaleChanged += HandleEditorScaleChanged;
         LoadInitialMap.OnLevelLoaded += RefreshModifiedBeat;
-        AudioTimeSyncController.OnTimeChanged += HandleTimeChanged;
+        Context.Atsc.OnTimeChanged += HandleTimeChanged;
     }
 
     internal override void UnsubscribeToCallbacks()
     {
         EditorScaleController.OnEditorScaleChanged -= HandleEditorScaleChanged;
         LoadInitialMap.OnLevelLoaded -= RefreshModifiedBeat;
-        AudioTimeSyncController.OnTimeChanged -= HandleTimeChanged;
+        Context.Atsc.OnTimeChanged -= HandleTimeChanged;
     }
 
     private void HandleEditorScaleChanged(float obj)
@@ -72,7 +72,7 @@ public class BPMChangeGridContainer : BeatmapObjectContainerCollection<BaseBpmEv
 
     private void HandleTimeChanged()
     {
-        if (AudioTimeSyncController.IsPlaying) return;
+        if (Context.Atsc.IsPlaying) return;
         RefreshGridProperties();
     }
 
@@ -131,7 +131,7 @@ public class BPMChangeGridContainer : BeatmapObjectContainerCollection<BaseBpmEv
         bpmShaderBpMs[0] = songContainer.Info.BeatsPerMinute;
 
         // Grab the last object before grid ends
-        var lastBpmChange = songContainer.Map.FindLastBpmEventBySongBpmTime(AudioTimeSyncController.CurrentSongBpmTime - firstVisibleBeatTime);
+        var lastBpmChange = songContainer.Map.FindLastBpmEventBySongBpmTime(Context.Atsc.CurrentSongBpmTime - firstVisibleBeatTime);
 
         // Plug this last bpm change in
         // Believe it or not, I cannot actually skip this BPM change if it exists

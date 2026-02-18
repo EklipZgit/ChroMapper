@@ -24,8 +24,12 @@ Material:
   m_Shader: {fileID: 4800000, guid: 1c1dcf599a39e9a48bd2f0d56ca8ed0e, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
+  m_ValidKeywords:
+  - ENABLE_FOG
+  m_InvalidKeywords:
+  - DIFFUSE
+  - SPECULAR
+  - _ZWRITE_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
@@ -108,26 +112,34 @@ Material:
     - _ClearCoatSmoothness: 0
     - _ColorMult: 1
     - _Cull: 2
+    - _CullMode: 2
     - _Cutoff: 0.5
     - _Cutout: 0
-    - _CutoutEdgeGlow: 0.5
+    - _CutoutEdgeGlow: 1
     - _CutoutEdgeWidth: 0.05
+    - _CutoutSize: 1
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
+    - _EnableDiffuse: 1
+    - _EnableFog: 1
+    - _EnableHeightFog: 0
+    - _EnableRimDim: 0
+    - _EnableSpecular: 1
     - _EnvironmentReflections: 1
     - _FadeSize: 0
     - _FogHeightOffset: 0
-    - _FogHeightScale: 1
+    - _FogHeightScale: 2.5
     - _FogScale: 1
-    - _FogStartOffset: 0
+    - _FogStartOffset: 100
     - _GlossMapScale: 0
-    - _Glossiness: 0
+    - _Glossiness: 0.7
     - _GlossyReflections: 0
     - _Glow: 0
+    - _Intensity: 0
     - _Lit: 0
     - _MainAlpha: 1
-    - _Metallic: 0
+    - _Metallic: 0.5
     - _ObjectTime: 0
     - _OcclusionStrength: 1
     - _OpaqueAlpha: 1
@@ -135,14 +147,24 @@ Material:
     - _Parallax: 0.005
     - _QueueOffset: 0
     - _ReceiveShadows: 1
+    - _RimCameraDistanceOffset: 2
+    - _RimCameraDistanceScale: 0.3
+    - _RimDarkening: 0.2
+    - _RimDistanceOffset: 5
+    - _RimDistanceScale: 0.03
+    - _RimIntensity: 0
+    - _RimOffset: -0.1
+    - _RimPower: 0.75
+    - _RimScale: 2
     - _Rotation: 0
-    - _Smoothness: 0.5
+    - _Smoothness: 0.95
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Surface: 0
     - _TranslucentAlpha: 0.45
     - _WorkflowMode: 1
+    - _ZTest: 4
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}

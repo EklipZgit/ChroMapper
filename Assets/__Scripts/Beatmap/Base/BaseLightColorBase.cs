@@ -11,12 +11,21 @@ namespace Beatmap.Base
         {
         }
 
-        protected BaseLightColorBase(float time, int color, float brightness, int transitionType, int frequency,
-            float strobeBrightness, int strobeFade, JSONNode customData = null) : base(time, customData)
+        protected BaseLightColorBase(
+            float time,
+            int color,
+            float brightness,
+            int easing,
+            int usePrevious,
+            int frequency,
+            float strobeBrightness,
+            int strobeFade,
+            JSONNode customData = null) : base(time, customData)
         {
             Color = color;
             Brightness = brightness;
-            TransitionType = transitionType;
+            Easing = easing;
+            UsePrevious = usePrevious;
             Frequency = frequency;
             StrobeBrightness = strobeBrightness;
             StrobeFade = strobeFade;
@@ -25,11 +34,11 @@ namespace Beatmap.Base
         public override ObjectType ObjectType { get; set; } = ObjectType.Event;
         public int Color { get; set; }
         public float Brightness { get; set; }
-        public int TransitionType { get; set; }
+        public int UsePrevious { get; set; }
+        public int Easing { get; set; } // new to V4
         public int Frequency { get; set; }
         public float StrobeBrightness { get; set; }
         public int StrobeFade { get; set; }
-        public int Easing { get; set; } // new to V4
 
         public override string CustomKeyColor { get; } = "unusedColor";
 
@@ -38,15 +47,19 @@ namespace Beatmap.Base
         protected override bool IsConflictingWithObjectAtSameTime(BaseObject other, bool deletion = false)
         {
             if (other is BaseLightColorBase lcb)
-                return Color == lcb.Color || Math.Abs(Brightness - lcb.Brightness) < DecimalTolerance ||
-                       TransitionType == lcb.TransitionType || Frequency == lcb.Frequency;
+                return Color == lcb.Color
+                    || Math.Abs(Brightness - lcb.Brightness) < DecimalTolerance
+                    || Easing == lcb.Easing
+                    || UsePrevious == lcb.UsePrevious
+                    || Frequency == lcb.Frequency;
             return false;
         }
 
-        public override JSONNode ToJson() => Settings.Instance.MapVersion switch
-        {
-            3 => V3LightColorBase.ToJson(this),
-        };
+        public override JSONNode ToJson() =>
+            Settings.Instance.MapVersion switch
+            {
+                3 => V3LightColorBase.ToJson(this),
+            };
 
         public override BaseItem Clone() => throw new NotImplementedException();
     }

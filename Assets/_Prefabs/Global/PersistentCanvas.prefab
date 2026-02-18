@@ -1024,6 +1024,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 007080d39bd8f9045b6341409c69ec01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  environmentList: {fileID: 11400000, guid: 542d7c0317251fc5f9eefa120ff30f3c, type: 2}
   clientIDTextAsset: {fileID: 4900000, guid: 350ea0c21a5c7094e96375a2bf1ace43, type: 3}
 --- !u!114 &8273198935635998777
 MonoBehaviour:

@@ -1,11 +1,11 @@
 // Mostly just copied from Heck
+
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-
 using SimpleJSON;
-
 using Beatmap.Base.Customs;
+using UnityEngine.Animations;
 
 namespace Beatmap.Animations
 {
@@ -31,14 +31,18 @@ namespace Beatmap.Animations
     {
         public BaseCustomEvent Source;
         public PointData[] Points;
+
         public float StartTime { get; private set; } = 0;
+
         // For AnimateTrack
         public float Duration = 0;
+
         // For AssignPathAnimation
         public float Transition = 0;
         public Func<float, float> Easing;
 
         public delegate T Parser(JSONArray data, ref int i);
+
         public delegate T InterpolationHandler(PointData[] points, int prev, int next, float time);
 
         // Used for searching ONLY
@@ -56,18 +60,24 @@ namespace Beatmap.Animations
             Easing = global::Easing.Named(p.Easing ?? "easeLinear");
 
             var _points = new List<PointData>();
-            var data = p.Points switch {
+            var data = p.Points switch
+            {
                 JSONArray arr => arr,
-                JSONString pd => (BeatSaberSongContainer.Instance.Map.PointDefinitions.ContainsKey(pd) ? BeatSaberSongContainer.Instance.Map.PointDefinitions[pd] : throw new Exception($"Missing point definition {pd}")),
+                JSONString pd => (BeatSaberSongContainer.Instance.Map.PointDefinitions.ContainsKey(pd)
+                    ? BeatSaberSongContainer.Instance.Map.PointDefinitions[pd]
+                    : throw new Exception($"Missing point definition {pd}")),
                 _ => new JSONArray(), // TODO: Does this unset properly?
             };
 
-            foreach (var row in data) {
+            foreach (var row in data)
+            {
                 // WTF, Jevk
-                if (row.Value.AsArray == null) {
+                if (row.Value.AsArray == null)
+                {
                     _points.Add(new PointData(parser, data, p.TimeBegin, p.TimeEnd));
                     break;
                 }
+
                 _points.Add(new PointData(parser, row.Value.AsArray, p.TimeBegin, p.TimeEnd));
             }
 
@@ -78,15 +88,18 @@ namespace Beatmap.Animations
         {
             var count = Points.Length;
 
-            if (count == 0) {
+            if (count == 0)
+            {
                 return default;
             }
 
-            if (Points[count - 1].Time <= time) {
+            if (Points[count - 1].Time <= time)
+            {
                 return Points[count - 1].Value;
             }
 
-            if (Points[0].Time >= time) {
+            if (Points[0].Time >= time)
+            {
                 return Points[0].Value;
             }
 
@@ -155,6 +168,7 @@ namespace Beatmap.Animations
                     // WTF Jevk
                     Time = 0;
                 }
+
                 Easing = global::Easing.Linear;
                 Lerp = PointDataInterpolators.LinearLerp<T>();
 
@@ -193,6 +207,8 @@ namespace Beatmap.Animations
 
     public class PointDataParsers
     {
+        public static ColorSchemeSO ColorScheme;
+        
         public static float ParseFloat(JSONArray data, ref int i)
         {
             i += 1;
@@ -211,33 +227,15 @@ namespace Beatmap.Animations
                 {
                     // Intentionally not supporting baseSaber_Color since those don't mirror with left handed
                     // mode while baseNote_Color does. Should almost always use baseNote over baseSaber.
-                    "baseNote0Color" => LoadInitialMap.Platform != null
-                        ? LoadInitialMap.Platform.ColorScheme.RedNoteColor
-                        : DefaultColors.LeftNote,
-                    "baseNote1Color" => LoadInitialMap.Platform != null
-                        ? LoadInitialMap.Platform.ColorScheme.BlueNoteColor
-                        : DefaultColors.RightNote,
-                    "baseEnvironmentColor0" => LoadInitialMap.Platform != null
-                        ? LoadInitialMap.Platform.ColorScheme.RedColor
-                        : DefaultColors.Left,
-                    "baseEnvironmentColor1" => LoadInitialMap.Platform != null
-                        ? LoadInitialMap.Platform.ColorScheme.BlueColor
-                        : DefaultColors.Right,
-                    "baseEnvironmentColorW" => LoadInitialMap.Platform != null
-                        ? LoadInitialMap.Platform.ColorScheme.WhiteColor
-                        : DefaultColors.White,
-                    "baseEnvironmentColor0Boost" => LoadInitialMap.Platform != null
-                        ? LoadInitialMap.Platform.ColorScheme.RedBoostColor
-                        : DefaultColors.Left,
-                    "baseEnvironmentColor1Boost" => LoadInitialMap.Platform != null
-                        ? LoadInitialMap.Platform.ColorScheme.BlueBoostColor
-                        : DefaultColors.Right,
-                    "baseEnvironmentColorWBoost" => LoadInitialMap.Platform != null
-                        ? LoadInitialMap.Platform.ColorScheme.WhiteBoostColor
-                        : DefaultColors.White,
-                    "baseObstaclesColor" => LoadInitialMap.Platform != null
-                        ? LoadInitialMap.Platform.ColorScheme.ObstacleColor
-                        : DefaultColors.White,
+                    "baseNote0Color" => ColorScheme.LeftNoteColor,
+                    "baseNote1Color" => ColorScheme.RightNoteColor,
+                    "baseEnvironmentColor0" => ColorScheme.EnvironmentLeftColor,
+                    "baseEnvironmentColor1" => ColorScheme.EnvironmentRightColor,
+                    "baseEnvironmentColorW" => ColorScheme.EnvironmentWhiteColor,
+                    "baseEnvironmentColor0Boost" => ColorScheme.EnvironmentLeftBoostColor,
+                    "baseEnvironmentColor1Boost" => ColorScheme.EnvironmentRightBoostColor,
+                    "baseEnvironmentColorWBoost" => ColorScheme.EnvironmentWhiteBoostColor,
+                    "baseObstaclesColor" => ColorScheme.ObstacleColor,
                     _ => DefaultColors.White
                 };
             }
@@ -261,7 +259,10 @@ namespace Beatmap.Animations
                     "opAdd" => result + subColor,
                     "opSub" => result - subColor,
                     "opMul" => result * subColor,
-                    "opDiv" => new Color(result.r / subColor.r, result.g / subColor.g, result.b / subColor.b,
+                    "opDiv" => new Color(
+                        result.r / subColor.r,
+                        result.g / subColor.g,
+                        result.b / subColor.b,
                         result.a / subColor.a),
                     _ => result
                 };

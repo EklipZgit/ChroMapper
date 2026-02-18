@@ -1,0 +1,14 @@
+using System;
+using UnityEngine;
+
+/// <summary>
+/// Holds Chroma / Environment Enhancement ID for objects in an environment
+/// </summary>
+public class ChromaIDMarker : MonoBehaviour
+{
+    public string ChromaID;
+#if UNITY_EDITOR
+    [NonSerialized] public bool MarkUse;
+    [NonSerialized] public bool MarkActivator;
+#endif
+}

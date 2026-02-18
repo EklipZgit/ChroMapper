@@ -17,7 +17,7 @@ Shader "ChroMapper/Editor/Hue Shift"
 
         Pass
         {
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
             #pragma target 3.0
@@ -53,11 +53,11 @@ Shader "ChroMapper/Editor/Hue Shift"
                 return o;
             }
 
-            fixed4 frag(fragIN i) : COLOR
+            half4 frag(fragIN i) : COLOR
             {
-                fixed3 c = tex2D(_MainTex, i.uv);
+                half3 c = tex2D(_MainTex, i.uv);
 
-                fixed PI = 3.14159265359;
+                half PI = 3.14159265359;
                 float angle = _Hue * 2 * PI;
 
                 float3 k = float3(0.57735, 0.57735, 0.57735);
@@ -66,7 +66,7 @@ Shader "ChroMapper/Editor/Hue Shift"
                 c = c * cosAngle + cross(k, c) * sin(angle) + k * dot(k, c) * (1 - cosAngle);
                 return float4(c, 0);
             }
-            ENDCG
+            ENDHLSL
 
         }
     }

@@ -96,8 +96,7 @@ public class FirstBootMenu : MonoBehaviour
     {
         switch (graphicsDropdown.value)
         {
-            // Performance
-            case 2:
+            case (int)GraphicsPreset.Performance:
                 Settings.Instance.ChromaticAberration = false;
                 Settings.Instance.SimpleBlocks = true;
                 Settings.Instance.SolidChainLink = true;
@@ -106,47 +105,45 @@ public class FirstBootMenu : MonoBehaviour
                 Settings.Instance.DisplayFloatValueText = false;
                 Settings.Instance.SpectrogramEditorQuality = 1;
                 Settings.Instance.SpectrogramSlices = 0;
+                Settings.Instance.MirrorQuality = (int)MirrorRendererSO.MirrorQuality.None;
                 break;
-            // Balanced
-            case 1:
+            case (int)GraphicsPreset.Balanced:
                 Settings.Instance.ChromaticAberration = false;
                 Settings.Instance.SimpleBlocks = true;
                 Settings.Instance.Reflections = false;
                 Settings.Instance.SpectrogramSlices = 0;
                 Settings.Instance.CameraAA = 2;
+                Settings.Instance.MirrorQuality = (int)MirrorRendererSO.MirrorQuality.Low;
                 break;
-            // Quality
-            case 0:
+            case (int)GraphicsPreset.Quality:
                 Settings.Instance.Offset_Spawning = 8;
                 Settings.Instance.Offset_Despawning = 2;
                 Settings.Instance.ChunkDistance = 10;
                 Settings.Instance.SpectrogramSlices = 5;
                 Settings.Instance.CameraAA = 4;
+                Settings.Instance.MirrorQuality = (int)MirrorRendererSO.MirrorQuality.High;
                 break;
         }
 
         switch (lightingDropdown.value)
         {
-            // default ChroMapper lighting
-            case 0:
-                Settings.Instance.NoteColorMultiplier = 1.0f;
+            case (int)EditorPreset.ChroMapper:
+                Settings.Instance.NoteColorMultiplier = 1f;
                 Settings.Instance.ArrowColorMultiplier = 1.72f;
                 Settings.Instance.ArrowColorWhiteBlend = 0.75f;
                 Settings.Instance.ObstacleOpacity = 0.25f;
                 Settings.Instance.AlternateLighting = false;
                 break;
-            // MMA2-based lighting
-            case 1:
+            case (int)EditorPreset.MMA2:
                 Settings.Instance.NoteColorMultiplier = 0.3f;
                 Settings.Instance.ArrowColorMultiplier = 3f;
                 Settings.Instance.ArrowColorWhiteBlend = 0.25f;
                 Settings.Instance.ObstacleOpacity = 0.1f;
                 Settings.Instance.AlternateLighting = true;
                 break;
-            // Official editor based lighting
             // (i just eyeballed this preset, please dont get mad)
-            case 2:
-                Settings.Instance.NoteColorMultiplier = 1.0f;
+            case (int)EditorPreset.BeatSaber:
+                Settings.Instance.NoteColorMultiplier = 1f;
                 Settings.Instance.ArrowColorMultiplier = 3f;
                 Settings.Instance.ArrowColorWhiteBlend = 1f;
                 Settings.Instance.ObstacleOpacity = 0.25f;
@@ -159,14 +156,19 @@ public class FirstBootMenu : MonoBehaviour
 
     public void ErrorFeedbackWithContinue(string s) => DoErrorFeedback(s, true);
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0004:Remove Unnecessary Cast",
+    [System.Diagnostics.CodeAnalysis.SuppressMessage(
+        "Style",
+        "IDE0004:Remove Unnecessary Cast",
         Justification = "Does not compile with Unity Mono (cringe)")]
     private void DoErrorFeedback(string s, bool continueAfter)
     {
         var arg = LocalizationSettings.StringDatabase.GetLocalizedString("FirstBoot", s);
-        PersistentUI.Instance.ShowDialogBox("FirstBoot", "validate.dialog",
+        PersistentUI.Instance.ShowDialogBox(
+            "FirstBoot",
+            "validate.dialog",
             continueAfter ? (Action<int>)HandleGenerateMissingFoldersWithContinue : HandleGenerateMissingFolders,
-            PersistentUI.DialogBoxPresetType.YesNo, new object[] { arg });
+            PersistentUI.DialogBoxPresetType.YesNo,
+            new object[] { arg });
     }
 
     internal void HandleGenerateMissingFolders(int res) => HandleGenerateMissingFolders(res, false);
@@ -248,8 +250,7 @@ public class FirstBootMenu : MonoBehaviour
 
                 foreach (Match match in matches)
                 {
-                    if (Directory.Exists(match.Groups[1].Value))
-                        libraryFolders.Add(match.Groups[1].Value);
+                    if (Directory.Exists(match.Groups[1].Value)) libraryFolders.Add(match.Groups[1].Value);
                 }
             }
         }
@@ -283,18 +284,25 @@ public class FirstBootMenu : MonoBehaviour
             var software = "Software";
 
             // older Oculus installations seem to have created the InitialAppLibrary value
-            var installPath = TryRegistryWithPath(oculusRegistryKey + "\\Config", registryValue, software,
-                oculusStoreBeatSaberFolderName, "");
+            var installPath = TryRegistryWithPath(
+                oculusRegistryKey + "\\Config",
+                registryValue,
+                software,
+                oculusStoreBeatSaberFolderName,
+                "");
 
             if (!string.IsNullOrEmpty(installPath)) return installPath;
 
             // the default library for newer installations seem to be below the base directory in "Software\\Software" folder.
             registryValue = "Base";
-            installPath = TryRegistryWithPath(oculusRegistryKey, registryValue, software, software,
+            installPath = TryRegistryWithPath(
+                oculusRegistryKey,
+                registryValue,
+                software,
+                software,
                 oculusStoreBeatSaberFolderName);
 
-            if (Directory.Exists(installPath))
-                return installPath;
+            if (Directory.Exists(installPath)) return installPath;
             return TryOculusStoreLibraryLocations();
         }
         catch (Exception e)
@@ -304,7 +312,11 @@ public class FirstBootMenu : MonoBehaviour
         }
     }
 
-    private string TryRegistryWithPath(string registryKey, string registryValue, string path1, string path2,
+    private string TryRegistryWithPath(
+        string registryKey,
+        string registryValue,
+        string path1,
+        string path2,
         string path3)
     {
         var oculusBaseDirectory = (string)Registry.GetValue(registryKey, registryValue, "");
@@ -314,8 +326,7 @@ public class FirstBootMenu : MonoBehaviour
             installPath = Path.Combine(oculusBaseDirectory, path1, path2);
         else
             installPath = Path.Combine(oculusBaseDirectory, path1, path2, path3);
-        if (Directory.Exists(installPath))
-            return installPath;
+        if (Directory.Exists(installPath)) return installPath;
         return "";
     }
 
@@ -336,18 +347,36 @@ public class FirstBootMenu : MonoBehaviour
     }
 
     public void OpenFolderBrowser() =>
-        StandaloneFileBrowser.OpenFolderPanelAsync("Installation Directory", "", false, paths =>
-        {
-            if (paths.Length <= 0) return;
+        StandaloneFileBrowser.OpenFolderPanelAsync(
+            "Installation Directory",
+            "",
+            false,
+            paths =>
+            {
+                if (paths.Length <= 0) return;
 
-            var installation = paths[0];
-            Settings.Instance.BeatSaberInstallation = directoryField.text = installation;
-            validation.SetValidationState(true, Settings.ValidateDirectory(ErrorFeedback));
-        });
+                var installation = paths[0];
+                Settings.Instance.BeatSaberInstallation = directoryField.text = installation;
+                validation.SetValidationState(true, Settings.ValidateDirectory(ErrorFeedback));
+            });
 
     public void ValidateQuiet()
     {
         SetFromTextbox();
         validation.SetValidationState(true, Settings.ValidateDirectory());
+    }
+
+    private enum GraphicsPreset
+    {
+        Quality,
+        Balanced,
+        Performance
+    }
+
+    private enum EditorPreset
+    {
+        ChroMapper,
+        MMA2,
+        BeatSaber
     }
 }

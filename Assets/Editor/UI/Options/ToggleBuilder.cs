@@ -4,7 +4,7 @@ using UnityEngine;
 
 [CustomEditor(typeof(BetterToggle))]
 [CanEditMultipleObjects]
-public class ToggleBuilder : Editor
+public class ToggleBuilder : UnityEditor.Editor
 {
     private BetterToggle toggle;
     private bool showHiddenSettings;

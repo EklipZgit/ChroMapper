@@ -234,13 +234,13 @@ namespace Beatmap.V4
                 
                 // Get index filters from group events
                 var indexFiltersCommonData = new List<V4CommonData.IndexFilter>();
-                indexFiltersCommonData.AddRange(difficulty.LightColorEventBoxGroups.SelectMany(box => box.Events)
+                indexFiltersCommonData.AddRange(difficulty.LightColorEventBoxGroups.SelectMany(box => box.Boxes)
                     .Select(evt => evt.IndexFilter).Select(V4CommonData.IndexFilter.FromBaseIndexFilter));
-                indexFiltersCommonData.AddRange(difficulty.LightRotationEventBoxGroups.SelectMany(box => box.Events)
+                indexFiltersCommonData.AddRange(difficulty.LightRotationEventBoxGroups.SelectMany(box => box.Boxes)
                     .Select(evt => evt.IndexFilter).Select(V4CommonData.IndexFilter.FromBaseIndexFilter));
-                indexFiltersCommonData.AddRange(difficulty.LightTranslationEventBoxGroups.SelectMany(box => box.Events)
+                indexFiltersCommonData.AddRange(difficulty.LightTranslationEventBoxGroups.SelectMany(box => box.Boxes)
                     .Select(evt => evt.IndexFilter).Select(V4CommonData.IndexFilter.FromBaseIndexFilter));
-                indexFiltersCommonData.AddRange(difficulty.VfxEventBoxGroups.SelectMany(box => box.Events)
+                indexFiltersCommonData.AddRange(difficulty.VfxEventBoxGroups.SelectMany(box => box.Boxes)
                     .Select(evt => evt.IndexFilter).Select(V4CommonData.IndexFilter.FromBaseIndexFilter));
                 indexFiltersCommonData = indexFiltersCommonData.Distinct().ToList();
 
@@ -257,13 +257,13 @@ namespace Beatmap.V4
                 var lightColorEvents = new JSONArray();
 
                 var lightColorEventBoxesCommonData = difficulty.LightColorEventBoxGroups
-                    .SelectMany(group => group.Events)
+                    .SelectMany(group => group.Boxes)
                     .Select(V4CommonData.LightColorEventBox.FromBaseLightColorEventBox)
                     .Distinct()
                     .ToList();
                 
                 var lightColorEventsCommonData = difficulty.LightColorEventBoxGroups
-                    .SelectMany(group => group.Events)
+                    .SelectMany(group => group.Boxes)
                     .SelectMany(box => box.Events)
                     .Select(V4CommonData.LightColorEvent.FromBaseLightColorEvent)
                     .Distinct()
@@ -290,13 +290,13 @@ namespace Beatmap.V4
                 var lightRotationEvents = new JSONArray();
 
                 var lightRotationEventBoxesCommonData = difficulty.LightRotationEventBoxGroups
-                    .SelectMany(group => group.Events)
+                    .SelectMany(group => group.Boxes)
                     .Select(V4CommonData.LightRotationEventBox.FromBaseLightRotationEventBox)
                     .Distinct()
                     .ToList();
                 
                 var lightRotationEventsCommonData = difficulty.LightRotationEventBoxGroups
-                    .SelectMany(group => group.Events)
+                    .SelectMany(group => group.Boxes)
                     .SelectMany(box => box.Events)
                     .Select(V4CommonData.LightRotationEvent.FromBaseLightRotationEvent)
                     .Distinct()
@@ -323,13 +323,13 @@ namespace Beatmap.V4
                 var lightTranslationEvents = new JSONArray();
 
                 var lightTranslationEventBoxesCommonData = difficulty.LightTranslationEventBoxGroups
-                    .SelectMany(group => group.Events)
+                    .SelectMany(group => group.Boxes)
                     .Select(V4CommonData.LightTranslationEventBox.FromBaseLightTranslationEventBox)
                     .Distinct()
                     .ToList();
                 
                 var lightTranslationEventsCommonData = difficulty.LightTranslationEventBoxGroups
-                    .SelectMany(group => group.Events)
+                    .SelectMany(group => group.Boxes)
                     .SelectMany(box => box.Events)
                     .Select(V4CommonData.LightTranslationEvent.FromBaseLightTranslationEvent)
                     .Distinct()
@@ -356,14 +356,14 @@ namespace Beatmap.V4
                 var floatFxEvents = new JSONArray();
 
                 var fxEventBoxesCommonData = difficulty.VfxEventBoxGroups
-                    .SelectMany(group => group.Events)
+                    .SelectMany(group => group.Boxes)
                     .Select(V4CommonData.FxEventBox.FromBaseFxEventBox)
                     .Distinct()
                     .ToList();
                 
                 var floatFxEventsCommonData = difficulty.VfxEventBoxGroups
-                    .SelectMany(group => group.Events)
-                    .SelectMany(box => box.FloatFxEvents)
+                    .SelectMany(group => group.Boxes)
+                    .SelectMany(box => box.Events)
                     .Select(V4CommonData.FloatFxEvent.FromFloatFxEventBase)
                     .Distinct()
                     .ToList();

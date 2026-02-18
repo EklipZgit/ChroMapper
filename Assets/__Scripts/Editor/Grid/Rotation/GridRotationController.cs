@@ -9,7 +9,6 @@ public class GridRotationController : MonoBehaviour
     public event Action OnObjectRotationChanged;
     public RotationCallbackController RotationCallback;
 
-    [SerializeField] private Vector3 rotationPoint = LoadInitialMap.PlatformOffset;
     [SerializeField] private bool rotateTransform = true;
 
     private float targetRotation;
@@ -50,28 +49,21 @@ public class GridRotationController : MonoBehaviour
     {
         var rotating = (bool)obj;
         if (rotating)
-        {
             ChangeRotation(RotationCallback.Rotation);
-        }
         else
-        {
             ChangeRotation(0);
-        }
     }
 
     private void OnRotationChanged(bool natural, float rotation)
     {
         if (!RotationCallback.IsActive || !Settings.Instance.RotateTrack) return;
         targetRotation = rotation;
-        if (!natural)
-        {
-            ChangeRotation(rotation);
-        }
+        if (!natural) ChangeRotation(rotation);
     }
 
     private void ChangeRotation(float rotation)
     {
-        if (rotateTransform) transform.RotateAround(rotationPoint, Vector3.up, rotation - currentRotation);
+        if (rotateTransform) transform.RotateAround(Vector3.zero, Vector3.up, rotation - currentRotation);
         currentRotation = rotation;
         OnObjectRotationChanged?.Invoke();
         Shader.SetGlobalFloat(GridRotationController.rotation, rotation);

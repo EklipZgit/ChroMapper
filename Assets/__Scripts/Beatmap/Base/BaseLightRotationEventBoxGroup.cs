@@ -10,8 +10,8 @@ namespace Beatmap.Base
         {
         }
 
-        protected BaseLightRotationEventBoxGroup(float time, int id, List<T> events,
-            JSONNode customData = null) : base(time, id, events, customData)
+        protected BaseLightRotationEventBoxGroup(float time, int id, List<T> boxes,
+            JSONNode customData = null) : base(time, id, boxes, customData)
         {
         }
 

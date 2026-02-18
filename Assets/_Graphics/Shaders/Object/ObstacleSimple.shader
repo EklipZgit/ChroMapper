@@ -9,34 +9,33 @@
         [Space(10)]
         _Cutout("Cutout", Range(0, 1)) = 0.0
         _CutoutTexOffset("Cutout Tex Offset", Vector) = (0, 0, 0, 0)
+
+        [Header(Settings)] [Space]
+        [Enum(UnityEngine.Rendering.BlendMode)] _BlendModeSrc ("Blend Src", float) = 1
+        [Enum(UnityEngine.Rendering.BlendMode)] _BlendModeDst ("Blend Dst", float) = 1
+        [Enum(UnityEngine.Rendering.BlendMode)] _BlendModeSrcA ("Blend Src A", float) = 0
+        [Enum(UnityEngine.Rendering.BlendMode)] _BlendModeDstA ("Blend Dst A", float) = 0
+        [Enum(UnityEngine.Rendering.BlendOp)] _BlendOp ("Blend Operation", float) = 0
+
+        [Space]
+        [Enum(UnityEngine.Rendering.CullMode)] _CullMode ("Cull Mode", float) = 0
+        [Enum(UnityEngine.Rendering.CompareFunction)] _ZTest ("Z Test", float) = 4
+        [Toggle] _ZWrite ("Z Write", float) = 1
     }
     SubShader
     {
+        Blend [_BlendModeSrc] [_BlendModeDst], [_BlendModeSrcA] [_BlendModeDstA]
+        BlendOp [_BlendOp]
+        Cull [_CullMode]
+        ZTest [_ZTest]
+        ZWrite [_ZWrite]
+
         Tags
         {
             "Queue"="Transparent+50"
             "IgnoreProjector"="True"
             "RenderType"="Transparent"
         }
-        Cull Off
-        Blend SrcColor OneMinusSrcColor
-        LOD 100
-
-        HLSLINCLUDE
-        #include "UnityCG.cginc"
-
-        // These are global properties and should not be instanced
-        uniform float _MainAlpha = 0.5;
-        uniform sampler3D _CutoutTex;
-
-        // Define instanced properties
-        UNITY_INSTANCING_BUFFER_START(Props)
-            UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
-            UNITY_DEFINE_INSTANCED_PROP(float4, _WorldScale)
-            UNITY_DEFINE_INSTANCED_PROP(float, _Cutout)
-            UNITY_DEFINE_INSTANCED_PROP(float4, _CutoutTexOffset)
-        UNITY_INSTANCING_BUFFER_END(Props)
-        ENDHLSL
 
         Pass
         {
@@ -44,6 +43,19 @@
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_instancing
+
+            #include "UnityCG.cginc"
+            #include "../ShaderLibrary/CustomTonemapping.hlsl"
+
+            uniform float _MainAlpha = 0.5;
+            uniform sampler3D _CutoutTex;
+
+            UNITY_INSTANCING_BUFFER_START(Props)
+                UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
+                UNITY_DEFINE_INSTANCED_PROP(float4, _WorldScale)
+                UNITY_DEFINE_INSTANCED_PROP(float, _Cutout)
+                UNITY_DEFINE_INSTANCED_PROP(float4, _CutoutTexOffset)
+            UNITY_INSTANCING_BUFFER_END(Props)
 
             struct appdata
             {
@@ -82,20 +94,16 @@
                 float cutout = UNITY_ACCESS_INSTANCED_PROP(Props, _Cutout);
                 float4 cutoutTexOffset = UNITY_ACCESS_INSTANCED_PROP(Props, _CutoutTexOffset);
                 float noise = tex3D(_CutoutTex, (i.cutoutPos + cutoutTexOffset.xyz) * 0.3);
-                float c = noise - cutout;
-                clip(c);
+                float cl = noise - cutout;
+                clip(cl);
 
-                fixed4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
-                fixed mag = length(color.rgb);
-                if (mag > 1)
-                {
-                    color.rgb = normalize(color.rgb) * min(sqrt(mag), 16) * color.a;
-                    color.rgb = saturate(color.rgb);
-                }
-                color *= 0.5;
+                half4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
+                color.rgb *= 0.25;
                 color.a = 0;
-                
-                return saturate(color);
+
+                ACES_TONE_MAPPING_APPLY(color);
+
+                return color;
             }
             ENDHLSL
         }

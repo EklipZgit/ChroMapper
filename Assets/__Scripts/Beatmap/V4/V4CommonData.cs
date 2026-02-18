@@ -632,14 +632,14 @@ namespace Beatmap.V4
             public int Easing { get; set; }
             public int Color { get; set; }
             public float Brightness { get; set; }
-            public int TransitionType { get; set; }
+            public int UsePrevious { get; set; }
             public int Frequency { get; set; }
             public float StrobeBrightness { get; set; }
             public int StrobeFade { get; set; }
             
             public static LightColorEvent GetFromJson(JSONNode node) => new()
             {
-                TransitionType = node["p"].AsInt,
+                UsePrevious = node["p"].AsInt,
                 Easing = node["e"].AsInt, 
                 Color = node["c"].AsInt, 
                 Brightness = node["b"].AsFloat, 
@@ -650,8 +650,8 @@ namespace Beatmap.V4
 
             public static LightColorEvent FromBaseLightColorEvent(BaseLightColorBase baseLightColorEvent) => new()
             {
-                TransitionType = baseLightColorEvent.TransitionType,
                 Easing = baseLightColorEvent.Easing,
+                UsePrevious = baseLightColorEvent.UsePrevious,
                 Color = baseLightColorEvent.Color,
                 Brightness = baseLightColorEvent.Brightness,
                 Frequency = baseLightColorEvent.Frequency,
@@ -663,8 +663,8 @@ namespace Beatmap.V4
             {
                 var node = new JSONObject();
 
-                node["p"] = TransitionType;
                 node["e"] = Easing;
+                node["p"] = UsePrevious;
                 node["c"] = Color;
                 node["b"] = Brightness;
                 node["f"] = Frequency;
@@ -677,7 +677,8 @@ namespace Beatmap.V4
             public bool Equals(LightColorEvent other) => Easing == other.Easing 
                                                          && Color == other.Color 
                                                          && Brightness.Equals(other.Brightness)
-                                                         && TransitionType == other.TransitionType
+                                                         && Easing == other.Easing
+                                                         && UsePrevious == other.UsePrevious
                                                          && Frequency == other.Frequency 
                                                          && StrobeBrightness.Equals(other.StrobeBrightness)
                                                          && StrobeFade == other.StrobeFade;
@@ -691,7 +692,8 @@ namespace Beatmap.V4
                     var hashCode = Easing;
                     hashCode = (hashCode * 397) ^ Color;
                     hashCode = (hashCode * 397) ^ Brightness.GetHashCode();
-                    hashCode = (hashCode * 397) ^ TransitionType;
+                    hashCode = (hashCode * 397) ^ Easing;
+                    hashCode = (hashCode * 397) ^ UsePrevious;
                     hashCode = (hashCode * 397) ^ Frequency;
                     hashCode = (hashCode * 397) ^ StrobeBrightness.GetHashCode();
                     hashCode = (hashCode * 397) ^ StrobeFade;
@@ -1048,7 +1050,7 @@ namespace Beatmap.V4
 
             public static FloatFxEvent FromFloatFxEventBase(FloatFxEventBase floatFxEvent) => new()
             {
-                TransitionType = floatFxEvent.UsePreviousEventValue,
+                TransitionType = floatFxEvent.UsePrevious,
                 Value = floatFxEvent.Value,
                 Easing = floatFxEvent.Easing
             };

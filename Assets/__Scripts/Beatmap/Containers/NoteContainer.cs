@@ -8,12 +8,11 @@ namespace Beatmap.Containers
 {
     public class NoteContainer : ObjectContainer
     {
-        private static readonly int colorMultiplier = Shader.PropertyToID("_ColorMult");
+        private static readonly int colorMultiplierId = Shader.PropertyToID("_ColorMultiplier");
         private static readonly int objectTime = Shader.PropertyToID("_ObjectTime");
-        private static readonly int lit = Shader.PropertyToID("_Lit");
         private static readonly int translucentAlpha = Shader.PropertyToID("_TranslucentAlpha");
 
-        private static readonly Color unassignedColor = new Color(0.1544118f, 0.1544118f, 0.1544118f);
+        private static readonly Color unassignedColor = new(0.25f, 0.25f, 0.25f);
 
         [SerializeField] private GameObject simpleBlock;
         [SerializeField] private GameObject simpleChainHead;
@@ -44,7 +43,6 @@ namespace Beatmap.Containers
             base.Setup();
 
             SetModelInfer();
-            MaterialPropertyBlock.SetFloat(lit, Settings.Instance.SimpleBlocks ? 0 : 1);
             MaterialPropertyBlock.SetFloat(translucentAlpha, Settings.Instance.PastNoteModelAlpha);
             UpdateMaterials();
 
@@ -223,13 +221,13 @@ namespace Beatmap.Containers
 
         public void SetColor(Color? c)
         {
-            MaterialPropertyBlock.SetColor(color, c ?? unassignedColor);
+            MaterialPropertyBlock.SetColor(colorId, c ?? unassignedColor);
 
             var arrowColor = Color.Lerp(c ?? unassignedColor, Color.white, Settings.Instance.ArrowColorWhiteBlend);
-            ArrowMaterialPropertyBlock.SetColor(color, arrowColor);
+            ArrowMaterialPropertyBlock.SetColor(colorId, arrowColor);
 
-            MaterialPropertyBlock.SetFloat(colorMultiplier, Settings.Instance.NoteColorMultiplier);
-            ArrowMaterialPropertyBlock.SetFloat(colorMultiplier, Settings.Instance.ArrowColorMultiplier);
+            MaterialPropertyBlock.SetFloat(colorMultiplierId, Settings.Instance.NoteColorMultiplier);
+            ArrowMaterialPropertyBlock.SetFloat(colorMultiplierId, Settings.Instance.ArrowColorMultiplier);
 
             UpdateMaterials();
         }

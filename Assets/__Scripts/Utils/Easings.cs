@@ -371,8 +371,9 @@ public static class Easing
 
         public static float BeatSaberInOut(float t)
         {
-            if (t < 0.3f) return 37.037f * t * t * t;
-            return (Mathf.Pow(2f, -10f * (t - 0.2f)) * Mathf.Sin(t * 10f * (MathF.PI * 2f / 3f))) + 1f;
+            return t < 0.3f
+                ? 37.037f * t * t * t
+                : (Mathf.Pow(2f, -10f * (t - 0.2f)) * Mathf.Sin(t * 10f * (MathF.PI * 2f / 3f))) + 1f;
         }
     }
 
@@ -396,8 +397,8 @@ public static class Easing
             if (t < 0.517f) return 5.014f * t * t * t;
 
             return 1f
-                + s2 * Mathf.Pow(1.665f * (t + -0.4f) - 1f, 3f)
-                + s * Mathf.Pow(1.665f * (t + -0.4f) - 1f, 2f);
+                + (2.70158f * Mathf.Pow((1.665f * (t + -0.4f)) - 1f, 3f))
+                + (1.70158f * Mathf.Pow((1.665f * (t + -0.4f)) - 1f, 2f));
         }
     }
 
@@ -407,10 +408,13 @@ public static class Easing
 
         public static float Out(float k)
         {
-            if (k < 1f / 2.75f) return 7.5625f * k * k;
-            if (k < 2f / 2.75f) return (7.5625f * (k -= 1.5f / 2.75f) * k) + 0.75f;
-            if (k < 2.5f / 2.75f) return (7.5625f * (k -= 2.25f / 2.75f) * k) + 0.9375f;
-            return (7.5625f * (k -= 2.625f / 2.75f) * k) + 0.984375f;
+            return k switch
+            {
+                < 1f / 2.75f => 7.5625f * k * k,
+                < 2f / 2.75f => (7.5625f * (k -= 1.5f / 2.75f) * k) + 0.75f,
+                < 2.5f / 2.75f => (7.5625f * (k -= 2.25f / 2.75f) * k) + 0.9375f,
+                _ => (7.5625f * (k -= 2.625f / 2.75f) * k) + 0.984375f
+            };
         }
 
         public static float InOut(float k)
@@ -424,9 +428,9 @@ public static class Easing
             return t switch
             {
                 < 0.72727275f and < 0.36363637f => 20.796f * t * t * t,
-                < 0.72727275f => 7.5625f * (t -= 0.54545456f) * t + 0.75f,
-                < 0.90909094f => 7.5625f * (t -= 0.8181818f) * t + 0.9375f,
-                _ => 7.5625f * (t -= 21f / 22f) * t + 63f / 64f
+                < 0.72727275f => (7.5625f * (t -= 0.54545456f) * t) + 0.75f,
+                < 0.90909094f => (7.5625f * (t -= 0.8181818f) * t) + 0.9375f,
+                _ => (7.5625f * (t -= 21f / 22f) * t) + (63f / 64f)
             };
         }
     }

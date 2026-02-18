@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 375d41bff0e98c74abb5947b0ab58ffb, type: 3}
+  m_Name: LatticeEnvironmentColorScheme
+  m_EditorClassIdentifier: 
+  LeftNoteColor: {r: 0.8392157, g: 0.17254902, b: 0.5456773, a: 1}
+  RightNoteColor: {r: 0, g: 0.6717121, b: 0.98039216, a: 1}
+  ObstacleColor: {r: 0.46855342, g: 0.7095922, b: 1, a: 1}
+  environmentLeftColor: {r: 0.8941177, g: 0.16078432, b: 0.7490196, a: 1}
+  environmentRightColor: {r: 0.19607845, g: 0.58431375, b: 0.7960785, a: 1}
+  environmentWhiteColor: {r: 0.7254902, g: 0.7254902, b: 0.7254902, a: 1}
+  environmentLeftBoostColor: {r: 0.54509807, g: 0.13333334, b: 0.81568635, a: 1}
+  environmentRightBoostColor: {r: 0.4039216, g: 0.9176471, b: 0.9176471, a: 1}
+  environmentWhiteBoostColor: {r: 0.7254902, g: 0.7254902, b: 0.7254902, a: 1}

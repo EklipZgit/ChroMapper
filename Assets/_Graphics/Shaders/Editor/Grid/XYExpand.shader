@@ -2,11 +2,13 @@
 {
     Properties
     {
-        _Color("Color", Color) = (1.0, 1.0, 1.0, 1.0)
-        _GridSpacing("Grid Spacing", Vector) = (1.0, 0.25, 0.125, 0.0625)
+        _Color("Color", Color) = (1, 1, 1, 1)
+        
+        _GridSpacing("Grid Spacing", Vector) = (1, 0.25, 0.125, 0.0625)
         _GridThickness("Grid Thickness", Vector) = (0.1, 0.05, 0.025, 0.0125)
         _GridOffset("Grid Offset", Vector) = (0, 0, 0, 0)
-        _MousePosition("Mouse Position", Vector) = (0.0, 0.0, 0.0, 0.0)
+        
+        _MousePosition("Mouse Position", Vector) = (0, 0, 0, 0)
         _FadeRadius("Fade Radius", Range(1, 10)) = 5
     }
     SubShader
@@ -23,7 +25,7 @@
 
         Pass
         {
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_instancing
@@ -34,7 +36,7 @@
             float _FadeRadius;
 
             UNITY_INSTANCING_BUFFER_START(Props)
-                UNITY_DEFINE_INSTANCED_PROP(fixed4, _Color)
+                UNITY_DEFINE_INSTANCED_PROP(half4, _Color)
                 UNITY_DEFINE_INSTANCED_PROP(float4, _GridSpacing)
                 UNITY_DEFINE_INSTANCED_PROP(float4, _GridThickness)
                 UNITY_DEFINE_INSTANCED_PROP(float4, _GridOffset)
@@ -82,7 +84,7 @@
                 return o;
             }
 
-            float4 frag(v2f i) : SV_Target
+            half4 frag(v2f i) : SV_Target
             {
                 UNITY_SETUP_INSTANCE_ID(i);
 
@@ -90,7 +92,7 @@
                 float4 gridThickness = UNITY_ACCESS_INSTANCED_PROP(Props, _GridThickness);
                 float4 gridOffset = UNITY_ACCESS_INSTANCED_PROP(Props, _GridOffset);
                 float3 mousePosition = UNITY_ACCESS_INSTANCED_PROP(Props, _MousePosition);
-                fixed4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
+                half4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
                 color.a = 0;
 
                 float xPos = i.rotatedPos.x + gridOffset.x;
@@ -115,7 +117,7 @@
                 if (!color.a) discard;
                 return color;
             }
-            ENDCG
+            ENDHLSL
         }
     }
 }

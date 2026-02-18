@@ -91,7 +91,11 @@ namespace Beatmap.Base
             new List<BaseObject>(Events),
             new List<BaseObject>(Bookmarks),
             new List<BaseObject>(CustomEvents),
-            new List<BaseObject>(NJSEvents)
+            new List<BaseObject>(NJSEvents),
+            new List<BaseObject>(LightColorEventBoxGroups),
+            new List<BaseObject>(LightRotationEventBoxGroups),
+            new List<BaseObject>(LightTranslationEventBoxGroups),
+            new List<BaseObject>(VfxEventBoxGroups),
         };
 
         #region BPM Time Conversion Logic

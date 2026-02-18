@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using Beatmap.Appearances;
 using Beatmap.Base;
@@ -12,14 +13,20 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
 {
     [SerializeField] private EventAppearanceSO eventAppearanceSo;
     [SerializeField] private TracksManager tracksManager;
+    [SerializeField] private BeatmapRuntimeContext context;
+    private TracksDefinitionSO trackDefinition;
+
+    private void Start() => context.OnTracksDefinitionChanged += HandleTrackDefinitionChanged;
+    private void OnDestroy() => context.OnTracksDefinitionChanged -= HandleTrackDefinitionChanged;
+
+    private void HandleTrackDefinitionChanged(TracksDefinitionSO obj) => trackDefinition = obj;
 
     public void OnInvertEventValue(InputAction.CallbackContext context)
     {
-        if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true) ||
-            !KeybindsController.IsMouseInWindow || !context.performed)
-        {
+        if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)
+            || !KeybindsController.IsMouseInWindow
+            || !context.performed)
             return;
-        }
 
         RaycastFirstObject(out var e);
         if (e != null && !e.Dragging) InvertEvent(e);
@@ -61,20 +68,26 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
         {
             e.EventData.Value = e.EventData.Value > 0 ? 0 : 1;
         }
-        else if (!e.EventData.IsLightEvent())
+        else if (trackDefinition.GetBasicOrDefault(e.EventData.Type).Kind != BasicEventKind.Lights)
         {
             return;
         }
         else
         {
-            if (e.EventData.Value > 0 && e.EventData.Value <= 4) e.EventData.Value += 4; // blue to red
-            else if (e.EventData.Value > 4 && e.EventData.Value <= 8) e.EventData.Value += 4; // red to white
-            else if (e.EventData.Value > 8 && e.EventData.Value <= 12) e.EventData.Value -= 8; // white to blue
+            switch (e.EventData.Value)
+            {
+                case > 0 and <= 8:
+                    e.EventData.Value += 4;
+                    break;
+                case > 8 and <= 12:
+                    e.EventData.Value -= 8; // white to blue
+                    break;
+            }
 
             RefreshPrevEventContainer(e);
         }
 
-        eventAppearanceSo.SetEventAppearance(e);
+        eventAppearanceSo.SetEventAppearance(e, trackDefinition);
         BeatmapActionContainer.AddAction(new BeatmapObjectModifiedAction(e.ObjectData, e.ObjectData, original));
     }
 
@@ -86,7 +99,7 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
     {
         var original = BeatmapFactory.Clone(e.ObjectData);
 
-        if (e.EventData.IsLightEvent())
+        if (trackDefinition.GetBasicOrDefault(e.EventData.Type).Kind == BasicEventKind.Lights)
         {
             e.EventData.FloatValue += 0.1f * modifier;
             if (e.EventData.FloatValue < 0) e.EventData.FloatValue = 0;
@@ -115,8 +128,13 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
 
         if (e.EventData.CompareTo(original) == 0) return;
 
-        eventAppearanceSo.SetEventAppearance(e);
-        BeatmapActionContainer.AddAction(new BeatmapObjectModifiedAction(e.ObjectData, e.ObjectData, original, mergeType: ActionMergeType.EventMainTweak));
+        eventAppearanceSo.SetEventAppearance(e, trackDefinition);
+        BeatmapActionContainer.AddAction(
+            new BeatmapObjectModifiedAction(
+                e.ObjectData,
+                e.ObjectData,
+                original,
+                mergeType: ActionMergeType.EventMainTweak));
     }
 
     // for event that occasionally gets changed
@@ -124,12 +142,12 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
     {
         var original = BeatmapFactory.Clone(e.ObjectData);
 
-        if (e.EventData.IsLightEvent())
+        if (trackDefinition.GetBasicOrDefault(e.EventData.Type).Kind == BasicEventKind.Lights)
         {
             e.EventData.Value += modifier;
 
             if (e.EventData.Value < 0) e.EventData.Value = 0;
-            if (e.EventData.Value > 12 && e.EventData.IsLightEvent()) e.EventData.Value = 12;
+            if (e.EventData.Value > 12) e.EventData.Value = 12;
             if (e.EventData.CompareTo(original) == 0) return;
 
             RefreshPrevEventContainer(e);
@@ -140,8 +158,13 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
             tracksManager.RefreshTracks();
         }
 
-        eventAppearanceSo.SetEventAppearance(e);
-        BeatmapActionContainer.AddAction(new BeatmapObjectModifiedAction(e.ObjectData, e.ObjectData, original, mergeType: ActionMergeType.EventAltTweak));
+        eventAppearanceSo.SetEventAppearance(e, trackDefinition);
+        BeatmapActionContainer.AddAction(
+            new BeatmapObjectModifiedAction(
+                e.ObjectData,
+                e.ObjectData,
+                original,
+                mergeType: ActionMergeType.EventAltTweak));
     }
 
     private void RefreshPrevEventContainer(EventContainer e)

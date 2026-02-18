@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 375d41bff0e98c74abb5947b0ab58ffb, type: 3}
+  m_Name: InterscopeEnvironmentColorScheme
+  m_EditorClassIdentifier: 
+  LeftNoteColor: {r: 0.7264151, g: 0.6269099, b: 0.31181026, a: 1}
+  RightNoteColor: {r: 0.5895709, g: 0.29788843, b: 0.72300005, a: 1}
+  ObstacleColor: {r: 0.5882353, g: 0.29803923, b: 0.72156864, a: 1}
+  environmentLeftColor: {r: 0.7242536, g: 0.31980395, b: 0.9137255, a: 1}
+  environmentRightColor: {r: 0.7647059, g: 0.7589706, b: 0.71882355, a: 1}
+  environmentWhiteColor: {r: 0.7254902, g: 0.7254902, b: 0.7254902, a: 1}
+  environmentLeftBoostColor: {r: 0.7924528, g: 0.42986828, b: 0.42986828, a: 1}
+  environmentRightBoostColor: {r: 0.70379996, g: 0.7157449, b: 0.765, a: 1}
+  environmentWhiteBoostColor: {r: 0.7254902, g: 0.7254902, b: 0.7254902, a: 1}

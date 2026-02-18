@@ -5,9 +5,7 @@ Shader "ChroMapper/Post Process/Bloom"
     #include "Packages/com.unity.postprocessing/PostProcessing/Shaders/StdLib.hlsl"
     #include "Packages/com.unity.postprocessing/PostProcessing/Shaders/Colors.hlsl"
     #include "Packages/com.unity.postprocessing/PostProcessing/Shaders/Sampling.hlsl"
-    #include "../CGIncludes/CustomTonemapping.cginc"
-    #pragma multi_compile REINHARD_TONE_MAPPING
-    #pragma multi_compile BLOOM_TOWARDS_WHITE
+    #include "../ShaderLibrary/CustomTonemapping.hlsl"
 
     TEXTURE2D_SAMPLER2D(_MainTex, sampler_MainTex);
     TEXTURE2D_SAMPLER2D(_BloomTex, sampler_BloomTex);
@@ -38,7 +36,7 @@ Shader "ChroMapper/Post Process/Bloom"
             UnityStereoAdjustedTexelSize(_MainTex_TexelSize).xy);
         return color;
     }
-    
+
     float4 Combine(float4 bloom, float2 uv)
     {
         float4 color = SAMPLE_TEXTURE2D(_BloomTex, sampler_BloomTex, uv);
@@ -65,17 +63,18 @@ Shader "ChroMapper/Post Process/Bloom"
     {
         float4 color = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.texcoord);
 
-        #if BLOOM_TOWARDS_WHITE
         // Give whiteness to glowing material
         float alpha = saturate(color.a);
-        color.rgb += alpha;
-        #endif
+        float4 invert = 1 - color;
+        color = alpha * invert + color;
 
-        float4 bloom = SAMPLE_TEXTURE2D(_BloomTex, sampler_BloomTex, i.texcoord) * _Intensity;
+        float4 bloom = SAMPLE_TEXTURE2D(_BloomTex, sampler_BloomTex, i.texcoord);
+        color = bloom * 0.2 + color;
+        color.rgb = saturate(color.rgb);
+
         // Either this effect is subtle or this doesn't do as I expect it to do
-        REINHARD_TONE_MAPPING_APPLY(bloom);
-        color = bloom + color;
-        
+        // REINHARD_TONE_MAPPING_APPLY(color);
+
         return color;
     }
 

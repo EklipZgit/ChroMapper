@@ -11,34 +11,34 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - ThirdPerson
   - Water
   - UI
-  - 
-  - 
+  - FirstPerson
+  - Light
   - BGUI
   - Beatmap Object
   - Selected Object
   - Mapping
   - Editor Piece
   - Remote Player
+  - Environment
+  - GrabPass
+  - 
+  - HMDOnly
+  - DesktopOnly
+  - 
+  - Physics
+  - 
+  - Event
+  - DesktopOnlyAndReflected
+  - HmdOnlyAndReflected
   - 
   - 
   - 
   - 
+  - Skybox
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - Lighting Events
   - Post Processing
   m_SortingLayers:
   - name: Foreground

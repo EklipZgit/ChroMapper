@@ -3,88 +3,135 @@
     Properties
     {
         _Color("Base Color", Color) = (0.5, 0, 0, 0)
+        _MainTex("Texture", 2D) = "white" {}
         _FadeSize("Fade Size", Range(0, 10)) = 5
-        [HideInInspector] _Rotation("Rotation", Float) = 0
+        [HideInInspector] _Rotation("Rotation", float) = 0
+
+        [Header(Fog Settings)] [Space]
+        [Toggle(FOG)] _EnableFog ("Enable Fog", float) = 1
+        _FogStartOffset ("Fog Start Offset", float) = 1
+        _FogScale ("Fog Scale", float) = 1
+        [Space]
+        [Toggle(HEIGHT_FOG)] _EnableHeightFog ("Enable Height Fog", float) = 0
+        _FogHeightOffset ("Fog Height Offset", float) = 0
+        _FogHeightScale ("Fog Height Scale", float) = 1
+
+        [Header(Settings)] [Space]
+        [Enum(UnityEngine.Rendering.BlendMode)] _BlendModeSrc ("Blend Src", float) = 1
+        [Enum(UnityEngine.Rendering.BlendMode)] _BlendModeDst ("Blend Dst", float) = 1
+        [Enum(UnityEngine.Rendering.BlendMode)] _BlendModeSrcA ("Blend Src A", float) = 1
+        [Enum(UnityEngine.Rendering.BlendMode)] _BlendModeDstA ("Blend Dst A", float) = 1
+        [Enum(UnityEngine.Rendering.BlendOp)] _BlendOp ("Blend Operation", float) = 0
+
+        [Space]
+        [Enum(UnityEngine.Rendering.CullMode)] _CullMode ("Cull Mode", float) = 2
+        [Enum(UnityEngine.Rendering.CompareFunction)] _ZTest ("Z Test", float) = 4
+        [Toggle] _ZWrite ("Z Write", float) = 0
     }
     SubShader
     {
+        Blend [_BlendModeSrc] [_BlendModeDst], [_BlendModeSrcA] [_BlendModeDstA]
+        BlendOp [_BlendOp]
+        Cull [_CullMode]
+        ZTest [_ZTest]
+        ZWrite [_ZWrite]
+
         Tags
         {
-            "Queue"="Transparent+50" "RenderType"="Transparent"
+            "Queue"="Transparent+50"
+            "IgnoreProjector"="True"
+            "RenderType"="Transparent"
         }
-        LOD 100
-        Blend SrcColor OneMinusSrcColor, One OneMinusSrcColor
-        Cull Off
-        ZTest LEqual
-        ZWrite Off
 
         Pass
         {
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-            // make fog work
-            #pragma target 3.0
             #pragma multi_compile_instancing
-            #pragma multi_compile _ CM_PREVIEW_MODE
+            #pragma multi_compile_fragment _ BLOOM_FOG
+            #pragma multi_compile_fragment _ CM_PREVIEW_MODE
+
+            #pragma shader_feature_local_fragment FOG
+            #pragma shader_feature_local_fragment HEIGHT_FOG
+            #pragma shader_feature_local_fragment _FOGTYPE_ALPHA
 
             #include "UnityCG.cginc"
+            #include "../ShaderLibrary/BloomFog.hlsl"
+            #include "../ShaderLibrary/CustomBloom.hlsl"
+            #include "../ShaderLibrary/CustomTonemapping.hlsl"
 
             // Define instanced properties
             UNITY_INSTANCING_BUFFER_START(Props)
                 UNITY_DEFINE_INSTANCED_PROP(float, _Rotation)
                 UNITY_DEFINE_INSTANCED_PROP(float, _FadeSize)
                 UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
+                UNITY_DEFINE_INSTANCED_PROP(float, _ObjectTime)
             UNITY_INSTANCING_BUFFER_END(Props)
 
+            sampler2D _MainTex;
+
+            float _FogStartOffset;
+            float _FogScale;
+            float _FogHeightOffset;
+            float _FogHeightScale;
+
+            uniform float _SongTime;
             uniform float _EditorDistance;
+            uniform float _TrackLaneYPosition; // we are keeping this name because Vivify uses this too
 
             struct appdata
             {
                 float4 vertex : POSITION;
                 float2 uv : TEXCOORD0;
-                float3 normal : NORMAL;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
             struct v2f
             {
-                float4 pos : SV_POSITION;
+                float4 vertex : SV_POSITION;
                 float2 uv : TEXCOORD0;
-                float3 normal : NORMAL;
-                float4 worldPos : TEXCOORD1;
+                float3 worldPos : TEXCOORD1;
                 float4 rotatedPos : TEXCOORD2;
+                float4 screenPos : TEXCOORD3;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
-            v2f vert(appdata v)
+            float3 ComputeRotatedPosition(float3 position, float theta)
+            {
+                float cosTheta = cos(theta);
+                float sinTheta = sin(theta);
+
+                return float3(position.x * cosTheta - position.z * sinTheta,
+                              position.y,
+                              position.z * cosTheta + position.x * sinTheta);
+            }
+
+            v2f vert(appdata i)
             {
                 v2f o;
 
-                UNITY_SETUP_INSTANCE_ID(v);
-                UNITY_TRANSFER_INSTANCE_ID(v, o);
-                // necessary only if you want to access instanced properties in the fragment Shader.
+                UNITY_SETUP_INSTANCE_ID(i);
+                UNITY_TRANSFER_INSTANCE_ID(i, o);
 
-                o.pos = UnityObjectToClipPos(v.vertex);
-                o.uv = v.uv;
-                o.normal = v.normal;
-
-                // Calculate the world position coordinates to pass to the fragment shader
-                o.worldPos = mul(unity_ObjectToWorld, v.vertex);
+                o.worldPos.xyz = mul(unity_ObjectToWorld, i.vertex).xyz;
+                o.worldPos.y = max(_TrackLaneYPosition + 0.01, o.worldPos.y); // save me
+                o.vertex = mul(UNITY_MATRIX_VP, float4(o.worldPos, 1));
+                o.uv.xy = i.uv.xy;
 
                 //Global platform offset
-                float4 offset = float4(0, -0.5, -1.5, 0);
+                const float4 offset = float4(0, -0.5, -1.5, 0);
 
                 //Get rotation in radians (this is used for 360/90 degree map rotation).
                 float rotationInRadians = UNITY_ACCESS_INSTANCED_PROP(Props, _Rotation) * (3.141592653 / 180);
 
-                //Transform X and Z around global platform offset (2D rotation PogU)
-                float newX = (o.worldPos.x - offset.x) * cos(rotationInRadians) - (o.worldPos.z - offset.z) * sin(
-                    rotationInRadians);
-                float newZ = (o.worldPos.z - offset.z) * cos(rotationInRadians) + (o.worldPos.x - offset.x) * sin(
-                    rotationInRadians);
+                float objectTime = UNITY_ACCESS_INSTANCED_PROP(Props, _ObjectTime);
 
-                o.rotatedPos = float4(newX + offset.x, o.worldPos.y, newZ + offset.z, o.worldPos.w);
+                o.rotatedPos = float4(
+                    ComputeRotatedPosition(o.worldPos - offset, rotationInRadians) + offset,
+                    objectTime + 0.001 - _SongTime
+                );
+                o.screenPos = ComputeScreenPosCustom(o.vertex);
 
                 return o;
             }
@@ -92,34 +139,47 @@
             float4 frag(v2f i) : SV_Target
             {
                 UNITY_SETUP_INSTANCE_ID(i);
-
-                /// Coloring ///
                 float4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
 
-                float mag = length(color);
+                float mask = saturate(sin(i.uv.x * 3.14159) * 5);
+                #if defined(CM_PREVIEW_MODE)
+                i.uv.x = (i.uv.x + _Time.y) % 1;
+                #endif
+                float4 albedo = color * tex2D(_MainTex, i.uv);
+                albedo *= mask;
 
-                if (mag > 1)
-                {
-                    color = normalize(color) * sqrt(mag);
-                }
+                CUSTOM_BLOOM_PP_APPLY(albedo, 1);
+                albedo.a *= albedo.a * albedo.a;
 
-                #ifdef CM_PREVIEW_MODE
+                ACES_TONE_MAPPING_APPLY(albedo);
+
+                #if defined(CM_PREVIEW_MODE)
+
+                #if defined(FOG) && defined(BLOOM_FOG)
+                #if defined(HEIGHT_FOG)
+                BLOOM_FOG_HEIGHT_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset,
+                       _FogHeightScale);
+                #else
+                BLOOM_FOG_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale);
+                #endif
+                #endif
+
                 float fadeSize = UNITY_ACCESS_INSTANCED_PROP(Props, _FadeSize);
 
-                float distance = i.rotatedPos.z;
+                float distance = i.rotatedPos.z - (5 / 3);
                 float startDistance = fadeSize;
                 float endDistance = _EditorDistance - fadeSize;
 
-                float fade = 1.0;
-                if (distance <= startDistance) fade = clamp(distance / startDistance, 0.0, 1.0);
-                else if (distance >= endDistance) fade = 1.0 - clamp((distance - endDistance) / fadeSize, 0.0, 1.0);
+                float fade = 1;
+                if (distance <= startDistance) fade = saturate(distance / startDistance);
+                else if (distance >= endDistance) fade = 1 - saturate((distance - endDistance) / fadeSize);
 
-                return fixed4(color.rgb * fade * 2, fade * 0.1);
-                #else
-                return fixed4(color.rgb * 2, 0.1);
+                albedo *= fade;
                 #endif
+
+                return albedo;
             }
-            ENDCG
+            ENDHLSL
         }
     }
 }

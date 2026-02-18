@@ -25,8 +25,11 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
+  - _ACESTONEMAP_AFTER_EMISSIVE
+  - _BLOOMWHITE_NONE
+  m_InvalidKeywords:
   - _MODE_OPAQUE
-  m_InvalidKeywords: []
+  - _ZWRITE_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
@@ -84,11 +87,15 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AcesTonemap: 1
     - _AddPrecomputedVelocity: 0
     - _AlphaClip: 0
+    - _AlphaCutout: 0
     - _AlphaToMask: 0
     - _Blend: 0
     - _BlendOp: 0
+    - _BloomBoost: 1
+    - _BloomWhite: 0
     - _BumpScale: 1
     - _CircleRadius: 0.2
     - _Cull: 2
@@ -97,7 +104,12 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _DstBlendAlpha: 0
+    - _EnableHeightFog: 0
     - _FadeSize: 0.5
+    - _FogHeightOffset: 0
+    - _FogHeightScale: 1
+    - _FogScale: 1
+    - _FogStartOffset: 1
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
@@ -117,6 +129,7 @@ Material:
     - _Surface: 0
     - _UVSec: 0
     - _WorkflowMode: 1
+    - _ZTest: 4
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}

@@ -16,7 +16,7 @@ namespace Beatmap.V3
             
             group.JsonTime = node["b"].AsFloat;
             group.ID = node["g"].AsInt;
-            group.Events = new List<BaseLightRotationEventBox>(BaseItem.GetRequiredNode(node, "e").AsArray.Linq
+            group.Boxes = new List<BaseLightRotationEventBox>(BaseItem.GetRequiredNode(node, "e").AsArray.Linq
                 .Select(x => V3LightRotationEventBox.GetFromJson(x)).ToList());
             group.CustomData = node["customData"];
 
@@ -29,7 +29,7 @@ namespace Beatmap.V3
             node["b"] = group.JsonTime;
             node["g"] = group.ID;
             var ary = new JSONArray();
-            foreach (var k in group.Events) ary.Add(V3LightRotationEventBox.ToJson(k));
+            foreach (var k in group.Boxes) ary.Add(V3LightRotationEventBox.ToJson(k));
             node["e"] = ary;
             group.CustomData = group.SaveCustom();
             if (!group.CustomData.Children.Any()) return node;

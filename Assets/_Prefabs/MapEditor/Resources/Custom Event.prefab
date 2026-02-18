@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4919757777345930}
   - component: {fileID: 4944983125669078610}
   - component: {fileID: 4490841251639941742}
-  m_Layer: 9
+  m_Layer: 12
   m_Name: Custom Event
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -53,7 +53,6 @@ MonoBehaviour:
   - {fileID: 4490841251639941742}
   SelectionRenderers:
   - {fileID: 6804661799975328047}
-  BoxCollider: {fileID: 0}
   Animator: {fileID: 0}
 --- !u!114 &4490841251639941742
 MonoBehaviour:
@@ -68,37 +67,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
-  BoundsRenderer: {fileID: 23420730268809820}
   Center: {x: 0, y: 0, z: 0}
   Size: {x: 1, y: 1, z: 1}
-  MeshTriangles: 0000000002000000030000000000000003000000010000000800000004000000050000000800000005000000090000000a00000006000000070000000a000000070000000b0000000c0000000d0000000e0000000c0000000e0000000f000000100000001100000012000000100000001200000013000000140000001500000016000000140000001600000017000000
-  MeshVertices:
-  - {x: 0.5, y: -0.5, z: 0.5}
-  - {x: -0.5, y: -0.5, z: 0.5}
-  - {x: 0.5, y: 0.5, z: 0.5}
-  - {x: -0.5, y: 0.5, z: 0.5}
-  - {x: 0.5, y: 0.5, z: -0.5}
-  - {x: -0.5, y: 0.5, z: -0.5}
-  - {x: 0.5, y: -0.5, z: -0.5}
-  - {x: -0.5, y: -0.5, z: -0.5}
-  - {x: 0.5, y: 0.5, z: 0.5}
-  - {x: -0.5, y: 0.5, z: 0.5}
-  - {x: 0.5, y: 0.5, z: -0.5}
-  - {x: -0.5, y: 0.5, z: -0.5}
-  - {x: 0.5, y: -0.5, z: -0.5}
-  - {x: 0.5, y: -0.5, z: 0.5}
-  - {x: -0.5, y: -0.5, z: 0.5}
-  - {x: -0.5, y: -0.5, z: -0.5}
-  - {x: -0.5, y: -0.5, z: 0.5}
-  - {x: -0.5, y: 0.5, z: 0.5}
-  - {x: -0.5, y: 0.5, z: -0.5}
-  - {x: -0.5, y: -0.5, z: -0.5}
-  - {x: 0.5, y: -0.5, z: -0.5}
-  - {x: 0.5, y: 0.5, z: -0.5}
-  - {x: 0.5, y: 0.5, z: 0.5}
-  - {x: 0.5, y: -0.5, z: 0.5}
-  CollisionLayer: 9
-  CollisionGroups: 
 --- !u!1 &1957395782864314
 GameObject:
   m_ObjectHideFlags: 0
@@ -110,7 +80,7 @@ GameObject:
   - component: {fileID: 4465411356976526}
   - component: {fileID: 33290730782000504}
   - component: {fileID: 23420730268809820}
-  m_Layer: 9
+  m_Layer: 12
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -196,7 +166,7 @@ GameObject:
   - component: {fileID: 3513117133054019335}
   - component: {fileID: 3772223321280435259}
   - component: {fileID: 6804661799975328047}
-  m_Layer: 9
+  m_Layer: 12
   m_Name: Selection
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -281,7 +251,7 @@ GameObject:
   m_Component:
   - component: {fileID: 458125876045637676}
   - component: {fileID: 3493741126327875870}
-  m_Layer: 9
+  m_Layer: 12
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}

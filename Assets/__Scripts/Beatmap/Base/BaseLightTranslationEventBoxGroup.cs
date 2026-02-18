@@ -11,8 +11,8 @@ namespace Beatmap.Base
         {
         }
 
-        protected BaseLightTranslationEventBoxGroup(float time, int id, List<T> events,
-            JSONNode customData = null) : base(time, id, events, customData)
+        protected BaseLightTranslationEventBoxGroup(float time, int id, List<T> boxes,
+            JSONNode customData = null) : base(time, id, boxes, customData)
         {
         }
 

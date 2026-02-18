@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class ColorTypeController : MonoBehaviour
 {
+    [SerializeField] private BeatmapRuntimeContext context;
     [SerializeField] private NotePlacement notePlacement;
     [SerializeField] private LightingModeController lightMode;
     [SerializeField] private CustomColorsUIController customColors;
@@ -14,34 +15,29 @@ public class ColorTypeController : MonoBehaviour
     [SerializeField] private Image rightNote;
     [SerializeField] private Image rightLight;
 
-    private PlatformDescriptor platform;
-
     private void Start()
     {
         leftSelected.enabled = true;
         rightSelected.enabled = false;
-        LoadInitialMap.OnPlatformLoaded += SetupColors;
-        customColors.OnCustomColorsUpdated += UpdateColors;
+        customColors.Context = context;
+        context.OnColorSchemeChanged += UpdateColors;
+        customColors.OnCustomColorsUpdated += SetupColors;
     }
 
     private void OnDestroy()
     {
-        customColors.OnCustomColorsUpdated -= UpdateColors;
-        LoadInitialMap.OnPlatformLoaded -= SetupColors;
+        customColors.OnCustomColorsUpdated -= SetupColors;
+        context.OnColorSchemeChanged -= UpdateColors;
     }
 
-    private void SetupColors(PlatformDescriptor descriptor)
-    {
-        platform = descriptor;
-        UpdateColors();
-    }
+    private void SetupColors() => UpdateColors(context.ColorScheme);
 
-    private void UpdateColors()
+    private void UpdateColors(ColorSchemeSO colorScheme)
     {
-        leftNote.color = platform.ColorScheme.RedNoteColor;
-        leftLight.color = platform.ColorScheme.RedColor;
-        rightNote.color = platform.ColorScheme.BlueNoteColor;
-        rightLight.color = platform.ColorScheme.BlueColor;
+        leftNote.color = context.ColorScheme.LeftNoteColor;
+        leftLight.color = context.ColorScheme.EnvironmentLeftColor;
+        rightNote.color = context.ColorScheme.RightNoteColor;
+        rightLight.color = context.ColorScheme.EnvironmentRightColor;
     }
 
     public void RedNote(bool active)
@@ -73,5 +69,5 @@ public class ColorTypeController : MonoBehaviour
     }
 
     public bool LeftSelectedEnabled() => leftSelected.enabled;
-    public bool RightSelectEnalbed() => rightSelected.enabled;
+    public bool RightSelectEnabled() => rightSelected.enabled;
 }

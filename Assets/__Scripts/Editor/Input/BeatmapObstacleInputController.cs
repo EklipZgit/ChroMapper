@@ -10,11 +10,12 @@ using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class BeatmapObstacleInputController : BeatmapInputController<ObstacleContainer>,
-    CMInput.IObstacleObjectsActions
+                                              CMInput.IObstacleObjectsActions
 {
     [SerializeField] private AudioTimeSyncController atsc;
-    [FormerlySerializedAs("bpmChangesContainer")][SerializeField] private BPMChangeGridContainer bpmChangeGridContainer;
-    [FormerlySerializedAs("obstacleAppearanceSO")][SerializeField] private ObstacleAppearanceSO obstacleAppearanceSo;
+    [SerializeField] private BPMChangeGridContainer bpmChangeGridContainer;
+    [SerializeField] private ObstacleAppearanceSO obstacleAppearanceSo;
+    [SerializeField] private BeatmapRuntimeContext beatmapRuntimeContext;
 
     public void OnChangeWallDuration(InputAction.CallbackContext context)
     {
@@ -30,14 +31,21 @@ public class BeatmapObstacleInputController : BeatmapInputController<ObstacleCon
 
             obs.ObstacleData.Duration += snapping;
             obs.UpdateGridPosition();
-            obstacleAppearanceSo.SetObstacleAppearance(obs);
-            BeatmapActionContainer.AddAction(new BeatmapObjectModifiedAction(obs.ObjectData, obs.ObjectData, original, mergeType: ActionMergeType.WallDurationTweak));
+            obstacleAppearanceSo.SetObstacleAppearance(obs, beatmapRuntimeContext);
+            BeatmapActionContainer.AddAction(
+                new BeatmapObjectModifiedAction(
+                    obs.ObjectData,
+                    obs.ObjectData,
+                    original,
+                    mergeType: ActionMergeType.WallDurationTweak));
         }
     }
 
     public void OnChangeWallLowerBound(InputAction.CallbackContext context)
     {
-        if (Settings.Instance.MapVersion < 3 || CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)) return;
+        if (Settings.Instance.MapVersion < 3
+            || CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true))
+            return;
         RaycastFirstObject(out var obs);
         if (obs != null && !obs.Dragging && context.performed)
         {
@@ -50,13 +58,21 @@ public class BeatmapObstacleInputController : BeatmapInputController<ObstacleCon
             data.Height = Mathf.Min(data.Height, 5 - data.PosY);
             if (data.CompareTo(original) == 0) return;
             obs.UpdateGridPosition();
-            obstacleAppearanceSo.SetObstacleAppearance(obs);
-            BeatmapActionContainer.AddAction(new BeatmapObjectModifiedAction(obs.ObjectData, obs.ObjectData, original, mergeType: ActionMergeType.WallLowerBoundTweak));
+            obstacleAppearanceSo.SetObstacleAppearance(obs, beatmapRuntimeContext);
+            BeatmapActionContainer.AddAction(
+                new BeatmapObjectModifiedAction(
+                    obs.ObjectData,
+                    obs.ObjectData,
+                    original,
+                    mergeType: ActionMergeType.WallLowerBoundTweak));
         }
     }
+
     public void OnChangeWallUpperBound(InputAction.CallbackContext context)
     {
-        if (Settings.Instance.MapVersion < 3 || CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)) return;
+        if (Settings.Instance.MapVersion < 3
+            || CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true))
+            return;
         RaycastFirstObject(out var obs);
         if (obs != null && !obs.Dragging && context.performed)
         {
@@ -68,8 +84,13 @@ public class BeatmapObstacleInputController : BeatmapInputController<ObstacleCon
             data.Height = Mathf.Clamp(data.Height + tweakValue, 1, 5 - data.PosY);
             if (data.CompareTo(original) == 0) return;
             obs.UpdateGridPosition();
-            obstacleAppearanceSo.SetObstacleAppearance(obs);
-            BeatmapActionContainer.AddAction(new BeatmapObjectModifiedAction(obs.ObjectData, obs.ObjectData, original, mergeType: ActionMergeType.WallUpperBoundTweak));
+            obstacleAppearanceSo.SetObstacleAppearance(obs, beatmapRuntimeContext);
+            BeatmapActionContainer.AddAction(
+                new BeatmapObjectModifiedAction(
+                    obs.ObjectData,
+                    obs.ObjectData,
+                    original,
+                    mergeType: ActionMergeType.WallUpperBoundTweak));
         }
     }
 
@@ -86,7 +107,8 @@ public class BeatmapObstacleInputController : BeatmapInputController<ObstacleCon
         wall.JsonTime += obs.ObstacleData.Duration;
         wall.Duration *= -1f;
 
-        BeatmapActionContainer.AddAction(new BeatmapObjectModifiedAction(wall, obs.ObjectData, obs.ObjectData),
+        BeatmapActionContainer.AddAction(
+            new BeatmapObjectModifiedAction(wall, obs.ObjectData, obs.ObjectData),
             true);
     }
 }

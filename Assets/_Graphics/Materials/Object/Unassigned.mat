@@ -11,9 +11,17 @@ Material:
   m_Shader: {fileID: 4800000, guid: 1c1dcf599a39e9a48bd2f0d56ca8ed0e, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - DIFFUSE
+  - FOG
+  - HEIGHT_FOG
+  - RIM_DIM
+  - SPECULAR
   m_InvalidKeywords:
+  - ENABLE_FOG
+  - ENABLE_HEIGHT_FOG
   - _LIT_ON
+  - _ZWRITE_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
@@ -94,25 +102,33 @@ Material:
     - _Blend: 0
     - _BumpScale: 1
     - _ColorMult: 1
+    - _ColorMultiplier: 1
     - _Cull: 2
+    - _CullMode: 2
     - _Cutoff: 0.5
     - _Cutout: 0
-    - _CutoutEdgeGlow: 0.25
+    - _CutoutEdgeGlow: 1
     - _CutoutEdgeWidth: 0.05
     - _CutoutSize: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _Editor_IsPlaying: 0
+    - _EnableDiffuse: 1
+    - _EnableFog: 1
+    - _EnableHeightFog: 1
+    - _EnableRimDim: 1
+    - _EnableSpecular: 1
     - _FogEnd: 500
     - _FogHeightOffset: 0
-    - _FogHeightScale: 1
+    - _FogHeightScale: 2.5
     - _FogScale: 1
     - _FogStart: 0
-    - _FogStartOffset: 0
+    - _FogStartOffset: 100
     - _GlossMapScale: 0
     - _Glossiness: 0.7
     - _GlossyReflections: 1
     - _Glow: 0
+    - _Intensity: 0
     - _LightIntensity: 1
     - _Lit: 1
     - _Metallic: 0.5
@@ -124,9 +140,18 @@ Material:
     - _Parallax: 0.02
     - _Power: 10
     - _ReceiveShadows: 1
+    - _RimCameraDistanceOffset: 2
+    - _RimCameraDistanceScale: 0.3
+    - _RimDarkening: 0.2
+    - _RimDistanceOffset: 5
+    - _RimDistanceScale: 0.03
+    - _RimIntensity: 0
+    - _RimOffset: -0.1
+    - _RimPower: 0.75
+    - _RimScale: 2
     - _Rotation: 0
     - _Scale: 5
-    - _Smoothness: 1
+    - _Smoothness: 0.95
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
@@ -134,6 +159,7 @@ Material:
     - _TranslucentAlpha: 0.45
     - _UVSec: 0
     - _WorkflowMode: 1
+    - _ZTest: 4
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 0.1544118, g: 0.1544118, b: 0.1544118, a: 1}

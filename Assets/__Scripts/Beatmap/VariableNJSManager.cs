@@ -18,19 +18,19 @@ public class VariableNJSManager : BeatmapObjectManager<BaseNJSEvent>
         base.OnDestroy();
         LoadInitialMap.OnLevelLoaded -= Refresh;
         LoadedDifficultySelectController.OnLoadedDifficultyChanged -= Refresh;
-        Atsc.OnTimeChangedEarly -= UpdateTime;
+        Context.Atsc.OnTimeChangedEarly -= UpdateTime;
     }
 
-    public override void UpdateTime() => UpdateTime(Atsc.CurrentSongBpmTime);
-    public override void UpdateTime(float beatTime) => provider.UpdateTime(beatTime);
-
-    private void Refresh()
+    public override void Refresh()
     {
         provider.Initialize();
-        provider.BuildFromData(BeatSaberSongContainer.Instance.Map.NJSEvents);
+        BeatSaberSongContainer.Instance.Map.NJSEvents.ForEach(provider.InsertData);
 
-        Atsc.OnTimeChangedEarly += UpdateTime;
+        Context.Atsc.OnTimeChangedEarly += UpdateTime;
     }
+
+    public override void UpdateTime() => UpdateTime(Context.Atsc.IsPlaying, Context.Atsc.CurrentSongBpmTime);
+    public override void UpdateTime(bool isPlaying, float beatTime) => provider.UpdateTime(isPlaying, beatTime);
 
     protected override bool AddData(IEnumerable<BaseNJSEvent> data)
     {

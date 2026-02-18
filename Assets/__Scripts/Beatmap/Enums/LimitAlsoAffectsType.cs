@@ -1,6 +1,6 @@
 namespace Beatmap.Enums
 {
-    public enum LimitAlsoAffectsType
+    public enum LimitAlsoAffectType
     {
         None,
         Duration,

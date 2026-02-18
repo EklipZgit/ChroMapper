@@ -18,35 +18,6 @@ using Debug = UnityEngine.Debug;
 
 public class SongInfoEditUI : MenuBase
 {
-    public static List<Environment> VanillaEnvironments = new()
-    {
-        new Environment("Default", "DefaultEnvironment"),
-        new Environment("Big Mirror", "BigMirrorEnvironment"),
-        new Environment("Triangle", "TriangleEnvironment"),
-        new Environment("Nice", "NiceEnvironment"),
-        new Environment("K/DA", "KDAEnvironment"),
-        new Environment("Monstercat", "MonstercatEnvironment"),
-        new Environment("Dragons", "DragonsEnvironment"),
-        new Environment("Origins",
-            "OriginsEnvironment"), //i swear to god if beat games reverts this back i am going to lose my shit
-        new Environment("Crab Rave", "CrabRaveEnvironment"),
-        new Environment("Panic! At The Disco", "PanicEnvironment"),
-        new Environment("Rocket League", "RocketEnvironment"),
-        new Environment("Green Day", "GreenDayEnvironment"),
-        new Environment("Green Day Grenade", "GreenDayGrenadeEnvironment"),
-        new Environment("Timbaland", "TimbalandEnvironment"),
-        new Environment("FitBeat", "FitBeatEnvironment"),
-        new Environment("Linkin Park", "LinkinParkEnvironment"),
-        new Environment("BTS", "BTSEnvironment"),
-        new Environment("Kaleidoscope", "KaleidoscopeEnvironment"),
-        new Environment("Interscope", "InterscopeEnvironment"),
-        new Environment("Skrillex", "SkrillexEnvironment"),
-        new Environment("Billie", "BillieEnvironment"),
-        new Environment("Spooky", "HalloweenEnvironment"),
-        new Environment("Gaga", "GagaEnvironment"),
-        new Environment("Glass Desert", "GlassDesertEnvironment")
-    };
-
     public static List<string> CharacteristicDropdownToBeatmapName = new()
     {
         "Standard",
@@ -60,7 +31,7 @@ public class SongInfoEditUI : MenuBase
     };
 
     [SerializeField] private AudioSource previewAudio;
-    
+
     [SerializeField] private TextMeshProUGUI songInfoHeaderTitle;
 
     [SerializeField] private DifficultySelect difficultySelect;
@@ -89,7 +60,7 @@ public class SongInfoEditUI : MenuBase
     public event Action OnTempSongLoaded;
 
     private BaseInfo Info => BeatSaberSongContainer.Instance.Info;
-    
+
     private GameObject ContributorWrapper => contributorController.transform.parent.gameObject;
 
     [SerializeField] private GameObject questExportButton;
@@ -113,21 +84,6 @@ public class SongInfoEditUI : MenuBase
         ContributorWrapper.SetActive(true);
 
         LoadFromSong();
-    }
-
-    public static int GetEnvironmentIDFromString(string environment) =>
-        VanillaEnvironments.TakeWhile(i => i.JsonName != environment).Count();
-
-    public static bool TryGetEnvironmentNameFromID(int id, out string environmentName)
-    {
-        if (id >= VanillaEnvironments.Count)
-        {
-            environmentName = null;
-            return false;
-        }
-
-        environmentName = VanillaEnvironments[id].JsonName;
-        return true;
     }
 
     /// <summary>
@@ -155,22 +111,22 @@ public class SongInfoEditUI : MenuBase
         Info.SongAuthorName = songAuthorField.text;
         Info.LevelAuthorName = authorField.text;
         Info.CoverImageFilename = coverImageField.text;
-        
+
         // Update preview and audio name references together
         var songFilenameChanged = Info.SongFilename != audioPath.text;
         var songFileAndPreviewReferenceIsSame = Info.SongFilename == Info.SongPreviewFilename;
         if (songFilenameChanged && songFileAndPreviewReferenceIsSame)
         {
-            Info.SongPreviewFilename = audioPath.text;    
+            Info.SongPreviewFilename = audioPath.text;
         }
-        
+
         // If there isn't a preview audio file, just set it to the songFileName to avoid referencing nothing
         var songPreviewPath = Path.Combine(Info.Directory, Info.SongPreviewFilename);
         if (!songFileAndPreviewReferenceIsSame && !File.Exists(songPreviewPath))
         {
-            Info.SongPreviewFilename = audioPath.text;    
+            Info.SongPreviewFilename = audioPath.text;
         }
-        
+
         Info.SongFilename = audioPath.text;
 
         Info.BeatsPerMinute = GetTextValue(bpmField);
@@ -180,7 +136,10 @@ public class SongInfoEditUI : MenuBase
 
         if (Info.SongTimeOffset != 0)
         {
-            PersistentUI.Instance.ShowDialogBox("SongEditMenu", "songtimeoffset.warning", null,
+            PersistentUI.Instance.ShowDialogBox(
+                "SongEditMenu",
+                "songtimeoffset.warning",
+                null,
                 PersistentUI.DialogBoxPresetType.Ok);
         }
         else
@@ -193,7 +152,8 @@ public class SongInfoEditUI : MenuBase
         if (customPlatformsDropdown.value > 0)
         {
             Info.CustomEnvironmentMetadata.Name = customPlatformsDropdown.captionText.text;
-            if (CustomPlatformsLoader.Instance.GetAllEnvironments()
+            if (CustomPlatformsLoader
+                .Instance.GetAllEnvironments()
                 .TryGetValue(customPlatformsDropdown.captionText.text, out var info))
             {
                 Info.CustomEnvironmentMetadata.Hash = info.Md5Hash;
@@ -211,7 +171,7 @@ public class SongInfoEditUI : MenuBase
 
         contributorController.Commit();
         Info.CustomContributors = contributorController.Contributors;
-        
+
         characteristicCustomPropertyController.CommitToInfo();
 
         Info.Save();
@@ -240,10 +200,11 @@ public class SongInfoEditUI : MenuBase
         authorField.text = Info.LevelAuthorName;
 
         songInfoHeaderTitle.text = $"Song Info (v{Info.MajorVersion})";
-        
+
         if (Info.MajorVersion == 4)
         {
-            authorField.placeholder.GetComponent<LocalizeStringEvent>().StringReference.TableEntryReference = "not.supported.in.version";
+            authorField.placeholder.GetComponent<LocalizeStringEvent>().StringReference.TableEntryReference =
+                "not.supported.in.version";
             authorField.interactable = false; // Does not exist in v2
         }
 
@@ -255,7 +216,10 @@ public class SongInfoEditUI : MenuBase
         offset.text = Info.SongTimeOffset.ToString(CultureInfo.InvariantCulture);
         if (Info.SongTimeOffset != 0)
         {
-            PersistentUI.Instance.ShowDialogBox("SongEditMenu", "songtimeoffset.warning", null,
+            PersistentUI.Instance.ShowDialogBox(
+                "SongEditMenu",
+                "songtimeoffset.warning",
+                null,
                 PersistentUI.DialogBoxPresetType.Ok);
         }
         else
@@ -268,7 +232,7 @@ public class SongInfoEditUI : MenuBase
         prevDurField.text = Info.PreviewDuration.ToString(CultureInfo.InvariantCulture);
 
         var allCustomEnvironmentIds = CustomPlatformsLoader.Instance.GetAllEnvironmentIds();
-        
+
         customPlatformsDropdown.ClearOptions();
         customPlatformsDropdown.AddOptions(new List<string> { "None" });
         customPlatformsDropdown.AddOptions(allCustomEnvironmentIds);
@@ -299,13 +263,13 @@ public class SongInfoEditUI : MenuBase
         {
             var allIds = CustomPlatformsLoader.Instance.GetAllEnvironmentIds();
             var id = allIds.IndexOf(Info.CustomEnvironmentMetadata.Name);
-            
+
             // Map has a custom platform which the user does not have
             if (id == -1)
             {
                 return allIds.Count + 1;
             }
-            
+
             return id + 1;
         }
 
@@ -338,16 +302,20 @@ public class SongInfoEditUI : MenuBase
                 yield break;
             }
 
-            yield return BeatSaberSongExtensions.LoadAudio(Info,(clip) =>
-            {
-                previewAudio.clip = clip;
-                BeatSaberSongContainer.Instance.LoadedSong = clip;
-                BeatSaberSongContainer.Instance.LoadedSongSamples = clip.samples;
-                BeatSaberSongContainer.Instance.LoadedSongFrequency = clip.frequency;
-                BeatSaberSongContainer.Instance.LoadedSongLength = clip.length;
+            yield return BeatSaberSongExtensions.LoadAudio(
+                Info,
+                (clip) =>
+                {
+                    previewAudio.clip = clip;
+                    BeatSaberSongContainer.Instance.LoadedSong = clip;
+                    BeatSaberSongContainer.Instance.LoadedSongSamples = clip.samples;
+                    BeatSaberSongContainer.Instance.LoadedSongFrequency = clip.frequency;
+                    BeatSaberSongContainer.Instance.LoadedSongLength = clip.length;
 
-                if (useTemp) OnTempSongLoaded?.Invoke();
-            }, float.Parse(offset.text), useTemp ? audioPath.text : null);
+                    if (useTemp) OnTempSongLoaded?.Invoke();
+                },
+                float.Parse(offset.text),
+                useTemp ? audioPath.text : null);
         }
         else
         {
@@ -361,8 +329,12 @@ public class SongInfoEditUI : MenuBase
     ///     Check the user wants to delete the map
     /// </summary>
     public void DeleteMap() =>
-        PersistentUI.Instance.ShowDialogBox("SongEditMenu", "delete.dialog", HandleDeleteMap,
-            PersistentUI.DialogBoxPresetType.YesNo, new object[] { Info.SongName });
+        PersistentUI.Instance.ShowDialogBox(
+            "SongEditMenu",
+            "delete.dialog",
+            HandleDeleteMap,
+            PersistentUI.DialogBoxPresetType.YesNo,
+            new object[] { Info.SongName });
 
     /// <summary>
     ///     Delete the map, it's still recoverable externally
@@ -391,26 +363,28 @@ public class SongInfoEditUI : MenuBase
         var success = exporter.PackageZip();
         if (success)
         {
-            PersistentUI.Instance.DisplayMessage("SongEditMenu", "package.zip.success", PersistentUI.DisplayMessageType.Bottom);
-            if (Settings.Instance.OpenFileExplorerAfterCreatingZip)
-                exporter.OpenSelectedMapInFileBrowser();
+            PersistentUI.Instance.DisplayMessage(
+                "SongEditMenu",
+                "package.zip.success",
+                PersistentUI.DisplayMessageType.Bottom);
+            if (Settings.Instance.OpenFileExplorerAfterCreatingZip) exporter.OpenSelectedMapInFileBrowser();
         }
         else
         {
-            PersistentUI.Instance.DisplayMessage("SongEditMenu", "package.zip.error", PersistentUI.DisplayMessageType.Bottom);
+            PersistentUI.Instance.DisplayMessage(
+                "SongEditMenu",
+                "package.zip.error",
+                PersistentUI.DisplayMessageType.Bottom);
         }
-
     }
 
     public void OpenSelectedMapInFileBrowser() => exporter.OpenSelectedMapInFileBrowser();
 
     private void SaveAllFields()
     {
-        if (IsDirty())
-            SaveToSong();
+        if (IsDirty()) SaveToSong();
 
-        if (difficultySelect.IsDirty())
-            difficultySelect.SaveAllDiffs();
+        if (difficultySelect.IsDirty()) difficultySelect.SaveAllDiffs();
     }
 
     /// <summary>
@@ -442,7 +416,8 @@ public class SongInfoEditUI : MenuBase
     public void EditMapButtonPressed()
     {
         // If no difficulty is selected or there is a dialog open do nothing
-        if (BeatSaberSongContainer.Instance.MapDifficultyInfo == null || PersistentUI.Instance.DialogBoxIsEnabled) return;
+        if (BeatSaberSongContainer.Instance.MapDifficultyInfo == null || PersistentUI.Instance.DialogBoxIsEnabled)
+            return;
 
         var a = Settings.Instance.Load_Notes;
         var b = Settings.Instance.Load_Obstacles;
@@ -452,16 +427,20 @@ public class SongInfoEditUI : MenuBase
         if (!(a || b || c || d))
         {
             PersistentUI.Instance.ShowDialogBox(
-                "SongEditMenu", "load.warning",
-                null, PersistentUI.DialogBoxPresetType.Ok);
+                "SongEditMenu",
+                "load.warning",
+                null,
+                PersistentUI.DialogBoxPresetType.Ok);
             return;
         }
 
         if (!(a && b && c && d))
         {
             PersistentUI.Instance.ShowDialogBox(
-                "SongEditMenu", "load.warning2",
-                null, PersistentUI.DialogBoxPresetType.Ok);
+                "SongEditMenu",
+                "load.warning2",
+                null,
+                PersistentUI.DialogBoxPresetType.Ok);
         }
 
         CheckForChanges(HandleEditMapButtonPressed);
@@ -482,22 +461,27 @@ public class SongInfoEditUI : MenuBase
 
             if (map == null)
             {
-                if (File.Exists(Path.Combine(BeatSaberSongContainer.Instance.Info.Directory,
+                if (File.Exists(
+                    Path.Combine(
+                        BeatSaberSongContainer.Instance.Info.Directory,
                         BeatSaberSongContainer.Instance.MapDifficultyInfo.BeatmapFileName)))
                 {
                     PersistentUI.Instance.ShowDialogBox(
-                        "The selected difficulty could not be parsed.\nThis is either invalid json or an unsupported version.", null,
+                        "The selected difficulty could not be parsed.\nThis is either invalid json or an unsupported version.",
+                        null,
                         PersistentUI.DialogBoxPresetType.Ok);
                 }
                 else
                 {
                     PersistentUI.Instance.ShowDialogBox(
-                        "The selected difficulty doesn't exist! Have you saved after creating it?", null,
+                        "The selected difficulty doesn't exist! Have you saved after creating it?",
+                        null,
                         PersistentUI.DialogBoxPresetType.Ok);
                 }
-                
+
                 return;
             }
+
             Debug.Log("Transitioning...");
 
             Settings.Instance.LastLoadedMap = Info.Directory;
@@ -505,11 +489,11 @@ public class SongInfoEditUI : MenuBase
             Settings.Instance.LastLoadedDiff = BeatSaberSongContainer.Instance.MapDifficultyInfo.Difficulty;
             BeatSaberSongContainer.Instance.Map = map;
             Settings.Instance.MapVersion = map.MajorVersion;
-            
+
             // Need to ensure the difficulty's bpm events and times have been computed with the current Info bpm in case
             // it has changed. This fixes an edge case the song info bpm not applying to everything in editor
             map.ValidateBpmEventsAndObjectTimes(Info.BeatsPerMinute);
-            
+
             SceneTransitionManager.Instance.LoadScene("03_Mapper", LoadAudio(false, true));
         }
     }
@@ -524,28 +508,40 @@ public class SongInfoEditUI : MenuBase
     {
         if (IsDirty())
         {
-            PersistentUI.Instance.ShowDialogBox("SongEditMenu", "unsaved.warning", callback,
+            PersistentUI.Instance.ShowDialogBox(
+                "SongEditMenu",
+                "unsaved.warning",
+                callback,
                 PersistentUI.DialogBoxPresetType.YesNoCancel);
             return true;
         }
 
         if (difficultySelect.IsDirty())
         {
-            PersistentUI.Instance.ShowDialogBox("SongEditMenu", "unsaveddiff.warning", callback,
+            PersistentUI.Instance.ShowDialogBox(
+                "SongEditMenu",
+                "unsaveddiff.warning",
+                callback,
                 PersistentUI.DialogBoxPresetType.YesNoCancel);
             return true;
         }
 
         if (contributorController.IsDirty())
         {
-            PersistentUI.Instance.ShowDialogBox("SongEditMenu", "unsavedcontributor.warning", callback,
+            PersistentUI.Instance.ShowDialogBox(
+                "SongEditMenu",
+                "unsavedcontributor.warning",
+                callback,
                 PersistentUI.DialogBoxPresetType.YesNoCancel);
             return true;
         }
 
         if (characteristicCustomPropertyController.IsDirty())
         {
-            PersistentUI.Instance.ShowDialogBox("SongEditMenu", "unsavedcharacteristics.warning", callback,
+            PersistentUI.Instance.ShowDialogBox(
+                "SongEditMenu",
+                "unsavedcharacteristics.warning",
+                callback,
                 PersistentUI.DialogBoxPresetType.YesNoCancel);
             return true;
         }
@@ -640,32 +636,20 @@ public class SongInfoEditUI : MenuBase
     /// </summary>
     /// <returns>True if user has made changes, false otherwise</returns>
     private bool IsDirty() =>
-        Info.SongName != nameField.text ||
-        Info.SongSubName != subNameField.text ||
-        Info.SongAuthorName != songAuthorField.text ||
-        Info.LevelAuthorName != authorField.text ||
-        Info.CoverImageFilename != coverImageField.text ||
-        Info.SongFilename != audioPath.text ||
-        !NearlyEqual(Info.BeatsPerMinute, GetTextValue(bpmField)) ||
-        !NearlyEqual(Info.PreviewStartTime, GetTextValue(prevStartField)) ||
-        !NearlyEqual(Info.PreviewDuration, GetTextValue(prevDurField)) ||
-        !NearlyEqual(Info.SongTimeOffset, GetTextValue(offset)) ||
-        customPlatformsDropdown.value != CustomPlatformFromSong() ||
-        contributorController.IsDirty() ||
-        characteristicCustomPropertyController.IsDirty();
+        Info.SongName != nameField.text
+        || Info.SongSubName != subNameField.text
+        || Info.SongAuthorName != songAuthorField.text
+        || Info.LevelAuthorName != authorField.text
+        || Info.CoverImageFilename != coverImageField.text
+        || Info.SongFilename != audioPath.text
+        || !NearlyEqual(Info.BeatsPerMinute, GetTextValue(bpmField))
+        || !NearlyEqual(Info.PreviewStartTime, GetTextValue(prevStartField))
+        || !NearlyEqual(Info.PreviewDuration, GetTextValue(prevDurField))
+        || !NearlyEqual(Info.SongTimeOffset, GetTextValue(offset))
+        || customPlatformsDropdown.value != CustomPlatformFromSong()
+        || contributorController.IsDirty()
+        || characteristicCustomPropertyController.IsDirty();
 
     private static bool NearlyEqual(float a, float b, float epsilon = 0.01f) =>
         a.Equals(b) || Math.Abs(a - b) < epsilon;
-
-    public class Environment
-    {
-        public readonly string HumanName;
-        public readonly string JsonName;
-
-        public Environment(string humanName, string jsonName)
-        {
-            HumanName = humanName;
-            JsonName = jsonName;
-        }
-    }
 }

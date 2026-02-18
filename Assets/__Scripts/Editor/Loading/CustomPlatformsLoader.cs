@@ -24,7 +24,7 @@ public class CustomPlatformsLoader : MonoBehaviour
     //Always create new INSTANCES of materials. Or else you'd modify the actual file itself, and cause changes in Git.
     private Material lightMaterial;
 
-    private PlatformDescriptor platformDescriptor;
+    private EnvironmentDescriptor environmentDescriptor;
     private Material useThisBlack;
 
     private static readonly int baseColor = Shader.PropertyToID("_BaseColor");
@@ -58,9 +58,18 @@ public class CustomPlatformsLoader : MonoBehaviour
 
             if (cp != null)
             {
-                if (!cp.hideHighway && !cp.hideTowers && cp.hideDefaultPlatform && !cp.hideEQVisualizer &&
-                    !cp.hideSmallRings && !cp.hideBigRings && !cp.hideBackColumns && !cp.hideBackLasers &&
-                    !cp.hideDoubleLasers && !cp.hideDoubleColorLasers && !cp.hideRotatingLasers && !cp.hideTrackLights)
+                if (!cp.hideHighway
+                    && !cp.hideTowers
+                    && cp.hideDefaultPlatform
+                    && !cp.hideEQVisualizer
+                    && !cp.hideSmallRings
+                    && !cp.hideBigRings
+                    && !cp.hideBackColumns
+                    && !cp.hideBackLasers
+                    && !cp.hideDoubleLasers
+                    && !cp.hideDoubleColorLasers
+                    && !cp.hideRotatingLasers
+                    && !cp.hideTrackLights)
                 {
                     cpl.platformsOnly.Add(platformName);
                 }
@@ -78,7 +87,9 @@ public class CustomPlatformsLoader : MonoBehaviour
         return cpl;
     }
 
-    public GameObject LoadPlatform(string customEnvironmentString, GameObject defaultEnvironment = null,
+    public GameObject LoadPlatform(
+        string customEnvironmentString,
+        GameObject defaultEnvironment = null,
         string customPlatformString = null)
     {
         try
@@ -87,8 +98,8 @@ public class CustomPlatformsLoader : MonoBehaviour
             if (defaultEnvironment != null)
             {
                 defaultEnvironmentInstance =
-                    Instantiate(defaultEnvironment, LoadInitialMap.PlatformOffset, Quaternion.identity);
-                platformDescriptor = defaultEnvironmentInstance.GetComponentInParent<PlatformDescriptor>();
+                    Instantiate(defaultEnvironment, Vector3.zero, Quaternion.identity);
+                environmentDescriptor = defaultEnvironmentInstance.GetComponentInParent<EnvironmentDescriptor>();
             }
 
             var customEnvironments = customPlatformSettings.LoadPlatform(customEnvironmentString);
@@ -124,7 +135,7 @@ public class CustomPlatformsLoader : MonoBehaviour
                 }
 
                 var customPlatformInstance =
-                    Instantiate(customPlatform, LoadInitialMap.PlatformOffset, Quaternion.identity);
+                    Instantiate(customPlatform, Vector3.zero, Quaternion.identity);
                 DisableElementsFromEnvironmentRecursive(customPlatformInstance, "Camera");
                 customPlatformInstance.transform.SetParent(defaultEnvironmentInstance.transform);
                 foreach (var g in customPlatforms)
@@ -132,7 +143,7 @@ public class CustomPlatformsLoader : MonoBehaviour
                     if (g != customPlatform)
                     {
                         var customPlatformInstance2 =
-                            Instantiate(g, LoadInitialMap.PlatformOffset, Quaternion.identity);
+                            Instantiate(g, Vector3.zero, Quaternion.identity);
                         customPlatformInstance2.transform.SetParent(customPlatformInstance.transform);
                     }
                 }
@@ -141,7 +152,7 @@ public class CustomPlatformsLoader : MonoBehaviour
             if (defaultEnvironment != null)
             {
                 var customEnvironmentInstance =
-                    Instantiate(customEnvironment, LoadInitialMap.PlatformOffset, Quaternion.identity);
+                    Instantiate(customEnvironment, Vector3.zero, Quaternion.identity);
                 DisableElementsFromEnvironmentRecursive(customEnvironmentInstance, "Camera");
                 customEnvironmentInstance.transform.SetParent(defaultEnvironmentInstance.transform);
                 foreach (var g in customEnvironments)
@@ -149,7 +160,7 @@ public class CustomPlatformsLoader : MonoBehaviour
                     if (g != customEnvironment)
                     {
                         var customEnvironmentInstance2 =
-                            Instantiate(g, LoadInitialMap.PlatformOffset, Quaternion.identity);
+                            Instantiate(g, Vector3.zero, Quaternion.identity);
                         customEnvironmentInstance2.transform.SetParent(customEnvironmentInstance.transform);
                     }
                 }
@@ -160,7 +171,7 @@ public class CustomPlatformsLoader : MonoBehaviour
 
                 //Set LightsManager Size correctly
                 SetLightsManagerSize(defaultEnvironmentInstance);
-                platformDescriptor.RefreshPlatform();
+                // platformDescriptor.RefreshPlatform();
 
                 //Rings
                 var ringCount = 0;
@@ -183,168 +194,168 @@ public class CustomPlatformsLoader : MonoBehaviour
         }
         catch
         {
-            return Instantiate(defaultEnvironment, LoadInitialMap.PlatformOffset, Quaternion.identity);
+            return Instantiate(defaultEnvironment, Vector3.zero, Quaternion.identity);
         }
     }
 
     private void SetLightsManagerSize(GameObject gameObject)
     {
-        var tubeLights = gameObject.GetComponentsInChildren<TubeLight>();
-        var maxSize = platformDescriptor.LightingManagers.Length;
-        foreach (var tubeLight in tubeLights)
-        {
-            switch (tubeLight.lightsID)
-            {
-                case LightsID.Unused5:
-                    maxSize = Math.Max(maxSize, (int)EventTypeValue.ColorBoost + 1);
-                    break;
-                case LightsID.Unused6:
-                    maxSize = Math.Max(maxSize, (int)EventTypeValue.ExtraLeftLights + 1);
-                    break;
-                case LightsID.Unused7:
-                    maxSize = Math.Max(maxSize, (int)EventTypeValue.ExtraRightLights + 1);
-                    break;
-                case LightsID.Unused10:
-                    maxSize = Math.Max(maxSize, (int)EventTypeValue.ExtraLeftLasers + 1);
-                    break;
-                case LightsID.Unused11:
-                    maxSize = Math.Max(maxSize, (int)EventTypeValue.ExtraRightLasers + 1);
-                    break;
-            }
-        }
-
-        if (maxSize != platformDescriptor.LightingManagers.Length)
-            Array.Resize(ref platformDescriptor.LightingManagers, maxSize);
+        // var tubeLights = gameObject.GetComponentsInChildren<TubeLight>();
+        // var maxSize = platformDescriptor.LightingManagers.Length;
+        // foreach (var tubeLight in tubeLights)
+        // {
+        //     switch (tubeLight.lightsID)
+        //     {
+        //         case LightsID.Unused5:
+        //             maxSize = Math.Max(maxSize, (int)EventTypeValue.ColorBoost + 1);
+        //             break;
+        //         case LightsID.Unused6:
+        //             maxSize = Math.Max(maxSize, (int)EventTypeValue.ExtraLeftLights + 1);
+        //             break;
+        //         case LightsID.Unused7:
+        //             maxSize = Math.Max(maxSize, (int)EventTypeValue.ExtraRightLights + 1);
+        //             break;
+        //         case LightsID.Unused10:
+        //             maxSize = Math.Max(maxSize, (int)EventTypeValue.ExtraLeftLasers + 1);
+        //             break;
+        //         case LightsID.Unused11:
+        //             maxSize = Math.Max(maxSize, (int)EventTypeValue.ExtraRightLasers + 1);
+        //             break;
+        //     }
+        // }
+        //
+        // if (maxSize != platformDescriptor.LightingManagers.Length)
+        //     Array.Resize(ref platformDescriptor.LightingManagers, maxSize);
     }
 
     private void SetLightingEventsForTubeLights(GameObject gameObject)
     {
-        var tubeLights = gameObject.GetComponentsInChildren<TubeLight>();
-        foreach (var tubeLight in tubeLights)
-        {
-            if (tubeLight.gameObject.GetComponent<LightingObject>() != null) continue;
-
-            var eventId = -(int)EventTypeValue.BackLasers;
-            switch (tubeLight.lightsID)
-            {
-                case LightsID.Static:
-                    eventId = (int)EventTypeValue.BackLasers;
-                    break;
-                case LightsID.BackLights:
-                    eventId = (int)EventTypeValue.BackLasers;
-                    break;
-                case LightsID.BigRingLights:
-                    eventId = (int)EventTypeValue.RingLights;
-                    break;
-                case LightsID.LeftLasers:
-                    eventId = (int)EventTypeValue.LeftLasers;
-                    break;
-                case LightsID.RightLasers:
-                    eventId = (int)EventTypeValue.RightLasers;
-                    break;
-                case LightsID.TrackAndBottom:
-                    eventId = (int)EventTypeValue.CenterLights;
-                    break;
-                case LightsID.RingsRotationEffect:
-                    break;
-                case LightsID.RingsStepEffect:
-                    break;
-                case LightsID.RingSpeedLeft:
-                    break;
-                case LightsID.RingSpeedRight:
-                    break;
-                case LightsID.Unused5:
-                    eventId = (int)EventTypeValue.ColorBoost;
-                    break;
-                case LightsID.Unused6:
-                    eventId = (int)EventTypeValue.ExtraLeftLights;
-                    break;
-                case LightsID.Unused7:
-                    eventId = (int)EventTypeValue.ExtraRightLights;
-                    break;
-                case LightsID.Unused10:
-                    eventId = (int)EventTypeValue.ExtraLeftLasers;
-                    break;
-                case LightsID.Unused11:
-                    eventId = (int)EventTypeValue.ExtraRightLasers;
-                    break;
-                default:
-                    //Unused 5 6 7 10 11 14 15
-                    Debug.Log("Custom LightsID " + tubeLight.lightsID);
-                    break;
-            }
-
-            var tubeLightsManager = platformDescriptor.LightingManagers[eventId];
-            if (tubeLightsManager == null)
-            {
-                tubeLightsManager = tubeLight.transform.parent.gameObject.AddComponent<BasicLightManager>();
-                tubeLightsManager.DisableCustomInitialization = true;
-                platformDescriptor.LightingManagers[eventId] = tubeLightsManager;
-            }
-
-            var meshRenderers = tubeLight.gameObject.GetComponentsInChildren<MeshRenderer>();
-            foreach (var renderer in meshRenderers) SetRendererMaterials(renderer, tubeLightsManager, tubeLight.width);
-
-            if (tubeLight.gameObject.GetComponent<MeshFilter>() != null)
-            {
-                var mFilter = tubeLight.gameObject.GetComponent<MeshFilter>();
-                if (mFilter.sharedMesh == null)
-                {
-                    var mesh = new Mesh { name = "ScriptGenerated" };
-
-                    Vector3[] vertices =
-                    {
-                        new Vector3(0, 0, 0), new Vector3(tubeLight.width, 0, 0),
-                        new Vector3(tubeLight.width, tubeLight.length, 0), new Vector3(0, tubeLight.length, 0),
-                        new Vector3(0, tubeLight.length, tubeLight.width),
-                        new Vector3(tubeLight.width, tubeLight.length, tubeLight.width),
-                        new Vector3(tubeLight.width, 0, tubeLight.width), new Vector3(0, 0, tubeLight.width)
-                    };
-
-                    int[] triangles =
-                    {
-                        0, 2, 1, //face front
-                        0, 3, 2, 2, 3, 4, //face top
-                        2, 4, 5, 1, 2, 5, //face right
-                        1, 5, 6, 0, 7, 4, //face left
-                        0, 4, 3, 5, 4, 7, //face back
-                        5, 7, 6, 0, 6, 7, //face bottom
-                        0, 1, 6
-                    };
-
-                    mesh.vertices = vertices;
-                    mesh.triangles = triangles;
-
-                    var colors = new Color[vertices.Length];
-                    for (var i = 0; i < vertices.Length; i++) colors[i] = tubeLight.color;
-                    mesh.colors = colors;
-
-                    var offset = tubeLight.transform.position - tubeLight.transform.TransformPoint(mesh.bounds.center);
-                    tubeLight.transform.position = tubeLight.transform.position + offset;
-
-                    tubeLight.gameObject.GetComponent<MeshFilter>().sharedMesh = mesh;
-                }
-            }
-        }
-
-        var eventHandlers = gameObject.GetComponentsInChildren<SongEventHandler>();
-        foreach (var eventHandler in eventHandlers)
-        {
-            if (eventHandler.gameObject.GetComponent<LightingObject>() != null) continue;
-
-            var eventId = (int)eventHandler.eventType;
-
-            var tubeLightsManager = platformDescriptor.LightingManagers[eventId];
-            if (tubeLightsManager == null)
-            {
-                tubeLightsManager = eventHandler.transform.parent.gameObject.AddComponent<BasicLightManager>();
-                tubeLightsManager.DisableCustomInitialization = true;
-                platformDescriptor.LightingManagers[eventId] = tubeLightsManager;
-            }
-
-            var meshRenderers = eventHandler.gameObject.GetComponentsInChildren<Renderer>();
-            foreach (var renderer in meshRenderers) SetRendererMaterials(renderer, tubeLightsManager);
-        }
+        // var tubeLights = gameObject.GetComponentsInChildren<TubeLight>();
+        // foreach (var tubeLight in tubeLights)
+        // {
+        //     if (tubeLight.gameObject.GetComponent<LightingObject>() != null) continue;
+        //
+        //     var eventId = -(int)EventTypeValue.BackLasers;
+        //     switch (tubeLight.lightsID)
+        //     {
+        //         case LightsID.Static:
+        //             eventId = (int)EventTypeValue.BackLasers;
+        //             break;
+        //         case LightsID.BackLights:
+        //             eventId = (int)EventTypeValue.BackLasers;
+        //             break;
+        //         case LightsID.BigRingLights:
+        //             eventId = (int)EventTypeValue.RingLights;
+        //             break;
+        //         case LightsID.LeftLasers:
+        //             eventId = (int)EventTypeValue.LeftLasers;
+        //             break;
+        //         case LightsID.RightLasers:
+        //             eventId = (int)EventTypeValue.RightLasers;
+        //             break;
+        //         case LightsID.TrackAndBottom:
+        //             eventId = (int)EventTypeValue.CenterLights;
+        //             break;
+        //         case LightsID.RingsRotationEffect:
+        //             break;
+        //         case LightsID.RingsStepEffect:
+        //             break;
+        //         case LightsID.RingSpeedLeft:
+        //             break;
+        //         case LightsID.RingSpeedRight:
+        //             break;
+        //         case LightsID.Unused5:
+        //             eventId = (int)EventTypeValue.ColorBoost;
+        //             break;
+        //         case LightsID.Unused6:
+        //             eventId = (int)EventTypeValue.ExtraLeftLights;
+        //             break;
+        //         case LightsID.Unused7:
+        //             eventId = (int)EventTypeValue.ExtraRightLights;
+        //             break;
+        //         case LightsID.Unused10:
+        //             eventId = (int)EventTypeValue.ExtraLeftLasers;
+        //             break;
+        //         case LightsID.Unused11:
+        //             eventId = (int)EventTypeValue.ExtraRightLasers;
+        //             break;
+        //         default:
+        //             //Unused 5 6 7 10 11 14 15
+        //             Debug.Log("Custom LightsID " + tubeLight.lightsID);
+        //             break;
+        //     }
+        //
+        //     var tubeLightsManager = platformDescriptor.LightingManagers[eventId];
+        //     if (tubeLightsManager == null)
+        //     {
+        //         tubeLightsManager = tubeLight.transform.parent.gameObject.AddComponent<BasicLightManager>();
+        //         tubeLightsManager.DisableCustomInitialization = true;
+        //         platformDescriptor.LightingManagers[eventId] = tubeLightsManager;
+        //     }
+        //
+        //     var meshRenderers = tubeLight.gameObject.GetComponentsInChildren<MeshRenderer>();
+        //     foreach (var renderer in meshRenderers) SetRendererMaterials(renderer, tubeLightsManager, tubeLight.width);
+        //
+        //     if (tubeLight.gameObject.GetComponent<MeshFilter>() != null)
+        //     {
+        //         var mFilter = tubeLight.gameObject.GetComponent<MeshFilter>();
+        //         if (mFilter.sharedMesh == null)
+        //         {
+        //             var mesh = new Mesh { name = "ScriptGenerated" };
+        //
+        //             Vector3[] vertices =
+        //             {
+        //                 new Vector3(0, 0, 0), new Vector3(tubeLight.width, 0, 0),
+        //                 new Vector3(tubeLight.width, tubeLight.length, 0), new Vector3(0, tubeLight.length, 0),
+        //                 new Vector3(0, tubeLight.length, tubeLight.width),
+        //                 new Vector3(tubeLight.width, tubeLight.length, tubeLight.width),
+        //                 new Vector3(tubeLight.width, 0, tubeLight.width), new Vector3(0, 0, tubeLight.width)
+        //             };
+        //
+        //             int[] triangles =
+        //             {
+        //                 0, 2, 1, //face front
+        //                 0, 3, 2, 2, 3, 4, //face top
+        //                 2, 4, 5, 1, 2, 5, //face right
+        //                 1, 5, 6, 0, 7, 4, //face left
+        //                 0, 4, 3, 5, 4, 7, //face back
+        //                 5, 7, 6, 0, 6, 7, //face bottom
+        //                 0, 1, 6
+        //             };
+        //
+        //             mesh.vertices = vertices;
+        //             mesh.triangles = triangles;
+        //
+        //             var colors = new Color[vertices.Length];
+        //             for (var i = 0; i < vertices.Length; i++) colors[i] = tubeLight.color;
+        //             mesh.colors = colors;
+        //
+        //             var offset = tubeLight.transform.position - tubeLight.transform.TransformPoint(mesh.bounds.center);
+        //             tubeLight.transform.position = tubeLight.transform.position + offset;
+        //
+        //             tubeLight.gameObject.GetComponent<MeshFilter>().sharedMesh = mesh;
+        //         }
+        //     }
+        // }
+        //
+        // var eventHandlers = gameObject.GetComponentsInChildren<SongEventHandler>();
+        // foreach (var eventHandler in eventHandlers)
+        // {
+        //     if (eventHandler.gameObject.GetComponent<LightingObject>() != null) continue;
+        //
+        //     var eventId = (int)eventHandler.eventType;
+        //
+        //     var tubeLightsManager = platformDescriptor.LightingManagers[eventId];
+        //     if (tubeLightsManager == null)
+        //     {
+        //         tubeLightsManager = eventHandler.transform.parent.gameObject.AddComponent<BasicLightManager>();
+        //         tubeLightsManager.DisableCustomInitialization = true;
+        //         platformDescriptor.LightingManagers[eventId] = tubeLightsManager;
+        //     }
+        //
+        //     var meshRenderers = eventHandler.gameObject.GetComponentsInChildren<Renderer>();
+        //     foreach (var renderer in meshRenderers) SetRendererMaterials(renderer, tubeLightsManager);
+        // }
     }
 
     private void SetShadersCorrectly(Renderer renderer)
@@ -359,8 +370,8 @@ public class CustomPlatformsLoader : MonoBehaviour
 
                 if (tempMaterial == null || tempMaterial.shader == null) continue;
 
-                if (tempMaterial.shader.name.Contains("BeatSaber/Standard") ||
-                    tempMaterial.shader.name.Equals("Standard"))
+                if (tempMaterial.shader.name.Contains("BeatSaber/Standard")
+                    || tempMaterial.shader.name.Equals("Standard"))
                 {
                     tempMaterial.shader = Shader.Find("Universal Render Pipeline/Simple Lit");
                 }
@@ -370,8 +381,7 @@ public class CustomPlatformsLoader : MonoBehaviour
                     tempMaterial = new Material(lightMaterial);
                     tempMaterial.SetColor(baseColor, Color.white);
                     tempMaterial.EnableKeyword("_EMISSION");
-                    tempMaterial.SetColor(emissionColor,
-                        DefaultColors.Right * BasicLightManager.HDRIntensity);
+                    tempMaterial.SetColor(emissionColor, DefaultColors.Right);
                 }
 
                 if (tempMaterial.name.ToUpper().Contains("GLOW_RED"))
@@ -379,8 +389,7 @@ public class CustomPlatformsLoader : MonoBehaviour
                     tempMaterial = new Material(lightMaterial);
                     tempMaterial.SetColor(baseColor, Color.white);
                     tempMaterial.EnableKeyword("_EMISSION");
-                    tempMaterial.SetColor(emissionColor,
-                        DefaultColors.Left * BasicLightManager.HDRIntensity);
+                    tempMaterial.SetColor(emissionColor, DefaultColors.Left);
                 }
 
                 materials[i] = tempMaterial;
@@ -390,14 +399,13 @@ public class CustomPlatformsLoader : MonoBehaviour
         renderer.sharedMaterials = materials;
     }
 
-    private void SetRendererMaterials(Renderer renderer, BasicLightManager basicLightManager = null, float width = 1f)
+    private void SetRendererMaterials(Renderer renderer, BasicLightEffect basicLightEffect = null, float width = 1f)
     {
         var materials = renderer.sharedMaterials;
 
         if (materials.Length >= 1 && materials[0] != null)
         {
-            if (materials[0] != null && width >= 0.5f)
-                Array.Resize(ref materials, materials.Length + 1);
+            if (materials[0] != null && width >= 0.5f) Array.Resize(ref materials, materials.Length + 1);
 
             var lastMaterial = new Material(lightMaterial);
             for (var i = 0; i < materials.Length; i++)
@@ -406,8 +414,8 @@ public class CustomPlatformsLoader : MonoBehaviour
 
                 if (tempMaterial == null || tempMaterial.color == null) continue;
 
-                if (tempMaterial.shader.name.Equals("Unlit/Color") &&
-                    !(tempMaterial.color.r == 1 && tempMaterial.color.g == 1 && tempMaterial.color.b == 1))
+                if (tempMaterial.shader.name.Equals("Unlit/Color")
+                    && !(tempMaterial.color.r == 1 && tempMaterial.color.g == 1 && tempMaterial.color.b == 1))
                 {
                     tempMaterial = useThisBlack;
                 }
@@ -424,10 +432,10 @@ public class CustomPlatformsLoader : MonoBehaviour
 
         renderer.sharedMaterials = materials;
 
-        if (basicLightManager != null)
+        if (basicLightEffect != null)
         {
-            var le = renderer.gameObject.AddComponent<LightingObject>();
-            basicLightManager.ControllingLights.Add(le);
+            var le = renderer.gameObject.AddComponent<ParametricBloomFogLightController>();
+            // basicLightManager.ControllableLightEntries.Add(le);
         }
     }
 
@@ -512,8 +520,10 @@ public class CustomPlatformsLoader : MonoBehaviour
                 var replaced = false;
                 for (var i = 0; i < materials.Length; i++)
                 {
-                    if (materials[i] != null && materials[i].name != null &&
-                        (materials[i].name.StartsWith("BetterBlack") || materials[i].name.StartsWith("_dark_replace")))
+                    if (materials[i] != null
+                        && materials[i].name != null
+                        && (materials[i].name.StartsWith("BetterBlack")
+                            || materials[i].name.StartsWith("_dark_replace")))
                     {
                         materials[i] = useThisBlack;
                         replaced = true;
@@ -525,7 +535,9 @@ public class CustomPlatformsLoader : MonoBehaviour
         }
     }
 
-    private void RemoveHiddenElementsFromEnvironmentRecursive(GameObject gameObject, string name,
+    private void RemoveHiddenElementsFromEnvironmentRecursive(
+        GameObject gameObject,
+        string name,
         List<string> keepIfChildren = null)
     {
         if (gameObject == null) return;
@@ -537,16 +549,14 @@ public class CustomPlatformsLoader : MonoBehaviour
                 var hasChild = false;
                 foreach (Transform t in gameObject.transform)
                 {
-                    if (keepIfChildren.Contains(t.gameObject.name))
-                        hasChild = true;
+                    if (keepIfChildren.Contains(t.gameObject.name)) hasChild = true;
                 }
 
                 if (hasChild)
                 {
                     foreach (Transform t in gameObject.transform)
                     {
-                        if (!keepIfChildren.Contains(t.gameObject.name))
-                            HideGameObjectRecursive(t.gameObject);
+                        if (!keepIfChildren.Contains(t.gameObject.name)) HideGameObjectRecursive(t.gameObject);
                     }
                 }
                 else
@@ -576,8 +586,7 @@ public class CustomPlatformsLoader : MonoBehaviour
         }
         else
         {
-            foreach (Transform t in gameObject.transform)
-                DisableElementsFromEnvironmentRecursive(t.gameObject, name);
+            foreach (Transform t in gameObject.transform) DisableElementsFromEnvironmentRecursive(t.gameObject, name);
         }
     }
 
@@ -612,154 +621,154 @@ public class CustomPlatformsLoader : MonoBehaviour
 
     private void SetRings(GameObject gameObject, TrackRings trackRings, int ringCount)
     {
-        TrackLaneRingsManager ringManager;
-        //BigRing
-        if (gameObject.name.ToLower().Contains("big") || gameObject.name.ToLower().Contains("outer") ||
-            gameObject.name.ToLower().Equals("rings"))
-        {
-            if (platformDescriptor.BigRingManager != null)
-            {
-                foreach (var obj in platformDescriptor.BigRingManager.GetToDestroy())
-                    Destroy(obj);
-            }
-
-            platformDescriptor.BigRingManager = gameObject.AddComponent<TrackLaneRingsManager>();
-            if (platformDescriptor.RotationController == null)
-                platformDescriptor.RotationController = gameObject.AddComponent<GridRotationController>();
-            if (platformDescriptor.BigRingManager is TrackLaneRingsManager tlrm)
-                ringManager = tlrm;
-            else
-                ringManager = null;
-        }
-        else
-        {
-            if (platformDescriptor.SmallRingManager != null)
-            {
-                Destroy(platformDescriptor.SmallRingManager.RotationEffect);
-                Destroy(platformDescriptor.SmallRingManager);
-            }
-
-            platformDescriptor.SmallRingManager = gameObject.AddComponent<TrackLaneRingsManager>();
-
-
-            if (platformDescriptor.RotationController == null)
-                platformDescriptor.RotationController = gameObject.AddComponent<GridRotationController>();
-            ringManager = platformDescriptor.SmallRingManager;
-        }
-
-        if (ringManager == null)
-            return;
-
-        //Also overwrite LightsManager if applicable
-        var tubeRingLights = trackRings.trackLaneRingPrefab.GetComponentsInChildren<TubeLight>();
-        foreach (var tubeLight in tubeRingLights)
-        {
-            var eventId = -1;
-            switch (tubeLight.lightsID)
-            {
-                case LightsID.Static:
-                    eventId = (int)EventTypeValue.BackLasers;
-                    break;
-                case LightsID.BackLights:
-                    eventId = (int)EventTypeValue.BackLasers;
-                    break;
-                case LightsID.BigRingLights:
-                    eventId = (int)EventTypeValue.RingLights;
-                    break;
-                case LightsID.LeftLasers:
-                    eventId = (int)EventTypeValue.LeftLasers;
-                    break;
-                case LightsID.RightLasers:
-                    eventId = (int)EventTypeValue.RightLasers;
-                    break;
-                case LightsID.TrackAndBottom:
-                    eventId = (int)EventTypeValue.CenterLights;
-                    break;
-                case LightsID.Unused5:
-                    eventId = (int)EventTypeValue.ColorBoost;
-                    break;
-                case LightsID.Unused6:
-                    eventId = (int)EventTypeValue.ExtraLeftLights;
-                    break;
-                case LightsID.Unused7:
-                    eventId = (int)EventTypeValue.ExtraRightLights;
-                    break;
-                case LightsID.Unused10:
-                    eventId = (int)EventTypeValue.ExtraLeftLasers;
-                    break;
-                case LightsID.Unused11:
-                    eventId = (int)EventTypeValue.ExtraRightLasers;
-                    break;
-            }
-
-            if (eventId > 0)
-            {
-                var currentLightsManager = platformDescriptor.LightingManagers[eventId];
-                var newLightsManager = gameObject.AddComponent<BasicLightManager>();
-
-                newLightsManager.ControllingLights = currentLightsManager.ControllingLights;
-                newLightsManager.RotatingLights = currentLightsManager.RotatingLights;
-                newLightsManager.GroupLightsBasedOnZ();
-
-                Destroy(currentLightsManager);
-
-
-                platformDescriptor.LightingManagers[eventId] = newLightsManager;
-                break;
-            }
-        }
-
-        if (tubeRingLights.Length == 0)
-        {
-            var tubeLightsManager = platformDescriptor.LightingManagers[(int)EventTypeValue.RingLights];
-            var meshRenderers = trackRings.trackLaneRingPrefab.GetComponentsInChildren<MeshRenderer>();
-
-            foreach (var renderer in meshRenderers) SetRendererMaterials(renderer, tubeLightsManager);
-
-            var newLightsManager = gameObject.AddComponent<BasicLightManager>();
-
-            newLightsManager.ControllingLights = tubeLightsManager.ControllingLights;
-            newLightsManager.RotatingLights = tubeLightsManager.RotatingLights;
-            newLightsManager.GroupLightsBasedOnZ();
-
-            Destroy(tubeLightsManager);
-            platformDescriptor.LightingManagers[(int)EventTypeValue.RingLights] = newLightsManager;
-        }
-
-        //LightsManager lm = pd.LightingManagers[MapEvent.EVENT_TYPE_RING_LIGHTS];
-        ReplaceBetterBlack(trackRings.trackLaneRingPrefab);
-        SetLightingEventsForTubeLights(trackRings.trackLaneRingPrefab);
-
-        var tlr = trackRings.trackLaneRingPrefab.AddComponent<TrackLaneRing>();
-        ringManager.Prefab = tlr;
-
-        ringManager.RingCount = trackRings.ringCount;
-        if (trackRings.useStepEffect)
-        {
-            ringManager.MINPositionStep = trackRings.minPositionStep;
-            ringManager.MAXPositionStep = trackRings.maxPositionStep;
-        }
-        else
-        {
-            ringManager.MINPositionStep = ringManager.MAXPositionStep = trackRings.ringPositionStep;
-        }
-
-        ringManager.MoveSpeed = trackRings.moveSpeed;
-        ringManager.RotationStep = trackRings.rotationStep;
-        ringManager.PropagationSpeed = Mathf.RoundToInt(trackRings.rotationPropagationSpeed);
-        ringManager.FlexySpeed = trackRings.rotationFlexySpeed;
-
-        if (trackRings.useRotationEffect)
-        {
-            var rotationEffect = gameObject.AddComponent<TrackLaneRingsRotationEffect>();
-            ringManager.RotationEffect = rotationEffect;
-
-            rotationEffect.Manager = ringManager;
-            rotationEffect.StartupRotationAngle = trackRings.startupRotationAngle;
-            rotationEffect.StartupRotationStep = trackRings.startupRotationStep;
-            rotationEffect.StartupRotationPropagationSpeed =
-                Mathf.RoundToInt(trackRings.startupRotationPropagationSpeed);
-            rotationEffect.StartupRotationFlexySpeed = trackRings.startupRotationFlexySpeed;
-        }
+        // TrackLaneRingsManager ringManager;
+        // //BigRing
+        // if (gameObject.name.ToLower().Contains("big") || gameObject.name.ToLower().Contains("outer") ||
+        //     gameObject.name.ToLower().Equals("rings"))
+        // {
+        //     if (platformDescriptor.BigRingManager != null)
+        //     {
+        //         foreach (var obj in platformDescriptor.BigRingManager.GetToDestroy())
+        //             Destroy(obj);
+        //     }
+        //
+        //     platformDescriptor.BigRingManager = gameObject.AddComponent<TrackLaneRingsManager>();
+        //     if (platformDescriptor.RotationController == null)
+        //         platformDescriptor.RotationController = gameObject.AddComponent<GridRotationController>();
+        //     if (platformDescriptor.BigRingManager is TrackLaneRingsManager tlrm)
+        //         ringManager = tlrm;
+        //     else
+        //         ringManager = null;
+        // }
+        // else
+        // {
+        //     if (platformDescriptor.SmallRingManager != null)
+        //     {
+        //         Destroy(platformDescriptor.SmallRingManager.RotationEffect);
+        //         Destroy(platformDescriptor.SmallRingManager);
+        //     }
+        //
+        //     platformDescriptor.SmallRingManager = gameObject.AddComponent<TrackLaneRingsManager>();
+        //
+        //
+        //     if (platformDescriptor.RotationController == null)
+        //         platformDescriptor.RotationController = gameObject.AddComponent<GridRotationController>();
+        //     ringManager = platformDescriptor.SmallRingManager;
+        // }
+        //
+        // if (ringManager == null)
+        //     return;
+        //
+        // //Also overwrite LightsManager if applicable
+        // var tubeRingLights = trackRings.trackLaneRingPrefab.GetComponentsInChildren<TubeLight>();
+        // foreach (var tubeLight in tubeRingLights)
+        // {
+        //     var eventId = -1;
+        //     switch (tubeLight.lightsID)
+        //     {
+        //         case LightsID.Static:
+        //             eventId = (int)EventTypeValue.BackLasers;
+        //             break;
+        //         case LightsID.BackLights:
+        //             eventId = (int)EventTypeValue.BackLasers;
+        //             break;
+        //         case LightsID.BigRingLights:
+        //             eventId = (int)EventTypeValue.RingLights;
+        //             break;
+        //         case LightsID.LeftLasers:
+        //             eventId = (int)EventTypeValue.LeftLasers;
+        //             break;
+        //         case LightsID.RightLasers:
+        //             eventId = (int)EventTypeValue.RightLasers;
+        //             break;
+        //         case LightsID.TrackAndBottom:
+        //             eventId = (int)EventTypeValue.CenterLights;
+        //             break;
+        //         case LightsID.Unused5:
+        //             eventId = (int)EventTypeValue.ColorBoost;
+        //             break;
+        //         case LightsID.Unused6:
+        //             eventId = (int)EventTypeValue.ExtraLeftLights;
+        //             break;
+        //         case LightsID.Unused7:
+        //             eventId = (int)EventTypeValue.ExtraRightLights;
+        //             break;
+        //         case LightsID.Unused10:
+        //             eventId = (int)EventTypeValue.ExtraLeftLasers;
+        //             break;
+        //         case LightsID.Unused11:
+        //             eventId = (int)EventTypeValue.ExtraRightLasers;
+        //             break;
+        //     }
+        //
+        //     if (eventId > 0)
+        //     {
+        //         var currentLightsManager = platformDescriptor.LightingManagers[eventId];
+        //         var newLightsManager = gameObject.AddComponent<BasicLightManager>();
+        //
+        //         newLightsManager.ControllingLights = currentLightsManager.ControllingLights;
+        //         newLightsManager.RotatingLights = currentLightsManager.RotatingLights;
+        //         newLightsManager.GroupLightsBasedOnZ();
+        //
+        //         Destroy(currentLightsManager);
+        //
+        //
+        //         platformDescriptor.LightingManagers[eventId] = newLightsManager;
+        //         break;
+        //     }
+        // }
+        //
+        // if (tubeRingLights.Length == 0)
+        // {
+        //     var tubeLightsManager = platformDescriptor.LightingManagers[(int)EventTypeValue.RingLights];
+        //     var meshRenderers = trackRings.trackLaneRingPrefab.GetComponentsInChildren<MeshRenderer>();
+        //
+        //     foreach (var renderer in meshRenderers) SetRendererMaterials(renderer, tubeLightsManager);
+        //
+        //     var newLightsManager = gameObject.AddComponent<BasicLightManager>();
+        //
+        //     newLightsManager.ControllingLights = tubeLightsManager.ControllingLights;
+        //     newLightsManager.RotatingLights = tubeLightsManager.RotatingLights;
+        //     newLightsManager.GroupLightsBasedOnZ();
+        //
+        //     Destroy(tubeLightsManager);
+        //     platformDescriptor.LightingManagers[(int)EventTypeValue.RingLights] = newLightsManager;
+        // }
+        //
+        // //LightsManager lm = pd.LightingManagers[MapEvent.EVENT_TYPE_RING_LIGHTS];
+        // ReplaceBetterBlack(trackRings.trackLaneRingPrefab);
+        // SetLightingEventsForTubeLights(trackRings.trackLaneRingPrefab);
+        //
+        // var tlr = trackRings.trackLaneRingPrefab.AddComponent<TrackLaneRing>();
+        // ringManager.Prefab = tlr;
+        //
+        // ringManager.RingCount = trackRings.ringCount;
+        // if (trackRings.useStepEffect)
+        // {
+        //     ringManager.MINPositionStep = trackRings.minPositionStep;
+        //     ringManager.MAXPositionStep = trackRings.maxPositionStep;
+        // }
+        // else
+        // {
+        //     ringManager.MINPositionStep = ringManager.MAXPositionStep = trackRings.ringPositionStep;
+        // }
+        //
+        // ringManager.MoveSpeed = trackRings.moveSpeed;
+        // ringManager.RotationStep = trackRings.rotationStep;
+        // ringManager.PropagationSpeed = Mathf.RoundToInt(trackRings.rotationPropagationSpeed);
+        // ringManager.FlexySpeed = trackRings.rotationFlexySpeed;
+        //
+        // if (trackRings.useRotationEffect)
+        // {
+        //     var rotationEffect = gameObject.AddComponent<TrackLaneRingsRotationEffect>();
+        //     ringManager.RotationEffect = rotationEffect;
+        //
+        //     rotationEffect.Manager = ringManager;
+        //     rotationEffect.StartupRotationAngle = trackRings.startupRotationAngle;
+        //     rotationEffect.StartupRotationStep = trackRings.startupRotationStep;
+        //     rotationEffect.StartupRotationPropagationSpeed =
+        //         Mathf.RoundToInt(trackRings.startupRotationPropagationSpeed);
+        //     rotationEffect.StartupRotationFlexySpeed = trackRings.startupRotationFlexySpeed;
+        // }
     }
 }

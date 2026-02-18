@@ -20,7 +20,7 @@ namespace Beatmap.V4
             group.ID = node["g"].AsInt;
 
             var boxEvents = node["e"].AsArray;
-            group.Events = boxEvents.Linq.Select(x =>
+            group.Boxes = boxEvents.Linq.Select(x =>
             {
                 var boxNode = x.Value;
 
@@ -51,11 +51,11 @@ namespace Beatmap.V4
 
                         evt.Color = commonEventData.Color;
                         evt.Brightness = commonEventData.Brightness;
-                        evt.TransitionType = commonEventData.TransitionType;
+                        evt.Easing = commonEventData.Easing;
+                        evt.UsePrevious = commonEventData.UsePrevious;
                         evt.Frequency = commonEventData.Frequency;
                         evt.StrobeBrightness = commonEventData.StrobeBrightness;
                         evt.StrobeFade = commonEventData.StrobeFade;
-                        evt.Easing = commonEventData.Easing;
                         
                         return evt;
                     }).ToArray();
@@ -78,7 +78,7 @@ namespace Beatmap.V4
             
             var boxArray = new JSONArray();
 
-            foreach (var boxEvent in group.Events)
+            foreach (var boxEvent in group.Boxes)
             {
                 var boxNode = new JSONObject();
                 boxNode["f"] =

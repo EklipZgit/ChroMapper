@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 375d41bff0e98c74abb5947b0ab58ffb, type: 3}
+  m_Name: BritneyEnvironmentColorScheme
+  m_EditorClassIdentifier: 
+  LeftNoteColor: {r: 0.9137255, g: 0.14117648, b: 0.60080135, a: 1}
+  RightNoteColor: {r: 0.24842751, g: 0.578789, b: 1, a: 1}
+  ObstacleColor: {r: 0.8396226, g: 0.09639232, b: 0, a: 1}
+  environmentLeftColor: {r: 0.99215686, g: 0.011764706, b: 0.9882353, a: 1}
+  environmentRightColor: {r: 0.19215687, g: 0.5058824, b: 0.90588236, a: 1}
+  environmentWhiteColor: {r: 0.7254902, g: 0.7254902, b: 0.7254902, a: 1}
+  environmentLeftBoostColor: {r: 1, g: 0.45911944, b: 0.5087922, a: 1}
+  environmentRightBoostColor: {r: 0.48235297, g: 0.9294118, b: 0.7960785, a: 1}
+  environmentWhiteBoostColor: {r: 0.7254902, g: 0.7254902, b: 0.7254902, a: 1}

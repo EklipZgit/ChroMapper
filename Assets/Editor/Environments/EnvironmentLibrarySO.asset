@@ -1,0 +1,322 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8bed67aecb0df44e94f1913900677f0, type: 3}
+  m_Name: EnvironmentLibrarySO
+  m_EditorClassIdentifier: 
+  Meshes: {fileID: 11400000, guid: e07afa9dddf2714c3a5da9236d935d92, type: 2}
+  Materials: {fileID: 11400000, guid: 2e04ee815276c77229446fe0a3c138bf, type: 2}
+  Sprites: {fileID: 11400000, guid: 7d4a03bd213b89d0f8a85e0e68069714, type: 2}
+  Shaders:
+  - name: Custom/CloudsLitTransparent
+    shader: {fileID: 0}
+    keywords:
+    - ALIGN_NORMALS_TO_WORLD_ORIGIN
+    - BACK_LIGHTING
+    - _DECALBLEND_ALPHABLEND
+    - DIFFUSE
+    - DIFFUSE_TEXTURE
+    - _DISSOLVEAXIS_LOCALX
+    - DISTORT_TEXTURE
+    - _DISTORTUVCHANNEL_ZERO
+    - _EMISSIONCOLORTYPE_FLAT
+    - FADE_BOTTOM
+    - FADE_RUNWAY
+    - REFLECTION_PROBE_BOX_PROJECTION
+    - _VERTEXMODE_ROTATELAYERS
+    - VERTEX_WAVE
+  - name: Custom/CloudsOpaque
+    shader: {fileID: 0}
+    keywords:
+    - DIFFUSE
+    - ENABLE_FOG
+    - ENABLE_NOISE_DITHERING
+    - ENABLE_WORLD_NOISE
+    - INVERT_DIFFUSE_NORMAL
+  - name: Custom/CustomParticles
+    shader: {fileID: 4800000, guid: f37e27f7abee47e783236b976c416d6b, type: 3}
+    keywords:
+    - _ALPHACHANNEL_RED
+    - _BILLBOARD_CAMERA_FACING
+    - _BILLBOARD_FULL
+    - _BILLBOARD_Y_AXIS
+    - COLOR_ARRAY
+    - COLOR_GRADIENT
+    - _CURVE_VERTICES_AROUND_Z
+    - _CUSTOM_TIME_FREEZE
+    - _CUSTOM_TIME_SONG_TIME
+    - CUSTOM_WRAPPING
+    - _CUTOUTTYPE_ALPHA_CLIP
+    - DISSOLVE
+    - DISSOLVE_PROGRESS_FROM_VERTEX_ALPHA
+    - _DISSOLVE_SPACE_WORLD
+    - _DISSOLVE_SPACE_WORLD_CENTERED
+    - DISTORTION_SIMPLE
+    - DISTORTION_TARGET_MASK
+    - FLIPBOOK_BLENDING_OFF
+    - _FOGTYPE_ALPHA
+    - _FOGTYPE_LERP
+    - HEIGHT_FOG
+    - MAIN_TEXTURE
+    - MASK
+    - MASK2
+    - _MASK2BLEND_ADD
+    - _MASK2BLEND_MASKED_ADD
+    - MASK2_RED_IS_ALPHA
+    - _MASKBLEND_ADD
+    - _MASKBLEND_MASKED_ADD
+    - MASK_RED_IS_ALPHA
+    - MESH_PACKING
+    - MIPMAP_BIAS
+    - NOISE_DITHERING
+    - PIXELATE
+    - PRECISE_FOG
+    - REMAP_WHITEBOOST_START
+    - SECONDARY_COLOR
+    - _SECONDARY_UVS_IMPORT
+    - SECONDARY_UVS_MASK
+    - SECONDARY_UVS_MASK2
+    - SPATIAL_DISPLACEMENT
+    - SPECTROGRAM_COLOR
+    - _SPECTROGRAM_FULL
+    - SQUARE_ALPHA
+    - TEXTURE_COLOR
+    - TEXTURE_FLIPBOOK
+    - _VERTEXCHANNELS_A
+    - VERTEX_COLOR
+    - VERTEX_DISPLACEMENT
+    - VERTEX_RED_IS_ALPHA
+    - VERTEX_SQUARE_ALPHA
+    - VIEW_ALIGN_DISAPPEAR
+    - _WHITEBOOSTTYPE_ALWAYS
+    - _WHITEBOOSTTYPE_MAINEFFECT
+  - name: Custom/Mirror
+    shader: {fileID: 4800000, guid: 924f42608618457aaa16fdd29dca98e6, type: 3}
+    keywords:
+    - DETAIL_NORMAL_MAP
+    - DIFFUSE
+    - ENABLE_DIRT
+    - LIGHT_FALLOFF
+    - LIGHTMAP
+  - name: Custom/OpaqueNeonLight
+    shader: {fileID: 4800000, guid: cebb0ae868240dce5a0ddbc949c0cd45, type: 3}
+    keywords:
+    - ENABLE_HEIGHT_FOG
+  - name: Custom/Parametric3SliceSprite
+    shader: {fileID: 4800000, guid: 7f020873d09bfb30e92edf9fcc23b42c, type: 3}
+    keywords:
+    - ALPHA_WIDTH_SCALE
+    - ENABLE_ANGLE_DISAPPEAR
+    - ENABLE_FOG
+    - ENABLE_HEIGHT_FOG
+    - ENABLE_NOISE_DITHERING
+    - ENABLE_WORLD_NOISE
+    - ENABLE_WORLD_SPACE_FADE
+    - ENABLE_Y_AXIS_BILLBOARD
+    - SQUARE_ALPHA
+    - USE_FOG_FOR_LIGHTS
+    - _WHITEBOOSTTYPE_ALWAYS
+    - _WHITEBOOSTTYPE_MAINEFFECT
+    - WORLD_NOISE_WARP
+  - name: Custom/ParametricBoxFakeGlow
+    shader: {fileID: 4800000, guid: 9b7b63fa10c74487886cae023ec79011, type: 3}
+    keywords:
+    - ENABLE_MAIN_EFFECT_WHITE_BOOST
+    - _WHITEBOOSTTYPE_ALWAYS
+  - name: Custom/Rain
+    shader: {fileID: 0}
+    keywords:
+    - _ALPHACHANNEL_RED
+    - _FOGTYPE_COLOR
+    - MASK_RED_IS_ALPHA
+    - TEXTURE_COLOR
+    - _VERTEXCHANNELS_A
+    - VERTEX_COLOR
+    - VERTEX_SQUARE_ALPHA
+  - name: Custom/SetDepthOnly
+    shader: {fileID: 0}
+    keywords: []
+  - name: Custom/SimpleLightning
+    shader: {fileID: 4800000, guid: d38a0cb249974565a59a0d783a380e72, type: 3}
+    keywords:
+    - ENABLE_TARGET_POINT
+    - ENABLE_TIME_OFFSET
+  - name: Custom/SimpleLit
+    shader: {fileID: 4800000, guid: efaf81b9ea3d6c94fb2f56e67786306d, type: 3}
+    keywords:
+    - _ACES_APPROACH_BEFORE_EMISSIVE
+    - BOTH_SIDES_DIFFUSE
+    - COLOR_ARRAY
+    - COLOR_BY_FOG
+    - _CUSTOM_TIME_FREEZE
+    - _CUSTOM_TIME_SONG_TIME
+    - DIFFUSE
+    - DIFFUSE_TEXTURE
+    - DIRECTIONAL_RIM
+    - DISPLACEMENT_BIDIRECTIONAL
+    - DISPLACEMENT_SPATIAL
+    - DISSOLVE
+    - DISSOLVE_COLOR
+    - DISSOLVE_PROGRESS
+    - _DISSOLVE_SPACE_WORLD_CENTERED
+    - DISSOLVE_TEXTURE
+    - DISTANCE_DARKENING
+    - DISTORTION_SIMPLE
+    - _DISTORTION_TARGET_EMISSIONTEX
+    - _EMISSION_ALPHA_SOURCE_COPY_EMISSION
+    - _EMISSIONCOLORTYPE_GRADIENT
+    - _EMISSIONCOLORTYPE_MAINEFFECT
+    - _EMISSIONCOLORTYPE_WHITEBOOST
+    - EMISSION_MASK
+    - _EMISSIONTEXTURE_FLIPBOOK
+    - _EMISSIONTEXTURE_SIMPLE
+    - _EMISSION_TEXTURE_SOURCE_MPM_G
+    - _EMISSION_TEXTURE_SOURCE_SDF
+    - ENABLE_EMISSION_ANGLE_DISAPPEAR
+    - ENABLE_RIM_DIM
+    - FLIPBOOK_BLENDING_OFF
+    - FOG
+    - FOG_COLOR_HIGHLIGHT
+    - GROUND_FADE
+    - HEIGHT_FOG
+    - HEIGHT_FOG_DEPTH_SOFTEN
+    - INSTANCED_PRIVATE_POINT_LIGHT
+    - INVERT_RIM_DIM
+    - LIGHT_FALLOFF
+    - LIGHTMAP
+    - _MASKBLEND_ADD
+    - MESH_PACKING
+    - _METALLIC_TEXTURE_MPM_R
+    - METAL_SMOOTHNESS_TEXTURE
+    - MULTIPLY_REFLECTIONS
+    - NOISE_DITHERING
+    - NORMAL_MAP
+    - OCCLUSION
+    - OCCLUSION_BEFORE_EMISSION
+    - OCCLUSION_DETAIL
+    - _OCCLUSION_SOURCE_MPM_B
+    - _PARALLAX_FLEXIBLE
+    - _PARALLAX_FLEXIBLE_REFLECTED
+    - PARALLAX_IRIDESCENCE
+    - _PARALLAX_MASKING_VERTEX_COLOR
+    - POINT_LIGHT_IS_LOCAL
+    - PRECISE_NORMAL
+    - PRIVATE_POINT_LIGHT
+    - _PROBE_CALCULATION_PRECISE
+    - REFLECTION_PROBE
+    - REFLECTION_PROBE_BOX_PROJECTION
+    - REFLECTION_PROBE_BOX_PROJECTION_OFFSET
+    - REFLECTION_STATIC
+    - _RIMLIGHT_LERP
+    - _RIM_WHITEBOOSTTYPE_MAINEFFECT
+    - SECONDARY_EMISSION_MASK
+    - _SECONDARY_UVS_ADDITIVE_OFFSET
+    - SECONDARY_UVS_EMISSION
+    - SECONDARY_UVS_EMISSION_MASK
+    - SECONDARY_UVS_EMISSION_MASK2
+    - _SECONDARY_UVS_IMPORT
+    - SECONDARY_UVS_OCCLUSION_DETAIL
+    - _SMOOTHNESS_TEXTURE_MPM_A
+    - _SMOOTHNESS_TEXTURE_MPM_G_ROUGHNESS
+    - _SPECTROGRAM_FLAT
+    - SPECULAR
+    - SPECULAR_ANTIFLICKER
+    - TEXTURE3D_EMISSION
+    - TEXTURE3D_LOOKUP
+    - USE_SPHERICAL_NORMAL_OFFSET
+    - VERTEXDISPLACEMENT_MASK
+    - _VERTEXDISPLACEMENT_MASK_SOURCE_3D_TEXTURE
+    - _VERTEXDISPLACEMENT_MASK_SOURCE_EMISSION_TEXTURE
+    - _VERTEXMODE_COLOR
+    - _VERTEXMODE_DISPLACEMENT
+    - _VERTEXMODE_EMISSION
+    - _VERTEXMODE_EMISSIVE_MULT_ADD
+    - _VERTEXMODE_METALSMOOTHNESS
+    - _VERTEX_WHITEBOOSTTYPE_ALWAYS
+    - _VERTEX_WHITEBOOSTTYPE_MAINEFFECT
+  - name: Custom/SimpleStencil
+    shader: {fileID: 0}
+    keywords: []
+  - name: Custom/Spectrogram
+    shader: {fileID: 4800000, guid: 299fea2b05da409785fdc7e33f2c8c4e, type: 3}
+    keywords:
+    - DIFFUSE
+    - LIGHT_FALLOFF
+    - SPECULAR
+  - name: Custom/TransparentNeonLight
+    shader: {fileID: 4800000, guid: 832a82fd92f0281b48fdec3c5c3d2c77, type: 3}
+    keywords:
+    - ENABLE_HEIGHT_FOG
+    - ENABLE_WORLD_NOISE
+    - ENABLE_WORLD_SPACE_FADE
+    - REFLECTION_PROBE
+    - WORLD_NOISE_WARP
+  - name: Custom/UnlitSpectrogram
+    shader: {fileID: 4800000, guid: 41e7cce6237f4c27a653fc80119b1c56, type: 3}
+    keywords: []
+  - name: Custom/WaterLit
+    shader: {fileID: 0}
+    keywords:
+    - _DECALBLEND_ALPHABLEND
+    - _EMISSIONCOLORTYPE_FLAT
+    - FOG
+    - HEIGHT_FOG
+    - NOISE_DITHERING
+    - NORMAL_MAP
+    - REFLECTION_PROBE
+    - REFLECTION_PROBE_BOX_PROJECTION
+    - REFLECTION_PROBE_BOX_PROJECTION_OFFSET
+    - Z_FADE
+  <SkyboxMaterial>k__BackingField: {fileID: 2100000, guid: e08c9a8c6d50c52499b383fff6fa82dd,
+    type: 2}
+  <SliceSprite>k__BackingField: {fileID: 4300000, guid: a96174836f8b90962b9d37a6d8d29363,
+    type: 2}
+  <MirrorRenderer>k__BackingField: {fileID: 11400000, guid: b54751a1fc3ac3983afa3aa9d4141095,
+    type: 2}
+  layerMaskRemap:
+  - name: Default
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 1
+  - name: DontShowInExternalMRCamera
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 1
+  - name: Environment
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 16384
+  - name: EnvironmentPhysics
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 1048576
+  - name: NeonLight
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 128
+  - name: NonReflectedParticles
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 1
+  - name: PlayersPlace
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 1
+  - name: UI
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 32
+  - name: Water
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 1
+  fallbackPrefab: {fileID: 2927685545579233791, guid: 9d262d62360e69247bc42d35220aebd6,
+    type: 3}

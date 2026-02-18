@@ -30,7 +30,7 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
 
     public event Action<BaseObject> OnContainerSpawned;
     public event Action<BaseObject> OnContainerDespawned;
-    public AudioTimeSyncController AudioTimeSyncController;
+    public BeatmapRuntimeContext Context;
 
     /// <summary>
     ///     Loaded objects in this collection.
@@ -79,13 +79,11 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
 
     internal virtual void LateUpdate()
     {
-        if ((AudioTimeSyncController.IsPlaying && !UseChunkLoadingWhenPlaying)
-            || AudioTimeSyncController.CurrentSongBpmTime == previousAtscBeat)
-        {
+        if ((Context.Atsc.IsPlaying && !UseChunkLoadingWhenPlaying)
+            || Mathf.Approximately(Context.Atsc.CurrentSongBpmTime, previousAtscBeat))
             return;
-        }
 
-        previousAtscBeat = AudioTimeSyncController.CurrentSongBpmTime;
+        previousAtscBeat = Context.Atsc.CurrentSongBpmTime;
         var nearestChunk = (int)Math.Round(previousAtscBeat / (double)ChunkSize, MidpointRounding.AwayFromZero);
         if (nearestChunk != previousChunk)
         {
@@ -178,7 +176,7 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
     public virtual void RefreshPool(bool forceRefresh = false)
     {
         var epsilon = Mathf.Pow(10, -9);
-        if (AudioTimeSyncController.IsPlaying)
+        if (Context.Atsc.IsPlaying)
         {
             var spawnOffset = UseChunkLoadingWhenPlaying
                 ? ChunksLoadedWhilePlaying * ChunkSize
@@ -187,8 +185,8 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
                 ? -ChunksLoadedWhilePlaying * ChunkSize
                 : DespawnCallbackController.Offset;
             RefreshPool(
-                AudioTimeSyncController.CurrentSongBpmTime + despawnOffset - epsilon,
-                AudioTimeSyncController.CurrentSongBpmTime + spawnOffset + epsilon,
+                Context.Atsc.CurrentSongBpmTime + despawnOffset - epsilon,
+                Context.Atsc.CurrentSongBpmTime + spawnOffset + epsilon,
                 forceRefresh);
         }
         else
@@ -402,27 +400,29 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
 
         foreach (var objectType in objectTypes)
         {
-            var collection = BeatmapObjectContainerCollection.GetCollectionForType(objectType);
+            var collection = GetCollectionForType(objectType);
             if (collection == null) continue;
             // REVIEW: not sure if allocation is avoidable
             foreach (var obj in collection.LoadedObjects)
             {
                 if (obj.JsonTime > jsonTime)
-                {
                     obj.RecomputeSongBpmTime();
-                }
-                else if (collection is ChainGridContainer || collection is ArcGridContainer)
+                else
                 {
-                    if ((obj as BaseSlider).TailJsonTime > jsonTime)
+                    switch (collection)
                     {
-                        obj.RecomputeSongBpmTime();
-                    }
-                }
-                else if (collection is ObstacleGridContainer)
-                {
-                    if ((obj as BaseObstacle).Duration + obj.JsonTime > jsonTime)
-                    {
-                        obj.RecomputeSongBpmTime();
+                        case ChainGridContainer:
+                        case ArcGridContainer:
+                            {
+                                if ((obj as BaseSlider).TailJsonTime > jsonTime) obj.RecomputeSongBpmTime();
+                                break;
+                            }
+                        case ObstacleGridContainer:
+                            {
+                                if ((obj as BaseObstacle).Duration + obj.JsonTime > jsonTime)
+                                    obj.RecomputeSongBpmTime();
+                                break;
+                            }
                     }
                 }
             }
@@ -430,34 +430,22 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
             foreach (var container in collection.LoadedContainers)
             {
                 if (container.Key.JsonTime > jsonTime)
-                {
                     container.Value.UpdateGridPosition();
-                }
                 else if (collection is ObstacleGridContainer)
                 {
                     if (container.Key.JsonTime + (container.Key as BaseObstacle).Duration > jsonTime)
-                    {
                         container.Value.UpdateGridPosition();
-                    }
                 }
                 else if (collection is ChainGridContainer || collection is ArcGridContainer)
-                {
                     if ((container.Key as BaseSlider).TailJsonTime > jsonTime)
-                    {
                         container.Value.UpdateGridPosition();
-                    }
-                }
             }
         }
 
         // Bookmarks aren't in the ContainerCollection yet so we have this
         foreach (var bookmark in bookmarkManagerInstance.bookmarkContainers)
-        {
             if (bookmark.Data.JsonTime > jsonTime)
-            {
                 bookmark.Data.RecomputeSongBpmTime();
-            }
-        }
 
         bookmarkManagerInstance.RefreshBookmarkTimelinePositions();
         bookmarkManagerInstance.RefreshBookTooltips();
@@ -570,12 +558,8 @@ public abstract class BeatmapObjectContainerCollection<T> : BeatmapObjectContain
 
         // Easier to process recyclings at the beginning, rather than try to deal with it later.
         if (forceRefresh)
-        {
             while (ObjectsWithContainers.Count > 0)
-            {
                 RecycleContainer(ObjectsWithContainers[0]);
-            }
-        }
         else
         {
             var containersSpan = ObjectsWithContainers.AsSpan();
@@ -622,10 +606,7 @@ public abstract class BeatmapObjectContainerCollection<T> : BeatmapObjectContain
         {
             var obj = windowSpan[i];
 
-            if (obj.HasMatchingTrack(TrackFilterID))
-            {
-                CreateContainerFromPool(obj);
-            }
+            if (obj.HasMatchingTrack(TrackFilterID)) CreateContainerFromPool(obj);
         }
 
         // this is a bit of a dirty check but i'd like this early return
@@ -639,15 +620,11 @@ public abstract class BeatmapObjectContainerCollection<T> : BeatmapObjectContain
             if (!obj.HasMatchingTrack(TrackFilterID)) continue;
 
             if (obj is BaseObstacle obs && obs.SongBpmTime < lowerBound && obs.SongBpmTime + obs.Duration >= lowerBound)
-            {
                 CreateContainerFromPool(obj);
-            }
             else if (obj is BaseSlider slider
                 && slider.SongBpmTime < lowerBound
                 && slider.TailSongBpmTime >= lowerBound)
-            {
                 CreateContainerFromPool(obj);
-            }
         }
     }
 
@@ -717,16 +694,10 @@ public abstract class BeatmapObjectContainerCollection<T> : BeatmapObjectContain
         }
 
         // Happy path
-        if (MapObjects[index] == tObj)
-        {
-            return true;
-        }
+        if (MapObjects[index] == tObj) return true;
 
         // United Mapper packets obviously cannot send the object reference so check comparison equality. 
-        if (MapObjects[index].CompareTo(tObj) == 0)
-        {
-            return true;
-        }
+        if (MapObjects[index].CompareTo(tObj) == 0) return true;
 
         // Potentially unhappy path: Binary Search returns an object, but turns out to be the incorrect object.
         // We assume this is only going to happen for stacked objects so we march indexes to see if we can find it.
@@ -772,10 +743,7 @@ public abstract class BeatmapObjectContainerCollection<T> : BeatmapObjectContain
 
         SpawnObject(localObj, out var localConflicting, removeConflicting, refreshesPool, inCollectionOfSpawns);
 
-        for (var i = 0; i < localConflicting.Count; i++)
-        {
-            conflicting.Add(localConflicting[i]);
-        }
+        for (var i = 0; i < localConflicting.Count; i++) conflicting.Add(localConflicting[i]);
     }
 
     /// <inheritdoc/>
@@ -800,13 +768,9 @@ public abstract class BeatmapObjectContainerCollection<T> : BeatmapObjectContain
 
         //Debug.Log($"Spawning object with hash code {obj.GetHashCode()}");
         if (removeConflicting)
-        {
             RemoveConflictingObjects(new T[] { obj }, out conflicting);
-        }
         else
-        {
             conflicting = new List<T>();
-        }
 
         var search = MapObjects.BinarySearch(obj);
         var insertIdx = search >= 0 ? search : ~search;

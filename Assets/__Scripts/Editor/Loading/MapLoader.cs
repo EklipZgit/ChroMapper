@@ -65,8 +65,6 @@ public class MapLoader : MonoBehaviour
             events.AllRotationEvents = eventsList.FindAll(it => it.IsLaneRotationEvent());
             events.AllBoostEvents = eventsList.FindAll(it => it.IsColorBoostEvent());
             events.AllBpmEvents = eventsList.FindAll(it => it.IsBpmEvent());
-            events.AllUtilityEvents = eventsList.FindAll(it => it.IsUtilityEvent());
-            events.AllLaserRotationEvents = eventsList.FindAll(it => it.IsLaserRotationEvent());
 
             events.LinkAllLightEvents();
         }
@@ -75,6 +73,12 @@ public class MapLoader : MonoBehaviour
         {
             var events = collection as CustomEventGridContainer;
             events.LoadAll();
+        }
+
+        if (objects is List<BaseEnvironmentEnhancement> && objects.Count > 0)
+        {
+            var context = Resources.FindObjectsOfTypeAll<BeatmapRuntimeContext>().FirstOrDefault();
+            context.NotifyEnvironment();
         }
 
         collection.RefreshPool(true);

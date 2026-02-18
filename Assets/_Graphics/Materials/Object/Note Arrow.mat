@@ -11,11 +11,16 @@ Material:
   m_Shader: {fileID: 4800000, guid: 1c1dcf599a39e9a48bd2f0d56ca8ed0e, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - DIFFUSE
+  - FOG
+  - SPECULAR
   m_InvalidKeywords:
+  - ENABLE_FOG
   - _EMISSION
   - _GLOSSINESS_FROM_BASE_ALPHA
   - _SPECULAR_COLOR
+  - _ZWRITE_ON
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
@@ -79,33 +84,50 @@ Material:
     - _Blend: 0
     - _BumpScale: 1
     - _ColorMult: 1.71875
+    - _ColorMultiplier: 1
     - _Cull: 2
+    - _CullMode: 2
     - _Cutoff: 0.5
     - _Cutout: 0
-    - _CutoutEdgeGlow: 0.5
+    - _CutoutEdgeGlow: 1
     - _CutoutEdgeWidth: 0.05
     - _CutoutSize: 4
     - _DstBlend: 0
+    - _EnableDiffuse: 1
+    - _EnableFog: 1
+    - _EnableHeightFog: 0
+    - _EnableRimDim: 0
+    - _EnableSpecular: 1
     - _FogHeightOffset: 0
-    - _FogHeightScale: 1
+    - _FogHeightScale: 2.5
     - _FogScale: 1
-    - _FogStartOffset: 0
+    - _FogStartOffset: 100
     - _GlossMapScale: 1
-    - _Glossiness: 0.5
+    - _Glossiness: 0.7
     - _GlossinessSource: 0
     - _GlossyReflections: 1
     - _Glow: 0.1
+    - _Intensity: 0
     - _Lit: 0
-    - _Metallic: 0
-    - _ObjectTime: 209.02
+    - _Metallic: 0.5
+    - _ObjectTime: 0
     - _OcclusionStrength: 1
     - _OpaqueAlpha: 1
     - _OutlineWidth: 0.05
     - _QueueOffset: 0
     - _ReceiveShadows: 1
+    - _RimCameraDistanceOffset: 2
+    - _RimCameraDistanceScale: 0.3
+    - _RimDarkening: 0.2
+    - _RimDistanceOffset: 5
+    - _RimDistanceScale: 0.03
+    - _RimIntensity: 0
+    - _RimOffset: -0.1
+    - _RimPower: 0.75
+    - _RimScale: 2
     - _Rotation: 0
     - _Shininess: 0.572
-    - _Smoothness: 0.572
+    - _Smoothness: 0.95
     - _SmoothnessSource: 1
     - _SmoothnessTextureChannel: 0
     - _SpecSource: 0
@@ -114,6 +136,7 @@ Material:
     - _Surface: 0
     - _TranslucentAlpha: 0.45
     - _WorkflowMode: 1
+    - _ZTest: 4
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 0.572}

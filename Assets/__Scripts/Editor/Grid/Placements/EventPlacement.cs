@@ -21,6 +21,8 @@ public class EventPlacement : BasePlacement<BaseEvent, EventContainer, EventGrid
     [SerializeField] private ToggleColourDropdown dropdown;
     [SerializeField] private CreateEventTypeLabels labels;
 
+    [SerializeField] private BeatmapRuntimeContext context;
+
     public bool PlacePrecisionRotation;
     public int PrecisionRotationValue;
 
@@ -105,7 +107,7 @@ public class EventPlacement : BasePlacement<BaseEvent, EventContainer, EventGrid
             {
                 var lightIdToApply = ObjectContainerCollection.PropagationEditing == EventGridContainer.PropMode.Prop
                     ? labels.PropIdToLightIds(ObjectContainerCollection.EventTypeToPropagate, propID)
-                    : new[] { labels.EditorToLightID(ObjectContainerCollection.EventTypeToPropagate, propID) };
+                    : new[] { labels.LaneToLightID(ObjectContainerCollection.EventTypeToPropagate, propID) };
                 QueuedData.CustomLightID = lightIdToApply;
             }
             else
@@ -114,7 +116,7 @@ public class EventPlacement : BasePlacement<BaseEvent, EventContainer, EventGrid
 
         if (CanPlaceChromaEvents
             && dropdown.Visible
-            && QueuedData.IsLightEvent(EnvironmentInfoHelper.GetName())
+            && context.TracksDefinition.GetBasicOrDefault(QueuedData.Type).Kind == BasicEventKind.Lights
             && QueuedData.Value != (int)LightValue.Off)
             QueuedData.CustomColor = colorPicker.CurrentColor;
         else
@@ -130,7 +132,7 @@ public class EventPlacement : BasePlacement<BaseEvent, EventContainer, EventGrid
     {
         QueuedData.Value = value;
 
-        if ((QueuedData.IsLaserRotationEvent() || QueuedData.IsUtilityEvent())
+        if (context.TracksDefinition.GetBasicOrDefault(QueuedData.Type).Kind == BasicEventKind.IntValue
             && int.TryParse(laserSpeedInputField.text, out var laserSpeed))
             QueuedData.Value = laserSpeed;
 
@@ -146,7 +148,7 @@ public class EventPlacement : BasePlacement<BaseEvent, EventContainer, EventGrid
 
     public void UpdateQueuedFloatValue(float value)
     {
-        if (!QueuedData.IsLightEvent())
+        if (context.TracksDefinition.GetBasicOrDefault(QueuedData.Type).Kind != BasicEventKind.Lights)
         {
             QueuedData.FloatValue = 1f;
             return;
@@ -183,7 +185,7 @@ public class EventPlacement : BasePlacement<BaseEvent, EventContainer, EventGrid
 
     public void SwapColors(bool red)
     {
-        if (!QueuedData.IsLightEvent()) return;
+        if (context.TracksDefinition.GetBasicOrDefault(QueuedData.Type).Kind != BasicEventKind.Lights) return;
         if (queuedValue >= ColourManager.RgbintOffset || queuedValue == (int)LightValue.Off) return;
         if ((red && queuedValue >= (int)LightValue.RedOn)
             || (!red && queuedValue >= (int)LightValue.BlueOn && queuedValue < (int)LightValue.RedOn))
@@ -204,7 +206,7 @@ public class EventPlacement : BasePlacement<BaseEvent, EventContainer, EventGrid
 
     private void UpdateAppearance()
     {
-        if (PlacementVisualContainer is null)
+        if (PlacementVisualContainer == null)
         {
             CreateVisual();
             if (IsIdle) HideVisual();
@@ -212,6 +214,12 @@ public class EventPlacement : BasePlacement<BaseEvent, EventContainer, EventGrid
 
         PlacementVisualContainer!.EventData = QueuedData;
         eventAppearanceSo.SetEventAppearance(PlacementVisualContainer, false);
+    }
+
+    public override void CreateVisual()
+    {
+        base.CreateVisual();
+        PlacementVisualContainer!.TracksDefinition = context.TracksDefinition;
     }
 
     public void PlaceChroma(bool v) => Settings.Instance.PlaceChromaColor = v;

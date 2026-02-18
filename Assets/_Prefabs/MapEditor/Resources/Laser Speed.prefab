@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 223252498038527282}
   - component: {fileID: 114352424554176422}
   - component: {fileID: 114645892633144274}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Laser Speed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -84,7 +84,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &114645892633144274
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113,7 +113,7 @@ GameObject:
   - component: {fileID: 224209423954938404}
   - component: {fileID: 222678216647490390}
   - component: {fileID: 114295562041771024}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Label Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}

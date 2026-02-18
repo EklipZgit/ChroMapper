@@ -47,14 +47,14 @@ Shader "ChroMapper/TextMeshPro/Distance Field"
         _MaskSoftnessX ("Mask SoftnessX", float) = 0
         _MaskSoftnessY ("Mask SoftnessY", float) = 0
 
-        _StencilComp ("Stencil Comparison", Float) = 8
-        _Stencil ("Stencil ID", Float) = 0
-        _StencilOp ("Stencil Operation", Float) = 0
-        _StencilWriteMask ("Stencil Write Mask", Float) = 255
-        _StencilReadMask ("Stencil Read Mask", Float) = 255
+        _StencilComp ("Stencil Comparison", float) = 8
+        _Stencil ("Stencil ID", float) = 0
+        _StencilOp ("Stencil Operation", float) = 0
+        _StencilWriteMask ("Stencil Write Mask", float) = 255
+        _StencilReadMask ("Stencil Read Mask", float) = 255
 
-        _CullMode ("Cull Mode", Float) = 0
-        _ColorMask ("Color Mask", Float) = 15
+        _CullMode ("Cull Mode", float) = 0
+        _ColorMask ("Color Mask", float) = 15
     }
 
     SubShader
@@ -78,7 +78,7 @@ Shader "ChroMapper/TextMeshPro/Distance Field"
 
         Pass
         {
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma target 3.0
             #pragma vertex VertShader
             #pragma fragment PixShader
@@ -97,7 +97,7 @@ Shader "ChroMapper/TextMeshPro/Distance Field"
                 UNITY_VERTEX_INPUT_INSTANCE_ID
                 float4 position : POSITION;
                 float3 normal : NORMAL;
-                fixed4 color : COLOR;
+                half4 color : COLOR;
                 float4 texcoord0 : TEXCOORD0;
                 float2 texcoord1 : TEXCOORD1;
             };
@@ -107,7 +107,7 @@ Shader "ChroMapper/TextMeshPro/Distance Field"
                 UNITY_VERTEX_INPUT_INSTANCE_ID
                 UNITY_VERTEX_OUTPUT_STEREO
                 float4 position : SV_POSITION;
-                fixed4 color : COLOR;
+                half4 color : COLOR;
                 float2 atlas : TEXCOORD0; // Atlas
                 float4 param : TEXCOORD1; // alphaClip, scale, bias, weight
                 float4 mask : TEXCOORD2; // Position in object space(xy), pixel Size(zw)
@@ -115,7 +115,7 @@ Shader "ChroMapper/TextMeshPro/Distance Field"
 
                 #if (UNDERLAY_ON || UNDERLAY_INNER)
                 float4 texcoord2 : TEXCOORD4; // u,v, scale, bias
-                fixed4 underlayColor : COLOR1;
+                half4 underlayColor : COLOR1;
                 #endif
 
                 float4 textures : TEXCOORD5;
@@ -132,7 +132,7 @@ Shader "ChroMapper/TextMeshPro/Distance Field"
             {
                 pixel_t output;
 
-                    UNITY_INITIALIZE_OUTPUT(pixel_t, output);
+                UNITY_INITIALIZE_OUTPUT(pixel_t, output);
                 UNITY_SETUP_INSTANCE_ID(input);
                 UNITY_TRANSFER_INSTANCE_ID(input, output);
                 UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
@@ -149,9 +149,12 @@ Shader "ChroMapper/TextMeshPro/Distance Field"
                 pixelSize /= float2(_ScaleX, _ScaleY) * abs(mul((float2x2)UNITY_MATRIX_P, _ScreenParams.xy));
                 float scale = rsqrt(dot(pixelSize, pixelSize));
                 scale *= abs(input.texcoord0.w) * _GradientScale * (_Sharpness + 1);
-                if (UNITY_MATRIX_P[3][3] == 0) scale = lerp(abs(scale) * (1 - _PerspectiveFilter), scale,
-                                         abs(dot(UnityObjectToWorldNormal(input.normal.xyz),
-                                                                          normalize(WorldSpaceViewDir(vert)))));
+                if (UNITY_MATRIX_P[3][3] == 0)
+                    scale = lerp(abs(scale) * (1 - _PerspectiveFilter), scale,
+                                 abs(dot(
+                                     UnityObjectToWorldNormal(
+                                         input.normal.xyz),
+                                     normalize(WorldSpaceViewDir(vert)))));
 
                 float weight = lerp(_WeightNormal, _WeightBold, bold) / 4.0;
                 weight = (weight + _FaceDilate) * _ScaleRatioA * 0.5;
@@ -193,11 +196,11 @@ Shader "ChroMapper/TextMeshPro/Distance Field"
                 output.atlas = input.texcoord0;
                 output.param = float4(alphaClip, scale, bias, weight);
                 const half2 maskSoftness = half2(max(_UIMaskSoftnessX, _MaskSoftnessX),
-                       max(_UIMaskSoftnessY, _MaskSoftnessY));
+                                                 max(_UIMaskSoftnessY, _MaskSoftnessY));
                 output.mask = half4(vert.xy * 2 - clampedRect.xy - clampedRect.zw,
-                                                            0.25 / (0.25 * maskSoftness + pixelSize.xy));
+                                    0.25 / (0.25 * maskSoftness + pixelSize.xy));
                 output.viewDir = mul((float3x3)_EnvMatrix,
-                                        _WorldSpaceCameraPos.xyz - mul(unity_ObjectToWorld, vert).xyz);
+                                     _WorldSpaceCameraPos.xyz - mul(unity_ObjectToWorld, vert).xyz);
                 #if (UNDERLAY_ON || UNDERLAY_INNER)
                 output.texcoord2 = float4(input.texcoord0 + bOffset, bScale, bBias);
                 output.underlayColor = underlayColor;
@@ -208,13 +211,13 @@ Shader "ChroMapper/TextMeshPro/Distance Field"
             }
 
 
-            fixed4 PixShader(pixel_t input) : SV_Target
+            half4 PixShader(pixel_t input) : SV_Target
             {
                 UNITY_SETUP_INSTANCE_ID(input);
 
                 float c = tex2D(_MainTex, input.atlas).a;
 
-                #ifndef UNDERLAY_ON
+                #if !defined(UNDERLAY_ON)
                 clip(c - input.param.x);
                 #endif
 
@@ -233,7 +236,8 @@ Shader "ChroMapper/TextMeshPro/Distance Field"
 
                 faceColor *= tex2D(_FaceTex, input.textures.xy + float2(_FaceUVSpeedX, _FaceUVSpeedY) * _Time.y);
                 outlineColor *= tex2D(_OutlineTex,
-                                      input.textures.zw + float2(_OutlineUVSpeedX, _OutlineUVSpeedY) * _Time.y);
+                                      input.textures.zw + float2(
+                                          _OutlineUVSpeedX, _OutlineUVSpeedY) * _Time.y);
 
                 faceColor = GetColor(sd, faceColor, outlineColor, outline, softness);
 
@@ -261,7 +265,7 @@ Shader "ChroMapper/TextMeshPro/Distance Field"
                 faceColor.a = 0;
                 return faceColor * input.color.a;
             }
-            ENDCG
+            ENDHLSL
         }
     }
 

@@ -1,15 +1,18 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Beatmap.Containers;
 using Beatmap.Info;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LoadedDifficultySelectController : MonoBehaviour
 {
+    [SerializeField] private BeatmapRuntimeContext context;
     [SerializeField] private MapLoader mapLoader;
     [SerializeField] private TMP_Dropdown dropdown;
+    [SerializeField] private EnvironmentListSO environmentList;
 
     public static event Action OnLoadedDifficultyChanged;
 
@@ -48,9 +51,7 @@ public class LoadedDifficultySelectController : MonoBehaviour
             dropdown.interactable = false;
         }
         else
-        {
             dropdown.onValueChanged.AddListener(OnDropdownChange);
-        }
     }
 
     private void OnDropdownChange(int value)
@@ -68,7 +69,7 @@ public class LoadedDifficultySelectController : MonoBehaviour
             return;
         }
 
-        SelectDifficulty(queuedDropdownValue);
+        StartCoroutine(SelectDifficulty(queuedDropdownValue));
     }
 
     private void UnsavedChangesDialogueResult(int result)
@@ -76,65 +77,59 @@ public class LoadedDifficultySelectController : MonoBehaviour
         if (result == 0) // 0 - Yes
         {
             autoSaveController.Save();
-            SelectDifficulty(queuedDropdownValue);
+            StartCoroutine(SelectDifficulty(queuedDropdownValue));
         }
         else if (result == 1) // 1 - No
-        {
-            SelectDifficulty(queuedDropdownValue);
-        }
+            StartCoroutine(SelectDifficulty(queuedDropdownValue));
         else // 2 - Cancel
-        {
             dropdown.SetValueWithoutNotify(previousDropdownValue);
-        }
     }
 
-    private void SelectDifficulty(int value)
+    private IEnumerator SelectDifficulty(int value)
     {
         // If saving, wait until it's done
         while (autoSaveController.IsSaving) ;
 
-        var info = BeatSaberSongContainer.Instance.Info;
+        var currentPlatform = EnvironmentInfoHelper.GetCurrentEnvironment();
+        
         var infoDifficulty = setDifficulties[value];
-        var currentPlatform = SongInfoEditUI.GetEnvironmentIDFromString(
-            info.EnvironmentNames[BeatSaberSongContainer.Instance.MapDifficultyInfo.EnvironmentNameIndex]);
         BeatSaberSongContainer.Instance.MapDifficultyInfo = infoDifficulty;
-
-
-        var nextPlatform =
-            SongInfoEditUI.GetEnvironmentIDFromString(info.EnvironmentNames[infoDifficulty.EnvironmentNameIndex]);
+        var nextPlatform = EnvironmentInfoHelper.GetCurrentEnvironment(infoDifficulty);
+        
         var customPlat = false;
-        if (!string.IsNullOrEmpty(info.CustomEnvironmentMetadata.Name))
-        {
-            if (CustomPlatformsLoader
-                    .Instance.GetAllEnvironmentIds()
-                    .IndexOf(info.CustomEnvironmentMetadata.Name)
-                >= 0)
-                customPlat = true;
-        }
+        // if (!string.IsNullOrEmpty(info.CustomEnvironmentMetadata.Name))
+        // {
+        //     if (CustomPlatformsLoader
+        //             .Instance.GetAllEnvironmentIds()
+        //             .IndexOf(info.CustomEnvironmentMetadata.Name)
+        //         >= 0)
+        //         customPlat = true;
+        // }
 
         //Instantiate platform, grab descriptor
         if (currentPlatform != nextPlatform || customPlat)
         {
-            DestroyImmediate(LoadInitialMap.Platform.gameObject);
-            var platform = LoadInitialMap.PlatformPrefabs[nextPlatform] == null
-                ? LoadInitialMap.PlatformPrefabs[0]
-                : LoadInitialMap.PlatformPrefabs[nextPlatform];
-            if (customPlat)
-                platform = CustomPlatformsLoader.Instance.LoadPlatform(info.CustomEnvironmentMetadata.Name, platform);
+            context.SetEnvironment(null);
+            var sceneUnload = SceneManager.UnloadSceneAsync(currentPlatform);
+            while (!sceneUnload.isDone) yield return null;
 
-            var instantiate = customPlat
-                ? platform
-                : Instantiate(platform, LoadInitialMap.PlatformOffset, Quaternion.identity);
-            var descriptor = instantiate.GetComponent<PlatformDescriptor>();
-            EventContainer.ModifyTypeMode = descriptor.SortMode;
+            var platform = context.EnvironmentList.GetEnvironmentOrDefault(nextPlatform);
+
+            // if (customPlat)
+            //     platform = CustomPlatformsLoader.Instance.LoadPlatform(info.CustomEnvironmentMetadata.Name, platform);
+
+            var sceneLoad = SceneManager.LoadSceneAsync(platform.ID, LoadSceneMode.Additive);
+            while (!sceneLoad.isDone) yield return null;
+
+            var descriptor = FindAnyObjectByType<EnvironmentDescriptor>();
+
+            context.SetEnvironment(descriptor);
 
             // this is already handled from LoadedDifficultyChangedEvent it seems
             // LoadInitialMap.PopulateColorsFromMapInfo(descriptor);
             // LoadInitialMap.UpdateObjectContainerColors(descriptor.ColorScheme);
 
             // amazing spaghetti code
-            LoadInitialMap.Platform = descriptor;
-            LoadInitialMap.NotifyPlatformLoaded();
         }
 
         var newMap = BeatSaberSongUtils.GetMapFromInfoFiles(

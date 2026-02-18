@@ -8,6 +8,7 @@ using UnityEngine;
 public class PaintSelectedObjects : MonoBehaviour
 {
     [SerializeField] private ColorPicker picker;
+    public static TracksDefinitionSO TracksDefinition;
 
     public void Paint()
     {
@@ -24,8 +25,12 @@ public class PaintSelectedObjects : MonoBehaviour
         foreach (var unique in SelectionController.SelectedObjects.DistinctBy(x => x.ObjectType))
             BeatmapObjectContainerCollection.GetCollectionForType(unique.ObjectType).RefreshPool(true);
 
-        BeatmapActionContainer.AddAction(new ActionCollectionAction(allActions, true, true,
-            "Painted a selection of objects."));
+        BeatmapActionContainer.AddAction(
+            new ActionCollectionAction(
+                allActions,
+                true,
+                true,
+                "Painted a selection of objects."));
     }
 
     private bool DoPaint(BaseObject obj)
@@ -33,7 +38,7 @@ public class PaintSelectedObjects : MonoBehaviour
         if (obj is BaseEvent evt)
         {
             if (evt.Value == (int)LightValue.Off) return false; //Ignore painting Off events
-            if (!evt.IsLightEvent(EnvironmentInfoHelper.GetName())) return false; //Ignore non-light event
+            if (TracksDefinition.GetBasicOrDefault(evt.Type).Kind != BasicEventKind.Lights) return false; //Ignore non-light event
             if (evt.CustomLightGradient != null)
             {
                 //Modify start color if we are painting a Chroma 2.0 gradient

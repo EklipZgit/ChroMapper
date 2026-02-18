@@ -29,7 +29,7 @@ public class VariableNJSProvider : StateManager<VariableNJSStateData, BaseNJSEve
 
     public event Action OnChanged;
 
-    private readonly VariableNJSStateChunksContainer stateChunksContainer = new();
+    private readonly VariableNJSStateChunksContainer container = new();
 
     public override void Initialize()
     {
@@ -45,17 +45,17 @@ public class VariableNJSProvider : StateManager<VariableNJSStateData, BaseNJSEve
             BaseBeatPerMinute);
 
         InitializeStates(
-            stateChunksContainer,
+            container,
             CreateState(new BaseNJSEvent { UsePrevious = 1 }),
             CreateState(new BaseNJSEvent { UsePrevious = 1 }));
         InsertData(new BaseNJSEvent());
     }
 
-    public override void UpdateTime(float time)
+    public override void UpdateTime(bool isPlaying, float time)
     {
-        stateChunksContainer.IsCurrentOrFindState(time, Atsc.IsPlaying);
+        container.IsCurrentOrFindState(time, Atsc.IsPlaying);
 
-        var currentState = stateChunksContainer.CurrentState;
+        var currentState = container.CurrentState;
         var normalizedTime = (time - currentState.StartTime) / (currentState.EndTime - currentState.StartTime);
         var njs = Mathf.Max(
             BaseNoteJumpSpeed
@@ -85,11 +85,6 @@ public class VariableNJSProvider : StateManager<VariableNJSStateData, BaseNJSEve
         HalfJumpDistanceScaled = JumpDistanceScaled * 0.5f;
 
         OnChanged?.Invoke();
-    }
-
-    public override void BuildFromData(IEnumerable<BaseNJSEvent> dataList)
-    {
-        foreach (var evt in dataList) InsertData(evt);
     }
 
     protected override void OnInsertUpdateToPreviousState(VariableNJSStateData newState, VariableNJSStateData prevState)
@@ -139,7 +134,7 @@ public class VariableNJSProvider : StateManager<VariableNJSStateData, BaseNJSEve
         if (hjds.TryAdd(hjdInBeat, 0)) MaxHalfJumpDurationInBeats = hjds.Keys.Max();
         hjds[hjdInBeat]++;
 
-        HandleInsertState(stateChunksContainer, state);
+        HandleInsertState(container, state);
     }
 
     protected override void OnRemoveUpdatePreviousAndNextState(
@@ -159,8 +154,8 @@ public class VariableNJSProvider : StateManager<VariableNJSStateData, BaseNJSEve
 
     public override void RemoveData(BaseNJSEvent data, BaseNJSEvent original)
     {
-        var state = HandleRemoveState(stateChunksContainer, data, original);
-        if (state == stateChunksContainer.CurrentState) stateChunksContainer.SetStateAt(data.SongBpmTime);
+        var state = HandleRemoveState(container, data, original);
+        if (state == container.CurrentState) container.SetStateAt(data.SongBpmTime);
 
         var factor = Mathf.Min((BaseNoteJumpSpeed + state.RelativeNjs) / BaseNoteJumpSpeed, 1f);
         var hjd = OneBeatDuration * BaseHalfJumpDurationInBeats / factor;
@@ -174,7 +169,7 @@ public class VariableNJSProvider : StateManager<VariableNJSStateData, BaseNJSEve
         MaxHalfJumpDurationInBeats = hjds.Keys.Max();
     }
 
-    public override void Reset() => UpdateState();
+    public override void Refresh() => UpdateState();
 
     protected override VariableNJSStateData CreateState(BaseNJSEvent data) => new(data);
 }

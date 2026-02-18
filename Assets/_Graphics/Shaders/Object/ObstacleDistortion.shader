@@ -12,31 +12,41 @@
         _Cutout("Cutout", Range(0, 1)) = 0.0
         _CutoutTexOffset("Cutout Tex Offset", Vector) = (0, 0, 0, 0)
 
-        [Header(Fog Settings)]
+        [Header(Fog Settings)] [Space]
+        [Toggle(FOG)] _EnableFog ("Enable Fog", float) = 1
+        _FogStartOffset ("Fog Start Offset", float) = 1
+        _FogScale ("Fog Scale", float) = 1
         [Space]
-        _FogStartOffset ("Fog Start Offset", Float) = 0
-        _FogScale ("Fog Scale", Float) = 1
+        [Toggle(HEIGHT_FOG)] _EnableHeightFog ("Enable Height Fog", float) = 0
+        _FogHeightOffset ("Fog Height Offset", float) = 0
+        _FogHeightScale ("Fog Height Scale", float) = 1
+
+        [Header(Settings)] [Space]
+        [Enum(UnityEngine.Rendering.BlendMode)] _BlendModeSrc ("Blend Src", float) = 1
+        [Enum(UnityEngine.Rendering.BlendMode)] _BlendModeDst ("Blend Dst", float) = 1
+        [Enum(UnityEngine.Rendering.BlendMode)] _BlendModeSrcA ("Blend Src A", float) = 0
+        [Enum(UnityEngine.Rendering.BlendMode)] _BlendModeDstA ("Blend Dst A", float) = 0
+        [Enum(UnityEngine.Rendering.BlendOp)] _BlendOp ("Blend Operation", float) = 0
+
         [Space]
-        [Toggle]
-        ENABLE_HEIGHT_FOG ("Enable Height Fog", Float) = 0
-        _FogHeightOffset ("Fog Height Offset", Float) = 0
-        _FogHeightScale ("Fog Height Scale", Float) = 1
+        [Enum(UnityEngine.Rendering.CullMode)] _CullMode ("Cull Mode", float) = 2
+        [Enum(UnityEngine.Rendering.CompareFunction)] _ZTest ("Z Test", float) = 4
+        [Toggle] _ZWrite ("Z Write", float) = 1
     }
     SubShader
     {
-        // Beat Saber uses transparent+3 queue and it helps to get transparent stuff behind gets rendered
-        // but this comes at a cost of no instancing
-        // however, Geometry+100 causes some transparency to not get rendered correctly
-        // but it's more performant as it has instancing
-        // perhaps, we can do separate material for performance and quality?
+        Blend [_BlendModeSrc] [_BlendModeDst], [_BlendModeSrcA] [_BlendModeDstA]
+        BlendOp [_BlendOp]
+        Cull [_CullMode]
+        ZTest [_ZTest]
+        ZWrite [_ZWrite]
+
         Tags
         {
             "Queue"="Transparent+50"
             "IgnoreProjector"="True"
             "RenderType"="Transparent"
         }
-        Cull Off
-        LOD 100
 
         GrabPass
         {
@@ -47,42 +57,42 @@
             }
         }
 
-        HLSLINCLUDE
-        #include "UnityCG.cginc"
-        #include "../CGIncludes/Noise.cginc"
-        #include "../CGIncludes/BloomFog.cginc"
-
-        // These are global properties and should not be instanced
-        uniform float _MainAlpha = 0.5;
-
-        // Define instanced properties
-        UNITY_INSTANCING_BUFFER_START(Props)
-            UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
-            UNITY_DEFINE_INSTANCED_PROP(float4, _WorldScale)
-            UNITY_DEFINE_INSTANCED_PROP(float, _Cutout)
-            UNITY_DEFINE_INSTANCED_PROP(float4, _CutoutTexOffset)
-        UNITY_INSTANCING_BUFFER_END(Props)
-
-        float _DistortionStrength;
-        float _DistortionScale;
-        sampler2D _GrabTexture;
-        sampler3D _CutoutTex;
-
-        float _FogStartOffset;
-        float _FogScale;
-        float _FogHeightOffset;
-        float _FogHeightScale;
-        ENDHLSL
-
         Pass
         {
             HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_instancing
-            #pragma multi_compile _ ENABLE_BLOOM_FOG
-            #pragma multi_compile _ CM_PREVIEW_MODE
-            #pragma shader_feature ENABLE_HEIGHT_FOG
+
+            #pragma shader_feature_local_fragment FOG
+            #pragma shader_feature_local_fragment HEIGHT_FOG
+
+            #pragma multi_compile_fragment _ BLOOM_FOG
+            #pragma multi_compile_fragment _ CM_PREVIEW_MODE
+
+            #include "UnityCG.cginc"
+            #include "../ShaderLibrary/Noise.hlsl"
+            #include "../ShaderLibrary/BloomFog.hlsl"
+            #include "../ShaderLibrary/CustomTonemapping.hlsl"
+
+            uniform sampler2D _GrabTexture;
+            uniform sampler3D _CutoutTex;
+            uniform float _MainAlpha = 0.5;
+
+            float _DistortionStrength;
+            float _DistortionScale;
+
+            float _FogStartOffset;
+            float _FogScale;
+            float _FogHeightOffset;
+            float _FogHeightScale;
+
+            UNITY_INSTANCING_BUFFER_START(Props)
+                UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
+                UNITY_DEFINE_INSTANCED_PROP(float4, _WorldScale)
+                UNITY_DEFINE_INSTANCED_PROP(float, _Cutout)
+                UNITY_DEFINE_INSTANCED_PROP(float4, _CutoutTexOffset)
+            UNITY_INSTANCING_BUFFER_END(Props)
 
             struct appdata
             {
@@ -100,8 +110,7 @@
                 float3 localPos : TEXCOORD1;
                 float3 worldPos : TEXCOORD2;
                 float4 screenPos : TEXCOORD3;
-                float4 customScreenPos : TEXCOORD4;
-                float3 cutoutPos : TEXCOORD5;
+                float3 cutoutPos : TEXCOORD4;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
@@ -114,11 +123,10 @@
 
                 o.pos = UnityObjectToClipPos(v.vertex);
                 o.localPos = v.vertex;
-                o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
-                o.uv = v.uv;
+                o.worldPos.xyz = mul(unity_ObjectToWorld, v.vertex).xyz;
+                o.uv.xy = v.uv;
                 o.normal = v.normal;
-                o.screenPos = ComputeGrabScreenPos(o.pos);
-                o.customScreenPos = ComputeScreenPosCustom(o.pos);
+                o.screenPos = ComputeScreenPosCustom(o.pos);
                 o.cutoutPos = mul(unity_ObjectToWorld, v.vertex.xyz);
                 return o;
             }
@@ -146,52 +154,37 @@
                 float cutout = UNITY_ACCESS_INSTANCED_PROP(Props, _Cutout);
                 float4 cutoutTexOffset = UNITY_ACCESS_INSTANCED_PROP(Props, _CutoutTexOffset);
                 float noise = tex3D(_CutoutTex, (i.cutoutPos + cutoutTexOffset.xyz) * 0.3);
-                float c = noise - cutout;
-                clip(c);
+                float cl = noise - cutout;
+                clip(cl);
 
-                fixed4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
-                fixed mag = length(color.rgb);
-                if (mag > 1)
-                {
-                    color.rgb = normalize(color.rgb) * min(sqrt(mag), 16) * color.a;
-                    color.rgb = saturate(color.rgb);
-                }
-                color *= 0.075;
-                color.a = 0;
-
-                float _FogScale = 5;
-                float _FogAttenuation = 0.00002;
-                float distance = length(i.worldPos - _WorldSpaceCameraPos);
-                float factor = max(dot(distance, distance), 0);
-                factor = max(factor * _FogScale, 0);
-                factor = 1 / (factor * _FogAttenuation + 1);
-                // return float4(factor.xxx, 0);
+                float4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
 
                 // float2 halfUv = 0.5 - abs(0.5 - i.uv);
                 float2 screenUV = i.screenPos.xy / i.screenPos.w;
                 // obstacle distortion need to be stable, cannot be based on screen space position
                 // horribad
                 screenUV.x +=
-                    (simplex((i.uv * uvScalar + cutoutTexOffset * _DistortionScale) / _DistortionScale) - 0.5) *
+                    (simplex((i.uv.xy * uvScalar + cutoutTexOffset * _DistortionScale) / _DistortionScale) - 0.5) *
                     _DistortionStrength;
                 screenUV.y +=
                     (simplex((i.uv.yx * uvScalar.yx + cutoutTexOffset * _DistortionScale) / _DistortionScale) - 0.5) *
                     _DistortionStrength;
 
-                fixed4 col = color + tex2D(_GrabTexture, screenUV);
-                col.a *= 0.25;
-                col = col * factor;
+                color.a = 0;
+                color = color * 0.25 + tex2D(_GrabTexture, screenUV);
 
-                #ifdef CM_PREVIEW_MODE
-                #ifdef ENABLE_HEIGHT_FOG
-                BLOOM_FOG_HEIGHT_FOG_APPLY(col, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale,
-                                        _FogHeightOffset, _FogHeightScale);
+                ACES_TONE_MAPPING_APPLY(color);
+
+                #if defined(CM_PREVIEW_MODE) && defined(BLOOM_FOG) && defined(FOG)
+                #if defined(HEIGHT_FOG)
+                BLOOM_FOG_HEIGHT_APPLY(color, i.screenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset,
+                                       _FogHeightScale);
                 #else
-                BLOOM_FOG_APPLY(col, i.customScreenPos, i.worldPos, _FogStartOffset, _FogScale);
+                BLOOM_FOG_APPLY(color, i.screenPos, i.worldPos, _FogStartOffset, _FogScale);
                 #endif
                 #endif
 
-                return col;
+                return color;
             }
             ENDHLSL
         }

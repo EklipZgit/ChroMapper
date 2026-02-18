@@ -246,8 +246,8 @@ namespace TestsEditMode
             Assert.AreEqual(2.5f, colorGroup.JsonTime);
             Assert.AreEqual(0f, colorGroup.ID);
             
-            Assert.AreEqual(1, colorGroup.Events.Count);
-            var colorGroupBox = colorGroup.Events[0];
+            Assert.AreEqual(1, colorGroup.Boxes.Count);
+            var colorGroupBox = colorGroup.Boxes[0];
             
             var colorIndexFilter = colorGroupBox.IndexFilter;
             Assert.AreEqual(1, colorIndexFilter.Chunks);
@@ -271,7 +271,7 @@ namespace TestsEditMode
             var colorGroupEvent = colorGroupBox.Events[0];
             
             Assert.AreEqual(0.5f, colorGroupEvent.JsonTime);
-            Assert.AreEqual(0, colorGroupEvent.TransitionType);
+            Assert.AreEqual(0, colorGroupEvent.UsePrevious);
             Assert.AreEqual(1, colorGroupEvent.Color);
             Assert.AreEqual(1.5f, colorGroupEvent.Brightness);
             Assert.AreEqual(0, colorGroupEvent.Frequency);
@@ -285,8 +285,8 @@ namespace TestsEditMode
             Assert.AreEqual(2.5f, rotationGroup.JsonTime);
             Assert.AreEqual(0f, rotationGroup.ID);
             
-            Assert.AreEqual(1, rotationGroup.Events.Count);
-            var rotationGroupBox = rotationGroup.Events[0];
+            Assert.AreEqual(1, rotationGroup.Boxes.Count);
+            var rotationGroupBox = rotationGroup.Boxes[0];
             
             var rotationIndexFilter = rotationGroupBox.IndexFilter;
             Assert.AreEqual(1, rotationIndexFilter.Chunks);
@@ -325,8 +325,8 @@ namespace TestsEditMode
             Assert.AreEqual(2.5f, translationGroup.JsonTime);
             Assert.AreEqual(0f, translationGroup.ID);
             
-            Assert.AreEqual(1, translationGroup.Events.Count);
-            var translationGroupBox = translationGroup.Events[0];
+            Assert.AreEqual(1, translationGroup.Boxes.Count);
+            var translationGroupBox = translationGroup.Boxes[0];
             
             var translationIndexFilter = translationGroupBox.IndexFilter;
             Assert.AreEqual(1, translationIndexFilter.Chunks);
@@ -363,8 +363,8 @@ namespace TestsEditMode
             Assert.AreEqual(2.5f, vfxGroup.JsonTime);
             Assert.AreEqual(0, vfxGroup.ID);
             
-            Assert.AreEqual(1, vfxGroup.Events.Count);
-            var vfxGroupBox = vfxGroup.Events[0];
+            Assert.AreEqual(1, vfxGroup.Boxes.Count);
+            var vfxGroupBox = vfxGroup.Boxes[0];
             
             var vfxIndexFilter = vfxGroupBox.IndexFilter;
             Assert.AreEqual(1, vfxIndexFilter.Chunks);
@@ -384,10 +384,10 @@ namespace TestsEditMode
             Assert.AreEqual(0, vfxGroupBox.Easing);
             Assert.AreEqual(1, vfxGroupBox.VfxAffectFirst);
 
-            Assert.AreEqual(1, vfxGroupBox.FloatFxEvents.Count);
-            var fxFloatEvent = vfxGroupBox.FloatFxEvents[0];
+            Assert.AreEqual(1, vfxGroupBox.Events.Length);
+            var fxFloatEvent = vfxGroupBox.Events[0];
             Assert.AreEqual(0.5f, fxFloatEvent.JsonTime);
-            Assert.AreEqual(0, fxFloatEvent.UsePreviousEventValue);
+            Assert.AreEqual(0, fxFloatEvent.UsePrevious);
             Assert.AreEqual(1, fxFloatEvent.Easing);
             Assert.AreEqual(100.5f, fxFloatEvent.Value);
         }

@@ -17,27 +17,20 @@ public class PauseManager : MonoBehaviour, CMInput.IPauseMenuActions
     [SerializeField] private AutoSaveController saveController;
     [SerializeField] private GameObject questSaveButton;
 
-    private readonly IEnumerable<Type> disabledActionMaps = typeof(CMInput).GetNestedTypes().Where(t =>
-        t.IsInterface && t != typeof(CMInput.IUtilsActions) && t != typeof(CMInput.IPauseMenuActions));
+    private readonly IEnumerable<Type> disabledActionMaps = typeof(CMInput)
+        .GetNestedTypes()
+        .Where(t =>
+            t.IsInterface && t != typeof(CMInput.IUtilsActions) && t != typeof(CMInput.IPauseMenuActions));
 
-    private PlatformDescriptor platform;
     private UIModeType previousUIModeType = UIModeType.Normal;
 
-    private void Awake()
-    {
-        questSaveButton.SetActive(Adb.IsAdbInstalled(out _));
-    }
+    private void Awake() => questSaveButton.SetActive(Adb.IsAdbInstalled(out _));
 
-    private void Start()
-    {
-        OptionsController.OnOptionsLoaded += OptionsLoaded;
-        LoadInitialMap.OnPlatformLoaded += OnPlatformLoaded;
-    }
+    private void Start() => OptionsController.OnOptionsLoaded += OptionsLoaded;
 
     private void OnDestroy()
     {
         IsPaused = false;
-        LoadInitialMap.OnPlatformLoaded -= OnPlatformLoaded;
         OptionsController.OnOptionsLoaded -= OptionsLoaded;
     }
 
@@ -50,8 +43,6 @@ public class PauseManager : MonoBehaviour, CMInput.IPauseMenuActions
     {
         if (IsPaused) TogglePause();
     }
-
-    private void OnPlatformLoaded(PlatformDescriptor descriptor) => platform = descriptor;
 
     public void TogglePause()
     {
@@ -71,7 +62,7 @@ public class PauseManager : MonoBehaviour, CMInput.IPauseMenuActions
         StartCoroutine(TransitionMenu());
     }
 
-    public void Quit(bool save) 
+    public void Quit(bool save)
     {
         if (save) // Save and Quit button
         {
@@ -79,12 +70,15 @@ public class PauseManager : MonoBehaviour, CMInput.IPauseMenuActions
         }
         else // Quit button
         {
-            PersistentUI.Instance.ShowDialogBox("Mapper", "save", SaveAndExitResult,
+            PersistentUI.Instance.ShowDialogBox(
+                "Mapper",
+                "save",
+                SaveAndExitResult,
                 PersistentUI.DialogBoxPresetType.YesNoCancel);
         }
     }
 
-    public void SaveAndExitToMenu() 
+    public void SaveAndExitToMenu()
     {
         saveController.Save();
         if (BeatSaberSongContainer.Instance.MultiMapperConnection != null)
@@ -107,19 +101,26 @@ public class PauseManager : MonoBehaviour, CMInput.IPauseMenuActions
     public void SaveAndQuitCM()
     {
         saveController.Save();
-#if UNITY_EDITOR
-            EditorApplication.isPlaying = false;
-#else
+    #if UNITY_EDITOR
+        EditorApplication.isPlaying = false;
+    #else
                 Application.Quit();
-#endif
+    #endif
     }
 
-    public void ExitToMenu() => PersistentUI.Instance.ShowDialogBox("Mapper", "save", 
-            SaveAndExitResult, PersistentUI.DialogBoxPresetType.YesNoCancel);
+    public void ExitToMenu() =>
+        PersistentUI.Instance.ShowDialogBox(
+            "Mapper",
+            "save",
+            SaveAndExitResult,
+            PersistentUI.DialogBoxPresetType.YesNoCancel);
 
     public void CloseCM() =>
-        PersistentUI.Instance.ShowDialogBox("Mapper", "quit.save",
-            SaveAndQuitCmResult, PersistentUI.DialogBoxPresetType.YesNoCancel);
+        PersistentUI.Instance.ShowDialogBox(
+            "Mapper",
+            "quit.save",
+            SaveAndQuitCmResult,
+            PersistentUI.DialogBoxPresetType.YesNoCancel);
 
     private void SaveAndExitResult(int result)
     {
@@ -150,13 +151,13 @@ public class PauseManager : MonoBehaviour, CMInput.IPauseMenuActions
             saveController.CheckAndSave(AutoSaveController.SaveType.Quit);
         }
         else if (result == 1) //Middle button (ID 1) clicked; the user does not want to save before exiting.
-#if UNITY_EDITOR
+    #if UNITY_EDITOR
         {
             EditorApplication.isPlaying = false;
         }
-#else
+    #else
                 Application.Quit();
-#endif
+    #endif
         //Right button (ID 2) would be clicked; the user does not want to exit the editor after all, so we aint doing shit.
     }
 
@@ -164,12 +165,15 @@ public class PauseManager : MonoBehaviour, CMInput.IPauseMenuActions
 
     private IEnumerator TransitionMenu()
     {
-        if (IsPaused) yield return FadeInLoadingScreen(loadingCanvasGroup);
-        else yield return FadeOutLoadingScreen(loadingCanvasGroup);
+        if (IsPaused)
+            yield return FadeInLoadingScreen(loadingCanvasGroup);
+        else
+            yield return FadeOutLoadingScreen(loadingCanvasGroup);
     }
 
-    public Coroutine FadeInLoadingScreen(CanvasGroup group) => StartCoroutine(
-        FadeInLoadingScreen(Settings.Instance.InstantEscapeMenuTransitions ? 999f : 2f, loadingCanvasGroup));
+    public Coroutine FadeInLoadingScreen(CanvasGroup group) =>
+        StartCoroutine(
+            FadeInLoadingScreen(Settings.Instance.InstantEscapeMenuTransitions ? 999f : 2f, loadingCanvasGroup));
 
     private IEnumerator FadeInLoadingScreen(float rate, CanvasGroup group)
     {

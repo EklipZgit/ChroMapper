@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Beatmap.Enums;
 using Beatmap.V3;
 using SimpleJSON;
 using UnityEngine;
@@ -11,10 +12,11 @@ namespace Beatmap.Base
         public IntFxEventBase[] IntFxEvents = { };
         public FloatFxEventBase[] FloatFxEvents = { };
 
-        public override JSONNode ToJson() => Settings.Instance.MapVersion switch
-        {
-            3 => V3FxEventsCollection.ToJson(this)
-        };
+        public override JSONNode ToJson() =>
+            Settings.Instance.MapVersion switch
+            {
+                3 => V3FxEventsCollection.ToJson(this)
+            };
 
 
         public override BaseItem Clone()
@@ -30,35 +32,44 @@ namespace Beatmap.Base
     // TODO: Would be worth cleaning up this later
     public class IntFxEventBase : FxEventBase<int>
     {
-        public override JSONNode ToJson() => Settings.Instance.MapVersion switch
-        {
-            3 => V3IntFxEvent.ToJson(this)
-        };
+        public override JSONNode ToJson() =>
+            Settings.Instance.MapVersion switch
+            {
+                3 => V3IntFxEvent.ToJson(this)
+            };
 
         public override BaseItem Clone()
         {
             var floatFxEvents = new IntFxEventBase();
             floatFxEvents.JsonTime = JsonTime;
-            floatFxEvents.UsePreviousEventValue = UsePreviousEventValue;
+            floatFxEvents.UsePrevious = UsePrevious;
             floatFxEvents.Value = Value;
             return floatFxEvents;
         }
+
+        public override ObjectType ObjectType { get; set; } = ObjectType.Event;
+        public override string CustomKeyColor => "Unused";
+        public override string CustomKeyTrack => "Unused";
+
+        protected override bool IsConflictingWithObjectAtSameTime(BaseObject other, bool deletion = false) =>
+            GetHashCode() == other.GetHashCode();
     }
 
     public class FloatFxEventBase : FxEventBase<float>, IEquatable<FloatFxEventBase>
     {
         public int Easing;
 
-        public override JSONNode ToJson() => Settings.Instance.MapVersion switch
-        {
-            3 => V3FloatFxEvent.ToJson(this)
-        };
+        public override JSONNode ToJson() =>
+            Settings.Instance.MapVersion switch
+            {
+                3 => V3FloatFxEvent.ToJson(this)
+            };
 
         public override BaseItem Clone()
         {
             var floatFxEvents = new FloatFxEventBase();
             floatFxEvents.JsonTime = JsonTime;
-            floatFxEvents.UsePreviousEventValue = UsePreviousEventValue;
+            floatFxEvents.UsePrevious = UsePrevious;
             floatFxEvents.Value = Value;
             floatFxEvents.Easing = Easing;
             return floatFxEvents;
@@ -68,10 +79,10 @@ namespace Beatmap.Base
         {
             if (other is null) return false;
             if (ReferenceEquals(this, other)) return true;
-            return Easing == other.Easing 
-                   && Mathf.Approximately(JsonTime, other.JsonTime) 
-                   && UsePreviousEventValue == other.UsePreviousEventValue 
-                   && Mathf.Approximately(Value, other.Value);
+            return Easing == other.Easing
+                && Mathf.Approximately(JsonTime, other.JsonTime)
+                && UsePrevious == other.UsePrevious
+                && Mathf.Approximately(Value, other.Value);
         }
 
         public override bool Equals(object obj)
@@ -88,18 +99,24 @@ namespace Beatmap.Base
             {
                 var hashCode = Easing;
                 hashCode = (hashCode * 397) ^ JsonTime.GetHashCode();
-                hashCode = (hashCode * 397) ^ UsePreviousEventValue;
+                hashCode = (hashCode * 397) ^ UsePrevious;
                 hashCode = (hashCode * 397) ^ Value.GetHashCode();
 
                 return hashCode;
             }
         }
+
+        public override ObjectType ObjectType { get; set; } = ObjectType.Event;
+        public override string CustomKeyColor => "Unused";
+        public override string CustomKeyTrack => "Unused";
+
+        protected override bool IsConflictingWithObjectAtSameTime(BaseObject other, bool deletion = false) =>
+            GetHashCode() == other.GetHashCode();
     }
 
-    public abstract class FxEventBase<T> : BaseItem where T : struct
+    public abstract class FxEventBase<T> : BaseObject where T : struct
     {
-        public float JsonTime;
-        public int UsePreviousEventValue;
+        public int UsePrevious;
         public T Value;
     }
 }

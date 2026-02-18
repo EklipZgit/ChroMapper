@@ -15,22 +15,22 @@ Shader "ChroMapper/Ultimate Outline"
         _Angle("Switch shader on angle", Range(0.0, 180.0)) = 89
     }
 
-    CGINCLUDE
-		#include "UnityCG.cginc"
+    HLSLINCLUDE
+    #include "UnityCG.cginc"
 
-		struct appdata {
-			float4 vertex : POSITION;
-			float4 normal : NORMAL;
-		};
+    struct appdata
+    {
+        float4 vertex : POSITION;
+        float4 normal : NORMAL;
+    };
 
-		uniform float4 _FirstOutlineColor;
-		uniform float _FirstOutlineWidth;
+    uniform float4 _FirstOutlineColor;
+    uniform float _FirstOutlineWidth;
 
-		uniform sampler2D _MainTex;
-		uniform float4 _Color;
-		uniform float _Angle;
-
-	ENDCG
+    uniform sampler2D _MainTex;
+    uniform float4 _Color;
+    uniform float _Angle;
+    ENDHLSL
 
     SubShader
     {
@@ -45,37 +45,39 @@ Shader "ChroMapper/Ultimate Outline"
             ZWrite On
             Blend SrcAlpha OneMinusSrcAlpha
             Cull Back
-            CGPROGRAM
-			#pragma vertex vert
-			#pragma fragment frag
-			//#pragma multi_compile_fog
+            HLSLPROGRAM
+            #pragma vertex vert
+            #pragma fragment frag
+            //#pragma multi_compile_fog
 
-			#include "UnityCG.cginc"
+            #include "UnityCG.cginc"
 
-			struct appdata_t {
-				float4 vertex : POSITION;
-			};
+            struct appdata_t
+            {
+                float4 vertex : POSITION;
+            };
 
-			struct v2f {
-				float4 vertex : SV_POSITION;
-				//UNITY_FOG_COORDS(1)
-			};
+            struct v2f
+            {
+                float4 vertex : SV_POSITION;
+                //UNITY_FOG_COORDS(1)
+            };
 
-			v2f vert(appdata_t v)
-			{
-				v2f o;
-				o.vertex = UnityObjectToClipPos(v.vertex);
-				//UNITY_TRANSFER_FOG(o,o.vertex);
-				return o;
-			}
+            v2f vert(appdata_t v)
+            {
+                v2f o;
+                o.vertex = UnityObjectToClipPos(v.vertex);
+                //UNITY_TRANSFER_FOG(o,o.vertex);
+                return o;
+            }
 
-			fixed4 frag(v2f i) : SV_Target
-			{
-				//fixed4 col = _Color;
-				//UNITY_APPLY_FOG(i.fogCoord, col);
-				return _Color;
-			}
-			ENDCG
+            half4 frag(v2f i) : SV_Target
+            {
+                //half4 col = _Color;
+                //UNITY_APPLY_FOG(i.fogCoord, col);
+                return _Color;
+            }
+            ENDHLSL
         }
 
         //First outline
@@ -88,44 +90,48 @@ Shader "ChroMapper/Ultimate Outline"
             Blend SrcAlpha OneMinusSrcAlpha
             ZWrite On
             Cull Back
-            CGPROGRAM
+            HLSLPROGRAM
+            struct v2f
+            {
+                float4 pos : SV_POSITION;
+                float dist : TEXCOORD0;
+            };
 
-			struct v2f {
-				float4 pos : SV_POSITION;
-				float dist : TEXCOORD0;
-			};
+            #pragma vertex vert
+            #pragma fragment frag
 
-			#pragma vertex vert
-			#pragma fragment frag
+            v2f vert(appdata v)
+            {
+                appdata original = v;
 
-			v2f vert(appdata v) {
-				appdata original = v;
+                float3 scaleDir = normalize(v.vertex.xyz - float4(0, 0, 0, 1));
+                //scaleDir = float3(scaleDir.x, 0.0175, scaleDir.z);
+                float3 originalPos = UnityObjectToClipPos(v.vertex).xyz;
+                //This shader consists of 2 ways of generating outline that are dynamically switched based on demiliter angle
+                //If vertex normal is pointed away from object origin then custom outline generation is used (based on scaling along the origin-vertex vector)
+                //Otherwise the old-school normal vector scaling is used
+                //This way prevents weird artifacts from being created when using either of the methods
+                if (degrees(acos(dot(scaleDir.xyz, v.normal.xyz))) > _Angle)
+                {
+                    v.vertex.xyz += normalize(v.normal.xyz) * _FirstOutlineWidth;
+                }
+                else
+                {
+                    v.vertex.xyz += scaleDir * _FirstOutlineWidth;
+                }
+                v.vertex.xyz = float3(v.vertex.xyz.x, v.vertex.xyz.y - (scaleDir.y * _FirstOutlineWidth),
+                                      v.vertex.xyz.z);
+                v2f o;
+                o.pos = UnityObjectToClipPos(v.vertex);
+                o.dist = distance(originalPos, o.pos);
+                return o;
+            }
 
-				float3 scaleDir = normalize(v.vertex.xyz - float4(0,0,0,1));
-				//scaleDir = float3(scaleDir.x, 0.0175, scaleDir.z);
-				float3 originalPos = UnityObjectToClipPos(v.vertex).xyz;
-				//This shader consists of 2 ways of generating outline that are dynamically switched based on demiliter angle
-				//If vertex normal is pointed away from object origin then custom outline generation is used (based on scaling along the origin-vertex vector)
-				//Otherwise the old-school normal vector scaling is used
-				//This way prevents weird artifacts from being created when using either of the methods
-				if (degrees(acos(dot(scaleDir.xyz, v.normal.xyz))) > _Angle) {
-					v.vertex.xyz += normalize(v.normal.xyz) * _FirstOutlineWidth;
-				}
-				else {
-					v.vertex.xyz += scaleDir * _FirstOutlineWidth;
-				}
-				v.vertex.xyz = float3(v.vertex.xyz.x, v.vertex.xyz.y - (scaleDir.y * _FirstOutlineWidth), v.vertex.xyz.z);
-				v2f o;
-				o.pos = UnityObjectToClipPos(v.vertex);
-				o.dist = distance(originalPos, o.pos);
-				return o;
-			}
-
-			half4 frag(v2f i) : COLOR{
-				return _FirstOutlineColor;
-			}
-
-			ENDCG
+            half4 frag(v2f i) : COLOR
+            {
+                return _FirstOutlineColor;
+            }
+            ENDHLSL
         }
 
 

@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19b4b298a13350e45b402fd9cec41977, type: 3}
+  m_Name: BloomfogRendererSO
+  m_EditorClassIdentifier: 
+  FOV: {x: 130, y: 130}
+  LineWidth: 0.02
+  BloomfogObjectMaterial: {fileID: 2100000, guid: af0f143885a58964aa9334d1f8de6f12,
+    type: 2}

@@ -11,11 +11,6 @@ namespace Beatmap.Containers
 {
     public class EventContainer : ObjectContainer
     {
-        /// <summary>
-        ///     Different modes to sort events in the editor.
-        /// </summary>
-        public static int ModifyTypeMode = 0;
-
         private static readonly int shaderIdColor = Shader.PropertyToID("_Color");
         private static readonly int shaderIdColorTint = Shader.PropertyToID("_ColorTint");
         private static readonly int position = Shader.PropertyToID("_Position");
@@ -30,6 +25,7 @@ namespace Beatmap.Containers
         [SerializeField] private LightGradientController lightGradientController;
         [SerializeField] private GameObject[] eventModels;
         [SerializeField] private CreateEventTypeLabels labels;
+        public TracksDefinitionSO TracksDefinition;
 
         [SerializeField] public BaseEvent EventData;
 
@@ -63,14 +59,19 @@ namespace Beatmap.Containers
             set => EventData = (BaseEvent)value;
         }
 
-        public static EventContainer SpawnEvent(EventGridContainer eventsContainer, BaseEvent data,
+        public static EventContainer SpawnEvent(
+            EventGridContainer eventsContainer,
+            BaseEvent data,
+            TracksDefinitionSO tracksDefinitionSo,
             ref GameObject prefab,
-            ref EventAppearanceSO eventAppearanceSO, ref CreateEventTypeLabels labels)
+            ref EventAppearanceSO eventAppearanceSO,
+            ref CreateEventTypeLabels labels)
         {
             var container = Instantiate(prefab).GetComponent<EventContainer>();
             container.EventData = data;
             container.EventGridContainer = eventsContainer;
             container.eventAppearance = eventAppearanceSO;
+            container.TracksDefinition = tracksDefinitionSo;
             container.labels = labels;
             container.transform.localEulerAngles = Vector3.zero;
             return container;
@@ -89,7 +90,9 @@ namespace Beatmap.Containers
 
         public override void UpdateGridPosition()
         {
-            var gridPos = EventData.GetPosition(labels, EventGridContainer.PropagationEditing,
+            var gridPos = EventData.GetPosition(
+                labels,
+                EventGridContainer.PropagationEditing,
                 EventGridContainer.EventTypeToPropagate);
 
             if (gridPos == null)
@@ -115,8 +118,10 @@ namespace Beatmap.Containers
                 lightGradientController.UpdateDuration(EventData.CustomLightGradient.Duration);
             //Move event up or down enough to give a constant distance from the bottom of the event, taking the y alpha scale into account
             if (Settings.Instance.VisualizeChromaAlpha)
-                transform.localPosition = new Vector3(transform.localPosition.x,
-                    transform.localPosition.y + ((GetHeight() - 1f) / 2.775f), transform.localPosition.z);
+                transform.localPosition = new Vector3(
+                    transform.localPosition.x,
+                    transform.localPosition.y + ((GetHeight() - 1f) / 2.775f),
+                    transform.localPosition.z);
             UpdateCollisionGroups();
         }
 
@@ -160,23 +165,23 @@ namespace Beatmap.Containers
             if (updateMaterials) UpdateMaterials();
         }
 
-        public void UpdateScale(float scale) => transform.localScale =
-            new Vector3(1, Settings.Instance.VisualizeChromaAlpha ? GetHeight() : 1, 1) * scale;
+        public void UpdateScale(float scale) =>
+            transform.localScale =
+                new Vector3(1, Settings.Instance.VisualizeChromaAlpha ? GetHeight() : 1, 1) * scale;
 
         //you can do this instead//Change the scale of the event height based on the alpha of the event if alpha visualization is on
         private float GetHeight()
         {
             // Non-light events should not have different heights
-            if (!EventData.IsLightEvent()) return 1f;
+            if (TracksDefinition.GetBasicOrDefault(EventData.Type).Kind != BasicEventKind.Lights) return 1f;
 
             var height = EventData.FloatValue;
-            if (EventData.CustomColor != null &&
-                Math.Abs(EventData.CustomColor.Value.a - 1) > 0.001)
+            if (EventData.CustomColor != null && Math.Abs(EventData.CustomColor.Value.a - 1) > 0.001)
             {
                 height *= EventData.CustomColor.Value.a;
             }
-            else if (EventData.CustomLightGradient != null &&
-                Math.Abs(EventData.CustomLightGradient.StartColor.a - 1) > 0.001)
+            else if (EventData.CustomLightGradient != null
+                && Math.Abs(EventData.CustomLightGradient.StartColor.a - 1) > 0.001)
             {
                 height *= EventData.CustomLightGradient.StartColor.a;
             }
@@ -185,9 +190,12 @@ namespace Beatmap.Containers
             return Mathf.Clamp(height, 0.1f, 1.5f);
         }
 
-        public void UpdateGradientRendering(Color? startColor = null, Color? endColor = null, string easing = "easeLinear")
+        public void UpdateGradientRendering(
+            Color? startColor = null,
+            Color? endColor = null,
+            string easing = "easeLinear")
         {
-            if (!EventData.IsLightEvent(BeatSaberSongContainer.Instance.Info.EnvironmentName))
+            if (TracksDefinition.GetBasicOrDefault(EventData.Type).Kind != BasicEventKind.Lights)
             {
                 lightGradientController.SetVisible(false);
                 return;
@@ -212,7 +220,11 @@ namespace Beatmap.Containers
                     return;
                 }
 
-                var transition = new ChromaLightGradient(startColor.Value, endColor.Value, EventData.Next.SongBpmTime - EventData.SongBpmTime, easing);
+                var transition = new ChromaLightGradient(
+                    startColor.Value,
+                    endColor.Value,
+                    EventData.Next.SongBpmTime - EventData.SongBpmTime,
+                    easing);
                 lightGradientController.SetVisible(true);
                 lightGradientController.UpdateGradientData(transition);
                 lightGradientController.UpdateDuration(transition.Duration);
@@ -225,6 +237,6 @@ namespace Beatmap.Containers
             valueDisplay.text = text;
         }
 
-        public void RefreshAppearance() => eventAppearance.SetEventAppearance(this);
+        public void RefreshAppearance() => eventAppearance.SetEventAppearance(this, TracksDefinition);
     }
 }

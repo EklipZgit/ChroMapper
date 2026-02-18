@@ -26,11 +26,11 @@ namespace Beatmap.Info
                 directory = value;
             }
         }
-        
+
         // Used for sorting maps by last modified
         // The Info.dat file is written any time the map is saved, so it is a reliable way to see when the map was last modified
         public DateTime LastWriteTime { get; private set; }
-        
+
         // These values piggy back off of Application.productName and Application.version here.
         // It's so that anyone maintaining a ChroMapper fork, but wants its identity to be separate, can easily just change
         // product name and the version from Project Settings, and have it automatically apply to the metadata.
@@ -71,6 +71,7 @@ namespace Beatmap.Info
 
         // Vanilla Properties
         public string Version { get; set; } = "4.0.1";
+
         public int MajorVersion
         {
             get
@@ -86,15 +87,17 @@ namespace Beatmap.Info
 
         public string SongName { get; set; } = "New Song";
 
-        public string CleanSongName => Path.GetInvalidFileNameChars()
-            .Aggregate(SongName, (res, el) => res.Replace(el.ToString(), string.Empty))
-            .Trim('.'); // Windows disallows trailing periods and macOS treats leading period as hidden folder
+        public string CleanSongName =>
+            Path
+                .GetInvalidFileNameChars()
+                .Aggregate(SongName, (res, el) => res.Replace(el.ToString(), string.Empty))
+                .Trim('.'); // Windows disallows trailing periods and macOS treats leading period as hidden folder
 
         public string SongSubName { get; set; } = "";
         public string SongAuthorName { get; set; } = "";
 
         public string LevelAuthorName { get; set; } = "";
-        
+
         public float SongTimeOffset { get; set; }
         public float Shuffle { get; set; }
         public float ShufflePeriod { get; set; }
@@ -102,25 +105,27 @@ namespace Beatmap.Info
         public float BeatsPerMinute { get; set; } = 100;
         public float PreviewStartTime { get; set; } = 12;
         public float PreviewDuration { get; set; } = 10;
+
         public string SongFilename { get; set; } =
             "song.ogg"; // .egg file extension is a problem solely beat saver deals with, work with .ogg for the mapper
+
         public string SongPreviewFilename { get; set; } = "song.ogg"; // Default same as SongFilename
         public string AudioDataFilename { get; set; } = "AudioData.dat";
         public float SongDurationMetadata { get; set; }
         public float Lufs { get; set; } // Some normalisation thing 
-        
+
         public string CoverImageFilename { get; set; } = "cover.png";
-        
-        public string EnvironmentName => EnvironmentNames.FirstOrDefault() ?? "DefaultEnvironment";
-        public string AllDirectionsEnvironmentName => "GlassDesertEnvironment";
-        
-        public List<string> EnvironmentNames { get; set; } = new() { "DefaultEnvironment" };
+
+        public string EnvironmentName { get; set; } = "DefaultEnvironment";
+        public string AllDirectionsEnvironmentName { get; set; } = "GlassDesertEnvironment";
+
+        public List<string> EnvironmentNames { get; set; } = new();
 
         public List<InfoColorScheme> ColorSchemes { get; set; } = new();
 
         public List<InfoDifficultySet> DifficultySets { get; set; } = new();
-        
-        
+
+
         // CustomData Properties
         public JSONNode CustomData = new JSONObject();
 
@@ -128,7 +133,7 @@ namespace Beatmap.Info
 
         public CustomEditorsMetadata CustomEditorsData = new(null);
         public CustomEnvironmentMetadata CustomEnvironmentMetadata = new();
-        
+
         public class CustomEditorsMetadata
         {
             // This is so we preserve existing data that might be located in this object
@@ -138,7 +143,7 @@ namespace Beatmap.Info
             ///     Editor Metadata for this editor.
             /// </summary>
             public JSONNode MetadataNode = new JSONObject();
-            
+
             public CustomEditorsMetadata(JSONNode obj)
             {
                 if (obj is null || !obj.Children.Any())
@@ -156,26 +161,26 @@ namespace Beatmap.Info
             {
                 MetadataNode["version"] = editorVersion;
 
-                
+
                 var lastEditedByKey = BeatSaberSongContainer.Instance?.Info.MajorVersion switch
                 {
                     2 => "_lastEditedBy",
                     4 => "lastEditedBy",
                     _ => "lastEditedBy"
                 };
-                
+
                 editorsNode[lastEditedByKey] = editorName;
                 editorsNode[editorName] = MetadataNode;
 
                 return editorsNode;
             }
         }
-        
+
         public bool Save()
         {
             // Create map folder
             if (!System.IO.Directory.Exists(Directory)) System.IO.Directory.CreateDirectory(Directory);
-            
+
             var outputJson = Version[0] switch
             {
                 '2' => V2Info.GetOutputJson(this),
@@ -183,8 +188,7 @@ namespace Beatmap.Info
                 _ => null
             };
 
-            if (outputJson == null)
-                return false;
+            if (outputJson == null) return false;
 
             // Write info file - Previous behaviour always indented file
             File.WriteAllText(Path.Combine(Directory, "Info.dat"), outputJson.ToString(2));

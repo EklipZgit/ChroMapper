@@ -302,7 +302,7 @@ public class MultiNetListener : INetEventListener, IDisposable
 
     public void SubscribeToCollectionEvents()
     {
-        audioTimeSyncController = BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Note).AudioTimeSyncController;
+        audioTimeSyncController = BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Note).Context.Atsc;
         audioTimeSyncController.OnPlayToggled += OnTogglePlaying;
         cameraController = Camera.main.GetComponent<CameraController>();
         tracksManager = BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Note).GetComponent<TracksManager>();
