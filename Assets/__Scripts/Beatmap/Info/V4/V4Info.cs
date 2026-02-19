@@ -268,7 +268,7 @@ namespace Beatmap.Info
                 node["noteJumpMovementSpeed"] = difficulty.NoteJumpSpeed;
                 node["noteJumpStartBeatOffset"] = difficulty.NoteStartBeatOffset;
                 node["beatmapDataFilename"] = difficulty.BeatmapFileName;
-                node["lightshowDataFilename"] = difficulty.LightshowFileName;
+                node["lightshowDataFilename"] = difficulty.LightshowFileName ?? difficulty.BeatmapFileName;
 
                 var diffCustomData = GetOutputDifficultyCustomData(difficulty);
                 if (diffCustomData.Count > 0)

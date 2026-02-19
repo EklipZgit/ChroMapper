@@ -63,6 +63,27 @@ public class DifficultySelect : MonoBehaviour
     /// </summary>
     public void Start()
     {
+        LoadFromInfo();
+
+        foreach (Transform child in transform)
+        {
+            // Add event listeners, it's hard to do this staticly as the rows are prefabs
+            // so they can't access the parent object with this script
+            var row = new DifficultyRow(child);
+            rows.Add(row);
+
+            row.Toggle.onValueChanged.AddListener(val => OnChange(row, val));
+            row.Button.onClick.AddListener(() => OnClick(row));
+            row.NameInput.onValueChanged.AddListener(name => OnValueChanged(row, name));
+            row.Copy.onClick.AddListener(() => SetCopySource(row));
+            row.Save.onClick.AddListener(() => SaveDiff(row));
+            row.Revert.onClick.AddListener(() => Revertdiff(row));
+            row.Paste.onClick.AddListener(() => DoPaste(row));
+        }
+    }
+
+    public void LoadFromInfo()
+    {
         environmentDropdown.ClearOptions();
         environmentNames.Clear();
         environmentNames.AddRange(environmentList.List.OrderBy(it => it.Name).Select(it => (it.ID, it.Name)).ToList());
@@ -111,7 +132,15 @@ public class DifficultySelect : MonoBehaviour
             if (MapInfo.MajorVersion == 4)
             {
                 lightshowFilePathField.interactable = true;
+                lightshowFilePathField.placeholder.GetComponent<LocalizeStringEvent>()
+                    .StringReference.TableEntryReference = "lightshowfile.placeholder";
+                
                 mappersField.interactable = true;
+                mappersField.placeholder.GetComponent<LocalizeStringEvent>().StringReference.TableEntryReference =
+                    "mappers.placeholder";
+                
+                lightersField.placeholder.GetComponent<LocalizeStringEvent>().StringReference.TableEntryReference =
+                    "lighters.placeholder";
                 lightersField.interactable = true;
             }
             else
@@ -119,9 +148,11 @@ public class DifficultySelect : MonoBehaviour
                 lightshowFilePathField.placeholder.GetComponent<LocalizeStringEvent>()
                     .StringReference.TableEntryReference = "not.supported.in.version";
                 lightshowFilePathField.interactable = false;
+                
                 mappersField.placeholder.GetComponent<LocalizeStringEvent>().StringReference.TableEntryReference =
                     "not.supported.in.version";
                 mappersField.interactable = false;
+                
                 lightersField.placeholder.GetComponent<LocalizeStringEvent>().StringReference.TableEntryReference =
                     "not.supported.in.version";
                 lightersField.interactable = false;
@@ -132,22 +163,6 @@ public class DifficultySelect : MonoBehaviour
 
         environmentDropdown.AddOptions(environmentNames.Select(x => x.name).ToList());
         environmentDropdown.value = 0;
-
-        foreach (Transform child in transform)
-        {
-            // Add event listeners, it's hard to do this staticly as the rows are prefabs
-            // so they can't access the parent object with this script
-            var row = new DifficultyRow(child);
-            rows.Add(row);
-
-            row.Toggle.onValueChanged.AddListener(val => OnChange(row, val));
-            row.Button.onClick.AddListener(() => OnClick(row));
-            row.NameInput.onValueChanged.AddListener(name => OnValueChanged(row, name));
-            row.Copy.onClick.AddListener(() => SetCopySource(row));
-            row.Save.onClick.AddListener(() => SaveDiff(row));
-            row.Revert.onClick.AddListener(() => Revertdiff(row));
-            row.Paste.onClick.AddListener(() => DoPaste(row));
-        }
     }
 
     /// <summary>

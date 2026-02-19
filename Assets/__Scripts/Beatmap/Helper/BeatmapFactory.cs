@@ -50,7 +50,7 @@ namespace Beatmap.Helper
             return difficulty;
         }
 
-        private static string PeekMapVersionFromJson(JSONNode mainNode)
+        public static string PeekMapVersionFromJson(JSONNode mainNode)
         {
             var nodeEnum = mainNode.GetEnumerator();
             while (nodeEnum.MoveNext())
@@ -60,7 +60,8 @@ namespace Beatmap.Helper
                 if (key == "version" || key == "_version") return node.Value;
             }
 
-            Debug.LogError("no version detected, return default version 2.0.0.");
+            // This can happen from outdated editors
+            Debug.LogWarning("no version detected, return default version 2.0.0.");
             return "2.0.0";
         }
 

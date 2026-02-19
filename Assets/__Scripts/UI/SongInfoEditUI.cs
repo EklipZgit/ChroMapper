@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using Beatmap.Helper;
 using Beatmap.Info;
 using QuestDumper;
 using SFB;
@@ -206,6 +207,12 @@ public class SongInfoEditUI : MenuBase
             authorField.placeholder.GetComponent<LocalizeStringEvent>().StringReference.TableEntryReference =
                 "not.supported.in.version";
             authorField.interactable = false; // Does not exist in v2
+        }
+        else
+        {
+            authorField.placeholder.GetComponent<LocalizeStringEvent>().StringReference.TableEntryReference =
+                "creator.placeholder";
+            authorField.interactable = true;
         }
 
         BroadcastMessage("OnValidate"); // god unity why are you so dumb
@@ -652,4 +659,48 @@ public class SongInfoEditUI : MenuBase
 
     private static bool NearlyEqual(float a, float b, float epsilon = 0.01f) =>
         a.Equals(b) || Math.Abs(a - b) < epsilon;
+
+    public void ChangeInfoVersionPrompt()
+    {
+        var fromVersion = Info.MajorVersion;
+        var toVersion = (Info.MajorVersion % 4) + 2;
+        
+        PersistentUI.Instance.ShowDialogBox($"Do you want to change Info.dat version from v{fromVersion} to v{toVersion}?",
+            ChangeInfoVersion, PersistentUI.DialogBoxPresetType.YesNo);
+    }
+
+    private void ChangeInfoVersion(int res)
+    {
+        if (res != 0) return;
+
+        var incompatibleDifficulties = new List<string>();
+
+        var allDifficulties = Info.DifficultySets.SelectMany(x => x.Difficulties);
+        foreach (var difficulty in allDifficulties)
+        {
+            var filePath = Path.Combine(Info.Directory, difficulty.BeatmapFileName);
+            var jsonNode = BeatSaberSongUtils.GetNodeFromFile(filePath);
+            var mapVersion = BeatmapFactory.PeekMapVersionFromJson(jsonNode);
+
+            if (mapVersion[0] is not ('2' or '3'))
+            {
+                incompatibleDifficulties.Add($"{difficulty.Characteristic}-{difficulty.Difficulty}");
+            }
+        }
+
+        if (incompatibleDifficulties.Count > 0)
+        {
+            // v4 difficulty isn't compatible with v2 Info
+            var message = "Could not convert Info.dat version. The following difficulties must be converted to v2 or v3:"
+                          + $":{Environment.NewLine}{string.Join(Environment.NewLine, incompatibleDifficulties)}";
+            PersistentUI.Instance.ShowDialogBox(message, null, PersistentUI.DialogBoxPresetType.Ok);
+            return;
+        }
+        
+        Info.Version = Info.MajorVersion == 2 ? V4Info.Version : V2Info.Version;
+        Info.Save();
+        
+        LoadFromSong();
+        difficultySelect.LoadFromInfo();
+    }
 }
