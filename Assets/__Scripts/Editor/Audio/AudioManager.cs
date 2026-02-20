@@ -1,7 +1,6 @@
 using System;
 using Unity.Collections;
 using UnityEngine;
-using UnityEngine.LightTransport;
 
 public class AudioManager : MonoBehaviour
 {
@@ -44,10 +43,8 @@ public class AudioManager : MonoBehaviour
 
         var sampleCount = SampleBufferManager.MonoSampleCount;
 
-        // TODO: Should we consider a CPU spectrogram fallback in cases where the GPU spectrogram would fail?
-
         // Reduce spectrogram quality if it would exceed max buffer size 
-        while ((long)sampleCount * quality * sizeof(float) > SystemInfo.maxGraphicsBufferSize)
+        while ((long)sampleCount * quality * sizeof(uint) > SystemInfo.maxGraphicsBufferSize)
         {
             quality /= 2;
             Debug.Log($"FFT buffer exceeded. Reduced spectrogram quality to: {quality}");
