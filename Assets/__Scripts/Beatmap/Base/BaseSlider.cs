@@ -170,7 +170,7 @@ namespace Beatmap.Base
             {
                 if (CustomTailCoordinate[0].IsNumber) position = CustomTailCoordinate[0] + 0.5f;
                 if (CustomTailCoordinate[1].IsNumber) layer = CustomTailCoordinate[1];
-                return new Vector2(position, layer);
+                return new Vector2(position, layer) * BeatmapConstant.LaneSize;
             }
 
             if (TailPosX >= 1000)
@@ -179,7 +179,7 @@ namespace Beatmap.Base
 
             if (TailPosY >= 1000 || TailPosY <= -1000) layer = (TailPosY / 1000f) - 1f;
 
-            return new Vector2(position, layer);
+            return new Vector2(position, layer) * BeatmapConstant.LaneSize;
         }
 
         protected override void ParseCustom()

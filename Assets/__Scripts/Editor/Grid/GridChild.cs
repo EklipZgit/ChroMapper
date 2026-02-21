@@ -5,7 +5,13 @@ public class GridChild : MonoBehaviour
 {
     public bool RegisterChildOnStart = true;
 
-    public virtual void OnValidate() => GridViewController.NotifyChanged();
+    public virtual void OnValidate()
+    {
+        localOffset.z = BeatmapConstant.ZOffset;
+        Size.w = BeatmapConstant.LaneSize;
+        SetScaleNoNotify(Scale);
+        GridViewController.NotifyChanged();
+    }
 
     private void OnEnable()
     {
@@ -59,10 +65,24 @@ public class GridChild : MonoBehaviour
         get => (int)Size.x;
         set
         {
+            if (Mathf.Approximately(Size.x, value)) return;
             Size.x = value;
             GridViewController.NotifyChanged();
         }
     }
 
-    [SerializeField] protected Vector3 Size = Vector3.one;
+    public float Scale
+    {
+        get => Size.w;
+        set
+        {
+            if (Mathf.Approximately(Size.w, value)) return;
+            Size.w = value;
+            GridViewController.NotifyChanged();
+        }
+    }
+    
+    [SerializeField] protected Vector4 Size = Vector4.one;
+    
+    protected virtual void SetScaleNoNotify(float s) => transform.localScale = new Vector3(s, s, s);
 }

@@ -68,7 +68,7 @@ public class Track : MonoBehaviour
         else
             z = Mathf.Lerp(despawnPosition, -JUMP_FAR, (time - despawnTime) / JUMP_TIME);
 
-        position.z = z + (5f / 3f);
+        position.z = z + 1;
 
         // oh yeah you know its good when things start with a check like this
         switch (gridObject)

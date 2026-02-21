@@ -393,8 +393,6 @@ public class AudioTimeSyncController : MonoBehaviour,
 
         var position = currentSongBpmTime * EditorScaleController.EditorScale;
 
-        gridRenderingController.UpdateOffset(position);
-
         tracksManager.UpdatePosition(-position);
         foreach (var track in otherTracks) track.UpdatePosition(-position);
 

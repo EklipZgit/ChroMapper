@@ -7,6 +7,7 @@
         _GridSpacing("Grid Spacing", Vector) = (1, 0.25, 0.125, 0.0625)
         _GridThickness("Grid Thickness", Vector) = (0.1, 0.05, 0.025, 0.0125)
         _GridOffset("Grid Offset", Vector) = (0, 0, 0, 0)
+        _GridScale("Grid Scale", Range(0, 2)) = 1
         
         _MousePosition("Mouse Position", Vector) = (0, 0, 0, 0)
         _FadeRadius("Fade Radius", Range(1, 10)) = 5
@@ -40,6 +41,7 @@
                 UNITY_DEFINE_INSTANCED_PROP(float4, _GridSpacing)
                 UNITY_DEFINE_INSTANCED_PROP(float4, _GridThickness)
                 UNITY_DEFINE_INSTANCED_PROP(float4, _GridOffset)
+                UNITY_DEFINE_INSTANCED_PROP(float, _GridScale)
                 UNITY_DEFINE_INSTANCED_PROP(float3, _MousePosition)
             UNITY_INSTANCING_BUFFER_END(Props)
 

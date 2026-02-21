@@ -245,7 +245,7 @@ public class CameraController : MonoBehaviour, CMInput.ICameraActions
         if (playerCamera)
         {
             var newLocalPosition = transform.localPosition;
-            newLocalPosition.z = (float)posZ / -0.6f; // Convert metres to CM scaled units
+            newLocalPosition.z = -(float)posZ;
             transform.localPosition = newLocalPosition;
         }
     }

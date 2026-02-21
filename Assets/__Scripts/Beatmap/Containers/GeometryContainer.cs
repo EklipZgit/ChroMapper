@@ -110,7 +110,7 @@ namespace Beatmap.Containers
 
             container.Colliders.Add(intersection);
             container.Shape.transform.parent = container.Animator.AnimationThis.transform;
-            container.Shape.transform.localScale = 5f / 3f * Vector3.one;
+            container.Shape.transform.localScale = Vector3.one;
 
             // Handle components if needed
             var descriptor = ctx.Descriptor;
@@ -213,7 +213,7 @@ namespace Beatmap.Containers
                 if (bloomFog["height"] != null) descriptor.BloomFogParams.Height = bloomFog["height"];
             }
 
-            var adjustScale = BeatSaberSongContainer.Instance.Map.MajorVersion == 2 ? 1f / 0.6f : 1f;
+            var adjustScale = BeatSaberSongContainer.Instance.Map.MajorVersion == 2 ? 1f / BeatmapConstant.LaneSize : 1f;
             // Apply enhancements to each target object (original or duplicates)
             foreach (var (original, target) in targetObjects)
             {

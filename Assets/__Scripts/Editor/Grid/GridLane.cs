@@ -50,9 +50,9 @@ public class GridLane : GridChild
         get => oddLaneOffset;
         set
         {
-            var prev = oddLaneOffset;
+            if (oddLaneOffset == value) return;
             oddLaneOffset = value;
-            if (prev != oddLaneOffset) RefreshVisual();
+            RefreshVisual();
         }
     }
 
@@ -110,6 +110,13 @@ public class GridLane : GridChild
             calc * 0.3f);
     }
 
+    protected override void SetScaleNoNotify(float s)
+    {
+        base.SetScaleNoNotify(s);
+        XY.SetScale(Scale);
+        XZ.SetScale(Scale);
+    }
+
     public void MoveXYGridByZ(float z)
     {
         var pos = XY.transform.localPosition;
@@ -162,8 +169,8 @@ public class GridLane : GridChild
     {
         var xOffset = OddLaneOffset ? 0.5f : 0f;
 
-        XY.SetOffset((-(Vector3)XYOffset - LocalOffset + new Vector3(xOffset - (XYExpand.x / 2f), 0f, 0f)).Repeat(1f));
-        XZ.SetOffset((-LocalOffset + new Vector3(xOffset, 0f, 0f)).Repeat(1f));
+        XY.SetOffset(-(Vector3)XYOffset - LocalOffset + new Vector3(xOffset - (XYExpand.x / 2f), 0f, 0f));
+        XZ.SetOffset(-LocalOffset + new Vector3(xOffset, 0f, 0f));
 
         XY.RefreshVisual();
         XZ.RefreshVisual();

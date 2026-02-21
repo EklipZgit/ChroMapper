@@ -50,12 +50,12 @@ namespace Beatmap.Base
             CustomData = other.SaveCustom().Clone();
             CustomFake = other.CustomFake;
         }
-        
+
         // Used for node editor
-        public BaseObstacle(JSONNode node): this(BeatmapFactory.Obstacle(node)) {}
+        public BaseObstacle(JSONNode node) : this(BeatmapFactory.Obstacle(node)) { }
 
         public override ObjectType ObjectType { get; set; } = ObjectType.Obstacle;
-        
+
         private int InternalType;
         private int InternalHeight;
         private int InternalPosY;
@@ -63,10 +63,10 @@ namespace Beatmap.Base
         public override int PosY
         {
             get => InternalPosY;
-            set 
+            set
             {
                 InternalPosY = value;
-                
+
                 // set the v2 type to the closest matching base.
                 InternalType = value >= 2 ? (int)ObstacleType.Crouch : (int)ObstacleType.Full;
             }
@@ -100,15 +100,17 @@ namespace Beatmap.Base
         }
 
         private float duration;
+
         public float Duration
-        { 
-            get => duration; 
+        {
+            get => duration;
             set
             {
                 duration = value;
                 RecomputeDurationSongBpm();
             }
         }
+
         private float? durationSongBpm;
         public float DurationSongBpmTime => (float)durationSongBpm;
         public int Width { get; set; }
@@ -117,81 +119,92 @@ namespace Beatmap.Base
 
         public virtual JSONNode CustomSize { get; set; }
 
-        public string CustomKeySize => Settings.Instance.MapVersion switch
-        {
-            2 => V2Obstacle.CustomKeySize,
-            3 or 4 => V3Obstacle.CustomKeySize
-        };
+        public string CustomKeySize =>
+            Settings.Instance.MapVersion switch
+            {
+                2 => V2Obstacle.CustomKeySize,
+                3 or 4 => V3Obstacle.CustomKeySize
+            };
 
-        public override string CustomKeyColor => Settings.Instance.MapVersion switch
-        {
-            2 => V2Obstacle.CustomKeyColor,
-            3 or 4 => V3Obstacle.CustomKeyColor
-        };
+        public override string CustomKeyColor =>
+            Settings.Instance.MapVersion switch
+            {
+                2 => V2Obstacle.CustomKeyColor,
+                3 or 4 => V3Obstacle.CustomKeyColor
+            };
 
-        public override string CustomKeyTrack => Settings.Instance.MapVersion switch
-        {
-            2 => V2Obstacle.CustomKeyTrack,
-            3 or 4 => V3Obstacle.CustomKeyTrack
-        };
+        public override string CustomKeyTrack =>
+            Settings.Instance.MapVersion switch
+            {
+                2 => V2Obstacle.CustomKeyTrack,
+                3 or 4 => V3Obstacle.CustomKeyTrack
+            };
 
-        public override string CustomKeyAnimation => Settings.Instance.MapVersion switch
-        {
-            2 => V2Obstacle.CustomKeyAnimation,
-            3 or 4 => V3Obstacle.CustomKeyAnimation
-        };
+        public override string CustomKeyAnimation =>
+            Settings.Instance.MapVersion switch
+            {
+                2 => V2Obstacle.CustomKeyAnimation,
+                3 or 4 => V3Obstacle.CustomKeyAnimation
+            };
 
-        public override string CustomKeyCoordinate => Settings.Instance.MapVersion switch
-        {
-            2 => V2Obstacle.CustomKeyCoordinate,
-            3 or 4 => V3Obstacle.CustomKeyCoordinate
-        };
+        public override string CustomKeyCoordinate =>
+            Settings.Instance.MapVersion switch
+            {
+                2 => V2Obstacle.CustomKeyCoordinate,
+                3 or 4 => V3Obstacle.CustomKeyCoordinate
+            };
 
-        public override string CustomKeyWorldRotation => Settings.Instance.MapVersion switch
-        {
-            2 => V2Obstacle.CustomKeyWorldRotation,
-            3 or 4 => V3Obstacle.CustomKeyWorldRotation
-        };
+        public override string CustomKeyWorldRotation =>
+            Settings.Instance.MapVersion switch
+            {
+                2 => V2Obstacle.CustomKeyWorldRotation,
+                3 or 4 => V3Obstacle.CustomKeyWorldRotation
+            };
 
-        public override string CustomKeyLocalRotation => Settings.Instance.MapVersion switch
-        {
-            2 => V2Obstacle.CustomKeyLocalRotation,
-            3 or 4 => V3Obstacle.CustomKeyLocalRotation
-        };
+        public override string CustomKeyLocalRotation =>
+            Settings.Instance.MapVersion switch
+            {
+                2 => V2Obstacle.CustomKeyLocalRotation,
+                3 or 4 => V3Obstacle.CustomKeyLocalRotation
+            };
 
-        public override string CustomKeySpawnEffect => Settings.Instance.MapVersion switch
-        {
-            2 => V2Obstacle.CustomKeySpawnEffect,
-            3 or 4 => V3Obstacle.CustomKeySpawnEffect
-        };
+        public override string CustomKeySpawnEffect =>
+            Settings.Instance.MapVersion switch
+            {
+                2 => V2Obstacle.CustomKeySpawnEffect,
+                3 or 4 => V3Obstacle.CustomKeySpawnEffect
+            };
 
-        public override string CustomKeyNoteJumpMovementSpeed => Settings.Instance.MapVersion switch
-        {
-            2 => V2Obstacle.CustomKeyNoteJumpMovementSpeed,
-            3 or 4 => V3Obstacle.CustomKeyNoteJumpMovementSpeed
-        };
+        public override string CustomKeyNoteJumpMovementSpeed =>
+            Settings.Instance.MapVersion switch
+            {
+                2 => V2Obstacle.CustomKeyNoteJumpMovementSpeed,
+                3 or 4 => V3Obstacle.CustomKeyNoteJumpMovementSpeed
+            };
 
-        public override string CustomKeyNoteJumpStartBeatOffset => Settings.Instance.MapVersion switch
-        {
-            2 => V2Obstacle.CustomKeyNoteJumpStartBeatOffset,
-            3 or 4 => V3Obstacle.CustomKeyNoteJumpStartBeatOffset
-        };
+        public override string CustomKeyNoteJumpStartBeatOffset =>
+            Settings.Instance.MapVersion switch
+            {
+                2 => V2Obstacle.CustomKeyNoteJumpStartBeatOffset,
+                3 or 4 => V3Obstacle.CustomKeyNoteJumpStartBeatOffset
+            };
 
-        
+
         public override bool IsChroma() =>
             CustomData != null && CustomData.HasKey(CustomKeyColor) && CustomData[CustomKeyColor].IsArray;
 
         public override bool IsNoodleExtensions() =>
-            CustomData != null &&
-            ((CustomData.HasKey("uninteractable") && CustomData["uninteractable"].IsBoolean) ||
-             (CustomData.HasKey(CustomKeyLocalRotation) && CustomData[CustomKeyLocalRotation].IsArray) ||
-             (CustomData.HasKey(CustomKeyNoteJumpMovementSpeed) && CustomData[CustomKeyNoteJumpMovementSpeed].IsNumber) ||
-             (CustomData.HasKey(CustomKeyNoteJumpStartBeatOffset) &&
-              CustomData[CustomKeyNoteJumpStartBeatOffset].IsNumber) ||
-             (CustomData.HasKey(CustomKeyCoordinate) && CustomData[CustomKeyCoordinate].IsArray) ||
-             (CustomData.HasKey(CustomKeyWorldRotation) &&
-              (CustomData[CustomKeyWorldRotation].IsArray || CustomData[CustomKeyWorldRotation].IsNumber)) ||
-             (CustomData.HasKey(CustomKeySize) && CustomData[CustomKeySize].IsArray));
+            CustomData != null
+            && ((CustomData.HasKey("uninteractable") && CustomData["uninteractable"].IsBoolean)
+                || (CustomData.HasKey(CustomKeyLocalRotation) && CustomData[CustomKeyLocalRotation].IsArray)
+                || (CustomData.HasKey(CustomKeyNoteJumpMovementSpeed)
+                    && CustomData[CustomKeyNoteJumpMovementSpeed].IsNumber)
+                || (CustomData.HasKey(CustomKeyNoteJumpStartBeatOffset)
+                    && CustomData[CustomKeyNoteJumpStartBeatOffset].IsNumber)
+                || (CustomData.HasKey(CustomKeyCoordinate) && CustomData[CustomKeyCoordinate].IsArray)
+                || (CustomData.HasKey(CustomKeyWorldRotation)
+                    && (CustomData[CustomKeyWorldRotation].IsArray || CustomData[CustomKeyWorldRotation].IsNumber))
+                || (CustomData.HasKey(CustomKeySize) && CustomData[CustomKeySize].IsArray));
 
         public override bool IsMappingExtensions()
         {
@@ -215,8 +228,10 @@ namespace Beatmap.Base
                 obstacle.SaveCustom();
                 if (IsNoodleExtensions() || obstacle.IsNoodleExtensions())
                     return ToJson().ToString() == other.ToJson().ToString();
-                return PosX == obstacle.PosX && PosY == obstacle.PosY && Width == obstacle.Width &&
-                       Height == obstacle.Height;
+                return PosX == obstacle.PosX
+                    && PosY == obstacle.PosY
+                    && Width == obstacle.Width
+                    && Height == obstacle.Height;
             }
 
             return false;
@@ -250,8 +265,7 @@ namespace Beatmap.Base
             if (Width >= 1000) width = ((float)Width - 1000) / 1000;
             if (PosX >= 1000)
                 position = (((float)PosX - 1000) / 1000f) - 2f;
-            else if (PosX <= -1000)
-                position = ((float)PosX - 1000) / 1000f;
+            else if (PosX <= -1000) position = ((float)PosX - 1000) / 1000f;
 
             if (Type > 1 && Type < 1000)
             {
@@ -261,14 +275,16 @@ namespace Beatmap.Base
             else if (Type >= 1000 && Type <= 4000)
             {
                 startHeight = 0; //start height = floor
-                height = ((float)Type - 1000) /
-                         mappingExtensionsUnitsToFullHeightWall; //1000 = no height, 2000 = full height
+                height = ((float)Type - 1000)
+                    / mappingExtensionsUnitsToFullHeightWall; //1000 = no height, 2000 = full height
             }
             else if (Type > 4000)
             {
                 float modifiedType = Type - 4001;
-                startHeight = modifiedType % 1000 / mappingExtensionsUnitsToFullHeightWall *
-                              mappingExtensionsStartHeightMultiplier;
+                startHeight = modifiedType
+                    % 1000
+                    / mappingExtensionsUnitsToFullHeightWall
+                    * mappingExtensionsStartHeightMultiplier;
                 height = modifiedType / 1000 / mappingExtensionsUnitsToFullHeightWall;
             }
 
@@ -276,7 +292,8 @@ namespace Beatmap.Base
 
             //Just look at the difference in code complexity for Mapping Extensions support and Noodle Extensions support.
             //Hot damn.
-            if (CustomData == null) return new ObstacleBounds(width, height, position, startHeight);
+            if (CustomData == null)
+                return new ObstacleBounds(width * BeatmapConstant.LaneSize, height * BeatmapConstant.LaneSize, position * BeatmapConstant.LaneSize, startHeight * BeatmapConstant.LaneSize);
             if (CustomCoordinate != null && CustomCoordinate.IsArray)
             {
                 if (CustomCoordinate[0].IsNumber) position = CustomCoordinate[0];
@@ -289,7 +306,7 @@ namespace Beatmap.Base
                 if (CustomSize[1].IsNumber) height = CustomSize[1];
             }
 
-            return new ObstacleBounds(width, height, position, startHeight);
+            return new ObstacleBounds(width * BeatmapConstant.LaneSize, height * BeatmapConstant.LaneSize, position * BeatmapConstant.LaneSize, startHeight * BeatmapConstant.LaneSize);
         }
 
         public override void RecomputeSongBpmTime()
@@ -298,7 +315,8 @@ namespace Beatmap.Base
             RecomputeDurationSongBpm();
         }
 
-        private void RecomputeDurationSongBpm() => durationSongBpm = Map?.JsonTimeToSongBpmTime(JsonTime + duration) - songBpmTime;
+        private void RecomputeDurationSongBpm() =>
+            durationSongBpm = Map?.JsonTimeToSongBpmTime(JsonTime + duration) - songBpmTime;
 
         protected void InferType() =>
             InternalType = PosY switch
@@ -334,11 +352,11 @@ namespace Beatmap.Base
             {
                 node.Remove(CustomKeySize);
             }
-            
+
             SetCustomData(node);
             return node;
         }
-        
+
         public override int CompareTo(BaseObject other)
         {
             var comparison = base.CompareTo(other);
@@ -351,30 +369,35 @@ namespace Beatmap.Base
 
             // Compare by Y pos if X pos match
             if (comparison == 0) comparison = PosY.CompareTo(obstacle.PosY);
-            
+
             // Compare by type if Y pos match
             if (comparison == 0) comparison = Type.CompareTo(obstacle.Type);
-            
+
             // Compare by duration if type match
             if (comparison == 0) comparison = Duration.CompareTo(obstacle.Duration);
-            
+
             // Compare by width if duration match
             if (comparison == 0) comparison = Width.CompareTo(obstacle.Width);
-            
+
             // Compare by height if duration match
             if (comparison == 0) comparison = Height.CompareTo(obstacle.Height);
 
             // All matching vanilla properties so compare custom data as a final check
-            if (comparison == 0) comparison = string.Compare(CustomData?.ToString(), obstacle.CustomData?.ToString(), StringComparison.Ordinal);
+            if (comparison == 0)
+                comparison = string.Compare(
+                    CustomData?.ToString(),
+                    obstacle.CustomData?.ToString(),
+                    StringComparison.Ordinal);
 
             return comparison;
         }
 
-        public override JSONNode ToJson() => Settings.Instance.MapVersion switch
-        {
-            3 or 4 => V3Obstacle.ToJson(this),
-            2 => V2Obstacle.ToJson(this)
-        };
+        public override JSONNode ToJson() =>
+            Settings.Instance.MapVersion switch
+            {
+                3 or 4 => V3Obstacle.ToJson(this),
+                2 => V2Obstacle.ToJson(this)
+            };
 
         public override BaseItem Clone()
         {

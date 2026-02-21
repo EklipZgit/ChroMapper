@@ -9,9 +9,7 @@ namespace Beatmap.Containers
 {
     public class ArcContainer : ObjectContainer
     {
-        private const float
-            splineControlPointScaleFactor =
-                2.5f / 0.6f; // 2.5 multiplier used by game, divide by 0.6 to scale to cm units
+        private const float splineControlPointScaleFactor = 2.5f; // multiplier used by game
 
         public const int NumSamples = 30;
 
@@ -206,7 +204,7 @@ namespace Beatmap.Containers
         {
             // Yoinked from ArcViewer :smil:
             const float midPointRotationDeg = 90f;
-            const float midPointOffset = 2.5f / 0.6f; // Scaled to CM units
+            const float midPointOffset = 2.5f / BeatmapConstant.LaneSize; // Scaled to CM units
             const float controlXMod = 0.25f;
             const float controlYMod = 0.25f;
             const float controlZMod = 0.15f;

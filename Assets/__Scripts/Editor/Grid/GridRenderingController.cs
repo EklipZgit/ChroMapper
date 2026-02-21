@@ -14,7 +14,6 @@ public class GridRenderingController : MonoBehaviour
     [SerializeField] private Vector4 zLineThickness = new(0.1f, 0.05f, 0.025f, 0.0125f);
 
     private readonly List<GridLane> gridLanes = new();
-    private static readonly int offsetID = Shader.PropertyToID("_Offset");
     private static readonly int currentHjdShaderID = Shader.PropertyToID("_CurrentHJD");
     private static readonly int displayHjdLineID = Shader.PropertyToID("_DisplayHJDLine");
 
@@ -46,27 +45,21 @@ public class GridRenderingController : MonoBehaviour
         Settings.ClearSettingNotifications(nameof(Settings.DisplayHJDLine));
     }
 
-    public void UpdateOffset(float offset)
-    {
-        Shader.SetGlobalFloat(offsetID, offset);
-        if (!atsc.IsPlaying) HandleGridMeasureSnappingChanged(atsc.GridMeasureSnapping);
-    }
-
     private void HandleGridMeasureSnappingChanged(int snapping)
     {
         float gridSeparation = CMMath.GetLowestDenominator(snapping);
         if (gridSeparation < 3) gridSeparation = 4;
 
-        zLineSpacing[0] = EditorScaleController.EditorScale / 4f;
-        zLineSpacing[1] = EditorScaleController.EditorScale / 4f / gridSeparation;
+        zLineSpacing[0] = 1f;
+        zLineSpacing[1] = 1f / gridSeparation;
 
         var useDetailedSegments = gridSeparation < snapping;
         gridSeparation *= CMMath.GetLowestDenominator(Mathf.FloorToInt(snapping / gridSeparation));
-        zLineSpacing[2] = useDetailedSegments ? EditorScaleController.EditorScale / 4f / gridSeparation : 0f;
+        zLineSpacing[2] = useDetailedSegments ? 1f / gridSeparation : 0f;
 
         var usePreciseSegments = gridSeparation < snapping;
         gridSeparation *= CMMath.GetLowestDenominator(Mathf.FloorToInt(snapping / gridSeparation));
-        zLineSpacing[3] = usePreciseSegments ? EditorScaleController.EditorScale / 4f / gridSeparation : 0f;
+        zLineSpacing[3] = usePreciseSegments ? 1f / gridSeparation : 0f;
 
         foreach (var g in gridLanes) g.SetBeatSpacing(zLineSpacing);
         UpdateInterfaceXZ();

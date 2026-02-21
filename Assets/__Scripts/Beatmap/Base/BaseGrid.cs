@@ -129,7 +129,7 @@ namespace Beatmap.Base
             {
                 if (CustomCoordinate[0].IsNumber) position = CustomCoordinate[0] + 0.5f;
                 if (CustomCoordinate[1].IsNumber) layer = CustomCoordinate[1];
-                return new Vector2(position, layer);
+                return new Vector2(position, layer) * BeatmapConstant.LaneSize;
             }
 
             if (PosX >= 1000)
@@ -138,7 +138,7 @@ namespace Beatmap.Base
 
             if (PosY >= 1000 || PosY <= -1000) layer = (PosY / 1000f) - 1f;
 
-            return new Vector2(position, layer);
+            return new Vector2(position, layer) * BeatmapConstant.LaneSize;
         }
 
         protected override void ParseCustom()

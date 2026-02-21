@@ -3,10 +3,11 @@
     Properties
     {
         _Color("Color", Color) = (1, 1, 1, 1)
-        
+
         _GridSpacing("Grid Spacing", Vector) = (1, 0.25, 0.125, 0.0625)
         _GridThickness("Grid Thickness", Vector) = (0.1, 0.05, 0.025, 0.0125)
         _GridOffset("Grid Offset", Vector) = (0, 0, 0, 0)
+        _GridScale("Grid Scale", Range(0, 2)) = 1
     }
     SubShader
     {
@@ -27,17 +28,18 @@
             uniform float _BPMChange_Json_Times[170];
             uniform float _BPMChange_BPMs[170];
             uniform int _BPMChange_Count;
-            uniform float _Offset = 0;
+            uniform float _SongTime;
             uniform float _Rotation = 0;
             uniform float _EditorScale = 4;
             uniform float _CurrentHJD = 2;
             uniform int _DisplayHJDLine = 1;
 
             UNITY_INSTANCING_BUFFER_START(Props)
+                UNITY_DEFINE_INSTANCED_PROP(half4, _Color)
                 UNITY_DEFINE_INSTANCED_PROP(float4, _GridSpacing)
                 UNITY_DEFINE_INSTANCED_PROP(float4, _GridThickness)
                 UNITY_DEFINE_INSTANCED_PROP(float4, _GridOffset)
-                UNITY_DEFINE_INSTANCED_PROP(half4, _Color)
+                UNITY_DEFINE_INSTANCED_PROP(float, _GridScale)
             UNITY_INSTANCING_BUFFER_END(Props)
 
             struct appdata
@@ -49,8 +51,7 @@
             struct v2f
             {
                 float4 pos : SV_POSITION;
-                float4 worldPos : TEXCOORD0;
-                float4 rotatedPos : TEXCOORD1;
+                float3 rotatedPos : TEXCOORD0;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
@@ -60,18 +61,19 @@
 
                 UNITY_SETUP_INSTANCE_ID(v);
                 UNITY_TRANSFER_INSTANCE_ID(v, o);
+                float4 gridOffset = UNITY_ACCESS_INSTANCED_PROP(Props, _GridOffset);
 
                 o.pos = UnityObjectToClipPos(v.vertex);
-                o.worldPos = mul(unity_ObjectToWorld, v.vertex);
+                float3 worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
 
                 //Get rotation in radians (this is used for 360/90 degree map rotation).
                 float rotationInRadians = _Rotation * (3.141592653 / 180);
 
                 //Transform X and Z around global platform offset (2D rotation PogU)
-                float newX = o.worldPos.x * cos(rotationInRadians) - o.worldPos.z * sin(rotationInRadians);
-                float newZ = o.worldPos.z * cos(rotationInRadians) + o.worldPos.x * sin(rotationInRadians);
+                float newX = (worldPos.x + gridOffset.x) * cos(rotationInRadians) - (worldPos.z + gridOffset.z) * sin(rotationInRadians);
+                float newZ = (worldPos.z + gridOffset.z) * cos(rotationInRadians) + (worldPos.x + gridOffset.x) * sin(rotationInRadians);
 
-                o.rotatedPos = float4(newX, o.worldPos.y, newZ, o.worldPos.w);
+                o.rotatedPos = float3(newX, worldPos.y, newZ);
 
                 return o;
             }
@@ -82,14 +84,13 @@
 
                 float4 gridSpacing = UNITY_ACCESS_INSTANCED_PROP(Props, _GridSpacing);
                 float4 gridThickness = UNITY_ACCESS_INSTANCED_PROP(Props, _GridThickness);
-                float4 gridOffset = UNITY_ACCESS_INSTANCED_PROP(Props, _GridOffset);
+                float gridScale = UNITY_ACCESS_INSTANCED_PROP(Props, _GridScale);
                 half4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
                 color.a = 0;
 
-                float editorScaleMult = _EditorScale / 4;
-
+                float scale = _EditorScale * gridScale;
                 //WHERE'S THE LAMB SAUCE (unedited beat time)
-                float timeButRAWWW = (i.rotatedPos.z + _Offset) / _EditorScale;
+                float timeButRAWWW = (i.rotatedPos.z + _SongTime * scale) / scale;
 
                 //To plugerino into shader after dealing with BPM Changes
                 float time = timeButRAWWW;
@@ -124,7 +125,7 @@
                 }
 
                 // HJD line
-                float timeOffsetToCursor = timeButRAWWW - _Offset / _EditorScale;
+                float timeOffsetToCursor = timeButRAWWW - _SongTime;
                 float hjdRange = gridThickness / 10;
                 if (_DisplayHJDLine && _CurrentHJD - hjdRange < timeOffsetToCursor && timeOffsetToCursor < _CurrentHJD +
                     hjdRange)
@@ -133,20 +134,22 @@
                 }
 
                 // Sub-beat
+                float t = time * scale / _EditorScale;
+                // return t;
                 for (int idx = 0; idx < 4; idx++)
                 {
-                    if (abs(time * editorScaleMult) % gridSpacing[idx] / gridSpacing[idx] <= gridThickness[idx] / 2 ||
-                        abs(time * editorScaleMult) % gridSpacing[idx] / gridSpacing[idx] >= 1 - gridThickness[idx] / 2)
+                    float spacing = gridSpacing[idx];
+                    float thickness = gridThickness[idx];
+                    if (abs(t) % spacing / spacing <= thickness / 2 ||
+                        abs(t) % spacing / spacing >= 1 - thickness / 2)
                     {
                         return color;
                     }
                 }
 
-                float xPos = i.rotatedPos.x + gridOffset.x;
-
                 // Lane line
-                if (abs(xPos) % 1.0 / 1.0 <= 0.1 / 2 ||
-                    abs(xPos) % 1.0 / 1.0 >= 1 - 0.1 / 2)
+                if (abs(i.rotatedPos.x) % gridScale / gridScale <= 0.1 / 2 * gridScale ||
+                    abs(i.rotatedPos.x) % gridScale / gridScale >= 1 - 0.1 / 2 * gridScale)
                 {
                     return color;
                 }
