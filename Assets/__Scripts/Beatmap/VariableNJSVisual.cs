@@ -7,5 +7,5 @@ public class VariableNJSVisual : MonoBehaviour
 
     private void OnEnable() => provider.OnChanged += UpdateVisual;
     private void OnDisable() => provider.OnChanged -= UpdateVisual;
-    private void UpdateVisual() => Shader.SetGlobalFloat(editorDistanceID, provider.JumpDistance);
+    private void UpdateVisual() => Shader.SetGlobalFloat(editorDistanceID, provider.HalfJumpDistance);
 }

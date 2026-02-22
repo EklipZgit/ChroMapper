@@ -158,7 +158,7 @@ namespace Beatmap.Animations
 
             time_begin = obj.SpawnSongBpmTime;
             // Can't use DespawnSongBpmTime because obstacles jump out early
-            time_end = obj.SongBpmTime + duration + obj.Hjd;
+            time_end = obj.SongBpmTime + duration + obj.HalfJumpDuration;
 
             RequireAnimationTrack();
             WorldTarget = AnimationTrack.transform;

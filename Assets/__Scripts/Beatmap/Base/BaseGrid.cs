@@ -46,15 +46,13 @@ namespace Beatmap.Base
         public int Rotation { get; set; }
 
         // Half Jump Duration (SongBpmTime)
-        public float Hjd { get; private set; }
+        public float HalfJumpDuration { get; private set; }
 
         // Half Jump Distance
-        public float Jd { get; private set; }
+        public float HalfJumpDistance { get; private set; }
 
-        public float EditorScale { get; private set; }
-
-        public virtual float SpawnSongBpmTime => SongBpmTime - Hjd;
-        public virtual float DespawnSongBpmTime => SongBpmTime + Hjd;
+        public virtual float SpawnSongBpmTime => SongBpmTime - HalfJumpDuration;
+        public virtual float DespawnSongBpmTime => SongBpmTime + HalfJumpDuration;
 
         public virtual JSONNode CustomAnimation { get; set; }
 
@@ -107,17 +105,14 @@ namespace Beatmap.Base
             var bpm = BeatSaberSongContainer.Instance?.Info?.BeatsPerMinute ?? 0f;
 
             var hjd = SpawnParameterHelper.CalculateHalfJumpDuration(njs, offset, bpm);
-            // (5 / 3) * njs * (60 / bpm) = 100
-            var editorScale = 100f * njs / bpm;
-            var jd = hjd * editorScale;
-            SetSpawnParameters(hjd, jd, editorScale);
+            var jd = SpawnParameterHelper.CalculateJumpDistance(njs, offset, bpm);
+            SetSpawnParameters(hjd, jd);
         }
 
-        public void SetSpawnParameters(float hjd, float jd, float editorScale)
+        public void SetSpawnParameters(float hjd, float jd)
         {
-            Hjd = hjd;
-            Jd = jd;
-            EditorScale = editorScale;
+            HalfJumpDuration = hjd;
+            HalfJumpDistance = jd;
         }
 
         private Vector2 DerivePositionFromData()

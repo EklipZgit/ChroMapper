@@ -10,12 +10,10 @@ public class VariableNJSProvider : StateManager<VariableNJSStateData, BaseNJSEve
 
     public float JumpDuration;
     public float JumpDistance;
-    public float JumpDistanceScaled; // due to different scaling, use this to position object
 
     public float HalfJumpDurationInBeats;
     public float HalfJumpDuration;
     public float HalfJumpDistance;
-    public float HalfJumpDistanceScaled;
 
     public float EditorScale;
 
@@ -80,9 +78,7 @@ public class VariableNJSProvider : StateManager<VariableNJSStateData, BaseNJSEve
         JumpDuration = HalfJumpDuration * 2f;
 
         JumpDistance = NoteJumpSpeed * JumpDuration;
-        JumpDistanceScaled = HalfJumpDurationInBeats * EditorScale;
         HalfJumpDistance = JumpDistance * 0.5f;
-        HalfJumpDistanceScaled = JumpDistanceScaled * 0.5f;
 
         OnChanged?.Invoke();
     }

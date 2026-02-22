@@ -103,7 +103,7 @@ namespace Beatmap.Base
         public float TailSongBpmTime => (float)tailSongBpmTime;
 
         public float DurationSongBpmTime => TailSongBpmTime - SongBpmTime;
-        public override float DespawnSongBpmTime => TailSongBpmTime + Hjd;
+        public override float DespawnSongBpmTime => TailSongBpmTime + HalfJumpDuration;
 
         public int TailPosX { get; set; }
         public int TailPosY { get; set; }

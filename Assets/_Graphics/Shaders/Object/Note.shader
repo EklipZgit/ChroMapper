@@ -163,7 +163,7 @@
                 o.screenPos = ComputeScreenPosCustom(o.vertex);
 
                 //Global platform offset
-                const float4 offset = float4(0, 0, 4, 0);
+                const float4 offset = float4(0, 0, -1, 0);
 
                 //Get rotation in radians (this is used for 360/90 degree map rotation).
                 float rotationInRadians = UNITY_ACCESS_INSTANCED_PROP(Props, _Rotation) * (3.141592653 / 180);
@@ -174,6 +174,7 @@
                     ComputeRotatedPosition(o.worldPos - offset, rotationInRadians) + offset,
                     objectTime + 0.001 - _SongTime
                 );
+                o.rotatedPos.z -= 1;
 
                 o.worldNormal = normalize(UnityObjectToWorldNormal(i.normal));
                 o.viewDir = normalize(_WorldSpaceCameraPos - o.worldPos);
@@ -216,7 +217,7 @@
                 #if defined(CM_PREVIEW_MODE)
                 float4 albedo = float4(color.rgb * colorMultiplier, 0);
                 #else
-                float4 albedo = float4(abs(i.rotatedPos.z - 1)  < _OutlineWidth && isTranslucent < 1
+                float4 albedo = float4(abs(i.rotatedPos.z)  < _OutlineWidth && isTranslucent < 1
                                            ? interfaceColor
                                            : color.rgb * colorMultiplier, 0);
                 #endif

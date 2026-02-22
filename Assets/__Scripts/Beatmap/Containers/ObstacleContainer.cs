@@ -85,7 +85,7 @@ namespace Beatmap.Containers
 
             //Take half jump duration into account if the setting is enabled.
             if (ObstacleData.Duration < 0 && Settings.Instance.ShowMoreAccurateFastWalls && !UIMode.AnimationMode)
-                length -= length * Mathf.Abs(length / ObstacleData.Hjd);
+                length -= length * Mathf.Abs(length / ObstacleData.HalfJumpDuration);
 
             length *= scale;
 
@@ -97,10 +97,11 @@ namespace Beatmap.Containers
             var bounds = ObstacleData.GetShape();
 
             return new Vector3(
-                Mathf.Abs(bounds.Width),
-                Mathf.Abs(bounds.Height),
-                0f
-            );
+                    Mathf.Abs(bounds.Width),
+                    Mathf.Abs(bounds.Height),
+                    0f
+                )
+                * BeatmapConstant.LaneSize;
         }
 
         public Vector3 ReadPosition()
@@ -108,10 +109,11 @@ namespace Beatmap.Containers
             var bounds = ObstacleData.GetShape();
 
             return new Vector3(
-                bounds.Position + (bounds.Width / 2.0f),
-                bounds.StartHeight + (bounds.Height < 0f ? bounds.Height : 0f),
-                0f
-            );
+                    bounds.Position + (bounds.Width / 2.0f),
+                    bounds.StartHeight + (bounds.Height < 0f ? bounds.Height : 0f),
+                    0f
+                )
+                * BeatmapConstant.LaneSize;
         }
 
         public void UpdateScaleWithLength(float length)
@@ -134,8 +136,8 @@ namespace Beatmap.Containers
             var localRotation = Vector3.zero;
             var length = GetLength(
                 UIMode.AnimationMode
-                    ? ObstacleData.EditorScale
-                    : EditorScaleController.EditorScale);
+                    ? ObstacleData.HalfJumpDistance
+                    : EditorScaleController.EditorScale * BeatmapConstant.LaneSize);
             var position = ReadPosition();
 
             if (ObstacleData.CustomLocalRotation != null)
@@ -151,16 +153,13 @@ namespace Beatmap.Containers
             // Enforce positive scale, offset our obstacles to match.
             transform.localPosition = new Vector3(
                 0f,
-                -0.5f,
+                BeatmapConstant.ObstacleYOffset,
                 (ObstacleData.SongBpmTime * EditorScaleController.EditorScale) + (length < 0f ? length : 0f));
             Animator.LocalTarget.localPosition = position;
 
             UpdateScaleWithLength(length);
 
-            if (localRotation != Vector3.zero)
-            {
-                Animator.LocalTarget.localEulerAngles = localRotation;
-            }
+            if (localRotation != Vector3.zero) Animator.LocalTarget.localEulerAngles = localRotation;
 
             UpdateCollisionGroups();
         }

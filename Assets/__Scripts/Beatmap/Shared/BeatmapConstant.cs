@@ -1,5 +1,7 @@
 public static class BeatmapConstant
 {
     public const float LaneSize = 0.6f;
+    public const float ObstacleYOffset = -0.15f;
+    public const float YOffset = 0.25f;
     public const float ZOffset = 1f;
 }

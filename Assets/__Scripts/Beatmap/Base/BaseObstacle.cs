@@ -115,7 +115,7 @@ namespace Beatmap.Base
         public float DurationSongBpmTime => (float)durationSongBpm;
         public int Width { get; set; }
 
-        public override float DespawnSongBpmTime => SongBpmTime + DurationSongBpmTime + Hjd;
+        public override float DespawnSongBpmTime => SongBpmTime + DurationSongBpmTime + HalfJumpDuration;
 
         public virtual JSONNode CustomSize { get; set; }
 
@@ -292,8 +292,7 @@ namespace Beatmap.Base
 
             //Just look at the difference in code complexity for Mapping Extensions support and Noodle Extensions support.
             //Hot damn.
-            if (CustomData == null)
-                return new ObstacleBounds(width * BeatmapConstant.LaneSize, height * BeatmapConstant.LaneSize, position * BeatmapConstant.LaneSize, startHeight * BeatmapConstant.LaneSize);
+            if (CustomData == null) return new ObstacleBounds(width, height, position, startHeight);
             if (CustomCoordinate != null && CustomCoordinate.IsArray)
             {
                 if (CustomCoordinate[0].IsNumber) position = CustomCoordinate[0];
@@ -306,7 +305,7 @@ namespace Beatmap.Base
                 if (CustomSize[1].IsNumber) height = CustomSize[1];
             }
 
-            return new ObstacleBounds(width * BeatmapConstant.LaneSize, height * BeatmapConstant.LaneSize, position * BeatmapConstant.LaneSize, startHeight * BeatmapConstant.LaneSize);
+            return new ObstacleBounds(width, height, position, startHeight);
         }
 
         public override void RecomputeSongBpmTime()

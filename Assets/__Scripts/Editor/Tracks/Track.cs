@@ -46,7 +46,7 @@ public class Track : MonoBehaviour
         ObjectParentTransform.localPosition = new Vector3(
             ObjectParentTransform.localPosition.x,
             ObjectParentTransform.localPosition.y,
-            position);
+            position + BeatmapConstant.ZOffset);
     }
 
     public void UpdateTime(float time)
@@ -68,7 +68,7 @@ public class Track : MonoBehaviour
         else
             z = Mathf.Lerp(despawnPosition, -JUMP_FAR, (time - despawnTime) / JUMP_TIME);
 
-        position.z = z + 1;
+        position.z = z;
 
         // oh yeah you know its good when things start with a check like this
         switch (gridObject)
@@ -138,7 +138,7 @@ public class Track : MonoBehaviour
 
                     var normalizedLifetime = Mathf.Clamp01(
                         Mathf.InverseLerp(
-                            arc.SongBpmTime + arc.Hjd,
+                            arc.SongBpmTime + arc.HalfJumpDuration,
                             arc.SpawnSongBpmTime,
                             time));
                     var spawnLifetime = Mathf.Clamp01(1 - ((normalizedLifetime - 0.5f) * 2));
@@ -149,7 +149,7 @@ public class Track : MonoBehaviour
                     var tailOffset = arc.DurationSongBpmTime;
                     var tailNormalizedLifetime = Mathf.Clamp01(
                         Mathf.InverseLerp(
-                            arc.SongBpmTime + arc.Hjd + tailOffset,
+                            arc.SongBpmTime + arc.HalfJumpDuration + tailOffset,
                             arc.SpawnSongBpmTime + tailOffset,
                             time));
                     var tailSpawnLifetime = Mathf.Clamp01(1 - ((tailNormalizedLifetime - 0.5f) * 2));
@@ -166,12 +166,12 @@ public class Track : MonoBehaviour
                         var point = basePositions[i];
 
                         //Get the preferred offset based on distance from the head
-                        var headDist = point.z / arc.Jd;
+                        var headDist = point.z / arc.HalfJumpDistance;
                         var headT = 1 - Easing.Quadratic.Out(Mathf.Clamp01(headDist));
                         var headPreferredOffset = headY * headT;
 
                         //Get the preferred offset based on distance from the tail
-                        var tailDist = (arcLength - point.z) / arc.Jd;
+                        var tailDist = (arcLength - point.z) / arc.HalfJumpDistance;
                         var tailT = 1 - Easing.Quadratic.Out(Mathf.Clamp01(tailDist));
                         var tailPreferredOffset = tailY * tailT;
 
@@ -180,7 +180,7 @@ public class Track : MonoBehaviour
                         point.y += Mathf.Lerp(headPreferredOffset, tailPreferredOffset, relativePosition);
 
                         //Squish the arc if needed
-                        point.z *= arc.DurationSongBpmTime * arc.EditorScale;
+                        point.z *= arc.DurationSongBpmTime * arc.HalfJumpDistance / arc.HalfJumpDuration;
 
                         newSplinePosition[i] = point;
                     }
@@ -202,8 +202,7 @@ public class Track : MonoBehaviour
         {
             gridObject.SetSpawnParameters(
                 vNjsProvider.HalfJumpDurationInBeats,
-                vNjsProvider.JumpDistanceScaled,
-                vNjsProvider.EditorScale);
+                vNjsProvider.HalfJumpDistance);
         }
 
         UpdateSpawning();
@@ -215,36 +214,41 @@ public class Track : MonoBehaviour
 
         gridObject.SetSpawnParameters(
             vNjsProvider.HalfJumpDurationInBeats,
-            vNjsProvider.JumpDistanceScaled,
-            vNjsProvider.EditorScale);
+            vNjsProvider.HalfJumpDistance);
         UpdateSpawning();
     }
 
     public void UpdateSpawning()
     {
-        spawnTime = gridObject.SongBpmTime - gridObject.Hjd;
-        spawnPosition = gridObject.Jd;
+        spawnTime = gridObject.SongBpmTime - gridObject.HalfJumpDuration;
+        spawnPosition = gridObject.HalfJumpDistance;
         switch (gridObject)
         {
             case BaseObstacle obs:
-                despawnPosition = -(obs.Jd * 0.5f) - (obs.DurationSongBpmTime * obs.EditorScale);
-                despawnTime = obs.SongBpmTime + obs.DurationSongBpmTime + (obs.Hjd * 0.5f);
+                despawnPosition = -(obs.HalfJumpDistance * 0.5f)
+                    - (obs.DurationSongBpmTime * obs.HalfJumpDistance / obs.HalfJumpDuration);
+                despawnTime = obs.SongBpmTime + obs.DurationSongBpmTime + (obs.HalfJumpDuration * 0.5f);
                 break;
             case BaseArc arc:
-                despawnPosition = -arc.Jd - (arc.DurationSongBpmTime * arc.EditorScale);
+                despawnPosition = -arc.HalfJumpDistance
+                    - (arc.DurationSongBpmTime * arc.HalfJumpDistance / arc.HalfJumpDuration);
                 despawnTime = arc.DespawnSongBpmTime;
                 break;
             case BaseChain chain:
-                despawnPosition = -chain.Jd - (chain.DurationSongBpmTime * chain.EditorScale);
+                despawnPosition = -chain.HalfJumpDistance
+                    - (chain.DurationSongBpmTime * chain.HalfJumpDistance / chain.HalfJumpDuration);
                 despawnTime = chain.DespawnSongBpmTime;
                 break;
             default:
-                despawnPosition = -gridObject.Jd;
+                despawnPosition = -gridObject.HalfJumpDistance;
                 despawnTime = gridObject.DespawnSongBpmTime;
                 break;
         }
 
-        gridContainer.UpdateScalable(gridObject.EditorScale);
+        spawnPosition += BeatmapConstant.ZOffset;
+        despawnPosition += BeatmapConstant.ZOffset;
+
+        gridContainer.UpdateScalable(gridObject.HalfJumpDistance / gridObject.HalfJumpDuration);
     }
 
     public void AttachContainer(ObjectContainer obj)
