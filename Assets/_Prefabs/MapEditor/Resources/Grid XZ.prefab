@@ -133,7 +133,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea580390805c4599b6820f03b47b2a2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Plane: 1
   Grid: {fileID: 3603298067490066933}
   Interface: {fileID: 77480742590576465}
   gridColor: {r: 1, g: 1, b: 1, a: 1}

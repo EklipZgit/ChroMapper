@@ -61,7 +61,6 @@
 
                 UNITY_SETUP_INSTANCE_ID(v);
                 UNITY_TRANSFER_INSTANCE_ID(v, o);
-                float4 gridOffset = UNITY_ACCESS_INSTANCED_PROP(Props, _GridOffset);
 
                 o.pos = UnityObjectToClipPos(v.vertex);
                 float3 worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
@@ -70,8 +69,8 @@
                 float rotationInRadians = _Rotation * (3.141592653 / 180);
 
                 //Transform X and Z around global platform offset (2D rotation PogU)
-                float newX = (worldPos.x + gridOffset.x) * cos(rotationInRadians) - (worldPos.z + gridOffset.z) * sin(rotationInRadians);
-                float newZ = (worldPos.z + gridOffset.z) * cos(rotationInRadians) + (worldPos.x + gridOffset.x) * sin(rotationInRadians);
+                float newX = worldPos.x * cos(rotationInRadians) - worldPos.z * sin(rotationInRadians);
+                float newZ = worldPos.z * cos(rotationInRadians) + worldPos.x * sin(rotationInRadians);
 
                 o.rotatedPos = float3(newX, worldPos.y, newZ);
 
@@ -84,13 +83,14 @@
 
                 float4 gridSpacing = UNITY_ACCESS_INSTANCED_PROP(Props, _GridSpacing);
                 float4 gridThickness = UNITY_ACCESS_INSTANCED_PROP(Props, _GridThickness);
+                float4 gridOffset = UNITY_ACCESS_INSTANCED_PROP(Props, _GridOffset);
                 float gridScale = UNITY_ACCESS_INSTANCED_PROP(Props, _GridScale);
                 half4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
                 color.a = 0;
 
                 float scale = _EditorScale * gridScale;
                 //WHERE'S THE LAMB SAUCE (unedited beat time)
-                float timeButRAWWW = (i.rotatedPos.z + _SongTime * scale) / scale;
+                float timeButRAWWW = (i.rotatedPos.z + gridOffset.z + _SongTime * scale) / scale;
 
                 //To plugerino into shader after dealing with BPM Changes
                 float time = timeButRAWWW;
@@ -148,8 +148,8 @@
                 }
 
                 // Lane line
-                if (abs(i.rotatedPos.x) % gridScale / gridScale <= 0.1 / 2 * gridScale ||
-                    abs(i.rotatedPos.x) % gridScale / gridScale >= 1 - 0.1 / 2 * gridScale)
+                if (abs(i.rotatedPos.x + gridOffset.x) % gridScale / gridScale <= 0.1 / 2 * gridScale ||
+                    abs(i.rotatedPos.x + gridOffset.x) % gridScale / gridScale >= 1 - 0.1 / 2 * gridScale)
                 {
                     return color;
                 }
