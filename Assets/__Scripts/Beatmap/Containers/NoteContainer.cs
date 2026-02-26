@@ -159,7 +159,7 @@ namespace Beatmap.Containers
         public void SetChainHeadModel()
         {
             if (NoteData.Type == (int)NoteType.Bomb) return;
-            
+
             // unfortunately the size collision has also changed
             var ic = DirectionTarget.GetComponent<IntersectionCollider>();
             ic.Mesh = ic.transform.GetChild(ic.transform.childCount - 2).GetComponent<MeshFilter>().mesh; // ew
@@ -193,7 +193,11 @@ namespace Beatmap.Containers
             if (!(Animator != null && Animator.AnimatedTrack))
             {
                 transform.localPosition = (Vector3)NoteData.GetPosition()
-                    + new Vector3(0, offsetY, NoteData.SongBpmTime * EditorScaleController.EditorScale);
+                    + new Vector3(
+                        0f,
+                        BeatmapConstant.YOffset + (BeatmapConstant.LaneSize / 2),
+                        (NoteData.SongBpmTime * EditorScaleController.EditorScale * BeatmapConstant.LaneSize)
+                        + BeatmapConstant.ZOffset);
             }
 
             transform.localScale = NoteData.GetScale();

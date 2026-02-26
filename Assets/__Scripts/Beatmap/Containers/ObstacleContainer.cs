@@ -153,8 +153,10 @@ namespace Beatmap.Containers
             // Enforce positive scale, offset our obstacles to match.
             transform.localPosition = new Vector3(
                 0f,
-                BeatmapConstant.ObstacleYOffset,
-                (ObstacleData.SongBpmTime * EditorScaleController.EditorScale) + (length < 0f ? length : 0f));
+                BeatmapConstant.YOffset + BeatmapConstant.ObstacleYOffset,
+                (ObstacleData.SongBpmTime * EditorScaleController.EditorScale * BeatmapConstant.LaneSize)
+                + (length < 0f ? length : 0f)
+                + BeatmapConstant.ZOffset);
             Animator.LocalTarget.localPosition = position;
 
             UpdateScaleWithLength(length);

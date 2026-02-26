@@ -277,8 +277,8 @@ namespace Beatmap.Animations
             WorldRotation = LocalRotation;
 
             if (eh.Scale is Vector3 scale) Scale._default = scale;
-            if (eh.Position is Vector3 p) OffsetPosition._default = (v2 ? 1 : 1.667f) * p;
-            if (eh.LocalPosition is Vector3 lp) OffsetPosition._default = (v2 ? 1 : 1.667f) * lp;
+            if (eh.Position is Vector3 p) OffsetPosition._default = (v2 ? BeatmapConstant.LaneSize : 1f) * p;
+            if (eh.LocalPosition is Vector3 lp) OffsetPosition._default = (v2 ? BeatmapConstant.LaneSize : 1f) * lp;
             if (eh.Rotation is Vector3 r) LocalRotation._default = (Quaternion.Euler(r.x, r.y, r.z));
             if (eh.LocalRotation is Vector3 lr) LocalRotation._default = (Quaternion.Euler(lr.x, lr.y, lr.z));
 

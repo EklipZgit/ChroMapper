@@ -70,8 +70,12 @@ namespace Beatmap.Containers
         {
             if (!(Animator != null && Animator.AnimatedTrack))
             {
-                transform.localPosition =
-                    new Vector3(-1.5f, offsetY, ChainData.SongBpmTime * EditorScaleController.EditorScale);
+                transform.localPosition = (Vector3)ChainData.GetPosition()
+                    + new Vector3(
+                        0f,
+                        BeatmapConstant.YOffset + (BeatmapConstant.LaneSize / 2),
+                        (ChainData.SongBpmTime * EditorScaleController.EditorScale * BeatmapConstant.LaneSize)
+                        + BeatmapConstant.ZOffset);
             }
         }
 
@@ -98,21 +102,21 @@ namespace Beatmap.Containers
         public void GenerateChain(BaseChain chainData = null)
         {
             if (chainData != null) ChainData = chainData;
-            var chainHead = (Vector3)ChainData.GetPosition() + new Vector3(1.5f, 0, 0);
-            var chainTail = (Vector3)ChainData.GetTailPosition() + new Vector3(1.5f, 0, 0);
-            var headTrans = chainHead;
+            var tailRelPos = (Vector3)(ChainData.GetTailPosition() - ChainData.GetPosition());
             var headRot = Quaternion.Euler(NoteContainer.Directionalize(ChainData.CutDirection));
-            MainObject.transform.localPosition = chainTail
+            MainObject.transform.localPosition = tailRelPos
                 + new Vector3(
-                    0,
-                    0,
-                    (ChainData.TailSongBpmTime - ChainData.SongBpmTime) * EditorScaleController.EditorScale);
+                    0f,
+                    0f,
+                    (ChainData.TailSongBpmTime - ChainData.SongBpmTime)
+                    * EditorScaleController.EditorScale
+                    * BeatmapConstant.LaneSize);
 
             var zRads = Mathf.Deg2Rad * NoteContainer.Directionalize(ChainData.CutDirection).z;
             headDirection = new Vector3(Mathf.Sin(zRads), -Mathf.Cos(zRads), 0f);
 
-            var interMult = (chainHead - chainTail).magnitude / 2;
-            interPoint = chainHead + (interMult * headDirection);
+            var interMult = (Vector3.zero - tailRelPos).magnitude / 2;
+            interPoint = Vector3.zero + (interMult * headDirection);
 
             Colliders.Clear();
             SelectionRenderers.Clear();
@@ -122,7 +126,7 @@ namespace Beatmap.Containers
             {
                 if (i >= Nodes.Count) break;
                 Nodes[i].SetActive(true);
-                Interpolate(ChainData.SliceCount - 1, i + 1, headTrans, headRot, MainObject, Nodes[i]);
+                Interpolate(ChainData.SliceCount - 1, i + 1, headRot, MainObject, Nodes[i]);
                 Colliders.Add(Nodes[i].GetComponent<IntersectionCollider>());
                 Nodes[i].GetComponent<ChainComponentsFetcher>().SelectionRenderer.ForEach(SelectionRenderers.Add);
             }
@@ -141,7 +145,7 @@ namespace Beatmap.Containers
                     cpfMain.NoteRenderer[i1].sharedMaterial = cpfNode.NoteRenderer[i1].sharedMaterial;
                 }
 
-                Interpolate(ChainData.SliceCount - 1, i + 1, headTrans, headRot, MainObject, newNode);
+                Interpolate(ChainData.SliceCount - 1, i + 1, headRot, MainObject, newNode);
                 Nodes.Add(newNode);
                 Colliders.Add(Nodes[i].GetComponent<IntersectionCollider>());
                 Nodes[i].GetComponent<ChainComponentsFetcher>().SelectionRenderer.ForEach(SelectionRenderers.Add);
@@ -155,7 +159,6 @@ namespace Beatmap.Containers
                 Interpolate(
                     ChainData.SliceCount - 1,
                     ChainData.SliceCount - 1,
-                    headTrans,
                     headRot,
                     MainObject,
                     MainObject);
@@ -195,26 +198,25 @@ namespace Beatmap.Containers
         private void Interpolate(
             int n,
             int i,
-            in Vector3 head,
             in Quaternion headRot,
             in GameObject tail,
             in GameObject linkSegment)
         {
             // This is how the game displays squish
-            var gameSquish = (ChainData.Squish < 0.001f) ? 1f : ChainData.Squish;
+            var gameSquish = ChainData.Squish < 0.001f ? 1f : ChainData.Squish;
 
             var t = (float)i / n;
             var tSquish = t * gameSquish;
 
-            var p0 = head;
+            var p0 = Vector3.zero;
             var p1 = interPoint;
             var p2 = tail.transform.localPosition;
 
-            var lerpZPos = Mathf.Lerp(head.z, tail.transform.localPosition.z, t);
+            var lerpZPos = Mathf.Lerp(0f, tail.transform.localPosition.z, t);
 
             if (headPointsToTail)
             {
-                var lerpPos = Vector3.LerpUnclamped(head, tail.transform.localPosition, tSquish);
+                var lerpPos = Vector3.LerpUnclamped(Vector3.zero, tail.transform.localPosition, tSquish);
                 linkSegment.transform.localPosition = new Vector3(lerpPos.x, lerpPos.y, lerpZPos);
                 linkSegment.transform.localRotation = headRot;
             }

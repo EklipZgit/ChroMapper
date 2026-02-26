@@ -66,7 +66,7 @@ public class ArcIndicatorPlacement : BasePlacement<BaseArc, ArcIndicatorContaine
 
     protected override BaseArc GenerateOriginalData() => new();
 
-    protected override void UpdatePlacement(Intersections.IntersectionHit hit, Vector3 localPoint)
+    protected override void HandleHitToPlacement(Intersections.IntersectionHit hit, Vector3 localPoint)
     {
         var placementZ = SongBpmTime * EditorScaleController.EditorScale;
         var offset = new Vector3(hit.GameObject.transform.localScale.x % 2 / 2f, 0f, 0f);
@@ -98,7 +98,7 @@ public class ArcIndicatorPlacement : BasePlacement<BaseArc, ArcIndicatorContaine
         }
     }
 
-    protected override void UpdateData(PlacementInputState inputState)
+    protected override void HandlePlacementToData(PlacementInputState inputState)
     {
         var pos = (Vector2)PlacementVisualContainer.transform.localPosition - GridOffset;
         pos.x += 2f;

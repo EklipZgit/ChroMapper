@@ -193,9 +193,9 @@ public class PlacementInputSystem : MonoBehaviour,
         var boundsNew = localTransform.InverseTransformBounds(boundLocal);
         boundsNew.center += localTransform.localPosition;
         boundsNew.extents = new Vector3(
-            boundsNew.extents.x * localScale.x,
-            boundsNew.extents.y * localScale.y,
-            boundsNew.extents.z * localScale.z
+            boundsNew.extents.x / localScale.x,
+            boundsNew.extents.y / localScale.y,
+            boundsNew.extents.z / localScale.z
         );
 
         foreach (var placement in currentProvider.Placements) placement.Bounds = boundsNew;

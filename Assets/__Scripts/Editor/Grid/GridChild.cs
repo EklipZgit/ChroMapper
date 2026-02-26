@@ -7,6 +7,7 @@ public class GridChild : MonoBehaviour
 
     public virtual void OnValidate()
     {
+        localOffset.y = BeatmapConstant.YOffset;
         localOffset.z = BeatmapConstant.ZOffset;
         Size.w = BeatmapConstant.LaneSize;
         SetScaleNoNotify(Scale);

@@ -17,6 +17,7 @@ public abstract class BasePlacement : MonoBehaviour
     public Transform PlacementTrack;
 
     public bool CanPrecisionPlacement;
+    public bool AdjustZScale;
 
     [Header("Dependencies")] [SerializeField]
     public CustomStandaloneInputModule CustomStandaloneInputModule;
@@ -35,6 +36,7 @@ public abstract class BasePlacement : MonoBehaviour
     public PlacementState State;
     public bool IsDragging;
     public float JsonTimeRounded;
+    protected Vector3 LanePosition;
     public Bounds Bounds;
 
     public virtual bool CanClickAndDrag => true;
@@ -75,8 +77,8 @@ public abstract class BasePlacement : MonoBehaviour
     public abstract void ShowVisual();
     public abstract void HideVisual();
 
-    protected abstract void UpdatePlacement(Intersections.IntersectionHit hit, Vector3 localPoint);
-    protected virtual void UpdateData(PlacementInputState inputState) { }
+    protected abstract void HandleHitToPlacement(Intersections.IntersectionHit hit, Vector3 localPoint);
+    protected virtual void HandlePlacementToData(PlacementInputState inputState) { }
 
     public abstract void Exit();
     public abstract void Apply();
@@ -111,7 +113,7 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
     [Header("Implementation")] public bool ForceHeaderPlsIgnore;
 
     public event Action OnApplied; // this is an odd name
-    
+
     public virtual void Start()
     {
         CreateVisual();
@@ -153,16 +155,16 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
         RoundedJsonTime = jsonTime;
         QueuedData.JsonTime = jsonTime;
 
-        Update360Tracks();
-        UpdatePlacement(hit, localPoint);
-        UpdateData(inputState);
+        SetTo360Tracks();
+        HandleHitToPlacement(hit, localPoint);
+        HandlePlacementToData(inputState);
 
         if (inputState == PlacementInputState.Hover || !IsDragging) return;
         TransferQueuedToDraggedObject(ref DraggedObjectData, QueuedData);
         if (DraggedObjectContainer != null) DraggedObjectContainer.UpdateGridPosition();
     }
 
-    protected override void UpdatePlacement(Intersections.IntersectionHit hit, Vector3 localPoint)
+    protected override void HandleHitToPlacement(Intersections.IntersectionHit hit, Vector3 localPoint)
     {
         var placementZ = SongBpmTime * EditorScaleController.EditorScale;
         var roundedPoint = new Vector3(Mathf.FloorToInt(localPoint.x), Mathf.FloorToInt(localPoint.y), placementZ);
@@ -209,7 +211,8 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
 
         var localPoint = PlacementTrack.InverseTransformPoint(hit.Point);
 
-        var realTime = localPoint.z / EditorScaleController.EditorScale;
+        localPoint.z = AdjustZScale ? localPoint.z / BeatmapConstant.LaneSize : localPoint.z;
+        var realTime = (localPoint.z - BeatmapConstant.ZOffset) / EditorScaleController.EditorScale;
         if (hit.GameObject.transform.parent.name.Contains("Interface"))
         {
             realTime = PlacementTrack.InverseTransformPoint(hit.GameObject.transform.parent.position).z
@@ -241,7 +244,7 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
         PlacementVisualContainer.name = $"Hover {ObjectDataType}";
     }
 
-    private void Update360Tracks()
+    private void SetTo360Tracks()
     {
         if (!AssignTo360Tracks) return;
         var track = TracksManager.GetTrackAtTime(SongBpmTime);

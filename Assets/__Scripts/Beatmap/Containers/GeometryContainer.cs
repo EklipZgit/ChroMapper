@@ -230,11 +230,11 @@ namespace Beatmap.Containers
                     container.Animator.AnimationThis.transform.localScale = target.transform.localScale;
 
                     target.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
-                    target.transform.localScale = Vector3.one * adjustScale;
+                    target.transform.localScale = Vector3.one;
 
                     // Apply enhancement transforms
                     if (eh.Scale != null)
-                        container.Animator.AnimationThis.transform.localScale = eh.Scale.Value * adjustScale;
+                        container.Animator.AnimationThis.transform.localScale = eh.Scale.Value;
                     if (eh.LocalPosition != null)
                         container.Animator.AnimationThis.transform.localPosition = eh.LocalPosition.Value * adjustScale;
                     else if (eh.Position != null)

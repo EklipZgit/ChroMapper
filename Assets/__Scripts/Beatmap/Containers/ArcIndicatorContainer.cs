@@ -1,4 +1,5 @@
-﻿using Beatmap.Base;
+﻿using System;
+using Beatmap.Base;
 using Beatmap.Enums;
 using UnityEngine;
 
@@ -8,7 +9,7 @@ namespace Beatmap.Containers
     {
         public IndicatorType IndicatorType;
         public ArcContainer ParentArc;
-        
+
         private static readonly int lit = Shader.PropertyToID("_Lit");
         private static readonly int translucentAlpha = Shader.PropertyToID("_TranslucentAlpha");
         private static readonly int opaqueAlpha = Shader.PropertyToID("_OpaqueAlpha");
@@ -21,22 +22,38 @@ namespace Beatmap.Containers
 
         public override void UpdateGridPosition()
         {
-            // We're not using p1 and p2 since they're *really* far away
-            if (IndicatorType == IndicatorType.Head)
+            switch (IndicatorType)
             {
-                var zRads = Mathf.Deg2Rad * NoteContainer.Directionalize(ParentArc.ArcData.CutDirection).z;
-                var headDirection = new Vector3(Mathf.Sin(zRads), -Mathf.Cos(zRads), 0f);
-                transform.localPosition = ParentArc.p0() + headDirection / 2;
-
-                transform.localEulerAngles = new Vector3(NoteContainer.Directionalize(ParentArc.ArcData.CutDirection).z + 90, -90, 0);
-            }
-            else if (IndicatorType == IndicatorType.Tail)
-            {
-                var zRads = Mathf.Deg2Rad * NoteContainer.Directionalize(ParentArc.ArcData.TailCutDirection).z;
-                var tailDirection = new Vector3(Mathf.Sin(zRads), -Mathf.Cos(zRads), 0f);
-                transform.localPosition = ParentArc.p3() - tailDirection * 1.5f;
-
-                transform.localEulerAngles = new Vector3(NoteContainer.Directionalize(ParentArc.ArcData.TailCutDirection).z + 90, -90, 0);
+                // We're not using p1 and p2 since they're *really* far away
+                case IndicatorType.Head:
+                    {
+                        var zRads = Mathf.Deg2Rad * NoteContainer.Directionalize(ParentArc.ArcData.CutDirection).z;
+                        var headDirection = new Vector3(Mathf.Sin(zRads), -Mathf.Cos(zRads), 0f);
+                        var pos = ParentArc.p0() + (headDirection * BeatmapConstant.LaneSize / 2f);
+                        transform.localPosition = pos;
+                        transform.localEulerAngles = new Vector3(
+                            NoteContainer.Directionalize(ParentArc.ArcData.CutDirection).z + 90,
+                            -90,
+                            0);
+                        break;
+                    }
+                case IndicatorType.Tail:
+                    {
+                        var zRads = Mathf.Deg2Rad * NoteContainer.Directionalize(ParentArc.ArcData.TailCutDirection).z;
+                        var tailDirection = new Vector3(Mathf.Sin(zRads), -Mathf.Cos(zRads), 0f);
+                        var pos = ParentArc.p3() - (tailDirection / BeatmapConstant.LaneSize / 2f);
+                        pos.z *= ParentArc.ArcData.DurationSongBpmTime
+                            * EditorScaleController.EditorScale
+                            * BeatmapConstant.LaneSize;
+                        transform.localPosition = pos;
+                        transform.localEulerAngles = new Vector3(
+                            NoteContainer.Directionalize(ParentArc.ArcData.TailCutDirection).z + 90,
+                            -90,
+                            0);
+                        break;
+                    }
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 

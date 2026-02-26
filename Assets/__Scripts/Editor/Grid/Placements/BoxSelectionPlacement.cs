@@ -75,7 +75,7 @@ public class BoxSelectionPlacement : BasePlacement<BaseEvent, EventContainer, Ev
         base.UpdateState(hit, inputState);
     }
 
-    protected override void UpdatePlacement(Intersections.IntersectionHit hit, Vector3 localPoint)
+    protected override void HandleHitToPlacement(Intersections.IntersectionHit hit, Vector3 localPoint)
     {
         localPoint.x = Mathf.Clamp(Mathf.Floor(localPoint.x), Bounds.min.x, Bounds.max.x - 1);
         localPoint.y = Mathf.Clamp(Mathf.Floor(localPoint.y), Bounds.min.y, Bounds.max.y - 1);
@@ -114,7 +114,7 @@ public class BoxSelectionPlacement : BasePlacement<BaseEvent, EventContainer, Ev
         }
     }
 
-    protected override void UpdateData(PlacementInputState inputState)
+    protected override void HandlePlacementToData(PlacementInputState inputState)
     {
         if (!IsPlacing) return;
 

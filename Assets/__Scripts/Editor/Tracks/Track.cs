@@ -8,6 +8,7 @@ public class Track : MonoBehaviour
 {
     public Transform ObjectParentTransform;
     public VariableNJSProvider vNjsProvider;
+    public bool IgnoreZScale;
 
     public Vector3 RotationValue = Vector3.zero;
 
@@ -22,6 +23,7 @@ public class Track : MonoBehaviour
     private float spawnPosition;
     private float despawnTime;
     private float despawnPosition;
+    private float zScale = 1f;
 
     // this number pulled from my ass, but it looks fine
     // oh, it's actually correct
@@ -29,6 +31,8 @@ public class Track : MonoBehaviour
 
     // this number also pulled from my ass, song bpm time
     public const float JUMP_TIME = 2f;
+
+    public void Awake() => zScale = IgnoreZScale ? 1f : BeatmapConstant.LaneSize;
 
     public void OnEnable() => vNjsProvider.OnChanged += UpdateState;
     public void OnDisable() => vNjsProvider.OnChanged -= UpdateState;
@@ -46,7 +50,7 @@ public class Track : MonoBehaviour
         ObjectParentTransform.localPosition = new Vector3(
             ObjectParentTransform.localPosition.x,
             ObjectParentTransform.localPosition.y,
-            position + BeatmapConstant.ZOffset);
+            position * zScale);
     }
 
     public void UpdateTime(float time)
@@ -59,14 +63,14 @@ public class Track : MonoBehaviour
         if (time < spawnTime)
         {
             z = (gridObject.CustomSpawnEffect ?? !v2) ^ v2
-                ? Mathf.Lerp(spawnPosition, JUMP_FAR, (spawnTime - time) / JUMP_TIME)
+                ? Mathf.LerpUnclamped(spawnPosition, JUMP_FAR, (spawnTime - time) / JUMP_TIME)
                 : JUMP_FAR;
         }
         else if (time < despawnTime)
-            z = Mathf.Lerp(spawnPosition, despawnPosition, (time - spawnTime) / (despawnTime - spawnTime));
+            z = Mathf.LerpUnclamped(spawnPosition, despawnPosition, (time - spawnTime) / (despawnTime - spawnTime));
         // Jump out
         else
-            z = Mathf.Lerp(despawnPosition, -JUMP_FAR, (time - despawnTime) / JUMP_TIME);
+            z = Mathf.LerpUnclamped(despawnPosition, -JUMP_FAR, (time - despawnTime) / JUMP_TIME);
 
         position.z = z;
 
@@ -89,14 +93,17 @@ public class Track : MonoBehaviour
 
                     // TODO: Pre-compute starting position so notes can stack and flip can be supported
                     //   (Notes need to be aware of other notes)
-                    position.y = Mathf.Lerp(0.5f, note.GetPosition().y + 0.5f, jumpT);
+                    position.y = Mathf.LerpUnclamped(
+                        BeatmapConstant.YOffset - BeatmapConstant.PlayerOffset,
+                        note.GetPosition().y + BeatmapConstant.YOffset + (BeatmapConstant.LaneSize / 2f),
+                        jumpT);
 
                     // Multiply euler rotation by spawn lifetime if we are in the first half (spawning) portion of our object lifetime
                     if (normalizedLifetime >= 0.5f && gridContainer is NoteContainer noteContainer)
                     {
                         var quaternion = Quaternion.Euler(noteContainer.DirectionTargetEuler);
 
-                        noteContainer.DirectionTarget.localRotation = Quaternion.Lerp(
+                        noteContainer.DirectionTarget.localRotation = Quaternion.LerpUnclamped(
                             Quaternion.identity,
                             quaternion,
                             rotationT);
@@ -110,7 +117,7 @@ public class Track : MonoBehaviour
                     {
                         var (nodeTransform, targetPosition, targetRotation) = nodesTarget[i];
                         var localPosition = nodeTransform.localPosition;
-                        var offset = Mathf.Lerp(
+                        var offset = Mathf.LerpUnclamped(
                             0f,
                             chain.TailSongBpmTime - chain.SongBpmTime,
                             (i + 1f) / (chain.SliceCount - 1f));
@@ -125,9 +132,17 @@ public class Track : MonoBehaviour
                         var rotationLifetime = Mathf.Clamp01(spawnLifetime / 0.3f);
                         var jumpT = Easing.Quadratic.Out(spawnLifetime);
                         var rotationT = Easing.Quadratic.Out(rotationLifetime);
-                        localPosition.y = Mathf.Lerp(0, targetPosition.y, jumpT);
+                        localPosition.y = Mathf.LerpUnclamped(
+                            -position.y
+                            - (BeatmapConstant.LaneSize / 2f)
+                            + BeatmapConstant.YOffset,
+                            targetPosition.y,
+                            jumpT);
                         nodeTransform.localPosition = localPosition;
-                        nodeTransform.localRotation = Quaternion.Lerp(Quaternion.identity, targetRotation, rotationT);
+                        nodeTransform.localRotation = Quaternion.LerpUnclamped(
+                            Quaternion.identity,
+                            targetRotation,
+                            rotationT);
                     }
 
                     break;
@@ -141,10 +156,10 @@ public class Track : MonoBehaviour
                             arc.SongBpmTime + arc.HalfJumpDuration,
                             arc.SpawnSongBpmTime,
                             time));
-                    var spawnLifetime = Mathf.Clamp01(1 - ((normalizedLifetime - 0.5f) * 2));
+                    var spawnLifetime = Mathf.Clamp01(1f - ((normalizedLifetime - 0.5f) * 2f));
                     var jumpT = arcContainer.HasHeadNote ? Easing.Quadratic.Out(spawnLifetime) : 1f;
                     var headPosY = arc.GetPosition().y;
-                    var headY = Mathf.Lerp(0, headPosY, jumpT) - headPosY;
+                    var headY = Mathf.LerpUnclamped(-BeatmapConstant.LaneSize - headPosY, 0f, jumpT);
 
                     var tailOffset = arc.DurationSongBpmTime;
                     var tailNormalizedLifetime = Mathf.Clamp01(
@@ -152,10 +167,10 @@ public class Track : MonoBehaviour
                             arc.SongBpmTime + arc.HalfJumpDuration + tailOffset,
                             arc.SpawnSongBpmTime + tailOffset,
                             time));
-                    var tailSpawnLifetime = Mathf.Clamp01(1 - ((tailNormalizedLifetime - 0.5f) * 2));
+                    var tailSpawnLifetime = Mathf.Clamp01(1f - ((tailNormalizedLifetime - 0.5f) * 2f));
                     var tailJumpT = arcContainer.HasTailNote ? Easing.Quadratic.Out(tailSpawnLifetime) : 1f;
                     var tailPosY = arc.GetTailPosition().y;
-                    var tailY = Mathf.Lerp(0, tailPosY, tailJumpT) - tailPosY;
+                    var tailY = Mathf.LerpUnclamped(-BeatmapConstant.LaneSize - tailPosY, 0f, tailJumpT);
 
                     // yoink from polandball
                     // https://github.com/AllPoland/ArcViewer/blob/main/Assets/__Scripts/Previewer/MapControl/Objects/ArcManager.cs#L362
@@ -177,7 +192,7 @@ public class Track : MonoBehaviour
 
                         //Weight the adjustment based on which end of the arc the point is closer to
                         var relativePosition = point.z / arcLength;
-                        point.y += Mathf.Lerp(headPreferredOffset, tailPreferredOffset, relativePosition);
+                        point.y += Mathf.LerpUnclamped(headPreferredOffset, tailPreferredOffset, relativePosition);
 
                         //Squish the arc if needed
                         point.z *= arc.DurationSongBpmTime * arc.HalfJumpDistance / arc.HalfJumpDuration;

@@ -830,6 +830,90 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8683185}
   m_CullTransparentMesh: 0
+--- !u!21 &9181813
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Inherited From Round Corners
+  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AlphaClip: 0
+    - _Blend: 0
+    - _BumpScale: 1
+    - _ColorMask: 15
+    - _Cull: 2
+    - _Cutoff: 0.5
+    - _DstBlend: 0
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _Metallic: 0
+    - _OcclusionStrength: 1
+    - _ReceiveShadows: 1
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _Surface: 0
+    - _UseUIAlphaClip: 0
+    - _WorkflowMode: 1
+    - _ZWrite: 1
+    m_Colors:
+    - _Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _WidthHeightRadius: {r: 37, g: 14, b: 2, a: 0}
+    - _halfSize: {r: 150, g: 45, b: 0, a: 0}
+    - _r: {r: 2, g: 2, b: 2, a: 2}
+    - _rect2props: {r: 0.000015258789, g: -0.000015258789, b: 136.47162, a: 136.47162}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1 &13585788
 GameObject:
   m_ObjectHideFlags: 0
@@ -3144,7 +3228,7 @@ PrefabInstance:
     - target: {fileID: 7674993629976220982, guid: 141955eb542177ea69e10ad9a2b131e2,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.01
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 7674993629976220982, guid: 141955eb542177ea69e10ad9a2b131e2,
         type: 3}
@@ -6379,6 +6463,7 @@ MonoBehaviour:
     type: 3}
   PlacementTrack: {fileID: 908866645}
   CanPrecisionPlacement: 1
+  AdjustZScale: 1
   CustomStandaloneInputModule: {fileID: 806554}
   Atsc: {fileID: 570484802}
   boxSelectionPlacement: {fileID: 859643186}
@@ -7544,6 +7629,7 @@ MonoBehaviour:
     type: 3}
   PlacementTrack: {fileID: 1645535436}
   CanPrecisionPlacement: 0
+  AdjustZScale: 0
   CustomStandaloneInputModule: {fileID: 806554}
   Atsc: {fileID: 570484802}
   boxSelectionPlacement: {fileID: 859643186}
@@ -12387,90 +12473,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 392282690}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
---- !u!21 &393997017
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Inherited From Round Corners
-  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _BumpMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _EmissionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MetallicGlossMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _OcclusionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _SpecGlossMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _AlphaClip: 0
-    - _Blend: 0
-    - _BumpScale: 1
-    - _ColorMask: 15
-    - _Cull: 2
-    - _Cutoff: 0.5
-    - _DstBlend: 0
-    - _GlossMapScale: 1
-    - _Glossiness: 0.5
-    - _GlossyReflections: 1
-    - _Metallic: 0
-    - _OcclusionStrength: 1
-    - _ReceiveShadows: 1
-    - _SmoothnessTextureChannel: 0
-    - _SpecularHighlights: 1
-    - _SrcBlend: 1
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _Surface: 0
-    - _UseUIAlphaClip: 0
-    - _WorkflowMode: 1
-    - _ZWrite: 1
-    m_Colors:
-    - _Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _WidthHeightRadius: {r: 37, g: 14, b: 2, a: 0}
-    - _halfSize: {r: 150, g: 45, b: 0, a: 0}
-    - _r: {r: 2, g: 2, b: 2, a: 2}
-    - _rect2props: {r: 0.000015258789, g: -0.000015258789, b: 136.47162, a: 136.47162}
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!1 &409903965
 GameObject:
   m_ObjectHideFlags: 0
@@ -13368,6 +13370,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ObjectParentTransform: {fileID: 443861352}
   vNjsProvider: {fileID: 597767624}
+  IgnoreZScale: 1
   RotationValue: {x: 0, y: 0, z: 0}
 --- !u!114 &443861357
 MonoBehaviour:
@@ -13519,6 +13522,90 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 444276308}
   m_CullTransparentMesh: 0
+--- !u!21 &446622547
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Inherited From Round Corners
+  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AlphaClip: 0
+    - _Blend: 0
+    - _BumpScale: 1
+    - _ColorMask: 15
+    - _Cull: 2
+    - _Cutoff: 0.5
+    - _DstBlend: 0
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _Metallic: 0
+    - _OcclusionStrength: 1
+    - _ReceiveShadows: 1
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _Surface: 0
+    - _UseUIAlphaClip: 0
+    - _WorkflowMode: 1
+    - _ZWrite: 1
+    m_Colors:
+    - _Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _WidthHeightRadius: {r: 34.4, g: 16.4, b: 4, a: 0}
+    - _halfSize: {r: 150, g: 45, b: 0, a: 0}
+    - _r: {r: 2, g: 2, b: 2, a: 2}
+    - _rect2props: {r: 0.000015258789, g: -0.000015258789, b: 136.47162, a: 136.47162}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1 &447531069
 GameObject:
   m_ObjectHideFlags: 0
@@ -13769,6 +13856,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ObjectParentTransform: {fileID: 455916736}
   vNjsProvider: {fileID: 597767624}
+  IgnoreZScale: 1
   RotationValue: {x: 0, y: 0, z: 0}
 --- !u!1 &456339902
 GameObject:
@@ -13956,8 +14044,8 @@ Transform:
   m_GameObject: {fileID: 460550585}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.8000001, y: 0.01, z: 1}
-  m_LocalScale: {x: 0.41, y: 1, z: 1}
+  m_LocalPosition: {x: 1.8000001, y: 0.55, z: 1}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 63770832}
@@ -14007,8 +14095,8 @@ MonoBehaviour:
   RegisterChildOnStart: 1
   viewableMode: 255
   order: 1
-  localOffset: {x: 0, y: 0.01, z: 1}
-  Size: {x: 0, y: 0, z: 0}
+  localOffset: {x: 0, y: 0.55, z: 1}
+  Size: {x: 0, y: 0, z: 0, w: 0.6}
 --- !u!1 &462865887
 GameObject:
   m_ObjectHideFlags: 0
@@ -17698,6 +17786,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ObjectParentTransform: {fileID: 565602430}
   vNjsProvider: {fileID: 597767624}
+  IgnoreZScale: 0
   RotationValue: {x: 0, y: 0, z: 0}
 --- !u!1 &567902551
 GameObject:
@@ -18933,11 +19022,9 @@ MonoBehaviour:
   NoteJumpSpeed: 0
   JumpDuration: 0
   JumpDistance: 0
-  JumpDistanceScaled: 0
   HalfJumpDurationInBeats: 0
   HalfJumpDuration: 0
   HalfJumpDistance: 0
-  HalfJumpDistanceScaled: 0
   EditorScale: 0
   BaseBeatPerMinute: 0
   BaseNoteJumpSpeed: 0
@@ -19026,11 +19113,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4085374639500124, guid: 20e633c6c4c50f744a0f7f171d45ad00, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.8
+      value: 2.2
       objectReference: {fileID: 0}
     - target: {fileID: 4085374639500124, guid: 20e633c6c4c50f744a0f7f171d45ad00, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.5
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 4085374639500124, guid: 20e633c6c4c50f744a0f7f171d45ad00, type: 3}
       propertyPath: m_LocalRotation.w
@@ -21394,6 +21481,7 @@ MonoBehaviour:
     type: 3}
   PlacementTrack: {fileID: 455916736}
   CanPrecisionPlacement: 0
+  AdjustZScale: 0
   CustomStandaloneInputModule: {fileID: 806554}
   Atsc: {fileID: 570484802}
   boxSelectionPlacement: {fileID: 859643186}
@@ -24136,6 +24224,7 @@ MonoBehaviour:
     type: 3}
   PlacementTrack: {fileID: 1890332740}
   CanPrecisionPlacement: 0
+  AdjustZScale: 0
   CustomStandaloneInputModule: {fileID: 806554}
   Atsc: {fileID: 570484802}
   boxSelectionPlacement: {fileID: 859643186}
@@ -27636,6 +27725,7 @@ MonoBehaviour:
     type: 3}
   PlacementTrack: {fileID: 1006741503}
   CanPrecisionPlacement: 0
+  AdjustZScale: 0
   CustomStandaloneInputModule: {fileID: 806554}
   Atsc: {fileID: 570484802}
   boxSelectionPlacement: {fileID: 0}
@@ -28502,6 +28592,7 @@ MonoBehaviour:
     type: 3}
   PlacementTrack: {fileID: 908866645}
   CanPrecisionPlacement: 1
+  AdjustZScale: 1
   CustomStandaloneInputModule: {fileID: 806554}
   Atsc: {fileID: 570484802}
   boxSelectionPlacement: {fileID: 859643186}
@@ -28615,6 +28706,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ObjectParentTransform: {fileID: 908866645}
   vNjsProvider: {fileID: 597767624}
+  IgnoreZScale: 1
   RotationValue: {x: 0, y: 0, z: 0}
 --- !u!1 &912303265
 GameObject:
@@ -30729,7 +30821,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 13585789}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.9999999
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -32171,7 +32263,7 @@ PrefabInstance:
     - target: {fileID: 7674993629976220982, guid: 141955eb542177ea69e10ad9a2b131e2,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.01
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 7674993629976220982, guid: 141955eb542177ea69e10ad9a2b131e2,
         type: 3}
@@ -33100,6 +33192,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ObjectParentTransform: {fileID: 1006741503}
   vNjsProvider: {fileID: 597767624}
+  IgnoreZScale: 1
   RotationValue: {x: 0, y: 0, z: 0}
 --- !u!1 &1007058445
 GameObject:
@@ -36397,6 +36490,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ObjectParentTransform: {fileID: 1105924655}
   vNjsProvider: {fileID: 597767624}
+  IgnoreZScale: 1
   RotationValue: {x: 0, y: 0, z: 0}
 --- !u!1 &1106532172
 GameObject:
@@ -37798,6 +37892,7 @@ MonoBehaviour:
     type: 3}
   PlacementTrack: {fileID: 1105924655}
   CanPrecisionPlacement: 0
+  AdjustZScale: 0
   CustomStandaloneInputModule: {fileID: 806554}
   Atsc: {fileID: 570484802}
   boxSelectionPlacement: {fileID: 859643186}
@@ -51148,7 +51243,7 @@ PrefabInstance:
     - target: {fileID: 7674993629976220982, guid: 141955eb542177ea69e10ad9a2b131e2,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.01
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 7674993629976220982, guid: 141955eb542177ea69e10ad9a2b131e2,
         type: 3}
@@ -52414,7 +52509,7 @@ PrefabInstance:
     - target: {fileID: 1589281612457100464, guid: 141955eb542177ea69e10ad9a2b131e2,
         type: 3}
       propertyPath: offset.y
-      value: 0.99
+      value: -0.01
       objectReference: {fileID: 0}
     - target: {fileID: 2745739347418089302, guid: 141955eb542177ea69e10ad9a2b131e2,
         type: 3}
@@ -52479,7 +52574,7 @@ PrefabInstance:
     - target: {fileID: 4951918977610797032, guid: 141955eb542177ea69e10ad9a2b131e2,
         type: 3}
       propertyPath: offset.y
-      value: 0.99
+      value: -0.01
       objectReference: {fileID: 0}
     - target: {fileID: 7469514657502614055, guid: 141955eb542177ea69e10ad9a2b131e2,
         type: 3}
@@ -52554,7 +52649,7 @@ PrefabInstance:
     - target: {fileID: 7469514657502614055, guid: 141955eb542177ea69e10ad9a2b131e2,
         type: 3}
       propertyPath: localOffset.y
-      value: 0.01
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 7469514657502614055, guid: 141955eb542177ea69e10ad9a2b131e2,
         type: 3}
@@ -52589,7 +52684,7 @@ PrefabInstance:
     - target: {fileID: 7674993629976220982, guid: 141955eb542177ea69e10ad9a2b131e2,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.01
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 7674993629976220982, guid: 141955eb542177ea69e10ad9a2b131e2,
         type: 3}
@@ -53394,6 +53489,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ObjectParentTransform: {fileID: 1645535436}
   vNjsProvider: {fileID: 597767624}
+  IgnoreZScale: 1
   RotationValue: {x: 0, y: 0, z: 0}
 --- !u!1 &1649845919
 GameObject:
@@ -53857,6 +53953,7 @@ MonoBehaviour:
     type: 3}
   PlacementTrack: {fileID: 908866645}
   CanPrecisionPlacement: 1
+  AdjustZScale: 1
   CustomStandaloneInputModule: {fileID: 806554}
   Atsc: {fileID: 570484802}
   boxSelectionPlacement: {fileID: 859643186}
@@ -55497,6 +55594,7 @@ MonoBehaviour:
     type: 3}
   PlacementTrack: {fileID: 908866645}
   CanPrecisionPlacement: 1
+  AdjustZScale: 1
   CustomStandaloneInputModule: {fileID: 806554}
   Atsc: {fileID: 570484802}
   boxSelectionPlacement: {fileID: 859643186}
@@ -55612,7 +55710,7 @@ PrefabInstance:
     - target: {fileID: 7674993629976220982, guid: 141955eb542177ea69e10ad9a2b131e2,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.01
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 7674993629976220982, guid: 141955eb542177ea69e10ad9a2b131e2,
         type: 3}
@@ -59392,90 +59490,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!21 &1840367958
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Inherited From Round Corners
-  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _BumpMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _EmissionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MetallicGlossMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _OcclusionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _SpecGlossMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _AlphaClip: 0
-    - _Blend: 0
-    - _BumpScale: 1
-    - _ColorMask: 15
-    - _Cull: 2
-    - _Cutoff: 0.5
-    - _DstBlend: 0
-    - _GlossMapScale: 1
-    - _Glossiness: 0.5
-    - _GlossyReflections: 1
-    - _Metallic: 0
-    - _OcclusionStrength: 1
-    - _ReceiveShadows: 1
-    - _SmoothnessTextureChannel: 0
-    - _SpecularHighlights: 1
-    - _SrcBlend: 1
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _Surface: 0
-    - _UseUIAlphaClip: 0
-    - _WorkflowMode: 1
-    - _ZWrite: 1
-    m_Colors:
-    - _Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _WidthHeightRadius: {r: 23.400002, g: 16.4, b: 4, a: 0}
-    - _halfSize: {r: 150, g: 45, b: 0, a: 0}
-    - _r: {r: 2, g: 2, b: 2, a: 2}
-    - _rect2props: {r: 0.000015258789, g: -0.000015258789, b: 136.47162, a: 136.47162}
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!1 &1844491508
 GameObject:
   m_ObjectHideFlags: 0
@@ -61908,6 +61922,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ObjectParentTransform: {fileID: 1890332740}
   vNjsProvider: {fileID: 597767624}
+  IgnoreZScale: 1
   RotationValue: {x: 0, y: 0, z: 0}
 --- !u!1 &1891178068
 GameObject:
@@ -62368,8 +62383,8 @@ Transform:
   m_GameObject: {fileID: 1903135838}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.8000001, y: 0.01, z: 1}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 1.8000001, y: 0.55, z: 1}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 443861352}
@@ -62409,8 +62424,8 @@ MonoBehaviour:
   RegisterChildOnStart: 1
   viewableMode: 255
   order: 1
-  localOffset: {x: 0, y: 0.01, z: 1}
-  Size: {x: 0, y: 0, z: 0}
+  localOffset: {x: 0, y: 0.55, z: 1}
+  Size: {x: 0, y: 0, z: 0, w: 0.6}
 --- !u!1 &1903309606
 GameObject:
   m_ObjectHideFlags: 0
@@ -63763,8 +63778,8 @@ Transform:
   m_GameObject: {fileID: 1927255075}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.8, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -4.8, y: 0.55, z: 1}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 565602430}
@@ -63785,8 +63800,8 @@ MonoBehaviour:
   RegisterChildOnStart: 1
   viewableMode: 255
   order: -1
-  localOffset: {x: 0, y: 0, z: 0}
-  Size: {x: 0, y: 0, z: 0}
+  localOffset: {x: 0, y: 0.55, z: 1}
+  Size: {x: 0, y: 0, z: 0, w: 0.6}
 --- !u!1 &1941828370
 GameObject:
   m_ObjectHideFlags: 0
@@ -65229,6 +65244,7 @@ MonoBehaviour:
     type: 3}
   PlacementTrack: {fileID: 908866645}
   CanPrecisionPlacement: 1
+  AdjustZScale: 1
   CustomStandaloneInputModule: {fileID: 806554}
   Atsc: {fileID: 570484802}
   boxSelectionPlacement: {fileID: 859643186}
@@ -65719,6 +65735,7 @@ MonoBehaviour:
     type: 3}
   PlacementTrack: {fileID: 908866645}
   CanPrecisionPlacement: 1
+  AdjustZScale: 1
   CustomStandaloneInputModule: {fileID: 806554}
   Atsc: {fileID: 570484802}
   boxSelectionPlacement: {fileID: 859643186}
@@ -67363,6 +67380,7 @@ MonoBehaviour:
     type: 3}
   PlacementTrack: {fileID: 908866645}
   CanPrecisionPlacement: 1
+  AdjustZScale: 1
   CustomStandaloneInputModule: {fileID: 806554}
   Atsc: {fileID: 570484802}
   boxSelectionPlacement: {fileID: 859643186}
@@ -69367,7 +69385,7 @@ PrefabInstance:
     - target: {fileID: 7674993629976220982, guid: 141955eb542177ea69e10ad9a2b131e2,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.01
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 7674993629976220982, guid: 141955eb542177ea69e10ad9a2b131e2,
         type: 3}

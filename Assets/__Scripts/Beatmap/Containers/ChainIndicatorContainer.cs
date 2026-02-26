@@ -1,4 +1,5 @@
-﻿using Beatmap.Base;
+﻿using System;
+using Beatmap.Base;
 using Beatmap.Enums;
 using UnityEngine;
 
@@ -8,7 +9,7 @@ namespace Beatmap.Containers
     {
         public IndicatorType IndicatorType;
         public ChainContainer ParentChain;
-        
+
         private static readonly int lit = Shader.PropertyToID("_Lit");
         private static readonly int translucentAlpha = Shader.PropertyToID("_TranslucentAlpha");
         private static readonly int opaqueAlpha = Shader.PropertyToID("_OpaqueAlpha");
@@ -22,16 +23,27 @@ namespace Beatmap.Containers
         public override void UpdateGridPosition()
         {
             var chainData = (BaseChain)ObjectData;
-            if (IndicatorType == IndicatorType.Head)
+            switch (IndicatorType)
             {
-                transform.localPosition = (Vector3)chainData.GetPosition() + new Vector3(1.5f, 0, 0);
-                transform.localEulerAngles = new Vector3(NoteContainer.Directionalize(ParentChain.ChainData.CutDirection).z + 90, -90, 0);
-            }
-            else if (IndicatorType == IndicatorType.Tail)
-            {
-                var zOffset = (chainData.TailSongBpmTime - chainData.SongBpmTime) * EditorScaleController.EditorScale;
-                transform.localPosition = (Vector3)chainData.GetTailPosition() + new Vector3(1.5f, 0, zOffset);
-                transform.rotation = ParentChain.GetTailNodeRotation();
+                case IndicatorType.Head:
+                    transform.localPosition = Vector3.zero;
+                    transform.localEulerAngles = new Vector3(
+                        NoteContainer.Directionalize(ParentChain.ChainData.CutDirection).z + 90,
+                        -90,
+                        0);
+                    break;
+                case IndicatorType.Tail:
+                    {
+                        var zOffset = (chainData.TailSongBpmTime - chainData.SongBpmTime)
+                            * EditorScaleController.EditorScale
+                            * BeatmapConstant.LaneSize;
+                        transform.localPosition = (Vector3)(chainData.GetTailPosition() - chainData.GetPosition())
+                            + new Vector3(0f, 0f, zOffset);
+                        transform.rotation = ParentChain.GetTailNodeRotation();
+                        break;
+                    }
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 

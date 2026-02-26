@@ -34,50 +34,39 @@ namespace Beatmap.Containers
         public Vector3 p0()
         {
             var position = ArcData.GetPosition();
-            return new Vector3(position.x, position.y + offsetY, 0f);
+            return new Vector3(position.x, position.y, 0f);
         }
 
         public Vector3 p1()
         {
             var headPosition = ArcData.GetPosition();
             if (ArcData.CutDirection == (int)NoteCutDirection.Any)
-                return new Vector3(headPosition.x, headPosition.y + offsetY, 0f);
+                return new Vector3(headPosition.x, headPosition.y, 0f);
 
             var zRads = Mathf.Deg2Rad * NoteContainer.Directionalize(ArcData.CutDirection).z;
             var headDirection = new Vector2(Mathf.Sin(zRads), -Mathf.Cos(zRads));
             var nodePosition = headPosition
                 + (headDirection * ArcData.HeadControlPointLengthMultiplier * splineControlPointScaleFactor);
-            return new Vector3(nodePosition.x, nodePosition.y + offsetY, 0f);
+            return new Vector3(nodePosition.x, nodePosition.y, 0f);
         }
 
         public Vector3 p2()
         {
             var tailPosition = ArcData.GetTailPosition();
             if (ArcData.TailCutDirection == (int)NoteCutDirection.Any)
-            {
-                return new Vector3(
-                    tailPosition.x,
-                    tailPosition.y + offsetY,
-                    1f);
-            }
+                return new Vector3(tailPosition.x, tailPosition.y, 1f);
 
             var zRads = Mathf.Deg2Rad * NoteContainer.Directionalize(ArcData.TailCutDirection).z;
             var tailDirection = new Vector2(Mathf.Sin(zRads), -Mathf.Cos(zRads));
             var tailNodePosition = tailPosition
                 - (tailDirection * ArcData.TailControlPointLengthMultiplier * splineControlPointScaleFactor);
-            return new Vector3(
-                tailNodePosition.x,
-                tailNodePosition.y + offsetY,
-                1f);
+            return new Vector3(tailNodePosition.x, tailNodePosition.y, 1f);
         }
 
         public Vector3 p3()
         {
             var tailPosition = ArcData.GetTailPosition();
-            return new Vector3(
-                tailPosition.x,
-                tailPosition.y + offsetY,
-                1f);
+            return new Vector3(tailPosition.x, tailPosition.y, 1f);
         }
 
         // B(t) = (1-t)^3 p0 + 3(1-t)^2 t p1 + 3(1-t)t^2 p2 + t^3 p3
@@ -141,7 +130,11 @@ namespace Beatmap.Containers
         {
             if (ArcData == null) return; // in case that this container has already been recycled when about to compute
             if (!(Animator != null && Animator.AnimatedTrack))
-                transform.localPosition = new Vector3(0, 0, ArcData.SongBpmTime * EditorScaleController.EditorScale);
+                transform.localPosition = new Vector3(
+                    0,
+                    BeatmapConstant.YOffset + (BeatmapConstant.LaneSize / 2),
+                    (ArcData.SongBpmTime * EditorScaleController.EditorScale * BeatmapConstant.LaneSize)
+                    + BeatmapConstant.ZOffset);
 
             SplineRenderer.positionCount = NumSamples + 1;
 
@@ -189,7 +182,9 @@ namespace Beatmap.Containers
                 BaseSplinePoints
                     .Select(x =>
                     {
-                        x.z *= ArcData.DurationSongBpmTime * EditorScaleController.EditorScale;
+                        x.z *= ArcData.DurationSongBpmTime
+                            * EditorScaleController.EditorScale
+                            * BeatmapConstant.LaneSize;
                         return x;
                     })
                     .ToArray());

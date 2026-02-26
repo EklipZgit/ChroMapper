@@ -75,7 +75,7 @@ public class GridLane : GridChild
         XZ.transform.localScale = new Vector3(lane, XZ.transform.localScale.y, XZ.transform.localScale.z);
 
         XY.transform.localPosition = new Vector3(
-            (lane / 2f) + XYOffset.x,
+            (lane / 2f) + (XYOffset.x / Scale),
             XY.transform.localPosition.y,
             XY.transform.localPosition.z);
         XZ.transform.localPosition = new Vector3(
@@ -92,7 +92,7 @@ public class GridLane : GridChild
             XY.transform.localScale.z);
         XY.transform.localPosition = new Vector3(
             XY.transform.localPosition.x,
-            (height / 2f) + XYOffset.y + (XYExpand.y / 2f),
+            (height / 2f) + (XYOffset.y / Scale) + (XYExpand.y / 2f),
             XY.transform.localPosition.z);
     }
 

@@ -14,9 +14,6 @@ namespace Beatmap.Containers
         internal static readonly int outline = Shader.PropertyToID("_Outline");
         internal static readonly int outlineColor = Shader.PropertyToID("_OutlineColor");
 
-        // 0.5 (?) + 0.6 (world rotation origin y)
-        protected static readonly float offsetY = 0.5f;
-
         public bool Dragging;
 
         [SerializeField] protected List<IntersectionCollider> Colliders;

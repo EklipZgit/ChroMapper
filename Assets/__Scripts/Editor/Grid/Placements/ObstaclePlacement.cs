@@ -20,6 +20,7 @@ public class ObstaclePlacement : BasePlacement<BaseObstacle, ObstacleContainer, 
 
     private int originIndex;
     private Vector3 originPos;
+    private Vector3 scale;
 
     private float startJsonTime;
     private float startSongBpmTime;
@@ -60,56 +61,31 @@ public class ObstaclePlacement : BasePlacement<BaseObstacle, ObstacleContainer, 
     }
 
     // Wall transform anchor on bottom middle
-    protected override void UpdatePlacement(Intersections.IntersectionHit hit, Vector3 localPoint)
+    protected override void HandleHitToPlacement(Intersections.IntersectionHit hit, Vector3 localPoint)
     {
-        var placementZ = SongBpmTime * EditorScaleController.EditorScale;
-        var offset = new Vector3(hit.GameObject.transform.localScale.x % 2 / 2f, 0f, 0f);
-        localPoint.z = placementZ;
-
-        var roundedPoint = localPoint;
-        var size = 1.0f;
+        var size = 1f;
         if (PrecisionPlacementController.IsEnabled)
         {
             var precision = Settings.Instance.PrecisionPlacementGridPrecision;
-            size = 1.0f / precision;
-            roundedPoint.x = (Mathf.Floor(roundedPoint.x * precision) / precision) + (size / 2f);
-            roundedPoint.y = Mathf.Floor(roundedPoint.y * precision) / precision;
+            size = 1f / precision;
+            LanePosition = BeatmapPositionHelper.LocalPositionToLanePosition(
+                localPoint,
+                precision,
+                BeatmapConstant.ObstacleYOffset);
         }
         else
         {
-            roundedPoint.x =
-                Mathf.Clamp(Mathf.Floor(roundedPoint.x + offset.x) - offset.x, Bounds.min.x, Bounds.max.x - 1f)
-                + (size / 2f);
-            roundedPoint.y =
-                IsPlacing
-                    ? Mathf.Clamp(Mathf.Floor(roundedPoint.y + .5f), Bounds.min.y + .5f, Bounds.max.y + 1.5f) - .5f
-                    : Mathf.Clamp(Mathf.Floor(roundedPoint.y + .5f), Bounds.min.y + .5f, Bounds.max.y - .5f) - .5f;
+            LanePosition = BeatmapPositionHelper.LocalPositionToLanePosition(
+                localPoint,
+                BeatmapConstant.ObstacleYOffset);
         }
+
+        LanePosition.x += size / 2f;
+        var zPlacement = BeatmapPositionHelper.SongTimeToLanePositionZ(SongBpmTime);
+        LanePosition.z = zPlacement;
 
         if (!IsPlacing)
-        {
-            PlacementVisualContainer.transform.localPosition = roundedPoint;
-            var newScale = new Vector3(size, size, Mathf.Epsilon);
-            if (v2Mode && !PrecisionPlacementController.IsEnabled)
-            {
-                if (PlacementVisualContainer.transform.localPosition.y < 1.5f)
-                {
-                    var pos = PlacementVisualContainer.transform.localPosition;
-                    pos.y = -0.5f;
-                    PlacementVisualContainer.transform.localPosition = pos;
-                    newScale.y = 5f;
-                }
-                else
-                {
-                    var pos = PlacementVisualContainer.transform.localPosition;
-                    pos.y = 1.5f;
-                    PlacementVisualContainer.transform.localPosition = pos;
-                    newScale.y = 3f;
-                }
-            }
-
-            if (newScale != PlacementVisualContainer.ObstacleScale) PlacementVisualContainer.SetScale(newScale);
-        }
+            scale = new Vector3(size, size, Mathf.Epsilon);
         else
         {
             var originShove = originPos;
@@ -118,46 +94,45 @@ public class ObstaclePlacement : BasePlacement<BaseObstacle, ObstacleContainer, 
 
             // there's probably elegant way to do this,
             // i just cant think now
-            if (roundedPoint.x < originPos.x)
+            if (LanePosition.x < originPos.x)
             {
-                var difference = Mathf.Abs(roundedPoint.x - originPos.x);
+                var difference = Mathf.Abs(LanePosition.x - originPos.x);
                 sizeX += difference;
                 originShove.x -= difference;
             }
 
-            if (roundedPoint.y < originPos.y)
+            if (LanePosition.y < originPos.y)
             {
-                var difference = Mathf.Abs(roundedPoint.y - originPos.y);
+                var difference = Mathf.Abs(LanePosition.y - originPos.y);
                 sizeY += difference;
                 originShove.y -= difference;
             }
 
-            var newScale = roundedPoint + new Vector3(sizeX, sizeY, 0f) - originShove;
-            PlacementVisualContainer.transform.localPosition =
-                originShove + new Vector3((newScale.x - size) / 2f, 0f, 0f);
-            if (v2Mode && !PrecisionPlacementController.IsEnabled)
-            {
-                if (PlacementVisualContainer.transform.localPosition.y < 1.5f)
-                {
-                    var pos = PlacementVisualContainer.transform.localPosition;
-                    pos.y = -0.5f;
-                    PlacementVisualContainer.transform.localPosition = pos;
-                    newScale.y = 5f;
-                }
-                else
-                {
-                    var pos = PlacementVisualContainer.transform.localPosition;
-                    pos.y = 1.5f;
-                    PlacementVisualContainer.transform.localPosition = pos;
-                    newScale.y = 3f;
-                }
-            }
-
-            if (newScale != PlacementVisualContainer.ObstacleScale) PlacementVisualContainer.SetScale(newScale);
+            scale = LanePosition + new Vector3(sizeX, sizeY, 0f) - originShove;
+            LanePosition = originShove + new Vector3((scale.x - size) / 2f, 0f, 0f);
         }
+
+        if (v2Mode && !PrecisionPlacementController.IsEnabled)
+        {
+            if (LanePosition.y < 1.5)
+            {
+                LanePosition.y = 0;
+                scale.y = 5f;
+            }
+            else
+            {
+                LanePosition.y = 2;
+                scale.y = 3f;
+            }
+        }
+
+        PlacementVisualContainer.transform.localPosition =
+            BeatmapPositionHelper.LanePositionToLocalPosition(LanePosition, BeatmapConstant.ObstacleYOffset);
+        if (scale != PlacementVisualContainer.ObstacleScale / BeatmapConstant.LaneSize)
+            PlacementVisualContainer.SetScale(scale * BeatmapConstant.LaneSize);
     }
 
-    protected override void UpdateData(PlacementInputState inputState)
+    protected override void HandlePlacementToData(PlacementInputState inputState)
     {
         if (!IsPlacing)
         {
@@ -177,20 +152,22 @@ public class ObstaclePlacement : BasePlacement<BaseObstacle, ObstacleContainer, 
             ? colorPicker.CurrentColor
             : null;
 
-        var pos = (Vector2)PlacementVisualContainer.transform.localPosition;
-        var scale = (Vector2)PlacementVisualContainer.ObstacleScale;
+        var pos = LanePosition;
+        pos.y -= 0.5f;
 
         // let's not talk about this
-        QueuedData.Type = pos.y < 1.5 ? (int)ObstacleType.Full : (int)ObstacleType.Crouch;
+        QueuedData.Type = pos.y < 2
+            ? (int)ObstacleType.Full
+            : (int)ObstacleType.Crouch;
 
         var vanillaPos = new Vector2(Mathf.FloorToInt(pos.x - (scale.x / 2f)), Mathf.FloorToInt(pos.y));
-        var coordinates = pos - new Vector2(scale.x / 2f, .5f);
+        var coordinates = (Vector2)pos - new Vector2(scale.x / 2f, .5f);
         QueuedData.CustomCoordinate = vanillaPos != coordinates ? coordinates + Vector2.up : null;
         QueuedData.PosX = (int)vanillaPos.x + 2;
         QueuedData.PosY = (int)vanillaPos.y + 1;
 
         var vanillaSize = new Vector2(Mathf.CeilToInt(scale.x), Mathf.CeilToInt(scale.y));
-        QueuedData.CustomSize = vanillaSize != scale ? scale : null;
+        QueuedData.CustomSize = vanillaSize != (Vector2)scale ? (Vector2)scale : null;
         QueuedData.Width = (int)vanillaSize.x;
         QueuedData.Height = (int)vanillaSize.y;
     }
@@ -220,7 +197,7 @@ public class ObstaclePlacement : BasePlacement<BaseObstacle, ObstacleContainer, 
         }
         else
         {
-            originPos = PlacementVisualContainer.transform.localPosition;
+            originPos = LanePosition;
             startJsonTime = RoundedJsonTime;
             startSongBpmTime = SongBpmTime;
             State = PlacementState.Placing;
