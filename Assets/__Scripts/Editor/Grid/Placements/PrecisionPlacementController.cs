@@ -77,13 +77,16 @@ public class PrecisionPlacementController : MonoBehaviour
         gridSeparation *= CMMath.GetLowestDenominator(Mathf.FloorToInt(snapping / gridSeparation));
         precisionSnap[3] = usePreciseSegments ? 1f / gridSeparation : 0f;
 
-        materialPropertyBlock.SetVector(gridSpacingID, precisionSnap);
+        materialPropertyBlock.SetVector(gridSpacingID, precisionSnap * BeatmapConstant.LaneSize);
         expandedMesh.SetPropertyBlock(materialPropertyBlock);
     }
 
     private void UpdateGridPosition()
     {
-        materialPropertyBlock.SetVector(gridOffsetID, (Vector3)lane.XYOffset + lane.LocalOffset);
+        var xOffset = lane.OddLaneOffset ? 0.5f : 0f;
+        materialPropertyBlock.SetVector(
+            gridOffsetID,
+            -(Vector3)lane.XYOffset - lane.LocalOffset + new Vector3(xOffset - (lane.XYExpand.x / 2f), 0f, 0f));
         expandedMesh.SetPropertyBlock(materialPropertyBlock);
     }
 }

@@ -16,6 +16,15 @@ public static class BeatmapPositionHelper
     public static Vector3 LocalPositionToLanePosition(in Vector3 worldPosition, float precision, float yOffset)
     {
         return new Vector3(
+            Mathf.FloorToInt(worldPosition.x / BeatmapConstant.LaneSize * precision) / precision,
+            Mathf.FloorToInt((worldPosition.y - BeatmapConstant.YOffset - yOffset) / BeatmapConstant.LaneSize * precision)
+            / precision,
+            worldPosition.z);
+    }
+
+    public static Vector3 LocalPositionToLanePositionRound(in Vector3 worldPosition, float precision, float yOffset)
+    {
+        return new Vector3(
             Mathf.Round(worldPosition.x / BeatmapConstant.LaneSize * precision) / precision,
             Mathf.Round((worldPosition.y - BeatmapConstant.YOffset - yOffset) / BeatmapConstant.LaneSize * precision)
             / precision,

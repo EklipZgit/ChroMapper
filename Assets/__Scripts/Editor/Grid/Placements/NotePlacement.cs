@@ -121,7 +121,7 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
         if (PrecisionPlacementController.IsEnabled)
         {
             var precision = Settings.Instance.PrecisionPlacementGridPrecision;
-            LanePosition = BeatmapPositionHelper.LocalPositionToLanePosition(localPoint, precision, BeatmapConstant.PlayerYOffset / 2f);
+            LanePosition = BeatmapPositionHelper.LocalPositionToLanePositionRound(localPoint, precision, BeatmapConstant.PlayerYOffset / 2f);
             LanePosition.z = zPlacement;
             PlacementVisualContainer.transform.localPosition =
                 BeatmapPositionHelper.LanePositionToLocalPosition(LanePosition, BeatmapConstant.PlayerYOffset / 2f);
@@ -157,13 +157,13 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
         QueuedData.PosY = vanillaY;
 
         if (PrecisionPlacementController.IsEnabled)
-            QueuedData.CustomCoordinate = new Vector2(pos.x - 2f, pos.y);
+            QueuedData.CustomCoordinate = new Vector2(pos.x - 2f, pos.y) - (Vector2.one / 2f);
         else
         {
             QueuedData.CustomCoordinate =
                 !(Mathf.Approximately(vanillaX, pos.x)
                     && Mathf.Approximately(vanillaY, pos.y))
-                    ? new Vector2(pos.x - 2f, pos.y)
+                    ? new Vector2(pos.x - 2f, pos.y) - (Vector2.one / 2f)
                     : null;
         }
     }
