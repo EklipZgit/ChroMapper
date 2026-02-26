@@ -1395,6 +1395,14 @@ MonoBehaviour:
     m_Key: graphics.mirror
     m_Metadata:
       m_Items: []
+  - m_Id: 603916992827326464
+    m_Key: map.obstaclelanes.tooltip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 603917705401827328
+    m_Key: map.obstaclelanes
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

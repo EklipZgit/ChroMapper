@@ -1518,6 +1518,14 @@ MonoBehaviour:
     m_Localized: Mirror Quality
     m_Metadata:
       m_Items: []
+  - m_Id: 603916992827326464
+    m_Localized: Extend lane on both side for obstacle placement.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 603917705401827328
+    m_Localized: Obstacle Lane Extend Amount
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:
