@@ -195,7 +195,7 @@ namespace Beatmap.Containers
                 transform.localPosition = (Vector3)NoteData.GetPosition()
                     + new Vector3(
                         0f,
-                        BeatmapConstant.YOffset + (BeatmapConstant.LaneSize / 2),
+                        BeatmapConstant.YOffset + BeatmapConstant.PlayerYOffset,
                         (NoteData.SongBpmTime * EditorScaleController.EditorScale * BeatmapConstant.LaneSize)
                         + BeatmapConstant.ZOffset);
             }

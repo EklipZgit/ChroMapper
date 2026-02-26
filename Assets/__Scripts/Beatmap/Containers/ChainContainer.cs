@@ -73,7 +73,7 @@ namespace Beatmap.Containers
                 transform.localPosition = (Vector3)ChainData.GetPosition()
                     + new Vector3(
                         0f,
-                        BeatmapConstant.YOffset + (BeatmapConstant.LaneSize / 2),
+                        BeatmapConstant.YOffset + BeatmapConstant.PlayerYOffset,
                         (ChainData.SongBpmTime * EditorScaleController.EditorScale * BeatmapConstant.LaneSize)
                         + BeatmapConstant.ZOffset);
             }
@@ -170,7 +170,6 @@ namespace Beatmap.Containers
             if (!Settings.Instance.AccurateNoteSize) scale *= 0.9f;
             foreach (var node in Nodes) node.transform.localScale = scale;
             MainObject.transform.localScale = scale;
-            tailLinkIndicator.transform.localScale = scale;
 
             UpdateMaterials();
 

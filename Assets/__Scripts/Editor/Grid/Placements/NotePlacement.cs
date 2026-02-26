@@ -121,17 +121,22 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
         if (PrecisionPlacementController.IsEnabled)
         {
             var precision = Settings.Instance.PrecisionPlacementGridPrecision;
-            LanePosition = BeatmapPositionHelper.LocalPositionToLanePosition(localPoint, precision);
+            LanePosition = BeatmapPositionHelper.LocalPositionToLanePosition(localPoint, precision, BeatmapConstant.PlayerYOffset / 2f);
             LanePosition.z = zPlacement;
             PlacementVisualContainer.transform.localPosition =
-                BeatmapPositionHelper.LanePositionToLocalPosition(LanePosition, 0f);
+                BeatmapPositionHelper.LanePositionToLocalPosition(LanePosition, BeatmapConstant.PlayerYOffset / 2f);
         }
         else
         {
-            LanePosition = BeatmapPositionHelper.LocalPositionToLanePosition(localPoint, 0f);
+            LanePosition = BeatmapPositionHelper.LocalPositionToLanePosition(
+                localPoint,
+                BeatmapConstant.PlayerYOffset / 2f);
             LanePosition.z = zPlacement;
             PlacementVisualContainer.transform.localPosition =
-                BeatmapPositionHelper.LanePositionToLocalPosition(LanePosition, Bounds, 0f);
+                BeatmapPositionHelper.LanePositionToLocalPosition(
+                    LanePosition,
+                    Bounds,
+                    BeatmapConstant.PlayerYOffset / 2f);
         }
     }
 

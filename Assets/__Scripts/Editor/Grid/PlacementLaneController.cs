@@ -74,7 +74,7 @@ public class PlacementLaneController : MonoBehaviour
             {
                 // Offset Y by whole grid or XY grid only
                 var offset = lane.XYOffset;
-                offset.y = BeatmapConstant.ObstacleYOffset;
+                offset.y = BeatmapConstant.ObstacleYOffset - (BeatmapConstant.PlayerYOffset / 2f);
                 // lane.LocalOffset = offset;
                 lane.XYOffset = offset;
                 lane.RefreshPosition();

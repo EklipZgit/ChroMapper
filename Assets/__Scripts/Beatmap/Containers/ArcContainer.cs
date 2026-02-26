@@ -132,7 +132,7 @@ namespace Beatmap.Containers
             if (!(Animator != null && Animator.AnimatedTrack))
                 transform.localPosition = new Vector3(
                     0,
-                    BeatmapConstant.YOffset + (BeatmapConstant.LaneSize / 2),
+                    BeatmapConstant.YOffset + BeatmapConstant.PlayerYOffset,
                     (ArcData.SongBpmTime * EditorScaleController.EditorScale * BeatmapConstant.LaneSize)
                     + BeatmapConstant.ZOffset);
 

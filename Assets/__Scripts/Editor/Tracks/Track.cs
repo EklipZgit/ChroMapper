@@ -94,8 +94,8 @@ public class Track : MonoBehaviour
                     // TODO: Pre-compute starting position so notes can stack and flip can be supported
                     //   (Notes need to be aware of other notes)
                     position.y = Mathf.LerpUnclamped(
-                        BeatmapConstant.YOffset - BeatmapConstant.PlayerOffset,
-                        note.GetPosition().y + BeatmapConstant.YOffset + (BeatmapConstant.LaneSize / 2f),
+                        BeatmapConstant.YOffset,
+                        note.GetPosition().y + BeatmapConstant.YOffset + BeatmapConstant.PlayerYOffset,
                         jumpT);
 
                     // Multiply euler rotation by spawn lifetime if we are in the first half (spawning) portion of our object lifetime
@@ -134,7 +134,6 @@ public class Track : MonoBehaviour
                         var rotationT = Easing.Quadratic.Out(rotationLifetime);
                         localPosition.y = Mathf.LerpUnclamped(
                             -position.y
-                            - (BeatmapConstant.LaneSize / 2f)
                             + BeatmapConstant.YOffset,
                             targetPosition.y,
                             jumpT);
@@ -159,7 +158,7 @@ public class Track : MonoBehaviour
                     var spawnLifetime = Mathf.Clamp01(1f - ((normalizedLifetime - 0.5f) * 2f));
                     var jumpT = arcContainer.HasHeadNote ? Easing.Quadratic.Out(spawnLifetime) : 1f;
                     var headPosY = arc.GetPosition().y;
-                    var headY = Mathf.LerpUnclamped(-BeatmapConstant.LaneSize - headPosY, 0f, jumpT);
+                    var headY = Mathf.LerpUnclamped(-BeatmapConstant.PlayerYOffset - headPosY, 0f, jumpT);
 
                     var tailOffset = arc.DurationSongBpmTime;
                     var tailNormalizedLifetime = Mathf.Clamp01(
@@ -170,7 +169,7 @@ public class Track : MonoBehaviour
                     var tailSpawnLifetime = Mathf.Clamp01(1f - ((tailNormalizedLifetime - 0.5f) * 2f));
                     var tailJumpT = arcContainer.HasTailNote ? Easing.Quadratic.Out(tailSpawnLifetime) : 1f;
                     var tailPosY = arc.GetTailPosition().y;
-                    var tailY = Mathf.LerpUnclamped(-BeatmapConstant.LaneSize - tailPosY, 0f, tailJumpT);
+                    var tailY = Mathf.LerpUnclamped(-BeatmapConstant.PlayerYOffset - tailPosY, 0f, tailJumpT);
 
                     // yoink from polandball
                     // https://github.com/AllPoland/ArcViewer/blob/main/Assets/__Scripts/Previewer/MapControl/Objects/ArcManager.cs#L362
