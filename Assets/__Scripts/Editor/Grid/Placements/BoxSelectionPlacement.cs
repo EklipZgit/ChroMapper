@@ -192,7 +192,7 @@ public class BoxSelectionPlacement : BasePlacement<BaseEvent, EventContainer, Ev
                         }
                     case BaseCustomEvent custom:
                         p = new Vector2(
-                            (CustomCollection.CustomEventTypes.IndexOf(custom.Type) * BeatmapConstant.LaneSize)
+                            ((0.5f + CustomCollection.CustomEventTypes.IndexOf(custom.Type)) * BeatmapConstant.LaneSize)
                             + BoundsPosition.x,
                             BeatmapConstant.YOffset + BeatmapConstant.LaneSize);
                         break;
