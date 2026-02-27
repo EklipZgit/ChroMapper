@@ -10,7 +10,6 @@ public class SmoothStepPositionEventEffectComponent
     public int MaxY;
     public Vector3 MovementVector;
     public float StepSize;
-    public string EaseType;
 
     public void CopyTo(SmoothStepPositionEventEffect target)
     {
@@ -19,6 +18,5 @@ public class SmoothStepPositionEventEffectComponent
         target.MaxY = MaxY;
         target.MovementVector = MovementVector;
         target.StepSize = StepSize;
-        target.EaseType = EaseType;
     }
 }

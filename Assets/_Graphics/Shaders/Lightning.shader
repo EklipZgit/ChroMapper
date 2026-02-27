@@ -7,8 +7,8 @@
         _MainTex ("Texture", 2D) = "white" {}
 
         _TargetPoint ("Target Point", Vector) = (0,0,0,0)
-        _Width ("Width", Range(0, 2)) = 1
-        _Jitter ("Jitter", Range(0, 5)) = 15
+        _Width ("Width", Range(0, 5)) = 1
+        _Jitter ("Jitter", Range(0, 10)) = 5
         _Speed ("Speed", Range(0, 1)) = 1
 
         [Header(Fog Settings)] [Space]
