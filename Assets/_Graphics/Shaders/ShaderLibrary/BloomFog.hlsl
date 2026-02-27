@@ -26,8 +26,7 @@ inline float distanceSquared(float3 pos)
   result = max(distanceSq + -fogStartOffset, 0); \
   result = max(result * fogScale + -CUSTOM_FOG_OFFSET_NAME, 0); \
   result = 1 / (result * CUSTOM_FOG_ATTENUATION_NAME + 1); \
-  result = -result + 1; \
-  result *= result * result
+  result = -result + 1
 
 #endif
 

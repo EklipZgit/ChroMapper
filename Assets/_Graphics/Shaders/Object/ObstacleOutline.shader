@@ -121,7 +121,7 @@
                 }
 
                 float2 halfUv = 0.5 - abs(0.5 - i.uv.xy);
-                if (halfUv.x * uvScalar.x >= 0.05 && halfUv.y * uvScalar.y >= 0.05)
+                if (halfUv.x * uvScalar.x >= 0.04 && halfUv.y * uvScalar.y >= 0.04)
                 {
                     discard;
                 }
