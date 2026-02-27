@@ -79,7 +79,7 @@ namespace Beatmap.Base
         public abstract string CustomKeyNoteJumpMovementSpeed { get; }
         public abstract string CustomKeyNoteJumpStartBeatOffset { get; }
 
-        public Vector2 GetCenter() => GetPosition() + new Vector2(0f, 0.5f);
+        public Vector2 GetCenter() => GetPosition() + new Vector2(0f, BeatmapConstant.LaneSize / 2f);
 
         public Vector2 GetPosition() => DerivePositionFromData();
 

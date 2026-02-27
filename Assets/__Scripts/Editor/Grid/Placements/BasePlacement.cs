@@ -38,6 +38,7 @@ public abstract class BasePlacement : MonoBehaviour
     public float JsonTimeRounded;
     protected Vector3 LanePosition;
     public Bounds Bounds;
+    public Vector3 BoundsPosition;
 
     public virtual bool CanClickAndDrag => true;
     public virtual bool CanPlace => boxSelectionPlacement.State == PlacementState.Idle;

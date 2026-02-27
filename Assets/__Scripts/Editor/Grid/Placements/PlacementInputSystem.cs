@@ -191,14 +191,21 @@ public class PlacementInputSystem : MonoBehaviour,
         var localTransform = currentProvider.transform;
         var localScale = localTransform.localScale;
         var boundsNew = localTransform.InverseTransformBounds(boundLocal);
-        boundsNew.center += localTransform.localPosition;
+        boundsNew.center += new Vector3(
+            localTransform.localPosition.x / localScale.x,
+            localTransform.localPosition.y / localScale.y,
+            localTransform.localPosition.z / localScale.z);
         boundsNew.extents = new Vector3(
             boundsNew.extents.x / localScale.x,
             boundsNew.extents.y / localScale.y,
             boundsNew.extents.z / localScale.z
         );
 
-        foreach (var placement in currentProvider.Placements) placement.Bounds = boundsNew;
+        foreach (var placement in currentProvider.Placements)
+        {
+            placement.Bounds = boundsNew;
+            placement.BoundsPosition = localTransform.localPosition;
+        }
     }
 
     private void HandleDragFinished()

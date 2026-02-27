@@ -77,14 +77,20 @@ public class BoxSelectionPlacement : BasePlacement<BaseEvent, EventContainer, Ev
 
     protected override void HandleHitToPlacement(Intersections.IntersectionHit hit, Vector3 localPoint)
     {
-        localPoint.x = Mathf.Clamp(Mathf.Floor(localPoint.x), Bounds.min.x, Bounds.max.x - 1);
-        localPoint.y = Mathf.Clamp(Mathf.Floor(localPoint.y), Bounds.min.y, Bounds.max.y - 1);
+        LanePosition = new Vector3(
+            Mathf.FloorToInt(localPoint.x / BeatmapConstant.LaneSize),
+            Mathf.FloorToInt(
+                (localPoint.y - BeatmapConstant.YOffset - (BeatmapConstant.LaneSize / 2f)) / BeatmapConstant.LaneSize),
+            localPoint.z);
 
         if (!IsPlacing)
         {
-            PlacementVisualContainer.transform.localPosition = localPoint;
             PlacementVisualContainer.transform.localScale =
-                Vector3.right + Vector3.up + (Vector3.forward * Mathf.Epsilon);
+                (Vector3.right + Vector3.up + (Vector3.forward * Mathf.Epsilon)) * BeatmapConstant.LaneSize;
+            PlacementVisualContainer.transform.localPosition = new Vector3(
+                LanePosition.x * BeatmapConstant.LaneSize,
+                (LanePosition.y * BeatmapConstant.LaneSize) + BeatmapConstant.YOffset + (BeatmapConstant.LaneSize / 2f),
+                LanePosition.z);
         }
         else
         {
@@ -94,23 +100,29 @@ public class BoxSelectionPlacement : BasePlacement<BaseEvent, EventContainer, Ev
 
             // there's probably elegant way to do this,
             // i just cant think now
-            if (localPoint.x < originPos.x)
+            if (LanePosition.x < originPos.x)
             {
-                var difference = Math.Abs(localPoint.x - originPos.x);
+                var difference = Math.Abs(LanePosition.x - originPos.x);
                 sizeX += difference;
                 originShove.x -= difference;
             }
 
-            if (localPoint.y < originPos.y)
+            if (LanePosition.y < originPos.y)
             {
-                var difference = Math.Abs(localPoint.y - originPos.y);
+                var difference = Math.Abs(LanePosition.y - originPos.y);
                 sizeY += difference;
                 originShove.y -= difference;
             }
 
-            PlacementVisualContainer.transform.localPosition = originShove;
-            var newLocalScale = localPoint + new Vector3(sizeX, sizeY, 0.5f) - originShove;
-            PlacementVisualContainer.transform.localScale = newLocalScale;
+            PlacementVisualContainer.transform.localPosition = new Vector3(
+                originShove.x * BeatmapConstant.LaneSize,
+                (originShove.y * BeatmapConstant.LaneSize) + BeatmapConstant.YOffset + (BeatmapConstant.LaneSize / 2f),
+                originShove.z);
+            var scale = LanePosition + new Vector3(sizeX, sizeY, 0.5f) - originShove;
+            PlacementVisualContainer.transform.localScale = new Vector3(
+                scale.x * BeatmapConstant.LaneSize,
+                scale.y * BeatmapConstant.LaneSize,
+                scale.z);
         }
     }
 
@@ -119,9 +131,11 @@ public class BoxSelectionPlacement : BasePlacement<BaseEvent, EventContainer, Ev
         if (!IsPlacing) return;
 
         var startSongBpmBeat =
-            PlacementVisualContainer.transform.localPosition.z / EditorScaleController.EditorScale;
+            (PlacementVisualContainer.transform.localPosition.z - BeatmapConstant.ZOffset)
+            / EditorScaleController.EditorScale;
         var endSongBpmBeat = (PlacementVisualContainer.transform.localPosition.z
-                + PlacementVisualContainer.transform.localScale.z)
+                - BeatmapConstant.ZOffset
+                + (PlacementVisualContainer.transform.localScale.z / BeatmapConstant.LaneSize))
             / EditorScaleController.EditorScale;
         if (startSongBpmBeat > endSongBpmBeat) (startSongBpmBeat, endSongBpmBeat) = (endSongBpmBeat, startSongBpmBeat);
 
@@ -154,6 +168,7 @@ public class BoxSelectionPlacement : BasePlacement<BaseEvent, EventContainer, Ev
                 {
                     case IObjectBounds obj:
                         p = obj.GetCenter();
+                        p.y += BeatmapConstant.YOffset + (BeatmapConstant.LaneSize / 2f);
                         break;
                     case BaseBpmEvent:
                         // Bpm events are in a separate single lane so we don't need to get position
@@ -168,13 +183,18 @@ public class BoxSelectionPlacement : BasePlacement<BaseEvent, EventContainer, Ev
                             // Not visible = notselectable
                             if (!position.HasValue) return;
 
-                            p = new Vector2(position.Value.x + Bounds.min.x, position.Value.y);
+                            p = new Vector2(
+                                (position.Value.x * BeatmapConstant.LaneSize) + BoundsPosition.x,
+                                (position.Value.y * BeatmapConstant.LaneSize)
+                                + BeatmapConstant.YOffset
+                                + (BeatmapConstant.LaneSize / 2f));
                             break;
                         }
                     case BaseCustomEvent custom:
                         p = new Vector2(
-                            CustomCollection.CustomEventTypes.IndexOf(custom.Type) + Bounds.min.x + 0.5f,
-                            0.5f);
+                            (CustomCollection.CustomEventTypes.IndexOf(custom.Type) * BeatmapConstant.LaneSize)
+                            + BoundsPosition.x,
+                            BeatmapConstant.YOffset + BeatmapConstant.LaneSize);
                         break;
                 }
 
@@ -205,7 +225,7 @@ public class BoxSelectionPlacement : BasePlacement<BaseEvent, EventContainer, Ev
         else
         {
             State = PlacementState.Placing;
-            originPos = PlacementVisualContainer.transform.localPosition;
+            originPos = LanePosition;
             alreadySelected = new HashSet<BaseObject>(SelectionController.SelectedObjects);
         }
     }
