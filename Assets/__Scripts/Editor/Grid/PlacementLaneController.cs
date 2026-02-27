@@ -58,7 +58,7 @@ public class PlacementLaneController : MonoBehaviour
     {
         var text = value.ToString();
         if (!int.TryParse(text, out var lane)) return;
-        if (lane < 1) return;
+        if (lane < 0) return;
         ObstacleLaneExtend = lane;
         UpdateObstacleLane();
     }
