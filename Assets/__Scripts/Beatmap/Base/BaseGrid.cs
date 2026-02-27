@@ -106,7 +106,7 @@ namespace Beatmap.Base
 
             var hjd = SpawnParameterHelper.CalculateHalfJumpDuration(njs, offset, bpm);
             var jd = SpawnParameterHelper.CalculateJumpDistance(njs, offset, bpm);
-            SetSpawnParameters(hjd, jd);
+            SetSpawnParameters(hjd, jd / 2f);
         }
 
         public void SetSpawnParameters(float hjd, float jd)
