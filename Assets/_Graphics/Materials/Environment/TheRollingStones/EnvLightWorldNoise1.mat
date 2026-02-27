@@ -11,7 +11,8 @@ Material:
   m_Shader: {fileID: 4800000, guid: 832a82fd92f0281b48fdec3c5c3d2c77, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - HEIGHT_FOG
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1

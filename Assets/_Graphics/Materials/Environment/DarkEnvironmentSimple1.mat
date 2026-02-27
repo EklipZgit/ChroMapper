@@ -14,6 +14,7 @@ Material:
   m_ValidKeywords:
   - DIFFUSE
   - FOG
+  - HEIGHT_FOG
   - SPECULAR
   m_InvalidKeywords:
   - _ACES_APPROACH_AFTER_EMISSIVE
