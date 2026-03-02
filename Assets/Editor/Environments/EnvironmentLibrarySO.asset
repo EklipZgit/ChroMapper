@@ -263,7 +263,7 @@ MonoBehaviour:
     shader: {fileID: 4800000, guid: 41e7cce6237f4c27a653fc80119b1c56, type: 3}
     keywords: []
   - name: Custom/WaterLit
-    shader: {fileID: 0}
+    shader: {fileID: 4800000, guid: d03bcf5b16d2d7cafb65aa8ba3686a87, type: 3}
     keywords:
     - _DECALBLEND_ALPHABLEND
     - _EMISSIONCOLORTYPE_FLAT

@@ -258,6 +258,7 @@ public class EnvironmentBuildPopulate
 
             matInfo.Material.SetFloat("_UseMainTex", matInfo.Keywords.Contains("MAIN_TEXTURE") ? 1f : 0f);
 
+            matInfo.Material.SetFloat("_ZFade", matInfo.Keywords.Contains("Z_FADE") ? 1f : 0f);
             matInfo.Material.SetFloat("_Pixelate", matInfo.Keywords.Contains("PIXELATE") ? 1f : 0f);
 
             matInfo.Material.SetFloat("_EnableTextureColor", matInfo.Keywords.Contains("TEXTURE_COLOR") ? 1f : 0f);
@@ -371,6 +372,7 @@ public class EnvironmentBuildPopulate
                 "_PointLightPositionLocal",
                 matInfo.Keywords.Contains("POINT_LIGHT_IS_LOCAL") ? 1f : 0f);
             matInfo.Material.SetFloat("_EnableDirt", matInfo.Keywords.Contains("ENABLE_DIRT") ? 1f : 0f);
+            matInfo.Material.SetFloat("_EnableNormalMap", matInfo.Keywords.Contains("NORMAL_MAP") ? 1f : 0f);
             matInfo.Material.SetFloat("_DetailNormalMap", matInfo.Keywords.Contains("DETAIL_NORMAL_MAP") ? 1f : 0f);
             matInfo.Material.SetFloat("_EnableLightmap", matInfo.Keywords.Contains("LIGHTMAP") ? 1f : 0f);
             matInfo.Material.SetFloat("_EnableDiffuse", matInfo.Keywords.Contains("DIFFUSE") ? 1f : 0f);

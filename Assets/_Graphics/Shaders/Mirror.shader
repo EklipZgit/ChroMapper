@@ -167,7 +167,7 @@
                 float3 worldBitangent = cross(worldNormal, worldTangent) * i.tangent.w;
                 float3x3 tbn = float3x3(worldTangent, worldBitangent, worldNormal);
 
-                float3 normalWorld = normalize(mul(normalTangent, tbn));
+                worldNormal = normalize(mul(normalTangent, tbn));
 
                 float4 albedo = 1;
                 #if defined(DIRT)
@@ -183,7 +183,7 @@
                 #if defined(DIFFUSE)
                 float3 calculated = 0;
                 CUSTOM_LIGHTING_APPLY(calculated, albedo, _Metallic, _Smoothness, 1, 1, i.worldPos,
-                                      normalWorld);
+                                      worldNormal);
                 albedo.rgb += calculated.rgb;
                 #endif
 

@@ -44,9 +44,9 @@ Material:
     - _FogHeightScale: 0.2
     - _FogScale: 0.01
     - _FogStartOffset: 1
-    - _Jitter: 1
-    - _Speed: 1
-    - _Width: 2
+    - _Jitter: 1.25
+    - _Speed: 0.5
+    - _Width: 3
     - _ZTest: 4
     - _ZWrite: 0
     m_Colors:

@@ -13,6 +13,7 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - DIFFUSE
+  - LIGHT_FALLOFF
   - SPECULAR
   m_InvalidKeywords:
   - _ZWRITE_ON
