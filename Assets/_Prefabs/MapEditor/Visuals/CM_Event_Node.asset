@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 30962ae2c9de428e8466f26886cc927d, type: 3}
-  m_Name: CM_Obstacle_Outline
+  m_Name: CM_Event_Node
   m_EditorClassIdentifier: 
-  Prefab: {fileID: 9221522305038936411, guid: 7291cd7d06362bb158777318ad7e0b2d, type: 3}
-  Collider: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  Prefab: {fileID: 9221522305038936411, guid: 55e5a6f7d4efa097c8e45d2df6efcfe2, type: 3}
+  Collider: {fileID: 997602262961349003, guid: e4c7e2d300d5f0643a96ef4abb3679ba, type: 3}

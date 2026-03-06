@@ -17,7 +17,7 @@ namespace Beatmap.Containers
         private static readonly int mainAlpha = Shader.PropertyToID("_MainAlpha");
         private static readonly int fadeSize = Shader.PropertyToID("_FadeSize");
         private static readonly int spotlightSize = Shader.PropertyToID("_SpotlightSize");
-        
+
         [SerializeField] public VisualModelController VModelController;
         [SerializeField] private EventGridContainer EventGridContainer;
         [SerializeField] private EventAppearanceSO eventAppearance;
@@ -25,11 +25,14 @@ namespace Beatmap.Containers
         [SerializeField] private TextMeshPro valueDisplay;
         [SerializeField] private LightGradientController lightGradientController;
         [SerializeField] private CreateEventTypeLabels labels;
-        public TracksDefinitionSO TracksDefinition;
+        [SerializeField] public TracksDefinitionSO TracksDefinition;
 
-        [SerializeField] public BaseEvent EventData;
+        public BaseEvent EventData;
 
-        private readonly string[] eventModels = { "CM_Event_Block", "CM_Event_Pyramid", "CM_Event_Pyramid_Flat" };
+        private readonly string[] eventModels =
+        {
+            "CM_Event_Block", "CM_Event_Pyramid", "CM_Event_Pyramid_Flat", "CM_Event_Node"
+        };
 
         // This needs to be an int for the below properties
         private int eventModel;

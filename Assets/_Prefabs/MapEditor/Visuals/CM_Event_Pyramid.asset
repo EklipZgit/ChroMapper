@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: CM_Event_Pyramid
   m_EditorClassIdentifier: 
   Prefab: {fileID: 9221522305038936411, guid: 74ddb2ca54390fc73bf2be3dfabaf0de, type: 3}
-  Collider: {fileID: 4300000, guid: 557fda82dc624ef5a3cad5ee3f37625f, type: 2}
+  Collider: {fileID: 13562882237320842, guid: e4c7e2d300d5f0643a96ef4abb3679ba, type: 3}
