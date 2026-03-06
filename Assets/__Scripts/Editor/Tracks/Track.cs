@@ -281,9 +281,9 @@ public class Track : MonoBehaviour
             nodesTarget = chainContainer
                 .Nodes.Select(n => (n.transform, n.transform.localPosition, n.transform.localRotation))
                 .Append(
-                    (chainContainer.MainObject.transform,
-                        chainContainer.MainObject.transform.localPosition,
-                        chainContainer.MainObject.transform.rotation))
+                    (chainContainer.MainPrefab.transform,
+                        chainContainer.MainPrefab.transform.localPosition,
+                        chainContainer.MainPrefab.transform.rotation))
                 .ToArray();
         }
 

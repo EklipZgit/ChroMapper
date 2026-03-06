@@ -81,7 +81,7 @@ namespace Beatmap.Appearances
                     }
 
                     e.UpdateOffset(Vector3.forward * 1.05f, false);
-                    e.ChangeFadeSize(e.BoostEventFadeSize, false);
+                    e.ChangeFadeSize(EventContainer.BoostEventFadeSize, false);
                     e.UpdateGradientRendering();
                     e.UpdateMaterials();
                     return;
@@ -164,12 +164,12 @@ namespace Beatmap.Appearances
                 case (int)LightValue.BlueFlash:
                 case (int)LightValue.RedFlash:
                 case (int)LightValue.WhiteFlash:
-                    e.UpdateOffset(e.FlashShaderOffset, false);
+                    e.UpdateOffset(EventContainer.FlashShaderOffset, false);
                     break;
                 case (int)LightValue.BlueFade:
                 case (int)LightValue.RedFade:
                 case (int)LightValue.WhiteFade:
-                    e.UpdateOffset(e.FadeShaderOffset, false);
+                    e.UpdateOffset(EventContainer.FadeShaderOffset, false);
                     break;
                 case (int)LightValue.BlueTransition:
                 case (int)LightValue.RedTransition:
@@ -178,7 +178,7 @@ namespace Beatmap.Appearances
                     break;
             }
 
-            e.ChangeFadeSize(e.DefaultFadeSize, false);
+            e.ChangeFadeSize(EventContainer.DefaultFadeSize, false);
 
             // At this point, next Event must be a light event.
             Color? nextColor = null;

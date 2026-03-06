@@ -47,15 +47,9 @@ namespace Beatmap.Appearances
             if (note.NoteData.Type != (int)NoteType.Bomb)
             {
                 if (note.NoteData.CutDirection != (int)NoteCutDirection.Any)
-                {
-                    note.SetArrowVisible(true);
-                    note.SetDotVisible(false);
-                }
+                    note.SetArrow();
                 else
-                {
-                    note.SetArrowVisible(false);
-                    note.SetDotVisible(true);
-                }
+                    note.SetDot();
 
                 //Since sometimes the user can hover over the note grid before all the notes are loading,
                 //we create material instances here to prevent NullReferenceExceptions.
@@ -73,14 +67,9 @@ namespace Beatmap.Appearances
                 }
             }
             else
-            {
-                note.SetArrowVisible(false);
-                note.SetDotVisible(false);
-                note.SetColor(new (0.25f, 0.25f, 0.25f));
-            }
+                note.SetColor(new(0.25f, 0.25f, 0.25f));
 
-            if (note.NoteData.CustomColor != null)
-                note.SetColor(note.NoteData.CustomColor);
+            if (note.NoteData.CustomColor != null) note.SetColor(note.NoteData.CustomColor);
 
             note.Animator.AttachToObject(note.NoteData);
         }

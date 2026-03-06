@@ -5,22 +5,19 @@ namespace Beatmap.Containers
 {
     public class ObstacleContainer : ObjectContainer
     {
-        private static readonly int colorID = Shader.PropertyToID("_Color");
-        private static readonly int worldScaleID = Shader.PropertyToID("_WorldScale");
+        private static readonly int worldScaleId = Shader.PropertyToID("_WorldScale");
 
-        [SerializeField] private TracksManager manager;
-
-        [SerializeField] private Transform coreTransform;
-        [SerializeField] private Renderer coreRenderer;
-        [SerializeField] private Transform outlineTransform;
-        [SerializeField] private Renderer outlineRenderer;
-        [SerializeField] private Transform selectionTransform;
-
+        [SerializeField] public MeshRenderer CoreRenderer;
         [SerializeField] private Material simpleObstacle;
         [SerializeField] private Material distortObstacle;
 
-        [SerializeField] public BaseObstacle ObstacleData;
+        [Header("Transform")] [SerializeField] public Transform CoreTransform;
+        [SerializeField] public Transform OutlineTransform;
+
+        [Header("State")] [SerializeField] private TracksManager manager;
         public Vector3 ObstacleScale;
+
+        public BaseObstacle ObstacleData;
 
         public override BaseObject ObjectData
         {
@@ -43,13 +40,13 @@ namespace Beatmap.Containers
 
         public void SwitchMaterial()
         {
-            coreRenderer.sharedMaterial = UIMode.PreviewMode ? distortObstacle : simpleObstacle;
-            UpdateMaterials();
+            CoreRenderer.sharedMaterial = UIMode.PreviewMode ? distortObstacle : simpleObstacle;
+            MpbController.ApplyChanges();
         }
 
         public void SetColor(Color c)
         {
-            MaterialPropertyBlock.SetColor(colorID, c);
+            MpbController.Mpb.SetColor(colorId, c);
             UpdateMaterials();
         }
 
@@ -61,16 +58,13 @@ namespace Beatmap.Containers
             var cubeOffset = scale / 2f;
             cubeOffset.x = 0f;
 
-            coreTransform.localScale = scale - (Vector3.one * 0.01f);
-            coreTransform.localPosition = cubeOffset;
+            CoreTransform.localScale = scale - (Vector3.one * 0.01f);
+            CoreTransform.localPosition = cubeOffset;
 
-            outlineTransform.localScale = scale;
-            outlineTransform.localPosition = cubeOffset;
+            OutlineTransform.localScale = scale;
+            OutlineTransform.localPosition = cubeOffset;
 
-            selectionTransform.localScale = scale;
-            selectionTransform.localPosition = cubeOffset;
-
-            MaterialPropertyBlock.SetVector(worldScaleID, coreTransform.localScale);
+            MpbController.Mpb.SetVector(worldScaleId, OutlineTransform.localScale);
             UpdateMaterials();
         }
 

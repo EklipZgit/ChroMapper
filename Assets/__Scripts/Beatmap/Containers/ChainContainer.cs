@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using Beatmap.Base;
 using Beatmap.Enums;
 using Beatmap.Shared;
@@ -8,27 +10,20 @@ namespace Beatmap.Containers
 {
     public class ChainContainer : ObjectContainer
     {
-        private static readonly int colorMultiplier = Shader.PropertyToID("_ColorMult");
-        private static readonly int objectTime = Shader.PropertyToID("_ObjectTime");
-        private static readonly int lit = Shader.PropertyToID("_Lit");
-        private static readonly int translucentAlpha = Shader.PropertyToID("_TranslucentAlpha");
+        private static readonly int colorMultiplierId = Shader.PropertyToID("_ColorMult");
+        private static readonly int objectTimeId = Shader.PropertyToID("_ObjectTime");
+        private static readonly int translucentAlphaId = Shader.PropertyToID("_TranslucentAlpha");
 
-        [SerializeField] public GameObject MainObject;
+        [SerializeField] public ChainComponentsFetcher MainPrefab;
 
-        [SerializeField] private GameObject simpleLink;
-        [SerializeField] private GameObject simpleLinkSolid;
-        [SerializeField] private GameObject complexLink;
-        [SerializeField] private GameObject complexLinkSolid;
+        [Header("Indicator")] [SerializeField] private List<ChainIndicatorContainer> indicators;
+        public List<ChainComponentsFetcher> Nodes = new();
+
         public NoteContainer AttachedHead;
-        public readonly List<GameObject> Nodes = new();
-        [SerializeField] public BaseChain ChainData;
-        [SerializeField] private List<GameObject> indicators;
-        [SerializeField] private GameObject tailLinkIndicator;
-        [SerializeField] private GameObject tailSphereIndicator;
+        public BaseChain ChainData;
         private Vector3 headDirection;
         private bool headPointsToTail;
         private Vector3 interPoint;
-        private MaterialPropertyBlock arrowMaterialPropertyBlock;
 
         public override BaseObject ObjectData
         {
@@ -46,25 +41,26 @@ namespace Beatmap.Containers
         public override void Setup()
         {
             base.Setup();
-            SetModel();
+            SetModel(MainPrefab);
+            foreach (var cpf in Nodes) SetModel(cpf);
 
-            MaterialPropertyBlock.SetFloat(lit, Settings.Instance.SimpleBlocks ? 0 : 1);
-            MaterialPropertyBlock.SetFloat(translucentAlpha, Settings.Instance.PastNoteModelAlpha);
-
-            arrowMaterialPropertyBlock ??= new MaterialPropertyBlock();
+            MpbController.Mpb.SetFloat(translucentAlphaId, Settings.Instance.PastNoteModelAlpha);
 
             foreach (var gameObj in indicators) gameObj.GetComponent<ChainIndicatorContainer>().Setup();
 
             UpdateMaterials();
         }
 
-        private void SetModel()
+        private static readonly Dictionary<(bool simple, bool solid), string> models = new()
         {
-            simpleLink.SetActive(Settings.Instance.SimpleBlocks && !Settings.Instance.SolidChainLink);
-            simpleLinkSolid.SetActive(Settings.Instance.SimpleBlocks && Settings.Instance.SolidChainLink);
-            complexLink.SetActive(!Settings.Instance.SimpleBlocks && !Settings.Instance.SolidChainLink);
-            complexLinkSolid.SetActive(!Settings.Instance.SimpleBlocks && Settings.Instance.SolidChainLink);
-        }
+            { (false, false), "CM_Chain" },
+            { (false, true), "CM_Chain_Solid" },
+            { (true, false), "CM_Chain_Simple" },
+            { (true, true), "CM_Chain_Solid_Simple" }
+        };
+
+        private void SetModel(ChainComponentsFetcher cpf) =>
+            cpf.ModelController.Set(models[(Settings.Instance.SimpleBlocks, Settings.Instance.SolidChainLink)]);
 
         public void AdjustTimePlacement()
         {
@@ -104,7 +100,7 @@ namespace Beatmap.Containers
             if (chainData != null) ChainData = chainData;
             var tailRelPos = (Vector3)(ChainData.GetTailPosition() - ChainData.GetPosition());
             var headRot = Quaternion.Euler(NoteContainer.Directionalize(ChainData.CutDirection));
-            MainObject.transform.localPosition = tailRelPos
+            MainPrefab.transform.localPosition = tailRelPos
                 + new Vector3(
                     0f,
                     0f,
@@ -119,57 +115,48 @@ namespace Beatmap.Containers
             interPoint = Vector3.zero + (interMult * headDirection);
 
             Colliders.Clear();
-            SelectionRenderers.Clear();
             ComputeHeadPointsToTail();
             var i = 0;
             for (; i < ChainData.SliceCount - 2; ++i)
             {
                 if (i >= Nodes.Count) break;
-                Nodes[i].SetActive(true);
-                Interpolate(ChainData.SliceCount - 1, i + 1, headRot, MainObject, Nodes[i]);
-                Colliders.Add(Nodes[i].GetComponent<IntersectionCollider>());
-                Nodes[i].GetComponent<ChainComponentsFetcher>().SelectionRenderer.ForEach(SelectionRenderers.Add);
+                Nodes[i].gameObject.SetActive(true);
+                Interpolate(ChainData.SliceCount - 1, i + 1, headRot, MainPrefab.gameObject, Nodes[i].gameObject);
+                Colliders.Add(Nodes[i].OutlineController.Collider);
+                SelectionMpbController.Add(Nodes[i].OutlineController.Renderer);
             }
 
-            for (; i < Nodes.Count; ++i) Nodes[i].SetActive(false);
+            for (; i < Nodes.Count; ++i) Nodes[i].gameObject.SetActive(false);
             for (; i < ChainData.SliceCount - 2; ++i)
             {
-                var newNode = Instantiate(MainObject, Animator.AnimationThis.transform);
-                newNode.SetActive(true);
+                var newNode = Instantiate(MainPrefab, Animator.AnimationThis.transform);
+                newNode.gameObject.SetActive(true);
 
-                var cpfMain = MainObject.GetComponent<ChainComponentsFetcher>();
-                var cpfNode = newNode.GetComponent<ChainComponentsFetcher>();
-
-                for (var i1 = 0; i1 < cpfMain.NoteRenderer.Count; i1++)
-                {
-                    cpfMain.NoteRenderer[i1].sharedMaterial = cpfNode.NoteRenderer[i1].sharedMaterial;
-                }
-
-                Interpolate(ChainData.SliceCount - 1, i + 1, headRot, MainObject, newNode);
+                Interpolate(ChainData.SliceCount - 1, i + 1, headRot, MainPrefab.gameObject, newNode.gameObject);
                 Nodes.Add(newNode);
-                Colliders.Add(Nodes[i].GetComponent<IntersectionCollider>());
-                Nodes[i].GetComponent<ChainComponentsFetcher>().SelectionRenderer.ForEach(SelectionRenderers.Add);
+                Colliders.Add(Nodes[i].OutlineController.Collider);
+                SelectionMpbController.Add(Nodes[i].OutlineController.Renderer);
             }
 
             if (ChainData.SliceCount == 1)
-                MainObject.SetActive(false);
+                MainPrefab.gameObject.SetActive(false);
             else
             {
-                MainObject.SetActive(true);
+                MainPrefab.gameObject.SetActive(true);
                 Interpolate(
                     ChainData.SliceCount - 1,
                     ChainData.SliceCount - 1,
                     headRot,
-                    MainObject,
-                    MainObject);
-                Colliders.Add(MainObject.GetComponent<IntersectionCollider>());
-                MainObject.GetComponent<ChainComponentsFetcher>().SelectionRenderer.ForEach(SelectionRenderers.Add);
+                    MainPrefab.gameObject,
+                    MainPrefab.gameObject);
+                Colliders.Add(MainPrefab.OutlineController.Collider);
+                SelectionMpbController.Add(MainPrefab.OutlineController.Renderer);
             }
 
             var scale = Vector3.one;
             if (!Settings.Instance.AccurateNoteSize) scale *= 0.9f;
             foreach (var node in Nodes) node.transform.localScale = scale;
-            MainObject.transform.localScale = scale;
+            MainPrefab.transform.localScale = scale;
 
             UpdateMaterials();
 
@@ -241,46 +228,72 @@ namespace Beatmap.Containers
 
         public void SetColor(Color c)
         {
-            MaterialPropertyBlock.SetColor(colorId, c);
-
             var arrowColor = Color.Lerp(c, Color.white, Settings.Instance.ArrowColorWhiteBlend);
-            arrowMaterialPropertyBlock.SetColor(colorId, arrowColor);
 
-            MaterialPropertyBlock.SetFloat(colorMultiplier, Settings.Instance.NoteColorMultiplier);
-            arrowMaterialPropertyBlock.SetFloat(colorMultiplier, Settings.Instance.ArrowColorMultiplier);
+            MpbController.Mpb.SetColor(colorId, c);
+            MpbController.Mpb.SetFloat(colorMultiplierId, Settings.Instance.NoteColorMultiplier);
+
+
+            MainPrefab.ModelController.MpbController.Mpb.SetColor(colorId, c);
+            MainPrefab.ModelController.MpbController.Mpb.SetFloat(
+                colorMultiplierId,
+                Settings.Instance.NoteColorMultiplier);
+
+            MainPrefab.DotMpbController.Mpb.SetColor(colorId, arrowColor);
+            MainPrefab.DotMpbController.Mpb.SetFloat(colorMultiplierId, Settings.Instance.ArrowColorMultiplier);
+
+            foreach (var cpf in Nodes)
+            {
+                cpf.ModelController.MpbController.Mpb.SetColor(colorId, c);
+                cpf.ModelController.MpbController.Mpb.SetFloat(
+                    colorMultiplierId,
+                    Settings.Instance.NoteColorMultiplier);
+
+                cpf.DotMpbController.Mpb.SetColor(colorId, arrowColor);
+                cpf.DotMpbController.Mpb.SetFloat(colorMultiplierId, Settings.Instance.ArrowColorMultiplier);
+            }
 
             UpdateMaterials();
         }
 
         internal override void UpdateMaterials()
         {
-            foreach (var c in Colliders)
+            var alpha = UIMode.SelectedMode == UIModeType.Preview || UIMode.SelectedMode == UIModeType.Playing
+                ? 0
+                : Settings.Instance.PastNoteModelAlpha;
+
+            MpbController.ApplyChanges();
+
+            if (ChainData != null)
             {
-                var cpf = c.GetComponent<ChainComponentsFetcher>();
-                var dot = cpf.DotRenderer;
+                var time = ChainData.SongBpmTime
+                    + (MainPrefab.transform.localPosition.z / EditorScaleController.EditorScale);
+                MainPrefab.ModelController.MpbController.Mpb.SetFloat(objectTimeId, time);
+                MainPrefab.DotMpbController.Mpb.SetFloat(objectTimeId, time);
 
-                var time = ChainData.SongBpmTime + (c.transform.localPosition.z / EditorScaleController.EditorScale);
-                MaterialPropertyBlock.SetFloat(objectTime, time);
-                arrowMaterialPropertyBlock.SetFloat(objectTime, time);
+                MainPrefab.ModelController.MpbController.ApplyChanges();
+                MainPrefab.DotMpbController.ApplyChanges();
 
-                // This alpha set is a workaround as callbackController can only despawn the entire chain
-                var alpha = UIMode.SelectedMode == UIModeType.Preview || UIMode.SelectedMode == UIModeType.Playing
-                    ? 0
-                    : Settings.Instance.PastNoteModelAlpha;
+                foreach (var cpf in Nodes)
+                {
+                    time = ChainData.SongBpmTime + (cpf.transform.localPosition.z / EditorScaleController.EditorScale);
+                    cpf.ModelController.MpbController.Mpb.SetFloat(objectTimeId, time);
+                    cpf.DotMpbController.Mpb.SetFloat(objectTimeId, time);
 
-                MaterialPropertyBlock.SetFloat(translucentAlpha, alpha);
-                arrowMaterialPropertyBlock.SetFloat(translucentAlpha, alpha);
+                    // This alpha set is a workaround as callbackController can only despawn the entire chain
+                    cpf.ModelController.MpbController.Mpb.SetFloat(translucentAlphaId, alpha);
+                    cpf.DotMpbController.Mpb.SetFloat(translucentAlphaId, alpha);
 
-                cpf.NoteRenderer.ForEach(r => r.SetPropertyBlock(MaterialPropertyBlock));
-                dot.SetPropertyBlock(arrowMaterialPropertyBlock);
+                    cpf.ModelController.MpbController.ApplyChanges();
+                    cpf.DotMpbController.ApplyChanges();
+                }
             }
 
-            foreach (var r in SelectionRenderers) r.SetPropertyBlock(MaterialPropertyBlock);
-
-            foreach (var gameObj in indicators)
-                gameObj.GetComponent<ChainIndicatorContainer>().UpdateMaterials(MaterialPropertyBlock);
-            foreach (var gameObj in indicators)
-                gameObj.GetComponent<ChainIndicatorContainer>().OutlineVisible = OutlineVisible;
+            foreach (var container in indicators)
+            {
+                container.UpdateMaterials(MpbController.Mpb);
+                container.SelectionMpbController.ShowRenderer(SelectionMpbController.Renderers[0].enabled);
+            }
         }
 
         public void DetectHeadNote(bool detect = true)
@@ -335,22 +348,22 @@ namespace Beatmap.Containers
 
         public void SetIndicatorBlocksActive(bool visible)
         {
-            indicators[0].SetActive(visible); // Head
-            tailSphereIndicator.SetActive(visible && ChainData.SliceCount == 1);
-            tailLinkIndicator.SetActive(visible && ChainData.SliceCount != 1);
+            indicators[0].gameObject.SetActive(visible); // Head
+            indicators[1].gameObject.SetActive(visible && ChainData.SliceCount != 1);
+            indicators[2].gameObject.SetActive(visible && ChainData.SliceCount == 1);
         }
 
         private void ResetIndicatorsPosition()
         {
-            tailSphereIndicator.SetActive(ChainData.SliceCount == 1);
-            tailLinkIndicator.SetActive(ChainData.SliceCount != 1);
+            indicators[1].gameObject.SetActive(ChainData.SliceCount != 1);
+            indicators[2].gameObject.SetActive(ChainData.SliceCount == 1);
 
-            foreach (var gameObj in indicators)
+            foreach (var container in indicators)
             {
-                if (gameObj.activeSelf) gameObj.GetComponent<ChainIndicatorContainer>().UpdateGridPosition();
+                if (container.gameObject.activeSelf) container.UpdateGridPosition();
             }
         }
 
-        public Quaternion GetTailNodeRotation() => MainObject.transform.rotation;
+        public Quaternion GetTailNodeRotation() => MainPrefab.transform.rotation;
     }
 }

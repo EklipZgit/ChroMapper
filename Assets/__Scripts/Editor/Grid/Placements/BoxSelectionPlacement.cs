@@ -8,7 +8,7 @@ using Beatmap.Enums;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class BoxSelectionPlacement : BasePlacement<BaseEvent, EventContainer, EventGridContainer>,
+public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContainer, ObstacleGridContainer>,
                                      CMInput.IBoxSelectActions
 {
     [SerializeField] public CustomEventGridContainer CustomCollection;
@@ -49,7 +49,7 @@ public class BoxSelectionPlacement : BasePlacement<BaseEvent, EventContainer, Ev
     protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicting) => null;
 
     // TODO: v3 check?
-    protected override BaseEvent GenerateOriginalData() => new();
+    protected override BaseObstacle GenerateOriginalData() => new();
 
     public override void Initialize(PlacementProvider provider)
     {
@@ -243,6 +243,4 @@ public class BoxSelectionPlacement : BasePlacement<BaseEvent, EventContainer, Ev
         foreach (var selectedObject in selected) SelectionController.Deselect(selectedObject, false);
         SelectionController.OnSelectionChanged?.Invoke();
     }
-
-    protected override void TransferQueuedToDraggedObject(ref BaseEvent dragged, BaseEvent queued) { }
 }

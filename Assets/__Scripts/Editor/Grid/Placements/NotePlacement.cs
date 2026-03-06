@@ -255,7 +255,7 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
         if (PlacementVisualContainer is null) return;
         PlacementVisualContainer.NoteData = QueuedData;
         noteAppearanceSo.SetNoteAppearance(PlacementVisualContainer);
-        PlacementVisualContainer.MaterialPropertyBlock.SetFloat(alwaysTranslucent, 1);
+        PlacementVisualContainer.ModelController.MpbController.Mpb.SetFloat(alwaysTranslucent, 1);
         PlacementVisualContainer.UpdateMaterials();
         PlacementVisualContainer.DirectionTarget.localEulerAngles = NoteContainer.Directionalize(QueuedData);
     }

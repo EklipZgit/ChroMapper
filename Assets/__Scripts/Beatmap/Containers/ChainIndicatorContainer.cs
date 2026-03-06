@@ -7,12 +7,11 @@ namespace Beatmap.Containers
 {
     public class ChainIndicatorContainer : ObjectContainer
     {
-        public IndicatorType IndicatorType;
+        [Header("Others")] public IndicatorType IndicatorType;
         public ChainContainer ParentChain;
 
-        private static readonly int lit = Shader.PropertyToID("_Lit");
-        private static readonly int translucentAlpha = Shader.PropertyToID("_TranslucentAlpha");
-        private static readonly int opaqueAlpha = Shader.PropertyToID("_OpaqueAlpha");
+        private static readonly int translucentAlphaId = Shader.PropertyToID("_TranslucentAlpha");
+        private static readonly int opaqueAlphaId = Shader.PropertyToID("_OpaqueAlpha");
 
         public override BaseObject ObjectData
         {
@@ -50,16 +49,15 @@ namespace Beatmap.Containers
         public void UpdateMaterials(MaterialPropertyBlock materialPropertyBlock)
         {
             var c = materialPropertyBlock.GetColor(colorId);
-            MaterialPropertyBlock.SetColor(colorId, c);
+            MpbController.Mpb.SetColor(colorId, c);
             UpdateMaterials();
         }
 
         public override void Setup()
         {
             base.Setup();
-            MaterialPropertyBlock.SetFloat(lit, Settings.Instance.SimpleBlocks ? 0 : 1);
-            MaterialPropertyBlock.SetFloat(translucentAlpha, 0.6f);
-            MaterialPropertyBlock.SetFloat(opaqueAlpha, 0.6f);
+            MpbController.Mpb.SetFloat(translucentAlphaId, 0.6f);
+            MpbController.Mpb.SetFloat(opaqueAlphaId, 0.6f);
 
             UpdateMaterials();
         }

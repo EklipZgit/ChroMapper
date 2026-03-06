@@ -10,30 +10,17 @@ namespace Beatmap.Containers
     public abstract class ObjectContainer : MonoBehaviour
     {
         internal static readonly int colorId = Shader.PropertyToID("_Color");
-        internal static readonly int rotation = Shader.PropertyToID("_Rotation");
-        internal static readonly int outline = Shader.PropertyToID("_Outline");
-        internal static readonly int outlineColor = Shader.PropertyToID("_OutlineColor");
+        private static readonly int rotationId = Shader.PropertyToID("_Rotation");
+        private static readonly int outlineColorId = Shader.PropertyToID("_OutlineColor");
 
         public bool Dragging;
 
-        [SerializeField] protected List<IntersectionCollider> Colliders;
-        [SerializeField] protected List<Renderer> SelectionRenderers = new();
         [SerializeField] public ObjectAnimator Animator;
+        [SerializeField] protected List<IntersectionCollider> Colliders;
 
-        protected readonly List<Renderer> ModelRenderers = new();
-        protected int RendererCount;
-        public MaterialPropertyBlock MaterialPropertyBlock;
-
-        public bool OutlineVisible
-        {
-            get => MaterialPropertyBlock.GetFloat(outline) != 0;
-            set
-            {
-                SelectionRenderers.ForEach(r => r.enabled = value);
-                MaterialPropertyBlock.SetFloat(outline, value ? 0.05f : 0);
-                UpdateMaterials();
-            }
-        }
+        [Header("Visual")]
+        [SerializeField] public MaterialPropertyBlockController MpbController;
+        [SerializeField] public MaterialPropertyBlockController SelectionMpbController;
 
         public Track AssignedTrack { get; private set; }
 
@@ -43,15 +30,7 @@ namespace Beatmap.Containers
 
         public abstract void UpdateGridPosition();
 
-        public virtual void Setup()
-        {
-            if (MaterialPropertyBlock == null)
-            {
-                MaterialPropertyBlock = new MaterialPropertyBlock();
-                ModelRenderers.AddRange(GetComponentsInChildren<Renderer>(true).Where(x => !(x is SpriteRenderer)));
-                RendererCount = ModelRenderers.Count;
-            }
-        }
+        public virtual void Setup() { }
 
         internal virtual void SafeSetActive(bool active)
         {
@@ -60,26 +39,19 @@ namespace Beatmap.Containers
 
         public virtual void UpdateScalable(float scale) { }
 
-        internal virtual void UpdateMaterials()
-        {
-            for (var index = 0; index < RendererCount; index++)
-            {
-                var r = ModelRenderers[index];
-                r.SetPropertyBlock(MaterialPropertyBlock);
-            }
-        }
+        internal virtual void UpdateMaterials() => MpbController.ApplyChanges();
 
         public void SetRotation(float rot)
         {
-            MaterialPropertyBlock.SetFloat(rotation, rot);
+            MpbController.Mpb.SetFloat(rotationId, rot);
             UpdateMaterials();
         }
 
         public void SetOutlineColor(Color color, bool automaticallyShowOutline = true)
         {
-            if (automaticallyShowOutline) OutlineVisible = true;
-            MaterialPropertyBlock.SetColor(outlineColor, color);
-            UpdateMaterials();
+            if (automaticallyShowOutline) SelectionMpbController.ShowRenderer(true);
+            MpbController.Mpb.SetColor(outlineColorId, color);
+            MpbController.ApplyChanges();
         }
 
         public virtual void AssignTrack(Track track) => AssignedTrack = track;

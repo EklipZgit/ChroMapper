@@ -33,7 +33,7 @@ public class BombPlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
     public override void Initialize(PlacementProvider provider)
     {
         base.Initialize(provider);
-        PlacementVisualContainer.MaterialPropertyBlock.SetFloat(alwaysTranslucent, 1);
+        PlacementVisualContainer.ModelController.MpbController.Mpb.SetFloat(alwaysTranslucent, 1);
         PlacementVisualContainer.UpdateMaterials();
         PlacementVisualContainer.NoteData = QueuedData;
     }
@@ -45,7 +45,10 @@ public class BombPlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
         if (PrecisionPlacementController.IsEnabled)
         {
             var precision = Settings.Instance.PrecisionPlacementGridPrecision;
-            LanePosition = BeatmapPositionHelper.LocalPositionToLanePositionRound(localPoint, precision, BeatmapConstant.PlayerYOffset / 2f);
+            LanePosition = BeatmapPositionHelper.LocalPositionToLanePositionRound(
+                localPoint,
+                precision,
+                BeatmapConstant.PlayerYOffset / 2f);
             LanePosition.z = zPlacement;
             PlacementVisualContainer.transform.localPosition =
                 BeatmapPositionHelper.LanePositionToLocalPosition(LanePosition, BeatmapConstant.PlayerYOffset / 2f);

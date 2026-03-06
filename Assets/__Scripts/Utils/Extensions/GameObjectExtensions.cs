@@ -8,4 +8,16 @@ public static class GameObjectExtensions
         if (comp == null) comp = go.AddComponent<T>();
         return comp;
     }
+
+    public static void DestroySafe(Object go)
+    {
+    #if UNITY_EDITOR
+        if (Application.isPlaying)
+            Object.Destroy(go);
+        else
+            Object.DestroyImmediate(go);
+    #else
+        Object.Destroy(go);
+    #endif
+    }
 }

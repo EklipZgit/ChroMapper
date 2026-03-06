@@ -318,7 +318,7 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
                 .GetCollectionForType(obj.ObjectType)
                 .LoadedContainers.TryGetValue(obj, out var container)
             && container != null)
-            container.OutlineVisible = false;
+            container.SelectionMpbController.ShowRenderer(false);
 
         if (removeActionEvent) OnSelectionChanged?.Invoke();
     }
@@ -342,7 +342,7 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
             var collection = BeatmapObjectContainerCollection.GetCollectionForType(data.ObjectType);
             if (collection.LoadedContainers.TryGetValue(data, out var con))
             {
-                con.OutlineVisible = true;
+                con.SelectionMpbController.ShowRenderer(true);
                 con.SetOutlineColor(instance.selectedColor);
             }
         }

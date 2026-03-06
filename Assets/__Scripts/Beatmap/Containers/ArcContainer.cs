@@ -9,26 +9,18 @@ namespace Beatmap.Containers
 {
     public class ArcContainer : ObjectContainer
     {
+        [SerializeField] public LineRenderer SplineRenderer;
+        [SerializeField] private GameObject[] indicators;
+        public BaseArc ArcData;
+
         private const float splineControlPointScaleFactor = 2.5f; // multiplier used by game
-
         public const int NumSamples = 30;
-
-        private static readonly int translucentAlpha = Shader.PropertyToID("_TranslucentAlpha");
-
-        [SerializeField] private GameObject indicatorMu;
-        [SerializeField] private GameObject indicatorTmu;
-        [SerializeField] private List<GameObject> indicators;
-        [SerializeField] public BaseArc ArcData;
-
-        private MaterialPropertyBlock indicatorMaterialPropertyBlock;
-
-        [FormerlySerializedAs("splineRenderer")] [SerializeField]
-        public LineRenderer SplineRenderer;
+        private static readonly int translucentAlphaId = Shader.PropertyToID("_TranslucentAlpha");
 
         public readonly Vector3[] BaseSplinePoints = new Vector3[NumSamples + 1];
 
         // for now we just use bool instead of ref object
-        public bool HasHeadNote;
+        [Header("State")] public bool HasHeadNote;
         public bool HasTailNote;
 
         public Vector3 p0()
@@ -99,7 +91,7 @@ namespace Beatmap.Containers
             HasHeadNote = false;
             HasTailNote = false;
 
-            MaterialPropertyBlock.SetFloat(translucentAlpha, 1f);
+            MpbController.Mpb.SetFloat(translucentAlphaId, 1f);
             foreach (var gameObj in indicators) gameObj.GetComponent<ArcIndicatorContainer>().Setup();
 
             UpdateMaterials();
@@ -292,18 +284,8 @@ namespace Beatmap.Containers
 
         public void SetColor(Color c)
         {
-            MaterialPropertyBlock.SetColor(colorId, c);
+            MpbController.Mpb.SetColor(colorId, c);
             UpdateMaterials();
-        }
-
-        internal override void UpdateMaterials()
-        {
-            foreach (var gameObj in indicators)
-                gameObj.GetComponent<ArcIndicatorContainer>().UpdateMaterials(MaterialPropertyBlock);
-            foreach (var gameObj in indicators)
-                gameObj.GetComponent<ArcIndicatorContainer>().OutlineVisible = OutlineVisible;
-            SplineRenderer.SetPropertyBlock(MaterialPropertyBlock);
-            foreach (var r in SelectionRenderers) r.SetPropertyBlock(MaterialPropertyBlock);
         }
 
         public void SetIndicatorBlocksActive(bool visible)

@@ -235,7 +235,7 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
                 PlacementTrack)
             .GetComponent(typeof(TContainer)) as TContainer;
         PlacementVisualContainer.Setup();
-        PlacementVisualContainer.OutlineVisible = false;
+        PlacementVisualContainer.SelectionMpbController.ShowRenderer(false);
 
         foreach (var coll in PlacementVisualContainer.GetComponentsInChildren<IntersectionCollider>(true))
             Destroy(coll);
