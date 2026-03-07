@@ -1105,9 +1105,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68de7bd199f83bf46be7192f0f31a930, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Mesh: {fileID: -2729409202579907303, guid: efe66ab58e74edfca84860a46a214ecc, type: 3}
+  Mesh: {fileID: 2728769002154719451, guid: d700f6006df1d3968b8926c5c8f8d150, type: 3}
   Center: {x: 0, y: 0, z: 0}
-  Size: {x: 1, y: 0.2, z: 1}
+  Size: {x: 1, y: 1, z: 1}
 --- !u!114 &834427171274976184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1125,7 +1125,7 @@ MonoBehaviour:
   VModelController: {fileID: 6514829329040538192}
   Renderer: {fileID: 9069611706073503578}
   MeshFilter: {fileID: 8273767548825319275}
-  ReplaceCollider: 0
+  ReplaceCollider: 1
   Collider: {fileID: 6310587240783779935}
 --- !u!1001 &6384280097891450836
 PrefabInstance:

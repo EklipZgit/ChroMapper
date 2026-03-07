@@ -487,7 +487,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68de7bd199f83bf46be7192f0f31a930, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Mesh: {fileID: -2729409202579907303, guid: efe66ab58e74edfca84860a46a214ecc, type: 3}
+  Mesh: {fileID: -6548247349681776351, guid: d700f6006df1d3968b8926c5c8f8d150, type: 3}
   Center: {x: 0, y: 0, z: 0}
   Size: {x: 1, y: 1, z: 1}
 --- !u!114 &2578816678989824805
