@@ -73,7 +73,24 @@ namespace Beatmap.Containers
 
         public void SetNoteModel()
         {
-            ModelController.Set(VisualSettings.GetNoteModel());
+            VisualModelSO vm;
+            if (NoteData.CutDirection == (int)NoteCutDirection.Any)
+            {
+                vm =
+                    NoteData.Type == (int)NoteType.Blue
+                        ? VisualSettings.GetNoteDotRightModel()
+                        : VisualSettings.GetNoteDotLeftModel();
+            }
+            else
+            {
+                vm = NoteData.Type == (int)NoteType.Blue
+                    ? VisualSettings.GetNoteRightModel()
+                    : VisualSettings.GetNoteLeftModel();
+            }
+
+            ModelController.Set(vm);
+
+            ArrowMpbController.gameObject.SetActive(!vm.DisableAux);
             ArrowMpbController.ShowRenderer(true);
         }
 

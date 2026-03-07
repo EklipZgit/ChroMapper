@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+// TODO: cache or set deactive instead of removing the prefab entirely on change
 public class VisualModelController : VisualController
 {
-    public VisualModelSO Default;
     public Transform ParentTransform;
 
     private bool markReplace;
@@ -21,18 +21,11 @@ public class VisualModelController : VisualController
         ParentTransform = transform;
     }
 
-    public void Set(string n)
+    public void Set(VisualModelSO vm)
     {
-        if (Actives.Count == 1 && Actives.Exists(x => x.gameObject.name == n)) return;
+        if (Actives.Count == 1 && Actives.Exists(x => x.gameObject.name == vm.name)) return;
         HandleReset();
-        Add(n);
-    }
-
-    public void Set(GameObject go, Mesh collMesh)
-    {
-        if (Actives.Count == 1 && Actives.Exists(x => x.gameObject.name == go.name)) return;
-        HandleReset();
-        Add(go, collMesh);
+        Add(vm);
     }
 
     public void Set(PrimitiveType type)
@@ -40,6 +33,13 @@ public class VisualModelController : VisualController
         if (Actives.Count == 1 && Actives.Exists(x => x.gameObject.name == type.ToString())) return;
         HandleReset();
         Add(type);
+    }
+
+    public void Set(GameObject go, Mesh collMesh, string instanceName)
+    {
+        if (Actives.Count == 1 && Actives.Exists(x => x.gameObject.name == instanceName)) return;
+        HandleReset();
+        Add(go, collMesh, instanceName);
     }
 
     private void HandleReset()
@@ -51,11 +51,7 @@ public class VisualModelController : VisualController
         markReplace = true;
     }
 
-    public void Add(string n)
-    {
-        var obj = Repository.ModelsByName.GetValueOrDefault(n, Default);
-        Add(obj.Prefab, obj.Collider);
-    }
+    public void Add(VisualModelSO vm) => AddInstanced(Instantiate(vm.Prefab), vm.Collider, vm.name);
 
     public void Add(PrimitiveType type)
     {
@@ -63,7 +59,8 @@ public class VisualModelController : VisualController
         AddInstanced(obj, obj.GetComponent<MeshFilter>().sharedMesh, type.ToString());
     }
 
-    public void Add(GameObject go, Mesh collMesh) => AddInstanced(Instantiate(go), collMesh, go.name);
+    public void Add(GameObject go, Mesh collMesh, string instanceName) =>
+        AddInstanced(Instantiate(go), collMesh, instanceName);
 
     public void AddInstanced(GameObject instance, Mesh collMesh, string instanceName)
     {

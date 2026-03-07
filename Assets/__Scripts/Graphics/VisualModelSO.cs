@@ -5,6 +5,7 @@ public class VisualModelSO : ScriptableObject
 {
     public GameObject Prefab;
     public Mesh Collider;
+    public bool DisableAux; // this refer to arrow/dot, can be for other entity
 
     private void OnValidate()
     {

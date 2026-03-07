@@ -6,6 +6,15 @@ using UnityEngine;
 // TODO: expand this to be proper model selection
 public class VisualSettingsSO : ScriptableObject
 {
+    public VisualRepositorySO Repository;
+
+    [Header("Default Models")] public VisualModelSO DefaultBlock;
+    public VisualModelSO DefaultEvent;
+    public VisualModelSO DefaultNote;
+    public VisualModelSO DefaultBomb;
+    public VisualModelSO DefaultChainHead;
+    public VisualModelSO DefaultChainLink;
+
     public event Action OnBlockModelChanged;
     public event Action OnEventModelChanged;
     public event Action OnNoteModelChanged;
@@ -52,16 +61,45 @@ public class VisualSettingsSO : ScriptableObject
     private void HandleChainHeadModelChanged(object _) => OnChainHeadModelChanged?.Invoke();
     private void HandleChainLinkModelChanged(object _) => OnChainLinkModelChanged?.Invoke();
 
-    public string GetBlockModel() => "CM_Block";
+    public VisualModelSO GetBlockModel() => Repository.ModelsByName.GetValueOrDefault("CM_Block", DefaultBlock);
 
-    public string GetEventModel() => eventModels[(int)Settings.Instance.EventModel];
+    public VisualModelSO GetEventModel() =>
+        Repository.ModelsByName.GetValueOrDefault(eventModels[(int)Settings.Instance.EventModel], DefaultEvent);
 
-    public string GetNoteModel() => Settings.Instance.SimpleBlocks ? "CM_Note_Simple" : "CM_Note";
+    public VisualModelSO GetNoteModel() =>
+        Repository.ModelsByName.GetValueOrDefault(
+            Settings.Instance.SimpleBlocks ? "CM_Note_Simple" : "CM_Note",
+            DefaultNote);
 
-    public string GetBombModel() => "CM_Bomb";
+    public VisualModelSO GetNoteLeftModel() =>
+        Repository.ModelsByName.GetValueOrDefault(
+            Settings.Instance.SimpleBlocks ? "CM_Note_Simple" : "CM_Note",
+            DefaultNote);
 
-    public string GetChainHeadModel() => Settings.Instance.SimpleBlocks ? "CM_Note_Chain_Simple" : "CM_Note_Chain";
+    public VisualModelSO GetNoteRightModel() =>
+        Repository.ModelsByName.GetValueOrDefault(
+            Settings.Instance.SimpleBlocks ? "CM_Note_Simple" : "CM_Note",
+            DefaultNote);
 
-    public string GetChainLinkModel() =>
-        chainLinkModels[(Settings.Instance.SimpleBlocks, Settings.Instance.SolidChainLink)];
+    public VisualModelSO GetNoteDotLeftModel() =>
+        Repository.ModelsByName.GetValueOrDefault(
+            Settings.Instance.SimpleBlocks ? "CM_Note_Simple" : "CM_Note",
+            DefaultNote);
+
+    public VisualModelSO GetNoteDotRightModel() =>
+        Repository.ModelsByName.GetValueOrDefault(
+            Settings.Instance.SimpleBlocks ? "CM_Note_Simple" : "CM_Note",
+            DefaultNote);
+
+    public VisualModelSO GetBombModel() => Repository.ModelsByName.GetValueOrDefault("CM_Bomb", DefaultBomb);
+
+    public VisualModelSO GetChainHeadModel() =>
+        Repository.ModelsByName.GetValueOrDefault(
+            Settings.Instance.SimpleBlocks ? "CM_Note_Chain_Simple" : "CM_Note_Chain",
+            DefaultChainHead);
+
+    public VisualModelSO GetChainLinkModel() =>
+        Repository.ModelsByName.GetValueOrDefault(
+            chainLinkModels[(Settings.Instance.SimpleBlocks, Settings.Instance.SolidChainLink)],
+            DefaultChainLink);
 }
