@@ -14,16 +14,15 @@ namespace Beatmap.Containers
         private static readonly int objectTimeId = Shader.PropertyToID("_ObjectTime");
         private static readonly int translucentAlphaId = Shader.PropertyToID("_TranslucentAlpha");
 
-        [SerializeField] public ChainComponentsFetcher MainPrefab;
+        [SerializeField] public ChainComponentsFetcher Prefab;
 
         [Header("Indicator")] [SerializeField] private List<ChainIndicatorContainer> indicators;
         public List<ChainComponentsFetcher> Nodes = new();
 
         public NoteContainer AttachedHead;
         public BaseChain ChainData;
-        private Vector3 headDirection;
-        private bool headPointsToTail;
-        private Vector3 interPoint;
+
+        public GameObject TailObject;
 
         public override BaseObject ObjectData
         {
@@ -41,7 +40,7 @@ namespace Beatmap.Containers
         public override void Setup()
         {
             base.Setup();
-            SetModel(MainPrefab);
+            Prefab.gameObject.SetActive(false);
             foreach (var cpf in Nodes) SetModel(cpf);
 
             MpbController.Mpb.SetFloat(translucentAlphaId, Settings.Instance.PastNoteModelAlpha);
@@ -100,7 +99,7 @@ namespace Beatmap.Containers
             if (chainData != null) ChainData = chainData;
             var tailRelPos = (Vector3)(ChainData.GetTailPosition() - ChainData.GetPosition());
             var headRot = Quaternion.Euler(NoteContainer.Directionalize(ChainData.CutDirection));
-            MainPrefab.transform.localPosition = tailRelPos
+            var targetPos = tailRelPos
                 + new Vector3(
                     0f,
                     0f,
@@ -109,67 +108,56 @@ namespace Beatmap.Containers
                     * BeatmapConstant.LaneSize);
 
             var zRads = Mathf.Deg2Rad * NoteContainer.Directionalize(ChainData.CutDirection).z;
-            headDirection = new Vector3(Mathf.Sin(zRads), -Mathf.Cos(zRads), 0f);
+            var headDirection = new Vector3(Mathf.Sin(zRads), -Mathf.Cos(zRads), 0f);
 
             var interMult = (Vector3.zero - tailRelPos).magnitude / 2;
-            interPoint = Vector3.zero + (interMult * headDirection);
+            var interPoint = Vector3.zero + (interMult * headDirection);
 
             Colliders.Clear();
-            ComputeHeadPointsToTail();
+            var headPointsToTail = ComputeHeadPointsToTail();
             var i = 0;
-            for (; i < ChainData.SliceCount - 2; ++i)
+            for (; i < ChainData.SliceCount - 1; ++i)
             {
-                if (i >= Nodes.Count) break;
-                Nodes[i].gameObject.SetActive(true);
-                Interpolate(ChainData.SliceCount - 1, i + 1, headRot, MainPrefab.gameObject, Nodes[i].gameObject);
-                Colliders.Add(Nodes[i].OutlineController.Collider);
-                SelectionMpbController.Add(Nodes[i].OutlineController.Renderer);
+                ChainComponentsFetcher node;
+                if (i >= Nodes.Count)
+                {
+                    node = Instantiate(Prefab, Animator.AnimationThis.transform);
+                    Nodes.Add(node);
+                }
+                else
+                    node = Nodes[i];
+
+                node.gameObject.SetActive(true);
+                Interpolate(
+                    ChainData.SliceCount - 1,
+                    i + 1,
+                    headRot,
+                    targetPos,
+                    interPoint,
+                    headPointsToTail,
+                    node.gameObject);
+                Colliders.Add(node.OutlineController.Collider);
+                SelectionMpbController.Add(node.OutlineController.Renderer);
+                TailObject = node.gameObject;
             }
 
             for (; i < Nodes.Count; ++i) Nodes[i].gameObject.SetActive(false);
-            for (; i < ChainData.SliceCount - 2; ++i)
-            {
-                var newNode = Instantiate(MainPrefab, Animator.AnimationThis.transform);
-                newNode.gameObject.SetActive(true);
-
-                Interpolate(ChainData.SliceCount - 1, i + 1, headRot, MainPrefab.gameObject, newNode.gameObject);
-                Nodes.Add(newNode);
-                Colliders.Add(Nodes[i].OutlineController.Collider);
-                SelectionMpbController.Add(Nodes[i].OutlineController.Renderer);
-            }
-
-            if (ChainData.SliceCount == 1)
-                MainPrefab.gameObject.SetActive(false);
-            else
-            {
-                MainPrefab.gameObject.SetActive(true);
-                Interpolate(
-                    ChainData.SliceCount - 1,
-                    ChainData.SliceCount - 1,
-                    headRot,
-                    MainPrefab.gameObject,
-                    MainPrefab.gameObject);
-                Colliders.Add(MainPrefab.OutlineController.Collider);
-                SelectionMpbController.Add(MainPrefab.OutlineController.Renderer);
-            }
 
             var scale = Vector3.one;
             if (!Settings.Instance.AccurateNoteSize) scale *= 0.9f;
             foreach (var node in Nodes) node.transform.localScale = scale;
-            MainPrefab.transform.localScale = scale;
 
             UpdateMaterials();
-
             ResetIndicatorsPosition();
         }
 
-        private void ComputeHeadPointsToTail()
+        private bool ComputeHeadPointsToTail()
         {
             var path = ChainData.GetTailPosition() - ChainData.GetPosition() + new Vector2(1.5f, 0);
             var pathAngle = Vector2.SignedAngle(Vector2.down, path);
             var cutAngle = NoteContainer.Directionalize(ChainData.CutDirection).z;
 
-            headPointsToTail = Mathf.Abs(pathAngle - cutAngle) < 0.01f;
+            return Mathf.Abs(pathAngle - cutAngle) < 0.01f;
         }
 
         /// <summary>
@@ -177,15 +165,18 @@ namespace Beatmap.Containers
         /// </summary>
         /// <param name="n">Number of segments (excluding head)</param>
         /// <param name="i">Segment index</param>
-        /// <param name="head">Head</param>
         /// <param name="headRot"></param>
-        /// <param name="tail"></param>
+        /// <param name="targetPos"></param>
+        /// <param name="headPointsToTail"></param>
         /// <param name="linkSegment"></param>
+        /// <param name="interPoint"></param>
         private void Interpolate(
             int n,
             int i,
             in Quaternion headRot,
-            in GameObject tail,
+            in Vector3 targetPos,
+            in Vector3 interPoint,
+            bool headPointsToTail,
             in GameObject linkSegment)
         {
             // This is how the game displays squish
@@ -196,13 +187,13 @@ namespace Beatmap.Containers
 
             var p0 = Vector3.zero;
             var p1 = interPoint;
-            var p2 = tail.transform.localPosition;
+            var p2 = targetPos;
 
-            var lerpZPos = Mathf.Lerp(0f, tail.transform.localPosition.z, t);
+            var lerpZPos = Mathf.Lerp(0f, targetPos.z, t);
 
             if (headPointsToTail)
             {
-                var lerpPos = Vector3.LerpUnclamped(Vector3.zero, tail.transform.localPosition, tSquish);
+                var lerpPos = Vector3.LerpUnclamped(Vector3.zero, targetPos, tSquish);
                 linkSegment.transform.localPosition = new Vector3(lerpPos.x, lerpPos.y, lerpZPos);
                 linkSegment.transform.localRotation = headRot;
             }
@@ -233,15 +224,6 @@ namespace Beatmap.Containers
             MpbController.Mpb.SetColor(colorId, c);
             MpbController.Mpb.SetFloat(colorMultiplierId, Settings.Instance.NoteColorMultiplier);
 
-
-            MainPrefab.ModelController.MpbController.Mpb.SetColor(colorId, c);
-            MainPrefab.ModelController.MpbController.Mpb.SetFloat(
-                colorMultiplierId,
-                Settings.Instance.NoteColorMultiplier);
-
-            MainPrefab.DotMpbController.Mpb.SetColor(colorId, arrowColor);
-            MainPrefab.DotMpbController.Mpb.SetFloat(colorMultiplierId, Settings.Instance.ArrowColorMultiplier);
-
             foreach (var cpf in Nodes)
             {
                 cpf.ModelController.MpbController.Mpb.SetColor(colorId, c);
@@ -266,17 +248,10 @@ namespace Beatmap.Containers
 
             if (ChainData != null)
             {
-                var time = ChainData.SongBpmTime
-                    + (MainPrefab.transform.localPosition.z / EditorScaleController.EditorScale);
-                MainPrefab.ModelController.MpbController.Mpb.SetFloat(objectTimeId, time);
-                MainPrefab.DotMpbController.Mpb.SetFloat(objectTimeId, time);
-
-                MainPrefab.ModelController.MpbController.ApplyChanges();
-                MainPrefab.DotMpbController.ApplyChanges();
-
                 foreach (var cpf in Nodes)
                 {
-                    time = ChainData.SongBpmTime + (cpf.transform.localPosition.z / EditorScaleController.EditorScale);
+                    var time = ChainData.SongBpmTime
+                        + (cpf.transform.localPosition.z / EditorScaleController.EditorScale);
                     cpf.ModelController.MpbController.Mpb.SetFloat(objectTimeId, time);
                     cpf.DotMpbController.Mpb.SetFloat(objectTimeId, time);
 
@@ -364,6 +339,7 @@ namespace Beatmap.Containers
             }
         }
 
-        public Quaternion GetTailNodeRotation() => MainPrefab.transform.rotation;
+        public Quaternion GetTailNodeRotation() =>
+            TailObject != null ? TailObject.transform.rotation : Quaternion.identity;
     }
 }
