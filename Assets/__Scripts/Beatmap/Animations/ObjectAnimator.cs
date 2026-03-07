@@ -145,20 +145,35 @@ namespace Beatmap.Animations
 
             obj.RecomputeSpawnParameters();
 
-            var duration = 0f;
-
-            if (container is ObstacleContainer obs)
+            float duration;
+            switch (container)
             {
-                duration = obs.ObstacleData.DurationSongBpmTime;
-                var wallPosition = obs.ReadPosition();
-                wallPosition -= new Vector3(0, 0, 0.4f);
-                OffsetPosition.Preload(wallPosition);
-                Scale.Preload(Vector3.one);
+                case ObstacleContainer obs:
+                    duration = obs.ObstacleData.DurationSongBpmTime;
+                    OffsetPosition.Preload(obs.ReadPosition() - new Vector3(0, 0, 0.25f));
+                    Scale.Preload(Vector3.one);
+                    break;
+                case ArcContainer arc:
+                    duration = arc.ArcData.DurationSongBpmTime;
+                    break;
+                case ChainContainer chain:
+                    duration = chain.ChainData.DurationSongBpmTime;
+                    break;
+                default:
+                    duration = 0f;
+                    break;
             }
 
             if (obj.CustomLocalRotation is JSONNode rot) LocalRotation.Preload(Quaternion.Euler(rot.ReadVector3()));
-            if (obj.CustomWorldRotation is JSONArray wrot) WorldRotation.Preload(Quaternion.Euler(wrot.ReadVector3()));
-            if (obj.CustomWorldRotation is JSONNumber yrot) WorldRotation.Preload(Quaternion.Euler(0, yrot, 0));
+            switch (obj.CustomWorldRotation)
+            {
+                case JSONArray wrot:
+                    WorldRotation.Preload(Quaternion.Euler(wrot.ReadVector3()));
+                    break;
+                case JSONNumber yrot:
+                    WorldRotation.Preload(Quaternion.Euler(0, yrot, 0));
+                    break;
+            }
 
             time_begin = obj.SpawnSongBpmTime;
             // Can't use DespawnSongBpmTime because obstacles jump out early

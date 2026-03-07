@@ -178,19 +178,13 @@ namespace Beatmap.Containers
             }
 
             transform.localScale = NoteData.GetScale();
-            DirectionTarget.localScale = Vector3.one;
             DirectionTarget.localEulerAngles = DirectionTargetEuler;
 
             // default scale prior to this setting worked out to be 90%
             if (!Settings.Instance.AccurateNoteSize && NoteData.Type != (int)NoteType.Bomb)
-                DirectionTarget.localScale *= 0.9f;
-
-            if (NoteData.Type != (int)NoteType.Bomb)
-            {
-                // Only apply this to notes as bomb DirectionTarget affects hover placement as well
-                // really need to think about prefab structure soon
-                DirectionTarget.localPosition = Vector3.zero;
-            }
+                ModelController.transform.localScale = Vector3.one * 0.9f;
+            else
+                ModelController.transform.localScale = Vector3.one;
 
             UpdateCollisionGroups();
 

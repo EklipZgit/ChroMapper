@@ -132,7 +132,6 @@ namespace Beatmap.Containers
                 UIMode.AnimationMode
                     ? ObstacleData.HalfJumpDistance
                     : EditorScaleController.EditorScale * BeatmapConstant.LaneSize);
-            var position = ReadPosition();
 
             if (ObstacleData.CustomLocalRotation != null)
                 localRotation = ObstacleData.CustomLocalRotation.ReadVector3();
@@ -151,7 +150,7 @@ namespace Beatmap.Containers
                 (ObstacleData.SongBpmTime * EditorScaleController.EditorScale * BeatmapConstant.LaneSize)
                 + (length < 0f ? length : 0f)
                 + BeatmapConstant.ZOffset);
-            Animator.LocalTarget.localPosition = position;
+            Animator.LocalTarget.localPosition = ReadPosition();
 
             UpdateScaleWithLength(length);
 
