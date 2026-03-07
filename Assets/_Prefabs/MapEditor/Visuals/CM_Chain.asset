@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: CM_Chain
   m_EditorClassIdentifier: 
   Prefab: {fileID: 404329456199872959, guid: a5edfaaa19a049c968b6969f22e30714, type: 3}
-  Collider: {fileID: 572545653472206860, guid: e88679da0d9d22a05bab2dc661a2a8f5, type: 3}
+  Collider: {fileID: 2728769002154719451, guid: d700f6006df1d3968b8926c5c8f8d150,
+    type: 3}

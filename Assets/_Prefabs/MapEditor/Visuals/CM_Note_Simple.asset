@@ -13,6 +13,5 @@ MonoBehaviour:
   m_Name: CM_Note_Simple
   m_EditorClassIdentifier: 
   Prefab: {fileID: 9221522305038936411, guid: 78ea0e349140a0444b0165042e9738df, type: 3}
-  UseCollider: 1
-  Collider: {fileID: -2729409202579907303, guid: efe66ab58e74edfca84860a46a214ecc,
+  Collider: {fileID: -5495902117074765545, guid: 27c44e5ea49209347a7e91b5575f50a8,
     type: 3}
