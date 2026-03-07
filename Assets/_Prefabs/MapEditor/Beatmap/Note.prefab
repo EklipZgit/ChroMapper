@@ -50,6 +50,7 @@ MonoBehaviour:
   Animator: {fileID: 2511166697914245830}
   Colliders:
   - {fileID: 5234307909633089194}
+  VisualSettings: {fileID: 11400000, guid: 1c738480b4420d21c9f3d613e26a698e, type: 2}
   MpbController: {fileID: 8713059339080809947}
   SelectionMpbController: {fileID: 1536806029612139599}
   ModelController: {fileID: 2230210897425493252}

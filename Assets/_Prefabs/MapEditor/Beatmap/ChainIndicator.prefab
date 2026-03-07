@@ -50,6 +50,7 @@ MonoBehaviour:
   Dragging: 0
   Animator: {fileID: 0}
   Colliders: []
+  VisualSettings: {fileID: 11400000, guid: 1c738480b4420d21c9f3d613e26a698e, type: 2}
   MpbController: {fileID: 1167957425241159933}
   SelectionMpbController: {fileID: 6264016545545964107}
   IndicatorType: 0

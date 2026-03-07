@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 30962ae2c9de428e8466f26886cc927d, type: 3}
-  m_Name: CM_Chain_Simple_Solid
+  m_Name: CM_Chain_Solid_Simple
   m_EditorClassIdentifier: 
   Prefab: {fileID: 9221522305038936411, guid: 72915df1c9c788b4cb8dd22d213065d4, type: 3}
   Collider: {fileID: 2728769002154719451, guid: d700f6006df1d3968b8926c5c8f8d150,

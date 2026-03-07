@@ -29,25 +29,8 @@ namespace Beatmap.Containers
 
         public BaseEvent EventData;
 
-        private readonly string[] eventModels =
-        {
-            "CM_Event_Block", "CM_Event_Pyramid", "CM_Event_Pyramid_Flat", "CM_Event_Node"
-        };
-
-        // This needs to be an int for the below properties
-        private int eventModel;
-
+        public bool useBlockModel;
         private float oldAlpha = -1;
-
-        public EventModelType EventModel
-        {
-            get => (EventModelType)eventModel;
-            set
-            {
-                VModelController.Set(eventModels[(int)value]);
-                eventModel = (int)value;
-            }
-        }
 
         public static Vector3 FlashShaderOffset => new(0f, 0f, 1.2f);
         public static Vector3 FadeShaderOffset => new(0f, 0f, -1.2f);
@@ -59,6 +42,31 @@ namespace Beatmap.Containers
             get => EventData;
             set => EventData = (BaseEvent)value;
         }
+
+        public bool UseBlockModel
+        {
+            get => useBlockModel;
+            set
+            {
+                useBlockModel = value;
+                HandleModelChanged();
+            }
+        }
+
+        protected override void RegisterCallback()
+        {
+            VisualSettings.OnBlockModelChanged += HandleModelChanged;
+            VisualSettings.OnEventModelChanged += HandleModelChanged;
+        }
+
+        protected override void UnregisterCallback()
+        {
+            VisualSettings.OnBlockModelChanged -= HandleModelChanged;
+            VisualSettings.OnEventModelChanged -= HandleModelChanged;
+        }
+
+        private void HandleModelChanged() =>
+            VModelController.Set(useBlockModel ? VisualSettings.GetBlockModel() : VisualSettings.GetEventModel());
 
         public static EventContainer SpawnEvent(
             EventGridContainer eventsContainer,

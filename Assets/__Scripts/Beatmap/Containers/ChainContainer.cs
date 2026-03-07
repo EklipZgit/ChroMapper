@@ -37,11 +37,20 @@ namespace Beatmap.Containers
             return container;
         }
 
+        protected override void RegisterCallback() => VisualSettings.OnChainLinkModelChanged += HandleModelChanged;
+        protected override void UnregisterCallback() => VisualSettings.OnChainLinkModelChanged -= HandleModelChanged;
+
+        private void HandleModelChanged()
+        {
+            var n = VisualSettings.GetChainLinkModel();
+            foreach (var cpf in Nodes) cpf.ModelController.Set(n);
+        }
+
         public override void Setup()
         {
             base.Setup();
             Prefab.gameObject.SetActive(false);
-            foreach (var cpf in Nodes) SetModel(cpf);
+            HandleModelChanged();
 
             MpbController.Mpb.SetFloat(translucentAlphaId, Settings.Instance.PastNoteModelAlpha);
 
@@ -49,17 +58,6 @@ namespace Beatmap.Containers
 
             UpdateMaterials();
         }
-
-        private static readonly Dictionary<(bool simple, bool solid), string> models = new()
-        {
-            { (false, false), "CM_Chain" },
-            { (false, true), "CM_Chain_Solid" },
-            { (true, false), "CM_Chain_Simple" },
-            { (true, true), "CM_Chain_Solid_Simple" }
-        };
-
-        private void SetModel(ChainComponentsFetcher cpf) =>
-            cpf.ModelController.Set(models[(Settings.Instance.SimpleBlocks, Settings.Instance.SolidChainLink)]);
 
         public void AdjustTimePlacement()
         {
@@ -295,7 +293,7 @@ namespace Beatmap.Containers
             {
                 if (!IsHeadNote(AttachedHead.NoteData))
                 {
-                    if (AttachedHead.NoteData != null) AttachedHead.SetModelInfer();
+                    if (AttachedHead.NoteData != null) AttachedHead.HandleModelChanged();
                     AttachedHead = null;
                     DetectHeadNote();
                 }
@@ -307,7 +305,7 @@ namespace Beatmap.Containers
         public void DetachHeadNote()
         {
             if (AttachedHead == null || AttachedHead.NoteData == null) return;
-            AttachedHead.SetModelInfer();
+            AttachedHead.HandleModelChanged();
             AttachedHead = null;
         }
 

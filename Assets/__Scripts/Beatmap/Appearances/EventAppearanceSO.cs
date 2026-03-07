@@ -61,7 +61,7 @@ namespace Beatmap.Appearances
 
             if (trackDef.Kind != BasicEventKind.Lights)
             {
-                e.EventModel = EventModelType.Block;
+                e.UseBlockModel = true;
                 if (trackDef.Kind == BasicEventKind.None)
                 {
                     e.ChangeColor(ringEventsColor, false);
@@ -145,7 +145,7 @@ namespace Beatmap.Appearances
                 color = Color.Lerp(clampedOffColor, color, e.EventData.FloatValue);
             }
 
-            e.EventModel = Settings.Instance.EventModel;
+            e.UseBlockModel = false;
             e.ChangeColor(color, false);
             e.ChangeBaseColor(Color.black, false);
             switch (e.EventData.Value)

@@ -35,16 +35,64 @@ namespace Beatmap.Containers
             set => NoteData = (BaseNote)value;
         }
 
+        protected override void RegisterCallback()
+        {
+            VisualSettings.OnNoteModelChanged += HandleModelChanged;
+            VisualSettings.OnBombModelChanged += HandleModelChanged;
+            VisualSettings.OnChainHeadModelChanged += HandleModelChanged;
+        }
+
+        protected override void UnregisterCallback()
+        {
+            VisualSettings.OnNoteModelChanged -= HandleModelChanged;
+            VisualSettings.OnBombModelChanged -= HandleModelChanged;
+            VisualSettings.OnChainHeadModelChanged -= HandleModelChanged;
+        }
+
         public override void Setup()
         {
             base.Setup();
 
-            SetModelInfer();
+            HandleModelChanged();
             ArrowModelController.MpbController.Mpb.SetFloat(translucentAlpha, Settings.Instance.PastNoteModelAlpha);
             DotModelController.MpbController.Mpb.SetFloat(translucentAlpha, Settings.Instance.PastNoteModelAlpha);
             UpdateMaterials();
 
             SetArcVisible(NoteGridContainer.ShowArcVisualizer);
+        }
+
+        // TODO: have proper model swapper instead of convoluting the container
+        public void HandleModelChanged()
+        {
+            if (NoteData == null) return;
+            if (NoteData.Type == (int)NoteType.Bomb)
+                SetBombModel();
+            else
+                SetNoteModel();
+        }
+
+        public void SetNoteModel()
+        {
+            ModelController.Set(VisualSettings.GetNoteModel());
+            ArrowMpbController.ShowRenderer(true);
+        }
+
+        public void SetBombModel()
+        {
+            ModelController.Set(VisualSettings.GetBombModel());
+            ArrowMpbController.ShowRenderer(false);
+        }
+
+        public void SetChainHeadModel()
+        {
+            if (NoteData.Type == (int)NoteType.Bomb)
+            {
+                ArrowMpbController.ShowRenderer(false);
+                return;
+            }
+
+            ModelController.Set(VisualSettings.GetChainHeadModel());
+            ArrowMpbController.ShowRenderer(true);
         }
 
         internal static Vector3 Directionalize(BaseNote noteData)
@@ -116,40 +164,6 @@ namespace Beatmap.Containers
         {
             ArrowModelController.gameObject.SetActive(true);
             DotModelController.gameObject.SetActive(false);
-        }
-
-        // TODO: have proper model swapper instead of convoluting the container
-        public void SetModelInfer()
-        {
-            if (NoteData == null) return;
-            if (NoteData.Type == (int)NoteType.Bomb)
-                SetBombModel();
-            else
-                SetNoteModel();
-        }
-
-        public void SetNoteModel()
-        {
-            ModelController.Set(Settings.Instance.SimpleBlocks ? "CM_Note_Simple" : "CM_Note");
-            ArrowMpbController.ShowRenderer(true);
-        }
-
-        public void SetBombModel()
-        {
-            ModelController.Set("CM_Bomb");
-            ArrowMpbController.ShowRenderer(false);
-        }
-
-        public void SetChainHeadModel()
-        {
-            if (NoteData.Type == (int)NoteType.Bomb)
-            {
-                ArrowMpbController.ShowRenderer(false);
-                return;
-            }
-
-            ModelController.Set(Settings.Instance.SimpleBlocks ? "CM_Note_Chain_Simple" : "CM_Note_Chain");
-            ArrowMpbController.ShowRenderer(true);
         }
 
         public void SetArcVisible(bool showArcVisualizer)

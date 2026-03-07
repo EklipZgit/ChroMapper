@@ -47,8 +47,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Dragging: 0
-  Colliders: []
   Animator: {fileID: 0}
+  Colliders: []
+  VisualSettings: {fileID: 11400000, guid: 1c738480b4420d21c9f3d613e26a698e, type: 2}
   MpbController: {fileID: 8638528501509436514}
   SelectionMpbController: {fileID: 3538195554354353172}
   IndicatorType: 0

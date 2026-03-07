@@ -18,7 +18,7 @@ namespace Beatmap.Containers
         [SerializeField] public ObjectAnimator Animator;
         [SerializeField] protected List<IntersectionCollider> Colliders;
 
-        [Header("Visual")]
+        [Header("Visual")] [SerializeField] public VisualSettingsSO VisualSettings;
         [SerializeField] public MaterialPropertyBlockController MpbController;
         [SerializeField] public MaterialPropertyBlockController SelectionMpbController;
 
@@ -28,7 +28,11 @@ namespace Beatmap.Containers
 
         public int ChunkID => (int)(ObjectData.JsonTime / Intersections.ChunkSize);
 
-        public abstract void UpdateGridPosition();
+        public void Start() => RegisterCallback();
+        public void OnDestroy() => UnregisterCallback();
+
+        protected virtual void RegisterCallback() { }
+        protected virtual void UnregisterCallback() { }
 
         public virtual void Setup() { }
 
@@ -36,6 +40,8 @@ namespace Beatmap.Containers
         {
             if (active != gameObject.activeSelf) gameObject.SetActive(active);
         }
+
+        public abstract void UpdateGridPosition();
 
         public virtual void UpdateScalable(float scale) { }
 

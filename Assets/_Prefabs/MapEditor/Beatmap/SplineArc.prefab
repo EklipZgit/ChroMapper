@@ -254,6 +254,7 @@ MonoBehaviour:
   Colliders:
   - {fileID: 6025665846232342334}
   - {fileID: 6926796285610875710}
+  VisualSettings: {fileID: 11400000, guid: 1c738480b4420d21c9f3d613e26a698e, type: 2}
   MpbController: {fileID: 4548377040727608107}
   SelectionMpbController: {fileID: 5677379835907143143}
   IndicatorType: 1
@@ -310,6 +311,7 @@ MonoBehaviour:
   Colliders:
   - {fileID: 6025665846232342334}
   - {fileID: 6926796285610875710}
+  VisualSettings: {fileID: 11400000, guid: 1c738480b4420d21c9f3d613e26a698e, type: 2}
   MpbController: {fileID: 4548377040727608107}
   SelectionMpbController: {fileID: 5677379835907143143}
   SplineRenderer: {fileID: 1316468797988856621}
@@ -476,6 +478,7 @@ MonoBehaviour:
   Colliders:
   - {fileID: 6025665846232342334}
   - {fileID: 6926796285610875710}
+  VisualSettings: {fileID: 11400000, guid: 1c738480b4420d21c9f3d613e26a698e, type: 2}
   MpbController: {fileID: 4548377040727608107}
   SelectionMpbController: {fileID: 5677379835907143143}
   IndicatorType: 0

@@ -52,6 +52,7 @@ MonoBehaviour:
   Animator: {fileID: 5700965668527580914}
   Colliders:
   - {fileID: 4619509609802604023}
+  VisualSettings: {fileID: 11400000, guid: 1c738480b4420d21c9f3d613e26a698e, type: 2}
   MpbController: {fileID: 9017531652531987252}
   SelectionMpbController: {fileID: 9175875018023824390}
   CoreRenderer: {fileID: 1479837386256119622}
