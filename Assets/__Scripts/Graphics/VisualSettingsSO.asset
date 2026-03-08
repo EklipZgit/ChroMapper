@@ -12,3 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da0a035e05c54d858ef07617602f3f6b, type: 3}
   m_Name: VisualSettingsSO
   m_EditorClassIdentifier: 
+  Repository: {fileID: 11400000, guid: f78a4876c7186c6229988790d7825475, type: 2}
+  DefaultBlock: {fileID: 11400000, guid: 4f3f2d7b6ef69ca49acd0aee4747cf8d, type: 2}
+  DefaultEvent: {fileID: 11400000, guid: aff9a49101b6838a6a107d6283fecff1, type: 2}
+  DefaultNote: {fileID: 11400000, guid: c2db74aaed1540ddeb40ed397a92419a, type: 2}
+  DefaultBomb: {fileID: 11400000, guid: da6ee2fbd44235216a1c00ca4c05e6fa, type: 2}
+  DefaultChainHead: {fileID: 11400000, guid: adcfddbc4e733cf1f805f90b28ccc3dd, type: 2}
+  DefaultChainLink: {fileID: 11400000, guid: 58871811aadbb84798f632ec0564f2ae, type: 2}

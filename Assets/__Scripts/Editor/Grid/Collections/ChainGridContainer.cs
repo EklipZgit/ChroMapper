@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Beatmap.Appearances;
 using Beatmap.Base;
 using Beatmap.Containers;
@@ -16,7 +19,6 @@ public class ChainGridContainer : BeatmapObjectContainerCollection<BaseChain>
 
     [SerializeField] private CountersPlusController countersPlus;
 
-    public const float ViewEpsilon = 0.1f; // original view is too small ?? sometimes cause error.
     public override ObjectType ContainerType => ObjectType.Chain;
 
     private bool isPlaying;
@@ -55,8 +57,6 @@ public class ChainGridContainer : BeatmapObjectContainerCollection<BaseChain>
 
     internal override void SubscribeToCallbacks()
     {
-        var notesContainer = GetCollectionForType(ObjectType.Note) as NoteGridContainer;
-        notesContainer.OnContainerSpawned += CheckUpdatedNote;
         SpawnCallbackController.OnChainPassedThreshold += SpawnCallback;
         SpawnCallbackController.OnRecursiveChainCheckFinished += OnRecursiveCheckFinished;
         DespawnCallbackController.OnChainPassedThreshold += DespawnCallback;
@@ -71,8 +71,6 @@ public class ChainGridContainer : BeatmapObjectContainerCollection<BaseChain>
 
     internal override void UnsubscribeToCallbacks()
     {
-        var notesContainer = GetCollectionForType(ObjectType.Note) as NoteGridContainer;
-        if (notesContainer != null) notesContainer.OnContainerSpawned -= CheckUpdatedNote;
         SpawnCallbackController.OnChainPassedThreshold -= SpawnCallback;
         SpawnCallbackController.OnRecursiveChainCheckFinished -= OnRecursiveCheckFinished;
         DespawnCallbackController.OnChainPassedThreshold -= DespawnCallback;
@@ -102,29 +100,6 @@ public class ChainGridContainer : BeatmapObjectContainerCollection<BaseChain>
 
     private void AppearanceChanged(object _) => RefreshPool(true);
 
-    protected override void HandleContainerSpawn(ObjectContainer container, BaseObject obj) =>
-        (container as ChainContainer).DetectHeadNote();
-
-    protected override void HandleContainerDespawn(ObjectContainer container, BaseObject obj) =>
-        (container as ChainContainer).DetachHeadNote();
-
-    private void CheckUpdatedNote(BaseObject obj)
-    {
-        var note = obj as BaseNote;
-        if (note.Type == (int)NoteType.Bomb) return;
-        var chains = GetBetween(note.JsonTime - ViewEpsilon, note.JsonTime + ViewEpsilon);
-        foreach (BaseChain chain in chains)
-        {
-            LoadedContainers.TryGetValue(chain, out var con);
-            var container = con as ChainContainer;
-            if (container == null || !container.IsHeadNote(note)) continue;
-            GetCollectionForType(ObjectType.Note).LoadedContainers.TryGetValue(note, out var noteContainer);
-            container.AttachedHead = noteContainer as NoteContainer;
-            container.DetectHeadNote(false);
-            break;
-        }
-    }
-
     //We don't need to check index as that's already done further up the chain
     private void SpawnCallback(bool initial, int index, BaseObject objectData)
     {
@@ -136,4 +111,8 @@ public class ChainGridContainer : BeatmapObjectContainerCollection<BaseChain>
     {
         if (LoadedContainers.ContainsKey(objectData)) RecycleContainer(objectData);
     }
+
+    // TODO: not my proudest
+    public IEnumerable<BaseChain> GetBetweenTail(float jsonTime, float jsonTime2) =>
+        MapObjects.Where(x => jsonTime < x.TailJsonTime && x.TailJsonTime < jsonTime2);
 }

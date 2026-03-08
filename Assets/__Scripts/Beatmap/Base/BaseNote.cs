@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Beatmap.Base.Customs;
 using Beatmap.Enums;
 using Beatmap.Helper;
@@ -48,39 +49,46 @@ namespace Beatmap.Base
         }
 
         // Used for Node Editor
-        public BaseNote(JSONNode node) : this(BeatmapFactory.Note(node)) {}
-        
+        public BaseNote(JSONNode node) : this(BeatmapFactory.Note(node)) { }
+
         protected override void ParseCustom()
         {
             base.ParseCustom();
 
             if (Settings.Instance.MapVersion == 2)
             {
-                CustomDirection = (CustomData?.HasKey(CustomKeyDirection) ?? false) ? CustomData?[CustomKeyDirection].AsInt : null;
-                CustomFake = (CustomData?.HasKey("_fake") ?? false) ? CustomData["_fake"].AsBool : false;
+                CustomDirection = CustomData?.HasKey(CustomKeyDirection) ?? false
+                    ? CustomData?[CustomKeyDirection].AsInt
+                    : null;
+                CustomFake = CustomData?.HasKey("_fake") ?? false ? CustomData["_fake"].AsBool : false;
             }
         }
 
         protected internal override JSONNode SaveCustom()
         {
             var node = base.SaveCustom();
-            
+
             if (Settings.Instance.MapVersion == 2)
             {
-                if (CustomDirection != null) node[CustomKeyDirection] = CustomDirection;
-                else node.Remove(CustomKeyDirection);
-                if (CustomFake) node["_fake"] = true;
-                else node.Remove("_fake");
+                if (CustomDirection != null)
+                    node[CustomKeyDirection] = CustomDirection;
+                else
+                    node.Remove(CustomKeyDirection);
+                if (CustomFake)
+                    node["_fake"] = true;
+                else
+                    node.Remove("_fake");
             }
 
             SetCustomData(node);
             return node;
         }
 
-        
+
         public override ObjectType ObjectType { get; set; } = ObjectType.Note;
 
         private int type;
+
         public int Type
         {
             get => type;
@@ -92,6 +100,7 @@ namespace Beatmap.Base
         }
 
         private int color;
+
         public int Color
         {
             get => color;
@@ -105,108 +114,123 @@ namespace Beatmap.Base
         public int CutDirection { get; set; }
         public int AngleOffset { get; set; }
 
-        public bool IsMainDirection => CutDirection is ((int)NoteCutDirection.Up) or
-                                       ((int)NoteCutDirection.Down) or
-                                       ((int)NoteCutDirection.Left) or
-                                       ((int)NoteCutDirection.Right);
+        public bool IsMainDirection =>
+            CutDirection is (int)NoteCutDirection.Up
+                or (int)NoteCutDirection.Down
+                or (int)NoteCutDirection.Left
+                or (int)NoteCutDirection.Right;
 
         public virtual float? CustomDirection { get; set; }
 
         public string CustomKeyDirection => V2Note.CustomKeyDirection;
 
-        public override string CustomKeyColor => Settings.Instance.MapVersion switch
-        {
-            2 => V2Note.CustomKeyColor,
-            3 or 4 => V3ColorNote.CustomKeyColor
-        };
+        public override string CustomKeyColor =>
+            Settings.Instance.MapVersion switch
+            {
+                2 => V2Note.CustomKeyColor,
+                3 or 4 => V3ColorNote.CustomKeyColor
+            };
 
-        public override string CustomKeyTrack => Settings.Instance.MapVersion switch
-        {
-            2 => V2Note.CustomKeyTrack,
-            3 or 4 => V3ColorNote.CustomKeyTrack
-        };
+        public override string CustomKeyTrack =>
+            Settings.Instance.MapVersion switch
+            {
+                2 => V2Note.CustomKeyTrack,
+                3 or 4 => V3ColorNote.CustomKeyTrack
+            };
 
-        public override string CustomKeyAnimation => Settings.Instance.MapVersion switch
-        {
-            2 => V2Note.CustomKeyAnimation,
-            3 or 4 => V3ColorNote.CustomKeyAnimation
-        };
+        public override string CustomKeyAnimation =>
+            Settings.Instance.MapVersion switch
+            {
+                2 => V2Note.CustomKeyAnimation,
+                3 or 4 => V3ColorNote.CustomKeyAnimation
+            };
 
-        public override string CustomKeyCoordinate => Settings.Instance.MapVersion switch
-        {
-            2 => V2Note.CustomKeyCoordinate,
-            3 or 4 => V3ColorNote.CustomKeyCoordinate
-        };
+        public override string CustomKeyCoordinate =>
+            Settings.Instance.MapVersion switch
+            {
+                2 => V2Note.CustomKeyCoordinate,
+                3 or 4 => V3ColorNote.CustomKeyCoordinate
+            };
 
-        public override string CustomKeyWorldRotation => Settings.Instance.MapVersion switch
-        {
-            2 => V2Note.CustomKeyWorldRotation,
-            3 or 4 => V3ColorNote.CustomKeyWorldRotation
-        };
+        public override string CustomKeyWorldRotation =>
+            Settings.Instance.MapVersion switch
+            {
+                2 => V2Note.CustomKeyWorldRotation,
+                3 or 4 => V3ColorNote.CustomKeyWorldRotation
+            };
 
-        public override string CustomKeyLocalRotation => Settings.Instance.MapVersion switch
-        {
-            2 => V2Note.CustomKeyLocalRotation,
-            3 or 4 => V3ColorNote.CustomKeyLocalRotation
-        };
+        public override string CustomKeyLocalRotation =>
+            Settings.Instance.MapVersion switch
+            {
+                2 => V2Note.CustomKeyLocalRotation,
+                3 or 4 => V3ColorNote.CustomKeyLocalRotation
+            };
 
-        public override string CustomKeySpawnEffect => Settings.Instance.MapVersion switch
-        {
-            2 => V2Note.CustomKeySpawnEffect,
-            3 or 4 => V3ColorNote.CustomKeySpawnEffect
-        };
+        public override string CustomKeySpawnEffect =>
+            Settings.Instance.MapVersion switch
+            {
+                2 => V2Note.CustomKeySpawnEffect,
+                3 or 4 => V3ColorNote.CustomKeySpawnEffect
+            };
 
-        public override string CustomKeyNoteJumpMovementSpeed => Settings.Instance.MapVersion switch
-        {
-            2 => V2Note.CustomKeyNoteJumpMovementSpeed,
-            3 or 4 => V3ColorNote.CustomKeyNoteJumpMovementSpeed
-        };
+        public override string CustomKeyNoteJumpMovementSpeed =>
+            Settings.Instance.MapVersion switch
+            {
+                2 => V2Note.CustomKeyNoteJumpMovementSpeed,
+                3 or 4 => V3ColorNote.CustomKeyNoteJumpMovementSpeed
+            };
 
-        public override string CustomKeyNoteJumpStartBeatOffset => Settings.Instance.MapVersion switch
-        {
-            2 => V2Note.CustomKeyNoteJumpStartBeatOffset,
-            3 or 4 => V3ColorNote.CustomKeyNoteJumpStartBeatOffset
-        };
-        
+        public override string CustomKeyNoteJumpStartBeatOffset =>
+            Settings.Instance.MapVersion switch
+            {
+                2 => V2Note.CustomKeyNoteJumpStartBeatOffset,
+                3 or 4 => V3ColorNote.CustomKeyNoteJumpStartBeatOffset
+            };
+
+        public readonly HashSet<BaseChain> Chains = new();
+
         public override bool IsChroma() =>
-            CustomData != null &&
-            ((CustomData.HasKey(CustomKeyColor) && CustomData[CustomKeyColor].IsArray) ||
-             (CustomData.HasKey(CustomKeySpawnEffect) && CustomData[CustomKeySpawnEffect].IsBoolean) ||
-             (CustomData.HasKey("disableDebris") && CustomData["disableDebris"].IsBoolean));
+            CustomData != null
+            && ((CustomData.HasKey(CustomKeyColor) && CustomData[CustomKeyColor].IsArray)
+                || (CustomData.HasKey(CustomKeySpawnEffect) && CustomData[CustomKeySpawnEffect].IsBoolean)
+                || (CustomData.HasKey("disableDebris") && CustomData["disableDebris"].IsBoolean));
 
         public override bool IsNoodleExtensions() =>
-            CustomData != null &&
-            ((CustomData.HasKey("disableNoteGravity") && CustomData["disableNoteGravity"].IsBoolean) ||
-             (CustomData.HasKey("disableNoteLook") && CustomData["disableNoteLook"].IsBoolean) ||
-             (CustomData.HasKey("flip") && CustomData["flip"].IsArray) ||
-             (CustomData.HasKey("uninteractable") && CustomData["uninteractable"].IsBoolean) ||
-             (CustomData.HasKey(CustomKeyLocalRotation) && CustomData[CustomKeyLocalRotation].IsArray) ||
-             (CustomData.HasKey(CustomKeyNoteJumpMovementSpeed) && CustomData[CustomKeyNoteJumpMovementSpeed].IsNumber) ||
-             (CustomData.HasKey(CustomKeyNoteJumpStartBeatOffset) &&
-              CustomData[CustomKeyNoteJumpStartBeatOffset].IsNumber) ||
-             (CustomData.HasKey(CustomKeyCoordinate) && CustomData[CustomKeyCoordinate].IsArray) ||
-             (CustomData.HasKey(CustomKeyWorldRotation) &&
-              (CustomData[CustomKeyWorldRotation].IsArray || CustomData[CustomKeyWorldRotation].IsNumber)));
+            CustomData != null
+            && ((CustomData.HasKey("disableNoteGravity") && CustomData["disableNoteGravity"].IsBoolean)
+                || (CustomData.HasKey("disableNoteLook") && CustomData["disableNoteLook"].IsBoolean)
+                || (CustomData.HasKey("flip") && CustomData["flip"].IsArray)
+                || (CustomData.HasKey("uninteractable") && CustomData["uninteractable"].IsBoolean)
+                || (CustomData.HasKey(CustomKeyLocalRotation) && CustomData[CustomKeyLocalRotation].IsArray)
+                || (CustomData.HasKey(CustomKeyNoteJumpMovementSpeed)
+                    && CustomData[CustomKeyNoteJumpMovementSpeed].IsNumber)
+                || (CustomData.HasKey(CustomKeyNoteJumpStartBeatOffset)
+                    && CustomData[CustomKeyNoteJumpStartBeatOffset].IsNumber)
+                || (CustomData.HasKey(CustomKeyCoordinate) && CustomData[CustomKeyCoordinate].IsArray)
+                || (CustomData.HasKey(CustomKeyWorldRotation)
+                    && (CustomData[CustomKeyWorldRotation].IsArray || CustomData[CustomKeyWorldRotation].IsNumber)));
 
         public override bool IsMappingExtensions() =>
-            PosX < 0 || PosX > 3 || PosY < 0 || PosY > 2 || (CutDirection >= 1000 && CutDirection <= 1360) ||
-             (CutDirection >= 2000 && CutDirection <= 2360);
-        
+            PosX < 0
+            || PosX > 3
+            || PosY < 0
+            || PosY > 2
+            || (CutDirection >= 1000 && CutDirection <= 1360)
+            || (CutDirection >= 2000 && CutDirection <= 2360);
+
 
         public override void Apply(BaseObject originalData)
         {
             base.Apply(originalData);
 
-            if (originalData is BaseNote note)
-            {
-                Color = note.Color;
-                CutDirection = note.CutDirection;
-                AngleOffset = note.AngleOffset;
-            }
+            if (originalData is not BaseNote note) return;
+            Color = note.Color;
+            CutDirection = note.CutDirection;
+            AngleOffset = note.AngleOffset;
         }
 
-        protected override bool IsConflictingWithObjectAtSameTime(BaseObject other, bool deletion = false)
-           => other is BaseNote note && Vector2.Distance(note.GetPosition(), GetPosition()) < 0.1;
+        protected override bool IsConflictingWithObjectAtSameTime(BaseObject other, bool deletion = false) =>
+            other is BaseNote note && Vector2.Distance(note.GetPosition(), GetPosition()) < 0.1;
 
         // This should hopefully prevent flipped stack notes when playing in game.
         // (I'm done with note sorting; if you don't like it, go fix it yourself.)
@@ -223,23 +247,28 @@ namespace Beatmap.Base
 
             // Compare by Y pos if X pos match
             if (comparison == 0) comparison = PosY.CompareTo(note.PosY);
-            
+
             // Compare by color if Y pos match
             if (comparison == 0) comparison = Color.CompareTo(note.Color);
-            
+
             // Compare by cut direction if color matches
             if (comparison == 0) comparison = CutDirection.CompareTo(note.CutDirection);
-            
+
             // Compare by angle offset if cut direction
             if (comparison == 0) comparison = AngleOffset.CompareTo(note.AngleOffset);
 
             // All matching vanilla properties so compare custom data as a final check
-            if (comparison == 0) comparison = string.Compare(CustomData?.ToString(), note.CustomData?.ToString(), StringComparison.Ordinal);
+            if (comparison == 0)
+                comparison = string.Compare(
+                    CustomData?.ToString(),
+                    note.CustomData?.ToString(),
+                    StringComparison.Ordinal);
 
             return comparison;
         }
 
-        public override JSONNode ToJson() => Settings.Instance.MapVersion switch
+        public override JSONNode ToJson() =>
+            Settings.Instance.MapVersion switch
             {
                 2 => V2Note.ToJson(this),
                 3 or 4 => Type == (int)NoteType.Bomb ? V3BombNote.ToJson(this) : V3ColorNote.ToJson(this)

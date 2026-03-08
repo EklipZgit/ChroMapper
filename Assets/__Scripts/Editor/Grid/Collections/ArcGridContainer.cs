@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using Beatmap.Appearances;
 using Beatmap.Base;
 using Beatmap.Containers;
@@ -12,8 +14,6 @@ public class ArcGridContainer : BeatmapObjectContainerCollection<BaseArc>
 {
     [SerializeField] private GameObject arcPrefab;
     [SerializeField] private ArcAppearanceSO arcAppearanceSO;
-
-    public const float ViewEpsilon = 0.1f; // original view is too small ?? sometimes cause error.
 
     [SerializeField] private TracksManager tracksManager;
     [SerializeField] private CountersPlusController countersPlus;
@@ -39,18 +39,12 @@ public class ArcGridContainer : BeatmapObjectContainerCollection<BaseArc>
 
     internal override void SubscribeToCallbacks()
     {
-        var notesContainer = GetCollectionForType(ObjectType.Note) as NoteGridContainer;
-        if (notesContainer != null) notesContainer.OnContainerSpawned += CheckUpdatedNote;
-
         Context.Atsc.OnPlayToggled += OnPlayToggle;
         UIMode.OnPreviewModeSwitched += OnUIPreviewModeSwitch;
     }
 
     internal override void UnsubscribeToCallbacks()
     {
-        var notesContainer = GetCollectionForType(ObjectType.Note) as NoteGridContainer;
-        if (notesContainer != null) notesContainer.OnContainerSpawned -= CheckUpdatedNote;
-
         Context.Atsc.OnPlayToggled -= OnPlayToggle;
         UIMode.OnPreviewModeSwitched -= OnUIPreviewModeSwitch;
     }
@@ -61,36 +55,7 @@ public class ArcGridContainer : BeatmapObjectContainerCollection<BaseArc>
         ScheduleRecomputePosition();
     }
 
-    private void SpawnCallback(bool initial, int index, BaseObject objectData)
-    {
-        if (!LoadedContainers.ContainsKey(objectData)) CreateContainerFromPool(objectData);
-    }
-
-    private void DespawnCallback(bool initial, int index, BaseObject objectData)
-    {
-        if (LoadedContainers.ContainsKey(objectData)) RecycleContainer(objectData);
-    }
-
-    private void CheckUpdatedNote(BaseObject obj)
-    {
-        var note = obj as BaseNote;
-        if (note.Type == (int)NoteType.Bomb) return;
-        var arcs = GetBetween(note.JsonTime - ViewEpsilon, note.JsonTime + ViewEpsilon);
-        foreach (BaseArc arc in arcs)
-        {
-            LoadedContainers.TryGetValue(arc, out var con);
-            var container = con as ArcContainer;
-            if (container == null) continue;
-            container.DetectConnectedNote();
-
-            break;
-        }
-    }
-
     private void OnUIPreviewModeSwitch() => RefreshPool(true);
-
-    protected override void HandleContainerSpawn(ObjectContainer container, BaseObject obj) =>
-        (container as ArcContainer).DetectConnectedNote();
 
     /// <summary>
     /// When playing, disable all indicator blocks
@@ -146,4 +111,8 @@ public class ArcGridContainer : BeatmapObjectContainerCollection<BaseArc>
             container.SetIndicatorBlocksActive(!isPlaying);
         }
     }
+
+    // TODO: not my proudest
+    public IEnumerable<BaseArc> GetBetweenTail(float jsonTime, float jsonTime2) =>
+        MapObjects.Where(x => jsonTime < x.TailJsonTime && x.TailJsonTime < jsonTime2);
 }

@@ -19,7 +19,7 @@ namespace Beatmap.Base
     /// - Notes contains both color notes and bombs
     /// - Events contains basic events, rotation events, and boost events
     /// </summary>
-    public class BaseDifficulty : BaseItem//, ICustomDataDifficulty
+    public class BaseDifficulty : BaseItem //, ICustomDataDifficulty
     {
         public string DirectoryAndFile { get; set; }
 
@@ -64,13 +64,16 @@ namespace Beatmap.Base
         public float Time { get; set; }
         public List<BaseBpmChange> BpmChanges { get; set; } = new();
         public List<BaseBookmark> Bookmarks { get; set; } = new();
-        public string BookmarksUseOfficialBpmEventsKey => Settings.Instance.MapVersion switch
-        {
-            2 => "_bookmarksUseOfficialBpmEvents",
-            3 => "bookmarksUseOfficialBpmEvents",
-            4 => "bookmarksUseOfficialBpmEvents",
-            _ => null
-        };
+
+        public string BookmarksUseOfficialBpmEventsKey =>
+            Settings.Instance.MapVersion switch
+            {
+                2 => "_bookmarksUseOfficialBpmEvents",
+                3 => "bookmarksUseOfficialBpmEvents",
+                4 => "bookmarksUseOfficialBpmEvents",
+                _ => null
+            };
+
         public List<BaseCustomEvent> CustomEvents { get; set; } = new();
 
         public Dictionary<string, BaseMaterial> Materials = new();
@@ -81,22 +84,23 @@ namespace Beatmap.Base
 
         public JSONNode CustomData { get; set; } = new JSONObject();
 
-        private List<List<BaseObject>> AllBaseObjectProperties() => new()
-        {
-            new List<BaseObject>(Notes),
-            new List<BaseObject>(Obstacles),
-            new List<BaseObject>(Arcs),
-            new List<BaseObject>(Chains),
-            new List<BaseObject>(Waypoints),
-            new List<BaseObject>(Events),
-            new List<BaseObject>(Bookmarks),
-            new List<BaseObject>(CustomEvents),
-            new List<BaseObject>(NJSEvents),
-            new List<BaseObject>(LightColorEventBoxGroups),
-            new List<BaseObject>(LightRotationEventBoxGroups),
-            new List<BaseObject>(LightTranslationEventBoxGroups),
-            new List<BaseObject>(VfxEventBoxGroups),
-        };
+        private List<List<BaseObject>> AllBaseObjectProperties() =>
+            new()
+            {
+                new List<BaseObject>(Notes),
+                new List<BaseObject>(Obstacles),
+                new List<BaseObject>(Arcs),
+                new List<BaseObject>(Chains),
+                new List<BaseObject>(Waypoints),
+                new List<BaseObject>(Events),
+                new List<BaseObject>(Bookmarks),
+                new List<BaseObject>(CustomEvents),
+                new List<BaseObject>(NJSEvents),
+                new List<BaseObject>(LightColorEventBoxGroups),
+                new List<BaseObject>(LightRotationEventBoxGroups),
+                new List<BaseObject>(LightTranslationEventBoxGroups),
+                new List<BaseObject>(VfxEventBoxGroups),
+            };
 
         #region BPM Time Conversion Logic
 
@@ -141,7 +145,8 @@ namespace Beatmap.Base
                 }
                 else
                 {
-                    bpmEvent.songBpmTime = lastBpmEvent.songBpmTime + (bpmEvent.JsonTime - lastBpmEvent.JsonTime) * (songBpm / lastBpmEvent.Bpm);
+                    bpmEvent.songBpmTime = lastBpmEvent.songBpmTime
+                        + (bpmEvent.JsonTime - lastBpmEvent.JsonTime) * (songBpm / lastBpmEvent.Bpm);
                 }
 
                 lastBpmEvent = bpmEvent;
@@ -156,6 +161,7 @@ namespace Beatmap.Base
             {
                 return jsonTime;
             }
+
             return lastBpmEvent.SongBpmTime + (jsonTime - lastBpmEvent.JsonTime) * (songBpm / lastBpmEvent.Bpm);
         }
 
@@ -167,6 +173,7 @@ namespace Beatmap.Base
             {
                 return songBpmTime;
             }
+
             return lastBpmEvent.JsonTime + (songBpmTime - lastBpmEvent.SongBpmTime) * (lastBpmEvent.Bpm / songBpm);
         }
 
@@ -210,14 +217,14 @@ namespace Beatmap.Base
         {
             var songBpm = BeatSaberSongContainer.Instance.Info.BeatsPerMinute;
             var customData = BeatSaberSongContainer.Instance.MapDifficultyInfo.CustomData;
-            
+
             // Replace editor offset with equivalent bpm change if it exists
             if ((customData?.HasKey("_editorOffset") ?? false) && customData["_editorOffset"] > 0f)
             {
                 float offset = customData["_editorOffset"];
                 customData.Remove("_editorOffset");
                 customData.Remove("_editorOldOffset");
-                BpmChanges.Insert(0, new BaseBpmChange{ JsonTime = songBpm / 60 * (offset / 1000f), Bpm = songBpm });
+                BpmChanges.Insert(0, new BaseBpmChange { JsonTime = songBpm / 60 * (offset / 1000f), Bpm = songBpm });
                 Debug.Log($"Editor offset detected: {songBpm / 60 * (offset / 1000f)}s");
             }
 
@@ -225,9 +232,12 @@ namespace Beatmap.Base
             {
                 return;
             }
-            
-            PersistentUI.Instance.ShowDialogBox("Mapper", "custom.bpm.convert",
-                null, PersistentUI.DialogBoxPresetType.Ok);
+
+            PersistentUI.Instance.ShowDialogBox(
+                "Mapper",
+                "custom.bpm.convert",
+                null,
+                PersistentUI.DialogBoxPresetType.Ok);
             BpmEvents.Clear(); // If for some reason we have both official and old custom bpm changes, we'll overwrite official bpm events
 
             BaseBpmEvent nextBpmChange;
@@ -236,7 +246,7 @@ namespace Beatmap.Base
                 var bpmChange = BpmChanges[i];
                 var prevBpmChange = (i > 0)
                     ? BpmChanges[i - 1]
-                    : new BaseBpmChange{ JsonTime = 0, Bpm = songBpm };
+                    : new BaseBpmChange { JsonTime = 0, Bpm = songBpm };
 
                 // Account for custom bpm change original grid behaviour
                 var distanceToNearestInt = Mathf.Abs(bpmChange.JsonTime - Mathf.Round(bpmChange.JsonTime));
@@ -255,6 +265,7 @@ namespace Beatmap.Base
                             {
                                 obj.JsonTime += jsonTimeOffset;
                             }
+
                             // assuming there's mapper who messed up with slider tail time
                             // or beat games non truncate float:tm: is lower than head time
                             if (obj is BaseSlider slider && slider.TailJsonTime >= oldTime)
@@ -271,7 +282,8 @@ namespace Beatmap.Base
 
                     // Place a very fast bpm event slighty behind the original event to account for drift
                     var aVeryLargeBpm = 100000f;
-                    var offsetRequiredInBeats = jsonTimeOffset * prevBpmChange.Bpm / (aVeryLargeBpm - prevBpmChange.Bpm);
+                    var offsetRequiredInBeats =
+                        jsonTimeOffset * prevBpmChange.Bpm / (aVeryLargeBpm - prevBpmChange.Bpm);
                     BpmEvents.Add(new BaseBpmEvent(oldTime - offsetRequiredInBeats, aVeryLargeBpm));
                 }
 
@@ -310,6 +322,7 @@ namespace Beatmap.Base
                                 obstacle.Duration = endJsonTime - obj.JsonTime;
                             }
                         }
+
                         if (obj is BaseSlider slider && bpmChange.JsonTime < slider.TailJsonTime)
                         {
                             if (nextBpmChange == null || slider.TailJsonTime < nextBpmChange.JsonTime)
@@ -336,10 +349,11 @@ namespace Beatmap.Base
             if (fromVersion == 2 && toVersion is 3 or 4)
             {
                 foreach (var note in Notes) note.SetCustomData(V2ToV3.CustomDataObject(note.SaveCustom()));
-                foreach (var obstacle in Obstacles) obstacle.SetCustomData(V2ToV3.CustomDataObject(obstacle.SaveCustom()));
+                foreach (var obstacle in Obstacles)
+                    obstacle.SetCustomData(V2ToV3.CustomDataObject(obstacle.SaveCustom()));
                 foreach (var arc in Arcs) arc.SetCustomData(V2ToV3.CustomDataObject(arc.SaveCustom()));
                 foreach (var chain in Chains) chain.SetCustomData(V2ToV3.CustomDataObject(chain.SaveCustom()));
-                
+
                 foreach (var evt in Events) evt.SetCustomData(V2ToV3.CustomDataEvent(evt.SaveCustom()));
 
                 foreach (var env in EnvironmentEnhancements)
@@ -350,17 +364,18 @@ namespace Beatmap.Base
                 }
 
                 foreach (var evt in CustomEvents) evt.SetData(V2ToV3.CustomEventData(evt.SaveCustom()));
-                
+
                 CustomData = V2ToV3.CustomDataRoot(CustomData, this);
             }
 
             if (fromVersion is 3 or 4 && toVersion == 2)
             {
                 foreach (var note in Notes) note.SetCustomData(V3ToV2.CustomDataObject(note.SaveCustom()));
-                foreach (var obstacle in Obstacles) obstacle.SetCustomData(V3ToV2.CustomDataObject(obstacle.SaveCustom()));
+                foreach (var obstacle in Obstacles)
+                    obstacle.SetCustomData(V3ToV2.CustomDataObject(obstacle.SaveCustom()));
                 foreach (var arc in Arcs) arc.SetCustomData(V3ToV2.CustomDataObject(arc.SaveCustom()));
                 foreach (var chain in Chains) chain.SetCustomData(V3ToV2.CustomDataObject(chain.SaveCustom()));
-                
+
                 foreach (var evt in Events) evt.SetCustomData(V3ToV2.CustomDataEvent(evt.SaveCustom()));
 
                 foreach (var env in EnvironmentEnhancements)
@@ -384,14 +399,15 @@ namespace Beatmap.Base
                 3 => V3Difficulty.GetOutputJson(this),
                 4 => V4Difficulty.GetOutputJson(this)
             };
-            
-            if (outputJson == null)
-                return false;
+
+            if (outputJson == null) return false;
 
             // Write difficulty file
-            File.WriteAllText(DirectoryAndFile, Settings.Instance.FormatJson
-                ? outputJson.ToString(2)
-                : outputJson.ToString());
+            File.WriteAllText(
+                DirectoryAndFile,
+                Settings.Instance.FormatJson
+                    ? outputJson.ToString(2)
+                    : outputJson.ToString());
 
             // Write lightshow file if in v4
             var songContainer = BeatSaberSongContainer.Instance;
@@ -407,16 +423,20 @@ namespace Beatmap.Base
                 }
 
                 var lightshowJson = V4Difficulty.GetLightshowOutputJson(this);
-                File.WriteAllText(Path.Combine(songContainer.Info.Directory, mapDifficultyInfo.LightshowFileName),
+                File.WriteAllText(
+                    Path.Combine(songContainer.Info.Directory, mapDifficultyInfo.LightshowFileName),
                     Settings.Instance.FormatJson
                         ? lightshowJson.ToString(2)
                         : lightshowJson.ToString());
-                
+
                 // Write bookmarks for official editor compability
-                var bookmarksJson = GetOfficialBookmarkOutputJson(mapDifficultyInfo.Characteristic, mapDifficultyInfo.Difficulty);
+                var bookmarksJson = GetOfficialBookmarkOutputJson(
+                    mapDifficultyInfo.Characteristic,
+                    mapDifficultyInfo.Difficulty);
                 var bookmarksFolder = Path.Combine(songContainer.Info.Directory, "Bookmarks");
                 if (!Directory.Exists(bookmarksFolder)) Directory.CreateDirectory(bookmarksFolder);
-                File.WriteAllText(Path.Combine(bookmarksFolder, mapDifficultyInfo.BookmarkFileName), 
+                File.WriteAllText(
+                    Path.Combine(bookmarksFolder, mapDifficultyInfo.BookmarkFileName),
                     bookmarksJson.ToString(2));
             }
 
@@ -428,8 +448,11 @@ namespace Beatmap.Base
             //   event which may not match the song bpm depending on the order the user saved
             if (bpmInfo.AudioSamples > 0 && !this.IsEmpty())
             {
-                bpmInfo.BpmRegions = BaseBpmInfo.GetBpmInfoRegions(BpmEvents, songContainer.Info.BeatsPerMinute,
-                    bpmInfo.AudioSamples, bpmInfo.AudioFrequency);
+                bpmInfo.BpmRegions = BaseBpmInfo.GetBpmInfoRegions(
+                    BpmEvents,
+                    songContainer.Info.BeatsPerMinute,
+                    bpmInfo.AudioSamples,
+                    bpmInfo.AudioFrequency);
 
                 var bpmOutputJson = songContainer.Info.MajorVersion switch
                 {
@@ -438,16 +461,19 @@ namespace Beatmap.Base
                 };
 
                 if (bpmOutputJson == null) return true;
-                
-                var bpmOutputFileName = BaseBpmInfo.GetOutputFileName(songContainer.Info.MajorVersion, songContainer.Info);
-                
-                File.WriteAllText(Path.Combine(songContainer.Info.Directory, bpmOutputFileName),
+
+                var bpmOutputFileName = BaseBpmInfo.GetOutputFileName(
+                    songContainer.Info.MajorVersion,
+                    songContainer.Info);
+
+                File.WriteAllText(
+                    Path.Combine(songContainer.Info.Directory, bpmOutputFileName),
                     bpmOutputJson.ToString(2));
             }
 
             return true;
         }
-        
+
         private JSONNode GetOfficialBookmarkOutputJson(string characteristic, string difficulty)
         {
             var json = new JSONObject();
@@ -465,50 +491,55 @@ namespace Beatmap.Base
                 bookmarkObject["text"] = bookmark.Name;
                 bookmarksNode.Add(bookmarkObject);
             }
-            
+
             json["bookmarks"] = bookmarksNode;
-            
+
             return json;
         }
 
         private bool IsEmpty() =>
-            BpmEvents.Count == 0 &&
-            Notes.Count == 0 &&
-            Obstacles.Count == 0 &&
-            Arcs.Count == 0 &&
-            Chains.Count == 0 &&
-            Waypoints.Count == 0 &&
-            Events.Count == 0 &&
-            NJSEvents.Count == 0 &&
-            LightColorEventBoxGroups.Count == 0 &&
-            LightRotationEventBoxGroups.Count == 0 &&
-            LightTranslationEventBoxGroups.Count == 0 &&
-            VfxEventBoxGroups.Count == 0 &&
-            (FxEventsCollection?.FloatFxEvents.Length ?? 0) == 0 &&
-            (EventTypesWithKeywords?.Keywords.Length ?? 0) == 0 &&
-            Bookmarks.Count == 0 &&
-            CustomEvents.Count == 0 &&
-            Materials.Count == 0 &&
-            PointDefinitions.Count == 0 &&
-            EnvironmentEnhancements.Count == 0 &&
-            CustomData.Count == 0;
-        
+            BpmEvents.Count == 0
+            && Notes.Count == 0
+            && Obstacles.Count == 0
+            && Arcs.Count == 0
+            && Chains.Count == 0
+            && Waypoints.Count == 0
+            && Events.Count == 0
+            && NJSEvents.Count == 0
+            && LightColorEventBoxGroups.Count == 0
+            && LightRotationEventBoxGroups.Count == 0
+            && LightTranslationEventBoxGroups.Count == 0
+            && VfxEventBoxGroups.Count == 0
+            && (FxEventsCollection?.FloatFxEvents.Length ?? 0) == 0
+            && (EventTypesWithKeywords?.Keywords.Length ?? 0) == 0
+            && Bookmarks.Count == 0
+            && CustomEvents.Count == 0
+            && Materials.Count == 0
+            && PointDefinitions.Count == 0
+            && EnvironmentEnhancements.Count == 0
+            && CustomData.Count == 0;
+
 
         public bool IsChroma() =>
-            Notes.Any(x => x.IsChroma())  || Arcs.Any(x => x.IsChroma()) ||
-            Chains.Any(x => x.IsChroma()) || Obstacles.Any(x => x.IsChroma()) ||
-            Events.Any(x => x.IsChroma()) || EnvironmentEnhancements.Any();
+            Notes.Any(x => x.IsChroma())
+            || Arcs.Any(x => x.IsChroma())
+            || Chains.Any(x => x.IsChroma())
+            || Obstacles.Any(x => x.IsChroma())
+            || Events.Any(x => x.IsChroma())
+            || EnvironmentEnhancements.Any();
 
         public bool IsNoodleExtensions() =>
-            Notes.Any(x => x.IsNoodleExtensions()) ||
-            Arcs.Any(x => x.IsNoodleExtensions()) || Chains.Any(x => x.IsNoodleExtensions()) ||
-            Obstacles.Any(x => x.IsNoodleExtensions());
-        
+            Notes.Any(x => x.IsNoodleExtensions())
+            || Arcs.Any(x => x.IsNoodleExtensions())
+            || Chains.Any(x => x.IsNoodleExtensions())
+            || Obstacles.Any(x => x.IsNoodleExtensions());
+
         public bool IsMappingExtensions() =>
-            Notes.Any(x => x.IsMappingExtensions()) ||
-            Arcs.Any(x => x.IsMappingExtensions()) || Chains.Any(x => x.IsMappingExtensions()) ||
-            Obstacles.Any(x => x.IsMappingExtensions());
-        
+            Notes.Any(x => x.IsMappingExtensions())
+            || Arcs.Any(x => x.IsMappingExtensions())
+            || Chains.Any(x => x.IsMappingExtensions())
+            || Obstacles.Any(x => x.IsMappingExtensions());
+
         public override JSONNode ToJson() => throw new NotImplementedException();
 
         public override BaseItem Clone() => throw new NotImplementedException();

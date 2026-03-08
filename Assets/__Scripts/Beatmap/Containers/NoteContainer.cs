@@ -74,7 +74,9 @@ namespace Beatmap.Containers
         public void SetNoteModel()
         {
             VisualModelSO vm;
-            if (NoteData.CutDirection == (int)NoteCutDirection.Any)
+            if (NoteData.Chains.Count > 0)
+                vm = VisualSettings.GetChainHeadModel();
+            else if (NoteData.CutDirection == (int)NoteCutDirection.Any)
             {
                 vm =
                     NoteData.Type == (int)NoteType.Blue
@@ -98,18 +100,6 @@ namespace Beatmap.Containers
         {
             ModelController.Set(VisualSettings.GetBombModel());
             ArrowMpbController.ShowRenderer(false);
-        }
-
-        public void SetChainHeadModel()
-        {
-            if (NoteData.Type == (int)NoteType.Bomb)
-            {
-                ArrowMpbController.ShowRenderer(false);
-                return;
-            }
-
-            ModelController.Set(VisualSettings.GetChainHeadModel());
-            ArrowMpbController.ShowRenderer(true);
         }
 
         internal static Vector3 Directionalize(BaseNote noteData)

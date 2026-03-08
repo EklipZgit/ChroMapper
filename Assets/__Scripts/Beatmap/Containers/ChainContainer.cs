@@ -19,7 +19,6 @@ namespace Beatmap.Containers
         [Header("Indicator")] [SerializeField] private List<ChainIndicatorContainer> indicators;
         public List<ChainComponentsFetcher> Nodes = new();
 
-        public NoteContainer AttachedHead;
         public BaseChain ChainData;
 
         public GameObject TailObject;
@@ -77,15 +76,6 @@ namespace Beatmap.Containers
             AdjustTimePlacement();
             GenerateChain();
             UpdateCollisionGroups();
-
-            if (AttachedHead == null || AttachedHead.Animator.AnimatedTrack || IsHeadNote(AttachedHead.NoteData))
-                return;
-
-            // usually this does not update often and is already checked
-            // but if attached head note data is different, then we update the head note
-            // also temporary (permanent) fix because this shit needs rewrite
-            AttachedHead = null;
-            DetectHeadNote();
         }
 
         /// <summary>
@@ -267,56 +257,6 @@ namespace Beatmap.Containers
                 container.UpdateMaterials(MpbController.Mpb);
                 container.SelectionMpbController.ShowRenderer(SelectionMpbController.Renderers[0].enabled);
             }
-        }
-
-        public void DetectHeadNote(bool detect = true)
-        {
-            if (ChainData == null) return;
-            if (detect && AttachedHead == null)
-            {
-                var collection =
-                    BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
-                var notes = collection.GetBetween(
-                    ChainData.JsonTime - ChainGridContainer.ViewEpsilon,
-                    ChainData.JsonTime + ChainGridContainer.ViewEpsilon);
-                foreach (var note in notes)
-                {
-                    if (note.ObjectType != ObjectType.Note || !note.HasAttachedContainer) continue;
-                    if (!IsHeadNote(note)) continue;
-                    collection.LoadedContainers.TryGetValue(note, out var container);
-                    AttachedHead = container as NoteContainer;
-                    AttachedHead.SetChainHeadModel();
-                    break;
-                }
-            }
-            else if (AttachedHead != null)
-            {
-                if (!IsHeadNote(AttachedHead.NoteData))
-                {
-                    if (AttachedHead.NoteData != null) AttachedHead.HandleModelChanged();
-                    AttachedHead = null;
-                    DetectHeadNote();
-                }
-                else
-                    AttachedHead.SetChainHeadModel();
-            }
-        }
-
-        public void DetachHeadNote()
-        {
-            if (AttachedHead == null || AttachedHead.NoteData == null) return;
-            AttachedHead.HandleModelChanged();
-            AttachedHead = null;
-        }
-
-        public bool IsHeadNote(BaseNote baseNote)
-        {
-            if (baseNote is null) return false;
-            var noteHead = baseNote.GetPosition();
-            var chainHead = ChainData.GetPosition();
-            return Mathf.Abs(baseNote.JsonTime - ChainData.JsonTime) < BeatmapObjectContainerCollection.Epsilon
-                && Vector2.Distance(noteHead, chainHead) < 0.1
-                && baseNote.Type == ChainData.Color;
         }
 
         public void SetIndicatorBlocksActive(bool visible)

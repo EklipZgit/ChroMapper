@@ -156,7 +156,7 @@ public class Track : MonoBehaviour
                             arc.SpawnSongBpmTime,
                             time));
                     var spawnLifetime = Mathf.Clamp01(1f - ((normalizedLifetime - 0.5f) * 2f));
-                    var jumpT = arcContainer.HasHeadNote ? Easing.Quadratic.Out(spawnLifetime) : 1f;
+                    var jumpT = arcContainer.ArcData.HeadNotes.Count > 0 ? Easing.Quadratic.Out(spawnLifetime) : 1f;
                     var headPosY = arc.GetPosition().y;
                     var headY = Mathf.LerpUnclamped(-BeatmapConstant.PlayerYOffset - headPosY, 0f, jumpT);
 
@@ -167,7 +167,9 @@ public class Track : MonoBehaviour
                             arc.SpawnSongBpmTime + tailOffset,
                             time));
                     var tailSpawnLifetime = Mathf.Clamp01(1f - ((tailNormalizedLifetime - 0.5f) * 2f));
-                    var tailJumpT = arcContainer.HasTailNote ? Easing.Quadratic.Out(tailSpawnLifetime) : 1f;
+                    var tailJumpT = arcContainer.ArcData.TailNotes.Count > 0
+                        ? Easing.Quadratic.Out(tailSpawnLifetime)
+                        : 1f;
                     var tailPosY = arc.GetTailPosition().y;
                     var tailY = Mathf.LerpUnclamped(-BeatmapConstant.PlayerYOffset - tailPosY, 0f, tailJumpT);
 
