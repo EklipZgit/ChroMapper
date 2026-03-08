@@ -63,6 +63,11 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 65a0f27365bc7df4886e1f6222b65f48, type: 2}
+    - target: {fileID: -260660270963575953, guid: 2712436f06f6af25d86f9769cf556fa8,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: -69910889713890580, guid: 2712436f06f6af25d86f9769cf556fa8,
         type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -72,6 +77,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CM_Chain_Solid
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 2712436f06f6af25d86f9769cf556fa8,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2147118597877274453, guid: 2712436f06f6af25d86f9769cf556fa8,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2949789102953466181, guid: 2712436f06f6af25d86f9769cf556fa8,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 3197243299414332265, guid: 2712436f06f6af25d86f9769cf556fa8,
         type: 3}

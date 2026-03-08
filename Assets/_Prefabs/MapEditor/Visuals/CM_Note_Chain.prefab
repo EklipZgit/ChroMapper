@@ -88,6 +88,11 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 65a0f27365bc7df4886e1f6222b65f48, type: 2}
+    - target: {fileID: -389018942245063963, guid: a3d54474572c72572be0e1421688f94a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 398602866037744659, guid: a3d54474572c72572be0e1421688f94a,
         type: 3}
       propertyPath: m_CastShadows
@@ -112,6 +117,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CM_Note_Chain
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a3d54474572c72572be0e1421688f94a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1204120136919994260, guid: a3d54474572c72572be0e1421688f94a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2490861351756090360, guid: a3d54474572c72572be0e1421688f94a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5746578055069821130, guid: a3d54474572c72572be0e1421688f94a,
         type: 3}
