@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 30962ae2c9de428e8466f26886cc927d, type: 3}
-  m_Name: CM_Event_Pyramid_Flat
+  m_Name: CM_Event_Flat_Pyramid
   m_EditorClassIdentifier: 
   Prefab: {fileID: 9221522305038936411, guid: 64eda6f5fb9f316dc929c15a9ae574c2, type: 3}
   Collider: {fileID: -303681604105121438, guid: e4c7e2d300d5f0643a96ef4abb3679ba,

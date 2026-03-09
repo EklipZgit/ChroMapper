@@ -34,7 +34,14 @@ public class VisualOutlineController : VisualController
         VModelController.OnColliderChanged -= HandleColliderChanged;
     }
 
-    private void HandleMeshChanged(Mesh obj) => MeshFilter.sharedMesh = obj;
+    private void HandleMeshChanged(Mesh obj, Transform t)
+    {
+        var scale = t.lossyScale;
+        var target = Renderer.transform;
+        target.localScale = scale;
+        target.localRotation = t.localRotation;
+        MeshFilter.sharedMesh = obj;
+    }
 
     private void HandleColliderChanged(Mesh obj)
     {

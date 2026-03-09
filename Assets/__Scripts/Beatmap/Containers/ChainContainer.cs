@@ -41,8 +41,14 @@ namespace Beatmap.Containers
 
         private void HandleModelChanged()
         {
-            var n = VisualSettings.GetChainLinkModel();
-            foreach (var cpf in Nodes) cpf.ModelController.Set(n);
+            var vm = ChainData is { Color: (int)NoteColor.Blue }
+                ? VisualSettings.GetBurstSliderRightModel()
+                : VisualSettings.GetBurstSliderLeftModel();
+            foreach (var cpf in Nodes)
+            {
+                cpf.ModelController.Set(vm);
+                cpf.DotMpbController.gameObject.SetActive(!vm.DisableAux);
+            }
         }
 
         public override void Setup()

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CustomNotes;
 using UnityEngine;
 
 // TODO: cache or set deactive instead of removing the prefab entirely on change
@@ -9,7 +10,7 @@ public class VisualModelController : VisualController
     public Transform ParentTransform;
 
     private bool markReplace;
-    public event Action<Mesh> OnMeshChanged;
+    public event Action<Mesh, Transform> OnMeshChanged;
     public event Action<Mesh> OnColliderChanged;
 
     [Header("State")] public List<GameObject> Actives = new();
@@ -66,17 +67,21 @@ public class VisualModelController : VisualController
     {
         instance.transform.SetParent(ParentTransform, false);
         instance.name = instanceName;
+        instance.SetActive(true);
         Actives.Add(instance);
 
-        var renderers = instance.GetComponentsInChildren<Renderer>(true);
+        var renderers = instance.GetComponentsInChildren<Renderer>();
         if (renderers.Length == 0) return;
 
         if (markReplace)
         {
-            OnMeshChanged?.Invoke(renderers.First().GetComponent<MeshFilter>().sharedMesh);
-            if (collMesh != null) OnColliderChanged?.Invoke(collMesh);
+            var meshFilter = renderers.First().GetComponentInChildren<MeshFilter>();
+            if (meshFilter != null) OnMeshChanged?.Invoke(meshFilter.sharedMesh, meshFilter.transform);
+            OnColliderChanged?.Invoke(collMesh);
             markReplace = false;
         }
+
+        renderers = renderers.Where(r => r.GetComponent<DisableNoteColorOnGameobject>() == null).ToArray();
 
         Renderers.AddRange(renderers);
         MpbController.Add(renderers);

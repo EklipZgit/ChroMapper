@@ -2,8 +2,9 @@
 {
     Properties
     {
-        _Color("Color", Color) = (0, 0, 0, 0)
-        _ColorMultiplier("Color Multiplier", Range(0, 10)) = 1
+        _Color ("Color", Color) = (0, 0, 0, 0)
+        _ColorMultiplier ("Color Multiplier", Range(0, 10)) = 1
+        _MainTex ("Albedo", 2D) = "white" {}
         _Smoothness ("Smoothness", Range(0, 1)) = 0.95
 
         [Header(Rim Dim)] [Space(10)]
@@ -40,6 +41,7 @@
         [Header(Editor)] [Space]
         [Toggle] _AlwaysTranslucent("Always Translucent", float) = 0
         _TranslucentAlpha("Translucent Alpha", float) = 0.5
+        _ObjectTime ("Object Time", float) = 9999
 
         [Header(Settings)] [Space]
         [Enum(UnityEngine.Rendering.CullMode)] _CullMode ("Cull Mode", float) = 2
@@ -82,6 +84,8 @@
             #include "../ShaderLibrary/CustomTonemapping.hlsl"
             #pragma multi_compile_instancing
 
+            sampler2D _MainTex;
+            float4 _MainTex_ST;
             float _Smoothness;
 
             float _RimScale;
@@ -121,6 +125,7 @@
             {
                 float4 vertex : POSITION;
                 float3 normal : NORMAL;
+                float2 uv : TEXCOORD0;
                 float4 tangent : TANGENT;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
@@ -128,13 +133,14 @@
             struct v2f
             {
                 float4 vertex : SV_POSITION;
-                float4 localPos : TEXCOORD0;
-                float3 viewDir : TEXCOORD1;
-                float4 worldPos : TEXCOORD2;
-                float3 worldNormal : TEXCOORD3;
-                float4 rotatedPos : TEXCOORD4;
-                float4 screenPos : TEXCOORD5;
-                float3 cutoutPos : TEXCOORD6;
+                float2 uv : TEXCOORD0;
+                float4 localPos : TEXCOORD1;
+                float3 viewDir : TEXCOORD2;
+                float4 worldPos : TEXCOORD3;
+                float3 worldNormal : TEXCOORD4;
+                float4 rotatedPos : TEXCOORD5;
+                float4 screenPos : TEXCOORD6;
+                float3 cutoutPos : TEXCOORD7;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
@@ -157,6 +163,7 @@
 
                 o.vertex = UnityObjectToClipPos(i.vertex);
                 o.localPos = i.vertex;
+                o.uv = i.uv;
 
                 o.worldPos.xyz = mul(unity_ObjectToWorld, i.vertex).xyz;
                 o.worldPos.w = distance(o.worldPos.xyz, _WorldSpaceCameraPos);
@@ -215,11 +222,12 @@
                 float4 cutoutTexOffset = UNITY_ACCESS_INSTANCED_PROP(Props, _CutoutTexOffset);
 
                 #if defined(CM_PREVIEW_MODE)
-                float4 albedo = float4(color.rgb * colorMultiplier, 0);
+                float4 albedo = tex2D(_MainTex, TRANSFORM_TEX(i.uv, _MainTex)) * float4(color.rgb * colorMultiplier, 0);
                 #else
-                float4 albedo = float4(abs(i.rotatedPos.z)  < _OutlineWidth && isTranslucent < 1
-                                           ? interfaceColor
-                                           : color.rgb * colorMultiplier, 0);
+                float4 albedo = tex2D(_MainTex, TRANSFORM_TEX(i.uv, _MainTex)) * float4(
+                    abs(i.rotatedPos.z) < _OutlineWidth && isTranslucent < 1
+                        ? interfaceColor
+                        : color.rgb * colorMultiplier, 0);
                 #endif
 
                 float alpha = animation < 1 && (isTranslucent >= 1 || i.rotatedPos.w <= 0)
@@ -249,7 +257,7 @@
                 #if defined(CM_PREVIEW_MODE) && defined(BLOOM_FOG) && defined(FOG)
                 #if defined(HEIGHT_FOG)
                 BLOOM_FOG_HEIGHT_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset,
-                                   _FogHeightScale);
+                                       _FogHeightScale);
                 #else
                 BLOOM_FOG_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale);
                 #endif

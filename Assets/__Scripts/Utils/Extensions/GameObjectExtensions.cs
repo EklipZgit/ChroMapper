@@ -9,6 +9,13 @@ public static class GameObjectExtensions
         return comp;
     }
 
+    public static void SetLayerRecursively(this GameObject go, int layer)
+    {
+        if (go == null) return;
+        go.layer = layer;
+        foreach (Transform child in go.transform) child.gameObject.SetLayerRecursively(layer);
+    }
+
     public static void DestroySafe(Object go)
     {
     #if UNITY_EDITOR

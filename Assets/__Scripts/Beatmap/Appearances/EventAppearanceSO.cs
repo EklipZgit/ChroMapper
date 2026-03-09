@@ -5,22 +5,15 @@ using UnityEngine;
 
 namespace Beatmap.Appearances
 {
-    public enum EventModelType
-    {
-        Block = 0,
-        Pyramid = 1,
-        FlatPyramid = 2
-    }
-
     [CreateAssetMenu(menuName = "Beatmap/Appearance/Event Appearance SO", fileName = "EventAppearanceSO")]
     public class EventAppearanceSO : ScriptableObject
     {
         [Space(5)] [Header("Default Colors")] public Color RedColor;
         public Color BlueColor;
-        public Color WhiteColor = new Color(0.7264151f, 0.7264151f, 0.7264151f);
+        public Color WhiteColor = new(0.7264151f, 0.7264151f, 0.7264151f);
         public Color RedBoostColor;
         public Color BlueBoostColor;
-        public Color WhiteBoostColor = new Color(0.7264151f, 0.7264151f, 0.7264151f);
+        public Color WhiteBoostColor = new(0.7264151f, 0.7264151f, 0.7264151f);
 
         [SerializeField] private Color offColor;
 

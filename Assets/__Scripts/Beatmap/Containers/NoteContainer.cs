@@ -74,20 +74,26 @@ namespace Beatmap.Containers
         public void SetNoteModel()
         {
             VisualModelSO vm;
-            if (NoteData.Chains.Count > 0)
-                vm = VisualSettings.GetChainHeadModel();
-            else if (NoteData.CutDirection == (int)NoteCutDirection.Any)
+            if (NoteData.CutDirection == (int)NoteCutDirection.Any)
             {
                 vm =
-                    NoteData.Type == (int)NoteType.Blue
-                        ? VisualSettings.GetNoteDotRightModel()
-                        : VisualSettings.GetNoteDotLeftModel();
+                    NoteData.Chains.Count > 0
+                        ? NoteData.Type == (int)NoteType.Blue
+                            ? VisualSettings.GetBurstSliderHeadDotRightModel()
+                            : VisualSettings.GetBurstSliderHeadDotLeftModel()
+                        : NoteData.Type == (int)NoteType.Blue
+                            ? VisualSettings.GetNoteDotRightModel()
+                            : VisualSettings.GetNoteDotLeftModel();
             }
             else
             {
-                vm = NoteData.Type == (int)NoteType.Blue
-                    ? VisualSettings.GetNoteRightModel()
-                    : VisualSettings.GetNoteLeftModel();
+                vm = NoteData.Chains.Count > 0
+                    ? NoteData.Type == (int)NoteType.Blue
+                        ? VisualSettings.GetBurstSliderHeadRightModel()
+                        : VisualSettings.GetBurstSliderHeadLeftModel()
+                    : NoteData.Type == (int)NoteType.Blue
+                        ? VisualSettings.GetNoteRightModel()
+                        : VisualSettings.GetNoteLeftModel();
             }
 
             ModelController.Set(vm);
