@@ -80,7 +80,7 @@ namespace Beatmap.Containers
             var shape = GameObject.CreatePrimitive(type);
             shape.transform.SetParent(container.transform);
             shape.layer = container.gameObject.layer;
-            container.MpbController.Renderers = new Renderer[] { shape.GetComponent<MeshRenderer>() };
+            container.MpbController.Renderers = new() { shape.GetComponent<MeshRenderer>() };
 
             var collider = shape.GetComponentInChildren<Collider>();
             if (collider != null) DestroyImmediate(collider);

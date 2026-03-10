@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class MaterialPropertyBlockController : MonoBehaviour
 {
-    public Renderer[] Renderers = Array.Empty<Renderer>();
+    public List<Renderer> Renderers = new();
     public MaterialPropertyBlock Mpb => mpb ??= new MaterialPropertyBlock();
     private MaterialPropertyBlock mpb;
 
@@ -13,29 +13,23 @@ public class MaterialPropertyBlockController : MonoBehaviour
 
     public void ApplyChanges()
     {
-        for (var i = 0; i < Renderers.Length; i++) Renderers[i].SetPropertyBlock(mpb);
+        var len = Renderers.Count;
+        for (var i = 0; i < len; i++) Renderers[i].SetPropertyBlock(mpb);
     }
 
     public void ShowRenderer(bool active)
     {
-        for (var i = 0; i < Renderers.Length; i++) Renderers[i].enabled = active;
+        var len = Renderers.Count;
+        for (var i = 0; i < len; i++) Renderers[i].enabled = active;
     }
 
-    // TODO: this is genuinely painful but i have to do it this way or break serial
-    public void Add(Renderer r) => Renderers = Renderers.Append(r).ToArray();
-    public void Add(IEnumerable<Renderer> r) => Renderers = Renderers.Concat(r).ToArray();
+    public void Add(Renderer r) => Renderers.Add(r);
+    public void Add(IEnumerable<Renderer> r) => Renderers.AddRange(r);
 
-    public void Remove(Renderer r)
-    {
-        var list = Renderers.ToList();
-        list.Remove(r);
-        Renderers = list.ToArray();
-    }
+    public void Remove(Renderer r) => Renderers.Remove(r);
 
     public void Remove(IEnumerable<Renderer> r)
     {
-        var list = Renderers.ToList();
-        foreach (var u in r) list.Remove(u);
-        Renderers = list.ToArray();
+        foreach (var u in r) Renderers.Remove(u);
     }
 }
