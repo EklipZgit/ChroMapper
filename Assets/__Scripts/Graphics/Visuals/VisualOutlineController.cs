@@ -34,18 +34,22 @@ public class VisualOutlineController : VisualController
         VModelController.OnColliderChanged -= HandleColliderChanged;
     }
 
-    private void HandleMeshChanged(Mesh obj, Transform t)
+    private void HandleMeshChanged(Mesh mesh, Transform source)
     {
-        var scale = t.lossyScale;
         var target = Renderer.transform;
-        target.localScale = scale;
-        target.localRotation = t.localRotation;
-        MeshFilter.sharedMesh = obj;
+
+        // TODO: it's bad but i need someway to match mesh with selection, maybe use matrix?
+        target.SetParent(source.parent, false);
+        target.SetLocalPositionAndRotation(source.localPosition, source.localRotation);
+        target.localScale = source.localScale;
+        target.SetParent(transform, true);
+
+        MeshFilter.sharedMesh = mesh;
     }
 
-    private void HandleColliderChanged(Mesh obj)
+    private void HandleColliderChanged(Mesh mesh)
     {
-        Collider.Mesh = obj;
+        Collider.Mesh = mesh;
         Collider.HardRefresh();
     }
 }

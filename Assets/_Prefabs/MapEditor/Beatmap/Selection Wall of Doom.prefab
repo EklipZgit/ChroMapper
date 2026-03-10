@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7238949560172861667}
   - component: {fileID: 1035994568263884460}
   - component: {fileID: 7081856506699302332}
-  m_Layer: 12
+  m_Layer: 9
   m_Name: Selection Wall of Doom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: 4984948779305434}
   - component: {fileID: 33468369549684910}
   - component: {fileID: 23329621693881470}
-  m_Layer: 12
+  m_Layer: 9
   m_Name: Its pretty much an obstacle but for selecting
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -182,7 +182,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4973644234919965061}
-  m_Layer: 12
+  m_Layer: 9
   m_Name: Outline
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -215,7 +215,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8209755968513384687}
   - component: {fileID: 577154157013320455}
-  m_Layer: 12
+  m_Layer: 9
   m_Name: Line
   m_TagString: Untagged
   m_Icon: {fileID: 0}

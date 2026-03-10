@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5215342744919873579}
   - component: {fileID: 1167957425241159933}
   - component: {fileID: 6264016545545964107}
-  m_Layer: 12
+  m_Layer: 9
   m_Name: ChainIndicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,7 +90,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 610247552724398739}
-  m_Layer: 12
+  m_Layer: 9
   m_Name: Selection
   m_TagString: Untagged
   m_Icon: {fileID: 0}

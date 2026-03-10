@@ -360,7 +360,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1079251460017411120}
   - component: {fileID: 1080430093250605690}
-  m_Layer: 12
+  m_Layer: 9
   m_Name: Swing Arc Visualizer
   m_TagString: Untagged
   m_Icon: {fileID: 0}

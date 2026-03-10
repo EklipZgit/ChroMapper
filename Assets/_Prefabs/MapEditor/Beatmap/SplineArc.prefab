@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2900503105790966676}
   - component: {fileID: 8474849279863946839}
   - component: {fileID: 2193227773376228232}
-  m_Layer: 12
+  m_Layer: 9
   m_Name: SelectionTail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,7 +96,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4028403022630773207}
   - component: {fileID: 5677379835907143143}
-  m_Layer: 12
+  m_Layer: 9
   m_Name: MPBSelection
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -146,7 +146,7 @@ GameObject:
   - component: {fileID: 4161038953135867400}
   - component: {fileID: 6926796285610875710}
   - component: {fileID: 8842177106240009305}
-  m_Layer: 12
+  m_Layer: 9
   m_Name: Tail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -368,7 +368,7 @@ GameObject:
   - component: {fileID: 3964795494407880451}
   - component: {fileID: 6025665846232342334}
   - component: {fileID: 5265443898185752176}
-  m_Layer: 12
+  m_Layer: 9
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -666,7 +666,7 @@ GameObject:
   - component: {fileID: 8865290045911025175}
   - component: {fileID: 8443886987860215509}
   - component: {fileID: 1658300574675627679}
-  m_Layer: 12
+  m_Layer: 9
   m_Name: SelectionHead
   m_TagString: Untagged
   m_Icon: {fileID: 0}

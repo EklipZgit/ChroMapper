@@ -130,13 +130,19 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
     {
         if (!IsPlacing) return;
 
+        var trackPos = PlacementVisualContainer.transform.parent.localPosition.z;
+        var offset = (trackPos
+                + PlacementVisualContainer.transform.localPosition.z
+                - BeatmapConstant.ZOffset)
+            / BeatmapConstant.LaneSize
+            / EditorScaleController.EditorScale;
         var startSongBpmBeat =
-            (PlacementVisualContainer.transform.localPosition.z - BeatmapConstant.ZOffset)
-            / EditorScaleController.EditorScale;
-        var endSongBpmBeat = (PlacementVisualContainer.transform.localPosition.z
-                - BeatmapConstant.ZOffset
-                + (PlacementVisualContainer.transform.localScale.z / BeatmapConstant.LaneSize))
-            / EditorScaleController.EditorScale;
+            (-trackPos / EditorScaleController.EditorScale)
+            + offset;
+        var endSongBpmBeat = ((-trackPos
+                    + (PlacementVisualContainer.transform.localScale.z / BeatmapConstant.LaneSize))
+                / EditorScaleController.EditorScale)
+            + offset;
         if (startSongBpmBeat > endSongBpmBeat) (startSongBpmBeat, endSongBpmBeat) = (endSongBpmBeat, startSongBpmBeat);
 
         SelectionController.ForEachObjectBetweenSongBpmTimeByGroup(

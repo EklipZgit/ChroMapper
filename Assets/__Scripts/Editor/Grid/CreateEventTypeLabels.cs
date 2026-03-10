@@ -103,7 +103,11 @@ public class CreateEventTypeLabels : MonoBehaviour
         laneObjs.Sort();
     }
 
-    public int LaneIdToEventType(int laneId) => laneObjs[laneId].Type;
+    public int LaneIdToEventType(int laneId)
+    {
+        if (laneId < 0 || laneId >= laneObjs.Count) return -1;
+        return laneObjs[laneId].Type;
+    }
 
     public int EventTypeToLaneId(int eventType)
     {
