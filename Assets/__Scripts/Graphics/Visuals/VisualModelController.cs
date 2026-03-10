@@ -4,22 +4,53 @@ using System.Linq;
 using CustomNotes;
 using UnityEngine;
 
-// TODO: cache or set deactive instead of removing the prefab entirely on change
 public class VisualModelController : VisualController
 {
     public Transform ParentTransform;
 
-    private bool markReplace;
     public event Action<Mesh, Transform> OnMeshChanged;
     public event Action<Mesh> OnColliderChanged;
 
     [Header("State")] public List<GameObject> Actives = new();
     public List<Renderer> Renderers = new();
+    private readonly Dictionary<string, GameObject> instantiatedObjects = new();
+    private readonly Queue<GameObject> cleanupQueue = new();
+    public int MaxCache = 1;
+    private bool hasInstantiated;
+    private bool markReplace;
+
+    public void Start()
+    {
+        foreach (var active in Actives.Where(active => !cleanupQueue.Contains(active)))
+        {
+            cleanupQueue.Enqueue(active);
+            instantiatedObjects[active.name] = active;
+        }
+
+        hasInstantiated = true;
+    }
 
     public override void OnValidate()
     {
         base.OnValidate();
         ParentTransform = transform;
+    }
+
+    public void Cleanup()
+    {
+        for (var i = 0; i < cleanupQueue.Count - MaxCache; i++)
+        {
+            var go = cleanupQueue.Dequeue();
+            if (instantiatedObjects.TryGetValue(go.name, out var instance) && !instance.activeSelf)
+            {
+                instantiatedObjects.Remove(go.name);
+                Destroy(go);
+            }
+            else if (go.activeSelf)
+                cleanupQueue.Enqueue(go);
+            else
+                Destroy(go);
+        }
     }
 
     public void Set(VisualModelSO vm)
@@ -46,26 +77,62 @@ public class VisualModelController : VisualController
     private void HandleReset()
     {
         MpbController.Remove(Renderers);
-        Actives.ForEach(GameObjectExtensions.DestroySafe);
+        foreach (var active in Actives)
+        {
+            if (!hasInstantiated)
+            {
+                if (!cleanupQueue.Contains(active))
+                {
+                    cleanupQueue.Enqueue(active);
+                    instantiatedObjects[active.name] = active;
+                }
+            }
+
+            active.SetActive(false);
+        }
+
+        Cleanup();
         Actives.Clear();
         Renderers.Clear();
         markReplace = true;
     }
 
-    public void Add(VisualModelSO vm) => AddInstanced(Instantiate(vm.Prefab), vm.Collider, vm.name);
+    public void Add(VisualModelSO vm) => Add(vm.Prefab, vm.Collider, vm.name);
 
     public void Add(PrimitiveType type)
     {
-        var obj = GameObject.CreatePrimitive(type);
-        AddInstanced(obj, obj.GetComponent<MeshFilter>().sharedMesh, type.ToString());
+        var shapeName = type.ToString();
+        GameObject g;
+        if (instantiatedObjects.TryGetValue(shapeName, out var instance) && !instance.activeSelf)
+            g = instance;
+        else
+        {
+            g = GameObject.CreatePrimitive(type);
+            g.transform.SetParent(ParentTransform);
+            cleanupQueue.Enqueue(g);
+            instantiatedObjects[shapeName] = g;
+        }
+
+        AddInstanced(g, g.GetComponent<MeshFilter>().sharedMesh, shapeName);
     }
 
-    public void Add(GameObject go, Mesh collMesh, string instanceName) =>
-        AddInstanced(Instantiate(go), collMesh, instanceName);
-
-    public void AddInstanced(GameObject instance, Mesh collMesh, string instanceName)
+    public void Add(GameObject go, Mesh collMesh, string instanceName)
     {
-        instance.transform.SetParent(ParentTransform, false);
+        GameObject g;
+        if (instantiatedObjects.TryGetValue(instanceName, out var instance) && !instance.activeSelf)
+            g = instance;
+        else
+        {
+            g = Instantiate(go, ParentTransform);
+            cleanupQueue.Enqueue(g);
+            instantiatedObjects[instanceName] = g;
+        }
+
+        AddInstanced(g, collMesh, instanceName);
+    }
+
+    private void AddInstanced(GameObject instance, Mesh collMesh, string instanceName)
+    {
         instance.name = instanceName;
         instance.SetActive(true);
         Actives.Add(instance);

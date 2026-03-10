@@ -131,6 +131,7 @@ MonoBehaviour:
   - {fileID: 6962057308827406196}
   Renderers:
   - {fileID: 7633872559167395194}
+  MaxCache: 1
 --- !u!1 &720881814448263661
 GameObject:
   m_ObjectHideFlags: 0
@@ -215,6 +216,7 @@ MonoBehaviour:
   - {fileID: 3229919096294323874}
   Renderers:
   - {fileID: 2719117372333501612}
+  MaxCache: 1
 --- !u!1 &4208078872748545208
 GameObject:
   m_ObjectHideFlags: 0
@@ -605,6 +607,7 @@ MonoBehaviour:
   - {fileID: 6470728789758619091}
   Renderers:
   - {fileID: 5810313211481896925}
+  MaxCache: 9
 --- !u!114 &8713059339080809947
 MonoBehaviour:
   m_ObjectHideFlags: 0

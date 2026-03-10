@@ -202,6 +202,7 @@ MonoBehaviour:
   - {fileID: 5419416366893247805}
   Renderers:
   - {fileID: 4781528546840131379}
+  MaxCache: 2
 --- !u!114 &1881671473189040870
 MonoBehaviour:
   m_ObjectHideFlags: 0
