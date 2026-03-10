@@ -37,8 +37,7 @@ public class VisualModelController : VisualController
         for (var index = 0; index < Actives.Count; index++)
         {
             var active = Actives[index];
-            active.Name = active.GameObject.name;
-            Actives[index] = active;
+            Actives[index] = new(active.Name, active.GameObject);
         }
     }
 
@@ -138,7 +137,7 @@ public class VisualModelController : VisualController
         AddInstanced(data, collMesh);
     }
 
-    private void AddInstanced(ModelData data, Mesh collMesh)
+    private void AddInstanced(in ModelData data, Mesh collMesh)
     {
         data.GameObject.SetActive(true);
         Actives.Add(data);
@@ -175,7 +174,6 @@ public struct ModelData : IEquatable<ModelData>
         Name = name;
         GameObject = gameObject;
         GameObject.name = name;
-
 
         Renderers = gameObject.GetComponentsInChildren<Renderer>();
         OutlineMesh = Renderers.Length > 0 ? Renderers.First().GetComponentInChildren<MeshFilter>() : null;
