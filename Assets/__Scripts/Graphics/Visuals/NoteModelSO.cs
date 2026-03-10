@@ -36,10 +36,8 @@ public class NoteModelSO : ScriptableObject
         foreach (var mat in comp.sharedMaterials)
         {
             if (mat == null) continue;
-            var shader = Shader.Find(mat.shader.name);
-            if (shader != null && shader.isSupported)
-                mat.shader = shader;
-            else if (Settings.Instance.ShaderCompatibility) mat.shader = Shader.Find("ChroMapper/Object/Note");
+            if (mat.shader != null && mat.shader.isSupported) continue;
+            if (Settings.Instance.ShaderCompatibility) mat.shader = Shader.Find("ChroMapper/Object/Note");
         }
 
         so.NoteLeft = VisualModelSO.Create(prefab.transform.Find("NoteLeft").gameObject, so.name);
