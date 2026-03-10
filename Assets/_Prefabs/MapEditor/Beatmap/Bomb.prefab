@@ -109,9 +109,11 @@ MonoBehaviour:
   MpbController: {fileID: 3912099594059514361}
   ParentTransform: {fileID: 4060496654398974}
   Actives:
-  - {fileID: 2764474333535862008}
+  - Name: CM_Bomb
+    GameObject: {fileID: 2764474333535862008}
   Renderers:
   - {fileID: 3401245056223504118}
+  MaxCache: 1
 --- !u!114 &3912099594059514361
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -257,6 +259,7 @@ MonoBehaviour:
   ParentTransform: {fileID: 5825093826969607358}
   Actives: []
   Renderers: []
+  MaxCache: 1
 --- !u!114 &2777275549922617918
 MonoBehaviour:
   m_ObjectHideFlags: 0

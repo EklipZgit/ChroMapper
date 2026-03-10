@@ -11,10 +11,10 @@ public class VisualModelController : VisualController
     public event Action<Mesh, Transform> OnMeshChanged;
     public event Action<Mesh> OnColliderChanged;
 
-    [Header("State")] public List<GameObject> Actives = new();
+    [Header("State")] public List<ModelData> Actives = new();
     public List<Renderer> Renderers = new();
-    private readonly Dictionary<string, GameObject> instantiatedObjects = new();
-    private readonly Queue<GameObject> cleanupQueue = new();
+    private readonly Dictionary<string, ModelData> nameToInstancedObjects = new();
+    private readonly Queue<ModelData> cleanupQueue = new();
     public int MaxCache = 1;
     private bool hasInstantiated;
     private bool markReplace;
@@ -24,52 +24,58 @@ public class VisualModelController : VisualController
         foreach (var active in Actives.Where(active => !cleanupQueue.Contains(active)))
         {
             cleanupQueue.Enqueue(active);
-            instantiatedObjects[active.name] = active;
+            nameToInstancedObjects[active.Name] = active;
         }
 
         hasInstantiated = true;
     }
 
-    public override void OnValidate()
+    public void OnValidate()
     {
-        base.OnValidate();
+        if (Application.isPlaying) return;
         ParentTransform = transform;
+        for (var index = 0; index < Actives.Count; index++)
+        {
+            var active = Actives[index];
+            active.Name = active.GameObject.name;
+            Actives[index] = active;
+        }
     }
 
     public void Cleanup()
     {
         for (var i = 0; i < cleanupQueue.Count - MaxCache; i++)
         {
-            var go = cleanupQueue.Dequeue();
-            if (instantiatedObjects.TryGetValue(go.name, out var instance) && !instance.activeSelf)
+            var data = cleanupQueue.Dequeue();
+            if (nameToInstancedObjects.TryGetValue(data.Name, out var instance) && !instance.GameObject.activeSelf)
             {
-                instantiatedObjects.Remove(go.name);
-                Destroy(go);
+                nameToInstancedObjects.Remove(data.Name);
+                Destroy(data.GameObject);
             }
-            else if (go.activeSelf)
-                cleanupQueue.Enqueue(go);
+            else if (data.GameObject.activeSelf)
+                cleanupQueue.Enqueue(data);
             else
-                Destroy(go);
+                Destroy(data.GameObject);
         }
     }
 
     public void Set(VisualModelSO vm)
     {
-        if (Actives.Count == 1 && Actives.Exists(x => x.gameObject.name == vm.name)) return;
+        if (Actives.Count == 1 && Actives.Exists(x => x.Name == vm.Name)) return;
         HandleReset();
         Add(vm);
     }
 
     public void Set(PrimitiveType type)
     {
-        if (Actives.Count == 1 && Actives.Exists(x => x.gameObject.name == type.ToString())) return;
+        if (Actives.Count == 1 && Actives.Exists(x => x.Name == type.ToString())) return;
         HandleReset();
         Add(type);
     }
 
     public void Set(GameObject go, Mesh collMesh, string instanceName)
     {
-        if (Actives.Count == 1 && Actives.Exists(x => x.gameObject.name == instanceName)) return;
+        if (Actives.Count == 1 && Actives.Exists(x => x.Name == instanceName)) return;
         HandleReset();
         Add(go, collMesh, instanceName);
     }
@@ -77,18 +83,19 @@ public class VisualModelController : VisualController
     private void HandleReset()
     {
         MpbController.Remove(Renderers);
-        foreach (var active in Actives)
+        for (var index = 0; index < Actives.Count; index++)
         {
+            var active = Actives[index];
             if (!hasInstantiated)
             {
                 if (!cleanupQueue.Contains(active))
                 {
                     cleanupQueue.Enqueue(active);
-                    instantiatedObjects[active.name] = active;
+                    nameToInstancedObjects[active.Name] = active;
                 }
             }
 
-            active.SetActive(false);
+            active.GameObject.SetActive(false);
         }
 
         Cleanup();
@@ -97,61 +104,92 @@ public class VisualModelController : VisualController
         markReplace = true;
     }
 
-    public void Add(VisualModelSO vm) => Add(vm.Prefab, vm.Collider, vm.name);
+    public void Add(VisualModelSO vm) => Add(vm.Prefab, vm.Collider, vm.Name);
 
     public void Add(PrimitiveType type)
     {
         var shapeName = type.ToString();
-        GameObject g;
-        if (instantiatedObjects.TryGetValue(shapeName, out var instance) && !instance.activeSelf)
-            g = instance;
+        ModelData data;
+        if (nameToInstancedObjects.TryGetValue(shapeName, out var instance) && !instance.GameObject.activeSelf)
+            data = instance;
         else
         {
-            g = GameObject.CreatePrimitive(type);
-            g.transform.SetParent(ParentTransform);
-            cleanupQueue.Enqueue(g);
-            instantiatedObjects[shapeName] = g;
+            data = new(shapeName, GameObject.CreatePrimitive(type));
+            data.GameObject.transform.SetParent(ParentTransform);
+            cleanupQueue.Enqueue(data);
+            nameToInstancedObjects[shapeName] = data;
         }
 
-        AddInstanced(g, g.GetComponent<MeshFilter>().sharedMesh, shapeName);
+        AddInstanced(data, data.GameObject.GetComponent<MeshFilter>().sharedMesh);
     }
 
     public void Add(GameObject go, Mesh collMesh, string instanceName)
     {
-        GameObject g;
-        if (instantiatedObjects.TryGetValue(instanceName, out var instance) && !instance.activeSelf)
-            g = instance;
+        ModelData data;
+        if (nameToInstancedObjects.TryGetValue(instanceName, out var instance) && !instance.GameObject.activeSelf)
+            data = instance;
         else
         {
-            g = Instantiate(go, ParentTransform);
-            cleanupQueue.Enqueue(g);
-            instantiatedObjects[instanceName] = g;
+            data = new(instanceName, Instantiate(go, ParentTransform));
+            cleanupQueue.Enqueue(data);
+            nameToInstancedObjects[instanceName] = data;
         }
 
-        AddInstanced(g, collMesh, instanceName);
+        AddInstanced(data, collMesh);
     }
 
-    private void AddInstanced(GameObject instance, Mesh collMesh, string instanceName)
+    private void AddInstanced(ModelData data, Mesh collMesh)
     {
-        instance.name = instanceName;
-        instance.SetActive(true);
-        Actives.Add(instance);
+        data.GameObject.SetActive(true);
+        Actives.Add(data);
 
-        var renderers = instance.GetComponentsInChildren<Renderer>();
-        if (renderers.Length == 0) return;
+        if (data.Renderers.Length == 0) return;
 
         if (markReplace)
         {
-            var meshFilter = renderers.First().GetComponentInChildren<MeshFilter>();
-            if (meshFilter != null) OnMeshChanged?.Invoke(meshFilter.sharedMesh, meshFilter.transform);
+            if (data.OutlineMesh != null)
+                OnMeshChanged?.Invoke(data.OutlineMesh.sharedMesh, data.OutlineMesh.transform);
             OnColliderChanged?.Invoke(collMesh);
             markReplace = false;
         }
 
-        renderers = renderers.Where(r => r.GetComponent<DisableNoteColorOnGameobject>() == null).ToArray();
-
-        Renderers.AddRange(renderers);
-        MpbController.Add(renderers);
+        Renderers.AddRange(data.MpbRenderers);
+        MpbController.Add(data.MpbRenderers);
         MpbController.ApplyChanges();
     }
+}
+
+[Serializable]
+public struct ModelData : IEquatable<ModelData>
+{
+    public string Name;
+    public GameObject GameObject;
+
+    public MeshFilter OutlineMesh;
+
+    public Renderer[] Renderers;
+    public Renderer[] MpbRenderers;
+
+    public ModelData(string name, GameObject gameObject)
+    {
+        Name = name;
+        GameObject = gameObject;
+        GameObject.name = name;
+
+
+        Renderers = gameObject.GetComponentsInChildren<Renderer>();
+        OutlineMesh = Renderers.Length > 0 ? Renderers.First().GetComponentInChildren<MeshFilter>() : null;
+        MpbRenderers = Renderers
+            .Where(r => r.GetComponent<DisableNoteColorOnGameobject>() == null)
+            .ToArray();
+    }
+
+    public bool Equals(ModelData other)
+    {
+        return Name == other.Name
+            && Equals(GameObject, other.GameObject);
+    }
+
+    public override bool Equals(object obj) => obj is ModelData other && Equals(other);
+    public override int GetHashCode() => HashCode.Combine(Name, GameObject);
 }

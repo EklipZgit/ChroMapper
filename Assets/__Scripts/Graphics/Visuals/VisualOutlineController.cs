@@ -36,6 +36,8 @@ public class VisualOutlineController : VisualController
 
     private void HandleMeshChanged(Mesh mesh, Transform source)
     {
+        if (mesh == MeshFilter.sharedMesh) return;
+
         var target = Renderer.transform;
 
         // TODO: it's bad but i need someway to match mesh with selection, maybe use matrix?
@@ -49,6 +51,7 @@ public class VisualOutlineController : VisualController
 
     private void HandleColliderChanged(Mesh mesh)
     {
+        if (mesh == Collider.Mesh) return;
         Collider.Mesh = mesh;
         Collider.HardRefresh();
     }

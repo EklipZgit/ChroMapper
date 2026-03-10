@@ -199,7 +199,8 @@ MonoBehaviour:
   MpbController: {fileID: 1881671473189040870}
   ParentTransform: {fileID: 4481193147360349430}
   Actives:
-  - {fileID: 5419416366893247805}
+  - Name: CM_Event_Block
+    GameObject: {fileID: 5419416366893247805}
   Renderers:
   - {fileID: 4781528546840131379}
   MaxCache: 2

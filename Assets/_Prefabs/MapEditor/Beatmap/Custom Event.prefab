@@ -103,9 +103,11 @@ MonoBehaviour:
   MpbController: {fileID: 4690996845217000459}
   ParentTransform: {fileID: 4465411356976526}
   Actives:
-  - {fileID: 6965443271578124681}
+  - Name: CM_Block
+    GameObject: {fileID: 6965443271578124681}
   Renderers:
   - {fileID: 7621495030709689223}
+  MaxCache: 1
 --- !u!114 &4690996845217000459
 MonoBehaviour:
   m_ObjectHideFlags: 0

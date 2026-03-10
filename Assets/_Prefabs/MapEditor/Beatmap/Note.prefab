@@ -128,7 +128,8 @@ MonoBehaviour:
   MpbController: {fileID: 3307062995251334428}
   ParentTransform: {fileID: 5391317822581345516}
   Actives:
-  - {fileID: 6962057308827406196}
+  - Name: CM_Note_Arrow
+    GameObject: {fileID: 6962057308827406196}
   Renderers:
   - {fileID: 7633872559167395194}
   MaxCache: 1
@@ -213,7 +214,8 @@ MonoBehaviour:
   MpbController: {fileID: 3307062995251334428}
   ParentTransform: {fileID: 8887846427824100178}
   Actives:
-  - {fileID: 3229919096294323874}
+  - Name: CM_Note_Dot
+    GameObject: {fileID: 3229919096294323874}
   Renderers:
   - {fileID: 2719117372333501612}
   MaxCache: 1
@@ -604,7 +606,8 @@ MonoBehaviour:
   MpbController: {fileID: 8713059339080809947}
   ParentTransform: {fileID: 6958782934152217386}
   Actives:
-  - {fileID: 6470728789758619091}
+  - Name: CM_Note_Simple
+    GameObject: {fileID: 6470728789758619091}
   Renderers:
   - {fileID: 5810313211481896925}
   MaxCache: 9
