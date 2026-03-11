@@ -18,6 +18,9 @@ uint FFTSize;
 // If total shader threads > 65535, we perform the maximum amount of shader threads then add to ProcessingOffset
 uint ProcessingOffset;
 
+// Offset (in FFT windows) into the global output buffer for chunked processing
+uint ChunkOffset;
+
 // legitimately couldnt tell you where this comes from, this was from the C# FFT implementation
 float FFTScaleFactor;
 
@@ -45,7 +48,9 @@ void FFT (uint3 groupID : SV_GroupID)
     
     uint butterflyCount = SampleSize >> 1;
     uint spacing = SampleSize;
-    uint sampleOffset = (ProcessingOffset + groupID.x) * SampleSize;
+    uint localIndex = ProcessingOffset + groupID.x;
+    uint sampleOffset = localIndex * SampleSize;
+    uint globalSampleOffset = (ChunkOffset + localIndex) * SampleSize;
     
     // Temporary storage for unpacked float values before packing into uints
     // Regular array since we use numthreads(1,1,1)
@@ -130,7 +135,7 @@ void FFT (uint3 groupID : SV_GroupID)
     // Second pass: pack every 4 consecutive values into a single uint (RGBA byte packing)
     // Each byte represents one value mapped to [0, 255]
     uint packedCount = (SampleSize + 3) / 4; // Round up
-    uint packedOffset = sampleOffset / 4;
+    uint packedOffset = globalSampleOffset / 4;
     
     for (uint packIdx = 0; packIdx < packedCount; packIdx++)
     {
