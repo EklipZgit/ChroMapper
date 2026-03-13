@@ -212,8 +212,10 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
 
         var localPoint = PlacementTrack.InverseTransformPoint(hit.Point);
 
-        localPoint.z = AdjustZScale ? localPoint.z / BeatmapConstant.LaneSize : localPoint.z;
-        var realTime = (localPoint.z - BeatmapConstant.ZOffset) / EditorScaleController.EditorScale;
+        localPoint.z = AdjustZScale
+            ? (localPoint.z - BeatmapConstant.ZOffset) / BeatmapConstant.LaneSize
+            : localPoint.z;
+        var realTime = localPoint.z / EditorScaleController.EditorScale;
         if (hit.GameObject.transform.parent.name.Contains("Interface"))
         {
             realTime = PlacementTrack.InverseTransformPoint(hit.GameObject.transform.parent.position).z
