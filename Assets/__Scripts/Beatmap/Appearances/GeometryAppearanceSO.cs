@@ -19,6 +19,7 @@ namespace Beatmap.Appearances
         [SerializeField] private Material obstacleMaterial;
 
         private static BaseMaterial standard;
+        private static readonly int colorId = Shader.PropertyToID("_Color");
 
         public void OnEnable() => standard = new BaseMaterial { Shader = "Standard" };
 
@@ -53,11 +54,7 @@ namespace Beatmap.Appearances
 
             ShaderType shader = ShaderType.Standard;
             if (!Enum.TryParse(basemat.Shader ?? "Standard", out shader))
-            {
                 Debug.LogError($"Invalid shader '{basemat.Shader}'!");
-            }
-
-            var meshRenderer = container.Shape.GetComponent<MeshRenderer>();
 
             var material = shader switch
             {
@@ -77,9 +74,7 @@ namespace Beatmap.Appearances
             {
                 if ((shader == ShaderType.Standard || shader == ShaderType.BTSPillar)
                     && eh.Geometry[eh.GeometryKeyMaterial][eh.GeometryKeyMaterialKeywords].Count == 0)
-                {
                     material = glowingMaterial;
-                }
                 else
                 {
                     material.shaderKeywords =
@@ -90,18 +85,13 @@ namespace Beatmap.Appearances
                 }
             }
 
-            var colorKeyword = Shader.PropertyToID("_Color");
-
-            if (basemat.Color is Color color)
-            {
-                container.MaterialPropertyBlock.SetColor(colorKeyword, color);
-            }
+            if (basemat.Color is Color color) container.MpbController.Mpb.SetColor(colorId, color);
 
             // For animating material color
             if (basemat.Track is string track) container.MaterialAnimator.AttachToMaterial(container, track);
 
-            meshRenderer.sharedMaterial = material;
-            meshRenderer.SetPropertyBlock(container.MaterialPropertyBlock);
+            foreach (var r in container.MpbController.Renderers) r.sharedMaterial = material;
+            container.MpbController.ApplyChanges();
         }
 
         // Straight outta heck

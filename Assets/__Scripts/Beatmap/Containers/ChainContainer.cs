@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using Beatmap.Base;
 using Beatmap.Enums;
 using Beatmap.Shared;
@@ -8,27 +10,18 @@ namespace Beatmap.Containers
 {
     public class ChainContainer : ObjectContainer
     {
-        private static readonly int colorMultiplier = Shader.PropertyToID("_ColorMult");
-        private static readonly int objectTime = Shader.PropertyToID("_ObjectTime");
-        private static readonly int lit = Shader.PropertyToID("_Lit");
-        private static readonly int translucentAlpha = Shader.PropertyToID("_TranslucentAlpha");
+        private static readonly int colorMultiplierId = Shader.PropertyToID("_ColorMultiplier");
+        private static readonly int objectTimeId = Shader.PropertyToID("_ObjectTime");
+        private static readonly int translucentAlphaId = Shader.PropertyToID("_TranslucentAlpha");
 
-        [SerializeField] public GameObject MainObject;
+        [SerializeField] public ChainComponentsFetcher Prefab;
 
-        [SerializeField] private GameObject simpleLink;
-        [SerializeField] private GameObject simpleLinkSolid;
-        [SerializeField] private GameObject complexLink;
-        [SerializeField] private GameObject complexLinkSolid;
-        public NoteContainer AttachedHead;
-        public readonly List<GameObject> Nodes = new();
-        [SerializeField] public BaseChain ChainData;
-        [SerializeField] private List<GameObject> indicators;
-        [SerializeField] private GameObject tailLinkIndicator;
-        [SerializeField] private GameObject tailSphereIndicator;
-        private Vector3 headDirection;
-        private bool headPointsToTail;
-        private Vector3 interPoint;
-        private MaterialPropertyBlock arrowMaterialPropertyBlock;
+        [Header("Indicator")] [SerializeField] private List<ChainIndicatorContainer> indicators;
+        public List<ChainComponentsFetcher> Nodes = new();
+
+        public BaseChain ChainData;
+
+        public GameObject TailObject;
 
         public override BaseObject ObjectData
         {
@@ -43,35 +36,44 @@ namespace Beatmap.Containers
             return container;
         }
 
+        protected override void RegisterCallback() => VisualSettings.OnChainLinkModelChanged += HandleModelChanged;
+        protected override void UnregisterCallback() => VisualSettings.OnChainLinkModelChanged -= HandleModelChanged;
+
+        private void HandleModelChanged()
+        {
+            var vm = ChainData is { Color: (int)NoteColor.Blue }
+                ? VisualSettings.GetBurstSliderRightModel()
+                : VisualSettings.GetBurstSliderLeftModel();
+            foreach (var cpf in Nodes)
+            {
+                cpf.ModelController.Set(vm);
+                cpf.DotMpbController.gameObject.SetActive(!vm.DisableAux);
+            }
+        }
+
         public override void Setup()
         {
             base.Setup();
-            SetModel();
+            Prefab.gameObject.SetActive(false);
+            HandleModelChanged();
 
-            MaterialPropertyBlock.SetFloat(lit, Settings.Instance.SimpleBlocks ? 0 : 1);
-            MaterialPropertyBlock.SetFloat(translucentAlpha, Settings.Instance.PastNoteModelAlpha);
-
-            arrowMaterialPropertyBlock ??= new MaterialPropertyBlock();
+            MpbController.Mpb.SetFloat(translucentAlphaId, Settings.Instance.PastNoteModelAlpha);
 
             foreach (var gameObj in indicators) gameObj.GetComponent<ChainIndicatorContainer>().Setup();
 
             UpdateMaterials();
         }
 
-        private void SetModel()
-        {
-            simpleLink.SetActive(Settings.Instance.SimpleBlocks && !Settings.Instance.SolidChainLink);
-            simpleLinkSolid.SetActive(Settings.Instance.SimpleBlocks && Settings.Instance.SolidChainLink);
-            complexLink.SetActive(!Settings.Instance.SimpleBlocks && !Settings.Instance.SolidChainLink);
-            complexLinkSolid.SetActive(!Settings.Instance.SimpleBlocks && Settings.Instance.SolidChainLink);
-        }
-
         public void AdjustTimePlacement()
         {
             if (!(Animator != null && Animator.AnimatedTrack))
             {
-                transform.localPosition =
-                    new Vector3(-1.5f, offsetY, ChainData.SongBpmTime * EditorScaleController.EditorScale);
+                transform.localPosition = (Vector3)ChainData.GetPosition()
+                    + new Vector3(
+                        0f,
+                        BeatmapConstant.YOffset + BeatmapConstant.PlayerYOffset,
+                        (ChainData.SongBpmTime * EditorScaleController.EditorScale * BeatmapConstant.LaneSize)
+                        + BeatmapConstant.ZOffset);
             }
         }
 
@@ -80,15 +82,6 @@ namespace Beatmap.Containers
             AdjustTimePlacement();
             GenerateChain();
             UpdateCollisionGroups();
-
-            if (AttachedHead == null || AttachedHead.Animator.AnimatedTrack || IsHeadNote(AttachedHead.NoteData))
-                return;
-
-            // usually this does not update often and is already checked
-            // but if attached head note data is different, then we update the head note
-            // also temporary (permanent) fix because this shit needs rewrite
-            AttachedHead = null;
-            DetectHeadNote();
         }
 
         /// <summary>
@@ -98,89 +91,67 @@ namespace Beatmap.Containers
         public void GenerateChain(BaseChain chainData = null)
         {
             if (chainData != null) ChainData = chainData;
-            var chainHead = (Vector3)ChainData.GetPosition() + new Vector3(1.5f, 0, 0);
-            var chainTail = (Vector3)ChainData.GetTailPosition() + new Vector3(1.5f, 0, 0);
-            var headTrans = chainHead;
+            var tailRelPos = (Vector3)(ChainData.GetTailPosition() - ChainData.GetPosition());
             var headRot = Quaternion.Euler(NoteContainer.Directionalize(ChainData.CutDirection));
-            MainObject.transform.localPosition = chainTail
+            var targetPos = tailRelPos
                 + new Vector3(
-                    0,
-                    0,
-                    (ChainData.TailSongBpmTime - ChainData.SongBpmTime) * EditorScaleController.EditorScale);
+                    0f,
+                    0f,
+                    (ChainData.TailSongBpmTime - ChainData.SongBpmTime)
+                    * EditorScaleController.EditorScale
+                    * BeatmapConstant.LaneSize);
 
             var zRads = Mathf.Deg2Rad * NoteContainer.Directionalize(ChainData.CutDirection).z;
-            headDirection = new Vector3(Mathf.Sin(zRads), -Mathf.Cos(zRads), 0f);
+            var headDirection = new Vector3(Mathf.Sin(zRads), -Mathf.Cos(zRads), 0f);
 
-            var interMult = (chainHead - chainTail).magnitude / 2;
-            interPoint = chainHead + (interMult * headDirection);
+            var interMult = (Vector3.zero - tailRelPos).magnitude / 2;
+            var interPoint = Vector3.zero + (interMult * headDirection);
 
             Colliders.Clear();
-            SelectionRenderers.Clear();
-            ComputeHeadPointsToTail();
+            var headPointsToTail = ComputeHeadPointsToTail();
             var i = 0;
-            for (; i < ChainData.SliceCount - 2; ++i)
+            for (; i < ChainData.SliceCount - 1; ++i)
             {
-                if (i >= Nodes.Count) break;
-                Nodes[i].SetActive(true);
-                Interpolate(ChainData.SliceCount - 1, i + 1, headTrans, headRot, MainObject, Nodes[i]);
-                Colliders.Add(Nodes[i].GetComponent<IntersectionCollider>());
-                Nodes[i].GetComponent<ChainComponentsFetcher>().SelectionRenderer.ForEach(SelectionRenderers.Add);
-            }
-
-            for (; i < Nodes.Count; ++i) Nodes[i].SetActive(false);
-            for (; i < ChainData.SliceCount - 2; ++i)
-            {
-                var newNode = Instantiate(MainObject, Animator.AnimationThis.transform);
-                newNode.SetActive(true);
-
-                var cpfMain = MainObject.GetComponent<ChainComponentsFetcher>();
-                var cpfNode = newNode.GetComponent<ChainComponentsFetcher>();
-
-                for (var i1 = 0; i1 < cpfMain.NoteRenderer.Count; i1++)
+                ChainComponentsFetcher node;
+                if (i >= Nodes.Count)
                 {
-                    cpfMain.NoteRenderer[i1].sharedMaterial = cpfNode.NoteRenderer[i1].sharedMaterial;
+                    node = Instantiate(Prefab, Animator.AnimationThis.transform);
+                    Nodes.Add(node);
                 }
+                else
+                    node = Nodes[i];
 
-                Interpolate(ChainData.SliceCount - 1, i + 1, headTrans, headRot, MainObject, newNode);
-                Nodes.Add(newNode);
-                Colliders.Add(Nodes[i].GetComponent<IntersectionCollider>());
-                Nodes[i].GetComponent<ChainComponentsFetcher>().SelectionRenderer.ForEach(SelectionRenderers.Add);
-            }
-
-            if (ChainData.SliceCount == 1)
-                MainObject.SetActive(false);
-            else
-            {
-                MainObject.SetActive(true);
+                node.gameObject.SetActive(true);
                 Interpolate(
                     ChainData.SliceCount - 1,
-                    ChainData.SliceCount - 1,
-                    headTrans,
+                    i + 1,
                     headRot,
-                    MainObject,
-                    MainObject);
-                Colliders.Add(MainObject.GetComponent<IntersectionCollider>());
-                MainObject.GetComponent<ChainComponentsFetcher>().SelectionRenderer.ForEach(SelectionRenderers.Add);
+                    targetPos,
+                    interPoint,
+                    headPointsToTail,
+                    node.gameObject);
+                Colliders.Add(node.OutlineController.Collider);
+                SelectionMpbController.Add(node.OutlineController.Renderer);
+                TailObject = node.gameObject;
             }
+
+            for (; i < Nodes.Count; ++i) Nodes[i].gameObject.SetActive(false);
 
             var scale = Vector3.one;
             if (!Settings.Instance.AccurateNoteSize) scale *= 0.9f;
             foreach (var node in Nodes) node.transform.localScale = scale;
-            MainObject.transform.localScale = scale;
-            tailLinkIndicator.transform.localScale = scale;
 
             UpdateMaterials();
-
             ResetIndicatorsPosition();
         }
 
-        private void ComputeHeadPointsToTail()
+        private bool ComputeHeadPointsToTail()
         {
             var path = ChainData.GetTailPosition() - ChainData.GetPosition() + new Vector2(1.5f, 0);
             var pathAngle = Vector2.SignedAngle(Vector2.down, path);
             var cutAngle = NoteContainer.Directionalize(ChainData.CutDirection).z;
 
-            headPointsToTail = Mathf.Abs(pathAngle - cutAngle) < 0.01f;
+            return Mathf.Abs(pathAngle - cutAngle) < 0.01f;
         }
 
         /// <summary>
@@ -188,33 +159,35 @@ namespace Beatmap.Containers
         /// </summary>
         /// <param name="n">Number of segments (excluding head)</param>
         /// <param name="i">Segment index</param>
-        /// <param name="head">Head</param>
         /// <param name="headRot"></param>
-        /// <param name="tail"></param>
+        /// <param name="targetPos"></param>
+        /// <param name="headPointsToTail"></param>
         /// <param name="linkSegment"></param>
+        /// <param name="interPoint"></param>
         private void Interpolate(
             int n,
             int i,
-            in Vector3 head,
             in Quaternion headRot,
-            in GameObject tail,
+            in Vector3 targetPos,
+            in Vector3 interPoint,
+            bool headPointsToTail,
             in GameObject linkSegment)
         {
             // This is how the game displays squish
-            var gameSquish = (ChainData.Squish < 0.001f) ? 1f : ChainData.Squish;
+            var gameSquish = ChainData.Squish < 0.001f ? 1f : ChainData.Squish;
 
             var t = (float)i / n;
             var tSquish = t * gameSquish;
 
-            var p0 = head;
+            var p0 = Vector3.zero;
             var p1 = interPoint;
-            var p2 = tail.transform.localPosition;
+            var p2 = targetPos;
 
-            var lerpZPos = Mathf.Lerp(head.z, tail.transform.localPosition.z, t);
+            var lerpZPos = Mathf.Lerp(0f, targetPos.z, t);
 
             if (headPointsToTail)
             {
-                var lerpPos = Vector3.LerpUnclamped(head, tail.transform.localPosition, tSquish);
+                var lerpPos = Vector3.LerpUnclamped(Vector3.zero, targetPos, tSquish);
                 linkSegment.transform.localPosition = new Vector3(lerpPos.x, lerpPos.y, lerpZPos);
                 linkSegment.transform.localRotation = headRot;
             }
@@ -240,116 +213,77 @@ namespace Beatmap.Containers
 
         public void SetColor(Color c)
         {
-            MaterialPropertyBlock.SetColor(colorId, c);
-
             var arrowColor = Color.Lerp(c, Color.white, Settings.Instance.ArrowColorWhiteBlend);
-            arrowMaterialPropertyBlock.SetColor(colorId, arrowColor);
 
-            MaterialPropertyBlock.SetFloat(colorMultiplier, Settings.Instance.NoteColorMultiplier);
-            arrowMaterialPropertyBlock.SetFloat(colorMultiplier, Settings.Instance.ArrowColorMultiplier);
+            MpbController.Mpb.SetColor(colorId, c);
+            MpbController.Mpb.SetFloat(colorMultiplierId, Settings.Instance.NoteColorMultiplier);
+
+            foreach (var cpf in Nodes)
+            {
+                cpf.ModelController.MpbController.Mpb.SetColor(colorId, c);
+                cpf.ModelController.MpbController.Mpb.SetFloat(
+                    colorMultiplierId,
+                    Settings.Instance.NoteColorMultiplier);
+
+                cpf.DotMpbController.Mpb.SetColor(colorId, arrowColor);
+                cpf.DotMpbController.Mpb.SetFloat(colorMultiplierId, Settings.Instance.ArrowColorMultiplier);
+            }
 
             UpdateMaterials();
         }
 
         internal override void UpdateMaterials()
         {
-            foreach (var c in Colliders)
+            var alpha = UIMode.SelectedMode == UIModeType.Preview || UIMode.SelectedMode == UIModeType.Playing
+                ? 0
+                : Settings.Instance.PastNoteModelAlpha;
+
+            MpbController.ApplyChanges();
+
+            if (ChainData != null)
             {
-                var cpf = c.GetComponent<ChainComponentsFetcher>();
-                var dot = cpf.DotRenderer;
-
-                var time = ChainData.SongBpmTime + (c.transform.localPosition.z / EditorScaleController.EditorScale);
-                MaterialPropertyBlock.SetFloat(objectTime, time);
-                arrowMaterialPropertyBlock.SetFloat(objectTime, time);
-
-                // This alpha set is a workaround as callbackController can only despawn the entire chain
-                var alpha = UIMode.SelectedMode == UIModeType.Preview || UIMode.SelectedMode == UIModeType.Playing
-                    ? 0
-                    : Settings.Instance.PastNoteModelAlpha;
-
-                MaterialPropertyBlock.SetFloat(translucentAlpha, alpha);
-                arrowMaterialPropertyBlock.SetFloat(translucentAlpha, alpha);
-
-                cpf.NoteRenderer.ForEach(r => r.SetPropertyBlock(MaterialPropertyBlock));
-                dot.SetPropertyBlock(arrowMaterialPropertyBlock);
-            }
-
-            foreach (var r in SelectionRenderers) r.SetPropertyBlock(MaterialPropertyBlock);
-
-            foreach (var gameObj in indicators)
-                gameObj.GetComponent<ChainIndicatorContainer>().UpdateMaterials(MaterialPropertyBlock);
-            foreach (var gameObj in indicators)
-                gameObj.GetComponent<ChainIndicatorContainer>().OutlineVisible = OutlineVisible;
-        }
-
-        public void DetectHeadNote(bool detect = true)
-        {
-            if (ChainData == null) return;
-            if (detect && AttachedHead == null)
-            {
-                var collection =
-                    BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
-                var notes = collection.GetBetween(
-                    ChainData.JsonTime - ChainGridContainer.ViewEpsilon,
-                    ChainData.JsonTime + ChainGridContainer.ViewEpsilon);
-                foreach (var note in notes)
+                foreach (var cpf in Nodes)
                 {
-                    if (note.ObjectType != ObjectType.Note || !note.HasAttachedContainer) continue;
-                    if (!IsHeadNote(note)) continue;
-                    collection.LoadedContainers.TryGetValue(note, out var container);
-                    AttachedHead = container as NoteContainer;
-                    AttachedHead.SetChainHeadModel();
-                    break;
+                    var time = ChainData.SongBpmTime
+                        + (cpf.transform.localPosition.z / EditorScaleController.EditorScale);
+                    cpf.ModelController.MpbController.Mpb.SetFloat(objectTimeId, time);
+                    cpf.DotMpbController.Mpb.SetFloat(objectTimeId, time);
+
+                    // This alpha set is a workaround as callbackController can only despawn the entire chain
+                    cpf.ModelController.MpbController.Mpb.SetFloat(translucentAlphaId, alpha);
+                    cpf.DotMpbController.Mpb.SetFloat(translucentAlphaId, alpha);
+
+                    cpf.ModelController.MpbController.ApplyChanges();
+                    cpf.DotMpbController.ApplyChanges();
                 }
             }
-            else if (AttachedHead != null)
+
+            foreach (var container in indicators)
             {
-                if (!IsHeadNote(AttachedHead.NoteData))
-                {
-                    if (AttachedHead.NoteData != null) AttachedHead.SetModelInfer();
-                    AttachedHead = null;
-                    DetectHeadNote();
-                }
-                else
-                    AttachedHead.SetChainHeadModel();
+                container.UpdateMaterials(MpbController.Mpb);
+                container.SelectionMpbController.ShowRenderer(SelectionMpbController.Renderers[0].enabled);
             }
-        }
-
-        public void DetachHeadNote()
-        {
-            if (AttachedHead == null || AttachedHead.NoteData == null) return;
-            AttachedHead.SetModelInfer();
-            AttachedHead = null;
-        }
-
-        public bool IsHeadNote(BaseNote baseNote)
-        {
-            if (baseNote is null) return false;
-            var noteHead = baseNote.GetPosition();
-            var chainHead = ChainData.GetPosition();
-            return Mathf.Abs(baseNote.JsonTime - ChainData.JsonTime) < BeatmapObjectContainerCollection.Epsilon
-                && Vector2.Distance(noteHead, chainHead) < 0.1
-                && baseNote.Type == ChainData.Color;
         }
 
         public void SetIndicatorBlocksActive(bool visible)
         {
-            indicators[0].SetActive(visible); // Head
-            tailSphereIndicator.SetActive(visible && ChainData.SliceCount == 1);
-            tailLinkIndicator.SetActive(visible && ChainData.SliceCount != 1);
+            indicators[0].gameObject.SetActive(visible); // Head
+            indicators[1].gameObject.SetActive(visible && ChainData.SliceCount != 1);
+            indicators[2].gameObject.SetActive(visible && ChainData.SliceCount == 1);
         }
 
         private void ResetIndicatorsPosition()
         {
-            tailSphereIndicator.SetActive(ChainData.SliceCount == 1);
-            tailLinkIndicator.SetActive(ChainData.SliceCount != 1);
+            indicators[1].gameObject.SetActive(ChainData.SliceCount != 1);
+            indicators[2].gameObject.SetActive(ChainData.SliceCount == 1);
 
-            foreach (var gameObj in indicators)
+            foreach (var container in indicators)
             {
-                if (gameObj.activeSelf) gameObj.GetComponent<ChainIndicatorContainer>().UpdateGridPosition();
+                if (container.gameObject.activeSelf) container.UpdateGridPosition();
             }
         }
 
-        public Quaternion GetTailNodeRotation() => MainObject.transform.rotation;
+        public Quaternion GetTailNodeRotation() =>
+            TailObject != null ? TailObject.transform.rotation : Quaternion.identity;
     }
 }

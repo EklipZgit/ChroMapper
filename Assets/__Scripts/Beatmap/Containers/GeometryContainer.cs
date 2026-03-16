@@ -15,8 +15,6 @@ namespace Beatmap.Containers
     {
         private static Mesh triangleMesh = null;
 
-        public GameObject Shape;
-
         public override BaseObject ObjectData
         {
             get => EnvironmentEnhancement;
@@ -79,38 +77,19 @@ namespace Beatmap.Containers
                     Debug.LogError($"Invalid geometry type '{(string)eh.Geometry[eh.GeometryKeyType]}'!");
             }
 
-            container.Shape = GameObject.CreatePrimitive(type);
-            container.Shape.layer = 9;
+            var shape = GameObject.CreatePrimitive(type);
+            shape.transform.SetParent(container.transform);
+            shape.layer = container.gameObject.layer;
+            container.MpbController.Renderers = new() { shape.GetComponent<MeshRenderer>() };
 
-            var collider = container.Shape.GetComponentInChildren<Collider>();
+            var collider = shape.GetComponentInChildren<Collider>();
             if (collider != null) DestroyImmediate(collider);
 
             if (eh.Geometry[eh.GeometryKeyType] == "Triangle")
             {
                 if (triangleMesh == null) triangleMesh = CreateTriangleMesh();
-
-                container.Shape.GetComponent<MeshFilter>().sharedMesh = triangleMesh;
-                container.SelectionRenderers[0].transform.localPosition = new Vector3(0, 0, 0.01f);
+                shape.GetComponent<MeshFilter>().sharedMesh = triangleMesh;
             }
-            else if (type == PrimitiveType.Quad)
-                container.SelectionRenderers[0].transform.localPosition = new Vector3(0, 0, -0.01f);
-
-            var mesh = container.Shape.GetComponent<MeshFilter>().sharedMesh;
-            container.SelectionRenderers[0].GetComponent<MeshFilter>().sharedMesh = mesh;
-            var intersection = container.Shape.AddComponent<IntersectionCollider>();
-            var renderer = container.Shape.GetComponent<MeshRenderer>();
-            intersection.Mesh = mesh;
-
-            if (container.MaterialPropertyBlock == null)
-            {
-                container.MaterialPropertyBlock = new MaterialPropertyBlock();
-                container.ModelRenderers.Add(renderer);
-                container.RendererCount = container.ModelRenderers.Count;
-            }
-
-            container.Colliders.Add(intersection);
-            container.Shape.transform.parent = container.Animator.AnimationThis.transform;
-            container.Shape.transform.localScale = 5f / 3f * Vector3.one;
 
             // Handle components if needed
             var descriptor = ctx.Descriptor;
@@ -118,14 +97,14 @@ namespace Beatmap.Containers
 
             if (eh.Components?.HasKey("ILightWithId") ?? false)
             {
-                var controller = container.Shape.AddComponent<ParametricBloomFogLightController>();
+                var controller = shape.AddComponent<ParametricBloomFogLightController>();
 
-                var light = container.Shape.AddComponent<ParametricBoxLight>();
+                var light = shape.AddComponent<ParametricBoxLight>();
                 light.UpdateTransform = false;
-                light.Renderer = container.Shape.GetComponent<Renderer>();
+                light.Renderer = container.MpbController.Renderers[0];
                 controller.BoxLight = light;
 
-                var bf = container.Shape.AddComponent<BloomFogObject>();
+                var bf = shape.AddComponent<BloomFogObject>();
                 controller.BloomFog = bf;
 
                 controller.Type = eh.LightType ?? 0;
@@ -136,7 +115,7 @@ namespace Beatmap.Containers
             if (eh.Components?.HasKey("TubeBloomPrePassLight") ?? false)
             {
                 var ppLight = eh.Components["TubeBloomPrePassLight"];
-                var controller = container.Shape.GetComponent<ParametricBloomFogLightController>();
+                var controller = shape.GetComponent<ParametricBloomFogLightController>();
                 if (controller == null) return;
                 if (ppLight["colorAlphaMultiplier"] != null)
                     controller.ColorAlphaMultiplier = ppLight["colorAlphaMultiplier"];
@@ -160,9 +139,6 @@ namespace Beatmap.Containers
             var chromaIDMarkers = descriptor.ChromaIDMarkers;
             // Yes, all the matching IDs, don't ask me why
             var targetObjects = chromaIDMarkers.Where(marker => FindMarker(marker, eh)).Select(x => (x, x)).ToList();
-
-            container.MaterialPropertyBlock ??= new MaterialPropertyBlock();
-            container.RendererCount = 0;
 
             // We need to handle duplicates if defined!
             if (eh.Duplicate != null)
@@ -213,7 +189,9 @@ namespace Beatmap.Containers
                 if (bloomFog["height"] != null) descriptor.BloomFogParams.Height = bloomFog["height"];
             }
 
-            var adjustScale = BeatSaberSongContainer.Instance.Map.MajorVersion == 2 ? 1f / 0.6f : 1f;
+            var adjustScale = BeatSaberSongContainer.Instance.Map.MajorVersion == 2
+                ? 1f / BeatmapConstant.LaneSize
+                : 1f;
             // Apply enhancements to each target object (original or duplicates)
             foreach (var (original, target) in targetObjects)
             {
@@ -230,11 +208,10 @@ namespace Beatmap.Containers
                     container.Animator.AnimationThis.transform.localScale = target.transform.localScale;
 
                     target.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
-                    target.transform.localScale = Vector3.one * adjustScale;
+                    target.transform.localScale = Vector3.one;
 
                     // Apply enhancement transforms
-                    if (eh.Scale != null)
-                        container.Animator.AnimationThis.transform.localScale = eh.Scale.Value * adjustScale;
+                    if (eh.Scale != null) container.Animator.AnimationThis.transform.localScale = eh.Scale.Value;
                     if (eh.LocalPosition != null)
                         container.Animator.AnimationThis.transform.localPosition = eh.LocalPosition.Value * adjustScale;
                     else if (eh.Position != null)

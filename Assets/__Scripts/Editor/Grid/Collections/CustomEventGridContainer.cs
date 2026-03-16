@@ -290,4 +290,6 @@ public class CustomEventGridContainer : BeatmapObjectContainerCollection<BaseCus
 
     public override ObjectContainer CreateContainer() =>
         CustomEventContainer.SpawnCustomEvent(null, this, ref customEventPrefab);
+    
+    protected override void UpdateContainerData(ObjectContainer con, BaseObject obj) => con.transform.localScale = Vector3.one * 0.75f;
 }

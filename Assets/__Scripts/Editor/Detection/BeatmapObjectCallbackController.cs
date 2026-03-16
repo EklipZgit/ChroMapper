@@ -149,7 +149,7 @@ public class BeatmapObjectCallbackController : MonoBehaviour
         while (nextNoteIndex < objects.Count)
         {
             var obj = objects[nextNoteIndex];
-            var offset = useAnimationsOffset ? Math.Max(obj.Hjd, Offset) + Track.JUMP_TIME : Offset;
+            var offset = useAnimationsOffset ? Math.Max(obj.HalfJumpDuration, Offset) + Track.JUMP_TIME : Offset;
 
             if (obj.SongBpmTime > curTime + offset) return;
 
@@ -181,7 +181,7 @@ public class BeatmapObjectCallbackController : MonoBehaviour
         while (nextChainIndex < objects.Count)
         {
             var obj = objects[nextChainIndex];
-            var offset = useAnimationsOffset ? Math.Max(obj.Hjd, Offset) + Track.JUMP_TIME : Offset;
+            var offset = useAnimationsOffset ? Math.Max(obj.HalfJumpDuration, Offset) + Track.JUMP_TIME : Offset;
 
             if (obj.TailSongBpmTime > curTime + offset) return;
 

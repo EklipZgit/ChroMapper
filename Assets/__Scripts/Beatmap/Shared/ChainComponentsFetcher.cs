@@ -5,8 +5,8 @@ namespace Beatmap.Shared
 {
     public class ChainComponentsFetcher : MonoBehaviour
     {
-        public List<MeshRenderer> NoteRenderer;
-        public List<MeshRenderer> SelectionRenderer;
-        public MeshRenderer DotRenderer;
+        public VisualModelController ModelController;
+        public MaterialPropertyBlockController DotMpbController;
+        public VisualOutlineController OutlineController;
     }
 }

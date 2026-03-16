@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30962ae2c9de428e8466f26886cc927d, type: 3}
+  m_Name: CM_Chain
+  m_EditorClassIdentifier: 
+  Prefab: {fileID: 404329456199872959, guid: a5edfaaa19a049c968b6969f22e30714, type: 3}
+  Collider: {fileID: 2728769002154719451, guid: d700f6006df1d3968b8926c5c8f8d150,
+    type: 3}

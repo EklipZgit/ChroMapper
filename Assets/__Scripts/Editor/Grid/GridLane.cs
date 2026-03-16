@@ -50,9 +50,9 @@ public class GridLane : GridChild
         get => oddLaneOffset;
         set
         {
-            var prev = oddLaneOffset;
+            if (oddLaneOffset == value) return;
             oddLaneOffset = value;
-            if (prev != oddLaneOffset) RefreshVisual();
+            RefreshVisual();
         }
     }
 
@@ -75,7 +75,7 @@ public class GridLane : GridChild
         XZ.transform.localScale = new Vector3(lane, XZ.transform.localScale.y, XZ.transform.localScale.z);
 
         XY.transform.localPosition = new Vector3(
-            (lane / 2f) + XYOffset.x,
+            (lane / 2f) + (XYOffset.x / Scale),
             XY.transform.localPosition.y,
             XY.transform.localPosition.z);
         XZ.transform.localPosition = new Vector3(
@@ -92,7 +92,7 @@ public class GridLane : GridChild
             XY.transform.localScale.z);
         XY.transform.localPosition = new Vector3(
             XY.transform.localPosition.x,
-            (height / 2f) + XYOffset.y + (XYExpand.y / 2f),
+            (height / 2f) + (XYOffset.y / Scale) + (XYExpand.y / 2f),
             XY.transform.localPosition.z);
     }
 
@@ -108,6 +108,13 @@ public class GridLane : GridChild
             XZ.transform.localPosition.x,
             XZ.transform.localPosition.y,
             calc * 0.3f);
+    }
+
+    protected override void SetScaleNoNotify(float s)
+    {
+        base.SetScaleNoNotify(s);
+        XY.SetScale(Scale);
+        XZ.SetScale(Scale);
     }
 
     public void MoveXYGridByZ(float z)
@@ -162,8 +169,8 @@ public class GridLane : GridChild
     {
         var xOffset = OddLaneOffset ? 0.5f : 0f;
 
-        XY.SetOffset((-(Vector3)XYOffset - LocalOffset + new Vector3(xOffset - (XYExpand.x / 2f), 0f, 0f)).Repeat(1f));
-        XZ.SetOffset((-LocalOffset + new Vector3(xOffset, 0f, 0f)).Repeat(1f));
+        XY.SetOffset(-(Vector3)XYOffset - LocalOffset + new Vector3(xOffset - (XYExpand.x / 2f), 0f, 0f));
+        XZ.SetOffset(-LocalOffset + new Vector3(xOffset, 0f, 0f));
 
         XY.RefreshVisual();
         XZ.RefreshVisual();

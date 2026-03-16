@@ -5,22 +5,15 @@ using UnityEngine;
 
 namespace Beatmap.Appearances
 {
-    public enum EventModelType
-    {
-        Block = 0,
-        Pyramid = 1,
-        FlatPyramid = 2
-    }
-
     [CreateAssetMenu(menuName = "Beatmap/Appearance/Event Appearance SO", fileName = "EventAppearanceSO")]
     public class EventAppearanceSO : ScriptableObject
     {
         [Space(5)] [Header("Default Colors")] public Color RedColor;
         public Color BlueColor;
-        public Color WhiteColor = new Color(0.7264151f, 0.7264151f, 0.7264151f);
+        public Color WhiteColor = new(0.7264151f, 0.7264151f, 0.7264151f);
         public Color RedBoostColor;
         public Color BlueBoostColor;
-        public Color WhiteBoostColor = new Color(0.7264151f, 0.7264151f, 0.7264151f);
+        public Color WhiteBoostColor = new(0.7264151f, 0.7264151f, 0.7264151f);
 
         [SerializeField] private Color offColor;
 
@@ -61,7 +54,7 @@ namespace Beatmap.Appearances
 
             if (trackDef.Kind != BasicEventKind.Lights)
             {
-                e.EventModel = EventModelType.Block;
+                e.UseBlockModel = true;
                 if (trackDef.Kind == BasicEventKind.None)
                 {
                     e.ChangeColor(ringEventsColor, false);
@@ -81,7 +74,7 @@ namespace Beatmap.Appearances
                     }
 
                     e.UpdateOffset(Vector3.forward * 1.05f, false);
-                    e.ChangeFadeSize(e.BoostEventFadeSize, false);
+                    e.ChangeFadeSize(EventContainer.BoostEventFadeSize, false);
                     e.UpdateGradientRendering();
                     e.UpdateMaterials();
                     return;
@@ -145,7 +138,7 @@ namespace Beatmap.Appearances
                 color = Color.Lerp(clampedOffColor, color, e.EventData.FloatValue);
             }
 
-            e.EventModel = Settings.Instance.EventModel;
+            e.UseBlockModel = false;
             e.ChangeColor(color, false);
             e.ChangeBaseColor(Color.black, false);
             switch (e.EventData.Value)
@@ -164,12 +157,12 @@ namespace Beatmap.Appearances
                 case (int)LightValue.BlueFlash:
                 case (int)LightValue.RedFlash:
                 case (int)LightValue.WhiteFlash:
-                    e.UpdateOffset(e.FlashShaderOffset, false);
+                    e.UpdateOffset(EventContainer.FlashShaderOffset, false);
                     break;
                 case (int)LightValue.BlueFade:
                 case (int)LightValue.RedFade:
                 case (int)LightValue.WhiteFade:
-                    e.UpdateOffset(e.FadeShaderOffset, false);
+                    e.UpdateOffset(EventContainer.FadeShaderOffset, false);
                     break;
                 case (int)LightValue.BlueTransition:
                 case (int)LightValue.RedTransition:
@@ -178,7 +171,7 @@ namespace Beatmap.Appearances
                     break;
             }
 
-            e.ChangeFadeSize(e.DefaultFadeSize, false);
+            e.ChangeFadeSize(EventContainer.DefaultFadeSize, false);
 
             // At this point, next Event must be a light event.
             Color? nextColor = null;

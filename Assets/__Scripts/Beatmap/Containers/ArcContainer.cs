@@ -1,85 +1,58 @@
-using System.Collections.Generic;
 using System.Linq;
 using Beatmap.Base;
 using Beatmap.Enums;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Beatmap.Containers
 {
     public class ArcContainer : ObjectContainer
     {
-        private const float
-            splineControlPointScaleFactor =
-                2.5f / 0.6f; // 2.5 multiplier used by game, divide by 0.6 to scale to cm units
+        [SerializeField] public LineRenderer SplineRenderer;
+        [SerializeField] private GameObject[] indicators;
+        public BaseArc ArcData;
 
+        private const float splineControlPointScaleFactor = 2.5f; // multiplier used by game
         public const int NumSamples = 30;
-
-        private static readonly int translucentAlpha = Shader.PropertyToID("_TranslucentAlpha");
-
-        [SerializeField] private GameObject indicatorMu;
-        [SerializeField] private GameObject indicatorTmu;
-        [SerializeField] private List<GameObject> indicators;
-        [SerializeField] public BaseArc ArcData;
-
-        private MaterialPropertyBlock indicatorMaterialPropertyBlock;
-
-        [FormerlySerializedAs("splineRenderer")] [SerializeField]
-        public LineRenderer SplineRenderer;
+        private static readonly int translucentAlphaId = Shader.PropertyToID("_TranslucentAlpha");
 
         public readonly Vector3[] BaseSplinePoints = new Vector3[NumSamples + 1];
-
-        // for now we just use bool instead of ref object
-        public bool HasHeadNote;
-        public bool HasTailNote;
 
         public Vector3 p0()
         {
             var position = ArcData.GetPosition();
-            return new Vector3(position.x, position.y + offsetY, 0f);
+            return new Vector3(position.x, position.y, 0f);
         }
 
         public Vector3 p1()
         {
             var headPosition = ArcData.GetPosition();
             if (ArcData.CutDirection == (int)NoteCutDirection.Any)
-                return new Vector3(headPosition.x, headPosition.y + offsetY, 0f);
+                return new Vector3(headPosition.x, headPosition.y, 0f);
 
             var zRads = Mathf.Deg2Rad * NoteContainer.Directionalize(ArcData.CutDirection).z;
             var headDirection = new Vector2(Mathf.Sin(zRads), -Mathf.Cos(zRads));
             var nodePosition = headPosition
                 + (headDirection * ArcData.HeadControlPointLengthMultiplier * splineControlPointScaleFactor);
-            return new Vector3(nodePosition.x, nodePosition.y + offsetY, 0f);
+            return new Vector3(nodePosition.x, nodePosition.y, 0f);
         }
 
         public Vector3 p2()
         {
             var tailPosition = ArcData.GetTailPosition();
             if (ArcData.TailCutDirection == (int)NoteCutDirection.Any)
-            {
-                return new Vector3(
-                    tailPosition.x,
-                    tailPosition.y + offsetY,
-                    1f);
-            }
+                return new Vector3(tailPosition.x, tailPosition.y, 1f);
 
             var zRads = Mathf.Deg2Rad * NoteContainer.Directionalize(ArcData.TailCutDirection).z;
             var tailDirection = new Vector2(Mathf.Sin(zRads), -Mathf.Cos(zRads));
             var tailNodePosition = tailPosition
                 - (tailDirection * ArcData.TailControlPointLengthMultiplier * splineControlPointScaleFactor);
-            return new Vector3(
-                tailNodePosition.x,
-                tailNodePosition.y + offsetY,
-                1f);
+            return new Vector3(tailNodePosition.x, tailNodePosition.y, 1f);
         }
 
         public Vector3 p3()
         {
             var tailPosition = ArcData.GetTailPosition();
-            return new Vector3(
-                tailPosition.x,
-                tailPosition.y + offsetY,
-                1f);
+            return new Vector3(tailPosition.x, tailPosition.y, 1f);
         }
 
         // B(t) = (1-t)^3 p0 + 3(1-t)^2 t p1 + 3(1-t)t^2 p2 + t^3 p3
@@ -109,10 +82,7 @@ namespace Beatmap.Containers
         {
             base.Setup();
 
-            HasHeadNote = false;
-            HasTailNote = false;
-
-            MaterialPropertyBlock.SetFloat(translucentAlpha, 1f);
+            MpbController.Mpb.SetFloat(translucentAlphaId, 1f);
             foreach (var gameObj in indicators) gameObj.GetComponent<ArcIndicatorContainer>().Setup();
 
             UpdateMaterials();
@@ -120,7 +90,6 @@ namespace Beatmap.Containers
 
         public override void UpdateGridPosition()
         {
-            DetectConnectedNote();
             RecomputePosition();
             foreach (var gameObj in indicators) gameObj.GetComponent<ArcIndicatorContainer>().UpdateGridPosition();
             UpdateCollisionGroups();
@@ -143,7 +112,11 @@ namespace Beatmap.Containers
         {
             if (ArcData == null) return; // in case that this container has already been recycled when about to compute
             if (!(Animator != null && Animator.AnimatedTrack))
-                transform.localPosition = new Vector3(0, 0, ArcData.SongBpmTime * EditorScaleController.EditorScale);
+                transform.localPosition = new Vector3(
+                    0,
+                    BeatmapConstant.YOffset + BeatmapConstant.PlayerYOffset,
+                    (ArcData.SongBpmTime * EditorScaleController.EditorScale * BeatmapConstant.LaneSize)
+                    + BeatmapConstant.ZOffset);
 
             SplineRenderer.positionCount = NumSamples + 1;
 
@@ -191,7 +164,9 @@ namespace Beatmap.Containers
                 BaseSplinePoints
                     .Select(x =>
                     {
-                        x.z *= ArcData.DurationSongBpmTime * EditorScaleController.EditorScale;
+                        x.z *= ArcData.DurationSongBpmTime
+                            * EditorScaleController.EditorScale
+                            * BeatmapConstant.LaneSize;
                         return x;
                     })
                     .ToArray());
@@ -206,7 +181,7 @@ namespace Beatmap.Containers
         {
             // Yoinked from ArcViewer :smil:
             const float midPointRotationDeg = 90f;
-            const float midPointOffset = 2.5f / 0.6f; // Scaled to CM units
+            const float midPointOffset = 2.5f / BeatmapConstant.LaneSize; // Scaled to CM units
             const float controlXMod = 0.25f;
             const float controlYMod = 0.25f;
             const float controlZMod = 0.15f;
@@ -260,57 +235,10 @@ namespace Beatmap.Containers
             foreach (var gameObj in indicators) gameObj.GetComponent<ArcIndicatorContainer>().UpdateGridPosition();
         }
 
-        public void DetectConnectedNote()
-        {
-            if (ArcData == null) return;
-            var collection =
-                BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
-
-            HasHeadNote = false;
-            HasTailNote = false;
-
-            var notes = collection.GetBetween(
-                ArcData.JsonTime - ArcGridContainer.ViewEpsilon,
-                ArcData.JsonTime + ArcGridContainer.ViewEpsilon);
-            foreach (var note in notes)
-            {
-                if (ArcData.Color != note.Color
-                    || !(Mathf.Abs(note.SongBpmTime - ArcData.SongBpmTime) < BeatmapObjectContainerCollection.Epsilon)
-                    || !(Vector2.Distance(ArcData.GetPosition(), note.GetPosition()) < 0.1f))
-                    continue;
-                HasHeadNote = true;
-                break;
-            }
-
-            notes = collection.GetBetween(
-                ArcData.TailJsonTime - ArcGridContainer.ViewEpsilon,
-                ArcData.TailJsonTime + ArcGridContainer.ViewEpsilon);
-            foreach (var note in notes)
-            {
-                if (ArcData.Color != note.Color
-                    || !(Mathf.Abs(note.SongBpmTime - ArcData.TailSongBpmTime)
-                        < BeatmapObjectContainerCollection.Epsilon)
-                    || !(Vector2.Distance(ArcData.GetTailPosition(), note.GetPosition()) < 0.1f))
-                    continue;
-                HasTailNote = true;
-                break;
-            }
-        }
-
         public void SetColor(Color c)
         {
-            MaterialPropertyBlock.SetColor(colorId, c);
+            MpbController.Mpb.SetColor(colorId, c);
             UpdateMaterials();
-        }
-
-        internal override void UpdateMaterials()
-        {
-            foreach (var gameObj in indicators)
-                gameObj.GetComponent<ArcIndicatorContainer>().UpdateMaterials(MaterialPropertyBlock);
-            foreach (var gameObj in indicators)
-                gameObj.GetComponent<ArcIndicatorContainer>().OutlineVisible = OutlineVisible;
-            SplineRenderer.SetPropertyBlock(MaterialPropertyBlock);
-            foreach (var r in SelectionRenderers) r.SetPropertyBlock(MaterialPropertyBlock);
         }
 
         public void SetIndicatorBlocksActive(bool visible)

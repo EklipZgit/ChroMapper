@@ -98,11 +98,11 @@ public class TracksManager : MonoBehaviour
     public Track CreateIndividualTrack(BaseGrid obj)
     {
         // TODO: This is the same math used for 90/360 tacks, but does it actually handle BPM changes?
-        var potition = -1 * obj.JsonTime * EditorScaleController.EditorScale;
+        var pos = -1 * obj.JsonTime * EditorScaleController.EditorScale;
         var track = Instantiate(trackPrefab, tracksParent).GetComponent<Track>();
         track.vNjsProvider = vNjsProvider;
         track.enabled = true;
-        track.UpdatePosition(potition);
+        track.UpdatePosition(pos);
 
         float rotation = GetRotationAtTime(obj.SongBpmTime);
         track.AssignRotationValue(obj.CustomWorldRotation ?? new Vector3(0, rotation, 0));

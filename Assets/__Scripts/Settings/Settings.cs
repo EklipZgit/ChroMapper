@@ -109,10 +109,17 @@ public class Settings
     public bool ColorFakeWalls = true;
     public bool VisualizeChromaGradients = true;
     public bool VisualizeChromaAlpha = true;
-    public bool SimpleBlocks = false;
-    public bool SolidChainLink = false;
-    public bool PyramidEventModels = false; // Old setting, migrated to below
-    public EventModelType EventModel = EventModelType.Block;
+    
+    public string NoteModels = "Standard";
+    public string EventModels = "Block";
+    public bool ShaderCompatibility = true;
+    
+    // Old setting, migrated to below
+    public bool SimpleBlocks;
+    public bool SolidChainLink;
+    public bool PyramidEventModels; 
+    public int EventModel;
+    
     public float PastNoteModelAlpha = 0.4f;
     public int ChunkDistance = 5;
     public int Offset_Spawning = 4;
@@ -396,9 +403,14 @@ public class Settings
 
         if (PyramidEventModels)
         {
-            EventModel = EventModelType.Pyramid;
+            EventModels = "Pyramid";
             PyramidEventModels = false;
         }
+
+        // if (SimpleBlocks)
+        //     NoteModels = SolidChainLink ? "Simple Solid" : "Simple";
+        // else
+        //     NoteModels = SolidChainLink ? "Standard Solid" : "Standard";
 
         if (BongoBoye)
         {

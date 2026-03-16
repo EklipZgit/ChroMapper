@@ -80,10 +80,7 @@ public class EditorScaleController : MonoBehaviour, CMInput.IEditorScaleActions
         {
             var bps = 60f / currentBpm;
             var songNoteJumpSpeed = BeatSaberSongContainer.Instance.MapDifficultyInfo.NoteJumpSpeed;
-
-            // When doing the math, it turns out that this all cancels out into what you see
-            // We don't know where the hell 5/3 comes from, yay for magic numbers
-            EditorScale = 5 / 3f * songNoteJumpSpeed * bps;
+            EditorScale = songNoteJumpSpeed * bps;
             Apply();
         }
         else

@@ -1518,6 +1518,32 @@ MonoBehaviour:
     m_Localized: Mirror Quality
     m_Metadata:
       m_Items: []
+  - m_Id: 603916992827326464
+    m_Localized: Extend lane on both side for obstacle placement.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 603917705401827328
+    m_Localized: Obstacle Lane Extend Amount
+    m_Metadata:
+      m_Items: []
+  - m_Id: 607229076554088448
+    m_Localized: Change note, chain and bomb models
+    m_Metadata:
+      m_Items: []
+  - m_Id: 607229419425857536
+    m_Localized: Note Models
+    m_Metadata:
+      m_Items: []
+  - m_Id: 607546429884039168
+    m_Localized: Fix shader issue due to incompatible or missing platform support
+      with built-in shader, this will cause some asset to look incorrect and other
+      graphical issue.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 607546596444045312
+    m_Localized: Shader Compatibility
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

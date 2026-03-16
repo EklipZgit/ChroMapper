@@ -91,7 +91,11 @@ public class CreateEventTypeLabels : MonoBehaviour
         }
     }
 
-    public int LaneIdToEventType(int laneId) => laneObjs[laneId].type;
+    public int LaneIdToEventType(int laneId)
+    {
+        if (laneId < 0 || laneId >= laneObjs.Count) return -1;
+        return laneObjs[laneId].Type;
+    }
 
     public int EventTypeToLaneId(int eventType)
     {

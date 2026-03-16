@@ -226,7 +226,7 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
         dequeued.SafeSetActive(true);
         UpdateContainerData(dequeued, obj);
         dequeued.SetOutlineColor(SelectionController.SelectedColor, false);
-        dequeued.OutlineVisible = SelectionController.IsObjectSelected(obj);
+        dequeued.SelectionMpbController.ShowRenderer(SelectionController.IsObjectSelected(obj));
         PluginLoader.BroadcastEvent<ObjectLoadedAttribute, ObjectContainer>(dequeued);
         LoadedContainers.Add(obj, dequeued);
         ObjectsWithContainers.Add(obj);

@@ -10,6 +10,7 @@ public class PlacementLaneController : MonoBehaviour
 
     public int HeightCount = 3;
     public int LaneCount = 4;
+    public int ObstacleLaneExtend;
     private bool canExpand;
     private bool expandFullyOnBothState;
 
@@ -18,15 +19,19 @@ public class PlacementLaneController : MonoBehaviour
     public void Awake()
     {
         Settings.NotifyBySettingName("NoteLanes", HandleNoteLanesChanged);
+        Settings.NotifyBySettingName("ObstacleLanesExtend", HandleObstacleLanesExtendChanged);
         LoadInitialMap.OnLevelLoaded += HandleLevelLoaded;
         placemenModeController.OnModeChanged += HandleModeChanged;
         obstaclePlacement.OnApplied += UpdateGrid;
         if (Settings.NonPersistentSettings.ContainsKey("NoteLanes")) Settings.NonPersistentSettings["NoteLanes"] = 4;
+        if (Settings.NonPersistentSettings.ContainsKey("ObstacleLanesExtend"))
+            Settings.NonPersistentSettings["ObstacleLanesExtend"] = 0;
     }
 
     public void OnDestroy()
     {
         Settings.ClearSettingNotifications("NoteLanes");
+        Settings.ClearSettingNotifications("ObstacleLanesExtend");
         LoadInitialMap.OnLevelLoaded -= HandleLevelLoaded;
         placemenModeController.OnModeChanged -= HandleModeChanged;
         obstaclePlacement.OnApplied -= UpdateGrid;
@@ -38,17 +43,23 @@ public class PlacementLaneController : MonoBehaviour
         expandFullyOnBothState = BeatSaberSongContainer.Instance.Map.MajorVersion == 4;
     }
 
-    private void HandleModeChanged(PlacementModeController.PlacementMode _)
-    {
-        UpdateGrid();
-    }
+    private void HandleModeChanged(PlacementModeController.PlacementMode _) => UpdateGrid();
 
     private void HandleNoteLanesChanged(object value)
     {
-        var noteLanesText = value.ToString();
-        if (!int.TryParse(noteLanesText, out var noteLanes)) return;
-        if (noteLanes < 1) return;
-        LaneCount = noteLanes;
+        var text = value.ToString();
+        if (!int.TryParse(text, out var lane)) return;
+        if (lane < 1) return;
+        LaneCount = lane;
+        UpdateObstacleLane();
+    }
+
+    private void HandleObstacleLanesExtendChanged(object value)
+    {
+        var text = value.ToString();
+        if (!int.TryParse(text, out var lane)) return;
+        if (lane < 0) return;
+        ObstacleLaneExtend = lane;
         UpdateObstacleLane();
     }
 
@@ -74,14 +85,14 @@ public class PlacementLaneController : MonoBehaviour
             {
                 // Offset Y by whole grid or XY grid only
                 var offset = lane.XYOffset;
-                offset.y = -0.5f;
+                offset.y = BeatmapConstant.ObstacleYOffset - (BeatmapConstant.PlayerYOffset / 2f);
                 // lane.LocalOffset = offset;
                 lane.XYOffset = offset;
                 lane.RefreshPosition();
                 lane.RefreshVisual();
             }
-            
-            lane.Lane = (LaneCount * 2) + Mathf.CeilToInt(LaneCount % 2 / 2f);
+
+            lane.Lane = LaneCount + (ObstacleLaneExtend * 2);
             switch (obstaclePlacement.IsPlacing)
             {
                 case false when expandFullyOnBothState:
@@ -94,6 +105,7 @@ public class PlacementLaneController : MonoBehaviour
                     hasExpanded = false;
                     break;
             }
+
             hasOffset = true;
         }
         else

@@ -63,7 +63,7 @@ namespace Beatmap.Base
         }
 
         public abstract ObjectType ObjectType { get; set; }
-        public bool HasAttachedContainer { get; set; } = false;
+        public bool HasAttachedContainer { get; set; }
 
         protected BaseDifficulty Map;
 

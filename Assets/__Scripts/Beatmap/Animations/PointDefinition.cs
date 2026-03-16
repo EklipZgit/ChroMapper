@@ -208,7 +208,7 @@ namespace Beatmap.Animations
     public class PointDataParsers
     {
         public static ColorSchemeSO ColorScheme;
-        
+
         public static float ParseFloat(JSONArray data, ref int i)
         {
             i += 1;

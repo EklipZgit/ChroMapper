@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4babe30b1ad4d5882c59a7bdf14a425, type: 3}
+  m_Name: Simple Solid
+  m_EditorClassIdentifier: 
+  FileName: 
+  AssetBundle: {fileID: 0}
+  NoteLeft: {fileID: 11400000, guid: c2db74aaed1540ddeb40ed397a92419a, type: 2}
+  NoteRight: {fileID: 11400000, guid: c2db74aaed1540ddeb40ed397a92419a, type: 2}
+  NoteDotLeft: {fileID: 11400000, guid: c2db74aaed1540ddeb40ed397a92419a, type: 2}
+  NoteDotRight: {fileID: 11400000, guid: c2db74aaed1540ddeb40ed397a92419a, type: 2}
+  NoteBomb: {fileID: 11400000, guid: da6ee2fbd44235216a1c00ca4c05e6fa, type: 2}
+  BurstSliderLeft: {fileID: 11400000, guid: 458d01eaf82f1794f8e0e3635d253fce, type: 2}
+  BurstSliderRight: {fileID: 11400000, guid: 458d01eaf82f1794f8e0e3635d253fce, type: 2}
+  BurstSliderHeadLeft: {fileID: 11400000, guid: adcfddbc4e733cf1f805f90b28ccc3dd,
+    type: 2}
+  BurstSliderHeadRight: {fileID: 11400000, guid: adcfddbc4e733cf1f805f90b28ccc3dd,
+    type: 2}
+  BurstSliderHeadDotLeft: {fileID: 11400000, guid: adcfddbc4e733cf1f805f90b28ccc3dd,
+    type: 2}
+  BurstSliderHeadDotRight: {fileID: 11400000, guid: adcfddbc4e733cf1f805f90b28ccc3dd,
+    type: 2}

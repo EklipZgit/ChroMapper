@@ -98,8 +98,7 @@ public class FirstBootMenu : MonoBehaviour
         {
             case (int)GraphicsPreset.Performance:
                 Settings.Instance.ChromaticAberration = false;
-                Settings.Instance.SimpleBlocks = true;
-                Settings.Instance.SolidChainLink = true;
+                Settings.Instance.NoteModels = "Simple Solid";
                 Settings.Instance.Reflections = false;
                 Settings.Instance.HighQualityBloom = false;
                 Settings.Instance.DisplayFloatValueText = false;
@@ -109,7 +108,7 @@ public class FirstBootMenu : MonoBehaviour
                 break;
             case (int)GraphicsPreset.Balanced:
                 Settings.Instance.ChromaticAberration = false;
-                Settings.Instance.SimpleBlocks = true;
+                Settings.Instance.NoteModels = "Simple";
                 Settings.Instance.Reflections = false;
                 Settings.Instance.SpectrogramSlices = 0;
                 Settings.Instance.CameraAA = 2;

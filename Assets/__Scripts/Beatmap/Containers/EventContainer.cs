@@ -17,47 +17,56 @@ namespace Beatmap.Containers
         private static readonly int mainAlpha = Shader.PropertyToID("_MainAlpha");
         private static readonly int fadeSize = Shader.PropertyToID("_FadeSize");
         private static readonly int spotlightSize = Shader.PropertyToID("_SpotlightSize");
+
+        [SerializeField] public VisualModelController VModelController;
         [SerializeField] private EventGridContainer EventGridContainer;
         [SerializeField] private EventAppearanceSO eventAppearance;
-        [SerializeField] private List<Renderer> eventRenderer;
         [SerializeField] private TracksManager tracksManager;
         [SerializeField] private TextMeshPro valueDisplay;
         [SerializeField] private LightGradientController lightGradientController;
-        [SerializeField] private GameObject[] eventModels;
         [SerializeField] private CreateEventTypeLabels labels;
-        public TracksDefinitionSO TracksDefinition;
+        [SerializeField] public TracksDefinitionSO TracksDefinition;
 
-        [SerializeField] public BaseEvent EventData;
+        public BaseEvent EventData;
 
-        // This needs to be an int for the below properties
-        private int eventModel;
-
+        public bool useBlockModel;
         private float oldAlpha = -1;
 
-        public EventModelType EventModel
-        {
-            get => (EventModelType)eventModel;
-            set
-            {
-                for (var i = 0; i < eventModels.Length; i++) eventModels[i].SetActive(i == (int)value);
-                eventModel = (int)value;
-            }
-        }
-
-        public Vector3 FlashShaderOffset =>
-            eventModels[eventModel].GetComponent<MaterialParameters>().FlashShaderOffset;
-
-        public Vector3 FadeShaderOffset => eventModels[eventModel].GetComponent<MaterialParameters>().FadeShaderOffset;
-        public float DefaultFadeSize => eventModels[eventModel].GetComponent<MaterialParameters>().DefaultFadeSize;
-
-        public float BoostEventFadeSize =>
-            eventModels[eventModel].GetComponent<MaterialParameters>().BoostEventFadeSize;
+        public static Vector3 FlashShaderOffset => new(0f, 0f, 1.2f);
+        public static Vector3 FadeShaderOffset => new(0f, 0f, -1.2f);
+        public static float DefaultFadeSize => 0.35f;
+        public static float BoostEventFadeSize => 0.1f;
 
         public override BaseObject ObjectData
         {
             get => EventData;
             set => EventData = (BaseEvent)value;
         }
+
+        public bool UseBlockModel
+        {
+            get => useBlockModel;
+            set
+            {
+                useBlockModel = value;
+                HandleModelChanged();
+            }
+        }
+
+        protected override void RegisterCallback()
+        {
+            VisualSettings.OnBlockModelChanged += HandleModelChanged;
+            VisualSettings.OnEventModelChanged += HandleModelChanged;
+        }
+
+        protected override void UnregisterCallback()
+        {
+            VisualSettings.OnBlockModelChanged -= HandleModelChanged;
+            VisualSettings.OnEventModelChanged -= HandleModelChanged;
+        }
+
+        private void HandleModelChanged() =>
+            VModelController.Set(useBlockModel ? VisualSettings.GetBlockModel() : VisualSettings.GetEventModel());
 
         public static EventContainer SpawnEvent(
             EventGridContainer eventsContainer,
@@ -75,17 +84,6 @@ namespace Beatmap.Containers
             container.labels = labels;
             container.transform.localEulerAngles = Vector3.zero;
             return container;
-        }
-
-        // This way we won't apply MaterialPropertyBlock to valueDisplay which breaks dynamic batching
-        public override void Setup()
-        {
-            if (MaterialPropertyBlock == null)
-            {
-                MaterialPropertyBlock = new MaterialPropertyBlock();
-                ModelRenderers.AddRange(eventRenderer);
-                RendererCount = ModelRenderers.Count;
-            }
         }
 
         public override void UpdateGridPosition()
@@ -127,41 +125,41 @@ namespace Beatmap.Containers
 
         public void ChangeColor(Color c, bool updateMaterials = true)
         {
-            MaterialPropertyBlock.SetColor(shaderIdColorTint, c);
+            MpbController.Mpb.SetColor(shaderIdColorTint, c);
             if (updateMaterials) UpdateMaterials();
         }
 
         public void ChangeBaseColor(Color c, bool updateMaterials = true)
         {
-            MaterialPropertyBlock.SetColor(shaderIdColor, c);
+            MpbController.Mpb.SetColor(shaderIdColor, c);
             if (updateMaterials) UpdateMaterials();
         }
 
         public void ChangeFadeSize(float size, bool updateMaterials = true)
         {
-            MaterialPropertyBlock.SetFloat(fadeSize, size);
+            MpbController.Mpb.SetFloat(fadeSize, size);
             if (updateMaterials) UpdateMaterials();
         }
 
         public void ChangeSpotlightSize(float size, bool updateMaterials = true)
         {
-            MaterialPropertyBlock.SetFloat(spotlightSize, size);
+            MpbController.Mpb.SetFloat(spotlightSize, size);
             if (updateMaterials) UpdateMaterials();
         }
 
         public void UpdateOffset(Vector3 offset, bool updateMaterials = true)
         {
-            MaterialPropertyBlock.SetVector(position, offset);
+            MpbController.Mpb.SetVector(position, offset);
             if (updateMaterials) UpdateMaterials();
         }
 
         public void UpdateAlpha(float alpha, bool updateMaterials = true)
         {
-            var oldAlphaTemp = MaterialPropertyBlock.GetFloat(mainAlpha);
+            var oldAlphaTemp = MpbController.Mpb.GetFloat(mainAlpha);
             if (oldAlphaTemp > 0) oldAlpha = oldAlphaTemp;
             if (oldAlpha == alpha) return;
 
-            MaterialPropertyBlock.SetFloat(mainAlpha, alpha == -1 ? oldAlpha : alpha);
+            MpbController.Mpb.SetFloat(mainAlpha, alpha == -1 ? oldAlpha : alpha);
             if (updateMaterials) UpdateMaterials();
         }
 

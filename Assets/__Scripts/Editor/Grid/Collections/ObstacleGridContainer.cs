@@ -49,11 +49,11 @@ public class ObstacleGridContainer : BeatmapObjectContainerCollection<BaseObstac
         if (UIMode.AnimationMode)
         {
             SpawnSortedObjects = MapObjects
-                .OrderBy(o => o.SongBpmTime - Mathf.Max(o.Hjd, vNjsProvider.MaxHalfJumpDurationInBeats))
+                .OrderBy(o => o.SongBpmTime - Mathf.Max(o.HalfJumpDuration, vNjsProvider.MaxHalfJumpDurationInBeats))
                 .ToArray();
             DespawnSortedObjects = MapObjects
                 .OrderBy(o =>
-                    o.SongBpmTime + o.DurationSongBpmTime + Mathf.Max(o.Hjd, vNjsProvider.MaxHalfJumpDurationInBeats))
+                    o.SongBpmTime + o.DurationSongBpmTime + Mathf.Max(o.HalfJumpDuration, vNjsProvider.MaxHalfJumpDurationInBeats))
                 .ToArray();
             RefreshWalls();
         }
@@ -84,7 +84,7 @@ public class ObstacleGridContainer : BeatmapObjectContainerCollection<BaseObstac
             while (spawnIndex < SpawnSortedObjects.Length
                 && time + Track.JUMP_TIME
                 >= SpawnSortedObjects[spawnIndex].SongBpmTime
-                - Mathf.Max(SpawnSortedObjects[spawnIndex].Hjd, vNjsProvider.MaxHalfJumpDurationInBeats))
+                - Mathf.Max(SpawnSortedObjects[spawnIndex].HalfJumpDuration, vNjsProvider.MaxHalfJumpDurationInBeats))
             {
                 if (SpawnSortedObjects[spawnIndex].HasMatchingTrack(TrackFilterID))
                     CreateContainerFromPool(SpawnSortedObjects[spawnIndex]);
@@ -95,7 +95,7 @@ public class ObstacleGridContainer : BeatmapObjectContainerCollection<BaseObstac
                 && time
                 >= DespawnSortedObjects[despawnIndex].SongBpmTime
                 + DespawnSortedObjects[despawnIndex].DurationSongBpmTime
-                + Mathf.Max(DespawnSortedObjects[despawnIndex].Hjd, vNjsProvider.MaxHalfJumpDurationInBeats))
+                + Mathf.Max(DespawnSortedObjects[despawnIndex].HalfJumpDuration, vNjsProvider.MaxHalfJumpDurationInBeats))
             {
                 var objectData = DespawnSortedObjects[despawnIndex];
                 if (LoadedContainers.ContainsKey(objectData))
@@ -126,7 +126,7 @@ public class ObstacleGridContainer : BeatmapObjectContainerCollection<BaseObstac
         GetIndexes(
             time,
             (i) => SpawnSortedObjects[i].SongBpmTime
-                - Mathf.Max(SpawnSortedObjects[spawnIndex].Hjd, vNjsProvider.MaxHalfJumpDurationInBeats),
+                - Mathf.Max(SpawnSortedObjects[spawnIndex].HalfJumpDuration, vNjsProvider.MaxHalfJumpDurationInBeats),
             SpawnSortedObjects.Length,
             out spawnIndex,
             out _
@@ -135,15 +135,15 @@ public class ObstacleGridContainer : BeatmapObjectContainerCollection<BaseObstac
             time,
             (i) => DespawnSortedObjects[i].SongBpmTime
                 + DespawnSortedObjects[despawnIndex].DurationSongBpmTime
-                + Mathf.Max(DespawnSortedObjects[despawnIndex].Hjd, vNjsProvider.MaxHalfJumpDurationInBeats),
+                + Mathf.Max(DespawnSortedObjects[despawnIndex].HalfJumpDuration, vNjsProvider.MaxHalfJumpDurationInBeats),
             DespawnSortedObjects.Length,
             out despawnIndex,
             out _
         );
         var toSpawn = SpawnSortedObjects.Where(o =>
-            (o.SongBpmTime - Mathf.Max(o.Hjd, vNjsProvider.MaxHalfJumpDurationInBeats) <= time
+            (o.SongBpmTime - Mathf.Max(o.HalfJumpDuration, vNjsProvider.MaxHalfJumpDurationInBeats) <= time
                 && time
-                < o.SongBpmTime + o.DurationSongBpmTime + Mathf.Max(o.Hjd, vNjsProvider.MaxHalfJumpDurationInBeats)));
+                < o.SongBpmTime + o.DurationSongBpmTime + Mathf.Max(o.HalfJumpDuration, vNjsProvider.MaxHalfJumpDurationInBeats)));
         foreach (var obj in toSpawn)
         {
             if (obj.HasMatchingTrack(TrackFilterID)) CreateContainerFromPool(obj);

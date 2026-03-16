@@ -67,7 +67,7 @@ namespace Beatmap.Converters
         }
 
         public static Vector3? RescaleVector3(Vector3? vec3) =>
-            vec3 is { } v ? new Vector3(v.x * 0.6f, v.y * 0.6f, v.z * 0.6f) as Vector3? : null;
+            vec3 is { } v ? new Vector3(v.x * BeatmapConstant.LaneSize, v.y * BeatmapConstant.LaneSize, v.z * BeatmapConstant.LaneSize) as Vector3? : null;
 
         public static JSONNode CustomDataObject(JSONNode node)
         {

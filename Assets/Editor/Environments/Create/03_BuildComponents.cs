@@ -165,7 +165,7 @@ public partial class EnvironmentSceneCreator
                         g.gameObject.GetComponent<ChromaIDMarker>().MarkUse = true;
                         return g;
                     })
-                    .ToArray();
+                    .ToList();
             }
         }
 

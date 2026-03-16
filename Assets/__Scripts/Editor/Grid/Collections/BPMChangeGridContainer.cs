@@ -37,18 +37,9 @@ public class BPMChangeGridContainer : BeatmapObjectContainerCollection<BaseBpmEv
 
     public static event Action OnBPMChangeRefreshed;
     
-    public override ObjectType ContainerType
-    {
-        get
-        {
-            return ObjectType.BpmChange;
-        }
-    }
+    public override ObjectType ContainerType => ObjectType.BpmChange;
 
-    private void Start()
-    {
-        Shader.SetGlobalFloat(songBpm, BeatSaberSongContainer.Instance.Info.BeatsPerMinute);
-    }
+    private void Start() => Shader.SetGlobalFloat(songBpm, BeatSaberSongContainer.Instance.Info.BeatsPerMinute);
 
     internal override void SubscribeToCallbacks()
     {
@@ -76,15 +67,9 @@ public class BPMChangeGridContainer : BeatmapObjectContainerCollection<BaseBpmEv
         RefreshGridProperties();
     }
 
-    protected override void HandleObjectDelete(BaseObject obj, bool _ = false)
-    {
-        OnObjectDeleteOrSpawn(obj);
-    }
+    protected override void HandleObjectDelete(BaseObject obj, bool _ = false) => OnObjectDeleteOrSpawn(obj);
 
-    protected override void HandleObjectSpawned(BaseObject obj, bool _ = false)
-    {
-        OnObjectDeleteOrSpawn(obj);
-    }
+    protected override void HandleObjectSpawned(BaseObject obj, bool _ = false) => OnObjectDeleteOrSpawn(obj);
 
     private void OnObjectDeleteOrSpawn(BaseObject obj)
     {
@@ -173,24 +158,16 @@ public class BPMChangeGridContainer : BeatmapObjectContainerCollection<BaseBpmEv
         Shader.SetGlobalInt(bpmCount, bpmChangeCount);
     }
 
-    protected override void HandleContainerSpawn(ObjectContainer container, BaseObject obj)
-    {
-        RefreshGridProperties();
-    }
+    protected override void HandleContainerSpawn(ObjectContainer container, BaseObject obj) => RefreshGridProperties();
 
-    protected override void HandleContainerDespawn(ObjectContainer container, BaseObject obj)
-    {
-        RefreshGridProperties();
-    }
+    protected override void HandleContainerDespawn(ObjectContainer container, BaseObject obj) => RefreshGridProperties();
 
-    public override ObjectContainer CreateContainer()
-    {
-        return BpmEventContainer.SpawnBpmChange(null, ref bpmPrefab);
-    }
+    public override ObjectContainer CreateContainer() => BpmEventContainer.SpawnBpmChange(null, ref bpmPrefab);
 
     protected override void UpdateContainerData(ObjectContainer con, BaseObject obj)
     {
         var container = con as BpmEventContainer;
+        con.transform.localScale = Vector3.one * 0.75f;
         container.UpdateBpmText();
     }
 }

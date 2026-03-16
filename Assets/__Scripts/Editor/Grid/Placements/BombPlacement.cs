@@ -33,51 +33,48 @@ public class BombPlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
     public override void Initialize(PlacementProvider provider)
     {
         base.Initialize(provider);
-        PlacementVisualContainer.MaterialPropertyBlock.SetFloat(alwaysTranslucent, 1);
+        PlacementVisualContainer.ModelController.MpbController.Mpb.SetFloat(alwaysTranslucent, 1);
         PlacementVisualContainer.UpdateMaterials();
         PlacementVisualContainer.NoteData = QueuedData;
     }
 
-    protected override void UpdatePlacement(Intersections.IntersectionHit hit, Vector3 localPoint)
+    protected override void HandleHitToPlacement(Intersections.IntersectionHit hit, Vector3 localPoint)
     {
-        var placementZ = SongBpmTime * EditorScaleController.EditorScale;
-        var offset = new Vector3(hit.GameObject.transform.localScale.x % 2 / 2f, 0f, 0f);
-        var roundedPoint = new Vector3(
-            Mathf.FloorToInt(localPoint.x + offset.x),
-            Mathf.FloorToInt(localPoint.y),
-            placementZ);
+        var zPlacement = BeatmapPositionHelper.SongTimeToLanePositionZ(SongBpmTime);
 
         if (PrecisionPlacementController.IsEnabled)
         {
             var precision = Settings.Instance.PrecisionPlacementGridPrecision;
-            roundedPoint.x = Mathf.Round(localPoint.x * precision) / precision;
-            roundedPoint.y = Mathf.Round(localPoint.y * precision) / precision;
-            PlacementVisualContainer.transform.localPosition = roundedPoint;
+            LanePosition = BeatmapPositionHelper.LocalPositionToLanePositionRound(
+                localPoint,
+                precision,
+                BeatmapConstant.PlayerYOffset / 2f);
+            LanePosition.z = zPlacement;
+            PlacementVisualContainer.transform.localPosition =
+                BeatmapPositionHelper.LanePositionToLocalPosition(LanePosition, BeatmapConstant.PlayerYOffset / 2f);
         }
         else
         {
-            var minX = Bounds.min.x;
-            var maxX = Bounds.max.x;
-
-            var minY = Bounds.min.y;
-            var maxY = Bounds.max.y;
-
-            PlacementVisualContainer.transform.localPosition = new Vector3(
-                    Mathf.Clamp(roundedPoint.x - offset.x, minX, maxX - 1),
-                    Mathf.Clamp(roundedPoint.y, minY, maxY - 1),
-                    roundedPoint.z)
-                + (Vector3)GridOffset;
+            LanePosition = BeatmapPositionHelper.LocalPositionToLanePosition(
+                localPoint,
+                BeatmapConstant.PlayerYOffset / 2f);
+            LanePosition.z = zPlacement;
+            PlacementVisualContainer.transform.localPosition =
+                BeatmapPositionHelper.LanePositionToLocalPosition(
+                    LanePosition,
+                    Bounds,
+                    BeatmapConstant.PlayerYOffset / 2f);
         }
     }
 
-    protected override void UpdateData(PlacementInputState inputState)
+    protected override void HandlePlacementToData(PlacementInputState inputState)
     {
         // Check if Chroma Color notes button is active and apply _color
         QueuedData.CustomColor = CanPlaceChromaObjects && dropdown.Visible
             ? colorPicker.CurrentColor
             : null;
 
-        var pos = (Vector2)PlacementVisualContainer.transform.localPosition - GridOffset;
+        var pos = LanePosition;
         pos.x += 2f;
 
         var vanillaX = Mathf.FloorToInt(Mathf.Clamp(pos.x, 0f, 3f));

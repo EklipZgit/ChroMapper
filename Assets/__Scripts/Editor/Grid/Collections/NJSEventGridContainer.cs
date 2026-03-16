@@ -34,11 +34,5 @@ public class NJSEventGridContainer : BeatmapObjectContainerCollection<BaseNJSEve
 
     public override ObjectContainer CreateContainer() => NJSEventContainer.SpawnNJSEvent(null, ref njsEventPrefab);
 
-    // protected override void UpdateContainerData(ObjectContainer con, BaseObject obj)
-    // {
-    //     var njsEvent = con as NJSEventContainer;
-    //     var njsEventData = obj as BaseNJSEvent;
-    //     NJSEventAppearanceSo.SetNJSEventAppearance(njsEvent);
-    //     njsEvent.Setup();
-    // }
+    protected override void UpdateContainerData(ObjectContainer con, BaseObject obj) => con.transform.localScale = Vector3.one * 0.75f;
 }

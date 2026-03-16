@@ -146,13 +146,13 @@ public class BookmarkRenderingController : MonoBehaviour
         var rect = (RectTransform)obj.transform;
         rect.SetParent(gridBookmarksParent);
         SetBookmarkPos(rect, bookmark.SongBpmTime);
-        rect.sizeDelta = Vector2.one;
+        rect.sizeDelta = Vector2.one * BeatmapConstant.LaneSize;
         rect.localRotation = Quaternion.identity;
 
         var text = obj.GetComponent<TextMeshProUGUI>();
         text.font = PersistentUI.Instance.ButtonPrefab.Text.font;
         text.alignment = TextAlignmentOptions.Left;
-        text.fontSize = 0.4f;
+        text.fontSize = 0.4f * BeatmapConstant.LaneSize;
         text.textWrappingMode = TextWrappingModes.NoWrap;
         text.raycastTarget = false;
         text.fontMaterial = fontMaterial;

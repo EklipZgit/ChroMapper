@@ -26,6 +26,7 @@ public class GridViewController : MonoBehaviour
     private void OnEnable() => NotifyChanged();
     private void OnDestroy() => allChildren.Clear();
 
+    // TODO: Refresh only once per frame
     private static void UpdateGrid()
     {
         var activeChildren = new Dictionary<int, List<GridChild>>();
@@ -66,7 +67,10 @@ public class GridViewController : MonoBehaviour
             {
                 if (child is GridLane lane) lane.OddLaneOffset = isOdd;
                 var xPos = childX + child.LocalOffset.x;
-                child.transform.localPosition = new Vector3(xPos, child.LocalOffset.y, child.LocalOffset.z);
+                child.transform.localPosition = new Vector3(
+                    xPos * BeatmapConstant.LaneSize,
+                    child.LocalOffset.y,
+                    child.LocalOffset.z);
             }
 
             childX += Mathf.Ceil(children.Any() ? children.Max(x => x.Lane) + 1 : 0);

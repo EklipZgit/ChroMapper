@@ -46,15 +46,13 @@ namespace Beatmap.Base
         public int Rotation { get; set; }
 
         // Half Jump Duration (SongBpmTime)
-        public float Hjd { get; private set; }
+        public float HalfJumpDuration { get; private set; }
 
         // Half Jump Distance
-        public float Jd { get; private set; }
+        public float HalfJumpDistance { get; private set; }
 
-        public float EditorScale { get; private set; }
-
-        public virtual float SpawnSongBpmTime => SongBpmTime - Hjd;
-        public virtual float DespawnSongBpmTime => SongBpmTime + Hjd;
+        public virtual float SpawnSongBpmTime => SongBpmTime - HalfJumpDuration;
+        public virtual float DespawnSongBpmTime => SongBpmTime + HalfJumpDuration;
 
         public virtual JSONNode CustomAnimation { get; set; }
 
@@ -81,7 +79,7 @@ namespace Beatmap.Base
         public abstract string CustomKeyNoteJumpMovementSpeed { get; }
         public abstract string CustomKeyNoteJumpStartBeatOffset { get; }
 
-        public Vector2 GetCenter() => GetPosition() + new Vector2(0f, 0.5f);
+        public Vector2 GetCenter() => GetPosition() + new Vector2(0f, BeatmapConstant.LaneSize / 2f);
 
         public Vector2 GetPosition() => DerivePositionFromData();
 
@@ -107,17 +105,14 @@ namespace Beatmap.Base
             var bpm = BeatSaberSongContainer.Instance?.Info?.BeatsPerMinute ?? 0f;
 
             var hjd = SpawnParameterHelper.CalculateHalfJumpDuration(njs, offset, bpm);
-            // (5 / 3) * njs * (60 / bpm) = 100
-            var editorScale = 100f * njs / bpm;
-            var jd = hjd * editorScale;
-            SetSpawnParameters(hjd, jd, editorScale);
+            var jd = SpawnParameterHelper.CalculateJumpDistance(njs, offset, bpm);
+            SetSpawnParameters(hjd, jd / 2f);
         }
 
-        public void SetSpawnParameters(float hjd, float jd, float editorScale)
+        public void SetSpawnParameters(float hjd, float jd)
         {
-            Hjd = hjd;
-            Jd = jd;
-            EditorScale = editorScale;
+            HalfJumpDuration = hjd;
+            HalfJumpDistance = jd;
         }
 
         private Vector2 DerivePositionFromData()
@@ -129,7 +124,7 @@ namespace Beatmap.Base
             {
                 if (CustomCoordinate[0].IsNumber) position = CustomCoordinate[0] + 0.5f;
                 if (CustomCoordinate[1].IsNumber) layer = CustomCoordinate[1];
-                return new Vector2(position, layer);
+                return new Vector2(position, layer) * BeatmapConstant.LaneSize;
             }
 
             if (PosX >= 1000)
@@ -138,7 +133,7 @@ namespace Beatmap.Base
 
             if (PosY >= 1000 || PosY <= -1000) layer = (PosY / 1000f) - 1f;
 
-            return new Vector2(position, layer);
+            return new Vector2(position, layer) * BeatmapConstant.LaneSize;
         }
 
         protected override void ParseCustom()

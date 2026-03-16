@@ -33,8 +33,8 @@ namespace Beatmap.Animations
         public Aggregator<float> Opacity;
         public Aggregator<float> OpacityArrow;
 
-        public bool AnimatedTrack { get; private set; } = false;
-        public bool AnimatedLife { get; private set; } = false;
+        public bool AnimatedTrack { get; private set; }
+        public bool AnimatedLife { get; private set; }
         public bool ShouldRecycle;
 
         public enum TargetTypes
@@ -47,15 +47,15 @@ namespace Beatmap.Animations
 
         public TargetTypes TargetType;
 
-        private List<TrackAnimator> tracks = new List<TrackAnimator>();
+        private List<TrackAnimator> tracks = new();
 
-        public Dictionary<string, IAnimateProperty> AnimatedProperties = new Dictionary<string, IAnimateProperty>();
+        public Dictionary<string, IAnimateProperty> AnimatedProperties = new();
         private IAnimateProperty[] properties = new IAnimateProperty[0];
 
-        private static readonly int shaderIdColor = Shader.PropertyToID("_Color");
-        private static readonly int shaderIdCutout = Shader.PropertyToID("_Cutout");
-        private static readonly int shaderIdCutoutTexOffset = Shader.PropertyToID("_CutoutTexOffset");
-        private static readonly int shaderIdAnimSpawned = Shader.PropertyToID("_AnimationSpawned");
+        private static readonly int colorId = Shader.PropertyToID("_Color");
+        private static readonly int cutoutId = Shader.PropertyToID("_Cutout");
+        private static readonly int cutoutTexOffsetId = Shader.PropertyToID("_CutoutTexOffset");
+        private static readonly int animSpawnedId = Shader.PropertyToID("_AnimationSpawned");
 
         public void ResetData()
         {
@@ -85,7 +85,7 @@ namespace Beatmap.Animations
             WorldPosition = new Aggregator<Vector3>(Vector3.zero, (a, b) => a + b);
             Scale = new Aggregator<Vector3>(Vector3.one, (a, b) => Vector3.Scale(a, b));
             Colors = new Aggregator<Color>(
-                container?.MaterialPropertyBlock?.GetColor(shaderIdColor) ?? Color.white,
+                container?.MpbController.Mpb?.GetColor(colorId) ?? Color.white,
                 (a, b) => a * b);
             Opacity = new Aggregator<float>(1.0f, (a, b) => a * b);
             OpacityArrow = new Aggregator<float>(1.0f, (a, b) => a * b);
@@ -104,13 +104,17 @@ namespace Beatmap.Animations
             if (container != null && !(container is GeometryContainer))
             {
                 container.UpdateGridPosition();
-                container.MaterialPropertyBlock.SetFloat(shaderIdCutout, 0);
-                container.MaterialPropertyBlock.SetVector(shaderIdCutoutTexOffset, Random.insideUnitCircle * 10f);
-                container.MaterialPropertyBlock.SetFloat(shaderIdAnimSpawned, 0);
+                container.MpbController.Mpb.SetFloat(cutoutId, 0);
+                container.MpbController.Mpb.SetVector(
+                    cutoutTexOffsetId,
+                    Random.insideUnitCircle * 10f);
+                container.MpbController.Mpb.SetFloat(animSpawnedId, 0);
                 if (container is NoteContainer nc)
                 {
-                    nc.ArrowMaterialPropertyBlock.SetFloat(shaderIdCutout, 0);
-                    nc.ArrowMaterialPropertyBlock.SetVector(shaderIdCutoutTexOffset, Random.insideUnitCircle * 10f);
+                    nc.ArrowMpbController.Mpb.SetFloat(cutoutId, 0);
+                    nc.ArrowMpbController.Mpb.SetVector(
+                        cutoutTexOffsetId,
+                        Random.insideUnitCircle * 10f);
                     nc.DirectionTarget.localPosition = Vector3.zero;
                 }
 
@@ -136,29 +140,44 @@ namespace Beatmap.Animations
 
             TargetType = TargetTypes.GameplayObject;
 
-            enabled = (UIMode.AnimationMode && TracksManager != null);
+            enabled = UIMode.AnimationMode && TracksManager != null;
             if (!enabled) return;
 
             obj.RecomputeSpawnParameters();
 
-            var duration = 0f;
-
-            if (container is ObstacleContainer obs)
+            float duration;
+            switch (container)
             {
-                duration = obs.ObstacleData.DurationSongBpmTime;
-                var wallPosition = obs.ReadPosition();
-                wallPosition -= new Vector3(0, 0, 0.4f);
-                OffsetPosition.Preload(wallPosition);
-                Scale.Preload(Vector3.one);
+                case ObstacleContainer obs:
+                    duration = obs.ObstacleData.DurationSongBpmTime;
+                    OffsetPosition.Preload(obs.ReadPosition() - new Vector3(0, 0, 0.25f));
+                    Scale.Preload(Vector3.one);
+                    break;
+                case ArcContainer arc:
+                    duration = arc.ArcData.DurationSongBpmTime;
+                    break;
+                case ChainContainer chain:
+                    duration = chain.ChainData.DurationSongBpmTime;
+                    break;
+                default:
+                    duration = 0f;
+                    break;
             }
 
             if (obj.CustomLocalRotation is JSONNode rot) LocalRotation.Preload(Quaternion.Euler(rot.ReadVector3()));
-            if (obj.CustomWorldRotation is JSONArray wrot) WorldRotation.Preload(Quaternion.Euler(wrot.ReadVector3()));
-            if (obj.CustomWorldRotation is JSONNumber yrot) WorldRotation.Preload(Quaternion.Euler(0, yrot, 0));
+            switch (obj.CustomWorldRotation)
+            {
+                case JSONArray wrot:
+                    WorldRotation.Preload(Quaternion.Euler(wrot.ReadVector3()));
+                    break;
+                case JSONNumber yrot:
+                    WorldRotation.Preload(Quaternion.Euler(0, yrot, 0));
+                    break;
+            }
 
             time_begin = obj.SpawnSongBpmTime;
             // Can't use DespawnSongBpmTime because obstacles jump out early
-            time_end = obj.SongBpmTime + duration + obj.Hjd;
+            time_end = obj.SongBpmTime + duration + obj.HalfJumpDuration;
 
             RequireAnimationTrack();
             WorldTarget = AnimationTrack.transform;
@@ -277,10 +296,10 @@ namespace Beatmap.Animations
             WorldRotation = LocalRotation;
 
             if (eh.Scale is Vector3 scale) Scale._default = scale;
-            if (eh.Position is Vector3 p) OffsetPosition._default = (v2 ? 1 : 1.667f) * p;
-            if (eh.LocalPosition is Vector3 lp) OffsetPosition._default = (v2 ? 1 : 1.667f) * lp;
-            if (eh.Rotation is Vector3 r) LocalRotation._default = (Quaternion.Euler(r.x, r.y, r.z));
-            if (eh.LocalRotation is Vector3 lr) LocalRotation._default = (Quaternion.Euler(lr.x, lr.y, lr.z));
+            if (eh.Position is Vector3 p) OffsetPosition._default = (v2 ? BeatmapConstant.LaneSize : 1f) * p;
+            if (eh.LocalPosition is Vector3 lp) OffsetPosition._default = (v2 ? BeatmapConstant.LaneSize : 1f) * lp;
+            if (eh.Rotation is Vector3 r) LocalRotation._default = Quaternion.Euler(r.x, r.y, r.z);
+            if (eh.LocalRotation is Vector3 lr) LocalRotation._default = Quaternion.Euler(lr.x, lr.y, lr.z);
 
             if (eh.Track != null)
             {
@@ -323,7 +342,7 @@ namespace Beatmap.Animations
             tracks.Add(track);
         }
 
-        private float? _time = null;
+        private float? _time;
         private float time_begin;
         private float time_end;
 
@@ -333,23 +352,27 @@ namespace Beatmap.Animations
 
             if (container?.ObjectData is BaseGrid obj)
             {
-                var NoodleAnimationLifetime = (time > time_end) ? -1 : 1;
+                var NoodleAnimationLifetime = time > time_end ? -1 : 1;
                 if (!(container is ChainContainer))
                 {
-                    container?.MaterialPropertyBlock.SetFloat(shaderIdAnimSpawned, NoodleAnimationLifetime);
+                    container?.MpbController.Mpb.SetFloat(
+                        animSpawnedId,
+                        NoodleAnimationLifetime);
                     if (container is NoteContainer nc)
                     {
-                        nc.ArrowMaterialPropertyBlock.SetFloat(shaderIdAnimSpawned, NoodleAnimationLifetime);
+                        nc.ArrowMpbController.Mpb.SetFloat(
+                            animSpawnedId,
+                            NoodleAnimationLifetime);
                     }
                 }
 
                 AnimatedLife =
                     (_time != null && _time < obj.SongBpmTime)
-                    || (WorldPosition.Count > 0)
+                    || WorldPosition.Count > 0
                     || (obj.CustomFake && time < time_end);
                 if (ShouldRecycle)
                 {
-                    var despawn_time = (WorldPosition.Count == 0 && !obj.CustomFake)
+                    var despawn_time = WorldPosition.Count == 0 && !obj.CustomFake
                         ? obj.SongBpmTime
                         : time_end;
                     if (time > despawn_time)
@@ -386,7 +409,7 @@ namespace Beatmap.Animations
                 if (Colors.Count > 0)
                 {
                     var color = Colors.Get();
-                    container.MaterialPropertyBlock.SetColor(shaderIdColor, color);
+                    container.MpbController.Mpb.SetColor(colorId, color);
                     container.UpdateMaterials();
                 }
 
@@ -422,21 +445,21 @@ namespace Beatmap.Animations
                 if (Colors.Count > 0)
                 {
                     var color = Colors.Get();
-                    container.MaterialPropertyBlock
-                        .SetColor(shaderIdColor, color);
+                    container.MpbController.Mpb
+                        .SetColor(colorId, color);
                 }
 
                 if (container is NoteContainer nc)
-                    nc.ArrowMaterialPropertyBlock.SetFloat(shaderIdCutout, 1f - OpacityArrow.Get());
+                    nc.ArrowMpbController.Mpb.SetFloat(cutoutId, 1f - OpacityArrow.Get());
 
-                container.MaterialPropertyBlock.SetFloat(shaderIdCutout, 1f - Opacity.Get());
+                container.MpbController.Mpb.SetFloat(cutoutId, 1f - Opacity.Get());
                 container.UpdateMaterials();
             }
         }
 
         public void SetLifeTime(float normalTime)
         {
-            _time = (normalTime < 0)
+            _time = normalTime < 0
                 ? (float?)null
                 : (float?)Mathf.LerpUnclamped(time_begin, time_end, normalTime);
         }
@@ -596,10 +619,10 @@ namespace Beatmap.Animations
         // I should never be allowed to use a profiler
         public class Aggregator<T> where T : struct
         {
-            public int Count = 0;
+            public int Count;
             public Func<T, T, T> func;
             public T _default;
-            public int Keep = 0;
+            public int Keep;
 
             public Aggregator(T _default, Func<T, T, T> func)
             {

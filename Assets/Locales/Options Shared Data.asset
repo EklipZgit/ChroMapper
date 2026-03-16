@@ -1395,6 +1395,30 @@ MonoBehaviour:
     m_Key: graphics.mirror
     m_Metadata:
       m_Items: []
+  - m_Id: 603916992827326464
+    m_Key: map.obstaclelanes.tooltip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 603917705401827328
+    m_Key: map.obstaclelanes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 607229076554088448
+    m_Key: graphics.notemodels.tooltip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 607229419425857536
+    m_Key: graphics.notemodels
+    m_Metadata:
+      m_Items: []
+  - m_Id: 607546429884039168
+    m_Key: graphics.shadercompatibility.tooltip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 607546596444045312
+    m_Key: graphics.shadercompatibility
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

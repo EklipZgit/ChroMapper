@@ -45,7 +45,7 @@ public class MirrorRendererSO : ScriptableObject
     {
         if ((bool)mirrorCamera)
         {
-            Destroy(mirrorCamera.gameObject);
+            GameObjectExtensions.DestroySafe(mirrorCamera.gameObject);
             mirrorCamera = null;
         }
 

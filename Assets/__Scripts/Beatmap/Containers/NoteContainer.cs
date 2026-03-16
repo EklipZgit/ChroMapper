@@ -14,21 +14,18 @@ namespace Beatmap.Containers
 
         private static readonly Color unassignedColor = new(0.25f, 0.25f, 0.25f);
 
-        [SerializeField] private GameObject simpleBlock;
-        [SerializeField] private GameObject simpleChainHead;
-        [SerializeField] private GameObject complexBlock;
-        [SerializeField] private GameObject complexChainHead;
-        [SerializeField] public Transform DirectionTarget;
+        [SerializeField] public VisualModelController ModelController;
 
-        [SerializeField] private List<MeshRenderer> noteRenderer;
-        [SerializeField] private List<MeshRenderer> chainRenderer;
-        [SerializeField] private MeshRenderer bombRenderer;
-        [SerializeField] private MeshRenderer dotRenderer;
-        [SerializeField] private MeshRenderer arrowRenderer;
+        [Header("Visual (Direction)")] [SerializeField]
+        public MaterialPropertyBlockController ArrowMpbController;
+
+        [SerializeField] public VisualModelController ArrowModelController;
+        [SerializeField] public VisualModelController DotModelController;
+
+        [Header("Others")] [SerializeField] public Transform DirectionTarget;
         [SerializeField] private SpriteRenderer swingArcRenderer;
 
         public BaseNote NoteData;
-        public MaterialPropertyBlock ArrowMaterialPropertyBlock;
 
         [NonSerialized] public Vector3 DirectionTargetEuler = Vector3.zero;
 
@@ -38,20 +35,77 @@ namespace Beatmap.Containers
             set => NoteData = (BaseNote)value;
         }
 
+        protected override void RegisterCallback()
+        {
+            VisualSettings.OnNoteModelChanged += HandleModelChanged;
+            VisualSettings.OnBombModelChanged += HandleModelChanged;
+            VisualSettings.OnChainHeadModelChanged += HandleModelChanged;
+        }
+
+        protected override void UnregisterCallback()
+        {
+            VisualSettings.OnNoteModelChanged -= HandleModelChanged;
+            VisualSettings.OnBombModelChanged -= HandleModelChanged;
+            VisualSettings.OnChainHeadModelChanged -= HandleModelChanged;
+        }
+
         public override void Setup()
         {
             base.Setup();
 
-            SetModelInfer();
-            MaterialPropertyBlock.SetFloat(translucentAlpha, Settings.Instance.PastNoteModelAlpha);
+            HandleModelChanged();
+            ArrowModelController.MpbController.Mpb.SetFloat(translucentAlpha, Settings.Instance.PastNoteModelAlpha);
+            DotModelController.MpbController.Mpb.SetFloat(translucentAlpha, Settings.Instance.PastNoteModelAlpha);
             UpdateMaterials();
 
-            if (ArrowMaterialPropertyBlock == null)
+            SetArcVisible(NoteGridContainer.ShowArcVisualizer);
+        }
+
+        // TODO: have proper model swapper instead of convoluting the container
+        public void HandleModelChanged()
+        {
+            if (NoteData == null) return;
+            if (NoteData.Type == (int)NoteType.Bomb)
+                SetBombModel();
+            else
+                SetNoteModel();
+        }
+
+        public void SetNoteModel()
+        {
+            VisualModelSO vm;
+            if (NoteData.CutDirection == (int)NoteCutDirection.Any)
             {
-                ArrowMaterialPropertyBlock = new MaterialPropertyBlock();
+                vm =
+                    NoteData.Chains.Count > 0
+                        ? NoteData.Type == (int)NoteType.Blue
+                            ? VisualSettings.GetBurstSliderHeadDotRightModel()
+                            : VisualSettings.GetBurstSliderHeadDotLeftModel()
+                        : NoteData.Type == (int)NoteType.Blue
+                            ? VisualSettings.GetNoteDotRightModel()
+                            : VisualSettings.GetNoteDotLeftModel();
+            }
+            else
+            {
+                vm = NoteData.Chains.Count > 0
+                    ? NoteData.Type == (int)NoteType.Blue
+                        ? VisualSettings.GetBurstSliderHeadRightModel()
+                        : VisualSettings.GetBurstSliderHeadLeftModel()
+                    : NoteData.Type == (int)NoteType.Blue
+                        ? VisualSettings.GetNoteRightModel()
+                        : VisualSettings.GetNoteLeftModel();
             }
 
-            SetArcVisible(NoteGridContainer.ShowArcVisualizer);
+            ModelController.Set(vm);
+
+            ArrowMpbController.gameObject.SetActive(!vm.DisableAux);
+            ArrowMpbController.ShowRenderer(true);
+        }
+
+        public void SetBombModel()
+        {
+            ModelController.Set(VisualSettings.GetBombModel());
+            ArrowMpbController.ShowRenderer(false);
         }
 
         internal static Vector3 Directionalize(BaseNote noteData)
@@ -113,66 +167,16 @@ namespace Beatmap.Containers
             return directionEuler;
         }
 
-        public void SetDotVisible(bool b) => dotRenderer.enabled = b;
-
-        public void SetArrowVisible(bool b) => arrowRenderer.enabled = b;
-
-        // TODO: have proper model swapper instead of convoluting the container
-        public void SetModelInfer()
+        public void SetDot()
         {
-            if (NoteData == null) return;
-            if (NoteData.Type == (int)NoteType.Bomb)
-                SetBombModel();
-            else
-                SetNoteModel();
-
-            // does this cause performance hit if it reassigned?
-            var ic = DirectionTarget.GetComponent<IntersectionCollider>();
-            ic.Mesh = ic.transform.GetChild(ic.transform.childCount - 1).GetComponent<MeshFilter>().mesh; // ew
-            ic.HardRefresh();
+            ArrowModelController.gameObject.SetActive(false);
+            DotModelController.gameObject.SetActive(true);
         }
 
-        public void SetNoteModel()
+        public void SetArrow()
         {
-            simpleBlock.SetActive(Settings.Instance.SimpleBlocks);
-            complexBlock.SetActive(!Settings.Instance.SimpleBlocks);
-
-            simpleChainHead.SetActive(false);
-            complexChainHead.SetActive(false);
-
-            bombRenderer.gameObject.SetActive(false);
-            bombRenderer.enabled = false;
-        }
-
-        public void SetBombModel()
-        {
-            simpleBlock.SetActive(false);
-            complexBlock.SetActive(false);
-
-            simpleChainHead.SetActive(false);
-            complexChainHead.SetActive(false);
-
-            bombRenderer.gameObject.SetActive(true);
-            bombRenderer.enabled = true;
-        }
-
-        public void SetChainHeadModel()
-        {
-            if (NoteData.Type == (int)NoteType.Bomb) return;
-            
-            // unfortunately the size collision has also changed
-            var ic = DirectionTarget.GetComponent<IntersectionCollider>();
-            ic.Mesh = ic.transform.GetChild(ic.transform.childCount - 2).GetComponent<MeshFilter>().mesh; // ew
-            ic.HardRefresh();
-
-            simpleBlock.SetActive(false);
-            complexBlock.SetActive(false);
-
-            simpleChainHead.SetActive(Settings.Instance.SimpleBlocks);
-            complexChainHead.SetActive(!Settings.Instance.SimpleBlocks);
-
-            bombRenderer.gameObject.SetActive(false);
-            bombRenderer.enabled = false;
+            ArrowModelController.gameObject.SetActive(true);
+            DotModelController.gameObject.SetActive(false);
         }
 
         public void SetArcVisible(bool showArcVisualizer)
@@ -193,56 +197,47 @@ namespace Beatmap.Containers
             if (!(Animator != null && Animator.AnimatedTrack))
             {
                 transform.localPosition = (Vector3)NoteData.GetPosition()
-                    + new Vector3(0, offsetY, NoteData.SongBpmTime * EditorScaleController.EditorScale);
+                    + new Vector3(
+                        0f,
+                        BeatmapConstant.YOffset + BeatmapConstant.PlayerYOffset,
+                        (NoteData.SongBpmTime * EditorScaleController.EditorScale * BeatmapConstant.LaneSize)
+                        + BeatmapConstant.ZOffset);
             }
 
             transform.localScale = NoteData.GetScale();
-            DirectionTarget.localScale = Vector3.one;
             DirectionTarget.localEulerAngles = DirectionTargetEuler;
 
             // default scale prior to this setting worked out to be 90%
             if (!Settings.Instance.AccurateNoteSize && NoteData.Type != (int)NoteType.Bomb)
-                DirectionTarget.localScale *= 0.9f;
-
-            if (NoteData.Type != (int)NoteType.Bomb)
-            {
-                // Only apply this to notes as bomb DirectionTarget affects hover placement as well
-                // really need to think about prefab structure soon
-                DirectionTarget.localPosition = Vector3.zero;
-            }
+                ModelController.transform.localScale = Vector3.one * 0.9f;
+            else
+                ModelController.transform.localScale = Vector3.one;
 
             UpdateCollisionGroups();
 
-            MaterialPropertyBlock.SetFloat(objectTime, NoteData.SongBpmTime);
-            ArrowMaterialPropertyBlock.SetFloat(objectTime, NoteData.SongBpmTime);
+            ModelController.MpbController.Mpb.SetFloat(objectTime, NoteData.SongBpmTime);
+            ArrowMpbController.Mpb.SetFloat(objectTime, NoteData.SongBpmTime);
             SetRotation(AssignedTrack != null ? AssignedTrack.RotationValue.y : 0);
             UpdateMaterials();
         }
 
         public void SetColor(Color? c)
         {
-            MaterialPropertyBlock.SetColor(colorId, c ?? unassignedColor);
+            var color = c ?? unassignedColor;
+            ModelController.MpbController.Mpb.SetColor(colorId, color);
+            ModelController.MpbController.Mpb.SetFloat(colorMultiplierId, Settings.Instance.NoteColorMultiplier);
 
-            var arrowColor = Color.Lerp(c ?? unassignedColor, Color.white, Settings.Instance.ArrowColorWhiteBlend);
-            ArrowMaterialPropertyBlock.SetColor(colorId, arrowColor);
-
-            MaterialPropertyBlock.SetFloat(colorMultiplierId, Settings.Instance.NoteColorMultiplier);
-            ArrowMaterialPropertyBlock.SetFloat(colorMultiplierId, Settings.Instance.ArrowColorMultiplier);
+            var arrowColor = Color.Lerp(color, Color.white, Settings.Instance.ArrowColorWhiteBlend);
+            ArrowMpbController.Mpb.SetColor(colorId, arrowColor);
+            ArrowMpbController.Mpb.SetFloat(colorMultiplierId, Settings.Instance.ArrowColorMultiplier);
 
             UpdateMaterials();
         }
 
         internal override void UpdateMaterials()
         {
-            foreach (var renderer in noteRenderer) renderer.SetPropertyBlock(MaterialPropertyBlock);
-            foreach (var renderer in chainRenderer) renderer.SetPropertyBlock(MaterialPropertyBlock);
-            foreach (var renderer in SelectionRenderers) renderer.SetPropertyBlock(MaterialPropertyBlock);
-            bombRenderer.SetPropertyBlock(MaterialPropertyBlock);
-            if (dotRenderer != null)
-            {
-                dotRenderer.SetPropertyBlock(ArrowMaterialPropertyBlock);
-                arrowRenderer.SetPropertyBlock(ArrowMaterialPropertyBlock);
-            }
+            MpbController.ApplyChanges();
+            ArrowMpbController.ApplyChanges();
         }
     }
 }

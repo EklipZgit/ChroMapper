@@ -90,7 +90,7 @@ public class EventPlacement : BasePlacement<BaseEvent, EventContainer, EventGrid
         PlacementVisualContainer.EventData = QueuedData;
     }
 
-    protected override void UpdateData(PlacementInputState inputState)
+    protected override void HandlePlacementToData(PlacementInputState inputState)
     {
         if (ObjectContainerCollection.PropagationEditing == EventGridContainer.PropMode.Off)
         {
