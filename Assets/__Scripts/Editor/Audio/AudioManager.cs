@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Unity.Collections;
 using UnityEngine;
 
@@ -6,6 +7,7 @@ public class AudioManager : MonoBehaviour
 {
     private static readonly int sampleSize = Shader.PropertyToID("SampleSize");
     private static readonly int processingOffset = Shader.PropertyToID("ProcessingOffset");
+    private static readonly int chunkOffset = Shader.PropertyToID("ChunkOffset");
 
     private static readonly int fftSize = Shader.PropertyToID("FFTSize");
     private static readonly int fftCount = Shader.PropertyToID("FFTCount");
@@ -23,6 +25,9 @@ public class AudioManager : MonoBehaviour
     private static readonly int fftImaginary = Shader.PropertyToID("Imaginary");
     private static readonly int fftResults = Shader.PropertyToID("FFTResults");
 
+    // Number of FFT windows to process per frame during deferred generation
+    private const int chunkWindowCount = 512;
+
     [SerializeField] private ComputeShader multiplyShader;
     [SerializeField] private ComputeShader fftShader;
     [SerializeField] private ComputeShader initializeShader;
@@ -30,9 +35,22 @@ public class AudioManager : MonoBehaviour
     private ComputeBuffer cachedFFTBuffer;
     private ComputeBuffer dummyBuffer;
 
+    private Coroutine activeFFTCoroutine;
+
     // ReSharper disable ParameterHidesMember
     // ReSharper disable LocalVariableHidesMember
-    public void GenerateFFT(AudioClip clip, int sampleSize, int quality)
+    public void GenerateFFT(AudioClip clip, int sampleSize, int quality, bool showDuringGenerating = false)
+    {
+        if (activeFFTCoroutine != null)
+        {
+            StopCoroutine(activeFFTCoroutine);
+            activeFFTCoroutine = null;
+        }
+
+        activeFFTCoroutine = StartCoroutine(GenerateFFTDeferred(clip, sampleSize, quality, showDuringGenerating));
+    }
+
+    private IEnumerator GenerateFFTDeferred(AudioClip clip, int sampleSize, int quality, bool showDuringGenerating)
     {
         if (SampleBufferManager.MonoSamples == null)
         {
@@ -43,10 +61,8 @@ public class AudioManager : MonoBehaviour
 
         var sampleCount = SampleBufferManager.MonoSampleCount;
 
-        // TODO: Should we consider a CPU spectrogram fallback in cases where the GPU spectrogram would fail?
-
         // Reduce spectrogram quality if it would exceed max buffer size 
-        while ((long)sampleCount * quality * sizeof(float) > SystemInfo.maxGraphicsBufferSize)
+        while ((long)sampleCount * quality * sizeof(uint) > SystemInfo.maxGraphicsBufferSize)
         {
             quality /= 2;
             Debug.Log($"FFT buffer exceeded. Reduced spectrogram quality to: {quality}");
@@ -55,14 +71,16 @@ public class AudioManager : MonoBehaviour
         {
             Debug.LogWarning("Refusing to render spectrogram: Exceeds maximum Compute Buffer size.");
             PersistentUI.Instance.ShowDialogBox("PersistentUI", "spectrofailed.computebuffer", null, PersistentUI.DialogBoxPresetType.Ok);
-            return;
+            yield break;
         }
 
         // Reduce spectrogram quality if it would exceed half of total VRAM capacity
         //   (Video memory should still be available for ChroMapper and other programs)
         var videoMemoryBytes = SystemInfo.graphicsMemorySize * 1024L * 1024L;
-        const int fftCountBuffers = 3;
-        while ((long)sampleCount * quality * sizeof(float) * fftCountBuffers > videoMemoryBytes / 2L)
+        var chunkBufferBytes = 2L * chunkWindowCount * sampleSize * sizeof(float);
+        var fftBufferBytes = (((long)sampleCount * quality * sizeof(byte)) + 3L) / 4L;
+        var fullVramUsage = fftBufferBytes + chunkBufferBytes;
+        while (fullVramUsage > videoMemoryBytes / 2L)
         {
             quality /= 2;
             Debug.Log($"Video Memory exceeded. Reduced spectrogram quality to: {quality}");
@@ -71,11 +89,12 @@ public class AudioManager : MonoBehaviour
         {
             Debug.LogWarning("Refusing to render spectrogram: Exceeds half of available video memory.");
             PersistentUI.Instance.ShowDialogBox("PersistentUI", "spectrofailed.vram", null, PersistentUI.DialogBoxPresetType.Ok);
-            return;
+            yield break;
         }
 
         var fftSize = sampleSize / 2;
         var fftCount = sampleCount * quality;
+        var totalWindows = fftCount / sampleSize;
 
         // Generate window coefficients and signal scale factor
         var window = WindowCoefficients.GetWindowForSize(sampleSize);
@@ -88,42 +107,78 @@ public class AudioManager : MonoBehaviour
         Shader.SetGlobalFloat(fftScaleFactor, signal);
         Shader.SetGlobalFloat(fftFrequency, clip.frequency * quality);
         Shader.SetGlobalFloat(fftQuality, quality);
+        Shader.SetGlobalInt(fftInitialized, showDuringGenerating ? 1 : 0);
 
-        cachedFFTBuffer = new ComputeBuffer(fftCount, sizeof(float));
+        // Calculate packed buffer size: each uint stores 4 samples as bytes
+        var packedFftCount = (fftCount + 3) / 4; // Round up to ensure all values fit
+        cachedFFTBuffer = new ComputeBuffer(packedFftCount, sizeof(uint));
         Shader.SetGlobalBuffer(fftResults, cachedFFTBuffer);
 
-        // Step 1: Prepare real components of our FFT by multiply song samples by window coefficients for FFT
-        //   We allocate a temporary CPU buffer that will hold our real component data before copying to the GPU in one block.
-        using var windowedSamples = new ComputeBuffer(fftCount, sizeof(float));
-        using (var windowWrite = new NativeArray<float>(fftCount, Allocator.Temp, NativeArrayOptions.UninitializedMemory))
-        using (var windowCoeffBuffer = new ComputeBuffer(sampleSize, sizeof(float)))
-        {   
-            for (var i = 0; i < sampleCount; i += sampleSize / quality)
+        // Prepare window coefficient buffer (persists across all chunks)
+        using var windowCoeffBuffer = new ComputeBuffer(sampleSize, sizeof(float));
+        windowCoeffBuffer.SetData(window);
+
+        // Process FFT in chunks, one chunk per frame
+        var samplesPerWindow = sampleSize / quality;
+
+        // Allocate our temporary buffers once and reuse them for each chunk
+        var realBuffer = new ComputeBuffer(chunkWindowCount * sampleSize, sizeof(float));
+        var imaginaryBuffer = new ComputeBuffer(chunkWindowCount * sampleSize, sizeof(float));
+        var chunkData = new NativeArray<float>(chunkWindowCount * sampleSize, Allocator.Persistent);
+        var zeroData = new float[chunkWindowCount * sampleSize]; // Used to reinitialize buffers to zero
+
+        // We generate chucnkWindowCount FFT windows per frame.
+        // This keeps our VRAM usage manageable by keeping small buffers for FFT generation,
+        // at the slight cost of increased generation time.
+        for (var windowStart = 0; windowStart < totalWindows; windowStart += chunkWindowCount)
+        {
+            // Clear buffers to zero to remove garbage data
+            realBuffer.SetData(zeroData);
+            imaginaryBuffer.SetData(zeroData);
+            chunkData.CopyFrom(zeroData);
+
+            var windowsThisChunk = Mathf.Min(chunkWindowCount, totalWindows - windowStart);
+            var chunkElementCount = windowsThisChunk * sampleSize;
+
+            // Step 1: Prepare real components for this chunk
+            var globalSampleStart = windowStart * samplesPerWindow;
+            for (var i = 0; i < windowsThisChunk * samplesPerWindow; i += samplesPerWindow)
             {
-                var length = Mathf.Clamp(sampleCount - i, 0, sampleSize);
-                NativeArray<float>.Copy(SampleBufferManager.MonoSamples, i, windowWrite, i * quality, length);
+                var srcIndex = globalSampleStart + i;
+                var dstIndex = i * quality;
+                var length = Mathf.Clamp(sampleCount - srcIndex, 0, sampleSize);
+                if (length > 0)
+                    NativeArray<float>.Copy(SampleBufferManager.MonoSamples, srcIndex, chunkData, dstIndex, length);
             }
 
-            windowedSamples.SetData(windowWrite);
-            windowCoeffBuffer.SetData(window);
+            realBuffer.SetData(chunkData);
 
-            multiplyShader.SetBuffer(0, multiplyA, windowedSamples);
+            // Multiply by window coefficients
+            multiplyShader.SetBuffer(0, multiplyA, realBuffer);
             multiplyShader.SetBuffer(0, multiplyB, windowCoeffBuffer);
+            ExecuteOverLargeArray(multiplyShader, chunkElementCount);
 
-            ExecuteOverLargeArray(multiplyShader, fftCount);
+            // Step 2: Prepare imaginary components (zeroed)
+            initializeShader.SetBuffer(0, initializeBuffer, imaginaryBuffer);
+            ExecuteOverLargeArray(initializeShader, chunkElementCount);
+
+            // Step 3: Execute FFT for this chunk
+            fftShader.SetBuffer(0, fftReal, realBuffer);
+            fftShader.SetBuffer(0, fftImaginary, imaginaryBuffer);
+            fftShader.SetInt(chunkOffset, windowStart);
+
+            ExecuteOverLargeArray(fftShader, windowsThisChunk);
+
+            yield return null;
         }
 
-        // Step 2: Prepare imaginary components of our FFT by initializing the entire buffer to 0
-        using ComputeBuffer imaginaryBuffer = new(fftCount, sizeof(float));
-        initializeShader.SetBuffer(0, initializeBuffer, imaginaryBuffer);
-        ExecuteOverLargeArray(initializeShader, fftCount);
+        // Cleanup temporary buffers
+        // Using "using" statements seem to cause issues when used in a coroutine.
+        realBuffer.Dispose();
+        imaginaryBuffer.Dispose();
+        chunkData.Dispose();
 
-        // Step 3: Execute FFT
-        fftShader.SetBuffer(0, fftReal, windowedSamples);
-        fftShader.SetBuffer(0, fftImaginary, imaginaryBuffer);
-
-        ExecuteOverLargeArray(fftShader, fftCount / sampleSize);
-
+        activeFFTCoroutine = null;
         Shader.SetGlobalInt(fftInitialized, 1);
     }
     // ReSharper restore ParameterHidesMember
@@ -133,9 +188,9 @@ public class AudioManager : MonoBehaviour
     // this usually happens when our buffers get too big (quality go brrrr)
     // fix this by executing the shader in steps, adding the processed offset as a shader variable so we can
     //   correct for the offset.
-    private static void ExecuteOverLargeArray(ComputeShader shader, int length)
+    private static void ExecuteOverLargeArray(ComputeShader shader, int length, int maxThreadCount = 65535)
     {
-        const int maxThreadCount = 65535;
+        maxThreadCount = Mathf.Min(maxThreadCount, 65535);
 
         shader.GetKernelThreadGroupSizes(0, out var x, out var y, out var z);
         var kernelGroupArea = (int)(x * y * z);
@@ -158,7 +213,6 @@ public class AudioManager : MonoBehaviour
         cachedFFTBuffer = null;
 
         Shader.SetGlobalInt(fftCount, 0);
-        Shader.SetGlobalInt(fftInitialized, 0);
         Shader.SetGlobalBuffer(fftReal, dummyBuffer);
         Shader.SetGlobalBuffer(fftImaginary, dummyBuffer);
         Shader.SetGlobalBuffer(fftResults, dummyBuffer);
@@ -174,6 +228,12 @@ public class AudioManager : MonoBehaviour
 
     private void OnDestroy()
     {
+        if (activeFFTCoroutine != null)
+        {
+            StopCoroutine(activeFFTCoroutine);
+            activeFFTCoroutine = null;
+        }
+
         ClearFFTCache();
         
         dummyBuffer.Dispose();

@@ -7,7 +7,7 @@
 
 RWStructuredBuffer<float> Real;
 RWStructuredBuffer<float> Imaginary;
-RWStructuredBuffer<float> FFTResults;
+RWStructuredBuffer<uint> FFTResults;
 
 uint SampleCount;
 uint SampleSize;
@@ -17,6 +17,9 @@ uint FFTSize;
 
 // If total shader threads > 65535, we perform the maximum amount of shader threads then add to ProcessingOffset
 uint ProcessingOffset;
+
+// Offset (in FFT windows) into the global output buffer for chunked processing
+uint ChunkOffset;
 
 // legitimately couldnt tell you where this comes from, this was from the C# FFT implementation
 float FFTScaleFactor;
@@ -41,11 +44,17 @@ uint BitReverse(uint num, uint bits)
 void FFT (uint3 groupID : SV_GroupID)
 {
     uint fftLog2 = log2(SampleSize);
-    float fftScale = ROOT_2 / (float)SampleSize;
+    float fftScale = ROOT_2 / (float) SampleSize;
     
     uint butterflyCount = SampleSize >> 1;
     uint spacing = SampleSize;
-    uint sampleOffset = (ProcessingOffset + groupID.x) * SampleSize;
+    uint localIndex = ProcessingOffset + groupID.x;
+    uint sampleOffset = localIndex * SampleSize;
+    uint globalSampleOffset = (ChunkOffset + localIndex) * SampleSize;
+    
+    // Temporary storage for unpacked float values before packing into uints
+    // Regular array since we use numthreads(1,1,1)
+    float tempResults[2048];
     
     // Perform stages of FFT
     for (uint stage = 0; stage < fftLog2; stage++)
@@ -95,6 +104,7 @@ void FFT (uint3 groupID : SV_GroupID)
     }
     
     // We are left with a scrambled order.
+    // Pass 1: calculate all values and store in our temporary buffer
     for (uint j = 0; j < SampleSize; j++)
     {
         uint target = BitReverse(j, fftLog2);
@@ -103,7 +113,7 @@ void FFT (uint3 groupID : SV_GroupID)
 		// Every other column of texture would be empty, which is solved by including the imaginary half
 		// We flip the imaginary half so it lines up with the real half
         if (target >= FFTSize)
-            target = FFTSize - target;
+            target = (SampleSize - target) + FFTSize;
                 
         // we convert to magnitude here because our shader will render magnitude results
         float real = Real[sampleOffset + j] * fftScale;
@@ -118,6 +128,32 @@ void FFT (uint3 groupID : SV_GroupID)
 		// basically does some more post-processing so our magnitude results better fit [0-1]
         value = ((log(value) + 255.0 / FFT_SCALE_FACTOR) * FFT_SCALE_FACTOR) / 255.0;
         
-        FFTResults[sampleOffset + target] = value;
+        // Store in temporary buffer (clamped to [0,1] for safe byte conversion)
+        tempResults[target] = saturate(value);
+    }
+    
+    // Second pass: pack every 4 consecutive values into a single uint (RGBA byte packing)
+    // Each byte represents one value mapped to [0, 255]
+    uint packedCount = (SampleSize + 3) / 4; // Round up
+    uint packedOffset = globalSampleOffset / 4;
+    
+    for (uint packIdx = 0; packIdx < packedCount; packIdx++)
+    {
+        uint baseIdx = packIdx * 4;
+        
+        // Extract 4 values (or pad with 0 if at the end)
+        float val0 = (baseIdx + 0 < SampleSize) ? tempResults[baseIdx + 0] : 0.0;
+        float val1 = (baseIdx + 1 < SampleSize) ? tempResults[baseIdx + 1] : 0.0;
+        float val2 = (baseIdx + 2 < SampleSize) ? tempResults[baseIdx + 2] : 0.0;
+        float val3 = (baseIdx + 3 < SampleSize) ? tempResults[baseIdx + 3] : 0.0;
+        
+        // Pack into uint as RGBA bytes (little-endian: R in lowest byte)
+        uint packed =
+            (uint(val0 * 255.0) << 0) | // R: bits 0-7
+            (uint(val1 * 255.0) << 8) | // G: bits 8-15
+            (uint(val2 * 255.0) << 16) | // B: bits 16-23
+            (uint(val3 * 255.0) << 24); // A: bits 24-31
+        
+        FFTResults[packedOffset + packIdx] = packed;
     }
 }

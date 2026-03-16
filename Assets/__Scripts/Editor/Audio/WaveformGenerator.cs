@@ -16,6 +16,7 @@ public class WaveformGenerator : MonoBehaviour
         
         AudioManager.GenerateFFT(BeatSaberSongContainer.Instance.LoadedSong,
             Settings.Instance.SpectrogramSampleSize,
-            Settings.Instance.SpectrogramEditorQuality);
+            Settings.Instance.SpectrogramEditorQuality,
+            true);
     }
 }
