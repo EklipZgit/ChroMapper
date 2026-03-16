@@ -10,7 +10,7 @@ namespace Beatmap.Containers
 {
     public class ChainContainer : ObjectContainer
     {
-        private static readonly int colorMultiplierId = Shader.PropertyToID("_ColorMult");
+        private static readonly int colorMultiplierId = Shader.PropertyToID("_ColorMultiplier");
         private static readonly int objectTimeId = Shader.PropertyToID("_ObjectTime");
         private static readonly int translucentAlphaId = Shader.PropertyToID("_TranslucentAlpha");
 

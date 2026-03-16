@@ -225,14 +225,11 @@ namespace Beatmap.Containers
         {
             var color = c ?? unassignedColor;
             ModelController.MpbController.Mpb.SetColor(colorId, color);
+            ModelController.MpbController.Mpb.SetFloat(colorMultiplierId, Settings.Instance.NoteColorMultiplier);
 
             var arrowColor = Color.Lerp(color, Color.white, Settings.Instance.ArrowColorWhiteBlend);
             ArrowMpbController.Mpb.SetColor(colorId, arrowColor);
-
-            ModelController.MpbController.Mpb.SetFloat(colorMultiplierId, Settings.Instance.NoteColorMultiplier);
-            ArrowMpbController.Mpb.SetFloat(
-                colorMultiplierId,
-                Settings.Instance.ArrowColorMultiplier);
+            ArrowMpbController.Mpb.SetFloat(colorMultiplierId, Settings.Instance.ArrowColorMultiplier);
 
             UpdateMaterials();
         }
