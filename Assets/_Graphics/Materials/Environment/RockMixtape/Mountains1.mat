@@ -14,7 +14,8 @@ Material:
   m_ValidKeywords:
   - DIFFUSE
   - FOG
-  - SPECULAR
+  - GROUND_FADE
+  - HEIGHT_FOG
   m_InvalidKeywords:
   - _ACES_APPROACH_AFTER_EMISSIVE
   - _CUSTOM_TIME_STANDARD

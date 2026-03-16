@@ -13,21 +13,14 @@ public class CreateEventTypeLabels : MonoBehaviour
     public Material UtilityMaterial;
     public Material RedMaterial;
     public GameObject LabelPrefab;
-    public RotationCallbackController RotationCallback;
     [SerializeField] private BeatmapRuntimeContext context;
 
-    private readonly List<LaneInfo> laneObjs = new();
+    private readonly List<(int id, int type)> laneObjs = new();
 
     private Dictionary<int, BasicLightEffect> typeToManager = new();
-    private bool loadedWithRotationEvents;
 
     // Use this for initialization
-    private void Start()
-    {
-        loadedWithRotationEvents = BeatSaberSongContainer.Instance.Map.Events.Any(i => i.IsLaneRotationEvent());
-        context.OnEnvironmentLoaded += HandleEnvironmentLoaded;
-    }
-
+    private void Start() => context.OnEnvironmentLoaded += HandleEnvironmentLoaded;
     private void OnDestroy() => context.OnEnvironmentLoaded -= HandleEnvironmentLoaded;
 
     private void HandleEnvironmentLoaded(EnvironmentDescriptor descriptor)
@@ -40,8 +33,9 @@ public class CreateEventTypeLabels : MonoBehaviour
     public void UpdateLabels(EventGridContainer.PropMode propMode, int eventType, int lanes)
     {
         foreach (Transform children in transform)
-            if (children.gameObject.activeSelf)
-                Destroy(children.gameObject);
+        {
+            if (children.gameObject.activeSelf) Destroy(children.gameObject);
+        }
 
         laneObjs.Clear();
 
@@ -51,7 +45,7 @@ public class CreateEventTypeLabels : MonoBehaviour
             for (var i = 0; i < entries.Count; i++)
             {
                 var instantiate = Instantiate(LabelPrefab, transform);
-                var laneInfo = new LaneInfo(i, entries[i].Value.Type);
+                var laneInfo = (i, entries[i].Value.Type);
                 instantiate.SetActive(true);
                 instantiate.transform.localPosition = new Vector3(i, 0, 0);
                 laneObjs.Add(laneInfo);
@@ -61,8 +55,6 @@ public class CreateEventTypeLabels : MonoBehaviour
                     var textMesh = instantiate.GetComponentInChildren<TextMeshProUGUI>();
                     textMesh.text = entries[i].Value.Name;
                     textMesh.fontSharedMaterial = UtilityMaterial;
-
-                    laneInfo.Name = textMesh.text;
                 }
                 catch { }
             }
@@ -72,7 +64,7 @@ public class CreateEventTypeLabels : MonoBehaviour
             for (var i = 0; i < lanes; i++)
             {
                 var instantiate = Instantiate(LabelPrefab, transform);
-                var laneInfo = new LaneInfo(i, i);
+                var laneInfo = (i, i);
                 instantiate.SetActive(true);
                 instantiate.transform.localPosition =
                     new Vector3(i, 0, 0);
@@ -93,14 +85,10 @@ public class CreateEventTypeLabels : MonoBehaviour
                             $"{context.TracksDefinition.GetBasicOrDefault(eventType).Name} ID {LaneToLightID(eventType, i - 1)}";
                         textMesh.fontSharedMaterial = i % 2 == 0 ? UtilityMaterial : AvailableMaterial;
                     }
-
-                    laneInfo.Name = textMesh.text;
                 }
                 catch { }
             }
         }
-
-        laneObjs.Sort();
     }
 
     public int LaneIdToEventType(int laneId)
@@ -111,8 +99,8 @@ public class CreateEventTypeLabels : MonoBehaviour
 
     public int EventTypeToLaneId(int eventType)
     {
-        var idx = laneObjs.FindIndex(it => it.Type == eventType);
-        return idx == -1 ? -1 : laneObjs[idx].Index;
+        var idx = laneObjs.FindIndex(it => it.type == eventType);
+        return idx == -1 ? -1 : laneObjs[idx].id;
     }
 
     public int? LightIdsToPropId(int type, int[] lightID)

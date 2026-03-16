@@ -13,11 +13,11 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - MAIN_TEXTURE
-  - SQUARE_ALPHA
+  - VIEW_ALIGN_DISAPPEAR
+  - _ALPHACHANNEL_RED
+  - _BLOOMTYPE_PP
   m_InvalidKeywords:
-  - _ALPHACHANNEL_ALPHA
   - _BILLBOARD_NONE
-  - _BLOOMTYPE_NONE
   - _CURVE_VERTICES_NONE
   - _CUSTOM_TIME_STANDARD
   - _CUTOUTTYPE_NONE

@@ -12,10 +12,8 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - ANGLE_DISAPPEAR
+  - ALPHA_WIDTH_SCALE
   - FOG
-  - SQUARE_ALPHA
-  - USE_FOG_FOR_LIGHTS
   - Y_AXIS_BILLBOARD
   m_InvalidKeywords:
   - _BLOOMTYPE_NONE

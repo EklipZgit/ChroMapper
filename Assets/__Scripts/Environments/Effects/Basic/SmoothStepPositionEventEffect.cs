@@ -8,21 +8,18 @@ public class SmoothStepPositionEventEffect : BasicEventEffect<SmoothStepPosition
     public int MaxY;
     public Vector3 MovementVector;
     public float StepSize;
-    public string EaseType;
 
-    private readonly FloatTween tween = new();
+    private readonly Vector3Tween tween = new();
 
     private Transform tr;
     private Vector3 initPos;
-    private Vector3 startPos;
-    private Vector3 endPos;
     private readonly BasicEventStateChunksContainer<SmoothStepPositionStateData> container = new();
 
     private void Awake()
     {
         tr = transform;
         initPos = tr.localPosition;
-        tween.Easing = Easing.ByName.TryGetValue(EaseType, out var ease) ? ease : Easing.Linear;
+        tween.Easing = Easing.Cubic.InOut;
     }
 
     public override void Initialize() => InitializeStates(container);
@@ -32,16 +29,16 @@ public class SmoothStepPositionEventEffect : BasicEventEffect<SmoothStepPosition
     public override void UpdateTime(bool isPlaying, float currentTime)
     {
         if (!container.IsCurrentOrFindState(currentTime, isPlaying)) UpdateObject();
-        if (tween.UpdateTime(currentTime)) SetPosition(Vector3.LerpUnclamped(startPos, endPos, tween.Current));
+        if (tween.UpdateTime(currentTime)) SetPosition(tween.Current);
     }
 
     private void UpdateObject()
     {
         var state = container.CurrentState;
-        startPos = state.StartPosition;
-        endPos = state.EndPosition;
         tween.StartTime = state.StartTime;
+        tween.StartValue = state.StartPosition;
         tween.EndTime = state.EndTime;
+        tween.EndValue = state.EndPosition;
     }
 
     private Vector3 GetPositionForValue(int value)
