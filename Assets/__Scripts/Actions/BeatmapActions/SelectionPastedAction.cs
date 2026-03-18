@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using LiteNetLib.Utils;
 using Beatmap.Base;
-using System.Linq;
 
 public class SelectionPastedAction : BeatmapAction
 {
@@ -13,40 +12,29 @@ public class SelectionPastedAction : BeatmapAction
     public SelectionPastedAction(IEnumerable<BaseObject> pasteData, IEnumerable<BaseObject> removed) :
         base(pasteData)
     {
-        this.affectsSeveralObjects = true;
-        this.Removed = removed;
+        affectsSeveralObjects = true;
+        Removed = removed;
     }
 
     public override void Undo(BeatmapActionContainer.BeatmapActionParams param)
     {
         foreach (var obj in Data) DeleteObject(obj, false);
-
         SelectionController.OnSelectionChanged?.Invoke();
-
         foreach (var obj in Removed) SpawnObject(obj);
-
         RefreshPools(Removed);
         RefreshEventAppearance();
     }
 
     public override void Redo(BeatmapActionContainer.BeatmapActionParams param)
     {
-        if (!Networked)
-        {
-            SelectionController.DeselectAll();
-        }
-
+        if (!Networked) SelectionController.DeselectAll();
+        foreach (var obj in Removed) DeleteObject(obj, false);
         foreach (var obj in Data)
         {
             SpawnObject(obj);
-
-            if (!Networked)
-            {
-                SelectionController.Select(obj, true, false, false);
-            }
+            if (!Networked) SelectionController.Select(obj, true, false, false);
         }
 
-        foreach (var obj in Removed) DeleteObject(obj, false);
         RefreshPools(Data);
         RefreshEventAppearance();
     }

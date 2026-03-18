@@ -230,6 +230,7 @@ namespace Tests
             SelectionController.Select(baseEventA);
             SelectionController.Select(baseEventB, true);
             atsc.MoveToJsonTime(3);
+            if (eventPlacement.QueuedData != null) eventPlacement.QueuedData.JsonTime = 3;
             selectionController.Copy();
             selectionController.Paste();
             AssertMapObjectsAreLinkedAndSorted(eventsContainer, (int)EventTypeValue.LeftLasers);
