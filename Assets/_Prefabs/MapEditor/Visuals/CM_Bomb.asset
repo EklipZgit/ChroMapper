@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30962ae2c9de428e8466f26886cc927d, type: 3}
   m_Name: CM_Bomb
   m_EditorClassIdentifier: 
+  Name: CM_Bomb
   Prefab: {fileID: 9221522305038936411, guid: 2a1e0f49b1d506e0a835a0b5c2c99520, type: 3}
   Collider: {fileID: -6548247349681776351, guid: d700f6006df1d3968b8926c5c8f8d150,
     type: 3}
+  DisableAux: 0

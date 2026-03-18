@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30962ae2c9de428e8466f26886cc927d, type: 3}
   m_Name: CM_Event_Pyramid
   m_EditorClassIdentifier: 
+  Name: CM_Event_Pyramid
   Prefab: {fileID: 9221522305038936411, guid: 74ddb2ca54390fc73bf2be3dfabaf0de, type: 3}
   Collider: {fileID: 13562882237320842, guid: e4c7e2d300d5f0643a96ef4abb3679ba, type: 3}
+  DisableAux: 0

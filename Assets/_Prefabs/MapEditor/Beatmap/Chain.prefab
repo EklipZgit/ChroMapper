@@ -1077,6 +1077,11 @@ MonoBehaviour:
   Actives:
   - Name: CM_Chain_Simple
     GameObject: {fileID: 2837524233666795151}
+    OutlineMesh: {fileID: 740974078359360247}
+    Renderers:
+    - {fileID: 3318640383001496705}
+    MpbRenderers:
+    - {fileID: 3318640383001496705}
   Renderers:
   - {fileID: 3318640383001496705}
   MaxCache: 2
@@ -1229,6 +1234,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 708326a9a084a68779f83ed1f758ebe4, type: 3}
+--- !u!33 &740974078359360247 stripped
+MeshFilter:
+  m_CorrespondingSourceObject: {fileID: 5967818248149511459, guid: 708326a9a084a68779f83ed1f758ebe4,
+    type: 3}
+  m_PrefabInstance: {fileID: 6384280097891450836}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2837524233666795151 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9221522305038936411, guid: 708326a9a084a68779f83ed1f758ebe4,

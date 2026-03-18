@@ -201,6 +201,11 @@ MonoBehaviour:
   Actives:
   - Name: CM_Event_Block
     GameObject: {fileID: 5419416366893247805}
+    OutlineMesh: {fileID: 7358104190578092357}
+    Renderers:
+    - {fileID: 4781528546840131379}
+    MpbRenderers:
+    - {fileID: 4781528546840131379}
   Renderers:
   - {fileID: 4781528546840131379}
   MaxCache: 2
@@ -702,6 +707,12 @@ MeshRenderer:
 --- !u!1 &5419416366893247805 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9221522305038936411, guid: b13662556652afc48a6baaa59814c987,
+    type: 3}
+  m_PrefabInstance: {fileID: 3804644299739743334}
+  m_PrefabAsset: {fileID: 0}
+--- !u!33 &7358104190578092357 stripped
+MeshFilter:
+  m_CorrespondingSourceObject: {fileID: 5967818248149511459, guid: b13662556652afc48a6baaa59814c987,
     type: 3}
   m_PrefabInstance: {fileID: 3804644299739743334}
   m_PrefabAsset: {fileID: 0}

@@ -111,6 +111,11 @@ MonoBehaviour:
   Actives:
   - Name: CM_Bomb
     GameObject: {fileID: 2764474333535862008}
+    OutlineMesh: {fileID: 825843717745326208}
+    Renderers:
+    - {fileID: 3401245056223504118}
+    MpbRenderers:
+    - {fileID: 3401245056223504118}
   Renderers:
   - {fileID: 3401245056223504118}
   MaxCache: 1
@@ -427,6 +432,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2a1e0f49b1d506e0a835a0b5c2c99520, type: 3}
+--- !u!33 &825843717745326208 stripped
+MeshFilter:
+  m_CorrespondingSourceObject: {fileID: 5967818248149511459, guid: 2a1e0f49b1d506e0a835a0b5c2c99520,
+    type: 3}
+  m_PrefabInstance: {fileID: 6459304737945228707}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2764474333535862008 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9221522305038936411, guid: 2a1e0f49b1d506e0a835a0b5c2c99520,
