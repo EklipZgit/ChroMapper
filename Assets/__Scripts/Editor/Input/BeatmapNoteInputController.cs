@@ -12,48 +12,49 @@ using UnityEngine.UI;
 
 public class BeatmapNoteInputController : BeatmapInputController<NoteContainer>, CMInput.INoteObjectsActions
 {
-    [FormerlySerializedAs("noteAppearanceSO")][SerializeField] private NoteAppearanceSO noteAppearanceSo;
+    [FormerlySerializedAs("noteAppearanceSO")] [SerializeField]
+    private NoteAppearanceSO noteAppearanceSo;
+
     [SerializeField] private ArcAppearanceSO arcAppearanceSo;
     [SerializeField] private ChainAppearanceSO chainAppearanceSo;
 
     public bool QuickModificationActive;
 
-    private readonly Dictionary<int, int> cutDirectionMovedBackward = new()
+    private static readonly Dictionary<int, int> cutDirectionMovedBackward = new()
     {
-        {(int)NoteCutDirection.Any, (int)NoteCutDirection.Any},
-        {(int)NoteCutDirection.DownLeft, (int)NoteCutDirection.Down},
-        {(int)NoteCutDirection.Left, (int)NoteCutDirection.DownLeft},
-        {(int)NoteCutDirection.UpLeft, (int)NoteCutDirection.Left},
-        {(int)NoteCutDirection.Up, (int)NoteCutDirection.UpLeft},
-        {(int)NoteCutDirection.UpRight, (int)NoteCutDirection.Up},
-        {(int)NoteCutDirection.Right, (int)NoteCutDirection.UpRight},
-        {(int)NoteCutDirection.DownRight, (int)NoteCutDirection.Right},
-        {(int)NoteCutDirection.Down, (int)NoteCutDirection.DownRight},
-        {(int)NoteCutDirection.None, (int)NoteCutDirection.None}
+        { (int)NoteCutDirection.Any, (int)NoteCutDirection.Any },
+        { (int)NoteCutDirection.DownLeft, (int)NoteCutDirection.Down },
+        { (int)NoteCutDirection.Left, (int)NoteCutDirection.DownLeft },
+        { (int)NoteCutDirection.UpLeft, (int)NoteCutDirection.Left },
+        { (int)NoteCutDirection.Up, (int)NoteCutDirection.UpLeft },
+        { (int)NoteCutDirection.UpRight, (int)NoteCutDirection.Up },
+        { (int)NoteCutDirection.Right, (int)NoteCutDirection.UpRight },
+        { (int)NoteCutDirection.DownRight, (int)NoteCutDirection.Right },
+        { (int)NoteCutDirection.Down, (int)NoteCutDirection.DownRight },
+        { (int)NoteCutDirection.None, (int)NoteCutDirection.None }
     };
 
-    private readonly Dictionary<int, int> cutDirectionMovedForward = new()
+    private static readonly Dictionary<int, int> cutDirectionMovedForward = new()
     {
-        {(int)NoteCutDirection.Any, (int)NoteCutDirection.Any},
-        {(int)NoteCutDirection.Down, (int)NoteCutDirection.DownLeft},
-        {(int)NoteCutDirection.DownLeft, (int)NoteCutDirection.Left},
-        {(int)NoteCutDirection.Left, (int)NoteCutDirection.UpLeft},
-        {(int)NoteCutDirection.UpLeft, (int)NoteCutDirection.Up},
-        {(int)NoteCutDirection.Up, (int)NoteCutDirection.UpRight},
-        {(int)NoteCutDirection.UpRight, (int)NoteCutDirection.Right},
-        {(int)NoteCutDirection.Right, (int)NoteCutDirection.DownRight},
-        {(int)NoteCutDirection.DownRight, (int)NoteCutDirection.Down},
-        {(int)NoteCutDirection.None, (int)NoteCutDirection.None}
+        { (int)NoteCutDirection.Any, (int)NoteCutDirection.Any },
+        { (int)NoteCutDirection.Down, (int)NoteCutDirection.DownLeft },
+        { (int)NoteCutDirection.DownLeft, (int)NoteCutDirection.Left },
+        { (int)NoteCutDirection.Left, (int)NoteCutDirection.UpLeft },
+        { (int)NoteCutDirection.UpLeft, (int)NoteCutDirection.Up },
+        { (int)NoteCutDirection.Up, (int)NoteCutDirection.UpRight },
+        { (int)NoteCutDirection.UpRight, (int)NoteCutDirection.Right },
+        { (int)NoteCutDirection.Right, (int)NoteCutDirection.DownRight },
+        { (int)NoteCutDirection.DownRight, (int)NoteCutDirection.Down },
+        { (int)NoteCutDirection.None, (int)NoteCutDirection.None }
     };
 
     //Do some shit later lmao
     public void OnInvertNoteColors(InputAction.CallbackContext context)
     {
-        if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true) ||
-            !KeybindsController.IsMouseInWindow || !context.performed)
-        {
+        if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)
+            || !KeybindsController.IsMouseInWindow
+            || !context.performed)
             return;
-        }
 
         RaycastFirstObject(out var note);
         if (note != null && !note.Dragging) InvertNote(note);
@@ -96,7 +97,8 @@ public class BeatmapNoteInputController : BeatmapInputController<NoteContainer>,
         collection.RefreshSpecialAngles(note.ObjectData, false, false);
         collection.RefreshSpecialAngles(original, false, false);
 
-        var actions = new List<BeatmapAction> { new BeatmapObjectModifiedAction(note.ObjectData, note.ObjectData, original) };
+        var actions =
+            new List<BeatmapAction> { new BeatmapObjectModifiedAction(note.ObjectData, note.ObjectData, original) };
         InvertAttachedSliders(note, actions);
 
         BeatmapActionContainer.AddAction(new ActionCollectionAction(actions, true, true, "Note inversion"));
@@ -111,8 +113,10 @@ public class BeatmapNoteInputController : BeatmapInputController<NoteContainer>,
         foreach (var arcContainer in arcCollection.LoadedContainers)
         {
             var arcData = arcContainer.Key as BaseArc;
-            var isConnectedToHead = Mathf.Abs(arcData.JsonTime - noteData.JsonTime) < epsilon && arcData.GetPosition() == noteData.GetPosition();
-            var isConnectedToTail = Mathf.Abs(arcData.TailJsonTime - noteData.JsonTime) < epsilon && arcData.GetTailPosition() == noteData.GetPosition();
+            var isConnectedToHead = Mathf.Abs(arcData.JsonTime - noteData.JsonTime) < epsilon
+                && arcData.GetPosition() == noteData.GetPosition();
+            var isConnectedToTail = Mathf.Abs(arcData.TailJsonTime - noteData.JsonTime) < epsilon
+                && arcData.GetTailPosition() == noteData.GetPosition();
             if (isConnectedToHead || isConnectedToTail)
             {
                 var arcOriginal = BeatmapFactory.Clone(arcData);
@@ -123,11 +127,13 @@ public class BeatmapNoteInputController : BeatmapInputController<NoteContainer>,
             }
         }
 
-        var chainCollection = BeatmapObjectContainerCollection.GetCollectionForType<ChainGridContainer>(ObjectType.Chain);
+        var chainCollection =
+            BeatmapObjectContainerCollection.GetCollectionForType<ChainGridContainer>(ObjectType.Chain);
         foreach (var chainContainer in chainCollection.LoadedContainers)
         {
             var chainData = chainContainer.Key as BaseChain;
-            var isConnectedToHead = Mathf.Abs(chainData.JsonTime - noteData.JsonTime) < epsilon && chainData.GetPosition() == noteData.GetPosition();
+            var isConnectedToHead = Mathf.Abs(chainData.JsonTime - noteData.JsonTime) < epsilon
+                && chainData.GetPosition() == noteData.GetPosition();
             if (isConnectedToHead)
             {
                 var chainOriginal = BeatmapFactory.Clone(chainData);
@@ -142,50 +148,66 @@ public class BeatmapNoteInputController : BeatmapInputController<NoteContainer>,
     public void UpdateNoteDirection(NoteContainer note, bool shiftForward)
     {
         var original = BeatmapFactory.Clone(note.ObjectData);
-        note.NoteData.CutDirection = ((shiftForward ^ Settings.Instance.InvertScrollNoteAngle)
-            ? cutDirectionMovedBackward : cutDirectionMovedForward)[note.NoteData.CutDirection];
-        BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note)
-            .RefreshSpecialAngles(note.ObjectData, false, false);
+        note.NoteData.CutDirection = (shiftForward ^ Settings.Instance.InvertScrollNoteAngle
+            ? cutDirectionMovedBackward
+            : cutDirectionMovedForward)[note.NoteData.CutDirection];
 
-        if(note.NoteData.CutDirection == (int)NoteCutDirection.Any && Settings.Instance.MapVersion >= 3) // janky!
+        if (note.NoteData.CutDirection == (int)NoteCutDirection.Any && Settings.Instance.MapVersion >= 3) // janky!
         {
-            note.NoteData.AngleOffset += (shiftForward ^ Settings.Instance.InvertScrollNoteAngle)
+            note.NoteData.AngleOffset += shiftForward ^ Settings.Instance.InvertScrollNoteAngle
                 ? 45
                 : -45;
-            note.NoteData.AngleOffset %= 360;
+            note.NoteData.AngleOffset = (int)Mathf.Repeat(note.NoteData.AngleOffset, 360);
         }
 
-        var actions = new List<BeatmapAction> { new BeatmapObjectModifiedAction(note.ObjectData, note.ObjectData, original, "Update Note Direction", mergeType: ActionMergeType.NoteDirectionChange) };
+        BeatmapObjectContainerCollection
+            .GetCollectionForType<NoteGridContainer>(ObjectType.Note)
+            .RefreshSpecialAngles(note.ObjectData, false, false);
+
+        var actions = new List<BeatmapAction>
+        {
+            new BeatmapObjectModifiedAction(
+                note.ObjectData,
+                note.ObjectData,
+                original,
+                "Update Note Direction",
+                mergeType: ActionMergeType.NoteDirectionChange)
+        };
         CommonNotePlacement.UpdateAttachedSlidersDirection(note.NoteData, actions);
 
         if (actions.Count > 1)
         {
-            BeatmapActionContainer.AddAction(new ActionCollectionAction(actions, true, true, "Update Note Direction", mergeType: ActionMergeType.NoteDirectionChange));
+            BeatmapActionContainer.AddAction(
+                new ActionCollectionAction(
+                    actions,
+                    true,
+                    true,
+                    "Update Note Direction",
+                    mergeType: ActionMergeType.NoteDirectionChange));
         }
         else
-        {
             BeatmapActionContainer.AddAction(actions[0]);
-        }
     }
 
     public void UpdateNotePreciseDirection(NoteContainer note, bool shiftForward)
     {
         var original = BeatmapFactory.Clone(note.ObjectData);
-        
-        if (Settings.Instance.MapVersion >= 3)
-        {
-            note.NoteData.AngleOffset += (shiftForward ^ Settings.Instance.InvertScrollNoteAngle)
-                ? 5
-                : -5;
 
-            BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note)
-                .RefreshSpecialAngles(note.ObjectData, false, false);
-            BeatmapActionContainer.AddAction(new BeatmapObjectModifiedAction(note.ObjectData, note.ObjectData, original, mergeType: ActionMergeType.NotePreciseDirectionTweak));
-        }
-        else
-        {
-            // V2 note unsupported. Could implement either ME or NE for V2 note.
-        }
+        // V2 note unsupported. Could implement either ME or NE for V2 note.
+        if (Settings.Instance.MapVersion < 3) return;
+        note.NoteData.AngleOffset += shiftForward ^ Settings.Instance.InvertScrollNoteAngle
+            ? 5
+            : -5;
+        note.NoteData.AngleOffset = (int)Mathf.Repeat(note.NoteData.AngleOffset, 360);
 
+        BeatmapObjectContainerCollection
+            .GetCollectionForType<NoteGridContainer>(ObjectType.Note)
+            .RefreshSpecialAngles(note.ObjectData, false, false);
+        BeatmapActionContainer.AddAction(
+            new BeatmapObjectModifiedAction(
+                note.ObjectData,
+                note.ObjectData,
+                original,
+                mergeType: ActionMergeType.NotePreciseDirectionTweak));
     }
 }
