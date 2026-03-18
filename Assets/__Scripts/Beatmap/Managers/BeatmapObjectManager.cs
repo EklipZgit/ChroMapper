@@ -96,12 +96,11 @@ public abstract class BeatmapObjectManager<T> : BeatmapObjectManager where T : B
                 .Removed
                 .Where(d => d is T)
                 .Cast<T>());
-        b = AddData(
+        return AddData(
                 action
                     .Data.Where(d => d is T)
                     .Cast<T>())
             || b;
-        return b;
     }
 
     private bool HandleStrobeGeneratorGenerationActionRedo(StrobeGeneratorGenerationAction action)

@@ -105,6 +105,11 @@ MonoBehaviour:
   Actives:
   - Name: CM_Block
     GameObject: {fileID: 6965443271578124681}
+    OutlineMesh: {fileID: 5585210649323554289}
+    Renderers:
+    - {fileID: 7621495030709689223}
+    MpbRenderers:
+    - {fileID: 7621495030709689223}
   Renderers:
   - {fileID: 7621495030709689223}
   MaxCache: 1
@@ -453,6 +458,12 @@ PrefabInstance:
 --- !u!4 &3613446308881368743 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3276050044057382517, guid: e66ab1137dc77f6a7818ccd7acd103a6,
+    type: 3}
+  m_PrefabInstance: {fileID: 2257240667545888978}
+  m_PrefabAsset: {fileID: 0}
+--- !u!33 &5585210649323554289 stripped
+MeshFilter:
+  m_CorrespondingSourceObject: {fileID: 5967818248149511459, guid: e66ab1137dc77f6a7818ccd7acd103a6,
     type: 3}
   m_PrefabInstance: {fileID: 2257240667545888978}
   m_PrefabAsset: {fileID: 0}

@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30962ae2c9de428e8466f26886cc927d, type: 3}
   m_Name: CM_Note
   m_EditorClassIdentifier: 
+  Name: CM_Note
   Prefab: {fileID: 5992962785732866710, guid: d7bac10212dbf5b72879de3d4753dfbc, type: 3}
   Collider: {fileID: -6548247349681776351, guid: d700f6006df1d3968b8926c5c8f8d150,
     type: 3}
+  DisableAux: 0

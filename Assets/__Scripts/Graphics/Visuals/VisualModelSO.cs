@@ -11,7 +11,7 @@ public class VisualModelSO : ScriptableObject
     private void OnValidate()
     {
         if (Application.isPlaying) return;
-        Name = name;
+        if (!string.IsNullOrEmpty(name)) Name = name;
         if (Collider == null && Prefab != null) Collider = Prefab.GetComponentInChildren<MeshFilter>(true).sharedMesh;
     }
 

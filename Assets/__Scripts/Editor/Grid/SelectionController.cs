@@ -425,9 +425,9 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
         var totalRemoved = new List<BaseObject>();
 
         // We remove conflicting objects with our to-be-pasted objects.
-        foreach (var kvp in collections)
+        foreach (var (objectType, collection) in collections)
         {
-            kvp.Value.RemoveConflictingObjects(pasted.Where(x => x.ObjectType == kvp.Key), out var conflicting);
+            collection.RemoveConflictingObjects(pasted.Where(x => x.ObjectType == objectType), out var conflicting);
             totalRemoved.AddRange(conflicting);
         }
 
@@ -461,10 +461,8 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
                     if (pasted.Contains(beatmapObject)) return;
                     toRemove.Add((collection, beatmapObject));
                 });
-            foreach (var pair in toRemove)
+            foreach (var (collection, beatmapObject) in toRemove)
             {
-                var collection = pair.Item1;
-                var beatmapObject = pair.Item2;
                 collection.DeleteObject(beatmapObject, false, inCollectionOfDeletes: true);
                 totalRemoved.Add(beatmapObject);
             }
@@ -506,7 +504,7 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
         if (eventPlacement.IsIdle || eventPlacement.QueuedData == null) return copiedObjects;
 
         GetObjectTypes(
-            copiedObjects.AsEnumerable(),
+            copiedObjects,
             out _,
             out var hasEvent,
             out _,
@@ -588,9 +586,8 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
                     break;
                 }
             case EventGridContainer.PropMode.Off:
-                break;
             default:
-                throw new ArgumentOutOfRangeException();
+                break;
         }
 
         return copiedEvents;
