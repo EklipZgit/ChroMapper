@@ -209,48 +209,7 @@ public class UIMode : MonoBehaviour, CMInput.IUIModeActions
         foreach (var group in mapEditorUi.MainUIGroup) mapEditorUi.ToggleUIVisible(showUI, group);
         foreach (var r in renderers) r.enabled = showExtras;
         foreach (var c in canvases) c.enabled = showCanvases;
-
-        // If this is not used, then there is a chance the moved items may break.
-        var lockedCameraControllers = cameraManager.CameraControllers.Where(x => x.LockedOntoNoteGrid).ToList();
-        foreach (var cameraController in lockedCameraControllers) cameraController.LockedOntoNoteGrid = false;
-
-        if (showPlacement)
-        {
-            foreach (var s in thingsThatRequireAMoveForPreview)
-            {
-                var t = s.transform;
-                var p = t.localPosition;
-
-                p.y = t.name switch
-                {
-                    "Rotating" => 0.05f,
-                    _ => 0f,
-                };
-                t.localPosition = p;
-            }
-        }
-        else
-        {
-            foreach (var s in thingsThatRequireAMoveForPreview)
-            {
-                var t = s.transform;
-                var p = t.localPosition;
-                switch (s.name)
-                {
-                    case "Note Interface Scaling Offset":
-                        if (showMainGrid) break;
-                        p.y = 2000f;
-                        break;
-                    default:
-                        p.y = 2000f;
-                        break;
-                }
-
-                t.localPosition = p;
-            }
-        }
-
-        foreach (var c in lockedCameraControllers) c.LockedOntoNoteGrid = true;
+        foreach (var t in thingsThatRequireAMoveForPreview) t.gameObject.SetActive(showPlacement);
 
         if (PreviewMode)
             Shader.EnableKeyword("CM_PREVIEW_MODE");

@@ -1,12 +1,14 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 [ExecuteAlways]
-public class GridViewController : MonoBehaviour
+public class GridViewController : MonoBehaviour, IEnumerable<GridChild>
 {
     public event Action OnGridViewUpdated;
+    public event Action<GridChild> OnGridAdded;
 
     [SerializeField] private EditModeContext editModeContext;
     [SerializeField] private GridChild[] startUpRegister;
@@ -102,6 +104,7 @@ public class GridViewController : MonoBehaviour
             grids.Add(child);
         else
             allChildren[child.Order] = new List<GridChild> { child };
+        OnGridAdded?.Invoke(child);
         NotifyChanged();
     }
 
@@ -129,4 +132,13 @@ public class GridViewController : MonoBehaviour
             .OrderBy(x => x.Key)
             .ToDictionary(x => x.Key, x => x.ToList());
     }
+
+    public IEnumerator<GridChild> GetEnumerator()
+    {
+        foreach (var (_, child) in allChildren)
+        foreach (var grid in child)
+            yield return grid;
+    }
+
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }

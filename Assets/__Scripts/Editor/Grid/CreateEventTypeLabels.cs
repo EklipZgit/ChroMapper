@@ -14,6 +14,7 @@ public class CreateEventTypeLabels : MonoBehaviour
     public Material RedMaterial;
     public GameObject LabelPrefab;
     [SerializeField] private BeatmapRuntimeContext context;
+    [SerializeField] private Transform target;
 
     private readonly List<(int id, int type)> laneObjs = new();
 
@@ -32,7 +33,7 @@ public class CreateEventTypeLabels : MonoBehaviour
 
     public void UpdateLabels(EventGridContainer.PropMode propMode, int eventType, int lanes)
     {
-        foreach (Transform children in transform)
+        foreach (Transform children in target)
         {
             if (children.gameObject.activeSelf) Destroy(children.gameObject);
         }
@@ -44,7 +45,7 @@ public class CreateEventTypeLabels : MonoBehaviour
             var entries = context.TracksDefinition.Basic.ToList();
             for (var i = 0; i < entries.Count; i++)
             {
-                var instantiate = Instantiate(LabelPrefab, transform);
+                var instantiate = Instantiate(LabelPrefab, target);
                 var laneInfo = (i, entries[i].Value.Type);
                 instantiate.SetActive(true);
                 instantiate.transform.localPosition = new Vector3(i, 0, 0);
@@ -63,7 +64,7 @@ public class CreateEventTypeLabels : MonoBehaviour
         {
             for (var i = 0; i < lanes; i++)
             {
-                var instantiate = Instantiate(LabelPrefab, transform);
+                var instantiate = Instantiate(LabelPrefab, target);
                 var laneInfo = (i, i);
                 instantiate.SetActive(true);
                 instantiate.transform.localPosition =

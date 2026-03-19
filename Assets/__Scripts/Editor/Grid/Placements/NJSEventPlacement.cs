@@ -4,9 +4,12 @@ using System.Linq;
 using Beatmap.Base;
 using Beatmap.Containers;
 using Beatmap.Enums;
+using UnityEngine;
 
 public class NJSEventPlacement : BasePlacement<BaseNJSEvent, NJSEventContainer, NJSEventGridContainer>
 {
+    [SerializeField] private GridLane gridLane;
+    
     // Probably move to easings class at some point
     private readonly List<(int id, string name)> supportedEasings = new()
     {
@@ -23,7 +26,10 @@ public class NJSEventPlacement : BasePlacement<BaseNJSEvent, NJSEventContainer, 
     public override void Start()
     {
         // v2 info cannot switch to v4 version => cannot place and save NJS events
-        transform.parent.gameObject.SetActive(BeatSaberSongContainer.Instance.Info.MajorVersion != 2);
+        gameObject.SetActive(BeatSaberSongContainer.Instance.Info.MajorVersion != 2);
+        gridLane.Hide = true;
+        gridLane.Controller.DeregisterChild(gridLane);
+        
         base.Start();
     }
 

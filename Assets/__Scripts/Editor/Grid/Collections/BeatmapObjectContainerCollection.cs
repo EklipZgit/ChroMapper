@@ -1,15 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Beatmap.Base;
 using Beatmap.Base.Customs;
-using Beatmap.Comparers;
 using Beatmap.Containers;
 using Beatmap.Enums;
-using Beatmap.Helper;
-using Beatmap.Shared;
-using Beatmap.V2;
 using SimpleJSON;
 using UnityEngine;
 
@@ -31,6 +26,7 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
     public event Action<BaseObject> OnContainerSpawned;
     public event Action<BaseObject> OnContainerDespawned;
     public BeatmapRuntimeContext Context;
+    public Transform TargetTransform;
 
     /// <summary>
     ///     Loaded objects in this collection.
@@ -260,7 +256,7 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
         var baseContainer = CreateContainer();
         baseContainer.gameObject.SetActive(false);
         baseContainer.Setup();
-        baseContainer.transform.SetParent(transform);
+        baseContainer.transform.SetParent(TargetTransform);
         pooledContainers.Enqueue(baseContainer);
     }
 

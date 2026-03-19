@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GridRenderingController : MonoBehaviour
@@ -8,21 +9,19 @@ public class GridRenderingController : MonoBehaviour
 
     [SerializeField] private AudioTimeSyncController atsc;
     [SerializeField] private VariableNJSProvider vNjsProvider;
-    [SerializeField] private GameObject gridParent;
+    [SerializeField] private GridViewController gridViewController;
 
     [SerializeField] private Vector4 zLineSpacing = new(1f, 1f / 4f, 1f / 8f, 1f / 16f);
     [SerializeField] private Vector4 zLineThickness = new(0.1f, 0.05f, 0.025f, 0.0125f);
 
-    private readonly List<GridLane> gridLanes = new();
     private static readonly int currentHjdShaderID = Shader.PropertyToID("_CurrentHJD");
     private static readonly int displayHjdLineID = Shader.PropertyToID("_DisplayHJDLine");
 
     private void Awake()
     {
-        foreach (var gridLane in gridParent.GetComponentsInChildren<GridLane>()) gridLanes.Add(gridLane);
-
         atsc.OnGridMeasureSnappingChanged += HandleGridMeasureSnappingChanged;
         vNjsProvider.OnChanged += UpdateHJDLine;
+        gridViewController.OnGridAdded += HandleGridAdded;
         Settings.NotifyBySettingName(nameof(Settings.HighContrastGrids), UpdateInterfaceXZ);
         Settings.NotifyBySettingName(nameof(Settings.GridTransparency), UpdateInterfaceXZ);
         Settings.NotifyBySettingName(nameof(Settings.InterfaceOpacity), UpdateInterfaceXY);
@@ -37,6 +36,8 @@ public class GridRenderingController : MonoBehaviour
     private void OnDestroy()
     {
         atsc.OnGridMeasureSnappingChanged -= HandleGridMeasureSnappingChanged;
+        vNjsProvider.OnChanged -= UpdateHJDLine;
+        gridViewController.OnGridAdded -= HandleGridAdded;
         Settings.ClearSettingNotifications(nameof(Settings.HighContrastGrids));
         Settings.ClearSettingNotifications(nameof(Settings.GridTransparency));
         Settings.ClearSettingNotifications(nameof(Settings.InterfaceOpacity));
@@ -61,14 +62,15 @@ public class GridRenderingController : MonoBehaviour
         gridSeparation *= CMMath.GetLowestDenominator(Mathf.FloorToInt(snapping / gridSeparation));
         zLineSpacing[3] = usePreciseSegments ? 1f / gridSeparation : 0f;
 
-        foreach (var g in gridLanes) g.SetBeatSpacing(zLineSpacing);
+        foreach (var g in gridViewController.Where(x => x is GridLane).Cast<GridLane>()) g.SetBeatSpacing(zLineSpacing);
         UpdateInterfaceXZ();
     }
 
     private void UpdateInterfaceXY(object _ = null)
     {
         var newColor = Color.white.WithAlpha(Settings.Instance.InterfaceOpacity);
-        foreach (var g in gridLanes) g.SetXYInterfaceColor(newColor);
+        foreach (var g in gridViewController.Where(x => x is GridLane).Cast<GridLane>())
+            g.SetXYInterfaceColor(newColor);
     }
 
     private void UpdateInterfaceXZ(object _ = null)
@@ -76,21 +78,38 @@ public class GridRenderingController : MonoBehaviour
         var gridAlpha = Settings.Instance.GridTransparency;
         var newColor = Settings.Instance.HighContrastGrids ? colorHighContrast : colorDefault;
         newColor.a = Mathf.Clamp01(1f - gridAlpha);
-        foreach (var g in gridLanes) g.SetXZInterfaceColor(newColor);
+        foreach (var g in gridViewController.Where(x => x is GridLane).Cast<GridLane>())
+            g.SetXZInterfaceColor(newColor);
     }
 
     private void UpdateTrackLength(object _ = null)
     {
-        foreach (var gridLane in gridLanes)
-            gridLane.Length = Settings.Instance.TrackLength * EditorScaleController.EditorScale;
+        foreach (var g in gridViewController.Where(x => x is GridLane).Cast<GridLane>())
+            g.Length = Settings.Instance.TrackLength * EditorScaleController.EditorScale;
     }
 
     private void UpdateOneBeat(object value)
     {
         zLineThickness[0] = (float)value;
-        foreach (var g in gridLanes) g.SetBeatThickness(zLineThickness);
+        foreach (var g in gridViewController.Where(x => x is GridLane).Cast<GridLane>())
+            g.SetBeatThickness(zLineThickness);
     }
 
     private void UpdateHJDLine() => Shader.SetGlobalFloat(currentHjdShaderID, vNjsProvider.HalfJumpDurationInBeats);
     private void UpdateDisplayHJDLine(object value) => Shader.SetGlobalInt(displayHjdLineID, (bool)value ? 1 : 0);
+
+    // TODO: refactor the visual apply part?
+    private void HandleGridAdded(GridChild obj)
+    {
+        if (obj is not GridLane gridLane) return;
+        gridLane.SetBeatSpacing(zLineSpacing);
+        var newColor = Color.white.WithAlpha(Settings.Instance.InterfaceOpacity);
+        gridLane.SetXYInterfaceColor(newColor);
+        var gridAlpha = Settings.Instance.GridTransparency;
+        newColor = Settings.Instance.HighContrastGrids ? colorHighContrast : colorDefault;
+        newColor.a = Mathf.Clamp01(1f - gridAlpha);
+        gridLane.SetXZInterfaceColor(newColor);
+        gridLane.Length = Settings.Instance.TrackLength * EditorScaleController.EditorScale;
+        gridLane.SetBeatThickness(zLineThickness);
+    }
 }
