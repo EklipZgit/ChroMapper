@@ -30,7 +30,7 @@ public class GridLane : GridChild
         {
             SetHeightNoNotify(value);
             Size.y = value;
-            GridViewController.NotifyChanged();
+            if (HasController) Controller.NotifyChanged();
         }
     }
 
@@ -41,7 +41,7 @@ public class GridLane : GridChild
         {
             SetLengthNoNotify(value);
             Size.z = value;
-            GridViewController.NotifyChanged();
+            if (HasController) Controller.NotifyChanged();
         }
     }
 
@@ -58,6 +58,7 @@ public class GridLane : GridChild
 
     public override void OnValidate()
     {
+        if (Application.isPlaying) return;
         RefreshPosition();
 
         SetGridColor(gridColor);

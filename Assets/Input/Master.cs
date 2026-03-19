@@ -2333,7 +2333,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""name"": ""Decrease Editor Scale"",
                     ""type"": ""Button"",
                     ""id"": ""843d7818-4304-4540-94d4-1e1693a9eea5"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -5116,7 +5116,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""name"": ""SwitchingVersion"",
                     ""type"": ""Button"",
                     ""id"": ""b1ec0be6-4853-4fc6-bbe0-f3e05393d2c1"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": ""Press"",
                     ""initialStateCheck"": false
@@ -5166,6 +5166,74 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""action"": ""SwitchingVersion"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                }
+            ]
+        },
+        {
+            ""name"": ""Edit Mode"",
+            ""id"": ""d2a745a7-b80f-47f9-b031-cc5fd97be3ee"",
+            ""actions"": [
+                {
+                    ""name"": ""GameplayEdit"",
+                    ""type"": ""Button"",
+                    ""id"": ""d0803490-5e97-44a6-b74f-184ccc1dc2cf"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""GLSEdit"",
+                    ""type"": ""Button"",
+                    ""id"": ""71b77bdb-0911-424b-99da-e2493186fc0b"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""BasicEventEdit"",
+                    ""type"": ""Button"",
+                    ""id"": ""9d31e5d6-bc47-41e4-a491-b8e4b73fc6bc"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""fc05eecc-0056-4358-8d3c-6f4450c2f182"",
+                    ""path"": ""<Keyboard>/f1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GameplayEdit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""eb550705-63b1-4001-9206-2785d7cdae1b"",
+                    ""path"": ""<Keyboard>/f2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GLSEdit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5fece381-5f61-4b88-8a66-85a2ab0953fe"",
+                    ""path"": ""<Keyboard>/f3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""BasicEventEdit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -5433,6 +5501,11 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         // Switch Version
         m_SwitchVersion = asset.FindActionMap("Switch Version", throwIfNotFound: true);
         m_SwitchVersion_SwitchingVersion = m_SwitchVersion.FindAction("SwitchingVersion", throwIfNotFound: true);
+        // Edit Mode
+        m_EditMode = asset.FindActionMap("Edit Mode", throwIfNotFound: true);
+        m_EditMode_GameplayEdit = m_EditMode.FindAction("GameplayEdit", throwIfNotFound: true);
+        m_EditMode_GLSEdit = m_EditMode.FindAction("GLSEdit", throwIfNotFound: true);
+        m_EditMode_BasicEventEdit = m_EditMode.FindAction("BasicEventEdit", throwIfNotFound: true);
     }
 
     ~@CMInput()
@@ -5484,6 +5557,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         UnityEngine.Debug.Assert(!m_ChainPlacement.enabled, "This will cause a leak and performance issues, CMInput.ChainPlacement.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_NJSEventObjects.enabled, "This will cause a leak and performance issues, CMInput.NJSEventObjects.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_SwitchVersion.enabled, "This will cause a leak and performance issues, CMInput.SwitchVersion.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_EditMode.enabled, "This will cause a leak and performance issues, CMInput.EditMode.Disable() has not been called.");
     }
 
     /// <summary>
@@ -11321,6 +11395,124 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
     /// Provides a new <see cref="SwitchVersionActions" /> instance referencing this action map.
     /// </summary>
     public SwitchVersionActions @SwitchVersion => new SwitchVersionActions(this);
+
+    // Edit Mode
+    private readonly InputActionMap m_EditMode;
+    private List<IEditModeActions> m_EditModeActionsCallbackInterfaces = new List<IEditModeActions>();
+    private readonly InputAction m_EditMode_GameplayEdit;
+    private readonly InputAction m_EditMode_GLSEdit;
+    private readonly InputAction m_EditMode_BasicEventEdit;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "Edit Mode".
+    /// </summary>
+    public struct EditModeActions
+    {
+        private @CMInput m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public EditModeActions(@CMInput wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "EditMode/GameplayEdit".
+        /// </summary>
+        public InputAction @GameplayEdit => m_Wrapper.m_EditMode_GameplayEdit;
+        /// <summary>
+        /// Provides access to the underlying input action "EditMode/GLSEdit".
+        /// </summary>
+        public InputAction @GLSEdit => m_Wrapper.m_EditMode_GLSEdit;
+        /// <summary>
+        /// Provides access to the underlying input action "EditMode/BasicEventEdit".
+        /// </summary>
+        public InputAction @BasicEventEdit => m_Wrapper.m_EditMode_BasicEventEdit;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_EditMode; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="EditModeActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(EditModeActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="EditModeActions" />
+        public void AddCallbacks(IEditModeActions instance)
+        {
+            if (instance == null || m_Wrapper.m_EditModeActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_EditModeActionsCallbackInterfaces.Add(instance);
+            @GameplayEdit.started += instance.OnGameplayEdit;
+            @GameplayEdit.performed += instance.OnGameplayEdit;
+            @GameplayEdit.canceled += instance.OnGameplayEdit;
+            @GLSEdit.started += instance.OnGLSEdit;
+            @GLSEdit.performed += instance.OnGLSEdit;
+            @GLSEdit.canceled += instance.OnGLSEdit;
+            @BasicEventEdit.started += instance.OnBasicEventEdit;
+            @BasicEventEdit.performed += instance.OnBasicEventEdit;
+            @BasicEventEdit.canceled += instance.OnBasicEventEdit;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="EditModeActions" />
+        private void UnregisterCallbacks(IEditModeActions instance)
+        {
+            @GameplayEdit.started -= instance.OnGameplayEdit;
+            @GameplayEdit.performed -= instance.OnGameplayEdit;
+            @GameplayEdit.canceled -= instance.OnGameplayEdit;
+            @GLSEdit.started -= instance.OnGLSEdit;
+            @GLSEdit.performed -= instance.OnGLSEdit;
+            @GLSEdit.canceled -= instance.OnGLSEdit;
+            @BasicEventEdit.started -= instance.OnBasicEventEdit;
+            @BasicEventEdit.performed -= instance.OnBasicEventEdit;
+            @BasicEventEdit.canceled -= instance.OnBasicEventEdit;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="EditModeActions.UnregisterCallbacks(IEditModeActions)" />.
+        /// </summary>
+        /// <seealso cref="EditModeActions.UnregisterCallbacks(IEditModeActions)" />
+        public void RemoveCallbacks(IEditModeActions instance)
+        {
+            if (m_Wrapper.m_EditModeActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="EditModeActions.AddCallbacks(IEditModeActions)" />
+        /// <seealso cref="EditModeActions.RemoveCallbacks(IEditModeActions)" />
+        /// <seealso cref="EditModeActions.UnregisterCallbacks(IEditModeActions)" />
+        public void SetCallbacks(IEditModeActions instance)
+        {
+            foreach (var item in m_Wrapper.m_EditModeActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_EditModeActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="EditModeActions" /> instance referencing this action map.
+    /// </summary>
+    public EditModeActions @EditMode => new EditModeActions(this);
     private int m_ChroMapperDefaultSchemeIndex = -1;
     /// <summary>
     /// Provides access to the input control scheme.
@@ -12836,5 +13028,34 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSwitchingVersion(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Edit Mode" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="EditModeActions.AddCallbacks(IEditModeActions)" />
+    /// <seealso cref="EditModeActions.RemoveCallbacks(IEditModeActions)" />
+    public interface IEditModeActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "GameplayEdit" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnGameplayEdit(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "GLSEdit" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnGLSEdit(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "BasicEventEdit" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnBasicEventEdit(InputAction.CallbackContext context);
     }
 }

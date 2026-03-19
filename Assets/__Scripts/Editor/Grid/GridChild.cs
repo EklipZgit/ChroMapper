@@ -1,26 +1,25 @@
 ﻿using UnityEngine;
 
-[ExecuteAlways]
 public class GridChild : MonoBehaviour
 {
-    public bool RegisterChildOnStart = true;
-
     public virtual void OnValidate()
     {
+        if (Application.isPlaying) return;
+        if (!HasController)
+        {
+            var c = transform.root.GetComponentInChildren<GridViewController>();
+            Controller = c;
+        }
+
         localOffset.y = BeatmapConstant.YOffset + (BeatmapConstant.PlayerYOffset / 2f);
         localOffset.z = BeatmapConstant.ZOffset;
         Size.w = BeatmapConstant.LaneSize;
         SetScaleNoNotify(Scale);
-        GridViewController.NotifyChanged();
+        if (HasController) Controller.NotifyChanged();
     }
 
-    private void OnEnable()
-    {
-        if (!RegisterChildOnStart) return;
-        GridViewController.RegisterChild(this);
-    }
-
-    private void OnDisable() => GridViewController.DeregisterChild(this);
+    public GridViewController Controller;
+    protected bool HasController => Controller != null;
 
     /// <summary>
     ///     Flag which editing mode is allowed to view.
@@ -30,20 +29,35 @@ public class GridChild : MonoBehaviour
         get => viewableMode;
         set
         {
+            if (viewableMode == value) return;
             viewableMode = value;
-            GridViewController.NotifyChanged();
+            if (HasController) Controller.NotifyChanged();
         }
     }
 
     [SerializeField] private EditingMode viewableMode = (EditingMode)byte.MaxValue;
+
+    public bool Hide
+    {
+        get => hide;
+        set
+        {
+            if (hide == value) return;
+            hide = value;
+            if (HasController) Controller.NotifyChanged();
+        }
+    }
+
+    [SerializeField] private bool hide;
 
     public int Order
     {
         get => order;
         set
         {
+            if (order == value) return;
             order = value;
-            GridViewController.NotifyChanged();
+            if (HasController) Controller.NotifyChanged();
         }
     }
 
@@ -54,8 +68,9 @@ public class GridChild : MonoBehaviour
         get => localOffset;
         set
         {
+            if (localOffset == value) return;
             localOffset = value;
-            GridViewController.NotifyChanged();
+            if (HasController) Controller.NotifyChanged();
         }
     }
 
@@ -68,7 +83,7 @@ public class GridChild : MonoBehaviour
         {
             if (Mathf.Approximately(Size.x, value)) return;
             Size.x = value;
-            GridViewController.NotifyChanged();
+            if (HasController) Controller.NotifyChanged();
         }
     }
 
@@ -79,11 +94,11 @@ public class GridChild : MonoBehaviour
         {
             if (Mathf.Approximately(Size.w, value)) return;
             Size.w = value;
-            GridViewController.NotifyChanged();
+            if (HasController) Controller.NotifyChanged();
         }
     }
-    
+
     [SerializeField] protected Vector4 Size = Vector4.one;
-    
+
     protected virtual void SetScaleNoNotify(float s) => transform.localScale = new Vector3(s, s, s);
 }

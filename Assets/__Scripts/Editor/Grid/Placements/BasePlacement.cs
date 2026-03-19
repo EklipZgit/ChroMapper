@@ -119,7 +119,7 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
     {
         CreateVisual();
         HideVisual();
-        QueuedData = GenerateOriginalData();
+        QueuedData ??= GenerateOriginalData();
     }
 
     protected abstract TObject GenerateOriginalData();
@@ -127,7 +127,9 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
 
     public override void Initialize(PlacementProvider provider)
     {
+        CreateVisual();
         HideVisual();
+        QueuedData ??= GenerateOriginalData();
         ObjectData = QueuedData;
     }
 
@@ -232,6 +234,8 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
 
     public virtual void CreateVisual()
     {
+        if (PlacementVisualContainer != null) return;
+        
         PlacementVisualContainer = Instantiate(
                 ObjectContainerPrefab,
                 PlacementTrack)

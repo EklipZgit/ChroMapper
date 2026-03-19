@@ -1,4 +1,5 @@
 {
+    "version": 1,
     "name": "Master",
     "maps": [
         {
@@ -2246,7 +2247,7 @@
                     "name": "Decrease Editor Scale",
                     "type": "Button",
                     "id": "843d7818-4304-4540-94d4-1e1693a9eea5",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -5029,7 +5030,7 @@
                     "name": "SwitchingVersion",
                     "type": "Button",
                     "id": "b1ec0be6-4853-4fc6-bbe0-f3e05393d2c1",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "Press",
                     "initialStateCheck": false
@@ -5079,6 +5080,74 @@
                     "action": "SwitchingVersion",
                     "isComposite": false,
                     "isPartOfComposite": true
+                }
+            ]
+        },
+        {
+            "name": "Edit Mode",
+            "id": "d2a745a7-b80f-47f9-b031-cc5fd97be3ee",
+            "actions": [
+                {
+                    "name": "GameplayEdit",
+                    "type": "Button",
+                    "id": "d0803490-5e97-44a6-b74f-184ccc1dc2cf",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "GLSEdit",
+                    "type": "Button",
+                    "id": "71b77bdb-0911-424b-99da-e2493186fc0b",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "BasicEventEdit",
+                    "type": "Button",
+                    "id": "9d31e5d6-bc47-41e4-a491-b8e4b73fc6bc",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "fc05eecc-0056-4358-8d3c-6f4450c2f182",
+                    "path": "<Keyboard>/f1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "GameplayEdit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "eb550705-63b1-4001-9206-2785d7cdae1b",
+                    "path": "<Keyboard>/f2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "GLSEdit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5fece381-5f61-4b88-8a66-85a2ab0953fe",
+                    "path": "<Keyboard>/f3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "BasicEventEdit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

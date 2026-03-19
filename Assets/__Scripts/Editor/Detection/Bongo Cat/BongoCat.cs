@@ -1,10 +1,10 @@
 ﻿using Beatmap.Base;
 using Beatmap.Enums;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class BongoCat : MonoBehaviour
 {
+    [SerializeField] private GridViewController gridViewController;
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private BongoCatPreset[] bongoCats;
     [SerializeField] private GridLane lane;
@@ -21,14 +21,14 @@ public class BongoCat : MonoBehaviour
     {
         selectedBongoCat = bongoCats[0];
         Settings.NotifyBySettingName(nameof(BongoCat), UpdateBongoCatState);
-        GridViewController.OnGridViewUpdated += UpdatePosition;
+        gridViewController.OnGridViewUpdated += UpdatePosition;
         UpdateBongoCatState(Settings.Instance.BongoCat);
     }
 
     private void OnDestroy()
     {
         Settings.ClearSettingNotifications(nameof(Settings.BongoCat));
-        GridViewController.OnGridViewUpdated -= UpdatePosition;
+        gridViewController.OnGridViewUpdated -= UpdatePosition;
     }
 
     private void Update()

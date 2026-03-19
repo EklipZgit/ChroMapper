@@ -3,48 +3,55 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+[ExecuteAlways]
 public class GridViewController : MonoBehaviour
 {
-    private static Dictionary<int, List<GridChild>> allChildren = new();
+    public event Action OnGridViewUpdated;
 
-    [SerializeField] private int centerOffset;
+    [SerializeField] private EditModeContext editModeContext;
+    [SerializeField] private GridChild[] startUpRegister;
 
-    private static EditingMode editingMode = EditingMode.Gameplay;
+    private Dictionary<int, List<GridChild>> allChildren = new();
 
-    public static EditingMode EditingMode
+    private void OnValidate()
     {
-        get => editingMode;
-        set
-        {
-            editingMode = value;
-            NotifyChanged();
-        }
+        if (Application.isPlaying) return;
+        // just a neat trick
+        // startUpRegister = transform.root.GetComponentsInChildren<GridChild>(true);
+        allChildren.Clear();
+        Start();
+        NotifyChanged();
     }
 
-    public static event Action OnGridViewUpdated;
+    private void Start()
+    {
+        foreach (var gridChild in startUpRegister) RegisterChild(gridChild);
+    }
 
-    private void OnEnable() => NotifyChanged();
-    private void OnDestroy() => allChildren.Clear();
+    private void OnEnable() => editModeContext.OnEditModeChanged += HandleEditModeChanged;
+    private void OnDestroy() => editModeContext.OnEditModeChanged -= HandleEditModeChanged;
+
+    private void HandleEditModeChanged(EditingMode mode) => NotifyChanged();
 
     // TODO: Refresh only once per frame
-    private static void UpdateGrid()
+    private void UpdateGrid()
     {
         var activeChildren = new Dictionary<int, List<GridChild>>();
 
-        foreach (var (order, children) in from child in allChildren from childViewable in child.Value select child)
+        foreach (var (order, children) in allChildren)
         {
             foreach (var child in children)
             {
-                if (child.ViewableMode.HasFlag(EditingMode) && child.gameObject.activeSelf)
+                if (child.ViewableMode.HasFlag(editModeContext.EditingMode) && !child.Hide)
                 {
-                    child.transform.localPosition = Vector3.zero;
                     if (activeChildren.ContainsKey(order))
                         activeChildren[order].Add(child);
                     else
                         activeChildren.Add(order, new List<GridChild> { child });
+                    child.gameObject.SetActive(true);
                 }
                 else
-                    child.transform.localPosition = new Vector3(0, 69420, 69420);
+                    child.gameObject.SetActive(false);
             }
         }
 
@@ -60,7 +67,7 @@ public class GridViewController : MonoBehaviour
         var isOdd = false;
         if (activeChildren.TryGetValue(0, out var centerGrid)) isOdd = centerGrid.Max(x => x.Lane) % 2 != 0;
 
-        foreach (var (order, children) in activeChildren)
+        foreach (var (_, children) in activeChildren)
         {
             children.RemoveAll(x => x == null);
             foreach (var child in children)
@@ -77,15 +84,19 @@ public class GridViewController : MonoBehaviour
         }
     }
 
-    public static int GetSizeForOrder(int order)
+    public int GetSizeForOrder(int order)
     {
         return allChildren.TryGetValue(order, out var children)
             ? Mathf.CeilToInt(
-                children.Any() ? children.Where(x => x.ViewableMode.HasFlag(EditingMode)).Max(x => x.Lane) : 0)
+                children.Any()
+                    ? children
+                        .Where(x => x.ViewableMode.HasFlag(editModeContext.EditingMode) && !x.Hide)
+                        .Max(x => x.Lane)
+                    : 0)
             : 0;
     }
 
-    public static void RegisterChild(GridChild child)
+    public void RegisterChild(GridChild child)
     {
         if (allChildren.TryGetValue(child.Order, out var grids))
             grids.Add(child);
@@ -94,7 +105,7 @@ public class GridViewController : MonoBehaviour
         NotifyChanged();
     }
 
-    public static void DeregisterChild(GridChild child)
+    public void DeregisterChild(GridChild child)
     {
         if (!allChildren.TryGetValue(child.Order, out var grids)) return;
         grids.Remove(child);
@@ -103,14 +114,14 @@ public class GridViewController : MonoBehaviour
         NotifyChanged();
     }
 
-    public static void NotifyChanged()
+    public void NotifyChanged()
     {
         RefreshChildDictionary();
         UpdateGrid();
         OnGridViewUpdated?.Invoke();
     }
 
-    private static void RefreshChildDictionary()
+    private void RefreshChildDictionary()
     {
         allChildren = allChildren
             .SelectMany(x => x.Value)

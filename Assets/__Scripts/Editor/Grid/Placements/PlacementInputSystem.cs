@@ -12,6 +12,7 @@ public class PlacementInputSystem : MonoBehaviour,
     [SerializeField] private CustomStandaloneInputModule customStandaloneInputModule;
     [SerializeField] private AudioTimeSyncController atsc;
     [SerializeField] private CameraManager cameraManager;
+    [SerializeField] private GridViewController gridViewController;
     [SerializeField] private PrecisionPlacementController precisionPlacementController;
     [SerializeField] private BoxSelectionPlacement boxSelectionPlacement;
     private bool applicationFocus;
@@ -32,7 +33,7 @@ public class PlacementInputSystem : MonoBehaviour,
         && applicationFocus
         && !UIMode.PreviewMode;
 
-    private void Awake() => GridViewController.OnGridViewUpdated += RefreshBound;
+    private void Start() => gridViewController.OnGridViewUpdated += RefreshBound;
 
     private void Update()
     {
@@ -85,7 +86,7 @@ public class PlacementInputSystem : MonoBehaviour,
 
     private void OnDestroy()
     {
-        GridViewController.OnGridViewUpdated -= RefreshBound;
+        gridViewController.OnGridViewUpdated -= RefreshBound;
         Intersections.Clear();
     }
 

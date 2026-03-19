@@ -7,6 +7,7 @@ public class PrecisionPlacementController : MonoBehaviour
     private static readonly int gridSpacingID = Shader.PropertyToID("_GridSpacing");
     private static readonly int gridOffsetID = Shader.PropertyToID("_GridOffset");
 
+    [SerializeField] private GridViewController gridViewController;
     [SerializeField] private IntersectionCollider intersectionCollider;
     [SerializeField] private Renderer regularMesh;
     [SerializeField] private Renderer expandedMesh;
@@ -21,7 +22,7 @@ public class PrecisionPlacementController : MonoBehaviour
         materialPropertyBlock = new MaterialPropertyBlock();
 
         Settings.NotifyBySettingName(nameof(Settings.PrecisionPlacementGridPrecision), UpdatePrecisionGrid);
-        GridViewController.OnGridViewUpdated += UpdateGridPosition;
+        gridViewController.OnGridViewUpdated += UpdateGridPosition;
 
         TogglePrecisionPlacement(false);
         UpdatePrecisionGrid(Settings.Instance.PrecisionPlacementGridPrecision);
@@ -30,7 +31,7 @@ public class PrecisionPlacementController : MonoBehaviour
     private void OnDestroy()
     {
         Settings.ClearSettingNotifications(nameof(Settings.PrecisionPlacementGridPrecision));
-        GridViewController.OnGridViewUpdated -= UpdateGridPosition;
+        gridViewController.OnGridViewUpdated -= UpdateGridPosition;
     }
 
     public void TogglePrecisionPlacement(bool toggle)
