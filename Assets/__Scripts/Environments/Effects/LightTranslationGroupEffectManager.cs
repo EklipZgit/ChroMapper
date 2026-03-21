@@ -32,17 +32,17 @@ public class LightTranslationGroupEffectManager : MonoBehaviour
         foreach (var effect in IdToEffect.Values) effect.Refresh();
     }
 
-    public bool InsertData(BaseLightTranslationEventBoxGroup<BaseLightTranslationEventBox> data)
+    public bool InsertData(BaseLightTranslationEventBoxGroup data)
     {
         if (!IdToEffect.TryGetValue(data.ID, out var effect)) return false;
         effect.InsertData(data);
         return true;
     }
 
-    public bool InsertData(IEnumerable<BaseLightTranslationEventBoxGroup<BaseLightTranslationEventBox>> data) =>
+    public bool InsertData(IEnumerable<BaseLightTranslationEventBoxGroup> data) =>
         data.GroupBy(x => x.ID).Aggregate(false, (current, d) => current | InsertData(d.Key, d));
 
-    public bool InsertData(int type, IEnumerable<BaseLightTranslationEventBoxGroup<BaseLightTranslationEventBox>> data)
+    public bool InsertData(int type, IEnumerable<BaseLightTranslationEventBoxGroup> data)
     {
         data = data.ToList();
         if (!IdToEffect.TryGetValue(type, out var effect)) return false;
@@ -57,9 +57,7 @@ public class LightTranslationGroupEffectManager : MonoBehaviour
         return marked;
     }
 
-    public bool RemoveData(
-        BaseLightTranslationEventBoxGroup<BaseLightTranslationEventBox> reference,
-        BaseLightTranslationEventBoxGroup<BaseLightTranslationEventBox> original)
+    public bool RemoveData(BaseLightTranslationEventBoxGroup reference, BaseLightTranslationEventBoxGroup original)
     {
         if (!IdToEffect.TryGetValue(original.ID, out var effect)) return false;
         effect.RemoveData(reference, original);

@@ -25,7 +25,8 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
 
     public event Action<BaseObject> OnContainerSpawned;
     public event Action<BaseObject> OnContainerDespawned;
-    public BeatmapRuntimeContext Context;
+    public BeatmapRuntimeContext BeatmapContext;
+    public EditModeContext EditContext;
     public Transform TargetTransform;
 
     /// <summary>
@@ -75,11 +76,11 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
 
     internal virtual void LateUpdate()
     {
-        if ((Context.Atsc.IsPlaying && !UseChunkLoadingWhenPlaying)
-            || Mathf.Approximately(Context.Atsc.CurrentSongBpmTime, previousAtscBeat))
+        if ((BeatmapContext.Atsc.IsPlaying && !UseChunkLoadingWhenPlaying)
+            || Mathf.Approximately(BeatmapContext.Atsc.CurrentSongBpmTime, previousAtscBeat))
             return;
 
-        previousAtscBeat = Context.Atsc.CurrentSongBpmTime;
+        previousAtscBeat = BeatmapContext.Atsc.CurrentSongBpmTime;
         var nearestChunk = (int)Math.Round(previousAtscBeat / (double)ChunkSize, MidpointRounding.AwayFromZero);
         if (nearestChunk != previousChunk)
         {
@@ -146,6 +147,17 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
             Type t when t == typeof(BaseBookmark) => ObjectType.Bookmark,
             Type t when t == typeof(BaseNJSEvent) => ObjectType.NJSEvent,
             Type t when t == typeof(BaseEnvironmentEnhancement) => ObjectType.EnvironmentEnhancement,
+            Type t when t == typeof(BaseEventBoxGroup) => ObjectType.GLSGroup,
+            // fallback in case it couldnt recognise contra
+            Type t when t == typeof(BaseLightColorEventBoxGroup) => ObjectType.GLSGroup,
+            Type t when t == typeof(BaseLightRotationEventBoxGroup) => ObjectType.GLSGroup,
+            Type t when t == typeof(BaseLightTranslationEventBoxGroup) => ObjectType.GLSGroup,
+            Type t when t == typeof(BaseVfxEventEventBoxGroup) => ObjectType.GLSGroup,
+            // imma be honest, idk if this actually ever needed
+            Type t when t == typeof(BaseLightColorBase) => ObjectType.GLSEvent,
+            Type t when t == typeof(BaseLightRotationBase) => ObjectType.GLSEvent,
+            Type t when t == typeof(BaseLightTranslationBase) => ObjectType.GLSEvent,
+            Type t when t == typeof(FloatFxEventBase) => ObjectType.GLSEvent,
             _ => throw new ArgumentException(nameof(TBaseObject))
         };
 
@@ -172,7 +184,7 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
     public virtual void RefreshPool(bool forceRefresh = false)
     {
         var epsilon = Mathf.Pow(10, -9);
-        if (Context.Atsc.IsPlaying)
+        if (BeatmapContext.Atsc.IsPlaying)
         {
             var spawnOffset = UseChunkLoadingWhenPlaying
                 ? ChunksLoadedWhilePlaying * ChunkSize
@@ -181,8 +193,8 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
                 ? -ChunksLoadedWhilePlaying * ChunkSize
                 : DespawnCallbackController.Offset;
             RefreshPool(
-                Context.Atsc.CurrentSongBpmTime + despawnOffset - epsilon,
-                Context.Atsc.CurrentSongBpmTime + spawnOffset + epsilon,
+                BeatmapContext.Atsc.CurrentSongBpmTime + despawnOffset - epsilon,
+                BeatmapContext.Atsc.CurrentSongBpmTime + spawnOffset + epsilon,
                 forceRefresh);
         }
         else

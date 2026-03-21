@@ -11,8 +11,8 @@ public class TracksDefinitionSO : ScriptableObject
     public Dictionary<int, TrackDefinitionBasic> Basic;
     public Dictionary<int, TrackDefinitionGLS> Gls;
 
-    private static readonly TrackDefinitionBasic defaultBasic = new();
-    private static readonly TrackDefinitionGLS defaultGls = new();
+    public static readonly TrackDefinitionBasic DefaultBasic = new();
+    public static readonly TrackDefinitionGLS DefaultGls = new();
 
     public void OnValidate() => Initialize();
     public void OnEnable() => Initialize();
@@ -23,8 +23,8 @@ public class TracksDefinitionSO : ScriptableObject
         Gls = glsEntries.Select((x, i) => (i, x)).ToDictionary(x => x.i, x => x.x);
     }
 
-    public TrackDefinitionBasic GetBasicOrDefault(int type) => Basic.GetValueOrDefault(type, defaultBasic);
-    public TrackDefinitionGLS GetGlsOrDefault(int id) => Gls.GetValueOrDefault(id, defaultGls);
+    public TrackDefinitionBasic GetBasicOrDefault(int type) => Basic.GetValueOrDefault(type, DefaultBasic);
+    public TrackDefinitionGLS GetGlsOrDefault(int id) => Gls.GetValueOrDefault(id, DefaultGls);
 
     public TracksDefinitionSO Copy(TracksDefinitionSO other)
     {

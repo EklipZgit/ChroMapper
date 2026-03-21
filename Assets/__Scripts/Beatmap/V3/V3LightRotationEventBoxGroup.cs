@@ -10,20 +10,25 @@ namespace Beatmap.V3
 {
     public static class V3LightRotationEventBoxGroup
     {
-        public static BaseLightRotationEventBoxGroup<BaseLightRotationEventBox> GetFromJson(JSONNode node)
+        public static BaseLightRotationEventBoxGroup GetFromJson(JSONNode node)
         {
-            var group = new BaseLightRotationEventBoxGroup<BaseLightRotationEventBox>();
-            
-            group.JsonTime = node["b"].AsFloat;
-            group.ID = node["g"].AsInt;
-            group.Boxes = new List<BaseLightRotationEventBox>(BaseItem.GetRequiredNode(node, "e").AsArray.Linq
-                .Select(x => V3LightRotationEventBox.GetFromJson(x)).ToList());
-            group.CustomData = node["customData"];
+            var group = new BaseLightRotationEventBoxGroup
+            {
+                JsonTime = node["b"].AsFloat,
+                ID = node["g"].AsInt,
+                Boxes = new List<BaseLightRotationEventBox>(
+                    BaseItem
+                        .GetRequiredNode(node, "e")
+                        .AsArray.Linq
+                        .Select(x => V3LightRotationEventBox.GetFromJson(x))
+                        .ToList()),
+                CustomData = node["customData"]
+            };
 
             return group;
         }
 
-        public static JSONNode ToJson<T>(BaseLightRotationEventBoxGroup<T> group) where T : BaseLightRotationEventBox
+        public static JSONNode ToJson(BaseLightRotationEventBoxGroup group)
         {
             JSONNode node = new JSONObject();
             node["b"] = group.JsonTime;

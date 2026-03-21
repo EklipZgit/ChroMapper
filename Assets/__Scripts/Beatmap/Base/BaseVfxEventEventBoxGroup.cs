@@ -4,8 +4,7 @@ using SimpleJSON;
 
 namespace Beatmap.Base
 {
-    public class BaseVfxEventEventBoxGroup<T> : BaseEventBoxGroup<T>
-        where T : BaseVfxEventEventBox
+    public class BaseVfxEventEventBoxGroup : BaseEventBoxGroup<BaseVfxEventEventBox>
     {
         public int Type { get; set; }
 
@@ -13,11 +12,13 @@ namespace Beatmap.Base
         {
         }
 
-        protected BaseVfxEventEventBoxGroup(float time, int id, int type, List<T> boxes,
-            JSONNode customData = null) : base(time, id, boxes, customData)
-        {
+        protected BaseVfxEventEventBoxGroup(
+            float time,
+            int id,
+            int type,
+            List<BaseVfxEventEventBox> boxes,
+            JSONNode customData = null) : base(time, id, boxes, customData) =>
             Type = type;
-        }
 
         public override string CustomKeyColor { get; } = "unusedKeyColor";
         public override string CustomKeyTrack { get; } = "unusedKeyTrack";

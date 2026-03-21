@@ -9,7 +9,7 @@ public class
     FloatFxGroupEffect : EventGroupEffect<
     FloatFxGroupStateData,
     FloatFxEventStateData,
-    BaseVfxEventEventBoxGroup<BaseVfxEventEventBox>,
+    BaseVfxEventEventBoxGroup,
     BaseVfxEventEventBox,
     FloatFxEventBase>
 {
@@ -146,13 +146,12 @@ public class
         tween.Easing = Easing.FromID(endState.Base.Easing);
     }
 
-    protected override FloatFxGroupStateData CreateState(BaseVfxEventEventBoxGroup<BaseVfxEventEventBox> data) =>
-        new(data);
+    protected override FloatFxGroupStateData CreateState(BaseVfxEventEventBoxGroup data) => new(data);
 
     protected override Axis GetAxis(BaseVfxEventEventBox box) => Axis.X;
 
     protected override
-        StateChunksContainer<FloatFxGroupStateData, BaseVfxEventEventBoxGroup<BaseVfxEventEventBox>>
+        StateChunksContainer<FloatFxGroupStateData, BaseVfxEventEventBoxGroup>
         GetGroupContainer((Axis axis, int element) key)
     {
         var id = key.element;
@@ -171,7 +170,7 @@ public class
     }
 
     protected override
-        IEnumerable<(StateChunksContainer<FloatFxGroupStateData, BaseVfxEventEventBoxGroup<BaseVfxEventEventBox>>
+        IEnumerable<(StateChunksContainer<FloatFxGroupStateData, BaseVfxEventEventBoxGroup>
             groupContainer, StateChunksContainer<FloatFxEventStateData, FloatFxEventBase> eventContainer)>
         GetContainers() =>
         idToContainer.Select(x => (x.GroupContainer, x.EventContainer));
@@ -214,11 +213,11 @@ public class
 }
 
 public class FloatFxGroupStateData : EventGroupStateData<
-    BaseVfxEventEventBoxGroup<BaseVfxEventEventBox>,
+    BaseVfxEventEventBoxGroup,
     BaseVfxEventEventBox,
     FloatFxEventBase>
 {
-    public FloatFxGroupStateData(BaseVfxEventEventBoxGroup<BaseVfxEventEventBox> data) : base(data)
+    public FloatFxGroupStateData(BaseVfxEventEventBoxGroup data) : base(data)
     {
     }
 }
@@ -239,7 +238,7 @@ public class FloatFxEventStateData : EventGroupEventStateData<FloatFxEventBase>
 public record FloatFxGroupContainer : EventGroupContainer<
     FloatFxGroupStateData,
     FloatFxEventStateData,
-    BaseVfxEventEventBoxGroup<BaseVfxEventEventBox>,
+    BaseVfxEventEventBoxGroup,
     BaseVfxEventEventBox,
     FloatFxEventBase>
 {

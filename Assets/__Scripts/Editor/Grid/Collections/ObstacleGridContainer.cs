@@ -27,7 +27,7 @@ public class ObstacleGridContainer : BeatmapObjectContainerCollection<BaseObstac
 
     internal override void SubscribeToCallbacks()
     {
-        Context.Atsc.OnTimeChanged += OnTimeChanged;
+        BeatmapContext.Atsc.OnTimeChanged += OnTimeChanged;
         UIMode.OnPreviewModeSwitched += OnUIPreviewModeSwitch;
 
         Settings.NotifyBySettingName(nameof(Settings.ObstacleOpacity), ObstacleOpacityChanged);
@@ -36,7 +36,7 @@ public class ObstacleGridContainer : BeatmapObjectContainerCollection<BaseObstac
 
     internal override void UnsubscribeToCallbacks()
     {
-        Context.Atsc.OnTimeChanged -= OnTimeChanged;
+        BeatmapContext.Atsc.OnTimeChanged -= OnTimeChanged;
         UIMode.OnPreviewModeSwitched -= OnUIPreviewModeSwitch;
 
         Settings.ClearSettingNotifications(nameof(Settings.ObstacleOpacity));
@@ -78,8 +78,8 @@ public class ObstacleGridContainer : BeatmapObjectContainerCollection<BaseObstac
     {
         if (!UIMode.AnimationMode) return;
 
-        var time = Context.Atsc.CurrentSongBpmTime;
-        if (Context.Atsc.IsPlaying)
+        var time = BeatmapContext.Atsc.CurrentSongBpmTime;
+        if (BeatmapContext.Atsc.IsPlaying)
         {
             while (spawnIndex < SpawnSortedObjects.Length
                 && time + Track.JUMP_TIME
@@ -117,7 +117,7 @@ public class ObstacleGridContainer : BeatmapObjectContainerCollection<BaseObstac
 
     private void RefreshWalls()
     {
-        var time = Context.Atsc.CurrentSongBpmTime;
+        var time = BeatmapContext.Atsc.CurrentSongBpmTime;
         foreach (var obj in LoadedContainers.Values.ToList())
         {
             RecycleContainer(obj.ObjectData);
@@ -159,7 +159,7 @@ public class ObstacleGridContainer : BeatmapObjectContainerCollection<BaseObstac
     public override ObjectContainer CreateContainer()
     {
         var con = ObstacleContainer.SpawnObstacle(null, tracksManager, ref obstaclePrefab);
-        con.Animator.Context = Context;
+        con.Animator.Context = BeatmapContext;
         con.Animator.TracksManager = tracksManager;
         return con;
     }

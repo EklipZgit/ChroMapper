@@ -4,13 +4,16 @@ using SimpleJSON;
 
 namespace Beatmap.Base
 {
-    public class BaseLightRotationEventBoxGroup<T> : BaseEventBoxGroup<T> where T : BaseLightRotationEventBox
+    public class BaseLightRotationEventBoxGroup : BaseEventBoxGroup<BaseLightRotationEventBox>
     {
         public BaseLightRotationEventBoxGroup()
         {
         }
 
-        protected BaseLightRotationEventBoxGroup(float time, int id, List<T> boxes,
+        protected BaseLightRotationEventBoxGroup(
+            float time,
+            int id,
+            List<BaseLightRotationEventBox> boxes,
             JSONNode customData = null) : base(time, id, boxes, customData)
         {
         }
@@ -19,12 +22,12 @@ namespace Beatmap.Base
 
         public override string CustomKeyTrack { get; } = "unusedKeyTrack";
 
-        public override JSONNode ToJson() => Settings.Instance.MapVersion switch
-        {
-            3 => V3LightRotationEventBoxGroup.ToJson(this),
-        };
+        public override JSONNode ToJson() =>
+            Settings.Instance.MapVersion switch
+            {
+                3 => V3LightRotationEventBoxGroup.ToJson(this),
+            };
 
         public override BaseItem Clone() => throw new System.NotImplementedException();
-
     }
 }

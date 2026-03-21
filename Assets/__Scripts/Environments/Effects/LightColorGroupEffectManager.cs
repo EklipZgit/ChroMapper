@@ -32,17 +32,17 @@ public class LightColorGroupEffectManager : MonoBehaviour
         foreach (var effect in IdToEffect.Values) effect.Refresh();
     }
 
-    public bool InsertData(BaseLightColorEventBoxGroup<BaseLightColorEventBox> data)
+    public bool InsertData(BaseLightColorEventBoxGroup data)
     {
         if (!IdToEffect.TryGetValue(data.ID, out var effect)) return false;
         effect.InsertData(data);
         return true;
     }
 
-    public bool InsertData(IEnumerable<BaseLightColorEventBoxGroup<BaseLightColorEventBox>> data) =>
+    public bool InsertData(IEnumerable<BaseLightColorEventBoxGroup> data) =>
         data.GroupBy(x => x.ID).Aggregate(false, (current, d) => current | InsertData(d.Key, d));
 
-    public bool InsertData(int type, IEnumerable<BaseLightColorEventBoxGroup<BaseLightColorEventBox>> data)
+    public bool InsertData(int type, IEnumerable<BaseLightColorEventBoxGroup> data)
     {
         data = data.ToList();
         if (!IdToEffect.TryGetValue(type, out var effect)) return false;
@@ -57,9 +57,7 @@ public class LightColorGroupEffectManager : MonoBehaviour
         return marked;
     }
 
-    public bool RemoveData(
-        BaseLightColorEventBoxGroup<BaseLightColorEventBox> reference,
-        BaseLightColorEventBoxGroup<BaseLightColorEventBox> original)
+    public bool RemoveData(BaseLightColorEventBoxGroup reference, BaseLightColorEventBoxGroup original)
     {
         if (!IdToEffect.TryGetValue(original.ID, out var effect)) return false;
         effect.RemoveData(reference, original);

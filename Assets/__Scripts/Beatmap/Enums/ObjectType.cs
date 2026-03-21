@@ -13,6 +13,8 @@ namespace Beatmap.Enums
         Bookmark,
         Waypoint,
         NJSEvent,
-        EnvironmentEnhancement
+        EnvironmentEnhancement,
+        GLSGroup,
+        GLSEvent
     }
 }

@@ -17,7 +17,7 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
     }
 
     [SerializeField] private GameObject eventPrefab;
-    [SerializeField] private EventAppearanceSO eventAppearanceSo;
+    [SerializeField] private EventAppearanceSO eventAppearance;
     [SerializeField] private TracksManager tracksManager;
     [SerializeField] private GridLane gridLane;
     [SerializeField] private CreateEventTypeLabels labels;
@@ -89,7 +89,7 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
             gridLane.Lane =
                 value != PropMode.Off
                     ? propagationLength + 1
-                    : Context.TracksDefinition.Basic.Count;
+                    : BeatmapContext.TracksDefinition.Basic.Count;
             EventTypePropagationSize = propagationLength;
             UpdatePropagationMode();
         }
@@ -154,20 +154,20 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
 
     internal override void SubscribeToCallbacks()
     {
-        Context.OnEnvironmentLoaded += HandleEnvironmentLoaded;
+        BeatmapContext.OnEnvironmentLoaded += HandleEnvironmentLoaded;
         SpawnCallbackController.OnEventPassedThreshold += SpawnCallback;
         SpawnCallbackController.OnRecursiveEventCheckFinished += OnRecursiveCheckFinished;
         DespawnCallbackController.OnEventPassedThreshold += DespawnCallback;
-        Context.Atsc.OnPlayToggled += OnPlayToggle;
+        BeatmapContext.Atsc.OnPlayToggled += OnPlayToggle;
     }
 
     internal override void UnsubscribeToCallbacks()
     {
-        Context.OnEnvironmentLoaded -= HandleEnvironmentLoaded;
+        BeatmapContext.OnEnvironmentLoaded -= HandleEnvironmentLoaded;
         SpawnCallbackController.OnEventPassedThreshold -= SpawnCallback;
         SpawnCallbackController.OnRecursiveEventCheckFinished -= OnRecursiveCheckFinished;
         DespawnCallbackController.OnEventPassedThreshold -= DespawnCallback;
-        Context.Atsc.OnPlayToggled -= OnPlayToggle;
+        BeatmapContext.Atsc.OnPlayToggled -= OnPlayToggle;
     }
 
     protected override void HandleObjectDelete(BaseObject obj, bool inCollection = false)
@@ -187,7 +187,8 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
             {
                 AllBpmEvents.Remove(e);
             }
-            else if (Context.TracksDefinition.GetBasicOrDefault(e.Type).Kind == BasicEventKind.Lights && !inCollection)
+            else if (BeatmapContext.TracksDefinition.GetBasicOrDefault(e.Type).Kind == BasicEventKind.Lights
+                && !inCollection)
             {
                 RemoveLinkedLightEvents(e);
                 if (AllLightEvents.TryGetValue(e.Type, out var events)) events.Remove(e);
@@ -215,7 +216,8 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
                 AllBoostEvents.Add(e);
             else if (e.IsBpmEvent())
                 AllBpmEvents.Add(e);
-            else if (Context.TracksDefinition.GetBasicOrDefault(e.Type).Kind == BasicEventKind.Lights && !inCollection)
+            else if (BeatmapContext.TracksDefinition.GetBasicOrDefault(e.Type).Kind == BasicEventKind.Lights
+                && !inCollection)
             {
                 RemoveLinkedLightEvents(e);
                 LinkLightEvents(e);
@@ -343,7 +345,7 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
             con.UpdateGridPosition();
         }
 
-        if (propagationEditing == PropMode.Off) OnPlayToggle(Context.Atsc.IsPlaying);
+        if (propagationEditing == PropMode.Off) OnPlayToggle(BeatmapContext.Atsc.IsPlaying);
     }
 
     private void SpawnCallback(bool initial, int index, BaseObject objectData)
@@ -368,7 +370,7 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
     {
         var endTime = @event.JsonTime + @event.CustomLightGradient.Duration;
         yield return new WaitUntil(() =>
-            endTime < Context.Atsc.CurrentJsonTime + DespawnCallbackController.Offset);
+            endTime < BeatmapContext.Atsc.CurrentJsonTime + DespawnCallbackController.Offset);
         RecycleContainer(@event);
     }
 
@@ -385,22 +387,21 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
     {
         var epsilon = Mathf.Pow(10, -9);
         RefreshPool(
-            Context.Atsc.CurrentSongBpmTime + DespawnCallbackController.Offset - epsilon,
-            Context.Atsc.CurrentSongBpmTime + SpawnCallbackController.Offset + epsilon);
+            BeatmapContext.Atsc.CurrentSongBpmTime + DespawnCallbackController.Offset - epsilon,
+            BeatmapContext.Atsc.CurrentSongBpmTime + SpawnCallbackController.Offset + epsilon);
     }
 
     public override ObjectContainer CreateContainer() =>
         EventContainer.SpawnEvent(
             this,
             null,
-            Context.TracksDefinition,
+            BeatmapContext.TracksDefinition,
             ref eventPrefab,
-            ref eventAppearanceSo,
             ref labels);
 
     protected override void UpdateContainerData(ObjectContainer con, BaseObject obj)
     {
-        eventAppearanceSo.SetEventAppearance(
+        eventAppearance.SetAppearance(
             con as EventContainer,
             true,
             AllBoostEvents.FindLast(x => x.JsonTime <= obj.JsonTime)?.Value == 1);
@@ -486,7 +487,7 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
 
     public void LinkAllLightEvents() =>
         AllLightEvents = MapObjects
-            .Where(x => Context.TracksDefinition.GetBasicOrDefault(x.Type).Kind == BasicEventKind.Lights)
+            .Where(x => BeatmapContext.TracksDefinition.GetBasicOrDefault(x.Type).Kind == BasicEventKind.Lights)
             .GroupBy(x => x.Type)
             .ToDictionary(g => g.Key, g => g.ToList());
 
@@ -503,11 +504,11 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
 
     public void UpdateColor(Color red, Color redBoost, Color blue, Color blueBoost, Color white, Color whiteBoost)
     {
-        eventAppearanceSo.RedColor = red;
-        eventAppearanceSo.RedBoostColor = redBoost;
-        eventAppearanceSo.BlueColor = blue;
-        eventAppearanceSo.BlueBoostColor = blueBoost;
-        eventAppearanceSo.WhiteColor = white;
-        eventAppearanceSo.WhiteBoostColor = whiteBoost;
+        eventAppearance.RedColor = red;
+        eventAppearance.RedBoostColor = redBoost;
+        eventAppearance.BlueColor = blue;
+        eventAppearance.BlueBoostColor = blueBoost;
+        eventAppearance.WhiteColor = white;
+        eventAppearance.WhiteBoostColor = whiteBoost;
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Beatmap.Info;
 using UnityEngine;
@@ -27,8 +28,11 @@ public class AudioTimeSyncController : MonoBehaviour,
     [SerializeField] private AudioSource waveformSource;
 
     [SerializeField] private GameObject moveables;
+
     [SerializeField] private TracksManager tracksManager;
-    [SerializeField] private Track[] otherTracks;
+
+    // TODO: track should subscribe to this, not ATSC holding these
+    [SerializeField] public List<Track> otherTracks;
 
     [FormerlySerializedAs("bpmChangesContainer")] [SerializeField]
     private BPMChangeGridContainer bpmChangeGridContainer;

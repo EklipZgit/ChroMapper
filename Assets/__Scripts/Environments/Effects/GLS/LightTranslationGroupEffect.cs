@@ -9,7 +9,7 @@ public class
     LightTranslationGroupEffect : EventGroupEffect<
     LightTranslationGroupStateData,
     LightTranslationEventStateData,
-    BaseLightTranslationEventBoxGroup<BaseLightTranslationEventBox>,
+    BaseLightTranslationEventBoxGroup,
     BaseLightTranslationEventBox,
     BaseLightTranslationBase>
 {
@@ -193,14 +193,14 @@ public class
     }
 
     protected override LightTranslationGroupStateData CreateState(
-        BaseLightTranslationEventBoxGroup<BaseLightTranslationEventBox> data) =>
+        BaseLightTranslationEventBoxGroup data) =>
         new(data);
 
     protected override Axis GetAxis(BaseLightTranslationEventBox box) => (Axis)box.Axis;
 
     protected override
         StateChunksContainer<LightTranslationGroupStateData,
-            BaseLightTranslationEventBoxGroup<BaseLightTranslationEventBox>>
+            BaseLightTranslationEventBoxGroup>
         GetGroupContainer((Axis axis, int element) key)
     {
         return idToContainer.TryGetValue(key, out var value)
@@ -219,7 +219,7 @@ public class
     protected override
         IEnumerable<(
             StateChunksContainer<LightTranslationGroupStateData,
-                BaseLightTranslationEventBoxGroup<BaseLightTranslationEventBox>> groupContainer,
+                BaseLightTranslationEventBoxGroup> groupContainer,
             StateChunksContainer<LightTranslationEventStateData, BaseLightTranslationBase> eventContainer)>
         GetContainers() =>
         idToContainer.Values.Select(x => (x.GroupContainer, x.EventContainer));
@@ -263,11 +263,11 @@ public class
 }
 
 public class LightTranslationGroupStateData : EventGroupStateData<
-    BaseLightTranslationEventBoxGroup<BaseLightTranslationEventBox>,
+    BaseLightTranslationEventBoxGroup,
     BaseLightTranslationEventBox,
     BaseLightTranslationBase>
 {
-    public LightTranslationGroupStateData(BaseLightTranslationEventBoxGroup<BaseLightTranslationEventBox> data) : base(
+    public LightTranslationGroupStateData(BaseLightTranslationEventBoxGroup data) : base(
         data)
     {
     }
@@ -293,7 +293,7 @@ public class LightTranslationEventStateData : EventGroupEventStateData<BaseLight
 public record LightTranslationGroupContainer : EventGroupContainer<
     LightTranslationGroupStateData,
     LightTranslationEventStateData,
-    BaseLightTranslationEventBoxGroup<BaseLightTranslationEventBox>,
+    BaseLightTranslationEventBoxGroup,
     BaseLightTranslationEventBox,
     BaseLightTranslationBase>
 {

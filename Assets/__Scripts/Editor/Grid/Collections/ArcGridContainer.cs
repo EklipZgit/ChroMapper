@@ -26,7 +26,7 @@ public class ArcGridContainer : BeatmapObjectContainerCollection<BaseArc>
     public override ObjectContainer CreateContainer()
     {
         var con = ArcContainer.SpawnArc(null, ref arcPrefab);
-        con.Animator.Context = Context;
+        con.Animator.Context = BeatmapContext;
         con.Animator.TracksManager = tracksManager;
         return con;
     }
@@ -39,13 +39,13 @@ public class ArcGridContainer : BeatmapObjectContainerCollection<BaseArc>
 
     internal override void SubscribeToCallbacks()
     {
-        Context.Atsc.OnPlayToggled += OnPlayToggle;
+        BeatmapContext.Atsc.OnPlayToggled += OnPlayToggle;
         UIMode.OnPreviewModeSwitched += OnUIPreviewModeSwitch;
     }
 
     internal override void UnsubscribeToCallbacks()
     {
-        Context.Atsc.OnPlayToggled -= OnPlayToggle;
+        BeatmapContext.Atsc.OnPlayToggled -= OnPlayToggle;
         UIMode.OnPreviewModeSwitched -= OnUIPreviewModeSwitch;
     }
 

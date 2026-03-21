@@ -213,7 +213,7 @@ public class EventPlacement : BasePlacement<BaseEvent, EventContainer, EventGrid
         }
 
         PlacementVisualContainer!.EventData = QueuedData;
-        eventAppearanceSo.SetEventAppearance(PlacementVisualContainer, false);
+        eventAppearanceSo.SetAppearance(PlacementVisualContainer, false);
     }
 
     public override void CreateVisual()

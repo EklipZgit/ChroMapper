@@ -26,7 +26,7 @@ public class ChainGridContainer : BeatmapObjectContainerCollection<BaseChain>
     public override ObjectContainer CreateContainer()
     {
         var con = ChainContainer.SpawnChain(null, ref chainPrefab);
-        con.Animator.Context = Context;
+        con.Animator.Context = BeatmapContext;
         con.Animator.TracksManager = tracksManager;
         return con;
     }
@@ -60,7 +60,7 @@ public class ChainGridContainer : BeatmapObjectContainerCollection<BaseChain>
         SpawnCallbackController.OnChainPassedThreshold += SpawnCallback;
         SpawnCallbackController.OnRecursiveChainCheckFinished += OnRecursiveCheckFinished;
         DespawnCallbackController.OnChainPassedThreshold += DespawnCallback;
-        Context.Atsc.OnPlayToggled += OnPlayToggle;
+        BeatmapContext.Atsc.OnPlayToggled += OnPlayToggle;
         UIMode.OnPreviewModeSwitched += OnUIPreviewModeSwitch;
 
         Settings.NotifyBySettingName(nameof(Settings.NoteColorMultiplier), AppearanceChanged);
@@ -74,7 +74,7 @@ public class ChainGridContainer : BeatmapObjectContainerCollection<BaseChain>
         SpawnCallbackController.OnChainPassedThreshold -= SpawnCallback;
         SpawnCallbackController.OnRecursiveChainCheckFinished -= OnRecursiveCheckFinished;
         DespawnCallbackController.OnChainPassedThreshold -= DespawnCallback;
-        Context.Atsc.OnPlayToggled -= OnPlayToggle;
+        BeatmapContext.Atsc.OnPlayToggled -= OnPlayToggle;
         UIMode.OnPreviewModeSwitched -= OnUIPreviewModeSwitch;
 
         Settings.ClearSettingNotifications(nameof(Settings.NoteColorMultiplier));

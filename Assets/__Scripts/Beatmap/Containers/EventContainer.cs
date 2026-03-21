@@ -73,13 +73,11 @@ namespace Beatmap.Containers
             BaseEvent data,
             TracksDefinitionSO tracksDefinitionSo,
             ref GameObject prefab,
-            ref EventAppearanceSO eventAppearanceSO,
             ref CreateEventTypeLabels labels)
         {
             var container = Instantiate(prefab).GetComponent<EventContainer>();
             container.EventData = data;
             container.EventGridContainer = eventsContainer;
-            container.eventAppearance = eventAppearanceSO;
             container.TracksDefinition = tracksDefinitionSo;
             container.labels = labels;
             container.transform.localEulerAngles = Vector3.zero;
@@ -235,6 +233,6 @@ namespace Beatmap.Containers
             valueDisplay.text = text;
         }
 
-        public void RefreshAppearance() => eventAppearance.SetEventAppearance(this, TracksDefinition);
+        public void RefreshAppearance() => eventAppearance.SetAppearance(this, TracksDefinition);
     }
 }

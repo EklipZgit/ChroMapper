@@ -33,10 +33,7 @@ namespace Beatmap.Base
             base.Deserialize(reader);
         }
 
-        protected BaseSlider()
-        {
-            TailJsonTime = 0; // needed to set tailSongBpmTime
-        }
+        protected BaseSlider() => TailJsonTime = 0; // needed to set tailSongBpmTime
 
         protected BaseSlider(
             float time,

@@ -11,12 +11,12 @@ namespace Beatmap.V4
 {
     public static class V4VfxEventEventBoxGroup
     {
-        public static BaseVfxEventEventBoxGroup<BaseVfxEventEventBox> GetFromJson(JSONNode node,
+        public static BaseVfxEventEventBoxGroup GetFromJson(JSONNode node,
             IList<BaseIndexFilter> indexFilters,
             IList<V4CommonData.FxEventBox> fxEventBoxesCommonData,
             IList<V4CommonData.FloatFxEvent> floatFxEventsCommonData)
         {
-            var vfxGroup = new BaseVfxEventEventBoxGroup<BaseVfxEventEventBox>();
+            var vfxGroup = new BaseVfxEventEventBoxGroup();
             
             vfxGroup.JsonTime = node["b"].AsFloat;
             vfxGroup.ID = node["g"].AsInt;
@@ -67,7 +67,7 @@ namespace Beatmap.V4
 
             return vfxGroup;
         }
-        public static JSONNode ToJson(BaseVfxEventEventBoxGroup<BaseVfxEventEventBox> group,
+        public static JSONNode ToJson(BaseVfxEventEventBoxGroup group,
             IList<V4CommonData.IndexFilter> indexFiltersCommonData,
             IList<V4CommonData.FxEventBox > fxEventBoxesCommonData,
             IList<V4CommonData.FloatFxEvent> floatFxEventsCommonData)

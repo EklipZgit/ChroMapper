@@ -14,16 +14,13 @@ namespace Beatmap.Appearances
         public Color RedBoostColor;
         public Color BlueBoostColor;
         public Color WhiteBoostColor = new(0.7264151f, 0.7264151f, 0.7264151f);
+        public Color OffColor;
 
-        [SerializeField] private Color offColor;
+        [Header("Other Event Colors")] public Color RingEventsColor;
+        [Tooltip("Example: Ring rotate/Ring zoom/Light speed change events")]
+        public Color OtherColor;
 
-        [Header("Other Event Colors")] [SerializeField]
-        private Color ringEventsColor;
-
-        [Tooltip("Example: Ring rotate/Ring zoom/Light speed change events")] [SerializeField]
-        private Color otherColor;
-
-        public void SetEventAppearance(
+        public void SetAppearance(
             EventContainer e,
             bool final = true,
             bool boost = false)
@@ -57,8 +54,8 @@ namespace Beatmap.Appearances
                 e.UseBlockModel = true;
                 if (trackDef.Kind == BasicEventKind.None)
                 {
-                    e.ChangeColor(ringEventsColor, false);
-                    e.ChangeBaseColor(ringEventsColor, false);
+                    e.ChangeColor(RingEventsColor, false);
+                    e.ChangeBaseColor(RingEventsColor, false);
                 }
                 else if (e.EventData.Type == (int)EventTypeValue.ColorBoost)
                 {
@@ -81,8 +78,8 @@ namespace Beatmap.Appearances
                 }
                 else
                 {
-                    e.ChangeColor(otherColor, false);
-                    e.ChangeBaseColor(otherColor, false);
+                    e.ChangeColor(OtherColor, false);
+                    e.ChangeBaseColor(OtherColor, false);
                 }
 
                 e.UpdateOffset(Vector3.zero, false);
@@ -98,7 +95,7 @@ namespace Beatmap.Appearances
             }
             else if (e.EventData.IsOff)
             {
-                color = offColor;
+                color = OffColor;
             }
             else if (e.EventData.IsBlue)
             {
@@ -134,7 +131,7 @@ namespace Beatmap.Appearances
                 }
 
                 // for clarity sake, we don't want this to be the same as off color
-                var clampedOffColor = Color.Lerp(offColor, color, 0.25f);
+                var clampedOffColor = Color.Lerp(OffColor, color, 0.25f);
                 color = Color.Lerp(clampedOffColor, color, e.EventData.FloatValue);
             }
 
@@ -144,8 +141,8 @@ namespace Beatmap.Appearances
             switch (e.EventData.Value)
             {
                 case (int)LightValue.Off:
-                    e.ChangeColor(offColor, false);
-                    e.ChangeBaseColor(offColor, false);
+                    e.ChangeColor(OffColor, false);
+                    e.ChangeBaseColor(OffColor, false);
                     e.UpdateOffset(Vector3.zero, false);
                     break;
                 case (int)LightValue.BlueOn:
@@ -199,7 +196,7 @@ namespace Beatmap.Appearances
                 }
 
                 // for clarity sake, we don't want this to be the same as off color
-                var clampedOffColor = Color.Lerp(offColor, nextColor.Value, 0.25f);
+                var clampedOffColor = Color.Lerp(OffColor, nextColor.Value, 0.25f);
                 nextColor = Color.Lerp(clampedOffColor, nextColor.Value, nextEvent.FloatValue);
             }
 

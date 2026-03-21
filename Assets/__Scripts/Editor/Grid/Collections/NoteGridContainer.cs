@@ -26,7 +26,7 @@ public class NoteGridContainer : BeatmapObjectContainerCollection<BaseNote>
         SpawnCallbackController.OnNotePassedThreshold += SpawnCallback;
         SpawnCallbackController.OnRecursiveNoteCheckFinished += OnRecursiveCheckFinished;
         DespawnCallbackController.OnNotePassedThreshold += DespawnCallback;
-        Context.Atsc.OnPlayToggled += OnPlayToggle;
+        BeatmapContext.Atsc.OnPlayToggled += OnPlayToggle;
         UIMode.OnPreviewModeSwitched += OnUIPreviewModeSwitch;
 
         Settings.NotifyBySettingName(nameof(Settings.NoteColorMultiplier), AppearanceChanged);
@@ -40,7 +40,7 @@ public class NoteGridContainer : BeatmapObjectContainerCollection<BaseNote>
         SpawnCallbackController.OnNotePassedThreshold -= SpawnCallback;
         SpawnCallbackController.OnRecursiveNoteCheckFinished -= OnRecursiveCheckFinished;
         DespawnCallbackController.OnNotePassedThreshold -= DespawnCallback;
-        Context.Atsc.OnPlayToggled -= OnPlayToggle;
+        BeatmapContext.Atsc.OnPlayToggled -= OnPlayToggle;
         UIMode.OnPreviewModeSwitched -= OnUIPreviewModeSwitch;
 
         Settings.ClearSettingNotifications(nameof(Settings.NoteColorMultiplier));
@@ -83,7 +83,7 @@ public class NoteGridContainer : BeatmapObjectContainerCollection<BaseNote>
     public override ObjectContainer CreateContainer()
     {
         ObjectContainer con = NoteContainer.SpawnBeatmapNote(null, ref notePrefab);
-        con.Animator.Context = Context;
+        con.Animator.Context = BeatmapContext;
         con.Animator.TracksManager = tracksManager;
         return con;
     }
@@ -111,10 +111,10 @@ public class NoteGridContainer : BeatmapObjectContainerCollection<BaseNote>
 
     // Here we check to see if any special angled notes are required.
     protected override void HandleContainerSpawn(ObjectContainer container, BaseObject obj) =>
-        RefreshSpecialAngles(obj, true, Context.Atsc.IsPlaying);
+        RefreshSpecialAngles(obj, true, BeatmapContext.Atsc.IsPlaying);
 
     protected override void HandleContainerDespawn(ObjectContainer container, BaseObject obj) =>
-        RefreshSpecialAngles(obj, false, Context.Atsc.IsPlaying);
+        RefreshSpecialAngles(obj, false, BeatmapContext.Atsc.IsPlaying);
 
     public void RefreshSpecialAngles(BaseObject obj, bool objectWasSpawned, bool isNatural)
     {

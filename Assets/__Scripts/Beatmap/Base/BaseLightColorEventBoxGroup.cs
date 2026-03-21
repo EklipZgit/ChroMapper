@@ -4,13 +4,13 @@ using SimpleJSON;
 
 namespace Beatmap.Base
 {
-    public class BaseLightColorEventBoxGroup<T> : BaseEventBoxGroup<T> where T : BaseLightColorEventBox
+    public class BaseLightColorEventBoxGroup : BaseEventBoxGroup<BaseLightColorEventBox>
     {
         public BaseLightColorEventBoxGroup()
         {
         }
 
-        protected BaseLightColorEventBoxGroup(float time, int id, List<T> boxes,
+        protected BaseLightColorEventBoxGroup(float time, int id, List<BaseLightColorEventBox> boxes,
             JSONNode customData = null) : base(time, id, boxes, customData)
         {
         }

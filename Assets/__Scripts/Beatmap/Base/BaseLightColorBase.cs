@@ -31,7 +31,7 @@ namespace Beatmap.Base
             StrobeFade = strobeFade;
         }
 
-        public override ObjectType ObjectType { get; set; } = ObjectType.Event;
+        public override ObjectType ObjectType { get; set; } = ObjectType.GLSEvent;
         public int Color { get; set; }
         public float Brightness { get; set; }
         public int UsePrevious { get; set; }

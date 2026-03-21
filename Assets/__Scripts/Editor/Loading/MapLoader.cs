@@ -8,7 +8,7 @@ public class MapLoader : MonoBehaviour
 {
     [SerializeField] private TracksManager manager;
 
-    [Space][SerializeField] private Transform containerCollectionsContainer;
+    [Space] [SerializeField] private Transform containerCollectionsContainer;
 
     private BaseDifficulty map;
 
@@ -22,33 +22,45 @@ public class MapLoader : MonoBehaviour
     {
         LoadObjects(map.BpmEvents);
 
-        if (Settings.Instance.Load_Others) LoadObjects(map.CustomEvents);
-
-        if (Settings.Instance.Load_Others) LoadObjects(map.EnvironmentEnhancements);
-
-        if (Settings.Instance.Load_Notes) LoadObjects(map.Notes);
-
-        if (Settings.Instance.Load_Obstacles) LoadObjects(map.Obstacles);
-
-        if (Settings.Instance.Load_Events) LoadObjects(map.Events);
+        if (Settings.Instance.Load_Others)
+        {
+            LoadObjects(map.CustomEvents);
+            LoadObjects(map.EnvironmentEnhancements);
+        }
 
         if (Settings.Instance.Load_Notes)
         {
+            LoadObjects(map.Notes);
             LoadObjects(map.Arcs);
             LoadObjects(map.Chains);
         }
 
-        if (Settings.Instance.Load_Notes || Settings.Instance.Load_Obstacles)
+        if (Settings.Instance.Load_Obstacles) LoadObjects(map.Obstacles);
+        if (Settings.Instance.Load_Events)
         {
-            LoadObjects(map.NJSEvents);
+            LoadObjects(map.Events);
+            LoadObjects(
+                map
+                    .LightColorEventBoxGroups
+                    .Cast<BaseEventBoxGroup>()
+                    .Concat(
+                        map.LightRotationEventBoxGroups)
+                    .Concat(
+                        map.LightTranslationEventBoxGroups)
+                    .Concat(
+                        map.VfxEventBoxGroups)
+                    .ToList());
         }
+
+        if (Settings.Instance.Load_Notes || Settings.Instance.Load_Obstacles) LoadObjects(map.NJSEvents);
 
         manager.RefreshTracks();
     }
 
     public void LoadObjects<T>(List<T> objects) where T : BaseObject
     {
-        var collection = BeatmapObjectContainerCollection.GetCollectionForType<BeatmapObjectContainerCollection<T>, T>();
+        var collection =
+            BeatmapObjectContainerCollection.GetCollectionForType<BeatmapObjectContainerCollection<T>, T>();
 
         if (collection == null) return;
 

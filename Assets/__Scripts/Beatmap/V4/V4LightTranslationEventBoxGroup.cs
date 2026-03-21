@@ -10,11 +10,11 @@ namespace Beatmap.V4
 {
     public static class V4LightTranslationEventBoxGroup
     {
-        public static BaseLightTranslationEventBoxGroup<BaseLightTranslationEventBox> GetFromJson(JSONNode node, IList<BaseIndexFilter> indexFilters,
+        public static BaseLightTranslationEventBoxGroup GetFromJson(JSONNode node, IList<BaseIndexFilter> indexFilters,
             IList<V4CommonData.LightTranslationEventBox> lightTranslationEventBoxesCommonData, 
             IList<V4CommonData.LightTranslationEvent> lightTranslationEventsCommonData)
         {
-            var group = new BaseLightTranslationEventBoxGroup<BaseLightTranslationEventBox>();
+            var group = new BaseLightTranslationEventBoxGroup();
             
             group.JsonTime = node["b"].AsFloat;
             group.ID = node["g"].AsInt;
@@ -64,7 +64,7 @@ namespace Beatmap.V4
             return group;
         }
 
-        public static JSONNode ToJson(BaseLightTranslationEventBoxGroup<BaseLightTranslationEventBox> group,
+        public static JSONNode ToJson(BaseLightTranslationEventBoxGroup group,
             IList<V4CommonData.IndexFilter> indexFiltersCommonData,
             IList<V4CommonData.LightTranslationEventBox> lightTranslationEventBoxesCommonData,
             IList<V4CommonData.LightTranslationEvent> lightTranslationEventsCommonData)

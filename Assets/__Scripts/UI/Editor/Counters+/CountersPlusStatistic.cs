@@ -11,5 +11,6 @@ public enum CountersPlusStatistic
     Selection = 16,
     Arcs = 32,
     Chains = 64,
-    NJSEvents = 128
+    NJSEvents = 128,
+    GLSEvents = 256,
 }

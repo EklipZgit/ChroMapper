@@ -9,7 +9,7 @@ public class
     LightRotationGroupEffect : EventGroupEffect<
     LightRotationGroupStateData,
     LightRotationEventStateData,
-    BaseLightRotationEventBoxGroup<BaseLightRotationEventBox>,
+    BaseLightRotationEventBoxGroup,
     BaseLightRotationEventBox,
     BaseLightRotationBase>
 {
@@ -169,13 +169,13 @@ public class
     }
 
     protected override LightRotationGroupStateData CreateState(
-        BaseLightRotationEventBoxGroup<BaseLightRotationEventBox> data) =>
+        BaseLightRotationEventBoxGroup data) =>
         new(data);
 
     protected override Axis GetAxis(BaseLightRotationEventBox box) => (Axis)box.Axis;
 
     protected override
-        StateChunksContainer<LightRotationGroupStateData, BaseLightRotationEventBoxGroup<BaseLightRotationEventBox>>
+        StateChunksContainer<LightRotationGroupStateData, BaseLightRotationEventBoxGroup>
         GetGroupContainer((Axis axis, int element) key)
     {
         return idToContainer.TryGetValue(key, out var value)
@@ -193,7 +193,7 @@ public class
 
     protected override
         IEnumerable<(
-            StateChunksContainer<LightRotationGroupStateData, BaseLightRotationEventBoxGroup<BaseLightRotationEventBox>>
+            StateChunksContainer<LightRotationGroupStateData, BaseLightRotationEventBoxGroup>
             groupContainer, StateChunksContainer<LightRotationEventStateData, BaseLightRotationBase> eventContainer)>
         GetContainers() =>
         idToContainer.Values.Select(x => (x.GroupContainer, x.EventContainer));
@@ -237,11 +237,11 @@ public class
 }
 
 public class LightRotationGroupStateData : EventGroupStateData<
-    BaseLightRotationEventBoxGroup<BaseLightRotationEventBox>,
+    BaseLightRotationEventBoxGroup,
     BaseLightRotationEventBox,
     BaseLightRotationBase>
 {
-    public LightRotationGroupStateData(BaseLightRotationEventBoxGroup<BaseLightRotationEventBox> data) : base(data)
+    public LightRotationGroupStateData(BaseLightRotationEventBoxGroup data) : base(data)
     {
     }
 }
@@ -271,7 +271,7 @@ public class LightRotationEventStateData : EventGroupEventStateData<BaseLightRot
 public record LightRotationGroupContainer : EventGroupContainer<
     LightRotationGroupStateData,
     LightRotationEventStateData,
-    BaseLightRotationEventBoxGroup<BaseLightRotationEventBox>,
+    BaseLightRotationEventBoxGroup,
     BaseLightRotationEventBox,
     BaseLightRotationBase>
 {

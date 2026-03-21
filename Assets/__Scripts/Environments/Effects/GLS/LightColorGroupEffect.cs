@@ -9,7 +9,7 @@ public class
     LightColorGroupEffect : EventGroupEffect<
     LightColorGroupStateData,
     LightColorEventStateData,
-    BaseLightColorEventBoxGroup<BaseLightColorEventBox>,
+    BaseLightColorEventBoxGroup,
     BaseLightColorEventBox,
     BaseLightColorBase>
 {
@@ -152,13 +152,12 @@ public class
         tween.Easing = Easing.FromID(endState.Base.Easing);
     }
 
-    protected override LightColorGroupStateData CreateState(BaseLightColorEventBoxGroup<BaseLightColorEventBox> data) =>
-        new(data);
+    protected override LightColorGroupStateData CreateState(BaseLightColorEventBoxGroup data) => new(data);
 
     protected override Axis GetAxis(BaseLightColorEventBox box) => Axis.X;
 
     protected override
-        StateChunksContainer<LightColorGroupStateData, BaseLightColorEventBoxGroup<BaseLightColorEventBox>>
+        StateChunksContainer<LightColorGroupStateData, BaseLightColorEventBoxGroup>
         GetGroupContainer((Axis axis, int element) key)
     {
         var id = key.element;
@@ -177,7 +176,7 @@ public class
     }
 
     protected override
-        IEnumerable<(StateChunksContainer<LightColorGroupStateData, BaseLightColorEventBoxGroup<BaseLightColorEventBox>>
+        IEnumerable<(StateChunksContainer<LightColorGroupStateData, BaseLightColorEventBoxGroup>
             groupContainer, StateChunksContainer<LightColorEventStateData, BaseLightColorBase> eventContainer)>
         GetContainers() =>
         idToContainer.Select(x => (x.GroupContainer, x.EventContainer));
@@ -220,11 +219,11 @@ public class
 }
 
 public class LightColorGroupStateData : EventGroupStateData<
-    BaseLightColorEventBoxGroup<BaseLightColorEventBox>,
+    BaseLightColorEventBoxGroup,
     BaseLightColorEventBox,
     BaseLightColorBase>
 {
-    public LightColorGroupStateData(BaseLightColorEventBoxGroup<BaseLightColorEventBox> data) : base(data)
+    public LightColorGroupStateData(BaseLightColorEventBoxGroup data) : base(data)
     {
     }
 }
@@ -245,7 +244,7 @@ public class LightColorEventStateData : EventGroupEventStateData<BaseLightColorB
 public record LightColorGroupContainer : EventGroupContainer<
     LightColorGroupStateData,
     LightColorEventStateData,
-    BaseLightColorEventBoxGroup<BaseLightColorEventBox>,
+    BaseLightColorEventBoxGroup,
     BaseLightColorEventBox,
     BaseLightColorBase>
 {

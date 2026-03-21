@@ -760,10 +760,10 @@ namespace Beatmap.V4
 
             // List of empty lighting data - need this so we don't touch the map existing lights if an exception occurs
             var events = new List<BaseEvent>();
-            var lightColorEventBoxGroups = new List<BaseLightColorEventBoxGroup<BaseLightColorEventBox>>();
-            var lightRotationEventBoxGroups = new List<BaseLightRotationEventBoxGroup<BaseLightRotationEventBox>>();
-            var lightTranslationEventBoxGroups = new List<BaseLightTranslationEventBoxGroup<BaseLightTranslationEventBox>>();
-            var vfxEventBoxGroups = new List<BaseVfxEventEventBoxGroup<BaseVfxEventEventBox>>();
+            var lightColorEventBoxGroups = new List<BaseLightColorEventBoxGroup>();
+            var lightRotationEventBoxGroups = new List<BaseLightRotationEventBoxGroup>();
+            var lightTranslationEventBoxGroups = new List<BaseLightTranslationEventBoxGroup>();
+            var vfxEventBoxGroups = new List<BaseVfxEventEventBoxGroup>();
             var waypoints = new List<BaseWaypoint>();
             var eventTypesWithKeywords = new BaseEventTypesWithKeywords();
             var useNormalEventsAsCompatibleEvents = true;

@@ -4,7 +4,22 @@ using SimpleJSON;
 
 namespace Beatmap.Base
 {
-    public abstract class BaseEventBoxGroup<T> : BaseObject where T : BaseEventBox
+    public abstract class BaseEventBoxGroup : BaseObject
+    {
+        protected BaseEventBoxGroup()
+        {
+        }
+
+        protected BaseEventBoxGroup(float time, int id, JSONNode customData = null) : base(
+            time,
+            customData) =>
+            ID = id;
+
+        public override ObjectType ObjectType { get; set; } = ObjectType.GLSGroup;
+        public int ID { get; set; }
+    }
+
+    public abstract class BaseEventBoxGroup<T> : BaseEventBoxGroup where T : BaseEventBox
     {
         protected BaseEventBoxGroup()
         {
@@ -12,14 +27,10 @@ namespace Beatmap.Base
 
         protected BaseEventBoxGroup(float time, int id, List<T> boxes, JSONNode customData = null) : base(
             time,
-            customData)
-        {
-            ID = id;
+            id,
+            customData) =>
             Boxes = boxes;
-        }
 
-        public override ObjectType ObjectType { get; set; } = ObjectType.Event;
-        public int ID { get; set; }
         public List<T> Boxes { get; set; } = new();
 
         protected override bool IsConflictingWithObjectAtSameTime(BaseObject other, bool deletion = false)

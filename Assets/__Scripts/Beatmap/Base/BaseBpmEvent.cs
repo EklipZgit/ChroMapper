@@ -55,10 +55,7 @@ namespace Beatmap.Base
         
         public override bool IsBpmEvent() => true;
 
-        protected override bool IsConflictingWithObjectAtSameTime(BaseObject other, bool deletion = false)
-        {
-            return (other is BaseBpmEvent bpm);
-        }
+        protected override bool IsConflictingWithObjectAtSameTime(BaseObject other, bool deletion = false) => (other is BaseBpmEvent bpm);
 
         public override void Apply(BaseObject originalData)
         {

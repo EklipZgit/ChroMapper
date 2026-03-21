@@ -21,7 +21,7 @@ namespace Beatmap.Base
             UsePrevious = usePrevious;
         }
 
-        public override ObjectType ObjectType { get; set; } = ObjectType.Event;
+        public override ObjectType ObjectType { get; set; } = ObjectType.GLSEvent;
         public float Rotation { get; set; }
         public int Direction { get; set; }
         public int EaseType { get; set; }

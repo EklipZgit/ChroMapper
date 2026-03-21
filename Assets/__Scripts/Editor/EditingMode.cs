@@ -7,4 +7,5 @@ public enum EditingMode : byte
     Gameplay = 1 << 0,
     GLS = 1 << 2,
     BasicEvent = 1 << 3,
+    EventBox = 1 << 4,
 }

@@ -32,17 +32,17 @@ public class LightRotationGroupEffectManager : MonoBehaviour
         foreach (var effect in IdToEffect.Values) effect.Refresh();
     }
 
-    public bool InsertData(BaseLightRotationEventBoxGroup<BaseLightRotationEventBox> data)
+    public bool InsertData(BaseLightRotationEventBoxGroup data)
     {
         if (!IdToEffect.TryGetValue(data.ID, out var effect)) return false;
         effect.InsertData(data);
         return true;
     }
 
-    public bool InsertData(IEnumerable<BaseLightRotationEventBoxGroup<BaseLightRotationEventBox>> data) =>
+    public bool InsertData(IEnumerable<BaseLightRotationEventBoxGroup> data) =>
         data.GroupBy(x => x.ID).Aggregate(false, (current, d) => current | InsertData(d.Key, d));
 
-    public bool InsertData(int type, IEnumerable<BaseLightRotationEventBoxGroup<BaseLightRotationEventBox>> data)
+    public bool InsertData(int type, IEnumerable<BaseLightRotationEventBoxGroup> data)
     {
         data = data.ToList();
         if (!IdToEffect.TryGetValue(type, out var effect)) return false;
@@ -57,9 +57,7 @@ public class LightRotationGroupEffectManager : MonoBehaviour
         return marked;
     }
 
-    public bool RemoveData(
-        BaseLightRotationEventBoxGroup<BaseLightRotationEventBox> reference,
-        BaseLightRotationEventBoxGroup<BaseLightRotationEventBox> original)
+    public bool RemoveData(BaseLightRotationEventBoxGroup reference, BaseLightRotationEventBoxGroup original)
     {
         if (!IdToEffect.TryGetValue(original.ID, out var effect)) return false;
         effect.RemoveData(reference, original);

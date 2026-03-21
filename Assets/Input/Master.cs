@@ -993,7 +993,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""name"": ""Up Left Note"",
                     ""type"": ""Button"",
                     ""id"": ""7f5e8c8d-3b2f-409d-9668-c7c4a9df525a"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -1002,7 +1002,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""name"": ""Up Right Note"",
                     ""type"": ""Button"",
                     ""id"": ""4d74a4f6-9e93-4c6c-9a37-8105e93970ac"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -1011,7 +1011,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""name"": ""Down Right Note"",
                     ""type"": ""Button"",
                     ""id"": ""ce5e5868-b0ad-4ff9-907e-9a85015e8e30"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -4316,7 +4316,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""name"": ""Quick Strobe Gen"",
                     ""type"": ""Button"",
                     ""id"": ""74ebab00-0761-45e6-9441-ae61e9b17cb3"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -4366,7 +4366,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""name"": ""Toggle Lightshow Mode"",
                     ""type"": ""Button"",
                     ""id"": ""1a8334f3-ea56-4d8f-bf47-67256e7f54d1"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -5038,7 +5038,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""name"": ""SpawnChain"",
                     ""type"": ""Button"",
                     ""id"": ""8332b2c6-9345-4508-8f4e-af7eeb7ebc7e"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": ""Press"",
                     ""initialStateCheck"": false
@@ -5232,6 +5232,1291 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""BasicEventEdit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""GLS Group Placement"",
+            ""id"": ""e4de6044-1de0-48cb-bbea-f07027b50a3d"",
+            ""actions"": [
+                {
+                    ""name"": ""Next Group"",
+                    ""type"": ""Button"",
+                    ""id"": ""49fa1c10-5df7-407e-9650-0b7d8ae1e6fc"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""c064d927-7ad4-4e19-88ae-08b52a91d215"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Next Group"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""GLS Color Placement"",
+            ""id"": ""37f9e19f-0f82-481f-ac35-5c6bf1432eef"",
+            ""actions"": [
+                {
+                    ""name"": ""Color0 Light"",
+                    ""type"": ""Button"",
+                    ""id"": ""0806de86-cc21-48e2-8fbd-a03530b1ba3c"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Color1 Light"",
+                    ""type"": ""Button"",
+                    ""id"": ""52046f1f-96a3-4708-aeb5-9835f7dffe8d"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ColorW Light"",
+                    ""type"": ""Button"",
+                    ""id"": ""369ad4a4-f027-441d-99ad-07a501a7f04b"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Extension Light"",
+                    ""type"": ""Button"",
+                    ""id"": ""1af70113-2ae8-4853-9cf5-dd1ea7b9c2b2"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Static 0 Brightness"",
+                    ""type"": ""Button"",
+                    ""id"": ""7207f90e-5d44-4d4d-b34e-8f0160a9170c"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Static 50 Brightness"",
+                    ""type"": ""Button"",
+                    ""id"": ""7dcb4c96-fb38-438a-8c9c-6452ae248115"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Static 100 Brightness"",
+                    ""type"": ""Button"",
+                    ""id"": ""7e1c6267-a50f-4347-be5b-8b7e4a79362d"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Fade 0 Brightness"",
+                    ""type"": ""Button"",
+                    ""id"": ""287e9bb7-727f-469d-a134-083ebf9ce049"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Fade 50 Brightness"",
+                    ""type"": ""Button"",
+                    ""id"": ""691a6497-f9f9-4abc-9e63-f8317544bb05"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Fade 100 Brightness"",
+                    ""type"": ""Button"",
+                    ""id"": ""8627c5b2-c396-4ed1-b8da-9f9e55b3ea21"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Set Brightness 0"",
+                    ""type"": ""Button"",
+                    ""id"": ""b4602ae2-7e03-4be8-b14d-cc0c60379fd9"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Set Brightness 10"",
+                    ""type"": ""Button"",
+                    ""id"": ""79531d6f-7837-4a24-bd31-55965d7db69a"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Set Brightness 20"",
+                    ""type"": ""Button"",
+                    ""id"": ""b33cb4ca-719c-4a73-a5f0-b681c56b7f0e"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Set Brightness 30"",
+                    ""type"": ""Button"",
+                    ""id"": ""429a2eee-6fc9-42aa-8f1f-5eea4580c47a"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Set Brightness 40"",
+                    ""type"": ""Button"",
+                    ""id"": ""adf52b7b-202d-4fc2-9372-e244703d6e5c"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Set Brightness 50"",
+                    ""type"": ""Button"",
+                    ""id"": ""903d3c9e-94d6-4a12-b7ac-2d69b0b848f9"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Set Brightness 60"",
+                    ""type"": ""Button"",
+                    ""id"": ""af9307a6-14b7-4dc4-adf0-2aaa8d70a780"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Set Brightness 70"",
+                    ""type"": ""Button"",
+                    ""id"": ""2013ae41-369d-4077-b0c5-79d3a583f01d"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Set Brightness 80"",
+                    ""type"": ""Button"",
+                    ""id"": ""20743671-26da-4720-877e-eb627885a8f2"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Set Brightness 90"",
+                    ""type"": ""Button"",
+                    ""id"": ""b8504734-5ad0-48aa-b847-c706572b3b8e"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Set Brightness 100"",
+                    ""type"": ""Button"",
+                    ""id"": ""8768c456-ba86-479a-8516-e6e8ab932cb3"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Set Brightness 120"",
+                    ""type"": ""Button"",
+                    ""id"": ""94ec292d-c47b-46cc-8c1d-7e310bb1243d"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Set Brightness 150"",
+                    ""type"": ""Button"",
+                    ""id"": ""1396489b-da29-4d01-8e8e-f59e6f208618"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Strobe On"",
+                    ""type"": ""Button"",
+                    ""id"": ""f3cce743-71be-4383-a125-b5431b5af2c7"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Strobe Off"",
+                    ""type"": ""Button"",
+                    ""id"": ""44915e27-9961-4f1c-824c-2ae7a2954c6d"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Change Strobe Frequency (Precise)"",
+                    ""type"": ""Button"",
+                    ""id"": ""8d8173b1-0211-441b-95b0-d820a206057a"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Change Strobe Brightness"",
+                    ""type"": ""Button"",
+                    ""id"": ""b89aef46-41f6-4e26-aea2-4e7a6d8ac905"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Change Strobe Brightness (Precise)"",
+                    ""type"": ""Button"",
+                    ""id"": ""9acf7284-6b19-4fe2-9f57-4d62d467dd15"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Soft Strobe"",
+                    ""type"": ""Button"",
+                    ""id"": ""897664a7-59e3-4eb7-a1e5-5057c697e578"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Change Event Color"",
+                    ""type"": ""Button"",
+                    ""id"": ""d9642d22-c5ed-46c3-add0-4f8e6f15559f"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Set Brightness (Precise)"",
+                    ""type"": ""Button"",
+                    ""id"": ""12efb566-15c0-4db8-a04f-f1af295c8e79"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""7ba07b21-6b81-4a8f-bd69-9b50e0793d84"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Color0 Light"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e6c610c3-4c64-4cb2-8cda-68b4c31bb9a5"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Color1 Light"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2af1f81f-2a69-4efb-a639-3ba7173c4515"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ColorW Light"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""89bea812-017a-4f2e-8009-fb4620aff490"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Extension Light"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d3fb659a-f051-40fb-8fdb-06750d287491"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Static 0 Brightness"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e1a75d49-d341-497b-ba3c-5a52ec188d28"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Static 50 Brightness"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9bd0ba8e-aff0-4514-93cd-35c514c4fed2"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Static 100 Brightness"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""971df4c9-75b4-468d-bc29-0dba5360eb48"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Fade 0 Brightness"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6651f67f-64eb-4c7c-8641-f9a7ed1278b2"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Fade 50 Brightness"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2d4ca9ef-af4d-4d23-b70c-87c2cae8ffb1"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Fade 100 Brightness"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d079e840-28fd-455b-9769-3c313de40f08"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Set Brightness 0"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8372e735-f009-423d-96fb-c9e1e4e9dab3"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Set Brightness 10"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""045bb541-bf41-4f13-bf38-96f100f876d5"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Set Brightness 20"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""18f6b84e-c66e-45ca-a968-4650ea1834ad"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Set Brightness 30"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""efabf389-63fc-4332-9151-ac9448fdcf34"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Set Brightness 40"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e12a973d-ee18-496a-ac76-e6689b67029e"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Set Brightness 50"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5f86d02e-b8ec-4062-8a90-fe322bb45778"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Set Brightness 60"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""54a04534-b3c6-4795-9c61-b6ddf3c21ff0"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Set Brightness 70"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2be392f0-6f89-49d5-8db6-723bded30ac9"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Set Brightness 80"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d1c76bbb-3736-4cc9-b659-c8d2390ce43f"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Set Brightness 90"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6cb6c526-f474-447d-aaed-6d962f707cda"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Set Brightness 100"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0ca8e9eb-7363-4f1f-a231-baf63399ac57"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Set Brightness 120"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""374d03f4-4a25-4412-ba1b-8c88b13c5b1d"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Set Brightness 150"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""06d898cf-1605-40b4-8e49-2ce60483c9d7"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Strobe On"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""466ad554-9f20-4258-befc-40bed1d8a757"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Strobe Off"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Two Modifiers"",
+                    ""id"": ""7047c49e-01fa-4c81-bcc8-2af0a8908d84"",
+                    ""path"": ""TwoModifiers"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Change Strobe Frequency (Precise)"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier1"",
+                    ""id"": ""2a55ec29-49ad-4eb0-81e2-a52247fff3cc"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Change Strobe Frequency (Precise)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""modifier2"",
+                    ""id"": ""7d753cbb-19ce-4a3e-a8e5-c7be5ea347ab"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Change Strobe Frequency (Precise)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""95a648b2-61a2-4dc3-bda5-fb0d5aeed10b"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Change Strobe Frequency (Precise)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f78c902f-2396-45c7-a271-2ae06887486d"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Change Strobe Brightness"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""aada2913-9a8f-4aea-b278-1bd0802b6475"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Change Strobe Brightness (Precise)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f0b1d6ef-2f8c-4136-8160-aebb644eab2d"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Soft Strobe"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6ed88bf2-f16b-493b-bd18-6b8bb9242be7"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Change Event Color"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a94f3625-56cb-4c4f-aa8e-111052665fc0"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Set Brightness (Precise)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""GLS Rotation Placement"",
+            ""id"": ""7821383d-db53-4b63-9d86-1736470215f4"",
+            ""actions"": [
+                {
+                    ""name"": ""Set Angle 0"",
+                    ""type"": ""Button"",
+                    ""id"": ""0b7a3152-90c4-4de1-812f-93adfe740a04"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Set Angle 90"",
+                    ""type"": ""Button"",
+                    ""id"": ""3e493f97-1adf-460e-9dfd-69f8e65a41be"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Set Angle 180"",
+                    ""type"": ""Button"",
+                    ""id"": ""59171f2e-0763-42ae-857e-7b1b758555ce"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Set Angle 270"",
+                    ""type"": ""Button"",
+                    ""id"": ""b64be6f1-c051-49af-afae-c558ee6beaad"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Set Rotation Direction (Left)"",
+                    ""type"": ""Button"",
+                    ""id"": ""f7d73af6-1611-41ae-81f0-1353716c426e"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Set Rotation Direction (Automatic)"",
+                    ""type"": ""Button"",
+                    ""id"": ""3f75651e-d6b4-42fe-ad69-08188bb1504f"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Set Rotation Direction (Right)"",
+                    ""type"": ""Button"",
+                    ""id"": ""7ac38c1c-5fc4-43f6-a3a6-0c45dffe3448"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Change Loop Count"",
+                    ""type"": ""Button"",
+                    ""id"": ""ff69d06a-5087-4037-860f-6a750dd9b8e5"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Reset Loop Count"",
+                    ""type"": ""Button"",
+                    ""id"": ""81679eb3-a22c-4c85-b37c-c4aec5f28788"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Set Angle (Precise)"",
+                    ""type"": ""Button"",
+                    ""id"": ""ec35709c-0503-45d5-a460-03450dad1b41"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""bd2314ea-e870-40d3-a6b7-641f49825ee1"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Set Angle 0"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d96c5cb5-7468-45fb-b8af-c9e044639a11"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Set Angle 90"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""791f9812-8e40-489d-a8ee-f34b98dc6181"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Set Angle 180"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""425a84d4-d307-4280-9fa1-6101bc7eb521"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Set Angle 270"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8a50b611-e418-4339-b83a-e3ca55d41474"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Set Rotation Direction (Left)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4f739478-8269-49a1-bdb4-92d0a471e7bc"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Set Rotation Direction (Automatic)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b9b0ec71-31a9-4715-a39c-2cf4642717ad"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Set Rotation Direction (Right)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d55b43d4-9247-4dab-8198-e2e0fbded043"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Change Loop Count"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7c7e8a75-04db-47bc-b0fe-a0120148b5e0"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Reset Loop Count"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7a70c8c2-4be3-40bc-b2c5-1386f391e207"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Set Angle (Precise)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""GLS Translation Placement"",
+            ""id"": ""95fdc5d9-bec4-4fe7-a26d-5fd971be30c5"",
+            ""actions"": [
+                {
+                    ""name"": ""Set Value n100"",
+                    ""type"": ""Button"",
+                    ""id"": ""32f1e52d-86d6-437a-9562-848e3d49a413"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Set Value n50"",
+                    ""type"": ""Button"",
+                    ""id"": ""e4e30c1f-fd8d-4b2b-84f3-0f9c07a17ea6"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Set Value 0"",
+                    ""type"": ""Button"",
+                    ""id"": ""3798199e-5342-409e-870c-e1e67db594f7"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Set Value 50"",
+                    ""type"": ""Button"",
+                    ""id"": ""c3910696-d8b0-4b63-bdfc-d184804c7d53"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Set Value 100"",
+                    ""type"": ""Button"",
+                    ""id"": ""2e9f7ba5-cb1b-4416-a239-0f2380a2e454"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Set Value (Precise)"",
+                    ""type"": ""Button"",
+                    ""id"": ""5046bc62-af56-474a-9075-b6391bc369de"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""de4fc480-9451-476f-96bc-f67e7988201d"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Set Value n100"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5e192351-52e8-4d2a-8ef8-0d01e9669291"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Set Value n50"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""add2bf72-85a7-41fa-9480-178951434483"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Set Value 0"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c077a723-7669-41cf-9677-e5848b23a911"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Set Value 50"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""00700f7b-cac6-466a-ba9b-813cc970234e"",
+                    ""path"": ""<Keyboard>/t"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Set Value 100"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""One Modifier"",
+                    ""id"": ""f58ffdda-a895-43ad-9b0a-7031a63df1ee"",
+                    ""path"": ""OneModifier"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Set Value (Precise)"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier"",
+                    ""id"": ""6e9e0303-afe1-48c3-ae6d-678a09439d9b"",
+                    ""path"": ""<Keyboard>/alt"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Set Value (Precise)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""48ac720e-9ae1-4217-9f8d-9f4dbbd8f20f"",
+                    ""path"": ""<Mouse>/scroll/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Set Value (Precise)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                }
+            ]
+        },
+        {
+            ""name"": ""GLS FloatFX Placement"",
+            ""id"": ""1ef73093-d6f4-46f2-80e2-2e6597cc240a"",
+            ""actions"": [
+                {
+                    ""name"": ""Set Value n100"",
+                    ""type"": ""Button"",
+                    ""id"": ""1f8b5663-4298-4a30-8bed-eb426aa4153b"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Set Value n50"",
+                    ""type"": ""Button"",
+                    ""id"": ""01e7d953-9fd7-4837-9837-c1cc10885c6a"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Set Value 0"",
+                    ""type"": ""Button"",
+                    ""id"": ""e7f7b1d1-cd7d-445d-82a2-3c601fd4aa62"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Set Value 50"",
+                    ""type"": ""Button"",
+                    ""id"": ""a0e1b8c4-a178-48e6-918f-8bd80259428c"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Set Value 100"",
+                    ""type"": ""Button"",
+                    ""id"": ""7eba975d-5fe8-49e9-87be-cbc822458cfc"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Set Value (Precise)"",
+                    ""type"": ""Button"",
+                    ""id"": ""146a8e3f-7192-4cd3-bef6-45b7e5e5ec31"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""7f313b07-87ce-48a7-8dba-29765cf0fff5"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Set Value n100"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""05b98e90-c053-4b2a-874f-c4aaaf4cb4b8"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Set Value n50"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""473e8d87-986e-4005-b2ca-66bda393d782"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Set Value 0"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""147b6d5b-53db-4d1d-a882-995f817e0a8c"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Set Value 50"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""12b343e9-1c1f-430a-9757-bf66b8d8869f"",
+                    ""path"": ""<Keyboard>/t"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Set Value 100"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""One Modifier"",
+                    ""id"": ""6a7b65b0-1303-45be-990a-5b1fd58ae829"",
+                    ""path"": ""OneModifier"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Set Value (Precise)"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier"",
+                    ""id"": ""53aa84c5-bebd-4628-87f8-0d25aa78a997"",
+                    ""path"": ""<Keyboard>/alt"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Set Value (Precise)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""ffa2e6dd-3e6b-4d4c-9745-8ef29383e14c"",
+                    ""path"": ""<Mouse>/scroll/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Set Value (Precise)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                }
+            ]
+        },
+        {
+            ""name"": ""Easings Selection"",
+            ""id"": ""86fc6cfa-416e-4e38-8c10-db0213142e70"",
+            ""actions"": [
+                {
+                    ""name"": ""Change Easing (Curve)"",
+                    ""type"": ""Button"",
+                    ""id"": ""91a7568d-6da8-4ec3-882b-dc8c7296ad02"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Change Easing (None)"",
+                    ""type"": ""Button"",
+                    ""id"": ""12c5a2f7-f46d-42ce-b864-2c5f7338a971"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Change Easing (Standard)"",
+                    ""type"": ""Button"",
+                    ""id"": ""c1d0d23b-ea8c-495c-8633-689469959682"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Change Easing (Alternative)"",
+                    ""type"": ""Button"",
+                    ""id"": ""e72e152e-c2d4-4aa4-8c46-5106c859b78a"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""03ba86e2-71b5-40e7-8aa7-61329f3a1dad"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Change Easing (Curve)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3d501e7d-3f04-4666-9e6e-6526e3462502"",
+                    ""path"": ""<Keyboard>/g"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Change Easing (None)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""40977fa6-eb79-4240-9b39-7fbc12dcb70d"",
+                    ""path"": ""<Keyboard>/v"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Change Easing (Standard)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""613716f5-9ea7-4654-b8c8-793031397133"",
+                    ""path"": ""<Keyboard>/b"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Change Easing (Alternative)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -5506,6 +6791,76 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         m_EditMode_GameplayEdit = m_EditMode.FindAction("GameplayEdit", throwIfNotFound: true);
         m_EditMode_GLSEdit = m_EditMode.FindAction("GLSEdit", throwIfNotFound: true);
         m_EditMode_BasicEventEdit = m_EditMode.FindAction("BasicEventEdit", throwIfNotFound: true);
+        // GLS Group Placement
+        m_GLSGroupPlacement = asset.FindActionMap("GLS Group Placement", throwIfNotFound: true);
+        m_GLSGroupPlacement_NextGroup = m_GLSGroupPlacement.FindAction("Next Group", throwIfNotFound: true);
+        // GLS Color Placement
+        m_GLSColorPlacement = asset.FindActionMap("GLS Color Placement", throwIfNotFound: true);
+        m_GLSColorPlacement_Color0Light = m_GLSColorPlacement.FindAction("Color0 Light", throwIfNotFound: true);
+        m_GLSColorPlacement_Color1Light = m_GLSColorPlacement.FindAction("Color1 Light", throwIfNotFound: true);
+        m_GLSColorPlacement_ColorWLight = m_GLSColorPlacement.FindAction("ColorW Light", throwIfNotFound: true);
+        m_GLSColorPlacement_ExtensionLight = m_GLSColorPlacement.FindAction("Extension Light", throwIfNotFound: true);
+        m_GLSColorPlacement_Static0Brightness = m_GLSColorPlacement.FindAction("Static 0 Brightness", throwIfNotFound: true);
+        m_GLSColorPlacement_Static50Brightness = m_GLSColorPlacement.FindAction("Static 50 Brightness", throwIfNotFound: true);
+        m_GLSColorPlacement_Static100Brightness = m_GLSColorPlacement.FindAction("Static 100 Brightness", throwIfNotFound: true);
+        m_GLSColorPlacement_Fade0Brightness = m_GLSColorPlacement.FindAction("Fade 0 Brightness", throwIfNotFound: true);
+        m_GLSColorPlacement_Fade50Brightness = m_GLSColorPlacement.FindAction("Fade 50 Brightness", throwIfNotFound: true);
+        m_GLSColorPlacement_Fade100Brightness = m_GLSColorPlacement.FindAction("Fade 100 Brightness", throwIfNotFound: true);
+        m_GLSColorPlacement_SetBrightness0 = m_GLSColorPlacement.FindAction("Set Brightness 0", throwIfNotFound: true);
+        m_GLSColorPlacement_SetBrightness10 = m_GLSColorPlacement.FindAction("Set Brightness 10", throwIfNotFound: true);
+        m_GLSColorPlacement_SetBrightness20 = m_GLSColorPlacement.FindAction("Set Brightness 20", throwIfNotFound: true);
+        m_GLSColorPlacement_SetBrightness30 = m_GLSColorPlacement.FindAction("Set Brightness 30", throwIfNotFound: true);
+        m_GLSColorPlacement_SetBrightness40 = m_GLSColorPlacement.FindAction("Set Brightness 40", throwIfNotFound: true);
+        m_GLSColorPlacement_SetBrightness50 = m_GLSColorPlacement.FindAction("Set Brightness 50", throwIfNotFound: true);
+        m_GLSColorPlacement_SetBrightness60 = m_GLSColorPlacement.FindAction("Set Brightness 60", throwIfNotFound: true);
+        m_GLSColorPlacement_SetBrightness70 = m_GLSColorPlacement.FindAction("Set Brightness 70", throwIfNotFound: true);
+        m_GLSColorPlacement_SetBrightness80 = m_GLSColorPlacement.FindAction("Set Brightness 80", throwIfNotFound: true);
+        m_GLSColorPlacement_SetBrightness90 = m_GLSColorPlacement.FindAction("Set Brightness 90", throwIfNotFound: true);
+        m_GLSColorPlacement_SetBrightness100 = m_GLSColorPlacement.FindAction("Set Brightness 100", throwIfNotFound: true);
+        m_GLSColorPlacement_SetBrightness120 = m_GLSColorPlacement.FindAction("Set Brightness 120", throwIfNotFound: true);
+        m_GLSColorPlacement_SetBrightness150 = m_GLSColorPlacement.FindAction("Set Brightness 150", throwIfNotFound: true);
+        m_GLSColorPlacement_StrobeOn = m_GLSColorPlacement.FindAction("Strobe On", throwIfNotFound: true);
+        m_GLSColorPlacement_StrobeOff = m_GLSColorPlacement.FindAction("Strobe Off", throwIfNotFound: true);
+        m_GLSColorPlacement_ChangeStrobeFrequencyPrecise = m_GLSColorPlacement.FindAction("Change Strobe Frequency (Precise)", throwIfNotFound: true);
+        m_GLSColorPlacement_ChangeStrobeBrightness = m_GLSColorPlacement.FindAction("Change Strobe Brightness", throwIfNotFound: true);
+        m_GLSColorPlacement_ChangeStrobeBrightnessPrecise = m_GLSColorPlacement.FindAction("Change Strobe Brightness (Precise)", throwIfNotFound: true);
+        m_GLSColorPlacement_SoftStrobe = m_GLSColorPlacement.FindAction("Soft Strobe", throwIfNotFound: true);
+        m_GLSColorPlacement_ChangeEventColor = m_GLSColorPlacement.FindAction("Change Event Color", throwIfNotFound: true);
+        m_GLSColorPlacement_SetBrightnessPrecise = m_GLSColorPlacement.FindAction("Set Brightness (Precise)", throwIfNotFound: true);
+        // GLS Rotation Placement
+        m_GLSRotationPlacement = asset.FindActionMap("GLS Rotation Placement", throwIfNotFound: true);
+        m_GLSRotationPlacement_SetAngle0 = m_GLSRotationPlacement.FindAction("Set Angle 0", throwIfNotFound: true);
+        m_GLSRotationPlacement_SetAngle90 = m_GLSRotationPlacement.FindAction("Set Angle 90", throwIfNotFound: true);
+        m_GLSRotationPlacement_SetAngle180 = m_GLSRotationPlacement.FindAction("Set Angle 180", throwIfNotFound: true);
+        m_GLSRotationPlacement_SetAngle270 = m_GLSRotationPlacement.FindAction("Set Angle 270", throwIfNotFound: true);
+        m_GLSRotationPlacement_SetRotationDirectionLeft = m_GLSRotationPlacement.FindAction("Set Rotation Direction (Left)", throwIfNotFound: true);
+        m_GLSRotationPlacement_SetRotationDirectionAutomatic = m_GLSRotationPlacement.FindAction("Set Rotation Direction (Automatic)", throwIfNotFound: true);
+        m_GLSRotationPlacement_SetRotationDirectionRight = m_GLSRotationPlacement.FindAction("Set Rotation Direction (Right)", throwIfNotFound: true);
+        m_GLSRotationPlacement_ChangeLoopCount = m_GLSRotationPlacement.FindAction("Change Loop Count", throwIfNotFound: true);
+        m_GLSRotationPlacement_ResetLoopCount = m_GLSRotationPlacement.FindAction("Reset Loop Count", throwIfNotFound: true);
+        m_GLSRotationPlacement_SetAnglePrecise = m_GLSRotationPlacement.FindAction("Set Angle (Precise)", throwIfNotFound: true);
+        // GLS Translation Placement
+        m_GLSTranslationPlacement = asset.FindActionMap("GLS Translation Placement", throwIfNotFound: true);
+        m_GLSTranslationPlacement_SetValuen100 = m_GLSTranslationPlacement.FindAction("Set Value n100", throwIfNotFound: true);
+        m_GLSTranslationPlacement_SetValuen50 = m_GLSTranslationPlacement.FindAction("Set Value n50", throwIfNotFound: true);
+        m_GLSTranslationPlacement_SetValue0 = m_GLSTranslationPlacement.FindAction("Set Value 0", throwIfNotFound: true);
+        m_GLSTranslationPlacement_SetValue50 = m_GLSTranslationPlacement.FindAction("Set Value 50", throwIfNotFound: true);
+        m_GLSTranslationPlacement_SetValue100 = m_GLSTranslationPlacement.FindAction("Set Value 100", throwIfNotFound: true);
+        m_GLSTranslationPlacement_SetValuePrecise = m_GLSTranslationPlacement.FindAction("Set Value (Precise)", throwIfNotFound: true);
+        // GLS FloatFX Placement
+        m_GLSFloatFXPlacement = asset.FindActionMap("GLS FloatFX Placement", throwIfNotFound: true);
+        m_GLSFloatFXPlacement_SetValuen100 = m_GLSFloatFXPlacement.FindAction("Set Value n100", throwIfNotFound: true);
+        m_GLSFloatFXPlacement_SetValuen50 = m_GLSFloatFXPlacement.FindAction("Set Value n50", throwIfNotFound: true);
+        m_GLSFloatFXPlacement_SetValue0 = m_GLSFloatFXPlacement.FindAction("Set Value 0", throwIfNotFound: true);
+        m_GLSFloatFXPlacement_SetValue50 = m_GLSFloatFXPlacement.FindAction("Set Value 50", throwIfNotFound: true);
+        m_GLSFloatFXPlacement_SetValue100 = m_GLSFloatFXPlacement.FindAction("Set Value 100", throwIfNotFound: true);
+        m_GLSFloatFXPlacement_SetValuePrecise = m_GLSFloatFXPlacement.FindAction("Set Value (Precise)", throwIfNotFound: true);
+        // Easings Selection
+        m_EasingsSelection = asset.FindActionMap("Easings Selection", throwIfNotFound: true);
+        m_EasingsSelection_ChangeEasingCurve = m_EasingsSelection.FindAction("Change Easing (Curve)", throwIfNotFound: true);
+        m_EasingsSelection_ChangeEasingNone = m_EasingsSelection.FindAction("Change Easing (None)", throwIfNotFound: true);
+        m_EasingsSelection_ChangeEasingStandard = m_EasingsSelection.FindAction("Change Easing (Standard)", throwIfNotFound: true);
+        m_EasingsSelection_ChangeEasingAlternative = m_EasingsSelection.FindAction("Change Easing (Alternative)", throwIfNotFound: true);
     }
 
     ~@CMInput()
@@ -5558,6 +6913,12 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         UnityEngine.Debug.Assert(!m_NJSEventObjects.enabled, "This will cause a leak and performance issues, CMInput.NJSEventObjects.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_SwitchVersion.enabled, "This will cause a leak and performance issues, CMInput.SwitchVersion.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_EditMode.enabled, "This will cause a leak and performance issues, CMInput.EditMode.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_GLSGroupPlacement.enabled, "This will cause a leak and performance issues, CMInput.GLSGroupPlacement.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_GLSColorPlacement.enabled, "This will cause a leak and performance issues, CMInput.GLSColorPlacement.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_GLSRotationPlacement.enabled, "This will cause a leak and performance issues, CMInput.GLSRotationPlacement.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_GLSTranslationPlacement.enabled, "This will cause a leak and performance issues, CMInput.GLSTranslationPlacement.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_GLSFloatFXPlacement.enabled, "This will cause a leak and performance issues, CMInput.GLSFloatFXPlacement.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_EasingsSelection.enabled, "This will cause a leak and performance issues, CMInput.EasingsSelection.Disable() has not been called.");
     }
 
     /// <summary>
@@ -11513,6 +12874,1154 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
     /// Provides a new <see cref="EditModeActions" /> instance referencing this action map.
     /// </summary>
     public EditModeActions @EditMode => new EditModeActions(this);
+
+    // GLS Group Placement
+    private readonly InputActionMap m_GLSGroupPlacement;
+    private List<IGLSGroupPlacementActions> m_GLSGroupPlacementActionsCallbackInterfaces = new List<IGLSGroupPlacementActions>();
+    private readonly InputAction m_GLSGroupPlacement_NextGroup;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "GLS Group Placement".
+    /// </summary>
+    public struct GLSGroupPlacementActions
+    {
+        private @CMInput m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public GLSGroupPlacementActions(@CMInput wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "GLSGroupPlacement/NextGroup".
+        /// </summary>
+        public InputAction @NextGroup => m_Wrapper.m_GLSGroupPlacement_NextGroup;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_GLSGroupPlacement; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="GLSGroupPlacementActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(GLSGroupPlacementActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="GLSGroupPlacementActions" />
+        public void AddCallbacks(IGLSGroupPlacementActions instance)
+        {
+            if (instance == null || m_Wrapper.m_GLSGroupPlacementActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_GLSGroupPlacementActionsCallbackInterfaces.Add(instance);
+            @NextGroup.started += instance.OnNextGroup;
+            @NextGroup.performed += instance.OnNextGroup;
+            @NextGroup.canceled += instance.OnNextGroup;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="GLSGroupPlacementActions" />
+        private void UnregisterCallbacks(IGLSGroupPlacementActions instance)
+        {
+            @NextGroup.started -= instance.OnNextGroup;
+            @NextGroup.performed -= instance.OnNextGroup;
+            @NextGroup.canceled -= instance.OnNextGroup;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="GLSGroupPlacementActions.UnregisterCallbacks(IGLSGroupPlacementActions)" />.
+        /// </summary>
+        /// <seealso cref="GLSGroupPlacementActions.UnregisterCallbacks(IGLSGroupPlacementActions)" />
+        public void RemoveCallbacks(IGLSGroupPlacementActions instance)
+        {
+            if (m_Wrapper.m_GLSGroupPlacementActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="GLSGroupPlacementActions.AddCallbacks(IGLSGroupPlacementActions)" />
+        /// <seealso cref="GLSGroupPlacementActions.RemoveCallbacks(IGLSGroupPlacementActions)" />
+        /// <seealso cref="GLSGroupPlacementActions.UnregisterCallbacks(IGLSGroupPlacementActions)" />
+        public void SetCallbacks(IGLSGroupPlacementActions instance)
+        {
+            foreach (var item in m_Wrapper.m_GLSGroupPlacementActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_GLSGroupPlacementActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="GLSGroupPlacementActions" /> instance referencing this action map.
+    /// </summary>
+    public GLSGroupPlacementActions @GLSGroupPlacement => new GLSGroupPlacementActions(this);
+
+    // GLS Color Placement
+    private readonly InputActionMap m_GLSColorPlacement;
+    private List<IGLSColorPlacementActions> m_GLSColorPlacementActionsCallbackInterfaces = new List<IGLSColorPlacementActions>();
+    private readonly InputAction m_GLSColorPlacement_Color0Light;
+    private readonly InputAction m_GLSColorPlacement_Color1Light;
+    private readonly InputAction m_GLSColorPlacement_ColorWLight;
+    private readonly InputAction m_GLSColorPlacement_ExtensionLight;
+    private readonly InputAction m_GLSColorPlacement_Static0Brightness;
+    private readonly InputAction m_GLSColorPlacement_Static50Brightness;
+    private readonly InputAction m_GLSColorPlacement_Static100Brightness;
+    private readonly InputAction m_GLSColorPlacement_Fade0Brightness;
+    private readonly InputAction m_GLSColorPlacement_Fade50Brightness;
+    private readonly InputAction m_GLSColorPlacement_Fade100Brightness;
+    private readonly InputAction m_GLSColorPlacement_SetBrightness0;
+    private readonly InputAction m_GLSColorPlacement_SetBrightness10;
+    private readonly InputAction m_GLSColorPlacement_SetBrightness20;
+    private readonly InputAction m_GLSColorPlacement_SetBrightness30;
+    private readonly InputAction m_GLSColorPlacement_SetBrightness40;
+    private readonly InputAction m_GLSColorPlacement_SetBrightness50;
+    private readonly InputAction m_GLSColorPlacement_SetBrightness60;
+    private readonly InputAction m_GLSColorPlacement_SetBrightness70;
+    private readonly InputAction m_GLSColorPlacement_SetBrightness80;
+    private readonly InputAction m_GLSColorPlacement_SetBrightness90;
+    private readonly InputAction m_GLSColorPlacement_SetBrightness100;
+    private readonly InputAction m_GLSColorPlacement_SetBrightness120;
+    private readonly InputAction m_GLSColorPlacement_SetBrightness150;
+    private readonly InputAction m_GLSColorPlacement_StrobeOn;
+    private readonly InputAction m_GLSColorPlacement_StrobeOff;
+    private readonly InputAction m_GLSColorPlacement_ChangeStrobeFrequencyPrecise;
+    private readonly InputAction m_GLSColorPlacement_ChangeStrobeBrightness;
+    private readonly InputAction m_GLSColorPlacement_ChangeStrobeBrightnessPrecise;
+    private readonly InputAction m_GLSColorPlacement_SoftStrobe;
+    private readonly InputAction m_GLSColorPlacement_ChangeEventColor;
+    private readonly InputAction m_GLSColorPlacement_SetBrightnessPrecise;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "GLS Color Placement".
+    /// </summary>
+    public struct GLSColorPlacementActions
+    {
+        private @CMInput m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public GLSColorPlacementActions(@CMInput wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "GLSColorPlacement/Color0Light".
+        /// </summary>
+        public InputAction @Color0Light => m_Wrapper.m_GLSColorPlacement_Color0Light;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSColorPlacement/Color1Light".
+        /// </summary>
+        public InputAction @Color1Light => m_Wrapper.m_GLSColorPlacement_Color1Light;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSColorPlacement/ColorWLight".
+        /// </summary>
+        public InputAction @ColorWLight => m_Wrapper.m_GLSColorPlacement_ColorWLight;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSColorPlacement/ExtensionLight".
+        /// </summary>
+        public InputAction @ExtensionLight => m_Wrapper.m_GLSColorPlacement_ExtensionLight;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSColorPlacement/Static0Brightness".
+        /// </summary>
+        public InputAction @Static0Brightness => m_Wrapper.m_GLSColorPlacement_Static0Brightness;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSColorPlacement/Static50Brightness".
+        /// </summary>
+        public InputAction @Static50Brightness => m_Wrapper.m_GLSColorPlacement_Static50Brightness;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSColorPlacement/Static100Brightness".
+        /// </summary>
+        public InputAction @Static100Brightness => m_Wrapper.m_GLSColorPlacement_Static100Brightness;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSColorPlacement/Fade0Brightness".
+        /// </summary>
+        public InputAction @Fade0Brightness => m_Wrapper.m_GLSColorPlacement_Fade0Brightness;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSColorPlacement/Fade50Brightness".
+        /// </summary>
+        public InputAction @Fade50Brightness => m_Wrapper.m_GLSColorPlacement_Fade50Brightness;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSColorPlacement/Fade100Brightness".
+        /// </summary>
+        public InputAction @Fade100Brightness => m_Wrapper.m_GLSColorPlacement_Fade100Brightness;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSColorPlacement/SetBrightness0".
+        /// </summary>
+        public InputAction @SetBrightness0 => m_Wrapper.m_GLSColorPlacement_SetBrightness0;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSColorPlacement/SetBrightness10".
+        /// </summary>
+        public InputAction @SetBrightness10 => m_Wrapper.m_GLSColorPlacement_SetBrightness10;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSColorPlacement/SetBrightness20".
+        /// </summary>
+        public InputAction @SetBrightness20 => m_Wrapper.m_GLSColorPlacement_SetBrightness20;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSColorPlacement/SetBrightness30".
+        /// </summary>
+        public InputAction @SetBrightness30 => m_Wrapper.m_GLSColorPlacement_SetBrightness30;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSColorPlacement/SetBrightness40".
+        /// </summary>
+        public InputAction @SetBrightness40 => m_Wrapper.m_GLSColorPlacement_SetBrightness40;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSColorPlacement/SetBrightness50".
+        /// </summary>
+        public InputAction @SetBrightness50 => m_Wrapper.m_GLSColorPlacement_SetBrightness50;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSColorPlacement/SetBrightness60".
+        /// </summary>
+        public InputAction @SetBrightness60 => m_Wrapper.m_GLSColorPlacement_SetBrightness60;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSColorPlacement/SetBrightness70".
+        /// </summary>
+        public InputAction @SetBrightness70 => m_Wrapper.m_GLSColorPlacement_SetBrightness70;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSColorPlacement/SetBrightness80".
+        /// </summary>
+        public InputAction @SetBrightness80 => m_Wrapper.m_GLSColorPlacement_SetBrightness80;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSColorPlacement/SetBrightness90".
+        /// </summary>
+        public InputAction @SetBrightness90 => m_Wrapper.m_GLSColorPlacement_SetBrightness90;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSColorPlacement/SetBrightness100".
+        /// </summary>
+        public InputAction @SetBrightness100 => m_Wrapper.m_GLSColorPlacement_SetBrightness100;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSColorPlacement/SetBrightness120".
+        /// </summary>
+        public InputAction @SetBrightness120 => m_Wrapper.m_GLSColorPlacement_SetBrightness120;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSColorPlacement/SetBrightness150".
+        /// </summary>
+        public InputAction @SetBrightness150 => m_Wrapper.m_GLSColorPlacement_SetBrightness150;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSColorPlacement/StrobeOn".
+        /// </summary>
+        public InputAction @StrobeOn => m_Wrapper.m_GLSColorPlacement_StrobeOn;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSColorPlacement/StrobeOff".
+        /// </summary>
+        public InputAction @StrobeOff => m_Wrapper.m_GLSColorPlacement_StrobeOff;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSColorPlacement/ChangeStrobeFrequencyPrecise".
+        /// </summary>
+        public InputAction @ChangeStrobeFrequencyPrecise => m_Wrapper.m_GLSColorPlacement_ChangeStrobeFrequencyPrecise;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSColorPlacement/ChangeStrobeBrightness".
+        /// </summary>
+        public InputAction @ChangeStrobeBrightness => m_Wrapper.m_GLSColorPlacement_ChangeStrobeBrightness;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSColorPlacement/ChangeStrobeBrightnessPrecise".
+        /// </summary>
+        public InputAction @ChangeStrobeBrightnessPrecise => m_Wrapper.m_GLSColorPlacement_ChangeStrobeBrightnessPrecise;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSColorPlacement/SoftStrobe".
+        /// </summary>
+        public InputAction @SoftStrobe => m_Wrapper.m_GLSColorPlacement_SoftStrobe;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSColorPlacement/ChangeEventColor".
+        /// </summary>
+        public InputAction @ChangeEventColor => m_Wrapper.m_GLSColorPlacement_ChangeEventColor;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSColorPlacement/SetBrightnessPrecise".
+        /// </summary>
+        public InputAction @SetBrightnessPrecise => m_Wrapper.m_GLSColorPlacement_SetBrightnessPrecise;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_GLSColorPlacement; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="GLSColorPlacementActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(GLSColorPlacementActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="GLSColorPlacementActions" />
+        public void AddCallbacks(IGLSColorPlacementActions instance)
+        {
+            if (instance == null || m_Wrapper.m_GLSColorPlacementActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_GLSColorPlacementActionsCallbackInterfaces.Add(instance);
+            @Color0Light.started += instance.OnColor0Light;
+            @Color0Light.performed += instance.OnColor0Light;
+            @Color0Light.canceled += instance.OnColor0Light;
+            @Color1Light.started += instance.OnColor1Light;
+            @Color1Light.performed += instance.OnColor1Light;
+            @Color1Light.canceled += instance.OnColor1Light;
+            @ColorWLight.started += instance.OnColorWLight;
+            @ColorWLight.performed += instance.OnColorWLight;
+            @ColorWLight.canceled += instance.OnColorWLight;
+            @ExtensionLight.started += instance.OnExtensionLight;
+            @ExtensionLight.performed += instance.OnExtensionLight;
+            @ExtensionLight.canceled += instance.OnExtensionLight;
+            @Static0Brightness.started += instance.OnStatic0Brightness;
+            @Static0Brightness.performed += instance.OnStatic0Brightness;
+            @Static0Brightness.canceled += instance.OnStatic0Brightness;
+            @Static50Brightness.started += instance.OnStatic50Brightness;
+            @Static50Brightness.performed += instance.OnStatic50Brightness;
+            @Static50Brightness.canceled += instance.OnStatic50Brightness;
+            @Static100Brightness.started += instance.OnStatic100Brightness;
+            @Static100Brightness.performed += instance.OnStatic100Brightness;
+            @Static100Brightness.canceled += instance.OnStatic100Brightness;
+            @Fade0Brightness.started += instance.OnFade0Brightness;
+            @Fade0Brightness.performed += instance.OnFade0Brightness;
+            @Fade0Brightness.canceled += instance.OnFade0Brightness;
+            @Fade50Brightness.started += instance.OnFade50Brightness;
+            @Fade50Brightness.performed += instance.OnFade50Brightness;
+            @Fade50Brightness.canceled += instance.OnFade50Brightness;
+            @Fade100Brightness.started += instance.OnFade100Brightness;
+            @Fade100Brightness.performed += instance.OnFade100Brightness;
+            @Fade100Brightness.canceled += instance.OnFade100Brightness;
+            @SetBrightness0.started += instance.OnSetBrightness0;
+            @SetBrightness0.performed += instance.OnSetBrightness0;
+            @SetBrightness0.canceled += instance.OnSetBrightness0;
+            @SetBrightness10.started += instance.OnSetBrightness10;
+            @SetBrightness10.performed += instance.OnSetBrightness10;
+            @SetBrightness10.canceled += instance.OnSetBrightness10;
+            @SetBrightness20.started += instance.OnSetBrightness20;
+            @SetBrightness20.performed += instance.OnSetBrightness20;
+            @SetBrightness20.canceled += instance.OnSetBrightness20;
+            @SetBrightness30.started += instance.OnSetBrightness30;
+            @SetBrightness30.performed += instance.OnSetBrightness30;
+            @SetBrightness30.canceled += instance.OnSetBrightness30;
+            @SetBrightness40.started += instance.OnSetBrightness40;
+            @SetBrightness40.performed += instance.OnSetBrightness40;
+            @SetBrightness40.canceled += instance.OnSetBrightness40;
+            @SetBrightness50.started += instance.OnSetBrightness50;
+            @SetBrightness50.performed += instance.OnSetBrightness50;
+            @SetBrightness50.canceled += instance.OnSetBrightness50;
+            @SetBrightness60.started += instance.OnSetBrightness60;
+            @SetBrightness60.performed += instance.OnSetBrightness60;
+            @SetBrightness60.canceled += instance.OnSetBrightness60;
+            @SetBrightness70.started += instance.OnSetBrightness70;
+            @SetBrightness70.performed += instance.OnSetBrightness70;
+            @SetBrightness70.canceled += instance.OnSetBrightness70;
+            @SetBrightness80.started += instance.OnSetBrightness80;
+            @SetBrightness80.performed += instance.OnSetBrightness80;
+            @SetBrightness80.canceled += instance.OnSetBrightness80;
+            @SetBrightness90.started += instance.OnSetBrightness90;
+            @SetBrightness90.performed += instance.OnSetBrightness90;
+            @SetBrightness90.canceled += instance.OnSetBrightness90;
+            @SetBrightness100.started += instance.OnSetBrightness100;
+            @SetBrightness100.performed += instance.OnSetBrightness100;
+            @SetBrightness100.canceled += instance.OnSetBrightness100;
+            @SetBrightness120.started += instance.OnSetBrightness120;
+            @SetBrightness120.performed += instance.OnSetBrightness120;
+            @SetBrightness120.canceled += instance.OnSetBrightness120;
+            @SetBrightness150.started += instance.OnSetBrightness150;
+            @SetBrightness150.performed += instance.OnSetBrightness150;
+            @SetBrightness150.canceled += instance.OnSetBrightness150;
+            @StrobeOn.started += instance.OnStrobeOn;
+            @StrobeOn.performed += instance.OnStrobeOn;
+            @StrobeOn.canceled += instance.OnStrobeOn;
+            @StrobeOff.started += instance.OnStrobeOff;
+            @StrobeOff.performed += instance.OnStrobeOff;
+            @StrobeOff.canceled += instance.OnStrobeOff;
+            @ChangeStrobeFrequencyPrecise.started += instance.OnChangeStrobeFrequencyPrecise;
+            @ChangeStrobeFrequencyPrecise.performed += instance.OnChangeStrobeFrequencyPrecise;
+            @ChangeStrobeFrequencyPrecise.canceled += instance.OnChangeStrobeFrequencyPrecise;
+            @ChangeStrobeBrightness.started += instance.OnChangeStrobeBrightness;
+            @ChangeStrobeBrightness.performed += instance.OnChangeStrobeBrightness;
+            @ChangeStrobeBrightness.canceled += instance.OnChangeStrobeBrightness;
+            @ChangeStrobeBrightnessPrecise.started += instance.OnChangeStrobeBrightnessPrecise;
+            @ChangeStrobeBrightnessPrecise.performed += instance.OnChangeStrobeBrightnessPrecise;
+            @ChangeStrobeBrightnessPrecise.canceled += instance.OnChangeStrobeBrightnessPrecise;
+            @SoftStrobe.started += instance.OnSoftStrobe;
+            @SoftStrobe.performed += instance.OnSoftStrobe;
+            @SoftStrobe.canceled += instance.OnSoftStrobe;
+            @ChangeEventColor.started += instance.OnChangeEventColor;
+            @ChangeEventColor.performed += instance.OnChangeEventColor;
+            @ChangeEventColor.canceled += instance.OnChangeEventColor;
+            @SetBrightnessPrecise.started += instance.OnSetBrightnessPrecise;
+            @SetBrightnessPrecise.performed += instance.OnSetBrightnessPrecise;
+            @SetBrightnessPrecise.canceled += instance.OnSetBrightnessPrecise;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="GLSColorPlacementActions" />
+        private void UnregisterCallbacks(IGLSColorPlacementActions instance)
+        {
+            @Color0Light.started -= instance.OnColor0Light;
+            @Color0Light.performed -= instance.OnColor0Light;
+            @Color0Light.canceled -= instance.OnColor0Light;
+            @Color1Light.started -= instance.OnColor1Light;
+            @Color1Light.performed -= instance.OnColor1Light;
+            @Color1Light.canceled -= instance.OnColor1Light;
+            @ColorWLight.started -= instance.OnColorWLight;
+            @ColorWLight.performed -= instance.OnColorWLight;
+            @ColorWLight.canceled -= instance.OnColorWLight;
+            @ExtensionLight.started -= instance.OnExtensionLight;
+            @ExtensionLight.performed -= instance.OnExtensionLight;
+            @ExtensionLight.canceled -= instance.OnExtensionLight;
+            @Static0Brightness.started -= instance.OnStatic0Brightness;
+            @Static0Brightness.performed -= instance.OnStatic0Brightness;
+            @Static0Brightness.canceled -= instance.OnStatic0Brightness;
+            @Static50Brightness.started -= instance.OnStatic50Brightness;
+            @Static50Brightness.performed -= instance.OnStatic50Brightness;
+            @Static50Brightness.canceled -= instance.OnStatic50Brightness;
+            @Static100Brightness.started -= instance.OnStatic100Brightness;
+            @Static100Brightness.performed -= instance.OnStatic100Brightness;
+            @Static100Brightness.canceled -= instance.OnStatic100Brightness;
+            @Fade0Brightness.started -= instance.OnFade0Brightness;
+            @Fade0Brightness.performed -= instance.OnFade0Brightness;
+            @Fade0Brightness.canceled -= instance.OnFade0Brightness;
+            @Fade50Brightness.started -= instance.OnFade50Brightness;
+            @Fade50Brightness.performed -= instance.OnFade50Brightness;
+            @Fade50Brightness.canceled -= instance.OnFade50Brightness;
+            @Fade100Brightness.started -= instance.OnFade100Brightness;
+            @Fade100Brightness.performed -= instance.OnFade100Brightness;
+            @Fade100Brightness.canceled -= instance.OnFade100Brightness;
+            @SetBrightness0.started -= instance.OnSetBrightness0;
+            @SetBrightness0.performed -= instance.OnSetBrightness0;
+            @SetBrightness0.canceled -= instance.OnSetBrightness0;
+            @SetBrightness10.started -= instance.OnSetBrightness10;
+            @SetBrightness10.performed -= instance.OnSetBrightness10;
+            @SetBrightness10.canceled -= instance.OnSetBrightness10;
+            @SetBrightness20.started -= instance.OnSetBrightness20;
+            @SetBrightness20.performed -= instance.OnSetBrightness20;
+            @SetBrightness20.canceled -= instance.OnSetBrightness20;
+            @SetBrightness30.started -= instance.OnSetBrightness30;
+            @SetBrightness30.performed -= instance.OnSetBrightness30;
+            @SetBrightness30.canceled -= instance.OnSetBrightness30;
+            @SetBrightness40.started -= instance.OnSetBrightness40;
+            @SetBrightness40.performed -= instance.OnSetBrightness40;
+            @SetBrightness40.canceled -= instance.OnSetBrightness40;
+            @SetBrightness50.started -= instance.OnSetBrightness50;
+            @SetBrightness50.performed -= instance.OnSetBrightness50;
+            @SetBrightness50.canceled -= instance.OnSetBrightness50;
+            @SetBrightness60.started -= instance.OnSetBrightness60;
+            @SetBrightness60.performed -= instance.OnSetBrightness60;
+            @SetBrightness60.canceled -= instance.OnSetBrightness60;
+            @SetBrightness70.started -= instance.OnSetBrightness70;
+            @SetBrightness70.performed -= instance.OnSetBrightness70;
+            @SetBrightness70.canceled -= instance.OnSetBrightness70;
+            @SetBrightness80.started -= instance.OnSetBrightness80;
+            @SetBrightness80.performed -= instance.OnSetBrightness80;
+            @SetBrightness80.canceled -= instance.OnSetBrightness80;
+            @SetBrightness90.started -= instance.OnSetBrightness90;
+            @SetBrightness90.performed -= instance.OnSetBrightness90;
+            @SetBrightness90.canceled -= instance.OnSetBrightness90;
+            @SetBrightness100.started -= instance.OnSetBrightness100;
+            @SetBrightness100.performed -= instance.OnSetBrightness100;
+            @SetBrightness100.canceled -= instance.OnSetBrightness100;
+            @SetBrightness120.started -= instance.OnSetBrightness120;
+            @SetBrightness120.performed -= instance.OnSetBrightness120;
+            @SetBrightness120.canceled -= instance.OnSetBrightness120;
+            @SetBrightness150.started -= instance.OnSetBrightness150;
+            @SetBrightness150.performed -= instance.OnSetBrightness150;
+            @SetBrightness150.canceled -= instance.OnSetBrightness150;
+            @StrobeOn.started -= instance.OnStrobeOn;
+            @StrobeOn.performed -= instance.OnStrobeOn;
+            @StrobeOn.canceled -= instance.OnStrobeOn;
+            @StrobeOff.started -= instance.OnStrobeOff;
+            @StrobeOff.performed -= instance.OnStrobeOff;
+            @StrobeOff.canceled -= instance.OnStrobeOff;
+            @ChangeStrobeFrequencyPrecise.started -= instance.OnChangeStrobeFrequencyPrecise;
+            @ChangeStrobeFrequencyPrecise.performed -= instance.OnChangeStrobeFrequencyPrecise;
+            @ChangeStrobeFrequencyPrecise.canceled -= instance.OnChangeStrobeFrequencyPrecise;
+            @ChangeStrobeBrightness.started -= instance.OnChangeStrobeBrightness;
+            @ChangeStrobeBrightness.performed -= instance.OnChangeStrobeBrightness;
+            @ChangeStrobeBrightness.canceled -= instance.OnChangeStrobeBrightness;
+            @ChangeStrobeBrightnessPrecise.started -= instance.OnChangeStrobeBrightnessPrecise;
+            @ChangeStrobeBrightnessPrecise.performed -= instance.OnChangeStrobeBrightnessPrecise;
+            @ChangeStrobeBrightnessPrecise.canceled -= instance.OnChangeStrobeBrightnessPrecise;
+            @SoftStrobe.started -= instance.OnSoftStrobe;
+            @SoftStrobe.performed -= instance.OnSoftStrobe;
+            @SoftStrobe.canceled -= instance.OnSoftStrobe;
+            @ChangeEventColor.started -= instance.OnChangeEventColor;
+            @ChangeEventColor.performed -= instance.OnChangeEventColor;
+            @ChangeEventColor.canceled -= instance.OnChangeEventColor;
+            @SetBrightnessPrecise.started -= instance.OnSetBrightnessPrecise;
+            @SetBrightnessPrecise.performed -= instance.OnSetBrightnessPrecise;
+            @SetBrightnessPrecise.canceled -= instance.OnSetBrightnessPrecise;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="GLSColorPlacementActions.UnregisterCallbacks(IGLSColorPlacementActions)" />.
+        /// </summary>
+        /// <seealso cref="GLSColorPlacementActions.UnregisterCallbacks(IGLSColorPlacementActions)" />
+        public void RemoveCallbacks(IGLSColorPlacementActions instance)
+        {
+            if (m_Wrapper.m_GLSColorPlacementActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="GLSColorPlacementActions.AddCallbacks(IGLSColorPlacementActions)" />
+        /// <seealso cref="GLSColorPlacementActions.RemoveCallbacks(IGLSColorPlacementActions)" />
+        /// <seealso cref="GLSColorPlacementActions.UnregisterCallbacks(IGLSColorPlacementActions)" />
+        public void SetCallbacks(IGLSColorPlacementActions instance)
+        {
+            foreach (var item in m_Wrapper.m_GLSColorPlacementActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_GLSColorPlacementActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="GLSColorPlacementActions" /> instance referencing this action map.
+    /// </summary>
+    public GLSColorPlacementActions @GLSColorPlacement => new GLSColorPlacementActions(this);
+
+    // GLS Rotation Placement
+    private readonly InputActionMap m_GLSRotationPlacement;
+    private List<IGLSRotationPlacementActions> m_GLSRotationPlacementActionsCallbackInterfaces = new List<IGLSRotationPlacementActions>();
+    private readonly InputAction m_GLSRotationPlacement_SetAngle0;
+    private readonly InputAction m_GLSRotationPlacement_SetAngle90;
+    private readonly InputAction m_GLSRotationPlacement_SetAngle180;
+    private readonly InputAction m_GLSRotationPlacement_SetAngle270;
+    private readonly InputAction m_GLSRotationPlacement_SetRotationDirectionLeft;
+    private readonly InputAction m_GLSRotationPlacement_SetRotationDirectionAutomatic;
+    private readonly InputAction m_GLSRotationPlacement_SetRotationDirectionRight;
+    private readonly InputAction m_GLSRotationPlacement_ChangeLoopCount;
+    private readonly InputAction m_GLSRotationPlacement_ResetLoopCount;
+    private readonly InputAction m_GLSRotationPlacement_SetAnglePrecise;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "GLS Rotation Placement".
+    /// </summary>
+    public struct GLSRotationPlacementActions
+    {
+        private @CMInput m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public GLSRotationPlacementActions(@CMInput wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "GLSRotationPlacement/SetAngle0".
+        /// </summary>
+        public InputAction @SetAngle0 => m_Wrapper.m_GLSRotationPlacement_SetAngle0;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSRotationPlacement/SetAngle90".
+        /// </summary>
+        public InputAction @SetAngle90 => m_Wrapper.m_GLSRotationPlacement_SetAngle90;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSRotationPlacement/SetAngle180".
+        /// </summary>
+        public InputAction @SetAngle180 => m_Wrapper.m_GLSRotationPlacement_SetAngle180;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSRotationPlacement/SetAngle270".
+        /// </summary>
+        public InputAction @SetAngle270 => m_Wrapper.m_GLSRotationPlacement_SetAngle270;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSRotationPlacement/SetRotationDirectionLeft".
+        /// </summary>
+        public InputAction @SetRotationDirectionLeft => m_Wrapper.m_GLSRotationPlacement_SetRotationDirectionLeft;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSRotationPlacement/SetRotationDirectionAutomatic".
+        /// </summary>
+        public InputAction @SetRotationDirectionAutomatic => m_Wrapper.m_GLSRotationPlacement_SetRotationDirectionAutomatic;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSRotationPlacement/SetRotationDirectionRight".
+        /// </summary>
+        public InputAction @SetRotationDirectionRight => m_Wrapper.m_GLSRotationPlacement_SetRotationDirectionRight;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSRotationPlacement/ChangeLoopCount".
+        /// </summary>
+        public InputAction @ChangeLoopCount => m_Wrapper.m_GLSRotationPlacement_ChangeLoopCount;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSRotationPlacement/ResetLoopCount".
+        /// </summary>
+        public InputAction @ResetLoopCount => m_Wrapper.m_GLSRotationPlacement_ResetLoopCount;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSRotationPlacement/SetAnglePrecise".
+        /// </summary>
+        public InputAction @SetAnglePrecise => m_Wrapper.m_GLSRotationPlacement_SetAnglePrecise;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_GLSRotationPlacement; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="GLSRotationPlacementActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(GLSRotationPlacementActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="GLSRotationPlacementActions" />
+        public void AddCallbacks(IGLSRotationPlacementActions instance)
+        {
+            if (instance == null || m_Wrapper.m_GLSRotationPlacementActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_GLSRotationPlacementActionsCallbackInterfaces.Add(instance);
+            @SetAngle0.started += instance.OnSetAngle0;
+            @SetAngle0.performed += instance.OnSetAngle0;
+            @SetAngle0.canceled += instance.OnSetAngle0;
+            @SetAngle90.started += instance.OnSetAngle90;
+            @SetAngle90.performed += instance.OnSetAngle90;
+            @SetAngle90.canceled += instance.OnSetAngle90;
+            @SetAngle180.started += instance.OnSetAngle180;
+            @SetAngle180.performed += instance.OnSetAngle180;
+            @SetAngle180.canceled += instance.OnSetAngle180;
+            @SetAngle270.started += instance.OnSetAngle270;
+            @SetAngle270.performed += instance.OnSetAngle270;
+            @SetAngle270.canceled += instance.OnSetAngle270;
+            @SetRotationDirectionLeft.started += instance.OnSetRotationDirectionLeft;
+            @SetRotationDirectionLeft.performed += instance.OnSetRotationDirectionLeft;
+            @SetRotationDirectionLeft.canceled += instance.OnSetRotationDirectionLeft;
+            @SetRotationDirectionAutomatic.started += instance.OnSetRotationDirectionAutomatic;
+            @SetRotationDirectionAutomatic.performed += instance.OnSetRotationDirectionAutomatic;
+            @SetRotationDirectionAutomatic.canceled += instance.OnSetRotationDirectionAutomatic;
+            @SetRotationDirectionRight.started += instance.OnSetRotationDirectionRight;
+            @SetRotationDirectionRight.performed += instance.OnSetRotationDirectionRight;
+            @SetRotationDirectionRight.canceled += instance.OnSetRotationDirectionRight;
+            @ChangeLoopCount.started += instance.OnChangeLoopCount;
+            @ChangeLoopCount.performed += instance.OnChangeLoopCount;
+            @ChangeLoopCount.canceled += instance.OnChangeLoopCount;
+            @ResetLoopCount.started += instance.OnResetLoopCount;
+            @ResetLoopCount.performed += instance.OnResetLoopCount;
+            @ResetLoopCount.canceled += instance.OnResetLoopCount;
+            @SetAnglePrecise.started += instance.OnSetAnglePrecise;
+            @SetAnglePrecise.performed += instance.OnSetAnglePrecise;
+            @SetAnglePrecise.canceled += instance.OnSetAnglePrecise;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="GLSRotationPlacementActions" />
+        private void UnregisterCallbacks(IGLSRotationPlacementActions instance)
+        {
+            @SetAngle0.started -= instance.OnSetAngle0;
+            @SetAngle0.performed -= instance.OnSetAngle0;
+            @SetAngle0.canceled -= instance.OnSetAngle0;
+            @SetAngle90.started -= instance.OnSetAngle90;
+            @SetAngle90.performed -= instance.OnSetAngle90;
+            @SetAngle90.canceled -= instance.OnSetAngle90;
+            @SetAngle180.started -= instance.OnSetAngle180;
+            @SetAngle180.performed -= instance.OnSetAngle180;
+            @SetAngle180.canceled -= instance.OnSetAngle180;
+            @SetAngle270.started -= instance.OnSetAngle270;
+            @SetAngle270.performed -= instance.OnSetAngle270;
+            @SetAngle270.canceled -= instance.OnSetAngle270;
+            @SetRotationDirectionLeft.started -= instance.OnSetRotationDirectionLeft;
+            @SetRotationDirectionLeft.performed -= instance.OnSetRotationDirectionLeft;
+            @SetRotationDirectionLeft.canceled -= instance.OnSetRotationDirectionLeft;
+            @SetRotationDirectionAutomatic.started -= instance.OnSetRotationDirectionAutomatic;
+            @SetRotationDirectionAutomatic.performed -= instance.OnSetRotationDirectionAutomatic;
+            @SetRotationDirectionAutomatic.canceled -= instance.OnSetRotationDirectionAutomatic;
+            @SetRotationDirectionRight.started -= instance.OnSetRotationDirectionRight;
+            @SetRotationDirectionRight.performed -= instance.OnSetRotationDirectionRight;
+            @SetRotationDirectionRight.canceled -= instance.OnSetRotationDirectionRight;
+            @ChangeLoopCount.started -= instance.OnChangeLoopCount;
+            @ChangeLoopCount.performed -= instance.OnChangeLoopCount;
+            @ChangeLoopCount.canceled -= instance.OnChangeLoopCount;
+            @ResetLoopCount.started -= instance.OnResetLoopCount;
+            @ResetLoopCount.performed -= instance.OnResetLoopCount;
+            @ResetLoopCount.canceled -= instance.OnResetLoopCount;
+            @SetAnglePrecise.started -= instance.OnSetAnglePrecise;
+            @SetAnglePrecise.performed -= instance.OnSetAnglePrecise;
+            @SetAnglePrecise.canceled -= instance.OnSetAnglePrecise;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="GLSRotationPlacementActions.UnregisterCallbacks(IGLSRotationPlacementActions)" />.
+        /// </summary>
+        /// <seealso cref="GLSRotationPlacementActions.UnregisterCallbacks(IGLSRotationPlacementActions)" />
+        public void RemoveCallbacks(IGLSRotationPlacementActions instance)
+        {
+            if (m_Wrapper.m_GLSRotationPlacementActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="GLSRotationPlacementActions.AddCallbacks(IGLSRotationPlacementActions)" />
+        /// <seealso cref="GLSRotationPlacementActions.RemoveCallbacks(IGLSRotationPlacementActions)" />
+        /// <seealso cref="GLSRotationPlacementActions.UnregisterCallbacks(IGLSRotationPlacementActions)" />
+        public void SetCallbacks(IGLSRotationPlacementActions instance)
+        {
+            foreach (var item in m_Wrapper.m_GLSRotationPlacementActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_GLSRotationPlacementActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="GLSRotationPlacementActions" /> instance referencing this action map.
+    /// </summary>
+    public GLSRotationPlacementActions @GLSRotationPlacement => new GLSRotationPlacementActions(this);
+
+    // GLS Translation Placement
+    private readonly InputActionMap m_GLSTranslationPlacement;
+    private List<IGLSTranslationPlacementActions> m_GLSTranslationPlacementActionsCallbackInterfaces = new List<IGLSTranslationPlacementActions>();
+    private readonly InputAction m_GLSTranslationPlacement_SetValuen100;
+    private readonly InputAction m_GLSTranslationPlacement_SetValuen50;
+    private readonly InputAction m_GLSTranslationPlacement_SetValue0;
+    private readonly InputAction m_GLSTranslationPlacement_SetValue50;
+    private readonly InputAction m_GLSTranslationPlacement_SetValue100;
+    private readonly InputAction m_GLSTranslationPlacement_SetValuePrecise;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "GLS Translation Placement".
+    /// </summary>
+    public struct GLSTranslationPlacementActions
+    {
+        private @CMInput m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public GLSTranslationPlacementActions(@CMInput wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "GLSTranslationPlacement/SetValuen100".
+        /// </summary>
+        public InputAction @SetValuen100 => m_Wrapper.m_GLSTranslationPlacement_SetValuen100;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSTranslationPlacement/SetValuen50".
+        /// </summary>
+        public InputAction @SetValuen50 => m_Wrapper.m_GLSTranslationPlacement_SetValuen50;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSTranslationPlacement/SetValue0".
+        /// </summary>
+        public InputAction @SetValue0 => m_Wrapper.m_GLSTranslationPlacement_SetValue0;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSTranslationPlacement/SetValue50".
+        /// </summary>
+        public InputAction @SetValue50 => m_Wrapper.m_GLSTranslationPlacement_SetValue50;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSTranslationPlacement/SetValue100".
+        /// </summary>
+        public InputAction @SetValue100 => m_Wrapper.m_GLSTranslationPlacement_SetValue100;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSTranslationPlacement/SetValuePrecise".
+        /// </summary>
+        public InputAction @SetValuePrecise => m_Wrapper.m_GLSTranslationPlacement_SetValuePrecise;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_GLSTranslationPlacement; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="GLSTranslationPlacementActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(GLSTranslationPlacementActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="GLSTranslationPlacementActions" />
+        public void AddCallbacks(IGLSTranslationPlacementActions instance)
+        {
+            if (instance == null || m_Wrapper.m_GLSTranslationPlacementActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_GLSTranslationPlacementActionsCallbackInterfaces.Add(instance);
+            @SetValuen100.started += instance.OnSetValuen100;
+            @SetValuen100.performed += instance.OnSetValuen100;
+            @SetValuen100.canceled += instance.OnSetValuen100;
+            @SetValuen50.started += instance.OnSetValuen50;
+            @SetValuen50.performed += instance.OnSetValuen50;
+            @SetValuen50.canceled += instance.OnSetValuen50;
+            @SetValue0.started += instance.OnSetValue0;
+            @SetValue0.performed += instance.OnSetValue0;
+            @SetValue0.canceled += instance.OnSetValue0;
+            @SetValue50.started += instance.OnSetValue50;
+            @SetValue50.performed += instance.OnSetValue50;
+            @SetValue50.canceled += instance.OnSetValue50;
+            @SetValue100.started += instance.OnSetValue100;
+            @SetValue100.performed += instance.OnSetValue100;
+            @SetValue100.canceled += instance.OnSetValue100;
+            @SetValuePrecise.started += instance.OnSetValuePrecise;
+            @SetValuePrecise.performed += instance.OnSetValuePrecise;
+            @SetValuePrecise.canceled += instance.OnSetValuePrecise;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="GLSTranslationPlacementActions" />
+        private void UnregisterCallbacks(IGLSTranslationPlacementActions instance)
+        {
+            @SetValuen100.started -= instance.OnSetValuen100;
+            @SetValuen100.performed -= instance.OnSetValuen100;
+            @SetValuen100.canceled -= instance.OnSetValuen100;
+            @SetValuen50.started -= instance.OnSetValuen50;
+            @SetValuen50.performed -= instance.OnSetValuen50;
+            @SetValuen50.canceled -= instance.OnSetValuen50;
+            @SetValue0.started -= instance.OnSetValue0;
+            @SetValue0.performed -= instance.OnSetValue0;
+            @SetValue0.canceled -= instance.OnSetValue0;
+            @SetValue50.started -= instance.OnSetValue50;
+            @SetValue50.performed -= instance.OnSetValue50;
+            @SetValue50.canceled -= instance.OnSetValue50;
+            @SetValue100.started -= instance.OnSetValue100;
+            @SetValue100.performed -= instance.OnSetValue100;
+            @SetValue100.canceled -= instance.OnSetValue100;
+            @SetValuePrecise.started -= instance.OnSetValuePrecise;
+            @SetValuePrecise.performed -= instance.OnSetValuePrecise;
+            @SetValuePrecise.canceled -= instance.OnSetValuePrecise;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="GLSTranslationPlacementActions.UnregisterCallbacks(IGLSTranslationPlacementActions)" />.
+        /// </summary>
+        /// <seealso cref="GLSTranslationPlacementActions.UnregisterCallbacks(IGLSTranslationPlacementActions)" />
+        public void RemoveCallbacks(IGLSTranslationPlacementActions instance)
+        {
+            if (m_Wrapper.m_GLSTranslationPlacementActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="GLSTranslationPlacementActions.AddCallbacks(IGLSTranslationPlacementActions)" />
+        /// <seealso cref="GLSTranslationPlacementActions.RemoveCallbacks(IGLSTranslationPlacementActions)" />
+        /// <seealso cref="GLSTranslationPlacementActions.UnregisterCallbacks(IGLSTranslationPlacementActions)" />
+        public void SetCallbacks(IGLSTranslationPlacementActions instance)
+        {
+            foreach (var item in m_Wrapper.m_GLSTranslationPlacementActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_GLSTranslationPlacementActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="GLSTranslationPlacementActions" /> instance referencing this action map.
+    /// </summary>
+    public GLSTranslationPlacementActions @GLSTranslationPlacement => new GLSTranslationPlacementActions(this);
+
+    // GLS FloatFX Placement
+    private readonly InputActionMap m_GLSFloatFXPlacement;
+    private List<IGLSFloatFXPlacementActions> m_GLSFloatFXPlacementActionsCallbackInterfaces = new List<IGLSFloatFXPlacementActions>();
+    private readonly InputAction m_GLSFloatFXPlacement_SetValuen100;
+    private readonly InputAction m_GLSFloatFXPlacement_SetValuen50;
+    private readonly InputAction m_GLSFloatFXPlacement_SetValue0;
+    private readonly InputAction m_GLSFloatFXPlacement_SetValue50;
+    private readonly InputAction m_GLSFloatFXPlacement_SetValue100;
+    private readonly InputAction m_GLSFloatFXPlacement_SetValuePrecise;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "GLS FloatFX Placement".
+    /// </summary>
+    public struct GLSFloatFXPlacementActions
+    {
+        private @CMInput m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public GLSFloatFXPlacementActions(@CMInput wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "GLSFloatFXPlacement/SetValuen100".
+        /// </summary>
+        public InputAction @SetValuen100 => m_Wrapper.m_GLSFloatFXPlacement_SetValuen100;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSFloatFXPlacement/SetValuen50".
+        /// </summary>
+        public InputAction @SetValuen50 => m_Wrapper.m_GLSFloatFXPlacement_SetValuen50;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSFloatFXPlacement/SetValue0".
+        /// </summary>
+        public InputAction @SetValue0 => m_Wrapper.m_GLSFloatFXPlacement_SetValue0;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSFloatFXPlacement/SetValue50".
+        /// </summary>
+        public InputAction @SetValue50 => m_Wrapper.m_GLSFloatFXPlacement_SetValue50;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSFloatFXPlacement/SetValue100".
+        /// </summary>
+        public InputAction @SetValue100 => m_Wrapper.m_GLSFloatFXPlacement_SetValue100;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSFloatFXPlacement/SetValuePrecise".
+        /// </summary>
+        public InputAction @SetValuePrecise => m_Wrapper.m_GLSFloatFXPlacement_SetValuePrecise;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_GLSFloatFXPlacement; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="GLSFloatFXPlacementActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(GLSFloatFXPlacementActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="GLSFloatFXPlacementActions" />
+        public void AddCallbacks(IGLSFloatFXPlacementActions instance)
+        {
+            if (instance == null || m_Wrapper.m_GLSFloatFXPlacementActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_GLSFloatFXPlacementActionsCallbackInterfaces.Add(instance);
+            @SetValuen100.started += instance.OnSetValuen100;
+            @SetValuen100.performed += instance.OnSetValuen100;
+            @SetValuen100.canceled += instance.OnSetValuen100;
+            @SetValuen50.started += instance.OnSetValuen50;
+            @SetValuen50.performed += instance.OnSetValuen50;
+            @SetValuen50.canceled += instance.OnSetValuen50;
+            @SetValue0.started += instance.OnSetValue0;
+            @SetValue0.performed += instance.OnSetValue0;
+            @SetValue0.canceled += instance.OnSetValue0;
+            @SetValue50.started += instance.OnSetValue50;
+            @SetValue50.performed += instance.OnSetValue50;
+            @SetValue50.canceled += instance.OnSetValue50;
+            @SetValue100.started += instance.OnSetValue100;
+            @SetValue100.performed += instance.OnSetValue100;
+            @SetValue100.canceled += instance.OnSetValue100;
+            @SetValuePrecise.started += instance.OnSetValuePrecise;
+            @SetValuePrecise.performed += instance.OnSetValuePrecise;
+            @SetValuePrecise.canceled += instance.OnSetValuePrecise;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="GLSFloatFXPlacementActions" />
+        private void UnregisterCallbacks(IGLSFloatFXPlacementActions instance)
+        {
+            @SetValuen100.started -= instance.OnSetValuen100;
+            @SetValuen100.performed -= instance.OnSetValuen100;
+            @SetValuen100.canceled -= instance.OnSetValuen100;
+            @SetValuen50.started -= instance.OnSetValuen50;
+            @SetValuen50.performed -= instance.OnSetValuen50;
+            @SetValuen50.canceled -= instance.OnSetValuen50;
+            @SetValue0.started -= instance.OnSetValue0;
+            @SetValue0.performed -= instance.OnSetValue0;
+            @SetValue0.canceled -= instance.OnSetValue0;
+            @SetValue50.started -= instance.OnSetValue50;
+            @SetValue50.performed -= instance.OnSetValue50;
+            @SetValue50.canceled -= instance.OnSetValue50;
+            @SetValue100.started -= instance.OnSetValue100;
+            @SetValue100.performed -= instance.OnSetValue100;
+            @SetValue100.canceled -= instance.OnSetValue100;
+            @SetValuePrecise.started -= instance.OnSetValuePrecise;
+            @SetValuePrecise.performed -= instance.OnSetValuePrecise;
+            @SetValuePrecise.canceled -= instance.OnSetValuePrecise;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="GLSFloatFXPlacementActions.UnregisterCallbacks(IGLSFloatFXPlacementActions)" />.
+        /// </summary>
+        /// <seealso cref="GLSFloatFXPlacementActions.UnregisterCallbacks(IGLSFloatFXPlacementActions)" />
+        public void RemoveCallbacks(IGLSFloatFXPlacementActions instance)
+        {
+            if (m_Wrapper.m_GLSFloatFXPlacementActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="GLSFloatFXPlacementActions.AddCallbacks(IGLSFloatFXPlacementActions)" />
+        /// <seealso cref="GLSFloatFXPlacementActions.RemoveCallbacks(IGLSFloatFXPlacementActions)" />
+        /// <seealso cref="GLSFloatFXPlacementActions.UnregisterCallbacks(IGLSFloatFXPlacementActions)" />
+        public void SetCallbacks(IGLSFloatFXPlacementActions instance)
+        {
+            foreach (var item in m_Wrapper.m_GLSFloatFXPlacementActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_GLSFloatFXPlacementActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="GLSFloatFXPlacementActions" /> instance referencing this action map.
+    /// </summary>
+    public GLSFloatFXPlacementActions @GLSFloatFXPlacement => new GLSFloatFXPlacementActions(this);
+
+    // Easings Selection
+    private readonly InputActionMap m_EasingsSelection;
+    private List<IEasingsSelectionActions> m_EasingsSelectionActionsCallbackInterfaces = new List<IEasingsSelectionActions>();
+    private readonly InputAction m_EasingsSelection_ChangeEasingCurve;
+    private readonly InputAction m_EasingsSelection_ChangeEasingNone;
+    private readonly InputAction m_EasingsSelection_ChangeEasingStandard;
+    private readonly InputAction m_EasingsSelection_ChangeEasingAlternative;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "Easings Selection".
+    /// </summary>
+    public struct EasingsSelectionActions
+    {
+        private @CMInput m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public EasingsSelectionActions(@CMInput wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "EasingsSelection/ChangeEasingCurve".
+        /// </summary>
+        public InputAction @ChangeEasingCurve => m_Wrapper.m_EasingsSelection_ChangeEasingCurve;
+        /// <summary>
+        /// Provides access to the underlying input action "EasingsSelection/ChangeEasingNone".
+        /// </summary>
+        public InputAction @ChangeEasingNone => m_Wrapper.m_EasingsSelection_ChangeEasingNone;
+        /// <summary>
+        /// Provides access to the underlying input action "EasingsSelection/ChangeEasingStandard".
+        /// </summary>
+        public InputAction @ChangeEasingStandard => m_Wrapper.m_EasingsSelection_ChangeEasingStandard;
+        /// <summary>
+        /// Provides access to the underlying input action "EasingsSelection/ChangeEasingAlternative".
+        /// </summary>
+        public InputAction @ChangeEasingAlternative => m_Wrapper.m_EasingsSelection_ChangeEasingAlternative;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_EasingsSelection; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="EasingsSelectionActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(EasingsSelectionActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="EasingsSelectionActions" />
+        public void AddCallbacks(IEasingsSelectionActions instance)
+        {
+            if (instance == null || m_Wrapper.m_EasingsSelectionActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_EasingsSelectionActionsCallbackInterfaces.Add(instance);
+            @ChangeEasingCurve.started += instance.OnChangeEasingCurve;
+            @ChangeEasingCurve.performed += instance.OnChangeEasingCurve;
+            @ChangeEasingCurve.canceled += instance.OnChangeEasingCurve;
+            @ChangeEasingNone.started += instance.OnChangeEasingNone;
+            @ChangeEasingNone.performed += instance.OnChangeEasingNone;
+            @ChangeEasingNone.canceled += instance.OnChangeEasingNone;
+            @ChangeEasingStandard.started += instance.OnChangeEasingStandard;
+            @ChangeEasingStandard.performed += instance.OnChangeEasingStandard;
+            @ChangeEasingStandard.canceled += instance.OnChangeEasingStandard;
+            @ChangeEasingAlternative.started += instance.OnChangeEasingAlternative;
+            @ChangeEasingAlternative.performed += instance.OnChangeEasingAlternative;
+            @ChangeEasingAlternative.canceled += instance.OnChangeEasingAlternative;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="EasingsSelectionActions" />
+        private void UnregisterCallbacks(IEasingsSelectionActions instance)
+        {
+            @ChangeEasingCurve.started -= instance.OnChangeEasingCurve;
+            @ChangeEasingCurve.performed -= instance.OnChangeEasingCurve;
+            @ChangeEasingCurve.canceled -= instance.OnChangeEasingCurve;
+            @ChangeEasingNone.started -= instance.OnChangeEasingNone;
+            @ChangeEasingNone.performed -= instance.OnChangeEasingNone;
+            @ChangeEasingNone.canceled -= instance.OnChangeEasingNone;
+            @ChangeEasingStandard.started -= instance.OnChangeEasingStandard;
+            @ChangeEasingStandard.performed -= instance.OnChangeEasingStandard;
+            @ChangeEasingStandard.canceled -= instance.OnChangeEasingStandard;
+            @ChangeEasingAlternative.started -= instance.OnChangeEasingAlternative;
+            @ChangeEasingAlternative.performed -= instance.OnChangeEasingAlternative;
+            @ChangeEasingAlternative.canceled -= instance.OnChangeEasingAlternative;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="EasingsSelectionActions.UnregisterCallbacks(IEasingsSelectionActions)" />.
+        /// </summary>
+        /// <seealso cref="EasingsSelectionActions.UnregisterCallbacks(IEasingsSelectionActions)" />
+        public void RemoveCallbacks(IEasingsSelectionActions instance)
+        {
+            if (m_Wrapper.m_EasingsSelectionActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="EasingsSelectionActions.AddCallbacks(IEasingsSelectionActions)" />
+        /// <seealso cref="EasingsSelectionActions.RemoveCallbacks(IEasingsSelectionActions)" />
+        /// <seealso cref="EasingsSelectionActions.UnregisterCallbacks(IEasingsSelectionActions)" />
+        public void SetCallbacks(IEasingsSelectionActions instance)
+        {
+            foreach (var item in m_Wrapper.m_EasingsSelectionActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_EasingsSelectionActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="EasingsSelectionActions" /> instance referencing this action map.
+    /// </summary>
+    public EasingsSelectionActions @EasingsSelection => new EasingsSelectionActions(this);
     private int m_ChroMapperDefaultSchemeIndex = -1;
     /// <summary>
     /// Provides access to the input control scheme.
@@ -13057,5 +15566,459 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnBasicEventEdit(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "GLS Group Placement" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="GLSGroupPlacementActions.AddCallbacks(IGLSGroupPlacementActions)" />
+    /// <seealso cref="GLSGroupPlacementActions.RemoveCallbacks(IGLSGroupPlacementActions)" />
+    public interface IGLSGroupPlacementActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "Next Group" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnNextGroup(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "GLS Color Placement" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="GLSColorPlacementActions.AddCallbacks(IGLSColorPlacementActions)" />
+    /// <seealso cref="GLSColorPlacementActions.RemoveCallbacks(IGLSColorPlacementActions)" />
+    public interface IGLSColorPlacementActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "Color0 Light" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnColor0Light(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Color1 Light" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnColor1Light(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ColorW Light" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnColorWLight(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Extension Light" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnExtensionLight(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Static 0 Brightness" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnStatic0Brightness(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Static 50 Brightness" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnStatic50Brightness(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Static 100 Brightness" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnStatic100Brightness(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Fade 0 Brightness" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnFade0Brightness(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Fade 50 Brightness" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnFade50Brightness(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Fade 100 Brightness" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnFade100Brightness(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Set Brightness 0" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSetBrightness0(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Set Brightness 10" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSetBrightness10(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Set Brightness 20" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSetBrightness20(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Set Brightness 30" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSetBrightness30(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Set Brightness 40" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSetBrightness40(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Set Brightness 50" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSetBrightness50(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Set Brightness 60" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSetBrightness60(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Set Brightness 70" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSetBrightness70(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Set Brightness 80" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSetBrightness80(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Set Brightness 90" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSetBrightness90(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Set Brightness 100" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSetBrightness100(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Set Brightness 120" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSetBrightness120(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Set Brightness 150" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSetBrightness150(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Strobe On" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnStrobeOn(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Strobe Off" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnStrobeOff(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Change Strobe Frequency (Precise)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnChangeStrobeFrequencyPrecise(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Change Strobe Brightness" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnChangeStrobeBrightness(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Change Strobe Brightness (Precise)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnChangeStrobeBrightnessPrecise(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Soft Strobe" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSoftStrobe(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Change Event Color" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnChangeEventColor(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Set Brightness (Precise)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSetBrightnessPrecise(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "GLS Rotation Placement" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="GLSRotationPlacementActions.AddCallbacks(IGLSRotationPlacementActions)" />
+    /// <seealso cref="GLSRotationPlacementActions.RemoveCallbacks(IGLSRotationPlacementActions)" />
+    public interface IGLSRotationPlacementActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "Set Angle 0" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSetAngle0(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Set Angle 90" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSetAngle90(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Set Angle 180" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSetAngle180(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Set Angle 270" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSetAngle270(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Set Rotation Direction (Left)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSetRotationDirectionLeft(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Set Rotation Direction (Automatic)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSetRotationDirectionAutomatic(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Set Rotation Direction (Right)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSetRotationDirectionRight(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Change Loop Count" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnChangeLoopCount(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Reset Loop Count" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnResetLoopCount(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Set Angle (Precise)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSetAnglePrecise(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "GLS Translation Placement" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="GLSTranslationPlacementActions.AddCallbacks(IGLSTranslationPlacementActions)" />
+    /// <seealso cref="GLSTranslationPlacementActions.RemoveCallbacks(IGLSTranslationPlacementActions)" />
+    public interface IGLSTranslationPlacementActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "Set Value n100" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSetValuen100(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Set Value n50" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSetValuen50(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Set Value 0" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSetValue0(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Set Value 50" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSetValue50(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Set Value 100" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSetValue100(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Set Value (Precise)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSetValuePrecise(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "GLS FloatFX Placement" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="GLSFloatFXPlacementActions.AddCallbacks(IGLSFloatFXPlacementActions)" />
+    /// <seealso cref="GLSFloatFXPlacementActions.RemoveCallbacks(IGLSFloatFXPlacementActions)" />
+    public interface IGLSFloatFXPlacementActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "Set Value n100" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSetValuen100(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Set Value n50" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSetValuen50(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Set Value 0" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSetValue0(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Set Value 50" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSetValue50(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Set Value 100" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSetValue100(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Set Value (Precise)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSetValuePrecise(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Easings Selection" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="EasingsSelectionActions.AddCallbacks(IEasingsSelectionActions)" />
+    /// <seealso cref="EasingsSelectionActions.RemoveCallbacks(IEasingsSelectionActions)" />
+    public interface IEasingsSelectionActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "Change Easing (Curve)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnChangeEasingCurve(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Change Easing (None)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnChangeEasingNone(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Change Easing (Standard)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnChangeEasingStandard(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Change Easing (Alternative)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnChangeEasingAlternative(InputAction.CallbackContext context);
     }
 }

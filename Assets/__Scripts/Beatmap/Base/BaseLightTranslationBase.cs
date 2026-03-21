@@ -19,7 +19,7 @@ namespace Beatmap.Base
             UsePrevious = usePrevious;
         }
 
-        public override ObjectType ObjectType { get; set; } = ObjectType.Event;
+        public override ObjectType ObjectType { get; set; } = ObjectType.GLSEvent;
         public float Translation { get; set; }
         public int EaseType { get; set; }
         public int UsePrevious { get; set; }
