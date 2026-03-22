@@ -133,7 +133,7 @@ public class MirrorRendererSO : ScriptableObject
     {
         if (!mirrorCamera)
         {
-            var go = new GameObject("MirrorCam" + GetInstanceID(), typeof(Camera))
+            var go = new GameObject("MirrorCam" + GetInstanceID(), typeof(Camera), typeof(CameraDisableUIRendering))
             {
                 hideFlags = HideFlags.HideAndDontSave
             };
