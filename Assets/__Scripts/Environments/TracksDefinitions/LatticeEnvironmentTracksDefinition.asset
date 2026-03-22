@@ -22,7 +22,7 @@ MonoBehaviour:
   glsEntries:
   - Group: LatticeBottomLeft
     Name: Spot_1
-    ID: 0
+    ID: 3
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -32,7 +32,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: LatticeBottomLeft
     Name: Spot_2
-    ID: 0
+    ID: 4
     ColorTrack: 1
     RotationTracks: 000001
     OverrideDefaultRotationAxis: NoOverride
@@ -42,7 +42,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: LatticeBottomLeft
     Name: Laser_1
-    ID: 0
+    ID: 5
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -52,7 +52,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: LatticeBottomLeft
     Name: Laser_2
-    ID: 0
+    ID: 6
     ColorTrack: 1
     RotationTracks: 000001
     OverrideDefaultRotationAxis: NoOverride
@@ -62,7 +62,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: LatticeBottomLeft
     Name: Cube
-    ID: 0
+    ID: 1
     ColorTrack: 1
     RotationTracks: 010001
     OverrideDefaultRotationAxis: NoOverride
@@ -82,7 +82,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: LatticeBottomLeft
     Name: Radial
-    ID: 0
+    ID: 2
     ColorTrack: 0
     RotationTracks: 010001
     OverrideDefaultRotationAxis: NoOverride
@@ -92,7 +92,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: LatticeBottomRight
     Name: Spot_1
-    ID: 0
+    ID: 10
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -102,7 +102,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: LatticeBottomRight
     Name: Spot_2
-    ID: 0
+    ID: 11
     ColorTrack: 1
     RotationTracks: 000001
     OverrideDefaultRotationAxis: NoOverride
@@ -112,7 +112,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: LatticeBottomRight
     Name: Laser_1
-    ID: 0
+    ID: 12
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -122,7 +122,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: LatticeBottomRight
     Name: Laser_2
-    ID: 0
+    ID: 13
     ColorTrack: 1
     RotationTracks: 000001
     OverrideDefaultRotationAxis: NoOverride
@@ -132,7 +132,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: LatticeBottomRight
     Name: Cube
-    ID: 0
+    ID: 8
     ColorTrack: 1
     RotationTracks: 010001
     OverrideDefaultRotationAxis: NoOverride
@@ -142,7 +142,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: LatticeBottomRight
     Name: Global
-    ID: 0
+    ID: 7
     ColorTrack: 0
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -152,7 +152,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: LatticeBottomRight
     Name: Radial
-    ID: 0
+    ID: 9
     ColorTrack: 0
     RotationTracks: 010001
     OverrideDefaultRotationAxis: NoOverride
@@ -162,7 +162,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: LatticeTopLeft
     Name: Spot_1
-    ID: 0
+    ID: 17
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -172,7 +172,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: LatticeTopLeft
     Name: Spot_2
-    ID: 0
+    ID: 18
     ColorTrack: 1
     RotationTracks: 000001
     OverrideDefaultRotationAxis: NoOverride
@@ -182,7 +182,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: LatticeTopLeft
     Name: Laser_1
-    ID: 0
+    ID: 19
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -192,7 +192,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: LatticeTopLeft
     Name: Laser_2
-    ID: 0
+    ID: 20
     ColorTrack: 1
     RotationTracks: 000001
     OverrideDefaultRotationAxis: NoOverride
@@ -202,7 +202,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: LatticeTopLeft
     Name: Cube
-    ID: 0
+    ID: 15
     ColorTrack: 1
     RotationTracks: 010001
     OverrideDefaultRotationAxis: NoOverride
@@ -212,7 +212,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: LatticeTopLeft
     Name: Global
-    ID: 0
+    ID: 14
     ColorTrack: 0
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -222,7 +222,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: LatticeTopLeft
     Name: Radial
-    ID: 0
+    ID: 16
     ColorTrack: 0
     RotationTracks: 010001
     OverrideDefaultRotationAxis: NoOverride
@@ -232,7 +232,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: LatticeTopRight
     Name: Spot_1
-    ID: 0
+    ID: 24
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -242,7 +242,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: LatticeTopRight
     Name: Spot_2
-    ID: 0
+    ID: 25
     ColorTrack: 1
     RotationTracks: 000001
     OverrideDefaultRotationAxis: NoOverride
@@ -252,7 +252,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: LatticeTopRight
     Name: Laser_1
-    ID: 0
+    ID: 26
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -262,7 +262,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: LatticeTopRight
     Name: Laser_2
-    ID: 0
+    ID: 27
     ColorTrack: 1
     RotationTracks: 000001
     OverrideDefaultRotationAxis: NoOverride
@@ -272,7 +272,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: LatticeTopRight
     Name: Cube
-    ID: 0
+    ID: 22
     ColorTrack: 1
     RotationTracks: 010001
     OverrideDefaultRotationAxis: NoOverride
@@ -282,7 +282,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: LatticeTopRight
     Name: Global
-    ID: 0
+    ID: 21
     ColorTrack: 0
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -292,7 +292,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: LatticeTopRight
     Name: Radial
-    ID: 0
+    ID: 23
     ColorTrack: 0
     RotationTracks: 010001
     OverrideDefaultRotationAxis: NoOverride
@@ -302,7 +302,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Runway
     Name: Diagonals
-    ID: 0
+    ID: 28
     ColorTrack: 1
     RotationTracks: 000100
     OverrideDefaultRotationAxis: NoOverride
@@ -312,7 +312,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Runway
     Name: Outline
-    ID: 0
+    ID: 29
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -322,7 +322,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Runway
     Name: Chevron
-    ID: 0
+    ID: 30
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride

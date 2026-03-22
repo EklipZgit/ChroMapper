@@ -39,17 +39,10 @@ public class MapLoader : MonoBehaviour
         if (Settings.Instance.Load_Events)
         {
             LoadObjects(map.Events);
-            LoadObjects(
-                map
-                    .LightColorEventBoxGroups
-                    .Cast<BaseEventBoxGroup>()
-                    .Concat(
-                        map.LightRotationEventBoxGroups)
-                    .Concat(
-                        map.LightTranslationEventBoxGroups)
-                    .Concat(
-                        map.VfxEventBoxGroups)
-                    .ToList());
+            LoadObjects(map.LightColorEventBoxGroups);
+            LoadObjects(map.LightRotationEventBoxGroups);
+            LoadObjects(map.LightTranslationEventBoxGroups);
+            LoadObjects(map.VfxEventBoxGroups);
         }
 
         if (Settings.Instance.Load_Notes || Settings.Instance.Load_Obstacles) LoadObjects(map.NJSEvents);

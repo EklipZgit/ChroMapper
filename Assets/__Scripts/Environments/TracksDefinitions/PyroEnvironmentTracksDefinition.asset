@@ -50,7 +50,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Stage
     Name: Right Stairs
-    ID: 0
+    ID: 1
     ColorTrack: 1
     RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
@@ -60,7 +60,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Stage
     Name: Left Lasers
-    ID: 0
+    ID: 8
     ColorTrack: 1
     RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
@@ -70,7 +70,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Stage
     Name: Right Lasers
-    ID: 0
+    ID: 9
     ColorTrack: 1
     RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
@@ -80,7 +80,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Top Stage
     Name: Projectors Left
-    ID: 0
+    ID: 2
     ColorTrack: 1
     RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
@@ -90,7 +90,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Top Stage
     Name: Projectors Right
-    ID: 0
+    ID: 3
     ColorTrack: 1
     RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
@@ -100,7 +100,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Top Stage
     Name: Projectors Top
-    ID: 0
+    ID: 4
     ColorTrack: 1
     RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
@@ -110,7 +110,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Top Stage
     Name: 4 Slot
-    ID: 0
+    ID: 5
     ColorTrack: 1
     RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
@@ -120,7 +120,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Side Panels
     Name: Tower Left
-    ID: 0
+    ID: 6
     ColorTrack: 1
     RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
@@ -130,7 +130,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Side Panels
     Name: Tower Right
-    ID: 0
+    ID: 7
     ColorTrack: 1
     RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
@@ -140,7 +140,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Side Panels
     Name: Lasers Left
-    ID: 0
+    ID: 10
     ColorTrack: 1
     RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
@@ -150,7 +150,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Side Panels
     Name: Lasers Right
-    ID: 0
+    ID: 11
     ColorTrack: 1
     RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
@@ -160,7 +160,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Fire
     Name: Left Fire
-    ID: 0
+    ID: 12
     ColorTrack: 1
     RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
@@ -170,7 +170,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Fire
     Name: Right Fire
-    ID: 0
+    ID: 13
     ColorTrack: 1
     RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride

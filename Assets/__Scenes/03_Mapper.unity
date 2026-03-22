@@ -1794,9 +1794,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BeatmapContext: {fileID: 127874572}
   EditContext: {fileID: 405385889}
-  TargetTransform: {fileID: 1300313309}
   SpawnCallbackController: {fileID: 1760665545}
   DespawnCallbackController: {fileID: 1288723589}
+  TargetTransform: {fileID: 1300313309}
   UseChunkLoadingWhenPlaying: 0
   ChunksLoadedWhilePlaying: 2
   IgnoreTrackFilter: 0
@@ -1819,9 +1819,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BeatmapContext: {fileID: 127874572}
   EditContext: {fileID: 405385889}
-  TargetTransform: {fileID: 1300313309}
   SpawnCallbackController: {fileID: 1760665545}
   DespawnCallbackController: {fileID: 1288723589}
+  TargetTransform: {fileID: 1300313309}
   UseChunkLoadingWhenPlaying: 1
   ChunksLoadedWhilePlaying: 2
   IgnoreTrackFilter: 0
@@ -1845,9 +1845,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BeatmapContext: {fileID: 127874572}
   EditContext: {fileID: 405385889}
-  TargetTransform: {fileID: 1300313309}
   SpawnCallbackController: {fileID: 1760665545}
   DespawnCallbackController: {fileID: 1288723589}
+  TargetTransform: {fileID: 1300313309}
   UseChunkLoadingWhenPlaying: 1
   ChunksLoadedWhilePlaying: 2
   IgnoreTrackFilter: 0
@@ -1870,9 +1870,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BeatmapContext: {fileID: 127874572}
   EditContext: {fileID: 405385889}
-  TargetTransform: {fileID: 1300313309}
   SpawnCallbackController: {fileID: 1760665545}
   DespawnCallbackController: {fileID: 1288723589}
+  TargetTransform: {fileID: 1300313309}
   UseChunkLoadingWhenPlaying: 0
   ChunksLoadedWhilePlaying: 2
   IgnoreTrackFilter: 0
@@ -6052,9 +6052,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BeatmapContext: {fileID: 127874572}
   EditContext: {fileID: 405385889}
-  TargetTransform: {fileID: 185723089}
   SpawnCallbackController: {fileID: 1760665545}
   DespawnCallbackController: {fileID: 1288723589}
+  TargetTransform: {fileID: 185723089}
   UseChunkLoadingWhenPlaying: 0
   ChunksLoadedWhilePlaying: 2
   IgnoreTrackFilter: 0
@@ -13686,6 +13686,63 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 454431500}
   m_CullTransparentMesh: 0
+--- !u!1 &455316406
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 455316407}
+  - component: {fileID: 455316408}
+  m_Layer: 0
+  m_Name: GLS Color Collection
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &455316407
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 455316406}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 788356227}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &455316408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 455316406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d41e1b8edaff4fd6b06168edbe2c66a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BeatmapContext: {fileID: 127874572}
+  EditContext: {fileID: 405385889}
+  SpawnCallbackController: {fileID: 1760665545}
+  DespawnCallbackController: {fileID: 1288723589}
+  TargetTransform: {fileID: 1529298933}
+  UseChunkLoadingWhenPlaying: 1
+  ChunksLoadedWhilePlaying: 2
+  IgnoreTrackFilter: 1
+  glsGroupGridProvider: {fileID: 788356228}
+  eventGridContainer: {fileID: 455916737}
+  eventPrefab: {fileID: 1173282366639492, guid: 72e4251edb3f4b5a69a5995309feba8a,
+    type: 3}
+  glsEventAppearance: {fileID: 11400000, guid: 3f35a685a18894f4291dd109815b604d, type: 2}
 --- !u!1 &455916735
 GameObject:
   m_ObjectHideFlags: 0
@@ -13732,9 +13789,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BeatmapContext: {fileID: 127874572}
   EditContext: {fileID: 405385889}
-  TargetTransform: {fileID: 1432871737}
   SpawnCallbackController: {fileID: 1760665545}
   DespawnCallbackController: {fileID: 1288723589}
+  TargetTransform: {fileID: 1432871737}
   UseChunkLoadingWhenPlaying: 0
   ChunksLoadedWhilePlaying: 2
   IgnoreTrackFilter: 1
@@ -15306,6 +15363,77 @@ MonoBehaviour:
   references:
     version: 2
     RefIds: []
+--- !u!1 &492114544
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 492114545}
+  - component: {fileID: 492114546}
+  m_Layer: 0
+  m_Name: GLS Rotation Placement
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &492114545
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 492114544}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1288117815}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &492114546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 492114544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9771f0dcee7749c18669cadd006aca3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObjectDataType: 13
+  ObjectContainerPrefab: {fileID: 1173282366639492, guid: 72e4251edb3f4b5a69a5995309feba8a,
+    type: 3}
+  PlacementTrack: {fileID: 1529298933}
+  CanPrecisionPlacement: 0
+  AdjustZScale: 0
+  CustomStandaloneInputModule: {fileID: 806554}
+  Atsc: {fileID: 570484802}
+  boxSelectionPlacement: {fileID: 859643186}
+  AssignTo360Tracks: 0
+  TracksManager: {fileID: 902407107}
+  GridRotation: {fileID: 226696885}
+  AllowPlacement: 1
+  State: 0
+  IsDragging: 0
+  JsonTimeRounded: 0
+  Bounds:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0, z: 0}
+  BoundsPosition: {x: 0, y: 0, z: 0}
+  ObjectContainerCollection: {fileID: 1613377960}
+  PlacementVisualContainer: {fileID: 0}
+  DraggedObjectContainer: {fileID: 0}
+  ForceHeaderPlsIgnore: 0
+  GlsEventTrack: {fileID: 1830049620}
+  glsEventAppearance: {fileID: 11400000, guid: 3f35a685a18894f4291dd109815b604d, type: 2}
+  context: {fileID: 127874572}
 --- !u!1 &492450995
 GameObject:
   m_ObjectHideFlags: 0
@@ -25380,7 +25508,7 @@ GameObject:
   - component: {fileID: 788356227}
   - component: {fileID: 788356228}
   m_Layer: 0
-  m_Name: GLS Event Collection
+  m_Name: GLS Group Provider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25398,7 +25526,11 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 455316407}
+  - {fileID: 1613377959}
+  - {fileID: 1029119607}
+  - {fileID: 1642563811}
   m_Father: {fileID: 1108513242}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &788356228
@@ -25413,21 +25545,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa5cf42911e24ac8a9b12d166497aeff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BeatmapContext: {fileID: 127874572}
-  EditContext: {fileID: 405385889}
-  TargetTransform: {fileID: 1529298933}
-  SpawnCallbackController: {fileID: 1760665545}
-  DespawnCallbackController: {fileID: 1288723589}
-  UseChunkLoadingWhenPlaying: 1
-  ChunksLoadedWhilePlaying: 3
-  IgnoreTrackFilter: 1
   atsc: {fileID: 570484802}
-  eventGridContainer: {fileID: 455916737}
+  beatmapContext: {fileID: 127874572}
+  editContext: {fileID: 405385889}
   trackPrefab: {fileID: 1830049620}
   targetGrid: {fileID: 617466177}
-  eventPrefab: {fileID: 1173282366639492, guid: 72e4251edb3f4b5a69a5995309feba8a,
-    type: 3}
-  glsEventAppearance: {fileID: 11400000, guid: 3f35a685a18894f4291dd109815b604d, type: 2}
 --- !u!224 &792858021 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1203876395422462312, guid: 489b4b61c7f87d24faa80fb240ad37d1,
@@ -28781,6 +28903,52 @@ MonoBehaviour:
   eventGrid: {fileID: 455916737}
   atsc: {fileID: 570484802}
   vNjsProvider: {fileID: 597767624}
+--- !u!1 &904987244
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 904987245}
+  - component: {fileID: 904987246}
+  m_Layer: 0
+  m_Name: GLS Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &904987245
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 904987244}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1573245297}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &904987246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 904987244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37331f0bc62d4adb9b45f6effebda8ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Context: {fileID: 127874572}
+  lightshowController: {fileID: 1857652079}
 --- !u!1 &908866644
 GameObject:
   m_ObjectHideFlags: 0
@@ -31078,7 +31246,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 13585789}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.99999976
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -34226,6 +34394,63 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1026206180}
   m_CullTransparentMesh: 0
+--- !u!1 &1029119606
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1029119607}
+  - component: {fileID: 1029119608}
+  m_Layer: 0
+  m_Name: GLS Translation Collection
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1029119607
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1029119606}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 788356227}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1029119608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1029119606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a186813b0b094935bcb3e92a8f6b5b72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BeatmapContext: {fileID: 127874572}
+  EditContext: {fileID: 405385889}
+  SpawnCallbackController: {fileID: 1760665545}
+  DespawnCallbackController: {fileID: 1288723589}
+  TargetTransform: {fileID: 1529298933}
+  UseChunkLoadingWhenPlaying: 1
+  ChunksLoadedWhilePlaying: 2
+  IgnoreTrackFilter: 1
+  glsGroupGridProvider: {fileID: 788356228}
+  eventGridContainer: {fileID: 455916737}
+  eventPrefab: {fileID: 1173282366639492, guid: 72e4251edb3f4b5a69a5995309feba8a,
+    type: 3}
+  glsEventAppearance: {fileID: 11400000, guid: 3f35a685a18894f4291dd109815b604d, type: 2}
 --- !u!1 &1029426883
 GameObject:
   m_ObjectHideFlags: 0
@@ -36732,9 +36957,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BeatmapContext: {fileID: 127874572}
   EditContext: {fileID: 405385889}
-  TargetTransform: {fileID: 754997518}
   SpawnCallbackController: {fileID: 1760665545}
   DespawnCallbackController: {fileID: 1288723589}
+  TargetTransform: {fileID: 754997518}
   UseChunkLoadingWhenPlaying: 1
   ChunksLoadedWhilePlaying: 3
   IgnoreTrackFilter: 0
@@ -43269,7 +43494,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1288117815}
   m_Layer: 0
-  m_Name: GLS Event Placement
+  m_Name: GLS Group Placement
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43287,7 +43512,11 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 2010338915}
+  - {fileID: 492114545}
+  - {fileID: 2042029059}
+  - {fileID: 1524441770}
   m_Father: {fileID: 612042092}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1288723587
@@ -48321,6 +48550,77 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33fbbd85ca5b5a14f93993c8c671f280, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1524441769
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1524441770}
+  - component: {fileID: 1524441771}
+  m_Layer: 0
+  m_Name: GLS FloatFX Placement
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1524441770
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1524441769}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1288117815}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1524441771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1524441769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51913ec345d645b88a01d1bef9a50a23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObjectDataType: 15
+  ObjectContainerPrefab: {fileID: 1173282366639492, guid: 72e4251edb3f4b5a69a5995309feba8a,
+    type: 3}
+  PlacementTrack: {fileID: 1529298933}
+  CanPrecisionPlacement: 0
+  AdjustZScale: 0
+  CustomStandaloneInputModule: {fileID: 806554}
+  Atsc: {fileID: 570484802}
+  boxSelectionPlacement: {fileID: 859643186}
+  AssignTo360Tracks: 0
+  TracksManager: {fileID: 902407107}
+  GridRotation: {fileID: 226696885}
+  AllowPlacement: 1
+  State: 0
+  IsDragging: 0
+  JsonTimeRounded: 0
+  Bounds:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0, z: 0}
+  BoundsPosition: {x: 0, y: 0, z: 0}
+  ObjectContainerCollection: {fileID: 1642563812}
+  PlacementVisualContainer: {fileID: 0}
+  DraggedObjectContainer: {fileID: 0}
+  ForceHeaderPlsIgnore: 0
+  GlsEventTrack: {fileID: 1830049620}
+  glsEventAppearance: {fileID: 11400000, guid: 3f35a685a18894f4291dd109815b604d, type: 2}
+  context: {fileID: 127874572}
 --- !u!21 &1527122330
 Material:
   serializedVersion: 8
@@ -48416,7 +48716,7 @@ GameObject:
   - component: {fileID: 1529298933}
   - component: {fileID: 1529298934}
   m_Layer: 11
-  m_Name: GLS Event Container Track
+  m_Name: GLS Group Container Track
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -50167,90 +50467,6 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   m_IsOn: 0
---- !u!21 &1567870311
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Inherited From Round Corners
-  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _BumpMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _EmissionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MetallicGlossMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _OcclusionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _SpecGlossMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _AlphaClip: 0
-    - _Blend: 0
-    - _BumpScale: 1
-    - _ColorMask: 15
-    - _Cull: 2
-    - _Cutoff: 0.5
-    - _DstBlend: 0
-    - _GlossMapScale: 1
-    - _Glossiness: 0.5
-    - _GlossyReflections: 1
-    - _Metallic: 0
-    - _OcclusionStrength: 1
-    - _ReceiveShadows: 1
-    - _SmoothnessTextureChannel: 0
-    - _SpecularHighlights: 1
-    - _SrcBlend: 1
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _Surface: 0
-    - _UseUIAlphaClip: 0
-    - _WorkflowMode: 1
-    - _ZWrite: 1
-    m_Colors:
-    - _Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _WidthHeightRadius: {r: 37, g: 14, b: 2, a: 0}
-    - _halfSize: {r: 150, g: 45, b: 0, a: 0}
-    - _r: {r: 2, g: 2, b: 2, a: 2}
-    - _rect2props: {r: 0.000015258789, g: -0.000015258789, b: 136.47162, a: 136.47162}
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!1 &1569777597
 GameObject:
   m_ObjectHideFlags: 0
@@ -50468,6 +50684,7 @@ Transform:
   - {fileID: 1725971880}
   - {fileID: 597767623}
   - {fileID: 360549095}
+  - {fileID: 904987245}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1573245298
@@ -50708,6 +50925,90 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spectrogram: {fileID: 976440055}
+--- !u!21 &1573735255
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Inherited From Round Corners
+  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AlphaClip: 0
+    - _Blend: 0
+    - _BumpScale: 1
+    - _ColorMask: 15
+    - _Cull: 2
+    - _Cutoff: 0.5
+    - _DstBlend: 0
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _Metallic: 0
+    - _OcclusionStrength: 1
+    - _ReceiveShadows: 1
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _Surface: 0
+    - _UseUIAlphaClip: 0
+    - _WorkflowMode: 1
+    - _ZWrite: 1
+    m_Colors:
+    - _Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _WidthHeightRadius: {r: 34.4, g: 16.4, b: 4, a: 0}
+    - _halfSize: {r: 150, g: 45, b: 0, a: 0}
+    - _r: {r: 2, g: 2, b: 2, a: 2}
+    - _rect2props: {r: 0.000015258789, g: -0.000015258789, b: 136.47162, a: 136.47162}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1 &1576737814
 GameObject:
   m_ObjectHideFlags: 0
@@ -52426,6 +52727,63 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1602282041}
   m_CullTransparentMesh: 0
+--- !u!1 &1613377958
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1613377959}
+  - component: {fileID: 1613377960}
+  m_Layer: 0
+  m_Name: GLS Rotation Collection
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1613377959
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1613377958}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 788356227}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1613377960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1613377958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71047f0727564d459dcacc0d24ba2770, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BeatmapContext: {fileID: 127874572}
+  EditContext: {fileID: 405385889}
+  SpawnCallbackController: {fileID: 1760665545}
+  DespawnCallbackController: {fileID: 1288723589}
+  TargetTransform: {fileID: 1529298933}
+  UseChunkLoadingWhenPlaying: 1
+  ChunksLoadedWhilePlaying: 2
+  IgnoreTrackFilter: 1
+  glsGroupGridProvider: {fileID: 788356228}
+  eventGridContainer: {fileID: 455916737}
+  eventPrefab: {fileID: 1173282366639492, guid: 72e4251edb3f4b5a69a5995309feba8a,
+    type: 3}
+  glsEventAppearance: {fileID: 11400000, guid: 3f35a685a18894f4291dd109815b604d, type: 2}
 --- !u!1001 &1621174501
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -53850,6 +54208,63 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowMaskGraphic: 0
+--- !u!1 &1642563810
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1642563811}
+  - component: {fileID: 1642563812}
+  m_Layer: 0
+  m_Name: GLS FloatFX Collection
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1642563811
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1642563810}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 788356227}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1642563812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1642563810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 248b65055e42417eb152e8e5ee8296a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BeatmapContext: {fileID: 127874572}
+  EditContext: {fileID: 405385889}
+  SpawnCallbackController: {fileID: 1760665545}
+  DespawnCallbackController: {fileID: 1288723589}
+  TargetTransform: {fileID: 1529298933}
+  UseChunkLoadingWhenPlaying: 1
+  ChunksLoadedWhilePlaying: 2
+  IgnoreTrackFilter: 1
+  glsGroupGridProvider: {fileID: 788356228}
+  eventGridContainer: {fileID: 455916737}
+  eventPrefab: {fileID: 1173282366639492, guid: 72e4251edb3f4b5a69a5995309feba8a,
+    type: 3}
+  glsEventAppearance: {fileID: 11400000, guid: 3f35a685a18894f4291dd109815b604d, type: 2}
 --- !u!1 &1645231855
 GameObject:
   m_ObjectHideFlags: 0
@@ -54032,9 +54447,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BeatmapContext: {fileID: 127874572}
   EditContext: {fileID: 405385889}
-  TargetTransform: {fileID: 558332998}
   SpawnCallbackController: {fileID: 1760665545}
   DespawnCallbackController: {fileID: 1288723589}
+  TargetTransform: {fileID: 558332998}
   UseChunkLoadingWhenPlaying: 1
   ChunksLoadedWhilePlaying: 2
   IgnoreTrackFilter: 1
@@ -58398,6 +58813,90 @@ MonoBehaviour:
   nextChainIndex: 0
   UseAudioTime: 0
   chainGridContainer: {fileID: 25550681}
+--- !u!21 &1763021916
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Inherited From Round Corners
+  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AlphaClip: 0
+    - _Blend: 0
+    - _BumpScale: 1
+    - _ColorMask: 15
+    - _Cull: 2
+    - _Cutoff: 0.5
+    - _DstBlend: 0
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _Metallic: 0
+    - _OcclusionStrength: 1
+    - _ReceiveShadows: 1
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _Surface: 0
+    - _UseUIAlphaClip: 0
+    - _WorkflowMode: 1
+    - _ZWrite: 1
+    m_Colors:
+    - _Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _WidthHeightRadius: {r: 37, g: 14, b: 2, a: 0}
+    - _halfSize: {r: 150, g: 45, b: 0, a: 0}
+    - _r: {r: 2, g: 2, b: 2, a: 2}
+    - _rect2props: {r: 0.000015258789, g: -0.000015258789, b: 136.47162, a: 136.47162}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1 &1765160103
 GameObject:
   m_ObjectHideFlags: 0
@@ -60123,7 +60622,7 @@ PrefabInstance:
     - target: {fileID: 1230560793967759496, guid: 141955eb542177ea69e10ad9a2b131e2,
         type: 3}
       propertyPath: m_Name
-      value: GLS Event Grid Lane
+      value: GLS Group Grid Lane
       objectReference: {fileID: 0}
     - target: {fileID: 1230560793967759496, guid: 141955eb542177ea69e10ad9a2b131e2,
         type: 3}
@@ -60316,6 +60815,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1830049620}
+    - targetCorrespondingSourceObject: {fileID: 1230560793967759496, guid: 141955eb542177ea69e10ad9a2b131e2,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1830049621}
   m_SourcePrefab: {fileID: 100100000, guid: 141955eb542177ea69e10ad9a2b131e2, type: 3}
 --- !u!4 &1830049617 stripped
 Transform:
@@ -60368,6 +60871,25 @@ MonoBehaviour:
     Duplicate: 0
   canvasTransform: {fileID: 1637628215}
   textPrefab: {fileID: 922642521}
+--- !u!114 &1830049621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1830049618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52dc864d35b0468fb666ad5f534ef84a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Placements:
+  - {fileID: 2010338916}
+  - {fileID: 492114546}
+  - {fileID: 2042029060}
+  - {fileID: 1524441771}
+  - {fileID: 859643186}
+  Lane: {fileID: 1830049619}
 --- !u!1 &1831550049
 GameObject:
   m_ObjectHideFlags: 0
@@ -61200,90 +61722,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1867655057}
   m_CullTransparentMesh: 0
---- !u!21 &1872811371
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Inherited From Round Corners
-  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _BumpMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _EmissionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MetallicGlossMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _OcclusionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _SpecGlossMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _AlphaClip: 0
-    - _Blend: 0
-    - _BumpScale: 1
-    - _ColorMask: 15
-    - _Cull: 2
-    - _Cutoff: 0.5
-    - _DstBlend: 0
-    - _GlossMapScale: 1
-    - _Glossiness: 0.5
-    - _GlossyReflections: 1
-    - _Metallic: 0
-    - _OcclusionStrength: 1
-    - _ReceiveShadows: 1
-    - _SmoothnessTextureChannel: 0
-    - _SpecularHighlights: 1
-    - _SrcBlend: 1
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _Surface: 0
-    - _UseUIAlphaClip: 0
-    - _WorkflowMode: 1
-    - _ZWrite: 1
-    m_Colors:
-    - _Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _WidthHeightRadius: {r: 34.4, g: 16.4, b: 4, a: 0}
-    - _halfSize: {r: 150, g: 45, b: 0, a: 0}
-    - _r: {r: 2, g: 2, b: 2, a: 2}
-    - _rect2props: {r: 0.000015258789, g: -0.000015258789, b: 136.47162, a: 136.47162}
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!1001 &1875292307
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -62927,9 +63365,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BeatmapContext: {fileID: 127874572}
   EditContext: {fileID: 405385889}
-  TargetTransform: {fileID: 664104246}
   SpawnCallbackController: {fileID: 1760665545}
   DespawnCallbackController: {fileID: 1288723589}
+  TargetTransform: {fileID: 664104246}
   UseChunkLoadingWhenPlaying: 1
   ChunksLoadedWhilePlaying: 3
   IgnoreTrackFilter: 0
@@ -66118,6 +66556,77 @@ RectTransform:
   m_AnchoredPosition: {x: 5, y: -0.5}
   m_SizeDelta: {x: -30, y: -3}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &2010338914
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2010338915}
+  - component: {fileID: 2010338916}
+  m_Layer: 0
+  m_Name: GLS Color Placement
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2010338915
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2010338914}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1288117815}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2010338916
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2010338914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fc2dbef6a5e4092b6b7f8c5015a5020, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObjectDataType: 12
+  ObjectContainerPrefab: {fileID: 1173282366639492, guid: 72e4251edb3f4b5a69a5995309feba8a,
+    type: 3}
+  PlacementTrack: {fileID: 1529298933}
+  CanPrecisionPlacement: 0
+  AdjustZScale: 0
+  CustomStandaloneInputModule: {fileID: 806554}
+  Atsc: {fileID: 570484802}
+  boxSelectionPlacement: {fileID: 859643186}
+  AssignTo360Tracks: 0
+  TracksManager: {fileID: 902407107}
+  GridRotation: {fileID: 226696885}
+  AllowPlacement: 1
+  State: 0
+  IsDragging: 0
+  JsonTimeRounded: 0
+  Bounds:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0, z: 0}
+  BoundsPosition: {x: 0, y: 0, z: 0}
+  ObjectContainerCollection: {fileID: 455316408}
+  PlacementVisualContainer: {fileID: 0}
+  DraggedObjectContainer: {fileID: 0}
+  ForceHeaderPlsIgnore: 0
+  GlsEventTrack: {fileID: 1830049620}
+  glsEventAppearance: {fileID: 11400000, guid: 3f35a685a18894f4291dd109815b604d, type: 2}
+  context: {fileID: 127874572}
 --- !u!1 &2010474789
 GameObject:
   m_ObjectHideFlags: 0
@@ -67395,6 +67904,77 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2041347393}
   m_CullTransparentMesh: 0
+--- !u!1 &2042029058
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2042029059}
+  - component: {fileID: 2042029060}
+  m_Layer: 0
+  m_Name: GLS Translation Placement
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2042029059
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2042029058}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1288117815}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2042029060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2042029058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a77effff90d340f5a2b30296250bd32b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObjectDataType: 14
+  ObjectContainerPrefab: {fileID: 1173282366639492, guid: 72e4251edb3f4b5a69a5995309feba8a,
+    type: 3}
+  PlacementTrack: {fileID: 1529298933}
+  CanPrecisionPlacement: 0
+  AdjustZScale: 0
+  CustomStandaloneInputModule: {fileID: 806554}
+  Atsc: {fileID: 570484802}
+  boxSelectionPlacement: {fileID: 859643186}
+  AssignTo360Tracks: 0
+  TracksManager: {fileID: 902407107}
+  GridRotation: {fileID: 226696885}
+  AllowPlacement: 1
+  State: 0
+  IsDragging: 0
+  JsonTimeRounded: 0
+  Bounds:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0, z: 0}
+  BoundsPosition: {x: 0, y: 0, z: 0}
+  ObjectContainerCollection: {fileID: 1029119608}
+  PlacementVisualContainer: {fileID: 0}
+  DraggedObjectContainer: {fileID: 0}
+  ForceHeaderPlsIgnore: 0
+  GlsEventTrack: {fileID: 1830049620}
+  glsEventAppearance: {fileID: 11400000, guid: 3f35a685a18894f4291dd109815b604d, type: 2}
+  context: {fileID: 127874572}
 --- !u!1 &2057519783
 GameObject:
   m_ObjectHideFlags: 0

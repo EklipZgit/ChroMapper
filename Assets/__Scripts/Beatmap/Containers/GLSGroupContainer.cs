@@ -1,50 +1,26 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using Beatmap.Appearances;
 using Beatmap.Base;
-using Beatmap.Enums;
-using Beatmap.Shared;
 using TMPro;
 using UnityEngine;
 
 namespace Beatmap.Containers
 {
-    public class GLSEventContainer : ObjectContainer
+    public class GLSGroupContainer : ObjectContainer
     {
-        private static readonly int shaderIdColor = Shader.PropertyToID("_Color");
-        private static readonly int shaderIdColorTint = Shader.PropertyToID("_ColorTint");
-        private static readonly int position = Shader.PropertyToID("_Position");
-        private static readonly int mainAlpha = Shader.PropertyToID("_MainAlpha");
-        private static readonly int fadeSize = Shader.PropertyToID("_FadeSize");
-        private static readonly int spotlightSize = Shader.PropertyToID("_SpotlightSize");
-
         [SerializeField] public VisualModelController VModelController;
         [SerializeField] private GLSEventAppearanceSO glsEventAppearance;
         [SerializeField] private TracksManager tracksManager;
-        [SerializeField] private TextMeshPro valueDisplay;
+        [SerializeField] private TextMeshPro[] valueDisplays;
         [SerializeField] private LightGradientController lightGradientController;
         [SerializeField] public TracksDefinitionSO TracksDefinition;
 
         public BaseEventBoxGroup EventBoxGroupData;
 
-        public bool useBlockModel;
-        private float oldAlpha = -1;
-
         public override BaseObject ObjectData
         {
             get => EventBoxGroupData;
             set => EventBoxGroupData = (BaseEventBoxGroup)value;
-        }
-
-        public bool UseBlockModel
-        {
-            get => useBlockModel;
-            set
-            {
-                useBlockModel = value;
-                HandleModelChanged();
-            }
         }
 
         protected override void RegisterCallback()
@@ -59,15 +35,14 @@ namespace Beatmap.Containers
             VisualSettings.OnEventModelChanged -= HandleModelChanged;
         }
 
-        private void HandleModelChanged() =>
-            VModelController.Set(useBlockModel ? VisualSettings.GetBlockModel() : VisualSettings.GetEventModel());
+        private void HandleModelChanged() => VModelController.Set(VisualSettings.GetBlockModel());
 
-        public static GLSEventContainer SpawnGLSGroup(
+        public static GLSGroupContainer SpawnGLSGroup(
             BaseEventBoxGroup data,
             TracksDefinitionSO tracksDefinition,
             ref GameObject prefab)
         {
-            var container = Instantiate(prefab).GetComponent<GLSEventContainer>();
+            var container = Instantiate(prefab).GetComponent<GLSGroupContainer>();
             container.EventBoxGroupData = data;
             container.TracksDefinition = tracksDefinition;
             container.transform.localEulerAngles = Vector3.zero;
@@ -84,7 +59,18 @@ namespace Beatmap.Containers
             UpdateCollisionGroups();
         }
 
-        private float GetPositionFromTrackDefinition()
+        public void SetText(bool enable)
+        {
+            foreach (var textMeshPro in valueDisplays) textMeshPro.enabled = enable;
+        }
+
+        public void SetText(string text)
+        {
+            foreach (var textMeshPro in valueDisplays) textMeshPro.SetText(text);
+        }
+
+
+        public float GetPositionFromTrackDefinition()
         {
             var track = TracksDefinition.GetGlsOrDefault(EventBoxGroupData.ID);
 
@@ -110,12 +96,6 @@ namespace Beatmap.Containers
             if (track.FloatFXTrack && EventBoxGroupData is BaseVfxEventEventBoxGroup) return offset;
 
             return -1f;
-        }
-
-        public void UpdateOffset(Vector3 offset, bool updateMaterials = true)
-        {
-            MpbController.Mpb.SetVector(position, offset);
-            if (updateMaterials) UpdateMaterials();
         }
     }
 }

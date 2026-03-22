@@ -32,7 +32,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Outer Square
     Name: Bottom Right
-    ID: 0
+    ID: 1
     ColorTrack: 1
     RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
@@ -42,7 +42,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Outer Square
     Name: Top Left
-    ID: 0
+    ID: 2
     ColorTrack: 1
     RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
@@ -52,7 +52,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Outer Square
     Name: Top Right
-    ID: 0
+    ID: 3
     ColorTrack: 1
     RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
@@ -62,7 +62,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Inner Square
     Name: Bottom Left
-    ID: 0
+    ID: 4
     ColorTrack: 1
     RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
@@ -72,7 +72,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Inner Square
     Name: Bottom Right
-    ID: 0
+    ID: 5
     ColorTrack: 1
     RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
@@ -82,7 +82,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Inner Square
     Name: Top Left
-    ID: 0
+    ID: 6
     ColorTrack: 1
     RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
@@ -92,7 +92,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Inner Square
     Name: Top Right
-    ID: 0
+    ID: 7
     ColorTrack: 1
     RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
@@ -102,7 +102,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Side Square
     Name: Bottom Left
-    ID: 0
+    ID: 8
     ColorTrack: 1
     RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
@@ -112,7 +112,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Side Square
     Name: Bottom Right
-    ID: 0
+    ID: 9
     ColorTrack: 1
     RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
@@ -122,7 +122,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Side Square
     Name: Top Left
-    ID: 0
+    ID: 10
     ColorTrack: 1
     RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
@@ -132,7 +132,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Side Square
     Name: Top Right
-    ID: 0
+    ID: 11
     ColorTrack: 1
     RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
@@ -142,7 +142,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Distant Square
     Name: 'Top '
-    ID: 0
+    ID: 12
     ColorTrack: 1
     RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
@@ -152,7 +152,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Distant Square
     Name: Bottom
-    ID: 0
+    ID: 13
     ColorTrack: 1
     RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
@@ -162,7 +162,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Distant Square
     Name: Left
-    ID: 0
+    ID: 14
     ColorTrack: 1
     RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
@@ -172,7 +172,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Distant Square
     Name: Right
-    ID: 0
+    ID: 15
     ColorTrack: 1
     RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride

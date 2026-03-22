@@ -6,7 +6,7 @@ public class ColorBoostEffect : BasicEventEffect<ColorBoostStateData>, IEffectSt
     private readonly BasicEventStateChunksContainer<ColorBoostStateData> container = new();
     public ColorSchemeSO ColorScheme;
     public bool Boost;
-    
+
     public event Action<bool> OnStateChanged;
 
     public override void Initialize() => InitializeStates(container);
@@ -37,11 +37,11 @@ public class ColorBoostEffect : BasicEventEffect<ColorBoostStateData>, IEffectSt
         HandleInsertState(container, state);
     }
 
-    public override void RemoveData(BaseEvent data, BaseEvent original)
+    public override void RemoveData(BaseEvent reference, BaseEvent original)
     {
-        var state = HandleRemoveState(container, data, original);
+        var state = HandleRemoveState(container, reference, original);
         if (container.CurrentState != state) return;
-        container.SetStateAt(data.SongBpmTime);
+        container.SetStateAt(reference.SongBpmTime);
         UpdateObject(container.CurrentState);
     }
 }

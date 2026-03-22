@@ -99,10 +99,13 @@ public abstract class
     }
 
     public override void RemoveData(
-        TGroup data,
+        TGroup reference,
         TGroup original)
     {
-        foreach (var (groupContainer, _) in GetContainers()) HandleRemoveState(groupContainer, data, original);
+        foreach (var (groupContainer, _) in GetContainers())
+        {
+            HandleRemoveState(groupContainer, reference, original);
+        }
     }
 
     private void RemoveEvents(TGroupState state)

@@ -11,12 +11,23 @@ namespace Beatmap.Base
         {
         }
 
-        protected BaseLightTranslationBase(float time, float translation, int easeType,
-            int usePrevious, JSONNode customData = null) : base(time, customData)
+        protected BaseLightTranslationBase(
+            float time,
+            float translation,
+            int easeType,
+            int usePrevious,
+            JSONNode customData = null) : base(time, customData)
         {
             Translation = translation;
             EaseType = easeType;
             UsePrevious = usePrevious;
+        }
+
+        protected BaseLightTranslationBase(BaseLightTranslationBase other) : base(other.JsonTime, other.CustomData)
+        {
+            Translation = other.Translation;
+            EaseType = other.EaseType;
+            UsePrevious = other.UsePrevious;
         }
 
         public override ObjectType ObjectType { get; set; } = ObjectType.GLSEvent;
@@ -31,16 +42,18 @@ namespace Beatmap.Base
         protected override bool IsConflictingWithObjectAtSameTime(BaseObject other, bool deletion = false)
         {
             if (other is BaseLightTranslationBase lrb)
-                return Math.Abs(Translation - lrb.Translation) < DecimalTolerance ||
-                       EaseType == lrb.EaseType || UsePrevious == lrb.UsePrevious;
+                return Math.Abs(Translation - lrb.Translation) < DecimalTolerance
+                    || EaseType == lrb.EaseType
+                    || UsePrevious == lrb.UsePrevious;
             return false;
         }
 
-        public override JSONNode ToJson() => Settings.Instance.MapVersion switch
-        {
-            3 => V3LightTranslationBase.ToJson(this),
-        };
+        public override JSONNode ToJson() =>
+            Settings.Instance.MapVersion switch
+            {
+                3 => V3LightTranslationBase.ToJson(this),
+            };
 
-        public override BaseItem Clone() => throw new NotImplementedException();
+        public override BaseItem Clone() => new BaseLightTranslationBase(this);
     }
 }

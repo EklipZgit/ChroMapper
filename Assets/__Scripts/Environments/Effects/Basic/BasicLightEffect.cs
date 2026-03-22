@@ -466,14 +466,14 @@ public class BasicLightEffect : BasicEventEffect<BasicLightStateData>
         }
     }
 
-    public override void RemoveData(BaseEvent data, BaseEvent original)
+    public override void RemoveData(BaseEvent reference, BaseEvent original)
     {
         switch (original.Value)
         {
             case >= ColourManager.RgbintOffset when Settings.Instance.EmulateChromaLite:
             case ColourManager.RGBReset when Settings.Instance.EmulateChromaLite:
                 {
-                    var d = chromaLiteData.Find(d => d.Base == data);
+                    var d = chromaLiteData.Find(d => d.Base == reference);
                     chromaLiteData.Remove(d);
                     UpdateExistingWithChromaLite(original.SongBpmTime);
                     return;
@@ -482,7 +482,7 @@ public class BasicLightEffect : BasicEventEffect<BasicLightStateData>
 
         if (original.CustomLightGradient != null && Settings.Instance.EmulateChromaLite)
         {
-            var d = chromaGradientData.Find(d => d.Base == data);
+            var d = chromaGradientData.Find(d => d.Base == reference);
             chromaGradientData.Remove(d);
             UpdateExistingWithChromaGradient(
                 original.SongBpmTime,
@@ -496,11 +496,11 @@ public class BasicLightEffect : BasicEventEffect<BasicLightStateData>
         foreach (var lightingObject in affectedLights)
         {
             var (tween, container) = controllerToContainer[lightingObject];
-            HandleRemoveState(container, data, original);
+            HandleRemoveState(container, reference, original);
 
             // unfortunately, we cannot do the same as insertion so we need to search
             var (_, _, previousState) = container.GetStateAt(Atsc.CurrentSongBpmTime);
-            if (!previousState.IsWithinRange(data.SongBpmTime)) continue;
+            if (!previousState.IsWithinRange(reference.SongBpmTime)) continue;
             container.SetStateAt(Atsc.CurrentSongBpmTime);
             UpdateObject(tween, container.CurrentState);
         }

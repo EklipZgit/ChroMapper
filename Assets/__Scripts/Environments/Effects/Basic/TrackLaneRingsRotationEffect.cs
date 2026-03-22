@@ -79,14 +79,14 @@ public class TrackLaneRingsRotationEffect : BasicEventEffect<TrackLaneRingsRotat
         TrackLaneRingsRotationStateData nextStateData) =>
         nextStateData.RotationInitial += currStateData.RotationChange;
 
-    public override void RemoveData(BaseEvent data, BaseEvent original)
+    public override void RemoveData(BaseEvent reference, BaseEvent original)
     {
-        var state = container.GetStateFrom(data, original);
+        var state = container.GetStateFrom(reference, original);
         HandleRemoveUpdateConsequentStateFrom(container, state);
         HandleRemoveState(container, state);
 
         if (container.CurrentState != state) return;
-        container.SetStateAt(data.SongBpmTime);
+        container.SetStateAt(reference.SongBpmTime);
         UpdateObject(container.CurrentState);
     }
 

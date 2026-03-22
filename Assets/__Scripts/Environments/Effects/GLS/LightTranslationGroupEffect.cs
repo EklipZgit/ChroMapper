@@ -92,8 +92,9 @@ public class
     {
         foreach (var container in idToContainer.Values)
         {
-            // if (!container.EventContainer.IsCurrentOrFindState(time, isPlaying)) UpdateObject(container);
-            // if (!container.Tween.UpdateTime(time)) continue;
+            container.EventContainer.SetStateAt(Atsc.CurrentSongBpmTime);
+            UpdateObject(container);
+            container.Tween.UpdateTime(Atsc.CurrentSongBpmTime);
             SetTranslation(container);
         }
     }

@@ -1,0 +1,42 @@
+﻿using Beatmap.Appearances;
+using Beatmap.Base;
+using Beatmap.Containers;
+using UnityEngine;
+
+public abstract class GLSGroupGridContainer<TGroup> : BeatmapObjectContainerCollection<TGroup> where TGroup : BaseEventBoxGroup
+{
+    [SerializeField] private GLSGroupGridProvider glsGroupGridProvider;
+    [SerializeField] private EventGridContainer eventGridContainer;
+
+    [SerializeField] private GameObject eventPrefab;
+    [SerializeField] private GLSEventAppearanceSO glsEventAppearance;
+
+    internal override void SubscribeToCallbacks() => BeatmapContext.Atsc.OnPlayToggled += HandlePlayToggle;
+    internal override void UnsubscribeToCallbacks() => BeatmapContext.Atsc.OnPlayToggled -= HandlePlayToggle;
+
+    private void HandlePlayToggle(bool playing)
+    {
+        if (!playing) RefreshPool();
+    }
+
+    public override ObjectContainer CreateContainer() =>
+        GLSGroupContainer.SpawnGLSGroup(
+            null,
+            BeatmapContext.TracksDefinition,
+            ref eventPrefab);
+
+    protected override void UpdateContainerData(ObjectContainer con, BaseObject obj)
+    {
+        var e = obj as BaseEventBoxGroup;
+        con.transform.SetParent(
+            glsGroupGridProvider.Tracks.TryGetValue(e.ID, out var track)
+                ? track.Track.ObjectParentTransform
+                : TargetTransform,
+            false);
+        con.UpdateGridPosition();
+        glsEventAppearance.SetAppearance(
+            con as GLSGroupContainer,
+            true,
+            eventGridContainer.AllBoostEvents.FindLast(x => x.JsonTime <= obj.JsonTime)?.Value == 1);
+    }
+}

@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
+using Beatmap.Enums;
 using Beatmap.V3;
 using SimpleJSON;
 
@@ -6,6 +8,8 @@ namespace Beatmap.Base
 {
     public class BaseLightRotationEventBoxGroup : BaseEventBoxGroup<BaseLightRotationEventBox>
     {
+        public override ObjectType ObjectType { get; set; } = ObjectType.GLSRotation;
+
         public BaseLightRotationEventBoxGroup()
         {
         }
@@ -15,6 +19,13 @@ namespace Beatmap.Base
             int id,
             List<BaseLightRotationEventBox> boxes,
             JSONNode customData = null) : base(time, id, boxes, customData)
+        {
+        }
+
+        protected BaseLightRotationEventBoxGroup(BaseLightRotationEventBoxGroup other) : base(
+            other.JsonTime,
+            other.ID,
+            other.Boxes.Select(x => x.Clone()).Cast<BaseLightRotationEventBox>().ToList())
         {
         }
 
@@ -28,6 +39,6 @@ namespace Beatmap.Base
                 3 => V3LightRotationEventBoxGroup.ToJson(this),
             };
 
-        public override BaseItem Clone() => throw new System.NotImplementedException();
+        public override BaseItem Clone() => new BaseLightRotationEventBoxGroup(this);
     }
 }

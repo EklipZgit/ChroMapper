@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Beatmap.Enums;
 using SimpleJSON;
 
 namespace Beatmap.Base
@@ -15,7 +14,6 @@ namespace Beatmap.Base
             customData) =>
             ID = id;
 
-        public override ObjectType ObjectType { get; set; } = ObjectType.GLSGroup;
         public int ID { get; set; }
     }
 

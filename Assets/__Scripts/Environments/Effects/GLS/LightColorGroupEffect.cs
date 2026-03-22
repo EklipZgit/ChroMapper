@@ -103,9 +103,9 @@ public class
     {
         foreach (var container in activeContainers)
         {
-            // if (!container.EventContainer.IsCurrentOrFindState(Atsc.CurrentSongBpmTime, isPlaying))
-            //     UpdateObject(container);
-            // container.Tween.UpdateTime(Atsc.CurrentSongBpmTime);
+            container.EventContainer.SetStateAt(Atsc.CurrentSongBpmTime);
+            UpdateObject(container);
+            container.Tween.UpdateTime(Atsc.CurrentSongBpmTime);
             foreach (var controller in container.Lights) controller.SetColor(container.Tween.Color);
         }
     }

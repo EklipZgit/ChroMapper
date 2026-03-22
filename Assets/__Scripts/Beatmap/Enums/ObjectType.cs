@@ -14,7 +14,10 @@ namespace Beatmap.Enums
         Waypoint,
         NJSEvent,
         EnvironmentEnhancement,
-        GLSGroup,
+        GLSColor,
+        GLSRotation,
+        GLSTranslation,
+        GLSFloatFx,
         GLSEvent
     }
 }

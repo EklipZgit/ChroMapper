@@ -1048,11 +1048,11 @@ namespace Beatmap.V4
                 TransitionType = node["p"].AsInt, Easing = node["e"].AsInt, Value = node["v"].AsFloat,
             };
 
-            public static FloatFxEvent FromFloatFxEventBase(FloatFxEventBase floatFxEvent) => new()
+            public static FloatFxEvent FromFloatFxEventBase(BaseFxEventFloat baseFxEventFloat) => new()
             {
-                TransitionType = floatFxEvent.UsePrevious,
-                Value = floatFxEvent.Value,
-                Easing = floatFxEvent.Easing
+                TransitionType = baseFxEventFloat.UsePrevious,
+                Value = baseFxEventFloat.Value,
+                Easing = baseFxEventFloat.Easing
             };
 
             public JSONNode ToJson()

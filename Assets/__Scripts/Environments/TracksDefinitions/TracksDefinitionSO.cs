@@ -20,7 +20,7 @@ public class TracksDefinitionSO : ScriptableObject
     public void Initialize()
     {
         Basic = basicEntries.ToDictionary(x => x.Type, x => x);
-        Gls = glsEntries.Select((x, i) => (i, x)).ToDictionary(x => x.i, x => x.x);
+        Gls = glsEntries.Select((x, i) => (i, x)).ToDictionary(x => x.x.ID, x => x.x);
     }
 
     public TrackDefinitionBasic GetBasicOrDefault(int type) => Basic.GetValueOrDefault(type, DefaultBasic);

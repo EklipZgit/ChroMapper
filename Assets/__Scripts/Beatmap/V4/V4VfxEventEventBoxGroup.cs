@@ -46,7 +46,7 @@ namespace Beatmap.V4
                         {
                             var eventNode = y.Value;
                         
-                            var evt = new FloatFxEventBase();
+                            var evt = new BaseFxEventFloat();
                             evt.JsonTime = eventNode["b"].AsFloat;
 
                             var eventIndex = eventNode["i"].AsInt;

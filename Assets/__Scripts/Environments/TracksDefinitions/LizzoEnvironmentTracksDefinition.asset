@@ -71,7 +71,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Main
     Name: Top Lasers
-    ID: 0
+    ID: 10
     ColorTrack: 1
     RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
@@ -81,7 +81,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Main
     Name: Left Lasers
-    ID: 0
+    ID: 15
     ColorTrack: 1
     RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
@@ -91,7 +91,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Main
     Name: Right Lasers
-    ID: 0
+    ID: 16
     ColorTrack: 1
     RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
@@ -101,7 +101,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Rainbow arcs
     Name: Inner
-    ID: 0
+    ID: 1
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -111,7 +111,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Rainbow arcs
     Name: 2
-    ID: 0
+    ID: 2
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -121,7 +121,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Rainbow arcs
     Name: 3
-    ID: 0
+    ID: 3
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -131,7 +131,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Rainbow arcs
     Name: 4
-    ID: 0
+    ID: 4
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -141,7 +141,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Rainbow arcs
     Name: Outer
-    ID: 0
+    ID: 5
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -151,7 +151,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Rainbow arcs
     Name: Lasers
-    ID: 0
+    ID: 19
     ColorTrack: 1
     RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
@@ -161,7 +161,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Rainbow Rings
     Name: Lasers Left
-    ID: 0
+    ID: 8
     ColorTrack: 1
     RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
@@ -171,7 +171,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Rainbow Rings
     Name: Lasers Right
-    ID: 0
+    ID: 9
     ColorTrack: 1
     RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
@@ -181,7 +181,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Rainbow Rings
     Name: Ring Left
-    ID: 0
+    ID: 6
     ColorTrack: 0
     RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
@@ -191,7 +191,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Rainbow Rings
     Name: Ring Right
-    ID: 0
+    ID: 7
     ColorTrack: 0
     RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
@@ -201,7 +201,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Environment
     Name: Stands Left
-    ID: 0
+    ID: 11
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -211,7 +211,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Environment
     Name: Stands Right
-    ID: 0
+    ID: 12
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -221,7 +221,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Environment
     Name: Stand Lasers Left
-    ID: 0
+    ID: 17
     ColorTrack: 1
     RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
@@ -231,7 +231,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Environment
     Name: Stand Lasers Right
-    ID: 0
+    ID: 18
     ColorTrack: 1
     RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
@@ -241,7 +241,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Environment
     Name: Clouds Left
-    ID: 0
+    ID: 13
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -251,7 +251,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Environment
     Name: Clouds Right
-    ID: 0
+    ID: 14
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride

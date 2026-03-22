@@ -25,9 +25,9 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
 
     public event Action<BaseObject> OnContainerSpawned;
     public event Action<BaseObject> OnContainerDespawned;
-    public BeatmapRuntimeContext BeatmapContext;
+
+    [Header("Dependencies")] public BeatmapRuntimeContext BeatmapContext;
     public EditModeContext EditContext;
-    public Transform TargetTransform;
 
     /// <summary>
     ///     Loaded objects in this collection.
@@ -39,7 +39,9 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
     public BeatmapObjectCallbackController SpawnCallbackController;
     public BeatmapObjectCallbackController DespawnCallbackController;
 
-    public bool UseChunkLoadingWhenPlaying;
+    public Transform TargetTransform;
+
+    [Header("Chunk Loading")] public bool UseChunkLoadingWhenPlaying;
     public int ChunksLoadedWhilePlaying = 2;
     public bool IgnoreTrackFilter;
 
@@ -147,17 +149,15 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
             Type t when t == typeof(BaseBookmark) => ObjectType.Bookmark,
             Type t when t == typeof(BaseNJSEvent) => ObjectType.NJSEvent,
             Type t when t == typeof(BaseEnvironmentEnhancement) => ObjectType.EnvironmentEnhancement,
-            Type t when t == typeof(BaseEventBoxGroup) => ObjectType.GLSGroup,
-            // fallback in case it couldnt recognise contra
-            Type t when t == typeof(BaseLightColorEventBoxGroup) => ObjectType.GLSGroup,
-            Type t when t == typeof(BaseLightRotationEventBoxGroup) => ObjectType.GLSGroup,
-            Type t when t == typeof(BaseLightTranslationEventBoxGroup) => ObjectType.GLSGroup,
-            Type t when t == typeof(BaseVfxEventEventBoxGroup) => ObjectType.GLSGroup,
+            Type t when t == typeof(BaseLightColorEventBoxGroup) => ObjectType.GLSColor,
+            Type t when t == typeof(BaseLightRotationEventBoxGroup) => ObjectType.GLSRotation,
+            Type t when t == typeof(BaseLightTranslationEventBoxGroup) => ObjectType.GLSTranslation,
+            Type t when t == typeof(BaseVfxEventEventBoxGroup) => ObjectType.GLSFloatFx,
             // imma be honest, idk if this actually ever needed
             Type t when t == typeof(BaseLightColorBase) => ObjectType.GLSEvent,
             Type t when t == typeof(BaseLightRotationBase) => ObjectType.GLSEvent,
             Type t when t == typeof(BaseLightTranslationBase) => ObjectType.GLSEvent,
-            Type t when t == typeof(FloatFxEventBase) => ObjectType.GLSEvent,
+            Type t when t == typeof(BaseFxEventFloat) => ObjectType.GLSEvent,
             _ => throw new ArgumentException(nameof(TBaseObject))
         };
 

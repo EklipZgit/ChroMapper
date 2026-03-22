@@ -31,6 +31,17 @@ namespace Beatmap.Base
             StrobeFade = strobeFade;
         }
 
+        protected BaseLightColorBase(BaseLightColorBase other) : base(other.JsonTime, other.CustomData)
+        {
+            Color = other.Color;
+            Brightness = other.Brightness;
+            Easing = other.Easing;
+            UsePrevious = other.UsePrevious;
+            Frequency = other.Frequency;
+            StrobeBrightness = other.StrobeBrightness;
+            StrobeFade = other.StrobeFade;
+        }
+
         public override ObjectType ObjectType { get; set; } = ObjectType.GLSEvent;
         public int Color { get; set; }
         public float Brightness { get; set; }
@@ -61,6 +72,6 @@ namespace Beatmap.Base
                 3 => V3LightColorBase.ToJson(this),
             };
 
-        public override BaseItem Clone() => throw new NotImplementedException();
+        public override BaseItem Clone() => new BaseLightColorBase(this);
     }
 }
