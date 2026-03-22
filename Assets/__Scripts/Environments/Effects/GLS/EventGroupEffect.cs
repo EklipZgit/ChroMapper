@@ -102,9 +102,19 @@ public abstract class
         TGroup reference,
         TGroup original)
     {
-        foreach (var (groupContainer, _) in GetContainers())
+        var taken = new HashSet<(Axis, int)>();
+        foreach (var box in original.Boxes.Where(b => GetEventCount(b) > 0))
         {
-            HandleRemoveState(groupContainer, reference, original);
+            var indexFilter = IndexFilterHelper.Convert(box.IndexFilter, Count);
+            foreach (var (element, _, _) in indexFilter)
+            {
+                var axis = GetAxis(box);
+                var key = (axis, element);
+                var container = GetGroupContainer(key);
+                if (!taken.Add(key) || container is null) continue;
+
+                HandleRemoveState(container, reference, original);
+            }
         }
     }
 
