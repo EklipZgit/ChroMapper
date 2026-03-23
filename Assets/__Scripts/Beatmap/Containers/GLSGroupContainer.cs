@@ -51,11 +51,9 @@ namespace Beatmap.Containers
 
         public override void UpdateGridPosition()
         {
-            transform.localPosition = new Vector3(
-                GetPositionFromTrackDefinition() + 0.5f,
-                0.5f,
-                EventBoxGroupData.SongBpmTime * EditorScaleController.EditorScale
-            );
+            var pos = transform.localPosition;
+            pos.z = EventBoxGroupData.SongBpmTime * EditorScaleController.EditorScale;
+            transform.localPosition = pos;
             UpdateCollisionGroups();
         }
 
@@ -70,30 +68,30 @@ namespace Beatmap.Containers
         }
 
 
-        public float GetPositionFromTrackDefinition()
+        public static float GetPositionFromTrackDefinition(TracksDefinitionSO tracksDefinition, BaseEventBoxGroup data)
         {
-            var track = TracksDefinition.GetGlsOrDefault(EventBoxGroupData.ID);
+            var track = tracksDefinition.GetGlsOrDefault(data.ID);
 
             var offset = 0f;
             if (track.ColorTrack)
             {
-                if (EventBoxGroupData is BaseLightColorEventBoxGroup) return offset;
+                if (data is BaseLightColorEventBoxGroup) return offset;
                 offset++;
             }
 
             if (track.RotationTracks.Any(x => x))
             {
-                if (EventBoxGroupData is BaseLightRotationEventBoxGroup) return offset;
+                if (data is BaseLightRotationEventBoxGroup) return offset;
                 offset++;
             }
 
             if (track.TranslationTracks.Any(x => x))
             {
-                if (EventBoxGroupData is BaseLightTranslationEventBoxGroup) return offset;
+                if (data is BaseLightTranslationEventBoxGroup) return offset;
                 offset++;
             }
 
-            if (track.FloatFXTrack && EventBoxGroupData is BaseVfxEventEventBoxGroup) return offset;
+            if (track.FloatFXTrack && data is BaseVfxEventEventBoxGroup) return offset;
 
             return -1f;
         }

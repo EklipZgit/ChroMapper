@@ -3,7 +3,8 @@ using Beatmap.Base;
 using Beatmap.Containers;
 using UnityEngine;
 
-public abstract class GLSGroupGridContainer<TGroup> : BeatmapObjectContainerCollection<TGroup> where TGroup : BaseEventBoxGroup
+public abstract class GLSGroupGridContainer<TGroup> : BeatmapObjectContainerCollection<TGroup>
+    where TGroup : BaseEventBoxGroup
 {
     [SerializeField] private GLSGroupGridProvider glsGroupGridProvider;
     [SerializeField] private EventGridContainer eventGridContainer;
@@ -33,7 +34,12 @@ public abstract class GLSGroupGridContainer<TGroup> : BeatmapObjectContainerColl
                 ? track.Track.ObjectParentTransform
                 : TargetTransform,
             false);
-        con.UpdateGridPosition();
+
+        var pos = con.transform.localPosition;
+        pos.x = 0.5f + GLSGroupContainer.GetPositionFromTrackDefinition(BeatmapContext.TracksDefinition, e);
+        pos.y = 0.5f;
+        con.transform.localPosition = pos;
+
         glsEventAppearance.SetAppearance(
             con as GLSGroupContainer,
             true,

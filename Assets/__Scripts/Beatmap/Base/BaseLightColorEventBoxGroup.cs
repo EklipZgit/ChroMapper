@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Beatmap.Enums;
 using Beatmap.V3;
+using Beatmap.V4;
 using SimpleJSON;
 
 namespace Beatmap.Base
@@ -32,7 +33,7 @@ namespace Beatmap.Base
         public override JSONNode ToJson() =>
             Settings.Instance.MapVersion switch
             {
-                3 => V3LightColorEventBoxGroup.ToJson(this),
+                3 or 4 => V3LightColorEventBoxGroup.ToJson(this)
             };
 
         public override BaseItem Clone() => new BaseLightColorEventBoxGroup(this);

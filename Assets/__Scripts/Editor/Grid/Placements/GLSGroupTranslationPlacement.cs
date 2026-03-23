@@ -1,10 +1,39 @@
 ﻿using System.Linq;
 using Beatmap.Base;
+using UnityEngine;
 
 public class
     GLSGroupTranslationPlacement : GLSGroupPlacement<BaseLightTranslationEventBoxGroup,
     GLSGroupTranslationGridContainer>
 {
+    [SerializeField] private GLSTranslationPlacementInput placementInput;
+    [SerializeField] private EasingsSelectionInput easingInput;
+
+    public override void Start()
+    {
+        base.Start();
+        placementInput.OnValueChanged += HandleValueChanged;
+        easingInput.OnEasingChanged += HandleEasingChanged;
+    }
+
+    public void OnDestroy()
+    {
+        placementInput.OnValueChanged -= HandleValueChanged;
+        easingInput.OnEasingChanged -= HandleEasingChanged;
+    }
+
+    private void HandleValueChanged(float value)
+    {
+        QueuedData.Boxes[0].Events[0].Translation = value;
+        glsEventAppearance.SetAppearance(PlacementVisualContainer, false);
+    }
+
+    private void HandleEasingChanged(int value)
+    {
+        QueuedData.Boxes[0].Events[0].EaseType = value;
+        glsEventAppearance.SetAppearance(PlacementVisualContainer, false);
+    }
+
     public override bool CanPlace => base.CanPlace && GlsEventTrack.TrackDefinition.TranslationTracks.Any(x => x);
 
     protected override BaseLightTranslationEventBoxGroup GenerateOriginalData() =>

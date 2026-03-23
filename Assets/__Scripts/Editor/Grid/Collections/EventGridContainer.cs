@@ -58,7 +58,6 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
         }
     }
 
-    private EnvironmentDescriptor descriptor;
     public Dictionary<int, BasicLightEffect> TypeToManager = new();
     private PropMode propagationEditing = PropMode.Off;
 
@@ -145,7 +144,6 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
 
     private void HandleEnvironmentLoaded(EnvironmentDescriptor descriptor)
     {
-        this.descriptor = descriptor;
         TypeToManager = descriptor
             .BasicEventEffectManager.GetEffects<BasicLightEffect>()
             .ToDictionary(x => x.type, x => x.effect);

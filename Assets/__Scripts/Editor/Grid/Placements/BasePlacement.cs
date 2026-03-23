@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Beatmap.Animations;
 using Beatmap.Base;
 using Beatmap.Containers;
@@ -99,7 +100,6 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
     where TCollection : BeatmapObjectContainerCollection
 {
     [Header("Data")] public TCollection ObjectContainerCollection;
-    public TObject ObjectData;
 
     public TContainer PlacementVisualContainer;
 
@@ -130,7 +130,6 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
         CreateVisual();
         HideVisual();
         QueuedData ??= GenerateOriginalData();
-        ObjectData = QueuedData;
     }
 
     public override void UpdateState(
@@ -235,7 +234,7 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
     public virtual void CreateVisual()
     {
         if (PlacementVisualContainer != null) return;
-        
+
         PlacementVisualContainer = Instantiate(
                 ObjectContainerPrefab,
                 PlacementTrack)
@@ -279,9 +278,8 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
 
     public virtual void HandleApply()
     {
-        ObjectData = QueuedData;
-        ObjectContainerCollection.SpawnObject(ObjectData, out var conflicting);
-        BeatmapActionContainer.AddAction(GenerateAction(ObjectData, conflicting));
+        ObjectContainerCollection.SpawnObject(QueuedData, out var conflicting);
+        BeatmapActionContainer.AddAction(GenerateAction(QueuedData, conflicting));
         QueuedData = BeatmapFactory.Clone(QueuedData);
         QueuedData.CustomData = null;
     }

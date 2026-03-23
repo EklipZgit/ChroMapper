@@ -64,7 +64,7 @@ namespace Beatmap.Base
         public override JSONNode ToJson() =>
             Settings.Instance.MapVersion switch
             {
-                3 => V3LightColorEventBox.ToJson(this),
+                3 or 4 => V3LightColorEventBox.ToJson(this),
             };
 
         public override BaseItem Clone() => new BaseLightColorEventBox(this);

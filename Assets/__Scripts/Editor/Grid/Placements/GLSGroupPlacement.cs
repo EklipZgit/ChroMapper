@@ -9,7 +9,7 @@ public abstract class GLSGroupPlacement<TGroup, TCollection> : BasePlacement<TGr
 {
     [SerializeField] public GLSEventTrack GlsEventTrack;
 
-    [SerializeField] private GLSEventAppearanceSO glsEventAppearance;
+    [SerializeField] protected GLSEventAppearanceSO glsEventAppearance;
     [SerializeField] private BeatmapRuntimeContext context;
 
     public override bool CanPlace => base.CanPlace && IsInPosition();
@@ -22,21 +22,32 @@ public abstract class GLSGroupPlacement<TGroup, TCollection> : BasePlacement<TGr
         base.Initialize(provider);
         GlsEventTrack = provider.GetComponent<GLSEventTrack>();
         PlacementTrack = GlsEventTrack.Track.ObjectParentTransform;
-        PlacementVisualContainer.TracksDefinition = context.TracksDefinition;
+        QueuedData.ID = GlsEventTrack.TrackDefinition.ID;
+        PlacementVisualContainer.ObjectData = QueuedData;
         PlacementVisualContainer.transform.SetParent(PlacementTrack, false);
-        PlacementVisualContainer.EventBoxGroupData = QueuedData;
-        PlacementVisualContainer.EventBoxGroupData.ID = GlsEventTrack.TrackDefinition.ID;
         PlacementVisualContainer.SafeSetActive(CanPlace);
     }
-    
-    protected override void HandlePlacementToData(PlacementInputState inputState)
-    {
+
+    protected override void HandlePlacementToData(PlacementInputState inputState) =>
         PlacementVisualContainer.SafeSetActive(CanPlace);
-        glsEventAppearance.SetAppearance(PlacementVisualContainer, false);
-    }
-    
+
     protected bool IsInPosition() =>
         Mathf.Approximately(
             Mathf.Floor(PlacementVisualContainer.transform.localPosition.x),
-            PlacementVisualContainer.GetPositionFromTrackDefinition());
+            GLSGroupContainer.GetPositionFromTrackDefinition(context.TracksDefinition, QueuedData));
+
+    public override void HandleApply()
+    {
+        base.HandleApply();
+        PlacementVisualContainer.ObjectData = QueuedData;
+    }
+
+    public override void FinishDrag()
+    {
+        base.FinishDrag();
+        PlacementVisualContainer.ObjectData = QueuedData;
+    }
+
+    protected override void TransferQueuedToDraggedObject(ref TGroup dragged, TGroup queued) =>
+        dragged.JsonTime = queued.JsonTime;
 }
