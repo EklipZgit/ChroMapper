@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class GLSGroupFloatFXPlacement : GLSGroupPlacement<BaseVfxEventEventBoxGroup, GLSGroupFloatFXGridContainer>
 {
-    [SerializeField] private GLSFloatFXPlacementInput placementInput;
-    [SerializeField] private EasingsSelectionInput easingInput;
+    [SerializeField] private BeatmapGLSFloatFXPlacementInput placementInput;
+    [SerializeField] private BeatmapEasingsSelectionInput easingInput;
 
     public override void Start()
     {

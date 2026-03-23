@@ -6,8 +6,8 @@ public class
     GLSGroupTranslationPlacement : GLSGroupPlacement<BaseLightTranslationEventBoxGroup,
     GLSGroupTranslationGridContainer>
 {
-    [SerializeField] private GLSTranslationPlacementInput placementInput;
-    [SerializeField] private EasingsSelectionInput easingInput;
+    [SerializeField] private BeatmapGLSTranslationPlacementInput placementInput;
+    [SerializeField] private BeatmapEasingsSelectionInput easingInput;
 
     public override void Start()
     {

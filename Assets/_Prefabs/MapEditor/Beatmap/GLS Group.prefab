@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4108609160957664}
   - component: {fileID: -4102429193922719766}
   m_Layer: 9
-  m_Name: GLS Event
+  m_Name: GLS Group
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

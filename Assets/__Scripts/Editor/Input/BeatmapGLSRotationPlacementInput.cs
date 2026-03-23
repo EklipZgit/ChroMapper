@@ -2,11 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Beatmap.Containers;
 using Beatmap.Enums;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class GLSRotationPlacementInput : MonoBehaviour, CMInput.IGLSRotationPlacementActions
+public class BeatmapGLSRotationPlacementInput : BeatmapInputController<GLSGroupContainer>, CMInput.IGLSRotationPlacementActions
 {
     public event Action<float> OnValueChanged;
     public event Action<float> OnValueDeltaChanged;

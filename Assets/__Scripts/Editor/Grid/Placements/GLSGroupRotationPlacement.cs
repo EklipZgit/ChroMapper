@@ -5,8 +5,8 @@ using UnityEngine;
 public class
     GLSGroupRotationPlacement : GLSGroupPlacement<BaseLightRotationEventBoxGroup, GLSGroupRotationGridContainer>
 {
-    [SerializeField] private GLSRotationPlacementInput placementInput;
-    [SerializeField] private EasingsSelectionInput easingInput;
+    [SerializeField] private BeatmapGLSRotationPlacementInput placementInput;
+    [SerializeField] private BeatmapEasingsSelectionInput easingInput;
 
     public override void Start()
     {

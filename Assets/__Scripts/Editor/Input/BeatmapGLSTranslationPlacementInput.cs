@@ -1,8 +1,9 @@
 ﻿using System;
+using Beatmap.Containers;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class GLSFloatFXPlacementInput : MonoBehaviour, CMInput.IGLSFloatFXPlacementActions
+public class BeatmapGLSTranslationPlacementInput : BeatmapInputController<GLSGroupContainer>, CMInput.IGLSTranslationPlacementActions
 {
     public event Action<float> OnValueChanged;
     public event Action<float> OnValueDeltaChanged;

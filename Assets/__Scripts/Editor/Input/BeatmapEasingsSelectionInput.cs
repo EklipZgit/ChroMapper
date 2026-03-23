@@ -3,7 +3,7 @@ using Beatmap.Enums;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class EasingsSelectionInput : MonoBehaviour, CMInput.IEasingsSelectionActions
+public class BeatmapEasingsSelectionInput : MonoBehaviour, CMInput.IEasingsSelectionActions
 {
     public event Action<int> OnEasingChanged;
 

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class GLSGroupColorPlacement : GLSGroupPlacement<BaseLightColorEventBoxGroup, GLSGroupColorGridContainer>
 {
-    [SerializeField] private GLSColorPlacementInput placementInput;
+    [SerializeField] private BeatmapGLSColorPlacementInput placementInput;
 
     public override void Start()
     {

@@ -1,9 +1,10 @@
 ﻿using System;
+using Beatmap.Containers;
 using Beatmap.Enums;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class GLSColorPlacementInput : MonoBehaviour, CMInput.IGLSColorPlacementActions
+public class BeatmapGLSColorPlacementInput : BeatmapInputController<GLSGroupContainer>, CMInput.IGLSColorPlacementActions
 {
     public event Action<int> OnColorChanged;
     public event Action<bool> OnExtensionPerformed;

@@ -26,6 +26,7 @@ public abstract class GLSGroupPlacement<TGroup, TCollection> : BasePlacement<TGr
         PlacementVisualContainer.EventBoxGroupData = QueuedData;
         PlacementVisualContainer.transform.SetParent(PlacementTrack, false);
         PlacementVisualContainer.SafeSetActive(CanPlace);
+        glsEventAppearance.SetAppearance(PlacementVisualContainer, false);
     }
 
     protected override void HandlePlacementToData(PlacementInputState inputState) =>
