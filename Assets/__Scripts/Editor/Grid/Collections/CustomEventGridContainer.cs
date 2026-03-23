@@ -34,7 +34,7 @@ public class CustomEventGridContainer : BeatmapObjectContainerCollection<BaseCus
         if (!Settings.Instance.AdvancedShit)
         {
             Debug.LogWarning("Disabling some objects since an Advanced setting is not enabled...");
-            gridChild.gameObject.SetActive(false);
+            gridChild.Hide = true;
         }
     }
 
@@ -44,10 +44,7 @@ public class CustomEventGridContainer : BeatmapObjectContainerCollection<BaseCus
 
         var span = MapObjects.AsSpan();
 
-        foreach (var ev in span)
-        {
-            AddCustomEvent(ev);
-        }
+        foreach (var ev in span) AddCustomEvent(ev);
     }
 
     public void OnAssignObjectstoTrack(InputAction.CallbackContext context)
@@ -190,12 +187,10 @@ public class CustomEventGridContainer : BeatmapObjectContainerCollection<BaseCus
     private void RefreshTrack()
     {
         if (customEventTypes.Count == 0)
-        {
-            gridChild.gameObject.SetActive(false);
-        }
+            gridChild.Hide = true;
         else
         {
-            gridChild.gameObject.SetActive(true);
+            gridChild.Hide = false;
             gridChild.Lane = customEventTypes.Count;
         }
 
@@ -290,6 +285,7 @@ public class CustomEventGridContainer : BeatmapObjectContainerCollection<BaseCus
 
     public override ObjectContainer CreateContainer() =>
         CustomEventContainer.SpawnCustomEvent(null, this, ref customEventPrefab);
-    
-    protected override void UpdateContainerData(ObjectContainer con, BaseObject obj) => con.transform.localScale = Vector3.one * 0.75f;
+
+    protected override void UpdateContainerData(ObjectContainer con, BaseObject obj) =>
+        con.transform.localScale = Vector3.one * 0.75f;
 }

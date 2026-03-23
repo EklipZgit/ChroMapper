@@ -1,17 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Beatmap.Containers;
-using Beatmap.Enums;
 using SimpleJSON;
 using TMPro;
 using UnityEngine;
 
 public class CreateEventTypeLabels : MonoBehaviour
 {
-    public Material AvailableMaterial;
-    public Material UtilityMaterial;
-    public Material RedMaterial;
     public GameObject LabelPrefab;
     [SerializeField] private BeatmapRuntimeContext context;
     [SerializeField] private Transform target;
@@ -55,7 +50,6 @@ public class CreateEventTypeLabels : MonoBehaviour
                 {
                     var textMesh = instantiate.GetComponentInChildren<TextMeshProUGUI>();
                     textMesh.text = entries[i].Value.Name;
-                    textMesh.fontSharedMaterial = UtilityMaterial;
                 }
                 catch { }
             }
@@ -74,18 +68,9 @@ public class CreateEventTypeLabels : MonoBehaviour
                 try
                 {
                     var textMesh = instantiate.GetComponentInChildren<TextMeshProUGUI>();
-                    textMesh.fontSharedMaterial = UtilityMaterial;
-                    if (i == 0)
-                    {
-                        textMesh.text = "All Lights";
-                        textMesh.fontSharedMaterial = RedMaterial;
-                    }
-                    else
-                    {
-                        textMesh.text =
-                            $"{context.TracksDefinition.GetBasicOrDefault(eventType).Name} ID {LaneToLightID(eventType, i - 1)}";
-                        textMesh.fontSharedMaterial = i % 2 == 0 ? UtilityMaterial : AvailableMaterial;
-                    }
+                    textMesh.text = i == 0
+                        ? "All Lights"
+                        : $"{context.TracksDefinition.GetBasicOrDefault(eventType).Name} ID {LaneToLightID(eventType, i - 1)}";
                 }
                 catch { }
             }
