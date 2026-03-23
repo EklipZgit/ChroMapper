@@ -23,7 +23,7 @@ public abstract class GLSGroupPlacement<TGroup, TCollection> : BasePlacement<TGr
         GlsEventTrack = provider.GetComponent<GLSEventTrack>();
         PlacementTrack = GlsEventTrack.Track.ObjectParentTransform;
         QueuedData.ID = GlsEventTrack.TrackDefinition.ID;
-        PlacementVisualContainer.ObjectData = QueuedData;
+        PlacementVisualContainer.EventBoxGroupData = QueuedData;
         PlacementVisualContainer.transform.SetParent(PlacementTrack, false);
         PlacementVisualContainer.SafeSetActive(CanPlace);
     }
@@ -39,13 +39,13 @@ public abstract class GLSGroupPlacement<TGroup, TCollection> : BasePlacement<TGr
     public override void HandleApply()
     {
         base.HandleApply();
-        PlacementVisualContainer.ObjectData = QueuedData;
+        PlacementVisualContainer.EventBoxGroupData = QueuedData;
     }
 
     public override void FinishDrag()
     {
         base.FinishDrag();
-        PlacementVisualContainer.ObjectData = QueuedData;
+        PlacementVisualContainer.EventBoxGroupData = QueuedData;
     }
 
     protected override void TransferQueuedToDraggedObject(ref TGroup dragged, TGroup queued) =>

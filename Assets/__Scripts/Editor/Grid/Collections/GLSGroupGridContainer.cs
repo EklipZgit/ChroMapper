@@ -12,8 +12,16 @@ public abstract class GLSGroupGridContainer<TGroup> : BeatmapObjectContainerColl
     [SerializeField] private GameObject eventPrefab;
     [SerializeField] private GLSEventAppearanceSO glsEventAppearance;
 
+    [SerializeField] private CountersPlusController countersPlus;
+
     internal override void SubscribeToCallbacks() => BeatmapContext.Atsc.OnPlayToggled += HandlePlayToggle;
     internal override void UnsubscribeToCallbacks() => BeatmapContext.Atsc.OnPlayToggled -= HandlePlayToggle;
+
+    protected override void HandleObjectDelete(BaseObject obj, bool inCollection = false) =>
+        countersPlus.UpdateStatistic(CountersPlusStatistic.GLSEvents);
+
+    protected override void HandleObjectSpawned(BaseObject obj, bool inCollection = false) =>
+        countersPlus.UpdateStatistic(CountersPlusStatistic.GLSEvents);
 
     private void HandlePlayToggle(bool playing)
     {
