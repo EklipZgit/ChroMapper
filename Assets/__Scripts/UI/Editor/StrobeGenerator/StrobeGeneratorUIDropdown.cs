@@ -1,28 +1,22 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class StrobeGeneratorUIDropdown : MonoBehaviour
 {
-    [SerializeField] private RectTransform strobeGenUIRect;
+    [SerializeField] private FlyoutPanelController flyoutPanelController;
 
-    public static bool IsActive { get; private set; }
+    public bool IsActive;
 
-    public void ToggleDropdown(bool visible) => StartCoroutine(UpdateGroup(visible, strobeGenUIRect));
-
-    private IEnumerator UpdateGroup(bool enabled, RectTransform group)
+    public void ToggleDropdown(bool visible)
     {
-        IsActive = enabled;
-        float dest = enabled ? -150 : 90;
-        var og = group.anchoredPosition.y;
-        float t = 0;
-        while (t < 1)
+        IsActive = visible;
+        
+        if (IsActive)
         {
-            t += Time.deltaTime;
-            group.anchoredPosition = new Vector2(group.anchoredPosition.x, Mathf.Lerp(og, dest, t));
-            og = group.anchoredPosition.y;
-            yield return new WaitForEndOfFrame();
+            flyoutPanelController.Open();
         }
-
-        group.anchoredPosition = new Vector2(group.anchoredPosition.x, dest);
+        else
+        {
+            flyoutPanelController.Close();
+        }
     }
 }

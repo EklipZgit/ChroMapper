@@ -1,11 +1,17 @@
 struct appdata {
     float4 vertex : POSITION;
     float2 uv : TEXCOORD0;
+    float4 uv1 : TEXCOORD1;
+    float4 uv2 : TEXCOORD2;
+    float4 uv3 : TEXCOORD3;
     float4 color : COLOR;  // set from Image component property
 };
 
 struct v2f {
     float2 uv : TEXCOORD0;
+    float4 uv1 : TEXCOORD1;
+    float4 uv2 : TEXCOORD2;
+    float4 uv3 : TEXCOORD3;
     float4 vertex : SV_POSITION;
     float4 color : COLOR;
 };
@@ -14,6 +20,9 @@ v2f vert (appdata v) {
     v2f o;
     o.vertex = UnityObjectToClipPos(v.vertex);
     o.uv = v.uv;
+    o.uv1 = v.uv1;
+    o.uv2 = v.uv2;
+    o.uv3 = v.uv3;
     o.color = v.color;
     return o;
 }
