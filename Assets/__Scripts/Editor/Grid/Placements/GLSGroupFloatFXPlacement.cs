@@ -3,20 +3,23 @@ using UnityEngine;
 
 public class GLSGroupFloatFXPlacement : GLSGroupPlacement<BaseVfxEventEventBoxGroup, GLSGroupFloatFXGridContainer>
 {
-    [SerializeField] private BeatmapGLSFloatFXPlacementInput placementInput;
-    [SerializeField] private BeatmapEasingsSelectionInput easingInput;
+    [SerializeField] private BeatmapGLSFloatFXInputController inputController;
+    [SerializeField] private BeatmapEasingsSelectionInputController easingInputController;
+
+    public override bool CanPlace =>
+        base.CanPlace && GlsEventTrack.TrackDefinition.FloatFXTrack && !inputController.IsHovering;
 
     public override void Start()
     {
         base.Start();
-        placementInput.OnValueChanged += HandleValueChanged;
-        easingInput.OnEasingChanged += HandleEasingChanged;
+        inputController.OnValueChanged += HandleValueChanged;
+        easingInputController.OnEasingChanged += HandleEasingChanged;
     }
 
     public void OnDestroy()
     {
-        placementInput.OnValueChanged -= HandleValueChanged;
-        easingInput.OnEasingChanged -= HandleEasingChanged;
+        inputController.OnValueChanged -= HandleValueChanged;
+        easingInputController.OnEasingChanged -= HandleEasingChanged;
     }
 
     private void HandleValueChanged(float value)
@@ -30,8 +33,6 @@ public class GLSGroupFloatFXPlacement : GLSGroupPlacement<BaseVfxEventEventBoxGr
         QueuedData.Boxes[0].Events[0].Easing = value;
         glsEventAppearance.SetAppearance(PlacementVisualContainer, false);
     }
-
-    public override bool CanPlace => base.CanPlace && GlsEventTrack.TrackDefinition.FloatFXTrack;
 
     protected override BaseVfxEventEventBoxGroup GenerateOriginalData() =>
         new() { Boxes = new() { new BaseVfxEventEventBox { Events = new[] { new BaseFxEventFloat() } } } };

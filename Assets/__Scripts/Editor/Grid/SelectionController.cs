@@ -259,7 +259,11 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
 
         SelectedObjects.Add(obj);
         if (collection.LoadedContainers.TryGetValue(obj, out var container))
+        {
             container.SetOutlineColor(instance.selectedColor);
+            container.Selected = true;
+        }
+
         if (addActionEvent)
         {
             OnObjectWasSelected?.Invoke(obj);
@@ -301,7 +305,11 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
                 if (SelectedObjects.Contains(beatmapObject)) return;
                 SelectedObjects.Add(beatmapObject);
                 if (collection.LoadedContainers.TryGetValue(beatmapObject, out var container))
+                {
                     container.SetOutlineColor(instance.selectedColor);
+                    container.Selected = true;
+                }
+
                 if (addActionEvent) OnObjectWasSelected?.Invoke(beatmapObject);
             });
         if (addActionEvent) OnSelectionChanged?.Invoke();
@@ -318,7 +326,7 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
                 .GetCollectionForType(obj.ObjectType)
                 .LoadedContainers.TryGetValue(obj, out var container)
             && container != null)
-            container.SelectionMpbController.ShowRenderer(false);
+            container.Selected = false;
 
         if (removeActionEvent) OnSelectionChanged?.Invoke();
     }
@@ -342,8 +350,8 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
             var collection = BeatmapObjectContainerCollection.GetCollectionForType(data.ObjectType);
             if (collection.LoadedContainers.TryGetValue(data, out var con))
             {
-                con.SelectionMpbController.ShowRenderer(true);
                 con.SetOutlineColor(instance.selectedColor);
+                con.Selected = true;
             }
         }
         //if (triggersAction) BeatmapActionContainer.AddAction(new SelectionChangedAction(SelectedObjects));
@@ -377,7 +385,12 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
         foreach (var data in SelectedObjects)
         {
             var collection = BeatmapObjectContainerCollection.GetCollectionForType(data.ObjectType);
-            if (collection.LoadedContainers.TryGetValue(data, out var con)) con.SetOutlineColor(instance.copiedColor);
+            if (collection.LoadedContainers.TryGetValue(data, out var con))
+            {
+                con.SetOutlineColor(instance.copiedColor);
+                con.Selected = true;
+            }
+
             var copy = BeatmapFactory.Clone(data);
 
             copy.JsonTime -= firstJsonTime;

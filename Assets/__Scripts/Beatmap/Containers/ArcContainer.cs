@@ -237,7 +237,7 @@ namespace Beatmap.Containers
 
         public void SetColor(Color c)
         {
-            MpbController.Mpb.SetColor(colorId, c);
+            MpbController.Mpb.SetColor(ColorId, c);
             UpdateMaterials();
         }
 

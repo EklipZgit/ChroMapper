@@ -4358,7 +4358,7 @@
                     "name": "Activate Top Row Input",
                     "type": "Button",
                     "id": "ac441c0b-6cdd-45a8-ae25-6816a6f90fc6",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -4700,7 +4700,7 @@
                     "name": "InvertArcColor",
                     "type": "Button",
                     "id": "ee16de4f-c84f-40f4-bf15-2ed62d872ec4",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -4924,7 +4924,7 @@
                     "name": "SpawnArc",
                     "type": "Button",
                     "id": "4d226cfd-3abc-43ea-86e9-73299a8e46f5",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "Press",
                     "initialStateCheck": false
@@ -5152,7 +5152,7 @@
             ]
         },
         {
-            "name": "GLS Group Placement",
+            "name": "GLS Group Tabs",
             "id": "e4de6044-1de0-48cb-bbea-f07027b50a3d",
             "actions": [
                 {
@@ -5180,7 +5180,7 @@
             ]
         },
         {
-            "name": "GLS Color Placement",
+            "name": "GLS Color Objects",
             "id": "37f9e19f-0f82-481f-ac35-5c6bf1432eef",
             "actions": [
                 {
@@ -5753,7 +5753,7 @@
                 {
                     "name": "modifier1",
                     "id": "2a55ec29-49ad-4eb0-81e2-a52247fff3cc",
-                    "path": "",
+                    "path": "<Keyboard>/alt",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -5764,7 +5764,7 @@
                 {
                     "name": "modifier2",
                     "id": "7d753cbb-19ce-4a3e-a8e5-c7be5ea347ab",
-                    "path": "",
+                    "path": "<Keyboard>/ctrl",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -5775,7 +5775,7 @@
                 {
                     "name": "binding",
                     "id": "95a648b2-61a2-4dc3-bda5-fb0d5aeed10b",
-                    "path": "",
+                    "path": "<Mouse>/scroll/y",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -5795,15 +5795,48 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "",
-                    "id": "aada2913-9a8f-4aea-b278-1bd0802b6475",
-                    "path": "",
+                    "name": "Two Modifiers",
+                    "id": "fde6eca0-a314-4e74-a319-8c344193fca9",
+                    "path": "TwoModifiers",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Change Strobe Brightness (Precise)",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier1",
+                    "id": "4edaef73-0e31-48be-b65a-4a17d7f65a9b",
+                    "path": "<Keyboard>/alt",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Change Strobe Brightness (Precise)",
                     "isComposite": false,
-                    "isPartOfComposite": false
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "modifier2",
+                    "id": "807bf63f-208e-4cda-9a14-688ce59e8d1e",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Change Strobe Brightness (Precise)",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "f856a759-a4cd-46b7-9e6f-71f7fcff786e",
+                    "path": "<Mouse>/scroll/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Change Strobe Brightness (Precise)",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 },
                 {
                     "name": "",
@@ -5819,7 +5852,7 @@
                 {
                     "name": "",
                     "id": "6ed88bf2-f16b-493b-bd18-6b8bb9242be7",
-                    "path": "",
+                    "path": "<Mouse>/middleButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -5828,20 +5861,42 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "",
-                    "id": "a94f3625-56cb-4c4f-aa8e-111052665fc0",
-                    "path": "",
+                    "name": "One Modifier",
+                    "id": "c0e8dda8-7f4b-4d1d-a8a1-244e9a04cfa9",
+                    "path": "OneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Set Brightness (Precise)",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "7d230d2a-e202-4e74-8b9f-a61314e308fc",
+                    "path": "<Keyboard>/alt",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Set Brightness (Precise)",
                     "isComposite": false,
-                    "isPartOfComposite": false
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "b28ccbff-7c5a-4187-a840-c3f5907cab4c",
+                    "path": "<Mouse>/scroll/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Set Brightness (Precise)",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         },
         {
-            "name": "GLS Rotation Placement",
+            "name": "GLS Rotation Objects",
             "id": "7821383d-db53-4b63-9d86-1736470215f4",
             "actions": [
                 {
@@ -6036,20 +6091,42 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "",
-                    "id": "7a70c8c2-4be3-40bc-b2c5-1386f391e207",
-                    "path": "",
+                    "name": "One Modifier",
+                    "id": "19fbe902-7ea8-49b3-bf4e-a44d5699e797",
+                    "path": "OneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Set Angle (Precise)",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "90e76cd5-c3d4-4c09-a96c-a3a8815bf1bf",
+                    "path": "<Keyboard>/alt",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Set Angle (Precise)",
                     "isComposite": false,
-                    "isPartOfComposite": false
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "925c6e35-72e3-4531-949c-d6f3c27114ab",
+                    "path": "<Mouse>/scroll/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Set Angle (Precise)",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         },
         {
-            "name": "GLS Translation Placement",
+            "name": "GLS Translation Objects",
             "id": "95fdc5d9-bec4-4fe7-a26d-5fd971be30c5",
             "actions": [
                 {
@@ -6199,7 +6276,7 @@
             ]
         },
         {
-            "name": "GLS FloatFX Placement",
+            "name": "GLS FloatFX Objects",
             "id": "1ef73093-d6f4-46f2-80e2-2e6597cc240a",
             "actions": [
                 {

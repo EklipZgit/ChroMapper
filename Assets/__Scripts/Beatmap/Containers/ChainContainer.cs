@@ -215,17 +215,17 @@ namespace Beatmap.Containers
         {
             var arrowColor = Color.Lerp(c, Color.white, Settings.Instance.ArrowColorWhiteBlend);
 
-            MpbController.Mpb.SetColor(colorId, c);
+            MpbController.Mpb.SetColor(ColorId, c);
             MpbController.Mpb.SetFloat(colorMultiplierId, Settings.Instance.NoteColorMultiplier);
 
             foreach (var cpf in Nodes)
             {
-                cpf.ModelController.MpbController.Mpb.SetColor(colorId, c);
+                cpf.ModelController.MpbController.Mpb.SetColor(ColorId, c);
                 cpf.ModelController.MpbController.Mpb.SetFloat(
                     colorMultiplierId,
                     Settings.Instance.NoteColorMultiplier);
 
-                cpf.DotMpbController.Mpb.SetColor(colorId, arrowColor);
+                cpf.DotMpbController.Mpb.SetColor(ColorId, arrowColor);
                 cpf.DotMpbController.Mpb.SetFloat(colorMultiplierId, Settings.Instance.ArrowColorMultiplier);
             }
 
@@ -261,7 +261,7 @@ namespace Beatmap.Containers
             foreach (var container in indicators)
             {
                 container.UpdateMaterials(MpbController.Mpb);
-                container.SelectionMpbController.ShowRenderer(SelectionMpbController.Renderers[0].enabled);
+                container.Selected = Selected;
             }
         }
 

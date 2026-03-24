@@ -3,7 +3,7 @@ using Beatmap.Containers;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class BeatmapGLSFloatFXPlacementInput : BeatmapInputController<GLSGroupContainer>, CMInput.IGLSFloatFXPlacementActions
+public class BeatmapGLSTranslationInputController : BeatmapInputController<GLSGroupContainer>, CMInput.IGLSTranslationObjectsActions
 {
     public event Action<float> OnValueChanged;
     public event Action<float> OnValueDeltaChanged;

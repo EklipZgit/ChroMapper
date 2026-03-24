@@ -57,7 +57,7 @@ public class BeatmapNoteInputController : BeatmapInputController<NoteContainer>,
             return;
 
         RaycastFirstObject(out var note);
-        if (note != null && !note.Dragging) InvertNote(note);
+        if (note != null && !note.Dragged) InvertNote(note);
     }
 
     public void OnQuickDirectionModifier(InputAction.CallbackContext context) =>

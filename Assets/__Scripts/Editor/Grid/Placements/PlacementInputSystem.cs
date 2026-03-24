@@ -99,13 +99,13 @@ public class PlacementInputSystem : MonoBehaviour,
     public void OnPlaceObject(InputAction.CallbackContext context)
     {
         if (currentProvider == null
-            || customStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)
-            || !KeybindsController.IsMouseInWindow
             || !context.performed
+            || !KeybindsController.IsMouseInWindow
             || inputState != PlacementInputState.Hover
-            || !CanInteract
+            || applicationFocusChanged
+            || customStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)
             || PersistentUI.Instance.DialogBoxIsEnabled
-            || applicationFocusChanged)
+            || !CanInteract)
             return;
         foreach (var placement in currentProvider
             .Placements

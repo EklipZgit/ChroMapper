@@ -830,90 +830,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8683185}
   m_CullTransparentMesh: 0
---- !u!21 &11196338
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Inherited From Round Corners
-  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _BumpMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _EmissionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MetallicGlossMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _OcclusionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _SpecGlossMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _AlphaClip: 0
-    - _Blend: 0
-    - _BumpScale: 1
-    - _ColorMask: 15
-    - _Cull: 2
-    - _Cutoff: 0.5
-    - _DstBlend: 0
-    - _GlossMapScale: 1
-    - _Glossiness: 0.5
-    - _GlossyReflections: 1
-    - _Metallic: 0
-    - _OcclusionStrength: 1
-    - _ReceiveShadows: 1
-    - _SmoothnessTextureChannel: 0
-    - _SpecularHighlights: 1
-    - _SrcBlend: 1
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _Surface: 0
-    - _UseUIAlphaClip: 0
-    - _WorkflowMode: 1
-    - _ZWrite: 1
-    m_Colors:
-    - _Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _WidthHeightRadius: {r: 34.4, g: 16.4, b: 4, a: 0}
-    - _halfSize: {r: 150, g: 45, b: 0, a: 0}
-    - _r: {r: 2, g: 2, b: 2, a: 2}
-    - _rect2props: {r: 0.000015258789, g: -0.000015258789, b: 136.47162, a: 136.47162}
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!1 &13585788
 GameObject:
   m_ObjectHideFlags: 0
@@ -11649,9 +11565,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c00569fc5fc4425c91524299df652928, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsSelecting: 0
+  IsHovering: 0
+  HoveredObject: {fileID: 0}
   CustomStandaloneInputModule: {fileID: 806554}
-  obstaclePlacement: {fileID: 2087881065}
   cameraManager: {fileID: 1206999167}
+  editContext: {fileID: 405385889}
+  editMode: 4
+  obstaclePlacement: {fileID: 2087881065}
 --- !u!1 &334139934
 GameObject:
   m_ObjectHideFlags: 0
@@ -15991,8 +15912,8 @@ MonoBehaviour:
   GlsEventTrack: {fileID: 1830049620}
   glsEventAppearance: {fileID: 11400000, guid: 3f35a685a18894f4291dd109815b604d, type: 2}
   context: {fileID: 127874572}
-  placementInput: {fileID: 1872232346}
-  easingInput: {fileID: 171301928}
+  inputController: {fileID: 1872232346}
+  easingInputController: {fileID: 171301928}
 --- !u!1 &492450995
 GameObject:
   m_ObjectHideFlags: 0
@@ -21286,9 +21207,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f328310f90e4ca2b03cd6704613f03f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsSelecting: 0
+  IsHovering: 0
+  HoveredObject: {fileID: 0}
   CustomStandaloneInputModule: {fileID: 806554}
-  obstaclePlacement: {fileID: 2087881065}
   cameraManager: {fileID: 1206999167}
+  editContext: {fileID: 405385889}
+  editMode: 4
+  obstaclePlacement: {fileID: 2087881065}
 --- !u!1 &623122924
 GameObject:
   m_ObjectHideFlags: 0
@@ -31965,7 +31891,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 13585789}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.9999999
+  m_Size: 0.99999964
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -43434,9 +43360,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99b8ea253d6b48dda912050aef91a140, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsSelecting: 0
+  IsHovering: 0
+  HoveredObject: {fileID: 0}
   CustomStandaloneInputModule: {fileID: 806554}
-  obstaclePlacement: {fileID: 2087881065}
   cameraManager: {fileID: 1206999167}
+  editContext: {fileID: 405385889}
+  editMode: 4
+  obstaclePlacement: {fileID: 2087881065}
 --- !u!1 &1267184647
 GameObject:
   m_ObjectHideFlags: 0
@@ -49353,8 +49284,8 @@ MonoBehaviour:
   GlsEventTrack: {fileID: 1830049620}
   glsEventAppearance: {fileID: 11400000, guid: 3f35a685a18894f4291dd109815b604d, type: 2}
   context: {fileID: 127874572}
-  placementInput: {fileID: 333714905}
-  easingInput: {fileID: 171301928}
+  inputController: {fileID: 333714905}
+  easingInputController: {fileID: 171301928}
 --- !u!21 &1527122330
 Material:
   serializedVersion: 8
@@ -50354,9 +50285,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6df85bef5690d64bac7ab4352789746, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsSelecting: 0
+  IsHovering: 0
+  HoveredObject: {fileID: 0}
   CustomStandaloneInputModule: {fileID: 806554}
-  obstaclePlacement: {fileID: 2087881065}
   cameraManager: {fileID: 1206999167}
+  editContext: {fileID: 405385889}
+  editMode: 1
+  obstaclePlacement: {fileID: 2087881065}
   noteAppearanceSo: {fileID: 11400000, guid: 0c2d133c05afa744d999a0758a8977a1, type: 2}
   arcAppearanceSo: {fileID: 11400000, guid: c737f74f07351d441a56c84811b4d665, type: 2}
   chainAppearanceSo: {fileID: 11400000, guid: 7eafe2e8b1acf5b49903b99310732bf6, type: 2}
@@ -50373,9 +50309,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cd19cca3c6fc674783ee3ae30d9fe2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsSelecting: 0
+  IsHovering: 0
+  HoveredObject: {fileID: 0}
   CustomStandaloneInputModule: {fileID: 806554}
-  obstaclePlacement: {fileID: 2087881065}
   cameraManager: {fileID: 1206999167}
+  editContext: {fileID: 405385889}
+  editMode: 1
+  obstaclePlacement: {fileID: 2087881065}
   atsc: {fileID: 570484802}
   bpmChangeGridContainer: {fileID: 1890332741}
   obstacleAppearanceSo: {fileID: 11400000, guid: 7a50c9a2cc4ae50499232fe511d6437e,
@@ -50393,9 +50334,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 555b139437e687e49a6e2db9014e0c6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsSelecting: 0
+  IsHovering: 0
+  HoveredObject: {fileID: 0}
   CustomStandaloneInputModule: {fileID: 806554}
-  obstaclePlacement: {fileID: 2087881065}
   cameraManager: {fileID: 1206999167}
+  editContext: {fileID: 405385889}
+  editMode: 8
+  obstaclePlacement: {fileID: 2087881065}
   eventAppearanceSo: {fileID: 11400000, guid: 00bab3c0ab2051441b924304da9d0e12, type: 2}
   tracksManager: {fileID: 902407107}
   context: {fileID: 127874572}
@@ -50411,9 +50357,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 696a14717442ccc4a8d271fe17623f33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsSelecting: 0
+  IsHovering: 0
+  HoveredObject: {fileID: 0}
   CustomStandaloneInputModule: {fileID: 806554}
-  obstaclePlacement: {fileID: 2087881065}
   cameraManager: {fileID: 1206999167}
+  editContext: {fileID: 405385889}
+  editMode: 1
+  obstaclePlacement: {fileID: 2087881065}
 --- !u!114 &1546839088
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50426,9 +50377,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db5dd3f00fa52f1409348833ea3b0f69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsSelecting: 0
+  IsHovering: 0
+  HoveredObject: {fileID: 0}
   CustomStandaloneInputModule: {fileID: 806554}
-  obstaclePlacement: {fileID: 2087881065}
   cameraManager: {fileID: 1206999167}
+  editContext: {fileID: 405385889}
+  editMode: 1
+  obstaclePlacement: {fileID: 2087881065}
 --- !u!114 &1546839089
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50441,9 +50397,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b12ffee1bd17044a97cdbff43314c45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsSelecting: 0
+  IsHovering: 0
+  HoveredObject: {fileID: 0}
   CustomStandaloneInputModule: {fileID: 806554}
-  obstaclePlacement: {fileID: 2087881065}
   cameraManager: {fileID: 1206999167}
+  editContext: {fileID: 405385889}
+  editMode: 1
+  obstaclePlacement: {fileID: 2087881065}
   arcAppearanceSo: {fileID: 11400000, guid: c737f74f07351d441a56c84811b4d665, type: 2}
 --- !u!114 &1546839090
 MonoBehaviour:
@@ -50457,9 +50418,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 933dbac13bbe8e8468ac55e1fc15269e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsSelecting: 0
+  IsHovering: 0
+  HoveredObject: {fileID: 0}
   CustomStandaloneInputModule: {fileID: 806554}
-  obstaclePlacement: {fileID: 2087881065}
   cameraManager: {fileID: 1206999167}
+  editContext: {fileID: 405385889}
+  editMode: 1
+  obstaclePlacement: {fileID: 2087881065}
   chainAppearanceSo: {fileID: 11400000, guid: 7eafe2e8b1acf5b49903b99310732bf6, type: 2}
 --- !u!114 &1546839091
 MonoBehaviour:
@@ -50486,9 +50452,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 761bb2287d3642a7b19bee9342c2c30b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsSelecting: 0
+  IsHovering: 0
+  HoveredObject: {fileID: 0}
   CustomStandaloneInputModule: {fileID: 806554}
-  obstaclePlacement: {fileID: 2087881065}
   cameraManager: {fileID: 1206999167}
+  editContext: {fileID: 405385889}
+  editMode: 1
+  obstaclePlacement: {fileID: 2087881065}
 --- !u!114 &1546839093
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50501,9 +50472,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b81f0154e62cb4c89a530174afe1df8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsSelecting: 0
+  IsHovering: 0
+  HoveredObject: {fileID: 0}
   CustomStandaloneInputModule: {fileID: 806554}
-  obstaclePlacement: {fileID: 2087881065}
   cameraManager: {fileID: 1206999167}
+  editContext: {fileID: 405385889}
+  editMode: 255
+  obstaclePlacement: {fileID: 2087881065}
 --- !u!1 &1550023652
 GameObject:
   m_ObjectHideFlags: 0
@@ -51026,6 +51002,90 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AllowSwitchOff: 0
+--- !u!21 &1557499568
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Inherited From Round Corners
+  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AlphaClip: 0
+    - _Blend: 0
+    - _BumpScale: 1
+    - _ColorMask: 15
+    - _Cull: 2
+    - _Cutoff: 0.5
+    - _DstBlend: 0
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _Metallic: 0
+    - _OcclusionStrength: 1
+    - _ReceiveShadows: 1
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _Surface: 0
+    - _UseUIAlphaClip: 0
+    - _WorkflowMode: 1
+    - _ZWrite: 1
+    m_Colors:
+    - _Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _WidthHeightRadius: {r: 37, g: 14, b: 2, a: 0}
+    - _halfSize: {r: 150, g: 45, b: 0, a: 0}
+    - _r: {r: 2, g: 2, b: 2, a: 2}
+    - _rect2props: {r: 0.000015258789, g: -0.000015258789, b: 136.47162, a: 136.47162}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1 &1560268894
 GameObject:
   m_ObjectHideFlags: 0
@@ -62339,9 +62399,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1cd5b51c02d4f51854c37f7976a3f3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsSelecting: 0
+  IsHovering: 0
+  HoveredObject: {fileID: 0}
   CustomStandaloneInputModule: {fileID: 806554}
-  obstaclePlacement: {fileID: 2087881065}
   cameraManager: {fileID: 1206999167}
+  editContext: {fileID: 405385889}
+  editMode: 4
+  obstaclePlacement: {fileID: 2087881065}
 --- !u!1001 &1875292307
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -67247,7 +67312,7 @@ MonoBehaviour:
   GlsEventTrack: {fileID: 1830049620}
   glsEventAppearance: {fileID: 11400000, guid: 3f35a685a18894f4291dd109815b604d, type: 2}
   context: {fileID: 127874572}
-  placementInput: {fileID: 1265095339}
+  inputController: {fileID: 1265095339}
 --- !u!1 &2010474789
 GameObject:
   m_ObjectHideFlags: 0
@@ -68135,90 +68200,6 @@ Transform:
   - {fileID: 1386353938}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!21 &2032215687
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Inherited From Round Corners
-  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _BumpMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _EmissionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MetallicGlossMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _OcclusionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _SpecGlossMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _AlphaClip: 0
-    - _Blend: 0
-    - _BumpScale: 1
-    - _ColorMask: 15
-    - _Cull: 2
-    - _Cutoff: 0.5
-    - _DstBlend: 0
-    - _GlossMapScale: 1
-    - _Glossiness: 0.5
-    - _GlossyReflections: 1
-    - _Metallic: 0
-    - _OcclusionStrength: 1
-    - _ReceiveShadows: 1
-    - _SmoothnessTextureChannel: 0
-    - _SpecularHighlights: 1
-    - _SrcBlend: 1
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _Surface: 0
-    - _UseUIAlphaClip: 0
-    - _WorkflowMode: 1
-    - _ZWrite: 1
-    m_Colors:
-    - _Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _WidthHeightRadius: {r: 37, g: 14, b: 2, a: 0}
-    - _halfSize: {r: 150, g: 45, b: 0, a: 0}
-    - _r: {r: 2, g: 2, b: 2, a: 2}
-    - _rect2props: {r: 0.000015258789, g: -0.000015258789, b: 136.47162, a: 136.47162}
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!1 &2033073262
 GameObject:
   m_ObjectHideFlags: 0
@@ -68680,8 +68661,8 @@ MonoBehaviour:
   GlsEventTrack: {fileID: 1830049620}
   glsEventAppearance: {fileID: 11400000, guid: 3f35a685a18894f4291dd109815b604d, type: 2}
   context: {fileID: 127874572}
-  placementInput: {fileID: 622396317}
-  easingInput: {fileID: 171301928}
+  inputController: {fileID: 622396317}
+  easingInputController: {fileID: 171301928}
 --- !u!1 &2057519783
 GameObject:
   m_ObjectHideFlags: 0
@@ -70574,6 +70555,90 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2109111737}
   m_CullTransparentMesh: 0
+--- !u!21 &2110316641
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Inherited From Round Corners
+  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AlphaClip: 0
+    - _Blend: 0
+    - _BumpScale: 1
+    - _ColorMask: 15
+    - _Cull: 2
+    - _Cutoff: 0.5
+    - _DstBlend: 0
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _Metallic: 0
+    - _OcclusionStrength: 1
+    - _ReceiveShadows: 1
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _Surface: 0
+    - _UseUIAlphaClip: 0
+    - _WorkflowMode: 1
+    - _ZWrite: 1
+    m_Colors:
+    - _Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _WidthHeightRadius: {r: 34.4, g: 16.4, b: 4, a: 0}
+    - _halfSize: {r: 150, g: 45, b: 0, a: 0}
+    - _r: {r: 2, g: 2, b: 2, a: 2}
+    - _rect2props: {r: 0.000015258789, g: -0.000015258789, b: 136.47162, a: 136.47162}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1 &2115249786
 GameObject:
   m_ObjectHideFlags: 0

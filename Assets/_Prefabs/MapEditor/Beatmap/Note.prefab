@@ -46,13 +46,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c1a39b3d86529d4b8a925fb69ae6af6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Dragging: 0
   Animator: {fileID: 2511166697914245830}
   Colliders:
   - {fileID: 5234307909633089194}
   VisualSettings: {fileID: 11400000, guid: 1c738480b4420d21c9f3d613e26a698e, type: 2}
   MpbController: {fileID: 8713059339080809947}
   SelectionMpbController: {fileID: 1536806029612139599}
+  dragging: 0
   ModelController: {fileID: 2230210897425493252}
   ArrowMpbController: {fileID: 3307062995251334428}
   ArrowModelController: {fileID: 347171907033333245}

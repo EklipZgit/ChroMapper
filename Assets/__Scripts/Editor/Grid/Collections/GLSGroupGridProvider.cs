@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class GLSGroupGridProvider : MonoBehaviour, CMInput.IGLSGroupPlacementActions
+public class GLSGroupGridProvider : MonoBehaviour, CMInput.IGLSGroupTabsActions
 {
     public event Action<string> OnGroupChanged;
 

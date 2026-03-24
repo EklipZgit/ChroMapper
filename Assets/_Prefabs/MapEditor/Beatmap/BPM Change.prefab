@@ -45,13 +45,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7799177e0a939674e896593de99c2b7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Dragging: 0
   Animator: {fileID: 0}
   Colliders:
   - {fileID: 4709389531827267761}
   VisualSettings: {fileID: 11400000, guid: 1c738480b4420d21c9f3d613e26a698e, type: 2}
   MpbController: {fileID: 6065214476730590522}
   SelectionMpbController: {fileID: 5408339128251243666}
+  dragging: 0
   bpmText: {fileID: 114113500200447462}
 --- !u!1 &1347973604245180
 GameObject:

@@ -3,23 +3,26 @@ using UnityEngine;
 
 public class GLSGroupColorPlacement : GLSGroupPlacement<BaseLightColorEventBoxGroup, GLSGroupColorGridContainer>
 {
-    [SerializeField] private BeatmapGLSColorPlacementInput placementInput;
+    [SerializeField] private BeatmapGLSColorInputController inputController;
+
+    public override bool CanPlace =>
+        base.CanPlace && GlsEventTrack.TrackDefinition.ColorTrack && !inputController.IsHovering;
 
     public override void Start()
     {
         base.Start();
-        placementInput.OnBrightnessChanged += HandleBrightnessChanged;
-        placementInput.OnColorChanged += HandleColorChanged;
-        placementInput.OnExtensionPerformed += HandleExtensionsPerformed;
-        placementInput.OnEasingChanged += HandleEasingChanged;
+        inputController.OnBrightnessChanged += HandleBrightnessChanged;
+        inputController.OnColorChanged += HandleColorChanged;
+        inputController.OnExtensionPerformed += HandleExtensionsPerformed;
+        inputController.OnEasingChanged += HandleEasingChanged;
     }
 
     public void OnDestroy()
     {
-        placementInput.OnBrightnessChanged -= HandleBrightnessChanged;
-        placementInput.OnColorChanged -= HandleColorChanged;
-        placementInput.OnExtensionPerformed -= HandleExtensionsPerformed;
-        placementInput.OnEasingChanged -= HandleEasingChanged;
+        inputController.OnBrightnessChanged -= HandleBrightnessChanged;
+        inputController.OnColorChanged -= HandleColorChanged;
+        inputController.OnExtensionPerformed -= HandleExtensionsPerformed;
+        inputController.OnEasingChanged -= HandleEasingChanged;
     }
 
     private void HandleBrightnessChanged(float value)
@@ -46,8 +49,6 @@ public class GLSGroupColorPlacement : GLSGroupPlacement<BaseLightColorEventBoxGr
         QueuedData.Boxes[0].Events[0].Easing = value;
         glsEventAppearance.SetAppearance(PlacementVisualContainer, false);
     }
-
-    public override bool CanPlace => base.CanPlace && GlsEventTrack.TrackDefinition.ColorTrack;
 
     protected override BaseLightColorEventBoxGroup GenerateOriginalData() =>
         new()

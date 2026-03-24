@@ -18,7 +18,7 @@ public class BeatmapArcInputController : BeatmapInputController<ArcContainer>, C
     {
         if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)) return;
         RaycastFirstObject(out var e);
-        if (e == null || e.Dragging || !context.performed) return;
+        if (e == null || e.Dragged || !context.performed) return;
 
         var modifier = context.ReadValue<float>();
         modifier = ((modifier > 0) ^ Settings.Instance.InvertScrollArcMultiplier)
@@ -44,7 +44,7 @@ public class BeatmapArcInputController : BeatmapInputController<ArcContainer>, C
         }
 
         RaycastFirstObject(out var arc);
-        if (arc != null && !arc.Dragging) InvertArc(arc);
+        if (arc != null && !arc.Dragged) InvertArc(arc);
     }
 
     public void InvertArc(ArcContainer arc)
@@ -62,7 +62,7 @@ public class BeatmapArcInputController : BeatmapInputController<ArcContainer>, C
     {
         if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)) return;
         RaycastFirstObject(out var e);
-        if (e == null || e.Dragging || !context.performed) return;
+        if (e == null || e.Dragged || !context.performed) return;
 
         var modifier = context.ReadValue<float>();
         modifier = ((modifier > 0) ^ Settings.Instance.InvertScrollArcMultiplier)

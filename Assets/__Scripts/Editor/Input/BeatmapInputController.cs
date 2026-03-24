@@ -13,12 +13,18 @@ public class GlobalIntersectionCache
 
 public class BeatmapInputController<T> : MonoBehaviour, CMInput.IBeatmapObjectsActions where T : ObjectContainer
 {
-    [SerializeField] protected CustomStandaloneInputModule CustomStandaloneInputModule;
+    [Header("State")] public bool IsSelecting;
+    public bool IsHovering;
+    public T HoveredObject;
 
-    protected bool IsSelecting;
+    [Header("Dependencies")] [SerializeField]
+    protected CustomStandaloneInputModule CustomStandaloneInputModule;
 
-    [SerializeField] private ObstaclePlacement obstaclePlacement;
     [SerializeField] private CameraManager cameraManager;
+    [SerializeField] private EditModeContext editContext;
+    [SerializeField] private EditingMode editMode;
+    [SerializeField] private ObstaclePlacement obstaclePlacement;
+
     private bool massSelect;
     protected Vector2 MousePosition;
     private float timeWhenFirstSelecting;
@@ -26,6 +32,7 @@ public class BeatmapInputController<T> : MonoBehaviour, CMInput.IBeatmapObjectsA
     // Update is called once per frame
     private void Update()
     {
+        if (!editContext.EditingMode.HasFlag(editMode)) return;
         if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)) return;
         GlobalIntersectionCache.firstHit = null;
         if (obstaclePlacement.IsPlacing)
@@ -34,17 +41,27 @@ public class BeatmapInputController<T> : MonoBehaviour, CMInput.IBeatmapObjectsA
             return;
         }
 
+        if (Application.isFocused && RaycastFirstObject(out var first))
+        {
+            if (HoveredObject != first && IsHovering) HoveredObject.Highlighted = false;
+            HoveredObject = first;
+            HoveredObject.Highlighted = true;
+            IsHovering = true;
+        }
+        else if (IsHovering)
+        {
+            HoveredObject.Highlighted = false;
+            IsHovering = false;
+        }
+        else
+            IsHovering = false;
+
         if (!IsSelecting || Time.time - timeWhenFirstSelecting < 0.5f) return;
         var ray = cameraManager.SelectedCameraController.Camera.ScreenPointToRay(MousePosition);
         foreach (var hit in Intersections.RaycastAll(ray, 9))
         {
-            if (GetComponentFromTransform(hit.GameObject, out var obj))
-            {
-                if (!SelectionController.IsObjectSelected(obj.ObjectData))
-                {
-                    SelectionController.Select(obj.ObjectData, true);
-                }
-            }
+            if (!GetComponentFromTransform(hit.GameObject, out var obj)) continue;
+            if (!SelectionController.IsObjectSelected(obj.ObjectData)) SelectionController.Select(obj.ObjectData, true);
         }
     }
 
@@ -61,39 +78,28 @@ public class BeatmapInputController<T> : MonoBehaviour, CMInput.IBeatmapObjectsA
         if (!Application.isFocused) return;
 
         RaycastFirstObject(out var obj);
-        if (obj != null && !obj.Dragging && context.performed) StartCoroutine(CompleteDelete(obj));
+        if (obj != null && !obj.Dragged && context.performed) CompleteDelete(obj);
     }
 
     public void OnSelectObjects(InputAction.CallbackContext context)
     {
         if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)
             || obstaclePlacement.IsPlacing)
-        {
             return;
-        }
 
         IsSelecting = context.performed;
-        if (context.performed)
-        {
-            timeWhenFirstSelecting = Time.time;
-            RaycastFirstObject(out var firstObject);
-            if (firstObject == null) return;
-            var obj = firstObject.ObjectData;
-            if (massSelect
-                && SelectionController.SelectedObjects.Count() == 1
-                && SelectionController.SelectedObjects.First() != obj)
-            {
-                SelectionController.SelectBetween(SelectionController.SelectedObjects.First(), obj, true);
-            }
-            else if (SelectionController.IsObjectSelected(obj))
-            {
-                SelectionController.Deselect(obj);
-            }
-            else if (!SelectionController.IsObjectSelected(obj))
-            {
-                SelectionController.Select(obj, true);
-            }
-        }
+        if (!context.performed) return;
+        timeWhenFirstSelecting = Time.time;
+        RaycastFirstObject(out var firstObject);
+        if (firstObject == null) return;
+        var obj = firstObject.ObjectData;
+        if (massSelect
+            && SelectionController.SelectedObjects.Count() == 1
+            && SelectionController.SelectedObjects.First() != obj)
+            SelectionController.SelectBetween(SelectionController.SelectedObjects.First(), obj, true);
+        else if (SelectionController.IsObjectSelected(obj))
+            SelectionController.Deselect(obj);
+        else if (!SelectionController.IsObjectSelected(obj)) SelectionController.Select(obj, true);
     }
 
     public void OnMousePositionUpdate(InputAction.CallbackContext context) =>
@@ -101,16 +107,14 @@ public class BeatmapInputController<T> : MonoBehaviour, CMInput.IBeatmapObjectsA
 
     public void OnJumptoObjectTime(InputAction.CallbackContext context)
     {
-        if (context.performed) // TODO: Find a way to detect if other keybinds are held
+        if (!context.performed) return; // TODO: Find a way to detect if other keybinds are held
+        RaycastFirstObject(out var con);
+        if (con != null)
         {
-            RaycastFirstObject(out var con);
-            if (con != null)
-            {
-                // TODO make this use an AudioTimeSyncController reference when Zenject is added.
-                BeatmapObjectContainerCollection
-                    .GetCollectionForType(con.ObjectData.ObjectType)
-                    .BeatmapContext.Atsc.MoveToSongBpmTime(con.ObjectData.SongBpmTime);
-            }
+            // TODO make this use an AudioTimeSyncController reference when Zenject is added.
+            BeatmapObjectContainerCollection
+                .GetCollectionForType(con.ObjectData.ObjectType)
+                .BeatmapContext.Atsc.MoveToSongBpmTime(con.ObjectData.SongBpmTime);
         }
     }
 
@@ -118,7 +122,7 @@ public class BeatmapInputController<T> : MonoBehaviour, CMInput.IBeatmapObjectsA
 
     protected virtual bool GetComponentFromTransform(GameObject t, out T obj) => t.TryGetComponent(out obj);
 
-    protected void RaycastFirstObject(out T firstObject)
+    protected bool RaycastFirstObject(out T firstObject)
     {
         var ray = cameraManager.SelectedCameraController.Camera.ScreenPointToRay(MousePosition);
         if (GlobalIntersectionCache.firstHit == null)
@@ -132,16 +136,16 @@ public class BeatmapInputController<T> : MonoBehaviour, CMInput.IBeatmapObjectsA
             if (obj != null)
             {
                 firstObject = obj;
-                return;
+                return true;
             }
         }
 
         firstObject = null;
+        return false;
     }
 
-    public IEnumerator CompleteDelete(T obj)
+    public void CompleteDelete(T obj)
     {
-        yield return null;
         BeatmapObjectContainerCollection
             .GetCollectionForType(obj.ObjectData.ObjectType)
             .DeleteObject(obj.ObjectData, true, true, "Deleted by the user.");

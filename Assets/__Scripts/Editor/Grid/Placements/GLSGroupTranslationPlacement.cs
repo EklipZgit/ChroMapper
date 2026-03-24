@@ -6,20 +6,23 @@ public class
     GLSGroupTranslationPlacement : GLSGroupPlacement<BaseLightTranslationEventBoxGroup,
     GLSGroupTranslationGridContainer>
 {
-    [SerializeField] private BeatmapGLSTranslationPlacementInput placementInput;
-    [SerializeField] private BeatmapEasingsSelectionInput easingInput;
+    [SerializeField] private BeatmapGLSTranslationInputController inputController;
+    [SerializeField] private BeatmapEasingsSelectionInputController easingInputController;
+
+    public override bool CanPlace =>
+        base.CanPlace && GlsEventTrack.TrackDefinition.TranslationTracks.Any(x => x) && !inputController.IsHovering;
 
     public override void Start()
     {
         base.Start();
-        placementInput.OnValueChanged += HandleValueChanged;
-        easingInput.OnEasingChanged += HandleEasingChanged;
+        inputController.OnValueChanged += HandleValueChanged;
+        easingInputController.OnEasingChanged += HandleEasingChanged;
     }
 
     public void OnDestroy()
     {
-        placementInput.OnValueChanged -= HandleValueChanged;
-        easingInput.OnEasingChanged -= HandleEasingChanged;
+        inputController.OnValueChanged -= HandleValueChanged;
+        easingInputController.OnEasingChanged -= HandleEasingChanged;
     }
 
     private void HandleValueChanged(float value)
@@ -33,8 +36,6 @@ public class
         QueuedData.Boxes[0].Events[0].EaseType = value;
         glsEventAppearance.SetAppearance(PlacementVisualContainer, false);
     }
-
-    public override bool CanPlace => base.CanPlace && GlsEventTrack.TrackDefinition.TranslationTracks.Any(x => x);
 
     protected override BaseLightTranslationEventBoxGroup GenerateOriginalData() =>
         new()

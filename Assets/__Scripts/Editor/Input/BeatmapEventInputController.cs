@@ -29,14 +29,14 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
             return;
 
         RaycastFirstObject(out var e);
-        if (e != null && !e.Dragging) InvertEvent(e);
+        if (e != null && !e.Dragged) InvertEvent(e);
     }
 
     public void OnTweakEventMain(InputAction.CallbackContext context)
     {
         if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)) return;
         RaycastFirstObject(out var e);
-        if (e == null || e.Dragging || !context.performed) return;
+        if (e == null || e.Dragged || !context.performed) return;
 
         var modifier = ((context.ReadValue<float>() > 0) ^ Settings.Instance.InvertScrollEventValue)
             ? 1
@@ -48,7 +48,7 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
     {
         if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)) return;
         RaycastFirstObject(out var e);
-        if (e == null || e.Dragging || !context.performed) return;
+        if (e == null || e.Dragged || !context.performed) return;
 
         var modifier = ((context.ReadValue<float>() > 0) ^ Settings.Instance.InvertScrollEventValue)
             ? 1

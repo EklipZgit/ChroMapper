@@ -5,24 +5,27 @@ using UnityEngine;
 public class
     GLSGroupRotationPlacement : GLSGroupPlacement<BaseLightRotationEventBoxGroup, GLSGroupRotationGridContainer>
 {
-    [SerializeField] private BeatmapGLSRotationPlacementInput placementInput;
-    [SerializeField] private BeatmapEasingsSelectionInput easingInput;
+    [SerializeField] private BeatmapGLSRotationInputController inputController;
+    [SerializeField] private BeatmapEasingsSelectionInputController easingInputController;
+
+    public override bool CanPlace =>
+        base.CanPlace && GlsEventTrack.TrackDefinition.RotationTracks.Any(x => x) && !inputController.IsHovering;
 
     public override void Start()
     {
         base.Start();
-        placementInput.OnValueChanged += HandleValueChanged;
-        placementInput.OnLoopChanged += HandleLoopChanged;
-        placementInput.OnDirectionChanged += HandleDirectionChanged;
-        easingInput.OnEasingChanged += HandleEasingChanged;
+        inputController.OnValueChanged += HandleValueChanged;
+        inputController.OnLoopChanged += HandleLoopChanged;
+        inputController.OnDirectionChanged += HandleDirectionChanged;
+        easingInputController.OnEasingChanged += HandleEasingChanged;
     }
 
     public void OnDestroy()
     {
-        placementInput.OnValueChanged -= HandleValueChanged;
-        placementInput.OnLoopChanged -= HandleLoopChanged;
-        placementInput.OnDirectionChanged -= HandleDirectionChanged;
-        easingInput.OnEasingChanged -= HandleEasingChanged;
+        inputController.OnValueChanged -= HandleValueChanged;
+        inputController.OnLoopChanged -= HandleLoopChanged;
+        inputController.OnDirectionChanged -= HandleDirectionChanged;
+        easingInputController.OnEasingChanged -= HandleEasingChanged;
     }
 
     private void HandleValueChanged(float value)
@@ -48,8 +51,6 @@ public class
         QueuedData.Boxes[0].Events[0].EaseType = value;
         glsEventAppearance.SetAppearance(PlacementVisualContainer, false);
     }
-
-    public override bool CanPlace => base.CanPlace && GlsEventTrack.TrackDefinition.RotationTracks.Any(x => x);
 
     protected override BaseLightRotationEventBoxGroup GenerateOriginalData() =>
         new() { Boxes = new() { new BaseLightRotationEventBox { Events = new[] { new BaseLightRotationBase() } } } };

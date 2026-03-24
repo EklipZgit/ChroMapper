@@ -47,13 +47,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e20e0a258e6144f45bab53b12c0ea51a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Dragging: 0
   Animator: {fileID: 0}
   Colliders:
   - {fileID: 6372272593561764534}
   VisualSettings: {fileID: 11400000, guid: 1c738480b4420d21c9f3d613e26a698e, type: 2}
   MpbController: {fileID: 1881671473189040870}
   SelectionMpbController: {fileID: 286273044837626658}
+  dragging: 0
   VModelController: {fileID: 3517462033951592126}
   EventGridContainer: {fileID: 0}
   eventAppearance: {fileID: 11400000, guid: 00bab3c0ab2051441b924304da9d0e12, type: 2}

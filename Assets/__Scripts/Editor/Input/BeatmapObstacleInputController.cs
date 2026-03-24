@@ -21,7 +21,7 @@ public class BeatmapObstacleInputController : BeatmapInputController<ObstacleCon
     {
         if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)) return;
         RaycastFirstObject(out var obs);
-        if (obs != null && !obs.Dragging && context.performed)
+        if (obs != null && !obs.Dragged && context.performed)
         {
             var original = BeatmapFactory.Clone(obs.ObjectData);
             var snapping = 1f / atsc.GridMeasureSnapping;
@@ -47,7 +47,7 @@ public class BeatmapObstacleInputController : BeatmapInputController<ObstacleCon
             || CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true))
             return;
         RaycastFirstObject(out var obs);
-        if (obs != null && !obs.Dragging && context.performed)
+        if (obs != null && !obs.Dragged && context.performed)
         {
             var original = BeatmapFactory.Clone(obs.ObjectData);
             var tweakValue = ((context.ReadValue<float>() > 0) ^ Settings.Instance.InvertScrollWallDuration)
@@ -74,7 +74,7 @@ public class BeatmapObstacleInputController : BeatmapInputController<ObstacleCon
             || CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true))
             return;
         RaycastFirstObject(out var obs);
-        if (obs != null && !obs.Dragging && context.performed)
+        if (obs != null && !obs.Dragged && context.performed)
         {
             var original = BeatmapFactory.Clone(obs.ObjectData);
             var tweakValue = ((context.ReadValue<float>() > 0) ^ Settings.Instance.InvertScrollWallDuration)
@@ -98,7 +98,7 @@ public class BeatmapObstacleInputController : BeatmapInputController<ObstacleCon
     {
         if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)) return;
         RaycastFirstObject(out var obs);
-        if (obs != null && !obs.Dragging && context.performed) ToggleHyperWall(obs);
+        if (obs != null && !obs.Dragged && context.performed) ToggleHyperWall(obs);
     }
 
     public void ToggleHyperWall(ObstacleContainer obs)

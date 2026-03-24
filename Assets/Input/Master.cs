@@ -4444,7 +4444,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""name"": ""Activate Top Row Input"",
                     ""type"": ""Button"",
                     ""id"": ""ac441c0b-6cdd-45a8-ae25-6816a6f90fc6"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -4786,7 +4786,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""name"": ""InvertArcColor"",
                     ""type"": ""Button"",
                     ""id"": ""ee16de4f-c84f-40f4-bf15-2ed62d872ec4"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -5010,7 +5010,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""name"": ""SpawnArc"",
                     ""type"": ""Button"",
                     ""id"": ""4d226cfd-3abc-43ea-86e9-73299a8e46f5"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": ""Press"",
                     ""initialStateCheck"": false
@@ -5238,7 +5238,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             ]
         },
         {
-            ""name"": ""GLS Group Placement"",
+            ""name"": ""GLS Group Tabs"",
             ""id"": ""e4de6044-1de0-48cb-bbea-f07027b50a3d"",
             ""actions"": [
                 {
@@ -5266,7 +5266,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             ]
         },
         {
-            ""name"": ""GLS Color Placement"",
+            ""name"": ""GLS Color Objects"",
             ""id"": ""37f9e19f-0f82-481f-ac35-5c6bf1432eef"",
             ""actions"": [
                 {
@@ -5839,7 +5839,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""modifier1"",
                     ""id"": ""2a55ec29-49ad-4eb0-81e2-a52247fff3cc"",
-                    ""path"": """",
+                    ""path"": ""<Keyboard>/alt"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -5850,7 +5850,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""modifier2"",
                     ""id"": ""7d753cbb-19ce-4a3e-a8e5-c7be5ea347ab"",
-                    ""path"": """",
+                    ""path"": ""<Keyboard>/ctrl"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -5861,7 +5861,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""binding"",
                     ""id"": ""95a648b2-61a2-4dc3-bda5-fb0d5aeed10b"",
-                    ""path"": """",
+                    ""path"": ""<Mouse>/scroll/y"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -5881,15 +5881,48 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""aada2913-9a8f-4aea-b278-1bd0802b6475"",
-                    ""path"": """",
+                    ""name"": ""Two Modifiers"",
+                    ""id"": ""fde6eca0-a314-4e74-a319-8c344193fca9"",
+                    ""path"": ""TwoModifiers"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Change Strobe Brightness (Precise)"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier1"",
+                    ""id"": ""4edaef73-0e31-48be-b65a-4a17d7f65a9b"",
+                    ""path"": ""<Keyboard>/alt"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Change Strobe Brightness (Precise)"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": false
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""modifier2"",
+                    ""id"": ""807bf63f-208e-4cda-9a14-688ce59e8d1e"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Change Strobe Brightness (Precise)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""f856a759-a4cd-46b7-9e6f-71f7fcff786e"",
+                    ""path"": ""<Mouse>/scroll/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Change Strobe Brightness (Precise)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 },
                 {
                     ""name"": """",
@@ -5905,7 +5938,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""6ed88bf2-f16b-493b-bd18-6b8bb9242be7"",
-                    ""path"": """",
+                    ""path"": ""<Mouse>/middleButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -5914,20 +5947,42 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""a94f3625-56cb-4c4f-aa8e-111052665fc0"",
-                    ""path"": """",
+                    ""name"": ""One Modifier"",
+                    ""id"": ""c0e8dda8-7f4b-4d1d-a8a1-244e9a04cfa9"",
+                    ""path"": ""OneModifier"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Set Brightness (Precise)"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier"",
+                    ""id"": ""7d230d2a-e202-4e74-8b9f-a61314e308fc"",
+                    ""path"": ""<Keyboard>/alt"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Set Brightness (Precise)"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": false
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""b28ccbff-7c5a-4187-a840-c3f5907cab4c"",
+                    ""path"": ""<Mouse>/scroll/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Set Brightness (Precise)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         },
         {
-            ""name"": ""GLS Rotation Placement"",
+            ""name"": ""GLS Rotation Objects"",
             ""id"": ""7821383d-db53-4b63-9d86-1736470215f4"",
             ""actions"": [
                 {
@@ -6122,20 +6177,42 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""7a70c8c2-4be3-40bc-b2c5-1386f391e207"",
-                    ""path"": """",
+                    ""name"": ""One Modifier"",
+                    ""id"": ""19fbe902-7ea8-49b3-bf4e-a44d5699e797"",
+                    ""path"": ""OneModifier"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Set Angle (Precise)"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier"",
+                    ""id"": ""90e76cd5-c3d4-4c09-a96c-a3a8815bf1bf"",
+                    ""path"": ""<Keyboard>/alt"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Set Angle (Precise)"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": false
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""925c6e35-72e3-4531-949c-d6f3c27114ab"",
+                    ""path"": ""<Mouse>/scroll/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Set Angle (Precise)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         },
         {
-            ""name"": ""GLS Translation Placement"",
+            ""name"": ""GLS Translation Objects"",
             ""id"": ""95fdc5d9-bec4-4fe7-a26d-5fd971be30c5"",
             ""actions"": [
                 {
@@ -6285,7 +6362,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             ]
         },
         {
-            ""name"": ""GLS FloatFX Placement"",
+            ""name"": ""GLS FloatFX Objects"",
             ""id"": ""1ef73093-d6f4-46f2-80e2-2e6597cc240a"",
             ""actions"": [
                 {
@@ -6791,70 +6868,70 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         m_EditMode_GameplayEdit = m_EditMode.FindAction("GameplayEdit", throwIfNotFound: true);
         m_EditMode_GLSEdit = m_EditMode.FindAction("GLSEdit", throwIfNotFound: true);
         m_EditMode_BasicEventEdit = m_EditMode.FindAction("BasicEventEdit", throwIfNotFound: true);
-        // GLS Group Placement
-        m_GLSGroupPlacement = asset.FindActionMap("GLS Group Placement", throwIfNotFound: true);
-        m_GLSGroupPlacement_NextGroup = m_GLSGroupPlacement.FindAction("Next Group", throwIfNotFound: true);
-        // GLS Color Placement
-        m_GLSColorPlacement = asset.FindActionMap("GLS Color Placement", throwIfNotFound: true);
-        m_GLSColorPlacement_Color0Light = m_GLSColorPlacement.FindAction("Color0 Light", throwIfNotFound: true);
-        m_GLSColorPlacement_Color1Light = m_GLSColorPlacement.FindAction("Color1 Light", throwIfNotFound: true);
-        m_GLSColorPlacement_ColorWLight = m_GLSColorPlacement.FindAction("ColorW Light", throwIfNotFound: true);
-        m_GLSColorPlacement_ExtensionLight = m_GLSColorPlacement.FindAction("Extension Light", throwIfNotFound: true);
-        m_GLSColorPlacement_Static0Brightness = m_GLSColorPlacement.FindAction("Static 0 Brightness", throwIfNotFound: true);
-        m_GLSColorPlacement_Static50Brightness = m_GLSColorPlacement.FindAction("Static 50 Brightness", throwIfNotFound: true);
-        m_GLSColorPlacement_Static100Brightness = m_GLSColorPlacement.FindAction("Static 100 Brightness", throwIfNotFound: true);
-        m_GLSColorPlacement_Fade0Brightness = m_GLSColorPlacement.FindAction("Fade 0 Brightness", throwIfNotFound: true);
-        m_GLSColorPlacement_Fade50Brightness = m_GLSColorPlacement.FindAction("Fade 50 Brightness", throwIfNotFound: true);
-        m_GLSColorPlacement_Fade100Brightness = m_GLSColorPlacement.FindAction("Fade 100 Brightness", throwIfNotFound: true);
-        m_GLSColorPlacement_SetBrightness0 = m_GLSColorPlacement.FindAction("Set Brightness 0", throwIfNotFound: true);
-        m_GLSColorPlacement_SetBrightness10 = m_GLSColorPlacement.FindAction("Set Brightness 10", throwIfNotFound: true);
-        m_GLSColorPlacement_SetBrightness20 = m_GLSColorPlacement.FindAction("Set Brightness 20", throwIfNotFound: true);
-        m_GLSColorPlacement_SetBrightness30 = m_GLSColorPlacement.FindAction("Set Brightness 30", throwIfNotFound: true);
-        m_GLSColorPlacement_SetBrightness40 = m_GLSColorPlacement.FindAction("Set Brightness 40", throwIfNotFound: true);
-        m_GLSColorPlacement_SetBrightness50 = m_GLSColorPlacement.FindAction("Set Brightness 50", throwIfNotFound: true);
-        m_GLSColorPlacement_SetBrightness60 = m_GLSColorPlacement.FindAction("Set Brightness 60", throwIfNotFound: true);
-        m_GLSColorPlacement_SetBrightness70 = m_GLSColorPlacement.FindAction("Set Brightness 70", throwIfNotFound: true);
-        m_GLSColorPlacement_SetBrightness80 = m_GLSColorPlacement.FindAction("Set Brightness 80", throwIfNotFound: true);
-        m_GLSColorPlacement_SetBrightness90 = m_GLSColorPlacement.FindAction("Set Brightness 90", throwIfNotFound: true);
-        m_GLSColorPlacement_SetBrightness100 = m_GLSColorPlacement.FindAction("Set Brightness 100", throwIfNotFound: true);
-        m_GLSColorPlacement_SetBrightness120 = m_GLSColorPlacement.FindAction("Set Brightness 120", throwIfNotFound: true);
-        m_GLSColorPlacement_SetBrightness150 = m_GLSColorPlacement.FindAction("Set Brightness 150", throwIfNotFound: true);
-        m_GLSColorPlacement_StrobeOn = m_GLSColorPlacement.FindAction("Strobe On", throwIfNotFound: true);
-        m_GLSColorPlacement_StrobeOff = m_GLSColorPlacement.FindAction("Strobe Off", throwIfNotFound: true);
-        m_GLSColorPlacement_ChangeStrobeFrequencyPrecise = m_GLSColorPlacement.FindAction("Change Strobe Frequency (Precise)", throwIfNotFound: true);
-        m_GLSColorPlacement_ChangeStrobeBrightness = m_GLSColorPlacement.FindAction("Change Strobe Brightness", throwIfNotFound: true);
-        m_GLSColorPlacement_ChangeStrobeBrightnessPrecise = m_GLSColorPlacement.FindAction("Change Strobe Brightness (Precise)", throwIfNotFound: true);
-        m_GLSColorPlacement_SoftStrobe = m_GLSColorPlacement.FindAction("Soft Strobe", throwIfNotFound: true);
-        m_GLSColorPlacement_ChangeEventColor = m_GLSColorPlacement.FindAction("Change Event Color", throwIfNotFound: true);
-        m_GLSColorPlacement_SetBrightnessPrecise = m_GLSColorPlacement.FindAction("Set Brightness (Precise)", throwIfNotFound: true);
-        // GLS Rotation Placement
-        m_GLSRotationPlacement = asset.FindActionMap("GLS Rotation Placement", throwIfNotFound: true);
-        m_GLSRotationPlacement_SetAngle0 = m_GLSRotationPlacement.FindAction("Set Angle 0", throwIfNotFound: true);
-        m_GLSRotationPlacement_SetAngle90 = m_GLSRotationPlacement.FindAction("Set Angle 90", throwIfNotFound: true);
-        m_GLSRotationPlacement_SetAngle180 = m_GLSRotationPlacement.FindAction("Set Angle 180", throwIfNotFound: true);
-        m_GLSRotationPlacement_SetAngle270 = m_GLSRotationPlacement.FindAction("Set Angle 270", throwIfNotFound: true);
-        m_GLSRotationPlacement_SetRotationDirectionLeft = m_GLSRotationPlacement.FindAction("Set Rotation Direction (Left)", throwIfNotFound: true);
-        m_GLSRotationPlacement_SetRotationDirectionAutomatic = m_GLSRotationPlacement.FindAction("Set Rotation Direction (Automatic)", throwIfNotFound: true);
-        m_GLSRotationPlacement_SetRotationDirectionRight = m_GLSRotationPlacement.FindAction("Set Rotation Direction (Right)", throwIfNotFound: true);
-        m_GLSRotationPlacement_ChangeLoopCount = m_GLSRotationPlacement.FindAction("Change Loop Count", throwIfNotFound: true);
-        m_GLSRotationPlacement_ResetLoopCount = m_GLSRotationPlacement.FindAction("Reset Loop Count", throwIfNotFound: true);
-        m_GLSRotationPlacement_SetAnglePrecise = m_GLSRotationPlacement.FindAction("Set Angle (Precise)", throwIfNotFound: true);
-        // GLS Translation Placement
-        m_GLSTranslationPlacement = asset.FindActionMap("GLS Translation Placement", throwIfNotFound: true);
-        m_GLSTranslationPlacement_SetValuen100 = m_GLSTranslationPlacement.FindAction("Set Value n100", throwIfNotFound: true);
-        m_GLSTranslationPlacement_SetValuen50 = m_GLSTranslationPlacement.FindAction("Set Value n50", throwIfNotFound: true);
-        m_GLSTranslationPlacement_SetValue0 = m_GLSTranslationPlacement.FindAction("Set Value 0", throwIfNotFound: true);
-        m_GLSTranslationPlacement_SetValue50 = m_GLSTranslationPlacement.FindAction("Set Value 50", throwIfNotFound: true);
-        m_GLSTranslationPlacement_SetValue100 = m_GLSTranslationPlacement.FindAction("Set Value 100", throwIfNotFound: true);
-        m_GLSTranslationPlacement_SetValuePrecise = m_GLSTranslationPlacement.FindAction("Set Value (Precise)", throwIfNotFound: true);
-        // GLS FloatFX Placement
-        m_GLSFloatFXPlacement = asset.FindActionMap("GLS FloatFX Placement", throwIfNotFound: true);
-        m_GLSFloatFXPlacement_SetValuen100 = m_GLSFloatFXPlacement.FindAction("Set Value n100", throwIfNotFound: true);
-        m_GLSFloatFXPlacement_SetValuen50 = m_GLSFloatFXPlacement.FindAction("Set Value n50", throwIfNotFound: true);
-        m_GLSFloatFXPlacement_SetValue0 = m_GLSFloatFXPlacement.FindAction("Set Value 0", throwIfNotFound: true);
-        m_GLSFloatFXPlacement_SetValue50 = m_GLSFloatFXPlacement.FindAction("Set Value 50", throwIfNotFound: true);
-        m_GLSFloatFXPlacement_SetValue100 = m_GLSFloatFXPlacement.FindAction("Set Value 100", throwIfNotFound: true);
-        m_GLSFloatFXPlacement_SetValuePrecise = m_GLSFloatFXPlacement.FindAction("Set Value (Precise)", throwIfNotFound: true);
+        // GLS Group Tabs
+        m_GLSGroupTabs = asset.FindActionMap("GLS Group Tabs", throwIfNotFound: true);
+        m_GLSGroupTabs_NextGroup = m_GLSGroupTabs.FindAction("Next Group", throwIfNotFound: true);
+        // GLS Color Objects
+        m_GLSColorObjects = asset.FindActionMap("GLS Color Objects", throwIfNotFound: true);
+        m_GLSColorObjects_Color0Light = m_GLSColorObjects.FindAction("Color0 Light", throwIfNotFound: true);
+        m_GLSColorObjects_Color1Light = m_GLSColorObjects.FindAction("Color1 Light", throwIfNotFound: true);
+        m_GLSColorObjects_ColorWLight = m_GLSColorObjects.FindAction("ColorW Light", throwIfNotFound: true);
+        m_GLSColorObjects_ExtensionLight = m_GLSColorObjects.FindAction("Extension Light", throwIfNotFound: true);
+        m_GLSColorObjects_Static0Brightness = m_GLSColorObjects.FindAction("Static 0 Brightness", throwIfNotFound: true);
+        m_GLSColorObjects_Static50Brightness = m_GLSColorObjects.FindAction("Static 50 Brightness", throwIfNotFound: true);
+        m_GLSColorObjects_Static100Brightness = m_GLSColorObjects.FindAction("Static 100 Brightness", throwIfNotFound: true);
+        m_GLSColorObjects_Fade0Brightness = m_GLSColorObjects.FindAction("Fade 0 Brightness", throwIfNotFound: true);
+        m_GLSColorObjects_Fade50Brightness = m_GLSColorObjects.FindAction("Fade 50 Brightness", throwIfNotFound: true);
+        m_GLSColorObjects_Fade100Brightness = m_GLSColorObjects.FindAction("Fade 100 Brightness", throwIfNotFound: true);
+        m_GLSColorObjects_SetBrightness0 = m_GLSColorObjects.FindAction("Set Brightness 0", throwIfNotFound: true);
+        m_GLSColorObjects_SetBrightness10 = m_GLSColorObjects.FindAction("Set Brightness 10", throwIfNotFound: true);
+        m_GLSColorObjects_SetBrightness20 = m_GLSColorObjects.FindAction("Set Brightness 20", throwIfNotFound: true);
+        m_GLSColorObjects_SetBrightness30 = m_GLSColorObjects.FindAction("Set Brightness 30", throwIfNotFound: true);
+        m_GLSColorObjects_SetBrightness40 = m_GLSColorObjects.FindAction("Set Brightness 40", throwIfNotFound: true);
+        m_GLSColorObjects_SetBrightness50 = m_GLSColorObjects.FindAction("Set Brightness 50", throwIfNotFound: true);
+        m_GLSColorObjects_SetBrightness60 = m_GLSColorObjects.FindAction("Set Brightness 60", throwIfNotFound: true);
+        m_GLSColorObjects_SetBrightness70 = m_GLSColorObjects.FindAction("Set Brightness 70", throwIfNotFound: true);
+        m_GLSColorObjects_SetBrightness80 = m_GLSColorObjects.FindAction("Set Brightness 80", throwIfNotFound: true);
+        m_GLSColorObjects_SetBrightness90 = m_GLSColorObjects.FindAction("Set Brightness 90", throwIfNotFound: true);
+        m_GLSColorObjects_SetBrightness100 = m_GLSColorObjects.FindAction("Set Brightness 100", throwIfNotFound: true);
+        m_GLSColorObjects_SetBrightness120 = m_GLSColorObjects.FindAction("Set Brightness 120", throwIfNotFound: true);
+        m_GLSColorObjects_SetBrightness150 = m_GLSColorObjects.FindAction("Set Brightness 150", throwIfNotFound: true);
+        m_GLSColorObjects_StrobeOn = m_GLSColorObjects.FindAction("Strobe On", throwIfNotFound: true);
+        m_GLSColorObjects_StrobeOff = m_GLSColorObjects.FindAction("Strobe Off", throwIfNotFound: true);
+        m_GLSColorObjects_ChangeStrobeFrequencyPrecise = m_GLSColorObjects.FindAction("Change Strobe Frequency (Precise)", throwIfNotFound: true);
+        m_GLSColorObjects_ChangeStrobeBrightness = m_GLSColorObjects.FindAction("Change Strobe Brightness", throwIfNotFound: true);
+        m_GLSColorObjects_ChangeStrobeBrightnessPrecise = m_GLSColorObjects.FindAction("Change Strobe Brightness (Precise)", throwIfNotFound: true);
+        m_GLSColorObjects_SoftStrobe = m_GLSColorObjects.FindAction("Soft Strobe", throwIfNotFound: true);
+        m_GLSColorObjects_ChangeEventColor = m_GLSColorObjects.FindAction("Change Event Color", throwIfNotFound: true);
+        m_GLSColorObjects_SetBrightnessPrecise = m_GLSColorObjects.FindAction("Set Brightness (Precise)", throwIfNotFound: true);
+        // GLS Rotation Objects
+        m_GLSRotationObjects = asset.FindActionMap("GLS Rotation Objects", throwIfNotFound: true);
+        m_GLSRotationObjects_SetAngle0 = m_GLSRotationObjects.FindAction("Set Angle 0", throwIfNotFound: true);
+        m_GLSRotationObjects_SetAngle90 = m_GLSRotationObjects.FindAction("Set Angle 90", throwIfNotFound: true);
+        m_GLSRotationObjects_SetAngle180 = m_GLSRotationObjects.FindAction("Set Angle 180", throwIfNotFound: true);
+        m_GLSRotationObjects_SetAngle270 = m_GLSRotationObjects.FindAction("Set Angle 270", throwIfNotFound: true);
+        m_GLSRotationObjects_SetRotationDirectionLeft = m_GLSRotationObjects.FindAction("Set Rotation Direction (Left)", throwIfNotFound: true);
+        m_GLSRotationObjects_SetRotationDirectionAutomatic = m_GLSRotationObjects.FindAction("Set Rotation Direction (Automatic)", throwIfNotFound: true);
+        m_GLSRotationObjects_SetRotationDirectionRight = m_GLSRotationObjects.FindAction("Set Rotation Direction (Right)", throwIfNotFound: true);
+        m_GLSRotationObjects_ChangeLoopCount = m_GLSRotationObjects.FindAction("Change Loop Count", throwIfNotFound: true);
+        m_GLSRotationObjects_ResetLoopCount = m_GLSRotationObjects.FindAction("Reset Loop Count", throwIfNotFound: true);
+        m_GLSRotationObjects_SetAnglePrecise = m_GLSRotationObjects.FindAction("Set Angle (Precise)", throwIfNotFound: true);
+        // GLS Translation Objects
+        m_GLSTranslationObjects = asset.FindActionMap("GLS Translation Objects", throwIfNotFound: true);
+        m_GLSTranslationObjects_SetValuen100 = m_GLSTranslationObjects.FindAction("Set Value n100", throwIfNotFound: true);
+        m_GLSTranslationObjects_SetValuen50 = m_GLSTranslationObjects.FindAction("Set Value n50", throwIfNotFound: true);
+        m_GLSTranslationObjects_SetValue0 = m_GLSTranslationObjects.FindAction("Set Value 0", throwIfNotFound: true);
+        m_GLSTranslationObjects_SetValue50 = m_GLSTranslationObjects.FindAction("Set Value 50", throwIfNotFound: true);
+        m_GLSTranslationObjects_SetValue100 = m_GLSTranslationObjects.FindAction("Set Value 100", throwIfNotFound: true);
+        m_GLSTranslationObjects_SetValuePrecise = m_GLSTranslationObjects.FindAction("Set Value (Precise)", throwIfNotFound: true);
+        // GLS FloatFX Objects
+        m_GLSFloatFXObjects = asset.FindActionMap("GLS FloatFX Objects", throwIfNotFound: true);
+        m_GLSFloatFXObjects_SetValuen100 = m_GLSFloatFXObjects.FindAction("Set Value n100", throwIfNotFound: true);
+        m_GLSFloatFXObjects_SetValuen50 = m_GLSFloatFXObjects.FindAction("Set Value n50", throwIfNotFound: true);
+        m_GLSFloatFXObjects_SetValue0 = m_GLSFloatFXObjects.FindAction("Set Value 0", throwIfNotFound: true);
+        m_GLSFloatFXObjects_SetValue50 = m_GLSFloatFXObjects.FindAction("Set Value 50", throwIfNotFound: true);
+        m_GLSFloatFXObjects_SetValue100 = m_GLSFloatFXObjects.FindAction("Set Value 100", throwIfNotFound: true);
+        m_GLSFloatFXObjects_SetValuePrecise = m_GLSFloatFXObjects.FindAction("Set Value (Precise)", throwIfNotFound: true);
         // Easings Selection
         m_EasingsSelection = asset.FindActionMap("Easings Selection", throwIfNotFound: true);
         m_EasingsSelection_ChangeEasingCurve = m_EasingsSelection.FindAction("Change Easing (Curve)", throwIfNotFound: true);
@@ -6913,11 +6990,11 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         UnityEngine.Debug.Assert(!m_NJSEventObjects.enabled, "This will cause a leak and performance issues, CMInput.NJSEventObjects.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_SwitchVersion.enabled, "This will cause a leak and performance issues, CMInput.SwitchVersion.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_EditMode.enabled, "This will cause a leak and performance issues, CMInput.EditMode.Disable() has not been called.");
-        UnityEngine.Debug.Assert(!m_GLSGroupPlacement.enabled, "This will cause a leak and performance issues, CMInput.GLSGroupPlacement.Disable() has not been called.");
-        UnityEngine.Debug.Assert(!m_GLSColorPlacement.enabled, "This will cause a leak and performance issues, CMInput.GLSColorPlacement.Disable() has not been called.");
-        UnityEngine.Debug.Assert(!m_GLSRotationPlacement.enabled, "This will cause a leak and performance issues, CMInput.GLSRotationPlacement.Disable() has not been called.");
-        UnityEngine.Debug.Assert(!m_GLSTranslationPlacement.enabled, "This will cause a leak and performance issues, CMInput.GLSTranslationPlacement.Disable() has not been called.");
-        UnityEngine.Debug.Assert(!m_GLSFloatFXPlacement.enabled, "This will cause a leak and performance issues, CMInput.GLSFloatFXPlacement.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_GLSGroupTabs.enabled, "This will cause a leak and performance issues, CMInput.GLSGroupTabs.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_GLSColorObjects.enabled, "This will cause a leak and performance issues, CMInput.GLSColorObjects.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_GLSRotationObjects.enabled, "This will cause a leak and performance issues, CMInput.GLSRotationObjects.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_GLSTranslationObjects.enabled, "This will cause a leak and performance issues, CMInput.GLSTranslationObjects.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_GLSFloatFXObjects.enabled, "This will cause a leak and performance issues, CMInput.GLSFloatFXObjects.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_EasingsSelection.enabled, "This will cause a leak and performance issues, CMInput.EasingsSelection.Disable() has not been called.");
     }
 
@@ -12875,29 +12952,29 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
     /// </summary>
     public EditModeActions @EditMode => new EditModeActions(this);
 
-    // GLS Group Placement
-    private readonly InputActionMap m_GLSGroupPlacement;
-    private List<IGLSGroupPlacementActions> m_GLSGroupPlacementActionsCallbackInterfaces = new List<IGLSGroupPlacementActions>();
-    private readonly InputAction m_GLSGroupPlacement_NextGroup;
+    // GLS Group Tabs
+    private readonly InputActionMap m_GLSGroupTabs;
+    private List<IGLSGroupTabsActions> m_GLSGroupTabsActionsCallbackInterfaces = new List<IGLSGroupTabsActions>();
+    private readonly InputAction m_GLSGroupTabs_NextGroup;
     /// <summary>
-    /// Provides access to input actions defined in input action map "GLS Group Placement".
+    /// Provides access to input actions defined in input action map "GLS Group Tabs".
     /// </summary>
-    public struct GLSGroupPlacementActions
+    public struct GLSGroupTabsActions
     {
         private @CMInput m_Wrapper;
 
         /// <summary>
         /// Construct a new instance of the input action map wrapper class.
         /// </summary>
-        public GLSGroupPlacementActions(@CMInput wrapper) { m_Wrapper = wrapper; }
+        public GLSGroupTabsActions(@CMInput wrapper) { m_Wrapper = wrapper; }
         /// <summary>
-        /// Provides access to the underlying input action "GLSGroupPlacement/NextGroup".
+        /// Provides access to the underlying input action "GLSGroupTabs/NextGroup".
         /// </summary>
-        public InputAction @NextGroup => m_Wrapper.m_GLSGroupPlacement_NextGroup;
+        public InputAction @NextGroup => m_Wrapper.m_GLSGroupTabs_NextGroup;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
-        public InputActionMap Get() { return m_Wrapper.m_GLSGroupPlacement; }
+        public InputActionMap Get() { return m_Wrapper.m_GLSGroupTabs; }
         /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
         public void Enable() { Get().Enable(); }
         /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
@@ -12905,9 +12982,9 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
         public bool enabled => Get().enabled;
         /// <summary>
-        /// Implicitly converts an <see ref="GLSGroupPlacementActions" /> to an <see ref="InputActionMap" /> instance.
+        /// Implicitly converts an <see ref="GLSGroupTabsActions" /> to an <see ref="InputActionMap" /> instance.
         /// </summary>
-        public static implicit operator InputActionMap(GLSGroupPlacementActions set) { return set.Get(); }
+        public static implicit operator InputActionMap(GLSGroupTabsActions set) { return set.Get(); }
         /// <summary>
         /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
         /// </summary>
@@ -12915,11 +12992,11 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <remarks>
         /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
         /// </remarks>
-        /// <seealso cref="GLSGroupPlacementActions" />
-        public void AddCallbacks(IGLSGroupPlacementActions instance)
+        /// <seealso cref="GLSGroupTabsActions" />
+        public void AddCallbacks(IGLSGroupTabsActions instance)
         {
-            if (instance == null || m_Wrapper.m_GLSGroupPlacementActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_GLSGroupPlacementActionsCallbackInterfaces.Add(instance);
+            if (instance == null || m_Wrapper.m_GLSGroupTabsActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_GLSGroupTabsActionsCallbackInterfaces.Add(instance);
             @NextGroup.started += instance.OnNextGroup;
             @NextGroup.performed += instance.OnNextGroup;
             @NextGroup.canceled += instance.OnNextGroup;
@@ -12931,8 +13008,8 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <remarks>
         /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
         /// </remarks>
-        /// <seealso cref="GLSGroupPlacementActions" />
-        private void UnregisterCallbacks(IGLSGroupPlacementActions instance)
+        /// <seealso cref="GLSGroupTabsActions" />
+        private void UnregisterCallbacks(IGLSGroupTabsActions instance)
         {
             @NextGroup.started -= instance.OnNextGroup;
             @NextGroup.performed -= instance.OnNextGroup;
@@ -12940,12 +13017,12 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         }
 
         /// <summary>
-        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="GLSGroupPlacementActions.UnregisterCallbacks(IGLSGroupPlacementActions)" />.
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="GLSGroupTabsActions.UnregisterCallbacks(IGLSGroupTabsActions)" />.
         /// </summary>
-        /// <seealso cref="GLSGroupPlacementActions.UnregisterCallbacks(IGLSGroupPlacementActions)" />
-        public void RemoveCallbacks(IGLSGroupPlacementActions instance)
+        /// <seealso cref="GLSGroupTabsActions.UnregisterCallbacks(IGLSGroupTabsActions)" />
+        public void RemoveCallbacks(IGLSGroupTabsActions instance)
         {
-            if (m_Wrapper.m_GLSGroupPlacementActionsCallbackInterfaces.Remove(instance))
+            if (m_Wrapper.m_GLSGroupTabsActionsCallbackInterfaces.Remove(instance))
                 UnregisterCallbacks(instance);
         }
 
@@ -12955,195 +13032,195 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <remarks>
         /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
         /// </remarks>
-        /// <seealso cref="GLSGroupPlacementActions.AddCallbacks(IGLSGroupPlacementActions)" />
-        /// <seealso cref="GLSGroupPlacementActions.RemoveCallbacks(IGLSGroupPlacementActions)" />
-        /// <seealso cref="GLSGroupPlacementActions.UnregisterCallbacks(IGLSGroupPlacementActions)" />
-        public void SetCallbacks(IGLSGroupPlacementActions instance)
+        /// <seealso cref="GLSGroupTabsActions.AddCallbacks(IGLSGroupTabsActions)" />
+        /// <seealso cref="GLSGroupTabsActions.RemoveCallbacks(IGLSGroupTabsActions)" />
+        /// <seealso cref="GLSGroupTabsActions.UnregisterCallbacks(IGLSGroupTabsActions)" />
+        public void SetCallbacks(IGLSGroupTabsActions instance)
         {
-            foreach (var item in m_Wrapper.m_GLSGroupPlacementActionsCallbackInterfaces)
+            foreach (var item in m_Wrapper.m_GLSGroupTabsActionsCallbackInterfaces)
                 UnregisterCallbacks(item);
-            m_Wrapper.m_GLSGroupPlacementActionsCallbackInterfaces.Clear();
+            m_Wrapper.m_GLSGroupTabsActionsCallbackInterfaces.Clear();
             AddCallbacks(instance);
         }
     }
     /// <summary>
-    /// Provides a new <see cref="GLSGroupPlacementActions" /> instance referencing this action map.
+    /// Provides a new <see cref="GLSGroupTabsActions" /> instance referencing this action map.
     /// </summary>
-    public GLSGroupPlacementActions @GLSGroupPlacement => new GLSGroupPlacementActions(this);
+    public GLSGroupTabsActions @GLSGroupTabs => new GLSGroupTabsActions(this);
 
-    // GLS Color Placement
-    private readonly InputActionMap m_GLSColorPlacement;
-    private List<IGLSColorPlacementActions> m_GLSColorPlacementActionsCallbackInterfaces = new List<IGLSColorPlacementActions>();
-    private readonly InputAction m_GLSColorPlacement_Color0Light;
-    private readonly InputAction m_GLSColorPlacement_Color1Light;
-    private readonly InputAction m_GLSColorPlacement_ColorWLight;
-    private readonly InputAction m_GLSColorPlacement_ExtensionLight;
-    private readonly InputAction m_GLSColorPlacement_Static0Brightness;
-    private readonly InputAction m_GLSColorPlacement_Static50Brightness;
-    private readonly InputAction m_GLSColorPlacement_Static100Brightness;
-    private readonly InputAction m_GLSColorPlacement_Fade0Brightness;
-    private readonly InputAction m_GLSColorPlacement_Fade50Brightness;
-    private readonly InputAction m_GLSColorPlacement_Fade100Brightness;
-    private readonly InputAction m_GLSColorPlacement_SetBrightness0;
-    private readonly InputAction m_GLSColorPlacement_SetBrightness10;
-    private readonly InputAction m_GLSColorPlacement_SetBrightness20;
-    private readonly InputAction m_GLSColorPlacement_SetBrightness30;
-    private readonly InputAction m_GLSColorPlacement_SetBrightness40;
-    private readonly InputAction m_GLSColorPlacement_SetBrightness50;
-    private readonly InputAction m_GLSColorPlacement_SetBrightness60;
-    private readonly InputAction m_GLSColorPlacement_SetBrightness70;
-    private readonly InputAction m_GLSColorPlacement_SetBrightness80;
-    private readonly InputAction m_GLSColorPlacement_SetBrightness90;
-    private readonly InputAction m_GLSColorPlacement_SetBrightness100;
-    private readonly InputAction m_GLSColorPlacement_SetBrightness120;
-    private readonly InputAction m_GLSColorPlacement_SetBrightness150;
-    private readonly InputAction m_GLSColorPlacement_StrobeOn;
-    private readonly InputAction m_GLSColorPlacement_StrobeOff;
-    private readonly InputAction m_GLSColorPlacement_ChangeStrobeFrequencyPrecise;
-    private readonly InputAction m_GLSColorPlacement_ChangeStrobeBrightness;
-    private readonly InputAction m_GLSColorPlacement_ChangeStrobeBrightnessPrecise;
-    private readonly InputAction m_GLSColorPlacement_SoftStrobe;
-    private readonly InputAction m_GLSColorPlacement_ChangeEventColor;
-    private readonly InputAction m_GLSColorPlacement_SetBrightnessPrecise;
+    // GLS Color Objects
+    private readonly InputActionMap m_GLSColorObjects;
+    private List<IGLSColorObjectsActions> m_GLSColorObjectsActionsCallbackInterfaces = new List<IGLSColorObjectsActions>();
+    private readonly InputAction m_GLSColorObjects_Color0Light;
+    private readonly InputAction m_GLSColorObjects_Color1Light;
+    private readonly InputAction m_GLSColorObjects_ColorWLight;
+    private readonly InputAction m_GLSColorObjects_ExtensionLight;
+    private readonly InputAction m_GLSColorObjects_Static0Brightness;
+    private readonly InputAction m_GLSColorObjects_Static50Brightness;
+    private readonly InputAction m_GLSColorObjects_Static100Brightness;
+    private readonly InputAction m_GLSColorObjects_Fade0Brightness;
+    private readonly InputAction m_GLSColorObjects_Fade50Brightness;
+    private readonly InputAction m_GLSColorObjects_Fade100Brightness;
+    private readonly InputAction m_GLSColorObjects_SetBrightness0;
+    private readonly InputAction m_GLSColorObjects_SetBrightness10;
+    private readonly InputAction m_GLSColorObjects_SetBrightness20;
+    private readonly InputAction m_GLSColorObjects_SetBrightness30;
+    private readonly InputAction m_GLSColorObjects_SetBrightness40;
+    private readonly InputAction m_GLSColorObjects_SetBrightness50;
+    private readonly InputAction m_GLSColorObjects_SetBrightness60;
+    private readonly InputAction m_GLSColorObjects_SetBrightness70;
+    private readonly InputAction m_GLSColorObjects_SetBrightness80;
+    private readonly InputAction m_GLSColorObjects_SetBrightness90;
+    private readonly InputAction m_GLSColorObjects_SetBrightness100;
+    private readonly InputAction m_GLSColorObjects_SetBrightness120;
+    private readonly InputAction m_GLSColorObjects_SetBrightness150;
+    private readonly InputAction m_GLSColorObjects_StrobeOn;
+    private readonly InputAction m_GLSColorObjects_StrobeOff;
+    private readonly InputAction m_GLSColorObjects_ChangeStrobeFrequencyPrecise;
+    private readonly InputAction m_GLSColorObjects_ChangeStrobeBrightness;
+    private readonly InputAction m_GLSColorObjects_ChangeStrobeBrightnessPrecise;
+    private readonly InputAction m_GLSColorObjects_SoftStrobe;
+    private readonly InputAction m_GLSColorObjects_ChangeEventColor;
+    private readonly InputAction m_GLSColorObjects_SetBrightnessPrecise;
     /// <summary>
-    /// Provides access to input actions defined in input action map "GLS Color Placement".
+    /// Provides access to input actions defined in input action map "GLS Color Objects".
     /// </summary>
-    public struct GLSColorPlacementActions
+    public struct GLSColorObjectsActions
     {
         private @CMInput m_Wrapper;
 
         /// <summary>
         /// Construct a new instance of the input action map wrapper class.
         /// </summary>
-        public GLSColorPlacementActions(@CMInput wrapper) { m_Wrapper = wrapper; }
+        public GLSColorObjectsActions(@CMInput wrapper) { m_Wrapper = wrapper; }
         /// <summary>
-        /// Provides access to the underlying input action "GLSColorPlacement/Color0Light".
+        /// Provides access to the underlying input action "GLSColorObjects/Color0Light".
         /// </summary>
-        public InputAction @Color0Light => m_Wrapper.m_GLSColorPlacement_Color0Light;
+        public InputAction @Color0Light => m_Wrapper.m_GLSColorObjects_Color0Light;
         /// <summary>
-        /// Provides access to the underlying input action "GLSColorPlacement/Color1Light".
+        /// Provides access to the underlying input action "GLSColorObjects/Color1Light".
         /// </summary>
-        public InputAction @Color1Light => m_Wrapper.m_GLSColorPlacement_Color1Light;
+        public InputAction @Color1Light => m_Wrapper.m_GLSColorObjects_Color1Light;
         /// <summary>
-        /// Provides access to the underlying input action "GLSColorPlacement/ColorWLight".
+        /// Provides access to the underlying input action "GLSColorObjects/ColorWLight".
         /// </summary>
-        public InputAction @ColorWLight => m_Wrapper.m_GLSColorPlacement_ColorWLight;
+        public InputAction @ColorWLight => m_Wrapper.m_GLSColorObjects_ColorWLight;
         /// <summary>
-        /// Provides access to the underlying input action "GLSColorPlacement/ExtensionLight".
+        /// Provides access to the underlying input action "GLSColorObjects/ExtensionLight".
         /// </summary>
-        public InputAction @ExtensionLight => m_Wrapper.m_GLSColorPlacement_ExtensionLight;
+        public InputAction @ExtensionLight => m_Wrapper.m_GLSColorObjects_ExtensionLight;
         /// <summary>
-        /// Provides access to the underlying input action "GLSColorPlacement/Static0Brightness".
+        /// Provides access to the underlying input action "GLSColorObjects/Static0Brightness".
         /// </summary>
-        public InputAction @Static0Brightness => m_Wrapper.m_GLSColorPlacement_Static0Brightness;
+        public InputAction @Static0Brightness => m_Wrapper.m_GLSColorObjects_Static0Brightness;
         /// <summary>
-        /// Provides access to the underlying input action "GLSColorPlacement/Static50Brightness".
+        /// Provides access to the underlying input action "GLSColorObjects/Static50Brightness".
         /// </summary>
-        public InputAction @Static50Brightness => m_Wrapper.m_GLSColorPlacement_Static50Brightness;
+        public InputAction @Static50Brightness => m_Wrapper.m_GLSColorObjects_Static50Brightness;
         /// <summary>
-        /// Provides access to the underlying input action "GLSColorPlacement/Static100Brightness".
+        /// Provides access to the underlying input action "GLSColorObjects/Static100Brightness".
         /// </summary>
-        public InputAction @Static100Brightness => m_Wrapper.m_GLSColorPlacement_Static100Brightness;
+        public InputAction @Static100Brightness => m_Wrapper.m_GLSColorObjects_Static100Brightness;
         /// <summary>
-        /// Provides access to the underlying input action "GLSColorPlacement/Fade0Brightness".
+        /// Provides access to the underlying input action "GLSColorObjects/Fade0Brightness".
         /// </summary>
-        public InputAction @Fade0Brightness => m_Wrapper.m_GLSColorPlacement_Fade0Brightness;
+        public InputAction @Fade0Brightness => m_Wrapper.m_GLSColorObjects_Fade0Brightness;
         /// <summary>
-        /// Provides access to the underlying input action "GLSColorPlacement/Fade50Brightness".
+        /// Provides access to the underlying input action "GLSColorObjects/Fade50Brightness".
         /// </summary>
-        public InputAction @Fade50Brightness => m_Wrapper.m_GLSColorPlacement_Fade50Brightness;
+        public InputAction @Fade50Brightness => m_Wrapper.m_GLSColorObjects_Fade50Brightness;
         /// <summary>
-        /// Provides access to the underlying input action "GLSColorPlacement/Fade100Brightness".
+        /// Provides access to the underlying input action "GLSColorObjects/Fade100Brightness".
         /// </summary>
-        public InputAction @Fade100Brightness => m_Wrapper.m_GLSColorPlacement_Fade100Brightness;
+        public InputAction @Fade100Brightness => m_Wrapper.m_GLSColorObjects_Fade100Brightness;
         /// <summary>
-        /// Provides access to the underlying input action "GLSColorPlacement/SetBrightness0".
+        /// Provides access to the underlying input action "GLSColorObjects/SetBrightness0".
         /// </summary>
-        public InputAction @SetBrightness0 => m_Wrapper.m_GLSColorPlacement_SetBrightness0;
+        public InputAction @SetBrightness0 => m_Wrapper.m_GLSColorObjects_SetBrightness0;
         /// <summary>
-        /// Provides access to the underlying input action "GLSColorPlacement/SetBrightness10".
+        /// Provides access to the underlying input action "GLSColorObjects/SetBrightness10".
         /// </summary>
-        public InputAction @SetBrightness10 => m_Wrapper.m_GLSColorPlacement_SetBrightness10;
+        public InputAction @SetBrightness10 => m_Wrapper.m_GLSColorObjects_SetBrightness10;
         /// <summary>
-        /// Provides access to the underlying input action "GLSColorPlacement/SetBrightness20".
+        /// Provides access to the underlying input action "GLSColorObjects/SetBrightness20".
         /// </summary>
-        public InputAction @SetBrightness20 => m_Wrapper.m_GLSColorPlacement_SetBrightness20;
+        public InputAction @SetBrightness20 => m_Wrapper.m_GLSColorObjects_SetBrightness20;
         /// <summary>
-        /// Provides access to the underlying input action "GLSColorPlacement/SetBrightness30".
+        /// Provides access to the underlying input action "GLSColorObjects/SetBrightness30".
         /// </summary>
-        public InputAction @SetBrightness30 => m_Wrapper.m_GLSColorPlacement_SetBrightness30;
+        public InputAction @SetBrightness30 => m_Wrapper.m_GLSColorObjects_SetBrightness30;
         /// <summary>
-        /// Provides access to the underlying input action "GLSColorPlacement/SetBrightness40".
+        /// Provides access to the underlying input action "GLSColorObjects/SetBrightness40".
         /// </summary>
-        public InputAction @SetBrightness40 => m_Wrapper.m_GLSColorPlacement_SetBrightness40;
+        public InputAction @SetBrightness40 => m_Wrapper.m_GLSColorObjects_SetBrightness40;
         /// <summary>
-        /// Provides access to the underlying input action "GLSColorPlacement/SetBrightness50".
+        /// Provides access to the underlying input action "GLSColorObjects/SetBrightness50".
         /// </summary>
-        public InputAction @SetBrightness50 => m_Wrapper.m_GLSColorPlacement_SetBrightness50;
+        public InputAction @SetBrightness50 => m_Wrapper.m_GLSColorObjects_SetBrightness50;
         /// <summary>
-        /// Provides access to the underlying input action "GLSColorPlacement/SetBrightness60".
+        /// Provides access to the underlying input action "GLSColorObjects/SetBrightness60".
         /// </summary>
-        public InputAction @SetBrightness60 => m_Wrapper.m_GLSColorPlacement_SetBrightness60;
+        public InputAction @SetBrightness60 => m_Wrapper.m_GLSColorObjects_SetBrightness60;
         /// <summary>
-        /// Provides access to the underlying input action "GLSColorPlacement/SetBrightness70".
+        /// Provides access to the underlying input action "GLSColorObjects/SetBrightness70".
         /// </summary>
-        public InputAction @SetBrightness70 => m_Wrapper.m_GLSColorPlacement_SetBrightness70;
+        public InputAction @SetBrightness70 => m_Wrapper.m_GLSColorObjects_SetBrightness70;
         /// <summary>
-        /// Provides access to the underlying input action "GLSColorPlacement/SetBrightness80".
+        /// Provides access to the underlying input action "GLSColorObjects/SetBrightness80".
         /// </summary>
-        public InputAction @SetBrightness80 => m_Wrapper.m_GLSColorPlacement_SetBrightness80;
+        public InputAction @SetBrightness80 => m_Wrapper.m_GLSColorObjects_SetBrightness80;
         /// <summary>
-        /// Provides access to the underlying input action "GLSColorPlacement/SetBrightness90".
+        /// Provides access to the underlying input action "GLSColorObjects/SetBrightness90".
         /// </summary>
-        public InputAction @SetBrightness90 => m_Wrapper.m_GLSColorPlacement_SetBrightness90;
+        public InputAction @SetBrightness90 => m_Wrapper.m_GLSColorObjects_SetBrightness90;
         /// <summary>
-        /// Provides access to the underlying input action "GLSColorPlacement/SetBrightness100".
+        /// Provides access to the underlying input action "GLSColorObjects/SetBrightness100".
         /// </summary>
-        public InputAction @SetBrightness100 => m_Wrapper.m_GLSColorPlacement_SetBrightness100;
+        public InputAction @SetBrightness100 => m_Wrapper.m_GLSColorObjects_SetBrightness100;
         /// <summary>
-        /// Provides access to the underlying input action "GLSColorPlacement/SetBrightness120".
+        /// Provides access to the underlying input action "GLSColorObjects/SetBrightness120".
         /// </summary>
-        public InputAction @SetBrightness120 => m_Wrapper.m_GLSColorPlacement_SetBrightness120;
+        public InputAction @SetBrightness120 => m_Wrapper.m_GLSColorObjects_SetBrightness120;
         /// <summary>
-        /// Provides access to the underlying input action "GLSColorPlacement/SetBrightness150".
+        /// Provides access to the underlying input action "GLSColorObjects/SetBrightness150".
         /// </summary>
-        public InputAction @SetBrightness150 => m_Wrapper.m_GLSColorPlacement_SetBrightness150;
+        public InputAction @SetBrightness150 => m_Wrapper.m_GLSColorObjects_SetBrightness150;
         /// <summary>
-        /// Provides access to the underlying input action "GLSColorPlacement/StrobeOn".
+        /// Provides access to the underlying input action "GLSColorObjects/StrobeOn".
         /// </summary>
-        public InputAction @StrobeOn => m_Wrapper.m_GLSColorPlacement_StrobeOn;
+        public InputAction @StrobeOn => m_Wrapper.m_GLSColorObjects_StrobeOn;
         /// <summary>
-        /// Provides access to the underlying input action "GLSColorPlacement/StrobeOff".
+        /// Provides access to the underlying input action "GLSColorObjects/StrobeOff".
         /// </summary>
-        public InputAction @StrobeOff => m_Wrapper.m_GLSColorPlacement_StrobeOff;
+        public InputAction @StrobeOff => m_Wrapper.m_GLSColorObjects_StrobeOff;
         /// <summary>
-        /// Provides access to the underlying input action "GLSColorPlacement/ChangeStrobeFrequencyPrecise".
+        /// Provides access to the underlying input action "GLSColorObjects/ChangeStrobeFrequencyPrecise".
         /// </summary>
-        public InputAction @ChangeStrobeFrequencyPrecise => m_Wrapper.m_GLSColorPlacement_ChangeStrobeFrequencyPrecise;
+        public InputAction @ChangeStrobeFrequencyPrecise => m_Wrapper.m_GLSColorObjects_ChangeStrobeFrequencyPrecise;
         /// <summary>
-        /// Provides access to the underlying input action "GLSColorPlacement/ChangeStrobeBrightness".
+        /// Provides access to the underlying input action "GLSColorObjects/ChangeStrobeBrightness".
         /// </summary>
-        public InputAction @ChangeStrobeBrightness => m_Wrapper.m_GLSColorPlacement_ChangeStrobeBrightness;
+        public InputAction @ChangeStrobeBrightness => m_Wrapper.m_GLSColorObjects_ChangeStrobeBrightness;
         /// <summary>
-        /// Provides access to the underlying input action "GLSColorPlacement/ChangeStrobeBrightnessPrecise".
+        /// Provides access to the underlying input action "GLSColorObjects/ChangeStrobeBrightnessPrecise".
         /// </summary>
-        public InputAction @ChangeStrobeBrightnessPrecise => m_Wrapper.m_GLSColorPlacement_ChangeStrobeBrightnessPrecise;
+        public InputAction @ChangeStrobeBrightnessPrecise => m_Wrapper.m_GLSColorObjects_ChangeStrobeBrightnessPrecise;
         /// <summary>
-        /// Provides access to the underlying input action "GLSColorPlacement/SoftStrobe".
+        /// Provides access to the underlying input action "GLSColorObjects/SoftStrobe".
         /// </summary>
-        public InputAction @SoftStrobe => m_Wrapper.m_GLSColorPlacement_SoftStrobe;
+        public InputAction @SoftStrobe => m_Wrapper.m_GLSColorObjects_SoftStrobe;
         /// <summary>
-        /// Provides access to the underlying input action "GLSColorPlacement/ChangeEventColor".
+        /// Provides access to the underlying input action "GLSColorObjects/ChangeEventColor".
         /// </summary>
-        public InputAction @ChangeEventColor => m_Wrapper.m_GLSColorPlacement_ChangeEventColor;
+        public InputAction @ChangeEventColor => m_Wrapper.m_GLSColorObjects_ChangeEventColor;
         /// <summary>
-        /// Provides access to the underlying input action "GLSColorPlacement/SetBrightnessPrecise".
+        /// Provides access to the underlying input action "GLSColorObjects/SetBrightnessPrecise".
         /// </summary>
-        public InputAction @SetBrightnessPrecise => m_Wrapper.m_GLSColorPlacement_SetBrightnessPrecise;
+        public InputAction @SetBrightnessPrecise => m_Wrapper.m_GLSColorObjects_SetBrightnessPrecise;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
-        public InputActionMap Get() { return m_Wrapper.m_GLSColorPlacement; }
+        public InputActionMap Get() { return m_Wrapper.m_GLSColorObjects; }
         /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
         public void Enable() { Get().Enable(); }
         /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
@@ -13151,9 +13228,9 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
         public bool enabled => Get().enabled;
         /// <summary>
-        /// Implicitly converts an <see ref="GLSColorPlacementActions" /> to an <see ref="InputActionMap" /> instance.
+        /// Implicitly converts an <see ref="GLSColorObjectsActions" /> to an <see ref="InputActionMap" /> instance.
         /// </summary>
-        public static implicit operator InputActionMap(GLSColorPlacementActions set) { return set.Get(); }
+        public static implicit operator InputActionMap(GLSColorObjectsActions set) { return set.Get(); }
         /// <summary>
         /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
         /// </summary>
@@ -13161,11 +13238,11 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <remarks>
         /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
         /// </remarks>
-        /// <seealso cref="GLSColorPlacementActions" />
-        public void AddCallbacks(IGLSColorPlacementActions instance)
+        /// <seealso cref="GLSColorObjectsActions" />
+        public void AddCallbacks(IGLSColorObjectsActions instance)
         {
-            if (instance == null || m_Wrapper.m_GLSColorPlacementActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_GLSColorPlacementActionsCallbackInterfaces.Add(instance);
+            if (instance == null || m_Wrapper.m_GLSColorObjectsActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_GLSColorObjectsActionsCallbackInterfaces.Add(instance);
             @Color0Light.started += instance.OnColor0Light;
             @Color0Light.performed += instance.OnColor0Light;
             @Color0Light.canceled += instance.OnColor0Light;
@@ -13267,8 +13344,8 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <remarks>
         /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
         /// </remarks>
-        /// <seealso cref="GLSColorPlacementActions" />
-        private void UnregisterCallbacks(IGLSColorPlacementActions instance)
+        /// <seealso cref="GLSColorObjectsActions" />
+        private void UnregisterCallbacks(IGLSColorObjectsActions instance)
         {
             @Color0Light.started -= instance.OnColor0Light;
             @Color0Light.performed -= instance.OnColor0Light;
@@ -13366,12 +13443,12 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         }
 
         /// <summary>
-        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="GLSColorPlacementActions.UnregisterCallbacks(IGLSColorPlacementActions)" />.
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="GLSColorObjectsActions.UnregisterCallbacks(IGLSColorObjectsActions)" />.
         /// </summary>
-        /// <seealso cref="GLSColorPlacementActions.UnregisterCallbacks(IGLSColorPlacementActions)" />
-        public void RemoveCallbacks(IGLSColorPlacementActions instance)
+        /// <seealso cref="GLSColorObjectsActions.UnregisterCallbacks(IGLSColorObjectsActions)" />
+        public void RemoveCallbacks(IGLSColorObjectsActions instance)
         {
-            if (m_Wrapper.m_GLSColorPlacementActionsCallbackInterfaces.Remove(instance))
+            if (m_Wrapper.m_GLSColorObjectsActionsCallbackInterfaces.Remove(instance))
                 UnregisterCallbacks(instance);
         }
 
@@ -13381,90 +13458,90 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <remarks>
         /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
         /// </remarks>
-        /// <seealso cref="GLSColorPlacementActions.AddCallbacks(IGLSColorPlacementActions)" />
-        /// <seealso cref="GLSColorPlacementActions.RemoveCallbacks(IGLSColorPlacementActions)" />
-        /// <seealso cref="GLSColorPlacementActions.UnregisterCallbacks(IGLSColorPlacementActions)" />
-        public void SetCallbacks(IGLSColorPlacementActions instance)
+        /// <seealso cref="GLSColorObjectsActions.AddCallbacks(IGLSColorObjectsActions)" />
+        /// <seealso cref="GLSColorObjectsActions.RemoveCallbacks(IGLSColorObjectsActions)" />
+        /// <seealso cref="GLSColorObjectsActions.UnregisterCallbacks(IGLSColorObjectsActions)" />
+        public void SetCallbacks(IGLSColorObjectsActions instance)
         {
-            foreach (var item in m_Wrapper.m_GLSColorPlacementActionsCallbackInterfaces)
+            foreach (var item in m_Wrapper.m_GLSColorObjectsActionsCallbackInterfaces)
                 UnregisterCallbacks(item);
-            m_Wrapper.m_GLSColorPlacementActionsCallbackInterfaces.Clear();
+            m_Wrapper.m_GLSColorObjectsActionsCallbackInterfaces.Clear();
             AddCallbacks(instance);
         }
     }
     /// <summary>
-    /// Provides a new <see cref="GLSColorPlacementActions" /> instance referencing this action map.
+    /// Provides a new <see cref="GLSColorObjectsActions" /> instance referencing this action map.
     /// </summary>
-    public GLSColorPlacementActions @GLSColorPlacement => new GLSColorPlacementActions(this);
+    public GLSColorObjectsActions @GLSColorObjects => new GLSColorObjectsActions(this);
 
-    // GLS Rotation Placement
-    private readonly InputActionMap m_GLSRotationPlacement;
-    private List<IGLSRotationPlacementActions> m_GLSRotationPlacementActionsCallbackInterfaces = new List<IGLSRotationPlacementActions>();
-    private readonly InputAction m_GLSRotationPlacement_SetAngle0;
-    private readonly InputAction m_GLSRotationPlacement_SetAngle90;
-    private readonly InputAction m_GLSRotationPlacement_SetAngle180;
-    private readonly InputAction m_GLSRotationPlacement_SetAngle270;
-    private readonly InputAction m_GLSRotationPlacement_SetRotationDirectionLeft;
-    private readonly InputAction m_GLSRotationPlacement_SetRotationDirectionAutomatic;
-    private readonly InputAction m_GLSRotationPlacement_SetRotationDirectionRight;
-    private readonly InputAction m_GLSRotationPlacement_ChangeLoopCount;
-    private readonly InputAction m_GLSRotationPlacement_ResetLoopCount;
-    private readonly InputAction m_GLSRotationPlacement_SetAnglePrecise;
+    // GLS Rotation Objects
+    private readonly InputActionMap m_GLSRotationObjects;
+    private List<IGLSRotationObjectsActions> m_GLSRotationObjectsActionsCallbackInterfaces = new List<IGLSRotationObjectsActions>();
+    private readonly InputAction m_GLSRotationObjects_SetAngle0;
+    private readonly InputAction m_GLSRotationObjects_SetAngle90;
+    private readonly InputAction m_GLSRotationObjects_SetAngle180;
+    private readonly InputAction m_GLSRotationObjects_SetAngle270;
+    private readonly InputAction m_GLSRotationObjects_SetRotationDirectionLeft;
+    private readonly InputAction m_GLSRotationObjects_SetRotationDirectionAutomatic;
+    private readonly InputAction m_GLSRotationObjects_SetRotationDirectionRight;
+    private readonly InputAction m_GLSRotationObjects_ChangeLoopCount;
+    private readonly InputAction m_GLSRotationObjects_ResetLoopCount;
+    private readonly InputAction m_GLSRotationObjects_SetAnglePrecise;
     /// <summary>
-    /// Provides access to input actions defined in input action map "GLS Rotation Placement".
+    /// Provides access to input actions defined in input action map "GLS Rotation Objects".
     /// </summary>
-    public struct GLSRotationPlacementActions
+    public struct GLSRotationObjectsActions
     {
         private @CMInput m_Wrapper;
 
         /// <summary>
         /// Construct a new instance of the input action map wrapper class.
         /// </summary>
-        public GLSRotationPlacementActions(@CMInput wrapper) { m_Wrapper = wrapper; }
+        public GLSRotationObjectsActions(@CMInput wrapper) { m_Wrapper = wrapper; }
         /// <summary>
-        /// Provides access to the underlying input action "GLSRotationPlacement/SetAngle0".
+        /// Provides access to the underlying input action "GLSRotationObjects/SetAngle0".
         /// </summary>
-        public InputAction @SetAngle0 => m_Wrapper.m_GLSRotationPlacement_SetAngle0;
+        public InputAction @SetAngle0 => m_Wrapper.m_GLSRotationObjects_SetAngle0;
         /// <summary>
-        /// Provides access to the underlying input action "GLSRotationPlacement/SetAngle90".
+        /// Provides access to the underlying input action "GLSRotationObjects/SetAngle90".
         /// </summary>
-        public InputAction @SetAngle90 => m_Wrapper.m_GLSRotationPlacement_SetAngle90;
+        public InputAction @SetAngle90 => m_Wrapper.m_GLSRotationObjects_SetAngle90;
         /// <summary>
-        /// Provides access to the underlying input action "GLSRotationPlacement/SetAngle180".
+        /// Provides access to the underlying input action "GLSRotationObjects/SetAngle180".
         /// </summary>
-        public InputAction @SetAngle180 => m_Wrapper.m_GLSRotationPlacement_SetAngle180;
+        public InputAction @SetAngle180 => m_Wrapper.m_GLSRotationObjects_SetAngle180;
         /// <summary>
-        /// Provides access to the underlying input action "GLSRotationPlacement/SetAngle270".
+        /// Provides access to the underlying input action "GLSRotationObjects/SetAngle270".
         /// </summary>
-        public InputAction @SetAngle270 => m_Wrapper.m_GLSRotationPlacement_SetAngle270;
+        public InputAction @SetAngle270 => m_Wrapper.m_GLSRotationObjects_SetAngle270;
         /// <summary>
-        /// Provides access to the underlying input action "GLSRotationPlacement/SetRotationDirectionLeft".
+        /// Provides access to the underlying input action "GLSRotationObjects/SetRotationDirectionLeft".
         /// </summary>
-        public InputAction @SetRotationDirectionLeft => m_Wrapper.m_GLSRotationPlacement_SetRotationDirectionLeft;
+        public InputAction @SetRotationDirectionLeft => m_Wrapper.m_GLSRotationObjects_SetRotationDirectionLeft;
         /// <summary>
-        /// Provides access to the underlying input action "GLSRotationPlacement/SetRotationDirectionAutomatic".
+        /// Provides access to the underlying input action "GLSRotationObjects/SetRotationDirectionAutomatic".
         /// </summary>
-        public InputAction @SetRotationDirectionAutomatic => m_Wrapper.m_GLSRotationPlacement_SetRotationDirectionAutomatic;
+        public InputAction @SetRotationDirectionAutomatic => m_Wrapper.m_GLSRotationObjects_SetRotationDirectionAutomatic;
         /// <summary>
-        /// Provides access to the underlying input action "GLSRotationPlacement/SetRotationDirectionRight".
+        /// Provides access to the underlying input action "GLSRotationObjects/SetRotationDirectionRight".
         /// </summary>
-        public InputAction @SetRotationDirectionRight => m_Wrapper.m_GLSRotationPlacement_SetRotationDirectionRight;
+        public InputAction @SetRotationDirectionRight => m_Wrapper.m_GLSRotationObjects_SetRotationDirectionRight;
         /// <summary>
-        /// Provides access to the underlying input action "GLSRotationPlacement/ChangeLoopCount".
+        /// Provides access to the underlying input action "GLSRotationObjects/ChangeLoopCount".
         /// </summary>
-        public InputAction @ChangeLoopCount => m_Wrapper.m_GLSRotationPlacement_ChangeLoopCount;
+        public InputAction @ChangeLoopCount => m_Wrapper.m_GLSRotationObjects_ChangeLoopCount;
         /// <summary>
-        /// Provides access to the underlying input action "GLSRotationPlacement/ResetLoopCount".
+        /// Provides access to the underlying input action "GLSRotationObjects/ResetLoopCount".
         /// </summary>
-        public InputAction @ResetLoopCount => m_Wrapper.m_GLSRotationPlacement_ResetLoopCount;
+        public InputAction @ResetLoopCount => m_Wrapper.m_GLSRotationObjects_ResetLoopCount;
         /// <summary>
-        /// Provides access to the underlying input action "GLSRotationPlacement/SetAnglePrecise".
+        /// Provides access to the underlying input action "GLSRotationObjects/SetAnglePrecise".
         /// </summary>
-        public InputAction @SetAnglePrecise => m_Wrapper.m_GLSRotationPlacement_SetAnglePrecise;
+        public InputAction @SetAnglePrecise => m_Wrapper.m_GLSRotationObjects_SetAnglePrecise;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
-        public InputActionMap Get() { return m_Wrapper.m_GLSRotationPlacement; }
+        public InputActionMap Get() { return m_Wrapper.m_GLSRotationObjects; }
         /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
         public void Enable() { Get().Enable(); }
         /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
@@ -13472,9 +13549,9 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
         public bool enabled => Get().enabled;
         /// <summary>
-        /// Implicitly converts an <see ref="GLSRotationPlacementActions" /> to an <see ref="InputActionMap" /> instance.
+        /// Implicitly converts an <see ref="GLSRotationObjectsActions" /> to an <see ref="InputActionMap" /> instance.
         /// </summary>
-        public static implicit operator InputActionMap(GLSRotationPlacementActions set) { return set.Get(); }
+        public static implicit operator InputActionMap(GLSRotationObjectsActions set) { return set.Get(); }
         /// <summary>
         /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
         /// </summary>
@@ -13482,11 +13559,11 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <remarks>
         /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
         /// </remarks>
-        /// <seealso cref="GLSRotationPlacementActions" />
-        public void AddCallbacks(IGLSRotationPlacementActions instance)
+        /// <seealso cref="GLSRotationObjectsActions" />
+        public void AddCallbacks(IGLSRotationObjectsActions instance)
         {
-            if (instance == null || m_Wrapper.m_GLSRotationPlacementActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_GLSRotationPlacementActionsCallbackInterfaces.Add(instance);
+            if (instance == null || m_Wrapper.m_GLSRotationObjectsActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_GLSRotationObjectsActionsCallbackInterfaces.Add(instance);
             @SetAngle0.started += instance.OnSetAngle0;
             @SetAngle0.performed += instance.OnSetAngle0;
             @SetAngle0.canceled += instance.OnSetAngle0;
@@ -13525,8 +13602,8 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <remarks>
         /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
         /// </remarks>
-        /// <seealso cref="GLSRotationPlacementActions" />
-        private void UnregisterCallbacks(IGLSRotationPlacementActions instance)
+        /// <seealso cref="GLSRotationObjectsActions" />
+        private void UnregisterCallbacks(IGLSRotationObjectsActions instance)
         {
             @SetAngle0.started -= instance.OnSetAngle0;
             @SetAngle0.performed -= instance.OnSetAngle0;
@@ -13561,12 +13638,12 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         }
 
         /// <summary>
-        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="GLSRotationPlacementActions.UnregisterCallbacks(IGLSRotationPlacementActions)" />.
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="GLSRotationObjectsActions.UnregisterCallbacks(IGLSRotationObjectsActions)" />.
         /// </summary>
-        /// <seealso cref="GLSRotationPlacementActions.UnregisterCallbacks(IGLSRotationPlacementActions)" />
-        public void RemoveCallbacks(IGLSRotationPlacementActions instance)
+        /// <seealso cref="GLSRotationObjectsActions.UnregisterCallbacks(IGLSRotationObjectsActions)" />
+        public void RemoveCallbacks(IGLSRotationObjectsActions instance)
         {
-            if (m_Wrapper.m_GLSRotationPlacementActionsCallbackInterfaces.Remove(instance))
+            if (m_Wrapper.m_GLSRotationObjectsActionsCallbackInterfaces.Remove(instance))
                 UnregisterCallbacks(instance);
         }
 
@@ -13576,70 +13653,70 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <remarks>
         /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
         /// </remarks>
-        /// <seealso cref="GLSRotationPlacementActions.AddCallbacks(IGLSRotationPlacementActions)" />
-        /// <seealso cref="GLSRotationPlacementActions.RemoveCallbacks(IGLSRotationPlacementActions)" />
-        /// <seealso cref="GLSRotationPlacementActions.UnregisterCallbacks(IGLSRotationPlacementActions)" />
-        public void SetCallbacks(IGLSRotationPlacementActions instance)
+        /// <seealso cref="GLSRotationObjectsActions.AddCallbacks(IGLSRotationObjectsActions)" />
+        /// <seealso cref="GLSRotationObjectsActions.RemoveCallbacks(IGLSRotationObjectsActions)" />
+        /// <seealso cref="GLSRotationObjectsActions.UnregisterCallbacks(IGLSRotationObjectsActions)" />
+        public void SetCallbacks(IGLSRotationObjectsActions instance)
         {
-            foreach (var item in m_Wrapper.m_GLSRotationPlacementActionsCallbackInterfaces)
+            foreach (var item in m_Wrapper.m_GLSRotationObjectsActionsCallbackInterfaces)
                 UnregisterCallbacks(item);
-            m_Wrapper.m_GLSRotationPlacementActionsCallbackInterfaces.Clear();
+            m_Wrapper.m_GLSRotationObjectsActionsCallbackInterfaces.Clear();
             AddCallbacks(instance);
         }
     }
     /// <summary>
-    /// Provides a new <see cref="GLSRotationPlacementActions" /> instance referencing this action map.
+    /// Provides a new <see cref="GLSRotationObjectsActions" /> instance referencing this action map.
     /// </summary>
-    public GLSRotationPlacementActions @GLSRotationPlacement => new GLSRotationPlacementActions(this);
+    public GLSRotationObjectsActions @GLSRotationObjects => new GLSRotationObjectsActions(this);
 
-    // GLS Translation Placement
-    private readonly InputActionMap m_GLSTranslationPlacement;
-    private List<IGLSTranslationPlacementActions> m_GLSTranslationPlacementActionsCallbackInterfaces = new List<IGLSTranslationPlacementActions>();
-    private readonly InputAction m_GLSTranslationPlacement_SetValuen100;
-    private readonly InputAction m_GLSTranslationPlacement_SetValuen50;
-    private readonly InputAction m_GLSTranslationPlacement_SetValue0;
-    private readonly InputAction m_GLSTranslationPlacement_SetValue50;
-    private readonly InputAction m_GLSTranslationPlacement_SetValue100;
-    private readonly InputAction m_GLSTranslationPlacement_SetValuePrecise;
+    // GLS Translation Objects
+    private readonly InputActionMap m_GLSTranslationObjects;
+    private List<IGLSTranslationObjectsActions> m_GLSTranslationObjectsActionsCallbackInterfaces = new List<IGLSTranslationObjectsActions>();
+    private readonly InputAction m_GLSTranslationObjects_SetValuen100;
+    private readonly InputAction m_GLSTranslationObjects_SetValuen50;
+    private readonly InputAction m_GLSTranslationObjects_SetValue0;
+    private readonly InputAction m_GLSTranslationObjects_SetValue50;
+    private readonly InputAction m_GLSTranslationObjects_SetValue100;
+    private readonly InputAction m_GLSTranslationObjects_SetValuePrecise;
     /// <summary>
-    /// Provides access to input actions defined in input action map "GLS Translation Placement".
+    /// Provides access to input actions defined in input action map "GLS Translation Objects".
     /// </summary>
-    public struct GLSTranslationPlacementActions
+    public struct GLSTranslationObjectsActions
     {
         private @CMInput m_Wrapper;
 
         /// <summary>
         /// Construct a new instance of the input action map wrapper class.
         /// </summary>
-        public GLSTranslationPlacementActions(@CMInput wrapper) { m_Wrapper = wrapper; }
+        public GLSTranslationObjectsActions(@CMInput wrapper) { m_Wrapper = wrapper; }
         /// <summary>
-        /// Provides access to the underlying input action "GLSTranslationPlacement/SetValuen100".
+        /// Provides access to the underlying input action "GLSTranslationObjects/SetValuen100".
         /// </summary>
-        public InputAction @SetValuen100 => m_Wrapper.m_GLSTranslationPlacement_SetValuen100;
+        public InputAction @SetValuen100 => m_Wrapper.m_GLSTranslationObjects_SetValuen100;
         /// <summary>
-        /// Provides access to the underlying input action "GLSTranslationPlacement/SetValuen50".
+        /// Provides access to the underlying input action "GLSTranslationObjects/SetValuen50".
         /// </summary>
-        public InputAction @SetValuen50 => m_Wrapper.m_GLSTranslationPlacement_SetValuen50;
+        public InputAction @SetValuen50 => m_Wrapper.m_GLSTranslationObjects_SetValuen50;
         /// <summary>
-        /// Provides access to the underlying input action "GLSTranslationPlacement/SetValue0".
+        /// Provides access to the underlying input action "GLSTranslationObjects/SetValue0".
         /// </summary>
-        public InputAction @SetValue0 => m_Wrapper.m_GLSTranslationPlacement_SetValue0;
+        public InputAction @SetValue0 => m_Wrapper.m_GLSTranslationObjects_SetValue0;
         /// <summary>
-        /// Provides access to the underlying input action "GLSTranslationPlacement/SetValue50".
+        /// Provides access to the underlying input action "GLSTranslationObjects/SetValue50".
         /// </summary>
-        public InputAction @SetValue50 => m_Wrapper.m_GLSTranslationPlacement_SetValue50;
+        public InputAction @SetValue50 => m_Wrapper.m_GLSTranslationObjects_SetValue50;
         /// <summary>
-        /// Provides access to the underlying input action "GLSTranslationPlacement/SetValue100".
+        /// Provides access to the underlying input action "GLSTranslationObjects/SetValue100".
         /// </summary>
-        public InputAction @SetValue100 => m_Wrapper.m_GLSTranslationPlacement_SetValue100;
+        public InputAction @SetValue100 => m_Wrapper.m_GLSTranslationObjects_SetValue100;
         /// <summary>
-        /// Provides access to the underlying input action "GLSTranslationPlacement/SetValuePrecise".
+        /// Provides access to the underlying input action "GLSTranslationObjects/SetValuePrecise".
         /// </summary>
-        public InputAction @SetValuePrecise => m_Wrapper.m_GLSTranslationPlacement_SetValuePrecise;
+        public InputAction @SetValuePrecise => m_Wrapper.m_GLSTranslationObjects_SetValuePrecise;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
-        public InputActionMap Get() { return m_Wrapper.m_GLSTranslationPlacement; }
+        public InputActionMap Get() { return m_Wrapper.m_GLSTranslationObjects; }
         /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
         public void Enable() { Get().Enable(); }
         /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
@@ -13647,9 +13724,9 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
         public bool enabled => Get().enabled;
         /// <summary>
-        /// Implicitly converts an <see ref="GLSTranslationPlacementActions" /> to an <see ref="InputActionMap" /> instance.
+        /// Implicitly converts an <see ref="GLSTranslationObjectsActions" /> to an <see ref="InputActionMap" /> instance.
         /// </summary>
-        public static implicit operator InputActionMap(GLSTranslationPlacementActions set) { return set.Get(); }
+        public static implicit operator InputActionMap(GLSTranslationObjectsActions set) { return set.Get(); }
         /// <summary>
         /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
         /// </summary>
@@ -13657,11 +13734,11 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <remarks>
         /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
         /// </remarks>
-        /// <seealso cref="GLSTranslationPlacementActions" />
-        public void AddCallbacks(IGLSTranslationPlacementActions instance)
+        /// <seealso cref="GLSTranslationObjectsActions" />
+        public void AddCallbacks(IGLSTranslationObjectsActions instance)
         {
-            if (instance == null || m_Wrapper.m_GLSTranslationPlacementActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_GLSTranslationPlacementActionsCallbackInterfaces.Add(instance);
+            if (instance == null || m_Wrapper.m_GLSTranslationObjectsActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_GLSTranslationObjectsActionsCallbackInterfaces.Add(instance);
             @SetValuen100.started += instance.OnSetValuen100;
             @SetValuen100.performed += instance.OnSetValuen100;
             @SetValuen100.canceled += instance.OnSetValuen100;
@@ -13688,8 +13765,8 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <remarks>
         /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
         /// </remarks>
-        /// <seealso cref="GLSTranslationPlacementActions" />
-        private void UnregisterCallbacks(IGLSTranslationPlacementActions instance)
+        /// <seealso cref="GLSTranslationObjectsActions" />
+        private void UnregisterCallbacks(IGLSTranslationObjectsActions instance)
         {
             @SetValuen100.started -= instance.OnSetValuen100;
             @SetValuen100.performed -= instance.OnSetValuen100;
@@ -13712,12 +13789,12 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         }
 
         /// <summary>
-        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="GLSTranslationPlacementActions.UnregisterCallbacks(IGLSTranslationPlacementActions)" />.
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="GLSTranslationObjectsActions.UnregisterCallbacks(IGLSTranslationObjectsActions)" />.
         /// </summary>
-        /// <seealso cref="GLSTranslationPlacementActions.UnregisterCallbacks(IGLSTranslationPlacementActions)" />
-        public void RemoveCallbacks(IGLSTranslationPlacementActions instance)
+        /// <seealso cref="GLSTranslationObjectsActions.UnregisterCallbacks(IGLSTranslationObjectsActions)" />
+        public void RemoveCallbacks(IGLSTranslationObjectsActions instance)
         {
-            if (m_Wrapper.m_GLSTranslationPlacementActionsCallbackInterfaces.Remove(instance))
+            if (m_Wrapper.m_GLSTranslationObjectsActionsCallbackInterfaces.Remove(instance))
                 UnregisterCallbacks(instance);
         }
 
@@ -13727,70 +13804,70 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <remarks>
         /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
         /// </remarks>
-        /// <seealso cref="GLSTranslationPlacementActions.AddCallbacks(IGLSTranslationPlacementActions)" />
-        /// <seealso cref="GLSTranslationPlacementActions.RemoveCallbacks(IGLSTranslationPlacementActions)" />
-        /// <seealso cref="GLSTranslationPlacementActions.UnregisterCallbacks(IGLSTranslationPlacementActions)" />
-        public void SetCallbacks(IGLSTranslationPlacementActions instance)
+        /// <seealso cref="GLSTranslationObjectsActions.AddCallbacks(IGLSTranslationObjectsActions)" />
+        /// <seealso cref="GLSTranslationObjectsActions.RemoveCallbacks(IGLSTranslationObjectsActions)" />
+        /// <seealso cref="GLSTranslationObjectsActions.UnregisterCallbacks(IGLSTranslationObjectsActions)" />
+        public void SetCallbacks(IGLSTranslationObjectsActions instance)
         {
-            foreach (var item in m_Wrapper.m_GLSTranslationPlacementActionsCallbackInterfaces)
+            foreach (var item in m_Wrapper.m_GLSTranslationObjectsActionsCallbackInterfaces)
                 UnregisterCallbacks(item);
-            m_Wrapper.m_GLSTranslationPlacementActionsCallbackInterfaces.Clear();
+            m_Wrapper.m_GLSTranslationObjectsActionsCallbackInterfaces.Clear();
             AddCallbacks(instance);
         }
     }
     /// <summary>
-    /// Provides a new <see cref="GLSTranslationPlacementActions" /> instance referencing this action map.
+    /// Provides a new <see cref="GLSTranslationObjectsActions" /> instance referencing this action map.
     /// </summary>
-    public GLSTranslationPlacementActions @GLSTranslationPlacement => new GLSTranslationPlacementActions(this);
+    public GLSTranslationObjectsActions @GLSTranslationObjects => new GLSTranslationObjectsActions(this);
 
-    // GLS FloatFX Placement
-    private readonly InputActionMap m_GLSFloatFXPlacement;
-    private List<IGLSFloatFXPlacementActions> m_GLSFloatFXPlacementActionsCallbackInterfaces = new List<IGLSFloatFXPlacementActions>();
-    private readonly InputAction m_GLSFloatFXPlacement_SetValuen100;
-    private readonly InputAction m_GLSFloatFXPlacement_SetValuen50;
-    private readonly InputAction m_GLSFloatFXPlacement_SetValue0;
-    private readonly InputAction m_GLSFloatFXPlacement_SetValue50;
-    private readonly InputAction m_GLSFloatFXPlacement_SetValue100;
-    private readonly InputAction m_GLSFloatFXPlacement_SetValuePrecise;
+    // GLS FloatFX Objects
+    private readonly InputActionMap m_GLSFloatFXObjects;
+    private List<IGLSFloatFXObjectsActions> m_GLSFloatFXObjectsActionsCallbackInterfaces = new List<IGLSFloatFXObjectsActions>();
+    private readonly InputAction m_GLSFloatFXObjects_SetValuen100;
+    private readonly InputAction m_GLSFloatFXObjects_SetValuen50;
+    private readonly InputAction m_GLSFloatFXObjects_SetValue0;
+    private readonly InputAction m_GLSFloatFXObjects_SetValue50;
+    private readonly InputAction m_GLSFloatFXObjects_SetValue100;
+    private readonly InputAction m_GLSFloatFXObjects_SetValuePrecise;
     /// <summary>
-    /// Provides access to input actions defined in input action map "GLS FloatFX Placement".
+    /// Provides access to input actions defined in input action map "GLS FloatFX Objects".
     /// </summary>
-    public struct GLSFloatFXPlacementActions
+    public struct GLSFloatFXObjectsActions
     {
         private @CMInput m_Wrapper;
 
         /// <summary>
         /// Construct a new instance of the input action map wrapper class.
         /// </summary>
-        public GLSFloatFXPlacementActions(@CMInput wrapper) { m_Wrapper = wrapper; }
+        public GLSFloatFXObjectsActions(@CMInput wrapper) { m_Wrapper = wrapper; }
         /// <summary>
-        /// Provides access to the underlying input action "GLSFloatFXPlacement/SetValuen100".
+        /// Provides access to the underlying input action "GLSFloatFXObjects/SetValuen100".
         /// </summary>
-        public InputAction @SetValuen100 => m_Wrapper.m_GLSFloatFXPlacement_SetValuen100;
+        public InputAction @SetValuen100 => m_Wrapper.m_GLSFloatFXObjects_SetValuen100;
         /// <summary>
-        /// Provides access to the underlying input action "GLSFloatFXPlacement/SetValuen50".
+        /// Provides access to the underlying input action "GLSFloatFXObjects/SetValuen50".
         /// </summary>
-        public InputAction @SetValuen50 => m_Wrapper.m_GLSFloatFXPlacement_SetValuen50;
+        public InputAction @SetValuen50 => m_Wrapper.m_GLSFloatFXObjects_SetValuen50;
         /// <summary>
-        /// Provides access to the underlying input action "GLSFloatFXPlacement/SetValue0".
+        /// Provides access to the underlying input action "GLSFloatFXObjects/SetValue0".
         /// </summary>
-        public InputAction @SetValue0 => m_Wrapper.m_GLSFloatFXPlacement_SetValue0;
+        public InputAction @SetValue0 => m_Wrapper.m_GLSFloatFXObjects_SetValue0;
         /// <summary>
-        /// Provides access to the underlying input action "GLSFloatFXPlacement/SetValue50".
+        /// Provides access to the underlying input action "GLSFloatFXObjects/SetValue50".
         /// </summary>
-        public InputAction @SetValue50 => m_Wrapper.m_GLSFloatFXPlacement_SetValue50;
+        public InputAction @SetValue50 => m_Wrapper.m_GLSFloatFXObjects_SetValue50;
         /// <summary>
-        /// Provides access to the underlying input action "GLSFloatFXPlacement/SetValue100".
+        /// Provides access to the underlying input action "GLSFloatFXObjects/SetValue100".
         /// </summary>
-        public InputAction @SetValue100 => m_Wrapper.m_GLSFloatFXPlacement_SetValue100;
+        public InputAction @SetValue100 => m_Wrapper.m_GLSFloatFXObjects_SetValue100;
         /// <summary>
-        /// Provides access to the underlying input action "GLSFloatFXPlacement/SetValuePrecise".
+        /// Provides access to the underlying input action "GLSFloatFXObjects/SetValuePrecise".
         /// </summary>
-        public InputAction @SetValuePrecise => m_Wrapper.m_GLSFloatFXPlacement_SetValuePrecise;
+        public InputAction @SetValuePrecise => m_Wrapper.m_GLSFloatFXObjects_SetValuePrecise;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
-        public InputActionMap Get() { return m_Wrapper.m_GLSFloatFXPlacement; }
+        public InputActionMap Get() { return m_Wrapper.m_GLSFloatFXObjects; }
         /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
         public void Enable() { Get().Enable(); }
         /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
@@ -13798,9 +13875,9 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
         public bool enabled => Get().enabled;
         /// <summary>
-        /// Implicitly converts an <see ref="GLSFloatFXPlacementActions" /> to an <see ref="InputActionMap" /> instance.
+        /// Implicitly converts an <see ref="GLSFloatFXObjectsActions" /> to an <see ref="InputActionMap" /> instance.
         /// </summary>
-        public static implicit operator InputActionMap(GLSFloatFXPlacementActions set) { return set.Get(); }
+        public static implicit operator InputActionMap(GLSFloatFXObjectsActions set) { return set.Get(); }
         /// <summary>
         /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
         /// </summary>
@@ -13808,11 +13885,11 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <remarks>
         /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
         /// </remarks>
-        /// <seealso cref="GLSFloatFXPlacementActions" />
-        public void AddCallbacks(IGLSFloatFXPlacementActions instance)
+        /// <seealso cref="GLSFloatFXObjectsActions" />
+        public void AddCallbacks(IGLSFloatFXObjectsActions instance)
         {
-            if (instance == null || m_Wrapper.m_GLSFloatFXPlacementActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_GLSFloatFXPlacementActionsCallbackInterfaces.Add(instance);
+            if (instance == null || m_Wrapper.m_GLSFloatFXObjectsActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_GLSFloatFXObjectsActionsCallbackInterfaces.Add(instance);
             @SetValuen100.started += instance.OnSetValuen100;
             @SetValuen100.performed += instance.OnSetValuen100;
             @SetValuen100.canceled += instance.OnSetValuen100;
@@ -13839,8 +13916,8 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <remarks>
         /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
         /// </remarks>
-        /// <seealso cref="GLSFloatFXPlacementActions" />
-        private void UnregisterCallbacks(IGLSFloatFXPlacementActions instance)
+        /// <seealso cref="GLSFloatFXObjectsActions" />
+        private void UnregisterCallbacks(IGLSFloatFXObjectsActions instance)
         {
             @SetValuen100.started -= instance.OnSetValuen100;
             @SetValuen100.performed -= instance.OnSetValuen100;
@@ -13863,12 +13940,12 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         }
 
         /// <summary>
-        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="GLSFloatFXPlacementActions.UnregisterCallbacks(IGLSFloatFXPlacementActions)" />.
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="GLSFloatFXObjectsActions.UnregisterCallbacks(IGLSFloatFXObjectsActions)" />.
         /// </summary>
-        /// <seealso cref="GLSFloatFXPlacementActions.UnregisterCallbacks(IGLSFloatFXPlacementActions)" />
-        public void RemoveCallbacks(IGLSFloatFXPlacementActions instance)
+        /// <seealso cref="GLSFloatFXObjectsActions.UnregisterCallbacks(IGLSFloatFXObjectsActions)" />
+        public void RemoveCallbacks(IGLSFloatFXObjectsActions instance)
         {
-            if (m_Wrapper.m_GLSFloatFXPlacementActionsCallbackInterfaces.Remove(instance))
+            if (m_Wrapper.m_GLSFloatFXObjectsActionsCallbackInterfaces.Remove(instance))
                 UnregisterCallbacks(instance);
         }
 
@@ -13878,21 +13955,21 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <remarks>
         /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
         /// </remarks>
-        /// <seealso cref="GLSFloatFXPlacementActions.AddCallbacks(IGLSFloatFXPlacementActions)" />
-        /// <seealso cref="GLSFloatFXPlacementActions.RemoveCallbacks(IGLSFloatFXPlacementActions)" />
-        /// <seealso cref="GLSFloatFXPlacementActions.UnregisterCallbacks(IGLSFloatFXPlacementActions)" />
-        public void SetCallbacks(IGLSFloatFXPlacementActions instance)
+        /// <seealso cref="GLSFloatFXObjectsActions.AddCallbacks(IGLSFloatFXObjectsActions)" />
+        /// <seealso cref="GLSFloatFXObjectsActions.RemoveCallbacks(IGLSFloatFXObjectsActions)" />
+        /// <seealso cref="GLSFloatFXObjectsActions.UnregisterCallbacks(IGLSFloatFXObjectsActions)" />
+        public void SetCallbacks(IGLSFloatFXObjectsActions instance)
         {
-            foreach (var item in m_Wrapper.m_GLSFloatFXPlacementActionsCallbackInterfaces)
+            foreach (var item in m_Wrapper.m_GLSFloatFXObjectsActionsCallbackInterfaces)
                 UnregisterCallbacks(item);
-            m_Wrapper.m_GLSFloatFXPlacementActionsCallbackInterfaces.Clear();
+            m_Wrapper.m_GLSFloatFXObjectsActionsCallbackInterfaces.Clear();
             AddCallbacks(instance);
         }
     }
     /// <summary>
-    /// Provides a new <see cref="GLSFloatFXPlacementActions" /> instance referencing this action map.
+    /// Provides a new <see cref="GLSFloatFXObjectsActions" /> instance referencing this action map.
     /// </summary>
-    public GLSFloatFXPlacementActions @GLSFloatFXPlacement => new GLSFloatFXPlacementActions(this);
+    public GLSFloatFXObjectsActions @GLSFloatFXObjects => new GLSFloatFXObjectsActions(this);
 
     // Easings Selection
     private readonly InputActionMap m_EasingsSelection;
@@ -15568,11 +15645,11 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         void OnBasicEventEdit(InputAction.CallbackContext context);
     }
     /// <summary>
-    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "GLS Group Placement" which allows adding and removing callbacks.
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "GLS Group Tabs" which allows adding and removing callbacks.
     /// </summary>
-    /// <seealso cref="GLSGroupPlacementActions.AddCallbacks(IGLSGroupPlacementActions)" />
-    /// <seealso cref="GLSGroupPlacementActions.RemoveCallbacks(IGLSGroupPlacementActions)" />
-    public interface IGLSGroupPlacementActions
+    /// <seealso cref="GLSGroupTabsActions.AddCallbacks(IGLSGroupTabsActions)" />
+    /// <seealso cref="GLSGroupTabsActions.RemoveCallbacks(IGLSGroupTabsActions)" />
+    public interface IGLSGroupTabsActions
     {
         /// <summary>
         /// Method invoked when associated input action "Next Group" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
@@ -15583,11 +15660,11 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         void OnNextGroup(InputAction.CallbackContext context);
     }
     /// <summary>
-    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "GLS Color Placement" which allows adding and removing callbacks.
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "GLS Color Objects" which allows adding and removing callbacks.
     /// </summary>
-    /// <seealso cref="GLSColorPlacementActions.AddCallbacks(IGLSColorPlacementActions)" />
-    /// <seealso cref="GLSColorPlacementActions.RemoveCallbacks(IGLSColorPlacementActions)" />
-    public interface IGLSColorPlacementActions
+    /// <seealso cref="GLSColorObjectsActions.AddCallbacks(IGLSColorObjectsActions)" />
+    /// <seealso cref="GLSColorObjectsActions.RemoveCallbacks(IGLSColorObjectsActions)" />
+    public interface IGLSColorObjectsActions
     {
         /// <summary>
         /// Method invoked when associated input action "Color0 Light" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
@@ -15808,11 +15885,11 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         void OnSetBrightnessPrecise(InputAction.CallbackContext context);
     }
     /// <summary>
-    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "GLS Rotation Placement" which allows adding and removing callbacks.
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "GLS Rotation Objects" which allows adding and removing callbacks.
     /// </summary>
-    /// <seealso cref="GLSRotationPlacementActions.AddCallbacks(IGLSRotationPlacementActions)" />
-    /// <seealso cref="GLSRotationPlacementActions.RemoveCallbacks(IGLSRotationPlacementActions)" />
-    public interface IGLSRotationPlacementActions
+    /// <seealso cref="GLSRotationObjectsActions.AddCallbacks(IGLSRotationObjectsActions)" />
+    /// <seealso cref="GLSRotationObjectsActions.RemoveCallbacks(IGLSRotationObjectsActions)" />
+    public interface IGLSRotationObjectsActions
     {
         /// <summary>
         /// Method invoked when associated input action "Set Angle 0" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
@@ -15886,11 +15963,11 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         void OnSetAnglePrecise(InputAction.CallbackContext context);
     }
     /// <summary>
-    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "GLS Translation Placement" which allows adding and removing callbacks.
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "GLS Translation Objects" which allows adding and removing callbacks.
     /// </summary>
-    /// <seealso cref="GLSTranslationPlacementActions.AddCallbacks(IGLSTranslationPlacementActions)" />
-    /// <seealso cref="GLSTranslationPlacementActions.RemoveCallbacks(IGLSTranslationPlacementActions)" />
-    public interface IGLSTranslationPlacementActions
+    /// <seealso cref="GLSTranslationObjectsActions.AddCallbacks(IGLSTranslationObjectsActions)" />
+    /// <seealso cref="GLSTranslationObjectsActions.RemoveCallbacks(IGLSTranslationObjectsActions)" />
+    public interface IGLSTranslationObjectsActions
     {
         /// <summary>
         /// Method invoked when associated input action "Set Value n100" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
@@ -15936,11 +16013,11 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         void OnSetValuePrecise(InputAction.CallbackContext context);
     }
     /// <summary>
-    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "GLS FloatFX Placement" which allows adding and removing callbacks.
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "GLS FloatFX Objects" which allows adding and removing callbacks.
     /// </summary>
-    /// <seealso cref="GLSFloatFXPlacementActions.AddCallbacks(IGLSFloatFXPlacementActions)" />
-    /// <seealso cref="GLSFloatFXPlacementActions.RemoveCallbacks(IGLSFloatFXPlacementActions)" />
-    public interface IGLSFloatFXPlacementActions
+    /// <seealso cref="GLSFloatFXObjectsActions.AddCallbacks(IGLSFloatFXObjectsActions)" />
+    /// <seealso cref="GLSFloatFXObjectsActions.RemoveCallbacks(IGLSFloatFXObjectsActions)" />
+    public interface IGLSFloatFXObjectsActions
     {
         /// <summary>
         /// Method invoked when associated input action "Set Value n100" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.

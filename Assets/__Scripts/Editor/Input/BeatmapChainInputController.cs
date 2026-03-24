@@ -23,7 +23,7 @@ public class BeatmapChainInputController : BeatmapInputController<ChainContainer
     {
         if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)) return;
         RaycastFirstObject(out var c);
-        if (c == null || c.Dragging || !context.performed) return;
+        if (c == null || c.Dragged || !context.performed) return;
 
         var modifier = ((context.ReadValue<float>() > 0) ^ Settings.Instance.InvertScrollChainSegmentCount)
             ? 1
@@ -50,7 +50,7 @@ public class BeatmapChainInputController : BeatmapInputController<ChainContainer
         }
 
         RaycastFirstObject(out var chain);
-        if (chain != null && !chain.Dragging) InvertChain(chain);
+        if (chain != null && !chain.Dragged) InvertChain(chain);
     }
 
     public void InvertChain(ChainContainer chain)
@@ -68,7 +68,7 @@ public class BeatmapChainInputController : BeatmapInputController<ChainContainer
     {
         if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)) return;
         RaycastFirstObject(out var c);
-        if (c == null || c.Dragging || !context.performed) return;
+        if (c == null || c.Dragged || !context.performed) return;
 
         var modifier = ((context.ReadValue<float>() > 0) ^ Settings.Instance.InvertScrollChainSquish)
             ? squishChangeSpeed

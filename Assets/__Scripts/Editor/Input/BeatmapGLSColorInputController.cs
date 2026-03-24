@@ -4,7 +4,7 @@ using Beatmap.Enums;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class BeatmapGLSColorPlacementInput : BeatmapInputController<GLSGroupContainer>, CMInput.IGLSColorPlacementActions
+public class BeatmapGLSColorInputController : BeatmapInputController<GLSGroupContainer>, CMInput.IGLSColorObjectsActions
 {
     public event Action<int> OnColorChanged;
     public event Action<bool> OnExtensionPerformed;

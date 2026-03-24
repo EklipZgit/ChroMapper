@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class VisualOutlineController : VisualController
 {
+    private static readonly int colorId = Shader.PropertyToID("_Color");
     public VisualModelController VModelController;
 
     public MeshRenderer Renderer;
@@ -9,18 +10,8 @@ public class VisualOutlineController : VisualController
     public bool ReplaceCollider;
     public IntersectionCollider Collider;
     private bool selectionMarkReplace;
-    private bool selected;
 
-    public bool Selected
-    {
-        get => selected;
-        set
-        {
-            if (selected == value) return;
-            selected = value;
-            if (Renderer != null) Renderer.enabled = selected;
-        }
-    }
+    private MaterialPropertyBlock mpb;
 
     public void OnEnable()
     {

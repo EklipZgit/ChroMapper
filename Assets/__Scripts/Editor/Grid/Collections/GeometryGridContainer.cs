@@ -29,7 +29,7 @@ public class GeometryGridContainer : BeatmapObjectContainerCollection<BaseEnviro
         container.Setup();
         if (LoadedContainers.TryAdd(eh, container)) ObjectsWithContainers.Add(eh);
         geometryAppearanceSo.SetGeometryAppearance(container);
-        container.SelectionMpbController.ShowRenderer(SelectionController.IsObjectSelected(obj));
+        container.Selected = SelectionController.IsObjectSelected(obj);
     }
 
     protected override void HandleObjectDelete(BaseObject obj, bool inCollection = false)
