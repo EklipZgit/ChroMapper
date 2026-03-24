@@ -1,57 +1,70 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
+// I AM BECOMING THE JOKER AND REWRITING THIS SCRIPT TO ACTUALLY BATCH MULTIPLE ROUNDED CORNER IMAGES.
 [ExecuteInEditMode]
-public class ImageWithIndependentRoundedCorners : MonoBehaviour
+public class ImageWithIndependentRoundedCorners : BaseMeshEffect
 {
-
     public Vector4 r;
-    [SerializeField] private Material material;
-    [HideInInspector] public Material mat;
-    [Tooltip("When this is false the inserted material will change the inserted material shader.")] public bool cloneMaterial = true;
 
     // xy - position,
     // zw - halfSize
     [HideInInspector, SerializeField] private Vector4 rect2props;
 
-    private readonly int prop_halfSize = Shader.PropertyToID("_halfSize");
-    private readonly int prop_radiuses = Shader.PropertyToID("_r");
-    private readonly int prop_rect2props = Shader.PropertyToID("_rect2props");
-
     // Vector2.right rotated clockwise by 45 degrees
-    private static readonly Vector2 wNorm = new Vector2(.7071068f, -.7071068f);
+    private static readonly Vector2 wNorm = new(.7071068f, -.7071068f);
     // Vector2.right rotated counter-clockwise by 45 degrees
-    private static readonly Vector2 hNorm = new Vector2(.7071068f, .7071068f);
+    private static readonly Vector2 hNorm = new(.7071068f, .7071068f);
+
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+        Refresh();
+    }
+
+    protected override void OnRectTransformDimensionsChange()
+    {
+        base.OnRectTransformDimensionsChange();
+        Refresh();
+    }
+
+#if UNITY_EDITOR
+    protected override void OnValidate()
+    {
+        base.OnValidate();
+        Refresh();
+    }
+#endif
 
     public void Refresh()
     {
-        if (cloneMaterial)
+        if (graphic != null)
         {
-            mat = new Material(material);
-            Image i = GetComponent<Image>();
-            i.material = mat;
-            i.material.name = "Inherited From Round Corners";
+            graphic.SetVerticesDirty();
         }
-        else
-        {
-            mat = material;
-        }
+    }
+
+    public override void ModifyMesh(VertexHelper vh)
+    {
+        if (!IsActive()) return;
 
         Rect rect = ((RectTransform)transform).rect;
         RecalculateProps(rect.size);
-        mat.SetVector(prop_rect2props, rect2props);
-        mat.SetVector(prop_halfSize, rect.size * .5f);
-        mat.SetVector(prop_radiuses, r);
-    }
 
-    private void OnRectTransformDimensionsChange()
-    {
-        Refresh();
-    }
+        Vector2 halfSize = rect.size * .5f;
 
-    private void OnValidate()
-    {
-        Refresh();
+        UIVertex vert = default;
+        for (int i = 0; i < vh.currentVertCount; i++)
+        {
+            vh.PopulateUIVertex(ref vert, i);
+            // uv1: (r.x, r.y, r.z, r.w)
+            vert.uv1 = r;
+            // uv2: (halfSize.x, halfSize.y, rect2props.x, rect2props.y)
+            vert.uv2 = new Vector4(halfSize.x, halfSize.y, rect2props.x, rect2props.y);
+            // uv3: (rect2props.z, rect2props.w, 0, 0)
+            vert.uv3 = new Vector4(rect2props.z, rect2props.w, 0, 0);
+            vh.SetUIVertex(vert, i);
+        }
     }
 
     private void RecalculateProps(Vector2 size)

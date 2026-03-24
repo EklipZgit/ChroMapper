@@ -1,55 +1,51 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
+// I AM BECOMING THE JOKER AND REWRITING THIS SCRIPT TO ACTUALLY BATCH MULTIPLE ROUNDED CORNER IMAGES.
 [ExecuteInEditMode]
-public class ImageWithRoundedCorners : MonoBehaviour
+public class ImageWithRoundedCorners : BaseMeshEffect
 {
-    private static readonly int Props = Shader.PropertyToID("_WidthHeightRadius");
-
-    [SerializeField] private Material material;
-    [HideInInspector] public Material mat;
-    [Tooltip("When this is false the inserted material will change the inserted material shader.")] public bool cloneMaterial = true;
     public float radius;
 
-    private void OnRectTransformDimensionsChange()
+    protected override void OnEnable()
     {
+        base.OnEnable();
         Refresh();
     }
 
-    private void OnValidate()
+    protected override void OnRectTransformDimensionsChange()
     {
-        if (cloneMaterial)
-        {
-            if (mat == null || mat == material)
-            {
-                mat = new Material(material);
-                Image i = GetComponent<Image>();
-                i.material = mat;
-                i.material.name = "Inherited From Round Corners";
-            }
-        }
-        else
-        {
-            mat = material;
-        }
-
+        base.OnRectTransformDimensionsChange();
         Refresh();
     }
 
-    private void Refresh()
+#if UNITY_EDITOR
+    protected override void OnValidate()
     {
+        base.OnValidate();
+        Refresh();
+    }
+#endif
+
+    public void Refresh()
+    {
+        if (graphic != null)
+        {
+            graphic.SetVerticesDirty();
+        }
+    }
+
+    public override void ModifyMesh(VertexHelper vh)
+    {
+        if (!IsActive()) return;
+
         Rect rect = ((RectTransform)transform).rect;
-        //I am tired of exceptions that dont give me the gameobject in question so I'm slightly modifying this script.
-        try
+        UIVertex vert = default;
+        for (int i = 0; i < vh.currentVertCount; i++)
         {
-            if (mat != null)
-            {
-                mat.SetVector(Props, new Vector4(rect.width, rect.height, radius, 0));
-            }
-        }
-        catch
-        {
-            Debug.LogError($"ImageWithRoundedCorners: Material is not assigned to GameObject {gameObject.name}");
+            vh.PopulateUIVertex(ref vert, i);
+            vert.uv1 = new Vector4(rect.width, rect.height, radius, 0);
+            vh.SetUIVertex(vert, i);
         }
     }
 }

@@ -49,11 +49,11 @@ Shader "UI/RoundedCorners/RoundedCorners" {
             #pragma vertex vert
             #pragma fragment frag
             
-            float4 _WidthHeightRadius;
             sampler2D _MainTex;
 
             fixed4 frag (v2f i) : SV_Target {
-                float alpha = CalcAlpha(i.uv, _WidthHeightRadius.xy, _WidthHeightRadius.z);
+                // uv1: (width, height, radius, 0)
+                float alpha = CalcAlpha(i.uv, i.uv1.xy, i.uv1.z);
                 return mixAlpha(tex2D(_MainTex, i.uv), i.color, alpha);
             }
             

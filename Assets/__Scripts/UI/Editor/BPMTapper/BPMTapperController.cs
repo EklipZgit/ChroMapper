@@ -10,9 +10,12 @@ using UnityEngine.Serialization;
 public class BPMTapperController : MonoBehaviour, CMInput.IBPMTapperActions
 {
     public static bool IsActive;
-    private static bool swap;
+    
     [FormerlySerializedAs("_bpmText")] [SerializeField] private TextMeshProUGUI bpmText;
+    [SerializeField] private FlyoutPanelController flyoutPanelController;
+
     private readonly List<float> taps = new List<float>();
+
     private bool isTapping;
     private float t1;
 
@@ -33,37 +36,12 @@ public class BPMTapperController : MonoBehaviour, CMInput.IBPMTapperActions
         if (context.performed)
         {
             if (UIMode.SelectedMode != UIModeType.Normal) return;
-            swap = !swap;
 
-            StopAllCoroutines();
-            StartCoroutine(UpdateGroup(swap, transform as RectTransform));
+            flyoutPanelController.Open();
         }
     }
 
-    public void Close()
-    {
-        swap = false;
-        StartCoroutine(UpdateGroup(swap, transform as RectTransform));
-    }
-
-    private IEnumerator UpdateGroup(bool enabled, RectTransform group)
-    {
-        float dest = enabled ? 120 : -200;
-
-        var og = group.anchoredPosition.y;
-        float t = 0;
-        while (t < 0.4)
-        {
-            t += Time.deltaTime;
-            group.anchoredPosition = new Vector2(group.anchoredPosition.x, Mathf.Lerp(og, dest, t));
-            og = group.anchoredPosition.y;
-            yield return new WaitForEndOfFrame();
-        }
-
-        if (!enabled) Reset();
-        group.anchoredPosition = new Vector2(group.anchoredPosition.x, dest);
-        IsActive = enabled;
-    }
+    public void Close() => flyoutPanelController.Close();
 
     public void Tap()
     {

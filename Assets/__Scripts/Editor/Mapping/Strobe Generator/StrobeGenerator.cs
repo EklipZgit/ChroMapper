@@ -10,7 +10,7 @@ public class StrobeGenerator : MonoBehaviour
     [SerializeField] private AudioTimeSyncController atsc;
     [SerializeField] private StrobeGeneratorUIDropdown ui;
 
-    public void ToggleUI() => ui.ToggleDropdown(!StrobeGeneratorUIDropdown.IsActive);
+    public void ToggleUI() => ui.ToggleDropdown(!ui.IsActive);
 
     // TODO(Caeden): holy ***SHIT*** what was my ass COOKING!?!?!?!?
     //   this is NOT very cash money.

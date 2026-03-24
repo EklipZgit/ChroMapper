@@ -19,6 +19,7 @@ public class NodeEditorController : MonoBehaviour, CMInput.INodeEditorActions
     [SerializeField] private TMP_InputField nodeEditorInputField;
     [SerializeField] private TextMeshProUGUI labelTextMesh;
     [SerializeField] private Button closeButton;
+    [SerializeField] private FlyoutPanelController flyoutPanelController;
 
     private readonly Type[] actionMapsEnabledWhenNodeEditing =
     {
@@ -88,11 +89,11 @@ public class NodeEditorController : MonoBehaviour, CMInput.INodeEditorActions
                 CMInputCallbackInstaller.DisableActionMaps(typeof(NodeEditorController), ActionMapsDisabled);
             }
 
-            StartCoroutine(UpdateGroup(!IsActive, transform as RectTransform));
+            UpdateGroup(!IsActive);
         }
     }
 
-    private IEnumerator UpdateGroup(bool enabled, RectTransform group)
+    private void UpdateGroup(bool enabled)
     {
         IsActive = enabled;
         if (enabled)
@@ -100,22 +101,21 @@ public class NodeEditorController : MonoBehaviour, CMInput.INodeEditorActions
             if (queuedUpdate) ObjectWasSelected();
 
             height = Mathf.FloorToInt(Settings.Instance.NodeEditorSize * 20.5f);
+            
             GetComponent<RectTransform>().sizeDelta = new Vector2(300, height);
+            flyoutPanelController.UpdateEndingOffset(new Vector2(0, height));
+
             nodeEditorInputField.pointSize = Settings.Instance.NodeEditorTextSize;
         }
 
-        float dest = enabled ? -5 : -height;
-        var og = group.anchoredPosition.y;
-        float t = 0;
-        while (t < 1)
+        if (IsActive)
         {
-            t += Time.deltaTime;
-            group.anchoredPosition = new Vector2(group.anchoredPosition.x, Mathf.Lerp(og, dest, t));
-            og = group.anchoredPosition.y;
-            yield return new WaitForEndOfFrame();
+            flyoutPanelController.Open();
         }
-
-        group.anchoredPosition = new Vector2(group.anchoredPosition.x, dest);
+        else
+        {
+            flyoutPanelController.Close();
+        }
     }
 
     public void ObjectWasSelected()
@@ -138,7 +138,7 @@ public class NodeEditorController : MonoBehaviour, CMInput.INodeEditorActions
         {
             StopAllCoroutines();
             closeButton.gameObject.SetActive(false);
-            StartCoroutine(UpdateGroup(true, transform as RectTransform));
+            UpdateGroup(true);
             if (firstActive)
             {
                 firstActive = false;
@@ -270,7 +270,7 @@ public class NodeEditorController : MonoBehaviour, CMInput.INodeEditorActions
             typeof(NodeEditorController),
             new[] { typeof(CMInput.INodeEditorActions) });
         CMInputCallbackInstaller.ClearDisabledActionMaps(typeof(NodeEditorController), ActionMapsDisabled);
-        StartCoroutine(UpdateGroup(false, transform as RectTransform));
+        UpdateGroup(false);
     }
 
     #region JSON Utils

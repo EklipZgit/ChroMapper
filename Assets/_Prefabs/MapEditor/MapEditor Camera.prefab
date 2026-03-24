@@ -101,6 +101,7 @@ GameObject:
   - component: {fileID: 114959380485549354}
   - component: {fileID: 82084598728851362}
   - component: {fileID: 6818142282442232602}
+  - component: {fileID: 773131517491887642}
   m_Layer: 0
   m_Name: MapEditor Camera
   m_TagString: MainCamera
@@ -163,7 +164,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 2715221983
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -382,6 +383,16 @@ MonoBehaviour:
   m_BeforeTransparentBundles: []
   m_BeforeStackBundles:
   - assemblyQualifiedName: CustomBloom, Main, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_AfterStackBundles:
-  - assemblyQualifiedName: CustomTonemapping, Main, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+  m_AfterStackBundles: []
+--- !u!114 &773131517491887642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1563302747920514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1991ba265483fbb4b93ad37b1b92edfb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
