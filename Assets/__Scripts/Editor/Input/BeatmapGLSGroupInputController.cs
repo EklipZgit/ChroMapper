@@ -2,6 +2,7 @@
 using Beatmap.Containers;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.LowLevel;
 
 public abstract class BeatmapGLSGroupInputController<TData> : BeatmapInputController<GLSGroupContainer>,
                                                               CMInput.IGLSGroupSelectActions
@@ -10,9 +11,19 @@ public abstract class BeatmapGLSGroupInputController<TData> : BeatmapInputContro
     [SerializeField] private GLSEventGridProvider eventGridProvider;
     protected override bool ValidObject(GLSGroupContainer container) => container.EventBoxGroupData is TData;
 
+    private bool CanInteract =>
+        !Input.GetMouseButton((int)MouseButton.Right)
+        && KeybindsController.IsMouseInWindow
+        && !SongTimelineController.IsHovering
+        && !SceneTransitionManager.IsLoading
+        && !DeleteToolController.IsActive
+        && !NodeEditorController.IsActive
+        && !UIMode.PreviewMode
+        && !MassSelect;
+
     public void OnEnterGroup(InputAction.CallbackContext context)
     {
-        if (context.performed && editContext.EditingMode.HasFlag(EditingMode.GLS) && IsHovering)
+        if (context.performed && CanInteract && editContext.EditingMode.HasFlag(EditingMode.GLS) && IsHovering)
         {
             eventGridProvider.GroupContext = HoveredObject.EventBoxGroupData;
             editContext.EditingMode = EditingMode.EventBox;

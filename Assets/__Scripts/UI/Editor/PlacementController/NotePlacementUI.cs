@@ -56,7 +56,7 @@ public class NotePlacementUI : MonoBehaviour
         notePlacement.AllowPlacement = false;
         bombPlacement.AllowPlacement = true;
         obstaclePlacement.AllowPlacement = false;
-        deleteToolController.UpdateDeletion(false);
+        DeleteToolController.UpdateDeletion(false);
     }
 
     public void Wall(bool active)
@@ -65,7 +65,7 @@ public class NotePlacementUI : MonoBehaviour
         notePlacement.AllowPlacement = false;
         bombPlacement.AllowPlacement = false;
         obstaclePlacement.AllowPlacement = true;
-        deleteToolController.UpdateDeletion(false);
+        DeleteToolController.UpdateDeletion(false);
     }
 
     public void RedAlt(bool active)
@@ -96,6 +96,6 @@ public class NotePlacementUI : MonoBehaviour
         bombPlacement.AllowPlacement = false;
         obstaclePlacement.AllowPlacement = false;
         notePlacement.UpdateType(v);
-        deleteToolController.UpdateDeletion(false);
+        DeleteToolController.UpdateDeletion(false);
     }
 }

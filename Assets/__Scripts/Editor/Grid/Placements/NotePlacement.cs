@@ -75,7 +75,7 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
     public void OnDotNote(InputAction.CallbackContext context)
     {
         if (!context.performed) return;
-        deleteToolController.UpdateDeletion(false);
+        DeleteToolController.UpdateDeletion(false);
         UpdateCut((int)NoteCutDirection.Any);
     }
 
@@ -332,7 +332,7 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
 
     private void HandleDirectionValues()
     {
-        deleteToolController.UpdateDeletion(false);
+        DeleteToolController.UpdateDeletion(false);
 
         var upNote = heldKeys[upKey];
         var downNote = heldKeys[downKey];

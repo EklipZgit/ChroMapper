@@ -6,10 +6,10 @@ public class DeleteToolController : MonoBehaviour
     public static event Action OnDeleteToolActivated;
     public static bool IsActive { get; private set; }
 
-    public void UpdateDeletion(bool enabled)
+    public static void UpdateDeletion(bool active)
     {
-        IsActive = enabled;
-        if (enabled) OnDeleteToolActivated?.Invoke();
+        IsActive = active;
+        OnDeleteToolActivated?.Invoke();
     }
 
     public void ToggleDeletion() => UpdateDeletion(!IsActive);

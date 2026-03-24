@@ -27,7 +27,8 @@ namespace Beatmap.Containers
             {
                 if (selected == value) return;
                 selected = value;
-                HandleOutlineVisual();
+                RefreshOutlineColor();
+                RefreshOutlineVisual();
             }
         }
 
@@ -40,7 +41,8 @@ namespace Beatmap.Containers
             {
                 if (highlighted == value) return;
                 highlighted = value;
-                HandleOutlineVisual();
+                RefreshOutlineColor();
+                RefreshOutlineVisual();
             }
         }
 
@@ -53,7 +55,8 @@ namespace Beatmap.Containers
             {
                 if (dragged == value) return;
                 dragged = value;
-                HandleOutlineVisual();
+                RefreshOutlineColor();
+                RefreshOutlineVisual();
             }
         }
 
@@ -91,7 +94,7 @@ namespace Beatmap.Containers
         public void SetOutlineColor(Color color)
         {
             currentOutlineColor = color;
-            HandleOutlineColor();
+            RefreshOutlineColor();
         }
 
         public virtual void AssignTrack(Track track) => AssignedTrack = track;
@@ -109,15 +112,13 @@ namespace Beatmap.Containers
             }
         }
 
-        private void HandleOutlineVisual()
-        {
-            HandleOutlineColor();
-            SelectionMpbController.ShowRenderer(selected | highlighted | dragged);
-        }
+        public void RefreshOutlineVisual() => SelectionMpbController.ShowRenderer(selected | highlighted | dragged);
 
-        private void HandleOutlineColor()
+        public void RefreshOutlineColor()
         {
-            SelectionMpbController.Mpb.SetColor(ColorId, highlighted | dragged ? Color.white : currentOutlineColor);
+            SelectionMpbController.Mpb.SetColor(
+                ColorId,
+                highlighted | dragged ? DeleteToolController.IsActive ? Color.red : Color.white : currentOutlineColor);
             SelectionMpbController.ApplyChanges();
         }
     }

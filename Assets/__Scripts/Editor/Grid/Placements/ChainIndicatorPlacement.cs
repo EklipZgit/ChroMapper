@@ -37,7 +37,7 @@ public class ChainIndicatorPlacement : BasePlacement<BaseChain, ChainIndicatorCo
     public void OnDotNote(InputAction.CallbackContext context)
     {
         if (!context.performed) return;
-        deleteToolController.UpdateDeletion(false);
+        DeleteToolController.UpdateDeletion(false);
         UpdateCut((int)NoteCutDirection.Any);
     }
 
@@ -225,7 +225,7 @@ public class ChainIndicatorPlacement : BasePlacement<BaseChain, ChainIndicatorCo
 
     private void HandleDirectionValues()
     {
-        deleteToolController.UpdateDeletion(false);
+        DeleteToolController.UpdateDeletion(false);
 
         var upNote = heldKeys[upKey];
         var downNote = heldKeys[downKey];

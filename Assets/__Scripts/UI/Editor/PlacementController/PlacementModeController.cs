@@ -80,7 +80,7 @@ public class PlacementModeController : MonoBehaviour
         notePlacement.AllowPlacement = mode == PlacementMode.Note;
         bombPlacement.AllowPlacement = mode == PlacementMode.Bomb;
         obstaclePlacement.AllowPlacement = mode == PlacementMode.Wall;
-        deleteToolController.UpdateDeletion(mode == PlacementMode.Delete);
+        DeleteToolController.UpdateDeletion(mode == PlacementMode.Delete);
         
         OnModeChanged?.Invoke(mode);
     }

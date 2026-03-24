@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Linq;
 using Beatmap.Containers;
 using UnityEngine;
@@ -26,9 +27,17 @@ public class BeatmapInputController<TContainer> : MonoBehaviour, CMInput.IBeatma
     [SerializeField] private EditingMode editMode;
     [SerializeField] private ObstaclePlacement obstaclePlacement;
 
-    private bool massSelect;
-    protected Vector2 MousePosition;
+    protected bool MassSelect;
+    private Vector2 mousePosition;
     private float timeWhenFirstSelecting;
+
+    private void Start() => DeleteToolController.OnDeleteToolActivated += HandleDeleteToolActivated;
+    private void OnDestroy() => DeleteToolController.OnDeleteToolActivated -= HandleDeleteToolActivated;
+
+    private void HandleDeleteToolActivated()
+    {
+        if (IsHovering) HoveredObject.RefreshOutlineColor();
+    }
 
     // Update is called once per frame
     private void Update()
@@ -57,7 +66,7 @@ public class BeatmapInputController<TContainer> : MonoBehaviour, CMInput.IBeatma
             IsHovering = false;
 
         if (!IsSelecting || Time.time - timeWhenFirstSelecting < 0.5f) return;
-        var ray = cameraManager.SelectedCameraController.Camera.ScreenPointToRay(MousePosition);
+        var ray = cameraManager.SelectedCameraController.Camera.ScreenPointToRay(mousePosition);
         foreach (var hit in Intersections.RaycastAll(ray, 9))
         {
             if (!GetComponentFromTransform(hit.GameObject, out var obj)) continue;
@@ -94,7 +103,7 @@ public class BeatmapInputController<TContainer> : MonoBehaviour, CMInput.IBeatma
         timeWhenFirstSelecting = Time.time;
         if (!RaycastFirstObject(out var firstObject)) return;
         var obj = firstObject.ObjectData;
-        if (massSelect
+        if (MassSelect
             && SelectionController.SelectedObjects.Count == 1
             && SelectionController.SelectedObjects.First() != obj)
             SelectionController.SelectBetween(SelectionController.SelectedObjects.First(), obj, true);
@@ -104,7 +113,7 @@ public class BeatmapInputController<TContainer> : MonoBehaviour, CMInput.IBeatma
     }
 
     public void OnMousePositionUpdate(InputAction.CallbackContext context) =>
-        MousePosition = context.ReadValue<Vector2>();
+        mousePosition = context.ReadValue<Vector2>();
 
     public void OnJumptoObjectTime(InputAction.CallbackContext context)
     {
@@ -119,13 +128,13 @@ public class BeatmapInputController<TContainer> : MonoBehaviour, CMInput.IBeatma
         }
     }
 
-    public void OnMassSelectModifier(InputAction.CallbackContext context) => massSelect = context.performed;
+    public void OnMassSelectModifier(InputAction.CallbackContext context) => MassSelect = context.performed;
 
     protected virtual bool GetComponentFromTransform(GameObject t, out TContainer obj) => t.TryGetComponent(out obj);
 
     protected bool RaycastFirstObject(out TContainer firstObject)
     {
-        var ray = cameraManager.SelectedCameraController.Camera.ScreenPointToRay(MousePosition);
+        var ray = cameraManager.SelectedCameraController.Camera.ScreenPointToRay(mousePosition);
         if (GlobalIntersectionCache.firstHit == null)
         {
             if (Intersections.Raycast(ray, 9, out var hit)) GlobalIntersectionCache.firstHit = hit.GameObject;

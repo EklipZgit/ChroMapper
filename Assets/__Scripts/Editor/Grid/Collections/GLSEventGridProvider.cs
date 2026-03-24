@@ -87,9 +87,29 @@ public class GLSEventGridProvider : MonoBehaviour
             var box = groupContext.AbstractBoxes[i];
             var filter = box.IndexFilter;
             label.SetText(
-                $"[{i + 1}]\n\n{(DistributionType)box.BeatDistributionType}\n[{box.BeatDistribution}]\n\n{(IndexFilterType)filter.Type}\n[{filter.Param0},{filter.Param1}]");
+                $"[{i + 1}]\n\n{DistributionTypeToString(box.BeatDistributionType)}\n[{box.BeatDistribution}]\n\n{FilterTypeToString(filter.Type)}\n[{filter.Param0},{filter.Param1}]");
 
             label.enabled = true;
         }
+    }
+
+    private string FilterTypeToString(int t)
+    {
+        return t switch
+        {
+            (int)IndexFilterType.Division => "Section",
+            (int)IndexFilterType.StepAndOffset => "Step",
+            _ => "???"
+        };
+    }
+
+    private string DistributionTypeToString(int t)
+    {
+        return t switch
+        {
+            (int)DistributionType.Wave => "Wave",
+            (int)DistributionType.Step => "Step",
+            _ => "???"
+        };
     }
 }
