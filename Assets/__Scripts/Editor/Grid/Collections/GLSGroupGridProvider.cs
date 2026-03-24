@@ -73,10 +73,10 @@ public class GLSGroupGridProvider : MonoBehaviour, CMInput.IGLSGroupTabsActions
         foreach (var track in Tracks.Values) track.GridLane.Hide = true;
         var group = groupList[currentGroup];
         if (!groupToIdList.TryGetValue(group, out var idList)) return;
-        var count = -idList.Count / 2;
+        var order = 1;
         foreach (var i in idList)
         {
-            Tracks[i].GridLane.Order = count++;
+            Tracks[i].GridLane.Order = order++;
             Tracks[i].GridLane.Hide = false;
         }
 

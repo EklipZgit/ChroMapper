@@ -8,12 +8,27 @@ using UnityEngine;
 public class GridViewController : MonoBehaviour, IEnumerable<GridChild>
 {
     public event Action OnGridViewUpdated;
-    public event Action<GridChild> OnGridAdded;
 
+    [SerializeField] private GridRenderingController gridRenderingController;
     [SerializeField] private EditModeContext editModeContext;
     [SerializeField] private GridChild[] startUpRegister;
 
     private Dictionary<int, List<GridChild>> allChildren = new();
+    private readonly Dictionary<int, List<GridChild>> reuseChildren = new();
+    private bool flipOdd;
+
+    private bool hasInitialized;
+
+    public bool FlipOdd
+    {
+        get => flipOdd;
+        set
+        {
+            if (flipOdd == value) return;
+            flipOdd = value;
+            UpdateGrid();
+        }
+    }
 
     private void OnValidate()
     {
@@ -25,20 +40,92 @@ public class GridViewController : MonoBehaviour, IEnumerable<GridChild>
         NotifyChanged();
     }
 
-    private void Start()
+    private void Start() => InitIfNeeded();
+
+    private void OnDestroy()
     {
-        foreach (var gridChild in startUpRegister) RegisterChild(gridChild);
+        editModeContext.OnEditModeChanged -= HandleEditModeChanged;
+        EditorScaleController.OnEditorScaleChanged -= HandleEditorScaleChanged;
+        gridRenderingController.OnBeatSpacingChanged -= HandleBeatSpacingChanged;
+        gridRenderingController.OnXYInterfaceColorChanged -= HandleXYInterfaceColorChanged;
+        gridRenderingController.OnXZInterfaceColorChanged -= HandleXZInterfaceColorChanged;
+        gridRenderingController.OnLengthChanged -= HandleLengthChanged;
+        gridRenderingController.OnBeatThicknessChanged -= HandleBeatThicknessChanged;
     }
 
-    private void OnEnable() => editModeContext.OnEditModeChanged += HandleEditModeChanged;
-    private void OnDestroy() => editModeContext.OnEditModeChanged -= HandleEditModeChanged;
+    private void InitIfNeeded()
+    {
+        if (hasInitialized) return;
+        foreach (var gridChild in startUpRegister) RegisterChild(gridChild);
+        editModeContext.OnEditModeChanged += HandleEditModeChanged;
+        EditorScaleController.OnEditorScaleChanged += HandleEditorScaleChanged;
+        gridRenderingController.OnBeatSpacingChanged += HandleBeatSpacingChanged;
+        gridRenderingController.OnXYInterfaceColorChanged += HandleXYInterfaceColorChanged;
+        gridRenderingController.OnXZInterfaceColorChanged += HandleXZInterfaceColorChanged;
+        gridRenderingController.OnLengthChanged += HandleLengthChanged;
+        gridRenderingController.OnBeatThicknessChanged += HandleBeatThicknessChanged;
+        hasInitialized = true;
+        foreach (var lane in this.Where(x => x is GridLane).Cast<GridLane>())
+        {
+            ApplyScale(lane, EditorScaleController.EditorScale);
+            ApplyVisual(lane);
+        }
+
+        NotifyChanged();
+    }
 
     private void HandleEditModeChanged(EditingMode mode) => NotifyChanged();
+
+    private void HandleEditorScaleChanged(float scale)
+    {
+        foreach (var lane in this.Where(x => x is GridLane).Cast<GridLane>()) ApplyScale(lane, scale);
+    }
+
+    private void HandleBeatSpacingChanged(Vector4 zLineSpacing)
+    {
+        foreach (var lane in this.Where(x => x is GridLane).Cast<GridLane>()) lane.SetBeatSpacing(zLineSpacing);
+    }
+
+    private void HandleXYInterfaceColorChanged(Color color)
+    {
+        foreach (var lane in this.Where(x => x is GridLane).Cast<GridLane>()) lane.SetXYInterfaceColor(color);
+    }
+
+    private void HandleXZInterfaceColorChanged(Color color)
+    {
+        foreach (var lane in this.Where(x => x is GridLane).Cast<GridLane>()) lane.SetXZInterfaceColor(color);
+    }
+
+    private void HandleLengthChanged(float scale) => HandleEditorScaleChanged(scale);
+
+    private void HandleBeatThicknessChanged(Vector4 zLineThickness)
+    {
+        foreach (var lane in this.Where(x => x is GridLane).Cast<GridLane>()) lane.SetBeatThickness(zLineThickness);
+    }
+
+    private static void ApplyScale(GridLane lane, float scale) => lane.Length = Settings.Instance.TrackLength * scale;
+
+    private void ApplyVisual(GridLane lane)
+    {
+        lane.SetBeatSpacing(gridRenderingController.ZLineSpacing);
+
+        var newColor = Color.white.WithAlpha(Settings.Instance.InterfaceOpacity);
+        lane.SetXYInterfaceColor(newColor);
+
+        var gridAlpha = Settings.Instance.GridTransparency;
+        newColor = Settings.Instance.HighContrastGrids
+            ? GridRenderingController.ColorHighContrast
+            : GridRenderingController.ColorDefault;
+        newColor.a = Mathf.Clamp01(1f - gridAlpha);
+        lane.SetXZInterfaceColor(newColor);
+
+        lane.SetBeatThickness(gridRenderingController.ZLineThickness);
+    }
 
     // TODO: Refresh only once per frame
     private void UpdateGrid()
     {
-        var activeChildren = new Dictionary<int, List<GridChild>>();
+        reuseChildren.Clear();
 
         foreach (var (order, children) in allChildren)
         {
@@ -46,10 +133,10 @@ public class GridViewController : MonoBehaviour, IEnumerable<GridChild>
             {
                 if (child.ViewableMode.HasFlag(editModeContext.EditingMode) && !child.Hide)
                 {
-                    if (activeChildren.ContainsKey(order))
-                        activeChildren[order].Add(child);
+                    if (reuseChildren.TryGetValue(order, out var reuseChild))
+                        reuseChild.Add(child);
                     else
-                        activeChildren.Add(order, new List<GridChild> { child });
+                        reuseChildren.Add(order, new List<GridChild> { child });
                     child.gameObject.SetActive(true);
                 }
                 else
@@ -58,23 +145,23 @@ public class GridViewController : MonoBehaviour, IEnumerable<GridChild>
         }
 
         float childX = 0;
-        if (activeChildren.Any(x => x.Key < 0))
+        if (reuseChildren.Any(x => x.Key < 0))
         {
-            if (activeChildren.TryGetValue(0, out var centerGridChildren))
+            if (reuseChildren.TryGetValue(0, out var centerGridChildren))
                 childX -= centerGridChildren.Max(x => x.Lane) / 2f;
-            foreach (var (_, child) in activeChildren.Where(x => x.Key < 0))
+            foreach (var (_, child) in reuseChildren.Where(x => x.Key < 0))
                 childX -= Mathf.Ceil(child.Max(x => x.Lane)) + 1;
         }
 
         var isOdd = false;
-        if (activeChildren.TryGetValue(0, out var centerGrid)) isOdd = centerGrid.Max(x => x.Lane) % 2 != 0;
+        if (reuseChildren.TryGetValue(0, out var centerGrid)) isOdd = centerGrid.Max(x => x.Lane) % 2 != 0;
 
-        foreach (var (_, children) in activeChildren)
+        foreach (var (_, children) in reuseChildren)
         {
             children.RemoveAll(x => x == null);
             foreach (var child in children)
             {
-                if (child is GridLane lane) lane.OddLaneOffset = isOdd;
+                if (child is GridLane lane) lane.OddLaneOffset = flipOdd ? !isOdd : isOdd;
                 var xPos = childX + child.LocalOffset.x;
                 child.transform.localPosition = new Vector3(
                     xPos * BeatmapConstant.LaneSize,
@@ -98,13 +185,44 @@ public class GridViewController : MonoBehaviour, IEnumerable<GridChild>
             : 0;
     }
 
+    public Dictionary<int, List<GridChild>> GetActiveChildren()
+    {
+        reuseChildren.Clear();
+
+        foreach (var (order, children) in allChildren)
+        {
+            foreach (var child in children.Where(child =>
+                child.ViewableMode.HasFlag(editModeContext.EditingMode) && !child.Hide))
+            {
+                if (reuseChildren.ContainsKey(order))
+                    reuseChildren[order].Add(child);
+                else
+                    reuseChildren.Add(order, new List<GridChild> { child });
+            }
+        }
+
+        return reuseChildren;
+    }
+
+    public int GetMaxSize()
+    {
+        InitIfNeeded();
+        var activeChildren = GetActiveChildren();
+        return activeChildren.Sum(x => x.Value.Max(y => y.Lane)) + activeChildren.Count;
+    }
+
     public void RegisterChild(GridChild child)
     {
         if (allChildren.TryGetValue(child.Order, out var grids))
             grids.Add(child);
         else
             allChildren[child.Order] = new List<GridChild> { child };
-        OnGridAdded?.Invoke(child);
+        if (child is GridLane lane)
+        {
+            ApplyScale(lane, EditorScaleController.EditorScale);
+            ApplyVisual(lane);
+        }
+
         NotifyChanged();
     }
 

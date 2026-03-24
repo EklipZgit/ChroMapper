@@ -15,8 +15,6 @@ public class EditorScaleController : MonoBehaviour, CMInput.IEditorScaleActions
     [SerializeField] private Transform moveableGridTransform;
     [SerializeField] private AudioTimeSyncController atsc;
 
-    [SerializeField] private GridViewController gridViewController;
-
     private BeatmapObjectContainerCollection[] collections;
     private float currentBpm = baseBpm;
 
@@ -32,7 +30,6 @@ public class EditorScaleController : MonoBehaviour, CMInput.IEditorScaleActions
         Settings.NotifyBySettingName("EditorScaleBPMIndependent", RecalcEditorScale);
         Settings.NotifyBySettingName("NoteJumpSpeedForEditorScale", SetAccurateEditorScale);
         UIMode.OnUIModeSwitched += UpdateByUIMode;
-        gridViewController.OnGridAdded += HandleGridAdded;
     }
 
     private void OnDestroy()
@@ -41,7 +38,6 @@ public class EditorScaleController : MonoBehaviour, CMInput.IEditorScaleActions
         Settings.ClearSettingNotifications("EditorScaleBPMIndependent");
         Settings.ClearSettingNotifications("NoteJumpSpeedForEditorScale");
         UIMode.OnUIModeSwitched -= UpdateByUIMode;
-        gridViewController.OnGridAdded -= HandleGridAdded;
     }
 
     public void OnDecreaseEditorScale(InputAction.CallbackContext context)
@@ -114,14 +110,7 @@ public class EditorScaleController : MonoBehaviour, CMInput.IEditorScaleActions
 
         OnEditorScaleChanged?.Invoke(EditorScale);
         previousEditorScale = EditorScale;
-        foreach (var gridLane in gridViewController.Where(x => x is GridLane).Cast<GridLane>())
-            gridLane.Length = Settings.Instance.TrackLength * EditorScale;
 
         atsc.MoveToSongBpmTime(atsc.CurrentSongBpmTime);
-    }
-
-    private static void HandleGridAdded(GridChild obj)
-    {
-        if (obj is GridLane gridLane) gridLane.Length = Settings.Instance.TrackLength * EditorScale;
     }
 }
