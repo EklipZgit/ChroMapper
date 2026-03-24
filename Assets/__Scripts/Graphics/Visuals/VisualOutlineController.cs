@@ -9,7 +9,6 @@ public class VisualOutlineController : VisualController
     public MeshFilter MeshFilter;
     public bool ReplaceCollider;
     public IntersectionCollider Collider;
-    private bool selectionMarkReplace;
 
     private MaterialPropertyBlock mpb;
 

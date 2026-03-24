@@ -55,7 +55,6 @@ MonoBehaviour:
   VisualSettings: {fileID: 11400000, guid: 1c738480b4420d21c9f3d613e26a698e, type: 2}
   MpbController: {fileID: 2894439692594685152}
   SelectionMpbController: {fileID: 8176633882206221945}
-  dragging: 0
   Prefab: {fileID: 6669363902450683679}
   indicators:
   - {fileID: 4047164864402519390}
@@ -532,7 +531,6 @@ MonoBehaviour:
   VisualSettings: {fileID: 11400000, guid: 1c738480b4420d21c9f3d613e26a698e, type: 2}
   MpbController: {fileID: 2894439692594685152}
   SelectionMpbController: {fileID: 8176633882206221945}
-  dragging: 0
   IndicatorType: 1
   ParentChain: {fileID: 4686637857457952692}
 --- !u!1 &5799560996493218943
@@ -659,7 +657,6 @@ MonoBehaviour:
   VisualSettings: {fileID: 11400000, guid: 1c738480b4420d21c9f3d613e26a698e, type: 2}
   MpbController: {fileID: 2894439692594685152}
   SelectionMpbController: {fileID: 8176633882206221945}
-  dragging: 0
   IndicatorType: 0
   ParentChain: {fileID: 4686637857457952692}
 --- !u!1 &6208702652735546066
@@ -919,7 +916,6 @@ MonoBehaviour:
   VisualSettings: {fileID: 11400000, guid: 1c738480b4420d21c9f3d613e26a698e, type: 2}
   MpbController: {fileID: 2894439692594685152}
   SelectionMpbController: {fileID: 8176633882206221945}
-  dragging: 0
   IndicatorType: 1
   ParentChain: {fileID: 4686637857457952692}
 --- !u!1 &8456018241599587326

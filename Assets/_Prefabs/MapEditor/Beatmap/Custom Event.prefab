@@ -51,7 +51,6 @@ MonoBehaviour:
   VisualSettings: {fileID: 11400000, guid: 1c738480b4420d21c9f3d613e26a698e, type: 2}
   MpbController: {fileID: 4690996845217000459}
   SelectionMpbController: {fileID: 349984601245750296}
-  dragging: 0
 --- !u!1 &1957395782864314
 GameObject:
   m_ObjectHideFlags: 0

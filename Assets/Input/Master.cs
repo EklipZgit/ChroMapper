@@ -4472,7 +4472,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""name"": ""Toggle Hitsound Mute"",
                     ""type"": ""Button"",
                     ""id"": ""330cfd81-242f-446b-b926-955336819490"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -5260,6 +5260,54 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Next Group"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""GLS Group Select"",
+            ""id"": ""f6838b85-a13d-4d31-a703-30c17b97bcfd"",
+            ""actions"": [
+                {
+                    ""name"": ""Enter Group"",
+                    ""type"": ""Button"",
+                    ""id"": ""1f52503e-6e54-4d54-b4b4-7167b1fe2f8c"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Exit Group"",
+                    ""type"": ""Button"",
+                    ""id"": ""a1047b6f-069f-47d8-a177-08bbdcc8f853"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""f9d75cc1-f4a0-49eb-9dfd-59ee118ce8fa"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Enter Group"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c4fc87a9-a59a-42c7-8041-dbb044dba941"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Exit Group"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -6871,6 +6919,10 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         // GLS Group Tabs
         m_GLSGroupTabs = asset.FindActionMap("GLS Group Tabs", throwIfNotFound: true);
         m_GLSGroupTabs_NextGroup = m_GLSGroupTabs.FindAction("Next Group", throwIfNotFound: true);
+        // GLS Group Select
+        m_GLSGroupSelect = asset.FindActionMap("GLS Group Select", throwIfNotFound: true);
+        m_GLSGroupSelect_EnterGroup = m_GLSGroupSelect.FindAction("Enter Group", throwIfNotFound: true);
+        m_GLSGroupSelect_ExitGroup = m_GLSGroupSelect.FindAction("Exit Group", throwIfNotFound: true);
         // GLS Color Objects
         m_GLSColorObjects = asset.FindActionMap("GLS Color Objects", throwIfNotFound: true);
         m_GLSColorObjects_Color0Light = m_GLSColorObjects.FindAction("Color0 Light", throwIfNotFound: true);
@@ -6991,6 +7043,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         UnityEngine.Debug.Assert(!m_SwitchVersion.enabled, "This will cause a leak and performance issues, CMInput.SwitchVersion.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_EditMode.enabled, "This will cause a leak and performance issues, CMInput.EditMode.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_GLSGroupTabs.enabled, "This will cause a leak and performance issues, CMInput.GLSGroupTabs.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_GLSGroupSelect.enabled, "This will cause a leak and performance issues, CMInput.GLSGroupSelect.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_GLSColorObjects.enabled, "This will cause a leak and performance issues, CMInput.GLSColorObjects.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_GLSRotationObjects.enabled, "This will cause a leak and performance issues, CMInput.GLSRotationObjects.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_GLSTranslationObjects.enabled, "This will cause a leak and performance issues, CMInput.GLSTranslationObjects.Disable() has not been called.");
@@ -13048,6 +13101,113 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
     /// </summary>
     public GLSGroupTabsActions @GLSGroupTabs => new GLSGroupTabsActions(this);
 
+    // GLS Group Select
+    private readonly InputActionMap m_GLSGroupSelect;
+    private List<IGLSGroupSelectActions> m_GLSGroupSelectActionsCallbackInterfaces = new List<IGLSGroupSelectActions>();
+    private readonly InputAction m_GLSGroupSelect_EnterGroup;
+    private readonly InputAction m_GLSGroupSelect_ExitGroup;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "GLS Group Select".
+    /// </summary>
+    public struct GLSGroupSelectActions
+    {
+        private @CMInput m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public GLSGroupSelectActions(@CMInput wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "GLSGroupSelect/EnterGroup".
+        /// </summary>
+        public InputAction @EnterGroup => m_Wrapper.m_GLSGroupSelect_EnterGroup;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSGroupSelect/ExitGroup".
+        /// </summary>
+        public InputAction @ExitGroup => m_Wrapper.m_GLSGroupSelect_ExitGroup;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_GLSGroupSelect; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="GLSGroupSelectActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(GLSGroupSelectActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="GLSGroupSelectActions" />
+        public void AddCallbacks(IGLSGroupSelectActions instance)
+        {
+            if (instance == null || m_Wrapper.m_GLSGroupSelectActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_GLSGroupSelectActionsCallbackInterfaces.Add(instance);
+            @EnterGroup.started += instance.OnEnterGroup;
+            @EnterGroup.performed += instance.OnEnterGroup;
+            @EnterGroup.canceled += instance.OnEnterGroup;
+            @ExitGroup.started += instance.OnExitGroup;
+            @ExitGroup.performed += instance.OnExitGroup;
+            @ExitGroup.canceled += instance.OnExitGroup;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="GLSGroupSelectActions" />
+        private void UnregisterCallbacks(IGLSGroupSelectActions instance)
+        {
+            @EnterGroup.started -= instance.OnEnterGroup;
+            @EnterGroup.performed -= instance.OnEnterGroup;
+            @EnterGroup.canceled -= instance.OnEnterGroup;
+            @ExitGroup.started -= instance.OnExitGroup;
+            @ExitGroup.performed -= instance.OnExitGroup;
+            @ExitGroup.canceled -= instance.OnExitGroup;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="GLSGroupSelectActions.UnregisterCallbacks(IGLSGroupSelectActions)" />.
+        /// </summary>
+        /// <seealso cref="GLSGroupSelectActions.UnregisterCallbacks(IGLSGroupSelectActions)" />
+        public void RemoveCallbacks(IGLSGroupSelectActions instance)
+        {
+            if (m_Wrapper.m_GLSGroupSelectActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="GLSGroupSelectActions.AddCallbacks(IGLSGroupSelectActions)" />
+        /// <seealso cref="GLSGroupSelectActions.RemoveCallbacks(IGLSGroupSelectActions)" />
+        /// <seealso cref="GLSGroupSelectActions.UnregisterCallbacks(IGLSGroupSelectActions)" />
+        public void SetCallbacks(IGLSGroupSelectActions instance)
+        {
+            foreach (var item in m_Wrapper.m_GLSGroupSelectActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_GLSGroupSelectActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="GLSGroupSelectActions" /> instance referencing this action map.
+    /// </summary>
+    public GLSGroupSelectActions @GLSGroupSelect => new GLSGroupSelectActions(this);
+
     // GLS Color Objects
     private readonly InputActionMap m_GLSColorObjects;
     private List<IGLSColorObjectsActions> m_GLSColorObjectsActionsCallbackInterfaces = new List<IGLSColorObjectsActions>();
@@ -15658,6 +15818,28 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnNextGroup(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "GLS Group Select" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="GLSGroupSelectActions.AddCallbacks(IGLSGroupSelectActions)" />
+    /// <seealso cref="GLSGroupSelectActions.RemoveCallbacks(IGLSGroupSelectActions)" />
+    public interface IGLSGroupSelectActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "Enter Group" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnEnterGroup(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Exit Group" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnExitGroup(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "GLS Color Objects" which allows adding and removing callbacks.

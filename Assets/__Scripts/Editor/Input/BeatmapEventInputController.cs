@@ -38,7 +38,7 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
         RaycastFirstObject(out var e);
         if (e == null || e.Dragged || !context.performed) return;
 
-        var modifier = ((context.ReadValue<float>() > 0) ^ Settings.Instance.InvertScrollEventValue)
+        var modifier = (context.ReadValue<float>() > 0) ^ Settings.Instance.InvertScrollEventValue
             ? 1
             : -1;
         TweakMain(e, modifier);
@@ -50,7 +50,7 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
         RaycastFirstObject(out var e);
         if (e == null || e.Dragged || !context.performed) return;
 
-        var modifier = ((context.ReadValue<float>() > 0) ^ Settings.Instance.InvertScrollEventValue)
+        var modifier = (context.ReadValue<float>() > 0) ^ Settings.Instance.InvertScrollEventValue
             ? 1
             : -1;
         TweakAlternative(e, modifier);

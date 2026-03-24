@@ -5,7 +5,7 @@ using Beatmap.Helper;
 using UnityEngine.InputSystem;
 
 public class BeatmapBPMChangeInputController : BeatmapInputController<BpmEventContainer>,
-    CMInput.IBPMChangeObjectsActions
+                                               CMInput.IBPMChangeObjectsActions
 {
     public void OnReplaceBPM(InputAction.CallbackContext context)
     {
@@ -14,8 +14,12 @@ public class BeatmapBPMChangeInputController : BeatmapInputController<BpmEventCo
             RaycastFirstObject(out var containerToEdit);
             if (containerToEdit != null)
             {
-                PersistentUI.Instance.ShowInputBox("Mapper", "bpm.dialog", s => ChangeBpm(containerToEdit, s),
-                    "", containerToEdit.BpmData.Bpm.ToString());
+                PersistentUI.Instance.ShowInputBox(
+                    "Mapper",
+                    "bpm.dialog",
+                    s => ChangeBpm(containerToEdit, s),
+                    "",
+                    containerToEdit.BpmData.Bpm.ToString());
             }
         }
     }
@@ -38,11 +42,17 @@ public class BeatmapBPMChangeInputController : BeatmapInputController<BpmEventCo
                 if (containerToEdit.BpmData.CompareTo(original) == 0) return;
 
                 var bpmChanges =
-                    BeatmapObjectContainerCollection.GetCollectionForType<BPMChangeGridContainer>(ObjectType
-                        .BpmChange);
+                    BeatmapObjectContainerCollection.GetCollectionForType<BPMChangeGridContainer>(
+                        ObjectType
+                            .BpmChange);
 
-                BeatmapActionContainer.AddAction(new BeatmapObjectModifiedAction(containerToEdit.ObjectData,
-                    containerToEdit.ObjectData, original, "Tweaked bpm", mergeType: ActionMergeType.BPMValueTweak));
+                BeatmapActionContainer.AddAction(
+                    new BeatmapObjectModifiedAction(
+                        containerToEdit.ObjectData,
+                        containerToEdit.ObjectData,
+                        original,
+                        "Tweaked bpm",
+                        mergeType: ActionMergeType.BPMValueTweak));
 
                 BeatmapObjectContainerCollection.RefreshFutureObjectsPosition(containerToEdit.BpmData.JsonTime);
                 bpmChanges.RefreshModifiedBeat();
@@ -56,6 +66,7 @@ public class BeatmapBPMChangeInputController : BeatmapInputController<BpmEventCo
             }
         }
     }
+
     internal static void ChangeBpm(BpmEventContainer containerToEdit, string obj)
     {
         if (string.IsNullOrEmpty(obj) || string.IsNullOrWhiteSpace(obj)) return;
@@ -67,16 +78,24 @@ public class BeatmapBPMChangeInputController : BeatmapInputController<BpmEventCo
             var bpmChanges =
                 BeatmapObjectContainerCollection.GetCollectionForType<BPMChangeGridContainer>(
                     ObjectType.BpmChange);
-            BeatmapActionContainer.AddAction(new BeatmapObjectModifiedAction(containerToEdit.ObjectData,
-                containerToEdit.ObjectData, original, "Modified bpm"));
+            BeatmapActionContainer.AddAction(
+                new BeatmapObjectModifiedAction(
+                    containerToEdit.ObjectData,
+                    containerToEdit.ObjectData,
+                    original,
+                    "Modified bpm"));
 
             BeatmapObjectContainerCollection.RefreshFutureObjectsPosition(containerToEdit.BpmData.JsonTime);
             bpmChanges.RefreshModifiedBeat();
         }
         else
         {
-            PersistentUI.Instance.ShowInputBox("Mapper", "bpm.dialog.invalid",
-                s => ChangeBpm(containerToEdit, s), "", containerToEdit.BpmData.Bpm.ToString());
+            PersistentUI.Instance.ShowInputBox(
+                "Mapper",
+                "bpm.dialog.invalid",
+                s => ChangeBpm(containerToEdit, s),
+                "",
+                containerToEdit.BpmData.Bpm.ToString());
         }
     }
 }

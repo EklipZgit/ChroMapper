@@ -52,7 +52,6 @@ MonoBehaviour:
   VisualSettings: {fileID: 11400000, guid: 1c738480b4420d21c9f3d613e26a698e, type: 2}
   MpbController: {fileID: 8713059339080809947}
   SelectionMpbController: {fileID: 1536806029612139599}
-  dragging: 0
   ModelController: {fileID: 2230210897425493252}
   ArrowMpbController: {fileID: 3307062995251334428}
   ArrowModelController: {fileID: 347171907033333245}

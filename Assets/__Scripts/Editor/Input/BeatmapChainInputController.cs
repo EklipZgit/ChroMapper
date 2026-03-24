@@ -18,14 +18,16 @@ public class BeatmapChainInputController : BeatmapInputController<ChainContainer
     private const float maxChainSquish = 999;
     private const float squishChangeSpeed = 0.1f;
 
-    [FormerlySerializedAs("chainAppearanceSO")][SerializeField] private ChainAppearanceSO chainAppearanceSo;
+    [FormerlySerializedAs("chainAppearanceSO")] [SerializeField]
+    private ChainAppearanceSO chainAppearanceSo;
+
     public void OnTweakChainCount(InputAction.CallbackContext context)
     {
         if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)) return;
         RaycastFirstObject(out var c);
         if (c == null || c.Dragged || !context.performed) return;
 
-        var modifier = ((context.ReadValue<float>() > 0) ^ Settings.Instance.InvertScrollChainSegmentCount)
+        var modifier = (context.ReadValue<float>() > 0) ^ Settings.Instance.InvertScrollChainSegmentCount
             ? 1
             : -1;
         TweakValue(c, modifier);
@@ -38,13 +40,19 @@ public class BeatmapChainInputController : BeatmapInputController<ChainContainer
         c.ChainData.SliceCount = Mathf.Clamp(c.ChainData.SliceCount, minChainCount, maxChainCount);
         if (c.ChainData.CompareTo(original) == 0) return;
         c.GenerateChain();
-        BeatmapActionContainer.AddAction(new BeatmapObjectModifiedAction(c.ObjectData, c.ObjectData, original, mergeType: ActionMergeType.ChainSliceCountTweak));
+        BeatmapActionContainer.AddAction(
+            new BeatmapObjectModifiedAction(
+                c.ObjectData,
+                c.ObjectData,
+                original,
+                mergeType: ActionMergeType.ChainSliceCountTweak));
     }
 
     public void OnInvertChainColor(InputAction.CallbackContext context)
     {
-        if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true) ||
-            !KeybindsController.IsMouseInWindow || !context.performed)
+        if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)
+            || !KeybindsController.IsMouseInWindow
+            || !context.performed)
         {
             return;
         }
@@ -70,7 +78,7 @@ public class BeatmapChainInputController : BeatmapInputController<ChainContainer
         RaycastFirstObject(out var c);
         if (c == null || c.Dragged || !context.performed) return;
 
-        var modifier = ((context.ReadValue<float>() > 0) ^ Settings.Instance.InvertScrollChainSquish)
+        var modifier = (context.ReadValue<float>() > 0) ^ Settings.Instance.InvertScrollChainSquish
             ? squishChangeSpeed
             : -squishChangeSpeed;
         TweakChainSquish(c, modifier);
@@ -83,6 +91,11 @@ public class BeatmapChainInputController : BeatmapInputController<ChainContainer
         c.ChainData.Squish = Mathf.Clamp(c.ChainData.Squish, minChainSquish, maxChainSquish);
         if (c.ChainData.CompareTo(original) == 0) return;
         c.GenerateChain();
-        BeatmapActionContainer.AddAction(new BeatmapObjectModifiedAction(c.ObjectData, c.ObjectData, original, mergeType: ActionMergeType.ChainSquishTweak));
+        BeatmapActionContainer.AddAction(
+            new BeatmapObjectModifiedAction(
+                c.ObjectData,
+                c.ObjectData,
+                original,
+                mergeType: ActionMergeType.ChainSquishTweak));
     }
 }

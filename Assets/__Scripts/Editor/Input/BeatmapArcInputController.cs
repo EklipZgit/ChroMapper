@@ -13,7 +13,10 @@ using UnityEngine.UI;
 public class BeatmapArcInputController : BeatmapInputController<ArcContainer>, CMInput.IArcObjectsActions
 {
     public const float MuChangeSpeed = 0.1f;
-    [FormerlySerializedAs("arcAppearanceSO")] [SerializeField] private ArcAppearanceSO arcAppearanceSo;
+
+    [FormerlySerializedAs("arcAppearanceSO")] [SerializeField]
+    private ArcAppearanceSO arcAppearanceSo;
+
     public void OnChangingMu(InputAction.CallbackContext context)
     {
         if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)) return;
@@ -21,7 +24,7 @@ public class BeatmapArcInputController : BeatmapInputController<ArcContainer>, C
         if (e == null || e.Dragged || !context.performed) return;
 
         var modifier = context.ReadValue<float>();
-        modifier = ((modifier > 0) ^ Settings.Instance.InvertScrollArcMultiplier)
+        modifier = (modifier > 0) ^ Settings.Instance.InvertScrollArcMultiplier
             ? MuChangeSpeed
             : -MuChangeSpeed;
         ChangeMu(e, modifier);
@@ -32,13 +35,19 @@ public class BeatmapArcInputController : BeatmapInputController<ArcContainer>, C
         var original = BeatmapFactory.Clone(s.ArcData);
         s.ChangeHeadMultiplier(modifier);
         s.NotifySplineChanged();
-        BeatmapActionContainer.AddAction(new BeatmapObjectModifiedAction(s.ObjectData, s.ObjectData, original, mergeType: ActionMergeType.ArcHeadMultTweak));
+        BeatmapActionContainer.AddAction(
+            new BeatmapObjectModifiedAction(
+                s.ObjectData,
+                s.ObjectData,
+                original,
+                mergeType: ActionMergeType.ArcHeadMultTweak));
     }
 
     public void OnInvertArcColor(InputAction.CallbackContext context)
     {
-        if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true) ||
-            !KeybindsController.IsMouseInWindow || !context.performed)
+        if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)
+            || !KeybindsController.IsMouseInWindow
+            || !context.performed)
         {
             return;
         }
@@ -55,7 +64,8 @@ public class BeatmapArcInputController : BeatmapInputController<ArcContainer>, C
             : (int)NoteColor.Red;
         arc.ArcData.Color = newType;
         arcAppearanceSo.SetArcAppearance(arc);
-        BeatmapActionContainer.AddAction(new BeatmapObjectModifiedAction(arc.ObjectData, arc.ObjectData, original, "invert arc color"));
+        BeatmapActionContainer.AddAction(
+            new BeatmapObjectModifiedAction(arc.ObjectData, arc.ObjectData, original, "invert arc color"));
     }
 
     public void OnChangingTmu(InputAction.CallbackContext context)
@@ -65,7 +75,7 @@ public class BeatmapArcInputController : BeatmapInputController<ArcContainer>, C
         if (e == null || e.Dragged || !context.performed) return;
 
         var modifier = context.ReadValue<float>();
-        modifier = ((modifier > 0) ^ Settings.Instance.InvertScrollArcMultiplier)
+        modifier = (modifier > 0) ^ Settings.Instance.InvertScrollArcMultiplier
             ? MuChangeSpeed
             : -MuChangeSpeed;
         ChangeTmu(e, modifier);
@@ -76,6 +86,11 @@ public class BeatmapArcInputController : BeatmapInputController<ArcContainer>, C
         var original = BeatmapFactory.Clone(s.ArcData);
         s.ChangeTailMultiplier(modifier);
         s.NotifySplineChanged();
-        BeatmapActionContainer.AddAction(new BeatmapObjectModifiedAction(s.ObjectData, s.ObjectData, original, mergeType: ActionMergeType.ArcTailMultTweak));
+        BeatmapActionContainer.AddAction(
+            new BeatmapObjectModifiedAction(
+                s.ObjectData,
+                s.ObjectData,
+                original,
+                mergeType: ActionMergeType.ArcTailMultTweak));
     }
 }

@@ -2,12 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Beatmap.Containers;
+using Beatmap.Base;
 using Beatmap.Enums;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class BeatmapGLSRotationInputController : BeatmapInputController<GLSGroupContainer>, CMInput.IGLSRotationObjectsActions
+public class BeatmapGLSRotationInputController : BeatmapGLSGroupInputController<BaseLightRotationEventBoxGroup>,
+                                                 CMInput.IGLSRotationObjectsActions
 {
     public event Action<float> OnValueChanged;
     public event Action<float> OnValueDeltaChanged;

@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Beatmap.Containers
 {
-    public class GLSGroupContainer : ObjectContainer
+    public class GLSEventContainer : ObjectContainer
     {
         [SerializeField] public VisualModelController VModelController;
         [SerializeField] private GLSEventAppearanceSO glsEventAppearance;
@@ -15,12 +15,12 @@ namespace Beatmap.Containers
         [SerializeField] private LightGradientController lightGradientController;
         [SerializeField] public TracksDefinitionSO TracksDefinition;
 
-        public BaseEventBoxGroup EventBoxGroupData;
+        public BaseObject EventData;
 
         public override BaseObject ObjectData
         {
-            get => EventBoxGroupData;
-            set => EventBoxGroupData = (BaseEventBoxGroup)value;
+            get => EventData;
+            set => EventData = value;
         }
 
         protected override void RegisterCallback()
@@ -37,13 +37,13 @@ namespace Beatmap.Containers
 
         private void HandleModelChanged() => VModelController.Set(VisualSettings.GetBlockModel());
 
-        public static GLSGroupContainer SpawnGLSGroup(
-            BaseEventBoxGroup data,
+        public static GLSEventContainer SpawnGLSEvent(
+            BaseObject data,
             TracksDefinitionSO tracksDefinition,
             ref GameObject prefab)
         {
-            var container = Instantiate(prefab).GetComponent<GLSGroupContainer>();
-            container.EventBoxGroupData = data;
+            var container = Instantiate(prefab).GetComponent<GLSEventContainer>();
+            container.EventData = data;
             container.TracksDefinition = tracksDefinition;
             container.transform.localEulerAngles = Vector3.zero;
             return container;
@@ -52,7 +52,7 @@ namespace Beatmap.Containers
         public override void UpdateGridPosition()
         {
             var pos = transform.localPosition;
-            pos.z = EventBoxGroupData.SongBpmTime * EditorScaleController.EditorScale;
+            pos.z = EventData.SongBpmTime * EditorScaleController.EditorScale;
             transform.localPosition = pos;
             UpdateCollisionGroups();
         }
@@ -65,34 +65,6 @@ namespace Beatmap.Containers
         public void SetText(string text)
         {
             foreach (var textMeshPro in valueDisplays) textMeshPro.SetText(text);
-        }
-        
-        public static float GetPositionFromTrackDefinition(TracksDefinitionSO tracksDefinition, BaseEventBoxGroup data)
-        {
-            var track = tracksDefinition.GetGlsOrDefault(data.ID);
-
-            var offset = 0f;
-            if (track.ColorTrack)
-            {
-                if (data is BaseLightColorEventBoxGroup) return offset;
-                offset++;
-            }
-
-            if (track.RotationTracks.Any(x => x))
-            {
-                if (data is BaseLightRotationEventBoxGroup) return offset;
-                offset++;
-            }
-
-            if (track.TranslationTracks.Any(x => x))
-            {
-                if (data is BaseLightTranslationEventBoxGroup) return offset;
-                offset++;
-            }
-
-            if (track.FloatFXTrack && data is BaseVfxEventEventBoxGroup) return offset;
-
-            return -1f;
         }
     }
 }

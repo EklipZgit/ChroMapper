@@ -1,9 +1,10 @@
 ﻿using System;
-using Beatmap.Containers;
+using Beatmap.Base;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class BeatmapGLSFloatFXInputController : BeatmapInputController<GLSGroupContainer>, CMInput.IGLSFloatFXObjectsActions
+public class BeatmapGLSFloatFXInputController : BeatmapGLSGroupInputController<BaseVfxEventEventBoxGroup>,
+                                                CMInput.IGLSFloatFXObjectsActions
 {
     public event Action<float> OnValueChanged;
     public event Action<float> OnValueDeltaChanged;

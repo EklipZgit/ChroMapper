@@ -9,6 +9,7 @@ public class GLSManager : BeatmapObjectManager<BaseEventBoxGroup>
         lightshowController.Mode != LightshowMode.Static && Settings.Instance.Load_Events;
 
     [SerializeField] private LightshowController lightshowController;
+    [SerializeField] private GLSEventGridProvider eventGridProvider;
 
     public override void Refresh()
     {
@@ -59,6 +60,7 @@ public class GLSManager : BeatmapObjectManager<BaseEventBoxGroup>
         var mark = false;
         foreach (var (reference, original) in data)
         {
+            if (eventGridProvider.GroupContext == reference) eventGridProvider.MarkRemove = true;
             switch (reference)
             {
                 case BaseLightColorEventBoxGroup lcebg:
@@ -92,6 +94,7 @@ public class GLSManager : BeatmapObjectManager<BaseEventBoxGroup>
         var mark = false;
         foreach (var d in data)
         {
+            if (eventGridProvider.GroupContext == d) eventGridProvider.MarkRemove = true;
             switch (d)
             {
                 case BaseLightColorEventBoxGroup lcebg:

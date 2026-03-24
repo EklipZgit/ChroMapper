@@ -11,17 +11,18 @@ public class GlobalIntersectionCache
     internal static GameObject firstHit;
 }
 
-public class BeatmapInputController<T> : MonoBehaviour, CMInput.IBeatmapObjectsActions where T : ObjectContainer
+public class BeatmapInputController<TContainer> : MonoBehaviour, CMInput.IBeatmapObjectsActions
+    where TContainer : ObjectContainer
 {
     [Header("State")] public bool IsSelecting;
     public bool IsHovering;
-    public T HoveredObject;
+    public TContainer HoveredObject;
 
     [Header("Dependencies")] [SerializeField]
     protected CustomStandaloneInputModule CustomStandaloneInputModule;
 
     [SerializeField] private CameraManager cameraManager;
-    [SerializeField] private EditModeContext editContext;
+    [SerializeField] protected EditModeContext editContext;
     [SerializeField] private EditingMode editMode;
     [SerializeField] private ObstaclePlacement obstaclePlacement;
 
@@ -34,7 +35,6 @@ public class BeatmapInputController<T> : MonoBehaviour, CMInput.IBeatmapObjectsA
     {
         if (!editContext.EditingMode.HasFlag(editMode)) return;
         if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)) return;
-        GlobalIntersectionCache.firstHit = null;
         if (obstaclePlacement.IsPlacing)
         {
             timeWhenFirstSelecting = Time.time;
@@ -65,6 +65,8 @@ public class BeatmapInputController<T> : MonoBehaviour, CMInput.IBeatmapObjectsA
         }
     }
 
+    private void LateUpdate() => GlobalIntersectionCache.firstHit = null;
+
     public void OnDeleteTool(InputAction.CallbackContext context)
     {
         if (DeleteToolController.IsActive && context.performed) OnQuickDelete(context);
@@ -90,11 +92,10 @@ public class BeatmapInputController<T> : MonoBehaviour, CMInput.IBeatmapObjectsA
         IsSelecting = context.performed;
         if (!context.performed) return;
         timeWhenFirstSelecting = Time.time;
-        RaycastFirstObject(out var firstObject);
-        if (firstObject == null) return;
+        if (!RaycastFirstObject(out var firstObject)) return;
         var obj = firstObject.ObjectData;
         if (massSelect
-            && SelectionController.SelectedObjects.Count() == 1
+            && SelectionController.SelectedObjects.Count == 1
             && SelectionController.SelectedObjects.First() != obj)
             SelectionController.SelectBetween(SelectionController.SelectedObjects.First(), obj, true);
         else if (SelectionController.IsObjectSelected(obj))
@@ -120,9 +121,9 @@ public class BeatmapInputController<T> : MonoBehaviour, CMInput.IBeatmapObjectsA
 
     public void OnMassSelectModifier(InputAction.CallbackContext context) => massSelect = context.performed;
 
-    protected virtual bool GetComponentFromTransform(GameObject t, out T obj) => t.TryGetComponent(out obj);
+    protected virtual bool GetComponentFromTransform(GameObject t, out TContainer obj) => t.TryGetComponent(out obj);
 
-    protected bool RaycastFirstObject(out T firstObject)
+    protected bool RaycastFirstObject(out TContainer firstObject)
     {
         var ray = cameraManager.SelectedCameraController.Camera.ScreenPointToRay(MousePosition);
         if (GlobalIntersectionCache.firstHit == null)
@@ -132,10 +133,10 @@ public class BeatmapInputController<T> : MonoBehaviour, CMInput.IBeatmapObjectsA
 
         if (GlobalIntersectionCache.firstHit != null)
         {
-            var obj = GlobalIntersectionCache.firstHit.GetComponentInParent<T>();
-            if (obj != null)
+            var container = GlobalIntersectionCache.firstHit.GetComponentInParent<TContainer>();
+            if (container != null && ValidObject(container))
             {
-                firstObject = obj;
+                firstObject = container;
                 return true;
             }
         }
@@ -144,7 +145,9 @@ public class BeatmapInputController<T> : MonoBehaviour, CMInput.IBeatmapObjectsA
         return false;
     }
 
-    public void CompleteDelete(T obj)
+    protected virtual bool ValidObject(TContainer container) => true;
+
+    public void CompleteDelete(TContainer obj)
     {
         BeatmapObjectContainerCollection
             .GetCollectionForType(obj.ObjectData.ObjectType)

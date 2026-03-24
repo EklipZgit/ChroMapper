@@ -4386,7 +4386,7 @@
                     "name": "Toggle Hitsound Mute",
                     "type": "Button",
                     "id": "330cfd81-242f-446b-b926-955336819490",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -5174,6 +5174,54 @@
                     "processors": "",
                     "groups": "",
                     "action": "Next Group",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "GLS Group Select",
+            "id": "f6838b85-a13d-4d31-a703-30c17b97bcfd",
+            "actions": [
+                {
+                    "name": "Enter Group",
+                    "type": "Button",
+                    "id": "1f52503e-6e54-4d54-b4b4-7167b1fe2f8c",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Exit Group",
+                    "type": "Button",
+                    "id": "a1047b6f-069f-47d8-a177-08bbdcc8f853",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "f9d75cc1-f4a0-49eb-9dfd-59ee118ce8fa",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Enter Group",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c4fc87a9-a59a-42c7-8041-dbb044dba941",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Exit Group",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

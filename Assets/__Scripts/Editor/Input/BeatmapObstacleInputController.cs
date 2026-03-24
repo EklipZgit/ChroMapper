@@ -25,7 +25,7 @@ public class BeatmapObstacleInputController : BeatmapInputController<ObstacleCon
         {
             var original = BeatmapFactory.Clone(obs.ObjectData);
             var snapping = 1f / atsc.GridMeasureSnapping;
-            snapping *= ((context.ReadValue<float>() > 0) ^ Settings.Instance.InvertScrollWallDuration)
+            snapping *= (context.ReadValue<float>() > 0) ^ Settings.Instance.InvertScrollWallDuration
                 ? 1
                 : -1;
 
@@ -50,7 +50,7 @@ public class BeatmapObstacleInputController : BeatmapInputController<ObstacleCon
         if (obs != null && !obs.Dragged && context.performed)
         {
             var original = BeatmapFactory.Clone(obs.ObjectData);
-            var tweakValue = ((context.ReadValue<float>() > 0) ^ Settings.Instance.InvertScrollWallDuration)
+            var tweakValue = (context.ReadValue<float>() > 0) ^ Settings.Instance.InvertScrollWallDuration
                 ? 1
                 : -1;
             var data = obs.ObjectData as BaseObstacle;
@@ -77,7 +77,7 @@ public class BeatmapObstacleInputController : BeatmapInputController<ObstacleCon
         if (obs != null && !obs.Dragged && context.performed)
         {
             var original = BeatmapFactory.Clone(obs.ObjectData);
-            var tweakValue = ((context.ReadValue<float>() > 0) ^ Settings.Instance.InvertScrollWallDuration)
+            var tweakValue = (context.ReadValue<float>() > 0) ^ Settings.Instance.InvertScrollWallDuration
                 ? 1
                 : -1;
             var data = obs.ObjectData as BaseObstacle;

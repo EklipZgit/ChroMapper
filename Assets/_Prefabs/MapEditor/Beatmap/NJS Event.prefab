@@ -51,7 +51,6 @@ MonoBehaviour:
   VisualSettings: {fileID: 11400000, guid: 1c738480b4420d21c9f3d613e26a698e, type: 2}
   MpbController: {fileID: 8429622736403206630}
   SelectionMpbController: {fileID: 8703155885080096393}
-  dragging: 0
   njsText: {fileID: 114113500200447462}
 --- !u!1 &1347973604245180
 GameObject:
