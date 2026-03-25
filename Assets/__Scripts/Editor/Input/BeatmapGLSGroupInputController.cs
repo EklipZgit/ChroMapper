@@ -10,6 +10,7 @@ public abstract class BeatmapGLSGroupInputController<TData> : BeatmapInputContro
 {
     [SerializeField] private AudioTimeSyncController atsc;
     [SerializeField] private GLSEventGridProvider eventGridProvider;
+    [SerializeField] private BoxSelectionPlacement boxSelectionPlacement;
     protected override bool ValidObject(GLSGroupContainer container) => container.EventBoxGroupData is TData;
 
     private bool CanInteract =>
@@ -20,24 +21,24 @@ public abstract class BeatmapGLSGroupInputController<TData> : BeatmapInputContro
         && !DeleteToolController.IsActive
         && !NodeEditorController.IsActive
         && !UIMode.PreviewMode
-        && !MassSelect;
+        && !MassSelect; // TODO: prevent interaction after box selection is complete, race condition or somethin
 
     public void OnEnterGroup(InputAction.CallbackContext context)
     {
-        if (context.performed && CanInteract && editContext.EditingMode.HasFlag(EditingMode.GLS) && IsHovering)
+        if (context.performed && CanInteract && EditContext.EditingMode.HasFlag(EditingMode.GLS) && IsHovering)
         {
             eventGridProvider.GroupContext = HoveredObject.EventBoxGroupData;
             if (atsc.CurrentSongBpmTime < HoveredObject.EventBoxGroupData.SongBpmTime)
                 atsc.MoveToSongBpmTime(HoveredObject.EventBoxGroupData.SongBpmTime);
-            editContext.EditingMode = EditingMode.EventBox;
+            EditContext.EditingMode = EditingMode.EventBox;
         }
     }
 
     public void OnExitGroup(InputAction.CallbackContext context)
     {
-        if (context.performed && editContext.EditingMode.HasFlag(EditingMode.EventBox))
+        if (context.performed && EditContext.EditingMode.HasFlag(EditingMode.EventBox))
         {
-            editContext.EditingMode = EditingMode.GLS;
+            EditContext.EditingMode = EditingMode.GLS;
         }
     }
 }

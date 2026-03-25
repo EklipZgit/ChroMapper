@@ -9,7 +9,7 @@ public class
     [SerializeField] private BeatmapEasingsSelectionInputController easingInputController;
 
     public override bool CanPlace =>
-        base.CanPlace && GlsEventTrack.TrackDefinition.RotationTracks.Any(x => x) && !inputController.IsHovering;
+        base.CanPlace && GlsGroupTrack.TrackDefinition.RotationTracks.Any(x => x) && !inputController.IsHovering;
 
     public override void Start()
     {
@@ -31,25 +31,25 @@ public class
     private void HandleValueChanged(float value)
     {
         QueuedData.Boxes[0].Events[0].Rotation = value;
-        glsEventAppearance.SetAppearance(PlacementVisualContainer, false);
+        GlsEventAppearance.SetAppearance(PlacementVisualContainer, false);
     }
 
     private void HandleLoopChanged(int value)
     {
         QueuedData.Boxes[0].Events[0].Loop = value;
-        glsEventAppearance.SetAppearance(PlacementVisualContainer, false);
+        GlsEventAppearance.SetAppearance(PlacementVisualContainer, false);
     }
 
     private void HandleDirectionChanged(int value)
     {
         QueuedData.Boxes[0].Events[0].Direction = value;
-        glsEventAppearance.SetAppearance(PlacementVisualContainer, false);
+        GlsEventAppearance.SetAppearance(PlacementVisualContainer, false);
     }
 
     private void HandleEasingChanged(int value)
     {
         QueuedData.Boxes[0].Events[0].EaseType = value;
-        glsEventAppearance.SetAppearance(PlacementVisualContainer, false);
+        GlsEventAppearance.SetAppearance(PlacementVisualContainer, false);
     }
 
     protected override BaseLightRotationEventBoxGroup GenerateOriginalData() =>

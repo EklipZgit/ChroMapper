@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections;
-using System.Linq;
+﻿using System.Linq;
 using Beatmap.Containers;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-public class GlobalIntersectionCache
+public static class GlobalIntersectionCache
 {
-    internal static GameObject firstHit;
+    public static GameObject FirstHit;
+    public static bool HasHit;
 }
 
 public class BeatmapInputController<TContainer> : MonoBehaviour, CMInput.IBeatmapObjectsActions
@@ -23,7 +21,7 @@ public class BeatmapInputController<TContainer> : MonoBehaviour, CMInput.IBeatma
     protected CustomStandaloneInputModule CustomStandaloneInputModule;
 
     [SerializeField] private CameraManager cameraManager;
-    [SerializeField] protected EditModeContext editContext;
+    [SerializeField] protected EditModeContext EditContext;
     [SerializeField] private EditingMode editMode;
     [SerializeField] private ObstaclePlacement obstaclePlacement;
 
@@ -42,7 +40,7 @@ public class BeatmapInputController<TContainer> : MonoBehaviour, CMInput.IBeatma
     // Update is called once per frame
     private void Update()
     {
-        if (!editContext.EditingMode.HasFlag(editMode)) return;
+        if (!EditContext.EditingMode.HasFlag(editMode)) return;
         if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)) return;
         if (obstaclePlacement.IsPlacing)
         {
@@ -74,7 +72,11 @@ public class BeatmapInputController<TContainer> : MonoBehaviour, CMInput.IBeatma
         }
     }
 
-    private void LateUpdate() => GlobalIntersectionCache.firstHit = null;
+    private void LateUpdate()
+    {
+        GlobalIntersectionCache.FirstHit = null;
+        GlobalIntersectionCache.HasHit = false;
+    }
 
     public void OnDeleteTool(InputAction.CallbackContext context)
     {
@@ -135,14 +137,18 @@ public class BeatmapInputController<TContainer> : MonoBehaviour, CMInput.IBeatma
     protected bool RaycastFirstObject(out TContainer firstObject)
     {
         var ray = cameraManager.SelectedCameraController.Camera.ScreenPointToRay(mousePosition);
-        if (GlobalIntersectionCache.firstHit == null)
+        if (!GlobalIntersectionCache.HasHit)
         {
-            if (Intersections.Raycast(ray, 9, out var hit)) GlobalIntersectionCache.firstHit = hit.GameObject;
+            if (Intersections.Raycast(ray, 9, out var hit))
+            {
+                GlobalIntersectionCache.FirstHit = hit.GameObject;
+                GlobalIntersectionCache.HasHit = hit.GameObject != null;
+            }
         }
 
-        if (GlobalIntersectionCache.firstHit != null)
+        if (GlobalIntersectionCache.HasHit)
         {
-            var container = GlobalIntersectionCache.firstHit.GetComponentInParent<TContainer>();
+            var container = GlobalIntersectionCache.FirstHit.GetComponentInParent<TContainer>();
             if (container != null && ValidObject(container))
             {
                 firstObject = container;

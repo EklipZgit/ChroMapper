@@ -7,12 +7,12 @@ using UnityEngine;
 public abstract class GLSGroupPlacement<TGroup, TCollection> : BasePlacement<TGroup, GLSGroupContainer, TCollection>
     where TGroup : BaseEventBoxGroup where TCollection : GLSGroupGridContainer<TGroup>
 {
-    [SerializeField] public GLSEventTrack GlsEventTrack;
+    [SerializeField] public GLSGroupTrack GlsGroupTrack;
 
-    [SerializeField] protected GLSEventAppearanceSO glsEventAppearance;
+    [SerializeField] protected GLSEventAppearanceSO GlsEventAppearance;
     [SerializeField] private BeatmapRuntimeContext context;
 
-    public override bool CanPlace => base.CanPlace && IsInPosition();
+    public override bool CanPlace => base.CanPlace && IsInPosition() && !GlobalIntersectionCache.HasHit;
 
     protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> container) =>
         new BeatmapObjectPlacementAction(spawned, container, "Placed a GLS Group.");
@@ -20,13 +20,13 @@ public abstract class GLSGroupPlacement<TGroup, TCollection> : BasePlacement<TGr
     public override void Initialize(PlacementProvider provider)
     {
         base.Initialize(provider);
-        GlsEventTrack = provider.GetComponent<GLSEventTrack>();
-        PlacementTrack = GlsEventTrack.Track.ObjectParentTransform;
-        QueuedData.ID = GlsEventTrack.TrackDefinition.ID;
+        GlsGroupTrack = provider.GetComponent<GLSGroupTrack>();
+        PlacementTrack = GlsGroupTrack.Track.ObjectParentTransform;
+        QueuedData.ID = GlsGroupTrack.TrackDefinition.ID;
         PlacementVisualContainer.EventBoxGroupData = QueuedData;
         PlacementVisualContainer.transform.SetParent(PlacementTrack, false);
         PlacementVisualContainer.SafeSetActive(CanPlace);
-        glsEventAppearance.SetAppearance(PlacementVisualContainer, false);
+        GlsEventAppearance.SetAppearance(PlacementVisualContainer, false);
     }
 
     protected override void HandlePlacementToData(PlacementInputState inputState) =>

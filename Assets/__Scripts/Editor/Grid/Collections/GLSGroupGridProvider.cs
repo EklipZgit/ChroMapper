@@ -13,16 +13,16 @@ public class GLSGroupGridProvider : MonoBehaviour, CMInput.IGLSGroupTabsActions
     [SerializeField] private BeatmapRuntimeContext beatmapContext;
     [SerializeField] private EditModeContext editContext;
 
-    [Header("Prefab")] [SerializeField] private GLSEventTrack trackPrefab;
+    [Header("Prefab")] [SerializeField] private GLSGroupTrack trackPrefab;
     [SerializeField] private Transform targetGrid;
 
-    public readonly List<GLSEventTrack> ActiveGlsTracks = new();
-    public readonly Dictionary<int, GLSEventTrack> IdToTracks = new();
+    public readonly List<GLSGroupTrack> ActiveGlsTracks = new();
+    public readonly Dictionary<int, GLSGroupTrack> IdToTracks = new();
     public readonly Dictionary<string, List<int>> GroupNameToIdList = new();
     public readonly List<string> GroupNameList = new();
     public int CurrentGroupIdx;
 
-    private readonly Stack<GLSEventTrack> reuseTracks = new();
+    private readonly Stack<GLSGroupTrack> reuseTracks = new();
 
     private void Start() => beatmapContext.OnTracksDefinitionChanged += HandleTracksDefinitionChanged;
     private void OnDestroy() => beatmapContext.OnTracksDefinitionChanged -= HandleTracksDefinitionChanged;

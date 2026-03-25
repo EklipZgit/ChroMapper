@@ -7,7 +7,7 @@ public class GLSGroupFloatFXPlacement : GLSGroupPlacement<BaseVfxEventEventBoxGr
     [SerializeField] private BeatmapEasingsSelectionInputController easingInputController;
 
     public override bool CanPlace =>
-        base.CanPlace && GlsEventTrack.TrackDefinition.FloatFXTrack && !inputController.IsHovering;
+        base.CanPlace && GlsGroupTrack.TrackDefinition.FloatFXTrack && !inputController.IsHovering;
 
     public override void Start()
     {
@@ -25,13 +25,13 @@ public class GLSGroupFloatFXPlacement : GLSGroupPlacement<BaseVfxEventEventBoxGr
     private void HandleValueChanged(float value)
     {
         QueuedData.Boxes[0].Events[0].Value = value;
-        glsEventAppearance.SetAppearance(PlacementVisualContainer, false);
+        GlsEventAppearance.SetAppearance(PlacementVisualContainer, false);
     }
 
     private void HandleEasingChanged(int value)
     {
         QueuedData.Boxes[0].Events[0].Easing = value;
-        glsEventAppearance.SetAppearance(PlacementVisualContainer, false);
+        GlsEventAppearance.SetAppearance(PlacementVisualContainer, false);
     }
 
     protected override BaseVfxEventEventBoxGroup GenerateOriginalData() =>

@@ -3,7 +3,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 
-public class GLSEventTrack : MonoBehaviour
+public class GLSGroupTrack : MonoBehaviour
 {
     [SerializeField] public GridLane GridLane;
     [SerializeField] public Track Track;

@@ -6,7 +6,7 @@ public class GLSGroupColorPlacement : GLSGroupPlacement<BaseLightColorEventBoxGr
     [SerializeField] private BeatmapGLSColorInputController inputController;
 
     public override bool CanPlace =>
-        base.CanPlace && GlsEventTrack.TrackDefinition.ColorTrack && !inputController.IsHovering;
+        base.CanPlace && GlsGroupTrack.TrackDefinition.ColorTrack && !inputController.IsHovering;
 
     public override void Start()
     {
@@ -28,26 +28,26 @@ public class GLSGroupColorPlacement : GLSGroupPlacement<BaseLightColorEventBoxGr
     private void HandleBrightnessChanged(float value)
     {
         QueuedData.Boxes[0].Events[0].Brightness = value;
-        glsEventAppearance.SetAppearance(PlacementVisualContainer, false);
+        GlsEventAppearance.SetAppearance(PlacementVisualContainer, false);
     }
 
     private void HandleColorChanged(int value)
     {
         QueuedData.Boxes[0].Events[0].Color = value;
-        glsEventAppearance.SetAppearance(PlacementVisualContainer, false);
+        GlsEventAppearance.SetAppearance(PlacementVisualContainer, false);
     }
 
     private void HandleExtensionsPerformed(bool value)
     {
         QueuedData.Boxes[0].Events[0].UsePrevious = value ? 1 : 0;
-        glsEventAppearance.SetAppearance(PlacementVisualContainer, false);
+        GlsEventAppearance.SetAppearance(PlacementVisualContainer, false);
     }
 
     private void HandleEasingChanged(int value)
     {
         QueuedData.Boxes[0].Events[0].UsePrevious = 0;
         QueuedData.Boxes[0].Events[0].Easing = value;
-        glsEventAppearance.SetAppearance(PlacementVisualContainer, false);
+        GlsEventAppearance.SetAppearance(PlacementVisualContainer, false);
     }
 
     protected override BaseLightColorEventBoxGroup GenerateOriginalData() =>

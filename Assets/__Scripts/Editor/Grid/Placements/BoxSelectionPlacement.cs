@@ -14,11 +14,13 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
     [SerializeField] public CustomEventGridContainer CustomCollection;
     [SerializeField] public EventGridContainer EventGridContainer;
     [SerializeField] public CreateEventTypeLabels Labels;
-    [SerializeField] private BeatmapRuntimeContext context;
+    [SerializeField] private BeatmapRuntimeContext beatmapContext;
+    [SerializeField] private GLSGroupGridProvider glsGroupGridProvider;
 
     private readonly HashSet<BaseObject> selected = new();
     private ObjectType selectedTypes = 0;
     private HashSet<BaseObject> alreadySelected = new();
+    private readonly Dictionary<int, Dictionary<Type, float>> glsGroupCondition = new();
     private Vector3 originPos;
 
     public override bool CanClickAndDrag => false;
@@ -59,8 +61,53 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
 
         // Get all object types from placements in provider
         // Box Select is flagged as "None" so it doesnt interfere with other placements
-        foreach (var placement in provider.Placements)
-            selectedTypes |= placement.ObjectDataType;
+        foreach (var placement in provider.Placements) selectedTypes |= placement.ObjectDataType;
+
+        glsGroupCondition.Clear();
+        if (!provider.TryGetComponent<GLSGroupTrack>(out _)) return;
+
+        foreach (var (type, id, offset) in glsGroupGridProvider.ActiveGlsTracks.SelectMany(GetTrackData))
+        {
+            glsGroupCondition.TryAdd(id, new Dictionary<Type, float>());
+            glsGroupCondition[id][type] = offset + (BeatmapConstant.LaneSize / 2f);
+        }
+
+        return;
+
+        IEnumerable<(Type, int, float)> GetTrackData(GLSGroupTrack glsTrack)
+        {
+            var offset = 0f;
+            if (glsTrack.TrackDefinition.ColorTrack)
+            {
+                yield return (typeof(BaseLightColorEventBoxGroup), glsTrack.TrackDefinition.ID,
+                    glsTrack.GridLane.transform.localPosition.x
+                    + (offset * BeatmapConstant.LaneSize));
+                offset++;
+            }
+
+            if (glsTrack.TrackDefinition.RotationTracks.Any(x => x))
+            {
+                yield return (typeof(BaseLightRotationEventBoxGroup), glsTrack.TrackDefinition.ID,
+                    glsTrack.GridLane.transform.localPosition.x
+                    + (offset * BeatmapConstant.LaneSize));
+                offset++;
+            }
+
+            if (glsTrack.TrackDefinition.TranslationTracks.Any(x => x))
+            {
+                yield return (typeof(BaseLightTranslationEventBoxGroup), glsTrack.TrackDefinition.ID,
+                    glsTrack.GridLane.transform.localPosition.x
+                    + (offset * BeatmapConstant.LaneSize));
+                offset++;
+            }
+
+            if (glsTrack.TrackDefinition.FloatFXTrack)
+            {
+                yield return (typeof(BaseVfxEventEventBoxGroup), glsTrack.TrackDefinition.ID,
+                    glsTrack.GridLane.transform.localPosition.x
+                    + (offset * BeatmapConstant.LaneSize));
+            }
+        }
     }
 
     public override void UpdateState(Intersections.IntersectionHit hit, PlacementInputState inputState)
@@ -198,9 +245,11 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
                             + BoundsPosition.x,
                             BeatmapConstant.YOffset + BeatmapConstant.LaneSize);
                         break;
-                    case BaseEventBoxGroup boxGroup:
-                        // TODO(Caeden/Kival): Implement how we want to handle box groups in box selection
-                        // For now, all box groups will be selected between the time endpoints, regardless of their position
+                    case BaseEventBoxGroup glsGroup:
+                        float o = short.MinValue;
+                        if (glsGroupCondition.TryGetValue(glsGroup.ID, out var typeToOffset))
+                            o = typeToOffset.GetValueOrDefault(glsGroup.GetType(), short.MinValue);
+                        p = new Vector2(o, BeatmapConstant.YOffset + BeatmapConstant.LaneSize);
                         break;
                     default:
                         Debug.LogWarning($"Unsupported object type {bo.GetType()} in box selection");
@@ -228,6 +277,7 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
         if (IsPlacing)
         {
             State = PlacementState.Idle;
+            Exit();
             selected.Clear(); // oh shit turned out i didnt need to rewrite the whole thing, just move it over here
             SelectionController.OnSelectionChanged?.Invoke();
         }
