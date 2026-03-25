@@ -8,6 +8,7 @@ public abstract class BeatmapGLSGroupInputController<TData> : BeatmapInputContro
                                                               CMInput.IGLSGroupSelectActions
     where TData : BaseEventBoxGroup
 {
+    [SerializeField] private AudioTimeSyncController atsc;
     [SerializeField] private GLSEventGridProvider eventGridProvider;
     protected override bool ValidObject(GLSGroupContainer container) => container.EventBoxGroupData is TData;
 
@@ -26,6 +27,8 @@ public abstract class BeatmapGLSGroupInputController<TData> : BeatmapInputContro
         if (context.performed && CanInteract && editContext.EditingMode.HasFlag(EditingMode.GLS) && IsHovering)
         {
             eventGridProvider.GroupContext = HoveredObject.EventBoxGroupData;
+            if (atsc.CurrentSongBpmTime < HoveredObject.EventBoxGroupData.SongBpmTime)
+                atsc.MoveToSongBpmTime(HoveredObject.EventBoxGroupData.SongBpmTime);
             editContext.EditingMode = EditingMode.EventBox;
         }
     }

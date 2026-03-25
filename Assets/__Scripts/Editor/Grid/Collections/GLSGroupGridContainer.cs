@@ -38,7 +38,7 @@ public abstract class GLSGroupGridContainer<TGroup> : BeatmapObjectContainerColl
     {
         var e = obj as BaseEventBoxGroup;
         con.transform.SetParent(
-            glsGroupGridProvider.Tracks.TryGetValue(e.ID, out var track)
+            glsGroupGridProvider.IdToTracks.TryGetValue(e.ID, out var track)
                 ? track.Track.ObjectParentTransform
                 : TargetTransform,
             false);

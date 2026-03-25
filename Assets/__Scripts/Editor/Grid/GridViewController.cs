@@ -15,20 +15,8 @@ public class GridViewController : MonoBehaviour, IEnumerable<GridChild>
 
     private Dictionary<int, List<GridChild>> allChildren = new();
     private readonly Dictionary<int, List<GridChild>> reuseChildren = new();
-    private bool flipOdd;
 
     private bool hasInitialized;
-
-    public bool FlipOdd
-    {
-        get => flipOdd;
-        set
-        {
-            if (flipOdd == value) return;
-            flipOdd = value;
-            UpdateGrid();
-        }
-    }
 
     private void OnValidate()
     {
@@ -133,8 +121,8 @@ public class GridViewController : MonoBehaviour, IEnumerable<GridChild>
             {
                 if (child.ViewableMode.HasFlag(editModeContext.EditingMode) && !child.Hide)
                 {
-                    if (reuseChildren.TryGetValue(order, out var reuseChild))
-                        reuseChild.Add(child);
+                    if (reuseChildren.TryGetValue(order, out var childList))
+                        childList.Add(child);
                     else
                         reuseChildren.Add(order, new List<GridChild> { child });
                     child.gameObject.SetActive(true);
@@ -161,7 +149,7 @@ public class GridViewController : MonoBehaviour, IEnumerable<GridChild>
             children.RemoveAll(x => x == null);
             foreach (var child in children)
             {
-                if (child is GridLane lane) lane.OddLaneOffset = flipOdd ? !isOdd : isOdd;
+                if (child is GridLane lane) lane.OddLaneOffset = isOdd;
                 var xPos = childX + child.LocalOffset.x;
                 child.transform.localPosition = new Vector3(
                     xPos * BeatmapConstant.LaneSize,
@@ -171,44 +159,6 @@ public class GridViewController : MonoBehaviour, IEnumerable<GridChild>
 
             childX += Mathf.Ceil(children.Any() ? children.Max(x => x.Lane) + 1 : 0);
         }
-    }
-
-    public int GetSizeForOrder(int order)
-    {
-        return allChildren.TryGetValue(order, out var children)
-            ? Mathf.CeilToInt(
-                children.Any()
-                    ? children
-                        .Where(x => x.ViewableMode.HasFlag(editModeContext.EditingMode) && !x.Hide)
-                        .Max(x => x.Lane)
-                    : 0)
-            : 0;
-    }
-
-    public Dictionary<int, List<GridChild>> GetActiveChildren()
-    {
-        reuseChildren.Clear();
-
-        foreach (var (order, children) in allChildren)
-        {
-            foreach (var child in children.Where(child =>
-                child.ViewableMode.HasFlag(editModeContext.EditingMode) && !child.Hide))
-            {
-                if (reuseChildren.ContainsKey(order))
-                    reuseChildren[order].Add(child);
-                else
-                    reuseChildren.Add(order, new List<GridChild> { child });
-            }
-        }
-
-        return reuseChildren;
-    }
-
-    public int GetMaxSize()
-    {
-        InitIfNeeded();
-        var activeChildren = GetActiveChildren();
-        return activeChildren.Sum(x => x.Value.Max(y => y.Lane)) + activeChildren.Count;
     }
 
     public void RegisterChild(GridChild child)

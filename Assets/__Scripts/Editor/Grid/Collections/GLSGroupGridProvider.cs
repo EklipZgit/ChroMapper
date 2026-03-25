@@ -16,45 +16,45 @@ public class GLSGroupGridProvider : MonoBehaviour, CMInput.IGLSGroupTabsActions
     [Header("Prefab")] [SerializeField] private GLSEventTrack trackPrefab;
     [SerializeField] private Transform targetGrid;
 
+    public readonly List<GLSEventTrack> ActiveGlsTracks = new();
+    public readonly Dictionary<int, GLSEventTrack> IdToTracks = new();
+    public readonly Dictionary<string, List<int>> GroupNameToIdList = new();
+    public readonly List<string> GroupNameList = new();
+    public int CurrentGroupIdx;
+
     private readonly Stack<GLSEventTrack> reuseTracks = new();
-    public readonly Dictionary<int, GLSEventTrack> Tracks = new();
-    private readonly Dictionary<string, List<int>> groupToIdList = new();
-    private readonly List<string> groupList = new();
-    private int currentGroup;
 
     private void Start() => beatmapContext.OnTracksDefinitionChanged += HandleTracksDefinitionChanged;
     private void OnDestroy() => beatmapContext.OnTracksDefinitionChanged -= HandleTracksDefinitionChanged;
 
     private void HandleTracksDefinitionChanged(TracksDefinitionSO tracksDefinition)
     {
-        foreach (var t in Tracks.Values)
+        foreach (var t in IdToTracks.Values)
         {
             t.GridLane.Hide = true;
             t.GridLane.Controller.DeregisterChild(t.GridLane);
             reuseTracks.Push(t);
         }
 
-        Tracks.Clear();
-        groupToIdList.Clear();
-        groupList.Clear();
-        currentGroup = 0;
-
-        if (tracksDefinition.Gls.Count == 0) return;
+        IdToTracks.Clear();
+        GroupNameToIdList.Clear();
+        GroupNameList.Clear();
+        CurrentGroupIdx = 0;
 
         foreach (var (id, gls) in tracksDefinition.Gls)
         {
-            var track = reuseTracks.Count == 0 ? Instantiate(trackPrefab, targetGrid) : reuseTracks.Pop();
-            if (!atsc.otherTracks.Contains(track.Track)) atsc.otherTracks.Add(track.Track);
+            if (!reuseTracks.TryPop(out var glsTrack)) glsTrack = Instantiate(trackPrefab, targetGrid);
+            if (!atsc.otherTracks.Contains(glsTrack.Track)) atsc.otherTracks.Add(glsTrack.Track);
 
-            track.TrackDefinition = gls;
-            track.SetText(gls);
-            track.GridLane.Controller.RegisterChild(track.GridLane);
-            Tracks.Add(id, track);
+            glsTrack.TrackDefinition = gls;
+            glsTrack.SetText(gls);
+            glsTrack.GridLane.Controller.RegisterChild(glsTrack.GridLane);
+            IdToTracks.Add(id, glsTrack);
 
-            groupToIdList.TryAdd(gls.Group, new());
-            groupToIdList[gls.Group].Add(id);
+            GroupNameToIdList.TryAdd(gls.Group, new());
+            GroupNameToIdList[gls.Group].Add(id);
 
-            if (!groupList.Contains(gls.Group)) groupList.Add(gls.Group);
+            if (!GroupNameList.Contains(gls.Group)) GroupNameList.Add(gls.Group);
         }
 
         RefreshGroupTrack();
@@ -62,22 +62,29 @@ public class GLSGroupGridProvider : MonoBehaviour, CMInput.IGLSGroupTabsActions
 
     public void OnNextGroup(InputAction.CallbackContext context)
     {
-        if (!context.performed || !editContext.EditingMode.HasFlag(EditingMode.GLS)) return;
-        currentGroup++;
-        currentGroup %= groupList.Count;
+        if (!context.performed || !editContext.EditingMode.HasFlag(EditingMode.GLS) || GroupNameList.Count == 0) return;
+        CurrentGroupIdx++;
+        CurrentGroupIdx %= GroupNameList.Count;
         RefreshGroupTrack();
     }
 
     private void RefreshGroupTrack()
     {
-        foreach (var track in Tracks.Values) track.GridLane.Hide = true;
-        var group = groupList[currentGroup];
-        if (!groupToIdList.TryGetValue(group, out var idList)) return;
-        var order = 1;
+        if (GroupNameList.Count == 0) return;
+        foreach (var track in IdToTracks.Values) track.GridLane.Hide = true;
+        ActiveGlsTracks.Clear();
+
+        var group = GroupNameList[CurrentGroupIdx];
+        if (!GroupNameToIdList.TryGetValue(group, out var idList)) return;
+
+        // TODO: make ordering closest to centered given the lane
+        var order = -idList.Count / 2;
         foreach (var i in idList)
         {
-            Tracks[i].GridLane.Order = order++;
-            Tracks[i].GridLane.Hide = false;
+            if (order == 0 && idList.Count % 2 == 0) order++; // even, skip center
+            IdToTracks[i].GridLane.Order = order++;
+            IdToTracks[i].GridLane.Hide = false;
+            ActiveGlsTracks.Add(IdToTracks[i]);
         }
 
         OnGroupChanged?.Invoke(group);
