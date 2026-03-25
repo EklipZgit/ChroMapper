@@ -14,9 +14,10 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
     [SerializeField] public CustomEventGridContainer CustomCollection;
     [SerializeField] public EventGridContainer EventGridContainer;
     [SerializeField] public CreateEventTypeLabels Labels;
+    [SerializeField] private BeatmapRuntimeContext context;
 
     private readonly HashSet<BaseObject> selected = new();
-    private readonly HashSet<ObjectType> selectedTypes = new();
+    private ObjectType selectedTypes = 0;
     private HashSet<BaseObject> alreadySelected = new();
     private Vector3 originPos;
 
@@ -54,12 +55,12 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
     public override void Initialize(PlacementProvider provider)
     {
         base.Initialize(provider);
-        selectedTypes.Clear();
-        foreach (var objectType in provider
-            .Placements
-            .Where(p => p.GetType() != GetType())
-            .Select(p => p.ObjectDataType))
-            selectedTypes.Add(objectType);
+        selectedTypes = 0;
+
+        // Get all object types from placements in provider
+        // Box Select is flagged as "None" so it doesnt interfere with other placements
+        foreach (var placement in provider.Placements)
+            selectedTypes |= placement.ObjectDataType;
     }
 
     public override void UpdateState(Intersections.IntersectionHit hit, PlacementInputState inputState)
@@ -144,17 +145,13 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
             + (offset / BeatmapConstant.LaneSize);
         if (startSongBpmBeat > endSongBpmBeat) (startSongBpmBeat, endSongBpmBeat) = (endSongBpmBeat, startSongBpmBeat);
 
+        // Doing a jank bitmask to ensure we include all object types in the search
         SelectionController.ForEachObjectBetweenSongBpmTimeByGroup(
             startSongBpmBeat,
             endSongBpmBeat,
-            true,
-            true,
-            true,
-            true,
+            selectedTypes,
             (_, bo) =>
             {
-                if (!selectedTypes.Contains(bo.ObjectType)) return;
-
                 if (!bo.HasMatchingTrack(BeatmapObjectContainerCollection.TrackFilterID)) return;
 
                 var left = PlacementVisualContainer.transform.localPosition.x
@@ -201,6 +198,13 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
                             + BoundsPosition.x,
                             BeatmapConstant.YOffset + BeatmapConstant.LaneSize);
                         break;
+                    case BaseEventBoxGroup boxGroup:
+                        // TODO(Caeden/Kival): Implement how we want to handle box groups in box selection
+                        // For now, all box groups will be selected between the time endpoints, regardless of their position
+                        break;
+                    default:
+                        Debug.LogWarning($"Unsupported object type {bo.GetType()} in box selection");
+                        return;
                 }
 
                 // Check if calculated position is outside bounds

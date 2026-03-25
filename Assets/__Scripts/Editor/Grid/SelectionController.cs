@@ -119,46 +119,17 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
     public static bool IsObjectSelected(BaseObject container) => SelectedObjects.Contains(container);
 
     /// <summary>
-    ///     Shows what types of object groups are in the passed in group of objects through output parameters.
+    ///     Given a list of generic objects, returns a bitmask of the groups that these objects belong to.
     /// </summary>
     /// <param name="objects">Enumerable group of objects</param>
-    /// <param name="hasNoteOrObstacle">Whether or not an object is in the note or obstacle group</param>
-    /// <param name="hasEvent">Whether or not an object is in the event group</param>
-    /// <param name="hasBpmChange">Whether or not an object is in the bpm change group</param>
-    public static void GetObjectTypes(
-        IEnumerable<BaseObject> objects,
-        out bool hasNoteOrObstacle,
-        out bool hasEvent,
-        out bool hasBpmChange,
-        out bool hasNjsEvent)
+    public static ObjectType GetObjectTypes(IEnumerable<BaseObject> objects)
     {
-        hasNoteOrObstacle = false;
-        hasEvent = false;
-        hasBpmChange = false;
-        hasNjsEvent = false;
+        var types = (ObjectType)0;
         foreach (var obj in objects)
         {
-            switch (obj.ObjectType)
-            {
-                case ObjectType.Note:
-                case ObjectType.Obstacle:
-                case ObjectType.CustomNote:
-                case ObjectType.Arc:
-                case ObjectType.Chain:
-                    hasNoteOrObstacle = true;
-                    break;
-                case ObjectType.Event:
-                case ObjectType.CustomEvent:
-                    hasEvent = true;
-                    break;
-                case ObjectType.BpmChange:
-                    hasBpmChange = true;
-                    break;
-                case ObjectType.NJSEvent:
-                    hasNjsEvent = true;
-                    break;
-            }
+            types |= obj.ObjectType;
         }
+        return types;
     }
 
     /// <summary>
@@ -166,41 +137,21 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
     /// </summary>
     /// <param name="start">Start time in beats</param>
     /// <param name="start">End time in beats</param>
-    /// <param name="hasNoteOrObstacle">Whether or not to include the note or obstacle group</param>
-    /// <param name="hasEvent">Whether or not to include the event group</param>
-    /// <param name="hasBpmChange">Whether or not to include the bpm change group</param>
-    /// <param name="hasNjsEvent">Whether or not the include the njs event group</param>
+    /// <param name="filterTypes">Which groups to include in the search</param>
     /// <param name="callback">Callback with an object container and the collection it belongs to</param>
     public static void ForEachObjectBetweenSongBpmTimeByGroup(
         float start,
         float end,
-        bool hasNoteOrObstacle,
-        bool hasEvent,
-        bool hasBpmChange,
-        bool hasNjsEvent,
+        ObjectType filterTypes,
         Action<BeatmapObjectContainerCollection, BaseObject> callback)
     {
-        var clearTypes = new List<ObjectType>();
-        if (hasNoteOrObstacle)
-        {
-            clearTypes.AddRange(
-                new[]
-                {
-                    ObjectType.Note, ObjectType.Obstacle, ObjectType.CustomNote, ObjectType.Arc, ObjectType.Chain
-                });
-        }
-
-        if (hasNoteOrObstacle && !hasEvent) clearTypes.Add(ObjectType.Event); //for rotation events
-
-        if (hasEvent) clearTypes.AddRange(new[] { ObjectType.Event, ObjectType.CustomEvent });
-
-        if (hasBpmChange) clearTypes.Add(ObjectType.BpmChange);
-
-        if (hasNjsEvent) clearTypes.Add(ObjectType.NJSEvent);
-
         var epsilon = BeatmapObjectContainerCollection.Epsilon;
-        foreach (var type in clearTypes)
+        for (var typeInt = 0; typeInt <= 32; typeInt++)
         {
+            // Convert int to bitmask
+            var type = (ObjectType)(1 << typeInt);
+            if ((filterTypes & type) == 0) continue;
+
             var collection = BeatmapObjectContainerCollection.GetCollectionForType(type);
             if (collection == null) continue;
 
@@ -223,13 +174,6 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
 
             foreach (var toCheck in objectsToCheck)
             {
-                //Includes only rotation events when neither of the two objects are events
-                if (!hasEvent
-                    && toCheck is BaseEvent mapEvent
-                    && !mapEvent.IsLaneRotationEvent()
-                    && !(hasBpmChange && mapEvent.IsBpmEvent()))
-                    continue;
-
                 callback?.Invoke(collection, toCheck);
             }
         }
@@ -287,19 +231,12 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
         if (!addsToSelection)
             DeselectAll(); //This SHOULD deselect every object unless you otherwise specify, but it aint working.
         if (first.SongBpmTime > second.SongBpmTime) (first, second) = (second, first);
-        GetObjectTypes(
-            new[] { first, second },
-            out var hasNoteOrObstacle,
-            out var hasEvent,
-            out var hasBpmChange,
-            out var hasNjsEvent);
+        var types = GetObjectTypes(
+            new[] { first, second });
         ForEachObjectBetweenSongBpmTimeByGroup(
             first.SongBpmTime,
             second.SongBpmTime,
-            hasNoteOrObstacle,
-            hasEvent,
-            hasBpmChange,
-            hasNjsEvent,
+            types,
             (collection, beatmapObject) =>
             {
                 if (SelectedObjects.Contains(beatmapObject)) return;
@@ -455,20 +392,12 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
                 if (end < beatmapObject.SongBpmTime) end = beatmapObject.SongBpmTime;
             }
 
-            GetObjectTypes(
-                pasted,
-                out var hasNoteOrObstacle,
-                out var hasEvent,
-                out var hasBpmChange,
-                out var hasNjsEvent);
+            var types =GetObjectTypes(pasted);
             var toRemove = new List<(BeatmapObjectContainerCollection, BaseObject)>();
             ForEachObjectBetweenSongBpmTimeByGroup(
                 start,
                 end,
-                hasNoteOrObstacle,
-                hasEvent,
-                hasBpmChange,
-                hasNjsEvent,
+                types,
                 (collection, beatmapObject) =>
                 {
                     if (pasted.Contains(beatmapObject)) return;
@@ -516,13 +445,8 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
     {
         if (eventPlacement.IsIdle || eventPlacement.QueuedData == null) return copiedObjects;
 
-        GetObjectTypes(
-            copiedObjects,
-            out _,
-            out var hasEvent,
-            out _,
-            out _);
-        if (!hasEvent) return copiedObjects;
+        var types = GetObjectTypes(copiedObjects);
+        if (!types.HasFlag(ObjectType.Event)) return copiedObjects;
 
         var copiedEvents = new HashSet<BaseObject>();
 
