@@ -7,8 +7,8 @@ using Beatmap.Enums;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class BeatmapGLSEventRotationInputController : BeatmapGLSGroupInputController<BaseLightRotationEventBoxGroup>,
-                                                 CMInput.IGLSRotationObjectsActions
+public class BeatmapGLSEventRotationInputController : BeatmapGLSEventInputController<BaseLightRotationBase>,
+                                                      CMInput.IGLSRotationObjectsActions
 {
     public event Action<float> OnValueChanged;
     public event Action<float> OnValueDeltaChanged;

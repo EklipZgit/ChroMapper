@@ -4,7 +4,7 @@ using Beatmap.Enums;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class BeatmapGLSEventColorInputController : BeatmapGLSGroupInputController<BaseLightColorEventBoxGroup>,
+public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputController<BaseLightColorBase>,
                                                    CMInput.IGLSColorObjectsActions
 {
     public event Action<int> OnColorChanged;

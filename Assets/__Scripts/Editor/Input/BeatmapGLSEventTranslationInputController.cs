@@ -4,8 +4,8 @@ using Beatmap.Containers;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class BeatmapGLSEventTranslationInputController : BeatmapGLSGroupInputController<BaseLightTranslationEventBoxGroup>,
-                                                    CMInput.IGLSTranslationObjectsActions
+public class BeatmapGLSEventTranslationInputController : BeatmapGLSEventInputController<BaseLightTranslationBase>,
+                                                         CMInput.IGLSTranslationObjectsActions
 {
     public event Action<float> OnValueChanged;
     public event Action<float> OnValueDeltaChanged;
