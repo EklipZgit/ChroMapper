@@ -183,7 +183,7 @@ public class
 
     protected override int GetEventCount(BaseLightColorEventBox box) => box.Events.Length;
 
-    protected override float GetLastEventTime(BaseLightColorEventBox box) => box.Events[^1].JsonTime;
+    protected override float GetLastEventTime(BaseLightColorEventBox box) => box.Events[^1].RelativeJsonTime;
 
     protected override float GetDistribution(
         IndexFilterHelper.IndexFilter indexFilter,
@@ -199,7 +199,7 @@ public class
     protected override LightColorEventStateData[] GenerateEvents(
         LightColorGroupStateData state,
         float distributionOffset,
-        float maxJsonTime) =>
+        float maxRelativeJsonTime) =>
         state
             .Box
             .Events
@@ -209,12 +209,13 @@ public class
                     var d = new LightColorEventStateData(
                         x,
                         (float)BeatSaberSongContainer.Instance.Map.JsonTimeToSongBpmTime(
-                            state.Base.JsonTime + x.JsonTime + (state.DurationOrder * state.BeatStep)),
+                            state.Base.JsonTime + x.RelativeJsonTime + (state.DurationOrder * state.BeatStep)),
                         affected ? distributionOffset : 0f);
                     return d;
                 }
             )
-            .Where(x => state.Base.JsonTime + x.Base.JsonTime + (state.DurationOrder * state.BeatStep) <= maxJsonTime)
+            .Where(x => state.Base.JsonTime + x.Base.RelativeJsonTime + (state.DurationOrder * state.BeatStep)
+                <= maxRelativeJsonTime)
             .ToArray();
 }
 

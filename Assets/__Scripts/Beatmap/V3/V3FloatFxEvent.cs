@@ -8,8 +8,8 @@ namespace Beatmap.V3
         public static BaseFxEventFloat GetFromJson(JSONNode node)
         {
             var floatFxEventBase = new BaseFxEventFloat();
-            
-            floatFxEventBase.JsonTime = node["b"].AsFloat;
+
+            floatFxEventBase.JsonTime = floatFxEventBase.RelativeJsonTime = node["b"].AsFloat;
             floatFxEventBase.UsePrevious = node["p"].AsInt;
             floatFxEventBase.Value = node["v"].AsFloat;
             floatFxEventBase.Easing = node["i"].AsInt;
@@ -21,7 +21,7 @@ namespace Beatmap.V3
         {
             return new JSONObject
             {
-                ["b"] = baseFxEventFloat.JsonTime,
+                ["b"] = baseFxEventFloat.RelativeJsonTime,
                 ["p"] = baseFxEventFloat.UsePrevious,
                 ["v"] = baseFxEventFloat.Value,
                 ["i"] = baseFxEventFloat.Easing

@@ -12,8 +12,8 @@ namespace Beatmap.V3
         public static BaseLightRotationBase GetFromJson(JSONNode node)
         {
             var lightRotationBase = new BaseLightRotationBase();
-            
-            lightRotationBase.JsonTime = node["b"].AsFloat;
+
+            lightRotationBase.JsonTime = lightRotationBase.RelativeJsonTime = node["b"].AsFloat;
             lightRotationBase.Rotation = node["r"].AsFloat;
             lightRotationBase.Direction = node["o"].AsInt;
             lightRotationBase.EaseType = node["e"].AsInt;
@@ -27,7 +27,7 @@ namespace Beatmap.V3
         public static JSONNode ToJson(BaseLightRotationBase lightRotationBase)
         {
             JSONNode node = new JSONObject();
-            node["b"] = lightRotationBase.JsonTime;
+            node["b"] = lightRotationBase.RelativeJsonTime;
             node["r"] = lightRotationBase.Rotation;
             node["o"] = lightRotationBase.Direction;
             node["e"] = lightRotationBase.EaseType;

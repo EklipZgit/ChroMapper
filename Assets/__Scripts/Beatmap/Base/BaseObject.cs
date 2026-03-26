@@ -67,7 +67,7 @@ namespace Beatmap.Base
 
         protected BaseDifficulty Map;
 
-        private float jsonTime;
+        protected float jsonTime;
 
         public float JsonTime
         {

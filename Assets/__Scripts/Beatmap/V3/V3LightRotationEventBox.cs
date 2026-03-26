@@ -6,10 +6,10 @@ namespace Beatmap.V3
 {
     public static class V3LightRotationEventBox
     {
-        public static BaseLightRotationEventBox GetFromJson(JSONNode node)
+        public static BaseLightRotationEventBox GetFromJson(JSONNode node, float groupTime)
         {
             var box = new BaseLightRotationEventBox();
-            
+
             box.IndexFilter = V3IndexFilter.GetFromJson(BaseItem.GetRequiredNode(node, "f"));
             box.BeatDistribution = node["w"].AsFloat;
             box.BeatDistributionType = node["d"].AsInt;
@@ -19,7 +19,15 @@ namespace Beatmap.V3
             box.Axis = node["a"].AsInt;
             box.Flip = node["r"].AsInt;
             box.Easing = node["i"].AsInt;
-            box.Events = BaseItem.GetRequiredNode(node, "l").AsArray.Linq.Select(x => V3LightRotationBase.GetFromJson(x.Value)).ToArray();
+            box.Events = BaseItem
+                .GetRequiredNode(node, "l")
+                .AsArray.Linq.Select(x =>
+                {
+                    var evt = V3LightRotationBase.GetFromJson(x.Value);
+                    evt.JsonTime += groupTime;
+                    return evt;
+                })
+                .ToArray();
 
             return box;
         }

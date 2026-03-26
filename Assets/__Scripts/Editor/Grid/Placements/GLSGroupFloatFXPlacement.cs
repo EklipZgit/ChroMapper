@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class GLSGroupFloatFXPlacement : GLSGroupPlacement<BaseVfxEventEventBoxGroup, GLSGroupFloatFXGridContainer>
 {
-    [SerializeField] private BeatmapGLSFloatFXInputController inputController;
+    [SerializeField] private BeatmapGLSEventFloatFXInputController inputController;
     [SerializeField] private BeatmapEasingsSelectionInputController easingInputController;
 
     public override bool CanPlace =>
@@ -25,13 +25,13 @@ public class GLSGroupFloatFXPlacement : GLSGroupPlacement<BaseVfxEventEventBoxGr
     private void HandleValueChanged(float value)
     {
         QueuedData.Boxes[0].Events[0].Value = value;
-        GlsEventAppearance.SetAppearance(PlacementVisualContainer, false);
+        GlsGroupAppearance.SetAppearance(PlacementVisualContainer, false);
     }
 
     private void HandleEasingChanged(int value)
     {
         QueuedData.Boxes[0].Events[0].Easing = value;
-        GlsEventAppearance.SetAppearance(PlacementVisualContainer, false);
+        GlsGroupAppearance.SetAppearance(PlacementVisualContainer, false);
     }
 
     protected override BaseVfxEventEventBoxGroup GenerateOriginalData() =>

@@ -20,7 +20,7 @@ namespace Beatmap.V3
                     BaseItem
                         .GetRequiredNode(node, "e")
                         .AsArray.Linq
-                        .Select(x => V3LightTranslationEventBox.GetFromJson(x))
+                        .Select(x => V3LightTranslationEventBox.GetFromJson(x, node["b"].AsFloat))
                         .ToList()),
                 CustomData = node["customData"]
             };

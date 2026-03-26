@@ -6,7 +6,7 @@ public class
     GLSGroupTranslationPlacement : GLSGroupPlacement<BaseLightTranslationEventBoxGroup,
     GLSGroupTranslationGridContainer>
 {
-    [SerializeField] private BeatmapGLSTranslationInputController inputController;
+    [SerializeField] private BeatmapGLSEventTranslationInputController inputController;
     [SerializeField] private BeatmapEasingsSelectionInputController easingInputController;
 
     public override bool CanPlace =>
@@ -28,13 +28,13 @@ public class
     private void HandleValueChanged(float value)
     {
         QueuedData.Boxes[0].Events[0].Translation = value;
-        GlsEventAppearance.SetAppearance(PlacementVisualContainer, false);
+        GlsGroupAppearance.SetAppearance(PlacementVisualContainer, false);
     }
 
     private void HandleEasingChanged(int value)
     {
         QueuedData.Boxes[0].Events[0].EaseType = value;
-        GlsEventAppearance.SetAppearance(PlacementVisualContainer, false);
+        GlsGroupAppearance.SetAppearance(PlacementVisualContainer, false);
     }
 
     protected override BaseLightTranslationEventBoxGroup GenerateOriginalData() =>

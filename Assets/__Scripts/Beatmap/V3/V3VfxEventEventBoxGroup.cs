@@ -22,7 +22,7 @@ namespace Beatmap.V3
                     BaseItem
                         .GetRequiredNode(node, "e")
                         .AsArray.Linq
-                        .Select(x => V3VfxEventEventBox.GetFromJson(x.Value, floatFxEvents))
+                        .Select(x => V3VfxEventEventBox.GetFromJson(x.Value, floatFxEvents, node["b"].AsFloat))
                         .ToList()),
                 CustomData = node["customData"]
             };

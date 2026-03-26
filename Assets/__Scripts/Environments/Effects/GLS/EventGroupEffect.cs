@@ -11,7 +11,7 @@ public abstract class
     where TEventState : EventGroupEventStateData<TEvent>
     where TGroup : BaseEventBoxGroup<TBox>
     where TBox : BaseEventBox
-    where TEvent : BaseObject
+    where TEvent : BaseGLSEvent
 {
     [SerializeField] public int Count;
 
@@ -63,7 +63,7 @@ public abstract class
         RegenerateEvents(newState, nextState.LocalJsonTime);
     }
 
-    protected void RegenerateEvents(TGroupState state, float maxJsonTime)
+    protected void RegenerateEvents(TGroupState state, float maxRelativeJsonTime)
     {
         var axis = GetAxis(state.Box);
         var key = (axis, state.ElementID);
@@ -72,7 +72,7 @@ public abstract class
 
         var indexFilter = IndexFilterHelper.Convert(state.Box.IndexFilter, Count);
         var distributionOffset = GetDistribution(indexFilter, state.Box, state.DistributionOrder);
-        var events = GenerateEvents(state, distributionOffset, maxJsonTime);
+        var events = GenerateEvents(state, distributionOffset, maxRelativeJsonTime);
         foreach (var data in events) HandleInsertEventState(container, data);
         state.Events = events;
     }
@@ -172,13 +172,16 @@ public abstract class
 
     protected abstract float GetDistribution(IndexFilterHelper.IndexFilter indexFilter, TBox box, int order);
 
-    protected abstract TEventState[] GenerateEvents(TGroupState state, float distributionOffset, float maxJsonTime);
+    protected abstract TEventState[] GenerateEvents(
+        TGroupState state,
+        float distributionOffset,
+        float maxRelativeJsonTime);
 }
 
 public abstract class EventGroupStateData<TGroup, TBox, TEvent> : StateData<TGroup>
     where TGroup : BaseEventBoxGroup<TBox>
     where TBox : BaseEventBox
-    where TEvent : BaseObject
+    where TEvent : BaseGLSEvent
 {
     public float LocalJsonTime;
     public float BeatStep;
@@ -195,7 +198,7 @@ public abstract class EventGroupStateData<TGroup, TBox, TEvent> : StateData<TGro
     }
 }
 
-public abstract class EventGroupEventStateData<T> : StateData<T> where T : BaseObject
+public abstract class EventGroupEventStateData<T> : StateData<T> where T : BaseGLSEvent
 {
     public EventGroupEventStateData<T> Previous;
     public EventGroupEventStateData<T> Next;
@@ -216,7 +219,7 @@ public abstract record EventGroupContainer<TGroupState, TEventState, TGroup, TBo
     where TEventState : EventGroupEventStateData<TEvent>
     where TGroup : BaseEventBoxGroup<TBox>
     where TBox : BaseEventBox
-    where TEvent : BaseObject
+    where TEvent : BaseGLSEvent
 {
     public readonly StateChunksContainer<TGroupState, TGroup> GroupContainer = new();
     public readonly StateChunksContainer<TEventState, TEvent> EventContainer = new();

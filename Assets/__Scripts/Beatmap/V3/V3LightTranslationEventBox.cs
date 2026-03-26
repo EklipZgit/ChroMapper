@@ -6,7 +6,7 @@ namespace Beatmap.V3
 {
     public static class V3LightTranslationEventBox
     {
-        public static BaseLightTranslationEventBox GetFromJson(JSONNode node)
+        public static BaseLightTranslationEventBox GetFromJson(JSONNode node, float groupTime)
         {
             var box = new BaseLightTranslationEventBox();
             
@@ -19,7 +19,12 @@ namespace Beatmap.V3
             box.Axis = node["a"].AsInt;
             box.Flip = node["r"].AsInt;
             box.Easing = node["i"].AsInt;
-            box.Events = BaseItem.GetRequiredNode(node, "l").AsArray.Linq.Select(x => V3LightTranslationBase.GetFromJson(x.Value)).ToArray();
+            box.Events = BaseItem.GetRequiredNode(node, "l").AsArray.Linq.Select(x =>
+            {
+                var evt = V3LightTranslationBase.GetFromJson(x.Value);
+                evt.JsonTime += groupTime;
+                return evt;
+            }).ToArray();
 
             return box;
         }

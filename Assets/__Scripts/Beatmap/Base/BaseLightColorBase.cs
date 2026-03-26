@@ -5,7 +5,7 @@ using SimpleJSON;
 
 namespace Beatmap.Base
 {
-    public class BaseLightColorBase : BaseObject
+    public class BaseLightColorBase : BaseGLSEvent
     {
         public BaseLightColorBase()
         {
@@ -62,7 +62,9 @@ namespace Beatmap.Base
                     || Math.Abs(Brightness - lcb.Brightness) < DecimalTolerance
                     || Easing == lcb.Easing
                     || UsePrevious == lcb.UsePrevious
-                    || Frequency == lcb.Frequency;
+                    || Frequency == lcb.Frequency
+                    || Math.Abs(StrobeBrightness - lcb.StrobeBrightness) < DecimalTolerance
+                    || StrobeFade == lcb.StrobeFade;
             return false;
         }
 

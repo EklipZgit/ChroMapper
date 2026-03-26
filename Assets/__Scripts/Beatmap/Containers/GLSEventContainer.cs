@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Beatmap.Appearances;
 using Beatmap.Base;
@@ -15,13 +16,13 @@ namespace Beatmap.Containers
         [SerializeField] private LightGradientController lightGradientController;
         [SerializeField] public TracksDefinitionSO TracksDefinition;
 
-        public BaseObject EventData;
+        public BaseGLSEvent EventData;
+        [NonSerialized] public int BoxIndex = -1;
 
-        public override BaseObject ObjectData
-        {
-            get => EventData;
-            set => EventData = value;
-        }
+        public override int ChunkID =>
+            (int)((EventData.EventBoxGroupData.JsonTime + ObjectData.JsonTime) / Intersections.ChunkSize);
+
+        public override BaseObject ObjectData { get => EventData; set => EventData = (BaseGLSEvent)value; }
 
         protected override void RegisterCallback()
         {
@@ -38,22 +39,22 @@ namespace Beatmap.Containers
         private void HandleModelChanged() => VModelController.Set(VisualSettings.GetBlockModel());
 
         public static GLSEventContainer SpawnGLSEvent(
-            BaseObject data,
+            BaseGLSEvent data,
             TracksDefinitionSO tracksDefinition,
             ref GameObject prefab)
         {
             var container = Instantiate(prefab).GetComponent<GLSEventContainer>();
             container.EventData = data;
             container.TracksDefinition = tracksDefinition;
-            container.transform.localEulerAngles = Vector3.zero;
             return container;
         }
 
         public override void UpdateGridPosition()
         {
-            var pos = transform.localPosition;
-            pos.z = EventData.SongBpmTime * EditorScaleController.EditorScale;
-            transform.localPosition = pos;
+            transform.localPosition = new Vector3(
+                0.5f + BoxIndex,
+                0.5f,
+                EventData.SongBpmTime * EditorScaleController.EditorScale);
             UpdateCollisionGroups();
         }
 

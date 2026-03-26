@@ -5,7 +5,7 @@ using SimpleJSON;
 
 namespace Beatmap.Base
 {
-    public class BaseLightTranslationBase : BaseObject
+    public class BaseLightTranslationBase : BaseGLSEvent
     {
         public BaseLightTranslationBase()
         {

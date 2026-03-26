@@ -227,7 +227,7 @@ public class
 
     protected override int GetEventCount(BaseLightTranslationEventBox box) => box.Events.Length;
 
-    protected override float GetLastEventTime(BaseLightTranslationEventBox box) => box.Events[^1].JsonTime;
+    protected override float GetLastEventTime(BaseLightTranslationEventBox box) => box.Events[^1].RelativeJsonTime;
 
     protected override float GetDistribution(
         IndexFilterHelper.IndexFilter indexFilter,
@@ -243,7 +243,7 @@ public class
     protected override LightTranslationEventStateData[] GenerateEvents(
         LightTranslationGroupStateData state,
         float distributionOffset,
-        float maxJsonTime) =>
+        float maxRelativeJsonTime) =>
         state
             .Box
             .Events
@@ -253,13 +253,14 @@ public class
                     var d = new LightTranslationEventStateData(
                         x,
                         (float)BeatSaberSongContainer.Instance.Map.JsonTimeToSongBpmTime(
-                            state.Base.JsonTime + x.JsonTime + (state.DurationOrder * state.BeatStep)),
+                            state.Base.JsonTime + x.RelativeJsonTime + (state.DurationOrder * state.BeatStep)),
                         state.Box.Flip == 1 ? -1 : 1,
                         distribution);
                     return d;
                 }
             )
-            .Where(x => state.Base.JsonTime + x.Base.JsonTime + (state.DurationOrder * state.BeatStep) <= maxJsonTime)
+            .Where(x => state.Base.JsonTime + x.Base.RelativeJsonTime + (state.DurationOrder * state.BeatStep)
+                <= maxRelativeJsonTime)
             .ToArray();
 }
 

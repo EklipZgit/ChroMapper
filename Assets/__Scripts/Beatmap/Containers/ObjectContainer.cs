@@ -64,7 +64,7 @@ namespace Beatmap.Containers
 
         public abstract BaseObject ObjectData { get; set; }
 
-        public int ChunkID => (int)(ObjectData.JsonTime / Intersections.ChunkSize);
+        public virtual int ChunkID => (int)(ObjectData.JsonTime / Intersections.ChunkSize);
 
         public void Start() => RegisterCallback();
         public void OnDestroy() => UnregisterCallback();
@@ -74,7 +74,7 @@ namespace Beatmap.Containers
 
         public virtual void Setup() { }
 
-        internal virtual void SafeSetActive(bool active)
+        internal void SafeSetActive(bool active)
         {
             if (active != gameObject.activeSelf) gameObject.SetActive(active);
         }

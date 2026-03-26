@@ -8,23 +8,24 @@ using UnityEngine;
 
 namespace Beatmap.Appearances
 {
-    [CreateAssetMenu(menuName = "Beatmap/Appearance/GLS Event Appearance SO", fileName = "GLSEventAppearanceSO")]
-    public class GLSEventAppearanceSO : ScriptableObject
+    [CreateAssetMenu(menuName = "Beatmap/Appearance/GLS Group Appearance SO", fileName = "GLSGroupAppearanceSO")]
+    public class GLSGroupAppearanceSO : ScriptableObject
     {
         [SerializeField] private EventAppearanceSO eventAppearance;
 
         private static readonly int colorId = Shader.PropertyToID("_Color");
 
         public void SetAppearance(
-            GLSEventContainer container,
+            GLSGroupContainer container,
             bool final = true,
             bool boost = false)
         {
             container.transform.localScale = Vector3.one * (final ? 0.75f : 0.6f);
-            switch (container.EventData)
+            switch (container.EventBoxGroupData)
             {
-                case BaseLightColorBase colorEvt:
-                    if (colorEvt.UsePrevious == 1)
+                case BaseLightColorEventBoxGroup lcebg:
+                    var colorEvt = lcebg.Boxes.SelectMany(x => x.Events).FirstOrDefault();
+                    if (colorEvt == null || colorEvt.UsePrevious == 1)
                     {
                         container.MpbController.Mpb.SetColor(colorId, eventAppearance.OffColor);
                         container.SetText(false);
@@ -46,8 +47,9 @@ namespace Beatmap.Appearances
                     }
 
                     break;
-                case BaseLightRotationBase rotationEvt:
-                    if (rotationEvt.UsePrevious == 1)
+                case BaseLightRotationEventBoxGroup lrebg:
+                    var rotationEvt = lrebg.Boxes.SelectMany(x => x.Events).FirstOrDefault();
+                    if (rotationEvt == null || rotationEvt.UsePrevious == 1)
                     {
                         container.MpbController.Mpb.SetColor(colorId, eventAppearance.OffColor);
                         container.SetText(false);
@@ -67,7 +69,8 @@ namespace Beatmap.Appearances
                     }
 
                     break;
-                case BaseLightTranslationBase translationEvt:
+                case BaseLightTranslationEventBoxGroup ltebg:
+                    var translationEvt = ltebg.Boxes.SelectMany(x => x.Events).FirstOrDefault();
                     if (translationEvt == null || translationEvt.UsePrevious == 1)
                     {
                         container.MpbController.Mpb.SetColor(colorId, eventAppearance.OffColor);
@@ -82,7 +85,8 @@ namespace Beatmap.Appearances
                     }
 
                     break;
-                case BaseFxEventFloat fxEvt:
+                case BaseVfxEventEventBoxGroup ffbg:
+                    var fxEvt = ffbg.Boxes.SelectMany(x => x.Events).FirstOrDefault();
                     if (fxEvt == null || fxEvt.UsePrevious == 1)
                     {
                         container.MpbController.Mpb.SetColor(colorId, eventAppearance.OffColor);

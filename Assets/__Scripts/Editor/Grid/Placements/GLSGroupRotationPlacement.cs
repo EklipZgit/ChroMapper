@@ -5,7 +5,7 @@ using UnityEngine;
 public class
     GLSGroupRotationPlacement : GLSGroupPlacement<BaseLightRotationEventBoxGroup, GLSGroupRotationGridContainer>
 {
-    [SerializeField] private BeatmapGLSRotationInputController inputController;
+    [SerializeField] private BeatmapGLSEventRotationInputController inputController;
     [SerializeField] private BeatmapEasingsSelectionInputController easingInputController;
 
     public override bool CanPlace =>
@@ -31,25 +31,25 @@ public class
     private void HandleValueChanged(float value)
     {
         QueuedData.Boxes[0].Events[0].Rotation = value;
-        GlsEventAppearance.SetAppearance(PlacementVisualContainer, false);
+        GlsGroupAppearance.SetAppearance(PlacementVisualContainer, false);
     }
 
     private void HandleLoopChanged(int value)
     {
         QueuedData.Boxes[0].Events[0].Loop = value;
-        GlsEventAppearance.SetAppearance(PlacementVisualContainer, false);
+        GlsGroupAppearance.SetAppearance(PlacementVisualContainer, false);
     }
 
     private void HandleDirectionChanged(int value)
     {
         QueuedData.Boxes[0].Events[0].Direction = value;
-        GlsEventAppearance.SetAppearance(PlacementVisualContainer, false);
+        GlsGroupAppearance.SetAppearance(PlacementVisualContainer, false);
     }
 
     private void HandleEasingChanged(int value)
     {
         QueuedData.Boxes[0].Events[0].EaseType = value;
-        GlsEventAppearance.SetAppearance(PlacementVisualContainer, false);
+        GlsGroupAppearance.SetAppearance(PlacementVisualContainer, false);
     }
 
     protected override BaseLightRotationEventBoxGroup GenerateOriginalData() =>

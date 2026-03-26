@@ -9,7 +9,7 @@ public abstract class GLSGroupPlacement<TGroup, TCollection> : BasePlacement<TGr
 {
     [SerializeField] public GLSGroupTrack GlsGroupTrack;
 
-    [SerializeField] protected GLSEventAppearanceSO GlsEventAppearance;
+    [SerializeField] protected GLSGroupAppearanceSO GlsGroupAppearance;
     [SerializeField] private BeatmapRuntimeContext context;
 
     public override bool CanPlace => base.CanPlace && IsInPosition() && !GlobalIntersectionCache.HasHit;
@@ -26,7 +26,7 @@ public abstract class GLSGroupPlacement<TGroup, TCollection> : BasePlacement<TGr
         PlacementVisualContainer.EventBoxGroupData = QueuedData;
         PlacementVisualContainer.transform.SetParent(PlacementTrack, false);
         PlacementVisualContainer.SafeSetActive(CanPlace);
-        GlsEventAppearance.SetAppearance(PlacementVisualContainer, false);
+        GlsGroupAppearance.SetAppearance(PlacementVisualContainer, false);
     }
 
     protected override void HandlePlacementToData(PlacementInputState inputState) =>

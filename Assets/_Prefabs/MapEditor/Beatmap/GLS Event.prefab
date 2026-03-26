@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4108609160957664}
-  - component: {fileID: -4102429193922719766}
+  - component: {fileID: 81176950533393366}
   m_Layer: 9
   m_Name: GLS Event
   m_TagString: Untagged
@@ -36,7 +36,7 @@ Transform:
   - {fileID: 5345314954220714802}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-4102429193922719766
+--- !u!114 &81176950533393366
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -45,10 +45,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1173282366639492}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0555eedaa7874a17b9986770d77ea3dc, type: 3}
+  m_Script: {fileID: 11500000, guid: 9d15b52467134d20894727429f67da38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Dragging: 0
   Animator: {fileID: 0}
   Colliders:
   - {fileID: 6372272593561764534}

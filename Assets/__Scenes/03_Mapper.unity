@@ -11592,6 +11592,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 333714904}
+  - component: {fileID: 333714906}
   - component: {fileID: 333714905}
   m_Layer: 0
   m_Name: GLS FloatFX Input
@@ -11625,6 +11626,29 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c00569fc5fc4425c91524299df652928, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsSelecting: 0
+  IsHovering: 0
+  HoveredObject: {fileID: 0}
+  CustomStandaloneInputModule: {fileID: 806554}
+  cameraManager: {fileID: 1206999167}
+  EditContext: {fileID: 405385889}
+  editMode: 16
+  obstaclePlacement: {fileID: 2087881065}
+  atsc: {fileID: 570484802}
+  eventGridProvider: {fileID: 986915610}
+  boxSelectionPlacement: {fileID: 859643186}
+--- !u!114 &333714906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 333714903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53b4c168b70b4e03b7f9aedeeb965545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   IsSelecting: 0
@@ -14285,7 +14309,7 @@ MonoBehaviour:
   eventGridContainer: {fileID: 455916737}
   eventPrefab: {fileID: 1173282366639492, guid: 72e4251edb3f4b5a69a5995309feba8a,
     type: 3}
-  glsEventAppearance: {fileID: 11400000, guid: 3f35a685a18894f4291dd109815b604d, type: 2}
+  glsGroupAppearance: {fileID: 11400000, guid: d96a2a34bce3caf34b8e1a392c8adaff, type: 2}
   countersPlus: {fileID: 471772270}
 --- !u!1 &455916735
 GameObject:
@@ -15955,7 +15979,7 @@ MonoBehaviour:
   ObjectDataType: 8192
   ObjectContainerPrefab: {fileID: 1173282366639492, guid: 72e4251edb3f4b5a69a5995309feba8a,
     type: 3}
-  PlacementTrack: {fileID: 0}
+  PlacementTrack: {fileID: 1529298933}
   CanPrecisionPlacement: 0
   AdjustZScale: 0
   CustomStandaloneInputModule: {fileID: 806554}
@@ -15977,7 +16001,7 @@ MonoBehaviour:
   DraggedObjectContainer: {fileID: 0}
   ForceHeaderPlsIgnore: 0
   GlsGroupTrack: {fileID: 1830049620}
-  GlsEventAppearance: {fileID: 11400000, guid: 3f35a685a18894f4291dd109815b604d, type: 2}
+  GlsGroupAppearance: {fileID: 11400000, guid: d96a2a34bce3caf34b8e1a392c8adaff, type: 2}
   context: {fileID: 127874572}
   inputController: {fileID: 1872232346}
   easingInputController: {fileID: 171301928}
@@ -16110,7 +16134,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -62.509098}
+  m_AnchoredPosition: {x: 0, y: -62.505096}
   m_SizeDelta: {x: 190, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &494425897
@@ -21275,6 +21299,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 622396316}
+  - component: {fileID: 622396318}
   - component: {fileID: 622396317}
   m_Layer: 0
   m_Name: GLS Translation Input
@@ -21308,6 +21333,29 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4f328310f90e4ca2b03cd6704613f03f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsSelecting: 0
+  IsHovering: 0
+  HoveredObject: {fileID: 0}
+  CustomStandaloneInputModule: {fileID: 806554}
+  cameraManager: {fileID: 1206999167}
+  EditContext: {fileID: 405385889}
+  editMode: 16
+  obstaclePlacement: {fileID: 2087881065}
+  atsc: {fileID: 570484802}
+  eventGridProvider: {fileID: 986915610}
+  boxSelectionPlacement: {fileID: 859643186}
+--- !u!114 &622396318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 622396315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c01face77a4344a3b023e47b8ddc9f39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   IsSelecting: 0
@@ -33621,7 +33669,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1318264218}
   m_Father: {fileID: 1108513242}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &986915610
@@ -35310,7 +35359,7 @@ MonoBehaviour:
   eventGridContainer: {fileID: 455916737}
   eventPrefab: {fileID: 1173282366639492, guid: 72e4251edb3f4b5a69a5995309feba8a,
     type: 3}
-  glsEventAppearance: {fileID: 11400000, guid: 3f35a685a18894f4291dd109815b604d, type: 2}
+  glsGroupAppearance: {fileID: 11400000, guid: d96a2a34bce3caf34b8e1a392c8adaff, type: 2}
   countersPlus: {fileID: 471772270}
 --- !u!1 &1029426883
 GameObject:
@@ -43544,6 +43593,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1265095338}
+  - component: {fileID: 1265095340}
   - component: {fileID: 1265095339}
   m_Layer: 0
   m_Name: GLS Color Input
@@ -43577,6 +43627,29 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 99b8ea253d6b48dda912050aef91a140, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsSelecting: 0
+  IsHovering: 0
+  HoveredObject: {fileID: 0}
+  CustomStandaloneInputModule: {fileID: 806554}
+  cameraManager: {fileID: 1206999167}
+  EditContext: {fileID: 405385889}
+  editMode: 16
+  obstaclePlacement: {fileID: 2087881065}
+  atsc: {fileID: 570484802}
+  eventGridProvider: {fileID: 986915610}
+  boxSelectionPlacement: {fileID: 859643186}
+--- !u!114 &1265095340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1265095337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98a37ef7d50143bea9f4a2f8474a93dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   IsSelecting: 0
@@ -45230,6 +45303,65 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1313553554}
   m_CullTransparentMesh: 0
+--- !u!1 &1318264217
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1318264218}
+  - component: {fileID: 1318264219}
+  m_Layer: 0
+  m_Name: GLS Event Collection
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1318264218
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1318264217}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 986915609}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1318264219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1318264217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac4bf52a361e4e33a5d3f18ca29ff175, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BeatmapContext: {fileID: 127874572}
+  EditContext: {fileID: 405385889}
+  ViewableMode: 16
+  SpawnCallbackController: {fileID: 1760665545}
+  DespawnCallbackController: {fileID: 1288723589}
+  TargetTransform: {fileID: 704522980}
+  UseChunkLoadingWhenPlaying: 1
+  ChunksLoadedWhilePlaying: 2
+  IgnoreTrackFilter: 0
+  glsEventGridProvider: {fileID: 986915610}
+  eventGridContainer: {fileID: 455916737}
+  eventPrefab: {fileID: 1173282366639492, guid: 4273d4dc67a4c997b9d35d5c7a65fdbc,
+    type: 3}
+  glsEventAppearance: {fileID: 11400000, guid: 3f35a685a18894f4291dd109815b604d, type: 2}
+  countersPlus: {fileID: 471772270}
 --- !u!1 &1319188754
 GameObject:
   m_ObjectHideFlags: 0
@@ -49481,7 +49613,7 @@ MonoBehaviour:
   ObjectDataType: 32768
   ObjectContainerPrefab: {fileID: 1173282366639492, guid: 72e4251edb3f4b5a69a5995309feba8a,
     type: 3}
-  PlacementTrack: {fileID: 0}
+  PlacementTrack: {fileID: 1529298933}
   CanPrecisionPlacement: 0
   AdjustZScale: 0
   CustomStandaloneInputModule: {fileID: 806554}
@@ -49503,7 +49635,7 @@ MonoBehaviour:
   DraggedObjectContainer: {fileID: 0}
   ForceHeaderPlsIgnore: 0
   GlsGroupTrack: {fileID: 1830049620}
-  GlsEventAppearance: {fileID: 11400000, guid: 3f35a685a18894f4291dd109815b604d, type: 2}
+  GlsGroupAppearance: {fileID: 11400000, guid: d96a2a34bce3caf34b8e1a392c8adaff, type: 2}
   context: {fileID: 127874572}
   inputController: {fileID: 333714905}
   easingInputController: {fileID: 171301928}
@@ -53696,7 +53828,7 @@ MonoBehaviour:
   eventGridContainer: {fileID: 455916737}
   eventPrefab: {fileID: 1173282366639492, guid: 72e4251edb3f4b5a69a5995309feba8a,
     type: 3}
-  glsEventAppearance: {fileID: 11400000, guid: 3f35a685a18894f4291dd109815b604d, type: 2}
+  glsGroupAppearance: {fileID: 11400000, guid: d96a2a34bce3caf34b8e1a392c8adaff, type: 2}
   countersPlus: {fileID: 471772270}
 --- !u!1001 &1621174501
 PrefabInstance:
@@ -55235,7 +55367,7 @@ MonoBehaviour:
   eventGridContainer: {fileID: 455916737}
   eventPrefab: {fileID: 1173282366639492, guid: 72e4251edb3f4b5a69a5995309feba8a,
     type: 3}
-  glsEventAppearance: {fileID: 11400000, guid: 3f35a685a18894f4291dd109815b604d, type: 2}
+  glsGroupAppearance: {fileID: 11400000, guid: d96a2a34bce3caf34b8e1a392c8adaff, type: 2}
   countersPlus: {fileID: 471772270}
 --- !u!1 &1645231855
 GameObject:
@@ -62695,6 +62827,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1872232345}
+  - component: {fileID: 1872232347}
   - component: {fileID: 1872232346}
   m_Layer: 0
   m_Name: GLS Rotation Input
@@ -62728,6 +62861,29 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b1cd5b51c02d4f51854c37f7976a3f3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsSelecting: 0
+  IsHovering: 0
+  HoveredObject: {fileID: 0}
+  CustomStandaloneInputModule: {fileID: 806554}
+  cameraManager: {fileID: 1206999167}
+  EditContext: {fileID: 405385889}
+  editMode: 16
+  obstaclePlacement: {fileID: 2087881065}
+  atsc: {fileID: 570484802}
+  eventGridProvider: {fileID: 986915610}
+  boxSelectionPlacement: {fileID: 859643186}
+--- !u!114 &1872232347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1872232344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17334b032ff44bf39be65189f65a6445, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   IsSelecting: 0
@@ -67596,7 +67752,7 @@ MonoBehaviour:
   ObjectDataType: 4096
   ObjectContainerPrefab: {fileID: 1173282366639492, guid: 72e4251edb3f4b5a69a5995309feba8a,
     type: 3}
-  PlacementTrack: {fileID: 0}
+  PlacementTrack: {fileID: 1529298933}
   CanPrecisionPlacement: 0
   AdjustZScale: 0
   CustomStandaloneInputModule: {fileID: 806554}
@@ -67618,7 +67774,7 @@ MonoBehaviour:
   DraggedObjectContainer: {fileID: 0}
   ForceHeaderPlsIgnore: 0
   GlsGroupTrack: {fileID: 1830049620}
-  GlsEventAppearance: {fileID: 11400000, guid: 3f35a685a18894f4291dd109815b604d, type: 2}
+  GlsGroupAppearance: {fileID: 11400000, guid: d96a2a34bce3caf34b8e1a392c8adaff, type: 2}
   context: {fileID: 127874572}
   inputController: {fileID: 1265095339}
 --- !u!1 &2010474789
@@ -68945,7 +69101,7 @@ MonoBehaviour:
   ObjectDataType: 16384
   ObjectContainerPrefab: {fileID: 1173282366639492, guid: 72e4251edb3f4b5a69a5995309feba8a,
     type: 3}
-  PlacementTrack: {fileID: 0}
+  PlacementTrack: {fileID: 1529298933}
   CanPrecisionPlacement: 0
   AdjustZScale: 0
   CustomStandaloneInputModule: {fileID: 806554}
@@ -68967,7 +69123,7 @@ MonoBehaviour:
   DraggedObjectContainer: {fileID: 0}
   ForceHeaderPlsIgnore: 0
   GlsGroupTrack: {fileID: 1830049620}
-  GlsEventAppearance: {fileID: 11400000, guid: 3f35a685a18894f4291dd109815b604d, type: 2}
+  GlsGroupAppearance: {fileID: 11400000, guid: d96a2a34bce3caf34b8e1a392c8adaff, type: 2}
   context: {fileID: 127874572}
   inputController: {fileID: 622396317}
   easingInputController: {fileID: 171301928}

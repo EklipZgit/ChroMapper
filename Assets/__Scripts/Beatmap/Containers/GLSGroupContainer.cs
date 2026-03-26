@@ -9,7 +9,7 @@ namespace Beatmap.Containers
     public class GLSGroupContainer : ObjectContainer
     {
         [SerializeField] public VisualModelController VModelController;
-        [SerializeField] private GLSEventAppearanceSO glsEventAppearance;
+        [SerializeField] private GLSGroupAppearanceSO glsGroupAppearance;
         [SerializeField] private TracksManager tracksManager;
         [SerializeField] private TextMeshPro[] valueDisplays;
         [SerializeField] private LightGradientController lightGradientController;
@@ -45,7 +45,6 @@ namespace Beatmap.Containers
             var container = Instantiate(prefab).GetComponent<GLSGroupContainer>();
             container.EventBoxGroupData = data;
             container.TracksDefinition = tracksDefinition;
-            container.transform.localEulerAngles = Vector3.zero;
             return container;
         }
 
@@ -66,7 +65,7 @@ namespace Beatmap.Containers
         {
             foreach (var textMeshPro in valueDisplays) textMeshPro.SetText(text);
         }
-        
+
         public static float GetPositionFromTrackDefinition(TracksDefinitionSO tracksDefinition, BaseEventBoxGroup data)
         {
             var track = tracksDefinition.GetGlsOrDefault(data.ID);

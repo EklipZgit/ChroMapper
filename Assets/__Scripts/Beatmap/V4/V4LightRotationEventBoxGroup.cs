@@ -46,7 +46,7 @@ namespace Beatmap.V4
                         var eventNode = x.Value;
                         
                         var evt = new BaseLightRotationBase();
-                        evt.JsonTime = eventNode["b"].AsFloat;
+                        evt.JsonTime = evt.RelativeJsonTime = eventNode["b"].AsFloat;
 
                         var eventIndex = eventNode["i"].AsInt;
                         var commonEventData = lightRotationEventsCommonData[eventIndex];
@@ -92,7 +92,7 @@ namespace Beatmap.V4
                 foreach (var evt in boxEvent.Events)
                 {
                     var eventNode = new JSONObject();
-                    eventNode["b"] = evt.JsonTime;
+                    eventNode["b"] = evt.RelativeJsonTime;
                     eventNode["i"] =
                         lightRotationEventsCommonData.IndexOf(V4CommonData.LightRotationEvent.FromBaseLightRotationEvent(evt));
                     

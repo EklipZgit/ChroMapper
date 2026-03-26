@@ -46,7 +46,7 @@ namespace Beatmap.V4
                         var eventNode = y.Value;
                         
                         var evt = new BaseLightTranslationBase();
-                        evt.JsonTime = eventNode["b"].AsFloat;
+                        evt.JsonTime = evt.RelativeJsonTime = eventNode["b"].AsFloat;
 
                         var eventIndex = eventNode["i"].AsInt;
                         var commonEventData = lightTranslationEventsCommonData[eventIndex];
@@ -90,7 +90,7 @@ namespace Beatmap.V4
                 foreach (var evt in boxEvent.Events)
                 {
                     var eventNode = new JSONObject();
-                    eventNode["b"] = evt.JsonTime;
+                    eventNode["b"] = evt.RelativeJsonTime;
                     eventNode["i"] =
                         lightTranslationEventsCommonData.IndexOf(V4CommonData.LightTranslationEvent.FromBaseLightTranslationEvent(evt));
                     

@@ -55,7 +55,7 @@ MonoBehaviour:
   MpbController: {fileID: 1881671473189040870}
   SelectionMpbController: {fileID: 286273044837626658}
   VModelController: {fileID: 3517462033951592126}
-  glsEventAppearance: {fileID: 11400000, guid: 3f35a685a18894f4291dd109815b604d, type: 2}
+  glsGroupAppearance: {fileID: 11400000, guid: d96a2a34bce3caf34b8e1a392c8adaff, type: 2}
   tracksManager: {fileID: 0}
   valueDisplays:
   - {fileID: 8463894110379116219}

@@ -10,7 +10,7 @@ public abstract class GLSGroupGridContainer<TGroup> : BeatmapObjectContainerColl
     [SerializeField] private EventGridContainer eventGridContainer;
 
     [SerializeField] private GameObject eventPrefab;
-    [SerializeField] private GLSEventAppearanceSO glsEventAppearance;
+    [SerializeField] private GLSGroupAppearanceSO glsGroupAppearance;
 
     [SerializeField] private CountersPlusController countersPlus;
 
@@ -48,7 +48,7 @@ public abstract class GLSGroupGridContainer<TGroup> : BeatmapObjectContainerColl
         pos.y = 0.5f;
         con.transform.localPosition = pos;
 
-        glsEventAppearance.SetAppearance(
+        glsGroupAppearance.SetAppearance(
             con as GLSGroupContainer,
             true,
             eventGridContainer.AllBoostEvents.FindLast(x => x.JsonTime <= obj.JsonTime)?.Value == 1);

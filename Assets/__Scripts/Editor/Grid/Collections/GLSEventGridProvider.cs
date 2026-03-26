@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Beatmap.Base;
 using Beatmap.Enums;
 using TMPro;
@@ -6,6 +7,8 @@ using UnityEngine;
 
 public class GLSEventGridProvider : MonoBehaviour
 {
+    public event Action<BaseEventBoxGroup> OnGroupChanged;
+
     [SerializeField] private EditModeContext editMode;
     [SerializeField] private GridLane gridLane;
 
@@ -24,6 +27,8 @@ public class GLSEventGridProvider : MonoBehaviour
             if (groupContext == value) return;
             groupContext = value;
             RefreshTrack();
+
+            OnGroupChanged?.Invoke(groupContext);
         }
     }
 
