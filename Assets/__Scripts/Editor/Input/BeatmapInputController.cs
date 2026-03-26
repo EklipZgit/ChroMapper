@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Beatmap.Containers;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -28,6 +29,7 @@ public class BeatmapInputController<TContainer> : MonoBehaviour, CMInput.IBeatma
     protected bool MassSelect;
     private Vector2 mousePosition;
     private float timeWhenFirstSelecting;
+    private List<Intersections.IntersectionHit> preAllocIntersections = new();
 
     private void Start() => DeleteToolController.OnDeleteToolActivated += HandleDeleteToolActivated;
     private void OnDestroy() => DeleteToolController.OnDeleteToolActivated -= HandleDeleteToolActivated;
@@ -40,7 +42,7 @@ public class BeatmapInputController<TContainer> : MonoBehaviour, CMInput.IBeatma
     // Update is called once per frame
     private void Update()
     {
-        if (!EditContext.EditingMode.HasFlag(editMode)) return;
+        if ((EditContext.EditingMode & editMode) != editMode) return;
         if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)) return;
         if (obstaclePlacement.IsPlacing)
         {
@@ -65,7 +67,8 @@ public class BeatmapInputController<TContainer> : MonoBehaviour, CMInput.IBeatma
 
         if (!IsSelecting || Time.time - timeWhenFirstSelecting < 0.5f) return;
         var ray = cameraManager.SelectedCameraController.Camera.ScreenPointToRay(mousePosition);
-        foreach (var hit in Intersections.RaycastAll(ray, 9))
+        Intersections.RaycastAllNoAlloc(ray, 9, ref preAllocIntersections);
+        foreach (var hit in preAllocIntersections)
         {
             if (!GetComponentFromTransform(hit.GameObject, out var obj)) continue;
             if (!SelectionController.IsObjectSelected(obj.ObjectData)) SelectionController.Select(obj.ObjectData, true);
