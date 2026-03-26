@@ -64,7 +64,7 @@ namespace Beatmap.Containers
 
         public abstract BaseObject ObjectData { get; set; }
 
-        public virtual int ChunkID => (int)(ObjectData.JsonTime / Intersections.ChunkSize);
+        public int ChunkID => (int)(ObjectData.JsonTime / Intersections.ChunkSize);
 
         public void Start() => RegisterCallback();
         public void OnDestroy() => UnregisterCallback();

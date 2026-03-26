@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Beatmap.Base;
+using Beatmap.Helper;
 using UnityEngine;
 
 public class
@@ -53,5 +54,16 @@ public class
     }
 
     protected override BaseLightRotationEventBoxGroup GenerateOriginalData() =>
-        new() { Boxes = new() { new BaseLightRotationEventBox { Events = new[] { new BaseLightRotationBase() } } } };
+        BeatmapFactory.Clone(
+            new BaseLightRotationEventBoxGroup()
+            {
+                Boxes = new() { new BaseLightRotationEventBox { Events = new[] { new BaseLightRotationBase() } } }
+            });
+
+    protected override void HandlePlacementToData(PlacementInputState inputState)
+    {
+        base.HandlePlacementToData(inputState);
+        foreach (var evt in QueuedData.Boxes.SelectMany(box => box.Events))
+            evt.JsonTime = QueuedData.JsonTime + evt.RelativeJsonTime;
+    }
 }

@@ -19,15 +19,25 @@ namespace Beatmap.Base
             float time,
             int id,
             int type,
-            List<BaseVfxEventEventBox> boxes,
-            JSONNode customData = null) : base(time, id, boxes, customData) =>
+            JSONNode customData = null) : base(time, id, customData) =>
             Type = type;
 
         protected BaseVfxEventEventBoxGroup(BaseVfxEventEventBoxGroup other) : base(
             other.JsonTime,
-            other.ID,
-            other.Boxes.Select(x => x.Clone()).Cast<BaseVfxEventEventBox>().ToList())
+            other.ID)
         {
+            Boxes = other.Boxes.Select(x => x.Clone()).Cast<BaseVfxEventEventBox>().ToList();
+            for (var index = 0; index < Boxes.Count; index++)
+            {
+                var box = Boxes[index];
+                foreach (var evt in box.Events)
+                {
+                    evt.EventBoxData = box;
+                    evt.EventBoxGroupData = this;
+                    evt.BoxIndex = index;
+                    evt.JsonTime = evt.RelativeJsonTime + JsonTime;
+                }
+            }
         }
 
         public override void SetMap(BaseDifficulty map = null)

@@ -27,7 +27,7 @@ namespace Beatmap.Base
             UsePrevious = usePrevious;
         }
 
-        protected BaseLightRotationBase(BaseLightRotationBase other) : base(other.JsonTime, other.CustomData)
+        protected BaseLightRotationBase(BaseLightRotationBase other) : base(other.RelativeJsonTime, other.JsonTime, other.CustomData)
         {
             Rotation = other.Rotation;
             Direction = other.Direction;

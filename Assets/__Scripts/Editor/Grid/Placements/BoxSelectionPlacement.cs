@@ -251,6 +251,13 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
                             o = typeToOffset.GetValueOrDefault(glsGroup.GetType(), short.MinValue);
                         p = new Vector2(o, BeatmapConstant.YOffset + BeatmapConstant.LaneSize);
                         break;
+                    case BaseGLSEvent glsEvent:
+                        p = new Vector2(
+                            (glsEvent.BoxIndex * BeatmapConstant.LaneSize)
+                            + BoundsPosition.x
+                            + (BeatmapConstant.LaneSize / 2f),
+                            BeatmapConstant.YOffset + BeatmapConstant.LaneSize);
+                        break;
                     default:
                         Debug.LogWarning($"Unsupported object type {bo.GetType()} in box selection");
                         return;

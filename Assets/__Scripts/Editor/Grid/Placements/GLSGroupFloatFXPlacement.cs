@@ -1,4 +1,6 @@
-﻿using Beatmap.Base;
+﻿using System.Linq;
+using Beatmap.Base;
+using Beatmap.Helper;
 using UnityEngine;
 
 public class GLSGroupFloatFXPlacement : GLSGroupPlacement<BaseVfxEventEventBoxGroup, GLSGroupFloatFXGridContainer>
@@ -35,5 +37,16 @@ public class GLSGroupFloatFXPlacement : GLSGroupPlacement<BaseVfxEventEventBoxGr
     }
 
     protected override BaseVfxEventEventBoxGroup GenerateOriginalData() =>
-        new() { Boxes = new() { new BaseVfxEventEventBox { Events = new[] { new BaseFxEventFloat() } } } };
+        BeatmapFactory.Clone(
+            new BaseVfxEventEventBoxGroup
+            {
+                Boxes = new() { new BaseVfxEventEventBox { Events = new[] { new BaseFxEventFloat() } } }
+            });
+
+    protected override void HandlePlacementToData(PlacementInputState inputState)
+    {
+        base.HandlePlacementToData(inputState);
+        foreach (var evt in QueuedData.Boxes.SelectMany(box => box.Events))
+            evt.JsonTime = QueuedData.JsonTime + evt.RelativeJsonTime;
+    }
 }

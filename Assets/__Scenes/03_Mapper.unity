@@ -5804,6 +5804,78 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &165161920
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 165161921}
+  - component: {fileID: 165161922}
+  m_Layer: 0
+  m_Name: GLS Event Color Placement
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &165161921
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 165161920}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 612042092}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &165161922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 165161920}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0592ef7075a245aa93f0fc88c31793da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObjectDataType: 65536
+  ObjectContainerPrefab: {fileID: 1173282366639492, guid: 4273d4dc67a4c997b9d35d5c7a65fdbc,
+    type: 3}
+  PlacementTrack: {fileID: 704522980}
+  CanPrecisionPlacement: 0
+  AdjustZScale: 0
+  CustomStandaloneInputModule: {fileID: 806554}
+  Atsc: {fileID: 570484802}
+  boxSelectionPlacement: {fileID: 859643186}
+  AssignTo360Tracks: 0
+  TracksManager: {fileID: 902407107}
+  GridRotation: {fileID: 226696885}
+  AllowPlacement: 1
+  State: 0
+  IsDragging: 0
+  JsonTimeRounded: 0
+  Bounds:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0, z: 0}
+  BoundsPosition: {x: 0, y: 0, z: 0}
+  ObjectContainerCollection: {fileID: 1318264219}
+  PlacementVisualContainer: {fileID: 0}
+  DraggedObjectContainer: {fileID: 0}
+  ForceHeaderPlsIgnore: 0
+  glsEventGridProvider: {fileID: 986915610}
+  GlsEventAppearance: {fileID: 11400000, guid: 3f35a685a18894f4291dd109815b604d, type: 2}
+  context: {fileID: 127874572}
+  inputController: {fileID: 1168705476}
 --- !u!1 &165808554
 GameObject:
   m_ObjectHideFlags: 0
@@ -9241,6 +9313,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Placements:
+  - {fileID: 165161922}
+  - {fileID: 1588273436}
+  - {fileID: 563500041}
+  - {fileID: 1221651360}
   - {fileID: 859643186}
   Lane: {fileID: 281139530}
 --- !u!1 &281631600
@@ -11593,9 +11669,8 @@ GameObject:
   m_Component:
   - component: {fileID: 333714904}
   - component: {fileID: 333714906}
-  - component: {fileID: 333714905}
   m_Layer: 0
-  m_Name: GLS FloatFX Input
+  m_Name: GLS Group FloatFX Input
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11616,29 +11691,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1546839083}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &333714905
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 333714903}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c00569fc5fc4425c91524299df652928, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IsSelecting: 0
-  IsHovering: 0
-  HoveredObject: {fileID: 0}
-  CustomStandaloneInputModule: {fileID: 806554}
-  cameraManager: {fileID: 1206999167}
-  EditContext: {fileID: 405385889}
-  editMode: 16
-  obstaclePlacement: {fileID: 2087881065}
-  atsc: {fileID: 570484802}
-  eventGridProvider: {fileID: 986915610}
-  boxSelectionPlacement: {fileID: 859643186}
 --- !u!114 &333714906
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16003,7 +16055,7 @@ MonoBehaviour:
   GlsGroupTrack: {fileID: 1830049620}
   GlsGroupAppearance: {fileID: 11400000, guid: d96a2a34bce3caf34b8e1a392c8adaff, type: 2}
   context: {fileID: 127874572}
-  inputController: {fileID: 1872232346}
+  inputController: {fileID: 1116556666}
   easingInputController: {fileID: 171301928}
 --- !u!1 &492450995
 GameObject:
@@ -16134,7 +16186,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -62.505096}
+  m_AnchoredPosition: {x: 0, y: -62.49538}
   m_SizeDelta: {x: 190, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &494425897
@@ -18395,6 +18447,79 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!1 &563500039
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 563500040}
+  - component: {fileID: 563500041}
+  m_Layer: 0
+  m_Name: GLS Event Rotation Placement
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &563500040
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 563500039}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 612042092}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &563500041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 563500039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aba24715c93d44a384cd0b275b5ef027, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObjectDataType: 65536
+  ObjectContainerPrefab: {fileID: 1173282366639492, guid: 4273d4dc67a4c997b9d35d5c7a65fdbc,
+    type: 3}
+  PlacementTrack: {fileID: 704522980}
+  CanPrecisionPlacement: 0
+  AdjustZScale: 0
+  CustomStandaloneInputModule: {fileID: 806554}
+  Atsc: {fileID: 570484802}
+  boxSelectionPlacement: {fileID: 859643186}
+  AssignTo360Tracks: 0
+  TracksManager: {fileID: 902407107}
+  GridRotation: {fileID: 226696885}
+  AllowPlacement: 1
+  State: 0
+  IsDragging: 0
+  JsonTimeRounded: 0
+  Bounds:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0, z: 0}
+  BoundsPosition: {x: 0, y: 0, z: 0}
+  ObjectContainerCollection: {fileID: 1318264219}
+  PlacementVisualContainer: {fileID: 0}
+  DraggedObjectContainer: {fileID: 0}
+  ForceHeaderPlsIgnore: 0
+  glsEventGridProvider: {fileID: 986915610}
+  GlsEventAppearance: {fileID: 11400000, guid: 3f35a685a18894f4291dd109815b604d, type: 2}
+  context: {fileID: 127874572}
+  inputController: {fileID: 1116556666}
+  easingInputController: {fileID: 171301928}
 --- !u!1 &565602429
 GameObject:
   m_ObjectHideFlags: 0
@@ -20558,9 +20683,13 @@ Transform:
   - {fileID: 735273551}
   - {fileID: 257207219}
   - {fileID: 2010338915}
+  - {fileID: 165161921}
   - {fileID: 492114545}
+  - {fileID: 563500040}
   - {fileID: 2042029059}
+  - {fileID: 1221651359}
   - {fileID: 1524441770}
+  - {fileID: 1588273435}
   - {fileID: 859643185}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -21300,9 +21429,8 @@ GameObject:
   m_Component:
   - component: {fileID: 622396316}
   - component: {fileID: 622396318}
-  - component: {fileID: 622396317}
   m_Layer: 0
-  m_Name: GLS Translation Input
+  m_Name: GLS Group Translation Input
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21323,29 +21451,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1546839083}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &622396317
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 622396315}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f328310f90e4ca2b03cd6704613f03f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IsSelecting: 0
-  IsHovering: 0
-  HoveredObject: {fileID: 0}
-  CustomStandaloneInputModule: {fileID: 806554}
-  cameraManager: {fileID: 1206999167}
-  EditContext: {fileID: 405385889}
-  editMode: 16
-  obstaclePlacement: {fileID: 2087881065}
-  atsc: {fileID: 570484802}
-  eventGridProvider: {fileID: 986915610}
-  boxSelectionPlacement: {fileID: 859643186}
 --- !u!114 &622396318
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26387,7 +26492,7 @@ GameObject:
   - component: {fileID: 788356227}
   - component: {fileID: 788356228}
   m_Layer: 0
-  m_Name: GLS Group Provider
+  m_Name: GLS Group Grid Provider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31364,6 +31469,58 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &934762617
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 934762618}
+  - component: {fileID: 934762619}
+  m_Layer: 0
+  m_Name: GLS Event FloatFX Input
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &934762618
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 934762617}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1546839083}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &934762619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 934762617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c00569fc5fc4425c91524299df652928, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsSelecting: 0
+  IsHovering: 0
+  HoveredObject: {fileID: 0}
+  CustomStandaloneInputModule: {fileID: 806554}
+  cameraManager: {fileID: 1206999167}
+  EditContext: {fileID: 405385889}
+  editMode: 16
+  obstaclePlacement: {fileID: 2087881065}
 --- !u!1 &939381953
 GameObject:
   m_ObjectHideFlags: 0
@@ -32045,7 +32202,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 13585789}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.9999708
+  m_Size: 0.99995786
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -33651,7 +33808,7 @@ GameObject:
   - component: {fileID: 986915609}
   - component: {fileID: 986915610}
   m_Layer: 0
-  m_Name: GLS Event Provider
+  m_Name: GLS Event Grid Provider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -38250,6 +38407,58 @@ MonoBehaviour:
   references:
     version: 2
     RefIds: []
+--- !u!1 &1116556664
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1116556665}
+  - component: {fileID: 1116556666}
+  m_Layer: 0
+  m_Name: GLS Event Rotation Input
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1116556665
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1116556664}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1546839083}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1116556666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1116556664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1cd5b51c02d4f51854c37f7976a3f3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsSelecting: 0
+  IsHovering: 0
+  HoveredObject: {fileID: 0}
+  CustomStandaloneInputModule: {fileID: 806554}
+  cameraManager: {fileID: 1206999167}
+  EditContext: {fileID: 405385889}
+  editMode: 16
+  obstaclePlacement: {fileID: 2087881065}
 --- !u!1 &1117169516
 GameObject:
   m_ObjectHideFlags: 0
@@ -40135,6 +40344,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1167647476}
   m_CullTransparentMesh: 0
+--- !u!1 &1168705474
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1168705475}
+  - component: {fileID: 1168705476}
+  m_Layer: 0
+  m_Name: GLS Event Color Input
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1168705475
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1168705474}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1546839083}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1168705476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1168705474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99b8ea253d6b48dda912050aef91a140, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsSelecting: 0
+  IsHovering: 0
+  HoveredObject: {fileID: 0}
+  CustomStandaloneInputModule: {fileID: 806554}
+  cameraManager: {fileID: 1206999167}
+  EditContext: {fileID: 405385889}
+  editMode: 16
+  obstaclePlacement: {fileID: 2087881065}
 --- !u!1 &1179626124
 GameObject:
   m_ObjectHideFlags: 0
@@ -42321,6 +42582,79 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Padding: {x: 0, y: 0, z: 0, w: 0}
   m_Softness: {x: 0, y: 0}
+--- !u!1 &1221651358
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1221651359}
+  - component: {fileID: 1221651360}
+  m_Layer: 0
+  m_Name: GLS Event Translation Placement
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1221651359
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1221651358}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 612042092}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1221651360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1221651358}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48840ff330a844b1845e15416850738e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObjectDataType: 65536
+  ObjectContainerPrefab: {fileID: 1173282366639492, guid: 4273d4dc67a4c997b9d35d5c7a65fdbc,
+    type: 3}
+  PlacementTrack: {fileID: 704522980}
+  CanPrecisionPlacement: 0
+  AdjustZScale: 0
+  CustomStandaloneInputModule: {fileID: 806554}
+  Atsc: {fileID: 570484802}
+  boxSelectionPlacement: {fileID: 859643186}
+  AssignTo360Tracks: 0
+  TracksManager: {fileID: 902407107}
+  GridRotation: {fileID: 226696885}
+  AllowPlacement: 1
+  State: 0
+  IsDragging: 0
+  JsonTimeRounded: 0
+  Bounds:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0, z: 0}
+  BoundsPosition: {x: 0, y: 0, z: 0}
+  ObjectContainerCollection: {fileID: 1318264219}
+  PlacementVisualContainer: {fileID: 0}
+  DraggedObjectContainer: {fileID: 0}
+  ForceHeaderPlsIgnore: 0
+  glsEventGridProvider: {fileID: 986915610}
+  GlsEventAppearance: {fileID: 11400000, guid: 3f35a685a18894f4291dd109815b604d, type: 2}
+  context: {fileID: 127874572}
+  inputController: {fileID: 2011416988}
+  easingInputController: {fileID: 171301928}
 --- !u!224 &1223176915 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3267473904476242727, guid: 29b0e711db3f65542a213179a4cab985,
@@ -43594,9 +43928,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1265095338}
   - component: {fileID: 1265095340}
-  - component: {fileID: 1265095339}
   m_Layer: 0
-  m_Name: GLS Color Input
+  m_Name: GLS Group Color Input
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43617,29 +43950,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1546839083}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1265095339
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1265095337}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99b8ea253d6b48dda912050aef91a140, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IsSelecting: 0
-  IsHovering: 0
-  HoveredObject: {fileID: 0}
-  CustomStandaloneInputModule: {fileID: 806554}
-  cameraManager: {fileID: 1206999167}
-  EditContext: {fileID: 405385889}
-  editMode: 16
-  obstaclePlacement: {fileID: 2087881065}
-  atsc: {fileID: 570484802}
-  eventGridProvider: {fileID: 986915610}
-  boxSelectionPlacement: {fileID: 859643186}
 --- !u!114 &1265095340
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49637,7 +49947,7 @@ MonoBehaviour:
   GlsGroupTrack: {fileID: 1830049620}
   GlsGroupAppearance: {fileID: 11400000, guid: d96a2a34bce3caf34b8e1a392c8adaff, type: 2}
   context: {fileID: 127874572}
-  inputController: {fileID: 333714905}
+  inputController: {fileID: 934762619}
   easingInputController: {fileID: 171301928}
 --- !u!21 &1527122330
 Material:
@@ -50621,9 +50931,13 @@ Transform:
   m_Children:
   - {fileID: 171301929}
   - {fileID: 1265095338}
+  - {fileID: 1168705475}
   - {fileID: 1872232345}
+  - {fileID: 1116556665}
   - {fileID: 622396316}
+  - {fileID: 2011416987}
   - {fileID: 333714904}
+  - {fileID: 934762618}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1546839084
@@ -52592,6 +52906,79 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 4
   m_TargetDisplay: 0
+--- !u!1 &1588273434
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1588273435}
+  - component: {fileID: 1588273436}
+  m_Layer: 0
+  m_Name: GLS Event FloatFX Placement
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1588273435
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1588273434}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 612042092}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1588273436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1588273434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11ab4e5d16e94221a74d4608f3cf0dc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObjectDataType: 65536
+  ObjectContainerPrefab: {fileID: 1173282366639492, guid: 4273d4dc67a4c997b9d35d5c7a65fdbc,
+    type: 3}
+  PlacementTrack: {fileID: 704522980}
+  CanPrecisionPlacement: 0
+  AdjustZScale: 0
+  CustomStandaloneInputModule: {fileID: 806554}
+  Atsc: {fileID: 570484802}
+  boxSelectionPlacement: {fileID: 859643186}
+  AssignTo360Tracks: 0
+  TracksManager: {fileID: 0}
+  GridRotation: {fileID: 0}
+  AllowPlacement: 1
+  State: 0
+  IsDragging: 0
+  JsonTimeRounded: 0
+  Bounds:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0, z: 0}
+  BoundsPosition: {x: 0, y: 0, z: 0}
+  ObjectContainerCollection: {fileID: 1318264219}
+  PlacementVisualContainer: {fileID: 0}
+  DraggedObjectContainer: {fileID: 0}
+  ForceHeaderPlsIgnore: 0
+  glsEventGridProvider: {fileID: 986915610}
+  GlsEventAppearance: {fileID: 11400000, guid: 3f35a685a18894f4291dd109815b604d, type: 2}
+  context: {fileID: 127874572}
+  inputController: {fileID: 934762619}
+  easingInputController: {fileID: 171301928}
 --- !u!1 &1589602036
 GameObject:
   m_ObjectHideFlags: 0
@@ -62828,9 +63215,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1872232345}
   - component: {fileID: 1872232347}
-  - component: {fileID: 1872232346}
   m_Layer: 0
-  m_Name: GLS Rotation Input
+  m_Name: GLS Group Rotation Input
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -62851,29 +63237,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1546839083}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1872232346
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1872232344}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1cd5b51c02d4f51854c37f7976a3f3f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IsSelecting: 0
-  IsHovering: 0
-  HoveredObject: {fileID: 0}
-  CustomStandaloneInputModule: {fileID: 806554}
-  cameraManager: {fileID: 1206999167}
-  EditContext: {fileID: 405385889}
-  editMode: 16
-  obstaclePlacement: {fileID: 2087881065}
-  atsc: {fileID: 570484802}
-  eventGridProvider: {fileID: 986915610}
-  boxSelectionPlacement: {fileID: 859643186}
 --- !u!114 &1872232347
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67776,7 +68139,7 @@ MonoBehaviour:
   GlsGroupTrack: {fileID: 1830049620}
   GlsGroupAppearance: {fileID: 11400000, guid: d96a2a34bce3caf34b8e1a392c8adaff, type: 2}
   context: {fileID: 127874572}
-  inputController: {fileID: 1265095339}
+  inputController: {fileID: 1168705476}
 --- !u!1 &2010474789
 GameObject:
   m_ObjectHideFlags: 0
@@ -67869,6 +68232,58 @@ RectTransform:
   m_AnchoredPosition: {x: 100, y: -112.5}
   m_SizeDelta: {x: 190, y: 15}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &2011416986
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2011416987}
+  - component: {fileID: 2011416988}
+  m_Layer: 0
+  m_Name: GLS Event Translation Input
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2011416987
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2011416986}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1546839083}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2011416988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2011416986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f328310f90e4ca2b03cd6704613f03f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsSelecting: 0
+  IsHovering: 0
+  HoveredObject: {fileID: 0}
+  CustomStandaloneInputModule: {fileID: 806554}
+  cameraManager: {fileID: 1206999167}
+  EditContext: {fileID: 405385889}
+  editMode: 16
+  obstaclePlacement: {fileID: 2087881065}
 --- !u!1 &2013932233
 GameObject:
   m_ObjectHideFlags: 0
@@ -69125,7 +69540,7 @@ MonoBehaviour:
   GlsGroupTrack: {fileID: 1830049620}
   GlsGroupAppearance: {fileID: 11400000, guid: d96a2a34bce3caf34b8e1a392c8adaff, type: 2}
   context: {fileID: 127874572}
-  inputController: {fileID: 622396317}
+  inputController: {fileID: 2011416988}
   easingInputController: {fileID: 171301928}
 --- !u!1 &2057519783
 GameObject:

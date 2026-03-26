@@ -17,16 +17,26 @@ namespace Beatmap.Base
         protected BaseLightRotationEventBoxGroup(
             float time,
             int id,
-            List<BaseLightRotationEventBox> boxes,
-            JSONNode customData = null) : base(time, id, boxes, customData)
+            JSONNode customData = null) : base(time, id, customData)
         {
         }
 
         protected BaseLightRotationEventBoxGroup(BaseLightRotationEventBoxGroup other) : base(
             other.JsonTime,
-            other.ID,
-            other.Boxes.Select(x => x.Clone()).Cast<BaseLightRotationEventBox>().ToList())
+            other.ID)
         {
+            Boxes = other.Boxes.Select(x => x.Clone()).Cast<BaseLightRotationEventBox>().ToList();
+            for (var index = 0; index < Boxes.Count; index++)
+            {
+                var box = Boxes[index];
+                foreach (var evt in box.Events)
+                {
+                    evt.EventBoxData = box;
+                    evt.EventBoxGroupData = this;
+                    evt.BoxIndex = index;
+                    evt.JsonTime = evt.RelativeJsonTime + JsonTime;
+                }
+            }
         }
 
         public override void SetMap(BaseDifficulty map = null)

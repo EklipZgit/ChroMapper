@@ -13,7 +13,7 @@ namespace Beatmap.Base
             };
 
         public override BaseItem Clone() =>
-            new BaseFxEventInt { JsonTime = JsonTime, UsePrevious = UsePrevious, Value = Value };
+            new BaseFxEventInt { RelativeJsonTime = RelativeJsonTime, UsePrevious = UsePrevious, Value = Value };
 
         public override ObjectType ObjectType { get; set; } = ObjectType.Event;
         public override string CustomKeyColor => "Unused";

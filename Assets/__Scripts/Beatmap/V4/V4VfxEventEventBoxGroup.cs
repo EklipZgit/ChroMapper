@@ -23,7 +23,7 @@ namespace Beatmap.V4
             group.ID = node["g"].AsInt;
 
             group.Boxes = node["e"]
-                .AsArray.Linq.Select(x =>
+                .AsArray.Linq.Select((x, i) =>
                 {
                     var boxNode = x.Value;
 
@@ -52,6 +52,7 @@ namespace Beatmap.V4
 
                             evt.EventBoxData = box;
                             evt.EventBoxGroupData = group;
+                            evt.BoxIndex = i;
                             evt.JsonTime = group.JsonTime + evt.RelativeJsonTime;
 
                             var eventIndex = eventNode["i"].AsInt;

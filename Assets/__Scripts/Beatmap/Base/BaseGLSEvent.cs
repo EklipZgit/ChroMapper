@@ -9,11 +9,8 @@ namespace Beatmap.Base
         {
         }
 
-        protected BaseGLSEvent(float time, JSONNode customData = null) : base(time, customData) =>
-            RelativeJsonTime = time;
-
-        protected BaseGLSEvent(BaseGLSEvent other) : base(other.RelativeJsonTime, other.CustomData) =>
-            RelativeJsonTime = other.RelativeJsonTime;
+        protected BaseGLSEvent(float relativeTime, float time, JSONNode customData = null) : base(time, customData) =>
+            RelativeJsonTime = relativeTime;
 
         public float RelativeJsonTime { get; set; }
         public override ObjectType ObjectType { get; set; } = ObjectType.GLSEvent;
@@ -29,5 +26,6 @@ namespace Beatmap.Base
 
         public BaseEventBox EventBoxData;
         public BaseEventBoxGroup EventBoxGroupData;
+        public int BoxIndex = -1;
     }
 }

@@ -31,7 +31,7 @@ namespace Beatmap.Base
             StrobeFade = strobeFade;
         }
 
-        protected BaseLightColorBase(BaseLightColorBase other) : base(other.JsonTime, other.CustomData)
+        protected BaseLightColorBase(BaseLightColorBase other) : base(other.RelativeJsonTime, other.JsonTime, other.CustomData)
         {
             Color = other.Color;
             Brightness = other.Brightness;

@@ -62,20 +62,6 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
     protected override void UpdateContainerData(ObjectContainer con, BaseObject obj)
     {
         var c = con as GLSEventContainer;
-        if (obj is BaseGLSEvent { EventBoxData: not null, EventBoxGroupData: not null } eventData)
-        {
-            c.BoxIndex = eventData.EventBoxGroupData switch
-            {
-                BaseLightColorEventBoxGroup lcebg => lcebg.Boxes.FindIndex(x => x == eventData.EventBoxData),
-                BaseLightRotationEventBoxGroup lrebg => lrebg.Boxes.FindIndex(x => x == eventData.EventBoxData),
-                BaseLightTranslationEventBoxGroup ltebg => ltebg.Boxes.FindIndex(x => x == eventData.EventBoxData),
-                BaseVfxEventEventBoxGroup veebg => veebg.Boxes.FindIndex(x => x == eventData.EventBoxData),
-                _ => -1
-            };
-        }
-        else
-            c.BoxIndex = -1;
-
         con.UpdateGridPosition();
 
         glsEventAppearance.SetAppearance(

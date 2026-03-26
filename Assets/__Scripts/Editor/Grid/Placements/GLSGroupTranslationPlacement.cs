@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Beatmap.Base;
+using Beatmap.Helper;
 using UnityEngine;
 
 public class
@@ -38,8 +39,19 @@ public class
     }
 
     protected override BaseLightTranslationEventBoxGroup GenerateOriginalData() =>
-        new()
-        {
-            Boxes = new() { new BaseLightTranslationEventBox { Events = new[] { new BaseLightTranslationBase() } } }
-        };
+        BeatmapFactory.Clone(
+            new BaseLightTranslationEventBoxGroup()
+            {
+                Boxes = new()
+                {
+                    new BaseLightTranslationEventBox { Events = new[] { new BaseLightTranslationBase() } }
+                }
+            });
+
+    protected override void HandlePlacementToData(PlacementInputState inputState)
+    {
+        base.HandlePlacementToData(inputState);
+        foreach (var evt in QueuedData.Boxes.SelectMany(box => box.Events))
+            evt.JsonTime = QueuedData.JsonTime + evt.RelativeJsonTime;
+    }
 }

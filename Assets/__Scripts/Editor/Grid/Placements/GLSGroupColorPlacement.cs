@@ -1,4 +1,6 @@
-﻿using Beatmap.Base;
+﻿using System.Linq;
+using Beatmap.Base;
+using Beatmap.Helper;
 using UnityEngine;
 
 public class GLSGroupColorPlacement : GLSGroupPlacement<BaseLightColorEventBoxGroup, GLSGroupColorGridContainer>
@@ -51,11 +53,19 @@ public class GLSGroupColorPlacement : GLSGroupPlacement<BaseLightColorEventBoxGr
     }
 
     protected override BaseLightColorEventBoxGroup GenerateOriginalData() =>
-        new()
-        {
-            Boxes = new()
+        BeatmapFactory.Clone(
+            new BaseLightColorEventBoxGroup
             {
-                new BaseLightColorEventBox { Events = new[] { new BaseLightColorBase { Brightness = 1f } } }
-            }
-        };
+                Boxes = new()
+                {
+                    new BaseLightColorEventBox { Events = new[] { new BaseLightColorBase { Brightness = 1f } } }
+                }
+            });
+
+    protected override void HandlePlacementToData(PlacementInputState inputState)
+    {
+        base.HandlePlacementToData(inputState);
+        foreach (var evt in QueuedData.Boxes.SelectMany(box => box.Events))
+            evt.JsonTime = QueuedData.JsonTime + evt.RelativeJsonTime;
+    }
 }

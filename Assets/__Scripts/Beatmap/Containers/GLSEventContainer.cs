@@ -17,10 +17,6 @@ namespace Beatmap.Containers
         [SerializeField] public TracksDefinitionSO TracksDefinition;
 
         public BaseGLSEvent EventData;
-        [NonSerialized] public int BoxIndex = -1;
-
-        public override int ChunkID =>
-            (int)((EventData.EventBoxGroupData.JsonTime + ObjectData.JsonTime) / Intersections.ChunkSize);
 
         public override BaseObject ObjectData { get => EventData; set => EventData = (BaseGLSEvent)value; }
 
@@ -52,7 +48,7 @@ namespace Beatmap.Containers
         public override void UpdateGridPosition()
         {
             transform.localPosition = new Vector3(
-                0.5f + BoxIndex,
+                0.5f + EventData.BoxIndex,
                 0.5f,
                 EventData.SongBpmTime * EditorScaleController.EditorScale);
             UpdateCollisionGroups();

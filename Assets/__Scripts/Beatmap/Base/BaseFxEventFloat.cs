@@ -17,7 +17,10 @@ namespace Beatmap.Base
             };
 
         public override BaseItem Clone() =>
-            new BaseFxEventFloat { JsonTime = JsonTime, UsePrevious = UsePrevious, Value = Value, Easing = Easing };
+            new BaseFxEventFloat
+            {
+                RelativeJsonTime = RelativeJsonTime, UsePrevious = UsePrevious, Value = Value, Easing = Easing
+            };
 
         public bool Equals(BaseFxEventFloat other)
         {

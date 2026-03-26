@@ -19,13 +19,14 @@ namespace Beatmap.V3
             group.Boxes = BaseItem
                 .GetRequiredNode(node, "e")
                 .AsArray.Linq
-                .Select(x =>
+                .Select((x, i) =>
                 {
                     var box = V3LightTranslationEventBox.GetFromJson(x);
                     foreach (var evt in box.Events)
                     {
                         evt.EventBoxGroupData = group;
                         evt.EventBoxData = box;
+                        evt.BoxIndex = i;
                         evt.JsonTime = group.JsonTime;
                     }
 

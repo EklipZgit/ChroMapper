@@ -33,11 +33,12 @@ namespace Beatmap.Base
         {
         }
 
-        protected BaseEventBoxGroup(float time, int id, List<TBox> boxes, JSONNode customData = null) : base(
+        protected BaseEventBoxGroup(float time, int id, JSONNode customData = null) : base(
             time,
             id,
-            customData) =>
-            Boxes = boxes;
+            customData)
+        {
+        }
 
         public List<TBox> Boxes = new();
 
