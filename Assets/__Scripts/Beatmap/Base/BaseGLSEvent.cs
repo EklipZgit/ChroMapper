@@ -21,7 +21,7 @@ namespace Beatmap.Base
         public override void RecomputeSongBpmTime()
         {
             if (EventBoxGroupData != null) jsonTime = EventBoxGroupData.JsonTime + RelativeJsonTime;
-            songBpmTime = Map?.JsonTimeToSongBpmTime(JsonTime);
+            base.RecomputeSongBpmTime();
         }
 
         public override string CustomKeyColor => "unusedColor";

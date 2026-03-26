@@ -45,46 +45,16 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
 
     private void HandleGroupChanged(BaseEventBoxGroup group)
     {
-        // TODO: giga bad, do it somewhere else in factory
-        MapObjects = group
-            .AbstractBoxes.SelectMany(box =>
+        MapObjects.Clear();
+        MapObjects.AddRange(
+            group switch
             {
-                return box switch
-                {
-                    BaseLightColorEventBox lceb => lceb.Events.Select(evt =>
-                    {
-                        evt.EventBoxGroupData = group;
-                        evt.EventBoxData = box;
-                        return evt;
-                    }),
-                    BaseLightRotationEventBox lreb => lreb.Events.Select(evt =>
-                    {
-                        evt.EventBoxGroupData = group;
-                        evt.EventBoxData = box;
-                        return evt;
-                    }),
-                    BaseLightTranslationEventBox lteb => lteb.Events.Select(evt =>
-                    {
-                        evt.EventBoxGroupData = group;
-                        evt.EventBoxData = box;
-                        return evt;
-                    }),
-                    BaseVfxEventEventBox veeb => veeb.Events.Select(evt =>
-                    {
-                        evt.EventBoxGroupData = group;
-                        evt.EventBoxData = box;
-                        return evt;
-                    }),
-                    _ => Enumerable.Empty<BaseGLSEvent>()
-                };
-            })
-            .Select(evt =>
-            {
-                evt.SetMap(BeatSaberSongContainer.Instance.Map);
-                evt.RecomputeSongBpmTime();
-                return evt;
-            })
-            .ToList();
+                BaseLightColorEventBoxGroup lcebg => lcebg.Boxes.SelectMany(box => box.Events.Select(evt => evt)),
+                BaseLightRotationEventBoxGroup lrebg => lrebg.Boxes.SelectMany(box => box.Events.Select(evt => evt)),
+                BaseLightTranslationEventBoxGroup ltebg => ltebg.Boxes.SelectMany(box => box.Events.Select(evt => evt)),
+                BaseVfxEventEventBoxGroup veebg => veebg.Boxes.SelectMany(box => box.Events.Select(evt => evt)),
+                _ => Enumerable.Empty<BaseGLSEvent>()
+            });
         MapObjects.Sort();
         RefreshPool(true);
     }
@@ -93,9 +63,19 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
     {
         var c = con as GLSEventContainer;
         if (obj is BaseGLSEvent { EventBoxData: not null, EventBoxGroupData: not null } eventData)
-            c.BoxIndex = eventData.EventBoxGroupData.AbstractBoxes.FindIndex(x => x == eventData.EventBoxData);
+        {
+            c.BoxIndex = eventData.EventBoxGroupData switch
+            {
+                BaseLightColorEventBoxGroup lcebg => lcebg.Boxes.FindIndex(x => x == eventData.EventBoxData),
+                BaseLightRotationEventBoxGroup lrebg => lrebg.Boxes.FindIndex(x => x == eventData.EventBoxData),
+                BaseLightTranslationEventBoxGroup ltebg => ltebg.Boxes.FindIndex(x => x == eventData.EventBoxData),
+                BaseVfxEventEventBoxGroup veebg => veebg.Boxes.FindIndex(x => x == eventData.EventBoxData),
+                _ => -1
+            };
+        }
         else
             c.BoxIndex = -1;
+
         con.UpdateGridPosition();
 
         glsEventAppearance.SetAppearance(

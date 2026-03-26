@@ -10,63 +10,73 @@ namespace Beatmap.V4
 {
     public static class V4LightColorEventBoxGroup
     {
-        public static BaseLightColorEventBoxGroup GetFromJson(JSONNode node, IList<BaseIndexFilter> indexFilters,
-            IList<V4CommonData.LightColorEventBox> lightColorEventBoxesCommonData, 
+        public static BaseLightColorEventBoxGroup GetFromJson(
+            JSONNode node,
+            IList<BaseIndexFilter> indexFilters,
+            IList<V4CommonData.LightColorEventBox> lightColorEventBoxesCommonData,
             IList<V4CommonData.LightColorEvent> lightColorEventsCommonData)
         {
             var group = new BaseLightColorEventBoxGroup();
-            
+
             group.JsonTime = node["b"].AsFloat;
             group.ID = node["g"].AsInt;
 
             var boxEvents = node["e"].AsArray;
-            group.Boxes = boxEvents.Linq.Select(x =>
-            {
-                var boxNode = x.Value;
+            group.Boxes = boxEvents
+                .Linq.Select(x =>
+                {
+                    var boxNode = x.Value;
 
-                var box = new BaseLightColorEventBox();
-                
-                var filterIndex = boxNode["f"].AsInt;
-                box.IndexFilter = (BaseIndexFilter)indexFilters[filterIndex].Clone();
+                    var box = new BaseLightColorEventBox();
 
-                var boxIndex = boxNode["e"].AsInt;
-                var commonBoxData = lightColorEventBoxesCommonData[boxIndex];
-                box.BeatDistribution = commonBoxData.BeatDistribution;
-                box.BeatDistributionType = commonBoxData.BeatDistributionType;
-                box.BrightnessDistribution = commonBoxData.BrightnessDistribution;
-                box.BrightnessDistributionType = commonBoxData.BrightnessDistributionType;
-                box.BrightnessAffectFirst = commonBoxData.BrightnessAffectFirst;
-                box.Easing = commonBoxData.Easing;
+                    var filterIndex = boxNode["f"].AsInt;
+                    box.IndexFilter = (BaseIndexFilter)indexFilters[filterIndex].Clone();
 
-                box.Events = boxNode["l"].AsArray.Linq.Select(
-                    x =>
-                    {
-                        var eventNode = x.Value;
-                        
-                        var evt = new BaseLightColorBase();
-                        evt.JsonTime = evt.RelativeJsonTime = eventNode["b"].AsFloat;
+                    var boxIndex = boxNode["e"].AsInt;
+                    var commonBoxData = lightColorEventBoxesCommonData[boxIndex];
+                    box.BeatDistribution = commonBoxData.BeatDistribution;
+                    box.BeatDistributionType = commonBoxData.BeatDistributionType;
+                    box.BrightnessDistribution = commonBoxData.BrightnessDistribution;
+                    box.BrightnessDistributionType = commonBoxData.BrightnessDistributionType;
+                    box.BrightnessAffectFirst = commonBoxData.BrightnessAffectFirst;
+                    box.Easing = commonBoxData.Easing;
 
-                        var eventIndex = eventNode["i"].AsInt;
-                        var commonEventData = lightColorEventsCommonData[eventIndex];
+                    box.Events = boxNode["l"]
+                        .AsArray.Linq.Select(x =>
+                        {
+                            var eventNode = x.Value;
 
-                        evt.Color = commonEventData.Color;
-                        evt.Brightness = commonEventData.Brightness;
-                        evt.Easing = commonEventData.Easing;
-                        evt.UsePrevious = commonEventData.UsePrevious;
-                        evt.Frequency = commonEventData.Frequency;
-                        evt.StrobeBrightness = commonEventData.StrobeBrightness;
-                        evt.StrobeFade = commonEventData.StrobeFade;
-                        
-                        return evt;
-                    }).ToArray();
+                            var evt = new BaseLightColorBase();
+                            evt.RelativeJsonTime = eventNode["b"].AsFloat;
 
-                return box;
-            }).ToList();
+                            evt.EventBoxData = box;
+                            evt.EventBoxGroupData = group;
+                            evt.JsonTime = group.JsonTime + evt.RelativeJsonTime;
+
+                            var eventIndex = eventNode["i"].AsInt;
+                            var commonEventData = lightColorEventsCommonData[eventIndex];
+
+                            evt.Color = commonEventData.Color;
+                            evt.Brightness = commonEventData.Brightness;
+                            evt.Easing = commonEventData.Easing;
+                            evt.UsePrevious = commonEventData.UsePrevious;
+                            evt.Frequency = commonEventData.Frequency;
+                            evt.StrobeBrightness = commonEventData.StrobeBrightness;
+                            evt.StrobeFade = commonEventData.StrobeFade;
+
+                            return evt;
+                        })
+                        .ToArray();
+
+                    return box;
+                })
+                .ToList();
 
             return group;
         }
 
-        public static JSONNode ToJson(BaseLightColorEventBoxGroup group,
+        public static JSONNode ToJson(
+            BaseLightColorEventBoxGroup group,
             IList<V4CommonData.IndexFilter> indexFiltersCommonData,
             IList<V4CommonData.LightColorEventBox> lightColorEventBoxesCommonData,
             IList<V4CommonData.LightColorEvent> lightColorEventsCommonData)
@@ -75,7 +85,7 @@ namespace Beatmap.V4
             node["b"] = group.JsonTime;
             node["g"] = group.ID;
             node["t"] = 1;
-            
+
             var boxArray = new JSONArray();
 
             foreach (var boxEvent in group.Boxes)
@@ -95,12 +105,12 @@ namespace Beatmap.V4
                     eventNode["b"] = evt.RelativeJsonTime;
                     eventNode["i"] =
                         lightColorEventsCommonData.IndexOf(V4CommonData.LightColorEvent.FromBaseLightColorEvent(evt));
-                    
+
                     eventArray.Add(eventNode);
                 }
 
                 boxNode["l"] = eventArray;
-                
+
                 boxArray.Add(boxNode);
             }
 

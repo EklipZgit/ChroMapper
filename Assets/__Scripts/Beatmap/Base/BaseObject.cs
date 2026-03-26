@@ -50,7 +50,7 @@ namespace Beatmap.Base
             CustomData = customData;
         }
 
-        public void SetMap(BaseDifficulty map = null)
+        public virtual void SetMap(BaseDifficulty map = null)
         {
             if (map != null)
             {

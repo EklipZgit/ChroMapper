@@ -30,6 +30,18 @@ namespace Beatmap.Base
         {
         }
 
+        public override void SetMap(BaseDifficulty map = null)
+        {
+            base.SetMap(map);
+            foreach (var evt in Boxes.SelectMany(box => box.Events)) evt.SetMap(map);
+        }
+
+        public override void RecomputeSongBpmTime()
+        {
+            base.RecomputeSongBpmTime();
+            foreach (var evt in Boxes.SelectMany(box => box.Events)) evt.RecomputeSongBpmTime();
+        }
+
         public override string CustomKeyColor { get; } = "unusedKeyColor";
         public override string CustomKeyTrack { get; } = "unusedKeyTrack";
 

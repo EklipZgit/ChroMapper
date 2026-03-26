@@ -11,28 +11,30 @@ namespace Beatmap.V4
 {
     public static class V4VfxEventEventBoxGroup
     {
-        public static BaseVfxEventEventBoxGroup GetFromJson(JSONNode node,
+        public static BaseVfxEventEventBoxGroup GetFromJson(
+            JSONNode node,
             IList<BaseIndexFilter> indexFilters,
             IList<V4CommonData.FxEventBox> fxEventBoxesCommonData,
             IList<V4CommonData.FloatFxEvent> floatFxEventsCommonData)
         {
-            var vfxGroup = new BaseVfxEventEventBoxGroup();
-            
-            vfxGroup.JsonTime = node["b"].AsFloat;
-            vfxGroup.ID = node["g"].AsInt;
+            var group = new BaseVfxEventEventBoxGroup();
 
-            vfxGroup.Boxes = node["e"].AsArray.Linq.Select(x =>
+            group.JsonTime = node["b"].AsFloat;
+            group.ID = node["g"].AsInt;
+
+            group.Boxes = node["e"]
+                .AsArray.Linq.Select(x =>
                 {
                     var boxNode = x.Value;
 
                     var box = new BaseVfxEventEventBox();
-                    
+
                     var filterIndex = boxNode["f"].AsInt;
                     box.IndexFilter = (BaseIndexFilter)indexFilters[filterIndex].Clone();
 
                     var boxIndex = boxNode["e"].AsInt;
                     var boxCommonData = fxEventBoxesCommonData[boxIndex];
-                    
+
                     box.BeatDistribution = boxCommonData.BeatDistribution;
                     box.BeatDistributionType = boxCommonData.BeatDistributionType;
                     box.VfxDistribution = boxCommonData.FxDistribution;
@@ -40,43 +42,49 @@ namespace Beatmap.V4
                     box.VfxAffectFirst = boxCommonData.FxAffectFirst;
                     box.Easing = boxCommonData.Easing;
 
-
-                    box.Events = boxNode["l"].AsArray.Linq.Select(
-                        y =>
+                    box.Events = boxNode["l"]
+                        .AsArray.Linq.Select(y =>
                         {
                             var eventNode = y.Value;
-                        
+
                             var evt = new BaseFxEventFloat();
-                            evt.JsonTime = evt.RelativeJsonTime = eventNode["b"].AsFloat;
+                            evt.RelativeJsonTime = eventNode["b"].AsFloat;
+
+                            evt.EventBoxData = box;
+                            evt.EventBoxGroupData = group;
+                            evt.JsonTime = group.JsonTime + evt.RelativeJsonTime;
 
                             var eventIndex = eventNode["i"].AsInt;
                             var commonEventData = floatFxEventsCommonData[eventIndex];
-                        
+
                             evt.Value = commonEventData.Value;
                             evt.UsePrevious = commonEventData.TransitionType;
                             evt.Easing = commonEventData.Easing;
-                        
+
                             return evt;
-                        }).ToArray();
-                    
+                        })
+                        .ToArray();
+
                     return box;
                 })
                 .ToList();
 
-            vfxGroup.CustomData = node["customData"];
+            group.CustomData = node["customData"];
 
-            return vfxGroup;
+            return group;
         }
-        public static JSONNode ToJson(BaseVfxEventEventBoxGroup group,
+
+        public static JSONNode ToJson(
+            BaseVfxEventEventBoxGroup group,
             IList<V4CommonData.IndexFilter> indexFiltersCommonData,
-            IList<V4CommonData.FxEventBox > fxEventBoxesCommonData,
+            IList<V4CommonData.FxEventBox> fxEventBoxesCommonData,
             IList<V4CommonData.FloatFxEvent> floatFxEventsCommonData)
         {
             JSONNode node = new JSONObject();
             node["b"] = group.JsonTime;
             node["g"] = group.ID;
             node["t"] = 4;
-            
+
             var boxArray = new JSONArray();
 
             foreach (var boxEvent in group.Boxes)
@@ -96,12 +104,12 @@ namespace Beatmap.V4
                     eventNode["b"] = floatEvent.RelativeJsonTime;
                     eventNode["i"] =
                         floatFxEventsCommonData.IndexOf(V4CommonData.FloatFxEvent.FromFloatFxEventBase(floatEvent));
-                    
+
                     eventArray.Add(eventNode);
                 }
 
                 boxNode["l"] = eventArray;
-                
+
                 boxArray.Add(boxNode);
             }
 

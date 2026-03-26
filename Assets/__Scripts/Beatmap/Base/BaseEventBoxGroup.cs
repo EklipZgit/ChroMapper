@@ -13,17 +13,12 @@ namespace Beatmap.Base
         {
         }
 
-        protected BaseEventBoxGroup(float time, int id, List<BaseEventBox> boxes, JSONNode customData = null) : base(
+        protected BaseEventBoxGroup(float time, int id, JSONNode customData = null) : base(
             time,
-            customData)
-        {
+            customData) =>
             ID = id;
-            AbstractBoxes = boxes;
-        }
 
         public int ID;
-
-        public List<BaseEventBox> AbstractBoxes { get; set; } = new();
 
         protected override bool IsConflictingWithObjectAtSameTime(BaseObject other, bool deletion = false)
         {
@@ -41,16 +36,10 @@ namespace Beatmap.Base
         protected BaseEventBoxGroup(float time, int id, List<TBox> boxes, JSONNode customData = null) : base(
             time,
             id,
-            boxes.Cast<BaseEventBox>().ToList(),
-            customData)
-        {
-        }
+            customData) =>
+            Boxes = boxes;
 
-        public List<TBox> Boxes
-        {
-            get => AbstractBoxes.Cast<TBox>().ToList();
-            set => AbstractBoxes = value.Cast<BaseEventBox>().ToList();
-        }
+        public List<TBox> Boxes = new();
 
         public override int CompareTo(BaseObject other)
         {

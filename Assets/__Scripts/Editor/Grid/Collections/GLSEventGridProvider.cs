@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Beatmap.Base;
 using Beatmap.Enums;
 using TMPro;
@@ -72,7 +73,16 @@ public class GLSEventGridProvider : MonoBehaviour
             return;
         }
 
-        gridLane.Lane = groupContext.AbstractBoxes.Count;
+        var boxes = groupContext switch
+        {
+            BaseLightColorEventBoxGroup lcebg => lcebg.Boxes.Cast<BaseEventBox>().ToList(),
+            BaseLightRotationEventBoxGroup lrebg => lrebg.Boxes.Cast<BaseEventBox>().ToList(),
+            BaseLightTranslationEventBoxGroup ltebg => ltebg.Boxes.Cast<BaseEventBox>().ToList(),
+            BaseVfxEventEventBoxGroup veebg => veebg.Boxes.Cast<BaseEventBox>().ToList(),
+            _ => Enumerable.Empty<BaseEventBox>().ToList()
+        };
+
+        gridLane.Lane = boxes.Count;
 
         while (usedLabels.TryPop(out var label))
         {
@@ -80,7 +90,7 @@ public class GLSEventGridProvider : MonoBehaviour
             reuseLabels.Push(label);
         }
 
-        for (var i = 0; i < groupContext.AbstractBoxes.Count; i++)
+        for (var i = 0; i < boxes.Count; i++)
         {
             if (!reuseLabels.TryPop(out var label)) label = Instantiate(labelPrefab, targetCanvas);
             usedLabels.Push(label);
@@ -89,7 +99,7 @@ public class GLSEventGridProvider : MonoBehaviour
             pos.x = i;
             label.rectTransform.localPosition = pos;
 
-            var box = groupContext.AbstractBoxes[i];
+            var box = boxes[i];
             var filter = box.IndexFilter;
             label.SetText(
                 $"[{i + 1}]\n\n{DistributionTypeToString(box.BeatDistributionType)}\n[{box.BeatDistribution}]\n\n{FilterTypeToString(filter.Type)}\n[{filter.Param0},{filter.Param1}]");

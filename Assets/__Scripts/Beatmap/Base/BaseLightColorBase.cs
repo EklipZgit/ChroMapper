@@ -58,6 +58,7 @@ namespace Beatmap.Base
         protected override bool IsConflictingWithObjectAtSameTime(BaseObject other, bool deletion = false)
         {
             if (other is BaseLightColorBase lcb)
+            {
                 return Color == lcb.Color
                     || Math.Abs(Brightness - lcb.Brightness) < DecimalTolerance
                     || Easing == lcb.Easing
@@ -65,6 +66,8 @@ namespace Beatmap.Base
                     || Frequency == lcb.Frequency
                     || Math.Abs(StrobeBrightness - lcb.StrobeBrightness) < DecimalTolerance
                     || StrobeFade == lcb.StrobeFade;
+            }
+
             return false;
         }
 

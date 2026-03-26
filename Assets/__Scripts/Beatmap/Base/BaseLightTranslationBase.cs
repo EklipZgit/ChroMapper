@@ -42,9 +42,12 @@ namespace Beatmap.Base
         protected override bool IsConflictingWithObjectAtSameTime(BaseObject other, bool deletion = false)
         {
             if (other is BaseLightTranslationBase lrb)
+            {
                 return Math.Abs(Translation - lrb.Translation) < DecimalTolerance
                     || EaseType == lrb.EaseType
                     || UsePrevious == lrb.UsePrevious;
+            }
+
             return false;
         }
 

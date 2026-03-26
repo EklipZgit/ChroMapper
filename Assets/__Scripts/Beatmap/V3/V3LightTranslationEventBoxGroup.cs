@@ -14,16 +14,24 @@ namespace Beatmap.V3
         {
             var group = new BaseLightTranslationEventBoxGroup
             {
-                JsonTime = node["b"].AsFloat,
-                ID = node["g"].AsInt,
-                Boxes = new List<BaseLightTranslationEventBox>(
-                    BaseItem
-                        .GetRequiredNode(node, "e")
-                        .AsArray.Linq
-                        .Select(x => V3LightTranslationEventBox.GetFromJson(x, node["b"].AsFloat))
-                        .ToList()),
-                CustomData = node["customData"]
+                JsonTime = node["b"].AsFloat, ID = node["g"].AsInt, CustomData = node["customData"]
             };
+            group.Boxes = BaseItem
+                .GetRequiredNode(node, "e")
+                .AsArray.Linq
+                .Select(x =>
+                {
+                    var box = V3LightTranslationEventBox.GetFromJson(x);
+                    foreach (var evt in box.Events)
+                    {
+                        evt.EventBoxGroupData = group;
+                        evt.EventBoxData = box;
+                        evt.JsonTime = group.JsonTime;
+                    }
+
+                    return box;
+                })
+                .ToList();
 
             return group;
         }

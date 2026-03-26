@@ -4,6 +4,7 @@ using Beatmap.Enums;
 using Beatmap.V3;
 using Beatmap.V4;
 using SimpleJSON;
+using UnityEngine;
 
 namespace Beatmap.Base
 {
@@ -28,6 +29,18 @@ namespace Beatmap.Base
             other.ID,
             other.Boxes.Select(x => x.Clone()).Cast<BaseLightColorEventBox>().ToList())
         {
+        }
+
+        public override void SetMap(BaseDifficulty map = null)
+        {
+            base.SetMap(map);
+            foreach (var evt in Boxes.SelectMany(box => box.Events)) evt.SetMap(map);
+        }
+
+        public override void RecomputeSongBpmTime()
+        {
+            base.RecomputeSongBpmTime();
+            foreach (var evt in Boxes.SelectMany(box => box.Events)) evt.RecomputeSongBpmTime();
         }
 
         public override JSONNode ToJson() =>

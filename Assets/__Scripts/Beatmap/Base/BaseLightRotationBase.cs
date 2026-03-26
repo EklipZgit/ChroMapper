@@ -51,11 +51,14 @@ namespace Beatmap.Base
         protected override bool IsConflictingWithObjectAtSameTime(BaseObject other, bool deletion = false)
         {
             if (other is BaseLightRotationBase lrb)
+            {
                 return Math.Abs(Rotation - lrb.Rotation) < DecimalTolerance
                     || Direction == lrb.Direction
                     || EaseType == lrb.EaseType
                     || Loop == lrb.Loop
                     || UsePrevious == lrb.UsePrevious;
+            }
+
             return false;
         }
 

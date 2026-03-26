@@ -13,21 +13,31 @@ namespace Beatmap.V3
     {
         public static BaseVfxEventEventBoxGroup GetFromJson(JSONNode node, IList<BaseFxEventFloat> floatFxEvents)
         {
-            var vfxGroup = new BaseVfxEventEventBoxGroup
+            var group = new BaseVfxEventEventBoxGroup
             {
                 JsonTime = node["b"].AsFloat,
                 ID = node["g"].AsInt,
                 Type = node["t"].AsInt,
-                Boxes = new List<BaseVfxEventEventBox>(
-                    BaseItem
-                        .GetRequiredNode(node, "e")
-                        .AsArray.Linq
-                        .Select(x => V3VfxEventEventBox.GetFromJson(x.Value, floatFxEvents, node["b"].AsFloat))
-                        .ToList()),
                 CustomData = node["customData"]
             };
+            group.Boxes = BaseItem
+                .GetRequiredNode(node, "e")
+                .AsArray.Linq
+                .Select(x =>
+                {
+                    var box = V3VfxEventEventBox.GetFromJson(x.Value, floatFxEvents);
+                    foreach (var evt in box.Events)
+                    {
+                        evt.EventBoxGroupData = group;
+                        evt.EventBoxData = box;
+                        evt.JsonTime = group.JsonTime;
+                    }
 
-            return vfxGroup;
+                    return box;
+                })
+                .ToList();
+
+            return group;
         }
 
         public static JSONNode ToJson(

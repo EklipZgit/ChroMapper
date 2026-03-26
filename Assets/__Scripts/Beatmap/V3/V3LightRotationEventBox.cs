@@ -6,7 +6,7 @@ namespace Beatmap.V3
 {
     public static class V3LightRotationEventBox
     {
-        public static BaseLightRotationEventBox GetFromJson(JSONNode node, float groupTime)
+        public static BaseLightRotationEventBox GetFromJson(JSONNode node)
         {
             var box = new BaseLightRotationEventBox();
 
@@ -21,12 +21,7 @@ namespace Beatmap.V3
             box.Easing = node["i"].AsInt;
             box.Events = BaseItem
                 .GetRequiredNode(node, "l")
-                .AsArray.Linq.Select(x =>
-                {
-                    var evt = V3LightRotationBase.GetFromJson(x.Value);
-                    evt.JsonTime += groupTime;
-                    return evt;
-                })
+                .AsArray.Linq.Select(x => V3LightRotationBase.GetFromJson(x.Value))
                 .ToArray();
 
             return box;

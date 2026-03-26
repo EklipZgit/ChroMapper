@@ -9,7 +9,7 @@ namespace Beatmap.V3
 {
     public static class V3VfxEventEventBox
     {
-        public static BaseVfxEventEventBox GetFromJson(JSONNode node, IList<BaseFxEventFloat> floatFxEvents, float groupTime)
+        public static BaseVfxEventEventBox GetFromJson(JSONNode node, IList<BaseFxEventFloat> floatFxEvents)
         {
             var vfxBox = new BaseVfxEventEventBox();
             
@@ -27,7 +27,6 @@ namespace Beatmap.V3
                 { 
                     var floatFxIndex = x.Value.AsInt;
                     var floatFxEvent = (BaseFxEventFloat)floatFxEvents[floatFxIndex].Clone();
-                    floatFxEvent.JsonTime += groupTime;
                     return floatFxEvent;
                 }).ToArray();
             }
