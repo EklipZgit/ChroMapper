@@ -1805,6 +1805,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BeatmapContext: {fileID: 127874572}
   EditContext: {fileID: 405385889}
+  ViewableMode: 1
   SpawnCallbackController: {fileID: 1760665545}
   DespawnCallbackController: {fileID: 1288723589}
   TargetTransform: {fileID: 1300313309}
@@ -1830,6 +1831,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BeatmapContext: {fileID: 127874572}
   EditContext: {fileID: 405385889}
+  ViewableMode: 1
   SpawnCallbackController: {fileID: 1760665545}
   DespawnCallbackController: {fileID: 1288723589}
   TargetTransform: {fileID: 1300313309}
@@ -1856,6 +1858,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BeatmapContext: {fileID: 127874572}
   EditContext: {fileID: 405385889}
+  ViewableMode: 1
   SpawnCallbackController: {fileID: 1760665545}
   DespawnCallbackController: {fileID: 1288723589}
   TargetTransform: {fileID: 1300313309}
@@ -1881,6 +1884,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BeatmapContext: {fileID: 127874572}
   EditContext: {fileID: 405385889}
+  ViewableMode: 1
   SpawnCallbackController: {fileID: 1760665545}
   DespawnCallbackController: {fileID: 1288723589}
   TargetTransform: {fileID: 1300313309}
@@ -6098,6 +6102,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BeatmapContext: {fileID: 127874572}
   EditContext: {fileID: 405385889}
+  ViewableMode: 0
   SpawnCallbackController: {fileID: 1760665545}
   DespawnCallbackController: {fileID: 1288723589}
   TargetTransform: {fileID: 185723089}
@@ -14234,7 +14239,7 @@ GameObject:
   - component: {fileID: 455316407}
   - component: {fileID: 455316408}
   m_Layer: 0
-  m_Name: GLS Color Collection
+  m_Name: GLS Group Color Collection
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14269,6 +14274,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BeatmapContext: {fileID: 127874572}
   EditContext: {fileID: 405385889}
+  ViewableMode: 4
   SpawnCallbackController: {fileID: 1760665545}
   DespawnCallbackController: {fileID: 1288723589}
   TargetTransform: {fileID: 1529298933}
@@ -14327,6 +14333,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BeatmapContext: {fileID: 127874572}
   EditContext: {fileID: 405385889}
+  ViewableMode: 8
   SpawnCallbackController: {fileID: 1760665545}
   DespawnCallbackController: {fileID: 1288723589}
   TargetTransform: {fileID: 1432871737}
@@ -16103,7 +16110,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -62.50693}
+  m_AnchoredPosition: {x: 0, y: -62.509098}
   m_SizeDelta: {x: 190, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &494425897
@@ -35257,7 +35264,7 @@ GameObject:
   - component: {fileID: 1029119607}
   - component: {fileID: 1029119608}
   m_Layer: 0
-  m_Name: GLS Translation Collection
+  m_Name: GLS Group Translation Collection
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35292,6 +35299,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BeatmapContext: {fileID: 127874572}
   EditContext: {fileID: 405385889}
+  ViewableMode: 4
   SpawnCallbackController: {fileID: 1760665545}
   DespawnCallbackController: {fileID: 1288723589}
   TargetTransform: {fileID: 1529298933}
@@ -37811,6 +37819,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BeatmapContext: {fileID: 127874572}
   EditContext: {fileID: 405385889}
+  ViewableMode: 1
   SpawnCallbackController: {fileID: 1760665545}
   DespawnCallbackController: {fileID: 1288723589}
   TargetTransform: {fileID: 754997518}
@@ -53641,7 +53650,7 @@ GameObject:
   - component: {fileID: 1613377959}
   - component: {fileID: 1613377960}
   m_Layer: 0
-  m_Name: GLS Rotation Collection
+  m_Name: GLS Group Rotation Collection
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -53676,6 +53685,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BeatmapContext: {fileID: 127874572}
   EditContext: {fileID: 405385889}
+  ViewableMode: 4
   SpawnCallbackController: {fileID: 1760665545}
   DespawnCallbackController: {fileID: 1288723589}
   TargetTransform: {fileID: 1529298933}
@@ -55179,7 +55189,7 @@ GameObject:
   - component: {fileID: 1642563811}
   - component: {fileID: 1642563812}
   m_Layer: 0
-  m_Name: GLS FloatFX Collection
+  m_Name: GLS Group FloatFX Collection
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -55214,6 +55224,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BeatmapContext: {fileID: 127874572}
   EditContext: {fileID: 405385889}
+  ViewableMode: 4
   SpawnCallbackController: {fileID: 1760665545}
   DespawnCallbackController: {fileID: 1288723589}
   TargetTransform: {fileID: 1529298933}
@@ -55408,6 +55419,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BeatmapContext: {fileID: 127874572}
   EditContext: {fileID: 405385889}
+  ViewableMode: 1
   SpawnCallbackController: {fileID: 1760665545}
   DespawnCallbackController: {fileID: 1288723589}
   TargetTransform: {fileID: 558332998}
@@ -64372,6 +64384,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BeatmapContext: {fileID: 127874572}
   EditContext: {fileID: 405385889}
+  ViewableMode: 1
   SpawnCallbackController: {fileID: 1760665545}
   DespawnCallbackController: {fileID: 1288723589}
   TargetTransform: {fileID: 664104246}

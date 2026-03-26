@@ -28,6 +28,7 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
 
     [Header("Dependencies")] public BeatmapRuntimeContext BeatmapContext;
     public EditModeContext EditContext;
+    public EditingMode ViewableMode = (EditingMode)byte.MaxValue;
 
     /// <summary>
     ///     Loaded objects in this collection.
@@ -74,6 +75,8 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
     {
         UpdateEpsilon(Settings.Instance.TimeValueDecimalPrecision);
         Settings.NotifyBySettingName("TimeValueDecimalPrecision", UpdateEpsilon);
+        EditContext.OnEditModeChanged += HandleEditModeChanged;
+        HandleEditModeChanged(EditContext.EditingMode);
     }
 
     internal virtual void LateUpdate()
@@ -95,7 +98,10 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
     {
         loadedCollections.Remove(ContainerType);
         UnsubscribeToCallbacks();
+        EditContext.OnEditModeChanged -= HandleEditModeChanged;
     }
+
+    private void HandleEditModeChanged(EditingMode mode) => enabled = ViewableMode.HasFlag(mode);
 
     private void UpdateEpsilon(object precision)
     {
