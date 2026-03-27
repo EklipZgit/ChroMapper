@@ -16,6 +16,7 @@ public class KeybindUpdateUIController : MonoBehaviour, CMInput.IWorkflowsAction
     [SerializeField] private ColorTypeController colorType;
     [SerializeField] private Toggle redToggle;
     [SerializeField] private Toggle blueToggle;
+    [SerializeField] private Toggle whiteToggle;
     [SerializeField] private GameObject precisionRotationContainer;
 
     private void Awake() => UpdatePrecisionRotationGameObjectState();
@@ -88,10 +89,11 @@ public class KeybindUpdateUIController : MonoBehaviour, CMInput.IWorkflowsAction
         if (!context.performed) return;
         if (eventPlacement.QueuedData.IsWhite) return;
 
-        if (colorType.LeftSelectedEnabled())
-            blueToggle.onValueChanged.Invoke(true);
-        else
+        if (colorType.LeftSelectedEnabled()) blueToggle.onValueChanged.Invoke(true);
+        if (colorType.RightSelectedEnabled())
             redToggle.onValueChanged.Invoke(true);
+        else
+            whiteToggle.onValueChanged.Invoke(true);
         lightMode.UpdateValue();
     }
 

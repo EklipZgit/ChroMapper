@@ -86,7 +86,7 @@ public class CMInputCallbackInstaller : MonoBehaviour
     //Here we will clear and process any queued list of types to disable or enable.
     private void Update()
     {
-        if (queuedToDisable.Any())
+        if (queuedToDisable.Count > 0)
         {
             foreach (var queueInfo in queuedToDisable)
             {
@@ -112,7 +112,7 @@ public class CMInputCallbackInstaller : MonoBehaviour
             queuedToDisable.Clear();
         }
 
-        if (queuedToEnable.Any())
+        if (queuedToEnable.Count > 0)
         {
             foreach (var queueInfo in queuedToEnable)
             {

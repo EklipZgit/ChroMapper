@@ -31,39 +31,18 @@ public class LightingModeController : MonoBehaviour
     [SerializeField] private Sprite lockedSprite;
     [SerializeField] private Sprite unlockedSprite;
     private LightingMode currentMode;
-    private bool modeLocked;
 
     private void Start()
     {
         lightingPicker.Initialize(typeof(LightingMode));
-        SetLocked(false);
         lightingPicker.OnClick += UpdateMode;
     }
 
     public void SetMode(Enum lightingMode)
     {
-        if (modeLocked)
-            return;
         lightingPicker.Select(lightingMode);
         UpdateMode(lightingMode);
     }
-
-    public void SetLocked(bool locked)
-    {
-        modeLocked = locked;
-        lightingPicker.Locked = modeLocked;
-
-        if (modeLock is Image img)
-        {
-            img.sprite = modeLocked ? lockedSprite : unlockedSprite;
-        }
-        else if (modeLock is Unity.VectorGraphics.SVGImage svg)
-        {
-            svg.sprite = modeLocked ? lockedSprite : unlockedSprite;
-        }
-    }
-
-    public void ToggleLock() => SetLocked(!modeLocked);
 
     public void UpdateValue()
     {

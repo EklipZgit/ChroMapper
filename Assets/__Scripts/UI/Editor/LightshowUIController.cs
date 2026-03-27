@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlatformToggleLightshowMode : MonoBehaviour
+public class LightshowUIController : MonoBehaviour
 {
     [SerializeField] private AudioTimeSyncController atsc;
     [SerializeField] private LightshowController lightshowController;

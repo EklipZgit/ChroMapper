@@ -14,5 +14,5 @@ public class HideOnEditModeChange : MonoBehaviour
 
     private void OnDestroy() => editModeContext.OnEditModeChanged -= HandleEditModeChanged;
 
-    private void HandleEditModeChanged(EditingMode mode) => target.SetActive(visible.HasFlag(mode));
+    private void HandleEditModeChanged(EditingMode mode) => target.SetActive((visible & mode) > 0);
 }
