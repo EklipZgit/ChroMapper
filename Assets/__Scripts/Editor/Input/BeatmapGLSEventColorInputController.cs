@@ -1,63 +1,44 @@
 ﻿using System;
 using Beatmap.Base;
 using Beatmap.Enums;
-using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputController<BaseLightColorBase>,
                                                    CMInput.IGLSColorObjectsActions
 {
     public event Action<int> OnColorChanged;
-    public event Action<bool> OnExtensionPerformed;
     public event Action<float> OnBrightnessChanged;
-    public event Action<float> OnBrightnessDeltaChanged;
-    public event Action<int> OnEasingChanged;
-    public event Action<int> OnStrobeChanged;
-    public event Action<int> OnSoftStrobeChanged;
-    public event Action<float> OnStrobeFrequencyChanged;
-    public event Action<float> OnStrobeFrequencyDeltaChanged;
+    public event Action<int> OnStrobeFrequencyChanged;
     public event Action<float> OnStrobeBrightnessChanged;
-    public event Action<float> OnStrobeBrightnessDeltaChanged;
+    public event Action<int> OnSoftStrobeChanged;
 
     public void OnColor0Light(InputAction.CallbackContext context)
     {
-        if (context.performed)
-        {
-            OnExtensionPerformed?.Invoke(false);
-            OnColorChanged?.Invoke((int)LightColor.Red);
-        }
+        if (context.performed) NotifyColorChanged(LightColor.Red);
     }
 
     public void OnColor1Light(InputAction.CallbackContext context)
     {
-        if (context.performed)
-        {
-            OnExtensionPerformed?.Invoke(false);
-            OnColorChanged?.Invoke((int)LightColor.Blue);
-        }
+        if (context.performed) NotifyColorChanged(LightColor.Blue);
     }
 
     public void OnColorWLight(InputAction.CallbackContext context)
     {
-        if (context.performed)
-        {
-            OnExtensionPerformed?.Invoke(false);
-            OnColorChanged?.Invoke((int)LightColor.White);
-        }
+        if (context.performed) NotifyColorChanged(LightColor.White);
     }
 
-    public void OnExtensionLight(InputAction.CallbackContext context)
+    public void NotifyColorChanged(LightColor color)
     {
-        if (context.performed) OnExtensionPerformed?.Invoke(true);
+        EasingInputController.NotifyExtensionChanged(0);
+        OnColorChanged?.Invoke((int)color);
     }
 
     public void OnStatic0Brightness(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
-            OnExtensionPerformed?.Invoke(false);
-            OnEasingChanged?.Invoke((int)EaseType.None);
-            OnBrightnessChanged?.Invoke(0f);
+            EasingInputController.NotifyEasingChanged(EaseType.None);
+            NotifyBrightnessChanged(0f);
         }
     }
 
@@ -65,9 +46,8 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
     {
         if (context.performed)
         {
-            OnExtensionPerformed?.Invoke(false);
-            OnEasingChanged?.Invoke((int)EaseType.None);
-            OnBrightnessChanged?.Invoke(.5f);
+            EasingInputController.NotifyEasingChanged(EaseType.None);
+            NotifyBrightnessChanged(.5f);
         }
     }
 
@@ -75,9 +55,8 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
     {
         if (context.performed)
         {
-            OnExtensionPerformed?.Invoke(false);
-            OnEasingChanged?.Invoke((int)EaseType.None);
-            OnBrightnessChanged?.Invoke(1f);
+            EasingInputController.NotifyEasingChanged(EaseType.None);
+            NotifyBrightnessChanged(1f);
         }
     }
 
@@ -85,9 +64,8 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
     {
         if (context.performed)
         {
-            OnExtensionPerformed?.Invoke(false);
-            OnEasingChanged?.Invoke((int)EaseType.Linear);
-            OnBrightnessChanged?.Invoke(0f);
+            EasingInputController.NotifyEasingChanged(EaseType.Linear);
+            NotifyBrightnessChanged(0f);
         }
     }
 
@@ -95,9 +73,8 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
     {
         if (context.performed)
         {
-            OnExtensionPerformed?.Invoke(false);
-            OnEasingChanged?.Invoke((int)EaseType.Linear);
-            OnBrightnessChanged?.Invoke(.5f);
+            EasingInputController.NotifyEasingChanged(EaseType.Linear);
+            NotifyBrightnessChanged(.5f);
         }
     }
 
@@ -105,90 +82,106 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
     {
         if (context.performed)
         {
-            OnExtensionPerformed?.Invoke(false);
-            OnEasingChanged?.Invoke((int)EaseType.Linear);
-            OnBrightnessChanged?.Invoke(1f);
+            EasingInputController.NotifyEasingChanged(EaseType.Linear);
+            NotifyBrightnessChanged(1f);
         }
     }
 
     public void OnSetBrightness0(InputAction.CallbackContext context)
     {
-        if (context.performed) OnBrightnessChanged?.Invoke(0f);
+        if (context.performed) NotifyBrightnessChanged(0f);
     }
 
     public void OnSetBrightness10(InputAction.CallbackContext context)
     {
-        if (context.performed) OnBrightnessChanged?.Invoke(.1f);
+        if (context.performed) NotifyBrightnessChanged(.1f);
     }
 
     public void OnSetBrightness20(InputAction.CallbackContext context)
     {
-        if (context.performed) OnBrightnessChanged?.Invoke(.2f);
+        if (context.performed) NotifyBrightnessChanged(.2f);
     }
 
     public void OnSetBrightness30(InputAction.CallbackContext context)
     {
-        if (context.performed) OnBrightnessChanged?.Invoke(.3f);
+        if (context.performed) NotifyBrightnessChanged(.3f);
     }
 
     public void OnSetBrightness40(InputAction.CallbackContext context)
     {
-        if (context.performed) OnBrightnessChanged?.Invoke(.4f);
+        if (context.performed) NotifyBrightnessChanged(.4f);
     }
 
     public void OnSetBrightness50(InputAction.CallbackContext context)
     {
-        if (context.performed) OnBrightnessChanged?.Invoke(.5f);
+        if (context.performed) NotifyBrightnessChanged(.5f);
     }
 
     public void OnSetBrightness60(InputAction.CallbackContext context)
     {
-        if (context.performed) OnBrightnessChanged?.Invoke(.6f);
+        if (context.performed) NotifyBrightnessChanged(.6f);
     }
 
     public void OnSetBrightness70(InputAction.CallbackContext context)
     {
-        if (context.performed) OnBrightnessChanged?.Invoke(.7f);
+        if (context.performed) NotifyBrightnessChanged(.7f);
     }
 
     public void OnSetBrightness80(InputAction.CallbackContext context)
     {
-        if (context.performed) OnBrightnessChanged?.Invoke(.8f);
+        if (context.performed) NotifyBrightnessChanged(.8f);
     }
 
     public void OnSetBrightness90(InputAction.CallbackContext context)
     {
-        if (context.performed) OnBrightnessChanged?.Invoke(.9f);
+        if (context.performed) NotifyBrightnessChanged(.9f);
     }
 
     public void OnSetBrightness100(InputAction.CallbackContext context)
     {
-        if (context.performed) OnBrightnessChanged?.Invoke(1f);
+        if (context.performed) NotifyBrightnessChanged(1f);
     }
 
     public void OnSetBrightness120(InputAction.CallbackContext context)
     {
-        if (context.performed) OnBrightnessChanged?.Invoke(1.2f);
+        if (context.performed) NotifyBrightnessChanged(1.2f);
     }
 
     public void OnSetBrightness150(InputAction.CallbackContext context)
     {
-        if (context.performed) OnBrightnessChanged?.Invoke(1.5f);
+        if (context.performed) NotifyBrightnessChanged(1.5f);
+    }
+
+    public void OnSetBrightnessPrecise(InputAction.CallbackContext context)
+    {
+        // if (context.performed) OnBrightnessDeltaChanged?.Invoke(Mathf.Sign(context.ReadValue<Vector2>().y));
+    }
+
+    public void NotifyBrightnessChanged(float value)
+    {
+        EasingInputController.NotifyExtensionChanged(0);
+        OnBrightnessChanged?.Invoke(value);
     }
 
     public void OnStrobeOn(InputAction.CallbackContext context)
     {
-        if (context.performed) OnStrobeChanged?.Invoke(1);
+        if (context.performed) NotifyStrobeFrequencyChanged(1);
     }
 
     public void OnStrobeOff(InputAction.CallbackContext context)
     {
-        if (context.performed) OnStrobeChanged?.Invoke(0);
+        if (context.performed) NotifyStrobeFrequencyChanged(0);
+    }
+
+    public void NotifyStrobeFrequencyChanged(int value)
+    {
+        EasingInputController.NotifyExtensionChanged(0);
+        OnStrobeFrequencyChanged?.Invoke(value);
     }
 
     public void OnChangeStrobeFrequencyPrecise(InputAction.CallbackContext context)
     {
-        if (context.performed) OnStrobeFrequencyDeltaChanged?.Invoke(context.ReadValue<Vector2>().y);
+        // if (context.performed) OnStrobeFrequencyDeltaChanged?.Invoke(Mathf.Sign(context.ReadValue<Vector2>().y));
     }
 
     private int strobeBrightnessCycle = 0;
@@ -200,21 +193,30 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
         {
             strobeBrightnessCycle++;
             strobeBrightnessCycle %= strobeBrightness.Length;
-            OnStrobeBrightnessChanged?.Invoke(strobeBrightness[strobeBrightnessCycle]);
+            NotifyStrobeBrightnessChanged(strobeBrightness[strobeBrightnessCycle]);
         }
+    }
+
+    public void NotifyStrobeBrightnessChanged(float value)
+    {
+        EasingInputController.NotifyExtensionChanged(0);
+        OnStrobeBrightnessChanged?.Invoke(value);
     }
 
     public void OnChangeStrobeBrightnessPrecise(InputAction.CallbackContext context)
     {
-        if (context.performed) OnStrobeBrightnessDeltaChanged?.Invoke(context.ReadValue<Vector2>().y);
+        // if (context.performed) OnStrobeBrightnessDeltaChanged?.Invoke(Mathf.Sign(context.ReadValue<Vector2>().y));
     }
 
     public void OnSoftStrobe(InputAction.CallbackContext context)
     {
-        if (context.performed)
-        {
-            throw new NotImplementedException();
-        }
+        if (context.performed) NotifySoftStrobeChanged(0);
+    }
+
+    public void NotifySoftStrobeChanged(int value)
+    {
+        EasingInputController.NotifyExtensionChanged(0);
+        OnSoftStrobeChanged?.Invoke(value);
     }
 
     public void OnChangeEventColor(InputAction.CallbackContext context)
@@ -223,10 +225,5 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
         {
             throw new NotImplementedException();
         }
-    }
-
-    public void OnSetBrightnessPrecise(InputAction.CallbackContext context)
-    {
-        if (context.performed) OnBrightnessDeltaChanged?.Invoke(context.ReadValue<Vector2>().y);
     }
 }

@@ -11,6 +11,7 @@ public abstract class GLSGroupPlacement<TGroup, TCollection> : BasePlacement<TGr
 
     [SerializeField] protected GLSGroupAppearanceSO GlsGroupAppearance;
     [SerializeField] private BeatmapRuntimeContext context;
+    [SerializeField] protected BeatmapEasingsSelectionInputController EasingInputController;
 
     public override bool CanPlace => base.CanPlace && IsInPosition() && !GlobalIntersectionCache.HasHit;
 

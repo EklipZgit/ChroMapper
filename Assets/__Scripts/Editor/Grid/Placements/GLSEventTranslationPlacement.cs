@@ -5,19 +5,20 @@ public class
     GLSEventTranslationPlacement : GLSEventPlacement<BaseLightTranslationEventBoxGroup, BaseLightTranslationBase>
 {
     [SerializeField] private BeatmapGLSEventTranslationInputController inputController;
-    [SerializeField] private BeatmapEasingsSelectionInputController easingInputController;
 
     public override void Start()
     {
         base.Start();
         inputController.OnValueChanged += HandleValueChanged;
-        easingInputController.OnEasingChanged += HandleEasingChanged;
+        EasingInputController.OnEasingChanged += HandleEasingChanged;
+        EasingInputController.OnExtensionChanged += HandleExtensionChanged;
     }
 
     public void OnDestroy()
     {
         inputController.OnValueChanged -= HandleValueChanged;
-        easingInputController.OnEasingChanged -= HandleEasingChanged;
+        EasingInputController.OnEasingChanged -= HandleEasingChanged;
+        EasingInputController.OnExtensionChanged -= HandleExtensionChanged;
     }
 
     private void HandleValueChanged(float value)
@@ -29,6 +30,12 @@ public class
     private void HandleEasingChanged(int value)
     {
         QueuedData.EaseType = value;
+        GlsEventAppearance.SetAppearance(PlacementVisualContainer, false);
+    }
+
+    private void HandleExtensionChanged(int value)
+    {
+        QueuedData.UsePrevious = value;
         GlsEventAppearance.SetAppearance(PlacementVisualContainer, false);
     }
 

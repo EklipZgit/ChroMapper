@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EditModeUIController : MonoBehaviour
+public class EditModeViewController : MonoBehaviour
 {
     [SerializeField] private EditModeContext editContext;
     [SerializeField] private Toggle[] toggles;
@@ -23,7 +23,7 @@ public class EditModeUIController : MonoBehaviour
     }
 
     private void HandleOnClick(Enum enumMode) =>
-        editContext.EditingMode = (EditingMode)(1 << ((int)(EditingModeNoFlag)enumMode - 1));
+        editContext.EditingMode = (EditingMode)(1 << (int)(EditingModeNoFlag)enumMode);
 
     private void HandleEditModeChanged(EditingMode obj) =>
         enumPicker.Select(Enum.Parse<EditingModeNoFlag>(editContext.EditingMode.ToString()));

@@ -18,12 +18,14 @@ public class
         base.Start();
         inputController.OnValueChanged += HandleValueChanged;
         easingInputController.OnEasingChanged += HandleEasingChanged;
+        EasingInputController.OnExtensionChanged += HandleExtensionChanged;
     }
 
     public void OnDestroy()
     {
         inputController.OnValueChanged -= HandleValueChanged;
         easingInputController.OnEasingChanged -= HandleEasingChanged;
+        EasingInputController.OnExtensionChanged -= HandleExtensionChanged;
     }
 
     private void HandleValueChanged(float value)
@@ -35,6 +37,12 @@ public class
     private void HandleEasingChanged(int value)
     {
         QueuedData.Boxes[0].Events[0].EaseType = value;
+        GlsGroupAppearance.SetAppearance(PlacementVisualContainer, false);
+    }
+
+    private void HandleExtensionChanged(int value)
+    {
+        QueuedData.Boxes[0].Events[0].UsePrevious = value;
         GlsGroupAppearance.SetAppearance(PlacementVisualContainer, false);
     }
 

@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 public class BeatmapEasingsSelectionInputController : MonoBehaviour, CMInput.IEasingsSelectionActions
 {
     public event Action<int> OnEasingChanged;
+    public event Action<int> OnExtensionChanged;
 
     private EaseType currentEase;
 
@@ -51,7 +52,7 @@ public class BeatmapEasingsSelectionInputController : MonoBehaviour, CMInput.IEa
         if (context.performed)
         {
             currentEase = EaseType.None;
-            OnEasingChanged?.Invoke((int)currentEase);
+            NotifyEasingChanged(currentEase);
         }
     }
 
@@ -69,5 +70,24 @@ public class BeatmapEasingsSelectionInputController : MonoBehaviour, CMInput.IEa
         {
             throw new NotImplementedException();
         }
+    }
+
+    public void NotifyEasingChanged(EaseType ease)
+    {
+        NotifyExtensionChanged(0);
+        OnEasingChanged?.Invoke((int)ease);
+    }
+
+    private int extension;
+
+    public void OnExtensions(InputAction.CallbackContext context)
+    {
+        if (context.performed) NotifyExtensionChanged(++extension % 2);
+    }
+
+    public void NotifyExtensionChanged(int value)
+    {
+        extension = value;
+        OnExtensionChanged?.Invoke(extension);
     }
 }

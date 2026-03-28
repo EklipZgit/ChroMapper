@@ -4,12 +4,14 @@ using Beatmap.Base;
 using Beatmap.Containers;
 using UnityEngine;
 
-public abstract class GLSEventPlacement<TGroup, TEvent> : BasePlacement<TEvent, GLSEventContainer, GLSEventGridContainer>
+public abstract class
+    GLSEventPlacement<TGroup, TEvent> : BasePlacement<TEvent, GLSEventContainer, GLSEventGridContainer>
     where TEvent : BaseGLSEvent
 {
     [SerializeField] private GLSEventGridProvider glsEventGridProvider;
     [SerializeField] protected GLSEventAppearanceSO GlsEventAppearance;
     [SerializeField] private BeatmapRuntimeContext context;
+    [SerializeField] protected BeatmapEasingsSelectionInputController EasingInputController;
 
     public override bool CanPlace => base.CanPlace && glsEventGridProvider.GroupContext.GetType() == typeof(TGroup);
 

@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Beatmap.Base;
+using Beatmap.Enums;
 using Beatmap.Helper;
 using UnityEngine;
 
@@ -13,24 +15,24 @@ public class GLSGroupColorPlacement : GLSGroupPlacement<BaseLightColorEventBoxGr
     public override void Start()
     {
         base.Start();
-        inputController.OnBrightnessChanged += HandleBrightnessChanged;
         inputController.OnColorChanged += HandleColorChanged;
-        inputController.OnExtensionPerformed += HandleExtensionsPerformed;
-        inputController.OnEasingChanged += HandleEasingChanged;
+        inputController.OnBrightnessChanged += HandleBrightnessChanged;
+        inputController.OnStrobeFrequencyChanged += HandleStrobeFrequencyChanged;
+        inputController.OnStrobeBrightnessChanged += HandleStrobeBrightnessChanged;
+        inputController.OnSoftStrobeChanged += HandleSoftStrobeChanged;
+        EasingInputController.OnExtensionChanged += HandleExtensionChanged;
+        EasingInputController.OnEasingChanged += HandleEasingChanged;
     }
 
     public void OnDestroy()
     {
-        inputController.OnBrightnessChanged -= HandleBrightnessChanged;
         inputController.OnColorChanged -= HandleColorChanged;
-        inputController.OnExtensionPerformed -= HandleExtensionsPerformed;
-        inputController.OnEasingChanged -= HandleEasingChanged;
-    }
-
-    private void HandleBrightnessChanged(float value)
-    {
-        QueuedData.Boxes[0].Events[0].Brightness = value;
-        GlsGroupAppearance.SetAppearance(PlacementVisualContainer, false);
+        inputController.OnBrightnessChanged -= HandleBrightnessChanged;
+        inputController.OnStrobeFrequencyChanged -= HandleStrobeFrequencyChanged;
+        inputController.OnStrobeBrightnessChanged -= HandleStrobeBrightnessChanged;
+        inputController.OnSoftStrobeChanged -= HandleSoftStrobeChanged;
+        EasingInputController.OnExtensionChanged -= HandleExtensionChanged;
+        EasingInputController.OnEasingChanged -= HandleEasingChanged;
     }
 
     private void HandleColorChanged(int value)
@@ -39,16 +41,39 @@ public class GLSGroupColorPlacement : GLSGroupPlacement<BaseLightColorEventBoxGr
         GlsGroupAppearance.SetAppearance(PlacementVisualContainer, false);
     }
 
-    private void HandleExtensionsPerformed(bool value)
+    private void HandleBrightnessChanged(float value)
     {
-        QueuedData.Boxes[0].Events[0].UsePrevious = value ? 1 : 0;
+        QueuedData.Boxes[0].Events[0].Brightness = Mathf.Max(value, 0f);
+        GlsGroupAppearance.SetAppearance(PlacementVisualContainer, false);
+    }
+
+    private void HandleStrobeFrequencyChanged(int value)
+    {
+        QueuedData.Boxes[0].Events[0].Frequency = value;
+        GlsGroupAppearance.SetAppearance(PlacementVisualContainer, false);
+    }
+
+    private void HandleStrobeBrightnessChanged(float value)
+    {
+        QueuedData.Boxes[0].Events[0].StrobeBrightness = Mathf.Max(value, 0f);
+        GlsGroupAppearance.SetAppearance(PlacementVisualContainer, false);
+    }
+
+    private void HandleSoftStrobeChanged(int value)
+    {
+        QueuedData.Boxes[0].Events[0].StrobeFade = value;
         GlsGroupAppearance.SetAppearance(PlacementVisualContainer, false);
     }
 
     private void HandleEasingChanged(int value)
     {
-        QueuedData.Boxes[0].Events[0].UsePrevious = 0;
-        QueuedData.Boxes[0].Events[0].Easing = value;
+        QueuedData.Boxes[0].Events[0].Easing = (int)(value >= 0 ? EaseType.Linear : EaseType.None);
+        GlsGroupAppearance.SetAppearance(PlacementVisualContainer, false);
+    }
+
+    private void HandleExtensionChanged(int value)
+    {
+        QueuedData.Boxes[0].Events[0].UsePrevious = value;
         GlsGroupAppearance.SetAppearance(PlacementVisualContainer, false);
     }
 

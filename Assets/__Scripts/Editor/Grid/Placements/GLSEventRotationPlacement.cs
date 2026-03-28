@@ -5,7 +5,6 @@ public class
     GLSEventRotationPlacement : GLSEventPlacement<BaseLightRotationEventBoxGroup, BaseLightRotationBase>
 {
     [SerializeField] private BeatmapGLSEventRotationInputController inputController;
-    [SerializeField] private BeatmapEasingsSelectionInputController easingInputController;
 
     public override void Start()
     {
@@ -13,7 +12,8 @@ public class
         inputController.OnValueChanged += HandleValueChanged;
         inputController.OnLoopChanged += HandleLoopChanged;
         inputController.OnDirectionChanged += HandleDirectionChanged;
-        easingInputController.OnEasingChanged += HandleEasingChanged;
+        EasingInputController.OnEasingChanged += HandleEasingChanged;
+        EasingInputController.OnExtensionChanged += HandleExtensionChanged;
     }
 
     public void OnDestroy()
@@ -21,7 +21,8 @@ public class
         inputController.OnValueChanged -= HandleValueChanged;
         inputController.OnLoopChanged -= HandleLoopChanged;
         inputController.OnDirectionChanged -= HandleDirectionChanged;
-        easingInputController.OnEasingChanged -= HandleEasingChanged;
+        EasingInputController.OnEasingChanged -= HandleEasingChanged;
+        EasingInputController.OnExtensionChanged -= HandleExtensionChanged;
     }
 
     private void HandleValueChanged(float value)
@@ -45,6 +46,12 @@ public class
     private void HandleEasingChanged(int value)
     {
         QueuedData.EaseType = value;
+        GlsEventAppearance.SetAppearance(PlacementVisualContainer, false);
+    }
+
+    private void HandleExtensionChanged(int value)
+    {
+        QueuedData.UsePrevious = value;
         GlsEventAppearance.SetAppearance(PlacementVisualContainer, false);
     }
 

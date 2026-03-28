@@ -11,7 +11,6 @@ public class BeatmapGLSEventRotationInputController : BeatmapGLSEventInputContro
                                                       CMInput.IGLSRotationObjectsActions
 {
     public event Action<float> OnValueChanged;
-    public event Action<float> OnValueDeltaChanged;
     public event Action<int> OnDirectionChanged;
     public event Action<int> OnLoopChanged;
 
@@ -66,25 +65,36 @@ public class BeatmapGLSEventRotationInputController : BeatmapGLSEventInputContro
         {
             // We handle simple up/down notes
             case true when !handleLeftRightNotes:
-                OnValueChanged?.Invoke(upNote ? 0f : 180f);
+                NotifyValueChanged(upNote ? 0f : 180f);
                 break;
             // We handle simple left/right notes
             case false when handleLeftRightNotes:
-                OnValueChanged?.Invoke(leftNote ? 270f : 90f);
+                NotifyValueChanged(leftNote ? 270f : 90f);
                 break;
             default:
                 {
                     if (diagonal) //We need to do a diagonal
                     {
                         if (leftNote)
-                            OnValueChanged?.Invoke(upNote ? 315f : 225f);
+                            NotifyValueChanged(upNote ? 315f : 225f);
                         else
-                            OnValueChanged?.Invoke(upNote ? 45f : 135f);
+                            NotifyValueChanged(upNote ? 45f : 135f);
                     }
 
                     break;
                 }
         }
+    }
+
+    public void NotifyValueChanged(float value)
+    {
+        EasingInputController.NotifyExtensionChanged(0);
+        OnValueChanged?.Invoke(value);
+    }
+
+    public void OnSetAnglePrecise(InputAction.CallbackContext context)
+    {
+        // if (context.performed) OnValueDeltaChanged?.Invoke(context.ReadValue<Vector2>().y);
     }
 
     public void OnSetAngle0(InputAction.CallbackContext context) => HandleKeyUpdate(context, upKey);
@@ -94,35 +104,39 @@ public class BeatmapGLSEventRotationInputController : BeatmapGLSEventInputContro
 
     public void OnSetRotationDirectionLeft(InputAction.CallbackContext context)
     {
-        if (context.performed) OnDirectionChanged?.Invoke((int)LightRotationDirection.CounterClockwise);
+        if (context.performed) NotifyDirectionChanged((int)LightRotationDirection.CounterClockwise);
     }
 
     public void OnSetRotationDirectionAutomatic(InputAction.CallbackContext context)
     {
-        if (context.performed) OnDirectionChanged?.Invoke((int)LightRotationDirection.Automatic);
+        if (context.performed) NotifyDirectionChanged((int)LightRotationDirection.Automatic);
     }
 
     public void OnSetRotationDirectionRight(InputAction.CallbackContext context)
     {
-        if (context.performed) OnDirectionChanged?.Invoke((int)LightRotationDirection.Clockwise);
+        if (context.performed) NotifyDirectionChanged((int)LightRotationDirection.Clockwise);
+    }
+
+    public void NotifyDirectionChanged(int value)
+    {
+        EasingInputController.NotifyExtensionChanged(0);
+        OnDirectionChanged?.Invoke(value);
     }
 
     public void OnChangeLoopCount(InputAction.CallbackContext context)
     {
-        if (context.performed)
-        {
-            throw new NotImplementedException();
-        }
+        if (context.performed) NotifyLoopChanged(1);
     }
 
     public void OnResetLoopCount(InputAction.CallbackContext context)
     {
-        if (context.performed) OnLoopChanged?.Invoke(0);
+        if (context.performed) NotifyLoopChanged(0);
     }
 
-    public void OnSetAnglePrecise(InputAction.CallbackContext context)
+    public void NotifyLoopChanged(int value)
     {
-        if (context.performed) OnValueDeltaChanged?.Invoke(context.ReadValue<Vector2>().y);
+        EasingInputController.NotifyExtensionChanged(0);
+        OnLoopChanged?.Invoke(value);
     }
 
     private IEnumerator CheckForDiagonalUpdate()

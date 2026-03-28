@@ -6,7 +6,6 @@ using UnityEngine;
 public class GLSGroupFloatFXPlacement : GLSGroupPlacement<BaseVfxEventEventBoxGroup, GLSGroupFloatFXGridContainer>
 {
     [SerializeField] private BeatmapGLSEventFloatFXInputController inputController;
-    [SerializeField] private BeatmapEasingsSelectionInputController easingInputController;
 
     public override bool CanPlace =>
         base.CanPlace && GlsGroupTrack.TrackDefinition.FloatFXTrack && !inputController.IsHovering;
@@ -15,13 +14,15 @@ public class GLSGroupFloatFXPlacement : GLSGroupPlacement<BaseVfxEventEventBoxGr
     {
         base.Start();
         inputController.OnValueChanged += HandleValueChanged;
-        easingInputController.OnEasingChanged += HandleEasingChanged;
+        EasingInputController.OnEasingChanged += HandleEasingChanged;
+        EasingInputController.OnExtensionChanged += HandleExtensionChanged;
     }
 
     public void OnDestroy()
     {
         inputController.OnValueChanged -= HandleValueChanged;
-        easingInputController.OnEasingChanged -= HandleEasingChanged;
+        EasingInputController.OnEasingChanged -= HandleEasingChanged;
+        EasingInputController.OnExtensionChanged -= HandleExtensionChanged;
     }
 
     private void HandleValueChanged(float value)
@@ -33,6 +34,12 @@ public class GLSGroupFloatFXPlacement : GLSGroupPlacement<BaseVfxEventEventBoxGr
     private void HandleEasingChanged(int value)
     {
         QueuedData.Boxes[0].Events[0].Easing = value;
+        GlsGroupAppearance.SetAppearance(PlacementVisualContainer, false);
+    }
+
+    private void HandleExtensionChanged(int value)
+    {
+        QueuedData.Boxes[0].Events[0].UsePrevious = value;
         GlsGroupAppearance.SetAppearance(PlacementVisualContainer, false);
     }
 

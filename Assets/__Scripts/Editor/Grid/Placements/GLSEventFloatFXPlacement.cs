@@ -4,19 +4,20 @@ using UnityEngine;
 public class GLSEventFloatFXPlacement : GLSEventPlacement<BaseVfxEventEventBoxGroup, BaseFxEventFloat>
 {
     [SerializeField] private BeatmapGLSEventFloatFXInputController inputController;
-    [SerializeField] private BeatmapEasingsSelectionInputController easingInputController;
 
     public override void Start()
     {
         base.Start();
         inputController.OnValueChanged += HandleValueChanged;
-        easingInputController.OnEasingChanged += HandleEasingChanged;
+        EasingInputController.OnEasingChanged += HandleEasingChanged;
+        EasingInputController.OnExtensionChanged += HandleExtensionChanged;
     }
 
     public void OnDestroy()
     {
         inputController.OnValueChanged -= HandleValueChanged;
-        easingInputController.OnEasingChanged -= HandleEasingChanged;
+        EasingInputController.OnEasingChanged -= HandleEasingChanged;
+        EasingInputController.OnExtensionChanged -= HandleExtensionChanged;
     }
 
     private void HandleValueChanged(float value)
@@ -28,6 +29,12 @@ public class GLSEventFloatFXPlacement : GLSEventPlacement<BaseVfxEventEventBoxGr
     private void HandleEasingChanged(int value)
     {
         QueuedData.Easing = value;
+        GlsEventAppearance.SetAppearance(PlacementVisualContainer, false);
+    }
+
+    private void HandleExtensionChanged(int value)
+    {
+        QueuedData.UsePrevious = value;
         GlsEventAppearance.SetAppearance(PlacementVisualContainer, false);
     }
 

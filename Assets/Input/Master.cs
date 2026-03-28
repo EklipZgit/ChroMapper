@@ -5345,15 +5345,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Extension Light"",
-                    ""type"": ""Button"",
-                    ""id"": ""1af70113-2ae8-4853-9cf5-dd1ea7b9c2b2"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": ""Press"",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Static 0 Brightness"",
                     ""type"": ""Button"",
                     ""id"": ""7207f90e-5d44-4d4d-b34e-8f0160a9170c"",
@@ -5525,6 +5516,15 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Set Brightness (Precise)"",
+                    ""type"": ""Button"",
+                    ""id"": ""12efb566-15c0-4db8-a04f-f1af295c8e79"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Strobe On"",
                     ""type"": ""Button"",
                     ""id"": ""f3cce743-71be-4383-a125-b5431b5af2c7"",
@@ -5586,15 +5586,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": ""Press"",
                     ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Set Brightness (Precise)"",
-                    ""type"": ""Button"",
-                    ""id"": ""12efb566-15c0-4db8-a04f-f1af295c8e79"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": ""Press"",
-                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -5628,17 +5619,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""ColorW Light"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""89bea812-017a-4f2e-8009-fb4620aff490"",
-                    ""path"": ""<Keyboard>/4"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Extension Light"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -6598,6 +6578,15 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": ""Press"",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Extensions"",
+                    ""type"": ""Button"",
+                    ""id"": ""05b4507f-80bd-4f44-929c-e8fa06574731"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -6642,6 +6631,17 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Change Easing (Alternative)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""30a99391-cfa1-4371-bf37-4495a06a344c"",
+                    ""path"": ""<Keyboard>/4"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Extensions"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -6928,7 +6928,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         m_GLSColorObjects_Color0Light = m_GLSColorObjects.FindAction("Color0 Light", throwIfNotFound: true);
         m_GLSColorObjects_Color1Light = m_GLSColorObjects.FindAction("Color1 Light", throwIfNotFound: true);
         m_GLSColorObjects_ColorWLight = m_GLSColorObjects.FindAction("ColorW Light", throwIfNotFound: true);
-        m_GLSColorObjects_ExtensionLight = m_GLSColorObjects.FindAction("Extension Light", throwIfNotFound: true);
         m_GLSColorObjects_Static0Brightness = m_GLSColorObjects.FindAction("Static 0 Brightness", throwIfNotFound: true);
         m_GLSColorObjects_Static50Brightness = m_GLSColorObjects.FindAction("Static 50 Brightness", throwIfNotFound: true);
         m_GLSColorObjects_Static100Brightness = m_GLSColorObjects.FindAction("Static 100 Brightness", throwIfNotFound: true);
@@ -6948,6 +6947,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         m_GLSColorObjects_SetBrightness100 = m_GLSColorObjects.FindAction("Set Brightness 100", throwIfNotFound: true);
         m_GLSColorObjects_SetBrightness120 = m_GLSColorObjects.FindAction("Set Brightness 120", throwIfNotFound: true);
         m_GLSColorObjects_SetBrightness150 = m_GLSColorObjects.FindAction("Set Brightness 150", throwIfNotFound: true);
+        m_GLSColorObjects_SetBrightnessPrecise = m_GLSColorObjects.FindAction("Set Brightness (Precise)", throwIfNotFound: true);
         m_GLSColorObjects_StrobeOn = m_GLSColorObjects.FindAction("Strobe On", throwIfNotFound: true);
         m_GLSColorObjects_StrobeOff = m_GLSColorObjects.FindAction("Strobe Off", throwIfNotFound: true);
         m_GLSColorObjects_ChangeStrobeFrequencyPrecise = m_GLSColorObjects.FindAction("Change Strobe Frequency (Precise)", throwIfNotFound: true);
@@ -6955,7 +6955,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         m_GLSColorObjects_ChangeStrobeBrightnessPrecise = m_GLSColorObjects.FindAction("Change Strobe Brightness (Precise)", throwIfNotFound: true);
         m_GLSColorObjects_SoftStrobe = m_GLSColorObjects.FindAction("Soft Strobe", throwIfNotFound: true);
         m_GLSColorObjects_ChangeEventColor = m_GLSColorObjects.FindAction("Change Event Color", throwIfNotFound: true);
-        m_GLSColorObjects_SetBrightnessPrecise = m_GLSColorObjects.FindAction("Set Brightness (Precise)", throwIfNotFound: true);
         // GLS Rotation Objects
         m_GLSRotationObjects = asset.FindActionMap("GLS Rotation Objects", throwIfNotFound: true);
         m_GLSRotationObjects_SetAngle0 = m_GLSRotationObjects.FindAction("Set Angle 0", throwIfNotFound: true);
@@ -6990,6 +6989,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         m_EasingsSelection_ChangeEasingNone = m_EasingsSelection.FindAction("Change Easing (None)", throwIfNotFound: true);
         m_EasingsSelection_ChangeEasingStandard = m_EasingsSelection.FindAction("Change Easing (Standard)", throwIfNotFound: true);
         m_EasingsSelection_ChangeEasingAlternative = m_EasingsSelection.FindAction("Change Easing (Alternative)", throwIfNotFound: true);
+        m_EasingsSelection_Extensions = m_EasingsSelection.FindAction("Extensions", throwIfNotFound: true);
     }
 
     ~@CMInput()
@@ -13214,7 +13214,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_GLSColorObjects_Color0Light;
     private readonly InputAction m_GLSColorObjects_Color1Light;
     private readonly InputAction m_GLSColorObjects_ColorWLight;
-    private readonly InputAction m_GLSColorObjects_ExtensionLight;
     private readonly InputAction m_GLSColorObjects_Static0Brightness;
     private readonly InputAction m_GLSColorObjects_Static50Brightness;
     private readonly InputAction m_GLSColorObjects_Static100Brightness;
@@ -13234,6 +13233,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_GLSColorObjects_SetBrightness100;
     private readonly InputAction m_GLSColorObjects_SetBrightness120;
     private readonly InputAction m_GLSColorObjects_SetBrightness150;
+    private readonly InputAction m_GLSColorObjects_SetBrightnessPrecise;
     private readonly InputAction m_GLSColorObjects_StrobeOn;
     private readonly InputAction m_GLSColorObjects_StrobeOff;
     private readonly InputAction m_GLSColorObjects_ChangeStrobeFrequencyPrecise;
@@ -13241,7 +13241,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_GLSColorObjects_ChangeStrobeBrightnessPrecise;
     private readonly InputAction m_GLSColorObjects_SoftStrobe;
     private readonly InputAction m_GLSColorObjects_ChangeEventColor;
-    private readonly InputAction m_GLSColorObjects_SetBrightnessPrecise;
     /// <summary>
     /// Provides access to input actions defined in input action map "GLS Color Objects".
     /// </summary>
@@ -13265,10 +13264,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "GLSColorObjects/ColorWLight".
         /// </summary>
         public InputAction @ColorWLight => m_Wrapper.m_GLSColorObjects_ColorWLight;
-        /// <summary>
-        /// Provides access to the underlying input action "GLSColorObjects/ExtensionLight".
-        /// </summary>
-        public InputAction @ExtensionLight => m_Wrapper.m_GLSColorObjects_ExtensionLight;
         /// <summary>
         /// Provides access to the underlying input action "GLSColorObjects/Static0Brightness".
         /// </summary>
@@ -13346,6 +13341,10 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @SetBrightness150 => m_Wrapper.m_GLSColorObjects_SetBrightness150;
         /// <summary>
+        /// Provides access to the underlying input action "GLSColorObjects/SetBrightnessPrecise".
+        /// </summary>
+        public InputAction @SetBrightnessPrecise => m_Wrapper.m_GLSColorObjects_SetBrightnessPrecise;
+        /// <summary>
         /// Provides access to the underlying input action "GLSColorObjects/StrobeOn".
         /// </summary>
         public InputAction @StrobeOn => m_Wrapper.m_GLSColorObjects_StrobeOn;
@@ -13373,10 +13372,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "GLSColorObjects/ChangeEventColor".
         /// </summary>
         public InputAction @ChangeEventColor => m_Wrapper.m_GLSColorObjects_ChangeEventColor;
-        /// <summary>
-        /// Provides access to the underlying input action "GLSColorObjects/SetBrightnessPrecise".
-        /// </summary>
-        public InputAction @SetBrightnessPrecise => m_Wrapper.m_GLSColorObjects_SetBrightnessPrecise;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -13412,9 +13407,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             @ColorWLight.started += instance.OnColorWLight;
             @ColorWLight.performed += instance.OnColorWLight;
             @ColorWLight.canceled += instance.OnColorWLight;
-            @ExtensionLight.started += instance.OnExtensionLight;
-            @ExtensionLight.performed += instance.OnExtensionLight;
-            @ExtensionLight.canceled += instance.OnExtensionLight;
             @Static0Brightness.started += instance.OnStatic0Brightness;
             @Static0Brightness.performed += instance.OnStatic0Brightness;
             @Static0Brightness.canceled += instance.OnStatic0Brightness;
@@ -13472,6 +13464,9 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             @SetBrightness150.started += instance.OnSetBrightness150;
             @SetBrightness150.performed += instance.OnSetBrightness150;
             @SetBrightness150.canceled += instance.OnSetBrightness150;
+            @SetBrightnessPrecise.started += instance.OnSetBrightnessPrecise;
+            @SetBrightnessPrecise.performed += instance.OnSetBrightnessPrecise;
+            @SetBrightnessPrecise.canceled += instance.OnSetBrightnessPrecise;
             @StrobeOn.started += instance.OnStrobeOn;
             @StrobeOn.performed += instance.OnStrobeOn;
             @StrobeOn.canceled += instance.OnStrobeOn;
@@ -13493,9 +13488,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             @ChangeEventColor.started += instance.OnChangeEventColor;
             @ChangeEventColor.performed += instance.OnChangeEventColor;
             @ChangeEventColor.canceled += instance.OnChangeEventColor;
-            @SetBrightnessPrecise.started += instance.OnSetBrightnessPrecise;
-            @SetBrightnessPrecise.performed += instance.OnSetBrightnessPrecise;
-            @SetBrightnessPrecise.canceled += instance.OnSetBrightnessPrecise;
         }
 
         /// <summary>
@@ -13516,9 +13508,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             @ColorWLight.started -= instance.OnColorWLight;
             @ColorWLight.performed -= instance.OnColorWLight;
             @ColorWLight.canceled -= instance.OnColorWLight;
-            @ExtensionLight.started -= instance.OnExtensionLight;
-            @ExtensionLight.performed -= instance.OnExtensionLight;
-            @ExtensionLight.canceled -= instance.OnExtensionLight;
             @Static0Brightness.started -= instance.OnStatic0Brightness;
             @Static0Brightness.performed -= instance.OnStatic0Brightness;
             @Static0Brightness.canceled -= instance.OnStatic0Brightness;
@@ -13576,6 +13565,9 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             @SetBrightness150.started -= instance.OnSetBrightness150;
             @SetBrightness150.performed -= instance.OnSetBrightness150;
             @SetBrightness150.canceled -= instance.OnSetBrightness150;
+            @SetBrightnessPrecise.started -= instance.OnSetBrightnessPrecise;
+            @SetBrightnessPrecise.performed -= instance.OnSetBrightnessPrecise;
+            @SetBrightnessPrecise.canceled -= instance.OnSetBrightnessPrecise;
             @StrobeOn.started -= instance.OnStrobeOn;
             @StrobeOn.performed -= instance.OnStrobeOn;
             @StrobeOn.canceled -= instance.OnStrobeOn;
@@ -13597,9 +13589,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             @ChangeEventColor.started -= instance.OnChangeEventColor;
             @ChangeEventColor.performed -= instance.OnChangeEventColor;
             @ChangeEventColor.canceled -= instance.OnChangeEventColor;
-            @SetBrightnessPrecise.started -= instance.OnSetBrightnessPrecise;
-            @SetBrightnessPrecise.performed -= instance.OnSetBrightnessPrecise;
-            @SetBrightnessPrecise.canceled -= instance.OnSetBrightnessPrecise;
         }
 
         /// <summary>
@@ -14138,6 +14127,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_EasingsSelection_ChangeEasingNone;
     private readonly InputAction m_EasingsSelection_ChangeEasingStandard;
     private readonly InputAction m_EasingsSelection_ChangeEasingAlternative;
+    private readonly InputAction m_EasingsSelection_Extensions;
     /// <summary>
     /// Provides access to input actions defined in input action map "Easings Selection".
     /// </summary>
@@ -14165,6 +14155,10 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "EasingsSelection/ChangeEasingAlternative".
         /// </summary>
         public InputAction @ChangeEasingAlternative => m_Wrapper.m_EasingsSelection_ChangeEasingAlternative;
+        /// <summary>
+        /// Provides access to the underlying input action "EasingsSelection/Extensions".
+        /// </summary>
+        public InputAction @Extensions => m_Wrapper.m_EasingsSelection_Extensions;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -14203,6 +14197,9 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             @ChangeEasingAlternative.started += instance.OnChangeEasingAlternative;
             @ChangeEasingAlternative.performed += instance.OnChangeEasingAlternative;
             @ChangeEasingAlternative.canceled += instance.OnChangeEasingAlternative;
+            @Extensions.started += instance.OnExtensions;
+            @Extensions.performed += instance.OnExtensions;
+            @Extensions.canceled += instance.OnExtensions;
         }
 
         /// <summary>
@@ -14226,6 +14223,9 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             @ChangeEasingAlternative.started -= instance.OnChangeEasingAlternative;
             @ChangeEasingAlternative.performed -= instance.OnChangeEasingAlternative;
             @ChangeEasingAlternative.canceled -= instance.OnChangeEasingAlternative;
+            @Extensions.started -= instance.OnExtensions;
+            @Extensions.performed -= instance.OnExtensions;
+            @Extensions.canceled -= instance.OnExtensions;
         }
 
         /// <summary>
@@ -15870,13 +15870,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnColorWLight(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "Extension Light" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnExtensionLight(InputAction.CallbackContext context);
-        /// <summary>
         /// Method invoked when associated input action "Static 0 Brightness" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
@@ -16010,6 +16003,13 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSetBrightness150(InputAction.CallbackContext context);
         /// <summary>
+        /// Method invoked when associated input action "Set Brightness (Precise)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSetBrightnessPrecise(InputAction.CallbackContext context);
+        /// <summary>
         /// Method invoked when associated input action "Strobe On" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
@@ -16058,13 +16058,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnChangeEventColor(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "Set Brightness (Precise)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnSetBrightnessPrecise(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "GLS Rotation Objects" which allows adding and removing callbacks.
@@ -16279,5 +16272,12 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnChangeEasingAlternative(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Extensions" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnExtensions(InputAction.CallbackContext context);
     }
 }

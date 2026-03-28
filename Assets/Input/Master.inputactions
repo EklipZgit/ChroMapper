@@ -5259,15 +5259,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Extension Light",
-                    "type": "Button",
-                    "id": "1af70113-2ae8-4853-9cf5-dd1ea7b9c2b2",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Static 0 Brightness",
                     "type": "Button",
                     "id": "7207f90e-5d44-4d4d-b34e-8f0160a9170c",
@@ -5439,6 +5430,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Set Brightness (Precise)",
+                    "type": "Button",
+                    "id": "12efb566-15c0-4db8-a04f-f1af295c8e79",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Strobe On",
                     "type": "Button",
                     "id": "f3cce743-71be-4383-a125-b5431b5af2c7",
@@ -5500,15 +5500,6 @@
                     "processors": "",
                     "interactions": "Press",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "Set Brightness (Precise)",
-                    "type": "Button",
-                    "id": "12efb566-15c0-4db8-a04f-f1af295c8e79",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -5542,17 +5533,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "ColorW Light",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "89bea812-017a-4f2e-8009-fb4620aff490",
-                    "path": "<Keyboard>/4",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Extension Light",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -6512,6 +6492,15 @@
                     "processors": "",
                     "interactions": "Press",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Extensions",
+                    "type": "Button",
+                    "id": "05b4507f-80bd-4f44-929c-e8fa06574731",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -6556,6 +6545,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Change Easing (Alternative)",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "30a99391-cfa1-4371-bf37-4495a06a344c",
+                    "path": "<Keyboard>/4",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Extensions",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
