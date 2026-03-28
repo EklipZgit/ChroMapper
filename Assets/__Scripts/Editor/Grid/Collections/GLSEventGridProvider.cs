@@ -13,6 +13,7 @@ public class GLSEventGridProvider : MonoBehaviour
 
     [SerializeField] private EditModeContext editMode;
     [SerializeField] private GridLane gridLane;
+    [SerializeField] private AudioTimeSyncController atsc;
 
     [Header("Prefab")] [SerializeField] private TextMeshProUGUI labelPrefab;
     [SerializeField] private RectTransform targetCanvas;
@@ -66,6 +67,7 @@ public class GLSEventGridProvider : MonoBehaviour
         if (groupContext == null)
         {
             gridLane.Lane = 0;
+            atsc.VisualBeatOrigin = 0;
             return;
         }
 

@@ -29,10 +29,13 @@ public abstract class BeatmapGLSGroupInputController<TData> : BeatmapInputContro
     {
         if (context.performed && CanInteract && EditContext.EditingMode.HasFlag(EditingMode.GLS) && IsHovering)
         {
-            eventGridProvider.GroupContext = HoveredObject.EventBoxGroupData;
             if (atsc.CurrentSongBpmTime < HoveredObject.EventBoxGroupData.SongBpmTime)
                 atsc.MoveToSongBpmTime(HoveredObject.EventBoxGroupData.SongBpmTime);
+
+            // order of operations matter bc Visual Beat Origin is reset on edit mode change, so set group context after changing edit mode
             EditContext.EditingMode = EditingMode.EventBox;
+            atsc.VisualBeatOrigin = HoveredObject.EventBoxGroupData.SongBpmTime;
+            eventGridProvider.GroupContext = HoveredObject.EventBoxGroupData;
         }
     }
 

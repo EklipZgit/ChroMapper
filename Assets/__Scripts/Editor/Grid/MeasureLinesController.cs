@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -25,6 +26,7 @@ public class MeasureLinesController : MonoBehaviour
         atsc.OnTimeChanged += UpdateTime;
         EditorScaleController.OnEditorScaleChanged += EditorScaleUpdated;
         BPMChangeGridContainer.OnBPMChangeRefreshed += RefreshMeasureLines;
+        atsc.OnVisualBeatOriginChanged += OnVisualBeatOriginChanged;
     }
 
     private void OnDestroy()
@@ -32,6 +34,7 @@ public class MeasureLinesController : MonoBehaviour
         atsc.OnTimeChanged -= UpdateTime;
         EditorScaleController.OnEditorScaleChanged -= EditorScaleUpdated;
         BPMChangeGridContainer.OnBPMChangeRefreshed -= RefreshMeasureLines;
+        atsc.OnVisualBeatOriginChanged -= OnVisualBeatOriginChanged;
     }
 
     private void UpdateTime()
@@ -42,6 +45,8 @@ public class MeasureLinesController : MonoBehaviour
 
     private void EditorScaleUpdated(float obj) => RefreshPositions();
 
+    private void OnVisualBeatOriginChanged(float obj) => RefreshMeasureLines();
+
     public void RefreshMeasureLines()
     {
         Debug.Log("Refreshing measure lines...");
@@ -51,6 +56,8 @@ public class MeasureLinesController : MonoBehaviour
         activeMeasureTexts.Clear();
 
         var songContainer = BeatSaberSongContainer.Instance;
+
+        var visualBeatOriginInJson = songContainer.Map.SongBpmTimeToJsonTime(atsc.VisualBeatOrigin) ?? atsc.VisualBeatOrigin;
 
         var rawBeatsInSong =
             Mathf.FloorToInt(atsc.GetBeatFromSeconds(songContainer.LoadedSong.length));
@@ -67,7 +74,7 @@ public class MeasureLinesController : MonoBehaviour
             var text = existing.Count > 0 ? existing.Dequeue() : Instantiate(measureLinePrefab, parent);
             text.gameObject.SetActive(false);
             text.text = $"{jsonBeat}";
-            var jsonBeatPosition = (float)songContainer.Map.JsonTimeToSongBpmTime(jsonBeat);
+            var jsonBeatPosition = (float)songContainer.Map.JsonTimeToSongBpmTime(visualBeatOriginInJson + jsonBeat);
             text.transform.localPosition = new Vector3(0, jsonBeatPosition * EditorScaleController.EditorScale, 0);
             measureTextsByBeat.Add((jsonBeatPosition, text));
             jsonBeat++;

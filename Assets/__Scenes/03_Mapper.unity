@@ -4339,7 +4339,7 @@ PrefabInstance:
         type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 761b833d373c13b439ac8e5bc49373a4, type: 2}
+      objectReference: {fileID: 2100000, guid: 06df152e309d6ed43b13c9d0f7cc1c8f, type: 2}
     - target: {fileID: 2745739347418089302, guid: 141955eb542177ea69e10ad9a2b131e2,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -4866,7 +4866,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -100, y: 235.00008}
+  m_AnchoredPosition: {x: -100, y: 235}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &81479822
@@ -25361,10 +25361,12 @@ MonoBehaviour:
   bpmChangeGridContainer: {fileID: 1890332741}
   gridRenderingController: {fileID: 617466180}
   customStandaloneInputModule: {fileID: 806554}
+  editModeContext: {fileID: 405385889}
   currentSeconds: 0
   StopScheduled: 0
   Initialized: 0
   currentJsonTime: 0
+  originBeat: 0
   currentSongBpmTime: 0
 --- !u!114 &570484803
 MonoBehaviour:
@@ -44581,7 +44583,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 13585789}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.99998987
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -47326,7 +47328,7 @@ PrefabInstance:
         type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 761b833d373c13b439ac8e5bc49373a4, type: 2}
+      objectReference: {fileID: 2100000, guid: 06df152e309d6ed43b13c9d0f7cc1c8f, type: 2}
     - target: {fileID: 2745739347418089302, guid: 141955eb542177ea69e10ad9a2b131e2,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -47585,6 +47587,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   editMode: {fileID: 405385889}
   gridLane: {fileID: 281139530}
+  atsc: {fileID: 570484802}
   labelPrefab: {fileID: 203455100}
   targetCanvas: {fileID: 589243609}
 --- !u!1 &988290866
@@ -71481,7 +71484,7 @@ PrefabInstance:
         type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 761b833d373c13b439ac8e5bc49373a4, type: 2}
+      objectReference: {fileID: 2100000, guid: 06df152e309d6ed43b13c9d0f7cc1c8f, type: 2}
     - target: {fileID: 2745739347418089302, guid: 141955eb542177ea69e10ad9a2b131e2,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -73151,7 +73154,7 @@ PrefabInstance:
         type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 761b833d373c13b439ac8e5bc49373a4, type: 2}
+      objectReference: {fileID: 2100000, guid: 06df152e309d6ed43b13c9d0f7cc1c8f, type: 2}
     - target: {fileID: 2745739347418089302, guid: 141955eb542177ea69e10ad9a2b131e2,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -76781,7 +76784,7 @@ PrefabInstance:
         type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 761b833d373c13b439ac8e5bc49373a4, type: 2}
+      objectReference: {fileID: 2100000, guid: 06df152e309d6ed43b13c9d0f7cc1c8f, type: 2}
     - target: {fileID: 2745739347418089302, guid: 141955eb542177ea69e10ad9a2b131e2,
         type: 3}
       propertyPath: m_LocalScale.x
