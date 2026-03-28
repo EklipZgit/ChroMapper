@@ -25,8 +25,8 @@ public class BombPlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
         }
     }
 
-    protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> container) =>
-        new BeatmapObjectPlacementAction(spawned, container, "Placed a Bomb.");
+    protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicts) =>
+        new BeatmapObjectPlacementAction(spawned, conflicts, "Placed a Bomb.");
 
     protected override BaseNote GenerateOriginalData() => new() { Type = (int)NoteType.Bomb };
 

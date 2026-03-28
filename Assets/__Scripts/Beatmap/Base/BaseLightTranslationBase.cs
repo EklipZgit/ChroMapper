@@ -23,7 +23,10 @@ namespace Beatmap.Base
             UsePrevious = usePrevious;
         }
 
-        protected BaseLightTranslationBase(BaseLightTranslationBase other) : base(other.RelativeJsonTime, other.JsonTime, other.CustomData)
+        protected BaseLightTranslationBase(BaseLightTranslationBase other) : base(
+            other.RelativeJsonTime,
+            other.JsonTime,
+            other.CustomData)
         {
             Translation = other.Translation;
             EaseType = other.EaseType;
@@ -41,13 +44,7 @@ namespace Beatmap.Base
 
         protected override bool IsConflictingWithObjectAtSameTime(BaseObject other, bool deletion = false)
         {
-            if (other is BaseLightTranslationBase lrb)
-            {
-                return Math.Abs(Translation - lrb.Translation) < DecimalTolerance
-                    || EaseType == lrb.EaseType
-                    || UsePrevious == lrb.UsePrevious;
-            }
-
+            if (other is BaseLightTranslationBase ltb) return BoxIndex == ltb.BoxIndex;
             return false;
         }
 

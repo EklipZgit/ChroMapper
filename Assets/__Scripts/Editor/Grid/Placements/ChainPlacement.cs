@@ -28,8 +28,8 @@ public class ChainPlacement : BasePlacement<BaseChain, ChainContainer, ChainGrid
         SpawnChainFromSelection();
     }
 
-    protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicting) =>
-        new BeatmapObjectPlacementAction(spawned, conflicting, "Placed a chain.");
+    protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicts) =>
+        new BeatmapObjectPlacementAction(spawned, conflicts, "Placed a chain.");
 
     protected override BaseChain GenerateOriginalData() => new();
 

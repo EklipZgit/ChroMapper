@@ -57,7 +57,10 @@ namespace Beatmap.Base
         public override string CustomKeyColor => "Unused";
         public override string CustomKeyTrack => "Unused";
 
-        protected override bool IsConflictingWithObjectAtSameTime(BaseObject other, bool deletion = false) =>
-            GetHashCode() == other.GetHashCode();
+        protected override bool IsConflictingWithObjectAtSameTime(BaseObject other, bool deletion = false)
+        {
+            if (other is BaseFxEventFloat fx) return BoxIndex == fx.BoxIndex;
+            return false;
+        }
     }
 }

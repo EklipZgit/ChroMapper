@@ -123,7 +123,7 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
     }
 
     protected abstract TObject GenerateOriginalData();
-    protected abstract BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicting);
+    protected abstract BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicts);
 
     public override void Initialize(PlacementProvider provider)
     {

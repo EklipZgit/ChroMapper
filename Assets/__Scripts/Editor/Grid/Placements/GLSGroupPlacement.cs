@@ -15,8 +15,8 @@ public abstract class GLSGroupPlacement<TGroup, TCollection> : BasePlacement<TGr
 
     public override bool CanPlace => base.CanPlace && IsInPosition() && !GlobalIntersectionCache.HasHit;
 
-    protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> container) =>
-        new BeatmapObjectPlacementAction(spawned, container, "Placed a GLS Group.");
+    protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicts) =>
+        new BeatmapObjectPlacementAction(spawned, conflicts, "Placed a GLS Group.");
 
     public override void Initialize(PlacementProvider provider)
     {

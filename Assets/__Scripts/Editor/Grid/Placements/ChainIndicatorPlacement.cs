@@ -61,8 +61,8 @@ public class ChainIndicatorPlacement : BasePlacement<BaseChain, ChainIndicatorCo
         if (context.performed && !laserSpeedController.Activated) UpdateCut((int)NoteCutDirection.DownLeft);
     }
 
-    protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicting) =>
-        new BeatmapObjectPlacementAction(spawned, conflicting, "Edited a chain.");
+    protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicts) =>
+        new BeatmapObjectPlacementAction(spawned, conflicts, "Edited a chain.");
 
     protected override BaseChain GenerateOriginalData() => new();
 

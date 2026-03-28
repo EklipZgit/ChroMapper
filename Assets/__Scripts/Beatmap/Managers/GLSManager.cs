@@ -33,9 +33,11 @@ public class GLSManager : BeatmapObjectManager<BaseEventBoxGroup>
     protected override bool AddData(IEnumerable<BaseEventBoxGroup> data)
     {
         var mark = false;
-        foreach (var ebg in data)
+        foreach (var d in data)
         {
-            switch (ebg)
+            if (eventGridProvider.GroupContext != null && eventGridProvider.GroupContext.IsConflictingWith(d))
+                eventGridProvider.GroupContext = d;
+            switch (d)
             {
                 case BaseLightColorEventBoxGroup lcebg:
                     mark |= Context.Descriptor.LightColorGroupEffectManager.InsertData(lcebg);
@@ -60,7 +62,7 @@ public class GLSManager : BeatmapObjectManager<BaseEventBoxGroup>
         var mark = false;
         foreach (var (reference, original) in data)
         {
-            if (eventGridProvider.GroupContext == reference) eventGridProvider.MarkRemove = true;
+            if (eventGridProvider.GroupContext == reference) eventGridProvider.MarkRemove();
             switch (reference)
             {
                 case BaseLightColorEventBoxGroup lcebg:
@@ -94,7 +96,7 @@ public class GLSManager : BeatmapObjectManager<BaseEventBoxGroup>
         var mark = false;
         foreach (var d in data)
         {
-            if (eventGridProvider.GroupContext == d) eventGridProvider.MarkRemove = true;
+            if (eventGridProvider.GroupContext == d) eventGridProvider.MarkRemove();
             switch (d)
             {
                 case BaseLightColorEventBoxGroup lcebg:

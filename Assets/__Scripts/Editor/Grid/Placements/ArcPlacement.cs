@@ -62,8 +62,8 @@ public class ArcPlacement : BasePlacement<BaseArc, ArcContainer, ArcGridContaine
 
     protected override BaseArc GenerateOriginalData() => new();
 
-    protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicting) =>
-        new BeatmapObjectPlacementAction(spawned, conflicting, "Placed an arc.");
+    protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicts) =>
+        new BeatmapObjectPlacementAction(spawned, conflicts, "Placed an arc.");
 
     public BaseArc CreateArcData(BaseNote head, BaseNote tail)
     {

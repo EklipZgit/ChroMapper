@@ -18,8 +18,8 @@ public class CustomEventPlacement : BasePlacement<BaseCustomEvent, CustomEventCo
         base.Start();
     }
 
-    protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicting) =>
-        new BeatmapObjectPlacementAction(spawned, conflicting, "Placed a Custom Event.");
+    protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicts) =>
+        new BeatmapObjectPlacementAction(spawned, conflicts, "Placed a Custom Event.");
 
     protected override BaseCustomEvent GenerateOriginalData() => new();
 

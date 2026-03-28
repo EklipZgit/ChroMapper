@@ -31,7 +31,10 @@ namespace Beatmap.Base
             StrobeFade = strobeFade;
         }
 
-        protected BaseLightColorBase(BaseLightColorBase other) : base(other.RelativeJsonTime, other.JsonTime, other.CustomData)
+        protected BaseLightColorBase(BaseLightColorBase other) : base(
+            other.RelativeJsonTime,
+            other.JsonTime,
+            other.CustomData)
         {
             Color = other.Color;
             Brightness = other.Brightness;
@@ -57,17 +60,7 @@ namespace Beatmap.Base
 
         protected override bool IsConflictingWithObjectAtSameTime(BaseObject other, bool deletion = false)
         {
-            if (other is BaseLightColorBase lcb)
-            {
-                return Color == lcb.Color
-                    || Math.Abs(Brightness - lcb.Brightness) < DecimalTolerance
-                    || Easing == lcb.Easing
-                    || UsePrevious == lcb.UsePrevious
-                    || Frequency == lcb.Frequency
-                    || Math.Abs(StrobeBrightness - lcb.StrobeBrightness) < DecimalTolerance
-                    || StrobeFade == lcb.StrobeFade;
-            }
-
+            if (other is BaseLightColorBase lcb) return BoxIndex == lcb.BoxIndex;
             return false;
         }
 

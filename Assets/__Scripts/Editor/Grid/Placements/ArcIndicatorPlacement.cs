@@ -61,8 +61,8 @@ public class ArcIndicatorPlacement : BasePlacement<BaseArc, ArcIndicatorContaine
         if (context.performed && !laserSpeedController.Activated) UpdateCut((int)NoteCutDirection.DownLeft);
     }
 
-    protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicting) =>
-        new BeatmapObjectPlacementAction(spawned, conflicting, "Edited an arc.");
+    protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicts) =>
+        new BeatmapObjectPlacementAction(spawned, conflicts, "Edited an arc.");
 
     protected override BaseArc GenerateOriginalData() => new();
 

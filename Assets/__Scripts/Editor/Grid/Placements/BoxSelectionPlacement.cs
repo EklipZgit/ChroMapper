@@ -49,7 +49,7 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
         if (!IsPlacing) State = context.performed ? PlacementState.Active : PlacementState.Idle;
     }
 
-    protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicting) => null;
+    protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicts) => null;
 
     // TODO: v3 check?
     protected override BaseObstacle GenerateOriginalData() => new();

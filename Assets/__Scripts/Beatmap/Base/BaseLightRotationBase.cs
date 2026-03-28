@@ -27,7 +27,10 @@ namespace Beatmap.Base
             UsePrevious = usePrevious;
         }
 
-        protected BaseLightRotationBase(BaseLightRotationBase other) : base(other.RelativeJsonTime, other.JsonTime, other.CustomData)
+        protected BaseLightRotationBase(BaseLightRotationBase other) : base(
+            other.RelativeJsonTime,
+            other.JsonTime,
+            other.CustomData)
         {
             Rotation = other.Rotation;
             Direction = other.Direction;
@@ -50,15 +53,7 @@ namespace Beatmap.Base
 
         protected override bool IsConflictingWithObjectAtSameTime(BaseObject other, bool deletion = false)
         {
-            if (other is BaseLightRotationBase lrb)
-            {
-                return Math.Abs(Rotation - lrb.Rotation) < DecimalTolerance
-                    || Direction == lrb.Direction
-                    || EaseType == lrb.EaseType
-                    || Loop == lrb.Loop
-                    || UsePrevious == lrb.UsePrevious;
-            }
-
+            if (other is BaseLightRotationBase lrb) return BoxIndex == lrb.BoxIndex;
             return false;
         }
 

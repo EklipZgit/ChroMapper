@@ -33,8 +33,8 @@ public class NJSEventPlacement : BasePlacement<BaseNJSEvent, NJSEventContainer, 
         base.Start();
     }
 
-    protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicting) =>
-        new BeatmapObjectPlacementAction(spawned, conflicting, $"Placed a NJS Event at time {spawned.JsonTime}");
+    protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicts) =>
+        new BeatmapObjectPlacementAction(spawned, conflicts, $"Placed a NJS Event at time {spawned.JsonTime}");
 
     protected override BaseNJSEvent GenerateOriginalData() => new();
 

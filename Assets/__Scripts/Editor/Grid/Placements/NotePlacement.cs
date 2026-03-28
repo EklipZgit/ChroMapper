@@ -102,8 +102,8 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
     // Toggle Chroma Color Function
     public void PlaceChromaObjects(bool v) => Settings.NonPersistentSettings[ChromaColorKey] = v;
 
-    protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> container) =>
-        new BeatmapObjectPlacementAction(spawned, container, "Placed a note.");
+    protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicts) =>
+        new BeatmapObjectPlacementAction(spawned, conflicts, "Placed a note.");
 
     protected override BaseNote GenerateOriginalData() =>
         new() { Color = (int)NoteColor.Red, CutDirection = (int)NoteCutDirection.Down };

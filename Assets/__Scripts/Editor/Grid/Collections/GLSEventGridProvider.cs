@@ -36,15 +36,11 @@ public class GLSEventGridProvider : MonoBehaviour
     private bool markRemove;
     private BaseEventBoxGroup lastContext;
 
-    public bool MarkRemove
+    public void MarkRemove()
     {
-        get => markRemove;
-        set
-        {
-            markRemove = value;
-            lastContext ??= groupContext;
-            enabled = true;
-        }
+        lastContext ??= groupContext;
+        markRemove = true;
+        enabled = true;
     }
 
     private void LateUpdate()
@@ -59,6 +55,7 @@ public class GLSEventGridProvider : MonoBehaviour
             else
                 RefreshTrack();
 
+            lastContext = null;
             markRemove = false;
         }
 
