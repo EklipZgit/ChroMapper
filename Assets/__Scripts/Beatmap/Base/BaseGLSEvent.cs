@@ -1,3 +1,4 @@
+using System;
 using Beatmap.Enums;
 using SimpleJSON;
 
@@ -27,5 +28,28 @@ namespace Beatmap.Base
         public BaseEventBox EventBoxData;
         public BaseEventBoxGroup EventBoxGroupData;
         public int BoxIndex = -1;
+
+        public override int CompareTo(BaseObject other)
+        {
+            var comparison = base.CompareTo(other);
+
+            // Early return if we're comparing against a different object type
+            if (other is not BaseGLSEvent evt) return comparison;
+
+            // Is not the same group type
+            if (other.GetType() != GetType()) return comparison;
+
+            // Compare by ID if type match
+            if (comparison == 0) comparison = BoxIndex.CompareTo(evt.BoxIndex);
+
+            // All matching vanilla properties so compare custom data as a final check
+            if (comparison == 0)
+                comparison = string.Compare(
+                    CustomData?.ToString(),
+                    evt.CustomData?.ToString(),
+                    StringComparison.Ordinal);
+
+            return comparison;
+        }
     }
 }
