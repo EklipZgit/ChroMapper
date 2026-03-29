@@ -50,6 +50,7 @@ public class LightshowController : MonoBehaviour, IBeatmapUpdate
     {
         PopulateEffects();
         PopulateLightshow();
+        UpdateTimeByMode();
     }
 
     private void UpdateTime()
@@ -114,16 +115,21 @@ public class LightshowController : MonoBehaviour, IBeatmapUpdate
 
         context.Descriptor.BasicEventEffectManager.InsertData(events);
         context.Descriptor.LightColorGroupEffectManager.InsertData(
-            BeatSaberSongContainer.Instance.Map.LightColorEventBoxGroups);
+            Mode == LightshowMode.Static
+                ? Enumerable.Empty<BaseLightColorEventBoxGroup>()
+                : BeatSaberSongContainer.Instance.Map.LightColorEventBoxGroups);
         context.Descriptor.LightRotationGroupEffectManager.InsertData(
-            BeatSaberSongContainer.Instance.Map.LightRotationEventBoxGroups);
+            Mode == LightshowMode.Static
+                ? Enumerable.Empty<BaseLightRotationEventBoxGroup>()
+                : BeatSaberSongContainer.Instance.Map.LightRotationEventBoxGroups);
         context.Descriptor.LightTranslationGroupEffectManager.InsertData(
-            BeatSaberSongContainer.Instance.Map.LightTranslationEventBoxGroups);
+            Mode == LightshowMode.Static
+                ? Enumerable.Empty<BaseLightTranslationEventBoxGroup>()
+                : BeatSaberSongContainer.Instance.Map.LightTranslationEventBoxGroups);
         context.Descriptor.FloatFxGroupEffectManager.InsertData(
-            BeatSaberSongContainer.Instance.Map.VfxEventBoxGroups);
-
-        UpdateTimeByMode();
-        context.Descriptor.Refresh();
+            Mode == LightshowMode.Static
+                ? Enumerable.Empty<BaseVfxEventEventBoxGroup>()
+                : BeatSaberSongContainer.Instance.Map.VfxEventBoxGroups);
     }
 
     private void UpdateTimeByMode()
@@ -166,6 +172,9 @@ public class LightshowController : MonoBehaviour, IBeatmapUpdate
             default:
                 throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
         }
+
+        Refresh();
+        UpdateTimeByMode();
     }
 }
 
