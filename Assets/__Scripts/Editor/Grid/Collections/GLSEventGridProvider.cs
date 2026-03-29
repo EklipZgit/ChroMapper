@@ -96,8 +96,22 @@ public class GLSEventGridProvider : MonoBehaviour
 
             var box = boxes[i];
             var filter = box.IndexFilter;
+
+            int p0;
+            int p1;
+            if (filter.Type == (int)IndexFilterType.Division)
+            {
+                p0 = box.IndexFilter.Param0;
+                p1 = box.IndexFilter.Param1 + 1;
+            }
+            else
+            {
+                p0 = box.IndexFilter.Param0 + 1;
+                p1 = box.IndexFilter.Param1;
+            }
+
             label.SetText(
-                $"[{i + 1}]\n\n{DistributionTypeToString(box.BeatDistributionType)}\n[{box.BeatDistribution}]\n\n{FilterTypeToString(filter.Type)}\n[{filter.Param0},{filter.Param1}]");
+                $"[{i + 1}]\n\n{DistributionTypeToString(box.BeatDistributionType)}\n[{box.BeatDistribution}]\n\n{FilterTypeToString(filter.Type)}\n[{p0},{p1}]");
 
             label.enabled = true;
         }

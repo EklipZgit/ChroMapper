@@ -49,6 +49,8 @@ public abstract class CMUIComponent<T> : CMUIComponentBase
 
     protected virtual T ValidateValue(T rawValue) => rawValue;
 
+    public void SetValueWithoutNotify(T value) => OnValueUpdated(value);
+
     private void Awake()
     {
         if (valueAccessor != null)

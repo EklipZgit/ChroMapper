@@ -53,7 +53,7 @@ public class ColorTypeController : MonoBehaviour
         }
         else
         {
-            redTop.color = colorScheme.EnvironmentRightColor;
+            redTop.color = colorScheme.EnvironmentLeftColor;
             redBottom.color = colorScheme.EnvironmentLeftBoostColor;
             blueTop.color = colorScheme.EnvironmentRightColor;
             blueBottom.color = colorScheme.EnvironmentRightBoostColor;
@@ -66,14 +66,12 @@ public class ColorTypeController : MonoBehaviour
     {
         if (mode.HasFlag(EditingMode.Gameplay))
         {
-            gridLayoutGroup.cellSize = new Vector2(16, 16);
-            gridLayoutGroup.spacing = new Vector2(8, 8);
+            gridLayoutGroup.cellSize = new Vector2(20, 20);
             whiteTarget.SetActive(false);
         }
         else
         {
-            gridLayoutGroup.cellSize = new Vector2(12, 12);
-            gridLayoutGroup.spacing = new Vector2(4, 4);
+            gridLayoutGroup.cellSize = new Vector2(14, 14);
             whiteTarget.SetActive(true);
         }
 
