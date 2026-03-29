@@ -7292,7 +7292,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BeatmapContext: {fileID: 127874572}
   EditContext: {fileID: 405385889}
-  ViewableMode: 0
+  ViewableMode: 255
   SpawnCallbackController: {fileID: 1760665545}
   DespawnCallbackController: {fileID: 1288723589}
   TargetTransform: {fileID: 185723089}
@@ -39180,7 +39180,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 13585789}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.999924
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

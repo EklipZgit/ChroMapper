@@ -34,11 +34,12 @@ public class GLSEventGridProvider : MonoBehaviour
     }
 
     private bool markRemove;
-    private BaseEventBoxGroup lastContext;
+    public BaseEventBoxGroup LastContext;
 
     public void MarkRemove()
     {
-        lastContext ??= groupContext;
+        LastContext ??= groupContext;
+        if (LastContext != null) groupContext = null;
         markRemove = true;
         enabled = true;
     }
@@ -47,15 +48,12 @@ public class GLSEventGridProvider : MonoBehaviour
     {
         if (markRemove)
         {
-            if (groupContext == lastContext)
-            {
-                groupContext = lastContext = null;
-                if (editMode.EditingMode.HasFlag(EditingMode.EventBox)) editMode.EditingMode = EditingMode.GLS;
-            }
+            if (groupContext == null && editMode.EditingMode.HasFlag(EditingMode.EventBox))
+                editMode.EditingMode = EditingMode.GLS;
             else
                 RefreshTrack();
 
-            lastContext = null;
+            LastContext = null;
             markRemove = false;
         }
 

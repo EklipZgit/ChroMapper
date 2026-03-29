@@ -4,6 +4,7 @@ using System.Linq;
 using Beatmap.Appearances;
 using Beatmap.Base;
 using Beatmap.Containers;
+using Beatmap.Enums;
 using Beatmap.Helper;
 using UnityEngine;
 
@@ -19,7 +20,17 @@ public abstract class
     public override bool CanPlace => base.CanPlace && glsEventGridProvider.GroupContext.GetType() == typeof(TGroup);
 
     protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicts) =>
-        new BeatmapObjectPlacementAction(spawned, conflicts, "Placed a GLS Event.");
+        throw new ArgumentException("If you triggered this, you tried to use add object where it couldn't");
+
+    public override void Start()
+    {
+        base.Start();
+        glsEventGridProvider.OnGroupChanged += HandleGroupChanged;
+    }
+
+    public void OnDestroy() => glsEventGridProvider.OnGroupChanged -= HandleGroupChanged;
+
+    private void HandleGroupChanged(BaseEventBoxGroup group) => QueuedData.EventBoxGroupData = group;
 
     public override void Initialize(PlacementProvider provider)
     {
@@ -52,88 +63,49 @@ public abstract class
 
     public override void HandleApply()
     {
-        // this doesn't affect the actual beatmap data so we're safe here
+        // we omit the action here, the same otherwise
         ObjectContainerCollection.SpawnObject(QueuedData, out _);
-
-        // convert back collection and replace the group instead
-        var newGroup = BeatmapFactory.Clone(QueuedData.EventBoxGroupData);
-        // the typa shit i had to pull to amke this work
-        switch (newGroup)
-        {
-            case BaseLightColorEventBoxGroup lcebg:
-                foreach (var boxEvents in ObjectContainerCollection
-                    .MapObjects
-                    .Select(e =>
-                    {
-                        var newEvt = BeatmapFactory.Clone(e);
-                        newEvt.EventBoxGroupData = newGroup;
-                        newEvt.EventBoxData = lcebg.Boxes[e.BoxIndex];
-                        newEvt.BoxIndex = e.BoxIndex;
-                        return newEvt as BaseLightColorBase;
-                    })
-                    .GroupBy(e => e.BoxIndex))
-                    lcebg.Boxes[boxEvents.Key].Events = boxEvents.ToArray();
-                break;
-            case BaseLightRotationEventBoxGroup lrebg:
-                foreach (var boxEvents in ObjectContainerCollection
-                    .MapObjects
-                    .Select(e =>
-                    {
-                        var newEvt = BeatmapFactory.Clone(e);
-                        newEvt.EventBoxGroupData = newGroup;
-                        newEvt.EventBoxData = lrebg.Boxes[e.BoxIndex];
-                        newEvt.BoxIndex = e.BoxIndex;
-                        return newEvt as BaseLightRotationBase;
-                    })
-                    .GroupBy(e => e.BoxIndex))
-                    lrebg.Boxes[boxEvents.Key].Events = boxEvents.ToArray();
-                break;
-            case BaseLightTranslationEventBoxGroup ltebg:
-                foreach (var boxEvents in ObjectContainerCollection
-                    .MapObjects
-                    .Select(e =>
-                    {
-                        var newEvt = BeatmapFactory.Clone(e);
-                        newEvt.EventBoxGroupData = newGroup;
-                        newEvt.EventBoxData = ltebg.Boxes[e.BoxIndex];
-                        newEvt.BoxIndex = e.BoxIndex;
-                        return newEvt as BaseLightTranslationBase;
-                    })
-                    .GroupBy(e => e.BoxIndex))
-                    ltebg.Boxes[boxEvents.Key].Events = boxEvents.ToArray();
-                break;
-            case BaseVfxEventEventBoxGroup ffebg:
-                foreach (var boxEvents in ObjectContainerCollection
-                    .MapObjects
-                    .Select(e =>
-                    {
-                        var newEvt = BeatmapFactory.Clone(e);
-                        newEvt.EventBoxGroupData = newGroup;
-                        newEvt.EventBoxData = ffebg.Boxes[e.BoxIndex];
-                        newEvt.BoxIndex = e.BoxIndex;
-                        return newEvt as BaseFxEventFloat;
-                    })
-                    .GroupBy(e => e.BoxIndex))
-                    ffebg.Boxes[boxEvents.Key].Events = boxEvents.ToArray();
-                break;
-            default:
-                throw new ArgumentException("Something went wrong.");
-        }
-
-        BeatmapActionContainer.AddAction(GenerateAction(newGroup, new[] { QueuedData.EventBoxGroupData }));
-        glsEventGridProvider.GroupContext = newGroup;
-
         QueuedData = BeatmapFactory.Clone(QueuedData);
-        QueuedData.EventBoxGroupData = newGroup;
+        QueuedData.EventBoxGroupData = glsEventGridProvider.GroupContext;
         PlacementVisualContainer.EventData = QueuedData;
+    }
+
+    public override ObjectContainer StartDrag(GameObject draggedObject)
+    {
+        var con = base.StartDrag(draggedObject);
+        if (con == null) return null;
+
+        // imagine having to assign this bullshit again and agian
+        DraggedObjectData = BeatmapFactory.Clone(DraggedObjectData);
+        DraggedObjectData.EventBoxGroupData = glsEventGridProvider.GroupContext;
+        OriginalQueued.EventBoxGroupData = glsEventGridProvider.GroupContext;
+        OriginalDraggedObjectData.EventBoxGroupData = glsEventGridProvider.GroupContext;
+        QueuedData.EventBoxGroupData = glsEventGridProvider.GroupContext;
+
+        return con;
     }
 
     public override void FinishDrag()
     {
-        base.FinishDrag();
+        // slightly different, just no action
+        ObjectContainerCollection.SpawnObject(DraggedObjectData, out _);
+
+        QueuedData = BeatmapFactory.Clone(OriginalQueued);
+        QueuedData.EventBoxGroupData = glsEventGridProvider.GroupContext;
+
+        DraggedObjectContainer.Dragged = false;
+        DraggedObjectContainer = null;
+        HandleDragged();
+        IsDragging = false;
+
         PlacementVisualContainer.EventData = QueuedData;
     }
-
-    protected override void TransferQueuedToDraggedObject(ref TEvent dragged, TEvent queued) =>
+    
+    protected override void TransferQueuedToDraggedObject(ref TEvent dragged, TEvent queued)
+    {
+        dragged.RelativeJsonTime = queued.RelativeJsonTime;
         dragged.JsonTime = queued.JsonTime;
+        dragged.EventBoxData = queued.EventBoxData;
+        dragged.BoxIndex = queued.BoxIndex;
+    }
 }

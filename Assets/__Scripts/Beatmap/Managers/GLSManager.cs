@@ -35,7 +35,7 @@ public class GLSManager : BeatmapObjectManager<BaseEventBoxGroup>
         var mark = false;
         foreach (var d in data)
         {
-            if (eventGridProvider.GroupContext != null && eventGridProvider.GroupContext.IsConflictingWith(d))
+            if (eventGridProvider.LastContext != null && eventGridProvider.LastContext.IsConflictingWith(d))
                 eventGridProvider.GroupContext = d;
             switch (d)
             {
@@ -63,6 +63,7 @@ public class GLSManager : BeatmapObjectManager<BaseEventBoxGroup>
         foreach (var (reference, original) in data)
         {
             if (eventGridProvider.GroupContext == reference) eventGridProvider.MarkRemove();
+
             switch (reference)
             {
                 case BaseLightColorEventBoxGroup lcebg:

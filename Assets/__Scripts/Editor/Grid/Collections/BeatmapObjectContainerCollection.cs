@@ -541,7 +541,7 @@ public abstract class BeatmapObjectContainerCollection<T> : BeatmapObjectContain
     /// </summary>
     /// <param name="newObjects">Enumerable of new objects</param>
     /// <param name="conflicting">Enumerable of all existing objects that were deleted as a conflict.</param>
-    public void RemoveConflictingObjects(IEnumerable<T> newObjects, out List<T> conflicting)
+    public virtual void RemoveConflictingObjects(IEnumerable<T> newObjects, out List<T> conflicting)
     {
         conflicting = new List<T>();
 
@@ -658,13 +658,14 @@ public abstract class BeatmapObjectContainerCollection<T> : BeatmapObjectContain
 
     /// <inheritdoc/>
     // TODO(Caeden): Overload to delete/spawn without recycling or creating a container
-    public void DeleteObject(
+    public virtual void DeleteObject(
         T obj,
         bool triggersAction = true,
         bool refreshesPool = true,
         string comment = "No comment.",
         bool inCollectionOfDeletes = false,
-        bool deselect = true)
+        bool deselect = true,
+        bool triggerHandle = true)
     {
         if (!TryBinarySearch(obj, out var search)) return;
 
@@ -680,7 +681,7 @@ public abstract class BeatmapObjectContainerCollection<T> : BeatmapObjectContain
 
         if (refreshesPool) RefreshPool();
 
-        HandleObjectDelete(deletedObj, inCollectionOfDeletes);
+        if (triggerHandle) HandleObjectDelete(deletedObj, inCollectionOfDeletes);
         OnObjectDeleted?.Invoke(deletedObj);
     }
 
@@ -694,7 +695,7 @@ public abstract class BeatmapObjectContainerCollection<T> : BeatmapObjectContain
         MapObjects.RemoveAt(search);
     }
 
-    private bool TryBinarySearch(T tObj, out int index)
+    protected bool TryBinarySearch(T tObj, out int index)
     {
         index = MapObjects.BinarySearch(tObj);
 
