@@ -25,6 +25,8 @@ namespace Beatmap.Base
             if (other is BaseEventBoxGroup eventBoxGroup && other.GetType() == GetType()) return ID == eventBoxGroup.ID;
             return false;
         }
+
+        public abstract int BoxCount { get; }
     }
 
     public abstract class BaseEventBoxGroup<TBox> : BaseEventBoxGroup where TBox : BaseEventBox
@@ -67,5 +69,7 @@ namespace Beatmap.Base
 
             return comparison;
         }
+
+        public override int BoxCount => Boxes.Count;
     }
 }

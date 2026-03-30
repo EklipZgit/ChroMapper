@@ -106,7 +106,7 @@ public class EventBoxViewController : MonoBehaviour
     {
         groupContext = group;
         boxContext = null;
-        boxIndex = 0;
+        boxIndex = group.BoxCount > 0 ? 0 : -1;
 
         SetBoxIndex(boxIndex);
     }
@@ -171,7 +171,7 @@ public class EventBoxViewController : MonoBehaviour
         }
 
         TriggerAction(groupContext, newGroup);
-        SetBoxIndex(Mathf.Max(newIndex, 0));
+        SetBoxIndex(newIndex);
     }
 
     private void SetBoxIndex(int newIndex)
@@ -195,14 +195,7 @@ public class EventBoxViewController : MonoBehaviour
 
     private void RefreshID()
     {
-        var count = groupContext switch
-        {
-            BaseLightColorEventBoxGroup lcebg => lcebg.Boxes.Count,
-            BaseLightRotationEventBoxGroup lrebg => lrebg.Boxes.Count,
-            BaseLightTranslationEventBoxGroup ltebg => ltebg.Boxes.Count,
-            BaseVfxEventEventBoxGroup ffebg => ffebg.Boxes.Count,
-            _ => 0
-        };
+        var count = groupContext.BoxCount;
 
         int i;
         for (i = 0; i < count; i++)
@@ -268,7 +261,6 @@ public class EventBoxViewController : MonoBehaviour
         reverseToggle.SetValueWithoutNotify(box.IndexFilter.Reverse == 1);
         if (box.IndexFilter.Type == (int)IndexFilterType.Division)
         {
-            p0Input.MinValue = 0;
             p0Input.SetValueWithoutNotify(box.IndexFilter.Param0);
             p0Input.SetLabelText("Section");
             p1Input.MinValue = 1;
@@ -277,7 +269,6 @@ public class EventBoxViewController : MonoBehaviour
         }
         else
         {
-            p0Input.MinValue = 1;
             p0Input.SetValueWithoutNotify(box.IndexFilter.Param0 + 1);
             p0Input.SetLabelText("ID");
             p1Input.MinValue = 0;
@@ -484,7 +475,9 @@ public class EventBoxViewController : MonoBehaviour
         var newGroup = BeatmapFactory.Clone(groupContext);
         var newBox = GetBoxAt(newGroup, boxIndex);
         if (newBox == null) return;
-        newBox.IndexFilter.Param0 = value;
+
+        newBox.IndexFilter.Param0 = newBox.IndexFilter.Type == (int)IndexFilterType.Division ? value : value - 1;
+
         TriggerAction(groupContext, newGroup);
     }
 
@@ -493,7 +486,8 @@ public class EventBoxViewController : MonoBehaviour
         var newGroup = BeatmapFactory.Clone(groupContext);
         var newBox = GetBoxAt(newGroup, boxIndex);
         if (newBox == null) return;
-        newBox.IndexFilter.Param1 = value;
+        newBox.IndexFilter.Param1 = newBox.IndexFilter.Type == (int)IndexFilterType.Division ? value - 1 : value;
+
         TriggerAction(groupContext, newGroup);
     }
 

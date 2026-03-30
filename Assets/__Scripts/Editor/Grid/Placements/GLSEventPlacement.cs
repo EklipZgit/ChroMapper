@@ -17,7 +17,10 @@ public abstract class
     [SerializeField] private BeatmapRuntimeContext context;
     [SerializeField] protected BeatmapEasingsSelectionInputController EasingInputController;
 
-    public override bool CanPlace => base.CanPlace && glsEventGridProvider.GroupContext.GetType() == typeof(TGroup);
+    public override bool CanPlace =>
+        base.CanPlace
+        && glsEventGridProvider.GroupContext.GetType() == typeof(TGroup)
+        && QueuedData.EventBoxGroupData.BoxCount > 0;
 
     protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicts) =>
         throw new ArgumentException("If you triggered this, you tried to use add object where it couldn't");
@@ -47,6 +50,7 @@ public abstract class
         var i = (int)(PlacementVisualContainer.transform.localPosition.x - 0.5f);
         QueuedData.RelativeJsonTime = RoundedJsonTime - QueuedData.EventBoxGroupData.JsonTime;
         QueuedData.RecomputeSongBpmTime();
+        if (QueuedData.EventBoxGroupData.BoxCount == 0) return;
         (QueuedData.EventBoxData, QueuedData.BoxIndex) = QueuedData.EventBoxGroupData switch
         {
             BaseLightColorEventBoxGroup lcebg => ((BaseEventBox)lcebg.Boxes[Math.Clamp(i, 0, lcebg.Boxes.Count)],
@@ -100,7 +104,7 @@ public abstract class
 
         PlacementVisualContainer.EventData = QueuedData;
     }
-    
+
     protected override void TransferQueuedToDraggedObject(ref TEvent dragged, TEvent queued)
     {
         dragged.RelativeJsonTime = queued.RelativeJsonTime;

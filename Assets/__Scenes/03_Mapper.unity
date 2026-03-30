@@ -52877,6 +52877,11 @@ PrefabInstance:
       propertyPath: Clamping
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1460858158014926452, guid: eb8717ce90feaeeaba27efadbbc36c99,
+        type: 3}
+      propertyPath: MinValue
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3848689261637205908, guid: eb8717ce90feaeeaba27efadbbc36c99,
         type: 3}
       propertyPath: m_Enabled
@@ -88395,7 +88400,7 @@ Transform:
   m_GameObject: {fileID: 1927255075}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.8, y: 0.55, z: 1}
+  m_LocalPosition: {x: -3.6000001, y: 0.55, z: 1}
   m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_ConstrainProportionsScale: 0
   m_Children:

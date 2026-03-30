@@ -6,7 +6,11 @@ namespace Beatmap.Base
 {
     public class BaseIndexFilter : BaseItem
     {
-        public BaseIndexFilter() => Type = (int)IndexFilterType.Division;
+        public BaseIndexFilter()
+        {
+            Type = (int)IndexFilterType.Division;
+            Param0 = 1;
+        }
 
         public BaseIndexFilter(
             int type,
