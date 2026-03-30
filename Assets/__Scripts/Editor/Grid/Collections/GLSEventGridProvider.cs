@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Beatmap.Base;
 using Beatmap.Enums;
 using TMPro;
@@ -97,6 +98,8 @@ public class GLSEventGridProvider : MonoBehaviour
             var box = boxes[i];
             var filter = box.IndexFilter;
 
+            var sb = new StringBuilder();
+
             int p0;
             int p1;
             if (filter.Type == (int)IndexFilterType.Division)
@@ -110,8 +113,26 @@ public class GLSEventGridProvider : MonoBehaviour
                 p1 = box.IndexFilter.Param1;
             }
 
-            label.SetText(
-                $"[{i + 1}]\n\n{DistributionTypeToString(box.BeatDistributionType)}\n[{box.BeatDistribution}]\n\n{FilterTypeToString(filter.Type)}\n[{p0},{p1}]");
+            sb.AppendLine($"[{i + 1}]");
+            sb.AppendLine();
+            sb.AppendLine(DistributionTypeToString(box.BeatDistributionType));
+            sb.AppendLine($"[{box.BeatDistribution}]");
+            sb.AppendLine();
+            sb.AppendLine(FilterTypeToString(filter.Type));
+            sb.AppendLine($"[{p0},{p1}]");
+            switch (box)
+            {
+                case BaseLightRotationEventBox lreb:
+                    sb.AppendLine();
+                    sb.Append(((Axis)lreb.Axis).ToString());
+                    break;
+                case BaseLightTranslationEventBox lteb:
+                    sb.AppendLine();
+                    sb.Append(((Axis)lteb.Axis).ToString());
+                    break;
+            }
+
+            label.SetText(sb.ToString());
 
             label.enabled = true;
         }

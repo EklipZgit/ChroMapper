@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Beatmap.Enums;
 using Beatmap.V3;
 using SimpleJSON;
 
@@ -10,7 +11,7 @@ namespace Beatmap.Base
     {
         public BaseVfxEventEventBox()
         {
-            IndexFilter = new BaseIndexFilter();
+            VfxDistributionType = (int)DistributionType.Wave;
             Events = Array.Empty<BaseFxEventFloat>();
         }
 

@@ -1,9 +1,13 @@
+using Beatmap.Enums;
+
 namespace Beatmap.Base
 {
     public abstract class BaseEventBox : BaseItem
     {
         protected BaseEventBox()
         {
+            IndexFilter = new BaseIndexFilter();
+            BeatDistributionType = (int)DistributionType.Wave;
         }
 
         protected BaseEventBox(BaseIndexFilter indexFilter, float beatDistribution, int beatDistributionType)

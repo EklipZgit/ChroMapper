@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Beatmap.Enums;
 using Beatmap.V3;
 using SimpleJSON;
 
@@ -9,7 +10,7 @@ namespace Beatmap.Base
     {
         public BaseLightRotationEventBox()
         {
-            IndexFilter = new BaseIndexFilter();
+            RotationDistributionType = (int)DistributionType.Wave;
             Events = Array.Empty<BaseLightRotationBase>();
         }
 

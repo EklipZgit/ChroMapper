@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Beatmap.Enums;
 using Beatmap.V3;
 using SimpleJSON;
 
@@ -9,7 +10,7 @@ namespace Beatmap.Base
     {
         public BaseLightTranslationEventBox()
         {
-            IndexFilter = new BaseIndexFilter();
+            TranslationDistributionType = (int)DistributionType.Wave;
             Events = Array.Empty<BaseLightTranslationBase>();
         }
 

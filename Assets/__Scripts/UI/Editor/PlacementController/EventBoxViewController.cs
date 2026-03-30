@@ -15,31 +15,31 @@ public class EventBoxViewController : MonoBehaviour
     [Header("Info Text")] [SerializeField] private TextMeshProUGUI eventBoxIdText;
     [SerializeField] private TextMeshProUGUI filteredIdText;
 
-    [Header("Box")] [SerializeField] private ButtonComponent idPrefab;
+    [Header("Box")] [SerializeField] private ToggleComponent idPrefab;
     [SerializeField] private RectTransform idTransformTarget;
 
-    [Header("Input")] [SerializeField] private ButtonComponent beatDistributionWaveButton;
-    [SerializeField] private ButtonComponent beatDistributionStepButton;
+    [Header("Input")] [SerializeField] private ToggleComponent beatDistributionWaveToggle;
+    [SerializeField] private ToggleComponent beatDistributionStepToggle;
     [SerializeField] private TextBoxComponent beatDistributionInput;
-    [Space] [SerializeField] private ButtonComponent filterTypeSectionButton;
-    [SerializeField] private ButtonComponent filterTypeStepButton;
+    [Space] [SerializeField] private ToggleComponent filterTypeSectionToggle;
+    [SerializeField] private ToggleComponent filterTypeStepToggle;
     [SerializeField] private TextBoxComponent chunkInput;
     [SerializeField] private ToggleComponent reverseToggle;
     [SerializeField] private TextBoxComponent p0Input;
     [SerializeField] private TextBoxComponent p1Input;
-    [SerializeField] private ButtonComponent randomButton;
-    [SerializeField] private ButtonComponent inOrderButton;
+    [SerializeField] private ToggleComponent randomToggle;
+    [SerializeField] private ToggleComponent inOrderToggle;
     [SerializeField] private TextBoxComponent seedInput;
     [SerializeField] private GameObject axisObject;
-    [SerializeField] private ButtonComponent axisXButton;
-    [SerializeField] private ButtonComponent axisYButton;
-    [SerializeField] private ButtonComponent axisZButton;
+    [SerializeField] private ToggleComponent axisXToggle;
+    [SerializeField] private ToggleComponent axisYToggle;
+    [SerializeField] private ToggleComponent axisZToggle;
     [SerializeField] private ToggleComponent flipToggle;
     [Space] [SerializeField] private TextBoxComponent limitInput;
-    [SerializeField] private ButtonComponent limitDurationButton;
-    [SerializeField] private ButtonComponent limitDistributionButton;
-    [Space] [SerializeField] private ButtonComponent valueDistributionWaveButton;
-    [SerializeField] private ButtonComponent valueDistributionStepButton;
+    [SerializeField] private ToggleComponent limitDurationToggle;
+    [SerializeField] private ToggleComponent limitDistributionToggle;
+    [Space] [SerializeField] private ToggleComponent valueDistributionWaveToggle;
+    [SerializeField] private ToggleComponent valueDistributionStepToggle;
     [SerializeField] private TextBoxComponent valueDistributionInput;
     [SerializeField] private ToggleComponent affectFirstToggle;
     [SerializeField] private DropdownComponent easeTypeDropdown;
@@ -79,35 +79,46 @@ public class EventBoxViewController : MonoBehaviour
             idButton.gameObject.SetActive(true);
         }
 
-        eventBoxIdText.text = "1  |  " + count;
+        eventBoxIdText.text = $"1  |  {count}";
         HandleEventBoxChanged(group, box);
     }
 
     private void HandleEventBoxChanged(BaseEventBoxGroup group, BaseEventBox box)
     {
-        var trackDefinition = beatmapRuntimeContext.TracksDefinition.GetGlsOrDefault(group.ID);
-
         var count = box switch
         {
-            BaseLightColorEventBox => beatmapRuntimeContext.Descriptor.LightColorGroupEffectManager.IdToEffect[group.ID]
-                .Count,
+            BaseLightColorEventBox => beatmapRuntimeContext.Descriptor.LightColorGroupEffectManager.IdToEffect
+                .TryGetValue(group.ID, out var fx)
+                ? fx.Count
+                : 0,
             BaseLightRotationEventBox => beatmapRuntimeContext.Descriptor.LightColorGroupEffectManager
-                .IdToEffect[group.ID].Count,
+                .IdToEffect.TryGetValue(group.ID, out var fx)
+                ? fx.Count
+                : 0,
             BaseLightTranslationEventBox => beatmapRuntimeContext.Descriptor.LightColorGroupEffectManager
-                .IdToEffect[group.ID].Count,
-            BaseVfxEventEventBox => beatmapRuntimeContext.Descriptor.LightColorGroupEffectManager.IdToEffect[group.ID]
-                .Count,
+                .IdToEffect.TryGetValue(group.ID, out var fx)
+                ? fx.Count
+                : 0,
+            BaseVfxEventEventBox =>
+                beatmapRuntimeContext.Descriptor.LightColorGroupEffectManager.IdToEffect.TryGetValue(
+                    group.ID,
+                    out var fx)
+                    ? fx.Count
+                    : 0,
             _ => 0
         };
-        var ifh = IndexFilterHelper.Convert(box.IndexFilter, count);
-        filteredIdText.text =
-            $"{count}  |  {ifh.Count}  |  {ifh.VisibleCount}";
+
         if (box == null) return;
 
-        // beatDistributionStepButton.SetLabelEnabled(box.BeatDistributionType == (int)DistributionType.Step);
-        // beatDistributionWaveButton.SetLabelEnabled(box.BeatDistributionType == (int)DistributionType.Wave);
+        var ifh = IndexFilterHelper.Convert(box.IndexFilter, count);
+        filteredIdText.text = $"{count}  |  {ifh.Count}  |  {ifh.VisibleCount}";
+
+        beatDistributionWaveToggle.SetValueWithoutNotify(box.BeatDistributionType == (int)DistributionType.Wave);
+        beatDistributionStepToggle.SetValueWithoutNotify(box.BeatDistributionType == (int)DistributionType.Step);
         beatDistributionInput.SetValueWithoutNotify(box.BeatDistribution.ToString(CultureInfo.InvariantCulture));
 
+        filterTypeSectionToggle.SetValueWithoutNotify(box.IndexFilter.Type == (int)IndexFilterType.Division);
+        filterTypeStepToggle.SetValueWithoutNotify(box.IndexFilter.Type == (int)IndexFilterType.StepAndOffset);
         chunkInput.SetValueWithoutNotify(box.IndexFilter.Chunks.ToString(CultureInfo.InvariantCulture));
 
         reverseToggle.SetValueWithoutNotify(box.IndexFilter.Reverse == 1);
@@ -126,32 +137,61 @@ public class EventBoxViewController : MonoBehaviour
             p1Input.SetLabelText("Step");
         }
 
+
+        randomToggle.SetValueWithoutNotify((box.IndexFilter.Random & (int)RandomType.RandomElements) > 0);
+        inOrderToggle.SetValueWithoutNotify((box.IndexFilter.Random & (int)RandomType.KeepOrder) > 0);
         seedInput.SetValueWithoutNotify(box.IndexFilter.Seed.ToString(CultureInfo.InvariantCulture));
 
         limitInput.SetValueWithoutNotify((box.IndexFilter.Limit * 100f).ToString(CultureInfo.InvariantCulture));
+        limitDurationToggle.SetValueWithoutNotify(
+            (box.IndexFilter.LimitAffectsType & (int)LimitAlsoAffectType.Duration) > 0);
+        limitDistributionToggle.SetValueWithoutNotify(
+            (box.IndexFilter.LimitAffectsType & (int)LimitAlsoAffectType.Distribution) > 0);
 
         switch (box)
         {
             case BaseLightColorEventBox lceb:
                 axisObject.SetActive(false);
+                valueDistributionStepToggle.SetValueWithoutNotify(
+                    lceb.BrightnessDistributionType == (int)DistributionType.Step);
+                valueDistributionWaveToggle.SetValueWithoutNotify(
+                    lceb.BrightnessDistributionType == (int)DistributionType.Wave);
                 valueDistributionInput.SetValueWithoutNotify(
                     (lceb.BrightnessDistribution * 100f).ToString(CultureInfo.InvariantCulture));
                 affectFirstToggle.SetValueWithoutNotify(lceb.BrightnessAffectFirst == 1);
                 break;
             case BaseLightRotationEventBox lreb:
                 axisObject.SetActive(true);
+                axisXToggle.SetValueWithoutNotify(lreb.Axis == (int)Axis.X);
+                axisYToggle.SetValueWithoutNotify(lreb.Axis == (int)Axis.Y);
+                axisZToggle.SetValueWithoutNotify(lreb.Axis == (int)Axis.Z);
+                valueDistributionStepToggle.SetValueWithoutNotify(
+                    lreb.RotationDistributionType == (int)DistributionType.Step);
+                valueDistributionWaveToggle.SetValueWithoutNotify(
+                    lreb.RotationDistributionType == (int)DistributionType.Wave);
                 valueDistributionInput.SetValueWithoutNotify(
                     lreb.RotationDistribution.ToString(CultureInfo.InvariantCulture));
                 affectFirstToggle.SetValueWithoutNotify(lreb.RotationAffectFirst == 1);
                 break;
             case BaseLightTranslationEventBox lteb:
                 axisObject.SetActive(true);
+                axisXToggle.SetValueWithoutNotify(lteb.Axis == (int)Axis.X);
+                axisYToggle.SetValueWithoutNotify(lteb.Axis == (int)Axis.Y);
+                axisZToggle.SetValueWithoutNotify(lteb.Axis == (int)Axis.Z);
+                valueDistributionStepToggle.SetValueWithoutNotify(
+                    lteb.TranslationDistributionType == (int)DistributionType.Step);
+                valueDistributionWaveToggle.SetValueWithoutNotify(
+                    lteb.TranslationDistributionType == (int)DistributionType.Wave);
                 valueDistributionInput.SetValueWithoutNotify(
                     (lteb.TranslationDistribution * 100f).ToString(CultureInfo.InvariantCulture));
                 affectFirstToggle.SetValueWithoutNotify(lteb.TranslationAffectFirst == 1);
                 break;
             case BaseVfxEventEventBox ffeb:
                 axisObject.SetActive(false);
+                valueDistributionStepToggle.SetValueWithoutNotify(
+                    ffeb.VfxDistributionType == (int)DistributionType.Step);
+                valueDistributionWaveToggle.SetValueWithoutNotify(
+                    ffeb.VfxDistributionType == (int)DistributionType.Wave);
                 valueDistributionInput.SetValueWithoutNotify(
                     (ffeb.VfxDistribution * 100f).ToString(CultureInfo.InvariantCulture));
                 affectFirstToggle.SetValueWithoutNotify(ffeb.VfxAffectFirst == 1);
