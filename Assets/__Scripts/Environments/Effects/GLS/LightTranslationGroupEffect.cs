@@ -197,8 +197,6 @@ public class
         BaseLightTranslationEventBoxGroup data) =>
         new(data);
 
-    protected override Axis GetAxis(BaseLightTranslationEventBox box) => (Axis)box.Axis;
-
     protected override
         StateChunksContainer<LightTranslationGroupStateData,
             BaseLightTranslationEventBoxGroup>

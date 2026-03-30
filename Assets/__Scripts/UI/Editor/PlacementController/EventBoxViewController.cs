@@ -23,7 +23,7 @@ public class EventBoxViewController : MonoBehaviour
     [Header("Info Text")] [SerializeField] private TextMeshProUGUI eventBoxIdText;
     [SerializeField] private TextMeshProUGUI filteredIdText;
     [SerializeField] private Image idImagePrefab;
-    [SerializeField] private Transform idImageTarget;
+    [SerializeField] private Transform idImageTransformTarget;
     private readonly List<Image> instantiatedIdImage = new();
 
     [Header("Box")] [SerializeField] private ToggleComponent idPrefab;
@@ -70,26 +70,26 @@ public class EventBoxViewController : MonoBehaviour
 
         beatDistributionWaveToggle.SetOnValueChanged(HandleBeatDistributionWaveValueChanged);
         beatDistributionStepToggle.SetOnValueChanged(HandleBeatDistributionStepValueChanged);
-        beatDistributionInput.SetOnValueChanged(HandleBeatDistributionValueChanged);
+        beatDistributionInput.OnEndEdit(HandleBeatDistributionValueChanged);
         filterTypeSectionToggle.SetOnValueChanged(HandleFilterTypeSectionValueChanged);
         filterTypeStepToggle.SetOnValueChanged(HandleFilterTypeStepValueChanged);
-        chunkInput.SetOnValueChanged(HandleChunkValueChanged);
+        chunkInput.OnEndEdit(HandleChunkValueChanged);
         reverseToggle.SetOnValueChanged(HandleReverseValueChanged);
-        p0Input.SetOnValueChanged(HandleParam0ValueChanged);
-        p1Input.SetOnValueChanged(HandleParam1ValueChanged);
+        p0Input.OnEndEdit(HandleParam0ValueChanged);
+        p1Input.OnEndEdit(HandleParam1ValueChanged);
         randomToggle.SetOnValueChanged(HandleRandomValueChanged);
         inOrderToggle.SetOnValueChanged(HandleInOrderValueChanged);
-        seedInput.SetOnValueChanged(HandleSeedValueChanged);
+        seedInput.OnEndEdit(HandleSeedValueChanged);
         axisXToggle.SetOnValueChanged(HandleAxisXValueChanged);
         axisYToggle.SetOnValueChanged(HandleAxisYValueChanged);
         axisZToggle.SetOnValueChanged(HandleAxisZValueChanged);
         flipToggle.SetOnValueChanged(HandleFlipValueChanged);
-        limitInput.SetOnValueChanged(HandleLimitValueChanged);
+        limitInput.OnEndEdit(HandleLimitValueChanged);
         limitDurationToggle.SetOnValueChanged(HandleLimitDurationValueChanged);
         limitDistributionToggle.SetOnValueChanged(HandleLimitDistributionValueChanged);
         valueDistributionWaveToggle.SetOnValueChanged(HandleValueDistributionWaveValueChanged);
         valueDistributionStepToggle.SetOnValueChanged(HandleValueDistributionStepValueChanged);
-        valueDistributionInput.SetOnValueChanged(HandleValueDistributionValueChanged);
+        valueDistributionInput.OnEndEdit(HandleValueDistributionValueChanged);
         affectFirstToggle.SetOnValueChanged(HandleAffectFirstValueChanged);
         easeTypeDropdown.SetOnValueChanged(HandleEaseTypeValueChanged);
 
@@ -113,7 +113,7 @@ public class EventBoxViewController : MonoBehaviour
     {
         groupContext = group;
         boxContext = null;
-        boxIndex = group.BoxCount - 1;
+        boxIndex = group.ReadOnlyBoxes.Count > 0 ? boxIndex : -1;
 
         SetBoxIndex(boxIndex);
     }
@@ -186,23 +186,14 @@ public class EventBoxViewController : MonoBehaviour
         if (groupContext == null) return;
 
         boxIndex = newIndex;
-        BaseEventBox box = groupContext switch
-        {
-            BaseLightColorEventBoxGroup lcebg => lcebg.Boxes.ElementAtOrDefault(newIndex),
-            BaseLightRotationEventBoxGroup lrebg => lrebg.Boxes.ElementAtOrDefault(newIndex),
-            BaseLightTranslationEventBoxGroup ltebg => ltebg.Boxes.ElementAtOrDefault(newIndex),
-            BaseVfxEventEventBoxGroup ffebg => ffebg.Boxes.ElementAtOrDefault(newIndex),
-            _ => null
-        };
-
-        boxContext = box;
+        boxContext = groupContext.ReadOnlyBoxes.ElementAtOrDefault(boxIndex);
         RefreshID();
         HandleEventBoxChanged(groupContext, boxContext);
     }
 
     private void RefreshID()
     {
-        var count = groupContext.BoxCount;
+        var count = groupContext.ReadOnlyBoxes.Count;
 
         int i;
         for (i = 0; i < count; i++)
@@ -229,31 +220,32 @@ public class EventBoxViewController : MonoBehaviour
 
     private void HandleEventBoxChanged(BaseEventBoxGroup group, BaseEventBox box)
     {
-        var (boxes, count) = group switch
+        var boxes = group.ReadOnlyBoxes;
+        var count = group switch
         {
-            BaseLightColorEventBoxGroup lcebg => (lcebg.Boxes, beatmapRuntimeContext.Descriptor
+            BaseLightColorEventBoxGroup => beatmapRuntimeContext.Descriptor
                 .LightColorGroupEffectManager
                 .IdToEffect
                 .TryGetValue(group.ID, out var fx)
                 ? fx.Count
-                : 0),
-            BaseLightRotationEventBoxGroup lrebg => (lrebg.Boxes, beatmapRuntimeContext.Descriptor
-                .LightColorGroupEffectManager
+                : 0,
+            BaseLightRotationEventBoxGroup => beatmapRuntimeContext.Descriptor
+                .LightRotationGroupEffectManager
                 .IdToEffect.TryGetValue(group.ID, out var fx)
                 ? fx.Count
-                : 0),
-            BaseLightTranslationEventBoxGroup ltebg => (ltebg.Boxes, beatmapRuntimeContext.Descriptor
-                .LightColorGroupEffectManager
+                : 0,
+            BaseLightTranslationEventBoxGroup => beatmapRuntimeContext.Descriptor
+                .LightTranslationGroupEffectManager
                 .IdToEffect.TryGetValue(group.ID, out var fx)
                 ? fx.Count
-                : 0),
-            BaseVfxEventEventBoxGroup ffebg =>
-                (ffebg.Boxes, beatmapRuntimeContext.Descriptor.LightColorGroupEffectManager.IdToEffect.TryGetValue(
+                : 0,
+            BaseVfxEventEventBoxGroup =>
+                beatmapRuntimeContext.Descriptor.FloatFxGroupEffectManager.IdToEffect.TryGetValue(
                     group.ID,
                     out var fx)
                     ? fx.Count
-                    : 0),
-            _ => (Enumerable.Empty<BaseEventBox>(), 0)
+                    : 0,
+            _ => 0
         };
 
         int i;
@@ -262,26 +254,29 @@ public class EventBoxViewController : MonoBehaviour
             Image idImage;
             if (i >= instantiatedIdImage.Count)
             {
-                idImage = Instantiate(idImagePrefab, idImageTarget);
+                idImage = Instantiate(idImagePrefab, idImageTransformTarget);
                 instantiatedIdImage.Add(idImage);
             }
             else
                 idImage = instantiatedIdImage[i];
 
-            idImage.color = Color.gray;
+            idImage.color = new Color(0.1f, 0.1f, 0.1f);
             idImage.gameObject.SetActive(true);
         }
 
         for (; i < instantiatedIdImage.Count; i++) instantiatedIdImage[i].gameObject.SetActive(false);
 
         HashSet<int> affectedId = new();
-        foreach (var b in boxes)
+        var currentBoxPassed = false;
+        foreach (var b in boxes.Where(b => b.GetAxis() == box.GetAxis()))
         {
             var localIfh = IndexFilterHelper.Convert(b.IndexFilter, count);
+            if (b == box) currentBoxPassed = true;
             foreach (var (element, _, _) in localIfh)
             {
                 if (affectedId.Add(element))
-                    instantiatedIdImage[element].color = b == box ? Color.cyan : Color.white;
+                    instantiatedIdImage[element].color =
+                        b == box ? Color.green : currentBoxPassed ? Color.gray : Color.white;
                 else if (b == box) instantiatedIdImage[element].color = Color.red;
             }
         }
@@ -464,7 +459,7 @@ public class EventBoxViewController : MonoBehaviour
 
     private void HandleLimitValueChanged(float value)
     {
-        SetLimit(value);
+        SetLimit(value / 100f);
     }
 
     private void HandleLimitDurationValueChanged(bool value)
@@ -505,7 +500,7 @@ public class EventBoxViewController : MonoBehaviour
     public void SetType(int value)
     {
         var newGroup = BeatmapFactory.Clone(groupContext);
-        var newBox = GetBoxAt(newGroup, boxIndex);
+        var newBox = newGroup.ReadOnlyBoxes.ElementAtOrDefault(boxIndex);
         if (newBox == null) return;
         newBox.IndexFilter.Type = value;
         TriggerAction(groupContext, newGroup);
@@ -514,7 +509,7 @@ public class EventBoxViewController : MonoBehaviour
     public void SetParam0(int value)
     {
         var newGroup = BeatmapFactory.Clone(groupContext);
-        var newBox = GetBoxAt(newGroup, boxIndex);
+        var newBox = newGroup.ReadOnlyBoxes.ElementAtOrDefault(boxIndex);
         if (newBox == null) return;
 
         newBox.IndexFilter.Param0 = newBox.IndexFilter.Type == (int)IndexFilterType.Division ? value : value - 1;
@@ -525,7 +520,7 @@ public class EventBoxViewController : MonoBehaviour
     public void SetParam1(int value)
     {
         var newGroup = BeatmapFactory.Clone(groupContext);
-        var newBox = GetBoxAt(newGroup, boxIndex);
+        var newBox = newGroup.ReadOnlyBoxes.ElementAtOrDefault(boxIndex);
         if (newBox == null) return;
         newBox.IndexFilter.Param1 = newBox.IndexFilter.Type == (int)IndexFilterType.Division ? value - 1 : value;
 
@@ -535,7 +530,7 @@ public class EventBoxViewController : MonoBehaviour
     public void SetReverse(int value)
     {
         var newGroup = BeatmapFactory.Clone(groupContext);
-        var newBox = GetBoxAt(newGroup, boxIndex);
+        var newBox = newGroup.ReadOnlyBoxes.ElementAtOrDefault(boxIndex);
         if (newBox == null) return;
         newBox.IndexFilter.Reverse = value;
         TriggerAction(groupContext, newGroup);
@@ -544,7 +539,7 @@ public class EventBoxViewController : MonoBehaviour
     public void SetChunk(int value)
     {
         var newGroup = BeatmapFactory.Clone(groupContext);
-        var newBox = GetBoxAt(newGroup, boxIndex);
+        var newBox = newGroup.ReadOnlyBoxes.ElementAtOrDefault(boxIndex);
         if (newBox == null) return;
         newBox.IndexFilter.Chunks = value;
         TriggerAction(groupContext, newGroup);
@@ -553,7 +548,7 @@ public class EventBoxViewController : MonoBehaviour
     public void SetRandom(int value)
     {
         var newGroup = BeatmapFactory.Clone(groupContext);
-        var newBox = GetBoxAt(newGroup, boxIndex);
+        var newBox = newGroup.ReadOnlyBoxes.ElementAtOrDefault(boxIndex);
         if (newBox == null) return;
         newBox.IndexFilter.Random = value;
         TriggerAction(groupContext, newGroup);
@@ -562,7 +557,7 @@ public class EventBoxViewController : MonoBehaviour
     public void SetSeed(int value)
     {
         var newGroup = BeatmapFactory.Clone(groupContext);
-        var newBox = GetBoxAt(newGroup, boxIndex);
+        var newBox = newGroup.ReadOnlyBoxes.ElementAtOrDefault(boxIndex);
         if (newBox == null) return;
         newBox.IndexFilter.Seed = value;
         TriggerAction(groupContext, newGroup);
@@ -571,7 +566,7 @@ public class EventBoxViewController : MonoBehaviour
     public void SetLimit(float value)
     {
         var newGroup = BeatmapFactory.Clone(groupContext);
-        var newBox = GetBoxAt(newGroup, boxIndex);
+        var newBox = newGroup.ReadOnlyBoxes.ElementAtOrDefault(boxIndex);
         if (newBox == null) return;
         newBox.IndexFilter.Limit = value;
         TriggerAction(groupContext, newGroup);
@@ -580,7 +575,7 @@ public class EventBoxViewController : MonoBehaviour
     public void SetLimitAffectsType(int value)
     {
         var newGroup = BeatmapFactory.Clone(groupContext);
-        var newBox = GetBoxAt(newGroup, boxIndex);
+        var newBox = newGroup.ReadOnlyBoxes.ElementAtOrDefault(boxIndex);
         if (newBox == null) return;
         newBox.IndexFilter.LimitAffectsType = value;
         TriggerAction(groupContext, newGroup);
@@ -589,7 +584,7 @@ public class EventBoxViewController : MonoBehaviour
     public void SetBeatDistributionType(int value)
     {
         var newGroup = BeatmapFactory.Clone(groupContext);
-        var newBox = GetBoxAt(newGroup, boxIndex);
+        var newBox = newGroup.ReadOnlyBoxes.ElementAtOrDefault(boxIndex);
         if (newBox == null) return;
         newBox.BeatDistributionType = value;
         TriggerAction(groupContext, newGroup);
@@ -598,7 +593,7 @@ public class EventBoxViewController : MonoBehaviour
     public void SetBeatDistribution(float value)
     {
         var newGroup = BeatmapFactory.Clone(groupContext);
-        var newBox = GetBoxAt(newGroup, boxIndex);
+        var newBox = newGroup.ReadOnlyBoxes.ElementAtOrDefault(boxIndex);
         if (newBox == null) return;
         newBox.BeatDistribution = value;
         TriggerAction(groupContext, newGroup);
@@ -607,7 +602,7 @@ public class EventBoxViewController : MonoBehaviour
     public void SetAxis(int value)
     {
         var newGroup = BeatmapFactory.Clone(groupContext);
-        var newBox = GetBoxAt(newGroup, boxIndex);
+        var newBox = newGroup.ReadOnlyBoxes.ElementAtOrDefault(boxIndex);
         if (newBox == null) return;
         switch (newBox)
         {
@@ -625,7 +620,7 @@ public class EventBoxViewController : MonoBehaviour
     public void SetFlip(int value)
     {
         var newGroup = BeatmapFactory.Clone(groupContext);
-        var newBox = GetBoxAt(newGroup, boxIndex);
+        var newBox = newGroup.ReadOnlyBoxes.ElementAtOrDefault(boxIndex);
         if (newBox == null) return;
         switch (newBox)
         {
@@ -643,7 +638,7 @@ public class EventBoxViewController : MonoBehaviour
     public void SetValueDistribution(float value)
     {
         var newGroup = BeatmapFactory.Clone(groupContext);
-        var newBox = GetBoxAt(newGroup, boxIndex);
+        var newBox = newGroup.ReadOnlyBoxes.ElementAtOrDefault(boxIndex);
         if (newBox == null) return;
         switch (newBox)
         {
@@ -667,7 +662,7 @@ public class EventBoxViewController : MonoBehaviour
     public void SetValueDistributionType(int value)
     {
         var newGroup = BeatmapFactory.Clone(groupContext);
-        var newBox = GetBoxAt(newGroup, boxIndex);
+        var newBox = newGroup.ReadOnlyBoxes.ElementAtOrDefault(boxIndex);
         if (newBox == null) return;
         switch (newBox)
         {
@@ -691,7 +686,7 @@ public class EventBoxViewController : MonoBehaviour
     public void SetAffectFirst(int value)
     {
         var newGroup = BeatmapFactory.Clone(groupContext);
-        var newBox = GetBoxAt(newGroup, boxIndex);
+        var newBox = newGroup.ReadOnlyBoxes.ElementAtOrDefault(boxIndex);
         if (newBox == null) return;
         switch (newBox)
         {
@@ -715,23 +710,11 @@ public class EventBoxViewController : MonoBehaviour
     public void SetEasing(int value)
     {
         var newGroup = BeatmapFactory.Clone(groupContext);
-        var newBox = GetBoxAt(newGroup, boxIndex);
+        var newBox = newGroup.ReadOnlyBoxes.ElementAtOrDefault(boxIndex);
         if (newBox == null) return;
         newBox.Easing = value;
 
         TriggerAction(groupContext, newGroup);
-    }
-
-    private static BaseEventBox GetBoxAt(BaseEventBoxGroup newGroup, int boxIndex)
-    {
-        return newGroup switch
-        {
-            BaseLightColorEventBoxGroup lcebg => lcebg.Boxes.ElementAtOrDefault(boxIndex),
-            BaseLightRotationEventBoxGroup lrebg => lrebg.Boxes.ElementAtOrDefault(boxIndex),
-            BaseLightTranslationEventBoxGroup ltebg => ltebg.Boxes.ElementAtOrDefault(boxIndex),
-            BaseVfxEventEventBoxGroup ffebg => ffebg.Boxes.ElementAtOrDefault(boxIndex),
-            _ => null
-        };
     }
 
     private static void TriggerAction(BaseEventBoxGroup oldGroup, BaseEventBoxGroup newGroup)

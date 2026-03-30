@@ -20,7 +20,7 @@ public abstract class
     public override bool CanPlace =>
         base.CanPlace
         && glsEventGridProvider.GroupContext.GetType() == typeof(TGroup)
-        && QueuedData.EventBoxGroupData.BoxCount > 0;
+        && QueuedData.EventBoxGroupData.ReadOnlyBoxes.Count > 0;
 
     protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicts) =>
         throw new ArgumentException("If you triggered this, you tried to use add object where it couldn't");
@@ -50,19 +50,12 @@ public abstract class
         var i = (int)(PlacementVisualContainer.transform.localPosition.x - 0.5f);
         QueuedData.RelativeJsonTime = RoundedJsonTime - QueuedData.EventBoxGroupData.JsonTime;
         QueuedData.RecomputeSongBpmTime();
-        if (QueuedData.EventBoxGroupData.BoxCount == 0) return;
-        (QueuedData.EventBoxData, QueuedData.BoxIndex) = QueuedData.EventBoxGroupData switch
-        {
-            BaseLightColorEventBoxGroup lcebg => ((BaseEventBox)lcebg.Boxes[Math.Clamp(i, 0, lcebg.Boxes.Count)],
-                Math.Clamp(i, 0, lcebg.Boxes.Count)),
-            BaseLightRotationEventBoxGroup lrebg => (lrebg.Boxes[Math.Clamp(i, 0, lrebg.Boxes.Count)],
-                Math.Clamp(i, 0, lrebg.Boxes.Count)),
-            BaseLightTranslationEventBoxGroup ltebg => (ltebg.Boxes[Math.Clamp(i, 0, ltebg.Boxes.Count)],
-                Math.Clamp(i, 0, ltebg.Boxes.Count)),
-            BaseVfxEventEventBoxGroup ffebg => (ffebg.Boxes[Math.Clamp(i, 0, ffebg.Boxes.Count)],
-                Math.Clamp(i, 0, ffebg.Boxes.Count)),
-            _ => throw new ArgumentException("Something went wrong.")
-        };
+        if (QueuedData.EventBoxGroupData.ReadOnlyBoxes.Count == 0) return;
+        QueuedData.EventBoxData = QueuedData.EventBoxGroupData.ReadOnlyBoxes[Math.Clamp(
+            i,
+            0,
+            QueuedData.EventBoxGroupData.ReadOnlyBoxes.Count)];
+        QueuedData.BoxIndex = (Math.Clamp(i, 0, QueuedData.EventBoxGroupData.ReadOnlyBoxes.Count));
     }
 
     public override void HandleApply()

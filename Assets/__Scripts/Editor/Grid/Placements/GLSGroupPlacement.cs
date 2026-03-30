@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Beatmap.Appearances;
 using Beatmap.Base;
 using Beatmap.Containers;
@@ -30,8 +31,12 @@ public abstract class GLSGroupPlacement<TGroup, TCollection> : BasePlacement<TGr
         GlsGroupAppearance.SetAppearance(PlacementVisualContainer, false);
     }
 
-    protected override void HandlePlacementToData(PlacementInputState inputState) =>
+    protected override void HandlePlacementToData(PlacementInputState inputState)
+    {
         PlacementVisualContainer.SafeSetActive(CanPlace);
+        foreach (var evt in QueuedData.ReadOnlyBoxes.SelectMany(box => box.ReadOnlyEvents))
+            evt.JsonTime = QueuedData.JsonTime + evt.RelativeJsonTime;
+    }
 
     protected bool IsInPosition() =>
         Mathf.Approximately(

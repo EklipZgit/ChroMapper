@@ -152,8 +152,6 @@ public class
 
     protected override FloatFxGroupStateData CreateState(BaseVfxEventEventBoxGroup data) => new(data);
 
-    protected override Axis GetAxis(BaseVfxEventEventBox box) => Axis.X;
-
     protected override
         StateChunksContainer<FloatFxGroupStateData, BaseVfxEventEventBoxGroup>
         GetGroupContainer((Axis axis, int element) key)

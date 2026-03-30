@@ -55,11 +55,4 @@ public class
                     new BaseLightTranslationEventBox { Events = new[] { new BaseLightTranslationBase() } }
                 }
             });
-
-    protected override void HandlePlacementToData(PlacementInputState inputState)
-    {
-        base.HandlePlacementToData(inputState);
-        foreach (var evt in QueuedData.Boxes.SelectMany(box => box.Events))
-            evt.JsonTime = QueuedData.JsonTime + evt.RelativeJsonTime;
-    }
 }

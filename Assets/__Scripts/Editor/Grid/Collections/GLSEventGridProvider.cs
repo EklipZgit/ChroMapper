@@ -69,15 +69,7 @@ public class GLSEventGridProvider : MonoBehaviour
             return;
         }
 
-        var boxes = groupContext switch
-        {
-            BaseLightColorEventBoxGroup lcebg => lcebg.Boxes.Cast<BaseEventBox>().ToList(),
-            BaseLightRotationEventBoxGroup lrebg => lrebg.Boxes.Cast<BaseEventBox>().ToList(),
-            BaseLightTranslationEventBoxGroup ltebg => ltebg.Boxes.Cast<BaseEventBox>().ToList(),
-            BaseVfxEventEventBoxGroup veebg => veebg.Boxes.Cast<BaseEventBox>().ToList(),
-            _ => Enumerable.Empty<BaseEventBox>().ToList()
-        };
-
+        var boxes = groupContext.ReadOnlyBoxes;
         gridLane.Lane = boxes.Count;
 
         while (usedLabels.TryPop(out var label))

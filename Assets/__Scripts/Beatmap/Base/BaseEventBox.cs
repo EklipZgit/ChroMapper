@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Beatmap.Enums;
 
 namespace Beatmap.Base
@@ -32,5 +33,10 @@ namespace Beatmap.Base
         public int BeatDistributionType { get; set; }
 
         public int Easing { get; set; }
+        
+        public abstract IReadOnlyList<BaseGLSEvent> ReadOnlyEvents { get; }
+        public abstract void SetEvents(BaseGLSEvent[] data);
+
+        public virtual Axis GetAxis() => Axis.X;
     }
 }

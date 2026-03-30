@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Beatmap.Enums;
 using Beatmap.V3;
@@ -69,5 +70,12 @@ namespace Beatmap.Base
             };
 
         public override BaseItem Clone() => new BaseLightColorEventBox(this);
+
+        public override IReadOnlyList<BaseGLSEvent> ReadOnlyEvents => Events;
+
+        public override void SetEvents(BaseGLSEvent[] data)
+        {
+            if (data is BaseLightColorBase[] evts) Events = evts;
+        }
     }
 }

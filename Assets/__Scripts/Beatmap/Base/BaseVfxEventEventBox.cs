@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Beatmap.Enums;
-using Beatmap.V3;
 using SimpleJSON;
 
 namespace Beatmap.Base
@@ -75,5 +74,12 @@ namespace Beatmap.Base
         public override JSONNode ToJson() => throw new System.NotImplementedException();
 
         public override BaseItem Clone() => new BaseVfxEventEventBox(this);
+
+        public override IReadOnlyList<BaseGLSEvent> ReadOnlyEvents => Events;
+
+        public override void SetEvents(BaseGLSEvent[] data)
+        {
+            if (data is BaseFxEventFloat[] evts) Events = evts;
+        }
     }
 }

@@ -67,11 +67,4 @@ public class
             {
                 Boxes = new() { new BaseLightRotationEventBox { Events = new[] { new BaseLightRotationBase() } } }
             });
-
-    protected override void HandlePlacementToData(PlacementInputState inputState)
-    {
-        base.HandlePlacementToData(inputState);
-        foreach (var evt in QueuedData.Boxes.SelectMany(box => box.Events))
-            evt.JsonTime = QueuedData.JsonTime + evt.RelativeJsonTime;
-    }
 }

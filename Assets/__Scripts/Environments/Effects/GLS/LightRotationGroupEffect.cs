@@ -173,8 +173,6 @@ public class
         BaseLightRotationEventBoxGroup data) =>
         new(data);
 
-    protected override Axis GetAxis(BaseLightRotationEventBox box) => (Axis)box.Axis;
-
     protected override
         StateChunksContainer<LightRotationGroupStateData, BaseLightRotationEventBoxGroup>
         GetGroupContainer((Axis axis, int element) key)

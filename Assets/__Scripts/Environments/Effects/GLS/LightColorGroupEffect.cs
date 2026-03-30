@@ -154,8 +154,6 @@ public class
 
     protected override LightColorGroupStateData CreateState(BaseLightColorEventBoxGroup data) => new(data);
 
-    protected override Axis GetAxis(BaseLightColorEventBox box) => Axis.X;
-
     protected override
         StateChunksContainer<LightColorGroupStateData, BaseLightColorEventBoxGroup>
         GetGroupContainer((Axis axis, int element) key)

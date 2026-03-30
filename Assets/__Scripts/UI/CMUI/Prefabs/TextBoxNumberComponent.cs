@@ -143,6 +143,8 @@ public class TextBoxNumberComponent : CMUIComponentWithLabel<float>, INavigable,
         inputField.onDeselect.RemoveAllListeners();
     }
 
-    protected override void OnValueUpdated(float updatedValue) =>
-        inputField.SetTextWithoutNotify(updatedValue.ToString(CultureInfo.InvariantCulture));
+    protected override void OnValueUpdated(float updatedValue)
+    {
+        if (!inputField.isFocused) inputField.SetTextWithoutNotify(updatedValue.ToString(CultureInfo.InvariantCulture));
+    }
 }

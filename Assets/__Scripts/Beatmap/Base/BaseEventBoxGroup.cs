@@ -26,7 +26,7 @@ namespace Beatmap.Base
             return false;
         }
 
-        public abstract int BoxCount { get; }
+        public abstract IReadOnlyList<BaseEventBox> ReadOnlyBoxes { get; }
     }
 
     public abstract class BaseEventBoxGroup<TBox> : BaseEventBoxGroup where TBox : BaseEventBox
@@ -70,6 +70,6 @@ namespace Beatmap.Base
             return comparison;
         }
 
-        public override int BoxCount => Boxes.Count;
+        public override IReadOnlyList<BaseEventBox> ReadOnlyBoxes => Boxes;
     }
 }

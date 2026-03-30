@@ -49,11 +49,4 @@ public class GLSGroupFloatFXPlacement : GLSGroupPlacement<BaseVfxEventEventBoxGr
             {
                 Boxes = new() { new BaseVfxEventEventBox { Events = new[] { new BaseFxEventFloat() } } }
             });
-
-    protected override void HandlePlacementToData(PlacementInputState inputState)
-    {
-        base.HandlePlacementToData(inputState);
-        foreach (var evt in QueuedData.Boxes.SelectMany(box => box.Events))
-            evt.JsonTime = QueuedData.JsonTime + evt.RelativeJsonTime;
-    }
 }

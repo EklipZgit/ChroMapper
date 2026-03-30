@@ -86,11 +86,4 @@ public class GLSGroupColorPlacement : GLSGroupPlacement<BaseLightColorEventBoxGr
                     new BaseLightColorEventBox { Events = new[] { new BaseLightColorBase { Brightness = 1f } } }
                 }
             });
-
-    protected override void HandlePlacementToData(PlacementInputState inputState)
-    {
-        base.HandlePlacementToData(inputState);
-        foreach (var evt in QueuedData.Boxes.SelectMany(box => box.Events))
-            evt.JsonTime = QueuedData.JsonTime + evt.RelativeJsonTime;
-    }
 }
