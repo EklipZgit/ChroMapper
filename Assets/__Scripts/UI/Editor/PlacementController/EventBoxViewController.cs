@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using Beatmap.Base;
 using Beatmap.Enums;
 using Beatmap.Helper;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EventBoxViewController : MonoBehaviour
 {
@@ -22,6 +22,9 @@ public class EventBoxViewController : MonoBehaviour
 
     [Header("Info Text")] [SerializeField] private TextMeshProUGUI eventBoxIdText;
     [SerializeField] private TextMeshProUGUI filteredIdText;
+    [SerializeField] private Image idImagePrefab;
+    [SerializeField] private Transform idImageTarget;
+    private readonly List<Image> instantiatedIdImage = new();
 
     [Header("Box")] [SerializeField] private ToggleComponent idPrefab;
     [SerializeField] private RectTransform idTransformTarget;
@@ -100,13 +103,17 @@ public class EventBoxViewController : MonoBehaviour
         glsEventGridProvider.OnGroupChanged -= HandleGroupChanged;
     }
 
-    private void HandleEditModeChanged(EditingMode mode) => targetObject.SetActive(mode.HasFlag(EditingMode.EventBox));
+    private void HandleEditModeChanged(EditingMode mode)
+    {
+        targetObject.SetActive(mode.HasFlag(EditingMode.EventBox));
+        if (!mode.HasFlag(EditingMode.EventBox)) SetBoxIndex(0);
+    }
 
     private void HandleGroupChanged(BaseEventBoxGroup group)
     {
         groupContext = group;
         boxContext = null;
-        boxIndex = group.BoxCount > 0 ? 0 : -1;
+        boxIndex = group.BoxCount - 1;
 
         SetBoxIndex(boxIndex);
     }
@@ -190,7 +197,7 @@ public class EventBoxViewController : MonoBehaviour
 
         boxContext = box;
         RefreshID();
-        HandleEventBoxChanged(groupContext, box);
+        HandleEventBoxChanged(groupContext, boxContext);
     }
 
     private void RefreshID()
@@ -222,28 +229,62 @@ public class EventBoxViewController : MonoBehaviour
 
     private void HandleEventBoxChanged(BaseEventBoxGroup group, BaseEventBox box)
     {
-        var count = box switch
+        var (boxes, count) = group switch
         {
-            BaseLightColorEventBox => beatmapRuntimeContext.Descriptor.LightColorGroupEffectManager.IdToEffect
+            BaseLightColorEventBoxGroup lcebg => (lcebg.Boxes, beatmapRuntimeContext.Descriptor
+                .LightColorGroupEffectManager
+                .IdToEffect
                 .TryGetValue(group.ID, out var fx)
                 ? fx.Count
-                : 0,
-            BaseLightRotationEventBox => beatmapRuntimeContext.Descriptor.LightColorGroupEffectManager
+                : 0),
+            BaseLightRotationEventBoxGroup lrebg => (lrebg.Boxes, beatmapRuntimeContext.Descriptor
+                .LightColorGroupEffectManager
                 .IdToEffect.TryGetValue(group.ID, out var fx)
                 ? fx.Count
-                : 0,
-            BaseLightTranslationEventBox => beatmapRuntimeContext.Descriptor.LightColorGroupEffectManager
+                : 0),
+            BaseLightTranslationEventBoxGroup ltebg => (ltebg.Boxes, beatmapRuntimeContext.Descriptor
+                .LightColorGroupEffectManager
                 .IdToEffect.TryGetValue(group.ID, out var fx)
                 ? fx.Count
-                : 0,
-            BaseVfxEventEventBox =>
-                beatmapRuntimeContext.Descriptor.LightColorGroupEffectManager.IdToEffect.TryGetValue(
+                : 0),
+            BaseVfxEventEventBoxGroup ffebg =>
+                (ffebg.Boxes, beatmapRuntimeContext.Descriptor.LightColorGroupEffectManager.IdToEffect.TryGetValue(
                     group.ID,
                     out var fx)
                     ? fx.Count
-                    : 0,
-            _ => 0
+                    : 0),
+            _ => (Enumerable.Empty<BaseEventBox>(), 0)
         };
+
+        int i;
+        for (i = 0; i < count; i++)
+        {
+            Image idImage;
+            if (i >= instantiatedIdImage.Count)
+            {
+                idImage = Instantiate(idImagePrefab, idImageTarget);
+                instantiatedIdImage.Add(idImage);
+            }
+            else
+                idImage = instantiatedIdImage[i];
+
+            idImage.color = Color.gray;
+            idImage.gameObject.SetActive(true);
+        }
+
+        for (; i < instantiatedIdImage.Count; i++) instantiatedIdImage[i].gameObject.SetActive(false);
+
+        HashSet<int> affectedId = new();
+        foreach (var b in boxes)
+        {
+            var localIfh = IndexFilterHelper.Convert(b.IndexFilter, count);
+            foreach (var (element, _, _) in localIfh)
+            {
+                if (affectedId.Add(element))
+                    instantiatedIdImage[element].color = b == box ? Color.cyan : Color.white;
+                else if (b == box) instantiatedIdImage[element].color = Color.red;
+            }
+        }
 
         if (box == null) return;
 
