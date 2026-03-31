@@ -136,53 +136,17 @@ public class EventBoxViewController : MonoBehaviour
     private void HandleAddEventBox()
     {
         if (groupContext == null) return;
-
-        var newGroup = BeatmapFactory.Clone(groupContext);
-        var newIndex = boxIndex + 1;
-        switch (newGroup)
-        {
-            case BaseLightColorEventBoxGroup lcebg:
-                lcebg.Boxes.Insert(newIndex, new BaseLightColorEventBox());
-                break;
-            case BaseLightRotationEventBoxGroup lrebg:
-                lrebg.Boxes.Insert(newIndex, new BaseLightRotationEventBox());
-                break;
-            case BaseLightTranslationEventBoxGroup ltebg:
-                ltebg.Boxes.Insert(newIndex, new BaseLightTranslationEventBox());
-                break;
-            case BaseVfxEventEventBoxGroup ffebg:
-                ffebg.Boxes.Insert(newIndex, new BaseVfxEventEventBox());
-                break;
-        }
-
-        TriggerAction(groupContext, newGroup);
-        SetBoxIndex(newIndex);
+        var targetIndex = boxIndex + 1;
+        GLSEventBoxAction.AddEventBox(groupContext, targetIndex);
+        SetBoxIndex(targetIndex);
     }
 
     private void HandleDeleteEventBox()
     {
         if (groupContext == null) return;
-
-        var newGroup = BeatmapFactory.Clone(groupContext);
-        var newIndex = boxIndex - 1;
-        switch (newGroup)
-        {
-            case BaseLightColorEventBoxGroup lcebg:
-                lcebg.Boxes.RemoveAt(boxIndex);
-                break;
-            case BaseLightRotationEventBoxGroup lrebg:
-                lrebg.Boxes.RemoveAt(boxIndex);
-                break;
-            case BaseLightTranslationEventBoxGroup ltebg:
-                ltebg.Boxes.RemoveAt(boxIndex);
-                break;
-            case BaseVfxEventEventBoxGroup ffebg:
-                ffebg.Boxes.RemoveAt(boxIndex);
-                break;
-        }
-
-        TriggerAction(groupContext, newGroup);
-        SetBoxIndex(newIndex);
+        var targetIndex = boxIndex - 1;
+        GLSEventBoxAction.DeleteEventBox(groupContext, targetIndex);
+        SetBoxIndex(targetIndex);
     }
 
     private void SetBoxIndex(int newIndex)
@@ -280,8 +244,10 @@ public class EventBoxViewController : MonoBehaviour
             foreach (var (element, _, _) in localIfh)
             {
                 if (affectedId.Add(element))
+                {
                     instantiatedIdImage[element].color =
                         b == box ? Color.green : currentBoxPassed ? Color.gray : Color.white;
+                }
                 else if (b == box) instantiatedIdImage[element].color = Color.red;
             }
         }
@@ -392,348 +358,94 @@ public class EventBoxViewController : MonoBehaviour
 
     private void HandleBeatDistributionWaveValueChanged(bool value)
     {
-        if (value) SetBeatDistributionType((int)DistributionType.Wave);
+        if (value) GLSEventBoxAction.SetBeatDistributionType((int)DistributionType.Wave, groupContext, boxIndex);
     }
 
     private void HandleBeatDistributionStepValueChanged(bool value)
     {
-        if (value) SetBeatDistributionType((int)DistributionType.Step);
+        if (value) GLSEventBoxAction.SetBeatDistributionType((int)DistributionType.Step, groupContext, boxIndex);
     }
 
-    private void HandleBeatDistributionValueChanged(float value)
-    {
-        SetBeatDistribution(value);
-    }
+    private void HandleBeatDistributionValueChanged(float value) =>
+        GLSEventBoxAction.SetBeatDistribution(value, groupContext, boxIndex);
 
     private void HandleFilterTypeSectionValueChanged(bool value)
     {
-        if (value) SetType((int)IndexFilterType.Division);
+        if (value) GLSEventBoxAction.SetType((int)IndexFilterType.Division, groupContext, boxIndex);
     }
 
     private void HandleFilterTypeStepValueChanged(bool value)
     {
-        if (value) SetType((int)IndexFilterType.StepAndOffset);
+        if (value) GLSEventBoxAction.SetType((int)IndexFilterType.StepAndOffset, groupContext, boxIndex);
     }
 
-    private void HandleChunkValueChanged(int value)
-    {
-        SetChunk(value);
-    }
+    private void HandleChunkValueChanged(int value) => GLSEventBoxAction.SetChunk(value, groupContext, boxIndex);
 
-    private void HandleReverseValueChanged(bool value)
-    {
-        SetReverse(value ? 1 : 0);
-    }
+    private void HandleReverseValueChanged(bool value) =>
+        GLSEventBoxAction.SetReverse(value ? 1 : 0, groupContext, boxIndex);
 
-    private void HandleParam0ValueChanged(int value)
-    {
-        SetParam0(value);
-    }
+    private void HandleParam0ValueChanged(int value) => GLSEventBoxAction.SetParam0(value, groupContext, boxIndex);
 
-    private void HandleParam1ValueChanged(int value)
-    {
-        SetParam1(value);
-    }
+    private void HandleParam1ValueChanged(int value) => GLSEventBoxAction.SetParam1(value, groupContext, boxIndex);
 
-    private void HandleRandomValueChanged(bool value)
-    {
-        SetRandom(boxContext.IndexFilter.Random ^ (int)RandomType.RandomElements);
-    }
+    private void HandleRandomValueChanged(bool value) =>
+        GLSEventBoxAction.SetRandom(
+            boxContext.IndexFilter.Random ^ (int)RandomType.RandomElements,
+            groupContext,
+            boxIndex);
 
-    private void HandleInOrderValueChanged(bool value)
-    {
-        SetRandom(boxContext.IndexFilter.Random ^ (int)RandomType.KeepOrder);
-    }
+    private void HandleInOrderValueChanged(bool value) =>
+        GLSEventBoxAction.SetRandom(boxContext.IndexFilter.Random ^ (int)RandomType.KeepOrder, groupContext, boxIndex);
 
-    private void HandleSeedValueChanged(int value)
-    {
-        SetSeed(value);
-    }
+    private void HandleSeedValueChanged(int value) => GLSEventBoxAction.SetSeed(value, groupContext, boxIndex);
 
     private void HandleAxisXValueChanged(bool value)
     {
-        if (value) SetAxis((int)Axis.X);
+        if (value) GLSEventBoxAction.SetAxis((int)Axis.X, groupContext, boxIndex);
     }
 
     private void HandleAxisYValueChanged(bool value)
     {
-        if (value) SetAxis((int)Axis.Y);
+        if (value) GLSEventBoxAction.SetAxis((int)Axis.Y, groupContext, boxIndex);
     }
 
     private void HandleAxisZValueChanged(bool value)
     {
-        if (value) SetAxis((int)Axis.Z);
+        if (value) GLSEventBoxAction.SetAxis((int)Axis.Z, groupContext, boxIndex);
     }
 
-    private void HandleFlipValueChanged(bool value)
-    {
-        SetFlip(value ? 1 : 0);
-    }
+    private void HandleFlipValueChanged(bool value) => GLSEventBoxAction.SetFlip(value ? 1 : 0, groupContext, boxIndex);
 
-    private void HandleLimitValueChanged(float value)
-    {
-        SetLimit(value / 100f);
-    }
+    private void HandleLimitValueChanged(float value) =>
+        GLSEventBoxAction.SetLimit(value / 100f, groupContext, boxIndex);
 
-    private void HandleLimitDurationValueChanged(bool value)
-    {
-        SetLimitAffectsType(boxContext.IndexFilter.LimitAffectsType ^ (int)LimitAlsoAffectType.Duration);
-    }
+    private void HandleLimitDurationValueChanged(bool value) =>
+        GLSEventBoxAction.SetLimitAffectsType(
+            boxContext.IndexFilter.LimitAffectsType ^ (int)LimitAlsoAffectType.Duration,
+            groupContext,
+            boxIndex);
 
-    private void HandleLimitDistributionValueChanged(bool value)
-    {
-        SetLimitAffectsType(boxContext.IndexFilter.LimitAffectsType ^ (int)LimitAlsoAffectType.Distribution);
-    }
+    private void HandleLimitDistributionValueChanged(bool value) =>
+        GLSEventBoxAction.SetLimitAffectsType(
+            boxContext.IndexFilter.LimitAffectsType ^ (int)LimitAlsoAffectType.Distribution,
+            groupContext,
+            boxIndex);
 
     private void HandleValueDistributionWaveValueChanged(bool value)
     {
-        if (value) SetValueDistributionType((int)DistributionType.Wave);
+        if (value) GLSEventBoxAction.SetValueDistributionType((int)DistributionType.Wave, groupContext, boxIndex);
     }
 
     private void HandleValueDistributionStepValueChanged(bool value)
     {
-        if (value) SetValueDistributionType((int)DistributionType.Step);
+        if (value) GLSEventBoxAction.SetValueDistributionType((int)DistributionType.Step, groupContext, boxIndex);
     }
 
-    private void HandleValueDistributionValueChanged(float value)
-    {
-        SetValueDistribution(value);
-    }
+    private void HandleValueDistributionValueChanged(float value) =>
+        GLSEventBoxAction.SetValueDistribution(value, groupContext, boxIndex);
 
-    private void HandleAffectFirstValueChanged(bool value)
-    {
-        SetAffectFirst(value ? 1 : 0);
-    }
+    private void HandleAffectFirstValueChanged(bool value) =>
+        GLSEventBoxAction.SetAffectFirst(value ? 1 : 0, groupContext, boxIndex);
 
-    private void HandleEaseTypeValueChanged(int value)
-    {
-        SetEasing(value);
-    }
-
-    public void SetType(int value)
-    {
-        var newGroup = BeatmapFactory.Clone(groupContext);
-        var newBox = newGroup.ReadOnlyBoxes.ElementAtOrDefault(boxIndex);
-        if (newBox == null) return;
-        newBox.IndexFilter.Type = value;
-        TriggerAction(groupContext, newGroup);
-    }
-
-    public void SetParam0(int value)
-    {
-        var newGroup = BeatmapFactory.Clone(groupContext);
-        var newBox = newGroup.ReadOnlyBoxes.ElementAtOrDefault(boxIndex);
-        if (newBox == null) return;
-
-        newBox.IndexFilter.Param0 = newBox.IndexFilter.Type == (int)IndexFilterType.Division ? value : value - 1;
-
-        TriggerAction(groupContext, newGroup);
-    }
-
-    public void SetParam1(int value)
-    {
-        var newGroup = BeatmapFactory.Clone(groupContext);
-        var newBox = newGroup.ReadOnlyBoxes.ElementAtOrDefault(boxIndex);
-        if (newBox == null) return;
-        newBox.IndexFilter.Param1 = newBox.IndexFilter.Type == (int)IndexFilterType.Division ? value - 1 : value;
-
-        TriggerAction(groupContext, newGroup);
-    }
-
-    public void SetReverse(int value)
-    {
-        var newGroup = BeatmapFactory.Clone(groupContext);
-        var newBox = newGroup.ReadOnlyBoxes.ElementAtOrDefault(boxIndex);
-        if (newBox == null) return;
-        newBox.IndexFilter.Reverse = value;
-        TriggerAction(groupContext, newGroup);
-    }
-
-    public void SetChunk(int value)
-    {
-        var newGroup = BeatmapFactory.Clone(groupContext);
-        var newBox = newGroup.ReadOnlyBoxes.ElementAtOrDefault(boxIndex);
-        if (newBox == null) return;
-        newBox.IndexFilter.Chunks = value;
-        TriggerAction(groupContext, newGroup);
-    }
-
-    public void SetRandom(int value)
-    {
-        var newGroup = BeatmapFactory.Clone(groupContext);
-        var newBox = newGroup.ReadOnlyBoxes.ElementAtOrDefault(boxIndex);
-        if (newBox == null) return;
-        newBox.IndexFilter.Random = value;
-        TriggerAction(groupContext, newGroup);
-    }
-
-    public void SetSeed(int value)
-    {
-        var newGroup = BeatmapFactory.Clone(groupContext);
-        var newBox = newGroup.ReadOnlyBoxes.ElementAtOrDefault(boxIndex);
-        if (newBox == null) return;
-        newBox.IndexFilter.Seed = value;
-        TriggerAction(groupContext, newGroup);
-    }
-
-    public void SetLimit(float value)
-    {
-        var newGroup = BeatmapFactory.Clone(groupContext);
-        var newBox = newGroup.ReadOnlyBoxes.ElementAtOrDefault(boxIndex);
-        if (newBox == null) return;
-        newBox.IndexFilter.Limit = value;
-        TriggerAction(groupContext, newGroup);
-    }
-
-    public void SetLimitAffectsType(int value)
-    {
-        var newGroup = BeatmapFactory.Clone(groupContext);
-        var newBox = newGroup.ReadOnlyBoxes.ElementAtOrDefault(boxIndex);
-        if (newBox == null) return;
-        newBox.IndexFilter.LimitAffectsType = value;
-        TriggerAction(groupContext, newGroup);
-    }
-
-    public void SetBeatDistributionType(int value)
-    {
-        var newGroup = BeatmapFactory.Clone(groupContext);
-        var newBox = newGroup.ReadOnlyBoxes.ElementAtOrDefault(boxIndex);
-        if (newBox == null) return;
-        newBox.BeatDistributionType = value;
-        TriggerAction(groupContext, newGroup);
-    }
-
-    public void SetBeatDistribution(float value)
-    {
-        var newGroup = BeatmapFactory.Clone(groupContext);
-        var newBox = newGroup.ReadOnlyBoxes.ElementAtOrDefault(boxIndex);
-        if (newBox == null) return;
-        newBox.BeatDistribution = value;
-        TriggerAction(groupContext, newGroup);
-    }
-
-    public void SetAxis(int value)
-    {
-        var newGroup = BeatmapFactory.Clone(groupContext);
-        var newBox = newGroup.ReadOnlyBoxes.ElementAtOrDefault(boxIndex);
-        if (newBox == null) return;
-        switch (newBox)
-        {
-            case BaseLightRotationEventBox lreb:
-                lreb.Axis = value;
-                TriggerAction(groupContext, newGroup);
-                break;
-            case BaseLightTranslationEventBox lteb:
-                lteb.Axis = value;
-                TriggerAction(groupContext, newGroup);
-                break;
-        }
-    }
-
-    public void SetFlip(int value)
-    {
-        var newGroup = BeatmapFactory.Clone(groupContext);
-        var newBox = newGroup.ReadOnlyBoxes.ElementAtOrDefault(boxIndex);
-        if (newBox == null) return;
-        switch (newBox)
-        {
-            case BaseLightRotationEventBox lreb:
-                lreb.Flip = value;
-                TriggerAction(groupContext, newGroup);
-                break;
-            case BaseLightTranslationEventBox lteb:
-                lteb.Flip = value;
-                TriggerAction(groupContext, newGroup);
-                break;
-        }
-    }
-
-    public void SetValueDistribution(float value)
-    {
-        var newGroup = BeatmapFactory.Clone(groupContext);
-        var newBox = newGroup.ReadOnlyBoxes.ElementAtOrDefault(boxIndex);
-        if (newBox == null) return;
-        switch (newBox)
-        {
-            case BaseLightColorEventBox lceb:
-                lceb.BrightnessDistribution = value / 100f;
-                break;
-            case BaseLightRotationEventBox lreb:
-                lreb.RotationDistribution = value;
-                break;
-            case BaseLightTranslationEventBox lteb:
-                lteb.TranslationDistribution = value / 100f;
-                break;
-            case BaseVfxEventEventBox ffeb:
-                ffeb.VfxDistribution = value / 100f;
-                break;
-        }
-
-        TriggerAction(groupContext, newGroup);
-    }
-
-    public void SetValueDistributionType(int value)
-    {
-        var newGroup = BeatmapFactory.Clone(groupContext);
-        var newBox = newGroup.ReadOnlyBoxes.ElementAtOrDefault(boxIndex);
-        if (newBox == null) return;
-        switch (newBox)
-        {
-            case BaseLightColorEventBox lceb:
-                lceb.BrightnessDistributionType = value;
-                break;
-            case BaseLightRotationEventBox lreb:
-                lreb.RotationDistributionType = value;
-                break;
-            case BaseLightTranslationEventBox lteb:
-                lteb.TranslationDistributionType = value;
-                break;
-            case BaseVfxEventEventBox ffeb:
-                ffeb.VfxDistributionType = value;
-                break;
-        }
-
-        TriggerAction(groupContext, newGroup);
-    }
-
-    public void SetAffectFirst(int value)
-    {
-        var newGroup = BeatmapFactory.Clone(groupContext);
-        var newBox = newGroup.ReadOnlyBoxes.ElementAtOrDefault(boxIndex);
-        if (newBox == null) return;
-        switch (newBox)
-        {
-            case BaseLightColorEventBox lceb:
-                lceb.BrightnessAffectFirst = value;
-                break;
-            case BaseLightRotationEventBox lreb:
-                lreb.RotationAffectFirst = value;
-                break;
-            case BaseLightTranslationEventBox lteb:
-                lteb.TranslationAffectFirst = value;
-                break;
-            case BaseVfxEventEventBox ffeb:
-                ffeb.VfxAffectFirst = value;
-                break;
-        }
-
-        TriggerAction(groupContext, newGroup);
-    }
-
-    public void SetEasing(int value)
-    {
-        var newGroup = BeatmapFactory.Clone(groupContext);
-        var newBox = newGroup.ReadOnlyBoxes.ElementAtOrDefault(boxIndex);
-        if (newBox == null) return;
-        newBox.Easing = value;
-
-        TriggerAction(groupContext, newGroup);
-    }
-
-    private static void TriggerAction(BaseEventBoxGroup oldGroup, BaseEventBoxGroup newGroup)
-    {
-        var action = new BeatmapObjectPlacementAction(newGroup, new[] { oldGroup }, "Modified event box group.");
-        action.Redo();
-        BeatmapActionContainer.AddAction(action);
-    }
+    private void HandleEaseTypeValueChanged(int value) => GLSEventBoxAction.SetEasing(value, groupContext, boxIndex);
 }
