@@ -77,7 +77,7 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
         // convert back collection and replace the group instead
         var newGroup = BeatmapFactory.Clone(glsEvt.EventBoxGroupData);
         // the typa shit i had to pull to amke this work
-        foreach (var box in newGroup.ReadOnlyBoxes) box.SetEvents(Array.Empty<BaseGLSEvent>());
+        foreach (var box in newGroup.ReadOnlyBoxes) box.ClearEvents();
         foreach (var boxEvents in MapObjects
             .Select(e =>
             {

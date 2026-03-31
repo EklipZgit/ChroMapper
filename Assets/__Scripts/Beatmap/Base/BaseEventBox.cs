@@ -35,8 +35,10 @@ namespace Beatmap.Base
         public int Easing { get; set; }
         
         public abstract IReadOnlyList<BaseGLSEvent> ReadOnlyEvents { get; }
+        public abstract void ClearEvents();
         public abstract void SetEvents(BaseGLSEvent[] data);
 
         public virtual Axis GetAxis() => Axis.X;
+
     }
 }

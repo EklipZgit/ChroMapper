@@ -32,27 +32,27 @@ public class EventBoxViewController : MonoBehaviour
 
     [Header("Input")] [SerializeField] private ToggleComponent beatDistributionWaveToggle;
     [SerializeField] private ToggleComponent beatDistributionStepToggle;
-    [SerializeField] private TextBoxNumberComponent beatDistributionInput;
+    [SerializeField] private TextBoxFloatComponent beatDistributionInput;
     [Space] [SerializeField] private ToggleComponent filterTypeSectionToggle;
     [SerializeField] private ToggleComponent filterTypeStepToggle;
-    [SerializeField] private TextBoxNumberComponent chunkInput;
+    [SerializeField] private TextBoxIntComponent chunkInput;
     [SerializeField] private ToggleComponent reverseToggle;
-    [SerializeField] private TextBoxNumberComponent p0Input;
-    [SerializeField] private TextBoxNumberComponent p1Input;
+    [SerializeField] private TextBoxIntComponent p0Input;
+    [SerializeField] private TextBoxIntComponent p1Input;
     [SerializeField] private ToggleComponent randomToggle;
     [SerializeField] private ToggleComponent inOrderToggle;
-    [SerializeField] private TextBoxNumberComponent seedInput;
+    [SerializeField] private TextBoxIntComponent seedInput;
     [SerializeField] private GameObject axisObject;
     [SerializeField] private ToggleComponent axisXToggle;
     [SerializeField] private ToggleComponent axisYToggle;
     [SerializeField] private ToggleComponent axisZToggle;
     [SerializeField] private ToggleComponent flipToggle;
-    [Space] [SerializeField] private TextBoxNumberComponent limitInput;
+    [Space] [SerializeField] private TextBoxFloatComponent limitInput;
     [SerializeField] private ToggleComponent limitDurationToggle;
     [SerializeField] private ToggleComponent limitDistributionToggle;
     [Space] [SerializeField] private ToggleComponent valueDistributionWaveToggle;
     [SerializeField] private ToggleComponent valueDistributionStepToggle;
-    [SerializeField] private TextBoxNumberComponent valueDistributionInput;
+    [SerializeField] private TextBoxFloatComponent valueDistributionInput;
     [SerializeField] private ToggleComponent affectFirstToggle;
     [SerializeField] private DropdownComponent easeTypeDropdown;
 
@@ -68,30 +68,37 @@ public class EventBoxViewController : MonoBehaviour
         addEventBoxButton.OnClick(HandleAddEventBox);
         deleteEventBoxButton.OnClick(HandleDeleteEventBox);
 
-        beatDistributionWaveToggle.SetOnValueChanged(HandleBeatDistributionWaveValueChanged);
-        beatDistributionStepToggle.SetOnValueChanged(HandleBeatDistributionStepValueChanged);
+        beatDistributionWaveToggle.OnValueChanged(HandleBeatDistributionWaveValueChanged);
+        beatDistributionStepToggle.OnValueChanged(HandleBeatDistributionStepValueChanged);
         beatDistributionInput.OnEndEdit(HandleBeatDistributionValueChanged);
-        filterTypeSectionToggle.SetOnValueChanged(HandleFilterTypeSectionValueChanged);
-        filterTypeStepToggle.SetOnValueChanged(HandleFilterTypeStepValueChanged);
+        beatDistributionInput.OnValueChanged(HandleBeatDistributionValueChanged);
+        filterTypeSectionToggle.OnValueChanged(HandleFilterTypeSectionValueChanged);
+        filterTypeStepToggle.OnValueChanged(HandleFilterTypeStepValueChanged);
         chunkInput.OnEndEdit(HandleChunkValueChanged);
-        reverseToggle.SetOnValueChanged(HandleReverseValueChanged);
+        chunkInput.OnValueChanged(HandleChunkValueChanged);
+        reverseToggle.OnValueChanged(HandleReverseValueChanged);
         p0Input.OnEndEdit(HandleParam0ValueChanged);
+        p0Input.OnValueChanged(HandleParam0ValueChanged);
         p1Input.OnEndEdit(HandleParam1ValueChanged);
-        randomToggle.SetOnValueChanged(HandleRandomValueChanged);
-        inOrderToggle.SetOnValueChanged(HandleInOrderValueChanged);
+        p1Input.OnValueChanged(HandleParam1ValueChanged);
+        randomToggle.OnValueChanged(HandleRandomValueChanged);
+        inOrderToggle.OnValueChanged(HandleInOrderValueChanged);
         seedInput.OnEndEdit(HandleSeedValueChanged);
-        axisXToggle.SetOnValueChanged(HandleAxisXValueChanged);
-        axisYToggle.SetOnValueChanged(HandleAxisYValueChanged);
-        axisZToggle.SetOnValueChanged(HandleAxisZValueChanged);
-        flipToggle.SetOnValueChanged(HandleFlipValueChanged);
+        seedInput.OnValueChanged(HandleSeedValueChanged);
+        axisXToggle.OnValueChanged(HandleAxisXValueChanged);
+        axisYToggle.OnValueChanged(HandleAxisYValueChanged);
+        axisZToggle.OnValueChanged(HandleAxisZValueChanged);
+        flipToggle.OnValueChanged(HandleFlipValueChanged);
         limitInput.OnEndEdit(HandleLimitValueChanged);
-        limitDurationToggle.SetOnValueChanged(HandleLimitDurationValueChanged);
-        limitDistributionToggle.SetOnValueChanged(HandleLimitDistributionValueChanged);
-        valueDistributionWaveToggle.SetOnValueChanged(HandleValueDistributionWaveValueChanged);
-        valueDistributionStepToggle.SetOnValueChanged(HandleValueDistributionStepValueChanged);
+        limitInput.OnValueChanged(HandleLimitValueChanged);
+        limitDurationToggle.OnValueChanged(HandleLimitDurationValueChanged);
+        limitDistributionToggle.OnValueChanged(HandleLimitDistributionValueChanged);
+        valueDistributionWaveToggle.OnValueChanged(HandleValueDistributionWaveValueChanged);
+        valueDistributionStepToggle.OnValueChanged(HandleValueDistributionStepValueChanged);
         valueDistributionInput.OnEndEdit(HandleValueDistributionValueChanged);
-        affectFirstToggle.SetOnValueChanged(HandleAffectFirstValueChanged);
-        easeTypeDropdown.SetOnValueChanged(HandleEaseTypeValueChanged);
+        valueDistributionInput.OnValueChanged(HandleValueDistributionValueChanged);
+        affectFirstToggle.OnValueChanged(HandleAffectFirstValueChanged);
+        easeTypeDropdown.OnValueChanged(HandleEaseTypeValueChanged);
 
         HandleEditModeChanged(editModeContext.EditingMode);
         easeTypeDropdown.WithOptions(Easing.IDToFullName.Values);
@@ -120,12 +127,9 @@ public class EventBoxViewController : MonoBehaviour
 
     private Action<bool> HandleSetBoxIndex(int id)
     {
-        return v =>
+        return _ =>
         {
-            if (!v)
-                instantiatedId[id].SetValueWithoutNotify(true);
-            else
-                SetBoxIndex(id);
+            SetBoxIndex(id);
         };
     }
 
@@ -203,13 +207,14 @@ public class EventBoxViewController : MonoBehaviour
             {
                 idButton = Instantiate(idPrefab, idTransformTarget);
                 idButton.WithLabel((i + 1).ToString());
-                idButton.SetOnValueChanged(HandleSetBoxIndex(i));
+                idButton.OnValueChanged(HandleSetBoxIndex(i));
                 instantiatedId.Add(idButton);
             }
             else
                 idButton = instantiatedId[i];
 
             idButton.SetValueWithoutNotify(i == boxIndex);
+            idButton.Selectable.interactable = i != boxIndex;
             idButton.gameObject.SetActive(true);
         }
 
@@ -323,6 +328,8 @@ public class EventBoxViewController : MonoBehaviour
             (box.IndexFilter.LimitAffectsType & (int)LimitAlsoAffectType.Distribution) > 0);
 
         easeTypeDropdown.SetValueWithoutNotify(box.Easing);
+
+        var td = beatmapRuntimeContext.TracksDefinition.GetGlsOrDefault(groupContext.ID);
         switch (box)
         {
             case BaseLightColorEventBox lceb:
@@ -340,6 +347,9 @@ public class EventBoxViewController : MonoBehaviour
                 axisXToggle.SetValueWithoutNotify(lreb.Axis == (int)Axis.X);
                 axisYToggle.SetValueWithoutNotify(lreb.Axis == (int)Axis.Y);
                 axisZToggle.SetValueWithoutNotify(lreb.Axis == (int)Axis.Z);
+                axisXToggle.Selectable.interactable = td.RotationTracks[0];
+                axisYToggle.Selectable.interactable = td.RotationTracks[1];
+                axisZToggle.Selectable.interactable = td.RotationTracks[2];
                 valueDistributionStepToggle.SetValueWithoutNotify(
                     lreb.RotationDistributionType == (int)DistributionType.Step);
                 valueDistributionWaveToggle.SetValueWithoutNotify(
@@ -353,6 +363,9 @@ public class EventBoxViewController : MonoBehaviour
                 axisXToggle.SetValueWithoutNotify(lteb.Axis == (int)Axis.X);
                 axisYToggle.SetValueWithoutNotify(lteb.Axis == (int)Axis.Y);
                 axisZToggle.SetValueWithoutNotify(lteb.Axis == (int)Axis.Z);
+                axisXToggle.Selectable.interactable = td.TranslationTracks[0];
+                axisYToggle.Selectable.interactable = td.TranslationTracks[1];
+                axisZToggle.Selectable.interactable = td.TranslationTracks[2];
                 valueDistributionStepToggle.SetValueWithoutNotify(
                     lteb.TranslationDistributionType == (int)DistributionType.Step);
                 valueDistributionWaveToggle.SetValueWithoutNotify(
@@ -402,9 +415,9 @@ public class EventBoxViewController : MonoBehaviour
         if (value) SetType((int)IndexFilterType.StepAndOffset);
     }
 
-    private void HandleChunkValueChanged(float value)
+    private void HandleChunkValueChanged(int value)
     {
-        SetChunk(Mathf.FloorToInt(value));
+        SetChunk(value);
     }
 
     private void HandleReverseValueChanged(bool value)
@@ -412,14 +425,14 @@ public class EventBoxViewController : MonoBehaviour
         SetReverse(value ? 1 : 0);
     }
 
-    private void HandleParam0ValueChanged(float value)
+    private void HandleParam0ValueChanged(int value)
     {
-        SetParam0(Mathf.FloorToInt(value));
+        SetParam0(value);
     }
 
-    private void HandleParam1ValueChanged(float value)
+    private void HandleParam1ValueChanged(int value)
     {
-        SetParam1(Mathf.FloorToInt(value));
+        SetParam1(value);
     }
 
     private void HandleRandomValueChanged(bool value)
@@ -432,9 +445,9 @@ public class EventBoxViewController : MonoBehaviour
         SetRandom(boxContext.IndexFilter.Random ^ (int)RandomType.KeepOrder);
     }
 
-    private void HandleSeedValueChanged(float value)
+    private void HandleSeedValueChanged(int value)
     {
-        SetSeed(Mathf.FloorToInt(value));
+        SetSeed(value);
     }
 
     private void HandleAxisXValueChanged(bool value)

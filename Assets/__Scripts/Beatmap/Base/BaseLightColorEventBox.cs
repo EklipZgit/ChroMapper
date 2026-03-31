@@ -73,6 +73,8 @@ namespace Beatmap.Base
 
         public override IReadOnlyList<BaseGLSEvent> ReadOnlyEvents => Events;
 
+        public override void ClearEvents() => Events = Array.Empty<BaseLightColorBase>();
+
         public override void SetEvents(BaseGLSEvent[] data)
         {
             if (data is BaseLightColorBase[] evts) Events = evts;

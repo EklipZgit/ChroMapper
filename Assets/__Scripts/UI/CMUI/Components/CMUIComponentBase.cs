@@ -9,7 +9,7 @@ using UnityEngine;
 /// </typeparam>
 public abstract class CMUIComponent<T> : CMUIComponentBase
 {
-    public T Value
+    public virtual T Value
     {
         get => internalValue;
         set
@@ -35,7 +35,7 @@ public abstract class CMUIComponent<T> : CMUIComponentBase
         this.valueAccessor = valueAccessor;
     }
 
-    internal void SetOnValueChanged(Action<T> onValueChanged)
+    internal void OnValueChanged(Action<T> onValueChanged)
     {
         if (this.onValueChanged != null)
         {
