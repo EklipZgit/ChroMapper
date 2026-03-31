@@ -1,36 +1,35 @@
-﻿using System;
-using System.Linq;
-using Beatmap.Base;
+﻿using Beatmap.Base;
 using Beatmap.Enums;
 using Beatmap.Helper;
 using UnityEngine;
 
 public class GLSGroupColorPlacement : GLSGroupPlacement<BaseLightColorEventBoxGroup, GLSGroupColorGridContainer>
 {
-    [SerializeField] private BeatmapGLSEventColorInputController inputController;
+    [SerializeField] private BeatmapGLSGroupColorInputController groupInputController;
+    [SerializeField] private BeatmapGLSEventColorInputController eventInputController;
 
     public override bool CanPlace =>
-        base.CanPlace && GlsGroupTrack.TrackDefinition.ColorTrack && !inputController.IsHovering;
+        base.CanPlace && GlsGroupTrack.TrackDefinition.ColorTrack && !groupInputController.IsHovering;
 
     public override void Start()
     {
         base.Start();
-        inputController.OnColorChanged += HandleColorChanged;
-        inputController.OnBrightnessChanged += HandleBrightnessChanged;
-        inputController.OnStrobeFrequencyChanged += HandleStrobeFrequencyChanged;
-        inputController.OnStrobeBrightnessChanged += HandleStrobeBrightnessChanged;
-        inputController.OnSoftStrobeChanged += HandleSoftStrobeChanged;
+        eventInputController.OnColorChanged += HandleColorChanged;
+        eventInputController.OnBrightnessChanged += HandleBrightnessChanged;
+        eventInputController.OnStrobeFrequencyChanged += HandleStrobeFrequencyChanged;
+        eventInputController.OnStrobeBrightnessChanged += HandleStrobeBrightnessChanged;
+        eventInputController.OnSoftStrobeChanged += HandleSoftStrobeChanged;
         EasingInputController.OnExtensionChanged += HandleExtensionChanged;
         EasingInputController.OnEasingChanged += HandleEasingChanged;
     }
 
     public void OnDestroy()
     {
-        inputController.OnColorChanged -= HandleColorChanged;
-        inputController.OnBrightnessChanged -= HandleBrightnessChanged;
-        inputController.OnStrobeFrequencyChanged -= HandleStrobeFrequencyChanged;
-        inputController.OnStrobeBrightnessChanged -= HandleStrobeBrightnessChanged;
-        inputController.OnSoftStrobeChanged -= HandleSoftStrobeChanged;
+        eventInputController.OnColorChanged -= HandleColorChanged;
+        eventInputController.OnBrightnessChanged -= HandleBrightnessChanged;
+        eventInputController.OnStrobeFrequencyChanged -= HandleStrobeFrequencyChanged;
+        eventInputController.OnStrobeBrightnessChanged -= HandleStrobeBrightnessChanged;
+        eventInputController.OnSoftStrobeChanged -= HandleSoftStrobeChanged;
         EasingInputController.OnExtensionChanged -= HandleExtensionChanged;
         EasingInputController.OnEasingChanged -= HandleEasingChanged;
     }

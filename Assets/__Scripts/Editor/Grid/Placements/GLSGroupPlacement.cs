@@ -11,7 +11,7 @@ public abstract class GLSGroupPlacement<TGroup, TCollection> : BasePlacement<TGr
     [SerializeField] public GLSGroupTrack GlsGroupTrack;
 
     [SerializeField] protected GLSGroupAppearanceSO GlsGroupAppearance;
-    [SerializeField] private BeatmapRuntimeContext context;
+    [SerializeField] private BeatmapRuntimeContext beatmapRuntimeContext;
     [SerializeField] protected BeatmapEasingsSelectionInputController EasingInputController;
 
     public override bool CanPlace => base.CanPlace && IsInPosition() && !GlobalIntersectionCache.HasHit;
@@ -41,7 +41,7 @@ public abstract class GLSGroupPlacement<TGroup, TCollection> : BasePlacement<TGr
     protected bool IsInPosition() =>
         Mathf.Approximately(
             Mathf.Floor(PlacementVisualContainer.transform.localPosition.x),
-            GLSGroupContainer.GetPositionFromTrackDefinition(context.TracksDefinition, QueuedData));
+            GLSGroupContainer.GetPositionFromTrackDefinition(beatmapRuntimeContext.TracksDefinition, QueuedData));
 
     public override void HandleApply()
     {

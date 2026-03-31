@@ -5,22 +5,23 @@ using UnityEngine;
 
 public class GLSGroupFloatFXPlacement : GLSGroupPlacement<BaseVfxEventEventBoxGroup, GLSGroupFloatFXGridContainer>
 {
-    [SerializeField] private BeatmapGLSEventFloatFXInputController inputController;
+    [SerializeField] private BeatmapGLSGroupFloatFXInputController groupInputController;
+    [SerializeField] private BeatmapGLSEventFloatFXInputController eventInputController;
 
     public override bool CanPlace =>
-        base.CanPlace && GlsGroupTrack.TrackDefinition.FloatFXTrack && !inputController.IsHovering;
+        base.CanPlace && GlsGroupTrack.TrackDefinition.FloatFXTrack && !groupInputController.IsHovering;
 
     public override void Start()
     {
         base.Start();
-        inputController.OnValueChanged += HandleValueChanged;
+        eventInputController.OnValueChanged += HandleValueChanged;
         EasingInputController.OnEasingChanged += HandleEasingChanged;
         EasingInputController.OnExtensionChanged += HandleExtensionChanged;
     }
 
     public void OnDestroy()
     {
-        inputController.OnValueChanged -= HandleValueChanged;
+        eventInputController.OnValueChanged -= HandleValueChanged;
         EasingInputController.OnEasingChanged -= HandleEasingChanged;
         EasingInputController.OnExtensionChanged -= HandleExtensionChanged;
     }

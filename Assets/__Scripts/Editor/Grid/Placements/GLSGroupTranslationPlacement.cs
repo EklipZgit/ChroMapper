@@ -7,24 +7,26 @@ public class
     GLSGroupTranslationPlacement : GLSGroupPlacement<BaseLightTranslationEventBoxGroup,
     GLSGroupTranslationGridContainer>
 {
-    [SerializeField] private BeatmapGLSEventTranslationInputController inputController;
-    [SerializeField] private BeatmapEasingsSelectionInputController easingInputController;
+    [SerializeField] private BeatmapGLSGroupTranslationInputController groupInputController;
+    [SerializeField] private BeatmapGLSEventTranslationInputController eventInputController;
 
     public override bool CanPlace =>
-        base.CanPlace && GlsGroupTrack.TrackDefinition.TranslationTracks.Any(x => x) && !inputController.IsHovering;
+        base.CanPlace
+        && GlsGroupTrack.TrackDefinition.TranslationTracks.Any(x => x)
+        && !groupInputController.IsHovering;
 
     public override void Start()
     {
         base.Start();
-        inputController.OnValueChanged += HandleValueChanged;
-        easingInputController.OnEasingChanged += HandleEasingChanged;
+        eventInputController.OnValueChanged += HandleValueChanged;
+        EasingInputController.OnEasingChanged += HandleEasingChanged;
         EasingInputController.OnExtensionChanged += HandleExtensionChanged;
     }
 
     public void OnDestroy()
     {
-        inputController.OnValueChanged -= HandleValueChanged;
-        easingInputController.OnEasingChanged -= HandleEasingChanged;
+        eventInputController.OnValueChanged -= HandleValueChanged;
+        EasingInputController.OnEasingChanged -= HandleEasingChanged;
         EasingInputController.OnExtensionChanged -= HandleExtensionChanged;
     }
 

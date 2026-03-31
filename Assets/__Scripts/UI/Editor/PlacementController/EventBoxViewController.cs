@@ -20,6 +20,10 @@ public class EventBoxViewController : MonoBehaviour
 
     [SerializeField] private ButtonComponent deleteEventBoxButton;
 
+    [Header("ID Tab")] [SerializeField] private ToggleComponent idTabPrefab;
+    [SerializeField] private RectTransform idTabTargetTransform;
+    private readonly List<ToggleComponent> instantiatedIdTab = new();
+
     [Header("Info Text")] [SerializeField] private TextMeshProUGUI eventBoxIdText;
     [SerializeField] private TextMeshProUGUI filteredIdText;
     [SerializeField] private Image idImagePrefab;
@@ -30,11 +34,8 @@ public class EventBoxViewController : MonoBehaviour
     [SerializeField] private Transform errorTextTargetTransform;
     private readonly List<TextMeshProUGUI> instantiatedErrorText = new();
 
-    [Header("Box")] [SerializeField] private ToggleComponent idTabPrefab;
-    [SerializeField] private RectTransform idTabTargetTransform;
-    private readonly List<ToggleComponent> instantiatedIdTab = new();
-
-    [Header("Input")] [SerializeField] private ToggleComponent beatDistributionWaveToggle;
+    [Header("Input")] [SerializeField] private GameObject inputContainer;
+    [Space] [SerializeField] private ToggleComponent beatDistributionWaveToggle;
     [SerializeField] private ToggleComponent beatDistributionStepToggle;
     [SerializeField] private TextBoxFloatComponent beatDistributionInput;
     [Space] [SerializeField] private ToggleComponent filterTypeSectionToggle;
@@ -74,38 +75,44 @@ public class EventBoxViewController : MonoBehaviour
 
         beatDistributionWaveToggle.OnValueChanged(HandleBeatDistributionWaveValueChanged);
         beatDistributionStepToggle.OnValueChanged(HandleBeatDistributionStepValueChanged);
-        beatDistributionInput.OnEndEdit(HandleBeatDistributionValueChanged);
-        beatDistributionInput.OnValueChanged(HandleBeatDistributionValueChanged);
+        beatDistributionInput
+            .OnEndEdit(HandleBeatDistributionValueChanged)
+            .OnValueChanged(HandleBeatDistributionValueChanged);
         filterTypeSectionToggle.OnValueChanged(HandleFilterTypeSectionValueChanged);
         filterTypeStepToggle.OnValueChanged(HandleFilterTypeStepValueChanged);
-        chunkInput.OnEndEdit(HandleChunkValueChanged);
-        chunkInput.OnValueChanged(HandleChunkValueChanged);
+        chunkInput
+            .OnEndEdit(HandleChunkValueChanged)
+            .OnValueChanged(HandleChunkValueChanged);
         reverseToggle.OnValueChanged(HandleReverseValueChanged);
-        p0Input.OnEndEdit(HandleParam0ValueChanged);
-        p0Input.OnValueChanged(HandleParam0ValueChanged);
-        p1Input.OnEndEdit(HandleParam1ValueChanged);
-        p1Input.OnValueChanged(HandleParam1ValueChanged);
+        p0Input
+            .OnEndEdit(HandleParam0ValueChanged)
+            .OnValueChanged(HandleParam0ValueChanged);
+        p1Input
+            .OnEndEdit(HandleParam1ValueChanged)
+            .OnValueChanged(HandleParam1ValueChanged);
         randomToggle.OnValueChanged(HandleRandomValueChanged);
         inOrderToggle.OnValueChanged(HandleInOrderValueChanged);
-        seedInput.OnEndEdit(HandleSeedValueChanged);
-        seedInput.OnValueChanged(HandleSeedValueChanged);
+        seedInput
+            .OnEndEdit(HandleSeedValueChanged)
+            .OnValueChanged(HandleSeedValueChanged);
         axisXToggle.OnValueChanged(HandleAxisXValueChanged);
         axisYToggle.OnValueChanged(HandleAxisYValueChanged);
         axisZToggle.OnValueChanged(HandleAxisZValueChanged);
         flipToggle.OnValueChanged(HandleFlipValueChanged);
-        limitInput.OnEndEdit(HandleLimitValueChanged);
-        limitInput.OnValueChanged(HandleLimitValueChanged);
+        limitInput
+            .OnEndEdit(HandleLimitValueChanged)
+            .OnValueChanged(HandleLimitValueChanged);
         limitDurationToggle.OnValueChanged(HandleLimitDurationValueChanged);
         limitDistributionToggle.OnValueChanged(HandleLimitDistributionValueChanged);
         valueDistributionWaveToggle.OnValueChanged(HandleValueDistributionWaveValueChanged);
         valueDistributionStepToggle.OnValueChanged(HandleValueDistributionStepValueChanged);
-        valueDistributionInput.OnEndEdit(HandleValueDistributionValueChanged);
-        valueDistributionInput.OnValueChanged(HandleValueDistributionValueChanged);
+        valueDistributionInput
+            .OnEndEdit(HandleValueDistributionValueChanged)
+            .OnValueChanged(HandleValueDistributionValueChanged);
         affectFirstToggle.OnValueChanged(HandleAffectFirstValueChanged);
-        easeTypeDropdown.OnValueChanged(HandleEaseTypeValueChanged);
+        easeTypeDropdown.WithOptions(Easing.IDToFullName.Values).OnValueChanged(HandleEaseTypeValueChanged);
 
         HandleEditModeChanged(editModeContext.EditingMode);
-        easeTypeDropdown.WithOptions(Easing.IDToFullName.Values);
     }
 
     private void OnDestroy()
@@ -124,7 +131,7 @@ public class EventBoxViewController : MonoBehaviour
     {
         groupContext = group;
         boxContext = null;
-        boxIndex = group.ReadOnlyBoxes.Count > 0 ? Math.Min(group.ReadOnlyBoxes.Count - 1, boxIndex) : -1;
+        boxIndex = group.ReadOnlyBoxes.Count > 0 ? Math.Clamp(boxIndex, 0, group.ReadOnlyBoxes.Count - 1) : -1;
 
         SetBoxIndex(boxIndex);
     }
@@ -248,7 +255,7 @@ public class EventBoxViewController : MonoBehaviour
             {
                 if (instantiatedErrorText.Count > 10) continue;
                 var t = Instantiate(errorTextPrefab, errorTextTargetTransform);
-                t.text = $"[{x + 1}] Index filter is invalid or empty";
+                t.text = $"[{x + 1}] Filter is invalid";
                 t.gameObject.SetActive(true);
                 instantiatedErrorText.Add(t);
                 continue;
@@ -261,7 +268,7 @@ public class EventBoxViewController : MonoBehaviour
                 {
                     if (instantiatedErrorText.Count > 10) continue;
                     var t = Instantiate(errorTextPrefab, errorTextTargetTransform);
-                    t.text = $"[{x + 1}] Index filter returned OOB ID {element}";
+                    t.text = $"[{x + 1}] Filter returned OOB ID {element}";
                     t.gameObject.SetActive(true);
                     instantiatedErrorText.Add(t);
                     continue;
@@ -276,7 +283,13 @@ public class EventBoxViewController : MonoBehaviour
             }
         }
 
-        if (box == null) return;
+        if (box == null)
+        {
+            inputContainer.SetActive(false);
+            return;
+        }
+
+        inputContainer.SetActive(true);
 
         var locIfh = IndexFilterHelper.Convert(box.IndexFilter, count);
         filteredIdText.text = locIfh != null

@@ -6,28 +6,28 @@ using UnityEngine;
 public class
     GLSGroupRotationPlacement : GLSGroupPlacement<BaseLightRotationEventBoxGroup, GLSGroupRotationGridContainer>
 {
-    [SerializeField] private BeatmapGLSEventRotationInputController inputController;
-    [SerializeField] private BeatmapEasingsSelectionInputController easingInputController;
+    [SerializeField] private BeatmapGLSGroupRotationInputController groupInputController;
+    [SerializeField] private BeatmapGLSEventRotationInputController eventInputController;
 
     public override bool CanPlace =>
-        base.CanPlace && GlsGroupTrack.TrackDefinition.RotationTracks.Any(x => x) && !inputController.IsHovering;
+        base.CanPlace && GlsGroupTrack.TrackDefinition.RotationTracks.Any(x => x) && !groupInputController.IsHovering;
 
     public override void Start()
     {
         base.Start();
-        inputController.OnValueChanged += HandleValueChanged;
-        inputController.OnLoopChanged += HandleLoopChanged;
-        inputController.OnDirectionChanged += HandleDirectionChanged;
-        easingInputController.OnEasingChanged += HandleEasingChanged;
+        eventInputController.OnValueChanged += HandleValueChanged;
+        eventInputController.OnLoopChanged += HandleLoopChanged;
+        eventInputController.OnDirectionChanged += HandleDirectionChanged;
+        EasingInputController.OnEasingChanged += HandleEasingChanged;
         EasingInputController.OnExtensionChanged += HandleExtensionChanged;
     }
 
     public void OnDestroy()
     {
-        inputController.OnValueChanged -= HandleValueChanged;
-        inputController.OnLoopChanged -= HandleLoopChanged;
-        inputController.OnDirectionChanged -= HandleDirectionChanged;
-        easingInputController.OnEasingChanged -= HandleEasingChanged;
+        eventInputController.OnValueChanged -= HandleValueChanged;
+        eventInputController.OnLoopChanged -= HandleLoopChanged;
+        eventInputController.OnDirectionChanged -= HandleDirectionChanged;
+        EasingInputController.OnEasingChanged -= HandleEasingChanged;
         EasingInputController.OnExtensionChanged -= HandleExtensionChanged;
     }
 
