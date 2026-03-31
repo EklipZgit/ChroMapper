@@ -11,6 +11,7 @@ public abstract class BeatmapGLSGroupInputController<TData> : BeatmapInputContro
     [SerializeField] private AudioTimeSyncController atsc;
     [SerializeField] private GLSEventGridProvider eventGridProvider;
     [SerializeField] private BoxSelectionPlacement boxSelectionPlacement;
+
     protected override bool ValidObject(GLSGroupContainer container) => container.EventBoxGroupData is TData;
 
     private bool CanInteract =>
@@ -21,8 +22,9 @@ public abstract class BeatmapGLSGroupInputController<TData> : BeatmapInputContro
         && !DeleteToolController.IsActive
         && !NodeEditorController.IsActive
         && !UIMode.PreviewMode
-        && !MassSelect; // TODO: prevent interaction after box selection is complete, race condition or somethin
+        && !MassSelect;
 
+    // TODO: prevent interaction after box selection is complete, race condition or somethin
     public void OnEnterGroup(InputAction.CallbackContext context)
     {
         if (context.performed && CanInteract && EditContext.EditingMode.HasFlag(EditingMode.GLS) && IsHovering)
@@ -37,8 +39,11 @@ public abstract class BeatmapGLSGroupInputController<TData> : BeatmapInputContro
     public void OnExitGroup(InputAction.CallbackContext context)
     {
         if (context.performed && EditContext.EditingMode.HasFlag(EditingMode.EventBox))
-        {
             EditContext.EditingMode = EditingMode.GLS;
-        }
+    }
+
+    public void OnMirrorHover(InputAction.CallbackContext context)
+    {
+        if (context.performed && IsHovering) throw new System.NotImplementedException();
     }
 }

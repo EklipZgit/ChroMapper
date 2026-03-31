@@ -32,6 +32,7 @@ public class BeatmapInputController<TContainer> : MonoBehaviour, CMInput.IBeatma
     private List<Intersections.IntersectionHit> preAllocIntersections = new();
 
     private void Start() => DeleteToolController.OnDeleteToolActivated += HandleDeleteToolActivated;
+
     private void OnDestroy() => DeleteToolController.OnDeleteToolActivated -= HandleDeleteToolActivated;
 
     private void HandleDeleteToolActivated()
@@ -42,7 +43,13 @@ public class BeatmapInputController<TContainer> : MonoBehaviour, CMInput.IBeatma
     // Update is called once per frame
     private void Update()
     {
-        if ((EditContext.EditingMode & editMode) != editMode) return;
+        if ((EditContext.EditingMode & editMode) != editMode)
+        {
+            if (IsHovering) HoveredObject.Highlighted = false;
+            IsHovering = false;
+            return;
+        }
+
         if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)) return;
         if (obstaclePlacement.IsPlacing)
         {

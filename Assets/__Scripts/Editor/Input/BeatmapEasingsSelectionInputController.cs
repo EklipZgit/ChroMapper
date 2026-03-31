@@ -1,4 +1,6 @@
 ﻿using System;
+using Beatmap.Base;
+using Beatmap.Containers;
 using Beatmap.Enums;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -39,7 +41,7 @@ public class BeatmapEasingsSelectionInputController : MonoBehaviour, CMInput.IEa
         EaseType.InOutElastic
     };
 
-    public void OnChangeEasingCurve(InputAction.CallbackContext context)
+    public void OnEasingCurve(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
@@ -47,7 +49,19 @@ public class BeatmapEasingsSelectionInputController : MonoBehaviour, CMInput.IEa
         }
     }
 
-    public void OnChangeEasingNone(InputAction.CallbackContext context)
+    public void OnEasingCurveHover(InputAction.CallbackContext context)
+    {
+        if (context.performed
+            && GlobalIntersectionCache.HasHit
+            && GlobalIntersectionCache.FirstHit.TryGetComponent<GLSEventContainer>(
+                out var container)
+            && container.ObjectData is BaseGLSEvent evt)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public void OnEasingNone(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
@@ -56,7 +70,17 @@ public class BeatmapEasingsSelectionInputController : MonoBehaviour, CMInput.IEa
         }
     }
 
-    public void OnChangeEasingStandard(InputAction.CallbackContext context)
+    public void OnEasingNoneHover(InputAction.CallbackContext context)
+    {
+        if (context.performed
+            && GlobalIntersectionCache.HasHit
+            && GlobalIntersectionCache.FirstHit.TryGetComponent<GLSEventContainer>(
+                out var container)
+            && container.ObjectData is BaseGLSEvent evt)
+            GLSEventEasingsCommand.SetEasing(evt, (int)EaseType.None);
+    }
+
+    public void OnEasingStandard(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
@@ -64,9 +88,33 @@ public class BeatmapEasingsSelectionInputController : MonoBehaviour, CMInput.IEa
         }
     }
 
-    public void OnChangeEasingAlternative(InputAction.CallbackContext context)
+    public void OnEasingStandardHover(InputAction.CallbackContext context)
+    {
+        if (context.performed
+            && GlobalIntersectionCache.HasHit
+            && GlobalIntersectionCache.FirstHit.TryGetComponent<GLSEventContainer>(
+                out var container)
+            && container.ObjectData is BaseGLSEvent evt)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public void OnEasingAlternative(InputAction.CallbackContext context)
     {
         if (context.performed)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public void OnEasingAlternativeHover(InputAction.CallbackContext context)
+    {
+        if (context.performed
+            && GlobalIntersectionCache.HasHit
+            && GlobalIntersectionCache.FirstHit.TryGetComponent<GLSEventContainer>(
+                out var container)
+            && container.ObjectData is BaseGLSEvent evt)
         {
             throw new NotImplementedException();
         }
@@ -80,9 +128,19 @@ public class BeatmapEasingsSelectionInputController : MonoBehaviour, CMInput.IEa
 
     private int extension;
 
-    public void OnExtensions(InputAction.CallbackContext context)
+    public void OnExtension(InputAction.CallbackContext context)
     {
         if (context.performed) NotifyExtensionChanged(++extension % 2);
+    }
+
+    public void OnExtensionHover(InputAction.CallbackContext context)
+    {
+        if (context.performed
+            && GlobalIntersectionCache.HasHit
+            && GlobalIntersectionCache.FirstHit.TryGetComponent<GLSEventContainer>(
+                out var container)
+            && container.ObjectData is BaseGLSEvent evt)
+            GLSEventEasingsCommand.SetExtension(evt, extension);
     }
 
     public void NotifyExtensionChanged(int value)

@@ -1,6 +1,7 @@
 ﻿using System;
 using Beatmap.Base;
 using Beatmap.Enums;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputController<BaseLightColorBase>,
@@ -17,14 +18,32 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
         if (context.performed) NotifyColorChanged(LightColor.Red);
     }
 
+    public void OnColor0LightHover(InputAction.CallbackContext context)
+    {
+        if (context.performed && IsHovering)
+            GLSEventColorCommand.SetColor(HoveredObject.EventData as BaseLightColorBase, (int)LightColor.Red);
+    }
+
     public void OnColor1Light(InputAction.CallbackContext context)
     {
         if (context.performed) NotifyColorChanged(LightColor.Blue);
     }
 
+    public void OnColor1LightHover(InputAction.CallbackContext context)
+    {
+        if (context.performed && IsHovering)
+            GLSEventColorCommand.SetColor(HoveredObject.EventData as BaseLightColorBase, (int)LightColor.Blue);
+    }
+
     public void OnColorWLight(InputAction.CallbackContext context)
     {
         if (context.performed) NotifyColorChanged(LightColor.White);
+    }
+
+    public void OnColorWLightHover(InputAction.CallbackContext context)
+    {
+        if (context.performed && IsHovering)
+            GLSEventColorCommand.SetColor(HoveredObject.EventData as BaseLightColorBase, (int)LightColor.White);
     }
 
     public void NotifyColorChanged(LightColor color)
@@ -42,12 +61,34 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
         }
     }
 
+    public void OnStatic0BrightnessHover(InputAction.CallbackContext context)
+    {
+        if (context.performed && IsHovering)
+        {
+            GLSEventColorCommand.SetBrightnessAndEasing(
+                HoveredObject.EventData as BaseLightColorBase,
+                0f,
+                EaseType.None);
+        }
+    }
+
     public void OnStatic50Brightness(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
             EasingInputController.NotifyEasingChanged(EaseType.None);
             NotifyBrightnessChanged(.5f);
+        }
+    }
+
+    public void OnStatic50BrightnessHover(InputAction.CallbackContext context)
+    {
+        if (context.performed && IsHovering)
+        {
+            GLSEventColorCommand.SetBrightnessAndEasing(
+                HoveredObject.EventData as BaseLightColorBase,
+                .5f,
+                EaseType.None);
         }
     }
 
@@ -60,12 +101,34 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
         }
     }
 
+    public void OnStatic100BrightnessHover(InputAction.CallbackContext context)
+    {
+        if (context.performed && IsHovering)
+        {
+            GLSEventColorCommand.SetBrightnessAndEasing(
+                HoveredObject.EventData as BaseLightColorBase,
+                1f,
+                EaseType.None);
+        }
+    }
+
     public void OnFade0Brightness(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
             EasingInputController.NotifyEasingChanged(EaseType.Linear);
             NotifyBrightnessChanged(0f);
+        }
+    }
+
+    public void OnFade0BrightnessHover(InputAction.CallbackContext context)
+    {
+        if (context.performed && IsHovering)
+        {
+            GLSEventColorCommand.SetBrightnessAndEasing(
+                HoveredObject.EventData as BaseLightColorBase,
+                0f,
+                EaseType.Linear);
         }
     }
 
@@ -78,6 +141,17 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
         }
     }
 
+    public void OnFade50BrightnessHover(InputAction.CallbackContext context)
+    {
+        if (context.performed && IsHovering)
+        {
+            GLSEventColorCommand.SetBrightnessAndEasing(
+                HoveredObject.EventData as BaseLightColorBase,
+                .5f,
+                EaseType.Linear);
+        }
+    }
+
     public void OnFade100Brightness(InputAction.CallbackContext context)
     {
         if (context.performed)
@@ -87,74 +161,90 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
         }
     }
 
-    public void OnSetBrightness0(InputAction.CallbackContext context)
+    public void OnFade100BrightnessHover(InputAction.CallbackContext context)
+    {
+        if (context.performed && IsHovering)
+        {
+            GLSEventColorCommand.SetBrightnessAndEasing(
+                HoveredObject.EventData as BaseLightColorBase,
+                1f,
+                EaseType.Linear);
+        }
+    }
+
+    public void OnBrightness0(InputAction.CallbackContext context)
     {
         if (context.performed) NotifyBrightnessChanged(0f);
     }
 
-    public void OnSetBrightness10(InputAction.CallbackContext context)
+    public void OnBrightness10(InputAction.CallbackContext context)
     {
         if (context.performed) NotifyBrightnessChanged(.1f);
     }
 
-    public void OnSetBrightness20(InputAction.CallbackContext context)
+    public void OnBrightness20(InputAction.CallbackContext context)
     {
         if (context.performed) NotifyBrightnessChanged(.2f);
     }
 
-    public void OnSetBrightness30(InputAction.CallbackContext context)
+    public void OnBrightness30(InputAction.CallbackContext context)
     {
         if (context.performed) NotifyBrightnessChanged(.3f);
     }
 
-    public void OnSetBrightness40(InputAction.CallbackContext context)
+    public void OnBrightness40(InputAction.CallbackContext context)
     {
         if (context.performed) NotifyBrightnessChanged(.4f);
     }
 
-    public void OnSetBrightness50(InputAction.CallbackContext context)
+    public void OnBrightness50(InputAction.CallbackContext context)
     {
         if (context.performed) NotifyBrightnessChanged(.5f);
     }
 
-    public void OnSetBrightness60(InputAction.CallbackContext context)
+    public void OnBrightness60(InputAction.CallbackContext context)
     {
         if (context.performed) NotifyBrightnessChanged(.6f);
     }
 
-    public void OnSetBrightness70(InputAction.CallbackContext context)
+    public void OnBrightness70(InputAction.CallbackContext context)
     {
         if (context.performed) NotifyBrightnessChanged(.7f);
     }
 
-    public void OnSetBrightness80(InputAction.CallbackContext context)
+    public void OnBrightness80(InputAction.CallbackContext context)
     {
         if (context.performed) NotifyBrightnessChanged(.8f);
     }
 
-    public void OnSetBrightness90(InputAction.CallbackContext context)
+    public void OnBrightness90(InputAction.CallbackContext context)
     {
         if (context.performed) NotifyBrightnessChanged(.9f);
     }
 
-    public void OnSetBrightness100(InputAction.CallbackContext context)
+    public void OnBrightness100(InputAction.CallbackContext context)
     {
         if (context.performed) NotifyBrightnessChanged(1f);
     }
 
-    public void OnSetBrightness120(InputAction.CallbackContext context)
+    public void OnBrightness120(InputAction.CallbackContext context)
     {
         if (context.performed) NotifyBrightnessChanged(1.2f);
     }
 
-    public void OnSetBrightness150(InputAction.CallbackContext context)
+    public void OnBrightness150(InputAction.CallbackContext context)
     {
         if (context.performed) NotifyBrightnessChanged(1.5f);
     }
 
-    public void OnSetBrightnessPrecise(InputAction.CallbackContext context)
+    public void OnBrightnessHover(InputAction.CallbackContext context)
     {
-        // if (context.performed) OnBrightnessDeltaChanged?.Invoke(Mathf.Sign(context.ReadValue<Vector2>().y));
+        if (context.performed && IsHovering)
+        {
+            var evt = HoveredObject.EventData as BaseLightColorBase;
+            var delta = Mathf.Sign(context.ReadValue<float>());
+            GLSEventColorCommand.SetBrightness(evt, Mathf.Max(0f, evt.Brightness + (delta * .1f)));
+        }
     }
 
     public void NotifyBrightnessChanged(float value)
@@ -168,9 +258,31 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
         if (context.performed) NotifyStrobeFrequencyChanged(1);
     }
 
+    public void OnStrobeOnHover(InputAction.CallbackContext context)
+    {
+        if (context.performed && IsHovering)
+            GLSEventColorCommand.SetStrobeFade(HoveredObject.EventData as BaseLightColorBase, 1);
+    }
+
     public void OnStrobeOff(InputAction.CallbackContext context)
     {
         if (context.performed) NotifyStrobeFrequencyChanged(0);
+    }
+
+    public void OnStrobeOffHover(InputAction.CallbackContext context)
+    {
+        if (context.performed && IsHovering)
+            GLSEventColorCommand.SetStrobeFade(HoveredObject.EventData as BaseLightColorBase, 0);
+    }
+
+    public void OnStrobeFrequencyHover(InputAction.CallbackContext context)
+    {
+        if (context.performed && IsHovering)
+        {
+            var evt = HoveredObject.EventData as BaseLightColorBase;
+            var delta = Mathf.Sign(context.ReadValue<float>());
+            GLSEventColorCommand.SetFrequency(evt, (int)Mathf.Max(0f, evt.Frequency + delta));
+        }
     }
 
     public void NotifyStrobeFrequencyChanged(int value)
@@ -179,15 +291,10 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
         OnStrobeFrequencyChanged?.Invoke(value);
     }
 
-    public void OnChangeStrobeFrequencyPrecise(InputAction.CallbackContext context)
-    {
-        // if (context.performed) OnStrobeFrequencyDeltaChanged?.Invoke(Mathf.Sign(context.ReadValue<Vector2>().y));
-    }
-
     private int strobeBrightnessCycle = 0;
     private float[] strobeBrightness = { 0f, 0.5f, 1f };
 
-    public void OnChangeStrobeBrightness(InputAction.CallbackContext context)
+    public void OnStrobeBrightness(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
@@ -197,15 +304,20 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
         }
     }
 
+    public void OnStrobeBrightnessHover(InputAction.CallbackContext context)
+    {
+        if (context.performed && IsHovering)
+        {
+            var evt = HoveredObject.EventData as BaseLightColorBase;
+            var delta = Mathf.Sign(context.ReadValue<float>());
+            GLSEventColorCommand.SetStrobeBrightness(evt, Mathf.Max(0f, evt.StrobeBrightness + (delta * .1f)));
+        }
+    }
+
     public void NotifyStrobeBrightnessChanged(float value)
     {
         EasingInputController.NotifyExtensionChanged(0);
         OnStrobeBrightnessChanged?.Invoke(value);
-    }
-
-    public void OnChangeStrobeBrightnessPrecise(InputAction.CallbackContext context)
-    {
-        // if (context.performed) OnStrobeBrightnessDeltaChanged?.Invoke(Mathf.Sign(context.ReadValue<Vector2>().y));
     }
 
     public void OnSoftStrobe(InputAction.CallbackContext context)
@@ -213,17 +325,18 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
         if (context.performed) NotifySoftStrobeChanged(0);
     }
 
+    public void OnMirrorHover(InputAction.CallbackContext context)
+    {
+        if (context.performed && IsHovering)
+        {
+            var evt = HoveredObject.EventData as BaseLightColorBase;
+            GLSEventColorCommand.SetColor(evt, (evt.Color + 1) % 2);
+        }
+    }
+
     public void NotifySoftStrobeChanged(int value)
     {
         EasingInputController.NotifyExtensionChanged(0);
         OnSoftStrobeChanged?.Invoke(value);
-    }
-
-    public void OnChangeEventColor(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

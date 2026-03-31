@@ -161,6 +161,14 @@ public class LoadKeybindsController : MonoBehaviour
                     .With("right", keybindOverride.OverrideKeybindPaths[3]);
                 RenameCompositeBinding(action, keybindOverride);
                 break;
+            case 4: // oh god oh fuck
+                action.AddCompositeBinding("ButtonWithThreeModifiers")
+                    .With("modifier3", keybindOverride.OverrideKeybindPaths[0])
+                    .With("modifier2", keybindOverride.OverrideKeybindPaths[1])
+                    .With("modifier1", keybindOverride.OverrideKeybindPaths[2])
+                    .With("button", keybindOverride.OverrideKeybindPaths[3]);
+                RenameCompositeBinding(action, keybindOverride);
+                break;
         }
 
         Debug.Log($"Added keybind override for {keybindOverride.InputActionName}.");

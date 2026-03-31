@@ -149,13 +149,13 @@ public class EventBoxViewController : MonoBehaviour
         if (groupContext == null) return;
         var targetIndex = boxIndex + 1;
         boxIndex = targetIndex; // pre-emptively set
-        GLSEventBoxAction.AddEventBox(groupContext, targetIndex);
+        GLSEventBoxCommand.AddEventBox(groupContext, targetIndex);
     }
 
     private void HandleDeleteEventBox()
     {
         if (groupContext == null) return;
-        GLSEventBoxAction.DeleteEventBox(groupContext, boxIndex);
+        GLSEventBoxCommand.DeleteEventBox(groupContext, boxIndex);
     }
 
     private void SetBoxIndex(int newIndex)
@@ -399,94 +399,94 @@ public class EventBoxViewController : MonoBehaviour
 
     private void HandleBeatDistributionWaveValueChanged(bool value)
     {
-        if (value) GLSEventBoxAction.SetBeatDistributionType((int)DistributionType.Wave, groupContext, boxIndex);
+        if (value) GLSEventBoxCommand.SetBeatDistributionType((int)DistributionType.Wave, groupContext, boxIndex);
     }
 
     private void HandleBeatDistributionStepValueChanged(bool value)
     {
-        if (value) GLSEventBoxAction.SetBeatDistributionType((int)DistributionType.Step, groupContext, boxIndex);
+        if (value) GLSEventBoxCommand.SetBeatDistributionType((int)DistributionType.Step, groupContext, boxIndex);
     }
 
     private void HandleBeatDistributionValueChanged(float value) =>
-        GLSEventBoxAction.SetBeatDistribution(value, groupContext, boxIndex);
+        GLSEventBoxCommand.SetBeatDistribution(value, groupContext, boxIndex);
 
     private void HandleFilterTypeSectionValueChanged(bool value)
     {
-        if (value) GLSEventBoxAction.SetType((int)IndexFilterType.Division, groupContext, boxIndex);
+        if (value) GLSEventBoxCommand.SetType((int)IndexFilterType.Division, groupContext, boxIndex);
     }
 
     private void HandleFilterTypeStepValueChanged(bool value)
     {
-        if (value) GLSEventBoxAction.SetType((int)IndexFilterType.StepAndOffset, groupContext, boxIndex);
+        if (value) GLSEventBoxCommand.SetType((int)IndexFilterType.StepAndOffset, groupContext, boxIndex);
     }
 
-    private void HandleChunkValueChanged(int value) => GLSEventBoxAction.SetChunk(value, groupContext, boxIndex);
+    private void HandleChunkValueChanged(int value) => GLSEventBoxCommand.SetChunk(value, groupContext, boxIndex);
 
     private void HandleReverseValueChanged(bool value) =>
-        GLSEventBoxAction.SetReverse(value ? 1 : 0, groupContext, boxIndex);
+        GLSEventBoxCommand.SetReverse(value ? 1 : 0, groupContext, boxIndex);
 
-    private void HandleParam0ValueChanged(int value) => GLSEventBoxAction.SetParam0(value, groupContext, boxIndex);
+    private void HandleParam0ValueChanged(int value) => GLSEventBoxCommand.SetParam0(value, groupContext, boxIndex);
 
-    private void HandleParam1ValueChanged(int value) => GLSEventBoxAction.SetParam1(value, groupContext, boxIndex);
+    private void HandleParam1ValueChanged(int value) => GLSEventBoxCommand.SetParam1(value, groupContext, boxIndex);
 
     private void HandleRandomValueChanged(bool value) =>
-        GLSEventBoxAction.SetRandom(
+        GLSEventBoxCommand.SetRandom(
             boxContext.IndexFilter.Random ^ (int)RandomType.RandomElements,
             groupContext,
             boxIndex);
 
     private void HandleInOrderValueChanged(bool value) =>
-        GLSEventBoxAction.SetRandom(boxContext.IndexFilter.Random ^ (int)RandomType.KeepOrder, groupContext, boxIndex);
+        GLSEventBoxCommand.SetRandom(boxContext.IndexFilter.Random ^ (int)RandomType.KeepOrder, groupContext, boxIndex);
 
-    private void HandleSeedValueChanged(int value) => GLSEventBoxAction.SetSeed(value, groupContext, boxIndex);
+    private void HandleSeedValueChanged(int value) => GLSEventBoxCommand.SetSeed(value, groupContext, boxIndex);
 
     private void HandleAxisXValueChanged(bool value)
     {
-        if (value) GLSEventBoxAction.SetAxis((int)Axis.X, groupContext, boxIndex);
+        if (value) GLSEventBoxCommand.SetAxis((int)Axis.X, groupContext, boxIndex);
     }
 
     private void HandleAxisYValueChanged(bool value)
     {
-        if (value) GLSEventBoxAction.SetAxis((int)Axis.Y, groupContext, boxIndex);
+        if (value) GLSEventBoxCommand.SetAxis((int)Axis.Y, groupContext, boxIndex);
     }
 
     private void HandleAxisZValueChanged(bool value)
     {
-        if (value) GLSEventBoxAction.SetAxis((int)Axis.Z, groupContext, boxIndex);
+        if (value) GLSEventBoxCommand.SetAxis((int)Axis.Z, groupContext, boxIndex);
     }
 
-    private void HandleFlipValueChanged(bool value) => GLSEventBoxAction.SetFlip(value ? 1 : 0, groupContext, boxIndex);
+    private void HandleFlipValueChanged(bool value) => GLSEventBoxCommand.SetFlip(value ? 1 : 0, groupContext, boxIndex);
 
     private void HandleLimitValueChanged(float value) =>
-        GLSEventBoxAction.SetLimit(value / 100f, groupContext, boxIndex);
+        GLSEventBoxCommand.SetLimit(value / 100f, groupContext, boxIndex);
 
     private void HandleLimitDurationValueChanged(bool value) =>
-        GLSEventBoxAction.SetLimitAffectsType(
+        GLSEventBoxCommand.SetLimitAffectsType(
             boxContext.IndexFilter.LimitAffectsType ^ (int)LimitAlsoAffectType.Duration,
             groupContext,
             boxIndex);
 
     private void HandleLimitDistributionValueChanged(bool value) =>
-        GLSEventBoxAction.SetLimitAffectsType(
+        GLSEventBoxCommand.SetLimitAffectsType(
             boxContext.IndexFilter.LimitAffectsType ^ (int)LimitAlsoAffectType.Distribution,
             groupContext,
             boxIndex);
 
     private void HandleValueDistributionWaveValueChanged(bool value)
     {
-        if (value) GLSEventBoxAction.SetValueDistributionType((int)DistributionType.Wave, groupContext, boxIndex);
+        if (value) GLSEventBoxCommand.SetValueDistributionType((int)DistributionType.Wave, groupContext, boxIndex);
     }
 
     private void HandleValueDistributionStepValueChanged(bool value)
     {
-        if (value) GLSEventBoxAction.SetValueDistributionType((int)DistributionType.Step, groupContext, boxIndex);
+        if (value) GLSEventBoxCommand.SetValueDistributionType((int)DistributionType.Step, groupContext, boxIndex);
     }
 
     private void HandleValueDistributionValueChanged(float value) =>
-        GLSEventBoxAction.SetValueDistribution(value, groupContext, boxIndex);
+        GLSEventBoxCommand.SetValueDistribution(value, groupContext, boxIndex);
 
     private void HandleAffectFirstValueChanged(bool value) =>
-        GLSEventBoxAction.SetAffectFirst(value ? 1 : 0, groupContext, boxIndex);
+        GLSEventBoxCommand.SetAffectFirst(value ? 1 : 0, groupContext, boxIndex);
 
-    private void HandleEaseTypeValueChanged(int value) => GLSEventBoxAction.SetEasing(value, groupContext, boxIndex);
+    private void HandleEaseTypeValueChanged(int value) => GLSEventBoxCommand.SetEasing(value, groupContext, boxIndex);
 }

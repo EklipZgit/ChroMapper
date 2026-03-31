@@ -17,6 +17,7 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
     private TracksDefinitionSO trackDefinition;
 
     private void Start() => context.OnTracksDefinitionChanged += HandleTrackDefinitionChanged;
+
     private void OnDestroy() => context.OnTracksDefinitionChanged -= HandleTrackDefinitionChanged;
 
     private void HandleTrackDefinitionChanged(TracksDefinitionSO obj) => trackDefinition = obj;
@@ -91,8 +92,7 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
         BeatmapActionContainer.AddAction(new BeatmapObjectModifiedAction(e.ObjectData, e.ObjectData, original));
     }
 
-    protected override bool GetComponentFromTransform(GameObject t, out EventContainer obj) =>
-        t.transform.parent.TryGetComponent(out obj);
+    protected override bool GetComponentFromTransform(GameObject t, out EventContainer obj) => t.transform.parent.TryGetComponent(out obj);
 
     // for event that frequently gets changed
     public void TweakMain(EventContainer e, int modifier)
