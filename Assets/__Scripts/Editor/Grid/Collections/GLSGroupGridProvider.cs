@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 public class GLSGroupGridProvider : MonoBehaviour, CMInput.IGLSGroupTabsActions
 {
-    public event Action<string> OnGroupChanged;
+    public event Action<string> OnGroupPageChanged;
 
     [Header("Dependencies")] [SerializeField]
     private AudioTimeSyncController atsc;
@@ -20,6 +20,7 @@ public class GLSGroupGridProvider : MonoBehaviour, CMInput.IGLSGroupTabsActions
     public readonly Dictionary<int, GLSGroupTrack> IdToTracks = new();
     public readonly Dictionary<string, List<int>> GroupNameToIdList = new();
     public readonly List<string> GroupNameList = new();
+    public string CurrentGroup;
     public int CurrentGroupIdx;
 
     private readonly Stack<GLSGroupTrack> reuseTracks = new();
@@ -40,6 +41,7 @@ public class GLSGroupGridProvider : MonoBehaviour, CMInput.IGLSGroupTabsActions
         GroupNameToIdList.Clear();
         GroupNameList.Clear();
         CurrentGroupIdx = 0;
+        CurrentGroup = "";
 
         foreach (var (id, gls) in tracksDefinition.Gls)
         {
@@ -57,7 +59,7 @@ public class GLSGroupGridProvider : MonoBehaviour, CMInput.IGLSGroupTabsActions
             if (!GroupNameList.Contains(gls.Group)) GroupNameList.Add(gls.Group);
         }
 
-        RefreshGroupTrack();
+        RefreshGroupPageTrack();
     }
 
     public void OnNextGroup(InputAction.CallbackContext context)
@@ -65,17 +67,25 @@ public class GLSGroupGridProvider : MonoBehaviour, CMInput.IGLSGroupTabsActions
         if (!context.performed || !editContext.EditingMode.HasFlag(EditingMode.GLS) || GroupNameList.Count == 0) return;
         CurrentGroupIdx++;
         CurrentGroupIdx %= GroupNameList.Count;
-        RefreshGroupTrack();
+        RefreshGroupPageTrack();
     }
 
-    private void RefreshGroupTrack()
+    public void SetGroupPage(string groupPage)
+    {
+        var i = GroupNameList.FindIndex(g => g == groupPage);
+        if (i == -1) return;
+        CurrentGroupIdx = i;
+        RefreshGroupPageTrack();
+    }
+
+    private void RefreshGroupPageTrack()
     {
         if (GroupNameList.Count == 0) return;
         foreach (var track in IdToTracks.Values) track.GridLane.Hide = true;
         ActiveGlsTracks.Clear();
 
-        var group = GroupNameList[CurrentGroupIdx];
-        if (!GroupNameToIdList.TryGetValue(group, out var idList)) return;
+        CurrentGroup = GroupNameList[CurrentGroupIdx];
+        if (!GroupNameToIdList.TryGetValue(CurrentGroup, out var idList)) return;
 
         // TODO: make ordering closest to centered given the lane
         var order = -idList.Count / 2;
@@ -87,6 +97,6 @@ public class GLSGroupGridProvider : MonoBehaviour, CMInput.IGLSGroupTabsActions
             ActiveGlsTracks.Add(IdToTracks[i]);
         }
 
-        OnGroupChanged?.Invoke(group);
+        OnGroupPageChanged?.Invoke(CurrentGroup);
     }
 }
