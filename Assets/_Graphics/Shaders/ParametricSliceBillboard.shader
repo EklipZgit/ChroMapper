@@ -10,14 +10,29 @@
         [Toggle(ALPHA_WIDTH_SCALE)] _EnableAlphaWidthScale ("Alpha Width Scale", float) = 0
         _AlphaWidth("Alpha Width", Vector) = (1,1,1,1)
 
-        [KeywordEnum(None, PP, Frag)] _BloomType ("Bloom White", float) = 0
+        [Space(12)]
+        [KeywordEnum(None, MainEffect, Always)] _WhiteBoostType ("White Boost", float) = 0
+        _WhiteBoostMultiplier ("White Boost Multiplier", float) = 1
+        _BaseColorBoost ("Base Color Boost", float) = 1
+        _BaseColorBoostThreshold ("Base Color Boost Threshold", float) = 0.1
         _BloomMultiplier ("Bloom Multiplier", float) = 1
-        _BloomWhiteMultiplier ("White Multiplier", float) = 1
 
         [Header(Others)] [Space]
         [Toggle(SQUARE_ALPHA)] _SquareAlpha("Square Alpha", float) = 1
-        [Toggle(ANGLE_DISAPPEAR)] _EnableAngleDisappear("Angle Disappear", float)= 1
+        [Toggle(ANGLE_DISAPPEAR)] _EnableAngleDisappear("Angle Disappear", float) = 1
         [Toggle(Y_AXIS_BILLBOARD)] _EnableYAxisBillboard ("Y Axis Billboard", float) = 1
+
+        [Space(12)]
+        [Toggle(ENABLE_WORLD_NOISE)] _EnableWorldNoise ("Enable World Noise", float) = 0
+        _WorldNoiseScale ("World Noise Scale", float) = 1
+        _WorldNoiseIntensityOffset ("World Noise Intensity Offset", float) = 0
+        _WorldNoiseIntensityScale ("World Noise Intensity Scale", float) = 1
+        _WorldNoiseScrolling ("World Noise Scrolling", Vector) = (0,0,0,1)
+
+        [Space(12)]
+        [Toggle(ENABLE_WORLD_SPACE_FADE)] _EnableWorldSpaceFade ("Enable World Space Fade", float) = 0
+        _WorldSpaceFadePos ("World Space Fade Position", float) = 0
+        _WorldSpaceFadeSlope ("World Space Fade Slope", float) = 1
 
         [Header(Fog Settings)] [Space]
         [Toggle(FOG)] _EnableFog ("Enable Fog", float) = 1
@@ -36,7 +51,6 @@
         [Enum(UnityEngine.Rendering.BlendMode)] _BlendModeSrcA ("Blend Src A", float) = 1
         [Enum(UnityEngine.Rendering.BlendMode)] _BlendModeDstA ("Blend Dst A", float) = 1
         [Enum(UnityEngine.Rendering.BlendOp)] _BlendOp ("Blend Operation", float) = 0
-
         [Space]
         [Enum(UnityEngine.Rendering.CullMode)] _CullMode ("Cull Mode", float) = 2
         [Enum(UnityEngine.Rendering.CompareFunction)] _ZTest ("Z Test", float) = 4
@@ -70,11 +84,14 @@
             #pragma fragment frag
             #pragma multi_compile_instancing
 
-            #pragma shader_feature_local_vertex ALPHA_WIDTH_SCALE
+            #pragma shader_feature_local ALPHA_WIDTH_SCALE
             #pragma shader_feature_local_fragment SQUARE_ALPHA
-            #pragma shader_feature_local_fragment ANGLE_DISAPPEAR
-            #pragma shader_feature_local_vertex Y_AXIS_BILLBOARD
-            #pragma shader_feature_local_fragment _ _BLOOMTYPE_PP _BLOOMTYPE_FRAG
+            #pragma shader_feature_local ANGLE_DISAPPEAR
+            #pragma shader_feature_local Y_AXIS_BILLBOARD
+            #pragma shader_feature_local_fragment _ _WHITEBOOSTTYPE_MAINEFFECT _WHITEBOOSTTYPE_ALWAYS
+
+            #pragma shader_feature_local ENABLE_WORLD_NOISE
+            #pragma shader_feature_local_fragment ENABLE_WORLD_SPACE_FADE
 
             #pragma multi_compile_local_fragment _FOGTYPE_ALPHA
             #pragma shader_feature_local_fragment FOG
@@ -90,15 +107,31 @@
 
             sampler2D _MainTex;
             float4 _MainTex_ST;
-            float2 _CapUVSize;
+            float _CapUVSize;
 
             float _BloomMultiplier;
-            float _BloomWhiteMultiplier;
+            float _BaseColorBoost;
+            float _BaseColorBoostThreshold;
+            float _WhiteBoostMultiplier;
 
             float _FogStartOffset;
             float _FogScale;
             float _FogHeightOffset;
             float _FogHeightScale;
+
+            #if defined(ENABLE_WORLD_NOISE)
+            sampler3D _CutoutTex;
+            float4 _TimeHelperOffset;
+            float _WorldNoiseScale;
+            float _WorldNoiseIntensityOffset;
+            float _WorldNoiseIntensityScale;
+            float3 _WorldNoiseScrolling;
+            #endif
+
+            #if defined(ENABLE_WORLD_SPACE_FADE)
+            float _WorldSpaceFadePos;
+            float _WorldSpaceFadeSlope;
+            #endif
 
             UNITY_INSTANCING_BUFFER_START(Props)
                 UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
@@ -116,9 +149,13 @@
             struct v2f
             {
                 float4 vertex : SV_POSITION;
-                float4 uv : TEXCOORD0;
+                float3 texcoord1 : TEXCOORD1; // xy = UV, z = width divisor
                 float3 worldPos : TEXCOORD2;
                 float4 screenPos : TEXCOORD3;
+                float alphaFactor : TEXCOORD5; // AlphaStart/AlphaEnd chosen per vertex
+                #if defined(ANGLE_DISAPPEAR)
+                float angleDisappear : TEXCOORD4;
+                #endif
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
@@ -132,16 +169,32 @@
                 float4 alphaWidth = UNITY_ACCESS_INSTANCED_PROP(Props, _AlphaWidth);
                 float4 sizeParams = UNITY_ACCESS_INSTANCED_PROP(Props, _SizeParams);
 
-                float3 worldOrigin = mul(unity_ObjectToWorld, float4(0, 0, 0, 1)).xyz;
-                float3 localUp = normalize(mul((float3x3)unity_ObjectToWorld, float3(0, 1, 0)));
+                float3 worldOrigin = mul(unity_ObjectToWorld, float4(0,0,0,1)).xyz;
+                float3 localUp = normalize(mul((float3x3)unity_ObjectToWorld, float3(0,1,0)));
                 float3 dirToCam = _WorldSpaceCameraPos - worldOrigin;
+
+                #if defined(ANGLE_DISAPPEAR)
+                // Angle disappear: smoothstep based on how face-on the slice is to camera
+                float3 localCamDir = normalize(dirToCam - localUp * dot(dirToCam, localUp));
+                float3 right2 = normalize(cross(localUp, localCamDir));
+                float2 flatCam = normalize(float2(localCamDir.x, localCamDir.z));
+                float3 localCamPos = mul(unity_WorldToObject, float4(_WorldSpaceCameraPos, 1)).xyz;
+                float3 toCamLocal = localCamPos + unity_WorldToObject._m03_m13_m23;
+                float camDistFlat = sqrt(dot(toCamLocal.xz, toCamLocal.xz));
+                float2 toCamDir = toCamLocal.xz / camDistFlat;
+                float angleDot = dot(toCamDir, flatCam);
+                angleDot = saturate((angleDot - 0.05) * 2.222222);
+                float ao = angleDot * angleDot;
+                o.angleDisappear = ao * (-2.0 * angleDot + 3.0);
+                #endif
+
                 float3 look = normalize(dirToCam - localUp * dot(dirToCam, localUp));
                 float3 right = -normalize(cross(localUp, look));
 
                 float width = 1;
                 float height;
                 float offset = sizeParams.y * sizeParams.z;
-                // TODO: replace t and lerp with vertex access
+
                 if (i.uv.y < 0.25)
                 {
                     float t = 1 - i.uv.y / 0.25;
@@ -168,24 +221,36 @@
                 }
 
                 float maxHeight = sizeParams.y + sizeParams.w * 2;
-                o.uv.w = (height + sizeParams.w) / maxHeight;
+                float lengthFactor = (height + sizeParams.w) / maxHeight;
                 height -= offset;
                 width *= sizeParams.x;
 
                 i.vertex.x *= width;
-                i.vertex.y = height;
+                i.vertex.y = height * length(mul((float3x3)unity_ObjectToWorld, float3(0,1,0)));
 
                 #if defined(Y_AXIS_BILLBOARD)
                 float3 worldPos = worldOrigin + right * i.vertex.x + localUp * i.vertex.y;
                 o.vertex = mul(UNITY_MATRIX_VP, float4(worldPos, 1.0));
-                o.worldPos.xyz = worldPos;
+                o.worldPos = worldPos;
                 #else
                 o.vertex = UnityObjectToClipPos(i.vertex);
-                o.worldPos.xyz = mul(unity_ObjectToWorld, i.vertex).xyz;
+                o.worldPos = mul(unity_ObjectToWorld, i.vertex).xyz;
                 #endif
 
-                o.uv.xyz = float3(i.uv * width / sizeParams.x, width / sizeParams.x);
+                // texcoord1: xy=uv, z=width ratio for perspective-correct UV
+                float uvCentered = i.uv.y - 0.5;
+bool isCap = abs(uvCentered) >= 0.49;
+float uvSign = 0;
+if (uvCentered > 0) uvSign = 1;
+if (uvCentered < 0) uvSign = -1;
+float capOffset = isCap ? 0.0 : ((0.25 - _CapUVSize) * floor(uvSign));
+
+o.texcoord1 = float3(i.uv.x, i.uv.y + capOffset, width/ sizeParams.x);
                 o.screenPos = ComputeScreenPosCustom(o.vertex);
+
+                // AlphaStart/AlphaEnd: top half uses AlphaEnd, bottom uses AlphaStart
+                // matches Output4's texcoord5 pattern: (0.5 - sizeParams.z) < height
+                o.alphaFactor = (lengthFactor > 0.5) ? alphaWidth.y : alphaWidth.x;
 
                 return o;
             }
@@ -193,66 +258,64 @@
             half4 frag(v2f i) : SV_Target
             {
                 UNITY_SETUP_INSTANCE_ID(i);
-                half4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
-                float4 alphaWidth = UNITY_ACCESS_INSTANCED_PROP(Props, _AlphaWidth);
+                float4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
 
-                // TODO: what does cap UV size supposed to do
-                // i.uv.xy = min(adjustedUv, i.uv.xy);
-                float2 adjustedUv = i.uv.xy / i.uv.z;
-                half4 albedo = color * tex2D(_MainTex, TRANSFORM_TEX(adjustedUv, _MainTex));
+                // Perspective-correct UV sample
+                float2 adjustedUv = float2(i.texcoord1.x / i.texcoord1.z, i.texcoord1.y);
+float4 texSample = tex2D(_MainTex, adjustedUv);
 
-                #if defined(USE_FOG_FOR_LIGHTS)
-                #if defined(SQUARE_ALPHA)
-                albedo.a *= albedo.a;
+                // Cubic alpha from vertex alpha factor * Color.a, then squared with tex alpha
+                // Matches Output4: alpha = (texAlpha^2) * (alphaFactor^3 * Color.w)
+                float texAlpha = texSample.w * texSample.w;
+                float cubicAlpha = i.alphaFactor * i.alphaFactor * i.alphaFactor * color.a;
+                float alpha = texAlpha * cubicAlpha;
+
+                #if defined(ENABLE_WORLD_NOISE)
+                float time = _TimeHelperOffset.x + _Time.x;
+                float3 noiseUv = (_WorldNoiseScrolling * time + i.worldPos) * _WorldNoiseScale;
+                float4 noiseSample = tex3D(_CutoutTex, noiseUv);
+                float noiseIntensity = noiseSample.w * _WorldNoiseIntensityScale + _WorldNoiseIntensityOffset;
+                alpha *= noiseIntensity;
                 #endif
-                half alphaFactor = lerp(alphaWidth.x, alphaWidth.y, i.lengthFactor);
-                #if defined(SQUARE_ALPHA)
-                alphaFactor *= alphaFactor;
-                #endif
-                albedo *= alphaFactor;
 
-                #if defined(_BLOOMTYPE_PP)
-                CUSTOM_BLOOM_PP_APPLY(albedo, _BloomMultiplier);
-                #elif defined(_BLOOMTYPE_FRAG)
-                CUSTOM_BLOOM_FRAG_APPLY(albedo, _BloomWhiteMultiplier);
+                #if defined(ENABLE_WORLD_SPACE_FADE)
+                float worldFade = saturate((i.worldPos.y - _WorldSpaceFadePos) * _WorldSpaceFadeSlope);
+                alpha *= worldFade;
+                #endif
+
+                #if defined(ANGLE_DISAPPEAR)
+                alpha *= i.angleDisappear;
+                #endif
+
+                #if defined(SQUARE_ALPHA)
+                alpha *= alpha;
+                #endif
+
+
+                #if defined(_WHITEBOOSTTYPE_ALWAYS) || defined(_WHITEBOOSTTYPE_MAINEFFECT)
+                float boost = alpha * alpha;
+                boost = boost * _WhiteBoostMultiplier;
+                boost = boost * boost;
+                boost = boost * _BaseColorBoost - _BaseColorBoostThreshold;
+                float4 albedo;
+                albedo.rgb = saturate(color.rgb * alpha + boost);
+                albedo.a = alpha * _BloomMultiplier;
                 #else
-                CUSTOM_BLOOM_NONE_TRANSPARENT_APPLY(albedo);
-                #endif
-
-                ACES_TONE_MAPPING_APPLY(albedo);
-
+                float4 albedo;
+                albedo.rgb = color.rgb * alpha;
+                albedo.a = alpha * _BloomMultiplier;
                 #endif
 
                 #if defined(BLOOM_FOG) && defined(FOG)
                 #if defined(HEIGHT_FOG)
-                BLOOM_FOG_HEIGHT_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset,
-                                       _FogHeightScale);
+                BLOOM_FOG_HEIGHT_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale,
+                                       _FogHeightOffset, _FogHeightScale);
                 #else
                 BLOOM_FOG_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale);
                 #endif
                 #endif
 
-                #if !defined(USE_FOG_FOR_LIGHTS)
-                #if defined(SQUARE_ALPHA)
-                albedo.a *= albedo.a;
-                #endif
-                half alphaFactor = lerp(alphaWidth.x, alphaWidth.y, i.uv.w);
-                #if defined(SQUARE_ALPHA)
-                alphaFactor *= alphaFactor;
-                #endif
-                albedo *= alphaFactor;
-
-                #if defined(_BLOOMTYPE_PP)
-                CUSTOM_BLOOM_PP_APPLY(albedo, _BloomMultiplier);
-                #elif defined(_BLOOMTYPE_FRAG)
-                CUSTOM_BLOOM_FRAG_APPLY(albedo, _BloomWhiteMultiplier);
-                #else
-                CUSTOM_BLOOM_NONE_TRANSPARENT_APPLY(albedo);
-                #endif
-
                 ACES_TONE_MAPPING_APPLY(albedo);
-
-                #endif
 
                 return albedo;
             }
