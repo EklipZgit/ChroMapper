@@ -21,6 +21,7 @@ public abstract class
         foreach (var box in data.Boxes.Where(b => GetEventCount(b) > 0))
         {
             var indexFilter = IndexFilterHelper.Convert(box.IndexFilter, Count);
+            if (indexFilter == null) continue; // i pretend to not see
             var beatStep = DistributionHelper.GetBeatStep(
                 DistributionHelper.GetDurationCount(indexFilter),
                 (DistributionType)box.BeatDistributionType,
@@ -104,6 +105,7 @@ public abstract class
         foreach (var box in original.Boxes.Where(b => GetEventCount(b) > 0))
         {
             var indexFilter = IndexFilterHelper.Convert(box.IndexFilter, Count);
+            if (indexFilter == null) continue; // i also pretend to not see
             foreach (var (element, _, _) in indexFilter)
             {
                 var key = (box.GetAxis(), element);

@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2049067382845900841}
+  - component: {fileID: 9065867835251360052}
   m_Layer: 5
   m_Name: Viewport
   m_TagString: Untagged
@@ -37,6 +38,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -12, y: -8}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &9065867835251360052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1743350652255180037}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21f183bdedca4b73a97f891df4039621, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3848689261637205914
 GameObject:
   m_ObjectHideFlags: 0
@@ -222,10 +235,12 @@ MonoBehaviour:
   labelText: {fileID: 3848689263090809973}
   labelContainer: {fileID: 3848689261637205914}
   InputField: {fileID: 8832754599087018198}
+  ScrollableInput: {fileID: 9065867835251360052}
   <Selectable>k__BackingField: {fileID: 8832754599087018198}
   Clamping: 0
   MinValue: 0
   MaxValue: 0
+  ScrollDelta: 1
 --- !u!1 &3848689263045460952
 GameObject:
   m_ObjectHideFlags: 0

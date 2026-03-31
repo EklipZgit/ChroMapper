@@ -30,6 +30,7 @@ public class GLSEventBoxAction
 
     public static void DeleteEventBox(BaseEventBoxGroup group, int targetIndex)
     {
+        if (targetIndex < 0 || group.ReadOnlyBoxes.Count <= targetIndex) return;
         var newGroup = BeatmapFactory.Clone(group);
         switch (newGroup)
         {

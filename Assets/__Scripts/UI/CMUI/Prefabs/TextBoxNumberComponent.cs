@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public abstract class TextBoxNumberComponent<T> : CMUIComponentWithLabel<T>, INavigable, IQuickSubmitComponent
 {
     [SerializeField] protected TMP_InputField InputField;
+    [SerializeField] public ScrollableInput ScrollableInput;
 
     private Action<T> onEndEdit;
     private Action<T> onSelect;
@@ -35,6 +36,7 @@ public abstract class TextBoxNumberComponent<T> : CMUIComponentWithLabel<T>, INa
     [Header("Input Validation")] public NumberClamping Clamping;
     public T MinValue;
     public T MaxValue;
+    public T ScrollDelta;
 
     /// <summary>
     /// Assigns a callback when the user deselects the textbox after making changes.
@@ -110,6 +112,16 @@ public abstract class TextBoxNumberComponent<T> : CMUIComponentWithLabel<T>, INa
         InputField.onEndEdit.AddListener(InputFieldEndEdit);
         InputField.onSelect.AddListener(InputFieldSelect);
         InputField.onDeselect.AddListener(InputFieldDeselect);
+        ScrollableInput.OnScrolled += HandleOnScrolled;
+    }
+
+    private void OnDestroy()
+    {
+        InputField.onValueChanged.RemoveAllListeners();
+        InputField.onEndEdit.RemoveAllListeners();
+        InputField.onSelect.RemoveAllListeners();
+        InputField.onDeselect.RemoveAllListeners();
+        ScrollableInput.OnScrolled -= HandleOnScrolled;
     }
 
     private void InputFieldValueChanged(string res)
@@ -132,13 +144,11 @@ public abstract class TextBoxNumberComponent<T> : CMUIComponentWithLabel<T>, INa
         if (ParseAndValidate(res, out var val)) onDeselect?.Invoke(val);
     }
 
-    protected abstract bool ParseAndValidate(string res, out T val);
-
-    private void OnDestroy()
+    private void HandleOnScrolled(Vector2 delta)
     {
-        InputField.onValueChanged.RemoveAllListeners();
-        InputField.onEndEdit.RemoveAllListeners();
-        InputField.onSelect.RemoveAllListeners();
-        InputField.onDeselect.RemoveAllListeners();
+        if (ParseAndValidate(InputField.text, out var val)) Value = AddValue(val, Mathf.Sign(delta.y));
     }
+
+    protected abstract bool ParseAndValidate(string res, out T val);
+    protected abstract T AddValue(T val, float delta);
 }

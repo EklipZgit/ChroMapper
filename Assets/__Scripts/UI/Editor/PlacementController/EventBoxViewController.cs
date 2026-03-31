@@ -23,12 +23,16 @@ public class EventBoxViewController : MonoBehaviour
     [Header("Info Text")] [SerializeField] private TextMeshProUGUI eventBoxIdText;
     [SerializeField] private TextMeshProUGUI filteredIdText;
     [SerializeField] private Image idImagePrefab;
-    [SerializeField] private Transform idImageTransformTarget;
+    [SerializeField] private Transform idImageTargetTransform;
     private readonly List<Image> instantiatedIdImage = new();
 
-    [Header("Box")] [SerializeField] private ToggleComponent idPrefab;
-    [SerializeField] private RectTransform idTransformTarget;
-    private readonly List<ToggleComponent> instantiatedId = new();
+    [SerializeField] private TextMeshProUGUI errorTextPrefab;
+    [SerializeField] private Transform errorTextTargetTransform;
+    private readonly List<TextMeshProUGUI> instantiatedErrorText = new();
+
+    [Header("Box")] [SerializeField] private ToggleComponent idTabPrefab;
+    [SerializeField] private RectTransform idTabTargetTransform;
+    private readonly List<ToggleComponent> instantiatedIdTab = new();
 
     [Header("Input")] [SerializeField] private ToggleComponent beatDistributionWaveToggle;
     [SerializeField] private ToggleComponent beatDistributionStepToggle;
@@ -120,7 +124,7 @@ public class EventBoxViewController : MonoBehaviour
     {
         groupContext = group;
         boxContext = null;
-        boxIndex = group.ReadOnlyBoxes.Count > 0 ? boxIndex : -1;
+        boxIndex = group.ReadOnlyBoxes.Count > 0 ? Math.Min(group.ReadOnlyBoxes.Count - 1, boxIndex) : -1;
 
         SetBoxIndex(boxIndex);
     }
@@ -137,22 +141,19 @@ public class EventBoxViewController : MonoBehaviour
     {
         if (groupContext == null) return;
         var targetIndex = boxIndex + 1;
+        boxIndex = targetIndex; // pre-emptively set
         GLSEventBoxAction.AddEventBox(groupContext, targetIndex);
-        SetBoxIndex(targetIndex);
     }
 
     private void HandleDeleteEventBox()
     {
         if (groupContext == null) return;
-        var targetIndex = boxIndex - 1;
-        GLSEventBoxAction.DeleteEventBox(groupContext, targetIndex);
-        SetBoxIndex(targetIndex);
+        GLSEventBoxAction.DeleteEventBox(groupContext, boxIndex);
     }
 
     private void SetBoxIndex(int newIndex)
     {
         if (groupContext == null) return;
-
         boxIndex = newIndex;
         boxContext = groupContext.ReadOnlyBoxes.ElementAtOrDefault(boxIndex);
         RefreshID();
@@ -166,23 +167,23 @@ public class EventBoxViewController : MonoBehaviour
         int i;
         for (i = 0; i < count; i++)
         {
-            ToggleComponent idButton;
-            if (i >= instantiatedId.Count)
+            ToggleComponent idTab;
+            if (i >= instantiatedIdTab.Count)
             {
-                idButton = Instantiate(idPrefab, idTransformTarget);
-                idButton.WithLabel((i + 1).ToString());
-                idButton.OnValueChanged(HandleSetBoxIndex(i));
-                instantiatedId.Add(idButton);
+                idTab = Instantiate(idTabPrefab, idTabTargetTransform);
+                idTab.WithLabel((i + 1).ToString());
+                idTab.OnValueChanged(HandleSetBoxIndex(i));
+                instantiatedIdTab.Add(idTab);
             }
             else
-                idButton = instantiatedId[i];
+                idTab = instantiatedIdTab[i];
 
-            idButton.SetValueWithoutNotify(i == boxIndex);
-            idButton.Selectable.interactable = i != boxIndex;
-            idButton.gameObject.SetActive(true);
+            idTab.SetValueWithoutNotify(i == boxIndex);
+            idTab.Selectable.interactable = i != boxIndex;
+            idTab.gameObject.SetActive(true);
         }
 
-        for (; i < instantiatedId.Count; i++) instantiatedId[i].gameObject.SetActive(false);
+        for (; i < instantiatedIdTab.Count; i++) instantiatedIdTab[i].gameObject.SetActive(false);
 
         eventBoxIdText.text = $"1  |  {count}";
     }
@@ -217,13 +218,16 @@ public class EventBoxViewController : MonoBehaviour
             _ => 0
         };
 
+        foreach (var t in instantiatedErrorText) Destroy(t);
+        instantiatedErrorText.Clear();
+
         int i;
         for (i = 0; i < count; i++)
         {
             Image idImage;
             if (i >= instantiatedIdImage.Count)
             {
-                idImage = Instantiate(idImagePrefab, idImageTransformTarget);
+                idImage = Instantiate(idImagePrefab, idImageTargetTransform);
                 instantiatedIdImage.Add(idImage);
             }
             else
@@ -237,12 +241,32 @@ public class EventBoxViewController : MonoBehaviour
 
         HashSet<int> affectedId = new();
         var currentBoxPassed = false;
-        foreach (var b in boxes.Where(b => b.GetAxis() == box.GetAxis()))
+        foreach (var (b, x) in boxes.Select((b, x) => (b, x)).Where(b => b.b.GetAxis() == box.GetAxis()))
         {
-            var localIfh = IndexFilterHelper.Convert(b.IndexFilter, count);
-            if (b == box) currentBoxPassed = true;
-            foreach (var (element, _, _) in localIfh)
+            var ifh = IndexFilterHelper.Convert(b.IndexFilter, count);
+            if (ifh == null)
             {
+                if (instantiatedErrorText.Count > 10) continue;
+                var t = Instantiate(errorTextPrefab, errorTextTargetTransform);
+                t.text = $"[{x + 1}] Index filter is invalid or empty";
+                t.gameObject.SetActive(true);
+                instantiatedErrorText.Add(t);
+                continue;
+            }
+
+            if (b == box) currentBoxPassed = true;
+            foreach (var (element, _, _) in ifh)
+            {
+                if (0 > element && element >= instantiatedIdTab.Count)
+                {
+                    if (instantiatedErrorText.Count > 10) continue;
+                    var t = Instantiate(errorTextPrefab, errorTextTargetTransform);
+                    t.text = $"[{x + 1}] Index filter returned OOB ID {element}";
+                    t.gameObject.SetActive(true);
+                    instantiatedErrorText.Add(t);
+                    continue;
+                }
+
                 if (affectedId.Add(element))
                 {
                     instantiatedIdImage[element].color =
@@ -254,8 +278,10 @@ public class EventBoxViewController : MonoBehaviour
 
         if (box == null) return;
 
-        var ifh = IndexFilterHelper.Convert(box.IndexFilter, count);
-        filteredIdText.text = $"{count}  |  {ifh.Count}  |  {ifh.VisibleCount}";
+        var locIfh = IndexFilterHelper.Convert(box.IndexFilter, count);
+        filteredIdText.text = locIfh != null
+            ? $"{count}  |  {locIfh.Count}  |  {locIfh.VisibleCount}"
+            : $"{count}  |  0  |  0";
 
         beatDistributionWaveToggle.SetValueWithoutNotify(box.BeatDistributionType == (int)DistributionType.Wave);
         beatDistributionStepToggle.SetValueWithoutNotify(box.BeatDistributionType == (int)DistributionType.Step);
@@ -268,6 +294,7 @@ public class EventBoxViewController : MonoBehaviour
         reverseToggle.SetValueWithoutNotify(box.IndexFilter.Reverse == 1);
         if (box.IndexFilter.Type == (int)IndexFilterType.Division)
         {
+            p0Input.MinValue = 1;
             p0Input.SetValueWithoutNotify(box.IndexFilter.Param0);
             p0Input.SetLabelText("Section");
             p1Input.MinValue = 1;
@@ -276,6 +303,7 @@ public class EventBoxViewController : MonoBehaviour
         }
         else
         {
+            p0Input.MinValue = 1;
             p0Input.SetValueWithoutNotify(box.IndexFilter.Param0 + 1);
             p0Input.SetLabelText("ID");
             p1Input.MinValue = 0;
