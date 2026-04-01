@@ -7685,6 +7685,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 758b9ea07ec2411cb0aaab2ef8a33fd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsSelecting: 0
+  IsHovering: 0
+  HoveredObject: {fileID: 0}
+  CustomStandaloneInputModule: {fileID: 806554}
+  cameraManager: {fileID: 1206999167}
+  EditContext: {fileID: 405385889}
+  editMode: 8
+  obstaclePlacement: {fileID: 2087881065}
 --- !u!4 &171301929
 Transform:
   m_ObjectHideFlags: 0
@@ -22478,7 +22486,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -62.501762}
+  m_AnchoredPosition: {x: 0, y: -62.49972}
   m_SizeDelta: {x: 190, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &494425897
@@ -45775,7 +45783,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 13585789}
   m_Direction: 2
   m_Value: 1
-  m_Size: 1
+  m_Size: 0.9999829
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
