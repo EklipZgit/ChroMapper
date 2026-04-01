@@ -25,7 +25,8 @@ public static class GLSEventBoxCommand
                 break;
         }
 
-        GLSCommonCommand.TriggerPlaceAction(group, newGroup);
+        // TODO: yea we cloning it again, need to recalculate the index but im lazy to make new method
+        GLSCommonCommand.TriggerPlaceAction(group, BeatmapFactory.Clone(newGroup));
     }
 
     public static void DeleteEventBox(BaseEventBoxGroup group, int targetIndex)
@@ -48,7 +49,7 @@ public static class GLSEventBoxCommand
                 break;
         }
 
-        GLSCommonCommand.TriggerPlaceAction(group, newGroup);
+        GLSCommonCommand.TriggerPlaceAction(group, BeatmapFactory.Clone(newGroup));
     }
 
     public static void SetType(int value, BaseEventBoxGroup group, int boxIndex)
