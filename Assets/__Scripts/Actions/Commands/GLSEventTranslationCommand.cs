@@ -8,6 +8,7 @@ public static class GLSEventTranslationCommand
         if (Mathf.Approximately(evt.Translation, value)) return;
         var (newGroup, newEvt) = GLSCommonCommand.CopyGroupFrom(evt);
         newEvt.Translation = value;
-        GLSCommonCommand.TriggerAction(evt.EventBoxGroupData, newGroup);
+        GLSCommonCommand.TriggerModifyEventBoxAction(evt.EventBoxGroupData, newGroup,
+            ActionMergeType.ModifyGLSTranslationValue);
     }
 }

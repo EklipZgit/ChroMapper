@@ -77,7 +77,7 @@ public class BeatmapEasingsSelectionInputController : MonoBehaviour, CMInput.IEa
             && GlobalIntersectionCache.FirstHit.TryGetComponent<GLSEventContainer>(
                 out var container)
             && container.ObjectData is BaseGLSEvent evt)
-            GLSEventEasingsCommand.SetEasing(evt, (int)EaseType.None);
+            GLSEventEasingCommand.SetEasing(evt, (int)EaseType.None);
     }
 
     public void OnEasingStandard(InputAction.CallbackContext context)
@@ -140,7 +140,7 @@ public class BeatmapEasingsSelectionInputController : MonoBehaviour, CMInput.IEa
             && GlobalIntersectionCache.FirstHit.TryGetComponent<GLSEventContainer>(
                 out var container)
             && container.ObjectData is BaseGLSEvent evt)
-            GLSEventEasingsCommand.SetExtension(evt, extension);
+            GLSEventEasingCommand.SetExtension(evt, extension);
     }
 
     public void NotifyExtensionChanged(int value)

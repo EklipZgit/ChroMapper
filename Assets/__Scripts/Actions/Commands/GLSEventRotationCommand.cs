@@ -9,7 +9,10 @@ public static class GLSEventRotationCommand
         if (Mathf.Approximately(evt.Rotation, value)) return;
         var (newGroup, newEvt) = GLSCommonCommand.CopyGroupFrom(evt);
         newEvt.Rotation = value;
-        GLSCommonCommand.TriggerAction(evt.EventBoxGroupData, newGroup);
+        GLSCommonCommand.TriggerModifyEventBoxAction(
+            evt.EventBoxGroupData,
+            newGroup,
+            ActionMergeType.ModifyGLSRotationValue);
     }
 
     public static void SetDirection(BaseLightRotationBase evt, LightRotationDirection value)
@@ -17,7 +20,10 @@ public static class GLSEventRotationCommand
         if (evt.Direction == (int)value) return;
         var (newGroup, newEvt) = GLSCommonCommand.CopyGroupFrom(evt);
         newEvt.Direction = (int)value;
-        GLSCommonCommand.TriggerAction(evt.EventBoxGroupData, newGroup);
+        GLSCommonCommand.TriggerModifyEventBoxAction(
+            evt.EventBoxGroupData,
+            newGroup,
+            ActionMergeType.ModifyGLSRotationDirection);
     }
 
     public static void SetLoop(BaseLightRotationBase evt, int value)
@@ -25,6 +31,9 @@ public static class GLSEventRotationCommand
         if (evt.Loop == value) return;
         var (newGroup, newEvt) = GLSCommonCommand.CopyGroupFrom(evt);
         newEvt.Loop = value;
-        GLSCommonCommand.TriggerAction(evt.EventBoxGroupData, newGroup);
+        GLSCommonCommand.TriggerModifyEventBoxAction(
+            evt.EventBoxGroupData,
+            newGroup,
+            ActionMergeType.ModifyGLSRotationLoop);
     }
 }

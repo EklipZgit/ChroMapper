@@ -13,10 +13,24 @@ public static class GLSCommonCommand
         return (newGroup, newEvt);
     }
 
-    public static void TriggerAction(BaseEventBoxGroup oldGroup, BaseEventBoxGroup newGroup)
+    public static void TriggerPlaceAction(
+        BaseEventBoxGroup oldGroup,
+        BaseEventBoxGroup newGroup)
     {
-        var action = new BeatmapObjectPlacementAction(newGroup, new[] { oldGroup }, "Modified event box group.");
-        action.Redo();
-        BeatmapActionContainer.AddAction(action);
+        var action = new BeatmapObjectPlacementAction(newGroup, oldGroup, "Modified event box group.");
+        BeatmapActionContainer.AddAction(action, true);
+    }
+
+    public static void TriggerModifyEventBoxAction(
+        BaseEventBoxGroup oldGroup,
+        BaseEventBoxGroup newGroup,
+        ActionMergeType actionMergeType)
+    {
+        var action = new BeatmapGLSEventBoxModifiedAction(
+            newGroup,
+            oldGroup,
+            "Modified event box group.",
+            actionMergeType);
+        BeatmapActionContainer.AddAction(action, true);
     }
 }

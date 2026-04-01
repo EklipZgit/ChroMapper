@@ -7,6 +7,7 @@ public interface IMergeableAction
     public bool CanMerge(IMergeableAction previous);
     public IMergeableAction DoMerge(IMergeableAction previous);
 }
+
 public enum ActionMergeType
 {
     None,
@@ -24,5 +25,44 @@ public enum ActionMergeType
     EventMainTweak,
     EventAltTweak,
     BPMValueTweak,
-    NJSValueTweak
+    NJSValueTweak,
+
+    ModifyEventBoxFilterType,
+    ModifyEventBoxFilterParam0,
+    ModifyEventBoxFilterParam1,
+    ModifyEventBoxFilterReverse,
+    ModifyEventBoxFilterChunk,
+    ModifyEventBoxFilterRandom,
+    ModifyEventBoxFilterSeed,
+    ModifyEventBoxFilterLimit,
+    ModifyEventBoxFilterLimitAffectsType,
+
+    ModifyEventBoxBeatDistributionType,
+    ModifyEventBoxBeatDistribution,
+    ModifyEventBoxAxis,
+    ModifyEventBoxFlip,
+    ModifyEventBoxValueDistribution,
+    ModifyEventBoxValueDistributionType,
+    ModifyEventBoxAffectFirst,
+    ModifyEventBoxEasing,
+
+    ModifyGLSEventEasing,
+    ModifyGLSEventExtension,
+
+    ModifyGLSColorColor,
+    ModifyGLSColorBrightness,
+    ModifyGLSColorBrightnessAndEasing,
+    ModifyGLSColorUsePrevious,
+    ModifyGLSColorEasing,
+    ModifyGLSColorFrequency,
+    ModifyGLSColorStrobeBrightness,
+    ModifyGLSColorStrobeFade,
+
+    ModifyGLSRotationValue,
+    ModifyGLSRotationDirection,
+    ModifyGLSRotationLoop,
+
+    ModifyGLSTranslationValue,
+
+    ModifyGLSFloatFXValue,
 }

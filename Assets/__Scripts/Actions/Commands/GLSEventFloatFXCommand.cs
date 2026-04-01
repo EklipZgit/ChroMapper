@@ -8,6 +8,9 @@ public static class GLSEventFloatFXCommand
         if (Mathf.Approximately(evt.Value, value)) return;
         var (newGroup, newEvt) = GLSCommonCommand.CopyGroupFrom(evt);
         newEvt.Value = value;
-        GLSCommonCommand.TriggerAction(evt.EventBoxGroupData, newGroup);
+        GLSCommonCommand.TriggerModifyEventBoxAction(
+            evt.EventBoxGroupData,
+            newGroup,
+            ActionMergeType.ModifyGLSFloatFXValue);
     }
 }

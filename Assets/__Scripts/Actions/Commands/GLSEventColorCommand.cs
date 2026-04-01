@@ -11,7 +11,10 @@ public static class GLSEventColorCommand
         if (evt.Color == value) return;
         var (newGroup, newEvt) = GLSCommonCommand.CopyGroupFrom(evt);
         newEvt.Color = value;
-        GLSCommonCommand.TriggerAction(evt.EventBoxGroupData, newGroup);
+        GLSCommonCommand.TriggerModifyEventBoxAction(
+            evt.EventBoxGroupData,
+            newGroup,
+            ActionMergeType.ModifyGLSColorColor);
     }
 
     public static void SetBrightness(BaseLightColorBase evt, float value)
@@ -19,7 +22,10 @@ public static class GLSEventColorCommand
         if (Mathf.Approximately(evt.Brightness, value)) return;
         var (newGroup, newEvt) = GLSCommonCommand.CopyGroupFrom(evt);
         newEvt.Brightness = value;
-        GLSCommonCommand.TriggerAction(evt.EventBoxGroupData, newGroup);
+        GLSCommonCommand.TriggerModifyEventBoxAction(
+            evt.EventBoxGroupData,
+            newGroup,
+            ActionMergeType.ModifyGLSColorBrightness);
     }
 
     public static void SetBrightnessAndEasing(BaseLightColorBase evt, float value, EaseType ease)
@@ -28,7 +34,10 @@ public static class GLSEventColorCommand
         var (newGroup, newEvt) = GLSCommonCommand.CopyGroupFrom(evt);
         newEvt.Brightness = value;
         newEvt.Easing = (int)ease;
-        GLSCommonCommand.TriggerAction(evt.EventBoxGroupData, newGroup);
+        GLSCommonCommand.TriggerModifyEventBoxAction(
+            evt.EventBoxGroupData,
+            newGroup,
+            ActionMergeType.ModifyGLSColorBrightnessAndEasing);
     }
 
     public static void SetUsePrevious(BaseLightColorBase evt, int value)
@@ -36,7 +45,10 @@ public static class GLSEventColorCommand
         if (evt.UsePrevious == value) return;
         var (newGroup, newEvt) = GLSCommonCommand.CopyGroupFrom(evt);
         newEvt.UsePrevious = value;
-        GLSCommonCommand.TriggerAction(evt.EventBoxGroupData, newGroup);
+        GLSCommonCommand.TriggerModifyEventBoxAction(
+            evt.EventBoxGroupData,
+            newGroup,
+            ActionMergeType.ModifyGLSColorUsePrevious);
     }
 
     public static void SetEasing(BaseLightColorBase evt, int value)
@@ -44,7 +56,10 @@ public static class GLSEventColorCommand
         if (evt.Easing == value) return;
         var (newGroup, newEvt) = GLSCommonCommand.CopyGroupFrom(evt);
         newEvt.Easing = value;
-        GLSCommonCommand.TriggerAction(evt.EventBoxGroupData, newGroup);
+        GLSCommonCommand.TriggerModifyEventBoxAction(
+            evt.EventBoxGroupData,
+            newGroup,
+            ActionMergeType.ModifyGLSColorEasing);
     }
 
     public static void SetFrequency(BaseLightColorBase evt, int value)
@@ -52,7 +67,10 @@ public static class GLSEventColorCommand
         if (evt.Frequency == value) return;
         var (newGroup, newEvt) = GLSCommonCommand.CopyGroupFrom(evt);
         newEvt.Frequency = value;
-        GLSCommonCommand.TriggerAction(evt.EventBoxGroupData, newGroup);
+        GLSCommonCommand.TriggerModifyEventBoxAction(
+            evt.EventBoxGroupData,
+            newGroup,
+            ActionMergeType.ModifyGLSColorFrequency);
     }
 
     public static void SetStrobeBrightness(BaseLightColorBase evt, float value)
@@ -60,7 +78,10 @@ public static class GLSEventColorCommand
         if (Mathf.Approximately(evt.StrobeBrightness, value)) return;
         var (newGroup, newEvt) = GLSCommonCommand.CopyGroupFrom(evt);
         newEvt.StrobeBrightness = value;
-        GLSCommonCommand.TriggerAction(evt.EventBoxGroupData, newGroup);
+        GLSCommonCommand.TriggerModifyEventBoxAction(
+            evt.EventBoxGroupData,
+            newGroup,
+            ActionMergeType.ModifyGLSColorStrobeBrightness);
     }
 
     public static void SetStrobeFade(BaseLightColorBase evt, int value)
@@ -68,6 +89,9 @@ public static class GLSEventColorCommand
         if (evt.StrobeFade == value) return;
         var (newGroup, newEvt) = GLSCommonCommand.CopyGroupFrom(evt);
         newEvt.StrobeFade = value;
-        GLSCommonCommand.TriggerAction(evt.EventBoxGroupData, newGroup);
+        GLSCommonCommand.TriggerModifyEventBoxAction(
+            evt.EventBoxGroupData,
+            newGroup,
+            ActionMergeType.ModifyGLSColorStrobeFade);
     }
 }

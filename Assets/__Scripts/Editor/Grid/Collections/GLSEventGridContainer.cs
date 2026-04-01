@@ -92,8 +92,7 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
         // co-variant deez
 
         var action = new BeatmapObjectPlacementAction(newGroup, new[] { glsEvt.EventBoxGroupData }, msg);
-        action.Redo();
-        BeatmapActionContainer.AddAction(action);
+        BeatmapActionContainer.AddAction(action, true);
     }
 
     private void HandlePlayToggle(bool playing)

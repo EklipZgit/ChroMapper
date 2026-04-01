@@ -17,6 +17,12 @@ public class BeatmapObjectPlacementAction : BeatmapAction
 
     public BeatmapObjectPlacementAction(
         BaseObject placedObject,
+        BaseObject conflictingObject,
+        string comment) : base(new[] { placedObject }, comment) =>
+        RemovedConflictObjects = new[] { conflictingObject };
+
+    public BeatmapObjectPlacementAction(
+        BaseObject placedObject,
         IEnumerable<BaseObject> conflictingObject,
         string comment) : base(new[] { placedObject }, comment) =>
         RemovedConflictObjects = conflictingObject;
@@ -33,9 +39,7 @@ public class BeatmapObjectPlacementAction : BeatmapAction
         RefreshPools(RemovedConflictObjects);
     }
 
-    public override void Redo(BeatmapActionContainer.BeatmapActionParams param) => Redo();
-
-    public void Redo()
+    public override void Redo(BeatmapActionContainer.BeatmapActionParams param)
     {
         foreach (var obj in RemovedConflictObjects) DeleteObject(obj, false);
 
