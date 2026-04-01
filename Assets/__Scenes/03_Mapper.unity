@@ -56510,7 +56510,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79ef6dda16cd96e4c86b4763cab11725, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  context: {fileID: 127874572}
+  beatmapRuntimeContext: {fileID: 127874572}
   tracksManager: {fileID: 902407107}
   labels: {fileID: 322207091}
 --- !u!1 &1172994975
@@ -96469,7 +96469,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 20, y: 0.0014266968}
+  m_AnchoredPosition: {x: 20, y: -0.00018310547}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &2122688343

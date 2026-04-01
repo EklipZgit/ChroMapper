@@ -44,6 +44,6 @@ public abstract class BeatmapGLSGroupInputController<TData> : BeatmapInputContro
 
     public void OnMirrorHover(InputAction.CallbackContext context)
     {
-        if (context.performed && IsHovering) throw new System.NotImplementedException();
+        if (context.performed && IsHovering) GLSGroupCommand.Mirror(HoveredObject.EventBoxGroupData);
     }
 }
