@@ -25,6 +25,7 @@ public class BeatmapInputController<TContainer> : MonoBehaviour, CMInput.IBeatma
     [SerializeField] protected EditModeContext EditContext;
     [SerializeField] private EditingMode editMode;
     [SerializeField] private ObstaclePlacement obstaclePlacement;
+    [SerializeField] private bool ignoreBaseInput;
 
     protected bool MassSelect;
     private Vector2 mousePosition;
@@ -90,12 +91,12 @@ public class BeatmapInputController<TContainer> : MonoBehaviour, CMInput.IBeatma
 
     public void OnDeleteTool(InputAction.CallbackContext context)
     {
-        if (DeleteToolController.IsActive && context.performed) OnQuickDelete(context);
+        if (ignoreBaseInput || (DeleteToolController.IsActive && context.performed)) OnQuickDelete(context);
     }
 
     public void OnQuickDelete(InputAction.CallbackContext context)
     {
-        if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true))
+        if (ignoreBaseInput || CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true))
             return; //Returns if the mouse is on top of UI
 
         if (!Application.isFocused) return;
@@ -106,7 +107,8 @@ public class BeatmapInputController<TContainer> : MonoBehaviour, CMInput.IBeatma
 
     public void OnSelectObjects(InputAction.CallbackContext context)
     {
-        if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)
+        if (ignoreBaseInput
+            || CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)
             || obstaclePlacement.IsPlacing)
             return;
 
@@ -129,7 +131,7 @@ public class BeatmapInputController<TContainer> : MonoBehaviour, CMInput.IBeatma
 
     public void OnJumptoObjectTime(InputAction.CallbackContext context)
     {
-        if (!context.performed) return; // TODO: Find a way to detect if other keybinds are held
+        if (ignoreBaseInput || !context.performed) return; // TODO: Find a way to detect if other keybinds are held
         RaycastFirstObject(out var con);
         if (con != null)
         {

@@ -6,12 +6,18 @@ namespace Beatmap.Base
 {
     public abstract class BaseGLSEvent : BaseObject
     {
-        public BaseGLSEvent()
+        protected BaseGLSEvent()
         {
         }
 
         protected BaseGLSEvent(float relativeTime, float time, JSONNode customData = null) : base(time, customData) =>
             RelativeJsonTime = relativeTime;
+
+        protected BaseGLSEvent(BaseGLSEvent other) : base(other.JsonTime, other.CustomData)
+        {
+            RelativeJsonTime = other.RelativeJsonTime;
+            BoxIndex = other.BoxIndex;
+        }
 
         public float RelativeJsonTime { get; set; }
         public override ObjectType ObjectType { get; set; } = ObjectType.GLSEvent;

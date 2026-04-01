@@ -7693,6 +7693,7 @@ MonoBehaviour:
   EditContext: {fileID: 405385889}
   editMode: 8
   obstaclePlacement: {fileID: 2087881065}
+  ignoreBaseInput: 1
 --- !u!4 &171301929
 Transform:
   m_ObjectHideFlags: 0
@@ -14900,6 +14901,7 @@ MonoBehaviour:
   EditContext: {fileID: 405385889}
   editMode: 2
   obstaclePlacement: {fileID: 2087881065}
+  ignoreBaseInput: 0
   atsc: {fileID: 570484802}
   eventGridProvider: {fileID: 986915610}
   boxSelectionPlacement: {fileID: 859643186}
@@ -28971,6 +28973,7 @@ MonoBehaviour:
   EditContext: {fileID: 405385889}
   editMode: 2
   obstaclePlacement: {fileID: 2087881065}
+  ignoreBaseInput: 0
   atsc: {fileID: 570484802}
   eventGridProvider: {fileID: 986915610}
   boxSelectionPlacement: {fileID: 859643186}
@@ -44957,6 +44960,7 @@ MonoBehaviour:
   EditContext: {fileID: 405385889}
   editMode: 8
   obstaclePlacement: {fileID: 2087881065}
+  ignoreBaseInput: 0
   EasingInputController: {fileID: 171301928}
 --- !u!1 &939381953
 GameObject:
@@ -45783,7 +45787,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 13585789}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.9999829
+  m_Size: 0.99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -53884,6 +53888,7 @@ MonoBehaviour:
   EditContext: {fileID: 405385889}
   editMode: 8
   obstaclePlacement: {fileID: 2087881065}
+  ignoreBaseInput: 0
   EasingInputController: {fileID: 171301928}
 --- !u!1 &1117169516
 GameObject:
@@ -56459,6 +56464,7 @@ MonoBehaviour:
   EditContext: {fileID: 405385889}
   editMode: 8
   obstaclePlacement: {fileID: 2087881065}
+  ignoreBaseInput: 0
   EasingInputController: {fileID: 171301928}
 --- !u!1 &1170526321
 GameObject:
@@ -60862,6 +60868,7 @@ MonoBehaviour:
   EditContext: {fileID: 405385889}
   editMode: 2
   obstaclePlacement: {fileID: 2087881065}
+  ignoreBaseInput: 0
   atsc: {fileID: 570484802}
   eventGridProvider: {fileID: 986915610}
   boxSelectionPlacement: {fileID: 859643186}
@@ -70540,6 +70547,7 @@ MonoBehaviour:
   EditContext: {fileID: 405385889}
   editMode: 1
   obstaclePlacement: {fileID: 2087881065}
+  ignoreBaseInput: 0
   noteAppearanceSo: {fileID: 11400000, guid: 0c2d133c05afa744d999a0758a8977a1, type: 2}
   arcAppearanceSo: {fileID: 11400000, guid: c737f74f07351d441a56c84811b4d665, type: 2}
   chainAppearanceSo: {fileID: 11400000, guid: 7eafe2e8b1acf5b49903b99310732bf6, type: 2}
@@ -70564,6 +70572,7 @@ MonoBehaviour:
   EditContext: {fileID: 405385889}
   editMode: 1
   obstaclePlacement: {fileID: 2087881065}
+  ignoreBaseInput: 0
   atsc: {fileID: 570484802}
   bpmChangeGridContainer: {fileID: 1890332741}
   obstacleAppearanceSo: {fileID: 11400000, guid: 7a50c9a2cc4ae50499232fe511d6437e,
@@ -70589,6 +70598,7 @@ MonoBehaviour:
   EditContext: {fileID: 405385889}
   editMode: 4
   obstaclePlacement: {fileID: 2087881065}
+  ignoreBaseInput: 0
   eventAppearanceSo: {fileID: 11400000, guid: 00bab3c0ab2051441b924304da9d0e12, type: 2}
   tracksManager: {fileID: 902407107}
   context: {fileID: 127874572}
@@ -70612,6 +70622,7 @@ MonoBehaviour:
   EditContext: {fileID: 405385889}
   editMode: 1
   obstaclePlacement: {fileID: 2087881065}
+  ignoreBaseInput: 0
 --- !u!114 &1546839088
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70632,6 +70643,7 @@ MonoBehaviour:
   EditContext: {fileID: 405385889}
   editMode: 1
   obstaclePlacement: {fileID: 2087881065}
+  ignoreBaseInput: 0
 --- !u!114 &1546839089
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70652,6 +70664,7 @@ MonoBehaviour:
   EditContext: {fileID: 405385889}
   editMode: 1
   obstaclePlacement: {fileID: 2087881065}
+  ignoreBaseInput: 0
   arcAppearanceSo: {fileID: 11400000, guid: c737f74f07351d441a56c84811b4d665, type: 2}
 --- !u!114 &1546839090
 MonoBehaviour:
@@ -70673,6 +70686,7 @@ MonoBehaviour:
   EditContext: {fileID: 405385889}
   editMode: 1
   obstaclePlacement: {fileID: 2087881065}
+  ignoreBaseInput: 0
   chainAppearanceSo: {fileID: 11400000, guid: 7eafe2e8b1acf5b49903b99310732bf6, type: 2}
 --- !u!114 &1546839091
 MonoBehaviour:
@@ -70707,6 +70721,7 @@ MonoBehaviour:
   EditContext: {fileID: 405385889}
   editMode: 1
   obstaclePlacement: {fileID: 2087881065}
+  ignoreBaseInput: 0
 --- !u!114 &1546839093
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70727,6 +70742,7 @@ MonoBehaviour:
   EditContext: {fileID: 405385889}
   editMode: 255
   obstaclePlacement: {fileID: 2087881065}
+  ignoreBaseInput: 0
 --- !u!1 &1550023652
 GameObject:
   m_ObjectHideFlags: 0
@@ -71607,6 +71623,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   atsc: {fileID: 570484802}
+  beatmapRuntimeContext: {fileID: 127874572}
+  editModeContext: {fileID: 405385889}
   bpmChangesContainer: {fileID: 1890332741}
   selectionMaterial: {fileID: 2100000, guid: 714c52575879a884685fa7c22c92f9d0, type: 2}
   selectedColor: {r: 0, g: 1, b: 1, a: 1}
@@ -71614,6 +71632,21 @@ MonoBehaviour:
   tracksManager: {fileID: 902407107}
   eventPlacement: {fileID: 648123637}
   eventGridContainer: {fileID: 455916737}
+  glsGroupGridProvider: {fileID: 788356228}
+  glsGroupColorPlacement: {fileID: 2010338916}
+  glsGroupColorGridContainer: {fileID: 455316408}
+  glsGroupRotationPlacement: {fileID: 492114546}
+  glsGroupRotationGridContainer: {fileID: 1613377960}
+  glsGroupTranslationPlacement: {fileID: 2042029060}
+  glsGroupTranslationGridContainer: {fileID: 1029119608}
+  glsGroupFloatFXPlacement: {fileID: 1524441771}
+  glsGroupFloatFXGridContainer: {fileID: 1642563812}
+  glsEventGridProvider: {fileID: 986915610}
+  glsEventColorPlacement: {fileID: 165161922}
+  glsEventRotationPlacement: {fileID: 563500041}
+  glsEventTranslationPlacement: {fileID: 1221651360}
+  glsEventFloatFXPlacement: {fileID: 1588273436}
+  glsEventGridContainer: {fileID: 1318264219}
   labels: {fileID: 322207091}
 --- !u!1 &1573635215
 GameObject:
@@ -86203,6 +86236,7 @@ MonoBehaviour:
   EditContext: {fileID: 405385889}
   editMode: 2
   obstaclePlacement: {fileID: 2087881065}
+  ignoreBaseInput: 0
   atsc: {fileID: 570484802}
   eventGridProvider: {fileID: 986915610}
   boxSelectionPlacement: {fileID: 859643186}
@@ -92270,6 +92304,7 @@ MonoBehaviour:
   EditContext: {fileID: 405385889}
   editMode: 8
   obstaclePlacement: {fileID: 2087881065}
+  ignoreBaseInput: 0
   EasingInputController: {fileID: 171301928}
 --- !u!1 &2013932233
 GameObject:
@@ -96434,7 +96469,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 20, y: 0.0005950928}
+  m_AnchoredPosition: {x: 20, y: 0.0014266968}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &2122688343

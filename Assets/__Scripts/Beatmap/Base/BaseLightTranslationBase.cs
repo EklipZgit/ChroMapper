@@ -23,10 +23,7 @@ namespace Beatmap.Base
             UsePrevious = usePrevious;
         }
 
-        protected BaseLightTranslationBase(BaseLightTranslationBase other) : base(
-            other.RelativeJsonTime,
-            other.JsonTime,
-            other.CustomData)
+        protected BaseLightTranslationBase(BaseLightTranslationBase other) : base(other)
         {
             Translation = other.Translation;
             EaseType = other.EaseType;

@@ -8,6 +8,24 @@ namespace Beatmap.Base
 {
     public class BaseFxEventFloat : BaseFxEvent<float>, IEquatable<BaseFxEventFloat>
     {
+        public BaseFxEventFloat()
+        {
+        }
+
+        protected BaseFxEventFloat(
+            float time,
+            float value,
+            int easing,
+            int usePrevious,
+            JSONNode customData = null) : base(time, value, customData)
+        {
+            Value = value;
+            Easing = easing;
+            UsePrevious = usePrevious;
+        }
+
+        protected BaseFxEventFloat(BaseFxEventFloat other) : base(other) => Easing = other.Easing;
+
         public int Easing;
 
         public override JSONNode ToJson() =>
@@ -16,11 +34,7 @@ namespace Beatmap.Base
                 3 => V3FloatFxEvent.ToJson(this)
             };
 
-        public override BaseItem Clone() =>
-            new BaseFxEventFloat
-            {
-                RelativeJsonTime = RelativeJsonTime, UsePrevious = UsePrevious, Value = Value, Easing = Easing
-            };
+        public override BaseItem Clone() => new BaseFxEventFloat(this);
 
         public bool Equals(BaseFxEventFloat other)
         {
