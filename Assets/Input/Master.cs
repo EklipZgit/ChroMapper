@@ -8147,6 +8147,78 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 }
             ]
+        },
+        {
+            ""name"": ""Scroll Precision"",
+            ""id"": ""17387405-3444-4a48-946c-da7840e428b9"",
+            ""actions"": [
+                {
+                    ""name"": ""Scroll"",
+                    ""type"": ""Button"",
+                    ""id"": ""380a1a0d-b07c-4b29-8b15-5785bfca4a68"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": ""Three Modifiers"",
+                    ""id"": ""74b18c49-a8cb-4386-85de-fb5d56d7a491"",
+                    ""path"": ""ThreeModifiers"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Scroll"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier1"",
+                    ""id"": ""870c510f-8f09-4b47-9c36-17147702235b"",
+                    ""path"": ""<Keyboard>/alt"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Scroll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""modifier2"",
+                    ""id"": ""1313947d-0011-4544-a85b-1cb38322518c"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Scroll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""modifier3"",
+                    ""id"": ""83a8b08e-98d2-4834-b141-60c0166a3122"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Scroll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""7f3080fc-6be8-4ba7-9767-c1b7c403473d"",
+                    ""path"": ""<Mouse>/scroll/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Scroll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -8527,6 +8599,9 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         m_EasingsSelection_EasingAlternativeHover = m_EasingsSelection.FindAction("Easing (Alternative) (Hover)", throwIfNotFound: true);
         m_EasingsSelection_Extension = m_EasingsSelection.FindAction("Extension", throwIfNotFound: true);
         m_EasingsSelection_ExtensionHover = m_EasingsSelection.FindAction("Extension (Hover)", throwIfNotFound: true);
+        // Scroll Precision
+        m_ScrollPrecision = asset.FindActionMap("Scroll Precision", throwIfNotFound: true);
+        m_ScrollPrecision_Scroll = m_ScrollPrecision.FindAction("Scroll", throwIfNotFound: true);
     }
 
     ~@CMInput()
@@ -8586,6 +8661,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         UnityEngine.Debug.Assert(!m_GLSTranslationObjects.enabled, "This will cause a leak and performance issues, CMInput.GLSTranslationObjects.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_GLSFloatFXObjects.enabled, "This will cause a leak and performance issues, CMInput.GLSFloatFXObjects.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_EasingsSelection.enabled, "This will cause a leak and performance issues, CMInput.EasingsSelection.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_ScrollPrecision.enabled, "This will cause a leak and performance issues, CMInput.ScrollPrecision.Disable() has not been called.");
     }
 
     /// <summary>
@@ -16192,6 +16268,102 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
     /// Provides a new <see cref="EasingsSelectionActions" /> instance referencing this action map.
     /// </summary>
     public EasingsSelectionActions @EasingsSelection => new EasingsSelectionActions(this);
+
+    // Scroll Precision
+    private readonly InputActionMap m_ScrollPrecision;
+    private List<IScrollPrecisionActions> m_ScrollPrecisionActionsCallbackInterfaces = new List<IScrollPrecisionActions>();
+    private readonly InputAction m_ScrollPrecision_Scroll;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "Scroll Precision".
+    /// </summary>
+    public struct ScrollPrecisionActions
+    {
+        private @CMInput m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public ScrollPrecisionActions(@CMInput wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "ScrollPrecision/Scroll".
+        /// </summary>
+        public InputAction @Scroll => m_Wrapper.m_ScrollPrecision_Scroll;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_ScrollPrecision; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="ScrollPrecisionActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(ScrollPrecisionActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="ScrollPrecisionActions" />
+        public void AddCallbacks(IScrollPrecisionActions instance)
+        {
+            if (instance == null || m_Wrapper.m_ScrollPrecisionActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_ScrollPrecisionActionsCallbackInterfaces.Add(instance);
+            @Scroll.started += instance.OnScroll;
+            @Scroll.performed += instance.OnScroll;
+            @Scroll.canceled += instance.OnScroll;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="ScrollPrecisionActions" />
+        private void UnregisterCallbacks(IScrollPrecisionActions instance)
+        {
+            @Scroll.started -= instance.OnScroll;
+            @Scroll.performed -= instance.OnScroll;
+            @Scroll.canceled -= instance.OnScroll;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="ScrollPrecisionActions.UnregisterCallbacks(IScrollPrecisionActions)" />.
+        /// </summary>
+        /// <seealso cref="ScrollPrecisionActions.UnregisterCallbacks(IScrollPrecisionActions)" />
+        public void RemoveCallbacks(IScrollPrecisionActions instance)
+        {
+            if (m_Wrapper.m_ScrollPrecisionActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="ScrollPrecisionActions.AddCallbacks(IScrollPrecisionActions)" />
+        /// <seealso cref="ScrollPrecisionActions.RemoveCallbacks(IScrollPrecisionActions)" />
+        /// <seealso cref="ScrollPrecisionActions.UnregisterCallbacks(IScrollPrecisionActions)" />
+        public void SetCallbacks(IScrollPrecisionActions instance)
+        {
+            foreach (var item in m_Wrapper.m_ScrollPrecisionActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_ScrollPrecisionActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="ScrollPrecisionActions" /> instance referencing this action map.
+    /// </summary>
+    public ScrollPrecisionActions @ScrollPrecision => new ScrollPrecisionActions(this);
     private int m_ChroMapperDefaultSchemeIndex = -1;
     /// <summary>
     /// Provides access to the input control scheme.
@@ -18464,5 +18636,20 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnExtensionHover(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Scroll Precision" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="ScrollPrecisionActions.AddCallbacks(IScrollPrecisionActions)" />
+    /// <seealso cref="ScrollPrecisionActions.RemoveCallbacks(IScrollPrecisionActions)" />
+    public interface IScrollPrecisionActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "Scroll" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnScroll(InputAction.CallbackContext context);
     }
 }

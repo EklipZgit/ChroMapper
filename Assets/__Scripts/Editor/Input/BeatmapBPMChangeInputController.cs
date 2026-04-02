@@ -33,7 +33,7 @@ public class BeatmapBPMChangeInputController : BeatmapInputController<BpmEventCo
             {
                 var original = BeatmapFactory.Clone(containerToEdit.ObjectData);
 
-                var modifier = context.ReadValue<float>() > 0 ? 1 : -1;
+                var modifier = context.GetScrollDirection();
 
                 containerToEdit.BpmData.Bpm += modifier;
                 if (containerToEdit.BpmData.Bpm <= 0) containerToEdit.BpmData.Bpm = 1f;

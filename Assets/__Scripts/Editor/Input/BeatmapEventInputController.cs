@@ -1,7 +1,4 @@
-using System.Collections.Generic;
-using System.Linq;
 using Beatmap.Appearances;
-using Beatmap.Base;
 using Beatmap.Containers;
 using Beatmap.Enums;
 using Beatmap.Helper;
@@ -13,12 +10,13 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
 {
     [SerializeField] private EventAppearanceSO eventAppearanceSo;
     [SerializeField] private TracksManager tracksManager;
-    [SerializeField] private BeatmapRuntimeContext context;
+    [SerializeField] private BeatmapRuntimeContext beatmapRuntimeContext;
+    [SerializeField] private ScrollPrecisionController scrollPrecisionController;
     private TracksDefinitionSO trackDefinition;
 
-    private void Start() => context.OnTracksDefinitionChanged += HandleTrackDefinitionChanged;
+    private void Start() => beatmapRuntimeContext.OnTracksDefinitionChanged += HandleTrackDefinitionChanged;
 
-    private void OnDestroy() => context.OnTracksDefinitionChanged -= HandleTrackDefinitionChanged;
+    private void OnDestroy() => beatmapRuntimeContext.OnTracksDefinitionChanged -= HandleTrackDefinitionChanged;
 
     private void HandleTrackDefinitionChanged(TracksDefinitionSO obj) => trackDefinition = obj;
 
@@ -39,9 +37,7 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
         RaycastFirstObject(out var e);
         if (e == null || e.Dragged || !context.performed) return;
 
-        var modifier = (context.ReadValue<float>() > 0) ^ Settings.Instance.InvertScrollEventValue
-            ? 1
-            : -1;
+        var modifier = context.GetScrollDirection(Settings.Instance.InvertScrollEventValue);
         TweakMain(e, modifier);
     }
 
@@ -51,9 +47,7 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
         RaycastFirstObject(out var e);
         if (e == null || e.Dragged || !context.performed) return;
 
-        var modifier = (context.ReadValue<float>() > 0) ^ Settings.Instance.InvertScrollEventValue
-            ? 1
-            : -1;
+        var modifier = context.GetScrollDirection(Settings.Instance.InvertScrollEventValue);
         TweakAlternative(e, modifier);
     }
 
@@ -92,7 +86,8 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
         BeatmapActionContainer.AddAction(new BeatmapObjectModifiedAction(e.ObjectData, e.ObjectData, original));
     }
 
-    protected override bool GetComponentFromTransform(GameObject t, out EventContainer obj) => t.transform.parent.TryGetComponent(out obj);
+    protected override bool GetComponentFromTransform(GameObject t, out EventContainer obj) =>
+        t.transform.parent.TryGetComponent(out obj);
 
     // for event that frequently gets changed
     public void TweakMain(EventContainer e, int modifier)
@@ -101,14 +96,17 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
 
         if (trackDefinition.GetBasicOrDefault(e.EventData.Type).Kind == BasicEventKind.Lights)
         {
-            e.EventData.FloatValue += 0.1f * modifier;
-            if (e.EventData.FloatValue < 0) e.EventData.FloatValue = 0;
+            var prec = scrollPrecisionController.GetCurrentBrightnessPrecision() / 100f;
+            var value = Mathf.Round((e.EventData.FloatValue + (modifier * prec)) * 1_000f) / 1_000f;
+            e.EventData.FloatValue = Mathf.Max(0f, value);
 
             RefreshPrevEventContainer(e);
         }
         else if (e.EventData.IsLaneRotationEvent())
         {
-            e.EventData.Rotation += 15 * modifier;
+            var prec = scrollPrecisionController.GetCurrentRotationPrecision();
+            var value = Mathf.Round((e.EventData.Rotation + (modifier * prec)) * 1_000f) / 1_000f;
+            e.EventData.Rotation += value;
             tracksManager.RefreshTracks();
         }
         else if (e.EventData.IsColorBoostEvent())
@@ -154,7 +152,9 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
         }
         else if (e.EventData.IsLaneRotationEvent())
         {
-            e.EventData.Rotation += modifier;
+            var prec = scrollPrecisionController.GetCurrentRotationPrecision();
+            var value = Mathf.Round((e.EventData.Rotation + (modifier * prec)) * 1_000f) / 1_000f;
+            e.EventData.Rotation += value;
             tracksManager.RefreshTracks();
         }
 

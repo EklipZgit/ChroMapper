@@ -8061,6 +8061,78 @@
                     "isPartOfComposite": true
                 }
             ]
+        },
+        {
+            "name": "Scroll Precision",
+            "id": "17387405-3444-4a48-946c-da7840e428b9",
+            "actions": [
+                {
+                    "name": "Scroll",
+                    "type": "Button",
+                    "id": "380a1a0d-b07c-4b29-8b15-5785bfca4a68",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "Three Modifiers",
+                    "id": "74b18c49-a8cb-4386-85de-fb5d56d7a491",
+                    "path": "ThreeModifiers",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Scroll",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier1",
+                    "id": "870c510f-8f09-4b47-9c36-17147702235b",
+                    "path": "<Keyboard>/alt",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Scroll",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "modifier2",
+                    "id": "1313947d-0011-4544-a85b-1cb38322518c",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Scroll",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "modifier3",
+                    "id": "83a8b08e-98d2-4834-b141-60c0166a3122",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Scroll",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "7f3080fc-6be8-4ba7-9767-c1b7c403473d",
+                    "path": "<Mouse>/scroll/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Scroll",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                }
+            ]
         }
     ],
     "controlSchemes": [

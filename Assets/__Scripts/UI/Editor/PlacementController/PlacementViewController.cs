@@ -9,7 +9,12 @@ public class PlacementViewController : MonoBehaviour
     [SerializeField] private GameObject[] basicEventTargets;
     [SerializeField] private GameObject[] glsTargets;
 
-    private void Start() => editModeContext.OnEditModeChanged += HandleEditModeChanged;
+    private void Start()
+    {
+        editModeContext.OnEditModeChanged += HandleEditModeChanged;
+        HandleEditModeChanged(editModeContext.EditingMode);
+    }
+
     private void OnDestroy() => editModeContext.OnEditModeChanged += HandleEditModeChanged;
 
     private void HandleEditModeChanged(EditingMode mode)

@@ -15,7 +15,7 @@ public class BeatmapNJSEventInputController : BeatmapInputController<NJSEventCon
         var original = BeatmapFactory.Clone(containerToEdit.ObjectData);
 
         // Think decimal NJS will be more common eventually. Can tweak this later.
-        var modifier = context.ReadValue<float>() > 0 ? 0.5f : -0.5f;
+        var modifier = context.GetScrollDirection(Settings.Instance.InvertScrollEventValue) * 0.5f;
 
         containerToEdit.NJSData.RelativeNJS += modifier;
         if (containerToEdit.NJSData.RelativeNJS

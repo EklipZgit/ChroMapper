@@ -32,18 +32,23 @@ public abstract class CMUIComponent<T> : CMUIComponentBase
         this.valueAccessor = valueAccessor;
     }
 
-    internal void OnValueChanged(Action<T> onValueChanged)
+    internal CMUIComponent<T> OnValueChanged(Action<T> onValueChanged)
     {
         if (this.onValueChanged != null)
             throw new InvalidOperationException($"{nameof(this.onValueChanged)} has already been assigned.");
         this.onValueChanged = onValueChanged;
+        return this;
     }
 
     protected virtual void OnValueUpdated(T updatedValue) { }
 
     protected virtual T ValidateValue(T rawValue) => rawValue;
 
-    public void SetValueWithoutNotify(T value) => OnValueUpdated(value);
+    public CMUIComponent<T> SetValueWithoutNotify(T value)
+    {
+        OnValueUpdated(value);
+        return this;
+    }
 
     private void Awake()
     {

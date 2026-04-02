@@ -15,8 +15,9 @@ public class TextBoxFloatComponent : TextBoxNumberComponent<float>
         if (!InputField.isFocused) InputField.SetTextWithoutNotify(updatedValue.ToString(CultureInfo.InvariantCulture));
     }
 
-    protected override float ValidateValue(float val) =>
-        Clamping switch
+    protected override float ValidateValue(float val)
+    {
+        val = Clamping switch
         {
             NumberClamping.Min => Mathf.Max(MinValue, val),
             NumberClamping.Max => Mathf.Min(MaxValue, val),
@@ -24,5 +25,9 @@ public class TextBoxFloatComponent : TextBoxNumberComponent<float>
             _ => val
         };
 
-    protected override float AddValue(float val, float delta) => val + (delta * ScrollDelta);
+        if (LoopAround) val = Mathf.Repeat(val, LoopThreshold);
+        return val;
+    }
+
+    protected override float AddValue(float val, float delta) => ValidateValue(val + (delta * GetPrecisionValue()));
 }

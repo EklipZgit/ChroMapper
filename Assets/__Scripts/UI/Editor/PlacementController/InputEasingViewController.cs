@@ -1,25 +1,20 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 public class InputEasingViewController : ToggleableViewController
 {
     [SerializeField] private BeatmapEasingsSelectionInputController inputController;
 
     [Header("Input Components")] [SerializeField]
-    private Toggle extensionToggle;
+    private ToggleComponent extensionToggle;
 
     public void Start()
     {
         inputController.OnExtensionChanged += HandleExtensionChanged;
-        extensionToggle.onValueChanged.AddListener(HandleExtensionInputChanged);
+        extensionToggle.OnValueChanged(HandleExtensionInputChanged);
     }
 
-    public void OnDestroy()
-    {
-        inputController.OnEasingChanged -= HandleExtensionChanged;
-        extensionToggle.onValueChanged.RemoveListener(HandleExtensionInputChanged);
-    }
+    public void OnDestroy() => inputController.OnEasingChanged -= HandleExtensionChanged;
 
     private void HandleExtensionInputChanged(bool value) => inputController.NotifyExtensionChanged(value ? 1 : 0);
-    private void HandleExtensionChanged(int value) => extensionToggle.SetIsOnWithoutNotify(value == 1);
+    private void HandleExtensionChanged(int value) => extensionToggle.SetValueWithoutNotify(value == 1);
 }

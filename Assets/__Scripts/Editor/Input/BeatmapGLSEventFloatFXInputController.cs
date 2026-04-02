@@ -15,7 +15,7 @@ public class BeatmapGLSEventFloatFXInputController : BeatmapGLSEventInputControl
 
     public void OnValuen100Hover(InputAction.CallbackContext context)
     {
-        if (context.performed && IsHovering) 
+        if (context.performed && IsHovering)
             GLSEventFloatFXCommand.SetValue(HoveredObject.EventData as BaseFxEventFloat, -1f);
     }
 
@@ -26,7 +26,7 @@ public class BeatmapGLSEventFloatFXInputController : BeatmapGLSEventInputControl
 
     public void OnValuen50Hover(InputAction.CallbackContext context)
     {
-        if (context.performed && IsHovering) 
+        if (context.performed && IsHovering)
             GLSEventFloatFXCommand.SetValue(HoveredObject.EventData as BaseFxEventFloat, -.5f);
     }
 
@@ -37,7 +37,7 @@ public class BeatmapGLSEventFloatFXInputController : BeatmapGLSEventInputControl
 
     public void OnValue0Hover(InputAction.CallbackContext context)
     {
-        if (context.performed && IsHovering) 
+        if (context.performed && IsHovering)
             GLSEventFloatFXCommand.SetValue(HoveredObject.EventData as BaseFxEventFloat, 0f);
     }
 
@@ -68,8 +68,10 @@ public class BeatmapGLSEventFloatFXInputController : BeatmapGLSEventInputControl
         if (context.performed && IsHovering)
         {
             var evt = HoveredObject.EventData as BaseFxEventFloat;
-            var delta = Mathf.Sign(context.ReadValue<float>());
-            GLSEventFloatFXCommand.SetValue(evt, evt.Value + (delta * 0.1f));
+            var delta = context.GetScrollDirection(Settings.Instance.InvertScrollEventValue);
+            var prec = ScrollPrecisionController.GetCurrentFloatFXPrecision() / 100f;
+            var value = Mathf.Round((evt.Value + (delta * prec)) * 1_000f) / 1_000f;
+            GLSEventFloatFXCommand.SetValue(evt, value);
         }
     }
 

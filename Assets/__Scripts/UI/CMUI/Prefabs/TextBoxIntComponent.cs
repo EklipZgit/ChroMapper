@@ -22,14 +22,19 @@ public class TextBoxIntComponent : TextBoxNumberComponent<int>
         if (!InputField.isFocused) InputField.SetTextWithoutNotify(updatedValue.ToString(CultureInfo.InvariantCulture));
     }
 
-    protected override int ValidateValue(int val) =>
-        Clamping switch
+    protected override int ValidateValue(int val)
+    {
+        val = Clamping switch
         {
-            NumberClamping.Min => Mathf.Max(MinValue, val),
-            NumberClamping.Max => Mathf.Min(MaxValue, val),
-            NumberClamping.Clamp => Mathf.Clamp(val, MinValue, MaxValue),
+            NumberClamping.Min => Math.Max(MinValue, val),
+            NumberClamping.Max => Math.Min(MaxValue, val),
+            NumberClamping.Clamp => Math.Clamp(val, MinValue, MaxValue),
             _ => val
         };
 
-    protected override int AddValue(int val, float delta) => (int)(val + (delta * ScrollDelta));
+        if (LoopAround) val = (int)Mathf.Repeat(val, LoopThreshold);
+        return val;
+    }
+
+    protected override int AddValue(int val, float delta) => (int)(val + (delta * GetPrecisionValue()));
 }

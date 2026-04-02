@@ -242,8 +242,10 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
         if (context.performed && IsHovering)
         {
             var evt = HoveredObject.EventData as BaseLightColorBase;
-            var delta = Mathf.Sign(context.ReadValue<float>());
-            GLSEventColorCommand.SetBrightness(evt, Mathf.Max(0f, evt.Brightness + (delta * .1f)));
+            var delta = context.GetScrollDirection(Settings.Instance.InvertScrollEventValue);
+            var prec = ScrollPrecisionController.GetCurrentBrightnessPrecision() / 100f;
+            var value = Mathf.Round((evt.Brightness + (delta * prec)) * 1_000f) / 1_000f;
+            GLSEventColorCommand.SetBrightness(evt, Mathf.Max(0f, value));
         }
     }
 
@@ -280,7 +282,7 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
         if (context.performed && IsHovering)
         {
             var evt = HoveredObject.EventData as BaseLightColorBase;
-            var delta = Mathf.Sign(context.ReadValue<float>());
+            var delta = context.GetScrollDirection(Settings.Instance.InvertScrollEventValue);
             GLSEventColorCommand.SetFrequency(evt, (int)Mathf.Max(0f, evt.Frequency + delta));
         }
     }
@@ -309,8 +311,10 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
         if (context.performed && IsHovering)
         {
             var evt = HoveredObject.EventData as BaseLightColorBase;
-            var delta = Mathf.Sign(context.ReadValue<float>());
-            GLSEventColorCommand.SetStrobeBrightness(evt, Mathf.Max(0f, evt.StrobeBrightness + (delta * .1f)));
+            var delta = context.GetScrollDirection(Settings.Instance.InvertScrollEventValue);
+            var prec = ScrollPrecisionController.GetCurrentBrightnessPrecision() / 100f;
+            var value = Mathf.Round((evt.StrobeBrightness + (delta * prec)) * 1_000f) / 1_000f;
+            GLSEventColorCommand.SetStrobeBrightness(evt, Mathf.Max(0f, value));
         }
     }
 

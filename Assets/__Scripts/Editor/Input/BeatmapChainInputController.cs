@@ -16,7 +16,6 @@ public class BeatmapChainInputController : BeatmapInputController<ChainContainer
     private const int maxChainCount = 999;
     private const float minChainSquish = 0.1f;
     private const float maxChainSquish = 999;
-    private const float squishChangeSpeed = 0.1f;
 
     [FormerlySerializedAs("chainAppearanceSO")] [SerializeField]
     private ChainAppearanceSO chainAppearanceSo;
@@ -27,9 +26,7 @@ public class BeatmapChainInputController : BeatmapInputController<ChainContainer
         RaycastFirstObject(out var c);
         if (c == null || c.Dragged || !context.performed) return;
 
-        var modifier = (context.ReadValue<float>() > 0) ^ Settings.Instance.InvertScrollChainSegmentCount
-            ? 1
-            : -1;
+        var modifier = context.GetScrollDirection(Settings.Instance.InvertScrollChainSegmentCount);
         TweakValue(c, modifier);
     }
 
@@ -78,9 +75,7 @@ public class BeatmapChainInputController : BeatmapInputController<ChainContainer
         RaycastFirstObject(out var c);
         if (c == null || c.Dragged || !context.performed) return;
 
-        var modifier = (context.ReadValue<float>() > 0) ^ Settings.Instance.InvertScrollChainSquish
-            ? squishChangeSpeed
-            : -squishChangeSpeed;
+        var modifier = context.GetScrollDirection(Settings.Instance.InvertScrollChainSquish) * 0.1f;
         TweakChainSquish(c, modifier);
     }
 

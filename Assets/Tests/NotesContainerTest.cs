@@ -166,21 +166,21 @@ namespace Tests
             // ◌◌↓◌
             // ◌◌◌◌
             // ◌↙◌◌
-            inputController.UpdateNoteDirection(containerB, true);
+            inputController.UpdateNoteDirection(containerB, 1);
             Assert.AreEqual(0, containerA.DirectionTarget.localEulerAngles.z, 0.01);
             Assert.AreEqual(315, containerB.DirectionTarget.localEulerAngles.z, 0.01);
 
             // ◌◌↓◌
             // ◌◌◌◌
             // ◌↓◌◌
-            inputController.UpdateNoteDirection(containerB, true);
+            inputController.UpdateNoteDirection(containerB, 1);
             Assert.AreEqual(333.43, containerA.DirectionTarget.localEulerAngles.z, 0.01);
             Assert.AreEqual(333.43, containerB.DirectionTarget.localEulerAngles.z, 0.01);
             
             // ◌◌↓◌
             // ◌◌◌◌
             // ◌↘◌◌
-            inputController.UpdateNoteDirection(containerB, true);
+            inputController.UpdateNoteDirection(containerB, 1);
             Assert.AreEqual(0, containerA.DirectionTarget.localEulerAngles.z, 0.01);
             Assert.AreEqual(45, containerB.DirectionTarget.localEulerAngles.z, 0.01);
         }
@@ -212,21 +212,21 @@ namespace Tests
             // ◌◌↓◌
             // ◌◌◌◌
             // ↙◌◌◌
-            inputController.UpdateNoteDirection(containerB, true);
+            inputController.UpdateNoteDirection(containerB, 1);
             Assert.AreEqual(0, containerA.DirectionTarget.localEulerAngles.z, 0.01);
             Assert.AreEqual(315, containerB.DirectionTarget.localEulerAngles.z, 0.01);
 
             // ◌◌↓◌
             // ◌◌◌◌
             // ↓◌◌◌
-            inputController.UpdateNoteDirection(containerB, true);
+            inputController.UpdateNoteDirection(containerB, 1);
             Assert.AreEqual(0, containerA.DirectionTarget.localEulerAngles.z, 0.01);
             Assert.AreEqual(0, containerB.DirectionTarget.localEulerAngles.z, 0.01);
             
             // ◌◌↓◌
             // ◌◌◌◌
             // ↘◌◌◌
-            inputController.UpdateNoteDirection(containerB, true);
+            inputController.UpdateNoteDirection(containerB, 1);
             Assert.AreEqual(0, containerA.DirectionTarget.localEulerAngles.z, 0.01);
             Assert.AreEqual(45, containerB.DirectionTarget.localEulerAngles.z, 0.01);
         }

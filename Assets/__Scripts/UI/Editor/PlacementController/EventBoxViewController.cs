@@ -12,6 +12,7 @@ public class EventBoxViewController : MonoBehaviour
 {
     [SerializeField] private BeatmapRuntimeContext beatmapRuntimeContext;
     [SerializeField] private EditModeContext editModeContext;
+    [SerializeField] private ScrollPrecisionController scrollPrecisionController;
     [SerializeField] private GLSEventGridProvider glsEventGridProvider;
     [SerializeField] private GameObject targetObject;
 
@@ -76,23 +77,29 @@ public class EventBoxViewController : MonoBehaviour
         beatDistributionWaveToggle.OnValueChanged(HandleBeatDistributionWaveValueChanged);
         beatDistributionStepToggle.OnValueChanged(HandleBeatDistributionStepValueChanged);
         beatDistributionInput
+            .WithScrollPrecision(scrollPrecisionController.GetCurrentTimePrecision)
+            .WithInvertScroll(() => Settings.Instance.InvertScrollTime)
             .OnEndEdit(HandleBeatDistributionValueChanged)
             .OnValueChanged(HandleBeatDistributionValueChanged);
         filterTypeSectionToggle.OnValueChanged(HandleFilterTypeSectionValueChanged);
         filterTypeStepToggle.OnValueChanged(HandleFilterTypeStepValueChanged);
         chunkInput
+            .WithInvertScroll(() => Settings.Instance.InvertScrollEventValue)
             .OnEndEdit(HandleChunkValueChanged)
             .OnValueChanged(HandleChunkValueChanged);
         reverseToggle.OnValueChanged(HandleReverseValueChanged);
         p0Input
+            .WithInvertScroll(() => Settings.Instance.InvertScrollEventValue)
             .OnEndEdit(HandleParam0ValueChanged)
             .OnValueChanged(HandleParam0ValueChanged);
         p1Input
+            .WithInvertScroll(() => Settings.Instance.InvertScrollEventValue)
             .OnEndEdit(HandleParam1ValueChanged)
             .OnValueChanged(HandleParam1ValueChanged);
         randomToggle.OnValueChanged(HandleRandomValueChanged);
         inOrderToggle.OnValueChanged(HandleInOrderValueChanged);
         seedInput
+            .WithInvertScroll(() => Settings.Instance.InvertScrollEventValue)
             .OnEndEdit(HandleSeedValueChanged)
             .OnValueChanged(HandleSeedValueChanged);
         axisXToggle.OnValueChanged(HandleAxisXValueChanged);
@@ -100,6 +107,8 @@ public class EventBoxViewController : MonoBehaviour
         axisZToggle.OnValueChanged(HandleAxisZValueChanged);
         flipToggle.OnValueChanged(HandleFlipValueChanged);
         limitInput
+            .WithScrollPrecision(scrollPrecisionController.GetCurrentPercentPrecision)
+            .WithInvertScroll(() => Settings.Instance.InvertScrollEventValue)
             .OnEndEdit(HandleLimitValueChanged)
             .OnValueChanged(HandleLimitValueChanged);
         limitDurationToggle.OnValueChanged(HandleLimitDurationValueChanged);
@@ -107,6 +116,7 @@ public class EventBoxViewController : MonoBehaviour
         valueDistributionWaveToggle.OnValueChanged(HandleValueDistributionWaveValueChanged);
         valueDistributionStepToggle.OnValueChanged(HandleValueDistributionStepValueChanged);
         valueDistributionInput
+            .WithInvertScroll(() => Settings.Instance.InvertScrollEventValue)
             .OnEndEdit(HandleValueDistributionValueChanged)
             .OnValueChanged(HandleValueDistributionValueChanged);
         affectFirstToggle.OnValueChanged(HandleAffectFirstValueChanged);
@@ -345,8 +355,10 @@ public class EventBoxViewController : MonoBehaviour
                     lceb.BrightnessDistributionType == (int)DistributionType.Step);
                 valueDistributionWaveToggle.SetValueWithoutNotify(
                     lceb.BrightnessDistributionType == (int)DistributionType.Wave);
-                valueDistributionInput.SetValueWithoutNotify(
-                    lceb.BrightnessDistribution * 100f);
+                valueDistributionInput
+                    .WithScrollPrecision(scrollPrecisionController.GetCurrentBrightnessPrecision)
+                    .SetValueWithoutNotify(
+                        lceb.BrightnessDistribution * 100f);
                 affectFirstToggle.SetValueWithoutNotify(lceb.BrightnessAffectFirst == 1);
                 break;
             case BaseLightRotationEventBox lreb:
@@ -361,8 +373,10 @@ public class EventBoxViewController : MonoBehaviour
                     lreb.RotationDistributionType == (int)DistributionType.Step);
                 valueDistributionWaveToggle.SetValueWithoutNotify(
                     lreb.RotationDistributionType == (int)DistributionType.Wave);
-                valueDistributionInput.SetValueWithoutNotify(
-                    lreb.RotationDistribution);
+                valueDistributionInput
+                    .WithScrollPrecision(scrollPrecisionController.GetCurrentRotationPrecision)
+                    .SetValueWithoutNotify(
+                        lreb.RotationDistribution);
                 affectFirstToggle.SetValueWithoutNotify(lreb.RotationAffectFirst == 1);
                 break;
             case BaseLightTranslationEventBox lteb:
@@ -377,8 +391,10 @@ public class EventBoxViewController : MonoBehaviour
                     lteb.TranslationDistributionType == (int)DistributionType.Step);
                 valueDistributionWaveToggle.SetValueWithoutNotify(
                     lteb.TranslationDistributionType == (int)DistributionType.Wave);
-                valueDistributionInput.SetValueWithoutNotify(
-                    lteb.TranslationDistribution * 100f);
+                valueDistributionInput
+                    .WithScrollPrecision(scrollPrecisionController.GetCurrentTranslationPrecision)
+                    .SetValueWithoutNotify(
+                        lteb.TranslationDistribution * 100f);
                 affectFirstToggle.SetValueWithoutNotify(lteb.TranslationAffectFirst == 1);
                 break;
             case BaseVfxEventEventBox ffeb:
@@ -387,8 +403,10 @@ public class EventBoxViewController : MonoBehaviour
                     ffeb.VfxDistributionType == (int)DistributionType.Step);
                 valueDistributionWaveToggle.SetValueWithoutNotify(
                     ffeb.VfxDistributionType == (int)DistributionType.Wave);
-                valueDistributionInput.SetValueWithoutNotify(
-                    ffeb.VfxDistribution * 100f);
+                valueDistributionInput
+                    .WithScrollPrecision(scrollPrecisionController.GetCurrentFloatFXPrecision)
+                    .SetValueWithoutNotify(
+                        ffeb.VfxDistribution * 100f);
                 affectFirstToggle.SetValueWithoutNotify(ffeb.VfxAffectFirst == 1);
                 break;
             default:
@@ -455,7 +473,8 @@ public class EventBoxViewController : MonoBehaviour
         if (value) GLSEventBoxCommand.SetAxis((int)Axis.Z, groupContext, boxIndex);
     }
 
-    private void HandleFlipValueChanged(bool value) => GLSEventBoxCommand.SetFlip(value ? 1 : 0, groupContext, boxIndex);
+    private void HandleFlipValueChanged(bool value) =>
+        GLSEventBoxCommand.SetFlip(value ? 1 : 0, groupContext, boxIndex);
 
     private void HandleLimitValueChanged(float value) =>
         GLSEventBoxCommand.SetLimit(value / 100f, groupContext, boxIndex);

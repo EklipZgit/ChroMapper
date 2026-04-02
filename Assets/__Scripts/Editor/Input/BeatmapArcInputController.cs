@@ -12,8 +12,6 @@ using UnityEngine.UI;
 
 public class BeatmapArcInputController : BeatmapInputController<ArcContainer>, CMInput.IArcObjectsActions
 {
-    public const float MuChangeSpeed = 0.1f;
-
     [FormerlySerializedAs("arcAppearanceSO")] [SerializeField]
     private ArcAppearanceSO arcAppearanceSo;
 
@@ -23,10 +21,7 @@ public class BeatmapArcInputController : BeatmapInputController<ArcContainer>, C
         RaycastFirstObject(out var e);
         if (e == null || e.Dragged || !context.performed) return;
 
-        var modifier = context.ReadValue<float>();
-        modifier = (modifier > 0) ^ Settings.Instance.InvertScrollArcMultiplier
-            ? MuChangeSpeed
-            : -MuChangeSpeed;
+        var modifier = context.GetScrollDirection(Settings.Instance.InvertScrollArcMultiplier) * 0.1f;
         ChangeMu(e, modifier);
     }
 
@@ -74,10 +69,7 @@ public class BeatmapArcInputController : BeatmapInputController<ArcContainer>, C
         RaycastFirstObject(out var e);
         if (e == null || e.Dragged || !context.performed) return;
 
-        var modifier = context.ReadValue<float>();
-        modifier = (modifier > 0) ^ Settings.Instance.InvertScrollArcMultiplier
-            ? MuChangeSpeed
-            : -MuChangeSpeed;
+        var modifier = context.GetScrollDirection(Settings.Instance.InvertScrollArcMultiplier) * 0.1f;
         ChangeTmu(e, modifier);
     }
 

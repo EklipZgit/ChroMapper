@@ -9,6 +9,9 @@ public abstract class TextBoxNumberComponent<T> : CMUIComponentWithLabel<T>, INa
     [SerializeField] protected TMP_InputField InputField;
     [SerializeField] public ScrollableInput ScrollableInput;
 
+    protected Func<float> GetPrecisionValue = () => 1f;
+    private Func<bool> getInvertScroll = () => false;
+
     private Action<T> onEndEdit;
     private Action<T> onSelect;
     private Action<T> onDeselect;
@@ -36,7 +39,9 @@ public abstract class TextBoxNumberComponent<T> : CMUIComponentWithLabel<T>, INa
     [Header("Input Validation")] public NumberClamping Clamping;
     public T MinValue;
     public T MaxValue;
-    public T ScrollDelta;
+
+    public bool LoopAround;
+    public T LoopThreshold;
 
     /// <summary>
     /// Assigns a callback when the user deselects the textbox after making changes.
@@ -105,6 +110,26 @@ public abstract class TextBoxNumberComponent<T> : CMUIComponentWithLabel<T>, INa
         return this;
     }
 
+    /// <summary>
+    /// Assigns a scroll precision delegate
+    /// </summary>
+    /// <param name="fn"></param>
+    public TextBoxNumberComponent<T> WithScrollPrecision(Func<float> fn)
+    {
+        GetPrecisionValue = fn;
+        return this;
+    }
+
+    /// <summary>
+    /// Assigns a scroll precision delegate
+    /// </summary>
+    /// <param name="fn"></param>
+    public TextBoxNumberComponent<T> WithInvertScroll(Func<bool> fn)
+    {
+        getInvertScroll = fn;
+        return this;
+    }
+
     private void Start()
     {
         OnValueUpdated(Value);
@@ -146,7 +171,8 @@ public abstract class TextBoxNumberComponent<T> : CMUIComponentWithLabel<T>, INa
 
     private void HandleOnScrolled(Vector2 delta)
     {
-        if (ParseAndValidate(InputField.text, out var val)) Value = AddValue(val, Mathf.Sign(delta.y));
+        if (ParseAndValidate(InputField.text, out var val))
+            Value = AddValue(val, getInvertScroll() ? -Mathf.Sign(delta.y) : Mathf.Sign(delta.y));
     }
 
     protected abstract bool ParseAndValidate(string res, out T val);

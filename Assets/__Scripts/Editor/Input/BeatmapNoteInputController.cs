@@ -12,11 +12,10 @@ using UnityEngine.UI;
 
 public class BeatmapNoteInputController : BeatmapInputController<NoteContainer>, CMInput.INoteObjectsActions
 {
-    [FormerlySerializedAs("noteAppearanceSO")] [SerializeField]
-    private NoteAppearanceSO noteAppearanceSo;
-
-    [SerializeField] private ArcAppearanceSO arcAppearanceSo;
-    [SerializeField] private ChainAppearanceSO chainAppearanceSo;
+    [SerializeField] private ScrollPrecisionController scrollPrecisionController;
+    [SerializeField] private NoteAppearanceSO noteAppearance;
+    [SerializeField] private ArcAppearanceSO arcAppearance;
+    [SerializeField] private ChainAppearanceSO chainAppearance;
 
     public bool QuickModificationActive;
 
@@ -68,7 +67,7 @@ public class BeatmapNoteInputController : BeatmapInputController<NoteContainer>,
         if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)) return;
         if (!context.performed) return;
 
-        var shiftForward = context.ReadValue<float>() > 0;
+        var shiftForward = context.GetScrollDirection(Settings.Instance.InvertScrollNoteAngle);
         RaycastFirstObject(out var note);
         if (note != null) UpdateNoteDirection(note, shiftForward);
     }
@@ -78,7 +77,7 @@ public class BeatmapNoteInputController : BeatmapInputController<NoteContainer>,
         if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)) return;
         if (!context.performed) return;
 
-        var shiftForward = context.ReadValue<float>() > 0;
+        var shiftForward = context.GetScrollDirection(Settings.Instance.InvertScrollNoteAngle);
         RaycastFirstObject(out var note);
         if (note != null) UpdateNotePreciseDirection(note, shiftForward);
     }
@@ -92,7 +91,7 @@ public class BeatmapNoteInputController : BeatmapInputController<NoteContainer>,
             ? (int)NoteType.Blue
             : (int)NoteType.Red;
         note.NoteData.Type = newType;
-        noteAppearanceSo.SetNoteAppearance(note);
+        noteAppearance.SetNoteAppearance(note);
         var collection = BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
         collection.RefreshSpecialAngles(note.ObjectData, false, false);
         collection.RefreshSpecialAngles(original, false, false);
@@ -121,7 +120,7 @@ public class BeatmapNoteInputController : BeatmapInputController<NoteContainer>,
             {
                 var arcOriginal = BeatmapFactory.Clone(arcData);
                 arcData.Color = noteData.Color;
-                arcAppearanceSo.SetArcAppearance(arcContainer.Value as ArcContainer);
+                arcAppearance.SetArcAppearance(arcContainer.Value as ArcContainer);
 
                 actions.Add(new BeatmapObjectModifiedAction(arcData, arcData, arcOriginal));
             }
@@ -138,25 +137,22 @@ public class BeatmapNoteInputController : BeatmapInputController<NoteContainer>,
             {
                 var chainOriginal = BeatmapFactory.Clone(chainData);
                 chainData.Color = noteData.Color;
-                chainAppearanceSo.SetChainAppearance(chainContainer.Value as ChainContainer);
+                chainAppearance.SetChainAppearance(chainContainer.Value as ChainContainer);
 
                 actions.Add(new BeatmapObjectModifiedAction(chainData, chainData, chainOriginal));
             }
         }
     }
 
-    public void UpdateNoteDirection(NoteContainer note, bool shiftForward)
+    public void UpdateNoteDirection(NoteContainer note, int direction)
     {
         var original = BeatmapFactory.Clone(note.ObjectData);
-        note.NoteData.CutDirection = (shiftForward ^ Settings.Instance.InvertScrollNoteAngle
-            ? cutDirectionMovedBackward
-            : cutDirectionMovedForward)[note.NoteData.CutDirection];
+        note.NoteData.CutDirection =
+            (direction > 0 ? cutDirectionMovedBackward : cutDirectionMovedForward)[note.NoteData.CutDirection];
 
         if (note.NoteData.CutDirection == (int)NoteCutDirection.Any && Settings.Instance.MapVersion >= 3) // janky!
         {
-            note.NoteData.AngleOffset += shiftForward ^ Settings.Instance.InvertScrollNoteAngle
-                ? 45
-                : -45;
+            note.NoteData.AngleOffset += direction > 0 ? 45 : -45;
             note.NoteData.AngleOffset = (int)Mathf.Repeat(note.NoteData.AngleOffset, 360);
         }
 
@@ -189,15 +185,16 @@ public class BeatmapNoteInputController : BeatmapInputController<NoteContainer>,
             BeatmapActionContainer.AddAction(actions[0]);
     }
 
-    public void UpdateNotePreciseDirection(NoteContainer note, bool shiftForward)
+    public void UpdateNotePreciseDirection(NoteContainer note, int direction)
     {
-        var original = BeatmapFactory.Clone(note.ObjectData);
-
         // V2 note unsupported. Could implement either ME or NE for V2 note.
         if (Settings.Instance.MapVersion < 3) return;
-        note.NoteData.AngleOffset += shiftForward ^ Settings.Instance.InvertScrollNoteAngle
-            ? 5
-            : -5;
+
+        var original = BeatmapFactory.Clone(note.ObjectData);
+
+        var prec = scrollPrecisionController.GetCurrentRotationPrecision();
+        var value = (int)(Mathf.Round((note.NoteData.AngleOffset + (direction * prec)) * 1_000f) / 1_000f);
+        note.NoteData.AngleOffset += value;
         note.NoteData.AngleOffset = (int)Mathf.Repeat(note.NoteData.AngleOffset, 360);
 
         BeatmapObjectContainerCollection
