@@ -98,19 +98,26 @@ public class AudioTimeSyncController : MonoBehaviour,
 
     [SerializeField] private float originBeat;
 
-    // Changes the "origin beat", or the visual position of beat 0. This does not affect the actual timing, just where beat 0 is visually represented in the editor.
+    // Changes the "origin beat", or the visual position of beat 0.
     // Used in GLS event box groups since all event boxes are relative to the beat of the event box group.
+    // This affects grid lines, measure line text, and placement systems which require beat snapping
     public float VisualBeatOrigin
     {
         get => originBeat;
         set
         {
-            Debug.Log("Updating visual beat origin to " + value);
             originBeat = value;
             OnVisualBeatOriginChanged?.Invoke(value);
             ValidatePosition();
             UpdateMovables();
         }
+    }
+
+    // Yep, you guessed it.
+    public float VisualBeatOriginJsonTime
+    {
+        get => (float)BeatSaberSongContainer.Instance.Map.SongBpmTimeToJsonTime(VisualBeatOrigin);
+        set => VisualBeatOrigin = (float)BeatSaberSongContainer.Instance.Map.JsonTimeToSongBpmTime(value);
     }
 
     [Obsolete(
@@ -419,7 +426,7 @@ public class AudioTimeSyncController : MonoBehaviour,
     {
         Shader.SetGlobalFloat(songTime, currentSongBpmTime);
         Shader.SetGlobalFloat(songTimeSeconds, currentSeconds);
-        Shader.SetGlobalFloat(songTimeOrigin, VisualBeatOrigin);
+        Shader.SetGlobalFloat(songTimeOrigin, VisualBeatOriginJsonTime);
 
         // set view range based on track length
         Shader.SetGlobalFloat(viewStart, GetSecondsFromBeat(currentSongBpmTime - (Settings.Instance.TrackLength / 4f)));
@@ -497,8 +504,12 @@ public class AudioTimeSyncController : MonoBehaviour,
 
     public void SnapToGrid(bool positionValidated = false)
     {
-        var jsonTime = (float)Math.Round(CurrentJsonTime * GridMeasureSnapping, MidpointRounding.AwayFromZero)
+        var offsetTime = VisualBeatOriginJsonTime;
+
+        var jsonTime = (float)Math.Round((CurrentJsonTime - offsetTime) * GridMeasureSnapping, MidpointRounding.AwayFromZero)
             / GridMeasureSnapping;
+
+        jsonTime += offsetTime;
 
         currentJsonTime = jsonTime;
         currentSongBpmTime = (float)BeatSaberSongContainer.Instance.Map.JsonTimeToSongBpmTime(jsonTime);

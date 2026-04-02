@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 
@@ -9,41 +8,59 @@ public class MeasureLinesController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI measureLinePrefab;
     [SerializeField] private AudioTimeSyncController atsc;
     [SerializeField] private RectTransform parent;
-    [SerializeField] private Transform measureLineGrid;
-    [SerializeField] private BPMChangeGridContainer bpmChangeGridContainer;
     [SerializeField] private GridChild gridChild;
-    [SerializeField] private BookmarkRenderingController bookmarkRenderingController;
 
-    private readonly List<(float time, TextMeshProUGUI tmp)> measureTextsByBeat = new();
-    private readonly Dictionary<float, TextMeshProUGUI> activeMeasureTexts = new();
+    // Pre-computed songBpmTime for each json beat index (0, 1, 2, ..., totalJsonBeats).
+    // Sorted in ascending order of songBpmTime.
+    private float[] beatSongBpmTimes = Array.Empty<float>();
+    private int totalJsonBeats;
+
+    // Object pool: reusable TextMeshProUGUI instances
+    private readonly List<TextMeshProUGUI> pool = new();
+
+    // Maps currently visible json beat -> pool index
+    private readonly Dictionary<int, int> visibleBeatToPoolIndex = new();
+
+    // Tracks which pool objects are free
+    private readonly Stack<int> freePoolIndices = new();
+
+    // The visual beat origin in json time, cached from last RefreshMeasureLines
+    private float cachedVisualBeatOriginJson;
 
     private bool init;
 
     private void Start()
     {
-        if (!measureTextsByBeat.Any()) measureTextsByBeat.Add((0, measureLinePrefab));
+        // Ensure the prefab itself is part of the pool
+        measureLinePrefab.gameObject.SetActive(false);
+        pool.Add(measureLinePrefab);
+        freePoolIndices.Push(0);
 
-        atsc.OnTimeChanged += UpdateTime;
-        EditorScaleController.OnEditorScaleChanged += EditorScaleUpdated;
+        atsc.OnTimeChanged += OnTimeChanged;
+        EditorScaleController.OnEditorScaleChanged += OnEditorScaleChanged;
         BPMChangeGridContainer.OnBPMChangeRefreshed += RefreshMeasureLines;
         atsc.OnVisualBeatOriginChanged += OnVisualBeatOriginChanged;
     }
 
     private void OnDestroy()
     {
-        atsc.OnTimeChanged -= UpdateTime;
-        EditorScaleController.OnEditorScaleChanged -= EditorScaleUpdated;
+        atsc.OnTimeChanged -= OnTimeChanged;
+        EditorScaleController.OnEditorScaleChanged -= OnEditorScaleChanged;
         BPMChangeGridContainer.OnBPMChangeRefreshed -= RefreshMeasureLines;
         atsc.OnVisualBeatOriginChanged -= OnVisualBeatOriginChanged;
     }
 
-    private void UpdateTime()
+    private void OnTimeChanged()
     {
         if (UIMode.PreviewMode || !init) return;
         RefreshVisibility();
     }
 
-    private void EditorScaleUpdated(float obj) => RefreshPositions();
+    private void OnEditorScaleChanged(float obj)
+    {
+        if (!init) return;
+        UpdateVisiblePositions();
+    }
 
     private void OnVisualBeatOriginChanged(float obj) => RefreshMeasureLines();
 
@@ -51,41 +68,44 @@ public class MeasureLinesController : MonoBehaviour
     {
         Debug.Log("Refreshing measure lines...");
         init = false;
-        var existing = new Queue<TextMeshProUGUI>(measureTextsByBeat.Select(x => x.tmp));
-        measureTextsByBeat.Clear();
-        activeMeasureTexts.Clear();
 
         var songContainer = BeatSaberSongContainer.Instance;
+        var map = songContainer.Map;
 
-        var visualBeatOriginInJson = songContainer.Map.SongBpmTimeToJsonTime(atsc.VisualBeatOrigin) ?? atsc.VisualBeatOrigin;
+        cachedVisualBeatOriginJson = atsc.VisualBeatOriginJsonTime;
 
-        var rawBeatsInSong =
-            Mathf.FloorToInt(atsc.GetBeatFromSeconds(songContainer.LoadedSong.length));
-        var modifiedBeatsInSong =
-            Mathf.FloorToInt((float)songContainer.Map.SongBpmTimeToJsonTime(rawBeatsInSong));
+        var rawBeatsInSong = Mathf.FloorToInt(atsc.GetBeatFromSeconds(songContainer.LoadedSong.length));
+        var modifiedBeatsInSong = Mathf.FloorToInt((float)map.SongBpmTimeToJsonTime(rawBeatsInSong));
 
-        // This stops CM freezing for a few seconds as a result of instantiating a bajillion lines from insanely
-        // high bpm events. Should be reasonable to assume that you're not mapping at >10x the info bpm
+        // Cap to prevent insanely high bpm events from creating too many beats
         modifiedBeatsInSong = Mathf.Min(rawBeatsInSong * 10, modifiedBeatsInSong);
 
-        var jsonBeat = 0;
-        while (jsonBeat <= modifiedBeatsInSong)
-        {
-            var text = existing.Count > 0 ? existing.Dequeue() : Instantiate(measureLinePrefab, parent);
-            text.gameObject.SetActive(false);
-            text.text = $"{jsonBeat}";
-            var jsonBeatPosition = (float)songContainer.Map.JsonTimeToSongBpmTime(visualBeatOriginInJson + jsonBeat);
-            text.transform.localPosition = new Vector3(0, jsonBeatPosition * EditorScaleController.EditorScale, 0);
-            measureTextsByBeat.Add((jsonBeatPosition, text));
-            jsonBeat++;
-        }
+        totalJsonBeats = modifiedBeatsInSong;
+
+        // Pre-compute songBpmTime for every json beat
+        if (beatSongBpmTimes.Length < totalJsonBeats + 1)
+            beatSongBpmTimes = new float[totalJsonBeats + 1];
+
+        for (var i = 0; i <= totalJsonBeats; i++)
+            beatSongBpmTimes[i] = (float)map.JsonTimeToSongBpmTime(cachedVisualBeatOriginJson + i);
 
         // Set proper spacing between Notes grid, Measure lines, and Events grid
-        gridChild.Lane = jsonBeat > 1000 ? 1 : 0;
-        foreach (var leftovers in existing) Destroy(leftovers.gameObject);
+        gridChild.Lane = totalJsonBeats > 1000 ? 1 : 0;
+
+        // Hide all currently visible objects and return them to the pool
+        foreach (var kvp in visibleBeatToPoolIndex)
+            pool[kvp.Value].gameObject.SetActive(false);
+
+        visibleBeatToPoolIndex.Clear();
+        freePoolIndices.Clear();
+        for (var i = 0; i < pool.Count; i++)
+        {
+            pool[i].gameObject.SetActive(false);
+            freePoolIndices.Push(i);
+        }
+
         init = true;
         RefreshVisibility();
-        RefreshPositions();
     }
 
     private void RefreshVisibility()
@@ -94,30 +114,107 @@ public class MeasureLinesController : MonoBehaviour
         var songBpmBeatsAhead = Settings.Instance.TrackLength;
         var songBpmBeatsBehind = songBpmBeatsAhead / 4f;
 
-        foreach (var (time, tmp) in activeMeasureTexts.ToArray())
-        {
-            if (currentSongBpmBeat - songBpmBeatsBehind <= time && time <= currentSongBpmBeat + songBpmBeatsAhead)
-                continue;
+        var viewMin = currentSongBpmBeat - songBpmBeatsBehind;
+        var viewMax = currentSongBpmBeat + songBpmBeatsAhead;
 
-            tmp.gameObject.SetActive(false);
-            activeMeasureTexts.Remove(time);
+        // Binary search for the first json beat index in view
+        var firstVisible = LowerBound(beatSongBpmTimes, totalJsonBeats + 1, viewMin);
+        // Binary search for the last json beat index in view
+        var lastVisible = UpperBound(beatSongBpmTimes, totalJsonBeats + 1, viewMax) - 1;
+
+        firstVisible = Mathf.Max(0, firstVisible);
+        lastVisible = Mathf.Min(totalJsonBeats, lastVisible);
+
+        var editorScale = EditorScaleController.EditorScale;
+
+        // Remove beats that scrolled out of view
+        // Collect keys to remove to avoid modifying dictionary during iteration
+        // Use a small stackalloc-style approach with a reusable list
+        removeBuffer.Clear();
+        foreach (var kvp in visibleBeatToPoolIndex)
+        {
+            if (kvp.Key < firstVisible || kvp.Key > lastVisible)
+                removeBuffer.Add(kvp.Key);
         }
 
-        var songContainer = BeatSaberSongContainer.Instance;
-        foreach (var (time, tmp) in measureTextsByBeat.Skip(
-            Mathf.CeilToInt((float)songContainer.Map.SongBpmTimeToJsonTime(currentSongBpmBeat - songBpmBeatsBehind))))
+        for (var i = 0; i < removeBuffer.Count; i++)
         {
-            if (time > currentSongBpmBeat + songBpmBeatsAhead) break;
-            if (activeMeasureTexts.ContainsKey(time)) continue;
+            var beat = removeBuffer[i];
+            var poolIdx = visibleBeatToPoolIndex[beat];
+            pool[poolIdx].gameObject.SetActive(false);
+            freePoolIndices.Push(poolIdx);
+            visibleBeatToPoolIndex.Remove(beat);
+        }
 
+        // Add beats that scrolled into view
+        for (var jsonBeat = firstVisible; jsonBeat <= lastVisible; jsonBeat++)
+        {
+            if (visibleBeatToPoolIndex.ContainsKey(jsonBeat))
+                continue;
+
+            var poolIdx = AcquirePoolObject();
+            visibleBeatToPoolIndex[jsonBeat] = poolIdx;
+
+            var tmp = pool[poolIdx];
+            tmp.text = jsonBeat.ToString();
+            tmp.transform.localPosition = new Vector3(0, beatSongBpmTimes[jsonBeat] * editorScale, 0);
             tmp.gameObject.SetActive(true);
-            activeMeasureTexts[time] = tmp;
         }
     }
 
-    private void RefreshPositions()
+    // Reusable buffer to avoid per-frame allocations in RefreshVisibility
+    private readonly List<int> removeBuffer = new();
+
+    private void UpdateVisiblePositions()
     {
-        foreach (var kvp in measureTextsByBeat)
-            kvp.tmp.transform.localPosition = new Vector3(0, kvp.time * EditorScaleController.EditorScale, 0);
+        var editorScale = EditorScaleController.EditorScale;
+        foreach (var kvp in visibleBeatToPoolIndex)
+            pool[kvp.Value].transform.localPosition = new Vector3(0, beatSongBpmTimes[kvp.Key] * editorScale, 0);
+    }
+
+    private int AcquirePoolObject()
+    {
+        if (freePoolIndices.Count > 0)
+            return freePoolIndices.Pop();
+
+        var newText = Instantiate(measureLinePrefab, parent);
+        newText.gameObject.SetActive(false);
+        var idx = pool.Count;
+        pool.Add(newText);
+        return idx;
+    }
+
+    /// <summary>
+    /// Returns the index of the first element >= value.
+    /// </summary>
+    private static int LowerBound(float[] array, int length, float value)
+    {
+        int lo = 0, hi = length;
+        while (lo < hi)
+        {
+            var mid = lo + ((hi - lo) >> 1);
+            if (array[mid] < value)
+                lo = mid + 1;
+            else
+                hi = mid;
+        }
+        return lo;
+    }
+
+    /// <summary>
+    /// Returns the index of the first element > value.
+    /// </summary>
+    private static int UpperBound(float[] array, int length, float value)
+    {
+        int lo = 0, hi = length;
+        while (lo < hi)
+        {
+            var mid = lo + ((hi - lo) >> 1);
+            if (array[mid] <= value)
+                lo = mid + 1;
+            else
+                hi = mid;
+        }
+        return lo;
     }
 }

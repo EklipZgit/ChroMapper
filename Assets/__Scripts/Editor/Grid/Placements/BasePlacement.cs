@@ -207,6 +207,8 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
         var currentJsonTime = inputState == PlacementInputState.DragAtTime
             ? GetDraggedObjectJsonTime()
             : Atsc.CurrentJsonTime;
+        currentJsonTime -= Atsc.VisualBeatOriginJsonTime;
+
         var snap = 1f / Atsc.GridMeasureSnapping;
         var offsetJsonTime = currentJsonTime
             - ((float)Math.Round(currentJsonTime / snap, MidpointRounding.AwayFromZero) * snap);

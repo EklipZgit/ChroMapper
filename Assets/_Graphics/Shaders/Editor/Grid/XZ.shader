@@ -24,12 +24,12 @@
             #include "UnityCG.cginc"
 
             uniform float _SongBPM = 120;
+            uniform float _SongTimeOrigin = 0;
             uniform float _BPMChange_Times[170];
             uniform float _BPMChange_Json_Times[170];
             uniform float _BPMChange_BPMs[170];
             uniform int _BPMChange_Count;
             uniform float _SongTime;
-            uniform float _SongTimeOrigin;
             uniform float _Rotation = 0;
             uniform float _EditorScale = 4;
             uniform float _CurrentHJD = 2;
@@ -78,6 +78,27 @@
                 return o;
             }
 
+            // Converts a song BPM time to JSON time, accounting for BPM changes.
+            float songBpmTimeToJsonTime(float songBpmTime)
+            {
+                if (songBpmTime < 0) return songBpmTime;
+
+                // Walk backwards to find the BPM region containing songBpmTime
+                // we could also walk forwards but walking backwards is slightly simpler
+                // truthfully idk if this is faster but i sure like how simpler it is
+                for (int bpmIdx = _BPMChange_Count - 1; bpmIdx >= 0; bpmIdx--)
+                {
+                    float regionStart = _BPMChange_Times[bpmIdx];
+                    if (regionStart <= songBpmTime)
+                    {
+                        float localBeats = (songBpmTime - regionStart) * _BPMChange_BPMs[bpmIdx] / _SongBPM;
+                        return localBeats + _BPMChange_Json_Times[bpmIdx];
+                    }
+                }
+
+                return songBpmTime;
+            }
+
             half4 frag(v2f i) : SV_Target
             {
                 UNITY_SETUP_INSTANCE_ID(i);
@@ -92,39 +113,12 @@
                 float scale = _EditorScale * gridScale;
                 //WHERE'S THE LAMB SAUCE (unedited beat time)
                 float timeButRAWWW = (i.rotatedPos.z + gridOffset.z + _SongTime * scale) / scale;
-                timeButRAWWW -= _SongTimeOrigin;
 
                 //To plugerino into shader after dealing with BPM Changes
-                float time = timeButRAWWW;
-                if (_BPMChange_Count > 1)
-                {
-                    time = 0;
-                    for (int bpmIdx = 0; bpmIdx < _BPMChange_Count - 1; bpmIdx++)
-                    {
-                        float currBpmTime = _BPMChange_Times[bpmIdx];
-                        float nextBpmTime = _BPMChange_Times[bpmIdx + 1];
-                        if (timeButRAWWW < 0) //Check for negative beats
-                        {
-                            time = timeButRAWWW;
-                            break;
-                        }
-                        if (currBpmTime <= timeButRAWWW && timeButRAWWW < nextBpmTime)
-                        {
-                            float difference = timeButRAWWW - currBpmTime;
-                            float timeInSecond = 60 / _SongBPM * difference;
-                            float timeInNewBeat = _BPMChange_BPMs[bpmIdx] / 60 * timeInSecond;
-                            time = timeInNewBeat + _BPMChange_Json_Times[bpmIdx];
-                        }
-                    }
-                    float lastBpmTime = _BPMChange_Times[_BPMChange_Count - 1];
-                    if (lastBpmTime < timeButRAWWW)
-                    {
-                        float difference = timeButRAWWW - lastBpmTime;
-                        float timeInSecond = 60 / _SongBPM * difference;
-                        float timeInNewBeat = _BPMChange_BPMs[_BPMChange_Count - 1] / 60 * timeInSecond;
-                        time = timeInNewBeat + _BPMChange_Json_Times[_BPMChange_Count - 1];
-                    }
-                }
+                float time = songBpmTimeToJsonTime(timeButRAWWW);
+
+                // Apply visual beat origin offset (precomputed as JSON time on CPU)
+                time -= _SongTimeOrigin;
 
                 // HJD line
                 float timeOffsetToCursor = timeButRAWWW - _SongTime;
