@@ -1,12 +1,15 @@
 using System.Linq;
+using Beatmap.Appearances;
 using Beatmap.Base;
 using Beatmap.Enums;
+using TMPro;
 using UnityEngine;
 
 namespace Beatmap.Containers
 {
     public class ArcContainer : ObjectContainer
     {
+        [SerializeField] public TextMeshPro InfoText;
         [SerializeField] public LineRenderer SplineRenderer;
         [SerializeField] private GameObject[] indicators;
         public BaseArc ArcData;
@@ -233,6 +236,11 @@ namespace Beatmap.Containers
         private void ResetIndicatorsPosition()
         {
             foreach (var gameObj in indicators) gameObj.GetComponent<ArcIndicatorContainer>().UpdateGridPosition();
+            var pos = InfoText.transform.localPosition;
+            pos.x = indicators[0].transform.localPosition.x;
+            pos.y = indicators[0].transform.localPosition.y;
+
+            InfoText.transform.localPosition = pos;
         }
 
         public void SetColor(Color c)
@@ -244,6 +252,7 @@ namespace Beatmap.Containers
         public void SetIndicatorBlocksActive(bool visible)
         {
             foreach (var gameObj in indicators) gameObj.SetActive(visible);
+            InfoText.gameObject.SetActive(visible);
         }
 
         public void ChangeHeadMultiplier(float modifier) => ArcData.HeadControlPointLengthMultiplier += modifier;

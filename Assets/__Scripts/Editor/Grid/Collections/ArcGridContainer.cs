@@ -30,7 +30,7 @@ public class ArcGridContainer : BeatmapObjectContainerCollection<BaseArc>
         con.Animator.TracksManager = tracksManager;
         return con;
     }
-
+    
     protected override void HandleObjectSpawned(BaseObject _, bool __ = false) =>
         countersPlus.UpdateStatistic(CountersPlusStatistic.Arcs);
 

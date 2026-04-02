@@ -37,6 +37,7 @@ public class BeatmapChainInputController : BeatmapInputController<ChainContainer
         c.ChainData.SliceCount = Mathf.Clamp(c.ChainData.SliceCount, minChainCount, maxChainCount);
         if (c.ChainData.CompareTo(original) == 0) return;
         c.GenerateChain();
+        chainAppearanceSo.SetText(c);
         BeatmapActionContainer.AddAction(
             new BeatmapObjectModifiedAction(
                 c.ObjectData,
@@ -86,6 +87,7 @@ public class BeatmapChainInputController : BeatmapInputController<ChainContainer
         c.ChainData.Squish = Mathf.Clamp(c.ChainData.Squish, minChainSquish, maxChainSquish);
         if (c.ChainData.CompareTo(original) == 0) return;
         c.GenerateChain();
+        chainAppearanceSo.SetText(c);
         BeatmapActionContainer.AddAction(
             new BeatmapObjectModifiedAction(
                 c.ObjectData,

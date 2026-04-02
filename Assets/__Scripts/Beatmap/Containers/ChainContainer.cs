@@ -4,6 +4,7 @@ using System.Linq;
 using Beatmap.Base;
 using Beatmap.Enums;
 using Beatmap.Shared;
+using TMPro;
 using UnityEngine;
 
 namespace Beatmap.Containers
@@ -14,6 +15,7 @@ namespace Beatmap.Containers
         private static readonly int objectTimeId = Shader.PropertyToID("_ObjectTime");
         private static readonly int translucentAlphaId = Shader.PropertyToID("_TranslucentAlpha");
 
+        [SerializeField] public TextMeshPro InfoText;
         [SerializeField] public ChainComponentsFetcher Prefab;
 
         [Header("Indicator")] [SerializeField] private List<ChainIndicatorContainer> indicators;
@@ -270,6 +272,7 @@ namespace Beatmap.Containers
             indicators[0].gameObject.SetActive(visible); // Head
             indicators[1].gameObject.SetActive(visible && ChainData.SliceCount != 1);
             indicators[2].gameObject.SetActive(visible && ChainData.SliceCount == 1);
+            InfoText.gameObject.SetActive(visible);
         }
 
         private void ResetIndicatorsPosition()

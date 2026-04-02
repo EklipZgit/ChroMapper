@@ -29,6 +29,7 @@ public class BeatmapArcInputController : BeatmapInputController<ArcContainer>, C
     {
         var original = BeatmapFactory.Clone(s.ArcData);
         s.ChangeHeadMultiplier(modifier);
+        arcAppearanceSo.SetText(s);
         s.NotifySplineChanged();
         BeatmapActionContainer.AddAction(
             new BeatmapObjectModifiedAction(
@@ -43,9 +44,7 @@ public class BeatmapArcInputController : BeatmapInputController<ArcContainer>, C
         if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)
             || !KeybindsController.IsMouseInWindow
             || !context.performed)
-        {
             return;
-        }
 
         RaycastFirstObject(out var arc);
         if (arc != null && !arc.Dragged) InvertArc(arc);
@@ -77,6 +76,7 @@ public class BeatmapArcInputController : BeatmapInputController<ArcContainer>, C
     {
         var original = BeatmapFactory.Clone(s.ArcData);
         s.ChangeTailMultiplier(modifier);
+        arcAppearanceSo.SetText(s);
         s.NotifySplineChanged();
         BeatmapActionContainer.AddAction(
             new BeatmapObjectModifiedAction(

@@ -41,8 +41,7 @@ namespace Beatmap.Appearances
                                     : boost
                                         ? eventAppearance.WhiteBoostColor
                                         : eventAppearance.WhiteColor);
-                        container.SetText(
-                            $"{colorEvt.Brightness * 100f}\n{Easing.IDToShortName.GetValueOrDefault(colorEvt.Easing)}");
+                        container.SetText(GLSEventCommon.GetColorInfo(colorEvt));
                         container.SetText(true);
                     }
 
@@ -57,14 +56,7 @@ namespace Beatmap.Appearances
                     else
                     {
                         container.MpbController.Mpb.SetColor(colorId, eventAppearance.RingEventsColor);
-                        var direction = rotationEvt.Direction switch
-                        {
-                            (int)LightRotationDirection.Clockwise => "CW",
-                            (int)LightRotationDirection.CounterClockwise => "CCW",
-                            _ => "A"
-                        };
-                        container.SetText(
-                            $"{rotationEvt.Rotation}\n{Easing.IDToShortName.GetValueOrDefault(rotationEvt.EaseType)}\n{direction} <{rotationEvt.Loop}>");
+                        container.SetText(GLSEventCommon.GetRotationInfo(rotationEvt));
                         container.SetText(true);
                     }
 
@@ -79,8 +71,7 @@ namespace Beatmap.Appearances
                     else
                     {
                         container.MpbController.Mpb.SetColor(colorId, eventAppearance.RingEventsColor);
-                        container.SetText(
-                            $"{translationEvt.Translation * 100f}\n{Easing.IDToShortName.GetValueOrDefault(translationEvt.EaseType)}");
+                        container.SetText(GLSEventCommon.GetTranslationInfo(translationEvt));
                         container.SetText(true);
                     }
 
@@ -95,8 +86,7 @@ namespace Beatmap.Appearances
                     else
                     {
                         container.MpbController.Mpb.SetColor(colorId, eventAppearance.RingEventsColor);
-                        container.SetText(
-                            $"{fxEvt.Value * 100f}\n{Easing.IDToShortName.GetValueOrDefault(fxEvt.Easing)}");
+                        container.SetText(GLSEventCommon.GetFloatFXInfo(fxEvt));
                         container.SetText(true);
                     }
 
