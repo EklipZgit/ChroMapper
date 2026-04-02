@@ -94,10 +94,8 @@ namespace Beatmap.Base
 
         public override void ClearEvents() => Events = Array.Empty<BaseLightTranslationBase>();
 
-        public override void SetEvents(BaseGLSEvent[] data)
-        {
-            if (data is BaseLightTranslationBase[] evts) Events = evts;
-        }
+        public override void SetEvents(BaseGLSEvent[] data) =>
+            Events = data.OfType<BaseLightTranslationBase>().ToArray();
 
         public override Axis GetAxis() => (Axis)Axis;
     }

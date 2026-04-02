@@ -85,7 +85,7 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
                 newEvt.EventBoxGroupData = newGroup;
                 newEvt.EventBoxData = newGroup.ReadOnlyBoxes[e.BoxIndex];
                 newEvt.BoxIndex = e.BoxIndex;
-                return newEvt as BaseLightColorBase;
+                return newEvt;
             })
             .GroupBy(e => e.BoxIndex))
             newGroup.ReadOnlyBoxes[boxEvents.Key].SetEvents(boxEvents.ToArray());

@@ -75,9 +75,6 @@ namespace Beatmap.Base
 
         public override void ClearEvents() => Events = Array.Empty<BaseLightColorBase>();
 
-        public override void SetEvents(BaseGLSEvent[] data)
-        {
-            if (data is BaseLightColorBase[] evts) Events = evts;
-        }
+        public override void SetEvents(BaseGLSEvent[] data) => Events = data.OfType<BaseLightColorBase>().ToArray();
     }
 }

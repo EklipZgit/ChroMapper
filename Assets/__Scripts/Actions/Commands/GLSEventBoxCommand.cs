@@ -29,6 +29,103 @@ public static class GLSEventBoxCommand
         GLSCommonCommand.TriggerPlaceAction(group, BeatmapFactory.Clone(newGroup));
     }
 
+    public static void AddAllIdsEventBox(BaseEventBoxGroup group, TrackDefinitionGLS td, int count)
+    {
+        var newGroup = BeatmapFactory.Clone(group);
+        var axis = (int)Axis.X;
+        switch (newGroup)
+        {
+            case BaseLightColorEventBoxGroup lcebg:
+                lcebg.Boxes.Clear();
+                for (var i = 0; i < count; i++) lcebg.Boxes.Add(new BaseLightColorEventBox());
+                break;
+            case BaseLightRotationEventBoxGroup lrebg:
+                if (lrebg.Boxes.Count == count && lrebg.Boxes.Count > 0) axis = (lrebg.Boxes[0].Axis + 1) % 3;
+                lrebg.Boxes.Clear();
+                for (var i = 0; i < count; i++) lrebg.Boxes.Add(new BaseLightRotationEventBox { Axis = axis });
+                break;
+            case BaseLightTranslationEventBoxGroup ltebg:
+                if (ltebg.Boxes.Count == count && ltebg.Boxes.Count > 0) axis = (ltebg.Boxes[0].Axis + 1) % 3;
+                ltebg.Boxes.Clear();
+                for (var i = 0; i < count; i++) ltebg.Boxes.Add(new BaseLightTranslationEventBox { Axis = axis });
+                break;
+            case BaseVfxEventEventBoxGroup ffebg:
+                ffebg.Boxes.Clear();
+                for (var i = 0; i < count; i++) ffebg.Boxes.Add(new BaseVfxEventEventBox());
+                break;
+        }
+
+        GLSCommonCommand.TriggerPlaceAction(group, BeatmapFactory.Clone(newGroup));
+    }
+
+    public static void AddAllAxesEventBox(BaseEventBoxGroup group, TrackDefinitionGLS td)
+    {
+        var newGroup = BeatmapFactory.Clone(group);
+        switch (newGroup)
+        {
+            case BaseLightColorEventBoxGroup:
+                return;
+            case BaseLightRotationEventBoxGroup lrebg:
+                lrebg.Boxes.Clear();
+                foreach (var (r, axis) in td.RotationTracks.Select((r, x) => (r, x)))
+                {
+                    if (!r) continue;
+                    lrebg.Boxes.Add(new BaseLightRotationEventBox { Axis = axis });
+                }
+
+                break;
+            case BaseLightTranslationEventBoxGroup ltebg:
+                ltebg.Boxes.Clear();
+                foreach (var (r, axis) in td.RotationTracks.Select((r, x) => (r, x)))
+                {
+                    if (!r) continue;
+                    ltebg.Boxes.Add(new BaseLightTranslationEventBox { Axis = axis });
+                }
+
+                break;
+            case BaseVfxEventEventBoxGroup:
+                return;
+        }
+
+        GLSCommonCommand.TriggerPlaceAction(group, BeatmapFactory.Clone(newGroup));
+    }
+
+    public static void AddAllAxesAndIdsEventBox(BaseEventBoxGroup group, TrackDefinitionGLS td, int count)
+    {
+        var newGroup = BeatmapFactory.Clone(group);
+        switch (newGroup)
+        {
+            case BaseLightColorEventBoxGroup lcebg:
+                lcebg.Boxes.Clear();
+                for (var i = 0; i < count; i++) lcebg.Boxes.Add(new BaseLightColorEventBox());
+                break;
+            case BaseLightRotationEventBoxGroup lrebg:
+                lrebg.Boxes.Clear();
+                foreach (var (r, axis) in td.RotationTracks.Select((r, x) => (r, x)))
+                {
+                    if (!r) continue;
+                    for (var i = 0; i < count; i++) lrebg.Boxes.Add(new BaseLightRotationEventBox { Axis = axis });
+                }
+
+                break;
+            case BaseLightTranslationEventBoxGroup ltebg:
+                ltebg.Boxes.Clear();
+                foreach (var (r, axis) in td.RotationTracks.Select((r, x) => (r, x)))
+                {
+                    if (!r) continue;
+                    for (var i = 0; i < count; i++) ltebg.Boxes.Add(new BaseLightTranslationEventBox { Axis = axis });
+                }
+
+                break;
+            case BaseVfxEventEventBoxGroup ffebg:
+                ffebg.Boxes.Clear();
+                for (var i = 0; i < count; i++) ffebg.Boxes.Add(new BaseVfxEventEventBox());
+                break;
+        }
+
+        GLSCommonCommand.TriggerPlaceAction(group, BeatmapFactory.Clone(newGroup));
+    }
+
     public static void DeleteEventBox(BaseEventBoxGroup group, int targetIndex)
     {
         if (targetIndex < 0 || group.ReadOnlyBoxes.Count <= targetIndex) return;
@@ -46,6 +143,182 @@ public static class GLSEventBoxCommand
                 break;
             case BaseVfxEventEventBoxGroup ffebg:
                 ffebg.Boxes.RemoveAt(targetIndex);
+                break;
+        }
+
+        GLSCommonCommand.TriggerPlaceAction(group, BeatmapFactory.Clone(newGroup));
+    }
+
+    public static void DeletePruneEventBox(BaseEventBoxGroup group)
+    {
+        var newGroup = BeatmapFactory.Clone(group);
+        switch (newGroup)
+        {
+            case BaseLightColorEventBoxGroup lcebg:
+                lcebg.Boxes = lcebg.Boxes.Where(x => x.Events.Length != 0).ToList();
+                break;
+            case BaseLightRotationEventBoxGroup lrebg:
+                lrebg.Boxes = lrebg.Boxes.Where(x => x.Events.Length != 0).ToList();
+                break;
+            case BaseLightTranslationEventBoxGroup ltebg:
+                ltebg.Boxes = ltebg.Boxes.Where(x => x.Events.Length != 0).ToList();
+                break;
+            case BaseVfxEventEventBoxGroup ffebg:
+                ffebg.Boxes = ffebg.Boxes.Where(x => x.Events.Length != 0).ToList();
+                break;
+        }
+
+        if (group.ReadOnlyBoxes.Count == newGroup.ReadOnlyBoxes.Count) return;
+
+        GLSCommonCommand.TriggerPlaceAction(group, BeatmapFactory.Clone(newGroup));
+    }
+
+    // this is so fucked up
+    public static void SortIdsEventBox(BaseEventBoxGroup group)
+    {
+        var newGroup = BeatmapFactory.Clone(group);
+        switch (newGroup)
+        {
+            case BaseLightColorEventBoxGroup lcebg:
+                lcebg.Boxes = lcebg
+                    .Boxes
+                    .OrderByDescending(eventBox =>
+                        eventBox.IndexFilter.Type == (int)IndexFilterType.Division
+                            ? eventBox.IndexFilter.Param0
+                            : eventBox.IndexFilter.Param1)
+                    .ThenBy(eventBox => eventBox.IndexFilter.Type == (int)IndexFilterType.Division
+                        ? eventBox.IndexFilter.Param1
+                        : eventBox.IndexFilter.Param0)
+                    .ToList();
+                break;
+            case BaseLightRotationEventBoxGroup lrebg:
+                lrebg.Boxes = lrebg
+                    .Boxes
+                    .OrderByDescending(eventBox =>
+                        eventBox.IndexFilter.Type == (int)IndexFilterType.Division
+                            ? eventBox.IndexFilter.Param0
+                            : eventBox.IndexFilter.Param1)
+                    .ThenBy(eventBox => eventBox.IndexFilter.Type == (int)IndexFilterType.Division
+                        ? eventBox.IndexFilter.Param1
+                        : eventBox.IndexFilter.Param0)
+                    .ToList();
+                break;
+            case BaseLightTranslationEventBoxGroup ltebg:
+                ltebg.Boxes = ltebg
+                    .Boxes
+                    .OrderByDescending(eventBox =>
+                        eventBox.IndexFilter.Type == (int)IndexFilterType.Division
+                            ? eventBox.IndexFilter.Param0
+                            : eventBox.IndexFilter.Param1)
+                    .ThenBy(eventBox => eventBox.IndexFilter.Type == (int)IndexFilterType.Division
+                        ? eventBox.IndexFilter.Param1
+                        : eventBox.IndexFilter.Param0)
+                    .ToList();
+                break;
+            case BaseVfxEventEventBoxGroup ffebg:
+                ffebg.Boxes = ffebg
+                    .Boxes
+                    .OrderByDescending(eventBox =>
+                        eventBox.IndexFilter.Type == (int)IndexFilterType.Division
+                            ? eventBox.IndexFilter.Param0
+                            : eventBox.IndexFilter.Param1)
+                    .ThenBy(eventBox => eventBox.IndexFilter.Type == (int)IndexFilterType.Division
+                        ? eventBox.IndexFilter.Param1
+                        : eventBox.IndexFilter.Param0)
+                    .ToList();
+                break;
+        }
+
+        GLSCommonCommand.TriggerPlaceAction(group, BeatmapFactory.Clone(newGroup));
+    }
+
+    public static void SortAxesEventBox(BaseEventBoxGroup group)
+    {
+        var newGroup = BeatmapFactory.Clone(group);
+        switch (newGroup)
+        {
+            case BaseLightColorEventBoxGroup:
+                return;
+            case BaseLightRotationEventBoxGroup lrebg:
+                lrebg.Boxes = lrebg
+                    .Boxes
+                    .OrderBy(eventBox => eventBox.Axis)
+                    .ToList();
+                break;
+            case BaseLightTranslationEventBoxGroup ltebg:
+                ltebg.Boxes = ltebg
+                    .Boxes
+                    .OrderBy(eventBox => eventBox.Axis)
+                    .ToList();
+                break;
+            case BaseVfxEventEventBoxGroup:
+                return;
+        }
+
+        GLSCommonCommand.TriggerPlaceAction(group, BeatmapFactory.Clone(newGroup));
+    }
+
+    public static void MoveDownEventBox(BaseEventBoxGroup group, int boxIndex) =>
+        ReorderEventBox(group, boxIndex, boxIndex + 1);
+
+    public static void MoveUpEventBox(BaseEventBoxGroup group, int boxIndex) =>
+        ReorderEventBox(group, boxIndex, boxIndex - 1);
+
+    public static void ReorderEventBox(BaseEventBoxGroup group, int originalIndex, int targetIndex)
+    {
+        if (originalIndex == targetIndex) return;
+        if (originalIndex < 0 || originalIndex >= group.ReadOnlyBoxes.Count) return;
+        if (targetIndex < 0 || targetIndex >= group.ReadOnlyBoxes.Count) return;
+
+        var newGroup = BeatmapFactory.Clone(group);
+        switch (newGroup)
+        {
+            case BaseLightColorEventBoxGroup lcebg:
+                (lcebg.Boxes[originalIndex], lcebg.Boxes[targetIndex]) =
+                    (lcebg.Boxes[targetIndex], lcebg.Boxes[originalIndex]);
+                break;
+            case BaseLightRotationEventBoxGroup lrebg:
+                (lrebg.Boxes[originalIndex], lrebg.Boxes[targetIndex]) =
+                    (lrebg.Boxes[targetIndex], lrebg.Boxes[originalIndex]);
+                break;
+            case BaseLightTranslationEventBoxGroup ltebg:
+                (ltebg.Boxes[originalIndex], ltebg.Boxes[targetIndex]) =
+                    (ltebg.Boxes[targetIndex], ltebg.Boxes[originalIndex]);
+                break;
+            case BaseVfxEventEventBoxGroup ffebg:
+                (ffebg.Boxes[originalIndex], ffebg.Boxes[targetIndex]) =
+                    (ffebg.Boxes[targetIndex], ffebg.Boxes[originalIndex]);
+                break;
+        }
+
+        GLSCommonCommand.TriggerModifyEventBoxAction(
+            group,
+            BeatmapFactory.Clone(newGroup),
+            ActionMergeType.ReorderEventBox);
+    }
+
+    public static void DuplicateEventBox(BaseEventBoxGroup group, int boxIndex)
+    {
+        if (boxIndex < 0 || boxIndex >= group.ReadOnlyBoxes.Count) return;
+
+        var newGroup = BeatmapFactory.Clone(group);
+        switch (newGroup)
+        {
+            case BaseLightColorEventBoxGroup lcebg:
+                lcebg.Boxes.Insert(boxIndex + 1, BeatmapFactory.Clone(lcebg.Boxes[boxIndex]));
+                lcebg.Boxes[boxIndex + 1].ClearEvents();
+                break;
+            case BaseLightRotationEventBoxGroup lrebg:
+                lrebg.Boxes.Insert(boxIndex + 1, BeatmapFactory.Clone(lrebg.Boxes[boxIndex]));
+                lrebg.Boxes[boxIndex + 1].ClearEvents();
+                break;
+            case BaseLightTranslationEventBoxGroup ltebg:
+                ltebg.Boxes.Insert(boxIndex + 1, BeatmapFactory.Clone(ltebg.Boxes[boxIndex]));
+                ltebg.Boxes[boxIndex + 1].ClearEvents();
+                break;
+            case BaseVfxEventEventBoxGroup ffebg:
+                ffebg.Boxes.Insert(boxIndex + 1, BeatmapFactory.Clone(ffebg.Boxes[boxIndex]));
+                ffebg.Boxes[boxIndex + 1].ClearEvents();
                 break;
         }
 
@@ -138,7 +411,10 @@ public static class GLSEventBoxCommand
         var newBox = newGroup.ReadOnlyBoxes.ElementAtOrDefault(boxIndex);
         if (newBox == null || newBox.IndexFilter.LimitAffectsType == value) return;
         newBox.IndexFilter.LimitAffectsType = value;
-        GLSCommonCommand.TriggerModifyEventBoxAction(group, newGroup, ActionMergeType.ModifyEventBoxFilterLimitAffectsType);
+        GLSCommonCommand.TriggerModifyEventBoxAction(
+            group,
+            newGroup,
+            ActionMergeType.ModifyEventBoxFilterLimitAffectsType);
     }
 
     public static void SetBeatDistributionType(int value, BaseEventBoxGroup group, int boxIndex)
@@ -147,7 +423,10 @@ public static class GLSEventBoxCommand
         var newBox = newGroup.ReadOnlyBoxes.ElementAtOrDefault(boxIndex);
         if (newBox == null || newBox.BeatDistributionType == value) return;
         newBox.BeatDistributionType = value;
-        GLSCommonCommand.TriggerModifyEventBoxAction(group, newGroup, ActionMergeType.ModifyEventBoxBeatDistributionType);
+        GLSCommonCommand.TriggerModifyEventBoxAction(
+            group,
+            newGroup,
+            ActionMergeType.ModifyEventBoxBeatDistributionType);
     }
 
     public static void SetBeatDistribution(float value, BaseEventBoxGroup group, int boxIndex)
@@ -257,7 +536,10 @@ public static class GLSEventBoxCommand
                 break;
         }
 
-        GLSCommonCommand.TriggerModifyEventBoxAction(group, newGroup, ActionMergeType.ModifyEventBoxValueDistributionType);
+        GLSCommonCommand.TriggerModifyEventBoxAction(
+            group,
+            newGroup,
+            ActionMergeType.ModifyEventBoxValueDistributionType);
     }
 
     public static void SetAffectFirst(int value, BaseEventBoxGroup group, int boxIndex)

@@ -27,6 +27,8 @@ public enum ActionMergeType
     BPMValueTweak,
     NJSValueTweak,
 
+    ReorderEventBox,
+    
     ModifyEventBoxFilterType,
     ModifyEventBoxFilterParam0,
     ModifyEventBoxFilterParam1,

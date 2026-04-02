@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Beatmap.Base;
 using Beatmap.Enums;
-using Beatmap.Helper;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,7 +18,19 @@ public class EventBoxViewController : MonoBehaviour
     [Header("Event Box Tool")] [SerializeField]
     private ButtonComponent addEventBoxButton;
 
+    [SerializeField] private ButtonComponent addIdsEventBoxButton;
+    [SerializeField] private ButtonComponent addAxesEventBoxButton;
+    [SerializeField] private ButtonComponent addIdsAndAxesEventBoxButton;
+
     [SerializeField] private ButtonComponent deleteEventBoxButton;
+    [SerializeField] private ButtonComponent deletePruneEventBoxButton;
+
+    [SerializeField] private ButtonComponent sortIdsEventBoxButton;
+    [SerializeField] private ButtonComponent sortAxesEventBoxButton;
+
+    [SerializeField] private ButtonComponent moveDownEventBoxButton;
+    [SerializeField] private ButtonComponent moveUpEventBoxButton;
+    [SerializeField] private ButtonComponent duplicateEventBoxButton;
 
     [Header("ID Tab")] [SerializeField] private ToggleComponent idTabPrefab;
     [SerializeField] private RectTransform idTabTargetTransform;
@@ -48,6 +59,8 @@ public class EventBoxViewController : MonoBehaviour
     [SerializeField] private ToggleComponent randomToggle;
     [SerializeField] private ToggleComponent inOrderToggle;
     [SerializeField] private TextBoxIntComponent seedInput;
+    [SerializeField] private ButtonComponent randomizeSeedButton;
+    [SerializeField] private ButtonComponent resetSeedButton;
     [SerializeField] private GameObject axisObject;
     [SerializeField] private ToggleComponent axisXToggle;
     [SerializeField] private ToggleComponent axisYToggle;
@@ -72,7 +85,16 @@ public class EventBoxViewController : MonoBehaviour
         glsEventGridProvider.OnGroupChanged += HandleGroupChanged;
 
         addEventBoxButton.OnClick(HandleAddEventBox);
+        addIdsEventBoxButton.OnClick(HandleAddIdsEventBox);
+        addAxesEventBoxButton.OnClick(HandleAddAxesEventBox);
+        addIdsAndAxesEventBoxButton.OnClick(HandleAddIdsAndAxesEventBox);
         deleteEventBoxButton.OnClick(HandleDeleteEventBox);
+        deletePruneEventBoxButton.OnClick(HandleDeletePruneEventBox);
+        sortIdsEventBoxButton.OnClick(HandleSortIdsEventBox);
+        sortAxesEventBoxButton.OnClick(HandleSortAxesEventBox);
+        moveDownEventBoxButton.OnClick(HandleMoveDownEventBox);
+        moveUpEventBoxButton.OnClick(HandleMoveUpEventBox);
+        duplicateEventBoxButton.OnClick(HandleDuplicateEventBox);
 
         beatDistributionWaveToggle.OnValueChanged(HandleBeatDistributionWaveValueChanged);
         beatDistributionStepToggle.OnValueChanged(HandleBeatDistributionStepValueChanged);
@@ -102,6 +124,8 @@ public class EventBoxViewController : MonoBehaviour
             .WithInvertScroll(() => Settings.Instance.InvertScrollEventValue)
             .OnEndEdit(HandleSeedValueChanged)
             .OnValueChanged(HandleSeedValueChanged);
+        randomizeSeedButton.OnClick(HandleRandomizeSeed);
+        resetSeedButton.OnClick(HandleResetSeed);
         axisXToggle.OnValueChanged(HandleAxisXValueChanged);
         axisYToggle.OnValueChanged(HandleAxisYValueChanged);
         axisZToggle.OnValueChanged(HandleAxisZValueChanged);
@@ -157,9 +181,28 @@ public class EventBoxViewController : MonoBehaviour
     private void HandleAddEventBox()
     {
         if (groupContext == null) return;
-        var targetIndex = boxIndex + 1;
-        boxIndex = targetIndex; // pre-emptively set
-        GLSEventBoxCommand.AddEventBox(groupContext, targetIndex);
+        GLSEventBoxCommand.AddEventBox(groupContext, ++boxIndex);
+    }
+
+    private void HandleAddIdsEventBox()
+    {
+        if (groupContext == null) return;
+        var td = beatmapRuntimeContext.TracksDefinition.GetGlsOrDefault(groupContext.ID);
+        GLSEventBoxCommand.AddAllIdsEventBox(groupContext, td, GetGroupSize(groupContext));
+    }
+
+    private void HandleAddAxesEventBox()
+    {
+        if (groupContext == null) return;
+        var td = beatmapRuntimeContext.TracksDefinition.GetGlsOrDefault(groupContext.ID);
+        GLSEventBoxCommand.AddAllAxesEventBox(groupContext, td);
+    }
+
+    private void HandleAddIdsAndAxesEventBox()
+    {
+        if (groupContext == null) return;
+        var td = beatmapRuntimeContext.TracksDefinition.GetGlsOrDefault(groupContext.ID);
+        GLSEventBoxCommand.AddAllAxesAndIdsEventBox(groupContext, td, GetGroupSize(groupContext));
     }
 
     private void HandleDeleteEventBox()
@@ -168,10 +211,49 @@ public class EventBoxViewController : MonoBehaviour
         GLSEventBoxCommand.DeleteEventBox(groupContext, boxIndex);
     }
 
+    private void HandleDeletePruneEventBox()
+    {
+        if (groupContext == null) return;
+        GLSEventBoxCommand.DeletePruneEventBox(groupContext);
+    }
+
+    private void HandleSortIdsEventBox()
+    {
+        if (groupContext == null) return;
+        GLSEventBoxCommand.SortIdsEventBox(groupContext);
+    }
+
+    private void HandleSortAxesEventBox()
+    {
+        if (groupContext == null) return;
+        GLSEventBoxCommand.SortAxesEventBox(groupContext);
+    }
+
+    private void HandleMoveDownEventBox()
+    {
+        if (groupContext == null) return;
+        GLSEventBoxCommand.MoveDownEventBox(groupContext, boxIndex++);
+    }
+
+    private void HandleMoveUpEventBox()
+    {
+        if (groupContext == null) return;
+        GLSEventBoxCommand.MoveUpEventBox(groupContext, boxIndex--);
+    }
+
+    private void HandleDuplicateEventBox()
+    {
+        if (groupContext == null) return;
+        GLSEventBoxCommand.DuplicateEventBox(groupContext, boxIndex++);
+    }
+
     private void SetBoxIndex(int newIndex)
     {
         if (groupContext == null) return;
-        boxIndex = newIndex;
+        boxIndex = Math.Clamp(
+            newIndex,
+            groupContext.ReadOnlyBoxes.Count == 0 ? -1 : 0,
+            groupContext.ReadOnlyBoxes.Count - 1);
         boxContext = groupContext.ReadOnlyBoxes.ElementAtOrDefault(boxIndex);
         RefreshID();
         HandleEventBoxChanged(groupContext, boxContext);
@@ -208,32 +290,7 @@ public class EventBoxViewController : MonoBehaviour
     private void HandleEventBoxChanged(BaseEventBoxGroup group, BaseEventBox box)
     {
         var boxes = group.ReadOnlyBoxes;
-        var count = group switch
-        {
-            BaseLightColorEventBoxGroup => beatmapRuntimeContext.Descriptor
-                .LightColorGroupEffectManager
-                .IdToEffect
-                .TryGetValue(group.ID, out var fx)
-                ? fx.Count
-                : 0,
-            BaseLightRotationEventBoxGroup => beatmapRuntimeContext.Descriptor
-                .LightRotationGroupEffectManager
-                .IdToEffect.TryGetValue(group.ID, out var fx)
-                ? fx.Count
-                : 0,
-            BaseLightTranslationEventBoxGroup => beatmapRuntimeContext.Descriptor
-                .LightTranslationGroupEffectManager
-                .IdToEffect.TryGetValue(group.ID, out var fx)
-                ? fx.Count
-                : 0,
-            BaseVfxEventEventBoxGroup =>
-                beatmapRuntimeContext.Descriptor.FloatFxGroupEffectManager.IdToEffect.TryGetValue(
-                    group.ID,
-                    out var fx)
-                    ? fx.Count
-                    : 0,
-            _ => 0
-        };
+        var count = GetGroupSize(group);
 
         foreach (var t in instantiatedErrorText) Destroy(t);
         instantiatedErrorText.Clear();
@@ -458,6 +515,11 @@ public class EventBoxViewController : MonoBehaviour
 
     private void HandleSeedValueChanged(int value) => GLSEventBoxCommand.SetSeed(value, groupContext, boxIndex);
 
+    private void HandleRandomizeSeed() =>
+        GLSEventBoxCommand.SetSeed(UnityEngine.Random.Range(int.MinValue, int.MaxValue), groupContext, boxIndex);
+
+    private void HandleResetSeed() => GLSEventBoxCommand.SetSeed(0, groupContext, boxIndex);
+
     private void HandleAxisXValueChanged(bool value)
     {
         if (value) GLSEventBoxCommand.SetAxis((int)Axis.X, groupContext, boxIndex);
@@ -508,4 +570,34 @@ public class EventBoxViewController : MonoBehaviour
         GLSEventBoxCommand.SetAffectFirst(value ? 1 : 0, groupContext, boxIndex);
 
     private void HandleEaseTypeValueChanged(int value) => GLSEventBoxCommand.SetEasing(value, groupContext, boxIndex);
+
+    private int GetGroupSize(BaseEventBoxGroup group)
+    {
+        return group switch
+        {
+            BaseLightColorEventBoxGroup => beatmapRuntimeContext.Descriptor
+                .LightColorGroupEffectManager
+                .IdToEffect
+                .TryGetValue(group.ID, out var fx)
+                ? fx.Count
+                : 0,
+            BaseLightRotationEventBoxGroup => beatmapRuntimeContext.Descriptor
+                .LightRotationGroupEffectManager
+                .IdToEffect.TryGetValue(group.ID, out var fx)
+                ? fx.Count
+                : 0,
+            BaseLightTranslationEventBoxGroup => beatmapRuntimeContext.Descriptor
+                .LightTranslationGroupEffectManager
+                .IdToEffect.TryGetValue(group.ID, out var fx)
+                ? fx.Count
+                : 0,
+            BaseVfxEventEventBoxGroup =>
+                beatmapRuntimeContext.Descriptor.FloatFxGroupEffectManager.IdToEffect.TryGetValue(
+                    group.ID,
+                    out var fx)
+                    ? fx.Count
+                    : 0,
+            _ => 0
+        };
+    }
 }

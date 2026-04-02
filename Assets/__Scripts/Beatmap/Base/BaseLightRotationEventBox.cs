@@ -89,15 +89,12 @@ namespace Beatmap.Base
             };
 
         public override BaseItem Clone() => new BaseLightRotationEventBox(this);
-        
+
         public override IReadOnlyList<BaseGLSEvent> ReadOnlyEvents => Events;
 
         public override void ClearEvents() => Events = Array.Empty<BaseLightRotationBase>();
-
-        public override void SetEvents(BaseGLSEvent[] data)
-        {
-            if (data is BaseLightRotationBase[] evts) Events = evts;
-        }
+        
+        public override void SetEvents(BaseGLSEvent[] data) => Events = data.OfType<BaseLightRotationBase>().ToArray();
 
         public override Axis GetAxis() => (Axis)Axis;
     }

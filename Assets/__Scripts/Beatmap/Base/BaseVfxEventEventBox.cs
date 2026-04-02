@@ -78,10 +78,7 @@ namespace Beatmap.Base
         public override IReadOnlyList<BaseGLSEvent> ReadOnlyEvents => Events;
 
         public override void ClearEvents() => Events = Array.Empty<BaseFxEventFloat>();
-
-        public override void SetEvents(BaseGLSEvent[] data)
-        {
-            if (data is BaseFxEventFloat[] evts) Events = evts;
-        }
+        
+        public override void SetEvents(BaseGLSEvent[] data) => Events = data.OfType<BaseFxEventFloat>().ToArray();
     }
 }
