@@ -6,7 +6,7 @@ public class ChromaGradientPassUI : StrobeGeneratorPassUIController
 {
     [SerializeField] private TMP_Dropdown chromaEventEasings;
     [SerializeField] private TMP_Dropdown chromaLerpTypes;
-    private TracksDefinitionSO trackDefinitionSo;
+    [SerializeField] private BeatmapRuntimeContext beatmapRuntimeContext;
 
     private new void Start()
     {
@@ -22,7 +22,7 @@ public class ChromaGradientPassUI : StrobeGeneratorPassUIController
     {
         var internalName = Easing.DisplayNameToInternalName[chromaEventEasings.captionText.text];
         return new StrobeTransitionPass(
-            trackDefinitionSo,
+            beatmapRuntimeContext.TracksDefinition,
             internalName,
             chromaLerpTypes.captionText.text);
     }

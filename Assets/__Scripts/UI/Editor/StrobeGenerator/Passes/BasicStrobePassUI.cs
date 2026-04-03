@@ -16,7 +16,7 @@ public class BasicStrobePassUI : StrobeGeneratorPassUIController
     [SerializeField] private TMP_Dropdown regularEventEasings;
     [SerializeField] private Toggle easingTime;
     [SerializeField] private Toggle easingFloatValue;
-    private TracksDefinitionSO trackDefinitionSo;
+    [SerializeField] private BeatmapRuntimeContext beatmapRuntimeContext;
 
     // The following functions are filtered from this Pass for the following reasons:
     // "Back" results in times outside the bounds set by the user
@@ -40,7 +40,7 @@ public class BasicStrobePassUI : StrobeGeneratorPassUIController
         foreach (var selector in eventTypes) values.Add(GetTypeFromEventIds(selector.SelectedNum, this.values.SelectedNum));
         var precision = float.Parse(strobeInterval.text);
         var internalName = Easing.DisplayNameToInternalName[regularEventEasings.captionText.text];
-        return new StrobeLightingPass(trackDefinitionSo, values, swapColors.isOn, dynamicallyChangeTypeA.isOn, precision, internalName, easingTime.isOn, easingFloatValue.isOn);
+        return new StrobeLightingPass(beatmapRuntimeContext.TracksDefinition, values, swapColors.isOn, dynamicallyChangeTypeA.isOn, precision, internalName, easingTime.isOn, easingFloatValue.isOn);
     }
 
     private static int GetTypeFromEventIds(int eventValue, int eventColor)

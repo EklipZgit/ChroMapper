@@ -12,16 +12,21 @@ public class ChromaStepGradientPassUI : StrobeGeneratorPassUIController
 {
     private static readonly Random rand = new Random();
     private static bool flicker;
-    [FormerlySerializedAs("EventType")] [SerializeField] private StrobeGeneratorEventSelector eventType;
-    [FormerlySerializedAs("Values")] [SerializeField] private StrobeGeneratorEventSelector values;
+
+    [FormerlySerializedAs("EventType")] [SerializeField]
+    private StrobeGeneratorEventSelector eventType;
+
+    [FormerlySerializedAs("Values")] [SerializeField]
+    private StrobeGeneratorEventSelector values;
+
     [SerializeField] private Toggle swapColors;
     [SerializeField] private TMP_InputField strobeInterval;
     [SerializeField] private TMP_Dropdown chromaEventEasings;
-    private TracksDefinitionSO trackDefinitionSo;
+    [SerializeField] private BeatmapRuntimeContext beatmapRuntimeContext;
 
     private readonly Dictionary<string, Func<float, float>> extraEasings = new Dictionary<string, Func<float, float>>
     {
-        {"Random", f => (float)rand.NextDouble()},
+        { "Random", f => (float)rand.NextDouble() },
         {
             "Flicker", f =>
             {
@@ -47,7 +52,7 @@ public class ChromaStepGradientPassUI : StrobeGeneratorPassUIController
             ? extraEasings[picked]
             : Easing.Named(Easing.DisplayNameToInternalName[picked]);
         return new StrobeStepGradientPass(
-            trackDefinitionSo,
+            beatmapRuntimeContext.TracksDefinition,
             GetTypeFromEventIds(eventType.SelectedNum, values.SelectedNum),
             swapColors.isOn,
             float.Parse(strobeInterval.text),

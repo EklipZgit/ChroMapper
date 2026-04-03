@@ -38,7 +38,7 @@ public class StrobeLightingPass : StrobeGeneratorPass
     }
 
     public override bool IsEventValidForPass(BaseEvent evt) =>
-        TracksDefinition.GetBasicOrDefault(evt.Type).Kind != BasicEventKind.Lights && !evt.IsLegacyChroma;
+        TracksDefinition.GetBasicOrDefault(evt.Type).Kind == BasicEventKind.Lights && !evt.IsLegacyChroma;
 
     public override IEnumerable<BaseEvent> StrobePassForLane(
         IEnumerable<BaseEvent> original,

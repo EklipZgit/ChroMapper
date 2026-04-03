@@ -48142,6 +48142,7 @@ MonoBehaviour:
   regularEventEasings: {fileID: 631040329}
   easingTime: {fileID: 520840469}
   easingFloatValue: {fileID: 1290658009}
+  beatmapRuntimeContext: {fileID: 127874572}
 --- !u!1 &949875319
 GameObject:
   m_ObjectHideFlags: 0
@@ -48205,7 +48206,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 13585789}
   m_Direction: 2
   m_Value: 1
-  m_Size: 1
+  m_Size: 0.9999999
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -54604,6 +54605,7 @@ MonoBehaviour:
   spinDirection: {fileID: 708164248}
   uniqueLaserDirections: {fileID: 366238953}
   decimalPrecision: {fileID: 1230641042}
+  beatmapRuntimeContext: {fileID: 127874572}
 --- !u!1001 &1045643243
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -58598,6 +58600,7 @@ MonoBehaviour:
   extendedOptionsPanel: {fileID: 1117189114}
   chromaEventEasings: {fileID: 732644157}
   chromaLerpTypes: {fileID: 567902554}
+  beatmapRuntimeContext: {fileID: 127874572}
 --- !u!1 &1118070460
 GameObject:
   m_ObjectHideFlags: 0
@@ -92895,6 +92898,7 @@ MonoBehaviour:
   swapColors: {fileID: 700817589}
   strobeInterval: {fileID: 863794702}
   chromaEventEasings: {fileID: 1589602039}
+  beatmapRuntimeContext: {fileID: 127874572}
 --- !u!1 &1885639913
 GameObject:
   m_ObjectHideFlags: 0
