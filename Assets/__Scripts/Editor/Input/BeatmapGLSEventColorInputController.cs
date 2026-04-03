@@ -9,6 +9,7 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
 {
     public event Action<int> OnColorChanged;
     public event Action<float> OnBrightnessChanged;
+    public event Action<int> OnFadeChanged;
     public event Action<int> OnStrobeFrequencyChanged;
     public event Action<float> OnStrobeBrightnessChanged;
     public event Action<int> OnSoftStrobeChanged;
@@ -56,7 +57,7 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
     {
         if (context.performed)
         {
-            EasingInputController.NotifyEasingChanged(EaseType.None);
+            NotifyFadeChanged(-1);
             NotifyBrightnessChanged(0f);
         }
     }
@@ -76,7 +77,7 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
     {
         if (context.performed)
         {
-            EasingInputController.NotifyEasingChanged(EaseType.None);
+            NotifyFadeChanged(-1);
             NotifyBrightnessChanged(.5f);
         }
     }
@@ -96,7 +97,7 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
     {
         if (context.performed)
         {
-            EasingInputController.NotifyEasingChanged(EaseType.None);
+            NotifyFadeChanged(-1);
             NotifyBrightnessChanged(1f);
         }
     }
@@ -116,7 +117,7 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
     {
         if (context.performed)
         {
-            EasingInputController.NotifyEasingChanged(EaseType.Linear);
+            NotifyFadeChanged(0);
             NotifyBrightnessChanged(0f);
         }
     }
@@ -136,7 +137,7 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
     {
         if (context.performed)
         {
-            EasingInputController.NotifyEasingChanged(EaseType.Linear);
+            NotifyFadeChanged(0);
             NotifyBrightnessChanged(.5f);
         }
     }
@@ -156,7 +157,7 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
     {
         if (context.performed)
         {
-            EasingInputController.NotifyEasingChanged(EaseType.Linear);
+            NotifyFadeChanged(0);
             NotifyBrightnessChanged(1f);
         }
     }
@@ -255,6 +256,12 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
         OnBrightnessChanged?.Invoke(value);
     }
 
+    public void NotifyFadeChanged(int value)
+    {
+        EasingInputController.NotifyExtensionChanged(0);
+        OnFadeChanged?.Invoke(value);
+    }
+
     public void OnStrobeOn(InputAction.CallbackContext context)
     {
         if (context.performed) NotifyStrobeFrequencyChanged(1);
@@ -293,7 +300,7 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
         OnStrobeFrequencyChanged?.Invoke(value);
     }
 
-    private int strobeBrightnessCycle = 0;
+    private int strobeBrightnessCycle;
     private float[] strobeBrightness = { 0f, 0.5f, 1f };
 
     public void OnStrobeBrightness(InputAction.CallbackContext context)

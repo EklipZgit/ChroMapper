@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Beatmap.Base;
 using Beatmap.Containers;
 using Beatmap.Enums;
-using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class BeatmapEasingsSelectionInputController : BeatmapInputController<GLSEventContainer>,
@@ -44,13 +42,14 @@ public class BeatmapEasingsSelectionInputController : BeatmapInputController<GLS
     {
         if (context.performed)
         {
-            if (currentEase is EaseType.None or EaseType.Linear) return;
+            var ease = currentEase;
+            if (ease is EaseType.None or EaseType.Linear) return;
 
-            currentCurve = GetEaseCurve(currentEase);
-            currentEase -= (int)currentCurve;
-            currentCurve = (EaseCurve)(((int)currentCurve + 1) % 3);
-            currentEase += (int)currentCurve;
-            NotifyEasingChanged(currentEase);
+            var curve = GetEaseCurve(ease);
+            ease -= (int)curve;
+            curve = (EaseCurve)(((int)curve + 1) % 3);
+            ease += (int)curve;
+            NotifyEasingChanged(ease);
         }
     }
 
@@ -86,11 +85,7 @@ public class BeatmapEasingsSelectionInputController : BeatmapInputController<GLS
 
     public void OnEasingNone(InputAction.CallbackContext context)
     {
-        if (context.performed)
-        {
-            currentEase = EaseType.None;
-            NotifyEasingChanged(currentEase);
-        }
+        if (context.performed) NotifyEasingChanged(EaseType.None);
     }
 
     public void OnEasingNoneHover(InputAction.CallbackContext context)
@@ -106,19 +101,31 @@ public class BeatmapEasingsSelectionInputController : BeatmapInputController<GLS
     {
         if (context.performed)
         {
-            if (currentEase == EaseType.Linear)
-                currentEase = EaseType.InQuadratic + (int)currentCurve;
-            else if (currentEase == EaseType.None)
-                currentEase = EaseType.None;
-            else if (easeStandard.Contains(currentEase))
+            var ease = currentEase;
+
+            var easeCurve = (int)(ease is EaseType.Linear or EaseType.None ? currentCurve : GetEaseCurve(ease));
+            if (ease == EaseType.Linear)
+                ease = easeStandard.Contains(currentEase) ? currentEase : EaseType.InQuadratic + easeCurve;
+            else if (ease == EaseType.None)
+                ease = easeStandard.Contains(currentEase) ? currentEase : EaseType.Linear;
+            else if (!IsSameEaseType(ease, currentEase) && easeStandard.Contains(currentEase))
+                ease = currentEase - (int)GetEaseCurve(currentEase) + easeCurve;
+            else if (easeStandard.Contains(ease))
             {
-                var idx = easeStandard.IndexOf(currentEase) + 3;
-                currentEase = idx >= easeStandard.Count ? easeStandard[idx] : EaseType.Linear;
+                ease -= easeCurve;
+                var idx = easeStandard.IndexOf(ease) + 3;
+                if (idx >= easeStandard.Count)
+                    ease = EaseType.Linear;
+                else
+                {
+                    ease = easeStandard[idx];
+                    ease += easeCurve;
+                }
             }
             else
-                currentEase = easeStandard[(int)currentCurve];
+                ease = easeStandard[easeCurve];
 
-            NotifyEasingChanged(currentEase);
+            NotifyEasingChanged(ease);
         }
     }
 
@@ -166,10 +173,10 @@ public class BeatmapEasingsSelectionInputController : BeatmapInputController<GLS
     {
         if (context.performed)
         {
-            currentEase = easeAlternative.Contains(currentEase)
+            var ease = easeAlternative.Contains(currentEase)
                 ? easeAlternative[(easeAlternative.IndexOf(currentEase) + 3) % easeAlternative.Count]
                 : easeAlternative[(int)currentCurve];
-            NotifyEasingChanged(currentEase);
+            NotifyEasingChanged(ease);
         }
     }
 
@@ -216,7 +223,7 @@ public class BeatmapEasingsSelectionInputController : BeatmapInputController<GLS
 
     public void OnExtension(InputAction.CallbackContext context)
     {
-        if (context.performed) NotifyExtensionChanged(++extension % 2);
+        if (context.performed) NotifyExtensionChanged(extension + 1);
     }
 
     public void OnExtensionHover(InputAction.CallbackContext context)
@@ -238,6 +245,7 @@ public class BeatmapEasingsSelectionInputController : BeatmapInputController<GLS
 
     public void NotifyExtensionChanged(int value)
     {
+        value %= 2;
         if (extension == value) return;
         extension = value;
         OnExtensionChanged?.Invoke(extension);

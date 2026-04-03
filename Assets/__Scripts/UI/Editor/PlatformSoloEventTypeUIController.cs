@@ -12,7 +12,7 @@ public class PlatformSoloEventTypeUIController : MonoBehaviour, CMInput.IPlatfor
 
     public void OnSoloEventType(InputAction.CallbackContext context)
     {
-        if (context.performed) UpdateSoloEventType();
+        // if (context.performed) UpdateSoloEventType();
     }
 
     public void UpdateSoloEventType() =>

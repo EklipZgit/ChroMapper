@@ -366,7 +366,10 @@ public class AudioTimeSyncController : MonoBehaviour,
 
     public void OnGoToBeat(InputAction.CallbackContext context)
     {
-        if (!context.performed) return;
+        if (!context.performed
+            || editModeContext.EditingMode.HasFlag(EditingMode.GLS)
+            || editModeContext.EditingMode.HasFlag(EditingMode.EventBox))
+            return;
 
         PersistentUI.Instance.ShowInputBox("Mapper", "gotobeat.dialog", GoToBeat);
     }
@@ -506,7 +509,9 @@ public class AudioTimeSyncController : MonoBehaviour,
     {
         var offsetTime = VisualBeatOriginJsonTime;
 
-        var jsonTime = (float)Math.Round((CurrentJsonTime - offsetTime) * GridMeasureSnapping, MidpointRounding.AwayFromZero)
+        var jsonTime = (float)Math.Round(
+                (CurrentJsonTime - offsetTime) * GridMeasureSnapping,
+                MidpointRounding.AwayFromZero)
             / GridMeasureSnapping;
 
         jsonTime += offsetTime;

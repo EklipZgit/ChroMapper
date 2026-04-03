@@ -16,6 +16,7 @@ public class GLSGroupColorPlacement : GLSGroupPlacement<BaseLightColorEventBoxGr
         base.Start();
         eventInputController.OnColorChanged += HandleColorChanged;
         eventInputController.OnBrightnessChanged += HandleBrightnessChanged;
+        eventInputController.OnFadeChanged += HandleEasingChanged;
         eventInputController.OnStrobeFrequencyChanged += HandleStrobeFrequencyChanged;
         eventInputController.OnStrobeBrightnessChanged += HandleStrobeBrightnessChanged;
         eventInputController.OnSoftStrobeChanged += HandleSoftStrobeChanged;
@@ -27,6 +28,7 @@ public class GLSGroupColorPlacement : GLSGroupPlacement<BaseLightColorEventBoxGr
     {
         eventInputController.OnColorChanged -= HandleColorChanged;
         eventInputController.OnBrightnessChanged -= HandleBrightnessChanged;
+        eventInputController.OnFadeChanged -= HandleEasingChanged;
         eventInputController.OnStrobeFrequencyChanged -= HandleStrobeFrequencyChanged;
         eventInputController.OnStrobeBrightnessChanged -= HandleStrobeBrightnessChanged;
         eventInputController.OnSoftStrobeChanged -= HandleSoftStrobeChanged;

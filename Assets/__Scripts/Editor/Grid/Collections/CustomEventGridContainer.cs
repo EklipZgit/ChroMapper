@@ -49,7 +49,10 @@ public class CustomEventGridContainer : BeatmapObjectContainerCollection<BaseCus
 
     public void OnAssignObjectstoTrack(InputAction.CallbackContext context)
     {
-        if (Settings.Instance.AdvancedShit && context.performed && !PersistentUI.Instance.InputBoxIsEnabled)
+        if (EditContext.EditingMode.HasFlag(ViewableMode)
+            && Settings.Instance.AdvancedShit
+            && context.performed
+            && !PersistentUI.Instance.InputBoxIsEnabled)
         {
             PersistentUI.Instance.ShowInputBox(
                 "Assign the selected objects to a track ID.\n\n" + "If you dont know what you're doing, turn back now.",

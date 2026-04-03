@@ -19,6 +19,7 @@ public class GLSInputColorViewController : ToggleableViewController
     {
         inputController.OnColorChanged += HandleColorChanged;
         inputController.OnBrightnessChanged += HandleBrightnessChanged;
+        inputController.OnFadeChanged += HandleEasingChanged;
         brightnessInputField
             .WithScrollPrecision(scrollPrecisionController.GetCurrentBrightnessPrecision)
             .WithInvertScroll(() => Settings.Instance.InvertScrollEventValue)
@@ -40,6 +41,7 @@ public class GLSInputColorViewController : ToggleableViewController
     {
         inputController.OnColorChanged -= HandleColorChanged;
         inputController.OnBrightnessChanged -= HandleBrightnessChanged;
+        inputController.OnFadeChanged -= HandleEasingChanged;
         inputController.OnStrobeFrequencyChanged -= HandleStrobeFrequencyChanged;
         inputController.OnStrobeBrightnessChanged -= HandleStrobeBrightnessChanged;
         inputController.OnSoftStrobeChanged -= HandleSoftStrobeChanged;
