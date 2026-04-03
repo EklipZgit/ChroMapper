@@ -272,7 +272,7 @@ namespace Beatmap.Containers
             indicators[0].gameObject.SetActive(visible); // Head
             indicators[1].gameObject.SetActive(visible && ChainData.SliceCount != 1);
             indicators[2].gameObject.SetActive(visible && ChainData.SliceCount == 1);
-            InfoText.gameObject.SetActive(visible);
+            InfoText.gameObject.SetActive(visible && Settings.Instance.DisplayNoteText);
         }
 
         private void ResetIndicatorsPosition()

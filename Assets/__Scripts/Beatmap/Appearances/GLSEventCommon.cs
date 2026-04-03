@@ -13,10 +13,10 @@ public static class GLSEventCommon
         sb.AppendLine((evt.Brightness * 100f).ToString(CultureInfo.InvariantCulture));
         sb.AppendLine(Easing.IDToShortName.GetValueOrDefault(evt.Easing));
         if (evt.Frequency > 0) sb.Append($"1/{evt.Frequency}");
-        if (evt.Frequency > 0 && evt.StrobeFade > 0) sb.Append(' ');
-        if (evt.StrobeFade > 0) sb.Append('L');
-        if ((evt.Frequency > 0 || evt.StrobeFade > 0) && evt.StrobeBrightness > 0f) sb.Append(' ');
-        if (evt.StrobeBrightness > 0f) sb.Append(evt.StrobeBrightness.ToString(CultureInfo.InvariantCulture));
+        if (evt.Frequency > 0 && evt.StrobeFade == 1) sb.Append(' ');
+        if (evt.StrobeFade == 1) sb.Append('L');
+        if ((evt.Frequency > 0 || evt.StrobeFade == 1) && evt.StrobeBrightness > 0f) sb.Append(' ');
+        if (evt.StrobeBrightness > 0f) sb.Append((evt.StrobeBrightness * 100f).ToString(CultureInfo.InvariantCulture));
 
         return sb.ToString();
     }

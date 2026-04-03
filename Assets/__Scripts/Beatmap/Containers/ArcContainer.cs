@@ -1,5 +1,4 @@
 using System.Linq;
-using Beatmap.Appearances;
 using Beatmap.Base;
 using Beatmap.Enums;
 using TMPro;
@@ -239,7 +238,6 @@ namespace Beatmap.Containers
             var pos = InfoText.transform.localPosition;
             pos.x = indicators[0].transform.localPosition.x;
             pos.y = indicators[0].transform.localPosition.y;
-
             InfoText.transform.localPosition = pos;
         }
 
@@ -252,7 +250,7 @@ namespace Beatmap.Containers
         public void SetIndicatorBlocksActive(bool visible)
         {
             foreach (var gameObj in indicators) gameObj.SetActive(visible);
-            InfoText.gameObject.SetActive(visible);
+            InfoText.gameObject.SetActive(visible && Settings.Instance.DisplayNoteText);
         }
 
         public void ChangeHeadMultiplier(float modifier) => ArcData.HeadControlPointLengthMultiplier += modifier;

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Beatmap.Base;
@@ -9,6 +10,9 @@ public class ArcPlacement : BasePlacement<BaseArc, ArcContainer, ArcGridContaine
                             CMInput.IArcPlacementActions
 {
     private static HashSet<BaseObject> SelectedObjects => SelectionController.SelectedObjects;
+
+    [NonSerialized] public float HeadMultiplier = Settings.Instance.DefaultArcHeadMultiplier;
+    [NonSerialized] public float TailMultiplier = Settings.Instance.DefaultArcTailMultiplier;
 
     public void OnSpawnArc(InputAction.CallbackContext context)
     {
@@ -71,8 +75,7 @@ public class ArcPlacement : BasePlacement<BaseArc, ArcContainer, ArcGridContaine
 
         return new BaseArc(head, tail)
         {
-            HeadControlPointLengthMultiplier = Settings.Instance.DefaultArcHeadMultiplier,
-            TailControlPointLengthMultiplier = Settings.Instance.DefaultArcTailMultiplier
+            HeadControlPointLengthMultiplier = HeadMultiplier, TailControlPointLengthMultiplier = TailMultiplier
         };
     }
 }

@@ -17,6 +17,7 @@ public class GridViewController : MonoBehaviour, IEnumerable<GridChild>
     private readonly Dictionary<int, List<GridChild>> reuseChildren = new();
 
     private bool hasInitialized;
+    public bool IsOdd;
 
     private void OnValidate()
     {
@@ -141,15 +142,15 @@ public class GridViewController : MonoBehaviour, IEnumerable<GridChild>
                 childX -= Mathf.Ceil(child.Max(x => x.Lane)) + 1;
         }
 
-        var isOdd = false;
-        if (reuseChildren.TryGetValue(0, out var centerGrid)) isOdd = centerGrid.Max(x => x.Lane) % 2 != 0;
+        IsOdd = false;
+        if (reuseChildren.TryGetValue(0, out var centerGrid)) IsOdd = centerGrid.Max(x => x.Lane) % 2 != 0;
 
         foreach (var (_, children) in reuseChildren)
         {
             children.RemoveAll(x => x == null);
             foreach (var child in children)
             {
-                if (child is GridLane lane) lane.OddLaneOffset = isOdd;
+                if (child is GridLane lane) lane.OddLaneOffset = IsOdd;
                 var xPos = childX + child.LocalOffset.x;
                 child.transform.localPosition = new Vector3(
                     xPos * BeatmapConstant.LaneSize,

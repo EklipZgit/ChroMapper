@@ -12,8 +12,8 @@ using UnityEngine.UI;
 
 public class BeatmapArcInputController : BeatmapInputController<ArcContainer>, CMInput.IArcObjectsActions
 {
-    [FormerlySerializedAs("arcAppearanceSO")] [SerializeField]
-    private ArcAppearanceSO arcAppearanceSo;
+    [SerializeField] private ScrollPrecisionController scrollPrecisionController;
+    [SerializeField] private ArcAppearanceSO arcAppearance;
 
     public void OnChangingMu(InputAction.CallbackContext context)
     {
@@ -21,7 +21,8 @@ public class BeatmapArcInputController : BeatmapInputController<ArcContainer>, C
         RaycastFirstObject(out var e);
         if (e == null || e.Dragged || !context.performed) return;
 
-        var modifier = context.GetScrollDirection(Settings.Instance.InvertScrollArcMultiplier) * 0.1f;
+        var modifier = context.GetScrollDirection(Settings.Instance.InvertScrollArcMultiplier)
+            * scrollPrecisionController.GetCurrentMultiplierPrecision();
         ChangeMu(e, modifier);
     }
 
@@ -29,7 +30,7 @@ public class BeatmapArcInputController : BeatmapInputController<ArcContainer>, C
     {
         var original = BeatmapFactory.Clone(s.ArcData);
         s.ChangeHeadMultiplier(modifier);
-        arcAppearanceSo.SetText(s);
+        arcAppearance.SetText(s);
         s.NotifySplineChanged();
         BeatmapActionContainer.AddAction(
             new BeatmapObjectModifiedAction(
@@ -57,7 +58,7 @@ public class BeatmapArcInputController : BeatmapInputController<ArcContainer>, C
             ? (int)NoteColor.Blue
             : (int)NoteColor.Red;
         arc.ArcData.Color = newType;
-        arcAppearanceSo.SetArcAppearance(arc);
+        arcAppearance.SetArcAppearance(arc);
         BeatmapActionContainer.AddAction(
             new BeatmapObjectModifiedAction(arc.ObjectData, arc.ObjectData, original, "invert arc color"));
     }
@@ -68,7 +69,9 @@ public class BeatmapArcInputController : BeatmapInputController<ArcContainer>, C
         RaycastFirstObject(out var e);
         if (e == null || e.Dragged || !context.performed) return;
 
-        var modifier = context.GetScrollDirection(Settings.Instance.InvertScrollArcMultiplier) * 0.1f;
+        var modifier = context.GetScrollDirection(Settings.Instance.InvertScrollArcMultiplier)
+            * scrollPrecisionController
+                .GetCurrentMultiplierPrecision();
         ChangeTmu(e, modifier);
     }
 
@@ -76,7 +79,7 @@ public class BeatmapArcInputController : BeatmapInputController<ArcContainer>, C
     {
         var original = BeatmapFactory.Clone(s.ArcData);
         s.ChangeTailMultiplier(modifier);
-        arcAppearanceSo.SetText(s);
+        arcAppearance.SetText(s);
         s.NotifySplineChanged();
         BeatmapActionContainer.AddAction(
             new BeatmapObjectModifiedAction(

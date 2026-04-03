@@ -941,6 +941,18 @@ MonoBehaviour:
     m_Localized: Full Lightshow
     m_Metadata:
       m_Items: []
+  - m_Id: 618558800349855744
+    m_Localized: Gameplay
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618558933254766592
+    m_Localized: Global Light System
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618559025672060928
+    m_Localized: Basic Event
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

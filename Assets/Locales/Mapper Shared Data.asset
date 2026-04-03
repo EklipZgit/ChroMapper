@@ -835,6 +835,18 @@ MonoBehaviour:
     m_Key: bar.lightshow.static
     m_Metadata:
       m_Items: []
+  - m_Id: 618558800349855744
+    m_Key: bar.editmode.gameplay
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618558933254766592
+    m_Key: bar.editmode.gls
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618559025672060928
+    m_Key: bar.editmode.basicevent
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

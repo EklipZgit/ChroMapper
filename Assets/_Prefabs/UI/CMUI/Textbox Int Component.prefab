@@ -190,7 +190,8 @@ MonoBehaviour:
   Clamping: 0
   MinValue: 0
   MaxValue: 0
-  ScrollDelta: 1
+  LoopAround: 0
+  LoopThreshold: 0
 --- !u!1 &3848689263045460952
 GameObject:
   m_ObjectHideFlags: 0

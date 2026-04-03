@@ -11,6 +11,7 @@ using UnityEngine.InputSystem;
 public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContainer, ObstacleGridContainer>,
                                      CMInput.IBoxSelectActions
 {
+    [SerializeField] private GridViewController gridViewController;
     [SerializeField] public CustomEventGridContainer CustomCollection;
     [SerializeField] public EventGridContainer EventGridContainer;
     [SerializeField] public CreateEventTypeLabels Labels;
@@ -126,7 +127,12 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
     protected override void HandleHitToPlacement(Intersections.IntersectionHit hit, Vector3 localPoint)
     {
         LanePosition = new Vector3(
-            Mathf.FloorToInt(localPoint.x / BeatmapConstant.LaneSize),
+            Mathf.FloorToInt(
+                (localPoint.x
+                    - (gridViewController.IsOdd
+                        ? 0.3f
+                        : 0f))
+                / BeatmapConstant.LaneSize),
             Mathf.FloorToInt(
                 (localPoint.y - BeatmapConstant.YOffset - (BeatmapConstant.LaneSize / 2f)) / BeatmapConstant.LaneSize),
             localPoint.z);
@@ -136,7 +142,10 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
             PlacementVisualContainer.transform.localScale =
                 (Vector3.right + Vector3.up + (Vector3.forward * Mathf.Epsilon)) * BeatmapConstant.LaneSize;
             PlacementVisualContainer.transform.localPosition = new Vector3(
-                LanePosition.x * BeatmapConstant.LaneSize,
+                (LanePosition.x * BeatmapConstant.LaneSize)
+                + (gridViewController.IsOdd
+                    ? BeatmapConstant.LaneSize / 2f
+                    : 0f),
                 (LanePosition.y * BeatmapConstant.LaneSize) + BeatmapConstant.YOffset + (BeatmapConstant.LaneSize / 2f),
                 LanePosition.z);
         }
@@ -163,7 +172,10 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
             }
 
             PlacementVisualContainer.transform.localPosition = new Vector3(
-                originShove.x * BeatmapConstant.LaneSize,
+                (originShove.x * BeatmapConstant.LaneSize)
+                + (gridViewController.IsOdd
+                    ? BeatmapConstant.LaneSize / 2f
+                    : 0f),
                 (originShove.y * BeatmapConstant.LaneSize) + BeatmapConstant.YOffset + (BeatmapConstant.LaneSize / 2f),
                 originShove.z);
             var scale = LanePosition + new Vector3(sizeX, sizeY, 0.5f) - originShove;

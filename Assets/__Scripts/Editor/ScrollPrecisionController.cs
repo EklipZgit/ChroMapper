@@ -29,6 +29,7 @@ public class ScrollPrecisionController : MonoBehaviour, CMInput.IScrollPrecision
 
     public List<float> TimePrecision = new(MaxPrecision) { 0.01f, 0.1f, 0.25f, 1f };
     public List<float> PercentPrecision = new(MaxPrecision) { 1f, 5f, 10f, 50f };
+    public List<float> MultiplierPrecision = new(MaxPrecision) { 0.01f, 0.025f, 0.1f, 0.5f };
 
     public float GetCurrentBrightnessPrecision() => BrightnessPrecision[(int)CurrentPrecision];
     public float GetCurrentRotationPrecision() => RotationPrecision[(int)CurrentPrecision];
@@ -37,6 +38,7 @@ public class ScrollPrecisionController : MonoBehaviour, CMInput.IScrollPrecision
 
     public float GetCurrentTimePrecision() => TimePrecision[(int)CurrentPrecision];
     public float GetCurrentPercentPrecision() => PercentPrecision[(int)CurrentPrecision];
+    public float GetCurrentMultiplierPrecision() => MultiplierPrecision[(int)CurrentPrecision];
 
     public void OnScroll(InputAction.CallbackContext context)
     {

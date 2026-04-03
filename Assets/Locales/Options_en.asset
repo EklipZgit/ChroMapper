@@ -1544,6 +1544,10 @@ MonoBehaviour:
     m_Localized: Shader Compatibility
     m_Metadata:
       m_Items: []
+  - m_Id: 616901396273004544
+    m_Localized: Displays information on the note, arc and chain.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

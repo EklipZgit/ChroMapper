@@ -1419,6 +1419,10 @@ MonoBehaviour:
     m_Key: graphics.shadercompatibility
     m_Metadata:
       m_Items: []
+  - m_Id: 616901396273004544
+    m_Key: graphics.display.note.tooltip
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
