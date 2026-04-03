@@ -359,6 +359,7 @@ MonoBehaviour:
   Actives:
   - Name: CM_Block
     GameObject: {fileID: 2149615303253743034}
+    ColliderMesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
     OutlineMesh: {fileID: 3529811676118028738}
     Renderers:
     - {fileID: 1493562453747388340}

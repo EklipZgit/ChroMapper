@@ -129,6 +129,8 @@ MonoBehaviour:
   Actives:
   - Name: CM_Note_Arrow
     GameObject: {fileID: 6962057308827406196}
+    ColliderMesh: {fileID: -7929139438592967118, guid: 93b1c2f23c859aa9e9199c52a6886ab4,
+      type: 3}
     OutlineMesh: {fileID: 5599852862968793868}
     Renderers:
     - {fileID: 7633872559167395194}
@@ -220,6 +222,8 @@ MonoBehaviour:
   Actives:
   - Name: CM_Note_Dot
     GameObject: {fileID: 3229919096294323874}
+    ColliderMesh: {fileID: -9189839795934230685, guid: 93b1c2f23c859aa9e9199c52a6886ab4,
+      type: 3}
     OutlineMesh: {fileID: 142537320421913306}
     Renderers:
     - {fileID: 2719117372333501612}
@@ -617,6 +621,8 @@ MonoBehaviour:
   Actives:
   - Name: CM_Note_Simple
     GameObject: {fileID: 6470728789758619091}
+    ColliderMesh: {fileID: -6548247349681776351, guid: d700f6006df1d3968b8926c5c8f8d150,
+      type: 3}
     OutlineMesh: {fileID: 8422922294028986795}
     Renderers:
     - {fileID: 5810313211481896925}

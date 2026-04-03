@@ -110,6 +110,8 @@ MonoBehaviour:
   Actives:
   - Name: CM_Bomb
     GameObject: {fileID: 2764474333535862008}
+    ColliderMesh: {fileID: -6548247349681776351, guid: d700f6006df1d3968b8926c5c8f8d150,
+      type: 3}
     OutlineMesh: {fileID: 825843717745326208}
     Renderers:
     - {fileID: 3401245056223504118}

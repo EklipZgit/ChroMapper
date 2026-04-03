@@ -4,12 +4,10 @@ Shader "ChroMapper/Object/Event"
 {
     Properties
     {
-        _ColorTint("Color Tint", Color) = (1, 0, 0, 0)
-        _Color("Base Color", Color) = (0, 0, 0, 0)
-        _Position("Point Position", Vector) = (0, 0, 0, 0)
-        _CircleRadius("Spotlight Size", float) = 0.2
+        _ColorA("Color A", Color) = (0, 0, 0, 0)
+        _ColorB("Color B", Color) = (1, 0, 0, 0)
         _FadeSize("Fade Size", float) = 0.5
-        _MainAlpha("Base Alpha", float) = 1
+        _MainAlpha("Main Alpha", float) = 1
     }
     SubShader
     {
@@ -31,10 +29,8 @@ Shader "ChroMapper/Object/Event"
             #include "../ShaderLibrary/CustomTonemapping.hlsl"
 
             UNITY_INSTANCING_BUFFER_START(Props)
-                UNITY_DEFINE_INSTANCED_PROP(float4, _ColorTint)
-                UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
-                UNITY_DEFINE_INSTANCED_PROP(float4, _Position)
-                UNITY_DEFINE_INSTANCED_PROP(float, _CircleRadius)
+                UNITY_DEFINE_INSTANCED_PROP(float4, _ColorA)
+                UNITY_DEFINE_INSTANCED_PROP(float4, _ColorB)
                 UNITY_DEFINE_INSTANCED_PROP(float, _FadeSize)
                 UNITY_DEFINE_INSTANCED_PROP(float, _MainAlpha)
             UNITY_INSTANCING_BUFFER_END(Props)
@@ -48,7 +44,7 @@ Shader "ChroMapper/Object/Event"
             struct v2f
             {
                 float4 vertex : POSITION0; // clip space position
-                float4 vertex_Object : POSITION1;
+                float4 localPos : POSITION1;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
@@ -60,7 +56,7 @@ Shader "ChroMapper/Object/Event"
                 UNITY_TRANSFER_INSTANCE_ID(v, o);
 
                 o.vertex = UnityObjectToClipPos(v.vertex);
-                o.vertex_Object = v.vertex;
+                o.localPos = v.vertex;
                 return o;
             }
 
@@ -68,37 +64,23 @@ Shader "ChroMapper/Object/Event"
             {
                 UNITY_SETUP_INSTANCE_ID(i);
 
-                half4 position = UNITY_ACCESS_INSTANCED_PROP(Props, _Position);
-                half4 colorTint = UNITY_ACCESS_INSTANCED_PROP(Props, _ColorTint);
-                half4 colorBase = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
-                half circleRadius = UNITY_ACCESS_INSTANCED_PROP(Props, _CircleRadius);
-                half fadeSize = UNITY_ACCESS_INSTANCED_PROP(Props, _FadeSize);
-                half mainAlpha = UNITY_ACCESS_INSTANCED_PROP(Props, _MainAlpha);
+                float4 colorA = UNITY_ACCESS_INSTANCED_PROP(Props, _ColorA);
+                float4 colorB = UNITY_ACCESS_INSTANCED_PROP(Props, _ColorB);
+                float fadeSize = UNITY_ACCESS_INSTANCED_PROP(Props, _FadeSize);
+                float mainAlpha = UNITY_ACCESS_INSTANCED_PROP(Props, _MainAlpha);
 
-                half distance = abs(i.vertex_Object.z - position.z);
+                colorA.a = 0;
+                colorB.a = 0;
 
-                half t = (distance - circleRadius) / fadeSize;
+                float pos = i.localPos.z * 2;
 
-                if (distance < circleRadius + fadeSize && distance > circleRadius)
-                {
-                    half4 transitionColor = lerp(colorTint, colorBase, t);
+                float4 col;
+                if (abs(pos) < fadeSize) col = lerp(colorA, colorB, saturate((pos + fadeSize / 2) / fadeSize));
+                else if (pos >= fadeSize) col = colorB;
+                else col = colorA;
 
-                    transitionColor.a = 0;
-                    ACES_TONE_MAPPING_APPLY(transitionColor);
-
-                    return transitionColor;
-                }
-
-                if (distance > circleRadius + fadeSize)
-                {
-                    colorBase.a = 0;
-                    ACES_TONE_MAPPING_APPLY(colorBase);
-                    return colorBase;
-                }
-
-                colorTint.a = 0;
-                ACES_TONE_MAPPING_APPLY(colorBase);
-                return colorTint;
+                ACES_TONE_MAPPING_APPLY(col);
+                return col;
             }
             ENDHLSL
         }

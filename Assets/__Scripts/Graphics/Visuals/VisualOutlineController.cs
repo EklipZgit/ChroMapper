@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class VisualOutlineController : VisualController
 {
-    private static readonly int colorId = Shader.PropertyToID("_Color");
     public VisualModelController VModelController;
 
     public MeshRenderer Renderer;
@@ -12,13 +11,27 @@ public class VisualOutlineController : VisualController
 
     private MaterialPropertyBlock mpb;
 
-    public void OnEnable()
+    public void Start()
     {
-        if (MeshFilter != null) VModelController.OnMeshChanged += HandleMeshChanged;
-        if (Collider != null && ReplaceCollider) VModelController.OnColliderChanged += HandleColliderChanged;
+        if (MeshFilter != null)
+        {
+            VModelController.OnMeshChanged += HandleMeshChanged;
+            if (VModelController.Actives.Count > 0)
+            {
+                HandleMeshChanged(
+                    VModelController.Actives[0].OutlineMesh.sharedMesh,
+                    VModelController.Actives[0].GameObject.transform);
+            }
+        }
+
+        if (Collider != null && ReplaceCollider)
+        {
+            VModelController.OnColliderChanged += HandleColliderChanged;
+            if (VModelController.Actives.Count > 0) HandleColliderChanged(VModelController.Actives[0].ColliderMesh);
+        }
     }
 
-    public void OnDisable()
+    public void OnDestroy()
     {
         VModelController.OnMeshChanged -= HandleMeshChanged;
         VModelController.OnColliderChanged -= HandleColliderChanged;

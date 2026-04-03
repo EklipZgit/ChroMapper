@@ -17,6 +17,7 @@ namespace Beatmap.Appearances
         public Color OffColor;
 
         [Header("Other Event Colors")] public Color RingEventsColor;
+
         [Tooltip("Example: Ring rotate/Ring zoom/Light speed change events")]
         public Color OtherColor;
 
@@ -27,10 +28,8 @@ namespace Beatmap.Appearances
         {
             var color = Color.white;
             var trackDef = e.TracksDefinition.GetBasicOrDefault(e.EventData.Type);
-            e.UpdateOffset(Vector3.zero, false);
             e.UpdateAlpha(final ? 1.0f : 0.6f, false);
             e.UpdateScale(final ? 0.75f : 0.6f);
-            e.ChangeSpotlightSize(1f, false);
             if (trackDef.Kind == BasicEventKind.IntValue)
             {
                 if (e.EventData.IsLaneRotationEvent())
@@ -52,37 +51,32 @@ namespace Beatmap.Appearances
             if (trackDef.Kind != BasicEventKind.Lights)
             {
                 e.UseBlockModel = true;
-                if (trackDef.Kind == BasicEventKind.None)
-                {
-                    e.ChangeColor(RingEventsColor, false);
-                    e.ChangeBaseColor(RingEventsColor, false);
-                }
-                else if (e.EventData.Type == (int)EventTypeValue.ColorBoost)
+                if (e.EventData.Type == (int)EventTypeValue.ColorBoost)
                 {
                     if (e.EventData.Value == 1)
                     {
-                        e.ChangeBaseColor(RedBoostColor, false);
-                        e.ChangeColor(BlueBoostColor, false);
+                        e.ChangeColorA(RedBoostColor, false);
+                        e.ChangeColorB(BlueBoostColor, false);
                     }
                     else
                     {
-                        e.ChangeBaseColor(RedColor, false);
-                        e.ChangeColor(BlueColor, false);
+                        e.ChangeColorA(RedColor, false);
+                        e.ChangeColorB(BlueColor, false);
                     }
 
-                    e.UpdateOffset(Vector3.forward * 1.05f, false);
-                    e.ChangeFadeSize(EventContainer.BoostEventFadeSize, false);
-                    e.UpdateGradientRendering();
-                    e.UpdateMaterials();
-                    return;
+                    e.ChangeFadeSize(0.5f, false);
+                }
+                else if (trackDef.Kind == BasicEventKind.None)
+                {
+                    e.ChangeColorA(RingEventsColor, false);
+                    e.ChangeColorB(RingEventsColor, false);
                 }
                 else
                 {
-                    e.ChangeColor(OtherColor, false);
-                    e.ChangeBaseColor(OtherColor, false);
+                    e.ChangeColorA(OtherColor, false);
+                    e.ChangeColorB(OtherColor, false);
                 }
 
-                e.UpdateOffset(Vector3.zero, false);
                 e.UpdateGradientRendering();
                 e.UpdateMaterials();
                 return;
@@ -136,39 +130,37 @@ namespace Beatmap.Appearances
             }
 
             e.UseBlockModel = false;
-            e.ChangeColor(color, false);
-            e.ChangeBaseColor(Color.black, false);
+            e.ChangeColorA(color, false);
+            e.ChangeColorB(OffColor, false);
             switch (e.EventData.Value)
             {
                 case (int)LightValue.Off:
-                    e.ChangeColor(OffColor, false);
-                    e.ChangeBaseColor(OffColor, false);
-                    e.UpdateOffset(Vector3.zero, false);
+                    e.ChangeColorB(OffColor, false);
+                    e.ChangeColorA(OffColor, false);
                     break;
                 case (int)LightValue.BlueOn:
                 case (int)LightValue.RedOn:
                 case (int)LightValue.WhiteOn:
-                    e.UpdateOffset(Vector3.zero, false);
-                    e.ChangeBaseColor(color, false);
+                    e.ChangeColorB(color, false);
                     break;
                 case (int)LightValue.BlueFlash:
                 case (int)LightValue.RedFlash:
                 case (int)LightValue.WhiteFlash:
-                    e.UpdateOffset(EventContainer.FlashShaderOffset, false);
+                    e.ChangeColorA(color.Multiply(1.2f), false);
+                    e.ChangeColorB(color, false);
                     break;
                 case (int)LightValue.BlueFade:
                 case (int)LightValue.RedFade:
                 case (int)LightValue.WhiteFade:
-                    e.UpdateOffset(EventContainer.FadeShaderOffset, false);
                     break;
                 case (int)LightValue.BlueTransition:
                 case (int)LightValue.RedTransition:
                 case (int)LightValue.WhiteTransition:
-                    e.ChangeBaseColor(color, false);
+                    e.ChangeColorB(color, false);
                     break;
             }
 
-            e.ChangeFadeSize(EventContainer.DefaultFadeSize, false);
+            e.ChangeFadeSize(1f, false);
 
             // At this point, next Event must be a light event.
             Color? nextColor = null;

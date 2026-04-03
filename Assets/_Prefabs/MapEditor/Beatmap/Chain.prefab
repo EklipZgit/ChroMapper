@@ -1253,6 +1253,8 @@ MonoBehaviour:
   Actives:
   - Name: CM_Chain_Simple
     GameObject: {fileID: 2837524233666795151}
+    ColliderMesh: {fileID: 2728769002154719451, guid: d700f6006df1d3968b8926c5c8f8d150,
+      type: 3}
     OutlineMesh: {fileID: 740974078359360247}
     Renderers:
     - {fileID: 3318640383001496705}
