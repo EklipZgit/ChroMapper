@@ -91,7 +91,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 19
-    m_Localized: Note Lane Amount
+    m_Localized: Lane Count
     m_Metadata:
       m_Items: []
   - m_Id: 18
@@ -1519,11 +1519,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 603916992827326464
-    m_Localized: Extend lane on both side for obstacle placement.
+    m_Localized: Extend lane on both side for wall placement.
     m_Metadata:
       m_Items: []
   - m_Id: 603917705401827328
-    m_Localized: Obstacle Lane Extend Amount
+    m_Localized: Wall Extend
     m_Metadata:
       m_Items: []
   - m_Id: 607229076554088448

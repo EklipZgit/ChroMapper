@@ -330,7 +330,21 @@ public static class GLSEventBoxCommand
         var newGroup = BeatmapFactory.Clone(group);
         var newBox = newGroup.ReadOnlyBoxes.ElementAtOrDefault(boxIndex);
         if (newBox == null || newBox.IndexFilter.Type == value) return;
+
+        switch (value)
+        {
+            case (int)IndexFilterType.Division:
+                newBox.IndexFilter.Param0 = 1;
+                newBox.IndexFilter.Param1 = 0;
+                break;
+            case (int)IndexFilterType.StepAndOffset:
+                newBox.IndexFilter.Param0 = 0;
+                newBox.IndexFilter.Param1 = 1;
+                break;
+        }
+
         newBox.IndexFilter.Type = value;
+
         GLSCommonCommand.TriggerModifyEventBoxAction(group, newGroup, ActionMergeType.ModifyEventBoxFilterType);
     }
 
@@ -384,6 +398,7 @@ public static class GLSEventBoxCommand
         var newBox = newGroup.ReadOnlyBoxes.ElementAtOrDefault(boxIndex);
         if (newBox == null || newBox.IndexFilter.Random == value) return;
         newBox.IndexFilter.Random = value;
+        if (newBox.IndexFilter.Seed == 0) newBox.IndexFilter.Seed = -211754377;
         GLSCommonCommand.TriggerModifyEventBoxAction(group, newGroup, ActionMergeType.ModifyEventBoxFilterRandom);
     }
 
@@ -488,22 +503,22 @@ public static class GLSEventBoxCommand
         {
             case BaseLightColorEventBox lceb:
                 newValue = value / 100f;
-                if (lceb.BrightnessDistribution == newValue) return;
+                if (Mathf.Approximately(lceb.BrightnessDistribution, newValue)) return;
                 lceb.BrightnessDistribution = newValue;
                 break;
             case BaseLightRotationEventBox lreb:
                 newValue = value;
-                if (lreb.RotationDistribution == newValue) return;
+                if (Mathf.Approximately(lreb.RotationDistribution, newValue)) return;
                 lreb.RotationDistribution = newValue;
                 break;
             case BaseLightTranslationEventBox lteb:
                 newValue = value / 100f;
-                if (lteb.TranslationDistribution == newValue) return;
+                if (Mathf.Approximately(lteb.TranslationDistribution, newValue)) return;
                 lteb.TranslationDistribution = newValue;
                 break;
             case BaseVfxEventEventBox ffeb:
                 newValue = value / 100f;
-                if (ffeb.VfxDistribution == newValue) return;
+                if (Mathf.Approximately(ffeb.VfxDistribution, newValue)) return;
                 ffeb.VfxDistribution = newValue;
                 break;
         }

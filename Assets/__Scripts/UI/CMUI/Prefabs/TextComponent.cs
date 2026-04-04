@@ -6,7 +6,11 @@ public class TextComponent : CMUIComponent<string>
 {
     [SerializeField] private TextMeshProUGUI textMeshProUGUI;
 
-    private void Start() => OnValueUpdated(Value);
+    private void Start()
+    {
+        if (string.IsNullOrEmpty(Value)) Value = textMeshProUGUI.text;
+        OnValueUpdated(Value);
+    }
 
     /// <summary>
     /// Use localized text.

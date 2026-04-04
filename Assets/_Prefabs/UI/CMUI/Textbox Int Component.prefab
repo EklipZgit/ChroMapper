@@ -94,8 +94,10 @@ GameObject:
   m_Component:
   - component: {fileID: 3848689261710050686}
   - component: {fileID: 2451261144788297755}
+  - component: {fileID: 133924595012642301}
   - component: {fileID: 3848689261710050681}
   - component: {fileID: 3516578403608723355}
+  - component: {fileID: 2270657609999586192}
   m_Layer: 5
   m_Name: Textbox Int Component
   m_TagString: Untagged
@@ -144,6 +146,20 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &133924595012642301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3848689261710050687}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 0
+  m_VerticalFit: 0
 --- !u!114 &3848689261710050681
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -192,6 +208,33 @@ MonoBehaviour:
   MaxValue: 0
   LoopAround: 0
   LoopThreshold: 0
+--- !u!114 &2270657609999586192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3848689261710050687}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec9d0964fc5c07c4d988ebacfd236eb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LocalizedTooltip:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 1
+    m_LocalVariables: []
+  TooltipOverride: 
+  AdvancedTooltip: 
+  TooltipActive: 0
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &3848689263045460952
 GameObject:
   m_ObjectHideFlags: 0
@@ -286,6 +329,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3848689263090809978}
   - component: {fileID: 3848689263090809972}
+  - component: {fileID: 8521927579674169347}
   - component: {fileID: 3848689263090809973}
   m_Layer: 5
   m_Name: Label
@@ -321,6 +365,34 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3848689263090809979}
   m_CullTransparentMesh: 1
+--- !u!114 &8521927579674169347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3848689263090809979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_StringReference:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 1
+    m_LocalVariables: []
+  m_FormatArguments: []
+  m_UpdateString:
+    m_PersistentCalls:
+      m_Calls: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &3848689263090809973
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -580,7 +652,7 @@ MonoBehaviour:
   m_CaretBlinkRate: 0.85
   m_CaretWidth: 1
   m_ReadOnly: 0
-  m_RichText: 1
+  m_RichText: 0
   m_GlobalFontAsset: {fileID: 11400000, guid: 17003b886c2e57b4a9ce9d0d655a397d, type: 2}
   m_OnFocusSelectAll: 1
   m_ResetOnDeActivation: 1
@@ -710,7 +782,7 @@ MonoBehaviour:
   m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 1
   checkPaddingRequired: 0
-  m_isRichText: 1
+  m_isRichText: 0
   m_EmojiFallbackSupport: 1
   m_parseCtrlCharacters: 0
   m_isOrthographic: 1
@@ -917,7 +989,7 @@ MonoBehaviour:
   m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 1
   checkPaddingRequired: 0
-  m_isRichText: 1
+  m_isRichText: 0
   m_EmojiFallbackSupport: 1
   m_parseCtrlCharacters: 0
   m_isOrthographic: 1

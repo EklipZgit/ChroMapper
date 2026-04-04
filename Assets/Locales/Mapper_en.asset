@@ -953,6 +953,222 @@ MonoBehaviour:
     m_Localized: Basic Event
     m_Metadata:
       m_Items: []
+  - m_Id: 618815981657751552
+    m_Localized: Lane Count
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618816113295982592
+    m_Localized: Wall Extend
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618815858693341184
+    m_Localized: Change how many lanes your map uses.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618816206954790912
+    m_Localized: Extend lane on both side for wall placement.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618816878148288512
+    m_Localized: Change how far should the chain link reach.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618817182738644992
+    m_Localized: Squish
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618817234412470272
+    m_Localized: Change how many chain link should it have including the head.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618817625686507520
+    m_Localized: Slice Count
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618817783560110080
+    m_Localized: Change how far the arc length extend at the start.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618818178101510144
+    m_Localized: Head Multiplier
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618818264764219392
+    m_Localized: Tail Multiplier
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618818333051682816
+    m_Localized: Change how far the arc length extend before the end.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618819935758155776
+    m_Localized: Filter & Order
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618820156688924672
+    m_Localized: Event Box
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618820280806768640
+    m_Localized: IDs
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618820527775776768
+    m_Localized: Reverse the order.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618820786820186112
+    m_Localized: Reverse
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618821218783166464
+    m_Localized: Sections
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618821287964016640
+    m_Localized: Step & Offset
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618821365382479872
+    m_Localized: Chunk
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618821535469895680
+    m_Localized: Random
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618821616847781888
+    m_Localized: In Order
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618823198540791808
+    m_Localized: Axis
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618823330992717824
+    m_Localized: Limit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618823397669568512
+    m_Localized: Affect
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618823577986891776
+    m_Localized: Duration
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618823638418423808
+    m_Localized: Distribution
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618823825178198016
+    m_Localized: Flip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618824415639732224
+    m_Localized: Wave
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618824475165294592
+    m_Localized: Step
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618824689729110016
+    m_Localized: Affect First
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618824746415128576
+    m_Localized: Easing
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618827068671229952
+    m_Localized: Color
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618827160136417280
+    m_Localized: Rotation
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618827248791420928
+    m_Localized: Translation
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618827324121120768
+    m_Localized: FloatFX
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618827414042804224
+    m_Localized: Easings
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618827491457073152
+    m_Localized: Others
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618832433844551680
+    m_Localized: Extension
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618832656851501056
+    m_Localized: FloatFX
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618832787940278272
+    m_Localized: Translation
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618832921264619520
+    m_Localized: Rotation
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618832984388894720
+    m_Localized: Loop
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618833076848132096
+    m_Localized: Brightness
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618833174910959616
+    m_Localized: Strobe Brightness
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618833239993974784
+    m_Localized: Strobe Frequency
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618833311213256704
+    m_Localized: Fade
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618833365361721344
+    m_Localized: Strobe Fade
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618833848872697856
+    m_Localized: Scroll Precision
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618843845987893248
+    m_Localized: 
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618843934710005760
+    m_Localized: ID
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618844057422757888
+    m_Localized: Step
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618844892672262144
+    m_Localized: ID
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618845221228871680
+    m_Localized: Section
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

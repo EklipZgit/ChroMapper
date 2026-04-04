@@ -36,8 +36,8 @@ public class EventBoxViewController : MonoBehaviour
     [SerializeField] private RectTransform idTabTargetTransform;
     private readonly List<ToggleComponent> instantiatedIdTab = new();
 
-    [Header("Info Text")] [SerializeField] private TextMeshProUGUI eventBoxIdText;
-    [SerializeField] private TextMeshProUGUI filteredIdText;
+    [Header("Info Text")] [SerializeField] private TextComponent eventBoxIdText;
+    [SerializeField] private TextComponent filteredIdText;
     [SerializeField] private Image idImagePrefab;
     [SerializeField] private Transform idImageTargetTransform;
     private readonly List<Image> instantiatedIdImage = new();
@@ -284,7 +284,7 @@ public class EventBoxViewController : MonoBehaviour
 
         for (; i < instantiatedIdTab.Count; i++) instantiatedIdTab[i].gameObject.SetActive(false);
 
-        eventBoxIdText.text = $"1  |  {count}";
+        eventBoxIdText.SetValueWithoutNotify($"1  |  {count}");
     }
 
     private void HandleEventBoxChanged(BaseEventBoxGroup group, BaseEventBox box)
@@ -359,9 +359,10 @@ public class EventBoxViewController : MonoBehaviour
         inputContainer.SetActive(true);
 
         var locIfh = IndexFilterHelper.Convert(box.IndexFilter, count);
-        filteredIdText.text = locIfh != null
-            ? $"{count}  |  {locIfh.Count}  |  {locIfh.VisibleCount}"
-            : $"{count}  |  0  |  0";
+        filteredIdText.SetValueWithoutNotify(
+            locIfh != null
+                ? $"{count}  |  {locIfh.Count}  |  {locIfh.VisibleCount}"
+                : $"{count}  |  0  |  0");
 
         beatDistributionWaveToggle.SetValueWithoutNotify(box.BeatDistributionType == (int)DistributionType.Wave);
         beatDistributionStepToggle.SetValueWithoutNotify(box.BeatDistributionType == (int)DistributionType.Step);
@@ -376,19 +377,19 @@ public class EventBoxViewController : MonoBehaviour
         {
             p0Input.MinValue = 1;
             p0Input.SetValueWithoutNotify(box.IndexFilter.Param0);
-            p0Input.SetLabelText("Section");
+            p0Input.SetLabelText("Mapper", "eventbox.filter.sections.section");
             p1Input.MinValue = 1;
             p1Input.SetValueWithoutNotify(box.IndexFilter.Param1 + 1);
-            p1Input.SetLabelText("ID");
+            p1Input.SetLabelText("Mapper", "eventbox.filter.sections.id");
         }
         else
         {
             p0Input.MinValue = 1;
             p0Input.SetValueWithoutNotify(box.IndexFilter.Param0 + 1);
-            p0Input.SetLabelText("ID");
+            p0Input.SetLabelText("Mapper", "eventbox.filter.step.id");
             p1Input.MinValue = 0;
             p1Input.SetValueWithoutNotify(box.IndexFilter.Param1);
-            p1Input.SetLabelText("Step");
+            p1Input.SetLabelText("Mapper", "eventbox.filter.step.step");
         }
 
         randomToggle.SetValueWithoutNotify((box.IndexFilter.Random & (int)RandomType.RandomElements) > 0);
