@@ -990,11 +990,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 618818178101510144
-    m_Localized: Head Multiplier
+    m_Localized: Head Length
     m_Metadata:
       m_Items: []
   - m_Id: 618818264764219392
-    m_Localized: Tail Multiplier
+    m_Localized: Tail Length
     m_Metadata:
       m_Items: []
   - m_Id: 618818333051682816

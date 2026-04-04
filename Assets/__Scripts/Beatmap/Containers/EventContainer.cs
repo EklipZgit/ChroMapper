@@ -107,10 +107,13 @@ namespace Beatmap.Containers
                 lightGradientController.UpdateDuration(EventData.CustomLightGradient.Duration);
             //Move event up or down enough to give a constant distance from the bottom of the event, taking the y alpha scale into account
             if (Settings.Instance.VisualizeChromaAlpha)
+            {
                 transform.localPosition = new Vector3(
                     transform.localPosition.x,
                     transform.localPosition.y + ((GetHeight() - 1f) / 2.775f),
                     transform.localPosition.z);
+            }
+
             UpdateCollisionGroups();
         }
 
@@ -136,9 +139,9 @@ namespace Beatmap.Containers
         {
             var oldAlphaTemp = MpbController.Mpb.GetFloat(mainAlphaId);
             if (oldAlphaTemp > 0) oldAlpha = oldAlphaTemp;
-            if (oldAlpha == alpha) return;
+            if (Mathf.Approximately(oldAlpha, alpha)) return;
 
-            MpbController.Mpb.SetFloat(mainAlphaId, alpha == -1 ? oldAlpha : alpha);
+            MpbController.Mpb.SetFloat(mainAlphaId, Mathf.Approximately(alpha, -1) ? oldAlpha : alpha);
             if (updateMaterials) UpdateMaterials();
         }
 
@@ -154,14 +157,10 @@ namespace Beatmap.Containers
 
             var height = EventData.FloatValue;
             if (EventData.CustomColor != null && Math.Abs(EventData.CustomColor.Value.a - 1) > 0.001)
-            {
                 height *= EventData.CustomColor.Value.a;
-            }
             else if (EventData.CustomLightGradient != null
                 && Math.Abs(EventData.CustomLightGradient.StartColor.a - 1) > 0.001)
-            {
                 height *= EventData.CustomLightGradient.StartColor.a;
-            }
 
             // Clamped to avoid too small/too tall events
             return Mathf.Clamp(height, 0.1f, 1.5f);

@@ -88,29 +88,18 @@ namespace Beatmap.Appearances
                 e.UpdateAlpha(final ? 0.9f : 0.6f, false);
             }
             else if (e.EventData.IsOff)
-            {
                 color = OffColor;
-            }
             else if (e.EventData.IsBlue)
-            {
                 color = boost ? BlueBoostColor : BlueColor;
-            }
             else if (e.EventData.IsRed)
-            {
                 color = boost ? RedBoostColor : RedColor;
-            }
-            else if (e.EventData.IsWhite)
-            {
-                color = boost ? WhiteBoostColor : WhiteColor;
-            }
+            else if (e.EventData.IsWhite) color = boost ? WhiteBoostColor : WhiteColor;
 
             if (Settings.Instance.EmulateChromaLite
                 && e.EventData.CustomColor != null
                 && !e.EventData.IsOff
                 && !e.EventData.IsWhite) // White overrides Chroma
-            {
                 color = e.EventData.CustomColor.Value;
-            }
 
             // Display floatValue only where used
             if (trackDef.Kind == BasicEventKind.Lights
@@ -118,10 +107,15 @@ namespace Beatmap.Appearances
             {
                 if (Settings.Instance.DisplayFloatValueText)
                 {
-                    var text = e.EventData.IsTransition
-                        ? $"T{Mathf.RoundToInt(e.EventData.FloatValue * 100)}"
-                        : $"{Mathf.RoundToInt(e.EventData.FloatValue * 100)}";
-                    e.UpdateTextDisplay(true, text);
+                    if (!Mathf.Approximately(e.EventData.FloatValue, 1f))
+                    {
+                        var text = e.EventData.IsTransition
+                            ? $"T{Mathf.RoundToInt(e.EventData.FloatValue * 100)}"
+                            : $"{Mathf.RoundToInt(e.EventData.FloatValue * 100)}";
+                        e.UpdateTextDisplay(true, text);
+                    }
+                    else
+                        e.UpdateTextDisplay(false);
                 }
 
                 // for clarity sake, we don't want this to be the same as off color
@@ -168,24 +162,15 @@ namespace Beatmap.Appearances
             if (!e.EventData.IsFade && !e.EventData.IsFlash && nextEvent != null && nextEvent.IsTransition)
             {
                 if (nextEvent.IsBlue)
-                {
                     nextColor = boost ? BlueBoostColor : BlueColor;
-                }
                 else if (nextEvent.IsRed)
-                {
                     nextColor = boost ? RedBoostColor : RedColor;
-                }
-                else if (nextEvent.IsWhite)
-                {
-                    nextColor = boost ? WhiteBoostColor : WhiteColor;
-                }
+                else if (nextEvent.IsWhite) nextColor = boost ? WhiteBoostColor : WhiteColor;
 
                 if (Settings.Instance.EmulateChromaLite
                     && nextEvent.CustomColor != null
                     && !nextEvent.IsWhite) // White overrides Chroma
-                {
                     nextColor = nextEvent.CustomColor.Value;
-                }
 
                 // for clarity sake, we don't want this to be the same as off color
                 var clampedOffColor = Color.Lerp(OffColor, nextColor.Value, 0.25f);
@@ -193,9 +178,7 @@ namespace Beatmap.Appearances
             }
 
             if (Settings.Instance.VisualizeChromaGradients)
-            {
                 e.UpdateGradientRendering(color, nextColor, e.EventData?.CustomEasing ?? "easeLinear");
-            }
 
             e.UpdateMaterials();
         }
