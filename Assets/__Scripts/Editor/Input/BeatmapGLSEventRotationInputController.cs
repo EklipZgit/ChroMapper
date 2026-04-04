@@ -130,7 +130,7 @@ public class BeatmapGLSEventRotationInputController : BeatmapGLSEventInputContro
         {
             var evt = HoveredObject.EventData as BaseLightRotationBase;
             var delta = context.GetScrollDirection(Settings.Instance.InvertScrollEventValue);
-            var prec = ScrollPrecisionController.GetCurrentFloatFXPrecision();
+            var prec = ScrollPrecisionController.GetCurrentRotationPrecision();
             var value = Mathf.Round((evt.Rotation + (delta * prec)) * 1_000f) / 1_000f;
             GLSEventRotationCommand.SetValue(evt, Mathf.Repeat(value, 360f));
         }
