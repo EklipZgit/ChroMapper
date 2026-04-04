@@ -119,7 +119,8 @@ public class
         var endState = (LightRotationEventStateData)(state.Next.UsePrevious ? startState : state.Next);
         var endAngle = Mathf.Repeat(endState.Rotation, 360f);
 
-        var targetAngle = ComputeTargetAngle(startAngle, endAngle, endState.Loop, endState.Direction);
+        var endLoop = state.Next.UsePrevious ? 0 : endState.Loop;
+        var targetAngle = ComputeTargetAngle(startAngle, endAngle, endLoop, endState.Direction);
 
         tween.StartValue = startAngle;
         tween.EndValue = targetAngle;
