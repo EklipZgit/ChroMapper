@@ -37,11 +37,21 @@
         [KeywordEnum(None, Flat, Full)] _Spectrogram ("Spectrogram", float) = 0
         _DisplacementStrength ("Displacement Strength", float) = 0.1
         _DisplacementAxisMultiplier ("Axis Multiplier", Vector) = (1,1,1,1)
+        [Toggle(VERTEXDISPLACEMENT_MASK)] _EnableVertexDisplacementMask ("Vertex Displacement Mask", float) = 0
+        [KeywordEnum(Texture, 3D Texture)] _VertexDisplacement_Mask_Source ("Mask Source", float) = 0
+        _VertexDisplacementMask ("Mask Texture", 2D) = "white" {}
+        _VertexDisplacementMaskSpeed ("Mask Texture Speed", Vector) = (0, 1, 0, 0)
+        _VertexDisplacementMaskMultiplier ("Mask Multiplier", float) = 1
+        _VertexDisplacementMaskOffset ("Mask Offset", float) = 0
+        _VertexDisplacement3DTexture ("Noise Tex", 3D) = "white" {}
+        _VertexDisplacement3DTexOffset ("Texture Offset", Vector) = (0, 0, 0, 0)
+        _VertexDisplacement3DTexPanning ("Texture Panning", Vector) = (0, 0, 0, 0)
+        _VertexDisplacement3DTexScale ("Texture Scale", float) = 5
 
 
         [Header(Emission)] [Space]
         [KeywordEnum(None, Simple, Pulse, Flipbook)] _EmissionTexture ("Emission Texture", float) = 0
-        [KeywordEnum(Texture, MPM G)] _Emission_Texture_Source ("Source", float) = 0
+        [KeywordEnum(Texture, MPM G, SDF)] _Emission_Texture_Source ("Source", float) = 0
         _EmissionTex ("Texture", 2D) = "white" {}
         _EmissionTexSpeed ("Texture Speed", Vector) = (0,0,0,0)
         [Toggle(SECONDARY_UVS_EMISSION)] _SecondaryUVsEmissionTex ("Use Secondary UVs", float) = 0
@@ -196,6 +206,13 @@
 
         [Toggle(MESH_PACKING)] _MeshPacking ("Mesh Packed Instancing", Float) = 0
         _MeshPackingId ("Mesh Packing ID", float) = 0
+        _SDFNoiseOffset ("Noise offset", Vector) = (0, 0, 0, 0)
+        _SDFNoisePanning ("Noise panning", Vector) = (0, 0, 0, 0)
+        _SDFNoiseIntensity ("Noise Intensity", Float) = 1
+        _SDFNoiseScale ("Noise Scale", Float) = 5
+        _SDFPointIntensity ("Color Intensity", Float) = 1
+        _SDFNegativeIntensity ("Negative Intensity", Float) = 0.5
+        _SDFNoiseTex ("Noise Tex", 3D) = "white" {}
 
 
 
@@ -254,13 +271,20 @@
             #pragma shader_feature_local _ _VERTEX_COLOR _VERTEX_EMISSION _VERTEX_METAL_SMOOTHNESS _VERTEX_SPECIAL _VERTEX_DISPLACEMENT _VERTEX_EMISSIVE_MULT_ADD
             #pragma shader_feature_local_vertex _ _VERTEX_BLOOMTYPE_PP _VERTEX_BLOOMTYPE_FRAG
 
+            // Aliases for SimpleLit keyword names
+            #pragma shader_feature_local _ _VERTEXMODE_DISPLACEMENT
+            #pragma shader_feature_local_vertex _ _VERTEX_WHITEBOOSTTYPE_MAINEFFECT
+
             #pragma shader_feature_local_vertex DISPLACEMENT_SPATIAL
             #pragma shader_feature_local_vertex DISPLACEMENT_BIDIRECTIONAL
             #pragma shader_feature_local_vertex _ _SPECTROGRAM_FLAT _SPECTROGRAM_FULL
             #pragma shader_feature_local_vertex MESH_PACKING
+            #pragma shader_feature_local_vertex VERTEXDISPLACEMENT_MASK
+            #pragma shader_feature_local_vertex _ _VERTEXDISPLACEMENT_MASK_SOURCE_3D_TEXTURE
 
             #pragma shader_feature_local_fragment _ _EMISSIONTEXTURE_SIMPLE _EMISSIONTEXTURE_FLIPBOOK
             #pragma shader_feature_local_fragment _ _EMISSION_TEXTURE_SOURCE_MPM_G
+            #pragma shader_feature_local_fragment _ _EMISSION_TEXTURE_SOURCE_SDF
             #pragma shader_feature_local_fragment SECONDARY_UVS_EMISSION
 
             #pragma shader_feature_local_fragment _ _EMISSIONBLOOMTYPE_FRAG _EMISSIONBLOOMTYPE_GRADIENT _EMISSIONBLOOMTYPE_PP
@@ -365,10 +389,8 @@
             float _EmissionThresholdAngle;
             // --
 
-            #define USE_EMISSION_TEXTURE_COLOR !defined(_EMISSIONBLOOMTYPE_GRADIENT) && ENABLE_EMISSION_TEXTURE
-
-            #define USE_EMISSION_GRADIENT_TEXTURE defined(_EMISSIONBLOOMTYPE_GRADIENT) && ENABLE_EMISSION_TEXTURE
-            // USE_EMISSION_GRADIENT_TEXTURE
+            #define USE_EMISSION_TEXTURE_COLOR ENABLE_EMISSION_TEXTURE
+            // USE_EMISSION_GRADIENT_TEXTURE removed — gradient is now handled inside USE_EMISSION_TEXTURE_COLOR
             sampler2D _EmissionGradientTex;
             float4 _EmissionGradientTex_ST;
             // --
@@ -423,6 +445,32 @@
             float _SpecularIntensity;
             // --
 
+            // _VERTEX_DISPLACEMENT
+            float _DisplacementStrength;
+            float4 _DisplacementAxisMultiplier;
+            // --
+
+            // VERTEXDISPLACEMENT_MASK
+            #if defined(VERTEXDISPLACEMENT_MASK)
+            #if defined(_VERTEXDISPLACEMENT_MASK_SOURCE_3D_TEXTURE)
+            sampler3D _VertexDisplacement3DTexture;
+            float3    _VertexDisplacement3DTexOffset;
+            float3    _VertexDisplacement3DTexPanning;
+            float     _VertexDisplacement3DTexScale;
+            #else
+            sampler2D _VertexDisplacementMask;
+            float4    _VertexDisplacementMask_ST;
+            float2    _VertexDisplacementMaskSpeed;
+            #endif
+            float     _VertexDisplacementMaskMultiplier;
+            float     _VertexDisplacementMaskOffset;
+            #endif
+            // --
+
+            // _SPECTROGRAM_FULL
+            float4 _SpectrogramData[32]; // 128 floats packed as 32 Vector4s
+            // --
+
             // RIM_DIM
             float _RimScale;
             float _RimOffset;
@@ -453,6 +501,19 @@
             float _IridescenceTiling;
             float3 _IridescenceAxesMultiplier;
             float _IridescenceColorInfluence;
+            // _EMISSION_TEXTURE_SOURCE_SDF
+            #ifdef _EMISSION_TEXTURE_SOURCE_SDF
+            float4    _SDFPointArray[3];
+            float3    _SDFNoisePanning;
+            float3    _SDFNoiseOffset;
+            float     _SDFNoiseIntensity;
+            float     _SDFNoiseScale;
+            float     _SDFPointIntensity;
+            float     _SDFNegativeIntensity;
+            sampler3D _SDFNoiseTex;
+            #endif
+            // --
+
             // _PARALLAX_MASKING_TEXTURE
             sampler2D _ParallaxMaskingMap;
             float4 _ParallaxMaskingMap_ST;
@@ -518,11 +579,12 @@
                 float _SecondaryEmissionMaskIntensity;
                 float4 _PrivatePointLightColor;
                 float _TimeOffset;
+                float4 _SongTime;
                 float _MeshPackingId;
             CBUFFER_END
             #endif
 
-            #define USE_WORLD_NORMAL defined(DIFFUSE) || defined(SPECULAR) || defined(RIM_DIM) || defined(PARALLAX_IRIDESCENCE)
+            #define USE_WORLD_NORMAL defined(DIFFUSE) || defined(SPECULAR) || defined(RIM_DIM) || defined(PARALLAX_IRIDESCENCE) || defined(_VERTEX_DISPLACEMENT) || defined(_VERTEXMODE_DISPLACEMENT)
 
             struct appdata
             {
@@ -583,23 +645,89 @@
                 UNITY_SETUP_INSTANCE_ID(i);
                 UNITY_TRANSFER_INSTANCE_ID(i, o);
 
+                #if defined(_VERTEX_DISPLACEMENT) || defined(_VERTEXMODE_DISPLACEMENT)
+                {
+                    float3 dispDir;
+                    #if defined(DISPLACEMENT_SPATIAL)
+                    // RGB channels → XYZ displacement direction
+                    dispDir = i.color.xyz;
+                    #   if defined(DISPLACEMENT_BIDIRECTIONAL)
+                    dispDir = dispDir * 2.0 - 1.0;
+                    #   endif
+                    dispDir = dispDir * _DisplacementAxisMultiplier.xyz;
+                    #else
+                    // Default: displace along vertex normal, magnitude from blue channel
+                    dispDir = i.normal * i.color.b;
+                    #   if defined(DISPLACEMENT_BIDIRECTIONAL)
+                    dispDir = dispDir * 2.0 - 1.0;
+                    #   endif
+                    dispDir = dispDir * _DisplacementAxisMultiplier.xyz;
+                    #endif
+
+                    float spectrogramScale = 1.0;
+                    #if defined(_SPECTROGRAM_FULL)
+                    // uv3.x (0-1) indexes across 128 frequency bins uploaded by SpectrogramPropertyRowAnimator
+                    {
+                        uint bin   = (uint)(i.uv3.x * 128.0);
+                        uint v4idx = bin / 4;
+                        uint comp  = bin % 4;
+                        float4 entry = _SpectrogramData[v4idx];
+                        spectrogramScale = comp == 0 ? entry.x :
+                                           comp == 1 ? entry.y :
+                                           comp == 2 ? entry.z : entry.w;
+                    }
+                    #endif
+
+                    float _dispScale = _DisplacementStrength * spectrogramScale;
+
+                    #if defined(VERTEXDISPLACEMENT_MASK)
+                    {
+                        #if defined(_VERTEXDISPLACEMENT_MASK_SOURCE_3D_TEXTURE)
+                        // 3D texture mask — matches decompiled SimpleLit exactly:
+                        // sample world-space position scaled/panned/offset into the 3D tex,
+                        // then multiply+offset the result to get a scalar mask.
+                        {
+                            float4 _timeOffset = UNITY_ACCESS_INSTANCED_PROP(Props, _TimeOffset);
+                            float3 _dmCoord = _VertexDisplacement3DTexPanning * _timeOffset.xxx;
+                            _dmCoord = _dmCoord * float3(0.1, 0.1, 0.1) + _VertexDisplacement3DTexOffset;
+                            // world-space position of unmodified vertex
+                            float3 _dmWorldPos = mul(unity_ObjectToWorld, i.vertex).xyz;
+                            float4 _dmSampCoord = float4(_VertexDisplacement3DTexScale.xxx * _dmWorldPos + _dmCoord, 0.0);
+                            float4 _dmSamp = tex3Dlod(_VertexDisplacement3DTexture, _dmSampCoord);
+                            float3 _dmVal = _VertexDisplacementMaskMultiplier.xxx * _dmSamp.xyz
+                                          + _VertexDisplacementMaskOffset.xxx;
+                            _dispScale *= _dmVal.x;
+                        }
+                        #else
+                        // 2D texture mask — matches SimpleLit VERTEXDISPLACEMENT_MASK path
+                        {
+                            #if defined(_CUSTOM_TIME_FREEZE)
+                            float _dmTime = UNITY_ACCESS_INSTANCED_PROP(Props, _TimeOffset) * 0.05;
+                            #else
+                            float _dmTime = (_Time.y + UNITY_ACCESS_INSTANCED_PROP(Props, _TimeOffset)) * 0.05;
+                            #endif
+                            float2 _dmUv = i.uv1.xy * _VertexDisplacementMask_ST.xy + _VertexDisplacementMask_ST.zw;
+                            float2 _dmPan = _VertexDisplacementMask_ST.xy * _VertexDisplacementMaskSpeed;
+                            _dmUv = _dmPan * _dmTime.xx + _dmUv;
+                            float4 _dmSamp = tex2Dlod(_VertexDisplacementMask, float4(_dmUv, 0, 0));
+                            float3 _dmVal = _VertexDisplacementMaskMultiplier.xxx * _dmSamp.xyz
+                                          + _VertexDisplacementMaskOffset.xxx;
+                            _dispScale *= _dmVal.x;
+                        }
+                        #endif
+                    }
+                    #endif
+
+                    i.vertex.xyz += _dispScale * dispDir;
+                }
+                #endif
+
                 o.vertex = UnityObjectToClipPos(i.vertex);
                 #if USE_VERTEX_COLOR
                     o.color = i.color;
                     // TODO: wtf does this do
                     #if USE_VERTEX_EMISSION
                         o.emission = UNITY_ACCESS_INSTANCED_PROP(Props, _EmissionColor);
-                        o.emission *= max(0, o.color.g - _EmissionThreshold) * _EmissionStrength;
-                        #if defined(_VERTEX_BLOOMTYPE_PP)
-                            CUSTOM_BLOOM_PP_APPLY(o.emission, _EmissionBloomIntensity);
-                        #elif defined(_VERTEX_BLOOMTYPE_FRAG)
-                            CUSTOM_BLOOM_FRAG_APPLY(o.emission, _EmissionBloomIntensity);
-                        #else
-                            CUSTOM_BLOOM_NONE_APPLY(o.emission);
-                        #endif
-                        #if !defined(_VERTEX_SPECIAL)
-                            o.emission *= o.color.a;
-                        #endif
                     #endif
                 #endif
 
@@ -667,26 +795,56 @@
                 
                 #endif
 
-                float4 albedo = baseColor;
-                float emissionAlpha = abs(UNITY_ACCESS_INSTANCED_PROP(Props, _EmissionColor).a);
-                #if !USE_VERTEX_COLOR
-                    albedo *= emissionAlpha;
-                #endif
+                // Always start from black — baseColor contributes only via diffuse/ambient,
+                // matching SimpleLit's behaviour so objects are pitch dark without emission or lights.
+                float4 albedo = float4(0, 0, 0, 0);
                 #if defined(DIFFUSE_TEXTURE)
                 #if defined(METAL_SMOOTHNESS_TEXTURE) && defined(_DIFFUSE_TEXTURE_SOURCE_MPM_R)
-                albedo.rgb *= tex2D(_MetalSmoothnessTex, TRANSFORM_TEX(i.uv, _MetalSmoothnessTex)).r;
+                baseColor.rgb *= tex2D(_MetalSmoothnessTex, TRANSFORM_TEX(i.uv, _MetalSmoothnessTex)).r;
                 #elif defined(METAL_SMOOTHNESS_TEXTURE) && defined(_DIFFUSE_TEXTURE_SOURCE_MPM_A_SMOOTHNESS)
-                albedo.rgb *= tex2D(_MetalSmoothnessTex, TRANSFORM_TEX(i.uv, _MetalSmoothnessTex)).a * _Smoothness;
+                baseColor.rgb *= tex2D(_MetalSmoothnessTex, TRANSFORM_TEX(i.uv, _MetalSmoothnessTex)).a * _Smoothness;
                 #else
-                albedo.rgb *= tex2D(_DiffuseTex, TRANSFORM_TEX(i.uv, _DiffuseTex));
+                baseColor.rgb *= tex2D(_DiffuseTex, TRANSFORM_TEX(i.uv, _DiffuseTex));
                 #endif
-                albedo.rgb *= _AlbedoMultiplier;
+                baseColor.rgb *= _AlbedoMultiplier;
                 #endif
 
                 #if USE_VERTEX_EMISSION
-                albedo.rgba = 0;
-                albedo.rgb += i.emission.rgb;
-                albedo.a = i.emission.a;
+                {
+                    float thresholdRange = 1.0 / max(0.0001, 1.0 - _EmissionThreshold);
+                    float t = saturate((i.color.g - _EmissionThreshold) * thresholdRange);
+                    float smoothT = t * t * (3.0 - 2.0 * t);
+                    smoothT *= _EmissionStrength;
+
+                    float4 emissionColor = float4(i.emission.rgb * smoothT, i.emission.a * smoothT);
+
+                    #if defined(_VERTEX_BLOOMTYPE_PP) || defined(_VERTEX_WHITEBOOSTTYPE_MAINEFFECT)
+                    // MainEffect path: wbVal drives bloom alpha, whiteboost drives colour boost
+                    {
+                        float _wbVal = emissionColor.a * emissionColor.a;
+                        albedo.a = _wbVal * 3.5 * _EmissionBloomIntensity;
+                        float _wbMult = _wbVal * _EmissionTexWhiteBoostMultiplier;
+                        float _boost = _wbMult * _wbMult * _BaseColorBoost - _BaseColorBoostThreshold;
+                        emissionColor.rgb = saturate(emissionColor.rgb * emissionColor.a + _boost);
+                    }
+                #elif defined(_VERTEX_BLOOMTYPE_FRAG)
+                    // Whiteboost path: same formula but wbVal squared again before boost
+                    {
+                        float _wbVal = emissionColor.a * emissionColor.a;
+                        albedo.a = _wbVal * 3.5 * _EmissionBloomIntensity;
+                        float _wbMult = _wbVal * _wbVal * _EmissionTexWhiteBoostMultiplier;
+                        float _boost = _wbMult * _wbMult * _BaseColorBoost - _BaseColorBoostThreshold;
+                        emissionColor.rgb = saturate(emissionColor.rgb * emissionColor.a + _boost);
+                    }
+                #else
+                    emissionColor.rgb *= emissionColor.a;
+                #endif
+
+                    albedo.rgb += emissionColor.rgb;
+
+                    float bloomAlpha = i.color.a * i.color.a * i.emission.a * _EmissionBloomIntensity;
+                    albedo.a = bloomAlpha;
+                }
                 #endif
 
                 float3 worldPos = i.worldPos;
@@ -699,15 +857,14 @@
                 #endif
 
                 // LIGHTING
-                #if defined(DIFFUSE) || defined(SPECULAR)
-                    float3 calculated = 0;
-                    #if defined(_VERTEX_SPECIAL) || defined(_VERTEX_METAL_SMOOTHNESS)
-                        float metallic = i.color.r;
-                        float smoothness = i.color.a;
-                    #else
-                        float metallic = _Metallic;
-                        float smoothness = _Smoothness;
-                    #endif
+                // Resolve metallic/smoothness (same as before)
+                #if defined(_VERTEX_SPECIAL) || defined(_VERTEX_METAL_SMOOTHNESS)
+                    float metallic = i.color.r;
+                    float smoothness = i.color.a;
+                #else
+                    float metallic = _Metallic;
+                    float smoothness = _Smoothness;
+                #endif
                 #if defined(METAL_SMOOTHNESS_TEXTURE)
                     #if defined(_METALLIC_TEXTURE_SOURCE_MPM_R)
                         metallic = tex2D(_MetalSmoothnessTex, TRANSFORM_TEX(i.uv, _MetalSmoothnessTex)).r;
@@ -721,27 +878,55 @@
                     #endif
                 #endif
 
-                #if defined(DIFFUSE) && defined(BOTH_SIDES_DIFFUSE)
-                float diffuseBothSides = _BothSidesDiffuseMultiplier;
-                #else
-                float diffuseBothSides = 0;
+                #if defined(DIFFUSE)
+                {
+                    #if defined(LIGHT_FALLOFF)
+                        float3 _toL0 = worldPos - _DirectionalLightPositions[0].xyz;
+                        float _falloff0 = 1.0 / (dot(_toL0, _toL0) / (_DirectionalLightRadii[0] * _DirectionalLightRadii[0]) * 25.0 + 1.0);
+                        float3 _toL1 = worldPos - _DirectionalLightPositions[1].xyz;
+                        float _falloff1 = 1.0 / (dot(_toL1, _toL1) / (_DirectionalLightRadii[1] * _DirectionalLightRadii[1]) * 25.0 + 1.0);
+                        float3 _toL2 = worldPos - _DirectionalLightPositions[2].xyz;
+                        float _falloff2 = 1.0 / (dot(_toL2, _toL2) / (_DirectionalLightRadii[2] * _DirectionalLightRadii[2]) * 25.0 + 1.0);
+                        float3 _toL3 = worldPos - _DirectionalLightPositions[3].xyz;
+                        float _falloff3 = 1.0 / (dot(_toL3, _toL3) / (_DirectionalLightRadii[3] * _DirectionalLightRadii[3]) * 25.0 + 1.0);
+                    #else
+                        float _falloff0 = 1.0, _falloff1 = 1.0, _falloff2 = 1.0, _falloff3 = 1.0;
+                    #endif
+
+                    float3 lightAccum = float3(0, 0, 0);
+                    float NdotL;
+
+                    NdotL = max(0.0, dot(worldNormal, _DirectionalLightDirections[0].xyz));
+                    lightAccum += NdotL * _DirectionalLightColors[0].rgb * _falloff0;
+                    NdotL = max(0.0, dot(worldNormal, _DirectionalLightDirections[1].xyz));
+                    lightAccum += NdotL * _DirectionalLightColors[1].rgb * _falloff1;
+                    NdotL = max(0.0, dot(worldNormal, _DirectionalLightDirections[2].xyz));
+                    lightAccum += NdotL * _DirectionalLightColors[2].rgb * _falloff2;
+                    NdotL = max(0.0, dot(worldNormal, _DirectionalLightDirections[3].xyz));
+                    lightAccum += NdotL * _DirectionalLightColors[3].rgb * _falloff3;
+
+                    #if defined(BOTH_SIDES_DIFFUSE)
+                    float NdotL_back;
+                    NdotL_back = max(0.0, dot(-worldNormal, _DirectionalLightDirections[0].xyz));
+                    lightAccum += NdotL_back * _DirectionalLightColors[0].rgb * _falloff0 * _BothSidesDiffuseMultiplier;
+                    NdotL_back = max(0.0, dot(-worldNormal, _DirectionalLightDirections[1].xyz));
+                    lightAccum += NdotL_back * _DirectionalLightColors[1].rgb * _falloff1 * _BothSidesDiffuseMultiplier;
+                    NdotL_back = max(0.0, dot(-worldNormal, _DirectionalLightDirections[2].xyz));
+                    lightAccum += NdotL_back * _DirectionalLightColors[2].rgb * _falloff2 * _BothSidesDiffuseMultiplier;
+                    NdotL_back = max(0.0, dot(-worldNormal, _DirectionalLightDirections[3].xyz));
+                    lightAccum += NdotL_back * _DirectionalLightColors[3].rgb * _falloff3 * _BothSidesDiffuseMultiplier;
+                    #endif
+
+                    float3 diffuseAlbedo = (1.0 - metallic) * baseColor.rgb;
+                    albedo.rgb += lightAccum * diffuseAlbedo;
+                }
                 #endif
-                #if defined(SPECULAR)
-                float specIntensity = _SpecularIntensity;
-                #else
-                float specIntensity = 0;
-                #endif
-                CUSTOM_LIGHTING_APPLY(calculated, albedo, metallic, smoothness, specIntensity,
-                                      diffuseBothSides, worldPos, worldNormal);
-                albedo.rgb += calculated;
-                float3 selfIllum = albedo.rgb; albedo.rgb = (selfIllum + calculated.rgb);
-                //albedo *= max(_NominalDiffuseLevel * albedo, _AmbientMinimalValue) * _AmbientMultiplier + float4(calculated.rgb, 0);
-                //albedo.rgb *= max(albedo.rgb, _AmbientMinimalValue) * _AmbientMultiplier + float4(calculated.rgb, 0);
-                //albedo.a *= _NominalDiffuseLevel.a;
-                
-                #else
-                float3 ambientTerm = max(_AmbientMultiplier * _NominalDiffuseLevel.rgb, _AmbientMinimalValue);
-                albedo.rgb *= ambientTerm;
+
+                // Ambient — always applied. Matches SimpleLit: albedo += surfaceColor * ambientTerm
+                {
+                    float3 ambientTerm = max(_AmbientMultiplier * _NominalDiffuseLevel.rgb, _AmbientMinimalValue);
+                    albedo.rgb += baseColor.rgb * ambientTerm;
+                }
 
                 // MULTIPLY_REFLECTIONS
                 #if defined(MULTIPLY_REFLECTIONS)
@@ -754,11 +939,55 @@
                               unity_SpecCube0_BoxMax);
                     #endif
                     float4 reflSample = UNITY_SAMPLE_TEXCUBE_LOD(unity_SpecCube0, reflDir,
-                                        (1.0 - _Smoothness) * UNITY_SPECCUBE_LOD_STEPS);
+                                        (1.0 - smoothness) * UNITY_SPECCUBE_LOD_STEPS);
                     float3 reflColor = DecodeHDR(reflSample, unity_SpecCube0_HDR);
-                    albedo.rgb *= 1.0 + reflColor * _Metallic;
+                    albedo.rgb *= 1.0 + reflColor * metallic;
                 }
                 #endif
+
+                // SPECULAR — GGX lobe matching SimpleLit
+                #if defined(SPECULAR)
+                {
+                    float3 _viewDir = normalize(worldPos - _WorldSpaceCameraPos);
+                    float  _vDotN   = dot(_viewDir, worldNormal);
+                    float3 _reflDir = worldNormal * (-2.0 * _vDotN) + _viewDir;
+
+                    float _rough2  = smoothness * smoothness;
+                    _rough2 = _rough2 * _rough2; // smoothness^4
+                    float _lobScale = _rough2 * 500.0;
+
+                    #define SPEC_LOBE(lightDir, lightColor, atten) \
+                    { \
+                        float3 _ld   = (lightDir).xyz - _reflDir; \
+                        float  _ldSq = dot(_ld, _ld); \
+                        float  _lobe = saturate(-_lobScale * _ldSq * 0.5 + 1.0); \
+                        _lobe = _lobe * _lobe; _lobe = _lobe * _lobe; _lobe = _lobe * _lobe; \
+                        _specAcc += _lobe * (atten) * _rough2 * (lightColor).xyz * 500.0; \
+                    }
+
+                    float3 _specAcc = float3(0, 0, 0);
+                    #if defined(LIGHT_FALLOFF)
+                        float3 _stL0 = worldPos - _DirectionalLightPositions[0].xyz;
+                        float _sf0 = 1.0 / (dot(_stL0,_stL0)/(_DirectionalLightRadii[0]*_DirectionalLightRadii[0])*25.0+1.0);
+                        float3 _stL1 = worldPos - _DirectionalLightPositions[1].xyz;
+                        float _sf1 = 1.0 / (dot(_stL1,_stL1)/(_DirectionalLightRadii[1]*_DirectionalLightRadii[1])*25.0+1.0);
+                        float3 _stL2 = worldPos - _DirectionalLightPositions[2].xyz;
+                        float _sf2 = 1.0 / (dot(_stL2,_stL2)/(_DirectionalLightRadii[2]*_DirectionalLightRadii[2])*25.0+1.0);
+                        float3 _stL3 = worldPos - _DirectionalLightPositions[3].xyz;
+                        float _sf3 = 1.0 / (dot(_stL3,_stL3)/(_DirectionalLightRadii[3]*_DirectionalLightRadii[3])*25.0+1.0);
+                    #else
+                        float _sf0 = 1.0, _sf1 = 1.0, _sf2 = 1.0, _sf3 = 1.0;
+                    #endif
+
+                    SPEC_LOBE(_DirectionalLightDirections[0], _DirectionalLightColors[0], _sf0)
+                    SPEC_LOBE(_DirectionalLightDirections[1], _DirectionalLightColors[1], _sf1)
+                    SPEC_LOBE(_DirectionalLightDirections[2], _DirectionalLightColors[2], _sf2)
+                    SPEC_LOBE(_DirectionalLightDirections[3], _DirectionalLightColors[3], _sf3)
+                    #undef SPEC_LOBE
+
+                    float3 _f0 = lerp(float3(0.04, 0.04, 0.04), baseColor.rgb, metallic);
+                    albedo.rgb += _specAcc * _f0 * _SpecularIntensity;
+                }
                 #endif
 
                 // EMISSION
@@ -836,157 +1065,229 @@
                 #endif
 
                 #if USE_EMISSION_TEXTURE_COLOR
-
-                #if USE_EMISSION_TEXTURE
-                float2 emissionUv = i.uv.xy * _InputUvMultiplier;
-                #if defined(DISTORTION_SIMPLE)
-                {
-                    float2 distortScrollUv = emissionUv * _DistortionTex_ST.xy
-                                           + _DistortionTex_ST.zw
-                                           + _DistortionPanning * time.y * 0.1;
-                    float2 distortSample = tex2D(_DistortionTex, distortScrollUv).xy;
-                    emissionUv += distortSample * (_DistortionStrength * 0.1) * _DistortionAxes;
-                }
-                #endif
-                #if defined(_EMISSIONTEXTURE_FLIPBOOK)
-                emissionUv.x /= _FlipbookColumns;
-                emissionUv.y /= _FlipbookRows;
-                float flipbookTime = time.y * _FlipbookSpeed;
-                emissionUv += float2(floor(flipbookTime % _FlipbookColumns) / _FlipbookColumns,
-                                     floor(flipbookTime / _FlipbookColumns) % _FlipbookRows /
-                                     _FlipbookRows);
-                #endif
-                #if defined(_EMISSIONTEXTURE_SIMPLE)
-                float4 emissionTex = tex2D(_EmissionTex, TRANSFORM_TEX(emissionUv, _EmissionTex) + _EmissionTexSpeed * time.yy);
-                #else
-                float4 emissionTex = tex2D(_EmissionTex, TRANSFORM_TEX(emissionUv, _EmissionTex));
-                #endif
-                #if defined(_EMISSIONTEXTURE_FLIPBOOK) && !defined(FLIPBOOK_BLENDING_OFF)
-                // TODO: im not sure if it's next or previous
-                float2 emissionUv2 = i.uv + float2(floor((flipbookTime + 1) % _FlipbookColumns) / _FlipbookColumns,
-                                                   floor((flipbookTime + 1) /
-                                                       _FlipbookColumns)
-                                                   %
-                                                   _FlipbookRows /
-                                                   _FlipbookRows);
-                emissionTex = lerp(emissionTex, tex2D(_EmissionTex, TRANSFORM_TEX(emissionUv2, _EmissionTex)),
-                                   flipbookTime % 1);
-                #endif
-                #elif defined(METAL_SMOOTHNESS_TEXTURE) && defined(_EMISSION_TEXTURE_SOURCE_MPM_G)
-                float4 emissionTex = float4(tex2D(_MetalSmoothnessTex, TRANSFORM_TEX(i.uv, _MetalSmoothnessTex)).ggg,
-                                            0);
-                #endif
-
-                
-
-                #if defined(_EMISSION_ALPHA_SOURCE_COPY_EMISSION)
-                emissionTex.a = emissionTex.g;
-                #elif defined(METAL_SMOOTHNESS_TEXTURE) && defined(_EMISSION_ALPHA_SOURCE_MPM_R)
-                emissionTex.a = tex2D(_MetalSmoothnessTex, TRANSFORM_TEX(i.uv, _MetalSmoothnessTex)).r;
-                #else
-                emissionTex.a = emissionTex.g;
-                #endif
-
-                
-
-                #if USE_EMISSION_MASK
-
-                #if defined(EMISSION_MASK)
-                #if defined(SECONDARY_UVS_EMISSION_MASK)
-                float4 emissionMask = tex2D(_EmissionMask, TRANSFORM_TEX(uv2, _EmissionMask) + _EmissionMaskSpeed * time.yy);
-                #else
-                float4 emissionMask = tex2D(_EmissionMask, TRANSFORM_TEX(i.uv, _EmissionMask) + _EmissionMaskSpeed * time.yy);
-                #endif
-                
-
-                // TODO: ok what are the difference between the 2
-                #if defined(_MASKBLEND_ADD)
-                emissionTex += emissionMask;
-                #elif defined(_MASKBLEND_MASKED_ADD)
-                emissionTex += emissionTex * emissionMask;
-                #else
-                emissionTex = lerp(emissionTex, emissionTex * emissionMask, UNITY_ACCESS_INSTANCED_PROP(Props, _EmissionMaskIntensity));
-                #endif
-                #endif
-
-                #if defined(SECONDARY_EMISSION_MASK)
-                #if defined(SECONDARY_UVS_EMISSION_MASK2)
-                float4 emissionMask2 = tex2D(_SecondaryEmissionMask,
-                                             TRANSFORM_TEX(uv2, _SecondaryEmissionMask)
-                                             +
-                                             _SecondaryEmissionMaskSpeed *
-                                             time.yy);
-                #else
-                float4 emissionMask2 = tex2D(_SecondaryEmissionMask,
-                                             TRANSFORM_TEX(i.uv, _SecondaryEmissionMask) +
-                                             _SecondaryEmissionMaskSpeed *
-                                             time.yy);
-                #endif
-                
-
-                #if defined(_SECONDARY_MASKBLEND_ADD)
-                emissionTex += emissionMask2;
-                #elif defined(_SECONDARY_MASKBLEND_MASKED_ADD)
-                emissionTex += emissionTex * emissionMask2;
-                #else
-                emissionTex = lerp(emissionTex, emissionTex * emissionMask2, UNITY_ACCESS_INSTANCED_PROP(Props, _SecondaryEmissionMaskIntensity));
-                #endif
-                #endif
-
-                #endif
-                // Apply brightness to raw sampled values before any color treatment
-                emissionTex.a += UNITY_ACCESS_INSTANCED_PROP(Props, _EmissionBrightness);
-
                 {
                     float4 emissionTexColor = UNITY_ACCESS_INSTANCED_PROP(Props, _EmissionTexColor);
+                    float _eb = UNITY_ACCESS_INSTANCED_PROP(Props, _EmissionBrightness);
                     float4 finalEmission = 0;
 
-                    #if defined(_EMISSIONBLOOMTYPE_PP)
-                    // Matches CUSTOM_BLOOM_PP_APPLY: rgb = rgb * alpha² * multiplier, a = 0
-                    // Use luma as intensity so texture hue doesn't fight emissionTexColor tint
+                    #if USE_EMISSION_TEXTURE
+                    // --- UV setup (matches SimpleLit es0.xy / es0.z time) ---
+                    float2 _esUv = i.uv.xy * _InputUvMultiplier;
+                    float _esTime;
+                    #if defined(DISTORTION_SIMPLE)
                     {
-
-                        finalEmission.rgb = emissionTex.g * emissionTexColor.rgb
-                                          * (emissionTex.a * emissionTex.a)
-                                          * _EmissionTexBloomIntensity
-                                          * emissionTexColor.a;
-                        finalEmission.a = 0;
+                        float2 distortScrollUv = _esUv * _DistortionTex_ST.xy
+                                               + _DistortionTex_ST.zw
+                                               + _DistortionPanning * time.y * 0.1;
+                        float2 distortSample = tex2D(_DistortionTex, distortScrollUv).xy;
+                        _esUv += distortSample * (_DistortionStrength * 0.1) * _DistortionAxes;
+                        _esTime = time.y;
                     }
-
-                    #elif defined(_EMISSIONBLOOMTYPE_FRAG)
-                    {
-                        float emissionG = emissionTex.g; // raw g, unscaled, for whiteboost
-                        float emissionR = emissionTex.r * UNITY_ACCESS_INSTANCED_PROP(Props, _EmissionBrightness);
-                        float bloomRaw = emissionG * emissionG * emissionTexColor.a;
-                        float whiteboost = emissionG * _EmissionTexWhiteBoostMultiplier;
-                        whiteboost = whiteboost * whiteboost * _BaseColorBoost - _BaseColorBoostThreshold;
-                        whiteboost *= emissionTexColor.a;  // fade whiteboost with alpha
-                        finalEmission.rgb = saturate(emissionR * emissionTexColor.rgb * emissionTexColor.a + whiteboost);
-                        finalEmission.a = bloomRaw * 3.5 * _EmissionTexBloomIntensity;
-                    }
-
                     #else
-                    // Flat: straight multiply, no bloom
-                    // Matches CUSTOM_BLOOM_NONE_APPLY: rgb *= alpha, a = 0
-                    finalEmission.rgb = emissionTex.rgb * emissionTexColor.rgb * emissionTexColor.a;
-                    finalEmission.a = 0;
+                    _esTime = time.y;
                     #endif
+
+                    // --- Sample emission texture ---
+                    float4 _esSample;
+                    #if defined(_EMISSIONTEXTURE_FLIPBOOK)
+                    {
+                        float2 flipUv = _esUv;
+                        flipUv.x /= _FlipbookColumns;
+                        flipUv.y /= _FlipbookRows;
+                        float flipbookTime = time.y * _FlipbookSpeed;
+                        flipUv += float2(floor(flipbookTime % _FlipbookColumns) / _FlipbookColumns,
+                                         floor(flipbookTime / _FlipbookColumns) % _FlipbookRows / _FlipbookRows);
+                        _esSample = tex2D(_EmissionTex, TRANSFORM_TEX(flipUv, _EmissionTex));
+                        #if !defined(FLIPBOOK_BLENDING_OFF)
+                        float2 flipUv2 = _esUv;
+                        flipUv2.x /= _FlipbookColumns;
+                        flipUv2.y /= _FlipbookRows;
+                        flipUv2 += float2(floor((flipbookTime + 1) % _FlipbookColumns) / _FlipbookColumns,
+                                          floor((flipbookTime + 1) / _FlipbookColumns) % _FlipbookRows / _FlipbookRows);
+                        _esSample = lerp(_esSample, tex2D(_EmissionTex, TRANSFORM_TEX(flipUv2, _EmissionTex)), flipbookTime % 1);
+                        #endif
+                    }
+                    #elif defined(_EMISSIONTEXTURE_SIMPLE)
+                    {
+                        float2 _esTiled = _esUv * _EmissionTex_ST.xy + _EmissionTex_ST.zw;
+                        _esTiled += _esTime.xx * _EmissionTexSpeed * _EmissionTex_ST.xy;
+                        #if defined(_EMISSION_TEXTURE_SOURCE_SDF)
+                        // -----------------------------------------------------------
+                        // SDF emission: evaluate 3 signed-distance point contributions
+                        // plus a 3D noise modulation. Matches SimpleLit exactly.
+                        // -----------------------------------------------------------
+                        {
+                            // Time scalars: _TimeOffset * float2(0.05, 1.0)
+                            // (freeze path — no _Time.y added, matching SimpleLit)
+                            float4 _sdfTimeOffset = UNITY_ACCESS_INSTANCED_PROP(Props, _TimeOffset);
+                            float2 _sdfT = _sdfTimeOffset.xx * float2(0.05, 1.0);
+
+                            float _sdfAcc  = 0.0;
+                            float _sdfMask = 1.0;
+
+                            for (int _si = 0; _si < 3; _si++)
+                            {
+                                float3 _d  = worldPos - _SDFPointArray[_si].xyz;
+                                float  _r  = dot(_d, _d);
+                                _r = log(_r) * 0.25;
+                                _r = pow(2.0, _r);
+
+                                float _isPos  = _SDFPointArray[_si].w > 0.0;
+                                float _isNeg  = _SDFPointArray[_si].w < 0.0;
+                                // sign: -1 if negative, +1 if positive, 0 if zero
+                                float _sign   = floor(_isNeg - _isPos);
+                                float _intens = (_sign < 0.0) ? _SDFNegativeIntensity : _SDFPointIntensity;
+                                float _contrib = max(abs(_SDFPointArray[_si].w) - _r, 0.0) * _intens;
+
+                                _sdfAcc  += _contrib;
+                                // accumulate occlusion mask only for negative points
+                                float _occ = saturate(-_contrib * _intens + 1.0);
+                                float _useOcc = (_sign >= 0.0) ? 1.0 : _occ;
+                                _sdfMask *= _useOcc;
+                            }
+
+                            // 3D noise modulation
+                            float3 _nCoord = _SDFNoisePanning.xyz * _sdfT.yyy + _SDFNoiseOffset.xyz;
+                            _nCoord = _SDFNoiseScale.xxx * worldPos + _nCoord;
+                            float4 _nSamp  = tex3D(_SDFNoiseTex, _nCoord);
+                            float  _nVal   = _nSamp.x * _SDFNoiseIntensity;
+
+                            // Final value feeds r and g equally
+                            float _sdfVal  = _sdfMask * _sdfAcc + _nVal;
+                            _esSample = float4(_sdfVal, _sdfVal, 0.0, 1.0);
+                        }
+                        #else
+                        _esSample = tex2D(_EmissionTex, _esTiled);
+                        #endif
+                    }
+                    #else
+                    _esSample = tex2D(_EmissionTex, TRANSFORM_TEX(_esUv, _EmissionTex));
+                    #endif
+
+                    // --- _esBright: x = primary (r*brightness), y = whiteboost/mask (g) ---
+                    // Matches SimpleLit line 1296-1297
+                    float2 _esBright;
+                    _esBright.x = _esSample.r * _eb;
+                    _esBright.y = _esSample.g;
+
+                    // --- Layer 2 mask (EMISSION_MASK) ---
+                    // Matches SimpleLit: per-channel lerp-toward-1, applied to _esBright
+                    #if defined(EMISSION_MASK)
+                    {
+                        #if defined(SECONDARY_UVS_EMISSION_MASK) && USE_SECONDARY_UV
+                        float2 _mUv = uv2 * _EmissionMask_ST.xy + _EmissionMask_ST.zw;
+                        #else
+                        float2 _mUv = _esUv * _EmissionMask_ST.xy + _EmissionMask_ST.zw;
+                        #endif
+                        _mUv += _esTime.xx * _EmissionMaskSpeed * _EmissionMask_ST.xy;
+                        float4 _mSamp = tex2D(_EmissionMask, _mUv);
+
+                        float _mInt = UNITY_ACCESS_INSTANCED_PROP(Props, _EmissionMaskIntensity);
+                        float _mInv = 1.0 - _mInt;
+
+                        #if defined(_MASKBLEND_ADD)
+                        _esBright.x += _mSamp.r;
+                        _esBright.y += _mSamp.g;
+                        #elif defined(_MASKBLEND_MASKED_ADD)
+                        _esBright.x += _esBright.x * _mSamp.r;
+                        _esBright.y += _esBright.y * _mSamp.g;
+                        #else
+                        // Multiply blend: lerp mask toward 1 by intensity, then multiply
+                        _esBright.x *= _mSamp.r * _mInt + _mInv;
+                        _esBright.y *= _mSamp.g * _mInt + _mInv;
+                        #endif
+                    }
+                    #endif
+
+                    // --- Layer 3 mask (SECONDARY_EMISSION_MASK) ---
+                    // SimpleLit has no code for this (UI-only), so we mirror same logic as layer 2
+                    #if defined(SECONDARY_EMISSION_MASK)
+                    {
+                        #if defined(SECONDARY_UVS_EMISSION_MASK2) && USE_SECONDARY_UV
+                        float2 _m2Uv = uv2 * _SecondaryEmissionMask_ST.xy + _SecondaryEmissionMask_ST.zw;
+                        #else
+                        float2 _m2Uv = _esUv * _SecondaryEmissionMask_ST.xy + _SecondaryEmissionMask_ST.zw;
+                        #endif
+                        _m2Uv += _esTime.xx * _SecondaryEmissionMaskSpeed * _SecondaryEmissionMask_ST.xy;
+                        float4 _m2Samp = tex2D(_SecondaryEmissionMask, _m2Uv);
+
+                        float _m2Int = UNITY_ACCESS_INSTANCED_PROP(Props, _SecondaryEmissionMaskIntensity);
+                        float _m2Inv = 1.0 - _m2Int;
+
+                        #if defined(_SECONDARY_MASKBLEND_ADD)
+                        _esBright.x += _m2Samp.r;
+                        _esBright.y += _m2Samp.g;
+                        #elif defined(_SECONDARY_MASKBLEND_MASKED_ADD)
+                        _esBright.x += _esBright.x * _m2Samp.r;
+                        _esBright.y += _esBright.y * _m2Samp.g;
+                        #else
+                        _esBright.x *= _m2Samp.r * _m2Int + _m2Inv;
+                        _esBright.y *= _m2Samp.g * _m2Int + _m2Inv;
+                        #endif
+                    }
+                    #endif
+
+                    // --- Apply brightness second time (matches SimpleLit line 1325) ---
+                    _esBright.xy *= _eb;
+
+                    // --- Angle disappear ---
+                    #if defined(EMISSION_ANGLE_DISAPPEAR) && defined(ENABLE_EMISSION_TEXTURE)
+                    {
+                        // angle disappear factor (reuse existing logic if available)
+                    }
+                    #endif
+
+                    // --- Colour treatment ---
+                    #if defined(_EMISSIONBLOOMTYPE_PP)
+                    // MainEffect path — matches SimpleLit _EMISSIONCOLORTYPE_MAINEFFECT
+                    {
+                        float2 _esBrightME = _esBright.xy * _eb;
+                        float3 _emitRGB = _esBrightME.x * emissionTexColor.rgb;
+                        float _wbVal = _esBrightME.y * _esBrightME.y * emissionTexColor.a;
+                        finalEmission.a = _wbVal * 3.5 * _EmissionTexBloomIntensity;
+                        float _wbMult = _wbVal * _EmissionTexWhiteBoostMultiplier;
+                        float _boost = _wbMult * _wbMult * _BaseColorBoost - _BaseColorBoostThreshold;
+                        finalEmission.rgb = saturate(_emitRGB * emissionTexColor.a);
+                    }
+                    #elif defined(_EMISSIONBLOOMTYPE_FRAG)
+                    // Whiteboost path — matches SimpleLit _EMISSIONCOLORTYPE_WHITEBOOST
+                    {
+                        float3 _emitRGB = _esBright.xxx * emissionTexColor.xyz;
+                        float _wbVal = _esBright.y * _esBright.y * emissionTexColor.a;
+                        finalEmission.a = _wbVal * 3.5 * _EmissionTexBloomIntensity;
+                        float _wbMult = _wbVal * _wbVal * _EmissionTexWhiteBoostMultiplier;
+                        float _boost = _wbMult * _wbMult * _BaseColorBoost - _BaseColorBoostThreshold;
+                        finalEmission.rgb = saturate(_emitRGB * emissionTexColor.www + _boost);
+                    }
+                    #elif defined(_EMISSIONBLOOMTYPE_GRADIENT)
+                    // Gradient path — matches SimpleLit _EMISSIONCOLORTYPE_GRADIENT
+                    {
+                        float _gradZ = _EmissionGradientPanningSpeed * _esTime + UNITY_ACCESS_INSTANCED_PROP(Props, _EmissionGradientPosition);
+                        float2 _gradUv = float2(_esSample.g, frac(_gradZ)) * _EmissionGradientTex_ST.xy;
+                        float4 _grad = tex2D(_EmissionGradientTex, _gradUv);
+                        finalEmission.rgb = saturate(_esBright.xxx * _grad.xyz) * _EmissionGradientIntensity * emissionTexColor.a;
+                        finalEmission.a = _EmissionTexBloomIntensity * _EmissionGradientIntensity;
+                    }
+                    #else
+                    // Flat path — matches SimpleLit default (no whiteboost, no gradient)
+                    {
+                        finalEmission.rgb = _esBright.xxx * emissionTexColor.xyz * emissionTexColor.www;
+                        finalEmission.a = _esBright.x * _esBright.x * _EmissionTexBloomIntensity;
+                    }
+                    #endif
+
+                    #elif defined(METAL_SMOOTHNESS_TEXTURE) && defined(_EMISSION_TEXTURE_SOURCE_MPM_G)
+                    // MPM G source — no _esBright path, direct sample
+                    {
+                        float4 _mpmSamp = float4(tex2D(_MetalSmoothnessTex, TRANSFORM_TEX(i.uv, _MetalSmoothnessTex)).ggg, 0);
+                        float esBrightX = _mpmSamp.r * _eb * _eb;
+                        finalEmission.rgb = esBrightX * emissionTexColor.rgb * emissionTexColor.a;
+                        finalEmission.a = esBrightX * esBrightX * _EmissionTexBloomIntensity;
+                    }
+                    #endif // USE_EMISSION_TEXTURE
 
                     albedo += finalEmission;
                 }
-
-                
-
-                #elif USE_EMISSION_GRADIENT_TEXTURE
-                float4 finalEmission = tex2D(_EmissionGradientTex,
-                                             TRANSFORM_TEX(i.uv, _EmissionGradientTex)
-                                             +
-                                             UNITY_ACCESS_INSTANCED_PROP(
-                                                 Props, _EmissionGradientPosition) *
-                                             _EmissionGradientPanningSpeed * time
-                                             .yy) * _EmissionGradientIntensity;
-                albedo += finalEmission;
-
                 #endif
                 
                 

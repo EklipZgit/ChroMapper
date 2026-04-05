@@ -213,6 +213,7 @@
                 }
                 else
                 {
+
                     float t = (i.uv.y - 0.75) / 0.25;
                     #if defined(ALPHA_WIDTH_SCALE)
                     width = alphaWidth.w;
@@ -223,9 +224,10 @@
                 float maxHeight = sizeParams.y + sizeParams.w * 2;
                 float lengthFactor = (height + sizeParams.w) / maxHeight;
                 height -= offset;
-                width *= sizeParams.x;
-
-                i.vertex.x *= width;
+                width *= sizeParams.x*2;
+                float effectiveWidth = lerp(sizeParams.x, width, lengthFactor);
+                i.vertex.z *= effectiveWidth;
+                i.vertex.x /= pow(-(i.vertex.x)*2,2);
                 i.vertex.y = height * length(mul((float3x3)unity_ObjectToWorld, float3(0,1,0)));
 
                 #if defined(Y_AXIS_BILLBOARD)
@@ -239,18 +241,18 @@
 
                 // texcoord1: xy=uv, z=width ratio for perspective-correct UV
                 float uvCentered = i.uv.y - 0.5;
-bool isCap = abs(uvCentered) >= 0.49;
-float uvSign = 0;
-if (uvCentered > 0) uvSign = 1;
-if (uvCentered < 0) uvSign = -1;
-float capOffset = isCap ? 0.0 : ((0.25 - _CapUVSize) * floor(uvSign));
+                bool isCap = abs(uvCentered) >= 0.49;
+                float uvSign = 0;
+                if (uvCentered > 0) uvSign = 1;
+                if (uvCentered < 0) uvSign = -1;
+                float capOffset = isCap ? 0.0 : ((0.25 - _CapUVSize) * floor(uvSign));
 
-o.texcoord1 = float3(i.uv.x, i.uv.y + capOffset, width/ sizeParams.x);
+                o.texcoord1 = float3(i.uv.x, i.uv.y + capOffset, width/ sizeParams.x);
                 o.screenPos = ComputeScreenPosCustom(o.vertex);
 
                 // AlphaStart/AlphaEnd: top half uses AlphaEnd, bottom uses AlphaStart
                 // matches Output4's texcoord5 pattern: (0.5 - sizeParams.z) < height
-                o.alphaFactor = (lengthFactor > 0.5) ? alphaWidth.y : alphaWidth.x;
+                o.alphaFactor = lerp(alphaWidth.x, alphaWidth.y, lengthFactor);
 
                 return o;
             }
@@ -261,13 +263,16 @@ o.texcoord1 = float3(i.uv.x, i.uv.y + capOffset, width/ sizeParams.x);
                 float4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
 
                 // Perspective-correct UV sample
-                float2 adjustedUv = float2(i.texcoord1.x / i.texcoord1.z, i.texcoord1.y);
+                float2 adjustedUv = float2(
+    (i.texcoord1.x - 0.5) / i.texcoord1.z + 0.5, // remap X based on width ratio
+    i.texcoord1.y
+);
 float4 texSample = tex2D(_MainTex, adjustedUv);
 
                 // Cubic alpha from vertex alpha factor * Color.a, then squared with tex alpha
                 // Matches Output4: alpha = (texAlpha^2) * (alphaFactor^3 * Color.w)
                 float texAlpha = texSample.w * texSample.w;
-                float cubicAlpha = i.alphaFactor * i.alphaFactor * i.alphaFactor * color.a;
+                float cubicAlpha = i.alphaFactor * i.alphaFactor * color.a;
                 float alpha = texAlpha * cubicAlpha;
 
                 #if defined(ENABLE_WORLD_NOISE)
@@ -294,8 +299,8 @@ float4 texSample = tex2D(_MainTex, adjustedUv);
 
                 #if defined(_WHITEBOOSTTYPE_ALWAYS) || defined(_WHITEBOOSTTYPE_MAINEFFECT)
                 float boost = alpha * alpha;
-                boost = boost * _WhiteBoostMultiplier;
-                boost = boost * boost;
+                boost *= _WhiteBoostMultiplier;
+                boost *= boost;
                 boost = boost * _BaseColorBoost - _BaseColorBoostThreshold;
                 float4 albedo;
                 albedo.rgb = saturate(color.rgb * alpha + boost);

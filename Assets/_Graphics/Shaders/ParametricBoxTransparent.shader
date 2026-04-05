@@ -7,7 +7,7 @@
 
         [Header(Neon Settings)] [Space]
         _BaseColorBoost ("Base Color Boost", float) = 1
-        _BaseColorBoostThreshold ("Base Color Boost Threshold", float) = 0
+        _BaseColorBoostThreshold ("Base Color Boost Threshold", float) = 0.5
 
         [Space]
         [Toggle(ENABLE_WORLD_NOISE)] _EnableWorldNoise ("Enable World Noise", float) = 0
@@ -150,7 +150,7 @@
 
                 // Cubic alpha ramp matching NeonLight: alpha^3 * Color.w
                 float a = i.alphaFactor;
-                float cubicAlpha = a * a * a * color.a;
+                float cubicAlpha = pow(a,3) * color.a;
 
                 #if defined(ENABLE_WORLD_NOISE)
                 // Sample 3D worldspace noise to modulate alpha (from NeonLight)
@@ -168,7 +168,7 @@
                 // BaseColorBoost: bright emissive white push matching NeonLight
                 float boost = alpha2 * alpha2 * _BaseColorBoost - _BaseColorBoostThreshold;
                 float4 albedo;
-                albedo.rgb = saturate(color.rgb * cubicAlpha + boost);
+                albedo.rgb = saturate(color.rgb * cubicAlpha);
                 albedo.a = cubicAlpha;
 
                 #if defined(BLOOM_FOG)

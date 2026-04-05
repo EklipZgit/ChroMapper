@@ -195,13 +195,13 @@
             #pragma fragment frag
             #pragma multi_compile_instancing
 
-            #pragma shader_feature_local_fragment SECONDARY_COLOR
+            #pragma shader_feature_local SECONDARY_COLOR
 
-            #pragma shader_feature_local_fragment COLOR_GRADIENT
+            #pragma shader_feature_local COLOR_GRADIENT
 
             #pragma shader_feature_local_fragment SPECTROGRAM_COLOR
 
-            #pragma shader_feature_local_fragment COLOR_ARRAY
+            #pragma shader_feature_local COLOR_ARRAY
 
             #pragma shader_feature_local _ _SECONDARY_UVS_IMPORT
 
@@ -217,7 +217,7 @@
             #pragma shader_feature_local_vertex _ _CURVE_VERTICES_AROUND_X _CURVE_VERTICES_AROUND_Y _CURVE_VERTICES_AROUND_Z
             #pragma shader_feature_local_vertex MESH_PACKING
 
-            #pragma shader_feature_local_fragment MAIN_TEXTURE
+            #pragma shader_feature_local MAIN_TEXTURE
 
             #pragma shader_feature_local_fragment PIXELATE
 
@@ -229,15 +229,15 @@
             #pragma shader_feature_local_fragment TEXTURE_FLIPBOOK
             #pragma shader_feature_local_fragment FLIPBOOK_BLENDING_OFF
 
-            #pragma shader_feature_local_fragment MASK
-            #pragma shader_feature_local_fragment SECONDARY_UVS_MASK
-            #pragma shader_feature_local_fragment MASK_RED_IS_ALPHA
-            #pragma shader_feature_local_fragment _ _MASKBLEND_ADD _MASKBLEND_MASKED_ADD
+            #pragma shader_feature_local MASK
+            #pragma shader_feature_local SECONDARY_UVS_MASK
+            #pragma shader_feature_local MASK_RED_IS_ALPHA
+            #pragma shader_feature_local _ _MASKBLEND_ADD _MASKBLEND_MASKED_ADD
 
-            #pragma shader_feature_local_fragment MASK2
-            #pragma shader_feature_local_fragment SECONDARY_UVS_MASK2
-            #pragma shader_feature_local_fragment MASK2_RED_IS_ALPHA
-            #pragma shader_feature_local_fragment _ _MASK2BLEND_ADD _MASK2BLEND_MASKED_ADD
+            #pragma shader_feature_local MASK2
+            #pragma shader_feature_local SECONDARY_UVS_MASK2
+            #pragma shader_feature_local MASK2_RED_IS_ALPHA
+            #pragma shader_feature_local _ _MASK2BLEND_ADD _MASK2BLEND_MASKED_ADD
 
             #pragma shader_feature_local _ _DISTORTION_SIMPLE
 
@@ -256,7 +256,7 @@
             #pragma shader_feature_local_fragment HEIGHT_FOG
 
             #pragma multi_compile_fragment _ BLOOM_FOG
-            #define FOG defined(BLOOM_FOG) && (defined(_FOGTYPE_LERP) || defined(_FOGTYPE_COLOR) || defined(_FOGTYPE_ALPHA))
+            #define FOG defined(_FOGTYPE_LERP) || defined(_FOGTYPE_COLOR) || defined(_FOGTYPE_ALPHA)
 
             #include "UnityCG.cginc"
             #include "ShaderLibrary/BloomFog.hlsl"
@@ -316,6 +316,13 @@
 
             float _Intensity;
             float4 _UvPanning;
+
+            // COLOR_ARRAY
+            #if defined(COLOR_ARRAY)
+            float4 _ColorsArray[150];
+            float _ColorsArrayOffset;
+            #endif
+            // --
 
             // CUSTOM_WRAPPING
             float2 _CustomPadding;
@@ -447,6 +454,10 @@
                 float2 distortionUv : TEXCOORD3;
                 #endif
 
+                #if defined(COLOR_ARRAY)
+                float2 colorIndexUv : TEXCOORD4;
+                #endif
+
                 UNITY_VERTEX_INPUT_INSTANCE_ID
                 UNITY_VERTEX_OUTPUT_STEREO
             };
@@ -468,10 +479,14 @@
 
                 // TODO: figure out what's the difference between the 2
                 #if defined(_BILLBOARD_CAMERA_FACING) || defined(_BILLBOARD_FULL)
-                float3 viewPos = mul(UNITY_MATRIX_V, float4(worldOrigin, 1)).xyz;
-                float3 billboardPos = viewPos + i.vertex.xyz * _BillboardScale;
-                o.worldPos = billboardPos;
-                o.vertex = mul(UNITY_MATRIX_P, float4(billboardPos, 1));
+                // Transform only the object origin to view space (not the vertex)
+                float4 viewOrigin = mul(UNITY_MATRIX_V, float4(worldOrigin, 1));
+                // Only offset XY in view space — zero Z so depth stays anchored at the object origin.
+                // Use vertex.xy only (ignore Z), and scale uniformly via _BillboardScale scalar.
+                float4 billboardViewPos = viewOrigin + float4(i.vertex.xy * _BillboardScale, 0.0, 0.0);
+                // Store real world-space position (from the unmodified vertex) for fog/lighting in frag.
+                o.worldPos = mul(unity_ObjectToWorld, i.vertex).xyz;
+                o.vertex = mul(UNITY_MATRIX_P, billboardViewPos);
                 #endif
 
                 #if defined(_BILLBOARD_Y_AXIS)
@@ -569,6 +584,23 @@
                 o.vertex.xyz = packingCull ? float3(0.0, 0.0, 0.0) : o.vertex.xyz;
                 #endif
 
+                #if defined(COLOR_ARRAY)
+                o.colorIndexUv.x = i.colorIndexUv.x;
+                o.colorIndexUv.y = i.colorIndexUv.y + _ColorsArrayOffset;
+                #endif
+
+                /**
+                float rawId = UNITY_ACCESS_INSTANCED_PROP (Props, _MeshPackingId);
+                float meshPackingId = fmod (rawId, 10.0) ;
+                float meshSubId = floor ((rawId + 0.001) / 10.0) ;
+                #if defined (MESH_PACKING)
+                float packingCull = (abs (i.packingUv.y - meshPackingId) > 0.1) ||
+                (abs (i.packingUv.x - meshSubId) > 0.1) ;
+                o.vertex.xyz = packingCull ? float3(0.0, 0.0, 0.0) : o.vertex.xyz;
+                #endif
+                **/
+
+
                 return o;
             }
 
@@ -587,6 +619,10 @@
 
                 #if defined(VERTEX_COLOR)
                 float4 color = i.color;
+                #elif defined(COLOR_ARRAY)
+                // Decode packed index: tens digit in x, units digit in y (with offset applied in vert)
+                float _colorIdx = round(i.colorIndexUv.x * 10.0 + i.colorIndexUv.y);
+                float4 color = _ColorsArray[_colorIdx];
                 #else
                 float4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color) * _RendererColor;
                 #endif
@@ -719,12 +755,37 @@
                 ACES_TONE_MAPPING_APPLY(albedo);
 
                 #if FOG
-                #if defined(HEIGHT_FOG)
-                BLOOM_FOG_HEIGHT_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset,
-                                       _FogHeightScale);
-                #else
-                BLOOM_FOG_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale);
-                #endif
+                {
+                    float _fogFactor = 1.0;
+
+                    #if defined(HEIGHT_FOG)
+                    {
+                        // Exact CustomParticles formula
+                        float _hf = i.worldPos.y * _FogHeightScale + _FogHeightOffset;
+                        _hf = _hf - (_CustomFogHeightFogHeight + _CustomFogHeightFogStartY);
+                        _hf = saturate(_hf / _CustomFogHeightFogHeight);
+                        float _hfSq = _hf * _hf;
+                        _hf = -_hf * 2.0 + 3.0;
+                        _hf = -_hfSq * _hf + 1.0; // smoothstep: 1=bottom(fogged), 0=top(clear)
+                        _fogFactor = 1.0 - _hf;    // invert: 0=bottom(fade), 1=top(visible)
+                    }
+                    #else
+                    // Distance-only fog when height fog is off
+                    {
+                        float3 _toFrag = i.worldPos.xyz - _WorldSpaceCameraPos;
+                        float _distSq  = max(dot(_toFrag, _toFrag) - _FogStartOffset, 0.0);
+                        _fogFactor = 1.0 / (_distSq * _FogScale + 1.0);
+                    }
+                    #endif
+
+                    #if defined(_FOGTYPE_ALPHA)
+                    albedo *= _fogFactor;
+                    #elif defined(_FOGTYPE_COLOR)
+                    albedo.rgb *= _fogFactor;
+                    #else
+                    albedo *= _fogFactor;
+                    #endif
+                }
                 #endif
 
                 return albedo;

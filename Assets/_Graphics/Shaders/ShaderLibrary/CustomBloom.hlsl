@@ -12,7 +12,7 @@
 
 #define CUSTOM_BLOOM_PP_APPLY(color, multiplier) \
     color.rgb = (color.rgb * pow(color.a,2) * multiplier);\
-    color.a = 0;
+    color.a *= 0;
     
 
 #define CUSTOM_BLOOM_FRAG_APPLY(color, multiplier) \
