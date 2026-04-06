@@ -57921,7 +57921,7 @@ PrefabInstance:
     - target: {fileID: 2031430479489877711, guid: b9c90f90d2774a745b8640678e8f78df,
         type: 3}
       propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
-      value: 616901396273004544
+      value: 617996906622844928
       objectReference: {fileID: 0}
     - target: {fileID: 2031430479489877711, guid: b9c90f90d2774a745b8640678e8f78df,
         type: 3}
@@ -77297,7 +77297,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1528252178120670092}
   m_Direction: 2
   m_Value: 0.9999999
-  m_Size: 0.4939394
+  m_Size: 0.49393934
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

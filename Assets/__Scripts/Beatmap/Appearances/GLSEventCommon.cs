@@ -1,11 +1,29 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
+using Beatmap.Appearances;
 using Beatmap.Base;
 using Beatmap.Enums;
+using UnityEngine;
 
 public static class GLSEventCommon
 {
+    public static Color GetColor(BaseLightColorBase evt, bool boost, EventAppearanceSO eventAppearance)
+    {
+        var color = evt.Color == (int)LightColor.Red
+            ? boost ? eventAppearance.RedBoostColor : eventAppearance.RedColor
+            : evt.Color == (int)LightColor.Blue
+                ? boost ? eventAppearance.BlueBoostColor : eventAppearance.BlueColor
+                : boost
+                    ? eventAppearance.WhiteBoostColor
+                    : eventAppearance.WhiteColor;
+
+        var clampedOffColor = Color.Lerp(eventAppearance.OffColor, color, 0.25f);
+        color = Color.Lerp(clampedOffColor, color, evt.Brightness);
+
+        return color;
+    }
+
     public static string GetColorInfo(BaseLightColorBase evt)
     {
         var sb = new StringBuilder();

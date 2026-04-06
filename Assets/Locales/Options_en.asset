@@ -1548,6 +1548,10 @@ MonoBehaviour:
     m_Localized: Displays information on the note, arc and chain.
     m_Metadata:
       m_Items: []
+  - m_Id: 617996906622844928
+    m_Localized: Display Note Text
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

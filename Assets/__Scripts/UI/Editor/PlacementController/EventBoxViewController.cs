@@ -290,13 +290,13 @@ public class EventBoxViewController : MonoBehaviour
     private void HandleEventBoxChanged(BaseEventBoxGroup group, BaseEventBox box)
     {
         var boxes = group.ReadOnlyBoxes;
-        var count = GetGroupSize(group);
+        var groupSize = GetGroupSize(group);
 
         foreach (var t in instantiatedErrorText) Destroy(t);
         instantiatedErrorText.Clear();
 
         int i;
-        for (i = 0; i < count; i++)
+        for (i = 0; i < groupSize; i++)
         {
             Image idImage;
             if (i >= instantiatedIdImage.Count)
@@ -317,7 +317,7 @@ public class EventBoxViewController : MonoBehaviour
         var currentBoxPassed = false;
         foreach (var (b, x) in boxes.Select((b, x) => (b, x)).Where(b => b.b.GetAxis() == box.GetAxis()))
         {
-            var ifh = IndexFilterHelper.Convert(b.IndexFilter, count);
+            var ifh = IndexFilterHelper.Convert(b.IndexFilter, groupSize);
             if (ifh == null)
             {
                 if (instantiatedErrorText.Count > 10) continue;
@@ -331,7 +331,7 @@ public class EventBoxViewController : MonoBehaviour
             if (b == box) currentBoxPassed = true;
             foreach (var (element, _, _) in ifh)
             {
-                if (0 > element && element >= instantiatedIdTab.Count)
+                if (0 > element || element >= groupSize)
                 {
                     if (instantiatedErrorText.Count > 10) continue;
                     var t = Instantiate(errorTextPrefab, errorTextTargetTransform);
@@ -358,11 +358,11 @@ public class EventBoxViewController : MonoBehaviour
 
         inputContainer.SetActive(true);
 
-        var locIfh = IndexFilterHelper.Convert(box.IndexFilter, count);
+        var locIfh = IndexFilterHelper.Convert(box.IndexFilter, groupSize);
         filteredIdText.SetValueWithoutNotify(
             locIfh != null
-                ? $"{count}  |  {locIfh.Count}  |  {locIfh.VisibleCount}"
-                : $"{count}  |  0  |  0");
+                ? $"{groupSize}  |  {locIfh.Count}  |  {locIfh.VisibleCount}"
+                : $"{groupSize}  |  0  |  0");
 
         beatDistributionWaveToggle.SetValueWithoutNotify(box.BeatDistributionType == (int)DistributionType.Wave);
         beatDistributionStepToggle.SetValueWithoutNotify(box.BeatDistributionType == (int)DistributionType.Step);

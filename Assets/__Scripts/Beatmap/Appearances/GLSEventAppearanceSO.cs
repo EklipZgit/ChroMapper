@@ -30,13 +30,7 @@ namespace Beatmap.Appearances
                     {
                         container.MpbController.Mpb.SetColor(
                             colorId,
-                            colorEvt.Color == (int)LightColor.Red
-                                ? boost ? eventAppearance.RedBoostColor : eventAppearance.RedColor
-                                : colorEvt.Color == (int)LightColor.Blue
-                                    ? boost ? eventAppearance.BlueBoostColor : eventAppearance.BlueColor
-                                    : boost
-                                        ? eventAppearance.WhiteBoostColor
-                                        : eventAppearance.WhiteColor);
+                            GLSEventCommon.GetColor(colorEvt, boost, eventAppearance));
                         container.SetText(GLSEventCommon.GetColorInfo(colorEvt));
                         container.SetText(true);
                     }
