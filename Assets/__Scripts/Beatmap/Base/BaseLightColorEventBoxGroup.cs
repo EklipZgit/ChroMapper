@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Beatmap.Enums;
+using Beatmap.Helper;
 using Beatmap.V3;
 using Beatmap.V4;
 using SimpleJSON;
@@ -41,6 +42,8 @@ namespace Beatmap.Base
             }
         }
 
+        public BaseLightColorEventBoxGroup(JSONNode node) : this(BeatmapFactory.LightColorEventBoxGroups(node)) { }
+        
         public override void SetMap(BaseDifficulty map = null)
         {
             base.SetMap(map);

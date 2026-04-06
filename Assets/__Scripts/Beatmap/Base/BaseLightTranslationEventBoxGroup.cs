@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Beatmap.Enums;
+using Beatmap.Helper;
 using Beatmap.V3;
 using SimpleJSON;
 
@@ -38,6 +39,8 @@ namespace Beatmap.Base
                 }
             }
         }
+
+        public BaseLightTranslationEventBoxGroup(JSONNode node) : this(BeatmapFactory.LightTranslationEventBoxGroups(node)) { }
 
         public override void SetMap(BaseDifficulty map = null)
         {
