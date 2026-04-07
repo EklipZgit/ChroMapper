@@ -28,6 +28,6 @@ public class FloatSDFPointScaleEffect : FxTarget
 
 	private void Scale(float value)
 	{
-		_colorPoints.sqrtRadius = _startScale * Mathf.Clamp(value, _valueBounds.x, _valueBounds.y);
+		_colorPoints.SqrtRadius = _startScale * Mathf.Clamp(value, _valueBounds.x, _valueBounds.y);
 	}
 }
