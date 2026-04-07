@@ -82836,7 +82836,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1049026554}
   - component: {fileID: 1049026556}
-  - component: {fileID: 1049026555}
+  - component: {fileID: 1049026557}
   m_Layer: 0
   m_Name: ColorPoint01
   m_TagString: Untagged
@@ -82859,20 +82859,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1140493371}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1049026555
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1049026553}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5b0c679c39a8427a8416241104727e9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _colorPoints: {fileID: 1049026556}
-  _valueBounds: {x: 1, y: 10}
 --- !u!114 &1049026556
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -82886,6 +82872,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Radius: 1
+--- !u!114 &1049026557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1049026553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 618046b31bb94cde9c0ad8c853a3567b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ColorPoints: {fileID: 1049026556}
+  ValueBounds: {x: 1, y: 10}
 --- !u!1 &1049141128
 GameObject:
   m_ObjectHideFlags: 0
@@ -108962,11 +108962,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1293605797}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5b0c679c39a8427a8416241104727e9, type: 3}
+  m_Script: {fileID: 11500000, guid: 618046b31bb94cde9c0ad8c853a3567b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _colorPoints: {fileID: 1293605800}
-  _valueBounds: {x: 1, y: 10}
+  ColorPoints: {fileID: 1293605800}
+  ValueBounds: {x: 1, y: 10}
 --- !u!114 &1293605800
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -145922,11 +145922,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1750776786}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5b0c679c39a8427a8416241104727e9, type: 3}
+  m_Script: {fileID: 11500000, guid: 618046b31bb94cde9c0ad8c853a3567b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _colorPoints: {fileID: 1750776789}
-  _valueBounds: {x: 1, y: 10}
+  ColorPoints: {fileID: 1750776789}
+  ValueBounds: {x: 1, y: 10}
 --- !u!114 &1750776789
 MonoBehaviour:
   m_ObjectHideFlags: 0
