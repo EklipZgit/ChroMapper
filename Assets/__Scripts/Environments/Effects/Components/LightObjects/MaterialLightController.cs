@@ -31,7 +31,7 @@ public class MaterialLightController : LightController
         if (SetAlphaOnly)
             adjustedColor.a = color.a;
         else
-            adjustedColor = (AlphaIntoColor ? new Color(color.a, color.a, color.a) : color);
+            adjustedColor = AlphaIntoColor ? new Color(color.a, color.a, color.a) : color;
 
         if (SetColorOnly) adjustedColor.a = Alpha;
 

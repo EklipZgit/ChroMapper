@@ -74,4 +74,5 @@ public static class ConvertUtils
 
     public static Vector2 ToVector2(float[] ary) => new(ary[0], ary[1]);
     public static Vector4 ToVector4(float[] ary) => new(ary[0], ary[1], ary[2], ary[3]);
+    public static Color ToColor(float[] ary) => new(ary[0], ary[1], ary[2], ary[3]);
 }

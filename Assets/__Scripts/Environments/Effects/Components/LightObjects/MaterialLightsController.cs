@@ -30,7 +30,7 @@ public class MaterialLightsController : CombinedLightsController
         if (SetAlphaOnly)
             Color.a = Color.a;
         else
-            Color = (AlphaIntoColor ? new Color(Color.a, Color.a, Color.a) : Color);
+            Color = AlphaIntoColor ? new Color(Color.a, Color.a, Color.a) : Color;
         if (SetColorOnly) Color.a = alpha;
         mpb.Clear();
         mpb.SetColor(propertyId, Color);

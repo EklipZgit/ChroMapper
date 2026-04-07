@@ -67,6 +67,7 @@ public class EnvDataObject
         public MaterialPropertyBlockControllerComponent[]? MaterialPropertyBlockController;
         public MaterialPropertyBlockColorSetterComponent[]? MaterialPropertyBlockColorSetter;
         public MaterialPropertyBlockPositionUpdaterComponent[]? MaterialPropertyBlockPositionUpdater;
+        public MaterialPropertyValuesSetterComponent[]? MaterialPropertyValuesSetter;
 
         // FX
         public AlphaFloatFxGroupEffectTargetComponent[]? AlphaFloatFxGroupEffectTarget;
@@ -75,16 +76,24 @@ public class EnvDataObject
         public FloatFxGroupEffectCollectionTargetComponent[]? FloatFxGroupEffectCollectionTarget;
         public FloatLocalScaleEffectComponent[]? FloatLocalScaleEffect;
         public FloatMaterialPropertyEffectTargetComponent[]? FloatMaterialPropertyEffectTarget;
+        public FloatSDFPointScaleEffectComponent[]? FloatSDFPointScaleEffect;
         public MoveInDirectionEffectComponent[]? MoveInDirectionEffect;
 
         public Parametric3SliceSpriteWidthEndFloatFxEffectTargetComponent[]?
             Parametric3SliceSpriteWidthEndFloatFxEffectTarget;
 
+        public SpectrogramMultiplierFloatFxEffectTargetComponent[]? SpectrogramMultiplierFloatFxEffectTarget;
         public StepFloatMaterialEffectTargetComponent[]? StepFloatMaterialEffectTarget;
         public SwitchGameObjectArrayEffectTargetComponent[]? SwitchGameObjectArrayEffectTarget;
         public SwitchGameObjectEffectTargetComponent[]? SwitchGameObjectEffectTarget;
+        public VertexDisplacementFloatFxGroupEffectTargetComponent[]? VertexDisplacementFloatFxGroupEffectTarget;
 
         // Others
+        public SDFPointComponent[]? SDFPoint;
+        public SDFArrayManagerComponent[]? SDFArrayManager;
+        public SpectrogramComponent[]? Spectrogram;
+        public SpectrogramRowPropertyAnimatorComponent[]? SpectrogramRowPropertyAnimator;
+        public TransformSpectrogramComponent[]? TransformSpectrogram;
         public LightWithIdManagerComponent[]? LightWithIdManager;
         public RectangleFakeGlowComponent[]? RectangleFakeGlow;
         public TubeBloomPrePassLightCollisionComponent[]? TubeBloomPrePassLightCollisionEffect;
