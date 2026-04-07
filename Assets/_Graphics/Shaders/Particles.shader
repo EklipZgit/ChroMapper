@@ -550,11 +550,18 @@
                 o.worldPos = mul(unity_ObjectToWorld, o.vertex).xyz;
                 o.vertex = UnityObjectToClipPos(o.vertex);
                 #endif
+                #if !defined(VERTEX_DISPLACEMENT)
+                float4 time = GET_TIME(UNITY_ACCESS_INSTANCED_PROP(Props, _TimeOffset)) / 2;
+                #endif
+                #if defined(MAIN_TEXTURE)
+                {
+                    float2 panOffset = time.y * _UvPanning.xy * _MainTex_ST.xy;
+                    o.uv.xy = i.uv1.xy * _MainTex_ST.xy + _MainTex_ST.zw + panOffset;
+                }
+                #else
                 o.uv.xy = i.uv1.xy;
+                #endif
                 #if defined(_DISTORTION_SIMPLE)
-                    #if !defined(VERTEX_DISPLACEMENT)
-                    float4 time = GET_TIME(UNITY_ACCESS_INSTANCED_PROP(Props, _TimeOffset)) / 2;
-                    #endif
                     float2 distortionPanOffset = time.y * _DistortionPanning * _DistortionTex_ST.xy;
                     o.distortionUv = i.uv1.xy * _DistortionTex_ST.xy + _DistortionTex_ST.zw
                                      + distortionPanOffset * 0.1;
@@ -625,6 +632,7 @@
                 float4 color = _ColorsArray[_colorIdx];
                 #else
                 float4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color) * _RendererColor;
+                color.rgb *= _Intensity;
                 #endif
 
                 #if !defined(TEXTURE_FLIPBOOK) && defined(TEXTURE_COLOR)
@@ -657,15 +665,25 @@
                 // TODO: honestly, how does this work
                 #if defined(CUSTOM_WRAPPING)
                 #endif
-                #if !defined(TEXTURE_COLOR)
+                #if defined(TEXTURE_COLOR)
+                // Sample full RGBA — RGB multiplies into color, alpha drives transparency
+                float2 _texUv = i.uv.xy;
+                float4 _texSample = tex2D(_MainTex, _texUv) * _BaseLayer;
+                albedo.rgb *= _texSample.rgb;
                 #if defined(_ALPHACHANNEL_RED)
-                    albedo.a *= tex2D(_MainTex, TRANSFORM_TEX(uv, _MainTex) + _UvPanning * time.yy).r * _BaseLayer;
+                albedo.a *= _texSample.r;
                 #else
-                    albedo *= tex2D(_MainTex, TRANSFORM_TEX(uv, _MainTex) + _UvPanning * time.yy).a * _BaseLayer;
+                albedo.a *= _texSample.a;
+                #endif
+                #else
+                // Non-texture-color: only alpha channel drives transparency
+                #if defined(_ALPHACHANNEL_RED)
+                    albedo.a *= tex2D(_MainTex, i.uv.xy).r * _BaseLayer;
+                #else
+                    albedo *= tex2D(_MainTex, i.uv.xy).a * _BaseLayer;
                 #endif
                 #endif
                 #endif
-                albedo.rgb *= _Intensity;
 
                 #if defined(SECONDARY_COLOR)
                 float4 secondaryColorTex = tex2D(_SecondaryColorTex, TRANSFORM_TEX(i.uv, _SecondaryColorTex) + _SecondaryColorPanning * time.yy);
@@ -682,12 +700,12 @@
 
                 #if defined(MASK)
                 #if defined(SECONDARY_UVS_MASK)
-                float2 maskUv = i.uv.xy;
-                #else
                 float2 maskUv = uv2.xy;
+                #else
+                float2 maskUv = i.uv.xy;
                 #endif
-                float4 mask = tex2D(_MaskTex, TRANSFORM_TEX(maskUv, _MaskTex) + _MaskPanning * time.yy) *
-                    UNITY_ACCESS_INSTANCED_PROP(Props, _MaskStrength);
+                float4 _maskSample = tex2D(_MaskTex, TRANSFORM_TEX(maskUv, _MaskTex) + _MaskPanning * time.yy);
+                float4 mask = lerp(float4(1,1,1,1), _maskSample, UNITY_ACCESS_INSTANCED_PROP(Props, _MaskStrength));
                 #if defined(MASK_RED_IS_ALPHA)
                 mask.a = mask.r;
                 mask.rgb = 0;
@@ -709,12 +727,12 @@
 
                 #if defined(MASK2)
                 #if defined(SECONDARY_UVS_MASK2)
-                float2 mask2Uv = i.uv.xy;
-                #else
                 float2 mask2Uv = uv2.xy;
+                #else
+                float2 mask2Uv = i.uv.xy;
                 #endif
-                float4 mask2 = tex2D(_Mask2Tex, TRANSFORM_TEX(mask2Uv, _Mask2Tex) + _Mask2Panning * time.yy) *
-                    UNITY_ACCESS_INSTANCED_PROP(Props, _Mask2Strength);
+                float4 _mask2Sample = tex2D(_Mask2Tex, TRANSFORM_TEX(mask2Uv, _Mask2Tex) + _Mask2Panning * time.yy);
+                float4 mask2 = lerp(float4(1,1,1,1), _mask2Sample, UNITY_ACCESS_INSTANCED_PROP(Props, _Mask2Strength));
                 #if defined(MASK2_RED_IS_ALPHA)
                 mask2.a = mask2.r;
                 mask2.rgb = 1;

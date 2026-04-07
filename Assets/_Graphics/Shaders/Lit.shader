@@ -654,14 +654,14 @@
                     #   if defined(DISPLACEMENT_BIDIRECTIONAL)
                     dispDir = dispDir * 2.0 - 1.0;
                     #   endif
-                    dispDir = dispDir * _DisplacementAxisMultiplier.xyz;
+                    dispDir *= _DisplacementAxisMultiplier.xyz;
                     #else
                     // Default: displace along vertex normal, magnitude from blue channel
                     dispDir = i.normal * i.color.b;
                     #   if defined(DISPLACEMENT_BIDIRECTIONAL)
                     dispDir = dispDir * 2.0 - 1.0;
                     #   endif
-                    dispDir = dispDir * _DisplacementAxisMultiplier.xyz;
+                    dispDir *= _DisplacementAxisMultiplier.xyz;
                     #endif
 
                     float spectrogramScale = 1.0;
