@@ -16,6 +16,13 @@ public class
     [SerializeField] public bool Trigger;
 
     [SerializeField] private List<FxEntry> fxEntries = new();
+
+    /// <summary>
+    /// Root GameObject to search for FxTarget components when auto-populating fxEntries.
+    /// Assign in the Inspector, then click "Populate Fx Entries from Auto Register Root".
+    /// </summary>
+    [SerializeField] public GameObject autoRegisterRoot;
+
     private FloatFxGroupContainer[] idToContainer = Array.Empty<FloatFxGroupContainer>();
     private FloatFxGroupContainer[] activeContainers = Array.Empty<FloatFxGroupContainer>();
 
@@ -29,6 +36,33 @@ public class
     }
 
     public void Unregister(int id) => fxEntries.Remove(fxEntries.Find(e => e.ID == id));
+
+    /// <summary>
+    /// Clears fxEntries and rebuilds them from all FxTarget components found under
+    /// autoRegisterRoot, assigning IDs 0, 1, 2... in depth-first (hierarchy) order.
+    /// </summary>
+    public void PopulateFxEntriesFromRoot()
+    {
+        if (autoRegisterRoot == null)
+        {
+            Debug.LogWarning($"[FloatFxGroupEffect] autoRegisterRoot is not set on {gameObject.name}.");
+            return;
+        }
+
+        var targets = autoRegisterRoot.GetComponentsInChildren<FxTarget>(includeInactive: true);
+
+        fxEntries.Clear();
+        for (var i = 0; i < targets.Length; i++)
+        {
+            fxEntries.Add(new FxEntry
+            {
+                ID = i,
+                Targets = new List<FxTarget> { targets[i] }
+            });
+        }
+
+        Debug.Log($"[FloatFxGroupEffect] Populated {targets.Length} FxTargets on {gameObject.name}.");
+    }
 
     public override void Initialize()
     {
@@ -200,15 +234,15 @@ public class
             .Box
             .Events
             .Select((x, i) =>
-                {
-                    var affected = !(i == 0 && state.Box.VfxAffectFirst != 1);
-                    var d = new FloatFxEventStateData(
-                        x,
-                        (float)BeatSaberSongContainer.Instance.Map.JsonTimeToSongBpmTime(
-                            state.Base.JsonTime + x.RelativeJsonTime + (state.DurationOrder * state.BeatStep)),
-                        affected ? distributionOffset : 0f);
-                    return d;
-                }
+            {
+                var affected = !(i == 0 && state.Box.VfxAffectFirst != 1);
+                var d = new FloatFxEventStateData(
+                    x,
+                    (float)BeatSaberSongContainer.Instance.Map.JsonTimeToSongBpmTime(
+                        state.Base.JsonTime + x.RelativeJsonTime + (state.DurationOrder * state.BeatStep)),
+                    affected ? distributionOffset : 0f);
+                return d;
+            }
             )
             .Where(x => state.Base.JsonTime + x.Base.RelativeJsonTime + (state.DurationOrder * state.BeatStep)
                 <= maxRelativeJsonTime)
@@ -262,3 +296,36 @@ public class FxEntry
     public int ID;
     public List<FxTarget> Targets;
 }
+
+#if UNITY_EDITOR
+namespace FloatFxGroupEffectEditor_NS
+{
+    using UnityEditor;
+
+    [CustomEditor(typeof(FloatFxGroupEffect))]
+    public class FloatFxGroupEffectEditor : Editor
+    {
+        public override void OnInspectorGUI()
+        {
+            DrawDefaultInspector();
+
+            EditorGUILayout.Space();
+            EditorGUILayout.LabelField("Auto-Register", EditorStyles.boldLabel);
+
+            var effect = (FloatFxGroupEffect)target;
+
+            EditorGUI.BeginDisabledGroup(effect.autoRegisterRoot == null);
+            if (GUILayout.Button("Populate Fx Entries from Auto Register Root"))
+            {
+                Undo.RecordObject(effect, "Populate Fx Entries");
+                effect.PopulateFxEntriesFromRoot();
+                EditorUtility.SetDirty(effect);
+            }
+            EditorGUI.EndDisabledGroup();
+
+            if (effect.autoRegisterRoot == null)
+                EditorGUILayout.HelpBox("Assign a GameObject to 'Auto Register Root' to enable population.", MessageType.Info);
+        }
+    }
+}
+#endif

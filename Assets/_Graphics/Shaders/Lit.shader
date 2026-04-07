@@ -1150,7 +1150,7 @@
                             float3 _nCoord = _SDFNoisePanning.xyz * _sdfT.yyy + _SDFNoiseOffset.xyz;
                             _nCoord = _SDFNoiseScale.xxx * worldPos + _nCoord;
                             float4 _nSamp  = tex3D(_SDFNoiseTex, _nCoord);
-                            float  _nVal   = _nSamp.x * _SDFNoiseIntensity;
+                            float  _nVal   = _nSamp.y * _SDFNoiseIntensity;
 
                             // Final value feeds r and g equally
                             float _sdfVal  = _sdfMask * _sdfAcc + _nVal;
