@@ -8041,10 +8041,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Atsc: {fileID: 570484802}
+  AudioLink: {fileID: 764321449}
   EnvironmentList: {fileID: 11400000, guid: 542d7c0317251fc5f9eefa120ff30f3c, type: 2}
   Descriptor: {fileID: 0}
   ColorScheme: {fileID: 0}
-  TracksDefinition: {fileID: 0}
+  TrackDefinitions: {fileID: 0}
 --- !u!1 &132005243
 GameObject:
   m_ObjectHideFlags: 0
@@ -38064,6 +38065,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8c1f201f848804f42aa401d0647f8902, type: 3}
+--- !u!114 &764321449 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2439678698260312388, guid: 8c1f201f848804f42aa401d0647f8902,
+    type: 3}
+  m_PrefabInstance: {fileID: 764321448}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa856f4528fc71343ae13d211071a669, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &769235132
 GameObject:
   m_ObjectHideFlags: 0
@@ -97052,7 +97065,7 @@ Transform:
   m_GameObject: {fileID: 1927255075}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.8, y: 0.55, z: 1}
+  m_LocalPosition: {x: -3.6000001, y: 0.55, z: 1}
   m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -104476,7 +104489,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 20, y: -0.00021362305}
+  m_AnchoredPosition: {x: 20, y: -0.0016479492}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &2122688343

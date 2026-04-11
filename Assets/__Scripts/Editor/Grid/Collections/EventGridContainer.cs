@@ -88,7 +88,7 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
             gridLane.Lane =
                 value != PropMode.Off
                     ? propagationLength + 1
-                    : BeatmapContext.TracksDefinition.Basic.Count;
+                    : BeatmapContext.TrackDefinitions.Basic.Count;
             EventTypePropagationSize = propagationLength;
             UpdatePropagationMode();
         }
@@ -185,7 +185,7 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
             {
                 AllBpmEvents.Remove(e);
             }
-            else if (BeatmapContext.TracksDefinition.GetBasicOrDefault(e.Type).Kind == BasicEventKind.Lights
+            else if (BeatmapContext.TrackDefinitions.GetBasicOrDefault(e.Type).Kind == BasicEventKind.Lights
                 && !inCollection)
             {
                 RemoveLinkedLightEvents(e);
@@ -214,7 +214,7 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
                 AllBoostEvents.Add(e);
             else if (e.IsBpmEvent())
                 AllBpmEvents.Add(e);
-            else if (BeatmapContext.TracksDefinition.GetBasicOrDefault(e.Type).Kind == BasicEventKind.Lights
+            else if (BeatmapContext.TrackDefinitions.GetBasicOrDefault(e.Type).Kind == BasicEventKind.Lights
                 && !inCollection)
             {
                 RemoveLinkedLightEvents(e);
@@ -393,7 +393,7 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
         EventContainer.SpawnEvent(
             this,
             null,
-            BeatmapContext.TracksDefinition,
+            BeatmapContext.TrackDefinitions,
             ref eventPrefab,
             ref labels);
 
@@ -485,7 +485,7 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
 
     public void LinkAllLightEvents() =>
         AllLightEvents = MapObjects
-            .Where(x => BeatmapContext.TracksDefinition.GetBasicOrDefault(x.Type).Kind == BasicEventKind.Lights)
+            .Where(x => BeatmapContext.TrackDefinitions.GetBasicOrDefault(x.Type).Kind == BasicEventKind.Lights)
             .GroupBy(x => x.Type)
             .ToDictionary(g => g.Key, g => g.ToList());
 

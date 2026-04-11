@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using System.Linq;
 using Newtonsoft.Json;
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -12,9 +11,6 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public partial class EnvironmentSceneCreator
 {
-    private const string environmentPath = "Assets/__Scenes/Environments";
-    private const string editorPath = "Assets/Editor/Environments";
-
     [MenuItem("Environment/Create from Data", false, 1000)]
     private static void CreateEnvironmentFromDataWithScript() => ReadSelectedAndCreateEnvironment(true);
 
@@ -24,25 +20,19 @@ public partial class EnvironmentSceneCreator
     [MenuItem("Environment/Create All from Data", false, 1000)]
     private static void CreateAllEnvironmentFromData()
     {
-        foreach (var se in AssetDatabase
-            .GetAllAssetPaths()
-            .Where(x => x.StartsWith(environmentPath + "/Data") && x.EndsWith(".json")))
-        {
-            var textAsset = AssetDatabase.LoadAssetAtPath<TextAsset>(se);
-            if (textAsset != null) CreateEnvironmentFromData(textAsset, true);
-        }
+        foreach (var ta in CreateUtils.GetEnvironmentDataRaw()) CreateEnvironmentFromData(ta, true);
     }
 
-    private static void ReadSelectedAndCreateEnvironment(bool script)
+    private static void ReadSelectedAndCreateEnvironment(bool allowScript)
     {
         var textAsset = Selection.activeObject switch
         {
-            TextAsset tempTextAsset => tempTextAsset,
-            SceneAsset tempSceneAsset => AssetDatabase.LoadAssetAtPath<TextAsset>(
+            TextAsset selectedText => selectedText,
+            SceneAsset selectedScene => AssetDatabase.LoadAssetAtPath<TextAsset>(
                 Path.Combine(
-                    Path.GetDirectoryName(AssetDatabase.GetAssetPath(tempSceneAsset))!,
+                    Path.GetDirectoryName(AssetDatabase.GetAssetPath(selectedScene))!,
                     "Data",
-                    tempSceneAsset.name + ".json")),
+                    selectedScene.name + ".json")),
             _ => null
         };
 
@@ -57,14 +47,14 @@ public partial class EnvironmentSceneCreator
         }
 
         if (textAsset == null) return;
-        CreateEnvironmentFromData(textAsset, script);
+        CreateEnvironmentFromData(textAsset, allowScript);
     }
 
-    private static void CreateEnvironmentFromData(TextAsset textAsset, bool script)
+    private static void CreateEnvironmentFromData(TextAsset textAsset, bool allowScript)
     {
         var assetName = textAsset.name;
 
-        var targetPath = Path.Combine(environmentPath, $"{assetName}.unity");
+        var targetPath = Path.Combine(Constants.ScenesPath, $"{assetName}.unity");
         var exist = AssetDatabase.AssetPathExists(targetPath);
 
         var scene = exist
@@ -77,9 +67,9 @@ public partial class EnvironmentSceneCreator
 
         // Oh dear I'm loading stuff at runtime
         var environmentLibrary =
-            AssetDatabase.LoadAssetAtPath<EnvironmentLibrarySO>(Path.Combine(editorPath, "EnvironmentLibrarySO.asset"));
-        var environmentData =
-            JsonConvert.DeserializeObject<EnvData>(textAsset.text, new Vector3ArrayConverter());
+            AssetDatabase.LoadAssetAtPath<EnvironmentLibrarySO>(
+                Path.Combine(Constants.EditorPath, "EnvironmentLibrarySO.asset"));
+        var environmentData = CreateUtils.JsonToEnvironmentData(textAsset);
 
         // Move null checks up here so it doesnt ruin the rest of the process
         if (environmentLibrary == null) throw new ArgumentNullException(nameof(environmentLibrary));
@@ -89,7 +79,7 @@ public partial class EnvironmentSceneCreator
         if (environmentLibrary.SkyboxMaterial != null) RenderSettings.skybox = environmentLibrary.SkyboxMaterial;
 
         // Create the environment in the new scene
-        CreateEnvironment(scene, environmentData, environmentLibrary, script);
+        CreateEnvironment(scene, environmentData, environmentLibrary, allowScript);
 
         // Save the scene to disk
         if ((exist && EditorSceneManager.SaveScene(scene)) || EditorSceneManager.SaveScene(scene, targetPath))
@@ -105,20 +95,22 @@ public partial class EnvironmentSceneCreator
     // Main method which constructs the environment from parsed data
     public static void CreateEnvironment(
         Scene scene,
-        EnvData data,
+        EnvironmentData data,
         EnvironmentLibrarySO library,
-        bool script)
+        bool allowScript)
     {
+        var container = new CreateContainer { Library = library };
+
         // first pass: strip existing object and component
         var existingObjects = StripObjects(scene, data);
 
         // second pass: spawn object
-        var chromaIdObjects = SpawnObjects(library, data, existingObjects);
+        container.ChromaIdObjects = SpawnObjects(data, container, existingObjects);
 
         // third pass: build component
-        if (script) BuildComponents(library, data, chromaIdObjects);
+        if (allowScript) BuildComponents(data, container);
 
         // forth pass: cleanup and remove unused
-        if (script) Cleanup(scene, data);
+        if (allowScript) Cleanup(scene, data);
     }
 }

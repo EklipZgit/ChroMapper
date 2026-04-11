@@ -579,7 +579,6 @@
                 float _SecondaryEmissionMaskIntensity;
                 float4 _PrivatePointLightColor;
                 float _TimeOffset;
-                float4 _SongTime;
                 float _MeshPackingId;
             CBUFFER_END
             #endif

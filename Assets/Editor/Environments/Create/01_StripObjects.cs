@@ -6,7 +6,7 @@ using Object = UnityEngine.Object;
 
 public partial class EnvironmentSceneCreator
 {
-    private static Dictionary<string, GameObject> StripObjects(Scene scene, EnvData data)
+    private static Dictionary<string, GameObject> StripObjects(Scene scene, EnvironmentData data)
     {
         var existingObjects = new Dictionary<string, GameObject>();
         var validObjects = data.Objects.Select(x => x.ChromaID).ToHashSet();

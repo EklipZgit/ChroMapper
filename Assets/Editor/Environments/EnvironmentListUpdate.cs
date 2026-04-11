@@ -1,64 +1,48 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Newtonsoft.Json;
-using NUnit.Framework;
 using UnityEditor;
-using UnityEditor.VersionControl;
-using UnityEngine;
 using Object = UnityEngine.Object;
 
 public static class EnvironmentListUpdate
 {
-    private const string environmentPath = "Assets/__Scenes/Environments";
-    private const string scriptPath = "Assets/__Scripts/Environments";
-
     [MenuItem("Environment/Update Environment List", false, 800)]
     private static void PopulateBuildData()
     {
-        var envDataPaths = AssetDatabase
-            .GetAllAssetPaths()
-            .Where(x => x.StartsWith(Path.Combine(environmentPath, "Data")) && x.EndsWith(".json"));
+        var environmentListing =
+            AssetDatabase.LoadAssetAtPath<EnvironmentListSO>(
+                Path.Combine(Constants.ScriptsPath, "EnvironmentListSO.asset"));
+        var assetToReserialize = new List<Object> { environmentListing };
 
-        var listSo =
-            AssetDatabase.LoadAssetAtPath<EnvironmentListSO>(Path.Combine(scriptPath, "EnvironmentListSO.asset"));
-        var assetToReserialize = new List<Object> { listSo };
-
-        foreach (var dataPath in envDataPaths)
+        foreach (var data in CreateUtils.GetEnvironmentData())
         {
-            var dataAsset = AssetDatabase.LoadAssetAtPath<TextAsset>(dataPath);
-            var data = JsonConvert.DeserializeObject<EnvData>(
-                dataAsset.text,
-                new Vector3ArrayConverter());
-
             var scene = AssetDatabase.LoadAssetAtPath<SceneAsset>(
-                Path.Combine(environmentPath, data.Data.ID + ".unity"));
+                Path.Combine(Constants.ScenesPath, data.Data.ID + ".unity"));
 
             if (scene == null) continue;
 
-            var colorSchemePath = Path.Combine(scriptPath, "ColorSchemes", data.Data.ID + "ColorScheme.asset");
-            var colorScheme = AssetDatabase.AssetPathExists(colorSchemePath)
-                ? AssetDatabase.LoadAssetAtPath<ColorSchemeSO>(colorSchemePath)
-                : ScriptableObject.CreateInstance<ColorSchemeSO>();
-
-            var tracksDefinitionPath = Path.Combine(
-                scriptPath,
-                "TracksDefinitions",
-                data.Data.ID + "TracksDefinition.asset");
-            var tracksDefinition = AssetDatabase.AssetPathExists(tracksDefinitionPath)
-                ? AssetDatabase.LoadAssetAtPath<TracksDefinitionSO>(tracksDefinitionPath)
-                : ScriptableObject.CreateInstance<TracksDefinitionSO>();
-
+            var colorScheme = Path
+                .Combine(
+                    Constants.ScriptsPath,
+                    "ColorSchemes",
+                    data.Data.ID + "ColorScheme.asset")
+                .GetOrCreateScriptableObject<ColorSchemeSO>();
             assetToReserialize.Add(colorScheme);
-            assetToReserialize.Add(tracksDefinition);
+
+            var trackDefinitions = Path
+                .Combine(
+                    Constants.ScriptsPath,
+                    "TrackDefinitions",
+                    data.Data.ID + "TrackDefinitions.asset")
+                .GetOrCreateScriptableObject<TrackDefinitionsSO>();
+            assetToReserialize.Add(trackDefinitions);
 
             data.Data.ColorScheme.CopyTo(colorScheme);
             if (data.Data.LightTracks != null)
-                data.Data.LightTracks.CopyTo(tracksDefinition);
+                data.Data.LightTracks.CopyTo(trackDefinitions);
             else
             {
-                tracksDefinition.UnregisterAll();
+                trackDefinitions.UnregisterAll();
                 new TrackDefinitionBasic[]
                     {
                         new() { Kind = BasicEventKind.Lights, Type = 0, Name = "Back Light" },
@@ -71,35 +55,30 @@ public static class EnvironmentListUpdate
                         new() { Kind = BasicEventKind.IntValue, Type = 13, Name = "Right Speed" }
                     }
                     .ToList()
-                    .ForEach(tracksDefinition.Register);
+                    .ForEach(trackDefinitions.Register);
             }
 
-            if (listSo.List.Exists(x => x.ID == data.Data.ID))
+            if (environmentListing.List.Exists(x => x.ID == data.Data.ID))
             {
-                var d = listSo.List.First(x => x.ID == data.Data.ID);
+                var d = environmentListing.List.First(x => x.ID == data.Data.ID);
                 d.Name = data.Data.Title;
                 d.ColorScheme = colorScheme;
-                d.TracksDefinition = tracksDefinition;
+                d.TrackDefinitions = trackDefinitions;
             }
             else
             {
-                listSo.List.Add(
+                environmentListing.List.Add(
                     new EnvironmentListInfo
                     {
                         Name = data.Data.Title,
                         ID = data.Data.ID,
                         ColorScheme = colorScheme,
-                        TracksDefinition = tracksDefinition
+                        TrackDefinitions = trackDefinitions
                     });
             }
-
-            if (!AssetDatabase.AssetPathExists(colorSchemePath))
-                AssetDatabase.CreateAsset(colorScheme, colorSchemePath);
-            if (!AssetDatabase.AssetPathExists(tracksDefinitionPath))
-                AssetDatabase.CreateAsset(tracksDefinition, tracksDefinitionPath);
         }
 
-        listSo.List = listSo.List.OrderBy(x => x.ID).ToList();
+        environmentListing.Sort();
 
         foreach (var o in assetToReserialize) EditorUtility.SetDirty(o);
         AssetDatabase.SaveAssets();

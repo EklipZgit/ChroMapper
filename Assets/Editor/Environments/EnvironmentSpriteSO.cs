@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Environment/Environment Texture", fileName = "EnvironmentTextureSO")]
+[CreateAssetMenu(menuName = "Environment/Environment Sprite", fileName = "EnvironmentSpriteSO")]
 public class EnvironmentSpriteSO : ScriptableObject
 {
-    [SerializeField] public List<TextureInfo> list = new();
+    [SerializeField] public List<SpriteInfo> list = new();
 
     public readonly Dictionary<string, Sprite> Lookup = new();
 
@@ -44,7 +44,7 @@ public class EnvironmentSpriteSO : ScriptableObject
         if (list.All(x => x.Name != textureName))
         {
             list.Add(
-                new TextureInfo { Name = textureName, Environments = new List<string> { environment } });
+                new SpriteInfo { Name = textureName, Environments = new List<string> { environment } });
         }
         else
         {
@@ -57,7 +57,7 @@ public class EnvironmentSpriteSO : ScriptableObject
 }
 
 [Serializable]
-public class TextureInfo
+public class SpriteInfo
 {
     public string Name;
     public Sprite Sprite;

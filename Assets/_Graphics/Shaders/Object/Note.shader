@@ -104,7 +104,7 @@
             float _FogHeightOffset;
             float _FogHeightScale;
 
-            uniform float _SongTime;
+            uniform float4 _SongTime;
             uniform sampler3D _CutoutTex;
 
             UNITY_INSTANCING_BUFFER_START(Props)
@@ -179,7 +179,7 @@
 
                 o.rotatedPos = float4(
                     ComputeRotatedPosition(o.worldPos - offset, rotationInRadians) + offset,
-                    objectTime + 0.001 - _SongTime
+                    objectTime + 0.001 - _SongTime.y
                 );
                 o.rotatedPos.z -= 1;
 

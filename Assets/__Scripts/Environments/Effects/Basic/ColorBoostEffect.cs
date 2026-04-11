@@ -4,7 +4,7 @@ using Beatmap.Base;
 public class ColorBoostEffect : BasicEventEffect<ColorBoostStateData>, IEffectStateSignal<bool>
 {
     private readonly BasicEventStateChunksContainer<ColorBoostStateData> container = new();
-    public ColorSchemeSO ColorScheme;
+    public ColorSchemeProvider ColorSchemeProvider;
     public bool Boost;
 
     public event Action<bool> OnStateChanged;
@@ -22,7 +22,7 @@ public class ColorBoostEffect : BasicEventEffect<ColorBoostStateData>, IEffectSt
     {
         if (stateData.Boost == Boost) return;
         Boost = stateData.Boost;
-        ColorScheme.SwapEnvironmentColors(Boost);
+        ColorSchemeProvider.ColorScheme.SwapEnvironmentColors(Boost);
         OnStateChanged?.Invoke(Boost);
     }
 

@@ -14,7 +14,7 @@ public class
     BaseLightColorBase>
 {
     [SerializeField] public ColorBoostEffect ColorBoostEffect;
-    [NonSerialized] public ColorSchemeSO ColorScheme;
+    [SerializeField] public ColorSchemeProvider ColorSchemeProvider;
 
     [SerializeField] private List<LightController> lightEntries = new();
     private LightColorGroupContainer[] idToContainer = Array.Empty<LightColorGroupContainer>();
@@ -34,8 +34,10 @@ public class
             var container = activeContainers[i];
             var state = container.EventContainer.CurrentState;
 
-            container.Tween.StartColor = ColorScheme.GetColorFrom((LightColor)state.Base.Color, false);
-            container.Tween.EndColor = ColorScheme.GetColorFrom((LightColor)state.Next.Base.Color, false);
+            container.Tween.StartColor =
+                ColorSchemeProvider.ColorScheme.GetColorFrom((LightColor)state.Base.Color, false);
+            container.Tween.EndColor =
+                ColorSchemeProvider.ColorScheme.GetColorFrom((LightColor)state.Next.Base.Color, false);
         }
     }
 
@@ -53,7 +55,7 @@ public class
 
             if (idToContainer[entry.ID] is null)
             {
-                idToContainer[entry.ID] = new();
+                idToContainer[entry.ID] = new LightColorGroupContainer();
                 var container = idToContainer[entry.ID];
 
                 var startEvent = new LightColorEventStateData(new BaseLightColorBase(), short.MinValue);
@@ -69,18 +71,20 @@ public class
                 container.EventContainer.AddState(startEvent);
                 container.EventContainer.AddState(endEvent);
 
-                var start = CreateState(new() { songBpmTime = short.MinValue, JsonTime = short.MinValue });
+                var start = CreateState(
+                    new BaseLightColorEventBoxGroup { songBpmTime = short.MinValue, JsonTime = short.MinValue });
                 start.Box = new BaseLightColorEventBox
                 {
-                    IndexFilter = new() { Type = (int)IndexFilterType.Division, Param0 = 1 },
+                    IndexFilter = new BaseIndexFilter { Type = (int)IndexFilterType.Division, Param0 = 1 },
                     Events = Array.Empty<BaseLightColorBase>()
                 };
                 start.LocalJsonTime = start.StartTime;
 
-                var end = CreateState(new() { songBpmTime = float.MaxValue, JsonTime = float.MaxValue });
+                var end = CreateState(
+                    new BaseLightColorEventBoxGroup { songBpmTime = float.MaxValue, JsonTime = float.MaxValue });
                 end.Box = new BaseLightColorEventBox
                 {
-                    IndexFilter = new() { Type = (int)IndexFilterType.Division, Param0 = 1 },
+                    IndexFilter = new BaseIndexFilter { Type = (int)IndexFilterType.Division, Param0 = 1 },
                     Events = Array.Empty<BaseLightColorBase>()
                 };
                 end.LocalJsonTime = end.StartTime = end.EndTime;
@@ -128,14 +132,14 @@ public class
         tween.StartTimeAlpha = tween.StartTimeColor = state.StartTime;
         var startState = (LightColorEventStateData)(state.UsePrevious ? state.Previous : state);
         tween.StartAlpha = startState.Brightness;
-        tween.StartColor = ColorScheme.GetColorFrom((LightColor)startState.Base.Color, false);
+        tween.StartColor = ColorSchemeProvider.ColorScheme.GetColorFrom((LightColor)startState.Base.Color, false);
         tween.StartStrobeFrequency = startState.Base.Frequency;
         tween.StartStrobeBrightness = startState.Base.StrobeBrightness;
 
         tween.EndTimeAlpha = tween.EndTimeColor = state.EndTime;
         var endState = (LightColorEventStateData)(state.Next.UsePrevious ? startState : state.Next);
         tween.EndAlpha = endState.Brightness;
-        tween.EndColor = ColorScheme.GetColorFrom((LightColor)endState.Base.Color, false);
+        tween.EndColor = ColorSchemeProvider.ColorScheme.GetColorFrom((LightColor)endState.Base.Color, false);
 
         if (endState.Base.Easing == (int)EaseType.None)
         {
