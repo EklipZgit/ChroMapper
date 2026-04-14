@@ -12823,14 +12823,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 147496416}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5156779a5e6ce46adb88376c7bee9b35, type: 3}
+  m_Script: {fileID: 11500000, guid: 218bd9e77bf9d482099cebf5d977aa66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialPropertyBlockController: {fileID: 147496424}
-  _floats: []
-  _vectors: []
-  _colors: []
-  _ints: []
+  MpbController: {fileID: 147496424}
+  Floats: []
+  Vectors: []
+  Colors: []
+  Ints: []
 --- !u!1 &148274370
 GameObject:
   m_ObjectHideFlags: 0
@@ -13891,6 +13891,7 @@ MonoBehaviour:
   ID: 6
   Count: 4
   ColorBoostEffect: {fileID: 1042414267}
+  ColorSchemeProvider: {fileID: 0}
   lightEntries: []
 --- !u!114 &155892007
 MonoBehaviour:
@@ -13908,6 +13909,7 @@ MonoBehaviour:
   ID: 13
   Count: 1
   ColorBoostEffect: {fileID: 1042414267}
+  ColorSchemeProvider: {fileID: 0}
   lightEntries: []
 --- !u!114 &155892008
 MonoBehaviour:
@@ -13925,6 +13927,7 @@ MonoBehaviour:
   ID: 3
   Count: 4
   ColorBoostEffect: {fileID: 1042414267}
+  ColorSchemeProvider: {fileID: 0}
   lightEntries: []
 --- !u!114 &155892009
 MonoBehaviour:
@@ -13942,6 +13945,7 @@ MonoBehaviour:
   ID: 4
   Count: 4
   ColorBoostEffect: {fileID: 1042414267}
+  ColorSchemeProvider: {fileID: 0}
   lightEntries: []
 --- !u!114 &155892010
 MonoBehaviour:
@@ -13959,6 +13963,7 @@ MonoBehaviour:
   ID: 0
   Count: 4
   ColorBoostEffect: {fileID: 1042414267}
+  ColorSchemeProvider: {fileID: 0}
   lightEntries:
   - {fileID: 641012734}
   - {fileID: 821232210}
@@ -14000,6 +14005,7 @@ MonoBehaviour:
   ID: 7
   Count: 4
   ColorBoostEffect: {fileID: 1042414267}
+  ColorSchemeProvider: {fileID: 0}
   lightEntries: []
 --- !u!114 &155892012
 MonoBehaviour:
@@ -14017,6 +14023,7 @@ MonoBehaviour:
   ID: 16
   Count: 24
   ColorBoostEffect: {fileID: 1042414267}
+  ColorSchemeProvider: {fileID: 0}
   lightEntries:
   - {fileID: 1446441834}
   - {fileID: 78712554}
@@ -14106,6 +14113,7 @@ MonoBehaviour:
   ID: 14
   Count: 12
   ColorBoostEffect: {fileID: 1042414267}
+  ColorSchemeProvider: {fileID: 0}
   lightEntries:
   - {fileID: 1984796733}
   - {fileID: 1495231159}
@@ -14147,6 +14155,7 @@ MonoBehaviour:
   ID: 8
   Count: 4
   ColorBoostEffect: {fileID: 1042414267}
+  ColorSchemeProvider: {fileID: 0}
   lightEntries: []
 --- !u!114 &155892015
 MonoBehaviour:
@@ -14164,6 +14173,7 @@ MonoBehaviour:
   ID: 12
   Count: 20
   ColorBoostEffect: {fileID: 1042414267}
+  ColorSchemeProvider: {fileID: 0}
   lightEntries:
   - {fileID: 1599049598}
   - {fileID: 571906795}
@@ -14241,6 +14251,7 @@ MonoBehaviour:
   ID: 10
   Count: 60
   ColorBoostEffect: {fileID: 1042414267}
+  ColorSchemeProvider: {fileID: 0}
   lightEntries:
   - {fileID: 78712614}
   - {fileID: 1521123444}
@@ -14498,6 +14509,7 @@ MonoBehaviour:
   ID: 9
   Count: 4
   ColorBoostEffect: {fileID: 1042414267}
+  ColorSchemeProvider: {fileID: 0}
   lightEntries: []
 --- !u!114 &155892018
 MonoBehaviour:
@@ -14515,6 +14527,7 @@ MonoBehaviour:
   ID: 1
   Count: 4
   ColorBoostEffect: {fileID: 1042414267}
+  ColorSchemeProvider: {fileID: 0}
   lightEntries: []
 --- !u!114 &155892019
 MonoBehaviour:
@@ -14532,6 +14545,7 @@ MonoBehaviour:
   ID: 11
   Count: 1
   ColorBoostEffect: {fileID: 1042414267}
+  ColorSchemeProvider: {fileID: 0}
   lightEntries: []
 --- !u!114 &155892020
 MonoBehaviour:
@@ -14549,6 +14563,7 @@ MonoBehaviour:
   ID: 15
   Count: 24
   ColorBoostEffect: {fileID: 1042414267}
+  ColorSchemeProvider: {fileID: 0}
   lightEntries:
   - {fileID: 1712640513}
   - {fileID: 260628009}
@@ -14638,6 +14653,7 @@ MonoBehaviour:
   ID: 2
   Count: 4
   ColorBoostEffect: {fileID: 1042414267}
+  ColorSchemeProvider: {fileID: 0}
   lightEntries: []
 --- !u!114 &155892022
 MonoBehaviour:
@@ -14655,6 +14671,7 @@ MonoBehaviour:
   ID: 5
   Count: 4
   ColorBoostEffect: {fileID: 1042414267}
+  ColorSchemeProvider: {fileID: 0}
   lightEntries:
   - {fileID: 78712618}
   - {fileID: 1632400187}
@@ -14696,6 +14713,7 @@ MonoBehaviour:
   ID: 17
   Count: 3
   ColorBoostEffect: {fileID: 1042414267}
+  ColorSchemeProvider: {fileID: 0}
   lightEntries:
   - {fileID: 139476792}
   - {fileID: 795669812}
@@ -38706,14 +38724,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 498033924}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5156779a5e6ce46adb88376c7bee9b35, type: 3}
+  m_Script: {fileID: 11500000, guid: 218bd9e77bf9d482099cebf5d977aa66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialPropertyBlockController: {fileID: 498033932}
-  _floats: []
-  _vectors: []
-  _colors: []
-  _ints: []
+  MpbController: {fileID: 498033932}
+  Floats: []
+  Vectors: []
+  Colors: []
+  Ints: []
 --- !u!1 &499696660
 GameObject:
   m_ObjectHideFlags: 0
@@ -40435,6 +40453,8 @@ MonoBehaviour:
   LightRotationGroupEffectManager: {fileID: 1505396207}
   LightTranslationGroupEffectManager: {fileID: 1761547818}
   FloatFxGroupEffectManager: {fileID: 1990146834}
+  ColorSchemeProvider: {fileID: 0}
+  SpectrogramDataProvider: {fileID: 0}
   SizeData:
     FloorType: 1
     CeilingType: 0
@@ -42230,14 +42250,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 527448970}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5156779a5e6ce46adb88376c7bee9b35, type: 3}
+  m_Script: {fileID: 11500000, guid: 218bd9e77bf9d482099cebf5d977aa66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialPropertyBlockController: {fileID: 527448978}
-  _floats: []
-  _vectors: []
-  _colors: []
-  _ints: []
+  MpbController: {fileID: 527448978}
+  Floats: []
+  Vectors: []
+  Colors: []
+  Ints: []
 --- !u!1001 &528317931
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -43754,14 +43774,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 557782318}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5156779a5e6ce46adb88376c7bee9b35, type: 3}
+  m_Script: {fileID: 11500000, guid: 218bd9e77bf9d482099cebf5d977aa66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialPropertyBlockController: {fileID: 557782326}
-  _floats: []
-  _vectors: []
-  _colors: []
-  _ints: []
+  MpbController: {fileID: 557782326}
+  Floats: []
+  Vectors: []
+  Colors: []
+  Ints: []
 --- !u!1 &558964317
 GameObject:
   m_ObjectHideFlags: 0
@@ -49746,14 +49766,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 641012728}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5156779a5e6ce46adb88376c7bee9b35, type: 3}
+  m_Script: {fileID: 11500000, guid: 218bd9e77bf9d482099cebf5d977aa66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialPropertyBlockController: {fileID: 641012736}
-  _floats: []
-  _vectors: []
-  _colors: []
-  _ints: []
+  MpbController: {fileID: 641012736}
+  Floats: []
+  Vectors: []
+  Colors: []
+  Ints: []
 --- !u!1 &641109016
 GameObject:
   m_ObjectHideFlags: 0
@@ -57984,14 +58004,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 743212148}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5156779a5e6ce46adb88376c7bee9b35, type: 3}
+  m_Script: {fileID: 11500000, guid: 218bd9e77bf9d482099cebf5d977aa66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialPropertyBlockController: {fileID: 743212156}
-  _floats: []
-  _vectors: []
-  _colors: []
-  _ints: []
+  MpbController: {fileID: 743212156}
+  Floats: []
+  Vectors: []
+  Colors: []
+  Ints: []
 --- !u!1 &743581646
 GameObject:
   m_ObjectHideFlags: 0
@@ -62393,14 +62413,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 785364040}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5156779a5e6ce46adb88376c7bee9b35, type: 3}
+  m_Script: {fileID: 11500000, guid: 218bd9e77bf9d482099cebf5d977aa66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialPropertyBlockController: {fileID: 785364048}
-  _floats: []
-  _vectors: []
-  _colors: []
-  _ints: []
+  MpbController: {fileID: 785364048}
+  Floats: []
+  Vectors: []
+  Colors: []
+  Ints: []
 --- !u!1 &785737936
 GameObject:
   m_ObjectHideFlags: 0
@@ -63066,14 +63086,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 789274394}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5156779a5e6ce46adb88376c7bee9b35, type: 3}
+  m_Script: {fileID: 11500000, guid: 218bd9e77bf9d482099cebf5d977aa66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialPropertyBlockController: {fileID: 789274402}
-  _floats: []
-  _vectors: []
-  _colors: []
-  _ints: []
+  MpbController: {fileID: 789274402}
+  Floats: []
+  Vectors: []
+  Colors: []
+  Ints: []
 --- !u!1 &790631183
 GameObject:
   m_ObjectHideFlags: 0
@@ -64441,14 +64461,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 798988397}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5156779a5e6ce46adb88376c7bee9b35, type: 3}
+  m_Script: {fileID: 11500000, guid: 218bd9e77bf9d482099cebf5d977aa66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialPropertyBlockController: {fileID: 798988405}
-  _floats: []
-  _vectors: []
-  _colors: []
-  _ints: []
+  MpbController: {fileID: 798988405}
+  Floats: []
+  Vectors: []
+  Colors: []
+  Ints: []
 --- !u!1 &800479231
 GameObject:
   m_ObjectHideFlags: 0
@@ -74091,14 +74111,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 917122113}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5156779a5e6ce46adb88376c7bee9b35, type: 3}
+  m_Script: {fileID: 11500000, guid: 218bd9e77bf9d482099cebf5d977aa66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialPropertyBlockController: {fileID: 917122121}
-  _floats: []
-  _vectors: []
-  _colors: []
-  _ints: []
+  MpbController: {fileID: 917122121}
+  Floats: []
+  Vectors: []
+  Colors: []
+  Ints: []
 --- !u!1 &920442136
 GameObject:
   m_ObjectHideFlags: 0
@@ -82250,6 +82270,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MirrorRenderer: {fileID: 11400000, guid: b54751a1fc3ac3983afa3aa9d4141095, type: 2}
+  MirrorMaterial: {fileID: 0}
+  NoMirrorMaterial: {fileID: 0}
   Renderer: {fileID: 0}
   PlaneTransform: {fileID: 1023011276}
 --- !u!1 &1024806831
@@ -83429,14 +83451,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1033197208}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5156779a5e6ce46adb88376c7bee9b35, type: 3}
+  m_Script: {fileID: 11500000, guid: 218bd9e77bf9d482099cebf5d977aa66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialPropertyBlockController: {fileID: 1033197216}
-  _floats: []
-  _vectors: []
-  _colors: []
-  _ints: []
+  MpbController: {fileID: 1033197216}
+  Floats: []
+  Vectors: []
+  Colors: []
+  Ints: []
 --- !u!1 &1034271409
 GameObject:
   m_ObjectHideFlags: 0
@@ -85943,6 +85965,7 @@ MonoBehaviour:
   Atsc: {fileID: 0}
   ID: 6
   ColorBoostEffect: {fileID: 1042414267}
+  ColorSchemeProvider: {fileID: 0}
   OffIntensity: 0
   LightOnStart: 0
   InvertColorScheme: 0
@@ -85965,6 +85988,7 @@ MonoBehaviour:
   Atsc: {fileID: 0}
   ID: 5
   ColorBoostEffect: {fileID: 1042414267}
+  ColorSchemeProvider: {fileID: 0}
   OffIntensity: 0
   LightOnStart: 0
   InvertColorScheme: 0
@@ -85985,6 +86009,7 @@ MonoBehaviour:
   Atsc: {fileID: 0}
   ID: 4
   ColorBoostEffect: {fileID: 1042414267}
+  ColorSchemeProvider: {fileID: 0}
   OffIntensity: 0
   LightOnStart: 0
   InvertColorScheme: 0
@@ -86007,6 +86032,7 @@ MonoBehaviour:
   Atsc: {fileID: 0}
   ID: 3
   ColorBoostEffect: {fileID: 1042414267}
+  ColorSchemeProvider: {fileID: 0}
   OffIntensity: 0
   LightOnStart: 0
   InvertColorScheme: 0
@@ -86027,6 +86053,7 @@ MonoBehaviour:
   Atsc: {fileID: 0}
   ID: 2
   ColorBoostEffect: {fileID: 1042414267}
+  ColorSchemeProvider: {fileID: 0}
   OffIntensity: 0
   LightOnStart: 0
   InvertColorScheme: 0
@@ -86047,6 +86074,7 @@ MonoBehaviour:
   Atsc: {fileID: 0}
   ID: 1
   ColorBoostEffect: {fileID: 1042414267}
+  ColorSchemeProvider: {fileID: 0}
   OffIntensity: 0
   LightOnStart: 0
   InvertColorScheme: 0
@@ -86067,6 +86095,7 @@ MonoBehaviour:
   Atsc: {fileID: 0}
   ID: 0
   ColorBoostEffect: {fileID: 1042414267}
+  ColorSchemeProvider: {fileID: 0}
   OffIntensity: 0
   LightOnStart: 0
   InvertColorScheme: 0
@@ -86086,7 +86115,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Atsc: {fileID: 0}
   ID: 5
-  ColorScheme: {fileID: 0}
+  ColorSchemeProvider: {fileID: 0}
   Boost: 0
 --- !u!4 &1042414268
 Transform:
@@ -86761,14 +86790,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1052168575}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5156779a5e6ce46adb88376c7bee9b35, type: 3}
+  m_Script: {fileID: 11500000, guid: 218bd9e77bf9d482099cebf5d977aa66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialPropertyBlockController: {fileID: 1052168583}
-  _floats: []
-  _vectors: []
-  _colors: []
-  _ints: []
+  MpbController: {fileID: 1052168583}
+  Floats: []
+  Vectors: []
+  Colors: []
+  Ints: []
 --- !u!1 &1054208033
 GameObject:
   m_ObjectHideFlags: 0
@@ -87031,14 +87060,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1055417438}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5156779a5e6ce46adb88376c7bee9b35, type: 3}
+  m_Script: {fileID: 11500000, guid: 218bd9e77bf9d482099cebf5d977aa66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialPropertyBlockController: {fileID: 1055417446}
-  _floats: []
-  _vectors: []
-  _colors: []
-  _ints: []
+  MpbController: {fileID: 1055417446}
+  Floats: []
+  Vectors: []
+  Colors: []
+  Ints: []
 --- !u!1 &1055856489
 GameObject:
   m_ObjectHideFlags: 0
@@ -87386,14 +87415,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1062805547}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5156779a5e6ce46adb88376c7bee9b35, type: 3}
+  m_Script: {fileID: 11500000, guid: 218bd9e77bf9d482099cebf5d977aa66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialPropertyBlockController: {fileID: 1062805555}
-  _floats: []
-  _vectors: []
-  _colors: []
-  _ints: []
+  MpbController: {fileID: 1062805555}
+  Floats: []
+  Vectors: []
+  Colors: []
+  Ints: []
 --- !u!1 &1063850670
 GameObject:
   m_ObjectHideFlags: 0
@@ -89902,14 +89931,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1085694094}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5156779a5e6ce46adb88376c7bee9b35, type: 3}
+  m_Script: {fileID: 11500000, guid: 218bd9e77bf9d482099cebf5d977aa66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialPropertyBlockController: {fileID: 1085694102}
-  _floats: []
-  _vectors: []
-  _colors: []
-  _ints: []
+  MpbController: {fileID: 1085694102}
+  Floats: []
+  Vectors: []
+  Colors: []
+  Ints: []
 --- !u!1 &1089060073
 GameObject:
   m_ObjectHideFlags: 0
@@ -90727,14 +90756,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1099331749}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5156779a5e6ce46adb88376c7bee9b35, type: 3}
+  m_Script: {fileID: 11500000, guid: 218bd9e77bf9d482099cebf5d977aa66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialPropertyBlockController: {fileID: 1099331757}
-  _floats: []
-  _vectors: []
-  _colors: []
-  _ints: []
+  MpbController: {fileID: 1099331757}
+  Floats: []
+  Vectors: []
+  Colors: []
+  Ints: []
 --- !u!1 &1101003036
 GameObject:
   m_ObjectHideFlags: 0
@@ -91136,14 +91165,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1102163350}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5156779a5e6ce46adb88376c7bee9b35, type: 3}
+  m_Script: {fileID: 11500000, guid: 218bd9e77bf9d482099cebf5d977aa66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialPropertyBlockController: {fileID: 1102163358}
-  _floats: []
-  _vectors: []
-  _colors: []
-  _ints: []
+  MpbController: {fileID: 1102163358}
+  Floats: []
+  Vectors: []
+  Colors: []
+  Ints: []
 --- !u!1 &1103060379
 GameObject:
   m_ObjectHideFlags: 0
@@ -91496,14 +91525,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1105696216}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5156779a5e6ce46adb88376c7bee9b35, type: 3}
+  m_Script: {fileID: 11500000, guid: 218bd9e77bf9d482099cebf5d977aa66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialPropertyBlockController: {fileID: 1105696224}
-  _floats: []
-  _vectors: []
-  _colors: []
-  _ints: []
+  MpbController: {fileID: 1105696224}
+  Floats: []
+  Vectors: []
+  Colors: []
+  Ints: []
 --- !u!1 &1106859348
 GameObject:
   m_ObjectHideFlags: 0
@@ -92147,14 +92176,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1109979179}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5156779a5e6ce46adb88376c7bee9b35, type: 3}
+  m_Script: {fileID: 11500000, guid: 218bd9e77bf9d482099cebf5d977aa66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialPropertyBlockController: {fileID: 1109979187}
-  _floats: []
-  _vectors: []
-  _colors: []
-  _ints: []
+  MpbController: {fileID: 1109979187}
+  Floats: []
+  Vectors: []
+  Colors: []
+  Ints: []
 --- !u!1 &1111580880
 GameObject:
   m_ObjectHideFlags: 0
@@ -94753,14 +94782,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1146515110}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5156779a5e6ce46adb88376c7bee9b35, type: 3}
+  m_Script: {fileID: 11500000, guid: 218bd9e77bf9d482099cebf5d977aa66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialPropertyBlockController: {fileID: 1146515118}
-  _floats: []
-  _vectors: []
-  _colors: []
-  _ints: []
+  MpbController: {fileID: 1146515118}
+  Floats: []
+  Vectors: []
+  Colors: []
+  Ints: []
 --- !u!1 &1148183639
 GameObject:
   m_ObjectHideFlags: 0
@@ -101921,14 +101950,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1217993121}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5156779a5e6ce46adb88376c7bee9b35, type: 3}
+  m_Script: {fileID: 11500000, guid: 218bd9e77bf9d482099cebf5d977aa66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialPropertyBlockController: {fileID: 1217993129}
-  _floats: []
-  _vectors: []
-  _colors: []
-  _ints: []
+  MpbController: {fileID: 1217993129}
+  Floats: []
+  Vectors: []
+  Colors: []
+  Ints: []
 --- !u!1001 &1218978608
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -103241,14 +103270,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1236099944}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5156779a5e6ce46adb88376c7bee9b35, type: 3}
+  m_Script: {fileID: 11500000, guid: 218bd9e77bf9d482099cebf5d977aa66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialPropertyBlockController: {fileID: 1236099952}
-  _floats: []
-  _vectors: []
-  _colors: []
-  _ints: []
+  MpbController: {fileID: 1236099952}
+  Floats: []
+  Vectors: []
+  Colors: []
+  Ints: []
 --- !u!1 &1239495340
 GameObject:
   m_ObjectHideFlags: 0
@@ -104167,14 +104196,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1249101724}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5156779a5e6ce46adb88376c7bee9b35, type: 3}
+  m_Script: {fileID: 11500000, guid: 218bd9e77bf9d482099cebf5d977aa66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialPropertyBlockController: {fileID: 1249101732}
-  _floats: []
-  _vectors: []
-  _colors: []
-  _ints: []
+  MpbController: {fileID: 1249101732}
+  Floats: []
+  Vectors: []
+  Colors: []
+  Ints: []
 --- !u!1 &1249357041
 GameObject:
   m_ObjectHideFlags: 0
@@ -107365,14 +107394,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1296992349}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5156779a5e6ce46adb88376c7bee9b35, type: 3}
+  m_Script: {fileID: 11500000, guid: 218bd9e77bf9d482099cebf5d977aa66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialPropertyBlockController: {fileID: 1296992357}
-  _floats: []
-  _vectors: []
-  _colors: []
-  _ints: []
+  MpbController: {fileID: 1296992357}
+  Floats: []
+  Vectors: []
+  Colors: []
+  Ints: []
 --- !u!1001 &1297849801
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -122826,14 +122855,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1519376181}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5156779a5e6ce46adb88376c7bee9b35, type: 3}
+  m_Script: {fileID: 11500000, guid: 218bd9e77bf9d482099cebf5d977aa66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialPropertyBlockController: {fileID: 1519376189}
-  _floats: []
-  _vectors: []
-  _colors: []
-  _ints: []
+  MpbController: {fileID: 1519376189}
+  Floats: []
+  Vectors: []
+  Colors: []
+  Ints: []
 --- !u!1 &1519509441
 GameObject:
   m_ObjectHideFlags: 0
@@ -131300,14 +131329,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1632400181}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5156779a5e6ce46adb88376c7bee9b35, type: 3}
+  m_Script: {fileID: 11500000, guid: 218bd9e77bf9d482099cebf5d977aa66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialPropertyBlockController: {fileID: 1632400189}
-  _floats: []
-  _vectors: []
-  _colors: []
-  _ints: []
+  MpbController: {fileID: 1632400189}
+  Floats: []
+  Vectors: []
+  Colors: []
+  Ints: []
 --- !u!1 &1633934675
 GameObject:
   m_ObjectHideFlags: 0
@@ -133611,7 +133640,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9767cd18692cd07cbbcd0b33a725cd1a, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -133667,6 +133696,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MirrorRenderer: {fileID: 11400000, guid: b54751a1fc3ac3983afa3aa9d4141095, type: 2}
+  MirrorMaterial: {fileID: 0}
+  NoMirrorMaterial: {fileID: 0}
   Renderer: {fileID: 1660718704}
   PlaneTransform: {fileID: 1023011276}
 --- !u!1 &1661837772
@@ -135738,14 +135769,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1680224372}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5156779a5e6ce46adb88376c7bee9b35, type: 3}
+  m_Script: {fileID: 11500000, guid: 218bd9e77bf9d482099cebf5d977aa66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialPropertyBlockController: {fileID: 1680224380}
-  _floats: []
-  _vectors: []
-  _colors: []
-  _ints: []
+  MpbController: {fileID: 1680224380}
+  Floats: []
+  Vectors: []
+  Colors: []
+  Ints: []
 --- !u!1 &1682248911
 GameObject:
   m_ObjectHideFlags: 0
@@ -144416,14 +144447,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1808848570}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5156779a5e6ce46adb88376c7bee9b35, type: 3}
+  m_Script: {fileID: 11500000, guid: 218bd9e77bf9d482099cebf5d977aa66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialPropertyBlockController: {fileID: 1808848578}
-  _floats: []
-  _vectors: []
-  _colors: []
-  _ints: []
+  MpbController: {fileID: 1808848578}
+  Floats: []
+  Vectors: []
+  Colors: []
+  Ints: []
 --- !u!1 &1808931218
 GameObject:
   m_ObjectHideFlags: 0
@@ -150765,14 +150796,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1904022075}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5156779a5e6ce46adb88376c7bee9b35, type: 3}
+  m_Script: {fileID: 11500000, guid: 218bd9e77bf9d482099cebf5d977aa66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialPropertyBlockController: {fileID: 1904022083}
-  _floats: []
-  _vectors: []
-  _colors: []
-  _ints: []
+  MpbController: {fileID: 1904022083}
+  Floats: []
+  Vectors: []
+  Colors: []
+  Ints: []
 --- !u!1 &1904909054
 GameObject:
   m_ObjectHideFlags: 0
@@ -153605,14 +153636,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1940517813}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5156779a5e6ce46adb88376c7bee9b35, type: 3}
+  m_Script: {fileID: 11500000, guid: 218bd9e77bf9d482099cebf5d977aa66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialPropertyBlockController: {fileID: 1940517821}
-  _floats: []
-  _vectors: []
-  _colors: []
-  _ints: []
+  MpbController: {fileID: 1940517821}
+  Floats: []
+  Vectors: []
+  Colors: []
+  Ints: []
 --- !u!1 &1942490500
 GameObject:
   m_ObjectHideFlags: 0
@@ -155165,14 +155196,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1963231170}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5156779a5e6ce46adb88376c7bee9b35, type: 3}
+  m_Script: {fileID: 11500000, guid: 218bd9e77bf9d482099cebf5d977aa66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialPropertyBlockController: {fileID: 1963231178}
-  _floats: []
-  _vectors: []
-  _colors: []
-  _ints: []
+  MpbController: {fileID: 1963231178}
+  Floats: []
+  Vectors: []
+  Colors: []
+  Ints: []
 --- !u!1 &1965666163
 GameObject:
   m_ObjectHideFlags: 0
@@ -167738,14 +167769,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 2124473380}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5156779a5e6ce46adb88376c7bee9b35, type: 3}
+  m_Script: {fileID: 11500000, guid: 218bd9e77bf9d482099cebf5d977aa66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialPropertyBlockController: {fileID: 2124473388}
-  _floats: []
-  _vectors: []
-  _colors: []
-  _ints: []
+  MpbController: {fileID: 2124473388}
+  Floats: []
+  Vectors: []
+  Colors: []
+  Ints: []
 --- !u!1 &2125816864
 GameObject:
   m_ObjectHideFlags: 0
