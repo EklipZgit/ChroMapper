@@ -104,7 +104,7 @@
 
         [Space(20)]
         [KeywordEnum(None, Simple)] _Distortion ("Distortion", float) = 0
-        _DistortionTex ("Distortion Texture", 2D) = "black" {}
+        _DistortionTex ("Distortion Texture", 2D) = "white" {}
         _DistortionStrength ("Distortion Strength", float) = 0.2
         _DistortionAxes ("Distortion Axes", Vector) = (1, 1, 0, 0)
         _DistortionPanning ("Distortion Panning", Vector) = (0, 0, 0, 0)
@@ -133,6 +133,9 @@
         _BloomMultiplier ("Bloom Multiplier", float) = 1
         [Toggle(REMAP_WHITEBOOST_START)] _EnableRemapWhiteBoostStart ("Remap White Boost Start", float) = 0
         _WhiteBoostRemapStart ("Alpha for no White Boost", Range(0, 1)) = 0
+        _QuestWhiteboostMultiplier ("Quest Whiteboost Multiplier", float) = 1
+        _BaseColorBoost ("Base Color Boost", float) = 1
+        _BaseColorBoostThreshold ("Base Color Boost Threshold", float) = 0.1
 
         [Space(20)]
         [KeywordEnum(None, Full, Y Axis, Camera Facing)] _Billboard ("Billboard", float) = 0
@@ -199,6 +202,7 @@
 
             #pragma shader_feature_local COLOR_GRADIENT
 
+            #pragma shader_feature_local_vertex SPECTROGRAM_COLOR
             #pragma shader_feature_local_fragment SPECTROGRAM_COLOR
 
             #pragma shader_feature_local COLOR_ARRAY
@@ -338,48 +342,17 @@
             // MASK
             sampler2D _MaskTex;
             float4 _MaskTex_ST;
-            float2 _MaskPanning;
             // --
 
             // MASK2
             sampler2D _Mask2Tex;
             float4 _Mask2Tex_ST;
-            float4 _Mask2Panning;
             // --
 
             sampler2D _DistortionTex;
             float4 _DistortionTex_ST;
-            float2 _DistortionPanning;
-            float _DistortionStrength;
-            float2 _DistortionAxes;
-
-            // _CUTOUTTYPE_ALPHA_CLIP
-            float _Cutout;
-            // --
-
-            float _AlphaMultiplier;
-
-            // VIEW_ALIGN_DISAPPEAR
-            float _SquareAngleForViewAlignDisappear;
-            float _ViewAlignFactor;
-            float _ViewAlignOffset;
-            // --
-
-            float _BloomMultiplier;
-            float _BloomWhiteMultiplier;
-            // REMAP_WHITEBOOST_START
-            float _WhiteBoostRemapStart;
-            // --
 
             #define USE_BILLBOARD defined(_BILLBOARD_FULL) || defined(_BILLBOARD_Y_AXIS) || defined(_BILLBOARD_CAMERA_FACING)
-            // USE_BILLBOARD
-            float _BillboardScale;
-            // --
-
-            float _FogStartOffset;
-            float _FogScale;
-            float _FogHeightOffset;
-            float _FogHeightScale;
 
             
 
@@ -410,6 +383,27 @@
                 float _MeshPackingId;
                 #endif
                 float _EnableExternalAlpha;
+                float2 _MaskPanning;
+                float4 _Mask2Panning;
+                float4 _DistortionPanning;
+                float _DistortionStrength;
+                float4 _DistortionAxes;
+                float _Cutout;
+                float _AlphaMultiplier;
+                float _SquareAngleForViewAlignDisappear;
+                float _ViewAlignFactor;
+                float _ViewAlignOffset;
+                float _BloomMultiplier;
+                float _BloomWhiteMultiplier;
+                float _WhiteBoostRemapStart;
+                float _QuestWhiteboostMultiplier;
+                float _BaseColorBoost;
+                float _BaseColorBoostThreshold;
+                float _BillboardScale;
+                float _FogStartOffset;
+                float _FogScale;
+                float _FogHeightOffset;
+                float _FogHeightScale;
             CBUFFER_END
 
             struct appdata_t
@@ -424,7 +418,7 @@
                 #if defined(_SECONDARY_UVS_IMPORT)
                 float2 uv2 : TEXCOORD1;
                 #endif
-                #if defined(_SPECTROGRAM_FULL)
+                #if defined(_SPECTROGRAM_FULL) || defined(SPECTROGRAM_COLOR)
                 float2 uv3 : TEXCOORD2;
                 #endif
                 #if defined(MESH_PACKING)
@@ -450,12 +444,12 @@
                 float3 worldPos : TEXCOORD1;
                 float4 screenPos : TEXCOORD2;
 
-                #if defined(_DISTORTION_SIMPLE)
-                float2 distortionUv : TEXCOORD3;
-                #endif
-
                 #if defined(COLOR_ARRAY)
                 float2 colorIndexUv : TEXCOORD4;
+                #endif
+
+                #if defined(SPECTROGRAM_COLOR)
+                float2 spectrogramUv : TEXCOORD5;
                 #endif
 
                 UNITY_VERTEX_INPUT_INSTANCE_ID
@@ -561,11 +555,6 @@
                 #else
                 o.uv.xy = i.uv1.xy;
                 #endif
-                #if defined(_DISTORTION_SIMPLE)
-                    float2 distortionPanOffset = time.y * _DistortionPanning * _DistortionTex_ST.xy;
-                    o.distortionUv = i.uv1.xy * _DistortionTex_ST.xy + _DistortionTex_ST.zw
-                                     + distortionPanOffset * 0.1;
-                #endif
                 #if defined(_SECONDARY_UVS_IMPORT)
                 o.uv.zw = i.uv2.xy;
                 #endif
@@ -594,6 +583,13 @@
                 #if defined(COLOR_ARRAY)
                 o.colorIndexUv.x = i.colorIndexUv.x;
                 o.colorIndexUv.y = i.colorIndexUv.y + _ColorsArrayOffset;
+                #endif
+
+                #if defined(SPECTROGRAM_COLOR)
+                // Apply the same scale/offset that the displacement spectrogram path uses,
+                // so _UV3Scale and _UV3Offset control which frequency band range is sampled.
+                o.spectrogramUv.x = i.uv3.x * _UV3Scale + _UV3Offset;
+                o.spectrogramUv.y = i.uv3.y;
                 #endif
 
                 /**
@@ -640,35 +636,87 @@
                 #else
                 float4 albedo = color;
                 #endif
-                #if defined(_DISTORTION_SIMPLE)
-                float2 distortionSample = tex2D(_DistortionTex, i.distortionUv).rg;
-                #endif
                 #if defined(MAIN_TEXTURE)
                 #if defined(PIXELATE)
-                float2 uv = floor(i.uv * _PixelateResolution) / _PixelateResolution;
+                float2 uv = floor(i.uv.xy * _PixelateResolution) / _PixelateResolution;
                 #else
-                #if defined(_DISTORTION_SIMPLE)
-                float2 uv = (distortionSample * (_DistortionStrength * 0.1) * _DistortionAxes 
-            * 2.0 + i.uv.xy) - 1.0;
-                #else
+                // Step 1: start from interpolated UV
                 float2 uv = i.uv.xy;
+                // Step 2: apply distortion to base UV first, so flipbook inherits it
+                #if defined(_DISTORTION_SIMPLE)
+                {
+                    float2 distortScrollUv = uv * _DistortionTex_ST.xy + _DistortionTex_ST.zw
+                                           + time.y * _DistortionPanning.xy * _DistortionTex_ST.xy;
+                    float2 distortionSample = tex2D(_DistortionTex, distortScrollUv).rg;
+                    uv += (distortionSample * 2.0 - 1.0) * (_DistortionStrength * 0.1) * _DistortionAxes.xy;
+                }
                 #endif
                 #endif
+                // Step 3: apply flipbook offset on top of (potentially distorted) UV
                 #if defined(TEXTURE_FLIPBOOK)
-                uv.x /= _FlipbookColumns;
-                uv.y /= _FlipbookRows;
-                float flipbookTime = time.y * _FlipbookSpeed;
-                uv += float2(floor(flipbookTime % _FlipbookColumns) / _FlipbookColumns,
-                             floor(flipbookTime / _FlipbookColumns) % _FlipbookRows /
-                             _FlipbookRows);
-                #endif
-                // TODO: honestly, how does this work
+                {
+                    float2 flipUv = uv;
+                    flipUv.x /= _FlipbookColumns;
+                    flipUv.y /= _FlipbookRows;
+                    float flipbookTime = time.y * _FlipbookSpeed;
+                    flipUv += float2(
+                        floor(flipbookTime % _FlipbookColumns) / _FlipbookColumns,
+                        ((_FlipbookRows - 1.0) - floor(flipbookTime / _FlipbookColumns) % _FlipbookRows) / _FlipbookRows
+                    );
+                    #if defined(CUSTOM_WRAPPING)
+                    // TODO: custom wrapping with flipbook
+                    #endif
+                    #if defined(TEXTURE_COLOR)
+                    float4 _texSample = tex2D(_MainTex, flipUv) * _BaseLayer;
+                    // Frame blending: sample next frame and lerp by sub-frame fraction
+                    #if !defined(FLIPBOOK_BLENDING_OFF)
+                    {
+                        float2 flipUv2 = uv;
+                        flipUv2.x /= _FlipbookColumns;
+                        flipUv2.y /= _FlipbookRows;
+                        flipUv2 += float2(
+                            floor((flipbookTime + 1) % _FlipbookColumns) / _FlipbookColumns,
+                            ((_FlipbookRows - 1.0) - floor((flipbookTime + 1) / _FlipbookColumns) % _FlipbookRows) / _FlipbookRows
+                        );
+                        _texSample = lerp(_texSample, tex2D(_MainTex, flipUv2) * _BaseLayer, frac(flipbookTime));
+                    }
+                    #endif
+                    albedo.rgb *= _texSample.rgb;
+                    #if defined(_ALPHACHANNEL_RED)
+                    albedo.a *= _texSample.r;
+                    #else
+                    albedo.a *= _texSample.a;
+                    #endif
+                    #else
+                    // Non-texture-color: only alpha channel drives transparency
+                    float4 _texSample = tex2D(_MainTex, flipUv);
+                    #if !defined(FLIPBOOK_BLENDING_OFF)
+                    {
+                        float2 flipUv2 = uv;
+                        flipUv2.x /= _FlipbookColumns;
+                        flipUv2.y /= _FlipbookRows;
+                        flipUv2 += float2(
+                            floor((flipbookTime + 1) % _FlipbookColumns) / _FlipbookColumns,
+                            ((_FlipbookRows - 1.0) - floor((flipbookTime + 1) / _FlipbookColumns) % _FlipbookRows) / _FlipbookRows
+                        );
+                        _texSample = lerp(_texSample, tex2D(_MainTex, flipUv2), frac(flipbookTime));
+                    }
+                    #endif
+                    #if defined(_ALPHACHANNEL_RED)
+                    albedo.a *= _texSample.r * _BaseLayer;
+                    #else
+                    albedo *= _texSample.a * _BaseLayer;
+                    #endif
+                    #endif
+                }
+                #else
+                // Non-flipbook path: sample using distorted uv
                 #if defined(CUSTOM_WRAPPING)
+                // TODO: honestly, how does this work
                 #endif
                 #if defined(TEXTURE_COLOR)
                 // Sample full RGBA — RGB multiplies into color, alpha drives transparency
-                float2 _texUv = i.uv.xy;
-                float4 _texSample = tex2D(_MainTex, _texUv) * _BaseLayer;
+                float4 _texSample = tex2D(_MainTex, uv) * _BaseLayer;
                 albedo.rgb *= _texSample.rgb;
                 #if defined(_ALPHACHANNEL_RED)
                 albedo.a *= _texSample.r;
@@ -678,9 +726,10 @@
                 #else
                 // Non-texture-color: only alpha channel drives transparency
                 #if defined(_ALPHACHANNEL_RED)
-                    albedo.a *= tex2D(_MainTex, i.uv.xy).r * _BaseLayer;
+                    albedo.a *= tex2D(_MainTex, uv).r * _BaseLayer;
                 #else
-                    albedo *= tex2D(_MainTex, i.uv.xy).a * _BaseLayer;
+                    albedo *= tex2D(_MainTex, uv).a * _BaseLayer;
+                #endif
                 #endif
                 #endif
                 #endif
@@ -758,8 +807,43 @@
                 albedo.a *= albedo.a;
                 #endif
 
+                #if defined(SPECTROGRAM_COLOR)
+                {
+                    float binIndex = i.spectrogramUv.x * AUDIOLINK_ETOTALBINS;
+                    float4 audioData = AudioLinkLerpMultiline(ALPASS_DFT + uint2(binIndex, 0));
+                    float binValue = audioData.b; // blue channel = amplitude
+
+                    // smoothstep remap: how far up the bar is this fragment?
+                    float rangeDivisor = 1.0 / max(binValue - _SpectrogramRange * binValue, 0.0001);
+                    float t = saturate(rangeDivisor * (i.spectrogramUv.y - _SpectrogramRange * binValue));
+                    float sm = t * t * (3.0 - 2.0 * t);
+                    float brightness = sm * binValue * 1.5;
+                    brightness = max(brightness, _SpectrogramBaseValue);
+                    // Fragments above the bar peak are hidden via alpha only, not by zeroing RGB.
+                    // Previously `albedo *= mask * brightness` killed both RGB and alpha when mask=0,
+                    // making the color vanish even though alpha-blending would have discarded it anyway.
+                    // Matches CustomParticles where brightness scaled vertex color intensity and the
+                    // bar mask only gated the final alpha output.
+                    float barMask = (float)(binValue >= i.spectrogramUv.y);
+                    albedo.rgb *= brightness;
+                    albedo.a   *= barMask * brightness;
+                }
+                #endif
+
                 #if defined(_CUTOUTTYPE_ALPHA_CLIP)
                 if (albedo.a < _Cutout) discard;
+                #endif
+
+                #if defined(REMAP_WHITEBOOST_START)
+                {
+                    float remapped = (albedo.a * _QuestWhiteboostMultiplier - _WhiteBoostRemapStart)
+                                     / (1.0 - _WhiteBoostRemapStart);
+                    remapped = max(remapped, 0.0);
+                    float boost = remapped * remapped * _BaseColorBoost - _BaseColorBoostThreshold;
+                    // Previously boost was computed but never used — albedo.rgb only got the
+                    // saturate(rgb*alpha) term. Now we add the white boost, matching CustomParticles.
+                    albedo.rgb = saturate(albedo.rgb * albedo.a + boost);
+                }
                 #endif
 
                 #if defined(_BLOOMTYPE_PP)

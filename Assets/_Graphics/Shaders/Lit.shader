@@ -216,6 +216,18 @@
 
 
 
+        [Header(Dissolve)] [Space]
+        [Toggle(DISSOLVE)] _EnableDissolve ("Enable Dissolve", float) = 0
+        _DissolveProgress ("Progress", Range(-1, 1)) = 0
+        _DissolveAxisVector ("Axis Direction", Vector) = (0, 1, 0, 0)
+        _DissolveStartValue ("Start Value", float) = -1
+        _DissolveEndValue ("End Value", float) = 1
+        [Toggle(_InvertDissolveToggle)] _InvertDissolve ("Invert", float) = 0
+        _CutColorFalloff ("Edge Falloff", float) = 5
+        _CutColorBacksideFalloff ("Backside Falloff", float) = 0.5
+        _DissolveColor ("Edge Color", Color) = (1, 0.5, 0, 1)
+        _DissolveColorIntensity ("Edge Color Intensity", float) = 3
+
         [Header(Settings)] [Space]
         [Enum(UnityEngine.Rendering.CullMode)] _CullMode ("Cull Mode", float) = 2
         [Enum(UnityEngine.Rendering.CompareFunction)] _ZTest ("Z Test", float) = 4
@@ -335,6 +347,7 @@
             #pragma shader_feature_local_fragment FOG
             #pragma shader_feature_local_fragment HEIGHT_FOG
             #pragma shader_feature_local_fragment DISTANCE_DARKENING
+            #pragma shader_feature_local_fragment DISSOLVE
 
             #pragma shader_feature_local_fragment MESH_PACKING
 
@@ -547,6 +560,20 @@
             float3 _DarkeningCenter;
             float3 _DarkeningDirection;
 
+            // DISSOLVE
+            #if defined(DISSOLVE)
+            float3 _DissolveAxisVector;
+            float  _DissolveProgress;
+            float  _DissolveStartValue;
+            float  _DissolveEndValue;
+            float  _InvertDissolve;
+            float  _CutColorFalloff;
+            float  _CutColorBacksideFalloff;
+            float4 _DissolveColor;
+            float  _DissolveColorIntensity;
+            #endif
+            // --
+
             #if defined(COLOR_ARRAY)
             float4 _ColorsArray[150];
             float _ColorsArrayOffset;
@@ -579,6 +606,7 @@
                 float _SecondaryEmissionMaskIntensity;
                 float4 _PrivatePointLightColor;
                 float _TimeOffset;
+
                 float _MeshPackingId;
             CBUFFER_END
             #endif
@@ -677,7 +705,7 @@
                     }
                     #endif
 
-                    float _dispScale = _DisplacementStrength * spectrogramScale;
+                    float _dispScale = _DisplacementStrength * (spectrogramScale*2);
 
                     #if defined(VERTEXDISPLACEMENT_MASK)
                     {
@@ -726,7 +754,14 @@
                     o.color = i.color;
                     // TODO: wtf does this do
                     #if USE_VERTEX_EMISSION
+                        #if defined(COLOR_ARRAY)
+                        {
+                            float _caIdx = round(i.colorArrayId.x * 10.0 + i.colorArrayId.y + _ColorsArrayOffset);
+                            o.emission = _ColorsArray[_caIdx];
+                        }
+                        #else
                         o.emission = UNITY_ACCESS_INSTANCED_PROP(Props, _EmissionColor);
+                        #endif
                     #endif
                 #endif
 
@@ -769,7 +804,7 @@
                 return o;
             }
 
-            float4 frag(v2f i) : SV_Target
+            float4 frag(v2f i, float facing : VFACE) : SV_Target
             {
                 UNITY_SETUP_INSTANCE_ID(i);
 
@@ -847,6 +882,34 @@
                 #endif
 
                 float3 worldPos = i.worldPos;
+
+                // --- DISSOLVE ---
+                #if defined(DISSOLVE)
+                float dissolveFactor = 0.0;
+                {
+                    float3 axis = normalize(_DissolveAxisVector);
+                    float dir = _DissolveProgress < -0.001 ? -1.0 : 1.0;
+                    axis *= dir;
+
+                    float3 localOffset = worldPos - unity_ObjectToWorld._m03_m13_m23;
+                    float projected = dot(localOffset, axis);
+
+                    float threshold = abs(_DissolveProgress) * (_DissolveEndValue - _DissolveStartValue) + _DissolveStartValue;
+                    float dissolveVal = projected - threshold;
+
+                    dissolveVal *= (_InvertDissolve > 0.5) ? -1.0 : 1.0;
+
+                    if (dissolveVal < 0.0)
+                        discard;
+
+                    float facingMult = (facing > 0.0) ? 1.0 : _CutColorBacksideFalloff;
+                    float edgeFalloff = saturate(-dissolveVal * _CutColorFalloff * facingMult + 1.0);
+                    edgeFalloff = edgeFalloff * edgeFalloff * edgeFalloff;
+
+                    dissolveFactor = edgeFalloff * _DissolveColor.a;
+                }
+                #endif
+                // --- END DISSOLVE ---
                 #if USE_WORLD_NORMAL
                 #if defined(PRECISE_NORMAL)
                 float3 worldNormal = normalize(i.worldNormal);
@@ -1065,7 +1128,12 @@
 
                 #if USE_EMISSION_TEXTURE_COLOR
                 {
+                    #if defined(COLOR_ARRAY)
+                    float colorIndex = round(i.colorArrayId.x * 10.0 + i.colorArrayId.y);
+                    float4 emissionTexColor = _ColorsArray[colorIndex];
+                    #else
                     float4 emissionTexColor = UNITY_ACCESS_INSTANCED_PROP(Props, _EmissionTexColor);
+                    #endif
                     float _eb = UNITY_ACCESS_INSTANCED_PROP(Props, _EmissionBrightness);
                     float4 finalEmission = 0;
 
@@ -1073,17 +1141,14 @@
                     // --- UV setup (matches SimpleLit es0.xy / es0.z time) ---
                     float2 _esUv = i.uv.xy * _InputUvMultiplier;
                     float _esTime;
+                    _esTime = time.y;
                     #if defined(DISTORTION_SIMPLE)
                     {
                         float2 distortScrollUv = _esUv * _DistortionTex_ST.xy
-                                               + _DistortionTex_ST.zw
-                                               + _DistortionPanning * time.y * 0.1;
+                                               + _DistortionTex_ST.zw;
                         float2 distortSample = tex2D(_DistortionTex, distortScrollUv).xy;
                         _esUv += distortSample * (_DistortionStrength * 0.1) * _DistortionAxes;
-                        _esTime = time.y;
                     }
-                    #else
-                    _esTime = time.y;
                     #endif
 
                     // --- Sample emission texture ---
@@ -1331,6 +1396,11 @@
                 //return float4(1, 0, 0, 1); // red = falling back to CBUFFER
                 //#endif
 
+
+                // Apply dissolve edge color
+                #if defined(DISSOLVE)
+                albedo.rgb = lerp(albedo.rgb, _DissolveColorIntensity * _DissolveColor.rgb, dissolveFactor);
+                #endif
 
                 return albedo;
             }
