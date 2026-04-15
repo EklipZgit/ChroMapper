@@ -177,6 +177,14 @@ public partial class EnvironmentSceneCreator
             container.ComponentInstances[data.TubeBloomPrePassLight.InstanceId] = data.TubeBloomPrePassLight;
         }
 
+        foreach (var obj in container.Data.Objects.Where(x => x.Components.ParticleSystem != null))
+        foreach (var data in obj.Components.ParticleSystem)
+        {
+            if (data.Renderer == null) continue;
+            container.ComponentInstances[data.Renderer.InstanceId] =
+                new ParticleSystemRendererData { Instance = data.Instance.GetComponent<ParticleSystemRenderer>() };
+        }
+
         // apply all components
         foreach (var data in container.ComponentInstances.Values) data.Apply(container);
 

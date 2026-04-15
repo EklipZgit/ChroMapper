@@ -1,13 +1,16 @@
+using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class MaterialPropertyBlockControllerArrayRandomValueSetter : MonoBehaviour
 {
-    [SerializeField] public MaterialPropertyBlockController[] MpbControllers;
+    [SerializeField]
+    public MaterialPropertyBlockController[] MpbControllers = Array.Empty<MaterialPropertyBlockController>();
+
     [SerializeField] public string PropertyName;
     [SerializeField] public Vector3 Min;
     [SerializeField] public Vector3 Max;
 
-    private MaterialPropertyBlock[] materialPropertyBlocks;
     private int propertyId;
 
     protected void Start()
@@ -30,12 +33,11 @@ public class MaterialPropertyBlockControllerArrayRandomValueSetter : MonoBehavio
             Random.Range(Min.x, Max.x),
             Random.Range(Min.y, Max.y),
             Random.Range(Min.z, Max.z));
-        var materialPropertyBlockControllers = MpbControllers;
-        foreach (var materialPropertyBlockController in materialPropertyBlockControllers)
+        foreach (var mpbController in MpbControllers)
         {
-            if (materialPropertyBlockController == null) continue;
-            materialPropertyBlockController.Mpb.SetVector(propertyId, vector);
-            materialPropertyBlockController.ApplyChanges();
+            if (mpbController == null) continue;
+            mpbController.Mpb.SetVector(propertyId, vector);
+            mpbController.ApplyChanges();
         }
     }
 }

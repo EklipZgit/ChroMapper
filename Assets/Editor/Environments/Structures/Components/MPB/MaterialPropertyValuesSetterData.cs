@@ -15,8 +15,7 @@ public class MaterialPropertyValuesSetterData : EnvironmentComponentData<Materia
         MaterialPropertyValuesSetter comp,
         CreateContainer container)
     {
-        comp.MpbController =
-            container.GetComponentOrNull<MaterialPropertyBlockController>(MaterialPropertyBlockController);
+        comp.MpbController = self.GetComponent<MaterialPropertyBlockController>();
         comp.Floats = Floats
             .Select(x =>
                 new MaterialPropertyValuesSetter.PropertyNameFloatValuePair

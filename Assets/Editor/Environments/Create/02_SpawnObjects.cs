@@ -91,14 +91,17 @@ public partial class EnvironmentSceneCreator
 
             foreach (var component in go.GetComponents<Collider>()) Object.DestroyImmediate(component);
 
+            var compData = new List<EnvironmentComponentData>();
             foreach (var fieldInfo in environmentObject.Components.GetType().GetFields())
             {
                 if (!fieldInfo.FieldType.IsArray
                     || !typeof(EnvironmentComponentData).IsAssignableFrom(fieldInfo.FieldType.GetElementType()))
                     continue;
                 if (fieldInfo.GetValue(environmentObject.Components) is not EnvironmentComponentData[] data) continue;
-                foreach (var d in data) d.SpawnComponent(go);
+                compData.AddRange(data);
             }
+
+            foreach (var data in compData.OrderBy(x => x.Priority)) data.SpawnComponent(go);
 
             go.name = environmentObject.GameObjectName;
             go.layer = container.Library.LayerMaskLookup[environmentObject.Layer].value.GetBitIndex().FirstOrDefault();

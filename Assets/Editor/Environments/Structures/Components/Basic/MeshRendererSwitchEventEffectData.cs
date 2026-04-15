@@ -4,8 +4,8 @@ using UnityEngine;
 public class MeshRendererSwitchEventEffectData : EnvironmentComponentData<MeshRendererSwitch>
 {
     public string EventType;
-    public string[] ActivateOnBoostRenderers;
-    public string[] DeactivateOnBoostRenderers;
+    public int[] ActivateOnBoostRenderers;
+    public int[] DeactivateOnBoostRenderers;
 
     public override void FillComponents(GameObject self, MeshRendererSwitch comp, CreateContainer container)
     {
@@ -13,8 +13,7 @@ public class MeshRendererSwitchEventEffectData : EnvironmentComponentData<MeshRe
             ConvertUtils.ToEventType(EventType));
 
         comp.NormalRenderers = DeactivateOnBoostRenderers
-            .Select(y =>
-                container.TryGetGameObjectOrNull(y, self, out var g) ? g.GetComponent<Renderer>() : null)
+            .Select(container.GetComponentOrNull<Renderer>)
             .Where(y => y != null)
             .Select(g =>
             {
@@ -23,8 +22,7 @@ public class MeshRendererSwitchEventEffectData : EnvironmentComponentData<MeshRe
             })
             .ToArray();
         comp.BoostRenderers = ActivateOnBoostRenderers
-            .Select(y =>
-                container.TryGetGameObjectOrNull(y, self, out var g) ? g.GetComponent<Renderer>() : null)
+            .Select(container.GetComponentOrNull<Renderer>)
             .Where(y => y != null)
             .Select(g =>
             {

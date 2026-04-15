@@ -4,7 +4,7 @@ using UnityEngine;
 public class ParticleSystemContinuousEventEffectData : EnvironmentComponentData<ParticleSystemContinuous>
 {
     public string EventType;
-    public string[] ParticleSystems;
+    public int[] ParticleSystems;
 
     public override void FillComponents(
         GameObject self,
@@ -15,8 +15,7 @@ public class ParticleSystemContinuousEventEffectData : EnvironmentComponentData<
             ConvertUtils.ToEventType(EventType));
 
         comp.ParticleSystems = ParticleSystems
-            .Select(y =>
-                container.TryGetGameObjectOrNull(y, self, out var g) ? g.GetComponent<ParticleSystem>() : null)
+            .Select(container.GetComponentOrNull<ParticleSystem>)
             .Where(y => y != null)
             .ToArray();
     }

@@ -25,7 +25,7 @@ public partial class EnvironmentSceneCreator
                     continue;
                 }
 
-                foreach (var component in go.GetComponents<Component>())
+                foreach (var component in go.GetComponents<Component>().Reverse())
                 {
                     if (component is not (Transform or ChromaIDMarker)) Object.DestroyImmediate(component);
                 }

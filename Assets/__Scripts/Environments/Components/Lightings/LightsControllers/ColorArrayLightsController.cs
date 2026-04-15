@@ -1,38 +1,36 @@
+using System;
 using UnityEngine;
 
 public class ColorArrayLightsController : MonoBehaviour, IEnvironmentComponentUpdate
 {
-    [SerializeField] public ColorArrayData[] ColorArrayData;
+    [SerializeField] public ColorArrayData[] ColorArrayData = Array.Empty<ColorArrayData>();
     [SerializeField] public Material Material;
-    [SerializeField] public MaterialPropertyBlockController[] MpbControllers;
+
+    [SerializeField]
+    public MaterialPropertyBlockController[] MpbControllers = Array.Empty<MaterialPropertyBlockController>();
+
     [SerializeField] public string ColorsArrayPropertyName = "_ColorsArray";
     [SerializeField] public string ColorsArrayOffsetPropertyName = "_ColorsArrayOffset";
 
     private int colorsArrayId;
     private int colorsArrayOffsetId;
     private Vector4[] colorsArray;
-
-    protected bool HasInitialized;
-    protected Color Color;
-
+    
     private void OnValidate()
     {
         if (!Application.isEditor || Application.isPlaying) return;
-        Color = new Color(0f, 0.5f, 1f);
         Start();
     }
 
-    private void Start()
-    {
-        HasInitialized = Initialize();
-        SetColorDataToMaterial();
-    }
+    private void Start() => Initialize();
 
     private bool Initialize()
     {
         colorsArrayId = Shader.PropertyToID(ColorsArrayPropertyName);
         colorsArrayOffsetId = Shader.PropertyToID(ColorsArrayOffsetPropertyName);
         colorsArray = new Vector4[ColorArrayData.Length];
+
+        if (MpbControllers.Length == 0 || Material == null) return false;
         foreach (var data in ColorArrayData) data.OnColorChanged += HandleColorChanged;
         SetColorArrayOffsetToMaterialPropertyBlocks();
         SetColorDataToMaterial();
@@ -65,6 +63,6 @@ public class ColorArrayLightsController : MonoBehaviour, IEnvironmentComponentUp
         }
     }
 
-    public bool ShouldInclude => false;
-    public bool ShouldRefresh => false;
+    public bool ShouldInclude => true;
+    public bool ShouldRefresh => true;
 }

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class MaterialPropertyBlockControllerData : EnvironmentComponentData<MaterialPropertyBlockController>
 {
-    public string[] Renderers;
+    public int[] Renderers;
 
     public override void FillComponents(
         GameObject self,
@@ -11,8 +11,7 @@ public class MaterialPropertyBlockControllerData : EnvironmentComponentData<Mate
         CreateContainer container)
     {
         comp.Renderers = Renderers
-            .Select(y =>
-                container.TryGetGameObjectOrNull(y, self, out var g) ? g.GetComponent<Renderer>() : null)
+            .Select(container.GetComponentOrNull<Renderer>)
             .Where(y => y != null)
             .Select(g =>
             {

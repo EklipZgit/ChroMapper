@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class RigidbodyData : EnvironmentComponentData<Rigidbody>
 {
+    public override int Priority => -1;
+
     public float Mass;
     public float LinearDamping;
     public float AngularDamping;

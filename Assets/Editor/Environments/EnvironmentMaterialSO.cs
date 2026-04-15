@@ -51,7 +51,6 @@ public class EnvironmentMaterialSO : ScriptableObject
                     Hash = material.Hash,
                     Name = material.Name,
                     Shader = material.Shader,
-                    Color = GetColor(material.Color),
                     Keywords = new List<string>(material.Keywords),
                     FloatProps =
                         material
@@ -80,7 +79,6 @@ public class EnvironmentMaterialSO : ScriptableObject
         else
         {
             var m = list.First(x => x.Hash == material.Hash);
-            m.Color = GetColor(material.Color);
             if (material.Keywords != null) m.Keywords.AddRange(material.Keywords.Where(x => !m.Keywords.Contains(x)));
             m.FloatProps.AddRange(
                 material
@@ -125,8 +123,6 @@ public class MaterialInfo
     public string Hash;
     public Material Material;
     public string Shader;
-
-    public Color Color;
 
     public List<string> Keywords;
     public List<ShaderProps<float>> FloatProps;

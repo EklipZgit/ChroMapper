@@ -5,6 +5,7 @@ using UnityEngine;
 public abstract class EnvironmentComponentData
 {
     [NonSerialized] public Component Instance;
+    public virtual int Priority => 0;
 
     public bool IsEnabled = true;
     public int InstanceId;

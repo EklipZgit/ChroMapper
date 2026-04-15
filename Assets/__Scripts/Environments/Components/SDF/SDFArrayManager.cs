@@ -1,9 +1,10 @@
+using System;
 using UnityEngine;
 
 [ExecuteAlways]
 public class SDFArrayManager : MonoBehaviour
 {
-    [SerializeField] public SDFPoint[] SDFPointArray;
+    [SerializeField] public SDFPoint[] SDFPointArray = Array.Empty<SDFPoint>();
 
     private Vector4[] sdfArrayValues;
     private bool isInitialized;
@@ -14,11 +15,9 @@ public class SDFArrayManager : MonoBehaviour
 
     private void InitIfNeeded()
     {
-        if (!isInitialized)
-        {
-            isInitialized = true;
-            sdfArrayValues = new Vector4[SDFPointArray.Length];
-        }
+        if (isInitialized) return;
+        isInitialized = true;
+        sdfArrayValues = new Vector4[SDFPointArray.Length];
     }
 
     protected void Update()

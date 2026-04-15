@@ -21,6 +21,7 @@ public class ParticleSystemLightController : LightController
 
     public override void SetColor(Color color)
     {
+        if (!HasInitialized) return;
         color.a = SetColorOnly ? mainModule.startColor.color.a : Mathf.Max(MinAlpha, color.a * Intensity);
         mainModule.startColor = new ParticleSystem.MinMaxGradient(color);
         ParticleSystem.GetParticles(particles, particles.Length);

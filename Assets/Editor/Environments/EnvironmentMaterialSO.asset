@@ -17,7 +17,6 @@ MonoBehaviour:
     Hash: f142d6057e9ec15b2eab7aaf53046922
     Material: {fileID: 2100000, guid: a46ba3a6069be07fb8873acdb4f3e703, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.45283008, g: 0.4086863, b: 0.4086863, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -470,7 +469,6 @@ MonoBehaviour:
     Hash: 34cc0493ef14fa921768279ff0eb6c82
     Material: {fileID: 2100000, guid: 2015a6c182f30d645a9d28873c3b54f7, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - _WHITEBOOSTTYPE_ALWAYS
     - SQUARE_ALPHA
@@ -760,7 +758,6 @@ MonoBehaviour:
     Hash: 142ea23b9d8d90201abb6323391b2de3
     Material: {fileID: 2100000, guid: 761512f3c1a6a38e1b6501bafb422342, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - SQUARE_ALPHA
@@ -1050,7 +1047,6 @@ MonoBehaviour:
     Hash: 5d391e90dbe11eace7a58e7adc749d41
     Material: {fileID: 2100000, guid: d6d8cd74d2de019969fd7b169c445c37, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - _FOGTYPE_LERP
@@ -1343,7 +1339,6 @@ MonoBehaviour:
     Hash: 827f5d5bb7083b76f4378c002d62c537
     Material: {fileID: 2100000, guid: 5426c1b4fbb0ca5ffba1bb327f6904fe, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - _WHITEBOOSTTYPE_MAINEFFECT
@@ -1636,7 +1631,6 @@ MonoBehaviour:
     Hash: c93b18daa2e873e2f0f761d8e2462749
     Material: {fileID: 2100000, guid: 52cd03f2e398d2b4d9759d7010c9ba87, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 0.94275093, g: 0, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - _WHITEBOOSTTYPE_ALWAYS
@@ -1935,7 +1929,6 @@ MonoBehaviour:
     Hash: c97580d4805a5841fbfbb2376ad00fc3
     Material: {fileID: 2100000, guid: 756a5ff8f0c697553b06294b1b7a0cfc, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 0.94275093, g: 0, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - SQUARE_ALPHA
@@ -2234,7 +2227,6 @@ MonoBehaviour:
     Hash: d833f6839e9de2206ecd9caf4386f1d2
     Material: {fileID: 2100000, guid: 735054c0e4181f57582b0ce15a697e69, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 0.94275093, g: 0, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - _WHITEBOOSTTYPE_ALWAYS
@@ -2534,7 +2526,6 @@ MonoBehaviour:
     Hash: ddf9a1de409275da4a82f9c5ac37ba5d
     Material: {fileID: 2100000, guid: de93988b69f3a7106b5274cbb28f05fb, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 0, g: 0.7529412, b: 1, a: 1}
     Keywords:
     - _WHITEBOOSTTYPE_ALWAYS
     - _FOGTYPE_ALPHA
@@ -2825,7 +2816,6 @@ MonoBehaviour:
     Hash: f1dd5419ca0e78e7b6eab1020b763f89
     Material: {fileID: 2100000, guid: a84b291bd7b013d468101e5b4a275857, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 0.94275093, g: 0, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - _WHITEBOOSTTYPE_ALWAYS
@@ -3125,7 +3115,6 @@ MonoBehaviour:
     Hash: f3de7ff0e913271a4c80b668dbe3da53
     Material: {fileID: 2100000, guid: 041e82d55fce8678aa8692746d689054, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 0.94275093, g: 0, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - SQUARE_ALPHA
@@ -3424,7 +3413,6 @@ MonoBehaviour:
     Hash: f4dddb35d3d771924b9cd0b826b890cc
     Material: {fileID: 2100000, guid: ae08e2dc7571ceb3497644dfa6693ff5, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 0.94275093, g: 0, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - SQUARE_ALPHA
@@ -3722,7 +3710,6 @@ MonoBehaviour:
     Hash: 030209e2a66ee3961c3e7bd7da6e42eb
     Material: {fileID: 2100000, guid: fd756a0c5ff272fd08636abe20d70cfc, type: 2}
     Shader: Custom/TransparentNeonLight
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_HEIGHT_FOG
     FloatProps:
@@ -3800,7 +3787,6 @@ MonoBehaviour:
     Hash: 097b4b417309fb4026001833e0a60544
     Material: {fileID: 2100000, guid: 241c8fb54f7854da89d2d391a93306a5, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - _WHITEBOOSTTYPE_MAINEFFECT
@@ -4098,7 +4084,6 @@ MonoBehaviour:
     Hash: 09c46fdf2133f18bea882c4dbcdb637a
     Material: {fileID: 2100000, guid: 160745aebf122c2da800b503ea144a9e, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - _WHITEBOOSTTYPE_MAINEFFECT
@@ -4388,7 +4373,6 @@ MonoBehaviour:
     Hash: 1891fbc9deba447481135271fc4f97cc
     Material: {fileID: 2100000, guid: 61a869d03e0c9780c83f01940a34425f, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 0, g: 0, b: 0, a: 1}
     Keywords:
     - VERTEX_COLOR
     - _FOGTYPE_ALPHA
@@ -4681,7 +4665,6 @@ MonoBehaviour:
     Hash: 1bc9e1b40c88421edb1648a228c155d9
     Material: {fileID: 2100000, guid: 936116daea7f987e8bd5cbd04656d9d2, type: 2}
     Shader: Custom/OpaqueNeonLight
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_HEIGHT_FOG
     FloatProps:
@@ -4703,7 +4686,6 @@ MonoBehaviour:
     Hash: 1fa4d172d0ab20b4e6303afb67aa5d72
     Material: {fileID: 2100000, guid: aefebb0ecc06240b0b4465eb98b12734, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0, g: 0, b: 0, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -5161,7 +5143,6 @@ MonoBehaviour:
     Hash: 30ceafe7f300b1c12a1e88e9bd1f5d27
     Material: {fileID: 2100000, guid: 9970aaa13e2d3ce4e8951fb912dc21b1, type: 2}
     Shader: Custom/CloudsLitTransparent
-    Color: {r: 0.6698113, g: 0.6698113, b: 0.6698113, a: 1}
     Keywords:
     - ALIGN_NORMALS_TO_WORLD_ORIGIN
     - FADE_BOTTOM
@@ -5356,7 +5337,6 @@ MonoBehaviour:
     Hash: 35dcde1d0510a7df02746b8b89179bd2
     Material: {fileID: 2100000, guid: 66032328947df06c7a673faec594da59, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.24999994, g: 0.24999994, b: 0.24999994, a: 0}
     Keywords:
     - FOG
     - DIFFUSE
@@ -5803,7 +5783,6 @@ MonoBehaviour:
     Hash: 42e7dbda1528045be7b0b7c708faf284
     Material: {fileID: 2100000, guid: aa7d3aa8b5e74d66d8c748e97ed39836, type: 2}
     Shader: Custom/Parametric3SliceSprite
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_NOISE_DITHERING
     - ENABLE_FOG
@@ -5882,7 +5861,6 @@ MonoBehaviour:
     Hash: 4796daf71cfa4d3cbf4578dc60d651f0
     Material: {fileID: 2100000, guid: 62b76d330581434a584f99f3f13b6129, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.34999996, g: 0.34999996, b: 0.34999996, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -6325,7 +6303,6 @@ MonoBehaviour:
     Hash: 4ed751cd83a4db2a36ba20bd70a02eb6
     Material: {fileID: 2100000, guid: bcd342e8d2c5e6c8d838681d6cf3e835, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.12264148, g: 0.12264148, b: 0.12264148, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -6771,7 +6748,6 @@ MonoBehaviour:
     Hash: 551810c6b171ca0e45404c58eb10cdfa
     Material: {fileID: 2100000, guid: 27d87fd2ecc6c719db73906177662ce5, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.34999996, g: 0.34999996, b: 0.34999996, a: 0}
     Keywords:
     - FOG
     - DIFFUSE
@@ -7212,7 +7188,6 @@ MonoBehaviour:
     Hash: 5670beae1bdaf5e670c478a8e11b97e4
     Material: {fileID: 2100000, guid: c7b0e9852b5f6b9b88f7a9187a33dc90, type: 2}
     Shader: Custom/TransparentNeonLight
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_HEIGHT_FOG
     FloatProps:
@@ -7290,7 +7265,6 @@ MonoBehaviour:
     Hash: 57a3e377b9fe735664eb53759631493f
     Material: {fileID: 2100000, guid: df3b92e8925dbb224842ce0c5a10ed01, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.24999997, g: 0.24999997, b: 0.24999997, a: 0}
     Keywords:
     - FOG
     - DIFFUSE
@@ -7732,7 +7706,6 @@ MonoBehaviour:
     Hash: 58c2f65a4dc60a37f8cede1bd904445e
     Material: {fileID: 2100000, guid: d9b97eb4ab5263446a67cde33ea478a5, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.31999996, g: 0.31999996, b: 0.31999996, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -8175,7 +8148,6 @@ MonoBehaviour:
     Hash: 68297876fa8e232063b8c6c996490b05
     Material: {fileID: 2100000, guid: 76879aed195c2be0cb1f5fe344a8cd34, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - _WHITEBOOSTTYPE_ALWAYS
     - SQUARE_ALPHA
@@ -8468,7 +8440,6 @@ MonoBehaviour:
     Hash: 6ef8ec9150ddd621db04bd0dd9b66174
     Material: {fileID: 2100000, guid: 1db2bb721f68975bca06da76b555cbc4, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.29999998, g: 0.29999998, b: 0.29999998, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -8917,7 +8888,6 @@ MonoBehaviour:
     Hash: 78dbcc011e9f5866b9080f24360c33ee
     Material: {fileID: 2100000, guid: 6ed018fadcde5648d991850e9e1f2ff2, type: 2}
     Shader: Custom/Parametric3SliceSprite
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_NOISE_DITHERING
     - ENABLE_FOG
@@ -8994,7 +8964,6 @@ MonoBehaviour:
     Hash: 871b6d8ceadb19d0a7bfe38782252f71
     Material: {fileID: 2100000, guid: 1a7faff99b22d5f75bebfe78002bb89c, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.07547168, g: 0.07547168, b: 0.07547168, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -9443,7 +9412,6 @@ MonoBehaviour:
     Hash: 8e30eef152dd450013e87e707ca98589
     Material: {fileID: 2100000, guid: 518e9b1bde7a02c02a49fff3ab44cfaf, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.2980392, g: 0.2980392, b: 0.2980392, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -9891,7 +9859,6 @@ MonoBehaviour:
     Hash: 8f132c736327026b1385cea763943557
     Material: {fileID: 2100000, guid: d546896de16433f9889cc55f9c389f19, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - _FOGTYPE_COLOR
@@ -10221,7 +10188,6 @@ MonoBehaviour:
     Hash: 9105929d949f6d64f4327204d19db158
     Material: {fileID: 2100000, guid: ffd9e7cd2d150fabfa625a3a828d4666, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.24999997, g: 0.24999997, b: 0.24999997, a: 0}
     Keywords:
     - FOG
     - DIFFUSE
@@ -10664,7 +10630,6 @@ MonoBehaviour:
     Hash: ab77bab3c528f206f656a79a03caeda1
     Material: {fileID: 2100000, guid: 5b84966fd80ceec8fb3c1eb51724bbac, type: 2}
     Shader: Custom/Parametric3SliceSprite
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_NOISE_DITHERING
     - ENABLE_FOG
@@ -10742,7 +10707,6 @@ MonoBehaviour:
     Hash: af859df4482dd1ecaf9bef18a42c099c
     Material: {fileID: 2100000, guid: d05a04575b3fd6d9f83cf71ceddd34fa, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -11188,7 +11152,6 @@ MonoBehaviour:
     Hash: bd4f9b3ce8a6fd243fa750f7a85d7dc9
     Material: {fileID: 2100000, guid: 40153059edeaf16f48b2b111a526c0ab, type: 2}
     Shader: Custom/TransparentNeonLight
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_HEIGHT_FOG
     FloatProps:
@@ -11267,7 +11230,6 @@ MonoBehaviour:
     Hash: bf03e68754cc582a073cd0e9b69e35d0
     Material: {fileID: 2100000, guid: 41ac6bb91a53ef65db402a99f691b199, type: 2}
     Shader: Custom/TransparentNeonLight
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_WORLD_NOISE
     - ENABLE_HEIGHT_FOG
@@ -11346,7 +11308,6 @@ MonoBehaviour:
     Hash: c26f95f8fbd91c6ec12b08e714951e1f
     Material: {fileID: 2100000, guid: fa5434637a1306f3e89a9792d0621b82, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 0.7363515, g: 0, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - _WHITEBOOSTTYPE_ALWAYS
@@ -11637,7 +11598,6 @@ MonoBehaviour:
     Hash: c8d508adc34648c811b3d0327690adcb
     Material: {fileID: 2100000, guid: 798facc8c257cc49f9ad81d7c388d74b, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.16981128, g: 0.16981128, b: 0.16981128, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -12084,7 +12044,6 @@ MonoBehaviour:
     Hash: ca1c307b440b9f899cb5295ab2091f33
     Material: {fileID: 2100000, guid: a2398ee6c2dc87a279d607b0edc44148, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 0.07929865, g: 0.35228258, b: 0.62264144, a: 0.67058825}
     Keywords:
     - _WHITEBOOSTTYPE_MAINEFFECT
     - SQUARE_ALPHA
@@ -12374,7 +12333,6 @@ MonoBehaviour:
     Hash: ca632fb4c235f90383c984f4d631d752
     Material: {fileID: 2100000, guid: caa7cd1fa8b23b0adb8a5acbbe10fa23, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.34999996, g: 0.34999996, b: 0.34999996, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -12817,7 +12775,6 @@ MonoBehaviour:
     Hash: cbf72f7a88cf01c7d102bb09a2783e04
     Material: {fileID: 2100000, guid: 5fb665889ca0deddb8da3b1f28583e04, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.24999997, g: 0.24999997, b: 0.24999997, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -13259,7 +13216,6 @@ MonoBehaviour:
     Hash: d44e6be81f48af0573f85b2aa52b7f7e
     Material: {fileID: 2100000, guid: 2cdaa8196d7a763678cde124b33f4d37, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.24999997, g: 0.24999997, b: 0.24999997, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -13701,7 +13657,6 @@ MonoBehaviour:
     Hash: d588ab4a379c4b5136f5379b7fee5510
     Material: {fileID: 2100000, guid: c4dd136df08551378bee281101c0569e, type: 2}
     Shader: Custom/Parametric3SliceSprite
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_FOG
     - ENABLE_HEIGHT_FOG
@@ -13779,7 +13734,6 @@ MonoBehaviour:
     Hash: e297ac755cd34c317579713790e1558c
     Material: {fileID: 2100000, guid: 96b88e72f0674c1f9b0164fbd243cea1, type: 2}
     Shader: Custom/Parametric3SliceSprite
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_NOISE_DITHERING
     - ENABLE_FOG
@@ -13857,7 +13811,6 @@ MonoBehaviour:
     Hash: e80eca6ff7bde7c9682025b9431d6c7b
     Material: {fileID: 2100000, guid: b49f275682be5efb79b2f8efef9a866d, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - _WHITEBOOSTTYPE_ALWAYS
@@ -14148,7 +14101,6 @@ MonoBehaviour:
     Hash: ee775b045c07b4ec33aa378d85d4b661
     Material: {fileID: 2100000, guid: 5a4d38ded693b8420a52fa27fe5182c8, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0, g: 0, b: 0, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -14590,7 +14542,6 @@ MonoBehaviour:
     Hash: f2abe4d39f0bcba036342536af10bb6f
     Material: {fileID: 2100000, guid: 0c2145bcb6b840c9683c41a39c91a802, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - SQUARE_ALPHA
@@ -14880,7 +14831,6 @@ MonoBehaviour:
     Hash: f7ec24df15644a1a6fa478c21b7361b5
     Material: {fileID: 2100000, guid: d8722afc336ddff7f8749aba785103d8, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.24999997, g: 0.24999997, b: 0.24999997, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -15326,7 +15276,6 @@ MonoBehaviour:
     Hash: fa005009034f097dd09c6c1d59a20794
     Material: {fileID: 2100000, guid: 7739d412f10210327b19f59d4d9dc65e, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.24999997, g: 0.24999997, b: 0.24999997, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -15770,7 +15719,6 @@ MonoBehaviour:
     Hash: fae26fc004d0a504697b25e9af71fc6c
     Material: {fileID: 2100000, guid: a2c7ae455927ce483b67c0498aa09321, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -16216,7 +16164,6 @@ MonoBehaviour:
     Hash: 01763679cacdf36ff88d0d35ef469fa5
     Material: {fileID: 2100000, guid: aeda337d0d7ecddaf91c69f7c8cc0fb5, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0, g: 0, b: 0, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -16659,7 +16606,6 @@ MonoBehaviour:
     Hash: 09e76ade3523685b874da0c9972eb9ac
     Material: {fileID: 2100000, guid: a2bf9d234dab77128b00e849c5f18c59, type: 2}
     Shader: Custom/CloudsOpaque
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_FOG
     - DIFFUSE
@@ -16700,7 +16646,6 @@ MonoBehaviour:
     Hash: 0b0310073c480d49c492a132bfa30da3
     Material: {fileID: 2100000, guid: 4d31a67363896a9d0a9f1fa8b1e771a7, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0, g: 0, b: 0, a: 1}
     Keywords:
     - FOG
     - _VERTEXMODE_METALSMOOTHNESS
@@ -17146,7 +17091,6 @@ MonoBehaviour:
     Hash: 0c403ed6c89931c58b2c888a4ed04a22
     Material: {fileID: 2100000, guid: 6cf3aafb32f5a9a4cb535b93f4d60bc7, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.31999996, g: 0.31999996, b: 0.31999996, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -17597,7 +17541,6 @@ MonoBehaviour:
     Hash: 110c88cb46fe754dc8207ebb24337d0a
     Material: {fileID: 2100000, guid: e48d5ca9da93169beb930f2de647a760, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.7610062, g: 0.7610062, b: 0.7610062, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -18063,7 +18006,6 @@ MonoBehaviour:
     Hash: 123e8f85377a3860500749862f39f903
     Material: {fileID: 2100000, guid: e10bf1267fde768e594913db3f104a58, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.7610062, g: 0.7610062, b: 0.7610062, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -18529,7 +18471,6 @@ MonoBehaviour:
     Hash: 133b7808334b38d69b3353ed23b48adf
     Material: {fileID: 2100000, guid: 8571591f0ed4196ef9d1399bd5afba7f, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0, g: 0, b: 0, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -18986,7 +18927,6 @@ MonoBehaviour:
     Hash: 16264a50c37d3b7ae2af17da2611f0db
     Material: {fileID: 2100000, guid: 718682d52255dd5c8b8308d93176fbd8, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.7610062, g: 0.7610062, b: 0.7610062, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -19452,7 +19392,6 @@ MonoBehaviour:
     Hash: 195a8283f847035bf7dece90379f3ac8
     Material: {fileID: 2100000, guid: 7d93b47ec32fce409aecf52cdf5e3e42, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.7610062, g: 0.7610062, b: 0.7610062, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -19918,7 +19857,6 @@ MonoBehaviour:
     Hash: 1a2a401ced661ede2179d8ab98802f4e
     Material: {fileID: 2100000, guid: de25c45ed435e003c8465bda8dc6377e, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.7610062, g: 0.7610062, b: 0.7610062, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -20384,7 +20322,6 @@ MonoBehaviour:
     Hash: 1ae4b164347e4bba81dc7003588c3729
     Material: {fileID: 2100000, guid: 03f3deff693c0665084a7a2b546db11e, type: 2}
     Shader: Custom/OpaqueNeonLight
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_HEIGHT_FOG
     FloatProps:
@@ -20406,7 +20343,6 @@ MonoBehaviour:
     Hash: 1ee56b8b84c9dc208488b8edfd6fa1a0
     Material: {fileID: 2100000, guid: 349a702b536473ed5840f58cc921842a, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.8050313, g: 0.8050313, b: 0.8050313, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -20871,7 +20807,6 @@ MonoBehaviour:
     Hash: 21d1f6a282bea6c8247646b03f465c24
     Material: {fileID: 2100000, guid: 0222aa047657c39bc99429758acbac4e, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.7610062, g: 0.7610062, b: 0.7610062, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -21337,7 +21272,6 @@ MonoBehaviour:
     Hash: 2374d28cbc5f759f7ba0d66dc1142761
     Material: {fileID: 2100000, guid: 7abe35610415e5d9a8c0f131ed349b64, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.7610062, g: 0.7610062, b: 0.7610062, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -21803,7 +21737,6 @@ MonoBehaviour:
     Hash: 298f5cea4c7446af3d5a01e5712a130f
     Material: {fileID: 2100000, guid: 146aab02418fe16988290f5b5ea0c5a5, type: 2}
     Shader: Custom/OpaqueNeonLight
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_HEIGHT_FOG
     FloatProps:
@@ -21825,7 +21758,6 @@ MonoBehaviour:
     Hash: 2e7fa4d7cd172170b46f4a165eeb1dc2
     Material: {fileID: 2100000, guid: 48a442f26266cebac9ad8abe2d1290ab, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.7610062, g: 0.7610062, b: 0.7610062, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -22291,7 +22223,6 @@ MonoBehaviour:
     Hash: 40284ee44dc966d248adb25349c32d7a
     Material: {fileID: 2100000, guid: 91bc934f9cbba7e69b15b110b90d0552, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - _WHITEBOOSTTYPE_MAINEFFECT
     - _FOGTYPE_ALPHA
@@ -22591,7 +22522,6 @@ MonoBehaviour:
     Hash: 407c83e3ccc17f5d8bc9b51ad05ea3f8
     Material: {fileID: 2100000, guid: fb3cd1cdfeb98a50d99cd28507f37150, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 1, g: 1, b: 1, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -23036,7 +22966,6 @@ MonoBehaviour:
     Hash: 4251ce5aa65a513b87e5efe2d73aa08f
     Material: {fileID: 2100000, guid: e548ae0faa75087d6898208e6c9b827a, type: 2}
     Shader: Custom/CloudsOpaque
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_FOG
     - ENABLE_NOISE_DITHERING
@@ -23078,7 +23007,6 @@ MonoBehaviour:
     Hash: 44f7ec96cfc8a224f68d40148986ed4e
     Material: {fileID: 2100000, guid: 0405f33b9b4fa8f139b756265c2b94aa, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.7610062, g: 0.7610062, b: 0.7610062, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -23544,7 +23472,6 @@ MonoBehaviour:
     Hash: 49c8dcc67caefe3dc2ecf8729b65738a
     Material: {fileID: 2100000, guid: 49780e69f7552cd16bdad0e182410ab5, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.24999997, g: 0.24999997, b: 0.24999997, a: 0}
     Keywords:
     - FOG
     - DIFFUSE
@@ -23986,7 +23913,6 @@ MonoBehaviour:
     Hash: 4fa7113e09c2f7319b834865e7e1c2bb
     Material: {fileID: 2100000, guid: 6cd5cf9927679c39f93f217c6fa6c36a, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.7610062, g: 0.7610062, b: 0.7610062, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -24452,7 +24378,6 @@ MonoBehaviour:
     Hash: 5089032f263c53fd0fc6bcce5fa7c787
     Material: {fileID: 2100000, guid: 91b9a52dd1c5bbf028c45860fad93189, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.7610062, g: 0.7610062, b: 0.7610062, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -24918,7 +24843,6 @@ MonoBehaviour:
     Hash: 545891aa858f66b7c8808b9ec6b2adb6
     Material: {fileID: 2100000, guid: 9ab390eca23b1150ca2e2154329ddb69, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.54999995, g: 0.54999995, b: 0.54999995, a: 1}
     Keywords:
     - FOG
     - LIGHTMAP
@@ -25363,7 +25287,6 @@ MonoBehaviour:
     Hash: 5cbe6bb15b57c405304b13a72359b1f7
     Material: {fileID: 2100000, guid: 030aac7c34ff045a699f2ad8d5727a27, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.7610062, g: 0.7610062, b: 0.7610062, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -25829,7 +25752,6 @@ MonoBehaviour:
     Hash: 5d06c6637886261e2fccee697ad5eb49
     Material: {fileID: 2100000, guid: 29ef183d7d924f73086b39a806a1613c, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.36792448, g: 0.36792448, b: 0.36792448, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -26283,7 +26205,6 @@ MonoBehaviour:
     Hash: 5d8ba2b2a657c9da7c3249bd344e4b6d
     Material: {fileID: 2100000, guid: df34bc26f1d976d899f7e972280f9a47, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.5499999, g: 0.5499999, b: 0.5499999, a: 1}
     Keywords:
     - FOG
     - LIGHTMAP
@@ -26726,7 +26647,6 @@ MonoBehaviour:
     Hash: 602583317f43b3282fa4245f89a8d239
     Material: {fileID: 2100000, guid: 930928df43ee366cbbff2a31246285fe, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.36792448, g: 0.36792448, b: 0.36792448, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -27179,7 +27099,6 @@ MonoBehaviour:
     Hash: 602c0da4bab63b669e96fa2ca13aac8d
     Material: {fileID: 2100000, guid: 341476559c3ec53b4ac637fd293325c4, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.25098038, g: 0.25098038, b: 0.25098038, a: 1}
     Keywords:
     - FOG
     - _VERTEXMODE_METALSMOOTHNESS
@@ -27625,7 +27544,6 @@ MonoBehaviour:
     Hash: 64555076bbc2f91d1b194975354201ef
     Material: {fileID: 2100000, guid: 68a73ddb05ef80c01b275879221ba1b1, type: 2}
     Shader: Custom/OpaqueNeonLight
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_HEIGHT_FOG
     FloatProps:
@@ -27647,7 +27565,6 @@ MonoBehaviour:
     Hash: 6776f62d4f39a21d3e951a4933c4ff09
     Material: {fileID: 2100000, guid: e38689ffd1ffda4b39d96552414b43ef, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 1, g: 1, b: 1, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -28091,7 +28008,6 @@ MonoBehaviour:
     Hash: 6a2027b140ebc5e3afcaf7e502fcc177
     Material: {fileID: 2100000, guid: c8a45f3fc20369eaaacc0ff5f1307a0b, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0, g: 0, b: 0, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -28537,7 +28453,6 @@ MonoBehaviour:
     Hash: 722b5c7336bbc6a85648a02e046f5c2d
     Material: {fileID: 2100000, guid: d7aacbf0014b0916b93d049071c5a87b, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.7610062, g: 0.7610062, b: 0.7610062, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -29003,7 +28918,6 @@ MonoBehaviour:
     Hash: 745d834ca32e3dcb08a24974af7ebcf1
     Material: {fileID: 2100000, guid: 2f3a3373156d21147ab897498640b177, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.7610062, g: 0.7610062, b: 0.7610062, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -29469,7 +29383,6 @@ MonoBehaviour:
     Hash: 83b7f1bd4781cbfee676211931b5cc1d
     Material: {fileID: 2100000, guid: b3cfd2556c5af6bc9affc8343d566e8d, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.65, g: 0.65, b: 0.65, a: 0}
     Keywords:
     - FOG
     - REFLECTION_PROBE
@@ -29913,7 +29826,6 @@ MonoBehaviour:
     Hash: 88a36ffe792053e926da69b6c15520ef
     Material: {fileID: 2100000, guid: 15e51350bfc3d8e96b8f8f7a0628419f, type: 2}
     Shader: Custom/OpaqueNeonLight
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords: []
     FloatProps:
     - Key: _FogScale
@@ -29934,7 +29846,6 @@ MonoBehaviour:
     Hash: 8cd6361443cb637dcd331318872f0a59
     Material: {fileID: 2100000, guid: 8c37788115d99499a947191071db4a2f, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.7610062, g: 0.7610062, b: 0.7610062, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -30399,7 +30310,6 @@ MonoBehaviour:
     Hash: 98511cc53968bdb2ad31db8072b21ecd
     Material: {fileID: 2100000, guid: aed0b82ba6f6b489eb6a33d48efcf46b, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 0.01, g: 0.01, b: 0.01, a: 1}
     Keywords:
     - NOISE_DITHERING
     - _FOGTYPE_LERP
@@ -30696,7 +30606,6 @@ MonoBehaviour:
     Hash: 9958e12e7f352f6f11a0a2b829802fc3
     Material: {fileID: 2100000, guid: 2c46e695fc7a7e0459a2a06130914ab4, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.7610062, g: 0.7610062, b: 0.7610062, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -31162,7 +31071,6 @@ MonoBehaviour:
     Hash: 9b0bbeeb7ed6d330ad59eec3968c0259
     Material: {fileID: 2100000, guid: bfafbe34991c0d1cdb3bd77f9cf207a8, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.10377359, g: 0.10377359, b: 0.10377359, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -31610,7 +31518,6 @@ MonoBehaviour:
     Hash: a0e66faa03d7f957a28627135c63deaa
     Material: {fileID: 2100000, guid: 115aa21c497ae0de69c2581a63c0d110, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.7610062, g: 0.7610062, b: 0.7610062, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -32076,7 +31983,6 @@ MonoBehaviour:
     Hash: a635d7e4e993ecc825196cd99ee0d886
     Material: {fileID: 2100000, guid: da7f1cdb02bc4064e97811030f25951b, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.7610062, g: 0.7610062, b: 0.7610062, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -32542,7 +32448,6 @@ MonoBehaviour:
     Hash: a77f4378e685a6352bd245674b65b668
     Material: {fileID: 2100000, guid: d8f1ec4dc250841aebf15177539672ae, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.5786162, g: 0.5786162, b: 0.5786162, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -33002,7 +32907,6 @@ MonoBehaviour:
     Hash: acba0b8521a7d6ad4bef524635f881d7
     Material: {fileID: 2100000, guid: 889a2f54db312215d9d83d0f001564ee, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.7610062, g: 0.7610062, b: 0.7610062, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -33468,7 +33372,6 @@ MonoBehaviour:
     Hash: b7248338e9b9482d36eb6f6d603d7946
     Material: {fileID: 2100000, guid: fd2088703c4339965959426ec8968f71, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.12999997, g: 0.12999997, b: 0.12999997, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -33911,7 +33814,6 @@ MonoBehaviour:
     Hash: bcaf751a136f2d60dfa679178afc854e
     Material: {fileID: 2100000, guid: 8d3262f7169598384817b9f6a24db323, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.31132072, g: 0.31132072, b: 0.31132072, a: 0}
     Keywords:
     - FOG
     - DIFFUSE
@@ -34357,7 +34259,6 @@ MonoBehaviour:
     Hash: bddd7c8779791cc332168c84834a5766
     Material: {fileID: 2100000, guid: ddcee53aac03c696d889ca02f6ec0ad4, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.7610062, g: 0.7610062, b: 0.7610062, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -34823,7 +34724,6 @@ MonoBehaviour:
     Hash: be7407cd216f99b214f359ff432f53f8
     Material: {fileID: 2100000, guid: 41daf88649f81bff5bab7ae8ada33632, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.24999997, g: 0.24999997, b: 0.24999997, a: 0}
     Keywords:
     - FOG
     - DIFFUSE
@@ -35266,7 +35166,6 @@ MonoBehaviour:
     Hash: c0048dd769f2765d2653206b89b5bb44
     Material: {fileID: 2100000, guid: bb591b32efbeb825682a737b9bd5554a, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.36792448, g: 0.36792448, b: 0.36792448, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -35720,7 +35619,6 @@ MonoBehaviour:
     Hash: c2b1cddf3196cc32202dfb5ad7173296
     Material: {fileID: 2100000, guid: c8205b67b03bfd3458cd3d9b2a43826b, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.7610062, g: 0.7610062, b: 0.7610062, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -36186,7 +36084,6 @@ MonoBehaviour:
     Hash: d296911b8a9745576089dae93489e0fc
     Material: {fileID: 2100000, guid: e12f4e37e1aec7ce1a4fa4147baa44a3, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.7610062, g: 0.7610062, b: 0.7610062, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -36652,7 +36549,6 @@ MonoBehaviour:
     Hash: d52889132b651cac56e7cbb589f1899c
     Material: {fileID: 2100000, guid: 801432d004ced934593b593fe83fdc77, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.745283, g: 0.745283, b: 0.745283, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -37100,7 +36996,6 @@ MonoBehaviour:
     Hash: d6790b94b85daf296e918a27fcbed42f
     Material: {fileID: 2100000, guid: c07bf533a72b284a7bedf6b362c1b9aa, type: 2}
     Shader: Custom/OpaqueNeonLight
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_HEIGHT_FOG
     FloatProps:
@@ -37122,7 +37017,6 @@ MonoBehaviour:
     Hash: d9c73be46e9046d24388cbea581018b0
     Material: {fileID: 2100000, guid: be38e9a7bb9dc101f8d2a0fa3d657f78, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.7610062, g: 0.7610062, b: 0.7610062, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -37588,7 +37482,6 @@ MonoBehaviour:
     Hash: e1fae823d94e8f8a16dbe9898a958253
     Material: {fileID: 2100000, guid: e960a07bb798a80a7a2f15bdb8c0c81e, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.7610062, g: 0.7610062, b: 0.7610062, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -38054,7 +37947,6 @@ MonoBehaviour:
     Hash: e5665dd4808d7be04d1fe1b71f23382d
     Material: {fileID: 2100000, guid: ca97a4fce6329fa87a5ebbe6df03c123, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.7610062, g: 0.7610062, b: 0.7610062, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -38520,7 +38412,6 @@ MonoBehaviour:
     Hash: ed18fa442be8e6ab417e57b1290c444b
     Material: {fileID: 2100000, guid: d897a455e31fb40eca21d6d2a7306c9b, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.7610062, g: 0.7610062, b: 0.7610062, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -38986,7 +38877,6 @@ MonoBehaviour:
     Hash: f6c18e00d088b3aaa391f05f7e0cd8c6
     Material: {fileID: 2100000, guid: 12ac804aedfc8aa009152b912f386f4c, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.7610062, g: 0.7610062, b: 0.7610062, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -39452,7 +39342,6 @@ MonoBehaviour:
     Hash: f7b60495509501bf602cff9af794d110
     Material: {fileID: 2100000, guid: 214207c29c99bc9ee84ad822c4a22d76, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.472, g: 0.472, b: 0.472, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -39900,7 +39789,6 @@ MonoBehaviour:
     Hash: fc1320e2f355d10f2638b2dcff39098e
     Material: {fileID: 2100000, guid: bd85257570e758941ab74a290a2f29c0, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.6, g: 0.6, b: 0.6, a: 0}
     Keywords:
     - FOG
     - LIGHT_FALLOFF
@@ -40344,7 +40232,6 @@ MonoBehaviour:
     Hash: fc56ad99169c4ea650f76cfff0f6bf10
     Material: {fileID: 2100000, guid: 679817241df87f0cfb824266ca9a4472, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.65, g: 0.65, b: 0.65, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -40788,7 +40675,6 @@ MonoBehaviour:
     Hash: fe8458c700d65120db187b7c8476e088
     Material: {fileID: 2100000, guid: af09d414bf0464401bfc50445258e39a, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.7610062, g: 0.7610062, b: 0.7610062, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -41254,7 +41140,6 @@ MonoBehaviour:
     Hash: 009760cdf47c4ed4951a5edd68ec32db
     Material: {fileID: 2100000, guid: fbb4a521688e91a8387116655c5f16d5, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.5471698, g: 0.5471698, b: 0.5471698, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -41703,7 +41588,6 @@ MonoBehaviour:
     Hash: 02140479bbd9bf3f663bf605a4800b12
     Material: {fileID: 2100000, guid: 068737439ee91babf94295a7d78432fb, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 0.5058824}
     Keywords:
     - VERTEX_COLOR
     - _FOGTYPE_LERP
@@ -41995,7 +41879,6 @@ MonoBehaviour:
     Hash: 1775d6d6b72a7f1598038cd141ec6c97
     Material: {fileID: 2100000, guid: ede5f99fcab01a9ca9eefff250d8cdfb, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - _WHITEBOOSTTYPE_MAINEFFECT
@@ -42288,7 +42171,6 @@ MonoBehaviour:
     Hash: 39e110fd5ddd40a1b7c98cb987bce1fa
     Material: {fileID: 2100000, guid: 1d21905c12aa937fba4e255b66483369, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.34999996, g: 0.34999996, b: 0.34999996, a: 0}
     Keywords:
     - FOG
     - DIFFUSE
@@ -42730,7 +42612,6 @@ MonoBehaviour:
     Hash: 3d9f4ffda3510bf2fa34d85d9dfabcf4
     Material: {fileID: 2100000, guid: 1f30c295489f76da8b6445f90b22a4f5, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.1568627, g: 0.1568627, b: 0.1568627, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -43174,7 +43055,6 @@ MonoBehaviour:
     Hash: 437745c53b676772f069e56bfe77aec1
     Material: {fileID: 2100000, guid: 292f5f45845e532a7a396dcbb1a6c293, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.19811317, g: 0.19811317, b: 0.19811317, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -43619,7 +43499,6 @@ MonoBehaviour:
     Hash: 4a903a8ce75cb1273be7b14193d8f915
     Material: {fileID: 2100000, guid: 2fa4715d7d7a38e96b88be25814d8b86, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.5, g: 0.5, b: 0.5, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -44064,7 +43943,6 @@ MonoBehaviour:
     Hash: 4b28edd745e9de000eeefa90d9cf9a6f
     Material: {fileID: 2100000, guid: ab4cb559b03146f39beb23afd62966b0, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 0, g: 0, b: 0, a: 0.6509804}
     Keywords:
     - DISSOLVE
     - _DISSOLVE_SPACE_WORLD
@@ -44355,7 +44233,6 @@ MonoBehaviour:
     Hash: 50aa2bac01a7138df5379e19e6088210
     Material: {fileID: 2100000, guid: 56687e754dccfc966ac794959aec420c, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - _FOGTYPE_LERP
@@ -44648,7 +44525,6 @@ MonoBehaviour:
     Hash: 5dd3cae04094d54501104147e57cb6cc
     Material: {fileID: 2100000, guid: 8e9d5568c1514ee6693f828294638e1d, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.34999987, g: 0.34999987, b: 0.34999987, a: 0}
     Keywords:
     - FOG
     - DIFFUSE
@@ -45092,7 +44968,6 @@ MonoBehaviour:
     Hash: 703d9a0df136dee193e5af0c478e9501
     Material: {fileID: 2100000, guid: 0f979fe7160eadea385be2c5da21f97b, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.34999996, g: 0.34999996, b: 0.34999996, a: 0}
     Keywords:
     - FOG
     - DIFFUSE
@@ -45534,7 +45409,6 @@ MonoBehaviour:
     Hash: 715877cc17d73fe85ef3339b7a857051
     Material: {fileID: 2100000, guid: 9cdec138aa3f80984bf0cdfc9b1d0ef9, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.24999997, g: 0.24999997, b: 0.24999997, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -45978,7 +45852,6 @@ MonoBehaviour:
     Hash: 7d3e8dbac30398a8c43800dc938e5333
     Material: {fileID: 2100000, guid: bd4b2f57e2345cfc0b7c3dd3f700abef, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.32099995, g: 0.32099995, b: 0.32099995, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -46462,7 +46335,6 @@ MonoBehaviour:
     Hash: 7f68ce167a2db62dd02d01c0689c88d0
     Material: {fileID: 2100000, guid: 985bcf7d87d0c2362a242294b7ae7614, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.16037735, g: 0.16037735, b: 0.16037735, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -46907,7 +46779,6 @@ MonoBehaviour:
     Hash: 808037f216bc0ccd3089da5251d1441a
     Material: {fileID: 2100000, guid: 24a61d082f101cacc8bd97e9611fe5e1, type: 2}
     Shader: Custom/OpaqueNeonLight
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_HEIGHT_FOG
     FloatProps:
@@ -46929,7 +46800,6 @@ MonoBehaviour:
     Hash: 84e41f49ba841937efbd175d718ab277
     Material: {fileID: 2100000, guid: 309589f6677604787a52153229199141, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.34999996, g: 0.34999996, b: 0.34999996, a: 0}
     Keywords:
     - FOG
     - DIFFUSE
@@ -47372,7 +47242,6 @@ MonoBehaviour:
     Hash: 933a8b5c169e9f42a50208f9e1cac1b9
     Material: {fileID: 2100000, guid: b111f1b195248445c9cb8613d750b7ba, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.29999998, g: 0.29999998, b: 0.29999998, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -47816,7 +47685,6 @@ MonoBehaviour:
     Hash: 9363aef8c74097786ec2a714c1885025
     Material: {fileID: 2100000, guid: 526853316cc1a4ea1aeba51c0e40e807, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.25098038, g: 0.25098038, b: 0.25098038, a: 0}
     Keywords:
     - FOG
     - DIFFUSE
@@ -48258,7 +48126,6 @@ MonoBehaviour:
     Hash: 9b9eeddc035fa54ad334f45741e32b3e
     Material: {fileID: 2100000, guid: b6d50484e3cdaa6249e7beb271c1a208, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.19811317, g: 0.19811317, b: 0.19811317, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -48703,7 +48570,6 @@ MonoBehaviour:
     Hash: bd49ecb36a63ddefc74a4c78a78af022
     Material: {fileID: 2100000, guid: 366dce385c303ab118e2bdbb9f9c9175, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.16037735, g: 0.16037735, b: 0.16037735, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -49148,7 +49014,6 @@ MonoBehaviour:
     Hash: bf3755127a15216d20ab845620808d76
     Material: {fileID: 2100000, guid: edd874de20145243d8e7bfcf31c982d1, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.29245278, g: 0.29245278, b: 0.29245278, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -49595,7 +49460,6 @@ MonoBehaviour:
     Hash: ca7761075b89fcaf346c819f94ca14ee
     Material: {fileID: 2100000, guid: 36f6c36098a4a5ee1a75bc797e5cf628, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.24999997, g: 0.24999997, b: 0.24999997, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -50038,7 +49902,6 @@ MonoBehaviour:
     Hash: ceb38a1ee507989fc8161efd9ce25d8f
     Material: {fileID: 2100000, guid: 0cce11b629063238287550908958fa19, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0, g: 0, b: 0, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -50486,7 +50349,6 @@ MonoBehaviour:
     Hash: ec4717880b950dbbe9be2697ae877082
     Material: {fileID: 2100000, guid: 8bbb52a3a90c67252a100e913842179e, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.6, g: 0.6, b: 0.6, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -50930,7 +50792,6 @@ MonoBehaviour:
     Hash: 08b95719a1e735b868579bf176aaad0c
     Material: {fileID: 2100000, guid: bd9be70e8803a18348014a8a5852fca8, type: 2}
     Shader: Custom/Parametric3SliceSprite
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_NOISE_DITHERING
     - ENABLE_FOG
@@ -51009,7 +50870,6 @@ MonoBehaviour:
     Hash: 0a73e4fb90fc7be1d9f2e9367523f528
     Material: {fileID: 2100000, guid: 8375aa869b8a5c2f2add18b6b393c6c9, type: 2}
     Shader: Custom/TransparentNeonLight
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_HEIGHT_FOG
     FloatProps:
@@ -51087,7 +50947,6 @@ MonoBehaviour:
     Hash: 0e586e6289c1d20726928404bc0380d4
     Material: {fileID: 2100000, guid: cd20c452d4376523d991c25d50a756bd, type: 2}
     Shader: Custom/Parametric3SliceSprite
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_NOISE_DITHERING
     - ENABLE_FOG
@@ -51186,7 +51045,6 @@ MonoBehaviour:
     Hash: 0f9d6b0df1d052f3da179a69bc1e05cd
     Material: {fileID: 2100000, guid: 39d683c3bf80da2d88527b0aa1108cd4, type: 2}
     Shader: Custom/TransparentNeonLight
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_HEIGHT_FOG
     FloatProps:
@@ -51298,7 +51156,6 @@ MonoBehaviour:
     Hash: 1015fff21ae878c5ed5ca3af5c63ce5c
     Material: {fileID: 2100000, guid: f137724dfdbceb250924b8a16d8a7543, type: 2}
     Shader: Custom/Parametric3SliceSprite
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_NOISE_DITHERING
     - ENABLE_FOG
@@ -51376,7 +51233,6 @@ MonoBehaviour:
     Hash: 1038857ad86fb8044e7c089835da23b7
     Material: {fileID: 2100000, guid: 0e4a5c638afefdd5baa82140f64a9d76, type: 2}
     Shader: Custom/TransparentNeonLight
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_WORLD_NOISE
     - ENABLE_WORLD_SPACE_FADE
@@ -51456,7 +51312,6 @@ MonoBehaviour:
     Hash: 1041f9044a82c6a5074754914b1adfde
     Material: {fileID: 2100000, guid: 5642d942980aa8d469a20323915e2fe8, type: 2}
     Shader: Custom/Parametric3SliceSprite
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_NOISE_DITHERING
     - ENABLE_FOG
@@ -51533,7 +51388,6 @@ MonoBehaviour:
     Hash: 116a226c97aa9ddcfe4f1e8a9ec68d34
     Material: {fileID: 2100000, guid: fce3de80485facc429090391bc1fabff, type: 2}
     Shader: Custom/TransparentNeonLight
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_WORLD_NOISE
     - WORLD_NOISE_WARP
@@ -51612,7 +51466,6 @@ MonoBehaviour:
     Hash: 15777c69b93ebec497c04531f37ddc55
     Material: {fileID: 2100000, guid: 578726b4dcb11f6f89363a5f6fffbc98, type: 2}
     Shader: Custom/Parametric3SliceSprite
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_FOG
     - USE_FOG_FOR_LIGHTS
@@ -51689,7 +51542,6 @@ MonoBehaviour:
     Hash: 170f69175f14d758264e4c5f0c92a1ee
     Material: {fileID: 2100000, guid: f492b623eda18db189d8030c048cb84c, type: 2}
     Shader: Custom/TransparentNeonLight
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_WORLD_NOISE
     - WORLD_NOISE_WARP
@@ -51768,7 +51620,6 @@ MonoBehaviour:
     Hash: 24e40dbb824f1e4fb89f3e25ca68e4fe
     Material: {fileID: 2100000, guid: c609be8621f502d2e9389412500fd13d, type: 2}
     Shader: Custom/Parametric3SliceSprite
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_NOISE_DITHERING
     - ENABLE_FOG
@@ -51845,7 +51696,6 @@ MonoBehaviour:
     Hash: 30e18bb8eeace8f274e4d7e59322b5a5
     Material: {fileID: 2100000, guid: 981c45b0a4ed292f28e7b31a1a2171c0, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - _WHITEBOOSTTYPE_MAINEFFECT
     - SQUARE_ALPHA
@@ -52139,7 +51989,6 @@ MonoBehaviour:
     Hash: 31fd48d1dd1e33299c744aa732a48732
     Material: {fileID: 2100000, guid: cce96d0ac545fbd29b777ecb910c203a, type: 2}
     Shader: Custom/Parametric3SliceSprite
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_FOG
     - ENABLE_HEIGHT_FOG
@@ -52221,7 +52070,6 @@ MonoBehaviour:
     Hash: 398fa1647ff0255a5cf66dea57880019
     Material: {fileID: 2100000, guid: 408ad577b44ec5e83a2393fc9ea8cfa9, type: 2}
     Shader: Custom/Parametric3SliceSprite
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_FOG
     - USE_FOG_FOR_LIGHTS
@@ -52298,7 +52146,6 @@ MonoBehaviour:
     Hash: 3c879d7d4ad6dfbf029dca992b1b2820
     Material: {fileID: 2100000, guid: d7507b82957f7037a8b5e92d0927b226, type: 2}
     Shader: Custom/Parametric3SliceSprite
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_FOG
     - USE_FOG_FOR_LIGHTS
@@ -52375,7 +52222,6 @@ MonoBehaviour:
     Hash: 4b14ffeebdcfc1868f2ab1775a92eb44
     Material: {fileID: 2100000, guid: d9ef441a38df3f3ea9673d94ad0a9115, type: 2}
     Shader: Custom/Parametric3SliceSprite
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_NOISE_DITHERING
     - ENABLE_FOG
@@ -52451,7 +52297,6 @@ MonoBehaviour:
     Hash: 4cdc97163129ee91e332d7ad645a727b
     Material: {fileID: 2100000, guid: 28496f1f3db0cb349be2d07847d9085a, type: 2}
     Shader: Custom/TransparentNeonLight
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_WORLD_NOISE
     - WORLD_NOISE_WARP
@@ -52530,7 +52375,6 @@ MonoBehaviour:
     Hash: 4e1b66e71f30c1c806f3bea4fb5c8eb9
     Material: {fileID: 2100000, guid: 59825e913f8b1499d82f2f7e9c17e962, type: 2}
     Shader: Custom/Parametric3SliceSprite
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_NOISE_DITHERING
     - ENABLE_FOG
@@ -52606,7 +52450,6 @@ MonoBehaviour:
     Hash: 52badf6b54c7d774e9801fb236addab1
     Material: {fileID: 2100000, guid: 198f7ada4e3b923b2997b4740c22c0be, type: 2}
     Shader: Custom/Parametric3SliceSprite
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_NOISE_DITHERING
     - ENABLE_FOG
@@ -52681,7 +52524,6 @@ MonoBehaviour:
     Hash: 59813e51f7d7aca3db03b9455a778d26
     Material: {fileID: 2100000, guid: 6d59109dea331674c85025073970a90d, type: 2}
     Shader: Custom/TransparentNeonLight
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords: []
     FloatProps:
     - Key: _FogScale
@@ -52759,7 +52601,6 @@ MonoBehaviour:
     Hash: 5b68e2b4fe955374cc387ef54676753d
     Material: {fileID: 2100000, guid: 383cf7e909bc82613aa236f1f3d4384c, type: 2}
     Shader: Custom/Parametric3SliceSprite
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_NOISE_DITHERING
     - ENABLE_FOG
@@ -52837,7 +52678,6 @@ MonoBehaviour:
     Hash: 5b86c951fb2323ba50d677b99acee4b0
     Material: {fileID: 2100000, guid: 315f55b924f09335abd644f28228d576, type: 2}
     Shader: Custom/Parametric3SliceSprite
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_FOG
     - USE_FOG_FOR_LIGHTS
@@ -52914,7 +52754,6 @@ MonoBehaviour:
     Hash: 67d7e8b5695a088a66d7fd85536baa2f
     Material: {fileID: 2100000, guid: d2d72b4c8c269a9938c253b1fd3c2d8f, type: 2}
     Shader: Custom/Parametric3SliceSprite
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_NOISE_DITHERING
     - ENABLE_FOG
@@ -52992,7 +52831,6 @@ MonoBehaviour:
     Hash: 6915c37f987ab0d342b47661e16c7810
     Material: {fileID: 2100000, guid: 7d7d16672c903ebd9b498c70c7928ee7, type: 2}
     Shader: Custom/Parametric3SliceSprite
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_NOISE_DITHERING
     - ENABLE_FOG
@@ -53070,7 +52908,6 @@ MonoBehaviour:
     Hash: 6f27c749b778409076c4a4420322a519
     Material: {fileID: 2100000, guid: 50e93b66a67c124159b0620af0c7050f, type: 2}
     Shader: Custom/Parametric3SliceSprite
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_FOG
     - ENABLE_HEIGHT_FOG
@@ -53146,7 +52983,6 @@ MonoBehaviour:
     Hash: 6f561089e82699c4e5bf72446d5039fd
     Material: {fileID: 2100000, guid: f6abaec27da5dca81a8ad1be253b73c4, type: 2}
     Shader: Custom/Parametric3SliceSprite
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_FOG
     - ENABLE_HEIGHT_FOG
@@ -53224,7 +53060,6 @@ MonoBehaviour:
     Hash: 70c5c706a80b57a8f2c4adbda1b6759c
     Material: {fileID: 2100000, guid: 603be33aed30a176abe402a3725878b9, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.11999992, g: 0.11999992, b: 0.11999992, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -53669,7 +53504,6 @@ MonoBehaviour:
     Hash: 88ed3961cbd2b11feaaaae395de25440
     Material: {fileID: 2100000, guid: c06ecb7ffd8e7e4e7ac35aa9855e7836, type: 2}
     Shader: Custom/OpaqueNeonLight
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords: []
     FloatProps:
     - Key: _FogScale
@@ -53691,7 +53525,6 @@ MonoBehaviour:
     Hash: 8a81c015f36c1cec581d6752beb1d518
     Material: {fileID: 2100000, guid: b469f0bd9d84e729cad035deffcffae2, type: 2}
     Shader: Custom/TransparentNeonLight
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_WORLD_NOISE
     - ENABLE_HEIGHT_FOG
@@ -53770,7 +53603,6 @@ MonoBehaviour:
     Hash: 944a80471069b97de2a3eb80e93211a8
     Material: {fileID: 2100000, guid: 8d536f44b7197bba98ae14b96cb9be24, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - _WHITEBOOSTTYPE_ALWAYS
     - _FOGTYPE_ALPHA
@@ -54066,7 +53898,6 @@ MonoBehaviour:
     Hash: 9875f6f7b8d7a434851b33cd69141fd4
     Material: {fileID: 2100000, guid: ff5c3bb2efb74eda5a5df31210d68603, type: 2}
     Shader: Custom/Parametric3SliceSprite
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_FOG
     - ENABLE_HEIGHT_FOG
@@ -54143,7 +53974,6 @@ MonoBehaviour:
     Hash: 9a9d314ad80eb514819322e55205c602
     Material: {fileID: 2100000, guid: 59201999d6474ca41894b53951001b72, type: 2}
     Shader: Custom/Parametric3SliceSprite
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_FOG
     - ENABLE_HEIGHT_FOG
@@ -54222,7 +54052,6 @@ MonoBehaviour:
     Hash: 9c4eb6c93d3c1466849a038b1b325a5d
     Material: {fileID: 2100000, guid: 4118c871254f87d7ba784aaa0583cbee, type: 2}
     Shader: Custom/TransparentNeonLight
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_HEIGHT_FOG
     FloatProps:
@@ -54300,7 +54129,6 @@ MonoBehaviour:
     Hash: a86a590e8e3c0384df86468afd513d67
     Material: {fileID: 2100000, guid: 0bc7bd5cc9b401a07a796ed76d670028, type: 2}
     Shader: Custom/Parametric3SliceSprite
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_NOISE_DITHERING
     - ENABLE_FOG
@@ -54378,7 +54206,6 @@ MonoBehaviour:
     Hash: ab3e8914b79f63869ea93e284375a460
     Material: {fileID: 2100000, guid: 19f1b0662a37811df870067b5ab787f2, type: 2}
     Shader: Custom/OpaqueNeonLight
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords: []
     FloatProps:
     - Key: _FogScale
@@ -54399,7 +54226,6 @@ MonoBehaviour:
     Hash: abe53b577e64c7379f77602c07ec7825
     Material: {fileID: 2100000, guid: 1ef3e91abd66bc2b9a6b3c128aad24e2, type: 2}
     Shader: Custom/Parametric3SliceSprite
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_NOISE_DITHERING
     - ENABLE_FOG
@@ -54477,7 +54303,6 @@ MonoBehaviour:
     Hash: ba7bcb9e91fa222106892d8152a13b04
     Material: {fileID: 2100000, guid: f9ce1785a8fb94296875ab76e6caf75d, type: 2}
     Shader: Custom/TransparentNeonLight
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - REFLECTION_PROBE
     FloatProps:
@@ -54558,7 +54383,6 @@ MonoBehaviour:
     Hash: c2330ea0c3b52d23053261c8a054b3f3
     Material: {fileID: 2100000, guid: b5bfb36a0825fa046a1062252b788691, type: 2}
     Shader: Custom/Parametric3SliceSprite
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_NOISE_DITHERING
     - ENABLE_FOG
@@ -54664,7 +54488,6 @@ MonoBehaviour:
     Hash: c31c05074f0bc72190b7a666f54a6a43
     Material: {fileID: 2100000, guid: 68e2de64c997504278aba978ab4bb2e1, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - _WHITEBOOSTTYPE_MAINEFFECT
     - _FOGTYPE_ALPHA
@@ -54959,7 +54782,6 @@ MonoBehaviour:
     Hash: d010fc339ede0a9a8e6bf066d2fe4dbb
     Material: {fileID: 2100000, guid: ad5e4b1a155bdb97baabf23b88f6b009, type: 2}
     Shader: Custom/Parametric3SliceSprite
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_NOISE_DITHERING
     - ENABLE_FOG
@@ -55037,7 +54859,6 @@ MonoBehaviour:
     Hash: d47f817d3f5eb7e0682195efcac8c51b
     Material: {fileID: 2100000, guid: 274baafc8fa4d4b38aab823b3d8f5be9, type: 2}
     Shader: Custom/Parametric3SliceSprite
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_NOISE_DITHERING
     - ENABLE_FOG
@@ -55114,7 +54935,6 @@ MonoBehaviour:
     Hash: d6b19a3cb55a108aa149c2b1a48b6c4b
     Material: {fileID: 2100000, guid: 4b42b80ca4329bba0bd9ee293e4fb7fc, type: 2}
     Shader: Custom/Parametric3SliceSprite
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_NOISE_DITHERING
     - ENABLE_FOG
@@ -55191,7 +55011,6 @@ MonoBehaviour:
     Hash: e072064dce1902cec7f4af7973879546
     Material: {fileID: 2100000, guid: d3013e4d5609d6d5db966a027c012c6f, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - _WHITEBOOSTTYPE_ALWAYS
     - SQUARE_ALPHA
@@ -55484,7 +55303,6 @@ MonoBehaviour:
     Hash: eef11c2bf2f7002df47441282c65eb80
     Material: {fileID: 2100000, guid: b5bfb36a0825fa046a1062252b788691, type: 2}
     Shader: Custom/Parametric3SliceSprite
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_NOISE_DITHERING
     - ENABLE_FOG
@@ -55566,7 +55384,6 @@ MonoBehaviour:
     Hash: ef815f85eb94e2c946eae352f74447bc
     Material: {fileID: 2100000, guid: 7fb2f74740781a79e9d07d8c46b714ba, type: 2}
     Shader: Custom/TransparentNeonLight
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_HEIGHT_FOG
     FloatProps:
@@ -55644,7 +55461,6 @@ MonoBehaviour:
     Hash: f9adaace552dd72dd9e0d5ccda8a6e45
     Material: {fileID: 2100000, guid: 09bd15e319498b9e8b68f56c063ab547, type: 2}
     Shader: Custom/OpaqueNeonLight
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_HEIGHT_FOG
     FloatProps:
@@ -55686,7 +55502,6 @@ MonoBehaviour:
     Hash: 04ce7c48a3041624b1673585eeae3781
     Material: {fileID: 2100000, guid: b904d12c0aad88fa0a1f4dbcd9e67109, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.34117645, g: 0.34117645, b: 0.34117645, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -56143,7 +55958,6 @@ MonoBehaviour:
     Hash: 04f5fd269e86b070e5ec9d4e54d427a2
     Material: {fileID: 2100000, guid: 11968c96d598b3b87b901f8913360670, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.65, g: 0.65, b: 0.65, a: 1}
     Keywords:
     - FOG
     - REFLECTION_PROBE
@@ -56585,7 +56399,6 @@ MonoBehaviour:
     Hash: 0ab813fbbdacdd0321b5f1cfab90a6c8
     Material: {fileID: 2100000, guid: d1335bc487ccd485d8053df8776cf03c, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - SQUARE_ALPHA
     - _CUSTOM_TIME_SONG_TIME
@@ -56880,7 +56693,6 @@ MonoBehaviour:
     Hash: 0f1179585f6b0e05513cbf714328555c
     Material: {fileID: 2100000, guid: 8711d1bc09a4fd4a0a81960035c5b00c, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.65, g: 0.65, b: 0.65, a: 0}
     Keywords:
     - FOG
     - LIGHT_FALLOFF
@@ -57323,7 +57135,6 @@ MonoBehaviour:
     Hash: 16637dbaf08b2c9fdd984361d3f0da40
     Material: {fileID: 2100000, guid: a6c8171d91b2fe9d8940d467c9060525, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - SQUARE_ALPHA
@@ -57619,7 +57430,6 @@ MonoBehaviour:
     Hash: 16910d0190c7eb78537591dded73dc8a
     Material: {fileID: 2100000, guid: e1798fdd93f7313f29767a7a2cce7461, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 0, g: 0, b: 0, a: 1}
     Keywords:
     - VERTEX_COLOR
     - _FOGTYPE_ALPHA
@@ -57912,7 +57722,6 @@ MonoBehaviour:
     Hash: 16e4efb9b7d158ae68d12153418d2575
     Material: {fileID: 2100000, guid: a5bb9b664aa7364fb9265fb486125a2c, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - SQUARE_ALPHA
     - TEXTURE_COLOR
@@ -58207,7 +58016,6 @@ MonoBehaviour:
     Hash: 1b30a76cb018214034a040554df3dce0
     Material: {fileID: 2100000, guid: 4a37da155bbd8d1228d6849325f9c7da, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.28235292, g: 0.28235292, b: 0.28235292, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -58650,7 +58458,6 @@ MonoBehaviour:
     Hash: 22a6a27684f734c1e642d4971e66fc7d
     Material: {fileID: 2100000, guid: 52d0dadbf46e4bd09aeefef23af1e2de, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.28301886, g: 0.28301886, b: 0.28301886, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -59095,7 +58902,6 @@ MonoBehaviour:
     Hash: 27c59e121af21df24a3f0b5006afba9c
     Material: {fileID: 2100000, guid: 6d2e581c8d8671a0183fb36f4c2814ef, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.34117645, g: 0.34117645, b: 0.34117645, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -59552,7 +59358,6 @@ MonoBehaviour:
     Hash: 28daf83aa0fc7f4004970dea1b911be4
     Material: {fileID: 2100000, guid: 860fefead5ad7a77996053a8e4cebf8a, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - SQUARE_ALPHA
@@ -59846,7 +59651,6 @@ MonoBehaviour:
     Hash: 2ea9198ddabede8133cd8b0eaaf1abee
     Material: {fileID: 2100000, guid: ad63ea252d0ecebeca9eea5ce9da3224, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.3396226, g: 0.3396226, b: 0.3396226, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -60298,7 +60102,6 @@ MonoBehaviour:
     Hash: 32bb3118b03e37f2c30a76ead63c1e80
     Material: {fileID: 2100000, guid: 270b1c5478f927628ae3aa0da3cdcd80, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.39999998, g: 0.39999998, b: 0.39999998, a: 1}
     Keywords:
     - FOG
     - LIGHTMAP
@@ -60742,7 +60545,6 @@ MonoBehaviour:
     Hash: 37a1dcac60e5fb5caa7799a750295e2f
     Material: {fileID: 2100000, guid: ad8076037ff989bf4b7b5eee87cdf18c, type: 2}
     Shader: Custom/Parametric3SliceSprite
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_FOG
     - USE_FOG_FOR_LIGHTS
@@ -60816,7 +60618,6 @@ MonoBehaviour:
     Hash: 3a00c272a401377cdafd1242b9f1ec87
     Material: {fileID: 2100000, guid: 0d213913e25148af0a139f8eab68785d, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.14999998, g: 0.14999998, b: 0.14999998, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -61264,7 +61065,6 @@ MonoBehaviour:
     Hash: 4c886344762bd04bdd341f51b7e6476b
     Material: {fileID: 2100000, guid: 9d0ef371d9bd79c249602632be5ac4f0, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - SQUARE_ALPHA
     - _CUSTOM_TIME_SONG_TIME
@@ -61558,7 +61358,6 @@ MonoBehaviour:
     Hash: 4ee2ca3e6f06c57f90ff23417129ee8e
     Material: {fileID: 2100000, guid: d168743ddfc919fdb99744063185bd45, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.24999997, g: 0.24999997, b: 0.24999997, a: 0}
     Keywords:
     - FOG
     - REFLECTION_PROBE
@@ -62000,7 +61799,6 @@ MonoBehaviour:
     Hash: 50b00d155bee3d5398809e43605a02bf
     Material: {fileID: 2100000, guid: eb00495cb569e2112adeb9b15b5f4982, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - _WHITEBOOSTTYPE_ALWAYS
@@ -62296,7 +62094,6 @@ MonoBehaviour:
     Hash: 54a45f819309629e84ecc5f46b66fc40
     Material: {fileID: 2100000, guid: fe781c3e6734a05f7a12656da180884e, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 0.7960787, g: 0, b: 1, a: 0.7490196}
     Keywords:
     - VERTEX_COLOR
     - _WHITEBOOSTTYPE_ALWAYS
@@ -62592,7 +62389,6 @@ MonoBehaviour:
     Hash: 5d6028fa411f84023604710addca6cbc
     Material: {fileID: 2100000, guid: 0709b98bd97b5c4358fad865f0e36ad7, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 0, g: 0.62745094, b: 1, a: 1}
     Keywords:
     - _WHITEBOOSTTYPE_ALWAYS
     - _FOGTYPE_ALPHA
@@ -62886,7 +62682,6 @@ MonoBehaviour:
     Hash: 6086784eccf1179d275192b9268a495d
     Material: {fileID: 2100000, guid: 22f44564d9fc34671949f9ab376633cf, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - _WHITEBOOSTTYPE_ALWAYS
@@ -63184,7 +62979,6 @@ MonoBehaviour:
     Hash: 63cd79c91e505e3e983142c4e3ee2973
     Material: {fileID: 2100000, guid: 6db341976cd9e6973991583df618b76b, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 0.75138354, b: 0.509434, a: 1}
     Keywords:
     - SQUARE_ALPHA
     - COLOR_GRADIENT
@@ -63475,7 +63269,6 @@ MonoBehaviour:
     Hash: 6e05fdd204d20be377576ff7f377da31
     Material: {fileID: 2100000, guid: c4e0e9c2d2c7aa52999c8c487358f6bf, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - _WHITEBOOSTTYPE_MAINEFFECT
@@ -63773,7 +63566,6 @@ MonoBehaviour:
     Hash: 70189fa29022e25bc65de168c6beb025
     Material: {fileID: 2100000, guid: 19e3fb418aa3f614eb69947e313d9557, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 0, g: 0, b: 0, a: 1}
     Keywords:
     - VERTEX_COLOR
     - _FOGTYPE_ALPHA
@@ -64066,7 +63858,6 @@ MonoBehaviour:
     Hash: 93ea051ea9f0ae45ad329d6e7f1494ec
     Material: {fileID: 2100000, guid: 26a45a7b4b0ccd9568ee9f3d5bdc5bca, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.31999996, g: 0.31999996, b: 0.31999996, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -64509,7 +64300,6 @@ MonoBehaviour:
     Hash: 960f1ae69b31d243b82f93969332698f
     Material: {fileID: 2100000, guid: a67380566aea6f370b10440b8f680517, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 0.6039216, g: 0.2980392, b: 0.3215686, a: 1}
     Keywords:
     - _WHITEBOOSTTYPE_ALWAYS
     - _FOGTYPE_ALPHA
@@ -64805,7 +64595,6 @@ MonoBehaviour:
     Hash: 9b73015f85cc50882fe0a0ec34b70ad1
     Material: {fileID: 2100000, guid: af366d47fb461f4909178b5c8044b6e5, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.14999998, g: 0.14999998, b: 0.14999998, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -65253,7 +65042,6 @@ MonoBehaviour:
     Hash: a5f89350f47cab30760fddc3e66c3d8a
     Material: {fileID: 2100000, guid: 93937873b2849972e8b3c1004d19d527, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.72327036, g: 0.72327036, b: 0.72327036, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -65715,7 +65503,6 @@ MonoBehaviour:
     Hash: a7b9d9cd54f7063bfb02723826ebb3d3
     Material: {fileID: 2100000, guid: 1728dbb43fad22b509729818ccf80f3d, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.65, g: 0.65, b: 0.65, a: 0}
     Keywords:
     - FOG
     - REFLECTION_PROBE
@@ -66155,7 +65942,6 @@ MonoBehaviour:
     Hash: b25a20ccf94f8974a4cfab96a3d21f59
     Material: {fileID: 2100000, guid: 37b00501009fcd159aa5ef9152c4bf32, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - _WHITEBOOSTTYPE_MAINEFFECT
@@ -66451,7 +66237,6 @@ MonoBehaviour:
     Hash: b46b22e850c5e6ac82122fcccd3fa862
     Material: {fileID: 2100000, guid: 7d2492a0d6672177aaf052aae67c6987, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.31999996, g: 0.31999996, b: 0.31999996, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -66896,7 +66681,6 @@ MonoBehaviour:
     Hash: cb65df2537657f8e5ff696a4b78b3b76
     Material: {fileID: 2100000, guid: 7def2e5588f9ab083bbad3d6220e4899, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.24999997, g: 0.24999997, b: 0.24999997, a: 0}
     Keywords:
     - FOG
     - DIFFUSE
@@ -67338,7 +67122,6 @@ MonoBehaviour:
     Hash: cbd3e075abad8076fd6fa4be12a76f60
     Material: {fileID: 2100000, guid: 4a9e93bc7b5e7798ba284826da55f7ef, type: 2}
     Shader: Custom/TransparentNeonLight
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords: []
     FloatProps:
     - Key: _FogScale
@@ -67415,7 +67198,6 @@ MonoBehaviour:
     Hash: d8b2c6de6448eac740437fb530e2ca7b
     Material: {fileID: 2100000, guid: b533dd9e156c6faeeb631262835ecc59, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.34117645, g: 0.34117645, b: 0.34117645, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -67872,7 +67654,6 @@ MonoBehaviour:
     Hash: ea7e7da04351abe0c53d0c40a27aaac7
     Material: {fileID: 2100000, guid: 6317b4903b4a7e4249ec81c66907e10d, type: 2}
     Shader: Custom/Mirror
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_DIRT
     - LIGHTMAP
@@ -67923,7 +67704,6 @@ MonoBehaviour:
     Hash: eb3ae8100536d8a56c3fc51d4b2a320f
     Material: {fileID: 2100000, guid: cc636853426e080179a18fff44b5050b, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0, g: 0, b: 0, a: 1}
     Keywords:
     - FOG
     - GROUND_FADE
@@ -68369,7 +68149,6 @@ MonoBehaviour:
     Hash: 01c8871d9a08676cd520799c4b6a068e
     Material: {fileID: 2100000, guid: 337898cb9de96a011a4a539052629dba, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.46226412, g: 0.46226412, b: 0.46226412, a: 1}
     Keywords:
     - FOG
     - DIFFUSE
@@ -68813,7 +68592,6 @@ MonoBehaviour:
     Hash: 1ed5a4dbd5f2b7dde31b9d38ba164788
     Material: {fileID: 2100000, guid: 3547fdff59fd8d1b2b3e229ef67a3113, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -69256,7 +69034,6 @@ MonoBehaviour:
     Hash: 2f4df6f66dd81952534bcd398b6f6275
     Material: {fileID: 2100000, guid: e9abff611b6ad0f93a979e0fec0f47f5, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.46226412, g: 0.46226412, b: 0.46226412, a: 1}
     Keywords:
     - FOG
     - DIFFUSE
@@ -69700,7 +69477,6 @@ MonoBehaviour:
     Hash: 3304a9fc714e685de93d8e8ead4ea1f3
     Material: {fileID: 2100000, guid: a5bc7c95be958f5c7aae0f4ead8788c2, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 0, g: 0.56862736, b: 1, a: 1}
     Keywords:
     - _WHITEBOOSTTYPE_ALWAYS
     - SQUARE_ALPHA
@@ -69997,7 +69773,6 @@ MonoBehaviour:
     Hash: 3648649ae603ad24b1e0960a7db86fcd
     Material: {fileID: 2100000, guid: acc75d198eb82dc0eb9e59f3d7957152, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - _WHITEBOOSTTYPE_ALWAYS
@@ -70295,7 +70070,6 @@ MonoBehaviour:
     Hash: 3b8cc7790b3bc7b52cff18e540bde390
     Material: {fileID: 2100000, guid: 934f5695cec271d8690bd03f93a8fac2, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.65, g: 0.65, b: 0.65, a: 0}
     Keywords:
     - FOG
     - REFLECTION_PROBE
@@ -70736,7 +70510,6 @@ MonoBehaviour:
     Hash: 52313614ec8776e59002a5a4b9bc2f75
     Material: {fileID: 2100000, guid: 3709a41ca70b416328e7216f16c7bb69, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - _FOGTYPE_ALPHA
@@ -71028,7 +70801,6 @@ MonoBehaviour:
     Hash: 5db20cfcbc99ff9a489d989b001732b6
     Material: {fileID: 2100000, guid: 1a7399ca54ffd5c1e89a7ca1b0d2e34a, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.504, g: 0.504, b: 0.504, a: 0}
     Keywords:
     - FOG
     - DIFFUSE
@@ -71473,7 +71245,6 @@ MonoBehaviour:
     Hash: 6a51aafad68f2bb71bb36109bc790499
     Material: {fileID: 2100000, guid: f40392eba56dda4c58f0725d800167a0, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 0, g: 0.56862736, b: 1, a: 1}
     Keywords:
     - _WHITEBOOSTTYPE_ALWAYS
     - SQUARE_ALPHA
@@ -71770,7 +71541,6 @@ MonoBehaviour:
     Hash: 6d8fc78b0a5bc7534ea20bd655c13c2b
     Material: {fileID: 2100000, guid: a8d950c0b357bdc59b5e543ab1b0b239, type: 2}
     Shader: Custom/Mirror
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_DIRT
     FloatProps:
@@ -71828,7 +71598,6 @@ MonoBehaviour:
     Hash: 872147c170e4e68146c32426bf542785
     Material: {fileID: 2100000, guid: 8e4f56f41795cf8e4badf4d170678bfe, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - _FOGTYPE_COLOR
@@ -72122,7 +71891,6 @@ MonoBehaviour:
     Hash: 930ee1e605d06ef264d67875b352a349
     Material: {fileID: 2100000, guid: 893a7daa8f508a38e9aa6995184aaf4d, type: 2}
     Shader: Custom/Mirror
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_DIRT
     - LIGHT_FALLOFF
@@ -72173,7 +71941,6 @@ MonoBehaviour:
     Hash: 937ad43be178ccf297fc68d0e46b9cf4
     Material: {fileID: 2100000, guid: 51a16b0d25395b88182d664c65fa064f, type: 2}
     Shader: Custom/Mirror
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_DIRT
     FloatProps:
@@ -72223,7 +71990,6 @@ MonoBehaviour:
     Hash: 970f4fa38dcb9f498a0eece2c51df3eb
     Material: {fileID: 2100000, guid: 72f9e84215bace1119db613c719ab9a7, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.65, g: 0.65, b: 0.65, a: 0}
     Keywords:
     - FOG
     - OCCLUSION
@@ -72671,7 +72437,6 @@ MonoBehaviour:
     Hash: 9bb752530754b5840558d77eb30f5e97
     Material: {fileID: 2100000, guid: 0bae0cb0859a6ad17807ac842bee1aea, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.14150938, g: 0.14150938, b: 0.14150938, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -73114,7 +72879,6 @@ MonoBehaviour:
     Hash: a96ddb8c34c8e07c938d8bf02f423a75
     Material: {fileID: 2100000, guid: ff45d0f2d088f0b59917b5038ed47b03, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.745283, g: 0.745283, b: 0.745283, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -73558,7 +73322,6 @@ MonoBehaviour:
     Hash: ad908829b7a2ac5d8c447f38cf4a2fe9
     Material: {fileID: 2100000, guid: 855baa206f3b994888c48027f7990daa, type: 2}
     Shader: Custom/Mirror
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_DIRT
     FloatProps:
@@ -73608,7 +73371,6 @@ MonoBehaviour:
     Hash: afb20117fe83acfb86c7e1383465701a
     Material: {fileID: 2100000, guid: 335bbaca3ec4320b1ba48e162fbd3ca5, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.46226412, g: 0.46226412, b: 0.46226412, a: 1}
     Keywords:
     - FOG
     - DIFFUSE
@@ -74052,7 +73814,6 @@ MonoBehaviour:
     Hash: c193aeb32affac8c978e27d9cb6b6d03
     Material: {fileID: 2100000, guid: 82db9212c903daafea3c185e7dc9b195, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - _WHITEBOOSTTYPE_ALWAYS
@@ -74343,7 +74104,6 @@ MonoBehaviour:
     Hash: c760a6d0c192d1902ab61f3437b631e0
     Material: {fileID: 2100000, guid: 9ab41971147884ba0bf0de380359efda, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.33962256, g: 0.33855456, b: 0.33855456, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -74787,7 +74547,6 @@ MonoBehaviour:
     Hash: c812fc5f27a9d60d29b2c54928e50a69
     Material: {fileID: 2100000, guid: 804e89fca0b07e1ce82476d7f681bf20, type: 2}
     Shader: Custom/Mirror
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords: []
     FloatProps:
     - Key: _FogScale
@@ -74836,7 +74595,6 @@ MonoBehaviour:
     Hash: ce23a130538b3e2a71dbcdebced31284
     Material: {fileID: 2100000, guid: f7facf4a65fdb7413bd73d4bbb97e994, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - _WHITEBOOSTTYPE_ALWAYS
@@ -75127,7 +74885,6 @@ MonoBehaviour:
     Hash: d43901e1b965ec49581a547e960e6fe7
     Material: {fileID: 2100000, guid: abded7b2c576bd25b97a289bed04954d, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.39999998, g: 0.39999998, b: 0.39999998, a: 1}
     Keywords:
     - HEIGHT_FOG
     - DIFFUSE
@@ -75570,7 +75327,6 @@ MonoBehaviour:
     Hash: e2a142b774f6b7fb4e588b3f517a7550
     Material: {fileID: 2100000, guid: b512273ee507447ac8762d081b0afd74, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.29999998, g: 0.29999998, b: 0.29999998, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -76015,7 +75771,6 @@ MonoBehaviour:
     Hash: 0fc6acff79af68e8f66958b9c68e8305
     Material: {fileID: 2100000, guid: 0ecf9ef1bb422df75869ed1a01152af1, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - _WHITEBOOSTTYPE_MAINEFFECT
     - _FOGTYPE_ALPHA
@@ -76313,7 +76068,6 @@ MonoBehaviour:
     Hash: 1cf9cabdc55c88b94d401ee978b7c7aa
     Material: {fileID: 2100000, guid: e0270639e4094889d8b60b96bab7a728, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.07697474, g: 0.14593181, b: 0.17610052, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -76765,7 +76519,6 @@ MonoBehaviour:
     Hash: 304cd506ca6114a772d0d38ae115e640
     Material: {fileID: 2100000, guid: 27fa5e9221adda23399cd75178cad502, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -77215,7 +76968,6 @@ MonoBehaviour:
     Hash: 3974ad5134517fca8032f57f92a130e3
     Material: {fileID: 2100000, guid: 76b8f27f91bd03a339e729b379a17f4b, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.99056596, g: 0.9701343, b: 0.8005517, a: 1}
     Keywords:
     - FOG
     - DISSOLVE
@@ -77677,7 +77429,6 @@ MonoBehaviour:
     Hash: 4f1b193a3c3947da5d1057daf27d7f0a
     Material: {fileID: 2100000, guid: e54f6f0af547aefe7a34097f54de8d02, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - NOISE_DITHERING
@@ -77981,7 +77732,6 @@ MonoBehaviour:
     Hash: 63b547c0b7e756bc8dd2ad3995491270
     Material: {fileID: 2100000, guid: c5c0a711c46ff30b38efc534bff118d5, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - _WHITEBOOSTTYPE_MAINEFFECT
@@ -78279,7 +78029,6 @@ MonoBehaviour:
     Hash: 6aa7a1397e1c0bf07bd9562c03182616
     Material: {fileID: 2100000, guid: 3451ae5e9b43237d08631d6df76f78e0, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.24799997, g: 0.24799997, b: 0.24799997, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -78726,7 +78475,6 @@ MonoBehaviour:
     Hash: 82c58289d8c43f20d13edae2810686d3
     Material: {fileID: 2100000, guid: 608ed26aa37f25154a0469af544f1a1d, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.07697474, g: 0.14593181, b: 0.17610052, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -79178,7 +78926,6 @@ MonoBehaviour:
     Hash: 8fccf208ac4643fc29fe92f2433563a6
     Material: {fileID: 2100000, guid: 1d3d7287bf21ed11da7ec9ad08280cf5, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - _WHITEBOOSTTYPE_MAINEFFECT
     - _FOGTYPE_ALPHA
@@ -79474,7 +79221,6 @@ MonoBehaviour:
     Hash: 936f5327b1fa940e21ca5490a2f8fd3d
     Material: {fileID: 2100000, guid: 2b70a59303718dbf8a49cbd479d423dd, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - NOISE_DITHERING
@@ -79773,7 +79519,6 @@ MonoBehaviour:
     Hash: 9826814f8c6c34d5a194cae90db2fa44
     Material: {fileID: 2100000, guid: d0f33696a0b0b43eca2742ad17bace78, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.07697474, g: 0.14593181, b: 0.17610052, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -80220,7 +79965,6 @@ MonoBehaviour:
     Hash: a1c7889d7a1aeaf2caa5fa2b0494eb46
     Material: {fileID: 2100000, guid: de0f98474a59bbfd1b4819f3e1ab313a, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.67799926, g: 0.7117449, b: 0.735849, a: 1}
     Keywords:
     - FOG
     - DISSOLVE
@@ -80680,7 +80424,6 @@ MonoBehaviour:
     Hash: d491a1a54cbc3a732a2f84e40ca6e389
     Material: {fileID: 2100000, guid: 35f74abdcb3920774b966dc743d1811c, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.27843136, g: 0.26274508, b: 0.2352941, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -81128,7 +80871,6 @@ MonoBehaviour:
     Hash: d88801472b7c0ef563e8c6de0467387a
     Material: {fileID: 2100000, guid: 57e21c3b5c4afd4e9a4c8674e8255d84, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.10999993, g: 0.10999993, b: 0.10999993, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -81572,7 +81314,6 @@ MonoBehaviour:
     Hash: e05e4bf7750d193c45238a90edb1191e
     Material: {fileID: 2100000, guid: 2a1d31e599d3d5569a9a5b00df6fa086, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.27843136, g: 0.26274508, b: 0.2352941, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -82022,7 +81763,6 @@ MonoBehaviour:
     Hash: e1b7f4396d044fba0debe840a22c177c
     Material: {fileID: 2100000, guid: c524f03e5494b8a6a959d233e871a1c1, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - _WHITEBOOSTTYPE_MAINEFFECT
@@ -82326,7 +82066,6 @@ MonoBehaviour:
     Hash: f72ade39133b2e253dc9693c2191e85f
     Material: {fileID: 2100000, guid: 3b575c634496ebedc984a5991240ab1d, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -82776,7 +82515,6 @@ MonoBehaviour:
     Hash: 06c48474565d0561ea69bf62f132d9ca
     Material: {fileID: 2100000, guid: 034cc108d377550fa8175ec098b6a7c9, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.34499994, g: 0.34499994, b: 0.34499994, a: 0}
     Keywords:
     - FOG
     - _ACES_APPROACH_BEFORE_EMISSIVE
@@ -83221,7 +82959,6 @@ MonoBehaviour:
     Hash: 07294bacb52032da1128310a52592184
     Material: {fileID: 2100000, guid: c812813801aace386b91d57e572ff770, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.40566036, g: 0.40566036, b: 0.40566036, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -83669,7 +83406,6 @@ MonoBehaviour:
     Hash: 0ec52de1522c6d2b0f772548a42644ec
     Material: {fileID: 2100000, guid: 2d5d685023b5de9e8956ae6950ff76ca, type: 2}
     Shader: Custom/WaterLit
-    Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -83836,7 +83572,6 @@ MonoBehaviour:
     Hash: 1aae39c7a8f10f5447fe000dd36bd502
     Material: {fileID: 2100000, guid: d338c47b9d5c8f7519f4645d0ab48f54, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.26415086, g: 0.26415086, b: 0.26415086, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -84284,7 +84019,6 @@ MonoBehaviour:
     Hash: 1c72e14cafc105ded7f4b5d86c7f9375
     Material: {fileID: 2100000, guid: ba3f508e9c9dfb8fea9a87c373943940, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - _WHITEBOOSTTYPE_MAINEFFECT
@@ -84582,7 +84316,6 @@ MonoBehaviour:
     Hash: 2354b682f2b4f3f6cf60277bb4721d7c
     Material: {fileID: 2100000, guid: c9608c9eded50651c8acf6cffb755aff, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - NOISE_DITHERING
     - _WHITEBOOSTTYPE_MAINEFFECT
@@ -84874,7 +84607,6 @@ MonoBehaviour:
     Hash: 257ce48bba54e54658901b509bad405d
     Material: {fileID: 2100000, guid: 8c36e189729b6fa139a47dd0218a24eb, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 0, g: 0.75, b: 1, a: 1}
     Keywords:
     - SQUARE_ALPHA
     - HEIGHT_FOG
@@ -85164,7 +84896,6 @@ MonoBehaviour:
     Hash: 2bd3d12ef2bbf93bd0fb94ac30ff6f35
     Material: {fileID: 2100000, guid: 3c80713456e4e70c1905845d544d2dab, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 0, b: 0.06729505, a: 1}
     Keywords:
     - NOISE_DITHERING
     - _WHITEBOOSTTYPE_ALWAYS
@@ -85462,7 +85193,6 @@ MonoBehaviour:
     Hash: 2d7909036344624f17dc517bd9f2711b
     Material: {fileID: 2100000, guid: ec6ef05100764c230af0b3e58027b660, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 0, b: 0, a: 1}
     Keywords:
     - _WHITEBOOSTTYPE_MAINEFFECT
     - _FOGTYPE_ALPHA
@@ -85754,7 +85484,6 @@ MonoBehaviour:
     Hash: 39a8c98ecee80c6b966532ff47c6b724
     Material: {fileID: 2100000, guid: 08506b405330858e4a9956253c66f608, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.01886791, g: 0.01886791, b: 0.01886791, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -86198,7 +85927,6 @@ MonoBehaviour:
     Hash: 3f06306e27d0cf4325f12d5ed0c84dc1
     Material: {fileID: 2100000, guid: 5f77fe1b0006495708d5521999746d1c, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 0, b: 0, a: 1}
     Keywords:
     - _WHITEBOOSTTYPE_ALWAYS
     - _FOGTYPE_ALPHA
@@ -86488,7 +86216,6 @@ MonoBehaviour:
     Hash: 3f2f7d1f0fe4e5fc052e3c0f4c2a9e88
     Material: {fileID: 2100000, guid: 62498e485b0a4507c9fe1224e1efd98d, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.26415086, g: 0.26415086, b: 0.26415086, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -86937,7 +86664,6 @@ MonoBehaviour:
     Hash: 411e382ce60da2c84a725e5140dc1bd8
     Material: {fileID: 2100000, guid: 500b1543e98e4fab4af34981e49ef791, type: 2}
     Shader: Custom/Parametric3SliceSprite
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_FOG
     - ENABLE_HEIGHT_FOG
@@ -87014,7 +86740,6 @@ MonoBehaviour:
     Hash: 4368519909a9876bee89bfa508cdb323
     Material: {fileID: 2100000, guid: 04ebc2fce3c6a661599481974f855076, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0, g: 0, b: 0, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -87465,7 +87190,6 @@ MonoBehaviour:
     Hash: 44efccdb605c184920594368d9403b53
     Material: {fileID: 2100000, guid: d9be0c0427a338e92b2dbd7becec6061, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - NOISE_DITHERING
     - _WHITEBOOSTTYPE_MAINEFFECT
@@ -87758,7 +87482,6 @@ MonoBehaviour:
     Hash: 47cd77ff43e924b038f71aaa3d787570
     Material: {fileID: 2100000, guid: e2a25294bca9d3e21be8a7b6735a3c14, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 0, g: 0.75789493, b: 1, a: 1}
     Keywords:
     - _WHITEBOOSTTYPE_MAINEFFECT
     - _FOGTYPE_ALPHA
@@ -88055,7 +87778,6 @@ MonoBehaviour:
     Hash: 49204bd96fb79516112cba5ae979f994
     Material: {fileID: 2100000, guid: e67528d29a2cef797a7468d4b79eaa02, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.26415086, g: 0.26415086, b: 0.26415086, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -88503,7 +88225,6 @@ MonoBehaviour:
     Hash: 4c887b25b61d5b41d1215db2d013e1af
     Material: {fileID: 2100000, guid: ac2f5134158119245915f2a12957da54, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.86300004, g: 0.86300004, b: 0.86300004, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -88953,7 +88674,6 @@ MonoBehaviour:
     Hash: 6731b5a7daf35f4ec3578863e966db2e
     Material: {fileID: 2100000, guid: 2640c4d85725ab156b06d18fb61332a6, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - NOISE_DITHERING
     - _WHITEBOOSTTYPE_MAINEFFECT
@@ -89246,7 +88966,6 @@ MonoBehaviour:
     Hash: 6d5d8d127b3ac3a7e42dbc17cde2c2f7
     Material: {fileID: 2100000, guid: f6e724790c898939d90dd81790de4526, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 0, b: 0, a: 1}
     Keywords:
     - _WHITEBOOSTTYPE_MAINEFFECT
     - _FOGTYPE_ALPHA
@@ -89539,7 +89258,6 @@ MonoBehaviour:
     Hash: 6d811442d5852047ffc3e39277898f80
     Material: {fileID: 2100000, guid: 16c43441a582496a39500dc07aec6426, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 0, b: 0, a: 1}
     Keywords:
     - _WHITEBOOSTTYPE_MAINEFFECT
     - _FOGTYPE_ALPHA
@@ -89835,7 +89553,6 @@ MonoBehaviour:
     Hash: 894a4f56278cdba168a3820c8c5ed91b
     Material: {fileID: 2100000, guid: 852339536407c7855a5294106cac8403, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.5283019, g: 0.5283019, b: 0.5283019, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -90281,7 +89998,6 @@ MonoBehaviour:
     Hash: 9f362a0d131758ff4f0ea2b41dccf8cc
     Material: {fileID: 2100000, guid: 8199d56b6722519aeb1e03bba420f121, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 0, b: 0, a: 1}
     Keywords:
     - _WHITEBOOSTTYPE_ALWAYS
     - _FOGTYPE_ALPHA
@@ -90573,7 +90289,6 @@ MonoBehaviour:
     Hash: a99a8487068fb94821baba5d302b5d83
     Material: {fileID: 2100000, guid: 5d1893d66d2b27b5fa3ae08c64ca02fc, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.41999996, g: 0.41999996, b: 0.41999996, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -91021,7 +90736,6 @@ MonoBehaviour:
     Hash: ac41c3c6346c3862c2fbed4d206776c5
     Material: {fileID: 2100000, guid: 8f3d0ddf0fdb8a361a407372422bf7cd, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.24528292, g: 0.24528292, b: 0.24528292, a: 0}
     Keywords:
     - FOG
     - _ACES_APPROACH_BEFORE_EMISSIVE
@@ -91466,7 +91180,6 @@ MonoBehaviour:
     Hash: bb0a81858eb1e01594f623ab6b91217a
     Material: {fileID: 2100000, guid: f283484a00630dea399a590dc8f0ec97, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - _WHITEBOOSTTYPE_MAINEFFECT
@@ -91758,7 +91471,6 @@ MonoBehaviour:
     Hash: c071f65f852055611814cf9016c4db00
     Material: {fileID: 2100000, guid: 7b985413856bb808d849683d7296054f, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - _WHITEBOOSTTYPE_MAINEFFECT
@@ -92052,7 +91764,6 @@ MonoBehaviour:
     Hash: cb816ab70e82260e5beb77443da13408
     Material: {fileID: 2100000, guid: 642fd0d3a02263aec8ca94720f88242a, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.19607839, g: 0.21078429, b: 0.24999997, a: 1}
     Keywords:
     - FOG
     - PRECISE_NORMAL
@@ -92509,7 +92220,6 @@ MonoBehaviour:
     Hash: ccf71427d4f699df945d7161ac55ff55
     Material: {fileID: 2100000, guid: 0ce3ae934c42a4ff3b2636430af65db0, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0, g: 0, b: 0, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -92959,7 +92669,6 @@ MonoBehaviour:
     Hash: ce76af40114e2b387f54f97b44b27c16
     Material: {fileID: 2100000, guid: a0848aa33866efe12bcdb3bb93b4615b, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 0, g: 0, b: 0, a: 1}
     Keywords:
     - _WHITEBOOSTTYPE_ALWAYS
     - SQUARE_ALPHA
@@ -93252,7 +92961,6 @@ MonoBehaviour:
     Hash: d57434018d41c6895c392db2696432dc
     Material: {fileID: 2100000, guid: 261f7f52ca8f2b7429309d4c07f3679b, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - _WHITEBOOSTTYPE_MAINEFFECT
     - SQUARE_ALPHA
@@ -93542,7 +93250,6 @@ MonoBehaviour:
     Hash: dddbe2ff9c7acdc77cb3d93ae9a20056
     Material: {fileID: 2100000, guid: 453b1d7774cea96f5b05e630c177f067, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0, g: 0, b: 0, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -93997,7 +93704,6 @@ MonoBehaviour:
     Hash: def89c6f64979962a334e15278609f8c
     Material: {fileID: 2100000, guid: 2bcbaeb53b3b04073bf5ce9b135dabe1, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 0, b: 0, a: 1}
     Keywords:
     - _WHITEBOOSTTYPE_MAINEFFECT
     - _FOGTYPE_ALPHA
@@ -94290,7 +93996,6 @@ MonoBehaviour:
     Hash: e5e6c5a0104bce3eaee79b843a958219
     Material: {fileID: 2100000, guid: 65e969b142f87a7ce9559786a76e5d07, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 0, b: 0, a: 1}
     Keywords:
     - _WHITEBOOSTTYPE_ALWAYS
     - _FOGTYPE_ALPHA
@@ -94583,7 +94288,6 @@ MonoBehaviour:
     Hash: f4aa28239e5f6d1c4ffe4397987ec6ca
     Material: {fileID: 2100000, guid: 0d1c401b522b99f4ab5615981279a9c6, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 0, b: 0, a: 1}
     Keywords:
     - _WHITEBOOSTTYPE_MAINEFFECT
     - _FOGTYPE_ALPHA
@@ -94875,7 +94579,6 @@ MonoBehaviour:
     Hash: f678ba70ee4aa3d689e685c950602679
     Material: {fileID: 2100000, guid: 27081f4776ad7e77484ee3cea4f24e6e, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.34999996, g: 0.34999996, b: 0.34999996, a: 0}
     Keywords:
     - FOG
     - DIFFUSE
@@ -95316,7 +95019,6 @@ MonoBehaviour:
     Hash: fb1464174bbcd37c4c5160a389c82178
     Material: {fileID: 2100000, guid: 18d36ce862ce2d1a1aa3000b0d8d86c5, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0, g: 0, b: 0, a: 1}
     Keywords:
     - FOG
     - POINT_LIGHT_IS_LOCAL
@@ -95762,7 +95464,6 @@ MonoBehaviour:
     Hash: fe57da6749cf20458c00341761c2008c
     Material: {fileID: 2100000, guid: 8cf57b23bc62531fc95b4f2227e9a801, type: 2}
     Shader: Custom/Parametric3SliceSprite
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_FOG
     - ENABLE_HEIGHT_FOG
@@ -95839,7 +95540,6 @@ MonoBehaviour:
     Hash: 05c4253c361ea81c525ce021ec2119ca
     Material: {fileID: 2100000, guid: 7913623731b74af708be8c9f9ab13f45, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0, g: 0, b: 0, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -96281,7 +95981,6 @@ MonoBehaviour:
     Hash: 1d60f7e10b0c609bf7d0a954a5bf9db3
     Material: {fileID: 2100000, guid: 2529fb56a271793c882a53d320b956da, type: 2}
     Shader: Custom/Mirror
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - LIGHTMAP
     FloatProps:
@@ -96331,7 +96030,6 @@ MonoBehaviour:
     Hash: 3d211c3de901614af5caa370cfce0bfc
     Material: {fileID: 2100000, guid: a94565c9b9742523a8c7771ec46de8a4, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - NOISE_DITHERING
@@ -96635,7 +96333,6 @@ MonoBehaviour:
     Hash: 551cab31ad9a2dff2d1b6d7f65804754
     Material: {fileID: 2100000, guid: 1aba2159f2a426cdc9d685a5b4e7a3e2, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.735849, g: 0.735849, b: 0.735849, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -97099,7 +96796,6 @@ MonoBehaviour:
     Hash: 6c19a044f3f63471d82efaa5d5744979
     Material: {fileID: 2100000, guid: 7153d7253e77cc5948f4d1f6ad2b2f87, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - _WHITEBOOSTTYPE_ALWAYS
@@ -97393,7 +97089,6 @@ MonoBehaviour:
     Hash: 70ff883c5289dfb7949cb865d5f0a573
     Material: {fileID: 2100000, guid: 0860e9a9e3a7703f2ba107d8dea264cc, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - _WHITEBOOSTTYPE_MAINEFFECT
@@ -97696,7 +97391,6 @@ MonoBehaviour:
     Hash: 727e1ca2994165917b5b180261292111
     Material: {fileID: 2100000, guid: 3fd4e8193c488ff299afb04b04a6fdbd, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.735849, g: 0.735849, b: 0.735849, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -98160,7 +97854,6 @@ MonoBehaviour:
     Hash: 8f753b9efa945ffffb4127816e912946
     Material: {fileID: 2100000, guid: 4a9d7ffc33e78f326a7b018269b0496a, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - _WHITEBOOSTTYPE_ALWAYS
@@ -98454,7 +98147,6 @@ MonoBehaviour:
     Hash: 9adaf0169bfd4a835e91ad60777a88f9
     Material: {fileID: 2100000, guid: 6c6bb0d14e160334d8621b185d31659b, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - _WHITEBOOSTTYPE_MAINEFFECT
@@ -98757,7 +98449,6 @@ MonoBehaviour:
     Hash: a0f12bdea8f7a705b8953d972d201899
     Material: {fileID: 2100000, guid: 3904d06e555fc26c8aec2ee115da72c8, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.735849, g: 0.735849, b: 0.735849, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -99222,7 +98913,6 @@ MonoBehaviour:
     Hash: a618d053ff884cadbc85058692ffe266
     Material: {fileID: 2100000, guid: f3fa1b680f3b5c0378e324631836fce4, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.735849, g: 0.735849, b: 0.735849, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -99687,7 +99377,6 @@ MonoBehaviour:
     Hash: bde928c8a7a4eedcee6ed9e8c8b78a1a
     Material: {fileID: 2100000, guid: 47977c7ecd2363b91864764f610a9e8a, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.735849, g: 0.735849, b: 0.735849, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -100146,7 +99835,6 @@ MonoBehaviour:
     Hash: db3138f284cdcac54e1ca688dd10718f
     Material: {fileID: 2100000, guid: 4d11d3c0d16f2449ebfe31c5aefcc1e4, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - _FOGTYPE_ALPHA
     - SQUARE_ALPHA
@@ -100440,7 +100128,6 @@ MonoBehaviour:
     Hash: e3eb61ad116f2ea550bb618b3b291bd6
     Material: {fileID: 2100000, guid: 95863d29b7dbf6eeb831e30c7eb67a2e, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.03, g: 0.03, b: 0.03, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -100884,7 +100571,6 @@ MonoBehaviour:
     Hash: ed181b33f89899f83d6d22354e7e3107
     Material: {fileID: 2100000, guid: 5eccd24428a94e028a954b683d73903c, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - _WHITEBOOSTTYPE_ALWAYS
@@ -101177,7 +100863,6 @@ MonoBehaviour:
     Hash: edd79815f80f1ed63df3e2ed3ff33774
     Material: {fileID: 2100000, guid: 244e2bbf699a7fc6ab46582e66ff53ce, type: 2}
     Shader: Custom/Mirror
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - DIFFUSE
     FloatProps:
@@ -101227,7 +100912,6 @@ MonoBehaviour:
     Hash: 3b135a2d53ec67f1a71ef9888a2921c9
     Material: {fileID: 2100000, guid: 481d543f677404362a5770db82f3cc9e, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.24999997, g: 0.24999997, b: 0.24999997, a: 0}
     Keywords:
     - FOG
     - DIFFUSE
@@ -101670,7 +101354,6 @@ MonoBehaviour:
     Hash: 41c710e947dfa928c8ef6d46d7deaa8f
     Material: {fileID: 2100000, guid: 86ea068489461488f877c199870d6c1e, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - SQUARE_ALPHA
@@ -101960,7 +101643,6 @@ MonoBehaviour:
     Hash: 7aa4e9b7ef1b30cf28ad628361fc0d62
     Material: {fileID: 2100000, guid: c09e9e2170ae88d81b796c239f31bfb4, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 0, b: 0, a: 1}
     Keywords:
     - _WHITEBOOSTTYPE_MAINEFFECT
     - _FOGTYPE_LERP
@@ -102252,7 +101934,6 @@ MonoBehaviour:
     Hash: bd315aa5f9862246f8a6c5aa44e89e1d
     Material: {fileID: 2100000, guid: 3dfe9037b0f68299bb086bfe08256361, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.24999997, g: 0.24999997, b: 0.24999997, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -102696,7 +102377,6 @@ MonoBehaviour:
     Hash: c6ed6f19b7763d88546bbec1d9d6a6c1
     Material: {fileID: 2100000, guid: 7c254f82ce6c955c1bf249de5a1174bf, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.24999997, g: 0.24999997, b: 0.24999997, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -103141,7 +102821,6 @@ MonoBehaviour:
     Hash: d3080c30156253d1bf31c765f6922cd6
     Material: {fileID: 2100000, guid: 4a29ef7d134751834b15bb8e5888205c, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.24999997, g: 0.24999997, b: 0.24999997, a: 0}
     Keywords:
     - FOG
     - DIFFUSE
@@ -103583,7 +103262,6 @@ MonoBehaviour:
     Hash: 02eeb699bb3d0474e52297eb838beecd
     Material: {fileID: 2100000, guid: ac098fa8be3cbc17a97fb08ab1ce0b1d, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.07547168, g: 0.07547168, b: 0.07547168, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -104032,7 +103710,6 @@ MonoBehaviour:
     Hash: 55c6a5361fd0e0c23dd498702593e03d
     Material: {fileID: 2100000, guid: 60e0be91d655b8e6184cf57bf122f562, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 0, g: 0.62745094, b: 1, a: 1}
     Keywords:
     - _WHITEBOOSTTYPE_ALWAYS
     - _FOGTYPE_ALPHA
@@ -104330,7 +104007,6 @@ MonoBehaviour:
     Hash: a5062e1a0cc038fee7c8f22db97b1c93
     Material: {fileID: 2100000, guid: 49d0027060a4e5ff6b9d86418ec77be3, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 0, g: 0.62745094, b: 1, a: 1}
     Keywords:
     - _WHITEBOOSTTYPE_ALWAYS
     - _FOGTYPE_ALPHA
@@ -104627,7 +104303,6 @@ MonoBehaviour:
     Hash: 04ae165bb09dff4c24cab9cb320a6d55
     Material: {fileID: 2100000, guid: 3c50f650c63a6db9abe575aa828989d7, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.16999996, g: 0.16999996, b: 0.16999996, a: 0}
     Keywords:
     - FOG
     - DIFFUSE
@@ -105070,7 +104745,6 @@ MonoBehaviour:
     Hash: 08bd315a2a33cdf42300115fbe42adbf
     Material: {fileID: 2100000, guid: ecf2f472bd72e200f959cb9231da0ddb, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - _WHITEBOOSTTYPE_ALWAYS
@@ -105368,7 +105042,6 @@ MonoBehaviour:
     Hash: 0e859d83c6d82a881498f2de03982b6f
     Material: {fileID: 2100000, guid: 7c8c4ecfb189cec659b52fc2880e90d9, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - _FOGTYPE_ALPHA
     - SQUARE_ALPHA
@@ -105661,7 +105334,6 @@ MonoBehaviour:
     Hash: 1a45b5162f3b3a06e6e446cfd55eb57f
     Material: {fileID: 2100000, guid: c5974980a63f5eb3e81a40f0a1885430, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 0}
     Keywords:
     - FOG
     - LIGHTMAP
@@ -106105,7 +105777,6 @@ MonoBehaviour:
     Hash: 1baf7e85c9b6198d0e4b2faede18360d
     Material: {fileID: 2100000, guid: 2071695d3c687ca9a8e828bd7dce2f00, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - _WHITEBOOSTTYPE_ALWAYS
@@ -106396,7 +106067,6 @@ MonoBehaviour:
     Hash: 292f02fc8dafd4ad422bdce13c50444f
     Material: {fileID: 2100000, guid: 1769906d3f45f1e12b7bd664547b463c, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.32075468, g: 0.32075468, b: 0.32075468, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -106842,7 +106512,6 @@ MonoBehaviour:
     Hash: 32ec62db18e921b86070334aa95b24c1
     Material: {fileID: 2100000, guid: 38bfd36449bdb7ab7be542731a9f93dc, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.54999995, g: 0.54999995, b: 0.54999995, a: 1}
     Keywords:
     - FOG
     - LIGHTMAP
@@ -107285,7 +106954,6 @@ MonoBehaviour:
     Hash: 52a5ea4f08d5fccf3cc813ececfa05f3
     Material: {fileID: 2100000, guid: 09308fcecfac54d2587f439306ea57a9, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.2078431, g: 0.2078431, b: 0.2078431, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -107735,7 +107403,6 @@ MonoBehaviour:
     Hash: 5ce9068fbce2d797a4d1e14cb2eb0661
     Material: {fileID: 2100000, guid: 4f4937b85283de8ec9b6da3180d0328a, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.14999998, g: 0.14999998, b: 0.14999998, a: 0}
     Keywords:
     - FOG
     - NOISE_DITHERING
@@ -108177,7 +107844,6 @@ MonoBehaviour:
     Hash: 6a57238a079a4d360b12e9d3a777e1b0
     Material: {fileID: 2100000, guid: 42aba6c72a0b6011ea2defa033e53de8, type: 2}
     Shader: Custom/ParametricBoxFakeGlow
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_MAIN_EFFECT_WHITE_BOOST
     - _WHITEBOOSTTYPE_ALWAYS
@@ -108257,7 +107923,6 @@ MonoBehaviour:
     Hash: 7348548e6a8748bafdad9f014aa72563
     Material: {fileID: 2100000, guid: c543fba9ca6af576891c5e4a15078ce2, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - NOISE_DITHERING
@@ -108552,7 +108217,6 @@ MonoBehaviour:
     Hash: 7c670f89cfbce7836f8d7200e5dae821
     Material: {fileID: 2100000, guid: 167d56d8e11222b9e994247fc5613729, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.16981128, g: 0.16981128, b: 0.16981128, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -108998,7 +108662,6 @@ MonoBehaviour:
     Hash: 8a8cb4940c2975e282684a1ad89e803e
     Material: {fileID: 2100000, guid: 6c05e7188c3df4f1c94380b96e12152c, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 0.75294125, g: 0.11372546, b: 0.20392156, a: 1}
     Keywords:
     - VERTEX_COLOR
     - _WHITEBOOSTTYPE_ALWAYS
@@ -109291,7 +108954,6 @@ MonoBehaviour:
     Hash: b3bb9bf9cd74d07df81bc112a31adce0
     Material: {fileID: 2100000, guid: 6c5a0381ebc9df69192fbbf607cc8079, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - _WHITEBOOSTTYPE_ALWAYS
@@ -109583,7 +109245,6 @@ MonoBehaviour:
     Hash: bc96ce176bd52815f123096c883b5fe6
     Material: {fileID: 2100000, guid: f87e86abee66d18a5aa396f4ff4ee3eb, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.14999998, g: 0.14999998, b: 0.14999998, a: 0}
     Keywords:
     - FOG
     - NOISE_DITHERING
@@ -110063,7 +109724,6 @@ MonoBehaviour:
     Hash: c8c30aa453da898602cb6f20d6d43de8
     Material: {fileID: 2100000, guid: 9767cd18692cd07cbbcd0b33a725cd1a, type: 2}
     Shader: Custom/Mirror
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_DIRT
     FloatProps:
@@ -110156,7 +109816,6 @@ MonoBehaviour:
     Hash: cffd0c9f23672a7283c51646a3894efd
     Material: {fileID: 2100000, guid: f3777e148cff60ff1925ca37095a3f1e, type: 2}
     Shader: Custom/Parametric3SliceSprite
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_FOG
     - ENABLE_HEIGHT_FOG
@@ -110234,7 +109893,6 @@ MonoBehaviour:
     Hash: e9c0ef0a8ff91c31078c0dbf1abb983e
     Material: {fileID: 2100000, guid: ac2aacbb7f6f68a0e81419e00581c431, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.34999996, g: 0.34999996, b: 0.34999996, a: 0}
     Keywords:
     - FOG
     - DIFFUSE
@@ -110676,7 +110334,6 @@ MonoBehaviour:
     Hash: f56d9cead751c46bc56fb2a0eb099fb4
     Material: {fileID: 2100000, guid: f13b5504ceb5d450e9821c35f8656a98, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.5188678, g: 0.5188678, b: 0.5188678, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -111121,7 +110778,6 @@ MonoBehaviour:
     Hash: f6c47a164d142d690190aa185d1a472e
     Material: {fileID: 2100000, guid: 74901729407a78eda8c9b689a723542f, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.5169999, g: 0.5169999, b: 0.5169999, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -111567,7 +111223,6 @@ MonoBehaviour:
     Hash: 47a8cfab5a285a2d54a125b7c171811b
     Material: {fileID: 2100000, guid: 2893024c1642f0b7d952ff4a8c2ab6fc, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - NOISE_DITHERING
@@ -111863,7 +111518,6 @@ MonoBehaviour:
     Hash: 00311a688549a906b39d6ac0f3e24d55
     Material: {fileID: 2100000, guid: a1ccc2d4ee3048915a401f8d0ff3cdfc, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - _WHITEBOOSTTYPE_MAINEFFECT
     - _FOGTYPE_ALPHA
@@ -112161,7 +111815,6 @@ MonoBehaviour:
     Hash: 006b0aa202a9e520ae7afea1ee11f9e0
     Material: {fileID: 2100000, guid: ec7b3a7e9d6e0c2d1ae73f2e37277874, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0, g: 0, b: 0, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -112607,7 +112260,6 @@ MonoBehaviour:
     Hash: 020b26a555fd987b66f21a6958a41ec3
     Material: {fileID: 2100000, guid: 8f04de74b666c5b4ca1ed60dc0ca40c3, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.31132075, g: 0.31132075, b: 0.31132075, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -113050,7 +112702,6 @@ MonoBehaviour:
     Hash: 04c6200c38033d07ae5438faabb8ae4e
     Material: {fileID: 2100000, guid: 6eac914d40b421f9bb27ba4106555a50, type: 2}
     Shader: Custom/Rain
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - TEXTURE_COLOR
@@ -113146,7 +112797,6 @@ MonoBehaviour:
     Hash: 143758358b4eb96a5ca1341022d42a06
     Material: {fileID: 2100000, guid: 1bbd74c85bf91227f98807da61d760d8, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.38679245, g: 0.38679245, b: 0.38679245, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -113588,7 +113238,6 @@ MonoBehaviour:
     Hash: 143f7a45496f74d15b5f7cc9888a5471
     Material: {fileID: 2100000, guid: d1002242247a2aa888b633828034ea71, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.39999998, g: 0.39999998, b: 0.39999998, a: 1}
     Keywords:
     - FOG
     - DIFFUSE
@@ -114030,7 +113679,6 @@ MonoBehaviour:
     Hash: 1a7b31f73e028799db27560bdd992a19
     Material: {fileID: 2100000, guid: 129b444f0eb401ff6821d7e2144be293, type: 2}
     Shader: Custom/SimpleStencil
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords: []
     FloatProps:
     - Key: _StencilComp
@@ -114051,7 +113699,6 @@ MonoBehaviour:
     Hash: 1e35c8f489e238d72e56e9706563d255
     Material: {fileID: 2100000, guid: e8a50a37ad5004a1bb99984d01390768, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 0, g: 0, b: 0, a: 1}
     Keywords:
     - VERTEX_COLOR
     - SQUARE_ALPHA
@@ -114344,7 +113991,6 @@ MonoBehaviour:
     Hash: 2164c8890bc47fe2ed02187a60dd37d0
     Material: {fileID: 2100000, guid: 441d8b4873fd0b27c8da0a68bad7a936, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - _WHITEBOOSTTYPE_ALWAYS
@@ -114635,7 +114281,6 @@ MonoBehaviour:
     Hash: 27ed88371af96b2aba2eafe4305f53ec
     Material: {fileID: 2100000, guid: acf34910f35b0d3c78741a720cced632, type: 2}
     Shader: Custom/OpaqueNeonLight
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_HEIGHT_FOG
     FloatProps:
@@ -114657,7 +114302,6 @@ MonoBehaviour:
     Hash: 2dc6c5211010ab79672a0f8b8731e632
     Material: {fileID: 2100000, guid: 44bdbaa96edd0d08aa7637e41b3318a0, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -115108,7 +114752,6 @@ MonoBehaviour:
     Hash: 35b339f06966d092d2170c0b9c5938f5
     Material: {fileID: 2100000, guid: 06331d4880c628edfadfc6cf1f7c72e9, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -115562,7 +115205,6 @@ MonoBehaviour:
     Hash: 505bc61c1a84cf27e0998da6cc994c6a
     Material: {fileID: 2100000, guid: 2f58d2eb66d693014a341f775163e67c, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.24999997, g: 0.24999997, b: 0.24999997, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -116007,7 +115649,6 @@ MonoBehaviour:
     Hash: 517589db4c7a0ad6660a1fd981de0832
     Material: {fileID: 2100000, guid: b1af826438e5d63d8be97a0bb7456920, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 0, g: 0, b: 0, a: 1}
     Keywords:
     - _FOGTYPE_ALPHA
     - SQUARE_ALPHA
@@ -116301,7 +115942,6 @@ MonoBehaviour:
     Hash: 5ae0258c85a3c807e2abe4150793e3ef
     Material: {fileID: 2100000, guid: 7ecdcc3267d106981abf62d9b9700a51, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - SQUARE_ALPHA
@@ -116592,7 +116232,6 @@ MonoBehaviour:
     Hash: 638914752bfc1cb2d9ba482af509177b
     Material: {fileID: 2100000, guid: 74c3d658f8b58bb79b7c638566cae6cb, type: 2}
     Shader: Custom/Parametric3SliceSprite
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_NOISE_DITHERING
     - ENABLE_FOG
@@ -116670,7 +116309,6 @@ MonoBehaviour:
     Hash: 6a3a06d8167a8401bdf6d744c35b849d
     Material: {fileID: 2100000, guid: 18efaffa42426c4a08a233287932b3e9, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.13999993, g: 0.13999993, b: 0.13999993, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -117119,7 +116757,6 @@ MonoBehaviour:
     Hash: 70055acca98403d1ff666023bd40f202
     Material: {fileID: 2100000, guid: 5c1772d9e5468c05b9ceba41a0177242, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -117574,7 +117211,6 @@ MonoBehaviour:
     Hash: 748872d6d2d4554de08ac7f314b7a016
     Material: {fileID: 2100000, guid: 17ee56366877e73ebaea75acabc18912, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - FOG
     - _VERTEXMODE_COLOR
@@ -118018,7 +117654,6 @@ MonoBehaviour:
     Hash: 7e920b57de07a0dd76cd6a82e9d36a9f
     Material: {fileID: 2100000, guid: a03a8a5a044a43f40bc9e4d282d6b97b, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -118473,7 +118108,6 @@ MonoBehaviour:
     Hash: 884673fb8869c3502e333274e528a088
     Material: {fileID: 2100000, guid: 7e1bfdd843395dce0a71a1a4e4be045f, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0, g: 0, b: 0, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -118915,7 +118549,6 @@ MonoBehaviour:
     Hash: 8a239221740fc898ba11d54e6edf87f1
     Material: {fileID: 2100000, guid: 5a20ff0f9de27241696c4360d2156d39, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.735849, g: 0.735849, b: 0.735849, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -119374,7 +119007,6 @@ MonoBehaviour:
     Hash: 8c313e3dccfa47ad1e4c44b14967cbe9
     Material: {fileID: 2100000, guid: 8cc22681ae2c9e31a83748130f737829, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.33018863, g: 0.33018863, b: 0.33018863, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -119823,7 +119455,6 @@ MonoBehaviour:
     Hash: 9eb75feef256b1017d1b4d289c00fcf4
     Material: {fileID: 2100000, guid: c84cd839731376e8bab45d680db6dee2, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -120277,7 +119908,6 @@ MonoBehaviour:
     Hash: 9f72cd41c400c4d736e40b38d4bff435
     Material: {fileID: 2100000, guid: 72c11fd4c2940963dafbbe4af87d8411, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.07450979, g: 0.07450979, b: 0.07450979, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -120727,7 +120357,6 @@ MonoBehaviour:
     Hash: a1e0d3459c16a220eaba1d6e0382fc3a
     Material: {fileID: 2100000, guid: afab29b10be57d669b20f74c8e4b3103, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.29999998, g: 0.29999998, b: 0.29999998, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -121170,7 +120799,6 @@ MonoBehaviour:
     Hash: a9788ec75e99d0d15a97d216cf4de6aa
     Material: {fileID: 2100000, guid: 015697172d1607ab9ba8d4cfefa8158b, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0, g: 0, b: 0, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -121619,7 +121247,6 @@ MonoBehaviour:
     Hash: ab92425c68a2a92742da176d46e4041c
     Material: {fileID: 2100000, guid: bfd21633b86c3369faec41203b5c2cac, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -122074,7 +121701,6 @@ MonoBehaviour:
     Hash: afc9aa467e254f14f1f8216f11aead70
     Material: {fileID: 2100000, guid: 87e1376de48f8a3a29f50aa5014adb03, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0, g: 0, b: 0, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -122521,7 +122147,6 @@ MonoBehaviour:
     Hash: bb79b3b8a505510406984d30a7d31c3b
     Material: {fileID: 2100000, guid: f2bd6970d6965989aa28327822198681, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - NOISE_DITHERING
@@ -122815,7 +122440,6 @@ MonoBehaviour:
     Hash: c628f532a4c6bc54b52b798083e3377c
     Material: {fileID: 2100000, guid: ad4c657642fd8bb3f8c244dbf28a68d8, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - _WHITEBOOSTTYPE_MAINEFFECT
     - MIPMAP_BIAS
@@ -123107,7 +122731,6 @@ MonoBehaviour:
     Hash: db6510b13d778e847364f5b9af1efd5d
     Material: {fileID: 2100000, guid: 31fee656336cadaaaa37fc263e56baeb, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - _WHITEBOOSTTYPE_MAINEFFECT
@@ -123400,7 +123023,6 @@ MonoBehaviour:
     Hash: dd1368dd3cd51b0f813784c9c977e4cb
     Material: {fileID: 2100000, guid: 8ec633a4cfcc4ea81b836d2c6c87a771, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -123855,7 +123477,6 @@ MonoBehaviour:
     Hash: e23a026db40c9c5e1d0d5fb7257c0481
     Material: {fileID: 2100000, guid: 764ce4bd462b906feb293e7c8e554982, type: 2}
     Shader: Custom/Mirror
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - DIFFUSE
     FloatProps:
@@ -123905,7 +123526,6 @@ MonoBehaviour:
     Hash: e763f9223260a8d43f804c2d6d8ad7f8
     Material: {fileID: 2100000, guid: 5382553a96e5748429174c82bc090022, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.39999998, g: 0.39999998, b: 0.39999998, a: 1}
     Keywords:
     - FOG
     - DIFFUSE
@@ -124347,7 +123967,6 @@ MonoBehaviour:
     Hash: ef7bad58ca42b72dae6a5b3e2221d715
     Material: {fileID: 2100000, guid: 097e27c1340d8b9debda4245bc829b49, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.39999998, g: 0.39999998, b: 0.39999998, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -124790,7 +124409,6 @@ MonoBehaviour:
     Hash: f1958dfcdd0b6b6c5eb5c84a886f4daa
     Material: {fileID: 2100000, guid: a8e03fe5392d9d863a8547c8a6cfd8ea, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.7, g: 0.7, b: 0.7, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -125235,7 +124853,6 @@ MonoBehaviour:
     Hash: 00823d4a0b9804cdafda39dc7b70efff
     Material: {fileID: 2100000, guid: 049162c4ac5e50c599e2afc9ed9bfa46, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - _WHITEBOOSTTYPE_ALWAYS
@@ -125526,7 +125143,6 @@ MonoBehaviour:
     Hash: 069b770234e805c191582d19af5d0b69
     Material: {fileID: 2100000, guid: 3b88e3fb6cbeb6204863081d435fb5b3, type: 2}
     Shader: Custom/SetDepthOnly
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords: []
     FloatProps:
     - Key: _StencilComp
@@ -125580,7 +125196,6 @@ MonoBehaviour:
     Hash: 07580dc65e44b830ba1e23eb2b01fbc2
     Material: {fileID: 2100000, guid: 4107af6c15ae4764896026f457f06d38, type: 2}
     Shader: Custom/SetDepthOnly
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords: []
     FloatProps:
     - Key: _StencilComp
@@ -125601,7 +125216,6 @@ MonoBehaviour:
     Hash: 086cc540a0679c51605bfa10bd87f72b
     Material: {fileID: 2100000, guid: 9f5e8d3e08e60a7d68076cb7264e1d14, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.13899997, g: 0.13899997, b: 0.13899997, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -126047,7 +125661,6 @@ MonoBehaviour:
     Hash: 0bc019ba4fc4763649bc98e8fe52aa82
     Material: {fileID: 2100000, guid: 61033eca597bdb34ebed1e70f1c2ac4a, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - _WHITEBOOSTTYPE_MAINEFFECT
@@ -126373,7 +125986,6 @@ MonoBehaviour:
     Hash: 0bc1fb23674097788c6b4536109ad12f
     Material: {fileID: 2100000, guid: fd754aaad0bf11e63a4db170441873cc, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.32704392, g: 0.32704392, b: 0.32704392, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -126833,7 +126445,6 @@ MonoBehaviour:
     Hash: 0e7822409026961c5e5a7a3bf75fda1b
     Material: {fileID: 2100000, guid: f895681f41ff91b7b85129cc4e55e2ea, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.09999997, g: 0.09999997, b: 0.09999997, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -127276,7 +126887,6 @@ MonoBehaviour:
     Hash: 14c08d1c7b622705cb2e94e473771049
     Material: {fileID: 2100000, guid: 9909bf5ed8053eb5d95157b28ed769f7, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - _WHITEBOOSTTYPE_ALWAYS
@@ -127568,7 +127178,6 @@ MonoBehaviour:
     Hash: 162276d31057fd5630d800d839e000c3
     Material: {fileID: 2100000, guid: 65a2d4ce7b4d64666a3fec873cd32789, type: 2}
     Shader: Custom/Spectrogram
-    Color: {r: 0.24999997, g: 0.24999997, b: 0.24999997, a: 0}
     Keywords: []
     FloatProps:
     - Key: _FogScale
@@ -127597,7 +127206,6 @@ MonoBehaviour:
     Hash: 17575cee17e50dd829861dbc061219dc
     Material: {fileID: 2100000, guid: 0ba495e057f81f64394a34193a1764b0, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.2078431, g: 0.2078431, b: 0.2078431, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -128044,7 +127652,6 @@ MonoBehaviour:
     Hash: 175cb75dd594856d6389962877737954
     Material: {fileID: 2100000, guid: 47c6d0addc896761cb4f0b9e84199991, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.09999997, g: 0.09999997, b: 0.09999997, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -128487,7 +128094,6 @@ MonoBehaviour:
     Hash: 1b33be2be886e7d1ccf93beffd96cce5
     Material: {fileID: 2100000, guid: 4c50dfafa98e2e006bedc6647b38fc47, type: 2}
     Shader: Custom/Spectrogram
-    Color: {r: 0.24999997, g: 0.24999997, b: 0.24999997, a: 0}
     Keywords:
     - SPECULAR
     - DIFFUSE
@@ -128529,7 +128135,6 @@ MonoBehaviour:
     Hash: 1e2524f60454d5ab291a9a86446fed61
     Material: {fileID: 2100000, guid: 8611f80e7a26bed288e8beb6dd0f7c8a, type: 2}
     Shader: Custom/SimpleLightning
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_TARGET_POINT
     - ENABLE_TIME_OFFSET
@@ -128600,7 +128205,6 @@ MonoBehaviour:
     Hash: 1e53fa985b947f42e4b4699cd8682448
     Material: {fileID: 2100000, guid: 43da984a2814c2f64bbe0e51a8609dac, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - _FOGTYPE_ALPHA
     - TEXTURE_COLOR
@@ -128935,7 +128539,6 @@ MonoBehaviour:
     Hash: 22230c3d13265682c03ff54b9beaf351
     Material: {fileID: 2100000, guid: e40285a4d056c3442ab279464f0112dc, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.20999995, g: 0.20999995, b: 0.20999995, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -129381,7 +128984,6 @@ MonoBehaviour:
     Hash: 23016b9c1d325a379c479f3c9aac4321
     Material: {fileID: 2100000, guid: d88eeb849bd347008a4a8ca6453d7d05, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - _FOGTYPE_ALPHA
     - SQUARE_ALPHA
@@ -129672,7 +129274,6 @@ MonoBehaviour:
     Hash: 23c18c9f1d6ff8e333785cb694109f33
     Material: {fileID: 2100000, guid: aa0a18b92e240a9588d3a442d49cacbf, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.31132075, g: 0.31132075, b: 0.31132075, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -130116,7 +129717,6 @@ MonoBehaviour:
     Hash: 250331b8675d01b6293bf2f2c7fd9bb1
     Material: {fileID: 2100000, guid: cecf3c53d99c20cfca3e792f0c559b77, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -130568,7 +130168,6 @@ MonoBehaviour:
     Hash: 2639152a63b34e17ca6975e62942c5a5
     Material: {fileID: 2100000, guid: 188c286611b06d148b99a177b38e28c7, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.32704392, g: 0.32704392, b: 0.32704392, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -131028,7 +130627,6 @@ MonoBehaviour:
     Hash: 2d261562a5623bd240231d6d116c99d1
     Material: {fileID: 2100000, guid: 3296a766606095dac88ef3e5cfe65514, type: 2}
     Shader: Custom/UnlitSpectrogram
-    Color: {r: 0, g: 0, b: 0, a: 0.6}
     Keywords: []
     FloatProps:
     - Key: _FogScale
@@ -131057,7 +130655,6 @@ MonoBehaviour:
     Hash: 348d9bc713ba3769f85b918b7ca59338
     Material: {fileID: 2100000, guid: 0591419f4b03399148daeadeabd02f24, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.24999997, g: 0.24999997, b: 0.24999997, a: 0}
     Keywords:
     - FOG
     - DIFFUSE
@@ -131499,7 +131096,6 @@ MonoBehaviour:
     Hash: 36b37cb394159c98ccb2f6cbe3742f97
     Material: {fileID: 2100000, guid: fc8db8c351f1e6bdebf309468e6f6ab2, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - _WHITEBOOSTTYPE_ALWAYS
@@ -131790,7 +131386,6 @@ MonoBehaviour:
     Hash: 387732b3c9dbba993ad38abde87fdb97
     Material: {fileID: 2100000, guid: f39bba8cf91945205b1084f2bd75dc8d, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.24999997, g: 0.24999997, b: 0.24999997, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -132235,7 +131830,6 @@ MonoBehaviour:
     Hash: 3b4ba339d3a6d9e256d625a77f5be45e
     Material: {fileID: 2100000, guid: 802896c5b31745e60a9567213819114a, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.735849, g: 0.735849, b: 0.735849, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -132696,7 +132290,6 @@ MonoBehaviour:
     Hash: 40a9ee26f252732a0d1f6aa90d69522e
     Material: {fileID: 2100000, guid: 1feca14bd1afd9de885e236bec62eb35, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - _WHITEBOOSTTYPE_MAINEFFECT
@@ -133032,7 +132625,6 @@ MonoBehaviour:
     Hash: 41c1d6a1476bb25e0fabd94c13521661
     Material: {fileID: 2100000, guid: 8fa3d8895f5e6d52e8c83b376cc00c20, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.24999997, g: 0.24999997, b: 0.24999997, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -133476,7 +133068,6 @@ MonoBehaviour:
     Hash: 43c978fbf68c2f2982ccb1f9b7a63253
     Material: {fileID: 2100000, guid: bb51f3b01cfc51d6783247538701e50a, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.34999996, g: 0.34999996, b: 0.34999996, a: 0}
     Keywords:
     - FOG
     - DIFFUSE
@@ -133921,7 +133512,6 @@ MonoBehaviour:
     Hash: 46584bca735862bef3ba3e332239fd86
     Material: {fileID: 2100000, guid: ae887f10a1d9e84aab502c886be45f23, type: 2}
     Shader: Custom/SimpleLightning
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_TARGET_POINT
     FloatProps:
@@ -133991,7 +133581,6 @@ MonoBehaviour:
     Hash: 4aa1564724e4b4d0cd0961a83ea2b7dd
     Material: {fileID: 2100000, guid: 0cd1288874fb44784be562e4b3d9936f, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - _WHITEBOOSTTYPE_MAINEFFECT
@@ -134283,7 +133872,6 @@ MonoBehaviour:
     Hash: 4c3000d6a0b6bb88b2f3b1384c89c753
     Material: {fileID: 2100000, guid: b1b0c9f1ef682f2a18c3dd124764a615, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - _FOGTYPE_LERP
@@ -134575,7 +134163,6 @@ MonoBehaviour:
     Hash: 4c7da14208596c174fcfebdcba36991a
     Material: {fileID: 2100000, guid: 3463149c2e616a354b751ca330d47081, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 0}
     Keywords:
     - SQUARE_ALPHA
     - HEIGHT_FOG
@@ -134866,7 +134453,6 @@ MonoBehaviour:
     Hash: 50a1e8a8fb05a763f340dd76bbaa050f
     Material: {fileID: 2100000, guid: ef1890cff7676371b8bcd3e7b84f1d8c, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.4759999, g: 0.4759999, b: 0.4759999, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -135317,7 +134903,6 @@ MonoBehaviour:
     Hash: 516e205eefa05f6f1a5914c1e592d24a
     Material: {fileID: 2100000, guid: 285fff3ff13225768a643dd228c78234, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.30817595, g: 0.30817595, b: 0.30817595, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -135761,7 +135346,6 @@ MonoBehaviour:
     Hash: 52477b68e9a8d640f84ad366f7e73637
     Material: {fileID: 2100000, guid: 555e13c7efc938e519f218cd7d495b8a, type: 2}
     Shader: Custom/Spectrogram
-    Color: {r: 0.31999996, g: 0.31999996, b: 0.31999996, a: 0}
     Keywords:
     - SPECULAR
     - DIFFUSE
@@ -135793,7 +135377,6 @@ MonoBehaviour:
     Hash: 526e7ca2f9c0d17ba12eeceb4609dda2
     Material: {fileID: 2100000, guid: 577502b31bad84f5fb178c7f595ba72e, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - _FOGTYPE_ALPHA
     - SQUARE_ALPHA
@@ -136084,7 +135667,6 @@ MonoBehaviour:
     Hash: 5273991a947238a2b8a8865e0c170f7a
     Material: {fileID: 2100000, guid: dc2986c411ad4eb228923958c75d05ca, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.20999995, g: 0.20999995, b: 0.20999995, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -136530,7 +136112,6 @@ MonoBehaviour:
     Hash: 564b2ab70f455f39fba2305cb43b030c
     Material: {fileID: 2100000, guid: 1b1aaf545fda9a5c19349acd453454f5, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.40399998, g: 0.40399998, b: 0.40399998, a: 0}
     Keywords:
     - FOG
     - DIFFUSE
@@ -136973,7 +136554,6 @@ MonoBehaviour:
     Hash: 56f2c95c85d0018491f7754ea7d3f97c
     Material: {fileID: 2100000, guid: e1cf7258b1d7612199b4d44b98f87830, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 0.01, g: 0.01, b: 0.01, a: 1}
     Keywords:
     - NOISE_DITHERING
     - _FOGTYPE_LERP
@@ -137269,7 +136849,6 @@ MonoBehaviour:
     Hash: 5a9777ba89e2ce6fd8268da25719f2cd
     Material: {fileID: 2100000, guid: db72109c3bd8511a6a62a2371375e4a9, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.20999995, g: 0.20999995, b: 0.20999995, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -137714,7 +137293,6 @@ MonoBehaviour:
     Hash: 5e11d0921629ff028b0a8f2fa16ea212
     Material: {fileID: 2100000, guid: 801b834489bf9e026b360633f370670b, type: 2}
     Shader: Custom/SimpleLightning
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_TARGET_POINT
     FloatProps:
@@ -137784,7 +137362,6 @@ MonoBehaviour:
     Hash: 61753baa4f2d24731d6ae86744362a08
     Material: {fileID: 2100000, guid: 555adf018875ce05782f622dde73a5f8, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - _FOGTYPE_ALPHA
     - SQUARE_ALPHA
@@ -138075,7 +137652,6 @@ MonoBehaviour:
     Hash: 69cef47685b0340829cae6c7d00c9093
     Material: {fileID: 2100000, guid: 5201ebd55eed77326befe711efe299c4, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - _FOGTYPE_ALPHA
     - SQUARE_ALPHA
@@ -138366,7 +137942,6 @@ MonoBehaviour:
     Hash: 6b37e1e40e1326d00cfd3c82c2ec22f5
     Material: {fileID: 2100000, guid: 46cdcd27de46eee1eab3ba48baf7ee70, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.36792448, g: 0.36792448, b: 0.36792448, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -138819,7 +138394,6 @@ MonoBehaviour:
     Hash: 7860c6d8d70176211304ca01ad552d07
     Material: {fileID: 2100000, guid: 0947dd70855aaa0518a27a028d29ab46, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.4759999, g: 0.4759999, b: 0.4759999, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -139271,7 +138845,6 @@ MonoBehaviour:
     Hash: 79cbdf3f5ea5e5572ff790db3bfb1dd4
     Material: {fileID: 2100000, guid: 49f4dd36bf438889fa55fb6f0917f196, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.20999995, g: 0.20999995, b: 0.20999995, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -139717,7 +139290,6 @@ MonoBehaviour:
     Hash: 7ca8f9b8cf9d9e152196c3ce3df1784e
     Material: {fileID: 2100000, guid: 9b1ecc46a87ce1d04805b6d47631af3c, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 0.8549018, g: 0, b: 1, a: 1}
     Keywords:
     - NOISE_DITHERING
     - _WHITEBOOSTTYPE_ALWAYS
@@ -140015,7 +139587,6 @@ MonoBehaviour:
     Hash: 858b3afa0617c4cd7f2679c7f3843ff6
     Material: {fileID: 2100000, guid: aef277e86e646614ebe36e65808b4fef, type: 2}
     Shader: Custom/Spectrogram
-    Color: {r: 0.24999997, g: 0.24999997, b: 0.24999997, a: 0}
     Keywords:
     - DIFFUSE
     - LIGHT_FALLOFF
@@ -140046,7 +139617,6 @@ MonoBehaviour:
     Hash: 8e387ec6b9e03708b0c094525b8a6919
     Material: {fileID: 2100000, guid: 31076a3f41188ae87a4b81ef84267569, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - _FOGTYPE_ALPHA
     - SQUARE_ALPHA
@@ -140337,7 +139907,6 @@ MonoBehaviour:
     Hash: 8ed36b7f773adb688aa7c7aa7ff570e5
     Material: {fileID: 2100000, guid: 194490f09e0ca7db2afafde3a92e4c77, type: 2}
     Shader: Custom/SimpleStencil
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords: []
     FloatProps:
     - Key: _StencilComp
@@ -140358,7 +139927,6 @@ MonoBehaviour:
     Hash: 928c8e34b20a83dffea6a10aafd0dbad
     Material: {fileID: 2100000, guid: 849409e21179c31098ee6e130db4e240, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - _FOGTYPE_ALPHA
     - SQUARE_ALPHA
@@ -140651,7 +140219,6 @@ MonoBehaviour:
     Hash: 960c37e1807887398a379b67a899e021
     Material: {fileID: 2100000, guid: 4d08ed51357c107a1a0ca0ca6a8b541d, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.20999995, g: 0.20999995, b: 0.20999995, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -141097,7 +140664,6 @@ MonoBehaviour:
     Hash: 9a2644b9fe607d79c48f6a5e2af2d571
     Material: {fileID: 2100000, guid: e681d6f78773b3707b35550a2ce6a1e9, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.8773585, g: 0.8773585, b: 0.8773585, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -141547,7 +141113,6 @@ MonoBehaviour:
     Hash: 9bddedcaa766a96416d5f98ba1eed3ac
     Material: {fileID: 2100000, guid: 6e12e1cf65b2ad39f81e10975a2375f4, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.20999995, g: 0.20999995, b: 0.20999995, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -141993,7 +141558,6 @@ MonoBehaviour:
     Hash: a23ea7d15d95feccfae464755f8e40d8
     Material: {fileID: 2100000, guid: 0e38f54b747f14914bfbb784f7557703, type: 2}
     Shader: Custom/SimpleLightning
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_TARGET_POINT
     FloatProps:
@@ -142063,7 +141627,6 @@ MonoBehaviour:
     Hash: a6401d5ac78fbd5b44f79c88c1aad180
     Material: {fileID: 2100000, guid: f059d7e37c50271d9bdd59eef745dd59, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - _FOGTYPE_ALPHA
     - SQUARE_ALPHA
@@ -142354,7 +141917,6 @@ MonoBehaviour:
     Hash: ac175d5f50f3f0e66b2a97e7715e33e1
     Material: {fileID: 2100000, guid: 973db750e12401892a1460e4b5c24b32, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.24999997, g: 0.24999997, b: 0.24999997, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -142798,7 +142360,6 @@ MonoBehaviour:
     Hash: aeff9bf46e9d4015d95a96ef28ef4d89
     Material: {fileID: 2100000, guid: 270ac904eb88c9f62acc4daf4c40ffbd, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.3396226, g: 0.3396226, b: 0.3396226, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -143244,7 +142805,6 @@ MonoBehaviour:
     Hash: b8462a54d662c3a98199ff6e119942e7
     Material: {fileID: 2100000, guid: a42f1a9dbb20af732bcbf1bd4ee8378e, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 0.8549018, g: 0, b: 1, a: 1}
     Keywords:
     - NOISE_DITHERING
     - _WHITEBOOSTTYPE_ALWAYS
@@ -143542,7 +143102,6 @@ MonoBehaviour:
     Hash: b999f0c445be28874e58d79b32e50491
     Material: {fileID: 2100000, guid: 657c7a2c9b2ab5247ad92b2142dd0aa5, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - _FOGTYPE_ALPHA
     - SQUARE_ALPHA
@@ -143833,7 +143392,6 @@ MonoBehaviour:
     Hash: ba51762e8d14cbbad6267a658381ea0e
     Material: {fileID: 2100000, guid: eb58d4bbb84198651a0f0a62e6d21687, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.14150938, g: 0.14150938, b: 0.14150938, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -144280,7 +143838,6 @@ MonoBehaviour:
     Hash: bb5e81b8ef32e774d432cf6764c0a8ab
     Material: {fileID: 2100000, guid: a0015079d8cfa99a89e56879f1bdf5a6, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.14999998, g: 0.14999998, b: 0.14999998, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -144726,7 +144283,6 @@ MonoBehaviour:
     Hash: c3f098e5d05a28a805102c01f8447664
     Material: {fileID: 2100000, guid: 929c155c2e86bd1f49d0b3dd03bd004a, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 0, g: 0.62745094, b: 1, a: 1}
     Keywords:
     - _WHITEBOOSTTYPE_ALWAYS
     - _FOGTYPE_ALPHA
@@ -145021,7 +144577,6 @@ MonoBehaviour:
     Hash: c41caddcc751a21b42e0252ed10a57e7
     Material: {fileID: 2100000, guid: 8fe2c55b9413c6bc5ad59fd3b72d2b58, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -145473,7 +145028,6 @@ MonoBehaviour:
     Hash: c9051d5ef2728f6470b7698b547d12e3
     Material: {fileID: 2100000, guid: bca08a789e25f596685f27307e4ba974, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - _FOGTYPE_ALPHA
     - SQUARE_ALPHA
@@ -145764,7 +145318,6 @@ MonoBehaviour:
     Hash: ca9d3f6e4aab26e97cdc47e3b621c774
     Material: {fileID: 2100000, guid: 6cd43a6f52f91614daa88c40e5f3bf3c, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.3396226, g: 0.3396226, b: 0.3396226, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -146216,7 +145769,6 @@ MonoBehaviour:
     Hash: cd9f90c75b9c4c8d02c4363158c81d73
     Material: {fileID: 2100000, guid: 313c38d0f9dda082c93f61b601463475, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.3396226, g: 0.3396226, b: 0.3396226, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -146666,7 +146218,6 @@ MonoBehaviour:
     Hash: d12a7d7d57fd6c07fa8c7200089e11c1
     Material: {fileID: 2100000, guid: 28aca13cc00fe511bbfec4279d484883, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.34999987, g: 0.34999987, b: 0.34999987, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -147111,7 +146662,6 @@ MonoBehaviour:
     Hash: e4503d26f362476af93228bcde96ecfb
     Material: {fileID: 2100000, guid: 895882a5a8217b15ab5ea44679ab27f1, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.20999995, g: 0.20999995, b: 0.20999995, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -147556,7 +147106,6 @@ MonoBehaviour:
     Hash: e710c7790c1f89b2b5beee4e7dd609a2
     Material: {fileID: 2100000, guid: 04556f87d889bea3f8936c39c3d6f20f, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - _FOGTYPE_ALPHA
     - SQUARE_ALPHA
@@ -147847,7 +147396,6 @@ MonoBehaviour:
     Hash: ec6fac8077284258ac47df146bb38567
     Material: {fileID: 2100000, guid: 3675474a1322169088ad26131611738b, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.20999995, g: 0.20999995, b: 0.20999995, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -148292,7 +147840,6 @@ MonoBehaviour:
     Hash: ed004abd2cd000e1cd2cb4ab9300488a
     Material: {fileID: 2100000, guid: eab41394be8bc020d96fc14f0098630b, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - _FOGTYPE_ALPHA
     - SQUARE_ALPHA
@@ -148583,7 +148130,6 @@ MonoBehaviour:
     Hash: ee7a4dbd7302396eef88ac5131756145
     Material: {fileID: 2100000, guid: dbcbd9b5639252f83aec8f53ee6b7b00, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.36792448, g: 0.36792448, b: 0.36792448, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -149036,7 +148582,6 @@ MonoBehaviour:
     Hash: eea793558ef5e73ae41f46d154ee8abe
     Material: {fileID: 2100000, guid: abdb106d05af72ca28c0391232d76968, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -149487,7 +149032,6 @@ MonoBehaviour:
     Hash: eeb7938a07d2f1eeab950bf8e8392508
     Material: {fileID: 2100000, guid: 1e0d7e707e1f9557fb231ac5ab1a9ebf, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 0, g: 0, b: 0, a: 1}
     Keywords:
     - NOISE_DITHERING
     - _FOGTYPE_LERP
@@ -149783,7 +149327,6 @@ MonoBehaviour:
     Hash: f3d8fb1c3d1689fdd464b5ff83a1bf44
     Material: {fileID: 2100000, guid: a7a7694eaa2f82eeb899cd41b61f1470, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - SQUARE_ALPHA
@@ -150076,7 +149619,6 @@ MonoBehaviour:
     Hash: f6d328e9fed5f13555f1ae4f39af19d9
     Material: {fileID: 2100000, guid: 8a842cf2eb84a90b0913fcaca7f1d1c8, type: 2}
     Shader: Custom/SimpleLightning
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_TARGET_POINT
     - ENABLE_TIME_OFFSET
@@ -150147,7 +149689,6 @@ MonoBehaviour:
     Hash: f777c366675ef98ac422b851b1b9c402
     Material: {fileID: 2100000, guid: 06b03656c3d010753a60894972706c23, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.24999997, g: 0.24999997, b: 0.24999997, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -150590,7 +150131,6 @@ MonoBehaviour:
     Hash: 0cf5d398f75a1d8ef384c3d6c883e49e
     Material: {fileID: 2100000, guid: 95685960b625f8b2eb830e000cf00c44, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.31899998, g: 0.31899998, b: 0.31899998, a: 0}
     Keywords:
     - FOG
     - DIFFUSE
@@ -151033,7 +150573,6 @@ MonoBehaviour:
     Hash: 0e3fe969d4fbaaef94a626e4f136cd67
     Material: {fileID: 2100000, guid: 050cca012e8a078b5b21f051a677e73b, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.28235292, g: 0.25098038, b: 0.2313725, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -151486,7 +151025,6 @@ MonoBehaviour:
     Hash: 12aa6143a5b02e3144139c4ea33f23e8
     Material: {fileID: 2100000, guid: 48daabcbd153ff5ee90b46d9f6d9b55f, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.34999996, g: 0.34999996, b: 0.34999996, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -151929,7 +151467,6 @@ MonoBehaviour:
     Hash: 20b62132c81229f6b98f0c64bb5daa7c
     Material: {fileID: 2100000, guid: d566f8232083312f6b7b2ac6c4a2233b, type: 2}
     Shader: Custom/UnlitSpectrogram
-    Color: {r: 0, g: 0, b: 0, a: 0.6}
     Keywords: []
     FloatProps:
     - Key: _FogScale
@@ -151958,7 +151495,6 @@ MonoBehaviour:
     Hash: 28e767efc37af070153b139a1f84c57e
     Material: {fileID: 2100000, guid: 90a2cc8c3fc6e07048193d9c67484ef5, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.45882344, g: 0.45882344, b: 0.45882344, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -152408,7 +151944,6 @@ MonoBehaviour:
     Hash: 2b97e74b1634e9fa6218d58bb6c3e7d2
     Material: {fileID: 2100000, guid: 5134df46755653e298fc0e8014dfe338, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.20754716, g: 0.20754716, b: 0.20754716, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -152860,7 +152395,6 @@ MonoBehaviour:
     Hash: 4355fe26d59b4e27fe30c05bfd41716f
     Material: {fileID: 2100000, guid: 70f6e9a63ad9eb809b3dae897f07bc00, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.34999996, g: 0.34999996, b: 0.34999996, a: 0}
     Keywords:
     - FOG
     - DIFFUSE
@@ -153302,7 +152836,6 @@ MonoBehaviour:
     Hash: 493a1b3d0459e4fa899551a97b848aaf
     Material: {fileID: 2100000, guid: 416ed0bf8c77769d8a9f6f868c76be1f, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.38679245, g: 0.38679245, b: 0.38679245, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -153744,7 +153277,6 @@ MonoBehaviour:
     Hash: 4b7128e9106cca5beaba8793ab6d3ef2
     Material: {fileID: 2100000, guid: 3817026dbf97745c5aeb3d656e163b6f, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 0.6637071, b: 0.3647798, a: 0.44705883}
     Keywords:
     - SQUARE_ALPHA
     - HEIGHT_FOG
@@ -154039,7 +153571,6 @@ MonoBehaviour:
     Hash: 4ba0497c0da5dd9f258e3b226a254984
     Material: {fileID: 2100000, guid: cfe46b61c24640b51bde233c35caf667, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.8773585, g: 0.8773585, b: 0.8773585, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -154488,7 +154019,6 @@ MonoBehaviour:
     Hash: 51447e630065a2ef5b159f829e739c03
     Material: {fileID: 2100000, guid: 04c07d5feab3f3d8da53bfd69186fd4f, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.23584905, g: 0.2030597, b: 0.18393257, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -154941,7 +154471,6 @@ MonoBehaviour:
     Hash: 566304f8881a053b89060bdb83b637ed
     Material: {fileID: 2100000, guid: c3ff1d93de5448cf19b6ea1226b0c860, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.24999997, g: 0.24999997, b: 0.24999997, a: 0}
     Keywords:
     - FOG
     - DIFFUSE
@@ -155384,7 +154913,6 @@ MonoBehaviour:
     Hash: 585482ca70b51d065c48c492828ed3f7
     Material: {fileID: 2100000, guid: 4d82f73917769f7eaa165a6f87fd7c1b, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.28301886, g: 0.28301886, b: 0.28301886, a: 0}
     Keywords:
     - FOG
     - LIGHTMAP
@@ -155825,7 +155353,6 @@ MonoBehaviour:
     Hash: 5a3baebc97a187efb91189b42515ad2e
     Material: {fileID: 2100000, guid: 524c2d747b1897e04a18786f7ae57b1c, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.23584905, g: 0.2030597, b: 0.18393257, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -156279,7 +155806,6 @@ MonoBehaviour:
     Hash: 5ad0d503bdfc944861b8ae8e47d1a01b
     Material: {fileID: 2100000, guid: e913d17b13a2aff12aa08676f6dd1f16, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 0.6470589, g: 0, b: 1, a: 1}
     Keywords:
     - NOISE_DITHERING
     - _WHITEBOOSTTYPE_MAINEFFECT
@@ -156578,7 +156104,6 @@ MonoBehaviour:
     Hash: 6d851dd8b3bb792161ca8334ad9cc5fe
     Material: {fileID: 2100000, guid: ced16d5c320447f82ab40fade7888d12, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.29999998, g: 0.29999998, b: 0.29999998, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -157023,7 +156548,6 @@ MonoBehaviour:
     Hash: 7b8c5cd7931417a6d43ba580d64ae8f0
     Material: {fileID: 2100000, guid: defd9e0960bfc44fa80603db83218109, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.45882344, g: 0.45882344, b: 0.45882344, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -157472,7 +156996,6 @@ MonoBehaviour:
     Hash: 7c3d8cd70c65e5918e66c77db2fe9fc7
     Material: {fileID: 2100000, guid: 7f6dac0af7ff6d26d849ade5f06f2f44, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.24999997, g: 0.24999997, b: 0.24999997, a: 0}
     Keywords:
     - FOG
     - DIFFUSE
@@ -157917,7 +157440,6 @@ MonoBehaviour:
     Hash: 88802a567d7333acd2ca69ccfd07ee56
     Material: {fileID: 2100000, guid: f76ed680325f7537ea31f0bffc074635, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.14150938, g: 0.14150938, b: 0.14150938, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -158366,7 +157888,6 @@ MonoBehaviour:
     Hash: 8bbadf72988625ac904e833463e1386d
     Material: {fileID: 2100000, guid: c659184f614349ae3bd7f83aefe7a582, type: 2}
     Shader: Custom/Mirror
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords: []
     FloatProps:
     - Key: _FogScale
@@ -158430,7 +157951,6 @@ MonoBehaviour:
     Hash: 8efacd4c07ba65f426cba8028afc3248
     Material: {fileID: 2100000, guid: 184ff53ebd4875672b07569ee4992cd6, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.24999997, g: 0.24999997, b: 0.24999997, a: 0}
     Keywords:
     - FOG
     - DIFFUSE
@@ -158872,7 +158392,6 @@ MonoBehaviour:
     Hash: 8fdd53947986de11b0614d90047abe38
     Material: {fileID: 2100000, guid: c383f42862a55f59593c6bb9b32acdca, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.6, g: 0.6, b: 0.6, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -159317,7 +158836,6 @@ MonoBehaviour:
     Hash: 933a19adfb90a013d33259b2c7ef6718
     Material: {fileID: 2100000, guid: c43fa9775257408f5a5f0189a30047bd, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.24999997, g: 0.24999997, b: 0.24999997, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -159760,7 +159278,6 @@ MonoBehaviour:
     Hash: 9b5a515317f32e86a6a8bc02561960b2
     Material: {fileID: 2100000, guid: c221535ecbe19661281f664e646bc8ed, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -160204,7 +159721,6 @@ MonoBehaviour:
     Hash: a3f29af031f9402c9a7f4c79bffed2c0
     Material: {fileID: 2100000, guid: fb0ba551db57b6cf9a55c5160eca02c7, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0, g: 0, b: 0, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -160646,7 +160162,6 @@ MonoBehaviour:
     Hash: a51b613ed8bf75fce162c519ebdbfe35
     Material: {fileID: 2100000, guid: c87e5ea8d52b3fcddb8309451b398366, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - _FOGTYPE_ALPHA
     - SQUARE_ALPHA
@@ -160939,7 +160454,6 @@ MonoBehaviour:
     Hash: ad15106644f5fdc05b2d95015a6f241b
     Material: {fileID: 2100000, guid: d60385ccb037f87a99444185a778d17e, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0, g: 0, b: 0, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -161382,7 +160896,6 @@ MonoBehaviour:
     Hash: ad9519ff5d50416103c992d0be32f5f3
     Material: {fileID: 2100000, guid: 6db2ad66cff7ac09baae3819324095af, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - _WHITEBOOSTTYPE_ALWAYS
     - SQUARE_ALPHA
@@ -161677,7 +161190,6 @@ MonoBehaviour:
     Hash: b0e7b493b6eaac6732d726c8fcd53343
     Material: {fileID: 2100000, guid: 05ff1e36bcae219718d2a3340bc89842, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     Keywords:
     - FOG
     - LIGHTMAP
@@ -162119,7 +161631,6 @@ MonoBehaviour:
     Hash: b4977b6d0a0510f1aeba11317cc62216
     Material: {fileID: 2100000, guid: c13c328e882c838649e170007f827371, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.24999997, g: 0.24999997, b: 0.24999997, a: 0}
     Keywords:
     - FOG
     - DIFFUSE
@@ -162561,7 +162072,6 @@ MonoBehaviour:
     Hash: bf50c7bbbb4faf7f85545252e18e196b
     Material: {fileID: 2100000, guid: 7bf555d4f9124eed5b47949bbef62c28, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.65, g: 0.65, b: 0.65, a: 0}
     Keywords:
     - FOG
     - REFLECTION_PROBE
@@ -163010,7 +162520,6 @@ MonoBehaviour:
     Hash: c9529007c084d3670e182ab6755e266c
     Material: {fileID: 2100000, guid: ee9ecf19daea384a6a68cfc24a8009e0, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 0, g: 0, b: 0, a: 1}
     Keywords:
     - NOISE_DITHERING
     - _FOGTYPE_LERP
@@ -163306,7 +162815,6 @@ MonoBehaviour:
     Hash: cae3ac466698a3990042dca119b19493
     Material: {fileID: 2100000, guid: 701d94aa310a9e834893ea65c30c549f, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.23584905, g: 0.2030597, b: 0.18393257, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -163759,7 +163267,6 @@ MonoBehaviour:
     Hash: d48fec2341398ae90849b598f9aff901
     Material: {fileID: 2100000, guid: 00617e30deebf8f44b26d863ac32ba9a, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.65, g: 0.65, b: 0.65, a: 0}
     Keywords:
     - FOG
     - REFLECTION_PROBE
@@ -164201,7 +163708,6 @@ MonoBehaviour:
     Hash: dcb72d93d014c6fbe3b589e86847345d
     Material: {fileID: 2100000, guid: 57b384d914823b7e0a2ca379ceb3d152, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.5849056, g: 0.52512753, b: 0.4892605, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -164649,7 +164155,6 @@ MonoBehaviour:
     Hash: e1f432c571f097e5a036ac2c80a1f651
     Material: {fileID: 2100000, guid: 00a4b65d5b5c5bf50b40b5bc704da241, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.45283008, g: 0.4086863, b: 0.4086863, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -165101,7 +164606,6 @@ MonoBehaviour:
     Hash: e2daa6196514c25d3df799bfad05ce16
     Material: {fileID: 2100000, guid: ad2d592aa0f3e6272a5b5ec8673bdd97, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 0, g: 0, b: 0, a: 1}
     Keywords:
     - NOISE_DITHERING
     - _FOGTYPE_LERP
@@ -165397,7 +164901,6 @@ MonoBehaviour:
     Hash: eb540d06768cfbf65b4f2badeb37754e
     Material: {fileID: 2100000, guid: c531336a48eba893abcdad33c99a31ef, type: 2}
     Shader: Custom/Mirror
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - ENABLE_DIRT
     FloatProps:
@@ -165447,7 +164950,6 @@ MonoBehaviour:
     Hash: ecee5ce9abf4ce4af7df47fa0290ed2d
     Material: {fileID: 2100000, guid: 9528b623fc8f60d15949eeb1c4711436, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.6, g: 0.6, b: 0.6, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -165890,7 +165392,6 @@ MonoBehaviour:
     Hash: f698a190afb037cccaf430b656caeb99
     Material: {fileID: 2100000, guid: cede6ba6343d5aa66bba4d9b7c45edc1, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - _WHITEBOOSTTYPE_ALWAYS
     - _FOGTYPE_ALPHA
@@ -166186,7 +165687,6 @@ MonoBehaviour:
     Hash: f8b4869c0f74a79697e8c5d2bf3e6eb3
     Material: {fileID: 2100000, guid: e75dab980bfbed1f7b4d76e28786f730, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.21899995, g: 0.21899995, b: 0.21899995, a: 0}
     Keywords:
     - FOG
     - DIFFUSE
@@ -166628,7 +166128,6 @@ MonoBehaviour:
     Hash: fb055d75aa2b021cebb03b59546457dc
     Material: {fileID: 2100000, guid: 07001560015787a0b9d66aa01801ea23, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.20799994, g: 0.20799994, b: 0.20799994, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -167072,7 +166571,6 @@ MonoBehaviour:
     Hash: 0518fba6767fd768f4d0056eb48b74d9
     Material: {fileID: 2100000, guid: 0ec4c94a648f42198bc6a71040998dec, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.17924526, g: 0.17924526, b: 0.17924526, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -167515,7 +167013,6 @@ MonoBehaviour:
     Hash: 3d3838779adf5ae02fae0173b644b9d3
     Material: {fileID: 2100000, guid: f531dc99bdf666489a0f934cae24ab6c, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.51886785, g: 0.51886785, b: 0.51886785, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -167964,7 +167461,6 @@ MonoBehaviour:
     Hash: 91e10b64e3bb24317bc8034dcea049d5
     Material: {fileID: 2100000, guid: 6f6f7f9a33a9894aea8614ae92984a11, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.29999998, g: 0.29999998, b: 0.29999998, a: 0}
     Keywords:
     - FOG
     - REFLECTION_PROBE
@@ -168406,7 +167902,6 @@ MonoBehaviour:
     Hash: 11d86321574ebd94de96238fd7baaa0a
     Material: {fileID: 2100000, guid: a02f933b9aab81881ac9b605c8b5bd4a, type: 2}
     Shader: Custom/WaterLit
-    Color: {r: 0.24999997, g: 0.24999997, b: 0.24999997, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -168574,7 +168069,6 @@ MonoBehaviour:
     Hash: 1fd218d1f939ae9f8eccb1756807c86b
     Material: {fileID: 2100000, guid: 304877443bf1d9136a7aa75748b4fc7a, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0, g: 0, b: 0, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -169017,7 +168511,6 @@ MonoBehaviour:
     Hash: 4c2e43e76645f3f062f0041b3bd692b3
     Material: {fileID: 2100000, guid: c8611c8382311f079833846f016cbb4e, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - _WHITEBOOSTTYPE_MAINEFFECT
@@ -169309,7 +168802,6 @@ MonoBehaviour:
     Hash: 83f21305bee243fd0f59f540da59774c
     Material: {fileID: 2100000, guid: 49f7a47600214dd689b978dba9de721d, type: 2}
     Shader: Custom/WaterLit
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -169476,7 +168968,6 @@ MonoBehaviour:
     Hash: 976d0bdd07202adffab63c4a53b61060
     Material: {fileID: 2100000, guid: 853aa448175fe901188a91d7bcfb37ef, type: 2}
     Shader: Custom/CustomParticles
-    Color: {r: 1, g: 1, b: 1, a: 1}
     Keywords:
     - VERTEX_COLOR
     - _WHITEBOOSTTYPE_ALWAYS
@@ -169770,7 +169261,6 @@ MonoBehaviour:
     Hash: cc35d683b39c178be39861834577921a
     Material: {fileID: 2100000, guid: 9e519a9501ff57df3b089c45e19ea4e0, type: 2}
     Shader: Custom/WaterLit
-    Color: {r: 0.24999997, g: 0.24999997, b: 0.24999997, a: 1}
     Keywords:
     - FOG
     - HEIGHT_FOG
@@ -169939,7 +169429,6 @@ MonoBehaviour:
     Hash: ed637e4a66e6d949fb603c8b0cdddeac
     Material: {fileID: 2100000, guid: c1463863a69b55077994061b934a4dbc, type: 2}
     Shader: Custom/Mirror
-    Color: {r: 0, g: 0.5, b: 1, a: 1}
     Keywords:
     - LIGHTMAP
     - DETAIL_NORMAL_MAP
@@ -169990,7 +169479,6 @@ MonoBehaviour:
     Hash: d4ccd0c64a70dba9776c3f77e43db3d3
     Material: {fileID: 2100000, guid: ebf6eb96bae17e4dd9bf8f9c04984525, type: 2}
     Shader: Custom/SimpleLit
-    Color: {r: 0.4150943, g: 0.4150943, b: 0.4150943, a: 0}
     Keywords:
     - FOG
     - HEIGHT_FOG

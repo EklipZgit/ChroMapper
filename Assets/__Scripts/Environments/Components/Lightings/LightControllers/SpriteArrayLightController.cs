@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class SpriteArrayLightController : LightController
 {
-    [SerializeField] public SpriteRenderer[] SpriteRenderers;
+    [SerializeField] public SpriteRenderer[] SpriteRenderers = Array.Empty<SpriteRenderer>();
 
     [SerializeField] public bool HideIfAlphaOutOfRange;
     [SerializeField] public float HideAlphaRangeMin = 0.001f;
@@ -36,8 +37,7 @@ public class SpriteArrayLightController : LightController
             color.b *= color.a;
         }
 
-        var spriteRenderers = SpriteRenderers;
-        foreach (var spriteRenderer in spriteRenderers)
+        foreach (var spriteRenderer in SpriteRenderers)
         {
             if (SetAlphaOnly)
                 spriteRenderer.color = spriteRenderer.color.WithAlpha(color.a * Intensity);

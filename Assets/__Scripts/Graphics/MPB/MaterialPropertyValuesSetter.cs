@@ -4,10 +4,10 @@ using UnityEngine;
 public class MaterialPropertyValuesSetter : MonoBehaviour
 {
     [SerializeField] public MaterialPropertyBlockController MpbController;
-    [SerializeField] public PropertyNameFloatValuePair[] Floats;
-    [SerializeField] public PropertyNameVectorValuePair[] Vectors;
-    [SerializeField] public PropertyNameColorValuePair[] Colors;
-    [SerializeField] public PropertyNameIntValuePair[] Ints;
+    [SerializeField] public PropertyNameFloatValuePair[] Floats = Array.Empty<PropertyNameFloatValuePair>();
+    [SerializeField] public PropertyNameVectorValuePair[] Vectors = Array.Empty<PropertyNameVectorValuePair>();
+    [SerializeField] public PropertyNameColorValuePair[] Colors = Array.Empty<PropertyNameColorValuePair>();
+    [SerializeField] public PropertyNameIntValuePair[] Ints = Array.Empty<PropertyNameIntValuePair>();
 
     protected void Start()
     {

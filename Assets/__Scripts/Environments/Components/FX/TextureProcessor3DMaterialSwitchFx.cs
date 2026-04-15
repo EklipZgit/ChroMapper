@@ -1,12 +1,13 @@
+using System;
 using UnityEngine;
 
 public class TextureProcessor3DMaterialSwitchFx : FxTarget
 {
-    [SerializeField] public Material[] MaterialArray;
+    [SerializeField] public Material[] MaterialArray = Array.Empty<Material>();
 
     [SerializeField] public Vector2 ValueBounds = new(-10f, 10f);
 
-    [SerializeField] public GridElementController[] GridElementControllers;
+    [SerializeField] public GridElementController[] GridElementControllers = Array.Empty<GridElementController>();
     [SerializeField] public int MaterialIndex;
 
     private int oldMaterialIndex = -1;

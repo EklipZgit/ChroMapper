@@ -1,8 +1,10 @@
+using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class MaterialPropertyBlockRandomValueSetter : MonoBehaviour
 {
-    [SerializeField] public Renderer[] Renderers;
+    [SerializeField] public Renderer[] Renderers = Array.Empty<Renderer>();
     [SerializeField] public string PropertyName;
     [SerializeField] public float MinValue;
     [SerializeField] public float MaxValue = 1f;
