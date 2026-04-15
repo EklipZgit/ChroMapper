@@ -3,9 +3,9 @@ using UnityEngine;
 public class LightPairRotationEventEffectData : EnvironmentComponentData<LightPairRotation>
 {
     public string EventTypeL;
-    public string TransformL;
+    public int TransformL;
     public string EventTypeR;
-    public string TransformR;
+    public int TransformR;
     public string SwitchOverrideRandomValuesEvent;
     public Vector3 RotationVector;
     public bool OverrideRandomValues;
@@ -13,18 +13,24 @@ public class LightPairRotationEventEffectData : EnvironmentComponentData<LightPa
     public float ZPositionAngleOffsetScale;
     public float StartRotation;
 
-    public override void SearchAndFillComponents(GameObject self, LightPairRotation comp, CreateContainer container)
+    public override void FillComponents(GameObject self, LightPairRotation comp, CreateContainer container)
     {
-        var lT = container.GetGameObjectOrNull(TransformL, self).transform;
+        if (ConvertUtils.ToEventType(EventTypeL, out var type) && type != -1)
+            comp.LeftEffect = container.Descriptor.BasicEventEffectManager.GetOrRegister<LightRotationEffect>(type);
+        if (ConvertUtils.ToEventType(EventTypeR, out type) && type != -1)
+            comp.RightEffect = container.Descriptor.BasicEventEffectManager.GetOrRegister<LightRotationEffect>(type);
+        if (ConvertUtils.ToEventType(SwitchOverrideRandomValuesEvent, out type) && type != -1)
+        {
+            comp.SwitchEffect = container.Descriptor.BasicEventEffectManager
+                .GetOrRegister<GenericCallbackEventEffect>(type);
+        }
+
+        var lT = container.GetComponentOrNull<Transform>(TransformL);
         lT.gameObject.GetComponent<ChromaIDMarker>().MarkUse = true;
-        var rT = container.GetGameObjectOrNull(TransformR, self).transform;
+        var rT = container.GetComponentOrNull<Transform>(TransformR);
         rT.gameObject.GetComponent<ChromaIDMarker>().MarkUse = true;
         comp.Transforms =
             new LightPairRotation.TransformContainer[] { new() { Transform = lT }, new() { Transform = rT } };
-    }
-
-    public override void CopyTo(LightPairRotation comp)
-    {
         comp.RotationVector = RotationVector;
         comp.OverrideRandomValues = OverrideRandomValues;
         comp.UseZPositionForAngleOffset = UseZPositionForAngleOffset;

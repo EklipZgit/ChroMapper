@@ -8,11 +8,7 @@ public class MeshFilterData : EnvironmentComponentData<MeshFilter>
 {
     [JsonProperty("hash")] public string Hash;
 
-    public override void SearchAndFillComponents(GameObject self, MeshFilter comp, CreateContainer container)
-    {
-    }
-
-    public override void CopyTo(MeshFilter comp)
+    public override void FillComponents(GameObject self, MeshFilter comp, CreateContainer container)
     {
     }
 }

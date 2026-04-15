@@ -6,7 +6,7 @@ public class LightmapLightsController : MonoBehaviour, IEnvironmentComponentUpda
     [SerializeField] public LightConstants.BakeId BakeId;
     [SerializeField] public float Intensity = 1f;
     [SerializeField] public float ProbeIntensity = 1f;
-    [SerializeField] public LightmapIntensityData[] LightIntensityData;
+    [SerializeField] public LightmapIntensityData[] LightIntensityData = Array.Empty<LightmapIntensityData>();
     [SerializeField] public ColorMixAndWeightingApproach MixType;
     [SerializeField] public float NormalizerWeight = 1f;
 

@@ -9,7 +9,6 @@ public class LightWithIdManagerData
 
     public class LightId
     {
-        public string ObjectId;
         public int InstanceId;
         public int? ArrayId;
     }

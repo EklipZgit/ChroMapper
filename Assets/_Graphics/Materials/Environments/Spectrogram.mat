@@ -26,36 +26,25 @@ Material:
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
+    m_TexEnvs: []
     m_Ints: []
     m_Floats:
-    - _AcesTonemap: 1
-    - _BloomBoost: 1
-    - _BloomType: 0
-    - _BloomWhite: 0
-    - _BloomWhiteMultiplier: 1
     - _CullMode: 2
     - _EnableDiffuse: 1
-    - _EnableFog: 0
     - _EnableHeightFog: 0
     - _EnableLightFalloff: 1
     - _EnableSpecular: 1
     - _FogHeightOffset: 0
-    - _FogHeightScale: 0.2
+    - _FogHeightScale: 1
     - _FogScale: 1
     - _FogStartOffset: 0
-    - _Glossiness: 0.5
     - _Metallic: 0.3
-    - _Smoothness: 0.5
+    - _Smoothness: 0.341
     - _SpecularIntensity: 2
     - _ZTest: 4
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0.24999997, g: 0.24999997, b: 0.24999997, a: 0}
+    - _Color: {r: 0.31999996, g: 0.31999996, b: 0.31999996, a: 0}
     - _PeakOffset: {r: 0, g: 0, b: 8, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

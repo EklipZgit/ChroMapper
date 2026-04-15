@@ -27,8 +27,7 @@ public partial class EnvironmentSceneCreator
 
                 foreach (var component in go.GetComponents<Component>())
                 {
-                    if (component is not (Transform or MeshFilter or MeshRenderer or ChromaIDMarker))
-                        Object.DestroyImmediate(component);
+                    if (component is not (Transform or ChromaIDMarker)) Object.DestroyImmediate(component);
                 }
 
                 existingObjects.Add(marker.ChromaID, go);

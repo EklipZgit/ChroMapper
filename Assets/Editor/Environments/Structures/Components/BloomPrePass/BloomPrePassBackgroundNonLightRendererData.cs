@@ -8,21 +8,17 @@ public class
     public bool UseCustomMaterial;
     public string CustomMaterial;
     public bool UseCustomPropertyBlock;
-    public string RendererId;
-    public string MeshFilterId;
+    public int Renderer;
+    public int MeshFilter;
 
-    public override void SearchAndFillComponents(
+    public override void FillComponents(
         GameObject self,
         BloomPrePassBackgroundNonLightRenderer comp,
         CreateContainer container)
     {
-        comp.CustomMaterial = container.Library.Materials.Lookup[CustomMaterial];
-        comp.Renderer = container.GetGameObjectOrNull(RendererId, self).GetComponent<Renderer>();
-        comp.MeshFilter = container.GetGameObjectOrNull(MeshFilterId, self).GetComponent<MeshFilter>();
-    }
-
-    public override void CopyTo(BloomPrePassBackgroundNonLightRenderer comp)
-    {
+        comp.CustomMaterial = container.Library.Materials.GetSafe(CustomMaterial);
+        comp.Renderer = container.GetComponentOrNull<Renderer>(Renderer);
+        comp.MeshFilter = container.GetComponentOrNull<MeshFilter>(MeshFilter);
         comp.ExecutionTimeType = (BloomPrePassNonLightPass.ExecutionTime)ExecutionTimeType;
         comp.KeepDefaultRendering = KeepDefaultRendering;
         comp.UseCustomMaterial = UseCustomMaterial;

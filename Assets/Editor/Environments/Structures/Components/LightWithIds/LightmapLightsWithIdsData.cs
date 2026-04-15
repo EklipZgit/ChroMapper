@@ -7,15 +7,13 @@ public class LightmapLightsWithIdsData : EnvironmentComponentData<LightmapsLight
     public float MaxTotalIntensity = 1f;
     public LightIntensitiesWithIdData[] LightIntensityData;
 
-    public override void SearchAndFillComponents(
+    public override void FillComponents(
         GameObject self,
         LightmapsLightsController comp,
         CreateContainer container)
     {
-    }
+        container.LightWithIds.Add(InstanceId, comp);
 
-    public override void CopyTo(LightmapsLightsController comp)
-    {
         comp.LightIntensityData = LightIntensityData
             .Select(data =>
             {

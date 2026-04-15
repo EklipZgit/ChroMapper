@@ -2,15 +2,13 @@ using UnityEngine;
 
 public class MoveInDirectionEffectData : EnvironmentComponentData<MoveInDirectionFx>
 {
-    public string Transform;
+    public int Transform;
     public Vector3 MoveOrigin;
     public float MoveScale = 1f;
 
-    public override void SearchAndFillComponents(GameObject self, MoveInDirectionFx comp, CreateContainer container) =>
-        comp.TargetTransform = container.GetGameObjectOrNull(Transform, self).transform;
-
-    public override void CopyTo(MoveInDirectionFx comp)
+    public override void FillComponents(GameObject self, MoveInDirectionFx comp, CreateContainer container)
     {
+        comp.TargetTransform = container.GetComponentOrNull<Transform>(Transform);
         comp.MoveOrigin = MoveOrigin;
         comp.MoveScale = MoveScale;
     }

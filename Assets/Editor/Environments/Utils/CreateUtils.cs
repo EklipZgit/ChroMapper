@@ -1,9 +1,11 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 public static class CreateUtils
 {
@@ -35,7 +37,7 @@ public static class CreateUtils
         if (!AssetDatabase.AssetPathExists(path))
         {
             Directory.CreateDirectory(Path.GetDirectoryName(path)!);
-            AssetDatabase.CreateAsset(new Mesh(), path);
+            AssetDatabase.CreateAsset(obj, path);
         }
         else
             obj = AssetDatabase.LoadAssetAtPath<T>(path);
@@ -72,8 +74,13 @@ public static class CreateUtils
 
 public class CreateContainer
 {
+    public EnvironmentData Data;
     public EnvironmentLibrarySO Library;
-    public Dictionary<string, GameObject> ChromaIdObjects;
+    public EnvironmentDescriptor Descriptor;
+
+    public Dictionary<string, GameObject> ChromaIdObjects = new();
+    public Dictionary<int, EnvironmentComponentData> ComponentInstances = new();
+    public Dictionary<int, MonoBehaviour> LightWithIds = new();
 
     public GameObject GetGameObjectOrNull(string n) => CreateUtils.GetGameObjectOrNull(ChromaIdObjects, n, null);
 
@@ -82,4 +89,25 @@ public class CreateContainer
 
     public bool TryGetGameObjectOrNull(string n, GameObject self, out GameObject go) =>
         CreateUtils.TryGetGameObjectOrNull(ChromaIdObjects, n, self, out go);
+
+    public T GetComponentOrNull<T>(int instanceId) where T : Component =>
+        ComponentInstances.TryGetValue(instanceId, out var component) ? component.Instance as T : null;
+
+    public static Dictionary<int, EnvironmentComponentData> CollectComponentInstances(EnvironmentData data)
+    {
+        var compInstances = new Dictionary<int, EnvironmentComponentData>();
+        foreach (var obj in data.Objects)
+        {
+            foreach (var fieldInfo in obj.Components.GetType().GetFields())
+            {
+                if (!fieldInfo.FieldType.IsArray
+                    || !typeof(EnvironmentComponentData).IsAssignableFrom(fieldInfo.FieldType.GetElementType()))
+                    continue;
+                if (fieldInfo.GetValue(obj.Components) is not EnvironmentComponentData[] d) continue;
+                foreach (var a in d) compInstances.Add(a.InstanceId, a);
+            }
+        }
+
+        return compInstances;
+    }
 }

@@ -7,8 +7,11 @@ public class MeshRendererSwitchEventEffectData : EnvironmentComponentData<MeshRe
     public string[] ActivateOnBoostRenderers;
     public string[] DeactivateOnBoostRenderers;
 
-    public override void SearchAndFillComponents(GameObject self, MeshRendererSwitch comp, CreateContainer container)
+    public override void FillComponents(GameObject self, MeshRendererSwitch comp, CreateContainer container)
     {
+        comp.Effect = container.Descriptor.BasicEventEffectManager.GetOrRegister<GenericCallbackEventEffect>(
+            ConvertUtils.ToEventType(EventType));
+
         comp.NormalRenderers = DeactivateOnBoostRenderers
             .Select(y =>
                 container.TryGetGameObjectOrNull(y, self, out var g) ? g.GetComponent<Renderer>() : null)
@@ -30,6 +33,4 @@ public class MeshRendererSwitchEventEffectData : EnvironmentComponentData<MeshRe
             })
             .ToArray();
     }
-
-    public override void CopyTo(MeshRendererSwitch comp) { }
 }

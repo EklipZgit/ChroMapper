@@ -5,6 +5,8 @@ using UnityEngine;
 /// </summary>
 public class TransformData : EnvironmentComponentData<Transform>
 {
+    public override bool AllowNew => false;
+
     public Vector3 Position;
     public Vector3 LocalPosition;
 
@@ -13,9 +15,7 @@ public class TransformData : EnvironmentComponentData<Transform>
 
     public Vector3 Scale = Vector3.one;
 
-    public override void SearchAndFillComponents(GameObject self, Transform comp, CreateContainer container) { }
-
-    public override void CopyTo(Transform comp)
+    public override void FillComponents(GameObject self, Transform comp, CreateContainer container)
     {
         comp.localPosition = LocalPosition;
         comp.localEulerAngles = LocalRotation;

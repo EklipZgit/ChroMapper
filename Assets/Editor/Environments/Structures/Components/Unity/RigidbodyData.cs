@@ -12,9 +12,7 @@ public class RigidbodyData : EnvironmentComponentData<Rigidbody>
     public string CollisionDetectionMode;
     public string Constraints;
 
-    public override void SearchAndFillComponents(GameObject self, Rigidbody comp, CreateContainer container) { }
-
-    public override void CopyTo(Rigidbody comp)
+    public override void FillComponents(GameObject self, Rigidbody comp, CreateContainer container)
     {
         comp.mass = Mass;
         comp.linearDamping = LinearDamping;

@@ -7,7 +7,7 @@ public class BloomPrePassBackgroundColorsGradientElementWithLightIdData : Enviro
 {
     [JsonProperty("lightId")] public int Id;
 
-    public string BloomPrePassBackgroundColorsGradient;
+    public int BloomPrePassBackgroundColorsGradient;
     public ElementsComponent[] Elements;
 
     public class ElementsComponent
@@ -17,19 +17,13 @@ public class BloomPrePassBackgroundColorsGradientElementWithLightIdData : Enviro
         public float MinIntensity;
     }
 
-    public override void SearchAndFillComponents(
+    public override void FillComponents(
         GameObject self,
         BloomPrePassBackgroundColorsGradientElementLightController comp,
         CreateContainer container)
     {
         comp.BloomPrePassBackgroundColorsGradient =
-            container
-                .GetGameObjectOrNull(BloomPrePassBackgroundColorsGradient, self)
-                .GetComponent<BloomPrePassBackgroundColorsGradient>();
-    }
-
-    public override void CopyTo(BloomPrePassBackgroundColorsGradientElementLightController comp)
-    {
+            container.GetComponentOrNull<BloomPrePassBackgroundColorsGradient>(BloomPrePassBackgroundColorsGradient);
         comp.Elements = Elements
             .Select(x => new BloomPrePassBackgroundColorsGradientElementLightController.Element
             {

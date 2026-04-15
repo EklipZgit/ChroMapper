@@ -5,16 +5,14 @@ public class EnableRendererLightWithIdData : EnvironmentComponentData<EnableRend
 {
     [JsonProperty("lightId")] public int Id;
 
-    public string Renderer;
+    public int Renderer;
     public float HideAlphaRangeMin = 0.001f;
     public float HideAlphaRangeMax = 1f;
 
     public override void
-        SearchAndFillComponents(GameObject self, EnableRendererLightController comp, CreateContainer container) =>
-        comp.Renderer = container.GetGameObjectOrNull(Renderer, self).GetComponent<Renderer>();
-
-    public override void CopyTo(EnableRendererLightController comp)
+        FillComponents(GameObject self, EnableRendererLightController comp, CreateContainer container)
     {
+        comp.Renderer = container.GetComponentOrNull<Renderer>(Renderer);
         comp.HideAlphaRangeMin = HideAlphaRangeMin;
         comp.HideAlphaRangeMax = HideAlphaRangeMax;
     }

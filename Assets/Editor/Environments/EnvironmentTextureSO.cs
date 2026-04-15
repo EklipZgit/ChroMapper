@@ -16,7 +16,7 @@ public class EnvironmentTextureSO : ScriptableObject
     private void Initialize()
     {
         Lookup.Clear();
-        foreach (var entry in list) Lookup[entry.Name] = entry.Texture;
+        foreach (var entry in list) Lookup[entry.Hash] = entry.Texture;
     }
 
     public void MarkForChange()

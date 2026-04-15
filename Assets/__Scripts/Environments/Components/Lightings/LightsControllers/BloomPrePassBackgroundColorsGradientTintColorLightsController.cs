@@ -10,6 +10,7 @@ public class BloomPrePassBackgroundColorsGradientTintColorLightsController : Com
 
     public override void SetColor(Color color)
     {
+        if (!HasInitialized) return;
         if (UseGrayscale)
             color = Color.Lerp(color, Color.white * color.maxColorComponent, Mathf.Clamp01(GrayscaleFactor));
         BloomPrePassBackgroundColorsGradient.TintColor = color;

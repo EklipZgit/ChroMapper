@@ -61,7 +61,7 @@ public class EnvironmentMaterialSO : ScriptableObject
                             .ToList(),
                     VectorProps =
                         material
-                            .ShaderProps.Where(x => x.Value is not double)
+                            .ShaderProps.Where(x => x.Value is not double && x.Value is not string)
                             .Select(x =>
                                 new MaterialInfo.ShaderProps<Vector4>
                                 {
@@ -90,7 +90,7 @@ public class EnvironmentMaterialSO : ScriptableObject
                         new MaterialInfo.ShaderProps<float> { Key = x.Key, Value = (float)x.Value }));
             m.VectorProps.AddRange(
                 material
-                    .ShaderProps.Where(x => x.Value is not double && x.Value is not long)
+                    .ShaderProps.Where(x => x.Value is not double && x.Value is not long && x.Value is not string)
                     .Where(x => !m.VectorProps.Exists(y => y.Key == x.Key))
                     .Select(x => new MaterialInfo.ShaderProps<Vector4>
                     {
@@ -114,6 +114,8 @@ public class EnvironmentMaterialSO : ScriptableObject
         Mathf.Approximately(val[0], -1) ? new Color(0f, 0.5f, 1f) : new Color(val[0], val[1], val[2], val[3]);
 
     public void Sort() => list = list.OrderBy(x => x.Name.First()).ThenBy(x => x.Hash).ToList();
+
+    public Material GetSafe(string n) => n == "null" ? null : Lookup.GetValueOrDefault(n);
 }
 
 [Serializable]

@@ -3,23 +3,21 @@ using UnityEngine;
 
 public class FloatLocalScaleEffectData : EnvironmentComponentData<LocalScaleFx>
 {
-    public string[] Transforms;
+    public int[] Transforms;
     public Vector2 ValueBounds;
     public Vector3 StartScale;
 
-    public override void SearchAndFillComponents(GameObject self, LocalScaleFx comp, CreateContainer container)
+    public override void FillComponents(GameObject self, LocalScaleFx comp, CreateContainer container)
     {
         comp.TargetTransforms = Transforms
-            .Select(x => container.GetGameObjectOrNull(x, self))
+            .Select(container.GetComponentOrNull<Transform>)
             .Where(x => x != null)
-            .Select(x => x.transform)
             .Select(x =>
             {
                 x.transform.localScale = StartScale;
                 return x;
             })
             .ToArray();
+        comp.ValueBounds = ValueBounds;
     }
-
-    public override void CopyTo(LocalScaleFx comp) => comp.ValueBounds = ValueBounds;
 }

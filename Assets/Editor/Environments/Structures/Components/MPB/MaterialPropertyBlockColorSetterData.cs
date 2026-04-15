@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class MaterialPropertyBlockColorSetterData : EnvironmentComponentData<MaterialPropertyBlockColorSetter>
 {
-    public string MaterialPropertyBlockControllerId;
+    public int MaterialPropertyBlockController;
     public string Property;
     public bool InverseAlpha;
     public bool DisableOnZeroAlpha;
@@ -10,18 +10,13 @@ public class MaterialPropertyBlockColorSetterData : EnvironmentComponentData<Mat
     public string AlphaProperty;
     public bool MultiplyWithAlpha;
 
-    public override void SearchAndFillComponents(
+    public override void FillComponents(
         GameObject self,
         MaterialPropertyBlockColorSetter comp,
         CreateContainer container)
     {
-        comp.Controller = container
-            .GetGameObjectOrNull(MaterialPropertyBlockControllerId, self)
-            .GetComponent<MaterialPropertyBlockController>();
-    }
-
-    public override void CopyTo(MaterialPropertyBlockColorSetter comp)
-    {
+        comp.Controller =
+            container.GetComponentOrNull<MaterialPropertyBlockController>(MaterialPropertyBlockController);
         comp.Property = Property;
         comp.InverseAlpha = InverseAlpha;
         comp.DisableOnZeroAlpha = DisableOnZeroAlpha;

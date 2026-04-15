@@ -73,6 +73,8 @@ Material:
     - _3DDisplacement: 0
     - _AlphaChannel: 0
     - _AlphaMultiplier: 1
+    - _BaseColorBoost: 1
+    - _BaseColorBoostThreshold: 0.1
     - _BaseLayer: 1
     - _Billboard: 0
     - _BillboardScale: 1
@@ -125,10 +127,11 @@ Material:
     - _MaskSecondaryUVs: 0
     - _MaskStrength: 1
     - _MeshPacking: 0
-    - _MeshPackingId: 0
+    - _MeshPackingId: 1
     - _OffsetFactor: 0
     - _OffsetUnits: 0
     - _Pixelate: 0
+    - _QuestWhiteboostMultiplier: 1
     - _RedIsVertexAlpha: 0
     - _RotateMainUVOnly: 0
     - _RotateUV: 0

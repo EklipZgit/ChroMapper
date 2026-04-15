@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 public class Parametric3SliceSpriteControllerData : EnvironmentComponentData<ParametricSpriteLight>
@@ -13,12 +14,36 @@ public class Parametric3SliceSpriteControllerData : EnvironmentComponentData<Par
     public float Length;
     public float MinAlpha;
 
-    public override void SearchAndFillComponents(GameObject self, ParametricSpriteLight comp, CreateContainer container)
+    public override void FillComponents(GameObject self, ParametricSpriteLight comp, CreateContainer container)
     {
-    }
+        comp.Renderer = self.GetComponent<Renderer>();
 
-    public override void CopyTo(ParametricSpriteLight comp)
-    {
+        // Good chance env data doesnt have this and it's fine
+        if (comp.Renderer == null || comp.GetComponent<MeshFilter>() == null)
+        {
+            var mesh = self.GetOrAddComponent<MeshFilter>();
+            mesh.sharedMesh = container.Library.SliceSprite;
+            var renderer = self.GetOrAddComponent<MeshRenderer>();
+
+            var chromaId = self.GetComponent<ChromaIDMarker>().ChromaID;
+            var envObject = container.Data.Objects.First(x => x.ChromaID == chromaId);
+            if (envObject.Components.MeshRenderer?.First().Materials.Any() ?? false)
+            {
+                if (container.Library.Materials.Lookup.TryGetValue(
+                        envObject.Components.MeshRenderer[0].Materials[0],
+                        out var mat)
+                    && mat != null)
+                    renderer.sharedMaterial = mat;
+                else
+                {
+                    Debug.LogWarning(
+                        $"{envObject.ChromaID} material not found for:\n{envObject.Components.MeshRenderer[0].Materials[0]}");
+                }
+            }
+
+            comp.Renderer = renderer;
+        }
+
         comp.WidthMultiplier = WidthMultiplier;
         comp.AlphaStart = AlphaStart;
         comp.AlphaEnd = AlphaEnd;

@@ -2,11 +2,12 @@ using UnityEngine;
 
 public class FloatSDFPointScaleEffectData : EnvironmentComponentData<SDFPointScaleFx>
 {
-    public string ColorPoints;
+    public int ColorPoints;
     public Vector2 ValueBounds;
 
-    public override void SearchAndFillComponents(GameObject self, SDFPointScaleFx comp, CreateContainer container) =>
-        comp.ColorPoints = container.GetGameObjectOrNull(ColorPoints, self).GetComponent<SDFPoint>();
-
-    public override void CopyTo(SDFPointScaleFx comp) => comp.ValueBounds = ValueBounds;
+    public override void FillComponents(GameObject self, SDFPointScaleFx comp, CreateContainer container)
+    {
+        comp.ColorPoints = container.GetComponentOrNull<SDFPoint>(ColorPoints);
+        comp.ValueBounds = ValueBounds;
+    }
 }

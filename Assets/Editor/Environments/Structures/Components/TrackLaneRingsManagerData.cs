@@ -4,29 +4,15 @@ using UnityEngine;
 
 public class TrackLaneRingsManagerData : EnvironmentComponentData<TrackLaneRingsManager>
 {
-    public string[] Rings;
+    public int[] Rings;
     public float RingPositionZStep;
     public bool SpawnAsChildren;
 
-    public override void SearchAndFillComponents(GameObject self, TrackLaneRingsManager comp, CreateContainer container)
+    public override void FillComponents(GameObject self, TrackLaneRingsManager comp, CreateContainer container)
     {
-        if (Rings is null)
-            comp.Rings = new List<TrackLaneRing>();
-        else
-        {
-            comp.Rings = Rings
-                .Select((r, i) =>
-                {
-                    var tlr = container.ChromaIdObjects[r].AddComponent<TrackLaneRing>();
-                    tlr.ParentManager = comp;
-                    return tlr;
-                })
-                .ToList();
-        }
-    }
-
-    public override void CopyTo(TrackLaneRingsManager comp)
-    {
+        comp.Rings = Rings is null
+            ? new List<TrackLaneRing>()
+            : Rings.Select(container.GetComponentOrNull<TrackLaneRing>).ToList();
         comp.RingPositionStep = RingPositionZStep;
         comp.SpawnAsChildren = SpawnAsChildren;
     }

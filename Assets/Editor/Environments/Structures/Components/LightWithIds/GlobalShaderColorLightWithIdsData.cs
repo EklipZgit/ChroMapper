@@ -7,15 +7,13 @@ public class GlobalShaderColorLightWithIdsData : EnvironmentComponentData<Global
     public bool OverrideSaturation;
     public float Saturation = 0.5f;
 
-    public override void SearchAndFillComponents(
+    public override void FillComponents(
         GameObject self,
         GlobalShaderColorLightsController comp,
         CreateContainer container)
     {
-    }
+        container.LightWithIds.Add(InstanceId, comp);
 
-    public override void CopyTo(GlobalShaderColorLightsController comp)
-    {
         comp.LightIntensityData = LightIntensityData
             .Select(data =>
             {

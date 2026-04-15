@@ -4,9 +4,6 @@ public class BakedLightsNormalizerData : EnvironmentComponentData<BakedLightsNor
 {
     public float MaxTotalIntensity = 1f;
 
-    public override void SearchAndFillComponents(GameObject self, BakedLightsNormalizer comp, CreateContainer container)
-    {
-    }
-
-    public override void CopyTo(BakedLightsNormalizer comp) => comp.MaxTotalIntensity = MaxTotalIntensity;
+    public override void FillComponents(GameObject self, BakedLightsNormalizer comp, CreateContainer container) =>
+        comp.MaxTotalIntensity = MaxTotalIntensity;
 }

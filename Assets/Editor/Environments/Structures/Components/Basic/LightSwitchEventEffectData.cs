@@ -1,15 +1,13 @@
 using UnityEngine;
 
-public class LightSwitchEventEffectData : EnvironmentComponentData<BasicLightEffect>
+public class LightSwitchEventEffectData
 {
     public string EventType;
     public float OffColorIntensity;
     public bool LightOnStart;
     public int LightsId;
 
-    public override void SearchAndFillComponents(GameObject self, BasicLightEffect comp, CreateContainer container) { }
-
-    public override void CopyTo(BasicLightEffect comp)
+    public void FillComponents(GameObject self, BasicLightEffect comp, CreateContainer container)
     {
         comp.OffIntensity = OffColorIntensity;
         comp.LightOnStart = LightOnStart;

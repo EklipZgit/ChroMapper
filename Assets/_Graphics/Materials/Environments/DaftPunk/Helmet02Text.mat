@@ -72,9 +72,10 @@ Material:
     m_Ints: []
     m_Floats:
     - _3DDisplacement: 0
-    - _AcesTonemap: 1
     - _AlphaChannel: 1
     - _AlphaMultiplier: 1
+    - _BaseColorBoost: 1
+    - _BaseColorBoostThreshold: 0.1
     - _BaseLayer: 1
     - _Billboard: 0
     - _BillboardScale: 1
@@ -83,10 +84,8 @@ Material:
     - _BlendModeSrc: 1
     - _BlendModeSrcA: 5
     - _BlendOp: 0
-    - _BloomBoost: 1
     - _BloomMultiplier: 1
     - _BloomType: 1
-    - _BloomWhite: 1
     - _BloomWhiteMultiplier: 1
     - _CullMode: 0
     - _Curve_Vertices: 0
@@ -96,9 +95,8 @@ Material:
     - _DisplacementPanningSpeed: 1
     - _DisplacementStrength: 0.1
     - _Distortion: 0
-    - _DistortionStrength: 0.2
+    - _DistortionStrength: 0.05
     - _EnableCustomPadding: 1
-    - _EnableFog: 0
     - _EnableHeightFog: 1
     - _EnableMask: 1
     - _EnableMask2: 0
@@ -120,36 +118,28 @@ Material:
     - _FogType: 3
     - _GradientPanningSpeed: 0
     - _GradientPosition: 0.5
-    - _GradientUseAlpha: 0
-    - _Intensity: 1
+    - _Intensity: 2
     - _Mask2Blend: 0
-    - _Mask2ParticleRandomization: 0
     - _Mask2RedIsAlpha: 0
     - _Mask2SecondaryUVs: 0
     - _Mask2Strength: 1
-    - _Mask2TexWorldspacePanning: 0
     - _MaskBlend: 0
-    - _MaskDissolve: 0
-    - _MaskDissolveOffset: 0
-    - _MaskDissolveTiling: 3
-    - _MaskPerParticleRandomization: 0
     - _MaskRedIsAlpha: 1
     - _MaskSecondaryUVs: 0
     - _MaskStrength: 1
-    - _MaskTexWorldspacePanning: 0
     - _MeshPacking: 0
-    - _MeshPackingId: 0
+    - _MeshPackingId: 1
     - _OffsetFactor: 0
     - _OffsetUnits: 0
     - _Pixelate: 0
+    - _QuestWhiteboostMultiplier: 1
     - _RedIsVertexAlpha: 0
     - _RotateMainUVOnly: 0
     - _RotateUV: 0
-    - _Rotate_UV: 0
     - _Secondary_UVs: 0
     - _Spectrogram: 0
-    - _SpectrogramBaseValue: 0.2
-    - _SpectrogramRange: 0.2
+    - _SpectrogramBaseValue: 0.687
+    - _SpectrogramRange: 0.504
     - _SquareAlpha: 0
     - _SquareAngleForViewAlignDisappear: 0
     - _SquareVertexAlpha: 0
@@ -157,7 +147,6 @@ Material:
     - _UV3Scale: 1
     - _UseColorArray: 0
     - _UseColorGradient: 0
-    - _UseColor_Gradient: 0
     - _UseMainTex: 1
     - _UseSpectrogram: 0
     - _UseTextureFlipbook: 0
@@ -173,8 +162,8 @@ Material:
     - _CustomPadding: {r: 0, g: 0, b: 0, a: 0}
     - _DisplacementAxes: {r: 1, g: 1, b: 1, a: 0}
     - _DisplacementPanning: {r: 0, g: 0, b: 0, a: 0}
-    - _DistortionAxes: {r: 1, g: 1, b: 0, a: 0}
-    - _DistortionPanning: {r: 0, g: 0, b: 0, a: 0}
+    - _DistortionAxes: {r: 1, g: 1, b: 1, a: 0}
+    - _DistortionPanning: {r: 1, g: 2, b: 1, a: 0}
     - _Mask2Panning: {r: 0, g: 0, b: 0, a: 0}
     - _MaskPanning: {r: 0, g: 0, b: 0, a: 0}
     - _PixelateResolution: {r: 64, g: 64, b: 0, a: 0}

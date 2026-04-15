@@ -12,14 +12,12 @@ public class InstancedMaterialLightWithIdData : EnvironmentComponentData<Instanc
     public int MultiplyColorByAlpha;
     public bool SaturateIntensity;
 
-    public override void SearchAndFillComponents(
+    public override void FillComponents(
         GameObject self,
         InstancedMaterialLightController comp,
-        CreateContainer container) =>
-        comp.MpbColorSetter = self.GetOrAddComponent<MaterialPropertyBlockColorSetter>();
-
-    public override void CopyTo(InstancedMaterialLightController comp)
+        CreateContainer container)
     {
+        comp.MpbColorSetter = self.GetOrAddComponent<MaterialPropertyBlockColorSetter>();
         comp.Intensity = Intensity;
         comp.HDR = HDR;
         comp.MinAlpha = MinAlpha;

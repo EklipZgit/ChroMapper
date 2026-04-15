@@ -4,19 +4,15 @@ using UnityEngine;
 public class SpectrogramData : EnvironmentComponentData<Spectrogram>
 {
     public bool SetAsGlobal;
-    public string[] MeshRenderers;
-    public string MaterialPropertyBlockController;
+    public int[] MeshRenderers;
+    public int MaterialPropertyBlockController;
 
-    public override void SearchAndFillComponents(GameObject self, Spectrogram comp, CreateContainer container)
+    public override void FillComponents(GameObject self, Spectrogram comp, CreateContainer container)
     {
-        comp.MeshRenderers =
-            MeshRenderers
-                .Select(o => container.GetGameObjectOrNull(o, self).GetComponent<MeshRenderer>())
-                .ToArray();
-        comp.MpbController = container
-            .GetGameObjectOrNull(MaterialPropertyBlockController, self)
-            .GetComponent<MaterialPropertyBlockController>();
+        comp.SpectrogramDataProvider = container.Descriptor.SpectrogramDataProvider;
+        comp.MeshRenderers = MeshRenderers.Select(container.GetComponentOrNull<MeshRenderer>).ToArray();
+        comp.MpbController =
+            container.GetComponentOrNull<MaterialPropertyBlockController>(MaterialPropertyBlockController);
+        comp.SetAsGlobal = SetAsGlobal;
     }
-
-    public override void CopyTo(Spectrogram comp) => comp.SetAsGlobal = SetAsGlobal;
 }

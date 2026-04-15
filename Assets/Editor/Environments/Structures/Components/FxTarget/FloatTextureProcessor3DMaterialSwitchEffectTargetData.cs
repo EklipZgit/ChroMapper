@@ -8,22 +8,17 @@ public class
 
     public Vector2 ValueBounds = new(-10f, 10f);
 
-    public string[] GridElementControllers;
+    public int[] GridElementControllers;
     public int MaterialIndex;
 
-    public override void SearchAndFillComponents(
+    public override void FillComponents(
         GameObject self,
         TextureProcessor3DMaterialSwitchFx comp,
         CreateContainer container)
     {
-        comp.MaterialArray = MaterialArray.Select(x => container.Library.Materials.Lookup[x]).ToArray();
-        comp.GridElementControllers = GridElementControllers
-            .Select(x => container.GetGameObjectOrNull(x, self).GetComponent<GridElementController>())
-            .ToArray();
-    }
-
-    public override void CopyTo(TextureProcessor3DMaterialSwitchFx comp)
-    {
+        comp.MaterialArray = MaterialArray.Select(x => container.Library.Materials.GetSafe(x)).ToArray();
+        comp.GridElementControllers =
+            GridElementControllers.Select(container.GetComponentOrNull<GridElementController>).ToArray();
         comp.ValueBounds = ValueBounds;
         comp.MaterialIndex = MaterialIndex;
     }

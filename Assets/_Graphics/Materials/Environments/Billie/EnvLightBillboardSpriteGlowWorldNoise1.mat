@@ -17,7 +17,6 @@ Material:
   - Y_AXIS_BILLBOARD
   m_InvalidKeywords:
   - _BLOOMTYPE_NONE
-  - _WHITEBOOSTTYPE_NONE
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
@@ -34,8 +33,6 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _BaseColorBoost: 1
-    - _BaseColorBoostThreshold: 0.1
     - _BlendModeDst: 1
     - _BlendModeDstA: 1
     - _BlendModeSrc: 1
@@ -44,14 +41,12 @@ Material:
     - _BloomMultiplier: 1
     - _BloomType: 0
     - _BloomWhiteMultiplier: 1
-    - _CapUVSize: 0.25
+    - _CapUVSize: 0.21
     - _CullMode: 2
     - _EnableAlphaWidthScale: 0
     - _EnableAngleDisappear: 0
     - _EnableFog: 1
     - _EnableHeightFog: 1
-    - _EnableWorldNoise: 0
-    - _EnableWorldSpaceFade: 0
     - _EnableYAxisBillboard: 1
     - _FogHeightOffset: 0
     - _FogHeightScale: 1
@@ -60,20 +55,15 @@ Material:
     - _OffsetFactor: 0
     - _OffsetUnits: 0
     - _SquareAlpha: 0
+    - _StencilComp: 8
+    - _StencilPass: 0
+    - _StencilRefValue: 0
     - _UseFogForLights: 0
-    - _WhiteBoostMultiplier: 1
-    - _WhiteBoostType: 0
-    - _WorldNoiseIntensityOffset: 0
-    - _WorldNoiseIntensityScale: 1
-    - _WorldNoiseScale: 1
-    - _WorldSpaceFadePos: 0
-    - _WorldSpaceFadeSlope: 1
     - _ZTest: 4
     - _ZWrite: 0
     m_Colors:
     - _AlphaWidth: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 0, g: 0.5, b: 1, a: 1}
     - _SizeParams: {r: 0.25, g: 10, b: 0, a: 0.5}
-    - _WorldNoiseScrolling: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

@@ -6,14 +6,10 @@ public class RectangleFakeGlowData : EnvironmentComponentData<RectangleFakeGlowL
     [JsonProperty("rectangleSize")] public Vector2 Size;
     public float EdgeSize = 0.1f;
 
-    public override void SearchAndFillComponents(
+    public override void FillComponents(
         GameObject self,
         RectangleFakeGlowLightController comp,
         CreateContainer container)
-    {
-    }
-
-    public override void CopyTo(RectangleFakeGlowLightController comp)
     {
         comp.Size = Size;
         comp.EdgeSize = EdgeSize;

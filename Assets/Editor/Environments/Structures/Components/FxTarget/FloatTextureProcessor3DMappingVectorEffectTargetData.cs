@@ -14,17 +14,13 @@ public class
     public bool InvertAxis;
     public bool InvertAxisSlave;
 
-    public override void SearchAndFillComponents(
+    public override void FillComponents(
         GameObject self,
         TextureProcessor3DMappingVectorFx comp,
         CreateContainer container)
     {
-        comp.Material = container.Library.Materials.Lookup[Material];
-        comp.SlaveMaterial = container.Library.Materials.Lookup[SlaveMaterial];
-    }
-
-    public override void CopyTo(TextureProcessor3DMappingVectorFx comp)
-    {
+        comp.Material = container.Library.Materials.GetSafe(Material);
+        comp.SlaveMaterial = container.Library.Materials.GetSafe(SlaveMaterial);
         comp.UseSlave = UseSlave;
         comp.Mapping = (TextureProcessor3DMappingVectorFx.TextureProcessor3DMapping)Mapping;
         comp.Channel = (TextureProcessor3DMappingVectorFx.TextureProcessor3DChannel)Channel;

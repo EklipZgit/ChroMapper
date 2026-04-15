@@ -89,6 +89,7 @@ public class EnvironmentDataObject
         public ParticleSystemContinuousEventEffectData[]? ParticleSystemContinuousEventEffect;
         public ParticleSystemEventEffectData[]? ParticleSystemEventEffect;
         public SmoothStepPositionEventEffectData[]? SmoothStepPositionEventEffect;
+        public TextureIntSwitchEventEffectData[]? TextureIntSwitchEventEffect;
         public TrackLaneRingData[]? TrackLaneRing;
         public TrackLaneRingsManagerData[]? TrackLaneRingsManager;
         public TrackLaneRingsPositionStepEffectSpawnerData[]? TrackLaneRingsPositionStepEffectSpawner;
@@ -110,6 +111,7 @@ public class EnvironmentDataObject
         // FX
         public AlphaFloatFxGroupEffectTargetData[]? AlphaFloatFxGroupEffectTarget;
         public ColliderEventEffectData[]? ColliderEventEffect;
+        public CombineGroupIdToVector4FloatFxGroupEffectTargetData[] CombineGroupIdToVector4FloatFxGroupEffectTarget;
         public FloatArrayMaterialPropertyEffectTargetData[]? FloatArrayMaterialPropertyEffectTarget;
         public FloatFxGroupEffectCollectionTargetData[]? FloatFxGroupEffectCollectionTarget;
         public FloatLocalScaleEffectData[]? FloatLocalScaleEffect;
@@ -129,7 +131,7 @@ public class EnvironmentDataObject
             Parametric3SliceSpriteWidthEndFloatFxEffectTarget;
 
         public SpectrogramMultiplierFloatFxEffectTargetData[]? SpectrogramMultiplierFloatFxEffectTarget;
-        public StepFloatMaterialEffectTargetData[]? StepFloatMaterialEffectTarget;
+        public StepFloatMaterialPropertyEffectTargetData[]? StepFloatMaterialPropertyEffectTarget;
         public SwitchGameObjectArrayEffectTargetData[]? SwitchGameObjectArrayEffectTarget;
         public SwitchGameObjectEffectTargetData[]? SwitchGameObjectEffectTarget;
         public VertexDisplacementFloatFxGroupEffectTargetData[]? VertexDisplacementFloatFxGroupEffectTarget;

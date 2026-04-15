@@ -2,44 +2,40 @@ using UnityEngine;
 
 public class SpringJointData : EnvironmentComponentData<SpringJoint>
 {
-    public string connectedBody;
-    public string connectedArticulationBody;
-    public Vector3 anchor;
-    public bool autoConfigureConnectedAnchor;
-    public Vector3 connectedAnchor;
-    public float spring;
-    public float damper;
-    public float minDistance;
-    public float maxDistance;
-    public float tolerance;
-    public string breakForce;
-    public string breakTorque;
-    public bool enableCollision;
-    public bool enablePreprocessing;
-    public float massScale;
-    public float connectedMassScale;
+    public int ConnectedBody;
+    public int ConnectedArticulationBody;
+    public Vector3 Anchor;
+    public bool AutoConfigureConnectedAnchor;
+    public Vector3 ConnectedAnchor;
+    public float Spring;
+    public float Damper;
+    public float MinDistance;
+    public float MaxDistance;
+    public float Tolerance;
+    public string BreakForce;
+    public string BreakTorque;
+    public bool EnableCollision;
+    public bool EnablePreprocessing;
+    public float MassScale;
+    public float ConnectedMassScale;
 
-    public override void SearchAndFillComponents(GameObject self, SpringJoint comp, CreateContainer container)
+    public override void FillComponents(GameObject self, SpringJoint comp, CreateContainer container)
     {
-        comp.connectedBody = container.GetGameObjectOrNull(connectedBody, self).GetComponent<Rigidbody>();
-        // comp.connectedArticulationBody = container.GetGameObjectOrNull(connectedBody, self).GetComponent<ArticulationBody>();
-    }
-
-    public override void CopyTo(SpringJoint comp)
-    {
-        comp.anchor = anchor;
-        comp.autoConfigureConnectedAnchor = autoConfigureConnectedAnchor;
-        comp.connectedAnchor = connectedAnchor;
-        comp.spring = spring;
-        comp.damper = damper;
-        comp.minDistance = minDistance;
-        comp.maxDistance = maxDistance;
-        comp.tolerance = tolerance;
-        comp.breakForce = float.Parse(breakForce);
-        comp.breakTorque = float.Parse(breakTorque);
-        comp.enableCollision = enableCollision;
-        comp.enablePreprocessing = enablePreprocessing;
-        comp.massScale = massScale;
-        comp.connectedMassScale = connectedMassScale;
+        comp.connectedBody = container.GetComponentOrNull<Rigidbody>(ConnectedBody);
+        comp.connectedArticulationBody = container.GetComponentOrNull<ArticulationBody>(ConnectedArticulationBody);
+        comp.anchor = Anchor;
+        comp.autoConfigureConnectedAnchor = AutoConfigureConnectedAnchor;
+        comp.connectedAnchor = ConnectedAnchor;
+        comp.spring = Spring;
+        comp.damper = Damper;
+        comp.minDistance = MinDistance;
+        comp.maxDistance = MaxDistance;
+        comp.tolerance = Tolerance;
+        comp.breakForce = float.Parse(BreakForce);
+        comp.breakTorque = float.Parse(BreakTorque);
+        comp.enableCollision = EnableCollision;
+        comp.enablePreprocessing = EnablePreprocessing;
+        comp.massScale = MassScale;
+        comp.connectedMassScale = ConnectedMassScale;
     }
 }

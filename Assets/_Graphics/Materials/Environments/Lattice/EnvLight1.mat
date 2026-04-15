@@ -42,14 +42,14 @@ Material:
     - _StencilComp: 8
     - _StencilPass: 0
     - _StencilRefValue: 0
-    - _WorldNoiseIntensityOffset: 0
-    - _WorldNoiseIntensityScale: 1
-    - _WorldNoiseScale: 1
+    - _WorldNoiseIntensityOffset: 0.01
+    - _WorldNoiseIntensityScale: 0.75
+    - _WorldNoiseScale: 0.2
     - _ZTest: 4
     - _ZWrite: 0
     m_Colors:
     - _AlphaWidth: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 0, g: 0.5, b: 1, a: 1}
-    - _WorldNoiseScrolling: {r: 0, g: 0, b: 0, a: 1}
+    - _WorldNoiseScrolling: {r: 0, g: 0, b: 7.5, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

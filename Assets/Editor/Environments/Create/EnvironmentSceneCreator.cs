@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using Newtonsoft.Json;
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -99,16 +100,24 @@ public partial class EnvironmentSceneCreator
         EnvironmentLibrarySO library,
         bool allowScript)
     {
-        var container = new CreateContainer { Library = library };
+        var blacklist = new[] { "Static Batch Component Container", "SaberBurnMarkSparklePS" };
+        data.Objects = data
+            .Objects.Where(x => !blacklist.Any(y => x.ChromaID.Contains(y)))
+            .ToList();
+
+        var container = new CreateContainer
+        {
+            Data = data, Library = library, ComponentInstances = CreateContainer.CollectComponentInstances(data)
+        };
 
         // first pass: strip existing object and component
         var existingObjects = StripObjects(scene, data);
 
         // second pass: spawn object
-        container.ChromaIdObjects = SpawnObjects(data, container, existingObjects);
+        container.ChromaIdObjects = SpawnObjects(container, existingObjects);
 
         // third pass: build component
-        if (allowScript) BuildComponents(data, container);
+        if (allowScript) BuildComponents(container);
 
         // forth pass: cleanup and remove unused
         if (allowScript) Cleanup(scene, data);

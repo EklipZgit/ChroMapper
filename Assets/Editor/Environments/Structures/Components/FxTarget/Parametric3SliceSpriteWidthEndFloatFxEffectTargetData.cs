@@ -2,23 +2,17 @@ using UnityEngine;
 
 public class Parametric3SliceSpriteWidthEndFloatFxEffectTargetData : EnvironmentComponentData<ParametricSliceEndWidthFx>
 {
-    public string Parametric3SliceSpriteController;
+    public int Parametric3SliceSpriteController;
 
     public Vector2 ValueBounds;
     public float ValueMultiplier = 1f;
 
-    public override void SearchAndFillComponents(
+    public override void FillComponents(
         GameObject self,
         ParametricSliceEndWidthFx comp,
         CreateContainer container)
     {
-        comp.SpriteLight = container
-            .GetGameObjectOrNull(Parametric3SliceSpriteController, self)
-            .GetComponent<ParametricSpriteLight>();
-    }
-
-    public override void CopyTo(ParametricSliceEndWidthFx comp)
-    {
+        comp.SpriteLight = container.GetComponentOrNull<ParametricSpriteLight>(Parametric3SliceSpriteController);
         comp.ValueBounds = ValueBounds;
         comp.ValueMultiplier = ValueMultiplier;
     }

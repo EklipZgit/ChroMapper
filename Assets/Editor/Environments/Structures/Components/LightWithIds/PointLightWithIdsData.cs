@@ -3,21 +3,20 @@ using UnityEngine;
 
 public class PointLightWithIdsData : EnvironmentComponentData<PointLightsController>
 {
-    public int InstanceId;
     public LightIntensityIdData[] LightIntensityData;
 
     public float Intensity = 1f;
     public float MaxIntensity = 1f;
     public bool MultiplyColorByAlpha = true;
     public int MixType;
-    public string PointLight;
+    public int PointLight;
 
     public override void
-        SearchAndFillComponents(GameObject self, PointLightsController comp, CreateContainer container) =>
-        comp.Light = container.GetGameObjectOrNull(PointLight, self).GetComponent<PointLight>();
-
-    public override void CopyTo(PointLightsController comp)
+        FillComponents(GameObject self, PointLightsController comp, CreateContainer container)
     {
+        container.LightWithIds.Add(InstanceId, comp);
+
+        comp.Light = container.GetComponentOrNull<PointLight>(PointLight);
         comp.LightIntensityData = LightIntensityData
             .Select(data =>
             {

@@ -13,10 +13,9 @@ public class ParametricBoxControllerData : EnvironmentComponentData<ParametricBo
     public float Length;
     public float MinAlpha;
 
-    public override void SearchAndFillComponents(GameObject self, ParametricBoxLight comp, CreateContainer container) { }
-
-    public override void CopyTo(ParametricBoxLight comp)
+    public override void FillComponents(GameObject self, ParametricBoxLight comp, CreateContainer container)
     {
+        comp.Renderer = self.GetComponent<Renderer>();
         comp.AlphaStart = AlphaStart;
         comp.AlphaEnd = AlphaEnd;
         comp.AlphaMultiplier = AlphaMultiplier;

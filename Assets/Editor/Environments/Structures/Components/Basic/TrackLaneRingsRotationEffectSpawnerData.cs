@@ -3,25 +3,22 @@ using UnityEngine;
 public class TrackLaneRingsRotationEffectSpawnerData : EnvironmentComponentData<TrackLaneRingsRotationEffect>
 {
     public string EventType;
-    public string TrackLaneRingsRotationEffect;
+    public int TrackLaneRingsRotationEffect;
     public float Rotation;
     public float RotationStep;
     public string RotationStepType;
     public int RotationPropagationSpeed;
     public float RotationFlexySpeed;
 
-    public override void SearchAndFillComponents(
+    public override void FillComponents(
         GameObject self,
         TrackLaneRingsRotationEffect comp,
         CreateContainer container)
     {
-        comp.Effect = container
-            .GetGameObjectOrNull(TrackLaneRingsRotationEffect, self)
-            .GetComponent<TrackLaneRingsRotation>();
-    }
+        container.Descriptor.BasicEventEffectManager.Register(ConvertUtils.ToEventType(EventType), comp);
 
-    public override void CopyTo(TrackLaneRingsRotationEffect comp)
-    {
+        comp.Effect = container
+            .GetComponentOrNull<TrackLaneRingsRotation>(TrackLaneRingsRotationEffect);
         comp.Rotation = Rotation;
         comp.Step = RotationStep;
         comp.StepType = ConvertUtils.ToRotationStepType(RotationStepType);

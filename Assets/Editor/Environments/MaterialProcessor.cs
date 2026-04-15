@@ -20,7 +20,7 @@ public static class MaterialProcessor
     {
         var mat = matInfo.Material;
 
-        mat.SetColor("_Color", matInfo.Color);
+        // mat.SetColor("_Color", matInfo.Color);
 
         foreach (var floatProp in matInfo.FloatProps)
         {
@@ -36,6 +36,7 @@ public static class MaterialProcessor
 
         foreach (var textureProp in matInfo.TextureProps)
         {
+            if (textureProp.Value == "null") continue;
             var renamedKey = shaderPropRemap.GetValueOrDefault(textureProp.Key, textureProp.Key);
             mat.SetTexture(renamedKey, library.Textures.Lookup[textureProp.Value]);
         }
@@ -202,6 +203,7 @@ public static class MaterialProcessor
         KeywordId(matInfo, "_ACES_Approach", "_ACES_APPROACH_BEFORE_EMISSIVE");
 
         KeywordToggle(matInfo, "_UseColorArray", "COLOR_ARRAY");
+        KeywordToggle(matInfo, "_MeshPacking", "MESH_PACKING");
         KeywordId(matInfo, "_Custom_Time", "_CUSTOM_TIME_SONG_TIME", "_CUSTOM_TIME_FREEZE");
 
 

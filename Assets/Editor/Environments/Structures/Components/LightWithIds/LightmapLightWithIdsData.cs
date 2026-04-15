@@ -11,15 +11,13 @@ public class LightmapLightWithIdsData : EnvironmentComponentData<LightmapLightsC
     public string MixType;
     public float NormalizerWeight = 1f;
 
-    public override void SearchAndFillComponents(
+    public override void FillComponents(
         GameObject self,
         LightmapLightsController comp,
         CreateContainer container)
     {
-    }
+        container.LightWithIds.Add(InstanceId, comp);
 
-    public override void CopyTo(LightmapLightsController comp)
-    {
         comp.LightIntensityData = LightIntensityData
             .Select(data =>
             {

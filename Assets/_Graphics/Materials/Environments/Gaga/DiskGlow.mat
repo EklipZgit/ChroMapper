@@ -24,18 +24,10 @@ Material:
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
+    m_TexEnvs: []
     m_Ints: []
     m_Floats:
-    - _AcesTonemap: 1
-    - _BloomBoost: 1
-    - _BloomWhite: 0
     - _CullMode: 2
-    - _EnableFog: 0
     - _EnableHeightFog: 1
     - _FogHeightOffset: -13
     - _FogHeightScale: 0.5

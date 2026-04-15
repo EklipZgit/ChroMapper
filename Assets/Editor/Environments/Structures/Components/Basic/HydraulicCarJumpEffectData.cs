@@ -2,19 +2,21 @@ using UnityEngine;
 
 public class HydraulicCarJumpEffectData : EnvironmentComponentData<HydraulicCarJump>
 {
-    public string Event;
+    public string EventType;
     public int[] EventValues;
     public Vector3 Impulse;
     public float Randomness = 0.1f;
     public Vector3 Position;
     public float MinDelayBetweenEvents = 0.5f;
-    public string Rigidbody;
+    public int Rigidbody;
 
-    public override void SearchAndFillComponents(GameObject self, HydraulicCarJump comp, CreateContainer container) =>
-        comp.Rigidbody = container.GetGameObjectOrNull(Rigidbody, self).GetComponent<Rigidbody>();
-
-    public override void CopyTo(HydraulicCarJump comp)
+    public override void FillComponents(GameObject self, HydraulicCarJump comp, CreateContainer container)
     {
+        comp.Effect =
+            container.Descriptor.BasicEventEffectManager.GetOrRegister<GenericCallbackEventEffect>(
+                ConvertUtils.ToEventType(EventType));
+
+        comp.Rigidbody = container.GetComponentOrNull<Rigidbody>(Rigidbody);
         comp.EventValues = EventValues;
         comp.Impulse = Impulse;
         comp.Randomness = Randomness;

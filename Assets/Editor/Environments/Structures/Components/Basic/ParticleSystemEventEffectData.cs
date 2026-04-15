@@ -4,13 +4,19 @@ public class ParticleSystemEventEffectData : EnvironmentComponentData<ParticleSy
 {
     public string EventType;
     public bool LightOnStart;
-    public string ParticleSystem;
+    public int ParticleSystem;
 
-    public override void SearchAndFillComponents(
+    public override void FillComponents(
         GameObject self,
         ParticleSystemEffect comp,
-        CreateContainer container) =>
-        comp.ParticleSystem = container.GetGameObjectOrNull(ParticleSystem, self).GetComponent<ParticleSystem>();
+        CreateContainer container)
+    {
+        comp.ColorSchemeProvider = container.Descriptor.ColorSchemeProvider;
+        comp.Effect =
+            container.Descriptor.BasicEventEffectManager.GetOrRegister<GenericCallbackEventEffect>(
+                ConvertUtils.ToEventType(EventType));
 
-    public override void CopyTo(ParticleSystemEffect comp) => comp.LightOnStart = LightOnStart;
+        comp.ParticleSystem = container.GetComponentOrNull<ParticleSystem>(ParticleSystem);
+        comp.LightOnStart = LightOnStart;
+    }
 }

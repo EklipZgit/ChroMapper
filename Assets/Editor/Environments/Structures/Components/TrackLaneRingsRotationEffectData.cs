@@ -2,21 +2,18 @@ using UnityEngine;
 
 public class TrackLaneRingsRotationEffectData : EnvironmentComponentData<TrackLaneRingsRotation>
 {
-    public string TrackLaneRingsManager;
+    public int TrackLaneRingsManager;
     public float StartupRotationAngle;
     public float StartupRotationStep;
     public int StartupRotationPropagationSpeed;
     public float StartupRotationFlexySpeed;
 
-    public override void SearchAndFillComponents(GameObject self, TrackLaneRingsRotation comp, CreateContainer container)
+    public override void FillComponents(
+        GameObject self,
+        TrackLaneRingsRotation comp,
+        CreateContainer container)
     {
-        comp.Manager = container
-            .GetGameObjectOrNull(TrackLaneRingsManager, self)
-            .GetComponent<TrackLaneRingsManager>();
-    }
-
-    public override void CopyTo(TrackLaneRingsRotation comp)
-    {
+        comp.Manager = container.GetComponentOrNull<TrackLaneRingsManager>(TrackLaneRingsManager);
         comp.StartupRotationAngle = StartupRotationAngle;
         comp.StartupRotationStep = StartupRotationStep;
         comp.StartupRotationPropagationSpeed = StartupRotationPropagationSpeed;

@@ -8,9 +8,7 @@ public class BoxColliderData : EnvironmentComponentData<BoxCollider>
     public Vector3 Center;
     public Vector3 Size;
 
-    public override void SearchAndFillComponents(GameObject self, BoxCollider comp, CreateContainer container) { }
-
-    public override void CopyTo(BoxCollider comp)
+    public override void FillComponents(GameObject self, BoxCollider comp, CreateContainer container)
     {
         comp.center = Center;
         comp.size = Size;

@@ -5,23 +5,21 @@ public class ColorArrayLightWithIdsData : EnvironmentComponentData<ColorArrayLig
 {
     public ColorArrayLightWithIdData[] ColorArrayLightWithIds;
     public MaterialControllerData MaterialController;
-    public string[] MaterialPropertyBlockControllers;
+    public int[] MaterialPropertyBlockControllers;
     public string ColorsArrayPropertyName = "_ColorsArray";
     public string ColorsArrayOffsetPropertyName = "_ColorsArrayOffset";
 
-    public override void SearchAndFillComponents(
+    public override void FillComponents(
         GameObject self,
         ColorArrayLightsController comp,
         CreateContainer container)
     {
+        container.LightWithIds.Add(InstanceId, comp);
+
         comp.Material = container.Library.Materials.Lookup[MaterialController.Material];
         comp.MpbControllers = MaterialPropertyBlockControllers
-            .Select(x => container.GetGameObjectOrNull(x, self).GetComponent<MaterialPropertyBlockController>())
+            .Select(container.GetComponentOrNull<MaterialPropertyBlockController>)
             .ToArray();
-    }
-
-    public override void CopyTo(ColorArrayLightsController comp)
-    {
         comp.ColorArrayData = ColorArrayLightWithIds
             .Select(data =>
             {

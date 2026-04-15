@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class MaterialLightWithIdsData : EnvironmentComponentData<MaterialLightsController>
 {
-    public int InstanceId;
     public LightIntensityIdData[] LightIntensityData;
 
     public float Intensity = 1f;
@@ -11,24 +10,20 @@ public class MaterialLightWithIdsData : EnvironmentComponentData<MaterialLightsC
     public bool MultiplyColorByAlpha = true;
     public int MixType;
 
-    public string MeshRenderer;
+    public int MeshRenderer;
     public bool SetAlphaOnly;
     public bool AlphaIntoColor;
     public bool SetColorOnly;
     public string ColorProperty = "_Color";
 
-    public override void SearchAndFillComponents(
+    public override void FillComponents(
         GameObject self,
         MaterialLightsController comp,
         CreateContainer container)
     {
-        comp.MeshRenderer = container
-            .GetGameObjectOrNull(MeshRenderer, self)
-            .GetComponent<MeshRenderer>();
-    }
+        container.LightWithIds.Add(InstanceId, comp);
 
-    public override void CopyTo(MaterialLightsController comp)
-    {
+        comp.MeshRenderer = container.GetComponentOrNull<MeshRenderer>(MeshRenderer);
         comp.LightIntensityData = LightIntensityData
             .Select(data =>
             {

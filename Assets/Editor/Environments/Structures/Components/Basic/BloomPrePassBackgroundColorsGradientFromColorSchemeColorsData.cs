@@ -5,7 +5,7 @@ public class
     BloomPrePassBackgroundColorsGradientFromColorSchemeColorsData : EnvironmentComponentData<
     BloomPrePassBackgroundColorsGradientFromColorSchemeColors>
 {
-    public string BloomPrePassBackgroundColorsGradient;
+    public int BloomPrePassBackgroundColorsGradient;
     public ElementComponent[] Elements;
 
     public class ElementComponent
@@ -16,20 +16,15 @@ public class
         public Color Color;
     }
 
-    public override void SearchAndFillComponents(
+    public override void FillComponents(
         GameObject self,
         BloomPrePassBackgroundColorsGradientFromColorSchemeColors comp,
         CreateContainer container)
     {
-        comp.BloomPrePassBackgroundColorsGradient = container
-            .GetGameObjectOrNull(
-                BloomPrePassBackgroundColorsGradient,
-                self)
-            .GetComponent<BloomPrePassBackgroundColorsGradient>();
-    }
+        comp.Effect = container.Descriptor.BasicEventEffectManager.GetEffect<ColorBoostEffect>(5);
 
-    public override void CopyTo(BloomPrePassBackgroundColorsGradientFromColorSchemeColors comp)
-    {
+        comp.BloomPrePassBackgroundColorsGradient =
+            container.GetComponentOrNull<BloomPrePassBackgroundColorsGradient>(BloomPrePassBackgroundColorsGradient);
         comp.Elements = Elements
             .Select(x => new BloomPrePassBackgroundColorsGradientFromColorSchemeColors.Element
             {

@@ -2,23 +2,19 @@ using UnityEngine;
 
 public class BackgroundTextureGradientSwitchEventEffectData : EnvironmentComponentData<BackgroundTextureGradientSwitch>
 {
-    public string DefaultTextureGradient;
-    public string BoostTextureGradient;
+    public int DefaultTextureGradient;
+    public int BoostTextureGradient;
 
-    public override void SearchAndFillComponents(
+    public override void FillComponents(
         GameObject self,
         BackgroundTextureGradientSwitch comp,
         CreateContainer container)
     {
-        comp.DefaultTextureGradient = container
-            .GetGameObjectOrNull(DefaultTextureGradient, self)
-            .GetComponent<BloomPrePassBackgroundColorsGradient>();
-        comp.BoostTextureGradient = container
-            .GetGameObjectOrNull(BoostTextureGradient, self)
-            .GetComponent<BloomPrePassBackgroundColorsGradient>();
-    }
+        comp.Effect = container.Descriptor.BasicEventEffectManager.GetEffect<ColorBoostEffect>(5);
 
-    public override void CopyTo(BackgroundTextureGradientSwitch comp)
-    {
+        comp.DefaultTextureGradient = container
+            .GetComponentOrNull<BloomPrePassBackgroundColorsGradient>(DefaultTextureGradient);
+        comp.BoostTextureGradient = container
+            .GetComponentOrNull<BloomPrePassBackgroundColorsGradient>(BoostTextureGradient);
     }
 }

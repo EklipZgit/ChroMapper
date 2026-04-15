@@ -9,14 +9,12 @@ public class DirectionalLightWithIdData : EnvironmentComponentData<DirectionalLi
     public float MinIntensity;
     public string Light;
 
-    public override void SearchAndFillComponents(
+    public override void FillComponents(
         GameObject self,
         DirectionalLightController comp,
-        CreateContainer container) =>
-        comp.Light = container.ChromaIdObjects[Light].GetComponent<DirectionalLight>();
-
-    public override void CopyTo(DirectionalLightController comp)
+        CreateContainer container)
     {
+        comp.Light = container.ChromaIdObjects[Light].GetComponent<DirectionalLight>();
         comp.Intensity = Intensity;
         comp.MinIntensity = MinIntensity;
     }

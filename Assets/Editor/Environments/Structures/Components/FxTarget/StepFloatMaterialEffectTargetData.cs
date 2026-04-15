@@ -1,22 +1,17 @@
 using UnityEngine;
 
-public class StepFloatMaterialEffectTargetData : EnvironmentComponentData<MpbStepFx>
+public class StepFloatMaterialPropertyEffectTargetData : EnvironmentComponentData<MpbStepFx>
 {
-    public string MaterialPropertyBlockController;
+    public int MaterialPropertyBlockController;
     public string PropertyName;
 
     public float StepFactor;
     public float StepSize;
 
-    public override void SearchAndFillComponents(GameObject self, MpbStepFx comp, CreateContainer container)
+    public override void FillComponents(GameObject self, MpbStepFx comp, CreateContainer container)
     {
-        comp.MpbController = container
-            .GetGameObjectOrNull(MaterialPropertyBlockController, self)
-            .GetComponent<MaterialPropertyBlockController>();
-    }
-
-    public override void CopyTo(MpbStepFx comp)
-    {
+        comp.MpbController =
+            container.GetComponentOrNull<MaterialPropertyBlockController>(MaterialPropertyBlockController);
         comp.PropertyName = PropertyName;
         comp.StepFactor = StepFactor;
         comp.StepSize = StepSize;

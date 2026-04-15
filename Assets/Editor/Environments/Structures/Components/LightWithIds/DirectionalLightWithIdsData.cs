@@ -3,28 +3,23 @@ using UnityEngine;
 
 public class DirectionalLightWithIdsData : EnvironmentComponentData<DirectionalLightsController>
 {
-    public int InstanceId;
     public LightIntensityIdData[] LightIntensityData;
 
     public float Intensity = 1f;
     public float MaxIntensity = 1f;
     public bool MultiplyColorByAlpha = true;
     public int MixType;
-    public string DirectionalLight;
+    public int DirectionalLight;
     public bool SetIntensityOnly;
 
-    public override void SearchAndFillComponents(
+    public override void FillComponents(
         GameObject self,
         DirectionalLightsController comp,
         CreateContainer container)
     {
-        comp.Light = container
-            .GetGameObjectOrNull(DirectionalLight, self)
-            .GetComponent<DirectionalLight>();
-    }
+        container.LightWithIds.Add(InstanceId, comp);
 
-    public override void CopyTo(DirectionalLightsController comp)
-    {
+        comp.Light = container.GetComponentOrNull<DirectionalLight>(DirectionalLight);
         comp.LightIntensityData = LightIntensityData
             .Select(data =>
             {

@@ -8,58 +8,24 @@ public class TubeBloomPrePassLightWithIdData : EnvironmentComponentData<Parametr
 
     [CanBeNull] public TubeBloomPrePassLightComponent TubeBloomPrePassLight;
 
-    public override void SearchAndFillComponents(
+    public override void FillComponents(
         GameObject self,
         ParametricBloomFogLightController comp,
         CreateContainer container)
-    {
-    }
-
-    public override void CopyTo(ParametricBloomFogLightController comp)
     {
         // target.SetOnlyOnce = SetOnlyOnce;
         // target.SetColorOnly = SetColorOnly;
 
         if (TubeBloomPrePassLight is null) return;
 
-        comp.ColorAlphaMultiplier = TubeBloomPrePassLight.ColorAlphaMultiplier;
-        comp.BloomFogIntensityMultiplier = TubeBloomPrePassLight.BloomFogIntensityMultiplier;
-        comp.Length = TubeBloomPrePassLight.TubeLength;
-        comp.Width = TubeBloomPrePassLight.TubeWidth;
-        comp.Center = TubeBloomPrePassLight.Center;
-        comp.StartAlpha = TubeBloomPrePassLight.StartAlpha;
-        comp.EndAlpha = TubeBloomPrePassLight.EndAlpha;
-        comp.StartWidth = TubeBloomPrePassLight.StartWidth;
-        comp.EndWidth = TubeBloomPrePassLight.EndWidth;
-        comp.BoostToWhite = TubeBloomPrePassLight.BoostToWhite;
-        comp.LimitAlpha = TubeBloomPrePassLight.LimitAlpha;
-        comp.MinAlpha = TubeBloomPrePassLight.MinAlpha;
-        comp.MaxAlpha = TubeBloomPrePassLight.MaxAlpha;
-        comp.LightWidthMultiplier = TubeBloomPrePassLight.LightWidthMultiplier;
-        comp.MultiplyLengthByAlphaBloomFogMultiplier = TubeBloomPrePassLight.MultiplyLengthByAlphaBloomFogMultiplier;
-        comp.UseCollision = TubeBloomPrePassLight.UseCollision;
-        comp.OverrideChildrenLength = TubeBloomPrePassLight.OverrideChildrenLength;
-        comp.FakeBloomIntensityMultiplier = TubeBloomPrePassLight.FakeBloomIntensityMultiplier;
-        comp.AddWidthToLength = TubeBloomPrePassLight.AddWidthToLength;
-        comp.ThickenWithDistance = TubeBloomPrePassLight.ThickenWithDistance;
-        comp.MinDistance = TubeBloomPrePassLight.MinDistance;
-        comp.MaxDistance = TubeBloomPrePassLight.MaxDistance;
-        comp.MinWidthMultiplier = TubeBloomPrePassLight.MinWidthMultiplier;
-        comp.MaxWidthMultiplier = TubeBloomPrePassLight.MaxWidthMultiplier;
-        comp.DisableRenderersOnZeroAlpha = TubeBloomPrePassLight.DisableRenderersOnZeroAlpha;
-        comp.BakedGlowWidthScale = TubeBloomPrePassLight.BakedGlowWidthScale;
-        comp.MultiplyLengthByAlpha = TubeBloomPrePassLight.MultiplyLengthByAlpha;
-        comp.UpdateAlways = TubeBloomPrePassLight.UpdateAlways;
-        comp.OverrideChildrenWidth = TubeBloomPrePassLight.OverrideChildrenWidth;
-        comp.OverrideChildrenAlpha = TubeBloomPrePassLight.OverrideChildrenAlpha;
-
-        comp.ThickenCurve = TubeBloomPrePassLight.ThickenCurve.Create();
-        comp.AlphaToLengthBloomFogCurve = TubeBloomPrePassLight.AlphaToLengthBloomFogCurve.Create();
-        comp.AlphaToLengthCurve = TubeBloomPrePassLight.AlphaToLengthCurve.Create();
+        comp.BloomFog = self.AddComponent<BloomFogObject>();
+        comp.BoxLight = container.GetComponentOrNull<ParametricBoxLight>(TubeBloomPrePassLight.ParametricBoxController);
+        comp.SpriteLight =
+            container.GetComponentOrNull<ParametricSpriteLight>(TubeBloomPrePassLight.Dynamic3SliceSprite);
     }
 }
 
-public class TubeBloomPrePassLightComponent
+public class TubeBloomPrePassLightComponent : EnvironmentComponentData<ParametricBloomFogLightController>
 {
     public float ColorAlphaMultiplier;
     public float BloomFogIntensityMultiplier;
@@ -96,6 +62,47 @@ public class TubeBloomPrePassLightComponent
     public AnimationCurveData AlphaToLengthBloomFogCurve;
     public AnimationCurveData AlphaToLengthCurve;
 
-    public string ParametricBoxId = "";
-    public string SliceSpriteControllerId = "";
+    public int ParametricBoxController;
+    public int Dynamic3SliceSprite;
+
+    public override void FillComponents(
+        GameObject self,
+        ParametricBloomFogLightController comp,
+        CreateContainer container)
+    {
+        comp.ColorAlphaMultiplier = ColorAlphaMultiplier;
+        comp.BloomFogIntensityMultiplier = BloomFogIntensityMultiplier;
+        comp.Length = TubeLength;
+        comp.Width = TubeWidth;
+        comp.Center = Center;
+        comp.StartAlpha = StartAlpha;
+        comp.EndAlpha = EndAlpha;
+        comp.StartWidth = StartWidth;
+        comp.EndWidth = EndWidth;
+        comp.BoostToWhite = BoostToWhite;
+        comp.LimitAlpha = LimitAlpha;
+        comp.MinAlpha = MinAlpha;
+        comp.MaxAlpha = MaxAlpha;
+        comp.LightWidthMultiplier = LightWidthMultiplier;
+        comp.MultiplyLengthByAlphaBloomFogMultiplier = MultiplyLengthByAlphaBloomFogMultiplier;
+        comp.UseCollision = UseCollision;
+        comp.OverrideChildrenLength = OverrideChildrenLength;
+        comp.FakeBloomIntensityMultiplier = FakeBloomIntensityMultiplier;
+        comp.AddWidthToLength = AddWidthToLength;
+        comp.ThickenWithDistance = ThickenWithDistance;
+        comp.MinDistance = MinDistance;
+        comp.MaxDistance = MaxDistance;
+        comp.MinWidthMultiplier = MinWidthMultiplier;
+        comp.MaxWidthMultiplier = MaxWidthMultiplier;
+        comp.DisableRenderersOnZeroAlpha = DisableRenderersOnZeroAlpha;
+        comp.BakedGlowWidthScale = BakedGlowWidthScale;
+        comp.MultiplyLengthByAlpha = MultiplyLengthByAlpha;
+        comp.UpdateAlways = UpdateAlways;
+        comp.OverrideChildrenWidth = OverrideChildrenWidth;
+        comp.OverrideChildrenAlpha = OverrideChildrenAlpha;
+
+        comp.ThickenCurve = ThickenCurve.Create();
+        comp.AlphaToLengthBloomFogCurve = AlphaToLengthBloomFogCurve.Create();
+        comp.AlphaToLengthCurve = AlphaToLengthCurve.Create();
+    }
 }

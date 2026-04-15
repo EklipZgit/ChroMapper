@@ -39,7 +39,7 @@ Material:
     - _FogScale: 1
     - _FogStartOffset: 0
     - _Metallic: 0.3
-    - _Smoothness: 0.5
+    - _Smoothness: 0.536
     - _SpecularIntensity: 0.2
     - _ZTest: 4
     - _ZWrite: 1

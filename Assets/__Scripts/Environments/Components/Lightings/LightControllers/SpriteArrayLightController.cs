@@ -20,6 +20,7 @@ public class SpriteArrayLightController : LightController
 
     public override void SetColor(Color color)
     {
+        if (!HasInitialized) return;
         if (MultiplyColorByAlpha == MultiplyColorByAlphaType.BeforeApplyingMinAlpha)
         {
             color.r *= color.a;

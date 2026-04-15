@@ -74,6 +74,8 @@ Material:
     - _3DDisplacement: 0
     - _AlphaChannel: 1
     - _AlphaMultiplier: 1
+    - _BaseColorBoost: 1
+    - _BaseColorBoostThreshold: 0.1
     - _BaseLayer: 1
     - _Billboard: 0
     - _BillboardScale: 1
@@ -116,7 +118,7 @@ Material:
     - _FogType: 3
     - _GradientPanningSpeed: 0
     - _GradientPosition: 0.5
-    - _Intensity: 1
+    - _Intensity: 2
     - _Mask2Blend: 0
     - _Mask2RedIsAlpha: 0
     - _Mask2SecondaryUVs: 0
@@ -126,10 +128,11 @@ Material:
     - _MaskSecondaryUVs: 0
     - _MaskStrength: 1
     - _MeshPacking: 0
-    - _MeshPackingId: 0
+    - _MeshPackingId: 1
     - _OffsetFactor: 0
     - _OffsetUnits: 0
     - _Pixelate: 0
+    - _QuestWhiteboostMultiplier: 1
     - _RedIsVertexAlpha: 0
     - _RotateMainUVOnly: 0
     - _RotateUV: 0
@@ -162,7 +165,7 @@ Material:
     - _DistortionAxes: {r: 1, g: 1, b: 0, a: 0}
     - _DistortionPanning: {r: 0, g: 0, b: 0, a: 0}
     - _Mask2Panning: {r: 0, g: 0, b: 0, a: 0}
-    - _MaskPanning: {r: 0, g: 0, b: 0, a: 0}
+    - _MaskPanning: {r: 0, g: -1, b: 0, a: 0}
     - _PixelateResolution: {r: 64, g: 64, b: 0, a: 0}
     - _SecondaryColor: {r: 1, g: 1, b: 1, a: 1}
     - _SecondaryColorPanning: {r: 0, g: 0, b: 0, a: 0}

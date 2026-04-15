@@ -13,27 +13,15 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - FOG
-  - LIGHT_FALLOFF
   - _VERTEX_COLOR
   m_InvalidKeywords:
   - _ACES_APPROACH_AFTER_EMISSIVE
   - _CUSTOM_TIME_STANDARD
-  - _DIFFUSE_TEXTURE_SOURCE_TEXTURE
-  - _EMISSIONBLOOMTYPE_FLAT
   - _EMISSIONTEXTURE_NONE
-  - _EMISSION_ALPHA_SOURCE_EMISSION_G
-  - _EMISSION_TEXTURE_SOURCE_TEXTURE
-  - _MASKBLEND_MULTIPLY
   - _METALLIC_TEXTURE_SOURCE_NONE
-  - _PARALLAX_MASKING_NONE
   - _PARALLAX_NONE
-  - _PARALLAX_PROJECTION_PLANAR
-  - _SECONDARY_MASKBLEND_MULTIPLY
   - _SECONDARY_UVS_NONE
   - _SMOOTHNESS_TEXTURE_SOURCE_NONE
-  - _SPECTROGRAM_NONE
-  - _VERTEXDISPLACEMENT_MASK_SOURCE_TEXTURE
-  - _VERTEX_BLOOMTYPE_NONE
   - _ZWRITE_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
@@ -46,10 +34,6 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _DiffuseTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DiffuseTexture:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -66,10 +50,6 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -104,30 +84,30 @@ Material:
     m_Ints: []
     m_Floats:
     - _ACES_Approach: 0
-    - _AcesTonemap: 1
     - _AlbedoMultiplier: 1
-    - _AlphaCutout: 0
     - _AmbientMinimalValue: 0
     - _AmbientMultiplier: 1
-    - _BaseColorBoost: 1
-    - _BaseColorBoostThreshold: 0.5
     - _BlendDstFactor: 0
     - _BlendDstFactorA: 0
     - _BlendSrcFactor: 1
     - _BlendSrcFactorA: 0
-    - _BloomBoost: 1
-    - _BloomWhite: 0
-    - _BloomWhiteMultiplier: 1
     - _BothSidesDiffuseMultiplier: 1
     - _CullMode: 2
     - _Custom_Time: 0
+    - _CutColorBacksideFalloff: 0.07
+    - _CutColorFalloff: 4
     - _DarkeningIntensity: 1
     - _DarkeningScale: 0.35
     - _Diffuse_Texture_Source: 0
     - _DisplacementBidirectional: 0
     - _DisplacementSpatial: 0
     - _DisplacementStrength: 0.1
-    - _DistortionStrength: 0.1
+    - _DissolveColorIntensity: 1
+    - _DissolveEndValue: 10
+    - _DissolveOffset: 0
+    - _DissolveProgress: 0
+    - _DissolveStartValue: 0
+    - _DistortionStrength: 0.2
     - _EmissionBloomIntensity: 1
     - _EmissionBloomType: 0
     - _EmissionBrightness: 1
@@ -150,6 +130,7 @@ Material:
     - _EnableBoxProjection: 0
     - _EnableDiffuse: 0
     - _EnableDiffuseTexture: 0
+    - _EnableDissolve: 0
     - _EnableDistanceDarkening: 0
     - _EnableDistortion: 0
     - _EnableEmissionAngleDisappear: 0
@@ -175,9 +156,9 @@ Material:
     - _FogHeightScale: 1
     - _FogScale: 1
     - _FogStartOffset: 0
-    - _Glossiness: 0.5
     - _GroundFadeOffset: 1
     - _GroundFadeScale: 0.5
+    - _InvertDissolve: 0
     - _InvertRimDim: 0
     - _IridescenceColorInfluence: 0
     - _IridescenceTiling: 0.25
@@ -185,10 +166,9 @@ Material:
     - _MainEffectFogSuppression: 0
     - _MaskBlend: 0
     - _MeshPacking: 0
-    - _MeshPackingId: 0
+    - _MeshPackingId: 1
     - _Metallic: 1
     - _Metallic_Texture_Source: 0
-    - _Mode: 0
     - _OffsetStep: 1
     - _Parallax: 0
     - _ParallaxIntensity: 1
@@ -217,7 +197,7 @@ Material:
     - _SecondaryUVsParallax: 0
     - _Secondary_MaskBlend: 0
     - _Secondary_UVs: 0
-    - _Smoothness: 0.5
+    - _Smoothness: 0.89
     - _Smoothness_Texture_Source: 0
     - _Spectrogram: 0
     - _SpecularIntensity: 1
@@ -226,6 +206,8 @@ Material:
     - _StencilPass: 0
     - _StencilRefValue: 0
     - _UseColorArray: 0
+    - _UseDissolveColor: 0
+    - _UseDissolveProgress: 0
     - _Vertex: 1
     - _VertexDisplacement3DTexScale: 5
     - _VertexDisplacementMaskMultiplier: 1
@@ -240,11 +222,13 @@ Material:
     - _DarkeningCenter: {r: 0, g: 0, b: 0, a: 0}
     - _DarkeningDirection: {r: 1, g: 1, b: 1, a: 1}
     - _DisplacementAxisMultiplier: {r: 1, g: 1, b: 1, a: 1}
+    - _DissolveAxisVector: {r: 0, g: 1, b: 0, a: 0}
+    - _DissolveColor: {r: 0, g: 1, b: 1, a: 0}
     - _DistortionAxes: {r: 1, g: 1, b: 0, a: 0}
-    - _DistortionPanning: {r: 1, g: 1, b: 0, a: 0}
-    - _EmissionColor: {r: 1, g: 1, b: 1, a: 0}
+    - _DistortionPanning: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _EmissionMaskSpeed: {r: 0, g: 1, b: 0, a: 0}
-    - _EmissionTexColor: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionTexColor: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionTexSpeed: {r: 0, g: 0, b: 0, a: 0}
     - _InputUvMultiplier: {r: 1, g: 1, b: 0, a: 0}
     - _IridescenceAxesMultiplier: {r: 1, g: 2, b: 3, a: 0}
@@ -252,7 +236,7 @@ Material:
     - _ParallaxColor: {r: 1, g: 1, b: 1, a: 1}
     - _ParallaxMaskSpeed: {r: 0, g: 0, b: 0, a: 0}
     - _ParallaxTexSpeed: {r: 0, g: 0, b: 0, a: 0}
-    - _PrivatePointLightColor: {r: 0, g: 0.5, b: 1, a: 1}
+    - _PrivatePointLightColor: {r: 445.72195, g: 445.72195, b: 445.72195, a: 0}
     - _PrivatePointLightPosition: {r: 5.15, g: 0, b: 0, a: 1}
     - _SDFNoiseOffset: {r: 0, g: 0, b: 0, a: 0}
     - _SDFNoisePanning: {r: 0, g: 0, b: 0, a: 0}

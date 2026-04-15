@@ -5,23 +5,18 @@ using UnityEngine;
 
 public class TransformSpectrogramData : EnvironmentComponentData<TransformSpectrogram>
 {
-    public string[] Transforms;
+    public int[] Transforms;
     public string Axis;
     public float MinPosition;
     public float MaxPosition;
     public bool ScaleSamples = true;
     public float Scale = 1f;
 
-    public override void SearchAndFillComponents(GameObject self, TransformSpectrogram comp, CreateContainer container)
+    public override void
+        FillComponents(GameObject self, TransformSpectrogram comp, CreateContainer container)
     {
-        comp.Transforms =
-            Transforms
-                .Select(o => container.GetGameObjectOrNull(o, self).transform)
-                .ToArray();
-    }
-
-    public override void CopyTo(TransformSpectrogram comp)
-    {
+        comp.SpectrogramDataProvider = container.Descriptor.SpectrogramDataProvider;
+        comp.Transforms = Transforms.Select(container.GetComponentOrNull<Transform>).ToArray();
         comp.Axis = Enum.Parse<Axis>(Axis);
         comp.MinPosition = MinPosition;
         comp.MaxPosition = MaxPosition;

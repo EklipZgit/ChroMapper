@@ -11,24 +11,20 @@ public class TextureProcessor3DData : EnvironmentComponentData<TextureProcessor3
     public int ColumnSize;
     public int DepthSize;
 
-    public MotionPreset[] PresetArray = new MotionPreset[10];
+    // public MotionPreset[] PresetArray = new MotionPreset[10];
 
     public int ActivePresetIndex;
 
     public string[] MaterialsUsingOutput;
 
-    public override void SearchAndFillComponents(GameObject self, TextureProcessor3D comp, CreateContainer container)
+    public override void FillComponents(GameObject self, TextureProcessor3D comp, CreateContainer container)
     {
         comp.TextureGenCompute = container.Library.ComputeShaders.Find(x => x.name == TextureGenCompute).computeShader;
         comp.WriteTexturesCompute =
             container.Library.ComputeShaders.Find(x => x.name == WriteTexturesCompute).computeShader;
         comp.InputTextures = InputTextures.Select(x => container.Library.Textures.Lookup[x] as Texture2D).ToArray();
-        // comp.MaterialsUsingOutput = MaterialsUsingOutput.Select(x => container.Library.Materials.Lookup[x]).ToArray();
-    }
-
-    public override void CopyTo(TextureProcessor3D comp)
-    {
-        comp.PresetArray = PresetArray.Select(x => x.Create()).ToArray();
+        // comp.MaterialsUsingOutput = MaterialsUsingOutput.Select(x => container.Library.Materials.GetSafe(x)).ToArray();
+        // comp.PresetArray = PresetArray.Select(x => x.Create()).ToArray();
 
         comp.RowSize = RowSize;
         comp.ColumnSize = ColumnSize;

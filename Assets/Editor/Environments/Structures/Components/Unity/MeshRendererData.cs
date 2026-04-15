@@ -9,11 +9,7 @@ public class MeshRendererData : EnvironmentComponentData<MeshRenderer>
 {
     [JsonProperty("materials")] public List<string> Materials = new();
 
-    public override void SearchAndFillComponents(GameObject self, MeshRenderer comp, CreateContainer container)
-    {
-    }
-
-    public override void CopyTo(MeshRenderer comp)
+    public override void FillComponents(GameObject self, MeshRenderer comp, CreateContainer container)
     {
     }
 }

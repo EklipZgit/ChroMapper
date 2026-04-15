@@ -6,8 +6,10 @@ public class GameObjectSwitchEventEffectData : EnvironmentComponentData<GameObje
     public string[] ActivateOnBoostObjects;
     public string[] DeactivateOnBoostObjects;
 
-    public override void SearchAndFillComponents(GameObject self, GameObjectSwitch comp, CreateContainer container)
+    public override void FillComponents(GameObject self, GameObjectSwitch comp, CreateContainer container)
     {
+        comp.Effect = container.Descriptor.BasicEventEffectManager.GetEffect<ColorBoostEffect>(5);
+
         comp.NormalGameObjects = DeactivateOnBoostObjects
             .Select(x => container.GetGameObjectOrNull(x, self))
             .Where(y => y != null)
@@ -27,9 +29,5 @@ public class GameObjectSwitchEventEffectData : EnvironmentComponentData<GameObje
                 return g;
             })
             .ToArray();
-    }
-
-    public override void CopyTo(GameObjectSwitch comp)
-    {
     }
 }

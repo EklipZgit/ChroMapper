@@ -3,27 +3,33 @@ using UnityEngine;
 public class LightPairSinMoveEventEffectData : EnvironmentComponentData<LightPairSinMove>
 {
     public string EventTypeL;
-    public string TransformL;
+    public int TransformL;
     public string EventTypeR;
-    public string TransformR;
+    public int TransformR;
     public string SwitchOverrideRandomValuesEvent;
     public bool OverrideRandomValues;
     public float StartValueOffset;
     public Vector3 StartPositionOffset;
     public Vector3 EndPositionOffset;
 
-    public override void SearchAndFillComponents(GameObject self, LightPairSinMove comp, CreateContainer container)
+    public override void FillComponents(GameObject self, LightPairSinMove comp, CreateContainer container)
     {
-        var lT = container.GetGameObjectOrNull(TransformL, self).transform;
+        if (ConvertUtils.ToEventType(EventTypeL, out var type) && type != -1)
+            comp.LeftEffect = container.Descriptor.BasicEventEffectManager.GetOrRegister<LightRotationEffect>(type);
+        if (ConvertUtils.ToEventType(EventTypeR, out type) && type != -1)
+            comp.RightEffect = container.Descriptor.BasicEventEffectManager.GetOrRegister<LightRotationEffect>(type);
+        if (ConvertUtils.ToEventType(SwitchOverrideRandomValuesEvent, out type) && type != -1)
+        {
+            comp.SwitchEffect =
+                container.Descriptor.BasicEventEffectManager.GetOrRegister<GenericCallbackEventEffect>(type);
+        }
+
+        var lT = container.GetComponentOrNull<Transform>(TransformL);
         lT.gameObject.GetComponent<ChromaIDMarker>().MarkUse = true;
-        var rT = container.GetGameObjectOrNull(TransformR, self).transform;
+        var rT = container.GetComponentOrNull<Transform>(TransformR);
         rT.gameObject.GetComponent<ChromaIDMarker>().MarkUse = true;
         comp.Transforms =
             new LightPairSinMove.TransformContainer[] { new() { Transform = lT }, new() { Transform = rT } };
-    }
-
-    public override void CopyTo(LightPairSinMove comp)
-    {
         comp.OverrideRandomValues = OverrideRandomValues;
         comp.StartValueOffset = StartValueOffset;
         comp.StartPositionOffset = StartPositionOffset;

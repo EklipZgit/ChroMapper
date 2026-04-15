@@ -71,9 +71,10 @@ Material:
     m_Ints: []
     m_Floats:
     - _3DDisplacement: 0
-    - _AcesTonemap: 1
     - _AlphaChannel: 1
     - _AlphaMultiplier: 4
+    - _BaseColorBoost: 1
+    - _BaseColorBoostThreshold: 0.1
     - _BaseLayer: 1
     - _Billboard: 2
     - _BillboardScale: 1
@@ -82,10 +83,8 @@ Material:
     - _BlendModeSrc: 1
     - _BlendModeSrcA: 1
     - _BlendOp: 0
-    - _BloomBoost: 1
     - _BloomMultiplier: 0.5
     - _BloomType: 1
-    - _BloomWhite: 1
     - _BloomWhiteMultiplier: 1
     - _CullMode: 0
     - _Curve_Vertices: 0
@@ -97,7 +96,6 @@ Material:
     - _Distortion: 0
     - _DistortionStrength: 0.2
     - _EnableCustomPadding: 0
-    - _EnableFog: 0
     - _EnableHeightFog: 0
     - _EnableMask: 0
     - _EnableMask2: 0
@@ -108,10 +106,10 @@ Material:
     - _EnableVertexColor: 1
     - _EnableViewAlignDisappear: 0
     - _FlipbookBlendingOff: 0
-    - _FlipbookColumns: 8
-    - _FlipbookNonloopableFrames: 0
-    - _FlipbookRows: 8
-    - _FlipbookSpeed: 1
+    - _FlipbookColumns: 4
+    - _FlipbookNonloopableFrames: 3
+    - _FlipbookRows: 4
+    - _FlipbookSpeed: 10
     - _FogHeightOffset: 0
     - _FogHeightScale: 1
     - _FogScale: 0
@@ -119,32 +117,24 @@ Material:
     - _FogType: 0
     - _GradientPanningSpeed: 0
     - _GradientPosition: 0.5
-    - _GradientUseAlpha: 0
     - _Intensity: 1
     - _Mask2Blend: 0
-    - _Mask2ParticleRandomization: 0
     - _Mask2RedIsAlpha: 0
     - _Mask2SecondaryUVs: 0
     - _Mask2Strength: 1
-    - _Mask2TexWorldspacePanning: 0
     - _MaskBlend: 0
-    - _MaskDissolve: 0
-    - _MaskDissolveOffset: 0
-    - _MaskDissolveTiling: 3
-    - _MaskPerParticleRandomization: 0
     - _MaskRedIsAlpha: 0
     - _MaskSecondaryUVs: 0
     - _MaskStrength: 1
-    - _MaskTexWorldspacePanning: 0
     - _MeshPacking: 0
-    - _MeshPackingId: 0
+    - _MeshPackingId: 1
     - _OffsetFactor: 0
     - _OffsetUnits: 0
     - _Pixelate: 0
+    - _QuestWhiteboostMultiplier: 0
     - _RedIsVertexAlpha: 0
     - _RotateMainUVOnly: 0
     - _RotateUV: 0
-    - _Rotate_UV: 0
     - _Secondary_UVs: 0
     - _Spectrogram: 0
     - _SpectrogramBaseValue: 0.2
@@ -156,7 +146,6 @@ Material:
     - _UV3Scale: 1
     - _UseColorArray: 0
     - _UseColorGradient: 1
-    - _UseColor_Gradient: 0
     - _UseMainTex: 1
     - _UseSpectrogram: 0
     - _UseTextureFlipbook: 0

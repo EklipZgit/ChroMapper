@@ -11,7 +11,7 @@ public class SwitchGameObjectArrayEffectTargetData : EnvironmentComponentData<Sw
         public string GameObject;
     }
 
-    public override void SearchAndFillComponents(GameObject self, SwitchGameObjectArrayFx comp, CreateContainer container)
+    public override void FillComponents(GameObject self, SwitchGameObjectArrayFx comp, CreateContainer container)
     {
         comp.GameObjects = GameObjects
             .Select(x => (container.GetGameObjectOrNull(x.GameObject, self), x.Threshold))
@@ -27,6 +27,4 @@ public class SwitchGameObjectArrayEffectTargetData : EnvironmentComponentData<Sw
             })
             .ToArray();
     }
-
-    public override void CopyTo(SwitchGameObjectArrayFx comp) { }
 }

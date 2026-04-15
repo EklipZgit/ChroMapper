@@ -42,17 +42,17 @@ Material:
     - _FogScale: 1
     - _FogStartOffset: 0
     - _Metallic: 0
-    - _NormalScale: 1
-    - _NormalScaleVertical: 1
-    - _Smoothness: 0.5
+    - _NormalScale: 0.4
+    - _NormalScaleVertical: 20
+    - _Smoothness: 0.7
     - _SpecularIntensity: 0.48
     - _ZFade: 0
-    - _ZFadePosition: 0
-    - _ZFadeScale: 1
+    - _ZFadePosition: 10.2
+    - _ZFadeScale: 0.7
     - _ZTest: 4
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _NormalTexScrolling: {r: 0, g: 2, b: 0, a: 0}
+    - _NormalTexScrolling: {r: 0, g: 8, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

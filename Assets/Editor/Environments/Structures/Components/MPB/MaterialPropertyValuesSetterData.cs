@@ -1,26 +1,22 @@
 using System.Linq;
+using Newtonsoft.Json;
 using UnityEngine;
 
 public class MaterialPropertyValuesSetterData : EnvironmentComponentData<MaterialPropertyValuesSetter>
 {
-    public string MaterialPropertyBlockController;
+    public int MaterialPropertyBlockController;
     public PropertyNameFloatValuePair[] Floats;
     public PropertyNameVectorValuePair[] Vectors;
     public PropertyNameColorValuePair[] Colors;
     public PropertyNameIntValuePair[] Ints;
 
-    public override void SearchAndFillComponents(
+    public override void FillComponents(
         GameObject self,
         MaterialPropertyValuesSetter comp,
         CreateContainer container)
     {
-        comp.MpbController = container
-            .GetGameObjectOrNull(MaterialPropertyBlockController, self)
-            .GetComponent<MaterialPropertyBlockController>();
-    }
-
-    public override void CopyTo(MaterialPropertyValuesSetter comp)
-    {
+        comp.MpbController =
+            container.GetComponentOrNull<MaterialPropertyBlockController>(MaterialPropertyBlockController);
         comp.Floats = Floats
             .Select(x =>
                 new MaterialPropertyValuesSetter.PropertyNameFloatValuePair
@@ -54,7 +50,7 @@ public class MaterialPropertyValuesSetterData : EnvironmentComponentData<Materia
 
 public class PropertyValuePairBase
 {
-    public string PropertyName;
+    [JsonProperty("_propertyName")] public string PropertyName;
 }
 
 public class PropertyNameFloatValuePair : PropertyValuePairBase

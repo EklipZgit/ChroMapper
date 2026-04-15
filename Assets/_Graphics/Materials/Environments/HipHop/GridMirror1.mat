@@ -26,7 +26,7 @@ Material:
     m_TexEnvs:
     - _DirtTex:
         m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 20}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalTex:
         m_Texture: {fileID: 0}
@@ -38,12 +38,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _BumpIntensity: 0.1
+    - _BumpIntensity: 0.05
     - _CullMode: 2
     - _DetailNormalIntensity: 0
     - _DetailNormalMap: 0
     - _DetailNormalTextureScale: 1
-    - _DirtIntensity: 1
+    - _DirtIntensity: 0.5
     - _EnableDiffuse: 0
     - _EnableDirt: 0
     - _EnableHeightFog: 0
@@ -54,8 +54,8 @@ Material:
     - _FogScale: 1
     - _FogStartOffset: 0
     - _Metallic: 0
-    - _ReflectionIntensity: 0.5
-    - _Smoothness: 0.5
+    - _ReflectionIntensity: 0.13
+    - _Smoothness: 0.9
     - _StencilComp: 8
     - _StencilPass: 1
     - _StencilRefValue: 0

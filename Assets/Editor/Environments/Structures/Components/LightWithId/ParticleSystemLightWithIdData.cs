@@ -5,7 +5,7 @@ public class ParticleSystemLightWithIdData : EnvironmentComponentData<ParticleSy
 {
     [JsonProperty("lightId")] public int Id;
 
-    public string ParticleSystem;
+    public int ParticleSystem;
 
     public bool SetOnlyOnce;
     public bool SetColorOnly;
@@ -13,14 +13,12 @@ public class ParticleSystemLightWithIdData : EnvironmentComponentData<ParticleSy
     public float MinAlpha;
 
 
-    public override void SearchAndFillComponents(
+    public override void FillComponents(
         GameObject self,
         ParticleSystemLightController comp,
-        CreateContainer container) =>
-        comp.ParticleSystem = container.GetGameObjectOrNull(ParticleSystem, self).GetComponent<ParticleSystem>();
-
-    public override void CopyTo(ParticleSystemLightController comp)
+        CreateContainer container)
     {
+        comp.ParticleSystem = container.GetComponentOrNull<ParticleSystem>(ParticleSystem);
         comp.SetOnlyOnce = SetOnlyOnce;
         comp.SetColorOnly = SetColorOnly;
         comp.Intensity = Intensity;

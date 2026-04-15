@@ -9,15 +9,13 @@ public class SmoothStepPositionEventEffectData : EnvironmentComponentData<Smooth
     public Vector3 MovementVector;
     public float StepSize;
 
-    public override void SearchAndFillComponents(
+    public override void FillComponents(
         GameObject self,
         SmoothStepPositionEventEffect comp,
         CreateContainer container)
     {
-    }
+        container.Descriptor.BasicEventEffectManager.Register(ConvertUtils.ToEventType(EventType), comp);
 
-    public override void CopyTo(SmoothStepPositionEventEffect comp)
-    {
         comp.ClampValue = ClampValue;
         comp.MinY = MinY;
         comp.MaxY = MaxY;

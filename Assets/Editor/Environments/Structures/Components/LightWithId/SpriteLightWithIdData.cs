@@ -5,7 +5,7 @@ public class SpriteLightWithIdData : EnvironmentComponentData<SpriteLightControl
 {
     [JsonProperty("lightId")] public int Id;
 
-    public string SpriteRenderer;
+    public int SpriteRenderer;
 
     public bool HideIfAlphaOutOfRange;
     public float HideAlphaRangeMin;
@@ -18,11 +18,9 @@ public class SpriteLightWithIdData : EnvironmentComponentData<SpriteLightControl
     public bool SetOnlyOnce;
 
     public override void
-        SearchAndFillComponents(GameObject self, SpriteLightController comp, CreateContainer container) =>
-        comp.Renderer = container.GetGameObjectOrNull(SpriteRenderer, self).GetComponent<SpriteRenderer>();
-
-    public override void CopyTo(SpriteLightController comp)
+        FillComponents(GameObject self, SpriteLightController comp, CreateContainer container)
     {
+        comp.Renderer = container.GetComponentOrNull<SpriteRenderer>(SpriteRenderer);
         comp.HideIfAlphaOutOfRange = HideIfAlphaOutOfRange;
         comp.HideAlphaRangeMin = HideAlphaRangeMin;
         comp.HideAlphaRangeMax = HideAlphaRangeMax;

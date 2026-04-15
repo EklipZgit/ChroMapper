@@ -6,18 +6,14 @@ public class BloomPrePassBackgroundColorsGradientTintColorWithLightIdsData : Env
 {
     [JsonProperty("lightId")] public int Id;
 
-    public string BloomPrePassBackgroundColorsGradient;
+    public int BloomPrePassBackgroundColorsGradient;
 
-    public override void SearchAndFillComponents(
+    public override void FillComponents(
         GameObject self,
         BloomPrePassBackgroundColorsGradientTintColorLightController comp,
         CreateContainer container)
     {
         comp.BloomPrePassBackgroundColorsGradient =
-            container
-                .GetGameObjectOrNull(BloomPrePassBackgroundColorsGradient, self)
-                .GetComponent<BloomPrePassBackgroundColorsGradient>();
+            container.GetComponentOrNull<BloomPrePassBackgroundColorsGradient>(BloomPrePassBackgroundColorsGradient);
     }
-
-    public override void CopyTo(BloomPrePassBackgroundColorsGradientTintColorLightController comp) { }
 }

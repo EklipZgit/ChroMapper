@@ -2,23 +2,29 @@ using UnityEngine;
 
 public class HydraulicCarSuspensionEffectData : EnvironmentComponentData<HydraulicCarSuspension>
 {
-    public string ContractEvent;
+    public string ContractEventType;
     public int[] ContractEventValues;
-    public string ExpandEvent;
+    public string ExpandEventType;
     public int[] ExpandEventValues;
-    public string SpringJoint;
+    public int SpringJoint;
     public float ContractDistance = 0.3f;
     public float ExpandDistance = 0.4f;
-    public string Rigidbody;
+    public int Rigidbody;
 
-    public override void SearchAndFillComponents(GameObject self, HydraulicCarSuspension comp, CreateContainer container)
+    public override void FillComponents(
+        GameObject self,
+        HydraulicCarSuspension comp,
+        CreateContainer container)
     {
-        comp.Rigidbody = container.GetGameObjectOrNull(Rigidbody, self).GetComponent<Rigidbody>();
-        comp.SpringJoint = container.GetGameObjectOrNull(SpringJoint, self).GetComponent<SpringJoint>();
-    }
+        comp.ContractEffect =
+            container.Descriptor.BasicEventEffectManager.GetOrRegister<GenericCallbackEventEffect>(
+                ConvertUtils.ToEventType(ContractEventType));
+        comp.ExpandEffect =
+            container.Descriptor.BasicEventEffectManager.GetOrRegister<GenericCallbackEventEffect>(
+                ConvertUtils.ToEventType(ExpandEventType));
 
-    public override void CopyTo(HydraulicCarSuspension comp)
-    {
+        comp.Rigidbody = container.GetComponentOrNull<Rigidbody>(Rigidbody);
+        comp.SpringJoint = container.GetComponentOrNull<SpringJoint>(SpringJoint);
         comp.ContractEventValues = ContractEventValues;
         comp.ExpandEventValues = ExpandEventValues;
         comp.ContractDistance = ContractDistance;

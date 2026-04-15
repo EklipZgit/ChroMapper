@@ -6,21 +6,16 @@ public class VertexDisplacementFloatFxGroupEffectTargetData : EnvironmentCompone
     public AnimationCurveData XAnimationCurve;
     public AnimationCurveData YAnimationCurve;
     public AnimationCurveData ZAnimationCurve;
-    public string DisplacementController;
-    public string Renderer;
+    public int DisplacementController;
+    public int Renderer;
     public bool UseTestValue;
     public float TestFloatValue;
 
-    public override void SearchAndFillComponents(GameObject self, VertexDisplacementFx comp, CreateContainer container)
+    public override void FillComponents(GameObject self, VertexDisplacementFx comp, CreateContainer container)
     {
-        comp.DisplacementController = container
-            .GetGameObjectOrNull(DisplacementController, self)
-            .GetComponent<MaterialPropertyBlockController>();
-        comp.Renderer = container.GetGameObjectOrNull(Renderer, self).GetComponent<Renderer>();
-    }
-
-    public override void CopyTo(VertexDisplacementFx comp)
-    {
+        comp.DisplacementController =
+            container.GetComponentOrNull<MaterialPropertyBlockController>(DisplacementController);
+        comp.Renderer = container.GetComponentOrNull<Renderer>(Renderer);
         comp.DisplacementRanges = DisplacementRanges;
         comp.XAnimationCurve = XAnimationCurve.Create();
         comp.YAnimationCurve = YAnimationCurve.Create();

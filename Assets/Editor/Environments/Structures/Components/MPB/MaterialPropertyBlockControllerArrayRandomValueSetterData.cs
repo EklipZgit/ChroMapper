@@ -5,25 +5,19 @@ public class
     MaterialPropertyBlockControllerArrayRandomValueSetterData : EnvironmentComponentData<
     MaterialPropertyBlockControllerArrayRandomValueSetter>
 {
-    public string[] MaterialPropertyBlockControllers;
+    public int[] MaterialPropertyBlockControllers;
     public string PropertyName;
     public Vector3 Min;
     public Vector3 Max;
 
-    public override void SearchAndFillComponents(
+    public override void FillComponents(
         GameObject self,
         MaterialPropertyBlockControllerArrayRandomValueSetter comp,
         CreateContainer container)
     {
         comp.MpbControllers = MaterialPropertyBlockControllers
-            .Select(x => container
-                .GetGameObjectOrNull(x, self)
-                .GetComponent<MaterialPropertyBlockController>())
+            .Select(container.GetComponentOrNull<MaterialPropertyBlockController>)
             .ToArray();
-    }
-
-    public override void CopyTo(MaterialPropertyBlockControllerArrayRandomValueSetter comp)
-    {
         comp.PropertyName = PropertyName;
         comp.Min = Min;
         comp.Max = Max;

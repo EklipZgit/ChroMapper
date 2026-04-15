@@ -2,25 +2,19 @@ using UnityEngine;
 
 public class GridElementControllerData : EnvironmentComponentData<GridElementController>
 {
-    public string GridPivotAnchor;
-    public string MaterialPropertyBlockController;
-    public string GridElementRenderer;
+    public int GridPivotAnchor;
+    public int MaterialPropertyBlockController;
+    public int GridElementRenderer;
     public string GridPivotPropertyName;
     public string GridElementIndexPropertyName;
     public Vector3 IDVector;
 
-    public override void SearchAndFillComponents(GameObject self, GridElementController comp, CreateContainer container)
+    public override void FillComponents(GameObject self, GridElementController comp, CreateContainer container)
     {
-        comp.GridPivotAnchor = container.GetGameObjectOrNull(GridPivotAnchor, self).GetComponent<Transform>();
+        comp.GridPivotAnchor = container.GetComponentOrNull<Transform>(GridPivotAnchor);
         comp.MaterialPropertyBlockController =
-            container
-                .GetGameObjectOrNull(MaterialPropertyBlockController, self)
-                .GetComponent<MaterialPropertyBlockController>();
-        comp.GridElementRenderer = container.GetGameObjectOrNull(GridElementRenderer, self).GetComponent<MeshRenderer>();
-    }
-
-    public override void CopyTo(GridElementController comp)
-    {
+            container.GetComponentOrNull<MaterialPropertyBlockController>(MaterialPropertyBlockController);
+        comp.GridElementRenderer = container.GetComponentOrNull<MeshRenderer>(GridElementRenderer);
         comp.GridPivotPropertyName = GridPivotPropertyName;
         comp.GridElementIndexPropertyName = GridElementIndexPropertyName;
         comp.IDVector = IDVector;

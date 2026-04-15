@@ -5,7 +5,7 @@ public class MaterialPropertyBlockControllerData : EnvironmentComponentData<Mate
 {
     public string[] Renderers;
 
-    public override void SearchAndFillComponents(
+    public override void FillComponents(
         GameObject self,
         MaterialPropertyBlockController comp,
         CreateContainer container)
@@ -20,9 +20,5 @@ public class MaterialPropertyBlockControllerData : EnvironmentComponentData<Mate
                 return g;
             })
             .ToList();
-    }
-
-    public override void CopyTo(MaterialPropertyBlockController comp)
-    {
     }
 }

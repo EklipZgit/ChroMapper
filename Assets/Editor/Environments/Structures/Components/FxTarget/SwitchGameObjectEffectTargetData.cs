@@ -6,16 +6,14 @@ public class SwitchGameObjectEffectTargetData : EnvironmentComponentData<SwitchG
     [JsonProperty("gameObject01")] public string GameObjectA;
     [JsonProperty("gameObject02")] public string GameObjectB;
 
-    public override void SearchAndFillComponents(GameObject self, SwitchGameObjectFx comp, CreateContainer container)
+    public override void FillComponents(GameObject self, SwitchGameObjectFx comp, CreateContainer container)
     {
-        comp.GameObjectA = container.ChromaIdObjects[GameObjectA];
-        comp.GameObjectB = container.ChromaIdObjects[GameObjectB];
+        comp.GameObjectA = container.GetGameObjectOrNull(GameObjectA, self);
+        comp.GameObjectB = container.GetGameObjectOrNull(GameObjectB, self);
 
         comp.GameObjectA.GetComponent<ChromaIDMarker>().MarkUse = true;
         comp.GameObjectA.GetComponent<ChromaIDMarker>().MarkActivator = true;
         comp.GameObjectB.GetComponent<ChromaIDMarker>().MarkUse = true;
         comp.GameObjectB.GetComponent<ChromaIDMarker>().MarkActivator = true;
     }
-
-    public override void CopyTo(SwitchGameObjectFx comp) { }
 }

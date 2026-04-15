@@ -13,8 +13,12 @@ public class GameObjectIntSwitchEventEffectData : EnvironmentComponentData<GameO
         public string[] GameObjectIds;
     }
 
-    public override void SearchAndFillComponents(GameObject self, GameObjectIntSwitch comp, CreateContainer container)
+    public override void FillComponents(GameObject self, GameObjectIntSwitch comp, CreateContainer container)
     {
+        comp.Effect =
+            container.Descriptor.BasicEventEffectManager.GetOrRegister<GenericCallbackEventEffect>(
+                ConvertUtils.ToEventType(EventType));
+
         comp.GameObjectsValueContainers =
             GameObjectsValueLists
                 .Select(x => new GameObjectIntSwitch.GameObjectsValueContainer
@@ -22,7 +26,7 @@ public class GameObjectIntSwitchEventEffectData : EnvironmentComponentData<GameO
                     Value = x.Value,
                     GameObjects =
                         x
-                            .GameObjectIds.Select(x => container.GetGameObjectOrNull(x, self))
+                            .GameObjectIds.Select(y => container.GetGameObjectOrNull(y, self))
                             .Where(y => y != null)
                             .Select(g =>
                             {
@@ -33,7 +37,6 @@ public class GameObjectIntSwitchEventEffectData : EnvironmentComponentData<GameO
                             .ToArray()
                 })
                 .ToArray();
+        comp.DefaultValue = DefaultValue;
     }
-
-    public override void CopyTo(GameObjectIntSwitch comp) => comp.DefaultValue = DefaultValue;
 }

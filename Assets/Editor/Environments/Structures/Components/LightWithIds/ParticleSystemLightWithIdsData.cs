@@ -10,19 +10,19 @@ public class ParticleSystemLightWithIdsData : EnvironmentComponentData<ParticleS
     public bool MultiplyColorByAlpha = true;
     public int MixType;
 
-    public string ParticleSystem;
+    public int ParticleSystem;
     public bool SetOnlyOnce;
     public bool SetColorOnly;
     public float MinAlpha;
 
-    public override void SearchAndFillComponents(
+    public override void FillComponents(
         GameObject self,
         ParticleSystemLightsController comp,
-        CreateContainer container) =>
-        comp.ParticleSystem = container.GetGameObjectOrNull(ParticleSystem, self).GetComponent<ParticleSystem>();
-
-    public override void CopyTo(ParticleSystemLightsController comp)
+        CreateContainer container)
     {
+        container.LightWithIds.Add(InstanceId, comp);
+
+        comp.ParticleSystem = container.GetComponentOrNull<ParticleSystem>(ParticleSystem);
         comp.Intensity = Intensity;
         comp.MaxIntensity = MaxIntensity;
         comp.MultiplyColorByAlpha = MultiplyColorByAlpha;

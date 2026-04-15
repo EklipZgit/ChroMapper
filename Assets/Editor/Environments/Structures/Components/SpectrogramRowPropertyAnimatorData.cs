@@ -2,24 +2,20 @@ using UnityEngine;
 
 public class SpectrogramRowPropertyAnimatorData : EnvironmentComponentData<SpectrogramRowPropertyAnimator>
 {
-    public string MaterialPropertyBlockController;
+    public int MaterialPropertyBlockController;
     public int DataIndex;
     public string PropertyName;
     public float Multiplier;
     public AnimationCurveData AnimationCurve;
 
-    public override void SearchAndFillComponents(
+    public override void FillComponents(
         GameObject self,
         SpectrogramRowPropertyAnimator comp,
         CreateContainer container)
     {
-        comp.MpbController = container
-            .GetGameObjectOrNull(MaterialPropertyBlockController, self)
-            .GetComponent<MaterialPropertyBlockController>();
-    }
-
-    public override void CopyTo(SpectrogramRowPropertyAnimator comp)
-    {
+        comp.SpectrogramDataProvider = container.Descriptor.SpectrogramDataProvider;
+        comp.MpbController =
+            container.GetComponentOrNull<MaterialPropertyBlockController>(MaterialPropertyBlockController);
         comp.DataIndex = DataIndex;
         comp.PropertyName = PropertyName;
         comp.Multiplier = Multiplier;

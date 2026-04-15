@@ -72,6 +72,8 @@ Material:
     - _3DDisplacement: 0
     - _AlphaChannel: 0
     - _AlphaMultiplier: 2.5
+    - _BaseColorBoost: 1
+    - _BaseColorBoostThreshold: 0.1
     - _BaseLayer: 1
     - _Billboard: 1
     - _BillboardScale: 5
@@ -89,7 +91,7 @@ Material:
     - _Cutout: 0.5
     - _CutoutType: 0
     - _DisplacementPanningSpeed: 1
-    - _DisplacementStrength: 0.1
+    - _DisplacementStrength: 0.02
     - _Distortion: 0
     - _DistortionStrength: 0.2
     - _EnableCustomPadding: 0
@@ -124,10 +126,11 @@ Material:
     - _MaskSecondaryUVs: 0
     - _MaskStrength: 1
     - _MeshPacking: 0
-    - _MeshPackingId: 0
+    - _MeshPackingId: 1
     - _OffsetFactor: 0
     - _OffsetUnits: 0
     - _Pixelate: 0
+    - _QuestWhiteboostMultiplier: 1
     - _RedIsVertexAlpha: 0
     - _RotateMainUVOnly: 0
     - _RotateUV: 0
@@ -147,7 +150,7 @@ Material:
     - _UseTextureFlipbook: 0
     - _VertexChannels: 0
     - _VertexDisplacement: 0
-    - _ViewAlignFactor: 1.5
+    - _ViewAlignFactor: 10
     - _ViewAlignOffset: 0
     - _WhiteBoostRemapStart: 0
     - _ZTest: 4

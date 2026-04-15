@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class MixedLightsColorSetterRuntimeLightWithIdsData : EnvironmentComponentData<MixedLightsController>
 {
-    public int InstanceId;
     public LightIntensityIdData[] LightIntensityData;
 
     public float Intensity = 1f;
@@ -11,18 +10,16 @@ public class MixedLightsColorSetterRuntimeLightWithIdsData : EnvironmentComponen
     public bool MultiplyColorByAlpha = true;
     public int MixType;
 
-    public string MaterialPropertyBlockColorSetterId;
+    public int MaterialPropertyBlockColorSetter;
     public float LightMultiplier = 1f;
 
-    public override void SearchAndFillComponents(GameObject self, MixedLightsController comp, CreateContainer container)
+    public override void
+        FillComponents(GameObject self, MixedLightsController comp, CreateContainer container)
     {
-        comp.MpbColorSetter = container
-            .GetGameObjectOrNull(MaterialPropertyBlockColorSetterId, self)
-            .GetComponent<MaterialPropertyBlockColorSetter>();
-    }
+        container.LightWithIds.Add(InstanceId, comp);
 
-    public override void CopyTo(MixedLightsController comp)
-    {
+        comp.MpbColorSetter =
+            container.GetComponentOrNull<MaterialPropertyBlockColorSetter>(MaterialPropertyBlockColorSetter);
         comp.LightIntensityData = LightIntensityData
             .Select(data =>
             {

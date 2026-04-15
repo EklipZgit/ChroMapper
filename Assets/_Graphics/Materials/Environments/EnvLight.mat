@@ -23,14 +23,9 @@ Material:
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
+    m_TexEnvs: []
     m_Ints: []
     m_Floats:
-    - _AcesTonemap: 1
     - _BaseColorBoost: 1
     - _BaseColorBoostThreshold: 0.5
     - _BlendModeDst: 1
@@ -38,23 +33,19 @@ Material:
     - _BlendModeSrc: 1
     - _BlendModeSrcA: 1
     - _BlendOp: 0
-    - _BloomBoost: 1
-    - _BloomWhite: 0
     - _CullMode: 2
-    - _EnableFog: 0
     - _EnableHeightFog: 1
     - _EnableWorldNoise: 0
     - _FogHeightOffset: 0
     - _FogHeightScale: 1
     - _FogScale: 1
     - _FogStartOffset: 0
-    - _MultiplyColorWithAlpha: 0
     - _StencilComp: 8
     - _StencilPass: 0
     - _StencilRefValue: 0
     - _WorldNoiseIntensityOffset: 0
     - _WorldNoiseIntensityScale: 1
-    - _WorldNoiseScale: 1
+    - _WorldNoiseScale: 0.1
     - _ZTest: 4
     - _ZWrite: 0
     m_Colors:

@@ -24,29 +24,25 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: f93b835fc1e191f4db9ba2a6f8491fc2, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AcesTonemap: 1
     - _BlendModeDst: 1
     - _BlendModeDstA: 1
     - _BlendModeSrc: 1
     - _BlendModeSrcA: 0
     - _BlendOp: 0
-    - _BloomBoost: 1
-    - _BloomWhite: 0
     - _CullMode: 0
-    - _EnableFog: 0
     - _EnableHeightFog: 0
     - _FogHeightOffset: 0
-    - _FogHeightScale: 0.2
-    - _FogScale: 0.01
+    - _FogHeightScale: 1
+    - _FogScale: 1
     - _FogStartOffset: 1
-    - _Jitter: 7.5
-    - _Speed: 0.5
-    - _Width: 0.75
+    - _Jitter: 5
+    - _Speed: 1
+    - _Width: 1
     - _ZTest: 4
     - _ZWrite: 0
     m_Colors:

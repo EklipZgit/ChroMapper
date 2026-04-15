@@ -14,14 +14,10 @@ public class BloomPrePassBackgroundColorsGradientData : EnvironmentComponentData
         public float Exp;
     }
 
-    public override void SearchAndFillComponents(
+    public override void FillComponents(
         GameObject self,
         BloomPrePassBackgroundColorsGradient comp,
         CreateContainer container)
-    {
-    }
-
-    public override void CopyTo(BloomPrePassBackgroundColorsGradient comp)
     {
         comp.ExecutionTimeType = (BloomPrePassNonLightPass.ExecutionTime)ExecutionTimeType;
         comp.TintColor = TintColor;

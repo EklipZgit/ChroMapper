@@ -1,29 +1,49 @@
+using System;
 using Newtonsoft.Json;
 using UnityEngine;
+
+public abstract class EnvironmentComponentData
+{
+    [NonSerialized] public Component Instance;
+
+    public bool IsEnabled = true;
+    public int InstanceId;
+
+    public virtual bool AllowNew => true;
+
+    public abstract void Apply(CreateContainer container);
+    public abstract void SpawnComponent(GameObject self);
+}
 
 /// <summary>
 /// Base class for a single component of an environment object. The class itself is simply a data type used for deserialization, however provides a method to apply its properties to a Unity / ChroMapper component.
 /// </summary>
 /// <typeparam name="T">Unity / ChroMapper component to copy data to.</typeparam>
-public abstract class EnvironmentComponentData<T> where T : Component
+public abstract class EnvironmentComponentData<T> : EnvironmentComponentData where T : Component
 {
-    public bool IsEnabled = true;
-    [JsonProperty("instanceId")]public int InstanceId = -1;
-
-    public T Apply(GameObject self, CreateContainer container)
+    public override void SpawnComponent(GameObject self)
     {
+        if (Instance != null) return;
+        if (!AllowNew)
+        {
+            Instance = self.GetComponent<T>();
+            return;
+        }
+
         var comp = self.AddComponent<T>();
         if (comp is Behaviour b) b.enabled = IsEnabled;
-        SearchAndFillComponents(self, comp, container);
-        CopyTo(comp);
-        return comp;
+        Instance = comp;
     }
 
-    public abstract void SearchAndFillComponents(GameObject self, T comp, CreateContainer container);
+    public override void Apply(CreateContainer container)
+    {
+        var comp = Instance as T;
+        if (comp == null) return;
+        var self = comp.gameObject;
+        FillComponents(self, comp, container);
+    }
 
-    /// <summary>
-    /// Copies the properties of this EnvironmentComponent to the target Unity / ChroMapper component.
-    /// It is assumed that the target component is freshly instantiated and does not have any properties set.
-    /// </summary>
-    public abstract void CopyTo(T comp);
+    public T GetComponent() => Instance as T;
+
+    public abstract void FillComponents(GameObject self, T comp, CreateContainer container);
 }

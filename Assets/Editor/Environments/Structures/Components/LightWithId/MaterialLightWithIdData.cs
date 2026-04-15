@@ -15,11 +15,9 @@ public class MaterialLightWithIdData : EnvironmentComponentData<MaterialLightCon
     public string ColorProperty;
 
     public override void
-        SearchAndFillComponents(GameObject self, MaterialLightController comp, CreateContainer container) =>
-        comp.Renderer = self.GetComponent<Renderer>();
-
-    public override void CopyTo(MaterialLightController comp)
+        FillComponents(GameObject self, MaterialLightController comp, CreateContainer container)
     {
+        comp.Renderer = self.GetComponent<Renderer>();
         comp.AlphaIntensity = AlphaIntensity;
         comp.AlphaIntoColor = AlphaIntoColor;
         comp.SetColorOnly = SetColorOnly;

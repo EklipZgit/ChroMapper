@@ -3,23 +3,22 @@ using UnityEngine;
 public class TrackLaneRingsPositionStepEffectSpawnerData : EnvironmentComponentData<TrackLaneRingsPositionSpawner>
 {
     public string EventType;
-    public string TrackLaneRingsManager;
+    public int TrackLaneRingsManager;
     public float MinPositionStep;
     public float MaxPositionStep;
     public float MoveSpeed;
 
-    public override void SearchAndFillComponents(
+    public override void FillComponents(
         GameObject self,
         TrackLaneRingsPositionSpawner comp,
         CreateContainer container)
     {
-        comp.RingManager = container
-            .GetGameObjectOrNull(TrackLaneRingsManager, self)
-            .GetComponent<TrackLaneRingsManager>();
-    }
+        comp.EffectManager =
+            container.Descriptor.BasicEventEffectManager.GetOrRegister<TrackLaneRingsPositionEffect>(
+                ConvertUtils.ToEventType(EventType));
 
-    public override void CopyTo(TrackLaneRingsPositionSpawner comp)
-    {
+        comp.RingManager = container
+            .GetComponentOrNull<TrackLaneRingsManager>(TrackLaneRingsManager);
         comp.MinPositionStep = MinPositionStep;
         comp.MaxPositionStep = MaxPositionStep;
         comp.MoveSpeed = MoveSpeed;

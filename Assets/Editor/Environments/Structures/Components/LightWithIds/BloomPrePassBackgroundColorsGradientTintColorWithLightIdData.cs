@@ -4,7 +4,6 @@ using UnityEngine;
 public class BloomPrePassBackgroundColorsGradientTintColorWithLightIdData : EnvironmentComponentData<
     BloomPrePassBackgroundColorsGradientTintColorLightsController>
 {
-    public int InstanceId;
     public LightIntensityIdData[] LightIntensityData;
 
     public float Intensity;
@@ -12,24 +11,19 @@ public class BloomPrePassBackgroundColorsGradientTintColorWithLightIdData : Envi
     public bool MultiplyColorByAlpha = true;
     public int MixType;
 
-    public string BloomPrePassBackgroundColorsGradient;
+    public int BloomPrePassBackgroundColorsGradient;
     public bool UseGrayscale;
     public float GrayscaleFactor;
 
-    public override void SearchAndFillComponents(
+    public override void FillComponents(
         GameObject self,
         BloomPrePassBackgroundColorsGradientTintColorLightsController comp,
         CreateContainer container)
     {
-        comp.BloomPrePassBackgroundColorsGradient = container
-            .GetGameObjectOrNull(
-                BloomPrePassBackgroundColorsGradient,
-                self)
-            .GetComponent<BloomPrePassBackgroundColorsGradient>();
-    }
+        container.LightWithIds.Add(InstanceId, comp);
 
-    public override void CopyTo(BloomPrePassBackgroundColorsGradientTintColorLightsController comp)
-    {
+        comp.BloomPrePassBackgroundColorsGradient = container
+            .GetComponentOrNull<BloomPrePassBackgroundColorsGradient>(BloomPrePassBackgroundColorsGradient);
         comp.Intensity = Intensity;
         comp.MaxIntensity = MaxIntensity;
         comp.MultiplyColorByAlpha = MultiplyColorByAlpha;
