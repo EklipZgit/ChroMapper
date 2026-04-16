@@ -12,7 +12,6 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - DISTORTION_SIMPLE
   - FOG
   - MULTIPLY_REFLECTIONS
   - REFLECTION_PROBE_BOX_PROJECTION
@@ -216,7 +215,7 @@ Material:
     - _VertexDisplacementMaskMultiplier: 1
     - _VertexDisplacementMaskOffset: 0
     - _VertexDisplacement_Mask_Source: 0
-    - _Vertex_BloomType: 0
+    - _Vertex_BloomType: 1
     - _ZTest: 4
     - _ZWrite: 1
     m_Colors:

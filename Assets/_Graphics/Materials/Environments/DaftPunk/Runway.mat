@@ -114,7 +114,7 @@ Material:
     - _DissolveStartValue: 0
     - _DistortionStrength: 0.2
     - _EmissionBloomIntensity: 0.8
-    - _EmissionBloomType: 0
+    - _EmissionBloomType: 1
     - _EmissionBrightness: 1
     - _EmissionFogSuppression: 0.989
     - _EmissionGradientIntensity: 1
@@ -218,7 +218,7 @@ Material:
     - _VertexDisplacementMaskMultiplier: 1
     - _VertexDisplacementMaskOffset: 0
     - _VertexDisplacement_Mask_Source: 0
-    - _Vertex_BloomType: 0
+    - _Vertex_BloomType: 2
     - _ZTest: 4
     - _ZWrite: 1
     m_Colors:

@@ -216,7 +216,7 @@ Material:
     - _VertexDisplacementMaskMultiplier: 1
     - _VertexDisplacementMaskOffset: 0
     - _VertexDisplacement_Mask_Source: 0
-    - _Vertex_BloomType: 0
+    - _Vertex_BloomType: 2
     - _ZTest: 4
     - _ZWrite: 1
     m_Colors:

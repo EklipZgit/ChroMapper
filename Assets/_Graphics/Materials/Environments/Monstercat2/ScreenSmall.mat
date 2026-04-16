@@ -13,7 +13,6 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - DIFFUSE
-  - DISTORTION_SIMPLE
   - FOG
   - MESH_PACKING
   - MULTIPLY_REFLECTIONS
@@ -114,7 +113,7 @@ Material:
     - _DissolveStartValue: 0
     - _DistortionStrength: 0.1
     - _EmissionBloomIntensity: 0.2
-    - _EmissionBloomType: 0
+    - _EmissionBloomType: 3
     - _EmissionBrightness: 1
     - _EmissionFogSuppression: 0.25
     - _EmissionGradientIntensity: 1
@@ -218,7 +217,7 @@ Material:
     - _VertexDisplacementMaskMultiplier: 1
     - _VertexDisplacementMaskOffset: 0
     - _VertexDisplacement_Mask_Source: 0
-    - _Vertex_BloomType: 0
+    - _Vertex_BloomType: 2
     - _ZTest: 4
     - _ZWrite: 1
     m_Colors:

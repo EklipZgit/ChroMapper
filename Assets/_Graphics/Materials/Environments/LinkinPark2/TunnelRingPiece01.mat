@@ -115,7 +115,7 @@ Material:
     - _DissolveStartValue: 0
     - _DistortionStrength: 0.2
     - _EmissionBloomIntensity: 1
-    - _EmissionBloomType: 0
+    - _EmissionBloomType: 3
     - _EmissionBrightness: 0.75
     - _EmissionFogSuppression: 0.982
     - _EmissionGradientIntensity: 1
