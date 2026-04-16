@@ -14,896 +14,896 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   list:
   - Name: 00_Heart01
-    Hash: C51F8F1AA449A753F6EC601EFEE40652
+    Hash: c51f8f1aa449a753f6ec601efee40652
     Texture: {fileID: 0}
     Environments:
     - BritneyEnvironment
     Unused: 0
     Ignored: 0
   - Name: 01_10_LD
-    Hash: B0F9A1038D71C1C53B44782D8B593B7E
+    Hash: b0f9a1038d71c1c53b44782d8b593b7e
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 01_1_AROUND THE WORLD
-    Hash: 5CBBB91A817A1740030B8D66AE2476FB
+    Hash: 5cbbb91a817a1740030b8d66ae2476fb
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 01_2_AROUND
-    Hash: ACEBE9401ACD74D865C055B8F97E27A2
+    Hash: acebe9401acd74d865c055b8f97e27a2
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 01_3_THE
-    Hash: 6A5DE4A22E17B32E51470B47C625B553
+    Hash: 6a5de4a22e17b32e51470b47c625b553
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 01_4_WORLD
-    Hash: EF10610FA06F344EE815B6E9E57C0849
+    Hash: ef10610fa06f344ee815b6e9e57c0849
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 01_5_A
-    Hash: 1049BC8E9070E1891210F3F474EE55C6
+    Hash: 1049bc8e9070e1891210f3f474ee55c6
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 01_6_ROUND
-    Hash: 5284B708E9A2EE2A4C953E1C33880753
+    Hash: 5284b708e9a2ee2a4c953e1c33880753
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 01_7_WO
-    Hash: EBF2CFA35947FA56BF40EDBF3B32E3D2
+    Hash: ebf2cfa35947fa56bf40edbf3b32e3d2
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 01_8_RLD
-    Hash: F9E21E14FF147CE92387098526790641
+    Hash: f9e21e14ff147ce92387098526790641
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 01_9_WOR
-    Hash: 4E3CAD59FFAC9720A0FFAD919BF10774
+    Hash: 4e3cad59ffac9720a0ffad919bf10774
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 01_Heart02
-    Hash: E8A2FC65B7D1CD0D0EB38C548B1E9A62
+    Hash: e8a2fc65b7d1cd0d0eb38c548b1e9a62
     Texture: {fileID: 0}
     Environments:
     - BritneyEnvironment
     Unused: 0
     Ignored: 0
   - Name: 02_1_DA FUNK
-    Hash: 130DCE83C06AB96F3D067671715C48D2
+    Hash: 130dce83c06ab96f3d067671715c48d2
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 02_2_DA
-    Hash: 31F5B848871D9BE7892BD96BC557E181
+    Hash: 31f5b848871d9be7892bd96bc557e181
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 02_3_FUNK
-    Hash: F0532D982F142606AAB2AE69DD66ABC5
+    Hash: f0532d982f142606aab2ae69dd66abc5
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 02_4_DAFTENDIREKT
-    Hash: 21AA875116B845C1B0902D8EBBCB591E
+    Hash: 21aa875116b845c1b0902d8ebbcb591e
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 02_HeartBroken
-    Hash: 451F5E0BF9DC7D44846C0D73309F813B
+    Hash: 451f5e0bf9dc7d44846c0d73309f813b
     Texture: {fileID: 0}
     Environments:
     - BritneyEnvironment
     Unused: 0
     Ignored: 0
   - Name: 03_1_GET LUCKY
-    Hash: 591B55E0D5E6E6BBDC8C65D8DFE808B2
+    Hash: 591b55e0d5e6e6bbdc8c65d8dfe808b2
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 03_2_GET
-    Hash: 8B657635BCF01A8FC046083348837C8B
+    Hash: 8b657635bcf01a8fc046083348837c8b
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 03_3_LUCKY
-    Hash: 15567B31C2DB9FAFE0528B878764C877
+    Hash: 15567b31c2db9fafe0528b878764c877
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 03_4_LU
-    Hash: B30772C313E03308D95794B211C7DE2E
+    Hash: b30772c313e03308d95794b211c7de2e
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 03_5_CKY
-    Hash: 66B1958FB3674F682F3F2F0478AD63BF
+    Hash: 66b1958fb3674f682f3f2f0478ad63bf
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 03_Star02
-    Hash: 2740B65BD8CAFCD9B35C5115B69C31BE
+    Hash: 2740b65bd8cafcd9b35c5115b69c31be
     Texture: {fileID: 0}
     Environments:
     - BritneyEnvironment
     Unused: 0
     Ignored: 0
   - Name: 04_10_FA
-    Hash: 778F4471974C37E9CB91EA8B63F55A7F
+    Hash: 778f4471974c37e9cb91ea8b63f55a7f
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 04_11_STER
-    Hash: 8F618AF77B8CF2025F58395ED21C6DA2
+    Hash: 8f618af77b8cf2025f58395ed21c6da2
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 04_12_STRON
-    Hash: 5F2A2EADAF794C9BFF18377C8B9F5E07
+    Hash: 5f2a2eadaf794c9bff18377c8b9f5e07
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 04_13_GER
-    Hash: EBE64C438F8C54057431E946E3D46F20
+    Hash: ebe64c438f8c54057431e946e3d46f20
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 04_1_HARDER BETTER FASTER STRONGER
-    Hash: 62C91863AD13B073D69D895E42E7668B
+    Hash: 62c91863ad13b073d69d895e42e7668b
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 04_2_HARDER
-    Hash: B0F5EA42FA0ADFAF8B88C22A6F4A07D0
+    Hash: b0f5ea42fa0adfaf8b88c22a6f4a07d0
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 04_3_BETTER
-    Hash: 0B71F2DAD821FDA746024B0BBFC83CD0
+    Hash: 0b71f2dad821fda746024b0bbfc83cd0
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 04_4_FASTER
-    Hash: D91D8D015007A4E40A334A1189BF304A
+    Hash: d91d8d015007a4e40a334a1189bf304a
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 04_5_STRONGER
-    Hash: F5AF764862BEB23ED9D01FB582D19AD7
+    Hash: f5af764862beb23ed9d01fb582d19ad7
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 04_6_HAR
-    Hash: 13CD7C5E5E807C00B1919AE9AB532A70
+    Hash: 13cd7c5e5e807c00b1919ae9ab532a70
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 04_7_DER
-    Hash: E1E9779DE21CE62E85529DA770EA03D9
+    Hash: e1e9779de21ce62e85529da770ea03d9
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 04_8_BE
-    Hash: 1C7F70A9086926AE735806EA19117227
+    Hash: 1c7f70a9086926ae735806ea19117227
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 04_9_TTER
-    Hash: E971099BFAF10F03F58F74CFEB8FD1B5
+    Hash: e971099bfaf10f03f58f74cfeb8fd1b5
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 04_Star03
-    Hash: AD9D51108776A4E10AE0587A5AD5B57F
+    Hash: ad9d51108776a4e10ae0587a5ad5b57f
     Texture: {fileID: 0}
     Environments:
     - BritneyEnvironment
     Unused: 0
     Ignored: 0
   - Name: 05_1_LOSE YOURSELF TO DANCE
-    Hash: E4F5491F9348E982825FFF58C4F36B04
+    Hash: e4f5491f9348e982825fff58c4f36b04
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 05_2_LOSE
-    Hash: 329964C838F75671541473B190DB7419
+    Hash: 329964c838f75671541473b190db7419
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 05_3_YOURSELF
-    Hash: 86910666FCC663E5C130DD4EAD5AB57E
+    Hash: 86910666fcc663e5c130dd4ead5ab57e
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 05_4_TO
-    Hash: E0C388AEED7CA8CC2AAD7D9FA5AC89B8
+    Hash: e0c388aeed7ca8cc2aad7d9fa5ac89b8
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 05_5_DANCE
-    Hash: ED5902CD941E68AEBC6FD20C31B08EB3
+    Hash: ed5902cd941e68aebc6fd20c31b08eb3
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 05_6_YOUR
-    Hash: B4CF958961A5F19B72105851CBB63916
+    Hash: b4cf958961a5f19b72105851cbb63916
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 05_7_SELF
-    Hash: 7625B10439EA5765238FD17F0A37CE94
+    Hash: 7625b10439ea5765238fd17f0a37ce94
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 05_Star04
-    Hash: CBFB9850A1AD85522172E041C8D932F4
+    Hash: cbfb9850a1ad85522172e041c8d932f4
     Texture: {fileID: 0}
     Environments:
     - BritneyEnvironment
     Unused: 0
     Ignored: 0
   - Name: 06_1_ONE MORE TIME
-    Hash: EBB4AFE880FA9B0793EF673EBCFDA05B
+    Hash: ebb4afe880fa9b0793ef673ebcfda05b
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 06_2_ONE
-    Hash: C8F8460035470804A1AD054C2CA8B060
+    Hash: c8f8460035470804a1ad054c2ca8b060
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 06_3_MORE
-    Hash: B618A14C2639461E9875FA840220AC47
+    Hash: b618a14c2639461e9875fa840220ac47
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 06_4_TIME
-    Hash: 13D5C3B29B5BD9FDD466E756CE1BFDBA
+    Hash: 13d5c3b29b5bd9fdd466e756ce1bfdba
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 06_Stars01
-    Hash: EAF8A96033BD9FB6E929A100FD242E82
+    Hash: eaf8a96033bd9fb6e929a100fd242e82
     Texture: {fileID: 0}
     Environments:
     - BritneyEnvironment
     Unused: 0
     Ignored: 0
   - Name: 07_1_TECHNOLOGIC
-    Hash: 0C8DD2B6EA229D94C78BBAE7C4C26CF6
+    Hash: 0c8dd2b6ea229d94c78bbae7c4c26cf6
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 07_2_TECHNO
-    Hash: 0F1EF069270FF971CBA4C9023B0C6317
+    Hash: 0f1ef069270ff971cba4c9023b0c6317
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 07_3_LOGIC
-    Hash: 10B69022D3EDC4B583BE42B3486A3857
+    Hash: 10b69022d3edc4b583be42b3486a3857
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 07_4_TECH
-    Hash: 9A615378F9831C3F1EA59C847108433B
+    Hash: 9a615378f9831c3f1ea59c847108433b
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 07_5_NO
-    Hash: C56DC3D1218BD9DFE48A945E59CB33A0
+    Hash: c56dc3d1218bd9dfe48a945e59cb33a0
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 07_6_LO
-    Hash: 5F991E58189A172FFE1A78433C3FC008
+    Hash: 5f991e58189a172ffe1a78433c3fc008
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 07_7_GIC
-    Hash: B66A322A0D4E72E02CDB3F03D8C09C05
+    Hash: b66a322a0d4e72e02cdb3f03d8c09c05
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 07_Stars01
-    Hash: 4ABCD4F218951FB2E6B4AEF8F6D03A29
+    Hash: 4abcd4f218951fb2e6b4aef8f6d03a29
     Texture: {fileID: 0}
     Environments:
     - BritneyEnvironment
     Unused: 0
     Ignored: 0
   - Name: 08_10_WA
-    Hash: 444F0DE40323FFADF6B75E7353823C48
+    Hash: 444f0de40323ffadf6b75e7353823c48
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 08_11_SHER
-    Hash: A25F6BFA63C66968BFEB69C650007F56
+    Hash: a25f6bfa63c66968bfeb69c650007f56
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 08_12_ROLLIN' & SCRATCHIN'
-    Hash: F716636B5ADFEE2CBDEBD9A3518EB63C
+    Hash: f716636b5adfee2cbdebd9a3518eb63c
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 08_13_ROLLIN'
-    Hash: EDC13FB95C44F90B06FF2EAE8056F1C7
+    Hash: edc13fb95c44f90b06ff2eae8056f1c7
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 08_14_&
-    Hash: FF588A8E3C4CD79F1BE82CA696B8E7B2
+    Hash: ff588a8e3c4cd79f1be82ca696b8e7b2
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 08_15_AND
-    Hash: 6CBC5B1FFD471C0AC8FA5F39BF6D2DCB
+    Hash: 6cbc5b1ffd471c0ac8fa5f39bf6d2dcb
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 08_16_SCRATCHIN'
-    Hash: 93D03B00626B570CD5E9B860ED0CF14A
+    Hash: 93d03b00626b570cd5e9b860ed0cf14a
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 08_17_RO
-    Hash: 6E095E98B66423147A44CCE0F59F44DA
+    Hash: 6e095e98b66423147a44cce0f59f44da
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 08_18_LLIN'
-    Hash: 8B0600BF07C4CE2BCAAE4220B873CEC9
+    Hash: 8b0600bf07c4ce2bcaae4220b873cec9
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 08_19_SCRATCH
-    Hash: 9EB5246B86CFA1E70C8A229C42D72318
+    Hash: 9eb5246b86cfa1e70c8a229c42d72318
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 08_1_PRIME TIME OF YOUR LIFE
-    Hash: 41FC85D9713661C0BC07D2D2B1E2B14E
+    Hash: 41fc85d9713661c0bc07d2d2b1e2b14e
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 08_20_IN'
-    Hash: C936A4C0FBB4D59517F082F964529E3E
+    Hash: c936a4c0fbb4d59517f082f964529e3e
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 08_21_ALIVE
-    Hash: 824C165D0A1BD35BBB0A0450CDA85742
+    Hash: 824c165d0a1bd35bbb0a0450cda85742
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 08_23_LIVE
-    Hash: 060A6D7FC6556CEE3338A119B19E1FDB
+    Hash: 060a6d7fc6556cee3338a119b19e1fdb
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 08_2_PRIME
-    Hash: 597E7AACEE8134DD9A2D97B1AAAEDF5B
+    Hash: 597e7aacee8134dd9a2d97b1aaaedf5b
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 08_4_OF
-    Hash: F00351C88B20FBF29310DC25F0780017
+    Hash: f00351c88b20fbf29310dc25f0780017
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 08_6_LIFE
-    Hash: 48422A47176180EDCD1A05B17010850B
+    Hash: 48422a47176180edcd1a05b17010850b
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 08_7_BRAINWASHER
-    Hash: 6A7261C2F36E811A1A0B9258AD81E4A9
+    Hash: 6a7261c2f36e811a1a0b9258ad81e4a9
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 08_8_BRAIN
-    Hash: 2C33B3A19A64CBCCD416B742C85AEF91
+    Hash: 2c33b3a19a64cbccd416b742c85aef91
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 08_9_WASHER
-    Hash: 7015E5761A5B19EBF088944D8D6C55AA
+    Hash: 7015e5761a5b19ebf088944d8d6c55aa
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 08_TopHat
-    Hash: 095E6D9AD27FA3B77C1E27F42250365D
+    Hash: 095e6d9ad27fa3b77c1e27f42250365d
     Texture: {fileID: 0}
     Environments:
     - BritneyEnvironment
     Unused: 0
     Ignored: 0
   - Name: 09_1_VERIDIS QUO
-    Hash: EBC168D69AC60256750B2E3361D46C3F
+    Hash: ebc168d69ac60256750b2e3361d46c3f
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 09_2_VERIDIS
-    Hash: 39AC0C1CFD96381D594F7CAB7E68C699
+    Hash: 39ac0c1cfd96381d594f7cab7e68c699
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 09_3_QUO
-    Hash: 3F9670C246AC98AA9C4AB86A5E24AE15
+    Hash: 3f9670c246ac98aa9c4ab86a5e24ae15
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 09_4_VE
-    Hash: B25025A38B791CAE2CF1234C6A6D14F4
+    Hash: b25025a38b791cae2cf1234c6a6d14f4
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 09_5_RI
-    Hash: 952F51DBB07DE882E6597BFB915C2421
+    Hash: 952f51dbb07de882e6597bfb915c2421
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 09_6_DIS
-    Hash: E895A40694668E4BF259DAB21D7BFE0B
+    Hash: e895a40694668e4bf259dab21d7bfe0b
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: 09_Toxic
-    Hash: 14068A27189DA684B7AD0171FC51CE49
+    Hash: 14068a27189da684b7ad0171fc51ce49
     Texture: {fileID: 0}
     Environments:
     - BritneyEnvironment
     Unused: 0
     Ignored: 0
   - Name: 10_MusicNote01
-    Hash: 7D562E27F2CFC1B4709CF0B7B3DC66C1
+    Hash: 7d562e27f2cfc1b4709cf0b7b3dc66c1
     Texture: {fileID: 0}
     Environments:
     - BritneyEnvironment
     Unused: 0
     Ignored: 0
   - Name: 11_MusicNote02
-    Hash: BB119FA907E5225C8FD037C5032C4702
+    Hash: bb119fa907e5225c8fd037c5032c4702
     Texture: {fileID: 0}
     Environments:
     - BritneyEnvironment
     Unused: 0
     Ignored: 0
   - Name: 12_WrongCross
-    Hash: 542E780D3D22385C13B7169853CFD46E
+    Hash: 542e780d3d22385c13b7169853cfd46e
     Texture: {fileID: 0}
     Environments:
     - BritneyEnvironment
     Unused: 0
     Ignored: 0
   - Name: 13_CorrectTick
-    Hash: 686BF8EBDE53B8ABFE5D1E899EDC39A1
+    Hash: 686bf8ebde53b8abfe5d1e899edc39a1
     Texture: {fileID: 0}
     Environments:
     - BritneyEnvironment
     Unused: 0
     Ignored: 0
   - Name: 14_Lips
-    Hash: 26DF848266020B1C4B956042AFB018D9
+    Hash: 26df848266020b1c4b956042afb018d9
     Texture: {fileID: 0}
     Environments:
     - BritneyEnvironment
     Unused: 0
     Ignored: 0
   - Name: 15_Megaphone
-    Hash: E9065EBF7B3953CF66E048B8522BEFF6
+    Hash: e9065ebf7b3953cf66e048b8522beff6
     Texture: {fileID: 0}
     Environments:
     - BritneyEnvironment
     Unused: 0
     Ignored: 0
   - Name: 16_Microphone
-    Hash: BC537EB065BBB01E53C0FD6EACB48136
+    Hash: bc537eb065bbb01e53c0fd6eacb48136
     Texture: {fileID: 0}
     Environments:
     - BritneyEnvironment
     Unused: 0
     Ignored: 0
   - Name: 17_Eye01
-    Hash: A68C0F7A480CFBFE408420ABA5CF5AA3
+    Hash: a68c0f7a480cfbfe408420aba5cf5aa3
     Texture: {fileID: 0}
     Environments:
     - BritneyEnvironment
     Unused: 0
     Ignored: 0
   - Name: 18_Eye02
-    Hash: 0A8BFD989929EE26E0F3B505F8796FBA
+    Hash: 0a8bfd989929ee26e0f3b505f8796fba
     Texture: {fileID: 0}
     Environments:
     - BritneyEnvironment
     Unused: 0
     Ignored: 0
   - Name: 19_HandsApart
-    Hash: 734E3828F1AF7EF89C3E2BB639EA25BA
+    Hash: 734e3828f1af7ef89c3e2bb639ea25ba
     Texture: {fileID: 0}
     Environments:
     - BritneyEnvironment
     Unused: 0
     Ignored: 0
   - Name: 20_HandsClapping
-    Hash: 8B2A110BE7E590C2DB335F73FF8C3763
+    Hash: 8b2a110be7e590c2db335f73ff8c3763
     Texture: {fileID: 0}
     Environments:
     - BritneyEnvironment
     Unused: 0
     Ignored: 0
   - Name: 21_Lollipop
-    Hash: 0A438489B9F4DAD2C834764807CAC192
+    Hash: 0a438489b9f4dad2c834764807cac192
     Texture: {fileID: 0}
     Environments:
     - BritneyEnvironment
     Unused: 0
     Ignored: 0
   - Name: 22_FemaleSymbol
-    Hash: F7ADE7001F022231FF91A1F20F51940D
+    Hash: f7ade7001f022231ff91a1f20f51940d
     Texture: {fileID: 0}
     Environments:
     - BritneyEnvironment
     Unused: 0
     Ignored: 0
   - Name: 23_MaleSymbol
-    Hash: 47B6486804260956D8DE0E252E8C66AF
+    Hash: 47b6486804260956d8de0e252e8c66af
     Texture: {fileID: 0}
     Environments:
     - BritneyEnvironment
     Unused: 0
     Ignored: 0
   - Name: 24_NoteDown
-    Hash: A93169E7A15FA9BE5671E540B0DBC091
+    Hash: a93169e7a15fa9be5671e540b0dbc091
     Texture: {fileID: 0}
     Environments:
     - BritneyEnvironment
     Unused: 0
     Ignored: 0
   - Name: 25_NoteLeft
-    Hash: 3F82422EAF3A003158075CDA95DF10BC
+    Hash: 3f82422eaf3a003158075cda95df10bc
     Texture: {fileID: 0}
     Environments:
     - BritneyEnvironment
     Unused: 0
     Ignored: 0
   - Name: 26_NoteUp
-    Hash: 9F53556D953F11D2E4D3C7C44C84C020
+    Hash: 9f53556d953f11d2e4d3c7c44c84c020
     Texture: {fileID: 0}
     Environments:
     - BritneyEnvironment
     Unused: 0
     Ignored: 0
   - Name: 27_NoteRight
-    Hash: F328B9D6B3E93CB39D3D63C925AA7985
+    Hash: f328b9d6b3e93cb39d3d63c925aa7985
     Texture: {fileID: 0}
     Environments:
     - BritneyEnvironment
     Unused: 0
     Ignored: 0
   - Name: 28_NoteDancingLeft
-    Hash: 5C9B609B5535DE04DFC52B8CA1C95AAE
+    Hash: 5c9b609b5535de04dfc52b8ca1c95aae
     Texture: {fileID: 0}
     Environments:
     - BritneyEnvironment
     Unused: 0
     Ignored: 0
   - Name: 29_NoteDancingRight
-    Hash: C628AF123E76641C7879BCA2EEAF08F7
+    Hash: c628af123e76641c7879bca2eeaf08f7
     Texture: {fileID: 0}
     Environments:
     - BritneyEnvironment
     Unused: 0
     Ignored: 0
   - Name: 30_BSNoteDebris
-    Hash: FBBD3EFDBA48D849143F4D9A439BA220
+    Hash: fbbd3efdba48d849143f4d9a439ba220
     Texture: {fileID: 0}
     Environments:
     - BritneyEnvironment
     Unused: 0
     Ignored: 0
   - Name: 31_BSNoteChain
-    Hash: 2CA18C16C5AEAA69DC8588B4FB98EBDE
+    Hash: 2ca18c16c5aeaa69dc8588b4fb98ebde
     Texture: {fileID: 0}
     Environments:
     - BritneyEnvironment
     Unused: 0
     Ignored: 0
   - Name: 32_BSBomb01
-    Hash: 1CC5749C05C5D988131B5CBB345BE3B7
+    Hash: 1cc5749c05c5d988131b5cbb345be3b7
     Texture: {fileID: 0}
     Environments:
     - BritneyEnvironment
     Unused: 0
     Ignored: 0
   - Name: 33_BSBomb02
-    Hash: 27EF07D5EBC7FBB6F3A5088A16BDBAD2
+    Hash: 27ef07d5ebc7fbb6f3a5088a16bdbad2
     Texture: {fileID: 0}
     Environments:
     - BritneyEnvironment
     Unused: 0
     Ignored: 0
   - Name: 34_Sabers
-    Hash: EAB5543229E581FCD87168850853B132
+    Hash: eab5543229e581fcd87168850853b132
     Texture: {fileID: 0}
     Environments:
     - BritneyEnvironment
     Unused: 0
     Ignored: 0
   - Name: 35_ChevronBritney
-    Hash: 5AE6C03F2525F1E048F313AA31C6C1D1
+    Hash: 5ae6c03f2525f1e048f313aa31c6c1d1
     Texture: {fileID: 0}
     Environments:
     - BritneyEnvironment
     Unused: 0
     Ignored: 0
   - Name: 36_Chevron
-    Hash: F8E34A23C1D472BAB55895B22BA78674
+    Hash: f8e34a23c1d472bab55895b22ba78674
     Texture: {fileID: 0}
     Environments:
     - BritneyEnvironment
     Unused: 0
     Ignored: 0
   - Name: 37_Coffee
-    Hash: 052B931301AF9A144DD3E25955F4359C
+    Hash: 052b931301af9a144dd3e25955f4359c
     Texture: {fileID: 0}
     Environments:
     - BritneyEnvironment
     Unused: 0
     Ignored: 0
   - Name: 38_Coffee2
-    Hash: 27B32D2446A1CF224F4589B6D8F80FC8
+    Hash: 27b32d2446a1cf224f4589b6d8f80fc8
     Texture: {fileID: 0}
     Environments:
     - BritneyEnvironment
     Unused: 0
     Ignored: 0
   - Name: 3DPerlinNoiseSeamless
-    Hash: A1650DBCD56E10288C3E269ECA37967D
+    Hash: a1650dbcd56e10288c3e269eca37967d
     Texture: {fileID: 0}
     Environments:
     - ColdplayEnvironment
     Unused: 0
     Ignored: 0
   - Name: 3DTreesEmissive
-    Hash: CC99B593A66671FB882A38FA530FB47F
+    Hash: cc99b593a66671fb882a38fa530fb47f
     Texture: {fileID: 0}
     Environments:
     - Halloween2Environment
     Unused: 0
     Ignored: 0
   - Name: 4PackLight
-    Hash: BCC0E409494BA29B5593F7B8B77EB1A1
+    Hash: bcc0e409494ba29b5593f7b8b77eb1a1
     Texture: {fileID: 0}
     Environments:
     - PyroEnvironment
     Unused: 0
     Ignored: 0
   - Name: 4SlotLights
-    Hash: E1302F69F5D205CFA13458509AFC1A66
+    Hash: e1302f69f5d205cfa13458509afc1a66
     Texture: {fileID: 0}
     Environments:
     - PyroEnvironment
     Unused: 0
     Ignored: 0
   - Name: 8
-    Hash: 6E68BE3163643D7BCB2837D6C7753F6B
+    Hash: 6e68be3163643d7bcb2837d6c7753f6b
     Texture: {fileID: 0}
     Environments:
     - GridEnvironment
     Unused: 0
     Ignored: 0
   - Name: 8rotation
-    Hash: EDE60CF9864A3865BD7E6BBDCA485C38
+    Hash: ede60cf9864a3865bd7e6bbdca485c38
     Texture: {fileID: 0}
     Environments:
     - GridEnvironment
     Unused: 0
     Ignored: 0
   - Name: AngleStripe
-    Hash: 39F2D21554AA989759F401DB8F219433
+    Hash: 39f2d21554aa989759f401db8f219433
     Texture: {fileID: 0}
     Environments:
     - BillieEnvironment
     Unused: 0
     Ignored: 0
   - Name: ArcBaseColor
-    Hash: B42EF1D4EA5E5B3D6E67CA8645DC7029
+    Hash: b42ef1d4ea5e5b3d6e67ca8645dc7029
     Texture: {fileID: 0}
     Environments:
     - LinkinPark2Environment
     Unused: 0
     Ignored: 0
   - Name: ArcEmissive
-    Hash: 125F998B9F0B318D4064184112D7F4FB
+    Hash: 125f998b9f0b318d4064184112d7f4fb
     Texture: {fileID: 0}
     Environments:
     - LinkinPark2Environment
     Unused: 0
     Ignored: 0
   - Name: Arrow
-    Hash: ABABC3E601ECF62A8D1EEFAD14450645
+    Hash: ababc3e601ecf62a8d1eefad14450645
     Texture: {fileID: 0}
     Environments:
     - TheWeekndEnvironment
     Unused: 0
     Ignored: 0
   - Name: Arrow
-    Hash: 964A8C99D43A4683DFACA5EC39A1D407
+    Hash: 964a8c99d43a4683dfaca5ec39a1d407
     Texture: {fileID: 0}
     Environments:
     - QueenEnvironment
     Unused: 0
     Ignored: 0
   - Name: ArrowWhite
-    Hash: CA90E8FEEDAAB49C27E48D223DA601E0
+    Hash: ca90e8feedaab49c27e48d223da601e0
     Texture: {fileID: 0}
     Environments:
     - LinkinPark2Environment
     Unused: 0
     Ignored: 0
   - Name: AuroraBaseCrop
-    Hash: 874333B19272DE7B1B70280EBCF6067C
+    Hash: 874333b19272de7b1b70280ebcf6067c
     Texture: {fileID: 0}
     Environments:
     - GagaEnvironment
@@ -911,35 +911,35 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: BTSParticle
-    Hash: CBADBD37B63E21B470557A509B628641
+    Hash: cbadbd37b63e21b470557a509b628641
     Texture: {fileID: 0}
     Environments:
     - BTSEnvironment
     Unused: 0
     Ignored: 0
   - Name: BaseFireFlipbookBlended
-    Hash: 3A7EDF8C47B94EB88F083C4CC981E16F
+    Hash: 3a7edf8c47b94eb88f083c4cc981e16f
     Texture: {fileID: 0}
     Environments:
     - PyroEnvironment
     Unused: 0
     Ignored: 0
   - Name: BasketballAlbedo
-    Hash: 89DCD9B61BA161102AEBE430919D4EBC
+    Hash: 89dcd9b61ba161102aebe430919d4ebc
     Texture: {fileID: 0}
     Environments:
     - HipHopEnvironment
     Unused: 0
     Ignored: 0
   - Name: BasketballEmission
-    Hash: C8F5718CFF2F0C3B19CC7E3BF6EECD99
+    Hash: c8f5718cff2f0c3b19cc7e3bf6eecd99
     Texture: {fileID: 0}
     Environments:
     - HipHopEnvironment
     Unused: 0
     Ignored: 0
   - Name: Bat
-    Hash: B8793EB90674418C09EF7A71D2189CAF
+    Hash: b8793eb90674418c09ef7a71d2189caf
     Texture: {fileID: 0}
     Environments:
     - HalloweenEnvironment
@@ -947,112 +947,112 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: BeamGradient
-    Hash: 85242F61A244B06B04DB888D17950BC6
+    Hash: 85242f61a244b06b04db888d17950bc6
     Texture: {fileID: 0}
     Environments:
     - RockMixtapeEnvironment
     Unused: 0
     Ignored: 0
   - Name: BillieCloudsAlbedo
-    Hash: A154B5F7D5C203F08B9052830832E17E
+    Hash: a154b5f7d5c203f08b9052830832e17e
     Texture: {fileID: 0}
     Environments:
     - BillieEnvironment
     Unused: 0
     Ignored: 0
   - Name: BillieCloudsDistort
-    Hash: 386CD57609BF1BB3B561D20700E890F1
+    Hash: 386cd57609bf1bb3b561d20700e890f1
     Texture: {fileID: 0}
     Environments:
     - BillieEnvironment
     Unused: 0
     Ignored: 0
   - Name: BlackAndWhite
-    Hash: C93F763FC06462C410AA515E02F5CE0E
+    Hash: c93f763fc06462c410aa515e02f5ce0e
     Texture: {fileID: 0}
     Environments:
     - HipHopEnvironment
     Unused: 0
     Ignored: 0
   - Name: BlocksAlbedo
-    Hash: 58240ADB6E467C06AC36A42A71938E32
+    Hash: 58240adb6e467c06ac36a42a71938e32
     Texture: {fileID: 0}
     Environments:
     - ColliderEnvironment
     Unused: 0
     Ignored: 0
   - Name: BlocksPattern
-    Hash: 06ECAF54CAFAF9FE03E5E24B3BD4057C
+    Hash: 06ecaf54cafaf9fe03e5e24b3bd4057c
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: BlueNoise
-    Hash: F0210EFB8E0C805B4139F157C61EA43D
+    Hash: f0210efb8e0c805b4139f157c61ea43d
     Texture: {fileID: 0}
     Environments:
     - GagaEnvironment
     Unused: 0
     Ignored: 0
   - Name: Boombox
-    Hash: 6D42E3FA0295D4EA8F6CB242F7A5E8FD
+    Hash: 6d42e3fa0295d4ea8f6cb242f7a5e8fd
     Texture: {fileID: 0}
     Environments:
     - HipHopEnvironment
     Unused: 0
     Ignored: 0
   - Name: BuildingBGEmissive
-    Hash: BDC24D3AC05119546A688525CCD33C48
+    Hash: bdc24d3ac05119546a688525ccd33c48
     Texture: {fileID: 0}
     Environments:
     - TheWeekndEnvironment
     Unused: 0
     Ignored: 0
   - Name: BurstFireProbe
-    Hash: B956154B295268321170571F90D63796
+    Hash: b956154b295268321170571f90d63796
     Texture: {fileID: 0}
     Environments:
     - PyroEnvironment
     Unused: 0
     Ignored: 0
   - Name: BurstFlipbook7Nonblended
-    Hash: 1506FAC5E0FAA3020D4CC39F4B472FD8
+    Hash: 1506fac5e0faa3020d4cc39f4b472fd8
     Texture: {fileID: 0}
     Environments:
     - PyroEnvironment
     Unused: 0
     Ignored: 0
   - Name: CakePSD
-    Hash: 39E8452D9B11CDE721FBCC84107D66E9
+    Hash: 39e8452d9b11cde721fbcc84107d66e9
     Texture: {fileID: 0}
     Environments:
     - TheSecondEnvironment
     Unused: 0
     Ignored: 0
   - Name: CarriageGraffitiSheet
-    Hash: EC8818A7C496A0C22C213187430F4426
+    Hash: ec8818a7c496a0c22c213187430f4426
     Texture: {fileID: 0}
     Environments:
     - HipHopEnvironment
     Unused: 0
     Ignored: 0
   - Name: CatHead
-    Hash: C1A3B034E3148716071773298CCB2A61
+    Hash: c1a3b034e3148716071773298ccb2a61
     Texture: {fileID: 0}
     Environments:
     - Monstercat2Environment
     Unused: 0
     Ignored: 0
   - Name: CeilingLamps
-    Hash: 46C1AFA1B9C40B57D9DB628026D4F170
+    Hash: 46c1afa1b9c40b57d9db628026d4f170
     Texture: {fileID: 0}
     Environments:
     - HipHopEnvironment
     Unused: 0
     Ignored: 0
   - Name: Circle
-    Hash: 29C7F7B06EB520F526DBBB9C5A916CFE
+    Hash: 29c7f7b06eb520f526dbbb9c5a916cfe
     Texture: {fileID: 0}
     Environments:
     - LinkinPark2Environment
@@ -1064,7 +1064,7 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: CircleGlow
-    Hash: 68312689D443905C92826F2E4428C1F2
+    Hash: 68312689d443905c92826f2e4428c1f2
     Texture: {fileID: 0}
     Environments:
     - Dragons2Environment
@@ -1074,7 +1074,7 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: CircleGradient
-    Hash: B7F209F7B3CD09EB9021D0665A7DB974
+    Hash: b7f209f7b3cd09eb9021d0665a7db974
     Texture: {fileID: 0}
     Environments:
     - LinkinPark2Environment
@@ -1086,7 +1086,7 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: CircleGradient
-    Hash: 637106E2E57F33FAE3FD8A97DCB5C1DB
+    Hash: 637106e2e57f33fae3fd8a97dcb5c1db
     Texture: {fileID: 0}
     Environments:
     - TheWeekndEnvironment
@@ -1097,35 +1097,35 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: CirclePattern
-    Hash: C8D9211D9B03E1DE891282F568C31331
+    Hash: c8d9211d9b03e1de891282f568c31331
     Texture: {fileID: 0}
     Environments:
     - BritneyEnvironment
     Unused: 0
     Ignored: 0
   - Name: CirclePatternInvert
-    Hash: 06E3F0B07E581CEE6A586A71AD8D2856
+    Hash: 06e3f0b07e581cee6a586a71ad8d2856
     Texture: {fileID: 0}
     Environments:
     - BritneyEnvironment
     Unused: 0
     Ignored: 0
   - Name: CircleRepeatable
-    Hash: 3A1CE2EB6E192D510BC7DC5F12A9B624
+    Hash: 3a1ce2eb6e192d510bc7dc5f12a9b624
     Texture: {fileID: 0}
     Environments:
     - PyroEnvironment
     Unused: 0
     Ignored: 0
   - Name: CircleRepeatableRGB
-    Hash: C1C5F7A07233EFAA0D8603C83C08ABC2
+    Hash: c1c5f7a07233efaa0d8603c83c08abc2
     Texture: {fileID: 0}
     Environments:
     - PyroEnvironment
     Unused: 0
     Ignored: 0
   - Name: CircleShadow
-    Hash: 227F1AD977773E635DACFE2C3BBB3338
+    Hash: 227f1ad977773e635dacfe2c3bbb3338
     Texture: {fileID: 0}
     Environments:
     - PyroEnvironment
@@ -1133,21 +1133,21 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: CircleShadow
-    Hash: 28631A8083548F46D41ECC9ACD343CB4
+    Hash: 28631a8083548f46d41ecc9acd343cb4
     Texture: {fileID: 0}
     Environments:
     - WeaveEnvironment
     Unused: 0
     Ignored: 0
   - Name: CircleWithGradient
-    Hash: 56E2291F48097DD43D41F9C2276078C4
+    Hash: 56e2291f48097dd43d41f9c2276078c4
     Texture: {fileID: 0}
     Environments:
     - BTSEnvironment
     Unused: 0
     Ignored: 0
   - Name: CloudNoise1
-    Hash: A704C638DF871ABBF1BC8744AF3E05F5
+    Hash: a704c638df871abbf1bc8744af3e05f5
     Texture: {fileID: 0}
     Environments:
     - ColdplayEnvironment
@@ -1156,7 +1156,7 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: CloudNoiseMasked
-    Hash: 19C18696755C03E46068D3B2577D3470
+    Hash: 19c18696755c03e46068d3b2577d3470
     Texture: {fileID: 0}
     Environments:
     - QueenEnvironment
@@ -1166,7 +1166,7 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: Concrete
-    Hash: 7436EF048ACA59A690FDE7348F67191E
+    Hash: 7436ef048aca59a690fde7348f67191e
     Texture: {fileID: 0}
     Environments:
     - LinkinPark2Environment
@@ -1179,7 +1179,7 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: ConcreteDetail
-    Hash: 81FD0A25AB19AE13FEBB9AF8A8744DC9
+    Hash: 81fd0a25ab19ae13febb9af8a8744dc9
     Texture: {fileID: 0}
     Environments:
     - LinkinPark2Environment
@@ -1190,28 +1190,28 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: CracksAlbedo01
-    Hash: 91EFDCE47E6AD8DE655AC3B62CD2821B
+    Hash: 91efdce47e6ad8de655ac3b62cd2821b
     Texture: {fileID: 0}
     Environments:
     - MetallicaEnvironment
     Unused: 0
     Ignored: 0
   - Name: CracksEmission01
-    Hash: 7A0CC54FBB87F1DCA0BFF905469DBAF5
+    Hash: 7a0cc54fbb87f1dca0bff905469dbaf5
     Texture: {fileID: 0}
     Environments:
     - MetallicaEnvironment
     Unused: 0
     Ignored: 0
   - Name: CrowdFlipbook
-    Hash: 2651D0D39E9EF869B638DA52C3EFE921
+    Hash: 2651d0d39e9ef869b638da52c3efe921
     Texture: {fileID: 0}
     Environments:
     - PyroEnvironment
     Unused: 0
     Ignored: 0
   - Name: CrystalNoise
-    Hash: AC802ED38B8EF1AD5227829ECA6EC213
+    Hash: ac802ed38b8ef1ad5227829eca6ec213
     Texture: {fileID: 0}
     Environments:
     - TheRollingStonesEnvironment
@@ -1220,63 +1220,63 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: CubeAOThickness
-    Hash: 22E00D015E7F6C98DA088329AFB8C53B
+    Hash: 22e00d015e7f6c98da088329afb8c53b
     Texture: {fileID: 0}
     Environments:
     - GridEnvironment
     Unused: 0
     Ignored: 0
   - Name: CubeEmissionMid
-    Hash: 7140DD4ACCD9CA903A0A38DB81B2BA3E
+    Hash: 7140dd4accd9ca903a0a38db81b2ba3e
     Texture: {fileID: 0}
     Environments:
     - GridEnvironment
     Unused: 0
     Ignored: 0
   - Name: CubeEmissionWide
-    Hash: ADDE8CB697D9BD24823A8A6BF8401464
+    Hash: adde8cb697d9bd24823a8a6bf8401464
     Texture: {fileID: 0}
     Environments:
     - GridEnvironment
     Unused: 0
     Ignored: 0
   - Name: CubeMask
-    Hash: 405D57EACC232B9620059B2977C7EA3C
+    Hash: 405d57eacc232b9620059b2977c7ea3c
     Texture: {fileID: 0}
     Environments:
     - GridEnvironment
     Unused: 0
     Ignored: 0
   - Name: CubeTexStripe
-    Hash: 16D84E1629129DC1B09E66EC9C7247B1
+    Hash: 16d84e1629129dc1b09e66ec9c7247b1
     Texture: {fileID: 0}
     Environments:
     - GridEnvironment
     Unused: 0
     Ignored: 0
   - Name: CubeTexStripeMPM
-    Hash: 21A5833A0B8C56452ACA825D4A4C2FED
+    Hash: 21a5833a0b8c56452aca825d4a4c2fed
     Texture: {fileID: 0}
     Environments:
     - GridEnvironment
     Unused: 0
     Ignored: 0
   - Name: DaftPunkTriangleDownIcon
-    Hash: 001A169B8D727D52186120BE12B2D372
+    Hash: 001a169b8d727d52186120be12b2d372
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: DanceFloorTile
-    Hash: 444E6F06F3DE421DB2460AA3D18199A3
+    Hash: 444e6f06f3de421db2460aa3d18199a3
     Texture: {fileID: 0}
     Environments:
     - LizzoEnvironment
     Unused: 0
     Ignored: 0
   - Name: Default-Particle
-    Hash: 62BE45ED67D554A60F09A22838382706
+    Hash: 62be45ed67d554a60f09a22838382706
     Texture: {fileID: 0}
     Environments:
     - GreenDayEnvironment
@@ -1318,14 +1318,14 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: DiamondEmission
-    Hash: 82D602D96977A729EFE6D1B17C654BFE
+    Hash: 82d602d96977a729efe6d1b17c654bfe
     Texture: {fileID: 0}
     Environments:
     - Panic2Environment
     Unused: 0
     Ignored: 0
   - Name: DisplacementNoise0
-    Hash: FBBCE91F836F61B6A5D71A27927D952D
+    Hash: fbbce91f836f61b6a5d71a27927d952d
     Texture: {fileID: 0}
     Environments:
     - BTSEnvironment
@@ -1336,77 +1336,77 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: DropShadowGradient
-    Hash: C269EAFBB4D15CA49178CACD3A3300B3
+    Hash: c269eafbb4d15ca49178cacd3a3300b3
     Texture: {fileID: 0}
     Environments:
     - LinkinPark2Environment
     Unused: 0
     Ignored: 0
   - Name: ElectroNoise
-    Hash: 439633D7C1AB24BE44AEE095E4E0A839
+    Hash: 439633d7c1ab24be44aee095e4e0a839
     Texture: {fileID: 0}
     Environments:
     - TheRollingStonesEnvironment
     Unused: 0
     Ignored: 0
   - Name: EminemBoomboxHoudini
-    Hash: 87C9DB36185A1931DB61A5BAF48BF46D
+    Hash: 87c9db36185a1931db61a5baf48bf46d
     Texture: {fileID: 0}
     Environments:
     - HipHopEnvironment
     Unused: 0
     Ignored: 0
   - Name: FOB_Logo
-    Hash: 2AC185000E6AAFDC2D7E387BEFA73F2C
+    Hash: 2ac185000e6aafdc2d7e387befa73f2c
     Texture: {fileID: 0}
     Environments:
     - PyroEnvironment
     Unused: 0
     Ignored: 0
   - Name: FeetIcon
-    Hash: 061EF23769911FE33252FB0CC5E1F691
+    Hash: 061ef23769911fe33252fb0cc5e1f691
     Texture: {fileID: 0}
     Environments:
     - RockMixtapeEnvironment
     Unused: 0
     Ignored: 0
   - Name: FireBloom
-    Hash: 522CA894ED899DA99E272D9AA3765D89
+    Hash: 522ca894ed899da99e272d9aa3765d89
     Texture: {fileID: 0}
     Environments:
     - PyroEnvironment
     Unused: 0
     Ignored: 0
   - Name: FireBurst
-    Hash: 0672CE72FA3EF0ED9D323347E41BD499
+    Hash: 0672ce72fa3ef0ed9d323347e41bd499
     Texture: {fileID: 0}
     Environments:
     - MetallicaEnvironment
     Unused: 0
     Ignored: 0
   - Name: FireContinous
-    Hash: AC70406F82E1F8454D5476104EAAB1C0
+    Hash: ac70406f82e1f8454d5476104eaab1c0
     Texture: {fileID: 0}
     Environments:
     - MetallicaEnvironment
     Unused: 0
     Ignored: 0
   - Name: Flag
-    Hash: 70FA0C77F0A578B366B3B433F3E5A21F
+    Hash: 70fa0c77f0a578b366b3b433f3e5a21f
     Texture: {fileID: 0}
     Environments:
     - TheSecondEnvironment
     Unused: 0
     Ignored: 0
   - Name: FlameNoise1
-    Hash: 9E8A2FF3DAA985102E2692CA9BB27D0E
+    Hash: 9e8a2ff3daa985102e2692ca9bb27d0e
     Texture: {fileID: 0}
     Environments:
     - TheRollingStonesEnvironment
     Unused: 0
     Ignored: 0
   - Name: Floor
-    Hash: A4125FC73C105612A276C78CC4535113
+    Hash: a4125fc73c105612a276c78cc4535113
     Texture: {fileID: 0}
     Environments:
     - GreenDayEnvironment
@@ -1456,14 +1456,14 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: FloorBaseColor
-    Hash: 01CA91D9B3DC7E542B9245967B237335
+    Hash: 01ca91d9b3dc7e542b9245967b237335
     Texture: {fileID: 0}
     Environments:
     - LinkinPark2Environment
     Unused: 0
     Ignored: 0
   - Name: FloorGridDirt
-    Hash: 32CDC5D0DD220197D8364AC62AC0A99D
+    Hash: 32cdc5d0dd220197d8364ac62ac0a99d
     Texture: {fileID: 0}
     Environments:
     - GreenDayEnvironment
@@ -1513,21 +1513,21 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: FloorGridDirtSimple
-    Hash: EE7E79384E3DAF3881FA2CC5046FAEB4
+    Hash: ee7e79384e3daf3881fa2cc5046faeb4
     Texture: {fileID: 0}
     Environments:
     - LizzoEnvironment
     Unused: 0
     Ignored: 0
   - Name: FoBLogoFlipbook
-    Hash: F70E10AA8AD2F3584BA9E2C983527BD5
+    Hash: f70e10aa8ad2f3584ba9e2c983527bd5
     Texture: {fileID: 0}
     Environments:
     - PyroEnvironment
     Unused: 0
     Ignored: 0
   - Name: FogNoise
-    Hash: C3F59568A35000A241B9B7353E2D98A0
+    Hash: c3f59568a35000a241b9b7353e2d98a0
     Texture: {fileID: 0}
     Environments:
     - ColdplayEnvironment
@@ -1536,28 +1536,28 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: FortMinorLogo
-    Hash: A9D939639CCE078615DB22429197FAA4
+    Hash: a9d939639cce078615db22429197faa4
     Texture: {fileID: 0}
     Environments:
     - LinkinPark2Environment
     Unused: 0
     Ignored: 0
   - Name: FortMinorStar
-    Hash: 78B8F12E26024706FC1860A589A71687
+    Hash: 78b8f12e26024706fc1860a589a71687
     Texture: {fileID: 0}
     Environments:
     - LinkinPark2Environment
     Unused: 0
     Ignored: 0
   - Name: FortMinorStarFlat
-    Hash: 2A15557ADBB6692E562757EC306A3753
+    Hash: 2a15557adbb6692e562757ec306a3753
     Texture: {fileID: 0}
     Environments:
     - LinkinPark2Environment
     Unused: 0
     Ignored: 0
   - Name: FullGaussianNoise
-    Hash: 08DAF16008245719D1CD9B88B87D859E
+    Hash: 08daf16008245719d1cd9b88b87d859e
     Texture: {fileID: 0}
     Environments:
     - QueenEnvironment
@@ -1568,14 +1568,14 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: Galaxies
-    Hash: E6AF91FB53D1FC563958AC86BBC2C4BD
+    Hash: e6af91fb53d1fc563958ac86bbc2c4bd
     Texture: {fileID: 0}
     Environments:
     - GagaEnvironment
     Unused: 0
     Ignored: 0
   - Name: GaussianNoiseFlowmap
-    Hash: D47229E1F89BEB3EF93EB3B4B11C6BD9
+    Hash: d47229e1f89beb3ef93eb3b4b11c6bd9
     Texture: {fileID: 0}
     Environments:
     - LinkinPark2Environment
@@ -1583,49 +1583,49 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: GlowGradient
-    Hash: 862ABB772D27E86063AB44FC4E2DE57A
+    Hash: 862abb772d27e86063ab44fc4e2de57a
     Texture: {fileID: 0}
     Environments:
     - QueenEnvironment
     Unused: 0
     Ignored: 0
   - Name: GlowLines
-    Hash: 2F54CE6B1788CABC0C34EC17DEB7645F
+    Hash: 2f54ce6b1788cabc0c34ec17deb7645f
     Texture: {fileID: 0}
     Environments:
     - OriginsEnvironment
     Unused: 0
     Ignored: 0
   - Name: GlowSquares
-    Hash: 7983B185CD48566A8BA1C4DE4BEB4424
+    Hash: 7983b185cd48566a8ba1c4de4beb4424
     Texture: {fileID: 0}
     Environments:
     - Dragons2Environment
     Unused: 0
     Ignored: 0
   - Name: GlowSquares
-    Hash: 7627747B056CDD8F37E485E5A4AABFFB
+    Hash: 7627747b056cdd8f37e485e5a4aabffb
     Texture: {fileID: 0}
     Environments:
     - DragonsEnvironment
     Unused: 0
     Ignored: 0
   - Name: GradientStripe
-    Hash: CD0E7460AE958259894987EB4B5C5E57
-    Texture: {fileID: 0}
-    Environments:
-    - MetallicaEnvironment
-    Unused: 0
-    Ignored: 0
-  - Name: GradientStripe
-    Hash: 40D587AFBEDDF28E73347AEEDC716F13
+    Hash: 40d587afbeddf28e73347aeedc716f13
     Texture: {fileID: 0}
     Environments:
     - ColliderEnvironment
     Unused: 0
     Ignored: 0
+  - Name: GradientStripe
+    Hash: cd0e7460ae958259894987eb4b5c5e57
+    Texture: {fileID: 0}
+    Environments:
+    - MetallicaEnvironment
+    Unused: 0
+    Ignored: 0
   - Name: GradientStripe2
-    Hash: ABC0EDFFD00CE19661A9E4DA19DAF1FA
+    Hash: abc0edffd00ce19661a9e4da19daf1fa
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
@@ -1633,21 +1633,21 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: GradientStripeFull
-    Hash: DC9F367D3C2CDD42D1760469565A3CE4
+    Hash: dc9f367d3c2cdd42d1760469565a3ce4
     Texture: {fileID: 0}
     Environments:
     - TheWeekndEnvironment
     Unused: 0
     Ignored: 0
   - Name: GradientStripeShadow
-    Hash: ED0C6CFCFED865C32796308E523E0DE3
+    Hash: ed0c6cfcfed865c32796308e523e0de3
     Texture: {fileID: 0}
     Environments:
     - MetallicaEnvironment
     Unused: 0
     Ignored: 0
   - Name: GradientStripeShadow
-    Hash: B98264080799FBBAA3628479FA108A94
+    Hash: b98264080799fbbaa3628479fa108a94
     Texture: {fileID: 0}
     Environments:
     - LinkinPark2Environment
@@ -1657,42 +1657,42 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: GradientVeritcalTemp
-    Hash: 9D52C405C25F61D3E212138E8B0BA700
+    Hash: 9d52c405c25f61d3e212138e8b0ba700
     Texture: {fileID: 0}
     Environments:
     - BritneyEnvironment
     Unused: 0
     Ignored: 0
   - Name: GraffitiAtlas01
-    Hash: 8931FD01B7E2438ACFE35EB014FAAFD8
+    Hash: 8931fd01b7e2438acfe35eb014faafd8
     Texture: {fileID: 0}
     Environments:
     - HipHopEnvironment
     Unused: 0
     Ignored: 0
   - Name: GraffitiStrip_256
-    Hash: 950CF7D034B9A42FCDEAE360163A774E
+    Hash: 950cf7d034b9a42fcdeae360163a774e
     Texture: {fileID: 0}
     Environments:
     - HipHopEnvironment
     Unused: 0
     Ignored: 0
   - Name: GraffitiTrainWindows
-    Hash: A0321DC58751BEF54A096B2ABA0FF025
+    Hash: a0321dc58751bef54a096b2aba0ff025
     Texture: {fileID: 0}
     Environments:
     - HipHopEnvironment
     Unused: 0
     Ignored: 0
   - Name: GraphLine
-    Hash: CCAF3A54CC2308B0C7417311F2C13274
+    Hash: ccaf3a54cc2308b0c7417311f2c13274
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: GreenDayLogo
-    Hash: 9143752C9019205817BB95D3F49333D1
+    Hash: 9143752c9019205817bb95d3f49333d1
     Texture: {fileID: 0}
     Environments:
     - GreenDayEnvironment
@@ -1700,119 +1700,119 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: GuitarDot
-    Hash: F2EEC37F5A1B75A2DD53ACE3A990BD80
+    Hash: f2eec37f5a1b75a2dd53ace3a990bd80
     Texture: {fileID: 0}
     Environments:
     - RockMixtapeEnvironment
     Unused: 0
     Ignored: 0
   - Name: HalloweenPumpkinsEmissive
-    Hash: ED4131A0FA23214F3FF4688BD2FD8EB5
+    Hash: ed4131a0fa23214f3ff4688bd2fd8eb5
     Texture: {fileID: 0}
     Environments:
     - Halloween2Environment
     Unused: 0
     Ignored: 0
   - Name: HauntedHouseEmissive
-    Hash: 73C8DAC9DA801801849861E34544C795
+    Hash: 73c8dac9da801801849861e34544c795
     Texture: {fileID: 0}
     Environments:
     - Halloween2Environment
     Unused: 0
     Ignored: 0
   - Name: HeartFlare
-    Hash: 5E0844B3C652E284A58B8A905967852B
+    Hash: 5e0844b3c652e284a58b8a905967852b
     Texture: {fileID: 0}
     Environments:
     - ColdplayEnvironment
     Unused: 0
     Ignored: 0
   - Name: HeartFlareMask
-    Hash: D6924D3BF76AA353C766CB3E8E7DF0DD
+    Hash: d6924d3bf76aa353c766cb3e8e7df0dd
     Texture: {fileID: 0}
     Environments:
     - ColdplayEnvironment
     Unused: 0
     Ignored: 0
   - Name: HeartRampMask
-    Hash: F342A58C8FF95A6A49B033A2160F9B3F
+    Hash: f342a58c8ff95a6a49b033a2160f9b3f
     Texture: {fileID: 0}
     Environments:
     - ColdplayEnvironment
     Unused: 0
     Ignored: 0
   - Name: HeartTexture
-    Hash: 8102EB297DED0BDCA93994DB40C952F2
+    Hash: 8102eb297ded0bdca93994db40c952f2
     Texture: {fileID: 0}
     Environments:
     - BritneyEnvironment
     Unused: 0
     Ignored: 0
   - Name: Helmet01_Diffuse
-    Hash: 8EB321A8835B68EDA9E49C8EC74E7AEE
+    Hash: 8eb321a8835b68eda9e49c8ec74e7aee
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: Helmet01_Emission
-    Hash: D6BB47118A888F549CAD6C877A912FFF
+    Hash: d6bb47118a888f549cad6c877a912fff
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: Helmet01_MPM
-    Hash: FD46F050F14F4017A4029C7BCEFDF4FF
+    Hash: fd46f050f14f4017a4029c7bcefdf4ff
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: Helmet02_Diffuse
-    Hash: 7FA09E7D34AE5AFA0390083EE6F85F47
+    Hash: 7fa09e7d34ae5afa0390083ee6f85f47
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: Helmet02_Emission
-    Hash: 012BB21E392C5B490ACD108B9F64FA72
+    Hash: 012bb21e392c5b490acd108b9f64fa72
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: Helmet02_MPM
-    Hash: 91AE16DC475CFA5248C1DB148DF64EB5
+    Hash: 91ae16dc475cfa5248c1db148df64eb5
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: HighCloudsAtlas
-    Hash: 41169F3E064B2EB3822E409CF76ABC5D
+    Hash: 41169f3e064b2eb3822e409cf76abc5d
     Texture: {fileID: 0}
     Environments:
     - BTSEnvironment
     Unused: 0
     Ignored: 0
   - Name: HoopPiece
-    Hash: BFFDB9A22DA43187ABA797BABCBDB4B4
+    Hash: bffdb9a22da43187aba797babcbdb4b4
     Texture: {fileID: 0}
     Environments:
     - HipHopEnvironment
     Unused: 0
     Ignored: 0
   - Name: HorizontalGradient
-    Hash: DF8C4B3264D1F3CB805C68736DAC49AF
+    Hash: df8c4b3264d1f3cb805c68736dac49af
     Texture: {fileID: 0}
     Environments:
     - HipHopEnvironment
     Unused: 0
     Ignored: 0
   - Name: HorizontalGradientMirror
-    Hash: E87791C204E2A277166E38CAEB34F665
+    Hash: e87791c204e2a277166e38caeb34f665
     Texture: {fileID: 0}
     Environments:
     - ColdplayEnvironment
@@ -1820,42 +1820,42 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: HorizontalGradientMirror
-    Hash: 140649255D1F5DC4BFC8CB16F11DCE7C
+    Hash: 140649255d1f5dc4bfc8cb16f11dce7c
     Texture: {fileID: 0}
     Environments:
     - MetallicaEnvironment
     Unused: 0
     Ignored: 0
   - Name: HorizontalGradientMirror
-    Hash: 46D4EFCCDD8C921EFD21DC7D3007A927
+    Hash: 46d4efccdd8c921efd21dc7d3007a927
     Texture: {fileID: 0}
     Environments:
     - BritneyEnvironment
     Unused: 0
     Ignored: 0
   - Name: HorizontalGradientMirrorBloom
-    Hash: 130EE3DB1D016836B9480C76A8E004E8
+    Hash: 130ee3db1d016836b9480c76a8e004e8
     Texture: {fileID: 0}
     Environments:
     - MetallicaEnvironment
     Unused: 0
     Ignored: 0
   - Name: HorizontalGradientMirrorInvert
-    Hash: 1ED5AA0A81D8DE14767FF336E6525418
+    Hash: 1ed5aa0a81d8de14767ff336e6525418
     Texture: {fileID: 0}
     Environments:
     - MetallicaEnvironment
     Unused: 0
     Ignored: 0
   - Name: HorizontalGradientMirrorInvert
-    Hash: 56057667B1B00DFD19170CFFC1442CA0
+    Hash: 56057667b1b00dfd19170cffc1442ca0
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: HorizontalGradientPow3
-    Hash: B458AF359955444CE9C5E60BCD70B11B
+    Hash: b458af359955444ce9c5e60bcd70b11b
     Texture: {fileID: 0}
     Environments:
     - ColdplayEnvironment
@@ -1863,28 +1863,28 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: HorizontalGradientPow8
-    Hash: 4F0EC5A7B022C335381BE8C19E7F4426
+    Hash: 4f0ec5a7b022c335381be8c19e7f4426
     Texture: {fileID: 0}
     Environments:
     - MetallicaEnvironment
     Unused: 0
     Ignored: 0
   - Name: InterscopeLogo
-    Hash: DD4C4F146ED48342AEA36BB5CF775D8B
+    Hash: dd4c4f146ed48342aea36bb5cf775d8b
     Texture: {fileID: 0}
     Environments:
     - InterscopeEnvironment
     Unused: 0
     Ignored: 0
   - Name: LEDGrid
-    Hash: 96654E690965138B820F980EEC09FE1D
+    Hash: 96654e690965138b820f980eec09fe1d
     Texture: {fileID: 0}
     Environments:
     - PyroEnvironment
     Unused: 0
     Ignored: 0
   - Name: LaserGlowSprite
-    Hash: 21CB60A7CE98741CB8014519E3B7989D
+    Hash: 21cb60a7ce98741cb8014519e3b7989d
     Texture: {fileID: 0}
     Environments:
     - LinkinPark2Environment
@@ -1898,7 +1898,7 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: LaserGlowSprite0
-    Hash: 4C6F4AA11E16899E4EBDC3C403D694D0
+    Hash: 4c6f4aa11e16899e4ebdc3c403d694d0
     Texture: {fileID: 0}
     Environments:
     - GreenDayEnvironment
@@ -1940,7 +1940,7 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: LaserGlowSprite1
-    Hash: 6B9DE32231F9C546B8CCFC5ADC6EAD41
+    Hash: 6b9de32231f9c546b8ccfc5adc6ead41
     Texture: {fileID: 0}
     Environments:
     - GridEnvironment
@@ -1954,14 +1954,14 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: LaserGlowSprite2
-    Hash: CAF9C9956010E94E1B54BBDB6BBF3D32
+    Hash: caf9c9956010e94e1b54bbdb6bbf3d32
     Texture: {fileID: 0}
     Environments:
     - LatticeEnvironment
     Unused: 0
     Ignored: 0
   - Name: LaserGlowSprite2Wider
-    Hash: 0B9F7315780C28533FC0B6A354666E62
+    Hash: 0b9f7315780c28533fc0b6a354666e62
     Texture: {fileID: 0}
     Environments:
     - ColdplayEnvironment
@@ -1969,7 +1969,7 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: LaserGlowSpriteHalf
-    Hash: 3492F23253E8B1B6946403C59D8A065D
+    Hash: 3492f23253e8b1b6946403c59d8a065d
     Texture: {fileID: 0}
     Environments:
     - LinkinParkEnvironment
@@ -1977,7 +1977,7 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: LaserGlowSpriteWithCore
-    Hash: CFF0D1DCAC719D0A5EC105D463C85A6A
+    Hash: cff0d1dcac719d0a5ec105d463c85a6a
     Texture: {fileID: 0}
     Environments:
     - LinkinPark2Environment
@@ -1993,7 +1993,7 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: LaserHit
-    Hash: CCA315BEB16A11E4BBBF57FD067DDBDA
+    Hash: cca315beb16a11e4bbbf57fd067ddbda
     Texture: {fileID: 0}
     Environments:
     - GridEnvironment
@@ -2001,7 +2001,7 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: LaserHit
-    Hash: 4695D0F5E2641E968470C6BCF1C1524C
+    Hash: 4695d0f5e2641e968470c6bcf1c1524c
     Texture: {fileID: 0}
     Environments:
     - ColdplayEnvironment
@@ -2010,56 +2010,56 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: LatticeCubeEmissionMask_LED2
-    Hash: C42CAF59C3C0712306B5C7FFA8244D43
+    Hash: c42caf59c3c0712306b5c7ffa8244d43
     Texture: {fileID: 0}
     Environments:
     - LatticeEnvironment
     Unused: 0
     Ignored: 0
   - Name: LatticeCube_AlbedoLED
-    Hash: 9FF653F20CB7F6C2B73EDF0F016D7353
+    Hash: 9ff653f20cb7f6c2b73edf0f016d7353
     Texture: {fileID: 0}
     Environments:
     - LatticeEnvironment
     Unused: 0
     Ignored: 0
   - Name: LatticeCube_BloomMask
-    Hash: 0C0479A5C04743ADB23DDC08F6BE8239
+    Hash: 0c0479a5c04743adb23ddc08f6be8239
     Texture: {fileID: 0}
     Environments:
     - LatticeEnvironment
     Unused: 0
     Ignored: 0
   - Name: LatticeCube_EmissionFlatBase
-    Hash: 1BEE4522122F794B73F27059103A07CC
+    Hash: 1bee4522122f794b73f27059103a07cc
     Texture: {fileID: 0}
     Environments:
     - LatticeEnvironment
     Unused: 0
     Ignored: 0
   - Name: LatticeCube_Metallic
-    Hash: CBC4BFE50A9230A219D97715A18954C7
+    Hash: cbc4bfe50a9230a219d97715a18954c7
     Texture: {fileID: 0}
     Environments:
     - LatticeEnvironment
     Unused: 0
     Ignored: 0
   - Name: LatticeCube_Normal
-    Hash: B7AA03FBBD6FB3A8338235011EE39D4C
+    Hash: b7aa03fbbd6fb3a8338235011ee39d4c
     Texture: {fileID: 0}
     Environments:
     - LatticeEnvironment
     Unused: 0
     Ignored: 0
   - Name: LightDotsGlow
-    Hash: 3CE7CF36899775BB88D0E0D88E080334
+    Hash: 3ce7cf36899775bb88d0e0d88e080334
     Texture: {fileID: 0}
     Environments:
     - PyroEnvironment
     Unused: 0
     Ignored: 0
   - Name: LightGradient
-    Hash: 3D4198FED810428B8FC1AEF85D81FDC8
+    Hash: 3d4198fed810428b8fc1aef85d81fdc8
     Texture: {fileID: 0}
     Environments:
     - GridEnvironment
@@ -2068,49 +2068,49 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: LightGradient
-    Hash: 476381411FD135031F5F07F3E1D944C9
+    Hash: 476381411fd135031f5f07f3e1d944c9
     Texture: {fileID: 0}
     Environments:
     - BritneyEnvironment
     Unused: 0
     Ignored: 0
   - Name: LightMask
-    Hash: 399C59D737A4CC92863543F5EA79DE93
+    Hash: 399c59d737a4cc92863543f5ea79de93
     Texture: {fileID: 0}
     Environments:
     - ColliderEnvironment
     Unused: 0
     Ignored: 0
   - Name: LightMask
-    Hash: 436C4FE2E1B09D93ADEB1FA9A4C1A492
+    Hash: 436c4fe2e1b09d93adeb1fa9a4c1a492
     Texture: {fileID: 0}
     Environments:
     - MetallicaEnvironment
     Unused: 0
     Ignored: 0
   - Name: LightStripAllNew
-    Hash: F9D3BDECEA1C1448D132607EC994DF75
+    Hash: f9d3bdecea1c1448d132607ec994df75
     Texture: {fileID: 0}
     Environments:
     - Monstercat2Environment
     Unused: 0
     Ignored: 0
   - Name: LightStripAllNewAlbedo
-    Hash: 5729893D443FFD996A3885898AB79FC4
+    Hash: 5729893d443ffd996a3885898ab79fc4
     Texture: {fileID: 0}
     Environments:
     - Monstercat2Environment
     Unused: 0
     Ignored: 0
   - Name: LightStripAllNewMask
-    Hash: 55EBD83921ECAB1A66C95EE1676CD027
+    Hash: 55ebd83921ecab1a66c95ee1676cd027
     Texture: {fileID: 0}
     Environments:
     - Monstercat2Environment
     Unused: 0
     Ignored: 0
   - Name: LightningTiming
-    Hash: C7BB394FEEC39E2A3218CEEEEC29E0BB
+    Hash: c7bb394feec39e2a3218ceeeec29e0bb
     Texture: {fileID: 0}
     Environments:
     - MetallicaEnvironment
@@ -2118,21 +2118,21 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: LinkinParkLogo
-    Hash: 2706838B8F50ADD317B13E5D19B5DDE5
+    Hash: 2706838b8f50add317b13e5d19b5dde5
     Texture: {fileID: 0}
     Environments:
     - LinkinPark2Environment
     Unused: 0
     Ignored: 0
   - Name: LinkinParkLogo
-    Hash: 076606835D7E7BD8AC08090E2D2CC025
+    Hash: 076606835d7e7bd8ac08090e2d2cc025
     Texture: {fileID: 0}
     Environments:
     - LinkinParkEnvironment
     Unused: 0
     Ignored: 0
   - Name: LinkinParkSoldier
-    Hash: F53E6FDAC28EC8BA0C5EC912608E1DCF
+    Hash: f53e6fdac28ec8ba0c5ec912608e1dcf
     Texture: {fileID: 0}
     Environments:
     - LinkinPark2Environment
@@ -2140,49 +2140,49 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: LinkinParkTextLogo
-    Hash: 51F295046AB39E629E4504085AD0596F
+    Hash: 51f295046ab39e629e4504085ad0596f
     Texture: {fileID: 0}
     Environments:
     - LinkinPark2Environment
     Unused: 0
     Ignored: 0
   - Name: LinkinParkTextLogo
-    Hash: 1037203CE697E0BA87D8607162B4DD8F
+    Hash: 1037203ce697e0ba87d8607162b4dd8f
     Texture: {fileID: 0}
     Environments:
     - LinkinParkEnvironment
     Unused: 0
     Ignored: 0
   - Name: LizzoLogo
-    Hash: A33F12073E9F659C1FA313772E4F4874
+    Hash: a33f12073e9f659c1fa313772e4f4874
     Texture: {fileID: 0}
     Environments:
     - LizzoEnvironment
     Unused: 0
     Ignored: 0
   - Name: LogoRG
-    Hash: 2B3A5DC0540C6C3914645748299D3DDA
+    Hash: 2b3a5dc0540c6c3914645748299d3dda
     Texture: {fileID: 0}
     Environments:
     - TheRollingStonesEnvironment
     Unused: 0
     Ignored: 0
   - Name: LoopableFireProbe
-    Hash: 78CF5ADE49DF5B5337DB8E0A50FF309B
+    Hash: 78cf5ade49df5b5337db8e0a50ff309b
     Texture: {fileID: 0}
     Environments:
     - PyroEnvironment
     Unused: 0
     Ignored: 0
   - Name: LowClouds
-    Hash: BF820BC0798427BCF61EACDD694B8B73
+    Hash: bf820bc0798427bcf61eacdd694b8b73
     Texture: {fileID: 0}
     Environments:
     - BTSEnvironment
     Unused: 0
     Ignored: 0
   - Name: LutAdditiveFire
-    Hash: 4E9A96AF9923D49D867FA49CF530D6F7
+    Hash: 4e9a96af9923d49d867fa49cf530d6f7
     Texture: {fileID: 0}
     Environments:
     - ColdplayEnvironment
@@ -2191,14 +2191,14 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: LutAzure
-    Hash: 67DD6ADFD925C664066C8699B17A1B46
+    Hash: 67dd6adfd925c664066c8699b17a1b46
     Texture: {fileID: 0}
     Environments:
     - ColdplayEnvironment
     Unused: 0
     Ignored: 0
   - Name: LutFire2D
-    Hash: CBF727AB2CEE2C4B6438580ABBE90393
+    Hash: cbf727ab2cee2c4b6438580abbe90393
     Texture: {fileID: 0}
     Environments:
     - ColdplayEnvironment
@@ -2207,70 +2207,70 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: LutGlacier
-    Hash: 47B080CC526A01A6AD373E910D3FB655
+    Hash: 47b080cc526a01a6ad373e910d3fb655
     Texture: {fileID: 0}
     Environments:
     - ColdplayEnvironment
     Unused: 0
     Ignored: 0
   - Name: LutRBW
-    Hash: D0076E4977E9EF6D86CABDBD9E1CD6F7
+    Hash: d0076e4977e9ef6d86cabdbd9e1cd6f7
     Texture: {fileID: 0}
     Environments:
     - ColdplayEnvironment
     Unused: 0
     Ignored: 0
   - Name: LutVoid
-    Hash: 9DAB24B250407719A5D352143A0EDCA2
+    Hash: 9dab24b250407719a5d352143a0edca2
     Texture: {fileID: 0}
     Environments:
     - ColdplayEnvironment
     Unused: 0
     Ignored: 0
   - Name: MKLogo
-    Hash: 9A87232B840A7BE585FAAF267F89EBD5
+    Hash: 9a87232b840a7be585faaf267f89ebd5
     Texture: {fileID: 0}
     Environments:
     - LinkinPark2Environment
     Unused: 0
     Ignored: 0
   - Name: MagicDoor
-    Hash: 494735281C58E4D6E2D8660565CA5C4A
+    Hash: 494735281c58e4d6e2d8660565ca5c4a
     Texture: {fileID: 0}
     Environments:
     - BTSEnvironment
     Unused: 0
     Ignored: 0
   - Name: MenuFogRing
-    Hash: 510633125592992399809F62937FC784
+    Hash: 510633125592992399809f62937fc784
     Texture: {fileID: 0}
     Environments:
     - LatticeEnvironment
     Unused: 0
     Ignored: 0
   - Name: MikeShinodaSignature
-    Hash: 08AB2B6E88E0EE64DCEFCC2D5417C0DF
+    Hash: 08ab2b6e88e0ee64dcefcc2d5417c0df
     Texture: {fileID: 0}
     Environments:
     - LinkinPark2Environment
     Unused: 0
     Ignored: 0
   - Name: MikeShinodaTextLogo
-    Hash: 2E2B73178AD99405712A5CA2E2AA8BB5
+    Hash: 2e2b73178ad99405712a5ca2e2aa8bb5
     Texture: {fileID: 0}
     Environments:
     - LinkinPark2Environment
     Unused: 0
     Ignored: 0
   - Name: MistNoise
-    Hash: 06493D3F2B7372A9E9F88BD3397A15DA
+    Hash: 06493d3f2b7372a9e9f88bd3397a15da
     Texture: {fileID: 0}
     Environments:
     - ColdplayEnvironment
     Unused: 0
     Ignored: 0
   - Name: MonstercatStrokeLogo
-    Hash: CC82CB4490C90BF44CBA33F41CC734ED
+    Hash: cc82cb4490c90bf44cba33f41cc734ed
     Texture: {fileID: 0}
     Environments:
     - CrabRaveEnvironment
@@ -2278,7 +2278,7 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: Moon
-    Hash: 18C190505819552AA5CD25C979733129
+    Hash: 18c190505819552aa5cd25c979733129
     Texture: {fileID: 0}
     Environments:
     - HalloweenEnvironment
@@ -2287,21 +2287,21 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: Noise01
-    Hash: F364FFEDB2CCCE0DBD5DD93C64E3D26C
+    Hash: f364ffedb2ccce0dbd5dd93c64e3d26c
     Texture: {fileID: 0}
     Environments:
     - ColdplayEnvironment
     Unused: 0
     Ignored: 0
   - Name: Noise02
-    Hash: 6B91DF0596FC49FE1D7EFC25918B6181
+    Hash: 6b91df0596fc49fe1d7efc25918b6181
     Texture: {fileID: 0}
     Environments:
     - ColdplayEnvironment
     Unused: 0
     Ignored: 0
   - Name: ObstacleFakeGlow
-    Hash: F31F758FAC82E2AD27FA0AA932AEA4D4
+    Hash: f31f758fac82e2ad27fa0aa932aea4d4
     Texture: {fileID: 0}
     Environments:
     - GreenDayEnvironment
@@ -2351,7 +2351,7 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: OrbitsGradient
-    Hash: 6D2AC301A486F07C7B2E58C5DC3DFB25
+    Hash: 6d2ac301a486f07c7b2e58c5dc3dfb25
     Texture: {fileID: 0}
     Environments:
     - ColdplayEnvironment
@@ -2359,154 +2359,154 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: PanicWindow
-    Hash: 23EFB606B134F31538FE128BBC31152C
+    Hash: 23efb606b134f31538fe128bbc31152c
     Texture: {fileID: 0}
     Environments:
     - PanicEnvironment
     Unused: 0
     Ignored: 0
   - Name: PanicWindow_InnerShadows
-    Hash: 88E5EFA40BA338FFA83BCA5209EC5981
+    Hash: 88e5efa40ba338ffa83bca5209ec5981
     Texture: {fileID: 0}
     Environments:
     - Panic2Environment
     Unused: 0
     Ignored: 0
   - Name: Particles
-    Hash: 50195B14141F282BE197FDC75253DB0C
+    Hash: 50195b14141f282be197fdc75253db0c
     Texture: {fileID: 0}
     Environments:
     - BritneyEnvironment
     Unused: 0
     Ignored: 0
   - Name: PeachEmissive
-    Hash: 08BA5CAF5D7C285741492D278AAA726B
+    Hash: 08ba5caf5d7c285741492d278aaa726b
     Texture: {fileID: 0}
     Environments:
     - LizzoEnvironment
     Unused: 0
     Ignored: 0
   - Name: PerlinNoise
-    Hash: AD24776EAAFCBBA6BF2AF95A58994EF1
+    Hash: ad24776eaafcbba6bf2af95a58994ef1
     Texture: {fileID: 0}
     Environments:
     - ColdplayEnvironment
     Unused: 0
     Ignored: 0
   - Name: Pillar
-    Hash: 6F2EE49353C4FFE2C56E221B88BB5ED8
+    Hash: 6f2ee49353c4ffe2c56e221b88bb5ed8
     Texture: {fileID: 0}
     Environments:
     - HipHopEnvironment
     Unused: 0
     Ignored: 0
   - Name: PillarAlbedo
-    Hash: 3D2B57E8772FC3D766AEDAC5AD0EF741
+    Hash: 3d2b57e8772fc3d766aedac5ad0ef741
     Texture: {fileID: 0}
     Environments:
     - GridEnvironment
     Unused: 0
     Ignored: 0
   - Name: PillarEmission
-    Hash: 75314848A736146284E56DC706255E3D
+    Hash: 75314848a736146284e56dc706255e3d
     Texture: {fileID: 0}
     Environments:
     - GridEnvironment
     Unused: 0
     Ignored: 0
   - Name: PillarMask
-    Hash: 119B9B9209207F5E6DC0C03BFB81CDFF
+    Hash: 119b9b9209207f5e6dc0c03bfb81cdff
     Texture: {fileID: 0}
     Environments:
     - GridEnvironment
     Unused: 0
     Ignored: 0
   - Name: PillarsMetal
-    Hash: F5B43E7907438D69FCB18D896FD25D23
+    Hash: f5b43e7907438d69fcb18d896fd25d23
     Texture: {fileID: 0}
     Environments:
     - MetallicaEnvironment
     Unused: 0
     Ignored: 0
   - Name: PlatformBrickAlbedo
-    Hash: C908B62357EA64E8C7A604076F3D2098
+    Hash: c908b62357ea64e8c7a604076f3d2098
     Texture: {fileID: 0}
     Environments:
     - QueenEnvironment
     Unused: 0
     Ignored: 0
   - Name: PlatformBrickEmission
-    Hash: 968ED40C01361277C8CF626B8D2E7DB3
+    Hash: 968ed40c01361277c8cf626b8d2e7db3
     Texture: {fileID: 0}
     Environments:
     - QueenEnvironment
     Unused: 0
     Ignored: 0
   - Name: RainDrop
-    Hash: D8A37440590ACA9D3449F5ECC408D3B4
+    Hash: d8a37440590aca9d3449f5ecc408d3b4
     Texture: {fileID: 0}
     Environments:
     - BillieEnvironment
     Unused: 0
     Ignored: 0
   - Name: RainFade
-    Hash: F48E7CB4B2C0CC20A0FA4234E2DA363C
+    Hash: f48e7cb4b2c0cc20a0fa4234e2da363c
     Texture: {fileID: 0}
     Environments:
     - BillieEnvironment
     Unused: 0
     Ignored: 0
   - Name: RainbowCircle
-    Hash: FE202C278265F1EE0148CEC538E4AA69
+    Hash: fe202c278265f1ee0148cec538e4aa69
     Texture: {fileID: 0}
     Environments:
     - LizzoEnvironment
     Unused: 0
     Ignored: 0
   - Name: RippleSplash
-    Hash: A228BDD7A907AEF9ED00FC3B53351B27
+    Hash: a228bdd7a907aef9ed00fc3b53351b27
     Texture: {fileID: 0}
     Environments:
     - BillieEnvironment
     Unused: 0
     Ignored: 0
   - Name: RockFlipbookNonblended
-    Hash: 7980E4B2C82C1BAB644E4FCDDB33F318
+    Hash: 7980e4b2c82c1bab644e4fcddb33f318
     Texture: {fileID: 0}
     Environments:
     - RockMixtapeEnvironment
     Unused: 0
     Ignored: 0
   - Name: Roof
-    Hash: 346D09122D41A6B68FBAA11662E53513
+    Hash: 346d09122d41a6b68fbaa11662e53513
     Texture: {fileID: 0}
     Environments:
     - TheWeekndEnvironment
     Unused: 0
     Ignored: 0
   - Name: RunwayEmissive
-    Hash: 6B8E114F8F60DFE4EFE05E9919A24BA0
+    Hash: 6b8e114f8f60dfe4efe05e9919a24ba0
     Texture: {fileID: 0}
     Environments:
     - HipHopEnvironment
     Unused: 0
     Ignored: 0
   - Name: RunwayRing
-    Hash: AE03CC830EDAE407EBA483F1CA917100
+    Hash: ae03cc830edae407eba483f1ca917100
     Texture: {fileID: 0}
     Environments:
     - Monstercat2Environment
     Unused: 0
     Ignored: 0
   - Name: RunwayTexture
-    Hash: 3FF1DCD0333B7C2459C9E9EB084DACE1
+    Hash: 3ff1dcd0333b7c2459c9e9eb084dace1
     Texture: {fileID: 0}
     Environments:
     - QueenEnvironment
     Unused: 0
     Ignored: 0
   - Name: SaberBurnMarkArea 2
-    Hash: B2D1236C286A3C0704224FE4105ECA49
+    Hash: b2d1236c286a3c0704224fe4105eca49
     Texture: {fileID: 0}
     Environments:
     - GreenDayEnvironment
@@ -2558,98 +2558,98 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: ScreenDistortion
-    Hash: 9B8DE678275E6E204C4729457EF11205
+    Hash: 9b8de678275e6e204c4729457ef11205
     Texture: {fileID: 0}
     Environments:
     - Monstercat2Environment
     Unused: 0
     Ignored: 0
   - Name: ScreenNew
-    Hash: E426F26658C34E4D5249533A87348C90
+    Hash: e426f26658c34e4d5249533a87348c90
     Texture: {fileID: 0}
     Environments:
     - Monstercat2Environment
     Unused: 0
     Ignored: 0
   - Name: ScreenSquare
-    Hash: C3E54D588EF60F7643E3C477DBB97D45
+    Hash: c3e54d588ef60f7643e3c477dbb97d45
     Texture: {fileID: 0}
     Environments:
     - Monstercat2Environment
     Unused: 0
     Ignored: 0
   - Name: ScreenSquareDistortion
-    Hash: B61F429E4E99E699C060513D63B00A63
+    Hash: b61f429e4e99e699c060513d63b00a63
     Texture: {fileID: 0}
     Environments:
     - Monstercat2Environment
     Unused: 0
     Ignored: 0
   - Name: SeparatorWallShadow
-    Hash: 631C5013631A6E19AEC573B8AF76DDB0
+    Hash: 631c5013631a6e19aec573b8af76ddb0
     Texture: {fileID: 0}
     Environments:
     - GlassDesertEnvironment
     Unused: 0
     Ignored: 0
   - Name: SilhouetteDeacon
-    Hash: F2265A5E57EF5074BC962EA5762B27AE
+    Hash: f2265a5e57ef5074bc962ea5762b27ae
     Texture: {fileID: 0}
     Environments:
     - QueenEnvironment
     Unused: 0
     Ignored: 0
   - Name: SilhouetteMay
-    Hash: 34C582583FAE507D9C64E89920EFF6B9
+    Hash: 34c582583fae507d9c64e89920eff6b9
     Texture: {fileID: 0}
     Environments:
     - QueenEnvironment
     Unused: 0
     Ignored: 0
   - Name: SilhouetteMercury
-    Hash: D67A8674936DA7A41BBFCBFD2DDD6E70
+    Hash: d67a8674936da7a41bbfcbfd2ddd6e70
     Texture: {fileID: 0}
     Environments:
     - QueenEnvironment
     Unused: 0
     Ignored: 0
   - Name: SilhouetteTaylor
-    Hash: DB18F75A59E6E3F29B0472466D1CF2A4
+    Hash: db18f75a59e6e3f29b0472466d1cf2a4
     Texture: {fileID: 0}
     Environments:
     - QueenEnvironment
     Unused: 0
     Ignored: 0
   - Name: SimpleGlow
-    Hash: 870E70A9CC53ED5D16ECBBEEE1EDAD82
-    Texture: {fileID: 0}
-    Environments:
-    - GagaEnvironment
-    Unused: 0
-    Ignored: 0
-  - Name: SimpleGlow
-    Hash: 0408423328218C198FF0733FE7515363
+    Hash: 0408423328218c198ff0733fe7515363
     Texture: {fileID: 0}
     Environments:
     - MetallicaEnvironment
     Unused: 0
     Ignored: 0
+  - Name: SimpleGlow
+    Hash: 870e70a9cc53ed5d16ecbbeee1edad82
+    Texture: {fileID: 0}
+    Environments:
+    - GagaEnvironment
+    Unused: 0
+    Ignored: 0
   - Name: SkrillexLogo
-    Hash: A2E44700A629F8AAB884F195F64C1357
+    Hash: a2e44700a629f8aab884f195f64c1357
     Texture: {fileID: 0}
     Environments:
     - SkrillexEnvironment
     Unused: 0
     Ignored: 0
   - Name: Smoke3Blended
-    Hash: 88914AE0D851BB035D6A232180E14C73
+    Hash: 88914ae0d851bb035d6a232180e14c73
     Texture: {fileID: 0}
     Environments:
     - PyroEnvironment
     Unused: 0
     Ignored: 0
   - Name: SmokeParticle
-    Hash: 46F070AB696B458F9BE2E41449922034
+    Hash: 46f070ab696b458f9be2e41449922034
     Texture: {fileID: 0}
     Environments:
     - GreenDayEnvironment
@@ -2693,7 +2693,7 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: Sparkle
-    Hash: B5C62F8697DCBDEF7F355DCA7448F6BA
+    Hash: b5c62f8697dcbdef7f355dca7448f6ba
     Texture: {fileID: 0}
     Environments:
     - GreenDayEnvironment
@@ -2745,49 +2745,49 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: SpeakerMPM
-    Hash: BA539F1CD8E29881B8ADDFFC961DA07C
+    Hash: ba539f1cd8e29881b8addffc961da07c
     Texture: {fileID: 0}
     Environments:
     - PyroEnvironment
     Unused: 0
     Ignored: 0
   - Name: SpookyGrassCutout
-    Hash: 7C3D8E742A1E7889656D4C7E6E78C11A
+    Hash: 7c3d8e742a1e7889656d4c7e6e78c11a
     Texture: {fileID: 0}
     Environments:
     - Halloween2Environment
     Unused: 0
     Ignored: 0
   - Name: SpookyHorizonCutout
-    Hash: 35BFA7D4550D115A4D40492C1EE70225
+    Hash: 35bfa7d4550d115a4d40492c1ee70225
     Texture: {fileID: 0}
     Environments:
     - Halloween2Environment
     Unused: 0
     Ignored: 0
   - Name: SpookyPumpkinLightMask
-    Hash: 8479E1644A1803A0B08339177289BF46
+    Hash: 8479e1644a1803a0b08339177289bf46
     Texture: {fileID: 0}
     Environments:
     - Halloween2Environment
     Unused: 0
     Ignored: 0
   - Name: SpookyTreeCutout
-    Hash: 7ACF2F96075BCFB64509E6EFD6419D9E
+    Hash: 7acf2f96075bcfb64509e6efd6419d9e
     Texture: {fileID: 0}
     Environments:
     - Halloween2Environment
     Unused: 0
     Ignored: 0
   - Name: SpookyTreeCutout02
-    Hash: EEC6F03D252C26ED80D06B04BBD61090
+    Hash: eec6f03d252c26ed80d06b04bbd61090
     Texture: {fileID: 0}
     Environments:
     - Halloween2Environment
     Unused: 0
     Ignored: 0
   - Name: SquareFade
-    Hash: FC4684F5CE61543A3B6FDC7A06BCF23A
+    Hash: fc4684f5ce61543a3b6fdc7a06bcf23a
     Texture: {fileID: 0}
     Environments:
     - QueenEnvironment
@@ -2797,14 +2797,14 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: SquareGlowSliced
-    Hash: 948D772798933E412FBA40DC5C5F191A
+    Hash: 948d772798933e412fba40dc5c5f191a
     Texture: {fileID: 0}
     Environments:
     - ColdplayEnvironment
     Unused: 0
     Ignored: 0
   - Name: SquareShadow
-    Hash: 3EA5D41C77D7850E8652C1D21B9D348B
+    Hash: 3ea5d41c77d7850e8652c1d21b9d348b
     Texture: {fileID: 0}
     Environments:
     - ColdplayEnvironment
@@ -2813,14 +2813,14 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: SquareShadowHarder
-    Hash: D24DE5F4D014FF4353C7E64EB90AB7AD
+    Hash: d24de5f4d014ff4353c7e64eb90ab7ad
     Texture: {fileID: 0}
     Environments:
     - TheWeekndEnvironment
     Unused: 0
     Ignored: 0
   - Name: SquareShadowSofter
-    Hash: BDE746AE5B4A50D80BFC85EDE982845D
+    Hash: bde746ae5b4a50d80bfc85ede982845d
     Texture: {fileID: 0}
     Environments:
     - RocketEnvironment
@@ -2828,7 +2828,7 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: Star
-    Hash: 5C6F947DAE1B6ABD504129C75603F6DE
+    Hash: 5c6f947dae1b6abd504129c75603f6de
     Texture: {fileID: 0}
     Environments:
     - ColdplayEnvironment
@@ -2838,14 +2838,14 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: StarSky
-    Hash: 3E82DEF2064F2FEE513C4DD9B9F2AA1A
+    Hash: 3e82def2064f2fee513c4dd9b9f2aa1a
     Texture: {fileID: 0}
     Environments:
     - BTSEnvironment
     Unused: 0
     Ignored: 0
   - Name: Stars
-    Hash: 3944735C3F8A093FD3D0E68A9DD9C26F
+    Hash: 3944735c3f8a093fd3d0e68a9dd9c26f
     Texture: {fileID: 0}
     Environments:
     - PyroEnvironment
@@ -2853,21 +2853,21 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: Sun
-    Hash: B9AA815635678312C63D85A6E90C4906
+    Hash: b9aa815635678312c63d85a6e90c4906
     Texture: {fileID: 0}
     Environments:
     - BillieEnvironment
     Unused: 0
     Ignored: 0
   - Name: SwirlyNoise
-    Hash: 0B61C1D6F09BCE117CF7191CD09D5EFF
+    Hash: 0b61c1d6f09bce117cf7191cd09d5eff
     Texture: {fileID: 0}
     Environments:
     - MetallicaEnvironment
     Unused: 0
     Ignored: 0
   - Name: TechNoise1
-    Hash: C0C8AEEEB59F6622E5C18A004B25A323
+    Hash: c0c8aeeeb59f6622e5c18a004b25a323
     Texture: {fileID: 0}
     Environments:
     - TheWeekndEnvironment
@@ -2878,77 +2878,77 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: TimbalandLogo
-    Hash: 2E6F5BE56E7C5EF31D298D65A3A332BB
+    Hash: 2e6f5be56e7c5ef31d298d65a3a332bb
     Texture: {fileID: 0}
     Environments:
     - TimbalandEnvironment
     Unused: 0
     Ignored: 0
   - Name: ToothEmissive
-    Hash: B0B2BE418575FC8198829B2C1FB7B49F
+    Hash: b0b2be418575fc8198829b2c1fb7b49f
     Texture: {fileID: 0}
     Environments:
     - Monstercat2Environment
     Unused: 0
     Ignored: 0
   - Name: TrainWindow
-    Hash: 049A727068E223E5A05B8023B31C7153
+    Hash: 049a727068e223e5a05b8023b31c7153
     Texture: {fileID: 0}
     Environments:
     - HipHopEnvironment
     Unused: 0
     Ignored: 0
   - Name: TreesEmissive
-    Hash: 16D1A89C2655CC3656FC4FFD31967CDD
+    Hash: 16d1a89c2655cc3656fc4ffd31967cdd
     Texture: {fileID: 0}
     Environments:
     - Halloween2Environment
     Unused: 0
     Ignored: 0
   - Name: TriangleGlow
-    Hash: 6402DC89DF364F4BCC1159BE3007CDDF
+    Hash: 6402dc89df364f4bcc1159be3007cddf
     Texture: {fileID: 0}
     Environments:
     - KaleidoscopeEnvironment
     Unused: 0
     Ignored: 0
   - Name: TrisWallInner
-    Hash: 89F5FF8985E6C073078EDDCEF089E649
+    Hash: 89f5ff8985e6c073078eddcef089e649
     Texture: {fileID: 0}
     Environments:
     - DaftPunkEnvironment
     Unused: 0
     Ignored: 0
   - Name: TunnelAlbedo
-    Hash: 9CDF69A40E7F9344CDA41C43F53DDF58
+    Hash: 9cdf69a40e7f9344cda41c43f53ddf58
     Texture: {fileID: 0}
     Environments:
     - QueenEnvironment
     Unused: 0
     Ignored: 0
   - Name: TunnelBaseColor
-    Hash: 949D439CE02EC19C67B1205971351A07
+    Hash: 949d439ce02ec19c67b1205971351a07
     Texture: {fileID: 0}
     Environments:
     - LinkinPark2Environment
     Unused: 0
     Ignored: 0
   - Name: TunnelEmission
-    Hash: C2CACB2CE8F3F1C5FA9ED316B9716D6E
+    Hash: c2cacb2ce8f3f1c5fa9ed316b9716d6e
     Texture: {fileID: 0}
     Environments:
     - LinkinPark2Environment
     Unused: 0
     Ignored: 0
   - Name: TunnelEmission
-    Hash: 0FA7D9EC7311F8332821A1FF064B9028
+    Hash: 0fa7d9ec7311f8332821a1ff064b9028
     Texture: {fileID: 0}
     Environments:
     - QueenEnvironment
     Unused: 0
     Ignored: 0
   - Name: VerticalGradient
-    Hash: 8F8FA39768F6B715A19BE41C1812B8D7
+    Hash: 8f8fa39768f6b715a19be41c1812b8d7
     Texture: {fileID: 0}
     Environments:
     - GridEnvironment
@@ -2957,22 +2957,7 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: VerticalMidGradient
-    Hash: 361C7BB17B9CA2C79CE105387FC12DCB
-    Texture: {fileID: 0}
-    Environments:
-    - ColdplayEnvironment
-    Unused: 0
-    Ignored: 0
-  - Name: VerticalMidGradient
-    Hash: 17738353208A1A2C8E01556FB7A3CEA8
-    Texture: {fileID: 0}
-    Environments:
-    - GridEnvironment
-    - ColdplayEnvironment
-    Unused: 0
-    Ignored: 0
-  - Name: VerticalMidGradient
-    Hash: B639CA410CBD886EC4853CBC3C32DBBE
+    Hash: b639ca410cbd886ec4853cbc3c32dbbe
     Texture: {fileID: 0}
     Environments:
     - GridEnvironment
@@ -2984,49 +2969,64 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: VerticalMidGradient
-    Hash: A94F3F328B6484362CF011D54A130311
+    Hash: a94f3f328b6484362cf011d54a130311
     Texture: {fileID: 0}
     Environments:
     - BritneyEnvironment
     Unused: 0
     Ignored: 0
+  - Name: VerticalMidGradient
+    Hash: 361c7bb17b9ca2c79ce105387fc12dcb
+    Texture: {fileID: 0}
+    Environments:
+    - ColdplayEnvironment
+    Unused: 0
+    Ignored: 0
+  - Name: VerticalMidGradient
+    Hash: 17738353208a1a2c8e01556fb7a3cea8
+    Texture: {fileID: 0}
+    Environments:
+    - GridEnvironment
+    - ColdplayEnvironment
+    Unused: 0
+    Ignored: 0
   - Name: VerticalMidGradientCubes
-    Hash: 0584CD4521A82A3F746863926A5A3F12
+    Hash: 0584cd4521a82a3f746863926a5a3f12
     Texture: {fileID: 0}
     Environments:
     - GridEnvironment
     Unused: 0
     Ignored: 0
   - Name: VerticalMidGradientStage
-    Hash: D18CE71E67EE35D9B82F56545F596BC9
+    Hash: d18ce71e67ee35d9b82f56545f596bc9
     Texture: {fileID: 0}
     Environments:
     - BritneyEnvironment
     Unused: 0
     Ignored: 0
   - Name: VinylAlbedo
-    Hash: 8C3A6548A76869BEF6218EA055202A73
+    Hash: 8c3a6548a76869bef6218ea055202a73
     Texture: {fileID: 0}
     Environments:
     - QueenEnvironment
     Unused: 0
     Ignored: 0
   - Name: VinylEmission
-    Hash: AD929716AF323DAAC802F9F9DE706B4B
+    Hash: ad929716af323daac802f9f9de706b4b
     Texture: {fileID: 0}
     Environments:
     - QueenEnvironment
     Unused: 0
     Ignored: 0
   - Name: VinylNormal
-    Hash: F006F16D23098E0BE78DA99846D993E8
+    Hash: f006f16d23098e0be78da99846d993e8
     Texture: {fileID: 0}
     Environments:
     - QueenEnvironment
     Unused: 0
     Ignored: 0
   - Name: WaterNoiseNormal
-    Hash: 1633D9B68D0B82EA2ACD8B8E11EC2D33
+    Hash: 1633d9b68d0b82ea2acd8b8e11ec2d33
     Texture: {fileID: 0}
     Environments:
     - BillieEnvironment
@@ -3034,7 +3034,7 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: WhitePixel
-    Hash: A54F0041A9E15B050F25C463F1DB7449
+    Hash: a54f0041a9e15b050f25c463f1db7449
     Texture: {fileID: 0}
     Environments:
     - LinkinPark2Environment
@@ -3048,119 +3048,119 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: Window
-    Hash: 304191FAD5D7412C4BA7529FD79797A4
+    Hash: 304191fad5d7412c4ba7529fd79797a4
     Texture: {fileID: 0}
     Environments:
     - TheWeekndEnvironment
     Unused: 0
     Ignored: 0
   - Name: pixelart
-    Hash: 0DB93259D463C2864BF6182CD90A138C
+    Hash: 0db93259d463c2864bf6182cd90a138c
     Texture: {fileID: 0}
     Environments:
     - GridEnvironment
     Unused: 0
     Ignored: 0
   - Name: ribbon
-    Hash: EAF50F93A62C2B887102B8F5F2FCAA6E
+    Hash: eaf50f93a62c2b887102b8f5f2fcaa6e
     Texture: {fileID: 0}
     Environments:
     - BTSEnvironment
     Unused: 0
     Ignored: 0
   - Name: sactx-0-2048x2048-BC7-Core-fb6911ec
-    Hash: 770136049C22F7561ABBB042B88DAB97
+    Hash: 770136049c22f7561abbb042b88dab97
     Texture: {fileID: 0}
     Environments:
     - KDAEnvironment
     Unused: 0
     Ignored: 0
   - Name: tpTex01
-    Hash: AE410B70A5D04842B40B41B819EBA61B
+    Hash: ae410b70a5d04842b40b41b819eba61b
     Texture: {fileID: 0}
     Environments:
     - GridEnvironment
     Unused: 0
     Ignored: 0
   - Name: tpTex02
-    Hash: DAA8D62F71B294AAB8786164AAB7B4E6
+    Hash: daa8d62f71b294aab8786164aab7b4e6
     Texture: {fileID: 0}
     Environments:
     - GridEnvironment
     Unused: 0
     Ignored: 0
   - Name: tpTex03
-    Hash: A6BD2271E2E70EE2D9CAD78C114CD85D
+    Hash: a6bd2271e2e70ee2d9cad78c114cd85d
     Texture: {fileID: 0}
     Environments:
     - GridEnvironment
     Unused: 0
     Ignored: 0
   - Name: tpTex04
-    Hash: 7807A9E5CD9C3359D2E2FEE372CB352B
+    Hash: 7807a9e5cd9c3359d2e2fee372cb352b
     Texture: {fileID: 0}
     Environments:
     - GridEnvironment
     Unused: 0
     Ignored: 0
   - Name: tpTex05
-    Hash: 1B32C54941EBB21BC2492613467D4FCC
+    Hash: 1b32c54941ebb21bc2492613467d4fcc
     Texture: {fileID: 0}
     Environments:
     - GridEnvironment
     Unused: 0
     Ignored: 0
   - Name: tpTex06
-    Hash: AF0668F00D12F15CA88A388A2EF89B8F
+    Hash: af0668f00d12f15ca88a388a2ef89b8f
     Texture: {fileID: 0}
     Environments:
     - GridEnvironment
     Unused: 0
     Ignored: 0
   - Name: tpTex07
-    Hash: 7AB1DA641D100788A1E42077B6A9A807
+    Hash: 7ab1da641d100788a1e42077b6a9a807
     Texture: {fileID: 0}
     Environments:
     - GridEnvironment
     Unused: 0
     Ignored: 0
   - Name: tpTex08
-    Hash: C479A8DF8B9E3FDFE82856A91645CCC7
+    Hash: c479a8df8b9e3fdfe82856a91645ccc7
     Texture: {fileID: 0}
     Environments:
     - GridEnvironment
     Unused: 0
     Ignored: 0
   - Name: tpTex09
-    Hash: 79850DB62A5DD7A07FFE4C4B9024B8BF
+    Hash: 79850db62a5dd7a07ffe4c4b9024b8bf
     Texture: {fileID: 0}
     Environments:
     - GridEnvironment
     Unused: 0
     Ignored: 0
   - Name: tpTex10
-    Hash: 5770C05C3FBF2956147B3CE6937843ED
+    Hash: 5770c05c3fbf2956147b3ce6937843ed
     Texture: {fileID: 0}
     Environments:
     - GridEnvironment
     Unused: 0
     Ignored: 0
   - Name: tpTex11
-    Hash: A0AA5ADACA78AA6D3D53A51DDCBE2E51
+    Hash: a0aa5adaca78aa6d3d53a51ddcbe2e51
     Texture: {fileID: 0}
     Environments:
     - GridEnvironment
     Unused: 0
     Ignored: 0
   - Name: tpTex12
-    Hash: EBBEA7E0CEFA15906FDAF7410B601EE1
+    Hash: ebbea7e0cefa15906fdaf7410b601ee1
     Texture: {fileID: 0}
     Environments:
     - GridEnvironment
     Unused: 0
     Ignored: 0
   - Name: tpTex13
-    Hash: 1609B21A72C840D808BFA89D10B07EDE
+    Hash: 1609b21a72c840d808bfa89d10b07ede
     Texture: {fileID: 0}
     Environments:
     - GridEnvironment

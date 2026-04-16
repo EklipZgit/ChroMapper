@@ -13,7 +13,7 @@ public class EnvironmentSpriteSO : ScriptableObject
     public void OnValidate() => Initialize();
     public void OnEnable() => Initialize();
 
-    private void Initialize()
+    public void Initialize()
     {
         Lookup.Clear();
         foreach (var entry in list) Lookup[entry.Name] = entry.Sprite;

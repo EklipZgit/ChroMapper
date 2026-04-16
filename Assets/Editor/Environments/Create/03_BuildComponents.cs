@@ -29,16 +29,18 @@ public partial class EnvironmentSceneCreator
             typeIdRemap = JsonConvert.DeserializeObject<Dictionary<int, Dictionary<int, int>>>(idRemapAsset.text);
 
         // core components
-        var beec = new GameObject("BasicEventEffectController").AddComponent<BasicEventEffectManager>();
-        beec.gameObject.transform.SetParent(GameObject.Find("Environment").transform);
-        container.Descriptor.BasicEventEffectManager = beec;
-        var cbe = beec.Register<ColorBoostEffect>((int)EventTypeValue.ColorBoost);
+        container.Descriptor.BasicEventEffectManager =
+            new GameObject("BasicEventEffectController").AddComponent<BasicEventEffectManager>();
+        container.Descriptor.BasicEventEffectManager.gameObject.transform.SetParent(
+            GameObject.Find("Environment").transform);
+        var cbe = container.Descriptor.BasicEventEffectManager.Register<ColorBoostEffect>(
+            (int)EventTypeValue.ColorBoost);
         cbe.ColorSchemeProvider = container.Descriptor.ColorSchemeProvider;
 
-        var lcgem = new GameObject("LightColorGroupEffectManager").AddComponent<LightColorGroupEffectManager>();
-        lcgem.gameObject.transform.SetParent(GameObject.Find("Environment").transform);
-        container.Descriptor.LightColorGroupEffectManager = lcgem;
-
+        container.Descriptor.LightColorGroupEffectManager = new GameObject("LightColorGroupEffectManager")
+            .AddComponent<LightColorGroupEffectManager>();
+        container.Descriptor.LightColorGroupEffectManager.gameObject.transform.SetParent(
+            GameObject.Find("Environment").transform);
         var lcgemData = container
             .Data
             .Objects
@@ -46,8 +48,9 @@ public partial class EnvironmentSceneCreator
             ?.Components.LightColorGroupEffectManager[0];
         if (lcgemData != null)
         {
-            foreach (var lg in lcgemData.LightGroups) lcgem.Register(lg.GroupId, lg.NumberOfElements);
-            foreach (var lightColorGroupEffect in lcgem.IdToEffect.Values)
+            foreach (var lg in lcgemData.LightGroups)
+                container.Descriptor.LightColorGroupEffectManager.Register(lg.GroupId, lg.NumberOfElements);
+            foreach (var lightColorGroupEffect in container.Descriptor.LightColorGroupEffectManager.IdToEffect.Values)
             {
                 lightColorGroupEffect.ColorSchemeProvider = container.Descriptor.ColorSchemeProvider;
                 lightColorGroupEffect.ColorBoostEffect = cbe;
@@ -76,11 +79,10 @@ public partial class EnvironmentSceneCreator
         var sinkObject = new GameObject("Sink Object");
         sinkObject.transform.SetParent(container.Descriptor.BasicEventEffectManager.transform.parent);
 
-        var lrgem = new GameObject("LightRotationGroupEffectManager")
+        container.Descriptor.LightRotationGroupEffectManager = new GameObject("LightRotationGroupEffectManager")
             .AddComponent<LightRotationGroupEffectManager>();
-        lrgem.gameObject.transform.SetParent(GameObject.Find("Environment").transform);
-        container.Descriptor.LightRotationGroupEffectManager = lrgem;
-
+        container.Descriptor.LightRotationGroupEffectManager.gameObject.transform.SetParent(
+            GameObject.Find("Environment").transform);
         var lrgemData = container
             .Data
             .Objects
@@ -90,7 +92,7 @@ public partial class EnvironmentSceneCreator
         {
             foreach (var data in lrgemData.LightRotationGroups)
             {
-                lrgem.Register(data.GroupId, data.Count);
+                container.Descriptor.LightRotationGroupEffectManager.Register(data.GroupId, data.Count);
 
                 RegisterRotation(Axis.X, data.XTransforms, data.MirrorX);
                 RegisterRotation(Axis.Y, data.YTransforms, data.MirrorY);
@@ -104,17 +106,21 @@ public partial class EnvironmentSceneCreator
                         var transformName = transforms[i];
                         var t = container.ChromaIdObjects[transformName].transform;
                         t.gameObject.GetComponent<ChromaIDMarker>().MarkUse = true;
-                        lrgem.Register(data.GroupId, i, axis, mirror, t.gameObject.transform);
+                        container.Descriptor.LightRotationGroupEffectManager.Register(
+                            data.GroupId,
+                            i,
+                            axis,
+                            mirror,
+                            t.gameObject.transform);
                     }
                 }
             }
         }
 
-        var ltgem = new GameObject("LightTranslationGroupEffectManager")
+        container.Descriptor.LightTranslationGroupEffectManager = new GameObject("LightTranslationGroupEffectManager")
             .AddComponent<LightTranslationGroupEffectManager>();
-        ltgem.gameObject.transform.SetParent(GameObject.Find("Environment").transform);
-        container.Descriptor.LightTranslationGroupEffectManager = ltgem;
-
+        container.Descriptor.LightTranslationGroupEffectManager.gameObject.transform.SetParent(
+            GameObject.Find("Environment").transform);
         var ltgemData = container
             .Data
             .Objects
@@ -124,7 +130,7 @@ public partial class EnvironmentSceneCreator
         {
             foreach (var data in ltgemData.LightTranslationGroups)
             {
-                ltgem.Register(
+                container.Descriptor.LightTranslationGroupEffectManager.Register(
                     data.GroupId,
                     data.Count,
                     new[] { data.xTranslationLimits, data.yTranslationLimits, data.zTranslationLimits },
@@ -142,17 +148,21 @@ public partial class EnvironmentSceneCreator
                         var transformName = transforms[i];
                         var t = container.ChromaIdObjects[transformName].transform;
                         t.gameObject.GetComponent<ChromaIDMarker>().MarkUse = true;
-                        ltgem.Register(data.GroupId, i, axis, mirror, t.gameObject.transform);
+                        container.Descriptor.LightTranslationGroupEffectManager.Register(
+                            data.GroupId,
+                            i,
+                            axis,
+                            mirror,
+                            t.gameObject.transform);
                     }
                 }
             }
         }
 
-        var ffgem = new GameObject("FloatFxGroupEffectManager")
+        container.Descriptor.FloatFxGroupEffectManager = new GameObject("FloatFxGroupEffectManager")
             .AddComponent<FloatFxGroupEffectManager>();
-        ffgem.gameObject.transform.SetParent(GameObject.Find("Environment").transform);
-        container.Descriptor.FloatFxGroupEffectManager = ffgem;
-
+        container.Descriptor.FloatFxGroupEffectManager.gameObject.transform.SetParent(
+            GameObject.Find("Environment").transform);
         var ffgemData = container
             .Data
             .Objects
@@ -162,7 +172,7 @@ public partial class EnvironmentSceneCreator
         {
             foreach (var data in ffgemData.FloatFxGroups)
             {
-                ffgem.Register(
+                container.Descriptor.FloatFxGroupEffectManager.Register(
                     data.LightGroup.GroupId,
                     data.LightGroup.NumberOfElements,
                     data.IsTriggerOnly);
@@ -252,7 +262,7 @@ public partial class EnvironmentSceneCreator
             {
                 var fx = container.ComponentInstances[data.Target].Instance as FxTarget;
                 if (fx == null) continue;
-                ffgem.Register(data.GroupId, data.ElementId, fx);
+                container.Descriptor.FloatFxGroupEffectManager.Register(data.GroupId, data.ElementId, fx);
             }
         }
 
@@ -267,7 +277,7 @@ public partial class EnvironmentSceneCreator
             {
                 var fx = container.ComponentInstances[data.Target].Instance as FxTarget;
                 if (fx == null) continue;
-                ffgem.Register(data.GroupId, data.ElementId, fx);
+                container.Descriptor.FloatFxGroupEffectManager.Register(data.GroupId, data.ElementId, fx);
             }
         }
 

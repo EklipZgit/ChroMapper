@@ -13,8 +13,12 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - DIFFUSE
+  - DISSOLVE
   - FOG
+  - HEIGHT_FOG
+  - LIGHT_FALLOFF
   - SPECULAR
+  - _DIFFUSE_TEXTURE_SOURCE_TEXTURE
   m_InvalidKeywords:
   - _ACES_APPROACH_AFTER_EMISSIVE
   - _CUSTOM_TIME_STANDARD
@@ -132,7 +136,7 @@ Material:
     - _EnableBoxProjection: 0
     - _EnableDiffuse: 1
     - _EnableDiffuseTexture: 0
-    - _EnableDissolve: 0
+    - _EnableDissolve: 1
     - _EnableDistanceDarkening: 0
     - _EnableDistortion: 0
     - _EnableEmissionAngleDisappear: 0

@@ -148,7 +148,7 @@
         [Header(Reflection)] [Space]
         [Toggle(MULTIPLY_REFLECTIONS)] _EnableMultiplyReflections ("Multiply Reflections", float) = 0
         [Toggle(REFLECTION_PROBE_BOX_PROJECTION)] _EnableBoxProjection ("Box Projection", float) = 0
-        
+
         [Header(Rim Dim)] [Space]
         [Toggle(RIM_DIM)] _EnableRimDim ("Rim Dim", float) = 0
         [ToggleShowIfAny(INVERT_RIM_DIM, RIM_DIM)] _InvertRimDim ("Invert", float) = 0
@@ -171,17 +171,17 @@
         [VectorShowIfAny(3, DISTANCE_DARKENING)] _DarkeningDirection ("Axes", Vector) = (1,1,1,1)
 
         [Header(Dissolve)] [Space]
-        [Toggle(DISSOLVE)] _EnableDissolve ("Enable Dissolve", float) = 0
-        [Toggle] _InvertDissolve ("Invert", float) = 0
+        [Toggle(DISSOLVE)] _EnableDissolve ("Dissolve", float) = 0
+        [ToggleShowIfAny(INVERT_DISSOLVE, DISSOLVE)] _InvertDissolve ("Invert", float) = 0
         [Space]
-        [ShowIfAny(2, DISSOLVE, 0_DISSOLVEAXIS_AVATAR)] _DissolveAxisVector ("Axis Direction", Vector) = (0, 1, 0, 0)
+        [ShowIfAny(DISSOLVE)] _DissolveAxisVector ("Axis Direction", Vector) = (0, 1, 0, 0)
         [ToggleShowIfAny(DISSOLVE_PROGRESS, DISSOLVE)] _UseDissolveProgress ("Dissolve Progress", Float) = 0
-        [ShowIfAny(3, DISSOLVE, 0_DISSOLVEAXIS_AVATAR, 0DISSOLVE_PROGRESS)] _DissolveOffset ("Dissolve Offset", Float) = 0
-        [ShowIfAny(3, DISSOLVE, DISSOLVE_PROGRESS, 0_DISSOLVEAXIS_AVATAR)] _DissolveStartValue ("Start Value", float) = -1
-        [ShowIfAny(3, DISSOLVE, DISSOLVE_PROGRESS, 0_DISSOLVEAXIS_AVATAR)] _DissolveEndValue ("End Value", float) = 1
-        [ShowIfAny(3, DISSOLVE, DISSOLVE_PROGRESS, 0_DISSOLVEAXIS_AVATAR)] _DissolveProgress ("Progress", Range(-1, 1)) = 0
+        [ShowIfAny(2, DISSOLVE, 0DISSOLVE_PROGRESS)] _DissolveOffset ("Dissolve Offset", Float) = 0
+        [ShowIfAny(2, DISSOLVE, DISSOLVE_PROGRESS)] _DissolveStartValue ("Start Value", float) = -1
+        [ShowIfAny(2, DISSOLVE, DISSOLVE_PROGRESS)] _DissolveEndValue ("End Value", float) = 1
+        [ShowIfAny(2, DISSOLVE, DISSOLVE_PROGRESS)] _DissolveProgress ("Progress", Range(-1, 1)) = 0
         [Space]
-        [ToggleShowIfAny(DISSOLVE_COLOR, 1, DISSOLVE)] _UseDissolveColor ("Dissolve Color", Float) = 0
+        [ToggleShowIfAny(DISSOLVE_COLOR, DISSOLVE)] _UseDissolveColor ("Dissolve Color", Float) = 0
         [ShowIfAny(2, DISSOLVE, DISSOLVE_COLOR)] _DissolveColor ("Edge Color", Color) = (1, 0.5, 0, 1)
         [ShowIfAny(2, DISSOLVE, DISSOLVE_COLOR)] _DissolveColorIntensity ("Edge Color Intensity", float) = 3
         [ShowIfAny(2, DISSOLVE, DISSOLVE_COLOR)] _CutColorFalloff ("Edge Falloff", float) = 5
@@ -314,7 +314,7 @@
             #pragma shader_feature_local_fragment BOTH_SIDES_DIFFUSE
             #pragma shader_feature_local_fragment LIGHT_FALLOFF
             #pragma shader_feature_local_fragment DIFFUSE_TEXTURE
-            #pragma shader_feature_local_fragment _ _DIFFUSE_TEXTURE_SOURCE_MPM_R _DIFFUSE_TEXTURE_SOURCE_MPM_A_SMOOTHNESS
+            #pragma shader_feature_local_fragment _ _DIFFUSE_TEXTURE_SOURCE_TEXTURE _DIFFUSE_TEXTURE_SOURCE_MPM_R _DIFFUSE_TEXTURE_SOURCE_MPM_A_SMOOTHNESS
 
             #pragma shader_feature_local SPECULAR
 
@@ -342,6 +342,8 @@
             #pragma shader_feature_local_fragment HEIGHT_FOG
             #pragma shader_feature_local_fragment DISTANCE_DARKENING
             #pragma shader_feature_local_fragment DISSOLVE
+            #pragma shader_feature_local_fragment DISSOLVE_PROGRESS
+            #pragma shader_feature_local_fragment DISSOLVE_COLOR
 
             #pragma shader_feature_local_fragment MESH_PACKING
 

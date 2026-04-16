@@ -38,7 +38,7 @@ public static class MaterialProcessor
         {
             if (textureProp.Value == "null") continue;
             var renamedKey = shaderPropRemap.GetValueOrDefault(textureProp.Key, textureProp.Key);
-            mat.SetTexture(renamedKey, library.Textures.Lookup[textureProp.Value]);
+            mat.SetTexture(renamedKey, library.Textures.Lookup[textureProp.Value.ToLower()]);
         }
 
         // keyword section, welcome to hell

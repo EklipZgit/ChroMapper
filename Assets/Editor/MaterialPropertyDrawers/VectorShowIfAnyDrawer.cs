@@ -22,16 +22,14 @@ public class VectorShowIfAnyDrawer : ShowIfAnyDrawer
         {
             case 2:
                 {
-                    var v2 = EditorGUI.Vector2Field(position, label, new Vector2(val.x, val.y));
-                    if (EditorGUI.EndChangeCheck() && IsVisible(prop))
-                        prop.vectorValue = new Vector4(v2.x, v2.y, val.z, val.w);
+                    var v = EditorGUI.Vector2Field(position, label, val);
+                    if (EditorGUI.EndChangeCheck()) prop.vectorValue = new Vector4(v.x, v.y, val.z, val.w);
                     break;
                 }
             case 3:
                 {
-                    var v3 = EditorGUI.Vector3Field(position, label, new Vector3(val.x, val.y, val.z));
-                    if (EditorGUI.EndChangeCheck() && IsVisible(prop))
-                        prop.vectorValue = new Vector4(v3.x, v3.y, v3.z, val.w);
+                    var v = EditorGUI.Vector3Field(position, label, val);
+                    if (EditorGUI.EndChangeCheck()) prop.vectorValue = new Vector4(v.x, v.y, v.z, val.w);
                     break;
                 }
             default:

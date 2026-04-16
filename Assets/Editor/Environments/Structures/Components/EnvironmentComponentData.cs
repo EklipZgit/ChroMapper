@@ -1,5 +1,4 @@
 using System;
-using Newtonsoft.Json;
 using UnityEngine;
 
 public abstract class EnvironmentComponentData
@@ -7,7 +6,7 @@ public abstract class EnvironmentComponentData
     [NonSerialized] public Component Instance;
     public virtual int Priority => 0;
 
-    public bool IsEnabled = true;
+    public bool IsEnabled;
     public int InstanceId;
 
     public virtual bool AllowNew => true;
@@ -39,7 +38,11 @@ public abstract class EnvironmentComponentData<T> : EnvironmentComponentData whe
     public override void Apply(CreateContainer container)
     {
         var comp = Instance as T;
-        if (comp == null) return;
+        if (comp == null)
+        {
+            Debug.LogError($"{this} missing");
+        }
+
         var self = comp.gameObject;
         FillComponents(self, comp, container);
     }

@@ -13,7 +13,7 @@ public class EnvironmentTextureSO : ScriptableObject
     public void OnValidate() => Initialize();
     public void OnEnable() => Initialize();
 
-    private void Initialize()
+    public void Initialize()
     {
         Lookup.Clear();
         foreach (var entry in list) Lookup[entry.Hash] = entry.Texture;

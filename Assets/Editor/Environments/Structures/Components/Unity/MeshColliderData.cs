@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -5,9 +6,8 @@ using UnityEngine;
 /// </summary>
 public class MeshColliderData : EnvironmentComponentData<MeshCollider>
 {
-    public override void FillComponents(GameObject self, MeshCollider comp, CreateContainer container)
-    {
-        var mf = self.GetComponent<MeshFilter>();
-        if (mf != null) comp.sharedMesh = mf.sharedMesh;
-    }
+    public string Mesh;
+
+    public override void FillComponents(GameObject self, MeshCollider comp, CreateContainer container) =>
+        comp.sharedMesh = container.Library.Meshes.GetSafe(Mesh);
 }

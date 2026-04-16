@@ -42,15 +42,39 @@ public class ShowIfAnyDrawer : MaterialPropertyDrawer
                 if (keyword.StartsWith('0'))
                 {
                     var revKeyword = keyword[1..];
-                    // var count = mat.shader.GetPropertyCount();
-                    // for (var i = 0; i < count; i++)
-                    // {
-                    //     var attributes = mat.shader.GetPropertyAttributes(i);
-                    //     var propName = mat.shader.GetPropertyName(i).ToUpper();
-                    //     if (revKeyword.StartsWith(propName, StringComparison.OrdinalIgnoreCase)) return true;
-                    // }
+                    var count = mat.shader.GetPropertyCount();
+                    for (var i = 0; i < count; i++)
+                    {
+                        var attributes = mat.shader.GetPropertyAttributes(i);
+                        foreach (var attribute in attributes)
+                        {
+                            var p = attribute.IndexOf("(", StringComparison.Ordinal);
+                            if (p == -1) continue;
+                            var n = attribute[..p];
+                            var o = attribute[(p + 1)..^1].Split(',').Select(x => x.Trim().ToUpper()).ToArray();
+                            var propName = mat.shader.GetPropertyName(i).ToUpper();
+                            switch (n)
+                            {
+                                case "KeywordEnum":
+                                    if (o.Select(x => $"{propName}_{x}").Contains(revKeyword))
+                                        return !mat.shaderKeywords.Contains(revKeyword);
+                                    break;
+                                case "Toggle":
+                                    if (o[0] == revKeyword) return !mat.shaderKeywords.Contains(revKeyword);
+                                    break;
+                                case "EnumShowIfAny":
+                                    var c = int.Parse(o.First());
+                                    if (o.Skip(1).Take(c).Select(x => $"{propName}_{x}").Contains(revKeyword))
+                                        return !mat.shaderKeywords.Contains(revKeyword);
+                                    break;
+                                case "ToggleShowIfAny":
+                                    if (o[0] == revKeyword) return !mat.shaderKeywords.Contains(revKeyword);
+                                    break;
+                            }
+                        }
+                    }
 
-                    return !mat.IsKeywordEnabled(revKeyword);
+                    return false;
                 }
 
                 return mat.IsKeywordEnabled(keyword);
@@ -72,7 +96,7 @@ public class ShowIfAnyDrawer : MaterialPropertyDrawer
             MaterialProperty.PropType.Vector => IsVisible(prop)
                 ? EditorGUIUtility.wideMode
                     ? base.GetPropertyHeight(prop, label, editor)
-                    : EditorGUIUtility.singleLineHeight * 2f
+                    : (EditorGUIUtility.singleLineHeight * 2f) + 2f
                 : -2f,
             MaterialProperty.PropType.Texture => IsVisible(prop) ? EditorGUIUtility.singleLineHeight * 4f : -2f,
             _ => IsVisible(prop) ? base.GetPropertyHeight(prop, label, editor) : -2f

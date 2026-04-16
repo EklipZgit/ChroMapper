@@ -9,12 +9,7 @@ public class BloomPrePassBackgroundColorsGradientFromColorSchemeColors : MonoBeh
     [SerializeField] public BloomPrePassBackgroundColorsGradient BloomPrePassBackgroundColorsGradient;
     [SerializeField] public Element[] Elements;
 
-    protected void Start()
-    {
-        Effect.OnStateChanged += HandleColorBoostChanged;
-        SetColorsToElements();
-    }
-
+    protected void Start() => Effect.OnStateChanged += HandleColorBoostChanged;
     protected void OnDestroy() => Effect.OnStateChanged -= HandleColorBoostChanged;
 
     private void HandleColorBoostChanged(bool boost) => SetColorsToElements();

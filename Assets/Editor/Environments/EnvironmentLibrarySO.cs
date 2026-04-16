@@ -35,7 +35,7 @@ public class EnvironmentLibrarySO : ScriptableObject
     public void OnValidate() => Initialize();
     public void OnEnable() => Initialize();
 
-    private void Initialize()
+    public void Initialize()
     {
         LayerMaskLookup.Clear();
         foreach (var entry in layerMaskRemap) LayerMaskLookup.Add(entry.name, entry.layerMask);
@@ -45,6 +45,11 @@ public class EnvironmentLibrarySO : ScriptableObject
 
         ComputeShaderLookup.Clear();
         foreach (var entry in ComputeShaders) ComputeShaderLookup.Add(entry.name, entry.computeShader);
+
+        Meshes.Initialize();
+        Materials.Initialize();
+        Textures.Initialize();
+        Sprites.Initialize();
     }
 
     public void MarkForChange()

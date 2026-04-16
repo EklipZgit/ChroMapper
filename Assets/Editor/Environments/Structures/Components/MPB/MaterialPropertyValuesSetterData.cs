@@ -15,7 +15,8 @@ public class MaterialPropertyValuesSetterData : EnvironmentComponentData<Materia
         MaterialPropertyValuesSetter comp,
         CreateContainer container)
     {
-        comp.MpbController = self.GetComponent<MaterialPropertyBlockController>();
+        comp.MpbController =
+            container.GetComponentOrNull<MaterialPropertyBlockController>(MaterialPropertyBlockController);
         comp.Floats = Floats
             .Select(x =>
                 new MaterialPropertyValuesSetter.PropertyNameFloatValuePair
@@ -49,7 +50,7 @@ public class MaterialPropertyValuesSetterData : EnvironmentComponentData<Materia
 
 public class PropertyValuePairBase
 {
-    [JsonProperty("_propertyName")] public string PropertyName;
+    public string PropertyName;
 }
 
 public class PropertyNameFloatValuePair : PropertyValuePairBase

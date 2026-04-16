@@ -18,6 +18,8 @@ public class TubeBloomPrePassLightWithIdData : EnvironmentComponentData<Parametr
 
         if (TubeBloomPrePassLight is null) return;
 
+        TubeBloomPrePassLight.FillComponents(self, comp, container);
+
         comp.BloomFog = self.AddComponent<BloomFogObject>();
         comp.BoxLight = container.GetComponentOrNull<ParametricBoxLight>(TubeBloomPrePassLight.ParametricBoxController);
         comp.SpriteLight =

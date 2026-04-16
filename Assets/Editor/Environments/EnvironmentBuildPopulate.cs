@@ -40,6 +40,7 @@ public class EnvironmentBuildPopulate
 
         library.RemoveUnused();
         library.Sort();
+        library.Initialize();
 
         var usedMaterialName = new Dictionary<string, int>();
         foreach (var matInfo in library.Materials.list)

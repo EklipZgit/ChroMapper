@@ -13,7 +13,7 @@ public class EnvironmentMeshSO : ScriptableObject
     public void OnValidate() => Initialize();
     public void OnEnable() => Initialize();
 
-    private void Initialize()
+    public void Initialize()
     {
         Lookup.Clear();
         foreach (var entry in list) Lookup[entry.Hash] = entry.Mesh;
@@ -71,6 +71,8 @@ public class EnvironmentMeshSO : ScriptableObject
             m.Name = $"{index}: {m.Names.First()}";
         }
     }
+
+    public Mesh GetSafe(string n) => n == "null" ? null : Lookup.GetValueOrDefault(n);
 }
 
 [Serializable]
