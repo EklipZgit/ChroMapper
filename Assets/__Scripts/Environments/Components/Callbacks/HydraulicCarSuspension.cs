@@ -23,6 +23,14 @@ public class HydraulicCarSuspension : MonoBehaviour
         expandEventValuesHashSet = new HashSet<int>(ExpandEventValues);
     }
 
+    private void Start()
+    {
+        var p = ContractEffect.GetCurrentState();
+        if (p.index != -1) HandleContractStateChanged(p);
+        p = ExpandEffect.GetCurrentState();
+        if (p.index != -1) HandleExpandStateChanged(p);
+    }
+
     private void OnEnable() => TrySubscribe();
     protected void OnDisable() => TryUnsubscribe();
     protected void OnDestroy() => TryUnsubscribe();

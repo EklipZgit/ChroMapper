@@ -15,6 +15,10 @@ public partial class EnvironmentSceneCreator
         container.Descriptor.ID = container.Data.Data.ID;
 
         container.Descriptor.ColorSchemeProvider = container.Descriptor.gameObject.AddComponent<ColorSchemeProvider>();
+        container.Descriptor.ColorSchemeProvider.ColorScheme =
+            AssetDatabase.LoadAssetAtPath<ColorSchemeSO>(
+                Path.Combine(Constants.ScriptsPath, "ColorSchemes", $"{container.Descriptor.ID}ColorScheme.asset"));
+
         container.Descriptor.SpectrogramDataProvider =
             container.Descriptor.gameObject.AddComponent<SpectrogramDataProvider>();
 
@@ -223,11 +227,26 @@ public partial class EnvironmentSceneCreator
                         {
                             switch (controller)
                             {
+                                case ColorArrayLightsController calc:
+                                    RegisterLight(calc.ColorArrayData[light.ArrayId.Value], lightId, order, true);
+                                    break;
+                                case GlobalShaderColorLightsController gsclc:
+                                    RegisterLight(gsclc.LightIntensityData[light.ArrayId.Value], lightId, order, true);
+                                    break;
+                                case LightmapLightsController llc:
+                                    RegisterLight(llc.LightIntensityData[light.ArrayId.Value], lightId, order, true);
+                                    break;
+                                case LightmapsLightsController llc:
+                                    RegisterLight(llc.LightIntensityData[light.ArrayId.Value], lightId, order, true);
+                                    break;
                                 case CombinedLightsController clc:
                                     RegisterLight(clc.LightIntensityData[light.ArrayId.Value], lightId, order, true);
                                     break;
                                 case CombinedLightsGroupController clgc:
                                     RegisterLight(clgc.LightIntensityData[light.ArrayId.Value], lightId, order, true);
+                                    break;
+                                default:
+                                    RegisterLight(sinkObject.AddComponent<LightSink>(), lightId, order, true);
                                     break;
                             }
                         }

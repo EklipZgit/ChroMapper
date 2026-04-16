@@ -15,6 +15,8 @@ public class LightRotation : MonoBehaviour
     private void Start()
     {
         Effect.OnStateChanged += HandleStateChanged;
+        var p = Effect.GetCurrentState();
+        if (p != null) HandleStateChanged(p);
         enabled = false;
     }
 

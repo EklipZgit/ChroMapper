@@ -21,6 +21,8 @@ public class GameObjectIntSwitch : MonoBehaviour
 
         lastActiveValue = DefaultValue;
         Effect.OnStateChanged += HandleStateChanged;
+        var p = Effect.GetCurrentState();
+        if (p.index != -1) HandleStateChanged(p);
     }
 
     private void OnDestroy() => Effect.OnStateChanged -= HandleStateChanged;

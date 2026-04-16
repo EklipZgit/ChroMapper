@@ -39,9 +39,26 @@ public class LightPairSinMove : MonoBehaviour
 
     private void Start()
     {
-        if (LeftEffect != null) LeftEffect.OnStateChanged += HandleLeftStateChanged;
-        if (RightEffect != null) RightEffect.OnStateChanged += HandleRightStateChanged;
-        if (SwitchEffect != null) SwitchEffect.OnStateChanged += HandleSwitchStateChanged;
+        if (LeftEffect != null)
+        {
+            LeftEffect.OnStateChanged += HandleLeftStateChanged;
+            var p = LeftEffect.GetCurrentState();
+            if (p != null) HandleLeftStateChanged(p);
+        }
+
+        if (RightEffect != null)
+        {
+            RightEffect.OnStateChanged += HandleRightStateChanged;
+            var p = RightEffect.GetCurrentState();
+            if (p != null) HandleRightStateChanged(p);
+        }
+
+        if (SwitchEffect != null)
+        {
+            SwitchEffect.OnStateChanged += HandleSwitchStateChanged;
+            var p = SwitchEffect.GetCurrentState();
+            if (p.index != -1) HandleSwitchStateChanged(p);
+        }
     }
 
     private void OnDestroy()

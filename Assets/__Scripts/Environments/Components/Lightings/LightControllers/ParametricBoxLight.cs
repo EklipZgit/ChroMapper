@@ -30,31 +30,32 @@ public class ParametricBoxLight : MonoBehaviour
     private void OnValidate()
     {
         if (!Application.isEditor || Application.isPlaying) return;
-        hasInitialized = false;
         color = new Color(0f, 0.5f, 1f);
         Start();
     }
 
-    private void Start()
+    protected void Awake()
     {
-        if (hasInitialized)
-            SetColor(color);
-        else
-            InitIfNeeded();
+        InitIfNeeded();
+        Renderer.enabled = false;
     }
+
+    private void Start() => SetColor(color);
+    protected void OnEnable() => Renderer.enabled = true;
+    protected void OnDisable() => Renderer.enabled = false;
 
     public void InitIfNeeded()
     {
         if (hasInitialized) return;
         tr = transform;
         mpb ??= new MaterialPropertyBlock();
-        hasInitialized = Renderer != null;
-        SetColor(color);
+        hasInitialized = true;
     }
 
     public void SetColor(Color col)
     {
         color = col;
+        InitIfNeeded();
         if (!hasInitialized) return;
 
         var height = UseCollision ? Mathf.Min(CollisionHeight, Height) : Height;

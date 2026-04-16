@@ -26,6 +26,8 @@ public class ColorBoostEffect : BasicEventEffect<ColorBoostStateData>, IEffectSt
         OnStateChanged?.Invoke(Boost);
     }
 
+    public bool GetCurrentState() => Boost;
+    
     protected override ColorBoostStateData CreateState(BaseEvent data) => new(data);
 
     public override void InsertData(BaseEvent data)

@@ -34,23 +34,28 @@ public class ParametricSpriteLight : MonoBehaviour
         Start();
     }
 
+    protected void Awake()
+    {
+        InitIfNeeded();
+        Renderer.enabled = false;
+    }
+
     private void Start() => SetColor(color);
+    protected void OnEnable() => Renderer.enabled = true;
+    protected void OnDisable() => Renderer.enabled = false;
 
     public void InitIfNeeded()
     {
         if (hasInitialized) return;
         mpb ??= new MaterialPropertyBlock();
-        hasInitialized = Renderer != null;
+        hasInitialized = true;
     }
 
     public void SetColor(Color col)
     {
         color = col;
-        if (!hasInitialized)
-        {
-            InitIfNeeded();
-            return;
-        }
+        InitIfNeeded();
+        if (!hasInitialized) return;
 
         var length = UseCollision ? Mathf.Min(CollisionLength, Length) : Length;
         var alphaEnd = Mathf.Lerp(AlphaStart, AlphaEnd, Mathf.InverseLerp(0f, Length, length));

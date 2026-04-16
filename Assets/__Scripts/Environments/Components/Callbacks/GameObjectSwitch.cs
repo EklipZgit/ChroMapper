@@ -9,7 +9,12 @@ public class GameObjectSwitch : MonoBehaviour
     public GameObject[] NormalGameObjects;
     public GameObject[] BoostGameObjects;
 
-    private void Start() => Effect.OnStateChanged += HandleStateChanged;
+    private void Start()
+    {
+        Effect.OnStateChanged += HandleStateChanged;
+        HandleStateChanged(Effect.GetCurrentState());
+    }
+
     private void OnDestroy() => Effect.OnStateChanged -= HandleStateChanged;
 
     private void HandleStateChanged(bool boost)

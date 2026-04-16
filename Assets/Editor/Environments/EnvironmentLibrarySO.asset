@@ -283,9 +283,9 @@ MonoBehaviour:
     - Z_FADE
   ComputeShaders:
   - name: TextureProcessor3DGenerator
-    computeShader: {fileID: 0}
+    computeShader: {fileID: 7200000, guid: 182267945a2911f1082121569cf9cb98, type: 3}
   - name: TextureProcessor3DWriteTextures
-    computeShader: {fileID: 0}
+    computeShader: {fileID: 7200000, guid: fed8d494aa685e209ad7ab2bae087825, type: 3}
   layerMaskRemap:
   - name: Default
     layerMask:

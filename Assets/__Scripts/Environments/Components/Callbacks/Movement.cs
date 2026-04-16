@@ -21,6 +21,8 @@ public class Movement : MonoBehaviour
         for (var i = 0; i < Transforms.Length; i++) startLocalPositions[i] = Transforms[i].localPosition;
         SetLocalPositionOffsetsForAllObjects(currPositionOffset);
         Effect.OnStateChanged += HandleStateChanged;
+        var p = Effect.GetCurrentState();
+        if (p.index != -1) HandleStateChanged(p);
     }
 
     private void OnDestroy() => Effect.OnStateChanged -= HandleStateChanged;

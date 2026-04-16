@@ -5,7 +5,13 @@ public class ParticleSystemContinuous : MonoBehaviour
     [SerializeField] public GenericCallbackEventEffect Effect;
     [SerializeField] public ParticleSystem[] ParticleSystems;
 
-    private void Start() => Effect.OnStateChanged += HandleStateChanged;
+    private void Start()
+    {
+        Effect.OnStateChanged += HandleStateChanged;
+        var p = Effect.GetCurrentState();
+        if (p.index != -1) HandleStateChanged(p);
+    }
+
     private void OnDestroy() => Effect.OnStateChanged -= HandleStateChanged;
 
     private void HandleStateChanged((int index, BasicEventStateData state) data) =>

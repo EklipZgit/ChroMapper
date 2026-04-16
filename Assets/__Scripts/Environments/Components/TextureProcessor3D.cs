@@ -422,6 +422,7 @@ public class TextureProcessor3D : MonoBehaviour
 
     private void AnimateTextures()
     {
+        return; // TODO: handle compute shader
         textureArrayLength = InputTextures.Length;
         if (RowSize <= 0 || ColumnSize <= 0 || DepthSize <= 0 || textureArrayLength == 0) return;
         ApplyIntention();
@@ -443,6 +444,7 @@ public class TextureProcessor3D : MonoBehaviour
 
     private void AnimateChannel(ref ChannelParams channel, RenderTexture outputTexture)
     {
+        return; // TODO: handle compute shader
         var kernelName = GetKernelName(channel.ComputeKernel);
         var kernelIndex = TextureGenCompute.FindKernel(kernelName);
         TextureGenCompute.SetFloat(speedId, channel.Speed);

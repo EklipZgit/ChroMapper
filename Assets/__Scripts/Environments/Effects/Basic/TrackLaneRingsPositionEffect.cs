@@ -5,6 +5,7 @@ public class TrackLaneRingsPositionEffect : BasicEventEffect<TrackLaneRingsPosit
                                             IEffectStateSignal<(int index, TrackLaneRingsPositionStateData state)>
 {
     public event Action<(int index, TrackLaneRingsPositionStateData state)> OnStateChanged;
+
     private readonly BasicEventStateChunksContainer<TrackLaneRingsPositionStateData> container = new();
 
     public override void Initialize() => InitializeStates(container);
@@ -20,6 +21,11 @@ public class TrackLaneRingsPositionEffect : BasicEventEffect<TrackLaneRingsPosit
         var index = container.Collection.IndexOf(state);
         OnStateChanged?.Invoke((index, container.CurrentState));
     }
+
+    public (int index, TrackLaneRingsPositionStateData state) GetCurrentState() =>
+        container?.CurrentState == null
+            ? (-1, CreateState(new()))
+            : (container.Collection.IndexOf(container.CurrentState), container.CurrentState);
 
     public override void InsertData(BaseEvent data)
     {

@@ -9,7 +9,12 @@ public class TrackLaneRingsPositionSpawner : MonoBehaviour
     public float MaxPositionStep;
     public float MoveSpeed;
 
-    private void Start() => RingManager.Atsc = EffectManager.Atsc;
+    private void Start()
+    {
+        RingManager.Atsc = EffectManager.Atsc;
+        var p = EffectManager.GetCurrentState();
+        if (p.index != -1) HandleStateChanged(p);
+    }
 
     private void OnEnable() => EffectManager.OnStateChanged += HandleStateChanged;
     private void OnDisable() => EffectManager.OnStateChanged -= HandleStateChanged;

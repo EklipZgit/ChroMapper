@@ -27,6 +27,8 @@ public class ParticleSystemEffect : MonoBehaviour
         offColor = ColorSchemeProvider.ColorScheme.EnvironmentLeftColor.WithAlpha(0f);
         particleColor = lightIsOn ? ColorSchemeProvider.ColorScheme.EnvironmentLeftColor : offColor;
         RefreshParticles();
+        var p = Effect.GetCurrentState();
+        if (p.index != -1) HandleStateChanged(p);
         enabled = false;
     }
 

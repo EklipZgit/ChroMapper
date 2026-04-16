@@ -16,10 +16,16 @@ public class HydraulicCarJump : MonoBehaviour
     private float lastEventTime;
     private HashSet<int> eventValuesHashSet;
 
-    protected void Awake() => eventValuesHashSet = new HashSet<int>(EventValues);
-    protected void OnEnable() => TrySubscribe();
-    protected void OnDisable() => TryUnsubscribe();
-    protected void OnDestroy() => TryUnsubscribe();
+    private void Awake() => eventValuesHashSet = new HashSet<int>(EventValues);
+    private void Start()
+    {
+        var p = Effect.GetCurrentState();
+        if (p.index != -1) HandleStateChanged(p);
+    }
+
+    private void OnEnable() => TrySubscribe();
+    private void OnDisable() => TryUnsubscribe();
+    private void OnDestroy() => TryUnsubscribe();
 
     private void TrySubscribe()
     {

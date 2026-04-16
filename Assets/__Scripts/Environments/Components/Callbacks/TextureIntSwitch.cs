@@ -8,7 +8,7 @@ public class TextureIntSwitch : MonoBehaviour
 
     [SerializeField] public MaterialPropertyBlockController MpbController;
     [SerializeField] public string TexturePropertyName;
-    
+
     [SerializeField] public int DefaultIndex;
     [SerializeField] public TextureValueTuple[] TextureValueTuples;
 
@@ -21,7 +21,8 @@ public class TextureIntSwitch : MonoBehaviour
         valueToTextureMap = new Dictionary<int, Texture>();
         foreach (var tuple in TextureValueTuples) valueToTextureMap[tuple.Value] = tuple.Texture;
         Effect.OnStateChanged += HandleStateChanged;
-        SetTextureByValue(DefaultIndex);
+        var p = Effect.GetCurrentState();
+        if (p.index != -1) HandleStateChanged(p);
     }
 
     protected void OnDestroy() => Effect.OnStateChanged -= HandleStateChanged;
