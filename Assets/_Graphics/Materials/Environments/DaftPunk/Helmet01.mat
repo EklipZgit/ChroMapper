@@ -12,18 +12,21 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
+  - DISSOLVE
   - FOG
   - METAL_SMOOTHNESS_TEXTURE
+  - MULTIPLY_REFLECTIONS
+  - REFLECTION_PROBE_BOX_PROJECTION
   - RIM_DIM
-  - _ACES_APPROACH_BEFORE_EMISSIVE
   - _EMISSIONTEXTURE_SIMPLE
-  - _METALLIC_TEXTURE_SOURCE_MPM_R
-  - _SMOOTHNESS_TEXTURE_SOURCE_MPM_A
   - _VERTEX_COLOR
   m_InvalidKeywords:
+  - _ACES_APPROACH_AFTER_EMISSIVE
   - _CUSTOM_TIME_STANDARD
+  - _METALLIC_TEXTURE_SOURCE_NONE
   - _PARALLAX_NONE
   - _SECONDARY_UVS_NONE
+  - _SMOOTHNESS_TEXTURE_SOURCE_NONE
   - _ZWRITE_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
@@ -85,7 +88,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _ACES_Approach: 1
+    - _ACES_Approach: 0
     - _AlbedoMultiplier: 1
     - _AmbientMinimalValue: 0
     - _AmbientMultiplier: 1
@@ -111,7 +114,7 @@ Material:
     - _DissolveStartValue: -8.67
     - _DistortionStrength: 0.2
     - _EmissionBloomIntensity: 1
-    - _EmissionBloomType: 1
+    - _EmissionBloomType: 0
     - _EmissionBrightness: 0.875
     - _EmissionFogSuppression: 0
     - _EmissionGradientIntensity: 1
@@ -126,13 +129,13 @@ Material:
     - _EmissionTexture: 1
     - _EmissionThreshold: 0
     - _EmissionThresholdAngle: 0.2
-    - _Emission_Alpha_Source: 1
-    - _Emission_Texture_Source: 1
+    - _Emission_Alpha_Source: 0
+    - _Emission_Texture_Source: 0
     - _EnableBothSidesDiffuse: 0
-    - _EnableBoxProjection: 0
+    - _EnableBoxProjection: 1
     - _EnableDiffuse: 0
     - _EnableDiffuseTexture: 0
-    - _EnableDissolve: 0
+    - _EnableDissolve: 1
     - _EnableDistanceDarkening: 0
     - _EnableDistortion: 0
     - _EnableEmissionAngleDisappear: 0
@@ -142,7 +145,7 @@ Material:
     - _EnableHeightFog: 0
     - _EnableLightFalloff: 0
     - _EnableMetalSmoothnessTex: 1
-    - _EnableMultiplyReflections: 0
+    - _EnableMultiplyReflections: 1
     - _EnablePrivatePointLight: 0
     - _EnableReflectedDir: 0
     - _EnableRimDim: 1
@@ -170,7 +173,7 @@ Material:
     - _MeshPacking: 0
     - _MeshPackingId: 1
     - _Metallic: 0.85
-    - _Metallic_Texture_Source: 1
+    - _Metallic_Texture_Source: 0
     - _OffsetStep: 1
     - _Parallax: 0
     - _ParallaxIntensity: 1
@@ -200,7 +203,7 @@ Material:
     - _Secondary_MaskBlend: 0
     - _Secondary_UVs: 0
     - _Smoothness: 0.825
-    - _Smoothness_Texture_Source: 1
+    - _Smoothness_Texture_Source: 0
     - _Spectrogram: 0
     - _SpecularIntensity: 1
     - _StartOffset: 1
@@ -208,8 +211,8 @@ Material:
     - _StencilPass: 0
     - _StencilRefValue: 0
     - _UseColorArray: 0
-    - _UseDissolveColor: 0
-    - _UseDissolveProgress: 0
+    - _UseDissolveColor: 1
+    - _UseDissolveProgress: 1
     - _Vertex: 1
     - _VertexDisplacement3DTexScale: 5
     - _VertexDisplacementMaskMultiplier: 1

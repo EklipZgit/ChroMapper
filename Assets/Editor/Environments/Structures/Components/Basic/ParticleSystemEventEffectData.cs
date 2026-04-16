@@ -11,6 +11,7 @@ public class ParticleSystemEventEffectData : EnvironmentComponentData<ParticleSy
         ParticleSystemEffect comp,
         CreateContainer container)
     {
+        comp.enabled = true;
         comp.ColorSchemeProvider = container.Descriptor.ColorSchemeProvider;
         comp.Effect =
             container.Descriptor.BasicEventEffectManager.GetOrRegister<GenericCallbackEventEffect>(

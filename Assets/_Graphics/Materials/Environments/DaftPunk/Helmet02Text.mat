@@ -17,7 +17,6 @@ Material:
   - MAIN_TEXTURE
   - MASK
   - MASK_RED_IS_ALPHA
-  - _ALPHACHANNEL_RED
   - _BLOOMTYPE_PP
   - _FOGTYPE_ALPHA
   m_InvalidKeywords:
@@ -154,7 +153,7 @@ Material:
     - _VertexDisplacement: 0
     - _ViewAlignFactor: 1.5
     - _ViewAlignOffset: 0
-    - _WhiteBoostRemapStart: 0
+    - _WhiteBoostRemapStart: 0.2
     - _ZTest: 4
     - _ZWrite: 0
     m_Colors:

@@ -100,7 +100,7 @@ public partial class EnvironmentSceneCreator
         EnvironmentLibrarySO library,
         bool allowScript)
     {
-        var blacklist = new[] { "Static Batch Component Container", "SaberBurnMarkSparklePS" };
+        var blacklist = new[] { "Static Batch Component Container", "SaberBurnMarkSparklePS", "SaberBurnMarksArea" };
         data.Objects = data
             .Objects.Where(x => !blacklist.Any(y => x.ChromaID.Contains(y)))
             .ToList();

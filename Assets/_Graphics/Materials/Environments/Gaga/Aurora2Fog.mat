@@ -20,9 +20,7 @@ Material:
   - VERTEX_COLOR
   - VERTEX_DISPLACEMENT
   - VERTEX_SQUARE_ALPHA
-  - _ALPHACHANNEL_RED
-  - _MASK2BLEND_MASKED_ADD
-  - _VERTEXCHANNELS_A
+  - _VERTEXCHANNELS_RGB
   m_InvalidKeywords:
   - _BILLBOARD_NONE
   - _BLOOMTYPE_NONE
@@ -31,6 +29,7 @@ Material:
   - _CUTOUTTYPE_NONE
   - _DISTORTION_NONE
   - _FOGTYPE_NONE
+  - _MASK2BLEND_MULTIPLY
   - _MASKBLEND_MULTIPLY
   - _SECONDARY_UVS_NONE
   - _SPECTROGRAM_NONE
@@ -122,7 +121,7 @@ Material:
     - _GradientPanningSpeed: 0
     - _GradientPosition: 0.5
     - _Intensity: 3
-    - _Mask2Blend: 2
+    - _Mask2Blend: 0
     - _Mask2RedIsAlpha: 1
     - _Mask2SecondaryUVs: 0
     - _Mask2Strength: 1

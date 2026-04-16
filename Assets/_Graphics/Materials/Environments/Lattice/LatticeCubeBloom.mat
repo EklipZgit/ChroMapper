@@ -13,6 +13,7 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - FOG
+  - MULTIPLY_REFLECTIONS
   - _EMISSIONTEXTURE_SIMPLE
   - _VERTEX_DISPLACEMENT
   m_InvalidKeywords:
@@ -108,7 +109,7 @@ Material:
     - _DissolveStartValue: 0
     - _DistortionStrength: 0.2
     - _EmissionBloomIntensity: 1
-    - _EmissionBloomType: 1
+    - _EmissionBloomType: 0
     - _EmissionBrightness: 0.5
     - _EmissionFogSuppression: 0
     - _EmissionGradientIntensity: 1
@@ -139,7 +140,7 @@ Material:
     - _EnableHeightFog: 0
     - _EnableLightFalloff: 0
     - _EnableMetalSmoothnessTex: 0
-    - _EnableMultiplyReflections: 0
+    - _EnableMultiplyReflections: 1
     - _EnablePrivatePointLight: 0
     - _EnableReflectedDir: 0
     - _EnableRimDim: 0

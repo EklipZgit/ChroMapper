@@ -17,14 +17,16 @@ Material:
   - FOG
   - MESH_PACKING
   - METAL_SMOOTHNESS_TEXTURE
-  - _ACES_APPROACH_BEFORE_EMISSIVE
+  - MULTIPLY_REFLECTIONS
+  - REFLECTION_PROBE_BOX_PROJECTION
   - _CUSTOM_TIME_FREEZE
   - _EMISSIONTEXTURE_SIMPLE
-  - _METALLIC_TEXTURE_SOURCE_MPM_R
-  - _SMOOTHNESS_TEXTURE_SOURCE_MPM_G_ROUGHNESS
   m_InvalidKeywords:
+  - _ACES_APPROACH_AFTER_EMISSIVE
+  - _METALLIC_TEXTURE_SOURCE_NONE
   - _PARALLAX_NONE
   - _SECONDARY_UVS_NONE
+  - _SMOOTHNESS_TEXTURE_SOURCE_NONE
   - _VERTEX_NONE
   - _ZWRITE_ON
   m_LightmapFlags: 4
@@ -87,7 +89,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _ACES_Approach: 1
+    - _ACES_Approach: 0
     - _AlbedoMultiplier: 1
     - _AmbientMinimalValue: 0
     - _AmbientMultiplier: 1
@@ -113,7 +115,7 @@ Material:
     - _DissolveStartValue: 0
     - _DistortionStrength: 0.2
     - _EmissionBloomIntensity: 0.03
-    - _EmissionBloomType: 3
+    - _EmissionBloomType: 0
     - _EmissionBrightness: 1
     - _EmissionFogSuppression: 0.986
     - _EmissionGradientIntensity: 1
@@ -131,7 +133,7 @@ Material:
     - _Emission_Alpha_Source: 0
     - _Emission_Texture_Source: 0
     - _EnableBothSidesDiffuse: 0
-    - _EnableBoxProjection: 0
+    - _EnableBoxProjection: 1
     - _EnableDiffuse: 1
     - _EnableDiffuseTexture: 1
     - _EnableDissolve: 0
@@ -144,7 +146,7 @@ Material:
     - _EnableHeightFog: 1
     - _EnableLightFalloff: 0
     - _EnableMetalSmoothnessTex: 1
-    - _EnableMultiplyReflections: 0
+    - _EnableMultiplyReflections: 1
     - _EnablePrivatePointLight: 0
     - _EnableReflectedDir: 0
     - _EnableRimDim: 0
@@ -172,7 +174,7 @@ Material:
     - _MeshPacking: 1
     - _MeshPackingId: 1
     - _Metallic: 0.8
-    - _Metallic_Texture_Source: 1
+    - _Metallic_Texture_Source: 0
     - _OffsetStep: 1
     - _Parallax: 0
     - _ParallaxIntensity: 1
@@ -202,7 +204,7 @@ Material:
     - _Secondary_MaskBlend: 0
     - _Secondary_UVs: 0
     - _Smoothness: 0.927
-    - _Smoothness_Texture_Source: 2
+    - _Smoothness_Texture_Source: 0
     - _Spectrogram: 0
     - _SpecularIntensity: 1
     - _StartOffset: 1

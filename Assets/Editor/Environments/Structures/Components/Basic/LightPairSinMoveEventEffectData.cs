@@ -14,6 +14,7 @@ public class LightPairSinMoveEventEffectData : EnvironmentComponentData<LightPai
 
     public override void FillComponents(GameObject self, LightPairSinMove comp, CreateContainer container)
     {
+        comp.enabled = true;
         if (ConvertUtils.ToEventType(EventTypeL, out var type) && type != -1)
             comp.LeftEffect = container.Descriptor.BasicEventEffectManager.GetOrRegister<LightRotationEffect>(type);
         if (ConvertUtils.ToEventType(EventTypeR, out type) && type != -1)

@@ -13,6 +13,8 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - FOG
+  - MULTIPLY_REFLECTIONS
+  - REFLECTION_PROBE_BOX_PROJECTION
   m_InvalidKeywords:
   - _ACES_APPROACH_AFTER_EMISSIVE
   - _CUSTOM_TIME_STANDARD
@@ -127,7 +129,7 @@ Material:
     - _Emission_Alpha_Source: 0
     - _Emission_Texture_Source: 0
     - _EnableBothSidesDiffuse: 0
-    - _EnableBoxProjection: 0
+    - _EnableBoxProjection: 1
     - _EnableDiffuse: 0
     - _EnableDiffuseTexture: 0
     - _EnableDissolve: 0
@@ -140,7 +142,7 @@ Material:
     - _EnableHeightFog: 0
     - _EnableLightFalloff: 0
     - _EnableMetalSmoothnessTex: 0
-    - _EnableMultiplyReflections: 0
+    - _EnableMultiplyReflections: 1
     - _EnablePrivatePointLight: 0
     - _EnableReflectedDir: 0
     - _EnableRimDim: 0

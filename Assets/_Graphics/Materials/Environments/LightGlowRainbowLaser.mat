@@ -151,7 +151,7 @@ Material:
     - _VertexDisplacement: 0
     - _ViewAlignFactor: 10
     - _ViewAlignOffset: 0
-    - _WhiteBoostRemapStart: 0
+    - _WhiteBoostRemapStart: 0.2
     - _ZTest: 4
     - _ZWrite: 0
     m_Colors:

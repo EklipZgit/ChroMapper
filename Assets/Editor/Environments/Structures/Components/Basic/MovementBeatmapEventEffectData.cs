@@ -15,6 +15,8 @@ public class MovementBeatmapEventEffectData : EnvironmentComponentData<Movement>
 
     public override void FillComponents(GameObject self, Movement comp, CreateContainer container)
     {
+        comp.enabled = true;
+        
         comp.Effect = container.Descriptor.BasicEventEffectManager.GetOrRegister<GenericCallbackEventEffect>(
             ConvertUtils.ToEventType(EventType));
 

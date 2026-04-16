@@ -15,11 +15,13 @@ Material:
   - DIFFUSE
   - FOG
   - MESH_PACKING
-  - _CUSTOM_TIME_SONG_TIME
+  - MULTIPLY_REFLECTIONS
+  - REFLECTION_PROBE_BOX_PROJECTION
   - _EMISSIONTEXTURE_FLIPBOOK
   - _VERTEX_EMISSION
   m_InvalidKeywords:
   - _ACES_APPROACH_AFTER_EMISSIVE
+  - _CUSTOM_TIME_STANDARD
   - _METALLIC_TEXTURE_SOURCE_NONE
   - _PARALLAX_NONE
   - _SECONDARY_UVS_NONE
@@ -95,7 +97,7 @@ Material:
     - _BlendSrcFactorA: 0
     - _BothSidesDiffuseMultiplier: 1
     - _CullMode: 2
-    - _Custom_Time: 1
+    - _Custom_Time: 0
     - _CutColorBacksideFalloff: 0.07
     - _CutColorFalloff: 4
     - _DarkeningIntensity: 1
@@ -129,7 +131,7 @@ Material:
     - _Emission_Alpha_Source: 0
     - _Emission_Texture_Source: 0
     - _EnableBothSidesDiffuse: 0
-    - _EnableBoxProjection: 0
+    - _EnableBoxProjection: 1
     - _EnableDiffuse: 1
     - _EnableDiffuseTexture: 0
     - _EnableDissolve: 0
@@ -142,7 +144,7 @@ Material:
     - _EnableHeightFog: 1
     - _EnableLightFalloff: 0
     - _EnableMetalSmoothnessTex: 0
-    - _EnableMultiplyReflections: 0
+    - _EnableMultiplyReflections: 1
     - _EnablePrivatePointLight: 0
     - _EnableReflectedDir: 0
     - _EnableRimDim: 0

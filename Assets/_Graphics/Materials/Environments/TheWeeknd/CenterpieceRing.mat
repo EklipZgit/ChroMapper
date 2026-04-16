@@ -14,6 +14,8 @@ Material:
   m_ValidKeywords:
   - DIFFUSE
   - FOG
+  - MULTIPLY_REFLECTIONS
+  - REFLECTION_PROBE_BOX_PROJECTION
   - _VERTEX_EMISSION
   m_InvalidKeywords:
   - _ACES_APPROACH_AFTER_EMISSIVE
@@ -110,7 +112,7 @@ Material:
     - _DissolveStartValue: 0
     - _DistortionStrength: 0.2
     - _EmissionBloomIntensity: 1
-    - _EmissionBloomType: 1
+    - _EmissionBloomType: 0
     - _EmissionBrightness: 2.62
     - _EmissionFogSuppression: 1
     - _EmissionGradientIntensity: 1
@@ -128,7 +130,7 @@ Material:
     - _Emission_Alpha_Source: 0
     - _Emission_Texture_Source: 0
     - _EnableBothSidesDiffuse: 0
-    - _EnableBoxProjection: 0
+    - _EnableBoxProjection: 1
     - _EnableDiffuse: 1
     - _EnableDiffuseTexture: 0
     - _EnableDissolve: 0
@@ -141,7 +143,7 @@ Material:
     - _EnableHeightFog: 0
     - _EnableLightFalloff: 0
     - _EnableMetalSmoothnessTex: 0
-    - _EnableMultiplyReflections: 0
+    - _EnableMultiplyReflections: 1
     - _EnablePrivatePointLight: 0
     - _EnableReflectedDir: 0
     - _EnableRimDim: 0
@@ -214,7 +216,7 @@ Material:
     - _VertexDisplacementMaskMultiplier: 1
     - _VertexDisplacementMaskOffset: 0
     - _VertexDisplacement_Mask_Source: 0
-    - _Vertex_BloomType: 1
+    - _Vertex_BloomType: 0
     - _ZTest: 4
     - _ZWrite: 1
     m_Colors:

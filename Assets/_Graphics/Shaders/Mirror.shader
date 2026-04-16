@@ -6,35 +6,35 @@
         _BumpIntensity ("Bump Intensity", float) = 0.1
         _ReflectionIntensity ("Reflection Intensity", float) = 0.5
         _TextureScrolling ("Texture Scrolling", Vector) = (0,0,0,0)
-
-        [Space(20)]
-        [Toggle(DETAIL_NORMAL_MAP)] _DetailNormalMap ("Detail Normal Map", float) = 0
-        _DetailNormalTextureScale ("Scale", float) = 1
-        _DetailNormalIntensity ("Intensity", float) = 0
-        _DetailNormalTexScrolling ("Scrolling", Vector) = (0.05,2,0,0)
-
-        [Space(20)]
-        _Color ("Tint Color", Color) = (1,1,1,1)
         _Metallic ("Metallic", Range(0, 1)) = 1
         _Smoothness ("Smoothness", Range(0, 1)) = 0.5
 
         [Space(20)]
+        [Toggle(DETAIL_NORMAL_MAP)] _DetailNormalMap ("Detail Normal Map", float) = 0
+        [ShowIfAny(DETAIL_NORMAL_MAP)] _DetailNormalTextureScale ("Scale", float) = 1
+        [ShowIfAny(DETAIL_NORMAL_MAP)] _DetailNormalIntensity ("Intensity", float) = 0
+        [ShowIfAny(DETAIL_NORMAL_MAP)] _DetailNormalTexScrolling ("Scrolling", Vector) = (0.05,2,0,0)
+
+        [Space(20)]
         [Toggle(DIRT)] _EnableDirt ("Dirt", float) = 0
-        _DirtTex ("Texture", 2D) = "white" {}
-        _DirtIntensity ("Intensity", float) = 1
+        [ShowIfAny(DIRT)] _DirtTex ("Texture", 2D) = "white" {}
+        [ShowIfAny(DIRT)] _DirtIntensity ("Intensity", float) = 1
 
         [Space(20)]
         [Toggle(LIGHTMAP)] _EnableLightmap ("Enable Lightmap", float) = 0
         [Toggle(DIFFUSE)] _EnableDiffuse ("Diffuse", float) = 1
-        [Toggle(LIGHT_FALLOFF)] _EnableLightFalloff ("Light Falloff", float) = 0
+        [ToggleShowIfAny(LIGHT_FALLOFF, DIFFUSE, SPECULAR)] _EnableLightFalloff ("Light Falloff", float) = 0
+
+        [Space(20)]
+        _TintColor ("Tint Color", Color) = (1,1,1,1)
 
         [Header(Fog Settings)] [Space]
         _FogStartOffset ("Fog Start Offset", float) = 1
         _FogScale ("Fog Scale", float) = 1
         [Space]
         [Toggle(HEIGHT_FOG)] _EnableHeightFog ("Enable Height Fog", float) = 0
-        _FogHeightOffset ("Fog Height Offset", float) = 0
-        _FogHeightScale ("Fog Height Scale", float) = 1
+        [ShowIfAny(HEIGHT_FOG)] _FogHeightOffset ("Fog Height Offset", float) = 0
+        [ShowIfAny(HEIGHT_FOG)] _FogHeightScale ("Fog Height Scale", float) = 1
 
         [Header(Settings)] [Space]
         [Enum(UnityEngine.Rendering.CullMode)] _CullMode ("Cull Mode", float) = 2
@@ -88,7 +88,7 @@
             float _DetailNormalIntensity;
             float2 _DetailNormalTexScrolling;
 
-            float4 _Color;
+            float4 _TintColor;
             float _Metallic;
             float _Smoothness;
 
@@ -178,7 +178,7 @@
                 float2 screenUV = i.screenPos.xy / i.screenPos.w;
                 screenUV = screenUV + normalTangent.xy;
                 float4 reflectionCol = tex2D(_ReflectionTex, screenUV) * _ReflectionIntensity;
-                albedo *= reflectionCol * _Color;
+                albedo *= reflectionCol * _TintColor;
 
                 #if defined(DIFFUSE)
                 float3 calculated = 0;

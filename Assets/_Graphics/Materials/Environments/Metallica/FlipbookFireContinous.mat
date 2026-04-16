@@ -17,13 +17,12 @@ Material:
   - SQUARE_ALPHA
   - TEXTURE_FLIPBOOK
   - VERTEX_COLOR
-  - _ALPHACHANNEL_RED
-  - _BILLBOARD_Y_AXIS
   - _BLOOMTYPE_FRAG
-  - _CUSTOM_TIME_SONG_TIME
-  - _VERTEXCHANNELS_A
+  - _VERTEXCHANNELS_RGB
   m_InvalidKeywords:
+  - _BILLBOARD_NONE
   - _CURVE_VERTICES_NONE
+  - _CUSTOM_TIME_STANDARD
   - _CUTOUTTYPE_NONE
   - _DISTORTION_NONE
   - _FOGTYPE_NONE
@@ -77,7 +76,7 @@ Material:
     - _BaseColorBoost: 1
     - _BaseColorBoostThreshold: 0.1
     - _BaseLayer: 1
-    - _Billboard: 2
+    - _Billboard: 0
     - _BillboardScale: 1
     - _BlendModeDst: 1
     - _BlendModeDstA: 1
@@ -89,7 +88,7 @@ Material:
     - _BloomWhiteMultiplier: 1
     - _CullMode: 0
     - _Curve_Vertices: 0
-    - _Custom_Time: 1
+    - _Custom_Time: 0
     - _Cutout: 0.5
     - _CutoutType: 0
     - _DisplacementPanningSpeed: 1

@@ -13,9 +13,10 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - FOG
-  - _ACES_APPROACH_BEFORE_EMISSIVE
+  - MULTIPLY_REFLECTIONS
   - _EMISSIONTEXTURE_SIMPLE
   m_InvalidKeywords:
+  - _ACES_APPROACH_AFTER_EMISSIVE
   - _CUSTOM_TIME_STANDARD
   - _METALLIC_TEXTURE_SOURCE_NONE
   - _PARALLAX_NONE
@@ -83,7 +84,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _ACES_Approach: 1
+    - _ACES_Approach: 0
     - _AlbedoMultiplier: 1
     - _AmbientMinimalValue: 1
     - _AmbientMultiplier: 1
@@ -124,7 +125,7 @@ Material:
     - _EmissionTexture: 1
     - _EmissionThreshold: 0
     - _EmissionThresholdAngle: 0
-    - _Emission_Alpha_Source: 1
+    - _Emission_Alpha_Source: 0
     - _Emission_Texture_Source: 0
     - _EnableBothSidesDiffuse: 0
     - _EnableBoxProjection: 0
@@ -140,7 +141,7 @@ Material:
     - _EnableHeightFog: 1
     - _EnableLightFalloff: 0
     - _EnableMetalSmoothnessTex: 0
-    - _EnableMultiplyReflections: 0
+    - _EnableMultiplyReflections: 1
     - _EnablePrivatePointLight: 0
     - _EnableReflectedDir: 0
     - _EnableRimDim: 0

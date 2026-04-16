@@ -15,6 +15,7 @@ Material:
   - ALPHA_WIDTH_SCALE
   - FOG
   - HEIGHT_FOG
+  - USE_FOG_FOR_LIGHTS
   m_InvalidKeywords:
   - _BLOOMTYPE_NONE
   m_LightmapFlags: 4
@@ -58,7 +59,7 @@ Material:
     - _StencilComp: 8
     - _StencilPass: 0
     - _StencilRefValue: 0
-    - _UseFogForLights: 0
+    - _UseFogForLights: 1
     - _ZTest: 4
     - _ZWrite: 0
     m_Colors:

@@ -49,6 +49,7 @@ public class ParametricBoxLight : MonoBehaviour
         if (hasInitialized) return;
         tr = transform;
         mpb ??= new MaterialPropertyBlock();
+        if (Renderer == null) Renderer = GetComponent<Renderer>();
         hasInitialized = true;
     }
 

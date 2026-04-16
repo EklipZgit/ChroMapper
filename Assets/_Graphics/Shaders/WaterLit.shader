@@ -4,29 +4,29 @@
     {
         _Color ("Color", Color) = (1,1,1,1)
         _Metallic ("Metallic", Range(0, 1)) = 0
-		_Smoothness ("Smoothness", Range(0, 1)) = 0.5
+        _Smoothness ("Smoothness", Range(0, 1)) = 0.5
         _SpecularIntensity ("Specular Intensity", float) = 1
 
         [Space]
         [Toggle(Z_FADE)] _ZFade ("Z Fade", float) = 0
-        _ZFadePosition ("Z Fade Position", float) = 0
-        _ZFadeScale ("Z Fade Scale", float) = 1
+        [ShowIfAny(Z_FADE)] _ZFadePosition ("Z Fade Position", float) = 0
+        [ShowIfAny(Z_FADE)] _ZFadeScale ("Z Fade Scale", float) = 1
 
         [Space]
         [Toggle(NORMAL_MAP)] _EnableNormalMap ("Enable Normal Map", float) = 0
-        _NormalTex ("Normal Texture", 2D) = "bump" {}
-        _NormalScale ("Normal Scale", float) = 1
-        _NormalScaleVertical ("Falling Normal Scale", float) = 1
-        _NormalTexScrolling ("Texture Scrolling", Vector) = (0,2,0,0)
+        [ShowIfAny(NORMAL_MAP)] _NormalTex ("Normal Texture", 2D) = "bump" {}
+        [ShowIfAny(NORMAL_MAP)] _NormalScale ("Normal Scale", float) = 1
+        [ShowIfAny(NORMAL_MAP)] _NormalScaleVertical ("Falling Normal Scale", float) = 1
+        [ShowIfAny(NORMAL_MAP)] _NormalTexScrolling ("Texture Scrolling", Vector) = (0,2,0,0)
 
         [Header(Fog Settings)] [Space]
         [Toggle(FOG)] _EnableFog ("Enable Fog", float) = 0
-        _FogStartOffset ("Fog Start Offset", float) = 1
-        _FogScale ("Fog Scale", float) = 1
+        [ShowIfAny(FOG)] _FogStartOffset ("Fog Start Offset", float) = 1
+        [ShowIfAny(FOG)] _FogScale ("Fog Scale", float) = 1
         [Space]
-        [Toggle(HEIGHT_FOG)] _EnableHeightFog ("Enable Height Fog", float) = 0
-        _FogHeightOffset ("Fog Height Offset", float) = 0
-        _FogHeightScale ("Fog Height Scale", float) = 1
+        [ToggleShowIfAny(HEIGHT_FOG, FOG)] _EnableHeightFog ("Enable Height Fog", float) = 0
+        [ShowIfAny(2, FOG, HEIGHT_FOG)] _FogHeightOffset ("Fog Height Offset", float) = 0
+        [ShowIfAny(2, FOG, HEIGHT_FOG)] _FogHeightScale ("Fog Height Scale", float) = 1
 
         [Space]
         [Enum(UnityEngine.Rendering.CullMode)] _CullMode ("Cull Mode", float) = 2
@@ -67,7 +67,7 @@
 
             float _Metallic;
             float _Smoothness;
-            
+
             float _ZFadePosition;
             float _ZFadeScale;
 
@@ -156,13 +156,13 @@
                 CUSTOM_LIGHTING_APPLY(calculated, albedo, metallic, smoothness, specIntensity,
                                       diffuseBothSides, i.worldPos, worldNormal);
                 albedo.rgb = calculated;
-                
+
                 ACES_TONE_MAPPING_APPLY(albedo);
 
                 #if defined(BLOOM_FOG) && defined(FOG)
                 #if defined(HEIGHT_FOG)
                 BLOOM_FOG_HEIGHT_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset,
-                                       _FogHeightScale);
+                                   _FogHeightScale);
                 #else
                 BLOOM_FOG_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale);
                 #endif

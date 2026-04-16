@@ -15,10 +15,12 @@ Material:
   - DIFFUSE_TEXTURE
   - FOG
   - MESH_PACKING
+  - MULTIPLY_REFLECTIONS
+  - REFLECTION_PROBE_BOX_PROJECTION
   - SPECULAR
-  - _ACES_APPROACH_BEFORE_EMISSIVE
   - _EMISSIONTEXTURE_SIMPLE
   m_InvalidKeywords:
+  - _ACES_APPROACH_AFTER_EMISSIVE
   - _CUSTOM_TIME_STANDARD
   - _METALLIC_TEXTURE_SOURCE_NONE
   - _PARALLAX_NONE
@@ -86,7 +88,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _ACES_Approach: 1
+    - _ACES_Approach: 0
     - _AlbedoMultiplier: 1
     - _AmbientMinimalValue: 0
     - _AmbientMultiplier: 1
@@ -112,7 +114,7 @@ Material:
     - _DissolveStartValue: 0
     - _DistortionStrength: 0.2
     - _EmissionBloomIntensity: 0.8
-    - _EmissionBloomType: 1
+    - _EmissionBloomType: 0
     - _EmissionBrightness: 1
     - _EmissionFogSuppression: 0.989
     - _EmissionGradientIntensity: 1
@@ -130,7 +132,7 @@ Material:
     - _Emission_Alpha_Source: 0
     - _Emission_Texture_Source: 0
     - _EnableBothSidesDiffuse: 0
-    - _EnableBoxProjection: 0
+    - _EnableBoxProjection: 1
     - _EnableDiffuse: 0
     - _EnableDiffuseTexture: 1
     - _EnableDissolve: 0
@@ -143,7 +145,7 @@ Material:
     - _EnableHeightFog: 1
     - _EnableLightFalloff: 0
     - _EnableMetalSmoothnessTex: 0
-    - _EnableMultiplyReflections: 0
+    - _EnableMultiplyReflections: 1
     - _EnablePrivatePointLight: 0
     - _EnableReflectedDir: 0
     - _EnableRimDim: 0
@@ -216,7 +218,7 @@ Material:
     - _VertexDisplacementMaskMultiplier: 1
     - _VertexDisplacementMaskOffset: 0
     - _VertexDisplacement_Mask_Source: 0
-    - _Vertex_BloomType: 2
+    - _Vertex_BloomType: 0
     - _ZTest: 4
     - _ZWrite: 1
     m_Colors:

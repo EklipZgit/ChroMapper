@@ -13,11 +13,11 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - MAIN_TEXTURE
-  - _BILLBOARD_CAMERA_FACING
   - _BLOOMTYPE_PP
   - _FOGTYPE_ALPHA
   m_InvalidKeywords:
   - _ALPHACHANNEL_ALPHA
+  - _BILLBOARD_NONE
   - _CURVE_VERTICES_NONE
   - _CUSTOM_TIME_STANDARD
   - _CUTOUTTYPE_NONE
@@ -73,7 +73,7 @@ Material:
     - _BaseColorBoost: 1
     - _BaseColorBoostThreshold: 0.1
     - _BaseLayer: 1
-    - _Billboard: 3
+    - _Billboard: 0
     - _BillboardScale: 3
     - _BlendModeDst: 1
     - _BlendModeDstA: 1
@@ -150,7 +150,7 @@ Material:
     - _VertexDisplacement: 0
     - _ViewAlignFactor: 10
     - _ViewAlignOffset: 0
-    - _WhiteBoostRemapStart: 0
+    - _WhiteBoostRemapStart: 0.33
     - _ZTest: 4
     - _ZWrite: 0
     m_Colors:

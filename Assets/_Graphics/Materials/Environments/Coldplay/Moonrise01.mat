@@ -22,7 +22,6 @@ Material:
   - SECONDARY_UVS_MASK2
   - SQUARE_ALPHA
   - VERTEX_COLOR
-  - _ALPHACHANNEL_RED
   - _BLOOMTYPE_PP
   - _CUSTOM_TIME_FREEZE
   - _FOGTYPE_ALPHA
@@ -99,7 +98,7 @@ Material:
     - _CutoutType: 0
     - _DisplacementPanningSpeed: 1
     - _DisplacementStrength: 0.1
-    - _Distortion: 0
+    - _Distortion: 1
     - _DistortionStrength: 0.2
     - _EnableCustomPadding: 0
     - _EnableHeightFog: 1

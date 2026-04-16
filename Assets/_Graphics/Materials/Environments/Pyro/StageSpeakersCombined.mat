@@ -15,14 +15,16 @@ Material:
   - DIFFUSE
   - FOG
   - METAL_SMOOTHNESS_TEXTURE
-  - _METALLIC_TEXTURE_SOURCE_MPM_R
-  - _SMOOTHNESS_TEXTURE_SOURCE_MPM_G_ROUGHNESS
+  - MULTIPLY_REFLECTIONS
+  - REFLECTION_PROBE_BOX_PROJECTION
   m_InvalidKeywords:
   - _ACES_APPROACH_AFTER_EMISSIVE
   - _CUSTOM_TIME_STANDARD
   - _EMISSIONTEXTURE_NONE
+  - _METALLIC_TEXTURE_SOURCE_NONE
   - _PARALLAX_NONE
   - _SECONDARY_UVS_NONE
+  - _SMOOTHNESS_TEXTURE_SOURCE_NONE
   - _VERTEX_NONE
   - _ZWRITE_ON
   m_LightmapFlags: 4
@@ -129,7 +131,7 @@ Material:
     - _Emission_Alpha_Source: 0
     - _Emission_Texture_Source: 0
     - _EnableBothSidesDiffuse: 0
-    - _EnableBoxProjection: 0
+    - _EnableBoxProjection: 1
     - _EnableDiffuse: 1
     - _EnableDiffuseTexture: 0
     - _EnableDissolve: 0
@@ -142,7 +144,7 @@ Material:
     - _EnableHeightFog: 1
     - _EnableLightFalloff: 0
     - _EnableMetalSmoothnessTex: 1
-    - _EnableMultiplyReflections: 0
+    - _EnableMultiplyReflections: 1
     - _EnablePrivatePointLight: 0
     - _EnableReflectedDir: 0
     - _EnableRimDim: 0
@@ -170,7 +172,7 @@ Material:
     - _MeshPacking: 0
     - _MeshPackingId: 1
     - _Metallic: 0.012
-    - _Metallic_Texture_Source: 1
+    - _Metallic_Texture_Source: 0
     - _OffsetStep: 1
     - _Parallax: 0
     - _ParallaxIntensity: 1
@@ -200,7 +202,7 @@ Material:
     - _Secondary_MaskBlend: 0
     - _Secondary_UVs: 0
     - _Smoothness: 0.094
-    - _Smoothness_Texture_Source: 2
+    - _Smoothness_Texture_Source: 0
     - _Spectrogram: 0
     - _SpecularIntensity: 1
     - _StartOffset: 1

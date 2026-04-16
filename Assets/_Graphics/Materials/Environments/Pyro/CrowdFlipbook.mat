@@ -17,15 +17,15 @@ Material:
   - MAIN_TEXTURE
   - SQUARE_ALPHA
   - TEXTURE_FLIPBOOK
-  - _CUSTOM_TIME_SONG_TIME
-  - _CUTOUTTYPE_ALPHA_CLIP
   - _FOGTYPE_LERP
-  - _MASK2BLEND_ADD
+  - _MASK2BLEND_MASKED_ADD
   m_InvalidKeywords:
   - _ALPHACHANNEL_ALPHA
   - _BILLBOARD_NONE
   - _BLOOMTYPE_NONE
   - _CURVE_VERTICES_NONE
+  - _CUSTOM_TIME_STANDARD
+  - _CUTOUTTYPE_NONE
   - _DISTORTION_NONE
   - _MASKBLEND_MULTIPLY
   - _SECONDARY_UVS_NONE
@@ -89,9 +89,9 @@ Material:
     - _BloomWhiteMultiplier: 1
     - _CullMode: 0
     - _Curve_Vertices: 0
-    - _Custom_Time: 1
+    - _Custom_Time: 0
     - _Cutout: 0.2
-    - _CutoutType: 1
+    - _CutoutType: 0
     - _DisplacementPanningSpeed: 1
     - _DisplacementStrength: 0.1
     - _Distortion: 0

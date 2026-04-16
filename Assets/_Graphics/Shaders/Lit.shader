@@ -990,19 +990,17 @@
 
                 // MULTIPLY_REFLECTIONS
                 #if defined(MULTIPLY_REFLECTIONS)
-                {
-                    float3 reflDir = reflect(normalize(worldPos - _WorldSpaceCameraPos), worldNormal);
+                // float3 reflDir = reflect(normalize(worldPos - _WorldSpaceCameraPos), worldNormal);
                 #if defined(REFLECTION_PROBE_BOX_PROJECTION)
-                reflDir = BoxProjectedCubemapDirection(reflDir, worldPos,
-                                                       unity_SpecCube0_ProbePosition,
-                                                       unity_SpecCube0_BoxMin,
-                                                       unity_SpecCube0_BoxMax);
+                // reflDir = BoxProjectedCubemapDirection(reflDir, worldPos,
+                //                                        unity_SpecCube0_ProbePosition,
+                //                                        unity_SpecCube0_BoxMin,
+                //                                        unity_SpecCube0_BoxMax);
                 #endif
-                float4 reflSample = UNITY_SAMPLE_TEXCUBE_LOD(unity_SpecCube0, reflDir,
-                                                             (1.0 - smoothness) * UNITY_SPECCUBE_LOD_STEPS);
-                float3 reflColor = DecodeHDR(reflSample, unity_SpecCube0_HDR);
-                albedo.rgb *= 1.0 + reflColor * metallic;
-                }
+                // float4 reflSample = UNITY_SAMPLE_TEXCUBE_LOD(unity_SpecCube0, reflDir,
+                //                                              (1.0 - smoothness) * UNITY_SPECCUBE_LOD_STEPS);
+                // float3 reflColor = DecodeHDR(reflSample, unity_SpecCube0_HDR);
+                // albedo.rgb *= 1.0 + reflColor * metallic;
                 #endif
 
                 // SPECULAR — GGX lobe matching SimpleLit
@@ -1164,18 +1162,20 @@
                     flipUv.y /= _FlipbookRows;
                     float flipbookTime = time.y * _FlipbookSpeed;
                     flipUv += float2(floor(flipbookTime % _FlipbookColumns) / _FlipbookColumns,
-                                     floor(flipbookTime / _FlipbookColumns) % _FlipbookRows /
-                                     _FlipbookRows);
+                                                             floor(flipbookTime / _FlipbookColumns) %
+                                                             _FlipbookRows /
+                                                             _FlipbookRows);
                     _esSample = tex2D(_EmissionTex, TRANSFORM_TEX(flipUv, _EmissionTex));
                 #if !defined(FLIPBOOK_BLENDING_OFF)
                 float2 flipUv2 = _esUv;
                 flipUv2.x /= _FlipbookColumns;
                 flipUv2.y /= _FlipbookRows;
                 flipUv2 += float2(floor((flipbookTime + 1) % _FlipbookColumns) / _FlipbookColumns,
-                                  floor((flipbookTime + 1) / _FlipbookColumns) %
-                                  _FlipbookRows / _FlipbookRows);
+                                                                            floor((flipbookTime + 1) / _FlipbookColumns)
+                                                                            %
+                                                                            _FlipbookRows / _FlipbookRows);
                 _esSample = lerp(_esSample, tex2D(_EmissionTex, TRANSFORM_TEX(flipUv2, _EmissionTex)),
-                                 flipbookTime % 1);
+                                        flipbookTime % 1);
                 #endif
                     }
                 #elif defined(_EMISSIONTEXTURE_SIMPLE)
@@ -1353,7 +1353,7 @@
                 // MPM G source — no _esBright path, direct sample
                 {
                     float4 _mpmSamp = float4(tex2D(_MetalSmoothnessTex, TRANSFORM_TEX(i.uv, _MetalSmoothnessTex)).ggg,
-                                             0);
+                                                  0);
                     float esBrightX = _mpmSamp.r * _eb * _eb;
                     finalEmission.rgb = esBrightX * emissionTexColor.rgb * emissionTexColor.a;
                     finalEmission.a = esBrightX * esBrightX * _EmissionTexBloomIntensity;
@@ -1380,13 +1380,13 @@
                 #endif
 
                 #if !defined(_ACES_APPROACH_BEFORE_EMISSIVE)
-                ACES_TONE_MAPPING_APPLY(albedo);
+                    ACES_TONE_MAPPING_APPLY(albedo);
                 #endif
 
                 #if defined(BLOOM_FOG) && defined(FOG)
                 #if HEIGHT_FOG
                 BLOOM_FOG_HEIGHT_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset,
-                                       _FogHeightScale);
+    _FogHeightScale);
                 #else
                 BLOOM_FOG_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale);
                 #endif

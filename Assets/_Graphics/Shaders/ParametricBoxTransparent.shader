@@ -10,7 +10,7 @@
         _BaseColorBoostThreshold ("Base Color Boost Threshold", float) = 0.5
 
         [Space]
-        [Toggle(ENABLE_WORLD_NOISE)] _EnableWorldNoise ("Enable World Noise", float) = 0
+        [Toggle(WORLD_NOISE)] _EnableWorldNoise ("Enable World Noise", float) = 0
         _WorldNoiseScale ("World Noise Scale", float) = 1
         _WorldNoiseIntensityOffset ("World Noise Intensity Offset", float) = 0
         _WorldNoiseIntensityScale ("World Noise Intensity Scale", float) = 1
@@ -21,8 +21,8 @@
         _FogScale ("Fog Scale", float) = 1
         [Space]
         [Toggle(HEIGHT_FOG)] _EnableHeightFog ("Enable Height Fog", float) = 0
-        _FogHeightOffset ("Fog Height Offset", float) = 0
-        _FogHeightScale ("Fog Height Scale", float) = 1
+        [ShowIfAny(HEIGHT_FOG)] _FogHeightOffset ("Fog Height Offset", float) = 0
+        [ShowIfAny(HEIGHT_FOG)] _FogHeightScale ("Fog Height Scale", float) = 1
 
         [Header(Settings)] [Space]
         [Enum(UnityEngine.Rendering.BlendMode)] _BlendModeSrc ("Blend Src", float) = 1
@@ -43,7 +43,10 @@
 
     SubShader
     {
-        Tags { "Queue"="Transparent" "IgnoreProjector"="True" "RenderType"="Transparent" }
+        Tags
+        {
+            "Queue"="Transparent" "IgnoreProjector"="True" "RenderType"="Transparent"
+        }
 
         Blend [_BlendModeSrc] [_BlendModeDst], [_BlendModeSrcA] [_BlendModeDstA]
         BlendOp [_BlendOp]
@@ -66,7 +69,7 @@
             #pragma multi_compile_instancing
 
             #pragma shader_feature_local_fragment HEIGHT_FOG
-            #pragma shader_feature_local ENABLE_WORLD_NOISE
+            #pragma shader_feature_local WORLD_NOISE
 
             #pragma multi_compile_fragment _ BLOOM_FOG
 
@@ -83,7 +86,7 @@
             float _BaseColorBoost;
             float _BaseColorBoostThreshold;
 
-            #if defined(ENABLE_WORLD_NOISE)
+            #if defined(WORLD_NOISE)
             sampler3D _CutoutTex;
             float4 _TimeHelperOffset;
             float _WorldNoiseScale;
@@ -150,7 +153,7 @@
 
                 // Cubic alpha ramp matching NeonLight: alpha^3 * Color.w
                 float a = i.alphaFactor;
-                float cubicAlpha = pow(a,3) * color.a;
+                float cubicAlpha = pow(a, 3) * color.a;
 
                 #if defined(ENABLE_WORLD_NOISE)
                 // Sample 3D worldspace noise to modulate alpha (from NeonLight)

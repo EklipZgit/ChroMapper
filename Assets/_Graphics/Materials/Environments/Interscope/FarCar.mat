@@ -14,7 +14,8 @@ Material:
   m_ValidKeywords:
   - FOG
   - GROUND_FADE
-  - _VERTEX_METAL_SMOOTHNESS
+  - MULTIPLY_REFLECTIONS
+  - REFLECTION_PROBE_BOX_PROJECTION
   m_InvalidKeywords:
   - _ACES_APPROACH_AFTER_EMISSIVE
   - _CUSTOM_TIME_STANDARD
@@ -23,6 +24,7 @@ Material:
   - _PARALLAX_NONE
   - _SECONDARY_UVS_NONE
   - _SMOOTHNESS_TEXTURE_SOURCE_NONE
+  - _VERTEX_NONE
   - _ZWRITE_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
@@ -128,7 +130,7 @@ Material:
     - _Emission_Alpha_Source: 0
     - _Emission_Texture_Source: 0
     - _EnableBothSidesDiffuse: 0
-    - _EnableBoxProjection: 0
+    - _EnableBoxProjection: 1
     - _EnableDiffuse: 0
     - _EnableDiffuseTexture: 0
     - _EnableDissolve: 0
@@ -141,7 +143,7 @@ Material:
     - _EnableHeightFog: 0
     - _EnableLightFalloff: 0
     - _EnableMetalSmoothnessTex: 0
-    - _EnableMultiplyReflections: 0
+    - _EnableMultiplyReflections: 1
     - _EnablePrivatePointLight: 0
     - _EnableReflectedDir: 0
     - _EnableRimDim: 0
@@ -209,7 +211,7 @@ Material:
     - _UseColorArray: 0
     - _UseDissolveColor: 0
     - _UseDissolveProgress: 0
-    - _Vertex: 3
+    - _Vertex: 0
     - _VertexDisplacement3DTexScale: 5
     - _VertexDisplacementMaskMultiplier: 1
     - _VertexDisplacementMaskOffset: 0

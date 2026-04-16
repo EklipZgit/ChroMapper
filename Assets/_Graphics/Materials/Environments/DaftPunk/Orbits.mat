@@ -18,10 +18,8 @@ Material:
   - MASK_RED_IS_ALPHA
   - SQUARE_ALPHA
   - VIEW_ALIGN_DISAPPEAR
-  - _ALPHACHANNEL_RED
   - _BLOOMTYPE_FRAG
   - _FOGTYPE_ALPHA
-  - _MASKBLEND_MASKED_ADD
   m_InvalidKeywords:
   - _BILLBOARD_NONE
   - _CURVE_VERTICES_NONE
@@ -29,6 +27,7 @@ Material:
   - _CUTOUTTYPE_NONE
   - _DISTORTION_NONE
   - _MASK2BLEND_MULTIPLY
+  - _MASKBLEND_MULTIPLY
   - _SECONDARY_UVS_NONE
   - _SPECTROGRAM_NONE
   - _VERTEXCHANNELS_RGBA
@@ -124,7 +123,7 @@ Material:
     - _Mask2RedIsAlpha: 0
     - _Mask2SecondaryUVs: 0
     - _Mask2Strength: 1
-    - _MaskBlend: 2
+    - _MaskBlend: 0
     - _MaskRedIsAlpha: 1
     - _MaskSecondaryUVs: 0
     - _MaskStrength: 10

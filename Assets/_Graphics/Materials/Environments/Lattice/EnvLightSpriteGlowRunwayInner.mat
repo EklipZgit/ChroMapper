@@ -14,6 +14,7 @@ Material:
   m_ValidKeywords:
   - ALPHA_WIDTH_SCALE
   - FOG
+  - USE_FOG_FOR_LIGHTS
   - Y_AXIS_BILLBOARD
   m_InvalidKeywords:
   - _BLOOMTYPE_NONE
@@ -58,7 +59,7 @@ Material:
     - _StencilComp: 4
     - _StencilPass: 0
     - _StencilRefValue: 2
-    - _UseFogForLights: 0
+    - _UseFogForLights: 1
     - _ZTest: 4
     - _ZWrite: 0
     m_Colors:

@@ -8,6 +8,7 @@ public class LightRotationEventEffectData : EnvironmentComponentData<LightRotati
 
     public override void FillComponents(GameObject self, LightRotation comp, CreateContainer container)
     {
+        comp.enabled = true;
         comp.Effect =
             container.Descriptor.BasicEventEffectManager.GetOrRegister<LightRotationEffect>(
                 ConvertUtils.ToEventType(EventType));

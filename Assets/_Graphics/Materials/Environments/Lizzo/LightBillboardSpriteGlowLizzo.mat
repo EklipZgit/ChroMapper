@@ -15,6 +15,7 @@ Material:
   - FOG
   - HEIGHT_FOG
   - SQUARE_ALPHA
+  - USE_FOG_FOR_LIGHTS
   - Y_AXIS_BILLBOARD
   - _BLOOMTYPE_FRAG
   m_InvalidKeywords: []
@@ -59,7 +60,7 @@ Material:
     - _StencilComp: 5
     - _StencilPass: 0
     - _StencilRefValue: 9
-    - _UseFogForLights: 0
+    - _UseFogForLights: 1
     - _ZTest: 4
     - _ZWrite: 0
     m_Colors:

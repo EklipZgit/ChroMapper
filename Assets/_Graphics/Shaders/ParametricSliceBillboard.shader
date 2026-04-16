@@ -11,8 +11,8 @@
         _AlphaWidth("Alpha Width", Vector) = (1,1,1,1)
 
         [KeywordEnum(None, PP, Frag)] _BloomType ("Bloom White", float) = 0
+        [ShowIfAny(_BLOOMTYPE_PP, _BLOOMTYPE_FRAG)] _BloomWhiteMultiplier ("White Multiplier", float) = 1
         _BloomMultiplier ("Bloom Multiplier", float) = 1
-        _BloomWhiteMultiplier ("White Multiplier", float) = 1
 
         [Header(Others)] [Space]
         [Toggle(SQUARE_ALPHA)] _SquareAlpha("Square Alpha", float) = 1
@@ -21,14 +21,14 @@
 
         [Header(Fog Settings)] [Space]
         [Toggle(FOG)] _EnableFog ("Enable Fog", float) = 1
-        _FogStartOffset ("Fog Start Offset", float) = 1
-        _FogScale ("Fog Scale", float) = 1
+        [ShowIfAny(FOG)] _FogStartOffset ("Fog Start Offset", float) = 1
+        [ShowIfAny(FOG)] _FogScale ("Fog Scale", float) = 1
         [Space]
-        [Toggle(HEIGHT_FOG)] _EnableHeightFog ("Enable Height Fog", float) = 0
-        _FogHeightOffset ("Fog Height Offset", float) = 0
-        _FogHeightScale ("Fog Height Scale", float) = 1
+        [ToggleShowIfAny(HEIGHT_FOG, FOG)] _EnableHeightFog ("Enable Height Fog", float) = 0
+        [ShowIfAny(2, FOG, HEIGHT_FOG)] _FogHeightOffset ("Fog Height Offset", float) = 0
+        [ShowIfAny(2, FOG, HEIGHT_FOG)] _FogHeightScale ("Fog Height Scale", float) = 1
         [Space]
-        [Toggle(USE_FOG_FOR_LIGHTS)] _UseFogForLights("Use Fog For Lights", float) = 1
+        [ToggleShowIfAny(USE_FOG_FOR_LIGHTS, FOG)] _UseFogForLights("Use Fog For Lights", float) = 1
 
         [Header(Settings)] [Space]
         [Enum(UnityEngine.Rendering.BlendMode)] _BlendModeSrc ("Blend Src", float) = 1
@@ -184,7 +184,7 @@
                 width *= sizeParams.x;
 
                 i.vertex.x *= width;
-                i.vertex.y = height * length(mul((float3x3)unity_ObjectToWorld, float3(0,1,0)));
+                i.vertex.y = height * length(mul((float3x3)unity_ObjectToWorld, float3(0, 1, 0)));
 
                 #if defined(Y_AXIS_BILLBOARD)
                 float3 worldPos = worldOrigin + right * i.vertex.x + localUp * i.vertex.y;
@@ -223,7 +223,7 @@
                 #if defined(SQUARE_ALPHA)
                 albedo.a *= albedo.a;
                 #endif
-                half alphaFactor = lerp(alphaWidth.x, alphaWidth.y, i.lengthFactor);
+                half alphaFactor = lerp(alphaWidth.x, alphaWidth.y, i.uv.w);
                 #if defined(SQUARE_ALPHA)
                 alphaFactor *= alphaFactor;
                 #endif

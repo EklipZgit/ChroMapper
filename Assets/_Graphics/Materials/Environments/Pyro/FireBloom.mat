@@ -15,7 +15,6 @@ Material:
   - COLOR_GRADIENT
   - MAIN_TEXTURE
   - SQUARE_ALPHA
-  - _ALPHACHANNEL_RED
   m_InvalidKeywords:
   - _BILLBOARD_NONE
   - _BLOOMTYPE_NONE

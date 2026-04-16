@@ -4,27 +4,27 @@
     {
         _Color ("Color", Color) = (1, 1, 1, 1)
 
-        [Space(20)]
+        [Space]
         [Toggle(SECONDARY_COLOR)] _EnableSecondaryColor ("Use Secondary Color", float) = 0
-        _SecondaryColor ("Secondary Color", Color) = (1,1,1,1)
-        _SecondaryColorTex ("Secondary Color Texture", 2D) = "white" {}
-        _SecondaryColorPanning ("Secondary Color Panning", Vector) = (0,0,0,0)
+        [ShowIfAny(SECONDARY_COLOR)] _SecondaryColor ("Secondary Color", Color) = (1,1,1,1)
+        [ShowIfAny(SECONDARY_COLOR)] _SecondaryColorTex ("Secondary Color Texture", 2D) = "white" {}
+        [ShowIfAny(SECONDARY_COLOR)] _SecondaryColorPanning ("Secondary Color Panning", Vector) = (0,0,0,0)
 
-        [Space(20)]
+        [Space]
         [Toggle(COLOR_GRADIENT)] _UseColorGradient ("Use Color Gradient", float) = 0
-        _ColorGradient ("Gradient LUT", 2D) = "white" {}
-        _GradientPosition ("Gradient Position", Range(0, 1)) = 0.5
-        _GradientPanningSpeed ("Gradient Panning Speed", float) = 0
+        [ShowIfAny(COLOR_GRADIENT)] _ColorGradient ("Gradient LUT", 2D) = "white" {}
+        [ShowIfAny(COLOR_GRADIENT)] _GradientPosition ("Gradient Position", Range(0, 1)) = 0.5
+        [ShowIfAny(COLOR_GRADIENT)] _GradientPanningSpeed ("Gradient Panning Speed", float) = 0
 
-        [Space(20)]
+        [Space]
         [Toggle(SPECTROGRAM_COLOR)] _UseSpectrogram ("Color by Spectrogram", float) = 0
-        _SpectrogramBaseValue ("Spectrogram Base Value", Range(0, 1)) = 0.2
-        _SpectrogramRange ("Spectrogram Range", Range(0, 1)) = 0.2
+        [ShowIfAny(SPECTROGRAM_COLOR)] _SpectrogramBaseValue ("Spectrogram Base Value", Range(0, 1)) = 0.2
+        [ShowIfAny(SPECTROGRAM_COLOR)] _SpectrogramRange ("Spectrogram Range", Range(0, 1)) = 0.2
 
-        [Space(20)]
+        [Space]
         [Toggle(COLOR_ARRAY)] _UseColorArray ("Use Color Array", float) = 0
 
-        [Space(20)]
+        [Space]
         [KeywordEnum(None, Import)] _Secondary_UVs ("Secondary UVs", float) = 0
         [Toggle] _EnableRotateUV ("Rotate UVs 90", float) = 0
         _RotateUV ("Rotation Angle", float) = 0
@@ -34,23 +34,23 @@
 
         [Header(Vertex)] [Space]
         [Toggle(VERTEX_COLOR)] _EnableVertexColor ("Vertex Color", float) = 0
-        [Toggle(VERTEX_SQUARE_ALPHA)] _SquareVertexAlpha ("Square Vertex Alpha", float) = 0
-        [Toggle(VERTEX_RED_IS_ALPHA)] _RedIsVertexAlpha ("Red is Vertex Alpha", float) = 0
-        [KeywordEnum(RGBA, A, RGB)] _VertexChannels ("Vertex Channels", float) = 0
+        [ToggleShowIfAny(VERTEX_SQUARE_ALPHA, VERTEX_COLOR)] _SquareVertexAlpha ("Square Vertex Alpha", float) = 0
+        [ToggleShowIfAny(VERTEX_RED_IS_ALPHA, VERTEX_COLOR)] _RedIsVertexAlpha ("Red is Vertex Alpha", float) = 0
+        [EnumShowIfAny(3, RGBA, A, RGB, VERTEX_COLOR)] _VertexChannels ("Vertex Channels", float) = 0
 
-        [Space(20)]
+        [Space]
         [Toggle(VERTEX_DISPLACEMENT)] _VertexDisplacement ("Use Vertex Displacement", float) = 0
-        _DisplacementTex ("Displacement Texture", 2D) = "white" {}
-        [Toggle(SPATIAL_DISPLACEMENT)] _3DDisplacement ("3D Displacement", float) = 0
-        _DisplacementStrength ("Strength", float) = 0.1
-        _DisplacementAxes ("Per Axis Strength", Vector) = (1,1,1,0)
-        _DisplacementPanningSpeed ("Panning Speed", float) = 1
-        _DisplacementPanning ("Panning", Vector) = (0,0,0,0)
-        [KeywordEnum(None, Flat, Full)] _Spectrogram ("Spectrogram Influence", float) = 0
-        _UV3Offset ("UV3 Offset", float) = 0
-        _UV3Scale ("UV3 Scale", float) = 1
+        [ShowIfAny(VERTEX_DISPLACEMENT)] _DisplacementTex ("Displacement Texture", 2D) = "white" {}
+        [ToggleShowIfAny(SPATIAL_DISPLACEMENT, VERTEX_DISPLACEMENT)] _3DDisplacement ("3D Displacement", float) = 0
+        [ShowIfAny(VERTEX_DISPLACEMENT)] _DisplacementStrength ("Strength", float) = 0.1
+        [ShowIfAny(2, VERTEX_DISPLACEMENT, SPATIAL_DISPLACEMENT)] _DisplacementAxes ("Per Axis Strength", Vector) = (1,1,1,0)
+        [ShowIfAny(VERTEX_DISPLACEMENT)] _DisplacementPanningSpeed ("Panning Speed", float) = 1
+        [ShowIfAny(VERTEX_DISPLACEMENT)] _DisplacementPanning ("Panning", Vector) = (0,0,0,0)
+        [EnumShowIfAny(1, None, Flat, Full, SPATIAL_DISPLACEMENT)] _Spectrogram ("Spectrogram Influence", float) = 0
+        [ShowIfAny(_SPECTROGRAM_FULL)] _UV3Offset ("UV3 Offset", float) = 0
+        [ShowIfAny(_SPECTROGRAM_FULL)] _UV3Scale ("UV3 Scale", float) = 1
 
-        [Space(20)]
+        [Space]
         [KeywordEnum(None, Around_X, Around_Y, Around_Z)] _Curve_Vertices ("Curve Vertices (Object Space)", float) = 0
 
 
@@ -60,58 +60,58 @@
         _BaseLayer ("Base Color", float) = 1
         _MainTex ("Texture", 2D) = "white" {}
 
-        [Space(20)]
+        [Space]
         [Toggle(PIXELATE)] _Pixelate ("Pixelate", float) = 0
-        _PixelateResolution ("Pixelate Resolution", Vector) = (64,64,0,0)
+        [VectorShowIfAny(2, PIXELATE)] _PixelateResolution ("Pixelate Resolution", Vector) = (64,64,0,0)
 
-        [Space(20)]
+        [Space]
         [Toggle(TEXTURE_COLOR)] _EnableTextureColor ("Use Texture Color", float) = 0
-        [KeywordEnum(Alpha, Red)] _AlphaChannel ("Alpha Channel", float) = 0
+        [EnumShowIfAny(2, Alpha, Red, 0TEXTURE_COLOR)] _AlphaChannel ("Alpha Channel", float) = 0
 
-        [Space(20)]
+        [Space]
         _Intensity("Color Intensity", float) = 1
         _UvPanning ("UV Panning", Vector) = (0,0,0,0)
 
-        [Space(20)]
+        [Space]
         [Toggle(CUSTOM_WRAPPING)] _EnableCustomPadding ("Custom Repeat Wrapping", float) = 0
-        _CustomPadding ("Custom Padding", Vector) = (0,0,0,0)
+        [VectorShowIfAny(2, CUSTOM_WRAPPING)] _CustomPadding ("Custom Padding", Vector) = (0,0,0,0)
 
-        [Space(20)]
+        [Space]
         [Toggle(TEXTURE_FLIPBOOK)] _UseTextureFlipbook ("Use Texture Flipbook", float) = 0
-        _FlipbookColumns ("Flipbook Columns", float) = 8
-        _FlipbookRows ("Flipbook Rows", float) = 8
-        _FlipbookNonloopableFrames ("Full Non-loopable frames", float) = 0
-        _FlipbookSpeed ("Flipbook Speed", float) = 1
-        [Toggle(FLIPBOOK_BLENDING_OFF)] _FlipbookBlendingOff ("No Frame Blending", float) = 0
+        [ShowIfAny(TEXTURE_FLIPBOOK)] _FlipbookColumns ("Flipbook Columns", float) = 8
+        [ShowIfAny(TEXTURE_FLIPBOOK)] _FlipbookRows ("Flipbook Rows", float) = 8
+        [ShowIfAny(TEXTURE_FLIPBOOK)] _FlipbookNonloopableFrames ("Full Non-loopable frames", float) = 0
+        [ShowIfAny(TEXTURE_FLIPBOOK)] _FlipbookSpeed ("Flipbook Speed", float) = 1
+        [ToggleShowIfAny(FLIPBOOK_BLENDING_OFF, TEXTURE_FLIPBOOK)] _FlipbookBlendingOff ("No Frame Blending", float) = 0
 
-        [Space(20)]
+        [Space]
         [Toggle(MASK)] _EnableMask ("Mask", float) = 0
-        [Toggle(SECONDARY_UVS_MASK)] _MaskSecondaryUVs ("Use Secondary UVs", float) = 0
-        [Toggle(MASK_RED_IS_ALPHA)] _MaskRedIsAlpha ("Red is Alpha", float) = 0
-        [KeywordEnum(Multiply, Add, Masked Add)] _MaskBlend ("Mask Blend", float) = 0
-        _MaskTex ("Mask Texture", 2D) = "white" {}
-        _MaskStrength ("Mask Strength", float) = 1
-        _MaskPanning ("Mask Panning", Vector) = (0,0,0,0)
+        [ToggleShowIfAny(SECONDARY_UVS_MASK, MASK)] _MaskSecondaryUVs ("Use Secondary UVs", float) = 0
+        [ToggleShowIfAny(MASK_RED_IS_ALPHA, MASK)] _MaskRedIsAlpha ("Red is Alpha", float) = 0
+        [EnumShowIfAny(3, Multiply, Add, Masked Add, MASK)] _MaskBlend ("Mask Blend", float) = 0
+        [ShowIfAny(MASK)] _MaskTex ("Mask Texture", 2D) = "white" {}
+        [ShowIfAny(MASK)] _MaskStrength ("Mask Strength", float) = 1
+        [ShowIfAny(MASK)] _MaskPanning ("Mask Panning", Vector) = (0,0,0,0)
 
-        [Space(20)]
+        [Space]
         [Toggle(MASK2)] _EnableMask2 ("Secondary Mask", float) = 0
-        [Toggle(SECONDARY_UVS_MASK2)] _Mask2SecondaryUVs ("Use Secondary UVs", float) = 0
-        [Toggle(MASK2_RED_IS_ALPHA)] _Mask2RedIsAlpha ("Red is Alpha", float) = 0
-        [KeywordEnum(Multiply, Add, Masked Add)] _Mask2Blend ("Secondary Mask Blend", float) = 0
-        _Mask2Tex ("Secondary Mask Texture", 2D) = "white" {}
-        _Mask2Strength ("Secondary Mask Strength", float) = 1
-        _Mask2Panning ("Secondary Mask Panning", Vector) = (0,0,0,0)
+        [ToggleShowIfAny(SECONDARY_UVS_MASK2, MASK2)] _Mask2SecondaryUVs ("Use Secondary UVs", float) = 0
+        [ToggleShowIfAny(MASK2_RED_IS_ALPHA, MASK2)] _Mask2RedIsAlpha ("Red is Alpha", float) = 0
+        [EnumShowIfAny(3, Multiply, Add, Masked Add, MASK2)] _Mask2Blend ("Secondary Mask Blend", float) = 0
+        [ShowIfAny(MASK2)] _Mask2Tex ("Secondary Mask Texture", 2D) = "white" {}
+        [ShowIfAny(MASK2)] _Mask2Strength ("Secondary Mask Strength", float) = 1
+        [ShowIfAny(MASK2)] _Mask2Panning ("Secondary Mask Panning", Vector) = (0,0,0,0)
 
-        [Space(20)]
+        [Space]
         [KeywordEnum(None, Simple)] _Distortion ("Distortion", float) = 0
-        _DistortionTex ("Distortion Texture", 2D) = "white" {}
-        _DistortionStrength ("Distortion Strength", float) = 0.2
-        _DistortionAxes ("Distortion Axes", Vector) = (1, 1, 0, 0)
-        _DistortionPanning ("Distortion Panning", Vector) = (0, 0, 0, 0)
+        [ShowIfAny(_DISTORTION_SIMPLE)] _DistortionTex ("Distortion Texture", 2D) = "white" {}
+        [ShowIfAny(_DISTORTION_SIMPLE)] _DistortionStrength ("Distortion Strength", float) = 0.2
+        [ShowIfAny(_DISTORTION_SIMPLE)] _DistortionAxes ("Distortion Axes", Vector) = (1, 1, 0, 0)
+        [ShowIfAny(_DISTORTION_SIMPLE)] _DistortionPanning ("Distortion Panning", Vector) = (0, 0, 0, 0)
 
         [Header(Dissolve)] [Space]
         [KeywordEnum(None, Alpha Clip)] _CutoutType ("Cutout", float) = 0
-        _Cutout ("Threshold", Range(0, 1)) = 0.5
+        [ShowIfAny(_CUTOUTTYPE_WORLDSPACE_NOISE, _CUTOUTTYPE_ALPHA_CLIP, _CUTOUTTYPE_SCALE)] _Cutout ("Threshold", Range(0, 1)) = 0.5
 
 
 
@@ -119,46 +119,40 @@
         _AlphaMultiplier ("Alpha Multiplier", float) = 1
         [Toggle(SQUARE_ALPHA)] _SquareAlpha("Square Alpha", float) = 1
 
-        [Space(20)]
+        [Space]
         [Toggle(VIEW_ALIGN_DISAPPEAR)] _EnableViewAlignDisappear ("View Align Disappear", float) = 0
-        [Toggle] _SquareAngleForViewAlignDisappear ("Square Angle", float) = 0
-        _ViewAlignFactor ("View Align Factor", float) = 1.5
-        _ViewAlignOffset ("View Align Offset", float) = 0
+        [ToggleShowIfAny(VIEW_ALIGN_DISAPPEAR_SQUARE_ANGLE, VIEW_ALIGN_DISAPPEAR)] _SquareAngleForViewAlignDisappear ("Square Angle", float) = 0
+        [ShowIfAny(VIEW_ALIGN_DISAPPEAR)] _ViewAlignFactor ("View Align Factor", float) = 1.5
+        [ShowIfAny(VIEW_ALIGN_DISAPPEAR)] _ViewAlignOffset ("View Align Offset", float) = 0
 
 
 
         [Header(Others)] [Space]
         [KeywordEnum(None, PP, Frag)] _BloomType ("Bloom Type", float) = 0
-        _BloomWhiteMultiplier ("White Multiplier", float) = 1
-        _BloomMultiplier ("Bloom Multiplier", float) = 1
+        [ShowIfAny(_BLOOMTYPE_PP, _BLOOMTYPE_FRAG)] _QuestWhiteboostMultiplier ("White Multiplier", float) = 1
+        [ShowIfAny(_BLOOMTYPE_PP, _BLOOMTYPE_FRAG)] _BloomMultiplier ("Bloom Multiplier", float) = 1
         [Toggle(REMAP_WHITEBOOST_START)] _EnableRemapWhiteBoostStart ("Remap White Boost Start", float) = 0
-        _WhiteBoostRemapStart ("Alpha for no White Boost", Range(0, 1)) = 0
-        _QuestWhiteboostMultiplier ("Quest Whiteboost Multiplier", float) = 1
-        _BaseColorBoost ("Base Color Boost", float) = 1
-        _BaseColorBoostThreshold ("Base Color Boost Threshold", float) = 0.1
+        [ShowIfAny(_WHITEBOOSTTYPE_MAINEFFECT, _WHITEBOOSTTYPE_ALWAYS)] _WhiteBoostRemapStart ("Alpha for no White Boost", Range(0, 1)) = 0
 
-        [Space(20)]
+        [Space]
         [KeywordEnum(None, Full, Y Axis, Camera Facing)] _Billboard ("Billboard", float) = 0
-        _BillboardScale ("Billboard Scale", float) = 1
+        [ShowIfAny(_BILLBOARD_FULL, _BILLBOARD_CAMERA_FACING)] _BillboardScale ("Billboard Scale", float) = 1
 
-        [Space(20)]
+        [Space]
         [KeywordEnum(Standard, Song Time, Freeze)] _Custom_Time ("Time Behavior", float) = 0
+        [Toggle(MESH_PACKING)] _MeshPacking ("Use Mesh Packed Instancing", Float) = 0
+        [ShowIfAny(MESH_PACKING)] _MeshPackingId ("Mesh Packing ID", float) = 0
 
 
 
         [Header(Fog Settings)] [Space]
         [KeywordEnum(None, Lerp, Color, Alpha)] _FogType ("Fog Type", float) = 0
-        _FogStartOffset ("Fog Start Offset", float) = 1
-        _FogScale ("Fog Scale", float) = 1
+        [ShowIfAny(0_FOGTYPE_NONE)] _FogStartOffset ("Fog Start Offset", float) = 1
+        [ShowIfAny(0_FOGTYPE_NONE)] _FogScale ("Fog Scale", float) = 1
         [Space]
-        [Toggle(HEIGHT_FOG)] _EnableHeightFog ("Enable Height Fog", float) = 0
-        _FogHeightOffset ("Fog Height Offset", float) = 0
-        _FogHeightScale ("Fog Height Scale", float) = 1
-
-        [Toggle(MESH_PACKING)] _MeshPacking ("Use Mesh Packed Instancing", Float) = 0
-        _MeshPackingId ("Mesh Packing ID", float) = 0
-
-
+        [ToggleShowIfAny(HEIGHT_FOG, 0_FOGTYPE_NONE)] _EnableHeightFog ("Enable Height Fog", float) = 0
+        [ShowIfAny(2, 0_FOGTYPE_NONE, HEIGHT_FOG)] _FogHeightOffset ("Fog Height Offset", float) = 0
+        [ShowIfAny(2, 0_FOGTYPE_NONE, HEIGHT_FOG)] _FogHeightScale ("Fog Height Scale", float) = 1
 
         [Header(Settings)] [Space]
         [Enum(UnityEngine.Rendering.BlendMode)] _BlendModeSrc ("Blend Src", float) = 1
@@ -354,19 +348,18 @@
 
             #define USE_BILLBOARD defined(_BILLBOARD_FULL) || defined(_BILLBOARD_Y_AXIS) || defined(_BILLBOARD_CAMERA_FACING)
 
-            
 
             #if defined(UNITY_INSTANCING_ENABLED)
-            UNITY_INSTANCING_BUFFER_START (Props)
-            UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
-            UNITY_DEFINE_INSTANCED_PROP(float4, _SecondaryColor)
-            UNITY_DEFINE_INSTANCED_PROP(float4, unity_SpriteRendererColorArray)
-            UNITY_DEFINE_INSTANCED_PROP(half2, unity_SpriteFlipArray)
-            UNITY_DEFINE_INSTANCED_PROP(float, _MaskStrength)
-            UNITY_DEFINE_INSTANCED_PROP(float, _Mask2Strength)
-            UNITY_DEFINE_INSTANCED_PROP(float, _TimeOffset)
-            UNITY_DEFINE_INSTANCED_PROP(float, _MeshPackingId)
-            UNITY_INSTANCING_BUFFER_END (Props)
+            UNITY_INSTANCING_BUFFER_START(Props)
+                UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
+                UNITY_DEFINE_INSTANCED_PROP(float4, _SecondaryColor)
+                UNITY_DEFINE_INSTANCED_PROP(float4, unity_SpriteRendererColorArray)
+                UNITY_DEFINE_INSTANCED_PROP(half2, unity_SpriteFlipArray)
+                UNITY_DEFINE_INSTANCED_PROP(float, _MaskStrength)
+                UNITY_DEFINE_INSTANCED_PROP(float, _Mask2Strength)
+                UNITY_DEFINE_INSTANCED_PROP(float, _TimeOffset)
+                UNITY_DEFINE_INSTANCED_PROP(float, _MeshPackingId)
+            UNITY_INSTANCING_BUFFER_END(Props)
             #define _RendererColor  UNITY_ACCESS_INSTANCED_PROP(Props, unity_SpriteRendererColorArray)
             #define _Flip           UNITY_ACCESS_INSTANCED_PROP(Props, unity_SpriteFlipArray)
             #endif
@@ -425,7 +418,7 @@
                 float2 packingUv : TEXCOORD3;
                 #endif
                 #if defined(COLOR_ARRAY)
-                float2 colorIndexUv : TEXCOORD4;  // ADD — encodes color index as (tens, units)
+                float2 colorIndexUv : TEXCOORD4; // ADD — encodes color index as (tens, units)
                 #endif
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
@@ -498,21 +491,22 @@
 
                 #if defined(VERTEX_DISPLACEMENT)
                 float4 time = GET_TIME(UNITY_ACCESS_INSTANCED_PROP(Props, _TimeOffset)) / 2;
-                float2 dispUV = TRANSFORM_TEX(i.uv1, _DisplacementTex) 
-                              + _DisplacementPanning.xy * time.y * _DisplacementPanningSpeed;
+                float2 dispUV = TRANSFORM_TEX(i.uv1, _DisplacementTex)
+                    + _DisplacementPanning.xy * time.y * _DisplacementPanningSpeed;
                 float3 dispSample = tex2Dlod(_DisplacementTex, float4(dispUV, 0, 0)).xyz * 2.0 - 1.0;
 
                 #if defined(SPATIAL_DISPLACEMENT)
                 float3 bitangent = i.tangent.yzx * i.normal.zxy - i.normal.yzx * i.tangent.zxy;
                 float3 dispDir = dispSample.x * i.tangent.xyz
-                               + dispSample.y * bitangent
-                               + dispSample.z * i.normal.xyz;
+                    + dispSample.y * bitangent
+                    + dispSample.z * i.normal.xyz;
                 dispDir = normalize(dispDir);
 
                 #if defined(_SPECTROGRAM_FLAT) || defined(_SPECTROGRAM_FULL)
                 float spectrogramIndex = i.uv3.x * _UV3Scale + _UV3Offset;
-                float4 audioData = AudioLinkLerpMultiline(ALPASS_DFT + uint2(spectrogramIndex * AUDIOLINK_ETOTALBINS, 0));
-                float dispAmount = _DisplacementStrength * audioData.b*2;
+                float4 audioData = AudioLinkLerpMultiline(
+                    ALPASS_DFT + uint2(spectrogramIndex * AUDIOLINK_ETOTALBINS, 0));
+                float dispAmount = _DisplacementStrength * audioData.b * 2;
                 #else
                 float dispAmount = _DisplacementStrength;
                 #endif
@@ -611,7 +605,7 @@
             {
                 UNITY_SETUP_INSTANCE_ID(i);
 
-                float4 time = GET_TIME(UNITY_ACCESS_INSTANCED_PROP(Props, _TimeOffset))/2;
+                float4 time = GET_TIME(UNITY_ACCESS_INSTANCED_PROP(Props, _TimeOffset)) / 2;
 
                 #if defined(_SECONDARY_UVS_IMPORT)
                 // TODO: secondary uv stuff
@@ -646,7 +640,7 @@
                 #if defined(_DISTORTION_SIMPLE)
                 {
                     float2 distortScrollUv = uv * _DistortionTex_ST.xy + _DistortionTex_ST.zw
-                                           + time.y * _DistortionPanning.xy * _DistortionTex_ST.xy;
+                        + time.y * _DistortionPanning.xy * _DistortionTex_ST.xy;
                     float2 distortionSample = tex2D(_DistortionTex, distortScrollUv).rg;
                     uv += (distortionSample * 2.0 - 1.0) * (_DistortionStrength * 0.1) * _DistortionAxes.xy;
                 }
@@ -663,51 +657,53 @@
                         floor(flipbookTime % _FlipbookColumns) / _FlipbookColumns,
                         ((_FlipbookRows - 1.0) - floor(flipbookTime / _FlipbookColumns) % _FlipbookRows) / _FlipbookRows
                     );
-                    #if defined(CUSTOM_WRAPPING)
-                    // TODO: custom wrapping with flipbook
-                    #endif
-                    #if defined(TEXTURE_COLOR)
-                    float4 _texSample = tex2D(_MainTex, flipUv) * _BaseLayer;
-                    // Frame blending: sample next frame and lerp by sub-frame fraction
-                    #if !defined(FLIPBOOK_BLENDING_OFF)
-                    {
-                        float2 flipUv2 = uv;
-                        flipUv2.x /= _FlipbookColumns;
-                        flipUv2.y /= _FlipbookRows;
-                        flipUv2 += float2(
-                            floor((flipbookTime + 1) % _FlipbookColumns) / _FlipbookColumns,
-                            ((_FlipbookRows - 1.0) - floor((flipbookTime + 1) / _FlipbookColumns) % _FlipbookRows) / _FlipbookRows
-                        );
-                        _texSample = lerp(_texSample, tex2D(_MainTex, flipUv2) * _BaseLayer, frac(flipbookTime));
-                    }
-                    #endif
-                    albedo.rgb *= _texSample.rgb;
-                    #if defined(_ALPHACHANNEL_RED)
-                    albedo.a *= _texSample.r;
-                    #else
-                    albedo.a *= _texSample.a;
-                    #endif
-                    #else
-                    // Non-texture-color: only alpha channel drives transparency
-                    float4 _texSample = tex2D(_MainTex, flipUv);
-                    #if !defined(FLIPBOOK_BLENDING_OFF)
-                    {
-                        float2 flipUv2 = uv;
-                        flipUv2.x /= _FlipbookColumns;
-                        flipUv2.y /= _FlipbookRows;
-                        flipUv2 += float2(
-                            floor((flipbookTime + 1) % _FlipbookColumns) / _FlipbookColumns,
-                            ((_FlipbookRows - 1.0) - floor((flipbookTime + 1) / _FlipbookColumns) % _FlipbookRows) / _FlipbookRows
-                        );
-                        _texSample = lerp(_texSample, tex2D(_MainTex, flipUv2), frac(flipbookTime));
-                    }
-                    #endif
-                    #if defined(_ALPHACHANNEL_RED)
-                    albedo.a *= _texSample.r * _BaseLayer;
-                    #else
-                    albedo *= _texSample.a * _BaseLayer;
-                    #endif
-                    #endif
+                #if defined(CUSTOM_WRAPPING)
+                // TODO: custom wrapping with flipbook
+                #endif
+                #if defined(TEXTURE_COLOR)
+                float4 _texSample = tex2D(_MainTex, flipUv) * _BaseLayer;
+                // Frame blending: sample next frame and lerp by sub-frame fraction
+                #if !defined(FLIPBOOK_BLENDING_OFF)
+                {
+                    float2 flipUv2 = uv;
+                    flipUv2.x /= _FlipbookColumns;
+                    flipUv2.y /= _FlipbookRows;
+                    flipUv2 += float2(
+                        floor((flipbookTime + 1) % _FlipbookColumns) / _FlipbookColumns,
+                        ((_FlipbookRows - 1.0) - floor((flipbookTime + 1) / _FlipbookColumns) % _FlipbookRows) /
+                        _FlipbookRows
+                    );
+                    _texSample = lerp(_texSample, tex2D(_MainTex, flipUv2) * _BaseLayer, frac(flipbookTime));
+                }
+                #endif
+                albedo.rgb *= _texSample.rgb;
+                #if defined(_ALPHACHANNEL_RED)
+                albedo.a *= _texSample.r;
+                #else
+                albedo.a *= _texSample.a;
+                #endif
+                #else
+                // Non-texture-color: only alpha channel drives transparency
+                float4 _texSample = tex2D(_MainTex, flipUv);
+                #if !defined(FLIPBOOK_BLENDING_OFF)
+                {
+                    float2 flipUv2 = uv;
+                    flipUv2.x /= _FlipbookColumns;
+                    flipUv2.y /= _FlipbookRows;
+                    flipUv2 += float2(
+                        floor((flipbookTime + 1) % _FlipbookColumns) / _FlipbookColumns,
+                        ((_FlipbookRows - 1.0) - floor((flipbookTime + 1) / _FlipbookColumns) % _FlipbookRows) /
+                        _FlipbookRows
+                    );
+                    _texSample = lerp(_texSample, tex2D(_MainTex, flipUv2), frac(flipbookTime));
+                }
+                #endif
+                #if defined(_ALPHACHANNEL_RED)
+                albedo.a *= _texSample.r * _BaseLayer;
+                #else
+                albedo *= _texSample.a * _BaseLayer;
+                #endif
+                #endif
                 }
                 #else
                 // Non-flipbook path: sample using distorted uv
@@ -726,24 +722,29 @@
                 #else
                 // Non-texture-color: only alpha channel drives transparency
                 #if defined(_ALPHACHANNEL_RED)
-                    albedo.a *= tex2D(_MainTex, uv).r * _BaseLayer;
+                albedo.a *= tex2D(_MainTex, uv).r * _BaseLayer;
                 #else
-                    albedo *= tex2D(_MainTex, uv).a * _BaseLayer;
+                albedo *= tex2D(_MainTex, uv).a * _BaseLayer;
                 #endif
                 #endif
                 #endif
                 #endif
 
                 #if defined(SECONDARY_COLOR)
-                float4 secondaryColorTex = tex2D(_SecondaryColorTex, TRANSFORM_TEX(i.uv, _SecondaryColorTex) + _SecondaryColorPanning * time.yy);
-                float3 blendedColor = lerp(UNITY_ACCESS_INSTANCED_PROP(Props, _Color).rgb, UNITY_ACCESS_INSTANCED_PROP(Props, _SecondaryColor).rgb,
+                float4 secondaryColorTex = tex2D(_SecondaryColorTex,
+                                                 TRANSFORM_TEX(i.uv, _SecondaryColorTex) + _SecondaryColorPanning * time
+                                                 .yy);
+                float3 blendedColor = lerp(
+                    UNITY_ACCESS_INSTANCED_PROP(Props, _Color).rgb,
+                    UNITY_ACCESS_INSTANCED_PROP(Props, _SecondaryColor).rgb,
                     saturate(secondaryColorTex.r));
                 albedo.rgb *= blendedColor;
                 #endif
 
                 #if defined(COLOR_GRADIENT)
                 albedo.rgb += tex2D(_ColorGradient,
-                                    TRANSFORM_TEX(i.uv, _ColorGradient) + _GradientPosition.xx * time.yy)
+                                    TRANSFORM_TEX(i.uv, _ColorGradient) +
+                                    _GradientPosition.xx * time.yy)
                     .rgb;
                 #endif
 
@@ -754,7 +755,7 @@
                 float2 maskUv = i.uv.xy;
                 #endif
                 float4 _maskSample = tex2D(_MaskTex, TRANSFORM_TEX(maskUv, _MaskTex) + _MaskPanning * time.yy);
-                float4 mask = lerp(float4(1,1,1,1), _maskSample, UNITY_ACCESS_INSTANCED_PROP(Props, _MaskStrength));
+                float4 mask = lerp(float4(1, 1, 1, 1), _maskSample, UNITY_ACCESS_INSTANCED_PROP(Props, _MaskStrength));
                 #if defined(MASK_RED_IS_ALPHA)
                 mask.a = mask.r;
                 mask.rgb = 0;
@@ -781,7 +782,8 @@
                 float2 mask2Uv = i.uv.xy;
                 #endif
                 float4 _mask2Sample = tex2D(_Mask2Tex, TRANSFORM_TEX(mask2Uv, _Mask2Tex) + _Mask2Panning * time.yy);
-                float4 mask2 = lerp(float4(1,1,1,1), _mask2Sample, UNITY_ACCESS_INSTANCED_PROP(Props, _Mask2Strength));
+                float4 mask2 = lerp(float4(1, 1, 1, 1), _mask2Sample,
+                                    UNITY_ACCESS_INSTANCED_PROP(Props, _Mask2Strength));
                 #if defined(MASK2_RED_IS_ALPHA)
                 mask2.a = mask2.r;
                 mask2.rgb = 1;
@@ -826,7 +828,7 @@
                     // bar mask only gated the final alpha output.
                     float barMask = (float)(binValue >= i.spectrogramUv.y);
                     albedo.rgb *= brightness;
-                    albedo.a   *= barMask * brightness;
+                    albedo.a *= barMask * brightness;
                 }
                 #endif
 
@@ -837,7 +839,7 @@
                 #if defined(REMAP_WHITEBOOST_START)
                 {
                     float remapped = (albedo.a * _QuestWhiteboostMultiplier - _WhiteBoostRemapStart)
-                                     / (1.0 - _WhiteBoostRemapStart);
+                        / (1.0 - _WhiteBoostRemapStart);
                     remapped = max(remapped, 0.0);
                     float boost = remapped * remapped * _BaseColorBoost - _BaseColorBoostThreshold;
                     // Previously boost was computed but never used — albedo.rgb only got the
@@ -860,33 +862,33 @@
                 {
                     float _fogFactor = 1.0;
 
-                    #if defined(HEIGHT_FOG)
-                    {
-                        // Exact CustomParticles formula
-                        float _hf = i.worldPos.y * _FogHeightScale + _FogHeightOffset;
-                        _hf = _hf - (_CustomFogHeightFogHeight + _CustomFogHeightFogStartY);
-                        _hf = saturate(_hf / _CustomFogHeightFogHeight);
-                        float _hfSq = _hf * _hf;
-                        _hf = -_hf * 2.0 + 3.0;
-                        _hf = -_hfSq * _hf + 1.0; // smoothstep: 1=bottom(fogged), 0=top(clear)
-                        _fogFactor = 1.0 - _hf;    // invert: 0=bottom(fade), 1=top(visible)
-                    }
-                    #else
-                    // Distance-only fog when height fog is off
-                    {
-                        float3 _toFrag = i.worldPos.xyz - _WorldSpaceCameraPos;
-                        float _distSq  = max(dot(_toFrag, _toFrag) - _FogStartOffset, 0.0);
-                        _fogFactor = 1.0 / (_distSq * _FogScale + 1.0);
-                    }
-                    #endif
+                #if defined(HEIGHT_FOG)
+                {
+                    // Exact CustomParticles formula
+                    float _hf = i.worldPos.y * _FogHeightScale + _FogHeightOffset;
+                    _hf = _hf - (_CustomFogHeightFogHeight + _CustomFogHeightFogStartY);
+                    _hf = saturate(_hf / _CustomFogHeightFogHeight);
+                    float _hfSq = _hf * _hf;
+                    _hf = -_hf * 2.0 + 3.0;
+                    _hf = -_hfSq * _hf + 1.0; // smoothstep: 1=bottom(fogged), 0=top(clear)
+                    _fogFactor = 1.0 - _hf; // invert: 0=bottom(fade), 1=top(visible)
+                }
+                #else
+                // Distance-only fog when height fog is off
+                {
+                    float3 _toFrag = i.worldPos.xyz - _WorldSpaceCameraPos;
+                    float _distSq = max(dot(_toFrag, _toFrag) - _FogStartOffset, 0.0);
+                    _fogFactor = 1.0 / (_distSq * _FogScale + 1.0);
+                }
+                #endif
 
-                    #if defined(_FOGTYPE_ALPHA)
-                    albedo *= _fogFactor;
-                    #elif defined(_FOGTYPE_COLOR)
-                    albedo.rgb *= _fogFactor;
-                    #else
-                    albedo *= _fogFactor;
-                    #endif
+                #if defined(_FOGTYPE_ALPHA)
+                albedo *= _fogFactor;
+                #elif defined(_FOGTYPE_COLOR)
+                albedo.rgb *= _fogFactor;
+                #else
+                albedo *= _fogFactor;
+                #endif
                 }
                 #endif
 

@@ -17,9 +17,7 @@ Material:
   - SPATIAL_DISPLACEMENT
   - SQUARE_ALPHA
   - VERTEX_DISPLACEMENT
-  - _ALPHACHANNEL_RED
   - _CURVE_VERTICES_AROUND_Z
-  - _SPECTROGRAM_FULL
   m_InvalidKeywords:
   - _BILLBOARD_NONE
   - _BLOOMTYPE_NONE
@@ -137,7 +135,7 @@ Material:
     - _RotateMainUVOnly: 0
     - _RotateUV: 0
     - _Secondary_UVs: 0
-    - _Spectrogram: 2
+    - _Spectrogram: 0
     - _SpectrogramBaseValue: 0.2
     - _SpectrogramRange: 0.2
     - _SquareAlpha: 1

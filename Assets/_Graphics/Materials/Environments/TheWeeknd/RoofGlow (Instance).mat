@@ -15,7 +15,6 @@ Material:
   - HEIGHT_FOG
   - MAIN_TEXTURE
   - VERTEX_COLOR
-  - _ALPHACHANNEL_RED
   - _BLOOMTYPE_FRAG
   - _FOGTYPE_ALPHA
   m_InvalidKeywords:

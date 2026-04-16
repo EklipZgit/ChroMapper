@@ -15,7 +15,6 @@ Material:
   - HEIGHT_FOG
   - MAIN_TEXTURE
   - VERTEX_COLOR
-  - _ALPHACHANNEL_RED
   - _FOGTYPE_COLOR
   m_InvalidKeywords:
   - _BILLBOARD_NONE

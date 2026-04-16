@@ -17,13 +17,13 @@ Material:
   - SQUARE_ALPHA
   - TEXTURE_FLIPBOOK
   - VERTEX_COLOR
-  - _CUSTOM_TIME_SONG_TIME
-  - _VERTEXCHANNELS_A
+  - _VERTEXCHANNELS_RGB
   m_InvalidKeywords:
   - _ALPHACHANNEL_ALPHA
   - _BILLBOARD_NONE
   - _BLOOMTYPE_NONE
   - _CURVE_VERTICES_NONE
+  - _CUSTOM_TIME_STANDARD
   - _CUTOUTTYPE_NONE
   - _DISTORTION_NONE
   - _FOGTYPE_NONE
@@ -89,7 +89,7 @@ Material:
     - _BloomWhiteMultiplier: 1
     - _CullMode: 0
     - _Curve_Vertices: 0
-    - _Custom_Time: 1
+    - _Custom_Time: 0
     - _Cutout: 0.5
     - _CutoutType: 0
     - _DisplacementPanningSpeed: 1

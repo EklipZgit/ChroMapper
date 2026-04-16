@@ -19,7 +19,6 @@ Material:
   - MASK2_RED_IS_ALPHA
   - MASK_RED_IS_ALPHA
   - SQUARE_ALPHA
-  - _ALPHACHANNEL_RED
   - _BLOOMTYPE_PP
   - _FOGTYPE_ALPHA
   m_InvalidKeywords:
@@ -96,7 +95,7 @@ Material:
     - _CutoutType: 0
     - _DisplacementPanningSpeed: 1
     - _DisplacementStrength: 0.1
-    - _Distortion: 0
+    - _Distortion: 1
     - _DistortionStrength: 1
     - _EnableCustomPadding: 0
     - _EnableHeightFog: 1

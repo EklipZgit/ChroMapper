@@ -14,7 +14,9 @@ Material:
   m_ValidKeywords:
   - DIFFUSE
   - FOG
+  - MULTIPLY_REFLECTIONS
   - PRIVATE_POINT_LIGHT
+  - REFLECTION_PROBE_BOX_PROJECTION
   - SPECULAR
   m_InvalidKeywords:
   - _ACES_APPROACH_AFTER_EMISSIVE
@@ -130,7 +132,7 @@ Material:
     - _Emission_Alpha_Source: 0
     - _Emission_Texture_Source: 0
     - _EnableBothSidesDiffuse: 0
-    - _EnableBoxProjection: 0
+    - _EnableBoxProjection: 1
     - _EnableDiffuse: 1
     - _EnableDiffuseTexture: 0
     - _EnableDissolve: 0
@@ -143,7 +145,7 @@ Material:
     - _EnableHeightFog: 0
     - _EnableLightFalloff: 0
     - _EnableMetalSmoothnessTex: 0
-    - _EnableMultiplyReflections: 0
+    - _EnableMultiplyReflections: 1
     - _EnablePrivatePointLight: 1
     - _EnableReflectedDir: 0
     - _EnableRimDim: 0

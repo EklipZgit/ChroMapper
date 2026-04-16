@@ -15,6 +15,8 @@ Material:
   - COLOR_ARRAY
   - DIFFUSE
   - FOG
+  - MULTIPLY_REFLECTIONS
+  - REFLECTION_PROBE_BOX_PROJECTION
   - SPECULAR
   - _EMISSIONTEXTURE_SIMPLE
   m_InvalidKeywords:
@@ -112,7 +114,7 @@ Material:
     - _DissolveStartValue: 0
     - _DistortionStrength: 0.2
     - _EmissionBloomIntensity: 1
-    - _EmissionBloomType: 3
+    - _EmissionBloomType: 0
     - _EmissionBrightness: 1.1
     - _EmissionFogSuppression: 0.95
     - _EmissionGradientIntensity: 1
@@ -130,7 +132,7 @@ Material:
     - _Emission_Alpha_Source: 0
     - _Emission_Texture_Source: 0
     - _EnableBothSidesDiffuse: 0
-    - _EnableBoxProjection: 0
+    - _EnableBoxProjection: 1
     - _EnableDiffuse: 1
     - _EnableDiffuseTexture: 0
     - _EnableDissolve: 0
@@ -143,7 +145,7 @@ Material:
     - _EnableHeightFog: 1
     - _EnableLightFalloff: 0
     - _EnableMetalSmoothnessTex: 0
-    - _EnableMultiplyReflections: 0
+    - _EnableMultiplyReflections: 1
     - _EnablePrivatePointLight: 0
     - _EnableReflectedDir: 0
     - _EnableRimDim: 0

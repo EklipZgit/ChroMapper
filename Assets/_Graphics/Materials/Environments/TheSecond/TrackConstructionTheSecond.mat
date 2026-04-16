@@ -15,6 +15,7 @@ Material:
   - DIFFUSE
   - FOG
   - GROUND_FADE
+  - MULTIPLY_REFLECTIONS
   - SPECULAR
   m_InvalidKeywords:
   - _ACES_APPROACH_AFTER_EMISSIVE
@@ -143,7 +144,7 @@ Material:
     - _EnableHeightFog: 1
     - _EnableLightFalloff: 1
     - _EnableMetalSmoothnessTex: 0
-    - _EnableMultiplyReflections: 0
+    - _EnableMultiplyReflections: 1
     - _EnablePrivatePointLight: 0
     - _EnableReflectedDir: 0
     - _EnableRimDim: 0
