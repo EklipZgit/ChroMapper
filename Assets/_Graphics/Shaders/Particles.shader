@@ -348,18 +348,19 @@
 
             #define USE_BILLBOARD defined(_BILLBOARD_FULL) || defined(_BILLBOARD_Y_AXIS) || defined(_BILLBOARD_CAMERA_FACING)
 
+            
 
             #if defined(UNITY_INSTANCING_ENABLED)
-            UNITY_INSTANCING_BUFFER_START(Props)
-                UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
-                UNITY_DEFINE_INSTANCED_PROP(float4, _SecondaryColor)
-                UNITY_DEFINE_INSTANCED_PROP(float4, unity_SpriteRendererColorArray)
-                UNITY_DEFINE_INSTANCED_PROP(half2, unity_SpriteFlipArray)
-                UNITY_DEFINE_INSTANCED_PROP(float, _MaskStrength)
-                UNITY_DEFINE_INSTANCED_PROP(float, _Mask2Strength)
-                UNITY_DEFINE_INSTANCED_PROP(float, _TimeOffset)
-                UNITY_DEFINE_INSTANCED_PROP(float, _MeshPackingId)
-            UNITY_INSTANCING_BUFFER_END(Props)
+            UNITY_INSTANCING_BUFFER_START (Props)
+            UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
+            UNITY_DEFINE_INSTANCED_PROP(float4, _SecondaryColor)
+            UNITY_DEFINE_INSTANCED_PROP(float4, unity_SpriteRendererColorArray)
+            UNITY_DEFINE_INSTANCED_PROP(half2, unity_SpriteFlipArray)
+            UNITY_DEFINE_INSTANCED_PROP(float, _MaskStrength)
+            UNITY_DEFINE_INSTANCED_PROP(float, _Mask2Strength)
+            UNITY_DEFINE_INSTANCED_PROP(float, _TimeOffset)
+            UNITY_DEFINE_INSTANCED_PROP(float, _MeshPackingId)
+            UNITY_INSTANCING_BUFFER_END (Props)
             #define _RendererColor  UNITY_ACCESS_INSTANCED_PROP(Props, unity_SpriteRendererColorArray)
             #define _Flip           UNITY_ACCESS_INSTANCED_PROP(Props, unity_SpriteFlipArray)
             #endif
@@ -418,7 +419,7 @@
                 float2 packingUv : TEXCOORD3;
                 #endif
                 #if defined(COLOR_ARRAY)
-                float2 colorIndexUv : TEXCOORD4; // ADD — encodes color index as (tens, units)
+                float2 colorIndexUv : TEXCOORD4;  // ADD — encodes color index as (tens, units)
                 #endif
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
@@ -491,22 +492,21 @@
 
                 #if defined(VERTEX_DISPLACEMENT)
                 float4 time = GET_TIME(UNITY_ACCESS_INSTANCED_PROP(Props, _TimeOffset)) / 2;
-                float2 dispUV = TRANSFORM_TEX(i.uv1, _DisplacementTex)
-                    + _DisplacementPanning.xy * time.y * _DisplacementPanningSpeed;
+                float2 dispUV = TRANSFORM_TEX(i.uv1, _DisplacementTex) 
+                              + _DisplacementPanning.xy * time.y * _DisplacementPanningSpeed;
                 float3 dispSample = tex2Dlod(_DisplacementTex, float4(dispUV, 0, 0)).xyz * 2.0 - 1.0;
 
                 #if defined(SPATIAL_DISPLACEMENT)
                 float3 bitangent = i.tangent.yzx * i.normal.zxy - i.normal.yzx * i.tangent.zxy;
                 float3 dispDir = dispSample.x * i.tangent.xyz
-                    + dispSample.y * bitangent
-                    + dispSample.z * i.normal.xyz;
+                               + dispSample.y * bitangent
+                               + dispSample.z * i.normal.xyz;
                 dispDir = normalize(dispDir);
 
                 #if defined(_SPECTROGRAM_FLAT) || defined(_SPECTROGRAM_FULL)
                 float spectrogramIndex = i.uv3.x * _UV3Scale + _UV3Offset;
-                float4 audioData = AudioLinkLerpMultiline(
-                    ALPASS_DFT + uint2(spectrogramIndex * AUDIOLINK_ETOTALBINS, 0));
-                float dispAmount = _DisplacementStrength * audioData.b * 2;
+                float4 audioData = AudioLinkLerpMultiline(ALPASS_DFT + uint2(spectrogramIndex * AUDIOLINK_ETOTALBINS, 0));
+                float dispAmount = _DisplacementStrength * audioData.b*2;
                 #else
                 float dispAmount = _DisplacementStrength;
                 #endif
@@ -605,7 +605,7 @@
             {
                 UNITY_SETUP_INSTANCE_ID(i);
 
-                float4 time = GET_TIME(UNITY_ACCESS_INSTANCED_PROP(Props, _TimeOffset)) / 2;
+                float4 time = GET_TIME(UNITY_ACCESS_INSTANCED_PROP(Props, _TimeOffset))/2;
 
                 #if defined(_SECONDARY_UVS_IMPORT)
                 // TODO: secondary uv stuff
@@ -640,7 +640,7 @@
                 #if defined(_DISTORTION_SIMPLE)
                 {
                     float2 distortScrollUv = uv * _DistortionTex_ST.xy + _DistortionTex_ST.zw
-                        + time.y * _DistortionPanning.xy * _DistortionTex_ST.xy;
+                                           + time.y * _DistortionPanning.xy * _DistortionTex_ST.xy;
                     float2 distortionSample = tex2D(_DistortionTex, distortScrollUv).rg;
                     uv += (distortionSample * 2.0 - 1.0) * (_DistortionStrength * 0.1) * _DistortionAxes.xy;
                 }
@@ -657,53 +657,51 @@
                         floor(flipbookTime % _FlipbookColumns) / _FlipbookColumns,
                         ((_FlipbookRows - 1.0) - floor(flipbookTime / _FlipbookColumns) % _FlipbookRows) / _FlipbookRows
                     );
-                #if defined(CUSTOM_WRAPPING)
-                // TODO: custom wrapping with flipbook
-                #endif
-                #if defined(TEXTURE_COLOR)
-                float4 _texSample = tex2D(_MainTex, flipUv) * _BaseLayer;
-                // Frame blending: sample next frame and lerp by sub-frame fraction
-                #if !defined(FLIPBOOK_BLENDING_OFF)
-                {
-                    float2 flipUv2 = uv;
-                    flipUv2.x /= _FlipbookColumns;
-                    flipUv2.y /= _FlipbookRows;
-                    flipUv2 += float2(
-                        floor((flipbookTime + 1) % _FlipbookColumns) / _FlipbookColumns,
-                        ((_FlipbookRows - 1.0) - floor((flipbookTime + 1) / _FlipbookColumns) % _FlipbookRows) /
-                        _FlipbookRows
-                    );
-                    _texSample = lerp(_texSample, tex2D(_MainTex, flipUv2) * _BaseLayer, frac(flipbookTime));
-                }
-                #endif
-                albedo.rgb *= _texSample.rgb;
-                #if defined(_ALPHACHANNEL_RED)
-                albedo.a *= _texSample.r;
-                #else
-                albedo.a *= _texSample.a;
-                #endif
-                #else
-                // Non-texture-color: only alpha channel drives transparency
-                float4 _texSample = tex2D(_MainTex, flipUv);
-                #if !defined(FLIPBOOK_BLENDING_OFF)
-                {
-                    float2 flipUv2 = uv;
-                    flipUv2.x /= _FlipbookColumns;
-                    flipUv2.y /= _FlipbookRows;
-                    flipUv2 += float2(
-                        floor((flipbookTime + 1) % _FlipbookColumns) / _FlipbookColumns,
-                        ((_FlipbookRows - 1.0) - floor((flipbookTime + 1) / _FlipbookColumns) % _FlipbookRows) /
-                        _FlipbookRows
-                    );
-                    _texSample = lerp(_texSample, tex2D(_MainTex, flipUv2), frac(flipbookTime));
-                }
-                #endif
-                #if defined(_ALPHACHANNEL_RED)
-                albedo.a *= _texSample.r * _BaseLayer;
-                #else
-                albedo *= _texSample.a * _BaseLayer;
-                #endif
-                #endif
+                    #if defined(CUSTOM_WRAPPING)
+                    // TODO: custom wrapping with flipbook
+                    #endif
+                    #if defined(TEXTURE_COLOR)
+                    float4 _texSample = tex2D(_MainTex, flipUv) * _BaseLayer;
+                    // Frame blending: sample next frame and lerp by sub-frame fraction
+                    #if !defined(FLIPBOOK_BLENDING_OFF)
+                    {
+                        float2 flipUv2 = uv;
+                        flipUv2.x /= _FlipbookColumns;
+                        flipUv2.y /= _FlipbookRows;
+                        flipUv2 += float2(
+                            floor((flipbookTime + 1) % _FlipbookColumns) / _FlipbookColumns,
+                            ((_FlipbookRows - 1.0) - floor((flipbookTime + 1) / _FlipbookColumns) % _FlipbookRows) / _FlipbookRows
+                        );
+                        _texSample = lerp(_texSample, tex2D(_MainTex, flipUv2) * _BaseLayer, frac(flipbookTime));
+                    }
+                    #endif
+                    albedo.rgb *= _texSample.rgb;
+                    #if defined(_ALPHACHANNEL_RED)
+                    albedo.a *= _texSample.r;
+                    #else
+                    albedo.a *= _texSample.a;
+                    #endif
+                    #else
+                    // Non-texture-color: only alpha channel drives transparency
+                    float4 _texSample = tex2D(_MainTex, flipUv);
+                    #if !defined(FLIPBOOK_BLENDING_OFF)
+                    {
+                        float2 flipUv2 = uv;
+                        flipUv2.x /= _FlipbookColumns;
+                        flipUv2.y /= _FlipbookRows;
+                        flipUv2 += float2(
+                            floor((flipbookTime + 1) % _FlipbookColumns) / _FlipbookColumns,
+                            ((_FlipbookRows - 1.0) - floor((flipbookTime + 1) / _FlipbookColumns) % _FlipbookRows) / _FlipbookRows
+                        );
+                        _texSample = lerp(_texSample, tex2D(_MainTex, flipUv2), frac(flipbookTime));
+                    }
+                    #endif
+                    #if defined(_ALPHACHANNEL_RED)
+                    albedo.a *= _texSample.r * _BaseLayer;
+                    #else
+                    albedo *= _texSample.a * _BaseLayer;
+                    #endif
+                    #endif
                 }
                 #else
                 // Non-flipbook path: sample using distorted uv
@@ -722,29 +720,24 @@
                 #else
                 // Non-texture-color: only alpha channel drives transparency
                 #if defined(_ALPHACHANNEL_RED)
-                albedo.a *= tex2D(_MainTex, uv).r * _BaseLayer;
+                    albedo.a *= tex2D(_MainTex, uv).r * _BaseLayer;
                 #else
-                albedo *= tex2D(_MainTex, uv).a * _BaseLayer;
+                    albedo *= tex2D(_MainTex, uv).a * _BaseLayer;
                 #endif
                 #endif
                 #endif
                 #endif
 
                 #if defined(SECONDARY_COLOR)
-                float4 secondaryColorTex = tex2D(_SecondaryColorTex,
-                                                 TRANSFORM_TEX(i.uv, _SecondaryColorTex) + _SecondaryColorPanning * time
-                                                 .yy);
-                float3 blendedColor = lerp(
-                    UNITY_ACCESS_INSTANCED_PROP(Props, _Color).rgb,
-                    UNITY_ACCESS_INSTANCED_PROP(Props, _SecondaryColor).rgb,
+                float4 secondaryColorTex = tex2D(_SecondaryColorTex, TRANSFORM_TEX(i.uv, _SecondaryColorTex) + _SecondaryColorPanning * time.yy);
+                float3 blendedColor = lerp(UNITY_ACCESS_INSTANCED_PROP(Props, _Color).rgb, UNITY_ACCESS_INSTANCED_PROP(Props, _SecondaryColor).rgb,
                     saturate(secondaryColorTex.r));
                 albedo.rgb *= blendedColor;
                 #endif
 
                 #if defined(COLOR_GRADIENT)
                 albedo.rgb += tex2D(_ColorGradient,
-                                    TRANSFORM_TEX(i.uv, _ColorGradient) +
-                                    _GradientPosition.xx * time.yy)
+                                    TRANSFORM_TEX(i.uv, _ColorGradient) + _GradientPosition.xx * time.yy)
                     .rgb;
                 #endif
 
@@ -755,7 +748,7 @@
                 float2 maskUv = i.uv.xy;
                 #endif
                 float4 _maskSample = tex2D(_MaskTex, TRANSFORM_TEX(maskUv, _MaskTex) + _MaskPanning * time.yy);
-                float4 mask = lerp(float4(1, 1, 1, 1), _maskSample, UNITY_ACCESS_INSTANCED_PROP(Props, _MaskStrength));
+                float4 mask = lerp(float4(1,1,1,1), _maskSample, UNITY_ACCESS_INSTANCED_PROP(Props, _MaskStrength));
                 #if defined(MASK_RED_IS_ALPHA)
                 mask.a = mask.r;
                 mask.rgb = 0;
@@ -782,8 +775,7 @@
                 float2 mask2Uv = i.uv.xy;
                 #endif
                 float4 _mask2Sample = tex2D(_Mask2Tex, TRANSFORM_TEX(mask2Uv, _Mask2Tex) + _Mask2Panning * time.yy);
-                float4 mask2 = lerp(float4(1, 1, 1, 1), _mask2Sample,
-                                    UNITY_ACCESS_INSTANCED_PROP(Props, _Mask2Strength));
+                float4 mask2 = lerp(float4(1,1,1,1), _mask2Sample, UNITY_ACCESS_INSTANCED_PROP(Props, _Mask2Strength));
                 #if defined(MASK2_RED_IS_ALPHA)
                 mask2.a = mask2.r;
                 mask2.rgb = 1;
@@ -828,7 +820,7 @@
                     // bar mask only gated the final alpha output.
                     float barMask = (float)(binValue >= i.spectrogramUv.y);
                     albedo.rgb *= brightness;
-                    albedo.a *= barMask * brightness;
+                    albedo.a   *= barMask * brightness;
                 }
                 #endif
 
@@ -839,7 +831,7 @@
                 #if defined(REMAP_WHITEBOOST_START)
                 {
                     float remapped = (albedo.a * _QuestWhiteboostMultiplier - _WhiteBoostRemapStart)
-                        / (1.0 - _WhiteBoostRemapStart);
+                                     / (1.0 - _WhiteBoostRemapStart);
                     remapped = max(remapped, 0.0);
                     float boost = remapped * remapped * _BaseColorBoost - _BaseColorBoostThreshold;
                     // Previously boost was computed but never used — albedo.rgb only got the
@@ -862,33 +854,33 @@
                 {
                     float _fogFactor = 1.0;
 
-                #if defined(HEIGHT_FOG)
-                {
-                    // Exact CustomParticles formula
-                    float _hf = i.worldPos.y * _FogHeightScale + _FogHeightOffset;
-                    _hf = _hf - (_CustomFogHeightFogHeight + _CustomFogHeightFogStartY);
-                    _hf = saturate(_hf / _CustomFogHeightFogHeight);
-                    float _hfSq = _hf * _hf;
-                    _hf = -_hf * 2.0 + 3.0;
-                    _hf = -_hfSq * _hf + 1.0; // smoothstep: 1=bottom(fogged), 0=top(clear)
-                    _fogFactor = 1.0 - _hf; // invert: 0=bottom(fade), 1=top(visible)
-                }
-                #else
-                // Distance-only fog when height fog is off
-                {
-                    float3 _toFrag = i.worldPos.xyz - _WorldSpaceCameraPos;
-                    float _distSq = max(dot(_toFrag, _toFrag) - _FogStartOffset, 0.0);
-                    _fogFactor = 1.0 / (_distSq * _FogScale + 1.0);
-                }
-                #endif
+                    #if defined(HEIGHT_FOG)
+                    {
+                        // Exact CustomParticles formula
+                        float _hf = i.worldPos.y * _FogHeightScale + _FogHeightOffset;
+                        _hf = _hf - (_CustomFogHeightFogHeight + _CustomFogHeightFogStartY);
+                        _hf = saturate(_hf / _CustomFogHeightFogHeight);
+                        float _hfSq = _hf * _hf;
+                        _hf = -_hf * 2.0 + 3.0;
+                        _hf = -_hfSq * _hf + 1.0; // smoothstep: 1=bottom(fogged), 0=top(clear)
+                        _fogFactor = 1.0 - _hf;    // invert: 0=bottom(fade), 1=top(visible)
+                    }
+                    #else
+                    // Distance-only fog when height fog is off
+                    {
+                        float3 _toFrag = i.worldPos.xyz - _WorldSpaceCameraPos;
+                        float _distSq  = max(dot(_toFrag, _toFrag) - _FogStartOffset, 0.0);
+                        _fogFactor = 1.0 / (_distSq * _FogScale + 1.0);
+                    }
+                    #endif
 
-                #if defined(_FOGTYPE_ALPHA)
-                albedo *= _fogFactor;
-                #elif defined(_FOGTYPE_COLOR)
-                albedo.rgb *= _fogFactor;
-                #else
-                albedo *= _fogFactor;
-                #endif
+                    #if defined(_FOGTYPE_ALPHA)
+                    albedo *= _fogFactor;
+                    #elif defined(_FOGTYPE_COLOR)
+                    albedo.rgb *= _fogFactor;
+                    #else
+                    albedo *= _fogFactor;
+                    #endif
                 }
                 #endif
 
