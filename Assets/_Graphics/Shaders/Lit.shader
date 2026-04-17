@@ -738,7 +738,7 @@
                     }
                 #endif
 
-                i.vertex.xyz += _dispScale * dispDir;
+                i.vertex.xyz += _dispScale * dispDir/2;
                 }
                 #endif
 

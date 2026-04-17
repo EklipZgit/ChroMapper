@@ -19,9 +19,11 @@ public class EnumShowIfAnyDrawer : ShowIfAnyDrawer
         var index = (int)prop.floatValue;
         index = EditorGUI.Popup(position, label, index, options);
 
-        if (!EditorGUI.EndChangeCheck()) return;
+
         prop.floatValue = index;
         SetKeywords(prop, index);
+        if (!EditorGUI.EndChangeCheck()) return;
+        
     }
 
     private void SetKeywords(MaterialProperty prop, int index)
