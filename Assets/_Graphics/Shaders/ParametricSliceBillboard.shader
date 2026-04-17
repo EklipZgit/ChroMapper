@@ -230,7 +230,7 @@
                 albedo *= alphaFactor;
 
                 #if defined(_BLOOMTYPE_PP)
-                CUSTOM_BLOOM_PP_APPLY(albedo, _BloomMultiplier);
+                CUSTOM_BLOOM_PP_APPLY(albedo, _BloomWhiteMultiplier);
                 #elif defined(_BLOOMTYPE_FRAG)
                 CUSTOM_BLOOM_FRAG_APPLY(albedo, _BloomWhiteMultiplier);
                 #else
