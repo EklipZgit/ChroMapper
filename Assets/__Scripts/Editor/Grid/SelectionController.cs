@@ -278,8 +278,7 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
             types,
             (collection, beatmapObject) =>
             {
-                if (SelectedObjects.Contains(beatmapObject)) return;
-                SelectedObjects.Add(beatmapObject);
+                if (!SelectedObjects.Add(beatmapObject)) return;
                 if (collection.LoadedContainers.TryGetValue(beatmapObject, out var container))
                 {
                     container.SetOutlineColor(instance.selectedColor);

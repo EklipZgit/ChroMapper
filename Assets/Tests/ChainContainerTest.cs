@@ -3,7 +3,6 @@ using System.Linq;
 using Beatmap.Base;
 using Beatmap.Enums;
 using Beatmap.Shared;
-using Beatmap.V3;
 using NUnit.Framework;
 using Tests.Util;
 using UnityEngine;
@@ -33,11 +32,7 @@ namespace Tests
         {
             chainsCollection = BeatmapObjectContainerCollection.GetCollectionForType<ChainGridContainer>(ObjectType.Chain);
 
-            var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
-
-            var root = chainsCollection.transform.root;
-            var chainPlacement = root.GetComponentInChildren<ChainPlacement>();
-            var inputController = root.GetComponentInChildren<BeatmapChainInputController>();
+            var chainPlacement = Object.FindAnyObjectByType<ChainPlacement>();
 
             placedChain = new BaseChain
             {
@@ -51,7 +46,7 @@ namespace Tests
 
             // Chain links
             var links = chainContainer.GetComponentsInChildren<ChainComponentsFetcher>();
-            var linkTransforms = links.Select(x => x.GetComponent<Transform>()).OrderBy(t => t.transform.position.z).ToList();
+            links.Select(x => x.GetComponent<Transform>()).OrderBy(t => t.transform.position.z).ToList();
         }
 
         [TearDown]

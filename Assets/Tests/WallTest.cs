@@ -3,8 +3,6 @@ using System.Linq;
 using Beatmap.Base;
 using Beatmap.Containers;
 using Beatmap.Enums;
-using Beatmap.V2;
-using Beatmap.V3;
 using NUnit.Framework;
 using SimpleJSON;
 using Tests.Util;
@@ -38,9 +36,8 @@ namespace Tests
         public void EnsureWallIntegrity()
         {
             var obstaclesContainer = BeatmapObjectContainerCollection.GetCollectionForType<ObstacleGridContainer>(ObjectType.Obstacle);
-            
-            var root = obstaclesContainer.transform.root;
-            var wallPlacement = root.GetComponentInChildren<ObstaclePlacement>();
+
+            var wallPlacement = Object.FindAnyObjectByType<ObstaclePlacement>();
             wallPlacement.CreateVisual();
 
             var wallA = new BaseObstacle
@@ -115,10 +112,9 @@ namespace Tests
         {
             var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var obstaclesCollection = BeatmapObjectContainerCollection.GetCollectionForType<ObstacleGridContainer>(ObjectType.Obstacle);
-            
-            var root = obstaclesCollection.transform.root;
-            var wallPlacement = root.GetComponentInChildren<ObstaclePlacement>();
-            var inputController = root.GetComponentInChildren<BeatmapObstacleInputController>();
+
+            var wallPlacement = Object.FindAnyObjectByType<ObstaclePlacement>();
+            var inputController = Object.FindAnyObjectByType<BeatmapObstacleInputController>();
             wallPlacement.CreateVisual();
 
             BaseObstacle wallA = new BaseObstacle
@@ -155,11 +151,9 @@ namespace Tests
         {
             Settings.Instance.MapVersion = 2;
             
-            var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var obstaclesCollection = BeatmapObjectContainerCollection.GetCollectionForType<ObstacleGridContainer>(ObjectType.Obstacle);
 
-            var root = obstaclesCollection.transform.root;
-            var wallPlacement = root.GetComponentInChildren<ObstaclePlacement>();
+            var wallPlacement = Object.FindAnyObjectByType<ObstaclePlacement>();
             wallPlacement.CreateVisual();
 
             var customCoord = new JSONArray() { [0] = 0, [1] = 1 };

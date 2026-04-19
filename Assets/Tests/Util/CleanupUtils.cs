@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Beatmap.Enums;
+﻿using Beatmap.Enums;
 using UnityEngine;
 
 namespace Tests.Util

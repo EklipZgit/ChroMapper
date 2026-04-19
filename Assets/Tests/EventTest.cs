@@ -1,9 +1,7 @@
 ﻿using System.Collections;
-using System.Linq;
 using Beatmap.Base;
 using Beatmap.Containers;
 using Beatmap.Enums;
-using Beatmap.V3;
 using NUnit.Framework;
 using SimpleJSON;
 using Tests.Util;
@@ -39,10 +37,9 @@ namespace Tests
         {
             var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var eventsContainer = BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
-            
-            var root = eventsContainer.transform.root;
-            var eventPlacement = root.GetComponentInChildren<EventPlacement>();
-            var inputController = root.GetComponentInChildren<BeatmapEventInputController>();
+
+            var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
+            var inputController = Object.FindAnyObjectByType<BeatmapEventInputController>();
 
             BaseEvent baseEventA = new BaseEvent { JsonTime = 2, Type = (int)EventTypeValue.LateLaneRotation, Rotation = 45 };
             BaseEvent baseEventB = new BaseEvent { JsonTime = 3, Type = (int)EventTypeValue.BackLasers, Value = (int)LightValue.RedFade };
@@ -92,9 +89,8 @@ namespace Tests
             var containerCollection = BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Event);
             if (containerCollection is EventGridContainer eventsContainer)
             {
-                var root = eventsContainer.transform.root;
-                var eventPlacement = root.GetComponentInChildren<EventPlacement>();
-                var inputController = root.GetComponentInChildren<BeatmapEventInputController>();
+                var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
+                var inputController = Object.FindAnyObjectByType<BeatmapEventInputController>();
 
                 BaseEvent baseEventA = new BaseEvent { JsonTime = 2, Type = (int)EventTypeValue.LeftLaserRotation, Value = 2 };
                 PlaceUtils.PlaceEvent(eventPlacement, baseEventA, true);
@@ -120,9 +116,8 @@ namespace Tests
             var containerCollection = BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Event);
             if (containerCollection is EventGridContainer eventsContainer)
             {
-                var root = eventsContainer.transform.root;
-                var eventPlacement = root.GetComponentInChildren<EventPlacement>();
-                var inputController = root.GetComponentInChildren<BeatmapEventInputController>();
+                var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
+                var inputController = Object.FindAnyObjectByType<BeatmapEventInputController>();
 
                 var baseBoostEvent = new BaseEvent { JsonTime = 3, Type = (int)EventTypeValue.ColorBoost, Value = 0 };
                 PlaceUtils.PlaceEvent(eventPlacement, baseBoostEvent, true);
@@ -153,13 +148,10 @@ namespace Tests
         [Test]
         public void PlacementPersistsCustomProperty()
         {
-            var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var containerCollection = BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Event);
             if (containerCollection is EventGridContainer eventsContainer)
             {
-                var root = eventsContainer.transform.root;
-                var eventPlacement = root.GetComponentInChildren<EventPlacement>();
-                var inputController = root.GetComponentInChildren<BeatmapEventInputController>();
+                var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
 
                 var color = new Color(0, 1, 2, 3);
                 var easing = "easeOutQuad";

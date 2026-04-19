@@ -1,12 +1,7 @@
 ﻿using System.Collections;
-using System.Linq;
 using Beatmap.Base;
-using Beatmap.Containers;
 using Beatmap.Enums;
-using Beatmap.Helper;
-using Beatmap.V3;
 using NUnit.Framework;
-using SimpleJSON;
 using Tests.Util;
 using UnityEngine;
 using UnityEngine.TestTools;

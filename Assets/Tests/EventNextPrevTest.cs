@@ -1,14 +1,9 @@
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using Beatmap.Base;
-using Beatmap.Containers;
 using Beatmap.Enums;
-using Beatmap.V3;
 using NUnit.Framework;
-using SimpleJSON;
 using Tests.Util;
-using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.TestTools;
 
@@ -42,8 +37,7 @@ namespace Tests
             var eventsContainer =
                 BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
 
-            var root = eventsContainer.transform.root;
-            var eventPlacement = root.GetComponentInChildren<EventPlacement>();
+            var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
 
             BaseEvent baseEvent1 = new BaseEvent{ JsonTime = 1, Type = (int)EventTypeValue.CenterLights, Value = (int)LightValue.BlueOn };
             BaseEvent baseEvent2 = new BaseEvent{ JsonTime = 2, Type = (int)EventTypeValue.CenterLights, Value = (int)LightValue.BlueOn };
@@ -79,8 +73,7 @@ namespace Tests
             var eventsContainer =
                 BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
 
-            var root = eventsContainer.transform.root;
-            var eventPlacement = root.GetComponentInChildren<EventPlacement>();
+            var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
 
             BaseEvent baseEvent1 = new BaseEvent{ JsonTime = 1, Type = (int)EventTypeValue.CenterLights, Value = (int)LightValue.BlueOn };
             BaseEvent baseEvent2 = new BaseEvent{ JsonTime = 2, Type = (int)EventTypeValue.CenterLights, Value = (int)LightValue.BlueOn };
@@ -118,8 +111,7 @@ namespace Tests
             var eventsContainer =
                 BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
 
-            var root = eventsContainer.transform.root;
-            var eventPlacement = root.GetComponentInChildren<EventPlacement>();
+            var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
 
             BaseEvent baseEventA1 = new BaseEvent{ JsonTime = 1, Type = (int)EventTypeValue.LeftLasers, Value = (int)LightValue.BlueOn };
             BaseEvent baseEventT2 = new BaseEvent{ JsonTime = 2, Type = (int)EventTypeValue.LeftLasers, Value = (int)LightValue.BlueOn };
@@ -173,8 +165,7 @@ namespace Tests
             var eventsContainer =
                 BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
 
-            var root = eventsContainer.transform.root;
-            var eventPlacement = root.GetComponentInChildren<EventPlacement>();
+            var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
 
             BaseEvent baseEventA = new BaseEvent { JsonTime = 1, Type = (int)EventTypeValue.LeftLasers, Value = (int)LightValue.BlueOn };
             BaseEvent baseEventT1 = new BaseEvent { JsonTime = 1.5f, Type = (int)EventTypeValue.LeftLasers, Value = (int)LightValue.BlueOn };
@@ -212,9 +203,8 @@ namespace Tests
             var eventsContainer =
                 BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
 
-            var root = eventsContainer.transform.root;
-            var eventPlacement = root.GetComponentInChildren<EventPlacement>();
-            var atsc = root.GetComponentInChildren<AudioTimeSyncController>();
+            var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
+            var atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
 
             BaseEvent baseEventA = new BaseEvent { JsonTime = 1, Type = (int)EventTypeValue.LeftLasers, Value = (int)LightValue.BlueOn };
             BaseEvent baseEventB = new BaseEvent { JsonTime = 2, Type = (int)EventTypeValue.LeftLasers, Value = (int)LightValue.BlueOn };

@@ -2,8 +2,6 @@
 using Beatmap.Base;
 using Beatmap.Enums;
 using Beatmap.Shared;
-using Beatmap.V2;
-using Beatmap.V3;
 using NUnit.Framework;
 using SimpleJSON;
 using Tests.Util;
@@ -49,10 +47,9 @@ namespace Tests
             var painter = Object.FindAnyObjectByType<PaintSelectedObjects>();
 
             var eventsContainer = BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
-            var root = eventsContainer.transform.root;
 
-            var selectionController = root.GetComponentInChildren<SelectionController>();
-            var eventPlacement = root.GetComponentInChildren<EventPlacement>();
+            var selectionController = Object.FindAnyObjectByType<SelectionController>();
+            var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
 
             var customData = new JSONObject();
             customData["_lightGradient"] = new ChromaLightGradient(Color.blue, Color.cyan).ToJson();
@@ -96,10 +93,9 @@ namespace Tests
             var painter = Object.FindAnyObjectByType<PaintSelectedObjects>();
 
             var eventsContainer = BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
-            var root = eventsContainer.transform.root;
 
-            var selectionController = root.GetComponentInChildren<SelectionController>();
-            var eventPlacement = root.GetComponentInChildren<EventPlacement>();
+            var selectionController = Object.FindAnyObjectByType<SelectionController>();
+            var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
 
             BaseEvent baseEventA = new BaseEvent { JsonTime = 2, Type = 1, Value = 1 };
             PlaceUtils.PlaceEvent(eventPlacement, baseEventA);
@@ -144,8 +140,7 @@ namespace Tests
             var painter = Object.FindAnyObjectByType<PaintSelectedObjects>();
 
             var eventsContainer = BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
-            var root = eventsContainer.transform.root;
-            var eventPlacement = root.GetComponentInChildren<EventPlacement>();
+            var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
 
             BaseEvent baseEventA = new BaseEvent { JsonTime = 2, Type = 1, Value = 0 };
             PlaceUtils.PlaceEvent(eventPlacement, baseEventA);

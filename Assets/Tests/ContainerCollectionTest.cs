@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using Beatmap.Base;
 using Beatmap.Enums;
 using Beatmap.Helper;
-using Beatmap.V3;
 using NUnit.Framework;
 using Tests.Util;
 using UnityEngine.TestTools;
@@ -293,9 +291,8 @@ namespace Tests
             var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             
             var notesContainer = BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
-            var root = notesContainer.transform.root;
-            var notePlacement = root.GetComponentInChildren<NotePlacement>();
-            var selectionController = root.GetComponentInChildren<SelectionController>();
+            var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
+            var selectionController = Object.FindAnyObjectByType<SelectionController>();
 
             var baseNoteA = new BaseNote{ JsonTime = 0 };
             var baseNoteB = new BaseNote{ JsonTime = 1 };

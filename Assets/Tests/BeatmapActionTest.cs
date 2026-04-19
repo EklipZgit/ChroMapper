@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using Beatmap.Base;
 using Beatmap.Enums;
-using Beatmap.V3;
 using NUnit.Framework;
 using Tests.Util;
 using UnityEngine;
@@ -35,7 +34,6 @@ namespace Tests
         {
             var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var notesContainer = BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
-            var root = notesContainer.transform.root;
 
             BaseNote baseNoteA = new BaseNote
             {
@@ -46,7 +44,7 @@ namespace Tests
 
             SelectionController.Select(baseNoteA);
 
-            var selectionController = root.GetComponentInChildren<SelectionController>();
+            var selectionController = Object.FindAnyObjectByType<SelectionController>();
             // Default precision is 3dp, but in editor it's 6dp so check 7dp
             selectionController.MoveSelection(-0.0000001f);
 
@@ -66,9 +64,8 @@ namespace Tests
         {
             var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var notesContainer = BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
-            var root = notesContainer.transform.root;
-            var selectionController = root.GetComponentInChildren<SelectionController>();
-            var notePlacement = root.GetComponentInChildren<NotePlacement>();
+            var selectionController = Object.FindAnyObjectByType<SelectionController>();
+            var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
 
             BaseNote baseNoteA = new BaseNote
             {
@@ -182,8 +179,7 @@ namespace Tests
             var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
 
             var notesContainer = BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
-            var root = notesContainer.transform.root;
-            var notePlacement = root.GetComponentInChildren<NotePlacement>();
+            var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
 
             PlaceUtils.PlaceNote(notePlacement, new BaseNote
             {

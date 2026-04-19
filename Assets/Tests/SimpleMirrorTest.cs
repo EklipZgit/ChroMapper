@@ -1,9 +1,6 @@
 using System.Collections;
-using System.Linq;
 using Beatmap.Base;
 using Beatmap.Enums;
-using Beatmap.V2;
-using Beatmap.V3;
 using NUnit.Framework;
 using SimpleJSON;
 using Tests.Util;
@@ -52,8 +49,7 @@ namespace Tests
         {
             
             var notesContainer = BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
-            var root = notesContainer.transform.root;
-            var notePlacement = root.GetComponentInChildren<NotePlacement>();
+            var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
 
             var baseNoteA = new BaseNote{ JsonTime = 2, PosX = (int)GridX.MiddleLeft, PosY = (int)GridY.Base, Type = (int)NoteType.Red, CutDirection = (int)NoteCutDirection.Down };
             var baseNoteB = new BaseNote{ JsonTime = 2, PosX = (int)GridX.MiddleRight, PosY = (int)GridY.Base, Type = (int)NoteType.Blue, CutDirection = (int)NoteCutDirection.Down };
@@ -91,8 +87,7 @@ namespace Tests
         public void MirrorNoteME()
         {
             var notesContainer = BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
-            var root = notesContainer.transform.root;
-            var notePlacement = root.GetComponentInChildren<NotePlacement>();
+            var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
 
             BaseNote baseNoteA =
                 new BaseNote
@@ -120,8 +115,7 @@ namespace Tests
         {
             var notesContainer =
                 BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
-            var root = notesContainer.transform.root;
-            var notePlacement = root.GetComponentInChildren<NotePlacement>();
+            var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
 
             BaseNote baseNoteA = new BaseNote
             {
@@ -167,9 +161,8 @@ namespace Tests
         public void MirrorEventLightID(string original, string mirror, EventGridContainer.PropMode propMode)
         {
             var eventsContainer = BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
-            
-            var root = eventsContainer.transform.root;
-            var eventPlacement = root.GetComponentInChildren<EventPlacement>();
+
+            var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
 
             BaseEvent baseEventA = new BaseEvent { JsonTime = 2, Type = (int)EventTypeValue.BackLasers, Value = (int)LightValue.RedFade, FloatValue = 1f,
                 CustomData = JSON.Parse($"{{\"lightID\": {original}}}")};
@@ -200,9 +193,8 @@ namespace Tests
             Settings.Instance.MapVersion = 2;
             
             var eventsContainer = BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
-        
-            var root = eventsContainer.transform.root;
-            var eventPlacement = root.GetComponentInChildren<EventPlacement>();
+
+            var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
 
             BaseEvent baseEventA = new BaseEvent{ JsonTime = 2, Type = (int)EventTypeValue.BackLasers, Value = (int)LightValue.RedFade, FloatValue = 1f,
                 CustomData = JSON.Parse(
@@ -231,8 +223,7 @@ namespace Tests
         {
             var eventsContainer = BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
 
-            var root = eventsContainer.transform.root;
-            var eventPlacement = root.GetComponentInChildren<EventPlacement>();
+            var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
 
             BaseEvent baseEventA = new BaseEvent { JsonTime = 2, Type = (int)EventTypeValue.BackLasers, Value = (int)LightValue.RedFade, FloatValue = 1f };
 
@@ -253,9 +244,8 @@ namespace Tests
         public void MirrorEventRedWhiteBlue()
         {
             var eventsContainer = BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
-            
-            var root = eventsContainer.transform.root;
-            var eventPlacement = root.GetComponentInChildren<EventPlacement>();
+
+            var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
 
             BaseEvent baseEventA = new BaseEvent { JsonTime = 2, Type = (int)EventTypeValue.BackLasers, Value = (int)LightValue.RedFade, FloatValue = 1f };
 
@@ -280,9 +270,8 @@ namespace Tests
         public void MirrorWallME()
         {
             var wallsContainer = BeatmapObjectContainerCollection.GetCollectionForType<ObstacleGridContainer>(ObjectType.Obstacle);
-        
-            var root = wallsContainer.transform.root;
-            var wallPlacement = root.GetComponentInChildren<ObstaclePlacement>();
+
+            var wallPlacement = Object.FindAnyObjectByType<ObstaclePlacement>();
             wallPlacement.CreateVisual();
 
             // What the actual fuck - example from mirroring in MMA2
@@ -314,8 +303,7 @@ namespace Tests
         {
             var wallsContainer = BeatmapObjectContainerCollection.GetCollectionForType<ObstacleGridContainer>(ObjectType.Obstacle);
 
-            var root = wallsContainer.transform.root;
-            var wallPlacement = root.GetComponentInChildren<ObstaclePlacement>();
+            var wallPlacement = Object.FindAnyObjectByType<ObstaclePlacement>();
             wallPlacement.CreateVisual();
 
             BaseObstacle wallA = new BaseObstacle
@@ -353,8 +341,7 @@ namespace Tests
 
             var eventsContainer = BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
 
-            var root = eventsContainer.transform.root;
-            var eventPlacement = root.GetComponentInChildren<EventPlacement>();
+            var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
 
             BaseEvent baseEventA = new BaseEvent { JsonTime = 2, Type = (int)EventTypeValue.LateLaneRotation, Rotation = 33 };
 

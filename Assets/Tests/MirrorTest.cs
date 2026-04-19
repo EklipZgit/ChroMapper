@@ -2,7 +2,6 @@
 using System.Linq;
 using Beatmap.Base;
 using Beatmap.Enums;
-using Beatmap.V3;
 using NUnit.Framework;
 using Tests.Util;
 using UnityEngine;
@@ -18,7 +17,6 @@ namespace Tests
         private ArcPlacement _arcPlacement;
         private NoteGridContainer _notesContainer;
         private ArcGridContainer _arcsContainer;
-        private Transform _root;
 
         [UnityOneTimeSetUp]
         public IEnumerator LoadMap()
@@ -29,9 +27,8 @@ namespace Tests
             _mirror = Object.FindAnyObjectByType<MirrorSelection>();
             _notesContainer = BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
             _arcsContainer = BeatmapObjectContainerCollection.GetCollectionForType<ArcGridContainer>(ObjectType.Arc);
-            _root = _notesContainer.transform.root;
-            _notePlacement = _root.GetComponentInChildren<NotePlacement>();
-            _arcPlacement = _root.GetComponentInChildren<ArcPlacement>();
+            _notePlacement = Object.FindAnyObjectByType<NotePlacement>();
+            _arcPlacement = Object.FindAnyObjectByType<ArcPlacement>();
         }
 
         [SetUp]

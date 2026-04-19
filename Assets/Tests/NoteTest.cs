@@ -2,8 +2,6 @@
 using Beatmap.Base;
 using Beatmap.Containers;
 using Beatmap.Enums;
-using Beatmap.V2;
-using Beatmap.V3;
 using NUnit.Framework;
 using SimpleJSON;
 using Tests.Util;
@@ -42,9 +40,8 @@ namespace Tests
             var containerCollection = BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Note);
             if (containerCollection is NoteGridContainer notesContainer)
             {
-                var root = notesContainer.transform.root;
-                var notePlacement = root.GetComponentInChildren<NotePlacement>();
-                var inputController = root.GetComponentInChildren<BeatmapNoteInputController>();
+                var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
+                var inputController = Object.FindAnyObjectByType<BeatmapNoteInputController>();
 
                 BaseNote baseNoteA = new BaseNote
                 {
@@ -75,11 +72,10 @@ namespace Tests
             var arcsContainer = BeatmapObjectContainerCollection.GetCollectionForType<ArcGridContainer>(ObjectType.Arc);
             var chainsContainer = BeatmapObjectContainerCollection.GetCollectionForType<ChainGridContainer>(ObjectType.Chain);
 
-            var root = notesContainer.transform.root;
-            var notePlacement = root.GetComponentInChildren<NotePlacement>();
-            var arcPlacement = root.GetComponentInChildren<ArcPlacement>();
-            var chainPlacement = root.GetComponentInChildren<ChainPlacement>();
-            var inputController = root.GetComponentInChildren<BeatmapNoteInputController>();
+            var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
+            var arcPlacement = Object.FindAnyObjectByType<ArcPlacement>();
+            var chainPlacement = Object.FindAnyObjectByType<ChainPlacement>();
+            var inputController = Object.FindAnyObjectByType<BeatmapNoteInputController>();
 
             BaseNote baseNote1 = new BaseNote
             {
@@ -145,9 +141,8 @@ namespace Tests
             var containerCollection = BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Note);
             if (containerCollection is NoteGridContainer notesContainer)
             {
-                var root = notesContainer.transform.root;
-                var notePlacement = root.GetComponentInChildren<NotePlacement>();
-                var inputController = root.GetComponentInChildren<BeatmapNoteInputController>();
+                var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
+                var inputController = Object.FindAnyObjectByType<BeatmapNoteInputController>();
 
                 BaseNote baseNoteA = new BaseNote
                 {
@@ -175,10 +170,9 @@ namespace Tests
         {
             var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var notesContainer = BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
-            
-            var root = notesContainer.transform.root;
-            var notePlacement = root.GetComponentInChildren<NotePlacement>();
-            var inputController = root.GetComponentInChildren<BeatmapNoteInputController>();
+
+            var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
+            var inputController = Object.FindAnyObjectByType<BeatmapNoteInputController>();
 
             var baseNoteA = new BaseNote
             {
@@ -220,11 +214,10 @@ namespace Tests
             var arcsContainer = BeatmapObjectContainerCollection.GetCollectionForType<ArcGridContainer>(ObjectType.Arc);
             var chainsContainer = BeatmapObjectContainerCollection.GetCollectionForType<ChainGridContainer>(ObjectType.Chain);
 
-            var root = notesContainer.transform.root;
-            var notePlacement = root.GetComponentInChildren<NotePlacement>();
-            var arcPlacement = root.GetComponentInChildren<ArcPlacement>();
-            var chainPlacement = root.GetComponentInChildren<ChainPlacement>();
-            var inputController = root.GetComponentInChildren<BeatmapNoteInputController>();
+            var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
+            var arcPlacement = Object.FindAnyObjectByType<ArcPlacement>();
+            var chainPlacement = Object.FindAnyObjectByType<ChainPlacement>();
+            var inputController = Object.FindAnyObjectByType<BeatmapNoteInputController>();
 
             BaseNote baseNote1 = new BaseNote
             {
@@ -286,12 +279,10 @@ namespace Tests
         [Test]
         public void PlacementPersistsCustomProperty()
         {
-            var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var containerCollection = BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Note);
             if (containerCollection is NoteGridContainer notesContainer)
             {
-                var root = notesContainer.transform.root;
-                var notePlacement = root.GetComponentInChildren<NotePlacement>();
+                var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
 
                 var customDirection = 69;
                 var localRotation = new JSONArray() { [0] = 0, [1] = 1, [2] = 2 };

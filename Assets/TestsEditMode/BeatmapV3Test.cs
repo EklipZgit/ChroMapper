@@ -439,7 +439,7 @@ namespace TestsEditMode
             Assert.AreEqual(1, colorGroupBox.Events.Length);
             var colorGroupEvent = colorGroupBox.Events[0];
             
-            Assert.AreEqual(0, colorGroupEvent.JsonTime);
+            Assert.AreEqual(0, colorGroupEvent.RelativeJsonTime);
             Assert.AreEqual(0, colorGroupEvent.UsePrevious);
             Assert.AreEqual(1, colorGroupEvent.Color);
             Assert.AreEqual(1, colorGroupEvent.Brightness);
@@ -478,7 +478,7 @@ namespace TestsEditMode
             Assert.AreEqual(1, rotationGroupBox.Events.Length);
             var rotationGroupEvent = rotationGroupBox.Events[0];
             
-            Assert.AreEqual(0, rotationGroupEvent.JsonTime);
+            Assert.AreEqual(0, rotationGroupEvent.RelativeJsonTime);
             Assert.AreEqual(0, rotationGroupEvent.UsePrevious);
             Assert.AreEqual(1, rotationGroupEvent.EaseType);
             Assert.AreEqual(340, rotationGroupEvent.Rotation);
@@ -518,7 +518,7 @@ namespace TestsEditMode
             Assert.AreEqual(1, translationGroupBox.Events.Length);
             var translationGroupEvent = translationGroupBox.Events[0];
             
-            Assert.AreEqual(0, translationGroupEvent.JsonTime);
+            Assert.AreEqual(0, translationGroupEvent.RelativeJsonTime);
             Assert.AreEqual(0, translationGroupEvent.UsePrevious);
             Assert.AreEqual(1, translationGroupEvent.EaseType);
             Assert.AreEqual(100, translationGroupEvent.Translation);
@@ -553,7 +553,7 @@ namespace TestsEditMode
 
             Assert.AreEqual(1, vfxGroupBox.Events.Length);
             var fxFloatEvent = vfxGroupBox.Events[0];
-            Assert.AreEqual(0, fxFloatEvent.JsonTime);
+            Assert.AreEqual(0, fxFloatEvent.RelativeJsonTime);
             Assert.AreEqual(0, fxFloatEvent.UsePrevious);
             Assert.AreEqual(1, fxFloatEvent.Easing);
             Assert.AreEqual(100, fxFloatEvent.Value);
@@ -562,7 +562,7 @@ namespace TestsEditMode
             Assert.AreEqual(1, difficulty.FxEventsCollection.FloatFxEvents.Length);
             fxFloatEvent = difficulty.FxEventsCollection.FloatFxEvents[0];
             
-            Assert.AreEqual(0, fxFloatEvent.JsonTime);
+            Assert.AreEqual(0, fxFloatEvent.RelativeJsonTime);
             Assert.AreEqual(0, fxFloatEvent.UsePrevious);
             Assert.AreEqual(1, fxFloatEvent.Easing);
             Assert.AreEqual(100, fxFloatEvent.Value);
