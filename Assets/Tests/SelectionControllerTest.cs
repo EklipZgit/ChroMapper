@@ -94,6 +94,7 @@ namespace Tests
             AssertSelectedObjects(new List<BaseObject>
             {
                 baseNote1, baseNote2, baseNote3,
+                baseArc02, baseArc04, baseArc24,
             });
         }
 
@@ -123,6 +124,7 @@ namespace Tests
             AssertSelectedObjects(new List<BaseObject>
             {
                 baseNote1, baseNote2, baseNote3,
+                baseArc02, baseArc04, baseArc24,
                 baseEvent1, baseEvent2, baseEvent3,
                 baseRotationEvent2,
             });
@@ -135,6 +137,7 @@ namespace Tests
             AssertSelectedObjects(new List<BaseObject>
             {
                 baseNote1, baseNote2, baseNote3,
+                baseArc02, baseArc04, baseArc24,
                 baseBpmEvent1, baseBpmEvent2, baseBpmEvent3,
             });
         }

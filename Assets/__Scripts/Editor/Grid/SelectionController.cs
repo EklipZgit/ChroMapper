@@ -174,6 +174,43 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
     public static ObjectType GetObjectTypes(IEnumerable<BaseObject> objects) =>
         objects.Aggregate((ObjectType)0, (current, obj) => current | obj.ObjectType);
 
+    public static ObjectType GetObjectTypesGrouped(IEnumerable<BaseObject> objects)
+    {
+        ObjectType grouping = 0;
+        foreach (var obj in objects)
+        {
+            switch (obj.ObjectType)
+            {
+                case ObjectType.Note:
+                case ObjectType.Obstacle:
+                case ObjectType.CustomNote:
+                case ObjectType.Arc:
+                case ObjectType.Chain:
+                    grouping |= ObjectType.Note
+                        | ObjectType.Obstacle
+                        | ObjectType.CustomNote
+                        | ObjectType.Arc
+                        | ObjectType.Chain;
+                    break;
+                case ObjectType.Event:
+                case ObjectType.CustomEvent:
+                    grouping |= ObjectType.Event | ObjectType.CustomEvent;
+                    break;
+                case ObjectType.BpmChange:
+                    grouping |= ObjectType.BpmChange;
+                    break;
+                case ObjectType.NJSEvent:
+                    grouping |= ObjectType.NJSEvent;
+                    break;
+                default:
+                    grouping |= obj.ObjectType;
+                    break;
+            }
+        }
+
+        return grouping;
+    }
+
     /// <summary>
     ///     Invokes a callback for all objects between a time by group
     /// </summary>
@@ -270,7 +307,7 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
         if (!addsToSelection)
             DeselectAll(); //This SHOULD deselect every object unless you otherwise specify, but it aint working.
         if (first.SongBpmTime > second.SongBpmTime) (first, second) = (second, first);
-        var types = GetObjectTypes(
+        var types = GetObjectTypesGrouped(
             new[] { first, second });
         ForEachObjectBetweenSongBpmTimeByGroup(
             first.SongBpmTime,
@@ -341,7 +378,10 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
     /// </summary>
     public void Delete(bool triggersAction = true)
     {
-        IEnumerable<BaseObject> objects = SelectedObjects.ToArray();
+        IEnumerable<BaseObject> objects = SelectedObjects
+            .Where(x =>
+                (allowedObjectToEdit[x.ObjectType] & editModeContext.EditingMode) > 0)
+            .ToArray();
         if (triggersAction) BeatmapActionContainer.AddAction(new SelectionDeletedAction(objects));
         DeselectAll();
         foreach (var con in objects)
