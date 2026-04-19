@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using Beatmap.Helper;
 using Beatmap.Info;
 using SimpleJSON;

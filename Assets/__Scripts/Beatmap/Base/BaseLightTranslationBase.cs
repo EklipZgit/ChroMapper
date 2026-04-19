@@ -5,21 +5,32 @@ using SimpleJSON;
 
 namespace Beatmap.Base
 {
-    public class BaseLightTranslationBase : BaseObject
+    public class BaseLightTranslationBase : BaseGLSEvent
     {
         public BaseLightTranslationBase()
         {
         }
 
-        protected BaseLightTranslationBase(float time, float translation, int easeType,
-            int usePrevious, JSONNode customData = null) : base(time, customData)
+        protected BaseLightTranslationBase(
+            float time,
+            float translation,
+            int easeType,
+            int usePrevious,
+            JSONNode customData = null) : base(time, customData)
         {
             Translation = translation;
             EaseType = easeType;
             UsePrevious = usePrevious;
         }
 
-        public override ObjectType ObjectType { get; set; } = ObjectType.Event;
+        protected BaseLightTranslationBase(BaseLightTranslationBase other) : base(other)
+        {
+            Translation = other.Translation;
+            EaseType = other.EaseType;
+            UsePrevious = other.UsePrevious;
+        }
+
+        public override ObjectType ObjectType { get; set; } = ObjectType.GLSEvent;
         public float Translation { get; set; }
         public int EaseType { get; set; }
         public int UsePrevious { get; set; }
@@ -30,17 +41,16 @@ namespace Beatmap.Base
 
         protected override bool IsConflictingWithObjectAtSameTime(BaseObject other, bool deletion = false)
         {
-            if (other is BaseLightTranslationBase lrb)
-                return Math.Abs(Translation - lrb.Translation) < DecimalTolerance ||
-                       EaseType == lrb.EaseType || UsePrevious == lrb.UsePrevious;
+            if (other is BaseLightTranslationBase ltb) return BoxIndex == ltb.BoxIndex;
             return false;
         }
 
-        public override JSONNode ToJson() => Settings.Instance.MapVersion switch
-        {
-            3 => V3LightTranslationBase.ToJson(this),
-        };
+        public override JSONNode ToJson() =>
+            Settings.Instance.MapVersion switch
+            {
+                3 or 4 => V3LightTranslationBase.ToJson(this),
+            };
 
-        public override BaseItem Clone() => throw new NotImplementedException();
+        public override BaseItem Clone() => new BaseLightTranslationBase(this);
     }
 }

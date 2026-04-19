@@ -9,7 +9,7 @@ namespace Beatmap.V3
 {
     public static class V3VfxEventEventBox
     {
-        public static BaseVfxEventEventBox GetFromJson(JSONNode node, IList<FloatFxEventBase> floatFxEvents)
+        public static BaseVfxEventEventBox GetFromJson(JSONNode node, IList<BaseFxEventFloat> floatFxEvents)
         {
             var vfxBox = new BaseVfxEventEventBox();
             
@@ -26,7 +26,7 @@ namespace Beatmap.V3
                 vfxBox.Events = node["l"].AsArray.Linq.Select(x =>
                 { 
                     var floatFxIndex = x.Value.AsInt;
-                    var floatFxEvent = (FloatFxEventBase)floatFxEvents[floatFxIndex].Clone();
+                    var floatFxEvent = (BaseFxEventFloat)floatFxEvents[floatFxIndex].Clone();
                     return floatFxEvent;
                 }).ToArray();
             }
@@ -34,7 +34,7 @@ namespace Beatmap.V3
             return vfxBox;
         }
 
-        public static JSONNode ToJson(BaseVfxEventEventBox vfxBox, IList<FloatFxEventBase> floatFxEvents)
+        public static JSONNode ToJson(BaseVfxEventEventBox vfxBox, IList<BaseFxEventFloat> floatFxEvents)
         {
             JSONNode node = new JSONObject();
             node["f"] = vfxBox.IndexFilter.ToJson();

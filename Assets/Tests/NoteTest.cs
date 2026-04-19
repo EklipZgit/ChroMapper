@@ -2,8 +2,6 @@
 using Beatmap.Base;
 using Beatmap.Containers;
 using Beatmap.Enums;
-using Beatmap.V2;
-using Beatmap.V3;
 using NUnit.Framework;
 using SimpleJSON;
 using Tests.Util;
@@ -42,9 +40,8 @@ namespace Tests
             var containerCollection = BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Note);
             if (containerCollection is NoteGridContainer notesContainer)
             {
-                var root = notesContainer.transform.root;
-                var notePlacement = root.GetComponentInChildren<NotePlacement>();
-                var inputController = root.GetComponentInChildren<BeatmapNoteInputController>();
+                var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
+                var inputController = Object.FindAnyObjectByType<BeatmapNoteInputController>();
 
                 BaseNote baseNoteA = new BaseNote
                 {
@@ -75,11 +72,10 @@ namespace Tests
             var arcsContainer = BeatmapObjectContainerCollection.GetCollectionForType<ArcGridContainer>(ObjectType.Arc);
             var chainsContainer = BeatmapObjectContainerCollection.GetCollectionForType<ChainGridContainer>(ObjectType.Chain);
 
-            var root = notesContainer.transform.root;
-            var notePlacement = root.GetComponentInChildren<NotePlacement>();
-            var arcPlacement = root.GetComponentInChildren<ArcPlacement>();
-            var chainPlacement = root.GetComponentInChildren<ChainPlacement>();
-            var inputController = root.GetComponentInChildren<BeatmapNoteInputController>();
+            var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
+            var arcPlacement = Object.FindAnyObjectByType<ArcPlacement>();
+            var chainPlacement = Object.FindAnyObjectByType<ChainPlacement>();
+            var inputController = Object.FindAnyObjectByType<BeatmapNoteInputController>();
 
             BaseNote baseNote1 = new BaseNote
             {
@@ -145,9 +141,8 @@ namespace Tests
             var containerCollection = BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Note);
             if (containerCollection is NoteGridContainer notesContainer)
             {
-                var root = notesContainer.transform.root;
-                var notePlacement = root.GetComponentInChildren<NotePlacement>();
-                var inputController = root.GetComponentInChildren<BeatmapNoteInputController>();
+                var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
+                var inputController = Object.FindAnyObjectByType<BeatmapNoteInputController>();
 
                 BaseNote baseNoteA = new BaseNote
                 {
@@ -157,7 +152,7 @@ namespace Tests
                 PlaceUtils.PlaceNote(notePlacement, baseNoteA);
 
                 if (notesContainer.LoadedContainers[baseNoteA] is NoteContainer containerA)
-                    inputController.UpdateNoteDirection(containerA, true);
+                    inputController.UpdateNoteDirection(containerA, 1);
 
                 CheckUtils.CheckNote("Update note direction", notesContainer, 0, 2, (int)GridX.Left, (int)GridY.Base,
                     (int)NoteType.Red, (int)NoteCutDirection.DownLeft, 0);
@@ -175,10 +170,9 @@ namespace Tests
         {
             var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var notesContainer = BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
-            
-            var root = notesContainer.transform.root;
-            var notePlacement = root.GetComponentInChildren<NotePlacement>();
-            var inputController = root.GetComponentInChildren<BeatmapNoteInputController>();
+
+            var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
+            var inputController = Object.FindAnyObjectByType<BeatmapNoteInputController>();
 
             var baseNoteA = new BaseNote
             {
@@ -188,13 +182,13 @@ namespace Tests
             PlaceUtils.PlaceNote(notePlacement, baseNoteA);
 
             if (notesContainer.LoadedContainers[baseNoteA] is NoteContainer containerA)
-                inputController.UpdateNoteDirection(containerA, true);
+                inputController.UpdateNoteDirection(containerA, 1);
 
             CheckUtils.CheckNote("Update note direction", notesContainer, 0, 2, (int)GridX.Left, (int)GridY.Base,
                 (int)NoteType.Red, (int)NoteCutDirection.DownLeft, 0);
             
             if (notesContainer.LoadedContainers[baseNoteA] is NoteContainer containerB)
-                inputController.UpdateNoteDirection(containerB, true);
+                inputController.UpdateNoteDirection(containerB, 1);
 
             CheckUtils.CheckNote("Update note direction", notesContainer, 0, 2, (int)GridX.Left, (int)GridY.Base,
                 (int)NoteType.Red, (int)NoteCutDirection.Down, 0);
@@ -220,11 +214,10 @@ namespace Tests
             var arcsContainer = BeatmapObjectContainerCollection.GetCollectionForType<ArcGridContainer>(ObjectType.Arc);
             var chainsContainer = BeatmapObjectContainerCollection.GetCollectionForType<ChainGridContainer>(ObjectType.Chain);
 
-            var root = notesContainer.transform.root;
-            var notePlacement = root.GetComponentInChildren<NotePlacement>();
-            var arcPlacement = root.GetComponentInChildren<ArcPlacement>();
-            var chainPlacement = root.GetComponentInChildren<ChainPlacement>();
-            var inputController = root.GetComponentInChildren<BeatmapNoteInputController>();
+            var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
+            var arcPlacement = Object.FindAnyObjectByType<ArcPlacement>();
+            var chainPlacement = Object.FindAnyObjectByType<ChainPlacement>();
+            var inputController = Object.FindAnyObjectByType<BeatmapNoteInputController>();
 
             BaseNote baseNote1 = new BaseNote
             {
@@ -253,7 +246,7 @@ namespace Tests
             PlaceUtils.PlaceChain(chainPlacement, baseChain23);
 
             if (notesContainer.LoadedContainers[baseNote1] is NoteContainer container1)
-                inputController.UpdateNoteDirection(container1, false);
+                inputController.UpdateNoteDirection(container1, 0);
 
             CheckUtils.CheckArc("Arc head direction", arcsContainer, 0, 1, default, default, default, (int)NoteCutDirection.UpLeft, default, default, 2, default, default, (int)NoteCutDirection.Up, default, default);
             CheckUtils.CheckChain("Chain direction not changed", chainsContainer, 0, 2, default, default, default, (int)NoteCutDirection.Up, default, 3, default, default, default, default);
@@ -263,7 +256,7 @@ namespace Tests
             CheckUtils.CheckChain("Chain direction still not changed", chainsContainer, 0, 2, default, default, default, (int)NoteCutDirection.Up, default, 3, default, default, default, default);
 
             if (notesContainer.LoadedContainers[baseNote2] is NoteContainer container2)
-                inputController.UpdateNoteDirection(container2, false);
+                inputController.UpdateNoteDirection(container2, 0);
 
             CheckUtils.CheckArc("Arc tail direction", arcsContainer, 0, 1, default, default, default, (int)NoteCutDirection.Left, default, default, 2, default, default, (int)NoteCutDirection.UpRight, default, default);
             CheckUtils.CheckChain("Chain direction", chainsContainer, 0, 2, default, default, default, (int)NoteCutDirection.UpRight, default, 3, default, default, default, default);
@@ -273,7 +266,7 @@ namespace Tests
             CheckUtils.CheckChain("Undo chain direction", chainsContainer, 0, 2, default, default, default, (int)NoteCutDirection.Up, default, 3, default, default, default, default);
 
             if (notesContainer.LoadedContainers[baseNote3] is NoteContainer container3)
-                inputController.UpdateNoteDirection(container3, false);
+                inputController.UpdateNoteDirection(container3, 0);
 
             CheckUtils.CheckArc("Arc direction not changed", arcsContainer, 0, 1, default, default, default, (int)NoteCutDirection.Left, default, default, 2, default, default, (int)NoteCutDirection.Up, default, default);
             CheckUtils.CheckChain("Chain direction not changed", chainsContainer, 0, 2, default, default, default, (int)NoteCutDirection.Up, default, 3, default, default, default, default);
@@ -286,12 +279,10 @@ namespace Tests
         [Test]
         public void PlacementPersistsCustomProperty()
         {
-            var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var containerCollection = BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Note);
             if (containerCollection is NoteGridContainer notesContainer)
             {
-                var root = notesContainer.transform.root;
-                var notePlacement = root.GetComponentInChildren<NotePlacement>();
+                var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
 
                 var customDirection = 69;
                 var localRotation = new JSONArray() { [0] = 0, [1] = 1, [2] = 2 };

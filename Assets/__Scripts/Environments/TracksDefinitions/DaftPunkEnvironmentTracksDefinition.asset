@@ -34,7 +34,7 @@ MonoBehaviour:
   glsEntries:
   - Group: Lasers Top
     Name: Wall L
-    ID: 0
+    ID: 10
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -44,7 +44,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Lasers Top
     Name: SideSet 01 L
-    ID: 0
+    ID: 2
     ColorTrack: 1
     RotationTracks: 010001
     OverrideDefaultRotationAxis: NoOverride
@@ -54,7 +54,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Lasers Top
     Name: SideSet 02 L
-    ID: 0
+    ID: 3
     ColorTrack: 1
     RotationTracks: 010001
     OverrideDefaultRotationAxis: NoOverride
@@ -64,7 +64,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Lasers Top
     Name: Wall R
-    ID: 0
+    ID: 11
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -74,7 +74,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Lasers Top
     Name: SideSet 01 R
-    ID: 0
+    ID: 4
     ColorTrack: 1
     RotationTracks: 010001
     OverrideDefaultRotationAxis: NoOverride
@@ -84,7 +84,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Lasers Top
     Name: SideSet 02 R
-    ID: 0
+    ID: 5
     ColorTrack: 1
     RotationTracks: 010001
     OverrideDefaultRotationAxis: NoOverride
@@ -94,7 +94,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Lasers Bottom
     Name: Wall L
-    ID: 0
+    ID: 12
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -104,7 +104,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Lasers Bottom
     Name: SideSet 01 L
-    ID: 0
+    ID: 6
     ColorTrack: 1
     RotationTracks: 010001
     OverrideDefaultRotationAxis: NoOverride
@@ -114,7 +114,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Lasers Bottom
     Name: SideSet 02 L
-    ID: 0
+    ID: 7
     ColorTrack: 1
     RotationTracks: 010001
     OverrideDefaultRotationAxis: NoOverride
@@ -124,7 +124,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Lasers Bottom
     Name: Wall R
-    ID: 0
+    ID: 13
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -134,7 +134,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Lasers Bottom
     Name: SideSet 01 R
-    ID: 0
+    ID: 8
     ColorTrack: 1
     RotationTracks: 010001
     OverrideDefaultRotationAxis: NoOverride
@@ -144,7 +144,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Lasers Bottom
     Name: SideSet 02 R
-    ID: 0
+    ID: 9
     ColorTrack: 1
     RotationTracks: 010001
     OverrideDefaultRotationAxis: NoOverride
@@ -164,7 +164,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Tris Wall
     Name: Right
-    ID: 0
+    ID: 1
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -174,7 +174,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Runway
     Name: Left
-    ID: 0
+    ID: 25
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -184,7 +184,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Runway
     Name: Middle
-    ID: 0
+    ID: 18
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -194,7 +194,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Runway
     Name: Right
-    ID: 0
+    ID: 26
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -204,7 +204,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Helmets
     Name: Helmet 01
-    ID: 0
+    ID: 23
     ColorTrack: 1
     RotationTracks: 010101
     OverrideDefaultRotationAxis: NoOverride
@@ -214,7 +214,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Helmets
     Name: Visor 01 Spectrogram
-    ID: 0
+    ID: 19
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -224,7 +224,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Helmets
     Name: Helmet 02
-    ID: 0
+    ID: 24
     ColorTrack: 1
     RotationTracks: 010101
     OverrideDefaultRotationAxis: NoOverride
@@ -234,7 +234,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Helmets
     Name: Visor 02 Spectrogram
-    ID: 0
+    ID: 20
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -244,7 +244,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Text
     Name: Visor 01 Text
-    ID: 0
+    ID: 21
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -254,7 +254,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Text
     Name: Offset X
-    ID: 0
+    ID: 51
     ColorTrack: 0
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -264,7 +264,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Text
     Name: Offset Y
-    ID: 0
+    ID: 52
     ColorTrack: 0
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -274,7 +274,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Text
     Name: Padding X
-    ID: 0
+    ID: 53
     ColorTrack: 0
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -284,7 +284,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Text
     Name: Padding Y
-    ID: 0
+    ID: 54
     ColorTrack: 0
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -294,7 +294,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Text
     Name: Visor 02 Text
-    ID: 0
+    ID: 22
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -304,7 +304,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Text
     Name: Offset X
-    ID: 0
+    ID: 48
     ColorTrack: 0
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -314,7 +314,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Text
     Name: Offset Y
-    ID: 0
+    ID: 49
     ColorTrack: 0
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -324,7 +324,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Text
     Name: Padding X
-    ID: 0
+    ID: 50
     ColorTrack: 0
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -334,7 +334,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Text
     Name: Padding Y
-    ID: 0
+    ID: 55
     ColorTrack: 0
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -344,7 +344,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Background
     Name: BackgroundStars
-    ID: 0
+    ID: 27
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -354,7 +354,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Orbit 01
     Name: Orbit 1
-    ID: 0
+    ID: 14
     ColorTrack: 1
     RotationTracks: 010101
     OverrideDefaultRotationAxis: NoOverride
@@ -364,7 +364,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Orbit 01
     Name: Stars Transform
-    ID: 0
+    ID: 44
     ColorTrack: 0
     RotationTracks: 000101
     OverrideDefaultRotationAxis: NoOverride
@@ -374,7 +374,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Orbit 01
     Name: Star 1
-    ID: 0
+    ID: 28
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -384,7 +384,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Orbit 01
     Name: Star 2
-    ID: 0
+    ID: 29
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -394,7 +394,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Orbit 01
     Name: Star 3
-    ID: 0
+    ID: 30
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -404,7 +404,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Orbit 01
     Name: Star 4
-    ID: 0
+    ID: 31
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -414,7 +414,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Orbit 02
     Name: Orbit 2
-    ID: 0
+    ID: 15
     ColorTrack: 1
     RotationTracks: 010101
     OverrideDefaultRotationAxis: NoOverride
@@ -424,7 +424,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Orbit 02
     Name: Stars Transform
-    ID: 0
+    ID: 45
     ColorTrack: 0
     RotationTracks: 000101
     OverrideDefaultRotationAxis: NoOverride
@@ -434,7 +434,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Orbit 02
     Name: Star 1
-    ID: 0
+    ID: 32
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -444,7 +444,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Orbit 02
     Name: Star 2
-    ID: 0
+    ID: 33
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -454,7 +454,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Orbit 02
     Name: Star 3
-    ID: 0
+    ID: 34
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -464,7 +464,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Orbit 02
     Name: Star 4
-    ID: 0
+    ID: 35
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -474,7 +474,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Orbit 03
     Name: Orbit 3
-    ID: 0
+    ID: 16
     ColorTrack: 1
     RotationTracks: 010101
     OverrideDefaultRotationAxis: NoOverride
@@ -484,7 +484,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Orbit 03
     Name: Stars Transform
-    ID: 0
+    ID: 46
     ColorTrack: 0
     RotationTracks: 000101
     OverrideDefaultRotationAxis: NoOverride
@@ -494,7 +494,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Orbit 03
     Name: Star 1
-    ID: 0
+    ID: 36
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -504,7 +504,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Orbit 03
     Name: Star 2
-    ID: 0
+    ID: 37
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -514,7 +514,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Orbit 03
     Name: Star 3
-    ID: 0
+    ID: 38
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -524,7 +524,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Orbit 03
     Name: Star 4
-    ID: 0
+    ID: 39
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -534,7 +534,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Orbit 04
     Name: Orbit 4
-    ID: 0
+    ID: 17
     ColorTrack: 1
     RotationTracks: 010101
     OverrideDefaultRotationAxis: NoOverride
@@ -544,7 +544,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Orbit 04
     Name: Stars Transform
-    ID: 0
+    ID: 47
     ColorTrack: 0
     RotationTracks: 000101
     OverrideDefaultRotationAxis: NoOverride
@@ -554,7 +554,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Orbit 04
     Name: Star 1
-    ID: 0
+    ID: 40
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -564,7 +564,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Orbit 04
     Name: Star 2
-    ID: 0
+    ID: 41
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -574,7 +574,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Orbit 04
     Name: Star 3
-    ID: 0
+    ID: 42
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -584,7 +584,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Orbit 04
     Name: Star 4
-    ID: 0
+    ID: 43
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride

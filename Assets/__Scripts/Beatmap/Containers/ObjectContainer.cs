@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using Beatmap.Base;
 using UnityEngine;
 using Beatmap.Animations;
@@ -9,11 +7,8 @@ namespace Beatmap.Containers
 {
     public abstract class ObjectContainer : MonoBehaviour
     {
-        internal static readonly int colorId = Shader.PropertyToID("_Color");
+        protected static readonly int ColorId = Shader.PropertyToID("_Color");
         private static readonly int rotationId = Shader.PropertyToID("_Rotation");
-        private static readonly int outlineColorId = Shader.PropertyToID("_OutlineColor");
-
-        public bool Dragging;
 
         [SerializeField] public ObjectAnimator Animator;
         [SerializeField] protected List<IntersectionCollider> Colliders;
@@ -21,6 +16,49 @@ namespace Beatmap.Containers
         [Header("Visual")] [SerializeField] public VisualSettingsSO VisualSettings;
         [SerializeField] public MaterialPropertyBlockController MpbController;
         [SerializeField] public MaterialPropertyBlockController SelectionMpbController;
+
+        private Color currentOutlineColor;
+        private bool selected;
+
+        public bool Selected
+        {
+            get => selected;
+            set
+            {
+                if (selected == value) return;
+                selected = value;
+                RefreshOutlineColor();
+                RefreshOutlineVisual();
+            }
+        }
+
+        private bool highlighted;
+
+        public bool Highlighted
+        {
+            get => highlighted;
+            set
+            {
+                if (highlighted == value) return;
+                highlighted = value;
+                RefreshOutlineColor();
+                RefreshOutlineVisual();
+            }
+        }
+
+        private bool dragged;
+
+        public bool Dragged
+        {
+            get => dragged;
+            set
+            {
+                if (dragged == value) return;
+                dragged = value;
+                RefreshOutlineColor();
+                RefreshOutlineVisual();
+            }
+        }
 
         public Track AssignedTrack { get; private set; }
 
@@ -36,7 +74,7 @@ namespace Beatmap.Containers
 
         public virtual void Setup() { }
 
-        internal virtual void SafeSetActive(bool active)
+        internal void SafeSetActive(bool active)
         {
             if (active != gameObject.activeSelf) gameObject.SetActive(active);
         }
@@ -53,11 +91,10 @@ namespace Beatmap.Containers
             UpdateMaterials();
         }
 
-        public void SetOutlineColor(Color color, bool automaticallyShowOutline = true)
+        public void SetOutlineColor(Color color)
         {
-            if (automaticallyShowOutline) SelectionMpbController.ShowRenderer(true);
-            MpbController.Mpb.SetColor(outlineColorId, color);
-            MpbController.ApplyChanges();
+            currentOutlineColor = color;
+            RefreshOutlineColor();
         }
 
         public virtual void AssignTrack(Track track) => AssignedTrack = track;
@@ -73,6 +110,16 @@ namespace Beatmap.Containers
                 c.CollisionGroups.Add(chunkId);
                 if (unregistered) Intersections.RegisterColliderToGroups(c);
             }
+        }
+
+        public void RefreshOutlineVisual() => SelectionMpbController.ShowRenderer(selected | highlighted | dragged);
+
+        public void RefreshOutlineColor()
+        {
+            SelectionMpbController.Mpb.SetColor(
+                ColorId,
+                highlighted | dragged ? DeleteToolController.IsActive ? Color.red : Color.white : currentOutlineColor);
+            SelectionMpbController.ApplyChanges();
         }
     }
 }

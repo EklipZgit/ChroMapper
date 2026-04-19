@@ -79,8 +79,8 @@ public class EventPlacement : BasePlacement<BaseEvent, EventContainer, EventGrid
     public void OnRotateInPlaceModifier(InputAction.CallbackContext context) =>
         earlyRotationPlaceNow = context.performed;
 
-    protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> container) =>
-        new BeatmapObjectPlacementAction(spawned, container, "Placed an Event.");
+    protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicts) =>
+        new BeatmapObjectPlacementAction(spawned, conflicts, "Placed an Event.");
 
     protected override BaseEvent GenerateOriginalData() => new();
 
@@ -213,7 +213,7 @@ public class EventPlacement : BasePlacement<BaseEvent, EventContainer, EventGrid
         }
 
         PlacementVisualContainer!.EventData = QueuedData;
-        eventAppearanceSo.SetEventAppearance(PlacementVisualContainer, false);
+        eventAppearanceSo.SetAppearance(PlacementVisualContainer, false);
     }
 
     public override void CreateVisual()

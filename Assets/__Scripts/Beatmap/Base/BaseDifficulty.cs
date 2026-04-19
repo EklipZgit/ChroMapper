@@ -47,15 +47,10 @@ namespace Beatmap.Base
         public List<BaseEvent> Events { get; set; } = new();
         public List<BaseNJSEvent> NJSEvents { get; set; } = new();
 
-        public List<BaseLightColorEventBoxGroup<BaseLightColorEventBox>> LightColorEventBoxGroups { get; set; } = new();
-
-        public List<BaseLightRotationEventBoxGroup<BaseLightRotationEventBox>>
-            LightRotationEventBoxGroups { get; set; } = new();
-
-        public List<BaseLightTranslationEventBoxGroup<BaseLightTranslationEventBox>>
-            LightTranslationEventBoxGroups { get; set; } = new();
-
-        public List<BaseVfxEventEventBoxGroup<BaseVfxEventEventBox>> VfxEventBoxGroups { get; set; } = new();
+        public List<BaseLightColorEventBoxGroup> LightColorEventBoxGroups { get; set; } = new();
+        public List<BaseLightRotationEventBoxGroup> LightRotationEventBoxGroups { get; set; } = new();
+        public List<BaseLightTranslationEventBoxGroup> LightTranslationEventBoxGroups { get; set; } = new();
+        public List<BaseVfxEventEventBoxGroup> VfxEventBoxGroups { get; set; } = new();
         public BaseFxEventsCollection FxEventsCollection { get; set; } = new();
 
         public BaseEventTypesWithKeywords EventTypesWithKeywords { get; set; }
@@ -177,10 +172,7 @@ namespace Beatmap.Base
             return lastBpmEvent.JsonTime + (songBpmTime - lastBpmEvent.SongBpmTime) * (lastBpmEvent.Bpm / songBpm);
         }
 
-        public BaseBpmEvent FindLastBpmEventByJsonTime(float jsonTime, bool inclusive = false)
-        {
-            return BpmEvents.LastOrDefault(x => inclusive ? x.JsonTime <= jsonTime : x.JsonTime < jsonTime);
-        }
+        public BaseBpmEvent FindLastBpmEventByJsonTime(float jsonTime, bool inclusive = false) => BpmEvents.LastOrDefault(x => inclusive ? x.JsonTime <= jsonTime : x.JsonTime < jsonTime);
 
         public BaseBpmEvent FindLastBpmEventBySongBpmTime(float songBpmTime, bool inclusive = false)
         {
@@ -188,15 +180,9 @@ namespace Beatmap.Base
             return BpmEvents.LastOrDefault(x => inclusive ? x.SongBpmTime <= songBpmTime : x.SongBpmTime < songBpmTime);
         }
 
-        public float? BpmAtJsonTime(float jsonTime)
-        {
-            return FindLastBpmEventByJsonTime(jsonTime, inclusive: true)?.Bpm ?? songBpm;
-        }
+        public float? BpmAtJsonTime(float jsonTime) => FindLastBpmEventByJsonTime(jsonTime, inclusive: true)?.Bpm ?? songBpm;
 
-        public float? BpmAtSongBpmTime(float songBpmTime)
-        {
-            return FindLastBpmEventBySongBpmTime(songBpmTime, inclusive: true)?.Bpm ?? songBpm;
-        }
+        public float? BpmAtSongBpmTime(float songBpmTime) => FindLastBpmEventBySongBpmTime(songBpmTime, inclusive: true)?.Bpm ?? songBpm;
 
         public void RecomputeAllObjectSongBpmTimes()
         {

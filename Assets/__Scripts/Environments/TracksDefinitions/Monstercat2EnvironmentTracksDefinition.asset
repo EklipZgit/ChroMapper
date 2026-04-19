@@ -25,7 +25,7 @@ MonoBehaviour:
   glsEntries:
   - Group: Objects
     Name: Screens L Color
-    ID: 0
+    ID: 6
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -35,7 +35,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Objects
     Name: Screens L
-    ID: 0
+    ID: 5
     ColorTrack: 0
     RotationTracks: 010101
     OverrideDefaultRotationAxis: NoOverride
@@ -45,7 +45,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Objects
     Name: Screens R Color
-    ID: 0
+    ID: 8
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -55,7 +55,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Objects
     Name: Screens R
-    ID: 0
+    ID: 7
     ColorTrack: 0
     RotationTracks: 010101
     OverrideDefaultRotationAxis: NoOverride
@@ -65,7 +65,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Objects
     Name: Runway Rings L
-    ID: 0
+    ID: 16
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -75,7 +75,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Objects
     Name: Runway Rings R
-    ID: 0
+    ID: 17
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -85,7 +85,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Objects
     Name: Teeth
-    ID: 0
+    ID: 18
     ColorTrack: 0
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -95,7 +95,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Light Pillars
     Name: Light Pillars Left
-    ID: 0
+    ID: 1
     ColorTrack: 1
     RotationTracks: 010101
     OverrideDefaultRotationAxis: NoOverride
@@ -105,7 +105,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Light Pillars
     Name: Light Pillars Group Left
-    ID: 0
+    ID: 2
     ColorTrack: 0
     RotationTracks: 010001
     OverrideDefaultRotationAxis: NoOverride
@@ -115,7 +115,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Light Pillars
     Name: Light Pillars Right
-    ID: 0
+    ID: 3
     ColorTrack: 1
     RotationTracks: 010101
     OverrideDefaultRotationAxis: NoOverride
@@ -125,7 +125,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Light Pillars
     Name: Light Pillars Group Right
-    ID: 0
+    ID: 4
     ColorTrack: 0
     RotationTracks: 010001
     OverrideDefaultRotationAxis: NoOverride
@@ -145,7 +145,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Head
     Name: Head Lights L
-    ID: 0
+    ID: 11
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -155,7 +155,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Head
     Name: Head Lights R
-    ID: 0
+    ID: 12
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -165,7 +165,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Head
     Name: Head Lights Mouth
-    ID: 0
+    ID: 13
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -175,7 +175,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Lasers
     Name: Vertical End Left
-    ID: 0
+    ID: 14
     ColorTrack: 1
     RotationTracks: 010101
     OverrideDefaultRotationAxis: NoOverride
@@ -185,7 +185,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Lasers
     Name: Vertical End Right
-    ID: 0
+    ID: 15
     ColorTrack: 1
     RotationTracks: 010101
     OverrideDefaultRotationAxis: NoOverride
@@ -195,7 +195,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Lasers
     Name: Circle
-    ID: 0
+    ID: 10
     ColorTrack: 1
     RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
@@ -205,7 +205,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Lasers
     Name: Circle Global
-    ID: 0
+    ID: 9
     ColorTrack: 0
     RotationTracks: 010101
     OverrideDefaultRotationAxis: NoOverride
@@ -215,7 +215,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Lasers
     Name: Vertical Side Left
-    ID: 0
+    ID: 19
     ColorTrack: 1
     RotationTracks: 010101
     OverrideDefaultRotationAxis: NoOverride
@@ -225,7 +225,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Lasers
     Name: Vertical Side Right
-    ID: 0
+    ID: 20
     ColorTrack: 1
     RotationTracks: 010101
     OverrideDefaultRotationAxis: NoOverride
@@ -235,7 +235,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Screens Small Left
     Name: Left 1 Color
-    ID: 0
+    ID: 21
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -245,7 +245,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Screens Small Left
     Name: Left 1
-    ID: 0
+    ID: 22
     ColorTrack: 0
     RotationTracks: 010101
     OverrideDefaultRotationAxis: NoOverride
@@ -255,7 +255,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Screens Small Left
     Name: Left 1 Global
-    ID: 0
+    ID: 23
     ColorTrack: 0
     RotationTracks: 010101
     OverrideDefaultRotationAxis: NoOverride
@@ -265,7 +265,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Screens Small Left
     Name: Left 2 Color
-    ID: 0
+    ID: 27
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -275,7 +275,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Screens Small Left
     Name: Left 2
-    ID: 0
+    ID: 28
     ColorTrack: 0
     RotationTracks: 010101
     OverrideDefaultRotationAxis: NoOverride
@@ -285,7 +285,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Screens Small Left
     Name: Left 2 Global
-    ID: 0
+    ID: 29
     ColorTrack: 0
     RotationTracks: 010101
     OverrideDefaultRotationAxis: NoOverride
@@ -295,7 +295,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Screens Small Right
     Name: Right 1 Color
-    ID: 0
+    ID: 24
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -305,7 +305,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Screens Small Right
     Name: Right 1
-    ID: 0
+    ID: 25
     ColorTrack: 0
     RotationTracks: 010101
     OverrideDefaultRotationAxis: NoOverride
@@ -315,7 +315,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Screens Small Right
     Name: Right 1 Global
-    ID: 0
+    ID: 26
     ColorTrack: 0
     RotationTracks: 010101
     OverrideDefaultRotationAxis: NoOverride
@@ -325,7 +325,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Screens Small Right
     Name: Right 2 Color
-    ID: 0
+    ID: 30
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -335,7 +335,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Screens Small Right
     Name: Right 2
-    ID: 0
+    ID: 31
     ColorTrack: 0
     RotationTracks: 010101
     OverrideDefaultRotationAxis: NoOverride
@@ -345,7 +345,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Screens Small Right
     Name: Right 2 Global
-    ID: 0
+    ID: 32
     ColorTrack: 0
     RotationTracks: 010101
     OverrideDefaultRotationAxis: NoOverride

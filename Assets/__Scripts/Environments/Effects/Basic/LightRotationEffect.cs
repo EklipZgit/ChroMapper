@@ -12,8 +12,7 @@ public class LightRotationEffect : BasicEventEffect<LightRotationStateData>, IEf
 
     public override void UpdateTime(bool isPlaying, float currentTime)
     {
-        if (!container.IsCurrentOrFindState(currentTime, isPlaying))
-            OnStateChanged?.Invoke(container.CurrentState);
+        if (!container.IsCurrentOrFindState(currentTime, isPlaying)) OnStateChanged?.Invoke(container.CurrentState);
     }
 
     protected override LightRotationStateData CreateState(BaseEvent data) => new(data);
@@ -25,11 +24,11 @@ public class LightRotationEffect : BasicEventEffect<LightRotationStateData>, IEf
         HandleInsertState(container, state);
     }
 
-    public override void RemoveData(BaseEvent data, BaseEvent original)
+    public override void RemoveData(BaseEvent reference, BaseEvent original)
     {
-        var state = HandleRemoveState(container, data, original);
+        var state = HandleRemoveState(container, reference, original);
         if (container.CurrentState != state) return;
-        container.SetStateAt(data.SongBpmTime);
+        container.SetStateAt(reference.SongBpmTime);
     }
 }
 

@@ -124,6 +124,7 @@ public class Settings
     public int ChunkDistance = 5;
     public int Offset_Spawning = 4;
     public int Offset_Despawning = 1;
+    public bool DisplayNoteText = true;
     public bool DisplayFloatValueText = true;
 
     // TODO: Consider whether a spectrogram toggle is necessary (it has a very minimal cost now)
@@ -162,7 +163,6 @@ public class Settings
     public float ArrowColorMultiplier = 1.72f;
     public float ArrowColorWhiteBlend = 0.75f;
     public float ObstacleOpacity = 0.25f;
-    public bool AlternateLighting = false;
 
     public bool DisplayGridBookmarks = true;
     public bool GridBookmarksHasLine = true;
@@ -233,6 +233,8 @@ public class Settings
     public int MapVersion = 3;
     public CameraPosition[] SavedPositions = new CameraPosition[8];
 
+    public bool AlternateLighting = false;
+    
     public int CursorPrecisionA = 1;
     public int CursorPrecisionB = 1;
 

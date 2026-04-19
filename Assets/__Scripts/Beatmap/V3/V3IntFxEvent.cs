@@ -5,9 +5,9 @@ namespace Beatmap.V3
 {
     public static class V3IntFxEvent
     {
-        public static IntFxEventBase GetFromJson(JSONNode node)
+        public static BaseFxEventInt GetFromJson(JSONNode node)
         {
-            var intFxEventBase = new IntFxEventBase();
+            var intFxEventBase = new BaseFxEventInt();
             
             intFxEventBase.JsonTime = node["b"].AsFloat;
             intFxEventBase.UsePrevious = node["p"].AsInt;
@@ -16,13 +16,13 @@ namespace Beatmap.V3
             return intFxEventBase;
         }
 
-        public static JSONNode ToJson(IntFxEventBase intFxEventBase)
+        public static JSONNode ToJson(BaseFxEventInt baseFxEventInt)
         {
             return new JSONObject
             {
-                ["b"] = intFxEventBase.JsonTime,
-                ["p"] = intFxEventBase.UsePrevious,
-                ["v"] = intFxEventBase.Value
+                ["b"] = baseFxEventInt.JsonTime,
+                ["p"] = baseFxEventInt.UsePrevious,
+                ["v"] = baseFxEventInt.Value
             };
         }
     }

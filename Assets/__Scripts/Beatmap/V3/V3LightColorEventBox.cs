@@ -9,7 +9,7 @@ namespace Beatmap.V3
         public static BaseLightColorEventBox GetFromJson(JSONNode node)
         {
             var box = new BaseLightColorEventBox();
-            
+
             box.IndexFilter = V3IndexFilter.GetFromJson(BaseItem.GetRequiredNode(node, "f"));
             box.BeatDistribution = node["w"].AsFloat;
             box.BeatDistributionType = node["d"].AsInt;
@@ -17,7 +17,10 @@ namespace Beatmap.V3
             box.BrightnessDistributionType = node["t"].AsInt;
             box.BrightnessAffectFirst = node["b"].AsInt;
             box.Easing = node["i"].AsInt;
-            box.Events = BaseItem.GetRequiredNode(node, "e").AsArray.Linq.Select(x => V3LightColorBase.GetFromJson(x.Value)).ToArray();
+            box.Events = BaseItem
+                .GetRequiredNode(node, "e")
+                .AsArray.Linq.Select(x => V3LightColorBase.GetFromJson(x.Value))
+                .ToArray();
 
             return box;
         }

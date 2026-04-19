@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 public class BeatmapVersionSwitchInputController : MonoBehaviour, CMInput.ISwitchVersionActions
 {
     [SerializeField] private PauseManager pauseManager;
+
     /// <summary>
     /// Switch version, then exist(for new containers reloading).
     /// </summary>
@@ -23,7 +24,9 @@ public class BeatmapVersionSwitchInputController : MonoBehaviour, CMInput.ISwitc
         {
             case 2:
                 if (Settings.Instance.MapVersion is 3 or 4)
-                    BeatSaberSongContainer.Instance.Map.ConvertCustomDataVersion(fromVersion: Settings.Instance.MapVersion, toVersion: 2);
+                    BeatSaberSongContainer.Instance.Map.ConvertCustomDataVersion(
+                        fromVersion: Settings.Instance.MapVersion,
+                        toVersion: 2);
                 Settings.Instance.MapVersion = 2;
                 break;
             case 3:
@@ -42,9 +45,10 @@ public class BeatmapVersionSwitchInputController : MonoBehaviour, CMInput.ISwitc
     public void PromptSwitchVersion()
     {
         // Don't expect this to be used that often so destroy on close
-        var switchVersionDialogueBox = PersistentUI.Instance
+        var switchVersionDialogueBox = PersistentUI
+            .Instance
             .CreateNewDialogBox()
-            .WithTitle("Mapper","change.beatmap.version");
+            .WithTitle("Mapper", "change.beatmap.version");
 
         switchVersionDialogueBox
             .AddComponent<TextComponent>()
@@ -55,13 +59,13 @@ public class BeatmapVersionSwitchInputController : MonoBehaviour, CMInput.ISwitc
 
         switchVersionDialogueBox.AddFooterButton(() => OnChangeVersion(2), "v2");
         switchVersionDialogueBox.AddFooterButton(() => OnChangeVersion(3), "v3");
-        
+
         // v4 difficulty is only supported with v4 info
         if (BeatSaberSongContainer.Instance.Info.MajorVersion == 4)
         {
             switchVersionDialogueBox.AddFooterButton(() => OnChangeVersion(4), "v4");
         }
-        
+
         switchVersionDialogueBox.Open();
     }
 }

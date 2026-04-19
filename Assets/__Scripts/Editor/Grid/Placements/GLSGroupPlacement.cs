@@ -1,0 +1,60 @@
+﻿using System.Collections.Generic;
+using System.Linq;
+using Beatmap.Appearances;
+using Beatmap.Base;
+using Beatmap.Containers;
+using UnityEngine;
+
+public abstract class GLSGroupPlacement<TGroup, TCollection> : BasePlacement<TGroup, GLSGroupContainer, TCollection>
+    where TGroup : BaseEventBoxGroup where TCollection : GLSGroupGridContainer<TGroup>
+{
+    [SerializeField] public GLSGroupTrack GlsGroupTrack;
+
+    [SerializeField] protected GLSGroupAppearanceSO GlsGroupAppearance;
+    [SerializeField] private BeatmapRuntimeContext beatmapRuntimeContext;
+    [SerializeField] protected BeatmapEasingsSelectionInputController EasingInputController;
+
+    public override bool CanPlace => base.CanPlace && IsInPosition() && !GlobalIntersectionCache.HasHit;
+
+    protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicts) =>
+        new BeatmapObjectPlacementAction(spawned, conflicts, "Placed a GLS Group.");
+
+    public override void Initialize(PlacementProvider provider)
+    {
+        base.Initialize(provider);
+        GlsGroupTrack = provider.GetComponent<GLSGroupTrack>();
+        PlacementTrack = GlsGroupTrack.Track.ObjectParentTransform;
+        QueuedData.ID = GlsGroupTrack.TrackDefinition.ID;
+        PlacementVisualContainer.EventBoxGroupData = QueuedData;
+        PlacementVisualContainer.transform.SetParent(PlacementTrack, false);
+        PlacementVisualContainer.SafeSetActive(CanPlace);
+        GlsGroupAppearance.SetAppearance(PlacementVisualContainer, false);
+    }
+
+    protected override void HandlePlacementToData(PlacementInputState inputState)
+    {
+        PlacementVisualContainer.SafeSetActive(CanPlace);
+        foreach (var evt in QueuedData.ReadOnlyBoxes.SelectMany(box => box.ReadOnlyEvents))
+            evt.JsonTime = QueuedData.JsonTime + evt.RelativeJsonTime;
+    }
+
+    protected bool IsInPosition() =>
+        Mathf.Approximately(
+            Mathf.Floor(PlacementVisualContainer.transform.localPosition.x),
+            GLSGroupContainer.GetPositionFromTrackDefinition(beatmapRuntimeContext.TracksDefinition, QueuedData));
+
+    public override void HandleApply()
+    {
+        base.HandleApply();
+        PlacementVisualContainer.EventBoxGroupData = QueuedData;
+    }
+
+    public override void FinishDrag()
+    {
+        base.FinishDrag();
+        PlacementVisualContainer.EventBoxGroupData = QueuedData;
+    }
+
+    protected override void TransferQueuedToDraggedObject(ref TGroup dragged, TGroup queued) =>
+        dragged.JsonTime = queued.JsonTime;
+}

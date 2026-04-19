@@ -34,7 +34,7 @@ public class CustomEventGridContainer : BeatmapObjectContainerCollection<BaseCus
         if (!Settings.Instance.AdvancedShit)
         {
             Debug.LogWarning("Disabling some objects since an Advanced setting is not enabled...");
-            gridChild.gameObject.SetActive(false);
+            gridChild.Hide = true;
         }
     }
 
@@ -44,15 +44,15 @@ public class CustomEventGridContainer : BeatmapObjectContainerCollection<BaseCus
 
         var span = MapObjects.AsSpan();
 
-        foreach (var ev in span)
-        {
-            AddCustomEvent(ev);
-        }
+        foreach (var ev in span) AddCustomEvent(ev);
     }
 
     public void OnAssignObjectstoTrack(InputAction.CallbackContext context)
     {
-        if (Settings.Instance.AdvancedShit && context.performed && !PersistentUI.Instance.InputBoxIsEnabled)
+        if (EditContext.EditingMode.HasFlag(ViewableMode)
+            && Settings.Instance.AdvancedShit
+            && context.performed
+            && !PersistentUI.Instance.InputBoxIsEnabled)
         {
             PersistentUI.Instance.ShowInputBox(
                 "Assign the selected objects to a track ID.\n\n" + "If you dont know what you're doing, turn back now.",
@@ -148,7 +148,7 @@ public class CustomEventGridContainer : BeatmapObjectContainerCollection<BaseCus
                     if (at.Animator == null)
                     {
                         at.Animator = at.gameObject.AddComponent<ObjectAnimator>();
-                        at.Animator.Context = Context;
+                        at.Animator.Context = BeatmapContext;
                         at.Animator.AttachToTrack(at.Track, tr.Value);
                     }
 
@@ -190,12 +190,10 @@ public class CustomEventGridContainer : BeatmapObjectContainerCollection<BaseCus
     private void RefreshTrack()
     {
         if (customEventTypes.Count == 0)
-        {
-            gridChild.gameObject.SetActive(false);
-        }
+            gridChild.Hide = true;
         else
         {
-            gridChild.gameObject.SetActive(true);
+            gridChild.Hide = false;
             gridChild.Lane = customEventTypes.Count;
         }
 
@@ -290,6 +288,7 @@ public class CustomEventGridContainer : BeatmapObjectContainerCollection<BaseCus
 
     public override ObjectContainer CreateContainer() =>
         CustomEventContainer.SpawnCustomEvent(null, this, ref customEventPrefab);
-    
-    protected override void UpdateContainerData(ObjectContainer con, BaseObject obj) => con.transform.localScale = Vector3.one * 0.75f;
+
+    protected override void UpdateContainerData(ObjectContainer con, BaseObject obj) =>
+        con.transform.localScale = Vector3.one * 0.75f;
 }

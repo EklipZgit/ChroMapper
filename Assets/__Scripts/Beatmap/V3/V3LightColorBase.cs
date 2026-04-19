@@ -13,7 +13,7 @@ namespace Beatmap.V3
         {
             var lightColorBase = new BaseLightColorBase();
 
-            lightColorBase.JsonTime = node["b"].AsFloat;
+            lightColorBase.JsonTime = lightColorBase.RelativeJsonTime = node["b"].AsFloat;
             lightColorBase.Color = node["c"].AsInt;
             lightColorBase.Brightness = node["s"].AsFloat;
             lightColorBase.UsePrevious = node["i"].AsInt == (int)TransitionType.Extend ? 1 : 0;
@@ -30,7 +30,7 @@ namespace Beatmap.V3
         public static JSONNode ToJson(BaseLightColorBase lightColorBase)
         {
             JSONNode node = new JSONObject();
-            node["b"] = lightColorBase.JsonTime;
+            node["b"] = lightColorBase.RelativeJsonTime;
             node["c"] = lightColorBase.Color;
             node["s"] = lightColorBase.Brightness;
             node["i"] = (int)(lightColorBase.UsePrevious == 1 ? TransitionType.Extend :

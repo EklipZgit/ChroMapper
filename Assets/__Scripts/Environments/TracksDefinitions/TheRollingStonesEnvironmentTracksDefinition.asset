@@ -35,7 +35,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Cube
     Name: Local Right
-    ID: 0
+    ID: 1
     ColorTrack: 1
     RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
@@ -45,7 +45,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Cube
     Name: Global
-    ID: 0
+    ID: 26
     ColorTrack: 0
     RotationTracks: 000100
     OverrideDefaultRotationAxis: NoOverride
@@ -55,7 +55,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Cube
     Name: Rot Z Left
-    ID: 0
+    ID: 31
     ColorTrack: 0
     RotationTracks: 000001
     OverrideDefaultRotationAxis: NoOverride
@@ -65,7 +65,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Cube
     Name: Rot Z Right
-    ID: 0
+    ID: 32
     ColorTrack: 0
     RotationTracks: 000001
     OverrideDefaultRotationAxis: NoOverride
@@ -75,7 +75,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Cube
     Name: Lasers
-    ID: 0
+    ID: 37
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -85,7 +85,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Heart
     Name: Local Left
-    ID: 0
+    ID: 12
     ColorTrack: 1
     RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
@@ -95,7 +95,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Heart
     Name: Local Right
-    ID: 0
+    ID: 13
     ColorTrack: 1
     RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
@@ -105,7 +105,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Heart
     Name: Global
-    ID: 0
+    ID: 27
     ColorTrack: 0
     RotationTracks: 000101
     OverrideDefaultRotationAxis: NoOverride
@@ -115,7 +115,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Heart
     Name: Rot Z Left
-    ID: 0
+    ID: 33
     ColorTrack: 0
     RotationTracks: 000001
     OverrideDefaultRotationAxis: NoOverride
@@ -125,7 +125,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Heart
     Name: Rot Z Right
-    ID: 0
+    ID: 34
     ColorTrack: 0
     RotationTracks: 000001
     OverrideDefaultRotationAxis: NoOverride
@@ -135,7 +135,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Logo
     Name: Color
-    ID: 0
+    ID: 43
     ColorTrack: 0
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -145,7 +145,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Logo
     Name: Local
-    ID: 0
+    ID: 28
     ColorTrack: 1
     RotationTracks: 000100
     OverrideDefaultRotationAxis: NoOverride
@@ -155,7 +155,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Logo
     Name: Global
-    ID: 0
+    ID: 29
     ColorTrack: 0
     RotationTracks: 000101
     OverrideDefaultRotationAxis: NoOverride
@@ -165,7 +165,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Logo
     Name: Iridescence
-    ID: 0
+    ID: 42
     ColorTrack: 0
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -175,7 +175,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Columns Left
     Name: 01
-    ID: 0
+    ID: 2
     ColorTrack: 1
     RotationTracks: 000100
     OverrideDefaultRotationAxis: NoOverride
@@ -185,7 +185,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Columns Left
     Name: 02
-    ID: 0
+    ID: 3
     ColorTrack: 1
     RotationTracks: 000100
     OverrideDefaultRotationAxis: NoOverride
@@ -195,7 +195,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Columns Left
     Name: 03
-    ID: 0
+    ID: 4
     ColorTrack: 1
     RotationTracks: 000100
     OverrideDefaultRotationAxis: NoOverride
@@ -205,7 +205,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Columns Left
     Name: 04
-    ID: 0
+    ID: 5
     ColorTrack: 1
     RotationTracks: 000100
     OverrideDefaultRotationAxis: NoOverride
@@ -215,7 +215,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Columns Right
     Name: 01
-    ID: 0
+    ID: 6
     ColorTrack: 1
     RotationTracks: 000100
     OverrideDefaultRotationAxis: NoOverride
@@ -225,7 +225,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Columns Right
     Name: 02
-    ID: 0
+    ID: 7
     ColorTrack: 1
     RotationTracks: 000100
     OverrideDefaultRotationAxis: NoOverride
@@ -235,7 +235,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Columns Right
     Name: 03
-    ID: 0
+    ID: 8
     ColorTrack: 1
     RotationTracks: 000100
     OverrideDefaultRotationAxis: NoOverride
@@ -245,7 +245,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Columns Right
     Name: 04
-    ID: 0
+    ID: 9
     ColorTrack: 1
     RotationTracks: 000100
     OverrideDefaultRotationAxis: NoOverride
@@ -255,7 +255,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Columns Lasers
     Name: 01
-    ID: 0
+    ID: 22
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -265,7 +265,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Columns Lasers
     Name: 02
-    ID: 0
+    ID: 23
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -275,7 +275,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Lasers Left
     Name: 01
-    ID: 0
+    ID: 14
     ColorTrack: 1
     RotationTracks: 010001
     OverrideDefaultRotationAxis: Z
@@ -285,7 +285,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Lasers Left
     Name: 02
-    ID: 0
+    ID: 15
     ColorTrack: 1
     RotationTracks: 010001
     OverrideDefaultRotationAxis: Z
@@ -295,7 +295,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Lasers Left
     Name: 03
-    ID: 0
+    ID: 16
     ColorTrack: 1
     RotationTracks: 010001
     OverrideDefaultRotationAxis: Z
@@ -305,7 +305,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Lasers Left
     Name: 04
-    ID: 0
+    ID: 17
     ColorTrack: 1
     RotationTracks: 010001
     OverrideDefaultRotationAxis: Z
@@ -315,7 +315,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Lasers Left
     Name: Spheres
-    ID: 0
+    ID: 24
     ColorTrack: 1
     RotationTracks: 010000
     OverrideDefaultRotationAxis: NoOverride
@@ -325,7 +325,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Lasers Right
     Name: 01
-    ID: 0
+    ID: 18
     ColorTrack: 1
     RotationTracks: 010001
     OverrideDefaultRotationAxis: Z
@@ -335,7 +335,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Lasers Right
     Name: 02
-    ID: 0
+    ID: 19
     ColorTrack: 1
     RotationTracks: 010001
     OverrideDefaultRotationAxis: Z
@@ -345,7 +345,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Lasers Right
     Name: 03
-    ID: 0
+    ID: 20
     ColorTrack: 1
     RotationTracks: 010001
     OverrideDefaultRotationAxis: Z
@@ -355,7 +355,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Lasers Right
     Name: 04
-    ID: 0
+    ID: 21
     ColorTrack: 1
     RotationTracks: 010001
     OverrideDefaultRotationAxis: Z
@@ -365,7 +365,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Lasers Right
     Name: Spheres
-    ID: 0
+    ID: 25
     ColorTrack: 1
     RotationTracks: 010000
     OverrideDefaultRotationAxis: NoOverride
@@ -375,7 +375,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Floor
     Name: Blocks Left
-    ID: 0
+    ID: 10
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -385,7 +385,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Floor
     Name: Blocks Right
-    ID: 0
+    ID: 11
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -395,7 +395,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Floor
     Name: Side Laser Left
-    ID: 0
+    ID: 35
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -405,7 +405,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Floor
     Name: Side Laser Right
-    ID: 0
+    ID: 36
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -415,7 +415,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Floor
     Name: Side Laser Bottom Left
-    ID: 0
+    ID: 44
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -425,7 +425,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Floor
     Name: Side Laser Bottom Right
-    ID: 0
+    ID: 45
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -435,7 +435,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Floor
     Name: Inner Light Left
-    ID: 0
+    ID: 40
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -445,7 +445,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Floor
     Name: Inner Light Right
-    ID: 0
+    ID: 41
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -455,7 +455,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Floor
     Name: Below Block
-    ID: 0
+    ID: 39
     ColorTrack: 0
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -465,7 +465,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Splinters
     Name: Splinters
-    ID: 0
+    ID: 30
     ColorTrack: 1
     RotationTracks: 000101
     OverrideDefaultRotationAxis: NoOverride
@@ -475,7 +475,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Splinters
     Name: Global Translation
-    ID: 0
+    ID: 38
     ColorTrack: 0
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride

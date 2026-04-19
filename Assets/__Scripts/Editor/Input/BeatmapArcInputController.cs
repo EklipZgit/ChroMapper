@@ -12,18 +12,17 @@ using UnityEngine.UI;
 
 public class BeatmapArcInputController : BeatmapInputController<ArcContainer>, CMInput.IArcObjectsActions
 {
-    public const float MuChangeSpeed = 0.1f;
-    [FormerlySerializedAs("arcAppearanceSO")] [SerializeField] private ArcAppearanceSO arcAppearanceSo;
+    [SerializeField] private ScrollPrecisionController scrollPrecisionController;
+    [SerializeField] private ArcAppearanceSO arcAppearance;
+
     public void OnChangingMu(InputAction.CallbackContext context)
     {
         if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)) return;
         RaycastFirstObject(out var e);
-        if (e == null || e.Dragging || !context.performed) return;
+        if (e == null || e.Dragged || !context.performed) return;
 
-        var modifier = context.ReadValue<float>();
-        modifier = ((modifier > 0) ^ Settings.Instance.InvertScrollArcMultiplier)
-            ? MuChangeSpeed
-            : -MuChangeSpeed;
+        var modifier = context.GetScrollDirection(Settings.Instance.InvertScrollArcMultiplier)
+            * scrollPrecisionController.GetCurrentMultiplierPrecision();
         ChangeMu(e, modifier);
     }
 
@@ -31,20 +30,25 @@ public class BeatmapArcInputController : BeatmapInputController<ArcContainer>, C
     {
         var original = BeatmapFactory.Clone(s.ArcData);
         s.ChangeHeadMultiplier(modifier);
+        arcAppearance.SetText(s);
         s.NotifySplineChanged();
-        BeatmapActionContainer.AddAction(new BeatmapObjectModifiedAction(s.ObjectData, s.ObjectData, original, mergeType: ActionMergeType.ArcHeadMultTweak));
+        BeatmapActionContainer.AddAction(
+            new BeatmapObjectModifiedAction(
+                s.ObjectData,
+                s.ObjectData,
+                original,
+                mergeType: ActionMergeType.ArcHeadMultTweak));
     }
 
     public void OnInvertArcColor(InputAction.CallbackContext context)
     {
-        if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true) ||
-            !KeybindsController.IsMouseInWindow || !context.performed)
-        {
+        if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)
+            || !KeybindsController.IsMouseInWindow
+            || !context.performed)
             return;
-        }
 
         RaycastFirstObject(out var arc);
-        if (arc != null && !arc.Dragging) InvertArc(arc);
+        if (arc != null && !arc.Dragged) InvertArc(arc);
     }
 
     public void InvertArc(ArcContainer arc)
@@ -54,20 +58,20 @@ public class BeatmapArcInputController : BeatmapInputController<ArcContainer>, C
             ? (int)NoteColor.Blue
             : (int)NoteColor.Red;
         arc.ArcData.Color = newType;
-        arcAppearanceSo.SetArcAppearance(arc);
-        BeatmapActionContainer.AddAction(new BeatmapObjectModifiedAction(arc.ObjectData, arc.ObjectData, original, "invert arc color"));
+        arcAppearance.SetArcAppearance(arc);
+        BeatmapActionContainer.AddAction(
+            new BeatmapObjectModifiedAction(arc.ObjectData, arc.ObjectData, original, "invert arc color"));
     }
 
     public void OnChangingTmu(InputAction.CallbackContext context)
     {
         if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)) return;
         RaycastFirstObject(out var e);
-        if (e == null || e.Dragging || !context.performed) return;
+        if (e == null || e.Dragged || !context.performed) return;
 
-        var modifier = context.ReadValue<float>();
-        modifier = ((modifier > 0) ^ Settings.Instance.InvertScrollArcMultiplier)
-            ? MuChangeSpeed
-            : -MuChangeSpeed;
+        var modifier = context.GetScrollDirection(Settings.Instance.InvertScrollArcMultiplier)
+            * scrollPrecisionController
+                .GetCurrentMultiplierPrecision();
         ChangeTmu(e, modifier);
     }
 
@@ -75,7 +79,13 @@ public class BeatmapArcInputController : BeatmapInputController<ArcContainer>, C
     {
         var original = BeatmapFactory.Clone(s.ArcData);
         s.ChangeTailMultiplier(modifier);
+        arcAppearance.SetText(s);
         s.NotifySplineChanged();
-        BeatmapActionContainer.AddAction(new BeatmapObjectModifiedAction(s.ObjectData, s.ObjectData, original, mergeType: ActionMergeType.ArcTailMultTweak));
+        BeatmapActionContainer.AddAction(
+            new BeatmapObjectModifiedAction(
+                s.ObjectData,
+                s.ObjectData,
+                original,
+                mergeType: ActionMergeType.ArcTailMultTweak));
     }
 }

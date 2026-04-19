@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class Rotation90DegreesWarningController : MonoBehaviour
 {
-    [SerializeField] private TracksManager tracksManager;
     [SerializeField] private RotationCallbackController rotationCallback;
     [SerializeField] private TextMeshProUGUI rotationDisplay;
 

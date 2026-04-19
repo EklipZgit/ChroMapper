@@ -70,4 +70,7 @@ public class ButtonComponent : CMUIComponentBase, INavigable
     private void Start() => button.onClick.AddListener(() => onClick?.Invoke());
 
     private void OnDestroy() => button.onClick.RemoveAllListeners();
+
+    internal override void SetLabelText(string text) => label.text = text;
+    public void SetLabelColor(Color color) => label.color = color;
 }

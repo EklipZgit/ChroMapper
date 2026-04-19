@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
-using UnityEngine.Serialization;
 
 public class ToggleColourDropdown : MonoBehaviour
 {
-    [FormerlySerializedAs("ColourDropdown")] [SerializeField] private RectTransform colourDropdown;
+    [SerializeField] private RectTransform colourDropdown;
     [SerializeField] private FlyoutPanelController flyoutPanelController;
 
     public bool Visible;

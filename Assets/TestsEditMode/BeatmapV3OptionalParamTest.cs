@@ -325,7 +325,7 @@ namespace TestsEditMode
         [Test]
         public void V3VfxEventEventBoxGroupTest()
         {
-            Assert.Throws<ArgumentException>(() => V3VfxEventEventBoxGroup.GetFromJson(new JSONObject(), new List<FloatFxEventBase>()));
+            Assert.Throws<ArgumentException>(() => V3VfxEventEventBoxGroup.GetFromJson(new JSONObject(), new List<BaseFxEventFloat>()));
             Assert.DoesNotThrow(() => V3VfxEventEventBoxGroup.GetFromJson(new JSONObject
             {
                 ["e"] = new JSONArray
@@ -335,7 +335,7 @@ namespace TestsEditMode
                         ["f"] = new JSONObject()
                     }
                 }
-            }, new List<FloatFxEventBase>()));
+            }, new List<BaseFxEventFloat>()));
 
             var json = new JSONObject
             {
@@ -348,7 +348,7 @@ namespace TestsEditMode
                     }
                 }
             };
-            var group = V3VfxEventEventBoxGroup.GetFromJson(json, new List<FloatFxEventBase>());
+            var group = V3VfxEventEventBoxGroup.GetFromJson(json, new List<BaseFxEventFloat>());
 
             AssertBaseEventBoxGroupDefaults(group);
         }

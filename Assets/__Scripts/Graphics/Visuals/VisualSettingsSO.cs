@@ -48,6 +48,9 @@ public class VisualSettingsSO : ScriptableObject
 
     public VisualModelSO GetBlockModel() => Repository.ModelsByName.GetValueOrDefault("CM_Block", DefaultBlock);
 
+    public VisualModelSO GetEventBlockModel() =>
+        Repository.ModelsByName.GetValueOrDefault("CM_Event_Block", DefaultBlock);
+
     public VisualModelSO GetEventModel() =>
         Repository.ModelsByName.GetValueOrDefault(
             "CM_Event_" + Settings.Instance.EventModels.Replace(' ', '_'),

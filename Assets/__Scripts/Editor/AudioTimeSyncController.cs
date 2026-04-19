@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Beatmap.Info;
 using UnityEngine;
@@ -16,6 +17,7 @@ public class AudioTimeSyncController : MonoBehaviour,
 
     private static readonly int songTime = Shader.PropertyToID("_SongTime");
     private static readonly int songTimeSeconds = Shader.PropertyToID("_SongTimeSeconds");
+    private static readonly int songTimeOrigin = Shader.PropertyToID("_SongTimeOrigin");
     private static readonly int viewStart = Shader.PropertyToID("_ViewStart");
     private static readonly int viewEnd = Shader.PropertyToID("_ViewEnd");
 
@@ -27,14 +29,18 @@ public class AudioTimeSyncController : MonoBehaviour,
     [SerializeField] private AudioSource waveformSource;
 
     [SerializeField] private GameObject moveables;
+
     [SerializeField] private TracksManager tracksManager;
-    [SerializeField] private Track[] otherTracks;
+
+    // TODO: track should subscribe to this, not ATSC holding these
+    [SerializeField] public List<Track> otherTracks;
 
     [FormerlySerializedAs("bpmChangesContainer")] [SerializeField]
     private BPMChangeGridContainer bpmChangeGridContainer;
 
     [SerializeField] private GridRenderingController gridRenderingController;
     [SerializeField] private CustomStandaloneInputModule customStandaloneInputModule;
+    [SerializeField] private EditModeContext editModeContext;
 
     public BaseInfo MapInfo;
 
@@ -54,6 +60,7 @@ public class AudioTimeSyncController : MonoBehaviour,
 
     public event Action<int> OnGridMeasureSnappingChanged;
     public event Action<bool> OnPlayToggled;
+    public event Action<float> OnVisualBeatOriginChanged;
     public event Action OnTimeChangedEarly;
     public event Action OnTimeChanged;
 
@@ -87,6 +94,30 @@ public class AudioTimeSyncController : MonoBehaviour,
             ValidatePosition();
             UpdateMovables();
         }
+    }
+
+    [SerializeField] private float originBeat;
+
+    // Changes the "origin beat", or the visual position of beat 0.
+    // Used in GLS event box groups since all event boxes are relative to the beat of the event box group.
+    // This affects grid lines, measure line text, and placement systems which require beat snapping
+    public float VisualBeatOrigin
+    {
+        get => originBeat;
+        set
+        {
+            originBeat = value;
+            OnVisualBeatOriginChanged?.Invoke(value);
+            ValidatePosition();
+            UpdateMovables();
+        }
+    }
+
+    // Yep, you guessed it.
+    public float VisualBeatOriginJsonTime
+    {
+        get => (float)BeatSaberSongContainer.Instance.Map.SongBpmTimeToJsonTime(VisualBeatOrigin);
+        set => VisualBeatOrigin = (float)BeatSaberSongContainer.Instance.Map.JsonTimeToSongBpmTime(value);
     }
 
     [Obsolete(
@@ -160,6 +191,7 @@ public class AudioTimeSyncController : MonoBehaviour,
                 GridMeasureSnapping = (int)Settings.NonPersistentSettings[PrecisionSnapName];
             OnGridMeasureSnappingChanged?.Invoke(GridMeasureSnapping);
             LoadInitialMap.OnLevelLoaded += OnLevelLoaded;
+            editModeContext.OnEditModeChanged += OnEditModeChanged;
             Settings.NotifyBySettingName("SongSpeed", UpdateSongSpeed);
             Settings.NotifyBySettingName("SongVolume", UpdateSongVolume);
             Settings.NotifyBySettingName(nameof(Settings.TrackLength), UpdateTrackLength);
@@ -334,7 +366,10 @@ public class AudioTimeSyncController : MonoBehaviour,
 
     public void OnGoToBeat(InputAction.CallbackContext context)
     {
-        if (!context.performed) return;
+        if (!context.performed
+            || editModeContext.EditingMode.HasFlag(EditingMode.GLS)
+            || editModeContext.EditingMode.HasFlag(EditingMode.EventBox))
+            return;
 
         PersistentUI.Instance.ShowInputBox("Mapper", "gotobeat.dialog", GoToBeat);
     }
@@ -380,12 +415,21 @@ public class AudioTimeSyncController : MonoBehaviour,
 
     private void UpdateTrackLength(object _) => UpdateMovables();
 
+    // Always reset visual beat origin when we switch
+    // Ideally, each user who changes the beat origin should also reset it, but this is a safety measure
+    // There are too many places to change edit mode contexts for that to be reliable
+    private void OnEditModeChanged(EditingMode mode)
+    {
+        if (VisualBeatOrigin != 0) VisualBeatOrigin = 0;
+    }
+
     private void OnLevelLoaded() => levelLoaded = true;
 
     private void UpdateMovables()
     {
         Shader.SetGlobalFloat(songTime, currentSongBpmTime);
         Shader.SetGlobalFloat(songTimeSeconds, currentSeconds);
+        Shader.SetGlobalFloat(songTimeOrigin, VisualBeatOriginJsonTime);
 
         // set view range based on track length
         Shader.SetGlobalFloat(viewStart, GetSecondsFromBeat(currentSongBpmTime - (Settings.Instance.TrackLength / 4f)));
@@ -396,6 +440,7 @@ public class AudioTimeSyncController : MonoBehaviour,
         tracksManager.UpdatePosition(-position);
         foreach (var track in otherTracks) track.UpdatePosition(-position);
 
+        // TODO(Caeden): what is the difference between these events
         OnTimeChangedEarly?.Invoke();
         OnTimeChanged?.Invoke();
     }
@@ -462,8 +507,14 @@ public class AudioTimeSyncController : MonoBehaviour,
 
     public void SnapToGrid(bool positionValidated = false)
     {
-        var jsonTime = (float)Math.Round(CurrentJsonTime * GridMeasureSnapping, MidpointRounding.AwayFromZero)
+        var offsetTime = VisualBeatOriginJsonTime;
+
+        var jsonTime = (float)Math.Round(
+                (CurrentJsonTime - offsetTime) * GridMeasureSnapping,
+                MidpointRounding.AwayFromZero)
             / GridMeasureSnapping;
+
+        jsonTime += offsetTime;
 
         currentJsonTime = jsonTime;
         currentSongBpmTime = (float)BeatSaberSongContainer.Instance.Map.JsonTimeToSongBpmTime(jsonTime);
@@ -517,5 +568,8 @@ public class AudioTimeSyncController : MonoBehaviour,
             CurrentSeconds = BeatSaberSongContainer.Instance.LoadedSong.length;
             SnapToGrid(true);
         }
+
+        // Ensure we cant move before visual beat origin, otherwise weird things happen with GLS event box groups since their timing is relative to the visual beat origin
+        if (currentSongBpmTime < VisualBeatOrigin) currentSongBpmTime = VisualBeatOrigin;
     }
 }

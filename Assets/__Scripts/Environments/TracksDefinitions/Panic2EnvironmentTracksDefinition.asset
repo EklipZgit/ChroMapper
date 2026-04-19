@@ -32,7 +32,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Side Cones
     Name: Right Cones Local
-    ID: 0
+    ID: 1
     ColorTrack: 1
     RotationTracks: 000101
     OverrideDefaultRotationAxis: Z
@@ -42,7 +42,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Side Cones
     Name: Left Cones Global
-    ID: 0
+    ID: 2
     ColorTrack: 0
     RotationTracks: 000001
     OverrideDefaultRotationAxis: NoOverride
@@ -52,7 +52,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Side Cones
     Name: Right Cones Global
-    ID: 0
+    ID: 3
     ColorTrack: 0
     RotationTracks: 000001
     OverrideDefaultRotationAxis: NoOverride
@@ -62,7 +62,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Center Cones
     Name: Cones Local
-    ID: 0
+    ID: 4
     ColorTrack: 1
     RotationTracks: 000101
     OverrideDefaultRotationAxis: Z
@@ -72,7 +72,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Center Cones
     Name: Cones Global
-    ID: 0
+    ID: 5
     ColorTrack: 0
     RotationTracks: 000001
     OverrideDefaultRotationAxis: Z
@@ -82,7 +82,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Diamond Ring
     Name: Diamond Rings Local Left
-    ID: 0
+    ID: 6
     ColorTrack: 1
     RotationTracks: 000101
     OverrideDefaultRotationAxis: Z
@@ -92,7 +92,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Diamond Ring
     Name: Diamond Rings Local Right
-    ID: 0
+    ID: 7
     ColorTrack: 1
     RotationTracks: 000101
     OverrideDefaultRotationAxis: Z
@@ -102,7 +102,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Diamond Ring
     Name: Diamond Rings Global
-    ID: 0
+    ID: 8
     ColorTrack: 0
     RotationTracks: 000001
     OverrideDefaultRotationAxis: NoOverride
@@ -112,7 +112,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Main Lasers
     Name: Lasers Bottom Left
-    ID: 0
+    ID: 9
     ColorTrack: 1
     RotationTracks: 000101
     OverrideDefaultRotationAxis: Z
@@ -122,7 +122,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Main Lasers
     Name: Lasers Bottom Right
-    ID: 0
+    ID: 10
     ColorTrack: 1
     RotationTracks: 000101
     OverrideDefaultRotationAxis: Z
@@ -132,7 +132,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Main Lasers
     Name: Lasers Top Left
-    ID: 0
+    ID: 11
     ColorTrack: 1
     RotationTracks: 000101
     OverrideDefaultRotationAxis: Z
@@ -142,7 +142,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Main Lasers
     Name: Lasers Top Right
-    ID: 0
+    ID: 12
     ColorTrack: 1
     RotationTracks: 000101
     OverrideDefaultRotationAxis: Z
@@ -152,7 +152,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Runway Lasers
     Name: Runway Lasers Left
-    ID: 0
+    ID: 13
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -162,7 +162,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Runway Lasers
     Name: Runway Lasers Left Transform Z
-    ID: 0
+    ID: 18
     ColorTrack: 0
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -172,7 +172,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Runway Lasers
     Name: Runway Lasers Right
-    ID: 0
+    ID: 14
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -182,7 +182,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Runway Lasers
     Name: Runway Lasers Right Transform Z
-    ID: 0
+    ID: 19
     ColorTrack: 0
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -192,7 +192,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Runway Lasers
     Name: Runway Inner Laser
-    ID: 0
+    ID: 15
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -202,7 +202,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Spectrogram
     Name: Spectrogram Left
-    ID: 0
+    ID: 16
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -212,7 +212,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Spectrogram
     Name: Spectrogram Right
-    ID: 0
+    ID: 17
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -222,7 +222,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Windows
     Name: Window Left Aura
-    ID: 0
+    ID: 21
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -232,7 +232,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Windows
     Name: Window Right Aura
-    ID: 0
+    ID: 23
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -242,7 +242,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Windows
     Name: Window Left Pieces
-    ID: 0
+    ID: 20
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -252,7 +252,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Windows
     Name: Window Right Pieces
-    ID: 0
+    ID: 22
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride

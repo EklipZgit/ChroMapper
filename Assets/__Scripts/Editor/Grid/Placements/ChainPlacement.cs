@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Beatmap.Base;
@@ -15,6 +16,9 @@ public class ChainPlacement : BasePlacement<BaseChain, ChainContainer, ChainGrid
     [FormerlySerializedAs("notesContainer")] [SerializeField]
     private NoteGridContainer noteGridContainer;
 
+    [NonSerialized] public float Squish = Settings.Instance.DefaultChainSquish;
+    [NonSerialized] public int SliceCount = Settings.Instance.DefaultChainSliceCount;
+
     private static HashSet<BaseObject> SelectedObjects => SelectionController.SelectedObjects;
 
     /// <summary>
@@ -28,8 +32,8 @@ public class ChainPlacement : BasePlacement<BaseChain, ChainContainer, ChainGrid
         SpawnChainFromSelection();
     }
 
-    protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicting) =>
-        new BeatmapObjectPlacementAction(spawned, conflicting, "Placed a chain.");
+    protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicts) =>
+        new BeatmapObjectPlacementAction(spawned, conflicts, "Placed a chain.");
 
     protected override BaseChain GenerateOriginalData() => new();
 
@@ -107,11 +111,7 @@ public class ChainPlacement : BasePlacement<BaseChain, ChainContainer, ChainGrid
             return false;
         }
 
-        chain = new BaseChain(head, tail)
-        {
-            SliceCount = Settings.Instance.DefaultChainSliceCount,
-            Squish = Settings.Instance.DefaultChainSquish
-        };
+        chain = new BaseChain(head, tail) { SliceCount = SliceCount, Squish = Squish };
         return true;
     }
 }

@@ -1,3 +1,4 @@
+using System.Globalization;
 using Beatmap.Containers;
 using Beatmap.Enums;
 using UnityEngine;
@@ -28,10 +29,15 @@ namespace Beatmap.Appearances
                     break;
             }
 
-            if (arc.ArcData.CustomColor != null)
-                arc.SetColor((Color)arc.ArcData.CustomColor);
-            
+            if (arc.ArcData.CustomColor != null) arc.SetColor((Color)arc.ArcData.CustomColor);
+            SetText(arc);
             arc.Animator.AttachToObject(arc.ArcData);
+        }
+
+        public void SetText(ArcContainer arc)
+        {
+            arc.InfoText.SetText(
+                $"H: {arc.ArcData.HeadControlPointLengthMultiplier.ToString(CultureInfo.InvariantCulture)}\nT: {arc.ArcData.TailControlPointLengthMultiplier.ToString(CultureInfo.InvariantCulture)}");
         }
     }
 }

@@ -35,7 +35,7 @@ public static class CMUIComponentExtensions
     public static TComponent OnChanged<TComponent, TValue>(this TComponent component, Action<TValue> onValueChanged)
         where TComponent : CMUIComponent<TValue>
     {
-        component.SetOnValueChanged(onValueChanged);
+        component.OnValueChanged(onValueChanged);
         return component;
     }
 

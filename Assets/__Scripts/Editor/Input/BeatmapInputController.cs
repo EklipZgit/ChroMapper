@@ -1,147 +1,181 @@
-﻿using System.Collections;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Beatmap.Containers;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-public class GlobalIntersectionCache
+public static class GlobalIntersectionCache
 {
-    internal static GameObject firstHit;
+    public static GameObject FirstHit;
+    public static bool HasHit;
 }
 
-public class BeatmapInputController<T> : MonoBehaviour, CMInput.IBeatmapObjectsActions where T : ObjectContainer
+public class BeatmapInputController<TContainer> : MonoBehaviour, CMInput.IBeatmapObjectsActions
+    where TContainer : ObjectContainer
 {
-    [SerializeField] protected CustomStandaloneInputModule CustomStandaloneInputModule;
+    [Header("State")] public bool IsSelecting;
+    public bool IsHovering;
+    public TContainer HoveredObject;
 
-    protected bool IsSelecting;
+    [Header("Dependencies")] [SerializeField]
+    protected CustomStandaloneInputModule CustomStandaloneInputModule;
 
-    [SerializeField] private ObstaclePlacement obstaclePlacement;
     [SerializeField] private CameraManager cameraManager;
-    private bool massSelect;
-    protected Vector2 MousePosition;
+    [SerializeField] protected EditModeContext EditContext;
+    [SerializeField] private EditingMode editMode;
+    [SerializeField] private ObstaclePlacement obstaclePlacement;
+    [SerializeField] private bool ignoreBaseInput;
+
+    protected bool MassSelect;
+    private Vector2 mousePosition;
     private float timeWhenFirstSelecting;
+    private List<Intersections.IntersectionHit> preAllocIntersections = new();
+
+    private void Start() => DeleteToolController.OnDeleteToolActivated += HandleDeleteToolActivated;
+
+    private void OnDestroy() => DeleteToolController.OnDeleteToolActivated -= HandleDeleteToolActivated;
+
+    private void HandleDeleteToolActivated()
+    {
+        if (IsHovering) HoveredObject.RefreshOutlineColor();
+    }
 
     // Update is called once per frame
     private void Update()
     {
+        if ((EditContext.EditingMode & editMode) != editMode)
+        {
+            if (IsHovering) HoveredObject.Highlighted = false;
+            IsHovering = false;
+            return;
+        }
+
         if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)) return;
-        GlobalIntersectionCache.firstHit = null;
         if (obstaclePlacement.IsPlacing)
         {
             timeWhenFirstSelecting = Time.time;
             return;
         }
 
-        if (!IsSelecting || Time.time - timeWhenFirstSelecting < 0.5f) return;
-        var ray = cameraManager.SelectedCameraController.Camera.ScreenPointToRay(MousePosition);
-        foreach (var hit in Intersections.RaycastAll(ray, 9))
+        if (Application.isFocused && RaycastFirstObject(out var first))
         {
-            if (GetComponentFromTransform(hit.GameObject, out var obj))
-            {
-                if (!SelectionController.IsObjectSelected(obj.ObjectData))
-                {
-                    SelectionController.Select(obj.ObjectData, true);
-                }
-            }
+            if (HoveredObject != first && IsHovering) HoveredObject.Highlighted = false;
+            HoveredObject = first;
+            HoveredObject.Highlighted = true;
+            IsHovering = true;
         }
+        else if (IsHovering)
+        {
+            HoveredObject.Highlighted = false;
+            IsHovering = false;
+        }
+        else
+            IsHovering = false;
+
+        if (!IsSelecting || Time.time - timeWhenFirstSelecting < 0.5f) return;
+        var ray = cameraManager.SelectedCameraController.Camera.ScreenPointToRay(mousePosition);
+        Intersections.RaycastAllNoAlloc(ray, 9, ref preAllocIntersections);
+        foreach (var hit in preAllocIntersections)
+        {
+            if (!GetComponentFromTransform(hit.GameObject, out var obj)) continue;
+            if (!SelectionController.IsObjectSelected(obj.ObjectData)) SelectionController.Select(obj.ObjectData, true);
+        }
+    }
+
+    private void LateUpdate()
+    {
+        GlobalIntersectionCache.FirstHit = null;
+        GlobalIntersectionCache.HasHit = false;
     }
 
     public void OnDeleteTool(InputAction.CallbackContext context)
     {
-        if (DeleteToolController.IsActive && context.performed) OnQuickDelete(context);
+        if (ignoreBaseInput || (DeleteToolController.IsActive && context.performed)) OnQuickDelete(context);
     }
 
     public void OnQuickDelete(InputAction.CallbackContext context)
     {
-        if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true))
+        if (ignoreBaseInput || CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true))
             return; //Returns if the mouse is on top of UI
 
         if (!Application.isFocused) return;
 
         RaycastFirstObject(out var obj);
-        if (obj != null && !obj.Dragging && context.performed) StartCoroutine(CompleteDelete(obj));
+        if (obj != null && !obj.Dragged && context.performed) CompleteDelete(obj);
     }
 
     public void OnSelectObjects(InputAction.CallbackContext context)
     {
-        if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)
+        if (ignoreBaseInput
+            || CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)
             || obstaclePlacement.IsPlacing)
-        {
             return;
-        }
 
         IsSelecting = context.performed;
-        if (context.performed)
-        {
-            timeWhenFirstSelecting = Time.time;
-            RaycastFirstObject(out var firstObject);
-            if (firstObject == null) return;
-            var obj = firstObject.ObjectData;
-            if (massSelect
-                && SelectionController.SelectedObjects.Count() == 1
-                && SelectionController.SelectedObjects.First() != obj)
-            {
-                SelectionController.SelectBetween(SelectionController.SelectedObjects.First(), obj, true);
-            }
-            else if (SelectionController.IsObjectSelected(obj))
-            {
-                SelectionController.Deselect(obj);
-            }
-            else if (!SelectionController.IsObjectSelected(obj))
-            {
-                SelectionController.Select(obj, true);
-            }
-        }
+        if (!context.performed) return;
+        timeWhenFirstSelecting = Time.time;
+        if (!RaycastFirstObject(out var firstObject)) return;
+        var obj = firstObject.ObjectData;
+        if (MassSelect
+            && SelectionController.SelectedObjects.Count == 1
+            && SelectionController.SelectedObjects.First() != obj)
+            SelectionController.SelectBetween(SelectionController.SelectedObjects.First(), obj, true);
+        else if (SelectionController.IsObjectSelected(obj))
+            SelectionController.Deselect(obj);
+        else if (!SelectionController.IsObjectSelected(obj)) SelectionController.Select(obj, true);
     }
 
     public void OnMousePositionUpdate(InputAction.CallbackContext context) =>
-        MousePosition = context.ReadValue<Vector2>();
+        mousePosition = context.ReadValue<Vector2>();
 
     public void OnJumptoObjectTime(InputAction.CallbackContext context)
     {
-        if (context.performed) // TODO: Find a way to detect if other keybinds are held
+        if (ignoreBaseInput || !context.performed) return; // TODO: Find a way to detect if other keybinds are held
+        RaycastFirstObject(out var con);
+        if (con != null)
         {
-            RaycastFirstObject(out var con);
-            if (con != null)
-            {
-                // TODO make this use an AudioTimeSyncController reference when Zenject is added.
-                BeatmapObjectContainerCollection
-                    .GetCollectionForType(con.ObjectData.ObjectType)
-                    .Context.Atsc.MoveToSongBpmTime(con.ObjectData.SongBpmTime);
-            }
+            // TODO make this use an AudioTimeSyncController reference when Zenject is added.
+            BeatmapObjectContainerCollection
+                .GetCollectionForType(con.ObjectData.ObjectType)
+                .BeatmapContext.Atsc.MoveToSongBpmTime(con.ObjectData.SongBpmTime);
         }
     }
 
-    public void OnMassSelectModifier(InputAction.CallbackContext context) => massSelect = context.performed;
+    public void OnMassSelectModifier(InputAction.CallbackContext context) => MassSelect = context.performed;
 
-    protected virtual bool GetComponentFromTransform(GameObject t, out T obj) => t.TryGetComponent(out obj);
+    protected virtual bool GetComponentFromTransform(GameObject t, out TContainer obj) => t.TryGetComponent(out obj);
 
-    protected void RaycastFirstObject(out T firstObject)
+    protected bool RaycastFirstObject(out TContainer firstObject)
     {
-        var ray = cameraManager.SelectedCameraController.Camera.ScreenPointToRay(MousePosition);
-        if (GlobalIntersectionCache.firstHit == null)
+        var ray = cameraManager.SelectedCameraController.Camera.ScreenPointToRay(mousePosition);
+        if (!GlobalIntersectionCache.HasHit)
         {
-            if (Intersections.Raycast(ray, 9, out var hit)) GlobalIntersectionCache.firstHit = hit.GameObject;
+            if (Intersections.Raycast(ray, 9, out var hit))
+            {
+                GlobalIntersectionCache.FirstHit = hit.GameObject;
+                GlobalIntersectionCache.HasHit = hit.GameObject != null;
+            }
         }
 
-        if (GlobalIntersectionCache.firstHit != null)
+        if (GlobalIntersectionCache.HasHit)
         {
-            var obj = GlobalIntersectionCache.firstHit.GetComponentInParent<T>();
-            if (obj != null)
+            var container = GlobalIntersectionCache.FirstHit.GetComponentInParent<TContainer>();
+            if (container != null && ValidObject(container))
             {
-                firstObject = obj;
-                return;
+                firstObject = container;
+                return true;
             }
         }
 
         firstObject = null;
+        return false;
     }
 
-    public IEnumerator CompleteDelete(T obj)
+    protected virtual bool ValidObject(TContainer container) => true;
+
+    public void CompleteDelete(TContainer obj)
     {
-        yield return null;
         BeatmapObjectContainerCollection
             .GetCollectionForType(obj.ObjectData.ObjectType)
             .DeleteObject(obj.ObjectData, true, true, "Deleted by the user.");

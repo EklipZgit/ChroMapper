@@ -2,7 +2,7 @@
 {
     Properties
     {
-        _OutlineColor("Outline Color", Color) = (0,0,0,1)
+        _Color("Outline Color", Color) = (0,0,0,1)
         _Outline("Outline width", Range(.002, 0.05)) = .005
         _HandleScale("Handle scale", float) = 0
     }
@@ -30,7 +30,7 @@
             #include "UnityCG.cginc"
 
             UNITY_INSTANCING_BUFFER_START(Props)
-                UNITY_DEFINE_INSTANCED_PROP(half4, _OutlineColor)
+                UNITY_DEFINE_INSTANCED_PROP(half4, _Color)
                 UNITY_DEFINE_INSTANCED_PROP(half, _Outline)
                 UNITY_DEFINE_INSTANCED_PROP(half, _HandleScale)
             UNITY_INSTANCING_BUFFER_END(Props)
@@ -77,7 +77,7 @@
 
                 if (UNITY_ACCESS_INSTANCED_PROP(Props, _Outline) <= 0.01) clip(-1);
 
-                return UNITY_ACCESS_INSTANCED_PROP(Props, _OutlineColor);
+                return UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
             }
             ENDHLSL
         }

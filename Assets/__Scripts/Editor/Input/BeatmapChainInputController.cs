@@ -1,13 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using Beatmap.Appearances;
-using Beatmap.Base;
 using Beatmap.Containers;
 using Beatmap.Enums;
 using Beatmap.Helper;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class BeatmapChainInputController : BeatmapInputController<ChainContainer>, CMInput.IChainObjectsActions
@@ -16,18 +12,17 @@ public class BeatmapChainInputController : BeatmapInputController<ChainContainer
     private const int maxChainCount = 999;
     private const float minChainSquish = 0.1f;
     private const float maxChainSquish = 999;
-    private const float squishChangeSpeed = 0.1f;
 
-    [FormerlySerializedAs("chainAppearanceSO")][SerializeField] private ChainAppearanceSO chainAppearanceSo;
+    [SerializeField] private ScrollPrecisionController scrollPrecisionController;
+    [SerializeField] private ChainAppearanceSO chainAppearance;
+
     public void OnTweakChainCount(InputAction.CallbackContext context)
     {
         if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)) return;
         RaycastFirstObject(out var c);
-        if (c == null || c.Dragging || !context.performed) return;
+        if (c == null || c.Dragged || !context.performed) return;
 
-        var modifier = ((context.ReadValue<float>() > 0) ^ Settings.Instance.InvertScrollChainSegmentCount)
-            ? 1
-            : -1;
+        var modifier = context.GetScrollDirection(Settings.Instance.InvertScrollChainSegmentCount);
         TweakValue(c, modifier);
     }
 
@@ -38,19 +33,26 @@ public class BeatmapChainInputController : BeatmapInputController<ChainContainer
         c.ChainData.SliceCount = Mathf.Clamp(c.ChainData.SliceCount, minChainCount, maxChainCount);
         if (c.ChainData.CompareTo(original) == 0) return;
         c.GenerateChain();
-        BeatmapActionContainer.AddAction(new BeatmapObjectModifiedAction(c.ObjectData, c.ObjectData, original, mergeType: ActionMergeType.ChainSliceCountTweak));
+        chainAppearance.SetText(c);
+        BeatmapActionContainer.AddAction(
+            new BeatmapObjectModifiedAction(
+                c.ObjectData,
+                c.ObjectData,
+                original,
+                mergeType: ActionMergeType.ChainSliceCountTweak));
     }
 
     public void OnInvertChainColor(InputAction.CallbackContext context)
     {
-        if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true) ||
-            !KeybindsController.IsMouseInWindow || !context.performed)
+        if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)
+            || !KeybindsController.IsMouseInWindow
+            || !context.performed)
         {
             return;
         }
 
         RaycastFirstObject(out var chain);
-        if (chain != null && !chain.Dragging) InvertChain(chain);
+        if (chain != null && !chain.Dragged) InvertChain(chain);
     }
 
     public void InvertChain(ChainContainer chain)
@@ -60,7 +62,7 @@ public class BeatmapChainInputController : BeatmapInputController<ChainContainer
             ? (int)NoteColor.Blue
             : (int)NoteColor.Red;
         chain.ChainData.Color = newType;
-        chainAppearanceSo.SetChainAppearance(chain);
+        chainAppearance.SetChainAppearance(chain);
         BeatmapActionContainer.AddAction(new BeatmapObjectModifiedAction(chain.ObjectData, chain.ObjectData, original));
     }
 
@@ -68,11 +70,9 @@ public class BeatmapChainInputController : BeatmapInputController<ChainContainer
     {
         if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)) return;
         RaycastFirstObject(out var c);
-        if (c == null || c.Dragging || !context.performed) return;
+        if (c == null || c.Dragged || !context.performed) return;
 
-        var modifier = ((context.ReadValue<float>() > 0) ^ Settings.Instance.InvertScrollChainSquish)
-            ? squishChangeSpeed
-            : -squishChangeSpeed;
+        var modifier = context.GetScrollDirection(Settings.Instance.InvertScrollChainSquish) * scrollPrecisionController.GetCurrentMultiplierPrecision();
         TweakChainSquish(c, modifier);
     }
 
@@ -83,6 +83,12 @@ public class BeatmapChainInputController : BeatmapInputController<ChainContainer
         c.ChainData.Squish = Mathf.Clamp(c.ChainData.Squish, minChainSquish, maxChainSquish);
         if (c.ChainData.CompareTo(original) == 0) return;
         c.GenerateChain();
-        BeatmapActionContainer.AddAction(new BeatmapObjectModifiedAction(c.ObjectData, c.ObjectData, original, mergeType: ActionMergeType.ChainSquishTweak));
+        chainAppearance.SetText(c);
+        BeatmapActionContainer.AddAction(
+            new BeatmapObjectModifiedAction(
+                c.ObjectData,
+                c.ObjectData,
+                original,
+                mergeType: ActionMergeType.ChainSquishTweak));
     }
 }

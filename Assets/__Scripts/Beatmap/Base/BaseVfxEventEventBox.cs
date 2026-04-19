@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Beatmap.V3;
+using Beatmap.Enums;
 using SimpleJSON;
 
 namespace Beatmap.Base
@@ -10,6 +10,8 @@ namespace Beatmap.Base
     {
         public BaseVfxEventEventBox()
         {
+            VfxDistributionType = (int)DistributionType.Wave;
+            Events = Array.Empty<BaseFxEventFloat>();
         }
 
         protected BaseVfxEventEventBox(
@@ -19,7 +21,7 @@ namespace Beatmap.Base
             float vfxDistribution,
             int vfxDistributionType,
             int vfxAffectFirst,
-            IList<FloatFxEventBase> floatFxEvents) : base(
+            IList<BaseFxEventFloat> floatFxEvents) : base(
             indexFilter,
             beatDistribution,
             beatDistributionType)
@@ -27,7 +29,7 @@ namespace Beatmap.Base
             VfxDistribution = vfxDistribution;
             VfxDistributionType = vfxDistributionType;
             VfxAffectFirst = vfxAffectFirst;
-            Events = Events.Select(e => (FloatFxEventBase)e.Clone()).ToArray();
+            Events = Events.Select(e => (BaseFxEventFloat)e.Clone()).ToArray();
         }
 
         protected BaseVfxEventEventBox(
@@ -38,7 +40,7 @@ namespace Beatmap.Base
             int vfxDistributionType,
             int vfxAffectFirst,
             int easing,
-            IList<FloatFxEventBase> floatFxEvents) : base(
+            IList<BaseFxEventFloat> floatFxEvents) : base(
             indexFilter,
             beatDistribution,
             beatDistributionType,
@@ -47,18 +49,36 @@ namespace Beatmap.Base
             VfxDistribution = vfxDistribution;
             VfxDistributionType = vfxDistributionType;
             VfxAffectFirst = vfxAffectFirst;
-            Events = Events.Select(e => (FloatFxEventBase)e.Clone()).ToArray();
+            Events = Events.Select(e => (BaseFxEventFloat)e.Clone()).ToArray();
+        }
+
+        protected BaseVfxEventEventBox(BaseVfxEventEventBox other) : base(
+            other.IndexFilter.Clone() as BaseIndexFilter,
+            other.BeatDistribution,
+            other.BeatDistributionType,
+            other.Easing)
+        {
+            VfxDistribution = other.VfxDistribution;
+            VfxDistributionType = other.VfxDistributionType;
+            VfxAffectFirst = other.VfxAffectFirst;
+            Events = other.Events.Select(x => x.Clone()).Cast<BaseFxEventFloat>().ToArray();
         }
 
         public float VfxDistribution { get; set; }
         public int VfxDistributionType { get; set; }
         public int VfxAffectFirst { get; set; }
 
-        public FloatFxEventBase[] Events { get; set; } = Array.Empty<FloatFxEventBase>();
+        public BaseFxEventFloat[] Events { get; set; } = Array.Empty<BaseFxEventFloat>();
 
 
         public override JSONNode ToJson() => throw new System.NotImplementedException();
 
-        public override BaseItem Clone() => throw new System.NotImplementedException();
+        public override BaseItem Clone() => new BaseVfxEventEventBox(this);
+
+        public override IReadOnlyList<BaseGLSEvent> ReadOnlyEvents => Events;
+
+        public override void ClearEvents() => Events = Array.Empty<BaseFxEventFloat>();
+        
+        public override void SetEvents(BaseGLSEvent[] data) => Events = data.OfType<BaseFxEventFloat>().ToArray();
     }
 }

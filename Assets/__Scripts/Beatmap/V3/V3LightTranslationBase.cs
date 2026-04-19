@@ -12,8 +12,8 @@ namespace Beatmap.V3
         public static BaseLightTranslationBase GetFromJson(JSONNode node)
         {
             var lightTranslationBase = new BaseLightTranslationBase();
-            
-            lightTranslationBase.JsonTime = node["b"].AsFloat;
+
+            lightTranslationBase.JsonTime = lightTranslationBase.RelativeJsonTime = node["b"].AsFloat;
             lightTranslationBase.UsePrevious = node["p"].AsInt;
             lightTranslationBase.EaseType = node["e"].AsInt;
             lightTranslationBase.Translation = node["t"].AsFloat;
@@ -25,7 +25,7 @@ namespace Beatmap.V3
         public static JSONNode ToJson(BaseLightTranslationBase lightTranslationBase)
         {
             JSONNode node = new JSONObject();
-            node["b"] = lightTranslationBase.JsonTime;
+            node["b"] = lightTranslationBase.RelativeJsonTime;
             node["p"] = lightTranslationBase.UsePrevious;
             node["e"] = lightTranslationBase.EaseType;
             node["t"] = lightTranslationBase.Translation;

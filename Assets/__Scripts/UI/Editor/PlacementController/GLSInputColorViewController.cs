@@ -1,0 +1,79 @@
+using Beatmap.Enums;
+using UnityEngine;
+
+public class GLSInputColorViewController : ToggleableViewController
+{
+    [SerializeField] private BeatmapGLSEventColorInputController inputController;
+    [SerializeField] private BeatmapEasingsSelectionInputController easingInputController;
+
+    [Header("Input Components")] [SerializeField]
+    private ScrollPrecisionController scrollPrecisionController;
+
+    [SerializeField] private TextBoxFloatComponent brightnessInputField;
+    [SerializeField] private TextBoxFloatComponent strobeBrightnessInputField;
+    [SerializeField] private TextBoxIntComponent strobeFrequencyInputField;
+    [SerializeField] private ToggleComponent fadeToggle;
+    [SerializeField] private ToggleComponent strobeFadeToggle;
+
+    public void Start()
+    {
+        inputController.OnColorChanged += HandleColorChanged;
+        inputController.OnBrightnessChanged += HandleBrightnessChanged;
+        inputController.OnFadeChanged += HandleEasingChanged;
+        brightnessInputField
+            .WithScrollPrecision(scrollPrecisionController.GetCurrentBrightnessPrecision)
+            .WithInvertScroll(() => Settings.Instance.InvertScrollEventValue)
+            .OnValueChanged(HandleBrightnessInputChanged);
+        inputController.OnStrobeFrequencyChanged += HandleStrobeFrequencyChanged;
+        strobeBrightnessInputField
+            .WithScrollPrecision(scrollPrecisionController.GetCurrentBrightnessPrecision)
+            .WithInvertScroll(() => Settings.Instance.InvertScrollEventValue)
+            .OnValueChanged(HandleStrobeBrightnessInputChanged);
+        inputController.OnStrobeBrightnessChanged += HandleStrobeBrightnessChanged;
+        strobeFrequencyInputField.OnValueChanged(HandleStrobeFrequencyInputChanged);
+        inputController.OnSoftStrobeChanged += HandleSoftStrobeChanged;
+        fadeToggle.OnValueChanged(HandleFadeInputChanged);
+        easingInputController.OnEasingChanged += HandleEasingChanged;
+        strobeFadeToggle.OnValueChanged(HandleStrobeFadeInputChanged);
+    }
+
+    public void OnDestroy()
+    {
+        inputController.OnColorChanged -= HandleColorChanged;
+        inputController.OnBrightnessChanged -= HandleBrightnessChanged;
+        inputController.OnFadeChanged -= HandleEasingChanged;
+        inputController.OnStrobeFrequencyChanged -= HandleStrobeFrequencyChanged;
+        inputController.OnStrobeBrightnessChanged -= HandleStrobeBrightnessChanged;
+        inputController.OnSoftStrobeChanged -= HandleSoftStrobeChanged;
+        easingInputController.OnEasingChanged -= HandleEasingChanged;
+    }
+
+    // TODO: turns out it's not needed but just in case i'll leave it here atm
+    private void HandleColorChanged(int value)
+    {
+        // QueuedData.Color = value;
+    }
+
+    private void HandleBrightnessChanged(float value) => brightnessInputField.SetValueWithoutNotify(value * 100f);
+
+    private void HandleBrightnessInputChanged(float value) => inputController.NotifyBrightnessChanged(value / 100f);
+
+    private void HandleStrobeBrightnessChanged(float value) =>
+        strobeBrightnessInputField.SetValueWithoutNotify(value * 100f);
+
+    private void HandleStrobeBrightnessInputChanged(float value) =>
+        inputController.NotifyStrobeBrightnessChanged(value / 100f);
+
+    private void HandleStrobeFrequencyChanged(int value) => strobeFrequencyInputField.SetValueWithoutNotify(value);
+
+    private void HandleStrobeFrequencyInputChanged(int value) => inputController.NotifyStrobeFrequencyChanged(value);
+
+    private void HandleSoftStrobeChanged(int value) => strobeFadeToggle.SetValueWithoutNotify(value == 1);
+
+    private void HandleStrobeFadeInputChanged(bool value) => inputController.NotifySoftStrobeChanged(value ? 1 : 0);
+
+    private void HandleEasingChanged(int value) => fadeToggle.SetValueWithoutNotify(value >= 0);
+
+    private void HandleFadeInputChanged(bool value) =>
+        easingInputController.NotifyEasingChanged(value ? EaseType.Linear : EaseType.None);
+}

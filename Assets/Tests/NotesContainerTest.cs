@@ -2,10 +2,10 @@
 using Beatmap.Base;
 using Beatmap.Containers;
 using Beatmap.Enums;
-using Beatmap.V3;
 using NUnit.Framework;
 using SimpleJSON;
 using Tests.Util;
+using UnityEngine;
 using UnityEngine.TestTools;
 
 namespace Tests
@@ -145,7 +145,7 @@ namespace Tests
         {
             var noteGridContainer =
                 BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
-            var inputController = noteGridContainer.transform.root.GetComponentInChildren<BeatmapNoteInputController>();
+            var inputController = Object.FindAnyObjectByType<BeatmapNoteInputController>();
 
             BaseNote baseNoteA = new BaseNote { JsonTime = 4 };
             noteGridContainer.SpawnObject(baseNoteA);
@@ -166,21 +166,21 @@ namespace Tests
             // ◌◌↓◌
             // ◌◌◌◌
             // ◌↙◌◌
-            inputController.UpdateNoteDirection(containerB, true);
+            inputController.UpdateNoteDirection(containerB, 1);
             Assert.AreEqual(0, containerA.DirectionTarget.localEulerAngles.z, 0.01);
             Assert.AreEqual(315, containerB.DirectionTarget.localEulerAngles.z, 0.01);
 
             // ◌◌↓◌
             // ◌◌◌◌
             // ◌↓◌◌
-            inputController.UpdateNoteDirection(containerB, true);
+            inputController.UpdateNoteDirection(containerB, 1);
             Assert.AreEqual(333.43, containerA.DirectionTarget.localEulerAngles.z, 0.01);
             Assert.AreEqual(333.43, containerB.DirectionTarget.localEulerAngles.z, 0.01);
             
             // ◌◌↓◌
             // ◌◌◌◌
             // ◌↘◌◌
-            inputController.UpdateNoteDirection(containerB, true);
+            inputController.UpdateNoteDirection(containerB, 1);
             Assert.AreEqual(0, containerA.DirectionTarget.localEulerAngles.z, 0.01);
             Assert.AreEqual(45, containerB.DirectionTarget.localEulerAngles.z, 0.01);
         }
@@ -191,7 +191,7 @@ namespace Tests
             // Test that angles are not changed when they shouldn't be
             var noteGridContainer =
                 BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
-            var inputController = noteGridContainer.transform.root.GetComponentInChildren<BeatmapNoteInputController>();
+            var inputController = Object.FindAnyObjectByType<BeatmapNoteInputController>();
 
             BaseNote baseNoteA = new BaseNote { JsonTime = 4 };
             noteGridContainer.SpawnObject(baseNoteA);
@@ -212,21 +212,21 @@ namespace Tests
             // ◌◌↓◌
             // ◌◌◌◌
             // ↙◌◌◌
-            inputController.UpdateNoteDirection(containerB, true);
+            inputController.UpdateNoteDirection(containerB, 1);
             Assert.AreEqual(0, containerA.DirectionTarget.localEulerAngles.z, 0.01);
             Assert.AreEqual(315, containerB.DirectionTarget.localEulerAngles.z, 0.01);
 
             // ◌◌↓◌
             // ◌◌◌◌
             // ↓◌◌◌
-            inputController.UpdateNoteDirection(containerB, true);
+            inputController.UpdateNoteDirection(containerB, 1);
             Assert.AreEqual(0, containerA.DirectionTarget.localEulerAngles.z, 0.01);
             Assert.AreEqual(0, containerB.DirectionTarget.localEulerAngles.z, 0.01);
             
             // ◌◌↓◌
             // ◌◌◌◌
             // ↘◌◌◌
-            inputController.UpdateNoteDirection(containerB, true);
+            inputController.UpdateNoteDirection(containerB, 1);
             Assert.AreEqual(0, containerA.DirectionTarget.localEulerAngles.z, 0.01);
             Assert.AreEqual(45, containerB.DirectionTarget.localEulerAngles.z, 0.01);
         }
@@ -279,7 +279,6 @@ namespace Tests
         public void ShiftInTime()
         {
             var notesContainer = BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
-            var root = notesContainer.transform.root;
 
             BaseNote baseNoteA = new BaseNote
             {
@@ -297,7 +296,7 @@ namespace Tests
 
             SelectionController.Select(baseNoteB, false, false, false);
 
-            var selectionController = root.GetComponentInChildren<SelectionController>();
+            var selectionController = Object.FindAnyObjectByType<SelectionController>();
             selectionController.MoveSelection(-2);
 
             var baseNoteBAfterMove = new BaseNote

@@ -5,7 +5,7 @@ using SimpleJSON;
 
 namespace Beatmap.Base
 {
-    public class BaseLightColorBase : BaseObject
+    public class BaseLightColorBase : BaseGLSEvent
     {
         public BaseLightColorBase()
         {
@@ -31,7 +31,18 @@ namespace Beatmap.Base
             StrobeFade = strobeFade;
         }
 
-        public override ObjectType ObjectType { get; set; } = ObjectType.Event;
+        protected BaseLightColorBase(BaseLightColorBase other) : base(other)
+        {
+            Color = other.Color;
+            Brightness = other.Brightness;
+            Easing = other.Easing;
+            UsePrevious = other.UsePrevious;
+            Frequency = other.Frequency;
+            StrobeBrightness = other.StrobeBrightness;
+            StrobeFade = other.StrobeFade;
+        }
+
+        public override ObjectType ObjectType { get; set; } = ObjectType.GLSEvent;
         public int Color { get; set; }
         public float Brightness { get; set; }
         public int UsePrevious { get; set; }
@@ -46,21 +57,16 @@ namespace Beatmap.Base
 
         protected override bool IsConflictingWithObjectAtSameTime(BaseObject other, bool deletion = false)
         {
-            if (other is BaseLightColorBase lcb)
-                return Color == lcb.Color
-                    || Math.Abs(Brightness - lcb.Brightness) < DecimalTolerance
-                    || Easing == lcb.Easing
-                    || UsePrevious == lcb.UsePrevious
-                    || Frequency == lcb.Frequency;
+            if (other is BaseLightColorBase lcb) return BoxIndex == lcb.BoxIndex;
             return false;
         }
 
         public override JSONNode ToJson() =>
             Settings.Instance.MapVersion switch
             {
-                3 => V3LightColorBase.ToJson(this),
+                3 or 4 => V3LightColorBase.ToJson(this),
             };
 
-        public override BaseItem Clone() => throw new NotImplementedException();
+        public override BaseItem Clone() => new BaseLightColorBase(this);
     }
 }

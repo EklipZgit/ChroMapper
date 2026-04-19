@@ -1,0 +1,102 @@
+using LiteNetLib.Utils;
+using Beatmap.Base;
+using Beatmap.Helper;
+using UnityEngine;
+
+public class BeatmapGLSEventBoxModifiedAction : BeatmapAction, IMergeableAction
+{
+    public BaseObject OriginalObject;
+    public BaseObject EditedObject;
+
+    public BaseObject PreMergeOriginalData;
+
+    public ActionMergeType MergeType { get; set; }
+    public int MergeCount { get; set; }
+
+    // This constructor is needed for United Mapping
+    public BeatmapGLSEventBoxModifiedAction() : base() { }
+
+    public BeatmapGLSEventBoxModifiedAction(
+        BaseObject newObject,
+        BaseObject oldObject,
+        string comment = "No comment.",
+        ActionMergeType mergeType = ActionMergeType.None) : base(new[] { newObject }, comment)
+    {
+        EditedObject = newObject;
+        OriginalObject = oldObject;
+        MergeType = mergeType;
+    }
+
+    public IMergeableAction TryMerge(IMergeableAction previous) => CanMerge(previous) ? DoMerge(previous) : null;
+
+    public bool CanMerge(IMergeableAction previous)
+    {
+        if (previous is not BeatmapGLSEventBoxModifiedAction previousAction) return false;
+        return MergeType != ActionMergeType.None
+            && previous.MergeType == MergeType
+            && OriginalObject.CompareTo(previousAction.OriginalObject) == 0;
+    }
+
+    public IMergeableAction DoMerge(IMergeableAction previous)
+    {
+        if (previous is not BeatmapGLSEventBoxModifiedAction previousAction) return null;
+        var merged = new BeatmapGLSEventBoxModifiedAction(
+            EditedObject,
+            previousAction.OriginalObject,
+            Comment,
+            MergeType);
+
+        merged.MergeCount = previousAction.MergeCount + 1;
+        merged.Comment += $" ({merged.MergeCount}x merged)";
+        merged.PreMergeOriginalData = OriginalObject;
+        merged.wasMerged = true;
+
+        return merged;
+    }
+
+    public override BaseObject DoesInvolveObject(BaseObject obj) => obj == EditedObject ? OriginalObject : null;
+
+    private bool wasMerged;
+
+    public override void Undo(BeatmapActionContainer.BeatmapActionParams param)
+    {
+        DeleteObject(EditedObject, false);
+        SpawnObject(OriginalObject);
+        SelectionController.DeselectAll();
+        RefreshPools(Data);
+    }
+
+    public override void Redo(BeatmapActionContainer.BeatmapActionParams param)
+    {
+        DeleteObject(wasMerged ? PreMergeOriginalData : OriginalObject, false);
+        SpawnObject(EditedObject);
+        SelectionController.DeselectAll();
+        RefreshPools(Data);
+        wasMerged = false;
+    }
+
+    public override void Serialize(NetDataWriter writer)
+    {
+        writer.PutBeatmapObject(EditedObject);
+        writer.PutBeatmapObject(OriginalObject);
+
+        writer.Put(MergeCount);
+        if (MergeCount > 0)
+        {
+            writer.PutBeatmapObject(PreMergeOriginalData);
+        }
+    }
+
+    public override void Deserialize(NetDataReader reader)
+    {
+        EditedObject = reader.GetBeatmapObject();
+        EditedObject = BeatmapFactory.Clone(EditedObject);
+        OriginalObject = reader.GetBeatmapObject();
+        OriginalObject = BeatmapFactory.Clone(OriginalObject);
+
+        MergeCount = reader.GetInt();
+        if (MergeCount > 0) PreMergeOriginalData = reader.GetBeatmapObject();
+
+        Data = new[] { EditedObject, OriginalObject };
+    }
+}

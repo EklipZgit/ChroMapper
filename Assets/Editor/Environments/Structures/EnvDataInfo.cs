@@ -19,7 +19,7 @@ public class EnvDataInfo
 
     // The environment-specific bloom fog parameters
     [JsonProperty("fogParams")] public EnvFogDefinition FogParameters;
-    
+
     [JsonProperty("sizeData")] public EnvSizeData SizeData;
 
     // The light tracks/lanes of the environment
@@ -81,7 +81,7 @@ public class LightTracksDefinition
         copy.UnregisterAll();
         BasicLightTracks
             .Select(x =>
-                new TrackDefinitionBasic()
+                new TrackDefinitionBasic
                 {
                     Name = x.TrackName,
                     Type = ConvertUtils.ToEventType(x.EventType),
@@ -92,10 +92,11 @@ public class LightTracksDefinition
         GroupPages
             .SelectMany(x => x.Value.Select(y => (group: x.Key, id: y)))
             .Select(x =>
-                new TrackDefinitionGLS()
+                new TrackDefinitionGLS
                 {
                     Group = x.group,
                     Name = x.id.GroupName,
+                    ID = x.id.GroupId,
                     ColorTrack = x.id.ColorTrack,
                     RotationTracks = x.id.GetAxisBool(x.id.RotationTracks),
                     OverrideDefaultRotationAxis = x.id.OverrideDefaultRotationAxis,
@@ -179,7 +180,9 @@ public class EnvInfoMaterial
     public string Shader;
     public float[] Color;
     [JsonProperty("shaderProperties")] public Dictionary<string, dynamic> ShaderProps;
-    [JsonProperty("enabledShaderKeywords")] public string[] Keywords;
+
+    [JsonProperty("enabledShaderKeywords")]
+    public string[] Keywords;
 }
 
 public class EnvInfoMesh

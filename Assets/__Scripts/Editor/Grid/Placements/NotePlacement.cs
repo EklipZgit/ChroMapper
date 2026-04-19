@@ -75,7 +75,7 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
     public void OnDotNote(InputAction.CallbackContext context)
     {
         if (!context.performed) return;
-        deleteToolController.UpdateDeletion(false);
+        DeleteToolController.UpdateDeletion(false);
         UpdateCut((int)NoteCutDirection.Any);
     }
 
@@ -102,8 +102,8 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
     // Toggle Chroma Color Function
     public void PlaceChromaObjects(bool v) => Settings.NonPersistentSettings[ChromaColorKey] = v;
 
-    protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> container) =>
-        new BeatmapObjectPlacementAction(spawned, container, "Placed a note.");
+    protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicts) =>
+        new BeatmapObjectPlacementAction(spawned, conflicts, "Placed a note.");
 
     protected override BaseNote GenerateOriginalData() =>
         new() { Color = (int)NoteColor.Red, CutDirection = (int)NoteCutDirection.Down };
@@ -332,7 +332,7 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
 
     private void HandleDirectionValues()
     {
-        deleteToolController.UpdateDeletion(false);
+        DeleteToolController.UpdateDeletion(false);
 
         var upNote = heldKeys[upKey];
         var downNote = heldKeys[downKey];

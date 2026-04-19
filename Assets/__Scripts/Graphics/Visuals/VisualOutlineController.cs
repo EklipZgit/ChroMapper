@@ -8,27 +8,30 @@ public class VisualOutlineController : VisualController
     public MeshFilter MeshFilter;
     public bool ReplaceCollider;
     public IntersectionCollider Collider;
-    private bool selectionMarkReplace;
-    private bool selected;
 
-    public bool Selected
+    private MaterialPropertyBlock mpb;
+
+    public void Start()
     {
-        get => selected;
-        set
+        if (MeshFilter != null)
         {
-            if (selected == value) return;
-            selected = value;
-            if (Renderer != null) Renderer.enabled = selected;
+            VModelController.OnMeshChanged += HandleMeshChanged;
+            if (VModelController.Actives.Count > 0)
+            {
+                HandleMeshChanged(
+                    VModelController.Actives[0].OutlineMesh.sharedMesh,
+                    VModelController.Actives[0].GameObject.transform);
+            }
+        }
+
+        if (Collider != null && ReplaceCollider)
+        {
+            VModelController.OnColliderChanged += HandleColliderChanged;
+            if (VModelController.Actives.Count > 0) HandleColliderChanged(VModelController.Actives[0].ColliderMesh);
         }
     }
 
-    public void OnEnable()
-    {
-        if (MeshFilter != null) VModelController.OnMeshChanged += HandleMeshChanged;
-        if (Collider != null && ReplaceCollider) VModelController.OnColliderChanged += HandleColliderChanged;
-    }
-
-    public void OnDisable()
+    public void OnDestroy()
     {
         VModelController.OnMeshChanged -= HandleMeshChanged;
         VModelController.OnColliderChanged -= HandleColliderChanged;

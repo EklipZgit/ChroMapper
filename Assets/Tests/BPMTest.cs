@@ -4,7 +4,6 @@ using System.Linq;
 using Beatmap.Base;
 using Beatmap.Containers;
 using Beatmap.Enums;
-using Beatmap.V3;
 using NUnit.Framework;
 using Tests.Util;
 using UnityEngine;

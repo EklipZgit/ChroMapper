@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -14,9 +15,6 @@ public class EditorScaleController : MonoBehaviour, CMInput.IEditorScaleActions
     [SerializeField] private Transform moveableGridTransform;
     [SerializeField] private AudioTimeSyncController atsc;
 
-    [SerializeField] private GameObject gridParent;
-    private readonly List<GridLane> gridChildLanes = new();
-
     private BeatmapObjectContainerCollection[] collections;
     private float currentBpm = baseBpm;
 
@@ -25,8 +23,6 @@ public class EditorScaleController : MonoBehaviour, CMInput.IEditorScaleActions
     // Use this for initialization
     private void Start()
     {
-        foreach (var gridChildLane in gridParent.GetComponentsInChildren<GridLane>()) gridChildLanes.Add(gridChildLane);
-
         collections = moveableGridTransform.GetComponents<BeatmapObjectContainerCollection>();
         currentBpm = BeatSaberSongContainer.Instance.Info.BeatsPerMinute;
         SetAccurateEditorScale(Settings.Instance.NoteJumpSpeedForEditorScale); // seems weird but it does what we need
@@ -114,8 +110,6 @@ public class EditorScaleController : MonoBehaviour, CMInput.IEditorScaleActions
 
         OnEditorScaleChanged?.Invoke(EditorScale);
         previousEditorScale = EditorScale;
-        foreach (var gridChildLane in gridChildLanes)
-            gridChildLane.Length = Settings.Instance.TrackLength * EditorScale;
 
         atsc.MoveToSongBpmTime(atsc.CurrentSongBpmTime);
     }

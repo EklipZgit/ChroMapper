@@ -10,20 +10,34 @@ namespace Beatmap.V3
 {
     public static class V3LightColorEventBoxGroup
     {
-        public static BaseLightColorEventBoxGroup<BaseLightColorEventBox> GetFromJson(JSONNode node)
+        public static BaseLightColorEventBoxGroup GetFromJson(JSONNode node)
         {
-            var group = new BaseLightColorEventBoxGroup<BaseLightColorEventBox>();
-            
+            var group = new BaseLightColorEventBoxGroup();
             group.JsonTime = node["b"].AsFloat;
             group.ID = node["g"].AsInt;
-            group.Boxes = new List<BaseLightColorEventBox>(BaseItem.GetRequiredNode(node, "e").AsArray.Linq
-                .Select(x => V3LightColorEventBox.GetFromJson(x.Value)).ToList());
             group.CustomData = node["customData"];
+            group.Boxes = BaseItem
+                .GetRequiredNode(node, "e")
+                .AsArray.Linq
+                .Select((x, i) =>
+                {
+                    var box = V3LightColorEventBox.GetFromJson(x.Value);
+                    foreach (var evt in box.Events)
+                    {
+                        evt.EventBoxGroupData = group;
+                        evt.EventBoxData = box;
+                        evt.BoxIndex = i;
+                        evt.JsonTime = group.JsonTime;
+                    }
+
+                    return box;
+                })
+                .ToList();
 
             return group;
         }
 
-        public static JSONNode ToJson<T>(BaseLightColorEventBoxGroup<T> group) where T : BaseLightColorEventBox
+        public static JSONNode ToJson(BaseLightColorEventBoxGroup group)
         {
             JSONNode node = new JSONObject();
             node["b"] = group.JsonTime;

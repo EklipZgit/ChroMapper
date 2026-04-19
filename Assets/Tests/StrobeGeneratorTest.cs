@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Beatmap.Base;
 using Beatmap.Enums;
-using Beatmap.V3;
 using NUnit.Framework;
 using SimpleJSON;
 using Tests.Util;
@@ -39,8 +38,7 @@ namespace Tests
             var containerCollection = BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Event);
             if (containerCollection is EventGridContainer eventsContainer)
             {
-                var root = eventsContainer.transform.root;
-                var eventPlacement = root.GetComponentInChildren<EventPlacement>();
+                var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
 
                 BaseEvent baseEventA = new BaseEvent { JsonTime = 2, Type = (int)EventTypeValue.RingLights, Value = (int)LightValue.RedOn, FloatValue = 1f,
                     CustomData = new JSONObject
@@ -89,8 +87,7 @@ namespace Tests
             var containerCollection = BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Event);
             if (containerCollection is EventGridContainer eventsContainer)
             {
-                var root = eventsContainer.transform.root;
-                var eventPlacement = root.GetComponentInChildren<EventPlacement>();
+                var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
 
                 BaseEvent baseEventA = new BaseEvent { JsonTime = 2, Type = (int)EventTypeValue.RingLights, Value = (int)LightValue.RedOn, FloatValue = 1f,
                     CustomData = new JSONObject

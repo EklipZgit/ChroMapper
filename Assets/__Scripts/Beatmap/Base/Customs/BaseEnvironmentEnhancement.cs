@@ -222,10 +222,7 @@ namespace Beatmap.Base.Customs
         public override bool HasMatchingTrack(string filter) =>
             (filter == null) || filter == Track;
 
-        protected override bool IsConflictingWithObjectAtSameTime(BaseObject other, bool deletion = false)
-        {
-            return false;
-        }
+        protected override bool IsConflictingWithObjectAtSameTime(BaseObject other, bool deletion = false) => false;
 
         private static Vector3? ReadVector3OrNull(JSONNode node, string key) =>
             !node.HasKey(key) || node[key].IsNull ? (Vector3?)null : node[key].ReadVector3();

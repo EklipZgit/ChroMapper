@@ -37,7 +37,7 @@ public class VisualModelController : VisualController
         for (var index = 0; index < Actives.Count; index++)
         {
             var active = Actives[index];
-            Actives[index] = new(active.Name, active.GameObject);
+            Actives[index] = new(active.Name, active.ColliderMesh, active.GameObject);
         }
     }
 
@@ -119,7 +119,7 @@ public class VisualModelController : VisualController
             nameToInstancedObjects[shapeName] = data;
         }
 
-        AddInstanced(data, data.GameObject.GetComponent<MeshFilter>().sharedMesh);
+        AddInstanced(data);
     }
 
     public void Add(GameObject go, Mesh collMesh, string instanceName)
@@ -129,15 +129,15 @@ public class VisualModelController : VisualController
             data = instance;
         else
         {
-            data = new(instanceName, Instantiate(go, ParentTransform));
+            data = new(instanceName, collMesh, Instantiate(go, ParentTransform));
             cleanupQueue.Enqueue(data);
             nameToInstancedObjects[instanceName] = data;
         }
 
-        AddInstanced(data, collMesh);
+        AddInstanced(data);
     }
 
-    private void AddInstanced(in ModelData data, Mesh collMesh)
+    private void AddInstanced(in ModelData data)
     {
         data.GameObject.SetActive(true);
         Actives.Add(data);
@@ -148,7 +148,7 @@ public class VisualModelController : VisualController
         {
             if (data.OutlineMesh != null)
                 OnMeshChanged?.Invoke(data.OutlineMesh.sharedMesh, data.OutlineMesh.transform);
-            OnColliderChanged?.Invoke(collMesh);
+            OnColliderChanged?.Invoke(data.ColliderMesh);
             markReplace = false;
         }
 
@@ -164,17 +164,35 @@ public struct ModelData : IEquatable<ModelData>
     public string Name;
     public GameObject GameObject;
 
+    public Mesh ColliderMesh;
     public MeshFilter OutlineMesh;
 
     public Renderer[] Renderers;
     public Renderer[] MpbRenderers;
 
-    public ModelData(string name, GameObject gameObject)
+    public ModelData(string name, Mesh colliderMesh, GameObject gameObject)
     {
         Name = name;
+
         GameObject = gameObject;
         GameObject.name = name;
 
+        ColliderMesh = colliderMesh;
+        Renderers = gameObject.GetComponentsInChildren<Renderer>();
+        OutlineMesh = Renderers.Length > 0 ? Renderers.First().GetComponentInChildren<MeshFilter>() : null;
+        MpbRenderers = Renderers
+            .Where(r => r.GetComponent<DisableNoteColorOnGameobject>() == null)
+            .ToArray();
+    }
+
+    public ModelData(string name, GameObject gameObject)
+    {
+        Name = name;
+
+        GameObject = gameObject;
+        GameObject.name = name;
+
+        ColliderMesh = GameObject.GetComponent<MeshFilter>().sharedMesh;
         Renderers = gameObject.GetComponentsInChildren<Renderer>();
         OutlineMesh = Renderers.Length > 0 ? Renderers.First().GetComponentInChildren<MeshFilter>() : null;
         MpbRenderers = Renderers

@@ -148,10 +148,10 @@ public class VariableNJSProvider : StateManager<VariableNJSStateData, BaseNJSEve
         prevState.Easing = Easing.FromID(easingId);
     }
 
-    public override void RemoveData(BaseNJSEvent data, BaseNJSEvent original)
+    public override void RemoveData(BaseNJSEvent reference, BaseNJSEvent original)
     {
-        var state = HandleRemoveState(container, data, original);
-        if (state == container.CurrentState) container.SetStateAt(data.SongBpmTime);
+        var state = HandleRemoveState(container, reference, original);
+        if (state == container.CurrentState) container.SetStateAt(reference.SongBpmTime);
 
         var factor = Mathf.Min((BaseNoteJumpSpeed + state.RelativeNjs) / BaseNoteJumpSpeed, 1f);
         var hjd = OneBeatDuration * BaseHalfJumpDurationInBeats / factor;

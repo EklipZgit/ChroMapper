@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class MirrorSelection : MonoBehaviour
 {
-    [SerializeField] private BeatmapRuntimeContext context;
+    [SerializeField] private BeatmapRuntimeContext beatmapRuntimeContext;
     [SerializeField] private TracksManager tracksManager;
     [SerializeField] private CreateEventTypeLabels labels;
 
@@ -24,10 +24,10 @@ public class MirrorSelection : MonoBehaviour
         { (int)NoteCutDirection.Left, (int)NoteCutDirection.Right }
     };
 
-    public void Start() => context.OnTracksDefinitionChanged += HandleTracksDefinitionChanged;
-    public void OnDestroy() => context.OnTracksDefinitionChanged -= HandleTracksDefinitionChanged;
+    public void Start() => beatmapRuntimeContext.OnTracksDefinitionChanged += HandleTracksDefinitionChanged;
+    public void OnDestroy() => beatmapRuntimeContext.OnTracksDefinitionChanged -= HandleTracksDefinitionChanged;
 
-    private void HandleTracksDefinitionChanged(TracksDefinitionSO obj) => tracksDefinition = obj;
+    private void HandleTracksDefinitionChanged(TracksDefinitionSO td) => tracksDefinition = td;
 
     public void MirrorTime()
     {
@@ -395,6 +395,10 @@ public class MirrorSelection : MonoBehaviour
                 chain.Color = chain.Color == (int)NoteType.Red
                     ? (int)NoteType.Blue
                     : (int)NoteType.Red;
+            }
+            else if (edited is BaseLightColorEventBoxGroup lcebg)
+            {
+                foreach (var evt in lcebg.Boxes.SelectMany(box => box.Events)) evt.Color = (evt.Color + 1) % 3;
             }
 
             edited.SaveCustom();

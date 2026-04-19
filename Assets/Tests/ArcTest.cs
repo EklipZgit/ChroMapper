@@ -3,7 +3,6 @@ using System.Linq;
 using Beatmap.Base;
 using Beatmap.Containers;
 using Beatmap.Enums;
-using Beatmap.V3;
 using NUnit.Framework;
 using SimpleJSON;
 using Tests.Util;
@@ -37,11 +36,7 @@ namespace Tests
         [Test]
         public void CreateArc()
         {
-            var containerCollection = BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Note);
-            if (containerCollection is NoteGridContainer notesContainer)
-            {
-                var root = notesContainer.transform.root;
-                var notePlacement = root.GetComponentInChildren<NotePlacement>();
+                var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
 
                 BaseNote baseNoteA = new BaseNote
                 {
@@ -58,13 +53,11 @@ namespace Tests
 
                 SelectionController.Select(baseNoteA);
                 SelectionController.Select(baseNoteB, true);
-            }
 
             var arcContainerCollection = BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Arc);
             if (arcContainerCollection is ArcGridContainer arcsContainer)
             {
-                var root = arcsContainer.transform.root;
-                var arcPlacement = root.GetComponentInChildren<ArcPlacement>();
+                var arcPlacement = Object.FindAnyObjectByType<ArcPlacement>();
 
                 var objects = SelectionController.SelectedObjects.ToList();
 
@@ -102,8 +95,7 @@ namespace Tests
             var containerCollection = BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Note);
             if (containerCollection is NoteGridContainer notesContainer)
             {
-                var root = notesContainer.transform.root;
-                var notePlacement = root.GetComponentInChildren<NotePlacement>();
+                var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
 
                 BaseNote baseNoteA = new BaseNote
                 {
@@ -127,8 +119,7 @@ namespace Tests
             var arcContainerCollection = BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Arc);
             if (arcContainerCollection is ArcGridContainer arcsContainer)
             {
-                var root = arcsContainer.transform.root;
-                var arcPlacement = root.GetComponentInChildren<ArcPlacement>();
+                var arcPlacement = Object.FindAnyObjectByType<ArcPlacement>();
 
                 var objects = SelectionController.SelectedObjects.ToList();
 
@@ -155,9 +146,8 @@ namespace Tests
             var containerCollection = BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Arc);
             if (containerCollection is ArcGridContainer arcsContainer)
             {
-                var root = arcsContainer.transform.root;
-                var arcPlacement = root.GetComponentInChildren<ArcPlacement>();
-                var inputController = root.GetComponentInChildren<BeatmapArcInputController>();
+                var arcPlacement = Object.FindAnyObjectByType<ArcPlacement>();
+                var inputController = Object.FindAnyObjectByType<BeatmapArcInputController>();
 
                 BaseArc baseArc = new BaseArc
                 {
@@ -199,9 +189,8 @@ namespace Tests
             var containerCollection = BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Arc);
             if (containerCollection is ArcGridContainer arcsContainer)
             {
-                var root = arcsContainer.transform.root;
-                var arcPlacement = root.GetComponentInChildren<ArcPlacement>();
-                var inputController = root.GetComponentInChildren<BeatmapArcInputController>();
+                var arcPlacement = Object.FindAnyObjectByType<ArcPlacement>();
+                var inputController = Object.FindAnyObjectByType<BeatmapArcInputController>();
 
                 BaseArc baseArc = new BaseArc
                 {

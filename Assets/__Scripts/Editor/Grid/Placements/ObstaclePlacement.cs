@@ -38,8 +38,8 @@ public class ObstaclePlacement : BasePlacement<BaseObstacle, ObstacleContainer, 
 
     private float SmallestRankableWallDuration => Atsc.GetBeatFromSeconds(0.016f);
 
-    protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> container) =>
-        new BeatmapObjectPlacementAction(spawned, container, "Place a Wall.");
+    protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicts) =>
+        new BeatmapObjectPlacementAction(spawned, conflicts, "Place a Wall.");
 
     protected override BaseObstacle GenerateOriginalData() => new();
 

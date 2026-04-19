@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Beatmap.Base;
-using Beatmap.Containers;
 using Beatmap.Enums;
-using Beatmap.V3;
 using NUnit.Framework;
 using SimpleJSON;
 using Tests.Util;
@@ -69,8 +67,7 @@ namespace Tests
             var actionsContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var eventsContainer = BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
 
-            var root = eventsContainer.transform.root;
-            var eventPlacement = root.GetComponentInChildren<EventPlacement>();
+            var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
 
             // These are the events
             // V1             V10
@@ -120,8 +117,7 @@ namespace Tests
             var actionsContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var eventsContainer = BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
 
-            var root = eventsContainer.transform.root;
-            var eventPlacement = root.GetComponentInChildren<EventPlacement>();
+            var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
 
             // These are the events
             // V1             V10
@@ -165,8 +161,7 @@ namespace Tests
             var eventsContainer = BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
             var atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
 
-            var root = eventsContainer.transform.root;
-            var eventPlacement = root.GetComponentInChildren<EventPlacement>();
+            var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
 
             // These are the events
             // V1             V10
@@ -198,12 +193,6 @@ namespace Tests
             selectionController.Copy();
             selectionController.Paste();
 
-            var V1C = eventsContainer.MapObjects.ElementAt(5) as BaseEvent;
-            var A2C = eventsContainer.MapObjects.ElementAt(6) as BaseEvent;
-            var B3C = eventsContainer.MapObjects.ElementAt(7) as BaseEvent;
-            var A12C = eventsContainer.MapObjects.ElementAt(11) as BaseEvent;
-            var B13C = eventsContainer.MapObjects.ElementAt(12) as BaseEvent;
-
             AssertMapObjectsLinksState(eventsContainer);
 
             // Check state after undo and redo
@@ -218,12 +207,10 @@ namespace Tests
         [Test]
         public void ShiftingSelection()
         {
-            var selectionController = Object.FindAnyObjectByType<SelectionController>();
             var actionsContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var eventsContainer = BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
 
-            var root = eventsContainer.transform.root;
-            var eventPlacement = root.GetComponentInChildren<EventPlacement>();
+            var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
 
             eventsContainer.PropagationEditing = EventGridContainer.PropMode.Light;
 
@@ -274,8 +261,7 @@ namespace Tests
             var actionsContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var eventsContainer = BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
 
-            var root = eventsContainer.transform.root;
-            var eventPlacement = root.GetComponentInChildren<EventPlacement>();
+            var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
 
             // These are the events
             // V1             V10

@@ -9,7 +9,7 @@ using UnityEngine;
 /// </typeparam>
 public abstract class CMUIComponent<T> : CMUIComponentBase
 {
-    public T Value
+    public virtual T Value
     {
         get => internalValue;
         set
@@ -28,37 +28,34 @@ public abstract class CMUIComponent<T> : CMUIComponentBase
     internal void SetValueAccessor(Func<T> valueAccessor)
     {
         if (this.valueAccessor != null)
-        {
             throw new InvalidOperationException($"{nameof(this.valueAccessor)} has already been assigned.");
-        }
-
         this.valueAccessor = valueAccessor;
     }
 
-    internal void SetOnValueChanged(Action<T> onValueChanged)
+    internal CMUIComponent<T> OnValueChanged(Action<T> onValueChanged)
     {
         if (this.onValueChanged != null)
-        {
             throw new InvalidOperationException($"{nameof(this.onValueChanged)} has already been assigned.");
-        }
-
         this.onValueChanged = onValueChanged;
+        return this;
     }
 
     protected virtual void OnValueUpdated(T updatedValue) { }
 
     protected virtual T ValidateValue(T rawValue) => rawValue;
 
+    public CMUIComponent<T> SetValueWithoutNotify(T value)
+    {
+        OnValueUpdated(value);
+        return this;
+    }
+
     private void Awake()
     {
-        if (valueAccessor != null)
-        {
-            internalValue = valueAccessor();
-        }
-        else
-        {
-            Debug.LogWarning("Value accessor was not assigned. Is this intentional?");
-        }
+        if (valueAccessor != null) internalValue = valueAccessor();
+        // else
+        //     Debug.LogWarning("Value accessor was not assigned. Is this intentional?");
+        // yeah and idgaf
     }
 }
 
@@ -73,7 +70,8 @@ public abstract class CMUIComponentBase : MonoBehaviour
     /// <exception cref="InvalidOperationException">
     /// This component does not have a label to act upon.
     /// </exception>
-    internal virtual void SetLabelEnabled(bool enabled) => throw new InvalidOperationException("This component has no label.");
+    internal virtual void SetLabelEnabled(bool enabled) =>
+        throw new InvalidOperationException("This component has no label.");
 
     /// <summary>
     /// Sets the text for the component label, if this component has a label.
@@ -81,5 +79,6 @@ public abstract class CMUIComponentBase : MonoBehaviour
     /// <exception cref="InvalidOperationException">
     /// This component does not have a label to act upon.
     /// </exception>
-    internal virtual void SetLabelText(string text) => throw new InvalidOperationException("This component has no label.");
+    internal virtual void SetLabelText(string text) =>
+        throw new InvalidOperationException("This component has no label.");
 }

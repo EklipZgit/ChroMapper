@@ -835,6 +835,238 @@ MonoBehaviour:
     m_Key: bar.lightshow.static
     m_Metadata:
       m_Items: []
+  - m_Id: 618558800349855744
+    m_Key: bar.editmode.gameplay
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618558933254766592
+    m_Key: bar.editmode.gls
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618559025672060928
+    m_Key: bar.editmode.basicevent
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618815858693341184
+    m_Key: place.lanecount.tooltip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618815981657751552
+    m_Key: place.lanecount
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618816113295982592
+    m_Key: place.wallextend
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618816206954790912
+    m_Key: place.wallextend.tooltip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618816878148288512
+    m_Key: place.chain.squish.tooltip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618817182738644992
+    m_Key: place.chain.squish
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618817234412470272
+    m_Key: place.chain.slicecount.tooltip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618817625686507520
+    m_Key: place.chain.slicecount
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618817783560110080
+    m_Key: place.arc.headmultiplier.tooltip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618818178101510144
+    m_Key: place.arc.headmultiplier
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618818264764219392
+    m_Key: place.arc.tailmultiplier
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618818333051682816
+    m_Key: place.arc.tailmultiplier.tooltip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618819935758155776
+    m_Key: eventbox.filter.header
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618820156688924672
+    m_Key: eventbox.info.eventbox
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618820280806768640
+    m_Key: eventbox.info.filteredid
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618820527775776768
+    m_Key: eventbox.filter.reverse.tooltip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618820786820186112
+    m_Key: eventbox.filter.reverse
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618821218783166464
+    m_Key: eventbox.filter.sections
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618821287964016640
+    m_Key: eventbox.filter.stepandoffset
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618821365382479872
+    m_Key: eventbox.filter.chunk
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618821535469895680
+    m_Key: eventbox.filter.random
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618821616847781888
+    m_Key: eventbox.filter.inorder
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618823198540791808
+    m_Key: eventbox.axis
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618823330992717824
+    m_Key: eventbox.filter.limit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618823397669568512
+    m_Key: eventbox.filter.limitaffect
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618823577986891776
+    m_Key: eventbox.duration
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618823638418423808
+    m_Key: eventbox.distribution
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618823825178198016
+    m_Key: eventbox.axis.flip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618824415639732224
+    m_Key: eventbox.wave
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618824475165294592
+    m_Key: eventbox.step
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618824689729110016
+    m_Key: eventbox.affectfirst
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618824746415128576
+    m_Key: eventbox.easing
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618827068671229952
+    m_Key: place.gls.color.header
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618827160136417280
+    m_Key: place.gls.rotation.header
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618827248791420928
+    m_Key: place.gls.translation.header
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618827324121120768
+    m_Key: place.gls.floatfx.header
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618827414042804224
+    m_Key: place.gls.easings.header
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618827491457073152
+    m_Key: place.gls.others.header
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618832433844551680
+    m_Key: place.gls.others.extension
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618832656851501056
+    m_Key: place.gls.floatfx.value
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618832787940278272
+    m_Key: place.gls.translation.value
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618832921264619520
+    m_Key: place.gls.rotation.value
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618832984388894720
+    m_Key: place.gls.rotation.loop
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618833076848132096
+    m_Key: place.gls.color.brightness
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618833174910959616
+    m_Key: place.gls.color.strobebrightness
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618833239993974784
+    m_Key: place.gls.color.strobefrequency
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618833311213256704
+    m_Key: place.gls.color.fade
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618833365361721344
+    m_Key: place.gls.color.strobefade
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618833848872697856
+    m_Key: bar.shared.scrollprecision
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618843845987893248
+    m_Key: eventbox.filter.param0.tooltip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618843934710005760
+    m_Key: eventbox.filter.step.id
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618844057422757888
+    m_Key: eventbox.filter.step.step
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618844892672262144
+    m_Key: eventbox.filter.sections.id
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618845047081369600
+    m_Key: eventbox.filter.param1.tooltip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618845221228871680
+    m_Key: eventbox.filter.sections.section
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

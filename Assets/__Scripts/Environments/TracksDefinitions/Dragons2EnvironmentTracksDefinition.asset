@@ -37,7 +37,7 @@ MonoBehaviour:
   glsEntries:
   - Group: Rings
     Name: Small Rings
-    ID: 0
+    ID: 1
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -57,7 +57,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Rings
     Name: Big Rings
-    ID: 0
+    ID: 3
     ColorTrack: 1
     RotationTracks: 000001
     OverrideDefaultRotationAxis: NoOverride
@@ -67,7 +67,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Main Lasers
     Name: Bottom Left
-    ID: 0
+    ID: 9
     ColorTrack: 1
     RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
@@ -77,7 +77,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Main Lasers
     Name: Bottom Right
-    ID: 0
+    ID: 12
     ColorTrack: 1
     RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
@@ -87,7 +87,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Main Lasers
     Name: Top Left
-    ID: 0
+    ID: 10
     ColorTrack: 1
     RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
@@ -97,7 +97,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Main Lasers
     Name: Top Right
-    ID: 0
+    ID: 11
     ColorTrack: 1
     RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
@@ -107,7 +107,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Environment
     Name: Top Spotlights
-    ID: 0
+    ID: 4
     ColorTrack: 1
     RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
@@ -117,7 +117,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Environment
     Name: Runway Left
-    ID: 0
+    ID: 5
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -127,7 +127,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Environment
     Name: Runway Right
-    ID: 0
+    ID: 6
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -137,7 +137,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Environment
     Name: Particles Left
-    ID: 0
+    ID: 7
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -147,7 +147,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Environment
     Name: Particles Right
-    ID: 0
+    ID: 8
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -157,7 +157,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Environment
     Name: Underground
-    ID: 0
+    ID: 2
     ColorTrack: 0
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride

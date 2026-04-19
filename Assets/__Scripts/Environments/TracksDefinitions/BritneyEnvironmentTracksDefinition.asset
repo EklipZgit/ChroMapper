@@ -31,7 +31,7 @@ MonoBehaviour:
   glsEntries:
   - Group: Cubes
     Name: Speaker Lights L
-    ID: 0
+    ID: 18
     ColorTrack: 1
     RotationTracks: 000001
     OverrideDefaultRotationAxis: NoOverride
@@ -41,7 +41,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Cubes
     Name: Speaker Lights R
-    ID: 0
+    ID: 19
     ColorTrack: 1
     RotationTracks: 000001
     OverrideDefaultRotationAxis: NoOverride
@@ -61,7 +61,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Cubes
     Name: GlobalLeft
-    ID: 0
+    ID: 1
     ColorTrack: 0
     RotationTracks: 010101
     OverrideDefaultRotationAxis: NoOverride
@@ -71,7 +71,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Cubes
     Name: LocalRight
-    ID: 0
+    ID: 2
     ColorTrack: 0
     RotationTracks: 010101
     OverrideDefaultRotationAxis: NoOverride
@@ -81,7 +81,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Cubes
     Name: GlobalRight
-    ID: 0
+    ID: 3
     ColorTrack: 0
     RotationTracks: 010101
     OverrideDefaultRotationAxis: NoOverride
@@ -91,7 +91,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Display
     Name: Local
-    ID: 0
+    ID: 5
     ColorTrack: 1
     RotationTracks: 010101
     OverrideDefaultRotationAxis: NoOverride
@@ -101,7 +101,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Display
     Name: MaskStrength
-    ID: 0
+    ID: 20
     ColorTrack: 0
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -111,7 +111,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Top Lasers
     Name: TopLasersSet01 Local
-    ID: 0
+    ID: 7
     ColorTrack: 1
     RotationTracks: 010101
     OverrideDefaultRotationAxis: NoOverride
@@ -121,7 +121,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Top Lasers
     Name: TopLasersSet01 Global
-    ID: 0
+    ID: 6
     ColorTrack: 0
     RotationTracks: 010101
     OverrideDefaultRotationAxis: NoOverride
@@ -131,7 +131,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Top Lasers
     Name: TopLasersSet02 Local
-    ID: 0
+    ID: 9
     ColorTrack: 1
     RotationTracks: 010101
     OverrideDefaultRotationAxis: NoOverride
@@ -141,7 +141,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Top Lasers
     Name: TopLasersSet02 Global
-    ID: 0
+    ID: 8
     ColorTrack: 0
     RotationTracks: 010101
     OverrideDefaultRotationAxis: NoOverride
@@ -151,7 +151,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Spirals
     Name: Local
-    ID: 0
+    ID: 15
     ColorTrack: 1
     RotationTracks: 010101
     OverrideDefaultRotationAxis: NoOverride
@@ -161,7 +161,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Outer Cylinders
     Name: Local
-    ID: 0
+    ID: 14
     ColorTrack: 1
     RotationTracks: 010101
     OverrideDefaultRotationAxis: NoOverride
@@ -171,7 +171,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Outer Cylinders
     Name: Bottom Lasers
-    ID: 0
+    ID: 11
     ColorTrack: 1
     RotationTracks: 010101
     OverrideDefaultRotationAxis: NoOverride
@@ -181,7 +181,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Stage
     Name: Stage Top
-    ID: 0
+    ID: 16
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -191,7 +191,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Stage
     Name: Stage Sides
-    ID: 0
+    ID: 17
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -201,7 +201,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Stage
     Name: Mask Offset
-    ID: 0
+    ID: 13
     ColorTrack: 0
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -211,7 +211,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Runway
     Name: Runway
-    ID: 0
+    ID: 12
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -221,7 +221,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Chevron
     Name: Chevron
-    ID: 0
+    ID: 10
     ColorTrack: 1
     RotationTracks: 010101
     OverrideDefaultRotationAxis: NoOverride
@@ -231,7 +231,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Chevron
     Name: Mask Strength
-    ID: 0
+    ID: 22
     ColorTrack: 0
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -241,7 +241,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Stars
     Name: Color
-    ID: 0
+    ID: 21
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride

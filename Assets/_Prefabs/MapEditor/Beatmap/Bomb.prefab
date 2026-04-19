@@ -46,7 +46,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c1a39b3d86529d4b8a925fb69ae6af6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Dragging: 0
   Animator: {fileID: 0}
   Colliders:
   - {fileID: 9163665092010186768}
@@ -111,6 +110,8 @@ MonoBehaviour:
   Actives:
   - Name: CM_Bomb
     GameObject: {fileID: 2764474333535862008}
+    ColliderMesh: {fileID: -6548247349681776351, guid: d700f6006df1d3968b8926c5c8f8d150,
+      type: 3}
     OutlineMesh: {fileID: 825843717745326208}
     Renderers:
     - {fileID: 3401245056223504118}

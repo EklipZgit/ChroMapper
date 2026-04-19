@@ -11,12 +11,10 @@ namespace Beatmap.Containers
 {
     public class EventContainer : ObjectContainer
     {
-        private static readonly int shaderIdColor = Shader.PropertyToID("_Color");
-        private static readonly int shaderIdColorTint = Shader.PropertyToID("_ColorTint");
-        private static readonly int position = Shader.PropertyToID("_Position");
-        private static readonly int mainAlpha = Shader.PropertyToID("_MainAlpha");
-        private static readonly int fadeSize = Shader.PropertyToID("_FadeSize");
-        private static readonly int spotlightSize = Shader.PropertyToID("_SpotlightSize");
+        private static readonly int colorAId = Shader.PropertyToID("_ColorA");
+        private static readonly int colorBId = Shader.PropertyToID("_ColorB");
+        private static readonly int mainAlphaId = Shader.PropertyToID("_MainAlpha");
+        private static readonly int fadeSizeId = Shader.PropertyToID("_FadeSize");
 
         [SerializeField] public VisualModelController VModelController;
         [SerializeField] private EventGridContainer EventGridContainer;
@@ -31,11 +29,6 @@ namespace Beatmap.Containers
 
         public bool useBlockModel;
         private float oldAlpha = -1;
-
-        public static Vector3 FlashShaderOffset => new(0f, 0f, 1.2f);
-        public static Vector3 FadeShaderOffset => new(0f, 0f, -1.2f);
-        public static float DefaultFadeSize => 0.35f;
-        public static float BoostEventFadeSize => 0.1f;
 
         public override BaseObject ObjectData
         {
@@ -66,20 +59,18 @@ namespace Beatmap.Containers
         }
 
         private void HandleModelChanged() =>
-            VModelController.Set(useBlockModel ? VisualSettings.GetBlockModel() : VisualSettings.GetEventModel());
+            VModelController.Set(useBlockModel ? VisualSettings.GetEventBlockModel() : VisualSettings.GetEventModel());
 
         public static EventContainer SpawnEvent(
             EventGridContainer eventsContainer,
             BaseEvent data,
             TracksDefinitionSO tracksDefinitionSo,
             ref GameObject prefab,
-            ref EventAppearanceSO eventAppearanceSO,
             ref CreateEventTypeLabels labels)
         {
             var container = Instantiate(prefab).GetComponent<EventContainer>();
             container.EventData = data;
             container.EventGridContainer = eventsContainer;
-            container.eventAppearance = eventAppearanceSO;
             container.TracksDefinition = tracksDefinitionSo;
             container.labels = labels;
             container.transform.localEulerAngles = Vector3.zero;
@@ -116,50 +107,41 @@ namespace Beatmap.Containers
                 lightGradientController.UpdateDuration(EventData.CustomLightGradient.Duration);
             //Move event up or down enough to give a constant distance from the bottom of the event, taking the y alpha scale into account
             if (Settings.Instance.VisualizeChromaAlpha)
+            {
                 transform.localPosition = new Vector3(
                     transform.localPosition.x,
                     transform.localPosition.y + ((GetHeight() - 1f) / 2.775f),
                     transform.localPosition.z);
+            }
+
             UpdateCollisionGroups();
         }
 
-        public void ChangeColor(Color c, bool updateMaterials = true)
+        public void ChangeColorA(Color c, bool updateMaterials = true)
         {
-            MpbController.Mpb.SetColor(shaderIdColorTint, c);
+            MpbController.Mpb.SetColor(colorAId, c);
             if (updateMaterials) UpdateMaterials();
         }
 
-        public void ChangeBaseColor(Color c, bool updateMaterials = true)
+        public void ChangeColorB(Color c, bool updateMaterials = true)
         {
-            MpbController.Mpb.SetColor(shaderIdColor, c);
+            MpbController.Mpb.SetColor(colorBId, c);
             if (updateMaterials) UpdateMaterials();
         }
 
         public void ChangeFadeSize(float size, bool updateMaterials = true)
         {
-            MpbController.Mpb.SetFloat(fadeSize, size);
-            if (updateMaterials) UpdateMaterials();
-        }
-
-        public void ChangeSpotlightSize(float size, bool updateMaterials = true)
-        {
-            MpbController.Mpb.SetFloat(spotlightSize, size);
-            if (updateMaterials) UpdateMaterials();
-        }
-
-        public void UpdateOffset(Vector3 offset, bool updateMaterials = true)
-        {
-            MpbController.Mpb.SetVector(position, offset);
+            MpbController.Mpb.SetFloat(fadeSizeId, size);
             if (updateMaterials) UpdateMaterials();
         }
 
         public void UpdateAlpha(float alpha, bool updateMaterials = true)
         {
-            var oldAlphaTemp = MpbController.Mpb.GetFloat(mainAlpha);
+            var oldAlphaTemp = MpbController.Mpb.GetFloat(mainAlphaId);
             if (oldAlphaTemp > 0) oldAlpha = oldAlphaTemp;
-            if (oldAlpha == alpha) return;
+            if (Mathf.Approximately(oldAlpha, alpha)) return;
 
-            MpbController.Mpb.SetFloat(mainAlpha, alpha == -1 ? oldAlpha : alpha);
+            MpbController.Mpb.SetFloat(mainAlphaId, Mathf.Approximately(alpha, -1) ? oldAlpha : alpha);
             if (updateMaterials) UpdateMaterials();
         }
 
@@ -175,14 +157,10 @@ namespace Beatmap.Containers
 
             var height = EventData.FloatValue;
             if (EventData.CustomColor != null && Math.Abs(EventData.CustomColor.Value.a - 1) > 0.001)
-            {
                 height *= EventData.CustomColor.Value.a;
-            }
             else if (EventData.CustomLightGradient != null
                 && Math.Abs(EventData.CustomLightGradient.StartColor.a - 1) > 0.001)
-            {
                 height *= EventData.CustomLightGradient.StartColor.a;
-            }
 
             // Clamped to avoid too small/too tall events
             return Mathf.Clamp(height, 0.1f, 1.5f);
@@ -203,8 +181,8 @@ namespace Beatmap.Containers
             {
                 if (Settings.Instance.EmulateChromaLite && EventData.Value != (int)LightValue.Off)
                 {
-                    ChangeColor(EventData.CustomLightGradient.StartColor);
-                    ChangeBaseColor(EventData.CustomLightGradient.StartColor);
+                    ChangeColorB(EventData.CustomLightGradient.StartColor);
+                    ChangeColorA(EventData.CustomLightGradient.StartColor);
                 }
 
                 lightGradientController.SetVisible(true);
@@ -235,6 +213,6 @@ namespace Beatmap.Containers
             valueDisplay.text = text;
         }
 
-        public void RefreshAppearance() => eventAppearance.SetEventAppearance(this, TracksDefinition);
+        public void RefreshAppearance() => eventAppearance.SetAppearance(this, TracksDefinition);
     }
 }

@@ -1,19 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Beatmap.Containers;
-using Beatmap.Enums;
 using SimpleJSON;
 using TMPro;
 using UnityEngine;
 
 public class CreateEventTypeLabels : MonoBehaviour
 {
-    public Material AvailableMaterial;
-    public Material UtilityMaterial;
-    public Material RedMaterial;
     public GameObject LabelPrefab;
     [SerializeField] private BeatmapRuntimeContext context;
+    [SerializeField] private Transform target;
 
     private readonly List<(int id, int type)> laneObjs = new();
 
@@ -32,7 +28,7 @@ public class CreateEventTypeLabels : MonoBehaviour
 
     public void UpdateLabels(EventGridContainer.PropMode propMode, int eventType, int lanes)
     {
-        foreach (Transform children in transform)
+        foreach (Transform children in target)
         {
             if (children.gameObject.activeSelf) Destroy(children.gameObject);
         }
@@ -44,7 +40,7 @@ public class CreateEventTypeLabels : MonoBehaviour
             var entries = context.TracksDefinition.Basic.ToList();
             for (var i = 0; i < entries.Count; i++)
             {
-                var instantiate = Instantiate(LabelPrefab, transform);
+                var instantiate = Instantiate(LabelPrefab, target);
                 var laneInfo = (i, entries[i].Value.Type);
                 instantiate.SetActive(true);
                 instantiate.transform.localPosition = new Vector3(i, 0, 0);
@@ -54,7 +50,6 @@ public class CreateEventTypeLabels : MonoBehaviour
                 {
                     var textMesh = instantiate.GetComponentInChildren<TextMeshProUGUI>();
                     textMesh.text = entries[i].Value.Name;
-                    textMesh.fontSharedMaterial = UtilityMaterial;
                 }
                 catch { }
             }
@@ -63,7 +58,7 @@ public class CreateEventTypeLabels : MonoBehaviour
         {
             for (var i = 0; i < lanes; i++)
             {
-                var instantiate = Instantiate(LabelPrefab, transform);
+                var instantiate = Instantiate(LabelPrefab, target);
                 var laneInfo = (i, i);
                 instantiate.SetActive(true);
                 instantiate.transform.localPosition =
@@ -73,18 +68,9 @@ public class CreateEventTypeLabels : MonoBehaviour
                 try
                 {
                     var textMesh = instantiate.GetComponentInChildren<TextMeshProUGUI>();
-                    textMesh.fontSharedMaterial = UtilityMaterial;
-                    if (i == 0)
-                    {
-                        textMesh.text = "All Lights";
-                        textMesh.fontSharedMaterial = RedMaterial;
-                    }
-                    else
-                    {
-                        textMesh.text =
-                            $"{context.TracksDefinition.GetBasicOrDefault(eventType).Name} ID {LaneToLightID(eventType, i - 1)}";
-                        textMesh.fontSharedMaterial = i % 2 == 0 ? UtilityMaterial : AvailableMaterial;
-                    }
+                    textMesh.text = i == 0
+                        ? "All Lights"
+                        : $"{context.TracksDefinition.GetBasicOrDefault(eventType).Name} ID {LaneToLightID(eventType, i - 1)}";
                 }
                 catch { }
             }

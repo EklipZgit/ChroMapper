@@ -21,13 +21,11 @@ public class BeatmapObstacleInputController : BeatmapInputController<ObstacleCon
     {
         if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)) return;
         RaycastFirstObject(out var obs);
-        if (obs != null && !obs.Dragging && context.performed)
+        if (obs != null && !obs.Dragged && context.performed)
         {
             var original = BeatmapFactory.Clone(obs.ObjectData);
             var snapping = 1f / atsc.GridMeasureSnapping;
-            snapping *= ((context.ReadValue<float>() > 0) ^ Settings.Instance.InvertScrollWallDuration)
-                ? 1
-                : -1;
+            snapping *= context.GetScrollDirection(Settings.Instance.InvertScrollWallDuration);
 
             obs.ObstacleData.Duration += snapping;
             obs.UpdateGridPosition();
@@ -47,12 +45,10 @@ public class BeatmapObstacleInputController : BeatmapInputController<ObstacleCon
             || CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true))
             return;
         RaycastFirstObject(out var obs);
-        if (obs != null && !obs.Dragging && context.performed)
+        if (obs != null && !obs.Dragged && context.performed)
         {
             var original = BeatmapFactory.Clone(obs.ObjectData);
-            var tweakValue = ((context.ReadValue<float>() > 0) ^ Settings.Instance.InvertScrollWallDuration)
-                ? 1
-                : -1;
+            var tweakValue = context.GetScrollDirection(Settings.Instance.InvertScrollWallDuration);
             var data = obs.ObjectData as BaseObstacle;
             data.PosY = Mathf.Clamp(data.PosY + tweakValue, 0, 2);
             data.Height = Mathf.Min(data.Height, 5 - data.PosY);
@@ -74,12 +70,10 @@ public class BeatmapObstacleInputController : BeatmapInputController<ObstacleCon
             || CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true))
             return;
         RaycastFirstObject(out var obs);
-        if (obs != null && !obs.Dragging && context.performed)
+        if (obs != null && !obs.Dragged && context.performed)
         {
             var original = BeatmapFactory.Clone(obs.ObjectData);
-            var tweakValue = ((context.ReadValue<float>() > 0) ^ Settings.Instance.InvertScrollWallDuration)
-                ? 1
-                : -1;
+            var tweakValue = context.GetScrollDirection(Settings.Instance.InvertScrollWallDuration);
             var data = obs.ObjectData as BaseObstacle;
             data.Height = Mathf.Clamp(data.Height + tweakValue, 1, 5 - data.PosY);
             if (data.CompareTo(original) == 0) return;
@@ -98,7 +92,7 @@ public class BeatmapObstacleInputController : BeatmapInputController<ObstacleCon
     {
         if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)) return;
         RaycastFirstObject(out var obs);
-        if (obs != null && !obs.Dragging && context.performed) ToggleHyperWall(obs);
+        if (obs != null && !obs.Dragged && context.performed) ToggleHyperWall(obs);
     }
 
     public void ToggleHyperWall(ObstacleContainer obs)

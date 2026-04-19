@@ -9,9 +9,7 @@ public class SpectrogramSideSwapper : MonoBehaviour
     public void SwapSides()
     {
         IsNoteSide = !IsNoteSide;
-
-        var order = IsNoteSide ? -1 : 2;
-
+        var order = IsNoteSide ? -1000 : 1000;
         spectrogramGridLane.Order = order;
     }
 }

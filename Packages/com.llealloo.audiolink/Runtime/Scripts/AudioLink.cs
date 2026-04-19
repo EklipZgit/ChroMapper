@@ -24,7 +24,7 @@ namespace AudioLink
 #endif
     {
         const float AudioLinkVersionNumberMajor = 3.00f;
-        const float AudioLinkVersionNumberMinor = 1.00f;
+        const float AudioLinkVersionNumberMinor = 1.02f;
 
         [Header("Main Settings")]
         [Tooltip("Should be used with AudioLinkInput unless source is 2D. WARNING: if used with a custom 3D audio source (not through AudioLinkInput), audio reactivity will be attenuated by player position away from the Audio Source")]
@@ -123,6 +123,12 @@ namespace AudioLink
         [HideInInspector] public Texture2D audioData2D; // Texture2D reference for hacked Blit, may eventually be depreciated
 
         private bool _audioLinkEnabled = true;
+
+        public bool AudioLinkEnabled
+        {
+            get => _audioLinkEnabled;
+            set => SetAudioLinkState(value);
+        }
 
         private float[] _audioFramesL = new float[1023 * 4];
         private float[] _audioFramesR = new float[1023 * 4];

@@ -9,7 +9,7 @@ public class
     LightRotationGroupEffect : EventGroupEffect<
     LightRotationGroupStateData,
     LightRotationEventStateData,
-    BaseLightRotationEventBoxGroup<BaseLightRotationEventBox>,
+    BaseLightRotationEventBoxGroup,
     BaseLightRotationEventBox,
     BaseLightRotationBase>
 {
@@ -89,8 +89,9 @@ public class
     {
         foreach (var container in idToContainer.Values)
         {
-            // if (!container.EventContainer.IsCurrentOrFindState(time, isPlaying)) UpdateObject(container);
-            // if (container.Tween.UpdateTime(time))
+            container.EventContainer.SetStateAt(Atsc.CurrentSongBpmTime);
+            UpdateObject(container);
+            container.Tween.UpdateTime(Atsc.CurrentSongBpmTime);
             SetRotation(container.Transforms, container.Tween.Current, container.Axis, container.Mirrored);
         }
     }
@@ -118,7 +119,8 @@ public class
         var endState = (LightRotationEventStateData)(state.Next.UsePrevious ? startState : state.Next);
         var endAngle = Mathf.Repeat(endState.Rotation, 360f);
 
-        var targetAngle = ComputeTargetAngle(startAngle, endAngle, endState.Loop, endState.Direction);
+        var endLoop = state.Next.UsePrevious ? 0 : endState.Loop;
+        var targetAngle = ComputeTargetAngle(startAngle, endAngle, endLoop, endState.Direction);
 
         tween.StartValue = startAngle;
         tween.EndValue = targetAngle;
@@ -169,13 +171,11 @@ public class
     }
 
     protected override LightRotationGroupStateData CreateState(
-        BaseLightRotationEventBoxGroup<BaseLightRotationEventBox> data) =>
+        BaseLightRotationEventBoxGroup data) =>
         new(data);
 
-    protected override Axis GetAxis(BaseLightRotationEventBox box) => (Axis)box.Axis;
-
     protected override
-        StateChunksContainer<LightRotationGroupStateData, BaseLightRotationEventBoxGroup<BaseLightRotationEventBox>>
+        StateChunksContainer<LightRotationGroupStateData, BaseLightRotationEventBoxGroup>
         GetGroupContainer((Axis axis, int element) key)
     {
         return idToContainer.TryGetValue(key, out var value)
@@ -193,14 +193,14 @@ public class
 
     protected override
         IEnumerable<(
-            StateChunksContainer<LightRotationGroupStateData, BaseLightRotationEventBoxGroup<BaseLightRotationEventBox>>
+            StateChunksContainer<LightRotationGroupStateData, BaseLightRotationEventBoxGroup>
             groupContainer, StateChunksContainer<LightRotationEventStateData, BaseLightRotationBase> eventContainer)>
         GetContainers() =>
         idToContainer.Values.Select(x => (x.GroupContainer, x.EventContainer));
 
     protected override int GetEventCount(BaseLightRotationEventBox box) => box.Events.Length;
 
-    protected override float GetLastEventTime(BaseLightRotationEventBox box) => box.Events[^1].JsonTime;
+    protected override float GetLastEventTime(BaseLightRotationEventBox box) => box.Events[^1].RelativeJsonTime;
 
     protected override float GetDistribution(
         IndexFilterHelper.IndexFilter indexFilter,
@@ -216,7 +216,7 @@ public class
     protected override LightRotationEventStateData[] GenerateEvents(
         LightRotationGroupStateData state,
         float distributionOffset,
-        float maxJsonTime) =>
+        float maxRelativeJsonTime) =>
         state
             .Box
             .Events
@@ -226,22 +226,23 @@ public class
                     var d = new LightRotationEventStateData(
                         x,
                         (float)BeatSaberSongContainer.Instance.Map.JsonTimeToSongBpmTime(
-                            state.Base.JsonTime + x.JsonTime + (state.DurationOrder * state.BeatStep)),
+                            state.Base.JsonTime + x.RelativeJsonTime + (state.DurationOrder * state.BeatStep)),
                         state.Box.Flip == 1 ? -1 : 1,
                         distribution);
                     return d;
                 }
             )
-            .Where(x => state.Base.JsonTime + x.Base.JsonTime + (state.DurationOrder * state.BeatStep) <= maxJsonTime)
+            .Where(x => state.Base.JsonTime + x.Base.RelativeJsonTime + (state.DurationOrder * state.BeatStep)
+                <= maxRelativeJsonTime)
             .ToArray();
 }
 
 public class LightRotationGroupStateData : EventGroupStateData<
-    BaseLightRotationEventBoxGroup<BaseLightRotationEventBox>,
+    BaseLightRotationEventBoxGroup,
     BaseLightRotationEventBox,
     BaseLightRotationBase>
 {
-    public LightRotationGroupStateData(BaseLightRotationEventBoxGroup<BaseLightRotationEventBox> data) : base(data)
+    public LightRotationGroupStateData(BaseLightRotationEventBoxGroup data) : base(data)
     {
     }
 }
@@ -271,7 +272,7 @@ public class LightRotationEventStateData : EventGroupEventStateData<BaseLightRot
 public record LightRotationGroupContainer : EventGroupContainer<
     LightRotationGroupStateData,
     LightRotationEventStateData,
-    BaseLightRotationEventBoxGroup<BaseLightRotationEventBox>,
+    BaseLightRotationEventBoxGroup,
     BaseLightRotationEventBox,
     BaseLightRotationBase>
 {

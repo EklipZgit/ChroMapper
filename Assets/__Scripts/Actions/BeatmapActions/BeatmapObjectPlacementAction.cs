@@ -9,46 +9,44 @@ public class BeatmapObjectPlacementAction : BeatmapAction
     // This constructor is needed for United Mapping
     public BeatmapObjectPlacementAction() : base() { }
 
-    public BeatmapObjectPlacementAction(IEnumerable<BaseObject> placedContainers,
-        IEnumerable<BaseObject> conflictingObjects, string comment) : base(placedContainers, comment) =>
+    public BeatmapObjectPlacementAction(
+        IEnumerable<BaseObject> placedContainers,
+        IEnumerable<BaseObject> conflictingObjects,
+        string comment) : base(placedContainers, comment) =>
         RemovedConflictObjects = conflictingObjects;
 
-    public BeatmapObjectPlacementAction(BaseObject placedObject,
-        IEnumerable<BaseObject> conflictingObject, string comment) : base(new[] { placedObject }, comment) =>
+    public BeatmapObjectPlacementAction(
+        BaseObject placedObject,
+        BaseObject conflictingObject,
+        string comment) : base(new[] { placedObject }, comment) =>
+        RemovedConflictObjects = new[] { conflictingObject };
+
+    public BeatmapObjectPlacementAction(
+        BaseObject placedObject,
+        IEnumerable<BaseObject> conflictingObject,
+        string comment) : base(new[] { placedObject }, comment) =>
         RemovedConflictObjects = conflictingObject;
 
     public override void Undo(BeatmapActionContainer.BeatmapActionParams param)
     {
-        foreach (var obj in Data)
-        {
-            DeleteObject(obj, false);
-        }
+        foreach (var obj in Data) DeleteObject(obj, false);
 
         SelectionController.OnSelectionChanged?.Invoke();
         RefreshPools(Data);
 
-        foreach (var data in RemovedConflictObjects)
-        {
-            SpawnObject(data);
-        }
+        foreach (var data in RemovedConflictObjects) SpawnObject(data);
 
         RefreshPools(RemovedConflictObjects);
     }
 
     public override void Redo(BeatmapActionContainer.BeatmapActionParams param)
     {
-        foreach (var obj in RemovedConflictObjects)
-        {
-            DeleteObject(obj, false);
-        }
+        foreach (var obj in RemovedConflictObjects) DeleteObject(obj, false);
 
         SelectionController.OnSelectionChanged?.Invoke();
         RefreshPools(RemovedConflictObjects);
 
-        foreach (var obj in Data)
-        {
-            SpawnObject(obj);
-        }
+        foreach (var obj in Data) SpawnObject(obj);
 
         RefreshPools(Data);
     }

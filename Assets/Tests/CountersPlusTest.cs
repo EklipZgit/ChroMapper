@@ -30,8 +30,7 @@ namespace Tests
             countersPlusController = Object.FindAnyObjectByType<CountersPlusController>();
 
             njsEventGridContainer = BeatmapObjectContainerCollection.GetCollectionForType<NJSEventGridContainer>(ObjectType.NJSEvent);
-            var root = njsEventGridContainer.transform.root;
-            vNjsPlacement = root.GetComponentInChildren<NJSEventPlacement>();
+            vNjsPlacement = Object.FindAnyObjectByType<NJSEventPlacement>();
             
             atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
         }

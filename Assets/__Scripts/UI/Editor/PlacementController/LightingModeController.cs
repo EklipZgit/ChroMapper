@@ -31,39 +31,27 @@ public class LightingModeController : MonoBehaviour
     [SerializeField] private Sprite lockedSprite;
     [SerializeField] private Sprite unlockedSprite;
     private LightingMode currentMode;
-    private bool modeLocked;
 
-    private void Start()
-    {
-        lightingPicker.Initialize(typeof(LightingMode));
-        SetLocked(false);
-        lightingPicker.OnClick += UpdateMode;
-    }
+    private bool hasInitialized;
+
+    private void Start() => InitIfNeeded();
 
     public void SetMode(Enum lightingMode)
     {
-        if (modeLocked)
-            return;
+        InitIfNeeded();
         lightingPicker.Select(lightingMode);
         UpdateMode(lightingMode);
     }
 
-    public void SetLocked(bool locked)
+    private void OnDestroy() => lightingPicker.OnClick -= UpdateMode;
+
+    private void InitIfNeeded()
     {
-        modeLocked = locked;
-        lightingPicker.Locked = modeLocked;
-
-        if (modeLock is Image img)
-        {
-            img.sprite = modeLocked ? lockedSprite : unlockedSprite;
-        }
-        else if (modeLock is Unity.VectorGraphics.SVGImage svg)
-        {
-            svg.sprite = modeLocked ? lockedSprite : unlockedSprite;
-        }
+        if (hasInitialized) return;
+        lightingPicker.Initialize(typeof(LightingMode));
+        lightingPicker.OnClick += UpdateMode;
+        hasInitialized = true;
     }
-
-    public void ToggleLock() => SetLocked(!modeLocked);
 
     public void UpdateValue()
     {
@@ -75,16 +63,21 @@ public class LightingModeController : MonoBehaviour
                 eventPlacement.UpdateValue((int)LightValue.Off);
                 break;
             case LightingMode.On:
-                eventPlacement.UpdateValue(red ? (int)LightValue.RedOn : white ? (int)LightValue.WhiteOn : (int)LightValue.BlueOn);
+                eventPlacement.UpdateValue(
+                    red ? (int)LightValue.RedOn : white ? (int)LightValue.WhiteOn : (int)LightValue.BlueOn);
                 break;
             case LightingMode.Flash:
-                eventPlacement.UpdateValue(red ? (int)LightValue.RedFlash : white ? (int)LightValue.WhiteFlash : (int)LightValue.BlueFlash);
+                eventPlacement.UpdateValue(
+                    red ? (int)LightValue.RedFlash : white ? (int)LightValue.WhiteFlash : (int)LightValue.BlueFlash);
                 break;
             case LightingMode.Fade:
-                eventPlacement.UpdateValue(red ? (int)LightValue.RedFade : white ? (int)LightValue.WhiteFade : (int)LightValue.BlueFade);
+                eventPlacement.UpdateValue(
+                    red ? (int)LightValue.RedFade : white ? (int)LightValue.WhiteFade : (int)LightValue.BlueFade);
                 break;
             case LightingMode.Transition:
-                eventPlacement.UpdateValue(red ? (int)LightValue.RedTransition : white ? (int)LightValue.WhiteTransition : (int)LightValue.BlueTransition);
+                eventPlacement.UpdateValue(
+                    red   ? (int)LightValue.RedTransition :
+                    white ? (int)LightValue.WhiteTransition : (int)LightValue.BlueTransition);
                 break;
         }
     }

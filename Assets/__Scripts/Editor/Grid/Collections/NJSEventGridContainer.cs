@@ -12,14 +12,14 @@ public class NJSEventGridContainer : BeatmapObjectContainerCollection<BaseNJSEve
     internal override void SubscribeToCallbacks()
     {
         EditorScaleController.OnEditorScaleChanged += HandleEditorScaleChanged;
-        Context.Atsc.OnPlayToggled += OnPlayToggle;
+        BeatmapContext.Atsc.OnPlayToggled += OnPlayToggle;
         UIMode.OnPreviewModeSwitched += OnUIPreviewModeSwitch;
     }
 
     internal override void UnsubscribeToCallbacks()
     {
         EditorScaleController.OnEditorScaleChanged -= HandleEditorScaleChanged;
-        Context.Atsc.OnPlayToggled -= OnPlayToggle;
+        BeatmapContext.Atsc.OnPlayToggled -= OnPlayToggle;
         UIMode.OnPreviewModeSwitched -= OnUIPreviewModeSwitch;
     }
 

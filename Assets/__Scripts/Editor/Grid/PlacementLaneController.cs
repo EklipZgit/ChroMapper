@@ -8,30 +8,47 @@ public class PlacementLaneController : MonoBehaviour
     private bool hasOffset;
     private bool hasExpanded;
 
-    public int HeightCount = 3;
-    public int LaneCount = 4;
-    public int ObstacleLaneExtend;
+    private int laneCount = 4;
+    private int obstacleLaneExtend;
     private bool canExpand;
     private bool expandFullyOnBothState;
+
+    private const int heightCount = 3;
+    private const int obstacleHeightCount = 5;
+
+    public int LaneCount
+    {
+        get => laneCount;
+        set
+        {
+            if (laneCount == value) return;
+            laneCount = value;
+            HandleNoteLanesChanged();
+        }
+    }
+
+    public int ObstacleLaneExtend
+    {
+        get => obstacleLaneExtend;
+        set
+        {
+            if (obstacleLaneExtend == value) return;
+            obstacleLaneExtend = value;
+            HandleObstacleLanesExtendChanged();
+        }
+    }
 
     private void OnValidate() => UpdateObstacleLane();
 
     public void Awake()
     {
-        Settings.NotifyBySettingName("NoteLanes", HandleNoteLanesChanged);
-        Settings.NotifyBySettingName("ObstacleLanesExtend", HandleObstacleLanesExtendChanged);
         LoadInitialMap.OnLevelLoaded += HandleLevelLoaded;
         placemenModeController.OnModeChanged += HandleModeChanged;
         obstaclePlacement.OnApplied += UpdateGrid;
-        if (Settings.NonPersistentSettings.ContainsKey("NoteLanes")) Settings.NonPersistentSettings["NoteLanes"] = 4;
-        if (Settings.NonPersistentSettings.ContainsKey("ObstacleLanesExtend"))
-            Settings.NonPersistentSettings["ObstacleLanesExtend"] = 0;
     }
 
     public void OnDestroy()
     {
-        Settings.ClearSettingNotifications("NoteLanes");
-        Settings.ClearSettingNotifications("ObstacleLanesExtend");
         LoadInitialMap.OnLevelLoaded -= HandleLevelLoaded;
         placemenModeController.OnModeChanged -= HandleModeChanged;
         obstaclePlacement.OnApplied -= UpdateGrid;
@@ -45,21 +62,15 @@ public class PlacementLaneController : MonoBehaviour
 
     private void HandleModeChanged(PlacementModeController.PlacementMode _) => UpdateGrid();
 
-    private void HandleNoteLanesChanged(object value)
+    private void HandleNoteLanesChanged()
     {
-        var text = value.ToString();
-        if (!int.TryParse(text, out var lane)) return;
-        if (lane < 1) return;
-        LaneCount = lane;
+        if (LaneCount < 1) return;
         UpdateObstacleLane();
     }
 
-    private void HandleObstacleLanesExtendChanged(object value)
+    private void HandleObstacleLanesExtendChanged()
     {
-        var text = value.ToString();
-        if (!int.TryParse(text, out var lane)) return;
-        if (lane < 0) return;
-        ObstacleLaneExtend = lane;
+        if (ObstacleLaneExtend < 0) return;
         UpdateObstacleLane();
     }
 
@@ -97,11 +108,11 @@ public class PlacementLaneController : MonoBehaviour
             {
                 case false when expandFullyOnBothState:
                 case true:
-                    lane.Height = 5;
+                    lane.Height = obstacleHeightCount;
                     hasExpanded = true;
                     break;
                 case false:
-                    lane.Height = HeightCount;
+                    lane.Height = heightCount;
                     hasExpanded = false;
                     break;
             }
@@ -118,7 +129,7 @@ public class PlacementLaneController : MonoBehaviour
             lane.RefreshVisual();
 
             lane.Lane = LaneCount;
-            lane.Height = HeightCount;
+            lane.Height = heightCount;
             hasOffset = hasExpanded = false;
         }
     }

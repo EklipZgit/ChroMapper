@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Beatmap.Base;
 using Beatmap.Enums;
-using Beatmap.V3;
 using NUnit.Framework;
 using Tests.Util;
 using UnityEngine;
@@ -26,15 +25,12 @@ namespace Tests
         [SetUp]
         public void PlaceObjects()
         {
-            var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
-            var notesContainer = BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
-            var eventsContainer = BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
+            BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
             var bpmEventsContainer = BeatmapObjectContainerCollection.GetCollectionForType<BPMChangeGridContainer>(ObjectType.BpmChange);
 
-            var root = notesContainer.transform.root;
-            var notePlacement = root.GetComponentInChildren<NotePlacement>();
-            var eventPlacement = root.GetComponentInChildren<EventPlacement>();
-            var arcPlacement = root.GetComponentInChildren<ArcPlacement>();
+            var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
+            var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
+            var arcPlacement = Object.FindAnyObjectByType<ArcPlacement>();
 
             baseBpmEvent1 = new BaseBpmEvent { JsonTime = 1, Bpm = 100 };
             baseBpmEvent2 = new BaseBpmEvent { JsonTime = 2, Bpm = 100 };
@@ -99,7 +95,6 @@ namespace Tests
             {
                 baseNote1, baseNote2, baseNote3,
                 baseArc02, baseArc04, baseArc24,
-                baseRotationEvent2,
             });
         }
 
@@ -143,7 +138,6 @@ namespace Tests
             {
                 baseNote1, baseNote2, baseNote3,
                 baseArc02, baseArc04, baseArc24,
-                baseRotationEvent2,
                 baseBpmEvent1, baseBpmEvent2, baseBpmEvent3,
             });
         }

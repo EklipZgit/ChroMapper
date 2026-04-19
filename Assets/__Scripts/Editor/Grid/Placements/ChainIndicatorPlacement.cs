@@ -37,7 +37,7 @@ public class ChainIndicatorPlacement : BasePlacement<BaseChain, ChainIndicatorCo
     public void OnDotNote(InputAction.CallbackContext context)
     {
         if (!context.performed) return;
-        deleteToolController.UpdateDeletion(false);
+        DeleteToolController.UpdateDeletion(false);
         UpdateCut((int)NoteCutDirection.Any);
     }
 
@@ -61,8 +61,8 @@ public class ChainIndicatorPlacement : BasePlacement<BaseChain, ChainIndicatorCo
         if (context.performed && !laserSpeedController.Activated) UpdateCut((int)NoteCutDirection.DownLeft);
     }
 
-    protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicting) =>
-        new BeatmapObjectPlacementAction(spawned, conflicting, "Edited a chain.");
+    protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicts) =>
+        new BeatmapObjectPlacementAction(spawned, conflicts, "Edited a chain.");
 
     protected override BaseChain GenerateOriginalData() => new();
 
@@ -225,7 +225,7 @@ public class ChainIndicatorPlacement : BasePlacement<BaseChain, ChainIndicatorCo
 
     private void HandleDirectionValues()
     {
-        deleteToolController.UpdateDeletion(false);
+        DeleteToolController.UpdateDeletion(false);
 
         var upNote = heldKeys[upKey];
         var downNote = heldKeys[downKey];

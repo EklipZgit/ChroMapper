@@ -28,7 +28,7 @@ MonoBehaviour:
   glsEntries:
   - Group: Mountains
     Name: Mountain 1
-    ID: 0
+    ID: 2
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -38,7 +38,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Mountains
     Name: Mountain 2
-    ID: 0
+    ID: 3
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -48,7 +48,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Mountains
     Name: Mountain 3
-    ID: 0
+    ID: 4
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -58,7 +58,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Mountains
     Name: Mountain 4
-    ID: 0
+    ID: 5
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -68,7 +68,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Mountains
     Name: Mountain 5
-    ID: 0
+    ID: 6
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -78,7 +78,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Mountains
     Name: Mountain 6
-    ID: 0
+    ID: 7
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -88,7 +88,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Mountains
     Name: Mountain 7
-    ID: 0
+    ID: 8
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -98,7 +98,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Mountains
     Name: Mountain 8
-    ID: 0
+    ID: 9
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -108,7 +108,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Mountains
     Name: Mountain 9
-    ID: 0
+    ID: 10
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -118,7 +118,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Mountains
     Name: Mountain 10
-    ID: 0
+    ID: 11
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -128,7 +128,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Mountains
     Name: Mountain 11
-    ID: 0
+    ID: 12
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -138,7 +138,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Mountains
     Name: Mountain 12
-    ID: 0
+    ID: 13
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -148,7 +148,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Face
     Name: Left
-    ID: 0
+    ID: 22
     ColorTrack: 1
     RotationTracks: 000101
     OverrideDefaultRotationAxis: NoOverride
@@ -158,7 +158,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Face
     Name: Right
-    ID: 0
+    ID: 23
     ColorTrack: 1
     RotationTracks: 000101
     OverrideDefaultRotationAxis: NoOverride
@@ -168,7 +168,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Face
     Name: Movement
-    ID: 0
+    ID: 29
     ColorTrack: 0
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -178,7 +178,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Face
     Name: Eyes
-    ID: 0
+    ID: 14
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -188,7 +188,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Runway
     Name: Strings
-    ID: 0
+    ID: 16
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -198,7 +198,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Runway
     Name: Frets
-    ID: 0
+    ID: 15
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -208,7 +208,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Runway
     Name: Dots
-    ID: 0
+    ID: 28
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -218,7 +218,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Runway
     Name: Equalizer
-    ID: 0
+    ID: 30
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -228,7 +228,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Runway
     Name: Tunnel
-    ID: 0
+    ID: 17
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -238,7 +238,7 @@ MonoBehaviour:
     Duplicate: 0
   - Group: Spikes
     Name: Left
-    ID: 0
+    ID: 24
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -248,7 +248,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Spikes
     Name: Right
-    ID: 0
+    ID: 26
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -258,7 +258,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Spikes
     Name: Left Movement
-    ID: 0
+    ID: 25
     ColorTrack: 0
     RotationTracks: 000001
     OverrideDefaultRotationAxis: NoOverride
@@ -268,7 +268,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Spikes
     Name: Right Movement
-    ID: 0
+    ID: 27
     ColorTrack: 0
     RotationTracks: 000001
     OverrideDefaultRotationAxis: NoOverride
@@ -278,7 +278,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Lasers
     Name: Side Left
-    ID: 0
+    ID: 18
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -288,7 +288,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Lasers
     Name: Side Right
-    ID: 0
+    ID: 19
     ColorTrack: 1
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -298,7 +298,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Lasers
     Name: Side Left Rotation
-    ID: 0
+    ID: 20
     ColorTrack: 0
     RotationTracks: 010001
     OverrideDefaultRotationAxis: NoOverride
@@ -308,7 +308,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Lasers
     Name: Side Right Rotation
-    ID: 0
+    ID: 21
     ColorTrack: 0
     RotationTracks: 010001
     OverrideDefaultRotationAxis: NoOverride
@@ -318,7 +318,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Lasers
     Name: Side Z Translation
-    ID: 0
+    ID: 37
     ColorTrack: 0
     RotationTracks: 000000
     OverrideDefaultRotationAxis: NoOverride
@@ -338,7 +338,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Lasers
     Name: Far Right
-    ID: 0
+    ID: 1
     ColorTrack: 1
     RotationTracks: 010100
     OverrideDefaultRotationAxis: NoOverride
@@ -348,7 +348,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Screens
     Name: Left 1
-    ID: 0
+    ID: 31
     ColorTrack: 1
     RotationTracks: 000100
     OverrideDefaultRotationAxis: NoOverride
@@ -358,7 +358,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Screens
     Name: Left 2
-    ID: 0
+    ID: 32
     ColorTrack: 1
     RotationTracks: 000100
     OverrideDefaultRotationAxis: NoOverride
@@ -368,7 +368,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Screens
     Name: Right 1
-    ID: 0
+    ID: 33
     ColorTrack: 1
     RotationTracks: 000100
     OverrideDefaultRotationAxis: NoOverride
@@ -378,7 +378,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Screens
     Name: Right 2
-    ID: 0
+    ID: 34
     ColorTrack: 1
     RotationTracks: 000100
     OverrideDefaultRotationAxis: NoOverride
@@ -388,7 +388,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Screens
     Name: Left Screens Move
-    ID: 0
+    ID: 35
     ColorTrack: 0
     RotationTracks: 010001
     OverrideDefaultRotationAxis: NoOverride
@@ -398,7 +398,7 @@ MonoBehaviour:
     Duplicate: 1
   - Group: Screens
     Name: Right Screens Move
-    ID: 0
+    ID: 36
     ColorTrack: 0
     RotationTracks: 010001
     OverrideDefaultRotationAxis: NoOverride

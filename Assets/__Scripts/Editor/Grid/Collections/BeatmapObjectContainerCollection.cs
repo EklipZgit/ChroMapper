@@ -1,15 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Beatmap.Base;
 using Beatmap.Base.Customs;
-using Beatmap.Comparers;
 using Beatmap.Containers;
 using Beatmap.Enums;
-using Beatmap.Helper;
-using Beatmap.Shared;
-using Beatmap.V2;
 using SimpleJSON;
 using UnityEngine;
 
@@ -30,7 +25,10 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
 
     public event Action<BaseObject> OnContainerSpawned;
     public event Action<BaseObject> OnContainerDespawned;
-    public BeatmapRuntimeContext Context;
+
+    [Header("Dependencies")] public BeatmapRuntimeContext BeatmapContext;
+    public EditModeContext EditContext;
+    public EditingMode ViewableMode = (EditingMode)byte.MaxValue;
 
     /// <summary>
     ///     Loaded objects in this collection.
@@ -42,7 +40,9 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
     public BeatmapObjectCallbackController SpawnCallbackController;
     public BeatmapObjectCallbackController DespawnCallbackController;
 
-    public bool UseChunkLoadingWhenPlaying;
+    public Transform TargetTransform;
+
+    [Header("Chunk Loading")] public bool UseChunkLoadingWhenPlaying;
     public int ChunksLoadedWhilePlaying = 2;
     public bool IgnoreTrackFilter;
 
@@ -75,15 +75,17 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
     {
         UpdateEpsilon(Settings.Instance.TimeValueDecimalPrecision);
         Settings.NotifyBySettingName("TimeValueDecimalPrecision", UpdateEpsilon);
+        EditContext.OnEditModeChanged += HandleEditModeChanged;
+        HandleEditModeChanged(EditContext.EditingMode);
     }
 
     internal virtual void LateUpdate()
     {
-        if ((Context.Atsc.IsPlaying && !UseChunkLoadingWhenPlaying)
-            || Mathf.Approximately(Context.Atsc.CurrentSongBpmTime, previousAtscBeat))
+        if ((BeatmapContext.Atsc.IsPlaying && !UseChunkLoadingWhenPlaying)
+            || Mathf.Approximately(BeatmapContext.Atsc.CurrentSongBpmTime, previousAtscBeat))
             return;
 
-        previousAtscBeat = Context.Atsc.CurrentSongBpmTime;
+        previousAtscBeat = BeatmapContext.Atsc.CurrentSongBpmTime;
         var nearestChunk = (int)Math.Round(previousAtscBeat / (double)ChunkSize, MidpointRounding.AwayFromZero);
         if (nearestChunk != previousChunk)
         {
@@ -96,7 +98,10 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
     {
         loadedCollections.Remove(ContainerType);
         UnsubscribeToCallbacks();
+        EditContext.OnEditModeChanged -= HandleEditModeChanged;
     }
+
+    private void HandleEditModeChanged(EditingMode mode) => enabled = ViewableMode.HasFlag(mode);
 
     private void UpdateEpsilon(object precision)
     {
@@ -150,6 +155,15 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
             Type t when t == typeof(BaseBookmark) => ObjectType.Bookmark,
             Type t when t == typeof(BaseNJSEvent) => ObjectType.NJSEvent,
             Type t when t == typeof(BaseEnvironmentEnhancement) => ObjectType.EnvironmentEnhancement,
+            Type t when t == typeof(BaseLightColorEventBoxGroup) => ObjectType.GLSColor,
+            Type t when t == typeof(BaseLightRotationEventBoxGroup) => ObjectType.GLSRotation,
+            Type t when t == typeof(BaseLightTranslationEventBoxGroup) => ObjectType.GLSTranslation,
+            Type t when t == typeof(BaseVfxEventEventBoxGroup) => ObjectType.GLSFloatFx,
+            // imma be honest, idk if this actually ever needed
+            Type t when t == typeof(BaseLightColorBase) => ObjectType.GLSEvent,
+            Type t when t == typeof(BaseLightRotationBase) => ObjectType.GLSEvent,
+            Type t when t == typeof(BaseLightTranslationBase) => ObjectType.GLSEvent,
+            Type t when t == typeof(BaseFxEventFloat) => ObjectType.GLSEvent,
             _ => throw new ArgumentException(nameof(TBaseObject))
         };
 
@@ -176,7 +190,7 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
     public virtual void RefreshPool(bool forceRefresh = false)
     {
         var epsilon = Mathf.Pow(10, -9);
-        if (Context.Atsc.IsPlaying)
+        if (BeatmapContext.Atsc.IsPlaying)
         {
             var spawnOffset = UseChunkLoadingWhenPlaying
                 ? ChunksLoadedWhilePlaying * ChunkSize
@@ -185,8 +199,8 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
                 ? -ChunksLoadedWhilePlaying * ChunkSize
                 : DespawnCallbackController.Offset;
             RefreshPool(
-                Context.Atsc.CurrentSongBpmTime + despawnOffset - epsilon,
-                Context.Atsc.CurrentSongBpmTime + spawnOffset + epsilon,
+                BeatmapContext.Atsc.CurrentSongBpmTime + despawnOffset - epsilon,
+                BeatmapContext.Atsc.CurrentSongBpmTime + spawnOffset + epsilon,
                 forceRefresh);
         }
         else
@@ -225,8 +239,8 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
         dequeued.UpdateGridPosition();
         dequeued.SafeSetActive(true);
         UpdateContainerData(dequeued, obj);
-        dequeued.SetOutlineColor(SelectionController.SelectedColor, false);
-        dequeued.SelectionMpbController.ShowRenderer(SelectionController.IsObjectSelected(obj));
+        dequeued.SetOutlineColor(SelectionController.SelectedColor);
+        dequeued.Selected = SelectionController.IsObjectSelected(obj);
         PluginLoader.BroadcastEvent<ObjectLoadedAttribute, ObjectContainer>(dequeued);
         LoadedContainers.Add(obj, dequeued);
         ObjectsWithContainers.Add(obj);
@@ -260,7 +274,7 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
         var baseContainer = CreateContainer();
         baseContainer.gameObject.SetActive(false);
         baseContainer.Setup();
-        baseContainer.transform.SetParent(transform);
+        baseContainer.transform.SetParent(TargetTransform);
         pooledContainers.Enqueue(baseContainer);
     }
 
@@ -527,7 +541,7 @@ public abstract class BeatmapObjectContainerCollection<T> : BeatmapObjectContain
     /// </summary>
     /// <param name="newObjects">Enumerable of new objects</param>
     /// <param name="conflicting">Enumerable of all existing objects that were deleted as a conflict.</param>
-    public void RemoveConflictingObjects(IEnumerable<T> newObjects, out List<T> conflicting)
+    public virtual void RemoveConflictingObjects(IEnumerable<T> newObjects, out List<T> conflicting)
     {
         conflicting = new List<T>();
 
@@ -644,13 +658,14 @@ public abstract class BeatmapObjectContainerCollection<T> : BeatmapObjectContain
 
     /// <inheritdoc/>
     // TODO(Caeden): Overload to delete/spawn without recycling or creating a container
-    public void DeleteObject(
+    public virtual void DeleteObject(
         T obj,
         bool triggersAction = true,
         bool refreshesPool = true,
         string comment = "No comment.",
         bool inCollectionOfDeletes = false,
-        bool deselect = true)
+        bool deselect = true,
+        bool triggerHandle = true)
     {
         if (!TryBinarySearch(obj, out var search)) return;
 
@@ -666,7 +681,7 @@ public abstract class BeatmapObjectContainerCollection<T> : BeatmapObjectContain
 
         if (refreshesPool) RefreshPool();
 
-        HandleObjectDelete(deletedObj, inCollectionOfDeletes);
+        if (triggerHandle) HandleObjectDelete(deletedObj, inCollectionOfDeletes);
         OnObjectDeleted?.Invoke(deletedObj);
     }
 
@@ -680,7 +695,7 @@ public abstract class BeatmapObjectContainerCollection<T> : BeatmapObjectContain
         MapObjects.RemoveAt(search);
     }
 
-    private bool TryBinarySearch(T tObj, out int index)
+    protected bool TryBinarySearch(T tObj, out int index)
     {
         index = MapObjects.BinarySearch(tObj);
 

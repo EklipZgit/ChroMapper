@@ -9,9 +9,9 @@ public class
     FloatFxGroupEffect : EventGroupEffect<
     FloatFxGroupStateData,
     FloatFxEventStateData,
-    BaseVfxEventEventBoxGroup<BaseVfxEventEventBox>,
+    BaseVfxEventEventBoxGroup,
     BaseVfxEventEventBox,
-    FloatFxEventBase>
+    BaseFxEventFloat>
 {
     [SerializeField] public bool Trigger;
 
@@ -47,9 +47,9 @@ public class
                 idToContainer[entry.ID] = new(entry.ID, entry.Targets.ToArray());
                 var container = idToContainer[entry.ID];
 
-                var startEvent = new FloatFxEventStateData(new FloatFxEventBase(), short.MinValue);
+                var startEvent = new FloatFxEventStateData(new BaseFxEventFloat(), short.MinValue);
                 var endEvent = new FloatFxEventStateData(
-                    new FloatFxEventBase { UsePrevious = 1 },
+                    new BaseFxEventFloat { UsePrevious = 1 },
                     float.MaxValue);
                 container.EventContainer.Resize(Atsc.GetBeatFromSeconds(Atsc.SongAudioSource.clip.length));
 
@@ -64,7 +64,7 @@ public class
                 start.Box = new BaseVfxEventEventBox
                 {
                     IndexFilter = new() { Type = (int)IndexFilterType.Division, Param0 = 1 },
-                    Events = Array.Empty<FloatFxEventBase>()
+                    Events = Array.Empty<BaseFxEventFloat>()
                 };
                 start.LocalJsonTime = start.StartTime;
 
@@ -72,7 +72,7 @@ public class
                 end.Box = new BaseVfxEventEventBox
                 {
                     IndexFilter = new() { Type = (int)IndexFilterType.Division, Param0 = 1 },
-                    Events = Array.Empty<FloatFxEventBase>()
+                    Events = Array.Empty<BaseFxEventFloat>()
                 };
                 end.LocalJsonTime = end.StartTime = end.EndTime;
 
@@ -92,6 +92,10 @@ public class
     {
         foreach (var container in activeContainers)
         {
+            container.EventContainer.SetStateAt(Atsc.CurrentSongBpmTime);
+            UpdateObject(container);
+            container.Tween.UpdateTime(Atsc.CurrentSongBpmTime);
+
             if (Trigger)
             {
                 for (var i = 0; i < container.Targets.Length; i++)
@@ -146,13 +150,10 @@ public class
         tween.Easing = Easing.FromID(endState.Base.Easing);
     }
 
-    protected override FloatFxGroupStateData CreateState(BaseVfxEventEventBoxGroup<BaseVfxEventEventBox> data) =>
-        new(data);
-
-    protected override Axis GetAxis(BaseVfxEventEventBox box) => Axis.X;
+    protected override FloatFxGroupStateData CreateState(BaseVfxEventEventBoxGroup data) => new(data);
 
     protected override
-        StateChunksContainer<FloatFxGroupStateData, BaseVfxEventEventBoxGroup<BaseVfxEventEventBox>>
+        StateChunksContainer<FloatFxGroupStateData, BaseVfxEventEventBoxGroup>
         GetGroupContainer((Axis axis, int element) key)
     {
         var id = key.element;
@@ -161,7 +162,7 @@ public class
             : null;
     }
 
-    protected override StateChunksContainer<FloatFxEventStateData, FloatFxEventBase> GetEventContainer(
+    protected override StateChunksContainer<FloatFxEventStateData, BaseFxEventFloat> GetEventContainer(
         (Axis axis, int element) key)
     {
         var id = key.element;
@@ -171,14 +172,14 @@ public class
     }
 
     protected override
-        IEnumerable<(StateChunksContainer<FloatFxGroupStateData, BaseVfxEventEventBoxGroup<BaseVfxEventEventBox>>
-            groupContainer, StateChunksContainer<FloatFxEventStateData, FloatFxEventBase> eventContainer)>
+        IEnumerable<(StateChunksContainer<FloatFxGroupStateData, BaseVfxEventEventBoxGroup>
+            groupContainer, StateChunksContainer<FloatFxEventStateData, BaseFxEventFloat> eventContainer)>
         GetContainers() =>
         idToContainer.Select(x => (x.GroupContainer, x.EventContainer));
 
     protected override int GetEventCount(BaseVfxEventEventBox box) => box.Events.Length;
 
-    protected override float GetLastEventTime(BaseVfxEventEventBox box) => box.Events[^1].JsonTime;
+    protected override float GetLastEventTime(BaseVfxEventEventBox box) => box.Events[^1].RelativeJsonTime;
 
     protected override float GetDistribution(
         IndexFilterHelper.IndexFilter indexFilter,
@@ -194,7 +195,7 @@ public class
     protected override FloatFxEventStateData[] GenerateEvents(
         FloatFxGroupStateData state,
         float distributionOffset,
-        float maxJsonTime) =>
+        float maxRelativeJsonTime) =>
         state
             .Box
             .Events
@@ -204,31 +205,32 @@ public class
                     var d = new FloatFxEventStateData(
                         x,
                         (float)BeatSaberSongContainer.Instance.Map.JsonTimeToSongBpmTime(
-                            state.Base.JsonTime + x.JsonTime + (state.DurationOrder * state.BeatStep)),
+                            state.Base.JsonTime + x.RelativeJsonTime + (state.DurationOrder * state.BeatStep)),
                         affected ? distributionOffset : 0f);
                     return d;
                 }
             )
-            .Where(x => state.Base.JsonTime + x.Base.JsonTime + (state.DurationOrder * state.BeatStep) <= maxJsonTime)
+            .Where(x => state.Base.JsonTime + x.Base.RelativeJsonTime + (state.DurationOrder * state.BeatStep)
+                <= maxRelativeJsonTime)
             .ToArray();
 }
 
 public class FloatFxGroupStateData : EventGroupStateData<
-    BaseVfxEventEventBoxGroup<BaseVfxEventEventBox>,
+    BaseVfxEventEventBoxGroup,
     BaseVfxEventEventBox,
-    FloatFxEventBase>
+    BaseFxEventFloat>
 {
-    public FloatFxGroupStateData(BaseVfxEventEventBoxGroup<BaseVfxEventEventBox> data) : base(data)
+    public FloatFxGroupStateData(BaseVfxEventEventBoxGroup data) : base(data)
     {
     }
 }
 
 [Serializable]
-public class FloatFxEventStateData : EventGroupEventStateData<FloatFxEventBase>
+public class FloatFxEventStateData : EventGroupEventStateData<BaseFxEventFloat>
 {
     public readonly float Value;
 
-    public FloatFxEventStateData(FloatFxEventBase data, float startTime, float offset = 0f) : base(
+    public FloatFxEventStateData(BaseFxEventFloat data, float startTime, float offset = 0f) : base(
         data,
         startTime,
         data.Easing,
@@ -239,9 +241,9 @@ public class FloatFxEventStateData : EventGroupEventStateData<FloatFxEventBase>
 public record FloatFxGroupContainer : EventGroupContainer<
     FloatFxGroupStateData,
     FloatFxEventStateData,
-    BaseVfxEventEventBoxGroup<BaseVfxEventEventBox>,
+    BaseVfxEventEventBoxGroup,
     BaseVfxEventEventBox,
-    FloatFxEventBase>
+    BaseFxEventFloat>
 {
     public readonly FloatTween Tween = new();
     public readonly int Id;

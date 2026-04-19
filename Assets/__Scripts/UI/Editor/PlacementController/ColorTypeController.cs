@@ -4,41 +4,81 @@ using UnityEngine.UI;
 
 public class ColorTypeController : MonoBehaviour
 {
-    [SerializeField] private BeatmapRuntimeContext context;
+    [SerializeField] private BeatmapRuntimeContext beatmapRuntimeContext;
+    [SerializeField] private EditModeContext editModeContext;
     [SerializeField] private NotePlacement notePlacement;
-    [SerializeField] private LightingModeController lightMode;
-    [SerializeField] private CustomColorsUIController customColors;
-    [SerializeField] private Image leftSelected;
-    [SerializeField] private Image rightSelected;
-    [SerializeField] private Image leftNote;
-    [SerializeField] private Image leftLight;
-    [SerializeField] private Image rightNote;
-    [SerializeField] private Image rightLight;
+    [SerializeField] private LightingModeController lightingModeController;
+    [SerializeField] private CustomColorsUIController customColorsUIController;
+
+    [Header("Visual")]
+    [SerializeField] private Image redTop;
+    [SerializeField] private Image redBottom;
+    [SerializeField] private Image redSelected;
+    [SerializeField] private Image blueTop;
+    [SerializeField] private Image blueBottom;
+    [SerializeField] private Image blueSelected;
+    [SerializeField] private Image whiteTop;
+    [SerializeField] private Image whiteBottom;
+    [SerializeField] private Image whiteSelected;
+    
+    [Header("Context Changed")]
+    [SerializeField] private GameObject whiteTarget;
+    [SerializeField] private GridLayoutGroup gridLayoutGroup;
 
     private void Start()
     {
-        leftSelected.enabled = true;
-        rightSelected.enabled = false;
-        customColors.Context = context;
-        context.OnColorSchemeChanged += UpdateColors;
-        customColors.OnCustomColorsUpdated += SetupColors;
+        redSelected.enabled = true;
+        blueSelected.enabled = false;
+        customColorsUIController.Context = beatmapRuntimeContext;
+        beatmapRuntimeContext.OnColorSchemeChanged += HandleColorSchemeChanged;
+        editModeContext.OnEditModeChanged += HandleEditModeModeChanged;
+        customColorsUIController.OnCustomColorsUpdated += HandleCustomColorUIControllerUpdated;
+
+        HandleEditModeModeChanged(editModeContext.EditingMode);
     }
 
     private void OnDestroy()
     {
-        customColors.OnCustomColorsUpdated -= SetupColors;
-        context.OnColorSchemeChanged -= UpdateColors;
+        beatmapRuntimeContext.OnColorSchemeChanged -= HandleColorSchemeChanged;
+        editModeContext.OnEditModeChanged -= HandleEditModeModeChanged;
+        customColorsUIController.OnCustomColorsUpdated -= HandleCustomColorUIControllerUpdated;
     }
 
-    private void SetupColors() => UpdateColors(context.ColorScheme);
-
-    private void UpdateColors(ColorSchemeSO colorScheme)
+    private void HandleColorSchemeChanged(ColorSchemeSO colorScheme)
     {
-        leftNote.color = context.ColorScheme.LeftNoteColor;
-        leftLight.color = context.ColorScheme.EnvironmentLeftColor;
-        rightNote.color = context.ColorScheme.RightNoteColor;
-        rightLight.color = context.ColorScheme.EnvironmentRightColor;
+        if (editModeContext.EditingMode.HasFlag(EditingMode.Gameplay))
+        {
+            redTop.color = redBottom.color = colorScheme.LeftNoteColor;
+            blueTop.color = blueBottom.color = colorScheme.RightNoteColor;
+        }
+        else
+        {
+            redTop.color = colorScheme.EnvironmentLeftColor;
+            redBottom.color = colorScheme.EnvironmentLeftBoostColor;
+            blueTop.color = colorScheme.EnvironmentRightColor;
+            blueBottom.color = colorScheme.EnvironmentRightBoostColor;
+            whiteTop.color = colorScheme.EnvironmentWhiteColor;
+            whiteBottom.color = colorScheme.EnvironmentWhiteBoostColor;
+        }
     }
+
+    private void HandleEditModeModeChanged(EditingMode mode)
+    {
+        if (mode.HasFlag(EditingMode.Gameplay))
+        {
+            gridLayoutGroup.cellSize = new Vector2(20, 20);
+            whiteTarget.SetActive(false);
+        }
+        else
+        {
+            gridLayoutGroup.cellSize = new Vector2(14, 14);
+            whiteTarget.SetActive(true);
+        }
+
+        HandleColorSchemeChanged(beatmapRuntimeContext.ColorScheme);
+    }
+
+    private void HandleCustomColorUIControllerUpdated() => HandleColorSchemeChanged(beatmapRuntimeContext.ColorScheme);
 
     public void RedNote(bool active)
     {
@@ -58,16 +98,17 @@ public class ColorTypeController : MonoBehaviour
     public void UpdateValue(int type)
     {
         notePlacement.UpdateType(type);
-        lightMode.UpdateValue();
+        lightingModeController.UpdateValue();
         UpdateUI();
     }
 
     public void UpdateUI()
     {
-        leftSelected.enabled = notePlacement.QueuedData.Type == (int)NoteType.Red;
-        rightSelected.enabled = notePlacement.QueuedData.Type == (int)NoteType.Blue;
+        redSelected.enabled = notePlacement.QueuedData.Type == (int)NoteType.Red;
+        blueSelected.enabled = notePlacement.QueuedData.Type == (int)NoteType.Blue;
+        whiteSelected.enabled = notePlacement.QueuedData.Type == (int)NoteType.Bomb;
     }
 
-    public bool LeftSelectedEnabled() => leftSelected.enabled;
-    public bool RightSelectEnabled() => rightSelected.enabled;
+    public bool LeftSelectedEnabled() => redSelected.enabled;
+    public bool RightSelectedEnabled() => blueSelected.enabled;
 }

@@ -3,7 +3,6 @@ using System.Linq;
 using Beatmap.Base;
 using Beatmap.Containers;
 using Beatmap.Enums;
-using Beatmap.V3;
 using NUnit.Framework;
 using SimpleJSON;
 using Tests.Util;
@@ -40,8 +39,7 @@ namespace Tests
             var containerCollection = BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Note);
             if (containerCollection is NoteGridContainer notesContainer)
             {
-                var root = notesContainer.transform.root;
-                var notePlacement = root.GetComponentInChildren<NotePlacement>();
+                var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
 
                 BaseNote baseNoteA = new BaseNote
                 {
@@ -63,8 +61,7 @@ namespace Tests
             var chainContainerCollection = BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Chain);
             if (chainContainerCollection is ChainGridContainer chainsContainer)
             {
-                var root = chainsContainer.transform.root;
-                var chainPlacement = root.GetComponentInChildren<ChainPlacement>();
+                var chainPlacement = Object.FindAnyObjectByType<ChainPlacement>();
 
                 var objects = SelectionController.SelectedObjects.ToList();
 
@@ -103,8 +100,7 @@ namespace Tests
             var containerCollection = BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Note);
             if (containerCollection is NoteGridContainer notesContainer)
             {
-                var root = notesContainer.transform.root;
-                var notePlacement = root.GetComponentInChildren<NotePlacement>();
+                var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
 
                 BaseNote baseNoteA = new BaseNote
                 {
@@ -128,8 +124,7 @@ namespace Tests
             var chainContainerCollection = BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Chain);
             if (chainContainerCollection is ChainGridContainer chainsContainer)
             {
-                var root = chainsContainer.transform.root;
-                var chainPlacement = root.GetComponentInChildren<ChainPlacement>();
+                var chainPlacement = Object.FindAnyObjectByType<ChainPlacement>();
 
                 var objects = SelectionController.SelectedObjects.ToList();
 
@@ -140,7 +135,7 @@ namespace Tests
                 var n1 = objects[0] as BaseNote;
                 var n2 = objects[1] as BaseNote;
 
-                var arc = chainPlacement.TryCreateChainData(n1, n2, out var chain, out var note);
+                chainPlacement.TryCreateChainData(n1, n2, out var chain, out _);
                 chainsContainer.SpawnObject(chain);
 
                 CheckUtils.CheckChain("Check generated chain", chainsContainer, 0, 2f, (int)GridX.Left, (int)GridY.Base,
@@ -156,9 +151,8 @@ namespace Tests
             var containerCollection = BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Chain);
             if (containerCollection is ChainGridContainer chainsContainer)
             {
-                var root = chainsContainer.transform.root;
-                var chainPlacement = root.GetComponentInChildren<ChainPlacement>();
-                var inputController = root.GetComponentInChildren<BeatmapChainInputController>();
+                var chainPlacement = Object.FindAnyObjectByType<ChainPlacement>();
+                var inputController = Object.FindAnyObjectByType<BeatmapChainInputController>();
 
                 BaseChain baseChain = new BaseChain
                 {
@@ -197,9 +191,8 @@ namespace Tests
             var containerCollection = BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Chain);
             if (containerCollection is ChainGridContainer chainsContainer)
             {
-                var root = chainsContainer.transform.root;
-                var chainPlacement = root.GetComponentInChildren<ChainPlacement>();
-                var inputController = root.GetComponentInChildren<BeatmapChainInputController>();
+                var chainPlacement = Object.FindAnyObjectByType<ChainPlacement>();
+                var inputController = Object.FindAnyObjectByType<BeatmapChainInputController>();
 
                 BaseChain baseChain = new BaseChain
                 {

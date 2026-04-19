@@ -1,3 +1,4 @@
+using System.Globalization;
 using Beatmap.Containers;
 using Beatmap.Enums;
 using UnityEngine;
@@ -28,10 +29,15 @@ namespace Beatmap.Appearances
                     break;
             }
 
-            if (chain.ChainData.CustomColor != null)
-                chain.SetColor((Color)chain.ChainData.CustomColor);
-
+            SetText(chain);
+            if (chain.ChainData.CustomColor != null) chain.SetColor((Color)chain.ChainData.CustomColor);
             chain.Animator.AttachToObject(chain.ChainData);
+        }
+
+        public void SetText(ChainContainer chain)
+        {
+            chain.InfoText.SetText(
+                $"S: {chain.ChainData.Squish.ToString(CultureInfo.InvariantCulture)}\nC: {chain.ChainData.SliceCount.ToString()}");
         }
     }
 }

@@ -11,21 +11,39 @@ namespace Beatmap.V3
 {
     public static class V3VfxEventEventBoxGroup
     {
-        public static BaseVfxEventEventBoxGroup<BaseVfxEventEventBox> GetFromJson(JSONNode node, IList<FloatFxEventBase> floatFxEvents)
+        public static BaseVfxEventEventBoxGroup GetFromJson(JSONNode node, IList<BaseFxEventFloat> floatFxEvents)
         {
-            var vfxGroup = new BaseVfxEventEventBoxGroup<BaseVfxEventEventBox>();
-            
-            vfxGroup.JsonTime = node["b"].AsFloat;
-            vfxGroup.ID = node["g"].AsInt;
-            vfxGroup.Type = node["t"].AsInt;
-            vfxGroup.Boxes = new List<BaseVfxEventEventBox>(BaseItem.GetRequiredNode(node, "e").AsArray.Linq
-                .Select(x => V3VfxEventEventBox.GetFromJson(x.Value, floatFxEvents)).ToList());
-            vfxGroup.CustomData = node["customData"];
+            var group = new BaseVfxEventEventBoxGroup
+            {
+                JsonTime = node["b"].AsFloat,
+                ID = node["g"].AsInt,
+                Type = node["t"].AsInt,
+                CustomData = node["customData"]
+            };
+            group.Boxes = BaseItem
+                .GetRequiredNode(node, "e")
+                .AsArray.Linq
+                .Select((x, i) =>
+                {
+                    var box = V3VfxEventEventBox.GetFromJson(x.Value, floatFxEvents);
+                    foreach (var evt in box.Events)
+                    {
+                        evt.EventBoxGroupData = group;
+                        evt.EventBoxData = box;
+                        evt.BoxIndex = i;
+                        evt.JsonTime = group.JsonTime;
+                    }
 
-            return vfxGroup;
+                    return box;
+                })
+                .ToList();
+
+            return group;
         }
-        public static JSONNode ToJson(BaseVfxEventEventBoxGroup<BaseVfxEventEventBox> vfxGroup,
-            IList<FloatFxEventBase> floatFxEvents)
+
+        public static JSONNode ToJson(
+            BaseVfxEventEventBoxGroup vfxGroup,
+            IList<BaseFxEventFloat> floatFxEvents)
         {
             JSONNode node = new JSONObject();
             node["b"] = vfxGroup.JsonTime;

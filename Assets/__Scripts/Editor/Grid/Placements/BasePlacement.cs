@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Beatmap.Animations;
 using Beatmap.Base;
 using Beatmap.Containers;
@@ -99,7 +100,6 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
     where TCollection : BeatmapObjectContainerCollection
 {
     [Header("Data")] public TCollection ObjectContainerCollection;
-    public TObject ObjectData;
 
     public TContainer PlacementVisualContainer;
 
@@ -119,16 +119,17 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
     {
         CreateVisual();
         HideVisual();
-        QueuedData = GenerateOriginalData();
+        QueuedData ??= GenerateOriginalData();
     }
 
     protected abstract TObject GenerateOriginalData();
-    protected abstract BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicting);
+    protected abstract BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicts);
 
     public override void Initialize(PlacementProvider provider)
     {
+        CreateVisual();
         HideVisual();
-        ObjectData = QueuedData;
+        QueuedData ??= GenerateOriginalData();
     }
 
     public override void UpdateState(
@@ -206,6 +207,8 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
         var currentJsonTime = inputState == PlacementInputState.DragAtTime
             ? GetDraggedObjectJsonTime()
             : Atsc.CurrentJsonTime;
+        currentJsonTime -= Atsc.VisualBeatOriginJsonTime;
+
         var snap = 1f / Atsc.GridMeasureSnapping;
         var offsetJsonTime = currentJsonTime
             - ((float)Math.Round(currentJsonTime / snap, MidpointRounding.AwayFromZero) * snap);
@@ -232,12 +235,14 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
 
     public virtual void CreateVisual()
     {
+        if (PlacementVisualContainer != null) return;
+
         PlacementVisualContainer = Instantiate(
                 ObjectContainerPrefab,
                 PlacementTrack)
             .GetComponent(typeof(TContainer)) as TContainer;
         PlacementVisualContainer.Setup();
-        PlacementVisualContainer.SelectionMpbController.ShowRenderer(false);
+        PlacementVisualContainer.Selected = false;
 
         foreach (var coll in PlacementVisualContainer.GetComponentsInChildren<IntersectionCollider>(true))
             Destroy(coll);
@@ -275,9 +280,8 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
 
     public virtual void HandleApply()
     {
-        ObjectData = QueuedData;
-        ObjectContainerCollection.SpawnObject(ObjectData, out var conflicting);
-        BeatmapActionContainer.AddAction(GenerateAction(ObjectData, conflicting));
+        ObjectContainerCollection.SpawnObject(QueuedData, out var conflicting);
+        BeatmapActionContainer.AddAction(GenerateAction(QueuedData, conflicting));
         QueuedData = BeatmapFactory.Clone(QueuedData);
         QueuedData.CustomData = null;
     }
@@ -304,7 +308,7 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
         OriginalDraggedObjectData = BeatmapFactory.Clone(con.ObjectData as TObject);
         QueuedData = BeatmapFactory.Clone(DraggedObjectData);
         DraggedObjectContainer = con;
-        DraggedObjectContainer.Dragging = true;
+        DraggedObjectContainer.Dragged = true;
 
         if (con is NoteContainer noteContainer)
         {
@@ -370,7 +374,7 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
                 new ActionCollectionAction(actions, true, true, "Modified via alt-click and drag"));
         }
 
-        DraggedObjectContainer.Dragging = false;
+        DraggedObjectContainer.Dragged = false;
         DraggedObjectContainer = null;
         HandleDragged();
         IsDragging = false;
@@ -429,6 +433,8 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
                 chainCollection.SilentRemoveObject(chainData);
             }
         }
+
+        foreach (var container in DraggedAttachedSliderContainers) container.Dragged = true;
     }
 
     private void FinishSliderDrag(List<BeatmapAction> actions)
@@ -495,6 +501,7 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
 
     private void ClearDraggedAttachedSliders()
     {
+        foreach (var container in DraggedAttachedSliderContainers) container.Dragged = false;
         DraggedAttachedSliderContainers.Clear();
         DraggedAttachedSliderDatas[IndicatorType.Head].Clear();
         DraggedAttachedSliderDatas[IndicatorType.Tail].Clear();

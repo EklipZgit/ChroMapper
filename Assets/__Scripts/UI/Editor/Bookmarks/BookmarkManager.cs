@@ -6,7 +6,6 @@ using Beatmap.Base;
 using Beatmap.Base.Customs;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 
 // TODO: Refactor all this Bookmark bullshit to fit every other object in ChroMapper (using BeatmapObjectContainerCollection, BeatmapObjectContainer, etc. etc.)
 public class BookmarkManager : MonoBehaviour, CMInput.IBookmarksActions
@@ -17,8 +16,9 @@ public class BookmarkManager : MonoBehaviour, CMInput.IBookmarksActions
     private static readonly System.Random rng = new System.Random();
 
     [SerializeField] private GameObject bookmarkContainerPrefab;
-    [FormerlySerializedAs("atsc")] public AudioTimeSyncController Atsc;
-    [FormerlySerializedAs("tipc")] public TimelineInputPlaybackController Tipc;
+    [SerializeField] private EditModeContext editModeContext;
+    [SerializeField] public AudioTimeSyncController Atsc;
+    [SerializeField] public TimelineInputPlaybackController Tipc;
     [SerializeField] private RectTransform timelineCanvas;
 
     [SerializeField] private BookmarkRenderingController bookmarkRenderingController;
@@ -178,7 +178,10 @@ public class BookmarkManager : MonoBehaviour, CMInput.IBookmarksActions
 
     public void OnCreateNewBookmark(InputAction.CallbackContext context)
     {
-        if (Atsc.IsPlaying) return;
+        if (Atsc.IsPlaying
+            || editModeContext.EditingMode.HasFlag(EditingMode.GLS)
+            || editModeContext.EditingMode.HasFlag(EditingMode.EventBox))
+            return;
 
         if (context.performed)
         {

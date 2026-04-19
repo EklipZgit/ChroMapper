@@ -4,6 +4,7 @@ using System.Linq;
 using Beatmap.Base;
 using Beatmap.Enums;
 using Beatmap.Shared;
+using TMPro;
 using UnityEngine;
 
 namespace Beatmap.Containers
@@ -14,6 +15,7 @@ namespace Beatmap.Containers
         private static readonly int objectTimeId = Shader.PropertyToID("_ObjectTime");
         private static readonly int translucentAlphaId = Shader.PropertyToID("_TranslucentAlpha");
 
+        [SerializeField] public TextMeshPro InfoText;
         [SerializeField] public ChainComponentsFetcher Prefab;
 
         [Header("Indicator")] [SerializeField] private List<ChainIndicatorContainer> indicators;
@@ -215,17 +217,17 @@ namespace Beatmap.Containers
         {
             var arrowColor = Color.Lerp(c, Color.white, Settings.Instance.ArrowColorWhiteBlend);
 
-            MpbController.Mpb.SetColor(colorId, c);
+            MpbController.Mpb.SetColor(ColorId, c);
             MpbController.Mpb.SetFloat(colorMultiplierId, Settings.Instance.NoteColorMultiplier);
 
             foreach (var cpf in Nodes)
             {
-                cpf.ModelController.MpbController.Mpb.SetColor(colorId, c);
+                cpf.ModelController.MpbController.Mpb.SetColor(ColorId, c);
                 cpf.ModelController.MpbController.Mpb.SetFloat(
                     colorMultiplierId,
                     Settings.Instance.NoteColorMultiplier);
 
-                cpf.DotMpbController.Mpb.SetColor(colorId, arrowColor);
+                cpf.DotMpbController.Mpb.SetColor(ColorId, arrowColor);
                 cpf.DotMpbController.Mpb.SetFloat(colorMultiplierId, Settings.Instance.ArrowColorMultiplier);
             }
 
@@ -261,7 +263,7 @@ namespace Beatmap.Containers
             foreach (var container in indicators)
             {
                 container.UpdateMaterials(MpbController.Mpb);
-                container.SelectionMpbController.ShowRenderer(SelectionMpbController.Renderers[0].enabled);
+                container.Selected = Selected;
             }
         }
 
@@ -270,6 +272,7 @@ namespace Beatmap.Containers
             indicators[0].gameObject.SetActive(visible); // Head
             indicators[1].gameObject.SetActive(visible && ChainData.SliceCount != 1);
             indicators[2].gameObject.SetActive(visible && ChainData.SliceCount == 1);
+            InfoText.gameObject.SetActive(visible && Settings.Instance.DisplayNoteText);
         }
 
         private void ResetIndicatorsPosition()

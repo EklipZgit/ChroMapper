@@ -2,14 +2,12 @@
 using System.Linq;
 using Beatmap.Base;
 using Beatmap.Enums;
-using Beatmap.V3;
 using NUnit.Framework;
 using SimpleJSON;
 using Tests.Util;
 using TMPro;
 using UnityEngine;
 using UnityEngine.TestTools;
-using UnityEngine.UI;
 
 namespace Tests
 {
@@ -44,9 +42,7 @@ namespace Tests
         [Test]
         public void JsonMerge()
         {
-            var eventContainer = BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Event);
-            var root = eventContainer.transform.root;
-            var eventPlacement = root.GetComponentInChildren<EventPlacement>();
+            var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
             var nodeEditor = Object.FindAnyObjectByType<NodeEditorController>();
             var inputField = nodeEditor.GetComponentInChildren<TMP_InputField>();
 
@@ -78,9 +74,7 @@ namespace Tests
         [Test]
         public void JsonApply()
         {
-            var eventContainer = BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Event);
-            var root = eventContainer.transform.root;
-            var eventPlacement = root.GetComponentInChildren<EventPlacement>();
+            var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
             var nodeEditor = Object.FindAnyObjectByType<NodeEditorController>();
             var inputField = nodeEditor.GetComponentInChildren<TMP_InputField>();
 

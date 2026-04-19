@@ -47,8 +47,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77ae624386d9fd44e9983dcd61e5f185, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RegisterChildOnStart: 0
+  Controller: {fileID: 0}
   viewableMode: 255
+  hide: 0
   order: 0
   localOffset: {x: 0, y: 0.55, z: 1}
   Size: {x: 1, y: 1, z: 40, w: 0.6}
@@ -75,6 +76,7 @@ MonoBehaviour:
   obstacles: 0
   events: 0
   otherObjects: 0
+  gridChild: {fileID: 7469514657502614055}
 --- !u!1001 &2000895159863369603
 PrefabInstance:
   m_ObjectHideFlags: 0

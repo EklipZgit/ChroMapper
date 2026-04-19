@@ -30,7 +30,7 @@ public class GridLane : GridChild
         {
             SetHeightNoNotify(value);
             Size.y = value;
-            GridViewController.NotifyChanged();
+            if (HasController) Controller.NotifyChanged();
         }
     }
 
@@ -41,7 +41,7 @@ public class GridLane : GridChild
         {
             SetLengthNoNotify(value);
             Size.z = value;
-            GridViewController.NotifyChanged();
+            if (HasController) Controller.NotifyChanged();
         }
     }
 
@@ -58,6 +58,7 @@ public class GridLane : GridChild
 
     public override void OnValidate()
     {
+        if (Application.isPlaying) return;
         RefreshPosition();
 
         SetGridColor(gridColor);
@@ -167,7 +168,7 @@ public class GridLane : GridChild
 
     public void RefreshVisual()
     {
-        var xOffset = OddLaneOffset ? 0.5f : 0f;
+        var xOffset = OddLaneOffset ? BeatmapConstant.LaneSize / 2f : 0f;
 
         XY.SetOffset(-(Vector3)XYOffset - LocalOffset + new Vector3(xOffset - (XYExpand.x / 2f), 0f, 0f));
         XZ.SetOffset(-LocalOffset + new Vector3(xOffset, 0f, 0f));

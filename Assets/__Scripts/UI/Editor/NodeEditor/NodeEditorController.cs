@@ -32,7 +32,7 @@ public class NodeEditorController : MonoBehaviour, CMInput.INodeEditorActions
 
     private JSONNode editingNode;
 
-    private IEnumerable<BaseObject> editingObjects;
+    private List<BaseObject> editingObjects;
     private bool firstActive = true;
 
     private int height = 205;
@@ -101,7 +101,7 @@ public class NodeEditorController : MonoBehaviour, CMInput.INodeEditorActions
             if (queuedUpdate) ObjectWasSelected();
 
             height = Mathf.FloorToInt(Settings.Instance.NodeEditorSize * 20.5f);
-            
+
             GetComponent<RectTransform>().sizeDelta = new Vector2(300, height);
             flyoutPanelController.UpdateEndingOffset(new Vector2(0, height));
 
@@ -151,12 +151,22 @@ public class NodeEditorController : MonoBehaviour, CMInput.INodeEditorActions
 
     private void UpdateJson()
     {
-        editingObjects = SelectionController.SelectedObjects.Select(it => it);
+        if (SelectionController.SelectedObjects.ToList().Exists(x => x is BaseGLSEvent or BaseVfxEventEventBoxGroup))
+        {
+            PersistentUI.Instance.ShowDialogBox(
+                "This object is currently unsupported for node editor.",
+                null,
+                PersistentUI.DialogBoxPresetType.Ok);
+            return;
+        }
+
+        editingObjects = SelectionController.SelectedObjects.Select(it => it).ToList();
+
         editingNode = GetSharedJson(editingObjects.Select(it => it.ToJson().Clone()));
 
         nodeEditorInputField.text = string.Join("", editingNode.ToString(2).Split('\r'));
 
-        if (editingObjects.Count() == 1)
+        if (editingObjects.Count == 1)
         {
             var obj = editingObjects.First();
 
@@ -176,7 +186,7 @@ public class NodeEditorController : MonoBehaviour, CMInput.INodeEditorActions
         }
         else
         {
-            labelTextMesh.text = $"Editing ({editingObjects.Count()}) objects";
+            labelTextMesh.text = $"Editing ({editingObjects.Count}) objects";
         }
     }
 
@@ -209,12 +219,10 @@ public class NodeEditorController : MonoBehaviour, CMInput.INodeEditorActions
             if (string.IsNullOrEmpty(newNode.ToString())) //Damn you Jackz
                 throw new Exception("Node cannot be empty.");
 
-            // Super sneaky clone, maybe not needed
-            // it was fucking needed
             var objectJsonMap = editingObjects
                 .ToDictionary(
-                    original => original,
-                    json => json.ToJson().Clone());
+                    obj => obj,
+                    obj => obj.ToJson());
 
             ApplyJson(editingNode.AsObject, newNode.AsObject, objectJsonMap);
 
@@ -238,7 +246,7 @@ public class NodeEditorController : MonoBehaviour, CMInput.INodeEditorActions
                     beatmapActions,
                     true,
                     true,
-                    $"Edited ({editingObjects.Count()}) objects with Node Editor."),
+                    $"Edited ({editingObjects.Count}) objects with Node Editor."),
                 true);
             UpdateJson();
         }

@@ -5,14 +5,20 @@ using SimpleJSON;
 
 namespace Beatmap.Base
 {
-    public class BaseLightRotationBase : BaseObject
+    public class BaseLightRotationBase : BaseGLSEvent
     {
         public BaseLightRotationBase()
         {
         }
 
-        protected BaseLightRotationBase(float time, float rotation, int direction, int easeType, int loop,
-            int usePrevious, JSONNode customData = null) : base(time, customData)
+        protected BaseLightRotationBase(
+            float time,
+            float rotation,
+            int direction,
+            int easeType,
+            int loop,
+            int usePrevious,
+            JSONNode customData = null) : base(time, customData)
         {
             Rotation = rotation;
             Direction = direction;
@@ -21,7 +27,16 @@ namespace Beatmap.Base
             UsePrevious = usePrevious;
         }
 
-        public override ObjectType ObjectType { get; set; } = ObjectType.Event;
+        protected BaseLightRotationBase(BaseLightRotationBase other) : base(other)
+        {
+            Rotation = other.Rotation;
+            Direction = other.Direction;
+            EaseType = other.EaseType;
+            Loop = other.Loop;
+            UsePrevious = other.UsePrevious;
+        }
+
+        public override ObjectType ObjectType { get; set; } = ObjectType.GLSEvent;
         public float Rotation { get; set; }
         public int Direction { get; set; }
         public int EaseType { get; set; }
@@ -35,17 +50,16 @@ namespace Beatmap.Base
 
         protected override bool IsConflictingWithObjectAtSameTime(BaseObject other, bool deletion = false)
         {
-            if (other is BaseLightRotationBase lrb)
-                return Math.Abs(Rotation - lrb.Rotation) < DecimalTolerance || Direction == lrb.Direction ||
-                       EaseType == lrb.EaseType || Loop == lrb.Loop || UsePrevious == lrb.UsePrevious;
+            if (other is BaseLightRotationBase lrb) return BoxIndex == lrb.BoxIndex;
             return false;
         }
 
-        public override JSONNode ToJson() => Settings.Instance.MapVersion switch
-        {
-            3 => V3LightRotationBase.ToJson(this)
-        };
+        public override JSONNode ToJson() =>
+            Settings.Instance.MapVersion switch
+            {
+                3 or 4 => V3LightRotationBase.ToJson(this)
+            };
 
-        public override BaseItem Clone() => throw new NotImplementedException();
+        public override BaseItem Clone() => new BaseLightRotationBase(this);
     }
 }

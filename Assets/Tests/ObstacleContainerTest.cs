@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using Beatmap.Base;
 using Beatmap.Enums;
-using Beatmap.V3;
 using NUnit.Framework;
 using Tests.Util;
 using UnityEngine;
@@ -32,11 +31,7 @@ namespace Tests
         {
             obstaclesCollection = BeatmapObjectContainerCollection.GetCollectionForType<ObstacleGridContainer>(ObjectType.Obstacle);
 
-            var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
-
-            var root = obstaclesCollection.transform.root;
-            var obstaclePlacement = root.GetComponentInChildren<ObstaclePlacement>();
-            var inputController = root.GetComponentInChildren<BeatmapObstacleInputController>();
+            var obstaclePlacement = Object.FindAnyObjectByType<ObstaclePlacement>();
             obstaclePlacement.CreateVisual();
 
             placedObstacle = new BaseObstacle

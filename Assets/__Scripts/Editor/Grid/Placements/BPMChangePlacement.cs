@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class BPMChangePlacement : BasePlacement<BaseBpmEvent, BpmEventContainer, BPMChangeGridContainer>
 {
-    protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicting) =>
-        new BeatmapObjectPlacementAction(spawned, conflicting, $"Placed a BPM Event at time {spawned.JsonTime}");
+    protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicts) =>
+        new BeatmapObjectPlacementAction(spawned, conflicts, $"Placed a BPM Event at time {spawned.JsonTime}");
 
     protected override BaseBpmEvent GenerateOriginalData() => new(0, 100);
 

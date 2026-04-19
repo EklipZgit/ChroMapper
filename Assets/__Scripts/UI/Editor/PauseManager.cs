@@ -16,6 +16,7 @@ public class PauseManager : MonoBehaviour, CMInput.IPauseMenuActions
     [SerializeField] private UIMode uiMode;
     [SerializeField] private AutoSaveController saveController;
     [SerializeField] private GameObject questSaveButton;
+    [SerializeField] private EditModeContext editModeContext;
 
     private readonly IEnumerable<Type> disabledActionMaps = typeof(CMInput)
         .GetNestedTypes()
@@ -36,7 +37,7 @@ public class PauseManager : MonoBehaviour, CMInput.IPauseMenuActions
 
     public void OnPauseEditor(InputAction.CallbackContext context)
     {
-        if (context.performed) TogglePause();
+        if (context.performed && !editModeContext.EditingMode.HasFlag(EditingMode.EventBox)) TogglePause();
     }
 
     private void OptionsLoaded()

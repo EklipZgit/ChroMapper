@@ -48,8 +48,8 @@ namespace Beatmap.Containers
 
         public void UpdateMaterials(MaterialPropertyBlock materialPropertyBlock)
         {
-            var c = materialPropertyBlock.GetColor(colorId);
-            MpbController.Mpb.SetColor(colorId, c);
+            var c = materialPropertyBlock.GetColor(ColorId);
+            MpbController.Mpb.SetColor(ColorId, c);
             UpdateMaterials();
         }
 
