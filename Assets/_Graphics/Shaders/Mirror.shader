@@ -169,7 +169,7 @@
 
                 worldNormal = normalize(mul(normalTangent, tbn));
 
-                float4 albedo = 1;
+                float4 albedo = 0;
                 #if defined(DIRT)
                 albedo = tex2D(_DirtTex, TRANSFORM_TEX(i.uv, _DirtTex) + _TextureScrolling * _Time.yy) *
                     _DirtIntensity;
@@ -178,9 +178,10 @@
                 float2 screenUV = i.screenPos.xy / i.screenPos.w;
                 screenUV = screenUV + normalTangent.xy;
                 float4 reflectionCol = tex2D(_ReflectionTex, screenUV) * _ReflectionIntensity;
-                albedo *= reflectionCol * _TintColor;
+                albedo += reflectionCol;
+                albedo *= _TintColor;
 
-                albedo.rgb *= calculate_global_diffuse_lighting(i.worldPos, i.worldNormal);
+                albedo.rgb += calculate_global_diffuse_lighting(i.worldPos, i.worldNormal);
 
                 ACES_TONE_MAPPING_APPLY(albedo);
 
