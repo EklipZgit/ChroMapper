@@ -16,6 +16,7 @@ public class PointLightWithIdsData : EnvironmentComponentData<PointLightsControl
     {
         container.LightWithIds.Add(InstanceId, comp);
 
+        comp.enabled = true;
         comp.Light = container.GetComponentOrNull<PointLight>(PointLight);
         comp.LightIntensityData = LightIntensityData
             .Select(data =>

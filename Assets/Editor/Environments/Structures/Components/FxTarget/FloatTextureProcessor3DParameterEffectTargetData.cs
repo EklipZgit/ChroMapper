@@ -15,6 +15,7 @@ public class FloatTextureProcessor3DParameterEffectTargetData : EnvironmentCompo
         CreateContainer container)
     {
         comp.TextureProcessor3D = container.GetComponentOrNull<TextureProcessor3D>(TextureProcessor3D);
+        if (comp.TextureProcessor3D == null) comp.TextureProcessor3D = self.GetComponentInParent<TextureProcessor3D>();
         comp.Parameter = (TextureProcessor3DParameterFx.TextureProcessor3DParameter)Parameter;
         comp.Channel = (TextureProcessor3DParameterFx.TextureProcessor3DChannel)Channel;
         comp.ValueBounds = ValueBounds;

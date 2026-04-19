@@ -14,6 +14,7 @@ public class GlobalShaderColorLightWithIdsData : EnvironmentComponentData<Global
     {
         container.LightWithIds.Add(InstanceId, comp);
 
+        comp.enabled = true;
         comp.LightIntensityData = LightIntensityData
             .Select(data =>
             {

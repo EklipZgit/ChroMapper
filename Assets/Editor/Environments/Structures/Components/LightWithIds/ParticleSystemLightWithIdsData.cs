@@ -22,6 +22,7 @@ public class ParticleSystemLightWithIdsData : EnvironmentComponentData<ParticleS
     {
         container.LightWithIds.Add(InstanceId, comp);
 
+        comp.enabled = true;
         comp.ParticleSystem = container.GetComponentOrNull<ParticleSystem>(ParticleSystem);
         comp.Intensity = Intensity;
         comp.MaxIntensity = MaxIntensity;

@@ -22,6 +22,7 @@ public class BloomPrePassBackgroundColorsGradientTintColorWithLightIdData : Envi
     {
         container.LightWithIds.Add(InstanceId, comp);
 
+        comp.enabled = true;
         comp.BloomPrePassBackgroundColorsGradient = container
             .GetComponentOrNull<BloomPrePassBackgroundColorsGradient>(BloomPrePassBackgroundColorsGradient);
         comp.Intensity = Intensity;

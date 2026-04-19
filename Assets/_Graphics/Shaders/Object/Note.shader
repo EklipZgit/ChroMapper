@@ -64,11 +64,10 @@
             HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-            #pragma multi_compile_local_fragment LOW_QUALITY_SHADER // GGX makes a dot
 
             #pragma multi_compile_local_fragment DIFFUSE
-            #pragma multi_compile_local_fragment BOTH_SIDES_DIFFUSE
             #pragma multi_compile_local_fragment HALF_LAMBERT
+            #pragma multi_compile_local_fragment BOTH_SIDES_DIFFUSE
             #pragma multi_compile_local_fragment SPECULAR
             #pragma shader_feature_local_fragment RIM_DIM
 
@@ -242,8 +241,12 @@
                 if (cl < _CutoutEdgeWidth * cutout)
                     return float4(albedo.rgb, _CutoutEdgeGlow);
 
-                CALCULATE_DIRECTIONAL_LIGHTING(albedo.rgb, albedo, 0, _Smoothness, 0.1, 1, 0, 0,
-                                               i.viewDir, 1, i.worldPos, i.worldNormal);
+                float falloff = 1;
+                float metallic = 0;
+                float otherSideMul = 0.5;
+
+                albedo.rgb = calculate_camera_lighting(i.worldPos, i.worldNormal, color, metallic, _Smoothness, falloff,
+                                                       otherSideMul, 1);
 
                 #if defined(RIM_DIM)
                 float rim = 1 - saturate(dot(i.worldNormal, i.viewDir));
@@ -257,7 +260,7 @@
                 #if defined(CM_PREVIEW_MODE) && defined(BLOOM_FOG) && defined(FOG)
                 #if defined(HEIGHT_FOG)
                 BLOOM_FOG_HEIGHT_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset,
-                                       _FogHeightScale);
+                                         _FogHeightScale);
                 #else
                 BLOOM_FOG_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale);
                 #endif

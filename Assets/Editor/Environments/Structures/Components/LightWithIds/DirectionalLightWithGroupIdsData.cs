@@ -17,6 +17,7 @@ public class DirectionalLightWithGroupIdsData : EnvironmentComponentData<Directi
     {
         container.LightWithIds.Add(InstanceId, comp);
 
+        comp.enabled = true;
         comp.Light = container.GetComponentOrNull<DirectionalLight>(DirectionalLight);
         comp.LightIntensityData = LightIntensityData
             .Select(data =>

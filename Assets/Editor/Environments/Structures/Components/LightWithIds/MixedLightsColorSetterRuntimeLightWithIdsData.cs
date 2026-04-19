@@ -18,6 +18,7 @@ public class MixedLightsColorSetterRuntimeLightWithIdsData : EnvironmentComponen
     {
         container.LightWithIds.Add(InstanceId, comp);
 
+        comp.enabled = true;
         comp.MpbColorSetter =
             container.GetComponentOrNull<MaterialPropertyBlockColorSetter>(MaterialPropertyBlockColorSetter);
         comp.LightIntensityData = LightIntensityData

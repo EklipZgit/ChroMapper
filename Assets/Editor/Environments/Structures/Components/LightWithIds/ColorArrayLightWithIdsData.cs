@@ -16,6 +16,7 @@ public class ColorArrayLightWithIdsData : EnvironmentComponentData<ColorArrayLig
     {
         container.LightWithIds.Add(InstanceId, comp);
 
+        comp.enabled = true;
         comp.Material = container.Library.Materials.Lookup[MaterialController.Material];
         comp.MpbControllers = MaterialPropertyBlockControllers
             .Select(container.GetComponentOrNull<MaterialPropertyBlockController>)

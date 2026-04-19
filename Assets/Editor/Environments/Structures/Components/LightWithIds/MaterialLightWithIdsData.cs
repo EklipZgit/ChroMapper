@@ -23,6 +23,7 @@ public class MaterialLightWithIdsData : EnvironmentComponentData<MaterialLightsC
     {
         container.LightWithIds.Add(InstanceId, comp);
 
+        comp.enabled = true;
         comp.MeshRenderer = container.GetComponentOrNull<MeshRenderer>(MeshRenderer);
         comp.LightIntensityData = LightIntensityData
             .Select(data =>

@@ -148,21 +148,14 @@
                 worldNormal = normalize(mul(normalTangent, tbn));
                 #endif
 
-                float3 calculated = 0;
-                float metallic = _Metallic;
-                float smoothness = _Smoothness;
-                float specIntensity = 1;
-                float diffuseBothSides = 0;
-                CUSTOM_LIGHTING_APPLY(calculated, albedo, metallic, smoothness, specIntensity,
-                                      diffuseBothSides, i.worldPos, worldNormal);
-                albedo.rgb = calculated;
+                albedo.rgb *= calculate_global_diffuse_lighting(i.worldPos, i.worldNormal);
 
                 ACES_TONE_MAPPING_APPLY(albedo);
 
                 #if defined(BLOOM_FOG) && defined(FOG)
                 #if defined(HEIGHT_FOG)
                 BLOOM_FOG_HEIGHT_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset,
-                                   _FogHeightScale);
+                                       _FogHeightScale);
                 #else
                 BLOOM_FOG_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale);
                 #endif

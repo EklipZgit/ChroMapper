@@ -59,6 +59,7 @@
             #include "ShaderLibrary/CustomTonemapping.hlsl"
             #include "Packages/com.llealloo.audiolink/Runtime/Shaders/AudioLink.cginc"
 
+            float _SpectrogramData[64];
             float3 _PeakOffset;
 
             float _Smoothness;
@@ -99,10 +100,9 @@
                 UNITY_SETUP_INSTANCE_ID(i);
                 UNITY_TRANSFER_INSTANCE_ID(i, o);
 
-                float segment = floor(i.uv.x * 64) / 64;
-                float4 audioData = AudioLinkLerpMultiline(
-                    ALPASS_DFT + uint2(segment * AUDIOLINK_ETOTALBINS, 0));
-                i.vertex.xyz += i.uv.y * (audioData.b * _PeakOffset.xyz - _PeakOffset.xyz);
+                float segment = floor(i.uv.x * 64);
+                float audioData = _SpectrogramData[segment];
+                i.vertex.xyz += i.uv.y * (audioData * _PeakOffset.xyz - _PeakOffset.xyz);
 
                 o.vertex = UnityObjectToClipPos(i.vertex);
                 o.worldPos = mul(unity_ObjectToWorld, i.vertex).xyz;
@@ -117,12 +117,7 @@
             {
                 UNITY_SETUP_INSTANCE_ID(i);
                 float4 albedo = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
-                float3 worldPos = i.worldPos;
-                float3 worldNormal = i.worldNormal;
-                float3 calculated = 0;
-                CUSTOM_LIGHTING_APPLY(calculated, albedo, _Metallic, _Smoothness, _SpecularIntensity, 1, worldPos,
-                                      worldNormal);
-                albedo.rgb = calculated.rgb;
+                albedo.rgb *= calculate_global_diffuse_lighting(i.worldPos, i.worldNormal);
 
                 ACES_TONE_MAPPING_APPLY(albedo);
 

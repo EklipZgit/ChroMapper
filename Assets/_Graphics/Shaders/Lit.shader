@@ -738,7 +738,7 @@
                     }
                 #endif
 
-                i.vertex.xyz += _dispScale * dispDir/2;
+                i.vertex.xyz += _dispScale * dispDir / 2;
                 }
                 #endif
 
@@ -770,7 +770,6 @@
                 o.uv.zw *= _InputUvMultiplier.xy;
                 #endif
 
-
                 #if USE_WORLD_NORMAL
                 #if defined(PRECISE_NORMAL)
                 o.worldNormal = UnityObjectToWorldNormal(i.normal);
@@ -786,13 +785,12 @@
                 #if defined(MESH_PACKING)
                 float meshPackingID = UNITY_ACCESS_INSTANCED_PROP(Props, _MeshPackingId);
                 float packingCull = abs(i.packingUv.y - meshPackingID) > 0.1;
-                o.vertex.xyz = packingCull ? float3(0.0, 0.0, 0.0) : o.vertex.xyz;
+                o.vertex.xyz = packingCull ? 0 : o.vertex.xyz;
                 #endif
                 #if defined(COLOR_ARRAY)
                 o.colorArrayId.x = i.colorArrayId.x;
                 o.colorArrayId.y = i.colorArrayId.y + _ColorsArrayOffset;
                 #endif
-
 
                 return o;
             }
@@ -811,7 +809,7 @@
 
                 float4 baseColor = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
                 #if defined(COLOR_ARRAY)
-                float colorIndex = round(i.colorArrayId.x * 10.0 + i.colorArrayId.y);
+                float colorIndex = round(i.colorArrayId.x * 10 + i.colorArrayId.y);
                 float4 arrayColor = _ColorsArray[colorIndex];
                 baseColor.rgb = arrayColor.rgb * _Intensity;
                 baseColor.a = arrayColor.a * _AlphaMultiplier;
@@ -824,7 +822,7 @@
 
                 // Always start from black — baseColor contributes only via diffuse/ambient,
                 // matching SimpleLit's behaviour so objects are pitch dark without emission or lights.
-                float4 albedo = float4(0, 0, 0, 0);
+                float4 albedo = 0;
                 #if defined(DIFFUSE_TEXTURE)
                 #if defined(METAL_SMOOTHNESS_TEXTURE) && defined(_DIFFUSE_TEXTURE_SOURCE_MPM_R)
                 baseColor.rgb *= tex2D(_MetalSmoothnessTex, TRANSFORM_TEX(i.uv, _MetalSmoothnessTex)).r;
@@ -878,8 +876,8 @@
 
                 // --- DISSOLVE ---
                 #if defined(DISSOLVE)
-                float dissolveFactor = 0.0;
                 {
+                    float dissolveFactor = 0.0;
                     float3 axis = normalize(_DissolveAxisVector);
                     float dir = _DissolveProgress < -0.001 ? -1.0 : 1.0;
                     axis *= dir;
@@ -910,6 +908,8 @@
                 #else
                 float3 worldNormal = i.worldNormal;
                 #endif
+                #else
+                float3 worldNormal = 1;
                 #endif
 
                 // LIGHTING
@@ -934,61 +934,8 @@
                 #endif
                 #endif
 
-                #if defined(DIFFUSE)
-                { 
-                #if defined(LIGHT_FALLOFF)
-                float3 _toL0 = worldPos - _DirectionalLightPositions[0].xyz;
-                float _falloff0 = 1.0 / (dot(_toL0, _toL0) / (_DirectionalLightRadii[0] * _DirectionalLightRadii[0]) *
-                    25.0 + 1.0);
-                float3 _toL1 = worldPos - _DirectionalLightPositions[1].xyz;
-                float _falloff1 = 1.0 / (dot(_toL1, _toL1) / (_DirectionalLightRadii[1] * _DirectionalLightRadii[1]) *
-                    25.0 + 1.0);
-                float3 _toL2 = worldPos - _DirectionalLightPositions[2].xyz;
-                float _falloff2 = 1.0 / (dot(_toL2, _toL2) / (_DirectionalLightRadii[2] * _DirectionalLightRadii[2]) *
-                    25.0 + 1.0);
-                float3 _toL3 = worldPos - _DirectionalLightPositions[3].xyz;
-                float _falloff3 = 1.0 / (dot(_toL3, _toL3) / (_DirectionalLightRadii[3] * _DirectionalLightRadii[3]) *
-                    25.0 + 1.0);
-                #else
-                float _falloff0 = 1.0, _falloff1 = 1.0, _falloff2 = 1.0, _falloff3 = 1.0;
-                #endif
-
-                float3 lightAccum = float3(0, 0, 0);
-                float NdotL;
-
-                NdotL = max(0.0, dot(worldNormal, _DirectionalLightDirections[0].xyz));
-                lightAccum += NdotL * _DirectionalLightColors[0].rgb * _falloff0;
-                NdotL = max(0.0, dot(worldNormal, _DirectionalLightDirections[1].xyz));
-                lightAccum += NdotL * _DirectionalLightColors[1].rgb * _falloff1;
-                NdotL = max(0.0, dot(worldNormal, _DirectionalLightDirections[2].xyz));
-                lightAccum += NdotL * _DirectionalLightColors[2].rgb * _falloff2;
-                NdotL = max(0.0, dot(worldNormal, _DirectionalLightDirections[3].xyz));
-                lightAccum += NdotL * _DirectionalLightColors[3].rgb * _falloff3;
-
-                #if defined(BOTH_SIDES_DIFFUSE)
-                float NdotL_back;
-                NdotL_back = max(0.0, dot(-worldNormal, _DirectionalLightDirections[0].xyz));
-                lightAccum += NdotL_back * _DirectionalLightColors[0].rgb * _falloff0 * _BothSidesDiffuseMultiplier;
-                NdotL_back = max(0.0, dot(-worldNormal, _DirectionalLightDirections[1].xyz));
-                lightAccum += NdotL_back * _DirectionalLightColors[1].rgb * _falloff1 * _BothSidesDiffuseMultiplier;
-                NdotL_back = max(0.0, dot(-worldNormal, _DirectionalLightDirections[2].xyz));
-                lightAccum += NdotL_back * _DirectionalLightColors[2].rgb * _falloff2 * _BothSidesDiffuseMultiplier;
-                NdotL_back = max(0.0, dot(-worldNormal, _DirectionalLightDirections[3].xyz));
-                lightAccum += NdotL_back * _DirectionalLightColors[3].rgb * _falloff3 * _BothSidesDiffuseMultiplier;
-                #endif
-
-                float3 diffuseAlbedo = (1.0 - metallic) * baseColor.rgb;
-                albedo.rgb += lightAccum * diffuseAlbedo;
-                }
-                #endif
-
-                // Ambient — always applied. Matches SimpleLit: albedo += surfaceColor * ambientTerm
-                {
-                    float3 ambientTerm = max(_AmbientMultiplier * _NominalDiffuseLevel.rgb, _AmbientMinimalValue);
-                    albedo.rgb += baseColor.rgb * ambientTerm;
-                }
-
                 // MULTIPLY_REFLECTIONS
+                // they are not used?
                 #if defined(MULTIPLY_REFLECTIONS)
                 // float3 reflDir = reflect(normalize(worldPos - _WorldSpaceCameraPos), worldNormal);
                 #if defined(REFLECTION_PROBE_BOX_PROJECTION)
@@ -1003,60 +950,20 @@
                 // albedo.rgb *= 1.0 + reflColor * metallic;
                 #endif
 
-                // SPECULAR — GGX lobe matching SimpleLit
-                #if defined(SPECULAR)
-                {
-                    float3 _viewDir = normalize(worldPos - _WorldSpaceCameraPos);
-                    float _vDotN = dot(_viewDir, worldNormal);
-                    float3 _reflDir = worldNormal * (-2.0 * _vDotN) + _viewDir;
+                float3 pvtPointLightPos = GET_PRIVATE_POINT_LIGHT_POSITION(worldPos);
+                float4 pvtPointLightCol = GET_PRIVATE_POINT_LIGHT_COLOR;
 
-                    float _rough2 = smoothness * smoothness;
-                    _rough2 = _rough2 * _rough2; // smoothness^4
-                    float _lobScale = _rough2 * 500.0;
+                float3 finalLighting = calculate_global_lighting(worldPos, worldNormal, baseColor, pvtPointLightPos,
+                                                                 pvtPointLightCol, metallic, smoothness,
+                                                                 _BothSidesDiffuseMultiplier, _SpecularIntensity);
 
-                    #define SPEC_LOBE(lightDir, lightColor, atten) \
-                    { \
-                        float3 _ld   = (lightDir).xyz - _reflDir; \
-                        float  _ldSq = dot(_ld, _ld); \
-                        float  _lobe = saturate(-_lobScale * _ldSq * 0.5 + 1.0); \
-                        _lobe = _lobe * _lobe; _lobe = _lobe * _lobe; _lobe = _lobe * _lobe; \
-                        _specAcc += _lobe * (atten) * _rough2 * (lightColor).xyz * 500.0; \
-                    }
-
-                    float3 _specAcc = float3(0, 0, 0);
-                #if defined(LIGHT_FALLOFF)
-                float3 _stL0 = worldPos - _DirectionalLightPositions[0].xyz;
-                float _sf0 = 1.0 / (dot(_stL0, _stL0) / (_DirectionalLightRadii[0] * _DirectionalLightRadii[0]) * 25.0 +
-                    1.0);
-                float3 _stL1 = worldPos - _DirectionalLightPositions[1].xyz;
-                float _sf1 = 1.0 / (dot(_stL1, _stL1) / (_DirectionalLightRadii[1] * _DirectionalLightRadii[1]) * 25.0 +
-                    1.0);
-                float3 _stL2 = worldPos - _DirectionalLightPositions[2].xyz;
-                float _sf2 = 1.0 / (dot(_stL2, _stL2) / (_DirectionalLightRadii[2] * _DirectionalLightRadii[2]) * 25.0 +
-                    1.0);
-                float3 _stL3 = worldPos - _DirectionalLightPositions[3].xyz;
-                float _sf3 = 1.0 / (dot(_stL3, _stL3) / (_DirectionalLightRadii[3] * _DirectionalLightRadii[3]) * 25.0 +
-                    1.0);
-                #else
-                float _sf0 = 1.0, _sf1 = 1.0, _sf2 = 1.0, _sf3 = 1.0;
-                #endif
-
-                SPEC_LOBE(_DirectionalLightDirections[0], _DirectionalLightColors[0], _sf0)
-                SPEC_LOBE(_DirectionalLightDirections[1], _DirectionalLightColors[1], _sf1)
-                SPEC_LOBE(_DirectionalLightDirections[2], _DirectionalLightColors[2], _sf2)
-                SPEC_LOBE(_DirectionalLightDirections[3], _DirectionalLightColors[3], _sf3)
-                #undef SPEC_LOBE
-
-                float3 _f0 = lerp(float3(0.04, 0.04, 0.04), baseColor.rgb, metallic);
-                albedo.rgb += _specAcc * _f0 * _SpecularIntensity;
-                }
-                #endif
+                float3 ambientLighting = max(_AmbientMultiplier * _NominalDiffuseLevel.rgb, _AmbientMinimalValue);
+                albedo.rgb = baseColor * ambientLighting + finalLighting;
 
                 // EMISSION
                 #if defined(_ACES_APPROACH_BEFORE_EMISSIVE)
                 ACES_TONE_MAPPING_APPLY(albedo);
                 #endif
-
 
                 #if defined(_PARALLAX_FLEXIBLE) || defined(_PARALLAX_RGB)
                 {
@@ -1162,20 +1069,20 @@
                     flipUv.y /= _FlipbookRows;
                     float flipbookTime = time.y * _FlipbookSpeed;
                     flipUv += float2(floor(flipbookTime % _FlipbookColumns) / _FlipbookColumns,
-                                                             floor(flipbookTime / _FlipbookColumns) %
-                                                             _FlipbookRows /
-                                                             _FlipbookRows);
+                                     floor(flipbookTime / _FlipbookColumns) %
+                                     _FlipbookRows /
+                                     _FlipbookRows);
                     _esSample = tex2D(_EmissionTex, TRANSFORM_TEX(flipUv, _EmissionTex));
                 #if !defined(FLIPBOOK_BLENDING_OFF)
                 float2 flipUv2 = _esUv;
                 flipUv2.x /= _FlipbookColumns;
                 flipUv2.y /= _FlipbookRows;
                 flipUv2 += float2(floor((flipbookTime + 1) % _FlipbookColumns) / _FlipbookColumns,
-                                                                            floor((flipbookTime + 1) / _FlipbookColumns)
-                                                                            %
-                                                                            _FlipbookRows / _FlipbookRows);
+                floor((flipbookTime + 1) / _FlipbookColumns)
+                %
+                _FlipbookRows / _FlipbookRows);
                 _esSample = lerp(_esSample, tex2D(_EmissionTex, TRANSFORM_TEX(flipUv2, _EmissionTex)),
-                                        flipbookTime % 1);
+                                                   flipbookTime % 1);
                 #endif
                     }
                 #elif defined(_EMISSIONTEXTURE_SIMPLE)
@@ -1353,7 +1260,7 @@
                 // MPM G source — no _esBright path, direct sample
                 {
                     float4 _mpmSamp = float4(tex2D(_MetalSmoothnessTex, TRANSFORM_TEX(i.uv, _MetalSmoothnessTex)).ggg,
-                                                  0);
+                     0);
                     float esBrightX = _mpmSamp.r * _eb * _eb;
                     finalEmission.rgb = esBrightX * emissionTexColor.rgb * emissionTexColor.a;
                     finalEmission.a = esBrightX * esBrightX * _EmissionTexBloomIntensity;
@@ -1363,7 +1270,6 @@
                 albedo += finalEmission;
                 }
                 #endif
-
 
                 #if defined(RIM_DIM)
                 float rim = 1 - saturate(dot(worldNormal, normalize(_WorldSpaceCameraPos - worldPos)));
@@ -1380,13 +1286,13 @@
                 #endif
 
                 #if !defined(_ACES_APPROACH_BEFORE_EMISSIVE)
-                    ACES_TONE_MAPPING_APPLY(albedo);
+                ACES_TONE_MAPPING_APPLY(albedo);
                 #endif
 
                 #if defined(BLOOM_FOG) && defined(FOG)
                 #if HEIGHT_FOG
                 BLOOM_FOG_HEIGHT_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset,
-    _FogHeightScale);
+                              _FogHeightScale);
                 #else
                 BLOOM_FOG_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale);
                 #endif
@@ -1399,12 +1305,6 @@
                 float darkeningFactor = saturate(dist * _DarkeningScale) * _DarkeningIntensity;
                 albedo.rgb = lerp(albedo.rgb, 0, darkeningFactor);
                 #endif
-                //#if defined(UNITY_INSTANCING_ENABLED)
-                //return float4(0, 1, 0, 1); // green = instancing active
-                //#else
-                //return float4(1, 0, 0, 1); // red = falling back to CBUFFER
-                //#endif
-
 
                 // Apply dissolve edge color
                 #if defined(DISSOLVE)

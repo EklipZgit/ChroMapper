@@ -22,6 +22,7 @@ public class
         CreateContainer container)
     {
         comp.Effect = container.Descriptor.BasicEventEffectManager.GetEffect<ColorBoostEffect>(5);
+        comp.ColorSchemeProvider = container.Descriptor.ColorSchemeProvider;
 
         comp.BloomPrePassBackgroundColorsGradient =
             container.GetComponentOrNull<BloomPrePassBackgroundColorsGradient>(BloomPrePassBackgroundColorsGradient);

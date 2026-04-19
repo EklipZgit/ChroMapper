@@ -180,12 +180,7 @@
                 float4 reflectionCol = tex2D(_ReflectionTex, screenUV) * _ReflectionIntensity;
                 albedo *= reflectionCol * _TintColor;
 
-                #if defined(DIFFUSE)
-                float3 calculated = 0;
-                CUSTOM_LIGHTING_APPLY(calculated, albedo, _Metallic, _Smoothness, 1, 1, i.worldPos,
-                                      worldNormal);
-                albedo.rgb += calculated.rgb;
-                #endif
+                albedo.rgb *= calculate_global_diffuse_lighting(i.worldPos, i.worldNormal);
 
                 ACES_TONE_MAPPING_APPLY(albedo);
 

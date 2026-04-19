@@ -11,6 +11,7 @@ public class FloatTextureProcessor3DPresetEffectTargetData : EnvironmentComponen
         CreateContainer container)
     {
         comp.TextureProcessor3D = container.GetComponentOrNull<TextureProcessor3D>(TextureProcessor3D);
+        if (comp.TextureProcessor3D == null) comp.TextureProcessor3D = self.GetComponentInParent<TextureProcessor3D>();
         comp.ValueBounds = ValueBounds;
     }
 }

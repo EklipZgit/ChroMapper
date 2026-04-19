@@ -14,6 +14,7 @@ public class LightmapLightsWithIdsData : EnvironmentComponentData<LightmapsLight
     {
         container.LightWithIds.Add(InstanceId, comp);
 
+        comp.enabled = true;
         comp.LightIntensityData = LightIntensityData
             .Select(data =>
             {
