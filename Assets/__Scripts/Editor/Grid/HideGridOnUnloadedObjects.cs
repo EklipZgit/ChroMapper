@@ -6,7 +6,7 @@ using UnityEngine;
 public class HideGridOnUnloadedObjects : MonoBehaviour
 {
     [Header("Invisibility Flags")]
-    [Header("All selected object types must be disabled\nfor this GameObject to be disabled.")]
+    [Tooltip("All selected object types must be disabled\nfor this GameObject to be disabled.")]
     [SerializeField]
     private bool notes;
 
