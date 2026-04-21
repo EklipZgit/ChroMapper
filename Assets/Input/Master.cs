@@ -6949,7 +6949,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""binding"",
                     ""id"": ""f7029c25-01c5-438c-b7d7-668bf3a0cf65"",
-                    ""path"": ""<Keyboard>/a"",
+                    ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -7037,7 +7037,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""binding"",
                     ""id"": ""857d0a3d-56cc-447c-8b32-aa65dbfe7db9"",
-                    ""path"": ""<Keyboard>/d"",
+                    ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -7529,7 +7529,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""binding"",
                     ""id"": ""8a470c9d-f7f9-42cd-bf68-44982418538d"",
-                    ""path"": ""<Keyboard>/y"",
+                    ""path"": ""<Keyboard>/e"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -7889,7 +7889,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""binding"",
                     ""id"": ""910a1dea-629c-4e44-9075-f1dcb67feb2d"",
-                    ""path"": ""<Keyboard>/y"",
+                    ""path"": ""<Keyboard>/e"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

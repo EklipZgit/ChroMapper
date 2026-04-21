@@ -86,7 +86,8 @@ public class BeatmapNoteInputController : BeatmapInputController<NoteContainer>,
 
     public void OnQuickLeftDirectionModifier(InputAction.CallbackContext context) => HandleKeyUpdate(context, leftKey);
 
-    public void OnQuickRightDirectionModifier(InputAction.CallbackContext context) => HandleKeyUpdate(context, rightKey);
+    public void OnQuickRightDirectionModifier(InputAction.CallbackContext context) =>
+        HandleKeyUpdate(context, rightKey);
 
     public void OnQuickAnyDirectionModifier(InputAction.CallbackContext context)
     {
@@ -294,7 +295,7 @@ public class BeatmapNoteInputController : BeatmapInputController<NoteContainer>,
 
     private void HandleDirectionValues()
     {
-        if (!Settings.Instance.QuickNoteEditing) return;
+        if (!Settings.Instance.QuickNoteEditing || !IsHovering) return;
         DeleteToolController.UpdateDeletion(false);
 
         var upNote = heldKeys[upKey];
@@ -313,9 +314,9 @@ public class BeatmapNoteInputController : BeatmapInputController<NoteContainer>,
             StartCoroutine(CheckForDiagonalUpdate());
             return;
         }
-        
-        RaycastFirstObject(out var note);
-        if (note == null || note.Dragged) return;
+
+        var note = HoveredObject;
+        if (note.Dragged) return;
         if (handleUpDownNotes && !handleLeftRightNotes) // We handle simple up/down notes
         {
             if (upNote)
