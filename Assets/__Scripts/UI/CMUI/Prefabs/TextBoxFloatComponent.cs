@@ -1,3 +1,5 @@
+using System;
+using System.Data;
 using System.Globalization;
 using UnityEngine;
 
@@ -5,8 +7,20 @@ public class TextBoxFloatComponent : TextBoxNumberComponent<float>
 {
     protected override bool ParseAndValidate(string res, out float val)
     {
+        try
+        {
+            var dt = new DataTable();
+            var r = dt.Compute(res, "");
+            res = r.ToString();
+        }
+        catch (Exception e)
+        {
+            // ignored
+        }
+
         if (!float.TryParse(res, NumberStyles.Float, CultureInfo.InvariantCulture, out val)) return false;
         val = ValidateValue(val);
+        
         return true;
     }
 
