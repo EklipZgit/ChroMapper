@@ -20,4 +20,6 @@ public class DisableActionsField : MonoBehaviour, ISelectHandler, IDeselectHandl
         CMInputCallbackInstaller.DisableActionMaps(GetType(),
             typeof(CMInput).GetNestedTypes().Where(x => x.IsInterface));
     }
+
+    private void OnDestroy() => OnDeselect();
 }
