@@ -32,14 +32,13 @@ public class BeatmapChainInputController : BeatmapInputController<ChainContainer
         c.ChainData.SliceCount += modifier;
         c.ChainData.SliceCount = Mathf.Clamp(c.ChainData.SliceCount, minChainCount, maxChainCount);
         if (c.ChainData.CompareTo(original) == 0) return;
-        c.GenerateChain();
-        chainAppearance.SetText(c);
         BeatmapActionContainer.AddAction(
             new BeatmapObjectModifiedAction(
                 c.ObjectData,
                 c.ObjectData,
                 original,
                 mergeType: ActionMergeType.ChainSliceCountTweak));
+        BeatmapObjectContainerCollection.GetCollectionForType(c.ChainData.ObjectType).RefreshPool(true);
     }
 
     public void OnInvertChainColor(InputAction.CallbackContext context)
@@ -72,7 +71,8 @@ public class BeatmapChainInputController : BeatmapInputController<ChainContainer
         RaycastFirstObject(out var c);
         if (c == null || c.Dragged || !context.performed) return;
 
-        var modifier = context.GetScrollDirection(Settings.Instance.InvertScrollChainSquish) * scrollPrecisionController.GetCurrentMultiplierPrecision();
+        var modifier = context.GetScrollDirection(Settings.Instance.InvertScrollChainSquish)
+            * scrollPrecisionController.GetCurrentMultiplierPrecision();
         TweakChainSquish(c, modifier);
     }
 
@@ -82,13 +82,12 @@ public class BeatmapChainInputController : BeatmapInputController<ChainContainer
         c.ChainData.Squish += modifier;
         c.ChainData.Squish = Mathf.Clamp(c.ChainData.Squish, minChainSquish, maxChainSquish);
         if (c.ChainData.CompareTo(original) == 0) return;
-        c.GenerateChain();
-        chainAppearance.SetText(c);
         BeatmapActionContainer.AddAction(
             new BeatmapObjectModifiedAction(
                 c.ObjectData,
                 c.ObjectData,
                 original,
                 mergeType: ActionMergeType.ChainSquishTweak));
+        BeatmapObjectContainerCollection.GetCollectionForType(c.ChainData.ObjectType).RefreshPool(true);
     }
 }

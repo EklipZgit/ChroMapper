@@ -152,7 +152,7 @@ namespace Tests
                 PlaceUtils.PlaceNote(notePlacement, baseNoteA);
 
                 if (notesContainer.LoadedContainers[baseNoteA] is NoteContainer containerA)
-                    inputController.UpdateNoteDirection(containerA, 1);
+                    inputController.ScrollUpdateDirection(containerA, 1);
 
                 CheckUtils.CheckNote("Update note direction", notesContainer, 0, 2, (int)GridX.Left, (int)GridY.Base,
                     (int)NoteType.Red, (int)NoteCutDirection.DownLeft, 0);
@@ -182,13 +182,13 @@ namespace Tests
             PlaceUtils.PlaceNote(notePlacement, baseNoteA);
 
             if (notesContainer.LoadedContainers[baseNoteA] is NoteContainer containerA)
-                inputController.UpdateNoteDirection(containerA, 1);
+                inputController.ScrollUpdateDirection(containerA, 1);
 
             CheckUtils.CheckNote("Update note direction", notesContainer, 0, 2, (int)GridX.Left, (int)GridY.Base,
                 (int)NoteType.Red, (int)NoteCutDirection.DownLeft, 0);
             
             if (notesContainer.LoadedContainers[baseNoteA] is NoteContainer containerB)
-                inputController.UpdateNoteDirection(containerB, 1);
+                inputController.ScrollUpdateDirection(containerB, 1);
 
             CheckUtils.CheckNote("Update note direction", notesContainer, 0, 2, (int)GridX.Left, (int)GridY.Base,
                 (int)NoteType.Red, (int)NoteCutDirection.Down, 0);
@@ -246,7 +246,7 @@ namespace Tests
             PlaceUtils.PlaceChain(chainPlacement, baseChain23);
 
             if (notesContainer.LoadedContainers[baseNote1] is NoteContainer container1)
-                inputController.UpdateNoteDirection(container1, 0);
+                inputController.ScrollUpdateDirection(container1, 0);
 
             CheckUtils.CheckArc("Arc head direction", arcsContainer, 0, 1, default, default, default, (int)NoteCutDirection.UpLeft, default, default, 2, default, default, (int)NoteCutDirection.Up, default, default);
             CheckUtils.CheckChain("Chain direction not changed", chainsContainer, 0, 2, default, default, default, (int)NoteCutDirection.Up, default, 3, default, default, default, default);
@@ -256,7 +256,7 @@ namespace Tests
             CheckUtils.CheckChain("Chain direction still not changed", chainsContainer, 0, 2, default, default, default, (int)NoteCutDirection.Up, default, 3, default, default, default, default);
 
             if (notesContainer.LoadedContainers[baseNote2] is NoteContainer container2)
-                inputController.UpdateNoteDirection(container2, 0);
+                inputController.ScrollUpdateDirection(container2, 0);
 
             CheckUtils.CheckArc("Arc tail direction", arcsContainer, 0, 1, default, default, default, (int)NoteCutDirection.Left, default, default, 2, default, default, (int)NoteCutDirection.UpRight, default, default);
             CheckUtils.CheckChain("Chain direction", chainsContainer, 0, 2, default, default, default, (int)NoteCutDirection.UpRight, default, 3, default, default, default, default);
@@ -266,7 +266,7 @@ namespace Tests
             CheckUtils.CheckChain("Undo chain direction", chainsContainer, 0, 2, default, default, default, (int)NoteCutDirection.Up, default, 3, default, default, default, default);
 
             if (notesContainer.LoadedContainers[baseNote3] is NoteContainer container3)
-                inputController.UpdateNoteDirection(container3, 0);
+                inputController.ScrollUpdateDirection(container3, 0);
 
             CheckUtils.CheckArc("Arc direction not changed", arcsContainer, 0, 1, default, default, default, (int)NoteCutDirection.Left, default, default, 2, default, default, (int)NoteCutDirection.Up, default, default);
             CheckUtils.CheckChain("Chain direction not changed", chainsContainer, 0, 2, default, default, default, (int)NoteCutDirection.Up, default, 3, default, default, default, default);

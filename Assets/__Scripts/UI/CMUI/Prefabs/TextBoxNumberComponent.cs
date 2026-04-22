@@ -156,7 +156,14 @@ public abstract class TextBoxNumberComponent<T> : CMUIComponentWithLabel<T>, INa
 
     private void InputFieldEndEdit(string res)
     {
-        if (ParseAndValidate(res, out var val)) onEndEdit?.Invoke(val);
+        if (!ParseAndValidate(res, out var val))
+        {
+            Value = Value;
+            return;
+        }
+
+        onEndEdit?.Invoke(val);
+        Value = val;
     }
 
     private void InputFieldSelect(string res)

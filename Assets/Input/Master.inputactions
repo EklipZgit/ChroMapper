@@ -2568,10 +2568,46 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Quick Direction Modifier",
+                    "name": "Quick Up Direction Modifier",
                     "type": "Button",
                     "id": "1b6c3334-9477-4c00-8cdd-b205854dcc67",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Quick Down Direction Modifier",
+                    "type": "Button",
+                    "id": "209a5d80-04c5-482f-8710-7f99c1555ef1",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Quick Left Direction Modifier",
+                    "type": "Button",
+                    "id": "f1392e48-0f68-4dbc-9fd1-37858f673a0d",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Quick Right Direction Modifier",
+                    "type": "Button",
+                    "id": "6de24c70-987c-4c10-aa10-197688420ef2",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Quick Any Direction Modifier",
+                    "type": "Button",
+                    "id": "c6c30c54-0108-411e-9cde-4cf92e11f595",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -2623,17 +2659,6 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "",
-                    "id": "e7061369-7f91-42ba-9804-7e80aeac60ff",
-                    "path": "<Keyboard>/alt",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Quick Direction Modifier",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
                     "name": "Two Modifiers",
                     "id": "d27bc266-bae4-4dec-a2d4-7b61e92c0b5f",
                     "path": "TwoModifiers",
@@ -2674,6 +2699,171 @@
                     "processors": "",
                     "groups": "",
                     "action": "Update Note Precise Direction",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "One Modifier",
+                    "id": "cea8f456-e32b-4e79-8613-91426faeebc3",
+                    "path": "OneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Quick Up Direction Modifier",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "0ef1ed0c-888b-43a5-bec1-5b753edf7db1",
+                    "path": "<Keyboard>/alt",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Quick Up Direction Modifier",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "9b26eb2d-752f-431e-ab9d-e1fcf8ecd572",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Quick Up Direction Modifier",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "One Modifier",
+                    "id": "514c0926-3daf-42f3-ab07-ba70839859c8",
+                    "path": "OneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Quick Down Direction Modifier",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "f0126eae-c2ab-4eb6-a2d8-c9c535e345a6",
+                    "path": "<Keyboard>/alt",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Quick Down Direction Modifier",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "aa898509-8d53-4976-88b4-43f645c91129",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Quick Down Direction Modifier",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "One Modifier",
+                    "id": "0cd368ef-65ef-4940-be35-e20fd8110460",
+                    "path": "OneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Quick Left Direction Modifier",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "b371a06f-a9b9-4636-8232-5a0088ba9e6d",
+                    "path": "<Keyboard>/alt",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Quick Left Direction Modifier",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "7bd21560-e120-48e2-accd-3cd2fc218234",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Quick Left Direction Modifier",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "One Modifier",
+                    "id": "88b6aaa6-86da-49b9-a0ae-3c5ae666bec0",
+                    "path": "OneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Quick Right Direction Modifier",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "467d86d2-ca7d-4cf7-82a3-2318e14657b9",
+                    "path": "<Keyboard>/alt",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Quick Right Direction Modifier",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "068e78bb-e072-46a8-a89a-4f97ba3e103f",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Quick Right Direction Modifier",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "One Modifier",
+                    "id": "3bb56f17-b776-4fd0-9ef4-64780b5baaa8",
+                    "path": "OneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Quick Any Direction Modifier",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "f90e7a5b-6040-46c1-bd7f-46f603215912",
+                    "path": "<Keyboard>/alt",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Quick Any Direction Modifier",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "d44a6b80-d3fe-4d92-b0ea-3040548d76e2",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Quick Any Direction Modifier",
                     "isComposite": false,
                     "isPartOfComposite": true
                 }
@@ -6673,7 +6863,7 @@
                 {
                     "name": "binding",
                     "id": "f7029c25-01c5-438c-b7d7-668bf3a0cf65",
-                    "path": "<Keyboard>/a",
+                    "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -6761,7 +6951,7 @@
                 {
                     "name": "binding",
                     "id": "857d0a3d-56cc-447c-8b32-aa65dbfe7db9",
-                    "path": "<Keyboard>/d",
+                    "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -7253,7 +7443,7 @@
                 {
                     "name": "binding",
                     "id": "8a470c9d-f7f9-42cd-bf68-44982418538d",
-                    "path": "<Keyboard>/y",
+                    "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -7613,7 +7803,7 @@
                 {
                     "name": "binding",
                     "id": "910a1dea-629c-4e44-9075-f1dcb67feb2d",
-                    "path": "<Keyboard>/y",
+                    "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

@@ -189,47 +189,6 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
             noteAppearanceSo.SetNoteAppearance(DraggedObjectContainer);
             updateAttachedSliderDirection = true;
         }
-        // TODO: This IsActive is a workaround to prevent ghost notes. This happens because bomb placement could be
-        //       dragging a note and quick editing results in issues
-        else if (AllowPlacement
-            && beatmapNoteInputController.QuickModificationActive
-            && Settings.Instance.QuickNoteEditing)
-        {
-            var note = ObjectUnderCursor();
-            if (note != null && note.ObjectData is BaseNote noteData)
-            {
-                var originalData = BeatmapFactory.Clone(noteData);
-                ToggleDiagonalAngleOffset(noteData, value);
-                noteData.CutDirection = value;
-
-                var actions = new List<BeatmapAction>
-                {
-                    new BeatmapObjectModifiedAction(
-                        noteData,
-                        noteData,
-                        originalData,
-                        "Quick edit",
-                        true,
-                        ActionMergeType.NoteDirectionChange)
-                };
-                CommonNotePlacement.UpdateAttachedSlidersDirection(noteData, actions);
-
-                if (actions.Count > 1)
-                {
-                    BeatmapActionContainer.AddAction(
-                        new ActionCollectionAction(
-                            actions,
-                            true,
-                            false,
-                            "Quick edit",
-                            ActionMergeType.NoteDirectionChange),
-                        true);
-                    SelectionController.OnSelectionChanged?.Invoke();
-                }
-                else
-                    BeatmapActionContainer.AddAction(actions[0], true);
-            }
-        }
 
         UpdateAppearance();
     }

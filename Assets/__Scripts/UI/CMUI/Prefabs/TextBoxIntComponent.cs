@@ -1,4 +1,5 @@
 using System;
+using System.Data;
 using System.Globalization;
 using UnityEngine;
 
@@ -6,14 +7,20 @@ public class TextBoxIntComponent : TextBoxNumberComponent<int>
 {
     protected override bool ParseAndValidate(string res, out int val)
     {
-        if (!int.TryParse(res, NumberStyles.Integer, CultureInfo.InvariantCulture, out val)) return false;
-        val = Clamping switch
+        try
         {
-            NumberClamping.Min => Math.Max(MinValue, val),
-            NumberClamping.Max => Math.Min(MaxValue, val),
-            NumberClamping.Clamp => Math.Clamp(val, MinValue, MaxValue),
-            _ => val
-        };
+            var dt = new DataTable();
+            var r = dt.Compute(res, "");
+            res = r.ToString();
+        }
+        catch (Exception e)
+        {
+            // ignored
+        }
+
+        if (!int.TryParse(res, NumberStyles.Integer, CultureInfo.InvariantCulture, out val)) return false;
+        val = ValidateValue(val);
+
         return true;
     }
 

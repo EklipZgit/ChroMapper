@@ -83,7 +83,7 @@ public class BeatmapInputController<TContainer> : MonoBehaviour, CMInput.IBeatma
         }
     }
 
-    private void LateUpdate()
+    protected virtual void LateUpdate()
     {
         GlobalIntersectionCache.FirstHit = null;
         GlobalIntersectionCache.HasHit = false;
