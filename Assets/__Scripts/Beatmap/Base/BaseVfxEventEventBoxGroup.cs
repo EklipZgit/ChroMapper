@@ -11,9 +11,7 @@ namespace Beatmap.Base
         public override ObjectType ObjectType { get; set; } = ObjectType.GLSFloatFx;
         public int Type { get; set; }
 
-        public BaseVfxEventEventBoxGroup()
-        {
-        }
+        public BaseVfxEventEventBoxGroup() => Type = 1;
 
         protected BaseVfxEventEventBoxGroup(
             float time,
@@ -26,6 +24,7 @@ namespace Beatmap.Base
             other.JsonTime,
             other.ID)
         {
+            Type = other.Type;
             Boxes = other.Boxes.Select(x => x.Clone()).Cast<BaseVfxEventEventBox>().ToList();
             for (var index = 0; index < Boxes.Count; index++)
             {
