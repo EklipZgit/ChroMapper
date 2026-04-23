@@ -361,16 +361,20 @@
             UNITY_DEFINE_INSTANCED_PROP(float, _TimeOffset)
             UNITY_DEFINE_INSTANCED_PROP(float, _MeshPackingId)
             UNITY_INSTANCING_BUFFER_END (Props)
-            #define _RendererColor  UNITY_ACCESS_INSTANCED_PROP(Props, unity_SpriteRendererColorArray)
+            // SpriteRenderer sets these instanced props; particle systems do not.
+            // Guard them so they default to white/(1,1) instead of zero.
             #define _Flip           UNITY_ACCESS_INSTANCED_PROP(Props, unity_SpriteFlipArray)
+            #else
+            // Non-instanced path (particle systems): default to white so nothing gets zeroed out.
+            #define _Flip           half2(1,1)
             #endif
 
             CBUFFER_START(UnityPerMaterial)
                 #if !defined(UNITY_INSTANCING_ENABLED)
                 float4 _Color;
                 float4 _SecondaryColor;
-                float4 _RendererColor;
-                half2 _Flip;
+                // _RendererColor and _Flip are now macros in the non-instanced path above,
+                // so we do not declare them as uniforms here (they would never be set anyway).
                 float _MaskStrength;
                 float _Mask2Strength;
                 float _TimeOffset;
@@ -403,9 +407,9 @@
             struct appdata_t
             {
                 float4 vertex : POSITION;
-                #if defined(VERTEX_COLOR)
+
                 float4 color : COLOR;
-                #endif
+
                 float3 normal : NORMAL;
                 float4 tangent : TANGENT;
                 float2 uv1 : TEXCOORD0;
@@ -427,9 +431,9 @@
             struct v2f
             {
                 float4 vertex : SV_POSITION;
-                #if defined(VERTEX_COLOR)
+
                 float4 color : COLOR;
-                #endif
+
                 #if defined(_SECONDARY_UVS_IMPORT)
                 float4 uv : TEXCOORD0;
                 #else
@@ -452,7 +456,10 @@
 
             inline float4 UnityFlipSprite(in float3 pos, in half2 flip)
             {
-                return float4(pos.xy * flip, pos.z, 1.0);
+                // _Flip is (0,0) when not set by a SpriteRenderer (e.g. particle systems).
+                // Guard against this so vertices are not collapsed to the origin.
+                half2 safeFlip = (abs(flip.x) < 0.001 && abs(flip.y) < 0.001) ? half2(1,1) : flip;
+                return float4(pos.xy * safeFlip, pos.z, 1.0);
             }
 
             v2f vert(appdata_t i)
@@ -555,7 +562,7 @@
                 o.screenPos = ComputeScreenPosCustom(o.vertex);
 
                 #if defined(VERTEX_COLOR)
-                o.color = i.color * _RendererColor * UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
+                o.color = i.color * UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
                 #if defined(VERTEX_RED_IS_ALPHA)
                 o.color = float4(1, 1, 1, o.color.r);
                 #endif
@@ -621,7 +628,10 @@
                 float _colorIdx = round(i.colorIndexUv.x * 10.0 + i.colorIndexUv.y);
                 float4 color = _ColorsArray[_colorIdx];
                 #else
-                float4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color) * _RendererColor;
+                // Do not multiply by _RendererColor here — particle systems never populate
+                // unity_SpriteRendererColorArray, which would zero out color entirely.
+                // Match CustomParticles: just use _Color * _Intensity directly.
+                float4 color = i.color * UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
                 color.rgb *= _Intensity;
                 #endif
 

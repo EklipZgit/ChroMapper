@@ -23,7 +23,7 @@ float4 _PrivatePointLightPosition;
 #endif
 
 #if defined(POINT_LIGHT_IS_LOCAL)
-#define GET_PRIVATE_POINT_LIGHT_POSITION(worldPos) mul(unity_ObjectToWorld, float4(_PrivatePointLightPosition, 1.0)).xyz
+#define GET_PRIVATE_POINT_LIGHT_POSITION(worldPos) mul(unity_ObjectToWorld, float4(_PrivatePointLightPosition.xyz, 1.0)).xyz
 #else
 #define GET_PRIVATE_POINT_LIGHT_POSITION(worldPos) _PrivatePointLightPosition.xyz
 #endif
