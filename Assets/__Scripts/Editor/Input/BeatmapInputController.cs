@@ -9,6 +9,7 @@ public static class GlobalIntersectionCache
 {
     public static GameObject FirstHit;
     public static bool HasHit;
+    public static bool HasRaycastThisFrame;
 }
 
 public class BeatmapInputController<TContainer> : MonoBehaviour, CMInput.IBeatmapObjectsActions
@@ -87,6 +88,7 @@ public class BeatmapInputController<TContainer> : MonoBehaviour, CMInput.IBeatma
     {
         GlobalIntersectionCache.FirstHit = null;
         GlobalIntersectionCache.HasHit = false;
+        GlobalIntersectionCache.HasRaycastThisFrame = false;
     }
 
     public void OnDeleteTool(InputAction.CallbackContext context)
@@ -148,24 +150,29 @@ public class BeatmapInputController<TContainer> : MonoBehaviour, CMInput.IBeatma
 
     protected bool RaycastFirstObject(out TContainer firstObject)
     {
-        var ray = cameraManager.SelectedCameraController.Camera.ScreenPointToRay(mousePosition);
-        if (!GlobalIntersectionCache.HasHit)
+        if (!GlobalIntersectionCache.HasRaycastThisFrame)
         {
+            var ray = cameraManager.SelectedCameraController.Camera.ScreenPointToRay(mousePosition);
             if (Intersections.Raycast(ray, 9, out var hit))
             {
                 GlobalIntersectionCache.FirstHit = hit.GameObject;
                 GlobalIntersectionCache.HasHit = hit.GameObject != null;
             }
+
+            GlobalIntersectionCache.HasRaycastThisFrame = true;
         }
 
-        if (GlobalIntersectionCache.HasHit)
+        if (!GlobalIntersectionCache.HasHit)
         {
-            var container = GlobalIntersectionCache.FirstHit.GetComponentInParent<TContainer>();
-            if (container != null && ValidObject(container))
-            {
-                firstObject = container;
-                return true;
-            }
+            firstObject = null;
+            return false;
+        }
+
+        var container = GlobalIntersectionCache.FirstHit.GetComponentInParent<TContainer>();
+        if (container != null && ValidObject(container))
+        {
+            firstObject = container;
+            return true;
         }
 
         firstObject = null;
