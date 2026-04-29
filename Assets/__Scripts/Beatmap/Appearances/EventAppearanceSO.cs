@@ -114,6 +114,8 @@ namespace Beatmap.Appearances
                             : $"{Mathf.RoundToInt(e.EventData.FloatValue * 100)}";
                         e.UpdateTextDisplay(true, text);
                     }
+                    else if (e.EventData.IsTransition)
+                        e.UpdateTextDisplay(true, "T");
                     else
                         e.UpdateTextDisplay(false);
                 }
