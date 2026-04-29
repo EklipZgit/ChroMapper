@@ -43,6 +43,7 @@ public class LightshowController : MonoBehaviour, IBeatmapUpdate
     private void HandleEnvironmentLoaded(EnvironmentDescriptor _)
     {
         PopulateEffects();
+        context.Atsc.OnTimeChanged -= UpdateTime; // TODO: this func used when refreshed with env enh, may need to refactor
         context.Atsc.OnTimeChanged += UpdateTime;
     }
 
