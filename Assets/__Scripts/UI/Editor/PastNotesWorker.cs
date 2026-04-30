@@ -4,16 +4,13 @@ using Beatmap.Base;
 using Beatmap.Containers;
 using Beatmap.Enums;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 using ZLinq;
 
 public class PastNotesWorker : MonoBehaviour
 {
     [SerializeField] private AudioTimeSyncController atsc;
-
-    [FormerlySerializedAs("notesContainer")] [SerializeField]
-    private NoteGridContainer noteGridContainer;
+    [SerializeField] private NoteGridContainer noteGridContainer;
 
     [SerializeField] private GameObject gridNotePrefab;
     [SerializeField] private BeatmapObjectCallbackController callbackController;
@@ -121,20 +118,20 @@ public class PastNotesWorker : MonoBehaviour
         }
 
         //Instead of instantiating new objects every frame (Bad on performance), we are instead using a pooled system to use
-        GameObject g;
+        GameObject g = null;
+        var exist = false;
         //Already existing notes, and only create ones we need.
         Image img;
-        var hasInactive = false;
-        foreach (var x in instantiatedNotes[note.Type])
+        foreach (var x in instantiatedNotes[note.Type].Keys)
         {
-            if (x.Key.activeSelf) continue;
-            hasInactive = true;
+            if (x.activeSelf) continue;
+            g = x;
+            exist = true;
             break;
         }
 
-        if (hasInactive)
+        if (exist)
         {
-            g = instantiatedNotes[note.Type].Keys.AsValueEnumerable().First(x => !x.activeSelf);
             img = instantiatedNotes[note.Type][g];
             g.SetActive(true);
             g.transform.SetSiblingIndex(g.transform.parent.childCount);
