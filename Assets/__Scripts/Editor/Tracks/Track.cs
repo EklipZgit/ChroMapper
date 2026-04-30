@@ -1,11 +1,12 @@
 ﻿using System.Linq;
+using Beatmap.Animations;
 using Beatmap.Base;
-using Beatmap.V2;
 using Beatmap.Containers;
 using UnityEngine;
 
 public class Track : MonoBehaviour
 {
+    public Transform SelfTransform;
     public Transform ObjectParentTransform;
     public VariableNJSProvider vNjsProvider;
     public bool IgnoreZScale;
@@ -41,9 +42,9 @@ public class Track : MonoBehaviour
     public void AssignRotationValue(Vector3 rotation)
     {
         RotationValue = rotation;
-        transform.RotateAround(rotationPoint, Vector3.right, RotationValue.x);
-        transform.RotateAround(rotationPoint, Vector3.up, RotationValue.y);
-        transform.RotateAround(rotationPoint, Vector3.forward, RotationValue.z);
+        SelfTransform.RotateAround(rotationPoint, Vector3.right, RotationValue.x);
+        SelfTransform.RotateAround(rotationPoint, Vector3.up, RotationValue.y);
+        SelfTransform.RotateAround(rotationPoint, Vector3.forward, RotationValue.z);
     }
 
     public void UpdatePosition(float position)
@@ -292,5 +293,16 @@ public class Track : MonoBehaviour
     public void UpdateMaterialRotation(ObjectContainer obj)
     {
         if (obj is ObstacleContainer || obj is NoteContainer) obj.SetRotation(RotationValue.y);
+    }
+
+    public void ResetData()
+    {
+        enabled = false;
+        SelfTransform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
+        SelfTransform.localScale = Vector3.one;
+        ObjectParentTransform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
+        ObjectParentTransform.localScale = Vector3.one;
+
+        if (gameObject.TryGetComponent<TrackAnimator>(out var animator)) animator.enabled = false;
     }
 }

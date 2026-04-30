@@ -74,7 +74,7 @@ namespace Beatmap.Animations
                     track.AttachContainer(container);
                 }
 
-                Destroy(AnimationTrack.gameObject);
+                TracksManager.Remove(AnimationTrack);
                 AnimationTrack = null;
                 AnimatedTrack = false;
             }
