@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Beatmap.Appearances;
 using Beatmap.Base;
 using Beatmap.Containers;
@@ -7,23 +6,23 @@ using Beatmap.Enums;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
+using ZLinq;
 
 public class PastNotesWorker : MonoBehaviour
 {
     [SerializeField] private AudioTimeSyncController atsc;
-    [FormerlySerializedAs("notesContainer")][SerializeField] private NoteGridContainer noteGridContainer;
+
+    [FormerlySerializedAs("notesContainer")] [SerializeField]
+    private NoteGridContainer noteGridContainer;
+
     [SerializeField] private GameObject gridNotePrefab;
     [SerializeField] private BeatmapObjectCallbackController callbackController;
     [SerializeField] private NoteAppearanceSO noteAppearance;
     private readonly float gridSize = 25f;
 
-    private readonly Dictionary<int, Dictionary<GameObject, Image>> instantiatedNotes =
-        new Dictionary<int, Dictionary<GameObject, Image>>();
-
-    private readonly Dictionary<int, BaseNote>
-        lastByType = new Dictionary<int, BaseNote>(); //Used to improve performance
-
-    private readonly List<BaseObject> lastGroup = new List<BaseObject>();
+    private readonly Dictionary<int, Dictionary<GameObject, Image>> instantiatedNotes = new();
+    private readonly Dictionary<int, BaseNote> lastByType = new(); //Used to improve performance
+    private readonly List<BaseObject> lastGroup = new();
     private Canvas canvas;
 
     private Transform notes;
@@ -70,8 +69,7 @@ public class PastNotesWorker : MonoBehaviour
             {
                 time = note.SongBpmTime;
                 lastGroup.Clear();
-                if (note.Type != (int)NoteType.Bomb)
-                    lastGroup.Add(note);
+                if (note.Type != (int)NoteType.Bomb) lastGroup.Add(note);
             }
             else if (time == note.SongBpmTime && note.Type != (int)NoteType.Bomb)
             {
@@ -91,8 +89,7 @@ public class PastNotesWorker : MonoBehaviour
 
         if (lastByType.TryGetValue(note.Type, out var lastInTime) && lastInTime.JsonTime != obj.JsonTime)
         {
-            foreach (var child in instantiatedNotes[note.Type])
-                child.Key.SetActive(false);
+            foreach (var child in instantiatedNotes[note.Type]) child.Key.SetActive(false);
         }
 
         if (note.Type == (int)NoteType.Bomb) return;
@@ -107,25 +104,37 @@ public class PastNotesWorker : MonoBehaviour
         }
         else //mapping extensions ew
         {
-            if (gridPosX >= 1000) gridPosX = (gridPosX / 1000) - 1f;
+            if (gridPosX >= 1000)
+                gridPosX = (gridPosX / 1000) - 1f;
             else if (gridPosX <= -1000f) gridPosX = (gridPosX / 1000f) + 1f;
 
-            if (gridPosY >= 1000) gridPosY = (gridPosY / 1000f) - 1f;
+            if (gridPosY >= 1000)
+                gridPosY = (gridPosY / 1000f) - 1f;
             else if (gridPosY <= -1000f) gridPosY = (gridPosY / 1000f) + 1f;
         }
 
         var position = new Vector3(gridSize * gridPosX, gridSize * gridPosY, 1);
 
-        if (instantiatedNotes[note.Type].Any(x => x.Key.activeSelf && x.Value.transform.localPosition == position))
-            // Note already visible
-            return;
-
-        GameObject
-            g; //Instead of instantiating new objects every frame (Bad on performance), we are instead using a pooled system to use
-        Image img; //Already existing notes, and only create ones we need.
-        if (instantiatedNotes[note.Type].Any(x => !x.Key.activeSelf))
+        foreach (var x in instantiatedNotes[note.Type])
         {
-            g = instantiatedNotes[note.Type].First(x => !x.Key.activeSelf).Key;
+            if (x.Key.activeSelf && x.Value.transform.localPosition == position) return;
+        }
+
+        //Instead of instantiating new objects every frame (Bad on performance), we are instead using a pooled system to use
+        GameObject g;
+        //Already existing notes, and only create ones we need.
+        Image img;
+        var hasInactive = false;
+        foreach (var x in instantiatedNotes[note.Type])
+        {
+            if (x.Key.activeSelf) continue;
+            hasInactive = true;
+            break;
+        }
+
+        if (hasInactive)
+        {
+            g = instantiatedNotes[note.Type].Keys.AsValueEnumerable().First(x => !x.activeSelf);
             img = instantiatedNotes[note.Type][g];
             g.SetActive(true);
             g.transform.SetSiblingIndex(g.transform.parent.childCount);
@@ -145,16 +154,18 @@ public class PastNotesWorker : MonoBehaviour
 
         //transform1.rotation = o.transform.rotation; //This code breaks when using 360 maps; use local rotation instead.
         transform1.localEulerAngles =
-            Vector3.forward *
-            NoteContainer.Directionalize(note)
+            Vector3.forward
+            * NoteContainer.Directionalize(note)
                 .z; //Sets the rotation of the image to match the same rotation as the block
         img.color = note.Type == (int)NoteType.Red ? noteAppearance.RedColor : noteAppearance.BlueColor;
 
         var dotEnabled =
             note.CutDirection == (int)NoteCutDirection.Any; //Checks to see if the Dot is visible on the block
 
-        if (dotEnabled) g.transform.GetChild(0).gameObject.SetActive(false);
-        else g.transform.GetChild(1).gameObject.SetActive(false);
+        if (dotEnabled)
+            g.transform.GetChild(0).gameObject.SetActive(false);
+        else
+            g.transform.GetChild(1).gameObject.SetActive(false);
         img.enabled = true;
 
         lastByType[note.Type] = note;

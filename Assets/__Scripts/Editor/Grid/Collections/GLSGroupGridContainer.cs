@@ -48,9 +48,6 @@ public abstract class GLSGroupGridContainer<TGroup> : BeatmapObjectContainerColl
         pos.y = 0.5f;
         con.transform.localPosition = pos;
 
-        glsGroupAppearance.SetAppearance(
-            con as GLSGroupContainer,
-            true,
-            eventGridContainer.AllBoostEvents.FindLast(x => x.JsonTime <= obj.JsonTime)?.Value == 1);
+        glsGroupAppearance.SetAppearance(con as GLSGroupContainer, true, eventGridContainer.IsBoostAt(obj.JsonTime));
     }
 }

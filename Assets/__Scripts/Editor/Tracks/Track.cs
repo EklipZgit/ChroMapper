@@ -24,6 +24,7 @@ public class Track : MonoBehaviour
     private float despawnTime;
     private float despawnPosition;
     private float zScale = 1f;
+    private bool v2;
 
     // this number pulled from my ass, but it looks fine
     // oh, it's actually correct
@@ -55,14 +56,13 @@ public class Track : MonoBehaviour
 
     public void UpdateTime(float time)
     {
-        var z = 0f;
-        var v2 = gridObject is V2Object;
+        float z;
         var position = ObjectParentTransform.localPosition;
 
         // Jump in
         if (time < spawnTime)
         {
-            z = (gridObject.CustomSpawnEffect ?? !v2) ^ v2
+            z = (gridObject.CustomSpawnEffect != null ? (bool)gridObject.CustomSpawnEffect : !v2) ^ v2
                 ? Mathf.LerpUnclamped(spawnPosition, JUMP_FAR, (spawnTime - time) / JUMP_TIME)
                 : JUMP_FAR;
         }
@@ -212,6 +212,7 @@ public class Track : MonoBehaviour
 
     public void InitState()
     {
+        v2 = BeatSaberSongContainer.Instance.Map.MajorVersion == 2;
         useCustom = (gridObject.CustomNoteJumpMovementSpeed?.IsNumber ?? false)
             || (gridObject.CustomNoteJumpStartBeatOffset?.IsNumber ?? false);
         if (!useCustom)

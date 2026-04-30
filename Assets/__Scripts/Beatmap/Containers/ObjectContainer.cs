@@ -74,10 +74,7 @@ namespace Beatmap.Containers
 
         public virtual void Setup() { }
 
-        internal void SafeSetActive(bool active)
-        {
-            if (active != gameObject.activeSelf) gameObject.SetActive(active);
-        }
+        internal void SafeSetActive(bool active) => gameObject.SetActive(active);
 
         public abstract void UpdateGridPosition();
 
