@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -71,13 +69,18 @@ public static partial class Intersections
             if (groupedCollidersInLayer.Count <= 0) continue;
 
             var groupKeys = groupedCollidersInLayer.Keys;
-            var (lowestKey, highestKey) = (groupKeys.Min(), groupKeys.Max());
+            int lowestKey = int.MaxValue, highestKey = int.MinValue;
+            foreach (var groupKey in groupKeys)
+            {
+                lowestKey = Math.Min(lowestKey, groupKey);
+                highestKey = Math.Max(highestKey, groupKey);
+            }
 
             var groupID = Mathf.Clamp(CurrentGroup, lowestKey, highestKey);
             var rounds = (Math.Max(groupID - lowestKey, highestKey - groupID) * 2) + 1;
 
             for (var k = 0; k < rounds; k++)
-            //while (groupedCollidersInLayer.TryGetValue(startingGroup, out var collidersInLayer))
+                //while (groupedCollidersInLayer.TryGetValue(startingGroup, out var collidersInLayer))
             {
                 if (groupID < lowestKey || groupID > highestKey)
                 {
@@ -85,8 +88,8 @@ public static partial class Intersections
                     continue;
                 }
 
-                if (groupedCollidersInLayer.TryGetValue(groupID, out var collidersInLayer) &&
-                    collidersInLayer.Count > 0)
+                if (groupedCollidersInLayer.TryGetValue(groupID, out var collidersInLayer)
+                    && collidersInLayer.Count > 0)
                 {
                     var count = collidersInLayer.Count;
 
@@ -108,7 +111,11 @@ public static partial class Intersections
                             // If not, the collider is considered unnecessary, and no further work is done on it.
                             // See the RaycastIndividual_Internal method for more information on the second pass.
                             if (bounds.IntersectRay(localRay)
-                                && RaycastIndividual_Internal(collider, in localRayDirection, in localRayOrigin, out var dist))
+                                && RaycastIndividual_Internal(
+                                    collider,
+                                    in localRayDirection,
+                                    in localRayOrigin,
+                                    out var dist))
                             {
                                 foundAny = true;
 

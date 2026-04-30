@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using CustomNotes;
 using UnityEngine;
+using ZLinq;
 
 public class VisualModelController : VisualController
 {
@@ -21,7 +21,7 @@ public class VisualModelController : VisualController
 
     public void Start()
     {
-        foreach (var active in Actives.Where(active => !cleanupQueue.Contains(active)))
+        foreach (var active in Actives.AsValueEnumerable().Where(active => !cleanupQueue.Contains(active)))
         {
             cleanupQueue.Enqueue(active);
             nameToInstancedObjects[active.Name] = active;
@@ -60,23 +60,33 @@ public class VisualModelController : VisualController
 
     public void Set(VisualModelSO vm)
     {
-        if (Actives.Count == 1 && Actives.Exists(x => x.Name == vm.Name)) return;
+        if (Actives.Count == 1 && CheckExistingActive(vm.Name)) return;
         HandleReset();
         Add(vm);
     }
 
     public void Set(PrimitiveType type)
     {
-        if (Actives.Count == 1 && Actives.Exists(x => x.Name == type.ToString())) return;
+        if (Actives.Count == 1 && CheckExistingActive(type.ToString())) return;
         HandleReset();
         Add(type);
     }
 
     public void Set(GameObject go, Mesh collMesh, string instanceName)
     {
-        if (Actives.Count == 1 && Actives.Exists(x => x.Name == instanceName)) return;
+        if (Actives.Count == 1 && CheckExistingActive(instanceName)) return;
         HandleReset();
         Add(go, collMesh, instanceName);
+    }
+
+    private bool CheckExistingActive(string instanceName)
+    {
+        for (var index = 0; index < Actives.Count; index++)
+        {
+            if (Actives[index].Name == instanceName) return true;
+        }
+
+        return false;
     }
 
     private void HandleReset()
@@ -179,8 +189,11 @@ public struct ModelData : IEquatable<ModelData>
 
         ColliderMesh = colliderMesh;
         Renderers = gameObject.GetComponentsInChildren<Renderer>();
-        OutlineMesh = Renderers.Length > 0 ? Renderers.First().GetComponentInChildren<MeshFilter>() : null;
+        OutlineMesh = Renderers.Length > 0
+            ? Renderers[0].GetComponentInChildren<MeshFilter>()
+            : null;
         MpbRenderers = Renderers
+            .AsValueEnumerable()
             .Where(r => r.GetComponent<DisableNoteColorOnGameobject>() == null)
             .ToArray();
     }
@@ -194,8 +207,11 @@ public struct ModelData : IEquatable<ModelData>
 
         ColliderMesh = GameObject.GetComponent<MeshFilter>().sharedMesh;
         Renderers = gameObject.GetComponentsInChildren<Renderer>();
-        OutlineMesh = Renderers.Length > 0 ? Renderers.First().GetComponentInChildren<MeshFilter>() : null;
+        OutlineMesh = Renderers.Length > 0
+            ? Renderers[0].GetComponentInChildren<MeshFilter>()
+            : null;
         MpbRenderers = Renderers
+            .AsValueEnumerable()
             .Where(r => r.GetComponent<DisableNoteColorOnGameobject>() == null)
             .ToArray();
     }

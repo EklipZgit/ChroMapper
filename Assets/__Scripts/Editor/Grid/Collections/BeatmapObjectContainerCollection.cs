@@ -232,7 +232,7 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
     {
         if (obj.HasAttachedContainer) return;
         //Debug.Log($"Creating container with hash code {obj.GetHashCode()}");
-        if (!pooledContainers.Any()) CreateNewObject();
+        if (pooledContainers.Count == 0) CreateNewObject();
         var dequeued = pooledContainers.Dequeue();
         dequeued.ObjectData = obj;
         dequeued.transform.localEulerAngles = Vector3.zero;

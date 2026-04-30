@@ -1,10 +1,10 @@
 using System;
-using System.Linq;
 using Beatmap.Enums;
 using Beatmap.V2.Customs;
 using Beatmap.V3.Customs;
 using LiteNetLib.Utils;
 using SimpleJSON;
+using ZLinq;
 
 namespace Beatmap.Base.Customs
 {
@@ -145,7 +145,7 @@ namespace Beatmap.Base.Customs
             base.HasMatchingTrack(filter)
             || DataChildrenTracks switch {
                 JSONString str => filter == (string)str,
-                JSONArray arr => arr.Children.Any((it) => filter == (string)it),
+                JSONArray arr => arr.Children.AsValueEnumerable().Any((it) => filter == (string)it),
                 _ => false,
             }
             || DataParentTrack switch {

@@ -76,6 +76,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 667e438b0e9897a4682c3d906ead8d3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SelfTransform: {fileID: 4184632026203889352}
   ObjectParentTransform: {fileID: 4345038391795907060}
   vNjsProvider: {fileID: 0}
+  IgnoreZScale: 0
   RotationValue: {x: 0, y: 0, z: 0}

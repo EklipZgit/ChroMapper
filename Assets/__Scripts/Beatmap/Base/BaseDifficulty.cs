@@ -4,13 +4,13 @@ using System.IO;
 using System.Linq;
 using Beatmap.Base.Customs;
 using Beatmap.Converters;
-using Beatmap.Helper;
 using Beatmap.Info;
 using Beatmap.V2;
 using Beatmap.V3;
 using Beatmap.V4;
 using SimpleJSON;
 using UnityEngine;
+using ZLinq;
 
 namespace Beatmap.Base
 {
@@ -118,12 +118,12 @@ namespace Beatmap.Base
             BpmEvents.RemoveAll(x => x.JsonTime < 0);
             BpmEvents.RemoveAll(x => x.Bpm < 0);
 
-            if (!BpmEvents.Any()) return;
+            if (!BpmEvents.AsValueEnumerable().Any()) return;
 
             BpmEvents.Sort();
 
             // insert beat 0 bpm event if needed
-            if (BpmEvents.First().JsonTime > 0)
+            if (BpmEvents.AsValueEnumerable().First().JsonTime > 0)
             {
                 var newBpmEvent = new BaseBpmEvent(0, songBpm);
                 BpmEvents.Insert(0, newBpmEvent);
@@ -172,17 +172,34 @@ namespace Beatmap.Base
             return lastBpmEvent.JsonTime + (songBpmTime - lastBpmEvent.SongBpmTime) * (lastBpmEvent.Bpm / songBpm);
         }
 
-        public BaseBpmEvent FindLastBpmEventByJsonTime(float jsonTime, bool inclusive = false) => BpmEvents.LastOrDefault(x => inclusive ? x.JsonTime <= jsonTime : x.JsonTime < jsonTime);
+        public BaseBpmEvent FindLastBpmEventByJsonTime(float jsonTime, bool inclusive = false)
+        {
+            for (var index = BpmEvents.Count - 1; index >= 0; index--)
+            {
+                var evt = BpmEvents[index];
+                if (inclusive ? evt.JsonTime <= jsonTime : evt.JsonTime < jsonTime) return evt;
+            }
+
+            return null;
+        }
 
         public BaseBpmEvent FindLastBpmEventBySongBpmTime(float songBpmTime, bool inclusive = false)
         {
             if (songBpm is null) return null;
-            return BpmEvents.LastOrDefault(x => inclusive ? x.SongBpmTime <= songBpmTime : x.SongBpmTime < songBpmTime);
+            for (var index = BpmEvents.Count - 1; index >= 0; index--)
+            {
+                var evt = BpmEvents[index];
+                if (inclusive ? evt.SongBpmTime <= songBpmTime : evt.SongBpmTime < songBpmTime) return evt;
+            }
+
+            return null;
         }
 
-        public float? BpmAtJsonTime(float jsonTime) => FindLastBpmEventByJsonTime(jsonTime, inclusive: true)?.Bpm ?? songBpm;
+        public float? BpmAtJsonTime(float jsonTime) =>
+            FindLastBpmEventByJsonTime(jsonTime, inclusive: true)?.Bpm ?? songBpm;
 
-        public float? BpmAtSongBpmTime(float songBpmTime) => FindLastBpmEventBySongBpmTime(songBpmTime, inclusive: true)?.Bpm ?? songBpm;
+        public float? BpmAtSongBpmTime(float songBpmTime) =>
+            FindLastBpmEventBySongBpmTime(songBpmTime, inclusive: true)?.Bpm ?? songBpm;
 
         public void RecomputeAllObjectSongBpmTimes()
         {

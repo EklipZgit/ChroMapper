@@ -47,13 +47,9 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
                 var lightList = p.Value;
 
                 if (Settings.Instance.EmulateChromaAdvanced && Settings.Instance.LightIDTransitionSupport)
-                {
                     LinkEventsForChroma(lightList);
-                }
                 else
-                {
                     LinkEventsForVanilla(lightList);
-                }
             }
         }
     }
@@ -178,13 +174,9 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
                 tracksManager.RefreshTracks();
             }
             else if (e.IsColorBoostEvent())
-            {
                 AllBoostEvents.Remove(e);
-            }
             else if (e.IsBpmEvent())
-            {
                 AllBpmEvents.Remove(e);
-            }
             else if (BeatmapContext.TracksDefinition.GetBasicOrDefault(e.Type).Kind == BasicEventKind.Lights
                 && !inCollection)
             {
@@ -240,10 +232,7 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
         }
 
         var nextEvent = GetNextEventWithSameLightIDOrDefault(e);
-        if (nextEvent != null)
-        {
-            nextEvent.Prev = e;
-        }
+        if (nextEvent != null) nextEvent.Prev = e;
 
         e.Prev = previousEvent;
         e.Next = nextEvent;
@@ -274,17 +263,12 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
                 events.Insert(events.IndexOf(e.Prev) + 1, e);
         }
         else
-        {
             AllLightEvents.Add(e.Type, new List<BaseEvent> { e });
-        }
     }
 
     private BaseEvent GetPreviousEventWithSameLightIDOrDefault(BaseEvent e)
     {
-        if (!AllLightEvents.TryGetValue(e.Type, out var events))
-        {
-            return null;
-        }
+        if (!AllLightEvents.TryGetValue(e.Type, out var events)) return null;
 
         if (Settings.Instance.EmulateChromaAdvanced && Settings.Instance.LightIDTransitionSupport)
         {
@@ -297,10 +281,7 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
 
     private BaseEvent GetNextEventWithSameLightIDOrDefault(BaseEvent e)
     {
-        if (!AllLightEvents.TryGetValue(e.Type, out var events))
-        {
-            return null;
-        }
+        if (!AllLightEvents.TryGetValue(e.Type, out var events)) return null;
 
         if (Settings.Instance.EmulateChromaAdvanced && Settings.Instance.LightIDTransitionSupport)
         {
@@ -332,13 +313,9 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
             if (con is not EventContainer e) continue;
 
             if (propagationEditing != PropMode.Off)
-            {
                 con.SafeSetActive(e.EventData.Type == EventTypeToPropagate);
-            }
             else
-            {
                 con.SafeSetActive(true);
-            }
 
             con.UpdateGridPosition();
         }
@@ -402,7 +379,7 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
         eventAppearance.SetAppearance(
             con as EventContainer,
             true,
-            AllBoostEvents.FindLast(x => x.JsonTime <= obj.JsonTime)?.Value == 1);
+            IsBoostAt(obj.JsonTime));
         var e = obj as BaseEvent;
         if (PropagationEditing != PropMode.Off && e.Type != EventTypeToPropagate) con.SafeSetActive(false);
     }
@@ -443,10 +420,7 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
 
     private void LinkEventsForVanilla(List<BaseEvent> events)
     {
-        if (events.Count == 0)
-        {
-            return;
-        }
+        if (events.Count == 0) return;
 
         if (events.Count == 1)
         {
@@ -470,10 +444,7 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
 
     public void MarkEventsToBeRelinked(IEnumerable<BaseEvent> events)
     {
-        foreach (var e in events)
-        {
-            MarkEventToBeRelinked(e);
-        }
+        foreach (var e in events) MarkEventToBeRelinked(e);
     }
 
     public void MarkEventToBeRelinked(BaseEvent e)
@@ -488,6 +459,17 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
             .Where(x => BeatmapContext.TracksDefinition.GetBasicOrDefault(x.Type).Kind == BasicEventKind.Lights)
             .GroupBy(x => x.Type)
             .ToDictionary(g => g.Key, g => g.ToList());
+
+    public bool IsBoostAt(float jsonTime)
+    {
+        for (var i = AllBoostEvents.Count - 1; i >= 0; i--)
+        {
+            var evt = AllBoostEvents[i];
+            if (evt.JsonTime <= jsonTime) return evt.Value == 1;
+        }
+
+        return false;
+    }
 
     public void RefreshEventsAppearance(IEnumerable<BaseEvent> events)
     {

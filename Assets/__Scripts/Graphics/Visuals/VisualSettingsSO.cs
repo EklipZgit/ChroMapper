@@ -39,8 +39,16 @@ public class VisualSettingsSO : ScriptableObject
         Settings.ClearSettingNotifications("EventModels");
     }
 
+    private string cachedEventModelName = "CM_Event_" + Settings.Instance.EventModels.Replace(' ', '_');
+
     private void HandleBlockModelChanged(object _) => OnBlockModelChanged?.Invoke();
-    private void HandleEventModelChanged(object _) => OnEventModelChanged?.Invoke();
+
+    private void HandleEventModelChanged(object _)
+    {
+        cachedEventModelName = "CM_Event_" + Settings.Instance.EventModels.Replace(' ', '_');
+        OnEventModelChanged?.Invoke();
+    }
+
     private void HandleNoteModelChanged(object _) => OnNoteModelChanged?.Invoke();
     private void HandleBombModelChanged(object _) => OnBombModelChanged?.Invoke();
     private void HandleChainHeadModelChanged(object _) => OnChainHeadModelChanged?.Invoke();
@@ -53,7 +61,7 @@ public class VisualSettingsSO : ScriptableObject
 
     public VisualModelSO GetEventModel() =>
         Repository.ModelsByName.GetValueOrDefault(
-            "CM_Event_" + Settings.Instance.EventModels.Replace(' ', '_'),
+            cachedEventModelName,
             DefaultEvent);
 
     public VisualModelSO GetNoteModel() =>

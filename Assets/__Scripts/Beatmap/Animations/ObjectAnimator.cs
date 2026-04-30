@@ -24,14 +24,14 @@ namespace Beatmap.Animations
         [SerializeField] public Transform LocalTarget;
         public Transform WorldTarget;
 
-        public Aggregator<Quaternion> LocalRotation;
-        public Aggregator<Quaternion> WorldRotation;
-        public Aggregator<Vector3> OffsetPosition;
-        public Aggregator<Vector3> WorldPosition;
-        public Aggregator<Vector3> Scale;
-        public Aggregator<Color> Colors;
-        public Aggregator<float> Opacity;
-        public Aggregator<float> OpacityArrow;
+        public readonly Aggregator<Quaternion> LocalRotation = new(Quaternion.identity, (a, b) => a * b);
+        public Aggregator<Quaternion> WorldRotation = new(Quaternion.identity, (a, b) => a * b);
+        public readonly Aggregator<Vector3> OffsetPosition = new(Vector3.zero, (a, b) => a + b);
+        public readonly Aggregator<Vector3> WorldPosition = new(Vector3.zero, (a, b) => a + b);
+        public readonly Aggregator<Vector3> Scale = new(Vector3.one, Vector3.Scale);
+        public readonly Aggregator<Color> Colors = new(Color.white, (a, b) => a * b);
+        public readonly Aggregator<float> Opacity = new(1f, (a, b) => a * b);
+        public readonly Aggregator<float> OpacityArrow = new(1f, (a, b) => a * b);
 
         public bool AnimatedTrack { get; private set; }
         public bool AnimatedLife { get; private set; }
@@ -50,7 +50,7 @@ namespace Beatmap.Animations
         private List<TrackAnimator> tracks = new();
 
         public Dictionary<string, IAnimateProperty> AnimatedProperties = new();
-        private IAnimateProperty[] properties = new IAnimateProperty[0];
+        private IAnimateProperty[] properties = Array.Empty<IAnimateProperty>();
 
         private static readonly int colorId = Shader.PropertyToID("_Color");
         private static readonly int cutoutId = Shader.PropertyToID("_Cutout");
@@ -59,8 +59,8 @@ namespace Beatmap.Animations
 
         public void ResetData()
         {
-            AnimatedProperties = new Dictionary<string, IAnimateProperty>();
-            properties = new IAnimateProperty[0];
+            AnimatedProperties.Clear();
+            properties = Array.Empty<IAnimateProperty>();
 
             TargetType = TargetTypes.None;
 
@@ -74,23 +74,22 @@ namespace Beatmap.Animations
                     track.AttachContainer(container);
                 }
 
-                Destroy(AnimationTrack.gameObject);
+                TracksManager.Remove(AnimationTrack);
                 AnimationTrack = null;
                 AnimatedTrack = false;
             }
 
-            LocalRotation = new Aggregator<Quaternion>(Quaternion.identity, (a, b) => a * b);
-            WorldRotation = new Aggregator<Quaternion>(Quaternion.identity, (a, b) => a * b);
-            OffsetPosition = new Aggregator<Vector3>(Vector3.zero, (a, b) => a + b);
-            WorldPosition = new Aggregator<Vector3>(Vector3.zero, (a, b) => a + b);
-            Scale = new Aggregator<Vector3>(Vector3.one, (a, b) => Vector3.Scale(a, b));
-            Colors = new Aggregator<Color>(
-                container?.MpbController.Mpb?.GetColor(colorId) ?? Color.white,
-                (a, b) => a * b);
-            Opacity = new Aggregator<float>(1.0f, (a, b) => a * b);
-            OpacityArrow = new Aggregator<float>(1.0f, (a, b) => a * b);
+            LocalRotation.Reset();
+            WorldRotation.Reset();
+            OffsetPosition.Reset();
+            WorldPosition.Reset();
+            Scale.Reset();
+            Colors.Reset();
+            Colors.Default = container?.MpbController.Mpb?.GetColor(colorId) ?? Color.white;
+            Opacity.Reset();
+            OpacityArrow.Reset();
 
-            _time = null;
+            time = null;
             AnimatedLife = false;
             ShouldRecycle = false;
 
@@ -126,10 +125,7 @@ namespace Beatmap.Animations
         {
             if (Context != null) Context.Atsc.OnTimeChanged -= OnTimeChanged;
 
-            foreach (var track in tracks)
-            {
-                track.RemoveChild(this);
-            }
+            foreach (var track in tracks) track.RemoveChild(this);
 
             tracks.Clear();
         }
@@ -175,18 +171,18 @@ namespace Beatmap.Animations
                     break;
             }
 
-            time_begin = obj.SpawnSongBpmTime;
+            timeBegin = obj.SpawnSongBpmTime;
             // Can't use DespawnSongBpmTime because obstacles jump out early
-            time_end = obj.SongBpmTime + duration + obj.HalfJumpDuration;
+            timeEnd = obj.SongBpmTime + duration + obj.HalfJumpDuration;
 
             RequireAnimationTrack();
             WorldTarget = AnimationTrack.transform;
 
-            bool bug = false;
+            var bug = false;
 
             if (obj.CustomTrack != null)
             {
-                List<string> tracks = obj.CustomTrack switch
+                var tracks = obj.CustomTrack switch
                 {
                     JSONString s => new List<string> { s },
                     JSONArray arr => new List<string>(arr.Children.Select(c => (string)c)),
@@ -202,10 +198,7 @@ namespace Beatmap.Animations
                         .GetCollectionForType<CustomEventGridContainer>(ObjectType.CustomEvent)
                         .EventsByTrack
                         ?.TryGetValue(tr, out events);
-                    if (events == null)
-                    {
-                        continue;
-                    }
+                    if (events == null) continue;
 
                     var map = BeatSaberSongContainer.Instance.Map;
                     foreach (var ce in events.Where(ev => ev.Type == "AssignPathAnimation"))
@@ -221,8 +214,8 @@ namespace Beatmap.Animations
                                 Easing = ce.DataEasing,
                                 Time = ce.SongBpmTime,
                                 Transition = ce.DataDuration ?? 0,
-                                TimeBegin = time_begin,
-                                TimeEnd = time_end,
+                                TimeBegin = timeBegin,
+                                TimeEnd = timeEnd,
                             };
                             if (p.Transition != 0)
                             {
@@ -251,8 +244,8 @@ namespace Beatmap.Animations
                         Overwrite = true,
                         Points = jprop.Value,
                         Easing = null,
-                        TimeBegin = time_begin,
-                        TimeEnd = time_end,
+                        TimeBegin = timeBegin,
+                        TimeEnd = timeEnd,
                     };
                     AddPointDef(p, jprop.Key, null);
                 }
@@ -270,7 +263,7 @@ namespace Beatmap.Animations
             }
 
             properties = new IAnimateProperty[AnimatedProperties.Count];
-            int i = 0;
+            var i = 0;
             foreach (var prop in AnimatedProperties)
             {
                 prop.Value.Sort();
@@ -295,11 +288,11 @@ namespace Beatmap.Animations
 
             WorldRotation = LocalRotation;
 
-            if (eh.Scale is Vector3 scale) Scale._default = scale;
-            if (eh.Position is Vector3 p) OffsetPosition._default = (v2 ? BeatmapConstant.LaneSize : 1f) * p;
-            if (eh.LocalPosition is Vector3 lp) OffsetPosition._default = (v2 ? BeatmapConstant.LaneSize : 1f) * lp;
-            if (eh.Rotation is Vector3 r) LocalRotation._default = Quaternion.Euler(r.x, r.y, r.z);
-            if (eh.LocalRotation is Vector3 lr) LocalRotation._default = Quaternion.Euler(lr.x, lr.y, lr.z);
+            if (eh.Scale is Vector3 scale) Scale.Default = scale;
+            if (eh.Position is Vector3 p) OffsetPosition.Default = (v2 ? BeatmapConstant.LaneSize : 1f) * p;
+            if (eh.LocalPosition is Vector3 lp) OffsetPosition.Default = (v2 ? BeatmapConstant.LaneSize : 1f) * lp;
+            if (eh.Rotation is Vector3 r) LocalRotation.Default = Quaternion.Euler(r.x, r.y, r.z);
+            if (eh.LocalRotation is Vector3 lr) LocalRotation.Default = Quaternion.Euler(lr.x, lr.y, lr.z);
 
             if (eh.Track != null)
             {
@@ -342,40 +335,40 @@ namespace Beatmap.Animations
             tracks.Add(track);
         }
 
-        private float? _time;
-        private float time_begin;
-        private float time_end;
+        private float? time;
+        private float timeBegin;
+        private float timeEnd;
 
         public void Update()
         {
-            var time = _time ?? Context.Atsc?.CurrentSongBpmTime ?? 0;
+            var time = this.time ?? Context.Atsc?.CurrentSongBpmTime ?? 0;
 
             if (container?.ObjectData is BaseGrid obj)
             {
-                var NoodleAnimationLifetime = time > time_end ? -1 : 1;
+                var noodleAnimationLifetime = time > timeEnd ? -1 : 1;
                 if (!(container is ChainContainer))
                 {
                     container?.MpbController.Mpb.SetFloat(
                         animSpawnedId,
-                        NoodleAnimationLifetime);
+                        noodleAnimationLifetime);
                     if (container is NoteContainer nc)
                     {
                         nc.ArrowMpbController.Mpb.SetFloat(
                             animSpawnedId,
-                            NoodleAnimationLifetime);
+                            noodleAnimationLifetime);
                     }
                 }
 
                 AnimatedLife =
-                    (_time != null && _time < obj.SongBpmTime)
+                    (this.time != null && this.time < obj.SongBpmTime)
                     || WorldPosition.Count > 0
-                    || (obj.CustomFake && time < time_end);
+                    || (obj.CustomFake && time < timeEnd);
                 if (ShouldRecycle)
                 {
-                    var despawn_time = WorldPosition.Count == 0 && !obj.CustomFake
+                    var despawnTime = WorldPosition.Count == 0 && !obj.CustomFake
                         ? obj.SongBpmTime
-                        : time_end;
-                    if (time > despawn_time)
+                        : timeEnd;
+                    if (time > despawnTime)
                     {
                         BeatmapObjectContainerCollection
                             .GetCollectionForType(container.ObjectData.ObjectType)
@@ -390,16 +383,10 @@ namespace Beatmap.Animations
             for (var i = 0; i < l; ++i)
             {
                 var prop = properties[i];
-                if (time >= prop.StartTime)
-                {
-                    prop.UpdateProperty(time);
-                }
+                if (time >= prop.StartTime) prop.UpdateProperty(time);
             }
 
-            if (AnimatedTrack)
-            {
-                AnimationTrack.UpdateTime(time);
-            }
+            if (AnimatedTrack) AnimationTrack.UpdateTime(time);
         }
 
         public void LateUpdate()
@@ -423,17 +410,13 @@ namespace Beatmap.Animations
             if (Scale.Count > 0) LocalTarget.localScale = Scale.Get();
 
             if (WorldTarget is Transform && WorldRotation.Count > 0)
-            {
                 if (container is not GeometryContainer)
-                {
                     WorldTarget.localRotation = WorldRotation.Get();
-                }
-            }
 
-            var time = _time ?? Context.Atsc?.CurrentSongBpmTime ?? 0;
+            var time = this.time ?? Context.Atsc?.CurrentSongBpmTime ?? 0;
             if (WorldPosition.Count > 0)
             {
-                if (time_begin < time && time < time_end) AnimationTrack.UpdatePosition(0);
+                if (timeBegin < time && time < timeEnd) AnimationTrack.UpdatePosition(0);
                 if (container is not null and not GeometryContainer)
                     container.transform.localPosition = WorldPosition.Get();
                 else
@@ -459,9 +442,9 @@ namespace Beatmap.Animations
 
         public void SetLifeTime(float normalTime)
         {
-            _time = normalTime < 0
-                ? (float?)null
-                : (float?)Mathf.LerpUnclamped(time_begin, time_end, normalTime);
+            time = normalTime < 0
+                ? null
+                : Mathf.LerpUnclamped(timeBegin, timeEnd, normalTime);
         }
 
         private void OnTimeChanged()
@@ -476,10 +459,7 @@ namespace Beatmap.Animations
 
             if (WorldTarget is Transform)
             {
-                if (!(container is GeometryContainer))
-                {
-                    WorldTarget.localRotation = WorldRotation.Get();
-                }
+                if (!(container is GeometryContainer)) WorldTarget.localRotation = WorldRotation.Get();
             }
         }
 
@@ -569,7 +549,7 @@ namespace Beatmap.Animations
             Action<T> setter,
             PointDefinition<T>.Parser parser,
             IPointDefinition.UntypedParams p,
-            T _default) where T : struct
+            T @default) where T : struct
         {
             try
             {
@@ -578,11 +558,11 @@ namespace Beatmap.Animations
                     AnimatedProperties[p.Key] = new AnimateProperty<T>(
                         new List<PointDefinition<T>>(),
                         setter,
-                        _default
+                        @default
                     );
                 }
 
-                GetAnimateProperty(p.Key, setter, _default).AddPointDef(parser, p, source);
+                GetAnimateProperty(p.Key, setter, @default).AddPointDef(parser, p, source);
             }
             catch (Exception e)
             {
@@ -590,14 +570,14 @@ namespace Beatmap.Animations
             }
         }
 
-        private AnimateProperty<T> GetAnimateProperty<T>(string key, Action<T> setter, T _default) where T : struct
+        private AnimateProperty<T> GetAnimateProperty<T>(string key, Action<T> setter, T @default) where T : struct
         {
             if (!AnimatedProperties.ContainsKey(key))
             {
                 AnimatedProperties[key] = new AnimateProperty<T>(
                     new List<PointDefinition<T>>(),
                     setter,
-                    _default
+                    @default
                 );
             }
 
@@ -608,10 +588,7 @@ namespace Beatmap.Animations
 
         private static float WallClamp(float a)
         {
-            if (-minWall < a && a < minWall)
-            {
-                return minWall;
-            }
+            if (-minWall < a && a < minWall) return minWall;
 
             return a;
         }
@@ -620,14 +597,16 @@ namespace Beatmap.Animations
         public class Aggregator<T> where T : struct
         {
             public int Count;
-            public Func<T, T, T> func;
-            public T _default;
+            public readonly Func<T, T, T> Func;
+            public T Default;
+            private readonly T instancedDefault;
             public int Keep;
 
-            public Aggregator(T _default, Func<T, T, T> func)
+            public Aggregator(T def, Func<T, T, T> func)
             {
-                this._default = _default;
-                this.func = func;
+                Default = def;
+                instancedDefault = Default;
+                Func = func;
             }
 
             public void Add(T v)
@@ -648,18 +627,23 @@ namespace Beatmap.Animations
 
             public T Get()
             {
-                if (Count == 0) return _default;
+                if (Count == 0) return Default;
                 var value = items[0];
-                for (int i = 1; i < Count; ++i)
-                {
-                    value = func(value, items[i]);
-                }
+                for (var i = 1; i < Count; ++i) value = Func(value, items[i]);
 
                 Count = Keep;
                 return value;
             }
 
-            private T[] items = new T[4];
+            public void Reset()
+            {
+                Default = instancedDefault;
+                Count = 0;
+                Keep = 0;
+                for (var i = 0; i < items.Length; i++) items[i] = default;
+            }
+
+            private readonly T[] items = new T[4];
         }
     }
 }
