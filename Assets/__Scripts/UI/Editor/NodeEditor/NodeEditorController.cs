@@ -222,7 +222,7 @@ public class NodeEditorController : MonoBehaviour, CMInput.INodeEditorActions
             var objectJsonMap = editingObjects
                 .ToDictionary(
                     obj => obj,
-                    obj => obj.ToJson());
+                    obj => obj.ToJson().Clone()); // the clone is needed because custom data is a reference in toJson
 
             ApplyJson(editingNode.AsObject, newNode.AsObject, objectJsonMap);
 
