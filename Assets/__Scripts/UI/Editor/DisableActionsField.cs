@@ -13,6 +13,7 @@ public class DisableActionsField : MonoBehaviour, ISelectHandler, IDeselectHandl
 
     public void OnDeselect(BaseEventData eventData) => OnDeselect();
     public void OnSelect(BaseEventData eventData) => OnSelect();
+    private void OnDisable() => OnDeselect(); // genuinely what is causing this to need both?
     private void OnDestroy() => OnDeselect();
 
     public void OnSelect() => StartCoroutine(WaitToEnable());
