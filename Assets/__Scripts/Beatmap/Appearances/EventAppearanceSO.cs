@@ -30,6 +30,7 @@ namespace Beatmap.Appearances
             var trackDef = e.TracksDefinition.GetBasicOrDefault(e.EventData.Type);
             e.UpdateAlpha(final ? 1.0f : 0.6f, false);
             e.UpdateScale(final ? 0.75f : 0.6f);
+            e.UpdateOffset(e.AlternateShader ? -0.5f : 0f);
             if (trackDef.Kind == BasicEventKind.IntValue)
             {
                 if (e.EventData.IsLaneRotationEvent())
@@ -64,7 +65,7 @@ namespace Beatmap.Appearances
                         e.ChangeColorB(BlueColor, false);
                     }
 
-                    e.ChangeFadeSize(0.5f, false);
+                    e.ChangeFadeSize(0.25f, false);
                 }
                 else if (trackDef.Kind == BasicEventKind.None)
                 {
@@ -142,7 +143,7 @@ namespace Beatmap.Appearances
                 case (int)LightValue.BlueFlash:
                 case (int)LightValue.RedFlash:
                 case (int)LightValue.WhiteFlash:
-                    e.ChangeColorA(color.Multiply(1.2f), false);
+                    e.ChangeColorA(OffColor, false);
                     e.ChangeColorB(color, false);
                     break;
                 case (int)LightValue.BlueFade:
@@ -156,7 +157,7 @@ namespace Beatmap.Appearances
                     break;
             }
 
-            e.ChangeFadeSize(1f, false);
+            e.ChangeFadeSize(0.75f, false);
 
             // At this point, next Event must be a light event.
             Color? nextColor = null;

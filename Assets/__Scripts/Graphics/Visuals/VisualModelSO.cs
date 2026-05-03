@@ -7,6 +7,7 @@ public class VisualModelSO : ScriptableObject
     public GameObject Prefab;
     public Mesh Collider;
     public bool DisableAux; // this refer to arrow/dot, can be for other entity
+    public bool AlternateShader; // for use object or shader have different interaction
 
     private void OnValidate()
     {

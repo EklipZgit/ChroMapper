@@ -31,6 +31,7 @@ public class VisualSettingsSO : ScriptableObject
         Settings.NotifyBySettingName("NoteModels", HandleChainHeadModelChanged);
         Settings.NotifyBySettingName("NoteModels", HandleChainLinkModelChanged);
         Settings.NotifyBySettingName("NoteModels", HandleChainLinkModelChanged);
+        CacheEventModelName();
     }
 
     public void OnDisable()
@@ -39,13 +40,16 @@ public class VisualSettingsSO : ScriptableObject
         Settings.ClearSettingNotifications("EventModels");
     }
 
-    private string cachedEventModelName = "CM_Event_" + Settings.Instance.EventModels.Replace(' ', '_');
+    private string cachedEventModelName;
+
+    private void CacheEventModelName() =>
+        cachedEventModelName = "CM_Event_" + Settings.Instance.EventModels.Replace(' ', '_');
 
     private void HandleBlockModelChanged(object _) => OnBlockModelChanged?.Invoke();
 
     private void HandleEventModelChanged(object _)
     {
-        cachedEventModelName = "CM_Event_" + Settings.Instance.EventModels.Replace(' ', '_');
+        CacheEventModelName();
         OnEventModelChanged?.Invoke();
     }
 
