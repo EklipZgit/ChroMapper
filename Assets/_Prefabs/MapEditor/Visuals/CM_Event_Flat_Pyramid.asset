@@ -17,3 +17,4 @@ MonoBehaviour:
   Collider: {fileID: -303681604105121438, guid: e4c7e2d300d5f0643a96ef4abb3679ba,
     type: 3}
   DisableAux: 0
+  AlternateShader: 1

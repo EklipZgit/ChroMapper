@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using Beatmap.Appearances;
 using Beatmap.Base;
 using Beatmap.Enums;
@@ -15,9 +14,10 @@ namespace Beatmap.Containers
         private static readonly int colorBId = Shader.PropertyToID("_ColorB");
         private static readonly int mainAlphaId = Shader.PropertyToID("_MainAlpha");
         private static readonly int fadeSizeId = Shader.PropertyToID("_FadeSize");
+        private static readonly int offsetId = Shader.PropertyToID("_Offset");
 
         [SerializeField] public VisualModelController VModelController;
-        [SerializeField] private EventGridContainer EventGridContainer;
+        [SerializeField] private EventGridContainer eventGridContainer;
         [SerializeField] private EventAppearanceSO eventAppearance;
         [SerializeField] private TracksManager tracksManager;
         [SerializeField] private TextMeshPro valueDisplay;
@@ -27,7 +27,8 @@ namespace Beatmap.Containers
 
         public BaseEvent EventData;
 
-        public bool useBlockModel;
+        private bool useBlockModel;
+        public bool AlternateShader;
         private float oldAlpha = -1;
 
         public override BaseObject ObjectData
@@ -58,8 +59,15 @@ namespace Beatmap.Containers
             VisualSettings.OnEventModelChanged -= HandleModelChanged;
         }
 
-        private void HandleModelChanged() =>
-            VModelController.Set(useBlockModel ? VisualSettings.GetEventBlockModel() : VisualSettings.GetEventModel());
+        private void HandleModelChanged()
+        {
+            var vm = useBlockModel ? VisualSettings.GetEventBlockModel() : VisualSettings.GetEventModel();
+            VModelController.Set(vm);
+            
+            if (AlternateShader == vm.AlternateShader) return;
+            AlternateShader = vm.AlternateShader;
+            if (EventData != null) RefreshAppearance();
+        }
 
         public static EventContainer SpawnEvent(
             EventGridContainer eventsContainer,
@@ -70,7 +78,7 @@ namespace Beatmap.Containers
         {
             var container = Instantiate(prefab).GetComponent<EventContainer>();
             container.EventData = data;
-            container.EventGridContainer = eventsContainer;
+            container.eventGridContainer = eventsContainer;
             container.TracksDefinition = tracksDefinitionSo;
             container.labels = labels;
             container.transform.localEulerAngles = Vector3.zero;
@@ -81,8 +89,8 @@ namespace Beatmap.Containers
         {
             var gridPos = EventData.GetPosition(
                 labels,
-                EventGridContainer.PropagationEditing,
-                EventGridContainer.EventTypeToPropagate);
+                eventGridContainer.PropagationEditing,
+                eventGridContainer.EventTypeToPropagate);
 
             if (gridPos == null)
             {
@@ -143,6 +151,12 @@ namespace Beatmap.Containers
 
             MpbController.Mpb.SetFloat(mainAlphaId, Mathf.Approximately(alpha, -1) ? oldAlpha : alpha);
             if (updateMaterials) UpdateMaterials();
+        }
+
+        public void UpdateOffset(float offset)
+        {
+            MpbController.Mpb.SetFloat(offsetId, offset);
+            UpdateMaterials();
         }
 
         public void UpdateScale(float scale) =>
