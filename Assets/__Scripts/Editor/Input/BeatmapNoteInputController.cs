@@ -239,8 +239,7 @@ public class BeatmapNoteInputController : BeatmapInputController<NoteContainer>,
 
         var prec = scrollPrecisionController.GetCurrentRotationPrecision();
         var value = (int)(Mathf.Round((note.NoteData.AngleOffset + (direction * prec)) * 1_000f) / 1_000f);
-        note.NoteData.AngleOffset += value;
-        note.NoteData.AngleOffset = (int)Mathf.Repeat(note.NoteData.AngleOffset, 360);
+        note.NoteData.AngleOffset = (int)Mathf.Repeat(value, 360);
 
         BeatmapObjectContainerCollection
             .GetCollectionForType<NoteGridContainer>(ObjectType.Note)
