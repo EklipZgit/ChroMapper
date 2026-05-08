@@ -173,6 +173,9 @@ public class CMInputCallbackInstaller : MonoBehaviour
     public static bool IsActionMapDisabled(Type actionMap) =>
         disabledEventHandlers.Any(x => x.InterfaceType == actionMap);
 
+    public static bool IsActionMapDisabled(InputActionMap actionMap) =>
+        disabledEventHandlers.Any(x => x.ActionMapId == actionMap.id);
+    
     // Here we find our GameObjects that need our input map, install it, and then enable the input map.
     // Then we wait to re-enable our input map.
     // GameObjects that require our Input Map should be present when the scene loads, not created dynamically.
@@ -247,7 +250,7 @@ public class CMInputCallbackInstaller : MonoBehaviour
                             foreach (var e in info.PropertyType.GetEvents())
                             {
                                 AddEventHandler(e, action, behaviour, interfaceType.GetMethod($"On{info.Name}"),
-                                    interfaceType);
+                                    interfaceType, action.actionMap.id);
                             }
                         }
                     }
@@ -297,7 +300,7 @@ public class CMInputCallbackInstaller : MonoBehaviour
      * https://stackoverflow.com/questions/9753366/subscribing-an-action-to-any-event-type-via-reflection
     */
     private static void AddEventHandler(EventInfo eventInfo, object eventObject, object item, MethodInfo action,
-        Type interfaceType)
+        Type interfaceType, Guid actionMapId)
     {
         var parameters = eventInfo.EventHandlerType
             .GetMethod("Invoke")
@@ -313,7 +316,7 @@ public class CMInputCallbackInstaller : MonoBehaviour
             .Compile();
 
         eventInfo.AddEventHandler(eventObject, handler);
-        var eventHandler = new EventHandler(eventInfo, eventObject, handler, interfaceType);
+        var eventHandler = new EventHandler(eventInfo, eventObject, handler, interfaceType, actionMapId);
         allEventHandlers.Add(eventHandler);
     }
 
@@ -326,13 +329,17 @@ public class CMInputCallbackInstaller : MonoBehaviour
         public readonly Delegate Handler;
         public readonly Type InterfaceType;
         public bool IsDisabled;
+        public readonly Guid ActionMapId;
 
-        public EventHandler(EventInfo eventInfo, object eventObject, Delegate handler, Type interfaceType)
+
+        public EventHandler(EventInfo eventInfo, object eventObject, Delegate handler, Type interfaceType,
+            Guid actionMapId)
         {
             EventInfo = eventInfo;
             EventObject = eventObject;
             Handler = handler;
             InterfaceType = interfaceType;
+            ActionMapId = actionMapId;
 
             EventInfo.AddEventHandler(EventObject, (Action<InputAction.CallbackContext>)ReleaseListenerFunc);
         }

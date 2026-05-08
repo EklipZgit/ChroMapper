@@ -113,7 +113,7 @@ public class InputSystemPatch : MonoBehaviour
 
         foreach (var otherAction in blockingActions)
         {
-            if (CMInputCallbackInstaller.IsActionMapDisabled(otherAction.GetType())) continue;
+            if (CMInputCallbackInstaller.IsActionMapDisabled(otherAction.actionMap)) continue;
 
             if (otherAction.controls.All(x => x.IsPressed() || x.IsActuated())) return true;
         }
