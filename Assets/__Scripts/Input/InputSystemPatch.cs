@@ -35,8 +35,6 @@ public class InputSystemPatch : MonoBehaviour
 
     private static Dictionary<InputAction, IEnumerable<string>> allInputBindingNames = new();
 
-    private static IEnumerable<InputControl> allControls;
-
     // Key 1: Interrogated InputAction | Value: InputActions that have the possibility of blocking the interrogated action
     private static readonly ConcurrentDictionary<InputAction, List<InputAction>> inputActionBlockMap = new();
 
@@ -51,9 +49,6 @@ public class InputSystemPatch : MonoBehaviour
             .ToDictionary(x => x, x => x.bindings
                 .Where(y => !y.isComposite)
                 .Select(y => y.path));
-        allControls = InputSystem.devices
-            .SelectMany(d => d.allControls
-                .Where(c => c is KeyControl or ButtonControl));
 
         // I cant believe this actually worked first try
         // I'm pretty much caching a map of actions that can block each other, doing the heavy lifting on separate threads.
