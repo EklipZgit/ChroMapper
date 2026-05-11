@@ -47,6 +47,7 @@ namespace Beatmap.Base
             Duration = other.Duration;
             Width = other.Width;
             Height = other.Height;
+            Rotation = other.Rotation;
             CustomData = other.SaveCustom().Clone();
             CustomFake = other.CustomFake;
         }
@@ -231,7 +232,8 @@ namespace Beatmap.Base
                 return PosX == obstacle.PosX
                     && PosY == obstacle.PosY
                     && Width == obstacle.Width
-                    && Height == obstacle.Height;
+                    && Height == obstacle.Height
+                    && Rotation == obstacle.Rotation;
             }
 
             return false;
@@ -380,6 +382,9 @@ namespace Beatmap.Base
 
             // Compare by height if duration match
             if (comparison == 0) comparison = Height.CompareTo(obstacle.Height);
+
+            // genuinely why is the comment needed?
+            if (comparison == 0) comparison = Rotation.CompareTo(obstacle.Rotation);
 
             // All matching vanilla properties so compare custom data as a final check
             if (comparison == 0)

@@ -26,6 +26,8 @@ public enum ActionMergeType
     EventAltTweak,
     BPMValueTweak,
     NJSValueTweak,
+    
+    ModifyRotationValue,
 
     ReorderEventBox,
     

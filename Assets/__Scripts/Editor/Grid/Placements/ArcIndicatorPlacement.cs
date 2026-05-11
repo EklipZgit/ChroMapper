@@ -158,6 +158,12 @@ public class ArcIndicatorPlacement : BasePlacement<BaseArc, ArcIndicatorContaine
                 dragged.PosY = queued.PosY;
                 dragged.CutDirection = queued.CutDirection;
                 dragged.CustomCoordinate = queued.CustomCoordinate;
+                if (dragged.Rotation != queued.Rotation)
+                {
+                    dragged.Rotation = queued.Rotation;
+                    TracksManager.RefreshTracks();
+                }
+
                 break;
             case IndicatorType.Tail:
                 dragged.TailJsonTime = queued.JsonTime;
@@ -165,6 +171,12 @@ public class ArcIndicatorPlacement : BasePlacement<BaseArc, ArcIndicatorContaine
                 dragged.TailPosY = queued.PosY;
                 dragged.TailCutDirection = queued.TailCutDirection;
                 dragged.CustomTailCoordinate = queued.CustomTailCoordinate;
+                if (dragged.TailRotation != queued.Rotation)
+                {
+                    dragged.TailRotation = queued.Rotation;
+                    TracksManager.RefreshTracks();
+                }
+
                 break;
             default:
                 throw new ArgumentOutOfRangeException();

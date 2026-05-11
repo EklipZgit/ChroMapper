@@ -170,7 +170,7 @@ public class ObstacleGridContainer : BeatmapObjectContainerCollection<BaseObstac
         obstacle.SwitchMaterial();
         if (!obstacle.IsRotatedByNoodleExtensions && !obstacle.Animator.AnimatedTrack)
         {
-            var track = tracksManager.GetTrackAtTime(obj.SongBpmTime);
+            var track = tracksManager.GetTrackAtTime(obj.SongBpmTime, obstacle.ObstacleData.Rotation);
             track.AttachContainer(con);
         }
 

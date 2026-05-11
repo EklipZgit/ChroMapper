@@ -119,8 +119,11 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
     {
         CreateVisual();
         HideVisual();
+        GridRotation.OnRotationChanged += HandleRotationChanged;
         QueuedData ??= GenerateOriginalData();
     }
+
+    public void OnDestroy() => GridRotation.OnRotationChanged -= HandleRotationChanged;
 
     protected abstract TObject GenerateOriginalData();
     protected abstract BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicts);
@@ -255,7 +258,9 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
     private void SetTo360Tracks()
     {
         if (!AssignTo360Tracks) return;
-        var track = TracksManager.GetTrackAtTime(SongBpmTime);
+        var track = TracksManager.GetTrackAtTime(
+            SongBpmTime,
+            PlacementVisualContainer.ObjectData is BaseGrid grid ? grid.Rotation : 0);
         if (track == null) return;
 
         var localPos = PlacementVisualContainer.transform.localPosition;
@@ -267,6 +272,8 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
             0,
             PlacementVisualContainer.transform.localEulerAngles.z);
     }
+
+    protected virtual void HandleRotationChanged(bool natural, float rotation) {}
 
     public override void Apply()
     {

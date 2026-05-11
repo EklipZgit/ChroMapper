@@ -38,9 +38,11 @@ namespace Beatmap.Base
             PosX = other.PosX;
             PosY = other.PosY;
             CutDirection = other.CutDirection;
+            Rotation = other.Rotation;
             TailJsonTime = other.TailJsonTime;
             TailPosX = other.TailPosX;
             TailPosY = other.TailPosY;
+            TailRotation = other.TailRotation;
             SliceCount = other.SliceCount;
             Squish = other.Squish;
             CustomData = other.CustomData.Clone();
@@ -53,28 +55,32 @@ namespace Beatmap.Base
             PosX = start.PosX;
             PosY = start.PosY;
             CutDirection = start.CutDirection;
+            Rotation = start.Rotation;
             TailJsonTime = end.JsonTime;
             TailPosX = end.PosX;
             TailPosY = end.PosY;
+            TailRotation = end.Rotation;
             SliceCount = 5;
             Squish = 1;
             CustomData = SaveCustomFromNotes(start, end);
         }
 
         // Used for Node Editor
-        public BaseChain(JSONNode node) : this(BeatmapFactory.Chain(node)) {}
+        public BaseChain(JSONNode node) : this(BeatmapFactory.Chain(node)) { }
 
         public override ObjectType ObjectType { get; set; } = ObjectType.Chain;
         public int SliceCount { get; set; }
         public float Squish { get; set; }
-        
+
         protected override bool IsConflictingWithObjectAtSameTime(BaseObject other, bool deletion = false)
         {
             if (other is BaseChain chain)
             {
                 return base.IsConflictingWithObjectAtSameTime(other)
                     && SliceCount == chain.SliceCount
-                    && Squish == chain.Squish;
+                    && Squish == chain.Squish
+                    && Rotation == chain.Rotation
+                    && TailRotation == chain.TailRotation;
             }
 
             return false;
@@ -90,35 +96,41 @@ namespace Beatmap.Base
         public override string CustomKeySpawnEffect => V3Chain.CustomKeySpawnEffect;
         public override string CustomKeyNoteJumpMovementSpeed => V3Chain.CustomKeyNoteJumpMovementSpeed;
         public override string CustomKeyNoteJumpStartBeatOffset => V3Chain.CustomKeyNoteJumpStartBeatOffset;
-        
+
         public override bool IsChroma() =>
-            CustomData != null &&
-            ((CustomData.HasKey(CustomKeyColor) && CustomData[CustomKeyColor].IsArray) ||
-             (CustomData.HasKey(CustomKeySpawnEffect) && CustomData[CustomKeySpawnEffect].IsBoolean) ||
-             (CustomData.HasKey("disableDebris") && CustomData["disableDebris"].IsBoolean));
+            CustomData != null
+            && ((CustomData.HasKey(CustomKeyColor) && CustomData[CustomKeyColor].IsArray)
+                || (CustomData.HasKey(CustomKeySpawnEffect) && CustomData[CustomKeySpawnEffect].IsBoolean)
+                || (CustomData.HasKey("disableDebris") && CustomData["disableDebris"].IsBoolean));
 
         public override bool IsNoodleExtensions() =>
-            CustomData != null &&
-            ((CustomData.HasKey("disableNoteGravity") && CustomData["disableNoteGravity"].IsBoolean) ||
-             (CustomData.HasKey("disableNoteLook") && CustomData["disableNoteLook"].IsBoolean) ||
-             (CustomData.HasKey("flip") && CustomData["flip"].IsArray) ||
-             (CustomData.HasKey("uninteractable") && CustomData["uninteractable"].IsBoolean) ||
-             (CustomData.HasKey(CustomKeyLocalRotation) && CustomData[CustomKeyLocalRotation].IsArray) ||
-             (CustomData.HasKey(CustomKeyNoteJumpMovementSpeed) && CustomData[CustomKeyNoteJumpMovementSpeed].IsNumber) ||
-             (CustomData.HasKey(CustomKeyNoteJumpStartBeatOffset) &&
-              CustomData[CustomKeyNoteJumpStartBeatOffset].IsNumber) ||
-             (CustomData.HasKey(CustomKeyCoordinate) && CustomData[CustomKeyCoordinate].IsArray) ||
-             (CustomData.HasKey(CustomKeyWorldRotation) &&
-              (CustomData[CustomKeyWorldRotation].IsArray || CustomData[CustomKeyWorldRotation].IsNumber)));
+            CustomData != null
+            && ((CustomData.HasKey("disableNoteGravity") && CustomData["disableNoteGravity"].IsBoolean)
+                || (CustomData.HasKey("disableNoteLook") && CustomData["disableNoteLook"].IsBoolean)
+                || (CustomData.HasKey("flip") && CustomData["flip"].IsArray)
+                || (CustomData.HasKey("uninteractable") && CustomData["uninteractable"].IsBoolean)
+                || (CustomData.HasKey(CustomKeyLocalRotation) && CustomData[CustomKeyLocalRotation].IsArray)
+                || (CustomData.HasKey(CustomKeyNoteJumpMovementSpeed)
+                    && CustomData[CustomKeyNoteJumpMovementSpeed].IsNumber)
+                || (CustomData.HasKey(CustomKeyNoteJumpStartBeatOffset)
+                    && CustomData[CustomKeyNoteJumpStartBeatOffset].IsNumber)
+                || (CustomData.HasKey(CustomKeyCoordinate) && CustomData[CustomKeyCoordinate].IsArray)
+                || (CustomData.HasKey(CustomKeyWorldRotation)
+                    && (CustomData[CustomKeyWorldRotation].IsArray || CustomData[CustomKeyWorldRotation].IsNumber)));
 
         public override bool IsMappingExtensions() =>
-            (PosX <= -1000 || PosX >= 1000 || PosY < 0 || PosY > 2 ||
-             TailPosX <= -1000 || TailPosX >= 1000 || TailPosY < 0 || TailPosY > 2 ||
-             (CutDirection >= 1000 && CutDirection <= 1360) ||
-             (CutDirection >= 2000 && CutDirection <= 2360)) &&
-            !IsNoodleExtensions();
-        
-        
+            (PosX <= -1000
+                || PosX >= 1000
+                || PosY < 0
+                || PosY > 2
+                || TailPosX <= -1000
+                || TailPosX >= 1000
+                || TailPosY < 0
+                || TailPosY > 2
+                || (CutDirection >= 1000 && CutDirection <= 1360)
+                || (CutDirection >= 2000 && CutDirection <= 2360))
+            && !IsNoodleExtensions();
+
 
         public override void Apply(BaseObject originalData)
         {
@@ -130,7 +142,7 @@ namespace Beatmap.Base
                 Squish = chain.Squish;
             }
         }
-        
+
         public override int CompareTo(BaseObject other)
         {
             var comparison = base.CompareTo(other);
@@ -143,17 +155,22 @@ namespace Beatmap.Base
 
             // Compare by squish if slice counts match
             if (comparison == 0) comparison = Squish.CompareTo(chain.Squish);
-            
+
             // All matching vanilla properties so compare custom data as a final check
-            if (comparison == 0) comparison = string.Compare(CustomData?.ToString(), chain.CustomData?.ToString(), StringComparison.Ordinal);
+            if (comparison == 0)
+                comparison = string.Compare(
+                    CustomData?.ToString(),
+                    chain.CustomData?.ToString(),
+                    StringComparison.Ordinal);
 
             return comparison;
         }
 
-        public override JSONNode ToJson() => Settings.Instance.MapVersion switch
-        {
-            3 or 4 => V3Chain.ToJson(this)
-        };
+        public override JSONNode ToJson() =>
+            Settings.Instance.MapVersion switch
+            {
+                3 or 4 => V3Chain.ToJson(this)
+            };
 
         public override BaseItem Clone()
         {

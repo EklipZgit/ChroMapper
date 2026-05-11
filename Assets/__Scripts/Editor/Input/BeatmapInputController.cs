@@ -24,7 +24,7 @@ public class BeatmapInputController<TContainer> : MonoBehaviour, CMInput.IBeatma
 
     [SerializeField] private CameraManager cameraManager;
     [SerializeField] protected EditModeContext EditContext;
-    [SerializeField] private EditingMode editMode;
+    [SerializeField] protected EditingMode editMode;
     [SerializeField] private ObstaclePlacement obstaclePlacement;
     [SerializeField] private bool ignoreBaseInput;
 

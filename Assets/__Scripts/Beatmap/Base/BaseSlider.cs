@@ -42,10 +42,11 @@ namespace Beatmap.Base
             int color,
             int cutDirection,
             int angleOffset,
+            int rotation,
             float tailTime,
             int tailPosX,
             int tailPosY,
-            JSONNode customData = null) : base(time, posX, posY, customData)
+            JSONNode customData = null) : base(time, posX, posY, rotation, customData)
         {
             Color = color;
             CutDirection = cutDirection;
@@ -63,12 +64,13 @@ namespace Beatmap.Base
             int color,
             int cutDirection,
             int angleOffset,
+            int rotation,
             float tailJsonTime,
             float tailSongBpmTime,
             int tailPosX,
             int tailPosY,
             JSONNode customData = null)
-            : base(jsonTime, songBpmTime, posX, posY, customData)
+            : base(jsonTime, songBpmTime, posX, posY, rotation, customData)
         {
             Color = color;
             CutDirection = cutDirection;
@@ -229,6 +231,9 @@ namespace Beatmap.Base
             // Compare by cut direction if Y pos match
             if (comparison == 0) comparison = CutDirection.CompareTo(slider.CutDirection);
 
+            // genuinely why is the comment needed?
+            if (comparison == 0) comparison = Rotation.CompareTo(slider.Rotation);
+
             // Compare by cut direction if Y pos match
             if (comparison == 0) comparison = AngleOffset.CompareTo(slider.AngleOffset);
 
@@ -240,6 +245,9 @@ namespace Beatmap.Base
 
             // Compare by Y pos if X pos match
             if (comparison == 0) comparison = TailPosY.CompareTo(slider.TailPosY);
+
+            // genuinely why is the comment needed?
+            if (comparison == 0) comparison = TailRotation.CompareTo(slider.TailRotation);
 
             // ...i give up.
             return comparison;

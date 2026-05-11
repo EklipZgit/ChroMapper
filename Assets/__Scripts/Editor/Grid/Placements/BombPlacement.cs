@@ -95,11 +95,24 @@ public class BombPlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
         }
     }
 
+    protected override void HandleRotationChanged(bool natural, float rotation) => QueuedData.Rotation = (int)rotation;
+
     protected override void TransferQueuedToDraggedObject(ref BaseNote dragged, BaseNote queued)
     {
         dragged.JsonTime = queued.JsonTime;
         dragged.PosX = queued.PosX;
         dragged.PosY = queued.PosY;
         dragged.CustomCoordinate = queued.CustomCoordinate;
+        if (dragged.Rotation != queued.Rotation)
+        {
+            dragged.Rotation = queued.Rotation;
+            TracksManager.RefreshTracks();
+        }
+    }
+
+    public override void FinishDrag()
+    {
+        base.FinishDrag();
+        QueuedData.Rotation = (int)GridRotation.Rotation;
     }
 }

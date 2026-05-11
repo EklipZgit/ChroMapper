@@ -70,7 +70,9 @@ namespace Beatmap.Animations
             {
                 if (container.transform.IsChildOf(AnimationTrack.transform))
                 {
-                    var track = TracksManager.GetTrackAtTime(container.ObjectData?.SongBpmTime ?? 0);
+                    var track = TracksManager.GetTrackAtTime(
+                        container.ObjectData?.SongBpmTime ?? 0,
+                        container.ObjectData is BaseGrid grid ? grid.Rotation : 0);
                     track.AttachContainer(container);
                 }
 
@@ -168,6 +170,9 @@ namespace Beatmap.Animations
                     break;
                 case JSONNumber yrot:
                     WorldRotation.Preload(Quaternion.Euler(0, yrot, 0));
+                    break;
+                default:
+                    WorldRotation.Preload(Quaternion.Euler(0, obj.Rotation, 0));
                     break;
             }
 

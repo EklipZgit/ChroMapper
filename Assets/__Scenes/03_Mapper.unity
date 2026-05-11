@@ -3182,6 +3182,65 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!1 &40691066
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 40691067}
+  - component: {fileID: 40691068}
+  m_Layer: 0
+  m_Name: Rotation Input
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &40691067
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 40691066}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1546839083}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &40691068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 40691066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84365b00180c459ca4de3b0aff7d026a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BeatmapRotationInputController
+  IsSelecting: 0
+  IsHovering: 0
+  HoveredObject: {fileID: 0}
+  CustomStandaloneInputModule: {fileID: 806554}
+  cameraManager: {fileID: 1206999167}
+  EditContext: {fileID: 405385889}
+  editMode: 1
+  obstaclePlacement: {fileID: 2087881065}
+  ignoreBaseInput: 0
+  atsc: {fileID: 570484802}
+  beatmapRuntimeContext: {fileID: 127874572}
+  scrollPrecisionController: {fileID: 1561212884}
+  tracksManager: {fileID: 902407107}
+  rotationCallbackController: {fileID: 226696885}
+  eventAppearance: {fileID: 11400000, guid: 00bab3c0ab2051441b924304da9d0e12, type: 2}
 --- !u!1001 &45401269
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5882,7 +5941,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -100, y: 235}
+  m_AnchoredPosition: {x: -100, y: 234.99998}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &81479822
@@ -10636,7 +10695,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: 90}
+  m_AnchoredPosition: {x: 0, y: 89.999985}
   m_SizeDelta: {x: 200, y: 180}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &213316052
@@ -11009,9 +11068,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33972cdc04fd2d343a717f663fbfe3ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  atsc: {fileID: 570484802}
+  eventGridContainer: {fileID: 455916737}
   interfaceCallback: {fileID: 973455628}
-  Atsc: {fileID: 570484802}
-  eventGrid: {fileID: 455916737}
 --- !u!4 &226696886
 Transform:
   m_ObjectHideFlags: 0
@@ -30740,7 +30799,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -24.999756, y: -102.49982}
+  m_AnchoredPosition: {x: -24.999756, y: -102.4998}
   m_SizeDelta: {x: 50, y: -115}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &614713888
@@ -42877,8 +42936,8 @@ MonoBehaviour:
   Atsc: {fileID: 570484802}
   boxSelectionPlacement: {fileID: 0}
   AssignTo360Tracks: 0
-  TracksManager: {fileID: 0}
-  GridRotation: {fileID: 0}
+  TracksManager: {fileID: 902407107}
+  GridRotation: {fileID: 226696885}
   AllowPlacement: 1
   State: 0
   IsDragging: 0
@@ -44962,7 +45021,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -210, y: 125}
+  m_AnchoredPosition: {x: -210, y: 124.999985}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &916985948
@@ -47728,8 +47787,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 13585791}
   m_HandleRect: {fileID: 13585789}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 0.9999999
+  m_Value: 1
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -75785,6 +75844,7 @@ Transform:
   - {fileID: 934762618}
   - {fileID: 1170526322}
   - {fileID: 1561212883}
+  - {fileID: 40691067}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1546839084
@@ -76669,6 +76729,11 @@ MonoBehaviour:
   - 2.5
   - 10
   - 100
+  AngleOffsetPrecision:
+  - 1
+  - 2
+  - 5
+  - 15
   TimePrecision:
   - 0.01
   - 0.1
@@ -78305,8 +78370,8 @@ MonoBehaviour:
   Atsc: {fileID: 570484802}
   boxSelectionPlacement: {fileID: 859643186}
   AssignTo360Tracks: 0
-  TracksManager: {fileID: 0}
-  GridRotation: {fileID: 0}
+  TracksManager: {fileID: 902407107}
+  GridRotation: {fileID: 226696885}
   AllowPlacement: 1
   State: 0
   IsDragging: 0
@@ -97062,7 +97127,7 @@ Transform:
   m_GameObject: {fileID: 1927255075}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.6000001, y: 0.55, z: 1}
+  m_LocalPosition: {x: -4.8, y: 0.55, z: 1}
   m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -98444,7 +98509,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: 125}
+  m_AnchoredPosition: {x: 0, y: 124.999985}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1966683413
@@ -102718,7 +102783,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 279, y: -200}
+  m_AnchoredPosition: {x: 279, y: -199.99998}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2069920280

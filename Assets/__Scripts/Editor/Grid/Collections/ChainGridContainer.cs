@@ -44,7 +44,7 @@ public class ChainGridContainer : BeatmapObjectContainerCollection<BaseChain>
 
         if (!chain.Animator.AnimatedTrack)
         {
-            var track = tracksManager.GetTrackAtTime(chainData.SongBpmTime);
+            var track = tracksManager.GetTrackAtTime(chainData.SongBpmTime, chainData.Rotation);
             track.AttachContainer(con);
         }
     }

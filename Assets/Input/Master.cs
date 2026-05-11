@@ -231,7 +231,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""name"": ""Overwrite Location Modifier"",
                     ""type"": ""Button"",
                     ""id"": ""d07f611a-4dad-4460-90c3-bed5e359444b"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -8409,6 +8409,204 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 }
             ]
+        },
+        {
+            ""name"": ""Rotation Objects"",
+            ""id"": ""d7d7e3a1-4bd9-49c5-b944-60f2a44f0b6a"",
+            ""actions"": [
+                {
+                    ""name"": ""Rotate Clockwise"",
+                    ""type"": ""Button"",
+                    ""id"": ""7344b4fa-fee3-4b8a-bf01-ee310a397744"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Rotate Counter Clockwise"",
+                    ""type"": ""Button"",
+                    ""id"": ""9264c0b4-bbfb-4c0c-9616-c459d816b2b0"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Grid Rotate Clockwise"",
+                    ""type"": ""Button"",
+                    ""id"": ""c1b7f252-e2c4-42e0-935e-b291b5721e10"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Grid Rotate Counter Clockwise"",
+                    ""type"": ""Button"",
+                    ""id"": ""e0357535-790e-40be-99d6-306747178bee"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": ""One Modifier"",
+                    ""id"": ""fc36dd74-9589-46bb-82e0-242dbd8e0c2e"",
+                    ""path"": ""OneModifier"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate Clockwise"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier"",
+                    ""id"": ""d9a867eb-f888-4bb7-a3e1-e79f755e3552"",
+                    ""path"": ""<Keyboard>/alt"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate Clockwise"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""cfd8011a-6243-42b0-93c8-106a1e039c62"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate Clockwise"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""One Modifier"",
+                    ""id"": ""9ff4d52b-0e87-4b1b-85e2-ac58c3db7e75"",
+                    ""path"": ""OneModifier"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate Counter Clockwise"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier"",
+                    ""id"": ""1f21be55-2980-44c1-ac38-caf6a499f64a"",
+                    ""path"": ""<Keyboard>/alt"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate Counter Clockwise"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""a25fb42c-4d6a-475b-b238-0226d2d926d0"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate Counter Clockwise"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Two Modifiers"",
+                    ""id"": ""f66c83e4-a6e4-4ddf-8a8e-aa5c1baa4ad5"",
+                    ""path"": ""TwoModifiers"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Grid Rotate Clockwise"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier1"",
+                    ""id"": ""6b953a1e-bad9-46e6-867d-a3f958df6ee0"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Grid Rotate Clockwise"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""modifier2"",
+                    ""id"": ""570a4cd7-2f20-4519-b454-f2bd2f7944f8"",
+                    ""path"": ""<Keyboard>/alt"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Grid Rotate Clockwise"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""0260457b-d9ec-41b4-a26a-eb243caa0c1e"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Grid Rotate Clockwise"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Two Modifiers"",
+                    ""id"": ""21c80556-6032-4196-8399-60849abbf3b3"",
+                    ""path"": ""TwoModifiers"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Grid Rotate Counter Clockwise"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier1"",
+                    ""id"": ""e8b23a5b-6079-4a36-9094-7aa41973b6ec"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Grid Rotate Counter Clockwise"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""modifier2"",
+                    ""id"": ""16281e88-745b-4bbd-86e4-44aa07cf8d5c"",
+                    ""path"": ""<Keyboard>/alt"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Grid Rotate Counter Clockwise"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""707ca49b-3063-4461-9bd1-ee2107539253"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Grid Rotate Counter Clockwise"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -8796,6 +8994,12 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         // Scroll Precision
         m_ScrollPrecision = asset.FindActionMap("Scroll Precision", throwIfNotFound: true);
         m_ScrollPrecision_Scroll = m_ScrollPrecision.FindAction("Scroll", throwIfNotFound: true);
+        // Rotation Objects
+        m_RotationObjects = asset.FindActionMap("Rotation Objects", throwIfNotFound: true);
+        m_RotationObjects_RotateClockwise = m_RotationObjects.FindAction("Rotate Clockwise", throwIfNotFound: true);
+        m_RotationObjects_RotateCounterClockwise = m_RotationObjects.FindAction("Rotate Counter Clockwise", throwIfNotFound: true);
+        m_RotationObjects_GridRotateClockwise = m_RotationObjects.FindAction("Grid Rotate Clockwise", throwIfNotFound: true);
+        m_RotationObjects_GridRotateCounterClockwise = m_RotationObjects.FindAction("Grid Rotate Counter Clockwise", throwIfNotFound: true);
     }
 
     ~@CMInput()
@@ -8856,6 +9060,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         UnityEngine.Debug.Assert(!m_GLSFloatFXObjects.enabled, "This will cause a leak and performance issues, CMInput.GLSFloatFXObjects.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_EasingsSelection.enabled, "This will cause a leak and performance issues, CMInput.EasingsSelection.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_ScrollPrecision.enabled, "This will cause a leak and performance issues, CMInput.ScrollPrecision.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_RotationObjects.enabled, "This will cause a leak and performance issues, CMInput.RotationObjects.Disable() has not been called.");
     }
 
     /// <summary>
@@ -16602,6 +16807,135 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
     /// Provides a new <see cref="ScrollPrecisionActions" /> instance referencing this action map.
     /// </summary>
     public ScrollPrecisionActions @ScrollPrecision => new ScrollPrecisionActions(this);
+
+    // Rotation Objects
+    private readonly InputActionMap m_RotationObjects;
+    private List<IRotationObjectsActions> m_RotationObjectsActionsCallbackInterfaces = new List<IRotationObjectsActions>();
+    private readonly InputAction m_RotationObjects_RotateClockwise;
+    private readonly InputAction m_RotationObjects_RotateCounterClockwise;
+    private readonly InputAction m_RotationObjects_GridRotateClockwise;
+    private readonly InputAction m_RotationObjects_GridRotateCounterClockwise;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "Rotation Objects".
+    /// </summary>
+    public struct RotationObjectsActions
+    {
+        private @CMInput m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public RotationObjectsActions(@CMInput wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "RotationObjects/RotateClockwise".
+        /// </summary>
+        public InputAction @RotateClockwise => m_Wrapper.m_RotationObjects_RotateClockwise;
+        /// <summary>
+        /// Provides access to the underlying input action "RotationObjects/RotateCounterClockwise".
+        /// </summary>
+        public InputAction @RotateCounterClockwise => m_Wrapper.m_RotationObjects_RotateCounterClockwise;
+        /// <summary>
+        /// Provides access to the underlying input action "RotationObjects/GridRotateClockwise".
+        /// </summary>
+        public InputAction @GridRotateClockwise => m_Wrapper.m_RotationObjects_GridRotateClockwise;
+        /// <summary>
+        /// Provides access to the underlying input action "RotationObjects/GridRotateCounterClockwise".
+        /// </summary>
+        public InputAction @GridRotateCounterClockwise => m_Wrapper.m_RotationObjects_GridRotateCounterClockwise;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_RotationObjects; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="RotationObjectsActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(RotationObjectsActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="RotationObjectsActions" />
+        public void AddCallbacks(IRotationObjectsActions instance)
+        {
+            if (instance == null || m_Wrapper.m_RotationObjectsActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_RotationObjectsActionsCallbackInterfaces.Add(instance);
+            @RotateClockwise.started += instance.OnRotateClockwise;
+            @RotateClockwise.performed += instance.OnRotateClockwise;
+            @RotateClockwise.canceled += instance.OnRotateClockwise;
+            @RotateCounterClockwise.started += instance.OnRotateCounterClockwise;
+            @RotateCounterClockwise.performed += instance.OnRotateCounterClockwise;
+            @RotateCounterClockwise.canceled += instance.OnRotateCounterClockwise;
+            @GridRotateClockwise.started += instance.OnGridRotateClockwise;
+            @GridRotateClockwise.performed += instance.OnGridRotateClockwise;
+            @GridRotateClockwise.canceled += instance.OnGridRotateClockwise;
+            @GridRotateCounterClockwise.started += instance.OnGridRotateCounterClockwise;
+            @GridRotateCounterClockwise.performed += instance.OnGridRotateCounterClockwise;
+            @GridRotateCounterClockwise.canceled += instance.OnGridRotateCounterClockwise;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="RotationObjectsActions" />
+        private void UnregisterCallbacks(IRotationObjectsActions instance)
+        {
+            @RotateClockwise.started -= instance.OnRotateClockwise;
+            @RotateClockwise.performed -= instance.OnRotateClockwise;
+            @RotateClockwise.canceled -= instance.OnRotateClockwise;
+            @RotateCounterClockwise.started -= instance.OnRotateCounterClockwise;
+            @RotateCounterClockwise.performed -= instance.OnRotateCounterClockwise;
+            @RotateCounterClockwise.canceled -= instance.OnRotateCounterClockwise;
+            @GridRotateClockwise.started -= instance.OnGridRotateClockwise;
+            @GridRotateClockwise.performed -= instance.OnGridRotateClockwise;
+            @GridRotateClockwise.canceled -= instance.OnGridRotateClockwise;
+            @GridRotateCounterClockwise.started -= instance.OnGridRotateCounterClockwise;
+            @GridRotateCounterClockwise.performed -= instance.OnGridRotateCounterClockwise;
+            @GridRotateCounterClockwise.canceled -= instance.OnGridRotateCounterClockwise;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="RotationObjectsActions.UnregisterCallbacks(IRotationObjectsActions)" />.
+        /// </summary>
+        /// <seealso cref="RotationObjectsActions.UnregisterCallbacks(IRotationObjectsActions)" />
+        public void RemoveCallbacks(IRotationObjectsActions instance)
+        {
+            if (m_Wrapper.m_RotationObjectsActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="RotationObjectsActions.AddCallbacks(IRotationObjectsActions)" />
+        /// <seealso cref="RotationObjectsActions.RemoveCallbacks(IRotationObjectsActions)" />
+        /// <seealso cref="RotationObjectsActions.UnregisterCallbacks(IRotationObjectsActions)" />
+        public void SetCallbacks(IRotationObjectsActions instance)
+        {
+            foreach (var item in m_Wrapper.m_RotationObjectsActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_RotationObjectsActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="RotationObjectsActions" /> instance referencing this action map.
+    /// </summary>
+    public RotationObjectsActions @RotationObjects => new RotationObjectsActions(this);
     private int m_ChroMapperDefaultSchemeIndex = -1;
     /// <summary>
     /// Provides access to the input control scheme.
@@ -18917,5 +19251,41 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnScroll(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Rotation Objects" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="RotationObjectsActions.AddCallbacks(IRotationObjectsActions)" />
+    /// <seealso cref="RotationObjectsActions.RemoveCallbacks(IRotationObjectsActions)" />
+    public interface IRotationObjectsActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "Rotate Clockwise" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnRotateClockwise(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Rotate Counter Clockwise" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnRotateCounterClockwise(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Grid Rotate Clockwise" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnGridRotateClockwise(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Grid Rotate Counter Clockwise" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnGridRotateCounterClockwise(InputAction.CallbackContext context);
     }
 }

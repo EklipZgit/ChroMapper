@@ -98,7 +98,7 @@ public class NoteGridContainer : BeatmapObjectContainerCollection<BaseNote>
 
         if (!note.Animator.AnimatedTrack)
         {
-            var track = tracksManager.GetTrackAtTime(obj.SongBpmTime);
+            var track = tracksManager.GetTrackAtTime(obj.SongBpmTime, note.NoteData.Rotation);
             track.AttachContainer(con);
         }
     }

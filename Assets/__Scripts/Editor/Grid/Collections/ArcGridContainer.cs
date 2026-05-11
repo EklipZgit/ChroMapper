@@ -30,7 +30,7 @@ public class ArcGridContainer : BeatmapObjectContainerCollection<BaseArc>
         con.Animator.TracksManager = tracksManager;
         return con;
     }
-    
+
     protected override void HandleObjectSpawned(BaseObject _, bool __ = false) =>
         countersPlus.UpdateStatistic(CountersPlusStatistic.Arcs);
 
@@ -84,7 +84,7 @@ public class ArcGridContainer : BeatmapObjectContainerCollection<BaseArc>
 
         if (!arc.Animator.AnimatedTrack)
         {
-            var track = tracksManager.GetTrackAtTime(arcData.SongBpmTime);
+            var track = tracksManager.GetTrackAtTime(arcData.SongBpmTime, arcData.Rotation);
             track.AttachContainer(con);
         }
     }

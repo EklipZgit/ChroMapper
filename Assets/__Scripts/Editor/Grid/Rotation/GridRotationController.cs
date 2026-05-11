@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class GridRotationController : MonoBehaviour
 {
-    private static readonly int rotation = Shader.PropertyToID("_Rotation");
+    private static readonly int rotationId = Shader.PropertyToID("_Rotation");
 
-    public event Action OnObjectRotationChanged;
     public RotationCallbackController RotationCallback;
 
     [SerializeField] private bool rotateTransform = true;
@@ -16,32 +13,25 @@ public class GridRotationController : MonoBehaviour
 
     private void Start()
     {
-        Shader.SetGlobalFloat(rotation, 0);
+        Shader.SetGlobalFloat(rotationId, 0);
         if (RotationCallback != null) Init();
     }
 
     private void LateUpdate()
     {
         if (!Settings.Instance.RotateTrack) return;
-
-        // Changing rotation time to a constant
         ChangeRotation(Mathf.LerpAngle(currentRotation, targetRotation, Time.deltaTime / 0.15f));
     }
 
     private void OnDestroy()
     {
-        RotationCallback.OnRotationChanged -= OnRotationChanged;
+        RotationCallback.OnRotationChanged -= HandleRotationChanged;
         Settings.ClearSettingNotifications("RotateTrack");
     }
 
     public void Init()
     {
-        enabled = false;
-
-        if (!RotationCallback.IsActive) return;
-
-        enabled = true;
-        RotationCallback.OnRotationChanged += OnRotationChanged;
+        RotationCallback.OnRotationChanged += HandleRotationChanged;
         Settings.NotifyBySettingName("RotateTrack", UpdateRotateTrack);
     }
 
@@ -54,9 +44,9 @@ public class GridRotationController : MonoBehaviour
             ChangeRotation(0);
     }
 
-    private void OnRotationChanged(bool natural, float rotation)
+    private void HandleRotationChanged(bool natural, float rotation)
     {
-        if (!RotationCallback.IsActive || !Settings.Instance.RotateTrack) return;
+        if ((BeatSaberSongContainer.Instance.Map.MajorVersion != 4 && !RotationCallback.IsActive) || !Settings.Instance.RotateTrack) return;
         targetRotation = rotation;
         if (!natural) ChangeRotation(rotation);
     }
@@ -65,7 +55,6 @@ public class GridRotationController : MonoBehaviour
     {
         if (rotateTransform) transform.RotateAround(Vector3.zero, Vector3.up, rotation - currentRotation);
         currentRotation = rotation;
-        OnObjectRotationChanged?.Invoke();
-        Shader.SetGlobalFloat(GridRotationController.rotation, rotation);
+        Shader.SetGlobalFloat(rotationId, rotation);
     }
 }
