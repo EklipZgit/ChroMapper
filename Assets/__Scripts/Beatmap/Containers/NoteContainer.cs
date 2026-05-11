@@ -24,6 +24,7 @@ namespace Beatmap.Containers
 
         [Header("Others")] [SerializeField] public Transform DirectionTarget;
         [SerializeField] private SpriteRenderer swingArcRenderer;
+        [SerializeField] private LineRenderer laneIndicator;
 
         public BaseNote NoteData;
 
@@ -194,15 +195,36 @@ namespace Beatmap.Containers
 
         public override void UpdateGridPosition()
         {
+            var pos = NoteData.GetPosition();
             if (!(Animator != null && Animator.AnimatedTrack))
             {
-                transform.localPosition = (Vector3)NoteData.GetPosition()
+                transform.localPosition = (Vector3)pos
                     + new Vector3(
                         0f,
                         BeatmapConstant.YOffset + BeatmapConstant.PlayerYOffset,
                         (NoteData.SongBpmTime * EditorScaleController.EditorScale * BeatmapConstant.LaneSize)
                         + BeatmapConstant.ZOffset);
             }
+
+            // line renderer fun
+            var vector3 = laneIndicator.transform.localPosition;
+            vector3.y = -pos.y;
+            laneIndicator.transform.localPosition = vector3;
+            laneIndicator.SetPosition(
+                0,
+                new Vector3(
+                    0f,
+                    (-BeatmapConstant.LaneSize * 1.5f) + 0.1f,
+                    EditorScaleController.EditorScale * BeatmapConstant.LaneSize * 8f));
+            laneIndicator.SetPosition(
+                1,
+                new Vector3(0f, (-BeatmapConstant.LaneSize * 1.5f) + 0.1f, 0f));
+            laneIndicator.SetPosition(
+                2,
+                new Vector3(
+                    0f,
+                    (-BeatmapConstant.LaneSize * 1.5f) + 0.1f,
+                    -EditorScaleController.EditorScale * BeatmapConstant.LaneSize * 8f));
 
             transform.localScale = NoteData.GetScale();
             DirectionTarget.localEulerAngles = DirectionTargetEuler;
