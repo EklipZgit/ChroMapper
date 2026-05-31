@@ -70,7 +70,7 @@ public class RotationCallbackController : MonoBehaviour
 
     private void PlayToggle(bool isPlaying)
     {
-        if (!IsActive || BeatSaberSongContainer.Instance.Map.MajorVersion != 4) return;
+        if (!IsActive) return;
         var jsonTime = atsc.CurrentJsonTime;
 
         var span = eventGridContainer.AllRotationEvents.AsSpan();
@@ -96,7 +96,7 @@ public class RotationCallbackController : MonoBehaviour
 
     private void OnEventPassedThreshold(bool initial, int index, BaseObject obj)
     {
-        if (!IsActive || BeatSaberSongContainer.Instance.Map.MajorVersion != 4) return;
+        if (!IsActive) return;
         if (obj is not BaseEvent e) return;
         if (!e.IsLaneRotationEvent()) return;
         if (e == LatestRotationEvent) return;

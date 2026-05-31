@@ -172,7 +172,8 @@ namespace Beatmap.Animations
                     WorldRotation.Preload(Quaternion.Euler(0, yrot, 0));
                     break;
                 default:
-                    WorldRotation.Preload(Quaternion.Euler(0, obj.Rotation, 0));
+                    if (BeatSaberSongContainer.Instance.Map.MajorVersion == 4)
+                        WorldRotation.Preload(Quaternion.Euler(0, obj.Rotation, 0));
                     break;
             }
 

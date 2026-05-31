@@ -46,7 +46,7 @@ public class GridRotationController : MonoBehaviour
 
     private void HandleRotationChanged(bool natural, float rotation)
     {
-        if ((BeatSaberSongContainer.Instance.Map.MajorVersion != 4 && !RotationCallback.IsActive) || !Settings.Instance.RotateTrack) return;
+        if (!RotationCallback.IsActive || !Settings.Instance.RotateTrack) return;
         targetRotation = rotation;
         if (!natural) ChangeRotation(rotation);
     }
