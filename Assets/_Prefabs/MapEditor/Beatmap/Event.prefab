@@ -54,14 +54,14 @@ MonoBehaviour:
   MpbController: {fileID: 1881671473189040870}
   SelectionMpbController: {fileID: 286273044837626658}
   VModelController: {fileID: 3517462033951592126}
-  EventGridContainer: {fileID: 0}
+  eventGridContainer: {fileID: 0}
   eventAppearance: {fileID: 11400000, guid: 00bab3c0ab2051441b924304da9d0e12, type: 2}
   tracksManager: {fileID: 0}
   valueDisplay: {fileID: 8463894110379116219}
   lightGradientController: {fileID: 3430681651377604802}
   labels: {fileID: 0}
   TracksDefinition: {fileID: 0}
-  useBlockModel: 0
+  AlternateShader: 0
 --- !u!1 &2090204300881967071
 GameObject:
   m_ObjectHideFlags: 0

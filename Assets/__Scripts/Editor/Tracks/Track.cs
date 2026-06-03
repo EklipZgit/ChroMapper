@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Beatmap.Animations;
 using Beatmap.Base;
 using Beatmap.Containers;
@@ -114,7 +115,8 @@ public class Track : MonoBehaviour
                 }
             case BaseChain chain:
                 {
-                    for (var i = 0; i < nodesTarget.Length; i++)
+                    var len = Math.Min(nodesTarget.Length, chain.SliceCount - 1);
+                    for (var i = 0; i < len; i++)
                     {
                         var (nodeTransform, targetPosition, targetRotation) = nodesTarget[i];
                         var localPosition = nodeTransform.localPosition;

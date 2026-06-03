@@ -9769,7 +9769,7 @@ MonoBehaviour:
   CustomStandaloneInputModule: {fileID: 806554}
   cameraManager: {fileID: 1206999167}
   EditContext: {fileID: 405385889}
-  editMode: 8
+  editMode: 9
   obstaclePlacement: {fileID: 2087881065}
   ignoreBaseInput: 1
 --- !u!4 &171301929
@@ -47729,7 +47729,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 13585789}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.9999999
+  m_Size: 0.9999998
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -75985,6 +75985,7 @@ MonoBehaviour:
   editMode: 1
   obstaclePlacement: {fileID: 2087881065}
   ignoreBaseInput: 0
+  scrollPrecisionController: {fileID: 1561212884}
 --- !u!114 &1546839093
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -76669,6 +76670,11 @@ MonoBehaviour:
   - 2.5
   - 10
   - 100
+  AngleOffsetPrecision:
+  - 1
+  - 2
+  - 5
+  - 15
   TimePrecision:
   - 0.01
   - 0.1
@@ -97062,7 +97068,7 @@ Transform:
   m_GameObject: {fileID: 1927255075}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.6000001, y: 0.55, z: 1}
+  m_LocalPosition: {x: -4.8, y: 0.55, z: 1}
   m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -104486,7 +104492,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 20, y: -0.00021362305}
+  m_AnchoredPosition: {x: 20, y: -0.0008392334}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &2122688343

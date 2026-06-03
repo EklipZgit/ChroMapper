@@ -45,7 +45,7 @@ public class BeatmapInputController<TContainer> : MonoBehaviour, CMInput.IBeatma
     // Update is called once per frame
     private void Update()
     {
-        if ((EditContext.EditingMode & editMode) != editMode)
+        if ((EditContext.EditingMode & editMode) == 0)
         {
             if (IsHovering) HoveredObject.Highlighted = false;
             IsHovering = false;
