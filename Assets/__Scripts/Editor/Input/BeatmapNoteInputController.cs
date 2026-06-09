@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,9 @@ public class BeatmapNoteInputController : BeatmapInputController<NoteContainer>,
     [SerializeField] private NoteAppearanceSO noteAppearance;
     [SerializeField] private ArcAppearanceSO arcAppearance;
     [SerializeField] private ChainAppearanceSO chainAppearance;
-
+    
+    public event Action<int> OnCutDirectionChanged;
+    
     private static readonly Dictionary<int, int> cutDirectionMovedBackward = new()
     {
         { (int)NoteCutDirection.Any, (int)NoteCutDirection.Any },
@@ -81,28 +84,46 @@ public class BeatmapNoteInputController : BeatmapInputController<NoteContainer>,
     }
 
     // TODO: Deal with note editing later
-    /*
-    public void OnQuickUpDirectionModifier(InputAction.CallbackContext context) => HandleKeyUpdate(context, upKey);
+    public void OnUpNote(InputAction.CallbackContext context) => HandleKeyUpdate(context, upKey);
+    public void OnDownNote(InputAction.CallbackContext context) => HandleKeyUpdate(context, downKey);
+    public void OnRightNote(InputAction.CallbackContext context) => HandleKeyUpdate(context, rightKey);
+    public void OnLeftNote(InputAction.CallbackContext context) => HandleKeyUpdate(context, leftKey);
 
-    public void OnQuickDownDirectionModifier(InputAction.CallbackContext context) => HandleKeyUpdate(context, downKey);
-
-    public void OnQuickLeftDirectionModifier(InputAction.CallbackContext context) => HandleKeyUpdate(context, leftKey);
-
-    public void OnQuickRightDirectionModifier(InputAction.CallbackContext context) =>
-        HandleKeyUpdate(context, rightKey);
-
-    public void OnQuickAnyDirectionModifier(InputAction.CallbackContext context)
+    public void OnDotNote(InputAction.CallbackContext context)
     {
-        if (!Settings.Instance.QuickNoteEditing) return;
-        if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)
-            || !KeybindsController.IsMouseInWindow
-            || !context.performed)
-            return;
-
-        RaycastFirstObject(out var note);
-        if (note != null && !note.Dragged) UpdateDirection(note, (int)NoteCutDirection.Any);
+        if (context.performed) OnDirectNoteDirectionPerformed(NoteCutDirection.Any);
     }
-    */
+    
+    public void OnUpLeftNote(InputAction.CallbackContext context)
+    {
+        if (context.performed) OnDirectNoteDirectionPerformed(NoteCutDirection.UpLeft);
+    }
+
+    public void OnUpRightNote(InputAction.CallbackContext context)
+    {
+        if (context.performed) OnDirectNoteDirectionPerformed(NoteCutDirection.UpRight);
+    }
+
+    public void OnDownRightNote(InputAction.CallbackContext context)
+    {
+        if (context.performed) OnDirectNoteDirectionPerformed(NoteCutDirection.DownRight);
+    }
+
+    public void OnDownLeftNote(InputAction.CallbackContext context)
+    {
+        if (context.performed) OnDirectNoteDirectionPerformed(NoteCutDirection.DownLeft);
+    }
+    
+    private void OnDirectNoteDirectionPerformed(NoteCutDirection cutDirection)
+    {
+        if (KeybindsController.IsHoverKeyHeld)
+        {
+            if (IsHovering)
+                UpdateHoverNoteDirection((int)cutDirection);
+        }
+        else
+            OnCutDirectionChanged?.Invoke((int)cutDirection);
+    }
 
     private void HandleKeyUpdate(InputAction.CallbackContext context, int id)
     {
@@ -255,8 +276,18 @@ public class BeatmapNoteInputController : BeatmapInputController<NoteContainer>,
                 mergeType: ActionMergeType.NotePreciseDirectionTweak));
     }
 
-    public void UpdateDirection(NoteContainer note, int value)
+    private void UpdateHoverNoteDirection(int value)
     {
+        var note = HoveredObject;
+        if (note.Dragged)
+        {
+            OnCutDirectionChanged?.Invoke(value);
+            return;
+        }
+
+        if (!Settings.Instance.QuickNoteEditing) return;
+        
+        // TODO: Move the below to a command?
         if (note.ObjectData is not BaseNote noteData) return;
         var originalData = BeatmapFactory.Clone(noteData);
         ToggleDiagonalAngleOffset(noteData, value);
@@ -297,7 +328,6 @@ public class BeatmapNoteInputController : BeatmapInputController<NoteContainer>,
 
     private void HandleDirectionValues()
     {
-        if (!Settings.Instance.QuickNoteEditing || !IsHovering) return;
         DeleteToolController.UpdateDeletion(false);
 
         var upNote = heldKeys[upKey];
@@ -317,39 +347,42 @@ public class BeatmapNoteInputController : BeatmapInputController<NoteContainer>,
             return;
         }
 
-        var note = HoveredObject;
-        if (note.Dragged) return;
+        // Get cut direction
+        NoteCutDirection? cutDirection = null;
         if (handleUpDownNotes && !handleLeftRightNotes) // We handle simple up/down notes
         {
             if (upNote)
-                UpdateDirection(note, (int)NoteCutDirection.Up);
+                cutDirection = NoteCutDirection.Up;
             else
-                UpdateDirection(note, (int)NoteCutDirection.Down);
+                cutDirection = NoteCutDirection.Down;
         }
         else if (!handleUpDownNotes && handleLeftRightNotes) // We handle simple left/right notes
         {
             if (leftNote)
-                UpdateDirection(note, (int)NoteCutDirection.Left);
+                cutDirection = NoteCutDirection.Left;
             else
-                UpdateDirection(note, (int)NoteCutDirection.Right);
+                cutDirection = NoteCutDirection.Right;
         }
         else if (diagonal) //We need to do a diagonal
         {
             if (leftNote)
             {
                 if (upNote)
-                    UpdateDirection(note, (int)NoteCutDirection.UpLeft);
+                    cutDirection = NoteCutDirection.UpLeft;
                 else
-                    UpdateDirection(note, (int)NoteCutDirection.DownLeft);
+                    cutDirection = NoteCutDirection.DownLeft;
             }
             else
             {
                 if (upNote)
-                    UpdateDirection(note, (int)NoteCutDirection.UpRight);
+                    cutDirection = NoteCutDirection.UpRight;
                 else
-                    UpdateDirection(note, (int)NoteCutDirection.DownRight);
+                    cutDirection = NoteCutDirection.DownRight;
             }
         }
+
+        // Now actually do something with it
+        if (cutDirection != null) OnDirectNoteDirectionPerformed(cutDirection.Value);
     }
 
     private void ToggleDiagonalAngleOffset(BaseNote note, int newCutDirection)
