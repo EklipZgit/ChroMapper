@@ -80,6 +80,8 @@ public class BeatmapNoteInputController : BeatmapInputController<NoteContainer>,
         if (note != null && !note.Dragged) InvertNote(note);
     }
 
+    // TODO: Deal with note editing later
+    /*
     public void OnQuickUpDirectionModifier(InputAction.CallbackContext context) => HandleKeyUpdate(context, upKey);
 
     public void OnQuickDownDirectionModifier(InputAction.CallbackContext context) => HandleKeyUpdate(context, downKey);
@@ -100,6 +102,7 @@ public class BeatmapNoteInputController : BeatmapInputController<NoteContainer>,
         RaycastFirstObject(out var note);
         if (note != null && !note.Dragged) UpdateDirection(note, (int)NoteCutDirection.Any);
     }
+    */
 
     private void HandleKeyUpdate(InputAction.CallbackContext context, int id)
     {

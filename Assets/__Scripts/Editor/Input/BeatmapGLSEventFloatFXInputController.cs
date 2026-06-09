@@ -8,59 +8,44 @@ public class BeatmapGLSEventFloatFXInputController : BeatmapGLSEventInputControl
 {
     public event Action<float> OnValueChanged;
 
+    private void OnValueChange(float value)
+    {
+        if (KeybindsController.IsHoverKeyHeld)
+        {
+            if (IsHovering)
+            {
+                GLSEventFloatFXCommand.SetValue(HoveredObject.EventData as BaseFxEventFloat, value);
+            }
+        }
+        else
+        {
+            NotifyValueChanged(value);
+        }
+    }
+    
     public void OnValuen100(InputAction.CallbackContext context)
     {
-        if (context.performed) NotifyValueChanged(-1f);
-    }
-
-    public void OnValuen100Hover(InputAction.CallbackContext context)
-    {
-        if (context.performed && IsHovering)
-            GLSEventFloatFXCommand.SetValue(HoveredObject.EventData as BaseFxEventFloat, -1f);
+        if (context.performed) OnValueChange(-1f);
     }
 
     public void OnValuen50(InputAction.CallbackContext context)
     {
-        if (context.performed) NotifyValueChanged(-.5f);
-    }
-
-    public void OnValuen50Hover(InputAction.CallbackContext context)
-    {
-        if (context.performed && IsHovering)
-            GLSEventFloatFXCommand.SetValue(HoveredObject.EventData as BaseFxEventFloat, -.5f);
+        if (context.performed) OnValueChange(-.5f);
     }
 
     public void OnValue0(InputAction.CallbackContext context)
     {
-        if (context.performed) NotifyValueChanged(0f);
-    }
-
-    public void OnValue0Hover(InputAction.CallbackContext context)
-    {
-        if (context.performed && IsHovering)
-            GLSEventFloatFXCommand.SetValue(HoveredObject.EventData as BaseFxEventFloat, 0f);
+        if (context.performed) OnValueChange(0f);
     }
 
     public void OnValue50(InputAction.CallbackContext context)
     {
-        if (context.performed) NotifyValueChanged(.5f);
-    }
-
-    public void OnValue50Hover(InputAction.CallbackContext context)
-    {
-        if (context.performed && IsHovering)
-            GLSEventFloatFXCommand.SetValue(HoveredObject.EventData as BaseFxEventFloat, .5f);
+        if (context.performed) OnValueChange(.5f);
     }
 
     public void OnValue100(InputAction.CallbackContext context)
     {
-        if (context.performed) NotifyValueChanged(1f);
-    }
-
-    public void OnValue100Hover(InputAction.CallbackContext context)
-    {
-        if (context.performed && IsHovering)
-            GLSEventFloatFXCommand.SetValue(HoveredObject.EventData as BaseFxEventFloat, 1f);
+        if (context.performed) OnValueChange(1f);
     }
 
     public void OnValueHover(InputAction.CallbackContext context)

@@ -16,35 +16,30 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
 
     public void OnColor0Light(InputAction.CallbackContext context)
     {
-        if (context.performed) NotifyColorChanged(LightColor.Red);
-    }
-
-    public void OnColor0LightHover(InputAction.CallbackContext context)
-    {
-        if (context.performed && IsHovering)
-            GLSEventColorCommand.SetColor(HoveredObject.EventData as BaseLightColorBase, (int)LightColor.Red);
+        if (context.performed) OnColorPerformed(LightColor.Red);
     }
 
     public void OnColor1Light(InputAction.CallbackContext context)
     {
-        if (context.performed) NotifyColorChanged(LightColor.Blue);
-    }
-
-    public void OnColor1LightHover(InputAction.CallbackContext context)
-    {
-        if (context.performed && IsHovering)
-            GLSEventColorCommand.SetColor(HoveredObject.EventData as BaseLightColorBase, (int)LightColor.Blue);
+        if (context.performed) OnColorPerformed(LightColor.Blue);
     }
 
     public void OnColorWLight(InputAction.CallbackContext context)
     {
-        if (context.performed) NotifyColorChanged(LightColor.White);
+        if (context.performed) OnColorPerformed(LightColor.White);
     }
 
-    public void OnColorWLightHover(InputAction.CallbackContext context)
+    private void OnColorPerformed(LightColor lightColor)
     {
-        if (context.performed && IsHovering)
-            GLSEventColorCommand.SetColor(HoveredObject.EventData as BaseLightColorBase, (int)LightColor.White);
+        if (KeybindsController.IsHoverKeyHeld && IsHovering)
+        {
+            if (IsHovering)
+                GLSEventColorCommand.SetColor(HoveredObject.EventData as BaseLightColorBase, (int)lightColor);
+        }
+        else
+        {
+            NotifyColorChanged(lightColor);
+        }
     }
 
     public void NotifyColorChanged(LightColor color)
@@ -53,124 +48,53 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
         OnColorChanged?.Invoke((int)color);
     }
 
-    public void OnStatic0Brightness(InputAction.CallbackContext context)
+    private void OnBrightnessPerformed(int fadeChange, float brightness, EaseType easeType)
     {
-        if (context.performed)
+        if (KeybindsController.IsHoverKeyHeld && IsHovering)
         {
-            NotifyFadeChanged(-1);
-            NotifyBrightnessChanged(0f);
+            if (IsHovering)
+            {
+                GLSEventColorCommand.SetBrightnessAndEasing(
+                    HoveredObject.EventData as BaseLightColorBase,
+                    brightness,
+                    easeType);
+            }
+        }
+        else
+        {
+            NotifyFadeChanged(fadeChange);
+            NotifyBrightnessChanged(brightness);
         }
     }
-
-    public void OnStatic0BrightnessHover(InputAction.CallbackContext context)
+    
+    public void OnStatic0Brightness(InputAction.CallbackContext context)
     {
-        if (context.performed && IsHovering)
-        {
-            GLSEventColorCommand.SetBrightnessAndEasing(
-                HoveredObject.EventData as BaseLightColorBase,
-                0f,
-                EaseType.None);
-        }
+        if (context.performed) OnBrightnessPerformed(-1, 0f, EaseType.None);
     }
 
     public void OnStatic50Brightness(InputAction.CallbackContext context)
     {
-        if (context.performed)
-        {
-            NotifyFadeChanged(-1);
-            NotifyBrightnessChanged(.5f);
-        }
-    }
-
-    public void OnStatic50BrightnessHover(InputAction.CallbackContext context)
-    {
-        if (context.performed && IsHovering)
-        {
-            GLSEventColorCommand.SetBrightnessAndEasing(
-                HoveredObject.EventData as BaseLightColorBase,
-                .5f,
-                EaseType.None);
-        }
+        if (context.performed) OnBrightnessPerformed(-1, 0.5f, EaseType.None);
     }
 
     public void OnStatic100Brightness(InputAction.CallbackContext context)
     {
-        if (context.performed)
-        {
-            NotifyFadeChanged(-1);
-            NotifyBrightnessChanged(1f);
-        }
-    }
-
-    public void OnStatic100BrightnessHover(InputAction.CallbackContext context)
-    {
-        if (context.performed && IsHovering)
-        {
-            GLSEventColorCommand.SetBrightnessAndEasing(
-                HoveredObject.EventData as BaseLightColorBase,
-                1f,
-                EaseType.None);
-        }
+        if (context.performed) OnBrightnessPerformed(-1, 1f, EaseType.None);
     }
 
     public void OnFade0Brightness(InputAction.CallbackContext context)
     {
-        if (context.performed)
-        {
-            NotifyFadeChanged(0);
-            NotifyBrightnessChanged(0f);
-        }
-    }
-
-    public void OnFade0BrightnessHover(InputAction.CallbackContext context)
-    {
-        if (context.performed && IsHovering)
-        {
-            GLSEventColorCommand.SetBrightnessAndEasing(
-                HoveredObject.EventData as BaseLightColorBase,
-                0f,
-                EaseType.Linear);
-        }
+        if (context.performed) OnBrightnessPerformed(0, 0f, EaseType.Linear);
     }
 
     public void OnFade50Brightness(InputAction.CallbackContext context)
     {
-        if (context.performed)
-        {
-            NotifyFadeChanged(0);
-            NotifyBrightnessChanged(.5f);
-        }
-    }
-
-    public void OnFade50BrightnessHover(InputAction.CallbackContext context)
-    {
-        if (context.performed && IsHovering)
-        {
-            GLSEventColorCommand.SetBrightnessAndEasing(
-                HoveredObject.EventData as BaseLightColorBase,
-                .5f,
-                EaseType.Linear);
-        }
+        if (context.performed) OnBrightnessPerformed(0, 0.5f, EaseType.Linear);
     }
 
     public void OnFade100Brightness(InputAction.CallbackContext context)
     {
-        if (context.performed)
-        {
-            NotifyFadeChanged(0);
-            NotifyBrightnessChanged(1f);
-        }
-    }
-
-    public void OnFade100BrightnessHover(InputAction.CallbackContext context)
-    {
-        if (context.performed && IsHovering)
-        {
-            GLSEventColorCommand.SetBrightnessAndEasing(
-                HoveredObject.EventData as BaseLightColorBase,
-                1f,
-                EaseType.Linear);
-        }
+        if (context.performed) OnBrightnessPerformed(0, 1f, EaseType.Linear);
     }
 
     public void OnBrightness0(InputAction.CallbackContext context)
@@ -264,24 +188,27 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
 
     public void OnStrobeOn(InputAction.CallbackContext context)
     {
-        if (context.performed) NotifyStrobeFrequencyChanged(1);
-    }
-
-    public void OnStrobeOnHover(InputAction.CallbackContext context)
-    {
-        if (context.performed && IsHovering)
-            GLSEventColorCommand.SetStrobeFade(HoveredObject.EventData as BaseLightColorBase, 1);
+        if (context.performed) OnStrobePerformed(1);
     }
 
     public void OnStrobeOff(InputAction.CallbackContext context)
     {
-        if (context.performed) NotifyStrobeFrequencyChanged(0);
+        if (context.performed) OnStrobePerformed(0);
     }
 
-    public void OnStrobeOffHover(InputAction.CallbackContext context)
+    private void OnStrobePerformed(int toggledOn)
     {
-        if (context.performed && IsHovering)
-            GLSEventColorCommand.SetStrobeFade(HoveredObject.EventData as BaseLightColorBase, 0);
+        if (KeybindsController.IsHoverKeyHeld && IsHovering)
+        {
+            if (IsHovering)
+            {
+                GLSEventColorCommand.SetStrobeFade(HoveredObject.EventData as BaseLightColorBase, toggledOn);
+            }
+        }
+        else
+        {
+            NotifyStrobeFrequencyChanged(toggledOn);
+        }
     }
 
     public void OnStrobeFrequencyHover(InputAction.CallbackContext context)
