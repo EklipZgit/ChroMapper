@@ -97,69 +97,86 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
         if (context.performed) OnBrightnessPerformed(0, 1f, EaseType.Linear);
     }
 
+    private void OnSetBrightnessOnlyPerformed(float brightness)
+    {
+        if (KeybindsController.IsHoverKeyHeld && IsHovering)
+        {
+            if (IsHovering)
+            {
+                GLSEventColorCommand.SetBrightness(
+                    HoveredObject.EventData as BaseLightColorBase,
+                    brightness);
+            }
+        }
+        else
+        {
+            NotifyBrightnessChanged(brightness);
+        }
+    }
+
     public void OnBrightness0(InputAction.CallbackContext context)
     {
-        if (context.performed) NotifyBrightnessChanged(0f);
+        if (context.performed) OnSetBrightnessOnlyPerformed(0f);
     }
 
     public void OnBrightness10(InputAction.CallbackContext context)
     {
-        if (context.performed) NotifyBrightnessChanged(.1f);
+        if (context.performed) OnSetBrightnessOnlyPerformed(.1f);
     }
 
     public void OnBrightness20(InputAction.CallbackContext context)
     {
-        if (context.performed) NotifyBrightnessChanged(.2f);
+        if (context.performed) OnSetBrightnessOnlyPerformed(.2f);
     }
 
     public void OnBrightness30(InputAction.CallbackContext context)
     {
-        if (context.performed) NotifyBrightnessChanged(.3f);
+        if (context.performed) OnSetBrightnessOnlyPerformed(.3f);
     }
 
     public void OnBrightness40(InputAction.CallbackContext context)
     {
-        if (context.performed) NotifyBrightnessChanged(.4f);
+        if (context.performed) OnSetBrightnessOnlyPerformed(.4f);
     }
 
     public void OnBrightness50(InputAction.CallbackContext context)
     {
-        if (context.performed) NotifyBrightnessChanged(.5f);
+        if (context.performed) OnSetBrightnessOnlyPerformed(.5f);
     }
 
     public void OnBrightness60(InputAction.CallbackContext context)
     {
-        if (context.performed) NotifyBrightnessChanged(.6f);
+        if (context.performed) OnSetBrightnessOnlyPerformed(.6f);
     }
 
     public void OnBrightness70(InputAction.CallbackContext context)
     {
-        if (context.performed) NotifyBrightnessChanged(.7f);
+        if (context.performed) OnSetBrightnessOnlyPerformed(.7f);
     }
 
     public void OnBrightness80(InputAction.CallbackContext context)
     {
-        if (context.performed) NotifyBrightnessChanged(.8f);
+        if (context.performed) OnSetBrightnessOnlyPerformed(.8f);
     }
 
     public void OnBrightness90(InputAction.CallbackContext context)
     {
-        if (context.performed) NotifyBrightnessChanged(.9f);
+        if (context.performed) OnSetBrightnessOnlyPerformed(.9f);
     }
 
     public void OnBrightness100(InputAction.CallbackContext context)
     {
-        if (context.performed) NotifyBrightnessChanged(1f);
+        if (context.performed) OnSetBrightnessOnlyPerformed(1f);
     }
 
     public void OnBrightness120(InputAction.CallbackContext context)
     {
-        if (context.performed) NotifyBrightnessChanged(1.2f);
+        if (context.performed) OnSetBrightnessOnlyPerformed(1.2f);
     }
 
     public void OnBrightness150(InputAction.CallbackContext context)
     {
-        if (context.performed) NotifyBrightnessChanged(1.5f);
+        if (context.performed) OnSetBrightnessOnlyPerformed(1.5f);
     }
 
     public void OnBrightnessHover(InputAction.CallbackContext context)
