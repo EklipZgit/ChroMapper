@@ -41,7 +41,7 @@ namespace Tests
             if (containerCollection is NoteGridContainer notesContainer)
             {
                 var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
-                var inputController = Object.FindAnyObjectByType<BeatmapNoteInputController>();
+                var inputController = Object.FindAnyObjectByType<BeatmapSharedNoteInputController>();
 
                 BaseNote baseNoteA = new BaseNote
                 {
@@ -75,7 +75,7 @@ namespace Tests
             var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
             var arcPlacement = Object.FindAnyObjectByType<ArcPlacement>();
             var chainPlacement = Object.FindAnyObjectByType<ChainPlacement>();
-            var inputController = Object.FindAnyObjectByType<BeatmapNoteInputController>();
+            var inputController = Object.FindAnyObjectByType<BeatmapSharedNoteInputController>();
 
             BaseNote baseNote1 = new BaseNote
             {

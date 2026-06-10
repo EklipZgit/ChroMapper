@@ -941,12 +941,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             ]
         },
         {
-            ""name"": ""Note Placement"",
-            ""id"": ""55b78d3d-8ced-467c-a88f-d5cf50532d2e"",
-            ""actions"": [],
-            ""bindings"": []
-        },
-        {
             ""name"": ""Event Placement"",
             ""id"": ""d0462ea9-c717-4662-b004-e7b66e957cc9"",
             ""actions"": [
@@ -999,7 +993,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""name"": ""Rotate In Place Left"",
                     ""type"": ""Button"",
                     ""id"": ""495ff970-c1be-4d9e-b6e5-25d4656ac258"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": ""Press"",
                     ""initialStateCheck"": false
@@ -1017,24 +1011,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""name"": ""Rotate In Place Modifier"",
                     ""type"": ""Button"",
                     ""id"": ""0708fcf5-8b14-46b7-97c2-4a9c7577075d"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": ""Press"",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Half Float Value Modifier"",
-                    ""type"": ""Button"",
-                    ""id"": ""6a30f614-a6c1-4e78-8548-4a6f830a1f42"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": ""Press"",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Zero Float Value Modifier"",
-                    ""type"": ""Button"",
-                    ""id"": ""2bf1eac9-7e28-479f-8095-bdf4caf9cee3"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Press"",
@@ -1127,28 +1103,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""ChroMapper Default"",
                     ""action"": ""Rotate In Place Right"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""787b6834-2808-4529-b772-241426af0307"",
-                    ""path"": ""<Keyboard>/x"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""ChroMapper Default"",
-                    ""action"": ""Half Float Value Modifier"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""f2b6fa6c-088b-4604-bb73-3ffe37d91771"",
-                    ""path"": ""<Keyboard>/z"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""ChroMapper Default"",
-                    ""action"": ""Zero Float Value Modifier"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -2441,13 +2395,13 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             ]
         },
         {
-            ""name"": ""Note Objects"",
-            ""id"": ""d18a448a-b849-4a22-a103-3a79418bc61b"",
+            ""name"": ""Shared Note Objects"",
+            ""id"": ""145c7978-d773-459b-9d0c-36c76e56091b"",
             ""actions"": [
                 {
                     ""name"": ""Up Note"",
                     ""type"": ""Button"",
-                    ""id"": ""4ad3aa7e-a36a-4570-b9ce-6803d286fabb"",
+                    ""id"": ""515b9220-40cc-4db4-836f-d43a392eefbb"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -2456,7 +2410,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""Down Note"",
                     ""type"": ""Button"",
-                    ""id"": ""2745d8e2-b0f9-4c20-93e3-a5b2efcda160"",
+                    ""id"": ""0cdad973-263a-49ed-a920-9320ba2de8a4"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -2465,7 +2419,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""Left Note"",
                     ""type"": ""Button"",
-                    ""id"": ""19e118ee-3467-4ecc-8fea-e7dcaae10bac"",
+                    ""id"": ""59db36c0-f286-4a2c-b5cd-59d16450c740"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -2474,7 +2428,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""Right Note"",
                     ""type"": ""Button"",
-                    ""id"": ""d297d50a-c1d7-480b-872e-680fa84b90d3"",
+                    ""id"": ""44b93388-6bba-47b5-8840-9d4659d89806"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -2483,7 +2437,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""Dot Note"",
                     ""type"": ""Button"",
-                    ""id"": ""1ee87948-7aa5-47fe-b23e-fc8ba364f07a"",
+                    ""id"": ""af47dea5-9d2e-467e-85b1-806a3612a0ad"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -2492,12 +2446,166 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""Invert Note Colors"",
                     ""type"": ""Button"",
-                    ""id"": ""5bf4f065-0e9f-4166-a219-7ec603ae88c6"",
+                    ""id"": ""d25b4af6-ac90-4eb7-be46-e6cf4ed6d9bd"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
                 },
+                {
+                    ""name"": ""Up Left Note"",
+                    ""type"": ""Button"",
+                    ""id"": ""636f3fa1-2422-41e6-9a20-f2158a6129d3"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Up Right Note"",
+                    ""type"": ""Button"",
+                    ""id"": ""a704a008-75a5-4249-9653-f0485fc2ab3a"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Down Left Note"",
+                    ""type"": ""Button"",
+                    ""id"": ""0e4bff08-d359-477d-a4bf-2c26bfeaefe6"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Down Right Note"",
+                    ""type"": ""Button"",
+                    ""id"": ""ac708179-7dc4-4e3e-8ea4-c279ceb6cbfb"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""e4ed0ea2-a09d-497f-925f-95d174b04590"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""ChroMapper Default"",
+                    ""action"": ""Up Note"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7b3e161e-fd98-4f95-850d-724f8cc7646c"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""ChroMapper Default"",
+                    ""action"": ""Down Note"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""30fe86ed-e35e-4ea9-8a3c-0b01689526d1"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""ChroMapper Default"",
+                    ""action"": ""Left Note"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""28750741-9879-43e1-bf15-890a5f404237"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""ChroMapper Default"",
+                    ""action"": ""Right Note"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1609b8f1-f8c8-4b6f-bc95-59800645b278"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""ChroMapper Default"",
+                    ""action"": ""Dot Note"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""712693af-a735-4824-90d9-f0f672b05037"",
+                    ""path"": ""<Mouse>/middleButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""ChroMapper Default"",
+                    ""action"": ""Invert Note Colors"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e940274a-8e1a-44a8-b36f-614a0368efb6"",
+                    ""path"": ""<Keyboard>/numpad7"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Up Left Note"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4eb62768-d7b0-4a8b-adf1-1c0bc94fe2f0"",
+                    ""path"": ""<Keyboard>/numpad9"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Up Right Note"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""10653eab-d2d8-4bc3-9c9e-3159a892d030"",
+                    ""path"": ""<Keyboard>/numpad1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Down Left Note"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7c6dba8d-2010-4159-ad51-4b9a2a94f1e9"",
+                    ""path"": ""<Keyboard>/numpad3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Down Right Note"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Note Objects"",
+            ""id"": ""d18a448a-b849-4a22-a103-3a79418bc61b"",
+            ""actions"": [
                 {
                     ""name"": ""Update Note Direction"",
                     ""type"": ""Value"",
@@ -2515,42 +2623,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
-                },
-                {
-                    ""name"": ""Up Left Note"",
-                    ""type"": ""Button"",
-                    ""id"": ""ee5c3daa-fa6f-48af-a0fb-8a303a9254f7"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Up Right Note"",
-                    ""type"": ""Button"",
-                    ""id"": ""858cb38e-567b-4f30-9396-6aa0fc141b18"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Down Left Note"",
-                    ""type"": ""Button"",
-                    ""id"": ""9bd72fa9-d68f-4f09-ac1e-4195d8934132"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Down Right Note"",
-                    ""type"": ""Button"",
-                    ""id"": ""2689082a-64f2-45ec-af7b-9e3649ae02e9"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -2586,72 +2658,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""action"": ""Update Note Direction"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""a1a9d032-f76b-4e85-8d27-46380767f735"",
-                    ""path"": ""<Mouse>/middleButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""ChroMapper Default"",
-                    ""action"": ""Invert Note Colors"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""b704c38e-58a6-48b7-8666-aed1a0552522"",
-                    ""path"": ""<Keyboard>/s"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""ChroMapper Default"",
-                    ""action"": ""Down Note"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""a737d85e-3604-49c9-bf76-8566fd7d524b"",
-                    ""path"": ""<Keyboard>/d"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""ChroMapper Default"",
-                    ""action"": ""Right Note"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""7aead0eb-261a-4de8-adab-43085ec5aa50"",
-                    ""path"": ""<Keyboard>/w"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""ChroMapper Default"",
-                    ""action"": ""Up Note"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""dc2275bc-29d9-486d-b966-58895f4951fc"",
-                    ""path"": ""<Keyboard>/a"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""ChroMapper Default"",
-                    ""action"": ""Left Note"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""e5983dd1-0b3a-48b8-aacb-79a643ce29c2"",
-                    ""path"": ""<Keyboard>/f"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""ChroMapper Default"",
-                    ""action"": ""Dot Note"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
                 },
                 {
                     ""name"": ""Two Modifiers"",
@@ -2696,50 +2702,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""action"": ""Update Note Precise Direction"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""84ba70cd-7ac1-4ab1-9e63-7e0ff1b82e87"",
-                    ""path"": ""<Keyboard>/numpad7"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Up Left Note"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""1e92c95d-157c-4349-b41c-0d5d16419aaf"",
-                    ""path"": ""<Keyboard>/numpad9"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Up Right Note"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""8045469f-1354-4a9c-88b2-f5a43a389b19"",
-                    ""path"": ""<Keyboard>/numpad3"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Down Right Note"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""8b78c914-bfe8-4b2c-bffd-d539b3f0dcaf"",
-                    ""path"": ""<Keyboard>/numpad1"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Down Left Note"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -4761,15 +4723,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             ""id"": ""805b5d1e-e501-4fd7-944e-66b474176ee7"",
             ""actions"": [
                 {
-                    ""name"": ""InvertArcColor"",
-                    ""type"": ""Button"",
-                    ""id"": ""ee16de4f-c84f-40f4-bf15-2ed62d872ec4"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""ChangingMu"",
                     ""type"": ""Value"",
                     ""id"": ""5ecf55da-5762-4a6c-921f-2b702e9078da"",
@@ -4789,17 +4742,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                 }
             ],
             ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""6219d243-e063-43d0-bc27-e5025a77f281"",
-                    ""path"": ""<Mouse>/middleButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""InvertArcColor"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
                 {
                     ""name"": ""Keyboard"",
                     ""id"": ""bdb70de1-9017-48f5-9a56-a7cbc3e8b6d5"",
@@ -4882,15 +4824,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""InvertChainColor"",
-                    ""type"": ""Button"",
-                    ""id"": ""1b3dedb1-d750-438f-b20f-2226fd1f83f7"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""TweakChainSquish"",
                     ""type"": ""Value"",
                     ""id"": ""afed819c-0511-4541-be42-2272b16fd4cb"",
@@ -4933,17 +4866,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""action"": ""TweakChainCount"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""8090b872-0daa-4936-b436-6861bbf1bd6e"",
-                    ""path"": ""<Mouse>/middleButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""InvertChainColor"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
                 },
                 {
                     ""name"": ""Keyboard"",
@@ -6985,8 +6907,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         m_PlacementControllers_InitiateClickandDragatTime = m_PlacementControllers.FindAction("Initiate Click and Drag at Time", throwIfNotFound: true);
         m_PlacementControllers_MousePositionUpdate = m_PlacementControllers.FindAction("+Mouse Position Update", throwIfNotFound: true);
         m_PlacementControllers_PrecisionPlacementToggle = m_PlacementControllers.FindAction("Precision Placement Toggle", throwIfNotFound: true);
-        // Note Placement
-        m_NotePlacement = asset.FindActionMap("Note Placement", throwIfNotFound: true);
         // Event Placement
         m_EventPlacement = asset.FindActionMap("Event Placement", throwIfNotFound: true);
         m_EventPlacement_Rotation15Degrees = m_EventPlacement.FindAction("Rotation: 15 Degrees", throwIfNotFound: true);
@@ -6997,8 +6917,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         m_EventPlacement_RotateInPlaceLeft = m_EventPlacement.FindAction("Rotate In Place Left", throwIfNotFound: true);
         m_EventPlacement_RotateInPlaceRight = m_EventPlacement.FindAction("Rotate In Place Right", throwIfNotFound: true);
         m_EventPlacement_RotateInPlaceModifier = m_EventPlacement.FindAction("Rotate In Place Modifier", throwIfNotFound: true);
-        m_EventPlacement_HalfFloatValueModifier = m_EventPlacement.FindAction("Half Float Value Modifier", throwIfNotFound: true);
-        m_EventPlacement_ZeroFloatValueModifier = m_EventPlacement.FindAction("Zero Float Value Modifier", throwIfNotFound: true);
         // Workflows
         m_Workflows = asset.FindActionMap("Workflows", throwIfNotFound: true);
         m_Workflows_ToggleRightButtonPanel = m_Workflows.FindAction("Toggle Right Button Panel", throwIfNotFound: true);
@@ -7066,20 +6984,22 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         m_BeatmapObjects_DeleteTool = m_BeatmapObjects.FindAction("Delete Tool", throwIfNotFound: true);
         m_BeatmapObjects_MousePositionUpdate = m_BeatmapObjects.FindAction("+Mouse Position Update", throwIfNotFound: true);
         m_BeatmapObjects_JumptoObjectTime = m_BeatmapObjects.FindAction("Jump to Object Time", throwIfNotFound: true);
+        // Shared Note Objects
+        m_SharedNoteObjects = asset.FindActionMap("Shared Note Objects", throwIfNotFound: true);
+        m_SharedNoteObjects_UpNote = m_SharedNoteObjects.FindAction("Up Note", throwIfNotFound: true);
+        m_SharedNoteObjects_DownNote = m_SharedNoteObjects.FindAction("Down Note", throwIfNotFound: true);
+        m_SharedNoteObjects_LeftNote = m_SharedNoteObjects.FindAction("Left Note", throwIfNotFound: true);
+        m_SharedNoteObjects_RightNote = m_SharedNoteObjects.FindAction("Right Note", throwIfNotFound: true);
+        m_SharedNoteObjects_DotNote = m_SharedNoteObjects.FindAction("Dot Note", throwIfNotFound: true);
+        m_SharedNoteObjects_InvertNoteColors = m_SharedNoteObjects.FindAction("Invert Note Colors", throwIfNotFound: true);
+        m_SharedNoteObjects_UpLeftNote = m_SharedNoteObjects.FindAction("Up Left Note", throwIfNotFound: true);
+        m_SharedNoteObjects_UpRightNote = m_SharedNoteObjects.FindAction("Up Right Note", throwIfNotFound: true);
+        m_SharedNoteObjects_DownLeftNote = m_SharedNoteObjects.FindAction("Down Left Note", throwIfNotFound: true);
+        m_SharedNoteObjects_DownRightNote = m_SharedNoteObjects.FindAction("Down Right Note", throwIfNotFound: true);
         // Note Objects
         m_NoteObjects = asset.FindActionMap("Note Objects", throwIfNotFound: true);
-        m_NoteObjects_UpNote = m_NoteObjects.FindAction("Up Note", throwIfNotFound: true);
-        m_NoteObjects_DownNote = m_NoteObjects.FindAction("Down Note", throwIfNotFound: true);
-        m_NoteObjects_LeftNote = m_NoteObjects.FindAction("Left Note", throwIfNotFound: true);
-        m_NoteObjects_RightNote = m_NoteObjects.FindAction("Right Note", throwIfNotFound: true);
-        m_NoteObjects_DotNote = m_NoteObjects.FindAction("Dot Note", throwIfNotFound: true);
-        m_NoteObjects_InvertNoteColors = m_NoteObjects.FindAction("Invert Note Colors", throwIfNotFound: true);
         m_NoteObjects_UpdateNoteDirection = m_NoteObjects.FindAction("Update Note Direction", throwIfNotFound: true);
         m_NoteObjects_UpdateNotePreciseDirection = m_NoteObjects.FindAction("Update Note Precise Direction", throwIfNotFound: true);
-        m_NoteObjects_UpLeftNote = m_NoteObjects.FindAction("Up Left Note", throwIfNotFound: true);
-        m_NoteObjects_UpRightNote = m_NoteObjects.FindAction("Up Right Note", throwIfNotFound: true);
-        m_NoteObjects_DownLeftNote = m_NoteObjects.FindAction("Down Left Note", throwIfNotFound: true);
-        m_NoteObjects_DownRightNote = m_NoteObjects.FindAction("Down Right Note", throwIfNotFound: true);
         // Obstacle Objects
         m_ObstacleObjects = asset.FindActionMap("Obstacle Objects", throwIfNotFound: true);
         m_ObstacleObjects_ToggleHyperWall = m_ObstacleObjects.FindAction("Toggle Hyper Wall", throwIfNotFound: true);
@@ -7181,13 +7101,11 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         m_UnitedMapping_BanPlayer = m_UnitedMapping.FindAction("Ban Player", throwIfNotFound: true);
         // Arc Objects
         m_ArcObjects = asset.FindActionMap("Arc Objects", throwIfNotFound: true);
-        m_ArcObjects_InvertArcColor = m_ArcObjects.FindAction("InvertArcColor", throwIfNotFound: true);
         m_ArcObjects_ChangingMu = m_ArcObjects.FindAction("ChangingMu", throwIfNotFound: true);
         m_ArcObjects_ChangingTmu = m_ArcObjects.FindAction("ChangingTmu", throwIfNotFound: true);
         // Chain Objects
         m_ChainObjects = asset.FindActionMap("Chain Objects", throwIfNotFound: true);
         m_ChainObjects_TweakChainCount = m_ChainObjects.FindAction("TweakChainCount", throwIfNotFound: true);
-        m_ChainObjects_InvertChainColor = m_ChainObjects.FindAction("InvertChainColor", throwIfNotFound: true);
         m_ChainObjects_TweakChainSquish = m_ChainObjects.FindAction("TweakChainSquish", throwIfNotFound: true);
         // Arc Placement
         m_ArcPlacement = asset.FindActionMap("Arc Placement", throwIfNotFound: true);
@@ -7297,7 +7215,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         UnityEngine.Debug.Assert(!m_Utils.enabled, "This will cause a leak and performance issues, CMInput.Utils.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_Actions.enabled, "This will cause a leak and performance issues, CMInput.Actions.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_PlacementControllers.enabled, "This will cause a leak and performance issues, CMInput.PlacementControllers.Disable() has not been called.");
-        UnityEngine.Debug.Assert(!m_NotePlacement.enabled, "This will cause a leak and performance issues, CMInput.NotePlacement.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_EventPlacement.enabled, "This will cause a leak and performance issues, CMInput.EventPlacement.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_Workflows.enabled, "This will cause a leak and performance issues, CMInput.Workflows.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_EventUI.enabled, "This will cause a leak and performance issues, CMInput.EventUI.Disable() has not been called.");
@@ -7311,6 +7228,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         UnityEngine.Debug.Assert(!m_TimelineNavigation.enabled, "This will cause a leak and performance issues, CMInput.TimelineNavigation.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_EditorScale.enabled, "This will cause a leak and performance issues, CMInput.EditorScale.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_BeatmapObjects.enabled, "This will cause a leak and performance issues, CMInput.BeatmapObjects.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_SharedNoteObjects.enabled, "This will cause a leak and performance issues, CMInput.SharedNoteObjects.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_NoteObjects.enabled, "This will cause a leak and performance issues, CMInput.NoteObjects.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_ObstacleObjects.enabled, "This will cause a leak and performance issues, CMInput.ObstacleObjects.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_EventObjects.enabled, "This will cause a leak and performance issues, CMInput.EventObjects.Disable() has not been called.");
@@ -8091,91 +8009,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
     /// </summary>
     public PlacementControllersActions @PlacementControllers => new PlacementControllersActions(this);
 
-    // Note Placement
-    private readonly InputActionMap m_NotePlacement;
-    private List<INotePlacementActions> m_NotePlacementActionsCallbackInterfaces = new List<INotePlacementActions>();
-    /// <summary>
-    /// Provides access to input actions defined in input action map "Note Placement".
-    /// </summary>
-    public struct NotePlacementActions
-    {
-        private @CMInput m_Wrapper;
-
-        /// <summary>
-        /// Construct a new instance of the input action map wrapper class.
-        /// </summary>
-        public NotePlacementActions(@CMInput wrapper) { m_Wrapper = wrapper; }
-        /// <summary>
-        /// Provides access to the underlying input action map instance.
-        /// </summary>
-        public InputActionMap Get() { return m_Wrapper.m_NotePlacement; }
-        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
-        public void Enable() { Get().Enable(); }
-        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
-        public void Disable() { Get().Disable(); }
-        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
-        public bool enabled => Get().enabled;
-        /// <summary>
-        /// Implicitly converts an <see ref="NotePlacementActions" /> to an <see ref="InputActionMap" /> instance.
-        /// </summary>
-        public static implicit operator InputActionMap(NotePlacementActions set) { return set.Get(); }
-        /// <summary>
-        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
-        /// </summary>
-        /// <param name="instance">Callback instance.</param>
-        /// <remarks>
-        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
-        /// </remarks>
-        /// <seealso cref="NotePlacementActions" />
-        public void AddCallbacks(INotePlacementActions instance)
-        {
-            if (instance == null || m_Wrapper.m_NotePlacementActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_NotePlacementActionsCallbackInterfaces.Add(instance);
-        }
-
-        /// <summary>
-        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
-        /// </summary>
-        /// <remarks>
-        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
-        /// </remarks>
-        /// <seealso cref="NotePlacementActions" />
-        private void UnregisterCallbacks(INotePlacementActions instance)
-        {
-        }
-
-        /// <summary>
-        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="NotePlacementActions.UnregisterCallbacks(INotePlacementActions)" />.
-        /// </summary>
-        /// <seealso cref="NotePlacementActions.UnregisterCallbacks(INotePlacementActions)" />
-        public void RemoveCallbacks(INotePlacementActions instance)
-        {
-            if (m_Wrapper.m_NotePlacementActionsCallbackInterfaces.Remove(instance))
-                UnregisterCallbacks(instance);
-        }
-
-        /// <summary>
-        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
-        /// </summary>
-        /// <remarks>
-        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
-        /// </remarks>
-        /// <seealso cref="NotePlacementActions.AddCallbacks(INotePlacementActions)" />
-        /// <seealso cref="NotePlacementActions.RemoveCallbacks(INotePlacementActions)" />
-        /// <seealso cref="NotePlacementActions.UnregisterCallbacks(INotePlacementActions)" />
-        public void SetCallbacks(INotePlacementActions instance)
-        {
-            foreach (var item in m_Wrapper.m_NotePlacementActionsCallbackInterfaces)
-                UnregisterCallbacks(item);
-            m_Wrapper.m_NotePlacementActionsCallbackInterfaces.Clear();
-            AddCallbacks(instance);
-        }
-    }
-    /// <summary>
-    /// Provides a new <see cref="NotePlacementActions" /> instance referencing this action map.
-    /// </summary>
-    public NotePlacementActions @NotePlacement => new NotePlacementActions(this);
-
     // Event Placement
     private readonly InputActionMap m_EventPlacement;
     private List<IEventPlacementActions> m_EventPlacementActionsCallbackInterfaces = new List<IEventPlacementActions>();
@@ -8187,8 +8020,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_EventPlacement_RotateInPlaceLeft;
     private readonly InputAction m_EventPlacement_RotateInPlaceRight;
     private readonly InputAction m_EventPlacement_RotateInPlaceModifier;
-    private readonly InputAction m_EventPlacement_HalfFloatValueModifier;
-    private readonly InputAction m_EventPlacement_ZeroFloatValueModifier;
     /// <summary>
     /// Provides access to input actions defined in input action map "Event Placement".
     /// </summary>
@@ -8232,14 +8063,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "EventPlacement/RotateInPlaceModifier".
         /// </summary>
         public InputAction @RotateInPlaceModifier => m_Wrapper.m_EventPlacement_RotateInPlaceModifier;
-        /// <summary>
-        /// Provides access to the underlying input action "EventPlacement/HalfFloatValueModifier".
-        /// </summary>
-        public InputAction @HalfFloatValueModifier => m_Wrapper.m_EventPlacement_HalfFloatValueModifier;
-        /// <summary>
-        /// Provides access to the underlying input action "EventPlacement/ZeroFloatValueModifier".
-        /// </summary>
-        public InputAction @ZeroFloatValueModifier => m_Wrapper.m_EventPlacement_ZeroFloatValueModifier;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -8290,12 +8113,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             @RotateInPlaceModifier.started += instance.OnRotateInPlaceModifier;
             @RotateInPlaceModifier.performed += instance.OnRotateInPlaceModifier;
             @RotateInPlaceModifier.canceled += instance.OnRotateInPlaceModifier;
-            @HalfFloatValueModifier.started += instance.OnHalfFloatValueModifier;
-            @HalfFloatValueModifier.performed += instance.OnHalfFloatValueModifier;
-            @HalfFloatValueModifier.canceled += instance.OnHalfFloatValueModifier;
-            @ZeroFloatValueModifier.started += instance.OnZeroFloatValueModifier;
-            @ZeroFloatValueModifier.performed += instance.OnZeroFloatValueModifier;
-            @ZeroFloatValueModifier.canceled += instance.OnZeroFloatValueModifier;
         }
 
         /// <summary>
@@ -8331,12 +8148,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             @RotateInPlaceModifier.started -= instance.OnRotateInPlaceModifier;
             @RotateInPlaceModifier.performed -= instance.OnRotateInPlaceModifier;
             @RotateInPlaceModifier.canceled -= instance.OnRotateInPlaceModifier;
-            @HalfFloatValueModifier.started -= instance.OnHalfFloatValueModifier;
-            @HalfFloatValueModifier.performed -= instance.OnHalfFloatValueModifier;
-            @HalfFloatValueModifier.canceled -= instance.OnHalfFloatValueModifier;
-            @ZeroFloatValueModifier.started -= instance.OnZeroFloatValueModifier;
-            @ZeroFloatValueModifier.performed -= instance.OnZeroFloatValueModifier;
-            @ZeroFloatValueModifier.canceled -= instance.OnZeroFloatValueModifier;
         }
 
         /// <summary>
@@ -9864,21 +9675,206 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
     /// </summary>
     public BeatmapObjectsActions @BeatmapObjects => new BeatmapObjectsActions(this);
 
+    // Shared Note Objects
+    private readonly InputActionMap m_SharedNoteObjects;
+    private List<ISharedNoteObjectsActions> m_SharedNoteObjectsActionsCallbackInterfaces = new List<ISharedNoteObjectsActions>();
+    private readonly InputAction m_SharedNoteObjects_UpNote;
+    private readonly InputAction m_SharedNoteObjects_DownNote;
+    private readonly InputAction m_SharedNoteObjects_LeftNote;
+    private readonly InputAction m_SharedNoteObjects_RightNote;
+    private readonly InputAction m_SharedNoteObjects_DotNote;
+    private readonly InputAction m_SharedNoteObjects_InvertNoteColors;
+    private readonly InputAction m_SharedNoteObjects_UpLeftNote;
+    private readonly InputAction m_SharedNoteObjects_UpRightNote;
+    private readonly InputAction m_SharedNoteObjects_DownLeftNote;
+    private readonly InputAction m_SharedNoteObjects_DownRightNote;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "Shared Note Objects".
+    /// </summary>
+    public struct SharedNoteObjectsActions
+    {
+        private @CMInput m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public SharedNoteObjectsActions(@CMInput wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "SharedNoteObjects/UpNote".
+        /// </summary>
+        public InputAction @UpNote => m_Wrapper.m_SharedNoteObjects_UpNote;
+        /// <summary>
+        /// Provides access to the underlying input action "SharedNoteObjects/DownNote".
+        /// </summary>
+        public InputAction @DownNote => m_Wrapper.m_SharedNoteObjects_DownNote;
+        /// <summary>
+        /// Provides access to the underlying input action "SharedNoteObjects/LeftNote".
+        /// </summary>
+        public InputAction @LeftNote => m_Wrapper.m_SharedNoteObjects_LeftNote;
+        /// <summary>
+        /// Provides access to the underlying input action "SharedNoteObjects/RightNote".
+        /// </summary>
+        public InputAction @RightNote => m_Wrapper.m_SharedNoteObjects_RightNote;
+        /// <summary>
+        /// Provides access to the underlying input action "SharedNoteObjects/DotNote".
+        /// </summary>
+        public InputAction @DotNote => m_Wrapper.m_SharedNoteObjects_DotNote;
+        /// <summary>
+        /// Provides access to the underlying input action "SharedNoteObjects/InvertNoteColors".
+        /// </summary>
+        public InputAction @InvertNoteColors => m_Wrapper.m_SharedNoteObjects_InvertNoteColors;
+        /// <summary>
+        /// Provides access to the underlying input action "SharedNoteObjects/UpLeftNote".
+        /// </summary>
+        public InputAction @UpLeftNote => m_Wrapper.m_SharedNoteObjects_UpLeftNote;
+        /// <summary>
+        /// Provides access to the underlying input action "SharedNoteObjects/UpRightNote".
+        /// </summary>
+        public InputAction @UpRightNote => m_Wrapper.m_SharedNoteObjects_UpRightNote;
+        /// <summary>
+        /// Provides access to the underlying input action "SharedNoteObjects/DownLeftNote".
+        /// </summary>
+        public InputAction @DownLeftNote => m_Wrapper.m_SharedNoteObjects_DownLeftNote;
+        /// <summary>
+        /// Provides access to the underlying input action "SharedNoteObjects/DownRightNote".
+        /// </summary>
+        public InputAction @DownRightNote => m_Wrapper.m_SharedNoteObjects_DownRightNote;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_SharedNoteObjects; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="SharedNoteObjectsActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(SharedNoteObjectsActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="SharedNoteObjectsActions" />
+        public void AddCallbacks(ISharedNoteObjectsActions instance)
+        {
+            if (instance == null || m_Wrapper.m_SharedNoteObjectsActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_SharedNoteObjectsActionsCallbackInterfaces.Add(instance);
+            @UpNote.started += instance.OnUpNote;
+            @UpNote.performed += instance.OnUpNote;
+            @UpNote.canceled += instance.OnUpNote;
+            @DownNote.started += instance.OnDownNote;
+            @DownNote.performed += instance.OnDownNote;
+            @DownNote.canceled += instance.OnDownNote;
+            @LeftNote.started += instance.OnLeftNote;
+            @LeftNote.performed += instance.OnLeftNote;
+            @LeftNote.canceled += instance.OnLeftNote;
+            @RightNote.started += instance.OnRightNote;
+            @RightNote.performed += instance.OnRightNote;
+            @RightNote.canceled += instance.OnRightNote;
+            @DotNote.started += instance.OnDotNote;
+            @DotNote.performed += instance.OnDotNote;
+            @DotNote.canceled += instance.OnDotNote;
+            @InvertNoteColors.started += instance.OnInvertNoteColors;
+            @InvertNoteColors.performed += instance.OnInvertNoteColors;
+            @InvertNoteColors.canceled += instance.OnInvertNoteColors;
+            @UpLeftNote.started += instance.OnUpLeftNote;
+            @UpLeftNote.performed += instance.OnUpLeftNote;
+            @UpLeftNote.canceled += instance.OnUpLeftNote;
+            @UpRightNote.started += instance.OnUpRightNote;
+            @UpRightNote.performed += instance.OnUpRightNote;
+            @UpRightNote.canceled += instance.OnUpRightNote;
+            @DownLeftNote.started += instance.OnDownLeftNote;
+            @DownLeftNote.performed += instance.OnDownLeftNote;
+            @DownLeftNote.canceled += instance.OnDownLeftNote;
+            @DownRightNote.started += instance.OnDownRightNote;
+            @DownRightNote.performed += instance.OnDownRightNote;
+            @DownRightNote.canceled += instance.OnDownRightNote;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="SharedNoteObjectsActions" />
+        private void UnregisterCallbacks(ISharedNoteObjectsActions instance)
+        {
+            @UpNote.started -= instance.OnUpNote;
+            @UpNote.performed -= instance.OnUpNote;
+            @UpNote.canceled -= instance.OnUpNote;
+            @DownNote.started -= instance.OnDownNote;
+            @DownNote.performed -= instance.OnDownNote;
+            @DownNote.canceled -= instance.OnDownNote;
+            @LeftNote.started -= instance.OnLeftNote;
+            @LeftNote.performed -= instance.OnLeftNote;
+            @LeftNote.canceled -= instance.OnLeftNote;
+            @RightNote.started -= instance.OnRightNote;
+            @RightNote.performed -= instance.OnRightNote;
+            @RightNote.canceled -= instance.OnRightNote;
+            @DotNote.started -= instance.OnDotNote;
+            @DotNote.performed -= instance.OnDotNote;
+            @DotNote.canceled -= instance.OnDotNote;
+            @InvertNoteColors.started -= instance.OnInvertNoteColors;
+            @InvertNoteColors.performed -= instance.OnInvertNoteColors;
+            @InvertNoteColors.canceled -= instance.OnInvertNoteColors;
+            @UpLeftNote.started -= instance.OnUpLeftNote;
+            @UpLeftNote.performed -= instance.OnUpLeftNote;
+            @UpLeftNote.canceled -= instance.OnUpLeftNote;
+            @UpRightNote.started -= instance.OnUpRightNote;
+            @UpRightNote.performed -= instance.OnUpRightNote;
+            @UpRightNote.canceled -= instance.OnUpRightNote;
+            @DownLeftNote.started -= instance.OnDownLeftNote;
+            @DownLeftNote.performed -= instance.OnDownLeftNote;
+            @DownLeftNote.canceled -= instance.OnDownLeftNote;
+            @DownRightNote.started -= instance.OnDownRightNote;
+            @DownRightNote.performed -= instance.OnDownRightNote;
+            @DownRightNote.canceled -= instance.OnDownRightNote;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="SharedNoteObjectsActions.UnregisterCallbacks(ISharedNoteObjectsActions)" />.
+        /// </summary>
+        /// <seealso cref="SharedNoteObjectsActions.UnregisterCallbacks(ISharedNoteObjectsActions)" />
+        public void RemoveCallbacks(ISharedNoteObjectsActions instance)
+        {
+            if (m_Wrapper.m_SharedNoteObjectsActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="SharedNoteObjectsActions.AddCallbacks(ISharedNoteObjectsActions)" />
+        /// <seealso cref="SharedNoteObjectsActions.RemoveCallbacks(ISharedNoteObjectsActions)" />
+        /// <seealso cref="SharedNoteObjectsActions.UnregisterCallbacks(ISharedNoteObjectsActions)" />
+        public void SetCallbacks(ISharedNoteObjectsActions instance)
+        {
+            foreach (var item in m_Wrapper.m_SharedNoteObjectsActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_SharedNoteObjectsActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="SharedNoteObjectsActions" /> instance referencing this action map.
+    /// </summary>
+    public SharedNoteObjectsActions @SharedNoteObjects => new SharedNoteObjectsActions(this);
+
     // Note Objects
     private readonly InputActionMap m_NoteObjects;
     private List<INoteObjectsActions> m_NoteObjectsActionsCallbackInterfaces = new List<INoteObjectsActions>();
-    private readonly InputAction m_NoteObjects_UpNote;
-    private readonly InputAction m_NoteObjects_DownNote;
-    private readonly InputAction m_NoteObjects_LeftNote;
-    private readonly InputAction m_NoteObjects_RightNote;
-    private readonly InputAction m_NoteObjects_DotNote;
-    private readonly InputAction m_NoteObjects_InvertNoteColors;
     private readonly InputAction m_NoteObjects_UpdateNoteDirection;
     private readonly InputAction m_NoteObjects_UpdateNotePreciseDirection;
-    private readonly InputAction m_NoteObjects_UpLeftNote;
-    private readonly InputAction m_NoteObjects_UpRightNote;
-    private readonly InputAction m_NoteObjects_DownLeftNote;
-    private readonly InputAction m_NoteObjects_DownRightNote;
     /// <summary>
     /// Provides access to input actions defined in input action map "Note Objects".
     /// </summary>
@@ -9891,30 +9887,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// </summary>
         public NoteObjectsActions(@CMInput wrapper) { m_Wrapper = wrapper; }
         /// <summary>
-        /// Provides access to the underlying input action "NoteObjects/UpNote".
-        /// </summary>
-        public InputAction @UpNote => m_Wrapper.m_NoteObjects_UpNote;
-        /// <summary>
-        /// Provides access to the underlying input action "NoteObjects/DownNote".
-        /// </summary>
-        public InputAction @DownNote => m_Wrapper.m_NoteObjects_DownNote;
-        /// <summary>
-        /// Provides access to the underlying input action "NoteObjects/LeftNote".
-        /// </summary>
-        public InputAction @LeftNote => m_Wrapper.m_NoteObjects_LeftNote;
-        /// <summary>
-        /// Provides access to the underlying input action "NoteObjects/RightNote".
-        /// </summary>
-        public InputAction @RightNote => m_Wrapper.m_NoteObjects_RightNote;
-        /// <summary>
-        /// Provides access to the underlying input action "NoteObjects/DotNote".
-        /// </summary>
-        public InputAction @DotNote => m_Wrapper.m_NoteObjects_DotNote;
-        /// <summary>
-        /// Provides access to the underlying input action "NoteObjects/InvertNoteColors".
-        /// </summary>
-        public InputAction @InvertNoteColors => m_Wrapper.m_NoteObjects_InvertNoteColors;
-        /// <summary>
         /// Provides access to the underlying input action "NoteObjects/UpdateNoteDirection".
         /// </summary>
         public InputAction @UpdateNoteDirection => m_Wrapper.m_NoteObjects_UpdateNoteDirection;
@@ -9922,22 +9894,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "NoteObjects/UpdateNotePreciseDirection".
         /// </summary>
         public InputAction @UpdateNotePreciseDirection => m_Wrapper.m_NoteObjects_UpdateNotePreciseDirection;
-        /// <summary>
-        /// Provides access to the underlying input action "NoteObjects/UpLeftNote".
-        /// </summary>
-        public InputAction @UpLeftNote => m_Wrapper.m_NoteObjects_UpLeftNote;
-        /// <summary>
-        /// Provides access to the underlying input action "NoteObjects/UpRightNote".
-        /// </summary>
-        public InputAction @UpRightNote => m_Wrapper.m_NoteObjects_UpRightNote;
-        /// <summary>
-        /// Provides access to the underlying input action "NoteObjects/DownLeftNote".
-        /// </summary>
-        public InputAction @DownLeftNote => m_Wrapper.m_NoteObjects_DownLeftNote;
-        /// <summary>
-        /// Provides access to the underlying input action "NoteObjects/DownRightNote".
-        /// </summary>
-        public InputAction @DownRightNote => m_Wrapper.m_NoteObjects_DownRightNote;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -9964,42 +9920,12 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_NoteObjectsActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_NoteObjectsActionsCallbackInterfaces.Add(instance);
-            @UpNote.started += instance.OnUpNote;
-            @UpNote.performed += instance.OnUpNote;
-            @UpNote.canceled += instance.OnUpNote;
-            @DownNote.started += instance.OnDownNote;
-            @DownNote.performed += instance.OnDownNote;
-            @DownNote.canceled += instance.OnDownNote;
-            @LeftNote.started += instance.OnLeftNote;
-            @LeftNote.performed += instance.OnLeftNote;
-            @LeftNote.canceled += instance.OnLeftNote;
-            @RightNote.started += instance.OnRightNote;
-            @RightNote.performed += instance.OnRightNote;
-            @RightNote.canceled += instance.OnRightNote;
-            @DotNote.started += instance.OnDotNote;
-            @DotNote.performed += instance.OnDotNote;
-            @DotNote.canceled += instance.OnDotNote;
-            @InvertNoteColors.started += instance.OnInvertNoteColors;
-            @InvertNoteColors.performed += instance.OnInvertNoteColors;
-            @InvertNoteColors.canceled += instance.OnInvertNoteColors;
             @UpdateNoteDirection.started += instance.OnUpdateNoteDirection;
             @UpdateNoteDirection.performed += instance.OnUpdateNoteDirection;
             @UpdateNoteDirection.canceled += instance.OnUpdateNoteDirection;
             @UpdateNotePreciseDirection.started += instance.OnUpdateNotePreciseDirection;
             @UpdateNotePreciseDirection.performed += instance.OnUpdateNotePreciseDirection;
             @UpdateNotePreciseDirection.canceled += instance.OnUpdateNotePreciseDirection;
-            @UpLeftNote.started += instance.OnUpLeftNote;
-            @UpLeftNote.performed += instance.OnUpLeftNote;
-            @UpLeftNote.canceled += instance.OnUpLeftNote;
-            @UpRightNote.started += instance.OnUpRightNote;
-            @UpRightNote.performed += instance.OnUpRightNote;
-            @UpRightNote.canceled += instance.OnUpRightNote;
-            @DownLeftNote.started += instance.OnDownLeftNote;
-            @DownLeftNote.performed += instance.OnDownLeftNote;
-            @DownLeftNote.canceled += instance.OnDownLeftNote;
-            @DownRightNote.started += instance.OnDownRightNote;
-            @DownRightNote.performed += instance.OnDownRightNote;
-            @DownRightNote.canceled += instance.OnDownRightNote;
         }
 
         /// <summary>
@@ -10011,42 +9937,12 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <seealso cref="NoteObjectsActions" />
         private void UnregisterCallbacks(INoteObjectsActions instance)
         {
-            @UpNote.started -= instance.OnUpNote;
-            @UpNote.performed -= instance.OnUpNote;
-            @UpNote.canceled -= instance.OnUpNote;
-            @DownNote.started -= instance.OnDownNote;
-            @DownNote.performed -= instance.OnDownNote;
-            @DownNote.canceled -= instance.OnDownNote;
-            @LeftNote.started -= instance.OnLeftNote;
-            @LeftNote.performed -= instance.OnLeftNote;
-            @LeftNote.canceled -= instance.OnLeftNote;
-            @RightNote.started -= instance.OnRightNote;
-            @RightNote.performed -= instance.OnRightNote;
-            @RightNote.canceled -= instance.OnRightNote;
-            @DotNote.started -= instance.OnDotNote;
-            @DotNote.performed -= instance.OnDotNote;
-            @DotNote.canceled -= instance.OnDotNote;
-            @InvertNoteColors.started -= instance.OnInvertNoteColors;
-            @InvertNoteColors.performed -= instance.OnInvertNoteColors;
-            @InvertNoteColors.canceled -= instance.OnInvertNoteColors;
             @UpdateNoteDirection.started -= instance.OnUpdateNoteDirection;
             @UpdateNoteDirection.performed -= instance.OnUpdateNoteDirection;
             @UpdateNoteDirection.canceled -= instance.OnUpdateNoteDirection;
             @UpdateNotePreciseDirection.started -= instance.OnUpdateNotePreciseDirection;
             @UpdateNotePreciseDirection.performed -= instance.OnUpdateNotePreciseDirection;
             @UpdateNotePreciseDirection.canceled -= instance.OnUpdateNotePreciseDirection;
-            @UpLeftNote.started -= instance.OnUpLeftNote;
-            @UpLeftNote.performed -= instance.OnUpLeftNote;
-            @UpLeftNote.canceled -= instance.OnUpLeftNote;
-            @UpRightNote.started -= instance.OnUpRightNote;
-            @UpRightNote.performed -= instance.OnUpRightNote;
-            @UpRightNote.canceled -= instance.OnUpRightNote;
-            @DownLeftNote.started -= instance.OnDownLeftNote;
-            @DownLeftNote.performed -= instance.OnDownLeftNote;
-            @DownLeftNote.canceled -= instance.OnDownLeftNote;
-            @DownRightNote.started -= instance.OnDownRightNote;
-            @DownRightNote.performed -= instance.OnDownRightNote;
-            @DownRightNote.canceled -= instance.OnDownRightNote;
         }
 
         /// <summary>
@@ -12559,7 +12455,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
     // Arc Objects
     private readonly InputActionMap m_ArcObjects;
     private List<IArcObjectsActions> m_ArcObjectsActionsCallbackInterfaces = new List<IArcObjectsActions>();
-    private readonly InputAction m_ArcObjects_InvertArcColor;
     private readonly InputAction m_ArcObjects_ChangingMu;
     private readonly InputAction m_ArcObjects_ChangingTmu;
     /// <summary>
@@ -12573,10 +12468,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// Construct a new instance of the input action map wrapper class.
         /// </summary>
         public ArcObjectsActions(@CMInput wrapper) { m_Wrapper = wrapper; }
-        /// <summary>
-        /// Provides access to the underlying input action "ArcObjects/InvertArcColor".
-        /// </summary>
-        public InputAction @InvertArcColor => m_Wrapper.m_ArcObjects_InvertArcColor;
         /// <summary>
         /// Provides access to the underlying input action "ArcObjects/ChangingMu".
         /// </summary>
@@ -12611,9 +12502,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_ArcObjectsActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_ArcObjectsActionsCallbackInterfaces.Add(instance);
-            @InvertArcColor.started += instance.OnInvertArcColor;
-            @InvertArcColor.performed += instance.OnInvertArcColor;
-            @InvertArcColor.canceled += instance.OnInvertArcColor;
             @ChangingMu.started += instance.OnChangingMu;
             @ChangingMu.performed += instance.OnChangingMu;
             @ChangingMu.canceled += instance.OnChangingMu;
@@ -12631,9 +12519,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <seealso cref="ArcObjectsActions" />
         private void UnregisterCallbacks(IArcObjectsActions instance)
         {
-            @InvertArcColor.started -= instance.OnInvertArcColor;
-            @InvertArcColor.performed -= instance.OnInvertArcColor;
-            @InvertArcColor.canceled -= instance.OnInvertArcColor;
             @ChangingMu.started -= instance.OnChangingMu;
             @ChangingMu.performed -= instance.OnChangingMu;
             @ChangingMu.canceled -= instance.OnChangingMu;
@@ -12678,7 +12563,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_ChainObjects;
     private List<IChainObjectsActions> m_ChainObjectsActionsCallbackInterfaces = new List<IChainObjectsActions>();
     private readonly InputAction m_ChainObjects_TweakChainCount;
-    private readonly InputAction m_ChainObjects_InvertChainColor;
     private readonly InputAction m_ChainObjects_TweakChainSquish;
     /// <summary>
     /// Provides access to input actions defined in input action map "Chain Objects".
@@ -12695,10 +12579,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "ChainObjects/TweakChainCount".
         /// </summary>
         public InputAction @TweakChainCount => m_Wrapper.m_ChainObjects_TweakChainCount;
-        /// <summary>
-        /// Provides access to the underlying input action "ChainObjects/InvertChainColor".
-        /// </summary>
-        public InputAction @InvertChainColor => m_Wrapper.m_ChainObjects_InvertChainColor;
         /// <summary>
         /// Provides access to the underlying input action "ChainObjects/TweakChainSquish".
         /// </summary>
@@ -12732,9 +12612,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             @TweakChainCount.started += instance.OnTweakChainCount;
             @TweakChainCount.performed += instance.OnTweakChainCount;
             @TweakChainCount.canceled += instance.OnTweakChainCount;
-            @InvertChainColor.started += instance.OnInvertChainColor;
-            @InvertChainColor.performed += instance.OnInvertChainColor;
-            @InvertChainColor.canceled += instance.OnInvertChainColor;
             @TweakChainSquish.started += instance.OnTweakChainSquish;
             @TweakChainSquish.performed += instance.OnTweakChainSquish;
             @TweakChainSquish.canceled += instance.OnTweakChainSquish;
@@ -12752,9 +12629,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             @TweakChainCount.started -= instance.OnTweakChainCount;
             @TweakChainCount.performed -= instance.OnTweakChainCount;
             @TweakChainCount.canceled -= instance.OnTweakChainCount;
-            @InvertChainColor.started -= instance.OnInvertChainColor;
-            @InvertChainColor.performed -= instance.OnInvertChainColor;
-            @InvertChainColor.canceled -= instance.OnInvertChainColor;
             @TweakChainSquish.started -= instance.OnTweakChainSquish;
             @TweakChainSquish.performed -= instance.OnTweakChainSquish;
             @TweakChainSquish.canceled -= instance.OnTweakChainSquish;
@@ -14966,14 +14840,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         void OnPrecisionPlacementToggle(InputAction.CallbackContext context);
     }
     /// <summary>
-    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Note Placement" which allows adding and removing callbacks.
-    /// </summary>
-    /// <seealso cref="NotePlacementActions.AddCallbacks(INotePlacementActions)" />
-    /// <seealso cref="NotePlacementActions.RemoveCallbacks(INotePlacementActions)" />
-    public interface INotePlacementActions
-    {
-    }
-    /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Event Placement" which allows adding and removing callbacks.
     /// </summary>
     /// <seealso cref="EventPlacementActions.AddCallbacks(IEventPlacementActions)" />
@@ -15036,20 +14902,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnRotateInPlaceModifier(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "Half Float Value Modifier" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnHalfFloatValueModifier(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "Zero Float Value Modifier" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnZeroFloatValueModifier(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Workflows" which allows adding and removing callbacks.
@@ -15449,11 +15301,11 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         void OnJumptoObjectTime(InputAction.CallbackContext context);
     }
     /// <summary>
-    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Note Objects" which allows adding and removing callbacks.
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Shared Note Objects" which allows adding and removing callbacks.
     /// </summary>
-    /// <seealso cref="NoteObjectsActions.AddCallbacks(INoteObjectsActions)" />
-    /// <seealso cref="NoteObjectsActions.RemoveCallbacks(INoteObjectsActions)" />
-    public interface INoteObjectsActions
+    /// <seealso cref="SharedNoteObjectsActions.AddCallbacks(ISharedNoteObjectsActions)" />
+    /// <seealso cref="SharedNoteObjectsActions.RemoveCallbacks(ISharedNoteObjectsActions)" />
+    public interface ISharedNoteObjectsActions
     {
         /// <summary>
         /// Method invoked when associated input action "Up Note" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
@@ -15498,20 +15350,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnInvertNoteColors(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "Update Note Direction" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnUpdateNoteDirection(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "Update Note Precise Direction" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnUpdateNotePreciseDirection(InputAction.CallbackContext context);
-        /// <summary>
         /// Method invoked when associated input action "Up Left Note" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
@@ -15539,6 +15377,28 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnDownRightNote(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Note Objects" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="NoteObjectsActions.AddCallbacks(INoteObjectsActions)" />
+    /// <seealso cref="NoteObjectsActions.RemoveCallbacks(INoteObjectsActions)" />
+    public interface INoteObjectsActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "Update Note Direction" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnUpdateNoteDirection(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Update Note Precise Direction" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnUpdateNotePreciseDirection(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Obstacle Objects" which allows adding and removing callbacks.
@@ -16109,13 +15969,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
     public interface IArcObjectsActions
     {
         /// <summary>
-        /// Method invoked when associated input action "InvertArcColor" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnInvertArcColor(InputAction.CallbackContext context);
-        /// <summary>
         /// Method invoked when associated input action "ChangingMu" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
@@ -16144,13 +15997,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnTweakChainCount(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "InvertChainColor" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnInvertChainColor(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "TweakChainSquish" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>

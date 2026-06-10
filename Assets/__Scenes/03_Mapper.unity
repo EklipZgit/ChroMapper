@@ -10379,6 +10379,7 @@ MonoBehaviour:
   ForceHeaderPlsIgnore: 0
   deleteToolController: {fileID: 1243231049}
   laserSpeedController: {fileID: 160161773}
+  beatmapSharedNoteInputController: {fileID: 1546839094}
 --- !u!1 &203455098
 GameObject:
   m_ObjectHideFlags: 0
@@ -75744,6 +75745,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1546839083}
+  - component: {fileID: 1546839094}
   - component: {fileID: 1546839084}
   - component: {fileID: 1546839085}
   - component: {fileID: 1546839086}
@@ -75812,6 +75814,7 @@ MonoBehaviour:
   noteAppearance: {fileID: 11400000, guid: 0c2d133c05afa744d999a0758a8977a1, type: 2}
   arcAppearance: {fileID: 11400000, guid: c737f74f07351d441a56c84811b4d665, type: 2}
   chainAppearance: {fileID: 11400000, guid: 7eafe2e8b1acf5b49903b99310732bf6, type: 2}
+  beatmapSharedNoteInputController: {fileID: 1546839094}
 --- !u!114 &1546839085
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -76007,6 +76010,24 @@ MonoBehaviour:
   editMode: 255
   obstaclePlacement: {fileID: 2087881065}
   ignoreBaseInput: 0
+--- !u!114 &1546839094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1546839082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ace5f9ab0d5c4840bd635138bec0f7f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BeatmapSharedNoteInputController
+  noteAppearance: {fileID: 11400000, guid: 0c2d133c05afa744d999a0758a8977a1, type: 2}
+  arcAppearance: {fileID: 11400000, guid: c737f74f07351d441a56c84811b4d665, type: 2}
+  chainAppearance: {fileID: 11400000, guid: 7eafe2e8b1acf5b49903b99310732bf6, type: 2}
+  beatmapNoteInputController: {fileID: 1546839084}
+  beatmapArcInputController: {fileID: 1546839089}
+  beatmapChainInputController: {fileID: 1546839090}
 --- !u!1 &1550023652
 GameObject:
   m_ObjectHideFlags: 0
@@ -100420,7 +100441,7 @@ MonoBehaviour:
   noteAppearanceSo: {fileID: 11400000, guid: 0c2d133c05afa744d999a0758a8977a1, type: 2}
   deleteToolController: {fileID: 1243231049}
   laserSpeedController: {fileID: 160161773}
-  beatmapNoteInputController: {fileID: 1546839084}
+  beatmapSharedNoteInputController: {fileID: 1546839094}
   colorPicker: {fileID: 1225848101}
   dropdown: {fileID: 81479822}
   cameraManager: {fileID: 1206999167}
@@ -100913,6 +100934,7 @@ MonoBehaviour:
   ForceHeaderPlsIgnore: 0
   deleteToolController: {fileID: 1243231049}
   laserSpeedController: {fileID: 160161773}
+  beatmapSharedNoteInputController: {fileID: 1546839094}
 --- !u!21 &2025369744
 Material:
   serializedVersion: 8

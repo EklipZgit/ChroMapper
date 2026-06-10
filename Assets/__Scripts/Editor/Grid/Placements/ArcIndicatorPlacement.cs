@@ -8,57 +8,39 @@ using Beatmap.Enums;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class ArcIndicatorPlacement : BasePlacement<BaseArc, ArcIndicatorContainer, ArcGridContainer>,
-                                     CMInput.INotePlacementActions
+public class ArcIndicatorPlacement : BasePlacement<BaseArc, ArcIndicatorContainer, ArcGridContainer>
 {
-    private const int upKey = 0;
-    private const int leftKey = 1;
-    private const int downKey = 2;
-    private const int rightKey = 3;
-
     [SerializeField] private DeleteToolController deleteToolController;
     [SerializeField] private LaserSpeedController laserSpeedController;
-
-    // Below is copied from NotePlacement. Would be nice to have some kind of shared placement.
-    private readonly float diagonalStickMaxTime = 0.3f;
-    private readonly List<bool> heldKeys = new() { false, false, false, false };
-    private bool diagonal;
-    private static HashSet<BaseObject> SelectedObjects => SelectionController.SelectedObjects;
-
-    //TODO perhaps make a helper function to deal with the context.performed and context.canceled checks
-    public void OnDownNote(InputAction.CallbackContext context) => HandleKeyUpdate(context, downKey);
-
-    public void OnLeftNote(InputAction.CallbackContext context) => HandleKeyUpdate(context, leftKey);
-
-    public void OnUpNote(InputAction.CallbackContext context) => HandleKeyUpdate(context, upKey);
-
-    public void OnRightNote(InputAction.CallbackContext context) => HandleKeyUpdate(context, rightKey);
-
-    public void OnDotNote(InputAction.CallbackContext context)
+    [SerializeField] private BeatmapSharedNoteInputController beatmapSharedNoteInputController;
+    
+    public override void Start()
     {
-        if (!context.performed) return;
-        DeleteToolController.UpdateDeletion(false);
-        UpdateCut((int)NoteCutDirection.Any);
+        base.Start();
+        beatmapSharedNoteInputController.OnCutDirectionChanged += HandleOnCutDirectionChanged;
     }
 
-    public void OnUpLeftNote(InputAction.CallbackContext context)
+    public void OnDestroy()
     {
-        if (context.performed && !laserSpeedController.Activated) UpdateCut((int)NoteCutDirection.UpLeft);
+        beatmapSharedNoteInputController.OnCutDirectionChanged -= HandleOnCutDirectionChanged;
     }
-
-    public void OnUpRightNote(InputAction.CallbackContext context)
+    
+    private void HandleOnCutDirectionChanged(int value)
     {
-        if (context.performed && !laserSpeedController.Activated) UpdateCut((int)NoteCutDirection.UpRight);
-    }
-
-    public void OnDownRightNote(InputAction.CallbackContext context)
-    {
-        if (context.performed && !laserSpeedController.Activated) UpdateCut((int)NoteCutDirection.DownRight);
-    }
-
-    public void OnDownLeftNote(InputAction.CallbackContext context)
-    {
-        if (context.performed && !laserSpeedController.Activated) UpdateCut((int)NoteCutDirection.DownLeft);
+        if (DraggedObjectContainer == null || DraggedObjectContainer.ParentArc == null) return;
+        switch (DraggedObjectContainer.IndicatorType)
+        {
+            case IndicatorType.Head:
+                QueuedData.CutDirection = value;
+                DraggedObjectContainer.ParentArc.ArcData.CutDirection = value;
+                break;
+            case IndicatorType.Tail:
+                QueuedData.TailCutDirection = value;
+                DraggedObjectContainer.ParentArc.ArcData.TailCutDirection = value;
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
     }
 
     protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicts) =>
@@ -202,90 +184,4 @@ public class ArcIndicatorPlacement : BasePlacement<BaseArc, ArcIndicatorContaine
         DraggedObjectContainer.IndicatorType == IndicatorType.Tail
             ? DraggedObjectData.TailJsonTime
             : DraggedObjectData.JsonTime;
-
-    public void UpdateCut(int value)
-    {
-        if (DraggedObjectContainer == null || DraggedObjectContainer.ParentArc == null) return;
-        switch (DraggedObjectContainer.IndicatorType)
-        {
-            case IndicatorType.Head:
-                QueuedData.CutDirection = value;
-                DraggedObjectContainer.ParentArc.ArcData.CutDirection = value;
-                break;
-            case IndicatorType.Tail:
-                QueuedData.TailCutDirection = value;
-                DraggedObjectContainer.ParentArc.ArcData.TailCutDirection = value;
-                break;
-            default:
-                throw new ArgumentOutOfRangeException();
-        }
-    }
-
-    private void HandleKeyUpdate(InputAction.CallbackContext context, int id)
-    {
-        if (context.performed ^ heldKeys[id]) HandleDirectionValues();
-        heldKeys[id] = context.performed;
-    }
-
-    private void HandleDirectionValues()
-    {
-        DeleteToolController.UpdateDeletion(false);
-
-        var upNote = heldKeys[upKey];
-        var downNote = heldKeys[downKey];
-        var leftNote = heldKeys[leftKey];
-        var rightNote = heldKeys[rightKey];
-        var previousDiagonalState = diagonal;
-
-        var handleUpDownNotes = upNote ^ downNote; // XOR: True if the values are different, false if the same
-        var handleLeftRightNotes = leftNote ^ rightNote;
-
-        diagonal = handleUpDownNotes && handleLeftRightNotes;
-
-        if (previousDiagonalState && !diagonal)
-        {
-            StartCoroutine(CheckForDiagonalUpdate());
-            return;
-        }
-
-        if (handleUpDownNotes && !handleLeftRightNotes) // We handle simple up/down notes
-        {
-            if (upNote)
-                UpdateCut((int)NoteCutDirection.Up);
-            else
-                UpdateCut((int)NoteCutDirection.Down);
-        }
-        else if (!handleUpDownNotes && handleLeftRightNotes) // We handle simple left/right notes
-        {
-            if (leftNote)
-                UpdateCut((int)NoteCutDirection.Left);
-            else
-                UpdateCut((int)NoteCutDirection.Right);
-        }
-        else if (diagonal) //We need to do a diagonal
-        {
-            if (leftNote)
-            {
-                if (upNote)
-                    UpdateCut((int)NoteCutDirection.UpLeft);
-                else
-                    UpdateCut((int)NoteCutDirection.DownLeft);
-            }
-            else
-            {
-                if (upNote)
-                    UpdateCut((int)NoteCutDirection.UpRight);
-                else
-                    UpdateCut((int)NoteCutDirection.DownRight);
-            }
-        }
-    }
-
-    private IEnumerator CheckForDiagonalUpdate()
-    {
-        var previousHeldKeys = new List<bool>(heldKeys);
-        yield return new WaitForSeconds(diagonalStickMaxTime);
-        // Weird way of saying "Are the keys being held right now the same as before"
-        if (!previousHeldKeys.Except(heldKeys).Any()) HandleDirectionValues();
-    }
 }

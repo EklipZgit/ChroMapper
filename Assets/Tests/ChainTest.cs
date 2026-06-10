@@ -152,7 +152,7 @@ namespace Tests
             if (containerCollection is ChainGridContainer chainsContainer)
             {
                 var chainPlacement = Object.FindAnyObjectByType<ChainPlacement>();
-                var inputController = Object.FindAnyObjectByType<BeatmapChainInputController>();
+                var inputController = Object.FindAnyObjectByType<BeatmapSharedNoteInputController>();
 
                 BaseChain baseChain = new BaseChain
                 {

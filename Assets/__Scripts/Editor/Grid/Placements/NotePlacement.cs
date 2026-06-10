@@ -19,7 +19,7 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
     [SerializeField] private NoteAppearanceSO noteAppearanceSo;
     [SerializeField] private DeleteToolController deleteToolController;
     [SerializeField] private LaserSpeedController laserSpeedController;
-    [SerializeField] private BeatmapNoteInputController beatmapNoteInputController;
+    [SerializeField] private BeatmapSharedNoteInputController beatmapSharedNoteInputController;
     [SerializeField] private ColorPicker colorPicker;
     [SerializeField] private ToggleColourDropdown dropdown;
 
@@ -28,12 +28,12 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
     public override void Start()
     {
         base.Start();
-        beatmapNoteInputController.OnCutDirectionChanged += HandleOnCutDirectionChanged;
+        beatmapSharedNoteInputController.OnCutDirectionChanged += HandleOnCutDirectionChanged;
     }
 
     public void OnDestroy()
     {
-        beatmapNoteInputController.OnCutDirectionChanged -= HandleOnCutDirectionChanged;
+        beatmapSharedNoteInputController.OnCutDirectionChanged -= HandleOnCutDirectionChanged;
     }
 
     private bool updateAttachedSliderDirection;

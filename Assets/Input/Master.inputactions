@@ -855,12 +855,6 @@
             ]
         },
         {
-            "name": "Note Placement",
-            "id": "55b78d3d-8ced-467c-a88f-d5cf50532d2e",
-            "actions": [],
-            "bindings": []
-        },
-        {
             "name": "Event Placement",
             "id": "d0462ea9-c717-4662-b004-e7b66e957cc9",
             "actions": [
@@ -913,7 +907,7 @@
                     "name": "Rotate In Place Left",
                     "type": "Button",
                     "id": "495ff970-c1be-4d9e-b6e5-25d4656ac258",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "Press",
                     "initialStateCheck": false
@@ -931,24 +925,6 @@
                     "name": "Rotate In Place Modifier",
                     "type": "Button",
                     "id": "0708fcf5-8b14-46b7-97c2-4a9c7577075d",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Half Float Value Modifier",
-                    "type": "Button",
-                    "id": "6a30f614-a6c1-4e78-8548-4a6f830a1f42",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Zero Float Value Modifier",
-                    "type": "Button",
-                    "id": "2bf1eac9-7e28-479f-8095-bdf4caf9cee3",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "Press",
@@ -1041,28 +1017,6 @@
                     "processors": "",
                     "groups": "ChroMapper Default",
                     "action": "Rotate In Place Right",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "787b6834-2808-4529-b772-241426af0307",
-                    "path": "<Keyboard>/x",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "ChroMapper Default",
-                    "action": "Half Float Value Modifier",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "f2b6fa6c-088b-4604-bb73-3ffe37d91771",
-                    "path": "<Keyboard>/z",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "ChroMapper Default",
-                    "action": "Zero Float Value Modifier",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -2355,13 +2309,13 @@
             ]
         },
         {
-            "name": "Note Objects",
-            "id": "d18a448a-b849-4a22-a103-3a79418bc61b",
+            "name": "Shared Note Objects",
+            "id": "145c7978-d773-459b-9d0c-36c76e56091b",
             "actions": [
                 {
                     "name": "Up Note",
                     "type": "Button",
-                    "id": "4ad3aa7e-a36a-4570-b9ce-6803d286fabb",
+                    "id": "515b9220-40cc-4db4-836f-d43a392eefbb",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -2370,7 +2324,7 @@
                 {
                     "name": "Down Note",
                     "type": "Button",
-                    "id": "2745d8e2-b0f9-4c20-93e3-a5b2efcda160",
+                    "id": "0cdad973-263a-49ed-a920-9320ba2de8a4",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -2379,7 +2333,7 @@
                 {
                     "name": "Left Note",
                     "type": "Button",
-                    "id": "19e118ee-3467-4ecc-8fea-e7dcaae10bac",
+                    "id": "59db36c0-f286-4a2c-b5cd-59d16450c740",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -2388,7 +2342,7 @@
                 {
                     "name": "Right Note",
                     "type": "Button",
-                    "id": "d297d50a-c1d7-480b-872e-680fa84b90d3",
+                    "id": "44b93388-6bba-47b5-8840-9d4659d89806",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -2397,7 +2351,7 @@
                 {
                     "name": "Dot Note",
                     "type": "Button",
-                    "id": "1ee87948-7aa5-47fe-b23e-fc8ba364f07a",
+                    "id": "af47dea5-9d2e-467e-85b1-806a3612a0ad",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -2406,12 +2360,166 @@
                 {
                     "name": "Invert Note Colors",
                     "type": "Button",
-                    "id": "5bf4f065-0e9f-4166-a219-7ec603ae88c6",
+                    "id": "d25b4af6-ac90-4eb7-be46-e6cf4ed6d9bd",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
+                {
+                    "name": "Up Left Note",
+                    "type": "Button",
+                    "id": "636f3fa1-2422-41e6-9a20-f2158a6129d3",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Up Right Note",
+                    "type": "Button",
+                    "id": "a704a008-75a5-4249-9653-f0485fc2ab3a",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Down Left Note",
+                    "type": "Button",
+                    "id": "0e4bff08-d359-477d-a4bf-2c26bfeaefe6",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Down Right Note",
+                    "type": "Button",
+                    "id": "ac708179-7dc4-4e3e-8ea4-c279ceb6cbfb",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "e4ed0ea2-a09d-497f-925f-95d174b04590",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "ChroMapper Default",
+                    "action": "Up Note",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7b3e161e-fd98-4f95-850d-724f8cc7646c",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "ChroMapper Default",
+                    "action": "Down Note",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "30fe86ed-e35e-4ea9-8a3c-0b01689526d1",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "ChroMapper Default",
+                    "action": "Left Note",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "28750741-9879-43e1-bf15-890a5f404237",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "ChroMapper Default",
+                    "action": "Right Note",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1609b8f1-f8c8-4b6f-bc95-59800645b278",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "ChroMapper Default",
+                    "action": "Dot Note",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "712693af-a735-4824-90d9-f0f672b05037",
+                    "path": "<Mouse>/middleButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "ChroMapper Default",
+                    "action": "Invert Note Colors",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e940274a-8e1a-44a8-b36f-614a0368efb6",
+                    "path": "<Keyboard>/numpad7",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Up Left Note",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4eb62768-d7b0-4a8b-adf1-1c0bc94fe2f0",
+                    "path": "<Keyboard>/numpad9",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Up Right Note",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "10653eab-d2d8-4bc3-9c9e-3159a892d030",
+                    "path": "<Keyboard>/numpad1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Down Left Note",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7c6dba8d-2010-4159-ad51-4b9a2a94f1e9",
+                    "path": "<Keyboard>/numpad3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Down Right Note",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Note Objects",
+            "id": "d18a448a-b849-4a22-a103-3a79418bc61b",
+            "actions": [
                 {
                     "name": "Update Note Direction",
                     "type": "Value",
@@ -2429,42 +2537,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
-                },
-                {
-                    "name": "Up Left Note",
-                    "type": "Button",
-                    "id": "ee5c3daa-fa6f-48af-a0fb-8a303a9254f7",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Up Right Note",
-                    "type": "Button",
-                    "id": "858cb38e-567b-4f30-9396-6aa0fc141b18",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Down Left Note",
-                    "type": "Button",
-                    "id": "9bd72fa9-d68f-4f09-ac1e-4195d8934132",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Down Right Note",
-                    "type": "Button",
-                    "id": "2689082a-64f2-45ec-af7b-9e3649ae02e9",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -2500,72 +2572,6 @@
                     "action": "Update Note Direction",
                     "isComposite": false,
                     "isPartOfComposite": true
-                },
-                {
-                    "name": "",
-                    "id": "a1a9d032-f76b-4e85-8d27-46380767f735",
-                    "path": "<Mouse>/middleButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "ChroMapper Default",
-                    "action": "Invert Note Colors",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "b704c38e-58a6-48b7-8666-aed1a0552522",
-                    "path": "<Keyboard>/s",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "ChroMapper Default",
-                    "action": "Down Note",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "a737d85e-3604-49c9-bf76-8566fd7d524b",
-                    "path": "<Keyboard>/d",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "ChroMapper Default",
-                    "action": "Right Note",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "7aead0eb-261a-4de8-adab-43085ec5aa50",
-                    "path": "<Keyboard>/w",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "ChroMapper Default",
-                    "action": "Up Note",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "dc2275bc-29d9-486d-b966-58895f4951fc",
-                    "path": "<Keyboard>/a",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "ChroMapper Default",
-                    "action": "Left Note",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "e5983dd1-0b3a-48b8-aacb-79a643ce29c2",
-                    "path": "<Keyboard>/f",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "ChroMapper Default",
-                    "action": "Dot Note",
-                    "isComposite": false,
-                    "isPartOfComposite": false
                 },
                 {
                     "name": "Two Modifiers",
@@ -2610,50 +2616,6 @@
                     "action": "Update Note Precise Direction",
                     "isComposite": false,
                     "isPartOfComposite": true
-                },
-                {
-                    "name": "",
-                    "id": "84ba70cd-7ac1-4ab1-9e63-7e0ff1b82e87",
-                    "path": "<Keyboard>/numpad7",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Up Left Note",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "1e92c95d-157c-4349-b41c-0d5d16419aaf",
-                    "path": "<Keyboard>/numpad9",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Up Right Note",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "8045469f-1354-4a9c-88b2-f5a43a389b19",
-                    "path": "<Keyboard>/numpad3",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Down Right Note",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "8b78c914-bfe8-4b2c-bffd-d539b3f0dcaf",
-                    "path": "<Keyboard>/numpad1",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Down Left Note",
-                    "isComposite": false,
-                    "isPartOfComposite": false
                 }
             ]
         },
@@ -4675,15 +4637,6 @@
             "id": "805b5d1e-e501-4fd7-944e-66b474176ee7",
             "actions": [
                 {
-                    "name": "InvertArcColor",
-                    "type": "Button",
-                    "id": "ee16de4f-c84f-40f4-bf15-2ed62d872ec4",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "ChangingMu",
                     "type": "Value",
                     "id": "5ecf55da-5762-4a6c-921f-2b702e9078da",
@@ -4703,17 +4656,6 @@
                 }
             ],
             "bindings": [
-                {
-                    "name": "",
-                    "id": "6219d243-e063-43d0-bc27-e5025a77f281",
-                    "path": "<Mouse>/middleButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "InvertArcColor",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
                 {
                     "name": "Keyboard",
                     "id": "bdb70de1-9017-48f5-9a56-a7cbc3e8b6d5",
@@ -4796,15 +4738,6 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "InvertChainColor",
-                    "type": "Button",
-                    "id": "1b3dedb1-d750-438f-b20f-2226fd1f83f7",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "TweakChainSquish",
                     "type": "Value",
                     "id": "afed819c-0511-4541-be42-2272b16fd4cb",
@@ -4847,17 +4780,6 @@
                     "action": "TweakChainCount",
                     "isComposite": false,
                     "isPartOfComposite": true
-                },
-                {
-                    "name": "",
-                    "id": "8090b872-0daa-4936-b436-6861bbf1bd6e",
-                    "path": "<Mouse>/middleButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "InvertChainColor",
-                    "isComposite": false,
-                    "isPartOfComposite": false
                 },
                 {
                     "name": "Keyboard",

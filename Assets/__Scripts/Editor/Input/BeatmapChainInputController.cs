@@ -41,30 +41,6 @@ public class BeatmapChainInputController : BeatmapInputController<ChainContainer
         BeatmapObjectContainerCollection.GetCollectionForType(c.ChainData.ObjectType).RefreshPool(true);
     }
 
-    public void OnInvertChainColor(InputAction.CallbackContext context)
-    {
-        if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)
-            || !KeybindsController.IsMouseInWindow
-            || !context.performed)
-        {
-            return;
-        }
-
-        RaycastFirstObject(out var chain);
-        if (chain != null && !chain.Dragged) InvertChain(chain);
-    }
-
-    public void InvertChain(ChainContainer chain)
-    {
-        var original = BeatmapFactory.Clone(chain.ObjectData);
-        var newType = chain.ChainData.Color == (int)NoteColor.Red
-            ? (int)NoteColor.Blue
-            : (int)NoteColor.Red;
-        chain.ChainData.Color = newType;
-        chainAppearance.SetChainAppearance(chain);
-        BeatmapActionContainer.AddAction(new BeatmapObjectModifiedAction(chain.ObjectData, chain.ObjectData, original));
-    }
-
     public void OnTweakChainSquish(InputAction.CallbackContext context)
     {
         if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)) return;

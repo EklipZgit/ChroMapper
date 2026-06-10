@@ -40,29 +40,6 @@ public class BeatmapArcInputController : BeatmapInputController<ArcContainer>, C
                 mergeType: ActionMergeType.ArcHeadMultTweak));
     }
 
-    public void OnInvertArcColor(InputAction.CallbackContext context)
-    {
-        if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)
-            || !KeybindsController.IsMouseInWindow
-            || !context.performed)
-            return;
-
-        RaycastFirstObject(out var arc);
-        if (arc != null && !arc.Dragged) InvertArc(arc);
-    }
-
-    public void InvertArc(ArcContainer arc)
-    {
-        var original = BeatmapFactory.Clone(arc.ArcData);
-        var newType = arc.ArcData.Color == (int)NoteColor.Red
-            ? (int)NoteColor.Blue
-            : (int)NoteColor.Red;
-        arc.ArcData.Color = newType;
-        arcAppearance.SetArcAppearance(arc);
-        BeatmapActionContainer.AddAction(
-            new BeatmapObjectModifiedAction(arc.ObjectData, arc.ObjectData, original, "invert arc color"));
-    }
-
     public void OnChangingTmu(InputAction.CallbackContext context)
     {
         if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)) return;

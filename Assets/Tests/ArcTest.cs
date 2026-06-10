@@ -147,7 +147,7 @@ namespace Tests
             if (containerCollection is ArcGridContainer arcsContainer)
             {
                 var arcPlacement = Object.FindAnyObjectByType<ArcPlacement>();
-                var inputController = Object.FindAnyObjectByType<BeatmapArcInputController>();
+                var inputController = Object.FindAnyObjectByType<BeatmapSharedNoteInputController>();
 
                 BaseArc baseArc = new BaseArc
                 {
