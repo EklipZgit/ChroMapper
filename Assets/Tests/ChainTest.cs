@@ -8,6 +8,7 @@ using SimpleJSON;
 using Tests.Util;
 using UnityEngine;
 using UnityEngine.TestTools;
+using UnityEngine.UIElements;
 
 namespace Tests
 {
@@ -170,7 +171,7 @@ namespace Tests
                 PlaceUtils.PlaceChain(chainPlacement, baseChain);
 
                 if (chainsContainer.LoadedContainers[baseChain] is ChainContainer containerA)
-                    inputController.InvertChain(containerA);
+                    SliderCommand.InvertColor(containerA.ChainData);
 
                 CheckUtils.CheckChain("Perform chain inversion", chainsContainer, 0, 2f, (int)GridX.Left,
                     (int)GridY.Base, (int)NoteColor.Blue, (int)NoteCutDirection.Left, 0, 3f, (int)GridX.Left,

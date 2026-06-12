@@ -20,8 +20,6 @@ public class BeatmapNoteInputController : BeatmapInputController<NoteContainer>,
     [SerializeField] private ArcAppearanceSO arcAppearance;
     [SerializeField] private ChainAppearanceSO chainAppearance;
     
-    public event Action<int> OnCutDirectionChanged;
-    
     private static readonly Dictionary<int, int> cutDirectionMovedBackward = new()
     {
         { (int)NoteCutDirection.Any, (int)NoteCutDirection.Any },

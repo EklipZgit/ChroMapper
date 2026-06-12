@@ -41,7 +41,6 @@ namespace Tests
             if (containerCollection is NoteGridContainer notesContainer)
             {
                 var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
-                var inputController = Object.FindAnyObjectByType<BeatmapSharedNoteInputController>();
 
                 BaseNote baseNoteA = new BaseNote
                 {
@@ -51,7 +50,7 @@ namespace Tests
                 PlaceUtils.PlaceNote(notePlacement, baseNoteA);
 
                 if (notesContainer.LoadedContainers[baseNoteA] is NoteContainer containerA)
-                    inputController.InvertNote(containerA);
+                    NoteCommand.InvertColor(containerA.NoteData);
 
                 CheckUtils.CheckNote("Perform note inversion", notesContainer, 0, 2, (int)GridX.Left, (int)GridY.Base,
                     (int)NoteType.Blue, (int)NoteCutDirection.Left, 0);
@@ -75,7 +74,6 @@ namespace Tests
             var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
             var arcPlacement = Object.FindAnyObjectByType<ArcPlacement>();
             var chainPlacement = Object.FindAnyObjectByType<ChainPlacement>();
-            var inputController = Object.FindAnyObjectByType<BeatmapSharedNoteInputController>();
 
             BaseNote baseNote1 = new BaseNote
             {
@@ -104,7 +102,7 @@ namespace Tests
             PlaceUtils.PlaceChain(chainPlacement, baseChain23);
 
             if (notesContainer.LoadedContainers[baseNote1] is NoteContainer container1)
-                inputController.InvertNote(container1);
+                NoteCommand.InvertColor(container1.NoteData);
 
             CheckUtils.CheckArc("Arc inverted", arcsContainer, 0, 1, default, default, (int)NoteColor.Blue, default, default, default, 2, default, default, default, default, default);
             CheckUtils.CheckChain("Chain not inverted", chainsContainer, 0, 2, default, default, (int)NoteColor.Red, default, default, 3, default, default, default, default);
@@ -114,7 +112,7 @@ namespace Tests
             CheckUtils.CheckChain("Chain still not inverted", chainsContainer, 0, 2, default, default, (int)NoteColor.Red, default, default, 3, default, default, default, default);
 
             if (notesContainer.LoadedContainers[baseNote2] is NoteContainer container2)
-                inputController.InvertNote(container2);
+                NoteCommand.InvertColor(container2.NoteData);
 
             CheckUtils.CheckArc("Arc inverted", arcsContainer, 0, 1, default, default, (int)NoteColor.Blue, default, default, default, 2, default, default, default, default, default);
             CheckUtils.CheckChain("Chain inverted", chainsContainer, 0, 2, default, default, (int)NoteColor.Blue, default, default, 3, default, default, default, default);
@@ -124,7 +122,7 @@ namespace Tests
             CheckUtils.CheckChain("Undo chain inversion", chainsContainer, 0, 2, default, default, (int)NoteColor.Red, default, default, 3, default, default, default, default);
 
             if (notesContainer.LoadedContainers[baseNote3] is NoteContainer container3)
-                inputController.InvertNote(container3);
+                NoteCommand.InvertColor(container3.NoteData);
 
             CheckUtils.CheckArc("Arc not inverted", arcsContainer, 0, 1, default, default, (int)NoteColor.Red, default, default, default, 2, default, default, default, default, default);
             CheckUtils.CheckChain("Chain not inverted", chainsContainer, 0, 2, default, default, (int)NoteColor.Red, default, default, 3, default, default, default, default);

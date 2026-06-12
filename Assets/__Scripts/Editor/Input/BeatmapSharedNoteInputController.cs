@@ -28,19 +28,19 @@ public class BeatmapSharedNoteInputController : MonoBehaviour, CMInput.ISharedNo
 
         if (beatmapNoteInputController.IsHovering)
         {
-            InvertNote(beatmapNoteInputController.HoveredObject);
+            NoteCommand.InvertColor(beatmapNoteInputController.HoveredObject.NoteData);
             return;
         }
             
         if (beatmapArcInputController.IsHovering)
         {
-            InvertArc(beatmapArcInputController.HoveredObject);  
+            SliderCommand.InvertColor(beatmapArcInputController.HoveredObject.ArcData);
             return;
         }
             
         if (beatmapChainInputController.IsHovering)
         {
-            InvertChain(beatmapChainInputController.HoveredObject);
+            SliderCommand.InvertColor(beatmapChainInputController.HoveredObject.ChainData);
             return;
         }
     }
@@ -78,145 +78,17 @@ public class BeatmapSharedNoteInputController : MonoBehaviour, CMInput.ISharedNo
     private void OnDirectNoteDirectionPerformed(NoteCutDirection cutDirection)
     {
         if (KeybindsController.IsHoverKeyHeld && Settings.Instance.QuickNoteEditing)
-            UpdateHoverNoteDirection((int)cutDirection);
+        {
+            if (beatmapNoteInputController.IsHovering)
+            {
+                var note = beatmapNoteInputController.HoveredObject;
+                if (note.ObjectData is not BaseNote noteData) return;
+        
+                NoteCommand.SetCutDirection(noteData, (int)cutDirection);
+            }
+        }
         else
             OnCutDirectionChanged?.Invoke((int)cutDirection);
-    }
-    
-    public void InvertNote(NoteContainer note)
-    {
-        if (note.NoteData.Type == (int)NoteType.Bomb) return;
-
-        var original = BeatmapFactory.Clone(note.ObjectData);
-        var newType = note.NoteData.Type == (int)NoteType.Red
-            ? (int)NoteType.Blue
-            : (int)NoteType.Red;
-        note.NoteData.Type = newType;
-        noteAppearance.SetNoteAppearance(note);
-        var collection = BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
-        collection.RefreshSpecialAngles(note.ObjectData, false, false);
-        collection.RefreshSpecialAngles(original, false, false);
-
-        var actions =
-            new List<BeatmapAction> { new BeatmapObjectModifiedAction(note.ObjectData, note.ObjectData, original) };
-        InvertAttachedSliders(note, actions);
-
-        BeatmapActionContainer.AddAction(new ActionCollectionAction(actions, true, true, "Note inversion"));
-    }
-
-    private void InvertAttachedSliders(NoteContainer note, ICollection<BeatmapAction> actions)
-    {
-        var noteData = note.NoteData;
-        var epsilon = BeatmapObjectContainerCollection.Epsilon;
-
-        var arcCollection = BeatmapObjectContainerCollection.GetCollectionForType<ArcGridContainer>(ObjectType.Arc);
-        foreach (var arcContainer in arcCollection.LoadedContainers)
-        {
-            var arcData = arcContainer.Key as BaseArc;
-            var isConnectedToHead = Mathf.Abs(arcData.JsonTime - noteData.JsonTime) < epsilon
-                && arcData.GetPosition() == noteData.GetPosition();
-            var isConnectedToTail = Mathf.Abs(arcData.TailJsonTime - noteData.JsonTime) < epsilon
-                && arcData.GetTailPosition() == noteData.GetPosition();
-            if (isConnectedToHead || isConnectedToTail)
-            {
-                var arcOriginal = BeatmapFactory.Clone(arcData);
-                arcData.Color = noteData.Color;
-                arcAppearance.SetArcAppearance(arcContainer.Value as ArcContainer);
-
-                actions.Add(new BeatmapObjectModifiedAction(arcData, arcData, arcOriginal));
-            }
-        }
-
-        var chainCollection =
-            BeatmapObjectContainerCollection.GetCollectionForType<ChainGridContainer>(ObjectType.Chain);
-        foreach (var chainContainer in chainCollection.LoadedContainers)
-        {
-            var chainData = chainContainer.Key as BaseChain;
-            var isConnectedToHead = Mathf.Abs(chainData.JsonTime - noteData.JsonTime) < epsilon
-                && chainData.GetPosition() == noteData.GetPosition();
-            if (isConnectedToHead)
-            {
-                var chainOriginal = BeatmapFactory.Clone(chainData);
-                chainData.Color = noteData.Color;
-                chainAppearance.SetChainAppearance(chainContainer.Value as ChainContainer);
-
-                actions.Add(new BeatmapObjectModifiedAction(chainData, chainData, chainOriginal));
-            }
-        }
-    }
-
-    public void InvertArc(ArcContainer arc)
-    {
-        var original = BeatmapFactory.Clone(arc.ArcData);
-        var newType = arc.ArcData.Color == (int)NoteColor.Red
-            ? (int)NoteColor.Blue
-            : (int)NoteColor.Red;
-        arc.ArcData.Color = newType;
-        arcAppearance.SetArcAppearance(arc);
-        BeatmapActionContainer.AddAction(
-            new BeatmapObjectModifiedAction(arc.ObjectData, arc.ObjectData, original, "invert arc color"));
-    }
-    
-    public void InvertChain(ChainContainer chain)
-    {
-        var original = BeatmapFactory.Clone(chain.ObjectData);
-        var newType = chain.ChainData.Color == (int)NoteColor.Red
-            ? (int)NoteColor.Blue
-            : (int)NoteColor.Red;
-        chain.ChainData.Color = newType;
-        chainAppearance.SetChainAppearance(chain);
-        BeatmapActionContainer.AddAction(
-            new BeatmapObjectModifiedAction(chain.ObjectData, chain.ObjectData, original, "invert chain color"));
-    }
-    
-    private void UpdateHoverNoteDirection(int value)
-    {
-        if (!beatmapNoteInputController.IsHovering) return;
-        
-        // TODO: Move the below to a command?
-        var note = beatmapNoteInputController.HoveredObject;
-        if (note.ObjectData is not BaseNote noteData) return;
-        
-        var originalData = BeatmapFactory.Clone(noteData);
-        ToggleDiagonalAngleOffset(noteData, value);
-        noteData.CutDirection = value;
-
-        var actions = new List<BeatmapAction>
-        {
-            new BeatmapObjectModifiedAction(
-                noteData,
-                noteData,
-                originalData,
-                "Quick edit",
-                true,
-                ActionMergeType.NoteDirectionChange)
-        };
-        CommonNotePlacement.UpdateAttachedSlidersDirection(noteData, actions);
-
-        if (actions.Count > 1)
-        {
-            BeatmapActionContainer.AddAction(
-                new ActionCollectionAction(
-                    actions,
-                    true,
-                    false,
-                    "Quick edit",
-                    ActionMergeType.NoteDirectionChange),
-                true);
-            SelectionController.OnSelectionChanged?.Invoke();
-        }
-        else
-            BeatmapActionContainer.AddAction(actions[0], true);
-    }
-    
-    private void ToggleDiagonalAngleOffset(BaseNote note, int newCutDirection)
-    {
-        if (note.CutDirection == (int)NoteCutDirection.Any
-            && newCutDirection == (int)NoteCutDirection.Any
-            && note.AngleOffset != 45)
-            note.AngleOffset = 45;
-        else
-            note.AngleOffset = 0;
     }
     
     #region Handling CutDirection From Input

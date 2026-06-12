@@ -167,7 +167,7 @@ namespace Tests
                 PlaceUtils.PlaceArc(arcPlacement, baseArc);
 
                 if (arcsContainer.LoadedContainers[baseArc] is ArcContainer containerA)
-                    inputController.InvertArc(containerA);
+                    SliderCommand.InvertColor(containerA.ArcData);
 
                 CheckUtils.CheckArc("Perform arc inversion", arcsContainer, 0, 2f, (int)GridX.Left, (int)GridY.Base,
                     (int)NoteColor.Blue, (int)NoteCutDirection.Left, 0, 1f, 3f, (int)GridX.Left, (int)GridY.Base,
