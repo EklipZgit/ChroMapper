@@ -18,52 +18,32 @@ public class BeatmapChainInputController : BeatmapInputController<ChainContainer
 
     public void OnTweakChainCount(InputAction.CallbackContext context)
     {
-        if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)) return;
-        RaycastFirstObject(out var c);
-        if (c == null || c.Dragged || !context.performed) return;
+        if (!context.performed || !IsHovering || HoveredObject.Dragged) return;
 
         var modifier = context.GetScrollDirection(Settings.Instance.InvertScrollChainSegmentCount);
-        TweakValue(c, modifier);
+        TweakValue(HoveredObject, modifier);
     }
 
     public void TweakValue(ChainContainer c, int modifier)
     {
-        var original = BeatmapFactory.Clone(c.ObjectData);
-        c.ChainData.SliceCount += modifier;
-        c.ChainData.SliceCount = Mathf.Clamp(c.ChainData.SliceCount, minChainCount, maxChainCount);
-        if (c.ChainData.CompareTo(original) == 0) return;
-        BeatmapActionContainer.AddAction(
-            new BeatmapObjectModifiedAction(
-                c.ObjectData,
-                c.ObjectData,
-                original,
-                mergeType: ActionMergeType.ChainSliceCountTweak));
-        BeatmapObjectContainerCollection.GetCollectionForType(c.ChainData.ObjectType).RefreshPool(true);
+        var sliceCount = Mathf.Clamp(c.ChainData.SliceCount + modifier, minChainCount, maxChainCount);
+        
+        ChainCommand.SetSliceCount(c.ChainData, sliceCount);
     }
 
     public void OnTweakChainSquish(InputAction.CallbackContext context)
     {
-        if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)) return;
-        RaycastFirstObject(out var c);
-        if (c == null || c.Dragged || !context.performed) return;
-
+        if (!context.performed || !IsHovering || HoveredObject.Dragged) return;
+        
         var modifier = context.GetScrollDirection(Settings.Instance.InvertScrollChainSquish)
             * scrollPrecisionController.GetCurrentMultiplierPrecision();
-        TweakChainSquish(c, modifier);
+        TweakChainSquish(HoveredObject, modifier);
     }
 
     public void TweakChainSquish(ChainContainer c, float modifier)
     {
-        var original = BeatmapFactory.Clone(c.ObjectData);
-        c.ChainData.Squish += modifier;
-        c.ChainData.Squish = Mathf.Clamp(c.ChainData.Squish, minChainSquish, maxChainSquish);
-        if (c.ChainData.CompareTo(original) == 0) return;
-        BeatmapActionContainer.AddAction(
-            new BeatmapObjectModifiedAction(
-                c.ObjectData,
-                c.ObjectData,
-                original,
-                mergeType: ActionMergeType.ChainSquishTweak));
-        BeatmapObjectContainerCollection.GetCollectionForType(c.ChainData.ObjectType).RefreshPool(true);
+        var squish = Mathf.Clamp(c.ChainData.Squish + modifier, minChainSquish, maxChainSquish);
+        
+        ChainCommand.SetSquish(c.ChainData, squish);
     }
 }
