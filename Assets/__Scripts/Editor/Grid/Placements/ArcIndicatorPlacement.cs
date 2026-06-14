@@ -43,6 +43,22 @@ public class ArcIndicatorPlacement : BasePlacement<BaseArc, ArcIndicatorContaine
         }
     }
 
+    public override ObjectContainer StartDrag(GameObject draggedObject)
+    {
+        var con = base.StartDrag(draggedObject);
+        if (IsDragging)
+            DraggedObjectContainer.ParentArc.Dragged = true;
+
+        return con;
+    }
+
+    protected override List<BeatmapAction> PerformPreFinishDragActions()
+    {
+        DraggedObjectContainer.ParentArc.Dragged = false;
+        
+        return new List<BeatmapAction>();
+    }
+
     protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicts) =>
         new BeatmapObjectPlacementAction(spawned, conflicts, "Edited an arc.");
 

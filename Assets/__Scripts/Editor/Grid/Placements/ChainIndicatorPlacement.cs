@@ -38,6 +38,22 @@ public class ChainIndicatorPlacement : BasePlacement<BaseChain, ChainIndicatorCo
         }
     }
 
+    public override ObjectContainer StartDrag(GameObject draggedObject)
+    {
+        var con = base.StartDrag(draggedObject);
+        if (IsDragging)
+            DraggedObjectContainer.ParentChain.Dragged = true;
+
+        return con;
+    }
+
+    protected override List<BeatmapAction> PerformPreFinishDragActions()
+    {
+        DraggedObjectContainer.ParentChain.Dragged = false;
+        
+        return new List<BeatmapAction>();
+    }
+
     protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicts) =>
         new BeatmapObjectPlacementAction(spawned, conflicts, "Edited a chain.");
 

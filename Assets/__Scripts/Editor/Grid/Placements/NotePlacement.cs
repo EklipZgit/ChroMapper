@@ -58,6 +58,169 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
     protected override BaseNote GenerateOriginalData() =>
         new() { Color = (int)NoteColor.Red, CutDirection = (int)NoteCutDirection.Down };
 
+    private readonly List<ObjectContainer> draggedAttachedSliderContainers = new();
+
+    private readonly Dictionary<IndicatorType, List<BaseSlider>> draggedAttachedSliderDatas = new()
+    {
+        { IndicatorType.Head, new List<BaseSlider>() }, { IndicatorType.Tail, new List<BaseSlider>() }
+    };
+
+    private readonly Dictionary<IndicatorType, List<BaseSlider>> originalDraggedAttachedSliderDatas = new()
+    {
+        { IndicatorType.Head, new List<BaseSlider>() }, { IndicatorType.Tail, new List<BaseSlider>() }
+    };
+
+    public override ObjectContainer StartDrag(GameObject draggedObject)
+    {
+        var con = base.StartDrag(draggedObject);
+        if (IsDragging)
+            StartDragSliders(DraggedObjectContainer);
+
+        return con;
+    }
+
+    private void StartDragSliders(NoteContainer noteContainer)
+    {
+        var noteData = noteContainer.NoteData;
+        var epsilon = BeatmapObjectContainerCollection.Epsilon;
+
+        var arcCollection = BeatmapObjectContainerCollection.GetCollectionForType<ArcGridContainer>(ObjectType.Arc);
+        foreach (var arcContainer in arcCollection.LoadedContainers)
+        {
+            var arcData = arcContainer.Key as BaseArc;
+            var isConnectedToHead = Mathf.Abs(arcData.JsonTime - noteData.JsonTime) < epsilon
+                && arcData.GetPosition() == noteData.GetPosition();
+            var isConnectedToTail = Mathf.Abs(arcData.TailJsonTime - noteData.JsonTime) < epsilon
+                && arcData.GetTailPosition() == noteData.GetPosition();
+            if (isConnectedToHead)
+            {
+                originalDraggedAttachedSliderDatas[IndicatorType.Head].Add(BeatmapFactory.Clone(arcData));
+                draggedAttachedSliderDatas[IndicatorType.Head].Add(arcData);
+                draggedAttachedSliderContainers.Add(arcContainer.Value);
+                arcCollection.SilentRemoveObject(arcData);
+            }
+            else if (isConnectedToTail)
+            {
+                originalDraggedAttachedSliderDatas[IndicatorType.Tail].Add(BeatmapFactory.Clone(arcData));
+                draggedAttachedSliderDatas[IndicatorType.Tail].Add(arcData);
+                draggedAttachedSliderContainers.Add(arcContainer.Value);
+                arcCollection.SilentRemoveObject(arcData);
+            }
+        }
+
+        var chainCollection =
+            BeatmapObjectContainerCollection.GetCollectionForType<ChainGridContainer>(ObjectType.Chain);
+        foreach (var chainContainer in chainCollection.LoadedContainers)
+        {
+            var chainData = chainContainer.Key as BaseChain;
+            var isConnectedToHead = Mathf.Abs(chainData.JsonTime - noteData.JsonTime) < epsilon
+                && chainData.GetPosition() == noteData.GetPosition();
+            var isConnectedToTail = Mathf.Abs(chainData.TailJsonTime - noteData.JsonTime) < epsilon
+                && chainData.GetTailPosition() == noteData.GetPosition();
+            if (isConnectedToHead)
+            {
+                originalDraggedAttachedSliderDatas[IndicatorType.Head].Add(BeatmapFactory.Clone(chainData));
+                draggedAttachedSliderDatas[IndicatorType.Head].Add(chainData);
+                draggedAttachedSliderContainers.Add(chainContainer.Value);
+                chainCollection.SilentRemoveObject(chainData);
+            }
+            else if (isConnectedToTail)
+            {
+                originalDraggedAttachedSliderDatas[IndicatorType.Tail].Add(BeatmapFactory.Clone(chainData));
+                draggedAttachedSliderDatas[IndicatorType.Tail].Add(chainData);
+                draggedAttachedSliderContainers.Add(chainContainer.Value);
+                chainCollection.SilentRemoveObject(chainData);
+            }
+        }
+
+        foreach (var container in draggedAttachedSliderContainers) container.Dragged = true;
+    }
+    
+    protected override List<BeatmapAction> PerformPreFinishDragActions()
+    {
+        var noteCollection =
+            BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
+        noteCollection.RefreshSpecialAngles(DraggedObjectData, false, false);
+
+        var actions =  new List<BeatmapAction>();
+        FinishSliderDrag(actions);
+        ClearDraggedAttachedSliders();
+
+        return actions;
+    }
+    
+    private void FinishSliderDrag(List<BeatmapAction> actions)
+    {
+        var arcCollection = BeatmapObjectContainerCollection.GetCollectionForType<ArcGridContainer>(ObjectType.Arc);
+        var chainCollection =
+            BeatmapObjectContainerCollection.GetCollectionForType<ChainGridContainer>(ObjectType.Chain);
+
+        for (var i = 0; i < draggedAttachedSliderDatas[IndicatorType.Head].Count; i++)
+        {
+            var draggedSlider = draggedAttachedSliderDatas[IndicatorType.Head][i];
+            var originalDraggedSlider = originalDraggedAttachedSliderDatas[IndicatorType.Head][i];
+
+            if (draggedSlider is BaseArc draggedArc)
+                SpawnDraggedSlider(arcCollection, draggedArc, originalDraggedSlider, actions);
+            else if (draggedSlider is BaseChain draggedChain)
+                SpawnDraggedSlider(chainCollection, draggedChain, originalDraggedSlider, actions);
+        }
+
+        for (var i = 0; i < draggedAttachedSliderDatas[IndicatorType.Tail].Count; i++)
+        {
+            var draggedSlider = draggedAttachedSliderDatas[IndicatorType.Tail][i];
+            var originalDraggedSlider = originalDraggedAttachedSliderDatas[IndicatorType.Tail][i];
+
+            if (draggedSlider is BaseArc draggedArc)
+                SpawnDraggedSlider(arcCollection, draggedArc, originalDraggedSlider, actions);
+            else if (draggedSlider is BaseChain draggedChain)
+                SpawnDraggedSlider(chainCollection, draggedChain, originalDraggedSlider, actions);
+        }
+    }
+
+    private void SpawnDraggedSlider(
+        BeatmapObjectContainerCollection sliderCollection,
+        BaseSlider draggedSlider,
+        BaseObject originalSlider,
+        List<BeatmapAction> actions)
+    {
+        sliderCollection.SpawnObject(draggedSlider, out var conflictingArcs);
+
+        // Don't queue an action if we didn't actually change anything
+        if (draggedSlider.ToString() != originalSlider.ToString())
+        {
+            if (conflictingArcs.Count > 0)
+            {
+                actions.Add(
+                    new BeatmapObjectModifiedWithConflictingAction(
+                        draggedSlider,
+                        draggedSlider,
+                        originalSlider,
+                        conflictingArcs,
+                        "Modified via alt-click and drag."));
+            }
+            else
+            {
+                actions.Add(
+                    new BeatmapObjectModifiedAction(
+                        draggedSlider,
+                        draggedSlider,
+                        originalSlider,
+                        "Modified via alt-click and drag."));
+            }
+        }
+    }
+
+    private void ClearDraggedAttachedSliders()
+    {
+        foreach (var container in draggedAttachedSliderContainers) container.Dragged = false;
+        draggedAttachedSliderContainers.Clear();
+        draggedAttachedSliderDatas[IndicatorType.Head].Clear();
+        draggedAttachedSliderDatas[IndicatorType.Tail].Clear();
+        originalDraggedAttachedSliderDatas[IndicatorType.Head].Clear();
+        originalDraggedAttachedSliderDatas[IndicatorType.Tail].Clear();
+    }
+
     public override void Initialize(PlacementProvider provider)
     {
         base.Initialize(provider);
@@ -191,7 +354,7 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
     private void TransferQueuedToAttachedDraggedSliders(BaseNote queued)
     {
         var epsilon = BeatmapObjectContainerCollection.Epsilon;
-        foreach (var baseSlider in DraggedAttachedSliderDatas[IndicatorType.Head])
+        foreach (var baseSlider in draggedAttachedSliderDatas[IndicatorType.Head])
         {
             baseSlider.JsonTime = queued.JsonTime;
             baseSlider.PosX = queued.PosX;
@@ -200,7 +363,7 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
             baseSlider.CustomCoordinate = queued.CustomCoordinate;
         }
 
-        foreach (var baseSlider in DraggedAttachedSliderDatas[IndicatorType.Tail])
+        foreach (var baseSlider in draggedAttachedSliderDatas[IndicatorType.Tail])
         {
             baseSlider.TailJsonTime = queued.JsonTime;
             baseSlider.TailPosX = queued.PosX;
@@ -211,7 +374,7 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
                 baseArc.TailCutDirection = queued.CutDirection;
         }
 
-        foreach (var baseSliderContainer in DraggedAttachedSliderContainers)
+        foreach (var baseSliderContainer in draggedAttachedSliderContainers)
         {
             switch (baseSliderContainer)
             {
