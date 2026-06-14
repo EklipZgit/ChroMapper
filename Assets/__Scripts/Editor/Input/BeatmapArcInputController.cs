@@ -5,6 +5,7 @@ using Beatmap.Base;
 using Beatmap.Containers;
 using Beatmap.Enums;
 using Beatmap.Helper;
+using Beatmap.V4;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
@@ -17,52 +18,33 @@ public class BeatmapArcInputController : BeatmapInputController<ArcContainer>, C
 
     public void OnChangingMu(InputAction.CallbackContext context)
     {
-        if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)) return;
-        RaycastFirstObject(out var e);
-        if (e == null || e.Dragged || !context.performed) return;
+        if (!context.performed || !IsHovering || HoveredObject.Dragged) return;
 
         var modifier = context.GetScrollDirection(Settings.Instance.InvertScrollArcMultiplier)
             * scrollPrecisionController.GetCurrentMultiplierPrecision();
-        ChangeMu(e, modifier);
+        ChangeMu(HoveredObject, modifier);
     }
 
     public void ChangeMu(ArcContainer s, float modifier)
     {
-        var original = BeatmapFactory.Clone(s.ArcData);
-        s.ChangeHeadMultiplier(modifier);
-        arcAppearance.SetText(s);
-        s.NotifySplineChanged();
-        BeatmapActionContainer.AddAction(
-            new BeatmapObjectModifiedAction(
-                s.ObjectData,
-                s.ObjectData,
-                original,
-                mergeType: ActionMergeType.ArcHeadMultTweak));
+        var headControlPointLengthMultiplier = s.ArcData.HeadControlPointLengthMultiplier + modifier;
+        
+        ArcCommand.SetHeadControlPointLengthMultiplier(s.ArcData, headControlPointLengthMultiplier);
     }
 
     public void OnChangingTmu(InputAction.CallbackContext context)
     {
-        if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)) return;
-        RaycastFirstObject(out var e);
-        if (e == null || e.Dragged || !context.performed) return;
+        if (!context.performed || !IsHovering || HoveredObject.Dragged) return;
 
         var modifier = context.GetScrollDirection(Settings.Instance.InvertScrollArcMultiplier)
-            * scrollPrecisionController
-                .GetCurrentMultiplierPrecision();
-        ChangeTmu(e, modifier);
+                       * scrollPrecisionController.GetCurrentMultiplierPrecision();
+        ChangeMu(HoveredObject, modifier);
     }
 
     public void ChangeTmu(ArcContainer s, float modifier)
     {
-        var original = BeatmapFactory.Clone(s.ArcData);
-        s.ChangeTailMultiplier(modifier);
-        arcAppearance.SetText(s);
-        s.NotifySplineChanged();
-        BeatmapActionContainer.AddAction(
-            new BeatmapObjectModifiedAction(
-                s.ObjectData,
-                s.ObjectData,
-                original,
-                mergeType: ActionMergeType.ArcTailMultTweak));
+        var tailControlPointLengthMultiplier = s.ArcData.TailControlPointLengthMultiplier + modifier;
+        
+        ArcCommand.SetTailControlPointLengthMultiplier(s.ArcData, tailControlPointLengthMultiplier);
     }
 }
