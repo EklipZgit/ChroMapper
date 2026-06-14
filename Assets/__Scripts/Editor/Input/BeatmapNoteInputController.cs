@@ -50,63 +50,26 @@ public class BeatmapNoteInputController : BeatmapInputController<NoteContainer>,
 
     public void OnUpdateNoteDirection(InputAction.CallbackContext context)
     {
-        if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)) return;
-        if (!context.performed) return;
+        if (!context.performed || !IsHovering || HoveredObject.Dragged) return;
 
         var shiftForward = context.GetScrollDirection(Settings.Instance.InvertScrollNoteAngle);
-        RaycastFirstObject(out var note);
-        if (note != null) ScrollUpdateDirection(note, shiftForward);
+        ScrollUpdateDirection(HoveredObject, shiftForward);
     }
 
     public void OnUpdateNotePreciseDirection(InputAction.CallbackContext context)
     {
-        if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)) return;
-        if (!context.performed) return;
+        if (!context.performed || !IsHovering || HoveredObject.Dragged) return;
 
         var shiftForward = context.GetScrollDirection(Settings.Instance.InvertScrollNoteAngle);
-        RaycastFirstObject(out var note);
-        if (note != null) ScrollPreciseUpdateDirection(note, shiftForward);
+        ScrollPreciseUpdateDirection(HoveredObject, shiftForward);
     }
 
     public void ScrollUpdateDirection(NoteContainer note, int direction)
     {
-        var original = BeatmapFactory.Clone(note.ObjectData);
-        note.NoteData.CutDirection =
+        var cutDirection =
             (direction > 0 ? cutDirectionMovedBackward : cutDirectionMovedForward)[note.NoteData.CutDirection];
 
-        if (note.NoteData.CutDirection == (int)NoteCutDirection.Any && Settings.Instance.MapVersion >= 3) // janky!
-        {
-            note.NoteData.AngleOffset += direction > 0 ? 45 : -45;
-            note.NoteData.AngleOffset = (int)Mathf.Repeat(note.NoteData.AngleOffset, 360);
-        }
-
-        BeatmapObjectContainerCollection
-            .GetCollectionForType<NoteGridContainer>(ObjectType.Note)
-            .RefreshSpecialAngles(note.ObjectData, false, false);
-
-        var actions = new List<BeatmapAction>
-        {
-            new BeatmapObjectModifiedAction(
-                note.ObjectData,
-                note.ObjectData,
-                original,
-                "Update Note Direction",
-                mergeType: ActionMergeType.NoteDirectionChange)
-        };
-        CommonNotePlacement.UpdateAttachedSlidersDirection(note.NoteData, actions);
-
-        if (actions.Count > 1)
-        {
-            BeatmapActionContainer.AddAction(
-                new ActionCollectionAction(
-                    actions,
-                    true,
-                    true,
-                    "Update Note Direction",
-                    mergeType: ActionMergeType.NoteDirectionChange));
-        }
-        else
-            BeatmapActionContainer.AddAction(actions[0]);
+        NoteCommand.SetCutDirection(note.NoteData, cutDirection);
     }
 
     public void ScrollPreciseUpdateDirection(NoteContainer note, int direction)
@@ -114,20 +77,10 @@ public class BeatmapNoteInputController : BeatmapInputController<NoteContainer>,
         // V2 note unsupported. Could implement either ME or NE for V2 note.
         if (Settings.Instance.MapVersion < 3) return;
 
-        var original = BeatmapFactory.Clone(note.ObjectData);
+        var precision = scrollPrecisionController.GetCurrentAngleOffsetPrecision();
+        var value = (int)(Mathf.Round((note.NoteData.AngleOffset + (direction * precision)) * 1_000f) / 1_000f);
+        var angleOffset = (int)Mathf.Repeat(value, 360);
 
-        var prec = scrollPrecisionController.GetCurrentAngleOffsetPrecision();
-        var value = (int)(Mathf.Round((note.NoteData.AngleOffset + (direction * prec)) * 1_000f) / 1_000f);
-        note.NoteData.AngleOffset = (int)Mathf.Repeat(value, 360);
-
-        BeatmapObjectContainerCollection
-            .GetCollectionForType<NoteGridContainer>(ObjectType.Note)
-            .RefreshSpecialAngles(note.ObjectData, false, false);
-        BeatmapActionContainer.AddAction(
-            new BeatmapObjectModifiedAction(
-                note.ObjectData,
-                note.ObjectData,
-                original,
-                mergeType: ActionMergeType.NotePreciseDirectionTweak));
+        NoteCommand.SetAngleOffset(note.NoteData, angleOffset);
     }
 }

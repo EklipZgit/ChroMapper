@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Beatmap.Base;
 using Beatmap.Enums;
 using Beatmap.Helper;
@@ -109,6 +109,21 @@ public static class NoteCommand
         }
     }
 
+    public static void SetAngleOffset(BaseNote baseNote, int angleOffset)
+    {
+        var newNote = BeatmapFactory.Clone(baseNote);
+        newNote.AngleOffset = angleOffset;
+        
+        BeatmapActionContainer.AddAction(
+            new BeatmapObjectUpdatedAction(
+                newNote,
+                baseNote,
+                "Update Note Precise Direction",
+                mergeType: ActionMergeType.NotePreciseDirectionTweak),
+            true);
+        SelectionController.OnSelectionChanged?.Invoke();
+    }
+    
     public static void InvertColor(BaseNote baseNote)
     {
         if (baseNote.Type == (int)NoteType.Bomb) return;
