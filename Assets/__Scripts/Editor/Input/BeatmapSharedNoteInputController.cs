@@ -74,17 +74,32 @@ public class BeatmapSharedNoteInputController : MonoBehaviour, CMInput.ISharedNo
     {
         if (context.performed) OnDirectNoteDirectionPerformed(NoteCutDirection.DownLeft);
     }
+
+    private bool IsAnyObjectBeingDragged =>
+        (beatmapNoteInputController.IsHovering && beatmapNoteInputController.HoveredObject.Dragged)
+        || (beatmapArcInputController.IsHovering && beatmapArcInputController.HoveredObject.Dragged)
+        || (beatmapChainInputController.IsHovering && beatmapChainInputController.HoveredObject.Dragged);
+    
     
     private void OnDirectNoteDirectionPerformed(NoteCutDirection cutDirection)
     {
         if (KeybindsController.IsHoverKeyHeld && Settings.Instance.QuickNoteEditing)
         {
-            if (beatmapNoteInputController.IsHovering)
+            if (IsAnyObjectBeingDragged)
             {
-                var note = beatmapNoteInputController.HoveredObject;
-                if (note.ObjectData is not BaseNote noteData) return;
-        
-                NoteCommand.SetCutDirection(noteData, (int)cutDirection);
+                // Using a command while dragging causes ghost notes. Let the BasePlacement workflow handle changes
+                OnCutDirectionChanged?.Invoke((int)cutDirection);
+            }
+            else if (Settings.Instance.QuickNoteEditing)
+            {
+                if (beatmapNoteInputController.IsHovering)
+                {
+                    // Currently only notes support edits
+                    var note = beatmapNoteInputController.HoveredObject;
+                    if (note.ObjectData is not BaseNote noteData) return;
+            
+                    NoteCommand.SetCutDirection(noteData, (int)cutDirection);
+                }
             }
         }
         else

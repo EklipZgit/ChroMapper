@@ -310,13 +310,26 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
         DraggedObjectContainer = con;
         DraggedObjectContainer.Dragged = true;
 
-        if (con is NoteContainer noteContainer)
+        // This switch should probably be moved into each respective implementation override
+        switch (con)
         {
-            var noteCollection =
-                BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
-            noteCollection.ClearSpecialAngles(con.ObjectData);
+            case NoteContainer noteContainer:
+                var noteCollection =
+                    BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
+                noteCollection.ClearSpecialAngles(noteContainer.ObjectData);
 
-            StartDragSliders(noteContainer);
+                StartDragSliders(noteContainer);
+                break;
+
+            case ArcIndicatorContainer:
+                var draggedArcIndicatorContainer = DraggedObjectContainer as ArcIndicatorContainer;
+                draggedArcIndicatorContainer.ParentArc.Dragged = true;
+                break;
+
+            case ChainIndicatorContainer:
+                var draggedChainIndicatorContainer = DraggedObjectContainer as ChainIndicatorContainer;
+                draggedChainIndicatorContainer.ParentChain.Dragged = true;
+                break;
         }
 
         IsDragging = true;
@@ -356,14 +369,27 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
             SelectionController.OnSelectionChanged?.Invoke();
         }
 
-        if (DraggedObjectContainer is NoteContainer)
+        // This switch should probably be moved into each respective implementation override
+        switch (DraggedObjectContainer)
         {
-            var noteCollection =
-                BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
-            noteCollection.RefreshSpecialAngles(DraggedObjectData, false, false);
+            case NoteContainer:
+                var noteCollection =
+                    BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
+                noteCollection.RefreshSpecialAngles(DraggedObjectData, false, false);
 
-            FinishSliderDrag(actions);
-            ClearDraggedAttachedSliders();
+                FinishSliderDrag(actions);
+                ClearDraggedAttachedSliders();
+                break;
+
+            case ArcIndicatorContainer:
+                var draggedArcIndicatorContainer = DraggedObjectContainer as ArcIndicatorContainer;
+                draggedArcIndicatorContainer.ParentArc.Dragged = false;
+                break;
+
+            case ChainIndicatorContainer:
+                var draggedChainIndicatorContainer = DraggedObjectContainer as ChainIndicatorContainer;
+                draggedChainIndicatorContainer.ParentChain.Dragged = false;
+                break;
         }
 
         if (actions.Count == 1)

@@ -68,8 +68,13 @@ public class BeatmapInputController<TContainer> : MonoBehaviour, CMInput.IBeatma
         }
         else if (IsHovering)
         {
-            HoveredObject.Highlighted = false;
-            IsHovering = false;
+            if (!HoveredObject.Dragged)
+            {
+                // Objects like ArcIndicator and ChainIndicators are offset from the cursor while dragging so only
+                // stop highlighting and hovering when the dragging has finished
+                HoveredObject.Highlighted = false;
+                IsHovering = false;
+            }
         }
         else
             IsHovering = false;
