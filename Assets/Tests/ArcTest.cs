@@ -216,7 +216,7 @@ namespace Tests
                     (int)NoteColor.Red, (int)NoteCutDirection.Left, 0, 1.5f, 3f, (int)GridX.Left, (int)GridY.Base,
                     (int)NoteCutDirection.Left, 1f, 0);
 
-                if (arcsContainer.LoadedContainers[baseArc] is ArcContainer containerA2)
+                if (arcsContainer.LoadedContainers[arcsContainer.MapObjects[0]] is ArcContainer containerA2)
                     inputController.ChangeTmu(containerA2, 0.5f);
 
                 CheckUtils.CheckArc("Update arc tail multiplier", arcsContainer, 0, 2f, (int)GridX.Left,

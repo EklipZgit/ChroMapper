@@ -147,42 +147,43 @@ namespace Tests
                 BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
             var inputController = Object.FindAnyObjectByType<BeatmapNoteInputController>();
 
-            BaseNote baseNoteA = new BaseNote { JsonTime = 4 };
-            noteGridContainer.SpawnObject(baseNoteA);
-            var containerA = noteGridContainer.LoadedContainers[baseNoteA] as NoteContainer;
+            // ◌◌◌◌
+            // ◌◌◌◌
+            // ◌←◌◌
+            BaseNote baseNoteBottom = new BaseNote { JsonTime = 4, PosX = 1, CutDirection = (int)NoteCutDirection.Left};
+            noteGridContainer.SpawnObject(baseNoteBottom);
+            var containerBottom = noteGridContainer.LoadedContainers[baseNoteBottom] as NoteContainer;
 
-            BaseNote baseNoteB = new BaseNote { JsonTime = 4 };
-            noteGridContainer.SpawnObject(baseNoteB, removeConflicting: false);
-            var containerB = noteGridContainer.LoadedContainers[baseNoteB] as NoteContainer;
-            
             // ◌◌↓◌
             // ◌◌◌◌
             // ◌←◌◌
-            UpdateNote(containerA, (int)GridX.MiddleRight, (int)GridY.Top, (int)NoteCutDirection.Down);
-            UpdateNote(containerB, (int)GridX.MiddleLeft, (int)GridY.Base, (int)NoteCutDirection.Left);
-            Assert.AreEqual(0, containerA.DirectionTarget.localEulerAngles.z, 0.01);
-            Assert.AreEqual(270, containerB.DirectionTarget.localEulerAngles.z, 0.01);
+            BaseNote baseNoteTop = new BaseNote { JsonTime = 4, PosX = 2, PosY = 2, CutDirection = (int)NoteCutDirection.Down };
+            noteGridContainer.SpawnObject(baseNoteTop, removeConflicting: false);
+            var containerTop = noteGridContainer.LoadedContainers[baseNoteTop] as NoteContainer;
+
+            Assert.AreEqual(0, containerTop.DirectionTarget.localEulerAngles.z, 0.01);
+            Assert.AreEqual(270, containerBottom.DirectionTarget.localEulerAngles.z, 0.01);
 
             // ◌◌↓◌
             // ◌◌◌◌
             // ◌↙◌◌
-            inputController.ScrollUpdateDirection(containerB, 1);
-            Assert.AreEqual(0, containerA.DirectionTarget.localEulerAngles.z, 0.01);
-            Assert.AreEqual(315, containerB.DirectionTarget.localEulerAngles.z, 0.01);
+            inputController.ScrollUpdateDirection(containerBottom, 1);
+            Assert.AreEqual(0, containerTop.DirectionTarget.localEulerAngles.z, 0.01);
+            Assert.AreEqual(315, containerBottom.DirectionTarget.localEulerAngles.z, 0.01);
 
             // ◌◌↓◌
             // ◌◌◌◌
             // ◌↓◌◌
-            inputController.ScrollUpdateDirection(containerB, 1);
-            Assert.AreEqual(333.43, containerA.DirectionTarget.localEulerAngles.z, 0.01);
-            Assert.AreEqual(333.43, containerB.DirectionTarget.localEulerAngles.z, 0.01);
-            
+            inputController.ScrollUpdateDirection(containerBottom, 1);
+            Assert.AreEqual(333.43, containerTop.DirectionTarget.localEulerAngles.z, 0.01);
+            Assert.AreEqual(333.43, containerBottom.DirectionTarget.localEulerAngles.z, 0.01);
+
             // ◌◌↓◌
             // ◌◌◌◌
             // ◌↘◌◌
-            inputController.ScrollUpdateDirection(containerB, 1);
-            Assert.AreEqual(0, containerA.DirectionTarget.localEulerAngles.z, 0.01);
-            Assert.AreEqual(45, containerB.DirectionTarget.localEulerAngles.z, 0.01);
+            inputController.ScrollUpdateDirection(containerBottom, 1);
+            Assert.AreEqual(0, containerTop.DirectionTarget.localEulerAngles.z, 0.01);
+            Assert.AreEqual(45, containerBottom.DirectionTarget.localEulerAngles.z, 0.01);
         }
         
         [Test]
@@ -193,42 +194,43 @@ namespace Tests
                 BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
             var inputController = Object.FindAnyObjectByType<BeatmapNoteInputController>();
 
-            BaseNote baseNoteA = new BaseNote { JsonTime = 4 };
-            noteGridContainer.SpawnObject(baseNoteA);
-            var containerA = noteGridContainer.LoadedContainers[baseNoteA] as NoteContainer;
+            // ◌◌◌◌
+            // ◌◌◌◌
+            // ←◌◌◌
+            BaseNote baseNoteBottom = new BaseNote { JsonTime = 4, CutDirection = (int)NoteCutDirection.Left };
+            noteGridContainer.SpawnObject(baseNoteBottom);
+            var containerBottom = noteGridContainer.LoadedContainers[baseNoteBottom] as NoteContainer;
 
-            BaseNote baseNoteB = new BaseNote { JsonTime = 4 };
-            noteGridContainer.SpawnObject(baseNoteB, removeConflicting: false);
-            var containerB = noteGridContainer.LoadedContainers[baseNoteB] as NoteContainer;
-            
             // ◌◌↓◌
             // ◌◌◌◌
             // ←◌◌◌
-            UpdateNote(containerA, (int)GridX.MiddleRight, (int)GridY.Top, (int)NoteCutDirection.Down);
-            UpdateNote(containerB, (int)GridX.Left, (int)GridY.Base, (int)NoteCutDirection.Left);
-            Assert.AreEqual(0, containerA.DirectionTarget.localEulerAngles.z, 0.01);
-            Assert.AreEqual(270, containerB.DirectionTarget.localEulerAngles.z, 0.01);
+            BaseNote baseNoteTop = new BaseNote { JsonTime = 4 , PosX = 2,  PosY = 2, CutDirection = (int)NoteCutDirection.Down };
+            noteGridContainer.SpawnObject(baseNoteTop, removeConflicting: false);
+            var containerTop = noteGridContainer.LoadedContainers[baseNoteTop] as NoteContainer;
+
+            Assert.AreEqual(0, containerTop.DirectionTarget.localEulerAngles.z, 0.01);
+            Assert.AreEqual(270, containerBottom.DirectionTarget.localEulerAngles.z, 0.01);
 
             // ◌◌↓◌
             // ◌◌◌◌
             // ↙◌◌◌
-            inputController.ScrollUpdateDirection(containerB, 1);
-            Assert.AreEqual(0, containerA.DirectionTarget.localEulerAngles.z, 0.01);
-            Assert.AreEqual(315, containerB.DirectionTarget.localEulerAngles.z, 0.01);
+            inputController.ScrollUpdateDirection(containerBottom, 1);
+            Assert.AreEqual(0, containerTop.DirectionTarget.localEulerAngles.z, 0.01);
+            Assert.AreEqual(315, containerBottom.DirectionTarget.localEulerAngles.z, 0.01);
 
             // ◌◌↓◌
             // ◌◌◌◌
             // ↓◌◌◌
-            inputController.ScrollUpdateDirection(containerB, 1);
-            Assert.AreEqual(0, containerA.DirectionTarget.localEulerAngles.z, 0.01);
-            Assert.AreEqual(0, containerB.DirectionTarget.localEulerAngles.z, 0.01);
+            inputController.ScrollUpdateDirection(containerBottom, 1);
+            Assert.AreEqual(0, containerTop.DirectionTarget.localEulerAngles.z, 0.01);
+            Assert.AreEqual(0, containerBottom.DirectionTarget.localEulerAngles.z, 0.01);
             
             // ◌◌↓◌
             // ◌◌◌◌
             // ↘◌◌◌
-            inputController.ScrollUpdateDirection(containerB, 1);
-            Assert.AreEqual(0, containerA.DirectionTarget.localEulerAngles.z, 0.01);
-            Assert.AreEqual(45, containerB.DirectionTarget.localEulerAngles.z, 0.01);
+            inputController.ScrollUpdateDirection(containerBottom, 1);
+            Assert.AreEqual(0, containerTop.DirectionTarget.localEulerAngles.z, 0.01);
+            Assert.AreEqual(45, containerBottom.DirectionTarget.localEulerAngles.z, 0.01);
         }
 
         [Test]

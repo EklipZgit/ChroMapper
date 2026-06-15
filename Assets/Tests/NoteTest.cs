@@ -179,14 +179,14 @@ namespace Tests
             };
             PlaceUtils.PlaceNote(notePlacement, baseNoteA);
 
-            if (notesContainer.LoadedContainers[baseNoteA] is NoteContainer containerA)
-                inputController.ScrollUpdateDirection(containerA, 1);
+            var containerA = notesContainer.LoadedContainers[baseNoteA] as NoteContainer;
+            
+            inputController.ScrollUpdateDirection(containerA, 1);
 
             CheckUtils.CheckNote("Update note direction", notesContainer, 0, 2, (int)GridX.Left, (int)GridY.Base,
                 (int)NoteType.Red, (int)NoteCutDirection.DownLeft, 0);
             
-            if (notesContainer.LoadedContainers[baseNoteA] is NoteContainer containerB)
-                inputController.ScrollUpdateDirection(containerB, 1);
+            inputController.ScrollUpdateDirection(containerA, 1);
 
             CheckUtils.CheckNote("Update note direction", notesContainer, 0, 2, (int)GridX.Left, (int)GridY.Base,
                 (int)NoteType.Red, (int)NoteCutDirection.Down, 0);
