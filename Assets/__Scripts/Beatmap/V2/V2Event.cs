@@ -71,5 +71,18 @@ namespace Beatmap.V2
             node["_customData"] = evt.CustomData;
             return node;
         }
+        
+        public static JSONNode ToJson(BaseRotationEvent evt)
+        {
+            JSONNode node = new JSONObject();
+            node["_time"] = evt.JsonTime;
+            node["_type"] = evt.Type;
+            node["_value"] = evt.Value;
+            node["_floatValue"] = 0f;
+            evt.CustomData = evt.SaveCustom();
+            if (!evt.CustomData.Children.Any()) return node;
+            node["_customData"] = evt.CustomData;
+            return node;
+        }
     }
 }

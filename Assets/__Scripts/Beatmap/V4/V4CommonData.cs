@@ -295,7 +295,7 @@ namespace Beatmap.V4
                 Rotation = node["r"].AsFloat
             };
 
-            public static RotationEvent FromBaseEvent(BaseEvent baseEvent) => new()
+            public static RotationEvent FromBaseEvent(BaseRotationEvent baseEvent) => new()
             {
                 Type = baseEvent.Type == (int)EventTypeValue.EarlyLaneRotation ? 0 : 1,
                 Rotation = baseEvent.Rotation

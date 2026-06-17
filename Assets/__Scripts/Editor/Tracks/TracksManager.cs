@@ -9,7 +9,7 @@ public class TracksManager : MonoBehaviour
 {
     [SerializeField] private Track trackPrefab;
     [SerializeField] private Transform tracksParent;
-    [SerializeField] private EventGridContainer eventGridContainer;
+    [SerializeField] private RotationEventGridContainer rotationEventGridContainer;
 
     [SerializeField] private AudioTimeSyncController atsc;
     [SerializeField] private VariableNJSProvider vNjsProvider;
@@ -142,7 +142,7 @@ public class TracksManager : MonoBehaviour
     public float GetRotationAtTime(float beatInSongBpm)
     {
         float rotation = 0;
-        foreach (var rotationEvent in eventGridContainer.AllRotationEvents)
+        foreach (var rotationEvent in rotationEventGridContainer.MapObjects)
         {
             if (rotationEvent.SongBpmTime > beatInSongBpm + 0.001f) continue;
             if (Mathf.Approximately(rotationEvent.SongBpmTime, beatInSongBpm)

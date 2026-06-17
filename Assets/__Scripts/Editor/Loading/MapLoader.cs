@@ -45,7 +45,11 @@ public class MapLoader : MonoBehaviour
             LoadObjects(map.VfxEventBoxGroups);
         }
 
-        if (Settings.Instance.Load_Notes || Settings.Instance.Load_Obstacles) LoadObjects(map.NJSEvents);
+        if (Settings.Instance.Load_Notes || Settings.Instance.Load_Obstacles)
+        {
+            LoadObjects(map.NJSEvents);
+            LoadObjects(map.RotationEvents);
+        }
 
         manager.RefreshTracks();
     }
@@ -64,10 +68,7 @@ public class MapLoader : MonoBehaviour
 
         if (objects is List<BaseEvent> eventsList)
         {
-            manager.RefreshTracks();
-
             var events = collection as EventGridContainer;
-            events.AllRotationEvents = eventsList.FindAll(it => it.IsLaneRotationEvent());
             events.AllBoostEvents = eventsList.FindAll(it => it.IsColorBoostEvent());
             events.AllBpmEvents = eventsList.FindAll(it => it.IsBpmEvent());
 

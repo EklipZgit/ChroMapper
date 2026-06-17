@@ -273,60 +273,54 @@ public class MirrorSelection : MonoBehaviour
             }
             else if (edited is BaseEvent e)
             {
-                if (e.IsLaneRotationEvent())
+                if (e.CustomLightGradient != null)
                 {
-                    e.Rotation *= -1;
+                    (e.CustomLightGradient.StartColor, e.CustomLightGradient.EndColor) = (
+                        e.CustomLightGradient.EndColor, e.CustomLightGradient.StartColor);
+                }
 
-                    if (e.CustomLaneRotation != null) e.CustomLaneRotation *= -1;
+                if (tracksDefinition.GetBasicOrDefault(e.Type).Kind != BasicEventKind.Lights) continue;
+                if (moveNotes
+                    && e.IsPropagation
+                    && e.CustomLightID != null
+                    && events.EventTypeToPropagate == e.Type
+                    && events.PropagationEditing == EventGridContainer.PropMode.Prop)
+                {
+                    var idx = labels.LightIDsToPropID(e.Type, e.CustomLightID);
+                    var mirroredIdx = (int)Mathf.Repeat(-idx - 1, events.EventTypePropagationSize);
+                    e.CustomLightID = labels.PropIdToLightIds(e.Type, mirroredIdx);
+                }
+                else if (moveNotes
+                    && e.CustomLightID != null
+                    && events.EventTypeToPropagate == e.Type
+                    && events.PropagationEditing == EventGridContainer.PropMode.Light)
+                {
+                    var idx = labels.LightIDToLane(e.Type, e.CustomLightID[0]);
+                    var mirroredIdx = (int)Mathf.Repeat(-idx - 1, events.EventTypePropagationSize);
+                    e.CustomLightID = new[] { labels.LaneToLightID(e.Type, mirroredIdx) };
+                }
 
-                    tracksManager.RefreshTracks();
+                // (M) swaps red and blue
+                // (Shift + M) cycles red, blue, and white
+                if (moveNotes)
+                {
+                    if (e.Value > 0 && e.Value <= 4)
+                        e.Value += 4; // blue to red
+                    else if (e.Value > 4 && e.Value <= 8) e.Value -= 4; // red to blue
                 }
                 else
                 {
-                    if (e.CustomLightGradient != null)
-                    {
-                        (e.CustomLightGradient.StartColor, e.CustomLightGradient.EndColor) = (
-                            e.CustomLightGradient.EndColor, e.CustomLightGradient.StartColor);
-                    }
-
-                    if (tracksDefinition.GetBasicOrDefault(e.Type).Kind != BasicEventKind.Lights) continue;
-                    if (moveNotes
-                        && e.IsPropagation
-                        && e.CustomLightID != null
-                        && events.EventTypeToPropagate == e.Type
-                        && events.PropagationEditing == EventGridContainer.PropMode.Prop)
-                    {
-                        var idx = labels.LightIDsToPropID(e.Type, e.CustomLightID);
-                        var mirroredIdx = (int)Mathf.Repeat(-idx - 1, events.EventTypePropagationSize);
-                        e.CustomLightID = labels.PropIdToLightIds(e.Type, mirroredIdx);
-                    }
-                    else if (moveNotes
-                        && e.CustomLightID != null
-                        && events.EventTypeToPropagate == e.Type
-                        && events.PropagationEditing == EventGridContainer.PropMode.Light)
-                    {
-                        var idx = labels.LightIDToLane(e.Type, e.CustomLightID[0]);
-                        var mirroredIdx = (int)Mathf.Repeat(-idx - 1, events.EventTypePropagationSize);
-                        e.CustomLightID = new[] { labels.LaneToLightID(e.Type, mirroredIdx) };
-                    }
-
-                    // (M) swaps red and blue
-                    // (Shift + M) cycles red, blue, and white
-                    if (moveNotes)
-                    {
-                        if (e.Value > 0 && e.Value <= 4)
-                            e.Value += 4; // blue to red
-                        else if (e.Value > 4 && e.Value <= 8) e.Value -= 4; // red to blue
-                    }
-                    else
-                    {
-                        if (e.Value > 0 && e.Value <= 4)
-                            e.Value += 4; // blue to red
-                        else if (e.Value > 4 && e.Value <= 8)
-                            e.Value += 4; // red to white
-                        else if (e.Value > 8 && e.Value <= 12) e.Value -= 8; // white to blue
-                    }
+                    if (e.Value > 0 && e.Value <= 4)
+                        e.Value += 4; // blue to red
+                    else if (e.Value > 4 && e.Value <= 8)
+                        e.Value += 4; // red to white
+                    else if (e.Value > 8 && e.Value <= 12) e.Value -= 8; // white to blue
                 }
+            }
+            else if (edited is BaseRotationEvent r)
+            {
+                r.Rotation *= -1;
+                tracksManager.RefreshTracks();
             }
             else if (edited is BaseArc arc)
             {

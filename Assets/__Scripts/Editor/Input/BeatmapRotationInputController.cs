@@ -10,7 +10,6 @@ public class BeatmapRotationInputController : BeatmapInputController<ObjectConta
                                               CMInput.IRotationObjectsActions
 {
     [SerializeField] private AudioTimeSyncController atsc;
-    [SerializeField] private BeatmapRuntimeContext beatmapRuntimeContext;
     [SerializeField] private ScrollPrecisionController scrollPrecisionController;
     [SerializeField] private TracksManager tracksManager;
     [SerializeField] private RotationCallbackController rotationCallbackController;
@@ -23,7 +22,7 @@ public class BeatmapRotationInputController : BeatmapInputController<ObjectConta
             return;
         switch (con)
         {
-            case EventContainer:
+            case RotationEventContainer:
                 RotateObject(con, true);
                 break;
             case NoteContainer:
@@ -43,7 +42,7 @@ public class BeatmapRotationInputController : BeatmapInputController<ObjectConta
             return;
         switch (con)
         {
-            case EventContainer:
+            case RotationEventContainer:
                 RotateObject(con, false);
                 break;
             case NoteContainer:
@@ -87,15 +86,11 @@ public class BeatmapRotationInputController : BeatmapInputController<ObjectConta
         var modifier = clockwise ? 1 : -1;
         switch (c.ObjectData)
         {
-            case BaseEvent evt:
+            case BaseRotationEvent evt:
                 {
-                    if (evt.IsLaneRotationEvent())
-                    {
-                        var prec = scrollPrecisionController.GetCurrentRotationPrecision();
-                        var value = Mathf.Round((evt.Rotation + (modifier * prec)) * 1_000f) / 1_000f;
-                        evt.Rotation += value;
-                        tracksManager.RefreshTracks();
-                    }
+                    var prec = scrollPrecisionController.GetCurrentRotationPrecision();
+                    evt.Rotation = Mathf.Round((evt.Rotation + (modifier * prec)) * 1_000f) / 1_000f;
+                    tracksManager.RefreshTracks();
 
                     break;
                 }
@@ -110,12 +105,67 @@ public class BeatmapRotationInputController : BeatmapInputController<ObjectConta
 
         if (c.ObjectData.CompareTo(original) == 0) return;
 
-        if (c is EventContainer e) eventAppearance.SetAppearance(e, beatmapRuntimeContext.TracksDefinition);
+        if (c is RotationEventContainer e) eventAppearance.SetAppearance(e);
         BeatmapActionContainer.AddAction(
             new BeatmapObjectModifiedAction(
                 c.ObjectData,
                 c.ObjectData,
                 original,
                 mergeType: ActionMergeType.ModifyRotationValue));
+    }
+
+    public void OnInvert(InputAction.CallbackContext context)
+    {
+        if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)) return;
+        if (!context.performed
+            || !EditContext.EditingMode.HasFlag(editMode)
+            || !RaycastFirstObject(out var con)
+            || con is not RotationEventContainer e)
+            return;
+
+        Invert(e);
+    }
+
+    public void OnModifyHover(InputAction.CallbackContext context)
+    {
+        if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)) return;
+        if (!context.performed
+            || !EditContext.EditingMode.HasFlag(editMode)
+            || !RaycastFirstObject(out var con)
+            || con is not RotationEventContainer e)
+            return;
+
+        var modifier = context.GetScrollDirection(Settings.Instance.InvertScrollEventValue);
+        ModifyHover(e, modifier);
+    }
+
+    private void Invert(RotationEventContainer e)
+    {
+        var original = BeatmapFactory.Clone(e.ObjectData);
+
+        e.EventData.Rotation *= -1;
+        tracksManager.RefreshTracks();
+
+        eventAppearance.SetAppearance(e);
+        BeatmapActionContainer.AddAction(new BeatmapObjectModifiedAction(e.ObjectData, e.ObjectData, original));
+    }
+
+    private void ModifyHover(RotationEventContainer e, int modifier)
+    {
+        var original = BeatmapFactory.Clone(e.ObjectData);
+
+        var prec = scrollPrecisionController.GetCurrentRotationPrecision();
+        e.EventData.Rotation = Mathf.Round((e.EventData.Rotation + (modifier * prec)) * 1_000f) / 1_000f;
+        tracksManager.RefreshTracks();
+
+        if (e.EventData.CompareTo(original) == 0) return;
+
+        eventAppearance.SetAppearance(e);
+        BeatmapActionContainer.AddAction(
+            new BeatmapObjectModifiedAction(
+                e.ObjectData,
+                e.ObjectData,
+                original,
+                mergeType: ActionMergeType.EventMainTweak));
     }
 }

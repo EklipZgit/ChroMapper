@@ -8,9 +8,9 @@ namespace Beatmap.V4
 {
     public static class V4RotationEvent
     {
-        public static BaseEvent GetFromJson(JSONNode node, IList<V4CommonData.RotationEvent> rotationsCommonData)
+        public static BaseRotationEvent GetFromJson(JSONNode node, IList<V4CommonData.RotationEvent> rotationsCommonData)
         {
-            var evt = new BaseEvent();
+            var evt = new BaseRotationEvent();
             
             evt.JsonTime = node["b"].AsFloat;
 
@@ -23,7 +23,7 @@ namespace Beatmap.V4
             return evt;
         }
 
-        public static JSONNode ToJson(BaseEvent evt, IList<V4CommonData.RotationEvent> rotationsCommonData)
+        public static JSONNode ToJson(BaseRotationEvent evt, IList<V4CommonData.RotationEvent> rotationsCommonData)
         {
             JSONNode node = new JSONObject();
             node["b"] = evt.JsonTime;

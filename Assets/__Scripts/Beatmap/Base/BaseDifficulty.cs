@@ -45,6 +45,7 @@ namespace Beatmap.Base
         public List<BaseChain> Chains { get; set; } = new();
         public List<BaseWaypoint> Waypoints { get; set; } = new();
         public List<BaseEvent> Events { get; set; } = new();
+        public List<BaseRotationEvent> RotationEvents { get; set; } = new();
         public List<BaseNJSEvent> NJSEvents { get; set; } = new();
 
         public List<BaseLightColorEventBoxGroup> LightColorEventBoxGroups { get; set; } = new();
@@ -87,6 +88,7 @@ namespace Beatmap.Base
                 new List<BaseObject>(Arcs),
                 new List<BaseObject>(Chains),
                 new List<BaseObject>(Waypoints),
+                new List<BaseObject>(RotationEvents),
                 new List<BaseObject>(Events),
                 new List<BaseObject>(Bookmarks),
                 new List<BaseObject>(CustomEvents),
@@ -507,6 +509,7 @@ namespace Beatmap.Base
             && Arcs.Count == 0
             && Chains.Count == 0
             && Waypoints.Count == 0
+            && RotationEvents.Count == 0
             && Events.Count == 0
             && NJSEvents.Count == 0
             && LightColorEventBoxGroups.Count == 0

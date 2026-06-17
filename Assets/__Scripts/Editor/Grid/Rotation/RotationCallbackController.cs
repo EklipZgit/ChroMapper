@@ -7,16 +7,17 @@ using UnityEngine;
 public class RotationCallbackController : MonoBehaviour
 {
     [SerializeField] private AudioTimeSyncController atsc;
-    [SerializeField] private EventGridContainer eventGridContainer;
+    [SerializeField] private RotationEventGridContainer rotationEventGridContainer;
     [SerializeField] private BeatmapObjectCallbackController interfaceCallback;
 
     private readonly string[] enabledCharacteristics = { "360Degree", "90Degree", "Lawless" };
 
     public event Action<bool, float> OnRotationChanged; //Natural, degrees
     public bool IsActive { get; private set; }
-    public BaseEvent LatestRotationEvent { get; private set; }
+    public BaseRotationEvent LatestRotationEvent { get; private set; }
 
     private float rotation;
+
     public float Rotation
     {
         get => rotation;
@@ -73,7 +74,7 @@ public class RotationCallbackController : MonoBehaviour
         if (!IsActive) return;
         var jsonTime = atsc.CurrentJsonTime;
 
-        var span = eventGridContainer.AllRotationEvents.AsSpan();
+        var span = rotationEventGridContainer.MapObjects.AsSpan();
         var result = span.BinarySearchBy(jsonTime, e => e.JsonTime);
         var idx = result >= 0 ? result : ~result;
 
@@ -97,8 +98,7 @@ public class RotationCallbackController : MonoBehaviour
     private void OnEventPassedThreshold(bool initial, int index, BaseObject obj)
     {
         if (!IsActive) return;
-        if (obj is not BaseEvent e) return;
-        if (!e.IsLaneRotationEvent()) return;
+        if (obj is not BaseRotationEvent e) return;
         if (e == LatestRotationEvent) return;
 
         rotation += e.Rotation;

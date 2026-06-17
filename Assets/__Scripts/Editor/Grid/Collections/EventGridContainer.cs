@@ -18,7 +18,6 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
 
     [SerializeField] private GameObject eventPrefab;
     [SerializeField] private EventAppearanceSO eventAppearance;
-    [SerializeField] private TracksManager tracksManager;
     [SerializeField] private GridLane gridLane;
     [SerializeField] private CreateEventTypeLabels labels;
     [SerializeField] private BoxSelectionPlacement boxSelectionPlacement;
@@ -28,7 +27,6 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
     public int EventTypeToPropagate = (int)EventTypeValue.RingLights;
     public int EventTypePropagationSize;
 
-    public List<BaseEvent> AllRotationEvents = new();
     public List<BaseEvent> AllBoostEvents = new();
     public List<BaseEvent> AllBpmEvents = new();
 
@@ -168,12 +166,7 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
     {
         if (obj is BaseEvent e)
         {
-            if (e.IsLaneRotationEvent())
-            {
-                AllRotationEvents.Remove(e);
-                tracksManager.RefreshTracks();
-            }
-            else if (e.IsColorBoostEvent())
+            if (e.IsColorBoostEvent())
                 AllBoostEvents.Remove(e);
             else if (e.IsBpmEvent())
                 AllBpmEvents.Remove(e);
@@ -200,9 +193,7 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
     {
         if (obj is BaseEvent e)
         {
-            if (e.IsLaneRotationEvent())
-                AllRotationEvents.Add(e);
-            else if (e.IsColorBoostEvent())
+            if (e.IsColorBoostEvent())
                 AllBoostEvents.Add(e);
             else if (e.IsBpmEvent())
                 AllBpmEvents.Add(e);

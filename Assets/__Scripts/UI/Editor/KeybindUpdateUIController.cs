@@ -54,7 +54,6 @@ public class KeybindUpdateUIController : MonoBehaviour, CMInput.IWorkflowsAction
     public void OnTogglePrecisionRotation(InputAction.CallbackContext context)
     {
         if (!context.performed) return;
-        eventPlacement.PlacePrecisionRotation = !eventPlacement.PlacePrecisionRotation;
         UpdatePrecisionRotationGameObjectState();
     }
 
@@ -138,11 +137,14 @@ public class KeybindUpdateUIController : MonoBehaviour, CMInput.IWorkflowsAction
     // TODO: Remove from Input Actions
     public void OnUpdateSwingArcVisualizer(InputAction.CallbackContext context) { }
 
+    // TODO: ?idk what these do
     public void UpdatePrecisionRotation(string res)
     {
-        if (int.TryParse(res, out var value)) eventPlacement.PrecisionRotationValue = value;
+        // if (int.TryParse(res, out var value)) eventPlacement.PrecisionRotationValue = value;
     }
 
-    private void UpdatePrecisionRotationGameObjectState() =>
-        precisionRotationContainer.SetActive(eventPlacement.PlacePrecisionRotation);
+    private void UpdatePrecisionRotationGameObjectState()
+    {
+        // precisionRotationContainer.SetActive(eventPlacement.PlacePrecisionRotation);
+    }
 }

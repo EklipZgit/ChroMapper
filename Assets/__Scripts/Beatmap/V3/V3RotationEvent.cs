@@ -1,31 +1,29 @@
-using System;
 using System.Linq;
 using Beatmap.Base;
 using Beatmap.Enums;
 using SimpleJSON;
-using UnityEngine;
 
 namespace Beatmap.V3
 {
     public class V3RotationEvent
     {
-        public static BaseEvent GetFromJson(JSONNode node)
+        public static BaseRotationEvent GetFromJson(JSONNode node)
         {
-            var evt = new BaseEvent();
-            
+            var evt = new BaseRotationEvent();
+
             evt.JsonTime = node["b"].AsFloat;
-            evt.Type = (int)(node["e"].AsInt == 0 ? EventTypeValue.EarlyLaneRotation : EventTypeValue.LateLaneRotation);
+            evt.ExecutionTime = node["e"].AsInt == 0 ? ExecutionTime.Early : ExecutionTime.Late;
             evt.Rotation = node["r"].AsFloat;
             evt.CustomData = node["customData"];
 
             return evt;
         }
 
-        public static JSONNode ToJson(BaseEvent evt)
+        public static JSONNode ToJson(BaseRotationEvent evt)
         {
             JSONNode node = new JSONObject();
             node["b"] = evt.JsonTime;
-            node["e"] = evt.Type == (int)EventTypeValue.EarlyLaneRotation ? 0 : 1;
+            node["e"] = (int)evt.ExecutionTime;
             node["r"] = evt.Rotation;
             evt.CustomData = evt.SaveCustom();
             if (!evt.CustomData.Children.Any()) return node;

@@ -339,13 +339,13 @@ namespace Tests
             var rotationCb = Object.FindAnyObjectByType<RotationCallbackController>();
             rotationCb.Start();
 
-            var eventsContainer = BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
+            var eventsContainer = BeatmapObjectContainerCollection.GetCollectionForType<RotationEventGridContainer>(ObjectType.RotationEvent);
 
-            var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
+            var eventPlacement = Object.FindAnyObjectByType<RotationEventPlacement>();
 
-            BaseEvent baseEventA = new BaseEvent { JsonTime = 2, Type = (int)EventTypeValue.LateLaneRotation, Rotation = 33 };
+            BaseRotationEvent baseEventA = new BaseRotationEvent { JsonTime = 2, Type = (int)EventTypeValue.LateLaneRotation, Rotation = 33 };
 
-            PlaceUtils.PlaceEvent(eventPlacement, baseEventA);
+            PlaceUtils.PlaceRotationEvent(eventPlacement, baseEventA);
 
             SelectionController.Select(baseEventA);
 

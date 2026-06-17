@@ -35,11 +35,11 @@ namespace Tests
         [TestCase(new[] { 0, 15, -10 })]
         public void RotationCallbackProperties(int[] rotations)
         {
-            var eventsContainer = BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
+            var eventsContainer = BeatmapObjectContainerCollection.GetCollectionForType<RotationEventGridContainer>(ObjectType.RotationEvent);
 
-            var rotationEventA = new BaseEvent { JsonTime = 1, Type = (int)EventTypeValue.LateLaneRotation, Rotation = rotations[0] };
-            var rotationEventB = new BaseEvent { JsonTime = 2, Type = (int)EventTypeValue.LateLaneRotation, Rotation = rotations[1] };
-            var rotationEventC = new BaseEvent { JsonTime = 3, Type = (int)EventTypeValue.LateLaneRotation, Rotation = rotations[2] };
+            var rotationEventA = new BaseRotationEvent { JsonTime = 1, Type = (int)EventTypeValue.LateLaneRotation, Rotation = rotations[0] };
+            var rotationEventB = new BaseRotationEvent { JsonTime = 2, Type = (int)EventTypeValue.LateLaneRotation, Rotation = rotations[1] };
+            var rotationEventC = new BaseRotationEvent { JsonTime = 3, Type = (int)EventTypeValue.LateLaneRotation, Rotation = rotations[2] };
             eventsContainer.SpawnObject(rotationEventA);
             eventsContainer.SpawnObject(rotationEventB);
             eventsContainer.SpawnObject(rotationEventC);
@@ -68,13 +68,13 @@ namespace Tests
         [Test]
         public void RotationCallbackPropertiesOnTimeMatch()
         {
-            var eventsContainer = BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
+            var eventsContainer = BeatmapObjectContainerCollection.GetCollectionForType<RotationEventGridContainer>(ObjectType.RotationEvent);
 
             const int rotation = 15;
             const float timeA = 1f;
             const float timeB = 2f;
-            var rotationEventA = new BaseEvent { JsonTime = timeA, Type = (int)EventTypeValue.LateLaneRotation, Rotation = rotation };
-            var rotationEventB = new BaseEvent { JsonTime = timeB, Type = (int)EventTypeValue.LateLaneRotation, Rotation = rotation };
+            var rotationEventA = new BaseRotationEvent { JsonTime = timeA, Type = (int)EventTypeValue.LateLaneRotation, Rotation = rotation };
+            var rotationEventB = new BaseRotationEvent { JsonTime = timeB, Type = (int)EventTypeValue.LateLaneRotation, Rotation = rotation };
             eventsContainer.SpawnObject(rotationEventA);
             eventsContainer.SpawnObject(rotationEventB);
 
