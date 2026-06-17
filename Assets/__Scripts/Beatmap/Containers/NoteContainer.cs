@@ -3,6 +3,7 @@ using Beatmap.Base;
 using Beatmap.Enums;
 using UnityEngine;
 using System;
+using TMPro;
 
 namespace Beatmap.Containers
 {
@@ -24,7 +25,7 @@ namespace Beatmap.Containers
 
         [Header("Others")] [SerializeField] public Transform DirectionTarget;
         [SerializeField] private SpriteRenderer swingArcRenderer;
-        [SerializeField] private LineRenderer laneIndicator;
+        [SerializeField] private TextMeshPro text;
 
         public BaseNote NoteData;
 
@@ -185,6 +186,17 @@ namespace Beatmap.Containers
             if (swingArcRenderer != null) swingArcRenderer.enabled = showArcVisualizer;
         }
 
+        public void SetText(string str)
+        {
+            if (string.IsNullOrEmpty(str))
+                text.enabled = false;
+            else
+            {
+                text.enabled = true;
+                text.SetText(str);
+            }
+        }
+
         public static NoteContainer SpawnBeatmapNote(BaseNote noteData, ref GameObject notePrefab)
         {
             var container = Instantiate(notePrefab).GetComponent<NoteContainer>();
@@ -205,26 +217,6 @@ namespace Beatmap.Containers
                         (NoteData.SongBpmTime * EditorScaleController.EditorScale * BeatmapConstant.LaneSize)
                         + BeatmapConstant.ZOffset);
             }
-
-            // line renderer fun
-            var vector3 = laneIndicator.transform.localPosition;
-            vector3.y = -pos.y;
-            laneIndicator.transform.localPosition = vector3;
-            laneIndicator.SetPosition(
-                0,
-                new Vector3(
-                    0f,
-                    (-BeatmapConstant.LaneSize * 1.5f) + 0.1f,
-                    EditorScaleController.EditorScale * BeatmapConstant.LaneSize * 8f));
-            laneIndicator.SetPosition(
-                1,
-                new Vector3(0f, (-BeatmapConstant.LaneSize * 1.5f) + 0.1f, 0f));
-            laneIndicator.SetPosition(
-                2,
-                new Vector3(
-                    0f,
-                    (-BeatmapConstant.LaneSize * 1.5f) + 0.1f,
-                    -EditorScaleController.EditorScale * BeatmapConstant.LaneSize * 8f));
 
             transform.localScale = NoteData.GetScale();
             DirectionTarget.localEulerAngles = DirectionTargetEuler;
