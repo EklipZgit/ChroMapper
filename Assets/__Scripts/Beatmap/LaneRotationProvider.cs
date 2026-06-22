@@ -53,36 +53,49 @@ public class LaneRotationProvider : StateManager<RotationEventStateData, BaseObj
         OnPlaybackChanged?.Invoke(PlaybackRotation);
     }
 
+    private static void ApplyFromTo(
+        RotationEventStateData fromState,
+        RotationEventStateData toState)
+    {
+        fromState.NextAbsoluteRotation = toState.Rotation;
+
+        // early + late rotation is combined in late rotation
+        // if early rotation happens after another rotation event, take late rotation
+
+        // this to ensure early rotation is always present with correct rotation from previous non-same time
+        if (!Mathf.Approximately(fromState.StartTime, toState.StartTime))
+            toState.EarlyRotation = fromState.LateRotation;
+
+        if (toState.ExecutionTime == ExecutionTime.Early)
+        {
+            if (Mathf.Approximately(fromState.StartTime, toState.StartTime))
+                toState.EarlyRotation = fromState.EarlyRotation + toState.Rotation;
+            else
+                toState.EarlyRotation = fromState.LateRotation + toState.Rotation;
+        }
+
+        toState.LateRotation = fromState.LateRotation + toState.Rotation;
+    }
+
+    private void ReapplyNext(RotationEventStateData currState)
+    {
+        var enumerator = container.Collection.EnumerateAfter(currState);
+        while (enumerator.MoveNext())
+        {
+            var nextState = enumerator.Current;
+            ApplyFromTo(currState, nextState);
+            currState = nextState;
+        }
+    }
+
     protected override void OnInsertUpdateFromPreviousStateAndNextState(
         RotationEventStateData newState,
         RotationEventStateData prevState,
         RotationEventStateData nextState)
     {
-        base.OnInsertUpdateToPreviousState(newState, prevState);
-        prevState.NextAbsoluteRotation = newState.Rotation;
-
-        OnInsertConsequentUpdateToNextState(prevState, newState);
-        OnInsertConsequentUpdateToNextState(newState, nextState);
-    }
-
-    // early + late rotation is combined
-    // if early rotation happens after another rotation event, take late rotation
-    protected override void OnInsertConsequentUpdateToNextState(
-        RotationEventStateData currState,
-        RotationEventStateData nextState)
-    {
-        if (!Mathf.Approximately(currState.StartTime, nextState.StartTime))
-            nextState.EarlyRotation = currState.LateRotation;
-
-        if (nextState.ExecutionTime == ExecutionTime.Early)
-        {
-            if (Mathf.Approximately(currState.StartTime, nextState.StartTime))
-                nextState.EarlyRotation = currState.EarlyRotation + nextState.Rotation;
-            else
-                nextState.EarlyRotation = currState.LateRotation + nextState.Rotation;
-        }
-
-        nextState.LateRotation = currState.LateRotation + nextState.Rotation;
+        base.OnInsertUpdateFromPreviousStateAndNextState(newState, prevState, nextState);
+        ApplyFromTo(prevState, newState);
+        ApplyFromTo(newState, nextState);
     }
 
     public override void InsertData(BaseObject data)
@@ -91,7 +104,7 @@ public class LaneRotationProvider : StateManager<RotationEventStateData, BaseObj
         state.StartTime = data.SongBpmTime;
 
         HandleInsertState(container, state);
-        if (!state.Absolute) HandleInsertUpdateConsequentStateFrom(container, state);
+        if (!state.Absolute) ReapplyNext(state);
     }
 
     protected override void OnRemoveUpdatePreviousAndNextState(
@@ -100,22 +113,14 @@ public class LaneRotationProvider : StateManager<RotationEventStateData, BaseObj
         RotationEventStateData nextState)
     {
         base.OnRemoveUpdatePreviousAndNextState(currState, prevState, nextState);
-        prevState.NextAbsoluteRotation = nextState.Rotation;
-        OnInsertConsequentUpdateToNextState(prevState, nextState);
+        ApplyFromTo(prevState, nextState);
     }
-
-    protected override void OnRemoveConsequentUpdateToNextState(
-        RotationEventStateData currState,
-        RotationEventStateData nextState) =>
-        OnInsertConsequentUpdateToNextState(currState, nextState);
 
     public override void RemoveData(BaseObject reference, BaseObject original)
     {
         var state = container.GetStateFrom(reference, original);
         HandleRemoveState(container, state);
-        if (!state.Absolute)
-            HandleRemoveUpdateConsequentStateFrom(container, container.GetStateAt(state.StartTime).state);
-
+        if (!state.Absolute) ReapplyNext(container.GetStateAt(state.StartTime).state);
         if (state == container.CurrentState) container.SetStateAt(reference.SongBpmTime);
     }
 

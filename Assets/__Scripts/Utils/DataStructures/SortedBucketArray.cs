@@ -52,7 +52,7 @@ public class SortedBucketArray<T> : ICollection<T>
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-    public IEnumerator<T> EnumerateFrom(T item)
+    public IEnumerator<T> EnumerateAfter(T item)
     {
         var bucket = GetBucketFrom(item);
         var bucketIdx = Buckets.IndexOf(bucket);

@@ -74,8 +74,7 @@ public abstract class StateManager<TState, TData> : StateManager<TData>
         StateChunksContainer<TState, TData> container,
         TState currState)
     {
-        var enumerator = container.Collection.EnumerateFrom(currState);
-        enumerator.MoveNext(); // skip current state
+        var enumerator = container.Collection.EnumerateAfter(currState);
         while (enumerator.MoveNext())
         {
             var nextState = enumerator.Current;
@@ -104,8 +103,7 @@ public abstract class StateManager<TState, TData> : StateManager<TData>
         StateChunksContainer<TState, TData> container,
         TState currState)
     {
-        var enumerator = container.Collection.EnumerateFrom(currState);
-        enumerator.MoveNext(); // skip current state
+        var enumerator = container.Collection.EnumerateAfter(currState);
         while (enumerator.MoveNext())
         {
             var nextState = enumerator.Current;
