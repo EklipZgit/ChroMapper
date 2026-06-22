@@ -13,7 +13,6 @@ public class BeatmapRotationInputController : BeatmapInputController<ObjectConta
     [SerializeField] private ScrollPrecisionController scrollPrecisionController;
     [SerializeField] private TracksManager tracksManager;
     [SerializeField] private LaneRotationProvider laneRotationProvider;
-    [SerializeField] private EventAppearanceSO eventAppearance;
 
     public void OnRotateClockwise(InputAction.CallbackContext context)
     {
@@ -83,37 +82,35 @@ public class BeatmapRotationInputController : BeatmapInputController<ObjectConta
 
     private void RotateObject(ObjectContainer c, bool clockwise)
     {
-        var original = BeatmapFactory.Clone(c.ObjectData);
+        var originalObject = c.ObjectData;
+        var newObject = BeatmapFactory.Clone(originalObject);
 
         var modifier = clockwise ? 1 : -1;
-        switch (c.ObjectData)
+        switch (newObject)
         {
             case BaseRotationEvent evt:
                 {
                     var prec = scrollPrecisionController.GetCurrentRotationPrecision();
                     evt.Rotation = Mathf.Round((evt.Rotation + (modifier * prec)) * 1_000f) / 1_000f;
-                    tracksManager.RefreshTracks();
-
                     break;
                 }
             case BaseGrid grid:
                 {
                     var prec = scrollPrecisionController.GetCurrentRotationPrecision();
                     grid.Rotation += Mathf.RoundToInt(modifier * prec);
-                    tracksManager.RefreshTracks();
                     break;
                 }
         }
 
-        if (c.ObjectData.CompareTo(original) == 0) return;
+        if (newObject.CompareTo(originalObject) == 0) return;
 
-        if (c is RotationEventContainer e) eventAppearance.SetAppearance(e);
         BeatmapActionContainer.AddAction(
-            new BeatmapObjectModifiedAction(
-                c.ObjectData,
-                c.ObjectData,
-                original,
-                mergeType: ActionMergeType.ModifyRotationValue));
+            new BeatmapObjectUpdatedAction(
+                newObject,
+                originalObject,
+                mergeType: ActionMergeType.ModifyRotationValue),
+            perform: true);
+        tracksManager.RefreshTracks();
     }
 
     public void OnInvert(InputAction.CallbackContext context)
@@ -143,31 +140,36 @@ public class BeatmapRotationInputController : BeatmapInputController<ObjectConta
 
     private void Invert(RotationEventContainer e)
     {
-        var original = BeatmapFactory.Clone(e.ObjectData);
+        var originalObject = e.EventData;
+        var newObject = BeatmapFactory.Clone(originalObject);
 
-        e.EventData.Rotation *= -1;
+        newObject.Rotation *= -1;
+
+        BeatmapActionContainer.AddAction(
+            new BeatmapObjectUpdatedAction(
+                newObject,
+                originalObject,
+                mergeType: ActionMergeType.ModifyRotationValue),
+            perform: true);
         tracksManager.RefreshTracks();
-
-        eventAppearance.SetAppearance(e);
-        BeatmapActionContainer.AddAction(new BeatmapObjectModifiedAction(e.ObjectData, e.ObjectData, original));
     }
 
     private void ModifyHover(RotationEventContainer e, int modifier)
     {
-        var original = BeatmapFactory.Clone(e.ObjectData);
+        var originalObject = e.EventData;
+        var newObject = BeatmapFactory.Clone(originalObject);
 
         var prec = scrollPrecisionController.GetCurrentRotationPrecision();
-        e.EventData.Rotation = Mathf.Round((e.EventData.Rotation + (modifier * prec)) * 1_000f) / 1_000f;
-        tracksManager.RefreshTracks();
+        newObject.Rotation = Mathf.Round((newObject.Rotation + (modifier * prec)) * 1_000f) / 1_000f;
 
-        if (e.EventData.CompareTo(original) == 0) return;
+        if (newObject.CompareTo(originalObject) == 0) return;
 
-        eventAppearance.SetAppearance(e);
         BeatmapActionContainer.AddAction(
-            new BeatmapObjectModifiedAction(
-                e.ObjectData,
-                e.ObjectData,
-                original,
-                mergeType: ActionMergeType.EventMainTweak));
+            new BeatmapObjectUpdatedAction(
+                newObject,
+                originalObject,
+                mergeType: ActionMergeType.ModifyRotationValue),
+            perform: true);
+        tracksManager.RefreshTracks();
     }
 }

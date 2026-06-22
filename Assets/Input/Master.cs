@@ -1047,18 +1047,18 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Half Float Value Modifier"",
+                    ""name"": ""Rotate In Place Right"",
                     ""type"": ""Button"",
-                    ""id"": ""6a30f614-a6c1-4e78-8548-4a6f830a1f42"",
+                    ""id"": ""ef18e287-2426-4592-8c7c-4e6d6b399cf9"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Press"",
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Zero Float Value Modifier"",
+                    ""name"": ""Rotate In Place Modifier"",
                     ""type"": ""Button"",
-                    ""id"": ""2bf1eac9-7e28-479f-8095-bdf4caf9cee3"",
+                    ""id"": ""affc56fe-bec2-4c24-bcc6-1fb2c634b0f8"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Press"",

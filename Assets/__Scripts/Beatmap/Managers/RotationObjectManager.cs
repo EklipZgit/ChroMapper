@@ -21,11 +21,9 @@ public class RotationObjectManager : BeatmapObjectManager<BaseObject>
     protected void Start()
     {
         // dynamically check when version change
-        var infoDifficulty = BeatSaberSongContainer.Instance.MapDifficultyInfo;
-        var has360 = enabledCharacteristics.Contains(infoDifficulty.Characteristic);
         if (BeatSaberSongContainer.Instance.Map.MajorVersion < 4
             && (BeatSaberSongContainer.Instance.Map.RotationEvents.Count > 0
-                || has360))
+                || enabledCharacteristics.Contains(BeatSaberSongContainer.Instance.MapDifficultyInfo.Characteristic)))
         {
             if (Settings.Instance.Reminder_Loading360Levels)
             {
@@ -55,7 +53,18 @@ public class RotationObjectManager : BeatmapObjectManager<BaseObject>
         Context.Atsc.OnTimeChangedEarly -= UpdateTime;
 
         provider.Initialize();
-        BeatSaberSongContainer.Instance.Map.RotationEvents.ForEach(provider.InsertData);
+        switch (BeatSaberSongContainer.Instance.Map.MajorVersion)
+        {
+            case >= 4:
+                BeatSaberSongContainer.Instance.Map.Notes.ForEach(provider.InsertData);
+                BeatSaberSongContainer.Instance.Map.Arcs.ForEach(provider.InsertData);
+                BeatSaberSongContainer.Instance.Map.Chains.ForEach(provider.InsertData);
+                BeatSaberSongContainer.Instance.Map.Obstacles.ForEach(provider.InsertData);
+                break;
+            case < 4:
+                BeatSaberSongContainer.Instance.Map.RotationEvents.ForEach(provider.InsertData);
+                break;
+        }
 
         Context.Atsc.OnTimeChangedEarly += UpdateTime;
     }

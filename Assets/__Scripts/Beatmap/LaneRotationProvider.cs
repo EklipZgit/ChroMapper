@@ -61,8 +61,6 @@ public class LaneRotationProvider : StateManager<RotationEventStateData, BaseObj
         RotationEventStateData fromState,
         RotationEventStateData toState)
     {
-        fromState.NextAbsoluteRotation = toState.Rotation;
-
         // early + late rotation is combined in late rotation
         // if early rotation happens after another rotation event, take late rotation
 
@@ -98,6 +96,10 @@ public class LaneRotationProvider : StateManager<RotationEventStateData, BaseObj
         RotationEventStateData nextState)
     {
         base.OnInsertUpdateFromPreviousStateAndNextState(newState, prevState, nextState);
+        prevState.NextAbsoluteRotation = newState.Rotation;
+        newState.NextAbsoluteRotation = nextState.Rotation;
+        if (newState.Absolute) return;
+        
         ApplyFromTo(prevState, newState);
         ApplyFromTo(newState, nextState);
     }
@@ -117,6 +119,9 @@ public class LaneRotationProvider : StateManager<RotationEventStateData, BaseObj
         RotationEventStateData nextState)
     {
         base.OnRemoveUpdatePreviousAndNextState(currState, prevState, nextState);
+        prevState.NextAbsoluteRotation = nextState.Rotation;
+        if (currState.Absolute) return;
+        
         ApplyFromTo(prevState, nextState);
     }
 
