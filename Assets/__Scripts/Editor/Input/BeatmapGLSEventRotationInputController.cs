@@ -29,6 +29,11 @@ public class BeatmapGLSEventRotationInputController : BeatmapGLSEventInputContro
 
     private void HandleKeyUpdate(InputAction.CallbackContext context, int id)
     {
+        if (KeybindsController.IsHoverKeyHeld)
+        {
+            HandleKeyHoverUpdate(context, id);
+        }
+        
         if (context.performed ^ heldKeys[id]) flagDirectionsUpdate = true;
         heldKeys[id] = context.performed;
     }
@@ -158,16 +163,12 @@ public class BeatmapGLSEventRotationInputController : BeatmapGLSEventInputContro
     }
 
     public void OnAngle0(InputAction.CallbackContext context) => HandleKeyUpdate(context, upKey);
-    public void OnAngle0Hover(InputAction.CallbackContext context) => HandleKeyHoverUpdate(context, upKey);
 
     public void OnAngle90(InputAction.CallbackContext context) => HandleKeyUpdate(context, rightKey);
-    public void OnAngle90Hover(InputAction.CallbackContext context) => HandleKeyHoverUpdate(context, rightKey);
 
     public void OnAngle180(InputAction.CallbackContext context) => HandleKeyUpdate(context, downKey);
-    public void OnAngle180Hover(InputAction.CallbackContext context) => HandleKeyHoverUpdate(context, downKey);
 
     public void OnAngle270(InputAction.CallbackContext context) => HandleKeyUpdate(context, leftKey);
-    public void OnAngle270Hover(InputAction.CallbackContext context) => HandleKeyHoverUpdate(context, leftKey);
 
     public void OnAngleHover(InputAction.CallbackContext context)
     {
@@ -181,49 +182,35 @@ public class BeatmapGLSEventRotationInputController : BeatmapGLSEventInputContro
         }
     }
 
+    private void OnRotationPerformed(LightRotationDirection lightRotationDirection)
+    {
+        if (KeybindsController.IsHoverKeyHeld)
+        {
+            if (IsHovering)
+            {
+                GLSEventRotationCommand.SetDirection(
+                    HoveredObject.EventData as BaseLightRotationBase,
+                    lightRotationDirection);
+            }
+        }
+        else
+        {
+            NotifyDirectionChanged((int)lightRotationDirection);
+        }
+    }
+    
     public void OnRotationDirectionLeft(InputAction.CallbackContext context)
     {
-        if (context.performed) NotifyDirectionChanged((int)LightRotationDirection.CounterClockwise);
-    }
-
-    public void OnRotationDirectionLeftHover(InputAction.CallbackContext context)
-    {
-        if (context.performed && IsHovering)
-        {
-            GLSEventRotationCommand.SetDirection(
-                HoveredObject.EventData as BaseLightRotationBase,
-                LightRotationDirection.CounterClockwise);
-        }
+        if (context.performed) OnRotationPerformed(LightRotationDirection.CounterClockwise);
     }
 
     public void OnRotationDirectionAutomatic(InputAction.CallbackContext context)
     {
-        if (context.performed) NotifyDirectionChanged((int)LightRotationDirection.Automatic);
+        if (context.performed) OnRotationPerformed(LightRotationDirection.Automatic);
     }
-
-    public void OnRotationDirectionAutomaticHover(InputAction.CallbackContext context)
-    {
-        if (context.performed && IsHovering)
-        {
-            GLSEventRotationCommand.SetDirection(
-                HoveredObject.EventData as BaseLightRotationBase,
-                LightRotationDirection.Automatic);
-        }
-    }
-
     public void OnRotationDirectionRight(InputAction.CallbackContext context)
     {
-        if (context.performed) NotifyDirectionChanged((int)LightRotationDirection.Clockwise);
-    }
-
-    public void OnRotationDirectionRightHover(InputAction.CallbackContext context)
-    {
-        if (context.performed && IsHovering)
-        {
-            GLSEventRotationCommand.SetDirection(
-                HoveredObject.EventData as BaseLightRotationBase,
-                LightRotationDirection.Clockwise);
-        }
+        if (context.performed) OnRotationPerformed(LightRotationDirection.Clockwise);
     }
 
     public void NotifyDirectionChanged(int value)
@@ -232,29 +219,37 @@ public class BeatmapGLSEventRotationInputController : BeatmapGLSEventInputContro
         OnDirectionChanged?.Invoke(value);
     }
 
+    private void OnChangeLoop(int loopChange)
+    {
+        if (KeybindsController.IsHoverKeyHeld)
+        {
+            if (IsHovering)
+            {
+                if (loopChange == 1)
+                {
+                    var evt = HoveredObject.EventData as BaseLightRotationBase;
+                    GLSEventRotationCommand.SetLoop(evt, (evt.Loop + 1) % 5);
+                }
+                else
+                {
+                    GLSEventRotationCommand.SetLoop(HoveredObject.EventData as BaseLightRotationBase, 0);
+                }
+            }
+        }
+        else
+        {
+            NotifyLoopChanged(loopChange);
+        }
+    }
+    
     public void OnChangeLoopCount(InputAction.CallbackContext context)
     {
-        if (context.performed) NotifyLoopChanged(1);
-    }
-
-    public void OnChangeLoopCountHover(InputAction.CallbackContext context)
-    {
-        if (context.performed && IsHovering)
-        {
-            var evt = HoveredObject.EventData as BaseLightRotationBase;
-            GLSEventRotationCommand.SetLoop(evt, (evt.Loop + 1) % 5);
-        }
+        if (context.performed) OnChangeLoop(1);
     }
 
     public void OnResetLoopCount(InputAction.CallbackContext context)
     {
-        if (context.performed) NotifyLoopChanged(0);
-    }
-
-    public void OnResetLoopCountHover(InputAction.CallbackContext context)
-    {
-        if (context.performed && IsHovering)
-            GLSEventRotationCommand.SetLoop(HoveredObject.EventData as BaseLightRotationBase, 0);
+        if (context.performed) OnChangeLoop(0);
     }
 
     public void NotifyLoopChanged(int value)

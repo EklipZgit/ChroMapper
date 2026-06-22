@@ -252,9 +252,5 @@ namespace Beatmap.Containers
             foreach (var gameObj in indicators) gameObj.SetActive(visible);
             InfoText.gameObject.SetActive(visible && Settings.Instance.DisplayNoteText);
         }
-
-        public void ChangeHeadMultiplier(float modifier) => ArcData.HeadControlPointLengthMultiplier += modifier;
-
-        public void ChangeTailMultiplier(float modifier) => ArcData.TailControlPointLengthMultiplier += modifier;
     }
 }

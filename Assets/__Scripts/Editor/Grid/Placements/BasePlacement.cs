@@ -62,18 +62,6 @@ public abstract class BasePlacement : MonoBehaviour
 
     protected static Vector2 GridOffset => Vector2.one * 0.5f;
 
-    protected readonly List<ObjectContainer> DraggedAttachedSliderContainers = new();
-
-    protected readonly Dictionary<IndicatorType, List<BaseSlider>> DraggedAttachedSliderDatas = new()
-    {
-        { IndicatorType.Head, new List<BaseSlider>() }, { IndicatorType.Tail, new List<BaseSlider>() }
-    };
-
-    protected readonly Dictionary<IndicatorType, List<BaseSlider>> OriginalDraggedAttachedSliderDatas = new()
-    {
-        { IndicatorType.Head, new List<BaseSlider>() }, { IndicatorType.Tail, new List<BaseSlider>() }
-    };
-
     public abstract void Initialize(PlacementProvider provider);
     public abstract void UpdateState(Intersections.IntersectionHit hit, PlacementInputState inputState);
     public abstract void ShowVisual();
@@ -87,6 +75,7 @@ public abstract class BasePlacement : MonoBehaviour
     public virtual void Cancel() { }
 
     public abstract ObjectContainer StartDrag(GameObject draggedObject);
+    protected abstract List<BeatmapAction> PerformPreFinishDragActions();
     public abstract void FinishDrag();
     protected virtual void HandleDragged() { }
 
@@ -310,26 +299,20 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
         DraggedObjectContainer = con;
         DraggedObjectContainer.Dragged = true;
 
-        if (con is NoteContainer noteContainer)
-        {
-            var noteCollection =
-                BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
-            noteCollection.ClearSpecialAngles(con.ObjectData);
-
-            StartDragSliders(noteContainer);
-        }
-
         IsDragging = true;
         return con;
     }
 
+    protected override List<BeatmapAction> PerformPreFinishDragActions() => new List<BeatmapAction>();
+
     public override void FinishDrag()
     {
+        var actions = PerformPreFinishDragActions();
+        
         // Spawn our dragged object and delete anything that's overlapping.
         ObjectContainerCollection.SpawnObject(DraggedObjectData, out var conflicting);
 
         QueuedData = BeatmapFactory.Clone(OriginalQueued);
-        var actions = new List<BeatmapAction>();
         // Don't queue an action if we didn't actually change anything
         if (DraggedObjectData.ToString() != OriginalDraggedObjectData.ToString())
         {
@@ -356,16 +339,6 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
             SelectionController.OnSelectionChanged?.Invoke();
         }
 
-        if (DraggedObjectContainer is NoteContainer)
-        {
-            var noteCollection =
-                BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
-            noteCollection.RefreshSpecialAngles(DraggedObjectData, false, false);
-
-            FinishSliderDrag(actions);
-            ClearDraggedAttachedSliders();
-        }
-
         if (actions.Count == 1)
             BeatmapActionContainer.AddAction(actions[0]);
         else if (actions.Count > 1)
@@ -378,134 +351,5 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
         DraggedObjectContainer = null;
         HandleDragged();
         IsDragging = false;
-    }
-
-    private void StartDragSliders(NoteContainer noteContainer)
-    {
-        var noteData = noteContainer.NoteData;
-        var epsilon = BeatmapObjectContainerCollection.Epsilon;
-
-        var arcCollection = BeatmapObjectContainerCollection.GetCollectionForType<ArcGridContainer>(ObjectType.Arc);
-        foreach (var arcContainer in arcCollection.LoadedContainers)
-        {
-            var arcData = arcContainer.Key as BaseArc;
-            var isConnectedToHead = Mathf.Abs(arcData.JsonTime - noteData.JsonTime) < epsilon
-                && arcData.GetPosition() == noteData.GetPosition();
-            var isConnectedToTail = Mathf.Abs(arcData.TailJsonTime - noteData.JsonTime) < epsilon
-                && arcData.GetTailPosition() == noteData.GetPosition();
-            if (isConnectedToHead)
-            {
-                OriginalDraggedAttachedSliderDatas[IndicatorType.Head].Add(BeatmapFactory.Clone(arcData));
-                DraggedAttachedSliderDatas[IndicatorType.Head].Add(arcData);
-                DraggedAttachedSliderContainers.Add(arcContainer.Value);
-                arcCollection.SilentRemoveObject(arcData);
-            }
-            else if (isConnectedToTail)
-            {
-                OriginalDraggedAttachedSliderDatas[IndicatorType.Tail].Add(BeatmapFactory.Clone(arcData));
-                DraggedAttachedSliderDatas[IndicatorType.Tail].Add(arcData);
-                DraggedAttachedSliderContainers.Add(arcContainer.Value);
-                arcCollection.SilentRemoveObject(arcData);
-            }
-        }
-
-        var chainCollection =
-            BeatmapObjectContainerCollection.GetCollectionForType<ChainGridContainer>(ObjectType.Chain);
-        foreach (var chainContainer in chainCollection.LoadedContainers)
-        {
-            var chainData = chainContainer.Key as BaseChain;
-            var isConnectedToHead = Mathf.Abs(chainData.JsonTime - noteData.JsonTime) < epsilon
-                && chainData.GetPosition() == noteData.GetPosition();
-            var isConnectedToTail = Mathf.Abs(chainData.TailJsonTime - noteData.JsonTime) < epsilon
-                && chainData.GetTailPosition() == noteData.GetPosition();
-            if (isConnectedToHead)
-            {
-                OriginalDraggedAttachedSliderDatas[IndicatorType.Head].Add(BeatmapFactory.Clone(chainData));
-                DraggedAttachedSliderDatas[IndicatorType.Head].Add(chainData);
-                DraggedAttachedSliderContainers.Add(chainContainer.Value);
-                chainCollection.SilentRemoveObject(chainData);
-            }
-            else if (isConnectedToTail)
-            {
-                OriginalDraggedAttachedSliderDatas[IndicatorType.Tail].Add(BeatmapFactory.Clone(chainData));
-                DraggedAttachedSliderDatas[IndicatorType.Tail].Add(chainData);
-                DraggedAttachedSliderContainers.Add(chainContainer.Value);
-                chainCollection.SilentRemoveObject(chainData);
-            }
-        }
-
-        foreach (var container in DraggedAttachedSliderContainers) container.Dragged = true;
-    }
-
-    private void FinishSliderDrag(List<BeatmapAction> actions)
-    {
-        var arcCollection = BeatmapObjectContainerCollection.GetCollectionForType<ArcGridContainer>(ObjectType.Arc);
-        var chainCollection =
-            BeatmapObjectContainerCollection.GetCollectionForType<ChainGridContainer>(ObjectType.Chain);
-
-        for (var i = 0; i < DraggedAttachedSliderDatas[IndicatorType.Head].Count; i++)
-        {
-            var draggedSlider = DraggedAttachedSliderDatas[IndicatorType.Head][i];
-            var originalDraggedSlider = OriginalDraggedAttachedSliderDatas[IndicatorType.Head][i];
-
-            if (draggedSlider is BaseArc draggedArc)
-                SpawnDraggedSlider(arcCollection, draggedArc, originalDraggedSlider, actions);
-            else if (draggedSlider is BaseChain draggedChain)
-                SpawnDraggedSlider(chainCollection, draggedChain, originalDraggedSlider, actions);
-        }
-
-        for (var i = 0; i < DraggedAttachedSliderDatas[IndicatorType.Tail].Count; i++)
-        {
-            var draggedSlider = DraggedAttachedSliderDatas[IndicatorType.Tail][i];
-            var originalDraggedSlider = OriginalDraggedAttachedSliderDatas[IndicatorType.Tail][i];
-
-            if (draggedSlider is BaseArc draggedArc)
-                SpawnDraggedSlider(arcCollection, draggedArc, originalDraggedSlider, actions);
-            else if (draggedSlider is BaseChain draggedChain)
-                SpawnDraggedSlider(chainCollection, draggedChain, originalDraggedSlider, actions);
-        }
-    }
-
-    private void SpawnDraggedSlider(
-        BeatmapObjectContainerCollection sliderCollection,
-        BaseSlider draggedSlider,
-        BaseObject originalSlider,
-        List<BeatmapAction> actions)
-    {
-        sliderCollection.SpawnObject(draggedSlider, out var conflictingArcs);
-
-        // Don't queue an action if we didn't actually change anything
-        if (draggedSlider.ToString() != originalSlider.ToString())
-        {
-            if (conflictingArcs.Count > 0)
-            {
-                actions.Add(
-                    new BeatmapObjectModifiedWithConflictingAction(
-                        draggedSlider,
-                        draggedSlider,
-                        originalSlider,
-                        conflictingArcs,
-                        "Modified via alt-click and drag."));
-            }
-            else
-            {
-                actions.Add(
-                    new BeatmapObjectModifiedAction(
-                        draggedSlider,
-                        draggedSlider,
-                        originalSlider,
-                        "Modified via alt-click and drag."));
-            }
-        }
-    }
-
-    private void ClearDraggedAttachedSliders()
-    {
-        foreach (var container in DraggedAttachedSliderContainers) container.Dragged = false;
-        DraggedAttachedSliderContainers.Clear();
-        DraggedAttachedSliderDatas[IndicatorType.Head].Clear();
-        DraggedAttachedSliderDatas[IndicatorType.Tail].Clear();
-        OriginalDraggedAttachedSliderDatas[IndicatorType.Head].Clear();
-        OriginalDraggedAttachedSliderDatas[IndicatorType.Tail].Clear();
     }
 }

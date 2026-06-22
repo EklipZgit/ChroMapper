@@ -8,6 +8,7 @@ using SimpleJSON;
 using Tests.Util;
 using UnityEngine;
 using UnityEngine.TestTools;
+using UnityEngine.UIElements;
 
 namespace Tests
 {
@@ -152,7 +153,7 @@ namespace Tests
             if (containerCollection is ChainGridContainer chainsContainer)
             {
                 var chainPlacement = Object.FindAnyObjectByType<ChainPlacement>();
-                var inputController = Object.FindAnyObjectByType<BeatmapChainInputController>();
+                var inputController = Object.FindAnyObjectByType<BeatmapSharedNoteInputController>();
 
                 BaseChain baseChain = new BaseChain
                 {
@@ -170,7 +171,7 @@ namespace Tests
                 PlaceUtils.PlaceChain(chainPlacement, baseChain);
 
                 if (chainsContainer.LoadedContainers[baseChain] is ChainContainer containerA)
-                    inputController.InvertChain(containerA);
+                    SliderCommand.InvertColor(containerA.ChainData);
 
                 CheckUtils.CheckChain("Perform chain inversion", chainsContainer, 0, 2f, (int)GridX.Left,
                     (int)GridY.Base, (int)NoteColor.Blue, (int)NoteCutDirection.Left, 0, 3f, (int)GridX.Left,
