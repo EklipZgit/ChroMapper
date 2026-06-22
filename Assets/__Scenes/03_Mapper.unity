@@ -5258,7 +5258,7 @@ PrefabInstance:
     - target: {fileID: 2745739347418089302, guid: 141955eb542177ea69e10ad9a2b131e2,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 30
+      value: 77.41935
       objectReference: {fileID: 0}
     - target: {fileID: 2745739347418089302, guid: 141955eb542177ea69e10ad9a2b131e2,
         type: 3}
@@ -5268,7 +5268,7 @@ PrefabInstance:
     - target: {fileID: 2745739347418089302, guid: 141955eb542177ea69e10ad9a2b131e2,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 9
+      value: 23.225805
       objectReference: {fileID: 0}
     - target: {fileID: 3057806332129711030, guid: 141955eb542177ea69e10ad9a2b131e2,
         type: 3}
@@ -5940,7 +5940,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -100, y: 235}
+  m_AnchoredPosition: {x: -100, y: 234.99998}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &81479822
@@ -7571,6 +7571,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 114959380485549354, guid: 20e633c6c4c50f744a0f7f171d45ad00,
         type: 3}
+      propertyPath: atsc
+      value: 
+      objectReference: {fileID: 570484802}
+    - target: {fileID: 114959380485549354, guid: 20e633c6c4c50f744a0f7f171d45ad00,
+        type: 3}
       propertyPath: uiMode
       value: 
       objectReference: {fileID: 1799035893}
@@ -7615,6 +7620,11 @@ PrefabInstance:
       propertyPath: sprintMultPerSecond
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114959380485549354, guid: 20e633c6c4c50f744a0f7f171d45ad00,
+        type: 3}
+      propertyPath: laneRotationProvider
+      value: 
+      objectReference: {fileID: 2116776176}
     - target: {fileID: 114959380485549354, guid: 20e633c6c4c50f744a0f7f171d45ad00,
         type: 3}
       propertyPath: RotationCallbackController
@@ -10694,7 +10704,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: 90}
+  m_AnchoredPosition: {x: 0, y: 89.999985}
   m_SizeDelta: {x: 200, y: 180}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &213316052
@@ -18849,8 +18859,8 @@ MonoBehaviour:
   DespawnCallbackController: {fileID: 1288723589}
   TargetTransform: {fileID: 1916934792}
   UseChunkLoadingWhenPlaying: 1
-  ChunksLoadedWhilePlaying: 3
-  IgnoreTrackFilter: 0
+  ChunksLoadedWhilePlaying: 2
+  IgnoreTrackFilter: 1
   eventPrefab: {fileID: 1119461675923126, guid: 631f196478d5d22ae8c322fa21fd5092,
     type: 3}
   eventAppearance: {fileID: 11400000, guid: 00bab3c0ab2051441b924304da9d0e12, type: 2}
@@ -24717,7 +24727,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -62.499466}
+  m_AnchoredPosition: {x: 0, y: -62.50112}
   m_SizeDelta: {x: 190, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &494425897
@@ -29348,6 +29358,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114959380485549354, guid: 20e633c6c4c50f744a0f7f171d45ad00,
         type: 3}
+      propertyPath: laneRotationProvider
+      value: 
+      objectReference: {fileID: 2116776176}
+    - target: {fileID: 114959380485549354, guid: 20e633c6c4c50f744a0f7f171d45ad00,
+        type: 3}
       propertyPath: RotationCallbackController
       value: 
       objectReference: {fileID: 226696885}
@@ -30857,7 +30872,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -24.999756, y: -102.49982}
+  m_AnchoredPosition: {x: -24.999756, y: -102.4998}
   m_SizeDelta: {x: 50, y: -115}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &614713888
@@ -31394,8 +31409,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cc157b79e2e99748b1f13d2801d31b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RotationCallback: {fileID: 226696885}
-  rotateTransform: 1
+  atsc: {fileID: 570484802}
+  laneRotationProvider: {fileID: 2116776176}
 --- !u!114 &617466180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45216,7 +45231,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -210, y: 125}
+  m_AnchoredPosition: {x: -210, y: 124.999985}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &916985948
@@ -51210,7 +51225,7 @@ PrefabInstance:
     - target: {fileID: 2745739347418089302, guid: 141955eb542177ea69e10ad9a2b131e2,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 30
+      value: 77.41935
       objectReference: {fileID: 0}
     - target: {fileID: 2745739347418089302, guid: 141955eb542177ea69e10ad9a2b131e2,
         type: 3}
@@ -51220,7 +51235,7 @@ PrefabInstance:
     - target: {fileID: 2745739347418089302, guid: 141955eb542177ea69e10ad9a2b131e2,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 9
+      value: 23.225805
       objectReference: {fileID: 0}
     - target: {fileID: 3057806332129711030, guid: 141955eb542177ea69e10ad9a2b131e2,
         type: 3}
@@ -77764,6 +77779,7 @@ Transform:
   - {fileID: 1560268895}
   - {fileID: 1725971880}
   - {fileID: 597767623}
+  - {fileID: 2116776174}
   - {fileID: 360549095}
   - {fileID: 904987245}
   m_Father: {fileID: 0}
@@ -85808,7 +85824,7 @@ PrefabInstance:
     - target: {fileID: 2745739347418089302, guid: 141955eb542177ea69e10ad9a2b131e2,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 30
+      value: 77.41935
       objectReference: {fileID: 0}
     - target: {fileID: 2745739347418089302, guid: 141955eb542177ea69e10ad9a2b131e2,
         type: 3}
@@ -85818,7 +85834,7 @@ PrefabInstance:
     - target: {fileID: 2745739347418089302, guid: 141955eb542177ea69e10ad9a2b131e2,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 9
+      value: 23.225805
       objectReference: {fileID: 0}
     - target: {fileID: 3057806332129711030, guid: 141955eb542177ea69e10ad9a2b131e2,
         type: 3}
@@ -99420,7 +99436,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: 125}
+  m_AnchoredPosition: {x: 0, y: 124.999985}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1966683413
@@ -103694,7 +103710,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 279, y: -200}
+  m_AnchoredPosition: {x: 279, y: -199.99998}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2069920280
@@ -105277,6 +105293,69 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_IsOn: 0
+--- !u!1 &2116776173
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2116776174}
+  - component: {fileID: 2116776176}
+  - component: {fileID: 2116776175}
+  m_Layer: 0
+  m_Name: Lane Rotation Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2116776174
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2116776173}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1573245297}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2116776175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2116776173}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61dd425b0d53485d80e56af29bc17d77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::RotationEventManager
+  Context: {fileID: 127874572}
+  provider: {fileID: 2116776176}
+--- !u!114 &2116776176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2116776173}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a06b4086eb84cf697afc3ddb7a30497, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LaneRotationProvider
+  Atsc: {fileID: 570484802}
+  ID: -1
+  EditRotation: 0
+  PlaybackRotation: 0
 --- !u!1 &2120245743
 GameObject:
   m_ObjectHideFlags: 0

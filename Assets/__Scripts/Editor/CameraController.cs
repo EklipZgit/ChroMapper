@@ -19,15 +19,10 @@ public class CameraController : MonoBehaviour, CMInput.ICameraActions
     [SerializeField] private float mouseSensitivity;
     [SerializeField] private Transform noteGridTransform;
 
-    [FormerlySerializedAs("_uiMode")] [SerializeField]
-    private UIMode uiMode;
-
+    [SerializeField] private UIMode uiMode;
     [SerializeField] private CustomStandaloneInputModule customStandaloneInputModule;
-
-    [FormerlySerializedAs("_rotationCallbackController")]
-    public RotationCallbackController RotationCallbackController;
-
-    [FormerlySerializedAs("camera")] public Camera Camera;
+    [SerializeField] private LaneRotationProvider laneRotationProvider;
+    [SerializeField] public Camera Camera;
     public PostProcessLayer PostProcessLayer;
 
     [Header("Debug")] [SerializeField] private float x;
@@ -122,7 +117,7 @@ public class CameraController : MonoBehaviour, CMInput.ICameraActions
         }
         else
         {
-            RotationCallbackController.OnRotationChanged += OnOnRotation;
+            laneRotationProvider.OnPlaybackChanged += HandleRotationChanged;
         }
     }
 
@@ -371,8 +366,7 @@ public class CameraController : MonoBehaviour, CMInput.ICameraActions
 
     public void OnAttachtoNoteGrid(CallbackContext context)
     {
-        if (RotationCallbackController.IsActive
-            && context.performed
+        if (context.performed
             && noteGridTransform.gameObject.activeInHierarchy
             && !playerCamera)
             LockedOntoNoteGrid = !LockedOntoNoteGrid;
@@ -427,16 +421,12 @@ public class CameraController : MonoBehaviour, CMInput.ICameraActions
         }
     }
 
-    private void OnOnRotation(bool natural, float rotation)
+    private void HandleRotationChanged(float rotation)
     {
-        if (natural)
-        {
+        if (atsc.IsPlaying)
             StartCoroutine(RotationCoroutine(Quaternion.Euler(0, rotation, 0)));
-        }
         else
-        {
             cameraAnimator.LocalTarget.localEulerAngles = new Vector3(0, rotation, 0);
-        }
     }
 
     private IEnumerator RotationCoroutine(Quaternion current)

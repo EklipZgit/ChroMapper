@@ -68,7 +68,7 @@ public abstract class StateManager<TState, TData> : StateManager<TData>
     {
     }
 
-    protected virtual void OnInsertConsequentUpdateToNextState(TState newState, TState nextState) { }
+    protected virtual void OnInsertConsequentUpdateToNextState(TState currState, TState nextState) { }
 
     protected void HandleInsertUpdateConsequentStateFrom(
         StateChunksContainer<TState, TData> container,
@@ -98,7 +98,7 @@ public abstract class StateManager<TState, TData> : StateManager<TData>
         HandleRemoveState(StateChunksContainer<TState, TData> container, TData reference, TData original) =>
         HandleRemoveState(container, container.GetStateFrom(reference, original));
 
-    protected virtual void OnRemoveUpdateToNextState(TState currState, TState nextState) { }
+    protected virtual void OnRemoveConsequentUpdateToNextState(TState currState, TState nextState) { }
 
     protected void HandleRemoveUpdateConsequentStateFrom(
         StateChunksContainer<TState, TData> container,
@@ -109,7 +109,7 @@ public abstract class StateManager<TState, TData> : StateManager<TData>
         while (enumerator.MoveNext())
         {
             var nextState = enumerator.Current;
-            OnRemoveUpdateToNextState(currState, nextState);
+            OnRemoveConsequentUpdateToNextState(currState, nextState);
         }
     }
 
