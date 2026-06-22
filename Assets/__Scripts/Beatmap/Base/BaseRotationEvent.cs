@@ -77,8 +77,8 @@ namespace Beatmap.Base
         {
             get
             {
-                if (Rotation is >= 15 and <= 60 && Rotation % 15 == 0)
-                    return Array.IndexOf(lightValueToRotationDegrees, Rotation);
+                if (Rotation is >= -60 and <= -15 or >= 15 and <= 60 && Rotation % 15 == 0)
+                    return Array.IndexOf(lightValueToRotationDegrees, (int)Rotation);
                 return 1360 + (int)(Rotation % 360);
             }
             set
