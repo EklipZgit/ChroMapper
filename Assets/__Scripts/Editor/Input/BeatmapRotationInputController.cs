@@ -12,7 +12,7 @@ public class BeatmapRotationInputController : BeatmapInputController<ObjectConta
     [SerializeField] private AudioTimeSyncController atsc;
     [SerializeField] private ScrollPrecisionController scrollPrecisionController;
     [SerializeField] private TracksManager tracksManager;
-    [SerializeField] private RotationCallbackController rotationCallbackController;
+    [SerializeField] private LaneRotationProvider laneRotationProvider;
     [SerializeField] private EventAppearanceSO eventAppearance;
 
     public void OnRotateClockwise(InputAction.CallbackContext context)
@@ -63,8 +63,9 @@ public class BeatmapRotationInputController : BeatmapInputController<ObjectConta
             || BeatSaberSongContainer.Instance.Map.MajorVersion != 4)
             return;
         var prec = scrollPrecisionController.GetCurrentRotationPrecision();
-        rotationCallbackController.Rotation = Mathf.RoundToInt(
-            Mathf.Round((rotationCallbackController.Rotation + prec) * 1_000f) / 1_000f);
+        laneRotationProvider.SetEditRotation(
+            Mathf.RoundToInt(
+                Mathf.Round((laneRotationProvider.EditRotation + prec) * 1_000f) / 1_000f));
     }
 
     public void OnGridRotateCounterClockwise(InputAction.CallbackContext context)
@@ -75,8 +76,9 @@ public class BeatmapRotationInputController : BeatmapInputController<ObjectConta
             || BeatSaberSongContainer.Instance.Map.MajorVersion != 4)
             return;
         var prec = scrollPrecisionController.GetCurrentRotationPrecision();
-        rotationCallbackController.Rotation = Mathf.RoundToInt(
-            Mathf.Round((rotationCallbackController.Rotation - prec) * 1_000f) / 1_000f);
+        laneRotationProvider.SetEditRotation(
+            Mathf.RoundToInt(
+                Mathf.Round((laneRotationProvider.EditRotation - prec) * 1_000f) / 1_000f));
     }
 
     private void RotateObject(ObjectContainer c, bool clockwise)

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Beatmap.Base;
 using UnityEngine;
 using ZLinq;
@@ -6,10 +7,28 @@ using ZLinq;
 public class RotationObjectManager : BeatmapObjectManager<BaseObject>
 {
     [SerializeField] private LaneRotationProvider provider;
+    [SerializeField] private GridChild gridChild;
+
+    private readonly string[] enabledCharacteristics = { "360Degree", "90Degree", "Lawless" };
 
     protected override void Awake()
     {
         base.Awake();
+
+        // dynamically check when version change
+        var infoDifficulty = BeatSaberSongContainer.Instance.MapDifficultyInfo;
+        var has360 = enabledCharacteristics.Contains(infoDifficulty.Characteristic);
+        if (has360 && Settings.Instance.Reminder_Loading360Levels)
+        {
+            PersistentUI.Instance.ShowDialogBox(
+                "PersistentUI",
+                "360warning",
+                Handle360LevelReminder,
+                PersistentUI.DialogBoxPresetType.OkIgnore);
+        }
+        else
+            gridChild.Hide = true;
+
         LoadInitialMap.OnLevelLoaded += Refresh;
         LoadedDifficultySelectController.OnLoadedDifficultyChanged += Refresh;
     }
@@ -30,9 +49,10 @@ public class RotationObjectManager : BeatmapObjectManager<BaseObject>
         Context.Atsc.OnTimeChangedEarly += UpdateTime;
     }
 
+    private static void Handle360LevelReminder(int res) => Settings.Instance.Reminder_Loading360Levels = res == 0;
+
     public override void UpdateTime() => UpdateTime(Context.Atsc.IsPlaying, Context.Atsc.CurrentSongBpmTime);
     public override void UpdateTime(bool isPlaying, float beatTime) => provider.UpdateTime(isPlaying, beatTime);
-
 
     private static bool FilterObjectRotation(BaseObject data)
     {

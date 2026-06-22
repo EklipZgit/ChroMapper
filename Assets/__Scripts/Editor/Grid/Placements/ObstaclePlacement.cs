@@ -172,7 +172,7 @@ public class ObstaclePlacement : BasePlacement<BaseObstacle, ObstacleContainer, 
         QueuedData.Height = (int)vanillaSize.y;
     }
 
-    protected override void HandleRotationChanged(bool natural, float rotation) => QueuedData.Rotation = (int)rotation;
+    protected override void HandleRotationChanged(float rotation) => QueuedData.Rotation = (int)rotation;
 
     public override void HandleApply()
     {
@@ -222,7 +222,7 @@ public class ObstaclePlacement : BasePlacement<BaseObstacle, ObstacleContainer, 
     public override void FinishDrag()
     {
         base.FinishDrag();
-        QueuedData.Rotation = (int)GridRotation.Rotation;
+        QueuedData.Rotation = (int)LaneRotationProvider.EditRotation;
     }
 
     public override void Cancel()

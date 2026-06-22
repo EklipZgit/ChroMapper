@@ -95,7 +95,7 @@ public class BombPlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
         }
     }
 
-    protected override void HandleRotationChanged(bool natural, float rotation) => QueuedData.Rotation = (int)rotation;
+    protected override void HandleRotationChanged(float rotation) => QueuedData.Rotation = (int)rotation;
 
     protected override void TransferQueuedToDraggedObject(ref BaseNote dragged, BaseNote queued)
     {
@@ -113,6 +113,6 @@ public class BombPlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
     public override void FinishDrag()
     {
         base.FinishDrag();
-        QueuedData.Rotation = (int)GridRotation.Rotation;
+        QueuedData.Rotation = (int)LaneRotationProvider.EditRotation;
     }
 }

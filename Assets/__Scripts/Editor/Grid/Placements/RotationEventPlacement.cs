@@ -103,12 +103,6 @@ public class RotationEventPlacement :
     {
         var evt = QueuedData;
 
-        if (!GridRotation.IsActive)
-        {
-            PersistentUI.Instance.ShowDialogBox("Mapper", "360warning", null, PersistentUI.DialogBoxPresetType.Ok);
-            return;
-        }
-
         base.HandleApply();
 
         TracksManager.RefreshTracks();
@@ -125,8 +119,6 @@ public class RotationEventPlacement :
 
     private void PlaceRotationNow(bool right, bool early)
     {
-        if (!GridRotation.IsActive) return;
-
         var rotationType = early ? (int)EventTypeValue.EarlyLaneRotation : (int)EventTypeValue.LateLaneRotation;
         var epsilon = 1f / Mathf.Pow(10, Settings.Instance.TimeValueDecimalPrecision);
         var evt = ObjectContainerCollection.MapObjects.Find(x =>

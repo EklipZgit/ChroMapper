@@ -1,9 +1,6 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using Beatmap.Base;
 using Beatmap.Enums;
-using SimpleJSON;
 using UnityEngine;
 
 public class LaneRotationProvider : StateManager<RotationEventStateData, BaseObject>
@@ -51,6 +48,13 @@ public class LaneRotationProvider : StateManager<RotationEventStateData, BaseObj
         }
 
         OnPlaybackChanged?.Invoke(PlaybackRotation);
+    }
+
+    public void SetEditRotation(int rotation)
+    {
+        if (Mathf.Approximately(rotation, EditRotation)) return;
+        EditRotation = rotation;
+        OnEditChanged?.Invoke(EditRotation);
     }
 
     private static void ApplyFromTo(

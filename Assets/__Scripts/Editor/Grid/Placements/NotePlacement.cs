@@ -171,7 +171,7 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
         }
     }
 
-    protected override void HandleRotationChanged(bool natural, float rotation) => QueuedData.Rotation = (int)rotation;
+    protected override void HandleRotationChanged(float rotation) => QueuedData.Rotation = (int)rotation;
 
     public NoteContainer ObjectUnderCursor()
     {
@@ -300,7 +300,7 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
     public override void FinishDrag()
     {
         base.FinishDrag();
-        QueuedData.Rotation = (int)GridRotation.Rotation;
+        QueuedData.Rotation = (int)LaneRotationProvider.EditRotation;
     }
 
     public override void CreateVisual()

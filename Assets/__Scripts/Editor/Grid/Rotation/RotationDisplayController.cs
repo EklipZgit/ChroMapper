@@ -3,25 +3,23 @@ using UnityEngine;
 
 public class RotationDisplayController : MonoBehaviour
 {
-    [SerializeField] private RotationCallbackController rotationCallback;
+    [SerializeField] private LaneRotationProvider laneRotationProvider;
     [SerializeField] private TextMeshProUGUI display;
 
     // Start is called before the first frame update
     private void Start()
     {
-        gameObject.SetActive(rotationCallback.IsActive);
-        rotationCallback.OnRotationChanged += OnRotationChanged;
+        laneRotationProvider.OnPlaybackChanged += HandleRotationChanged;
     }
 
-    private void OnDestroy() => rotationCallback.OnRotationChanged -= OnRotationChanged;
+    private void OnDestroy() => laneRotationProvider.OnPlaybackChanged -= HandleRotationChanged;
 
-    private void OnRotationChanged(bool natural, float rotation)
+    private void HandleRotationChanged(float rotation)
     {
-        if (Settings.Instance.Reset360DisplayOnCompleteTurn)
-            display.text = $"{BetterModulo(rotation, 360)}°";
-        else
-            display.text = $"{rotation}°";
+        display.text = Settings.Instance.Reset360DisplayOnCompleteTurn
+            ? $"{BetterModulo(rotation, 360)}°"
+            : $"{rotation}°";
     }
 
-    private float BetterModulo(float x, float m) => ((x % m) + m) % m; //thanks stackoverflow
+    private static float BetterModulo(float x, float m) => ((x % m) + m) % m; //thanks stackoverflow
 }

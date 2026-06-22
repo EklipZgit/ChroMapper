@@ -336,8 +336,7 @@ namespace Tests
         [Test]
         public void MirrorRotationEvent()
         {
-            var rotationCb = Object.FindAnyObjectByType<RotationCallbackController>();
-            rotationCb.Start();
+            var laneRotationProvider = Object.FindAnyObjectByType<LaneRotationProvider>();
 
             var eventsContainer = BeatmapObjectContainerCollection.GetCollectionForType<RotationEventGridContainer>(ObjectType.RotationEvent);
 

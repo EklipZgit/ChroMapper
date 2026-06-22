@@ -8,7 +8,6 @@ public class LoadInitialMap : MonoBehaviour
 {
     public static event Action OnLevelLoaded;
 
-    [SerializeField] private RotationCallbackController rotationController;
     [SerializeField] private BeatmapRuntimeContext context;
 
     [Space] [SerializeField] private NoteGridContainer noteGridContainer;

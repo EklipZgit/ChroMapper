@@ -44,25 +44,21 @@ namespace Tests
             eventsContainer.SpawnObject(rotationEventB);
             eventsContainer.SpawnObject(rotationEventC);
 
-            var rotationController = Object.FindAnyObjectByType<RotationCallbackController>();
+            var laneRotationProvider = Object.FindAnyObjectByType<LaneRotationProvider>();
             var atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
 
             // Rotations should add up
             atsc.MoveToJsonTime(0);
-            Assert.AreSame(null, rotationController.LatestRotationEvent);
-            Assert.AreEqual(0, rotationController.Rotation);
+            Assert.AreEqual(0, laneRotationProvider.PlaybackRotation);
 
             atsc.MoveToJsonTime(1.5f);
-            Assert.AreSame(rotationEventA, rotationController.LatestRotationEvent);
-            Assert.AreEqual(rotations[0], rotationController.Rotation);
+            Assert.AreEqual(rotations[0], laneRotationProvider.PlaybackRotation);
 
             atsc.MoveToJsonTime(2.5f);
-            Assert.AreSame(rotationEventB, rotationController.LatestRotationEvent);
-            Assert.AreEqual(rotations[0] + rotations[1], rotationController.Rotation);
+            Assert.AreEqual(rotations[0] + rotations[1], laneRotationProvider.PlaybackRotation);
 
             atsc.MoveToJsonTime(3.5f);
-            Assert.AreSame(rotationEventC, rotationController.LatestRotationEvent);
-            Assert.AreEqual(rotations[0] + rotations[1] + rotations[2], rotationController.Rotation);
+            Assert.AreEqual(rotations[0] + rotations[1] + rotations[2], laneRotationProvider.PlaybackRotation);
         }
 
         [Test]
@@ -78,17 +74,15 @@ namespace Tests
             eventsContainer.SpawnObject(rotationEventA);
             eventsContainer.SpawnObject(rotationEventB);
 
-            var rotationController = Object.FindAnyObjectByType<RotationCallbackController>();
+            var laneRotationProvider = Object.FindAnyObjectByType<LaneRotationProvider>();
             var atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
 
             // Should ignore events on same time
             atsc.MoveToJsonTime(timeA);
-            Assert.AreSame(null, rotationController.LatestRotationEvent);
-            Assert.AreEqual(0, rotationController.Rotation);
+            Assert.AreEqual(0, laneRotationProvider.PlaybackRotation);
 
             atsc.MoveToJsonTime(timeB);
-            Assert.AreSame(rotationEventA, rotationController.LatestRotationEvent);
-            Assert.AreEqual(rotation, rotationController.Rotation);
+            Assert.AreEqual(rotation, laneRotationProvider.PlaybackRotation);
         }
     }
 }

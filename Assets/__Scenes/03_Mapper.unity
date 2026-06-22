@@ -3238,7 +3238,7 @@ MonoBehaviour:
   atsc: {fileID: 570484802}
   scrollPrecisionController: {fileID: 1561212884}
   tracksManager: {fileID: 902407107}
-  rotationCallbackController: {fileID: 226696885}
+  laneRotationProvider: {fileID: 0}
   eventAppearance: {fileID: 11400000, guid: 00bab3c0ab2051441b924304da9d0e12, type: 2}
 --- !u!1001 &45401269
 PrefabInstance:
@@ -6689,184 +6689,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 91775856}
   m_CullTransparentMesh: 0
---- !u!1 &94023446
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 94023447}
-  - component: {fileID: 94023449}
-  - component: {fileID: 94023448}
-  - component: {fileID: 94023450}
-  m_Layer: 5
-  m_Name: TextMeshPro Text
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &94023447
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 94023446}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1966683412}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000030517578, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &94023448
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 94023446}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_text: Refresh Rotations
-  m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 17003b886c2e57b4a9ce9d0d655a397d, type: 2}
-  m_sharedMaterial: {fileID: 2100000, guid: 6f67f858afdb5352cbda61ae4c43a13c, type: 2}
-  m_fontSharedMaterials: []
-  m_fontMaterial: {fileID: 0}
-  m_fontMaterials: []
-  m_fontColor32:
-    serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
-  m_enableVertexGradient: 0
-  m_colorMode: 3
-  m_fontColorGradient:
-    topLeft: {r: 1, g: 1, b: 1, a: 1}
-    topRight: {r: 1, g: 1, b: 1, a: 1}
-    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
-    bottomRight: {r: 1, g: 1, b: 1, a: 1}
-  m_fontColorGradientPreset: {fileID: 0}
-  m_spriteAsset: {fileID: 0}
-  m_tintAllSprites: 0
-  m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: -1183493901
-  m_overrideHtmlColors: 0
-  m_faceColor:
-    serializedVersion: 2
-    rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
-  m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
-  m_fontStyle: 0
-  m_HorizontalAlignment: 2
-  m_VerticalAlignment: 512
-  m_textAlignment: 65535
-  m_characterSpacing: 0
-  m_characterHorizontalScale: 1
-  m_wordSpacing: 0
-  m_lineSpacing: 0
-  m_lineSpacingMax: 0
-  m_paragraphSpacing: 0
-  m_charWidthMaxAdj: 0
-  m_TextWrappingMode: 1
-  m_wordWrappingRatios: 0.4
-  m_overflowMode: 0
-  m_linkedTextComponent: {fileID: 0}
-  parentLinkedComponent: {fileID: 0}
-  m_enableKerning: 1
-  m_ActiveFontFeatures: 6e72656b
-  m_enableExtraPadding: 0
-  checkPaddingRequired: 0
-  m_isRichText: 1
-  m_EmojiFallbackSupport: 1
-  m_parseCtrlCharacters: 1
-  m_isOrthographic: 1
-  m_isCullingEnabled: 0
-  m_horizontalMapping: 0
-  m_verticalMapping: 0
-  m_uvLineOffset: 0
-  m_geometrySortingOrder: 0
-  m_IsTextObjectScaleStatic: 0
-  m_VertexBufferAutoSizeReduction: 1
-  m_useMaxVisibleDescender: 1
-  m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
-  m_isUsingLegacyAnimationComponent: 0
-  m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
-  m_baseMaterial: {fileID: 0}
-  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!222 &94023449
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 94023446}
-  m_CullTransparentMesh: 0
---- !u!114 &94023450
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 94023446}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_StringReference:
-    m_TableReference:
-      m_TableCollectionName: GUID:8944026aec77cf8479a89f2280c8e1ff
-    m_TableEntryReference:
-      m_KeyId: 33
-      m_Key: 
-    m_FallbackState: 0
-    m_WaitForCompletion: 1
-    m_LocalVariables: []
-  m_FormatArguments: []
-  m_UpdateString:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 94023448}
-        m_TargetAssemblyTypeName: TMPro.TextMeshProUGUI, Unity.TextMeshPro
-        m_MethodName: set_text
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  references:
-    version: 2
-    RefIds: []
 --- !u!1 &102174672
 GameObject:
   m_ObjectHideFlags: 0
@@ -7629,12 +7451,12 @@ PrefabInstance:
         type: 3}
       propertyPath: RotationCallbackController
       value: 
-      objectReference: {fileID: 226696885}
+      objectReference: {fileID: 0}
     - target: {fileID: 114959380485549354, guid: 20e633c6c4c50f744a0f7f171d45ad00,
         type: 3}
       propertyPath: _rotationCallbackController
       value: 
-      objectReference: {fileID: 226696885}
+      objectReference: {fileID: 0}
     - target: {fileID: 114959380485549354, guid: 20e633c6c4c50f744a0f7f171d45ad00,
         type: 3}
       propertyPath: customStandaloneInputModule
@@ -9709,7 +9531,7 @@ MonoBehaviour:
   boxSelectionPlacement: {fileID: 859643186}
   AssignTo360Tracks: 0
   TracksManager: {fileID: 902407107}
-  GridRotation: {fileID: 226696885}
+  LaneRotationProvider: {fileID: 2116776176}
   AllowPlacement: 1
   State: 0
   IsDragging: 0
@@ -10432,7 +10254,7 @@ MonoBehaviour:
   boxSelectionPlacement: {fileID: 859643186}
   AssignTo360Tracks: 1
   TracksManager: {fileID: 902407107}
-  GridRotation: {fileID: 226696885}
+  LaneRotationProvider: {fileID: 2116776176}
   AllowPlacement: 0
   State: 0
   IsDragging: 0
@@ -11048,53 +10870,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!1 &226696884
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 226696886}
-  - component: {fileID: 226696885}
-  m_Layer: 0
-  m_Name: Rotation Controller
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &226696885
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 226696884}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 33972cdc04fd2d343a717f663fbfe3ab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  atsc: {fileID: 570484802}
-  rotationEventGridContainer: {fileID: 379166760}
-  interfaceCallback: {fileID: 973455628}
---- !u!4 &226696886
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 226696884}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1573245297}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &227912655
 GameObject:
   m_ObjectHideFlags: 0
@@ -12291,7 +12066,7 @@ MonoBehaviour:
   boxSelectionPlacement: {fileID: 859643186}
   AssignTo360Tracks: 0
   TracksManager: {fileID: 902407107}
-  GridRotation: {fileID: 226696885}
+  LaneRotationProvider: {fileID: 2116776176}
   AllowPlacement: 1
   State: 0
   IsDragging: 0
@@ -22969,7 +22744,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b591927eb8e64a4ba185c707d703521, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationCallback: {fileID: 226696885}
+  laneRotationProvider: {fileID: 2116776176}
   display: {fileID: 132005245}
 --- !u!114 &460550589
 MonoBehaviour:
@@ -22983,7 +22758,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45c823f9a0640d94ebef2905070e97e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationCallback: {fileID: 226696885}
+  laneRotationProvider: {fileID: 2116776176}
   rotationDisplay: {fileID: 132005245}
 --- !u!114 &460550590
 MonoBehaviour:
@@ -24579,7 +24354,7 @@ MonoBehaviour:
   boxSelectionPlacement: {fileID: 859643186}
   AssignTo360Tracks: 0
   TracksManager: {fileID: 902407107}
-  GridRotation: {fileID: 226696885}
+  LaneRotationProvider: {fileID: 2116776176}
   AllowPlacement: 1
   State: 0
   IsDragging: 0
@@ -24727,7 +24502,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -62.50112}
+  m_AnchoredPosition: {x: 0, y: -62.499836}
   m_SizeDelta: {x: 190, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &494425897
@@ -27271,7 +27046,7 @@ MonoBehaviour:
   boxSelectionPlacement: {fileID: 859643186}
   AssignTo360Tracks: 0
   TracksManager: {fileID: 902407107}
-  GridRotation: {fileID: 226696885}
+  LaneRotationProvider: {fileID: 2116776176}
   AllowPlacement: 1
   State: 0
   IsDragging: 0
@@ -29365,12 +29140,12 @@ PrefabInstance:
         type: 3}
       propertyPath: RotationCallbackController
       value: 
-      objectReference: {fileID: 226696885}
+      objectReference: {fileID: 0}
     - target: {fileID: 114959380485549354, guid: 20e633c6c4c50f744a0f7f171d45ad00,
         type: 3}
       propertyPath: _rotationCallbackController
       value: 
-      objectReference: {fileID: 226696885}
+      objectReference: {fileID: 0}
     - target: {fileID: 114959380485549354, guid: 20e633c6c4c50f744a0f7f171d45ad00,
         type: 3}
       propertyPath: customStandaloneInputModule
@@ -30864,7 +30639,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 382595992}
-  - {fileID: 1966683412}
   - {fileID: 447531070}
   - {fileID: 1354030221}
   - {fileID: 1127950703}
@@ -33218,7 +32992,7 @@ MonoBehaviour:
   boxSelectionPlacement: {fileID: 859643186}
   AssignTo360Tracks: 0
   TracksManager: {fileID: 902407107}
-  GridRotation: {fileID: 226696885}
+  LaneRotationProvider: {fileID: 2116776176}
   AllowPlacement: 1
   State: 0
   IsDragging: 0
@@ -37361,7 +37135,7 @@ MonoBehaviour:
   boxSelectionPlacement: {fileID: 859643186}
   AssignTo360Tracks: 0
   TracksManager: {fileID: 902407107}
-  GridRotation: {fileID: 226696885}
+  LaneRotationProvider: {fileID: 2116776176}
   AllowPlacement: 1
   State: 0
   IsDragging: 0
@@ -43147,7 +42921,7 @@ MonoBehaviour:
   boxSelectionPlacement: {fileID: 0}
   AssignTo360Tracks: 0
   TracksManager: {fileID: 902407107}
-  GridRotation: {fileID: 226696885}
+  LaneRotationProvider: {fileID: 2116776176}
   AllowPlacement: 1
   State: 0
   IsDragging: 0
@@ -44216,7 +43990,7 @@ MonoBehaviour:
   boxSelectionPlacement: {fileID: 859643186}
   AssignTo360Tracks: 1
   TracksManager: {fileID: 902407107}
-  GridRotation: {fileID: 226696885}
+  LaneRotationProvider: {fileID: 2116776176}
   AllowPlacement: 0
   State: 0
   IsDragging: 0
@@ -47990,7 +47764,7 @@ MonoBehaviour:
   boxSelectionPlacement: {fileID: 859643186}
   AssignTo360Tracks: 0
   TracksManager: {fileID: 902407107}
-  GridRotation: {fileID: 226696885}
+  LaneRotationProvider: {fileID: 2116776176}
   AllowPlacement: 1
   State: 0
   IsDragging: 0
@@ -48069,7 +47843,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 13585789}
   m_Direction: 2
   m_Value: 1
-  m_Size: 1
+  m_Size: 0.9999999
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -58600,7 +58374,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d959538b327efd48b685cac78f88420, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationController: {fileID: 226696885}
   context: {fileID: 127874572}
   noteGridContainer: {fileID: 25550673}
   obstacleGridContainer: {fileID: 25550678}
@@ -59851,7 +59624,7 @@ MonoBehaviour:
   boxSelectionPlacement: {fileID: 859643186}
   AssignTo360Tracks: 0
   TracksManager: {fileID: 902407107}
-  GridRotation: {fileID: 226696885}
+  LaneRotationProvider: {fileID: 2116776176}
   AllowPlacement: 1
   State: 0
   IsDragging: 0
@@ -60369,7 +60142,7 @@ PrefabInstance:
         type: 3}
       propertyPath: GridRotation
       value: 
-      objectReference: {fileID: 226696885}
+      objectReference: {fileID: 0}
     - target: {fileID: 7468660659503805408, guid: 141955eb542177ea69e10ad9a2b131e2,
         type: 3}
       propertyPath: CameraManager
@@ -63966,7 +63739,7 @@ MonoBehaviour:
   boxSelectionPlacement: {fileID: 859643186}
   AssignTo360Tracks: 0
   TracksManager: {fileID: 902407107}
-  GridRotation: {fileID: 226696885}
+  LaneRotationProvider: {fileID: 2116776176}
   AllowPlacement: 1
   State: 0
   IsDragging: 0
@@ -75453,7 +75226,7 @@ MonoBehaviour:
   boxSelectionPlacement: {fileID: 859643186}
   AssignTo360Tracks: 0
   TracksManager: {fileID: 902407107}
-  GridRotation: {fileID: 226696885}
+  LaneRotationProvider: {fileID: 2116776176}
   AllowPlacement: 1
   State: 0
   IsDragging: 0
@@ -77771,7 +77544,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 902407106}
-  - {fileID: 226696886}
   - {fileID: 973455627}
   - {fileID: 1760665544}
   - {fileID: 1288723588}
@@ -77806,8 +77578,8 @@ MonoBehaviour:
   tracksManager: {fileID: 902407107}
   eventPlacement: {fileID: 648123637}
   eventGridContainer: {fileID: 455916737}
-  rotationEventPlacement: {fileID: 0}
-  rotationEventGridContainer: {fileID: 0}
+  rotationEventPlacement: {fileID: 648123637}
+  rotationEventGridContainer: {fileID: 379166760}
   glsGroupGridProvider: {fileID: 788356228}
   glsGroupColorPlacement: {fileID: 2010338916}
   glsGroupColorGridContainer: {fileID: 455316408}
@@ -78996,7 +78768,7 @@ MonoBehaviour:
   boxSelectionPlacement: {fileID: 859643186}
   AssignTo360Tracks: 0
   TracksManager: {fileID: 902407107}
-  GridRotation: {fileID: 226696885}
+  LaneRotationProvider: {fileID: 2116776176}
   AllowPlacement: 1
   State: 0
   IsDragging: 0
@@ -83423,7 +83195,7 @@ MonoBehaviour:
   boxSelectionPlacement: {fileID: 859643186}
   AssignTo360Tracks: 1
   TracksManager: {fileID: 902407107}
-  GridRotation: {fileID: 226696885}
+  LaneRotationProvider: {fileID: 2116776176}
   AllowPlacement: 0
   State: 0
   IsDragging: 0
@@ -85753,7 +85525,7 @@ MonoBehaviour:
   boxSelectionPlacement: {fileID: 859643186}
   AssignTo360Tracks: 1
   TracksManager: {fileID: 902407107}
-  GridRotation: {fileID: 226696885}
+  LaneRotationProvider: {fileID: 2116776176}
   AllowPlacement: 0
   State: 0
   IsDragging: 0
@@ -91214,7 +90986,6 @@ MonoBehaviour:
   - {fileID: 74799970}
   thingsThatRequireAMoveForPreview:
   - {fileID: 617466177}
-  rotationCallbackController: {fileID: 226696885}
   atsc: {fileID: 570484802}
 --- !u!225 &1799035894
 CanvasGroup:
@@ -99398,182 +99169,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1959054795}
   m_CullTransparentMesh: 0
---- !u!1 &1966683411
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1966683412}
-  - component: {fileID: 1966683416}
-  - component: {fileID: 1966683415}
-  - component: {fileID: 1966683414}
-  - component: {fileID: 1966683413}
-  - component: {fileID: 1966683417}
-  m_Layer: 5
-  m_Name: Refresh Rotations Button
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1966683412
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1966683411}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 94023447}
-  m_Father: {fileID: 614713887}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: 124.999985}
-  m_SizeDelta: {x: 160, y: 30}
-  m_Pivot: {x: 0, y: 0}
---- !u!114 &1966683413
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1966683411}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec9d0964fc5c07c4d988ebacfd236eb8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  LocalizedTooltip:
-    m_TableReference:
-      m_TableCollectionName: GUID:8944026aec77cf8479a89f2280c8e1ff
-    m_TableEntryReference:
-      m_KeyId: 34
-      m_Key: 
-    m_FallbackState: 0
-    m_WaitForCompletion: 1
-    m_LocalVariables: []
-  TooltipOverride: 
-  AdvancedTooltip: 
-  TooltipActive: 0
-  references:
-    version: 2
-    RefIds: []
---- !u!114 &1966683414
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1966683411}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Navigation:
-    m_Mode: 3
-    m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
-  m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_SelectedTrigger: Highlighted
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 1966683415}
-  m_OnClick:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1966683417}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: RefreshRotations
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &1966683415
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1966683411}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 0.39705884, g: 0.39705884, b: 0.39705884, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &1966683416
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1966683411}
-  m_CullTransparentMesh: 0
---- !u!114 &1966683417
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1966683411}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b52afc2790096848add382c5c938efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rotationCallbackController: {fileID: 226696885}
-  tracksManager: {fileID: 0}
 --- !u!1 &1966965291
 GameObject:
   m_ObjectHideFlags: 0
@@ -101085,7 +100680,7 @@ MonoBehaviour:
   boxSelectionPlacement: {fileID: 859643186}
   AssignTo360Tracks: 0
   TracksManager: {fileID: 902407107}
-  GridRotation: {fileID: 226696885}
+  LaneRotationProvider: {fileID: 2116776176}
   AllowPlacement: 1
   State: 0
   IsDragging: 0
@@ -101390,7 +100985,7 @@ MonoBehaviour:
   boxSelectionPlacement: {fileID: 859643186}
   AssignTo360Tracks: 1
   TracksManager: {fileID: 902407107}
-  GridRotation: {fileID: 226696885}
+  LaneRotationProvider: {fileID: 2116776176}
   AllowPlacement: 0
   State: 0
   IsDragging: 0
@@ -101884,7 +101479,7 @@ MonoBehaviour:
   boxSelectionPlacement: {fileID: 859643186}
   AssignTo360Tracks: 1
   TracksManager: {fileID: 902407107}
-  GridRotation: {fileID: 226696885}
+  LaneRotationProvider: {fileID: 2116776176}
   AllowPlacement: 0
   State: 0
   IsDragging: 0
@@ -102647,7 +102242,7 @@ MonoBehaviour:
   boxSelectionPlacement: {fileID: 859643186}
   AssignTo360Tracks: 0
   TracksManager: {fileID: 902407107}
-  GridRotation: {fileID: 226696885}
+  LaneRotationProvider: {fileID: 2116776176}
   AllowPlacement: 1
   State: 0
   IsDragging: 0
@@ -104107,7 +103702,7 @@ MonoBehaviour:
   boxSelectionPlacement: {fileID: 859643186}
   AssignTo360Tracks: 1
   TracksManager: {fileID: 902407107}
-  GridRotation: {fileID: 226696885}
+  LaneRotationProvider: {fileID: 2116776176}
   AllowPlacement: 0
   State: 0
   IsDragging: 0
@@ -105340,6 +104935,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::RotationEventManager
   Context: {fileID: 127874572}
   provider: {fileID: 2116776176}
+  gridChild: {fileID: 1000563173}
 --- !u!114 &2116776176
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -105541,7 +105137,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 20, y: 0.00032043457}
+  m_AnchoredPosition: {x: 20, y: -0.000579834}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &2122688343
@@ -106834,7 +106430,7 @@ PrefabInstance:
         type: 3}
       propertyPath: GridRotation
       value: 
-      objectReference: {fileID: 226696885}
+      objectReference: {fileID: 0}
     - target: {fileID: 7468660659503805408, guid: 141955eb542177ea69e10ad9a2b131e2,
         type: 3}
       propertyPath: CameraManager

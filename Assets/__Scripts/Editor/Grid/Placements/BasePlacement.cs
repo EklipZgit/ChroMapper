@@ -28,7 +28,7 @@ public abstract class BasePlacement : MonoBehaviour
 
     [Header("360/90")] [SerializeField] public bool AssignTo360Tracks;
     [SerializeField] public TracksManager TracksManager;
-    [SerializeField] public RotationCallbackController GridRotation;
+    [SerializeField] public LaneRotationProvider LaneRotationProvider;
 
     [Header("State")]
     [Tooltip("If you have multiple placement in a single grid, consider making control flow and toggle this condition")]
@@ -119,11 +119,11 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
     {
         CreateVisual();
         HideVisual();
-        GridRotation.OnRotationChanged += HandleRotationChanged;
+        LaneRotationProvider.OnEditChanged += HandleRotationChanged;
         QueuedData ??= GenerateOriginalData();
     }
 
-    public void OnDestroy() => GridRotation.OnRotationChanged -= HandleRotationChanged;
+    public void OnDestroy() => LaneRotationProvider.OnEditChanged -= HandleRotationChanged;
 
     protected abstract TObject GenerateOriginalData();
     protected abstract BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicts);
@@ -273,7 +273,7 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
             PlacementVisualContainer.transform.localEulerAngles.z);
     }
 
-    protected virtual void HandleRotationChanged(bool natural, float rotation) {}
+    protected virtual void HandleRotationChanged(float rotation) {}
 
     public override void Apply()
     {
