@@ -14,23 +14,32 @@ public class RotationObjectManager : BeatmapObjectManager<BaseObject>
     protected override void Awake()
     {
         base.Awake();
+        LoadInitialMap.OnLevelLoaded += Refresh;
+        LoadedDifficultySelectController.OnLoadedDifficultyChanged += Refresh;
+    }
 
+    protected void Start()
+    {
         // dynamically check when version change
         var infoDifficulty = BeatSaberSongContainer.Instance.MapDifficultyInfo;
         var has360 = enabledCharacteristics.Contains(infoDifficulty.Characteristic);
-        if (has360 && Settings.Instance.Reminder_Loading360Levels)
+        if (BeatSaberSongContainer.Instance.Map.MajorVersion < 4
+            && (BeatSaberSongContainer.Instance.Map.RotationEvents.Count > 0
+                || has360))
         {
-            PersistentUI.Instance.ShowDialogBox(
-                "PersistentUI",
-                "360warning",
-                Handle360LevelReminder,
-                PersistentUI.DialogBoxPresetType.OkIgnore);
+            if (Settings.Instance.Reminder_Loading360Levels)
+            {
+                PersistentUI.Instance.ShowDialogBox(
+                    "PersistentUI",
+                    "360warning",
+                    Handle360LevelReminder,
+                    PersistentUI.DialogBoxPresetType.OkIgnore);
+            }
+
+            gridChild.Hide = false;
         }
         else
             gridChild.Hide = true;
-
-        LoadInitialMap.OnLevelLoaded += Refresh;
-        LoadedDifficultySelectController.OnLoadedDifficultyChanged += Refresh;
     }
 
     protected override void OnDestroy()
@@ -43,6 +52,8 @@ public class RotationObjectManager : BeatmapObjectManager<BaseObject>
 
     public override void Refresh()
     {
+        Context.Atsc.OnTimeChangedEarly -= UpdateTime;
+
         provider.Initialize();
         BeatSaberSongContainer.Instance.Map.RotationEvents.ForEach(provider.InsertData);
 
