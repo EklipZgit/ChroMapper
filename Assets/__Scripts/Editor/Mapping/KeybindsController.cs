@@ -21,17 +21,15 @@ public class KeybindsController : MonoBehaviour, CMInput.IUtilsActions
 
     public static bool IsMouseInWindow { get; private set; } = true;
 
-    public void OnControlModifier(InputAction.CallbackContext context)
-    {
-    }
+    public static bool IsControlKeyHeld { get; private set; }
+    public static bool IsHoverKeyHeld { get; private set; }
+    public static bool IsSelectKeyHeld { get; private set; }
 
-    public void OnAltModifier(InputAction.CallbackContext context)
-    {
-    }
+    public void OnControlModifier(InputAction.CallbackContext context) => IsControlKeyHeld = context.performed;
 
-    public void OnShiftModifier(InputAction.CallbackContext context)
-    {
-    }
+    public void OnHoverModifier(InputAction.CallbackContext context) => IsHoverKeyHeld = context.performed;
+
+    public void OnSelectModifier(InputAction.CallbackContext context) => IsSelectKeyHeld = context.performed;
 
     public void OnMouseMovement(InputAction.CallbackContext context)
     {

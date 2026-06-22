@@ -25,12 +25,15 @@ public enum ActionMergeType
     EventMainTweak,
     EventAltTweak,
     BPMValueTweak,
-    NJSValueTweak,
+
+    ModifyNJSEventValue,
+    ModifyNJSEventEase,
+    ModifyNJSEventExtension,
     
     ModifyRotationValue,
 
     ReorderEventBox,
-    
+
     ModifyEventBoxFilterType,
     ModifyEventBoxFilterParam0,
     ModifyEventBoxFilterParam1,

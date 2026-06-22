@@ -1,7 +1,9 @@
+using System;
 using LiteNetLib.Utils;
 using Beatmap.Base;
 using Beatmap.Helper;
 
+[Obsolete("This has potential to create ghost objects if used incorrectly. Use BeatmapObjectUpdatedAction")]
 public class BeatmapObjectModifiedAction : BeatmapAction, IMergeableAction
 {
     private bool addToSelection;

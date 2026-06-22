@@ -366,7 +366,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Alt Modifier",
+                    "name": "Hover Modifier",
                     "type": "Button",
                     "id": "e5b2efee-cf71-4d04-ba3a-c544cc5b2be2",
                     "expectedControlType": "",
@@ -375,7 +375,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Shift Modifier",
+                    "name": "Select Modifier",
                     "type": "Button",
                     "id": "80d43d78-82d6-4589-8fd9-89580f03b9c4",
                     "expectedControlType": "",
@@ -434,7 +434,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "ChroMapper Default",
-                    "action": "Alt Modifier",
+                    "action": "Hover Modifier",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -445,7 +445,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "ChroMapper Default",
-                    "action": "Shift Modifier",
+                    "action": "Select Modifier",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -849,194 +849,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "Precision Placement Toggle",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                }
-            ]
-        },
-        {
-            "name": "Note Placement",
-            "id": "55b78d3d-8ced-467c-a88f-d5cf50532d2e",
-            "actions": [
-                {
-                    "name": "Down Note",
-                    "type": "Button",
-                    "id": "91d9fcf9-57ed-4bfa-a024-bd388f56a3f2",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Right Note",
-                    "type": "Button",
-                    "id": "e63abaea-687c-486a-aee9-133901bc362c",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Up Note",
-                    "type": "Button",
-                    "id": "16488a28-3686-46ed-9637-285b7e5a9e72",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Left Note",
-                    "type": "Button",
-                    "id": "ea80fd88-1337-4dbd-a7a9-9f1bdd9ecae4",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Dot Note",
-                    "type": "Button",
-                    "id": "2235cb33-d8e5-4ee9-bfad-a0e197fdd475",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Up Left Note",
-                    "type": "Button",
-                    "id": "7f5e8c8d-3b2f-409d-9668-c7c4a9df525a",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Up Right Note",
-                    "type": "Button",
-                    "id": "4d74a4f6-9e93-4c6c-9a37-8105e93970ac",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Down Right Note",
-                    "type": "Button",
-                    "id": "ce5e5868-b0ad-4ff9-907e-9a85015e8e30",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Down Left Note",
-                    "type": "Button",
-                    "id": "e4a4c2c7-8c29-41f4-a5b8-a720c348738d",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                }
-            ],
-            "bindings": [
-                {
-                    "name": "",
-                    "id": "752ce1da-9d61-4779-b6ed-75d0d214292a",
-                    "path": "<Keyboard>/s",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "ChroMapper Default",
-                    "action": "Down Note",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "d8232af9-72c8-46d6-bb23-023443cbf276",
-                    "path": "<Keyboard>/a",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "ChroMapper Default",
-                    "action": "Left Note",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "a24d5b1b-8b2b-4978-84e8-1257904d2017",
-                    "path": "<Keyboard>/d",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "ChroMapper Default",
-                    "action": "Right Note",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "e8e63a70-7c85-4205-8648-1b10ca6aa84b",
-                    "path": "<Keyboard>/w",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "ChroMapper Default",
-                    "action": "Up Note",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "ec4a55fa-16bb-4f5d-9ad1-97012d764a81",
-                    "path": "<Keyboard>/f",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "ChroMapper Default",
-                    "action": "Dot Note",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "47cdcf1d-35d4-4c49-872f-f8c074dd4246",
-                    "path": "<Keyboard>/numpad7",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Up Left Note",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "4579eacc-45b1-4f2c-9935-82866456f92c",
-                    "path": "<Keyboard>/numpad9",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Up Right Note",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "47dba21a-8205-445b-9cbc-7b80065723e8",
-                    "path": "<Keyboard>/numpad3",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Down Right Note",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "d29a6dd2-8cb0-44de-a8f8-76cbede9c430",
-                    "path": "<Keyboard>/numpad1",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Down Left Note",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -2545,6 +2357,214 @@
             ]
         },
         {
+            "name": "Shared Note Objects",
+            "id": "145c7978-d773-459b-9d0c-36c76e56091b",
+            "actions": [
+                {
+                    "name": "Up Note",
+                    "type": "Button",
+                    "id": "515b9220-40cc-4db4-836f-d43a392eefbb",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Down Note",
+                    "type": "Button",
+                    "id": "0cdad973-263a-49ed-a920-9320ba2de8a4",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Left Note",
+                    "type": "Button",
+                    "id": "59db36c0-f286-4a2c-b5cd-59d16450c740",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Right Note",
+                    "type": "Button",
+                    "id": "44b93388-6bba-47b5-8840-9d4659d89806",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Dot Note",
+                    "type": "Button",
+                    "id": "af47dea5-9d2e-467e-85b1-806a3612a0ad",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Invert Note Colors",
+                    "type": "Button",
+                    "id": "d25b4af6-ac90-4eb7-be46-e6cf4ed6d9bd",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Up Left Note",
+                    "type": "Button",
+                    "id": "636f3fa1-2422-41e6-9a20-f2158a6129d3",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Up Right Note",
+                    "type": "Button",
+                    "id": "a704a008-75a5-4249-9653-f0485fc2ab3a",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Down Left Note",
+                    "type": "Button",
+                    "id": "0e4bff08-d359-477d-a4bf-2c26bfeaefe6",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Down Right Note",
+                    "type": "Button",
+                    "id": "ac708179-7dc4-4e3e-8ea4-c279ceb6cbfb",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "e4ed0ea2-a09d-497f-925f-95d174b04590",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "ChroMapper Default",
+                    "action": "Up Note",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7b3e161e-fd98-4f95-850d-724f8cc7646c",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "ChroMapper Default",
+                    "action": "Down Note",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "30fe86ed-e35e-4ea9-8a3c-0b01689526d1",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "ChroMapper Default",
+                    "action": "Left Note",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "28750741-9879-43e1-bf15-890a5f404237",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "ChroMapper Default",
+                    "action": "Right Note",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1609b8f1-f8c8-4b6f-bc95-59800645b278",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "ChroMapper Default",
+                    "action": "Dot Note",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "712693af-a735-4824-90d9-f0f672b05037",
+                    "path": "<Mouse>/middleButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "ChroMapper Default",
+                    "action": "Invert Note Colors",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e940274a-8e1a-44a8-b36f-614a0368efb6",
+                    "path": "<Keyboard>/numpad7",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Up Left Note",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4eb62768-d7b0-4a8b-adf1-1c0bc94fe2f0",
+                    "path": "<Keyboard>/numpad9",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Up Right Note",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "10653eab-d2d8-4bc3-9c9e-3159a892d030",
+                    "path": "<Keyboard>/numpad1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Down Left Note",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7c6dba8d-2010-4159-ad51-4b9a2a94f1e9",
+                    "path": "<Keyboard>/numpad3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Down Right Note",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
             "name": "Note Objects",
             "id": "d18a448a-b849-4a22-a103-3a79418bc61b",
             "actions": [
@@ -2565,60 +2585,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
-                },
-                {
-                    "name": "Invert Note Colors",
-                    "type": "Button",
-                    "id": "5bf4f065-0e9f-4166-a219-7ec603ae88c6",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Quick Up Direction Modifier",
-                    "type": "Button",
-                    "id": "1b6c3334-9477-4c00-8cdd-b205854dcc67",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Quick Down Direction Modifier",
-                    "type": "Button",
-                    "id": "209a5d80-04c5-482f-8710-7f99c1555ef1",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Quick Left Direction Modifier",
-                    "type": "Button",
-                    "id": "f1392e48-0f68-4dbc-9fd1-37858f673a0d",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Quick Right Direction Modifier",
-                    "type": "Button",
-                    "id": "6de24c70-987c-4c10-aa10-197688420ef2",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Quick Any Direction Modifier",
-                    "type": "Button",
-                    "id": "c6c30c54-0108-411e-9cde-4cf92e11f595",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -2654,17 +2620,6 @@
                     "action": "Update Note Direction",
                     "isComposite": false,
                     "isPartOfComposite": true
-                },
-                {
-                    "name": "",
-                    "id": "a1a9d032-f76b-4e85-8d27-46380767f735",
-                    "path": "<Mouse>/middleButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "ChroMapper Default",
-                    "action": "Invert Note Colors",
-                    "isComposite": false,
-                    "isPartOfComposite": false
                 },
                 {
                     "name": "Two Modifiers",
@@ -2707,171 +2662,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "Update Note Precise Direction",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "One Modifier",
-                    "id": "cea8f456-e32b-4e79-8613-91426faeebc3",
-                    "path": "OneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Quick Up Direction Modifier",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "0ef1ed0c-888b-43a5-bec1-5b753edf7db1",
-                    "path": "<Keyboard>/alt",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Quick Up Direction Modifier",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "binding",
-                    "id": "9b26eb2d-752f-431e-ab9d-e1fcf8ecd572",
-                    "path": "<Keyboard>/w",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Quick Up Direction Modifier",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "One Modifier",
-                    "id": "514c0926-3daf-42f3-ab07-ba70839859c8",
-                    "path": "OneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Quick Down Direction Modifier",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "f0126eae-c2ab-4eb6-a2d8-c9c535e345a6",
-                    "path": "<Keyboard>/alt",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Quick Down Direction Modifier",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "binding",
-                    "id": "aa898509-8d53-4976-88b4-43f645c91129",
-                    "path": "<Keyboard>/s",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Quick Down Direction Modifier",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "One Modifier",
-                    "id": "0cd368ef-65ef-4940-be35-e20fd8110460",
-                    "path": "OneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Quick Left Direction Modifier",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "b371a06f-a9b9-4636-8232-5a0088ba9e6d",
-                    "path": "<Keyboard>/alt",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Quick Left Direction Modifier",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "binding",
-                    "id": "7bd21560-e120-48e2-accd-3cd2fc218234",
-                    "path": "<Keyboard>/a",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Quick Left Direction Modifier",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "One Modifier",
-                    "id": "88b6aaa6-86da-49b9-a0ae-3c5ae666bec0",
-                    "path": "OneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Quick Right Direction Modifier",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "467d86d2-ca7d-4cf7-82a3-2318e14657b9",
-                    "path": "<Keyboard>/alt",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Quick Right Direction Modifier",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "binding",
-                    "id": "068e78bb-e072-46a8-a89a-4f97ba3e103f",
-                    "path": "<Keyboard>/d",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Quick Right Direction Modifier",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "One Modifier",
-                    "id": "3bb56f17-b776-4fd0-9ef4-64780b5baaa8",
-                    "path": "OneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Quick Any Direction Modifier",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "f90e7a5b-6040-46c1-bd7f-46f603215912",
-                    "path": "<Keyboard>/alt",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Quick Any Direction Modifier",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "binding",
-                    "id": "d44a6b80-d3fe-4d92-b0ea-3040548d76e2",
-                    "path": "<Keyboard>/f",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Quick Any Direction Modifier",
                     "isComposite": false,
                     "isPartOfComposite": true
                 }
@@ -4895,15 +4685,6 @@
             "id": "805b5d1e-e501-4fd7-944e-66b474176ee7",
             "actions": [
                 {
-                    "name": "InvertArcColor",
-                    "type": "Button",
-                    "id": "ee16de4f-c84f-40f4-bf15-2ed62d872ec4",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "ChangingMu",
                     "type": "Value",
                     "id": "5ecf55da-5762-4a6c-921f-2b702e9078da",
@@ -4923,17 +4704,6 @@
                 }
             ],
             "bindings": [
-                {
-                    "name": "",
-                    "id": "6219d243-e063-43d0-bc27-e5025a77f281",
-                    "path": "<Mouse>/middleButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "InvertArcColor",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
                 {
                     "name": "Keyboard",
                     "id": "bdb70de1-9017-48f5-9a56-a7cbc3e8b6d5",
@@ -5016,15 +4786,6 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "InvertChainColor",
-                    "type": "Button",
-                    "id": "1b3dedb1-d750-438f-b20f-2226fd1f83f7",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "TweakChainSquish",
                     "type": "Value",
                     "id": "afed819c-0511-4541-be42-2272b16fd4cb",
@@ -5067,17 +4828,6 @@
                     "action": "TweakChainCount",
                     "isComposite": false,
                     "isPartOfComposite": true
-                },
-                {
-                    "name": "",
-                    "id": "8090b872-0daa-4936-b436-6861bbf1bd6e",
-                    "path": "<Mouse>/middleButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "InvertChainColor",
-                    "isComposite": false,
-                    "isPartOfComposite": false
                 },
                 {
                     "name": "Keyboard",
@@ -5459,27 +5209,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Color0 Light (Hover)",
-                    "type": "Button",
-                    "id": "6941284c-0915-4464-95f2-3799622f691f",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Color1 Light",
                     "type": "Button",
                     "id": "52046f1f-96a3-4708-aeb5-9835f7dffe8d",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Color1 Light (Hover)",
-                    "type": "Button",
-                    "id": "3587d2e6-2d14-4a2a-b00d-9d92af0919de",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "Press",
@@ -5495,27 +5227,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "ColorW Light (Hover)",
-                    "type": "Button",
-                    "id": "e9079c33-1ad8-4aa7-87e9-07ad012d6a64",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Static 0 Brightness",
                     "type": "Button",
                     "id": "7207f90e-5d44-4d4d-b34e-8f0160a9170c",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Static 0 Brightness (Hover)",
-                    "type": "Button",
-                    "id": "c9baeb6f-e180-4733-8dad-6ebc02c2c118",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "Press",
@@ -5531,27 +5245,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Static 50 Brightness (Hover)",
-                    "type": "Button",
-                    "id": "82f36336-7726-444b-9cf1-ef047a31768d",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Static 100 Brightness",
                     "type": "Button",
                     "id": "7e1c6267-a50f-4347-be5b-8b7e4a79362d",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Static 100 Brightness (Hover)",
-                    "type": "Button",
-                    "id": "5350f50c-25d0-4a22-925b-727482f36dfb",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "Press",
@@ -5567,15 +5263,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Fade 0 Brightness (Hover)",
-                    "type": "Button",
-                    "id": "b40a41a2-491d-4de8-bf53-c824637aee66",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Fade 50 Brightness",
                     "type": "Button",
                     "id": "691a6497-f9f9-4abc-9e63-f8317544bb05",
@@ -5585,27 +5272,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Fade 50 Brightness (Hover)",
-                    "type": "Button",
-                    "id": "6faf2878-01e6-4f62-8e17-5c3203008c86",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Fade 100 Brightness",
                     "type": "Button",
                     "id": "8627c5b2-c396-4ed1-b8da-9f9e55b3ea21",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Fade 100 Brightness (Hover)",
-                    "type": "Button",
-                    "id": "8d5837c3-2102-4b1a-b73f-ebe53ab00d60",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "Press",
@@ -5747,27 +5416,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Strobe On (Hover)",
-                    "type": "Button",
-                    "id": "1a3fa2d8-b5c3-4954-bc86-ceedbafb1dc9",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Strobe Off",
                     "type": "Button",
                     "id": "44915e27-9961-4f1c-824c-2ae7a2954c6d",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Strobe Off (Hover)",
-                    "type": "Button",
-                    "id": "295dec3c-76aa-4a90-896a-486bc0755474",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "Press",
@@ -5832,39 +5483,6 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "One Modifier",
-                    "id": "726348c4-e948-46c7-86a7-26147e29e836",
-                    "path": "OneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Color0 Light (Hover)",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "83804741-a09a-42b3-af7d-88abb3faa0c7",
-                    "path": "<Keyboard>/alt",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Color0 Light (Hover)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "binding",
-                    "id": "eaeffd8a-5a7e-422b-ae82-4cb34cba929d",
-                    "path": "<Keyboard>/1",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Color0 Light (Hover)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
                     "name": "",
                     "id": "e6c610c3-4c64-4cb2-8cda-68b4c31bb9a5",
                     "path": "<Keyboard>/2",
@@ -5874,39 +5492,6 @@
                     "action": "Color1 Light",
                     "isComposite": false,
                     "isPartOfComposite": false
-                },
-                {
-                    "name": "One Modifier",
-                    "id": "4057f3a5-264b-4fee-8eda-92890d36be01",
-                    "path": "OneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Color1 Light (Hover)",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "a0afcfa7-b787-45f1-b0c0-f859997723f8",
-                    "path": "<Keyboard>/alt",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Color1 Light (Hover)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "binding",
-                    "id": "4aea743f-58df-4066-95f1-4a89deb81053",
-                    "path": "<Keyboard>/2",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Color1 Light (Hover)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
                 },
                 {
                     "name": "",
@@ -5920,39 +5505,6 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "One Modifier",
-                    "id": "da42f866-2a33-4d4a-ab8e-299087b0cd0e",
-                    "path": "OneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ColorW Light (Hover)",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "0a3625e5-2262-4a32-b7d5-435aebceb229",
-                    "path": "<Keyboard>/alt",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ColorW Light (Hover)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "binding",
-                    "id": "554ea9bb-08c3-48b8-89a9-9c0fb2015d76",
-                    "path": "<Keyboard>/3",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ColorW Light (Hover)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
                     "name": "",
                     "id": "d3fb659a-f051-40fb-8fdb-06750d287491",
                     "path": "<Keyboard>/q",
@@ -5962,39 +5514,6 @@
                     "action": "Static 0 Brightness",
                     "isComposite": false,
                     "isPartOfComposite": false
-                },
-                {
-                    "name": "One Modifier",
-                    "id": "45979be5-021f-4da7-8a60-c38c9a88edcf",
-                    "path": "OneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Static 0 Brightness (Hover)",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "1c16f713-3c95-4684-a319-8e1e65240dad",
-                    "path": "<Keyboard>/alt",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Static 0 Brightness (Hover)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "binding",
-                    "id": "72e2d3a8-beb7-4817-a720-53ca496321e9",
-                    "path": "<Keyboard>/q",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Static 0 Brightness (Hover)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
                 },
                 {
                     "name": "",
@@ -6017,72 +5536,6 @@
                     "action": "Static 100 Brightness",
                     "isComposite": false,
                     "isPartOfComposite": false
-                },
-                {
-                    "name": "One Modifier",
-                    "id": "66a85be6-227e-4fed-95e0-bdf4a6556691",
-                    "path": "OneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Static 50 Brightness (Hover)",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "dfe7bdd8-b050-415d-9a7f-4a090fea6264",
-                    "path": "<Keyboard>/alt",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Static 50 Brightness (Hover)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "binding",
-                    "id": "58a28847-a938-4ca9-aa8c-3a06cddd1378",
-                    "path": "<Keyboard>/w",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Static 50 Brightness (Hover)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "One Modifier",
-                    "id": "181aafbd-4a76-495c-9618-7d6bca8446c6",
-                    "path": "OneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Static 100 Brightness (Hover)",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "5b332f3e-01ee-4fd7-b350-9100705a349f",
-                    "path": "<Keyboard>/alt",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Static 100 Brightness (Hover)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "binding",
-                    "id": "efc5707b-b954-4e09-9499-63a3dcb67ef5",
-                    "path": "<Keyboard>/e",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Static 100 Brightness (Hover)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
                 },
                 {
                     "name": "",
@@ -6116,39 +5569,6 @@
                     "action": "Fade 100 Brightness",
                     "isComposite": false,
                     "isPartOfComposite": false
-                },
-                {
-                    "name": "One Modifier",
-                    "id": "fd77d6c7-c9ef-48b9-a59c-7148164e56eb",
-                    "path": "OneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Fade 100 Brightness (Hover)",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "24b98598-1a90-4d01-b74f-e8bafcd04f3e",
-                    "path": "<Keyboard>/alt",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Fade 100 Brightness (Hover)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "binding",
-                    "id": "fb70b68f-1fb5-465a-86aa-26a19fb55556",
-                    "path": "<Keyboard>/d",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Fade 100 Brightness (Hover)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
                 },
                 {
                     "name": "",
@@ -6305,39 +5725,6 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "One Modifier",
-                    "id": "c18a24bc-68a5-48d7-9384-aa7fbd057f39",
-                    "path": "OneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Strobe On (Hover)",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "4397446a-e896-4939-b419-e68b4c27f33e",
-                    "path": "<Keyboard>/alt",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Strobe On (Hover)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "binding",
-                    "id": "a559a212-7316-45b9-93d0-c107650be8b7",
-                    "path": "<Keyboard>/f",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Strobe On (Hover)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
                     "name": "",
                     "id": "466ad554-9f20-4258-befc-40bed1d8a757",
                     "path": "<Keyboard>/r",
@@ -6347,39 +5734,6 @@
                     "action": "Strobe Off",
                     "isComposite": false,
                     "isPartOfComposite": false
-                },
-                {
-                    "name": "One Modifier",
-                    "id": "791f68e5-4fab-4625-9c64-8c286efedf8c",
-                    "path": "OneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Strobe Off (Hover)",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "73f43baa-26e3-49c9-88ce-2d77fcad61d5",
-                    "path": "<Keyboard>/alt",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Strobe Off (Hover)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "binding",
-                    "id": "471ae984-a34c-4e01-a236-96280d6bfb03",
-                    "path": "<Keyboard>/r",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Strobe Off (Hover)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
                 },
                 {
                     "name": "Two Modifiers",
@@ -6545,72 +5899,6 @@
                     "action": "Strobe Brightness (Hover)",
                     "isComposite": false,
                     "isPartOfComposite": true
-                },
-                {
-                    "name": "One Modifier",
-                    "id": "8702b577-ddaa-48a0-befe-37b65412cdf1",
-                    "path": "OneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Fade 0 Brightness (Hover)",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "89d58dd4-5e3d-4b6f-b8d8-0725ba93fb27",
-                    "path": "<Keyboard>/alt",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Fade 0 Brightness (Hover)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "binding",
-                    "id": "b77e177e-7e4d-4dc4-8d36-e02505b1a94c",
-                    "path": "<Keyboard>/a",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Fade 0 Brightness (Hover)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "One Modifier",
-                    "id": "7c6a95b0-318f-454d-ad9c-dee14b6402ad",
-                    "path": "OneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Fade 50 Brightness (Hover)",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "4a148747-6252-4e28-aafd-48a856e553e1",
-                    "path": "<Keyboard>/alt",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Fade 50 Brightness (Hover)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "binding",
-                    "id": "0f85d21b-fe21-4564-bd87-a41b1ff2a52c",
-                    "path": "<Keyboard>/s",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Fade 50 Brightness (Hover)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
                 }
             ]
         },
@@ -6628,27 +5916,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Angle 0 (Hover)",
-                    "type": "Button",
-                    "id": "7c55f349-2a47-42dc-9ee2-ba8ef47fa9ce",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Angle 90",
                     "type": "Button",
                     "id": "3e493f97-1adf-460e-9dfd-69f8e65a41be",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Angle 90 (Hover)",
-                    "type": "Button",
-                    "id": "b292e295-6b8e-4197-a271-2b1e88c43f82",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "Press",
@@ -6664,27 +5934,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Angle 180 (Hover)",
-                    "type": "Button",
-                    "id": "b166e050-2fbc-4e48-a66f-d82d5c020caa",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Angle 270",
                     "type": "Button",
                     "id": "b64be6f1-c051-49af-afae-c558ee6beaad",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Angle 270 (Hover)",
-                    "type": "Button",
-                    "id": "0df04332-8f6f-4068-b9cf-ca613a502c94",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "Press",
@@ -6709,27 +5961,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Rotation Direction (Left) (Hover)",
-                    "type": "Button",
-                    "id": "501e10cb-a005-432a-8055-0266a7098024",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Rotation Direction (Automatic)",
                     "type": "Button",
                     "id": "3f75651e-d6b4-42fe-ad69-08188bb1504f",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Rotation Direction (Automatic) (Hover)",
-                    "type": "Button",
-                    "id": "3fb564e9-f137-4637-9fb5-48c8a9395d8c",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "Press",
@@ -6745,15 +5979,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Rotation Direction (Right) (Hover)",
-                    "type": "Button",
-                    "id": "67ab56ef-457e-40d5-aedf-fbd1ff67f1bd",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Change Loop Count",
                     "type": "Button",
                     "id": "ff69d06a-5087-4037-860f-6a750dd9b8e5",
@@ -6763,27 +5988,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Change Loop Count (Hover)",
-                    "type": "Button",
-                    "id": "881dbf4b-9adf-4c5b-bff3-b1813411ad1b",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Reset Loop Count",
                     "type": "Button",
                     "id": "81679eb3-a22c-4c85-b37c-c4aec5f28788",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Reset Loop Count (Hover)",
-                    "type": "Button",
-                    "id": "554f94e1-a52f-4fcd-a038-d4224a19aed8",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "Press",
@@ -6803,39 +6010,6 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "One Modifier",
-                    "id": "089339cb-c7a7-46be-bde7-e6bc77b51f04",
-                    "path": "OneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Angle 0 (Hover)",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "e9172697-d6d4-4707-bcc8-700428940ba6",
-                    "path": "<Keyboard>/alt",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Angle 0 (Hover)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "binding",
-                    "id": "f1f577d0-7d8b-462e-9d0d-f6e686f056b9",
-                    "path": "<Keyboard>/w",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Angle 0 (Hover)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
                     "name": "",
                     "id": "d96c5cb5-7468-45fb-b8af-c9e044639a11",
                     "path": "<Keyboard>/d",
@@ -6845,39 +6019,6 @@
                     "action": "Angle 90",
                     "isComposite": false,
                     "isPartOfComposite": false
-                },
-                {
-                    "name": "One Modifier",
-                    "id": "d789d22b-7fe7-46ab-9d9a-9a30dfef17cb",
-                    "path": "OneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Angle 90 (Hover)",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "f9f895ca-15ea-4fad-bbcd-b0ba59580e7a",
-                    "path": "<Keyboard>/alt",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Angle 90 (Hover)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "binding",
-                    "id": "f7029c25-01c5-438c-b7d7-668bf3a0cf65",
-                    "path": "<Keyboard>/d",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Angle 90 (Hover)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
                 },
                 {
                     "name": "",
@@ -6891,39 +6032,6 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "One Modifier",
-                    "id": "ea556621-53b6-4ab5-a17e-ca37175a4301",
-                    "path": "OneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Angle 180 (Hover)",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "e7e30bac-49a5-4cd5-b3c1-e4976a1937ba",
-                    "path": "<Keyboard>/alt",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Angle 180 (Hover)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "binding",
-                    "id": "e5bde765-618d-4105-bd30-6eb79fd8cede",
-                    "path": "<Keyboard>/s",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Angle 180 (Hover)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
                     "name": "",
                     "id": "425a84d4-d307-4280-9fa1-6101bc7eb521",
                     "path": "<Keyboard>/a",
@@ -6933,39 +6041,6 @@
                     "action": "Angle 270",
                     "isComposite": false,
                     "isPartOfComposite": false
-                },
-                {
-                    "name": "One Modifier",
-                    "id": "147427d9-5733-43b9-8b69-e24efb85e083",
-                    "path": "OneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Angle 270 (Hover)",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "a2888c81-a641-404c-9a58-7bd95f8e0c7c",
-                    "path": "<Keyboard>/alt",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Angle 270 (Hover)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "binding",
-                    "id": "857d0a3d-56cc-447c-8b32-aa65dbfe7db9",
-                    "path": "<Keyboard>/a",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Angle 270 (Hover)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
                 },
                 {
                     "name": "",
@@ -6979,39 +6054,6 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "One Modifier",
-                    "id": "1b40bac0-1b83-465c-957f-bb535db342b4",
-                    "path": "OneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Rotation Direction (Left) (Hover)",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "d9c6f1fe-b28d-4892-ad1c-0c25400202ca",
-                    "path": "<Keyboard>/alt",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Rotation Direction (Left) (Hover)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "binding",
-                    "id": "edbda4ac-39ce-455e-8df3-46c9251f9050",
-                    "path": "<Keyboard>/1",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Rotation Direction (Left) (Hover)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
                     "name": "",
                     "id": "4f739478-8269-49a1-bdb4-92d0a471e7bc",
                     "path": "<Keyboard>/2",
@@ -7021,39 +6063,6 @@
                     "action": "Rotation Direction (Automatic)",
                     "isComposite": false,
                     "isPartOfComposite": false
-                },
-                {
-                    "name": "One Modifier",
-                    "id": "462201fb-f270-448b-a3d5-b7ca642d62a9",
-                    "path": "OneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Rotation Direction (Automatic) (Hover)",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "f180e205-3a15-4947-8ad5-51ae245a6c15",
-                    "path": "<Keyboard>/alt",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Rotation Direction (Automatic) (Hover)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "binding",
-                    "id": "ccb18546-20b9-4465-a744-4b92bc62837c",
-                    "path": "<Keyboard>/2",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Rotation Direction (Automatic) (Hover)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
                 },
                 {
                     "name": "",
@@ -7067,39 +6076,6 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "One Modifier",
-                    "id": "b14eec53-a066-471c-9c9a-5ce72be95244",
-                    "path": "OneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Rotation Direction (Right) (Hover)",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "f28c57ac-d76d-4405-b6aa-c7dda6ea4f94",
-                    "path": "<Keyboard>/alt",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Rotation Direction (Right) (Hover)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "binding",
-                    "id": "bfc0643b-68f9-4a4b-8c7b-2c5bee23f30f",
-                    "path": "<Keyboard>/3",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Rotation Direction (Right) (Hover)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
                     "name": "",
                     "id": "d55b43d4-9247-4dab-8198-e2e0fbded043",
                     "path": "<Keyboard>/t",
@@ -7111,39 +6087,6 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "One Modifier",
-                    "id": "dbda12f8-4951-4d0e-876d-0461bcaa8dbb",
-                    "path": "OneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Change Loop Count (Hover)",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "914c90e5-1fc3-4357-acd5-fc2a4042e078",
-                    "path": "<Keyboard>/alt",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Change Loop Count (Hover)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "binding",
-                    "id": "b1fe2234-996f-4030-82a6-55e7420d6912",
-                    "path": "<Keyboard>/t",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Change Loop Count (Hover)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
                     "name": "",
                     "id": "7c7e8a75-04db-47bc-b0fe-a0120148b5e0",
                     "path": "<Keyboard>/r",
@@ -7153,39 +6096,6 @@
                     "action": "Reset Loop Count",
                     "isComposite": false,
                     "isPartOfComposite": false
-                },
-                {
-                    "name": "One Modifier",
-                    "id": "e232b491-4813-4ccc-bd93-53204002c4cc",
-                    "path": "OneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Reset Loop Count (Hover)",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "f2d2e52c-58d5-4601-b6c7-5546b44bd274",
-                    "path": "<Keyboard>/alt",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Reset Loop Count (Hover)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "binding",
-                    "id": "43b2ae42-af8b-4c72-bbf3-a4911231bc4f",
-                    "path": "<Keyboard>/r",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Reset Loop Count (Hover)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
                 },
                 {
                     "name": "One Modifier",
@@ -7236,27 +6146,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Value n100 (Hover)",
-                    "type": "Button",
-                    "id": "4df43cb8-a204-454f-b7b9-4092578cedae",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Value n50",
                     "type": "Button",
                     "id": "893209f5-daa3-422d-a4b4-e46be6a588a0",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Value n50 (Hover)",
-                    "type": "Button",
-                    "id": "87eb5235-c132-49ff-81cf-be578d416bd7",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "Press",
@@ -7272,15 +6164,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Value 0 (Hover)",
-                    "type": "Button",
-                    "id": "897aa733-0129-47cf-bc68-82557d5b2c5c",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Value 50",
                     "type": "Button",
                     "id": "d5537468-6f9f-4d3f-8d08-ed4d74dda15f",
@@ -7290,27 +6173,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Value 50 (Hover)",
-                    "type": "Button",
-                    "id": "effe5c0c-aa81-4a63-bcb0-adabc0d8c60e",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Value 100",
                     "type": "Button",
                     "id": "686d66cb-bbf0-4e5b-95cf-c579df276a2f",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Value 100 (Hover)",
-                    "type": "Button",
-                    "id": "6045ed24-8264-439b-94c2-031790b2e3fc",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "Press",
@@ -7339,39 +6204,6 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "One Modifier",
-                    "id": "d5fd0a03-f7eb-4708-8eb4-abf416f373d0",
-                    "path": "OneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Value n100 (Hover)",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "c62aaf47-add6-4b48-bce6-a38eee3dbf59",
-                    "path": "<Keyboard>/alt",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Value n100 (Hover)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "binding",
-                    "id": "b5d520c8-097c-4b51-9367-c3d0038058c4",
-                    "path": "<Keyboard>/q",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Value n100 (Hover)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
                     "name": "",
                     "id": "ac6165fc-194d-4e3a-ac38-bfab4e8e29fb",
                     "path": "<Keyboard>/w",
@@ -7381,39 +6213,6 @@
                     "action": "Value n50",
                     "isComposite": false,
                     "isPartOfComposite": false
-                },
-                {
-                    "name": "One Modifier",
-                    "id": "dd00da72-d47e-43f6-9151-840c09904d54",
-                    "path": "OneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Value n50 (Hover)",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "ab2bf393-92e0-4643-8c79-13c5762262f8",
-                    "path": "<Keyboard>/alt",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Value n50 (Hover)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "binding",
-                    "id": "3460665d-95f8-49d6-aa51-afa081d93853",
-                    "path": "<Keyboard>/w",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Value n50 (Hover)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
                 },
                 {
                     "name": "",
@@ -7427,39 +6226,6 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "One Modifier",
-                    "id": "e21eef28-f9f8-4763-b48e-c58bfd79b5f1",
-                    "path": "OneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Value 0 (Hover)",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "bf9b0f8d-f378-4fd4-b429-a5ace1f75ed8",
-                    "path": "<Keyboard>/alt",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Value 0 (Hover)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "binding",
-                    "id": "8a470c9d-f7f9-42cd-bf68-44982418538d",
-                    "path": "<Keyboard>/e",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Value 0 (Hover)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
                     "name": "",
                     "id": "cc513b04-3619-4c7a-a8b8-0015aabf846f",
                     "path": "<Keyboard>/r",
@@ -7471,39 +6237,6 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "One Modifier",
-                    "id": "ae64b679-bdec-498a-9460-d3bcef78baae",
-                    "path": "OneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Value 50 (Hover)",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "a341e7d3-46b0-4a75-a09a-2e256f1345c9",
-                    "path": "<Keyboard>/alt",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Value 50 (Hover)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "binding",
-                    "id": "4f21273b-9c7d-4cd3-9c50-36fa51367e38",
-                    "path": "<Keyboard>/r",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Value 50 (Hover)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
                     "name": "",
                     "id": "59917770-62b2-4fbe-9526-09020a0cae14",
                     "path": "<Keyboard>/t",
@@ -7513,39 +6246,6 @@
                     "action": "Value 100",
                     "isComposite": false,
                     "isPartOfComposite": false
-                },
-                {
-                    "name": "One Modifier",
-                    "id": "aaa7311a-ce88-4254-928f-f82e59ecad82",
-                    "path": "OneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Value 100 (Hover)",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "c2961d1f-6c8b-4c4e-b93c-033e96ec87b4",
-                    "path": "<Keyboard>/alt",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Value 100 (Hover)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "binding",
-                    "id": "67266c8d-0551-4d0d-9b3c-80b119d12d4d",
-                    "path": "<Keyboard>/t",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Value 100 (Hover)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
                 },
                 {
                     "name": "One Modifier",
@@ -7596,27 +6296,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Value n100 (Hover)",
-                    "type": "Button",
-                    "id": "4dd8e8e9-1953-4233-8c1b-5aca1f3e962e",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Value n50",
                     "type": "Button",
                     "id": "01e7d953-9fd7-4837-9837-c1cc10885c6a",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Value n50 (Hover)",
-                    "type": "Button",
-                    "id": "45d826c1-bafd-4a92-9b37-a162db4c9f9b",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "Press",
@@ -7632,15 +6314,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Value 0 (Hover)",
-                    "type": "Button",
-                    "id": "174d7d24-01d6-427b-998c-6e8c83fca9a2",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Value 50",
                     "type": "Button",
                     "id": "a0e1b8c4-a178-48e6-918f-8bd80259428c",
@@ -7650,27 +6323,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Value 50 (Hover)",
-                    "type": "Button",
-                    "id": "986be2bd-2436-4aca-a6a6-993a2d29abcf",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Value 100",
                     "type": "Button",
                     "id": "7eba975d-5fe8-49e9-87be-cbc822458cfc",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Value 100 (Hover)",
-                    "type": "Button",
-                    "id": "fb1b94a4-018e-4e8c-af8c-643cb68f9eec",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "Press",
@@ -7699,39 +6354,6 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "One Modifier",
-                    "id": "f7af14e8-1db2-4477-87f7-7e94ba824121",
-                    "path": "OneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Value n100 (Hover)",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "3d52e81c-4dd3-412f-bb32-1f1d57e4ef6e",
-                    "path": "<Keyboard>/alt",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Value n100 (Hover)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "binding",
-                    "id": "bcc4a8dc-7b12-4fb6-a65c-e4172deed4d7",
-                    "path": "<Keyboard>/q",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Value n100 (Hover)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
                     "name": "",
                     "id": "05b98e90-c053-4b2a-874f-c4aaaf4cb4b8",
                     "path": "<Keyboard>/w",
@@ -7741,39 +6363,6 @@
                     "action": "Value n50",
                     "isComposite": false,
                     "isPartOfComposite": false
-                },
-                {
-                    "name": "One Modifier",
-                    "id": "0448e069-ec02-4ba1-bf9d-1fef2d0d7196",
-                    "path": "OneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Value n50 (Hover)",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "e76c5e3d-5c99-4299-8aa2-872185f8e466",
-                    "path": "<Keyboard>/alt",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Value n50 (Hover)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "binding",
-                    "id": "7f184dad-7c97-444f-8059-72a2a689a4d4",
-                    "path": "<Keyboard>/w",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Value n50 (Hover)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
                 },
                 {
                     "name": "",
@@ -7787,39 +6376,6 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "One Modifier",
-                    "id": "db06ad3c-4c69-4021-9033-94bb13ece50e",
-                    "path": "OneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Value 0 (Hover)",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "20fb95fd-08cc-44f5-a1b0-623ecdd3dc3f",
-                    "path": "<Keyboard>/alt",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Value 0 (Hover)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "binding",
-                    "id": "910a1dea-629c-4e44-9075-f1dcb67feb2d",
-                    "path": "<Keyboard>/e",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Value 0 (Hover)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
                     "name": "",
                     "id": "147b6d5b-53db-4d1d-a882-995f817e0a8c",
                     "path": "<Keyboard>/r",
@@ -7831,39 +6387,6 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "One Modifier",
-                    "id": "36f78a1f-3d33-4967-a35f-3c626d4e0f49",
-                    "path": "OneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Value 50 (Hover)",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "fcaf6825-949d-44e7-bf30-887aae7cf68e",
-                    "path": "<Keyboard>/alt",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Value 50 (Hover)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "binding",
-                    "id": "395cd35c-2eda-41af-99b2-cf03bf1bdb0a",
-                    "path": "<Keyboard>/r",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Value 50 (Hover)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
                     "name": "",
                     "id": "12b343e9-1c1f-430a-9757-bf66b8d8869f",
                     "path": "<Keyboard>/t",
@@ -7873,39 +6396,6 @@
                     "action": "Value 100",
                     "isComposite": false,
                     "isPartOfComposite": false
-                },
-                {
-                    "name": "One Modifier",
-                    "id": "23a467a7-608f-4fea-892d-1bf5e0438d7d",
-                    "path": "OneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Value 100 (Hover)",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "4b68c8f5-a449-4fd8-b6a6-271272d3b5a6",
-                    "path": "<Keyboard>/alt",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Value 100 (Hover)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "binding",
-                    "id": "fdc16e79-e294-410a-b19f-3e2822df597c",
-                    "path": "<Keyboard>/t",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Value 100 (Hover)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
                 },
                 {
                     "name": "One Modifier",

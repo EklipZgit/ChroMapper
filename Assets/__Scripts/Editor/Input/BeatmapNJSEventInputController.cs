@@ -1,10 +1,12 @@
 ﻿using Beatmap.Containers;
-using Beatmap.Enums;
 using Beatmap.Helper;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class BeatmapNJSEventInputController : BeatmapInputController<NJSEventContainer>, CMInput.INJSEventObjectsActions
 {
+    [SerializeField] private ScrollPrecisionController scrollPrecisionController;
+
     public void OnTweakNJSValue(InputAction.CallbackContext context)
     {
         if (!context.performed) return;
@@ -14,15 +16,16 @@ public class BeatmapNJSEventInputController : BeatmapInputController<NJSEventCon
 
         var original = BeatmapFactory.Clone(containerToEdit.ObjectData);
 
-        // Think decimal NJS will be more common eventually. Can tweak this later.
-        var modifier = context.GetScrollDirection(Settings.Instance.InvertScrollEventValue) * 0.5f;
+        var modifier = context.GetScrollDirection(Settings.Instance.InvertScrollEventValue)
+            * scrollPrecisionController.GetCurrentTimePrecision();
 
         containerToEdit.NJSData.RelativeNJS += modifier;
         if (containerToEdit.NJSData.RelativeNJS
             <= -BeatSaberSongContainer.Instance.MapDifficultyInfo.NoteJumpSpeed)
         {
             containerToEdit.NJSData.RelativeNJS =
-                0.5f - BeatSaberSongContainer.Instance.MapDifficultyInfo.NoteJumpSpeed;
+                scrollPrecisionController.GetCurrentTimePrecision()
+                - BeatSaberSongContainer.Instance.MapDifficultyInfo.NoteJumpSpeed;
         }
 
         if (containerToEdit.NJSData.CompareTo(original) == 0) return;
@@ -34,7 +37,7 @@ public class BeatmapNJSEventInputController : BeatmapInputController<NJSEventCon
                 containerToEdit.ObjectData,
                 containerToEdit.ObjectData,
                 original,
-                "Tweaked NJS",
-                mergeType: ActionMergeType.NJSValueTweak));
+                "Modified NJS Event Value",
+                mergeType: ActionMergeType.ModifyNJSEventValue));
     }
 }

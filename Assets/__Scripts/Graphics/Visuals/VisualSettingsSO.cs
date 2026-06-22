@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Graphics/VisualSettings")]
@@ -24,6 +25,9 @@ public class VisualSettingsSO : ScriptableObject
 
     public void OnEnable()
     {
+    #if UNITY_EDITOR
+        if (!Application.isPlaying) return;
+    #endif
         Settings.NotifyBySettingName("EventModels", HandleBlockModelChanged);
         Settings.NotifyBySettingName("EventModels", HandleEventModelChanged);
         Settings.NotifyBySettingName("NoteModels", HandleNoteModelChanged);
@@ -36,6 +40,9 @@ public class VisualSettingsSO : ScriptableObject
 
     public void OnDisable()
     {
+    #if UNITY_EDITOR
+        if (!Application.isPlaying) return;
+    #endif
         Settings.ClearSettingNotifications("NoteModels");
         Settings.ClearSettingNotifications("EventModels");
     }
