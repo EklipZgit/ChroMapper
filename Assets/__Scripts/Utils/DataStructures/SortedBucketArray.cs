@@ -120,7 +120,7 @@ public class SortedBucketArray<T> : ICollection<T>
             if (getKeyValue(bucket[^1]) <= getKeyValue(item))
                 bucket.Add(item);
             else
-                bucket.Insert(BinarySearch(bucket, getKeyValue(item)) + 1, item);
+                bucket.Insert(BinarySearchRight(bucket, getKeyValue(item)) + 1, item);
         }
         else
             bucket.Add(item);
@@ -128,14 +128,31 @@ public class SortedBucketArray<T> : ICollection<T>
         count++;
     }
 
-    public int BinarySearch(List<T> bucket, float target)
+    public int BinarySearchLeft(List<T> bucket, float target)
     {
         var left = 0;
         var right = bucket.Count - 1;
 
         while (left <= right)
         {
-            var mid = (left + right) / 2;
+            var mid = left + ((right - left) / 2);
+            if (getKeyValue(bucket[mid]) < target)
+                left = mid + 1;
+            else
+                right = mid - 1;
+        }
+
+        return left;
+    }
+
+    public int BinarySearchRight(List<T> bucket, float target)
+    {
+        var left = 0;
+        var right = bucket.Count - 1;
+
+        while (left <= right)
+        {
+            var mid = left + ((right - left) / 2);
             if (getKeyValue(bucket[mid]) <= target)
                 left = mid + 1;
             else

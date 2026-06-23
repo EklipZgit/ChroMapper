@@ -1,7 +1,10 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Beatmap.Base;
 using Beatmap.Enums;
 using UnityEngine;
+using ZLinq;
 
 public class LaneRotationProvider : StateManager<RotationEventStateData, BaseObject>
 {
@@ -120,6 +123,51 @@ public class LaneRotationProvider : StateManager<RotationEventStateData, BaseObj
         }
     }
 
+    public IEnumerable<RotationEventStateData> EnumerateFromLeft(float time)
+    {
+        var bucket = container.Collection.GetBucketFrom(time);
+        var idx = container.Collection.BinarySearchLeft(bucket, time);
+        if (idx == -1) yield break;
+        while (idx < bucket.Count && Mathf.Approximately(bucket[idx].StartTime, time)) yield return bucket[idx++];
+    }
+
+    public RotationEventStateData EnumerateToRightGetNextTime(float time)
+    {
+        var enumerator = container.Collection.EnumerateFrom(time);
+        while (enumerator.MoveNext())
+        {
+            var nextState = enumerator.Current;
+            if (!Mathf.Approximately(time, nextState!.StartTime)) return nextState;
+        }
+
+        return null;
+    }
+
+    private void ReapplyAbsolute(RotationEventStateData state)
+    {
+        ApplyAbsolute(container.GetStateAt(state.StartTime - 0.001f).state, state);
+        ApplyAbsolute(
+            container.GetStateAt(state.StartTime).state,
+            EnumerateToRightGetNextTime(state.StartTime));
+    }
+
+    private void ApplyAbsolute(RotationEventStateData prevState, RotationEventStateData nextState)
+    {
+        if (prevState == null || nextState == null) return;
+
+        var dataAtTime = EnumerateFromLeft(nextState.StartTime)
+            .AsValueEnumerable()
+            .Select(x => x.Rotation)
+            .Distinct()
+            .ToArray();
+        if (dataAtTime.Length == 0) return;
+
+        var sum = dataAtTime.AsValueEnumerable().Sum();
+        var average = sum / dataAtTime.Length;
+
+        prevState.NextAbsoluteRotation = average;
+    }
+
     protected override void OnInsertUpdateFromPreviousStateAndNextState(
         RotationEventStateData newState,
         RotationEventStateData prevState,
@@ -140,7 +188,10 @@ public class LaneRotationProvider : StateManager<RotationEventStateData, BaseObj
         state.StartTime = data.SongBpmTime;
 
         HandleInsertState(container, state);
-        if (!state.Absolute) ReapplyNext(state);
+        if (state.Absolute)
+            ReapplyAbsolute(state);
+        else
+            ReapplyNext(state);
     }
 
     protected override void OnRemoveUpdatePreviousAndNextState(
@@ -159,7 +210,11 @@ public class LaneRotationProvider : StateManager<RotationEventStateData, BaseObj
     {
         var state = container.GetStateFrom(reference, original);
         HandleRemoveState(container, state);
-        if (!state.Absolute) ReapplyNext(container.GetStateAt(state.StartTime).state);
+        if (state.Absolute)
+            ReapplyAbsolute(state);
+        else
+            ReapplyNext(container.GetStateAt(state.StartTime).state);
+
         if (state == container.CurrentState) container.SetStateAt(reference.SongBpmTime);
     }
 
