@@ -27,10 +27,15 @@ public class GridRotationController : MonoBehaviour
 
     private void HandlePlayToggled(bool toggle)
     {
-        SetRotation(
-            BeatSaberSongContainer.Instance.Map.MajorVersion < 4
-                ? laneRotationProvider.PlaybackRotation
-                : laneRotationProvider.EditRotation);
+        if (toggle)
+            SetRotation(laneRotationProvider.SmoothRotation);
+        else
+        {
+            SetRotation(
+                BeatSaberSongContainer.Instance.Map.MajorVersion < 4
+                    ? laneRotationProvider.PlaybackRotation
+                    : laneRotationProvider.EditRotation);
+        }
     }
 
     private void UpdateRotateTrack(object obj)

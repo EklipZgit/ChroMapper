@@ -9,8 +9,8 @@ public class LaneRotationProvider : StateManager<RotationEventStateData, BaseObj
     public float PlaybackRotation;
 
     [SerializeField] private float smoothing = 0.5f;
-    [SerializeField] private float currentRotation;
-    [SerializeField] private float currentSpeed;
+    [SerializeField] public float SmoothRotation;
+    [SerializeField] private float smoothSpeed;
 
     public event Action<float> OnEditChanged;
     public event Action<float> OnPlaybackChanged;
@@ -24,16 +24,16 @@ public class LaneRotationProvider : StateManager<RotationEventStateData, BaseObj
 
     public void LateUpdate()
     {
-        var rotation = Mathf.SmoothDampAngle(currentRotation, PlaybackRotation, ref currentSpeed, smoothing);
-        if (rotation == currentRotation) return;
-        currentRotation = rotation;
+        var rotation = Mathf.SmoothDampAngle(SmoothRotation, PlaybackRotation, ref smoothSpeed, smoothing);
+        if (rotation == SmoothRotation) return;
+        SmoothRotation = rotation;
         OnSmoothedPlaybackChanged?.Invoke(rotation);
     }
 
     private void HandlePlayToggle(bool _)
     {
-        if (PlaybackRotation == currentRotation) return;
-        currentRotation = PlaybackRotation;
+        if (PlaybackRotation == SmoothRotation) return;
+        SmoothRotation = PlaybackRotation;
         OnSmoothedPlaybackChanged?.Invoke(PlaybackRotation);
     }
 
