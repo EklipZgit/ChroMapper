@@ -8,10 +8,34 @@ public class LaneRotationProvider : StateManager<RotationEventStateData, BaseObj
     [Header("State")] public float EditRotation;
     public float PlaybackRotation;
 
+    [SerializeField] private float smoothing = 0.5f;
+    [SerializeField] private float currentRotation;
+    [SerializeField] private float currentSpeed;
+
     public event Action<float> OnEditChanged;
     public event Action<float> OnPlaybackChanged;
+    public event Action<float> OnSmoothedPlaybackChanged;
 
     private readonly RotationEventStateChunksContainer container = new();
+
+    protected void Start() => Atsc.OnPlayToggled += HandlePlayToggle;
+
+    protected void OnDestroy() => Atsc.OnPlayToggled -= HandlePlayToggle;
+
+    public void LateUpdate()
+    {
+        var rotation = Mathf.SmoothDampAngle(currentRotation, PlaybackRotation, ref currentSpeed, smoothing);
+        if (rotation == currentRotation) return;
+        currentRotation = rotation;
+        OnSmoothedPlaybackChanged?.Invoke(rotation);
+    }
+
+    private void HandlePlayToggle(bool _)
+    {
+        if (PlaybackRotation == currentRotation) return;
+        currentRotation = PlaybackRotation;
+        OnSmoothedPlaybackChanged?.Invoke(PlaybackRotation);
+    }
 
     public override void Initialize()
     {
@@ -99,7 +123,7 @@ public class LaneRotationProvider : StateManager<RotationEventStateData, BaseObj
         prevState.NextAbsoluteRotation = newState.Rotation;
         newState.NextAbsoluteRotation = nextState.Rotation;
         if (newState.Absolute) return;
-        
+
         ApplyFromTo(prevState, newState);
         ApplyFromTo(newState, nextState);
     }
@@ -121,7 +145,7 @@ public class LaneRotationProvider : StateManager<RotationEventStateData, BaseObj
         base.OnRemoveUpdatePreviousAndNextState(currState, prevState, nextState);
         prevState.NextAbsoluteRotation = nextState.Rotation;
         if (currState.Absolute) return;
-        
+
         ApplyFromTo(prevState, nextState);
     }
 

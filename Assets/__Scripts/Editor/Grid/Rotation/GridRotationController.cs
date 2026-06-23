@@ -1,5 +1,4 @@
-﻿using Beatmap.Base;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class GridRotationController : MonoBehaviour
 {
@@ -8,48 +7,64 @@ public class GridRotationController : MonoBehaviour
     [SerializeField] private AudioTimeSyncController atsc;
     [SerializeField] private LaneRotationProvider laneRotationProvider;
 
-    private float targetRotation;
-    private float currentRotation;
-
     private void Start()
     {
         Shader.SetGlobalFloat(rotationId, 0);
+        atsc.OnPlayToggled += HandlePlayToggled;
+        laneRotationProvider.OnEditChanged += HandleEditRotationChanged;
         laneRotationProvider.OnPlaybackChanged += HandleRotationChanged;
+        laneRotationProvider.OnSmoothedPlaybackChanged += HandleSmoothedRotationChanged;
         Settings.NotifyBySettingName("RotateTrack", UpdateRotateTrack);
-    }
-
-    private void LateUpdate()
-    {
-        if (!Settings.Instance.RotateTrack) return;
-        ChangeRotation(Mathf.LerpAngle(currentRotation, targetRotation, Time.deltaTime / 0.15f));
     }
 
     private void OnDestroy()
     {
+        laneRotationProvider.OnEditChanged -= HandleEditRotationChanged;
         laneRotationProvider.OnPlaybackChanged -= HandleRotationChanged;
+        laneRotationProvider.OnSmoothedPlaybackChanged -= HandleSmoothedRotationChanged;
         Settings.ClearSettingNotifications("RotateTrack");
+    }
+
+    private void HandlePlayToggled(bool toggle)
+    {
+        SetRotation(
+            BeatSaberSongContainer.Instance.Map.MajorVersion < 4
+                ? laneRotationProvider.PlaybackRotation
+                : laneRotationProvider.EditRotation);
     }
 
     private void UpdateRotateTrack(object obj)
     {
         var rotating = (bool)obj;
         if (rotating)
-            ChangeRotation(laneRotationProvider.PlaybackRotation);
+            SetRotation(laneRotationProvider.PlaybackRotation);
         else
-            ChangeRotation(0);
+            SetRotation(0);
+    }
+
+    private void HandleEditRotationChanged(float rotation)
+    {
+        if (atsc.IsPlaying || !Settings.Instance.RotateTrack || BeatSaberSongContainer.Instance.Map.MajorVersion < 4)
+            return;
+        SetRotation(rotation);
     }
 
     private void HandleRotationChanged(float rotation)
     {
-        if (!Settings.Instance.RotateTrack) return;
-        targetRotation = rotation;
-        if (!atsc.IsPlaying) ChangeRotation(rotation);
+        if (atsc.IsPlaying || !Settings.Instance.RotateTrack || BeatSaberSongContainer.Instance.Map.MajorVersion >= 4)
+            return;
+        SetRotation(rotation);
     }
 
-    private void ChangeRotation(float rotation)
+    private void HandleSmoothedRotationChanged(float rotation)
     {
-        transform.RotateAround(Vector3.zero, Vector3.up, rotation - currentRotation);
-        currentRotation = rotation;
+        if (!atsc.IsPlaying || !Settings.Instance.RotateTrack) return;
+        SetRotation(rotation);
+    }
+
+    private void SetRotation(float rotation)
+    {
+        transform.localEulerAngles = new Vector3(0, rotation, 0);
         Shader.SetGlobalFloat(rotationId, rotation);
     }
 }

@@ -116,9 +116,12 @@ public class CameraController : MonoBehaviour, CMInput.ICameraActions
             LockedOntoNoteGrid = true;
         }
         else
-        {
-            laneRotationProvider.OnPlaybackChanged += HandleRotationChanged;
-        }
+            laneRotationProvider.OnSmoothedPlaybackChanged += HandleRotationChanged;
+    }
+
+    private void OnDestroy()
+    {
+        if (playerCamera) laneRotationProvider.OnSmoothedPlaybackChanged -= HandleRotationChanged;
     }
 
     private void Update()
@@ -421,25 +424,8 @@ public class CameraController : MonoBehaviour, CMInput.ICameraActions
         }
     }
 
-    private void HandleRotationChanged(float rotation)
-    {
-        if (atsc.IsPlaying)
-            StartCoroutine(RotationCoroutine(Quaternion.Euler(0, rotation, 0)));
-        else
-            cameraAnimator.LocalTarget.localEulerAngles = new Vector3(0, rotation, 0);
-    }
-
-    private IEnumerator RotationCoroutine(Quaternion current)
-    {
-        float t = 0;
-        var previous = cameraAnimator.LocalTarget.localRotation;
-        while (t < 1)
-        {
-            t += Time.deltaTime * 2;
-            cameraAnimator.LocalTarget.localRotation = Quaternion.SlerpUnclamped(previous, current, t);
-            yield return new WaitForEndOfFrame();
-        }
-    }
+    private void HandleRotationChanged(float rotation) =>
+        cameraAnimator.LocalTarget.localEulerAngles = new Vector3(0, rotation, 0);
 
     private void DisconnectPlayerTrack()
     {
