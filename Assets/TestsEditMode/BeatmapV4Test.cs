@@ -212,9 +212,9 @@ namespace TestsEditMode
             // Present on load but not after save
             if (containsRotationEvent)
             {
-                Assert.AreEqual(2, difficulty.Events.Count);
-                BeatmapAssert.EventPropertiesAreEqual(difficulty.Events[0], 10, 14, 4, null, 15f);
-                BeatmapAssert.EventPropertiesAreEqual(difficulty.Events[1], 15, 15, 4, null, 15f);
+                Assert.AreEqual(2, difficulty.RotationEvents.Count);
+                BeatmapAssert.RotationEventPropertiesAreEqual(difficulty.RotationEvents[0], 10, 14, 4, ExecutionTime.Early, 15f);
+                BeatmapAssert.RotationEventPropertiesAreEqual(difficulty.RotationEvents[1], 15, 15, 4, ExecutionTime.Late, 15f);
             }
             else
             {

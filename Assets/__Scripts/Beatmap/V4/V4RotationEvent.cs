@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Beatmap.Base;
 using Beatmap.Enums;
@@ -8,18 +9,20 @@ namespace Beatmap.V4
 {
     public static class V4RotationEvent
     {
-        public static BaseRotationEvent GetFromJson(JSONNode node, IList<V4CommonData.RotationEvent> rotationsCommonData)
+        public static BaseRotationEvent GetFromJson(
+            JSONNode node,
+            IList<V4CommonData.RotationEvent> rotationsCommonData)
         {
             var evt = new BaseRotationEvent();
-            
+
             evt.JsonTime = node["b"].AsFloat;
 
             var index = node["i"].AsInt;
             var rotationData = rotationsCommonData[index];
 
-            evt.Type = (int)(rotationData.Type == 0 ? EventTypeValue.EarlyLaneRotation : EventTypeValue.LateLaneRotation);
+            evt.ExecutionTime = (ExecutionTime)Math.Clamp(rotationData.ExecutionTime, 0, 1);
             evt.Rotation = rotationData.Rotation;
-            
+
             return evt;
         }
 
@@ -30,7 +33,7 @@ namespace Beatmap.V4
 
             var data = V4CommonData.RotationEvent.FromBaseEvent(evt);
             node["i"] = rotationsCommonData.IndexOf(data);
-            
+
             return node;
         }
     }

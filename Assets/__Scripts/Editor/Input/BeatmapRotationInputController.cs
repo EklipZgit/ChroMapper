@@ -138,7 +138,7 @@ public class BeatmapRotationInputController : BeatmapInputController<ObjectConta
         ModifyHover(e, modifier);
     }
 
-    private void Invert(RotationEventContainer e)
+    public void Invert(RotationEventContainer e)
     {
         var originalObject = e.EventData;
         var newObject = BeatmapFactory.Clone(originalObject);

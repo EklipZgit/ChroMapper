@@ -145,7 +145,7 @@ namespace Beatmap.V2
                             {
                                 if (n["_type"] != null && n["_type"] == 100)
                                     map.BpmEvents.Add(V2BpmEvent.GetFromJson(n));
-                                if (n["_type"] != null && (n["_type"] == 14 || n["_type"] == 15))
+                                else if (n["_type"] != null && (n["_type"] == 14 || n["_type"] == 15))
                                     map.RotationEvents.Add(V2RotationEvent.GetFromJson(n));
                                 else
                                     map.Events.Add(V2Event.GetFromJson(n));

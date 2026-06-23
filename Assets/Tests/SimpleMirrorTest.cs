@@ -41,6 +41,7 @@ namespace Tests
             BeatmapActionContainer.RemoveAllActionsOfType<BeatmapAction>();
             CleanupUtils.CleanupNotes();
             CleanupUtils.CleanupEvents();
+            CleanupUtils.CleanupRotationEvents();
             CleanupUtils.CleanupObstacles();
         }
 
@@ -340,11 +341,12 @@ namespace Tests
 
             var eventsContainer = BeatmapObjectContainerCollection.GetCollectionForType<RotationEventGridContainer>(ObjectType.RotationEvent);
 
-            var eventPlacement = Object.FindAnyObjectByType<RotationEventPlacement>();
+            var rotationEventPlacement = Object.FindAnyObjectByType<RotationEventPlacement>();
 
             BaseRotationEvent baseEventA = new BaseRotationEvent { JsonTime = 2, Type = (int)EventTypeValue.LateLaneRotation, Rotation = 33 };
 
-            PlaceUtils.PlaceRotationEvent(eventPlacement, baseEventA);
+            // fuck kinda conflict did u have?
+            PlaceUtils.PlaceRotationEvent(rotationEventPlacement, baseEventA);
 
             SelectionController.Select(baseEventA);
 

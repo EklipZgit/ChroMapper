@@ -81,6 +81,12 @@ public class LaneRotationProvider : StateManager<RotationEventStateData, BaseObj
         OnEditChanged?.Invoke(EditRotation);
     }
 
+    public float GetRotationAt(float time)
+    {
+        var state = container.GetStateAt(time).state;
+        return time == state.StartTime ? state.EarlyRotation : state.LateRotation;
+    }
+
     private static void ApplyFromTo(
         RotationEventStateData fromState,
         RotationEventStateData toState)

@@ -27,6 +27,7 @@ namespace Tests
         {
             BeatmapActionContainer.RemoveAllActionsOfType<BeatmapAction>();
             CleanupUtils.CleanupEvents();
+            CleanupUtils.CleanupRotationEvents();
         }
 
         [Test]
@@ -35,54 +36,56 @@ namespace Tests
         [TestCase(new[] { 0, 15, -10 })]
         public void RotationCallbackProperties(int[] rotations)
         {
-            var eventsContainer = BeatmapObjectContainerCollection.GetCollectionForType<RotationEventGridContainer>(ObjectType.RotationEvent);
+            var rotationEventPlacement = Object.FindAnyObjectByType<RotationEventPlacement>();
 
             var rotationEventA = new BaseRotationEvent { JsonTime = 1, Type = (int)EventTypeValue.LateLaneRotation, Rotation = rotations[0] };
             var rotationEventB = new BaseRotationEvent { JsonTime = 2, Type = (int)EventTypeValue.LateLaneRotation, Rotation = rotations[1] };
             var rotationEventC = new BaseRotationEvent { JsonTime = 3, Type = (int)EventTypeValue.LateLaneRotation, Rotation = rotations[2] };
-            eventsContainer.SpawnObject(rotationEventA);
-            eventsContainer.SpawnObject(rotationEventB);
-            eventsContainer.SpawnObject(rotationEventC);
+
+            PlaceUtils.PlaceRotationEvent(rotationEventPlacement, rotationEventA);
+            PlaceUtils.PlaceRotationEvent(rotationEventPlacement, rotationEventB);
+            PlaceUtils.PlaceRotationEvent(rotationEventPlacement, rotationEventC);
 
             var laneRotationProvider = Object.FindAnyObjectByType<LaneRotationProvider>();
             var atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
 
             // Rotations should add up
             atsc.MoveToJsonTime(0);
-            Assert.AreEqual(0, laneRotationProvider.PlaybackRotation);
+            Assert.AreEqual(0, (int)laneRotationProvider.PlaybackRotation);
 
             atsc.MoveToJsonTime(1.5f);
-            Assert.AreEqual(rotations[0], laneRotationProvider.PlaybackRotation);
+            Assert.AreEqual(rotations[0], (int)laneRotationProvider.PlaybackRotation);
 
             atsc.MoveToJsonTime(2.5f);
-            Assert.AreEqual(rotations[0] + rotations[1], laneRotationProvider.PlaybackRotation);
+            Assert.AreEqual(rotations[0] + rotations[1], (int)laneRotationProvider.PlaybackRotation);
 
             atsc.MoveToJsonTime(3.5f);
-            Assert.AreEqual(rotations[0] + rotations[1] + rotations[2], laneRotationProvider.PlaybackRotation);
+            Assert.AreEqual(rotations[0] + rotations[1] + rotations[2], (int)laneRotationProvider.PlaybackRotation);
         }
 
         [Test]
         public void RotationCallbackPropertiesOnTimeMatch()
         {
-            var eventsContainer = BeatmapObjectContainerCollection.GetCollectionForType<RotationEventGridContainer>(ObjectType.RotationEvent);
+            var rotationEventPlacement = Object.FindAnyObjectByType<RotationEventPlacement>();
 
             const int rotation = 15;
             const float timeA = 1f;
             const float timeB = 2f;
             var rotationEventA = new BaseRotationEvent { JsonTime = timeA, Type = (int)EventTypeValue.LateLaneRotation, Rotation = rotation };
             var rotationEventB = new BaseRotationEvent { JsonTime = timeB, Type = (int)EventTypeValue.LateLaneRotation, Rotation = rotation };
-            eventsContainer.SpawnObject(rotationEventA);
-            eventsContainer.SpawnObject(rotationEventB);
+            
+            PlaceUtils.PlaceRotationEvent(rotationEventPlacement, rotationEventA);
+            PlaceUtils.PlaceRotationEvent(rotationEventPlacement, rotationEventB);
 
             var laneRotationProvider = Object.FindAnyObjectByType<LaneRotationProvider>();
             var atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
 
             // Should ignore events on same time
             atsc.MoveToJsonTime(timeA);
-            Assert.AreEqual(0, laneRotationProvider.PlaybackRotation);
+            Assert.AreEqual(0, (int)laneRotationProvider.PlaybackRotation);
 
             atsc.MoveToJsonTime(timeB);
-            Assert.AreEqual(rotation, laneRotationProvider.PlaybackRotation);
+            Assert.AreEqual(rotation, (int)laneRotationProvider.PlaybackRotation);
         }
     }
 }

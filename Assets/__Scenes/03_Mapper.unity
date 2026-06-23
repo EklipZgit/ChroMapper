@@ -5248,7 +5248,7 @@ PrefabInstance:
         type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 761b833d373c13b439ac8e5bc49373a4, type: 2}
+      objectReference: {fileID: 2100000, guid: 06df152e309d6ed43b13c9d0f7cc1c8f, type: 2}
     - target: {fileID: 2745739347418089302, guid: 141955eb542177ea69e10ad9a2b131e2,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -50990,7 +50990,7 @@ PrefabInstance:
         type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 761b833d373c13b439ac8e5bc49373a4, type: 2}
+      objectReference: {fileID: 2100000, guid: 06df152e309d6ed43b13c9d0f7cc1c8f, type: 2}
     - target: {fileID: 2745739347418089302, guid: 141955eb542177ea69e10ad9a2b131e2,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -60053,6 +60053,11 @@ PrefabInstance:
       propertyPath: interfaceColor.r
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1934260687534500050, guid: 141955eb542177ea69e10ad9a2b131e2,
+        type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 06df152e309d6ed43b13c9d0f7cc1c8f, type: 2}
     - target: {fileID: 2745739347418089302, guid: 141955eb542177ea69e10ad9a2b131e2,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -76315,7 +76320,7 @@ MonoBehaviour:
   editMode: 4
   obstaclePlacement: {fileID: 2087881065}
   ignoreBaseInput: 0
-  eventAppearance: {fileID: 0}
+  eventAppearance: {fileID: 11400000, guid: 00bab3c0ab2051441b924304da9d0e12, type: 2}
   tracksManager: {fileID: 902407107}
   beatmapRuntimeContext: {fileID: 127874572}
   scrollPrecisionController: {fileID: 1561212884}
@@ -79189,7 +79194,7 @@ PrefabInstance:
         type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 761b833d373c13b439ac8e5bc49373a4, type: 2}
+      objectReference: {fileID: 2100000, guid: 06df152e309d6ed43b13c9d0f7cc1c8f, type: 2}
     - target: {fileID: 2745739347418089302, guid: 141955eb542177ea69e10ad9a2b131e2,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -81446,7 +81451,7 @@ PrefabInstance:
         type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 761b833d373c13b439ac8e5bc49373a4, type: 2}
+      objectReference: {fileID: 2100000, guid: 06df152e309d6ed43b13c9d0f7cc1c8f, type: 2}
     - target: {fileID: 2745739347418089302, guid: 141955eb542177ea69e10ad9a2b131e2,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -85607,7 +85612,7 @@ PrefabInstance:
         type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 761b833d373c13b439ac8e5bc49373a4, type: 2}
+      objectReference: {fileID: 2100000, guid: 06df152e309d6ed43b13c9d0f7cc1c8f, type: 2}
     - target: {fileID: 2745739347418089302, guid: 141955eb542177ea69e10ad9a2b131e2,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -97845,7 +97850,7 @@ Transform:
   m_GameObject: {fileID: 1927255075}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.6000001, y: 0.55, z: 1}
+  m_LocalPosition: {x: -4.8, y: 0.55, z: 1}
   m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_ConstrainProportionsScale: 0
   m_Children:

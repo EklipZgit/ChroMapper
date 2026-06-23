@@ -396,15 +396,15 @@ namespace TestsEditMode
             BeatmapAssert.BpmEventPropertiesAreEqual(difficulty.BpmEvents[0], 10, 128);
             
             // Rotation events
-            Assert.AreEqual(4, difficulty.Events.Count);
-            BeatmapAssert.EventPropertiesAreEqual(difficulty.Events[2], 10, 14, 4, null, 15f);
-            BeatmapAssert.EventPropertiesAreEqual(difficulty.Events[3], 15, 15, 4, null, 15f);
+            Assert.AreEqual(2, difficulty.RotationEvents.Count);
+            BeatmapAssert.RotationEventPropertiesAreEqual(difficulty.RotationEvents[0], 10, 14, 4, ExecutionTime.Early, 15f);
+            BeatmapAssert.RotationEventPropertiesAreEqual(difficulty.RotationEvents[1], 15, 15, 4, ExecutionTime.Late, 15f);
         }
 
         private static void AssertDifficultyLightshow(BaseDifficulty difficulty)
         {
             // Basic + Boost
-            Assert.AreEqual(4, difficulty.Events.Count);
+            Assert.AreEqual(2, difficulty.Events.Count);
             BeatmapAssert.EventPropertiesAreEqual(difficulty.Events[0], 10, 1, 3, 1, null);
             BeatmapAssert.EventPropertiesAreEqual(difficulty.Events[1], 10, 5, 1, 0, null);
 
