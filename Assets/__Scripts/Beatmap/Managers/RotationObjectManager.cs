@@ -20,7 +20,6 @@ public class RotationObjectManager : BeatmapObjectManager<BaseObject>
 
     protected void Start()
     {
-        // dynamically check when version change
         if (BeatSaberSongContainer.Instance.Map.MajorVersion < 4
             && (BeatSaberSongContainer.Instance.Map.RotationEvents.Count > 0
                 || enabledCharacteristics.Contains(BeatSaberSongContainer.Instance.MapDifficultyInfo.Characteristic)))
@@ -33,11 +32,7 @@ public class RotationObjectManager : BeatmapObjectManager<BaseObject>
                     Handle360LevelReminder,
                     PersistentUI.DialogBoxPresetType.OkIgnore);
             }
-
-            gridChild.Hide = false;
         }
-        else
-            gridChild.Hide = true;
 
         Settings.NotifyBySettingName("Rotation360FollowNote", HandleFollowChanged);
         Settings.NotifyBySettingName("Rotation360FollowBomb", HandleFollowChanged);
@@ -64,6 +59,13 @@ public class RotationObjectManager : BeatmapObjectManager<BaseObject>
 
     public override void Refresh()
     {
+        if (BeatSaberSongContainer.Instance.Map.MajorVersion < 4
+            && (BeatSaberSongContainer.Instance.Map.RotationEvents.Count > 0
+                || enabledCharacteristics.Contains(BeatSaberSongContainer.Instance.MapDifficultyInfo.Characteristic)))
+            gridChild.Hide = false;
+        else
+            gridChild.Hide = true;
+
         Context.Atsc.OnTimeChangedEarly -= UpdateTime;
 
         provider.Initialize();
