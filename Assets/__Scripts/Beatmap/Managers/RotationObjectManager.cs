@@ -38,6 +38,12 @@ public class RotationObjectManager : BeatmapObjectManager<BaseObject>
         }
         else
             gridChild.Hide = true;
+
+        Settings.NotifyBySettingName("Rotation360FollowNote", HandleFollowChanged);
+        Settings.NotifyBySettingName("Rotation360FollowBomb", HandleFollowChanged);
+        Settings.NotifyBySettingName("Rotation360FollowWall", HandleFollowChanged);
+        Settings.NotifyBySettingName("Rotation360FollowArc", HandleFollowChanged);
+        Settings.NotifyBySettingName("Rotation360FollowChain", HandleFollowChanged);
     }
 
     protected override void OnDestroy()
@@ -46,7 +52,15 @@ public class RotationObjectManager : BeatmapObjectManager<BaseObject>
         LoadInitialMap.OnLevelLoaded -= Refresh;
         LoadedDifficultySelectController.OnLoadedDifficultyChanged -= Refresh;
         Context.Atsc.OnTimeChangedEarly -= UpdateTime;
+
+        Settings.ClearSettingNotifications("Rotation360FollowNote");
+        Settings.ClearSettingNotifications("Rotation360FollowBomb");
+        Settings.ClearSettingNotifications("Rotation360FollowWall");
+        Settings.ClearSettingNotifications("Rotation360FollowArc");
+        Settings.ClearSettingNotifications("Rotation360FollowChain");
     }
+
+    private void HandleFollowChanged(object _) => Refresh();
 
     public override void Refresh()
     {
@@ -56,13 +70,40 @@ public class RotationObjectManager : BeatmapObjectManager<BaseObject>
         switch (BeatSaberSongContainer.Instance.Map.MajorVersion)
         {
             case >= 4:
-                BeatSaberSongContainer.Instance.Map.Notes.ForEach(provider.InsertData);
-                BeatSaberSongContainer.Instance.Map.Arcs.ForEach(provider.InsertData);
-                BeatSaberSongContainer.Instance.Map.Chains.ForEach(provider.InsertData);
-                BeatSaberSongContainer.Instance.Map.Obstacles.ForEach(provider.InsertData);
+                if (Settings.Instance.Rotation360FollowNote)
+                {
+                    foreach (var o in BeatSaberSongContainer
+                        .Instance.Map.Notes.AsValueEnumerable()
+                        .Where(x => x.Type != 3))
+                        provider.InsertData(o);
+                }
+
+                if (Settings.Instance.Rotation360FollowBomb)
+                {
+                    foreach (var o in BeatSaberSongContainer
+                        .Instance.Map.Notes.AsValueEnumerable()
+                        .Where(x => x.Type == 3))
+                        provider.InsertData(o);
+                }
+
+                if (Settings.Instance.Rotation360FollowArc)
+                {
+                    foreach (var o in BeatSaberSongContainer.Instance.Map.Arcs) provider.InsertData(o);
+                }
+
+                if (Settings.Instance.Rotation360FollowChain)
+                {
+                    foreach (var o in BeatSaberSongContainer.Instance.Map.Chains) provider.InsertData(o);
+                }
+
+                if (Settings.Instance.Rotation360FollowWall)
+                {
+                    foreach (var o in BeatSaberSongContainer.Instance.Map.Obstacles) provider.InsertData(o);
+                }
+
                 break;
             case < 4:
-                BeatSaberSongContainer.Instance.Map.RotationEvents.ForEach(provider.InsertData);
+                foreach (var o in BeatSaberSongContainer.Instance.Map.RotationEvents) provider.InsertData(o);
                 break;
         }
 
@@ -78,7 +119,15 @@ public class RotationObjectManager : BeatmapObjectManager<BaseObject>
     {
         switch (BeatSaberSongContainer.Instance.Map.MajorVersion)
         {
-            case >= 4 when data is not BaseGrid:
+            case >= 4 when data is BaseGrid:
+                if ((!Settings.Instance.Rotation360FollowNote && data is BaseNote note && note.Type != 3)
+                    || (!Settings.Instance.Rotation360FollowBomb && data is BaseNote bomb && bomb.Type == 3)
+                    || (!Settings.Instance.Rotation360FollowArc && data is BaseArc)
+                    || (!Settings.Instance.Rotation360FollowChain && data is BaseChain)
+                    || (!Settings.Instance.Rotation360FollowWall && data is BaseObstacle))
+                    return false;
+                break;
+            case >= 4:
             case < 4 when data is not BaseRotationEvent:
                 return false;
         }

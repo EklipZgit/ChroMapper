@@ -10,10 +10,12 @@ public class LaneRotationProvider : StateManager<RotationEventStateData, BaseObj
 {
     [Header("State")] public float EditRotation;
     public float PlaybackRotation;
+    public float LastSmoothRotation;
 
     [SerializeField] private float smoothing = 0.5f;
     [SerializeField] public float SmoothRotation;
     [SerializeField] private float smoothSpeed;
+    private float timeSinceChange;
 
     public event Action<float> OnEditChanged;
     public event Action<float> OnPlaybackChanged;
@@ -27,7 +29,10 @@ public class LaneRotationProvider : StateManager<RotationEventStateData, BaseObj
 
     public void LateUpdate()
     {
-        var rotation = Mathf.SmoothDampAngle(SmoothRotation, PlaybackRotation, ref smoothSpeed, smoothing);
+        timeSinceChange = Mathf.Clamp01(timeSinceChange + (Time.deltaTime * 2f));
+        var rotation = Settings.Instance.Reduced360RotationMotion
+            ? Mathf.LerpAngle(LastSmoothRotation, PlaybackRotation, timeSinceChange)
+            : Mathf.SmoothDampAngle(SmoothRotation, PlaybackRotation, ref smoothSpeed, smoothing);
         if (rotation == SmoothRotation) return;
         SmoothRotation = rotation;
         OnSmoothedPlaybackChanged?.Invoke(rotation);
@@ -58,6 +63,7 @@ public class LaneRotationProvider : StateManager<RotationEventStateData, BaseObj
     public void UpdateState(float time)
     {
         var state = container.CurrentState;
+        var prevRotation = SmoothRotation;
         if (state.Absolute)
         {
             if (Mathf.Approximately(state.NextAbsoluteRotation, PlaybackRotation)) return;
@@ -74,6 +80,8 @@ public class LaneRotationProvider : StateManager<RotationEventStateData, BaseObj
             PlaybackRotation = state.LateRotation;
         }
 
+        LastSmoothRotation = prevRotation;
+        timeSinceChange = 0f;
         OnPlaybackChanged?.Invoke(PlaybackRotation);
     }
 
