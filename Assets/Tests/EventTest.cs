@@ -51,7 +51,7 @@ namespace Tests
 
             // TODO: u know, i forgot this events get converted and now i have to suffer the wrath of test pain 
             if (rotationEventsContainer.LoadedContainers[baseEventA] is RotationEventContainer containerA)
-                beatmapRotationInputController.Invert(containerA);
+                RotationCommand.Invert(containerA.EventData);
             if (eventsContainer.LoadedContainers[baseEventB] is EventContainer containerB)
                 beatmapEventInputController.InvertEvent(containerB);
 
