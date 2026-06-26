@@ -8,10 +8,10 @@ using Beatmap.Helper;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class RotationEventPlacement :
-    BasePlacement<BaseRotationEvent, RotationEventContainer, RotationEventGridContainer>,
-    CMInput.IRotationEventPlacementActions
+public class
+    RotationEventPlacement : BasePlacement<BaseRotationEvent, RotationEventContainer, RotationEventGridContainer>
 {
+    [SerializeField] private BeatmapRotationInputController rotationInputController;
     [SerializeField] private EventAppearanceSO eventAppearance;
     [SerializeField] private BeatmapRuntimeContext beatmapRuntimeContext;
 
@@ -19,41 +19,11 @@ public class RotationEventPlacement :
     private bool negativeRotations;
     public float QueuedRotation = 30f;
 
-    public void OnRotation15Degrees(InputAction.CallbackContext context)
+    public override void Start()
     {
-        if (context.performed) UpdateRotation(negativeRotations ? -15f : 15f);
+        base.Start();
+        rotationInputController.OnRotationInput += UpdateRotation;
     }
-
-    public void OnRotation30Degrees(InputAction.CallbackContext context)
-    {
-        if (context.performed) UpdateRotation(negativeRotations ? -30f : 30f);
-    }
-
-    public void OnRotation45Degrees(InputAction.CallbackContext context)
-    {
-        if (context.performed) UpdateRotation(negativeRotations ? -45f : 45f);
-    }
-
-    public void OnRotation60Degrees(InputAction.CallbackContext context)
-    {
-        if (context.performed) UpdateRotation(negativeRotations ? -60f : 60f);
-    }
-
-    public void OnNegativeRotationModifier(InputAction.CallbackContext context) =>
-        negativeRotations = context.performed;
-
-    public void OnRotateInPlaceLeft(InputAction.CallbackContext context)
-    {
-        if (context.performed) PlaceRotationNow(false, earlyRotationPlaceNow);
-    }
-
-    public void OnRotateInPlaceRight(InputAction.CallbackContext context)
-    {
-        if (context.performed) PlaceRotationNow(true, earlyRotationPlaceNow);
-    }
-
-    public void OnRotateInPlaceModifier(InputAction.CallbackContext context) =>
-        earlyRotationPlaceNow = context.performed;
 
     protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicts) =>
         new BeatmapObjectPlacementAction(spawned, conflicts, "Placed an Event.");
@@ -115,45 +85,6 @@ public class RotationEventPlacement :
     {
         dragged.JsonTime = queued.JsonTime;
         dragged.Type = queued.Type;
-    }
-
-    private void PlaceRotationNow(bool right, bool early)
-    {
-        var rotationType = early ? (int)EventTypeValue.EarlyLaneRotation : (int)EventTypeValue.LateLaneRotation;
-        var epsilon = 1f / Mathf.Pow(10, Settings.Instance.TimeValueDecimalPrecision);
-        var evt = ObjectContainerCollection.MapObjects.Find(x =>
-            x.JsonTime - epsilon < Atsc.CurrentJsonTime
-            && x.JsonTime + epsilon > Atsc.CurrentJsonTime
-            && x.Type == rotationType);
-
-        //todo add support for custom rotation angles
-
-        var startingValue = right ? 4 : 3;
-        if (evt != null) startingValue = evt.Value;
-
-        if (evt != null
-            && ((startingValue == 4 && !right)
-                || (startingValue == 3
-                    && right))) //This is for when we're going from a rotation event to no rotation event
-        {
-            startingValue = evt.Value;
-            ObjectContainerCollection.DeleteObject(evt, false);
-            BeatmapActionContainer.AddAction(new BeatmapObjectDeletionAction(evt, "Deleted by PlaceRotationNow."));
-        }
-        else if ((startingValue < 7 && right) || (startingValue > 0 && !right))
-        {
-            if (evt != null) startingValue += right ? 1 : -1;
-            var objectData = new BaseEvent
-            {
-                JsonTime = Atsc.CurrentJsonTime, Type = rotationType, Value = startingValue
-            };
-
-            ObjectContainerCollection.SpawnObject(objectData, out var conflicting);
-            BeatmapActionContainer.AddAction(GenerateAction(objectData, conflicting));
-        }
-
-        QueuedData = BeatmapFactory.Clone(QueuedData);
-        TracksManager.RefreshTracks();
     }
 
     protected override void HandleDragged() => TracksManager.RefreshTracks();

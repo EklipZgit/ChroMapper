@@ -54,7 +54,20 @@ public class CameraController : MonoBehaviour, CMInput.ICameraActions
         typeof(CMInput.IBPMTapperActions),
         typeof(CMInput.IEventUIActions),
         typeof(CMInput.IUIModeActions),
-        typeof(CMInput.IBoxSelectActions)
+        typeof(CMInput.IArcObjectsActions),
+        typeof(CMInput.IArcPlacementActions),
+        typeof(CMInput.IChainObjectsActions),
+        typeof(CMInput.IChainPlacementActions),
+        typeof(CMInput.IScrollPrecisionActions),
+        typeof(CMInput.IBoxSelectActions),
+        typeof(CMInput.IGLSColorObjectsActions),
+        typeof(CMInput.IGLSRotationObjectsActions),
+        typeof(CMInput.IGLSTranslationObjectsActions),
+        typeof(CMInput.IGLSFloatFXObjectsActions),
+        typeof(CMInput.IGLSGroupTabsActions),
+        typeof(CMInput.IGLSGroupSelectActions),
+        typeof(CMInput.IEasingsSelectionActions),
+        typeof(CMInput.IRotationObjectsActions)
     };
 
     private Vector2 savedMousePos = Vector2.zero;

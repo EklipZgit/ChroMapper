@@ -6,6 +6,7 @@ using ZLinq;
 
 public class RotationObjectManager : BeatmapObjectManager<BaseObject>
 {
+    [SerializeField] private TracksManager tracksManager;
     [SerializeField] private LaneRotationProvider provider;
     [SerializeField] private GridChild gridChild;
 
@@ -114,7 +115,12 @@ public class RotationObjectManager : BeatmapObjectManager<BaseObject>
 
     private static void Handle360LevelReminder(int res) => Settings.Instance.Reminder_Loading360Levels = res == 0;
 
-    public override void UpdateTime() => UpdateTime(Context.Atsc.IsPlaying, Context.Atsc.CurrentSongBpmTime);
+    public override void UpdateTime()
+    {
+        if (BeatSaberSongContainer.Instance.Map.MajorVersion < 4) tracksManager.RefreshTracks();
+        UpdateTime(Context.Atsc.IsPlaying, Context.Atsc.CurrentSongBpmTime);
+    }
+
     public override void UpdateTime(bool isPlaying, float beatTime) => provider.UpdateTime(isPlaying, beatTime);
 
     private static bool FilterObjectRotation(BaseObject data)

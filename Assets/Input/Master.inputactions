@@ -903,174 +903,6 @@
             ]
         },
         {
-            "name": "Rotation Event Placement",
-            "id": "3030d467-cd99-4a25-93dc-64c319aeeb41",
-            "actions": [
-                {
-                    "name": "Rotation: 15 Degrees",
-                    "type": "Button",
-                    "id": "23f99575-5815-4f22-8150-fa0ab4b8550e",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Rotation: 30 Degrees",
-                    "type": "Button",
-                    "id": "08f12ab4-7978-47ef-9708-5ee20b350e2f",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Rotation: 45 Degrees",
-                    "type": "Button",
-                    "id": "d1c3bd2c-3416-47bd-9230-76fbeb35142d",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Rotation: 60 Degrees",
-                    "type": "Button",
-                    "id": "ce54e8d1-b9c5-4b38-9896-2c447828fc26",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Negative Rotation Modifier",
-                    "type": "Button",
-                    "id": "57a7e517-735b-47f7-b674-d45dccbac445",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Rotate In Place Left",
-                    "type": "Button",
-                    "id": "f2ab02de-79b1-4f1b-9f73-4940f767aa11",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Rotate In Place Right",
-                    "type": "Button",
-                    "id": "ef18e287-2426-4592-8c7c-4e6d6b399cf9",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Rotate In Place Modifier",
-                    "type": "Button",
-                    "id": "affc56fe-bec2-4c24-bcc6-1fb2c634b0f8",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": false
-                }
-            ],
-            "bindings": [
-                {
-                    "name": "",
-                    "id": "9dbc7d43-6308-4b35-819c-fd06f69dd34a",
-                    "path": "<Keyboard>/1",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "ChroMapper Default",
-                    "action": "Rotation: 15 Degrees",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "921bfa5a-98f8-4af2-b047-601c6af70ce0",
-                    "path": "<Keyboard>/2",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "ChroMapper Default",
-                    "action": "Rotation: 30 Degrees",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "4620b7a4-7ae5-4af1-83bf-a4796730f71b",
-                    "path": "<Keyboard>/3",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "ChroMapper Default",
-                    "action": "Rotation: 45 Degrees",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "8da8aecd-d6ed-48c9-a919-d7684cb3e099",
-                    "path": "<Keyboard>/4",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "ChroMapper Default",
-                    "action": "Rotation: 60 Degrees",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "77944e7d-3abc-4e5f-808a-c220442fd653",
-                    "path": "<Keyboard>/shift",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "ChroMapper Default",
-                    "action": "Negative Rotation Modifier",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "658c659e-7979-49f7-8e59-5bae82c0084d",
-                    "path": "<Keyboard>/q",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "ChroMapper Default",
-                    "action": "Rotate In Place Left",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "81ba9de7-c967-4b8a-8da4-d6e3767c1179",
-                    "path": "<Keyboard>/shift",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "ChroMapper Default",
-                    "action": "Rotate In Place Modifier",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "35864f2e-999e-4ecf-8547-e01376d7e767",
-                    "path": "<Keyboard>/e",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "ChroMapper Default",
-                    "action": "Rotate In Place Right",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                }
-            ]
-        },
-        {
             "name": "Workflows",
             "id": "62377dd3-26a7-4161-ab65-7a5042f0dfc0",
             "actions": [
@@ -1088,15 +920,6 @@
                     "type": "Button",
                     "id": "5eb56c46-9493-4c8b-978c-195255f0f76d",
                     "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Toggle Note or Event",
-                    "type": "Button",
-                    "id": "1ef71b14-df3b-4fc2-bdf9-602b8848435b",
-                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "Press",
                     "initialStateCheck": false
@@ -1326,39 +1149,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "Mirror Colours Only",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Button With One Modifier",
-                    "id": "364b615d-3901-49bd-9475-a9f757b813b7",
-                    "path": "ButtonWithOneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Toggle Note or Event",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "76e46738-c779-4857-b335-2f25e4dfdc52",
-                    "path": "<Keyboard>/alt",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "ChroMapper Default",
-                    "action": "Toggle Note or Event",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "button",
-                    "id": "12dfa3e4-1592-4310-bada-8360461dfb2b",
-                    "path": "<Keyboard>/q",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "ChroMapper Default",
-                    "action": "Toggle Note or Event",
                     "isComposite": false,
                     "isPartOfComposite": true
                 }
@@ -4318,7 +4108,7 @@
                     "name": "Activate Box Select",
                     "type": "Button",
                     "id": "1bfcb620-0275-4b3e-a89d-2e5d52203c8d",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -6845,22 +6635,22 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Grid Rotate Clockwise",
+                    "name": "Rotate Copy",
                     "type": "Button",
-                    "id": "c1b7f252-e2c4-42e0-935e-b291b5721e10",
+                    "id": "37c60056-f739-480f-8437-89ffa0cace1d",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "Press",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Grid Rotate Counter Clockwise",
-                    "type": "Button",
-                    "id": "e0357535-790e-40be-99d6-306747178bee",
-                    "expectedControlType": "",
+                    "name": "Modify",
+                    "type": "Value",
+                    "id": "0bacd048-031f-4ccd-bb5b-18c43f001614",
+                    "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": "Press",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Invert",
@@ -6872,170 +6662,43 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Modify Hover",
-                    "type": "Value",
-                    "id": "da3cda3f-cd82-4697-836e-2e648af21767",
-                    "expectedControlType": "Axis",
+                    "name": "Rotation: 15 Degrees",
+                    "type": "Button",
+                    "id": "f7a71f75-d35c-4d2d-a690-d9e74e8eaa4a",
+                    "expectedControlType": "",
                     "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Rotation: 30 Degrees",
+                    "type": "Button",
+                    "id": "d56404ea-8964-482c-bce0-c2a0a0edfa9c",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Rotation: 45 Degrees",
+                    "type": "Button",
+                    "id": "4697e764-8ac1-40b8-9037-5b1ac1e30856",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Rotation: 60 Degrees",
+                    "type": "Button",
+                    "id": "1240b163-fed9-4960-aaeb-7958add55e26",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
-                {
-                    "name": "One Modifier",
-                    "id": "fc36dd74-9589-46bb-82e0-242dbd8e0c2e",
-                    "path": "OneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Rotate Clockwise",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "d9a867eb-f888-4bb7-a3e1-e79f755e3552",
-                    "path": "<Keyboard>/alt",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Rotate Clockwise",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "binding",
-                    "id": "cfd8011a-6243-42b0-93c8-106a1e039c62",
-                    "path": "<Keyboard>/e",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Rotate Clockwise",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "One Modifier",
-                    "id": "9ff4d52b-0e87-4b1b-85e2-ac58c3db7e75",
-                    "path": "OneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Rotate Counter Clockwise",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "1f21be55-2980-44c1-ac38-caf6a499f64a",
-                    "path": "<Keyboard>/alt",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Rotate Counter Clockwise",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "binding",
-                    "id": "a25fb42c-4d6a-475b-b238-0226d2d926d0",
-                    "path": "<Keyboard>/q",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Rotate Counter Clockwise",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Two Modifiers",
-                    "id": "f66c83e4-a6e4-4ddf-8a8e-aa5c1baa4ad5",
-                    "path": "TwoModifiers",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Grid Rotate Clockwise",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier1",
-                    "id": "6b953a1e-bad9-46e6-867d-a3f958df6ee0",
-                    "path": "<Keyboard>/ctrl",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Grid Rotate Clockwise",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "modifier2",
-                    "id": "570a4cd7-2f20-4519-b454-f2bd2f7944f8",
-                    "path": "<Keyboard>/alt",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Grid Rotate Clockwise",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "binding",
-                    "id": "0260457b-d9ec-41b4-a26a-eb243caa0c1e",
-                    "path": "<Keyboard>/e",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Grid Rotate Clockwise",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Two Modifiers",
-                    "id": "21c80556-6032-4196-8399-60849abbf3b3",
-                    "path": "TwoModifiers",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Grid Rotate Counter Clockwise",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier1",
-                    "id": "e8b23a5b-6079-4a36-9094-7aa41973b6ec",
-                    "path": "<Keyboard>/ctrl",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Grid Rotate Counter Clockwise",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "modifier2",
-                    "id": "16281e88-745b-4bbd-86e4-44aa07cf8d5c",
-                    "path": "<Keyboard>/alt",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Grid Rotate Counter Clockwise",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "binding",
-                    "id": "707ca49b-3063-4461-9bd1-ee2107539253",
-                    "path": "<Keyboard>/q",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Grid Rotate Counter Clockwise",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
                 {
                     "name": "",
                     "id": "16cdd0dd-3516-4d3a-8ca0-2e36bf0e7136",
@@ -7048,37 +6711,92 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "One Modifier",
-                    "id": "766723f3-6124-4d78-bd58-33b32317a480",
-                    "path": "OneModifier",
+                    "name": "",
+                    "id": "c18d3274-9e8a-47e1-92da-bbbd3ef8fff4",
+                    "path": "<Keyboard>/1",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
-                    "action": "Modify Hover",
-                    "isComposite": true,
+                    "groups": "ChroMapper Default",
+                    "action": "Rotation: 15 Degrees",
+                    "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "Modifier",
-                    "id": "af68860b-279f-4aeb-9772-edcd556eaad3",
-                    "path": "<Keyboard>/alt",
+                    "name": "",
+                    "id": "8a931547-30f9-4808-a6ef-e9389931cbdb",
+                    "path": "<Keyboard>/2",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
-                    "action": "Modify Hover",
+                    "groups": "ChroMapper Default",
+                    "action": "Rotation: 30 Degrees",
                     "isComposite": false,
-                    "isPartOfComposite": true
+                    "isPartOfComposite": false
                 },
                 {
-                    "name": "Binding",
-                    "id": "66b94081-9eba-41b9-84a1-0f7a12184322",
+                    "name": "",
+                    "id": "665ee330-a01e-471c-9848-ca8eec69aaab",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "ChroMapper Default",
+                    "action": "Rotation: 45 Degrees",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4390ba44-1595-4730-b0cd-41c66cd3f027",
+                    "path": "<Keyboard>/4",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "ChroMapper Default",
+                    "action": "Rotation: 60 Degrees",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0af3df60-33d9-47e3-aafd-6d067cfd580d",
                     "path": "<Mouse>/scroll/y",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
-                    "action": "Modify Hover",
+                    "groups": ";ChroMapper Default",
+                    "action": "Modify",
                     "isComposite": false,
-                    "isPartOfComposite": true
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "18cd4f85-5817-48bd-ac8d-759b97bfb754",
+                    "path": "<Keyboard>/r",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": ";ChroMapper Default",
+                    "action": "Rotate Copy",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "50bfe8d9-529a-432b-819d-01db3ea3ad7d",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";ChroMapper Default",
+                    "action": "Rotate Counter Clockwise",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "58212b5f-fe7a-4a47-959d-449fbc29bb02",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";ChroMapper Default",
+                    "action": "Rotate Clockwise",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }
