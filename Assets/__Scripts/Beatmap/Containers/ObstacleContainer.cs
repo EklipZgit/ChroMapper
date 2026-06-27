@@ -1,4 +1,5 @@
 using Beatmap.Base;
+using TMPro;
 using UnityEngine;
 
 namespace Beatmap.Containers
@@ -13,6 +14,7 @@ namespace Beatmap.Containers
 
         [Header("Transform")] [SerializeField] public Transform CoreTransform;
         [SerializeField] public Transform OutlineTransform;
+        [SerializeField] private TextMeshPro text;
 
         [Header("State")] [SerializeField] private TracksManager manager;
         public Vector3 ObstacleScale;
@@ -158,5 +160,19 @@ namespace Beatmap.Containers
 
             UpdateCollisionGroups();
         }
+        
+        public void SetText(string str)
+        {
+            if (string.IsNullOrEmpty(str))
+                text.enabled = false;
+            else
+            {
+                text.enabled = true;
+                text.SetText(str);
+            }
+        }
+
+        public void SetIndicators(bool visible) =>
+            text.gameObject.SetActive(visible && Settings.Instance.DisplayNoteText);
     }
 }

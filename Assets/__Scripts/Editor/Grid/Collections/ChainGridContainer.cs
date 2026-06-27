@@ -40,7 +40,7 @@ public class ChainGridContainer : BeatmapObjectContainerCollection<BaseChain>
         chain.ChainData = chainData;
         chainAppearanceSO.SetChainAppearance(chain);
         chain.Setup();
-        chain.SetIndicatorBlocksActive(!isPlaying);
+        chain.SetIndicators(!isPlaying);
 
         if (!chain.Animator.AnimatedTrack)
         {
@@ -90,7 +90,7 @@ public class ChainGridContainer : BeatmapObjectContainerCollection<BaseChain>
 
         foreach (ChainContainer obj in LoadedContainers.Values)
         {
-            obj.SetIndicatorBlocksActive(!this.isPlaying);
+            obj.SetIndicators(!this.isPlaying);
         }
     }
 

@@ -284,7 +284,11 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
         }
     }
 
-    protected override void HandleRotationChanged(float rotation) => QueuedData.Rotation = (int)rotation;
+    protected override void HandleRotationChanged(float rotation)
+    {
+        QueuedData.Rotation = (int)rotation;
+        noteAppearanceSo.SetNoteAppearance(PlacementVisualContainer);
+    }
 
     // Do we need this anymore?
     public NoteContainer ObjectUnderCursor()

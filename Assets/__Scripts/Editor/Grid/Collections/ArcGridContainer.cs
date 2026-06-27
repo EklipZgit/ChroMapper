@@ -67,7 +67,7 @@ public class ArcGridContainer : BeatmapObjectContainerCollection<BaseArc>
         // if (isPlaying) RefreshPool(true); // I dont know if removing this line affects anything, we'll see
         foreach (ArcContainer obj in LoadedContainers.Values)
         {
-            obj.SetIndicatorBlocksActive(!this.isPlaying);
+            obj.SetIndicators(!this.isPlaying);
         }
     }
 
@@ -80,7 +80,7 @@ public class ArcGridContainer : BeatmapObjectContainerCollection<BaseArc>
         arc.NotifySplineChanged(arcData);
         arcAppearanceSO.SetArcAppearance(arc);
         arc.Setup();
-        arc.SetIndicatorBlocksActive(false);
+        arc.SetIndicators(isPlaying);
 
         if (!arc.Animator.AnimatedTrack)
         {
@@ -108,7 +108,7 @@ public class ArcGridContainer : BeatmapObjectContainerCollection<BaseArc>
         {
             var container = queuedUpdatingArcs.Dequeue();
             container.RecomputePosition();
-            container.SetIndicatorBlocksActive(!isPlaying);
+            container.SetIndicators(!isPlaying);
         }
     }
 

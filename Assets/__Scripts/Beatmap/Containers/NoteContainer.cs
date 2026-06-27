@@ -253,5 +253,8 @@ namespace Beatmap.Containers
             MpbController.ApplyChanges();
             ArrowMpbController.ApplyChanges();
         }
+
+        public void SetIndicators(bool visible) =>
+            text.gameObject.SetActive(visible && Settings.Instance.DisplayNoteText);
     }
 }
