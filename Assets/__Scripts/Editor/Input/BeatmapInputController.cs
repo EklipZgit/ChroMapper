@@ -59,7 +59,7 @@ public class BeatmapInputController<TContainer> : MonoBehaviour, CMInput.IBeatma
             return;
         }
 
-        if (Application.isFocused && RaycastFirstObject(out var first))
+        if (Application.isFocused && RaycastFirstObject(out var first) && SpecialCaseContainer(first))
         {
             if (HoveredObject != first && IsHovering) HoveredObject.Highlighted = false;
             HoveredObject = first;
@@ -96,6 +96,10 @@ public class BeatmapInputController<TContainer> : MonoBehaviour, CMInput.IBeatma
         GlobalIntersectionCache.HasRaycastThisFrame = false;
     }
 
+    // because abstract object container can be used to handle multitype,
+    // we do want to only handle specific type and ignore already existing input
+    protected virtual bool SpecialCaseContainer(ObjectContainer con) => true;
+
     public void OnDeleteTool(InputAction.CallbackContext context)
     {
         if (ignoreBaseInput || (DeleteToolController.IsActive && context.performed)) OnQuickDelete(context);
@@ -107,9 +111,8 @@ public class BeatmapInputController<TContainer> : MonoBehaviour, CMInput.IBeatma
             return; //Returns if the mouse is on top of UI
 
         if (!Application.isFocused) return;
-
-        RaycastFirstObject(out var obj);
-        if (obj != null && !obj.Dragged && context.performed) CompleteDelete(obj);
+        if (RaycastFirstObject(out var obj) && SpecialCaseContainer(obj) && !obj.Dragged && context.performed)
+            CompleteDelete(obj);
     }
 
     public void OnSelectObjects(InputAction.CallbackContext context)
@@ -122,7 +125,7 @@ public class BeatmapInputController<TContainer> : MonoBehaviour, CMInput.IBeatma
         IsSelecting = context.performed;
         if (!context.performed) return;
         timeWhenFirstSelecting = Time.time;
-        if (!RaycastFirstObject(out var firstObject)) return;
+        if (!RaycastFirstObject(out var firstObject) || !SpecialCaseContainer(firstObject)) return;
         var obj = firstObject.ObjectData;
         if (MassSelect
             && SelectionController.SelectedObjects.Count == 1
@@ -139,8 +142,7 @@ public class BeatmapInputController<TContainer> : MonoBehaviour, CMInput.IBeatma
     public void OnJumptoObjectTime(InputAction.CallbackContext context)
     {
         if (ignoreBaseInput || !context.performed) return; // TODO: Find a way to detect if other keybinds are held
-        RaycastFirstObject(out var con);
-        if (con != null)
+        if (RaycastFirstObject(out var con) && SpecialCaseContainer(con))
         {
             // TODO make this use an AudioTimeSyncController reference when Zenject is added.
             BeatmapObjectContainerCollection

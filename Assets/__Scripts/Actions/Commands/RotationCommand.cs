@@ -20,9 +20,15 @@ public static class RotationCommand
         if (evt != null)
         {
             var newEvt = BeatmapFactory.Clone(evt);
-            newEvt.Rotation = Mathf.Round((newEvt.Rotation + (modifier * prec)) * 1_000f) / 1_000f;
-            BeatmapActionContainer.AddAction(
-                new BeatmapObjectUpdatedAction(newEvt, evt, "Placed an Event."));
+            newEvt.Rotation = Mathf.Round((newEvt.Rotation + (modifier * prec)) * 1_000f) / 1_000f % 360f;
+            if (Mathf.Approximately(newEvt.Rotation, 0f))
+                regc.DeleteObject(evt, true, true, "Deleted a rotation event for 0 rotation.");
+            else
+            {
+                BeatmapActionContainer.AddAction(
+                    new BeatmapObjectUpdatedAction(newEvt, evt, "Updated a rotation event."),
+                    perform: true);
+            }
         }
         else
         {
@@ -32,8 +38,9 @@ public static class RotationCommand
                 ExecutionTime = ExecutionTime.Early,
                 Rotation = Mathf.Round(modifier * prec * 1_000f) / 1_000f
             };
+            regc.SpawnObject(newEvt, out var conflicting);
             BeatmapActionContainer.AddAction(
-                new BeatmapObjectPlacementAction(newEvt, Array.Empty<BaseRotationEvent>(), "Placed an Event."));
+                new BeatmapObjectPlacementAction(newEvt, conflicting, "Placed a rotation event."));
         }
     }
 
@@ -46,12 +53,42 @@ public static class RotationCommand
         {
             case BaseRotationEvent evt:
                 {
-                    evt.Rotation = Mathf.Round((evt.Rotation + (modifier * prec)) * 1_000f) / 1_000f;
+                    evt.Rotation = Mathf.Round((evt.Rotation + (modifier * prec)) * 1_000f) / 1_000f % 360f;
                     break;
                 }
             case BaseGrid grid:
                 {
-                    grid.Rotation += Mathf.RoundToInt(modifier * prec);
+                    grid.Rotation = (int)Mathf.Repeat(grid.Rotation + Mathf.RoundToInt(modifier * prec), 360);
+                    break;
+                }
+        }
+
+        if (newObject.CompareTo(originalObject) == 0) return;
+
+        BeatmapActionContainer.AddAction(
+            new BeatmapObjectUpdatedAction(
+                newObject,
+                originalObject,
+                mergeType: ActionMergeType.ModifyRotationValue),
+            perform: true);
+    }
+
+    public static void SetRotationInfer(BaseObject originalObject, float rotate)
+    {
+        var newObject = BeatmapFactory.Clone(originalObject);
+
+        switch (newObject)
+        {
+            case BaseRotationEvent evt:
+                {
+                    var sign = Mathf.Sign(evt.Rotation);
+                    evt.Rotation = rotate * sign % 360f;
+                    break;
+                }
+            case BaseGrid grid:
+                {
+                    var sign = Mathf.Sign(grid.Rotation);
+                    grid.Rotation = (int)Mathf.Repeat(rotate * sign, 360f);
                     break;
                 }
         }
@@ -74,12 +111,12 @@ public static class RotationCommand
         {
             case BaseRotationEvent evt:
                 {
-                    evt.Rotation = rotate;
+                    evt.Rotation = rotate % 360f;
                     break;
                 }
             case BaseGrid grid:
                 {
-                    grid.Rotation = (int)rotate;
+                    grid.Rotation = (int)Mathf.Repeat(rotate, 360);
                     break;
                 }
         }
@@ -112,7 +149,7 @@ public static class RotationCommand
     {
         var newObject = BeatmapFactory.Clone(originalObject);
 
-        newObject.Rotation = Mathf.Round((newObject.Rotation + (modifier * prec)) * 1_000f) / 1_000f;
+        newObject.Rotation = Mathf.Round((newObject.Rotation + (modifier * prec)) * 1_000f) / 1_000f % 360f;
 
         if (newObject.CompareTo(originalObject) == 0) return;
 

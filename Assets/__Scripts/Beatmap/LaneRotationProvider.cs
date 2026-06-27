@@ -88,7 +88,7 @@ public class LaneRotationProvider : StateManager<RotationEventStateData, BaseObj
     public void SetEditRotation(int rotation)
     {
         if (Mathf.Approximately(rotation, EditRotation)) return;
-        EditRotation = rotation;
+        EditRotation = Mathf.Repeat(rotation, 360f);
         OnEditChanged?.Invoke(EditRotation);
     }
 

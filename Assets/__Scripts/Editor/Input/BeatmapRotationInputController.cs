@@ -15,6 +15,8 @@ public class BeatmapRotationInputController : BeatmapInputController<ObjectConta
 
     public event Action<float> OnRotationInput;
 
+    protected override bool SpecialCaseContainer(ObjectContainer con) => con is RotationEventContainer;
+
     public void OnRotateClockwiseHover(InputAction.CallbackContext context) =>
         HandleRotateDirectionalHover(context, true);
 
@@ -147,32 +149,27 @@ public class BeatmapRotationInputController : BeatmapInputController<ObjectConta
         RotationCommand.Invert(e.EventData);
     }
 
-    public void OnRotation15Degrees(InputAction.CallbackContext context) => HandleRotationInput(context, 15);
-    public void OnRotation15DegreesHover(InputAction.CallbackContext context) => throw new NotImplementedException();
+    public void OnRotation15Degrees(InputAction.CallbackContext context) => OnRotationInput?.Invoke(15);
+    public void OnRotation15DegreesHover(InputAction.CallbackContext context) => HandleRotationInput(context, 15);
 
-    public void OnRotation30Degrees(InputAction.CallbackContext context) => HandleRotationInput(context, 15);
-    public void OnRotation30DegreesHover(InputAction.CallbackContext context) => throw new NotImplementedException();
+    public void OnRotation30Degrees(InputAction.CallbackContext context) => OnRotationInput?.Invoke(30);
+    public void OnRotation30DegreesHover(InputAction.CallbackContext context) => HandleRotationInput(context, 30);
 
-    public void OnRotation45Degrees(InputAction.CallbackContext context) => HandleRotationInput(context, 15);
-    public void OnRotation45DegreesHover(InputAction.CallbackContext context) => throw new NotImplementedException();
+    public void OnRotation45Degrees(InputAction.CallbackContext context) => OnRotationInput?.Invoke(45);
+    public void OnRotation45DegreesHover(InputAction.CallbackContext context) => HandleRotationInput(context, 45);
 
-    public void OnRotation60Degrees(InputAction.CallbackContext context) => HandleRotationInput(context, 15);
-    public void OnRotation60DegreesHover(InputAction.CallbackContext context) => throw new NotImplementedException();
+    public void OnRotation60Degrees(InputAction.CallbackContext context) => OnRotationInput?.Invoke(60);
+    public void OnRotation60DegreesHover(InputAction.CallbackContext context) => HandleRotationInput(context, 60);
 
     public void HandleRotationInput(InputAction.CallbackContext context, float rotation)
     {
         if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)
             || !context.performed
-            || !EditContext.EditingMode.HasFlag(editMode))
+            || !EditContext.EditingMode.HasFlag(editMode)
+            || !RaycastFirstObject(out var con)
+            || con is not RotationEventContainer e)
             return;
 
-        if (KeybindsController.IsHoverKeyHeld)
-        {
-            if (RaycastFirstObject(out var con)
-                && con is RotationEventContainer e)
-                RotationCommand.SetRotation(e.EventData, rotation);
-        }
-        else
-            OnRotationInput?.Invoke(rotation);
+        RotationCommand.SetRotationInfer(e.EventData, rotation);
     }
 }
