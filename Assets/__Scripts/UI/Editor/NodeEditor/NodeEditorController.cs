@@ -230,12 +230,11 @@ public class NodeEditorController : MonoBehaviour, CMInput.INodeEditorActions
                 .Select(pair =>
                 {
                     var (reference, json) = pair;
-                    var original = reference.Clone() as BaseObject;
-                    reference.Apply(Activator.CreateInstance(reference.GetType(), new object[] { json }) as BaseObject);
-                    return new BeatmapObjectModifiedAction(
+                    var edited = BeatmapFactory.Clone(reference);
+                    edited.Apply(Activator.CreateInstance(reference.GetType(), new object[] { json }) as BaseObject);
+                    return new BeatmapObjectUpdatedAction(
+                        edited,
                         reference,
-                        reference,
-                        original,
                         $"Edited a {reference.ObjectType} with Node Editor.",
                         true);
                 })
