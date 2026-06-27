@@ -15,106 +15,114 @@ public class BeatmapRotationInputController : BeatmapInputController<ObjectConta
 
     public event Action<float> OnRotationInput;
 
-    public void OnRotateClockwise(InputAction.CallbackContext context) => HandleRotateDirectional(context, true);
+    public void OnRotateClockwiseHover(InputAction.CallbackContext context) =>
+        HandleRotateDirectionalHover(context, true);
 
-    public void OnRotateCounterClockwise(InputAction.CallbackContext context)
-    {
-        HandleRotateDirectional(context, false);
-    }
+    public void OnRotateClockwiseGrid(InputAction.CallbackContext context) =>
+        HandleRotateDirectionalGrid(context, true);
 
-    public void HandleRotateDirectional(InputAction.CallbackContext context, bool clockwise)
-    {
-        Debug.Log("wtf2");
-        if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)
-            || !context.performed)
-            return;
-        Debug.Log("w");
-        var prec = scrollPrecisionController.GetCurrentRotationPrecision();
-        var modifier = clockwise ? 1 : -1;
+    public void OnRotateCounterClockwiseHover(InputAction.CallbackContext context) =>
+        HandleRotateDirectionalHover(context, false);
 
-        if (KeybindsController.IsHoverKeyHeld && KeybindsController.IsControlKeyHeld)
-        {
-            if (EditContext.EditingMode.HasFlag(editMode)
-                && !gridLane.Hide)
-                RotationCommand.PlaceEventInPlace(atsc.CurrentJsonTime, clockwise, prec);
+    public void OnRotateCounterClockwiseGrid(InputAction.CallbackContext context) =>
+        HandleRotateDirectionalGrid(context, false);
 
-            laneRotationProvider.SetEditRotation(
-                Mathf.RoundToInt(
-                    Mathf.Round((laneRotationProvider.EditRotation + (modifier * prec)) * 1_000f) / 1_000f));
-        }
-        else if (KeybindsController.IsHoverKeyHeld
-            && EditContext.EditingMode.HasFlag(editMode)
-            && RaycastFirstObject(out var con))
-        {
-            switch (con)
-            {
-                case RotationEventContainer:
-                    RotationCommand.RotateObject(con.ObjectData, clockwise, prec);
-                    break;
-                case NoteContainer:
-                case ObstacleContainer:
-                case ArcContainer:
-                case ChainContainer:
-                    if (BeatSaberSongContainer.Instance.Map.MajorVersion != 4) return;
-                    RotationCommand.RotateObject(con.ObjectData, clockwise, prec);
-                    break;
-            }
-        }
-    }
-
-    public void OnRotateCopy(InputAction.CallbackContext context)
+    public void HandleRotateDirectionalHover(InputAction.CallbackContext context, bool clockwise)
     {
         if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)
             || !context.performed
             || !EditContext.EditingMode.HasFlag(editMode)
             || !RaycastFirstObject(out var con))
             return;
+        var prec = scrollPrecisionController.GetCurrentRotationPrecision();
 
-        if (KeybindsController.IsHoverKeyHeld && KeybindsController.IsControlKeyHeld)
+        switch (con)
         {
-            int rotation;
-            switch (con)
-            {
-                case RotationEventContainer evt:
-                    rotation = (int)evt.EventData.Rotation;
-                    break;
-                case NoteContainer:
-                case ObstacleContainer:
-                case ArcContainer:
-                case ChainContainer:
-                    if (BeatSaberSongContainer.Instance.Map.MajorVersion != 4) return;
-                    rotation = (con.ObjectData as BaseGrid)?.Rotation ?? 0;
-                    break;
-                default:
-                    return;
-            }
-
-            laneRotationProvider.SetEditRotation(rotation);
-        }
-        else if (KeybindsController.IsHoverKeyHeld)
-        {
-            switch (con)
-            {
-                case RotationEventContainer evt:
-                    RotationCommand.SetRotation(
-                        con.ObjectData,
-                        Mathf.DeltaAngle(evt.EventData.Rotation, laneRotationProvider.EditRotation));
-                    break;
-                case NoteContainer:
-                case ObstacleContainer:
-                case ArcContainer:
-                case ChainContainer:
-                    if (BeatSaberSongContainer.Instance.Map.MajorVersion != 4) return;
-                    RotationCommand.SetRotation(con.ObjectData, laneRotationProvider.EditRotation);
-                    break;
-            }
+            case RotationEventContainer:
+                RotationCommand.RotateObject(con.ObjectData, clockwise, prec);
+                break;
+            case NoteContainer:
+            case ObstacleContainer:
+            case ArcContainer:
+            case ChainContainer:
+                if (BeatSaberSongContainer.Instance.Map.MajorVersion != 4) return;
+                RotationCommand.RotateObject(con.ObjectData, clockwise, prec);
+                break;
         }
     }
 
-    public void OnModify(InputAction.CallbackContext context)
+    public void HandleRotateDirectionalGrid(InputAction.CallbackContext context, bool clockwise)
     {
         if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)
-            || !KeybindsController.IsHoverKeyHeld
+            || !context.performed)
+            return;
+        var prec = scrollPrecisionController.GetCurrentRotationPrecision();
+        var modifier = clockwise ? 1 : -1;
+
+        if (EditContext.EditingMode.HasFlag(editMode) && !gridLane.Hide)
+            RotationCommand.PlaceEventInPlace(atsc.CurrentJsonTime, clockwise, prec);
+        else
+        {
+            laneRotationProvider.SetEditRotation(
+                Mathf.RoundToInt(
+                    Mathf.Round((laneRotationProvider.EditRotation + (modifier * prec)) * 1_000f) / 1_000f));
+        }
+    }
+
+    public void OnRotateCopyHover(InputAction.CallbackContext context)
+    {
+        if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)
+            || !context.performed
+            || !EditContext.EditingMode.HasFlag(editMode)
+            || !RaycastFirstObject(out var con))
+            return;
+        switch (con)
+        {
+            case RotationEventContainer evt:
+                RotationCommand.SetRotation(
+                    con.ObjectData,
+                    Mathf.DeltaAngle(evt.EventData.Rotation, laneRotationProvider.EditRotation));
+                break;
+            case NoteContainer:
+            case ObstacleContainer:
+            case ArcContainer:
+            case ChainContainer:
+                if (BeatSaberSongContainer.Instance.Map.MajorVersion != 4) return;
+                RotationCommand.SetRotation(con.ObjectData, laneRotationProvider.EditRotation);
+                break;
+        }
+    }
+
+    public void OnRotateCopyGrid(InputAction.CallbackContext context)
+    {
+        if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)
+            || !context.performed
+            || !EditContext.EditingMode.HasFlag(editMode)
+            || !RaycastFirstObject(out var con))
+            return;
+        int rotation;
+        switch (con)
+        {
+            case RotationEventContainer evt:
+                rotation = (int)evt.EventData.Rotation;
+                break;
+            case NoteContainer:
+            case ObstacleContainer:
+            case ArcContainer:
+            case ChainContainer:
+                if (BeatSaberSongContainer.Instance.Map.MajorVersion != 4) return;
+                rotation = (con.ObjectData as BaseGrid)?.Rotation ?? 0;
+                break;
+            default:
+                return;
+        }
+
+        laneRotationProvider.SetEditRotation(rotation);
+    }
+
+    public void OnModifyHover(InputAction.CallbackContext context)
+    {
+        if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)
             || !context.performed
             || !EditContext.EditingMode.HasFlag(editMode)
             || !RaycastFirstObject(out var con)
@@ -140,9 +148,16 @@ public class BeatmapRotationInputController : BeatmapInputController<ObjectConta
     }
 
     public void OnRotation15Degrees(InputAction.CallbackContext context) => HandleRotationInput(context, 15);
+    public void OnRotation15DegreesHover(InputAction.CallbackContext context) => throw new NotImplementedException();
+
     public void OnRotation30Degrees(InputAction.CallbackContext context) => HandleRotationInput(context, 15);
+    public void OnRotation30DegreesHover(InputAction.CallbackContext context) => throw new NotImplementedException();
+
     public void OnRotation45Degrees(InputAction.CallbackContext context) => HandleRotationInput(context, 15);
+    public void OnRotation45DegreesHover(InputAction.CallbackContext context) => throw new NotImplementedException();
+
     public void OnRotation60Degrees(InputAction.CallbackContext context) => HandleRotationInput(context, 15);
+    public void OnRotation60DegreesHover(InputAction.CallbackContext context) => throw new NotImplementedException();
 
     public void HandleRotationInput(InputAction.CallbackContext context, float rotation)
     {
