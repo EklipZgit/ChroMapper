@@ -36,7 +36,7 @@ public class BeatmapRotationInputController : BeatmapInputController<ObjectConta
             || !EditContext.EditingMode.HasFlag(editMode)
             || !RaycastFirstObject(out var con))
             return;
-        var prec = scrollPrecisionController.GetCurrentRotationPrecision();
+        var prec = scrollPrecisionController.GetCurrentAngleOffsetPrecision();
 
         switch (con)
         {
@@ -58,7 +58,7 @@ public class BeatmapRotationInputController : BeatmapInputController<ObjectConta
         if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)
             || !context.performed)
             return;
-        var prec = scrollPrecisionController.GetCurrentRotationPrecision();
+        var prec = scrollPrecisionController.GetCurrentAngleOffsetPrecision();
         var modifier = clockwise ? 1 : -1;
 
         if (EditContext.EditingMode.HasFlag(editMode) && !gridLane.Hide)
@@ -132,7 +132,7 @@ public class BeatmapRotationInputController : BeatmapInputController<ObjectConta
             return;
 
         var modifier = context.GetScrollDirection(Settings.Instance.InvertScrollEventValue);
-        var prec = scrollPrecisionController.GetCurrentRotationPrecision();
+        var prec = scrollPrecisionController.GetCurrentAngleOffsetPrecision();
         RotationCommand.ModifyHover(e.EventData, modifier, prec);
     }
 
