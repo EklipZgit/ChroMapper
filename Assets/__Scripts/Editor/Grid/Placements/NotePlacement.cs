@@ -286,8 +286,9 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
 
     protected override void HandleRotationChanged(float rotation)
     {
+        if (QueuedData == null) return;
         QueuedData.Rotation = (int)rotation;
-        if (QueuedData != null) noteAppearanceSo.SetNoteAppearance(PlacementVisualContainer);
+        noteAppearanceSo.SetNoteAppearance(PlacementVisualContainer);
     }
 
     // Do we need this anymore?
