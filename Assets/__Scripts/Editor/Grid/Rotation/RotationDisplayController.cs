@@ -26,13 +26,15 @@ public class RotationDisplayController : MonoBehaviour
     private void HandlePlayToggled(bool toggle)
     {
         if (toggle)
-            SetText(laneRotationProvider.PlaybackRotation);
+            SetText(Settings.Instance.RotateTrack ? laneRotationProvider.PlaybackRotation : 0);
         else
         {
             SetText(
-                BeatSaberSongContainer.Instance.Map.MajorVersion < 4
-                    ? laneRotationProvider.PlaybackRotation
-                    : laneRotationProvider.EditRotation);
+                Settings.Instance.RotateTrack
+                    ? BeatSaberSongContainer.Instance.Map.MajorVersion < 4
+                        ? laneRotationProvider.PlaybackRotation
+                        : laneRotationProvider.EditRotation
+                    : 0);
         }
     }
 
@@ -44,7 +46,7 @@ public class RotationDisplayController : MonoBehaviour
 
     private void HandleRotationChanged(float rotation)
     {
-        if (!atsc.IsPlaying || (!atsc.IsPlaying && BeatSaberSongContainer.Instance.Map.MajorVersion >= 4)) return;
+        if (!atsc.IsPlaying && BeatSaberSongContainer.Instance.Map.MajorVersion >= 4) return;
         SetText(rotation);
     }
 
