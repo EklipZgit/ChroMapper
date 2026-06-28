@@ -163,17 +163,19 @@ public class LaneRotationProvider : StateManager<RotationEventStateData, BaseObj
     {
         if (prevState == null || nextState == null) return;
 
-        var dataAtTime = EnumerateFromLeft(nextState.StartTime)
+        var sinSum = 0f;
+        var cosSum = 0f;
+        foreach (var angle in EnumerateFromLeft(nextState.StartTime)
             .AsValueEnumerable()
             .Select(x => x.Rotation)
-            .Distinct()
-            .ToArray();
-        if (dataAtTime.Length == 0) return;
+            .Distinct())
+        {
+            var radians = angle * Mathf.Deg2Rad;
+            sinSum += Mathf.Sin(radians);
+            cosSum += Mathf.Cos(radians);
+        }
 
-        var sum = dataAtTime.AsValueEnumerable().Sum();
-        var average = sum / dataAtTime.Length;
-
-        prevState.NextAbsoluteRotation = average;
+        prevState.NextAbsoluteRotation = Mathf.Atan2(sinSum, cosSum) * Mathf.Rad2Deg;
     }
 
     protected override void OnInsertUpdateFromPreviousStateAndNextState(
