@@ -14,7 +14,7 @@ public class EnvironmentMaterialSO : ScriptableObject
     public void OnValidate() => Initialize();
     public void OnEnable() => Initialize();
 
-    private void Initialize()
+    public void Initialize()
     {
         Lookup.Clear();
         foreach (var entry in list) Lookup[entry.Hash] = entry.Material;
@@ -32,7 +32,7 @@ public class EnvironmentMaterialSO : ScriptableObject
 
     public void RemoveUnused() => list.RemoveAll(x => x.Unused);
 
-    public void AddEntry(EnvInfoMaterial material, string environment)
+    public void AddEntry(EnvironmentInfoMaterial material, string environment)
     {
         for (var index = 0; index < list.Count; index++)
         {
@@ -51,7 +51,6 @@ public class EnvironmentMaterialSO : ScriptableObject
                     Hash = material.Hash,
                     Name = material.Name,
                     Shader = material.Shader,
-                    Color = GetColor(material.Color),
                     Keywords = new List<string>(material.Keywords),
                     FloatProps =
                         material
@@ -61,21 +60,25 @@ public class EnvironmentMaterialSO : ScriptableObject
                             .ToList(),
                     VectorProps =
                         material
-                            .ShaderProps.Where(x => x.Value is not double)
+                            .ShaderProps.Where(x => x.Value is not double && x.Value is not string)
                             .Select(x =>
                                 new MaterialInfo.ShaderProps<Vector4>
                                 {
-                                    Key = x.Key,
-                                    Value = ConvertUtils.ToVector4(((JArray)x.Value).ToObject<float[]>())
+                                    Key = x.Key, Value = GetVector4(((JArray)x.Value).ToObject<float[]>())
                                 })
                             .ToList(),
-                    Environments = new List<string> { environment },
+                    TextureProps =
+                        material
+                            .ShaderProps.Where(x => x.Value is string)
+                            .Select(x =>
+                                new MaterialInfo.ShaderProps<string> { Key = x.Key, Value = x.Value })
+                            .ToList(),
+                    Environments = new List<string> { environment }
                 });
         }
         else
         {
             var m = list.First(x => x.Hash == material.Hash);
-            m.Color = GetColor(material.Color);
             if (material.Keywords != null) m.Keywords.AddRange(material.Keywords.Where(x => !m.Keywords.Contains(x)));
             m.FloatProps.AddRange(
                 material
@@ -85,25 +88,32 @@ public class EnvironmentMaterialSO : ScriptableObject
                         new MaterialInfo.ShaderProps<float> { Key = x.Key, Value = (float)x.Value }));
             m.VectorProps.AddRange(
                 material
-                    .ShaderProps.Where(x => x.Value is not double && x.Value is not long)
+                    .ShaderProps.Where(x => x.Value is not double && x.Value is not long && x.Value is not string)
                     .Where(x => !m.VectorProps.Exists(y => y.Key == x.Key))
                     .Select(x => new MaterialInfo.ShaderProps<Vector4>
                     {
                         Key = x.Key,
                         Value =
-                            ConvertUtils.ToVector4(((JArray)x.Value).ToObject<float[]>())
+                            GetVector4(((JArray)x.Value).ToObject<float[]>())
                     }));
+            m.TextureProps.AddRange(
+                material
+                    .ShaderProps.Where(x => x.Value is string)
+                    .Where(x => !m.TextureProps.Exists(y => y.Key == x.Key))
+                    .Select(x =>
+                        new MaterialInfo.ShaderProps<string> { Key = x.Key, Value = (string)x.Value }));
             if (!m.Environments.Contains(environment)) m.Environments.Add(environment);
         }
     }
 
+    private Vector4 GetVector4(float[] val) => new(val[0], val[1], val[2], val[3]);
+
     private Color GetColor(float[] val) =>
         Mathf.Approximately(val[0], -1) ? new Color(0f, 0.5f, 1f) : new Color(val[0], val[1], val[2], val[3]);
 
-    public void Sort()
-    {
-        list = list.OrderBy(x => x.Name.First()).ThenBy(x => x.Hash).ToList();
-    }
+    public void Sort() => list = list.OrderBy(x => x.Name.First()).ThenBy(x => x.Hash).ToList();
+
+    public Material GetSafe(string n) => n == "null" ? null : Lookup.GetValueOrDefault(n);
 }
 
 [Serializable]
@@ -114,11 +124,10 @@ public class MaterialInfo
     public Material Material;
     public string Shader;
 
-    public Color Color;
-
     public List<string> Keywords;
     public List<ShaderProps<float>> FloatProps;
     public List<ShaderProps<Vector4>> VectorProps;
+    public List<ShaderProps<string>> TextureProps;
     public List<string> Environments;
 
     [HideInInspector]

@@ -16,19 +16,13 @@ public class BasicEventEffectManager : MonoBehaviour
             EventTypeToEffects.Add(managers.First().Type, managers.Select(x => x.Manager).ToList());
     }
 
-    public void Initialize(AudioTimeSyncController atsc, ColorSchemeSO colorScheme)
+    public void Initialize(AudioTimeSyncController atsc)
     {
         foreach (var manager in EventTypeToEffects.Values.SelectMany(x => x).Distinct())
         {
             manager.Atsc = atsc;
             switch (manager)
             {
-                case BasicLightEffect blm:
-                    blm.ColorScheme = colorScheme;
-                    break;
-                case ColorBoostEffect cbm:
-                    cbm.ColorScheme = colorScheme;
-                    break;
                 case TrackLaneRingsRotationEffect tlrre:
                     tlrre.Effect.Manager.Atsc = atsc;
                     break;
@@ -51,7 +45,9 @@ public class BasicEventEffectManager : MonoBehaviour
     public bool InsertData(BaseEvent data)
     {
         var marked = false;
-        foreach (var effect in EventTypeToEffects.TryGetValue(data.Type, out var list) ? list : new())
+        foreach (var effect in EventTypeToEffects.TryGetValue(data.Type, out var list)
+            ? list
+            : new List<StateManager<BaseEvent>>())
         {
             effect.InsertData(data);
             marked = true;
@@ -67,7 +63,9 @@ public class BasicEventEffectManager : MonoBehaviour
     {
         var marked = false;
         data = data.ToList();
-        foreach (var effect in (EventTypeToEffects.TryGetValue(type, out var list) ? list : new()))
+        foreach (var effect in EventTypeToEffects.TryGetValue(type, out var list)
+            ? list
+            : new List<StateManager<BaseEvent>>())
         foreach (var evt in data)
         {
             effect.InsertData(evt);
@@ -80,7 +78,9 @@ public class BasicEventEffectManager : MonoBehaviour
     public bool RemoveData(BaseEvent reference, BaseEvent original)
     {
         var marked = false;
-        foreach (var effect in EventTypeToEffects.TryGetValue(original.Type, out var list) ? list : new())
+        foreach (var effect in EventTypeToEffects.TryGetValue(original.Type, out var list)
+            ? list
+            : new List<StateManager<BaseEvent>>())
         {
             effect.RemoveData(reference, original);
             marked = true;
@@ -120,7 +120,7 @@ public class BasicEventEffectManager : MonoBehaviour
     private void AddToEntry(int type, StateManager<BaseEvent> comp)
     {
         if (EventTypeToEffects.ContainsKey(type) && EventTypeToEffects[type].Contains(comp)) return;
-        effectEntries.Add(new() { Type = type, Manager = comp });
+        effectEntries.Add(new BasicEventStateManagerEntry { Type = type, Manager = comp });
         EventTypeToEffects.TryAdd(type, new List<StateManager<BaseEvent>>());
         EventTypeToEffects[type].Add(comp);
     }

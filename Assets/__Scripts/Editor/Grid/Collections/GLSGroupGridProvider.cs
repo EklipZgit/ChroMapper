@@ -25,10 +25,10 @@ public class GLSGroupGridProvider : MonoBehaviour, CMInput.IGLSGroupTabsActions
 
     private readonly Stack<GLSGroupTrack> reuseTracks = new();
 
-    private void Start() => beatmapContext.OnTracksDefinitionChanged += HandleTracksDefinitionChanged;
-    private void OnDestroy() => beatmapContext.OnTracksDefinitionChanged -= HandleTracksDefinitionChanged;
+    private void Start() => beatmapContext.OnTrackDefinitionsChanged += HandleTrackDefinitionsChanged;
+    private void OnDestroy() => beatmapContext.OnTrackDefinitionsChanged -= HandleTrackDefinitionsChanged;
 
-    private void HandleTracksDefinitionChanged(TracksDefinitionSO tracksDefinition)
+    private void HandleTrackDefinitionsChanged(TrackDefinitionsSO trackDefinitions)
     {
         foreach (var t in IdToTracks.Values)
         {
@@ -43,7 +43,7 @@ public class GLSGroupGridProvider : MonoBehaviour, CMInput.IGLSGroupTabsActions
         CurrentGroupIdx = 0;
         CurrentGroup = "";
 
-        foreach (var (id, gls) in tracksDefinition.Gls)
+        foreach (var (id, gls) in trackDefinitions.Gls)
         {
             if (!reuseTracks.TryPop(out var glsTrack)) glsTrack = Instantiate(trackPrefab, targetGrid);
             if (!atsc.otherTracks.Contains(glsTrack.Track)) atsc.otherTracks.Add(glsTrack.Track);

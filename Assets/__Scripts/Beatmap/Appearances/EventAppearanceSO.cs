@@ -27,7 +27,7 @@ namespace Beatmap.Appearances
             bool boost = false)
         {
             var color = Color.white;
-            var trackDef = e.TracksDefinition.GetBasicOrDefault(e.EventData.Type);
+            var trackDef = e.TrackDefinitions.GetBasicOrDefault(e.EventData.Type);
             e.UpdateAlpha(final ? 1.0f : 0.6f, false);
             e.UpdateScale(final ? 0.75f : 0.6f);
             e.UpdateOffset(e.AlternateShader ? -0.5f : 0f);

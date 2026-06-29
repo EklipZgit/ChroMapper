@@ -187,21 +187,21 @@ public class EventBoxViewController : MonoBehaviour
     private void HandleAddIdsEventBox()
     {
         if (groupContext == null) return;
-        var td = beatmapRuntimeContext.TracksDefinition.GetGlsOrDefault(groupContext.ID);
+        var td = beatmapRuntimeContext.TrackDefinitions.GetGlsOrDefault(groupContext.ID);
         GLSEventBoxCommand.AddAllIdsEventBox(groupContext, td, GetGroupSize(groupContext));
     }
 
     private void HandleAddAxesEventBox()
     {
         if (groupContext == null) return;
-        var td = beatmapRuntimeContext.TracksDefinition.GetGlsOrDefault(groupContext.ID);
+        var td = beatmapRuntimeContext.TrackDefinitions.GetGlsOrDefault(groupContext.ID);
         GLSEventBoxCommand.AddAllAxesEventBox(groupContext, td);
     }
 
     private void HandleAddIdsAndAxesEventBox()
     {
         if (groupContext == null) return;
-        var td = beatmapRuntimeContext.TracksDefinition.GetGlsOrDefault(groupContext.ID);
+        var td = beatmapRuntimeContext.TrackDefinitions.GetGlsOrDefault(groupContext.ID);
         GLSEventBoxCommand.AddAllAxesAndIdsEventBox(groupContext, td, GetGroupSize(groupContext));
     }
 
@@ -404,7 +404,7 @@ public class EventBoxViewController : MonoBehaviour
 
         easeTypeDropdown.SetValueWithoutNotify(box.Easing);
 
-        var td = beatmapRuntimeContext.TracksDefinition.GetGlsOrDefault(groupContext.ID);
+        var td = beatmapRuntimeContext.TrackDefinitions.GetGlsOrDefault(groupContext.ID);
         switch (box)
         {
             case BaseLightColorEventBox lceb:

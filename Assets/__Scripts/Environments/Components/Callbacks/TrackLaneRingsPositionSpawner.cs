@@ -1,0 +1,38 @@
+﻿using UnityEngine;
+
+public class TrackLaneRingsPositionSpawner : MonoBehaviour
+{
+    public TrackLaneRingsManager RingManager;
+    public TrackLaneRingsPositionEffect EffectManager;
+
+    public float MinPositionStep;
+    public float MaxPositionStep;
+    public float MoveSpeed;
+
+    private void Start()
+    {
+        RingManager.Atsc = EffectManager.Atsc;
+        var p = EffectManager.GetCurrentState();
+        if (p.index != -1) HandleStateChanged(p);
+    }
+
+    private void OnEnable() => EffectManager.OnStateChanged += HandleStateChanged;
+    private void OnDisable() => EffectManager.OnStateChanged -= HandleStateChanged;
+
+    private void HandleStateChanged((int index, TrackLaneRingsPositionStateData state) data)
+    {
+        var index = data.index;
+        var state = data.state;
+
+        var zoomed = index % 2 == 0;
+        var step = state.Step ?? (zoomed ? MaxPositionStep : MinPositionStep);
+        var speed = state.Speed ?? MoveSpeed;
+
+        var len = RingManager.Rings.Count;
+        for (var i = 0; i < len; i++)
+        {
+            var destPosZ = i * step;
+            RingManager.Rings[i].SetPosition(destPosZ, speed);
+        }
+    }
+}

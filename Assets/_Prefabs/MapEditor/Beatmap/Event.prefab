@@ -62,6 +62,7 @@ MonoBehaviour:
   labels: {fileID: 0}
   TracksDefinition: {fileID: 0}
   AlternateShader: 0
+  useBlockModel: 0
 --- !u!1 &2090204300881967071
 GameObject:
   m_ObjectHideFlags: 0

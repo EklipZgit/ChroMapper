@@ -12,13 +12,13 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
     [SerializeField] private TracksManager tracksManager;
     [SerializeField] private BeatmapRuntimeContext beatmapRuntimeContext;
     [SerializeField] private ScrollPrecisionController scrollPrecisionController;
-    private TracksDefinitionSO trackDefinition;
+    private TrackDefinitionsSO trackDefinition;
 
-    private void Start() => beatmapRuntimeContext.OnTracksDefinitionChanged += HandleTrackDefinitionChanged;
+    private void Start() => beatmapRuntimeContext.OnTrackDefinitionsChanged += HandleTrackDefinitionChanged;
 
-    private void OnDestroy() => beatmapRuntimeContext.OnTracksDefinitionChanged -= HandleTrackDefinitionChanged;
+    private void OnDestroy() => beatmapRuntimeContext.OnTrackDefinitionsChanged -= HandleTrackDefinitionChanged;
 
-    private void HandleTrackDefinitionChanged(TracksDefinitionSO obj) => trackDefinition = obj;
+    private void HandleTrackDefinitionChanged(TrackDefinitionsSO obj) => trackDefinition = obj;
 
     public void OnInvertEventValue(InputAction.CallbackContext context)
     {

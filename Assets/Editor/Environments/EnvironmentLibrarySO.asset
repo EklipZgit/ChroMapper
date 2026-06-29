@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Meshes: {fileID: 11400000, guid: e07afa9dddf2714c3a5da9236d935d92, type: 2}
   Materials: {fileID: 11400000, guid: 2e04ee815276c77229446fe0a3c138bf, type: 2}
+  Textures: {fileID: 11400000, guid: 2c6325ffbbbb7c977ab0baf3b0754079, type: 2}
   Sprites: {fileID: 11400000, guid: 7d4a03bd213b89d0f8a85e0e68069714, type: 2}
   Shaders:
   - name: Custom/CloudsLitTransparent
@@ -63,8 +64,10 @@ MonoBehaviour:
     - DISTORTION_TARGET_MASK
     - FLIPBOOK_BLENDING_OFF
     - _FOGTYPE_ALPHA
+    - _FOGTYPE_COLOR
     - _FOGTYPE_LERP
     - HEIGHT_FOG
+    - MAIN_PER_PARTICLE_RANDOM
     - MAIN_TEXTURE
     - MASK
     - MASK2
@@ -84,6 +87,7 @@ MonoBehaviour:
     - _SECONDARY_UVS_IMPORT
     - SECONDARY_UVS_MASK
     - SECONDARY_UVS_MASK2
+    - SOFT_PARTICLES
     - SPATIAL_DISPLACEMENT
     - SPECTROGRAM_COLOR
     - _SPECTROGRAM_FULL
@@ -266,21 +270,22 @@ MonoBehaviour:
     shader: {fileID: 4800000, guid: d03bcf5b16d2d7cafb65aa8ba3686a87, type: 3}
     keywords:
     - _DECALBLEND_ALPHABLEND
+    - DETAIL_NORMAL_MAP
     - _EMISSIONCOLORTYPE_FLAT
     - FOG
     - HEIGHT_FOG
+    - LIGHTMAP
     - NOISE_DITHERING
     - NORMAL_MAP
     - REFLECTION_PROBE
     - REFLECTION_PROBE_BOX_PROJECTION
     - REFLECTION_PROBE_BOX_PROJECTION_OFFSET
     - Z_FADE
-  <SkyboxMaterial>k__BackingField: {fileID: 2100000, guid: e08c9a8c6d50c52499b383fff6fa82dd,
-    type: 2}
-  <SliceSprite>k__BackingField: {fileID: 4300000, guid: a96174836f8b90962b9d37a6d8d29363,
-    type: 2}
-  <MirrorRenderer>k__BackingField: {fileID: 11400000, guid: b54751a1fc3ac3983afa3aa9d4141095,
-    type: 2}
+  ComputeShaders:
+  - name: TextureProcessor3DGenerator
+    computeShader: {fileID: 7200000, guid: 182267945a2911f1082121569cf9cb98, type: 3}
+  - name: TextureProcessor3DWriteTextures
+    computeShader: {fileID: 7200000, guid: fed8d494aa685e209ad7ab2bae087825, type: 3}
   layerMaskRemap:
   - name: Default
     layerMask:
@@ -289,7 +294,7 @@ MonoBehaviour:
   - name: DontShowInExternalMRCamera
     layerMask:
       serializedVersion: 2
-      m_Bits: 1
+      m_Bits: 134217728
   - name: Environment
     layerMask:
       serializedVersion: 2
@@ -305,11 +310,11 @@ MonoBehaviour:
   - name: NonReflectedParticles
     layerMask:
       serializedVersion: 2
-      m_Bits: 1
+      m_Bits: 524288
   - name: PlayersPlace
     layerMask:
       serializedVersion: 2
-      m_Bits: 1
+      m_Bits: 268435456
   - name: UI
     layerMask:
       serializedVersion: 2
@@ -317,6 +322,12 @@ MonoBehaviour:
   - name: Water
     layerMask:
       serializedVersion: 2
-      m_Bits: 1
+      m_Bits: 16
+  <SkyboxMaterial>k__BackingField: {fileID: 2100000, guid: e08c9a8c6d50c52499b383fff6fa82dd,
+    type: 2}
+  <SliceSprite>k__BackingField: {fileID: 4300000, guid: a96174836f8b90962b9d37a6d8d29363,
+    type: 2}
+  <MirrorRenderer>k__BackingField: {fileID: 11400000, guid: b54751a1fc3ac3983afa3aa9d4141095,
+    type: 2}
   fallbackPrefab: {fileID: 2927685545579233791, guid: 9d262d62360e69247bc42d35220aebd6,
     type: 3}

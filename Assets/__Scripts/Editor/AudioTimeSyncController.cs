@@ -15,10 +15,10 @@ public class AudioTimeSyncController : MonoBehaviour,
 {
     public static readonly string PrecisionSnapName = "PrecisionSnap";
 
-    private static readonly int songTime = Shader.PropertyToID("_SongTime");
-    private static readonly int songTimeSeconds = Shader.PropertyToID("_SongTimeSeconds");
-    private static readonly int songTimeOrigin = Shader.PropertyToID("_SongTimeOrigin");
-    private static readonly int viewStart = Shader.PropertyToID("_ViewStart");
+    private static readonly int songTimeId = Shader.PropertyToID("_SongTime");
+    private static readonly int songTimeSecondsId = Shader.PropertyToID("_SongTimeSeconds");
+    private static readonly int songTimeOriginId = Shader.PropertyToID("_SongTimeOrigin");
+    private static readonly int viewStartId = Shader.PropertyToID("_ViewStart");
     private static readonly int viewEnd = Shader.PropertyToID("_ViewEnd");
 
     private const float cancelPlayInputDuration = 0.3f;
@@ -427,12 +427,14 @@ public class AudioTimeSyncController : MonoBehaviour,
 
     private void UpdateMovables()
     {
-        Shader.SetGlobalFloat(songTime, currentSongBpmTime);
-        Shader.SetGlobalFloat(songTimeSeconds, currentSeconds);
-        Shader.SetGlobalFloat(songTimeOrigin, VisualBeatOriginJsonTime);
+        Shader.SetGlobalVector(songTimeId, Vector4Extensions.ToTimeVector(currentSongBpmTime));
+        Shader.SetGlobalVector(songTimeSecondsId, Vector4Extensions.ToTimeVector(currentSeconds));
+        Shader.SetGlobalFloat(songTimeOriginId, VisualBeatOriginJsonTime);
 
         // set view range based on track length
-        Shader.SetGlobalFloat(viewStart, GetSecondsFromBeat(currentSongBpmTime - (Settings.Instance.TrackLength / 4f)));
+        Shader.SetGlobalFloat(
+            viewStartId,
+            GetSecondsFromBeat(currentSongBpmTime - (Settings.Instance.TrackLength / 4f)));
         Shader.SetGlobalFloat(viewEnd, GetSecondsFromBeat(currentSongBpmTime + Settings.Instance.TrackLength));
 
         var position = currentSongBpmTime * EditorScaleController.EditorScale;

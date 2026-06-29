@@ -24,13 +24,13 @@ public class StrobeLaserSpeedInterpolationPass : StrobeGeneratorPass
     private readonly bool rightRotatesClockwise;
 
     public StrobeLaserSpeedInterpolationPass(
-        TracksDefinitionSO tracksDefinition,
+        TrackDefinitionsSO trackDefinitions,
         float interval,
         string easingID,
         int spinDirection,
         bool uniqueLaserDirection,
         bool lockRotation,
-        int decimalPrecision) : base(tracksDefinition)
+        int decimalPrecision) : base(trackDefinitions)
     {
         this.interval = interval;
         lockLaserRotation = lockRotation;
@@ -56,7 +56,7 @@ public class StrobeLaserSpeedInterpolationPass : StrobeGeneratorPass
     }
 
     public override bool IsEventValidForPass(BaseEvent evt) =>
-        TracksDefinition.GetBasicOrDefault(evt.Type).Kind == BasicEventKind.IntValue;
+        TrackDefinitions.GetBasicOrDefault(evt.Type).Kind == BasicEventKind.IntValue;
 
     public override IEnumerable<BaseEvent> StrobePassForLane(
         IEnumerable<BaseEvent> original,

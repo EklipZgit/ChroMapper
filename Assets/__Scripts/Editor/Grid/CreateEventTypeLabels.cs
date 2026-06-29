@@ -37,7 +37,7 @@ public class CreateEventTypeLabels : MonoBehaviour
 
         if (propMode == EventGridContainer.PropMode.Off)
         {
-            var entries = context.TracksDefinition.Basic.ToList();
+            var entries = context.TrackDefinitions.Basic.ToList();
             for (var i = 0; i < entries.Count; i++)
             {
                 var instantiate = Instantiate(LabelPrefab, target);
@@ -70,7 +70,7 @@ public class CreateEventTypeLabels : MonoBehaviour
                     var textMesh = instantiate.GetComponentInChildren<TextMeshProUGUI>();
                     textMesh.text = i == 0
                         ? "All Lights"
-                        : $"{context.TracksDefinition.GetBasicOrDefault(eventType).Name} ID {LaneToLightID(eventType, i - 1)}";
+                        : $"{context.TrackDefinitions.GetBasicOrDefault(eventType).Name} ID {LaneToLightID(eventType, i - 1)}";
                 }
                 catch { }
             }

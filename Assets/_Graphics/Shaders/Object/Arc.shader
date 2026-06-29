@@ -76,7 +76,7 @@
             float _FogHeightOffset;
             float _FogHeightScale;
 
-            uniform float _SongTime;
+            uniform float4 _SongTime;
             uniform float _EditorDistance;
             uniform float _TrackLaneYPosition; // we are keeping this name because Vivify uses this too
 
@@ -129,7 +129,7 @@
 
                 o.rotatedPos = float4(
                     ComputeRotatedPosition(o.worldPos - offset, rotationInRadians) + offset,
-                    objectTime + 0.001 - _SongTime
+                    objectTime + 0.001 - _SongTime.y
                 );
                 o.screenPos = ComputeScreenPosCustom(o.vertex);
 
@@ -158,7 +158,7 @@
                 #if defined(FOG) && defined(BLOOM_FOG)
                 #if defined(HEIGHT_FOG)
                 BLOOM_FOG_HEIGHT_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset,
-                       _FogHeightScale);
+                                       _FogHeightScale);
                 #else
                 BLOOM_FOG_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale);
                 #endif

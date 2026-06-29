@@ -2136,13 +2136,10 @@ MonoBehaviour:
     - GreenDayEnvironment
     - PanicEnvironment
     - LinkinPark2Environment
-    - QueenEnvironment
     - TheWeekndEnvironment
     - NiceEnvironment
     - LatticeEnvironment
-    - WeaveEnvironment
     - Dragons2Environment
-    - EDMEnvironment
     - GridEnvironment
     - HalloweenEnvironment
     - OriginsEnvironment
@@ -2178,7 +2175,6 @@ MonoBehaviour:
     - DragonsEnvironment
     - MonstercatEnvironment
     - BigMirrorEnvironment
-    - ColliderEnvironment
     BoundsSize: {x: 2, y: 2, z: 2}
     BoundsCenter: {x: 0, y: 0, z: 0}
     Unused: 0
