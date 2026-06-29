@@ -78,7 +78,7 @@ namespace Beatmap.Containers
         {
             var container = Instantiate(prefab).GetComponent<EventContainer>();
             container.EventData = data;
-            container.EventGridContainer = eventsContainer;
+            container.eventGridContainer = eventsContainer;
             container.TrackDefinitions = trackDefinitionsSo;
             container.labels = labels;
             container.transform.localEulerAngles = Vector3.zero;

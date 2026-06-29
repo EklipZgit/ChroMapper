@@ -1,0 +1,16 @@
+﻿<Solution>
+  <Project Path="EnvironmentInfo.csproj" />
+  <Project Path="Main.csproj" />
+  <Project Path="LiteNetLib.csproj" />
+  <Project Path="Input.csproj" />
+  <Project Path="Plugins.csproj" />
+  <Project Path="Tests.csproj" />
+  <Project Path="FileBrowser.csproj" />
+  <Project Path="TestsEditMode.csproj" />
+  <Project Path="AudioLink.csproj" />
+  <Project Path="CustomNotes.csproj" />
+  <Project Path="AudioLink.Editor.csproj" />
+  <Project Path="Nobi.UiRoundedCorners.csproj" />
+  <Project Path="Assembly-CSharp-Editor.csproj" />
+  <Project Path="Intersections.csproj" />
+</Solution>
