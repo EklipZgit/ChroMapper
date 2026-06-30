@@ -195,6 +195,16 @@ public class ParticleSystemData : EnvironmentComponentData<ParticleSystem>
         public string ArcMode;
         public float ArcSpread;
 
+        // Fields present in JSON but missing from your class:
+        public float[] Position;
+        public float[] Rotation;
+        public float[] Scale;
+        public string Texture;
+        public bool AlignToDirection;
+        public float RandomDirectionAmount;
+        public float RandomPositionAmount;
+        public float SphericalDirectionAmount;
+
         public void CopyTo(ParticleSystem.ShapeModule module)
         {
             module.shapeType = Enum.Parse<ParticleSystemShapeType>(ShapeType);
@@ -203,6 +213,18 @@ public class ParticleSystemData : EnvironmentComponentData<ParticleSystem>
             module.arc = Arc;
             module.arcMode = Enum.Parse<ParticleSystemShapeMultiModeValue>(ArcMode);
             module.arcSpread = ArcSpread;
+
+            if (Position != null)
+                module.position = new Vector3(Position[0], Position[1], Position[2]);
+            if (Rotation != null)
+                module.rotation = new Vector3(Rotation[0], Rotation[1], Rotation[2]);
+            if (Scale != null)
+                module.scale = new Vector3(Scale[0], Scale[1], Scale[2]);
+
+            module.alignToDirection = AlignToDirection;
+            module.randomDirectionAmount = RandomDirectionAmount;
+            module.randomPositionAmount = RandomPositionAmount;
+            module.sphericalDirectionAmount = SphericalDirectionAmount;
         }
     }
 
@@ -538,13 +560,13 @@ public class ParticleSystemData : EnvironmentComponentData<ParticleSystem>
         public float ConstantMax;
 
         public ParticleSystem.MinMaxCurve Create() =>
-            new()
+            Mode switch
             {
-                mode = Enum.Parse<ParticleSystemCurveMode>(Mode),
-                curve = Curve?.Create(),
-                constant = Constant,
-                constantMin = ConstantMin,
-                constantMax = ConstantMax
+                "Constant" => new ParticleSystem.MinMaxCurve(Constant),
+                "TwoConstants" => new ParticleSystem.MinMaxCurve(ConstantMin, ConstantMax),
+                "Curve" => new ParticleSystem.MinMaxCurve(1f, Curve?.Create()),
+                "TwoCurves" => new ParticleSystem.MinMaxCurve(1f, Curve?.Create(), Curve?.Create()),
+                _ => new ParticleSystem.MinMaxCurve(Constant)
             };
     }
 
@@ -578,7 +600,9 @@ public class ParticleSystemData : EnvironmentComponentData<ParticleSystem>
             new Gradient()
             {
                 mode = Enum.Parse<GradientMode>(Mode),
-                colorSpace = Enum.Parse<ColorSpace>(ColorSpace),
+                colorSpace = ColorSpace == "Uninitialized"
+                    ? UnityEngine.ColorSpace.Gamma
+                    : Enum.Parse<UnityEngine.ColorSpace>(ColorSpace),
                 alphaKeys = AlphaKeys.Select(x => x.Create()).ToArray(),
                 colorKeys = ColorKeys.Select(x => x.Create()).ToArray(),
             };

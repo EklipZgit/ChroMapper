@@ -698,7 +698,7 @@
                 }
                 #endif
 
-                float _dispScale = _DisplacementStrength * (spectrogramScale * 2);
+                float _dispScale = _DisplacementStrength * (spectrogramScale);
 
                 #if defined(VERTEXDISPLACEMENT_MASK)
                 { 
@@ -738,7 +738,7 @@
                     }
                 #endif
 
-                i.vertex.xyz += _dispScale * dispDir / 2;
+                i.vertex.xyz += _dispScale * dispDir ;
                 }
                 #endif
 
@@ -958,7 +958,7 @@
                                                                  _BothSidesDiffuseMultiplier, _SpecularIntensity);
 
                 float3 ambientLighting = max(_AmbientMultiplier * _NominalDiffuseLevel.rgb, _AmbientMinimalValue);
-                albedo.rgb = baseColor * ambientLighting + finalLighting;
+                albedo.rgb += baseColor * ambientLighting + finalLighting;
 
                 // EMISSION
                 #if defined(_ACES_APPROACH_BEFORE_EMISSIVE)
