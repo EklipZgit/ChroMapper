@@ -14,7 +14,7 @@ namespace Beatmap.V2
     public class V2Difficulty
     {
         private const string version = "2.6.0";
-        
+
         public static JSONNode GetOutputJson(BaseDifficulty difficulty)
         {
             try
@@ -29,17 +29,15 @@ namespace Beatmap.V2
                 var allEvents = new List<BaseObject>();
                 allEvents.AddRange(difficulty.Events);
                 allEvents.AddRange(difficulty.BpmEvents);
+                allEvents.AddRange(difficulty.RotationEvents);
                 if (difficulty.BpmEvents.Count > 0 && difficulty.BpmEvents.First().JsonTime != 0)
                 {
                     var insertedBpm = (BeatSaberSongContainer.Instance != null)
                         ? BeatSaberSongContainer.Instance.Info.BeatsPerMinute
                         : 100; // This path only appears in tests
-                    allEvents.Add(new BaseBpmEvent
-                    {
-                        JsonTime = 0,
-                        Bpm = insertedBpm
-                    });
+                    allEvents.Add(new BaseBpmEvent { JsonTime = 0, Bpm = insertedBpm });
                 }
+
                 allEvents.Sort((lhs, rhs) => lhs.JsonTime.CompareTo(rhs.JsonTime));
                 foreach (var e in allEvents) events.Add(e.ToJson());
                 json["_events"] = events;
@@ -63,8 +61,7 @@ namespace Beatmap.V2
                     : new JSONObject();
 
                 var customDataJson = GetOutputCustomJsonData(difficulty);
-                if (customDataJson.Children.Any())
-                    json["_customData"] = customDataJson;
+                if (customDataJson.Children.Any()) json["_customData"] = customDataJson;
 
                 return json;
             }
@@ -88,7 +85,7 @@ namespace Beatmap.V2
                 customData["_bookmarks"] = bookmarks;
                 customData[difficulty.BookmarksUseOfficialBpmEventsKey] = true;
             }
-            
+
             if (difficulty.CustomEvents.Any())
             {
                 var customEvents = new JSONArray();
@@ -108,11 +105,7 @@ namespace Beatmap.V2
                 var pAry = new JSONArray();
                 foreach (var p in difficulty.PointDefinitions)
                 {
-                    var obj = new JSONObject
-                    {
-                        ["_name"] = p.Key,
-                        ["_points"] = p.Value
-                    };
+                    var obj = new JSONObject { ["_name"] = p.Key, ["_points"] = p.Value };
                     pAry.Add(obj);
                 }
 
@@ -122,10 +115,9 @@ namespace Beatmap.V2
             if (difficulty.Materials.Any())
             {
                 customData["_materials"] = new JSONObject();
-                foreach (var m in difficulty.Materials) 
-                    customData["_materials"][m.Key] = m.Value.ToJson();
+                foreach (var m in difficulty.Materials) customData["_materials"][m.Key] = m.Value.ToJson();
             }
-            
+
 
             if (difficulty.Time > 0) customData["_time"] = Math.Round(difficulty.Time, 3);
 
@@ -153,9 +145,12 @@ namespace Beatmap.V2
                             {
                                 if (n["_type"] != null && n["_type"] == 100)
                                     map.BpmEvents.Add(V2BpmEvent.GetFromJson(n));
+                                else if (n["_type"] != null && (n["_type"] == 14 || n["_type"] == 15))
+                                    map.RotationEvents.Add(V2RotationEvent.GetFromJson(n));
                                 else
                                     map.Events.Add(V2Event.GetFromJson(n));
                             }
+
                             break;
                         case "_notes":
                             foreach (JSONNode n in node) map.Notes.Add(V2Note.GetFromJson(n));
@@ -174,11 +169,12 @@ namespace Beatmap.V2
 
                 // Do not assume map is sorted
                 map.BpmEvents.Sort();
+                map.RotationEvents.Sort();
                 map.Events.Sort();
                 map.Notes.Sort();
                 map.Obstacles.Sort();
                 map.Waypoints.Sort();
-                
+
                 LoadCustom(map, mainNode);
 
                 return map;
@@ -242,6 +238,7 @@ namespace Beatmap.V2
                                         else
                                             Debug.LogWarning($"Duplicate key {n["_name"]} found in point definitions");
                                     }
+
                                     map.CustomData.Remove(cKey);
                                     break;
                                 case "_environment":
@@ -259,6 +256,7 @@ namespace Beatmap.V2
                                                 Debug.LogWarning($"Duplicate key \"{n.Key}\" found in materials");
                                         break;
                                     }
+
                                     Debug.LogWarning("Could not read materials");
                                     map.CustomData.Remove(cKey);
                                     break;
@@ -270,7 +268,7 @@ namespace Beatmap.V2
                         }
 
                         break;
-                    
+
                     // Keys can be present outside of root CustomData from legacy community editor
                     case "_BPMChanges":
                         foreach (JSONNode n in mNode) bpmList.Add(V2BpmChange.GetFromJson(n));

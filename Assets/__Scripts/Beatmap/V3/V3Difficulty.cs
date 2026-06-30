@@ -54,17 +54,14 @@ namespace Beatmap.V3
                             colorBoostBeatmapEvents.Add(evt.ToJson());
                             break;
                         
-                        case (int)EventTypeValue.EarlyLaneRotation:
-                        case (int)EventTypeValue.LateLaneRotation:
-                            rotationEvents.Add(evt.ToJson());
-                            break;
-                        
                         default:
                             basicBeatmapEvents.Add(evt.ToJson());
                             break;
                     }
                 }
                 
+                foreach (var evt in difficulty.RotationEvents) rotationEvents.Add(evt.ToJson());
+
                 json["rotationEvents"] = rotationEvents;
                 json["basicBeatmapEvents"] = basicBeatmapEvents;
                 json["colorBoostBeatmapEvents"] = colorBoostBeatmapEvents;
@@ -276,7 +273,7 @@ namespace Beatmap.V3
                             foreach (JSONNode n in node) map.Events.Add(V3ColorBoostEvent.GetFromJson(n));
                             break;
                         case "rotationEvents":
-                            foreach (JSONNode n in node) map.Events.Add(V3RotationEvent.GetFromJson(n));
+                            foreach (JSONNode n in node) map.RotationEvents.Add(V3RotationEvent.GetFromJson(n));
                             break;
                         
                         case "bpmEvents":
@@ -324,6 +321,8 @@ namespace Beatmap.V3
                 // Important!
                 map.Notes.Sort();
                 map.Events.Sort();
+                map.RotationEvents.Sort();
+                map.NJSEvents.Sort();
                 
                 // Do not assume map is sorted for other things anyway
                 map.BpmEvents.Sort();

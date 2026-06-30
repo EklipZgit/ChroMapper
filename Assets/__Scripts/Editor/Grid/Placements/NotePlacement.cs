@@ -234,7 +234,10 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
         if (PrecisionPlacementController.IsEnabled)
         {
             var precision = Settings.Instance.PrecisionPlacementGridPrecision;
-            LanePosition = BeatmapPositionHelper.LocalPositionToLanePositionRound(localPoint, precision, BeatmapConstant.PlayerYOffset / 2f);
+            LanePosition = BeatmapPositionHelper.LocalPositionToLanePositionRound(
+                localPoint,
+                precision,
+                BeatmapConstant.PlayerYOffset / 2f);
             LanePosition.z = zPlacement;
             PlacementVisualContainer.transform.localPosition =
                 BeatmapPositionHelper.LanePositionToLocalPosition(LanePosition, BeatmapConstant.PlayerYOffset / 2f);
@@ -279,6 +282,13 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
                     ? new Vector2(pos.x - 2f, pos.y) - (Vector2.one / 2f)
                     : null;
         }
+    }
+
+    protected override void HandleRotationChanged(float rotation)
+    {
+        if (QueuedData == null) return;
+        QueuedData.Rotation = (int)rotation;
+        noteAppearanceSo.SetNoteAppearance(PlacementVisualContainer);
     }
 
     // Do we need this anymore?
@@ -346,6 +356,12 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
             DraggedObjectContainer.DirectionTargetEuler = NoteContainer.Directionalize(dragged);
         }
 
+        if (dragged.Rotation != queued.Rotation)
+        {
+            dragged.Rotation = queued.Rotation;
+            TracksManager.RefreshTracks();
+        }
+
         noteAppearanceSo.SetNoteAppearance(DraggedObjectContainer);
 
         TransferQueuedToAttachedDraggedSliders(queued);
@@ -360,6 +376,12 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
             baseSlider.PosX = queued.PosX;
             baseSlider.PosY = queued.PosY;
             if (updateAttachedSliderDirection) baseSlider.CutDirection = queued.CutDirection;
+            if (baseSlider.Rotation != queued.Rotation)
+            {
+                baseSlider.Rotation = queued.Rotation;
+                TracksManager.RefreshTracks();
+            }
+
             baseSlider.CustomCoordinate = queued.CustomCoordinate;
         }
 
@@ -372,6 +394,10 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
 
             if (baseSlider is BaseArc baseArc && updateAttachedSliderDirection)
                 baseArc.TailCutDirection = queued.CutDirection;
+            if (baseSlider.TailRotation != queued.Rotation)
+            {
+                baseSlider.TailRotation = queued.Rotation;
+            }
         }
 
         foreach (var baseSliderContainer in draggedAttachedSliderContainers)
@@ -389,6 +415,12 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
         }
 
         updateAttachedSliderDirection = false;
+    }
+
+    public override void FinishDrag()
+    {
+        base.FinishDrag();
+        QueuedData.Rotation = (int)LaneRotationProvider.EditRotation;
     }
 
     public override void CreateVisual()

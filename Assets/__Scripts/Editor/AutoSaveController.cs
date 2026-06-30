@@ -364,7 +364,7 @@ public class AutoSaveController : MonoBehaviour, CMInput.ISavingActions
                 break;
             
             case 4:
-                if (map.Events.Any(e => e.IsLaneRotationEvent()))
+                if (map.RotationEvents.Count > 0)
                 {
                     stringBuilder.AppendLine("* Lane Rotation Event (v2/v3)");
                 }

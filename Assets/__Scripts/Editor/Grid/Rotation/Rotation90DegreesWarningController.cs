@@ -3,22 +3,11 @@ using UnityEngine;
 
 public class Rotation90DegreesWarningController : MonoBehaviour
 {
-    [SerializeField] private RotationCallbackController rotationCallback;
     [SerializeField] private TextMeshProUGUI rotationDisplay;
 
-    // Start is called before the first frame update
-    private void Start()
+    public void HandleRotationChanged(float rotation)
     {
         if (BeatSaberSongContainer.Instance.MapDifficultyInfo.Characteristic == "90Degree")
-            rotationCallback.OnRotationChanged += OnRotationChanged;
+            rotationDisplay.color = rotation is < -45f or > 45f ? Color.red : Color.white;
     }
-
-    private void OnDestroy()
-    {
-        if (BeatSaberSongContainer.Instance.MapDifficultyInfo.Characteristic == "90Degree")
-            rotationCallback.OnRotationChanged -= OnRotationChanged;
-    }
-
-    private void OnRotationChanged(bool natural, float rotation) =>
-        rotationDisplay.color = rotation < -45f || rotation > 45f ? Color.red : Color.white;
 }

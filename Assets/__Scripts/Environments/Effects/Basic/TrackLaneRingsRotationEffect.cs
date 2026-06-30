@@ -75,9 +75,9 @@ public class TrackLaneRingsRotationEffect : BasicEventEffect<TrackLaneRingsRotat
     }
 
     protected override void OnInsertConsequentUpdateToNextState(
-        TrackLaneRingsRotationStateData currStateData,
-        TrackLaneRingsRotationStateData nextStateData) =>
-        nextStateData.RotationInitial += currStateData.RotationChange;
+        TrackLaneRingsRotationStateData currState,
+        TrackLaneRingsRotationStateData nextState) =>
+        nextState.RotationInitial += currState.RotationChange;
 
     public override void RemoveData(BaseEvent reference, BaseEvent original)
     {
@@ -90,12 +90,12 @@ public class TrackLaneRingsRotationEffect : BasicEventEffect<TrackLaneRingsRotat
         UpdateObject(container.CurrentState);
     }
 
-    protected override void OnRemoveUpdateToNextState(
-        TrackLaneRingsRotationStateData currStateData,
-        TrackLaneRingsRotationStateData nextStateData)
+    protected override void OnRemoveConsequentUpdateToNextState(
+        TrackLaneRingsRotationStateData currState,
+        TrackLaneRingsRotationStateData nextState)
     {
-        base.OnRemoveUpdateToNextState(currStateData, nextStateData);
-        nextStateData.RotationInitial -= currStateData.RotationChange;
+        base.OnRemoveConsequentUpdateToNextState(currState, nextState);
+        nextState.RotationInitial -= currState.RotationChange;
     }
 }
 

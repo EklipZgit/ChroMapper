@@ -185,6 +185,8 @@ namespace Tests
 
             CheckUtils.CheckNote("Update note direction", notesContainer, 0, 2, (int)GridX.Left, (int)GridY.Base,
                 (int)NoteType.Red, (int)NoteCutDirection.DownLeft, 0);
+
+            containerA = notesContainer.LoadedContainers[notesContainer.MapObjects[0]] as NoteContainer;
             
             inputController.ScrollUpdateDirection(containerA, 1);
 

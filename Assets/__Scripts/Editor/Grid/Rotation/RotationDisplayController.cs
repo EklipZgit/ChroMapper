@@ -3,25 +3,60 @@ using UnityEngine;
 
 public class RotationDisplayController : MonoBehaviour
 {
-    [SerializeField] private RotationCallbackController rotationCallback;
+    [SerializeField] private AudioTimeSyncController atsc;
+    [SerializeField] private LaneRotationProvider laneRotationProvider;
+    [SerializeField] private Rotation90DegreesWarningController rotation90DegreesWarningController;
     [SerializeField] private TextMeshProUGUI display;
 
     // Start is called before the first frame update
     private void Start()
     {
-        gameObject.SetActive(rotationCallback.IsActive);
-        rotationCallback.OnRotationChanged += OnRotationChanged;
+        atsc.OnPlayToggled += HandlePlayToggled;
+        laneRotationProvider.OnEditChanged += HandleEditRotationChanged;
+        laneRotationProvider.OnPlaybackChanged += HandleRotationChanged;
     }
 
-    private void OnDestroy() => rotationCallback.OnRotationChanged -= OnRotationChanged;
-
-    private void OnRotationChanged(bool natural, float rotation)
+    private void OnDestroy()
     {
-        if (Settings.Instance.Reset360DisplayOnCompleteTurn)
-            display.text = $"{BetterModulo(rotation, 360)}°";
-        else
-            display.text = $"{rotation}°";
+        atsc.OnPlayToggled -= HandlePlayToggled;
+        laneRotationProvider.OnEditChanged -= HandleEditRotationChanged;
+        laneRotationProvider.OnPlaybackChanged -= HandleRotationChanged;
     }
 
-    private float BetterModulo(float x, float m) => ((x % m) + m) % m; //thanks stackoverflow
+    private void HandlePlayToggled(bool toggle)
+    {
+        if (toggle)
+            SetText(Settings.Instance.RotateTrack ? laneRotationProvider.PlaybackRotation : 0);
+        else
+        {
+            SetText(
+                Settings.Instance.RotateTrack
+                    ? BeatSaberSongContainer.Instance.Map.MajorVersion < 4
+                        ? laneRotationProvider.PlaybackRotation
+                        : laneRotationProvider.EditRotation
+                    : 0);
+        }
+    }
+
+    private void HandleEditRotationChanged(float rotation)
+    {
+        if (atsc.IsPlaying || BeatSaberSongContainer.Instance.Map.MajorVersion < 4) return;
+        SetText(rotation);
+    }
+
+    private void HandleRotationChanged(float rotation)
+    {
+        if (!atsc.IsPlaying && BeatSaberSongContainer.Instance.Map.MajorVersion >= 4) return;
+        SetText(rotation);
+    }
+
+    private void SetText(float rotation)
+    {
+        rotation90DegreesWarningController.HandleRotationChanged(rotation);
+        display.text = Settings.Instance.Reset360DisplayOnCompleteTurn
+            ? $"{BetterModulo(rotation, 360)}°"
+            : $"{rotation}°";
+    }
+
+    private static float BetterModulo(float x, float m) => ((x % m) + m) % m; //thanks stackoverflow
 }

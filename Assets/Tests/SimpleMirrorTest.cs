@@ -41,6 +41,7 @@ namespace Tests
             BeatmapActionContainer.RemoveAllActionsOfType<BeatmapAction>();
             CleanupUtils.CleanupNotes();
             CleanupUtils.CleanupEvents();
+            CleanupUtils.CleanupRotationEvents();
             CleanupUtils.CleanupObstacles();
         }
 
@@ -336,16 +337,16 @@ namespace Tests
         [Test]
         public void MirrorRotationEvent()
         {
-            var rotationCb = Object.FindAnyObjectByType<RotationCallbackController>();
-            rotationCb.Start();
+            var laneRotationProvider = Object.FindAnyObjectByType<LaneRotationProvider>();
 
-            var eventsContainer = BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
+            var eventsContainer = BeatmapObjectContainerCollection.GetCollectionForType<RotationEventGridContainer>(ObjectType.RotationEvent);
 
-            var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
+            var rotationEventPlacement = Object.FindAnyObjectByType<RotationEventPlacement>();
 
-            BaseEvent baseEventA = new BaseEvent { JsonTime = 2, Type = (int)EventTypeValue.LateLaneRotation, Rotation = 33 };
+            BaseRotationEvent baseEventA = new BaseRotationEvent { JsonTime = 2, Type = (int)EventTypeValue.LateLaneRotation, Rotation = 33 };
 
-            PlaceUtils.PlaceEvent(eventPlacement, baseEventA);
+            // fuck kinda conflict did u have?
+            PlaceUtils.PlaceRotationEvent(rotationEventPlacement, baseEventA);
 
             SelectionController.Select(baseEventA);
 

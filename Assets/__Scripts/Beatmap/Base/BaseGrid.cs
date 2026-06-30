@@ -25,18 +25,28 @@ namespace Beatmap.Base
         {
         }
 
-        protected BaseGrid(float time, int posX, int posY, JSONNode customData = null) : base(time, customData)
+        protected BaseGrid(float time, int posX, int posY, int rotation, JSONNode customData = null) : base(
+            time,
+            customData)
         {
             PosX = posX;
             PosY = posY;
+            Rotation = rotation;
             RecomputeSpawnParameters();
         }
 
-        protected BaseGrid(float jsonTime, float songBpmTime, int posX, int posY, JSONNode customData = null) :
+        protected BaseGrid(
+            float jsonTime,
+            float songBpmTime,
+            int posX,
+            int posY,
+            int rotation,
+            JSONNode customData = null) :
             base(jsonTime, songBpmTime, customData)
         {
             PosX = posX;
             PosY = posY;
+            Rotation = rotation;
             RecomputeSpawnParameters();
         }
 

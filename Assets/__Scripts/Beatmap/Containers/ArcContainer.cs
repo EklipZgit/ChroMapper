@@ -247,7 +247,7 @@ namespace Beatmap.Containers
             UpdateMaterials();
         }
 
-        public void SetIndicatorBlocksActive(bool visible)
+        public void SetIndicators(bool visible)
         {
             foreach (var gameObj in indicators) gameObj.SetActive(visible);
             InfoText.gameObject.SetActive(visible && Settings.Instance.DisplayNoteText);

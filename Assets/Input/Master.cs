@@ -132,7 +132,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""name"": ""=Move Camera Right"",
                     ""type"": ""Button"",
                     ""id"": ""9c8e63d6-2c19-42af-9c7d-d9193b87aa2d"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -231,7 +231,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""name"": ""Overwrite Location Modifier"",
                     ""type"": ""Button"",
                     ""id"": ""d07f611a-4dad-4460-90c3-bed5e359444b"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -945,73 +945,19 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             ""id"": ""d0462ea9-c717-4662-b004-e7b66e957cc9"",
             ""actions"": [
                 {
-                    ""name"": ""Rotation: 15 Degrees"",
+                    ""name"": ""Half Float Value Modifier"",
                     ""type"": ""Button"",
-                    ""id"": ""51596ba1-f128-48c4-b563-b4553f121a1e"",
+                    ""id"": ""6a30f614-a6c1-4e78-8548-4a6f830a1f42"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": ""Press"",
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Rotation: 30 Degrees"",
+                    ""name"": ""Zero Float Value Modifier"",
                     ""type"": ""Button"",
-                    ""id"": ""cb255ff2-9a90-44fd-a139-433a56a04612"",
+                    ""id"": ""2bf1eac9-7e28-479f-8095-bdf4caf9cee3"",
                     ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": ""Press"",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Rotation: 45 Degrees"",
-                    ""type"": ""Button"",
-                    ""id"": ""2aa190df-15aa-4507-a947-7f4aaa7175bc"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": ""Press"",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Rotation: 60 Degrees"",
-                    ""type"": ""Button"",
-                    ""id"": ""666291dd-9d51-4f5d-87a2-8ce834a7779c"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": ""Press"",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Negative Rotation Modifier"",
-                    ""type"": ""Button"",
-                    ""id"": ""88d0b651-1178-4c79-a5f1-8ea75fafec79"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": ""Press"",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Rotate In Place Left"",
-                    ""type"": ""Button"",
-                    ""id"": ""495ff970-c1be-4d9e-b6e5-25d4656ac258"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": ""Press"",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Rotate In Place Right"",
-                    ""type"": ""Button"",
-                    ""id"": ""b4f5c09c-5a5b-456d-b383-ce9277daae64"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": ""Press"",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Rotate In Place Modifier"",
-                    ""type"": ""Button"",
-                    ""id"": ""0708fcf5-8b14-46b7-97c2-4a9c7577075d"",
-                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Press"",
                     ""initialStateCheck"": false
@@ -1020,89 +966,23 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             ""bindings"": [
                 {
                     ""name"": """",
-                    ""id"": ""c7ad07e7-8790-452a-8bdc-a301fedaff56"",
-                    ""path"": ""<Keyboard>/1"",
+                    ""id"": ""787b6834-2808-4529-b772-241426af0307"",
+                    ""path"": ""<Keyboard>/x"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""ChroMapper Default"",
-                    ""action"": ""Rotation: 15 Degrees"",
+                    ""action"": ""Half Float Value Modifier"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""bc17f8d9-7868-4557-8ca6-3acd787acd43"",
-                    ""path"": ""<Keyboard>/2"",
+                    ""id"": ""f2b6fa6c-088b-4604-bb73-3ffe37d91771"",
+                    ""path"": ""<Keyboard>/z"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""ChroMapper Default"",
-                    ""action"": ""Rotation: 30 Degrees"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""d4b70180-b3d4-47af-ae16-dda507b87380"",
-                    ""path"": ""<Keyboard>/3"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""ChroMapper Default"",
-                    ""action"": ""Rotation: 45 Degrees"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""d749c574-a404-4087-a71b-b38850d3db76"",
-                    ""path"": ""<Keyboard>/4"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""ChroMapper Default"",
-                    ""action"": ""Rotation: 60 Degrees"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""16ae0d9f-09a8-4e34-9ba2-ca2af05b34aa"",
-                    ""path"": ""<Keyboard>/shift"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""ChroMapper Default"",
-                    ""action"": ""Negative Rotation Modifier"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""de4c99fa-1cb8-4197-be86-dd018ac9698b"",
-                    ""path"": ""<Keyboard>/q"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""ChroMapper Default"",
-                    ""action"": ""Rotate In Place Left"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""9fcd9c8b-a4f4-4cb8-87f9-f5b88ad168ab"",
-                    ""path"": ""<Keyboard>/shift"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""ChroMapper Default"",
-                    ""action"": ""Rotate In Place Modifier"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""ef840ea6-28cb-4ea2-80be-1d800b5bd5be"",
-                    ""path"": ""<Keyboard>/e"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""ChroMapper Default"",
-                    ""action"": ""Rotate In Place Right"",
+                    ""action"": ""Zero Float Value Modifier"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1126,15 +1006,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""type"": ""Button"",
                     ""id"": ""5eb56c46-9493-4c8b-978c-195255f0f76d"",
                     ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": ""Press"",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Toggle Note or Event"",
-                    ""type"": ""Button"",
-                    ""id"": ""1ef71b14-df3b-4fc2-bdf9-602b8848435b"",
-                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Press"",
                     ""initialStateCheck"": false
@@ -1364,39 +1235,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Mirror Colours Only"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""Button With One Modifier"",
-                    ""id"": ""364b615d-3901-49bd-9475-a9f757b813b7"",
-                    ""path"": ""ButtonWithOneModifier"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Toggle Note or Event"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""modifier"",
-                    ""id"": ""76e46738-c779-4857-b335-2f25e4dfdc52"",
-                    ""path"": ""<Keyboard>/alt"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""ChroMapper Default"",
-                    ""action"": ""Toggle Note or Event"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""button"",
-                    ""id"": ""12dfa3e4-1592-4310-bada-8360461dfb2b"",
-                    ""path"": ""<Keyboard>/q"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""ChroMapper Default"",
-                    ""action"": ""Toggle Note or Event"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 }
@@ -4356,7 +4194,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""name"": ""Activate Box Select"",
                     ""type"": ""Button"",
                     ""id"": ""1bfcb620-0275-4b3e-a89d-2e5d52203c8d"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -6859,6 +6697,609 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 }
             ]
+        },
+        {
+            ""name"": ""Rotation Objects"",
+            ""id"": ""d7d7e3a1-4bd9-49c5-b944-60f2a44f0b6a"",
+            ""actions"": [
+                {
+                    ""name"": ""Rotate Clockwise (Hover)"",
+                    ""type"": ""Button"",
+                    ""id"": ""6f52c527-7014-4e1e-82fb-78bfd5a573e1"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Rotate Clockwise (Grid)"",
+                    ""type"": ""Button"",
+                    ""id"": ""4948dcf3-e8d1-4d5c-880f-4bde0fd4453f"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Rotate Counter Clockwise (Hover)"",
+                    ""type"": ""Button"",
+                    ""id"": ""d632e9bb-8d91-4590-86f3-db463f6c1c5d"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Rotate Counter Clockwise (Grid)"",
+                    ""type"": ""Button"",
+                    ""id"": ""a1154174-7a2f-4a60-84af-67178a0cbbe2"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Rotate Copy (Hover)"",
+                    ""type"": ""Button"",
+                    ""id"": ""5fc497f7-f338-45e5-96fd-58177bd46b31"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Rotate Copy (Grid)"",
+                    ""type"": ""Button"",
+                    ""id"": ""650c88bf-efd8-4365-86ff-e6ff04b1430b"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Modify (Hover)"",
+                    ""type"": ""Value"",
+                    ""id"": ""0bacd048-031f-4ccd-bb5b-18c43f001614"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Invert"",
+                    ""type"": ""Button"",
+                    ""id"": ""7ae63c7f-cb46-4d12-a64c-1bf5b5490d46"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Rotation 15 Degrees"",
+                    ""type"": ""Button"",
+                    ""id"": ""f7a71f75-d35c-4d2d-a690-d9e74e8eaa4a"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Rotation 15 Degrees (Hover)"",
+                    ""type"": ""Button"",
+                    ""id"": ""5bb2cc56-afae-4425-9a6b-3faf3f0fa19a"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Rotation 30 Degrees"",
+                    ""type"": ""Button"",
+                    ""id"": ""d56404ea-8964-482c-bce0-c2a0a0edfa9c"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Rotation 30 Degrees (Hover)"",
+                    ""type"": ""Button"",
+                    ""id"": ""248ef4d9-513a-401b-badb-b2d9e005c06d"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Rotation 45 Degrees"",
+                    ""type"": ""Button"",
+                    ""id"": ""4697e764-8ac1-40b8-9037-5b1ac1e30856"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Rotation 45 Degrees (Hover)"",
+                    ""type"": ""Button"",
+                    ""id"": ""6dac4c5b-96ee-4674-9dc4-6b9b14125547"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Rotation 60 Degrees"",
+                    ""type"": ""Button"",
+                    ""id"": ""1240b163-fed9-4960-aaeb-7958add55e26"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Rotation 60 Degrees (Hover)"",
+                    ""type"": ""Button"",
+                    ""id"": ""9e3d017a-1b6e-45aa-b765-0e4e5cbc3712"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""16cdd0dd-3516-4d3a-8ca0-2e36bf0e7136"",
+                    ""path"": ""<Mouse>/middleButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""ChroMapper Default"",
+                    ""action"": ""Invert"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c18d3274-9e8a-47e1-92da-bbbd3ef8fff4"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""ChroMapper Default"",
+                    ""action"": ""Rotation 15 Degrees"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8a931547-30f9-4808-a6ef-e9389931cbdb"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""ChroMapper Default"",
+                    ""action"": ""Rotation 30 Degrees"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""665ee330-a01e-471c-9848-ca8eec69aaab"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""ChroMapper Default"",
+                    ""action"": ""Rotation 45 Degrees"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4390ba44-1595-4730-b0cd-41c66cd3f027"",
+                    ""path"": ""<Keyboard>/4"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""ChroMapper Default"",
+                    ""action"": ""Rotation 60 Degrees"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""One Modifier"",
+                    ""id"": ""6d5f0669-c930-4587-b328-5e8ea6f93c81"",
+                    ""path"": ""OneModifier"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Modify (Hover)"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier"",
+                    ""id"": ""a06551f0-4b55-4f7d-befd-80153c6a655a"",
+                    ""path"": ""<Keyboard>/alt"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";ChroMapper Default"",
+                    ""action"": ""Modify (Hover)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""26dccf4f-2bf8-4749-84a1-4f384275058e"",
+                    ""path"": ""<Mouse>/scroll/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";ChroMapper Default"",
+                    ""action"": ""Modify (Hover)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""One Modifier"",
+                    ""id"": ""3e7ab559-e8fa-45ea-9fa4-fea2fa43df33"",
+                    ""path"": ""OneModifier"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate Clockwise (Hover)"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Modifier"",
+                    ""id"": ""b0588523-08df-4e2d-8880-19a6c19fbceb"",
+                    ""path"": ""<Keyboard>/alt"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate Clockwise (Hover)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Binding"",
+                    ""id"": ""83f020e9-3e23-4545-a130-877e954993ca"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate Clockwise (Hover)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Two Modifiers"",
+                    ""id"": ""bdbceaee-0fab-4a49-b319-2a2ef3706304"",
+                    ""path"": ""TwoModifiers"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate Clockwise (Grid)"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier1"",
+                    ""id"": ""6ba9f76c-2075-4540-ba3e-4af6fe1158cf"",
+                    ""path"": ""<Keyboard>/alt"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate Clockwise (Grid)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""modifier2"",
+                    ""id"": ""2472f126-728b-47dc-9d9d-07adf31a4e2d"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate Clockwise (Grid)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""05a938c4-07d3-452c-83e5-7a178153a124"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate Clockwise (Grid)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""One Modifier"",
+                    ""id"": ""485cade4-7806-47d6-b884-10ec7649baa6"",
+                    ""path"": ""OneModifier"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate Counter Clockwise (Hover)"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Modifier"",
+                    ""id"": ""9210268f-38fc-4b7e-bbff-6dbdd3c6d22d"",
+                    ""path"": ""<Keyboard>/alt"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate Counter Clockwise (Hover)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Binding"",
+                    ""id"": ""34e81387-7512-4192-ae8e-0511c6a002be"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate Counter Clockwise (Hover)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""One Modifier"",
+                    ""id"": ""501a8907-a2cb-4906-b5e0-7f62434f0f4e"",
+                    ""path"": ""OneModifier"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate Copy (Hover)"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Modifier"",
+                    ""id"": ""437d0ede-012e-4691-8c85-52bbe5472f9e"",
+                    ""path"": ""<Keyboard>/alt"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate Copy (Hover)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Binding"",
+                    ""id"": ""ee16d91c-2a7d-412d-bbdf-fd4274ffbb8d"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate Copy (Hover)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Two Modifiers"",
+                    ""id"": ""9ea4a76e-ce10-42c7-8877-209854b3bafc"",
+                    ""path"": ""TwoModifiers"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate Copy (Grid)"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier1"",
+                    ""id"": ""60445a1a-143c-4af1-9b27-a8220c0b83e5"",
+                    ""path"": ""<Keyboard>/alt"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate Copy (Grid)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""modifier2"",
+                    ""id"": ""604fdb4d-e8ea-4e32-b542-84ea758c009d"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate Copy (Grid)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""815f7825-f1d6-40d7-9e0e-524181ecb4bc"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate Copy (Grid)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Two Modifiers"",
+                    ""id"": ""351b75c0-6bd7-4955-a8db-37665a3d3f49"",
+                    ""path"": ""TwoModifiers"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate Counter Clockwise (Grid)"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier1"",
+                    ""id"": ""e35dbfea-3dcc-4e12-9efc-c164d7d418b3"",
+                    ""path"": ""<Keyboard>/alt"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate Counter Clockwise (Grid)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""modifier2"",
+                    ""id"": ""cb5a0054-be98-456c-a0a3-f70ae9074ab1"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate Counter Clockwise (Grid)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""4e032f91-229c-46a9-8420-2d1ba981d264"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate Counter Clockwise (Grid)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""One Modifier"",
+                    ""id"": ""f3bd7e1b-60ce-4a2f-9625-3ce851554f43"",
+                    ""path"": ""OneModifier"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotation 15 Degrees (Hover)"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Modifier"",
+                    ""id"": ""32254b33-2a1f-42fd-8d82-982a789351c3"",
+                    ""path"": ""<Keyboard>/alt"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";ChroMapper Default"",
+                    ""action"": ""Rotation 15 Degrees (Hover)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Binding"",
+                    ""id"": ""6e8cea7e-73e9-4cc4-93b0-8c74975f0006"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";ChroMapper Default"",
+                    ""action"": ""Rotation 15 Degrees (Hover)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""One Modifier"",
+                    ""id"": ""9ce435de-dd01-40ce-84e7-361e633a0d40"",
+                    ""path"": ""OneModifier"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotation 30 Degrees (Hover)"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Modifier"",
+                    ""id"": ""145d3edd-3ff9-48f6-b21d-2fa60631b8b6"",
+                    ""path"": ""<Keyboard>/alt"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";ChroMapper Default"",
+                    ""action"": ""Rotation 30 Degrees (Hover)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Binding"",
+                    ""id"": ""c95f0ec3-9cdb-4aed-a55a-0747ded71bb6"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";ChroMapper Default"",
+                    ""action"": ""Rotation 30 Degrees (Hover)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""One Modifier"",
+                    ""id"": ""3c57f454-db84-45cf-a36b-5324f5fdb072"",
+                    ""path"": ""OneModifier"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotation 45 Degrees (Hover)"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Modifier"",
+                    ""id"": ""dce4c219-6081-4245-a57f-6544bdbc6d2d"",
+                    ""path"": ""<Keyboard>/alt"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";ChroMapper Default"",
+                    ""action"": ""Rotation 45 Degrees (Hover)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Binding"",
+                    ""id"": ""e326cca9-6c5c-404d-8a3d-42318060a5cc"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";ChroMapper Default"",
+                    ""action"": ""Rotation 45 Degrees (Hover)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""One Modifier"",
+                    ""id"": ""f2399878-7085-42d0-b923-e22b1c02394a"",
+                    ""path"": ""OneModifier"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotation 60 Degrees (Hover)"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Modifier"",
+                    ""id"": ""699326ec-f124-4d1c-91d5-f739e5014f92"",
+                    ""path"": ""<Keyboard>/alt"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";ChroMapper Default"",
+                    ""action"": ""Rotation 60 Degrees (Hover)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Binding"",
+                    ""id"": ""763ce4e0-9ebc-4217-b00a-017afa928a31"",
+                    ""path"": ""<Keyboard>/4"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";ChroMapper Default"",
+                    ""action"": ""Rotation 60 Degrees (Hover)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -6909,19 +7350,12 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         m_PlacementControllers_PrecisionPlacementToggle = m_PlacementControllers.FindAction("Precision Placement Toggle", throwIfNotFound: true);
         // Event Placement
         m_EventPlacement = asset.FindActionMap("Event Placement", throwIfNotFound: true);
-        m_EventPlacement_Rotation15Degrees = m_EventPlacement.FindAction("Rotation: 15 Degrees", throwIfNotFound: true);
-        m_EventPlacement_Rotation30Degrees = m_EventPlacement.FindAction("Rotation: 30 Degrees", throwIfNotFound: true);
-        m_EventPlacement_Rotation45Degrees = m_EventPlacement.FindAction("Rotation: 45 Degrees", throwIfNotFound: true);
-        m_EventPlacement_Rotation60Degrees = m_EventPlacement.FindAction("Rotation: 60 Degrees", throwIfNotFound: true);
-        m_EventPlacement_NegativeRotationModifier = m_EventPlacement.FindAction("Negative Rotation Modifier", throwIfNotFound: true);
-        m_EventPlacement_RotateInPlaceLeft = m_EventPlacement.FindAction("Rotate In Place Left", throwIfNotFound: true);
-        m_EventPlacement_RotateInPlaceRight = m_EventPlacement.FindAction("Rotate In Place Right", throwIfNotFound: true);
-        m_EventPlacement_RotateInPlaceModifier = m_EventPlacement.FindAction("Rotate In Place Modifier", throwIfNotFound: true);
+        m_EventPlacement_HalfFloatValueModifier = m_EventPlacement.FindAction("Half Float Value Modifier", throwIfNotFound: true);
+        m_EventPlacement_ZeroFloatValueModifier = m_EventPlacement.FindAction("Zero Float Value Modifier", throwIfNotFound: true);
         // Workflows
         m_Workflows = asset.FindActionMap("Workflows", throwIfNotFound: true);
         m_Workflows_ToggleRightButtonPanel = m_Workflows.FindAction("Toggle Right Button Panel", throwIfNotFound: true);
         m_Workflows_UpdateSwingArcVisualizer = m_Workflows.FindAction("Update Swing Arc Visualizer", throwIfNotFound: true);
-        m_Workflows_ToggleNoteorEvent = m_Workflows.FindAction("Toggle Note or Event", throwIfNotFound: true);
         m_Workflows_PlaceRedNoteorEvent = m_Workflows.FindAction("Place Red Note or Event", throwIfNotFound: true);
         m_Workflows_PlaceBlueNoteorEvent = m_Workflows.FindAction("Place Blue Note or Event", throwIfNotFound: true);
         m_Workflows_PlaceBomb = m_Workflows.FindAction("Place Bomb", throwIfNotFound: true);
@@ -7207,6 +7641,24 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         // Scroll Precision
         m_ScrollPrecision = asset.FindActionMap("Scroll Precision", throwIfNotFound: true);
         m_ScrollPrecision_Scroll = m_ScrollPrecision.FindAction("Scroll", throwIfNotFound: true);
+        // Rotation Objects
+        m_RotationObjects = asset.FindActionMap("Rotation Objects", throwIfNotFound: true);
+        m_RotationObjects_RotateClockwiseHover = m_RotationObjects.FindAction("Rotate Clockwise (Hover)", throwIfNotFound: true);
+        m_RotationObjects_RotateClockwiseGrid = m_RotationObjects.FindAction("Rotate Clockwise (Grid)", throwIfNotFound: true);
+        m_RotationObjects_RotateCounterClockwiseHover = m_RotationObjects.FindAction("Rotate Counter Clockwise (Hover)", throwIfNotFound: true);
+        m_RotationObjects_RotateCounterClockwiseGrid = m_RotationObjects.FindAction("Rotate Counter Clockwise (Grid)", throwIfNotFound: true);
+        m_RotationObjects_RotateCopyHover = m_RotationObjects.FindAction("Rotate Copy (Hover)", throwIfNotFound: true);
+        m_RotationObjects_RotateCopyGrid = m_RotationObjects.FindAction("Rotate Copy (Grid)", throwIfNotFound: true);
+        m_RotationObjects_ModifyHover = m_RotationObjects.FindAction("Modify (Hover)", throwIfNotFound: true);
+        m_RotationObjects_Invert = m_RotationObjects.FindAction("Invert", throwIfNotFound: true);
+        m_RotationObjects_Rotation15Degrees = m_RotationObjects.FindAction("Rotation 15 Degrees", throwIfNotFound: true);
+        m_RotationObjects_Rotation15DegreesHover = m_RotationObjects.FindAction("Rotation 15 Degrees (Hover)", throwIfNotFound: true);
+        m_RotationObjects_Rotation30Degrees = m_RotationObjects.FindAction("Rotation 30 Degrees", throwIfNotFound: true);
+        m_RotationObjects_Rotation30DegreesHover = m_RotationObjects.FindAction("Rotation 30 Degrees (Hover)", throwIfNotFound: true);
+        m_RotationObjects_Rotation45Degrees = m_RotationObjects.FindAction("Rotation 45 Degrees", throwIfNotFound: true);
+        m_RotationObjects_Rotation45DegreesHover = m_RotationObjects.FindAction("Rotation 45 Degrees (Hover)", throwIfNotFound: true);
+        m_RotationObjects_Rotation60Degrees = m_RotationObjects.FindAction("Rotation 60 Degrees", throwIfNotFound: true);
+        m_RotationObjects_Rotation60DegreesHover = m_RotationObjects.FindAction("Rotation 60 Degrees (Hover)", throwIfNotFound: true);
     }
 
     ~@CMInput()
@@ -7267,6 +7719,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         UnityEngine.Debug.Assert(!m_GLSFloatFXObjects.enabled, "This will cause a leak and performance issues, CMInput.GLSFloatFXObjects.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_EasingsSelection.enabled, "This will cause a leak and performance issues, CMInput.EasingsSelection.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_ScrollPrecision.enabled, "This will cause a leak and performance issues, CMInput.ScrollPrecision.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_RotationObjects.enabled, "This will cause a leak and performance issues, CMInput.RotationObjects.Disable() has not been called.");
     }
 
     /// <summary>
@@ -8012,14 +8465,8 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
     // Event Placement
     private readonly InputActionMap m_EventPlacement;
     private List<IEventPlacementActions> m_EventPlacementActionsCallbackInterfaces = new List<IEventPlacementActions>();
-    private readonly InputAction m_EventPlacement_Rotation15Degrees;
-    private readonly InputAction m_EventPlacement_Rotation30Degrees;
-    private readonly InputAction m_EventPlacement_Rotation45Degrees;
-    private readonly InputAction m_EventPlacement_Rotation60Degrees;
-    private readonly InputAction m_EventPlacement_NegativeRotationModifier;
-    private readonly InputAction m_EventPlacement_RotateInPlaceLeft;
-    private readonly InputAction m_EventPlacement_RotateInPlaceRight;
-    private readonly InputAction m_EventPlacement_RotateInPlaceModifier;
+    private readonly InputAction m_EventPlacement_HalfFloatValueModifier;
+    private readonly InputAction m_EventPlacement_ZeroFloatValueModifier;
     /// <summary>
     /// Provides access to input actions defined in input action map "Event Placement".
     /// </summary>
@@ -8032,37 +8479,13 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// </summary>
         public EventPlacementActions(@CMInput wrapper) { m_Wrapper = wrapper; }
         /// <summary>
-        /// Provides access to the underlying input action "EventPlacement/Rotation15Degrees".
+        /// Provides access to the underlying input action "EventPlacement/HalfFloatValueModifier".
         /// </summary>
-        public InputAction @Rotation15Degrees => m_Wrapper.m_EventPlacement_Rotation15Degrees;
+        public InputAction @HalfFloatValueModifier => m_Wrapper.m_EventPlacement_HalfFloatValueModifier;
         /// <summary>
-        /// Provides access to the underlying input action "EventPlacement/Rotation30Degrees".
+        /// Provides access to the underlying input action "EventPlacement/ZeroFloatValueModifier".
         /// </summary>
-        public InputAction @Rotation30Degrees => m_Wrapper.m_EventPlacement_Rotation30Degrees;
-        /// <summary>
-        /// Provides access to the underlying input action "EventPlacement/Rotation45Degrees".
-        /// </summary>
-        public InputAction @Rotation45Degrees => m_Wrapper.m_EventPlacement_Rotation45Degrees;
-        /// <summary>
-        /// Provides access to the underlying input action "EventPlacement/Rotation60Degrees".
-        /// </summary>
-        public InputAction @Rotation60Degrees => m_Wrapper.m_EventPlacement_Rotation60Degrees;
-        /// <summary>
-        /// Provides access to the underlying input action "EventPlacement/NegativeRotationModifier".
-        /// </summary>
-        public InputAction @NegativeRotationModifier => m_Wrapper.m_EventPlacement_NegativeRotationModifier;
-        /// <summary>
-        /// Provides access to the underlying input action "EventPlacement/RotateInPlaceLeft".
-        /// </summary>
-        public InputAction @RotateInPlaceLeft => m_Wrapper.m_EventPlacement_RotateInPlaceLeft;
-        /// <summary>
-        /// Provides access to the underlying input action "EventPlacement/RotateInPlaceRight".
-        /// </summary>
-        public InputAction @RotateInPlaceRight => m_Wrapper.m_EventPlacement_RotateInPlaceRight;
-        /// <summary>
-        /// Provides access to the underlying input action "EventPlacement/RotateInPlaceModifier".
-        /// </summary>
-        public InputAction @RotateInPlaceModifier => m_Wrapper.m_EventPlacement_RotateInPlaceModifier;
+        public InputAction @ZeroFloatValueModifier => m_Wrapper.m_EventPlacement_ZeroFloatValueModifier;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -8089,30 +8512,12 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_EventPlacementActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_EventPlacementActionsCallbackInterfaces.Add(instance);
-            @Rotation15Degrees.started += instance.OnRotation15Degrees;
-            @Rotation15Degrees.performed += instance.OnRotation15Degrees;
-            @Rotation15Degrees.canceled += instance.OnRotation15Degrees;
-            @Rotation30Degrees.started += instance.OnRotation30Degrees;
-            @Rotation30Degrees.performed += instance.OnRotation30Degrees;
-            @Rotation30Degrees.canceled += instance.OnRotation30Degrees;
-            @Rotation45Degrees.started += instance.OnRotation45Degrees;
-            @Rotation45Degrees.performed += instance.OnRotation45Degrees;
-            @Rotation45Degrees.canceled += instance.OnRotation45Degrees;
-            @Rotation60Degrees.started += instance.OnRotation60Degrees;
-            @Rotation60Degrees.performed += instance.OnRotation60Degrees;
-            @Rotation60Degrees.canceled += instance.OnRotation60Degrees;
-            @NegativeRotationModifier.started += instance.OnNegativeRotationModifier;
-            @NegativeRotationModifier.performed += instance.OnNegativeRotationModifier;
-            @NegativeRotationModifier.canceled += instance.OnNegativeRotationModifier;
-            @RotateInPlaceLeft.started += instance.OnRotateInPlaceLeft;
-            @RotateInPlaceLeft.performed += instance.OnRotateInPlaceLeft;
-            @RotateInPlaceLeft.canceled += instance.OnRotateInPlaceLeft;
-            @RotateInPlaceRight.started += instance.OnRotateInPlaceRight;
-            @RotateInPlaceRight.performed += instance.OnRotateInPlaceRight;
-            @RotateInPlaceRight.canceled += instance.OnRotateInPlaceRight;
-            @RotateInPlaceModifier.started += instance.OnRotateInPlaceModifier;
-            @RotateInPlaceModifier.performed += instance.OnRotateInPlaceModifier;
-            @RotateInPlaceModifier.canceled += instance.OnRotateInPlaceModifier;
+            @HalfFloatValueModifier.started += instance.OnHalfFloatValueModifier;
+            @HalfFloatValueModifier.performed += instance.OnHalfFloatValueModifier;
+            @HalfFloatValueModifier.canceled += instance.OnHalfFloatValueModifier;
+            @ZeroFloatValueModifier.started += instance.OnZeroFloatValueModifier;
+            @ZeroFloatValueModifier.performed += instance.OnZeroFloatValueModifier;
+            @ZeroFloatValueModifier.canceled += instance.OnZeroFloatValueModifier;
         }
 
         /// <summary>
@@ -8124,30 +8529,12 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <seealso cref="EventPlacementActions" />
         private void UnregisterCallbacks(IEventPlacementActions instance)
         {
-            @Rotation15Degrees.started -= instance.OnRotation15Degrees;
-            @Rotation15Degrees.performed -= instance.OnRotation15Degrees;
-            @Rotation15Degrees.canceled -= instance.OnRotation15Degrees;
-            @Rotation30Degrees.started -= instance.OnRotation30Degrees;
-            @Rotation30Degrees.performed -= instance.OnRotation30Degrees;
-            @Rotation30Degrees.canceled -= instance.OnRotation30Degrees;
-            @Rotation45Degrees.started -= instance.OnRotation45Degrees;
-            @Rotation45Degrees.performed -= instance.OnRotation45Degrees;
-            @Rotation45Degrees.canceled -= instance.OnRotation45Degrees;
-            @Rotation60Degrees.started -= instance.OnRotation60Degrees;
-            @Rotation60Degrees.performed -= instance.OnRotation60Degrees;
-            @Rotation60Degrees.canceled -= instance.OnRotation60Degrees;
-            @NegativeRotationModifier.started -= instance.OnNegativeRotationModifier;
-            @NegativeRotationModifier.performed -= instance.OnNegativeRotationModifier;
-            @NegativeRotationModifier.canceled -= instance.OnNegativeRotationModifier;
-            @RotateInPlaceLeft.started -= instance.OnRotateInPlaceLeft;
-            @RotateInPlaceLeft.performed -= instance.OnRotateInPlaceLeft;
-            @RotateInPlaceLeft.canceled -= instance.OnRotateInPlaceLeft;
-            @RotateInPlaceRight.started -= instance.OnRotateInPlaceRight;
-            @RotateInPlaceRight.performed -= instance.OnRotateInPlaceRight;
-            @RotateInPlaceRight.canceled -= instance.OnRotateInPlaceRight;
-            @RotateInPlaceModifier.started -= instance.OnRotateInPlaceModifier;
-            @RotateInPlaceModifier.performed -= instance.OnRotateInPlaceModifier;
-            @RotateInPlaceModifier.canceled -= instance.OnRotateInPlaceModifier;
+            @HalfFloatValueModifier.started -= instance.OnHalfFloatValueModifier;
+            @HalfFloatValueModifier.performed -= instance.OnHalfFloatValueModifier;
+            @HalfFloatValueModifier.canceled -= instance.OnHalfFloatValueModifier;
+            @ZeroFloatValueModifier.started -= instance.OnZeroFloatValueModifier;
+            @ZeroFloatValueModifier.performed -= instance.OnZeroFloatValueModifier;
+            @ZeroFloatValueModifier.canceled -= instance.OnZeroFloatValueModifier;
         }
 
         /// <summary>
@@ -8187,7 +8574,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
     private List<IWorkflowsActions> m_WorkflowsActionsCallbackInterfaces = new List<IWorkflowsActions>();
     private readonly InputAction m_Workflows_ToggleRightButtonPanel;
     private readonly InputAction m_Workflows_UpdateSwingArcVisualizer;
-    private readonly InputAction m_Workflows_ToggleNoteorEvent;
     private readonly InputAction m_Workflows_PlaceRedNoteorEvent;
     private readonly InputAction m_Workflows_PlaceBlueNoteorEvent;
     private readonly InputAction m_Workflows_PlaceBomb;
@@ -8215,10 +8601,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Workflows/UpdateSwingArcVisualizer".
         /// </summary>
         public InputAction @UpdateSwingArcVisualizer => m_Wrapper.m_Workflows_UpdateSwingArcVisualizer;
-        /// <summary>
-        /// Provides access to the underlying input action "Workflows/ToggleNoteorEvent".
-        /// </summary>
-        public InputAction @ToggleNoteorEvent => m_Wrapper.m_Workflows_ToggleNoteorEvent;
         /// <summary>
         /// Provides access to the underlying input action "Workflows/PlaceRedNoteorEvent".
         /// </summary>
@@ -8283,9 +8665,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             @UpdateSwingArcVisualizer.started += instance.OnUpdateSwingArcVisualizer;
             @UpdateSwingArcVisualizer.performed += instance.OnUpdateSwingArcVisualizer;
             @UpdateSwingArcVisualizer.canceled += instance.OnUpdateSwingArcVisualizer;
-            @ToggleNoteorEvent.started += instance.OnToggleNoteorEvent;
-            @ToggleNoteorEvent.performed += instance.OnToggleNoteorEvent;
-            @ToggleNoteorEvent.canceled += instance.OnToggleNoteorEvent;
             @PlaceRedNoteorEvent.started += instance.OnPlaceRedNoteorEvent;
             @PlaceRedNoteorEvent.performed += instance.OnPlaceRedNoteorEvent;
             @PlaceRedNoteorEvent.canceled += instance.OnPlaceRedNoteorEvent;
@@ -8327,9 +8706,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             @UpdateSwingArcVisualizer.started -= instance.OnUpdateSwingArcVisualizer;
             @UpdateSwingArcVisualizer.performed -= instance.OnUpdateSwingArcVisualizer;
             @UpdateSwingArcVisualizer.canceled -= instance.OnUpdateSwingArcVisualizer;
-            @ToggleNoteorEvent.started -= instance.OnToggleNoteorEvent;
-            @ToggleNoteorEvent.performed -= instance.OnToggleNoteorEvent;
-            @ToggleNoteorEvent.canceled -= instance.OnToggleNoteorEvent;
             @PlaceRedNoteorEvent.started -= instance.OnPlaceRedNoteorEvent;
             @PlaceRedNoteorEvent.performed -= instance.OnPlaceRedNoteorEvent;
             @PlaceRedNoteorEvent.canceled -= instance.OnPlaceRedNoteorEvent;
@@ -14584,6 +14960,267 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
     /// Provides a new <see cref="ScrollPrecisionActions" /> instance referencing this action map.
     /// </summary>
     public ScrollPrecisionActions @ScrollPrecision => new ScrollPrecisionActions(this);
+
+    // Rotation Objects
+    private readonly InputActionMap m_RotationObjects;
+    private List<IRotationObjectsActions> m_RotationObjectsActionsCallbackInterfaces = new List<IRotationObjectsActions>();
+    private readonly InputAction m_RotationObjects_RotateClockwiseHover;
+    private readonly InputAction m_RotationObjects_RotateClockwiseGrid;
+    private readonly InputAction m_RotationObjects_RotateCounterClockwiseHover;
+    private readonly InputAction m_RotationObjects_RotateCounterClockwiseGrid;
+    private readonly InputAction m_RotationObjects_RotateCopyHover;
+    private readonly InputAction m_RotationObjects_RotateCopyGrid;
+    private readonly InputAction m_RotationObjects_ModifyHover;
+    private readonly InputAction m_RotationObjects_Invert;
+    private readonly InputAction m_RotationObjects_Rotation15Degrees;
+    private readonly InputAction m_RotationObjects_Rotation15DegreesHover;
+    private readonly InputAction m_RotationObjects_Rotation30Degrees;
+    private readonly InputAction m_RotationObjects_Rotation30DegreesHover;
+    private readonly InputAction m_RotationObjects_Rotation45Degrees;
+    private readonly InputAction m_RotationObjects_Rotation45DegreesHover;
+    private readonly InputAction m_RotationObjects_Rotation60Degrees;
+    private readonly InputAction m_RotationObjects_Rotation60DegreesHover;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "Rotation Objects".
+    /// </summary>
+    public struct RotationObjectsActions
+    {
+        private @CMInput m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public RotationObjectsActions(@CMInput wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "RotationObjects/RotateClockwiseHover".
+        /// </summary>
+        public InputAction @RotateClockwiseHover => m_Wrapper.m_RotationObjects_RotateClockwiseHover;
+        /// <summary>
+        /// Provides access to the underlying input action "RotationObjects/RotateClockwiseGrid".
+        /// </summary>
+        public InputAction @RotateClockwiseGrid => m_Wrapper.m_RotationObjects_RotateClockwiseGrid;
+        /// <summary>
+        /// Provides access to the underlying input action "RotationObjects/RotateCounterClockwiseHover".
+        /// </summary>
+        public InputAction @RotateCounterClockwiseHover => m_Wrapper.m_RotationObjects_RotateCounterClockwiseHover;
+        /// <summary>
+        /// Provides access to the underlying input action "RotationObjects/RotateCounterClockwiseGrid".
+        /// </summary>
+        public InputAction @RotateCounterClockwiseGrid => m_Wrapper.m_RotationObjects_RotateCounterClockwiseGrid;
+        /// <summary>
+        /// Provides access to the underlying input action "RotationObjects/RotateCopyHover".
+        /// </summary>
+        public InputAction @RotateCopyHover => m_Wrapper.m_RotationObjects_RotateCopyHover;
+        /// <summary>
+        /// Provides access to the underlying input action "RotationObjects/RotateCopyGrid".
+        /// </summary>
+        public InputAction @RotateCopyGrid => m_Wrapper.m_RotationObjects_RotateCopyGrid;
+        /// <summary>
+        /// Provides access to the underlying input action "RotationObjects/ModifyHover".
+        /// </summary>
+        public InputAction @ModifyHover => m_Wrapper.m_RotationObjects_ModifyHover;
+        /// <summary>
+        /// Provides access to the underlying input action "RotationObjects/Invert".
+        /// </summary>
+        public InputAction @Invert => m_Wrapper.m_RotationObjects_Invert;
+        /// <summary>
+        /// Provides access to the underlying input action "RotationObjects/Rotation15Degrees".
+        /// </summary>
+        public InputAction @Rotation15Degrees => m_Wrapper.m_RotationObjects_Rotation15Degrees;
+        /// <summary>
+        /// Provides access to the underlying input action "RotationObjects/Rotation15DegreesHover".
+        /// </summary>
+        public InputAction @Rotation15DegreesHover => m_Wrapper.m_RotationObjects_Rotation15DegreesHover;
+        /// <summary>
+        /// Provides access to the underlying input action "RotationObjects/Rotation30Degrees".
+        /// </summary>
+        public InputAction @Rotation30Degrees => m_Wrapper.m_RotationObjects_Rotation30Degrees;
+        /// <summary>
+        /// Provides access to the underlying input action "RotationObjects/Rotation30DegreesHover".
+        /// </summary>
+        public InputAction @Rotation30DegreesHover => m_Wrapper.m_RotationObjects_Rotation30DegreesHover;
+        /// <summary>
+        /// Provides access to the underlying input action "RotationObjects/Rotation45Degrees".
+        /// </summary>
+        public InputAction @Rotation45Degrees => m_Wrapper.m_RotationObjects_Rotation45Degrees;
+        /// <summary>
+        /// Provides access to the underlying input action "RotationObjects/Rotation45DegreesHover".
+        /// </summary>
+        public InputAction @Rotation45DegreesHover => m_Wrapper.m_RotationObjects_Rotation45DegreesHover;
+        /// <summary>
+        /// Provides access to the underlying input action "RotationObjects/Rotation60Degrees".
+        /// </summary>
+        public InputAction @Rotation60Degrees => m_Wrapper.m_RotationObjects_Rotation60Degrees;
+        /// <summary>
+        /// Provides access to the underlying input action "RotationObjects/Rotation60DegreesHover".
+        /// </summary>
+        public InputAction @Rotation60DegreesHover => m_Wrapper.m_RotationObjects_Rotation60DegreesHover;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_RotationObjects; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="RotationObjectsActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(RotationObjectsActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="RotationObjectsActions" />
+        public void AddCallbacks(IRotationObjectsActions instance)
+        {
+            if (instance == null || m_Wrapper.m_RotationObjectsActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_RotationObjectsActionsCallbackInterfaces.Add(instance);
+            @RotateClockwiseHover.started += instance.OnRotateClockwiseHover;
+            @RotateClockwiseHover.performed += instance.OnRotateClockwiseHover;
+            @RotateClockwiseHover.canceled += instance.OnRotateClockwiseHover;
+            @RotateClockwiseGrid.started += instance.OnRotateClockwiseGrid;
+            @RotateClockwiseGrid.performed += instance.OnRotateClockwiseGrid;
+            @RotateClockwiseGrid.canceled += instance.OnRotateClockwiseGrid;
+            @RotateCounterClockwiseHover.started += instance.OnRotateCounterClockwiseHover;
+            @RotateCounterClockwiseHover.performed += instance.OnRotateCounterClockwiseHover;
+            @RotateCounterClockwiseHover.canceled += instance.OnRotateCounterClockwiseHover;
+            @RotateCounterClockwiseGrid.started += instance.OnRotateCounterClockwiseGrid;
+            @RotateCounterClockwiseGrid.performed += instance.OnRotateCounterClockwiseGrid;
+            @RotateCounterClockwiseGrid.canceled += instance.OnRotateCounterClockwiseGrid;
+            @RotateCopyHover.started += instance.OnRotateCopyHover;
+            @RotateCopyHover.performed += instance.OnRotateCopyHover;
+            @RotateCopyHover.canceled += instance.OnRotateCopyHover;
+            @RotateCopyGrid.started += instance.OnRotateCopyGrid;
+            @RotateCopyGrid.performed += instance.OnRotateCopyGrid;
+            @RotateCopyGrid.canceled += instance.OnRotateCopyGrid;
+            @ModifyHover.started += instance.OnModifyHover;
+            @ModifyHover.performed += instance.OnModifyHover;
+            @ModifyHover.canceled += instance.OnModifyHover;
+            @Invert.started += instance.OnInvert;
+            @Invert.performed += instance.OnInvert;
+            @Invert.canceled += instance.OnInvert;
+            @Rotation15Degrees.started += instance.OnRotation15Degrees;
+            @Rotation15Degrees.performed += instance.OnRotation15Degrees;
+            @Rotation15Degrees.canceled += instance.OnRotation15Degrees;
+            @Rotation15DegreesHover.started += instance.OnRotation15DegreesHover;
+            @Rotation15DegreesHover.performed += instance.OnRotation15DegreesHover;
+            @Rotation15DegreesHover.canceled += instance.OnRotation15DegreesHover;
+            @Rotation30Degrees.started += instance.OnRotation30Degrees;
+            @Rotation30Degrees.performed += instance.OnRotation30Degrees;
+            @Rotation30Degrees.canceled += instance.OnRotation30Degrees;
+            @Rotation30DegreesHover.started += instance.OnRotation30DegreesHover;
+            @Rotation30DegreesHover.performed += instance.OnRotation30DegreesHover;
+            @Rotation30DegreesHover.canceled += instance.OnRotation30DegreesHover;
+            @Rotation45Degrees.started += instance.OnRotation45Degrees;
+            @Rotation45Degrees.performed += instance.OnRotation45Degrees;
+            @Rotation45Degrees.canceled += instance.OnRotation45Degrees;
+            @Rotation45DegreesHover.started += instance.OnRotation45DegreesHover;
+            @Rotation45DegreesHover.performed += instance.OnRotation45DegreesHover;
+            @Rotation45DegreesHover.canceled += instance.OnRotation45DegreesHover;
+            @Rotation60Degrees.started += instance.OnRotation60Degrees;
+            @Rotation60Degrees.performed += instance.OnRotation60Degrees;
+            @Rotation60Degrees.canceled += instance.OnRotation60Degrees;
+            @Rotation60DegreesHover.started += instance.OnRotation60DegreesHover;
+            @Rotation60DegreesHover.performed += instance.OnRotation60DegreesHover;
+            @Rotation60DegreesHover.canceled += instance.OnRotation60DegreesHover;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="RotationObjectsActions" />
+        private void UnregisterCallbacks(IRotationObjectsActions instance)
+        {
+            @RotateClockwiseHover.started -= instance.OnRotateClockwiseHover;
+            @RotateClockwiseHover.performed -= instance.OnRotateClockwiseHover;
+            @RotateClockwiseHover.canceled -= instance.OnRotateClockwiseHover;
+            @RotateClockwiseGrid.started -= instance.OnRotateClockwiseGrid;
+            @RotateClockwiseGrid.performed -= instance.OnRotateClockwiseGrid;
+            @RotateClockwiseGrid.canceled -= instance.OnRotateClockwiseGrid;
+            @RotateCounterClockwiseHover.started -= instance.OnRotateCounterClockwiseHover;
+            @RotateCounterClockwiseHover.performed -= instance.OnRotateCounterClockwiseHover;
+            @RotateCounterClockwiseHover.canceled -= instance.OnRotateCounterClockwiseHover;
+            @RotateCounterClockwiseGrid.started -= instance.OnRotateCounterClockwiseGrid;
+            @RotateCounterClockwiseGrid.performed -= instance.OnRotateCounterClockwiseGrid;
+            @RotateCounterClockwiseGrid.canceled -= instance.OnRotateCounterClockwiseGrid;
+            @RotateCopyHover.started -= instance.OnRotateCopyHover;
+            @RotateCopyHover.performed -= instance.OnRotateCopyHover;
+            @RotateCopyHover.canceled -= instance.OnRotateCopyHover;
+            @RotateCopyGrid.started -= instance.OnRotateCopyGrid;
+            @RotateCopyGrid.performed -= instance.OnRotateCopyGrid;
+            @RotateCopyGrid.canceled -= instance.OnRotateCopyGrid;
+            @ModifyHover.started -= instance.OnModifyHover;
+            @ModifyHover.performed -= instance.OnModifyHover;
+            @ModifyHover.canceled -= instance.OnModifyHover;
+            @Invert.started -= instance.OnInvert;
+            @Invert.performed -= instance.OnInvert;
+            @Invert.canceled -= instance.OnInvert;
+            @Rotation15Degrees.started -= instance.OnRotation15Degrees;
+            @Rotation15Degrees.performed -= instance.OnRotation15Degrees;
+            @Rotation15Degrees.canceled -= instance.OnRotation15Degrees;
+            @Rotation15DegreesHover.started -= instance.OnRotation15DegreesHover;
+            @Rotation15DegreesHover.performed -= instance.OnRotation15DegreesHover;
+            @Rotation15DegreesHover.canceled -= instance.OnRotation15DegreesHover;
+            @Rotation30Degrees.started -= instance.OnRotation30Degrees;
+            @Rotation30Degrees.performed -= instance.OnRotation30Degrees;
+            @Rotation30Degrees.canceled -= instance.OnRotation30Degrees;
+            @Rotation30DegreesHover.started -= instance.OnRotation30DegreesHover;
+            @Rotation30DegreesHover.performed -= instance.OnRotation30DegreesHover;
+            @Rotation30DegreesHover.canceled -= instance.OnRotation30DegreesHover;
+            @Rotation45Degrees.started -= instance.OnRotation45Degrees;
+            @Rotation45Degrees.performed -= instance.OnRotation45Degrees;
+            @Rotation45Degrees.canceled -= instance.OnRotation45Degrees;
+            @Rotation45DegreesHover.started -= instance.OnRotation45DegreesHover;
+            @Rotation45DegreesHover.performed -= instance.OnRotation45DegreesHover;
+            @Rotation45DegreesHover.canceled -= instance.OnRotation45DegreesHover;
+            @Rotation60Degrees.started -= instance.OnRotation60Degrees;
+            @Rotation60Degrees.performed -= instance.OnRotation60Degrees;
+            @Rotation60Degrees.canceled -= instance.OnRotation60Degrees;
+            @Rotation60DegreesHover.started -= instance.OnRotation60DegreesHover;
+            @Rotation60DegreesHover.performed -= instance.OnRotation60DegreesHover;
+            @Rotation60DegreesHover.canceled -= instance.OnRotation60DegreesHover;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="RotationObjectsActions.UnregisterCallbacks(IRotationObjectsActions)" />.
+        /// </summary>
+        /// <seealso cref="RotationObjectsActions.UnregisterCallbacks(IRotationObjectsActions)" />
+        public void RemoveCallbacks(IRotationObjectsActions instance)
+        {
+            if (m_Wrapper.m_RotationObjectsActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="RotationObjectsActions.AddCallbacks(IRotationObjectsActions)" />
+        /// <seealso cref="RotationObjectsActions.RemoveCallbacks(IRotationObjectsActions)" />
+        /// <seealso cref="RotationObjectsActions.UnregisterCallbacks(IRotationObjectsActions)" />
+        public void SetCallbacks(IRotationObjectsActions instance)
+        {
+            foreach (var item in m_Wrapper.m_RotationObjectsActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_RotationObjectsActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="RotationObjectsActions" /> instance referencing this action map.
+    /// </summary>
+    public RotationObjectsActions @RotationObjects => new RotationObjectsActions(this);
     private int m_ChroMapperDefaultSchemeIndex = -1;
     /// <summary>
     /// Provides access to the input control scheme.
@@ -14847,61 +15484,19 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
     public interface IEventPlacementActions
     {
         /// <summary>
-        /// Method invoked when associated input action "Rotation: 15 Degrees" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "Half Float Value Modifier" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnRotation15Degrees(InputAction.CallbackContext context);
+        void OnHalfFloatValueModifier(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "Rotation: 30 Degrees" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "Zero Float Value Modifier" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnRotation30Degrees(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "Rotation: 45 Degrees" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnRotation45Degrees(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "Rotation: 60 Degrees" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnRotation60Degrees(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "Negative Rotation Modifier" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnNegativeRotationModifier(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "Rotate In Place Left" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnRotateInPlaceLeft(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "Rotate In Place Right" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnRotateInPlaceRight(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "Rotate In Place Modifier" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnRotateInPlaceModifier(InputAction.CallbackContext context);
+        void OnZeroFloatValueModifier(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Workflows" which allows adding and removing callbacks.
@@ -14924,13 +15519,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnUpdateSwingArcVisualizer(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "Toggle Note or Event" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnToggleNoteorEvent(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "Place Red Note or Event" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
@@ -16626,5 +17214,125 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnScroll(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Rotation Objects" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="RotationObjectsActions.AddCallbacks(IRotationObjectsActions)" />
+    /// <seealso cref="RotationObjectsActions.RemoveCallbacks(IRotationObjectsActions)" />
+    public interface IRotationObjectsActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "Rotate Clockwise (Hover)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnRotateClockwiseHover(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Rotate Clockwise (Grid)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnRotateClockwiseGrid(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Rotate Counter Clockwise (Hover)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnRotateCounterClockwiseHover(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Rotate Counter Clockwise (Grid)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnRotateCounterClockwiseGrid(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Rotate Copy (Hover)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnRotateCopyHover(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Rotate Copy (Grid)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnRotateCopyGrid(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Modify (Hover)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnModifyHover(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Invert" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnInvert(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Rotation 15 Degrees" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnRotation15Degrees(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Rotation 15 Degrees (Hover)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnRotation15DegreesHover(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Rotation 30 Degrees" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnRotation30Degrees(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Rotation 30 Degrees (Hover)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnRotation30DegreesHover(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Rotation 45 Degrees" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnRotation45Degrees(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Rotation 45 Degrees (Hover)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnRotation45DegreesHover(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Rotation 60 Degrees" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnRotation60Degrees(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Rotation 60 Degrees (Hover)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnRotation60DegreesHover(InputAction.CallbackContext context);
     }
 }

@@ -164,6 +164,7 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
             Type t when t == typeof(BaseLightRotationBase) => ObjectType.GLSEvent,
             Type t when t == typeof(BaseLightTranslationBase) => ObjectType.GLSEvent,
             Type t when t == typeof(BaseFxEventFloat) => ObjectType.GLSEvent,
+            Type t when t == typeof(BaseRotationEvent) => ObjectType.RotationEvent,
             _ => throw new ArgumentException(nameof(TBaseObject))
         };
 
@@ -409,7 +410,8 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
             ObjectType.Chain,
             ObjectType.Bookmark,
             ObjectType.Waypoint,
-            ObjectType.NJSEvent
+            ObjectType.NJSEvent,
+            ObjectType.RotationEvent
         };
 
         foreach (var objectType in objectTypes)

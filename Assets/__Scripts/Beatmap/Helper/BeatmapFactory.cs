@@ -111,16 +111,16 @@ namespace Beatmap.Helper
         public static BaseEvent Event(JSONNode node)
         {
             if (Settings.Instance.MapVersion is 3 or 4)
-            {
-                if (node.HasKey("e") || node.HasKey("r")) return V3RotationEvent.GetFromJson(node);
-                if (node.HasKey("o")) return V3ColorBoostEvent.GetFromJson(node);
+                return node.HasKey("o") ? V3ColorBoostEvent.GetFromJson(node) : V3BasicEvent.GetFromJson(node);
 
-                return V3BasicEvent.GetFromJson(node);
-            }
-            else
-            {
-                return V2Event.GetFromJson(node);
-            }
+            return V2Event.GetFromJson(node);
+        }
+
+        public static BaseRotationEvent RotationEvent(JSONNode node)
+        {
+            return Settings.Instance.MapVersion is 3 or 4
+                ? V3RotationEvent.GetFromJson(node)
+                : V2RotationEvent.GetFromJson(node);
         }
 
         public static BaseLightColorEventBoxGroup LightColorEventBoxGroups(JSONNode node) =>

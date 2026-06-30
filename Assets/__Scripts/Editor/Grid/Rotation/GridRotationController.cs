@@ -1,71 +1,77 @@
-﻿using System;
-using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class GridRotationController : MonoBehaviour
 {
-    private static readonly int rotation = Shader.PropertyToID("_Rotation");
+    private static readonly int rotationId = Shader.PropertyToID("_Rotation");
 
-    public event Action OnObjectRotationChanged;
-    public RotationCallbackController RotationCallback;
-
-    [SerializeField] private bool rotateTransform = true;
-
-    private float targetRotation;
-    private float currentRotation;
+    [SerializeField] private AudioTimeSyncController atsc;
+    [SerializeField] private LaneRotationProvider laneRotationProvider;
 
     private void Start()
     {
-        Shader.SetGlobalFloat(rotation, 0);
-        if (RotationCallback != null) Init();
-    }
-
-    private void LateUpdate()
-    {
-        if (!Settings.Instance.RotateTrack) return;
-
-        // Changing rotation time to a constant
-        ChangeRotation(Mathf.LerpAngle(currentRotation, targetRotation, Time.deltaTime / 0.15f));
+        Shader.SetGlobalFloat(rotationId, 0);
+        atsc.OnPlayToggled += HandlePlayToggled;
+        laneRotationProvider.OnEditChanged += HandleEditRotationChanged;
+        laneRotationProvider.OnPlaybackChanged += HandleRotationChanged;
+        laneRotationProvider.OnSmoothedPlaybackChanged += HandleSmoothedRotationChanged;
+        Settings.NotifyBySettingName("RotateTrack", UpdateRotateTrack);
     }
 
     private void OnDestroy()
     {
-        RotationCallback.OnRotationChanged -= OnRotationChanged;
+        laneRotationProvider.OnEditChanged -= HandleEditRotationChanged;
+        laneRotationProvider.OnPlaybackChanged -= HandleRotationChanged;
+        laneRotationProvider.OnSmoothedPlaybackChanged -= HandleSmoothedRotationChanged;
         Settings.ClearSettingNotifications("RotateTrack");
     }
 
-    public void Init()
+    private void HandlePlayToggled(bool toggle)
     {
-        enabled = false;
-
-        if (!RotationCallback.IsActive) return;
-
-        enabled = true;
-        RotationCallback.OnRotationChanged += OnRotationChanged;
-        Settings.NotifyBySettingName("RotateTrack", UpdateRotateTrack);
+        if (toggle)
+            SetRotation(Settings.Instance.RotateTrack ? laneRotationProvider.SmoothRotation : 0);
+        else
+        {
+            SetRotation(
+                Settings.Instance.RotateTrack
+                    ? BeatSaberSongContainer.Instance.Map.MajorVersion < 4
+                        ? laneRotationProvider.PlaybackRotation
+                        : laneRotationProvider.EditRotation
+                    : 0);
+        }
     }
 
     private void UpdateRotateTrack(object obj)
     {
         var rotating = (bool)obj;
         if (rotating)
-            ChangeRotation(RotationCallback.Rotation);
+            SetRotation(laneRotationProvider.PlaybackRotation);
         else
-            ChangeRotation(0);
+            SetRotation(0);
     }
 
-    private void OnRotationChanged(bool natural, float rotation)
+    private void HandleEditRotationChanged(float rotation)
     {
-        if (!RotationCallback.IsActive || !Settings.Instance.RotateTrack) return;
-        targetRotation = rotation;
-        if (!natural) ChangeRotation(rotation);
+        if (atsc.IsPlaying || !Settings.Instance.RotateTrack || BeatSaberSongContainer.Instance.Map.MajorVersion < 4)
+            return;
+        SetRotation(rotation);
     }
 
-    private void ChangeRotation(float rotation)
+    private void HandleRotationChanged(float rotation)
     {
-        if (rotateTransform) transform.RotateAround(Vector3.zero, Vector3.up, rotation - currentRotation);
-        currentRotation = rotation;
-        OnObjectRotationChanged?.Invoke();
-        Shader.SetGlobalFloat(GridRotationController.rotation, rotation);
+        if (atsc.IsPlaying || !Settings.Instance.RotateTrack || BeatSaberSongContainer.Instance.Map.MajorVersion >= 4)
+            return;
+        SetRotation(rotation);
+    }
+
+    private void HandleSmoothedRotationChanged(float rotation)
+    {
+        if (!atsc.IsPlaying || !Settings.Instance.RotateTrack) return;
+        SetRotation(rotation);
+    }
+
+    private void SetRotation(float rotation)
+    {
+        transform.localEulerAngles = new Vector3(0, rotation, 0);
+        Shader.SetGlobalFloat(rotationId, rotation);
     }
 }

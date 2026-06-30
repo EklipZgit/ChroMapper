@@ -3,6 +3,7 @@ using Beatmap.Base;
 using Beatmap.Enums;
 using UnityEngine;
 using System;
+using TMPro;
 
 namespace Beatmap.Containers
 {
@@ -24,6 +25,7 @@ namespace Beatmap.Containers
 
         [Header("Others")] [SerializeField] public Transform DirectionTarget;
         [SerializeField] private SpriteRenderer swingArcRenderer;
+        [SerializeField] private TextMeshPro text;
 
         public BaseNote NoteData;
 
@@ -184,6 +186,17 @@ namespace Beatmap.Containers
             if (swingArcRenderer != null) swingArcRenderer.enabled = showArcVisualizer;
         }
 
+        public void SetText(string str)
+        {
+            if (string.IsNullOrEmpty(str))
+                text.enabled = false;
+            else
+            {
+                text.enabled = true;
+                text.SetText(str);
+            }
+        }
+
         public static NoteContainer SpawnBeatmapNote(BaseNote noteData, ref GameObject notePrefab)
         {
             var container = Instantiate(notePrefab).GetComponent<NoteContainer>();
@@ -194,9 +207,10 @@ namespace Beatmap.Containers
 
         public override void UpdateGridPosition()
         {
+            var pos = NoteData.GetPosition();
             if (!(Animator != null && Animator.AnimatedTrack))
             {
-                transform.localPosition = (Vector3)NoteData.GetPosition()
+                transform.localPosition = (Vector3)pos
                     + new Vector3(
                         0f,
                         BeatmapConstant.YOffset + BeatmapConstant.PlayerYOffset,
@@ -239,5 +253,8 @@ namespace Beatmap.Containers
             MpbController.ApplyChanges();
             ArrowMpbController.ApplyChanges();
         }
+
+        public void SetIndicators(bool visible) =>
+            text.gameObject.SetActive(visible && Settings.Instance.DisplayNoteText);
     }
 }

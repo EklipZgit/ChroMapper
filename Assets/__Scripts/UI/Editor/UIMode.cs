@@ -24,7 +24,6 @@ public class UIMode : MonoBehaviour, CMInput.IUIModeActions
     [SerializeField] private CameraManager cameraManager;
     [SerializeField] private GameObject[] gameObjectsWithRenderersToToggle;
     [SerializeField] private Transform[] thingsThatRequireAMoveForPreview;
-    [SerializeField] private RotationCallbackController rotationCallbackController;
     [SerializeField] private AudioTimeSyncController atsc;
 
     private readonly List<TextMeshProUGUI> modes = new();

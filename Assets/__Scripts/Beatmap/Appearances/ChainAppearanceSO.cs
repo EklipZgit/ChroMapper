@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Text;
 using Beatmap.Containers;
 using Beatmap.Enums;
 using UnityEngine;
@@ -36,8 +37,16 @@ namespace Beatmap.Appearances
 
         public void SetText(ChainContainer chain)
         {
-            chain.InfoText.SetText(
-                $"S: {chain.ChainData.Squish.ToString(CultureInfo.InvariantCulture)}\nC: {chain.ChainData.SliceCount.ToString()}");
+            var sb = new StringBuilder();
+            sb.AppendLine($"S: {chain.ChainData.Squish.ToString(CultureInfo.InvariantCulture)}");
+            sb.AppendLine($"C: {chain.ChainData.SliceCount.ToString()}");
+            if (chain.ChainData.Rotation != 0 || chain.ChainData.TailRotation != 0)
+            {
+                sb.AppendLine($"HR: {chain.ChainData.Rotation.ToString()}");
+                sb.AppendLine($"TR: {chain.ChainData.TailRotation.ToString()}");
+            }
+
+            chain.InfoText.SetText(sb.ToString());
         }
     }
 }

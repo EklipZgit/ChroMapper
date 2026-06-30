@@ -23,10 +23,6 @@ public class EnvironmentDescriptor : MonoBehaviour
     private bool hasInitialized;
     private IEnvironmentComponentUpdate[] componentUpdates;
 
-    // TODO: replace this, idrk where this goes
-    [Tooltip("If you want a thing to rotate around a 360 level with the track, place it here.")]
-    public GridRotationController RotationController;
-
     public void Initialize(BeatmapRuntimeContext context)
     {
         // TODO: do proper batch update
@@ -42,19 +38,12 @@ public class EnvironmentDescriptor : MonoBehaviour
 
         hasInitialized = true;
         Shader.SetGlobalFloat("_TrackLaneYPosition", SizeData.TrackLaneType == TrackLaneType.None ? -100f : 0f);
-        var rotationCallback = Resources.FindObjectsOfTypeAll<RotationCallbackController>().First();
 
         BasicEventEffectManager.Initialize(context.Atsc, context.ColorScheme);
         LightColorGroupEffectManager.Initialize(context.Atsc, context.ColorScheme);
         LightRotationGroupEffectManager.Initialize(context.Atsc);
         LightTranslationGroupEffectManager.Initialize(context.Atsc);
         FloatFxGroupEffectManager.Initialize(context.Atsc);
-
-        if (RotationController != null)
-        {
-            RotationController.RotationCallback = rotationCallback;
-            RotationController.Init();
-        }
 
         BasicLightEffect.FlashTimeBeat = context.Atsc.GetBeatFromSeconds(BasicLightEffect.FlashTimeSecond);
         BasicLightEffect.FadeTimeBeat = context.Atsc.GetBeatFromSeconds(BasicLightEffect.FadeTimeSecond);
