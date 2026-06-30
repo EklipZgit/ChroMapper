@@ -151,12 +151,24 @@ public class ChainIndicatorPlacement : BasePlacement<BaseChain, ChainIndicatorCo
                 dragged.PosY = queued.PosY;
                 dragged.CutDirection = queued.CutDirection;
                 dragged.CustomCoordinate = queued.CustomCoordinate;
+                if (dragged.Rotation != queued.Rotation)
+                {
+                    dragged.Rotation = queued.Rotation;
+                    TracksManager.RefreshTracks();
+                }
+
                 break;
             case IndicatorType.Tail:
                 dragged.TailJsonTime = queued.JsonTime;
                 dragged.TailPosX = queued.PosX;
                 dragged.TailPosY = queued.PosY;
                 dragged.CustomTailCoordinate = queued.CustomTailCoordinate;
+                if (dragged.TailRotation != queued.Rotation)
+                {
+                    dragged.TailRotation = queued.Rotation;
+                    TracksManager.RefreshTracks();
+                }
+
                 break;
             default:
                 throw new ArgumentOutOfRangeException();

@@ -19,15 +19,10 @@ public class CameraController : MonoBehaviour, CMInput.ICameraActions
     [SerializeField] private float mouseSensitivity;
     [SerializeField] private Transform noteGridTransform;
 
-    [FormerlySerializedAs("_uiMode")] [SerializeField]
-    private UIMode uiMode;
-
+    [SerializeField] private UIMode uiMode;
     [SerializeField] private CustomStandaloneInputModule customStandaloneInputModule;
-
-    [FormerlySerializedAs("_rotationCallbackController")]
-    public RotationCallbackController RotationCallbackController;
-
-    [FormerlySerializedAs("camera")] public Camera Camera;
+    [SerializeField] private LaneRotationProvider laneRotationProvider;
+    [SerializeField] public Camera Camera;
     public PostProcessLayer PostProcessLayer;
 
     [Header("Debug")] [SerializeField] private float x;
@@ -59,7 +54,20 @@ public class CameraController : MonoBehaviour, CMInput.ICameraActions
         typeof(CMInput.IBPMTapperActions),
         typeof(CMInput.IEventUIActions),
         typeof(CMInput.IUIModeActions),
-        typeof(CMInput.IBoxSelectActions)
+        typeof(CMInput.IArcObjectsActions),
+        typeof(CMInput.IArcPlacementActions),
+        typeof(CMInput.IChainObjectsActions),
+        typeof(CMInput.IChainPlacementActions),
+        typeof(CMInput.IScrollPrecisionActions),
+        typeof(CMInput.IBoxSelectActions),
+        typeof(CMInput.IGLSColorObjectsActions),
+        typeof(CMInput.IGLSRotationObjectsActions),
+        typeof(CMInput.IGLSTranslationObjectsActions),
+        typeof(CMInput.IGLSFloatFXObjectsActions),
+        typeof(CMInput.IGLSGroupTabsActions),
+        typeof(CMInput.IGLSGroupSelectActions),
+        typeof(CMInput.IEasingsSelectionActions),
+        typeof(CMInput.IRotationObjectsActions)
     };
 
     private Vector2 savedMousePos = Vector2.zero;
@@ -121,9 +129,12 @@ public class CameraController : MonoBehaviour, CMInput.ICameraActions
             LockedOntoNoteGrid = true;
         }
         else
-        {
-            RotationCallbackController.OnRotationChanged += OnOnRotation;
-        }
+            laneRotationProvider.OnSmoothedPlaybackChanged += HandleRotationChanged;
+    }
+
+    private void OnDestroy()
+    {
+        if (playerCamera) laneRotationProvider.OnSmoothedPlaybackChanged -= HandleRotationChanged;
     }
 
     private void Update()
@@ -371,8 +382,7 @@ public class CameraController : MonoBehaviour, CMInput.ICameraActions
 
     public void OnAttachtoNoteGrid(CallbackContext context)
     {
-        if (RotationCallbackController.IsActive
-            && context.performed
+        if (context.performed
             && noteGridTransform.gameObject.activeInHierarchy
             && !playerCamera)
             LockedOntoNoteGrid = !LockedOntoNoteGrid;
@@ -427,29 +437,8 @@ public class CameraController : MonoBehaviour, CMInput.ICameraActions
         }
     }
 
-    private void OnOnRotation(bool natural, float rotation)
-    {
-        if (natural)
-        {
-            StartCoroutine(RotationCoroutine(Quaternion.Euler(0, rotation, 0)));
-        }
-        else
-        {
-            cameraAnimator.LocalTarget.localEulerAngles = new Vector3(0, rotation, 0);
-        }
-    }
-
-    private IEnumerator RotationCoroutine(Quaternion current)
-    {
-        float t = 0;
-        var previous = cameraAnimator.LocalTarget.localRotation;
-        while (t < 1)
-        {
-            t += Time.deltaTime * 2;
-            cameraAnimator.LocalTarget.localRotation = Quaternion.SlerpUnclamped(previous, current, t);
-            yield return new WaitForEndOfFrame();
-        }
-    }
+    private void HandleRotationChanged(float rotation) =>
+        cameraAnimator.LocalTarget.localEulerAngles = new Vector3(0, rotation, 0);
 
     private void DisconnectPlayerTrack()
     {

@@ -33,12 +33,7 @@ namespace Beatmap.Appearances
             e.UpdateOffset(e.AlternateShader ? -0.5f : 0f);
             if (trackDef.Kind == BasicEventKind.IntValue)
             {
-                if (e.EventData.IsLaneRotationEvent())
-                {
-                    var rotation = e.EventData.Rotation;
-                    e.UpdateTextDisplay(true, $"{rotation}°");
-                }
-                else if (trackDef.Kind == BasicEventKind.IntValue)
+                if (trackDef.Kind == BasicEventKind.IntValue)
                 {
                     float speed = e.EventData.Value;
                     if (e.EventData.CustomSpeed != null) speed = (float)e.EventData.CustomSpeed;
@@ -184,6 +179,14 @@ namespace Beatmap.Appearances
                 e.UpdateGradientRendering(color, nextColor, e.EventData?.CustomEasing ?? "easeLinear");
 
             e.UpdateMaterials();
+        }
+
+        public void SetAppearance(
+            RotationEventContainer e,
+            bool final = true)
+        {
+            e.UpdateScale(final ? 0.75f : 0.6f);
+            e.UpdateTextDisplay(true, $"{e.EventData.Rotation}°");
         }
     }
 }

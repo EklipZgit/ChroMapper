@@ -1552,6 +1552,54 @@ MonoBehaviour:
     m_Localized: Display Note Text
     m_Metadata:
       m_Items: []
+  - m_Id: 646563635363807232
+    m_Localized: Reduced 360/90 Rotation Motion
+    m_Metadata:
+      m_Items: []
+  - m_Id: 646563496784003072
+    m_Localized: Use linear motion instead of smoothed rotation.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 646564095910969344
+    m_Localized: Follow Note Lane Rotation
+    m_Metadata:
+      m_Items: []
+  - m_Id: 646563993301516288
+    m_Localized: Follow note rotation in preview.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 646564964433887232
+    m_Localized: Follow bomb rotation in preview.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 646565121904836608
+    m_Localized: Follow arc rotation in preview.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 646565327744499712
+    m_Localized: Follow chain rotation in preview.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 646565356051857408
+    m_Localized: Follow wall rotation in preview.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 646565442844590080
+    m_Localized: Follow Wall Lane Rotation
+    m_Metadata:
+      m_Items: []
+  - m_Id: 646565287793754112
+    m_Localized: Follow Chain Lane Rotation
+    m_Metadata:
+      m_Items: []
+  - m_Id: 646565061242617856
+    m_Localized: Follow Arc Lane Rotation
+    m_Metadata:
+      m_Items: []
+  - m_Id: 646565238300966912
+    m_Localized: Follow Bomb Lane Rotation
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

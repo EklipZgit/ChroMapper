@@ -44,11 +44,13 @@ namespace Beatmap.Base
             PosX = other.PosX;
             PosY = other.PosY;
             CutDirection = other.CutDirection;
+            Rotation = other.Rotation;
             HeadControlPointLengthMultiplier = other.HeadControlPointLengthMultiplier;
             TailJsonTime = other.TailJsonTime;
             TailPosX = other.TailPosX;
             TailPosY = other.TailPosY;
             TailCutDirection = other.TailCutDirection;
+            TailRotation = other.TailRotation;
             TailControlPointLengthMultiplier = other.TailControlPointLengthMultiplier;
             MidAnchorMode = other.MidAnchorMode;
             CustomData = other.CustomData.Clone();
@@ -61,11 +63,13 @@ namespace Beatmap.Base
             PosX = start.PosX;
             PosY = start.PosY;
             CutDirection = start.CutDirection;
+            Rotation = start.Rotation;
             HeadControlPointLengthMultiplier = 1f;
             TailJsonTime = end.JsonTime;
             TailPosX = end.PosX;
             TailPosY = end.PosY;
             TailCutDirection = end.CutDirection;
+            TailRotation = end.Rotation;
             TailControlPointLengthMultiplier = 1f;
             MidAnchorMode = 0;
             CustomData = SaveCustomFromNotes(start, end);
@@ -196,7 +200,9 @@ namespace Beatmap.Base
                     && HeadControlPointLengthMultiplier == arc.HeadControlPointLengthMultiplier
                     && TailCutDirection == arc.TailCutDirection
                     && TailControlPointLengthMultiplier == arc.TailControlPointLengthMultiplier
-                    && MidAnchorMode == arc.MidAnchorMode;
+                    && MidAnchorMode == arc.MidAnchorMode
+                    && Rotation == arc.Rotation
+                    && TailRotation == arc.TailRotation;
             }
 
             return false;

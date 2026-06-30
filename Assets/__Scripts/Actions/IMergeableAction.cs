@@ -29,6 +29,8 @@ public enum ActionMergeType
     ModifyNJSEventValue,
     ModifyNJSEventEase,
     ModifyNJSEventExtension,
+    
+    ModifyRotationValue,
 
     ReorderEventBox,
 

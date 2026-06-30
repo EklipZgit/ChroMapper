@@ -44,6 +44,7 @@ namespace Beatmap.Appearances
 
         public void SetNoteAppearance(NoteContainer note)
         {
+            note.SetText(note.NoteData.Rotation != 0 ? $"{note.NoteData.Rotation}°" : null);
             if (note.NoteData.Type != (int)NoteType.Bomb)
             {
                 if (note.NoteData.CutDirection != (int)NoteCutDirection.Any)

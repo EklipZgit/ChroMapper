@@ -35,6 +35,11 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
 
     [SerializeField] private EventGridContainer eventGridContainer;
 
+    [Header("Rotation Event")] [SerializeField]
+    private EventPlacement rotationEventPlacement;
+
+    [SerializeField] private RotationEventGridContainer rotationEventGridContainer;
+
     [Header("GLS Group")] [SerializeField] private GLSGroupGridProvider glsGroupGridProvider;
     [SerializeField] private GLSGroupColorPlacement glsGroupColorPlacement;
     [SerializeField] private GLSGroupColorGridContainer glsGroupColorGridContainer;
@@ -72,6 +77,7 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
         { ObjectType.Arc, EditingMode.Gameplay },
         { ObjectType.Chain, EditingMode.Gameplay },
         { ObjectType.Bookmark, EditingMode.Gameplay },
+        { ObjectType.RotationEvent, EditingMode.Gameplay },
         { ObjectType.Waypoint, EditingMode.BasicEvent },
         { ObjectType.NJSEvent, EditingMode.Gameplay },
         { ObjectType.EnvironmentEnhancement, (EditingMode)0xff },
@@ -201,6 +207,9 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
                     break;
                 case ObjectType.NJSEvent:
                     grouping |= ObjectType.NJSEvent;
+                    break;
+                case ObjectType.RotationEvent:
+                    grouping |= ObjectType.RotationEvent;
                     break;
                 default:
                     grouping |= obj.ObjectType;
@@ -500,7 +509,7 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
             if (collection is BPMChangeGridContainer con) con.RefreshModifiedBeat();
         }
 
-        if (newObjects.Any(x => x is BaseEvent e && e.IsLaneRotationEvent())) tracksManager.RefreshTracks();
+        if (newObjects.Any(x => x is BaseRotationEvent)) tracksManager.RefreshTracks();
         if (triggersAction) BeatmapActionContainer.AddAction(new SelectionPastedAction(pasted, totalRemoved));
         OnSelectionPasted?.Invoke(pasted);
         OnSelectionChanged?.Invoke();

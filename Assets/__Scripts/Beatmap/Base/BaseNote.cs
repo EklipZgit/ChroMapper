@@ -44,6 +44,7 @@ namespace Beatmap.Base
             Type = other.Type;
             CutDirection = other.CutDirection;
             AngleOffset = other.AngleOffset;
+            Rotation = other.Rotation;
             CustomData = other.CustomData.Clone();
             CustomFake = other.CustomFake;
         }
@@ -230,7 +231,7 @@ namespace Beatmap.Base
         }
 
         protected override bool IsConflictingWithObjectAtSameTime(BaseObject other, bool deletion = false) =>
-            other is BaseNote note && Vector2.Distance(note.GetPosition(), GetPosition()) < 0.1;
+            other is BaseNote note && Vector2.Distance(note.GetPosition(), GetPosition()) < 0.1 && Rotation == note.Rotation;
 
         // This should hopefully prevent flipped stack notes when playing in game.
         // (I'm done with note sorting; if you don't like it, go fix it yourself.)
@@ -256,6 +257,9 @@ namespace Beatmap.Base
 
             // Compare by angle offset if cut direction
             if (comparison == 0) comparison = AngleOffset.CompareTo(note.AngleOffset);
+
+            // genuinely why is the comment needed?
+            if (comparison == 0) comparison = Rotation.CompareTo(note.Rotation);
 
             // All matching vanilla properties so compare custom data as a final check
             if (comparison == 0)

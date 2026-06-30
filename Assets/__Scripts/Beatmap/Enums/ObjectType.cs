@@ -22,6 +22,7 @@ namespace Beatmap.Enums
         GLSTranslation = 1 << 14,
         GLSFloatFx = 1 << 15,
         GLSEvent = 1 << 16,
+        RotationEvent = 1 << 17,
 
         // Filters for bitmask operations
         // (Can add or remove these as needed)

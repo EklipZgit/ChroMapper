@@ -5,6 +5,7 @@ using Beatmap.V2;
 using Beatmap.V3;
 using NUnit.Framework;
 using SimpleJSON;
+using UnityEngine;
 
 namespace TestsEditMode
 {
@@ -194,14 +195,24 @@ namespace TestsEditMode
             
             Assert.AreEqual(0, difficulty.Arcs.Count); // We do not load arcs from v2
             
+            foreach (var difficultyEvent in difficulty.BpmEvents)
+            {
+                Debug.Log(difficultyEvent);
+            }
             Assert.AreEqual(1, difficulty.BpmEvents.Count);
             BeatmapAssert.BpmEventPropertiesAreEqual(difficulty.BpmEvents[0], 10, 128);
             
-            Assert.AreEqual(4, difficulty.Events.Count);
+            foreach (var difficultyEvent in difficulty.Events)
+            {
+                Debug.Log(difficultyEvent);
+            }
+            Assert.AreEqual(2, difficulty.Events.Count);
             BeatmapAssert.EventPropertiesAreEqual(difficulty.Events[0], 10, 1, 3, 1, null);
             BeatmapAssert.EventPropertiesAreEqual(difficulty.Events[1], 10, 5, 1, 0, null);
-            BeatmapAssert.EventPropertiesAreEqual(difficulty.Events[2], 10, 14, 4, null, 15f);
-            BeatmapAssert.EventPropertiesAreEqual(difficulty.Events[3], 15, 15, 4, null, 15f);
+            
+            Assert.AreEqual(2, difficulty.RotationEvents.Count);
+            BeatmapAssert.RotationEventPropertiesAreEqual(difficulty.RotationEvents[0], 10, 14, 4, ExecutionTime.Early, 15f);
+            BeatmapAssert.RotationEventPropertiesAreEqual(difficulty.RotationEvents[1], 15, 15, 4, ExecutionTime.Late, 15f);
         }
     }
 }

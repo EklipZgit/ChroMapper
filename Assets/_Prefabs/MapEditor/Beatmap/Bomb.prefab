@@ -58,6 +58,7 @@ MonoBehaviour:
   DotModelController: {fileID: 5209674913041618430}
   DirectionTarget: {fileID: 4273965621911736}
   swingArcRenderer: {fileID: 0}
+  text: {fileID: 0}
 --- !u!1 &1869240974850666
 GameObject:
   m_ObjectHideFlags: 0

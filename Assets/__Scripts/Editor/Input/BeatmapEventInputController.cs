@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class BeatmapEventInputController : BeatmapInputController<EventContainer>, CMInput.IEventObjectsActions
 {
-    [SerializeField] private EventAppearanceSO eventAppearanceSo;
+    [SerializeField] private EventAppearanceSO eventAppearance;
     [SerializeField] private TracksManager tracksManager;
     [SerializeField] private BeatmapRuntimeContext beatmapRuntimeContext;
     [SerializeField] private ScrollPrecisionController scrollPrecisionController;
@@ -54,19 +54,10 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
     public void InvertEvent(EventContainer e)
     {
         var original = BeatmapFactory.Clone(e.ObjectData);
-        if (e.EventData.IsLaneRotationEvent())
-        {
-            e.EventData.Rotation *= -1;
-            tracksManager.RefreshTracks();
-        }
-        else if (e.EventData.IsColorBoostEvent())
-        {
+        if (e.EventData.IsColorBoostEvent())
             e.EventData.Value = e.EventData.Value > 0 ? 0 : 1;
-        }
         else if (trackDefinition.GetBasicOrDefault(e.EventData.Type).Kind != BasicEventKind.Lights)
-        {
             return;
-        }
         else
         {
             switch (e.EventData.Value)
@@ -82,7 +73,7 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
             RefreshPrevEventContainer(e);
         }
 
-        eventAppearanceSo.SetAppearance(e, trackDefinition);
+        eventAppearance.SetAppearance(e, trackDefinition);
         BeatmapActionContainer.AddAction(new BeatmapObjectModifiedAction(e.ObjectData, e.ObjectData, original));
     }
 
@@ -102,17 +93,8 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
 
             RefreshPrevEventContainer(e);
         }
-        else if (e.EventData.IsLaneRotationEvent())
-        {
-            var prec = scrollPrecisionController.GetCurrentRotationPrecision();
-            var value = Mathf.Round((e.EventData.Rotation + (modifier * prec)) * 1_000f) / 1_000f;
-            e.EventData.Rotation += value;
-            tracksManager.RefreshTracks();
-        }
         else if (e.EventData.IsColorBoostEvent())
-        {
             e.EventData.Value = e.EventData.Value == 0 ? 1 : 0;
-        }
         else if (e.EventData.IsBpmEvent())
         {
             e.EventData.FloatValue += modifier;
@@ -126,7 +108,7 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
 
         if (e.EventData.CompareTo(original) == 0) return;
 
-        eventAppearanceSo.SetAppearance(e, trackDefinition);
+        eventAppearance.SetAppearance(e, trackDefinition);
         BeatmapActionContainer.AddAction(
             new BeatmapObjectModifiedAction(
                 e.ObjectData,
@@ -150,15 +132,8 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
 
             RefreshPrevEventContainer(e);
         }
-        else if (e.EventData.IsLaneRotationEvent())
-        {
-            var prec = scrollPrecisionController.GetCurrentRotationPrecision();
-            var value = Mathf.Round((e.EventData.Rotation + (modifier * prec)) * 1_000f) / 1_000f;
-            e.EventData.Rotation += value;
-            tracksManager.RefreshTracks();
-        }
 
-        eventAppearanceSo.SetAppearance(e, trackDefinition);
+        eventAppearance.SetAppearance(e, trackDefinition);
         BeatmapActionContainer.AddAction(
             new BeatmapObjectModifiedAction(
                 e.ObjectData,

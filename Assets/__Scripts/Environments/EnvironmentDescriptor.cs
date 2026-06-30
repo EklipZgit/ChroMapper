@@ -27,10 +27,6 @@ public class EnvironmentDescriptor : MonoBehaviour
     private bool hasInitialized;
     private IEnvironmentComponentUpdate[] componentUpdates;
 
-    // TODO: replace this, idrk where this goes
-    [Tooltip("If you want a thing to rotate around a 360 level with the track, place it here.")]
-    public GridRotationController RotationController;
-
     public void Initialize(BeatmapRuntimeContext context)
     {
         // TODO: do proper batch update
@@ -55,13 +51,6 @@ public class EnvironmentDescriptor : MonoBehaviour
 
         ColorSchemeProvider.ColorScheme = context.ColorScheme;
         SpectrogramDataProvider.AudioLink = context.AudioLink;
-
-        var rotationCallback = Resources.FindObjectsOfTypeAll<RotationCallbackController>().First();
-        if (RotationController != null)
-        {
-            RotationController.RotationCallback = rotationCallback;
-            RotationController.Init();
-        }
 
         BasicLightEffect.FlashTimeBeat = context.Atsc.GetBeatFromSeconds(BasicLightEffect.FlashTimeSecond);
         BasicLightEffect.FadeTimeBeat = context.Atsc.GetBeatFromSeconds(BasicLightEffect.FadeTimeSecond);

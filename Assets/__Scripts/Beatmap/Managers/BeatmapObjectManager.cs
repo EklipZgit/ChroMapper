@@ -65,6 +65,8 @@ public abstract class BeatmapObjectManager<T> : BeatmapObjectManager where T : B
                 HandleModifiedWithConflictingActionCreated(beatmapObjectModifiedWithConflictingAction),
             BeatmapObjectModifiedAction beatmapObjectModifiedAction =>
                 HandleModifiedActionCreated(beatmapObjectModifiedAction),
+            BeatmapObjectUpdatedAction beatmapObjectUpdatedAction =>
+                HandleUpdatedActionCreated(beatmapObjectUpdatedAction),
             BeatmapObjectModifiedCollectionAction beatmapObjectModifiedCollectionAction =>
                 HandleModifiedCollectionActionCreated(beatmapObjectModifiedCollectionAction),
             _ => false
@@ -80,7 +82,9 @@ public abstract class BeatmapObjectManager<T> : BeatmapObjectManager where T : B
 
     private bool HandleGLSEventBoxModifiedActionCreated(BeatmapGLSEventBoxModifiedAction action)
     {
-        var b = RemoveData(action.PreMergeOriginalData is T preBaseObject?new[]{preBaseObject}:action.OriginalObject is T baseObject ? new[] { baseObject } : Enumerable.Empty<T>());
+        var b = RemoveData(
+            action.PreMergeOriginalData is T preBaseObject ? new[] { preBaseObject } :
+            action.OriginalObject is T baseObject          ? new[] { baseObject } : Enumerable.Empty<T>());
         b = AddData(action.Data.OfType<T>()) || b;
         return b;
     }
@@ -101,6 +105,12 @@ public abstract class BeatmapObjectManager<T> : BeatmapObjectManager where T : B
     }
 
     private bool HandleDeletionActionCreated(BeatmapObjectDeletionAction action) => RemoveData(action.Data.OfType<T>());
+
+    private bool HandleUpdatedActionCreated(BeatmapObjectUpdatedAction action)
+    {
+        var b = RemoveData(action.OriginalObject is T baseObject ? new[] { baseObject } : Enumerable.Empty<T>());
+        return AddData(new List<BaseObject> { action.EditedObject }.OfType<T>()) || b;
+    }
 
     private bool HandleModifiedActionCreated(BeatmapObjectModifiedAction action)
     {
@@ -157,6 +167,8 @@ public abstract class BeatmapObjectManager<T> : BeatmapObjectManager where T : B
                 HandleModifiedWithConflictingActionRedo(beatmapObjectModifiedWithConflictingAction),
             BeatmapObjectModifiedAction beatmapObjectModifiedAction =>
                 HandleModifiedActionRedo(beatmapObjectModifiedAction),
+            BeatmapObjectUpdatedAction beatmapObjectUpdatedAction =>
+                HandleUpdatedActionRedo(beatmapObjectUpdatedAction),
             BeatmapObjectModifiedCollectionAction beatmapObjectModifiedCollectionAction =>
                 HandleModifiedCollectionActionRedo(beatmapObjectModifiedCollectionAction),
             _ => false
@@ -192,6 +204,12 @@ public abstract class BeatmapObjectManager<T> : BeatmapObjectManager where T : B
     }
 
     private bool HandleDeletionActionRedo(BeatmapObjectDeletionAction action) => RemoveData(action.Data.OfType<T>());
+
+    private bool HandleUpdatedActionRedo(BeatmapObjectUpdatedAction action)
+    {
+        var b = RemoveData(action.OriginalObject is T baseObject ? new[] { baseObject } : Enumerable.Empty<T>());
+        return AddData(new List<BaseObject> { action.EditedObject }.OfType<T>()) || b;
+    }
 
     private bool HandleModifiedActionRedo(BeatmapObjectModifiedAction action)
     {
@@ -248,6 +266,8 @@ public abstract class BeatmapObjectManager<T> : BeatmapObjectManager where T : B
                 HandleModifiedWithConflictingActionUndo(beatmapObjectModifiedWithConflictingAction),
             BeatmapObjectModifiedAction beatmapObjectModifiedAction =>
                 HandleModifiedActionUndo(beatmapObjectModifiedAction),
+            BeatmapObjectUpdatedAction beatmapObjectUpdatedAction =>
+                HandleUpdatedActionUndo(beatmapObjectUpdatedAction),
             BeatmapObjectModifiedCollectionAction beatmapObjectModifiedCollectionAction =>
                 HandleModifiedCollectionActionUndo(beatmapObjectModifiedCollectionAction),
             _ => false
@@ -281,6 +301,12 @@ public abstract class BeatmapObjectManager<T> : BeatmapObjectManager where T : B
     }
 
     private bool HandleDeletionActionUndo(BeatmapObjectDeletionAction action) => AddData(action.Data.OfType<T>());
+
+    private bool HandleUpdatedActionUndo(BeatmapObjectUpdatedAction action)
+    {
+        var b = RemoveData(action.EditedObject is T baseObject ? new[] { baseObject } : Enumerable.Empty<T>());
+        return AddData(new List<BaseObject> { action.OriginalObject }.OfType<T>()) || b;
+    }
 
     private bool HandleModifiedActionUndo(BeatmapObjectModifiedAction action)
     {

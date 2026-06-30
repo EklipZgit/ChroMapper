@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Text;
 using Beatmap.Containers;
 using Beatmap.Enums;
 using UnityEngine;
@@ -36,8 +37,16 @@ namespace Beatmap.Appearances
 
         public void SetText(ArcContainer arc)
         {
-            arc.InfoText.SetText(
-                $"H: {arc.ArcData.HeadControlPointLengthMultiplier.ToString(CultureInfo.InvariantCulture)}\nT: {arc.ArcData.TailControlPointLengthMultiplier.ToString(CultureInfo.InvariantCulture)}");
+            var sb = new StringBuilder();
+            sb.AppendLine($"H: {arc.ArcData.HeadControlPointLengthMultiplier.ToString(CultureInfo.InvariantCulture)}");
+            sb.AppendLine($"T: {arc.ArcData.TailControlPointLengthMultiplier.ToString(CultureInfo.InvariantCulture)}");
+            if (arc.ArcData.Rotation != 0 || arc.ArcData.TailRotation != 0)
+            {
+                sb.AppendLine($"HR: {arc.ArcData.Rotation.ToString()}");
+                sb.AppendLine($"TR: {arc.ArcData.TailRotation.ToString()}");
+            }
+
+            arc.InfoText.SetText(sb.ToString());
         }
     }
 }

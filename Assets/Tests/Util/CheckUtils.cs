@@ -84,7 +84,7 @@ namespace Tests.Util
                 Assert.AreEqual(evt, nextEvt.Prev, $"{msg} Mismatched Next.Prev");
         }
 
-        public static void CheckRotationEvent(string msg, EventGridContainer container, int idx, float time,
+        public static void CheckRotationEvent(string msg, RotationEventGridContainer container, int idx, float time,
             int executionTime, float rotation, JSONNode customData = null)
         {
             var evt = container.MapObjects.Skip(idx).First();

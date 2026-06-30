@@ -16,7 +16,7 @@ namespace Beatmap.V4
             arc.JsonTime = node["hb"].AsFloat;
             arc.TailJsonTime = node["tb"].AsFloat;
             arc.Rotation = node["hr"].AsInt;
-            arc.Rotation = node["tr"].AsInt;
+            arc.TailRotation = node["tr"].AsInt;
 
             var headIndex = node["hi"].AsInt;
             var headNoteData = notesCommonData[headIndex];
