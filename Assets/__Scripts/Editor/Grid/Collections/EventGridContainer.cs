@@ -177,7 +177,7 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
                 AllBoostEvents.Remove(e);
             else if (e.IsBpmEvent())
                 AllBpmEvents.Remove(e);
-            else if (BeatmapContext.TracksDefinition.GetBasicOrDefault(e.Type).Kind == BasicEventKind.Lights
+            else if (BeatmapContext.TrackDefinitions.GetBasicOrDefault(e.Type).Kind == BasicEventKind.Lights
                 && !inCollection)
             {
                 RemoveLinkedLightEvents(e);

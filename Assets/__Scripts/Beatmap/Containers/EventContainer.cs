@@ -72,14 +72,14 @@ namespace Beatmap.Containers
         public static EventContainer SpawnEvent(
             EventGridContainer eventsContainer,
             BaseEvent data,
-            TrackDefinitionsSO trackDefinitionsSo,
+            TrackDefinitionsSO trackDefinitions,
             ref GameObject prefab,
             ref CreateEventTypeLabels labels)
         {
             var container = Instantiate(prefab).GetComponent<EventContainer>();
             container.EventData = data;
             container.eventGridContainer = eventsContainer;
-            container.TracksDefinition = tracksDefinitionSo;
+            container.TrackDefinitions = trackDefinitions;
             container.labels = labels;
             container.transform.localEulerAngles = Vector3.zero;
             return container;

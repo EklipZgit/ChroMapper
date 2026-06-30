@@ -91,14 +91,14 @@ public class ShowIfAnyDrawer : MaterialPropertyDrawer
 
     public override float GetPropertyHeight(MaterialProperty prop, string label, MaterialEditor editor)
     {
-        return prop.type switch
+        return prop.propertyType switch
         {
-            MaterialProperty.PropType.Vector => IsVisible(prop)
+            UnityEngine.Rendering.ShaderPropertyType.Vector => IsVisible(prop)
                 ? EditorGUIUtility.wideMode
                     ? base.GetPropertyHeight(prop, label, editor)
                     : (EditorGUIUtility.singleLineHeight * 2f) + 2f
                 : -2f,
-            MaterialProperty.PropType.Texture => IsVisible(prop) ? EditorGUIUtility.singleLineHeight * 4f : -2f,
+            UnityEngine.Rendering.ShaderPropertyType.Texture => IsVisible(prop) ? EditorGUIUtility.singleLineHeight * 4f : -2f,
             _ => IsVisible(prop) ? base.GetPropertyHeight(prop, label, editor) : -2f
         };
     }
