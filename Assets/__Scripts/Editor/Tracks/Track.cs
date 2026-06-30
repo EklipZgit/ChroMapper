@@ -1,11 +1,13 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using Beatmap.Animations;
 using Beatmap.Base;
-using Beatmap.V2;
 using Beatmap.Containers;
 using UnityEngine;
 
 public class Track : MonoBehaviour
 {
+    public Transform SelfTransform;
     public Transform ObjectParentTransform;
     public VariableNJSProvider vNjsProvider;
     public bool IgnoreZScale;
@@ -24,6 +26,7 @@ public class Track : MonoBehaviour
     private float despawnTime;
     private float despawnPosition;
     private float zScale = 1f;
+    private bool v2;
 
     // this number pulled from my ass, but it looks fine
     // oh, it's actually correct
@@ -40,9 +43,9 @@ public class Track : MonoBehaviour
     public void AssignRotationValue(Vector3 rotation)
     {
         RotationValue = rotation;
-        transform.RotateAround(rotationPoint, Vector3.right, RotationValue.x);
-        transform.RotateAround(rotationPoint, Vector3.up, RotationValue.y);
-        transform.RotateAround(rotationPoint, Vector3.forward, RotationValue.z);
+        SelfTransform.RotateAround(rotationPoint, Vector3.right, RotationValue.x);
+        SelfTransform.RotateAround(rotationPoint, Vector3.up, RotationValue.y);
+        SelfTransform.RotateAround(rotationPoint, Vector3.forward, RotationValue.z);
     }
 
     public void UpdatePosition(float position)
@@ -55,14 +58,13 @@ public class Track : MonoBehaviour
 
     public void UpdateTime(float time)
     {
-        var z = 0f;
-        var v2 = gridObject is V2Object;
+        float z;
         var position = ObjectParentTransform.localPosition;
 
         // Jump in
         if (time < spawnTime)
         {
-            z = (gridObject.CustomSpawnEffect ?? !v2) ^ v2
+            z = (gridObject.CustomSpawnEffect != null ? (bool)gridObject.CustomSpawnEffect : !v2) ^ v2
                 ? Mathf.LerpUnclamped(spawnPosition, JUMP_FAR, (spawnTime - time) / JUMP_TIME)
                 : JUMP_FAR;
         }
@@ -113,7 +115,8 @@ public class Track : MonoBehaviour
                 }
             case BaseChain chain:
                 {
-                    for (var i = 0; i < nodesTarget.Length; i++)
+                    var len = Math.Min(nodesTarget.Length, chain.SliceCount - 1);
+                    for (var i = 0; i < len; i++)
                     {
                         var (nodeTransform, targetPosition, targetRotation) = nodesTarget[i];
                         var localPosition = nodeTransform.localPosition;
@@ -212,6 +215,7 @@ public class Track : MonoBehaviour
 
     public void InitState()
     {
+        v2 = BeatSaberSongContainer.Instance.Map.MajorVersion == 2;
         useCustom = (gridObject.CustomNoteJumpMovementSpeed?.IsNumber ?? false)
             || (gridObject.CustomNoteJumpStartBeatOffset?.IsNumber ?? false);
         if (!useCustom)
@@ -291,5 +295,16 @@ public class Track : MonoBehaviour
     public void UpdateMaterialRotation(ObjectContainer obj)
     {
         if (obj is ObstacleContainer || obj is NoteContainer) obj.SetRotation(RotationValue.y);
+    }
+
+    public void ResetData()
+    {
+        enabled = false;
+        SelfTransform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
+        SelfTransform.localScale = Vector3.one;
+        ObjectParentTransform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
+        ObjectParentTransform.localScale = Vector3.one;
+
+        if (gameObject.TryGetComponent<TrackAnimator>(out var animator)) animator.enabled = false;
     }
 }

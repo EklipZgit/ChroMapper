@@ -115,7 +115,7 @@ public class PlacementInputSystem : MonoBehaviour,
 
     public void OnInitiateClickandDrag(InputAction.CallbackContext context)
     {
-        if (currentProvider == null) return;
+        if (currentProvider == null || inputState != PlacementInputState.Hover) return;
         if (context.performed)
         {
             foreach (var p in currentProvider.Placements) p.HideVisual();
@@ -137,7 +137,7 @@ public class PlacementInputSystem : MonoBehaviour,
 
     public void OnInitiateClickandDragatTime(InputAction.CallbackContext context)
     {
-        if (currentProvider == null) return;
+        if (currentProvider == null || inputState != PlacementInputState.Hover) return;
         if (context.performed)
         {
             var dragRay = cameraManager.SelectedCameraController.Camera.ScreenPointToRay(mousePosition);

@@ -113,10 +113,7 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
         var c = con as GLSEventContainer;
         con.UpdateGridPosition();
 
-        glsEventAppearance.SetAppearance(
-            c,
-            true,
-            eventGridContainer.AllBoostEvents.FindLast(x => x.JsonTime <= obj.JsonTime)?.Value == 1);
+        glsEventAppearance.SetAppearance(c, true, eventGridContainer.IsBoostAt(obj.JsonTime));
     }
 
     public override void DeleteObject(

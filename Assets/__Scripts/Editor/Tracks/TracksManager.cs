@@ -1,42 +1,30 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using Beatmap.Animations;
 using Beatmap.Base;
-using Beatmap.Base.Customs;
 using Beatmap.Containers;
 using Beatmap.Enums;
-using Beatmap.V2;
-using SimpleJSON;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class TracksManager : MonoBehaviour
 {
-    [FormerlySerializedAs("TrackPrefab")] [SerializeField]
-    private GameObject trackPrefab;
-
-    [FormerlySerializedAs("TracksParent")] [SerializeField]
-    private Transform tracksParent;
-
-    [FormerlySerializedAs("events")] [SerializeField]
-    private EventGridContainer eventGrid;
+    [SerializeField] private Track trackPrefab;
+    [SerializeField] private Transform tracksParent;
+    [SerializeField] private EventGridContainer eventGridContainer;
 
     [SerializeField] private AudioTimeSyncController atsc;
     [SerializeField] private VariableNJSProvider vNjsProvider;
 
-    private readonly Dictionary<Vector3, Track> loadedTracks = new Dictionary<Vector3, Track>();
-    private readonly Dictionary<string, TrackAnimator> animationTracks = new Dictionary<string, TrackAnimator>();
+    private readonly Stack<Track> trackPool = new();
+    private readonly Dictionary<Vector3, Track> loadedTracks = new();
+    private readonly Dictionary<string, TrackAnimator> animationTracks = new();
 
-    private readonly List<BeatmapObjectContainerCollection> objectContainerCollections =
-        new List<BeatmapObjectContainerCollection>();
+    private readonly List<BeatmapObjectContainerCollection> objectContainerCollections = new();
 
     private float position;
 
-    public float LowestRotation { get; private set; }
-    public float HighestRotation { get; private set; }
+    private float lowestRotation;
+    private float highestRotation;
 
-    // Start is called before the first frame update
     private void Start()
     {
         objectContainerCollections.Add(BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Note));
@@ -44,6 +32,22 @@ public class TracksManager : MonoBehaviour
             BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Obstacle));
         objectContainerCollections.Add(BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Arc));
         objectContainerCollections.Add(BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Chain));
+    }
+
+    private Track GetOrCreateTrack()
+    {
+        var track = trackPool.Count > 0 ? trackPool.Pop() : Instantiate(trackPrefab);
+        track.gameObject.SetActive(true);
+        track.SelfTransform.SetParent(tracksParent, false);
+        return track;
+    }
+
+    public void Remove(Track track)
+    {
+        track.gameObject.SetActive(false);
+        track.SelfTransform.SetParent(tracksParent, false);
+        track.ResetData();
+        trackPool.Push(track);
     }
 
     /// <summary>
@@ -56,12 +60,14 @@ public class TracksManager : MonoBehaviour
     {
         if (loadedTracks.TryGetValue(rotation, out var track)) return track;
 
-        track = Instantiate(trackPrefab, tracksParent).GetComponent<Track>();
+        track = GetOrCreateTrack();
+        track.gameObject.name = $"Track [{rotation.x}, {rotation.y}, {rotation.z}]";
+
         track.vNjsProvider = vNjsProvider;
         track.enabled = true;
-        track.gameObject.name = $"Track [{rotation.x}, {rotation.y}, {rotation.z}]";
         track.AssignRotationValue(rotation);
         track.UpdatePosition(position);
+
         loadedTracks.Add(rotation, track);
         return track;
     }
@@ -82,14 +88,16 @@ public class TracksManager : MonoBehaviour
     {
         if (animationTracks.TryGetValue(name, out var animator)) return animator;
 
-        var obj = Instantiate(trackPrefab, tracksParent);
-        obj.name = name;
-        animator = obj.AddComponent<TrackAnimator>();
+        var track = GetOrCreateTrack();
+        track.gameObject.name = name;
+
+        animator = track.gameObject.GetOrAddComponent<TrackAnimator>();
         animator.enabled = false;
         animator.Atsc = atsc;
-        animator.Track = obj.GetComponent<Track>();
+        animator.Track = track;
         animator.Track.vNjsProvider = vNjsProvider;
         animator.Track.enabled = true;
+        
         animationTracks.Add(name, animator);
         return animator;
     }
@@ -99,21 +107,22 @@ public class TracksManager : MonoBehaviour
     {
         // TODO: This is the same math used for 90/360 tacks, but does it actually handle BPM changes?
         var pos = -1 * obj.JsonTime * EditorScaleController.EditorScale;
-        var track = Instantiate(trackPrefab, tracksParent).GetComponent<Track>();
+        var track = GetOrCreateTrack();
+        track.gameObject.name = $"Track Object {obj.JsonTime}";
+
         track.vNjsProvider = vNjsProvider;
         track.enabled = true;
         track.UpdatePosition(pos);
 
-        float rotation = GetRotationAtTime(obj.SongBpmTime);
+        var rotation = GetRotationAtTime(obj.SongBpmTime);
         track.AssignRotationValue(obj.CustomWorldRotation ?? new Vector3(0, rotation, 0));
-        track.gameObject.name = $"Track Object {obj.JsonTime}";
         return track;
     }
 
     public Track GetTrackAtTime(float beatInSongBpm)
     {
         if (!Settings.Instance.RotateTrack) return CreateTrack(0);
-        float rotation = GetRotationAtTime(beatInSongBpm);
+        var rotation = GetRotationAtTime(beatInSongBpm);
 
         return CreateTrack(rotation);
     }
@@ -121,18 +130,16 @@ public class TracksManager : MonoBehaviour
     public float GetRotationAtTime(float beatInSongBpm)
     {
         float rotation = 0;
-        foreach (var rotationEvent in eventGrid.AllRotationEvents)
+        foreach (var rotationEvent in eventGridContainer.AllRotationEvents)
         {
             if (rotationEvent.SongBpmTime > beatInSongBpm + 0.001f) continue;
             if (Mathf.Approximately(rotationEvent.SongBpmTime, beatInSongBpm)
                 && rotationEvent.Type == (int)EventTypeValue.LateLaneRotation)
-            {
                 continue;
-            }
 
             rotation += rotationEvent.Rotation;
-            if (rotation < LowestRotation) LowestRotation = rotation;
-            if (rotation > HighestRotation) HighestRotation = rotation;
+            if (rotation < lowestRotation) lowestRotation = rotation;
+            if (rotation > highestRotation) highestRotation = rotation;
         }
 
         return rotation;
@@ -162,9 +169,8 @@ public class TracksManager : MonoBehaviour
         //float betterModulo = moduloAddBase - betterLargestFactor * m;
         x - (Mathf.Floor(x / m) * m) + m - (Mathf.Floor((x - (Mathf.Floor(x / m) * m) + m) / m) * m);
 
-    public void
-        UpdatePosition(
-            float position) //Take our position from AudioTimeSyncController and broadcast that to every track.
+    //Take our position from AudioTimeSyncController and broadcast that to every track.
+    public void UpdatePosition(float position)
     {
         this.position = position;
         foreach (var track in loadedTracks.Values) track.UpdatePosition(position);

@@ -36,6 +36,7 @@ public class BeatmapActionContainer : MonoBehaviour, CMInput.IActionsActions
     /// </param>
     public static void AddAction(BeatmapAction action, bool perform = false)
     {
+        BeatmapAction mergedAction = null;
         if (!action.Networked)
         {
             // Clear all local, inactive actions from the queue
@@ -51,13 +52,16 @@ public class BeatmapActionContainer : MonoBehaviour, CMInput.IActionsActions
                 if (merged is not null)
                 {
                     instance.beatmapActions.Remove(previousAction);
-                    action = merged;
+                    mergedAction = merged;
                 }
             }
         }
 
-        instance.beatmapActions.Add(action);
+        instance.beatmapActions.Add(mergedAction ?? action);
+       
+        // Perform the original original action - not the merged action
         if (perform) instance.DoRedo(action);
+        
         Debug.Log($"Action of type {action.GetType().Name} added. ({action.Comment})");
 
         // Deferring ActionCreatedEvent until after execution brings AddAction in line with Undo/Redo

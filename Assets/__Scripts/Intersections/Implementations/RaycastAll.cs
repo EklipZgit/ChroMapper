@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -64,7 +63,12 @@ public static partial class Intersections
             if (groupedCollidersInLayer.Count <= 0) continue;
 
             var groupKeys = groupedCollidersInLayer.Keys;
-            var (lowestKey, highestKey) = (groupKeys.Min(), groupKeys.Max());
+            int lowestKey = int.MaxValue, highestKey = int.MinValue;
+            foreach (var groupKey in groupKeys)
+            {
+                lowestKey = Math.Min(lowestKey, groupKey);
+                highestKey = Math.Max(highestKey, groupKey);
+            }
 
             var groupID = Mathf.Clamp(CurrentGroup, lowestKey, highestKey);
             var rounds = (Math.Max(groupID - lowestKey, highestKey - groupID) * 2) + 1;

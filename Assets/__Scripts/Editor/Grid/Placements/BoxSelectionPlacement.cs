@@ -231,6 +231,7 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
                         p = obj.GetCenter();
                         p.y += BeatmapConstant.YOffset + (BeatmapConstant.LaneSize / 2f);
                         break;
+                    case BaseNJSEvent:
                     case BaseBpmEvent:
                         // Bpm events are in a separate single lane so we don't need to get position
                         break;

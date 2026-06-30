@@ -10,14 +10,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridContainer>,
-                             CMInput.INotePlacementActions
+public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridContainer>
 {
-    private const int upKey = 0;
-    private const int leftKey = 1;
-    private const int downKey = 2;
-    private const int rightKey = 3;
-
     // Chroma Color Stuff
     public static readonly string ChromaColorKey = "PlaceChromaObjects";
 
@@ -25,22 +19,23 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
     [SerializeField] private NoteAppearanceSO noteAppearanceSo;
     [SerializeField] private DeleteToolController deleteToolController;
     [SerializeField] private LaserSpeedController laserSpeedController;
-    [SerializeField] private BeatmapNoteInputController beatmapNoteInputController;
+    [SerializeField] private BeatmapSharedNoteInputController beatmapSharedNoteInputController;
     [SerializeField] private ColorPicker colorPicker;
     [SerializeField] private ToggleColourDropdown dropdown;
 
     [SerializeField] private CameraManager cameraManager;
 
-    // TODO: Perhaps move this into Settings as a user-configurable option
-    private readonly float
-        diagonalStickMaxTime = 0.3f; // This controls the maximum time that a note will stay a diagonal
+    public override void Start()
+    {
+        base.Start();
+        beatmapSharedNoteInputController.OnCutDirectionChanged += HandleOnCutDirectionChanged;
+    }
 
-    // REVIEW: Perhaps partner with Obama to turn this list of bools
-    // into some binary shifting goodness
-    private readonly List<bool> heldKeys = new() { false, false, false, false };
+    public void OnDestroy()
+    {
+        beatmapSharedNoteInputController.OnCutDirectionChanged -= HandleOnCutDirectionChanged;
+    }
 
-    private bool diagonal;
-    private bool flagDirectionsUpdate;
     private bool updateAttachedSliderDirection;
 
     // Chroma Color Check
@@ -54,51 +49,6 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
         }
     }
 
-    private void LateUpdate()
-    {
-        if (flagDirectionsUpdate)
-        {
-            HandleDirectionValues();
-            flagDirectionsUpdate = false;
-        }
-    }
-
-    //TODO perhaps make a helper function to deal with the context.performed and context.canceled checks
-    public void OnDownNote(InputAction.CallbackContext context) => HandleKeyUpdate(context, downKey);
-
-    public void OnLeftNote(InputAction.CallbackContext context) => HandleKeyUpdate(context, leftKey);
-
-    public void OnUpNote(InputAction.CallbackContext context) => HandleKeyUpdate(context, upKey);
-
-    public void OnRightNote(InputAction.CallbackContext context) => HandleKeyUpdate(context, rightKey);
-
-    public void OnDotNote(InputAction.CallbackContext context)
-    {
-        if (!context.performed) return;
-        DeleteToolController.UpdateDeletion(false);
-        UpdateCut((int)NoteCutDirection.Any);
-    }
-
-    public void OnUpLeftNote(InputAction.CallbackContext context)
-    {
-        if (context.performed && !laserSpeedController.Activated) UpdateCut((int)NoteCutDirection.UpLeft);
-    }
-
-    public void OnUpRightNote(InputAction.CallbackContext context)
-    {
-        if (context.performed && !laserSpeedController.Activated) UpdateCut((int)NoteCutDirection.UpRight);
-    }
-
-    public void OnDownRightNote(InputAction.CallbackContext context)
-    {
-        if (context.performed && !laserSpeedController.Activated) UpdateCut((int)NoteCutDirection.DownRight);
-    }
-
-    public void OnDownLeftNote(InputAction.CallbackContext context)
-    {
-        if (context.performed && !laserSpeedController.Activated) UpdateCut((int)NoteCutDirection.DownLeft);
-    }
-
     // Toggle Chroma Color Function
     public void PlaceChromaObjects(bool v) => Settings.NonPersistentSettings[ChromaColorKey] = v;
 
@@ -107,6 +57,169 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
 
     protected override BaseNote GenerateOriginalData() =>
         new() { Color = (int)NoteColor.Red, CutDirection = (int)NoteCutDirection.Down };
+
+    private readonly List<ObjectContainer> draggedAttachedSliderContainers = new();
+
+    private readonly Dictionary<IndicatorType, List<BaseSlider>> draggedAttachedSliderDatas = new()
+    {
+        { IndicatorType.Head, new List<BaseSlider>() }, { IndicatorType.Tail, new List<BaseSlider>() }
+    };
+
+    private readonly Dictionary<IndicatorType, List<BaseSlider>> originalDraggedAttachedSliderDatas = new()
+    {
+        { IndicatorType.Head, new List<BaseSlider>() }, { IndicatorType.Tail, new List<BaseSlider>() }
+    };
+
+    public override ObjectContainer StartDrag(GameObject draggedObject)
+    {
+        var con = base.StartDrag(draggedObject);
+        if (IsDragging)
+            StartDragSliders(DraggedObjectContainer);
+
+        return con;
+    }
+
+    private void StartDragSliders(NoteContainer noteContainer)
+    {
+        var noteData = noteContainer.NoteData;
+        var epsilon = BeatmapObjectContainerCollection.Epsilon;
+
+        var arcCollection = BeatmapObjectContainerCollection.GetCollectionForType<ArcGridContainer>(ObjectType.Arc);
+        foreach (var arcContainer in arcCollection.LoadedContainers)
+        {
+            var arcData = arcContainer.Key as BaseArc;
+            var isConnectedToHead = Mathf.Abs(arcData.JsonTime - noteData.JsonTime) < epsilon
+                && arcData.GetPosition() == noteData.GetPosition();
+            var isConnectedToTail = Mathf.Abs(arcData.TailJsonTime - noteData.JsonTime) < epsilon
+                && arcData.GetTailPosition() == noteData.GetPosition();
+            if (isConnectedToHead)
+            {
+                originalDraggedAttachedSliderDatas[IndicatorType.Head].Add(BeatmapFactory.Clone(arcData));
+                draggedAttachedSliderDatas[IndicatorType.Head].Add(arcData);
+                draggedAttachedSliderContainers.Add(arcContainer.Value);
+                arcCollection.SilentRemoveObject(arcData);
+            }
+            else if (isConnectedToTail)
+            {
+                originalDraggedAttachedSliderDatas[IndicatorType.Tail].Add(BeatmapFactory.Clone(arcData));
+                draggedAttachedSliderDatas[IndicatorType.Tail].Add(arcData);
+                draggedAttachedSliderContainers.Add(arcContainer.Value);
+                arcCollection.SilentRemoveObject(arcData);
+            }
+        }
+
+        var chainCollection =
+            BeatmapObjectContainerCollection.GetCollectionForType<ChainGridContainer>(ObjectType.Chain);
+        foreach (var chainContainer in chainCollection.LoadedContainers)
+        {
+            var chainData = chainContainer.Key as BaseChain;
+            var isConnectedToHead = Mathf.Abs(chainData.JsonTime - noteData.JsonTime) < epsilon
+                && chainData.GetPosition() == noteData.GetPosition();
+            var isConnectedToTail = Mathf.Abs(chainData.TailJsonTime - noteData.JsonTime) < epsilon
+                && chainData.GetTailPosition() == noteData.GetPosition();
+            if (isConnectedToHead)
+            {
+                originalDraggedAttachedSliderDatas[IndicatorType.Head].Add(BeatmapFactory.Clone(chainData));
+                draggedAttachedSliderDatas[IndicatorType.Head].Add(chainData);
+                draggedAttachedSliderContainers.Add(chainContainer.Value);
+                chainCollection.SilentRemoveObject(chainData);
+            }
+            else if (isConnectedToTail)
+            {
+                originalDraggedAttachedSliderDatas[IndicatorType.Tail].Add(BeatmapFactory.Clone(chainData));
+                draggedAttachedSliderDatas[IndicatorType.Tail].Add(chainData);
+                draggedAttachedSliderContainers.Add(chainContainer.Value);
+                chainCollection.SilentRemoveObject(chainData);
+            }
+        }
+
+        foreach (var container in draggedAttachedSliderContainers) container.Dragged = true;
+    }
+    
+    protected override List<BeatmapAction> PerformPreFinishDragActions()
+    {
+        var noteCollection =
+            BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
+        noteCollection.RefreshSpecialAngles(DraggedObjectData, false, false);
+
+        var actions =  new List<BeatmapAction>();
+        FinishSliderDrag(actions);
+        ClearDraggedAttachedSliders();
+
+        return actions;
+    }
+    
+    private void FinishSliderDrag(List<BeatmapAction> actions)
+    {
+        var arcCollection = BeatmapObjectContainerCollection.GetCollectionForType<ArcGridContainer>(ObjectType.Arc);
+        var chainCollection =
+            BeatmapObjectContainerCollection.GetCollectionForType<ChainGridContainer>(ObjectType.Chain);
+
+        for (var i = 0; i < draggedAttachedSliderDatas[IndicatorType.Head].Count; i++)
+        {
+            var draggedSlider = draggedAttachedSliderDatas[IndicatorType.Head][i];
+            var originalDraggedSlider = originalDraggedAttachedSliderDatas[IndicatorType.Head][i];
+
+            if (draggedSlider is BaseArc draggedArc)
+                SpawnDraggedSlider(arcCollection, draggedArc, originalDraggedSlider, actions);
+            else if (draggedSlider is BaseChain draggedChain)
+                SpawnDraggedSlider(chainCollection, draggedChain, originalDraggedSlider, actions);
+        }
+
+        for (var i = 0; i < draggedAttachedSliderDatas[IndicatorType.Tail].Count; i++)
+        {
+            var draggedSlider = draggedAttachedSliderDatas[IndicatorType.Tail][i];
+            var originalDraggedSlider = originalDraggedAttachedSliderDatas[IndicatorType.Tail][i];
+
+            if (draggedSlider is BaseArc draggedArc)
+                SpawnDraggedSlider(arcCollection, draggedArc, originalDraggedSlider, actions);
+            else if (draggedSlider is BaseChain draggedChain)
+                SpawnDraggedSlider(chainCollection, draggedChain, originalDraggedSlider, actions);
+        }
+    }
+
+    private void SpawnDraggedSlider(
+        BeatmapObjectContainerCollection sliderCollection,
+        BaseSlider draggedSlider,
+        BaseObject originalSlider,
+        List<BeatmapAction> actions)
+    {
+        sliderCollection.SpawnObject(draggedSlider, out var conflictingArcs);
+
+        // Don't queue an action if we didn't actually change anything
+        if (draggedSlider.ToString() != originalSlider.ToString())
+        {
+            if (conflictingArcs.Count > 0)
+            {
+                actions.Add(
+                    new BeatmapObjectModifiedWithConflictingAction(
+                        draggedSlider,
+                        draggedSlider,
+                        originalSlider,
+                        conflictingArcs,
+                        "Modified via alt-click and drag."));
+            }
+            else
+            {
+                actions.Add(
+                    new BeatmapObjectModifiedAction(
+                        draggedSlider,
+                        draggedSlider,
+                        originalSlider,
+                        "Modified via alt-click and drag."));
+            }
+        }
+    }
+
+    private void ClearDraggedAttachedSliders()
+    {
+        foreach (var container in draggedAttachedSliderContainers) container.Dragged = false;
+        draggedAttachedSliderContainers.Clear();
+        draggedAttachedSliderDatas[IndicatorType.Head].Clear();
+        draggedAttachedSliderDatas[IndicatorType.Tail].Clear();
+        originalDraggedAttachedSliderDatas[IndicatorType.Head].Clear();
+        originalDraggedAttachedSliderDatas[IndicatorType.Tail].Clear();
+    }
 
     public override void Initialize(PlacementProvider provider)
     {
@@ -168,6 +281,7 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
         }
     }
 
+    // Do we need this anymore?
     public NoteContainer ObjectUnderCursor()
     {
         if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)) return null;
@@ -178,14 +292,14 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
             : hit.GameObject.GetComponentInParent<NoteContainer>();
     }
 
-    public void UpdateCut(int value)
+    private void HandleOnCutDirectionChanged(int cutDirection)
     {
-        ToggleDiagonalAngleOffset(QueuedData, value);
-        QueuedData.CutDirection = value;
+        ToggleDiagonalAngleOffset(QueuedData, cutDirection);
+        QueuedData.CutDirection = cutDirection;
         if (DraggedObjectContainer != null && DraggedObjectContainer.NoteData != null)
         {
-            ToggleDiagonalAngleOffset(DraggedObjectContainer.NoteData, value);
-            DraggedObjectContainer.NoteData.CutDirection = value;
+            ToggleDiagonalAngleOffset(DraggedObjectContainer.NoteData, cutDirection);
+            DraggedObjectContainer.NoteData.CutDirection = cutDirection;
             noteAppearanceSo.SetNoteAppearance(DraggedObjectContainer);
             updateAttachedSliderDirection = true;
         }
@@ -240,7 +354,7 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
     private void TransferQueuedToAttachedDraggedSliders(BaseNote queued)
     {
         var epsilon = BeatmapObjectContainerCollection.Epsilon;
-        foreach (var baseSlider in DraggedAttachedSliderDatas[IndicatorType.Head])
+        foreach (var baseSlider in draggedAttachedSliderDatas[IndicatorType.Head])
         {
             baseSlider.JsonTime = queued.JsonTime;
             baseSlider.PosX = queued.PosX;
@@ -249,7 +363,7 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
             baseSlider.CustomCoordinate = queued.CustomCoordinate;
         }
 
-        foreach (var baseSlider in DraggedAttachedSliderDatas[IndicatorType.Tail])
+        foreach (var baseSlider in draggedAttachedSliderDatas[IndicatorType.Tail])
         {
             baseSlider.TailJsonTime = queued.JsonTime;
             baseSlider.TailPosX = queued.PosX;
@@ -260,7 +374,7 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
                 baseArc.TailCutDirection = queued.CutDirection;
         }
 
-        foreach (var baseSliderContainer in DraggedAttachedSliderContainers)
+        foreach (var baseSliderContainer in draggedAttachedSliderContainers)
         {
             switch (baseSliderContainer)
             {
@@ -281,76 +395,5 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
     {
         base.CreateVisual();
         PlacementVisualContainer.SetArcVisible(false);
-    }
-
-    private void HandleKeyUpdate(InputAction.CallbackContext context, int id)
-    {
-        if (context.performed ^ heldKeys[id]) flagDirectionsUpdate = true;
-        heldKeys[id] = context.performed;
-    }
-
-    private void HandleDirectionValues()
-    {
-        DeleteToolController.UpdateDeletion(false);
-
-        var upNote = heldKeys[upKey];
-        var downNote = heldKeys[downKey];
-        var leftNote = heldKeys[leftKey];
-        var rightNote = heldKeys[rightKey];
-        var previousDiagonalState = diagonal;
-
-        var handleUpDownNotes = upNote ^ downNote; // XOR: True if the values are different, false if the same
-        var handleLeftRightNotes = leftNote ^ rightNote;
-
-        diagonal = handleUpDownNotes && handleLeftRightNotes;
-
-        if (previousDiagonalState && !diagonal)
-        {
-            StartCoroutine(CheckForDiagonalUpdate());
-            return;
-        }
-
-        if (handleUpDownNotes && !handleLeftRightNotes) // We handle simple up/down notes
-        {
-            if (upNote)
-                UpdateCut((int)NoteCutDirection.Up);
-            else
-                UpdateCut((int)NoteCutDirection.Down);
-        }
-        else if (!handleUpDownNotes && handleLeftRightNotes) // We handle simple left/right notes
-        {
-            if (leftNote)
-                UpdateCut((int)NoteCutDirection.Left);
-            else
-                UpdateCut((int)NoteCutDirection.Right);
-        }
-        else if (diagonal) //We need to do a diagonal
-        {
-            if (leftNote)
-            {
-                if (upNote)
-                    UpdateCut((int)NoteCutDirection.UpLeft);
-                else
-                    UpdateCut((int)NoteCutDirection.DownLeft);
-            }
-            else
-            {
-                if (upNote)
-                    UpdateCut((int)NoteCutDirection.UpRight);
-                else
-                    UpdateCut((int)NoteCutDirection.DownRight);
-            }
-        }
-    }
-
-    private IEnumerator CheckForDiagonalUpdate()
-    {
-        var previousHeldKeys = new List<bool>(heldKeys);
-        yield return new WaitForSeconds(diagonalStickMaxTime);
-        // Weird way of saying "Are the keys being held right now the same as before"
-        if (!previousHeldKeys
-            .Except(heldKeys)
-            .Any())
-            flagDirectionsUpdate = true;
     }
 }

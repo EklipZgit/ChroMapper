@@ -7,7 +7,7 @@ Shader "ChroMapper/Object/Event"
         _ColorA("Color A", Color) = (0, 0, 0, 0)
         _ColorB("Color B", Color) = (1, 0, 0, 0)
         _FadeSize("Fade Size", float) = 0.5
-        _MainAlpha("Main Alpha", float) = 1
+        _Offset("Offset", float) = 0
     }
     SubShader
     {
@@ -32,7 +32,7 @@ Shader "ChroMapper/Object/Event"
                 UNITY_DEFINE_INSTANCED_PROP(float4, _ColorA)
                 UNITY_DEFINE_INSTANCED_PROP(float4, _ColorB)
                 UNITY_DEFINE_INSTANCED_PROP(float, _FadeSize)
-                UNITY_DEFINE_INSTANCED_PROP(float, _MainAlpha)
+                UNITY_DEFINE_INSTANCED_PROP(float, _Offset)
             UNITY_INSTANCING_BUFFER_END(Props)
 
             struct appdata
@@ -66,13 +66,13 @@ Shader "ChroMapper/Object/Event"
 
                 float4 colorA = UNITY_ACCESS_INSTANCED_PROP(Props, _ColorA);
                 float4 colorB = UNITY_ACCESS_INSTANCED_PROP(Props, _ColorB);
-                float fadeSize = UNITY_ACCESS_INSTANCED_PROP(Props, _FadeSize);
-                float mainAlpha = UNITY_ACCESS_INSTANCED_PROP(Props, _MainAlpha);
+                float fadeSize = abs(UNITY_ACCESS_INSTANCED_PROP(Props, _FadeSize));
+                float offset = UNITY_ACCESS_INSTANCED_PROP(Props, _Offset);
 
                 colorA.a = 0;
                 colorB.a = 0;
 
-                float pos = i.localPos.z * 2;
+                float pos = i.localPos.z + offset;
 
                 float4 col;
                 if (abs(pos) < fadeSize) col = lerp(colorA, colorB, saturate((pos + fadeSize / 2) / fadeSize));

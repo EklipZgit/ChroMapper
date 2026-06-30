@@ -25,7 +25,10 @@ public class GLSInputRotationViewController : ToggleableViewController
             .OnValueChanged(HandleValueInputChanged);
 
         inputController.OnLoopChanged += HandleLoopChanged;
-        loopInputField.OnValueChanged(HandleLoopInputChanged);
+        loopInputField
+            .WithInvertScroll(() => Settings.Instance.InvertScrollEventValue)
+            .OnEndEdit(HandleLoopInputChanged)
+            .OnValueChanged(HandleLoopInputChanged);
 
         inputController.OnDirectionChanged += HandleDirectionChanged;
         counterClockwiseToggle.OnValueChanged(HandleCounterClockwiseToggleInputChanged);
@@ -44,7 +47,7 @@ public class GLSInputRotationViewController : ToggleableViewController
     private void HandleValueInputChanged(float value) => inputController.NotifyValueChanged(Mathf.Repeat(value, 360f));
 
     private void HandleLoopChanged(int value) => loopInputField.SetValueWithoutNotify(value);
-    private void HandleLoopInputChanged(int value) => inputController.NotifyValueChanged(value);
+    private void HandleLoopInputChanged(int value) => inputController.NotifyLoopChanged(value);
 
     private void HandleDirectionChanged(int value)
     {

@@ -126,10 +126,18 @@ public static class BeatSaberSongExtensions
             TryAddToFileDictionary(exportedFiles, info.Directory, contributor.LocalImageLocation);
         }
 
-        foreach (var map in info.DifficultySets.SelectMany(set => set.Difficulties))
+        var infoDifficulties = info.DifficultySets.SelectMany(set => set.Difficulties).ToList();
+        foreach (var infoDifficulty in infoDifficulties)
         {
-            TryAddToFileDictionary(exportedFiles, info.Directory, map.BeatmapFileName);
-            TryAddToFileDictionary(exportedFiles, info.Directory, map.LightshowFileName);
+            TryAddToFileDictionary(exportedFiles, info.Directory, infoDifficulty.BeatmapFileName);
+            TryAddToFileDictionary(exportedFiles, info.Directory, infoDifficulty.LightshowFileName);
+        }
+
+        if (infoDifficulties.Any(id => id.CustomRequirements.Contains("Vivify")))
+        {
+            TryAddToFileDictionary(exportedFiles, info.Directory, "bundleWindows2019.vivify");
+            TryAddToFileDictionary(exportedFiles, info.Directory, "bundleWindows2021.vivify");
+            TryAddToFileDictionary(exportedFiles, info.Directory, "bundleAndroid2021.vivify");
         }
         
         foreach (var difficultySet in info.DifficultySets)

@@ -37,21 +37,67 @@ public static class GLSEventBoxCommand
         {
             case BaseLightColorEventBoxGroup lcebg:
                 lcebg.Boxes.Clear();
-                for (var i = 0; i < count; i++) lcebg.Boxes.Add(new BaseLightColorEventBox());
+                for (var i = 0; i < count; i++)
+                {
+                    lcebg.Boxes.Add(
+                        new BaseLightColorEventBox
+                        {
+                            IndexFilter = new()
+                            {
+                                Type = (int)IndexFilterType.StepAndOffset, Param0 = i, Param1 = 0
+                            }
+                        });
+                }
+
                 break;
             case BaseLightRotationEventBoxGroup lrebg:
                 if (lrebg.Boxes.Count == count && lrebg.Boxes.Count > 0) axis = (lrebg.Boxes[0].Axis + 1) % 3;
                 lrebg.Boxes.Clear();
-                for (var i = 0; i < count; i++) lrebg.Boxes.Add(new BaseLightRotationEventBox { Axis = axis });
+                for (var i = 0; i < count; i++)
+                {
+                    lrebg.Boxes.Add(
+                        new BaseLightRotationEventBox
+                        {
+                            IndexFilter = new()
+                            {
+                                Type = (int)IndexFilterType.StepAndOffset, Param0 = i, Param1 = 0
+                            },
+                            Axis = axis
+                        });
+                }
+
                 break;
             case BaseLightTranslationEventBoxGroup ltebg:
                 if (ltebg.Boxes.Count == count && ltebg.Boxes.Count > 0) axis = (ltebg.Boxes[0].Axis + 1) % 3;
                 ltebg.Boxes.Clear();
-                for (var i = 0; i < count; i++) ltebg.Boxes.Add(new BaseLightTranslationEventBox { Axis = axis });
+                for (var i = 0; i < count; i++)
+                {
+                    ltebg.Boxes.Add(
+                        new BaseLightTranslationEventBox
+                        {
+                            IndexFilter = new()
+                            {
+                                Type = (int)IndexFilterType.StepAndOffset, Param0 = i, Param1 = 0
+                            },
+                            Axis = axis
+                        });
+                }
+
                 break;
             case BaseVfxEventEventBoxGroup ffebg:
                 ffebg.Boxes.Clear();
-                for (var i = 0; i < count; i++) ffebg.Boxes.Add(new BaseVfxEventEventBox());
+                for (var i = 0; i < count; i++)
+                {
+                    ffebg.Boxes.Add(
+                        new BaseVfxEventEventBox
+                        {
+                            IndexFilter = new()
+                            {
+                                Type = (int)IndexFilterType.StepAndOffset, Param0 = i, Param1 = 0
+                            }
+                        });
+                }
+
                 break;
         }
 
@@ -97,14 +143,36 @@ public static class GLSEventBoxCommand
         {
             case BaseLightColorEventBoxGroup lcebg:
                 lcebg.Boxes.Clear();
-                for (var i = 0; i < count; i++) lcebg.Boxes.Add(new BaseLightColorEventBox());
+                for (var i = 0; i < count; i++)
+                {
+                    lcebg.Boxes.Add(
+                        new BaseLightColorEventBox
+                        {
+                            IndexFilter = new()
+                            {
+                                Type = (int)IndexFilterType.StepAndOffset, Param0 = i, Param1 = 0
+                            }
+                        });
+                }
+
                 break;
             case BaseLightRotationEventBoxGroup lrebg:
                 lrebg.Boxes.Clear();
                 foreach (var (r, axis) in td.RotationTracks.Select((r, x) => (r, x)))
                 {
                     if (!r) continue;
-                    for (var i = 0; i < count; i++) lrebg.Boxes.Add(new BaseLightRotationEventBox { Axis = axis });
+                    for (var i = 0; i < count; i++)
+                    {
+                        lrebg.Boxes.Add(
+                            new BaseLightRotationEventBox
+                            {
+                                IndexFilter = new()
+                                {
+                                    Type = (int)IndexFilterType.StepAndOffset, Param0 = i, Param1 = 0
+                                },
+                                Axis = axis
+                            });
+                    }
                 }
 
                 break;
@@ -113,13 +181,35 @@ public static class GLSEventBoxCommand
                 foreach (var (r, axis) in td.RotationTracks.Select((r, x) => (r, x)))
                 {
                     if (!r) continue;
-                    for (var i = 0; i < count; i++) ltebg.Boxes.Add(new BaseLightTranslationEventBox { Axis = axis });
+                    for (var i = 0; i < count; i++)
+                    {
+                        ltebg.Boxes.Add(
+                            new BaseLightTranslationEventBox
+                            {
+                                IndexFilter = new()
+                                {
+                                    Type = (int)IndexFilterType.StepAndOffset, Param0 = i, Param1 = 0
+                                },
+                                Axis = axis
+                            });
+                    }
                 }
 
                 break;
             case BaseVfxEventEventBoxGroup ffebg:
                 ffebg.Boxes.Clear();
-                for (var i = 0; i < count; i++) ffebg.Boxes.Add(new BaseVfxEventEventBox());
+                for (var i = 0; i < count; i++)
+                {
+                    ffebg.Boxes.Add(
+                        new BaseVfxEventEventBox
+                        {
+                            IndexFilter = new()
+                            {
+                                Type = (int)IndexFilterType.StepAndOffset, Param0 = i, Param1 = 0
+                            }
+                        });
+                }
+
                 break;
         }
 

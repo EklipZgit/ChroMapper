@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Graphics/VisualSettings")]
@@ -24,6 +25,9 @@ public class VisualSettingsSO : ScriptableObject
 
     public void OnEnable()
     {
+    #if UNITY_EDITOR
+        if (!Application.isPlaying) return;
+    #endif
         Settings.NotifyBySettingName("EventModels", HandleBlockModelChanged);
         Settings.NotifyBySettingName("EventModels", HandleEventModelChanged);
         Settings.NotifyBySettingName("NoteModels", HandleNoteModelChanged);
@@ -31,16 +35,31 @@ public class VisualSettingsSO : ScriptableObject
         Settings.NotifyBySettingName("NoteModels", HandleChainHeadModelChanged);
         Settings.NotifyBySettingName("NoteModels", HandleChainLinkModelChanged);
         Settings.NotifyBySettingName("NoteModels", HandleChainLinkModelChanged);
+        CacheEventModelName();
     }
 
     public void OnDisable()
     {
+    #if UNITY_EDITOR
+        if (!Application.isPlaying) return;
+    #endif
         Settings.ClearSettingNotifications("NoteModels");
         Settings.ClearSettingNotifications("EventModels");
     }
 
+    private string cachedEventModelName;
+
+    private void CacheEventModelName() =>
+        cachedEventModelName = "CM_Event_" + Settings.Instance.EventModels.Replace(' ', '_');
+
     private void HandleBlockModelChanged(object _) => OnBlockModelChanged?.Invoke();
-    private void HandleEventModelChanged(object _) => OnEventModelChanged?.Invoke();
+
+    private void HandleEventModelChanged(object _)
+    {
+        CacheEventModelName();
+        OnEventModelChanged?.Invoke();
+    }
+
     private void HandleNoteModelChanged(object _) => OnNoteModelChanged?.Invoke();
     private void HandleBombModelChanged(object _) => OnBombModelChanged?.Invoke();
     private void HandleChainHeadModelChanged(object _) => OnChainHeadModelChanged?.Invoke();
@@ -53,7 +72,7 @@ public class VisualSettingsSO : ScriptableObject
 
     public VisualModelSO GetEventModel() =>
         Repository.ModelsByName.GetValueOrDefault(
-            "CM_Event_" + Settings.Instance.EventModels.Replace(' ', '_'),
+            cachedEventModelName,
             DefaultEvent);
 
     public VisualModelSO GetNoteModel() =>

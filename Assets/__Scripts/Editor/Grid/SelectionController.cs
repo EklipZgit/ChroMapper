@@ -225,7 +225,7 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
         Action<BeatmapObjectContainerCollection, BaseObject> callback)
     {
         var epsilon = BeatmapObjectContainerCollection.Epsilon;
-        for (var typeInt = 0; typeInt <= 32; typeInt++)
+        for (var typeInt = 1; typeInt <= 32; typeInt++)
         {
             // Convert int to bitmask
             var type = (ObjectType)(1 << typeInt);
@@ -458,15 +458,15 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
         // While we're at it, we will also overwrite the entire section if we have to.
         if (overwriteSection)
         {
-            var start = pasted.First().SongBpmTime;
-            var end = pasted.First().SongBpmTime;
+            var start = (float)short.MaxValue;
+            var end = (float)short.MinValue;
             foreach (var beatmapObject in pasted)
             {
                 if (start > beatmapObject.SongBpmTime) start = beatmapObject.SongBpmTime;
                 if (end < beatmapObject.SongBpmTime) end = beatmapObject.SongBpmTime;
             }
 
-            var types = GetObjectTypes(pasted);
+            var types = GetObjectTypesGrouped(pasted);
             var toRemove = new List<(BeatmapObjectContainerCollection, BaseObject)>();
             ForEachObjectBetweenSongBpmTimeByGroup(
                 start,

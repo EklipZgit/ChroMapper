@@ -85,8 +85,13 @@ public class CreateEventTypeLabels : MonoBehaviour
 
     public int EventTypeToLaneId(int eventType)
     {
-        var idx = laneObjs.FindIndex(it => it.type == eventType);
-        return idx == -1 ? -1 : laneObjs[idx].id;
+        foreach (var (id, type) in laneObjs)
+        {
+            if (type != eventType) continue;
+            return id;
+        }
+
+        return -1;
     }
 
     public int? LightIdsToPropId(int type, int[] lightID)
@@ -133,8 +138,12 @@ public class CreateEventTypeLabels : MonoBehaviour
         if (!typeToManager.TryGetValue(type, out var manager) || lightIDs == null) return -1;
         foreach (var lightID in lightIDs)
         {
-            var idx = manager.LaneToLightIDs.FindIndex(x => x.Contains(lightID));
-            if (idx != -1) return idx;
+            for (var index = 0; index < manager.LaneToLightIDs.Count; index++)
+            {
+                var id = manager.LaneToLightIDs[index];
+                if (!id.Contains(lightID)) continue;
+                return index;
+            }
         }
 
         return -1;
