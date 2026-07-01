@@ -41,7 +41,7 @@ public abstract class GLSGroupPlacement<TGroup, TCollection> : BasePlacement<TGr
     protected bool IsInPosition() =>
         Mathf.Approximately(
             Mathf.Floor(PlacementVisualContainer.transform.localPosition.x),
-            GLSGroupContainer.GetPositionFromTrackDefinition(beatmapRuntimeContext.TracksDefinition, QueuedData));
+            GLSGroupContainer.GetPositionFromTrackDefinition(beatmapRuntimeContext.TrackDefinitions, QueuedData));
 
     public override void HandleApply()
     {

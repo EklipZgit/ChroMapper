@@ -4,6 +4,7 @@ using Beatmap.Base;
 public class LightRotationEffect : BasicEventEffect<LightRotationStateData>, IEffectStateSignal<LightRotationStateData>
 {
     public event Action<LightRotationStateData> OnStateChanged;
+
     private readonly BasicEventStateChunksContainer<LightRotationStateData> container = new();
 
     public override void Initialize() => InitializeStates(container);
@@ -15,6 +16,8 @@ public class LightRotationEffect : BasicEventEffect<LightRotationStateData>, IEf
         if (!container.IsCurrentOrFindState(currentTime, isPlaying)) OnStateChanged?.Invoke(container.CurrentState);
     }
 
+    public LightRotationStateData GetCurrentState() => container?.CurrentState;
+    
     protected override LightRotationStateData CreateState(BaseEvent data) => new(data);
 
     public override void InsertData(BaseEvent data)

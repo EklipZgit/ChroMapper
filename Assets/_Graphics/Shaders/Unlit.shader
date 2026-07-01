@@ -10,12 +10,12 @@
 
         [Header(Fog Settings)] [Space]
         [Toggle(FOG)] _EnableFog ("Enable Fog", float) = 1
-        _FogStartOffset ("Fog Start Offset", float) = 1
-        _FogScale ("Fog Scale", float) = 1
+        [ShowIfAny(FOG)] _FogStartOffset ("Fog Start Offset", float) = 1
+        [ShowIfAny(FOG)] _FogScale ("Fog Scale", float) = 1
         [Space]
-        [Toggle(HEIGHT_FOG)] _EnableHeightFog ("Enable Height Fog", float) = 0
-        _FogHeightOffset ("Fog Height Offset", float) = 0
-        _FogHeightScale ("Fog Height Scale", float) = 1
+        [ToggleShowIfAny(HEIGHT_FOG, FOG)] _EnableHeightFog ("Enable Height Fog", float) = 0
+        [ShowIfAny(2, FOG, HEIGHT_FOG)] _FogHeightOffset ("Fog Height Offset", float) = 0
+        [ShowIfAny(2, FOG, HEIGHT_FOG)] _FogHeightScale ("Fog Height Scale", float) = 1
 
         [Header(Settings)] [Space]
         [Toggle(ALPHA_CUTOUT)] _AlphaCutout ("Alpha Cutout", float) = 0

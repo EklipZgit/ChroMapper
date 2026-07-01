@@ -9,39 +9,37 @@ using Object = UnityEngine.Object;
 public partial class EnvironmentSceneCreator
 {
     private static Dictionary<string, GameObject> SpawnObjects(
-        EnvironmentLibrarySO library,
-        EnvData data,
+        CreateContainer container,
         Dictionary<string, GameObject> existingObjects)
     {
         var chromaIdObjects = new Dictionary<string, GameObject>();
+        container.ChromaIdObjects = chromaIdObjects;
 
-        var queue = new Queue<EnvDataObject>(data.Objects);
+        var queue = new Queue<EnvironmentDataObject>(container.Data.Objects);
         var limit = queue.Count;
 
         var i = 0;
         while (queue.Count > 0)
         {
-            var envObject = queue.Dequeue();
+            var environmentObject = queue.Dequeue();
 
-            // static mesh or whatever, we dont need this
-            if (envObject.ChromaID.Contains("Static Batch Component Container")) continue;
-
-            var name = envObject.ChromaID[(envObject.ChromaID.IndexOf("]", StringComparison.Ordinal) + 1)..];
+            var name = environmentObject.ChromaID[
+                (environmentObject.ChromaID.IndexOf("]", StringComparison.Ordinal) + 1)..];
             var parentName = name.Contains(".[") ? name[..name.LastIndexOf(".[", StringComparison.Ordinal)] : name;
             var actualParentGoName =
-                envObject.ChromaID[..envObject.ChromaID.LastIndexOf(".[", StringComparison.Ordinal)];
+                environmentObject.ChromaID[..environmentObject.ChromaID.LastIndexOf(".[", StringComparison.Ordinal)];
 
             if (parentName != name && !chromaIdObjects.ContainsKey(actualParentGoName))
             {
-                Debug.Log($"Could not find parent object for {envObject.ChromaID}, queued for later");
+                Debug.Log($"Could not find parent object for {environmentObject.ChromaID}, queued for later");
                 if (++i == limit) throw new Exception("Queued too long, stuck?");
-                queue.Enqueue(envObject);
+                queue.Enqueue(environmentObject);
                 continue;
             }
 
-            var go = existingObjects.TryGetValue(envObject.ChromaID, out var val) ? val : new GameObject();
-            if (envObject.Components.MeshFilter == null
-                || string.IsNullOrEmpty(envObject.Components.MeshFilter[0].Hash))
+            var go = existingObjects.TryGetValue(environmentObject.ChromaID, out var val) ? val : new GameObject();
+            if (environmentObject.Components.MeshFilter == null
+                || string.IsNullOrEmpty(environmentObject.Components.MeshFilter[0].Hash))
             {
                 var filter = go.GetComponent<MeshFilter>();
                 if (filter != null) Object.DestroyImmediate(filter);
@@ -51,35 +49,40 @@ public partial class EnvironmentSceneCreator
             }
             else
             {
-                if (library.Meshes.Lookup.TryGetValue(envObject.Components.MeshFilter[0].Hash, out var mesh)
+                if (container.Library.Meshes.Lookup.TryGetValue(
+                        environmentObject.Components.MeshFilter[0].Hash,
+                        out var mesh)
                     && mesh != null)
                 {
                     var mf = go.GetComponent<MeshFilter>();
                     if (mf == null) mf = go.AddComponent<MeshFilter>();
                     mf.sharedMesh = mesh;
+                    environmentObject.Components.MeshFilter[0].Instance = mf;
 
-                    if (envObject.Components.MeshRenderer != null
-                        && envObject.Components.MeshRenderer[0].Materials.Any())
+                    if (environmentObject.Components.MeshRenderer != null
+                        && environmentObject.Components.MeshRenderer[0].Materials.Any())
                     {
-                        var renderer = GetOrCreateMeshRenderer(go);
+                        var comp = GetOrCreateMeshRenderer(go);
                         var mats = new List<Material>();
-                        foreach (var matData in envObject.Components.MeshRenderer[0].Materials)
+                        foreach (var matData in environmentObject.Components.MeshRenderer[0].Materials)
                         {
-                            if (!library.Materials.Lookup.TryGetValue(matData, out var mat)) continue;
+                            if (!container.Library.Materials.Lookup.TryGetValue(matData, out var mat)) continue;
                             mats.Add(mat);
                         }
 
-                        renderer.sharedMaterials = mats.ToArray();
+                        comp.sharedMaterials = mats.ToArray();
+                        environmentObject.Components.MeshRenderer[0].Instance = comp;
                     }
                 }
                 // remove this if statement if u need to search all "invisible" fallback object
-                else if (envObject.Components.MeshRenderer != null)
+                else if (environmentObject.Components.MeshRenderer != null)
                 {
                     Debug.LogWarning(
-                        $"{envObject.ChromaID} mesh not found for:\n{envObject.Components.MeshFilter[0].Hash} -- {library.Meshes.list.Find(l => l.Hash == envObject.Components.MeshFilter[0].Hash).Name}");
+                        $"{environmentObject.ChromaID} mesh not found for:\n{environmentObject.Components.MeshFilter[0].Hash} -- {container.Library.Meshes.list.Find(l => l.Hash == environmentObject.Components.MeshFilter[0].Hash).Name}");
                     var fallback =
-                        PrefabUtility.InstantiatePrefab(library.fallbackPrefab, go.transform) as GameObject;
-                    var mInfo = library.Meshes.list.First(x => x.Hash == envObject.Components.MeshFilter[0].Hash);
+                        PrefabUtility.InstantiatePrefab(container.Library.fallbackPrefab, go.transform) as GameObject;
+                    var mInfo = container.Library.Meshes.list.First(x =>
+                        x.Hash == environmentObject.Components.MeshFilter[0].Hash);
                     fallback.transform.localPosition = mInfo.BoundsCenter;
                     fallback.transform.localScale = mInfo.BoundsSize;
                     // fallback.SetActive(false); // uncomment if u really dont want to see it when testing
@@ -88,46 +91,26 @@ public partial class EnvironmentSceneCreator
 
             foreach (var component in go.GetComponents<Collider>()) Object.DestroyImmediate(component);
 
-            if (envObject.Components.BoxCollider != null)
+            var compData = new List<EnvironmentComponentData>();
+            foreach (var fieldInfo in environmentObject.Components.GetType().GetFields())
             {
-                foreach (var comp in envObject.Components.BoxCollider)
-                {
-                    var box = go.AddComponent<BoxCollider>();
-                    box.center = comp.Center;
-                    box.size = comp.Size;
-                }
+                if (!fieldInfo.FieldType.IsArray
+                    || !typeof(EnvironmentComponentData).IsAssignableFrom(fieldInfo.FieldType.GetElementType()))
+                    continue;
+                if (fieldInfo.GetValue(environmentObject.Components) is not EnvironmentComponentData[] data) continue;
+                compData.AddRange(data);
             }
 
-            if (envObject.Components.SphereCollider != null)
-            {
-                foreach (var comp in envObject.Components.SphereCollider)
-                {
-                    var box = go.AddComponent<SphereCollider>();
-                    box.center = comp.Center;
-                    box.radius = comp.Radius;
-                }
-            }
+            foreach (var data in compData.OrderBy(x => x.Priority)) data.SpawnComponent(go);
 
-            if (envObject.Components.MeshCollider != null)
-            {
-                foreach (var _ in envObject.Components.MeshCollider)
-                {
-                    var mf = go.GetComponent<MeshFilter>();
-                    if (mf == null) break;
-                    var m = go.AddComponent<MeshCollider>();
-                    m.sharedMesh = mf.sharedMesh;
-                    break;
-                }
-            }
-
-            go.name = envObject.GameObjectName;
-            go.layer = library.LayerMaskLookup[envObject.Layer].value.Get1BitPositions()[0];
-            chromaIdObjects[envObject.ChromaID] = go;
+            go.name = environmentObject.GameObjectName;
+            go.layer = container.Library.LayerMaskLookup[environmentObject.Layer].value.GetBitIndex().FirstOrDefault();
+            chromaIdObjects[environmentObject.ChromaID] = go;
 
             // Add ChromaIDMarker for environment enhancements
             var marker = go.GetComponent<ChromaIDMarker>();
             if (marker == null) marker = go.AddComponent<ChromaIDMarker>();
-            marker.ChromaID = envObject.ChromaID;
+            marker.ChromaID = environmentObject.ChromaID;
 
             if (parentName != name)
             {
@@ -136,8 +119,8 @@ public partial class EnvironmentSceneCreator
                     false);
             }
 
-            envObject.Components.Transform[0].CopyTo(go.transform);
-            go.SetActive(envObject.ActiveSelf);
+            environmentObject.Components.Transform[0].FillComponents(go, go.transform, container);
+            go.SetActive(environmentObject.ActiveSelf);
         }
 
         return chromaIdObjects;

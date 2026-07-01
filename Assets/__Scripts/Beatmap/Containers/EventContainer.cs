@@ -23,7 +23,7 @@ namespace Beatmap.Containers
         [SerializeField] private TextMeshPro valueDisplay;
         [SerializeField] private LightGradientController lightGradientController;
         [SerializeField] private CreateEventTypeLabels labels;
-        [SerializeField] public TracksDefinitionSO TracksDefinition;
+        [SerializeField] public TrackDefinitionsSO TrackDefinitions;
 
         public BaseEvent EventData;
 
@@ -72,14 +72,14 @@ namespace Beatmap.Containers
         public static EventContainer SpawnEvent(
             EventGridContainer eventsContainer,
             BaseEvent data,
-            TracksDefinitionSO tracksDefinitionSo,
+            TrackDefinitionsSO trackDefinitions,
             ref GameObject prefab,
             ref CreateEventTypeLabels labels)
         {
             var container = Instantiate(prefab).GetComponent<EventContainer>();
             container.EventData = data;
             container.eventGridContainer = eventsContainer;
-            container.TracksDefinition = tracksDefinitionSo;
+            container.TrackDefinitions = trackDefinitions;
             container.labels = labels;
             container.transform.localEulerAngles = Vector3.zero;
             return container;
@@ -167,7 +167,7 @@ namespace Beatmap.Containers
         private float GetHeight()
         {
             // Non-light events should not have different heights
-            if (TracksDefinition.GetBasicOrDefault(EventData.Type).Kind != BasicEventKind.Lights) return 1f;
+            if (TrackDefinitions.GetBasicOrDefault(EventData.Type).Kind != BasicEventKind.Lights) return 1f;
 
             var height = EventData.FloatValue;
             if (EventData.CustomColor != null && Math.Abs(EventData.CustomColor.Value.a - 1) > 0.001)
@@ -185,7 +185,7 @@ namespace Beatmap.Containers
             Color? endColor = null,
             string easing = "easeLinear")
         {
-            if (TracksDefinition.GetBasicOrDefault(EventData.Type).Kind != BasicEventKind.Lights)
+            if (TrackDefinitions.GetBasicOrDefault(EventData.Type).Kind != BasicEventKind.Lights)
             {
                 lightGradientController.SetVisible(false);
                 return;
@@ -227,6 +227,6 @@ namespace Beatmap.Containers
             valueDisplay.text = text;
         }
 
-        public void RefreshAppearance() => eventAppearance.SetAppearance(this, TracksDefinition);
+        public void RefreshAppearance() => eventAppearance.SetAppearance(this, TrackDefinitions);
     }
 }

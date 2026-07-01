@@ -21,7 +21,7 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
     public override ObjectType ContainerType => ObjectType.GLSEvent;
 
     public override ObjectContainer CreateContainer() =>
-        GLSEventContainer.SpawnGLSEvent(null, BeatmapContext.TracksDefinition, ref eventPrefab);
+        GLSEventContainer.SpawnGLSEvent(null, BeatmapContext.TrackDefinitions, ref eventPrefab);
 
     internal override void SubscribeToCallbacks()
     {

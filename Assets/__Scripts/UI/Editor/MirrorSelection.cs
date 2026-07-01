@@ -12,7 +12,7 @@ public class MirrorSelection : MonoBehaviour
     [SerializeField] private TracksManager tracksManager;
     [SerializeField] private CreateEventTypeLabels labels;
 
-    private TracksDefinitionSO tracksDefinition;
+    private TrackDefinitionsSO trackDefinitions;
 
     private readonly Dictionary<int, int> cutDirectionToMirrored = new()
     {
@@ -24,10 +24,10 @@ public class MirrorSelection : MonoBehaviour
         { (int)NoteCutDirection.Left, (int)NoteCutDirection.Right }
     };
 
-    public void Start() => beatmapRuntimeContext.OnTracksDefinitionChanged += HandleTracksDefinitionChanged;
-    public void OnDestroy() => beatmapRuntimeContext.OnTracksDefinitionChanged -= HandleTracksDefinitionChanged;
+    public void Start() => beatmapRuntimeContext.OnTrackDefinitionsChanged += HandleTrackDefinitionsChanged;
+    public void OnDestroy() => beatmapRuntimeContext.OnTrackDefinitionsChanged -= HandleTrackDefinitionsChanged;
 
-    private void HandleTracksDefinitionChanged(TracksDefinitionSO td) => tracksDefinition = td;
+    private void HandleTrackDefinitionsChanged(TrackDefinitionsSO td) => trackDefinitions = td;
 
     public void MirrorTime()
     {
@@ -279,7 +279,7 @@ public class MirrorSelection : MonoBehaviour
                         e.CustomLightGradient.EndColor, e.CustomLightGradient.StartColor);
                 }
 
-                if (tracksDefinition.GetBasicOrDefault(e.Type).Kind != BasicEventKind.Lights) continue;
+                if (beatmapRuntimeContext.TrackDefinitions.GetBasicOrDefault(e.Type).Kind != BasicEventKind.Lights) continue;
                 if (moveNotes
                     && e.IsPropagation
                     && e.CustomLightID != null

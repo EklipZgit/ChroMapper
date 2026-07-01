@@ -641,23 +641,23 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
     {
         var groups = newObjects
             .Cast<BaseEventBoxGroup>()
-            .Select(x => beatmapRuntimeContext.TracksDefinition.GetGlsOrDefault(x.ID).Group)
+            .Select(x => beatmapRuntimeContext.TrackDefinitions.GetGlsOrDefault(x.ID).Group)
             .Distinct()
             .ToList();
         if (groups.Count != 1) return new HashSet<BaseObject>();
 
         var oldIdToOrder = beatmapRuntimeContext
-            .TracksDefinition.Gls.Values
+            .TrackDefinitions.Gls.Values
             .Where(x => groups[0] == x.Group)
             .Select((x, i) => (x, i))
             .ToDictionary(x => x.x.ID, x => x.i);
         var newIdToOrder = beatmapRuntimeContext
-            .TracksDefinition.Gls.Values
+            .TrackDefinitions.Gls.Values
             .Where(x => glsGroupGridProvider.CurrentGroup == x.Group)
             .Select((x, i) => (x, i))
             .ToDictionary(x => x.x.ID, x => x.i);
         var newOrderToId = beatmapRuntimeContext
-            .TracksDefinition.Gls.Values
+            .TrackDefinitions.Gls.Values
             .Where(x => glsGroupGridProvider.CurrentGroup == x.Group)
             .Select((x, i) => (x, i))
             .ToDictionary(x => x.i, x => x.x.ID);
@@ -694,18 +694,18 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
             switch (obj)
             {
                 case BaseLightColorEventBoxGroup:
-                    if (!beatmapRuntimeContext.TracksDefinition.GetGlsOrDefault(newId).ColorTrack) continue;
+                    if (!beatmapRuntimeContext.TrackDefinitions.GetGlsOrDefault(newId).ColorTrack) continue;
                     break;
                 case BaseLightRotationEventBoxGroup:
-                    if (!beatmapRuntimeContext.TracksDefinition.GetGlsOrDefault(newId).RotationTracks.Any(x => x))
+                    if (!beatmapRuntimeContext.TrackDefinitions.GetGlsOrDefault(newId).RotationTracks.Any(x => x))
                         continue;
                     break;
                 case BaseLightTranslationEventBoxGroup:
-                    if (!beatmapRuntimeContext.TracksDefinition.GetGlsOrDefault(newId).TranslationTracks.Any(x => x))
+                    if (!beatmapRuntimeContext.TrackDefinitions.GetGlsOrDefault(newId).TranslationTracks.Any(x => x))
                         continue;
                     break;
                 case BaseVfxEventEventBoxGroup:
-                    if (!beatmapRuntimeContext.TracksDefinition.GetGlsOrDefault(newId).FloatFXTrack) continue;
+                    if (!beatmapRuntimeContext.TrackDefinitions.GetGlsOrDefault(newId).FloatFXTrack) continue;
                     break;
             }
 

@@ -11,8 +11,8 @@
         _AlphaWidth("Alpha Width", Vector) = (1,1,1,1)
 
         [KeywordEnum(None, PP, Frag)] _BloomType ("Bloom White", float) = 0
+        [ShowIfAny(_BLOOMTYPE_PP, _BLOOMTYPE_FRAG)] _BloomWhiteMultiplier ("White Multiplier", float) = 1
         _BloomMultiplier ("Bloom Multiplier", float) = 1
-        _BloomWhiteMultiplier ("White Multiplier", float) = 1
 
         [Header(Others)] [Space]
         [Toggle(SQUARE_ALPHA)] _SquareAlpha("Square Alpha", float) = 1
@@ -21,14 +21,14 @@
 
         [Header(Fog Settings)] [Space]
         [Toggle(FOG)] _EnableFog ("Enable Fog", float) = 1
-        _FogStartOffset ("Fog Start Offset", float) = 1
-        _FogScale ("Fog Scale", float) = 1
+        [ShowIfAny(FOG)] _FogStartOffset ("Fog Start Offset", float) = 1
+        [ShowIfAny(FOG)] _FogScale ("Fog Scale", float) = 1
         [Space]
-        [Toggle(HEIGHT_FOG)] _EnableHeightFog ("Enable Height Fog", float) = 0
-        _FogHeightOffset ("Fog Height Offset", float) = 0
-        _FogHeightScale ("Fog Height Scale", float) = 1
+        [ToggleShowIfAny(HEIGHT_FOG, FOG)] _EnableHeightFog ("Enable Height Fog", float) = 0
+        [ShowIfAny(2, FOG, HEIGHT_FOG)] _FogHeightOffset ("Fog Height Offset", float) = 0
+        [ShowIfAny(2, FOG, HEIGHT_FOG)] _FogHeightScale ("Fog Height Scale", float) = 1
         [Space]
-        [Toggle(USE_FOG_FOR_LIGHTS)] _UseFogForLights("Use Fog For Lights", float) = 1
+        [ToggleShowIfAny(USE_FOG_FOR_LIGHTS, FOG)] _UseFogForLights("Use Fog For Lights", float) = 1
 
         [Header(Settings)] [Space]
         [Enum(UnityEngine.Rendering.BlendMode)] _BlendModeSrc ("Blend Src", float) = 1
@@ -43,6 +43,10 @@
         [Toggle] _ZWrite ("Z Write", float) = 0
         _OffsetFactor ("Offset Factor", Float) = 0
         _OffsetUnits ("Offset Units", Float) = 0
+        [Header(Stencil)] [Space]
+        _StencilRefValue ("Stencil Ref Value", Float) = 0
+        [Enum(UnityEngine.Rendering.CompareFunction)] _StencilComp ("Stencil Comp Func", Float) = 8
+        [Enum(UnityEngine.Rendering.StencilOp)] _StencilPass ("Stencil Pass Op", Float) = 0
     }
 
     SubShader
@@ -62,6 +66,13 @@
         ZTest [_ZTest]
         ZWrite [_ZWrite]
         Offset [_OffsetFactor], [_OffsetUnits]
+
+        Stencil
+        {
+            Ref [_StencilRefValue]
+            Comp [_StencilComp]
+            Pass [_StencilPass]
+        }
 
         Pass
         {
@@ -90,7 +101,7 @@
 
             sampler2D _MainTex;
             float4 _MainTex_ST;
-            float2 _CapUVSize;
+            float _CapUVSize; // Fixed: was incorrectly declared as float2
 
             float _BloomMultiplier;
             float _BloomWhiteMultiplier;
@@ -173,7 +184,7 @@
                 width *= sizeParams.x;
 
                 i.vertex.x *= width;
-                i.vertex.y = height;
+                i.vertex.y = height * length(mul((float3x3)unity_ObjectToWorld, float3(0, 1, 0)));
 
                 #if defined(Y_AXIS_BILLBOARD)
                 float3 worldPos = worldOrigin + right * i.vertex.x + localUp * i.vertex.y;
@@ -183,6 +194,15 @@
                 o.vertex = UnityObjectToClipPos(i.vertex);
                 o.worldPos.xyz = mul(unity_ObjectToWorld, i.vertex).xyz;
                 #endif
+
+                // Cap UV shift: nudge cap UVs inward to avoid sampling texture edges.
+                // Matches Output4 behaviour: shift = (0.25 - _CapUVSize) * sign of cap direction.
+                // Middle region (0.25 - 0.75) is left untouched.
+                float uvY = i.uv.y;
+                bool isMiddle = uvY >= 0.25 && uvY <= 0.75;
+                float capSign = floor((uvY < 0.5 ? -1.0 : 0.0) - (uvY > 0.5 ? 1.0 : 0.0));
+                float capShift = isMiddle ? 0.0 : (0.25 - _CapUVSize) * capSign;
+                i.uv.y += capShift;
 
                 o.uv.xyz = float3(i.uv * width / sizeParams.x, width / sizeParams.x);
                 o.screenPos = ComputeScreenPosCustom(o.vertex);
@@ -196,8 +216,6 @@
                 half4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
                 float4 alphaWidth = UNITY_ACCESS_INSTANCED_PROP(Props, _AlphaWidth);
 
-                // TODO: what does cap UV size supposed to do
-                // i.uv.xy = min(adjustedUv, i.uv.xy);
                 float2 adjustedUv = i.uv.xy / i.uv.z;
                 half4 albedo = color * tex2D(_MainTex, TRANSFORM_TEX(adjustedUv, _MainTex));
 
@@ -205,14 +223,14 @@
                 #if defined(SQUARE_ALPHA)
                 albedo.a *= albedo.a;
                 #endif
-                half alphaFactor = lerp(alphaWidth.x, alphaWidth.y, i.lengthFactor);
+                half alphaFactor = lerp(alphaWidth.x, alphaWidth.y, i.uv.w);
                 #if defined(SQUARE_ALPHA)
                 alphaFactor *= alphaFactor;
                 #endif
                 albedo *= alphaFactor;
 
                 #if defined(_BLOOMTYPE_PP)
-                CUSTOM_BLOOM_PP_APPLY(albedo, _BloomMultiplier);
+                CUSTOM_BLOOM_PP_APPLY(albedo, _BloomWhiteMultiplier);
                 #elif defined(_BLOOMTYPE_FRAG)
                 CUSTOM_BLOOM_FRAG_APPLY(albedo, _BloomWhiteMultiplier);
                 #else

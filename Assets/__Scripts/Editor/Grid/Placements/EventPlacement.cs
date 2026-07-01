@@ -73,7 +73,7 @@ public class EventPlacement : BasePlacement<BaseEvent, EventContainer, EventGrid
 
         if (CanPlaceChromaEvents
             && dropdown.Visible
-            && beatmapRuntimeContext.TracksDefinition.GetBasicOrDefault(QueuedData.Type).Kind == BasicEventKind.Lights
+            && beatmapRuntimeContext.TrackDefinitions.GetBasicOrDefault(QueuedData.Type).Kind == BasicEventKind.Lights
             && QueuedData.Value != (int)LightValue.Off)
             QueuedData.CustomColor = colorPicker.CurrentColor;
         else
@@ -88,7 +88,7 @@ public class EventPlacement : BasePlacement<BaseEvent, EventContainer, EventGrid
     {
         QueuedData.Value = value;
 
-        if (beatmapRuntimeContext.TracksDefinition.GetBasicOrDefault(QueuedData.Type).Kind == BasicEventKind.IntValue
+        if (beatmapRuntimeContext.TrackDefinitions.GetBasicOrDefault(QueuedData.Type).Kind == BasicEventKind.IntValue
             && int.TryParse(laserSpeedInputField.text, out var laserSpeed))
             QueuedData.Value = laserSpeed;
 
@@ -104,7 +104,7 @@ public class EventPlacement : BasePlacement<BaseEvent, EventContainer, EventGrid
 
     public void UpdateQueuedFloatValue(float value)
     {
-        if (beatmapRuntimeContext.TracksDefinition.GetBasicOrDefault(QueuedData.Type).Kind != BasicEventKind.Lights)
+        if (beatmapRuntimeContext.TrackDefinitions.GetBasicOrDefault(QueuedData.Type).Kind != BasicEventKind.Lights)
         {
             QueuedData.FloatValue = 1f;
             return;
@@ -140,7 +140,7 @@ public class EventPlacement : BasePlacement<BaseEvent, EventContainer, EventGrid
     public override void CreateVisual()
     {
         base.CreateVisual();
-        PlacementVisualContainer!.TracksDefinition = beatmapRuntimeContext.TracksDefinition;
+        PlacementVisualContainer!.TrackDefinitions = beatmapRuntimeContext.TrackDefinitions;
     }
 
     public void PlaceChroma(bool v) => Settings.Instance.PlaceChromaColor = v;
