@@ -48,57 +48,12 @@ namespace Beatmap.Base
 
         public override ObjectType ObjectType { get; set; } = ObjectType.Event;
         public virtual int Type { get; set; }
-
-        private int value;
-
-        public int Value
-        {
-            get => value;
-            set
-            {
-                if (IsLaneRotationEvent())
-                {
-                    if (0 <= value && value < LightValueToRotationDegrees.Length)
-                    {
-                        rotation = LightValueToRotationDegrees[value];
-                    }
-                    else if (value is >= 1000 and <= 1720) // Mapping Extensions
-                    {
-                        rotation = value - 1360;
-                    }
-                }
-
-                this.value = value;
-            }
-        }
-
+        public virtual int Value { get; set; }
         public float FloatValue { get; set; } = 1f;
-
-        private float rotation;
-
-        public float Rotation
-        {
-            get => rotation;
-            set
-            {
-                var lightValue = Array.IndexOf(LightValueToRotationDegrees, Mathf.RoundToInt(value));
-                if (lightValue >= 0)
-                {
-                    this.value = lightValue;
-                }
-                else
-                {
-                    this.value = Mathf.RoundToInt(value) + 1360; // Mapping extension
-                }
-
-                rotation = value;
-            }
-        }
 
         public BaseEvent Prev { get; set; }
         public BaseEvent Next { get; set; }
 
-        public static readonly int[] LightValueToRotationDegrees = { -60, -45, -30, -15, 15, 30, 45, 60 };
         private int[] customLightID;
         protected float? customSpeed;
 
@@ -324,27 +279,13 @@ namespace Beatmap.Base
                 || (CustomData.HasKey(CustomKeyPropMult) && CustomData[CustomKeyPropMult].IsNumber)
                 || (CustomData.HasKey(CustomKeyStepMult) && CustomData[CustomKeyStepMult].IsNumber)
                 || (CustomData.HasKey(CustomKeySpeedMult) && CustomData[CustomKeySpeedMult].IsNumber)
-                || (!IsLaneRotationEvent()
-                    && CustomData.HasKey(CustomKeyRingRotation)
-                    && CustomData[CustomKeyRingRotation].IsNumber)
                 || (CustomData.HasKey(CustomKeyStep) && CustomData[CustomKeyStep].IsNumber)
                 || (CustomData.HasKey(CustomKeyProp) && CustomData[CustomKeyProp].IsNumber)
                 || (CustomData.HasKey(CustomKeySpeed) && CustomData[CustomKeySpeed].IsNumber)
                 || (CustomData.HasKey(CustomKeyDirection) && CustomData[CustomKeyDirection].IsNumber)
                 || (CustomData.HasKey(CustomKeyLockRotation) && CustomData[CustomKeyLockRotation].IsBoolean));
 
-        public override bool IsNoodleExtensions() =>
-            IsLaneRotationEvent()
-            && CustomData != null
-            && CustomData.HasKey("_rotation")
-            && CustomData["_rotation"].IsNumber;
-
-        public override bool IsMappingExtensions() => IsLaneRotationEvent() && Value >= 1000 && Value <= 1720;
-
         public bool IsColorBoostEvent() => Type is (int)EventTypeValue.ColorBoost;
-
-        public bool IsLaneRotationEvent() =>
-            Type == (int)EventTypeValue.EarlyLaneRotation || Type == (int)EventTypeValue.LateLaneRotation;
 
         public virtual bool IsBpmEvent() => Type is (int)EventTypeValue.BpmChange;
 
@@ -576,8 +517,6 @@ namespace Beatmap.Base
                 2 => V2Event.ToJson(this),
                 3 or 4 => Type switch
                 {
-                    (int)EventTypeValue.EarlyLaneRotation => V3RotationEvent.ToJson(this),
-                    (int)EventTypeValue.LateLaneRotation => V3RotationEvent.ToJson(this),
                     (int)EventTypeValue.ColorBoost => V3ColorBoostEvent.ToJson(this),
                     _ => V3BasicEvent.ToJson(this)
                 }

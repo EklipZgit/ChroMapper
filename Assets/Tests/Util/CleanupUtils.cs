@@ -15,6 +15,11 @@ namespace Tests.Util
             CleanupType(ObjectType.Event);
         }
 
+        public static void CleanupRotationEvents()
+        {
+            CleanupType(ObjectType.RotationEvent);
+        }
+
         public static void CleanupObstacles()
         {
             CleanupType(ObjectType.Obstacle);

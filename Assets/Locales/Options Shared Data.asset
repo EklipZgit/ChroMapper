@@ -1427,6 +1427,54 @@ MonoBehaviour:
     m_Key: graphics.display.note
     m_Metadata:
       m_Items: []
+  - m_Id: 646563496784003072
+    m_Key: map.reduced360cam.tooltip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 646563635363807232
+    m_Key: map.reduced360cam
+    m_Metadata:
+      m_Items: []
+  - m_Id: 646563993301516288
+    m_Key: map.rotationfollownote.tooltip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 646564095910969344
+    m_Key: map.rotationfollownote
+    m_Metadata:
+      m_Items: []
+  - m_Id: 646564964433887232
+    m_Key: map.rotationfollowbomb.tooltip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 646565061242617856
+    m_Key: map.rotationfollowarc
+    m_Metadata:
+      m_Items: []
+  - m_Id: 646565121904836608
+    m_Key: map.rotationfollowarc.tooltip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 646565238300966912
+    m_Key: map.rotationfollowbomb
+    m_Metadata:
+      m_Items: []
+  - m_Id: 646565287793754112
+    m_Key: map.rotationfollowchain
+    m_Metadata:
+      m_Items: []
+  - m_Id: 646565327744499712
+    m_Key: map.rotationfollowchain.tooltip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 646565356051857408
+    m_Key: map.rotationfollowwall.tooltip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 646565442844590080
+    m_Key: map.rotationfollowwall
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

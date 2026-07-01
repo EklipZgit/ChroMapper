@@ -37,48 +37,51 @@ namespace Tests
         {
             var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var eventsContainer = BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
+            var rotationEventsContainer = BeatmapObjectContainerCollection.GetCollectionForType<RotationEventGridContainer>(ObjectType.RotationEvent);
 
             var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
-            var inputController = Object.FindAnyObjectByType<BeatmapEventInputController>();
+            var rotationEventPlacement = Object.FindAnyObjectByType<RotationEventPlacement>();
+            var beatmapEventInputController = Object.FindAnyObjectByType<BeatmapEventInputController>();
+            var beatmapRotationInputController = Object.FindAnyObjectByType<BeatmapRotationInputController>();
 
-            BaseEvent baseEventA = new BaseEvent { JsonTime = 2, Type = (int)EventTypeValue.LateLaneRotation, Rotation = 45 };
+            BaseRotationEvent baseEventA = new BaseRotationEvent { JsonTime = 2, Type = (int)EventTypeValue.LateLaneRotation, Rotation = 45 };
             BaseEvent baseEventB = new BaseEvent { JsonTime = 3, Type = (int)EventTypeValue.BackLasers, Value = (int)LightValue.RedFade };
-            PlaceUtils.PlaceEvent(eventPlacement, baseEventA);
+            PlaceUtils.PlaceRotationEvent(rotationEventPlacement, baseEventA);
             PlaceUtils.PlaceEvent(eventPlacement, baseEventB);
 
             // TODO: u know, i forgot this events get converted and now i have to suffer the wrath of test pain 
-            if (eventsContainer.LoadedContainers[baseEventA] is EventContainer containerA)
-                inputController.InvertEvent(containerA);
+            if (rotationEventsContainer.LoadedContainers[baseEventA] is RotationEventContainer containerA)
+                RotationCommand.Invert(containerA.EventData);
             if (eventsContainer.LoadedContainers[baseEventB] is EventContainer containerB)
-                inputController.InvertEvent(containerB);
+                beatmapEventInputController.InvertEvent(containerB);
 
-            CheckUtils.CheckRotationEvent("Perform first rotation inversion", eventsContainer, 0, 2, 1, -45);
-            CheckUtils.CheckEvent("Perform first light value inversion", eventsContainer, 1, 3,
+            CheckUtils.CheckRotationEvent("Perform first rotation inversion", rotationEventsContainer, 0, 2, 1, -45);
+            CheckUtils.CheckEvent("Perform first light value inversion", eventsContainer, 0, 3,
                 (int)EventTypeValue.BackLasers, (int)LightValue.WhiteFade);
 
             if (eventsContainer.LoadedContainers[baseEventB] is EventContainer containerB2)
-                inputController.InvertEvent(containerB2);
+                beatmapEventInputController.InvertEvent(containerB2);
 
-            CheckUtils.CheckEvent("Perform second light value inversion", eventsContainer, 1, 3,
+            CheckUtils.CheckEvent("Perform second light value inversion", eventsContainer, 0, 3,
                 (int)EventTypeValue.BackLasers, (int)LightValue.BlueFade);
 
             // Undo invert
             actionContainer.Undo();
 
-            CheckUtils.CheckEvent("Undo second light value inversion", eventsContainer, 1, 3,
+            CheckUtils.CheckEvent("Undo second light value inversion", eventsContainer, 0, 3,
                 (int)EventTypeValue.BackLasers, (int)LightValue.WhiteFade);
-            CheckUtils.CheckRotationEvent("Check first rotation inversion", eventsContainer, 0, 2, 1, -45);
+            CheckUtils.CheckRotationEvent("Check first rotation inversion", rotationEventsContainer, 0, 2, 1, -45);
 
             actionContainer.Undo();
 
-            CheckUtils.CheckEvent("Undo first light value inversion", eventsContainer, 1, 3,
+            CheckUtils.CheckEvent("Undo first light value inversion", eventsContainer, 0, 3,
                 (int)EventTypeValue.BackLasers, (int)LightValue.RedFade);
-            CheckUtils.CheckRotationEvent("Check first rotation inversion", eventsContainer, 0, 2, 1, -45);
+            CheckUtils.CheckRotationEvent("Check first rotation inversion", rotationEventsContainer, 0, 2, 1, -45);
 
             actionContainer.Undo();
 
-            CheckUtils.CheckRotationEvent("Undo first rotation inversion", eventsContainer, 0, 2, 1, 45);
-            CheckUtils.CheckEvent("Check initial light value", eventsContainer, 1, 3,
+            CheckUtils.CheckRotationEvent("Undo first rotation inversion", rotationEventsContainer, 0, 2, 1, 45);
+            CheckUtils.CheckEvent("Check initial light value", eventsContainer, 0, 3,
                 (int)EventTypeValue.BackLasers, (int)LightValue.RedFade);
         }
 

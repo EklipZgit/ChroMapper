@@ -48,7 +48,15 @@ namespace TestsEditMode
             Assert.AreEqual(type, evt.Type);
             Assert.AreEqual(value, evt.Value);
             if (floatValue.HasValue) Assert.AreEqual(floatValue.Value, evt.FloatValue);
-            if (rotation.HasValue) Assert.AreEqual(rotation.Value, evt.Rotation);
+        }
+
+        public static void RotationEventPropertiesAreEqual(BaseRotationEvent evt, float jsonTime, int type, int value, ExecutionTime executionTime, float? rotation)
+        {
+            Assert.AreEqual(jsonTime, evt.JsonTime, epsilon);
+            Assert.AreEqual(type, evt.Type);
+            Assert.AreEqual(value, evt.Value);
+            Assert.AreEqual(executionTime, evt.ExecutionTime);
+            Assert.AreEqual(rotation, evt.Rotation);
         }
 
         public static void ArcPropertiesAreEqual(BaseArc arc, float jsonTime, int x, int y, int color, int cutDirection,

@@ -39,19 +39,19 @@ namespace Tests.Util
             eventPlacement.QueuedData = evt;
             eventPlacement.queuedValue = eventPlacement.QueuedData.Value;
             eventPlacement.queuedFloatValue = eventPlacement.QueuedData.FloatValue;
-            eventPlacement.queuedRotation = eventPlacement.QueuedData.Rotation;
             eventPlacement.RoundedJsonTime = eventPlacement.QueuedData.JsonTime;
 
-            if (precRotation)
-            {
-                eventPlacement.PlacePrecisionRotation = true;
-                eventPlacement.HandleApply();
-                eventPlacement.PlacePrecisionRotation = false;
-            }
-            else
-            {
-                eventPlacement.HandleApply();
-            }
+            eventPlacement.HandleApply();
+        }
+
+        public static void PlaceRotationEvent(
+            RotationEventPlacement rotationEventPlacement, BaseRotationEvent evt, bool precRotation = false)
+        {
+            rotationEventPlacement.QueuedData = evt;
+            rotationEventPlacement.QueuedRotation = rotationEventPlacement.QueuedData.Rotation;
+            rotationEventPlacement.RoundedJsonTime = rotationEventPlacement.QueuedData.JsonTime;
+
+            rotationEventPlacement.HandleApply();
         }
 
         public static void PlaceNJSEvent(

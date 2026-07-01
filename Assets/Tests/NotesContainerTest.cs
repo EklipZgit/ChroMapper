@@ -35,6 +35,7 @@ namespace Tests
         {
             var noteGridContainer =
                 BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
+            var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
 
             BaseNote baseNoteA = new BaseNote
             {
@@ -42,7 +43,7 @@ namespace Tests
                 Type = (int)NoteType.Red,
                 PosX = (int)GridX.Left
             };
-            noteGridContainer.SpawnObject(baseNoteA);
+            PlaceUtils.PlaceNote(notePlacement, baseNoteA);
             var containerA = noteGridContainer.LoadedContainers[baseNoteA] as NoteContainer;
 
             BaseNote baseNoteB = new BaseNote
@@ -51,7 +52,7 @@ namespace Tests
                 Type = (int)NoteType.Red,
                 PosX = (int)GridX.MiddleLeft
             };
-            noteGridContainer.SpawnObject(baseNoteB);
+            PlaceUtils.PlaceNote(notePlacement, baseNoteB);
             var containerB = noteGridContainer.LoadedContainers[baseNoteB] as NoteContainer;
 
             // These tests are based of the examples in this image
@@ -146,21 +147,22 @@ namespace Tests
             var noteGridContainer =
                 BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
             var inputController = Object.FindAnyObjectByType<BeatmapNoteInputController>();
+            var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
 
             // ◌◌◌◌
             // ◌◌◌◌
             // ◌←◌◌
             BaseNote baseNoteBottom = new BaseNote { JsonTime = 4, PosX = 1, CutDirection = (int)NoteCutDirection.Left};
-            noteGridContainer.SpawnObject(baseNoteBottom);
-            var containerBottom = noteGridContainer.LoadedContainers[baseNoteBottom] as NoteContainer;
+            PlaceUtils.PlaceNote(notePlacement, baseNoteBottom);
 
             // ◌◌↓◌
             // ◌◌◌◌
             // ◌←◌◌
             BaseNote baseNoteTop = new BaseNote { JsonTime = 4, PosX = 2, PosY = 2, CutDirection = (int)NoteCutDirection.Down };
-            noteGridContainer.SpawnObject(baseNoteTop, removeConflicting: false);
+            PlaceUtils.PlaceNote(notePlacement, baseNoteTop);
+            
+            var containerBottom = noteGridContainer.LoadedContainers[baseNoteBottom] as NoteContainer;
             var containerTop = noteGridContainer.LoadedContainers[baseNoteTop] as NoteContainer;
-
             Assert.AreEqual(0, containerTop.DirectionTarget.localEulerAngles.z, 0.01);
             Assert.AreEqual(270, containerBottom.DirectionTarget.localEulerAngles.z, 0.01);
 
@@ -168,6 +170,8 @@ namespace Tests
             // ◌◌◌◌
             // ◌↙◌◌
             inputController.ScrollUpdateDirection(containerBottom, 1);
+            containerBottom = noteGridContainer.LoadedContainers[noteGridContainer.MapObjects[0]] as NoteContainer;
+            containerTop = noteGridContainer.LoadedContainers[noteGridContainer.MapObjects[1]] as NoteContainer;
             Assert.AreEqual(0, containerTop.DirectionTarget.localEulerAngles.z, 0.01);
             Assert.AreEqual(315, containerBottom.DirectionTarget.localEulerAngles.z, 0.01);
 
@@ -175,6 +179,8 @@ namespace Tests
             // ◌◌◌◌
             // ◌↓◌◌
             inputController.ScrollUpdateDirection(containerBottom, 1);
+            containerBottom = noteGridContainer.LoadedContainers[noteGridContainer.MapObjects[0]] as NoteContainer;
+            containerTop = noteGridContainer.LoadedContainers[noteGridContainer.MapObjects[1]] as NoteContainer;
             Assert.AreEqual(333.43, containerTop.DirectionTarget.localEulerAngles.z, 0.01);
             Assert.AreEqual(333.43, containerBottom.DirectionTarget.localEulerAngles.z, 0.01);
 
@@ -182,6 +188,8 @@ namespace Tests
             // ◌◌◌◌
             // ◌↘◌◌
             inputController.ScrollUpdateDirection(containerBottom, 1);
+            containerBottom = noteGridContainer.LoadedContainers[noteGridContainer.MapObjects[0]] as NoteContainer;
+            containerTop = noteGridContainer.LoadedContainers[noteGridContainer.MapObjects[1]] as NoteContainer;
             Assert.AreEqual(0, containerTop.DirectionTarget.localEulerAngles.z, 0.01);
             Assert.AreEqual(45, containerBottom.DirectionTarget.localEulerAngles.z, 0.01);
         }
@@ -193,21 +201,22 @@ namespace Tests
             var noteGridContainer =
                 BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
             var inputController = Object.FindAnyObjectByType<BeatmapNoteInputController>();
-
+            var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
+            
             // ◌◌◌◌
             // ◌◌◌◌
             // ←◌◌◌
             BaseNote baseNoteBottom = new BaseNote { JsonTime = 4, CutDirection = (int)NoteCutDirection.Left };
-            noteGridContainer.SpawnObject(baseNoteBottom);
-            var containerBottom = noteGridContainer.LoadedContainers[baseNoteBottom] as NoteContainer;
+            PlaceUtils.PlaceNote(notePlacement, baseNoteBottom);
 
             // ◌◌↓◌
             // ◌◌◌◌
             // ←◌◌◌
             BaseNote baseNoteTop = new BaseNote { JsonTime = 4 , PosX = 2,  PosY = 2, CutDirection = (int)NoteCutDirection.Down };
-            noteGridContainer.SpawnObject(baseNoteTop, removeConflicting: false);
+            PlaceUtils.PlaceNote(notePlacement, baseNoteTop);
+            
+            var containerBottom = noteGridContainer.LoadedContainers[baseNoteBottom] as NoteContainer;
             var containerTop = noteGridContainer.LoadedContainers[baseNoteTop] as NoteContainer;
-
             Assert.AreEqual(0, containerTop.DirectionTarget.localEulerAngles.z, 0.01);
             Assert.AreEqual(270, containerBottom.DirectionTarget.localEulerAngles.z, 0.01);
 
@@ -215,6 +224,8 @@ namespace Tests
             // ◌◌◌◌
             // ↙◌◌◌
             inputController.ScrollUpdateDirection(containerBottom, 1);
+            containerBottom = noteGridContainer.LoadedContainers[noteGridContainer.MapObjects[0]] as NoteContainer;
+            containerTop = noteGridContainer.LoadedContainers[noteGridContainer.MapObjects[1]] as NoteContainer;
             Assert.AreEqual(0, containerTop.DirectionTarget.localEulerAngles.z, 0.01);
             Assert.AreEqual(315, containerBottom.DirectionTarget.localEulerAngles.z, 0.01);
 
@@ -222,6 +233,8 @@ namespace Tests
             // ◌◌◌◌
             // ↓◌◌◌
             inputController.ScrollUpdateDirection(containerBottom, 1);
+            containerBottom = noteGridContainer.LoadedContainers[noteGridContainer.MapObjects[0]] as NoteContainer;
+            containerTop = noteGridContainer.LoadedContainers[noteGridContainer.MapObjects[1]] as NoteContainer;
             Assert.AreEqual(0, containerTop.DirectionTarget.localEulerAngles.z, 0.01);
             Assert.AreEqual(0, containerBottom.DirectionTarget.localEulerAngles.z, 0.01);
             
@@ -229,6 +242,8 @@ namespace Tests
             // ◌◌◌◌
             // ↘◌◌◌
             inputController.ScrollUpdateDirection(containerBottom, 1);
+            containerBottom = noteGridContainer.LoadedContainers[noteGridContainer.MapObjects[0]] as NoteContainer;
+            containerTop = noteGridContainer.LoadedContainers[noteGridContainer.MapObjects[1]] as NoteContainer;
             Assert.AreEqual(0, containerTop.DirectionTarget.localEulerAngles.z, 0.01);
             Assert.AreEqual(45, containerBottom.DirectionTarget.localEulerAngles.z, 0.01);
         }
@@ -238,13 +253,15 @@ namespace Tests
         {
             var noteGridContainer =
                 BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
+            var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
 
-            BaseNote baseNoteA = new BaseNote { JsonTime = 4 };
-            noteGridContainer.SpawnObject(baseNoteA);
-            var containerA = noteGridContainer.LoadedContainers[baseNoteA] as NoteContainer;
+            BaseNote baseNoteA = new BaseNote { JsonTime = 4, PosX = 1};
+            PlaceUtils.PlaceNote(notePlacement, baseNoteA);
 
             BaseNote baseNoteB = new BaseNote { JsonTime = 4 };
-            noteGridContainer.SpawnObject(baseNoteB, removeConflicting: false);
+            PlaceUtils.PlaceNote(notePlacement, baseNoteB);
+            
+            var containerA = noteGridContainer.LoadedContainers[baseNoteA] as NoteContainer;
             var containerB = noteGridContainer.LoadedContainers[baseNoteB] as NoteContainer;
             
             // ME precision placed
@@ -281,20 +298,21 @@ namespace Tests
         public void ShiftInTime()
         {
             var notesContainer = BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
-
+            var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
+            
             BaseNote baseNoteA = new BaseNote
             {
                 JsonTime = 2,
                 Type = (int)NoteType.Red
             };
-            notesContainer.SpawnObject(baseNoteA);
+            PlaceUtils.PlaceNote(notePlacement, baseNoteA);
 
             BaseNote baseNoteB = new BaseNote
             {
                 JsonTime = 3,
                 Type = (int)NoteType.Red
             };
-            notesContainer.SpawnObject(baseNoteB);
+            PlaceUtils.PlaceNote(notePlacement, baseNoteB);
 
             SelectionController.Select(baseNoteB, false, false, false);
 

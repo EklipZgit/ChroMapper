@@ -172,6 +172,8 @@ public class ObstaclePlacement : BasePlacement<BaseObstacle, ObstacleContainer, 
         QueuedData.Height = (int)vanillaSize.y;
     }
 
+    protected override void HandleRotationChanged(float rotation) => QueuedData.Rotation = (int)rotation;
+
     public override void HandleApply()
     {
         if (IsPlacing)
@@ -210,6 +212,17 @@ public class ObstaclePlacement : BasePlacement<BaseObstacle, ObstacleContainer, 
         dragged.PosX = queued.PosX;
         dragged.PosY = queued.PosY;
         dragged.CustomCoordinate = queued.CustomCoordinate;
+        if (dragged.Rotation != queued.Rotation)
+        {
+            dragged.Rotation = queued.Rotation;
+            TracksManager.RefreshTracks();
+        }
+    }
+
+    public override void FinishDrag()
+    {
+        base.FinishDrag();
+        QueuedData.Rotation = (int)LaneRotationProvider.EditRotation;
     }
 
     public override void Cancel()

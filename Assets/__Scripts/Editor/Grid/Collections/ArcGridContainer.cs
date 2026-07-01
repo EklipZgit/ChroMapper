@@ -30,7 +30,7 @@ public class ArcGridContainer : BeatmapObjectContainerCollection<BaseArc>
         con.Animator.TracksManager = tracksManager;
         return con;
     }
-    
+
     protected override void HandleObjectSpawned(BaseObject _, bool __ = false) =>
         countersPlus.UpdateStatistic(CountersPlusStatistic.Arcs);
 
@@ -67,7 +67,7 @@ public class ArcGridContainer : BeatmapObjectContainerCollection<BaseArc>
         // if (isPlaying) RefreshPool(true); // I dont know if removing this line affects anything, we'll see
         foreach (ArcContainer obj in LoadedContainers.Values)
         {
-            obj.SetIndicatorBlocksActive(!this.isPlaying);
+            obj.SetIndicators(!this.isPlaying);
         }
     }
 
@@ -80,11 +80,11 @@ public class ArcGridContainer : BeatmapObjectContainerCollection<BaseArc>
         arc.NotifySplineChanged(arcData);
         arcAppearanceSO.SetArcAppearance(arc);
         arc.Setup();
-        arc.SetIndicatorBlocksActive(false);
+        arc.SetIndicators(isPlaying);
 
         if (!arc.Animator.AnimatedTrack)
         {
-            var track = tracksManager.GetTrackAtTime(arcData.SongBpmTime);
+            var track = tracksManager.GetTrackAtTime(arcData.SongBpmTime, arcData.Rotation);
             track.AttachContainer(con);
         }
     }
@@ -108,7 +108,7 @@ public class ArcGridContainer : BeatmapObjectContainerCollection<BaseArc>
         {
             var container = queuedUpdatingArcs.Dequeue();
             container.RecomputePosition();
-            container.SetIndicatorBlocksActive(!isPlaying);
+            container.SetIndicators(!isPlaying);
         }
     }
 

@@ -267,7 +267,7 @@ namespace Beatmap.Containers
             }
         }
 
-        public void SetIndicatorBlocksActive(bool visible)
+        public void SetIndicators(bool visible)
         {
             indicators[0].gameObject.SetActive(visible); // Head
             indicators[1].gameObject.SetActive(visible && ChainData.SliceCount != 1);

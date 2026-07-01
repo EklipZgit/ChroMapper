@@ -173,7 +173,7 @@ namespace Beatmap.V4
                 // Basic events
                 var basicEvents = new JSONArray();
                 var basicEventsData = new JSONArray();
-                var mapBasicEvents = difficulty.Events.Where(x => !x.IsLaneRotationEvent() && !x.IsColorBoostEvent()).ToList();
+                var mapBasicEvents = difficulty.Events.Where(x => !x.IsColorBoostEvent()).ToList();
                 var basicEventsCommonData = mapBasicEvents.Select(V4CommonData.BasicEvent.FromBaseEvent).Distinct().ToList();
                 
                 foreach (var basicEvent in mapBasicEvents)
@@ -556,7 +556,7 @@ namespace Beatmap.V4
                         case "spawnRotations":
                             foreach (JSONNode n in node)
                             {
-                                map.Events.Add(V4RotationEvent.GetFromJson(n, rotationsCommonData));
+                                map.RotationEvents.Add(V4RotationEvent.GetFromJson(n, rotationsCommonData));
                             }
 
                             break;

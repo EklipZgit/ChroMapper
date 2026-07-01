@@ -286,18 +286,18 @@ namespace Beatmap.V4
 
         public struct RotationEvent : IEquatable<RotationEvent>
         {
-            public int Type { get; set; }
+            public int ExecutionTime { get; set; }
             public float Rotation { get; set; }
 
             public static RotationEvent GetFromJson(JSONNode node) => new()
             {
-                Type = node["t"].AsInt,
+                ExecutionTime = node["t"].AsInt,
                 Rotation = node["r"].AsFloat
             };
 
-            public static RotationEvent FromBaseEvent(BaseEvent baseEvent) => new()
+            public static RotationEvent FromBaseEvent(BaseRotationEvent baseEvent) => new()
             {
-                Type = baseEvent.Type == (int)EventTypeValue.EarlyLaneRotation ? 0 : 1,
+                ExecutionTime = baseEvent.Type == (int)EventTypeValue.EarlyLaneRotation ? (int)Enums.ExecutionTime.Early : (int)Enums.ExecutionTime.Late,
                 Rotation = baseEvent.Rotation
             };
 
@@ -305,13 +305,13 @@ namespace Beatmap.V4
             {
                 JSONNode node = new JSONObject();
 
-                node["t"] = Type;
+                node["t"] = ExecutionTime;
                 node["r"] = Rotation;
                 
                 return node;
             }
 
-            public bool Equals(RotationEvent other) => Type == other.Type && Rotation.Equals(other.Rotation);
+            public bool Equals(RotationEvent other) => ExecutionTime == other.ExecutionTime && Rotation.Equals(other.Rotation);
 
             public override bool Equals(object obj) => obj is RotationEvent other && Equals(other);
 
@@ -319,7 +319,7 @@ namespace Beatmap.V4
             {
                 unchecked
                 {
-                    return (Type * 397) ^ Rotation.GetHashCode();
+                    return (ExecutionTime * 397) ^ Rotation.GetHashCode();
                 }
             }
         }

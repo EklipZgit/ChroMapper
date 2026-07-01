@@ -63,14 +63,14 @@ public class StateChunksContainer<TState, TData> where TState : StateData<TData>
     {
         var bucket = Collection.GetBucketFrom(time);
         var bucketIdx = Collection.Buckets.IndexOf(bucket);
-        var idx = Collection.BinarySearch(bucket, time);
+        var idx = Collection.BinarySearchRight(bucket, time);
 
         if (idx == -1)
         {
             while (bucketIdx > 0)
             {
                 bucket = Collection.Buckets[--bucketIdx];
-                idx = Collection.BinarySearch(bucket, time);
+                idx = Collection.BinarySearchRight(bucket, time);
                 if (idx != -1) break;
             }
         }
@@ -82,7 +82,7 @@ public class StateChunksContainer<TState, TData> where TState : StateData<TData>
     {
         var bucket = Collection.GetBucketFrom(state.StartTime);
         var bucketIdx = Collection.Buckets.IndexOf(bucket);
-        var idx = Collection.BinarySearch(bucket, state.StartTime) - 1;
+        var idx = Collection.BinarySearchRight(bucket, state.StartTime) - 1;
 
         if (idx < 0)
         {
@@ -102,7 +102,7 @@ public class StateChunksContainer<TState, TData> where TState : StateData<TData>
     {
         var bucket = Collection.GetBucketFrom(state.StartTime);
         var bucketIdx = Collection.Buckets.IndexOf(bucket);
-        var idx = Collection.BinarySearch(bucket, state.StartTime);
+        var idx = Collection.BinarySearchRight(bucket, state.StartTime);
 
         if (idx < 0)
         {
@@ -122,7 +122,7 @@ public class StateChunksContainer<TState, TData> where TState : StateData<TData>
     {
         var bucket = Collection.GetBucketFrom(state.StartTime);
         var bucketIdx = Collection.Buckets.IndexOf(bucket);
-        var idx = Collection.BinarySearch(bucket, state.StartTime) + 1;
+        var idx = Collection.BinarySearchRight(bucket, state.StartTime) + 1;
 
         if (idx == -1 || idx == bucket.Count)
         {

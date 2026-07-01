@@ -15,6 +15,7 @@ namespace Beatmap.Appearances
             ObstacleContainer obj,
             bool canyounot = false)
         {
+            obj.SetText(obj.ObstacleData.Rotation != 0 ? $"{obj.ObstacleData.Rotation}°" : null);
             if (obj.ObstacleData.Duration < 0 && Settings.Instance.ColorFakeWalls)
                 obj.SetColor(negativeDurationColor);
             else
