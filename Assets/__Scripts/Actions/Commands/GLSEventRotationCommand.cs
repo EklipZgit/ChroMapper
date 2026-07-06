@@ -4,36 +4,39 @@ using UnityEngine;
 
 public static class GLSEventRotationCommand
 {
-    public static void SetValue(BaseLightRotationBase evt, float value)
+    public static BaseLightRotationBase SetValue(BaseLightRotationBase evt, float value)
     {
-        if (Mathf.Approximately(evt.Rotation, value)) return;
+        if (Mathf.Approximately(evt.Rotation, value)) return null;
         var (newGroup, newEvt) = GLSCommonCommand.CopyGroupFrom(evt);
         newEvt.Rotation = value;
-        GLSCommonCommand.TriggerModifyEventBoxAction(
+        return GLSCommonCommand.TriggerModifyEventAction(
             evt.EventBoxGroupData,
             newGroup,
+            newEvt,
             ActionMergeType.ModifyGLSRotationValue);
     }
 
-    public static void SetDirection(BaseLightRotationBase evt, LightRotationDirection value)
+    public static BaseLightRotationBase SetDirection(BaseLightRotationBase evt, LightRotationDirection value)
     {
-        if (evt.Direction == (int)value) return;
+        if (evt.Direction == (int)value) return null;
         var (newGroup, newEvt) = GLSCommonCommand.CopyGroupFrom(evt);
         newEvt.Direction = (int)value;
-        GLSCommonCommand.TriggerModifyEventBoxAction(
+        return GLSCommonCommand.TriggerModifyEventAction(
             evt.EventBoxGroupData,
             newGroup,
+            newEvt,
             ActionMergeType.ModifyGLSRotationDirection);
     }
 
-    public static void SetLoop(BaseLightRotationBase evt, int value)
+    public static BaseLightRotationBase SetLoop(BaseLightRotationBase evt, int value)
     {
-        if (evt.Loop == value) return;
+        if (evt.Loop == value) return null;
         var (newGroup, newEvt) = GLSCommonCommand.CopyGroupFrom(evt);
         newEvt.Loop = value;
-        GLSCommonCommand.TriggerModifyEventBoxAction(
+        return GLSCommonCommand.TriggerModifyEventAction(
             evt.EventBoxGroupData,
             newGroup,
+            newEvt,
             ActionMergeType.ModifyGLSRotationLoop);
     }
 }

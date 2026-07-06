@@ -6,7 +6,7 @@ using UnityEngine;
 
 public static class NoteCommand
 {
-    public static void SetCutDirection(BaseNote baseNote, int cutDirection)
+    public static BaseNote SetCutDirection(BaseNote baseNote, int cutDirection)
     {
         var newNote = BeatmapFactory.Clone(baseNote);
         ToggleDiagonalAngleOffset(newNote, cutDirection);
@@ -37,8 +37,10 @@ public static class NoteCommand
         }
         else
             BeatmapActionContainer.AddAction(actions[0], true);
+
+        return newNote;
     }
-    
+
     private static void ToggleDiagonalAngleOffset(BaseNote note, int newCutDirection)
     {
         if (note.CutDirection == (int)NoteCutDirection.Any
@@ -48,7 +50,7 @@ public static class NoteCommand
         else
             note.AngleOffset = 0;
     }
-    
+
     private static void UpdateAttachedSlidersDirection(BaseNote noteData, ICollection<BeatmapAction> actions)
     {
         var epsilon = BeatmapObjectContainerCollection.Epsilon;
@@ -109,11 +111,11 @@ public static class NoteCommand
         }
     }
 
-    public static void SetAngleOffset(BaseNote baseNote, int angleOffset)
+    public static BaseNote SetAngleOffset(BaseNote baseNote, int angleOffset)
     {
         var newNote = BeatmapFactory.Clone(baseNote);
         newNote.AngleOffset = angleOffset;
-        
+
         BeatmapActionContainer.AddAction(
             new BeatmapObjectUpdatedAction(
                 newNote,
@@ -122,11 +124,13 @@ public static class NoteCommand
                 mergeType: ActionMergeType.NotePreciseDirectionTweak),
             true);
         SelectionController.OnSelectionChanged?.Invoke();
+
+        return newNote;
     }
-    
-    public static void InvertColor(BaseNote baseNote)
+
+    public static BaseNote InvertColor(BaseNote baseNote)
     {
-        if (baseNote.Type == (int)NoteType.Bomb) return;
+        if (baseNote.Type == (int)NoteType.Bomb) return null;
 
         var newNote = BeatmapFactory.Clone(baseNote);
         var newType = baseNote.Type == (int)NoteType.Red
@@ -137,7 +141,7 @@ public static class NoteCommand
         var actions = new List<BeatmapAction> { new BeatmapObjectUpdatedAction(newNote, baseNote) };
 
         InvertAttachedSliders(newNote, actions);
-        
+
         if (actions.Count > 1)
         {
             BeatmapActionContainer.AddAction(
@@ -151,6 +155,8 @@ public static class NoteCommand
         }
         else
             BeatmapActionContainer.AddAction(actions[0], true);
+
+        return newNote;
     }
 
     private static void InvertAttachedSliders(BaseNote noteData, ICollection<BeatmapAction> actions)
@@ -191,4 +197,3 @@ public static class NoteCommand
         }
     }
 }
-
