@@ -35,39 +35,39 @@ namespace Tests
             baseBpmEvent1 = new BaseBpmEvent { JsonTime = 1, Bpm = 100 };
             baseBpmEvent2 = new BaseBpmEvent { JsonTime = 2, Bpm = 100 };
             baseBpmEvent3 = new BaseBpmEvent { JsonTime = 3, Bpm = 100 };
-            bpmEventsContainer.SpawnObject(baseBpmEvent1);
-            bpmEventsContainer.SpawnObject(baseBpmEvent2);
-            bpmEventsContainer.SpawnObject(baseBpmEvent3);
+            baseBpmEvent1 = PlaceUtils.Place(baseBpmEvent1);
+            baseBpmEvent2 = PlaceUtils.Place(baseBpmEvent2);
+            baseBpmEvent3 = PlaceUtils.Place(baseBpmEvent3);
 
             baseNote1 = new BaseNote { JsonTime = 1 };
             baseNote2 = new BaseNote { JsonTime = 2 };
             baseNote3 = new BaseNote { JsonTime = 3 };
             baseNote4 = new BaseNote { JsonTime = 4 };
-            PlaceUtils.PlaceNote(notePlacement, baseNote1);
-            PlaceUtils.PlaceNote(notePlacement, baseNote2);
-            PlaceUtils.PlaceNote(notePlacement, baseNote3);
-            PlaceUtils.PlaceNote(notePlacement, baseNote4);
+            baseNote1 = PlaceUtils.Place(baseNote1);
+            baseNote2 = PlaceUtils.Place(baseNote2);
+            baseNote3 = PlaceUtils.Place(baseNote3);
+            baseNote4 = PlaceUtils.Place(baseNote4);
 
             baseEvent1 = new BaseEvent { JsonTime = 1 };
             baseEvent2 = new BaseEvent { JsonTime = 2 };
             baseEvent3 = new BaseEvent { JsonTime = 3 };
             baseEvent4 = new BaseEvent { JsonTime = 4 };
-            PlaceUtils.PlaceEvent(eventPlacement, baseEvent1);
-            PlaceUtils.PlaceEvent(eventPlacement, baseEvent2);
-            PlaceUtils.PlaceEvent(eventPlacement, baseEvent3);
-            PlaceUtils.PlaceEvent(eventPlacement, baseEvent4);
+            baseEvent1 = PlaceUtils.Place(baseEvent1);
+            baseEvent2 = PlaceUtils.Place(baseEvent2);
+            baseEvent3 = PlaceUtils.Place(baseEvent3);
+            baseEvent4 = PlaceUtils.Place(baseEvent4);
 
             baseRotationEvent2 = new BaseEvent { JsonTime = 2, Type = (int)EventTypeValue.EarlyLaneRotation };
-            PlaceUtils.PlaceEvent(eventPlacement, baseRotationEvent2);
+            baseRotationEvent2 = PlaceUtils.Place(baseRotationEvent2);
 
             baseArc02 = new BaseArc { JsonTime = 0, TailJsonTime = 2 };
             baseArc04 = new BaseArc { JsonTime = 0, TailJsonTime = 4 };
             baseArc24 = new BaseArc { JsonTime = 2, TailJsonTime = 4 };
             baseArc44 = new BaseArc { JsonTime = 4, TailJsonTime = 4 };
-            PlaceUtils.PlaceArc(arcPlacement, baseArc02);
-            PlaceUtils.PlaceArc(arcPlacement, baseArc04);
-            PlaceUtils.PlaceArc(arcPlacement, baseArc24);
-            PlaceUtils.PlaceArc(arcPlacement, baseArc44);
+            baseArc02 = PlaceUtils.Place(baseArc02);
+            baseArc04 = PlaceUtils.Place(baseArc04);
+            baseArc24 = PlaceUtils.Place(baseArc24);
+            baseArc44 = PlaceUtils.Place(baseArc44);
         }
 
         [OneTimeTearDown]

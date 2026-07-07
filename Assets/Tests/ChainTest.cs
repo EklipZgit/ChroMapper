@@ -52,8 +52,8 @@ namespace Tests
                     JsonTime =3f, PosX = (int)GridX.Left, PosY = (int)GridY.Upper, Type = (int)NoteType.Red,
                     CutDirection = (int)NoteCutDirection.Up
                 };
-                PlaceUtils.PlaceNote(notePlacement, baseNoteA);
-                PlaceUtils.PlaceNote(notePlacement, baseNoteB);
+                baseNoteA = PlaceUtils.Place(baseNoteA);
+                baseNoteB = PlaceUtils.Place(baseNoteB);
 
                 SelectionController.Select(baseNoteA);
                 SelectionController.Select(baseNoteB, true);
@@ -74,7 +74,7 @@ namespace Tests
                 var n2 = objects[1] as BaseNote;
 
                 chainPlacement.TryCreateChainData(n1, n2, out var chain, out var tailNote);
-                chainsContainer.SpawnObject(chain);
+                chain = PlaceUtils.Place(chain);
 
                 CheckUtils.CheckChain("Check generated chain", chainsContainer, 0, 2f, (int)GridX.Left, (int)GridY.Base,
                     (int)NoteColor.Red, (int)NoteCutDirection.Down, 0, 3f, (int)GridX.Left, (int)GridY.Upper, 5, 1);
@@ -115,8 +115,8 @@ namespace Tests
                     CutDirection = (int)NoteCutDirection.Up, CustomData = tailCustomData
                 };
 
-                PlaceUtils.PlaceNote(notePlacement, baseNoteA);
-                PlaceUtils.PlaceNote(notePlacement, baseNoteB);
+                baseNoteA = PlaceUtils.Place(baseNoteA);
+                baseNoteB = PlaceUtils.Place(baseNoteB);
 
                 SelectionController.Select(baseNoteA);
                 SelectionController.Select(baseNoteB, true);
@@ -137,7 +137,7 @@ namespace Tests
                 var n2 = objects[1] as BaseNote;
 
                 chainPlacement.TryCreateChainData(n1, n2, out var chain, out _);
-                chainsContainer.SpawnObject(chain);
+                chain = PlaceUtils.Place(chain);
 
                 CheckUtils.CheckChain("Check generated chain", chainsContainer, 0, 2f, (int)GridX.Left, (int)GridY.Base,
                     (int)NoteColor.Red, (int)NoteCutDirection.Down, 0, 3f, (int)GridX.Left, (int)GridY.Upper,
@@ -168,7 +168,7 @@ namespace Tests
                     SliceCount = 5,
                     Squish = 1f
                 };
-                PlaceUtils.PlaceChain(chainPlacement, baseChain);
+                baseChain = PlaceUtils.Place(baseChain);
 
                 if (chainsContainer.LoadedContainers[baseChain] is ChainContainer containerA)
                     SliderCommand.InvertColor(containerA.ChainData);
@@ -208,7 +208,7 @@ namespace Tests
                     SliceCount = 5,
                     Squish = 1f
                 };
-                PlaceUtils.PlaceChain(chainPlacement, baseChain);
+                baseChain = PlaceUtils.Place(baseChain);
 
                 if (chainsContainer.LoadedContainers[baseChain] is ChainContainer containerA)
                     inputController.TweakChainSquish(containerA, 0.5f);

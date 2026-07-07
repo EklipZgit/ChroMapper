@@ -42,9 +42,9 @@ namespace Tests
             var rotationEventB = new BaseRotationEvent { JsonTime = 2, Type = (int)EventTypeValue.LateLaneRotation, Rotation = rotations[1] };
             var rotationEventC = new BaseRotationEvent { JsonTime = 3, Type = (int)EventTypeValue.LateLaneRotation, Rotation = rotations[2] };
 
-            PlaceUtils.PlaceRotationEvent(rotationEventPlacement, rotationEventA);
-            PlaceUtils.PlaceRotationEvent(rotationEventPlacement, rotationEventB);
-            PlaceUtils.PlaceRotationEvent(rotationEventPlacement, rotationEventC);
+            rotationEventA = PlaceUtils.Place(rotationEventA);
+            rotationEventB = PlaceUtils.Place(rotationEventB);
+            rotationEventC = PlaceUtils.Place(rotationEventC);
 
             var laneRotationProvider = Object.FindAnyObjectByType<LaneRotationProvider>();
             var atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
@@ -74,8 +74,8 @@ namespace Tests
             var rotationEventA = new BaseRotationEvent { JsonTime = timeA, Type = (int)EventTypeValue.LateLaneRotation, Rotation = rotation };
             var rotationEventB = new BaseRotationEvent { JsonTime = timeB, Type = (int)EventTypeValue.LateLaneRotation, Rotation = rotation };
             
-            PlaceUtils.PlaceRotationEvent(rotationEventPlacement, rotationEventA);
-            PlaceUtils.PlaceRotationEvent(rotationEventPlacement, rotationEventB);
+            rotationEventA = PlaceUtils.Place(rotationEventA);
+            rotationEventB = PlaceUtils.Place(rotationEventB);
 
             var laneRotationProvider = Object.FindAnyObjectByType<LaneRotationProvider>();
             var atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();

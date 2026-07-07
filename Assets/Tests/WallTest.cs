@@ -48,7 +48,7 @@ namespace Tests
                 Duration = 1f,
                 Width = 1
             };
-            PlaceUtils.PlaceWall(wallPlacement, wallA);
+            wallA = PlaceUtils.Place(wallA);
 
             CheckUtils.CheckWall("Check v2 wall attributes", obstaclesContainer, 0, 0f, 1, 0, 0, 1f, 1, 5);
 
@@ -74,7 +74,7 @@ namespace Tests
                 Width = 1,
                 Height = 5
             };
-            PlaceUtils.PlaceWall(wallPlacement, wallB);
+            wallB = PlaceUtils.Place(wallB);
 
             CheckUtils.CheckWall("Check v3 wall attributes", obstaclesContainer, 1, 1f, 1, 0, 0, 1f, 1, 5);
 
@@ -125,7 +125,7 @@ namespace Tests
                 Duration = 2,
                 Width = 1
             };
-            PlaceUtils.PlaceWall(wallPlacement, wallA);
+            wallA = PlaceUtils.Place(wallA);
 
             if (obstaclesCollection.LoadedContainers[wallA] is ObstacleContainer container)
                 inputController.ToggleHyperWall(container);
@@ -169,7 +169,7 @@ namespace Tests
             };
             wallA.CustomCoordinate = customCoord;
             wallA.CustomSize = customSize;
-            PlaceUtils.PlaceWall(wallPlacement, wallA);
+            wallA = PlaceUtils.Place(wallA);
 
             CheckUtils.CheckWall("Applies CustomProperties to CustomData", obstaclesCollection, 0, 2, (int)GridX.Left, 0,
                 (int)ObstacleType.Full, 2.0f, 1, 5,

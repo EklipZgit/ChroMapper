@@ -85,7 +85,7 @@ namespace Tests
             BaseEvent B13 = EventWithTimeAndLightID(13, 2);
 
             // Check state after placing
-            PlaceUtils.PlaceEvents(eventPlacement, new List<BaseEvent> { V1, A2, B3, A4, B5, V10, A12, B13 });
+            PlaceEvents(ref V1, ref A2, ref B3, ref A4, ref B5, ref V10, ref A12, ref B13);
             AssertMapObjectsLinksState(eventsContainer);
             
             // Check state after deleting
@@ -134,7 +134,7 @@ namespace Tests
             BaseEvent B5 = EventWithTimeAndLightID(5, 2);
             BaseEvent B13 = EventWithTimeAndLightID(13, 2);
 
-            PlaceUtils.PlaceEvents(eventPlacement, new List<BaseEvent> { V1, A2, B3, A4, B5, V10, A12, B13 });
+            PlaceEvents(ref V1, ref A2, ref B3, ref A4, ref B5, ref V10, ref A12, ref B13);
 
             // Check state after deleting
             // V1                
@@ -178,7 +178,7 @@ namespace Tests
             BaseEvent B5 = EventWithTimeAndLightID(5, 2);
             BaseEvent B13 = EventWithTimeAndLightID(13, 2);
 
-            PlaceUtils.PlaceEvents(eventPlacement, new List<BaseEvent> { V1, A2, B3, A4, B5, V10, A12, B13 });
+            PlaceEvents(ref V1, ref A2, ref B3, ref A4, ref B5, ref V10, ref A12, ref B13);
 
             // Check state after pasting
             // V1             V1C         V10
@@ -229,7 +229,7 @@ namespace Tests
             BaseEvent B5 = EventWithTimeAndLightID(5, 2);
             BaseEvent B13 = EventWithTimeAndLightID(13, 2);
 
-            PlaceUtils.PlaceEvents(eventPlacement, new List<BaseEvent> { V1, A2, B3, A4, B5, V10, A12, B13 });
+            PlaceEvents(ref V1, ref A2, ref B3, ref A4, ref B5, ref V10, ref A12, ref B13);
 
             // Check state after shifting
             // V1                
@@ -278,7 +278,7 @@ namespace Tests
             BaseEvent B5 = EventWithTimeAndLightID(5, 2);
             BaseEvent B13 = EventWithTimeAndLightID(13, 2);
 
-            PlaceUtils.PlaceEvents(eventPlacement, new List<BaseEvent> { V1, A2, B3, A4, B5, V10, A12, B13 });
+            PlaceEvents(ref V1, ref A2, ref B3, ref A4, ref B5, ref V10, ref A12, ref B13);
 
             // Check state after moving
             // V1             V10
@@ -304,7 +304,29 @@ namespace Tests
             AssertMapObjectsAreLinkedAndSorted(eventsContainer, (int)EventTypeValue.CenterLights, 1);
             AssertMapObjectsAreLinkedAndSorted(eventsContainer, (int)EventTypeValue.CenterLights, 2);
         }
-        
+
+        private static void PlaceEvents(
+            ref BaseEvent v1,
+            ref BaseEvent a2,
+            ref BaseEvent b3,
+            ref BaseEvent a4,
+            ref BaseEvent b5,
+            ref BaseEvent v10,
+            ref BaseEvent a12,
+            ref BaseEvent b13)
+        {
+            var placedEvents = PlaceUtils.Place(new List<BaseEvent> { v1, a2, b3, a4, b5, v10, a12, b13 });
+
+            v1 = placedEvents[0];
+            a2 = placedEvents[1];
+            b3 = placedEvents[2];
+            a4 = placedEvents[3];
+            b5 = placedEvents[4];
+            v10 = placedEvents[5];
+            a12 = placedEvents[6];
+            b13 = placedEvents[7];
+        }
+
         private void AssertMapObjectsAreLinkedAndSorted(EventGridContainer eventsContainer, int eventType, int? lightID)
         {
             var laneEvents = lightID == null

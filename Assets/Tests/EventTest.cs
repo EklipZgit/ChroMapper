@@ -46,8 +46,8 @@ namespace Tests
 
             BaseRotationEvent baseEventA = new BaseRotationEvent { JsonTime = 2, Type = (int)EventTypeValue.LateLaneRotation, Rotation = 45 };
             BaseEvent baseEventB = new BaseEvent { JsonTime = 3, Type = (int)EventTypeValue.BackLasers, Value = (int)LightValue.RedFade };
-            PlaceUtils.PlaceRotationEvent(rotationEventPlacement, baseEventA);
-            PlaceUtils.PlaceEvent(eventPlacement, baseEventB);
+            baseEventA = PlaceUtils.Place(baseEventA);
+            baseEventB = PlaceUtils.Place(baseEventB);
 
             // TODO: u know, i forgot this events get converted and now i have to suffer the wrath of test pain 
             if (rotationEventsContainer.LoadedContainers[baseEventA] is RotationEventContainer containerA)
@@ -96,7 +96,7 @@ namespace Tests
                 var inputController = Object.FindAnyObjectByType<BeatmapEventInputController>();
 
                 BaseEvent baseEventA = new BaseEvent { JsonTime = 2, Type = (int)EventTypeValue.LeftLaserRotation, Value = 2 };
-                PlaceUtils.PlaceEvent(eventPlacement, baseEventA, true);
+                baseEventA = PlaceUtils.Place(baseEventA);
 
                 if (eventsContainer.LoadedContainers[baseEventA] is EventContainer containerA)
                     inputController.TweakMain(containerA, 1);
@@ -123,7 +123,7 @@ namespace Tests
                 var inputController = Object.FindAnyObjectByType<BeatmapEventInputController>();
 
                 var baseBoostEvent = new BaseEvent { JsonTime = 3, Type = (int)EventTypeValue.ColorBoost, Value = 0 };
-                PlaceUtils.PlaceEvent(eventPlacement, baseBoostEvent, true);
+                baseBoostEvent = PlaceUtils.Place(baseBoostEvent);
 
                 if (eventsContainer.LoadedContainers[baseBoostEvent] is EventContainer containerBoost)
                 {
@@ -163,7 +163,7 @@ namespace Tests
                 baseEventA.CustomEasing = easing;
                 baseEventA.CustomColor = color;
 
-                PlaceUtils.PlaceEvent(eventPlacement, baseEventA);
+                baseEventA = PlaceUtils.Place(baseEventA);
 
                 CheckUtils.CheckEvent("Applies CustomProperties to CustomData", eventsContainer, 0, 3, (int)EventTypeValue.BackLasers, (int)LightValue.RedFade, 1f,
                     new JSONObject() { ["color"] = color, ["easing"] = easing });

@@ -55,8 +55,8 @@ namespace Tests
             var baseNoteA = new BaseNote{ JsonTime = 2, PosX = (int)GridX.MiddleLeft, PosY = (int)GridY.Base, Type = (int)NoteType.Red, CutDirection = (int)NoteCutDirection.Down };
             var baseNoteB = new BaseNote{ JsonTime = 2, PosX = (int)GridX.MiddleRight, PosY = (int)GridY.Base, Type = (int)NoteType.Blue, CutDirection = (int)NoteCutDirection.Down };
             
-            PlaceUtils.PlaceNote(notePlacement, baseNoteA);
-            PlaceUtils.PlaceNote(notePlacement, baseNoteB);
+            baseNoteA = PlaceUtils.Place(baseNoteA);
+            baseNoteB = PlaceUtils.Place(baseNoteB);
 
             SelectionController.Select(baseNoteA);
             SelectionController.Select(baseNoteB, addsToSelection: true);
@@ -97,7 +97,7 @@ namespace Tests
                     CutDirection = (int)NoteCutDirection.Left
                 };
 
-            PlaceUtils.PlaceNote(notePlacement, baseNoteA);
+            baseNoteA = PlaceUtils.Place(baseNoteA);
 
             SelectionController.Select(baseNoteA);
 
@@ -124,7 +124,7 @@ namespace Tests
                 CutDirection = (int)NoteCutDirection.Left, CustomData = JSON.Parse("{\"coordinates\": [-1, 0]}")
             };
 
-            PlaceUtils.PlaceNote(notePlacement, baseNoteA);
+            baseNoteA = PlaceUtils.Place(baseNoteA);
 
             SelectionController.Select(baseNoteA);
 
@@ -168,7 +168,7 @@ namespace Tests
             BaseEvent baseEventA = new BaseEvent { JsonTime = 2, Type = (int)EventTypeValue.BackLasers, Value = (int)LightValue.RedFade, FloatValue = 1f,
                 CustomData = JSON.Parse($"{{\"lightID\": {original}}}")};
 
-            PlaceUtils.PlaceEvent(eventPlacement, baseEventA);
+            baseEventA = PlaceUtils.Place(baseEventA);
 
             SelectionController.Select(baseEventA);
 
@@ -201,7 +201,7 @@ namespace Tests
                 CustomData = JSON.Parse(
                     "{\"_lightGradient\": {\"_duration\": 1, \"_startColor\": [1, 0, 0, 1], \"_endColor\": [0, 1, 0, 1], \"_easing\": \"easeLinear\"}}")};
 
-            PlaceUtils.PlaceEvent(eventPlacement, baseEventA);
+            baseEventA = PlaceUtils.Place(baseEventA);
 
             SelectionController.Select(baseEventA);
 
@@ -228,7 +228,7 @@ namespace Tests
 
             BaseEvent baseEventA = new BaseEvent { JsonTime = 2, Type = (int)EventTypeValue.BackLasers, Value = (int)LightValue.RedFade, FloatValue = 1f };
 
-            PlaceUtils.PlaceEvent(eventPlacement, baseEventA);
+            baseEventA = PlaceUtils.Place(baseEventA);
 
             SelectionController.Select(baseEventA);
 
@@ -250,7 +250,7 @@ namespace Tests
 
             BaseEvent baseEventA = new BaseEvent { JsonTime = 2, Type = (int)EventTypeValue.BackLasers, Value = (int)LightValue.RedFade, FloatValue = 1f };
 
-            PlaceUtils.PlaceEvent(eventPlacement, baseEventA);
+            baseEventA = PlaceUtils.Place(baseEventA);
 
             SelectionController.Select(baseEventA);
 
@@ -287,7 +287,7 @@ namespace Tests
                 Width = 2596
             };
 
-            PlaceUtils.PlaceWall(wallPlacement, wallA);
+            wallA = PlaceUtils.Place(wallA);
 
             SelectionController.Select(wallA);
 
@@ -318,7 +318,7 @@ namespace Tests
                 CustomData = JSON.Parse("{\"coordinates\": [-1.5, 0]}"),
             };
 
-            PlaceUtils.PlaceWall(wallPlacement, wallA);
+            wallA = PlaceUtils.Place(wallA);
 
             SelectionController.Select(wallA);
 
@@ -346,7 +346,7 @@ namespace Tests
             BaseRotationEvent baseEventA = new BaseRotationEvent { JsonTime = 2, Type = (int)EventTypeValue.LateLaneRotation, Rotation = 33 };
 
             // fuck kinda conflict did u have?
-            PlaceUtils.PlaceRotationEvent(rotationEventPlacement, baseEventA);
+            baseEventA = PlaceUtils.Place(baseEventA);
 
             SelectionController.Select(baseEventA);
 

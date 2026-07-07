@@ -46,10 +46,10 @@ namespace Tests
 
             // Check state after placing
             // 1 -> 2 -> 3 -> 4
-            PlaceUtils.PlaceEvent(eventPlacement, baseEvent1);
-            PlaceUtils.PlaceEvent(eventPlacement, baseEvent4);
-            PlaceUtils.PlaceEvent(eventPlacement, baseEvent2);
-            PlaceUtils.PlaceEvent(eventPlacement, baseEvent3);
+            baseEvent1 = PlaceUtils.Place(baseEvent1);
+            baseEvent4 = PlaceUtils.Place(baseEvent4);
+            baseEvent2 = PlaceUtils.Place(baseEvent2);
+            baseEvent3 = PlaceUtils.Place(baseEvent3);
             AssertMapObjectsAreLinkedAndSorted(eventsContainer, (int)EventTypeValue.CenterLights);
 
             // Check state after deleting
@@ -82,10 +82,10 @@ namespace Tests
 
             // Check state after placing
             // 1 -> 2 -> 3 -> 4
-            PlaceUtils.PlaceEvent(eventPlacement, baseEvent1);
-            PlaceUtils.PlaceEvent(eventPlacement, baseEvent4);
-            PlaceUtils.PlaceEvent(eventPlacement, baseEvent2);
-            PlaceUtils.PlaceEvent(eventPlacement, baseEvent3);
+            baseEvent1 = PlaceUtils.Place(baseEvent1);
+            baseEvent4 = PlaceUtils.Place(baseEvent4);
+            baseEvent2 = PlaceUtils.Place(baseEvent2);
+            baseEvent3 = PlaceUtils.Place(baseEvent3);
             AssertMapObjectsAreLinkedAndSorted(eventsContainer, (int)EventTypeValue.CenterLights);
 
             // Check state after deleting
@@ -123,12 +123,12 @@ namespace Tests
             // Check state after placing
             // A1 -> T2 -> A3 -> T4
             // B1 ->    -> B3 ->
-            PlaceUtils.PlaceEvent(eventPlacement, baseEventA1);
-            PlaceUtils.PlaceEvent(eventPlacement, baseEventA3);
-            PlaceUtils.PlaceEvent(eventPlacement, baseEventB1);
-            PlaceUtils.PlaceEvent(eventPlacement, baseEventB3);
-            PlaceUtils.PlaceEvent(eventPlacement, baseEventT2);
-            PlaceUtils.PlaceEvent(eventPlacement, baseEventT4);
+            baseEventA1 = PlaceUtils.Place(baseEventA1);
+            baseEventA3 = PlaceUtils.Place(baseEventA3);
+            baseEventB1 = PlaceUtils.Place(baseEventB1);
+            baseEventB3 = PlaceUtils.Place(baseEventB3);
+            baseEventT2 = PlaceUtils.Place(baseEventT2);
+            baseEventT4 = PlaceUtils.Place(baseEventT4);
 
             CheckUtils.CheckEventsAreSorted(eventsContainer.MapObjects);
             AssertMapObjectsAreLinkedAndSorted(eventsContainer, (int)EventTypeValue.LeftLasers);
@@ -174,10 +174,10 @@ namespace Tests
 
             // Check state after placing
             // A -> T1 -> B -> T2
-            PlaceUtils.PlaceEvent(eventPlacement, baseEventA);
-            PlaceUtils.PlaceEvent(eventPlacement, baseEventB);
-            PlaceUtils.PlaceEvent(eventPlacement, baseEventT1);
-            PlaceUtils.PlaceEvent(eventPlacement, baseEventT2);
+            baseEventA = PlaceUtils.Place(baseEventA);
+            baseEventB = PlaceUtils.Place(baseEventB);
+            baseEventT1 = PlaceUtils.Place(baseEventT1);
+            baseEventT2 = PlaceUtils.Place(baseEventT2);
             AssertMapObjectsAreLinkedAndSorted(eventsContainer, (int)EventTypeValue.LeftLasers);
 
             // Check state after moving eventT
@@ -211,8 +211,8 @@ namespace Tests
 
             // Check state after placing
             // A -> B
-            PlaceUtils.PlaceEvent(eventPlacement, baseEventA);
-            PlaceUtils.PlaceEvent(eventPlacement, baseEventB);
+            baseEventA = PlaceUtils.Place(baseEventA);
+            baseEventB = PlaceUtils.Place(baseEventB);
             AssertMapObjectsAreLinkedAndSorted(eventsContainer, (int)EventTypeValue.LeftLasers);
 
             // Check state after pasting

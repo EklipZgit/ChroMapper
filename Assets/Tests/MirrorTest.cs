@@ -66,11 +66,11 @@ namespace Tests
                 MidAnchorMode = 0
             };
 
-            PlaceUtils.PlaceNote(_notePlacement, baseNoteA);
+            baseNoteA = PlaceUtils.Place(baseNoteA);
 
             // Should conflict with existing note and delete it
-            PlaceUtils.PlaceNote(_notePlacement, baseNoteB);
-            PlaceUtils.PlaceArc(_arcPlacement, baseArc);
+            baseNoteB = PlaceUtils.Place(baseNoteB);
+            baseArc = PlaceUtils.Place(baseArc);
 
             SelectionController.Select(baseNoteA);
             SelectionController.Select(baseNoteB, true);

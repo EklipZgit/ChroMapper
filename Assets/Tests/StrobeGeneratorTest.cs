@@ -59,8 +59,9 @@ namespace Tests
                         ["color"] = new Color(1, 0, 0)
                     } };
 
-                foreach (var evt in new[] { baseEventA, baseEventB, baseEventC })
-                    PlaceUtils.PlaceEvent(eventPlacement, evt);
+                baseEventA = PlaceUtils.Place(baseEventA);
+                baseEventB = PlaceUtils.Place(baseEventB);
+                baseEventC = PlaceUtils.Place(baseEventC);
 
                 SelectionController.Select(baseEventA);
                 SelectionController.Select(baseEventB, true);
@@ -133,8 +134,12 @@ namespace Tests
                         ["color"] = new Color(0, 1, 1)
                     } };
 
-                foreach (var evt in new[] { baseEventA, baseEventB, baseEventC, baseEventD, baseEventE, baseEventF })
-                    PlaceUtils.PlaceEvent(eventPlacement, evt);
+                baseEventA = PlaceUtils.Place(baseEventA);
+                baseEventB = PlaceUtils.Place(baseEventB);
+                baseEventC = PlaceUtils.Place(baseEventC);
+                baseEventD = PlaceUtils.Place(baseEventD);
+                baseEventE = PlaceUtils.Place(baseEventE);
+                baseEventF = PlaceUtils.Place(baseEventF);
 
                 SelectionController.Select(baseEventC);
                 SelectionController.Select(baseEventD, true);

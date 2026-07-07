@@ -51,16 +51,16 @@ namespace Tests
 
             var songBpm = BeatSaberSongContainer.Instance.Info.BeatsPerMinute;
             var baseBpmEvent = new BaseBpmEvent(0, 111);
-            bpmCollection.SpawnObject(baseBpmEvent);
+            baseBpmEvent = PlaceUtils.Place(baseBpmEvent);
 
             baseBpmEvent = new BaseBpmEvent(1, 222);
-            bpmCollection.SpawnObject(baseBpmEvent);
+            baseBpmEvent = PlaceUtils.Place(baseBpmEvent);
 
             baseBpmEvent = new BaseBpmEvent(2, 333);
-            bpmCollection.SpawnObject(baseBpmEvent);
+            baseBpmEvent = PlaceUtils.Place(baseBpmEvent);
 
             baseBpmEvent = new BaseBpmEvent(3, 444);
-            bpmCollection.SpawnObject(baseBpmEvent);
+            baseBpmEvent = PlaceUtils.Place(baseBpmEvent);
 
             Assert.AreEqual(4, bpmCollection.MapObjects.Count);
             CheckBPM("1st BPM values", bpmCollection, 0, 0, 111, 0);
@@ -69,7 +69,7 @@ namespace Tests
             CheckBPM("4th BPM values", bpmCollection, 3, 3, 444, songBpm / 111 + songBpm / 222 + songBpm / 333);
 
             baseBpmEvent = new BaseBpmEvent(0, 1);
-            bpmCollection.SpawnObject(baseBpmEvent);
+            baseBpmEvent = PlaceUtils.Place(baseBpmEvent);
 
             Assert.AreEqual(4, bpmCollection.MapObjects.Count);
             CheckBPM("1st BPM values after modified", bpmCollection, 0, 0, 1, 0);
@@ -92,10 +92,10 @@ namespace Tests
             var bpmCollection = BeatmapObjectContainerCollection.GetCollectionForType<BPMChangeGridContainer>(ObjectType.BpmChange);
             
             BaseBpmEvent baseBpmEvent = new BaseBpmEvent(20, 20);
-            bpmCollection.SpawnObject(baseBpmEvent);
+            baseBpmEvent = PlaceUtils.Place(baseBpmEvent);
 
             baseBpmEvent = new BaseBpmEvent(10, 10);
-            bpmCollection.SpawnObject(baseBpmEvent);
+            baseBpmEvent = PlaceUtils.Place(baseBpmEvent);
 
             if (bpmCollection.LoadedContainers[baseBpmEvent] is BpmEventContainer container)
                 BeatmapBPMChangeInputController.ChangeBpm(container, "60");
@@ -124,10 +124,10 @@ namespace Tests
             
             var songBpm = BeatSaberSongContainer.Instance.Info.BeatsPerMinute;
             BaseBpmEvent baseBpmEvent = new BaseBpmEvent(0, 111);
-            bpmCollection.SpawnObject(baseBpmEvent);
+            baseBpmEvent = PlaceUtils.Place(baseBpmEvent);
 
             baseBpmEvent = new BaseBpmEvent(1, 222);
-            bpmCollection.SpawnObject(baseBpmEvent);
+            baseBpmEvent = PlaceUtils.Place(baseBpmEvent);
 
             Assert.AreEqual(2, bpmCollection.MapObjects.Count);
 
@@ -162,18 +162,20 @@ namespace Tests
 
             var songBpm = BeatSaberSongContainer.Instance.Info.BeatsPerMinute;
             var baseBpmEvent0 = new BaseBpmEvent(0, 111);
-            bpmCollection.SpawnObject(baseBpmEvent0, out var conflicting0);
+            baseBpmEvent0 = PlaceUtils.Place(baseBpmEvent0);
 
             var baseBpmEvent1 = new BaseBpmEvent(1, 222);
-            bpmCollection.SpawnObject(baseBpmEvent1, out var conflicting1);
+            baseBpmEvent1 = PlaceUtils.Place(baseBpmEvent1);
 
             var baseBpmEvent2 = new BaseBpmEvent(2, 333);
-            bpmCollection.SpawnObject(baseBpmEvent2, out var conflicting2);
+            baseBpmEvent2 = PlaceUtils.Place(baseBpmEvent2);
+
+            BeatmapActionContainer.RemoveAllActionsOfType<BeatmapAction>();
 
             BeatmapActionContainer.AddAction(new ActionCollectionAction(new List<BeatmapAction>{
-                new BeatmapObjectPlacementAction(baseBpmEvent0, conflicting0, ""),
-                new BeatmapObjectPlacementAction(baseBpmEvent1, conflicting1, ""),
-                new BeatmapObjectPlacementAction(baseBpmEvent2, conflicting2, ""),
+                new BeatmapObjectPlacementAction(baseBpmEvent0, new List<BaseObject>(), ""),
+                new BeatmapObjectPlacementAction(baseBpmEvent1, new List<BaseObject>(), ""),
+                new BeatmapObjectPlacementAction(baseBpmEvent2, new List<BaseObject>(), ""),
             }));
 
             // Check songBpm after placing

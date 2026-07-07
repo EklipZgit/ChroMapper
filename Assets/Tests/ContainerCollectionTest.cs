@@ -185,9 +185,9 @@ namespace Tests
             var noteB = new BaseNote { JsonTime = 0, PosX = 1, PosY = 1 };
             var noteC = new BaseNote { JsonTime = 0, PosX = 2, PosY = 2 };
             
-            if (mirrorA) notesContainer.SpawnObject(noteA);
-            if (mirrorB) notesContainer.SpawnObject(noteB);
-            if (mirrorC) notesContainer.SpawnObject(noteC);
+            if (mirrorA) noteA = PlaceUtils.Place(noteA);
+            if (mirrorB) noteB = PlaceUtils.Place(noteB);
+            if (mirrorC) noteC = PlaceUtils.Place(noteC);
             
             SelectionController.DeselectAll();
             if (mirrorA) SelectionController.Select(noteA);
@@ -213,9 +213,9 @@ namespace Tests
             var noteB = new BaseNote { JsonTime = 1, PosX = (int)GridX.MiddleLeft };
             var noteC = new BaseNote { JsonTime = 2, PosX = (int)GridX.MiddleRight };
             
-            if (mirrorA) notesContainer.SpawnObject(noteA);
-            if (mirrorB) notesContainer.SpawnObject(noteB);
-            if (mirrorC) notesContainer.SpawnObject(noteC);
+            if (mirrorA) noteA = PlaceUtils.Place(noteA);
+            if (mirrorB) noteB = PlaceUtils.Place(noteB);
+            if (mirrorC) noteC = PlaceUtils.Place(noteC);
             
             SelectionController.DeselectAll();
             if (mirrorA) SelectionController.Select(noteA);
@@ -241,9 +241,9 @@ namespace Tests
             var noteB = new BaseNote { JsonTime = 0, PosY = (int)GridY.Upper };
             var noteC = new BaseNote { JsonTime = 0, PosY = (int)GridY.Top };
             
-            notesContainer.SpawnObject(noteA);
-            notesContainer.SpawnObject(noteB);
-            notesContainer.SpawnObject(noteC);
+            noteA = PlaceUtils.Place(noteA);
+            noteB = PlaceUtils.Place(noteB);
+            noteC = PlaceUtils.Place(noteC);
             
             SelectionController.DeselectAll();
             if (selectA) SelectionController.Select(noteA);
@@ -269,9 +269,9 @@ namespace Tests
             var noteB = new BaseNote { JsonTime = 0, PosY = (int)GridY.Upper };
             var noteC = new BaseNote { JsonTime = 0, PosY = (int)GridY.Top };
             
-            notesContainer.SpawnObject(noteA);
-            notesContainer.SpawnObject(noteB);
-            notesContainer.SpawnObject(noteC);
+            noteA = PlaceUtils.Place(noteA);
+            noteB = PlaceUtils.Place(noteB);
+            noteC = PlaceUtils.Place(noteC);
             
             SelectionController.DeselectAll();
             if (selectA) SelectionController.Select(noteA);
@@ -296,8 +296,8 @@ namespace Tests
 
             var baseNoteA = new BaseNote{ JsonTime = 0 };
             var baseNoteB = new BaseNote{ JsonTime = 1 };
-            PlaceUtils.PlaceNote(notePlacement, baseNoteA);
-            PlaceUtils.PlaceNote(notePlacement, baseNoteB);
+            baseNoteA = PlaceUtils.Place(baseNoteA);
+            baseNoteB = PlaceUtils.Place(baseNoteB);
 
             SelectionController.Select(baseNoteA);
             SelectionController.Select(baseNoteB, addsToSelection: true);

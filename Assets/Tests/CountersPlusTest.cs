@@ -64,7 +64,7 @@ namespace Tests
         {
             atsc.MoveToJsonTime(7.5f);
             
-            PlaceUtils.PlaceNJSEvent(vNjsPlacement, new BaseNJSEvent
+            PlaceUtils.Place(new BaseNJSEvent
             {
                 JsonTime = 10,
                 RelativeNJS = 10 // 20 NJS
@@ -77,7 +77,7 @@ namespace Tests
             Assert.AreEqual(1200f, countersPlusController.CurrentRT, delta);
             Assert.AreEqual(42f, countersPlusController.CurrentJD, delta);
             
-            PlaceUtils.PlaceNJSEvent(vNjsPlacement, new BaseNJSEvent
+            PlaceUtils.Place(new BaseNJSEvent
             {
                 JsonTime = 10,
                 RelativeNJS = 10, // 20 NJS
@@ -91,7 +91,7 @@ namespace Tests
             Assert.AreEqual(1200f, countersPlusController.CurrentRT, delta);
             Assert.AreEqual(37.5f, countersPlusController.CurrentJD, delta);
             
-            PlaceUtils.PlaceNJSEvent(vNjsPlacement, new BaseNJSEvent
+            PlaceUtils.Place(new BaseNJSEvent
             {
                 JsonTime = 10,
                 RelativeNJS = -8, // 2 NJS
@@ -110,7 +110,7 @@ namespace Tests
         {
             atsc.MoveToJsonTime(7.5f);
             
-            PlaceUtils.PlaceNJSEvent(vNjsPlacement, new BaseNJSEvent
+            PlaceUtils.Place(new BaseNJSEvent
             {
                 RelativeNJS = 10 // 20 NJS
             });
@@ -122,7 +122,7 @@ namespace Tests
             Assert.AreEqual(1200f, countersPlusController.CurrentRT, delta);
             Assert.AreEqual(48f, countersPlusController.CurrentJD, delta);
             
-            PlaceUtils.PlaceNJSEvent(vNjsPlacement, new BaseNJSEvent
+            PlaceUtils.Place(new BaseNJSEvent
             {
                 RelativeNJS = -5 // 5 NJS
             });
@@ -138,12 +138,12 @@ namespace Tests
         [UnityTest]
         public IEnumerator NJSEventsStats_CursorBetweenNJSEvents()
         {
-            PlaceUtils.PlaceNJSEvent(vNjsPlacement, new BaseNJSEvent
+            PlaceUtils.Place(new BaseNJSEvent
             {
                 JsonTime = 0,
                 RelativeNJS = -5 // 5 NJS
             });
-            PlaceUtils.PlaceNJSEvent(vNjsPlacement, new BaseNJSEvent
+            PlaceUtils.Place(new BaseNJSEvent
             {
                 JsonTime = 10,
                 RelativeNJS = 5 // 15 NJS
@@ -173,18 +173,18 @@ namespace Tests
         [UnityTest]
         public IEnumerator NJSEventsStats_CursorBetweenExtendNJSEvents()
         {
-            PlaceUtils.PlaceNJSEvent(vNjsPlacement, new BaseNJSEvent
+            PlaceUtils.Place(new BaseNJSEvent
             {
                 JsonTime = 0,
                 RelativeNJS = -5 // 5 NJS
             });
-            PlaceUtils.PlaceNJSEvent(vNjsPlacement, new BaseNJSEvent
+            PlaceUtils.Place(new BaseNJSEvent
             {
                 JsonTime = 5,
                 RelativeNJS = 999, // Ignored
                 UsePrevious = 1
             });
-            PlaceUtils.PlaceNJSEvent(vNjsPlacement, new BaseNJSEvent
+            PlaceUtils.Place(new BaseNJSEvent
             {
                 JsonTime = 10,
                 RelativeNJS = 5 // 15 NJS

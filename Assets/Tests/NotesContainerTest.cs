@@ -43,7 +43,7 @@ namespace Tests
                 Type = (int)NoteType.Red,
                 PosX = (int)GridX.Left
             };
-            PlaceUtils.PlaceNote(notePlacement, baseNoteA);
+            baseNoteA = PlaceUtils.Place(baseNoteA);
             var containerA = noteGridContainer.LoadedContainers[baseNoteA] as NoteContainer;
 
             BaseNote baseNoteB = new BaseNote
@@ -52,7 +52,7 @@ namespace Tests
                 Type = (int)NoteType.Red,
                 PosX = (int)GridX.MiddleLeft
             };
-            PlaceUtils.PlaceNote(notePlacement, baseNoteB);
+            baseNoteB = PlaceUtils.Place(baseNoteB);
             var containerB = noteGridContainer.LoadedContainers[baseNoteB] as NoteContainer;
 
             // These tests are based of the examples in this image
@@ -153,13 +153,13 @@ namespace Tests
             // ◌◌◌◌
             // ◌←◌◌
             BaseNote baseNoteBottom = new BaseNote { JsonTime = 4, PosX = 1, CutDirection = (int)NoteCutDirection.Left};
-            PlaceUtils.PlaceNote(notePlacement, baseNoteBottom);
+            baseNoteBottom = PlaceUtils.Place(baseNoteBottom);
 
             // ◌◌↓◌
             // ◌◌◌◌
             // ◌←◌◌
             BaseNote baseNoteTop = new BaseNote { JsonTime = 4, PosX = 2, PosY = 2, CutDirection = (int)NoteCutDirection.Down };
-            PlaceUtils.PlaceNote(notePlacement, baseNoteTop);
+            baseNoteTop = PlaceUtils.Place(baseNoteTop);
             
             var containerBottom = noteGridContainer.LoadedContainers[baseNoteBottom] as NoteContainer;
             var containerTop = noteGridContainer.LoadedContainers[baseNoteTop] as NoteContainer;
@@ -207,13 +207,13 @@ namespace Tests
             // ◌◌◌◌
             // ←◌◌◌
             BaseNote baseNoteBottom = new BaseNote { JsonTime = 4, CutDirection = (int)NoteCutDirection.Left };
-            PlaceUtils.PlaceNote(notePlacement, baseNoteBottom);
+            baseNoteBottom = PlaceUtils.Place(baseNoteBottom);
 
             // ◌◌↓◌
             // ◌◌◌◌
             // ←◌◌◌
             BaseNote baseNoteTop = new BaseNote { JsonTime = 4 , PosX = 2,  PosY = 2, CutDirection = (int)NoteCutDirection.Down };
-            PlaceUtils.PlaceNote(notePlacement, baseNoteTop);
+            baseNoteTop = PlaceUtils.Place(baseNoteTop);
             
             var containerBottom = noteGridContainer.LoadedContainers[baseNoteBottom] as NoteContainer;
             var containerTop = noteGridContainer.LoadedContainers[baseNoteTop] as NoteContainer;
@@ -256,10 +256,10 @@ namespace Tests
             var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
 
             BaseNote baseNoteA = new BaseNote { JsonTime = 4, PosX = 1};
-            PlaceUtils.PlaceNote(notePlacement, baseNoteA);
+            baseNoteA = PlaceUtils.Place(baseNoteA);
 
             BaseNote baseNoteB = new BaseNote { JsonTime = 4 };
-            PlaceUtils.PlaceNote(notePlacement, baseNoteB);
+            baseNoteB = PlaceUtils.Place(baseNoteB);
             
             var containerA = noteGridContainer.LoadedContainers[baseNoteA] as NoteContainer;
             var containerB = noteGridContainer.LoadedContainers[baseNoteB] as NoteContainer;
@@ -305,14 +305,14 @@ namespace Tests
                 JsonTime = 2,
                 Type = (int)NoteType.Red
             };
-            PlaceUtils.PlaceNote(notePlacement, baseNoteA);
+            baseNoteA = PlaceUtils.Place(baseNoteA);
 
             BaseNote baseNoteB = new BaseNote
             {
                 JsonTime = 3,
                 Type = (int)NoteType.Red
             };
-            PlaceUtils.PlaceNote(notePlacement, baseNoteB);
+            baseNoteB = PlaceUtils.Place(baseNoteB);
 
             SelectionController.Select(baseNoteB, false, false, false);
 

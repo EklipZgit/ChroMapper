@@ -47,7 +47,7 @@ namespace Tests
                     JsonTime = 2, PosX = (int)GridX.Left, PosY = (int)GridY.Base, Type = (int)NoteType.Red,
                     CutDirection = (int)NoteCutDirection.Left
                 };
-                PlaceUtils.PlaceNote(notePlacement, baseNoteA);
+                baseNoteA = PlaceUtils.Place(baseNoteA);
 
                 if (notesContainer.LoadedContainers[baseNoteA] is NoteContainer containerA)
                     NoteCommand.InvertColor(containerA.NoteData);
@@ -94,12 +94,12 @@ namespace Tests
             BaseArc baseArc12 = new BaseArc { JsonTime = 1, TailJsonTime = 2, Color = (int)NoteColor.Red };
             BaseChain baseChain23 = new BaseChain { JsonTime = 2, TailJsonTime = 3, Color = (int)NoteColor.Red };
 
-            PlaceUtils.PlaceNote(notePlacement, baseNote1);
-            PlaceUtils.PlaceNote(notePlacement, baseNote2);
-            PlaceUtils.PlaceNote(notePlacement, baseNote3);
+            baseNote1 = PlaceUtils.Place(baseNote1);
+            baseNote2 = PlaceUtils.Place(baseNote2);
+            baseNote3 = PlaceUtils.Place(baseNote3);
 
-            PlaceUtils.PlaceArc(arcPlacement, baseArc12);
-            PlaceUtils.PlaceChain(chainPlacement, baseChain23);
+            baseArc12 = PlaceUtils.Place(baseArc12);
+            baseChain23 = PlaceUtils.Place(baseChain23);
 
             if (notesContainer.LoadedContainers[baseNote1] is NoteContainer container1)
                 NoteCommand.InvertColor(container1.NoteData);
@@ -147,7 +147,7 @@ namespace Tests
                     JsonTime = 2, PosX = (int)GridX.Left, PosY = (int)GridY.Base, Type = (int)NoteType.Red,
                         CutDirection = (int)NoteCutDirection.Left
                 };
-                PlaceUtils.PlaceNote(notePlacement, baseNoteA);
+                baseNoteA = PlaceUtils.Place(baseNoteA);
 
                 if (notesContainer.LoadedContainers[baseNoteA] is NoteContainer containerA)
                     inputController.ScrollUpdateDirection(containerA, 1);
@@ -177,7 +177,7 @@ namespace Tests
                 JsonTime = 2, PosX = (int)GridX.Left, PosY = (int)GridY.Base, Type = (int)NoteType.Red,
                 CutDirection = (int)NoteCutDirection.Left
             };
-            PlaceUtils.PlaceNote(notePlacement, baseNoteA);
+            baseNoteA = PlaceUtils.Place(baseNoteA);
 
             var containerA = notesContainer.LoadedContainers[baseNoteA] as NoteContainer;
             
@@ -238,12 +238,12 @@ namespace Tests
             BaseArc baseArc12 = new BaseArc { JsonTime = 1, TailJsonTime = 2, CutDirection = (int)NoteCutDirection.Left, TailCutDirection = (int)NoteCutDirection.Up };
             BaseChain baseChain23 = new BaseChain { JsonTime = 2, TailJsonTime = 3, CutDirection = (int)NoteCutDirection.Up };
 
-            PlaceUtils.PlaceNote(notePlacement, baseNote1);
-            PlaceUtils.PlaceNote(notePlacement, baseNote2);
-            PlaceUtils.PlaceNote(notePlacement, baseNote3);
+            baseNote1 = PlaceUtils.Place(baseNote1);
+            baseNote2 = PlaceUtils.Place(baseNote2);
+            baseNote3 = PlaceUtils.Place(baseNote3);
 
-            PlaceUtils.PlaceArc(arcPlacement, baseArc12);
-            PlaceUtils.PlaceChain(chainPlacement, baseChain23);
+            baseArc12 = PlaceUtils.Place(baseArc12);
+            baseChain23 = PlaceUtils.Place(baseChain23);
 
             if (notesContainer.LoadedContainers[baseNote1] is NoteContainer container1)
                 inputController.ScrollUpdateDirection(container1, 0);
@@ -296,7 +296,7 @@ namespace Tests
                 v3NoteA.CustomLocalRotation = localRotation;
                 v3NoteA.CustomDirection = customDirection;
 
-                PlaceUtils.PlaceNote(notePlacement, v3NoteA);
+                v3NoteA = PlaceUtils.Place(v3NoteA);
 
                 CheckUtils.CheckNote("Applies CustomProperties to v3 CustomData", notesContainer, 0, 2, (int)GridX.Left, (int)GridY.Base,
                     (int)NoteType.Red, (int)NoteCutDirection.Left, 0,
@@ -311,7 +311,7 @@ namespace Tests
                 v2NoteB.CustomDirection = customDirection;
                 v2NoteB.CustomLocalRotation = localRotation;
 
-                PlaceUtils.PlaceNote(notePlacement, v2NoteB);
+                v2NoteB = PlaceUtils.Place(v2NoteB);
 
                 CheckUtils.CheckNote("Applies CustomProperties to v2 CustomData", notesContainer, 1, 4, (int)GridX.Left, (int)GridY.Base,
                     (int)NoteType.Red, (int)NoteCutDirection.Left, 0,

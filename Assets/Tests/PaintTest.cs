@@ -54,7 +54,7 @@ namespace Tests
             var customData = new JSONObject();
             customData["_lightGradient"] = new ChromaLightGradient(Color.blue, Color.cyan).ToJson();
             BaseEvent baseEventA = new BaseEvent { JsonTime = 2, Type = 1, Value = 1, FloatValue = 1, CustomData = customData };
-            PlaceUtils.PlaceEvent(eventPlacement, baseEventA);
+            baseEventA = PlaceUtils.Place(baseEventA);
 
             SelectionController.Select(baseEventA);
 
@@ -98,7 +98,7 @@ namespace Tests
             var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
 
             BaseEvent baseEventA = new BaseEvent { JsonTime = 2, Type = 1, Value = 1 };
-            PlaceUtils.PlaceEvent(eventPlacement, baseEventA);
+            baseEventA = PlaceUtils.Place(baseEventA);
 
             SelectionController.Select(baseEventA);
 
@@ -143,7 +143,7 @@ namespace Tests
             var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
 
             BaseEvent baseEventA = new BaseEvent { JsonTime = 2, Type = 1, Value = 0 };
-            PlaceUtils.PlaceEvent(eventPlacement, baseEventA);
+            baseEventA = PlaceUtils.Place(baseEventA);
 
             SelectionController.Select(baseEventA);
 

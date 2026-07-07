@@ -1,22 +1,67 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Beatmap.Base;
+using Beatmap.Helper;
 using UnityEngine;
 
 namespace Tests.Util
 {
     public class PlaceUtils
     {
-        public static void PlaceNote(
-            NotePlacement notePlacement, BaseNote note)
+        private static readonly Dictionary<Type, BasePlacement> PlacementCache = new();
+
+        public static TObject Place<TObject>(TObject objectData) where TObject : BaseObject
         {
+            var placedObject = BeatmapFactory.Clone(objectData);
+
+            switch (placedObject)
+            {
+                case BaseNote note:
+                    PlaceNote(note);
+                    break;
+                case BaseObstacle obstacle:
+                    PlaceWall(obstacle);
+                    break;
+                case BaseRotationEvent rotationEvent:
+                    PlaceRotationEvent(rotationEvent);
+                    break;
+                case BaseNJSEvent njsEvent:
+                    PlaceNJSEvent(njsEvent);
+                    break;
+                case BaseBpmEvent bpmEvent:
+                    PlaceBpmEvent(bpmEvent);
+                    break;
+                case BaseEvent evt:
+                    PlaceEvent(evt);
+                    break;
+                case BaseArc arc:
+                    PlaceArc(arc);
+                    break;
+                case BaseChain chain:
+                    PlaceChain(chain);
+                    break;
+                default:
+                    throw new ArgumentException($"Unsupported placement object type: {objectData.GetType().Name}");
+            }
+
+            return placedObject;
+        }
+
+        public static List<TObject> Place<TObject>(IEnumerable<TObject> objects) where TObject : BaseObject =>
+            objects.Select(Place).ToList();
+
+        private static void PlaceNote(BaseNote note)
+        {
+            var notePlacement = GetPlacement<NotePlacement>();
             notePlacement.QueuedData = note;
             notePlacement.RoundedJsonTime = notePlacement.QueuedData.JsonTime;
             notePlacement.HandleApply();
         }
 
-        public static void PlaceWall(
-            ObstaclePlacement obstaclePlacement, BaseObstacle obstacle)
+        private static void PlaceWall(BaseObstacle obstacle)
         {
+            var obstaclePlacement = GetPlacement<ObstaclePlacement>();
             obstaclePlacement.QueuedData = obstacle;
             obstaclePlacement.RoundedJsonTime = obstaclePlacement.QueuedData.JsonTime;
             obstaclePlacement.PlacementVisualContainer.SetScale(new Vector3(0, 0,
@@ -25,17 +70,9 @@ namespace Tests.Util
             obstaclePlacement.HandleApply(); // Completes placement
         }
 
-        public static void PlaceEvents(EventPlacement eventPlacement, IEnumerable<BaseEvent> events, bool precRotation = false)
+        private static void PlaceEvent(BaseEvent evt)
         {
-            foreach (var evt in events)
-            {
-                PlaceEvent(eventPlacement, evt, precRotation);
-            }
-        }
-
-        public static void PlaceEvent(
-            EventPlacement eventPlacement, BaseEvent evt, bool precRotation = false)
-        {
+            var eventPlacement = GetPlacement<EventPlacement>();
             eventPlacement.QueuedData = evt;
             eventPlacement.queuedValue = eventPlacement.QueuedData.Value;
             eventPlacement.queuedFloatValue = eventPlacement.QueuedData.FloatValue;
@@ -44,9 +81,9 @@ namespace Tests.Util
             eventPlacement.HandleApply();
         }
 
-        public static void PlaceRotationEvent(
-            RotationEventPlacement rotationEventPlacement, BaseRotationEvent evt, bool precRotation = false)
+        private static void PlaceRotationEvent(BaseRotationEvent evt)
         {
+            var rotationEventPlacement = GetPlacement<RotationEventPlacement>();
             rotationEventPlacement.QueuedData = evt;
             rotationEventPlacement.QueuedRotation = rotationEventPlacement.QueuedData.Rotation;
             rotationEventPlacement.RoundedJsonTime = rotationEventPlacement.QueuedData.JsonTime;
@@ -54,27 +91,50 @@ namespace Tests.Util
             rotationEventPlacement.HandleApply();
         }
 
-        public static void PlaceNJSEvent(
-            NJSEventPlacement njsEventPlacement, BaseNJSEvent evt)
+        private static void PlaceNJSEvent(BaseNJSEvent evt)
         {
+            var njsEventPlacement = GetPlacement<NJSEventPlacement>();
             njsEventPlacement.QueuedData = evt;
             njsEventPlacement.HandleApplyNoDialogue();
         }
 
-        public static void PlaceArc(
-            ArcPlacement arcPlacement, BaseArc arc)
+        private static void PlaceBpmEvent(BaseBpmEvent evt)
         {
+            var bpmChangePlacement = GetPlacement<BPMChangePlacement>();
+            bpmChangePlacement.QueuedData = evt;
+            bpmChangePlacement.RoundedJsonTime = bpmChangePlacement.QueuedData.JsonTime;
+            bpmChangePlacement.ObjectContainerCollection.SpawnObject(evt, out var conflicting);
+            BeatmapActionContainer.AddAction(
+                new BeatmapObjectPlacementAction(evt, conflicting, $"Placed a BPM Event at time {evt.JsonTime}"));
+        }
+
+        private static void PlaceArc(BaseArc arc)
+        {
+            var arcPlacement = GetPlacement<ArcPlacement>();
             arcPlacement.QueuedData = arc;
             arcPlacement.RoundedJsonTime = arcPlacement.QueuedData.JsonTime;
             arcPlacement.HandleApply();
         }
 
-        public static void PlaceChain(
-            ChainPlacement chainPlacement, BaseChain chain)
+        private static void PlaceChain(BaseChain chain)
         {
+            var chainPlacement = GetPlacement<ChainPlacement>();
             chainPlacement.QueuedData = chain;
             chainPlacement.RoundedJsonTime = chainPlacement.QueuedData.JsonTime;
             chainPlacement.HandleApply();
+        }
+
+        private static TPlacement GetPlacement<TPlacement>() where TPlacement : BasePlacement
+        {
+            if (!PlacementCache.TryGetValue(typeof(TPlacement), out var placement) || !placement)
+            {
+                placement = UnityEngine.Object.FindAnyObjectByType<TPlacement>();
+                if (!placement) throw new InvalidOperationException($"Could not find {typeof(TPlacement).Name}.");
+
+                PlacementCache[typeof(TPlacement)] = placement;
+            }
+
+            return (TPlacement)placement;
         }
     }
 }

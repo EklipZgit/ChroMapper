@@ -40,7 +40,7 @@ namespace Tests
                 JsonTime = 2,
                 Type = (int)NoteType.Red
             };
-            notesContainer.SpawnObject(baseNoteA);
+            baseNoteA = PlaceUtils.Place(baseNoteA);
 
             SelectionController.Select(baseNoteA);
 
@@ -80,14 +80,14 @@ namespace Tests
                 PosY = 1
             };
 
-            PlaceUtils.PlaceNote(notePlacement, baseNoteA);
+            baseNoteA = PlaceUtils.Place(baseNoteA);
 
             SelectionController.Select(baseNoteA);
 
             selectionController.ShiftSelection(1, 1);
 
             // Should conflict with existing note and delete it
-            PlaceUtils.PlaceNote(notePlacement, baseNoteB);
+            baseNoteB = PlaceUtils.Place(baseNoteB);
 
             SelectionController.Select(baseNoteB);
             selectionController.ShiftSelection(1, 1);
@@ -181,12 +181,12 @@ namespace Tests
             var notesContainer = BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
             var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
 
-            PlaceUtils.PlaceNote(notePlacement, new BaseNote
+            PlaceUtils.Place(new BaseNote
             {
                 JsonTime = 2,
                 Type = (int)NoteType.Red
             });
-            PlaceUtils.PlaceNote(notePlacement, new BaseNote
+            PlaceUtils.Place(new BaseNote
             {
                 JsonTime = 2,
                 Type = (int)NoteType.Blue

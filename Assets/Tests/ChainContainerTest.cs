@@ -40,7 +40,7 @@ namespace Tests
                 TailJsonTime = 2,
                 SliceCount = 5,
             };
-            PlaceUtils.PlaceChain(chainPlacement, placedChain);
+            placedChain = PlaceUtils.Place(placedChain);
 
             chainsCollection.LoadedContainers.TryGetValue(placedChain, out var chainContainer);
 
@@ -69,8 +69,7 @@ namespace Tests
             var links = chainContainer.GetComponentsInChildren<ChainComponentsFetcher>();
             var linkTransforms = links.Select(x => x.GetComponent<Transform>()).OrderBy(t => t.transform.position.z).ToList();
 
-            var bpmCollection = BeatmapObjectContainerCollection.GetCollectionForType<BPMChangeGridContainer>(ObjectType.BpmChange);
-            bpmCollection.SpawnObject(new BaseBpmEvent { JsonTime = 0, Bpm = 100 });
+            PlaceUtils.Place(new BaseBpmEvent { JsonTime = 0, Bpm = 100 });
 
             var firstZ = chainContainer.transform.position.z;
             var lastZ = linkTransforms.Last().position.z;
@@ -83,7 +82,7 @@ namespace Tests
             }
 
             // Chain should now be 3/4 of its original length and each link should remain equidistant in space
-            bpmCollection.SpawnObject(new BaseBpmEvent { JsonTime = 1, Bpm = 200 });
+            PlaceUtils.Place(new BaseBpmEvent { JsonTime = 1, Bpm = 200 });
             for (var i = 0; i < linkTransforms.Count; i++)
             {
                 Assert.AreEqual(firstZ + ((3f / 4f) * (i + 1.0) / linkTransforms.Count * originalZDistance), linkTransforms[i].transform.position.z, 0.001f);
