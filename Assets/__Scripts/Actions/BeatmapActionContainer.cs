@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Beatmap.Containers;
+using ZLinq;
 
 public class BeatmapActionContainer : MonoBehaviour, CMInput.IActionsActions
 {
@@ -46,7 +47,8 @@ public class BeatmapActionContainer : MonoBehaviour, CMInput.IActionsActions
             // Merge local actions
             // Networked actions shouldn't get merged since they're received in already-merged form
             var previousAction = instance.beatmapActions.LastOrDefault(x => !x.Networked);
-            if (action is IMergeableAction mergeableAction && previousAction is IMergeableAction previousMergeableAction)
+            if (action is IMergeableAction mergeableAction
+                && previousAction is IMergeableAction previousMergeableAction)
             {
                 var merged = (BeatmapAction)mergeableAction.TryMerge(previousMergeableAction);
                 if (merged is not null)
@@ -58,10 +60,10 @@ public class BeatmapActionContainer : MonoBehaviour, CMInput.IActionsActions
         }
 
         instance.beatmapActions.Add(mergedAction ?? action);
-       
+
         // Perform the original original action - not the merged action
         if (perform) instance.DoRedo(action);
-        
+
         Debug.Log($"Action of type {action.GetType().Name} added. ({action.Comment})");
 
         // Deferring ActionCreatedEvent until after execution brings AddAction in line with Undo/Redo
@@ -91,22 +93,24 @@ public class BeatmapActionContainer : MonoBehaviour, CMInput.IActionsActions
         instance.DoRedo(action);
     }
 
-    public void Undo()
+    public BeatmapAction Undo()
     {
-        var lastActive = beatmapActions.FindLast(x => !x.Networked && x.Active);
-        if (lastActive == null) return;
+        var lastActive = beatmapActions.AsValueEnumerable().LastOrDefault(x => !x.Networked && x.Active);
+        if (lastActive == null) return null;
         Debug.Log($"Undid a {lastActive.GetType().Name}. ({lastActive.Comment})");
         DoUndo(lastActive);
         OnActionUndo?.Invoke(lastActive);
+        return lastActive;
     }
 
-    public void Redo()
+    public BeatmapAction Redo()
     {
-        var firstNotActive = beatmapActions.Find(x => !x.Networked && !x.Active);
-        if (firstNotActive == null) return;
+        var firstNotActive = beatmapActions.AsValueEnumerable().FirstOrDefault(x => !x.Networked && !x.Active);
+        if (firstNotActive == null) return null;
         Debug.Log($"Redid a {firstNotActive.GetType().Name}. ({firstNotActive.Comment})");
         DoRedo(firstNotActive);
         OnActionRedo?.Invoke(firstNotActive);
+        return firstNotActive;
     }
 
     private void DoUndo(BeatmapAction action)
@@ -149,7 +153,8 @@ public class BeatmapActionContainer : MonoBehaviour, CMInput.IActionsActions
             {
                 var objectData = container.ObjectData;
 
-                var lastLocatedActionIndex = beatmapActions.FindLastIndex(it => it.Active && it.DoesInvolveObject(objectData) != null);
+                var lastLocatedActionIndex =
+                    beatmapActions.FindLastIndex(it => it.Active && it.DoesInvolveObject(objectData) != null);
 
                 if (lastLocatedActionIndex == -1) return;
 
@@ -169,15 +174,18 @@ public class BeatmapActionContainer : MonoBehaviour, CMInput.IActionsActions
 
                 if (firstLocatedAction != null && firstLocatedAction.Identity != null)
                 {
-                    var dialogBox = PersistentUI.Instance.CreateNewDialogBox()
+                    var dialogBox = PersistentUI
+                        .Instance.CreateNewDialogBox()
                         .WithTitle("MultiMapping", "multi.trace");
 
-                    dialogBox.AddComponent<TextComponent>()
+                    dialogBox
+                        .AddComponent<TextComponent>()
                         .WithInitialValue("MultiMapping", "multi.trace.first", firstLocatedAction.Identity.Name);
 
                     if (lastLocatedAction != firstLocatedAction && lastLocatedAction.Identity != null)
                     {
-                        dialogBox.AddComponent<TextComponent>()
+                        dialogBox
+                            .AddComponent<TextComponent>()
                             .WithInitialValue("MultiMapping", "multi.trace.last", lastLocatedAction.Identity.Name);
                     }
 
