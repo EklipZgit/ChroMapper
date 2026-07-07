@@ -11,19 +11,11 @@ using UnityEngine.TestTools;
 
 namespace Tests
 {
-    public class EventNextPrevLightIDTest
+    public class EventNextPrevLightIDTest : TestBase
     {
-        [UnityOneTimeSetUp]
-        public IEnumerator LoadMap()
-        {
-            return TestUtils.LoadMap(3);
-        }
-
-        [OneTimeTearDown]
-        public void FinalTearDown()
+        protected override void OnReturnSettings()
         {
             Settings.Instance.LightIDTransitionSupport = false;
-            TestUtils.ReturnSettings();
         }
         
         [OneTimeSetUp]
@@ -33,13 +25,9 @@ namespace Tests
             Settings.Instance.LightIDTransitionSupport = true;
         }
 
-        [TearDown]
-        public void ContainerCleanup()
+        protected override void BeforeCleanup()
         {
             BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event).PropagationEditing = EventGridContainer.PropMode.Off;
-
-            BeatmapActionContainer.RemoveAllActionsOfType<BeatmapAction>();
-            CleanupUtils.CleanupEvents();
         }
 
         private BaseEvent EventWithTimeAndLightID(float time, int? lightID)
@@ -73,16 +61,16 @@ namespace Tests
             // V1             V10
             //    A2    A4        A12
             //       B3    B5          B13
-            BaseEvent V1 = EventWithTimeAndLightID(1, null);
-            BaseEvent V10 = EventWithTimeAndLightID(10, null);
+            var V1 = EventWithTimeAndLightID(1, null);
+            var V10 = EventWithTimeAndLightID(10, null);
 
-            BaseEvent A2 = EventWithTimeAndLightID(2, 1);
-            BaseEvent A4 = EventWithTimeAndLightID(4, 1);
-            BaseEvent A12 = EventWithTimeAndLightID(12, 1);
+            var A2 = EventWithTimeAndLightID(2, 1);
+            var A4 = EventWithTimeAndLightID(4, 1);
+            var A12 = EventWithTimeAndLightID(12, 1);
 
-            BaseEvent B3 = EventWithTimeAndLightID(3, 2);
-            BaseEvent B5 = EventWithTimeAndLightID(5, 2);
-            BaseEvent B13 = EventWithTimeAndLightID(13, 2);
+            var B3 = EventWithTimeAndLightID(3, 2);
+            var B5 = EventWithTimeAndLightID(5, 2);
+            var B13 = EventWithTimeAndLightID(13, 2);
 
             // Check state after placing
             PlaceEvents(ref V1, ref A2, ref B3, ref A4, ref B5, ref V10, ref A12, ref B13);
@@ -123,16 +111,16 @@ namespace Tests
             // V1             V10
             //    A2    A4        A12
             //       B3    B5          B13
-            BaseEvent V1 = EventWithTimeAndLightID(1, null);
-            BaseEvent V10 = EventWithTimeAndLightID(10, null);
+            var V1 = EventWithTimeAndLightID(1, null);
+            var V10 = EventWithTimeAndLightID(10, null);
 
-            BaseEvent A2 = EventWithTimeAndLightID(2, 1);
-            BaseEvent A4 = EventWithTimeAndLightID(4, 1);
-            BaseEvent A12 = EventWithTimeAndLightID(12, 1);
+            var A2 = EventWithTimeAndLightID(2, 1);
+            var A4 = EventWithTimeAndLightID(4, 1);
+            var A12 = EventWithTimeAndLightID(12, 1);
 
-            BaseEvent B3 = EventWithTimeAndLightID(3, 2);
-            BaseEvent B5 = EventWithTimeAndLightID(5, 2);
-            BaseEvent B13 = EventWithTimeAndLightID(13, 2);
+            var B3 = EventWithTimeAndLightID(3, 2);
+            var B5 = EventWithTimeAndLightID(5, 2);
+            var B13 = EventWithTimeAndLightID(13, 2);
 
             PlaceEvents(ref V1, ref A2, ref B3, ref A4, ref B5, ref V10, ref A12, ref B13);
 
@@ -167,16 +155,16 @@ namespace Tests
             // V1             V10
             //    A2    A4        A12
             //       B3    B5          B13
-            BaseEvent V1 = EventWithTimeAndLightID(1, null);
-            BaseEvent V10 = EventWithTimeAndLightID(10, null);
+            var V1 = EventWithTimeAndLightID(1, null);
+            var V10 = EventWithTimeAndLightID(10, null);
 
-            BaseEvent A2 = EventWithTimeAndLightID(2, 1);
-            BaseEvent A4 = EventWithTimeAndLightID(4, 1);
-            BaseEvent A12 = EventWithTimeAndLightID(12, 1);
+            var A2 = EventWithTimeAndLightID(2, 1);
+            var A4 = EventWithTimeAndLightID(4, 1);
+            var A12 = EventWithTimeAndLightID(12, 1);
 
-            BaseEvent B3 = EventWithTimeAndLightID(3, 2);
-            BaseEvent B5 = EventWithTimeAndLightID(5, 2);
-            BaseEvent B13 = EventWithTimeAndLightID(13, 2);
+            var B3 = EventWithTimeAndLightID(3, 2);
+            var B5 = EventWithTimeAndLightID(5, 2);
+            var B13 = EventWithTimeAndLightID(13, 2);
 
             PlaceEvents(ref V1, ref A2, ref B3, ref A4, ref B5, ref V10, ref A12, ref B13);
 
@@ -218,16 +206,16 @@ namespace Tests
             // V1             V10
             //    A2    A4        A12
             //       B3    B5          B13
-            BaseEvent V1 = EventWithTimeAndLightID(1, null);
-            BaseEvent V10 = EventWithTimeAndLightID(10, null);
+            var V1 = EventWithTimeAndLightID(1, null);
+            var V10 = EventWithTimeAndLightID(10, null);
 
-            BaseEvent A2 = EventWithTimeAndLightID(2, 1);
-            BaseEvent A4 = EventWithTimeAndLightID(4, 1);
-            BaseEvent A12 = EventWithTimeAndLightID(12, 1);
+            var A2 = EventWithTimeAndLightID(2, 1);
+            var A4 = EventWithTimeAndLightID(4, 1);
+            var A12 = EventWithTimeAndLightID(12, 1);
 
-            BaseEvent B3 = EventWithTimeAndLightID(3, 2);
-            BaseEvent B5 = EventWithTimeAndLightID(5, 2);
-            BaseEvent B13 = EventWithTimeAndLightID(13, 2);
+            var B3 = EventWithTimeAndLightID(3, 2);
+            var B5 = EventWithTimeAndLightID(5, 2);
+            var B13 = EventWithTimeAndLightID(13, 2);
 
             PlaceEvents(ref V1, ref A2, ref B3, ref A4, ref B5, ref V10, ref A12, ref B13);
 
@@ -267,16 +255,16 @@ namespace Tests
             // V1             V10
             //    A2    A4        A12
             //       B3    B5          B13
-            BaseEvent V1 = EventWithTimeAndLightID(1, null);
-            BaseEvent V10 = EventWithTimeAndLightID(10, null);
+            var V1 = EventWithTimeAndLightID(1, null);
+            var V10 = EventWithTimeAndLightID(10, null);
 
-            BaseEvent A2 = EventWithTimeAndLightID(2, 1);
-            BaseEvent A4 = EventWithTimeAndLightID(4, 1);
-            BaseEvent A12 = EventWithTimeAndLightID(12, 1);
+            var A2 = EventWithTimeAndLightID(2, 1);
+            var A4 = EventWithTimeAndLightID(4, 1);
+            var A12 = EventWithTimeAndLightID(12, 1);
 
-            BaseEvent B3 = EventWithTimeAndLightID(3, 2);
-            BaseEvent B5 = EventWithTimeAndLightID(5, 2);
-            BaseEvent B13 = EventWithTimeAndLightID(13, 2);
+            var B3 = EventWithTimeAndLightID(3, 2);
+            var B5 = EventWithTimeAndLightID(5, 2);
+            var B13 = EventWithTimeAndLightID(13, 2);
 
             PlaceEvents(ref V1, ref A2, ref B3, ref A4, ref B5, ref V10, ref A12, ref B13);
 

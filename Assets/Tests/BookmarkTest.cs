@@ -6,26 +6,8 @@ using UnityEngine.TestTools;
 
 namespace Tests
 {
-    public class BookmarkTest
+    public class BookmarkTest : TestBase
     {
-        [UnityOneTimeSetUp]
-        public IEnumerator LoadMap()
-        {
-            return TestUtils.LoadMap(3);
-        }
-
-        [OneTimeTearDown]
-        public void FinalTearDown()
-        {
-            TestUtils.ReturnSettings();
-        }
-
-        [TearDown]
-        public void Cleanup()
-        {
-            CleanupUtils.CleanupBookmarks();
-        }
-
         [Test]
         public void CheckOrder()
         {

@@ -10,27 +10,8 @@ using UnityEngine.TestTools;
 
 namespace Tests
 {
-    public class EventTest
+    public class EventTest : TestBase
     {
-        [UnityOneTimeSetUp]
-        public IEnumerator LoadMap()
-        {
-            return TestUtils.LoadMap(3);
-        }
-
-        [OneTimeTearDown]
-        public void FinalTearDown()
-        {
-            TestUtils.ReturnSettings();
-        }
-
-        [TearDown]
-        public void ContainerCleanup()
-        {
-            BeatmapActionContainer.RemoveAllActionsOfType<BeatmapAction>();
-            CleanupUtils.CleanupEvents();
-        }
-
         // TODO: need to change rotation event here as well, man
         [Test]
         public void Invert()
@@ -44,8 +25,8 @@ namespace Tests
             var beatmapEventInputController = Object.FindAnyObjectByType<BeatmapEventInputController>();
             var beatmapRotationInputController = Object.FindAnyObjectByType<BeatmapRotationInputController>();
 
-            BaseRotationEvent baseEventA = new BaseRotationEvent { JsonTime = 2, Type = (int)EventTypeValue.LateLaneRotation, Rotation = 45 };
-            BaseEvent baseEventB = new BaseEvent { JsonTime = 3, Type = (int)EventTypeValue.BackLasers, Value = (int)LightValue.RedFade };
+            var baseEventA = new BaseRotationEvent { JsonTime = 2, Type = (int)EventTypeValue.LateLaneRotation, Rotation = 45 };
+            var baseEventB = new BaseEvent { JsonTime = 3, Type = (int)EventTypeValue.BackLasers, Value = (int)LightValue.RedFade };
             baseEventA = PlaceUtils.Place(baseEventA);
             baseEventB = PlaceUtils.Place(baseEventB);
 
@@ -95,7 +76,7 @@ namespace Tests
                 var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
                 var inputController = Object.FindAnyObjectByType<BeatmapEventInputController>();
 
-                BaseEvent baseEventA = new BaseEvent { JsonTime = 2, Type = (int)EventTypeValue.LeftLaserRotation, Value = 2 };
+                var baseEventA = new BaseEvent { JsonTime = 2, Type = (int)EventTypeValue.LeftLaserRotation, Value = 2 };
                 baseEventA = PlaceUtils.Place(baseEventA);
 
                 if (eventsContainer.LoadedContainers[baseEventA] is EventContainer containerA)
@@ -159,7 +140,7 @@ namespace Tests
                 var color = new Color(0, 1, 2, 3);
                 var easing = "easeOutQuad";
 
-                BaseEvent baseEventA = new BaseEvent { JsonTime = 3, Type = (int)EventTypeValue.BackLasers, Value = (int)LightValue.RedFade };
+                var baseEventA = new BaseEvent { JsonTime = 3, Type = (int)EventTypeValue.BackLasers, Value = (int)LightValue.RedFade };
                 baseEventA.CustomEasing = easing;
                 baseEventA.CustomColor = color;
 

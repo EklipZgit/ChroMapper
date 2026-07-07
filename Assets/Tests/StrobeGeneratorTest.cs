@@ -10,27 +10,8 @@ using UnityEngine.TestTools;
 
 namespace Tests
 {
-    public class StrobeGeneratorTest
+    public class StrobeGeneratorTest : TestBase
     {
-        [UnityOneTimeSetUp]
-        public IEnumerator LoadMap()
-        {
-            return TestUtils.LoadMap(3);
-        }
-
-        [OneTimeTearDown]
-        public void FinalTearDown()
-        {
-            TestUtils.ReturnSettings();
-        }
-
-        [TearDown]
-        public void ContainerCleanup()
-        {
-            BeatmapActionContainer.RemoveAllActionsOfType<BeatmapAction>();
-            CleanupUtils.CleanupEvents();
-        }
-
         [Test]
         public void ChromaStepGradient()
         {
@@ -40,19 +21,19 @@ namespace Tests
             {
                 var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
 
-                BaseEvent baseEventA = new BaseEvent { JsonTime = 2, Type = (int)EventTypeValue.RingLights, Value = (int)LightValue.RedOn, FloatValue = 1f,
+                var baseEventA = new BaseEvent { JsonTime = 2, Type = (int)EventTypeValue.RingLights, Value = (int)LightValue.RedOn, FloatValue = 1f,
                     CustomData = new JSONObject
                     {
                         ["color"] = new Color(0, 1, 0)
                     } };
 
-                BaseEvent baseEventB = new BaseEvent { JsonTime = 3, Type = (int)EventTypeValue.RingLights, Value = (int)LightValue.RedOn, FloatValue = 1f,
+                var baseEventB = new BaseEvent { JsonTime = 3, Type = (int)EventTypeValue.RingLights, Value = (int)LightValue.RedOn, FloatValue = 1f,
                     CustomData = new JSONObject
                     {
                         ["color"] = new Color(0, 0, 1)
                     } };
 
-                BaseEvent baseEventC = new BaseEvent { JsonTime = 3, Type = (int)EventTypeValue.RingLights, Value = (int)LightValue.RedOn, FloatValue = 1f,
+                var baseEventC = new BaseEvent { JsonTime = 3, Type = (int)EventTypeValue.RingLights, Value = (int)LightValue.RedOn, FloatValue = 1f,
                     CustomData = new JSONObject
                     {
                         ["lightID"] = 1,
@@ -90,33 +71,33 @@ namespace Tests
             {
                 var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
 
-                BaseEvent baseEventA = new BaseEvent { JsonTime = 2, Type = (int)EventTypeValue.RingLights, Value = (int)LightValue.RedOn, FloatValue = 1f,
+                var baseEventA = new BaseEvent { JsonTime = 2, Type = (int)EventTypeValue.RingLights, Value = (int)LightValue.RedOn, FloatValue = 1f,
                     CustomData = new JSONObject
                     {
                         ["color"] = new Color(0, 1, 0)
                     } };
 
-                BaseEvent baseEventB = new BaseEvent { JsonTime = 3, Type = (int)EventTypeValue.RingLights, Value = (int)LightValue.RedOn, FloatValue = 1f,
+                var baseEventB = new BaseEvent { JsonTime = 3, Type = (int)EventTypeValue.RingLights, Value = (int)LightValue.RedOn, FloatValue = 1f,
                     CustomData = new JSONObject
                     {
                         ["color"] = new Color(0, 0, 1)
                     } };
 
-                BaseEvent baseEventC = new BaseEvent { JsonTime = 3, Type = (int)EventTypeValue.RingLights, Value = (int)LightValue.RedOn, FloatValue = 1f,
+                var baseEventC = new BaseEvent { JsonTime = 3, Type = (int)EventTypeValue.RingLights, Value = (int)LightValue.RedOn, FloatValue = 1f,
                     CustomData = new JSONObject
                     {
                         ["lightID"] = 1,
                         ["color"] = new Color(1, 0, 0)
                     } };
 
-                BaseEvent baseEventD = new BaseEvent { JsonTime = 2, Type = (int)EventTypeValue.RingLights, Value = (int)LightValue.RedOn, FloatValue = 1f,
+                var baseEventD = new BaseEvent { JsonTime = 2, Type = (int)EventTypeValue.RingLights, Value = (int)LightValue.RedOn, FloatValue = 1f,
                     CustomData = new JSONObject
                     {
                         ["lightID"] = 1,
                         ["color"] = new Color(1, 1, 0)
                     } };
 
-                BaseEvent baseEventE = new BaseEvent { JsonTime = 4, Type = (int)EventTypeValue.RingLights, Value = (int)LightValue.RedOn, FloatValue = 1f,
+                var baseEventE = new BaseEvent { JsonTime = 4, Type = (int)EventTypeValue.RingLights, Value = (int)LightValue.RedOn, FloatValue = 1f,
                     CustomData = new JSONObject
                     {
                         ["lightID"] = new JSONArray
@@ -127,7 +108,7 @@ namespace Tests
                         ["color"] = new Color(1, 0, 1)
                     } };
 
-                BaseEvent baseEventF = new BaseEvent { JsonTime = 3, Type = (int)EventTypeValue.RingLights, Value = (int)LightValue.RedOn, FloatValue = 1f,
+                var baseEventF = new BaseEvent { JsonTime = 3, Type = (int)EventTypeValue.RingLights, Value = (int)LightValue.RedOn, FloatValue = 1f,
                     CustomData = new JSONObject
                     {
                         ["lightID"] = 3,

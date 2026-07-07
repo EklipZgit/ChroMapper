@@ -10,26 +10,8 @@ using Object = UnityEngine.Object;
 
 namespace Tests
 {
-    public class ContainerCollectionTest
+    public class ContainerCollectionTest : TestBase
     {
-        [UnityOneTimeSetUp]
-        public IEnumerator LoadMap()
-        {
-            return TestUtils.LoadMap(3);
-        }
-
-        [OneTimeTearDown]
-        public void FinalTearDown()
-        {
-            TestUtils.ReturnSettings();
-        }
-
-        [TearDown]
-        public void ContainerCleanup()
-        {
-            CleanupUtils.CleanupNotes();
-        }
-
         [Test]
         public void GetBetween()
         {

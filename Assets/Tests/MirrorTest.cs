@@ -9,7 +9,7 @@ using UnityEngine.TestTools;
 
 namespace Tests
 {
-    public class MirrorTest
+    public class MirrorTest : TestBase
     {
         private BeatmapActionContainer _actionContainer;
         private MirrorSelection _mirror;
@@ -18,23 +18,21 @@ namespace Tests
         private NoteGridContainer _notesContainer;
         private ArcGridContainer _arcsContainer;
 
-        [UnityOneTimeSetUp]
-        public IEnumerator LoadMap()
+        protected override IEnumerator OnMapLoaded()
         {
-            yield return TestUtils.LoadMap(3);
-
             _actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             _mirror = Object.FindAnyObjectByType<MirrorSelection>();
             _notesContainer = BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
             _arcsContainer = BeatmapObjectContainerCollection.GetCollectionForType<ArcGridContainer>(ObjectType.Arc);
             _notePlacement = Object.FindAnyObjectByType<NotePlacement>();
             _arcPlacement = Object.FindAnyObjectByType<ArcPlacement>();
+            yield break;
         }
 
         [SetUp]
         public void SpawnNotesAndArcs()
         {
-            BaseNote baseNoteA = new BaseNote
+            var baseNoteA = new BaseNote
             {
                 JsonTime = 2,
                 Type = (int)NoteType.Red,
@@ -42,7 +40,7 @@ namespace Tests
                 PosY = (int)GridY.Base,
                 CutDirection = (int)NoteCutDirection.Left
             };
-            BaseNote baseNoteB = new BaseNote
+            var baseNoteB = new BaseNote
             {
                 JsonTime = 3,
                 Type = (int)NoteType.Blue,
@@ -50,7 +48,7 @@ namespace Tests
                 PosY = (int)GridY.Top,
                 CutDirection = (int)NoteCutDirection.UpRight
             };
-            BaseArc baseArc = new BaseArc
+            var baseArc = new BaseArc
             {
                 JsonTime = 2,
                 Color = (int)NoteType.Blue,
@@ -75,20 +73,6 @@ namespace Tests
             SelectionController.Select(baseNoteA);
             SelectionController.Select(baseNoteB, true);
             SelectionController.Select(baseArc, true);
-        }
-
-        [OneTimeTearDown]
-        public void FinalTearDown()
-        {
-            TestUtils.ReturnSettings();
-        }
-
-        [TearDown]
-        public void ContainerCleanup()
-        {
-            BeatmapActionContainer.RemoveAllActionsOfType<BeatmapAction>();
-            CleanupUtils.CleanupNotes();
-            CleanupUtils.CleanupArcs();
         }
 
         [Test]

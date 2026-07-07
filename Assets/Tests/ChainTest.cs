@@ -12,28 +12,8 @@ using UnityEngine.UIElements;
 
 namespace Tests
 {
-    public class ChainTest
+    public class ChainTest : TestBase
     {
-        [UnityOneTimeSetUp]
-        public IEnumerator LoadMap()
-        {
-            return TestUtils.LoadMap(3);
-        }
-
-        [OneTimeTearDown]
-        public void FinalTearDown()
-        {
-            TestUtils.ReturnSettings();
-        }
-
-        [TearDown]
-        public void ContainerCleanup()
-        {
-            BeatmapActionContainer.RemoveAllActionsOfType<BeatmapAction>();
-            CleanupUtils.CleanupNotes();
-            CleanupUtils.CleanupChains();
-        }
-
         [Test]
         public void CreateChain()
         {
@@ -42,12 +22,12 @@ namespace Tests
             {
                 var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
 
-                BaseNote baseNoteA = new BaseNote
+                var baseNoteA = new BaseNote
                 {
                     JsonTime = 2f, PosX = (int)GridX.Left, PosY = (int)GridY.Base, Type = (int)NoteType.Red,
                     CutDirection = (int)NoteCutDirection.Down
                 };
-                BaseNote baseNoteB = new BaseNote
+                var baseNoteB = new BaseNote
                 {
                     JsonTime =3f, PosX = (int)GridX.Left, PosY = (int)GridY.Upper, Type = (int)NoteType.Red,
                     CutDirection = (int)NoteCutDirection.Up
@@ -103,13 +83,13 @@ namespace Tests
             {
                 var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
 
-                BaseNote baseNoteA = new BaseNote
+                var baseNoteA = new BaseNote
                 {
                     JsonTime = 2f, PosX = (int)GridX.Left, PosY = (int)GridY.Base, Type = (int)NoteType.Red,
                     CutDirection = (int)NoteCutDirection.Down, CustomData = headCustomData
                 };
 
-                BaseNote baseNoteB = new BaseNote
+                var baseNoteB = new BaseNote
                 {
                     JsonTime = 3f, PosX = (int)GridX.Left, PosY = (int)GridY.Upper, Type = (int)NoteType.Red,
                     CutDirection = (int)NoteCutDirection.Up, CustomData = tailCustomData
@@ -155,7 +135,7 @@ namespace Tests
                 var chainPlacement = Object.FindAnyObjectByType<ChainPlacement>();
                 var inputController = Object.FindAnyObjectByType<BeatmapSharedNoteInputController>();
 
-                BaseChain baseChain = new BaseChain
+                var baseChain = new BaseChain
                 {
                     JsonTime = 2f,
                     PosX = (int)GridX.Left,
@@ -195,7 +175,7 @@ namespace Tests
                 var chainPlacement = Object.FindAnyObjectByType<ChainPlacement>();
                 var inputController = Object.FindAnyObjectByType<BeatmapChainInputController>();
 
-                BaseChain baseChain = new BaseChain
+                var baseChain = new BaseChain
                 {
                     JsonTime = 2f,
                     PosX = (int)GridX.Left,

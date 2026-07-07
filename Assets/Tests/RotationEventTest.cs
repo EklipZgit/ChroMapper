@@ -8,28 +8,8 @@ using UnityEngine.TestTools;
 
 namespace Tests
 {
-    public class RotationEventTest
+    public class RotationEventTest : TestBase
     {
-        [UnityOneTimeSetUp]
-        public IEnumerator LoadMap()
-        {
-            return TestUtils.LoadMap(3);
-        }
-
-        [OneTimeTearDown]
-        public void FinalTearDown()
-        {
-            TestUtils.ReturnSettings();
-        }
-
-        [TearDown]
-        public void ContainerCleanup()
-        {
-            BeatmapActionContainer.RemoveAllActionsOfType<BeatmapAction>();
-            CleanupUtils.CleanupEvents();
-            CleanupUtils.CleanupRotationEvents();
-        }
-
         [Test]
         [TestCase(new[] { 15, 30, 60 })]
         [TestCase(new[] { 3, 2, 1 })]

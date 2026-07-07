@@ -10,31 +10,12 @@ using UnityEngine.TestTools;
 
 namespace Tests
 {
-    public class PaintTest
+    public class PaintTest : TestBase
     {
-        [UnityOneTimeSetUp]
-        public IEnumerator LoadMap()
-        {
-            return TestUtils.LoadMap(3);
-        }
-
-        [OneTimeTearDown]
-        public void FinalTearDown()
-        {
-            TestUtils.ReturnSettings();
-        }
-
         [SetUp]
         public void SetUp()
         {
             Settings.Instance.MapVersion = 3;
-        }
-
-        [TearDown]
-        public void ContainerCleanup()
-        {
-            BeatmapActionContainer.RemoveAllActionsOfType<BeatmapAction>();
-            CleanupUtils.CleanupEvents();
         }
 
         [Test]
@@ -53,7 +34,7 @@ namespace Tests
 
             var customData = new JSONObject();
             customData["_lightGradient"] = new ChromaLightGradient(Color.blue, Color.cyan).ToJson();
-            BaseEvent baseEventA = new BaseEvent { JsonTime = 2, Type = 1, Value = 1, FloatValue = 1, CustomData = customData };
+            var baseEventA = new BaseEvent { JsonTime = 2, Type = 1, Value = 1, FloatValue = 1, CustomData = customData };
             baseEventA = PlaceUtils.Place(baseEventA);
 
             SelectionController.Select(baseEventA);
@@ -97,7 +78,7 @@ namespace Tests
             var selectionController = Object.FindAnyObjectByType<SelectionController>();
             var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
 
-            BaseEvent baseEventA = new BaseEvent { JsonTime = 2, Type = 1, Value = 1 };
+            var baseEventA = new BaseEvent { JsonTime = 2, Type = 1, Value = 1 };
             baseEventA = PlaceUtils.Place(baseEventA);
 
             SelectionController.Select(baseEventA);
@@ -142,7 +123,7 @@ namespace Tests
             var eventsContainer = BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
             var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
 
-            BaseEvent baseEventA = new BaseEvent { JsonTime = 2, Type = 1, Value = 0 };
+            var baseEventA = new BaseEvent { JsonTime = 2, Type = 1, Value = 0 };
             baseEventA = PlaceUtils.Place(baseEventA);
 
             SelectionController.Select(baseEventA);

@@ -11,39 +11,19 @@ using UnityEngine.TestTools;
 
 namespace Tests
 {
-    public class ArcTest
+    public class ArcTest : TestBase
     {
-        [UnityOneTimeSetUp]
-        public IEnumerator LoadMap()
-        {
-            return TestUtils.LoadMap(3);
-        }
-
-        [OneTimeTearDown]
-        public void FinalTearDown()
-        {
-            TestUtils.ReturnSettings();
-        }
-
-        [TearDown]
-        public void ContainerCleanup()
-        {
-            BeatmapActionContainer.RemoveAllActionsOfType<BeatmapAction>();
-            CleanupUtils.CleanupNotes();
-            CleanupUtils.CleanupArcs();
-        }
-
         [Test]
         public void CreateArc()
         {
                 var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
 
-                BaseNote baseNoteA = new BaseNote
+                var baseNoteA = new BaseNote
                 {
                     JsonTime = 2f, PosX = (int)GridX.Left, PosY = (int)GridY.Base, Type = (int)NoteType.Red,
                     CutDirection = (int)NoteCutDirection.Down
                 };
-                BaseNote baseNoteB = new BaseNote
+                var baseNoteB = new BaseNote
                 {
                     JsonTime = 3f, PosX = (int)GridX.Left, PosY = (int)GridY.Upper, Type = (int)NoteType.Red,
                     CutDirection = (int)NoteCutDirection.Up
@@ -97,13 +77,13 @@ namespace Tests
             {
                 var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
 
-                BaseNote baseNoteA = new BaseNote
+                var baseNoteA = new BaseNote
                 {
                     JsonTime = 2f, PosX = (int)GridX.Left, PosY = (int)GridY.Base, Type = (int)NoteType.Red,
                     CutDirection = (int)NoteCutDirection.Down, CustomData = headCustomData
                 };
 
-                BaseNote baseNoteB = new BaseNote
+                var baseNoteB = new BaseNote
                 {
                     JsonTime = 3f, PosX = (int)GridX.Left, PosY = (int)GridY.Upper, Type = (int)NoteType.Red,
                     CutDirection = (int)NoteCutDirection.Up, CustomData = tailCustomData
@@ -149,7 +129,7 @@ namespace Tests
                 var arcPlacement = Object.FindAnyObjectByType<ArcPlacement>();
                 var inputController = Object.FindAnyObjectByType<BeatmapSharedNoteInputController>();
 
-                BaseArc baseArc = new BaseArc
+                var baseArc = new BaseArc
                 {
                     JsonTime = 2f,
                     PosX = (int)GridX.Left,
@@ -192,7 +172,7 @@ namespace Tests
                 var arcPlacement = Object.FindAnyObjectByType<ArcPlacement>();
                 var inputController = Object.FindAnyObjectByType<BeatmapArcInputController>();
 
-                BaseArc baseArc = new BaseArc
+                var baseArc = new BaseArc
                 {
                     JsonTime = 2f,
                     PosX = (int)GridX.Left,

@@ -11,27 +11,8 @@ using UnityEngine.TestTools;
 
 namespace Tests
 {
-    public class BPMTest
+    public class BPMTest : TestBase
     {
-        [UnityOneTimeSetUp]
-        public IEnumerator LoadMap()
-        {
-            return TestUtils.LoadMap(3);
-        }
-
-        [OneTimeTearDown]
-        public void FinalTearDown()
-        {
-            TestUtils.ReturnSettings();
-        }
-
-        [TearDown]
-        public void ContainerCleanup()
-        {
-            BeatmapActionContainer.RemoveAllActionsOfType<BeatmapAction>();
-            CleanupUtils.CleanupBPMChanges();
-        }
-
         private static void CheckBPM(string msg, BPMChangeGridContainer container, int idx, float jsonTime, float bpm, float? songBpmTime = null)
         {
             var decimalPrecision = Settings.Instance.TimeValueDecimalPrecision;
@@ -91,7 +72,7 @@ namespace Tests
             var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var bpmCollection = BeatmapObjectContainerCollection.GetCollectionForType<BPMChangeGridContainer>(ObjectType.BpmChange);
             
-            BaseBpmEvent baseBpmEvent = new BaseBpmEvent(20, 20);
+            var baseBpmEvent = new BaseBpmEvent(20, 20);
             baseBpmEvent = PlaceUtils.Place(baseBpmEvent);
 
             baseBpmEvent = new BaseBpmEvent(10, 10);
@@ -123,7 +104,7 @@ namespace Tests
             var bpmCollection = BeatmapObjectContainerCollection.GetCollectionForType<BPMChangeGridContainer>(ObjectType.BpmChange);
             
             var songBpm = BeatSaberSongContainer.Instance.Info.BeatsPerMinute;
-            BaseBpmEvent baseBpmEvent = new BaseBpmEvent(0, 111);
+            var baseBpmEvent = new BaseBpmEvent(0, 111);
             baseBpmEvent = PlaceUtils.Place(baseBpmEvent);
 
             baseBpmEvent = new BaseBpmEvent(1, 222);

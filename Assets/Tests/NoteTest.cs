@@ -10,29 +10,8 @@ using UnityEngine.TestTools;
 
 namespace Tests
 {
-    public class NoteTest
+    public class NoteTest : TestBase
     {
-        [UnityOneTimeSetUp]
-        public IEnumerator LoadMap()
-        {
-            return TestUtils.LoadMap(3);
-        }
-
-        [OneTimeTearDown]
-        public void FinalTearDown()
-        {
-            TestUtils.ReturnSettings();
-        }
-
-        [TearDown]
-        public void ContainerCleanup()
-        {
-            BeatmapActionContainer.RemoveAllActionsOfType<BeatmapAction>();
-            CleanupUtils.CleanupArcs();
-            CleanupUtils.CleanupChains();
-            CleanupUtils.CleanupNotes();
-        }
-
         [Test]
         public void InvertNote()
         {
@@ -42,7 +21,7 @@ namespace Tests
             {
                 var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
 
-                BaseNote baseNoteA = new BaseNote
+                var baseNoteA = new BaseNote
                 {
                     JsonTime = 2, PosX = (int)GridX.Left, PosY = (int)GridY.Base, Type = (int)NoteType.Red,
                     CutDirection = (int)NoteCutDirection.Left
@@ -75,24 +54,24 @@ namespace Tests
             var arcPlacement = Object.FindAnyObjectByType<ArcPlacement>();
             var chainPlacement = Object.FindAnyObjectByType<ChainPlacement>();
 
-            BaseNote baseNote1 = new BaseNote
+            var baseNote1 = new BaseNote
             {
                 JsonTime = 1, PosX = (int)GridX.Left, PosY = (int)GridY.Base, Type = (int)NoteType.Red,
                 CutDirection = (int)NoteCutDirection.Left
             };
-            BaseNote baseNote2 = new BaseNote
+            var baseNote2 = new BaseNote
             {
                 JsonTime = 2, PosX = (int)GridX.Left, PosY = (int)GridY.Base, Type = (int)NoteType.Red,
                 CutDirection = (int)NoteCutDirection.Left
             };
-            BaseNote baseNote3 = new BaseNote
+            var baseNote3 = new BaseNote
             {
                 JsonTime = 3, PosX = (int)GridX.Left, PosY = (int)GridY.Base, Type = (int)NoteType.Red,
                 CutDirection = (int)NoteCutDirection.Left
             };
 
-            BaseArc baseArc12 = new BaseArc { JsonTime = 1, TailJsonTime = 2, Color = (int)NoteColor.Red };
-            BaseChain baseChain23 = new BaseChain { JsonTime = 2, TailJsonTime = 3, Color = (int)NoteColor.Red };
+            var baseArc12 = new BaseArc { JsonTime = 1, TailJsonTime = 2, Color = (int)NoteColor.Red };
+            var baseChain23 = new BaseChain { JsonTime = 2, TailJsonTime = 3, Color = (int)NoteColor.Red };
 
             baseNote1 = PlaceUtils.Place(baseNote1);
             baseNote2 = PlaceUtils.Place(baseNote2);
@@ -142,7 +121,7 @@ namespace Tests
                 var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
                 var inputController = Object.FindAnyObjectByType<BeatmapNoteInputController>();
 
-                BaseNote baseNoteA = new BaseNote
+                var baseNoteA = new BaseNote
                 {
                     JsonTime = 2, PosX = (int)GridX.Left, PosY = (int)GridY.Base, Type = (int)NoteType.Red,
                         CutDirection = (int)NoteCutDirection.Left
@@ -219,24 +198,24 @@ namespace Tests
             var chainPlacement = Object.FindAnyObjectByType<ChainPlacement>();
             var inputController = Object.FindAnyObjectByType<BeatmapNoteInputController>();
 
-            BaseNote baseNote1 = new BaseNote
+            var baseNote1 = new BaseNote
             {
                 JsonTime = 1, PosX = (int)GridX.Left, PosY = (int)GridY.Base, Type = (int)NoteType.Red,
                 CutDirection = (int)NoteCutDirection.Left
             };
-            BaseNote baseNote2 = new BaseNote
+            var baseNote2 = new BaseNote
             {
                 JsonTime = 2, PosX = (int)GridX.Left, PosY = (int)GridY.Base, Type = (int)NoteType.Red,
                 CutDirection = (int)NoteCutDirection.Up
             };
-            BaseNote baseNote3 = new BaseNote
+            var baseNote3 = new BaseNote
             {
                 JsonTime = 3, PosX = (int)GridX.Left, PosY = (int)GridY.Base, Type = (int)NoteType.Red,
                 CutDirection = (int)NoteCutDirection.Right
             };
 
-            BaseArc baseArc12 = new BaseArc { JsonTime = 1, TailJsonTime = 2, CutDirection = (int)NoteCutDirection.Left, TailCutDirection = (int)NoteCutDirection.Up };
-            BaseChain baseChain23 = new BaseChain { JsonTime = 2, TailJsonTime = 3, CutDirection = (int)NoteCutDirection.Up };
+            var baseArc12 = new BaseArc { JsonTime = 1, TailJsonTime = 2, CutDirection = (int)NoteCutDirection.Left, TailCutDirection = (int)NoteCutDirection.Up };
+            var baseChain23 = new BaseChain { JsonTime = 2, TailJsonTime = 3, CutDirection = (int)NoteCutDirection.Up };
 
             baseNote1 = PlaceUtils.Place(baseNote1);
             baseNote2 = PlaceUtils.Place(baseNote2);
@@ -288,7 +267,7 @@ namespace Tests
                 var localRotation = new JSONArray() { [0] = 0, [1] = 1, [2] = 2 };
 
                 Settings.Instance.MapVersion = 3;
-                BaseNote v3NoteA = new BaseNote
+                var v3NoteA = new BaseNote
                 {
                     JsonTime = 2, PosX = (int)GridX.Left, PosY = (int)GridY.Base, Type = (int)NoteType.Red,
                     CutDirection = (int)NoteCutDirection.Left
@@ -303,7 +282,7 @@ namespace Tests
                     new JSONObject() { ["localRotation"] = localRotation });
 
                 Settings.Instance.MapVersion = 2;
-                BaseNote v2NoteB = new BaseNote
+                var v2NoteB = new BaseNote
                 {
                     JsonTime = 4, PosX = (int)GridX.Left, PosY = (int)GridY.Base, Type = (int)NoteType.Red,
                     CutDirection = (int)NoteCutDirection.Left

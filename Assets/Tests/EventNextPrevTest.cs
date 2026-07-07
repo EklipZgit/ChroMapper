@@ -9,27 +9,8 @@ using UnityEngine.TestTools;
 
 namespace Tests
 {
-    public class EventNextPrevTest
+    public class EventNextPrevTest : TestBase
     {
-        [UnityOneTimeSetUp]
-        public IEnumerator LoadMap()
-        {
-            return TestUtils.LoadMap(3);
-        }
-
-        [OneTimeTearDown]
-        public void FinalTearDown()
-        {
-            TestUtils.ReturnSettings();
-        }
-
-        [TearDown]
-        public void ContainerCleanup()
-        {
-            BeatmapActionContainer.RemoveAllActionsOfType<BeatmapAction>();
-            CleanupUtils.CleanupEvents();
-        }
-
         [Test]
         public void Placement()
         {
@@ -39,10 +20,10 @@ namespace Tests
 
             var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
 
-            BaseEvent baseEvent1 = new BaseEvent{ JsonTime = 1, Type = (int)EventTypeValue.CenterLights, Value = (int)LightValue.BlueOn };
-            BaseEvent baseEvent2 = new BaseEvent{ JsonTime = 2, Type = (int)EventTypeValue.CenterLights, Value = (int)LightValue.BlueOn };
-            BaseEvent baseEvent3 = new BaseEvent{ JsonTime = 3, Type = (int)EventTypeValue.CenterLights, Value = (int)LightValue.BlueOn };
-            BaseEvent baseEvent4 = new BaseEvent{ JsonTime = 4, Type = (int)EventTypeValue.CenterLights, Value = (int)LightValue.BlueOn };
+            var baseEvent1 = new BaseEvent{ JsonTime = 1, Type = (int)EventTypeValue.CenterLights, Value = (int)LightValue.BlueOn };
+            var baseEvent2 = new BaseEvent{ JsonTime = 2, Type = (int)EventTypeValue.CenterLights, Value = (int)LightValue.BlueOn };
+            var baseEvent3 = new BaseEvent{ JsonTime = 3, Type = (int)EventTypeValue.CenterLights, Value = (int)LightValue.BlueOn };
+            var baseEvent4 = new BaseEvent{ JsonTime = 4, Type = (int)EventTypeValue.CenterLights, Value = (int)LightValue.BlueOn };
 
             // Check state after placing
             // 1 -> 2 -> 3 -> 4
@@ -75,10 +56,10 @@ namespace Tests
 
             var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
 
-            BaseEvent baseEvent1 = new BaseEvent{ JsonTime = 1, Type = (int)EventTypeValue.CenterLights, Value = (int)LightValue.BlueOn };
-            BaseEvent baseEvent2 = new BaseEvent{ JsonTime = 2, Type = (int)EventTypeValue.CenterLights, Value = (int)LightValue.BlueOn };
-            BaseEvent baseEvent3 = new BaseEvent{ JsonTime = 3, Type = (int)EventTypeValue.CenterLights, Value = (int)LightValue.BlueOn };
-            BaseEvent baseEvent4 = new BaseEvent{ JsonTime = 4, Type = (int)EventTypeValue.CenterLights, Value = (int)LightValue.BlueOn };
+            var baseEvent1 = new BaseEvent{ JsonTime = 1, Type = (int)EventTypeValue.CenterLights, Value = (int)LightValue.BlueOn };
+            var baseEvent2 = new BaseEvent{ JsonTime = 2, Type = (int)EventTypeValue.CenterLights, Value = (int)LightValue.BlueOn };
+            var baseEvent3 = new BaseEvent{ JsonTime = 3, Type = (int)EventTypeValue.CenterLights, Value = (int)LightValue.BlueOn };
+            var baseEvent4 = new BaseEvent{ JsonTime = 4, Type = (int)EventTypeValue.CenterLights, Value = (int)LightValue.BlueOn };
 
             // Check state after placing
             // 1 -> 2 -> 3 -> 4
@@ -113,12 +94,12 @@ namespace Tests
 
             var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
 
-            BaseEvent baseEventA1 = new BaseEvent{ JsonTime = 1, Type = (int)EventTypeValue.LeftLasers, Value = (int)LightValue.BlueOn };
-            BaseEvent baseEventT2 = new BaseEvent{ JsonTime = 2, Type = (int)EventTypeValue.LeftLasers, Value = (int)LightValue.BlueOn };
-            BaseEvent baseEventA3 = new BaseEvent{ JsonTime = 3, Type = (int)EventTypeValue.LeftLasers, Value = (int)LightValue.BlueOn };
-            BaseEvent baseEventT4 = new BaseEvent{ JsonTime = 4, Type = (int)EventTypeValue.LeftLasers, Value = (int)LightValue.BlueOn };
-            BaseEvent baseEventB1 = new BaseEvent{ JsonTime = 1, Type = (int)EventTypeValue.RightLasers, Value = (int)LightValue.BlueOn };
-            BaseEvent baseEventB3 = new BaseEvent{ JsonTime = 3, Type = (int)EventTypeValue.RightLasers, Value = (int)LightValue.BlueOn };
+            var baseEventA1 = new BaseEvent{ JsonTime = 1, Type = (int)EventTypeValue.LeftLasers, Value = (int)LightValue.BlueOn };
+            var baseEventT2 = new BaseEvent{ JsonTime = 2, Type = (int)EventTypeValue.LeftLasers, Value = (int)LightValue.BlueOn };
+            var baseEventA3 = new BaseEvent{ JsonTime = 3, Type = (int)EventTypeValue.LeftLasers, Value = (int)LightValue.BlueOn };
+            var baseEventT4 = new BaseEvent{ JsonTime = 4, Type = (int)EventTypeValue.LeftLasers, Value = (int)LightValue.BlueOn };
+            var baseEventB1 = new BaseEvent{ JsonTime = 1, Type = (int)EventTypeValue.RightLasers, Value = (int)LightValue.BlueOn };
+            var baseEventB3 = new BaseEvent{ JsonTime = 3, Type = (int)EventTypeValue.RightLasers, Value = (int)LightValue.BlueOn };
 
             // Check state after placing
             // A1 -> T2 -> A3 -> T4
@@ -167,10 +148,10 @@ namespace Tests
 
             var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
 
-            BaseEvent baseEventA = new BaseEvent { JsonTime = 1, Type = (int)EventTypeValue.LeftLasers, Value = (int)LightValue.BlueOn };
-            BaseEvent baseEventT1 = new BaseEvent { JsonTime = 1.5f, Type = (int)EventTypeValue.LeftLasers, Value = (int)LightValue.BlueOn };
-            BaseEvent baseEventB = new BaseEvent { JsonTime = 2, Type = (int)EventTypeValue.LeftLasers, Value = (int)LightValue.BlueOn };
-            BaseEvent baseEventT2 = new BaseEvent { JsonTime = 2.5f, Type = (int)EventTypeValue.LeftLasers, Value = (int)LightValue.BlueOn };
+            var baseEventA = new BaseEvent { JsonTime = 1, Type = (int)EventTypeValue.LeftLasers, Value = (int)LightValue.BlueOn };
+            var baseEventT1 = new BaseEvent { JsonTime = 1.5f, Type = (int)EventTypeValue.LeftLasers, Value = (int)LightValue.BlueOn };
+            var baseEventB = new BaseEvent { JsonTime = 2, Type = (int)EventTypeValue.LeftLasers, Value = (int)LightValue.BlueOn };
+            var baseEventT2 = new BaseEvent { JsonTime = 2.5f, Type = (int)EventTypeValue.LeftLasers, Value = (int)LightValue.BlueOn };
 
             // Check state after placing
             // A -> T1 -> B -> T2
@@ -206,8 +187,8 @@ namespace Tests
             var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
             var atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
 
-            BaseEvent baseEventA = new BaseEvent { JsonTime = 1, Type = (int)EventTypeValue.LeftLasers, Value = (int)LightValue.BlueOn };
-            BaseEvent baseEventB = new BaseEvent { JsonTime = 2, Type = (int)EventTypeValue.LeftLasers, Value = (int)LightValue.BlueOn };
+            var baseEventA = new BaseEvent { JsonTime = 1, Type = (int)EventTypeValue.LeftLasers, Value = (int)LightValue.BlueOn };
+            var baseEventB = new BaseEvent { JsonTime = 2, Type = (int)EventTypeValue.LeftLasers, Value = (int)LightValue.BlueOn };
 
             // Check state after placing
             // A -> B

@@ -10,26 +10,8 @@ using UnityEngine.TestTools;
 
 namespace Tests
 {
-    public class NotesContainerTest
+    public class NotesContainerTest : TestBase
     {
-        [UnityOneTimeSetUp]
-        public IEnumerator LoadMap()
-        {
-            return TestUtils.LoadMap(3);
-        }
-
-        [OneTimeTearDown]
-        public void FinalTearDown()
-        {
-            TestUtils.ReturnSettings();
-        }
-
-        [TearDown]
-        public void ContainerCleanup()
-        {
-            CleanupUtils.CleanupNotes();
-        }
-
         [Test]
         public void RefreshSpecialAngles()
         {
@@ -37,7 +19,7 @@ namespace Tests
                 BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
             var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
 
-            BaseNote baseNoteA = new BaseNote
+            var baseNoteA = new BaseNote
             {
                 JsonTime = 4,
                 Type = (int)NoteType.Red,
@@ -46,7 +28,7 @@ namespace Tests
             baseNoteA = PlaceUtils.Place(baseNoteA);
             var containerA = noteGridContainer.LoadedContainers[baseNoteA] as NoteContainer;
 
-            BaseNote baseNoteB = new BaseNote
+            var baseNoteB = new BaseNote
             {
                 JsonTime = 4,
                 Type = (int)NoteType.Red,
@@ -152,13 +134,13 @@ namespace Tests
             // ◌◌◌◌
             // ◌◌◌◌
             // ◌←◌◌
-            BaseNote baseNoteBottom = new BaseNote { JsonTime = 4, PosX = 1, CutDirection = (int)NoteCutDirection.Left};
+            var baseNoteBottom = new BaseNote { JsonTime = 4, PosX = 1, CutDirection = (int)NoteCutDirection.Left};
             baseNoteBottom = PlaceUtils.Place(baseNoteBottom);
 
             // ◌◌↓◌
             // ◌◌◌◌
             // ◌←◌◌
-            BaseNote baseNoteTop = new BaseNote { JsonTime = 4, PosX = 2, PosY = 2, CutDirection = (int)NoteCutDirection.Down };
+            var baseNoteTop = new BaseNote { JsonTime = 4, PosX = 2, PosY = 2, CutDirection = (int)NoteCutDirection.Down };
             baseNoteTop = PlaceUtils.Place(baseNoteTop);
             
             var containerBottom = noteGridContainer.LoadedContainers[baseNoteBottom] as NoteContainer;
@@ -206,13 +188,13 @@ namespace Tests
             // ◌◌◌◌
             // ◌◌◌◌
             // ←◌◌◌
-            BaseNote baseNoteBottom = new BaseNote { JsonTime = 4, CutDirection = (int)NoteCutDirection.Left };
+            var baseNoteBottom = new BaseNote { JsonTime = 4, CutDirection = (int)NoteCutDirection.Left };
             baseNoteBottom = PlaceUtils.Place(baseNoteBottom);
 
             // ◌◌↓◌
             // ◌◌◌◌
             // ←◌◌◌
-            BaseNote baseNoteTop = new BaseNote { JsonTime = 4 , PosX = 2,  PosY = 2, CutDirection = (int)NoteCutDirection.Down };
+            var baseNoteTop = new BaseNote { JsonTime = 4 , PosX = 2,  PosY = 2, CutDirection = (int)NoteCutDirection.Down };
             baseNoteTop = PlaceUtils.Place(baseNoteTop);
             
             var containerBottom = noteGridContainer.LoadedContainers[baseNoteBottom] as NoteContainer;
@@ -255,10 +237,10 @@ namespace Tests
                 BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
             var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
 
-            BaseNote baseNoteA = new BaseNote { JsonTime = 4, PosX = 1};
+            var baseNoteA = new BaseNote { JsonTime = 4, PosX = 1};
             baseNoteA = PlaceUtils.Place(baseNoteA);
 
-            BaseNote baseNoteB = new BaseNote { JsonTime = 4 };
+            var baseNoteB = new BaseNote { JsonTime = 4 };
             baseNoteB = PlaceUtils.Place(baseNoteB);
             
             var containerA = noteGridContainer.LoadedContainers[baseNoteA] as NoteContainer;
@@ -300,14 +282,14 @@ namespace Tests
             var notesContainer = BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
             var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
             
-            BaseNote baseNoteA = new BaseNote
+            var baseNoteA = new BaseNote
             {
                 JsonTime = 2,
                 Type = (int)NoteType.Red
             };
             baseNoteA = PlaceUtils.Place(baseNoteA);
 
-            BaseNote baseNoteB = new BaseNote
+            var baseNoteB = new BaseNote
             {
                 JsonTime = 3,
                 Type = (int)NoteType.Red

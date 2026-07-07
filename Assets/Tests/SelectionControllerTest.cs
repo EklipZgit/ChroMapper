@@ -9,14 +9,8 @@ using UnityEngine.TestTools;
 
 namespace Tests
 {
-    public class SelectionControllerTest
+    public class SelectionControllerTest : TestBase
     {
-        [UnityOneTimeSetUp]
-        public IEnumerator LoadMap()
-        {
-            return TestUtils.LoadMap(3);
-        }
-
         BaseNote baseNote1, baseNote2, baseNote3, baseNote4;
         BaseArc baseArc02, baseArc04, baseArc24, baseArc44;
         BaseEvent baseEvent1, baseEvent2, baseEvent3, baseEvent4, baseRotationEvent2;
@@ -68,23 +62,6 @@ namespace Tests
             baseArc04 = PlaceUtils.Place(baseArc04);
             baseArc24 = PlaceUtils.Place(baseArc24);
             baseArc44 = PlaceUtils.Place(baseArc44);
-        }
-
-        [OneTimeTearDown]
-        public void FinalTearDown()
-        {
-            TestUtils.ReturnSettings();
-        }
-
-        [TearDown]
-        public void ContainerCleanup()
-        {
-            SelectionController.DeselectAll();
-            BeatmapActionContainer.RemoveAllActionsOfType<BeatmapAction>();
-            CleanupUtils.CleanupNotes();
-            CleanupUtils.CleanupEvents();
-            CleanupUtils.CleanupArcs();
-            CleanupUtils.CleanupBPMChanges();
         }
 
         [Test]

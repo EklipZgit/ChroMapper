@@ -5,14 +5,8 @@ using UnityEngine.TestTools;
 
 namespace Tests
 {
-    public class BeatmapV3OptionalParamTest
+    public class BeatmapV3OptionalParamTest : TestBase
     {
-        [UnityOneTimeSetUp]
-        public IEnumerator LoadMap()
-        {
-            return TestUtils.LoadMap(3);
-        }
-        
         [Test]
         public void DoTheTest()
         {

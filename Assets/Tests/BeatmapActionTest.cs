@@ -8,34 +8,15 @@ using UnityEngine.TestTools;
 
 namespace Tests
 {
-    public class BeatmapActionTest
+    public class BeatmapActionTest : TestBase
     {
-        [UnityOneTimeSetUp]
-        public IEnumerator LoadMap()
-        {
-            return TestUtils.LoadMap(3);
-        }
-
-        [OneTimeTearDown]
-        public void FinalTearDown()
-        {
-            TestUtils.ReturnSettings();
-        }
-
-        [TearDown]
-        public void ContainerCleanup()
-        {
-            BeatmapActionContainer.RemoveAllActionsOfType<BeatmapAction>();
-            CleanupUtils.CleanupNotes();
-        }
-
         [Test]
         public void ModifiedAction()
         {
             var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var notesContainer = BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
 
-            BaseNote baseNoteA = new BaseNote
+            var baseNoteA = new BaseNote
             {
                 JsonTime = 2,
                 Type = (int)NoteType.Red
@@ -67,12 +48,12 @@ namespace Tests
             var selectionController = Object.FindAnyObjectByType<SelectionController>();
             var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
 
-            BaseNote baseNoteA = new BaseNote
+            var baseNoteA = new BaseNote
             {
                 JsonTime = 2,
                 Type = (int)NoteType.Red
             };
-            BaseNote baseNoteB = new BaseNote
+            var baseNoteB = new BaseNote
             {
                 JsonTime = 2,
                 Type = (int)NoteType.Blue,

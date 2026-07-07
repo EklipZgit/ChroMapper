@@ -11,27 +11,8 @@ using UnityEngine.TestTools;
 
 namespace Tests
 {
-    public class WallTest
+    public class WallTest : TestBase
     {
-        [UnityOneTimeSetUp]
-        public IEnumerator LoadMap()
-        {
-            return TestUtils.LoadMap(3);
-        }
-
-        [OneTimeTearDown]
-        public void FinalTearDown()
-        {
-            TestUtils.ReturnSettings();
-        }
-
-        [TearDown]
-        public void ContainerCleanup()
-        {
-            BeatmapActionContainer.RemoveAllActionsOfType<BeatmapAction>();
-            CleanupUtils.CleanupObstacles();
-        }
-
         [Test]
         public void EnsureWallIntegrity()
         {
@@ -117,7 +98,7 @@ namespace Tests
             var inputController = Object.FindAnyObjectByType<BeatmapObstacleInputController>();
             wallPlacement.CreateVisual();
 
-            BaseObstacle wallA = new BaseObstacle
+            var wallA = new BaseObstacle
             {
                 JsonTime = 2,
                 PosX = (int)GridX.Left,
@@ -159,7 +140,7 @@ namespace Tests
             var customCoord = new JSONArray() { [0] = 0, [1] = 1 };
             var customSize = new JSONArray() { [0] = 0, [1] = null, [2] = 420 };
 
-            BaseObstacle wallA = new BaseObstacle
+            var wallA = new BaseObstacle
             {
                 JsonTime = 2,
                 PosX = (int)GridX.Left,

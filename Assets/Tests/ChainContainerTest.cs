@@ -10,22 +10,10 @@ using UnityEngine.TestTools;
 
 namespace Tests
 {
-    public class ChainContainerTest
+    public class ChainContainerTest : TestBase
     {
         ChainGridContainer chainsCollection;
         BaseChain placedChain;
-
-        [UnityOneTimeSetUp]
-        public IEnumerator LoadMap()
-        {
-            return TestUtils.LoadMap(3);
-        }
-
-        [OneTimeTearDown]
-        public void FinalTearDown()
-        {
-            TestUtils.ReturnSettings();
-        }
 
         [SetUp]
         public void PlaceChain()
@@ -47,14 +35,6 @@ namespace Tests
             // Chain links
             var links = chainContainer.GetComponentsInChildren<ChainComponentsFetcher>();
             links.Select(x => x.GetComponent<Transform>()).OrderBy(t => t.transform.position.z).ToList();
-        }
-
-        [TearDown]
-        public void ContainerCleanup()
-        {
-            BeatmapActionContainer.RemoveAllActionsOfType<BeatmapAction>();
-            CleanupUtils.CleanupChains();
-            CleanupUtils.CleanupBPMChanges();
         }
 
         [Test]

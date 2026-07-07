@@ -8,23 +8,11 @@ using UnityEngine.TestTools;
 
 namespace Tests
 {
-    public class ObstacleContainerTest
+    public class ObstacleContainerTest : TestBase
     {
         float originalEditorScale;
         ObstacleGridContainer obstaclesCollection;
         BaseObstacle placedObstacle;
-
-        [UnityOneTimeSetUp]
-        public IEnumerator LoadMap()
-        {
-            return TestUtils.LoadMap(3);
-        }
-
-        [OneTimeTearDown]
-        public void FinalTearDown()
-        {
-            TestUtils.ReturnSettings();
-        }
 
         [SetUp]
         public void PlaceWall()
@@ -43,14 +31,6 @@ namespace Tests
                 Height = 5
             };
             placedObstacle = PlaceUtils.Place(placedObstacle);
-        }
-
-        [TearDown]
-        public void ContainerCleanup()
-        {
-            BeatmapActionContainer.RemoveAllActionsOfType<BeatmapAction>();
-            CleanupUtils.CleanupObstacles();
-            CleanupUtils.CleanupBPMChanges();
         }
 
 

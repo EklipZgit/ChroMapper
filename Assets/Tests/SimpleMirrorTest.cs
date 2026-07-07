@@ -9,40 +9,22 @@ using UnityEngine.TestTools;
 
 namespace Tests
 {
-    public class SimpleMirrorTest
+    public class SimpleMirrorTest : TestBase
     {
         private BeatmapActionContainer _actionContainer;
         private MirrorSelection _mirror;
 
-        [UnityOneTimeSetUp]
-        public IEnumerator LoadMap()
+        protected override IEnumerator OnMapLoaded()
         {
-            yield return TestUtils.LoadMap(3);
-
             _actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             _mirror = Object.FindAnyObjectByType<MirrorSelection>();
-        }
-
-        [OneTimeTearDown]
-        public void FinalTearDown()
-        {
-            TestUtils.ReturnSettings();
+            yield break;
         }
 
         [SetUp]
         public void SetUp()
         {
             Settings.Instance.MapVersion = 3;
-        }
-
-        [TearDown]
-        public void ContainerCleanup()
-        {
-            BeatmapActionContainer.RemoveAllActionsOfType<BeatmapAction>();
-            CleanupUtils.CleanupNotes();
-            CleanupUtils.CleanupEvents();
-            CleanupUtils.CleanupRotationEvents();
-            CleanupUtils.CleanupObstacles();
         }
 
         [Test]
@@ -90,7 +72,7 @@ namespace Tests
             var notesContainer = BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
             var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
 
-            BaseNote baseNoteA =
+            var baseNoteA =
                 new BaseNote
                 {
                     JsonTime = 2, PosX = -2345, PosY = (int)GridY.Base, Type = (int)NoteType.Red,
@@ -118,7 +100,7 @@ namespace Tests
                 BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
             var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
 
-            BaseNote baseNoteA = new BaseNote
+            var baseNoteA = new BaseNote
             {
                 JsonTime = 2, PosX = (int)GridX.Left, PosY = (int)GridY.Base, Type = (int)NoteType.Red,
                 CutDirection = (int)NoteCutDirection.Left, CustomData = JSON.Parse("{\"coordinates\": [-1, 0]}")
@@ -165,7 +147,7 @@ namespace Tests
 
             var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
 
-            BaseEvent baseEventA = new BaseEvent { JsonTime = 2, Type = (int)EventTypeValue.BackLasers, Value = (int)LightValue.RedFade, FloatValue = 1f,
+            var baseEventA = new BaseEvent { JsonTime = 2, Type = (int)EventTypeValue.BackLasers, Value = (int)LightValue.RedFade, FloatValue = 1f,
                 CustomData = JSON.Parse($"{{\"lightID\": {original}}}")};
 
             baseEventA = PlaceUtils.Place(baseEventA);
@@ -197,7 +179,7 @@ namespace Tests
 
             var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
 
-            BaseEvent baseEventA = new BaseEvent{ JsonTime = 2, Type = (int)EventTypeValue.BackLasers, Value = (int)LightValue.RedFade, FloatValue = 1f,
+            var baseEventA = new BaseEvent{ JsonTime = 2, Type = (int)EventTypeValue.BackLasers, Value = (int)LightValue.RedFade, FloatValue = 1f,
                 CustomData = JSON.Parse(
                     "{\"_lightGradient\": {\"_duration\": 1, \"_startColor\": [1, 0, 0, 1], \"_endColor\": [0, 1, 0, 1], \"_easing\": \"easeLinear\"}}")};
 
@@ -226,7 +208,7 @@ namespace Tests
 
             var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
 
-            BaseEvent baseEventA = new BaseEvent { JsonTime = 2, Type = (int)EventTypeValue.BackLasers, Value = (int)LightValue.RedFade, FloatValue = 1f };
+            var baseEventA = new BaseEvent { JsonTime = 2, Type = (int)EventTypeValue.BackLasers, Value = (int)LightValue.RedFade, FloatValue = 1f };
 
             baseEventA = PlaceUtils.Place(baseEventA);
 
@@ -248,7 +230,7 @@ namespace Tests
 
             var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
 
-            BaseEvent baseEventA = new BaseEvent { JsonTime = 2, Type = (int)EventTypeValue.BackLasers, Value = (int)LightValue.RedFade, FloatValue = 1f };
+            var baseEventA = new BaseEvent { JsonTime = 2, Type = (int)EventTypeValue.BackLasers, Value = (int)LightValue.RedFade, FloatValue = 1f };
 
             baseEventA = PlaceUtils.Place(baseEventA);
 
@@ -278,7 +260,7 @@ namespace Tests
             // What the actual fuck - example from mirroring in MMA2
             //{"_time":1.5,"_lineIndex":1446,"_type":595141,"_duration":0.051851850003004074,"_width":2596}
             //{"_time":1.5,"_lineIndex":2958,"_type":595141,"_duration":0.051851850003004074,"_width":2596}
-            BaseObstacle wallA = new BaseObstacle
+            var wallA = new BaseObstacle
             {
                 JsonTime = 2,
                 PosX = 1446,
@@ -307,7 +289,7 @@ namespace Tests
             var wallPlacement = Object.FindAnyObjectByType<ObstaclePlacement>();
             wallPlacement.CreateVisual();
 
-            BaseObstacle wallA = new BaseObstacle
+            var wallA = new BaseObstacle
             {
                 JsonTime = 2,
                 PosX = (int)GridX.Left,
@@ -343,7 +325,7 @@ namespace Tests
 
             var rotationEventPlacement = Object.FindAnyObjectByType<RotationEventPlacement>();
 
-            BaseRotationEvent baseEventA = new BaseRotationEvent { JsonTime = 2, Type = (int)EventTypeValue.LateLaneRotation, Rotation = 33 };
+            var baseEventA = new BaseRotationEvent { JsonTime = 2, Type = (int)EventTypeValue.LateLaneRotation, Rotation = 33 };
 
             // fuck kinda conflict did u have?
             baseEventA = PlaceUtils.Place(baseEventA);

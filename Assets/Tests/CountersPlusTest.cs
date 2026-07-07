@@ -8,7 +8,7 @@ using UnityEngine.TestTools;
 
 namespace Tests
 {
-    public class CountersPlusTest
+    public class CountersPlusTest : TestBase
     {
         private const float delta = 0.001f;
 
@@ -17,12 +17,6 @@ namespace Tests
         private NJSEventPlacement vNjsPlacement;
         private AudioTimeSyncController atsc;
         
-        [UnityOneTimeSetUp]
-        public IEnumerator LoadMap()
-        {
-            return TestUtils.LoadMap(3);
-        }
-
         [SetUp]
         public void EnableCountersPlus()
         {
@@ -35,18 +29,14 @@ namespace Tests
             atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
         }
 
-        [OneTimeTearDown]
-        public void FinalTearDown()
+        protected override void AfterCleanup()
         {
-            TestUtils.ReturnSettings();
+            countersPlusController.UpdateStatistic(CountersPlusStatistic.NJSEvents);
         }
 
         [UnityTearDown]
         public IEnumerator ContainerCleanup()
         {
-            BeatmapActionContainer.RemoveAllActionsOfType<BeatmapAction>();
-            CleanupUtils.CleanupNJSEvents();
-            countersPlusController.UpdateStatistic(CountersPlusStatistic.NJSEvents);
             yield return null;
         }
 

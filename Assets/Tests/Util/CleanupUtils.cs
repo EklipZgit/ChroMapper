@@ -1,61 +1,39 @@
-﻿using Beatmap.Enums;
-using UnityEngine;
+﻿using System;
+using System.Linq;
+using Beatmap.Enums;
+using Object = UnityEngine.Object;
 
 namespace Tests.Util
 {
     internal class CleanupUtils
     {
-        public static void CleanupNotes()
+        private static readonly ObjectType[] objectTypes = Enum.GetValues(typeof(ObjectType)).Cast<ObjectType>().ToArray();
+
+        public static void CleanupObjects()
         {
-            CleanupType(ObjectType.Note);
+            foreach (var objectType in objectTypes) CleanupType(objectType);
         }
 
-        public static void CleanupEvents()
-        {
-            CleanupType(ObjectType.Event);
-        }
-
-        public static void CleanupRotationEvents()
-        {
-            CleanupType(ObjectType.RotationEvent);
-        }
-
-        public static void CleanupObstacles()
-        {
-            CleanupType(ObjectType.Obstacle);
-        }
-
-        public static void CleanupArcs()
-        {
-            CleanupType(ObjectType.Arc);
-        }
-
-        public static void CleanupChains()
-        {
-            CleanupType(ObjectType.Chain);
-        }
-
-        public static void CleanupBPMChanges()
-        {
-            CleanupType(ObjectType.BpmChange);
-        }
-
-        public static void CleanupNJSEvents()
-        {
-            CleanupType(ObjectType.NJSEvent);
-        }
-
-        public static void CleanupBookmarks()
+        private static void CleanupBookmarks()
         {
             var bookmarkManager = Object.FindAnyObjectByType<BookmarkManager>();
+            if (bookmarkManager == null) return;
+
             foreach (var bookmark in bookmarkManager.bookmarkContainers.ToArray()) bookmark.HandleDeleteBookmark(0);
         }
 
         private static void CleanupType(ObjectType type)
         {
-            var eventsContainer = BeatmapObjectContainerCollection.GetCollectionForType(type);
+            if (type == ObjectType.Bookmark)
+            {
+                CleanupBookmarks();
+                return;
+            }
 
-            foreach (var evt in eventsContainer.LoadedObjects.ToArray()) eventsContainer.DeleteObject(evt);
+            var container = BeatmapObjectContainerCollection.GetCollectionForType(type);
+            if (container == null) return;
+
+            foreach (var evt in container.LoadedObjects.ToArray()) container.DeleteObject(evt);
         }
     }
 }
